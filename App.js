@@ -1,35 +1,39 @@
-import React, { Component } from 'react';
-import {
-  Platform,
-  StyleSheet,
-  Text,
-  View
-} from 'react-native';
 import {
   StackNavigator,
+  DrawerNavigator,
 } from 'react-navigation';
 import HomeScreen from "./Screens/HomeScreen/Home";
 import StartingScreen from "./Screens/StartingScreen/Starter";
 import SplashScreen from "./Screens/SplashScreen/Splash";
 import OtpScreen from "./Screens/OtpScreen/Otp";
 import NewAccountScreen from "./Screens/NewAccountScreen/NewAccount";
+import Itineraries from "./Screens/ItinerariesScreen/Itineraries";
 
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' +
-    'Cmd+D or shake for dev menu',
-  android: 'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
+const ExploreStack = StackNavigator({
+  Itineraries: {
+    screen: Itineraries,
+  },
 });
+
+const ExploreDrawer = DrawerNavigator({
+  Explore: {
+    screen: ExploreStack,
+  },
+});
+
+ExploreDrawer.navigationOptions = {
+  header: null,
+};
 
 const App = StackNavigator({
   Splash: {
     screen: SplashScreen,
   },
-  Home: {
-    screen: HomeScreen,
-  },
   Starter: {
     screen: StartingScreen,
+  },
+  Home: {
+    screen: HomeScreen,
   },
   Otp: {
     screen: OtpScreen,
@@ -37,43 +41,9 @@ const App = StackNavigator({
   NewAccount: {
     screen: NewAccountScreen,
   },
+  Explore: {
+    screen: ExploreDrawer,
+  },
 });
-
-// export default class App extends Component {
-//   render() {
-//     return (
-//       <View style={styles.container}>
-//         <Text style={styles.welcome}>
-//           Welcome to React Native!
-//         </Text>
-//         <Text style={styles.instructions}>
-//           To get started, edit App.js
-//         </Text>
-//         <Text style={styles.instructions}>
-//           {instructions}
-//         </Text>
-//       </View>
-//     );
-//   }
-// }
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     justifyContent: 'center',
-//     alignItems: 'center',
-//     backgroundColor: '#F5FCFF',
-//   },
-//   welcome: {
-//     fontSize: 20,
-//     textAlign: 'center',
-//     margin: 10,
-//   },
-//   instructions: {
-//     textAlign: 'center',
-//     color: '#333333',
-//     marginBottom: 5,
-//   },
-// });
 
 export default App;
