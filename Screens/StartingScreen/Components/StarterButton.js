@@ -5,6 +5,7 @@ import {
   StyleSheet,
 } from 'react-native';
 import PropTypes from 'prop-types';
+import constants from "../../../constants/constants";
 
 const StarterButton = ({color, text, action, textColor, underlayColor, hasBorder, marginBottom}) => {
 
@@ -31,7 +32,7 @@ const StarterButton = ({color, text, action, textColor, underlayColor, hasBorder
       onPress={action}
       underlayColor={underlayColor || 'white'}
       >
-      <Text style={textStyle}>{text}</Text>
+      <Text style={[styles.textStyle, textStyle]}>{text}</Text>
     </TouchableHighlight>
   )
 };
@@ -55,6 +56,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: 'red',
     justifyContent: 'center',
+  },
+  textStyle: {
+    ...constants.primaryFontStyle,
   },
 });
 
