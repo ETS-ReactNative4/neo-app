@@ -9,30 +9,20 @@ import OtpScreen from "./Screens/OtpScreen/Otp";
 import NewAccountScreen from "./Screens/NewAccountScreen/NewAccount";
 import Itineraries from "./Screens/ItinerariesScreen/Itineraries";
 
-const ExploreStack = StackNavigator({
-  Itineraries: {
-    screen: Itineraries,
-  },
-});
-
-const ExploreDrawer = DrawerNavigator({
-  Explore: {
-    screen: ExploreStack,
-  },
-});
-
-ExploreDrawer.navigationOptions = {
-  header: null,
-};
-
-const App = StackNavigator({
+const HomeStack = StackNavigator({
   Splash: {
     screen: SplashScreen,
+    navigationOptions: ({navigation}) => ({
+      drawerLockMode: 'locked-closed'
+    })
   },
   Starter: {
     screen: StartingScreen,
+    navigationOptions: ({navigation}) => ({
+      drawerLockMode: 'locked-closed'
+    })
   },
-  Home: {
+  AppHome: {
     screen: HomeScreen,
   },
   Otp: {
@@ -41,8 +31,32 @@ const App = StackNavigator({
   NewAccount: {
     screen: NewAccountScreen,
   },
-  Explore: {
-    screen: ExploreDrawer,
+});
+
+const App = DrawerNavigator({
+  Home: {
+    screen: HomeStack,
+  },
+  Notifications: {
+    screen: HomeScreen,
+  },
+  Payments: {
+    screen: HomeScreen,
+  },
+  SavedItineraries: {
+    screen: HomeScreen,
+  },
+  Bookings: {
+    screen: HomeScreen,
+  },
+  Account: {
+    screen: HomeScreen,
+  },
+  Support: {
+    screen: HomeScreen,
+  },
+  About: {
+    screen: HomeScreen,
   },
 });
 
