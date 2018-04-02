@@ -3,11 +3,13 @@ import React, {
 } from 'react';
 import {
   View,
+  ImageBackground,
   TouchableHighlight,
   Text,
   StyleSheet,
 } from 'react-native';
 import constants from "../../constants/constants";
+import StarterButton from "./Components/StarterButton";
 
 class Starter extends Component {
 
@@ -17,18 +19,28 @@ class Starter extends Component {
 
   render() {
     return(
-      <View style={styles.container}>
-        <TouchableHighlight style={styles.button} onPress={() => {
-          this.props.navigation.navigate('Bookings');
-        }}>
-          <Text>Bookings</Text>
-        </TouchableHighlight>
-        <TouchableHighlight style={styles.button} onPress={() => {
-          this.props.navigation.navigate('Explore');
-        }}>
-          <Text>Explore</Text>
-        </TouchableHighlight>
-      </View>
+      <ImageBackground source={constants.starterBackground} style={styles.container}>
+        <StarterButton
+          text={`Find your Bookings`}
+          textColor={`white`}
+          color={constants.firstColor}
+          underlayColor={constants.firstColorAlpha(0.7)}
+          action={() => {
+            this.props.navigation.navigate('Bookings');
+          }}
+        />
+        <StarterButton
+          text={`Explore Itineraries`}
+          textColor={`white`}
+          color={`transparent`}
+          underlayColor={`transparent`}
+          hasBorder={true}
+          action={() => {
+            this.props.navigation.navigate('Explore');
+          }}
+          marginBottom={9}
+        />
+      </ImageBackground>
     );
   }
 }
@@ -36,13 +48,8 @@ class Starter extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: constants.backgroundColor,
-  },
-  button: {
-    height: 40,
-    width: 80,
-    margin: 15,
-    backgroundColor: 'red',
+    flexDirection: 'column',
+    justifyContent: 'flex-end',
   },
 });
 
