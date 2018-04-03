@@ -17,6 +17,14 @@ class Starter extends Component {
     header: null,
   };
 
+  clickedBooking = () => {
+    this.props.navigation.navigate('Bookings');
+  };
+
+  clickedExplore = () => {
+    this.props.navigation.navigate('Explore');
+  };
+
   render() {
     return(
       <ImageBackground source={constants.starterBackground} style={styles.container}>
@@ -25,9 +33,7 @@ class Starter extends Component {
           textColor={`white`}
           color={constants.firstColor}
           underlayColor={constants.firstColorAlpha(0.7)}
-          action={() => {
-            this.props.navigation.navigate('Bookings');
-          }}
+          action={this.clickedBooking}
         />
         <StarterButton
           text={`Explore Itineraries`}
@@ -35,9 +41,7 @@ class Starter extends Component {
           color={`transparent`}
           underlayColor={`transparent`}
           hasBorder={true}
-          action={() => {
-            this.props.navigation.navigate('Explore');
-          }}
+          action={this.clickedExplore}
           marginBottom={9}
         />
       </ImageBackground>
