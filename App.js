@@ -8,6 +8,7 @@ import SplashScreen from "./Screens/SplashScreen/Splash";
 import OtpScreen from "./Screens/OtpScreen/Otp";
 import NewAccountScreen from "./Screens/NewAccountScreen/NewAccount";
 import Itineraries from "./Screens/ItinerariesScreen/Itineraries";
+import Drawer from "./Screens/Drawer/Drawer";
 
 const HomeStack = StackNavigator({
   Splash: {
@@ -58,6 +59,8 @@ const App = DrawerNavigator({
   About: {
     screen: HomeScreen,
   },
+}, {
+  contentComponent: Drawer,
 });
 
 export default App;

@@ -17,19 +17,23 @@ const greyPallete = {
 
 };
 
-const ysgi = {
+const pallete2 = {
 
 };
 
-const asdg = {
+const pallete3 = {
 
 };
 
 const colorPallete = {
+
   ...pallete1,
-  // ...ysgi,
-  // ...asdg,
-  backgroundColor: 'white',
+  // ...pallete2,
+  // ...pallete3,
+
+  ...greyPallete,
+  appBackgroundColor: 'white',
+  drawerBackgroundColor: 'rgba(239,239,239,1)',
 };
 
 export default colorPallete;
