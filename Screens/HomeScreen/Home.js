@@ -10,12 +10,11 @@ import {
 class Home extends Component {
   render() {
     return(
-      <TouchableHighlight
+      <View
         style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}
-        onPress={() => this.props.navigation.navigate('DrawerOpen')}
         >
         <Text>Home Screen</Text>
-      </TouchableHighlight>
+      </View>
     )
   }
 }

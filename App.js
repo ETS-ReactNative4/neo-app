@@ -1,6 +1,8 @@
 import {
   StackNavigator,
   DrawerNavigator,
+  TabNavigator,
+  TabBarBottom,
 } from 'react-navigation';
 import HomeScreen from "./Screens/HomeScreen/Home";
 import StartingScreen from "./Screens/StartingScreen/Starter";
@@ -9,6 +11,27 @@ import OtpScreen from "./Screens/OtpScreen/Otp";
 import NewAccountScreen from "./Screens/NewAccountScreen/NewAccount";
 import Itineraries from "./Screens/ItinerariesScreen/Itineraries";
 import Drawer from "./Screens/Drawer/Drawer";
+
+const HomeTabs = TabNavigator({
+  TripFeed: {
+    screen: HomeScreen,
+  },
+  Bookings: {
+    screen: HomeScreen,
+  },
+  Chat: {
+    screen: HomeScreen,
+  },
+  Tools: {
+    screen: HomeScreen,
+  },
+  Journal: {
+    screen: HomeScreen,
+  },
+}, {
+  tabBarComponent: TabBarBottom,
+  tabBarPosition: 'bottom',
+});
 
 const HomeStack = StackNavigator({
   Splash: {
@@ -24,7 +47,7 @@ const HomeStack = StackNavigator({
     })
   },
   AppHome: {
-    screen: HomeScreen,
+    screen: HomeTabs,
   },
   Otp: {
     screen: OtpScreen,
@@ -47,7 +70,7 @@ const App = DrawerNavigator({
   SavedItineraries: {
     screen: HomeScreen,
   },
-  Bookings: {
+  YourBookings: {
     screen: HomeScreen,
   },
   Account: {
