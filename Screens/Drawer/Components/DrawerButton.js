@@ -83,7 +83,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   menuName: {
+    fontWeight: "300",
     fontFamily: constants.primaryFont,
+    color: constants.shade1,
+    fontSize: 20,
+    lineHeight: 48,
+    paddingLeft: 8,
   },
   infoArea: {
     flex: 2,
