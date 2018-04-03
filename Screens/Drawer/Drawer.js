@@ -14,57 +14,69 @@ import DrawerButton from "./Components/DrawerButton";
 import NotificationCount from "./Components/NotificationCount";
 
 class Drawer extends Component {
-  render() {
 
+  state = {
+    activeIndex: 0,
+  };
+
+  clickDrawerItem = (index, screen) => {
+    this.setState({
+      activeIndex: index,
+    }, () => {
+      this.props.navigation.navigate('DrawerClose')
+    });
+  };
+
+  render() {
     const menuItems = [
       {
         icon: constants.notificationIcon,
         text: 'Home',
         isActive: false,
-        action: () => {},
+        screen: 'Home',
       },
       {
         icon: constants.notificationIcon,
         text: 'Notifications',
         isActive: true,
         info: <NotificationCount count={3}/>,
-        action: () => {},
+        screen: 'Home',
       },
       {
         icon: constants.notificationIcon,
         text: 'Payments',
         isActive: false,
-        action: () => {},
+        screen: 'Home',
       },
       {
         icon: constants.notificationIcon,
         text: 'Saved Itineraries',
         isActive: false,
-        action: () => {},
+        screen: 'Home',
       },
       {
         icon: constants.notificationIcon,
         text: 'Your Bookings',
         isActive: false,
-        action: () => {},
+        screen: 'Home',
       },
       {
         icon: constants.notificationIcon,
         text: 'Your Account',
         isActive: false,
-        action: () => {},
+        screen: 'Home',
       },
       {
         icon: constants.notificationIcon,
         text: 'Support',
         isActive: false,
-        action: () => {},
+        screen: 'Home',
       },
       {
         icon: constants.notificationIcon,
         text: 'About',
         isActive: false,
-        action: () => {},
+        screen: 'Home',
       },
     ];
 
@@ -89,8 +101,8 @@ class Drawer extends Component {
                 key={index}
                 icon={item.icon}
                 text={item.text}
-                action={item.action}
-                isActive={item.isActive}
+                action={() => this.clickDrawerItem(index, item.screen)}
+                isActive={(index === this.state.activeIndex)}
                 info={item.info || null}
               />
             );
