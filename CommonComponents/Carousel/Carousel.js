@@ -64,8 +64,8 @@ Carousel.propTypes = {
   data: PropTypes.arrayOf(PropTypes.shape({
     title: PropTypes.string.isRequired,
     image: PropTypes.oneOfType([
-      PropTypes.object.isRequired,
-      PropTypes.number.isRequired,
+      PropTypes.object,
+      PropTypes.number,
     ]),
     action: PropTypes.func.isRequired,
   })).isRequired,
