@@ -28,16 +28,16 @@ SectionHeader.propTypes = {
 
 const styles = StyleSheet.create({
   sectionContainer: {
-    marginTop: 21,
-    marginBottom: 14,
-    height: 36,
+    marginTop: 24,
+    marginBottom: 16,
+    height: 32,
     justifyContent: 'flex-start',
     flexDirection: 'row'
   },
   textContainer: {
     alignSelf: 'flex-start',
     borderBottomWidth: 2,
-    height: 36,
+    height: 32,
     borderBottomColor: constants.black2,
   },
   placeholder: {

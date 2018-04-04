@@ -53,7 +53,11 @@ class Tools extends Component {
           firstMargin={24}
         />
 
-        <SectionHeader sectionName={'ESSENTIALS'} containerStyle={{marginTop: 43}}/>
+        <SectionHeader sectionName={'ESSENTIALS'} containerStyle={{marginTop: 40}}/>
+
+        <SectionHeader sectionName={'BEFORE PACKING'} containerStyle={{marginTop: 40}}/>
+
+        <SectionHeader sectionName={'MORE TOOLS'} containerStyle={{marginTop: 40}}/>
 
       </View>
     )
