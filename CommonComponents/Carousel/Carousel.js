@@ -10,9 +10,9 @@ import {
 import constants from "../../constants/constants";
 import PropTypes from "prop-types";
 
-const Box = ({data}) => {
+const Box = ({data, firstMargin, index}) => {
   return(
-    <View style={styles.box}>
+    <View style={[styles.box, {marginLeft: index===0?firstMargin:0}]}>
       <TouchableHighlight
         onPress={data.action}
         underlayColor={'transparent'}
@@ -34,17 +34,21 @@ Box.propTypes = {
     ]).isRequired,
     action: PropTypes.func.isRequired,
   }).isRequired,
+  firstMargin: PropTypes.number.isRequired,
+  index: PropTypes.number.isRequired,
 };
 
-const Carousel = ({containerStyle, data}) => {
+const Carousel = ({containerStyle, data, firstMargin}) => {
   return (
     <View style={[styles.scrollContainer, containerStyle]}>
-      <ScrollView horizontal={true} style={styles.scrollView} contentContainerStyle={{alignItems: 'center'}}>
+      <ScrollView showsHorizontalScrollIndicator={false} horizontal={true} style={styles.scrollView} contentContainerStyle={{alignItems: 'center'}}>
         {
           data.map((item, index) => {
             return (
               <Box
                 key={index}
+                index={index}
+                firstMargin={firstMargin}
                 data={item}
               />
             );
@@ -65,6 +69,7 @@ Carousel.propTypes = {
     ]),
     action: PropTypes.func.isRequired,
   })).isRequired,
+  firstMargin: PropTypes.number.isRequired,
 };
 
 const styles = StyleSheet.create({

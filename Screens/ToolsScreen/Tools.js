@@ -12,6 +12,9 @@ import {
 import constants from "../../constants/constants";
 import SectionHeader from "../../CommonComponents/SectionHeader/SectionHeader";
 import Carousel from "../../CommonComponents/Carousel/Carousel";
+import {
+  responsiveWidth,
+} from 'react-native-responsive-dimensions';
 
 class Tools extends Component {
   render() {
@@ -44,7 +47,11 @@ class Tools extends Component {
 
         <SectionHeader sectionName={'CITY GUIDES'}/>
 
-        <Carousel data={cityList}/>
+        <Carousel
+          data={cityList}
+          containerStyle={{width: responsiveWidth(100), marginLeft: -24}}
+          firstMargin={24}
+        />
 
         <SectionHeader sectionName={'ESSENTIALS'} containerStyle={{marginTop: 43}}/>
 
