@@ -13,9 +13,6 @@ import {
 import constants from "../../constants/constants";
 import SectionHeader from "../../CommonComponents/SectionHeader/SectionHeader";
 import Carousel from "../../CommonComponents/Carousel/Carousel";
-import {
-  responsiveWidth,
-} from 'react-native-responsive-dimensions';
 import PrimaryTool from "./Components/PrimaryTool";
 import SecondaryTool from "./Components/SecondaryTool";
 
@@ -107,24 +104,25 @@ class Tools extends Component {
     return(
       <ScrollView style={styles.container}>
 
-        <SectionHeader sectionName={'CITY GUIDES'}/>
+        <SectionHeader sectionName={'CITY GUIDES'} containerStyle={{marginHorizontal: 24}}/>
 
         <Carousel
           data={cityList}
-          containerStyle={{width: responsiveWidth(100), marginLeft: -24}}
           firstMargin={24}
         />
 
-        <SectionHeader sectionName={'ESSENTIALS'} containerStyle={{marginTop: 40}}/>
+        <SectionHeader sectionName={'ESSENTIALS'} containerStyle={{marginTop: 40, marginHorizontal: 24}}/>
 
         <PrimaryTool
           text={`Currency Calculator`}
           action={() => {}}
+          containerStyle={{marginHorizontal: 24}}
         />
 
         {
           essentialTools.map((item, index) => (
             <SecondaryTool
+              containerStyle={{marginHorizontal: 24}}
               key={index}
               icon={item.icon}
               text={item.text}
@@ -133,16 +131,18 @@ class Tools extends Component {
           ))
         }
 
-        <SectionHeader sectionName={'BEFORE PACKING'} containerStyle={{marginTop: 40}}/>
+        <SectionHeader sectionName={'BEFORE PACKING'} containerStyle={{marginTop: 40, marginHorizontal: 24}}/>
 
         <PrimaryTool
           text={`Invite Co-passengers`}
           action={() => {}}
+          containerStyle={{marginHorizontal: 24}}
         />
 
         {
           beforePacking.map((item, index) => (
             <SecondaryTool
+              containerStyle={{marginHorizontal: 24}}
               key={index}
               icon={item.icon}
               text={item.text}
@@ -151,9 +151,10 @@ class Tools extends Component {
           ))
         }
 
-        <SectionHeader sectionName={'MORE TOOLS'} containerStyle={{marginTop: 40}}/>
+        <SectionHeader sectionName={'MORE TOOLS'} containerStyle={{marginTop: 40, marginHorizontal: 24}}/>
 
         <PrimaryTool
+          containerStyle={{marginHorizontal: 24}}
           text={`Complete Payment`}
           action={() => {}}
         />
@@ -161,6 +162,7 @@ class Tools extends Component {
         {
           moreTools.map((item, index) => (
             <SecondaryTool
+              containerStyle={{marginHorizontal: 24}}
               key={index}
               icon={item.icon}
               text={item.text}
@@ -180,7 +182,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: constants.appBackgroundColor,
-    paddingHorizontal: 24,
   },
   secondaryContainer: {
     height: 24,

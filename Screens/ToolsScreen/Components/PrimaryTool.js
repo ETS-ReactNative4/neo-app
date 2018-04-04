@@ -7,9 +7,9 @@ import {
 import constants from "../../../constants/constants";
 import PropTypes from 'prop-types';
 
-const PrimaryTool = ({text, action}) => {
+const PrimaryTool = ({text, action, containerStyle}) => {
   return (
-    <TouchableHighlight style={styles.primaryContainer} onPress={action} underlayColor={constants.shade3}>
+    <TouchableHighlight style={[styles.primaryContainer, containerStyle || {}]} onPress={action} underlayColor={constants.shade3}>
       <Text style={styles.text}>{text}</Text>
     </TouchableHighlight>
   )

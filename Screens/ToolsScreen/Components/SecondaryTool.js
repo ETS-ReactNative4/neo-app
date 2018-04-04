@@ -9,9 +9,9 @@ import {
 import constants from "../../../constants/constants";
 import PropTypes from 'prop-types';
 
-const SecondaryTool = ({icon, action, text}) => {
+const SecondaryTool = ({icon, action, text, containerStyle}) => {
   return (
-    <TouchableHighlight style={styles.secondaryContainer} onPress={action} underlayColor={'transparent'}>
+    <TouchableHighlight style={[styles.secondaryContainer, containerStyle || {}]} onPress={action} underlayColor={'transparent'}>
       <View style={styles.secondaryWrapper}>
         <Image
           source={icon}
