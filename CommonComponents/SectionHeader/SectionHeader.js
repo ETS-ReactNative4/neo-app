@@ -16,6 +16,7 @@ const SectionHeader = ({sectionName, containerStyle}) => {
       <View style={styles.textContainer}>
         <Text style={styles.sectionName}>{sectionName}</Text>
       </View>
+      <View style={styles.placeholder}/>
     </View>
   );
 };
@@ -30,22 +31,28 @@ const styles = StyleSheet.create({
     marginTop: 21,
     marginBottom: 14,
     height: 33,
-    borderBottomWidth: 1,
-    borderBottomColor: constants.shade4,
-    justifyContent: 'flex-end',
+    justifyContent: 'flex-start',
+    flexDirection: 'row'
   },
   textContainer: {
-    paddingBottom: 13,
     alignSelf: 'flex-start',
     borderBottomWidth: 2,
+    height: 33,
     borderBottomColor: constants.black2,
+  },
+  placeholder: {
+    flex: 1,
+    borderBottomWidth: 1,
+    borderBottomColor: constants.shade4,
   },
   sectionName: {
     fontFamily: constants.primaryFont,
     fontSize: 12,
     lineHeight: 14,
     fontWeight: "600",
+    alignSelf: 'flex-end',
     color: constants.black2,
+    paddingBottom: 13,
   },
 });
 
