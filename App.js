@@ -4,29 +4,30 @@ import {
   TabNavigator,
   TabBarBottom,
 } from 'react-navigation';
-import HomeScreen from "./Screens/HomeScreen/Home";
-import StartingScreen from "./Screens/StartingScreen/Starter";
-import SplashScreen from "./Screens/SplashScreen/Splash";
-import OtpScreen from "./Screens/OtpScreen/Otp";
-import NewAccountScreen from "./Screens/NewAccountScreen/NewAccount";
+import Home from "./Screens/HomeScreen/Home";
+import Starter from "./Screens/StartingScreen/Starter";
+import Splash from "./Screens/SplashScreen/Splash";
+import Otp from "./Screens/OtpScreen/Otp";
+import NewAccount from "./Screens/NewAccountScreen/NewAccount";
 import Itineraries from "./Screens/ItinerariesScreen/Itineraries";
 import Drawer from "./Screens/Drawer/Drawer";
+import Tools from "./Screens/ToolsScreen/Tools";
 
 const HomeTabs = TabNavigator({
   TripFeed: {
-    screen: HomeScreen,
+    screen: Home,
   },
   Bookings: {
-    screen: HomeScreen,
+    screen: Home,
   },
   Chat: {
-    screen: HomeScreen,
+    screen: Home,
   },
   Tools: {
-    screen: HomeScreen,
+    screen: Tools,
   },
   Journal: {
-    screen: HomeScreen,
+    screen: Home,
   },
 }, {
   tabBarComponent: TabBarBottom,
@@ -35,13 +36,13 @@ const HomeTabs = TabNavigator({
 
 const HomeStack = StackNavigator({
   Splash: {
-    screen: SplashScreen,
+    screen: Splash,
     navigationOptions: ({navigation}) => ({
       drawerLockMode: 'locked-closed'
     })
   },
   Starter: {
-    screen: StartingScreen,
+    screen: Starter,
     navigationOptions: ({navigation}) => ({
       drawerLockMode: 'locked-closed'
     })
@@ -50,10 +51,15 @@ const HomeStack = StackNavigator({
     screen: HomeTabs,
   },
   Otp: {
-    screen: OtpScreen,
+    screen: Otp,
   },
   NewAccount: {
-    screen: NewAccountScreen,
+    screen: NewAccount,
+  },
+}, {
+  initialRouteName: 'AppHome',
+  navigationOptions: {
+      gesturesEnabled: false,
   },
 });
 
@@ -62,25 +68,25 @@ const App = DrawerNavigator({
     screen: HomeStack,
   },
   Notifications: {
-    screen: HomeScreen,
+    screen: Home,
   },
   Payments: {
-    screen: HomeScreen,
+    screen: Home,
   },
   SavedItineraries: {
-    screen: HomeScreen,
+    screen: Home,
   },
   YourBookings: {
-    screen: HomeScreen,
+    screen: Home,
   },
   Account: {
-    screen: HomeScreen,
+    screen: Home,
   },
   Support: {
-    screen: HomeScreen,
+    screen: Home,
   },
   About: {
-    screen: HomeScreen,
+    screen: Home,
   },
 }, {
   contentComponent: Drawer,
