@@ -30,14 +30,14 @@ const styles = StyleSheet.create({
   sectionContainer: {
     marginTop: 21,
     marginBottom: 14,
-    height: 33,
+    height: 36,
     justifyContent: 'flex-start',
     flexDirection: 'row'
   },
   textContainer: {
     alignSelf: 'flex-start',
     borderBottomWidth: 2,
-    height: 33,
+    height: 36,
     borderBottomColor: constants.black2,
   },
   placeholder: {
