@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
     borderBottomColor: constants.shade4,
   },
   sectionName: {
-    fontFamily: constants.primaryFont,
+    fontFamily: constants.primaryRegular,
     fontSize: 12,
     lineHeight: 14,
     fontWeight: "600",

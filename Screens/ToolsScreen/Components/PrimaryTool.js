@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   text: {
-    fontFamily: constants.primaryFont,
+    fontFamily: constants.primaryRegular,
     fontWeight: "600",
     color: constants.black2,
     fontSize: 20,

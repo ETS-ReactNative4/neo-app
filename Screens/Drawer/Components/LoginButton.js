@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
   },
   buttonText: {
-    fontFamily: constants.primaryFont,
+    fontFamily: constants.primaryRegular,
     fontWeight: "600",
     color: constants.shade1,
     fontSize: 10,

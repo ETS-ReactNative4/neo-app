@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
   },
   text: {
-    fontFamily: constants.primaryFont,
+    fontFamily: constants.primaryRegular,
     fontSize: 15,
     lineHeight: 18,
     color: 'white',

@@ -83,11 +83,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   menuName: {
-    fontWeight: "300",
-    fontFamily: constants.primaryFont,
+    ...constants.font20(constants.primaryRegular),
     color: constants.shade1,
-    fontSize: 20,
-    lineHeight: 48,
     paddingLeft: 8,
   },
   infoArea: {

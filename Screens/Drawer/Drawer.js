@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
   },
   userName: {
     alignSelf: 'center',
-    fontFamily: constants.primaryFont,
+    fontFamily: constants.primaryRegular,
     fontWeight: "600",
     lineHeight: 32,
     fontSize: 20,

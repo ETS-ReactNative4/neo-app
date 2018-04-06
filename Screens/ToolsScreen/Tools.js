@@ -197,7 +197,7 @@ const styles = StyleSheet.create({
     width: 24,
   },
   text2: {
-    fontFamily: constants.primaryFont,
+    fontFamily: constants.primaryRegular,
     marginLeft: 8,
     fontSize: 20,
     lineHeight: 24,
