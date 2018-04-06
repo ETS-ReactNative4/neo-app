@@ -66,7 +66,7 @@ Carousel.propTypes = {
     image: PropTypes.oneOfType([
       PropTypes.object,
       PropTypes.number,
-    ]),
+    ]).isRequired,
     action: PropTypes.func.isRequired,
   })).isRequired,
   firstMargin: PropTypes.number.isRequired,

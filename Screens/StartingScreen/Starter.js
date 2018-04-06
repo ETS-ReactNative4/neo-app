@@ -13,10 +13,6 @@ import StarterButton from "./Components/StarterButton";
 
 class Starter extends Component {
 
-  static navigationOptions = {
-    header: null,
-  };
-
   clickedBooking = () => {
     this.props.navigation.navigate('Bookings');
   };

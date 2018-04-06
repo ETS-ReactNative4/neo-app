@@ -16,10 +16,6 @@ const resetAction = NavigationActions.reset({
 
 class Splash extends Component {
 
-  static navigationOptions = {
-    header: null,
-  };
-
   componentDidMount() {
     setTimeout(() => {
       this.props.navigation.dispatch(resetAction);

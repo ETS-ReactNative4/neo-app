@@ -17,6 +17,7 @@ import PrimaryTool from "./Components/PrimaryTool";
 import SecondaryTool from "./Components/SecondaryTool";
 
 class Tools extends Component {
+
   render() {
 
     const cityList = [
@@ -115,7 +116,7 @@ class Tools extends Component {
 
         <PrimaryTool
           text={`Currency Calculator`}
-          action={() => {}}
+          action={() => this.props.navigation.navigate('Calculator')}
           containerStyle={{marginHorizontal: 24}}
         />
 

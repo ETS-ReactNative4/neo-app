@@ -12,6 +12,18 @@ import NewAccount from "./Screens/NewAccountScreen/NewAccount";
 import Itineraries from "./Screens/ItinerariesScreen/Itineraries";
 import Drawer from "./Screens/Drawer/Drawer";
 import Tools from "./Screens/ToolsScreen/Tools";
+import Calculator from "./Screens/CalculatorScreen/Calculator";
+
+const ToolStack = StackNavigator({
+  ToolHome: {
+    screen: Tools,
+  },
+  Calculator: {
+    screen: Calculator,
+  }
+}, {
+  initialRouteName: 'ToolHome',
+});
 
 const HomeTabs = TabNavigator({
   TripFeed: {
@@ -24,7 +36,7 @@ const HomeTabs = TabNavigator({
     screen: Home,
   },
   Tools: {
-    screen: Tools,
+    screen: ToolStack,
   },
   Journal: {
     screen: Home,
@@ -59,7 +71,8 @@ const HomeStack = StackNavigator({
 }, {
   initialRouteName: 'AppHome',
   navigationOptions: {
-      gesturesEnabled: false,
+    gesturesEnabled: false,
+    header: null,
   },
 });
 
