@@ -39,7 +39,7 @@
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string/>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSExceptionDomains</key>
@@ -54,6 +54,8 @@
 	<key>UIAppFonts</key>
 	<array>
 		<string>Sofia Pro.ttf</string>
+		<string>Sofia Pro Light.ttf</string>
+		<string>Sofia Pro Semi Bold.ttf</string>
 	</array>
 </dict>
 </plist>

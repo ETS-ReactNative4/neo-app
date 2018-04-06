@@ -5,7 +5,6 @@
 	};
 	objectVersion = 46;
 	objects = {
-
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -38,6 +37,8 @@
 		6455F11C850A4184A67A846C /* Sofia Pro.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 82F4070511C14DB68AA1D81C /* Sofia Pro.ttf */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
+		39ED322E60464D48BB79D6BC /* Sofia Pro Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AA8053EC3AF84EE2B1F260D0 /* Sofia Pro Light.ttf */; };
+		E14959986C3643CB89615645 /* Sofia Pro Semi Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 25C3910E84224321B6F428F9 /* Sofia Pro Semi Bold.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -344,6 +345,8 @@
 		82F4070511C14DB68AA1D81C /* Sofia Pro.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Sofia Pro.ttf"; path = "../assets/fonts/Sofia Pro.ttf"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
 		ADBDB91F1DFEBF0600ED6528 /* RCTBlob.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTBlob.xcodeproj; path = "../node_modules/react-native/Libraries/Blob/RCTBlob.xcodeproj"; sourceTree = "<group>"; };
+		AA8053EC3AF84EE2B1F260D0 /* Sofia Pro Light.ttf */ = {isa = PBXFileReference; name = "Sofia Pro Light.ttf"; path = "../assets/fonts/Sofia Pro Light.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		25C3910E84224321B6F428F9 /* Sofia Pro Semi Bold.ttf */ = {isa = PBXFileReference; name = "Sofia Pro Semi Bold.ttf"; path = "../assets/fonts/Sofia Pro Semi Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -600,6 +603,8 @@
 			isa = PBXGroup;
 			children = (
 				82F4070511C14DB68AA1D81C /* Sofia Pro.ttf */,
+				AA8053EC3AF84EE2B1F260D0 /* Sofia Pro Light.ttf */,
+				25C3910E84224321B6F428F9 /* Sofia Pro Semi Bold.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -1060,6 +1065,8 @@
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 				6455F11C850A4184A67A846C /* Sofia Pro.ttf in Resources */,
+				39ED322E60464D48BB79D6BC /* Sofia Pro Light.ttf in Resources */,
+				E14959986C3643CB89615645 /* Sofia Pro Semi Bold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
