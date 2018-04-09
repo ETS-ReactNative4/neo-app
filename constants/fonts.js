@@ -64,6 +64,14 @@ const font30 = (fontFamily) => {
   };
 };
 
+const fontCustom = (fontFamily, fontSize, lineHeight) => {
+  return {
+    fontFamily,
+    fontSize,
+    lineHeight,
+  };
+};
+
 const font = {
   ...primaryFont,
   font10,
@@ -73,6 +81,7 @@ const font = {
   font20,
   font24,
   font30,
+  fontCustom,
 };
 
 export default font;
