@@ -116,7 +116,7 @@ class Tools extends Component {
 
         <PrimaryTool
           text={`Currency Calculator`}
-          action={() => this.props.navigation.navigate('Calculator')}
+          action={() => this.props.navigation.navigate('CurrencyConverter')}
           containerStyle={{marginHorizontal: 24}}
         />
 

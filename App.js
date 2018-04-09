@@ -12,14 +12,14 @@ import NewAccount from "./Screens/NewAccountScreen/NewAccount";
 import Itineraries from "./Screens/ItinerariesScreen/Itineraries";
 import Drawer from "./Screens/Drawer/Drawer";
 import Tools from "./Screens/ToolsScreen/Tools";
-import Calculator from "./Screens/CalculatorScreen/Calculator";
+import CurrencyConverter from "./Screens/CurrencyConverterScreen/CurrencyConverter";
 
 const ToolStack = StackNavigator({
   ToolHome: {
     screen: Tools,
   },
-  Calculator: {
-    screen: Calculator,
+  CurrencyConverter: {
+    screen: CurrencyConverter,
   }
 }, {
   initialRouteName: 'ToolHome',

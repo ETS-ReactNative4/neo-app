@@ -1,10 +1,11 @@
+import {
+  Platform,
+} from 'react-native';
+
 const primaryFont = {
   primaryRegular: 'Sofia Pro',
-  primaryLight: 'Sofia Pro Light',
-  primarySemiBold: 'Sofia Pro Semi Bold',
-  primaryFontSize: 20,
-  primaryFontWeight: "300",
-  primaryLineHeight: 24,
+  primaryLight: Platform.OS === 'ios' ? 'SofiaPro-Light' : 'Sofia Pro Light',
+  primarySemiBold: Platform.OS === 'ios' ? 'SofiaPro-SemiBold' : 'Sofia Pro Semi Bold',
 };
 
 const font10 = (fontFamily) => {
@@ -63,16 +64,8 @@ const font30 = (fontFamily) => {
   };
 };
 
-const primaryFontStyle = {
-  fontFamily: primaryFont.primaryRegular,
-  fontWeight: primaryFont.primaryFontWeight,
-  fontSize: primaryFont.primaryFontSize,
-  lineHeight: primaryFont.primaryLineHeight,
-};
-
 const font = {
   ...primaryFont,
-  primaryFontStyle,
   font10,
   font11,
   font13,
