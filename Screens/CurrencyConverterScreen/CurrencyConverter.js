@@ -7,6 +7,7 @@ import {
   TextInput,
   StyleSheet,
   TouchableWithoutFeedback,
+  TouchableHighlight,
   Image,
   Keyboard,
   Platform,
@@ -169,6 +170,16 @@ class CurrencyConverter extends Component {
               </View>
             </View>
 
+            <TouchableHighlight
+              underlayColor={constants.shade2}
+              onPress={() => {}}
+              style={styles.swapButton}>
+              <Image
+                source={constants.notificationIcon}
+                style={styles.swapIcon}
+              />
+            </TouchableHighlight>
+
           </View>
         </View>
       </TouchableWithoutFeedback>
@@ -252,7 +263,25 @@ const styles = StyleSheet.create({
     height: 20,
     width: 30,
     marginTop: 11, // 11 diff for circle margin
-  }
+  },
+
+  swapButton: {
+    height: 40,
+    width: 40,
+    borderRadius: 20,
+    backgroundColor: 'white',
+    borderWidth: 0.5,
+    borderColor: constants.shade2,
+    position: 'absolute',
+    bottom: 60,
+    right: 48,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  swapIcon: {
+    height: 24,
+    width: 24,
+  },
 });
 
 export default CurrencyConverter;
