@@ -145,11 +145,20 @@ class CurrencyConverter extends Component {
           <View style={styles.conversionContainer}>
 
             <View style={styles.outputContainer}>
-              <View style={styles.outputTextBoxContainer}>
-                <Text style={styles.outputText}>{this.state.nativeAmount}</Text>
-              </View>
+              {
+                this.state.foreignAmount
+                ?
+                  <View style={styles.outputTextBoxContainer}>
+                    <Text style={styles.outputText}>{this.state.nativeAmount}</Text>
+                  </View>
+                :
+                  <View style={styles.currentRateInfo}>
+                    <Text style={styles.currentRateHeading}>{`Today's Conversion Rate`}</Text>
+                    <Text style={styles.currentRateText}>{`1.00 EUR = 80.21 INR`}</Text>
+                  </View>
+              }
               <View style={styles.outputInfoContainer}>
-                <Text style={styles.outputCurrencyName}>EUR</Text>
+                <Text style={styles.outputCurrencyName}>INR</Text>
                 <Image style={styles.outputFlagImage} source={constants.starterBackground}/>
               </View>
             </View>
@@ -206,6 +215,19 @@ const styles = StyleSheet.create({
     height: 80,
     backgroundColor: 'white',
     paddingHorizontal: 24,
+  },
+  currentRateInfo: {
+    flex: 1,
+    alignItems: 'flex-start',
+    justifyContent: 'center',
+  },
+  currentRateHeading: {
+    ...constants.font10(constants.primaryLight),
+    color: constants.black1,
+  },
+  currentRateText: {
+    ...constants.font17(constants.primaryLight),
+    color: constants.black1,
   },
   outputTextBoxContainer: {
     flex: 1,
