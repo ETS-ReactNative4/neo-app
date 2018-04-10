@@ -213,8 +213,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   outputText: {
-    height: 60,
-    ...constants.fontCustom(constants.primaryLight, 60, 60),
+    height: 80,
+    color: constants.black1,
+    ...constants.fontCustom(constants.primaryLight, 80, 80),
   },
   outputInfoContainer: {
     flexDirection: 'row',
@@ -225,13 +226,13 @@ const styles = StyleSheet.create({
     ...constants.font24(constants.primaryLight),
     margin: 8,
     fontWeight: "400",
-    paddingBottom: 16, // 11 diff for circle margin, 5 for line height
+    paddingBottom: 12, // 11 diff for circle margin, 5 for line height
     color: "rgba(255,87,109,1)",
   },
   outputFlagImage: {
     height: 20,
     width: 30,
-    marginBottom: 20, // 11 diff for circle margin
+    marginBottom: 18, // 11 diff for circle margin
   },
 
   inputContainer: {
