@@ -182,7 +182,13 @@ class CurrencyConverter extends Component {
             <TouchableHighlight
               underlayColor={constants.shade2}
               onPress={() => {}}
-              style={styles.swapButton}>
+              style={[styles.swapButton, {
+                bottom: this.state.isKeyboardVisible
+                  ?
+                    60 + this.state.keyboardSpace
+                  :
+                    60
+              }]}>
               <Image
                 source={constants.notificationIcon}
                 style={styles.swapIcon}
