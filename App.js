@@ -16,6 +16,7 @@ import Itineraries from "./Screens/ItinerariesScreen/Itineraries";
 import Drawer from "./Screens/Drawer/Drawer";
 import Tools from "./Screens/ToolsScreen/Tools";
 import CurrencyConverter from "./Screens/CurrencyConverterScreen/CurrencyConverter";
+import PhraseBook from "./Screens/PhraseBookScreen/PhraseBook";
 
 UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
 
@@ -25,7 +26,10 @@ const ToolStack = StackNavigator({
   },
   CurrencyConverter: {
     screen: CurrencyConverter,
-  }
+  },
+  PhraseBook: {
+    screen: PhraseBook,
+  },
 }, {
   initialRouteName: 'ToolHome',
 });

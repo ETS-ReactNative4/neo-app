@@ -47,7 +47,7 @@ class Tools extends Component {
       {
         icon: constants.notificationIcon,
         text: `Common Phrases`,
-        action: () => {},
+        action: () => this.props.navigation.navigate('PhraseBook'),
       },
       {
         icon: constants.notificationIcon,
