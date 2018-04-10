@@ -4,6 +4,9 @@ import {
   TabNavigator,
   TabBarBottom,
 } from 'react-navigation';
+import {
+  UIManager,
+} from 'react-native';
 import Home from "./Screens/HomeScreen/Home";
 import Starter from "./Screens/StartingScreen/Starter";
 import Splash from "./Screens/SplashScreen/Splash";
@@ -13,6 +16,8 @@ import Itineraries from "./Screens/ItinerariesScreen/Itineraries";
 import Drawer from "./Screens/Drawer/Drawer";
 import Tools from "./Screens/ToolsScreen/Tools";
 import CurrencyConverter from "./Screens/CurrencyConverterScreen/CurrencyConverter";
+
+UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
 
 const ToolStack = StackNavigator({
   ToolHome: {
