@@ -121,6 +121,7 @@ class PhraseBook extends Component {
             tabBarUnderlineStyle={{height: 2, backgroundColor: constants.black2}}
             tabBarTextStyle={{...constants.font13(constants.primarySemiBold)}}
             initialPage={2}
+            prerenderingSiblingsNumber={Infinity}
             renderTabBar={() => <ScrollableTabBar />}
             >
             <PhrasesSection phrases={this.state.phrases} selectPhrase={this.selectPhrase} tabLabel="Favouries" />
