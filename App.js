@@ -53,6 +53,7 @@ const HomeTabs = TabNavigator({
 }, {
   tabBarComponent: TabBarBottom,
   tabBarPosition: 'bottom',
+  initialRouteName: 'Tools',
 });
 
 const HomeStack = StackNavigator({

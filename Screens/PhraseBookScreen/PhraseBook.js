@@ -11,6 +11,7 @@ import {
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import ScrollableTabBar from '../../CommonComponents/ScrollableTabBar/ScrollableTabBar';
 import constants from "../../constants/constants";
+import PhrasesSection from "./Components/PhrasesSection";
 
 class PhraseBook extends Component {
 
@@ -24,6 +25,62 @@ class PhraseBook extends Component {
       translation: `¿Habla inglés?`,
       sound: '',
     },
+    phrases: [
+      {
+        phrase: `Where's the station`,
+        translation: `¿Habla inglés?`,
+        sound: '',
+      },
+      {
+        phrase: `Where's the station`,
+        translation: `¿Habla inglés?`,
+        sound: '',
+      },
+      {
+        phrase: `Where's the station`,
+        translation: `¿Habla inglés?`,
+        sound: '',
+      },
+      {
+        phrase: `Where's the station`,
+        translation: `¿Habla inglés?`,
+        sound: '',
+      },
+      {
+        phrase: `Where's the station`,
+        translation: `¿Habla inglés?`,
+        sound: '',
+      },
+      {
+        phrase: `Where's the station`,
+        translation: `¿Habla inglés?`,
+        sound: '',
+      },
+      {
+        phrase: `Where's the station`,
+        translation: `¿Habla inglés?`,
+        sound: '',
+      },
+      {
+        phrase: `Where's the station`,
+        translation: `¿Habla inglés?`,
+        sound: '',
+      },
+      {
+        phrase: `Where's the station`,
+        translation: `¿Habla inglés?`,
+        sound: '',
+      },
+      {
+        phrase: `Where's the station`,
+        translation: `¿Habla inglés?`,
+        sound: '',
+      },
+    ],
+  };
+
+  selectPhrase = selectedPhrase => {
+    this.setState({selectedPhrase});
   };
 
   render() {
@@ -66,11 +123,11 @@ class PhraseBook extends Component {
             initialPage={2}
             renderTabBar={() => <ScrollableTabBar />}
             >
-            <View tabLabel="Favouries" />
-            <View tabLabel="Pinned" />
-            <View tabLabel="Basic" />
-            <View tabLabel="Pattern" />
-            <View tabLabel="Question" />
+            <PhrasesSection phrases={this.state.phrases} selectPhrase={this.selectPhrase} tabLabel="Favouries" />
+            <PhrasesSection phrases={this.state.phrases} selectPhrase={this.selectPhrase} tabLabel="Pinned" />
+            <PhrasesSection phrases={this.state.phrases} selectPhrase={this.selectPhrase} tabLabel="Basic" />
+            <PhrasesSection phrases={this.state.phrases} selectPhrase={this.selectPhrase} tabLabel="Pattern" />
+            <PhrasesSection phrases={this.state.phrases} selectPhrase={this.selectPhrase} tabLabel="Question" />
           </ScrollableTabView>
         </View>
       </View>

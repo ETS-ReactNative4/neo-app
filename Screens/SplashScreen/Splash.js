@@ -2,10 +2,10 @@ import React, {
   Component,
 } from 'react';
 import {
-  View,
-  Text,
+  ImageBackground,
 } from 'react-native';
 import { NavigationActions } from 'react-navigation';
+import constants from "../../constants/constants";
 
 const resetAction = NavigationActions.reset({
   index: 0,
@@ -24,9 +24,11 @@ class Splash extends Component {
 
   render() {
     return(
-      <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-        <Text>SplashScreen</Text>
-      </View>
+      <ImageBackground
+        source={constants.starterBackground}
+        style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+
+      </ImageBackground>
     )
   }
 }
