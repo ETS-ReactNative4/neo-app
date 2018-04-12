@@ -46,10 +46,7 @@ const styles = StyleSheet.create({
     borderBottomColor: constants.shade4,
   },
   sectionName: {
-    fontFamily: constants.primaryRegular,
-    fontSize: 12,
-    lineHeight: 14,
-    fontWeight: "600",
+    ...constants.font13(constants.primarySemiBold),
     alignSelf: 'flex-end',
     color: constants.black2,
     paddingBottom: 13,
