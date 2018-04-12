@@ -8,6 +8,7 @@ import {
   Image,
   Text,
 } from 'react-native';
+import { isIphoneX } from 'react-native-iphone-x-helper'
 import constants from '../../constants/constants';
 import LoginButton from "./Components/LoginButton";
 import DrawerButton from "./Components/DrawerButton";
@@ -81,35 +82,37 @@ class Drawer extends Component {
     ];
 
     return(
-      <ScrollView style={styles.drawerContainer}>
+        <ScrollView style={styles.drawerContainer}>
 
-        <Image
-          style={styles.profileImage}
-          source={{uri: 'https://www.weact.org/wp-content/uploads/2016/10/Blank-profile.png'}}
-        />
-        <Text style={styles.userName}>Hi Anand!</Text>
+          <View style={styles.profileImageContainer}>
+            <Image
+              style={styles.profileImage}
+              source={{uri: 'https://www.weact.org/wp-content/uploads/2016/10/Blank-profile.png'}}
+            />
+          </View>
+          <Text style={styles.userName}>Hi Anand!</Text>
 
-        <LoginButton
-          text={'Login'}
-          action={() => {}}
-        />
+          <LoginButton
+            text={'Login'}
+            action={() => {}}
+          />
 
-        {
-          menuItems.map((item, index) => {
-            return (
-              <DrawerButton
-                key={index}
-                icon={item.icon}
-                text={item.text}
-                action={() => this.clickDrawerItem(index, item.screen)}
-                isActive={(index === this.state.activeIndex)}
-                info={item.info || null}
-              />
-            );
-          })
-        }
+          {
+            menuItems.map((item, index) => {
+              return (
+                <DrawerButton
+                  key={index}
+                  icon={item.icon}
+                  text={item.text}
+                  action={() => this.clickDrawerItem(index, item.screen)}
+                  isActive={(index === this.state.activeIndex)}
+                  info={item.info || null}
+                />
+              );
+            })
+          }
 
-      </ScrollView>
+        </ScrollView>
     )
   }
 }
@@ -118,11 +121,19 @@ const styles = StyleSheet.create({
   drawerContainer: {
     backgroundColor: constants.drawerBackgroundColor,
   },
-  profileImage: {
-    marginTop: 35,
+  profileImageContainer: {
+    overflow: 'hidden',
+    marginTop: isIphoneX ?70 :35,
     marginBottom: 5,
     alignSelf: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
     backgroundColor: 'white',
+    borderRadius: 32,
+    height: 64,
+    width: 64,
+  },
+  profileImage: {
     borderRadius: 32,
     height: 64,
     width: 64,

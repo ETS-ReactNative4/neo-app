@@ -17,6 +17,7 @@ import Drawer from "./Screens/Drawer/Drawer";
 import Tools from "./Screens/ToolsScreen/Tools";
 import CurrencyConverter from "./Screens/CurrencyConverterScreen/CurrencyConverter";
 import PhraseBook from "./Screens/PhraseBookScreen/PhraseBook";
+import PackingChecklist from "./Screens/PackingChecklistScreen/PackingChecklist";
 
 UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
 
@@ -30,8 +31,14 @@ const ToolStack = StackNavigator({
   PhraseBook: {
     screen: PhraseBook,
   },
+  PackingChecklist: {
+    screen: PackingChecklist,
+  },
 }, {
   initialRouteName: 'ToolHome',
+  navigationOptions: {
+    gesturesEnabled: false,
+  },
 });
 
 const HomeTabs = TabNavigator({
@@ -54,6 +61,7 @@ const HomeTabs = TabNavigator({
   tabBarComponent: TabBarBottom,
   tabBarPosition: 'bottom',
   initialRouteName: 'Tools',
+  swipeEnabled: false,
 });
 
 const HomeStack = StackNavigator({
