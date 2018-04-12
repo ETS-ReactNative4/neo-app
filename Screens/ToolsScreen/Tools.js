@@ -75,7 +75,7 @@ class Tools extends Component {
       {
         icon: constants.notificationIcon,
         text: `Packing Checklist`,
-        action: () => {},
+        action: () => this.props.navigation.navigate('PackingChecklist'),
       },
       {
         icon: constants.notificationIcon,
