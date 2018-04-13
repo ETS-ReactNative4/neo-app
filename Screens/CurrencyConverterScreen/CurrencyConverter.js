@@ -15,11 +15,13 @@ import {
 } from 'react-native';
 import CommonRate from "./Components/CommonRate";
 import constants from "../../constants/constants";
+import CurrencySelector from "./Components/CurrencySelector";
 
 class CurrencyConverter extends Component {
 
   static navigationOptions = {
     title: 'Currency Calculator',
+    tabBarVisible: false,
   };
 
   state = {
@@ -29,6 +31,7 @@ class CurrencyConverter extends Component {
     foreignCurrency: '',
     keyboardSpace: 0,
     isKeyboardVisible: false,
+    isSelectorActive: false,
   };
   keyboardDidShowListener = {};
   keyboardDidHideListener = {};
@@ -85,6 +88,18 @@ class CurrencyConverter extends Component {
     }
   };
 
+  openSelector = () => {
+    this.setState({
+      isSelectorActive: true,
+    });
+  };
+
+  closeSelector = () => {
+    this.setState({
+      isSelectorActive: false,
+    });
+  };
+
   render() {
 
     const currencyRates = [
@@ -120,9 +135,16 @@ class CurrencyConverter extends Component {
       },
     ];
 
-    return(
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss} style={styles.container}>
+    return [
+      <CurrencySelector
+        key={0}
+        isVisible={this.state.isSelectorActive}
+        onClose={this.closeSelector}
+      />
+      ,
+      <TouchableWithoutFeedback key={1} onPress={Keyboard.dismiss} style={styles.container}>
         <View style={styles.container}>
+
           {
             !this.state.isKeyboardVisible
             ?
@@ -157,10 +179,16 @@ class CurrencyConverter extends Component {
                     <Text style={styles.currentRateText}>{`1.00 EUR = 80.21 INR`}</Text>
                   </View>
               }
-              <View style={styles.outputInfoContainer}>
-                <Text style={styles.outputCurrencyName}>INR</Text>
-                <Image style={styles.outputFlagImage} source={constants.starterBackground}/>
-              </View>
+              <TouchableHighlight
+                onPress={this.openSelector}
+                underlayColor={'transparent'}
+                style={styles.outputInfoContainer}
+                >
+                <View style={styles.outputInfoContainer}>
+                  <Text style={styles.outputCurrencyName}>INR</Text>
+                  <Image style={styles.outputFlagImage} source={constants.starterBackground}/>
+                </View>
+              </TouchableHighlight>
             </View>
 
             <View style={[styles.inputContainer, {marginBottom: this.state.keyboardSpace}]}>
@@ -173,10 +201,10 @@ class CurrencyConverter extends Component {
                   underlineColorAndroid={'transparent'}
                 />
               </View>
-              <View style={styles.infoContainer}>
-                <Text style={styles.currencyName}>EUR</Text>
-                <Image style={styles.flagImage} source={constants.starterBackground}/>
-              </View>
+                <View style={styles.infoContainer}>
+                  <Text style={styles.currencyName}>EUR</Text>
+                  <Image style={styles.flagImage} source={constants.starterBackground}/>
+                </View>
             </View>
 
             <TouchableHighlight
@@ -198,7 +226,7 @@ class CurrencyConverter extends Component {
           </View>
         </View>
       </TouchableWithoutFeedback>
-    );
+    ];
   }
 }
 
