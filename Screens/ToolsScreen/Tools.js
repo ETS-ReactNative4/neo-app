@@ -62,7 +62,7 @@ class Tools extends Component {
       {
         icon: constants.notificationIcon,
         text: `Weather Forecast`,
-        action: () => {},
+        action: () => this.props.navigation.navigate('Weather'),
       },
     ];
 

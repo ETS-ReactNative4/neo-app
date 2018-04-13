@@ -18,6 +18,7 @@ import Tools from "./Screens/ToolsScreen/Tools";
 import CurrencyConverter from "./Screens/CurrencyConverterScreen/CurrencyConverter";
 import PhraseBook from "./Screens/PhraseBookScreen/PhraseBook";
 import PackingChecklist from "./Screens/PackingChecklistScreen/PackingChecklist";
+import Weather from "./Screens/WeatherScreen/Weather";
 
 UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
 
@@ -33,6 +34,9 @@ const ToolStack = StackNavigator({
   },
   PackingChecklist: {
     screen: PackingChecklist,
+  },
+  Weather: {
+    screen: Weather,
   },
 }, {
   initialRouteName: 'ToolHome',
