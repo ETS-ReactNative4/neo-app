@@ -13,9 +13,14 @@ import {
   Platform,
   LayoutAnimation,
 } from 'react-native';
+import {
+  SafeAreaView,
+} from 'react-navigation';
+import { isIphoneX } from 'react-native-iphone-x-helper';
 import CommonRate from "./Components/CommonRate";
 import constants from "../../constants/constants";
 import CurrencySelector from "./Components/CurrencySelector";
+import XSensorPlaceholder from "../../CommonComponents/XSensorPlaceholder/XSensorPlaceholder";
 
 class CurrencyConverter extends Component {
 
@@ -38,7 +43,9 @@ class CurrencyConverter extends Component {
 
   keyboardDidShow = e => {
     this.setState({
-      keyboardSpace: e.endCoordinates.height - constants.tabBarBottomHeight,
+      keyboardSpace: isIphoneX()
+        ? e.endCoordinates.height - constants.xSensorAreaHeight
+        : e.endCoordinates.height,
       isKeyboardVisible: true,
     });
   };
@@ -224,6 +231,13 @@ class CurrencyConverter extends Component {
             </TouchableHighlight>
 
           </View>
+          {
+            isIphoneX()
+            ?
+              <XSensorPlaceholder containerStyle={{backgroundColor: constants.shade5}}/>
+            :
+              null
+          }
         </View>
       </TouchableWithoutFeedback>
     ];
