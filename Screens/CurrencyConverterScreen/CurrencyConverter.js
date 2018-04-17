@@ -21,6 +21,7 @@ import CommonRate from "./Components/CommonRate";
 import constants from "../../constants/constants";
 import CurrencySelector from "./Components/CurrencySelector";
 import XSensorPlaceholder from "../../CommonComponents/XSensorPlaceholder/XSensorPlaceholder";
+import currencyConverter from "../../Services/CurrencyConversion/currencyConverter";
 
 class CurrencyConverter extends Component {
 
@@ -32,8 +33,8 @@ class CurrencyConverter extends Component {
   state = {
     nativeAmount: 0,
     foreignAmount: 0,
-    nativeCurrency: '',
-    foreignCurrency: '',
+    nativeCurrency: 'USDINR',
+    foreignCurrency: 'USDUSD',
     keyboardSpace: 0,
     isKeyboardVisible: false,
     isSelectorActive: false,
@@ -107,38 +108,54 @@ class CurrencyConverter extends Component {
     });
   };
 
+  swapCurrencies = () => {
+    this.setState({
+      nativeCurrency: this.state.foreignCurrency,
+      foreignCurrency: this.state.nativeCurrency,
+    });
+  };
+
+  selectCurrency = (currency) => {
+    this.setState({
+      foreignCurrency: currency,
+    });
+  };
+
   render() {
+
+    const foreignCurrency = this.state.foreignCurrency.substr(3);
+    const nativeCurrency = this.state.nativeCurrency.substr(3);
 
     const currencyRates = [
       {
-        foreignAmount: 22,
-        foreignCurrency: 'EUR',
-        nativeAmount: 1000,
-        nativeCurrency: 'INR',
+        foreignAmount: 5,
+        foreignCurrency: this.state.foreignCurrency.substr(3),
+        nativeAmount: currencyConverter(5, this.state.foreignCurrency, this.state.nativeCurrency),
+        nativeCurrency: this.state.nativeCurrency.substr(3),
+      },
+      {
+        foreignAmount: 10,
+        foreignCurrency: this.state.foreignCurrency.substr(3),
+        nativeAmount: currencyConverter(10, this.state.foreignCurrency, this.state.nativeCurrency),
+        nativeCurrency: this.state.nativeCurrency.substr(3),
       },
       {
         foreignAmount: 22,
-        foreignCurrency: 'EUR',
-        nativeAmount: 1000,
-        nativeCurrency: 'INR',
+        foreignCurrency: this.state.foreignCurrency.substr(3),
+        nativeAmount: currencyConverter(22, this.state.foreignCurrency, this.state.nativeCurrency),
+        nativeCurrency: this.state.nativeCurrency.substr(3),
       },
       {
-        foreignAmount: 22,
-        foreignCurrency: 'EUR',
-        nativeAmount: 1000,
-        nativeCurrency: 'INR',
+        foreignAmount: 50,
+        foreignCurrency: this.state.foreignCurrency.substr(3),
+        nativeAmount: currencyConverter(50, this.state.foreignCurrency, this.state.nativeCurrency),
+        nativeCurrency: this.state.nativeCurrency.substr(3),
       },
       {
-        foreignAmount: 22,
-        foreignCurrency: 'EUR',
-        nativeAmount: 1000,
-        nativeCurrency: 'INR',
-      },
-      {
-        foreignAmount: 22,
-        foreignCurrency: 'EUR',
-        nativeAmount: 1000,
-        nativeCurrency: 'INR',
+        foreignAmount: 130,
+        foreignCurrency: this.state.foreignCurrency.substr(3),
+        nativeAmount: currencyConverter(130, this.state.foreignCurrency, this.state.nativeCurrency),
+        nativeCurrency: this.state.nativeCurrency.substr(3),
       },
     ];
 
@@ -147,6 +164,7 @@ class CurrencyConverter extends Component {
         key={0}
         isVisible={this.state.isSelectorActive}
         onClose={this.closeSelector}
+        selectCurrency={this.selectCurrency}
       />
       ,
       <TouchableWithoutFeedback key={1} onPress={Keyboard.dismiss} style={styles.container}>
@@ -178,12 +196,14 @@ class CurrencyConverter extends Component {
                 this.state.foreignAmount
                 ?
                   <View style={styles.outputTextBoxContainer}>
-                    <Text style={styles.outputText}>{this.state.nativeAmount}</Text>
+                    <Text style={styles.outputText}>{
+                      currencyConverter(this.state.foreignAmount, this.state.nativeCurrency, this.state.foreignCurrency)
+                    }</Text>
                   </View>
                 :
                   <View style={styles.currentRateInfo}>
                     <Text style={styles.currentRateHeading}>{`Today's Conversion Rate`}</Text>
-                    <Text style={styles.currentRateText}>{`1.00 EUR = 80.21 INR`}</Text>
+                    <Text style={styles.currentRateText}>{`1.00 ${nativeCurrency} = ${currencyConverter(1, this.state.nativeCurrency, this.state.foreignCurrency)} ${foreignCurrency}`}</Text>
                   </View>
               }
               <TouchableHighlight
@@ -192,7 +212,7 @@ class CurrencyConverter extends Component {
                 style={styles.outputInfoContainer}
                 >
                 <View style={styles.outputInfoContainer}>
-                  <Text style={styles.outputCurrencyName}>INR</Text>
+                  <Text style={styles.outputCurrencyName}>{this.state.foreignCurrency.substr(3)}</Text>
                   <Image style={styles.outputFlagImage} source={constants.starterBackground}/>
                 </View>
               </TouchableHighlight>
@@ -209,14 +229,14 @@ class CurrencyConverter extends Component {
                 />
               </View>
                 <View style={styles.infoContainer}>
-                  <Text style={styles.currencyName}>EUR</Text>
+                  <Text style={styles.currencyName}>{this.state.nativeCurrency.substr(3)}</Text>
                   <Image style={styles.flagImage} source={constants.starterBackground}/>
                 </View>
             </View>
 
             <TouchableHighlight
               underlayColor={constants.shade2}
-              onPress={() => {}}
+              onPress={this.swapCurrencies}
               style={[styles.swapButton, {
                 bottom: this.state.isKeyboardVisible
                   ?

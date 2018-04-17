@@ -20,32 +20,60 @@ import SectionHeader from "../../../CommonComponents/SectionHeader/SectionHeader
 
 const CurrencyRow = ({image, text, action}) => {
   return (
-    <TouchableHighlight underlayColor={'transparent'} action={()=>{}} style={styles.currencyRowTouchable}>
+    <TouchableHighlight underlayColor={'transparent'} onPress={action} style={styles.currencyRowTouchable}>
       <View style={styles.currencyRowContainer}>
-        <Image style={styles.currencyRowFlagImage} source={constants.starterBackground}/>
-        <Text style={styles.currencyName}>{`EUR - EURO`}</Text>
+        <Image style={styles.currencyRowFlagImage} source={image}/>
+        <Text style={styles.currencyName}>{text.substr(3)}</Text>
       </View>
     </TouchableHighlight>
   );
 };
 
-// CurrencyRow.propTypes = {
-//   image: PropTypes.oneOfType([
-//     PropTypes.number,
-//     PropTypes.object,
-//   ]).isRequired,
-//   text: PropTypes.string.isRequired,
-//   action: PropTypes.func.isRequired,
-// };
+CurrencyRow.propTypes = {
+  image: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.object,
+  ]).isRequired,
+  text: PropTypes.string.isRequired,
+  action: PropTypes.func.isRequired,
+};
 
 class CurrencySelector extends Component {
 
   static propTypes = {
     isVisible: PropTypes.bool.isRequired,
     onClose: PropTypes.func.isRequired,
+    selectCurrency: PropTypes.func.isRequired,
   };
 
   render() {
+
+    const flagImage = constants.starterBackground;
+
+    const selectCurrency = currency => {
+      debugger;
+      this.props.selectCurrency(currency);
+      this.props.onClose();
+    };
+
+    const currencies = [
+      {
+        image: flagImage,
+        name: 'USDEUR',
+        action: () => selectCurrency('USDEUR'),
+      },
+      {
+        image: flagImage,
+        name: 'USDINR',
+        action: () => selectCurrency('USDINR'),
+      },
+      {
+        image: flagImage,
+        name: 'USDJPY',
+        action: () => selectCurrency('USDJPY'),
+      },
+    ];
+
     return(
       <Modal
         animationType="slide"
@@ -75,15 +103,33 @@ class CurrencySelector extends Component {
             </View>
             <ScrollView style={[styles.optionsContainer, {marginBottom: isIphoneX() ?30: 0}]}>
 
-              <CurrencyRow/>
-              <CurrencyRow/>
-              <CurrencyRow/>
+              {
+                currencies.map((currency, index) => {
+                  return (
+                    <CurrencyRow
+                      key={index}
+                      image={currency.image}
+                      text={currency.name}
+                      action={currency.action}
+                    />
+                  )
+                })
+              }
 
               <SectionHeader sectionName={'MORE CURRENCIES'} containerStyle={{marginTop: 40, marginBottom: 0}}/>
 
-              <CurrencyRow/>
-              <CurrencyRow/>
-              <CurrencyRow/>
+              {
+                currencies.map((currency, index) => {
+                  return (
+                    <CurrencyRow
+                      key={index}
+                      image={currency.image}
+                      text={currency.name}
+                      action={currency.action}
+                    />
+                  )
+                })
+              }
 
             </ScrollView>
           </View>
