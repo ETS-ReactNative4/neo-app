@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { View, Text, StyleSheet, Platform } from "react-native";
 import { AreaChart } from "react-native-svg-charts";
+import { responsiveWidth } from "react-native-responsive-dimensions";
 import { Text as SText, Defs, LinearGradient, Stop } from "react-native-svg";
 import * as shape from "d3-shape";
 import constants from "../../../constants/constants";
@@ -15,12 +16,24 @@ class WeatherChart extends Component {
       this.setState({
         showDecorators: true
       });
-    }, 100);
+    }, 300);
   }
 
   render() {
-    const data = [21, 20, 27, 24, 22, 21, 18, 21];
-    const time = ["8AM", "10AM", "12PM", "2PM", "4PM", "6PM", "8PM", "10PM"];
+    const data = [21, 20, 27, 24, 22, 21, 18, 21, 0];
+    const time = [
+      "8AM",
+      "10AM",
+      "12PM",
+      "2PM",
+      "4PM",
+      "6PM",
+      "8PM",
+      "10PM",
+      "11PM"
+    ];
+
+    const chartColor = "rgba(28,173,69,1)";
 
     const GradientIos = ({ index }) => (
       <Defs key={index}>
@@ -31,8 +44,10 @@ class WeatherChart extends Component {
           x2={"0%"}
           y2={"100%"}
         >
-          <Stop offset={"0%"} stopColor={"rgb(255,215,0)"} stopOpacity={0.8} />
-          <Stop offset={"100%"} stopColor={"rgb(255,215,0)"} stopOpacity={0} />
+          <Stop offset={"0%"} stopColor={chartColor} stopOpacity={0.3} />
+          <Stop offset={"80%"} stopColor={chartColor} stopOpacity={0.2} />
+          <Stop offset={"95%"} stopColor={chartColor} stopOpacity={0.05} />
+          <Stop offset={"100%"} stopColor={chartColor} stopOpacity={0} />
         </LinearGradient>
       </Defs>
     );
@@ -46,24 +61,29 @@ class WeatherChart extends Component {
           x2={"0%"}
           y2={"100%"}
         >
-          <Stop offset={"0%"} stopColor={"rgb(255,215,0)"} stopOpacity={0.8} />
-          <Stop offset={"10%"} stopColor={"rgb(255,215,0)"} stopOpacity={0.4} />
-          <Stop offset={"30%"} stopColor={"rgb(255,215,0)"} stopOpacity={0.2} />
-          <Stop offset={"40%"} stopColor={"rgb(255,215,0)"} stopOpacity={0} />
+          <Stop offset={"0%"} stopColor={chartColor} stopOpacity={0.3} />
+          <Stop offset={"50%"} stopColor={chartColor} stopOpacity={0.25} />
+          <Stop offset={"80%"} stopColor={chartColor} stopOpacity={0.2} />
+          <Stop offset={"100%"} stopColor={chartColor} stopOpacity={0} />
         </LinearGradient>
       </Defs>
     );
 
     const DecoratorX = ({ x, y, data }) => {
       return data.map((value, index) => {
-        if (index === 0 || index === data.length - 1) return null;
+        if (
+          index === 0 ||
+          index === data.length - 1 ||
+          index === data.length - 2
+        )
+          return null;
 
         return (
           <SText
             fill={this.state.showDecorators ? constants.black2 : "transparent"}
             stroke="transparent"
             fontSize="11"
-            fontWeight="bold"
+            fontWeight="300"
             textAnchor="middle"
             key={index}
             x={x(index)}
@@ -77,18 +97,23 @@ class WeatherChart extends Component {
 
     const DecoratorY = ({ x, y, data }) => {
       return data.map((value, index) => {
-        if (index === 0 || index === data.length - 1) return null;
+        if (
+          index === 0 ||
+          index === data.length - 1 ||
+          index === data.length - 2
+        )
+          return null;
 
         return (
           <SText
             fill={this.state.showDecorators ? constants.black2 : "transparent"}
             stroke="transparent"
             fontSize="11"
-            fontWeight="bold"
+            fontWeight="300"
             textAnchor="middle"
             key={index}
             x={x(index)}
-            y={198}
+            y={165}
           >
             {time[index]}
           </SText>
@@ -99,7 +124,7 @@ class WeatherChart extends Component {
     return (
       <View>
         <AreaChart
-          style={{ height: 200 }}
+          style={{ height: 200, width: responsiveWidth(110) }}
           data={data}
           contentInset={{ top: 30, bottom: 30, left: 0, right: 0 }}
           curve={shape.curveNatural}

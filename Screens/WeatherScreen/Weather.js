@@ -28,7 +28,7 @@ class Weather extends Component {
     return (
       <ScrollView style={styles.weatherContainer}>
         <WeatherCard
-          containerStyle={{ marginHorizontal: 24 }}
+          containerStyle={{ marginHorizontal: 24, height: 72 }}
           {...this.state.selectedWeatherInfo}
         />
         <WeatherChart />

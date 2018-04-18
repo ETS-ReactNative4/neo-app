@@ -16,9 +16,15 @@ const WeatherCard = ({
   return (
     <View style={[styles.weatherCardContainer, containerStyle]}>
       <View style={styles.textContainer}>
-        <Text style={styles.locationText}>{location}</Text>
-        <Text style={styles.dateText}>{date}</Text>
-        <Text style={styles.descriptionText}>{description}</Text>
+        <View style={styles.textWrapper}>
+          <Text style={styles.locationText}>{location}</Text>
+        </View>
+        <View style={styles.textWrapper}>
+          <Text style={styles.dateText}>{date}</Text>
+        </View>
+        <View style={styles.textWrapper}>
+          <Text style={styles.descriptionText}>{description}</Text>
+        </View>
       </View>
       <View style={styles.imageContainer}>
         <Text style={styles.temperature}>{temperature}</Text>
@@ -44,7 +50,15 @@ const styles = StyleSheet.create({
     height: 72,
     flexDirection: "row"
   },
-  textContainer: {},
+  textWrapper: {
+    height: 24,
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  textContainer: {
+    justifyContent: "center",
+    alignItems: "flex-start"
+  },
   locationText: {
     ...constants.font20(constants.primaryLight),
     color: constants.black1
