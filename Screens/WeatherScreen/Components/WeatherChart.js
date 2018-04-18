@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Platform } from "react-native";
 import { AreaChart } from "react-native-svg-charts";
 import { Text as SText, Defs, LinearGradient, Stop } from "react-native-svg";
 import * as shape from "d3-shape";
@@ -22,7 +22,7 @@ class WeatherChart extends Component {
     const data = [21, 20, 27, 24, 22, 21, 18, 21];
     const time = ["8AM", "10AM", "12PM", "2PM", "4PM", "6PM", "8PM", "10PM"];
 
-    const Gradient = ({ index }) => (
+    const GradientIos = ({ index }) => (
       <Defs key={index}>
         <LinearGradient
           id={"gradient"}
@@ -33,6 +33,23 @@ class WeatherChart extends Component {
         >
           <Stop offset={"0%"} stopColor={"rgb(255,215,0)"} stopOpacity={0.8} />
           <Stop offset={"100%"} stopColor={"rgb(255,215,0)"} stopOpacity={0} />
+        </LinearGradient>
+      </Defs>
+    );
+
+    const GradientAndroid = ({ index }) => (
+      <Defs key={index}>
+        <LinearGradient
+          id={"gradient"}
+          x1={"0%"}
+          y={"0%"}
+          x2={"0%"}
+          y2={"100%"}
+        >
+          <Stop offset={"0%"} stopColor={"rgb(255,215,0)"} stopOpacity={0.8} />
+          <Stop offset={"10%"} stopColor={"rgb(255,215,0)"} stopOpacity={0.4} />
+          <Stop offset={"30%"} stopColor={"rgb(255,215,0)"} stopOpacity={0.2} />
+          <Stop offset={"40%"} stopColor={"rgb(255,215,0)"} stopOpacity={0} />
         </LinearGradient>
       </Defs>
     );
@@ -90,7 +107,7 @@ class WeatherChart extends Component {
         >
           <DecoratorX />
           <DecoratorY />
-          <Gradient />
+          {Platform.OS === "ios" ? <GradientIos /> : <GradientAndroid />}
         </AreaChart>
       </View>
     );
