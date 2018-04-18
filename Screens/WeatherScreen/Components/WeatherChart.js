@@ -7,13 +7,13 @@ import constants from "../../../constants/constants";
 
 class WeatherChart extends Component {
   state = {
-    uselessState: ""
+    showDecorators: false
   };
 
   componentDidMount() {
     setTimeout(() => {
       this.setState({
-        uselessState: 200
+        showDecorators: true
       });
     }, 100);
   }
@@ -28,7 +28,7 @@ class WeatherChart extends Component {
 
         return (
           <SText
-            fill={constants.black2}
+            fill={this.state.showDecorators ? constants.black2 : "transparent"}
             stroke="transparent"
             fontSize="11"
             fontWeight="bold"
@@ -49,7 +49,7 @@ class WeatherChart extends Component {
 
         return (
           <SText
-            fill={constants.black2}
+            fill={this.state.showDecorators ? constants.black2 : "transparent"}
             stroke="transparent"
             fontSize="11"
             fontWeight="bold"
