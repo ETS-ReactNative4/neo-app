@@ -6,17 +6,29 @@ import * as shape from "d3-shape";
 import constants from "../../../constants/constants";
 
 class WeatherChart extends Component {
+  state = {
+    uselessState: ""
+  };
+
+  componentDidMount() {
+    setTimeout(() => {
+      this.setState({
+        uselessState: 200
+      });
+    }, 100);
+  }
+
   render() {
     const data = [21, 20, 27, 24, 22, 21, 18, 21];
     const time = ["8AM", "10AM", "12PM", "2PM", "4PM", "6PM", "8PM", "10PM"];
 
-    const Decorator = ({ x, y, data }) => {
+    const DecoratorX = ({ x, y, data }) => {
       return data.map((value, index) => {
         if (index === 0 || index === data.length - 1) return null;
 
-        return [
+        return (
           <SText
-            fill="purple"
+            fill={constants.black2}
             stroke="transparent"
             fontSize="11"
             fontWeight="bold"
@@ -27,7 +39,28 @@ class WeatherChart extends Component {
           >
             {value}
           </SText>
-        ];
+        );
+      });
+    };
+
+    const DecoratorY = ({ x, y, data }) => {
+      return data.map((value, index) => {
+        if (index === 0 || index === data.length - 1) return null;
+
+        return (
+          <SText
+            fill={constants.black2}
+            stroke="transparent"
+            fontSize="11"
+            fontWeight="bold"
+            textAnchor="middle"
+            key={index}
+            x={x(index)}
+            y={198}
+          >
+            {time[index]}
+          </SText>
+        );
       });
     };
 
@@ -40,17 +73,9 @@ class WeatherChart extends Component {
           curve={shape.curveNatural}
           svg={{ fill: "rgba(134, 65, 244, 0.8)" }}
         >
-          <Decorator />
+          <DecoratorX />
+          <DecoratorY />
         </AreaChart>
-        {/*
-        <View style={styles.xAxis}>
-          {time.map((value, index) => (
-            <Text style={styles.xAxisText} key={index}>
-              {value}
-            </Text>
-          ))}
-        </View>
-        */}
       </View>
     );
   }
