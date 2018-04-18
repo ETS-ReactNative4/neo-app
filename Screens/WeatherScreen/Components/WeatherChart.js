@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { View, Text, StyleSheet } from "react-native";
-import { AreaChart, Grid } from "react-native-svg-charts";
-import { Circle, Text as SText } from "react-native-svg";
+import { AreaChart } from "react-native-svg-charts";
+import { Text as SText, Defs, LinearGradient, Stop } from "react-native-svg";
 import * as shape from "d3-shape";
 import constants from "../../../constants/constants";
 
@@ -21,6 +21,21 @@ class WeatherChart extends Component {
   render() {
     const data = [21, 20, 27, 24, 22, 21, 18, 21];
     const time = ["8AM", "10AM", "12PM", "2PM", "4PM", "6PM", "8PM", "10PM"];
+
+    const Gradient = ({ index }) => (
+      <Defs key={index}>
+        <LinearGradient
+          id={"gradient"}
+          x1={"0%"}
+          y={"0%"}
+          x2={"0%"}
+          y2={"100%"}
+        >
+          <Stop offset={"0%"} stopColor={"rgb(255,215,0)"} stopOpacity={0.8} />
+          <Stop offset={"100%"} stopColor={"rgb(255,215,0)"} stopOpacity={0} />
+        </LinearGradient>
+      </Defs>
+    );
 
     const DecoratorX = ({ x, y, data }) => {
       return data.map((value, index) => {
@@ -71,10 +86,11 @@ class WeatherChart extends Component {
           data={data}
           contentInset={{ top: 30, bottom: 30, left: 0, right: 0 }}
           curve={shape.curveNatural}
-          svg={{ fill: "rgba(134, 65, 244, 0.8)" }}
+          svg={{ fill: "url(#gradient)" }}
         >
           <DecoratorX />
           <DecoratorY />
+          <Gradient />
         </AreaChart>
       </View>
     );
