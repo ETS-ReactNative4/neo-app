@@ -8,13 +8,13 @@ import constants from "../../../constants/constants";
 class WeatherChart extends Component {
   render() {
     const data = [21, 20, 27, 24, 22, 21, 18, 21];
-    const time = ["10AM", "12PM", "2PM", "4PM", "6PM", "8PM"];
+    const time = ["8AM", "10AM", "12PM", "2PM", "4PM", "6PM", "8PM", "10PM"];
 
     const Decorator = ({ x, y, data }) => {
       return data.map((value, index) => {
         if (index === 0 || index === data.length - 1) return null;
 
-        return (
+        return [
           <SText
             fill="purple"
             stroke="transparent"
@@ -27,7 +27,7 @@ class WeatherChart extends Component {
           >
             {value}
           </SText>
-        );
+        ];
       });
     };
 
@@ -42,6 +42,7 @@ class WeatherChart extends Component {
         >
           <Decorator />
         </AreaChart>
+        {/*
         <View style={styles.xAxis}>
           {time.map((value, index) => (
             <Text style={styles.xAxisText} key={index}>
@@ -49,6 +50,7 @@ class WeatherChart extends Component {
             </Text>
           ))}
         </View>
+        */}
       </View>
     );
   }
