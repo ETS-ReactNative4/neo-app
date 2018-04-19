@@ -2,11 +2,9 @@ import {
   StackNavigator,
   DrawerNavigator,
   TabNavigator,
-  TabBarBottom,
-} from 'react-navigation';
-import {
-  UIManager,
-} from 'react-native';
+  TabBarBottom
+} from "react-navigation";
+import { UIManager } from "react-native";
 import Home from "./Screens/HomeScreen/Home";
 import Starter from "./Screens/StartingScreen/Starter";
 import Splash from "./Screens/SplashScreen/Splash";
@@ -20,111 +18,124 @@ import PhraseBook from "./Screens/PhraseBookScreen/PhraseBook";
 import PackingChecklist from "./Screens/PackingChecklistScreen/PackingChecklist";
 import Weather from "./Screens/WeatherScreen/Weather";
 
-UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
+UIManager.setLayoutAnimationEnabledExperimental &&
+  UIManager.setLayoutAnimationEnabledExperimental(true);
 
-const ToolStack = StackNavigator({
-  ToolHome: {
-    screen: Tools,
+const ToolStack = StackNavigator(
+  {
+    ToolHome: {
+      screen: Tools
+    },
+    CurrencyConverter: {
+      screen: CurrencyConverter
+    },
+    PhraseBook: {
+      screen: PhraseBook
+    },
+    PackingChecklist: {
+      screen: PackingChecklist
+    },
+    Weather: {
+      screen: Weather
+    }
   },
-  CurrencyConverter: {
-    screen: CurrencyConverter,
-  },
-  PhraseBook: {
-    screen: PhraseBook,
-  },
-  PackingChecklist: {
-    screen: PackingChecklist,
-  },
-  Weather: {
-    screen: Weather,
-  },
-}, {
-  initialRouteName: 'ToolHome',
-  navigationOptions: {
-    gesturesEnabled: false,
-  },
-});
+  {
+    initialRouteName: "ToolHome",
+    navigationOptions: {
+      gesturesEnabled: false
+    }
+  }
+);
 
-const HomeTabs = TabNavigator({
-  TripFeed: {
-    screen: Home,
+const HomeTabs = TabNavigator(
+  {
+    TripFeed: {
+      screen: Home
+    },
+    Bookings: {
+      screen: Home
+    },
+    Chat: {
+      screen: Home
+    },
+    Tools: {
+      screen: ToolStack
+    },
+    Journal: {
+      screen: Home
+    }
   },
-  Bookings: {
-    screen: Home,
-  },
-  Chat: {
-    screen: Home,
-  },
-  Tools: {
-    screen: ToolStack,
-  },
-  Journal: {
-    screen: Home,
-  },
-}, {
-  tabBarComponent: TabBarBottom,
-  tabBarPosition: 'bottom',
-  initialRouteName: 'Tools',
-  swipeEnabled: false,
-});
+  {
+    tabBarComponent: TabBarBottom,
+    tabBarPosition: "bottom",
+    initialRouteName: "Tools",
+    swipeEnabled: false
+  }
+);
 
-const HomeStack = StackNavigator({
-  Splash: {
-    screen: Splash,
-    navigationOptions: ({navigation}) => ({
-      drawerLockMode: 'locked-closed'
-    })
+const HomeStack = StackNavigator(
+  {
+    Splash: {
+      screen: Splash,
+      navigationOptions: ({ navigation }) => ({
+        drawerLockMode: "locked-closed"
+      })
+    },
+    Starter: {
+      screen: Starter,
+      navigationOptions: ({ navigation }) => ({
+        drawerLockMode: "locked-closed"
+      })
+    },
+    AppHome: {
+      screen: HomeTabs
+    },
+    Otp: {
+      screen: Otp
+    },
+    NewAccount: {
+      screen: NewAccount
+    }
   },
-  Starter: {
-    screen: Starter,
-    navigationOptions: ({navigation}) => ({
-      drawerLockMode: 'locked-closed'
-    })
-  },
-  AppHome: {
-    screen: HomeTabs,
-  },
-  Otp: {
-    screen: Otp,
-  },
-  NewAccount: {
-    screen: NewAccount,
-  },
-}, {
-  initialRouteName: 'AppHome',
-  navigationOptions: {
-    gesturesEnabled: false,
-    header: null,
-  },
-});
+  {
+    initialRouteName: "Splash",
+    navigationOptions: {
+      gesturesEnabled: false,
+      header: null
+    }
+  }
+);
 
-const App = DrawerNavigator({
-  Home: {
-    screen: HomeStack,
+const App = DrawerNavigator(
+  {
+    Home: {
+      screen: HomeStack
+    },
+    Notifications: {
+      screen: Home
+    },
+    Payments: {
+      screen: Home
+    },
+    SavedItineraries: {
+      screen: Home
+    },
+    YourBookings: {
+      screen: Home
+    },
+    Account: {
+      screen: Home
+    },
+    Support: {
+      screen: Home
+    },
+    About: {
+      screen: Home
+    }
   },
-  Notifications: {
-    screen: Home,
-  },
-  Payments: {
-    screen: Home,
-  },
-  SavedItineraries: {
-    screen: Home,
-  },
-  YourBookings: {
-    screen: Home,
-  },
-  Account: {
-    screen: Home,
-  },
-  Support: {
-    screen: Home,
-  },
-  About: {
-    screen: Home,
-  },
-}, {
-  contentComponent: Drawer,
-});
+  {
+    contentComponent: Drawer
+  }
+);
 
 export default App;

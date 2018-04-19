@@ -1,11 +1,10 @@
 const pallete1 = {
   firstColor: `rgba(255, 40, 114, 1)`,
 
-  firstColorAlpha: alpha => `rgba(255, 87, 109, ${alpha})`,
+  firstColorAlpha: alpha => `rgba(255, 87, 109, ${alpha})`
 };
 
 const greyPallete = {
-
   black1: `rgba(44, 47, 66, 1)`,
   black2: `rgba(83, 87, 109, 1)`,
 
@@ -13,27 +12,25 @@ const greyPallete = {
   shade2: `rgba(170, 170, 170, 1)`,
   shade3: `rgba(204, 204, 204, 1)`,
   shade4: `rgba(221, 221, 221, 1)`,
-  shade5: `rgba(239, 239, 239, 1)`,
-
+  shade5: `rgba(239, 239, 239, 1)`
 };
 
 const pallete2 = {
+  firstColor: `rgba(47,209,93,1)`,
 
+  firstColorAlpha: alpha => `rgba(47, 209, 93, ${alpha})`
 };
 
-const pallete3 = {
-
-};
+const pallete3 = {};
 
 const colorPallete = {
-
-  ...pallete1,
-  // ...pallete2,
+  // ...pallete1,
+  ...pallete2,
   // ...pallete3,
 
   ...greyPallete,
-  appBackgroundColor: 'white',
-  drawerBackgroundColor: 'rgba(239,239,239,1)',
+  appBackgroundColor: "white",
+  drawerBackgroundColor: "rgba(239,239,239,1)"
 };
 
 export default colorPallete;
