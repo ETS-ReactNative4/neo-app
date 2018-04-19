@@ -17,6 +17,7 @@ import CurrencyConverter from "./Screens/CurrencyConverterScreen/CurrencyConvert
 import PhraseBook from "./Screens/PhraseBookScreen/PhraseBook";
 import PackingChecklist from "./Screens/PackingChecklistScreen/PackingChecklist";
 import Weather from "./Screens/WeatherScreen/Weather";
+import MobileNumber from "./Screens/MobileNumberScreen/MobileNumber";
 
 UIManager.setLayoutAnimationEnabledExperimental &&
   UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -90,6 +91,9 @@ const HomeStack = StackNavigator(
     AppHome: {
       screen: HomeTabs
     },
+    MobileNumber: {
+      screen: MobileNumber
+    },
     Otp: {
       screen: Otp
     },
@@ -100,8 +104,7 @@ const HomeStack = StackNavigator(
   {
     initialRouteName: "Splash",
     navigationOptions: {
-      gesturesEnabled: false,
-      header: null
+      gesturesEnabled: false
     }
   }
 );
