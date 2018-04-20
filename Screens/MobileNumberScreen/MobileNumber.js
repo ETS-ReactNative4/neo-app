@@ -75,11 +75,13 @@ class MobileNumber extends Component {
         <View style={styles.headerTextWrapper}>
           <Text style={styles.headerText}>{`Verify your mobile number.`}</Text>
         </View>
+
         <View style={styles.infoTextWrapper}>
           <Text
             style={styles.infoText}
           >{`So that we can find bookings that are linked to your mobile number.`}</Text>
         </View>
+
         <View style={styles.mobileNumberBox}>
           <View style={styles.countryCodeBox}>
             <View style={styles.countryCodeTextWrapper}>
@@ -106,6 +108,7 @@ class MobileNumber extends Component {
           </View>
         </View>
       </View>,
+
       <View key={1}>
         <KeyboardAvoidingView
           behavior="padding"
@@ -213,6 +216,10 @@ const styles = StyleSheet.create({
     height: 40,
     backgroundColor: "rgba(239,249,242,1)",
     justifyContent: "center"
+  },
+  otpBox: {
+    height: 60,
+    backgroundColor: "red"
   }
 });
 
