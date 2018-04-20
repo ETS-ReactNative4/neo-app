@@ -18,6 +18,7 @@ import SimpleButton from "../../CommonComponents/SimpleButton/SimpleButton";
 import OtpInput from "../../CommonComponents/OtpInput/OtpInput";
 import NextBar from "./Components/NextBar";
 import OtpBar from "./Components/OtpBar";
+import YourBookings from "../YourBookingsScreen/YourBookings";
 
 class MobileNumber extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -63,7 +64,9 @@ class MobileNumber extends Component {
     this.setState({ otp });
   };
 
-  verifyOtp = () => {};
+  verifyOtp = () => {
+    this.props.navigation.navigate("YourBookings");
+  };
 
   resendOtp = () => {};
 
@@ -128,18 +131,21 @@ class MobileNumber extends Component {
           onComplete={this.verifyOtp}
         />
       </View>,
+
       <OtpBar
         key={1}
         keyboardSpace={this.state.keyboardSpace}
         resendOtp={this.resendOtp}
         verifyOtp={this.verifyOtp}
-      />,
+      />
 
+      /*
       <NextBar
         key={2}
         onClickNext={() => {}}
         keyboardSpace={this.state.keyboardSpace}
       />
+      */
     ];
   }
 }

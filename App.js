@@ -18,6 +18,7 @@ import PhraseBook from "./Screens/PhraseBookScreen/PhraseBook";
 import PackingChecklist from "./Screens/PackingChecklistScreen/PackingChecklist";
 import Weather from "./Screens/WeatherScreen/Weather";
 import MobileNumber from "./Screens/MobileNumberScreen/MobileNumber";
+import YourBookings from "./Screens/YourBookingsScreen/YourBookings";
 
 UIManager.setLayoutAnimationEnabledExperimental &&
   UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -91,11 +92,23 @@ const HomeStack = StackNavigator(
     AppHome: {
       screen: HomeTabs
     },
+    YourBookings: {
+      screen: YourBookings,
+      navigationOptions: ({ navigation }) => ({
+        drawerLockMode: "locked-closed"
+      })
+    },
     MobileNumber: {
-      screen: MobileNumber
+      screen: MobileNumber,
+      navigationOptions: ({ navigation }) => ({
+        drawerLockMode: "locked-closed"
+      })
     },
     Otp: {
-      screen: Otp
+      screen: Otp,
+      navigationOptions: ({ navigation }) => ({
+        drawerLockMode: "locked-closed"
+      })
     },
     NewAccount: {
       screen: NewAccount
