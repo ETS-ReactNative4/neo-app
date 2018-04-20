@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import constants from "../../constants/constants";
 import StarterButton from "./Components/StarterButton";
+import { isIphoneX } from "react-native-iphone-x-helper";
 
 class Starter extends Component {
   static navigationOptions = {
@@ -37,6 +38,7 @@ class Starter extends Component {
               color={constants.firstColor}
               underlayColor={constants.firstColorAlpha(0.7)}
               action={this.clickedBooking}
+              containerStyle={{ marginRight: 8 }}
             />
             <StarterButton
               text={`Plan a vacation`}
@@ -47,7 +49,7 @@ class Starter extends Component {
             />
           </View>
           <View style={styles.textRow}>
-            <View style={styles.textWrapper}>
+            <View style={[styles.textWrapper, { marginRight: 8 }]}>
               <Text style={styles.infoText}>
                 View the trips you have booked or have been invited to join.
               </Text>
@@ -73,14 +75,15 @@ const styles = StyleSheet.create({
   buttonRow: {
     flexDirection: "row",
     alignItems: "flex-end",
-    justifyContent: "space-around",
+    justifyContent: "center",
     flexWrap: "wrap"
   },
   textRow: {
     flexDirection: "row",
     alignItems: "flex-end",
-    justifyContent: "space-around",
-    flexWrap: "wrap"
+    justifyContent: "center",
+    flexWrap: "wrap",
+    marginBottom: isIphoneX() ? 0 : 24
   },
   textWrapper: {
     marginTop: 8,
