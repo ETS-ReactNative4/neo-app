@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, TextInput, StyleSheet, Platform } from "react-native";
+import { View, TextInput, StyleSheet, Platform, Text } from "react-native";
 import constants from "../../constants/constants";
 import PropTypes from "prop-types";
 
@@ -32,34 +32,45 @@ class OtpInput extends Component {
     if (!containerStyle) containerStyle = {};
 
     return (
-      <View style={[styles.otpContainer, containerStyle]}>
-        {otp.map((value, index) => {
-          return (
-            <View style={styles.inputWrapper} key={index}>
-              <TextInput
-                ref={`input_${index}`}
-                style={styles.inputField}
-                placeholder={"*"}
-                value={value}
-                maxLength={1}
-                onChangeText={value => {
-                  this.props.onEdit(value, index);
-                  this.moveFocus(value, index);
-                }}
-                underlineColorAndroid={"transparent"}
-                keyboardType={"phone-pad"}
-              />
-            </View>
-          );
-        })}
+      <View style={[styles.container, containerStyle]}>
+        <Text style={styles.infoText}>ENTER YOUR OTP</Text>
+        <View style={styles.otpContainer}>
+          {otp.map((value, index) => {
+            return (
+              <View style={styles.inputWrapper} key={index}>
+                <TextInput
+                  ref={`input_${index}`}
+                  style={styles.inputField}
+                  placeholder={"*"}
+                  value={value}
+                  maxLength={1}
+                  onChangeText={value => {
+                    this.props.onEdit(value, index);
+                    this.moveFocus(value, index);
+                  }}
+                  underlineColorAndroid={"transparent"}
+                  keyboardType={"phone-pad"}
+                />
+              </View>
+            );
+          })}
+        </View>
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  otpContainer: {
+  container: {
     marginTop: 24,
+    paddingHorizontal: 24
+  },
+  infoText: {
+    color: "rgba(83,87,109,1)",
+    marginBottom: 16,
+    ...constants.font13(constants.primaryLight)
+  },
+  otpContainer: {
     ...Platform.select({
       android: {
         height: 72
@@ -99,7 +110,7 @@ const styles = StyleSheet.create({
         width: 48
       }
     }),
-    borderBottomColor: "rgba(204,204,204,1)",
+    borderBottomColor: constants.shade3,
     borderBottomWidth: 2,
     marginHorizontal: 12,
     alignItems: "center",
