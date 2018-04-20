@@ -16,6 +16,8 @@ import { isIphoneX } from "react-native-iphone-x-helper";
 import XSensorPlaceholder from "../../CommonComponents/XSensorPlaceholder/XSensorPlaceholder";
 import SimpleButton from "../../CommonComponents/SimpleButton/SimpleButton";
 import OtpInput from "../../CommonComponents/OtpInput/OtpInput";
+import NextBar from "./Components/NextBar";
+import OtpBar from "./Components/OtpBar";
 
 class MobileNumber extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -61,7 +63,9 @@ class MobileNumber extends Component {
     this.setState({ otp });
   };
 
-  verifyOtp = (value, index) => {};
+  verifyOtp = () => {};
+
+  resendOtp = () => {};
 
   componentDidMount() {
     this.keyboardDidShowListener = Keyboard.addListener(
@@ -124,32 +128,18 @@ class MobileNumber extends Component {
           onComplete={this.verifyOtp}
         />
       </View>,
+      <OtpBar
+        key={1}
+        keyboardSpace={this.state.keyboardSpace}
+        resendOtp={this.resendOtp}
+        verifyOtp={this.verifyOtp}
+      />,
 
-      <View key={1}>
-        <KeyboardAvoidingView
-          behavior="padding"
-          style={[styles.bottomBar, { marginBottom: this.state.keyboardSpace }]}
-        >
-          <SimpleButton
-            containerStyle={{
-              height: 24,
-              width: 52,
-              alignSelf: "flex-end",
-              marginHorizontal: 24
-            }}
-            text={"next"}
-            action={() => {}}
-            textColor={"white"}
-            underlayColor={constants.firstColorAlpha(0.4)}
-            color={constants.firstColor}
-          />
-        </KeyboardAvoidingView>
-        {isIphoneX() ? (
-          <XSensorPlaceholder
-            containerStyle={{ backgroundColor: "rgba(239,249,242,1)" }}
-          />
-        ) : null}
-      </View>
+      <NextBar
+        key={2}
+        onClickNext={() => {}}
+        keyboardSpace={this.state.keyboardSpace}
+      />
     ];
   }
 }
@@ -225,15 +215,6 @@ const styles = StyleSheet.create({
       }
     }),
     color: constants.black2
-  },
-  bottomBar: {
-    height: 40,
-    backgroundColor: "rgba(239,249,242,1)",
-    justifyContent: "center"
-  },
-  otpBox: {
-    height: 60,
-    backgroundColor: "red"
   }
 });
 
