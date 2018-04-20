@@ -15,6 +15,7 @@ import constants from "../../constants/constants";
 import { isIphoneX } from "react-native-iphone-x-helper";
 import XSensorPlaceholder from "../../CommonComponents/XSensorPlaceholder/XSensorPlaceholder";
 import StarterButton from "../StartingScreen/Components/StarterButton";
+import OtpInput from "../../CommonComponents/OtpInput/OtpInput";
 
 class MobileNumber extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -26,6 +27,7 @@ class MobileNumber extends Component {
   state = {
     countryCode: "+91",
     mobileNumber: "",
+    otp: new Array(4).fill(""),
     keyboardSpace: 0
   };
   keyboardDidShowListener = {};
@@ -52,6 +54,14 @@ class MobileNumber extends Component {
       this.setState({ mobileNumber: this.state.mobileNumber });
     }
   };
+
+  editOtp = (value, index) => {
+    const otp = [...this.state.otp];
+    otp[index] = value;
+    this.setState({ otp });
+  };
+
+  verifyOtp = (value, index) => {};
 
   componentDidMount() {
     this.keyboardDidShowListener = Keyboard.addListener(
@@ -107,6 +117,12 @@ class MobileNumber extends Component {
             />
           </View>
         </View>
+
+        <OtpInput
+          otp={this.state.otp}
+          onEdit={this.editOtp}
+          onComplete={this.verifyOtp}
+        />
       </View>,
 
       <View key={1}>
@@ -183,10 +199,7 @@ const styles = StyleSheet.create({
     color: constants.black2,
     ...Platform.select({
       ios: {},
-      android: {
-        marginBottom: 50,
-        backgroundColor: "red"
-      }
+      android: {}
     })
   },
   dropDownIcon: {
@@ -210,7 +223,8 @@ const styles = StyleSheet.create({
         height: 56,
         textAlign: "justify"
       }
-    })
+    }),
+    color: constants.black2
   },
   bottomBar: {
     height: 40,
