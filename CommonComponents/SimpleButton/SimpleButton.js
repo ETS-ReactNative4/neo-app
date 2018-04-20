@@ -1,9 +1,9 @@
 import React from "react";
 import { TouchableHighlight, Text, StyleSheet } from "react-native";
 import PropTypes from "prop-types";
-import constants from "../../../constants/constants";
+import constants from "../../constants/constants";
 
-const StarterButton = ({
+const SimpleButton = ({
   color,
   text,
   action,
@@ -39,7 +39,7 @@ const StarterButton = ({
   );
 };
 
-StarterButton.propTypes = {
+SimpleButton.propTypes = {
   color: PropTypes.string,
   text: PropTypes.string.isRequired,
   action: PropTypes.func.isRequired,
@@ -64,4 +64,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default StarterButton;
+export default SimpleButton;

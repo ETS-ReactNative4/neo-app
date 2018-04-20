@@ -14,7 +14,7 @@ import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import constants from "../../constants/constants";
 import { isIphoneX } from "react-native-iphone-x-helper";
 import XSensorPlaceholder from "../../CommonComponents/XSensorPlaceholder/XSensorPlaceholder";
-import StarterButton from "../StartingScreen/Components/StarterButton";
+import SimpleButton from "../../CommonComponents/SimpleButton/SimpleButton";
 import OtpInput from "../../CommonComponents/OtpInput/OtpInput";
 
 class MobileNumber extends Component {
@@ -130,7 +130,7 @@ class MobileNumber extends Component {
           behavior="padding"
           style={[styles.bottomBar, { marginBottom: this.state.keyboardSpace }]}
         >
-          <StarterButton
+          <SimpleButton
             containerStyle={{
               height: 24,
               width: 52,

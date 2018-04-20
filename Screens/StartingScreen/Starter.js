@@ -7,7 +7,7 @@ import {
   SafeAreaView
 } from "react-native";
 import constants from "../../constants/constants";
-import StarterButton from "./Components/StarterButton";
+import SimpleButton from "../../CommonComponents/SimpleButton/SimpleButton";
 import { isIphoneX } from "react-native-iphone-x-helper";
 
 class Starter extends Component {
@@ -32,7 +32,7 @@ class Starter extends Component {
       >
         <SafeAreaView>
           <View style={styles.buttonRow}>
-            <StarterButton
+            <SimpleButton
               text={`Find a Booking`}
               textColor={`white`}
               color={constants.firstColor}
@@ -40,7 +40,7 @@ class Starter extends Component {
               action={this.clickedBooking}
               containerStyle={{ marginRight: 8 }}
             />
-            <StarterButton
+            <SimpleButton
               text={`Plan a vacation`}
               textColor={constants.firstColor}
               color={"white"}
