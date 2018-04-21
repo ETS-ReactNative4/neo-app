@@ -19,7 +19,7 @@ import PackingChecklist from "./Screens/PackingChecklistScreen/PackingChecklist"
 import Weather from "./Screens/WeatherScreen/Weather";
 import MobileNumber from "./Screens/MobileNumberScreen/MobileNumber";
 import YourBookings from "./Screens/YourBookingsScreen/YourBookings";
-import transitionConfig from "./navigationAnimations/transitionConfig";
+import transitionConfig from "./Services/navigationAnimations/transitionConfig";
 
 UIManager.setLayoutAnimationEnabledExperimental &&
   UIManager.setLayoutAnimationEnabledExperimental(true);
