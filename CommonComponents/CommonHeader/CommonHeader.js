@@ -85,7 +85,8 @@ const styles = StyleSheet.create({
     minWidth: 24
   },
   headerTitle: {
-    ...constants.font20(constants.primarySemiBold)
+    ...constants.font20(constants.primarySemiBold),
+    color: constants.black2
   },
   placeHolder: {
     height: 24,

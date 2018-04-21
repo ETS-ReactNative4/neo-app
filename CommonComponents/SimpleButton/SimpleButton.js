@@ -9,10 +9,11 @@ const SimpleButton = ({
   action,
   textColor,
   underlayColor,
+  textStyle,
   hasBorder,
   containerStyle
 }) => {
-  const textStyle = {};
+  if (!textStyle) textStyle = {};
 
   if (!containerStyle) containerStyle = {};
 
@@ -46,7 +47,8 @@ SimpleButton.propTypes = {
   textColor: PropTypes.string.isRequired,
   underlayColor: PropTypes.string,
   hasBorder: PropTypes.bool,
-  containerStyle: PropTypes.object
+  containerStyle: PropTypes.object,
+  textStyle: PropTypes.object
 };
 
 const styles = StyleSheet.create({

@@ -1,7 +1,18 @@
 import React, { Component } from "react";
-import { View, ScrollView, TouchableHighlight, Image } from "react-native";
+import {
+  View,
+  ScrollView,
+  TouchableHighlight,
+  Image,
+  StyleSheet
+} from "react-native";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import constants from "../../constants/constants";
+import ScrollableTabView from "react-native-scrollable-tab-view";
+import DefaultTabBar from "../../CommonComponents/DefaultTabBar/DefaultTabBar";
+import Upcoming from "./Components/Upcoming";
+import Completed from "./Components/Completed";
+import { responsiveWidth } from "react-native-responsive-dimensions";
 
 class YourBookings extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -46,8 +57,34 @@ class YourBookings extends Component {
   };
 
   render() {
-    return <View />;
+    return (
+      <View style={styles.yourBookingsContainer}>
+        <ScrollableTabView
+          tabBarActiveTextColor={constants.black2}
+          tabBarInactiveTextColor={constants.firstColor}
+          tabBarUnderlineStyle={{
+            height: 2,
+            backgroundColor: constants.black2
+          }}
+          tabBarTextStyle={{ ...constants.font13(constants.primaryLight) }}
+          initialPage={0}
+          style={{ alignSelf: "center", width: responsiveWidth(100) }}
+          prerenderingSiblingsNumber={Infinity}
+          renderTabBar={() => <DefaultTabBar />}
+        >
+          <Upcoming tabLabel="UPCOMING" />
+          <Completed tabLabel="COMPLETED" />
+        </ScrollableTabView>
+      </View>
+    );
   }
 }
+
+const styles = StyleSheet.create({
+  yourBookingsContainer: {
+    flex: 1,
+    backgroundColor: "white"
+  }
+});
 
 export default YourBookings;
