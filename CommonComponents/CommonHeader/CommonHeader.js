@@ -14,19 +14,28 @@ import PropTypes from "prop-types";
 class CommonHeader extends Component {
   static propTypes = {
     title: PropTypes.string.isRequired,
+    LeftButton: PropTypes.element,
     RightButton: PropTypes.element,
     hideBackButton: PropTypes.bool,
     navigation: PropTypes.object.isRequired
   };
 
   render() {
-    const { RightButton, title, navigation, hideBackButton } = this.props;
+    const {
+      RightButton,
+      title,
+      navigation,
+      hideBackButton,
+      LeftButton
+    } = this.props;
 
     return (
       <View style={styles.headerSection}>
         <View style={styles.headerContainer}>
           {hideBackButton ? (
             <View style={styles.placeHolder} />
+          ) : LeftButton ? (
+            LeftButton
           ) : (
             <TouchableHighlight
               style={styles.leftButtonContainer}
@@ -34,6 +43,7 @@ class CommonHeader extends Component {
               underlayColor={"transparent"}
             >
               <Image
+                resizeMode={"contain"}
                 source={constants.backArrow}
                 style={styles.leftButtonIcon}
               />
@@ -42,7 +52,7 @@ class CommonHeader extends Component {
           <View style={styles.headerTextContainer}>
             <Text style={styles.headerTitle}>{title}</Text>
           </View>
-          {RightButton ? <RightButton /> : <View style={styles.placeHolder} />}
+          {RightButton ? RightButton : <View style={styles.placeHolder} />}
         </View>
       </View>
     );
