@@ -47,7 +47,6 @@ const CompletedCard = () => {
 
 const styles = StyleSheet.create({
   completedCardContainer: {
-    marginHorizontal: 24,
     height: 88,
     flexDirection: "row",
     marginTop: 24

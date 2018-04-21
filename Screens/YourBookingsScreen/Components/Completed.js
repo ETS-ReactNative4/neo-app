@@ -11,10 +11,7 @@ class Completed extends Component {
         <CompletedCard />
         <CompletedCard />
 
-        <View>
-          <Image />
-          <Text>{`Cancelled Bookings`}</Text>
-        </View>
+        <View style={styles.completionLine} />
       </ScrollView>
     );
   }
@@ -23,7 +20,13 @@ class Completed extends Component {
 const styles = StyleSheet.create({
   completedContainer: {
     borderTopWidth: 1,
-    borderTopColor: constants.shade4
+    borderTopColor: constants.shade4,
+    marginHorizontal: 24
+  },
+  completionLine: {
+    height: 1,
+    marginTop: 24,
+    backgroundColor: constants.shade4
   }
 });
 
