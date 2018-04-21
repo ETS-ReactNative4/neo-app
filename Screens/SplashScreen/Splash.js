@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { ImageBackground } from "react-native";
+import { ImageBackground, Platform } from "react-native";
 import { NavigationActions } from "react-navigation";
 import constants from "../../constants/constants";
 
@@ -15,7 +15,11 @@ class Splash extends Component {
 
   componentDidMount() {
     setTimeout(() => {
-      this.props.navigation.dispatch(resetAction);
+      if (Platform.OS === "ios") {
+        this.props.navigation.navigate("Starter");
+      } else {
+        this.props.navigation.dispatch(resetAction);
+      }
     }, 3000);
   }
 
