@@ -19,7 +19,9 @@ class YourBookings extends Component {
     const LeftButton = (
       <TouchableHighlight
         style={{ paddingHorizontal: 16 }}
-        onPress={() => {}}
+        onPress={() => {
+          navigation.goBack();
+        }}
         underlayColor={"transparent"}
       >
         <Image

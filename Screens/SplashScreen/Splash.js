@@ -26,7 +26,7 @@ class Splash extends Component {
   render() {
     return (
       <ImageBackground
-        source={constants.starterBackground}
+        source={constants.splashBackground}
         style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
       />
     );
