@@ -15,6 +15,7 @@ import Upcoming from "./Components/Upcoming";
 import Completed from "./Components/Completed";
 import { responsiveWidth } from "react-native-responsive-dimensions";
 import CloseYourBookingsButton from "./Components/CloseYourBookingsButton";
+import YourBookingsTabBar from "./Components/YourBookingsTabBar";
 
 class YourBookings extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -60,7 +61,7 @@ class YourBookings extends Component {
           initialPage={0}
           style={{ alignSelf: "center", width: responsiveWidth(100) }}
           prerenderingSiblingsNumber={Infinity}
-          renderTabBar={() => <DefaultTabBar />}
+          renderTabBar={() => <YourBookingsTabBar />}
         >
           <Upcoming tabLabel="UPCOMING" />
           <Completed tabLabel="COMPLETED" />
