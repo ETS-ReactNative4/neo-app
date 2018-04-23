@@ -113,6 +113,9 @@ const HomeStack = StackNavigator(
     },
     NewAccount: {
       screen: NewAccount
+    },
+    Itineraries: {
+      screen: Itineraries
     }
   },
   {

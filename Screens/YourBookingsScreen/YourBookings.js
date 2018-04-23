@@ -3,6 +3,7 @@ import {
   View,
   ScrollView,
   TouchableHighlight,
+  BackHandler,
   Image,
   StyleSheet
 } from "react-native";
@@ -13,24 +14,11 @@ import DefaultTabBar from "../../CommonComponents/DefaultTabBar/DefaultTabBar";
 import Upcoming from "./Components/Upcoming";
 import Completed from "./Components/Completed";
 import { responsiveWidth } from "react-native-responsive-dimensions";
+import CloseYourBookingsButton from "./Components/CloseYourBookingsButton";
 
 class YourBookings extends Component {
   static navigationOptions = ({ navigation }) => {
-    const LeftButton = (
-      <TouchableHighlight
-        style={{ paddingHorizontal: 16 }}
-        onPress={() => {
-          navigation.goBack();
-        }}
-        underlayColor={"transparent"}
-      >
-        <Image
-          resizeMode={"contain"}
-          source={constants.closeIcon}
-          style={{ height: 24, width: 30 }}
-        />
-      </TouchableHighlight>
-    );
+    const LeftButton = <CloseYourBookingsButton navigation={navigation} />;
 
     const RightButton = (
       <TouchableHighlight
