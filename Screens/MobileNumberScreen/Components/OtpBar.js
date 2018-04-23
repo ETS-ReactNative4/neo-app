@@ -8,10 +8,9 @@ import PropTypes from "prop-types";
 
 const OtpBar = ({ keyboardSpace, resendOtp, verifyOtp }) => {
   return (
-    <View>
+    <View style={styles.otpBarWrapper}>
       <View
         style={[styles.otpButtonContainer, { marginBottom: keyboardSpace }]}
-        elevation={5}
       >
         <SimpleButton
           containerStyle={{
@@ -20,10 +19,11 @@ const OtpBar = ({ keyboardSpace, resendOtp, verifyOtp }) => {
             marginRight: 8
           }}
           text={"ResendOtp"}
+          hasBorder={true}
           action={resendOtp}
-          textColor={"white"}
+          textColor={"rgba(74,79,109,1)"}
           underlayColor={constants.firstColorAlpha(0.4)}
-          color={constants.firstColor}
+          color={"white"}
         />
         <SimpleButton
           containerStyle={{
@@ -57,6 +57,16 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     height: 56
+  },
+  otpBarWrapper: {
+    shadowColor: constants.shade4,
+    shadowOffset: {
+      height: -2,
+      width: 0
+    },
+    shadowRadius: 0,
+    shadowOpacity: 0.5,
+    elevation: 5
   }
 });
 
