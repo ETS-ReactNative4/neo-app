@@ -91,7 +91,10 @@ const HomeStack = StackNavigator(
       })
     },
     AppHome: {
-      screen: HomeTabs
+      screen: HomeTabs,
+      navigationOptions: {
+        header: null
+      }
     },
     YourBookings: {
       screen: YourBookings,
