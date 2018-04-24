@@ -1,0 +1,41 @@
+git-upgrade info Check for updates 
+git-upgrade info Using yarn 1.6.0 
+git-upgrade info Read package.json files 
+git-upgrade info Check declared version 
+git-upgrade info Check matching versions 
+git-upgrade info Check React peer dependency 
+git-upgrade info Check that Git is installed 
+git-upgrade info Get information from NPM registry 
+git-upgrade info Upgrading to React Native 0.55.3, React 16.3.1 
+git-upgrade info Setup temporary working directory 
+git-upgrade info Configure Git environment 
+git-upgrade info Init Git repository 
+git-upgrade info Add all files to commit 
+git-upgrade info Commit current project sources 
+git-upgrade info Create a tag before updating sources 
+git-upgrade info Generate old version template 
+git-upgrade info Add updated files to commit 
+git-upgrade info Commit old version template 
+git-upgrade info Install the new version 
+warning " > react-native-svg@6.3.1" has unmet peer dependency "prop-types@^15.5.7".
+warning " > babel-jest@22.4.3" has unmet peer dependency "babel-core@^6.0.0 || ^7.0.0-0".
+warning "react-native > eslint-plugin-react-native@3.2.1" has unmet peer dependency "eslint@^3.17.0 || ^4.0.0".
+warning "react-native > metro > @babel/plugin-transform-exponentiation-operator@7.0.0-beta.46" has incorrect peer dependency "@babel/core@7.0.0-beta.46".
+warning "react-native > metro > @babel/register@7.0.0-beta.46" has incorrect peer dependency "@babel/core@7.0.0-beta.46".
+git-upgrade info Generate new version template 
+git-upgrade info Add updated files to commit 
+git-upgrade info Commit new version template 
+git-upgrade info Generate the patch between the 2 versions 
+git-upgrade info Save the patch in temp directory 
+git-upgrade info Reset the 2 temporary commits 
+git-upgrade info Apply the patch 
+error: patch failed: .gitignore:51
+Falling back to three-way merge...
+Applied patch to '.gitignore' with conflicts.
+error: patch failed: ios/Pickyourtrail.xcodeproj/project.pbxproj:34
+Falling back to three-way merge...
+Applied patch to 'ios/Pickyourtrail.xcodeproj/project.pbxproj' with conflicts.
+U .gitignore
+U ios/Pickyourtrail.xcodeproj/project.pbxproj
+git-upgrade WARN The upgrade process succeeded but there might be conflicts to be resolved. See above for the list of files that have merge conflicts. 
+git-upgrade info Upgrade done 

@@ -52,6 +52,9 @@ buck-out/
 */fastlane/Preview.html
 */fastlane/screenshots
 
+# Bundle artifact
+*.jsbundle
+
 # Created by https://www.gitignore.io/api/code,xcode,eclipse,android,intellij,cocoapods,androidstudio
 
 ### Android ###
