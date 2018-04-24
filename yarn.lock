@@ -4715,6 +4715,10 @@ react-native-iphone-x-helper@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/react-native-iphone-x-helper/-/react-native-iphone-x-helper-1.0.2.tgz#7dbca530930f7c1ce8633cc8fd13ba94102992e1"
 
+react-native-keychain@^3.0.0-rc.3:
+  version "3.0.0-rc.3"
+  resolved "https://registry.yarnpkg.com/react-native-keychain/-/react-native-keychain-3.0.0-rc.3.tgz#891ea07a564d1bf46b644bc615af21f15a04b12b"
+
 react-native-responsive-dimensions@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/react-native-responsive-dimensions/-/react-native-responsive-dimensions-1.0.2.tgz#521551fa90548f888578eafd71101d19061727ac"
