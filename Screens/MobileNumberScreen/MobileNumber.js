@@ -4,6 +4,7 @@ import {
   TextInput,
   Text,
   StyleSheet,
+  TouchableHighlight,
   Keyboard,
   Image,
   Platform
@@ -16,6 +17,7 @@ import NextBar from "./Components/NextBar";
 import OtpBar from "./Components/OtpBar";
 import YourBookings from "../YourBookingsScreen/YourBookings";
 import PasswordInput from "./Components/PasswordInput";
+import CountryCodePicker from "./Components/CountryCodePicker";
 
 class MobileNumber extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -26,11 +28,12 @@ class MobileNumber extends Component {
 
   state = {
     cca2: "IN",
-    callingCode: "+91",
+    countryCode: "+91",
     mobileNumber: "",
     otp: new Array(4).fill(""),
     keyboardSpace: 0,
-    password: ""
+    password: "",
+    isCountryCodeModalVisible: false
   };
   keyboardDidShowListener = {};
   keyboardDidHideListener = {};
@@ -84,6 +87,18 @@ class MobileNumber extends Component {
     );
   }
 
+  showCountryCodeModal = () => {
+    this.setState({
+      isCountryCodeModalVisible: true
+    });
+  };
+
+  hideCountryCodeModal = () => {
+    this.setState({
+      isCountryCodeModalVisible: false
+    });
+  };
+
   componentWillUnmount() {
     this.keyboardDidShowListener.remove();
     this.keyboardDidHideListener.remove();
@@ -91,7 +106,13 @@ class MobileNumber extends Component {
 
   render() {
     return [
-      <View key={0} style={styles.mobileNumberContainer}>
+      <CountryCodePicker
+        key={0}
+        isVisible={this.state.isCountryCodeModalVisible}
+        onClose={this.hideCountryCodeModal}
+      />,
+
+      <View key={1} style={styles.mobileNumberContainer}>
         <View style={styles.headerTextWrapper}>
           <Text style={styles.headerText}>{`Verify your mobile number.`}</Text>
         </View>
@@ -103,17 +124,22 @@ class MobileNumber extends Component {
         </View>
 
         <View style={styles.mobileNumberBox}>
-          <View style={styles.countryCodeBox}>
-            <View style={styles.countryCodeTextWrapper}>
-              <Text style={styles.countryCodeText}>
-                {this.state.callingCode}
-              </Text>
+          <TouchableHighlight
+            onPress={this.showCountryCodeModal}
+            underlayColor={"transparent"}
+          >
+            <View style={styles.countryCodeBox}>
+              <View style={styles.countryCodeTextWrapper}>
+                <Text style={styles.countryCodeText}>
+                  {this.state.countryCode}
+                </Text>
+              </View>
+              <Image
+                style={styles.dropDownIcon}
+                source={constants.dropDownArrow}
+              />
             </View>
-            <Image
-              style={styles.dropDownIcon}
-              source={constants.dropDownArrow}
-            />
-          </View>
+          </TouchableHighlight>
           <View style={styles.numberInputBox}>
             <TextInput
               onChangeText={this.editMobileNumber}
@@ -138,23 +164,18 @@ class MobileNumber extends Component {
           onEdit={this.editOtp}
           onComplete={this.verifyOtp}
         />
-      </View>
-      /*
+      </View>,
       <OtpBar
-        key={1}
+        key={2}
         keyboardSpace={this.state.keyboardSpace}
         resendOtp={this.resendOtp}
         verifyOtp={this.verifyOtp}
-      />
-      ,
-      */
-      /*
+      />,
       <NextBar
-        key={2}
+        key={3}
         onClickNext={() => {}}
         keyboardSpace={this.state.keyboardSpace}
       />
-      */
     ];
   }
 }
@@ -195,16 +216,26 @@ const styles = StyleSheet.create({
     flexDirection: "row"
   },
   countryCodeTextWrapper: {
-    height: 36
+    ...Platform.select({
+      ios: {
+        height: 36
+      },
+      android: {
+        height: 48
+      }
+    })
   },
   countryCodeText: {
     fontFamily: constants.primaryLight,
-    fontSize: 36,
     textAlign: "justify",
     color: constants.black2,
     ...Platform.select({
-      ios: {},
-      android: {}
+      ios: {
+        fontSize: 36
+      },
+      android: {
+        fontSize: 30
+      }
     })
   },
   dropDownIcon: {
