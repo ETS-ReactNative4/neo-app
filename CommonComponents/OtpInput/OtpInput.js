@@ -33,7 +33,7 @@ class OtpInput extends Component {
 
     return (
       <View style={[styles.container, containerStyle]}>
-        <Text style={styles.infoText}>ENTER YOUR OTP</Text>
+        <Text style={styles.infoText}>{"VERIFY MOBILE WITH OTP"}</Text>
         <View style={styles.otpContainer}>
           {otp.map((value, index) => {
             return (

@@ -1,24 +1,21 @@
 import React, { Component } from "react";
 import {
-  KeyboardAvoidingView,
   View,
   TextInput,
   Text,
   StyleSheet,
   Keyboard,
-  TouchableHighlight,
   Image,
   Platform
 } from "react-native";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import constants from "../../constants/constants";
 import { isIphoneX } from "react-native-iphone-x-helper";
-import XSensorPlaceholder from "../../CommonComponents/XSensorPlaceholder/XSensorPlaceholder";
-import SimpleButton from "../../CommonComponents/SimpleButton/SimpleButton";
 import OtpInput from "../../CommonComponents/OtpInput/OtpInput";
 import NextBar from "./Components/NextBar";
 import OtpBar from "./Components/OtpBar";
 import YourBookings from "../YourBookingsScreen/YourBookings";
+import PasswordInput from "./Components/PasswordInput";
 
 class MobileNumber extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -28,10 +25,12 @@ class MobileNumber extends Component {
   };
 
   state = {
-    countryCode: "+91",
+    cca2: "IN",
+    callingCode: "+91",
     mobileNumber: "",
     otp: new Array(4).fill(""),
-    keyboardSpace: 0
+    keyboardSpace: 0,
+    password: ""
   };
   keyboardDidShowListener = {};
   keyboardDidHideListener = {};
@@ -62,6 +61,10 @@ class MobileNumber extends Component {
     const otp = [...this.state.otp];
     otp[index] = value;
     this.setState({ otp });
+  };
+
+  editPassword = password => {
+    this.setState({ password });
   };
 
   verifyOtp = () => {
@@ -103,7 +106,7 @@ class MobileNumber extends Component {
           <View style={styles.countryCodeBox}>
             <View style={styles.countryCodeTextWrapper}>
               <Text style={styles.countryCodeText}>
-                {this.state.countryCode}
+                {this.state.callingCode}
               </Text>
             </View>
             <Image
@@ -125,20 +128,26 @@ class MobileNumber extends Component {
           </View>
         </View>
 
+        <PasswordInput
+          password={this.state.password}
+          onEdit={this.editPassword}
+        />
+
         <OtpInput
           otp={this.state.otp}
           onEdit={this.editOtp}
           onComplete={this.verifyOtp}
         />
-      </View>,
-
+      </View>
+      /*
       <OtpBar
         key={1}
         keyboardSpace={this.state.keyboardSpace}
         resendOtp={this.resendOtp}
         verifyOtp={this.verifyOtp}
       />
-
+      ,
+      */
       /*
       <NextBar
         key={2}

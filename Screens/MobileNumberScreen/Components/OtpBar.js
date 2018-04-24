@@ -22,7 +22,7 @@ const OtpBar = ({ keyboardSpace, resendOtp, verifyOtp }) => {
           hasBorder={true}
           action={resendOtp}
           textColor={"rgba(74,79,109,1)"}
-          underlayColor={constants.firstColorAlpha(0.4)}
+          underlayColor={constants.shade4}
           color={"white"}
         />
         <SimpleButton
