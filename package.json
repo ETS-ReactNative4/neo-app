@@ -10,7 +10,7 @@
   "dependencies": {
     "d3-shape": "^1.2.0",
     "lodash": "^4.17.5",
-    "mobx": "^4.1.0",
+    "mobx": "4.2.0",
     "mobx-react": "^5.0.0",
     "react": "16.3.1",
     "react-native": "0.55.3",
