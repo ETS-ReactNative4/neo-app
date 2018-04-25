@@ -52,6 +52,10 @@ class MobileNumber extends Component {
     });
   };
 
+  selectCountryCode = countryCode => {
+    this.setState({ countryCode });
+  };
+
   editMobileNumber = mobileNumber => {
     if (mobileNumber.length <= 10) {
       this.setState({ mobileNumber });
@@ -110,6 +114,7 @@ class MobileNumber extends Component {
         key={0}
         isVisible={this.state.isCountryCodeModalVisible}
         onClose={this.hideCountryCodeModal}
+        selectCountryCode={this.selectCountryCode}
       />,
 
       <View key={1} style={styles.mobileNumberContainer}>
