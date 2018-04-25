@@ -6,8 +6,6 @@ import {
   Text,
   SectionList,
   TouchableHighlight,
-  Image,
-  TextInput,
   StyleSheet,
   SafeAreaView
 } from "react-native";
@@ -29,8 +27,6 @@ const countriesList = [
     title: "All Countries",
     data: CountryData.countries.all
   }
-  // {"alpha2":"IN","alpha3":"IND","countryCallingCodes":["+91"],"currencies":["INR"],"emoji":"🇮🇳","ioc":"IND","languages":["eng","hin"],"name":"India","status":"assigned"},
-  // {"alpha2":"US","alpha3":"USA","countryCallingCodes":["+1"],"currencies":["USD"],"emoji":"🇺🇸","ioc":"USA","languages":["eng"],"name":"United States","status":"assigned"}
 ];
 
 class CountryCodePicker extends Component {
@@ -52,6 +48,37 @@ class CountryCodePicker extends Component {
     });
   };
 
+  updateResults = () => {
+    this.setState({
+      countriesToDisplay: [
+        {
+          title: "Default",
+          data: CountryData.countries.all.filter(
+            each => each.alpha2 === "US" || each.alpha2 === "IN"
+          )
+        },
+        {
+          title: "All Countries",
+          data: CountryData.countries.all.filter(country => {
+            const name = country.name.replace(/ /g, "").toUpperCase();
+            const countryCode = country.alpha2.replace(/ /g, "").toUpperCase();
+            const searchQuery = this.state.search
+              .replace(/ /g, "")
+              .toUpperCase();
+
+            if (
+              name.includes(searchQuery) ||
+              countryCode.includes(searchQuery)
+            ) {
+              return true;
+            }
+            return false;
+          })
+        }
+      ]
+    });
+  };
+
   search = query => {
     this.setState(
       {
@@ -59,6 +86,7 @@ class CountryCodePicker extends Component {
       },
       () => {
         if (!query) this.clearSearch();
+        else this.updateResults();
       }
     );
   };
@@ -106,8 +134,6 @@ class CountryCodePicker extends Component {
 
   render() {
     const { isVisible, onClose } = this.props;
-    // console.log(this.state.countriesToDisplay);
-    // console.log(JSON.stringify(this.state.countriesToDisplay.filter(each=> each.alpha2 === "US")));
 
     return (
       <Modal
