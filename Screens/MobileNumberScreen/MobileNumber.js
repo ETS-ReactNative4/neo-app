@@ -236,6 +236,7 @@ class MobileNumber extends Component {
           verifyOtp={this.verifyOtp}
         />
       ) : null,
+
       !this.state.isMobileVerified ? (
         <NextBar
           key={3}
@@ -243,6 +244,7 @@ class MobileNumber extends Component {
           keyboardSpace={this.state.keyboardSpace}
         />
       ) : null,
+
       <Loader isVisible={this.state.isLoading} key={4} />
     ];
   }

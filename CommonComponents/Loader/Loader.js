@@ -12,7 +12,11 @@ const Loader = ({ isVisible }) => {
       onRequestClose={() => {}}
     >
       <View style={styles.container}>
-        <Image source={constants.loadingIcon} style={styles.loadingIcon} />
+        <Image
+          resizeMode={"contain"}
+          source={constants.loadingIcon}
+          style={styles.loadingIcon}
+        />
       </View>
     </Modal>
   );
