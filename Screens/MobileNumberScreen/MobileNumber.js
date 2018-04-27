@@ -18,6 +18,9 @@ import OtpBar from "./Components/OtpBar";
 import YourBookings from "../YourBookingsScreen/YourBookings";
 import PasswordInput from "./Components/PasswordInput";
 import CountryCodePicker from "./Components/CountryCodePicker";
+import UnregisteredNumber from "./Components/UnregisteredNumber";
+import apiCall from "../../Services/networkRequests/apiCall";
+import Loader from "../../CommonComponents/Loader/Loader";
 
 class MobileNumber extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -33,7 +36,11 @@ class MobileNumber extends Component {
     otp: new Array(4).fill(""),
     keyboardSpace: 0,
     password: "",
-    isCountryCodeModalVisible: false
+    isCountryCodeModalVisible: false,
+    isMobileVerified: false,
+    isUnregisteredNumber: false,
+    hasError: false,
+    isLoading: false
   };
   keyboardDidShowListener = {};
   keyboardDidHideListener = {};
@@ -59,6 +66,11 @@ class MobileNumber extends Component {
   editMobileNumber = mobileNumber => {
     if (mobileNumber.length <= 10) {
       this.setState({ mobileNumber });
+      if (mobileNumber.length === 10) {
+        this.setState({
+          hasError: false
+        });
+      }
     } else {
       this.setState({ mobileNumber: this.state.mobileNumber });
     }
@@ -108,6 +120,46 @@ class MobileNumber extends Component {
     this.keyboardDidHideListener.remove();
   }
 
+  submitMobileNumber = () => {
+    if (this.state.mobileNumber.length < 10) {
+      this.setState({
+        hasError: true
+      });
+    } else {
+      this.setState({
+        hasError: false
+      });
+      const requestBody = {
+        mob_num: this.state.mobileNumber,
+        ccode: this.state.countryCode
+      };
+      this.setState({
+        isLoading: true
+      });
+      apiCall("mobile/user/verify/sendotp", requestBody)
+        .then(data => {
+          this.setState({
+            isLoading: false
+          });
+          if (data === "fail") {
+            this.setState({
+              isUnregisteredNumber: true
+            });
+          } else {
+            this.setState({
+              isUnregisteredNumber: false,
+              isMobileVerified: true
+            });
+          }
+        })
+        .catch(() => {
+          this.setState({
+            isLoading: false
+          });
+        });
+    }
+  };
+
   render() {
     return [
       <CountryCodePicker
@@ -128,7 +180,12 @@ class MobileNumber extends Component {
           >{`So that we can find bookings that are linked to your mobile number.`}</Text>
         </View>
 
-        <View style={styles.mobileNumberBox}>
+        <View
+          style={[
+            styles.mobileNumberBox,
+            this.state.hasError ? { borderBottomColor: "red" } : {}
+          ]}
+        >
           <TouchableHighlight
             onPress={this.showCountryCodeModal}
             underlayColor={"transparent"}
@@ -155,32 +212,38 @@ class MobileNumber extends Component {
               maxLength={10}
               underlineColorAndroid={"transparent"}
               returnKeyType={"next"}
+              editable={!this.state.isMobileVerified}
             />
           </View>
         </View>
 
-        <PasswordInput
-          password={this.state.password}
-          onEdit={this.editPassword}
-        />
+        {this.state.isUnregisteredNumber ? <UnregisteredNumber /> : null}
 
-        <OtpInput
-          otp={this.state.otp}
-          onEdit={this.editOtp}
-          onComplete={this.verifyOtp}
-        />
+        {this.state.isMobileVerified ? (
+          <OtpInput
+            otp={this.state.otp}
+            onEdit={this.editOtp}
+            onComplete={this.verifyOtp}
+          />
+        ) : null}
       </View>,
-      <OtpBar
-        key={2}
-        keyboardSpace={this.state.keyboardSpace}
-        resendOtp={this.resendOtp}
-        verifyOtp={this.verifyOtp}
-      />,
-      <NextBar
-        key={3}
-        onClickNext={() => {}}
-        keyboardSpace={this.state.keyboardSpace}
-      />
+
+      this.state.isMobileVerified ? (
+        <OtpBar
+          key={2}
+          keyboardSpace={this.state.keyboardSpace}
+          resendOtp={this.resendOtp}
+          verifyOtp={this.verifyOtp}
+        />
+      ) : null,
+      !this.state.isMobileVerified ? (
+        <NextBar
+          key={3}
+          onClickNext={this.submitMobileNumber}
+          keyboardSpace={this.state.keyboardSpace}
+        />
+      ) : null,
+      <Loader isVisible={this.state.isLoading} key={4} />
     ];
   }
 }
@@ -223,7 +286,8 @@ const styles = StyleSheet.create({
   countryCodeTextWrapper: {
     ...Platform.select({
       ios: {
-        height: 36
+        height: 36,
+        paddingTop: 5
       },
       android: {
         height: 48
@@ -246,7 +310,13 @@ const styles = StyleSheet.create({
   dropDownIcon: {
     height: 20,
     width: 20,
-    marginHorizontal: 8
+    marginHorizontal: 8,
+    ...Platform.select({
+      ios: {
+        marginTop: 8
+      },
+      android: {}
+    })
   },
   numberInputBox: {
     flex: 1
