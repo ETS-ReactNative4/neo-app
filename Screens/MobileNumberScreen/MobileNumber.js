@@ -22,6 +22,7 @@ import apiCall from "../../Services/networkRequests/apiCall";
 import Loader from "../../CommonComponents/Loader/Loader";
 import DebouncedAlert from "../../CommonComponents/DebouncedAlert/DebouncedAlert";
 import registerToken from "../../Services/registerToken/registerToken";
+import MobileNumberInput from "./Components/MobileNumberInput";
 
 class MobileNumber extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -216,42 +217,14 @@ class MobileNumber extends Component {
           >{`So that we can find bookings that are linked to your mobile number.`}</Text>
         </View>
 
-        <View
-          style={[
-            styles.mobileNumberBox,
-            this.state.hasError ? { borderBottomColor: "red" } : {}
-          ]}
-        >
-          <TouchableHighlight
-            onPress={this.showCountryCodeModal}
-            underlayColor={"transparent"}
-          >
-            <View style={styles.countryCodeBox}>
-              <View style={styles.countryCodeTextWrapper}>
-                <Text style={styles.countryCodeText}>
-                  {this.state.countryCode}
-                </Text>
-              </View>
-              <Image
-                style={styles.dropDownIcon}
-                source={constants.dropDownArrow}
-              />
-            </View>
-          </TouchableHighlight>
-          <View style={styles.numberInputBox}>
-            <TextInput
-              onChangeText={this.editMobileNumber}
-              placeholder={"1234567890"}
-              value={this.state.mobileNumber}
-              style={styles.numberInput}
-              keyboardType={"phone-pad"}
-              maxLength={10}
-              underlineColorAndroid={"transparent"}
-              returnKeyType={"next"}
-              editable={!this.state.isMobileVerified}
-            />
-          </View>
-        </View>
+        <MobileNumberInput
+          countryCode={this.state.countryCode}
+          editMobileNumber={this.editMobileNumber}
+          hasError={this.state.hasError}
+          isMobileVerified={this.state.isMobileVerified}
+          mobileNumber={this.state.mobileNumber}
+          showCountryCodeModal={this.showCountryCodeModal}
+        />
 
         {this.state.isUnregisteredNumber ? <UnregisteredNumber /> : null}
 
@@ -307,73 +280,6 @@ const styles = StyleSheet.create({
     ...constants.font17(constants.primaryLight),
     lineHeight: 17,
     color: constants.shade1
-  },
-  mobileNumberBox: {
-    marginTop: 8,
-    marginHorizontal: 24,
-    height: 48,
-    borderBottomColor: constants.shade3,
-    borderBottomWidth: 1,
-    flexDirection: "row",
-    justifyContent: "center"
-  },
-  countryCodeBox: {
-    alignItems: "center",
-    flexDirection: "row"
-  },
-  countryCodeTextWrapper: {
-    ...Platform.select({
-      ios: {
-        height: 36,
-        paddingTop: 5
-      },
-      android: {
-        height: 48
-      }
-    })
-  },
-  countryCodeText: {
-    fontFamily: constants.primaryLight,
-    textAlign: "justify",
-    color: constants.black2,
-    ...Platform.select({
-      ios: {
-        fontSize: 36
-      },
-      android: {
-        fontSize: 30
-      }
-    })
-  },
-  dropDownIcon: {
-    height: 20,
-    width: 20,
-    marginHorizontal: 8,
-    ...Platform.select({
-      ios: {
-        marginTop: 8
-      },
-      android: {}
-    })
-  },
-  numberInputBox: {
-    flex: 1
-  },
-  numberInput: {
-    ...Platform.select({
-      ios: {
-        fontFamily: constants.primaryLight,
-        fontSize: 36,
-        textAlign: "justify"
-      },
-      android: {
-        fontFamily: constants.primaryLight,
-        fontSize: 36,
-        height: 56,
-        textAlign: "justify"
-      }
-    }),
-    color: constants.black2
   }
 });
 
