@@ -16,11 +16,12 @@ import OtpInput from "../../CommonComponents/OtpInput/OtpInput";
 import NextBar from "./Components/NextBar";
 import OtpBar from "./Components/OtpBar";
 import YourBookings from "../YourBookingsScreen/YourBookings";
-import PasswordInput from "./Components/PasswordInput";
 import CountryCodePicker from "./Components/CountryCodePicker";
 import UnregisteredNumber from "./Components/UnregisteredNumber";
 import apiCall from "../../Services/networkRequests/apiCall";
 import Loader from "../../CommonComponents/Loader/Loader";
+import DebouncedAlert from "../../CommonComponents/DebouncedAlert/DebouncedAlert";
+import registerToken from "../../Services/registerToken/registerToken";
 
 class MobileNumber extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -32,8 +33,9 @@ class MobileNumber extends Component {
   state = {
     cca2: "IN",
     countryCode: "+91",
-    mobileNumber: "",
-    otp: new Array(4).fill(""),
+    mobileNumber: "8903425725",
+    otp: new Array(6).fill(""),
+    otpId: "",
     keyboardSpace: 0,
     password: "",
     isCountryCodeModalVisible: false,
@@ -87,7 +89,35 @@ class MobileNumber extends Component {
   };
 
   verifyOtp = () => {
-    this.props.navigation.navigate("YourBookings");
+    const requestBody = {
+      mob_num: this.state.mobileNumber,
+      ccode: this.state.countryCode,
+      otp_id: this.state.otpId,
+      otp: this.state.otp.join("")
+    };
+    this.setState({
+      isLoading: true
+    });
+    apiCall(constants.verifyOtp, requestBody)
+      .then(response => {
+        this.setState({
+          isLoading: false
+        });
+        if (response.status === "VERIFIED") {
+          registerToken(response.data.authtoken);
+          this.props.navigation.navigate("YourBookings");
+        } else {
+          DebouncedAlert("Verification Failed!", response.msg);
+          this.setState({
+            otp: new Array(6).fill("")
+          });
+        }
+      })
+      .catch(error => {
+        this.setState({
+          isLoading: false
+        });
+      });
   };
 
   resendOtp = () => {};
@@ -136,23 +166,29 @@ class MobileNumber extends Component {
       this.setState({
         isLoading: true
       });
-      apiCall("mobile/user/verify/sendotp", requestBody)
-        .then(data => {
+      apiCall(constants.verifyMobileNumber, requestBody)
+        .then(response => {
           this.setState({
             isLoading: false
           });
-          if (data === "fail") {
+          if (response.status === "SUCCESS") {
+            this.setState(
+              {
+                isUnregisteredNumber: false,
+                isMobileVerified: true,
+                otpId: response.data.otp_id
+              },
+              () => {
+                DebouncedAlert("Otp Sent", response.data.msg);
+              }
+            );
+          } else {
             this.setState({
               isUnregisteredNumber: true
             });
-          } else {
-            this.setState({
-              isUnregisteredNumber: false,
-              isMobileVerified: true
-            });
           }
         })
-        .catch(() => {
+        .catch(error => {
           this.setState({
             isLoading: false
           });

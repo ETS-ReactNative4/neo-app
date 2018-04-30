@@ -18,7 +18,11 @@ class OtpInput extends Component {
   moveRight = index => {
     if (index < this.props.otp.length - 1)
       this.refs[`input_${index + 1}`].focus();
-    else this.props.onComplete();
+    else {
+      setTimeout(() => {
+        this.props.onComplete();
+      }, 300);
+    }
   };
 
   moveLeft = index => {
@@ -88,11 +92,11 @@ const styles = StyleSheet.create({
       android: {
         height: 64,
         width: 32,
-        fontSize: 40
+        fontSize: 32
       },
       ios: {
         height: 40,
-        fontSize: 40,
+        fontSize: 32,
         width: 24
       }
     }),
@@ -103,16 +107,16 @@ const styles = StyleSheet.create({
     ...Platform.select({
       android: {
         height: 64,
-        width: 48
+        width: 40
       },
       ios: {
         height: 48,
-        width: 48
+        width: 40
       }
     }),
     borderBottomColor: constants.shade3,
     borderBottomWidth: 2,
-    marginHorizontal: 12,
+    marginHorizontal: 8,
     alignItems: "center",
     justifyContent: "center"
   }
