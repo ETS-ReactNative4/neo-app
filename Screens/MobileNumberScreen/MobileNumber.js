@@ -1,14 +1,5 @@
 import React, { Component } from "react";
-import {
-  View,
-  TextInput,
-  Text,
-  StyleSheet,
-  TouchableHighlight,
-  Keyboard,
-  Image,
-  Platform
-} from "react-native";
+import { View, Text, StyleSheet, Keyboard } from "react-native";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import constants from "../../constants/constants";
 import { isIphoneX } from "react-native-iphone-x-helper";
@@ -23,6 +14,7 @@ import Loader from "../../CommonComponents/Loader/Loader";
 import DebouncedAlert from "../../CommonComponents/DebouncedAlert/DebouncedAlert";
 import registerToken from "../../Services/registerToken/registerToken";
 import MobileNumberInput from "./Components/MobileNumberInput";
+import SmsListener from "react-native-android-sms-listener";
 
 class MobileNumber extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -47,6 +39,8 @@ class MobileNumber extends Component {
   };
   keyboardDidShowListener = {};
   keyboardDidHideListener = {};
+  waitCounter = {};
+  smsListener = {};
 
   keyboardDidShow = e => {
     this.setState({
@@ -121,7 +115,62 @@ class MobileNumber extends Component {
       });
   };
 
-  resendOtp = () => {};
+  resendOtp = () => {
+    this.sendOtp();
+  };
+
+  sendOtp = () => {
+    const requestBody = {
+      mob_num: this.state.mobileNumber,
+      ccode: this.state.countryCode
+    };
+    this.setState({
+      isLoading: true
+    });
+    apiCall(constants.verifyMobileNumber, requestBody)
+      .then(response => {
+        this.setState({
+          isLoading: false
+        });
+        if (response.status === "SUCCESS") {
+          this.setState(
+            {
+              isUnregisteredNumber: false,
+              isMobileVerified: true,
+              otpId: response.data.otp_id
+            },
+            () => {
+              DebouncedAlert("Otp Sent", response.data.msg);
+              this.smsListener = SmsListener.addListener(this.otpPrefiller);
+            }
+          );
+        } else {
+          this.setState({
+            isUnregisteredNumber: true
+          });
+        }
+      })
+      .catch(error => {
+        this.setState({
+          isLoading: false
+        });
+      });
+  };
+
+  otpPrefiller = message => {
+    if (message.originatingAddress === "TX-PYTBRK") {
+      const otp = message.body.substr(0, 6);
+      this.setState(
+        {
+          otp: otp.split("")
+        },
+        () => {
+          this.verifyOtp();
+        }
+      );
+      this.smsListener.remove();
+    }
+  };
 
   componentDidMount() {
     this.keyboardDidShowListener = Keyboard.addListener(
@@ -149,6 +198,7 @@ class MobileNumber extends Component {
   componentWillUnmount() {
     this.keyboardDidShowListener.remove();
     this.keyboardDidHideListener.remove();
+    this.smsListener.remove ? this.smsListener.remove() : () => {};
   }
 
   submitMobileNumber = () => {
@@ -160,40 +210,7 @@ class MobileNumber extends Component {
       this.setState({
         hasError: false
       });
-      const requestBody = {
-        mob_num: this.state.mobileNumber,
-        ccode: this.state.countryCode
-      };
-      this.setState({
-        isLoading: true
-      });
-      apiCall(constants.verifyMobileNumber, requestBody)
-        .then(response => {
-          this.setState({
-            isLoading: false
-          });
-          if (response.status === "SUCCESS") {
-            this.setState(
-              {
-                isUnregisteredNumber: false,
-                isMobileVerified: true,
-                otpId: response.data.otp_id
-              },
-              () => {
-                DebouncedAlert("Otp Sent", response.data.msg);
-              }
-            );
-          } else {
-            this.setState({
-              isUnregisteredNumber: true
-            });
-          }
-        })
-        .catch(error => {
-          this.setState({
-            isLoading: false
-          });
-        });
+      this.sendOtp();
     }
   };
 
