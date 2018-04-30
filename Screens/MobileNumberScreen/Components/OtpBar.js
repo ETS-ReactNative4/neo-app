@@ -6,7 +6,13 @@ import SimpleButton from "../../../CommonComponents/SimpleButton/SimpleButton";
 import XSensorPlaceholder from "../../../CommonComponents/XSensorPlaceholder/XSensorPlaceholder";
 import PropTypes from "prop-types";
 
-const OtpBar = ({ keyboardSpace, resendOtp, verifyOtp }) => {
+const OtpBar = ({
+  keyboardSpace,
+  resendOtp,
+  verifyOtp,
+  isWaiting,
+  waitTime
+}) => {
   return (
     <View style={styles.otpBarWrapper}>
       <View
@@ -18,10 +24,10 @@ const OtpBar = ({ keyboardSpace, resendOtp, verifyOtp }) => {
             width: 160,
             marginRight: 8
           }}
-          text={"ResendOtp"}
+          text={isWaiting ? `ResendOtp (${waitTime}s)` : "ResendOtp"}
           hasBorder={true}
-          action={resendOtp}
-          textColor={"rgba(74,79,109,1)"}
+          action={isWaiting ? () => {} : resendOtp}
+          textColor={isWaiting ? constants.shade5 : "rgba(74,79,109,1)"}
           underlayColor={constants.shade4}
           color={"white"}
         />
@@ -47,7 +53,9 @@ const OtpBar = ({ keyboardSpace, resendOtp, verifyOtp }) => {
 OtpBar.propTypes = {
   keyboardSpace: PropTypes.number.isRequired,
   resendOtp: PropTypes.func.isRequired,
-  verifyOtp: PropTypes.func.isRequired
+  verifyOtp: PropTypes.func.isRequired,
+  isWaiting: PropTypes.bool.isRequired,
+  waitTime: PropTypes.number.isRequired
 };
 
 const styles = StyleSheet.create({

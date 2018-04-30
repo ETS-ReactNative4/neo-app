@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Text, StyleSheet, Keyboard } from "react-native";
+import { View, Text, StyleSheet, Keyboard, Platform } from "react-native";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import constants from "../../constants/constants";
 import { isIphoneX } from "react-native-iphone-x-helper";
@@ -35,11 +35,13 @@ class MobileNumber extends Component {
     isMobileVerified: false,
     isUnregisteredNumber: false,
     hasError: false,
-    isLoading: false
+    isLoading: false,
+    waitTime: 15,
+    isWaiting: false
   };
   keyboardDidShowListener = {};
   keyboardDidHideListener = {};
-  waitCounter = {};
+  waitListener = {};
   smsListener = {};
 
   keyboardDidShow = e => {
@@ -99,6 +101,8 @@ class MobileNumber extends Component {
           isLoading: false
         });
         if (response.status === "VERIFIED") {
+          this.smsListener.remove ? this.smsListener.remove() : () => {};
+          clearInterval(this.waitListener);
           registerToken(response.data.authtoken);
           this.props.navigation.navigate("YourBookings");
         } else {
@@ -116,6 +120,7 @@ class MobileNumber extends Component {
   };
 
   resendOtp = () => {
+    this.smsListener.remove ? this.smsListener.remove() : () => {};
     this.sendOtp();
   };
 
@@ -141,7 +146,10 @@ class MobileNumber extends Component {
             },
             () => {
               DebouncedAlert("Otp Sent", response.data.msg);
-              this.smsListener = SmsListener.addListener(this.otpPrefiller);
+              if (Platform.OS === "android") {
+                this.smsListener = SmsListener.addListener(this.otpPrefiller);
+              }
+              this.waitListener = setInterval(this.waitCounter, 1000);
             }
           );
         } else {
@@ -157,6 +165,21 @@ class MobileNumber extends Component {
       });
   };
 
+  waitCounter = () => {
+    if (this.state.waitTime) {
+      this.setState({
+        isWaiting: true,
+        waitTime: this.state.waitTime - 1
+      });
+    } else {
+      this.setState({
+        isWaiting: false,
+        waitTime: 25
+      });
+      clearInterval(this.waitListener);
+    }
+  };
+
   otpPrefiller = message => {
     if (message.originatingAddress === "TX-PYTBRK") {
       const otp = message.body.substr(0, 6);
@@ -168,7 +191,6 @@ class MobileNumber extends Component {
           this.verifyOtp();
         }
       );
-      this.smsListener.remove();
     }
   };
 
@@ -199,6 +221,7 @@ class MobileNumber extends Component {
     this.keyboardDidShowListener.remove();
     this.keyboardDidHideListener.remove();
     this.smsListener.remove ? this.smsListener.remove() : () => {};
+    clearInterval(this.waitListener);
   }
 
   submitMobileNumber = () => {
@@ -260,6 +283,8 @@ class MobileNumber extends Component {
           keyboardSpace={this.state.keyboardSpace}
           resendOtp={this.resendOtp}
           verifyOtp={this.verifyOtp}
+          isWaiting={this.state.isWaiting}
+          waitTime={this.state.waitTime}
         />
       ) : null,
 
