@@ -1,13 +1,22 @@
+import * as Keychain from "react-native-keychain";
 import constants from "../../constants/constants";
 
 const timeoutDuration = 60000;
 
-export default function apiCall(route, body = {}, method = "POST") {
+const apiCall = async (route, body = {}, method = "POST") => {
+  const credentials = await Keychain.getGenericPassword();
+
   const request = new Promise((resolve, reject) => {
-    const headers = new Headers({
+    const headerObject = {
       "Content-Type": "application/json",
       isMobile: true
-    });
+    };
+
+    if (credentials) {
+      headerObject.Authorization = credentials.password;
+    }
+
+    const headers = new Headers(headerObject);
 
     const requestDetails = {
       method,
@@ -39,4 +48,6 @@ export default function apiCall(route, body = {}, method = "POST") {
       .then(result => resolve(result))
       .catch(error => reject(error));
   });
-}
+};
+
+export default apiCall;
