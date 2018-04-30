@@ -3,7 +3,13 @@ import { View, Text, ImageBackground, StyleSheet } from "react-native";
 import constants from "../../../constants/constants";
 import SimpleButton from "../../../CommonComponents/SimpleButton/SimpleButton";
 
-const UpcomingCard = () => {
+const UpcomingCard = ({
+  itineraryId,
+  itineraryName,
+  adults,
+  departureCity,
+  bookedOnDate
+}) => {
   return (
     <View style={styles.upcomingCardContainer}>
       <View style={styles.imageArea}>
@@ -12,7 +18,7 @@ const UpcomingCard = () => {
           source={constants.starterBackground}
           style={styles.imageBackground}
         >
-          <Text style={styles.bookingID}>{`PYT2039340`}</Text>
+          <Text style={styles.bookingID}>{itineraryId}</Text>
           <SimpleButton
             text={"Join"}
             action={() => {}}
@@ -34,19 +40,17 @@ const UpcomingCard = () => {
             <Text style={styles.date}>{`Apr 03 - Apr 12`}</Text>
           </View>
           <View style={styles.bookingNameWrapper}>
-            <Text
-              style={styles.bookingName}
-            >{`Anand’s family vacation to Europe`}</Text>
+            <Text style={styles.bookingName}>{itineraryName}</Text>
           </View>
           <View style={styles.bookingDetailWrapper}>
             <Text
               style={styles.bookingDetail}
-            >{`3 adults, departing Chennai.`}</Text>
+            >{`${adults} adults, departing ${departureCity}.`}</Text>
           </View>
           <View style={styles.bookingDateWrapper}>
             <Text
               style={styles.bookingDate}
-            >{`Booked by you on 03/03/19`}</Text>
+            >{`Booked by you on ${bookedOnDate}`}</Text>
           </View>
         </View>
       </View>

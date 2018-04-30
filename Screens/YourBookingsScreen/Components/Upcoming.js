@@ -8,14 +8,22 @@ import {
 } from "react-native";
 import constants from "../../../constants/constants";
 import UpcomingCard from "./UpcomingCard";
+import PropTypes from "prop-types";
 
 class Upcoming extends Component {
+  static propTypes = {
+    /**
+     * Todo: Itinerary Validator!!
+     */
+    itineraries: PropTypes.array.isRequired
+  };
+
   render() {
     return (
       <ScrollView>
-        <UpcomingCard />
-        <UpcomingCard />
-        <UpcomingCard />
+        {this.props.itineraries.map((itinerary, index) => {
+          return <UpcomingCard key={index} {...itinerary} />;
+        })}
       </ScrollView>
     );
   }

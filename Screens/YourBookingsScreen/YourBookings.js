@@ -16,7 +16,10 @@ import Completed from "./Components/Completed";
 import { responsiveWidth } from "react-native-responsive-dimensions";
 import CloseYourBookingsButton from "./Components/CloseYourBookingsButton";
 import YourBookingsTabBar from "./Components/YourBookingsTabBar";
+import { inject, observer } from "mobx-react/custom";
 
+@inject("upcomingItinerariesStore")
+@observer
 class YourBookings extends Component {
   static navigationOptions = ({ navigation }) => {
     const LeftButton = <CloseYourBookingsButton navigation={navigation} />;
@@ -48,6 +51,8 @@ class YourBookings extends Component {
   };
 
   render() {
+    const itineraries = this.props.upcomingItinerariesStore.itineraries;
+
     return (
       <View style={styles.yourBookingsContainer}>
         <ScrollableTabView
@@ -63,7 +68,7 @@ class YourBookings extends Component {
           prerenderingSiblingsNumber={Infinity}
           renderTabBar={() => <YourBookingsTabBar />}
         >
-          <Upcoming tabLabel="UPCOMING" />
+          <Upcoming tabLabel="UPCOMING" itineraries={itineraries} />
           <Completed tabLabel="COMPLETED" />
         </ScrollableTabView>
       </View>

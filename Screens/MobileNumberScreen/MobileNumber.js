@@ -15,7 +15,10 @@ import DebouncedAlert from "../../CommonComponents/DebouncedAlert/DebouncedAlert
 import registerToken from "../../Services/registerToken/registerToken";
 import MobileNumberInput from "./Components/MobileNumberInput";
 import SmsListener from "react-native-android-sms-listener";
+import { inject, observer } from "mobx-react/custom";
 
+@inject("upcomingItinerariesStore")
+@observer
 class MobileNumber extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
@@ -26,7 +29,7 @@ class MobileNumber extends Component {
   state = {
     cca2: "IN",
     countryCode: "+91",
-    mobileNumber: "8903425725",
+    mobileNumber: "",
     otp: new Array(6).fill(""),
     otpId: "",
     keyboardSpace: 0,
@@ -36,7 +39,7 @@ class MobileNumber extends Component {
     isUnregisteredNumber: false,
     hasError: false,
     isLoading: false,
-    waitTime: 15,
+    waitTime: 30,
     isWaiting: false
   };
   keyboardDidShowListener = {};
@@ -96,14 +99,15 @@ class MobileNumber extends Component {
       isLoading: true
     });
     apiCall(constants.verifyOtp, requestBody)
-      .then(response => {
+      .then(async response => {
         this.setState({
           isLoading: false
         });
         if (response.status === "VERIFIED") {
           this.smsListener.remove ? this.smsListener.remove() : () => {};
           clearInterval(this.waitListener);
-          registerToken(response.data.authtoken);
+          await registerToken(response.data.authtoken);
+          this.props.upcomingItinerariesStore.getUpcomingItineraries();
           this.props.navigation.navigate("YourBookings");
         } else {
           DebouncedAlert("Verification Failed!", response.msg);
@@ -174,7 +178,7 @@ class MobileNumber extends Component {
     } else {
       this.setState({
         isWaiting: false,
-        waitTime: 25
+        waitTime: 45
       });
       clearInterval(this.waitListener);
     }

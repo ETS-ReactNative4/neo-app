@@ -1,3 +1,4 @@
+import React from "react";
 import {
   StackNavigator,
   DrawerNavigator,
@@ -20,6 +21,8 @@ import Weather from "./Screens/WeatherScreen/Weather";
 import MobileNumber from "./Screens/MobileNumberScreen/MobileNumber";
 import YourBookings from "./Screens/YourBookingsScreen/YourBookings";
 import transitionConfig from "./Services/navigationAnimations/transitionConfig";
+import { Provider } from "mobx-react";
+import store from "./mobx/Store";
 
 UIManager.setLayoutAnimationEnabledExperimental &&
   UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -130,7 +133,7 @@ const HomeStack = StackNavigator(
   }
 );
 
-const App = DrawerNavigator(
+const AppNavigator = DrawerNavigator(
   {
     Home: {
       screen: HomeStack
@@ -161,5 +164,13 @@ const App = DrawerNavigator(
     contentComponent: Drawer
   }
 );
+
+const App = () => {
+  return (
+    <Provider {...store}>
+      <AppNavigator />
+    </Provider>
+  );
+};
 
 export default App;

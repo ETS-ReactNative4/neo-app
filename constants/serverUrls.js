@@ -3,7 +3,8 @@ const serverUrls = {
   localServer: "http://192.168.0.26:8080/",
 
   verifyMobileNumber: "mobile/user/verify/sendotp",
-  verifyOtp: "mobile/login"
+  verifyOtp: "mobile/login",
+  getYourTrips: "mobile/yourtrips"
 };
 
 export default serverUrls;
