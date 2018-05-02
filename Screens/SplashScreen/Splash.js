@@ -28,7 +28,7 @@ class Splash extends Component {
           : this.props.navigation.dispatch(resetToItineraries);
       } else {
         Platform.OS === "ios"
-          ? this.props.navigation.navigate("Starter")
+          ? this.props.navigation.navigate("YourBookings")
           : this.props.navigation.dispatch(resetToHome);
       }
     }, 3000);

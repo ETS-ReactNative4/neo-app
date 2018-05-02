@@ -6,22 +6,40 @@ import {
   ImageBackground,
   StyleSheet
 } from "react-native";
-import constants from "../../../constants/constants";
 import UpcomingCard from "./UpcomingCard";
 import PropTypes from "prop-types";
+import EmptyListPlaceholder from "../../../CommonComponents/EmptyListPlaceholder/EmptyListPlaceholder";
+import constants from "../../../constants/constants";
 
 class Upcoming extends Component {
   static propTypes = {
     /**
      * Todo: Itinerary Validator!!
      */
-    itineraries: PropTypes.array.isRequired
+    itineraries: PropTypes.array.isRequired,
+    isLoading: PropTypes.bool.isRequired
   };
 
   render() {
+    const { itineraries, isLoading } = this.props;
+
+    if (itineraries.length === 0 && !isLoading) {
+      return (
+        <EmptyListPlaceholder
+          text={`No active bookings found on this number. If the booking is made by someone else, you need an invite from them to proceed.`}
+          containerStyle={{
+            borderTopWidth: 1,
+            borderTopColor: constants.shade4,
+            marginHorizontal: 24
+          }}
+          textStyle={{ marginTop: -50 }}
+        />
+      );
+    }
+
     return (
       <ScrollView>
-        {this.props.itineraries.map((itinerary, index) => {
+        {itineraries.map((itinerary, index) => {
           return <UpcomingCard key={index} {...itinerary} />;
         })}
       </ScrollView>

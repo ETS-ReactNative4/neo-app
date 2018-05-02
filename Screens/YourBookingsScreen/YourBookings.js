@@ -71,7 +71,11 @@ class YourBookings extends Component {
           prerenderingSiblingsNumber={Infinity}
           renderTabBar={() => <YourBookingsTabBar />}
         >
-          <Upcoming tabLabel="UPCOMING" itineraries={itineraries} />
+          <Upcoming
+            tabLabel="UPCOMING"
+            itineraries={itineraries}
+            isLoading={isLoading}
+          />
           <Completed tabLabel="COMPLETED" />
         </ScrollableTabView>
       </View>

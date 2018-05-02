@@ -80,8 +80,8 @@ const styles = StyleSheet.create({
       width: 0
     },
     shadowRadius: 5,
-    shadowOpacity: 0.8,
-    elevation: 5
+    shadowOpacity: 0.8
+    // elevation: 5
   },
   imageArea: {
     borderTopLeftRadius: 5,
