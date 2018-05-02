@@ -2,7 +2,7 @@ import { observable, computed, action } from "mobx";
 import apiCall from "../../Services/networkRequests/apiCall";
 import constants from "../../constants/constants";
 
-class UpcomingItineraries {
+class YourBookings {
   @observable _upcomingItineraries = [];
   @observable _isLoading = false;
   @observable _loadingError = false;
@@ -47,4 +47,4 @@ class UpcomingItineraries {
   }
 }
 
-export default UpcomingItineraries;
+export default YourBookings;
