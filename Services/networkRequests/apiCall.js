@@ -34,9 +34,20 @@ const apiCall = async (route, body = {}, method = "POST") => {
     console.log(headers);
 
     fetch(`${serverURL}${route}`, requestDetails)
-      .then(res => res.json())
-      .then(data => resolve(data))
-      .catch(err => reject(err));
+      .then(res => {
+        const response = res.json();
+        console.log(res.status);
+        return response;
+      })
+      .then(data => {
+        console.log(data);
+        console.log(JSON.stringify(data));
+        resolve(data);
+      })
+      .catch(err => {
+        console.log(err);
+        reject(err);
+      });
   });
 
   const timeout = new Promise((request, reject) => {

@@ -25,13 +25,10 @@ class YourBookings {
   @action
   getUpcomingItineraries() {
     this._isLoading = true;
-    const requestBody = {
-      userId: "5ab367fe3fef300bbd3a5783"
-    };
+    const requestBody = {};
     apiCall(constants.getYourTrips, requestBody)
       .then(response => {
         this._isLoading = false;
-        console.log(response);
         if (response.status === "SUCCESS") {
           this._upcomingItineraries = response.data.upcomingItineraries;
           this._loadingError = false;
@@ -40,7 +37,6 @@ class YourBookings {
         }
       })
       .catch(error => {
-        console.log(error);
         this._isLoading = false;
         this._loadingError = true;
       });
