@@ -199,13 +199,15 @@ class MobileNumber extends Component {
 
   otpPrefiller = message => {
     if (message.originatingAddress === "TX-PYTBRK") {
-      const otp = message.body.substr(0, 6);
+      const otp = message.body.substr(0, 6).split("");
       this.setState(
         {
-          otp: otp.split("")
+          otp
         },
         () => {
-          this.verifyOtp();
+          setTimeout(() => {
+            this.verifyOtp();
+          }, 1000);
         }
       );
     }

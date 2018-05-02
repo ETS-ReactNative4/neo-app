@@ -42,6 +42,7 @@ const MobileNumberInput = ({
           onChangeText={editMobileNumber}
           placeholder={"1234567890"}
           value={mobileNumber}
+          placeholderTextColor={constants.shade5}
           style={styles.numberInput}
           keyboardType={"phone-pad"}
           maxLength={10}
