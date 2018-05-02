@@ -1,9 +1,9 @@
-import User from "./User/User";
-import UpcomingItineraries from "./Trip/UpcomingItineraries";
+import User from "./User";
+import YourBookings from "./YourBookings";
 
 const store = {
   userStore: new User(),
-  upcomingItinerariesStore: new UpcomingItineraries()
+  yourBookingsStore: new YourBookings()
 };
 
 export default store;

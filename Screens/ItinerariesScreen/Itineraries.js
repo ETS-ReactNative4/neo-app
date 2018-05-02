@@ -1,7 +1,25 @@
 import React, { Component } from "react";
 import { View, Text } from "react-native";
+import * as Keychain from "react-native-keychain";
+import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 
 class Itineraries extends Component {
+  static navigationOptions = ({ navigation }) => {
+    return {
+      header: (
+        <CommonHeader
+          title={"Itineraries"}
+          navigation={navigation}
+          hideBackButton={true}
+        />
+      )
+    };
+  };
+
+  componentDidMount() {
+    // Keychain.resetGenericPassword();
+  }
+
   render() {
     return (
       <View>

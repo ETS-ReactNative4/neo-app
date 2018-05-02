@@ -17,8 +17,9 @@ import { responsiveWidth } from "react-native-responsive-dimensions";
 import CloseYourBookingsButton from "./Components/CloseYourBookingsButton";
 import YourBookingsTabBar from "./Components/YourBookingsTabBar";
 import { inject, observer } from "mobx-react/custom";
+import Loader from "../../CommonComponents/Loader/Loader";
 
-@inject("upcomingItinerariesStore")
+@inject("yourBookingsStore")
 @observer
 class YourBookings extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -51,10 +52,12 @@ class YourBookings extends Component {
   };
 
   render() {
-    const itineraries = this.props.upcomingItinerariesStore.itineraries;
+    const { itineraries, isLoading } = this.props.yourBookingsStore;
 
     return (
       <View style={styles.yourBookingsContainer}>
+        <Loader isVisible={isLoading} />
+
         <ScrollableTabView
           tabBarActiveTextColor={constants.black2}
           tabBarInactiveTextColor={constants.firstColor}

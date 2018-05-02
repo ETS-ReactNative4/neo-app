@@ -17,7 +17,7 @@ import MobileNumberInput from "./Components/MobileNumberInput";
 import SmsListener from "react-native-android-sms-listener";
 import { inject, observer } from "mobx-react/custom";
 
-@inject("upcomingItinerariesStore")
+@inject("yourBookingsStore")
 @observer
 class MobileNumber extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -107,7 +107,7 @@ class MobileNumber extends Component {
           this.smsListener.remove ? this.smsListener.remove() : () => {};
           clearInterval(this.waitListener);
           await registerToken(response.data.authtoken);
-          this.props.upcomingItinerariesStore.getUpcomingItineraries();
+          this.props.yourBookingsStore.getUpcomingItineraries();
           this.props.navigation.navigate("YourBookings");
         } else {
           DebouncedAlert("Verification Failed!", response.msg);

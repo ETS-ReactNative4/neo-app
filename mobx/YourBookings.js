@@ -1,6 +1,6 @@
 import { observable, computed, action } from "mobx";
-import apiCall from "../../Services/networkRequests/apiCall";
-import constants from "../../constants/constants";
+import apiCall from "../Services/networkRequests/apiCall";
+import constants from "../constants/constants";
 
 class YourBookings {
   @observable _upcomingItineraries = [];
