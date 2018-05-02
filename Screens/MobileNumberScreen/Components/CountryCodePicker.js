@@ -108,6 +108,17 @@ class CountryCodePicker extends Component {
       );
   };
 
+  sectionFooter = () => {
+    if (this.state.countriesToDisplay[1].data.length === 0) {
+      return (
+        <Text style={styles.countryName}>
+          {"No countries matching your search criteria..."}
+        </Text>
+      );
+    }
+    return null;
+  };
+
   sectionItem = ({ item, index, section }) => {
     if (!item.countryCallingCodes[0]) return null;
 
@@ -175,6 +186,7 @@ class CountryCodePicker extends Component {
             renderSectionHeader={this.sectionHeader}
             renderItem={this.sectionItem}
             sections={this.state.countriesToDisplay}
+            ListFooterComponent={this.sectionFooter}
             keyExtractor={(item, index) => index}
           />
         </SafeAreaView>

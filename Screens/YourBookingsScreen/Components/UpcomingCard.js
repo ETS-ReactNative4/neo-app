@@ -2,6 +2,7 @@ import React from "react";
 import { View, Text, ImageBackground, StyleSheet } from "react-native";
 import constants from "../../../constants/constants";
 import SimpleButton from "../../../CommonComponents/SimpleButton/SimpleButton";
+import PropTypes from "prop-types";
 
 const UpcomingCard = ({
   itineraryId,
@@ -56,6 +57,14 @@ const UpcomingCard = ({
       </View>
     </View>
   );
+};
+
+UpcomingCard.propTypes = {
+  itineraryId: PropTypes.string.isRequired,
+  itineraryName: PropTypes.string.isRequired,
+  adults: PropTypes.number.isRequired,
+  departureCity: PropTypes.string.isRequired,
+  bookedOnDate: PropTypes.string.isRequired
 };
 
 const styles = StyleSheet.create({

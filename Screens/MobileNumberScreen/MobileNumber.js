@@ -1,5 +1,12 @@
 import React, { Component } from "react";
-import { View, Text, StyleSheet, Keyboard, Platform } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Keyboard,
+  Platform,
+  ToastAndroid
+} from "react-native";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import constants from "../../constants/constants";
 import { isIphoneX } from "react-native-iphone-x-helper";
@@ -110,7 +117,11 @@ class MobileNumber extends Component {
           this.props.yourBookingsStore.getUpcomingItineraries();
           this.props.navigation.navigate("YourBookings");
         } else {
-          DebouncedAlert("Verification Failed!", response.msg);
+          if (Platform.OS === "ios") {
+            DebouncedAlert("Verification Failed!", response.msg);
+          } else {
+            ToastAndroid.show(response.data.msg, ToastAndroid.SHORT);
+          }
           this.setState({
             otp: new Array(6).fill("")
           });
@@ -149,8 +160,10 @@ class MobileNumber extends Component {
               otpId: response.data.otp_id
             },
             () => {
-              DebouncedAlert("Otp Sent", response.data.msg);
-              if (Platform.OS === "android") {
+              if (Platform.OS === "ios") {
+                DebouncedAlert("Otp Sent", response.data.msg);
+              } else {
+                ToastAndroid.show(response.data.msg, ToastAndroid.SHORT);
                 this.smsListener = SmsListener.addListener(this.otpPrefiller);
               }
               this.waitListener = setInterval(this.waitCounter, 1000);
