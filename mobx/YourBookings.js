@@ -4,12 +4,18 @@ import constants from "../constants/constants";
 
 class YourBookings {
   @observable _upcomingItineraries = [];
+  @observable _completedItineraries = [];
   @observable _isLoading = false;
   @observable _loadingError = false;
 
   @computed
-  get itineraries() {
+  get upcomingItineraries() {
     return this._upcomingItineraries.slice();
+  }
+
+  @computed
+  get completedItineraries() {
+    return this._completedItineraries.slice();
   }
 
   @computed
@@ -30,7 +36,8 @@ class YourBookings {
       .then(response => {
         this._isLoading = false;
         if (response.status === "SUCCESS") {
-          this._upcomingItineraries = response.data.upcomingItineraries;
+          this._upcomingItineraries = response.data.UNCOMPLETED;
+          this._completedItineraries = response.data.COMPLETED;
           this._loadingError = false;
         } else {
           this._loadingError = true;

@@ -10,7 +10,6 @@ import {
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import constants from "../../constants/constants";
 import ScrollableTabView from "react-native-scrollable-tab-view";
-import DefaultTabBar from "../../CommonComponents/DefaultTabBar/DefaultTabBar";
 import Upcoming from "./Components/Upcoming";
 import Completed from "./Components/Completed";
 import { responsiveWidth } from "react-native-responsive-dimensions";
@@ -52,7 +51,7 @@ class YourBookings extends Component {
   };
 
   render() {
-    const { itineraries, isLoading } = this.props.yourBookingsStore;
+    const { upcomingItineraries, isLoading } = this.props.yourBookingsStore;
 
     return (
       <View style={styles.yourBookingsContainer}>
@@ -73,7 +72,7 @@ class YourBookings extends Component {
         >
           <Upcoming
             tabLabel="UPCOMING"
-            itineraries={itineraries}
+            itineraries={upcomingItineraries}
             isLoading={isLoading}
           />
           <Completed tabLabel="COMPLETED" />
