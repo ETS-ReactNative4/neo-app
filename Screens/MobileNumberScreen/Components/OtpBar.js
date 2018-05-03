@@ -22,12 +22,13 @@ const OtpBar = ({
           containerStyle={{
             height: 40,
             width: 160,
-            marginRight: 8
+            marginRight: 8,
+            borderWidth: 0.5
           }}
           text={isWaiting ? `ResendOtp (${waitTime}s)` : "ResendOtp"}
           hasBorder={true}
           action={isWaiting ? () => {} : resendOtp}
-          textColor={isWaiting ? constants.shade5 : "rgba(74,79,109,1)"}
+          textColor={isWaiting ? constants.shade5 : constants.black2}
           underlayColor={constants.shade4}
           color={"white"}
         />

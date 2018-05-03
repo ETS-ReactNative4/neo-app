@@ -16,12 +16,12 @@ const hydrate = create({
 hydrate("_upcomingItineraries", store.yourBookingsStore)
   .then(() => {})
   .catch(err => {
-    console.error(error);
+    console.error(err);
   });
 hydrate("_completedItineraries", store.yourBookingsStore)
   .then(() => {})
   .catch(err => {
-    console.error(error);
+    console.error(err);
   });
 
 export default store;

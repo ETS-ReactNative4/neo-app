@@ -23,9 +23,9 @@ const SimpleButton = ({
 
   if (hasBorder) {
     containerStyle = {
-      ...containerStyle,
       borderWidth: 1,
-      borderColor: textColor
+      borderColor: textColor,
+      ...containerStyle
     };
   }
 

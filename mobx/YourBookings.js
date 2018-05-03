@@ -7,9 +7,11 @@ class YourBookings {
   @persist("list")
   @observable
   _upcomingItineraries = [];
+
   @persist("list")
   @observable
   _completedItineraries = [];
+
   @observable _isLoading = false;
   @observable _loadingError = false;
 
