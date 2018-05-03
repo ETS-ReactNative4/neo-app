@@ -1,10 +1,15 @@
 import { observable, computed, action } from "mobx";
+import { persist } from "mobx-persist";
 import apiCall from "../Services/networkRequests/apiCall";
 import constants from "../constants/constants";
 
 class YourBookings {
-  @observable _upcomingItineraries = [];
-  @observable _completedItineraries = [];
+  @persist("list")
+  @observable
+  _upcomingItineraries = [];
+  @persist("list")
+  @observable
+  _completedItineraries = [];
   @observable _isLoading = false;
   @observable _loadingError = false;
 

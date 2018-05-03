@@ -17,7 +17,7 @@ class Itineraries extends Component {
   };
 
   componentDidMount() {
-    Keychain.resetGenericPassword();
+    // Keychain.resetGenericPassword();
   }
 
   render() {
