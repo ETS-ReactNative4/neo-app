@@ -22,9 +22,9 @@ const NextBar = ({ onClickNext, keyboardSpace }) => {
           }}
           text={"next"}
           action={onClickNext}
-          textColor={"white"}
-          underlayColor={constants.firstColorAlpha(0.4)}
-          color={constants.firstColor}
+          textColor={constants.firstColor}
+          underlayColor={"transparent"}
+          color={"transparent"}
         />
       </KeyboardAvoidingView>
       {isIphoneX() ? (
