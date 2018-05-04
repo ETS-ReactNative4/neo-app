@@ -6,7 +6,8 @@ const imageAssets = {
   dropDownArrow: require("../assets/images/icons/drop-down-arrow.png"),
   closeIcon: require("../assets/images/icons/cancel.png"),
   searchIcon: require("../assets/images/icons/magnifying-glass.png"),
-  loadingIcon: require("../assets/images/loaders/loader.gif")
+  loadingIcon: require("../assets/images/loaders/loader.gif"),
+  hamburgerIcon: require("../assets/images/icons/menu.png")
 };
 
 export default imageAssets;

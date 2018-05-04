@@ -17,13 +17,15 @@ class CommonHeader extends Component {
     LeftButton: PropTypes.element,
     RightButton: PropTypes.element,
     hideBackButton: PropTypes.bool,
-    navigation: PropTypes.object.isRequired
+    navigation: PropTypes.object.isRequired,
+    TitleComponent: PropTypes.element
   };
 
   render() {
     const {
       RightButton,
       title,
+      TitleComponent,
       navigation,
       hideBackButton,
       LeftButton
@@ -49,9 +51,13 @@ class CommonHeader extends Component {
               />
             </TouchableHighlight>
           )}
-          <View style={styles.headerTextContainer}>
-            <Text style={styles.headerTitle}>{title}</Text>
-          </View>
+          {TitleComponent ? (
+            TitleComponent
+          ) : (
+            <View style={styles.headerTextContainer}>
+              <Text style={styles.headerTitle}>{title}</Text>
+            </View>
+          )}
           {RightButton ? RightButton : <View style={styles.placeHolder} />}
         </View>
       </View>

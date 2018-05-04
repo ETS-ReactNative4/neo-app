@@ -23,9 +23,26 @@ import YourBookings from "./Screens/YourBookingsScreen/YourBookings";
 import transitionConfig from "./Services/navigationAnimations/transitionConfig";
 import { Provider } from "mobx-react";
 import store from "./mobx/Store";
+import BookingsHome from "./Screens/BookingsHomeScreen/BookingsHome";
+import Notifications from "./Screens/NotificationsScreen/Notifications";
 
 UIManager.setLayoutAnimationEnabledExperimental &&
   UIManager.setLayoutAnimationEnabledExperimental(true);
+
+const BookingStack = StackNavigator(
+  {
+    BookingsHome: {
+      screen: BookingsHome
+    }
+  },
+  {
+    initialRouteName: "BookingsHome",
+    navigationOptions: {
+      gesturesEnabled: false
+    },
+    transitionConfig
+  }
+);
 
 const ToolStack = StackNavigator(
   {
@@ -49,7 +66,8 @@ const ToolStack = StackNavigator(
     initialRouteName: "ToolHome",
     navigationOptions: {
       gesturesEnabled: false
-    }
+    },
+    transitionConfig
   }
 );
 
@@ -59,7 +77,7 @@ const HomeTabs = TabNavigator(
       screen: Home
     },
     Bookings: {
-      screen: Home
+      screen: BookingStack
     },
     Chat: {
       screen: Home
@@ -74,7 +92,7 @@ const HomeTabs = TabNavigator(
   {
     tabBarComponent: TabBarBottom,
     tabBarPosition: "bottom",
-    initialRouteName: "Tools",
+    initialRouteName: "Bookings",
     swipeEnabled: false
   }
 );
@@ -125,7 +143,7 @@ const HomeStack = StackNavigator(
     }
   },
   {
-    initialRouteName: "Splash",
+    initialRouteName: "AppHome",
     navigationOptions: {
       gesturesEnabled: false
     },
@@ -139,7 +157,7 @@ const AppNavigator = DrawerNavigator(
       screen: HomeStack
     },
     Notifications: {
-      screen: Home
+      screen: Notifications
     },
     Payments: {
       screen: Home
