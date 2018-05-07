@@ -1,10 +1,18 @@
 import React, { Component } from "react";
-import { View, Text, Switch, TouchableHighlight } from "react-native";
+import {
+  ScrollView,
+  View,
+  Text,
+  Switch,
+  TouchableHighlight,
+  StyleSheet
+} from "react-native";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import HamburgerButton from "../../CommonComponents/HamburgerButton/HamburgerButton";
 import BookingTitle from "./Components/BookingTitle";
 import constants from "../../constants/constants";
 import TripToggle from "./Components/TripToggle";
+import SearchPlaceholder from "../../CommonComponents/SearchPlaceholder/SearchPlaceholder";
 
 class BookingsHome extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -29,13 +37,22 @@ class BookingsHome extends Component {
     };
   };
 
+  openSearch = () => {};
+
   render() {
     return (
-      <View style={{ paddingHorizontal: 24 }}>
-        <Text>Bookings Home</Text>
-      </View>
+      <ScrollView style={styles.bookingContainer}>
+        <SearchPlaceholder action={this.openSearch} />
+      </ScrollView>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  bookingContainer: {
+    paddingHorizontal: 24,
+    backgroundColor: "white"
+  }
+});
 
 export default BookingsHome;

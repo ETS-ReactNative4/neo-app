@@ -15,7 +15,6 @@ class AppState {
 
   @action
   setTripMode = status => {
-    console.log(status);
     this._tripMode.status = status;
   };
 }
