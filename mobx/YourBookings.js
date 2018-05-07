@@ -36,7 +36,7 @@ class YourBookings {
   }
 
   @action
-  getUpcomingItineraries() {
+  getUpcomingItineraries = () => {
     this._isLoading = true;
     const requestBody = {};
     apiCall(constants.getYourTrips, requestBody)
@@ -54,7 +54,7 @@ class YourBookings {
         this._isLoading = false;
         this._loadingError = true;
       });
-  }
+  };
 }
 
 export default YourBookings;

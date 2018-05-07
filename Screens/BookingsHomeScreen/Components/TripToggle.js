@@ -8,11 +8,12 @@ import {
 } from "react-native";
 import constants from "../../../constants/constants";
 import PropTypes from "prop-types";
+import { inject, observer } from "mobx-react/custom";
 
+@inject("appState")
+@observer
 class TripToggle extends Component {
   static propTypes = {
-    isActive: PropTypes.bool.isRequired,
-    action: PropTypes.func.isRequired,
     containerStyle: PropTypes.object
   };
 
@@ -21,26 +22,26 @@ class TripToggle extends Component {
   }
 
   render() {
-    const { isActive, action } = this.props;
+    const { isTripModeOn, setTripMode } = this.props.appState;
     let { containerStyle } = this.props;
     if (!containerStyle) containerStyle = {};
     return (
       <TouchableHighlight
-        onPress={action}
+        onPress={() => setTripMode(!isTripModeOn)}
         underlayColor={constants.shade4}
         style={[
           styles.toggleContainer,
-          isActive ? { backgroundColor: constants.firstColor } : {},
+          isTripModeOn ? { backgroundColor: constants.firstColor } : {},
           containerStyle
         ]}
       >
         <View style={styles.toggleView}>
-          {isActive ? (
+          {isTripModeOn ? (
             <Text style={styles.onLabel}>{`Trip`}</Text>
           ) : (
             <View style={styles.offButton} />
           )}
-          {isActive ? (
+          {isTripModeOn ? (
             <View style={styles.onButton} />
           ) : (
             <Text style={styles.offLabel}>{`Trip`}</Text>

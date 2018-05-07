@@ -22,13 +22,7 @@ class BookingsHome extends Component {
             />
           }
           title={""}
-          RightButton={
-            <TripToggle
-              isActive={false}
-              action={() => {}}
-              containerStyle={{ marginHorizontal: 24 }}
-            />
-          }
+          RightButton={<TripToggle containerStyle={{ marginHorizontal: 24 }} />}
           navigation={navigation}
         />
       )
