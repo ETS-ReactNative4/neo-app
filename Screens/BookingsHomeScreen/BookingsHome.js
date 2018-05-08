@@ -11,8 +11,10 @@ import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import HamburgerButton from "../../CommonComponents/HamburgerButton/HamburgerButton";
 import BookingTitle from "./Components/BookingTitle";
 import constants from "../../constants/constants";
-import TripToggle from "./Components/TripToggle";
+import TripToggle from "../../CommonComponents/TripToggle/TripToggle";
 import SearchPlaceholder from "../../CommonComponents/SearchPlaceholder/SearchPlaceholder";
+import BookingCalendar from "./Components/BookingCalendar";
+import BookingAccordion from "./Components/BookingAccordion";
 
 class BookingsHome extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -43,6 +45,10 @@ class BookingsHome extends Component {
     return (
       <ScrollView style={styles.bookingContainer}>
         <SearchPlaceholder action={this.openSearch} />
+
+        <BookingCalendar />
+
+        <BookingAccordion />
       </ScrollView>
     );
   }

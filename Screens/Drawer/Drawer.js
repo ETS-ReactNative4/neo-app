@@ -4,7 +4,7 @@ import { isIphoneX } from "react-native-iphone-x-helper";
 import constants from "../../constants/constants";
 import LoginButton from "./Components/LoginButton";
 import DrawerButton from "./Components/DrawerButton";
-import NotificationCount from "./Components/NotificationCount";
+import NotificationCount from "../../CommonComponents/NotificationCount/NotificationCount";
 
 class Drawer extends Component {
   clickDrawerItem = (index, screen) => {

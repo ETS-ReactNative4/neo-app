@@ -6,7 +6,7 @@ import {
   StyleSheet,
   LayoutAnimation
 } from "react-native";
-import constants from "../../../constants/constants";
+import constants from "../../constants/constants";
 import PropTypes from "prop-types";
 import { inject, observer } from "mobx-react/custom";
 

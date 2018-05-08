@@ -17,8 +17,10 @@ const greyPallete = {
 
 const pallete2 = {
   firstColor: `rgba(47,209,93,1)`,
+  secondColor: `rgba(254,218,70,1)`,
 
-  firstColorAlpha: alpha => `rgba(47, 209, 93, ${alpha})`
+  firstColorAlpha: alpha => `rgba(47, 209, 93, ${alpha})`,
+  secondColorAlpha: alpha => `rgba(254, 218 ,70, ${alpha})`
 };
 
 const pallete3 = {};
