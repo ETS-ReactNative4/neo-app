@@ -15,7 +15,10 @@ import TripToggle from "../../CommonComponents/TripToggle/TripToggle";
 import SearchPlaceholder from "../../CommonComponents/SearchPlaceholder/SearchPlaceholder";
 import BookingCalendar from "./Components/BookingCalendar";
 import BookingAccordion from "./Components/BookingAccordion";
+import { inject, observer } from "mobx-react/custom";
 
+@inject("itineraries")
+@observer
 class BookingsHome extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
@@ -42,11 +45,16 @@ class BookingsHome extends Component {
   openSearch = () => {};
 
   render() {
+    const {
+      selectedItinerary: itinerary,
+      startEndDates
+    } = this.props.itineraries;
+
     return (
       <ScrollView style={styles.bookingContainer}>
         <SearchPlaceholder action={this.openSearch} />
 
-        <BookingCalendar />
+        <BookingCalendar itinerary={itinerary} startEndDates={startEndDates} />
 
         <BookingAccordion />
       </ScrollView>

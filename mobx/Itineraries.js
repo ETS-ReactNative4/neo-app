@@ -1,5 +1,8 @@
 import { observable, computed, action } from "mobx";
 import { persist } from "mobx-persist";
+import { toJS } from "mobx";
+import _ from "lodash";
+import moment from "moment";
 import apiCall from "../Services/networkRequests/apiCall";
 import constants from "../constants/constants";
 
@@ -3584,6 +3587,58 @@ class Itineraries {
     },
     freeActivitiesSize: 0
   };
+
+  constructor() {
+    console.log(JSON.stringify(toJS(this._selectedItinerary)));
+    console.log(this.startEndDates);
+  }
+
+  @computed
+  get selectedItinerary() {
+    return toJS(this._selectedItinerary);
+  }
+
+  @computed
+  get startEndDates() {
+    const itineraryDayByKey = toJS(this._selectedItinerary.iterDayByKey);
+    const days = Object.values(itineraryDayByKey);
+    const sortedDays = _.sortBy(days, "dayNum");
+
+    const startDay = sortedDays[0];
+    const lastDay = sortedDays[sortedDays.length - 1];
+    const startDate = moment(
+      `${startDay.day}-${startDay.mon}-${constants.currentYear}`,
+      "DD-MMM-YYYY"
+    ).toDate();
+    const lastDate = moment(
+      `${lastDay.day}-${lastDay.mon}-${constants.currentYear}`,
+      "DD-MMM-YYYY"
+    ).toDate();
+
+    const startWeek = moment(startDate).day();
+    const endWeek = moment(lastDate).day();
+
+    const startBuffer = startWeek;
+    const endBuffer = 6 - endWeek;
+
+    const calendarStartDate = moment(startDate)
+      .subtract(startBuffer, "days")
+      .toDate();
+    const calendarLastDate = moment(lastDate)
+      .add(endBuffer, "days")
+      .toDate();
+
+    const numberOfDays =
+      moment(calendarLastDate).diff(calendarStartDate, "days") + 1;
+
+    return {
+      calendarStartDate,
+      calendarLastDate,
+      startDate,
+      lastDate,
+      numberOfDays
+    };
+  }
 }
 
 export default Itineraries;

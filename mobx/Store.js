@@ -3,11 +3,13 @@ import { AsyncStorage } from "react-native";
 import User from "./User";
 import YourBookings from "./YourBookings";
 import AppState from "./AppState";
+import Itineraries from "./Itineraries";
 
 const store = {
   userStore: new User(),
   yourBookingsStore: new YourBookings(),
-  appState: new AppState()
+  appState: new AppState(),
+  itineraries: new Itineraries()
 };
 
 const hydrate = create({
