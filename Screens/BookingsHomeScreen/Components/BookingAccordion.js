@@ -50,6 +50,7 @@ class BookingAccordion extends Component {
                 width: 20,
                 borderRadius: 8
               }}
+              textStyle={{ color: constants.black2 }}
             />
           ) : (
             <Image
