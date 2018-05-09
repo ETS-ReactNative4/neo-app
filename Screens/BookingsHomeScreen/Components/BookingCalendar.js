@@ -10,7 +10,7 @@ import {
 import constants from "../../../constants/constants";
 import moment from "moment";
 
-const BookingCalendar = ({ itinerary, startEndDates }) => {
+const BookingCalendar = ({ startEndDates }) => {
   const numberOfRows = startEndDates.numberOfDays / 7;
   const rowArray = [];
   for (let i = 0; i < numberOfRows; i++) {

@@ -3590,11 +3590,15 @@ class Itineraries {
 
   @computed
   get selectedItinerary() {
+    if (_.isEmpty(this._selectedItinerary)) return {};
+
     return toJS(this._selectedItinerary);
   }
 
   @computed
   get startEndDates() {
+    if (_.isEmpty(this._selectedItinerary)) return {};
+
     const itineraryDayByKey = toJS(this._selectedItinerary.iterDayByKey);
     const days = Object.values(itineraryDayByKey);
     const sortedDays = _.sortBy(days, "dayNum");
@@ -3633,6 +3637,164 @@ class Itineraries {
       lastDate,
       numberOfDays
     };
+  }
+
+  @computed
+  get hotels() {
+    if (_.isEmpty(this._selectedItinerary)) return {};
+
+    let hotels;
+    try {
+      const hotelRefs = this._selectedItinerary.allHotelCostingRefs;
+      hotels = hotelRefs.map(ref => {
+        return toJS(
+          this._selectedItinerary.hotelCostings.hotelCostingById[ref]
+        );
+      });
+    } catch (e) {
+      hotels = [];
+    }
+    return hotels;
+  }
+
+  @computed
+  get activities() {
+    if (_.isEmpty(this._selectedItinerary)) return {};
+
+    let activities;
+    try {
+      const activityRefs = this._selectedItinerary.allActivityCostingRefs;
+      activities = activityRefs.map(ref => {
+        return toJS(
+          this._selectedItinerary.activityCostings.activityCostingById[ref]
+        );
+      });
+    } catch (e) {
+      activities = [];
+    }
+    return activities;
+  }
+
+  @computed
+  get flights() {
+    if (_.isEmpty(this._selectedItinerary)) return {};
+
+    let flights;
+    try {
+      const flightRefs = this._selectedItinerary.allFlightCostingRefs;
+      flights = flightRefs.map(ref => {
+        return toJS(
+          this._selectedItinerary.flightCostings.flightCostingById[ref]
+        );
+      });
+    } catch (e) {
+      flights = [];
+    }
+    return flights;
+  }
+
+  @computed
+  get transfers() {
+    if (_.isEmpty(this._selectedItinerary)) return {};
+
+    let transfers;
+    try {
+      const transferRefs = this._selectedItinerary.allTransferCostingRefs;
+      transfers = transferRefs.map(ref => {
+        return toJS(
+          this._selectedItinerary.transferCostings.transferCostingById[ref]
+        );
+      });
+    } catch (e) {
+      transfers = [];
+    }
+    return transfers;
+  }
+
+  @computed
+  get trains() {
+    if (_.isEmpty(this._selectedItinerary)) return {};
+
+    let trains;
+    try {
+      const trainRefs = this._selectedItinerary.allTrainCostingRefs;
+      trains = trainRefs.map(ref => {
+        return toJS(
+          this._selectedItinerary.trainCostings.trainCostingById[ref]
+        );
+      });
+    } catch (e) {
+      trains = [];
+    }
+    return trains;
+  }
+
+  @computed
+  get ferries() {
+    if (_.isEmpty(this._selectedItinerary)) return {};
+
+    let ferries;
+    try {
+      const trainRefs = this._selectedItinerary.allFerryCostingRefs;
+      ferries = trainRefs.map(ref => {
+        return toJS(
+          this._selectedItinerary.ferryCostings.ferryCostingById[ref]
+        );
+      });
+    } catch (e) {
+      ferries = [];
+    }
+    return ferries;
+  }
+
+  @computed
+  get visa() {
+    if (_.isEmpty(this._selectedItinerary)) return {};
+
+    let visa;
+    try {
+      const visaRefs = this._selectedItinerary.allVisaCostingRefs;
+      visa = visaRefs.map(ref => {
+        return toJS(this._selectedItinerary.visaCostings.visaCostingById[ref]);
+      });
+    } catch (e) {
+      visa = [];
+    }
+    return visa;
+  }
+
+  @computed
+  get passes() {
+    if (_.isEmpty(this._selectedItinerary)) return {};
+
+    let passes;
+    try {
+      const passRefs = this._selectedItinerary.allFerryCostingRefs;
+      passes = passRefs.map(ref => {
+        return toJS(this._selectedItinerary.passCostings.passCostingById[ref]);
+      });
+    } catch (e) {
+      passes = [];
+    }
+    return passes;
+  }
+
+  @computed
+  get rentals() {
+    if (_.isEmpty(this._selectedItinerary)) return {};
+
+    let rentals;
+    try {
+      const rentalRefs = this._selectedItinerary.allRentalCostingRefs;
+      rentals = rentalRefs.map(ref => {
+        return toJS(
+          this._selectedItinerary.rentalCostings.rentalCostingById[ref]
+        );
+      });
+    } catch (e) {
+      rentals = [];
+    }
+    return rentals;
   }
 }
 

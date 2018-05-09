@@ -14,7 +14,7 @@ import constants from "../../constants/constants";
 import TripToggle from "../../CommonComponents/TripToggle/TripToggle";
 import SearchPlaceholder from "../../CommonComponents/SearchPlaceholder/SearchPlaceholder";
 import BookingCalendar from "./Components/BookingCalendar";
-import BookingAccordion from "./Components/BookingAccordion";
+import BookingAccordion from "./Components/BookingAccordion/BookingAccordion";
 import { inject, observer } from "mobx-react/custom";
 
 @inject("itineraries")
@@ -45,16 +45,13 @@ class BookingsHome extends Component {
   openSearch = () => {};
 
   render() {
-    const {
-      selectedItinerary: itinerary,
-      startEndDates
-    } = this.props.itineraries;
+    const { startEndDates } = this.props.itineraries;
 
     return (
       <ScrollView style={styles.bookingContainer}>
         <SearchPlaceholder action={this.openSearch} />
 
-        <BookingCalendar itinerary={itinerary} startEndDates={startEndDates} />
+        <BookingCalendar startEndDates={startEndDates} />
 
         <BookingAccordion />
       </ScrollView>
