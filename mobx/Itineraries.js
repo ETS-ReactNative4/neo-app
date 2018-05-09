@@ -3588,11 +3588,6 @@ class Itineraries {
     freeActivitiesSize: 0
   };
 
-  constructor() {
-    console.log(JSON.stringify(toJS(this._selectedItinerary)));
-    console.log(this.startEndDates);
-  }
-
   @computed
   get selectedItinerary() {
     return toJS(this._selectedItinerary);
