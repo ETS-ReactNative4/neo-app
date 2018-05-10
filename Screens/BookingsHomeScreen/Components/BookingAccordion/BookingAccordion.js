@@ -12,6 +12,7 @@ import constants from "../../../../constants/constants";
 import NotificationCount from "../../../../CommonComponents/NotificationCount/NotificationCount";
 import { inject, observer } from "mobx-react/custom";
 import HotelSection from "./Components/HotelSection";
+import ActivitiesSection from "./Components/ActivitiesSection";
 
 @inject("itineraries")
 @observer
@@ -165,6 +166,9 @@ class BookingAccordion extends Component {
     switch (section.type) {
       case "Hotels":
         return <HotelSection section={section} />;
+
+      case "Activities":
+        return <ActivitiesSection section={section} />;
 
       default:
         return (
