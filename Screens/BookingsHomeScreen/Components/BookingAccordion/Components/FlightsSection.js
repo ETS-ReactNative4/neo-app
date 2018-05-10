@@ -5,23 +5,23 @@ import { responsiveWidth } from "react-native-responsive-dimensions";
 import constants from "../../../../../constants/constants";
 import PropTypes from "prop-types";
 
-const ActivitiesSection = ({ section }) => {
+const FlightsSection = ({ section }) => {
   return (
     <View>
-      {section.items.map((activity, index) => {
+      {section.items.map((flight, index) => {
         let isLast = index === section.items.length - 1;
 
-        return <Activities key={index} activity={activity} isLast={isLast} />;
+        return <Flight key={index} flight={flight} isLast={isLast} />;
       })}
     </View>
   );
 };
 
-ActivitiesSection.propTypes = {
+FlightsSection.propTypes = {
   section: PropTypes.object.isRequired
 };
 
-const Activities = ({ activity, isLast }) => {
+const Flight = ({ flight, isLast }) => {
   let customStyle = {};
   if (isLast) {
     customStyle = {
@@ -34,24 +34,23 @@ const Activities = ({ activity, isLast }) => {
     <View style={[styles.contentContainer, customStyle]}>
       <View style={styles.iconWrapper}>
         <Image
-          defaultSource={constants.splashBackground}
           resizeMode={"cover"}
           style={styles.contentIcon}
-          source={{ uri: activity.mainPhoto }}
+          source={constants.splashBackground}
         />
       </View>
       <View style={styles.contentTextContainer}>
         <View style={styles.contentHeaderWrapper}>
           <Text style={styles.contentHeader}>{`${moment(
-            `${activity.costing.day}/${activity.costing.mon}/${
-              constants.currentYear
-            }`,
+            `${flight.day}/${flight.mon}/${constants.currentYear}`,
             "DD/MMM/YYYY"
-          ).format("MMM DD")}`}</Text>
+          ).format("MMM DD")} (${flight.departureTime} - ${
+            flight.arrivalTime
+          })`}</Text>
         </View>
         <View style={styles.contentTextWrapper}>
-          <Text style={styles.contentText} numberOfLines={1}>
-            {activity.title}
+          <Text style={styles.contentText} numberOfLines={2}>
+            {flight.text}
           </Text>
         </View>
       </View>
@@ -62,8 +61,8 @@ const Activities = ({ activity, isLast }) => {
   );
 };
 
-Activities.propTypes = {
-  activity: PropTypes.object.isRequired,
+Flight.propTypes = {
+  flight: PropTypes.object.isRequired,
   isLast: PropTypes.bool.isRequired
 };
 
@@ -86,7 +85,7 @@ const styles = StyleSheet.create({
     borderRadius: 20
   },
   contentTextContainer: {
-    height: 40,
+    minHeight: 40,
     marginLeft: 16
   },
   contentHeaderWrapper: {
@@ -100,7 +99,7 @@ const styles = StyleSheet.create({
     color: constants.shade2
   },
   contentTextWrapper: {
-    height: 24,
+    minHeight: 24,
     maxWidth: responsiveWidth(60),
     justifyContent: "center"
   },
@@ -120,4 +119,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default ActivitiesSection;
+export default FlightsSection;

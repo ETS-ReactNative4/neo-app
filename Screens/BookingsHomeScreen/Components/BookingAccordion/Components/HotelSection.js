@@ -34,9 +34,10 @@ const Hotel = ({ hotel, isLast }) => {
     <View style={[styles.contentContainer, customStyle]}>
       <View style={styles.iconWrapper}>
         <Image
+          defaultSource={constants.splashBackground}
           resizeMode={"cover"}
           style={styles.contentIcon}
-          source={constants.splashBackground}
+          source={{ uri: hotel.imageURL }}
         />
       </View>
       <View style={styles.contentTextContainer}>
@@ -50,7 +51,9 @@ const Hotel = ({ hotel, isLast }) => {
           ).format("MMM DD")}, ${hotel.cityName}`}</Text>
         </View>
         <View style={styles.contentTextWrapper}>
-          <Text style={styles.contentText}>{hotel.name}</Text>
+          <Text style={styles.contentText} numberOfLines={1}>
+            {hotel.name}
+          </Text>
         </View>
       </View>
       <View style={styles.rightPlaceholder}>

@@ -13,6 +13,8 @@ import NotificationCount from "../../../../CommonComponents/NotificationCount/No
 import { inject, observer } from "mobx-react/custom";
 import HotelSection from "./Components/HotelSection";
 import ActivitiesSection from "./Components/ActivitiesSection";
+import TransferSection from "./Components/TransferSection";
+import TrainsSection from "./Components/TrainsSection";
 
 @inject("itineraries")
 @observer
@@ -169,6 +171,12 @@ class BookingAccordion extends Component {
 
       case "Activities":
         return <ActivitiesSection section={section} />;
+
+      case "Transfers":
+        return <TransferSection section={section} />;
+
+      case "Trains":
+        return <TrainsSection section={section} />;
 
       default:
         return (

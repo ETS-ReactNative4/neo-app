@@ -3664,12 +3664,21 @@ class Itineraries {
     let activities;
     try {
       activities = Object.values(this._selectedItinerary.activityById);
-      // const activityRefs = this._selectedItinerary.allActivityCostingRefs;
-      // activities = activityRefs.map(ref => {
-      //   return toJS(
-      //     this._selectedItinerary.activityCostings.activityCostingById[ref]
-      //   );
-      // });
+      const activityRefs = this._selectedItinerary.allActivityCostingRefs;
+      const activitiesCosting = activityRefs.map(ref => {
+        return toJS(
+          this._selectedItinerary.activityCostings.activityCostingById[ref]
+        );
+      });
+      activities = activities.map(activity => {
+        activity = toJS(activity);
+        return {
+          ...activity,
+          costing: _.find(activitiesCosting, {
+            activityId: JSON.stringify(activity.planningToolId)
+          })
+        };
+      });
     } catch (e) {
       activities = [];
     }
@@ -3799,7 +3808,7 @@ class Itineraries {
   }
 
   constructor() {
-    console.log(JSON.stringify(toJS(this._selectedItinerary)));
+    // console.log(JSON.stringify(toJS(this._selectedItinerary)));
   }
 }
 
