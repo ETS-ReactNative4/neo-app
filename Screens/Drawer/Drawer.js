@@ -9,7 +9,6 @@ import NotificationCount from "../../CommonComponents/NotificationCount/Notifica
 class Drawer extends Component {
   clickDrawerItem = (index, screen) => {
     this.props.navigation.navigate(screen);
-    this.props.navigation.navigate("DrawerClose");
   };
 
   render() {

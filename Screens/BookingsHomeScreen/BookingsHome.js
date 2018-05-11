@@ -25,7 +25,7 @@ class BookingsHome extends Component {
       header: (
         <CommonHeader
           LeftButton={
-            <HamburgerButton action={() => navigation.navigate("DrawerOpen")} />
+            <HamburgerButton action={() => navigation.openDrawer()} />
           }
           TitleComponent={
             <BookingTitle

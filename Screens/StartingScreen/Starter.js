@@ -16,12 +16,12 @@ class Starter extends Component {
   };
 
   clickedBooking = () => {
-    // this.props.navigation.navigate("Bookings");
-    this.props.navigation.navigate("MobileNumber");
+    // this.props.navigation.push("Bookings");
+    this.props.navigation.push("MobileNumber");
   };
 
   clickedExplore = () => {
-    this.props.navigation.navigate("Explore");
+    this.props.navigation.push("Explore");
   };
 
   render() {

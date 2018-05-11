@@ -1,6 +1,4 @@
-import React, {
-  Component,
-} from 'react';
+import React, { Component } from "react";
 import {
   View,
   StyleSheet,
@@ -8,8 +6,8 @@ import {
   ScrollView,
   TouchableHighlight,
   ImageBackground,
-  Text,
-} from 'react-native';
+  Text
+} from "react-native";
 import constants from "../../constants/constants";
 import SectionHeader from "../../CommonComponents/SectionHeader/SectionHeader";
 import Carousel from "../../CommonComponents/Carousel/Carousel";
@@ -17,184 +15,183 @@ import PrimaryTool from "./Components/PrimaryTool";
 import SecondaryTool from "./Components/SecondaryTool";
 
 class Tools extends Component {
-
   render() {
-
     const cityList = [
       {
-        title: 'Bali',
+        title: "Bali",
         image: constants.starterBackground,
-        action: () => {},
+        action: () => {}
       },
       {
-        title: 'Bali',
+        title: "Bali",
         image: constants.starterBackground,
-        action: () => {},
+        action: () => {}
       },
       {
-        title: 'Bali',
+        title: "Bali",
         image: constants.starterBackground,
-        action: () => {},
+        action: () => {}
       },
       {
-        title: 'Bali',
+        title: "Bali",
         image: constants.starterBackground,
-        action: () => {},
-      },
+        action: () => {}
+      }
     ];
 
     const essentialTools = [
       {
         icon: constants.notificationIcon,
         text: `Common Phrases`,
-        action: () => this.props.navigation.navigate('PhraseBook'),
+        action: () => this.props.navigation.push("PhraseBook")
       },
       {
         icon: constants.notificationIcon,
         text: `Emergency Contacts`,
-        action: () => {},
+        action: () => {}
       },
       {
         icon: constants.notificationIcon,
         text: `Medical Care`,
-        action: () => {},
+        action: () => {}
       },
       {
         icon: constants.notificationIcon,
         text: `Weather Forecast`,
-        action: () => this.props.navigation.navigate('Weather'),
-      },
+        action: () => this.props.navigation.push("Weather")
+      }
     ];
 
     const beforePacking = [
       {
         icon: constants.notificationIcon,
         text: `Passport Details`,
-        action: () => {},
+        action: () => {}
       },
       {
         icon: constants.notificationIcon,
         text: `Packing Checklist`,
-        action: () => this.props.navigation.navigate('PackingChecklist'),
+        action: () => this.props.navigation.push("PackingChecklist")
       },
       {
         icon: constants.notificationIcon,
         text: `Documents & Visa`,
-        action: () => {},
-      },
+        action: () => {}
+      }
     ];
 
     const moreTools = [
       {
         icon: constants.notificationIcon,
         text: `Download Invoice`,
-        action: () => {},
+        action: () => {}
       },
       {
         icon: constants.notificationIcon,
         text: `Frequently Asked Questions`,
-        action: () => {},
+        action: () => {}
       },
       {
         icon: constants.notificationIcon,
         text: `Cancel Trip`,
-        action: () => {},
-      },
+        action: () => {}
+      }
     ];
 
-    return(
+    return (
       <ScrollView style={styles.container}>
-
-        <SectionHeader sectionName={'CITY GUIDES'} containerStyle={{marginHorizontal: 24}}/>
-
-        <Carousel
-          data={cityList}
-          firstMargin={24}
+        <SectionHeader
+          sectionName={"CITY GUIDES"}
+          containerStyle={{ marginHorizontal: 24 }}
         />
 
-        <SectionHeader sectionName={'ESSENTIALS'} containerStyle={{marginTop: 40, marginHorizontal: 24}}/>
+        <Carousel data={cityList} firstMargin={24} />
+
+        <SectionHeader
+          sectionName={"ESSENTIALS"}
+          containerStyle={{ marginTop: 40, marginHorizontal: 24 }}
+        />
 
         <PrimaryTool
           text={`Currency Calculator`}
-          action={() => this.props.navigation.navigate('CurrencyConverter')}
-          containerStyle={{marginHorizontal: 24}}
+          action={() => this.props.navigation.push("CurrencyConverter")}
+          containerStyle={{ marginHorizontal: 24 }}
         />
 
-        {
-          essentialTools.map((item, index) => (
-            <SecondaryTool
-              containerStyle={{marginHorizontal: 24}}
-              key={index}
-              icon={item.icon}
-              text={item.text}
-              action={item.action}
-            />
-          ))
-        }
+        {essentialTools.map((item, index) => (
+          <SecondaryTool
+            containerStyle={{ marginHorizontal: 24 }}
+            key={index}
+            icon={item.icon}
+            text={item.text}
+            action={item.action}
+          />
+        ))}
 
-        <SectionHeader sectionName={'BEFORE PACKING'} containerStyle={{marginTop: 40, marginHorizontal: 24}}/>
+        <SectionHeader
+          sectionName={"BEFORE PACKING"}
+          containerStyle={{ marginTop: 40, marginHorizontal: 24 }}
+        />
 
         <PrimaryTool
           text={`Invite Co-passengers`}
           action={() => {}}
-          containerStyle={{marginHorizontal: 24}}
+          containerStyle={{ marginHorizontal: 24 }}
         />
 
-        {
-          beforePacking.map((item, index) => (
-            <SecondaryTool
-              containerStyle={{marginHorizontal: 24}}
-              key={index}
-              icon={item.icon}
-              text={item.text}
-              action={item.action}
-            />
-          ))
-        }
+        {beforePacking.map((item, index) => (
+          <SecondaryTool
+            containerStyle={{ marginHorizontal: 24 }}
+            key={index}
+            icon={item.icon}
+            text={item.text}
+            action={item.action}
+          />
+        ))}
 
-        <SectionHeader sectionName={'MORE TOOLS'} containerStyle={{marginTop: 40, marginHorizontal: 24}}/>
+        <SectionHeader
+          sectionName={"MORE TOOLS"}
+          containerStyle={{ marginTop: 40, marginHorizontal: 24 }}
+        />
 
         <PrimaryTool
-          containerStyle={{marginHorizontal: 24}}
+          containerStyle={{ marginHorizontal: 24 }}
           text={`Complete Payment`}
           action={() => {}}
         />
 
-        {
-          moreTools.map((item, index) => (
-            <SecondaryTool
-              containerStyle={{marginHorizontal: 24}}
-              key={index}
-              icon={item.icon}
-              text={item.text}
-              action={item.action}
-            />
-          ))
-        }
+        {moreTools.map((item, index) => (
+          <SecondaryTool
+            containerStyle={{ marginHorizontal: 24 }}
+            key={index}
+            icon={item.icon}
+            text={item.text}
+            action={item.action}
+          />
+        ))}
 
-        <View style={{height: 20}}/>
-
+        <View style={{ height: 20 }} />
       </ScrollView>
-    )
+    );
   }
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: constants.appBackgroundColor,
+    backgroundColor: constants.appBackgroundColor
   },
   secondaryContainer: {
     height: 24,
-    marginTop: 24,
+    marginTop: 24
   },
   secondaryWrapper: {
     flex: 1,
-    flexDirection: 'row',
+    flexDirection: "row"
   },
   icon: {
     height: 24,
-    width: 24,
+    width: 24
   },
   text2: {
     fontFamily: constants.primaryRegular,
@@ -202,8 +199,8 @@ const styles = StyleSheet.create({
     fontSize: 20,
     lineHeight: 24,
     fontWeight: "300",
-    color: constants.black2,
-  },
+    color: constants.black2
+  }
 });
 
 export default Tools;

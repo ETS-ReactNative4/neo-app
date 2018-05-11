@@ -115,7 +115,7 @@ class MobileNumber extends Component {
           clearInterval(this.waitListener);
           await registerToken(response.data.authtoken);
           this.props.yourBookingsStore.getUpcomingItineraries();
-          this.props.navigation.navigate("YourBookings");
+          this.props.navigation.push("YourBookings");
         } else {
           if (Platform.OS === "ios") {
             DebouncedAlert("Verification Failed!", response.msg);

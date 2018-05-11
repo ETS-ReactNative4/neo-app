@@ -1,15 +1,15 @@
 import React, { Component } from "react";
 import { ImageBackground, Platform } from "react-native";
-import { NavigationActions } from "react-navigation";
+import { StackActions, NavigationActions } from "react-navigation";
 import constants from "../../constants/constants";
 import * as Keychain from "react-native-keychain";
 
-const resetToHome = NavigationActions.reset({
+const resetToHome = StackActions.reset({
   index: 0,
   actions: [NavigationActions.navigate({ routeName: "Starter" })]
 });
 
-const resetToItineraries = NavigationActions.reset({
+const resetToItineraries = StackActions.reset({
   index: 0,
   actions: [NavigationActions.navigate({ routeName: "Itineraries" })]
 });
@@ -24,11 +24,11 @@ class Splash extends Component {
       const credentials = await Keychain.getGenericPassword();
       if (credentials) {
         Platform.OS === "ios"
-          ? this.props.navigation.navigate("Itineraries")
+          ? this.props.navigation.push("Itineraries")
           : this.props.navigation.dispatch(resetToItineraries);
       } else {
         Platform.OS === "ios"
-          ? this.props.navigation.navigate("Starter")
+          ? this.props.navigation.push("Starter")
           : this.props.navigation.dispatch(resetToHome);
       }
     }, 3000);

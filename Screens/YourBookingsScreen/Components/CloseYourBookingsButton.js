@@ -2,9 +2,9 @@ import React, { Component } from "react";
 import { TouchableHighlight, Image, BackHandler, Platform } from "react-native";
 import constants from "../../../constants/constants";
 import PropTypes from "prop-types";
-import { NavigationActions } from "react-navigation";
+import { StackActions, NavigationActions } from "react-navigation";
 
-const resetAction = NavigationActions.reset({
+const resetAction = StackActions.reset({
   index: 0,
   actions: [NavigationActions.navigate({ routeName: "Itineraries" })]
 });
