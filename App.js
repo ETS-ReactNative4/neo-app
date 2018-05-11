@@ -1,8 +1,8 @@
 import React from "react";
 import {
-  StackNavigator,
-  DrawerNavigator,
-  TabNavigator,
+  createStackNavigator,
+  createDrawerNavigator,
+  createBottomTabNavigator,
   TabBarBottom
 } from "react-navigation";
 import { UIManager } from "react-native";
@@ -29,7 +29,7 @@ import Notifications from "./Screens/NotificationsScreen/Notifications";
 UIManager.setLayoutAnimationEnabledExperimental &&
   UIManager.setLayoutAnimationEnabledExperimental(true);
 
-const BookingStack = StackNavigator(
+const BookingStack = createStackNavigator(
   {
     BookingsHome: {
       screen: BookingsHome
@@ -44,7 +44,7 @@ const BookingStack = StackNavigator(
   }
 );
 
-const ToolStack = StackNavigator(
+const ToolStack = createStackNavigator(
   {
     ToolHome: {
       screen: Tools
@@ -71,7 +71,7 @@ const ToolStack = StackNavigator(
   }
 );
 
-const HomeTabs = TabNavigator(
+const HomeTabs = createBottomTabNavigator(
   {
     TripFeed: {
       screen: Home
@@ -90,14 +90,12 @@ const HomeTabs = TabNavigator(
     }
   },
   {
-    tabBarComponent: TabBarBottom,
-    tabBarPosition: "bottom",
     initialRouteName: "Bookings",
     swipeEnabled: false
   }
 );
 
-const HomeStack = StackNavigator(
+const HomeStack = createStackNavigator(
   {
     Splash: {
       screen: Splash,
@@ -151,7 +149,7 @@ const HomeStack = StackNavigator(
   }
 );
 
-const AppNavigator = DrawerNavigator(
+const AppNavigator = createDrawerNavigator(
   {
     Home: {
       screen: HomeStack
