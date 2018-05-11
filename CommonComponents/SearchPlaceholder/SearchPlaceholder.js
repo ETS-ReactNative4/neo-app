@@ -36,6 +36,7 @@ const styles = StyleSheet.create({
   placeholderContainer: {
     height: 32,
     marginTop: 8,
+    marginBottom: 18,
     backgroundColor: constants.shade5,
     borderRadius: 8
   },

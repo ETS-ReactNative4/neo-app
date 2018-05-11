@@ -88,7 +88,6 @@ const BookingCalendar = ({ startEndDates }) => {
 
 const styles = StyleSheet.create({
   calendarContainer: {
-    marginTop: 18,
     marginBottom: 48
   },
   weekNameRow: {

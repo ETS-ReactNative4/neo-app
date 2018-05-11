@@ -48,22 +48,25 @@ class BookingsHome extends Component {
     const { startEndDates } = this.props.itineraries;
 
     return (
-      <ScrollView style={styles.bookingContainer}>
+      <View style={styles.bookingHomeContainer}>
         <SearchPlaceholder action={this.openSearch} />
+        <ScrollView style={styles.bookingContainer}>
+          <BookingCalendar startEndDates={startEndDates} />
 
-        <BookingCalendar startEndDates={startEndDates} />
-
-        <BookingAccordion />
-      </ScrollView>
+          <BookingAccordion />
+        </ScrollView>
+      </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  bookingContainer: {
+  bookingHomeContainer: {
+    flex: 1,
     paddingHorizontal: 24,
     backgroundColor: "white"
-  }
+  },
+  bookingContainer: {}
 });
 
 export default BookingsHome;
