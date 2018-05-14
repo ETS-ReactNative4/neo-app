@@ -17,6 +17,7 @@ import CloseYourBookingsButton from "./Components/CloseYourBookingsButton";
 import YourBookingsTabBar from "./Components/YourBookingsTabBar";
 import { inject, observer } from "mobx-react/custom";
 import Loader from "../../CommonComponents/Loader/Loader";
+import SearchButton from "../../CommonComponents/SearchButton/SearchButton";
 
 @inject("yourBookingsStore")
 @observer
@@ -24,25 +25,11 @@ class YourBookings extends Component {
   static navigationOptions = ({ navigation }) => {
     const LeftButton = <CloseYourBookingsButton navigation={navigation} />;
 
-    const RightButton = (
-      <TouchableHighlight
-        style={{ paddingHorizontal: 16 }}
-        onPress={() => {}}
-        underlayColor={"transparent"}
-      >
-        <Image
-          resizeMode={"contain"}
-          source={constants.searchIcon}
-          style={{ height: 24, width: 30 }}
-        />
-      </TouchableHighlight>
-    );
-
     return {
       header: (
         <CommonHeader
           LeftButton={LeftButton}
-          RightButton={RightButton}
+          RightButton={<SearchButton action={() => {}} />}
           title={"Your Bookings"}
           navigation={navigation}
         />

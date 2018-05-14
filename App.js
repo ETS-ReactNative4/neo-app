@@ -2,8 +2,7 @@ import React from "react";
 import {
   createStackNavigator,
   createDrawerNavigator,
-  createBottomTabNavigator,
-  TabBarBottom
+  createBottomTabNavigator
 } from "react-navigation";
 import { UIManager } from "react-native";
 import Home from "./Screens/HomeScreen/Home";
@@ -25,6 +24,7 @@ import { Provider } from "mobx-react";
 import store from "./mobx/Store";
 import BookingsHome from "./Screens/BookingsHomeScreen/BookingsHome";
 import Notifications from "./Screens/NotificationsScreen/Notifications";
+import BookedItinerary from "./Screens/BookedItineraryScreen/BookedItinerary";
 
 UIManager.setLayoutAnimationEnabledExperimental &&
   UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -33,10 +33,13 @@ const BookingStack = createStackNavigator(
   {
     BookingsHome: {
       screen: BookingsHome
+    },
+    BookedItinerary: {
+      screen: BookedItinerary
     }
   },
   {
-    initialRouteName: "BookingsHome",
+    initialRouteName: "BookedItinerary",
     navigationOptions: {
       gesturesEnabled: false
     },
