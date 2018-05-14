@@ -1,10 +1,9 @@
 import React, { Component } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, ScrollView } from "react-native";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
-import HamburgerButton from "../../CommonComponents/HamburgerButton/HamburgerButton";
 import BookingTitle from "../BookingsHomeScreen/Components/BookingTitle";
-import TripToggle from "../../CommonComponents/TripToggle/TripToggle";
 import SearchButton from "../../CommonComponents/SearchButton/SearchButton";
+import BookedItineraryTopBar from "./Components/BookedItineraryTopBar/BookedItineraryTopBar";
 
 class BookedItinerary extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -27,15 +26,18 @@ class BookedItinerary extends Component {
   };
 
   render() {
-    return <View style={styles.bookedItineraryContainer} />;
+    return (
+      <View style={styles.bookedItineraryContainer}>
+        <BookedItineraryTopBar />
+      </View>
+    );
   }
 }
 
 const styles = StyleSheet.create({
   bookedItineraryContainer: {
     flex: 1,
-    backgroundColor: "white",
-    paddingHorizontal: 24
+    backgroundColor: "white"
   }
 });
 
