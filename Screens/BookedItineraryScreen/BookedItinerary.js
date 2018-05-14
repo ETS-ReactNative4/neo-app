@@ -29,6 +29,7 @@ class BookedItinerary extends Component {
     return (
       <View style={styles.bookedItineraryContainer}>
         <BookedItineraryTopBar />
+        <ScrollView />
       </View>
     );
   }

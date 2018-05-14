@@ -1,4 +1,5 @@
 import { observable, computed, action } from "mobx";
+import { createTransformer } from "mobx-utils";
 import { persist } from "mobx-persist";
 import { toJS } from "mobx";
 import _ from "lodash";
@@ -3807,8 +3808,25 @@ class Itineraries {
     return rentals;
   }
 
+  @computed
+  get days() {
+    if (_.isEmpty(this._selectedItinerary)) return [];
+
+    const itineraryDayByKey = toJS(this._selectedItinerary.iterDayByKey);
+    const days = Object.values(itineraryDayByKey);
+    const sortedDays = _.sortBy(days, "dayNum");
+
+    return sortedDays.map(day => {
+      return moment(
+        `${day.day}-${day.mon}-${constants.currentYear}`,
+        "DD-MMM-YYYY"
+      ).toDate();
+    });
+  }
+
   constructor() {
     // console.log(JSON.stringify(toJS(this._selectedItinerary)));
+    // console.log(this.days);
   }
 }
 

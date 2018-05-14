@@ -2,13 +2,14 @@ import React, { Component } from "react";
 import { View, ScrollView, StyleSheet } from "react-native";
 import { responsiveWidth } from "react-native-responsive-dimensions";
 import DateItem from "./Components/DateItem";
+import { inject, observer } from "mobx-react/custom";
 
+@inject("itineraries")
+@observer
 class BookedItineraryTopBar extends Component {
-  state = {
-    date: [14, 15, 16, 17, 18, 19, 20, 21, 22, 23]
-  };
-
   render() {
+    const { days } = this.props.itineraries;
+
     return (
       <View style={styles.topBarContainer}>
         <ScrollView
@@ -18,9 +19,10 @@ class BookedItineraryTopBar extends Component {
           contentContainerStyle={styles.scrollContent}
         >
           <View style={styles.placeHolder} />
-          {this.state.date.map((day, index) => {
-            return <DateItem key={index} date={day} />;
+          {days.map((day, index) => {
+            return <DateItem key={index} day={day} />;
           })}
+          <View style={styles.placeHolder} />
         </ScrollView>
       </View>
     );

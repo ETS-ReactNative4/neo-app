@@ -7,27 +7,30 @@ import {
   StyleSheet
 } from "react-native";
 import PropTypes from "prop-types";
+import moment from "moment";
 import constants from "../../../../../constants/constants";
 
-const DateItem = ({ date }) => {
-  if (date === 15) {
+const DateItem = ({ day }) => {
+  const date = moment(day).format("DD");
+
+  if (date === "01") {
     return (
       <View style={[styles.dateContainer, styles.leftCorner]}>
-        <View style={styles.activeBubble} />
         <Text style={[styles.dateText, styles.selectedText]}>{date}</Text>
       </View>
     );
   }
-  if (date === 16) {
+  if (date === "02") {
     return (
       <View style={[styles.dateContainer, styles.middleSection]}>
         <Text style={[styles.dateText, styles.selectedText]}>{date}</Text>
       </View>
     );
   }
-  if (date === 17) {
+  if (date === "03") {
     return (
       <View style={[styles.dateContainer, styles.rightCorner]}>
+        <View style={styles.activeBubble} />
         <Text style={[styles.dateText, styles.selectedText]}>{date}</Text>
       </View>
     );
@@ -41,7 +44,7 @@ const DateItem = ({ date }) => {
 };
 
 DateItem.propTypes = {
-  date: PropTypes.number.isRequired
+  day: PropTypes.object.isRequired
 };
 
 const styles = StyleSheet.create({

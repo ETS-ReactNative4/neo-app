@@ -7,7 +7,8 @@ const imageAssets = {
   closeIcon: require("../assets/images/icons/cancel.png"),
   searchIcon: require("../assets/images/icons/magnifying-glass.png"),
   loadingIcon: require("../assets/images/loaders/loader.gif"),
-  hamburgerIcon: require("../assets/images/icons/menu.png")
+  hamburgerIcon: require("../assets/images/icons/menu.png"),
+  headerBackground: require("../assets/images/shapes/banner_white.png")
 };
 
 export default imageAssets;
