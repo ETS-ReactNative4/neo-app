@@ -4,7 +4,8 @@ import {
   Text,
   TouchableHighlight,
   StyleSheet,
-  LayoutAnimation
+  LayoutAnimation,
+  Platform
 } from "react-native";
 import constants from "../../constants/constants";
 import PropTypes from "prop-types";
@@ -63,7 +64,14 @@ const styles = StyleSheet.create({
   offButton: {
     height: 24,
     width: 24,
-    backgroundColor: "white",
+    ...Platform.select({
+      android: {
+        backgroundColor: constants.shade5
+      },
+      ios: {
+        backgroundColor: "white"
+      }
+    }),
     alignItems: "flex-end",
     borderRadius: 12,
     marginTop: -3.5,
@@ -92,7 +100,14 @@ const styles = StyleSheet.create({
   onButton: {
     height: 24,
     width: 24,
-    backgroundColor: "white",
+    ...Platform.select({
+      android: {
+        backgroundColor: constants.shade5
+      },
+      ios: {
+        backgroundColor: "white"
+      }
+    }),
     alignItems: "flex-end",
     borderRadius: 12,
     marginTop: -3.5,

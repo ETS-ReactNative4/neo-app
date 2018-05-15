@@ -50,7 +50,10 @@ class BookingsHome extends Component {
     return (
       <View style={styles.bookingHomeContainer}>
         <SearchPlaceholder action={this.openSearch} />
-        <ScrollView style={styles.bookingContainer}>
+        <ScrollView
+          style={styles.bookingContainer}
+          showsVerticalScrollIndicator={false}
+        >
           <BookingCalendar startEndDates={startEndDates} />
 
           <BookingAccordion />

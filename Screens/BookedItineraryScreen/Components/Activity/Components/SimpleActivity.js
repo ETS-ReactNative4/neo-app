@@ -39,7 +39,8 @@ const styles = StyleSheet.create({
     minHeight: 48,
     flexDirection: "row",
     marginHorizontal: 24,
-    width: responsiveWidth(100) - 24
+    width: responsiveWidth(100) - 24,
+    marginBottom: 16
   },
   imageContainer: {}
 });

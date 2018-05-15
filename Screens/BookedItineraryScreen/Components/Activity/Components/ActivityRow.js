@@ -50,7 +50,9 @@ const styles = StyleSheet.create({
   infoText: {
     fontFamily: constants.primaryLight,
     fontSize: 17,
-    color: constants.black1
+    lineHeight: 20,
+    color: constants.black1,
+    marginTop: -6
   }
 });
 

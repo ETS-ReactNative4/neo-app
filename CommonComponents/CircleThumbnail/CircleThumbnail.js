@@ -1,5 +1,11 @@
 import React from "react";
-import { ImageBackground, Image, StyleSheet } from "react-native";
+import {
+  ImageBackground,
+  Image,
+  StyleSheet,
+  View,
+  Platform
+} from "react-native";
 import constants from "../../constants/constants";
 import PropTypes from "prop-types";
 
@@ -14,11 +20,13 @@ const CircleThumbnail = ({ image, icon, containerStyle, iconStyle }) => {
       style={[styles.imageBackground, containerStyle]}
     >
       {icon ? (
-        <Image
-          resizeMode={"contain"}
-          source={icon}
-          style={[styles.planeIcon, iconStyle]}
-        />
+        <View style={styles.iconContainer}>
+          <Image
+            resizeMode={"contain"}
+            source={icon}
+            style={[styles.icon, iconStyle]}
+          />
+        </View>
       ) : null}
     </ImageBackground>
   );
@@ -36,17 +44,32 @@ const styles = StyleSheet.create({
     height: 40,
     width: 40,
     borderRadius: 20,
-    backgroundColor: constants.shade4
+    backgroundColor: constants.shade4,
+    overflow: "visible"
   },
-  planeIcon: {
+  iconContainer: {
     position: "absolute",
-    right: -6,
-    top: -6,
+    ...Platform.select({
+      ios: {
+        right: -6,
+        top: -6
+      },
+      android: {
+        right: 0,
+        top: 0
+      }
+    }),
+    height: 20,
+    width: 20,
+    borderWidth: 1,
+    borderColor: "white",
+    borderRadius: 10,
+    overflow: "hidden"
+  },
+  icon: {
     height: 20,
     width: 20,
     backgroundColor: constants.black1,
-    borderWidth: 1,
-    borderColor: "white",
     borderRadius: 10
   }
 });
