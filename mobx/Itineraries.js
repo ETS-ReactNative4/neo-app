@@ -3597,12 +3597,17 @@ class Itineraries {
   }
 
   @computed
+  get sortedDays() {
+    const itineraryDayByKey = toJS(this._selectedItinerary.iterDayByKey);
+    const days = Object.values(itineraryDayByKey);
+    return _.sortBy(days, "dayNum");
+  }
+
+  @computed
   get startEndDates() {
     if (_.isEmpty(this._selectedItinerary)) return {};
 
-    const itineraryDayByKey = toJS(this._selectedItinerary.iterDayByKey);
-    const days = Object.values(itineraryDayByKey);
-    const sortedDays = _.sortBy(days, "dayNum");
+    const sortedDays = this.sortedDays;
 
     const startDay = sortedDays[0];
     const lastDay = sortedDays[sortedDays.length - 1];
@@ -3812,9 +3817,7 @@ class Itineraries {
   get days() {
     if (_.isEmpty(this._selectedItinerary)) return [];
 
-    const itineraryDayByKey = toJS(this._selectedItinerary.iterDayByKey);
-    const days = Object.values(itineraryDayByKey);
-    const sortedDays = _.sortBy(days, "dayNum");
+    const sortedDays = this.sortedDays;
 
     return sortedDays.map(day => {
       return moment(
@@ -3824,9 +3827,30 @@ class Itineraries {
     });
   }
 
+  @computed
+  get slots() {
+    if (_.isEmpty(this._selectedItinerary)) return [];
+
+    const sortedDays = this.sortedDays;
+
+    const slots = [];
+
+    for (let i = 0; i < sortedDays.length; i++) {
+      const currentDay = sortedDays[i];
+      const daySlot = [];
+
+      for (let j = 0; j < currentDay.allSlotKeys.length; j++) {
+        const slotKey = currentDay.allSlotKeys[j];
+        daySlot.push(toJS(this._selectedItinerary.iterSlotByKey[slotKey]));
+      }
+
+      slots.push(daySlot);
+    }
+    return slots;
+  }
+
   constructor() {
     // console.log(JSON.stringify(toJS(this._selectedItinerary)));
-    // console.log(this.days);
   }
 }
 
