@@ -8,7 +8,8 @@ const imageAssets = {
   searchIcon: require("../assets/images/icons/magnifying-glass.png"),
   loadingIcon: require("../assets/images/loaders/loader.gif"),
   hamburgerIcon: require("../assets/images/icons/menu.png"),
-  headerBackground: require("../assets/images/shapes/banner_white.png")
+  headerBackground: require("../assets/images/shapes/banner_white.png"),
+  aeroplaneIcon: require("../assets/images/icons/aeroplane-.png")
 };
 
 export default imageAssets;
