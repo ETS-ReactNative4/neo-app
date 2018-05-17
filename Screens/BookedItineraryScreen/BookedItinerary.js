@@ -6,7 +6,10 @@ import {
   ScrollView,
   LayoutAnimation
 } from "react-native";
-import { responsiveHeight } from "react-native-responsive-dimensions";
+import {
+  responsiveHeight,
+  responsiveWidth
+} from "react-native-responsive-dimensions";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import BookingTitle from "../BookingsHomeScreen/Components/BookingTitle";
 import SearchButton from "../../CommonComponents/SearchButton/SearchButton";
@@ -39,11 +42,16 @@ class BookedItinerary extends Component {
 
   state = {
     selectedDay: moment(this.props.itineraries.days[0]).format("DDMMYYYY"),
+    headers: this.props.itineraries.days.map(day =>
+      moment(day).format("DDMMYYYY")
+    ),
+    headerPositions: {},
     sections: this.props.itineraries.days.map(day =>
       moment(day).format("DDMMYYYY")
     ),
     sectionPositions: {}
   };
+  _headerScroll = {};
 
   selectDay = day => {
     this.setState(
@@ -73,6 +81,19 @@ class BookedItinerary extends Component {
     this.setState(newState);
   };
 
+  onHeaderLayout = (
+    {
+      nativeEvent: {
+        layout: { x, y, width, height }
+      }
+    },
+    section
+  ) => {
+    const newState = { ...this.state };
+    newState.headerPositions[section] = x;
+    this.setState(newState);
+  };
+
   onItemScroll = ({
     nativeEvent: {
       contentOffset: { y, x }
@@ -83,7 +104,15 @@ class BookedItinerary extends Component {
       if (y + responsiveHeight(10) > this.state.sectionPositions[section])
         _currentSection = section;
     });
-    this.setState({ selectedDay: _currentSection });
+    this.setState({ selectedDay: _currentSection }, () => {
+      this._headerScroll.scrollTo({
+        x:
+          this.state.headerPositions[this.state.selectedDay] -
+          responsiveWidth(45),
+        y: 0,
+        animated: true
+      });
+    });
   };
 
   componentWillUpdate() {
@@ -92,11 +121,14 @@ class BookedItinerary extends Component {
 
   render() {
     const { days, slots } = this.props.itineraries;
+
     return (
       <View style={styles.bookedItineraryContainer}>
         <BookedItineraryTopBar
           selectedDay={this.state.selectedDay}
           selectDay={this.selectDay}
+          _headerScroll={_headerScroll => (this._headerScroll = _headerScroll)}
+          onHeaderLayout={this.onHeaderLayout}
         />
         <ScrollView
           ref={"_contentScroll"}

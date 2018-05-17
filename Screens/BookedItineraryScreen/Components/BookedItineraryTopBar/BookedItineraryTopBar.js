@@ -10,11 +10,13 @@ import { inject, observer } from "mobx-react/custom";
 class BookedItineraryTopBar extends Component {
   static propTypes = {
     selectedDay: PropTypes.string.isRequired,
-    selectDay: PropTypes.func.isRequired
+    selectDay: PropTypes.func.isRequired,
+    _headerScroll: PropTypes.func.isRequired,
+    onHeaderLayout: PropTypes.func.isRequired
   };
 
   render() {
-    const { selectedDay, selectDay } = this.props;
+    const { selectedDay, selectDay, onHeaderLayout } = this.props;
     const { days } = this.props.itineraries;
 
     return (
@@ -23,12 +25,15 @@ class BookedItineraryTopBar extends Component {
           showsHorizontalScrollIndicator={false}
           horizontal={true}
           style={styles.scrollContainer}
+          ref={this.props._headerScroll}
+          scrollEventThrottle={100}
           contentContainerStyle={styles.scrollContent}
         >
           <View style={styles.placeHolder} />
           {days.map((day, index) => {
             return (
               <DateItem
+                onHeaderLayout={onHeaderLayout}
                 key={index}
                 day={day}
                 selectDay={selectDay}
@@ -57,7 +62,7 @@ const styles = StyleSheet.create({
   },
   placeHolder: {
     height: 24,
-    width: responsiveWidth(20)
+    width: responsiveWidth(45)
   }
 });
 

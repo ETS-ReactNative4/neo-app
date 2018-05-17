@@ -10,7 +10,7 @@ import PropTypes from "prop-types";
 import moment from "moment";
 import constants from "../../../../../constants/constants";
 
-const DateItem = ({ day, selectDay, selectedDay }) => {
+const DateItem = ({ day, selectDay, selectedDay, onHeaderLayout }) => {
   const date = moment(day).format("DDMMYYYY");
 
   // if (date === "01") {
@@ -36,11 +36,16 @@ const DateItem = ({ day, selectDay, selectedDay }) => {
   //   );
   // }
 
+  const layoutEvent = nativeEvent => {
+    onHeaderLayout(nativeEvent, date);
+  };
+
   return (
     <TouchableHighlight
       onPress={() => selectDay(date)}
       underlayColor={"transparent"}
       style={styles.touchableContainer}
+      onLayout={layoutEvent}
     >
       <View style={[styles.dateContainer, styles.fdDateContainer]}>
         {date === selectedDay ? <View style={styles.activeBubble} /> : null}
@@ -55,7 +60,8 @@ const DateItem = ({ day, selectDay, selectedDay }) => {
 DateItem.propTypes = {
   day: PropTypes.object.isRequired,
   selectDay: PropTypes.func.isRequired,
-  selectedDay: PropTypes.string.isRequired
+  selectedDay: PropTypes.string.isRequired,
+  onHeaderLayout: PropTypes.func.isRequired
 };
 
 const styles = StyleSheet.create({
