@@ -10,49 +10,67 @@ import PropTypes from "prop-types";
 import moment from "moment";
 import constants from "../../../../../constants/constants";
 
-const DateItem = ({ day }) => {
-  const date = moment(day).format("DD");
+const DateItem = ({ day, selectDay, selectedDay }) => {
+  const date = moment(day).format("DDMMYYYY");
 
-  if (date === "01") {
-    return (
-      <View style={[styles.dateContainer, styles.leftCorner]}>
-        <Text style={[styles.dateText, styles.selectedText]}>{date}</Text>
-      </View>
-    );
-  }
-  if (date === "02") {
-    return (
-      <View style={[styles.dateContainer, styles.middleSection]}>
-        <Text style={[styles.dateText, styles.selectedText]}>{date}</Text>
-      </View>
-    );
-  }
-  if (date === "03") {
-    return (
-      <View style={[styles.dateContainer, styles.rightCorner]}>
-        <View style={styles.activeBubble} />
-        <Text style={[styles.dateText, styles.selectedText]}>{date}</Text>
-      </View>
-    );
-  }
+  // if (date === "01") {
+  //   return (
+  //     <View style={[styles.dateContainer, styles.leftCorner]}>
+  //       <Text style={[styles.dateText, styles.selectedText]}>{date}</Text>
+  //     </View>
+  //   );
+  // }
+  // if (date === "02") {
+  //   return (
+  //     <View style={[styles.dateContainer, styles.middleSection]}>
+  //       <Text style={[styles.dateText, styles.selectedText]}>{date}</Text>
+  //     </View>
+  //   );
+  // }
+  // if (date === "03") {
+  //   return (
+  //     <View style={[styles.dateContainer, styles.rightCorner]}>
+  //       <View style={styles.activeBubble} />
+  //       <Text style={[styles.dateText, styles.selectedText]}>{date}</Text>
+  //     </View>
+  //   );
+  // }
 
   return (
-    <View style={[styles.dateContainer, styles.fdDateContainer]}>
-      <Text style={[styles.dateText, styles.fdDateText]}>{date}</Text>
-    </View>
+    <TouchableHighlight
+      onPress={() => selectDay(date)}
+      underlayColor={"transparent"}
+      style={styles.touchableContainer}
+    >
+      <View style={[styles.dateContainer, styles.fdDateContainer]}>
+        {date === selectedDay ? <View style={styles.activeBubble} /> : null}
+        <Text style={[styles.dateText, styles.fdDateText]}>
+          {date.substring(0, 2)}
+        </Text>
+      </View>
+    </TouchableHighlight>
   );
 };
 
 DateItem.propTypes = {
-  day: PropTypes.object.isRequired
+  day: PropTypes.object.isRequired,
+  selectDay: PropTypes.func.isRequired,
+  selectedDay: PropTypes.string.isRequired
 };
 
 const styles = StyleSheet.create({
+  touchableContainer: {
+    marginHorizontal: 4,
+    height: 24,
+    width: 24,
+    alignItems: "center",
+    justifyContent: "center"
+  },
+
   // Normal
   dateContainer: {
     height: 24,
     width: 24,
-    marginHorizontal: 4,
     alignItems: "center",
     justifyContent: "center"
   },

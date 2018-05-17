@@ -3,11 +3,14 @@ import { View, Text, StyleSheet } from "react-native";
 import constants from "../../constants/constants";
 import PropTypes from "prop-types";
 
-const SectionHeader = ({ sectionName, containerStyle }) => {
+const SectionHeader = ({ sectionName, containerStyle, setOnLayout }) => {
   if (!containerStyle) containerStyle = {};
 
+  const customProps = {};
+  if (setOnLayout) customProps.onLayout = setOnLayout;
+
   return (
-    <View style={[styles.sectionContainer, containerStyle]}>
+    <View style={[styles.sectionContainer, containerStyle]} {...customProps}>
       <View style={styles.textContainer}>
         <Text style={styles.sectionName}>{sectionName}</Text>
       </View>
@@ -18,7 +21,8 @@ const SectionHeader = ({ sectionName, containerStyle }) => {
 
 SectionHeader.propTypes = {
   sectionName: PropTypes.string.isRequired,
-  containerStyle: PropTypes.object
+  containerStyle: PropTypes.object,
+  setOnLayout: PropTypes.func
 };
 
 const styles = StyleSheet.create({

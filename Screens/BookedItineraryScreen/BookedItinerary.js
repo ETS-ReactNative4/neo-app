@@ -1,11 +1,19 @@
 import React, { Component } from "react";
-import { View, Text, StyleSheet, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  LayoutAnimation
+} from "react-native";
+import { responsiveHeight } from "react-native-responsive-dimensions";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import BookingTitle from "../BookingsHomeScreen/Components/BookingTitle";
 import SearchButton from "../../CommonComponents/SearchButton/SearchButton";
 import BookedItineraryTopBar from "./Components/BookedItineraryTopBar/BookedItineraryTopBar";
 import { inject, observer } from "mobx-react/custom";
 import Slot from "./Components/Slot";
+import moment from "moment/moment";
 
 @inject("itineraries")
 @observer
@@ -29,15 +37,81 @@ class BookedItinerary extends Component {
     };
   };
 
+  state = {
+    selectedDay: moment(this.props.itineraries.days[0]).format("DDMMYYYY"),
+    sections: this.props.itineraries.days.map(day =>
+      moment(day).format("DDMMYYYY")
+    ),
+    sectionPositions: {}
+  };
+
+  selectDay = day => {
+    this.setState(
+      {
+        selectedDay: day
+      },
+      () => {
+        this.refs._contentScroll.scrollTo({
+          x: 0,
+          y: this.state.sectionPositions[this.state.selectedDay],
+          animated: false
+        });
+      }
+    );
+  };
+
+  onItemLayout = (
+    {
+      nativeEvent: {
+        layout: { x, y, width, height }
+      }
+    },
+    section
+  ) => {
+    const newState = { ...this.state };
+    newState.sectionPositions[section] = y;
+    this.setState(newState);
+  };
+
+  onItemScroll = ({
+    nativeEvent: {
+      contentOffset: { y, x }
+    }
+  }) => {
+    let _currentSection;
+    this.state.sections.forEach(section => {
+      if (y + responsiveHeight(10) > this.state.sectionPositions[section])
+        _currentSection = section;
+    });
+    this.setState({ selectedDay: _currentSection });
+  };
+
+  componentWillUpdate() {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+  }
+
   render() {
     const { days, slots } = this.props.itineraries;
-
     return (
       <View style={styles.bookedItineraryContainer}>
-        <BookedItineraryTopBar />
-        <ScrollView>
+        <BookedItineraryTopBar
+          selectedDay={this.state.selectedDay}
+          selectDay={this.selectDay}
+        />
+        <ScrollView
+          ref={"_contentScroll"}
+          onScroll={this.onItemScroll}
+          scrollEventThrottle={100}
+        >
           {days.map((day, index) => {
-            return <Slot key={index} day={day} slot={slots[index]} />;
+            return (
+              <Slot
+                key={index}
+                day={day}
+                slot={slots[index]}
+                onItemLayout={this.onItemLayout}
+              />
+            );
           })}
         </ScrollView>
       </View>

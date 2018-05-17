@@ -5,9 +5,13 @@ import PropTypes from "prop-types";
 import SectionHeader from "../../../CommonComponents/SectionHeader/SectionHeader";
 import Activity from "./Activity/Activity";
 
-const Slot = ({ day, slot }) => {
+const Slot = ({ day, slot, onItemLayout }) => {
+  const setOnLayout = nativeEvent => {
+    onItemLayout(nativeEvent, moment(day).format("DDMMYYYY"));
+  };
+
   return (
-    <View style={styles.slotContainer}>
+    <View style={styles.slotContainer} onLayout={setOnLayout}>
       <SectionHeader
         sectionName={moment(day)
           .format("MMM DD, dddd")
