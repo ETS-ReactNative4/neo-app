@@ -1,4 +1,5 @@
 import React from "react";
+import { View, Text } from "react-native";
 import PropTypes from "prop-types";
 import SimpleActivity from "./Components/SimpleActivity";
 import constants from "../../../../constants/constants";
@@ -23,7 +24,6 @@ const Activity = ({ activity }) => {
           title={activity.name}
           text={activity.leisureSlotDetail.text}
           image={constants.aeroplaneIcon}
-          icon={constants.aeroplaneIcon}
         />
       );
 
@@ -32,9 +32,8 @@ const Activity = ({ activity }) => {
         <SimpleActivity
           activity={activity}
           title={activity.name}
-          text={activity.activitySlotDetail.activityId}
-          image={constants.aeroplaneIcon}
-          icon={constants.aeroplaneIcon}
+          text={activity.activitySlotDetail.title}
+          image={{ uri: activity.activitySlotDetail.mainPhoto }}
         />
       );
 
@@ -63,7 +62,11 @@ const Activity = ({ activity }) => {
       );
 
     default:
-      return null;
+      return (
+        <View style={{ height: 40, backgroundColor: "black" }}>
+          <Text>{"section missing"}</Text>
+        </View>
+      );
   }
 };
 

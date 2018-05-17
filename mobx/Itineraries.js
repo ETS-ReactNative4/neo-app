@@ -3817,9 +3817,7 @@ class Itineraries {
   get days() {
     if (_.isEmpty(this._selectedItinerary)) return [];
 
-    const sortedDays = this.sortedDays;
-
-    return sortedDays.map(day => {
+    return this.sortedDays.map(day => {
       return moment(
         `${day.day}-${day.mon}-${constants.currentYear}`,
         "DD-MMM-YYYY"
@@ -3831,23 +3829,25 @@ class Itineraries {
   get slots() {
     if (_.isEmpty(this._selectedItinerary)) return [];
 
-    const sortedDays = this.sortedDays;
-
-    const slots = [];
-
-    for (let i = 0; i < sortedDays.length; i++) {
-      const currentDay = sortedDays[i];
-      const daySlot = [];
-
-      for (let j = 0; j < currentDay.allSlotKeys.length; j++) {
-        const slotKey = currentDay.allSlotKeys[j];
-        daySlot.push(toJS(this._selectedItinerary.iterSlotByKey[slotKey]));
-      }
-
-      slots.push(daySlot);
-    }
-    return slots;
+    return this.sortedDays.reduce((slots, day) => {
+      return slots.concat([
+        day.allSlotKeys.map(slotKey => {
+          const slot = toJS(this._selectedItinerary.iterSlotByKey[slotKey]);
+          if (slot.type === "ACTIVITY") {
+            slot.activitySlotDetail = {
+              ...slot.activitySlotDetail,
+              ...this.getActivityById(slot.activitySlotDetail.activityId)
+            };
+          }
+          return slot;
+        })
+      ]);
+    }, []);
   }
+
+  getActivityById = createTransformer(id =>
+    toJS(this._selectedItinerary.activityById[id])
+  );
 
   constructor() {
     // console.log(JSON.stringify(toJS(this._selectedItinerary)));

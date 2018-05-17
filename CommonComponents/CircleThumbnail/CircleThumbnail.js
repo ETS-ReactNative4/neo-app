@@ -45,7 +45,11 @@ const styles = StyleSheet.create({
     width: 40,
     borderRadius: 20,
     backgroundColor: constants.shade4,
-    overflow: "visible"
+    ...Platform.select({
+      ios: {
+        overflow: "visible"
+      }
+    })
   },
   iconContainer: {
     position: "absolute",
