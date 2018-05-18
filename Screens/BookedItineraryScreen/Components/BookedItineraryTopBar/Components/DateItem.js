@@ -9,64 +9,91 @@ import {
 import PropTypes from "prop-types";
 import moment from "moment";
 import constants from "../../../../../constants/constants";
+import store from "../../../../../mobx/Store";
+import { observer } from "mobx-react/custom";
 
-const DateItem = ({ day, selectDay, selectedDay, onHeaderLayout }) => {
-  const date = moment(day).format("DDMMYYYY");
+const DateItem = observer(
+  ({ day, selectDay, selectedDay, onHeaderLayout, index }) => {
+    const date = moment(day).format("DDMMYYYY");
 
-  // if (date === "01") {
-  //   return (
-  //     <View style={[styles.dateContainer, styles.leftCorner]}>
-  //       <Text style={[styles.dateText, styles.selectedText]}>{date}</Text>
-  //     </View>
-  //   );
-  // }
-  // if (date === "02") {
-  //   return (
-  //     <View style={[styles.dateContainer, styles.middleSection]}>
-  //       <Text style={[styles.dateText, styles.selectedText]}>{date}</Text>
-  //     </View>
-  //   );
-  // }
-  // if (date === "03") {
-  //   return (
-  //     <View style={[styles.dateContainer, styles.rightCorner]}>
-  //       <View style={styles.activeBubble} />
-  //       <Text style={[styles.dateText, styles.selectedText]}>{date}</Text>
-  //     </View>
-  //   );
-  // }
+    // if (date === "01") {
+    //   return (
+    //     <View style={[styles.dateContainer, styles.leftCorner]}>
+    //       <Text style={[styles.dateText, styles.selectedText]}>{date}</Text>
+    //     </View>
+    //   );
+    // }
+    // if (date === "02") {
+    //   return (
+    //     <View style={[styles.dateContainer, styles.middleSection]}>
+    //       <Text style={[styles.dateText, styles.selectedText]}>{date}</Text>
+    //     </View>
+    //   );
+    // }
+    // if (date === "03") {
+    //   return (
+    //     <View style={[styles.dateContainer, styles.rightCorner]}>
+    //       <View style={styles.activeBubble} />
+    //       <Text style={[styles.dateText, styles.selectedText]}>{date}</Text>
+    //     </View>
+    //   );
+    // }
 
-  const layoutEvent = nativeEvent => {
-    onHeaderLayout(nativeEvent, date);
-  };
+    const layoutEvent = nativeEvent => {
+      onHeaderLayout(nativeEvent, date);
+    };
 
-  return (
-    <TouchableHighlight
-      onPress={() => selectDay(date)}
-      underlayColor={"transparent"}
-      style={styles.touchableContainer}
-      onLayout={layoutEvent}
-    >
-      <View style={[styles.dateContainer, styles.fdDateContainer]}>
-        {date === selectedDay ? <View style={styles.activeBubble} /> : null}
-        <Text style={[styles.dateText, styles.fdDateText]}>
-          {date.substring(0, 2)}
-        </Text>
-      </View>
-    </TouchableHighlight>
-  );
-};
+    const selectionMatrix = store.itineraries.getDateSelectionMatrixSingle(
+      index
+    );
+    let selectionStyle, touchableStyleAndroid;
+    if (selectionMatrix[0] === 0 && selectionMatrix[2] === 0) {
+      selectionStyle = "singleDateContainer";
+      touchableStyleAndroid = "singleDateTouchable";
+    } else if (selectionMatrix[0] === 0) {
+      selectionStyle = "leftCorner";
+      touchableStyleAndroid = "leftTouchable";
+    } else if (selectionMatrix[2] === 0) {
+      selectionStyle = "rightCorner";
+      touchableStyleAndroid = "rightTouchable";
+    } else {
+      selectionStyle = "middleSection";
+      touchableStyleAndroid = "middleTouchable";
+    }
+
+    return (
+      <TouchableHighlight
+        onPress={() => selectDay(date)}
+        underlayColor={constants.firstColor}
+        style={[styles.touchableContainer, styles[touchableStyleAndroid]]}
+        onLayout={layoutEvent}
+      >
+        <View style={[styles.dateContainer, styles[selectionStyle]]}>
+          {date === selectedDay ? <View style={styles.activeBubble} /> : null}
+          <Text style={[styles.dateText, styles.fdDateText]}>
+            {date.substring(0, 2)}
+          </Text>
+        </View>
+      </TouchableHighlight>
+    );
+  }
+);
 
 DateItem.propTypes = {
   day: PropTypes.object.isRequired,
   selectDay: PropTypes.func.isRequired,
-  selectedDay: PropTypes.string.isRequired,
-  onHeaderLayout: PropTypes.func.isRequired
+  selectedDay: PropTypes.string,
+  onHeaderLayout: PropTypes.func.isRequired,
+  index: PropTypes.number.isRequired
 };
 
 const styles = StyleSheet.create({
   touchableContainer: {
-    marginHorizontal: 4,
+    ...Platform.select({
+      ios: {
+        marginHorizontal: 4
+      }
+    }),
     height: 24,
     width: 24,
     alignItems: "center",
@@ -85,13 +112,15 @@ const styles = StyleSheet.create({
     color: constants.black1
   },
 
-  // First Day
-  fdDateContainer: {
+  // Single Day
+  singleDateContainer: {
     borderRadius: 12,
-    backgroundColor: constants.shade5
+    backgroundColor: constants.firstColor,
+    marginHorizontal: 4
   },
-  fdDateText: {
-    marginTop: -1
+  singleDateTouchable: {
+    paddingRight: 4,
+    paddingLeft: 4
   },
 
   // Selected Section
@@ -102,13 +131,37 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 0,
     borderBottomRightRadius: 0,
     marginRight: 0,
+    marginLeft: 4,
     width: 28
+  },
+  leftTouchable: {
+    ...Platform.select({
+      android: {
+        paddingLeft: 4,
+        paddingRight: 6,
+        width: 32,
+        backgroundColor: constants.firstColor,
+        borderTopLeftRadius: 12,
+        borderBottomLeftRadius: 12,
+        marginLeft: 4
+      }
+    })
   },
 
   middleSection: {
     backgroundColor: constants.firstColor,
     marginHorizontal: 0,
     width: 32
+  },
+  middleTouchable: {
+    ...Platform.select({
+      android: {
+        paddingLeft: 4,
+        paddingRight: 4,
+        width: 40,
+        backgroundColor: constants.firstColor
+      }
+    })
   },
 
   rightCorner: {
@@ -117,7 +170,21 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 0,
     borderBottomLeftRadius: 0,
     marginLeft: 0,
+    marginRight: 4,
     width: 28
+  },
+  rightTouchable: {
+    ...Platform.select({
+      android: {
+        paddingLeft: 4,
+        paddingRight: 4,
+        width: 32,
+        backgroundColor: constants.firstColor,
+        borderTopRightRadius: 12,
+        borderBottomRightRadius: 12,
+        marginRight: 4
+      }
+    })
   },
 
   selectedText: {

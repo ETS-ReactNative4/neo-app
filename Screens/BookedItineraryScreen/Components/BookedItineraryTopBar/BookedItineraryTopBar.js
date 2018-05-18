@@ -9,7 +9,7 @@ import { inject, observer } from "mobx-react/custom";
 @observer
 class BookedItineraryTopBar extends Component {
   static propTypes = {
-    selectedDay: PropTypes.string.isRequired,
+    selectedDay: PropTypes.string,
     selectDay: PropTypes.func.isRequired,
     _headerScroll: PropTypes.func.isRequired,
     onHeaderLayout: PropTypes.func.isRequired
@@ -36,6 +36,7 @@ class BookedItineraryTopBar extends Component {
                 onHeaderLayout={onHeaderLayout}
                 key={index}
                 day={day}
+                index={index}
                 selectDay={selectDay}
                 selectedDay={selectedDay}
               />
