@@ -45,7 +45,11 @@ class BookingsHome extends Component {
   openSearch = () => {};
 
   render() {
-    const { startEndDates } = this.props.itineraries;
+    const {
+      startEndDates,
+      days,
+      getDateSelectionMatrixSingle
+    } = this.props.itineraries;
 
     return (
       <View style={styles.bookingHomeContainer}>
@@ -54,7 +58,11 @@ class BookingsHome extends Component {
           style={styles.bookingContainer}
           showsVerticalScrollIndicator={false}
         >
-          <BookingCalendar startEndDates={startEndDates} />
+          <BookingCalendar
+            startEndDates={startEndDates}
+            days={days}
+            getDateSelectionMatrixSingle={getDateSelectionMatrixSingle}
+          />
 
           <BookingAccordion />
         </ScrollView>

@@ -7,10 +7,17 @@ import {
   Dimensions,
   Platform
 } from "react-native";
+import { responsiveWidth } from "react-native-responsive-dimensions";
 import constants from "../../../constants/constants";
 import moment from "moment";
+import PropTypes from "prop-types";
+import _ from "lodash";
 
-const BookingCalendar = ({ startEndDates }) => {
+const BookingCalendar = ({
+  startEndDates,
+  days,
+  getDateSelectionMatrixSingle
+}) => {
   const numberOfRows = startEndDates.numberOfDays / 7;
   const rowArray = [];
   for (let i = 0; i < numberOfRows; i++) {
@@ -25,6 +32,10 @@ const BookingCalendar = ({ startEndDates }) => {
 
     rowArray.push(dateArray);
   }
+
+  const dateArray = days.map(day => {
+    return moment(day).format("DDMMYYYY");
+  });
 
   return (
     <View style={styles.calendarContainer}>
@@ -73,9 +84,35 @@ const BookingCalendar = ({ startEndDates }) => {
             {/*</View>*/}
 
             {dates.map((day, dayIndex) => {
+              const date = moment(day).format("DDMMYYYY");
+              const dateIndex = dateArray.findIndex(
+                singleDate => date === singleDate
+              );
+              const selectionMatrix = getDateSelectionMatrixSingle(dateIndex);
+
+              let textStyle = "defaultStyle",
+                containerStyle = "defaultStyle";
+              if (dateIndex !== -1) {
+                textStyle = "isHighlighted";
+                if (selectionMatrix[0] === 0 && selectionMatrix[2] === 0) {
+                  containerStyle = "singleDateContainer";
+                } else if (selectionMatrix[0] === 0) {
+                  containerStyle = "leftCorner";
+                } else if (selectionMatrix[2] === 0) {
+                  containerStyle = "rightCorner";
+                } else {
+                  containerStyle = "middleSection";
+                }
+              }
+
               return (
-                <View key={dayIndex} style={styles.weekDayWrapper}>
-                  <Text style={styles.weekDay}>{moment(day).format("DD")}</Text>
+                <View
+                  key={dayIndex}
+                  style={[styles.weekDayWrapper, styles[containerStyle]]}
+                >
+                  <Text style={[styles.weekDay, styles[textStyle]]}>
+                    {moment(day).format("DD")}
+                  </Text>
                 </View>
               );
             })}
@@ -85,6 +122,14 @@ const BookingCalendar = ({ startEndDates }) => {
     </View>
   );
 };
+
+BookingCalendar.propTypes = {
+  startEndDates: PropTypes.object.isRequired,
+  days: PropTypes.array.isRequired,
+  getDateSelectionMatrixSingle: PropTypes.func.isRequired
+};
+
+const dateItemWidth = (responsiveWidth(100) - 24 - 4 * 14) / 7 - 2;
 
 const styles = StyleSheet.create({
   calendarContainer: {
@@ -108,33 +153,35 @@ const styles = StyleSheet.create({
   weekDayRow: {
     height: 40,
     marginVertical: 4,
-    flexDirection: "row",
-    justifyContent: "space-between"
+    flexDirection: "row"
   },
   weekDayWrapper: {
-    width: 40,
+    width: dateItemWidth,
     height: 40,
     alignItems: "center",
-    justifyContent: "center",
-    marginHorizontal: 4
+    justifyContent: "center"
+  },
+  singleDateContainer: {
+    backgroundColor: constants.firstColor,
+    borderRadius: dateItemWidth / 2
   },
   rightCorner: {
     backgroundColor: constants.firstColor,
     borderTopRightRadius: 20,
     borderBottomRightRadius: 20,
-    marginLeft: 0,
-    width: 44
+    marginRight: 4,
+    width: dateItemWidth + 4
   },
   leftCorner: {
     backgroundColor: constants.firstColor,
     borderTopLeftRadius: 20,
     borderBottomLeftRadius: 20,
-    marginRight: 0,
-    width: 44
+    marginLeft: 4,
+    width: dateItemWidth + 4
   },
   middleSection: {
     backgroundColor: constants.firstColor,
-    width: 48,
+    width: dateItemWidth + 8,
     marginHorizontal: 0
   },
   weekDay: {
@@ -166,6 +213,9 @@ const styles = StyleSheet.create({
         marginTop: -7
       }
     })
+  },
+  defaultStyle: {
+    marginHorizontal: 4
   }
 });
 
