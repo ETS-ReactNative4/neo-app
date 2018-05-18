@@ -26,7 +26,6 @@ class BookedItineraryTopBar extends Component {
           horizontal={true}
           style={styles.scrollContainer}
           ref={this.props._headerScroll}
-          scrollEventThrottle={100}
           contentContainerStyle={styles.scrollContent}
         >
           <View style={styles.placeHolder} />

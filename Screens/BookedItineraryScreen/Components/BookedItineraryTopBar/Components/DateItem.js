@@ -1,7 +1,7 @@
 import React from "react";
 import {
   View,
-  TouchableHighlight,
+  TouchableWithoutFeedback,
   Text,
   Platform,
   StyleSheet
@@ -15,29 +15,6 @@ import { observer } from "mobx-react/custom";
 const DateItem = observer(
   ({ day, selectDay, selectedDay, onHeaderLayout, index }) => {
     const date = moment(day).format("DDMMYYYY");
-
-    // if (date === "01") {
-    //   return (
-    //     <View style={[styles.dateContainer, styles.leftCorner]}>
-    //       <Text style={[styles.dateText, styles.selectedText]}>{date}</Text>
-    //     </View>
-    //   );
-    // }
-    // if (date === "02") {
-    //   return (
-    //     <View style={[styles.dateContainer, styles.middleSection]}>
-    //       <Text style={[styles.dateText, styles.selectedText]}>{date}</Text>
-    //     </View>
-    //   );
-    // }
-    // if (date === "03") {
-    //   return (
-    //     <View style={[styles.dateContainer, styles.rightCorner]}>
-    //       <View style={styles.activeBubble} />
-    //       <Text style={[styles.dateText, styles.selectedText]}>{date}</Text>
-    //     </View>
-    //   );
-    // }
 
     const layoutEvent = nativeEvent => {
       onHeaderLayout(nativeEvent, date);
@@ -62,9 +39,8 @@ const DateItem = observer(
     }
 
     return (
-      <TouchableHighlight
+      <TouchableWithoutFeedback
         onPress={() => selectDay(date)}
-        underlayColor={constants.firstColor}
         style={[styles.touchableContainer, styles[touchableStyleAndroid]]}
         onLayout={layoutEvent}
       >
@@ -74,7 +50,7 @@ const DateItem = observer(
             {date.substring(0, 2)}
           </Text>
         </View>
-      </TouchableHighlight>
+      </TouchableWithoutFeedback>
     );
   }
 );
@@ -109,7 +85,8 @@ const styles = StyleSheet.create({
   },
   dateText: {
     fontFamily: constants.primarySemiBold,
-    color: constants.black1
+    color: "white",
+    fontSize: 10
   },
 
   // Single Day
@@ -132,17 +109,24 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 0,
     marginRight: 0,
     marginLeft: 4,
-    width: 28
+    ...Platform.select({
+      ios: {
+        width: 31
+      },
+      android: {
+        width: 28
+      }
+    })
   },
   leftTouchable: {
     ...Platform.select({
       android: {
         paddingLeft: 4,
-        paddingRight: 6,
-        width: 32,
+        paddingRight: 4,
+        width: 28,
         backgroundColor: constants.firstColor,
-        borderTopLeftRadius: 12,
-        borderBottomLeftRadius: 12,
+        borderTopLeftRadius: 14,
+        borderBottomLeftRadius: 14,
         marginLeft: 4
       }
     })
@@ -194,12 +178,12 @@ const styles = StyleSheet.create({
 
   activeBubble: {
     position: "absolute",
-    backgroundColor: constants.firstColor,
+    backgroundColor: constants.black2,
     ...Platform.select({
       ios: {
-        height: 30,
-        width: 30,
-        borderWidth: 3,
+        height: 31,
+        width: 31,
+        borderWidth: 2,
         borderTopRightRadius: 15,
         borderTopLeftRadius: 15,
         borderBottomRightRadius: 15,
@@ -208,7 +192,7 @@ const styles = StyleSheet.create({
       android: {
         height: 28,
         width: 28,
-        borderWidth: 3,
+        borderWidth: 2,
         borderTopRightRadius: 14,
         borderTopLeftRadius: 14,
         borderBottomRightRadius: 14,
