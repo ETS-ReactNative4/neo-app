@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
   },
   textContainer: {
     alignSelf: "flex-start",
-    borderBottomWidth: 2,
+    borderBottomWidth: 1,
     height: 32,
     borderBottomColor: constants.black2
   },
