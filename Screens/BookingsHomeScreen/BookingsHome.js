@@ -44,12 +44,21 @@ class BookingsHome extends Component {
 
   openSearch = () => {};
 
+  componentWillMount() {
+    // console.time('mount');
+  }
+
+  componentDidMount() {
+    // console.timeEnd('mount');
+  }
+
   render() {
     const {
       startEndDates,
       days,
       getDateSelectionMatrixSingle,
-      numOfActivitiesByDay
+      numOfActivitiesByDay,
+      getTransferTypeByDay
     } = this.props.itineraries;
 
     return (
@@ -64,6 +73,7 @@ class BookingsHome extends Component {
             startEndDates={startEndDates}
             days={days}
             getDateSelectionMatrixSingle={getDateSelectionMatrixSingle}
+            getTransferTypeByDay={getTransferTypeByDay}
           />
 
           <BookingAccordion />

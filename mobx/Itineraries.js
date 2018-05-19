@@ -3850,52 +3850,89 @@ class Itineraries {
   );
 
   getDateSelectionMatrixSingle = createTransformer(index => {
-    let dayKey;
+    try {
+      let dayKey;
 
-    for (let key in this._selectedItinerary.iterDayByKey) {
-      if (this._selectedItinerary.iterDayByKey[key].dayNum === index + 1) {
-        dayKey = key;
-        break;
-      }
-    }
-
-    for (let key in this._selectedItinerary.iterCityByKey) {
-      const datesArray = this._selectedItinerary.iterCityByKey[key].allDayKeys;
-      for (let i = 0; i < datesArray.length; i++) {
-        if (dayKey === datesArray[i]) {
-          const selection = [];
-          if (i === 0) {
-            selection.push(0);
-          } else {
-            selection.push(1);
-          }
-          selection.push(1);
-          if (i === datesArray.length - 1) {
-            selection.push(0);
-          } else {
-            selection.push(1);
-          }
-          return selection;
+      for (let key in this._selectedItinerary.iterDayByKey) {
+        if (this._selectedItinerary.iterDayByKey[key].dayNum === index + 1) {
+          dayKey = key;
+          break;
         }
       }
+
+      for (let key in this._selectedItinerary.iterCityByKey) {
+        const datesArray = this._selectedItinerary.iterCityByKey[key]
+          .allDayKeys;
+        for (let i = 0; i < datesArray.length; i++) {
+          if (dayKey === datesArray[i]) {
+            const selection = [];
+            if (i === 0) {
+              selection.push(0);
+            } else {
+              selection.push(1);
+            }
+            selection.push(1);
+            if (i === datesArray.length - 1) {
+              selection.push(0);
+            } else {
+              selection.push(1);
+            }
+            return selection;
+          }
+        }
+      }
+    } catch (e) {
+      return [0, 0, 0];
     }
   });
 
   numOfActivitiesByDay = createTransformer(index => {
-    for (let key in this._selectedItinerary.iterDayByKey) {
-      if (this._selectedItinerary.iterDayByKey[key].dayNum === index + 1) {
-        const slotKeys = this._selectedItinerary.iterDayByKey[key].allSlotKeys;
-        let activityCount = 0;
-        for (let i = 0; i < slotKeys.length; i++) {
-          if (
-            this._selectedItinerary.iterSlotByKey[slotKeys[i]].type ===
-            "ACTIVITY"
-          ) {
-            activityCount++;
+    try {
+      for (let key in this._selectedItinerary.iterDayByKey) {
+        if (this._selectedItinerary.iterDayByKey[key].dayNum === index + 1) {
+          const slotKeys = this._selectedItinerary.iterDayByKey[key]
+            .allSlotKeys;
+          let activityCount = 0;
+          for (let i = 0; i < slotKeys.length; i++) {
+            if (
+              this._selectedItinerary.iterSlotByKey[slotKeys[i]].type ===
+              "ACTIVITY"
+            ) {
+              activityCount++;
+            }
+          }
+          return activityCount;
+        }
+      }
+    } catch (e) {
+      return 0;
+    }
+  });
+
+  getTransferTypeByDay = createTransformer(index => {
+    try {
+      for (let key in this._selectedItinerary.iterDayByKey) {
+        if (this._selectedItinerary.iterDayByKey[key].dayNum === index + 1) {
+          const slotKeys = this._selectedItinerary.iterDayByKey[key]
+            .allSlotKeys;
+          for (let i = 0; i < slotKeys.length; i++) {
+            const activity = this._selectedItinerary.iterSlotByKey[slotKeys[i]];
+            if (activity.type === "INTERCITY_TRANSFER") {
+              return activity.intercityTransferSlotDetailVO.directTransferDetail
+                .transferMode;
+            } else if (
+              activity.type === "INTERNATIONAL_ARRIVE" ||
+              activity.type === "INTERNATIONAL_DEPART"
+            ) {
+              return "FLIGHT";
+            } else {
+              return "NONE";
+            }
           }
         }
-        return activityCount;
       }
+    } catch (e) {
+      return "NONE";
     }
   });
 

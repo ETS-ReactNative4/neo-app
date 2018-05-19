@@ -11,18 +11,21 @@ import moment from "moment/moment";
 import constants from "../../../../../constants/constants";
 import { responsiveWidth } from "react-native-responsive-dimensions";
 import ActivityDotRow from "./ActivityDotRow";
+import TransferIcon from "./TransferIcon";
 
 const Date = ({
   day,
   dayIndex,
   dateArray,
   getDateSelectionMatrixSingle,
-  numOfActivitiesByDay
+  numOfActivitiesByDay,
+  getTransferTypeByDay
 }) => {
   const date = moment(day).format("DDMMYYYY");
   const dateIndex = dateArray.findIndex(singleDate => date === singleDate);
   const selectionMatrix = getDateSelectionMatrixSingle(dateIndex);
   const count = numOfActivitiesByDay(dateIndex);
+  const transferType = getTransferTypeByDay(dateIndex);
 
   let textStyle = "defaultStyle",
     containerStyle = "defaultStyle";
@@ -33,14 +36,16 @@ const Date = ({
     } else if (selectionMatrix[0] === 0) {
       containerStyle = "leftCorner";
     } else if (selectionMatrix[2] === 0) {
-      containerStyle = "rightCorner";
+      if (dayIndex === 6) containerStyle = "lastRightCorner";
+      else containerStyle = "rightCorner";
     } else {
-      containerStyle = "middleSection";
+      if (dayIndex === 6) containerStyle = "lastMiddleSection";
+      else containerStyle = "middleSection";
     }
   }
 
   return (
-    <TouchableOpacity>
+    <TouchableOpacity activeOpacity={1}>
       <View style={[styles.weekDayWrapper, styles[containerStyle]]}>
         <Text style={[styles.weekDay, styles[textStyle]]}>
           {moment(day).format("DD")}
@@ -49,6 +54,7 @@ const Date = ({
           <ActivityDotRow count={count} />
         ) : null}
       </View>
+      <TransferIcon transferType={transferType} />
     </TouchableOpacity>
   );
 };
@@ -72,6 +78,13 @@ const styles = StyleSheet.create({
     marginRight: 4,
     width: dateItemWidth + 4
   },
+  lastRightCorner: {
+    backgroundColor: constants.firstColor,
+    borderTopRightRadius: 20,
+    borderBottomRightRadius: 20,
+    marginRight: 4,
+    width: dateItemWidth - 6
+  },
   leftCorner: {
     backgroundColor: constants.firstColor,
     borderTopLeftRadius: 20,
@@ -82,6 +95,11 @@ const styles = StyleSheet.create({
   middleSection: {
     backgroundColor: constants.firstColor,
     width: dateItemWidth + 8,
+    marginHorizontal: 0
+  },
+  lastMiddleSection: {
+    backgroundColor: constants.firstColor,
+    width: dateItemWidth - 3,
     marginHorizontal: 0
   },
   weekDay: {
@@ -114,7 +132,8 @@ Date.propTypes = {
   dayIndex: PropTypes.number.isRequired,
   dateArray: PropTypes.array.isRequired,
   getDateSelectionMatrixSingle: PropTypes.func.isRequired,
-  numOfActivitiesByDay: PropTypes.func.isRequired
+  numOfActivitiesByDay: PropTypes.func.isRequired,
+  getTransferTypeByDay: PropTypes.func.isRequired
 };
 
 // Testing highlight styles
