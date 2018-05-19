@@ -3881,6 +3881,24 @@ class Itineraries {
     }
   });
 
+  numOfActivitiesByDay = createTransformer(index => {
+    for (let key in this._selectedItinerary.iterDayByKey) {
+      if (this._selectedItinerary.iterDayByKey[key].dayNum === index + 1) {
+        const slotKeys = this._selectedItinerary.iterDayByKey[key].allSlotKeys;
+        let activityCount = 0;
+        for (let i = 0; i < slotKeys.length; i++) {
+          if (
+            this._selectedItinerary.iterSlotByKey[slotKeys[i]].type ===
+            "ACTIVITY"
+          ) {
+            activityCount++;
+          }
+        }
+        return activityCount;
+      }
+    }
+  });
+
   constructor() {
     // console.log(JSON.stringify(toJS(this._selectedItinerary)));
   }

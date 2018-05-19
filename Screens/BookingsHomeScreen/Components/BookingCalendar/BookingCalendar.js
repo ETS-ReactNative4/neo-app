@@ -18,7 +18,8 @@ import WeekNameRow from "./Components/WeekNameRow";
 const BookingCalendar = ({
   startEndDates,
   days,
-  getDateSelectionMatrixSingle
+  getDateSelectionMatrixSingle,
+  numOfActivitiesByDay
 }) => {
   const numberOfRows = startEndDates.numberOfDays / 7;
   const rowArray = [];
@@ -54,6 +55,7 @@ const BookingCalendar = ({
                   dayIndex={dayIndex}
                   dateArray={dateArray}
                   getDateSelectionMatrixSingle={getDateSelectionMatrixSingle}
+                  numOfActivitiesByDay={numOfActivitiesByDay}
                 />
               );
             })}
@@ -67,7 +69,8 @@ const BookingCalendar = ({
 BookingCalendar.propTypes = {
   startEndDates: PropTypes.object.isRequired,
   days: PropTypes.array.isRequired,
-  getDateSelectionMatrixSingle: PropTypes.func.isRequired
+  getDateSelectionMatrixSingle: PropTypes.func.isRequired,
+  numOfActivitiesByDay: PropTypes.func.isRequired
 };
 
 const styles = StyleSheet.create({

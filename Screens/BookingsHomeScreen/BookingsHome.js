@@ -48,7 +48,8 @@ class BookingsHome extends Component {
     const {
       startEndDates,
       days,
-      getDateSelectionMatrixSingle
+      getDateSelectionMatrixSingle,
+      numOfActivitiesByDay
     } = this.props.itineraries;
 
     return (
@@ -59,6 +60,7 @@ class BookingsHome extends Component {
           showsVerticalScrollIndicator={false}
         >
           <BookingCalendar
+            numOfActivitiesByDay={numOfActivitiesByDay}
             startEndDates={startEndDates}
             days={days}
             getDateSelectionMatrixSingle={getDateSelectionMatrixSingle}

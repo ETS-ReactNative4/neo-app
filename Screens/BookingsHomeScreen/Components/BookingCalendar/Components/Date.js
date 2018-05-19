@@ -1,14 +1,28 @@
 import React from "react";
-import { View, Text, StyleSheet, Platform } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Platform,
+  TouchableOpacity
+} from "react-native";
 import PropTypes from "prop-types";
 import moment from "moment/moment";
 import constants from "../../../../../constants/constants";
 import { responsiveWidth } from "react-native-responsive-dimensions";
+import ActivityDotRow from "./ActivityDotRow";
 
-const Date = ({ day, dayIndex, dateArray, getDateSelectionMatrixSingle }) => {
+const Date = ({
+  day,
+  dayIndex,
+  dateArray,
+  getDateSelectionMatrixSingle,
+  numOfActivitiesByDay
+}) => {
   const date = moment(day).format("DDMMYYYY");
   const dateIndex = dateArray.findIndex(singleDate => date === singleDate);
   const selectionMatrix = getDateSelectionMatrixSingle(dateIndex);
+  const count = numOfActivitiesByDay(dateIndex);
 
   let textStyle = "defaultStyle",
     containerStyle = "defaultStyle";
@@ -26,11 +40,16 @@ const Date = ({ day, dayIndex, dateArray, getDateSelectionMatrixSingle }) => {
   }
 
   return (
-    <View style={[styles.weekDayWrapper, styles[containerStyle]]}>
-      <Text style={[styles.weekDay, styles[textStyle]]}>
-        {moment(day).format("DD")}
-      </Text>
-    </View>
+    <TouchableOpacity>
+      <View style={[styles.weekDayWrapper, styles[containerStyle]]}>
+        <Text style={[styles.weekDay, styles[textStyle]]}>
+          {moment(day).format("DD")}
+        </Text>
+        {textStyle === "isHighlighted" ? (
+          <ActivityDotRow count={count} />
+        ) : null}
+      </View>
+    </TouchableOpacity>
   );
 };
 
@@ -94,7 +113,8 @@ Date.propTypes = {
   day: PropTypes.object.isRequired,
   dayIndex: PropTypes.number.isRequired,
   dateArray: PropTypes.array.isRequired,
-  getDateSelectionMatrixSingle: PropTypes.func.isRequired
+  getDateSelectionMatrixSingle: PropTypes.func.isRequired,
+  numOfActivitiesByDay: PropTypes.func.isRequired
 };
 
 // Testing highlight styles
