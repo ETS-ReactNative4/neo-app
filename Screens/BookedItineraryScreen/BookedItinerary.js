@@ -120,27 +120,13 @@ class BookedItinerary extends Component {
       "selectedDate",
       moment(this.props.itineraries.days[0]).format("DDMMYYYY")
     );
-    this.setState(
-      {
-        selectedDay
-      },
-      () => {
-        setTimeout(() => {
-          this._headerScroll.scrollTo({
-            x:
-              this.state.headerPositions[this.state.selectedDay] -
-              responsiveWidth(45),
-            y: 0,
-            animated: true
-          });
-          this.refs._contentScroll.scrollTo({
-            x: 0,
-            y: this.state.sectionPositions[this.state.selectedDay],
-            animated: true
-          });
-        }, 350);
-      }
-    );
+    setTimeout(() => {
+      this.refs._contentScroll.scrollTo({
+        x: 0,
+        y: this.state.sectionPositions[selectedDay],
+        animated: true
+      });
+    }, 350);
   }
 
   render() {
