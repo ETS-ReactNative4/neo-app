@@ -44,14 +44,6 @@ class BookingsHome extends Component {
 
   openSearch = () => {};
 
-  componentWillMount() {
-    // console.time('mount');
-  }
-
-  componentDidMount() {
-    // console.timeEnd('mount');
-  }
-
   render() {
     const {
       startEndDates,
@@ -60,6 +52,7 @@ class BookingsHome extends Component {
       numOfActivitiesByDay,
       getTransferTypeByDay
     } = this.props.itineraries;
+    const { navigation } = this.props;
 
     return (
       <View style={styles.bookingHomeContainer}>
@@ -74,6 +67,7 @@ class BookingsHome extends Component {
             days={days}
             getDateSelectionMatrixSingle={getDateSelectionMatrixSingle}
             getTransferTypeByDay={getTransferTypeByDay}
+            navigation={navigation}
           />
 
           <BookingAccordion />

@@ -19,7 +19,8 @@ const Date = ({
   dateArray,
   getDateSelectionMatrixSingle,
   numOfActivitiesByDay,
-  getTransferTypeByDay
+  getTransferTypeByDay,
+  navigation
 }) => {
   const date = moment(day).format("DDMMYYYY");
   const dateIndex = dateArray.findIndex(singleDate => date === singleDate);
@@ -45,7 +46,14 @@ const Date = ({
   }
 
   return (
-    <TouchableOpacity activeOpacity={1}>
+    <TouchableOpacity
+      activeOpacity={1}
+      onPress={() => {
+        navigation.push("BookedItinerary", {
+          selectedDate: date
+        });
+      }}
+    >
       <View style={[styles.weekDayWrapper, styles[containerStyle]]}>
         <Text style={[styles.weekDay, styles[textStyle]]}>
           {moment(day).format("DD")}
@@ -133,7 +141,8 @@ Date.propTypes = {
   dateArray: PropTypes.array.isRequired,
   getDateSelectionMatrixSingle: PropTypes.func.isRequired,
   numOfActivitiesByDay: PropTypes.func.isRequired,
-  getTransferTypeByDay: PropTypes.func.isRequired
+  getTransferTypeByDay: PropTypes.func.isRequired,
+  navigation: PropTypes.object.isRequired
 };
 
 // Testing highlight styles

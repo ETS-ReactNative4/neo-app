@@ -76,9 +76,9 @@ class BookedItinerary extends Component {
     },
     section
   ) => {
-    const newState = { ...this.state };
-    newState.sectionPositions[section] = y;
-    this.setState(newState);
+    const sectionPositions = { ...this.state.sectionPositions };
+    sectionPositions[section] = y;
+    this.setState({ sectionPositions });
   };
 
   onHeaderLayout = (
@@ -89,9 +89,9 @@ class BookedItinerary extends Component {
     },
     section
   ) => {
-    const newState = { ...this.state };
-    newState.headerPositions[section] = x;
-    this.setState(newState);
+    const headerPositions = { ...this.state.headerPositions };
+    headerPositions[section] = x;
+    this.setState({ headerPositions });
   };
 
   onItemScroll = ({
@@ -115,8 +115,32 @@ class BookedItinerary extends Component {
     });
   };
 
-  componentWillUpdate() {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+  componentDidMount() {
+    const selectedDay = this.props.navigation.getParam(
+      "selectedDate",
+      moment(this.props.itineraries.days[0]).format("DDMMYYYY")
+    );
+    this.setState(
+      {
+        selectedDay
+      },
+      () => {
+        setTimeout(() => {
+          this._headerScroll.scrollTo({
+            x:
+              this.state.headerPositions[this.state.selectedDay] -
+              responsiveWidth(45),
+            y: 0,
+            animated: true
+          });
+          this.refs._contentScroll.scrollTo({
+            x: 0,
+            y: this.state.sectionPositions[this.state.selectedDay],
+            animated: true
+          });
+        }, 350);
+      }
+    );
   }
 
   render() {
@@ -145,6 +169,7 @@ class BookedItinerary extends Component {
               />
             );
           })}
+          <View style={{ height: responsiveHeight(60) }} />
         </ScrollView>
       </View>
     );

@@ -20,7 +20,8 @@ const BookingCalendar = ({
   days,
   getDateSelectionMatrixSingle,
   numOfActivitiesByDay,
-  getTransferTypeByDay
+  getTransferTypeByDay,
+  navigation
 }) => {
   const numberOfRows = startEndDates.numberOfDays / 7;
   const rowArray = [];
@@ -58,6 +59,7 @@ const BookingCalendar = ({
                   getDateSelectionMatrixSingle={getDateSelectionMatrixSingle}
                   numOfActivitiesByDay={numOfActivitiesByDay}
                   getTransferTypeByDay={getTransferTypeByDay}
+                  navigation={navigation}
                 />
               );
             })}
@@ -73,7 +75,8 @@ BookingCalendar.propTypes = {
   days: PropTypes.array.isRequired,
   getDateSelectionMatrixSingle: PropTypes.func.isRequired,
   numOfActivitiesByDay: PropTypes.func.isRequired,
-  getTransferTypeByDay: PropTypes.func.isRequired
+  getTransferTypeByDay: PropTypes.func.isRequired,
+  navigation: PropTypes.object.isRequired
 };
 
 const styles = StyleSheet.create({
