@@ -25,6 +25,8 @@ import store from "./mobx/Store";
 import BookingsHome from "./Screens/BookingsHomeScreen/BookingsHome";
 import Notifications from "./Screens/NotificationsScreen/Notifications";
 import BookedItinerary from "./Screens/BookedItineraryScreen/BookedItinerary";
+import TabBarIcon from "./CommonComponents/TabBarIcon/TabBarIcon";
+import constants from "./constants/constants";
 
 UIManager.setLayoutAnimationEnabledExperimental &&
   UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -82,7 +84,7 @@ const HomeTabs = createBottomTabNavigator(
     Bookings: {
       screen: BookingStack
     },
-    Chat: {
+    Support: {
       screen: Home
     },
     Tools: {
@@ -93,6 +95,39 @@ const HomeTabs = createBottomTabNavigator(
     }
   },
   {
+    navigationOptions: ({ navigation }) => ({
+      tabBarIcon: ({ focused }) => {
+        const { routeName } = navigation.state;
+        let icon;
+
+        switch (routeName) {
+          case "TripFeed":
+            icon = { text: "TRIP FEED", icon: constants.notificationIcon };
+            break;
+
+          case "Bookings":
+            icon = { text: "BOOKINGS", icon: constants.notificationIcon };
+            break;
+
+          case "Support":
+            icon = { text: "SUPPORT", icon: constants.notificationIcon };
+            break;
+
+          case "Tools":
+            icon = { text: "TOOLS", icon: constants.notificationIcon };
+            break;
+
+          case "Journal":
+            icon = { text: "JOURNAL", icon: constants.notificationIcon };
+            break;
+        }
+
+        return <TabBarIcon {...icon} />;
+      }
+    }),
+    tabBarOptions: {
+      showLabel: false
+    },
     initialRouteName: "Bookings",
     swipeEnabled: false
   }
@@ -144,7 +179,7 @@ const HomeStack = createStackNavigator(
     }
   },
   {
-    initialRouteName: "Splash",
+    initialRouteName: "YourBookings",
     navigationOptions: {
       gesturesEnabled: false
     },

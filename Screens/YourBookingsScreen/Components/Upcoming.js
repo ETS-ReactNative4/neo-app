@@ -10,20 +10,21 @@ import UpcomingCard from "./UpcomingCard";
 import PropTypes from "prop-types";
 import EmptyListPlaceholder from "../../../CommonComponents/EmptyListPlaceholder/EmptyListPlaceholder";
 import constants from "../../../constants/constants";
+import { inject, observer } from "mobx-react/custom";
 
+@inject("itineraries")
+@observer
 class Upcoming extends Component {
   static propTypes = {
-    /**
-     * Todo: Itinerary Validator!!
-     */
-    itineraries: PropTypes.array.isRequired,
+    itinerariesList: PropTypes.array.isRequired,
     isLoading: PropTypes.bool.isRequired
   };
 
   render() {
-    const { itineraries, isLoading } = this.props;
+    const { itinerariesList, isLoading } = this.props;
+    const { selectItinerary } = this.props.itineraries;
 
-    if (itineraries.length === 0 && !isLoading) {
+    if (itinerariesList.length === 0 && !isLoading) {
       return (
         <EmptyListPlaceholder
           text={`No active bookings found on this number. If the booking is made by someone else, you need an invite from them to proceed.`}
@@ -39,8 +40,14 @@ class Upcoming extends Component {
 
     return (
       <ScrollView>
-        {itineraries.map((itinerary, index) => {
-          return <UpcomingCard key={index} {...itinerary} />;
+        {itinerariesList.map((itinerary, index) => {
+          return (
+            <UpcomingCard
+              key={index}
+              {...itinerary}
+              selectItinerary={selectItinerary}
+            />
+          );
         })}
       </ScrollView>
     );

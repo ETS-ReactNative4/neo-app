@@ -3602,6 +3602,15 @@ class Itineraries {
   };
 
   @action
+  selectItinerary = itineraryId => {
+    const selectedItinerary = this._itineraries.find(itineraryDetail => {
+      return itineraryDetail.itinerary.itineraryId === itineraryId;
+    });
+    if (selectedItinerary) this._selectedItinerary = selectedItinerary;
+    else this.getItineraryDetails(itineraryId);
+  };
+
+  @action
   getItineraryDetails = itineraryId => {
     this._isLoading = true;
     const requestBody = {

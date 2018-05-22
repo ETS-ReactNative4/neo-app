@@ -3,13 +3,23 @@ import { View, Text, ImageBackground, StyleSheet } from "react-native";
 import constants from "../../../constants/constants";
 import SimpleButton from "../../../CommonComponents/SimpleButton/SimpleButton";
 import PropTypes from "prop-types";
+import moment from "moment";
 
+/**
+ * TODO:
+ * missing from & to dates of the trip
+ */
+/**
+ * TODO:
+ * missing from & to dates of the trip
+ */
 const UpcomingCard = ({
   itineraryId,
   itineraryName,
   adults,
   departureCity,
-  bookedOnDate
+  bookedOnDateMillis,
+  selectItinerary
 }) => {
   return (
     <View style={styles.upcomingCardContainer}>
@@ -22,7 +32,7 @@ const UpcomingCard = ({
           <Text style={styles.bookingID}>{itineraryId}</Text>
           <SimpleButton
             text={"Join"}
-            action={() => {}}
+            action={() => selectItinerary(itineraryId)}
             textColor={"white"}
             underlayColor={constants.firstColorAlpha(0.8)}
             containerStyle={{
@@ -49,9 +59,9 @@ const UpcomingCard = ({
             >{`${adults} adults, departing ${departureCity}.`}</Text>
           </View>
           <View style={styles.bookingDateWrapper}>
-            <Text
-              style={styles.bookingDate}
-            >{`Booked by you on ${bookedOnDate}`}</Text>
+            <Text style={styles.bookingDate}>{`Booked by you on ${moment
+              .unix(bookedOnDateMillis)
+              .format("DD/MM/YYYY")}`}</Text>
           </View>
         </View>
       </View>
@@ -64,7 +74,8 @@ UpcomingCard.propTypes = {
   itineraryName: PropTypes.string.isRequired,
   adults: PropTypes.number.isRequired,
   departureCity: PropTypes.string.isRequired,
-  bookedOnDate: PropTypes.string.isRequired
+  bookedOnDateMillis: PropTypes.number.isRequired,
+  selectItinerary: PropTypes.func.isRequired
 };
 
 const styles = StyleSheet.create({

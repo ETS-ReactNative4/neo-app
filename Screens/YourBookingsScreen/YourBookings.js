@@ -37,6 +37,10 @@ class YourBookings extends Component {
     };
   };
 
+  componentDidMount() {
+    this.props.yourBookingsStore.getUpcomingItineraries();
+  }
+
   render() {
     const { upcomingItineraries, isLoading } = this.props.yourBookingsStore;
 
@@ -59,7 +63,7 @@ class YourBookings extends Component {
         >
           <Upcoming
             tabLabel="UPCOMING"
-            itineraries={upcomingItineraries}
+            itinerariesList={upcomingItineraries}
             isLoading={isLoading}
           />
           <Completed tabLabel="COMPLETED" />

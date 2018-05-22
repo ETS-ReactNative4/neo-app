@@ -2,6 +2,7 @@ import { observable, computed, action } from "mobx";
 import { persist } from "mobx-persist";
 import apiCall from "../Services/networkRequests/apiCall";
 import constants from "../constants/constants";
+import DebouncedAlert from "../CommonComponents/DebouncedAlert/DebouncedAlert";
 
 class YourBookings {
   @persist("list")
@@ -36,11 +37,13 @@ class YourBookings {
           this._loadingError = false;
         } else {
           this._loadingError = true;
+          DebouncedAlert("Error!", "Unable to get Itinerary Details...");
         }
       })
       .catch(error => {
         this._isLoading = false;
         this._loadingError = true;
+        DebouncedAlert("Error!", "Internal Server Error...");
       });
   };
 
