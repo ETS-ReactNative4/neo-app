@@ -1,7 +1,6 @@
 import currencyRates from "./currencyRates";
 
 const currencyConverter = (amount, from, to, quotes = currencyRates.quotes) => {
-
   amount = parseInt(amount);
 
   function toUS(actualAmount) {

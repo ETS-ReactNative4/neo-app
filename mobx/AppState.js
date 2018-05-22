@@ -8,15 +8,22 @@ class AppState {
     status: false
   };
 
-  @computed
-  get isTripModeOn() {
-    return this._tripMode.status;
-  }
+  @action
+  reset = () => {
+    this._tripMode = {
+      status: false
+    };
+  };
 
   @action
   setTripMode = status => {
     this._tripMode.status = status;
   };
+
+  @computed
+  get isTripModeOn() {
+    return this._tripMode.status;
+  }
 }
 
 export default AppState;

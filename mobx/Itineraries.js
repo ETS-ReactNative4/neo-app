@@ -8,6 +8,10 @@ import apiCall from "../Services/networkRequests/apiCall";
 import constants from "../constants/constants";
 
 class Itineraries {
+  @observable _isLoading = false;
+
+  @observable _loadingError = false;
+
   @persist("list")
   @observable
   _itineraries = [];
@@ -3587,6 +3591,36 @@ class Itineraries {
       paymentEnvironmentType: "LIVE"
     },
     freeActivitiesSize: 0
+  };
+
+  @action
+  reset = () => {
+    this._isLoading = false;
+    this._loadingError = false;
+    this._itineraries = [];
+    this._selectedItinerary = {};
+  };
+
+  @action
+  getItineraryDetails = itineraryId => {
+    this._isLoading = true;
+    const requestBody = {
+      itineraryId
+    };
+    apiCall(constants.getItineraryDetails, requestBody)
+      .then(response => {
+        this._isLoading = false;
+        if (response.status === "SUCCESS") {
+          console.log(response);
+          this._loadingError = false;
+        } else {
+          this._loadingError = true;
+        }
+      })
+      .catch(error => {
+        this._isLoading = false;
+        this._loadingError = true;
+      });
   };
 
   @computed

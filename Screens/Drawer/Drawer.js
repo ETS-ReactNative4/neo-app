@@ -5,6 +5,7 @@ import constants from "../../constants/constants";
 import LoginButton from "./Components/LoginButton";
 import DrawerButton from "./Components/DrawerButton";
 import NotificationCount from "../../CommonComponents/NotificationCount/NotificationCount";
+import logOut from "../../Services/logOut/logOut";
 
 class Drawer extends Component {
   clickDrawerItem = (index, screen) => {
@@ -45,6 +46,11 @@ class Drawer extends Component {
       {
         icon: constants.notificationIcon,
         text: "About"
+      },
+      {
+        icon: constants.notificationIcon,
+        text: "Log Out",
+        action: () => logOut(this.props.navigation)
       }
     ];
 
@@ -64,12 +70,14 @@ class Drawer extends Component {
         <LoginButton text={"Login"} action={() => {}} />
 
         {menuItems.map((item, index) => {
+          const defaultAction = () => this.clickDrawerItem(index, item.text);
+
           return (
             <DrawerButton
               key={index}
               icon={item.icon}
               text={item.text}
-              action={() => this.clickDrawerItem(index, item.text)}
+              action={item.action || defaultAction}
               isActive={item.text === this.props.activeItemKey}
               info={item.info || null}
             />

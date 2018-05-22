@@ -1,5 +1,5 @@
 import React from "react";
-import { ImageBackground, Image, StyleSheet, View } from "react-native";
+import { Image, StyleSheet, View } from "react-native";
 import constants from "../../constants/constants";
 import PropTypes from "prop-types";
 

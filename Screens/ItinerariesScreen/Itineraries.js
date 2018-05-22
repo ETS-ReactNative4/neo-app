@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { View, Text } from "react-native";
-import * as Keychain from "react-native-keychain";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 
 class Itineraries extends Component {
@@ -15,10 +14,6 @@ class Itineraries extends Component {
       )
     };
   };
-
-  componentDidMount() {
-    // Keychain.resetGenericPassword();
-  }
 
   render() {
     return (

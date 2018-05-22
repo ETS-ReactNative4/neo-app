@@ -15,25 +15,13 @@ class YourBookings {
   @observable _isLoading = false;
   @observable _loadingError = false;
 
-  @computed
-  get upcomingItineraries() {
-    return this._upcomingItineraries.slice();
-  }
-
-  @computed
-  get completedItineraries() {
-    return this._completedItineraries.slice();
-  }
-
-  @computed
-  get isLoading() {
-    return this._isLoading;
-  }
-
-  @computed
-  get hasError() {
-    return this._loadingError;
-  }
+  @action
+  reset = () => {
+    this._upcomingItineraries = [];
+    this._completedItineraries = [];
+    this._isLoading = false;
+    this._loadingError = false;
+  };
 
   @action
   getUpcomingItineraries = () => {
@@ -55,6 +43,26 @@ class YourBookings {
         this._loadingError = true;
       });
   };
+
+  @computed
+  get upcomingItineraries() {
+    return this._upcomingItineraries.slice();
+  }
+
+  @computed
+  get completedItineraries() {
+    return this._completedItineraries.slice();
+  }
+
+  @computed
+  get isLoading() {
+    return this._isLoading;
+  }
+
+  @computed
+  get hasError() {
+    return this._loadingError;
+  }
 }
 
 export default YourBookings;
