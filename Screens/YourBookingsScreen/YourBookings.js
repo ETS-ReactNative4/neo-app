@@ -65,6 +65,7 @@ class YourBookings extends Component {
             tabLabel="UPCOMING"
             itinerariesList={upcomingItineraries}
             isLoading={isLoading}
+            navigation={this.props.navigation}
           />
           <Completed tabLabel="COMPLETED" />
         </ScrollableTabView>

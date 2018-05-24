@@ -17,7 +17,12 @@ import { inject, observer } from "mobx-react/custom";
 class Upcoming extends Component {
   static propTypes = {
     itinerariesList: PropTypes.array.isRequired,
-    isLoading: PropTypes.bool.isRequired
+    isLoading: PropTypes.bool.isRequired,
+    navigation: PropTypes.object.isRequired
+  };
+
+  selectItinerary = () => {
+    this.props.navigation.navigate("AppHome");
   };
 
   render() {
@@ -45,7 +50,7 @@ class Upcoming extends Component {
             <UpcomingCard
               key={index}
               {...itinerary}
-              selectItinerary={selectItinerary}
+              selectItinerary={this.selectItinerary}
             />
           );
         })}
