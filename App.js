@@ -27,6 +27,7 @@ import Notifications from "./Screens/NotificationsScreen/Notifications";
 import BookedItinerary from "./Screens/BookedItineraryScreen/BookedItinerary";
 import TabBarIcon from "./CommonComponents/TabBarIcon/TabBarIcon";
 import constants from "./constants/constants";
+import TransferVoucher from "./Screens/VoucherScreens/TransferVoucherScreen/TransferVoucher";
 
 UIManager.setLayoutAnimationEnabledExperimental &&
   UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -176,10 +177,13 @@ const HomeStack = createStackNavigator(
     },
     Itineraries: {
       screen: Itineraries
+    },
+    TransferVoucher: {
+      screen: TransferVoucher
     }
   },
   {
-    initialRouteName: "YourBookings",
+    initialRouteName: "TransferVoucher",
     navigationOptions: {
       gesturesEnabled: false
     },

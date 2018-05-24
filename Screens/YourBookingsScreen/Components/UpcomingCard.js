@@ -1,5 +1,11 @@
 import React from "react";
-import { View, Text, ImageBackground, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  ImageBackground,
+  StyleSheet,
+  TouchableOpacity
+} from "react-native";
 import constants from "../../../constants/constants";
 import SimpleButton from "../../../CommonComponents/SimpleButton/SimpleButton";
 import PropTypes from "prop-types";
@@ -22,14 +28,19 @@ const UpcomingCard = ({
   selectItinerary
 }) => {
   return (
-    <View style={styles.upcomingCardContainer}>
+    <TouchableOpacity
+      onPress={() => selectItinerary(itineraryId)}
+      style={styles.upcomingCardContainer}
+    >
       <View style={styles.imageArea}>
         <ImageBackground
           resizeMode={"cover"}
           source={constants.starterBackground}
           style={styles.imageBackground}
         >
-          <Text style={styles.bookingID}>{itineraryId}</Text>
+          <Text style={styles.bookingID}>{`PYT${itineraryId
+            .substr(itineraryId.length - 7)
+            .toUpperCase()}`}</Text>
           <SimpleButton
             text={"Join"}
             action={() => selectItinerary(itineraryId)}
@@ -59,13 +70,13 @@ const UpcomingCard = ({
             >{`${adults} adults, departing ${departureCity}.`}</Text>
           </View>
           <View style={styles.bookingDateWrapper}>
-            <Text style={styles.bookingDate}>{`Booked by you on ${moment
-              .unix(bookedOnDateMillis)
-              .format("DD/MM/YYYY")}`}</Text>
+            <Text style={styles.bookingDate}>{`Booked by you on ${moment(
+              bookedOnDateMillis
+            ).format("DD/MM/YY")}`}</Text>
           </View>
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 

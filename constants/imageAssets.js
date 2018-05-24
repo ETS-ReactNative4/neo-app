@@ -12,7 +12,8 @@ const imageAssets = {
   aeroplaneIcon: require("../assets/images/icons/aeroplane-.png"),
   busIcon: require("../assets/images/icons/front-bus.png"),
   ferryIcon: require("../assets/images/icons/boat.png"),
-  trainIcon: require("../assets/images/icons/train-front.png")
+  trainIcon: require("../assets/images/icons/train-front.png"),
+  semiCircleShape: require("../assets/images/shapes/hiring_topic.png")
 };
 
 export default imageAssets;

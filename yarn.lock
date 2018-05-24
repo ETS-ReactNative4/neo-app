@@ -4775,6 +4775,12 @@ react-native-keychain@^3.0.0-rc.3:
   version "3.0.0-rc.3"
   resolved "https://registry.yarnpkg.com/react-native-keychain/-/react-native-keychain-3.0.0-rc.3.tgz#891ea07a564d1bf46b644bc615af21f15a04b12b"
 
+react-native-parallax-scroll-view@^0.21.0:
+  version "0.21.0"
+  resolved "https://registry.yarnpkg.com/react-native-parallax-scroll-view/-/react-native-parallax-scroll-view-0.21.0.tgz#742fcbb9b81c47e475d6ecfb5995eb6fd6779162"
+  dependencies:
+    prop-types "^15.6.0"
+
 react-native-responsive-dimensions@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/react-native-responsive-dimensions/-/react-native-responsive-dimensions-1.0.2.tgz#521551fa90548f888578eafd71101d19061727ac"
