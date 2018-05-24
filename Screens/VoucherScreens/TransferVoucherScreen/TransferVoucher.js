@@ -9,7 +9,6 @@ import {
   SafeAreaView
 } from "react-native";
 import ParallaxScrollView from "react-native-parallax-scroll-view";
-import constants from "../../../constants/constants";
 import VoucherHeader from "../Components/VoucherHeader";
 
 class TransferVoucher extends Component {
