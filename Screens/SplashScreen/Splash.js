@@ -11,7 +11,7 @@ const resetToHome = StackActions.reset({
 
 const resetToItineraries = StackActions.reset({
   index: 0,
-  actions: [NavigationActions.navigate({ routeName: "Itineraries" })]
+  actions: [NavigationActions.navigate({ routeName: "AppHome" })]
 });
 
 class Splash extends Component {
@@ -24,7 +24,7 @@ class Splash extends Component {
       const credentials = await Keychain.getGenericPassword();
       if (credentials) {
         Platform.OS === "ios"
-          ? this.props.navigation.push("Itineraries")
+          ? this.props.navigation.push("AppHome")
           : this.props.navigation.dispatch(resetToItineraries);
       } else {
         Platform.OS === "ios"

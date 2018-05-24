@@ -118,9 +118,12 @@ class MobileNumber extends Component {
           this.props.navigation.push("YourBookings");
         } else {
           if (Platform.OS === "ios") {
-            DebouncedAlert("Verification Failed!", response.msg);
+            DebouncedAlert("OTP Verification Failed!", response.msg);
           } else {
-            ToastAndroid.show(response.data.msg, ToastAndroid.SHORT);
+            ToastAndroid.show(
+              response.data.msg || "OTP Verification Failed!",
+              ToastAndroid.SHORT
+            );
           }
           this.setState({
             otp: new Array(6).fill("")
@@ -161,9 +164,12 @@ class MobileNumber extends Component {
             },
             () => {
               if (Platform.OS === "ios") {
-                DebouncedAlert("Otp Sent", response.data.msg);
+                DebouncedAlert("OTP Sent", response.data.msg);
               } else {
-                ToastAndroid.show(response.data.msg, ToastAndroid.SHORT);
+                ToastAndroid.show(
+                  response.data.msg || "OTP Sent",
+                  ToastAndroid.SHORT
+                );
                 this.smsListener = SmsListener.addListener(this.otpPrefiller);
               }
               this.waitListener = setInterval(this.waitCounter, 1000);
@@ -198,7 +204,7 @@ class MobileNumber extends Component {
   };
 
   otpPrefiller = message => {
-    if (message.originatingAddress === "TX-PYTBRK") {
+    if (message.originatingAddress.indexOf("PYTBRK") > -1) {
       const otp = message.body.substr(0, 6).split("");
       this.setState(
         {
