@@ -13,7 +13,18 @@ const imageAssets = {
   busIcon: require("../assets/images/icons/front-bus.png"),
   ferryIcon: require("../assets/images/icons/boat.png"),
   trainIcon: require("../assets/images/icons/train-front.png"),
-  semiCircleShape: require("../assets/images/shapes/hiring_topic.png")
+  semiCircleShape: require("../assets/images/shapes/hiring_topic.png"),
+
+  tripFeedIcon: require("../assets/images/icons/footerIcons/pyt_trip_feed_light.png"),
+  tripFeedSelectedIcon: require("../assets/images/icons/footerIcons/pyt_trip_feed.png"),
+  bookingIcon: require("../assets/images/icons/footerIcons/pyt_booking_light.png"),
+  bookingSelectedIcon: require("../assets/images/icons/footerIcons/pyt_booking.png"),
+  supportIcon: require("../assets/images/icons/footerIcons/pyt_support_light.png"),
+  supportSelectedIcon: require("../assets/images/icons/footerIcons/pyt_support.png"),
+  toolIcon: require("../assets/images/icons/footerIcons/pyt_tools_light.png"),
+  toolSelectedIcon: require("../assets/images/icons/footerIcons/pyt_tools.png"),
+  journalIcon: require("../assets/images/icons/footerIcons/pyt_journal_light.png"),
+  journalSelectedIcon: require("../assets/images/icons/footerIcons/pyt_journal.png")
 };
 
 export default imageAssets;

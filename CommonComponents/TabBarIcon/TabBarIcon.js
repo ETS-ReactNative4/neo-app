@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Image, Text, StyleSheet } from "react-native";
+import { View, Image, Text, StyleSheet, Platform } from "react-native";
 import PropTypes from "prop-types";
 import constants from "../../constants/constants";
 
@@ -21,9 +21,11 @@ TabBarIcon.propTypes = {
 
 const styles = StyleSheet.create({
   iconWrapper: {
-    height: 30,
-    width: 40,
-    backgroundColor: "red",
+    ...Platform.select({
+      android: {
+        marginTop: -4
+      }
+    }),
     alignItems: "center",
     justifyContent: "center"
   },
