@@ -8,7 +8,8 @@ import {
 
 const resetToSplash = StackActions.reset({
   index: 0,
-  actions: [NavigationActions.navigate({ routeName: "Splash" })]
+  actions: [NavigationActions.navigate({ routeName: "Splash" })],
+  key: null
 });
 
 const closeDrawer = DrawerActions.closeDrawer();
