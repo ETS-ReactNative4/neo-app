@@ -21,7 +21,12 @@ class TransferVoucher extends Component {
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
         <ScrollView>
-          <VoucherHeader />
+          <VoucherHeader
+            infoText={`BOOKING ID`}
+            title={`1242345`}
+            menu={() => {}}
+            onClickClose={() => {}}
+          />
         </ScrollView>
       </SafeAreaView>
     );
