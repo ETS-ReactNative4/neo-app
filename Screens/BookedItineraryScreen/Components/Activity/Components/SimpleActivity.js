@@ -31,7 +31,7 @@ SimpleActivity.propTypes = {
   title: PropTypes.string.isRequired,
   text: PropTypes.string.isRequired,
   image: PropTypes.oneOfType([PropTypes.object, PropTypes.number]).isRequired,
-  icon: PropTypes.oneOfType([PropTypes.object, PropTypes.number])
+  icon: PropTypes.string
 };
 
 const styles = StyleSheet.create({

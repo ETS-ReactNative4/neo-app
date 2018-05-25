@@ -27,7 +27,7 @@ const CircleThumbnail = ({ image, icon, containerStyle, iconStyle }) => {
 
 CircleThumbnail.propTypes = {
   image: PropTypes.oneOfType([PropTypes.object, PropTypes.number]).isRequired,
-  icon: PropTypes.oneOfType([PropTypes.object, PropTypes.number]),
+  icon: PropTypes.string,
   containerStyle: PropTypes.object,
   iconStyle: PropTypes.object
 };

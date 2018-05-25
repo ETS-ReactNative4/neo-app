@@ -8,7 +8,7 @@ const TabBarIcon = ({ text, icon }) => {
   return (
     <View style={styles.iconWrapper}>
       <View style={styles.icon}>
-        <Icon name={icon} size={25} />
+        <Icon color={constants.black1} name={icon} size={25} />
       </View>
       <Text numberOfLines={1} ellipsizeMode={"tail"} style={styles.label}>
         {text}

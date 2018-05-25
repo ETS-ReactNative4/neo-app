@@ -15,6 +15,7 @@ import HotelSection from "./Components/HotelSection";
 import ActivitiesSection from "./Components/ActivitiesSection";
 import TransferSection from "./Components/TransferSection";
 import TrainsSection from "./Components/TrainsSection";
+import Icon from "../../../../CommonComponents/Icon/Icon";
 
 @inject("itineraries")
 @observer
@@ -45,7 +46,7 @@ class BookingAccordion extends Component {
     if (flights.length) {
       const flightSection = {
         type: "Flights",
-        icon: constants.notificationIcon,
+        icon: constants.aeroplaneIcon,
         items: flights
       };
       sections.push(flightSection);
@@ -54,7 +55,7 @@ class BookingAccordion extends Component {
     if (hotels.length) {
       const hotelSection = {
         type: "Hotels",
-        icon: constants.notificationIcon,
+        icon: constants.hotelIcon,
         items: hotels
       };
       sections.push(hotelSection);
@@ -63,7 +64,7 @@ class BookingAccordion extends Component {
     if (transfers.length) {
       const transferSection = {
         type: "Transfers",
-        icon: constants.notificationIcon,
+        icon: constants.aeroplaneIcon,
         items: transfers
       };
       sections.push(transferSection);
@@ -81,7 +82,7 @@ class BookingAccordion extends Component {
     if (activities.length) {
       const activitiesSection = {
         type: "Activities",
-        icon: constants.notificationIcon,
+        icon: constants.activityIcon,
         items: activities
       };
       sections.push(activitiesSection);
@@ -90,7 +91,7 @@ class BookingAccordion extends Component {
     if (trains.length) {
       const trainsSection = {
         type: "Trains",
-        icon: constants.notificationIcon,
+        icon: constants.trainIcon,
         items: trains
       };
       sections.push(trainsSection);
@@ -126,11 +127,9 @@ class BookingAccordion extends Component {
 
     return (
       <View style={[styles.headerContainer, customStyle]}>
-        <Image
-          source={section.icon}
-          resizeMode={"contain"}
-          style={styles.headerIcon}
-        />
+        <View style={styles.headerIcon}>
+          <Icon name={section.icon} size={20} color={constants.black1} />
+        </View>
         <View style={styles.headerTextWrapper}>
           <Text style={styles.headerText}>{section.type}</Text>
         </View>

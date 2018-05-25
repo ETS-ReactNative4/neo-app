@@ -10,9 +10,11 @@ const imageAssets = {
   hamburgerIcon: require("../assets/images/icons/menu.png"),
   headerBackground: require("../assets/images/shapes/banner_white.png"),
   aeroplaneIcon: "flight",
-  busIcon: require("../assets/images/icons/front-bus.png"),
-  ferryIcon: require("../assets/images/icons/boat.png"),
+  busIcon: "bus",
+  ferryIcon: "ferry",
   trainIcon: "train",
+  activityIcon: "activity",
+  hotelIcon: "hotel",
   semiCircleShape: require("../assets/images/shapes/hiring_topic.png"),
 
   tripFeedIcon: "trip-feed",
