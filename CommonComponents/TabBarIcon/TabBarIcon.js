@@ -2,11 +2,14 @@ import React from "react";
 import { View, Image, Text, StyleSheet, Platform } from "react-native";
 import PropTypes from "prop-types";
 import constants from "../../constants/constants";
+import Icon from "../Icon/Icon";
 
 const TabBarIcon = ({ text, icon }) => {
   return (
     <View style={styles.iconWrapper}>
-      <Image style={styles.icon} source={icon} resizeMode={"contain"} />
+      <View style={styles.icon}>
+        <Icon name={icon} size={25} />
+      </View>
       <Text numberOfLines={1} ellipsizeMode={"tail"} style={styles.label}>
         {text}
       </Text>

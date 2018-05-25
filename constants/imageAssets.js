@@ -15,16 +15,16 @@ const imageAssets = {
   trainIcon: require("../assets/images/icons/train-front.png"),
   semiCircleShape: require("../assets/images/shapes/hiring_topic.png"),
 
-  tripFeedIcon: require("../assets/images/icons/footerIcons/pyt_trip_feed_light.png"),
-  tripFeedSelectedIcon: require("../assets/images/icons/footerIcons/pyt_trip_feed.png"),
-  bookingIcon: require("../assets/images/icons/footerIcons/pyt_booking_light.png"),
-  bookingSelectedIcon: require("../assets/images/icons/footerIcons/pyt_booking.png"),
-  supportIcon: require("../assets/images/icons/footerIcons/pyt_support_light.png"),
-  supportSelectedIcon: require("../assets/images/icons/footerIcons/pyt_support.png"),
-  toolIcon: require("../assets/images/icons/footerIcons/pyt_tools_light.png"),
-  toolSelectedIcon: require("../assets/images/icons/footerIcons/pyt_tools.png"),
-  journalIcon: require("../assets/images/icons/footerIcons/pyt_journal_light.png"),
-  journalSelectedIcon: require("../assets/images/icons/footerIcons/pyt_journal.png")
+  tripFeedIcon: "trip-feed",
+  tripFeedSelectedIcon: "trip-feed-active",
+  bookingIcon: "booking",
+  bookingSelectedIcon: "booking-active",
+  supportIcon: "support",
+  supportSelectedIcon: "support-active",
+  toolIcon: "tools",
+  toolSelectedIcon: "tools-active",
+  journalIcon: "journal",
+  journalSelectedIcon: "journal-active"
 };
 
 export default imageAssets;
