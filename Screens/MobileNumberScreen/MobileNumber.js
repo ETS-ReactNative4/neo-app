@@ -121,7 +121,7 @@ class MobileNumber extends Component {
             DebouncedAlert("OTP Verification Failed!", response.msg);
           } else {
             ToastAndroid.show(
-              response.data.msg || "OTP Verification Failed!",
+              response.msg || "OTP Verification Failed!",
               ToastAndroid.SHORT
             );
           }
@@ -164,10 +164,10 @@ class MobileNumber extends Component {
             },
             () => {
               if (Platform.OS === "ios") {
-                DebouncedAlert("OTP Sent", response.data.msg);
+                DebouncedAlert("OTP Sent", response.msg);
               } else {
                 ToastAndroid.show(
-                  response.data.msg || "OTP Sent",
+                  response.msg || "OTP Sent",
                   ToastAndroid.SHORT
                 );
                 this.smsListener = SmsListener.addListener(this.otpPrefiller);

@@ -26,7 +26,7 @@ const apiCall = async (route, body = {}, method = "POST") => {
 
     if (method !== "GET") requestDetails.body = JSON.stringify(body);
 
-    const serverURL = constants.localServer;
+    const serverURL = constants.devServer;
 
     console.log(`${serverURL}${route}`);
     console.log(body);

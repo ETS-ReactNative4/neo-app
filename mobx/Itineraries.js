@@ -3613,24 +3613,37 @@ class Itineraries {
   @action
   getItineraryDetails = itineraryId => {
     this._isLoading = true;
-    const requestBody = {
-      itineraryId
-    };
-    apiCall(constants.getItineraryDetails, requestBody)
+    const requestBody = {};
+    apiCall(
+      `${constants.getItineraryDetails}?itineraryId=${itineraryId}`,
+      requestBody
+    )
       .then(response => {
         this._isLoading = false;
         if (response.status === "SUCCESS") {
-          console.log(response);
+          this._itineraries.push(response.data);
+          this._selectedItinerary = response.data;
           this._loadingError = false;
         } else {
           this._loadingError = true;
         }
       })
       .catch(error => {
+        console.error(error);
         this._isLoading = false;
         this._loadingError = true;
       });
   };
+
+  @computed
+  get isLoading() {
+    return this._isLoading;
+  }
+
+  @computed
+  get hasError() {
+    return this._loadingError;
+  }
 
   @computed
   get selectedItinerary() {

@@ -1,5 +1,5 @@
 const serverUrls = {
-  devServer: "http://192.168.0.5:8080/",
+  devServer: "https://dev.pickyourtrail.com/",
   localServer: "http://192.168.0.11:8080/",
 
   verifyMobileNumber: "mobile/user/verify/sendotp",

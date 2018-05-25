@@ -21,13 +21,14 @@ class Upcoming extends Component {
     navigation: PropTypes.object.isRequired
   };
 
-  selectItinerary = () => {
+  selectItinerary = itineraryId => {
+    const { selectItinerary } = this.props.itineraries;
+    selectItinerary(itineraryId);
     this.props.navigation.navigate("AppHome");
   };
 
   render() {
     const { itinerariesList, isLoading } = this.props;
-    const { selectItinerary } = this.props.itineraries;
 
     if (itinerariesList.length === 0 && !isLoading) {
       return (

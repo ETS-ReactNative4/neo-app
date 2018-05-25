@@ -12,6 +12,8 @@ import ParallaxScrollView from "react-native-parallax-scroll-view";
 import { responsiveWidth } from "react-native-responsive-dimensions";
 import VoucherHeader from "../Components/VoucherHeader";
 import constants from "../../../constants/constants";
+import SectionHeader from "../../../CommonComponents/SectionHeader/SectionHeader";
+import CircleThumbnail from "../../../CommonComponents/CircleThumbnail/CircleThumbnail";
 
 class HotelVoucher extends Component {
   static navigationOptions = {
@@ -64,6 +66,26 @@ class HotelVoucher extends Component {
                   resizeMode={"contain"}
                   source={constants.notificationIcon}
                 />
+              </View>
+            </View>
+          </View>
+
+          <View style={styles.bookingDetailsRow}>
+            <SectionHeader
+              sectionName={`BOOKING DETAILS`}
+              containerStyle={{ marginBottom: 0 }}
+            />
+            <View style={styles.bookedSuit}>
+              <View style={styles.bookedSuitInfo}>
+                <CircleThumbnail image={constants.splashBackground} />
+                <View style={styles.bookedSuitDetails}>
+                  <Text
+                    style={styles.bookedSuitType}
+                  >{`Single Bedroom Suite`}</Text>
+                  <Text
+                    style={styles.suitBookingDetails}
+                  >{`Booked for 2 Adults`}</Text>
+                </View>
               </View>
             </View>
           </View>
@@ -132,6 +154,29 @@ const styles = StyleSheet.create({
   addressMarker: {
     height: 24,
     width: 24
+  },
+
+  bookingDetailsRow: {
+    paddingHorizontal: 24
+  },
+  bookedSuit: {
+    marginTop: 24
+  },
+  bookedSuitInfo: {
+    minHeight: 40,
+    flexDirection: "row",
+    alignItems: "center"
+  },
+  bookedSuitDetails: {
+    marginLeft: 8
+  },
+  bookedSuitType: {
+    ...constants.font17(constants.primarySemiBold),
+    color: constants.black1
+  },
+  suitBookingDetails: {
+    ...constants.font13(constants.primaryLight),
+    color: constants.black2
   }
 });
 
