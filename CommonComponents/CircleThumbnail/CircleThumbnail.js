@@ -2,10 +2,14 @@ import React from "react";
 import { Image, StyleSheet, View } from "react-native";
 import constants from "../../constants/constants";
 import PropTypes from "prop-types";
+import Icon from "../Icon/Icon";
 
 const CircleThumbnail = ({ image, icon, containerStyle, iconStyle }) => {
   if (!containerStyle) containerStyle = {};
   if (!iconStyle) iconStyle = {};
+
+  const customStyle = {};
+  if (icon === constants.aeroplaneIcon) customStyle.paddingLeft = 1;
 
   return (
     <View style={[styles.thumbnailContainer, containerStyle]}>
@@ -13,12 +17,8 @@ const CircleThumbnail = ({ image, icon, containerStyle, iconStyle }) => {
         <Image resizeMode={"cover"} source={image} style={styles.image} />
       </View>
       {icon ? (
-        <View style={styles.iconContainer}>
-          <Image
-            resizeMode={"contain"}
-            source={icon}
-            style={[styles.icon, iconStyle]}
-          />
+        <View style={[styles.iconContainer, customStyle]}>
+          <Icon size={14} color={"white"} name={icon} />
         </View>
       ) : null}
     </View>
@@ -62,13 +62,10 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "white",
     borderRadius: 10,
-    overflow: "hidden"
-  },
-  icon: {
-    height: 20,
-    width: 20,
     backgroundColor: constants.black1,
-    borderRadius: 10
+    alignItems: "center",
+    justifyContent: "center",
+    overflow: "hidden"
   }
 });
 

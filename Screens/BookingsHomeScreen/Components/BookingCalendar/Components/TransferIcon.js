@@ -1,8 +1,10 @@
 import React from "react";
 import { View, Image, StyleSheet } from "react-native";
 import constants from "../../../../../constants/constants";
+import Icon from "../../../../../CommonComponents/Icon/Icon";
 
 const TransferIcon = ({ transferType }) => {
+  const customStyle = {};
   let transferImage;
   switch (transferType) {
     case "TRAIN":
@@ -11,6 +13,7 @@ const TransferIcon = ({ transferType }) => {
 
     case "FLIGHT":
       transferImage = constants.aeroplaneIcon;
+      customStyle.paddingLeft = 1;
       break;
 
     default:
@@ -19,12 +22,8 @@ const TransferIcon = ({ transferType }) => {
   if (!transferImage) return null;
 
   return (
-    <View style={styles.iconContainer}>
-      <Image
-        style={styles.iconImage}
-        resizeMode={"contain"}
-        source={transferImage}
-      />
+    <View style={[styles.iconContainer, customStyle]}>
+      <Icon name={transferImage} size={12} color={"white"} />
     </View>
   );
 };
@@ -41,11 +40,6 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 0,
     right: 0
-  },
-  iconImage: {
-    height: 14,
-    width: 14,
-    borderRadius: 7
   }
 });
 

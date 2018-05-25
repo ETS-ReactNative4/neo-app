@@ -19,7 +19,7 @@ const TabBarIcon = ({ text, icon }) => {
 
 TabBarIcon.propTypes = {
   text: PropTypes.string.isRequired,
-  icon: PropTypes.oneOfType([PropTypes.object, PropTypes.number]).isRequired
+  icon: PropTypes.string.isRequired
 };
 
 const styles = StyleSheet.create({

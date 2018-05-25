@@ -12,7 +12,7 @@ const Activity = ({ activity }) => {
           activity={activity}
           title={activity.name}
           text={activity.arrivalSlotDetail.slotText}
-          image={constants.aeroplaneIcon}
+          image={constants.notificationIcon}
           icon={constants.aeroplaneIcon}
         />
       );
@@ -23,7 +23,7 @@ const Activity = ({ activity }) => {
           activity={activity}
           title={activity.name}
           text={activity.leisureSlotDetail.text}
-          image={constants.aeroplaneIcon}
+          image={constants.notificationIcon}
         />
       );
 
@@ -45,7 +45,7 @@ const Activity = ({ activity }) => {
           text={
             activity.intercityTransferSlotDetailVO.directTransferDetail.slotText
           }
-          image={constants.aeroplaneIcon}
+          image={constants.notificationIcon}
           icon={constants.aeroplaneIcon}
         />
       );
@@ -56,7 +56,7 @@ const Activity = ({ activity }) => {
           activity={activity}
           title={activity.name}
           text={activity.departureSlotDetail.slotText}
-          image={constants.aeroplaneIcon}
+          image={constants.notificationIcon}
           icon={constants.aeroplaneIcon}
         />
       );
