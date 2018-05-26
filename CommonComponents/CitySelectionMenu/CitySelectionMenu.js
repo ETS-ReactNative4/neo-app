@@ -55,9 +55,10 @@ class CitySelectionMenu extends Component {
               navigation={navigation}
             />
             <ScrollView>
-              {upcomingItineraries.map(itinerary => {
+              {upcomingItineraries.map((itinerary, index) => {
                 return (
                   <TouchableHighlight
+                    key={index}
                     underlayColor={"transparent"}
                     style={styles.itinerarySelectorTouchable}
                   >

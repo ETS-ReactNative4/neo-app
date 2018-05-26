@@ -102,15 +102,15 @@ const HomeStack = createStackNavigator(
   {
     Splash: {
       screen: Splash,
-      navigationOptions: ({ navigation }) => ({
+      navigationOptions: {
         drawerLockMode: "locked-closed"
-      })
+      }
     },
     Starter: {
       screen: Starter,
-      navigationOptions: ({ navigation }) => ({
+      navigationOptions: {
         drawerLockMode: "locked-closed"
-      })
+      }
     },
     AppHome: {
       screen: HomeTabs,
@@ -120,21 +120,21 @@ const HomeStack = createStackNavigator(
     },
     YourBookings: {
       screen: YourBookings,
-      navigationOptions: ({ navigation }) => ({
+      navigationOptions: {
         drawerLockMode: "locked-closed"
-      })
+      }
     },
     MobileNumber: {
       screen: MobileNumber,
-      navigationOptions: ({ navigation }) => ({
+      navigationOptions: {
         drawerLockMode: "locked-closed"
-      })
+      }
     },
     Otp: {
       screen: Otp,
-      navigationOptions: ({ navigation }) => ({
+      navigationOptions: {
         drawerLockMode: "locked-closed"
-      })
+      }
     },
     NewAccount: {
       screen: NewAccount
