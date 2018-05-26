@@ -19,6 +19,7 @@ import { inject, observer } from "mobx-react/custom";
 import Loader from "../../CommonComponents/Loader/Loader";
 import SearchButton from "../../CommonComponents/SearchButton/SearchButton";
 
+@inject("appState")
 @inject("yourBookingsStore")
 @observer
 class YourBookings extends Component {
@@ -38,12 +39,12 @@ class YourBookings extends Component {
   };
 
   componentDidMount() {
-    this.props.yourBookingsStore.getUpcomingItineraries();
+    console.log(this.props.appState.activeScenes);
   }
 
   render() {
     const { upcomingItineraries, isLoading } = this.props.yourBookingsStore;
-
+    console.log(this.props.navigation);
     return (
       <View style={styles.yourBookingsContainer}>
         <Loader isVisible={isLoading} />

@@ -150,7 +150,7 @@ const HomeStack = createStackNavigator(
     }
   },
   {
-    initialRouteName: "YourBookings",
+    initialRouteName: "Splash",
     navigationOptions: {
       gesturesEnabled: false
     },

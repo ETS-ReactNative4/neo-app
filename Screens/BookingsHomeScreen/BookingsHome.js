@@ -9,10 +9,11 @@ import {
 } from "react-native";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import HamburgerButton from "../../CommonComponents/HamburgerButton/HamburgerButton";
-import BookingTitle from "./Components/BookingTitle";
+import BookingHomeTitle from "./Components/BookingHomeTitle";
 import constants from "../../constants/constants";
 import TripToggle from "../../CommonComponents/TripToggle/TripToggle";
 import SearchPlaceholder from "../../CommonComponents/SearchPlaceholder/SearchPlaceholder";
+import CitySelectionMenu from "../../CommonComponents/CitySelectionMenu/CitySelectionMenu";
 import BookingCalendar from "./Components/BookingCalendar/BookingCalendar";
 import BookingAccordion from "./Components/BookingAccordion/BookingAccordion";
 import { inject, observer } from "mobx-react/custom";
@@ -28,10 +29,10 @@ class BookingsHome extends Component {
             <HamburgerButton action={() => navigation.openDrawer()} />
           }
           TitleComponent={
-            <BookingTitle
+            <BookingHomeTitle
               duration={"Mar 14 - Mar 24"}
               title={"PYT1233345"}
-              action={() => {}}
+              action={() => navigation.push("YourBookings")}
             />
           }
           title={""}
@@ -56,6 +57,7 @@ class BookingsHome extends Component {
 
     return (
       <View style={styles.bookingHomeContainer}>
+        <CitySelectionMenu navigation={navigation} />
         <SearchPlaceholder action={this.openSearch} />
         <ScrollView
           style={styles.bookingContainer}

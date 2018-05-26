@@ -1,4 +1,5 @@
 import { Easing, Animated } from "react-native";
+import store from "../../mobx/Store";
 
 const transitionConfig = () => {
   return {
@@ -14,6 +15,11 @@ const transitionConfig = () => {
       const thisSceneIndex = scene.index;
       const height = layout.initHeight;
       const width = layout.initWidth;
+
+      /**
+       * Notify MobX about active screens
+       */
+      store.appState.setActiveScenes(scenes);
 
       const translateX = position.interpolate({
         inputRange: [thisSceneIndex - 1, thisSceneIndex, thisSceneIndex + 1],

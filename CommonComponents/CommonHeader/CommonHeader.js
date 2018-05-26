@@ -15,6 +15,7 @@ class CommonHeader extends Component {
   static propTypes = {
     title: PropTypes.string.isRequired,
     LeftButton: PropTypes.element,
+    leftAction: PropTypes.func,
     RightButton: PropTypes.element,
     hideBackButton: PropTypes.bool,
     navigation: PropTypes.object.isRequired,
@@ -28,7 +29,8 @@ class CommonHeader extends Component {
       TitleComponent,
       navigation,
       hideBackButton,
-      LeftButton
+      LeftButton,
+      leftAction
     } = this.props;
 
     return (
@@ -41,7 +43,10 @@ class CommonHeader extends Component {
           ) : (
             <TouchableHighlight
               style={styles.leftButtonContainer}
-              onPress={() => navigation.goBack()}
+              onPress={() => {
+                if (leftAction) leftAction();
+                else navigation.goBack();
+              }}
               underlayColor={"transparent"}
             >
               <Image

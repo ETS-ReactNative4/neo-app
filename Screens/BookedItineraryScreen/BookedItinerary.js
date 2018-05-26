@@ -11,12 +11,13 @@ import {
   responsiveWidth
 } from "react-native-responsive-dimensions";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
-import BookingTitle from "../BookingsHomeScreen/Components/BookingTitle";
+import BookingHomeTitle from "../BookingsHomeScreen/Components/BookingHomeTitle";
 import SearchButton from "../../CommonComponents/SearchButton/SearchButton";
 import BookedItineraryTopBar from "./Components/BookedItineraryTopBar/BookedItineraryTopBar";
 import { inject, observer } from "mobx-react/custom";
 import Slot from "./Components/Slot";
 import moment from "moment/moment";
+import BookedItineraryTitle from "./Components/BookedItineraryTitle";
 
 @inject("itineraries")
 @observer
@@ -26,10 +27,9 @@ class BookedItinerary extends Component {
       header: (
         <CommonHeader
           TitleComponent={
-            <BookingTitle
+            <BookedItineraryTitle
               duration={"Mar 14 - Mar 24"}
               title={"PYT1233345"}
-              action={() => {}}
             />
           }
           RightButton={<SearchButton action={() => {}} />}

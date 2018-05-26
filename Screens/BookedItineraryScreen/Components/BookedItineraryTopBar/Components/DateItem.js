@@ -9,50 +9,49 @@ import {
 import PropTypes from "prop-types";
 import moment from "moment";
 import constants from "../../../../../constants/constants";
-import store from "../../../../../mobx/Store";
-import { observer } from "mobx-react/custom";
+import { observer, inject } from "mobx-react/custom";
 
-const DateItem = observer(
-  ({ day, selectDay, selectedDay, onHeaderLayout, index }) => {
-    const date = moment(day).format("DDMMYYYY");
+const DateItem = inject("itineraries")(
+  observer(
+    ({ day, selectDay, selectedDay, onHeaderLayout, index, itineraries }) => {
+      const date = moment(day).format("DDMMYYYY");
 
-    const layoutEvent = nativeEvent => {
-      onHeaderLayout(nativeEvent, date);
-    };
+      const layoutEvent = nativeEvent => {
+        onHeaderLayout(nativeEvent, date);
+      };
 
-    const selectionMatrix = store.itineraries.getDateSelectionMatrixSingle(
-      index
-    );
-    let selectionStyle, touchableStyleAndroid;
-    if (selectionMatrix[0] === 0 && selectionMatrix[2] === 0) {
-      selectionStyle = "singleDateContainer";
-      touchableStyleAndroid = "singleDateTouchable";
-    } else if (selectionMatrix[0] === 0) {
-      selectionStyle = "leftCorner";
-      touchableStyleAndroid = "leftTouchable";
-    } else if (selectionMatrix[2] === 0) {
-      selectionStyle = "rightCorner";
-      touchableStyleAndroid = "rightTouchable";
-    } else {
-      selectionStyle = "middleSection";
-      touchableStyleAndroid = "middleTouchable";
+      const selectionMatrix = itineraries.getDateSelectionMatrixSingle(index);
+      let selectionStyle, touchableStyleAndroid;
+      if (selectionMatrix[0] === 0 && selectionMatrix[2] === 0) {
+        selectionStyle = "singleDateContainer";
+        touchableStyleAndroid = "singleDateTouchable";
+      } else if (selectionMatrix[0] === 0) {
+        selectionStyle = "leftCorner";
+        touchableStyleAndroid = "leftTouchable";
+      } else if (selectionMatrix[2] === 0) {
+        selectionStyle = "rightCorner";
+        touchableStyleAndroid = "rightTouchable";
+      } else {
+        selectionStyle = "middleSection";
+        touchableStyleAndroid = "middleTouchable";
+      }
+
+      return (
+        <TouchableWithoutFeedback
+          onPress={() => selectDay(date)}
+          style={[styles.touchableContainer, styles[touchableStyleAndroid]]}
+          onLayout={layoutEvent}
+        >
+          <View style={[styles.dateContainer, styles[selectionStyle]]}>
+            {date === selectedDay ? <View style={styles.activeBubble} /> : null}
+            <Text style={[styles.dateText, styles.fdDateText]}>
+              {date.substring(0, 2)}
+            </Text>
+          </View>
+        </TouchableWithoutFeedback>
+      );
     }
-
-    return (
-      <TouchableWithoutFeedback
-        onPress={() => selectDay(date)}
-        style={[styles.touchableContainer, styles[touchableStyleAndroid]]}
-        onLayout={layoutEvent}
-      >
-        <View style={[styles.dateContainer, styles[selectionStyle]]}>
-          {date === selectedDay ? <View style={styles.activeBubble} /> : null}
-          <Text style={[styles.dateText, styles.fdDateText]}>
-            {date.substring(0, 2)}
-          </Text>
-        </View>
-      </TouchableWithoutFeedback>
-    );
-  }
+  )
 );
 
 DateItem.propTypes = {

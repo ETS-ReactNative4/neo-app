@@ -1,7 +1,6 @@
-import { observable, computed, action } from "mobx";
+import { observable, computed, action, toJS } from "mobx";
 import { createTransformer } from "mobx-utils";
 import { persist } from "mobx-persist";
-import { toJS } from "mobx";
 import _ from "lodash";
 import moment from "moment";
 import apiCall from "../Services/networkRequests/apiCall";
