@@ -20,106 +20,6 @@ import Icon from "../../../../CommonComponents/Icon/Icon";
 @inject("itineraries")
 @observer
 class BookingAccordion extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      sections: []
-    };
-  }
-
-  componentDidMount() {
-    const sections = [];
-
-    const {
-      hotels,
-      activities,
-      flights,
-      transfers,
-      trains,
-      ferries,
-      visa,
-      passes,
-      rentals
-    } = this.props.itineraries;
-
-    if (flights.length) {
-      const flightSection = {
-        type: "Flights",
-        icon: constants.aeroplaneIcon,
-        items: flights
-      };
-      sections.push(flightSection);
-    }
-
-    if (hotels.length) {
-      const hotelSection = {
-        type: "Hotels",
-        icon: constants.hotelIcon,
-        items: hotels
-      };
-      sections.push(hotelSection);
-    }
-
-    if (transfers.length) {
-      const transferSection = {
-        type: "Transfers",
-        icon: constants.aeroplaneIcon,
-        items: transfers
-      };
-      sections.push(transferSection);
-    }
-
-    if (passes.length) {
-      const passesSection = {
-        type: "Passes",
-        icon: constants.notificationIcon,
-        items: passes
-      };
-      sections.push(passesSection);
-    }
-
-    if (activities.length) {
-      const activitiesSection = {
-        type: "Activities",
-        icon: constants.activityIcon,
-        items: activities
-      };
-      sections.push(activitiesSection);
-    }
-
-    if (trains.length) {
-      const trainsSection = {
-        type: "Trains",
-        icon: constants.trainIcon,
-        items: trains
-      };
-      sections.push(trainsSection);
-    }
-
-    if (ferries.length) {
-      const ferriesSection = {
-        type: "Ferries",
-        icon: constants.notificationIcon,
-        items: ferries
-      };
-      sections.push(ferriesSection);
-    }
-
-    if (visa.length) {
-      const visaSection = {
-        type: "Visa",
-        icon: constants.notificationIcon,
-        items: visa
-      };
-      sections.push(visaSection);
-    }
-
-    this.setState({
-      sections
-    });
-  }
-
   _renderHeader = (section, index, isActive, sections) => {
     const customStyle = {};
 
@@ -206,10 +106,96 @@ class BookingAccordion extends Component {
   };
 
   render() {
+    const sections = [];
+
+    const {
+      hotels,
+      activities,
+      flights,
+      transfers,
+      trains,
+      ferries,
+      visa,
+      passes,
+      rentals
+    } = this.props.itineraries;
+
+    if (flights.length) {
+      const flightSection = {
+        type: "Flights",
+        icon: constants.aeroplaneIcon,
+        items: flights
+      };
+      sections.push(flightSection);
+    }
+
+    if (hotels.length) {
+      const hotelSection = {
+        type: "Hotels",
+        icon: constants.hotelIcon,
+        items: hotels
+      };
+      sections.push(hotelSection);
+    }
+
+    if (transfers.length) {
+      const transferSection = {
+        type: "Transfers",
+        icon: constants.aeroplaneIcon,
+        items: transfers
+      };
+      sections.push(transferSection);
+    }
+
+    if (passes.length) {
+      const passesSection = {
+        type: "Passes",
+        icon: constants.notificationIcon,
+        items: passes
+      };
+      sections.push(passesSection);
+    }
+
+    if (activities.length) {
+      const activitiesSection = {
+        type: "Activities",
+        icon: constants.activityIcon,
+        items: activities
+      };
+      sections.push(activitiesSection);
+    }
+
+    if (trains.length) {
+      const trainsSection = {
+        type: "Trains",
+        icon: constants.trainIcon,
+        items: trains
+      };
+      sections.push(trainsSection);
+    }
+
+    if (ferries.length) {
+      const ferriesSection = {
+        type: "Ferries",
+        icon: constants.notificationIcon,
+        items: ferries
+      };
+      sections.push(ferriesSection);
+    }
+
+    if (visa.length) {
+      const visaSection = {
+        type: "Visa",
+        icon: constants.notificationIcon,
+        items: visa
+      };
+      sections.push(visaSection);
+    }
+
     return (
       <View style={{ marginBottom: 24 }}>
         <Accordion
-          sections={this.state.sections}
+          sections={sections}
           renderHeader={this._renderHeader}
           renderContent={this._renderContent}
           underlayColor={constants.shade5}

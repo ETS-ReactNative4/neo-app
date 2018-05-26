@@ -3645,6 +3645,11 @@ class Itineraries {
   }
 
   @computed
+  get selectedItineraryId() {
+    return this._selectedItinerary.itinerary.itineraryId;
+  }
+
+  @computed
   get selectedItinerary() {
     if (_.isEmpty(this._selectedItinerary)) return {};
 
