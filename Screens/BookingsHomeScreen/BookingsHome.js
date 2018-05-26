@@ -5,7 +5,9 @@ import {
   Text,
   Switch,
   TouchableHighlight,
-  StyleSheet
+  StyleSheet,
+  LayoutAnimation,
+  Platform
 } from "react-native";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import HamburgerButton from "../../CommonComponents/HamburgerButton/HamburgerButton";
@@ -44,6 +46,12 @@ class BookingsHome extends Component {
   };
 
   openSearch = () => {};
+
+  componentWillUpdate() {
+    if (Platform.OS === "ios") {
+      LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    }
+  }
 
   render() {
     const {
