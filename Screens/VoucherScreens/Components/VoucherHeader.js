@@ -8,6 +8,7 @@ import {
   Text
 } from "react-native";
 import constants from "../../../constants/constants";
+import { isIphoneX } from "react-native-iphone-x-helper";
 import { responsiveWidth } from "react-native-responsive-dimensions";
 import PropTypes from "prop-types";
 
@@ -54,7 +55,11 @@ const VoucherHeader = ({ infoText, title, onClickClose, menu }) => {
           </TouchableOpacity>
         </View>
       </ImageBackground>
-      <Image style={styles.circleSpace} source={constants.semiCircleShape} />
+      <Image
+        style={styles.circleSpace}
+        source={constants.semiCircleShape}
+        resizeMode={"contain"}
+      />
       <View style={styles.placeHolderLeft} />
       <View style={styles.placeHolderRight} />
     </View>
@@ -68,9 +73,10 @@ VoucherHeader.propTypes = {
   menu: PropTypes.func.isRequired
 };
 
+const xHeight = isIphoneX() ? constants.xNotchHeight : 0;
 const styles = StyleSheet.create({
   headerContainer: {
-    height: 214
+    height: 214 + xHeight
   },
   image: {
     flex: 1,
@@ -84,7 +90,7 @@ const styles = StyleSheet.create({
   },
   placeHolderLeft: {
     height: 16,
-    width: responsiveWidth(50) - 18,
+    width: responsiveWidth(50) - 18.3,
     position: "absolute",
     bottom: 0,
     left: 0,
@@ -92,7 +98,7 @@ const styles = StyleSheet.create({
   },
   placeHolderRight: {
     height: 16,
-    width: responsiveWidth(50) - 18,
+    width: responsiveWidth(50) - 20,
     position: "absolute",
     bottom: 0,
     right: 0,

@@ -8,6 +8,7 @@ import {
   StyleSheet,
   SafeAreaView
 } from "react-native";
+import { isIphoneX } from "react-native-iphone-x-helper";
 import ParallaxScrollView from "react-native-parallax-scroll-view";
 import { responsiveWidth } from "react-native-responsive-dimensions";
 import VoucherHeader from "../Components/VoucherHeader";
@@ -16,6 +17,7 @@ import SectionHeader from "../../../CommonComponents/SectionHeader/SectionHeader
 import CircleThumbnail from "../../../CommonComponents/CircleThumbnail/CircleThumbnail";
 import Icon from "../../../CommonComponents/Icon/Icon";
 import SimpleButton from "../../../CommonComponents/SimpleButton/SimpleButton";
+import VoucherStickyHeader from "../Components/VoucherStickyHeader";
 
 class HotelVoucher extends Component {
   static navigationOptions = {
@@ -23,16 +25,26 @@ class HotelVoucher extends Component {
   };
 
   render() {
+    const xHeight = isIphoneX() ? constants.xNotchHeight : 0;
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
-        <ScrollView>
-          <VoucherHeader
-            infoText={`BOOKING ID`}
-            title={`1242345`}
-            menu={() => {}}
-            onClickClose={() => {}}
-          />
-
+        <ParallaxScrollView
+          backgroundColor="white"
+          contentBackgroundColor="white"
+          parallaxHeaderHeight={214 + xHeight}
+          stickyHeaderHeight={48 + xHeight}
+          renderStickyHeader={() => (
+            <VoucherStickyHeader action={() => {}} text={"1242345"} />
+          )}
+          renderForeground={() => (
+            <VoucherHeader
+              infoText={`BOOKING ID`}
+              title={`1242345`}
+              menu={() => {}}
+              onClickClose={() => {}}
+            />
+          )}
+        >
           <View style={styles.checkInRow}>
             <View style={styles.checkInBox}>
               <Text style={styles.checkTitle}>CHECK IN</Text>
@@ -166,7 +178,7 @@ class HotelVoucher extends Component {
               </View>
             </View>
           </View>
-        </ScrollView>
+        </ParallaxScrollView>
       </SafeAreaView>
     );
   }
