@@ -28,6 +28,7 @@ import BookedItinerary from "./Screens/BookedItineraryScreen/BookedItinerary";
 import TransferVoucher from "./Screens/VoucherScreens/TransferVoucherScreen/TransferVoucher";
 import HotelVoucher from "./Screens/VoucherScreens/HotelVoucherScreen/HotelVoucher";
 import HomeTabBar from "./CommonComponents/HomeTabBar/HomeTabBar";
+import ActivityVoucher from "./Screens/VoucherScreens/ActivityVoucherScreen/ActivityVoucher";
 
 UIManager.setLayoutAnimationEnabledExperimental &&
   UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -144,6 +145,9 @@ const HomeStack = createStackNavigator(
     },
     TransferVoucher: {
       screen: TransferVoucher
+    },
+    ActivityVoucher: {
+      screen: ActivityVoucher
     },
     HotelVoucher: {
       screen: HotelVoucher

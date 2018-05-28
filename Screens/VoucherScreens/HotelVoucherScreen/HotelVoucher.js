@@ -1,13 +1,5 @@
 import React, { Component } from "react";
-import {
-  View,
-  Animated,
-  Text,
-  Image,
-  ScrollView,
-  StyleSheet,
-  SafeAreaView
-} from "react-native";
+import { View, Text, Image, StyleSheet } from "react-native";
 import { isIphoneX } from "react-native-iphone-x-helper";
 import ParallaxScrollView from "react-native-parallax-scroll-view";
 import { responsiveWidth } from "react-native-responsive-dimensions";
@@ -18,6 +10,7 @@ import CircleThumbnail from "../../../CommonComponents/CircleThumbnail/CircleThu
 import Icon from "../../../CommonComponents/Icon/Icon";
 import SimpleButton from "../../../CommonComponents/SimpleButton/SimpleButton";
 import VoucherStickyHeader from "../Components/VoucherStickyHeader";
+import VoucherName from "../Components/VoucherName";
 
 class HotelVoucher extends Component {
   static navigationOptions = {
@@ -27,159 +20,153 @@ class HotelVoucher extends Component {
   render() {
     const xHeight = isIphoneX() ? constants.xNotchHeight : 0;
     return (
-      <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
-        <ParallaxScrollView
-          backgroundColor="white"
-          contentBackgroundColor="white"
-          parallaxHeaderHeight={214 + xHeight}
-          stickyHeaderHeight={48 + xHeight}
-          renderStickyHeader={() => (
-            <VoucherStickyHeader action={() => {}} text={"1242345"} />
-          )}
-          renderForeground={() => (
-            <VoucherHeader
-              infoText={`BOOKING ID`}
-              title={`1242345`}
-              menu={() => {}}
-              onClickClose={() => {}}
-            />
-          )}
-        >
-          <View style={styles.checkInRow}>
-            <View style={styles.checkInBox}>
-              <Text style={styles.checkTitle}>CHECK IN</Text>
-              <Text style={styles.checkDate}>Sun, 24 Dec</Text>
-              <Text style={styles.checkTime}>14:30</Text>
+      <ParallaxScrollView
+        backgroundColor="white"
+        contentBackgroundColor="white"
+        parallaxHeaderHeight={214 + xHeight}
+        stickyHeaderHeight={48 + xHeight}
+        renderStickyHeader={() => (
+          <VoucherStickyHeader action={() => {}} text={"1242345"} />
+        )}
+        renderForeground={() => (
+          <VoucherHeader
+            infoText={`BOOKING ID`}
+            title={`1242345`}
+            menu={() => {}}
+            onClickClose={() => {}}
+          />
+        )}
+      >
+        <View style={styles.checkInRow}>
+          <View style={styles.checkInBox}>
+            <Text style={styles.checkTitle}>CHECK IN</Text>
+            <Text style={styles.checkDate}>Sun, 24 Dec</Text>
+            <Text style={styles.checkTime}>14:30</Text>
+          </View>
+          <View style={styles.checkOutBox}>
+            <Text style={styles.checkTitle}>CHECK OUT</Text>
+            <Text style={styles.checkDate}>Sun, 24 Dec</Text>
+            <Text style={styles.checkTime}>14:30</Text>
+          </View>
+        </View>
+
+        <View style={styles.addressRow}>
+          <VoucherName name={"Clarement Guest House"} />
+          <View style={styles.addressContainer}>
+            <View style={styles.addressSection}>
+              <Text
+                style={styles.hotelAddress}
+                numberOfLines={3}
+                ellipsizeMode={"tail"}
+              >
+                {`1-4b, Address line 1, Address Line 2. Address line 3, Addrss lastline 600700`}
+              </Text>
             </View>
-            <View style={styles.checkOutBox}>
-              <Text style={styles.checkTitle}>CHECK OUT</Text>
-              <Text style={styles.checkDate}>Sun, 24 Dec</Text>
-              <Text style={styles.checkTime}>14:30</Text>
+            <View style={styles.addressMarkerSection}>
+              <Image
+                style={styles.addressMarker}
+                resizeMode={"contain"}
+                source={constants.notificationIcon}
+              />
             </View>
           </View>
+        </View>
 
-          <View style={styles.addressRow}>
-            <Text
-              style={styles.hotelName}
-              numberOfLines={2}
-              ellipsizeMode={"tail"}
-            >{`Claremont Guest House`}</Text>
-            <View style={styles.addressContainer}>
-              <View style={styles.addressSection}>
+        <View style={styles.bookingDetailsRow}>
+          <SectionHeader
+            sectionName={`BOOKING DETAILS`}
+            containerStyle={{ marginBottom: 0 }}
+          />
+          <View style={styles.bookedSuit}>
+            <View style={styles.bookedSuitInfo}>
+              <CircleThumbnail image={constants.splashBackground} />
+              <View style={styles.bookedSuitDetails}>
                 <Text
-                  style={styles.hotelAddress}
-                  numberOfLines={3}
+                  style={styles.bookedSuitType}
+                >{`Single Bedroom Suite`}</Text>
+                <Text
+                  style={styles.suitBookingDetails}
+                >{`Booked for 2 Adults`}</Text>
+              </View>
+            </View>
+
+            <View style={styles.userDetails}>
+              <View style={styles.userIcon}>
+                <Icon name={constants.trainIcon} color={"black"} size={16} />
+              </View>
+              <View style={styles.userNameWrapper}>
+                <Text
+                  numberOfLines={2}
                   ellipsizeMode={"tail"}
-                >
-                  {`1-4b, Address line 1, Address Line 2. Address line 3, Addrss lastline 600700`}
-                </Text>
+                  style={styles.userName}
+                >{`Mr. Chetana Purushotham Mewada`}</Text>
               </View>
-              <View style={styles.addressMarkerSection}>
-                <Image
-                  style={styles.addressMarker}
-                  resizeMode={"contain"}
-                  source={constants.notificationIcon}
-                />
+            </View>
+
+            <View style={styles.hotelDetailsSection}>
+              <View style={styles.textRowWrapper}>
+                <Text style={styles.sectionName}>Breakfast</Text>
+                <Text style={styles.sectionValue}>Complementary</Text>
+              </View>
+              <View style={styles.textRowWrapper}>
+                <Text style={styles.sectionName}>Free Wifi</Text>
+                <Text style={styles.sectionValue}>Included</Text>
+              </View>
+              <View style={styles.textRowWrapper}>
+                <Text style={styles.sectionName}>Booking Type</Text>
+                <Text style={styles.sectionValue}>Partially Refundable</Text>
+              </View>
+            </View>
+
+            <View style={styles.actionRow}>
+              <SimpleButton
+                text={"Directions"}
+                containerStyle={{ width: responsiveWidth(40) }}
+                action={() => {}}
+                color={"transparent"}
+                textColor={constants.black2}
+                hasBorder={true}
+                icon={constants.trainIcon}
+                iconSize={16}
+              />
+              <SimpleButton
+                text={"Directions"}
+                containerStyle={{ width: responsiveWidth(40) }}
+                action={() => {}}
+                color={"transparent"}
+                textColor={constants.black2}
+                hasBorder={true}
+                icon={constants.trainIcon}
+                iconSize={16}
+              />
+            </View>
+
+            <View style={styles.amenitiesSection}>
+              <Text style={styles.amenitiesText}>Hotel amenities</Text>
+              <Icon
+                name={constants.trainIcon}
+                color={constants.shade2}
+                size={16}
+              />
+            </View>
+
+            <View style={styles.bookingSection}>
+              <View style={styles.textRowWrapper}>
+                <Text style={styles.sectionName}>Breakfast</Text>
+                <Text style={styles.sectionValue}>Complementary</Text>
+              </View>
+              <View style={styles.textRowWrapper}>
+                <Text style={styles.sectionName}>Breakfast</Text>
+                <Text style={styles.sectionValue}>Complementary</Text>
+              </View>
+              <View style={styles.textRowWrapper}>
+                <Text style={styles.sectionName}>Breakfast</Text>
+                <Text style={styles.sectionValue}>Complementary</Text>
               </View>
             </View>
           </View>
-
-          <View style={styles.bookingDetailsRow}>
-            <SectionHeader
-              sectionName={`BOOKING DETAILS`}
-              containerStyle={{ marginBottom: 0 }}
-            />
-            <View style={styles.bookedSuit}>
-              <View style={styles.bookedSuitInfo}>
-                <CircleThumbnail image={constants.splashBackground} />
-                <View style={styles.bookedSuitDetails}>
-                  <Text
-                    style={styles.bookedSuitType}
-                  >{`Single Bedroom Suite`}</Text>
-                  <Text
-                    style={styles.suitBookingDetails}
-                  >{`Booked for 2 Adults`}</Text>
-                </View>
-              </View>
-
-              <View style={styles.userDetails}>
-                <View style={styles.userIcon}>
-                  <Icon name={constants.trainIcon} color={"black"} size={16} />
-                </View>
-                <View style={styles.userNameWrapper}>
-                  <Text
-                    numberOfLines={2}
-                    ellipsizeMode={"tail"}
-                    style={styles.userName}
-                  >{`Mr. Chetana Purushotham Mewada`}</Text>
-                </View>
-              </View>
-
-              <View style={styles.hotelDetailsSection}>
-                <View style={styles.textRowWrapper}>
-                  <Text style={styles.sectionName}>Breakfast</Text>
-                  <Text style={styles.sectionValue}>Complementary</Text>
-                </View>
-                <View style={styles.textRowWrapper}>
-                  <Text style={styles.sectionName}>Free Wifi</Text>
-                  <Text style={styles.sectionValue}>Included</Text>
-                </View>
-                <View style={styles.textRowWrapper}>
-                  <Text style={styles.sectionName}>Booking Type</Text>
-                  <Text style={styles.sectionValue}>Partially Refundable</Text>
-                </View>
-              </View>
-
-              <View style={styles.actionRow}>
-                <SimpleButton
-                  text={"Directions"}
-                  containerStyle={{ width: responsiveWidth(40) }}
-                  action={() => {}}
-                  color={"transparent"}
-                  textColor={constants.black2}
-                  hasBorder={true}
-                  icon={constants.trainIcon}
-                  iconSize={16}
-                />
-                <SimpleButton
-                  text={"Directions"}
-                  containerStyle={{ width: responsiveWidth(40) }}
-                  action={() => {}}
-                  color={"transparent"}
-                  textColor={constants.black2}
-                  hasBorder={true}
-                  icon={constants.trainIcon}
-                  iconSize={16}
-                />
-              </View>
-
-              <View style={styles.amenitiesSection}>
-                <Text style={styles.amenitiesText}>Hotel amenities</Text>
-                <Icon
-                  name={constants.trainIcon}
-                  color={constants.shade2}
-                  size={16}
-                />
-              </View>
-
-              <View style={styles.bookingSection}>
-                <View style={styles.textRowWrapper}>
-                  <Text style={styles.sectionName}>Breakfast</Text>
-                  <Text style={styles.sectionValue}>Complementary</Text>
-                </View>
-                <View style={styles.textRowWrapper}>
-                  <Text style={styles.sectionName}>Breakfast</Text>
-                  <Text style={styles.sectionValue}>Complementary</Text>
-                </View>
-                <View style={styles.textRowWrapper}>
-                  <Text style={styles.sectionName}>Breakfast</Text>
-                  <Text style={styles.sectionValue}>Complementary</Text>
-                </View>
-              </View>
-            </View>
-          </View>
-        </ParallaxScrollView>
-      </SafeAreaView>
+        </View>
+      </ParallaxScrollView>
     );
   }
 }
@@ -220,11 +207,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     minHeight: 80,
     marginTop: 16
-  },
-  hotelName: {
-    fontFamily: constants.primarySemiBold,
-    fontSize: 24,
-    color: constants.black1
   },
   addressContainer: {
     flexDirection: "row"
