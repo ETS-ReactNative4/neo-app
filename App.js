@@ -150,7 +150,7 @@ const HomeStack = createStackNavigator(
     }
   },
   {
-    initialRouteName: "Splash",
+    initialRouteName: "HotelVoucher",
     navigationOptions: {
       gesturesEnabled: false
     },

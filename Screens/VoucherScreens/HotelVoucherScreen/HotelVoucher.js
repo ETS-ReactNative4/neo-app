@@ -14,6 +14,8 @@ import VoucherHeader from "../Components/VoucherHeader";
 import constants from "../../../constants/constants";
 import SectionHeader from "../../../CommonComponents/SectionHeader/SectionHeader";
 import CircleThumbnail from "../../../CommonComponents/CircleThumbnail/CircleThumbnail";
+import Icon from "../../../CommonComponents/Icon/Icon";
+import SimpleButton from "../../../CommonComponents/SimpleButton/SimpleButton";
 
 class HotelVoucher extends Component {
   static navigationOptions = {
@@ -85,6 +87,81 @@ class HotelVoucher extends Component {
                   <Text
                     style={styles.suitBookingDetails}
                   >{`Booked for 2 Adults`}</Text>
+                </View>
+              </View>
+
+              <View style={styles.userDetails}>
+                <View style={styles.userIcon}>
+                  <Icon name={constants.trainIcon} color={"black"} size={16} />
+                </View>
+                <View style={styles.userNameWrapper}>
+                  <Text
+                    numberOfLines={2}
+                    ellipsizeMode={"tail"}
+                    style={styles.userName}
+                  >{`Mr. Chetana Purushotham Mewada`}</Text>
+                </View>
+              </View>
+
+              <View style={styles.hotelDetailsSection}>
+                <View style={styles.textRowWrapper}>
+                  <Text style={styles.sectionName}>Breakfast</Text>
+                  <Text style={styles.sectionValue}>Complementary</Text>
+                </View>
+                <View style={styles.textRowWrapper}>
+                  <Text style={styles.sectionName}>Free Wifi</Text>
+                  <Text style={styles.sectionValue}>Included</Text>
+                </View>
+                <View style={styles.textRowWrapper}>
+                  <Text style={styles.sectionName}>Booking Type</Text>
+                  <Text style={styles.sectionValue}>Partially Refundable</Text>
+                </View>
+              </View>
+
+              <View style={styles.actionRow}>
+                <SimpleButton
+                  text={"Directions"}
+                  containerStyle={{ width: responsiveWidth(40) }}
+                  action={() => {}}
+                  color={"transparent"}
+                  textColor={constants.black2}
+                  hasBorder={true}
+                  icon={constants.trainIcon}
+                  iconSize={16}
+                />
+                <SimpleButton
+                  text={"Directions"}
+                  containerStyle={{ width: responsiveWidth(40) }}
+                  action={() => {}}
+                  color={"transparent"}
+                  textColor={constants.black2}
+                  hasBorder={true}
+                  icon={constants.trainIcon}
+                  iconSize={16}
+                />
+              </View>
+
+              <View style={styles.amenitiesSection}>
+                <Text style={styles.amenitiesText}>Hotel amenities</Text>
+                <Icon
+                  name={constants.trainIcon}
+                  color={constants.shade2}
+                  size={16}
+                />
+              </View>
+
+              <View style={styles.bookingSection}>
+                <View style={styles.textRowWrapper}>
+                  <Text style={styles.sectionName}>Breakfast</Text>
+                  <Text style={styles.sectionValue}>Complementary</Text>
+                </View>
+                <View style={styles.textRowWrapper}>
+                  <Text style={styles.sectionName}>Breakfast</Text>
+                  <Text style={styles.sectionValue}>Complementary</Text>
+                </View>
+                <View style={styles.textRowWrapper}>
+                  <Text style={styles.sectionName}>Breakfast</Text>
+                  <Text style={styles.sectionValue}>Complementary</Text>
                 </View>
               </View>
             </View>
@@ -177,6 +254,72 @@ const styles = StyleSheet.create({
   suitBookingDetails: {
     ...constants.font13(constants.primaryLight),
     color: constants.black2
+  },
+
+  userDetails: {
+    flexDirection: "row",
+    marginTop: 16
+  },
+  userIcon: {
+    height: 16,
+    width: 16,
+    alignItems: "center",
+    justifyContent: "center",
+    marginLeft: 8
+  },
+  userNameWrapper: {
+    marginLeft: 8
+  },
+  userName: {
+    ...constants.fontCustom(constants.primarySemiBold, 15),
+    marginTop: 3,
+    color: constants.black1
+  },
+
+  hotelDetailsSection: {
+    marginTop: 24,
+    paddingBottom: 24,
+    borderBottomWidth: 2,
+    borderBottomColor: constants.shade4
+  },
+  textRowWrapper: {
+    justifyContent: "space-between",
+    alignItems: "center",
+    flexDirection: "row",
+    marginVertical: 4
+  },
+  sectionName: {
+    ...constants.font17(constants.primaryLight),
+    color: constants.shade2
+  },
+  sectionValue: {
+    ...constants.font17(constants.primaryLight),
+    color: constants.black1
+  },
+  actionRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-around",
+    paddingVertical: 16,
+    borderBottomWidth: 2,
+    borderBottomColor: constants.shade4
+  },
+
+  amenitiesSection: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingVertical: 24,
+    borderBottomWidth: 2,
+    borderBottomColor: constants.shade4
+  },
+  amenitiesText: {
+    ...constants.font20(constants.primaryLight),
+    color: constants.black2
+  },
+
+  bookingSection: {
+    marginVertical: 32
   }
 });
 
