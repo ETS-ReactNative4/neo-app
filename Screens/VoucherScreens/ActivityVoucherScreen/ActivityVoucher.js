@@ -84,7 +84,7 @@ class ActivityVoucher extends Component {
 
         <View style={styles.arrivalSection}>
           <SectionHeader
-            sectionName={"ARRIVAL DETAILS"}
+            sectionName={"TRANSFER INFO"}
             containerStyle={{ marginBottom: 0 }}
           />
 

@@ -154,7 +154,7 @@ const HomeStack = createStackNavigator(
     }
   },
   {
-    initialRouteName: "HotelVoucher",
+    initialRouteName: "TransferVoucher",
     navigationOptions: {
       gesturesEnabled: false
     },
