@@ -137,7 +137,7 @@ class HotelVoucher extends Component {
             <View style={styles.actionRow}>
               <SimpleButton
                 text={"Directions"}
-                containerStyle={{ width: responsiveWidth(40) }}
+                containerStyle={{ width: responsiveWidth(43) }}
                 action={() => {}}
                 color={"transparent"}
                 textColor={constants.black2}
@@ -147,7 +147,7 @@ class HotelVoucher extends Component {
               />
               <SimpleButton
                 text={"Directions"}
-                containerStyle={{ width: responsiveWidth(40) }}
+                containerStyle={{ width: responsiveWidth(43) }}
                 action={() => {}}
                 color={"transparent"}
                 textColor={constants.black2}
@@ -281,15 +281,16 @@ const styles = StyleSheet.create({
     marginLeft: 8
   },
   userName: {
-    ...constants.fontCustom(constants.primarySemiBold, 15),
+    ...constants.fontCustom(constants.primaryLight, 17),
+    fontWeight: "400",
     marginTop: 3,
     color: constants.black1
   },
 
   hotelDetailsSection: {
     marginTop: 24,
-    paddingBottom: 24,
-    borderBottomWidth: 2,
+    paddingBottom: 8,
+    borderBottomWidth: 0,
     borderBottomColor: constants.shade4
   },
   textRowWrapper: {
@@ -309,9 +310,9 @@ const styles = StyleSheet.create({
   actionRow: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-around",
+    justifyContent: "space-between",
     paddingVertical: 16,
-    borderBottomWidth: 2,
+    borderBottomWidth: 1,
     borderBottomColor: constants.shade4
   },
 
@@ -320,7 +321,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     paddingVertical: 24,
-    borderBottomWidth: 2,
+    borderBottomWidth: 1,
     borderBottomColor: constants.shade4
   },
   amenitiesText: {

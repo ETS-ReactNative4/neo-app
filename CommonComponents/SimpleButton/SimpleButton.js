@@ -26,7 +26,7 @@ const SimpleButton = ({
 
   if (hasBorder) {
     containerStyle = {
-      borderWidth: 1,
+      borderWidth: 1.2,
       borderColor: textColor,
       ...containerStyle
     };
@@ -76,7 +76,8 @@ const styles = StyleSheet.create({
   },
   textStyle: {
     ...constants.font17(constants.primarySemiBold),
-    lineHeight: 17
+    lineHeight: 17,
+    marginTop: 2
   }
 });
 

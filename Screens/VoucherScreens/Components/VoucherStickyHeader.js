@@ -8,7 +8,7 @@ import constants from "../../../constants/constants";
 
 const VoucherStickyHeader = ({ text, action }) => {
   return (
-    <View style={{ backgroundColor: "white" }}>
+    <View>
       {isIphoneX() ? <XSensorPlaceholder /> : null}
       <View style={styles.headerContainer}>
         <TouchableOpacity onPress={action} style={styles.closeButton}>

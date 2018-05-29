@@ -25,7 +25,7 @@ class TransferVoucher extends Component {
         value: "Mr. Shantanu Agarwal"
       },
       {
-        name: "Number of Passengers",
+        name: "No of Passengers",
         value: "2 adults"
       },
       {

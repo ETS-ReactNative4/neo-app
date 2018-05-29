@@ -17,13 +17,13 @@ class VoucherAccordion extends Component {
     if (isActive) {
       const spin = spinValue.interpolate({
         inputRange: [0, 1],
-        outputRange: ["0deg", "90deg"]
+        outputRange: ["0deg", "-90deg"]
       });
       iconContainer.transform = [{ rotate: spin }];
     } else {
       const reverseSpin = spinValue.interpolate({
         inputRange: [0, 1],
-        outputRange: ["90deg", "0deg"]
+        outputRange: ["180deg", "-90deg"]
       });
       iconContainer.transform = [{ rotate: reverseSpin }];
     }

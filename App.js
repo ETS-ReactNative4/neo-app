@@ -158,7 +158,7 @@ const HomeStack = createStackNavigator(
     }
   },
   {
-    initialRouteName: "TransferVoucher",
+    initialRouteName: "FlightVoucher",
     navigationOptions: {
       gesturesEnabled: false
     },

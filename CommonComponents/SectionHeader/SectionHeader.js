@@ -56,7 +56,8 @@ const styles = StyleSheet.create({
     ...constants.font13(constants.primarySemiBold),
     alignSelf: "flex-end",
     color: constants.black2,
-    paddingBottom: 13
+    paddingBottom: 13,
+    letterSpacing: 1.5
   }
 });
 
