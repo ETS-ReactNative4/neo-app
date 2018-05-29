@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Text, Image, StyleSheet } from "react-native";
+import { View, Text, Image, StyleSheet, Platform } from "react-native";
 import { isIphoneX } from "react-native-iphone-x-helper";
 import ParallaxScrollView from "react-native-parallax-scroll-view";
 import { responsiveWidth } from "react-native-responsive-dimensions";
@@ -61,6 +61,7 @@ class ActivityVoucher extends Component {
         contentBackgroundColor="white"
         parallaxHeaderHeight={214 + xHeight}
         stickyHeaderHeight={48 + xHeight}
+        fadeOutForeground={Platform.OS !== "android"}
         renderStickyHeader={() => (
           <VoucherStickyHeader action={() => {}} text={"1242345"} />
         )}

@@ -1,5 +1,13 @@
 import React, { Component } from "react";
-import { View, Text, Image, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  ScrollView,
+  Animated,
+  Platform
+} from "react-native";
 import { isIphoneX } from "react-native-iphone-x-helper";
 import ParallaxScrollView from "react-native-parallax-scroll-view";
 import { responsiveWidth } from "react-native-responsive-dimensions";
@@ -17,6 +25,13 @@ class HotelVoucher extends Component {
     header: null
   };
 
+  onScroll = event => {
+    const currentOffset = event.nativeEvent.contentOffset.y;
+    const direction = currentOffset > this.offset ? "down" : "up";
+    this.offset = currentOffset;
+    console.log(direction);
+  };
+
   render() {
     const xHeight = isIphoneX() ? constants.xNotchHeight : 0;
     return (
@@ -28,6 +43,7 @@ class HotelVoucher extends Component {
         renderStickyHeader={() => (
           <VoucherStickyHeader action={() => {}} text={"1242345"} />
         )}
+        fadeOutForeground={Platform.OS !== "android"}
         renderForeground={() => (
           <VoucherHeader
             infoText={`BOOKING ID`}
