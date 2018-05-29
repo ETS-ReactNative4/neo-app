@@ -4,6 +4,78 @@
     {
       "icon": {
         "paths": [
+          "M512 233q-84 0-143 59t-59 142.5 59 142.5 143 59 143-59 59-142.5-59-142.5-143-59zM512 565q-54 0-92-38t-38-92 38-92.5 92-38.5 92 38.5 38 92.5-38 92-92 38zM871 275q-31-62-86-109t-125-74q-71-26-148-26v0q-77 0-149 26-69 27-124 74t-86 109q-32 64-32 133 0 97 47 197 39 83 109 164 92 108 212 192 10 7 22.5 7t23.5-7q120-85 212-192 70-82 109-164 47-100 47-197 0-69-32-133zM831 409q0 81-40 166-34 73-98 148-77 90-181 166-104-76-181-166-63-75-98-148-40-85-40-167 0-53 24-102 25-48 69-86 45-39 102-61 60-22 124-22v0q64 0 124 22 57 22 102 61 45 38 69 86 24 50 24 103z"
+        ],
+        "attrs": [{}],
+        "isMulticolor": false,
+        "isMulticolor2": false,
+        "grid": 24,
+        "tags": ["location"]
+      },
+      "attrs": [{}],
+      "properties": {
+        "order": 44,
+        "id": 3,
+        "name": "location",
+        "prevSize": 24,
+        "code": 59668
+      },
+      "setIdx": 0,
+      "setId": 2,
+      "iconIdx": 0
+    },
+    {
+      "icon": {
+        "paths": [
+          "M733 280l-313 135q-9 4-13 13l-144 289q-9 20 6 35 2 2 4.5 4t5 3 5.5 1.5 6 0.5q7 0 13-3l306-127q2-1 3.5-2l3-2t2.5-2.5l2-3t2-2.5l151-297q11-20-4.5-36t-35.5-6zM358 665l87-178 88 110zM585 560l-89-112 177-69zM512 0q-104 0-199 40.5t-163.5 109-109 163.5-40.5 199 40.5 199 109 163.5 163.5 109 199 40.5 199-40.5 163.5-109 109-163.5 40.5-199-40.5-199-109-163.5-163.5-109-199-40.5zM512 961q-73 0-141.5-22.5t-123.5-64.5-96.5-97-64-123.5-22.5-141.5q0-91 35.5-174t95.5-143 143-95.5 174-35.5 174 35.5 143 95.5 95.5 143 35.5 174-35.5 174-95.5 143.5-143 96-174 35.5z"
+        ],
+        "attrs": [{}],
+        "isMulticolor": false,
+        "isMulticolor2": false,
+        "grid": 24,
+        "tags": ["compass"]
+      },
+      "attrs": [{}],
+      "properties": {
+        "order": 45,
+        "id": 4,
+        "name": "compass",
+        "prevSize": 24,
+        "code": 59669
+      },
+      "setIdx": 0,
+      "setId": 2,
+      "iconIdx": 1
+    },
+    {
+      "icon": {
+        "paths": [
+          "M512 0q-139 0-257 68.5t-186.5 186.5-68.5 257 68.5 257 186.5 186.5 257 68.5 257-68.5 186.5-186.5 68.5-257-68.5-257-186.5-186.5-257-68.5zM512 961q-73 0-141.5-22.5t-123.5-64.5-96.5-97-64-123.5-22.5-141.5q0-91 35.5-174t95.5-143 143-95.5 174-35.5 174 35.5 143 95.5 95.5 143 35.5 174-35.5 174-95.5 143.5-143 96-174 35.5zM544 499v-307q0-13-9.5-22.5t-22.5-9.5-22.5 9.5-9.5 22.5v320q0 14 10 23l1 2 159 158q9 10 22.5 10t22.5-9.5 9-23-9-22.5z"
+        ],
+        "attrs": [{}],
+        "isMulticolor": false,
+        "isMulticolor2": false,
+        "grid": 24,
+        "tags": ["clock"],
+        "colorPermutations": {
+          "18819019218889911": [{}]
+        }
+      },
+      "attrs": [{}],
+      "properties": {
+        "order": 46,
+        "id": 5,
+        "name": "clock",
+        "prevSize": 24,
+        "code": 59670
+      },
+      "setIdx": 0,
+      "setId": 2,
+      "iconIdx": 2
+    },
+    {
+      "icon": {
+        "paths": [
           "M664 716l-46-174 140-116-180-10-66-168-66 168-182 10 142 116-46 174 152-98zM854 512c0 46 38 86 84 86v170c0 46-38 86-84 86h-684c-46 0-84-40-84-86v-170c48 0 84-40 84-86s-38-86-84-86v-170c0-46 38-86 84-86h684c46 0 84 40 84 86v170c-46 0-84 40-84 86z"
         ],
         "attrs": [{}],
@@ -14,7 +86,7 @@
       },
       "attrs": [{}],
       "properties": {
-        "order": 3,
+        "order": 47,
         "id": 1,
         "name": "activity",
         "prevSize": 24,
@@ -22,7 +94,7 @@
       },
       "setIdx": 0,
       "setId": 2,
-      "iconIdx": 0
+      "iconIdx": 3
     },
     {
       "icon": {
@@ -37,7 +109,7 @@
       },
       "attrs": [{}],
       "properties": {
-        "order": 4,
+        "order": 48,
         "id": 2,
         "name": "hotel",
         "prevSize": 24,
@@ -45,7 +117,7 @@
       },
       "setIdx": 0,
       "setId": 2,
-      "iconIdx": 1
+      "iconIdx": 4
     },
     {
       "icon": {
@@ -60,7 +132,7 @@
       },
       "attrs": [{}],
       "properties": {
-        "order": 21,
+        "order": 49,
         "id": 4,
         "name": "train",
         "prevSize": 24,
@@ -83,7 +155,7 @@
       },
       "attrs": [{}],
       "properties": {
-        "order": 22,
+        "order": 50,
         "id": 5,
         "name": "car",
         "prevSize": 24,
@@ -106,7 +178,7 @@
       },
       "attrs": [{}],
       "properties": {
-        "order": 23,
+        "order": 51,
         "id": 2,
         "name": "insurance",
         "prevSize": 24,
@@ -129,7 +201,7 @@
       },
       "attrs": [{}],
       "properties": {
-        "order": 24,
+        "order": 52,
         "id": 3,
         "name": "pass",
         "prevSize": 24,
@@ -152,7 +224,7 @@
       },
       "attrs": [{}],
       "properties": {
-        "order": 25,
+        "order": 53,
         "id": 0,
         "name": "bus",
         "prevSize": 24,
@@ -175,7 +247,7 @@
       },
       "attrs": [{}],
       "properties": {
-        "order": 26,
+        "order": 54,
         "id": 1,
         "name": "flight",
         "prevSize": 24,
@@ -188,17 +260,150 @@
     {
       "icon": {
         "paths": [
+          "M512 136q9 0 13 9l105 222q3 7 11 9l235 35q9 2 12 10.5t-4 14.5l-171 176q-5 5-4 12l41 247q1 7-3.5 12t-11.5 5q-4 0-7-2l-209-115q-3-2-7-2t-7 2l-209 115q-3 2-7 2-7 0-11.5-5t-3.5-12l41-247q1-7-4-12l-171-176q-7-6-4-14.5t12-9.5l235-36q8-1 11-9l105-222q4-9 13-9zM512 64q-24 0-45 13-22 13-33 37l-92 195-205 31q-24 4-42.5 19.5t-26.5 39-2.5 47 22.5 41.5l151 154-36 218q-6 40 20 70.5t66 30.5q22 0 42-11l181-100 181 100q20 11 42 11 40 0 66-30.5t20-70.5l-36-218 151-154q17-18 22.5-41.5t-2.5-47-26.5-39-42.5-19.5l-205-31-92-195q-11-24-33-37-21-13-45-13v0z"
+        ],
+        "attrs": [{}],
+        "isMulticolor": false,
+        "isMulticolor2": false,
+        "grid": 24,
+        "tags": ["star"],
+        "colorPermutations": {
+          "18819019218889911": [{}]
+        }
+      },
+      "attrs": [{}],
+      "properties": {
+        "order": 55,
+        "id": 16,
+        "name": "star",
+        "prevSize": 24,
+        "code": 59671
+      },
+      "setIdx": 2,
+      "setId": 0,
+      "iconIdx": 0
+    },
+    {
+      "icon": {
+        "paths": [
+          "M956 398.5q-8-23.5-26.5-39t-42.5-19.5l-205-31-92-195q-11-24-33-37-21-13-45-13t-45 13q-22 13-33 37l-92 195-205 31q-24 4-42.5 19.5t-26.5 39-2.5 47 22.5 41.5l151 154-36 218q-6 40 20 70.5t66 30.5q22 0 42-11l181-100 181 100q20 11 42 11 40 0 66-30.5t20-70.5l-36-218 151-154q17-18 22.5-41.5t-2.5-47z"
+        ],
+        "attrs": [{}],
+        "isMulticolor": false,
+        "isMulticolor2": false,
+        "grid": 24,
+        "tags": ["star-active"],
+        "colorPermutations": {
+          "18819019218889911": [{}]
+        }
+      },
+      "attrs": [{}],
+      "properties": {
+        "order": 56,
+        "id": 15,
+        "name": "star-active",
+        "prevSize": 24,
+        "code": 59672
+      },
+      "setIdx": 2,
+      "setId": 0,
+      "iconIdx": 1
+    },
+    {
+      "icon": {
+        "paths": [
+          "M962 200v1t-1 1q-86 60-199 132-8 1-21-6-18-9-89-50l-35-20-33 23q-67 47-161 141t-140 160l-24 33 20 36q41 71 50 89 4 7 5.5 12t1.5 8v1q-50 79-133 200-7 1-15-5-42-30-79.5-67t-44.5-54q5-90 81.5-212.5t216.5-262.5q70-69 136-123.5t126-92.5 114-58.5 98-22.5q17 6 54 43.5t67 79.5q4 7 5 14zM1024 200q0-6-1-11l-2-10t-3-10-4.5-10-5.5-10q-4-6-12.5-17t-30-36.5-42-45.5-44.5-36-42-15q-62 2-133 31t-140.5 77.5-128.5 98.5-118 109-109.5 118-99 128.5-77.5 141-31 134.5v1q0 17 16 41t36.5 44.5 45 42 36.5 30.5l16 12q32 20 60.5 16.5t42.5-24.5q3-3 13.5-19t24.5-37 30.5-45.5 30.5-46.5 25-38.5 14-21.5q4-6 6.5-14.5t2.5-17.5q0-6-1-12t-3-12.5-4.5-13-5.5-12.5q-10-19-51-91 43-61 134-152 52-52 90-84.5t61-48.5q73 41 91 51 50 26 83 5 16-10 105.5-70t100.5-68q24-17 24-52z"
+        ],
+        "attrs": [{}],
+        "isMulticolor": false,
+        "isMulticolor2": false,
+        "grid": 24,
+        "tags": ["call-end"],
+        "colorPermutations": {
+          "18819019218889911": [{}]
+        }
+      },
+      "attrs": [{}],
+      "properties": {
+        "order": 57,
+        "id": 14,
+        "name": "call-end",
+        "prevSize": 24,
+        "code": 59673
+      },
+      "setIdx": 2,
+      "setId": 0,
+      "iconIdx": 2
+    },
+    {
+      "icon": {
+        "paths": [
+          "M272 1023q-14 0-24.5-10t-10.5-24 10-24l457-457-450-449q-6-7-8.5-16t0-17.5 8.5-15.5q10-10 24.5-10t24.5 10l473 474q5 5 7.5 11.5t2.5 13-2.5 12.5-7.5 11l-480 481q-5 5-11.5 7.5t-12.5 2.5z"
+        ],
+        "attrs": [{}],
+        "isMulticolor": false,
+        "isMulticolor2": false,
+        "grid": 24,
+        "tags": ["arrow-right"],
+        "colorPermutations": {
+          "18819019218889911": [{}]
+        }
+      },
+      "attrs": [{}],
+      "properties": {
+        "order": 58,
+        "id": 13,
+        "name": "arrow-right",
+        "prevSize": 24,
+        "code": 59674
+      },
+      "setIdx": 2,
+      "setId": 0,
+      "iconIdx": 3
+    },
+    {
+      "icon": {
+        "paths": [
+          "M8 275q0-14 10-24t24-10 24 10l452 452 445-445q10-10 24-10t24 10 10 24-10 24l-469 469q-10 10-24 10t-24-10l-476-475q-2-2-3.5-4.5t-2.5-5l-2-5t-1.5-5-0.5-5.5z"
+        ],
+        "attrs": [{}],
+        "isMulticolor": false,
+        "isMulticolor2": false,
+        "grid": 24,
+        "tags": ["arrow-down"],
+        "colorPermutations": {
+          "18819019218889911": [{}]
+        }
+      },
+      "attrs": [{}],
+      "properties": {
+        "order": 59,
+        "id": 12,
+        "name": "arrow-down",
+        "prevSize": 24,
+        "code": 59675
+      },
+      "setIdx": 2,
+      "setId": 0,
+      "iconIdx": 4
+    },
+    {
+      "icon": {
+        "paths": [
           "M512 426c46 0 86 40 86 86s-40 86-86 86-86-40-86-86 40-86 86-86zM768 426c46 0 86 40 86 86s-40 86-86 86-86-40-86-86 40-86 86-86zM256 426c46 0 86 40 86 86s-40 86-86 86-86-40-86-86 40-86 86-86z"
         ],
         "attrs": [{}],
         "isMulticolor": false,
         "isMulticolor2": false,
         "tags": ["more-options-horiz"],
-        "grid": 24
+        "grid": 24,
+        "colorPermutations": {
+          "18819019218889911": [{}]
+        }
       },
       "attrs": [{}],
       "properties": {
-        "order": 27,
+        "order": 60,
         "id": 11,
         "name": "more-options-horiz",
         "prevSize": 24,
@@ -206,7 +411,7 @@
       },
       "setIdx": 2,
       "setId": 0,
-      "iconIdx": 0
+      "iconIdx": 5
     },
     {
       "icon": {
@@ -236,7 +441,7 @@
         }
       ],
       "properties": {
-        "order": 28,
+        "order": 61,
         "id": 10,
         "name": "support-active",
         "prevSize": 24,
@@ -244,7 +449,7 @@
       },
       "setIdx": 2,
       "setId": 0,
-      "iconIdx": 1
+      "iconIdx": 6
     },
     {
       "icon": {
@@ -284,7 +489,7 @@
         }
       ],
       "properties": {
-        "order": 29,
+        "order": 62,
         "id": 8,
         "name": "trip-feed-active",
         "prevSize": 24,
@@ -292,7 +497,7 @@
       },
       "setIdx": 2,
       "setId": 0,
-      "iconIdx": 2
+      "iconIdx": 7
     },
     {
       "icon": {
@@ -322,7 +527,7 @@
         }
       ],
       "properties": {
-        "order": 30,
+        "order": 63,
         "id": 7,
         "name": "tools-active",
         "prevSize": 24,
@@ -330,7 +535,7 @@
       },
       "setIdx": 2,
       "setId": 0,
-      "iconIdx": 3
+      "iconIdx": 8
     },
     {
       "icon": {
@@ -370,7 +575,7 @@
         }
       ],
       "properties": {
-        "order": 31,
+        "order": 64,
         "id": 6,
         "name": "journal-active",
         "prevSize": 24,
@@ -378,7 +583,7 @@
       },
       "setIdx": 2,
       "setId": 0,
-      "iconIdx": 4
+      "iconIdx": 9
     },
     {
       "icon": {
@@ -408,7 +613,7 @@
         }
       ],
       "properties": {
-        "order": 32,
+        "order": 65,
         "id": 5,
         "name": "booking-active",
         "prevSize": 24,
@@ -416,7 +621,7 @@
       },
       "setIdx": 2,
       "setId": 0,
-      "iconIdx": 5
+      "iconIdx": 10
     },
     {
       "icon": {
@@ -446,7 +651,7 @@
         }
       ],
       "properties": {
-        "order": 33,
+        "order": 66,
         "id": 9,
         "name": "support",
         "prevSize": 24,
@@ -454,7 +659,7 @@
       },
       "setIdx": 2,
       "setId": 0,
-      "iconIdx": 6
+      "iconIdx": 11
     },
     {
       "icon": {
@@ -494,7 +699,7 @@
         }
       ],
       "properties": {
-        "order": 34,
+        "order": 67,
         "id": 4,
         "name": "trip-feed",
         "prevSize": 24,
@@ -502,7 +707,7 @@
       },
       "setIdx": 2,
       "setId": 0,
-      "iconIdx": 7
+      "iconIdx": 12
     },
     {
       "icon": {
@@ -552,7 +757,7 @@
         }
       ],
       "properties": {
-        "order": 35,
+        "order": 68,
         "id": 3,
         "name": "tools",
         "prevSize": 24,
@@ -560,7 +765,7 @@
       },
       "setIdx": 2,
       "setId": 0,
-      "iconIdx": 8
+      "iconIdx": 13
     },
     {
       "icon": {
@@ -600,7 +805,7 @@
         }
       ],
       "properties": {
-        "order": 36,
+        "order": 69,
         "id": 2,
         "name": "journal",
         "prevSize": 24,
@@ -608,7 +813,7 @@
       },
       "setIdx": 2,
       "setId": 0,
-      "iconIdx": 9
+      "iconIdx": 14
     },
     {
       "icon": {
@@ -638,7 +843,7 @@
         }
       ],
       "properties": {
-        "order": 37,
+        "order": 70,
         "id": 1,
         "name": "booking",
         "prevSize": 24,
@@ -646,7 +851,7 @@
       },
       "setIdx": 2,
       "setId": 0,
-      "iconIdx": 10
+      "iconIdx": 15
     },
     {
       "icon": {
@@ -664,7 +869,7 @@
       },
       "attrs": [{}],
       "properties": {
-        "order": 38,
+        "order": 71,
         "id": 0,
         "name": "close",
         "prevSize": 24,
@@ -672,7 +877,7 @@
       },
       "setIdx": 2,
       "setId": 0,
-      "iconIdx": 11
+      "iconIdx": 16
     }
   ],
   "height": 1024,
