@@ -10,6 +10,7 @@ import VoucherName from "../Components/VoucherName";
 import VoucherSplitSection from "../Components/VoucherSplitSection";
 import SectionHeader from "../../../CommonComponents/SectionHeader/SectionHeader";
 import SimpleButton from "../../../CommonComponents/SimpleButton/SimpleButton";
+import VoucherAccordion from "../Components/VoucherAccordion";
 
 class TransferVoucher extends Component {
   static navigationOptions = {
@@ -101,6 +102,10 @@ class TransferVoucher extends Component {
             iconSize={16}
           />
         </View>
+
+        <View style={styles.accordionSection}>
+          <VoucherAccordion />
+        </View>
       </ParallaxScrollView>
     );
   }
@@ -116,6 +121,9 @@ const styles = StyleSheet.create({
   },
   arrivalSection: {
     marginTop: 16,
+    paddingHorizontal: 24
+  },
+  accordionSection: {
     paddingHorizontal: 24
   }
 });

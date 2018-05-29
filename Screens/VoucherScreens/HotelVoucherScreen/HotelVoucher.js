@@ -160,7 +160,7 @@ class HotelVoucher extends Component {
             <View style={styles.amenitiesSection}>
               <Text style={styles.amenitiesText}>Hotel amenities</Text>
               <Icon
-                name={constants.trainIcon}
+                name={constants.arrowRight}
                 color={constants.shade2}
                 size={16}
               />

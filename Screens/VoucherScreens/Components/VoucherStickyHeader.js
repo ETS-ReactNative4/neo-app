@@ -12,7 +12,7 @@ const VoucherStickyHeader = ({ text, action }) => {
       {isIphoneX() ? <XSensorPlaceholder /> : null}
       <View style={styles.headerContainer}>
         <TouchableOpacity onPress={action} style={styles.closeButton}>
-          <Icon name={constants.trainIcon} size={24} />
+          <Icon name={constants.closeIcon} size={24} />
         </TouchableOpacity>
         <Text style={styles.title}>{text}</Text>
       </View>

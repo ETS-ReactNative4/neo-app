@@ -11,6 +11,7 @@ import constants from "../../../constants/constants";
 import { isIphoneX } from "react-native-iphone-x-helper";
 import { responsiveWidth } from "react-native-responsive-dimensions";
 import PropTypes from "prop-types";
+import Icon from "../../../CommonComponents/Icon/Icon";
 
 const VoucherHeader = ({ infoText, title, onClickClose, menu }) => {
   return (
@@ -26,11 +27,7 @@ const VoucherHeader = ({ infoText, title, onClickClose, menu }) => {
             onPress={onClickClose}
             activeOpacity={0.2}
           >
-            <Image
-              resizeMode={"contain"}
-              source={constants.closeIcon}
-              style={styles.closeIcon}
-            />
+            <Icon color={"white"} name={constants.closeIcon} size={16} />
           </TouchableOpacity>
         </View>
         <View style={styles.textRow}>
@@ -47,10 +44,10 @@ const VoucherHeader = ({ infoText, title, onClickClose, menu }) => {
             onPress={menu}
             activeOpacity={0.2}
           >
-            <Image
-              resizeMode={"contain"}
-              source={constants.notificationIcon}
-              style={styles.menuIcon}
+            <Icon
+              color={"white"}
+              name={constants.moreOptionsHorizIcon}
+              size={24}
             />
           </TouchableOpacity>
         </View>
