@@ -29,6 +29,7 @@ import TransferVoucher from "./Screens/VoucherScreens/TransferVoucherScreen/Tran
 import HotelVoucher from "./Screens/VoucherScreens/HotelVoucherScreen/HotelVoucher";
 import HomeTabBar from "./CommonComponents/HomeTabBar/HomeTabBar";
 import ActivityVoucher from "./Screens/VoucherScreens/ActivityVoucherScreen/ActivityVoucher";
+import FlightVoucher from "./Screens/VoucherScreens/FlightVoucherScreen/FlightVoucher";
 
 UIManager.setLayoutAnimationEnabledExperimental &&
   UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -151,6 +152,9 @@ const HomeStack = createStackNavigator(
     },
     HotelVoucher: {
       screen: HotelVoucher
+    },
+    FlightVoucher: {
+      screen: FlightVoucher
     }
   },
   {
