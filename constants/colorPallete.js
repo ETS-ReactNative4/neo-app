@@ -1,8 +1,8 @@
-const pallete1 = {
-  firstColor: `rgba(255, 40, 114, 1)`,
+// const pallete1 = {
+//   firstColor: `rgba(255, 40, 114, 1)`,
 
-  firstColorAlpha: alpha => `rgba(255, 87, 109, ${alpha})`
-};
+//   firstColorAlpha: alpha => `rgba(255, 87, 109, ${alpha})`
+// };
 
 const greyPallete = {
   black1: `rgba(44, 47, 66, 1)`,
@@ -27,6 +27,12 @@ const pallete2 = {
   fourthColorAlpha: alpha => `rgba(121,5,114,${alpha})`
 };
 
+const gradientPallete = {
+  firstGradient: `rgba(66,5,62,1)`,
+
+  firstGradientAlpha: alpha => `rgba(66,5,62,${alpha})`
+};
+
 const pallete3 = {};
 
 const colorPallete = {
@@ -35,6 +41,7 @@ const colorPallete = {
   // ...pallete3,
 
   ...greyPallete,
+  ...gradientPallete,
   appBackgroundColor: "white",
   drawerBackgroundColor: "rgba(239,239,239,1)"
 };

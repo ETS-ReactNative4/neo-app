@@ -12,6 +12,7 @@ import { isIphoneX } from "react-native-iphone-x-helper";
 import { responsiveWidth } from "react-native-responsive-dimensions";
 import PropTypes from "prop-types";
 import Icon from "../../../CommonComponents/Icon/Icon";
+import LinearGradient from "react-native-linear-gradient";
 
 const VoucherHeader = ({ infoText, title, onClickClose, menu }) => {
   return (
@@ -21,36 +22,47 @@ const VoucherHeader = ({ infoText, title, onClickClose, menu }) => {
         source={constants.splashBackground}
         style={styles.image}
       >
-        <View style={styles.closeIconRow}>
-          <TouchableOpacity
-            style={styles.closeIconContainer}
-            onPress={onClickClose}
-            activeOpacity={0.2}
-          >
-            <Icon color={"white"} name={constants.closeIcon} size={16} />
-          </TouchableOpacity>
-        </View>
-        <View style={styles.textRow}>
-          <View style={styles.infoTextWrapper}>
-            <Text style={styles.infoText}>{infoText}</Text>
+        <LinearGradient
+          locations={[0.25, 0.5, 0.6, 1]}
+          colors={[
+            "rgba(0,0,0,0.1)",
+            "rgba(0,0,0,0.5)",
+            "rgba(0,0,0,0.6)",
+            constants.firstGradientAlpha(55)
+          ]}
+          style={styles.gradientView}
+        >
+          <View style={styles.closeIconRow}>
+            <TouchableOpacity
+              style={styles.closeIconContainer}
+              onPress={onClickClose}
+              activeOpacity={0.2}
+            >
+              <Icon color={"white"} name={constants.closeIcon} size={16} />
+            </TouchableOpacity>
           </View>
-          <View style={styles.titleTextWrapper}>
-            <Text style={styles.titleText}>{title}</Text>
+          <View style={styles.textRow}>
+            <View style={styles.infoTextWrapper}>
+              <Text style={styles.infoText}>{infoText}</Text>
+            </View>
+            <View style={styles.titleTextWrapper}>
+              <Text style={styles.titleText}>{title}</Text>
+            </View>
           </View>
-        </View>
-        <View style={styles.actionRow}>
-          <TouchableOpacity
-            style={styles.menuIconContainer}
-            onPress={menu}
-            activeOpacity={0.2}
-          >
-            <Icon
-              color={"white"}
-              name={constants.moreOptionsHorizIcon}
-              size={24}
-            />
-          </TouchableOpacity>
-        </View>
+          <View style={styles.actionRow}>
+            <TouchableOpacity
+              style={styles.menuIconContainer}
+              onPress={menu}
+              activeOpacity={0.2}
+            >
+              <Icon
+                color={"white"}
+                name={constants.moreOptionsHorizIcon}
+                size={24}
+              />
+            </TouchableOpacity>
+          </View>
+        </LinearGradient>
       </ImageBackground>
       <Image
         style={styles.circleSpace}
@@ -76,6 +88,10 @@ const styles = StyleSheet.create({
     height: 214 + xHeight
   },
   image: {
+    flex: 1,
+    justifyContent: "space-between"
+  },
+  gradientView: {
     flex: 1,
     justifyContent: "space-between"
   },
@@ -136,7 +152,7 @@ const styles = StyleSheet.create({
   },
   infoText: {
     fontFamily: constants.primarySemiBold,
-    color: "rgba(255,255,255,0.7)",
+    color: "rgba(255,255,255,0.6)",
     fontSize: 13
   },
   titleTextWrapper: {
