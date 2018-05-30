@@ -15,6 +15,7 @@ const imageAssets = {
   trainIcon: "train",
   activityIcon: "activity",
   hotelIcon: "hotel",
+  clockIcon: "clock",
   semiCircleShape: require("../assets/images/shapes/hiring_topic.png"),
 
   tripFeedIcon: "trip-feed",

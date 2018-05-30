@@ -37,8 +37,6 @@ class FlightVoucher extends Component {
       >
         <View style={styles.titleSection}>
           <Text style={styles.activityDate}>Sun 24</Text>
-
-          <VoucherName name={`Airport transfer - Madrid Airport to Hotel`} />
         </View>
 
         <FlightCard />
