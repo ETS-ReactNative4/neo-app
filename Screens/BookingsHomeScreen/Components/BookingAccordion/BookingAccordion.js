@@ -186,7 +186,7 @@ class BookingAccordion extends Component {
     if (visa.length) {
       const visaSection = {
         type: "Visa",
-        icon: constants.notificationIcon,
+        icon: constants.aeroplaneIcon,
         items: visa
       };
       sections.push(visaSection);

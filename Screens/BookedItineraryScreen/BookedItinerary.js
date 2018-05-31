@@ -145,6 +145,10 @@ class BookedItinerary extends Component {
           onScroll={this.onItemScroll}
           scrollEventThrottle={100}
         >
+          <View style={styles.cityContainer}>
+            <View style={styles.cityName} />
+          </View>
+
           {days.map((day, index) => {
             return (
               <Slot
@@ -166,6 +170,10 @@ const styles = StyleSheet.create({
   bookedItineraryContainer: {
     flex: 1,
     backgroundColor: "white"
+  },
+
+  cityContainer: {
+    height: 152
   }
 });
 
