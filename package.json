@@ -8,6 +8,7 @@
     "build-android": "cd android && ./gradlew assembleRelease && cd ..",
     "run-android": "react-native run-android",
     "run-ios": "react-native run-ios",
+    "postinstall": "cd ios && pod install && cd ..",
     "precommit": "pretty-quick --staged"
   },
   "dependencies": {
