@@ -18,6 +18,7 @@ import { inject, observer } from "mobx-react/custom";
 import Slot from "./Components/Slot";
 import moment from "moment/moment";
 import BookedItineraryTitle from "./Components/BookedItineraryTitle";
+import CitySelectionMenu from "../../CommonComponents/CitySelectionMenu/CitySelectionMenu";
 
 @inject("itineraries")
 @observer
@@ -131,9 +132,11 @@ class BookedItinerary extends Component {
 
   render() {
     const { days, slots } = this.props.itineraries;
+    const { navigation } = this.props;
 
     return (
       <View style={styles.bookedItineraryContainer}>
+        <CitySelectionMenu navigation={navigation} />
         <BookedItineraryTopBar
           selectedDay={this.state.selectedDay}
           selectDay={this.selectDay}

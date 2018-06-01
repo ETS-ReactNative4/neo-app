@@ -12,12 +12,13 @@ import { observer, inject } from "mobx-react/custom";
 import Modal from "react-native-modal";
 import CommonHeader from "../CommonHeader/CommonHeader";
 import SearchButton from "../SearchButton/SearchButton";
+import moment from "moment";
 import { responsiveHeight } from "react-native-responsive-dimensions";
 import PropTypes from "prop-types";
 import constants from "../../constants/constants";
 
 @inject("appState")
-@inject("yourBookingsStore")
+@inject("itineraries")
 @observer
 class CitySelectionMenu extends Component {
   static propTypes = {
@@ -29,7 +30,7 @@ class CitySelectionMenu extends Component {
       isItinerarySelectionMenuVisible,
       toggleItinerarySelection
     } = this.props.appState;
-    const { upcomingItineraries } = this.props.yourBookingsStore;
+    const { cities } = this.props.itineraries;
     const { navigation } = this.props;
     const closeModal = () => toggleItinerarySelection(false);
 
@@ -49,28 +50,27 @@ class CitySelectionMenu extends Component {
         <View style={styles.itinerarySelectionContainer}>
           <View style={styles.activeSection}>
             <CommonHeader
-              title={"Your Itineraries"}
+              title={"Your Itinerary"}
               leftAction={closeModal}
               RightButton={<SearchButton action={() => {}} />}
               navigation={navigation}
             />
             <ScrollView>
-              {upcomingItineraries.map((itinerary, index) => {
+              {cities.map((city, index) => {
                 return (
                   <TouchableHighlight
+                    onPress={() => null}
                     key={index}
                     underlayColor={"transparent"}
                     style={styles.itinerarySelectorTouchable}
                   >
                     <View style={styles.itineraryDetails}>
                       <Text style={styles.itineraryName}>
-                        {itinerary.itineraryName}
+                        {`${moment(city.startDay).format("MMM DD")} - ${moment(
+                          city.endDay
+                        ).format("MMM DD")}`}
                       </Text>
-                      <Text
-                        style={styles.itineraryId}
-                      >{`PYT${itinerary.itineraryId
-                        .substr(itinerary.itineraryId.length - 7)
-                        .toUpperCase()}`}</Text>
+                      <Text style={styles.itineraryId}>{city.city}</Text>
                     </View>
                   </TouchableHighlight>
                 );

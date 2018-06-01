@@ -3905,6 +3905,39 @@ class Itineraries {
     }, []);
   }
 
+  @computed
+  get cities() {
+    const cityKeys = this._selectedItinerary.itinerary.allCityKeys;
+    return cityKeys.map(key => {
+      const cityKeyObject = this._selectedItinerary.iterCityByKey[key];
+      const cityId = cityKeyObject.cityId;
+      const startDayId = cityKeyObject.allDayKeys[0];
+      const endDayId =
+        cityKeyObject.allDayKeys[cityKeyObject.allDayKeys.length - 1];
+
+      const cityObject = this._selectedItinerary.cityById[cityId];
+      const startDayObject = this._selectedItinerary.iterDayByKey[startDayId];
+      const endDayObject = this._selectedItinerary.iterDayByKey[endDayId];
+
+      const city = cityObject.cityName;
+      const startDay = moment(
+        `${startDayObject.day}-${startDayObject.mon}-${constants.currentYear}`,
+        "DD-MMM-YYYY"
+      ).toDate();
+      const endDay = moment(
+        `${endDayObject.day}-${endDayObject.mon}-${constants.currentYear}`,
+        "DD-MMM-YYYY"
+      ).toDate();
+
+      return { city, startDay, endDay };
+    });
+  }
+
+  getCityNameById = createTransformer(id => {
+    const cityObject = this._selectedItinerary.cityById[id];
+    return cityObject.cityName;
+  });
+
   getActivityById = createTransformer(id =>
     toJS(this._selectedItinerary.activityById[id])
   );
@@ -3998,6 +4031,7 @@ class Itineraries {
 
   constructor() {
     // console.log(JSON.stringify(toJS(this._selectedItinerary)));
+    console.log(this.cities);
   }
 }
 

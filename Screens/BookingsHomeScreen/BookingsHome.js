@@ -15,7 +15,6 @@ import BookingHomeTitle from "./Components/BookingHomeTitle";
 import constants from "../../constants/constants";
 import TripToggle from "../../CommonComponents/TripToggle/TripToggle";
 import SearchPlaceholder from "../../CommonComponents/SearchPlaceholder/SearchPlaceholder";
-import CitySelectionMenu from "../../CommonComponents/CitySelectionMenu/CitySelectionMenu";
 import BookingCalendar from "./Components/BookingCalendar/BookingCalendar";
 import BookingAccordion from "./Components/BookingAccordion/BookingAccordion";
 import { inject, observer } from "mobx-react/custom";
@@ -65,7 +64,6 @@ class BookingsHome extends Component {
 
     return (
       <View style={styles.bookingHomeContainer}>
-        <CitySelectionMenu navigation={navigation} />
         <SearchPlaceholder action={this.openSearch} />
         <ScrollView
           style={styles.bookingContainer}
