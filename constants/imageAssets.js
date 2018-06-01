@@ -8,7 +8,7 @@ const imageAssets = {
   searchIcon: require("../assets/images/icons/magnifying-glass.png"),
   loadingIcon: require("../assets/images/loaders/loader.gif"),
   hamburgerIcon: require("../assets/images/icons/menu.png"),
-  headerBackground: require("../assets/images/shapes/banner_white.png"),
+  headerBackgroundShape: require("../assets/images/shapes/banner_white.png"),
   aeroplaneIcon: "flight",
   busIcon: "bus",
   ferryIcon: "ferry",
@@ -16,6 +16,7 @@ const imageAssets = {
   activityIcon: "activity",
   hotelIcon: "hotel",
   clockIcon: "clock",
+  locationIcon: "location",
   semiCircleShape: require("../assets/images/shapes/hiring_topic.png"),
 
   tripFeedIcon: "trip-feed",

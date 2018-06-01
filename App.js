@@ -44,7 +44,7 @@ const BookingStack = createStackNavigator(
     }
   },
   {
-    initialRouteName: "BookingsHome",
+    initialRouteName: "BookedItinerary",
     navigationOptions: {
       gesturesEnabled: false
     },
@@ -158,7 +158,7 @@ const HomeStack = createStackNavigator(
     }
   },
   {
-    initialRouteName: "Splash",
+    initialRouteName: "AppHome",
     navigationOptions: {
       gesturesEnabled: false
     },
