@@ -4,6 +4,7 @@ import constants from "../../../constants/constants";
 import PropTypes from "prop-types";
 import { StackActions, NavigationActions } from "react-navigation";
 import { inject, observer } from "mobx-react/custom";
+import Icon from "../../../CommonComponents/Icon/Icon";
 
 const resetAction = StackActions.reset({
   index: 0,
@@ -53,11 +54,7 @@ class CloseYourBookingsButton extends Component {
         onPress={this.goBack}
         underlayColor={"transparent"}
       >
-        <Image
-          resizeMode={"contain"}
-          source={constants.closeIcon}
-          style={{ height: 24, width: 30 }}
-        />
+        <Icon color={constants.black1} name={constants.closeIcon} size={24} />
       </TouchableHighlight>
     );
   }
