@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
   },
   cityNameView: {
     width: 129.75,
-    height: 22,
+    height: 32,
     alignItems: "center",
     justifyContent: "center"
   },

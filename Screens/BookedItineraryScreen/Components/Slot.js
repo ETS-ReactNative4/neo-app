@@ -41,6 +41,19 @@ const Slot = inject("itineraries")(
         };
         break;
 
+      case "ACTIVITY_WITH_TRANSFER":
+        cityCardData = {
+          cityImage: constants.splashBackground,
+          action: () => null,
+          cityName: getCityNameById(
+            firstSlot.intercityTransferSlotDetailVO.toCity
+          ),
+          activityText:
+            firstSlot.intercityTransferSlotDetailVO.directTransferDetail
+              .transferIndicatorText
+        };
+        break;
+
       default:
         break;
     }

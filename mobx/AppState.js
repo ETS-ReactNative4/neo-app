@@ -2,6 +2,9 @@ import { observable, computed, action, toJS } from "mobx";
 import { persist } from "mobx-persist";
 
 class AppState {
+  /**
+   * Trip Toggle Button
+   */
   @action
   reset = () => {
     this._tripMode = {
@@ -25,6 +28,9 @@ class AppState {
     return this._tripMode.status;
   }
 
+  /**
+   * Itinerary Selection Menu
+   */
   @observable _isItinerarySelectionMenuVisible = false;
 
   @action
@@ -37,6 +43,9 @@ class AppState {
     return this._isItinerarySelectionMenuVisible;
   }
 
+  /**
+   * Active Scenes in the navigation stack
+   */
   @observable _activeScenes = [];
 
   @action

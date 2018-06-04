@@ -22,7 +22,8 @@ import constants from "../../constants/constants";
 @observer
 class CitySelectionMenu extends Component {
   static propTypes = {
-    navigation: PropTypes.object.isRequired
+    navigation: PropTypes.object.isRequired,
+    selectDay: PropTypes.func.isRequired
   };
 
   render() {
@@ -31,7 +32,7 @@ class CitySelectionMenu extends Component {
       toggleItinerarySelection
     } = this.props.appState;
     const { cities } = this.props.itineraries;
-    const { navigation } = this.props;
+    const { navigation, selectDay } = this.props;
     const closeModal = () => toggleItinerarySelection(false);
 
     return (
@@ -59,7 +60,11 @@ class CitySelectionMenu extends Component {
               {cities.map((city, index) => {
                 return (
                   <TouchableHighlight
-                    onPress={() => null}
+                    onPress={() => {
+                      const cityDate = moment(city.startDay).format("DDMMYYYY");
+                      selectDay(cityDate);
+                      closeModal();
+                    }}
                     key={index}
                     underlayColor={"transparent"}
                     style={styles.itinerarySelectorTouchable}

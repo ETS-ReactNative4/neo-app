@@ -116,6 +116,21 @@ class BookedItinerary extends Component {
     });
   };
 
+  dateSelectedFromModal = date => {
+    this.setState(
+      {
+        selectedDay: date
+      },
+      () => {
+        this.refs._contentScroll.scrollTo({
+          x: 0,
+          y: this.state.sectionPositions[this.state.selectedDay],
+          animated: true
+        });
+      }
+    );
+  };
+
   componentDidMount() {
     const selectedDay = this.props.navigation.getParam(
       "selectedDate",
@@ -136,7 +151,10 @@ class BookedItinerary extends Component {
 
     return (
       <View style={styles.bookedItineraryContainer}>
-        <CitySelectionMenu navigation={navigation} />
+        <CitySelectionMenu
+          navigation={navigation}
+          selectDay={this.dateSelectedFromModal}
+        />
         <BookedItineraryTopBar
           selectedDay={this.state.selectedDay}
           selectDay={this.selectDay}

@@ -61,7 +61,24 @@ const Activity = ({ activity }) => {
         />
       );
 
+    case "ACTIVITY_WITH_TRANSFER":
+      return (
+        <SimpleActivity
+          activity={activity}
+          title={activity.name}
+          text={
+            activity.intercityTransferSlotDetailVO.directTransferDetail
+              .transferIndicatorText
+          }
+          image={constants.notificationIcon}
+          icon={constants.trainIcon}
+        />
+      );
+
     default:
+      /**
+       * TODO: Remove black space before release
+       */
       return (
         <View style={{ height: 40, backgroundColor: "black" }}>
           <Text>{"section missing"}</Text>

@@ -4031,7 +4031,6 @@ class Itineraries {
 
   constructor() {
     // console.log(JSON.stringify(toJS(this._selectedItinerary)));
-    console.log(this.cities);
   }
 }
 
