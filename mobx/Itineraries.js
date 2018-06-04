@@ -3933,9 +3933,9 @@ class Itineraries {
     });
   }
 
-  getCityNameById = createTransformer(id => {
+  getCityById = createTransformer(id => {
     const cityObject = this._selectedItinerary.cityById[id];
-    return cityObject.cityName;
+    return toJS(cityObject);
   });
 
   getActivityById = createTransformer(id =>

@@ -14,11 +14,14 @@ const Slot = inject("itineraries")(
       onItemLayout(nativeEvent, moment(day).format("DDMMYYYY"));
     };
 
-    const { getCityNameById } = itineraries;
+    const { getCityById } = itineraries;
 
     const firstSlot = slot[0];
     let cityCardData = null;
     switch (firstSlot.type) {
+      /**
+       * TODO: Get City ID in international Arrive
+       */
       case "INTERNATIONAL_ARRIVE":
         cityCardData = {
           cityImage: constants.splashBackground,
@@ -30,11 +33,14 @@ const Slot = inject("itineraries")(
 
       case "INTERCITY_TRANSFER":
         cityCardData = {
-          cityImage: constants.splashBackground,
+          cityImage: {
+            uri:
+              constants.cityImageBaseUrl +
+              getCityById(firstSlot.intercityTransferSlotDetailVO.toCity).image
+          },
           action: () => null,
-          cityName: getCityNameById(
-            firstSlot.intercityTransferSlotDetailVO.toCity
-          ),
+          cityName: getCityById(firstSlot.intercityTransferSlotDetailVO.toCity)
+            .cityName,
           activityText:
             firstSlot.intercityTransferSlotDetailVO.directTransferDetail
               .transferIndicatorText
@@ -43,11 +49,14 @@ const Slot = inject("itineraries")(
 
       case "ACTIVITY_WITH_TRANSFER":
         cityCardData = {
-          cityImage: constants.splashBackground,
+          cityImage: {
+            uri:
+              constants.cityImageBaseUrl +
+              getCityById(firstSlot.intercityTransferSlotDetailVO.toCity).image
+          },
           action: () => null,
-          cityName: getCityNameById(
-            firstSlot.intercityTransferSlotDetailVO.toCity
-          ),
+          cityName: getCityById(firstSlot.intercityTransferSlotDetailVO.toCity)
+            .cityName,
           activityText:
             firstSlot.intercityTransferSlotDetailVO.directTransferDetail
               .transferIndicatorText
