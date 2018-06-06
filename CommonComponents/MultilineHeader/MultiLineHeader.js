@@ -41,6 +41,7 @@ const styles = StyleSheet.create({
   duration: {
     fontFamily: constants.primaryLight,
     fontSize: 12,
+    color: constants.black2,
     ...Platform.select({
       ios: {
         marginBottom: -8
@@ -56,6 +57,7 @@ const styles = StyleSheet.create({
   title: {
     fontFamily: constants.primarySemiBold,
     fontSize: 16,
+    color: constants.black2,
     ...Platform.select({
       ios: {
         marginTop: -8

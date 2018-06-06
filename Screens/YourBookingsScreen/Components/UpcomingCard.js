@@ -4,7 +4,8 @@ import {
   Text,
   ImageBackground,
   StyleSheet,
-  TouchableOpacity
+  TouchableOpacity,
+  Platform
 } from "react-native";
 import constants from "../../../constants/constants";
 import SimpleButton from "../../../CommonComponents/SimpleButton/SimpleButton";
@@ -124,7 +125,17 @@ const styles = StyleSheet.create({
     marginVertical: 8
   },
   infoArea: {
-    flex: 1
+    flex: 1,
+    ...Platform.select({
+      android: {
+        borderColor: constants.black2,
+        borderBottomRightRadius: 5,
+        borderBottomLeftRadius: 5,
+        borderBottomWidth: 0.5,
+        borderLeftWidth: 0.5,
+        borderRightWidth: 0.5
+      }
+    })
   },
   infoTextWrapper: {
     height: 72,

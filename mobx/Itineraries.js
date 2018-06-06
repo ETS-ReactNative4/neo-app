@@ -3646,6 +3646,8 @@ class Itineraries {
 
   @computed
   get selectedItineraryId() {
+    if (_.isEmpty(this._selectedItinerary)) return "";
+
     return this._selectedItinerary.itinerary.itineraryId;
   }
 
@@ -3907,6 +3909,8 @@ class Itineraries {
 
   @computed
   get cities() {
+    if (_.isEmpty(this._selectedItinerary)) return [];
+
     const cityKeys = this._selectedItinerary.itinerary.allCityKeys;
     return cityKeys.map(key => {
       const cityKeyObject = this._selectedItinerary.iterCityByKey[key];
@@ -3934,13 +3938,17 @@ class Itineraries {
   }
 
   getCityById = createTransformer(id => {
+    if (_.isEmpty(this._selectedItinerary)) return {};
+
     const cityObject = this._selectedItinerary.cityById[id];
     return toJS(cityObject);
   });
 
-  getActivityById = createTransformer(id =>
-    toJS(this._selectedItinerary.activityById[id])
-  );
+  getActivityById = createTransformer(id => {
+    if (_.isEmpty(this._selectedItinerary)) return {};
+
+    return toJS(this._selectedItinerary.activityById[id]);
+  });
 
   getDateSelectionMatrixSingle = createTransformer(index => {
     try {
