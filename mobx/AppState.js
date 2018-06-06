@@ -57,6 +57,21 @@ class AppState {
   get activeScenes() {
     return toJS(this._activeScenes);
   }
+
+  /**
+   * Booked Itinerary screen scrolling date selection
+   */
+  @observable _selectedDate = "";
+
+  @action
+  setSelectedDate = date => {
+    this._selectedDate = date;
+  };
+
+  @computed
+  get selectedDate() {
+    return this._selectedDate;
+  }
 }
 
 export default AppState;

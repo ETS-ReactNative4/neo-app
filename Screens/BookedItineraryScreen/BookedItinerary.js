@@ -20,6 +20,7 @@ import moment from "moment/moment";
 import BookedItineraryTitle from "./Components/BookedItineraryTitle";
 import CitySelectionMenu from "../../CommonComponents/CitySelectionMenu/CitySelectionMenu";
 
+@inject("appState")
 @inject("itineraries")
 @observer
 class BookedItinerary extends Component {
@@ -27,12 +28,7 @@ class BookedItinerary extends Component {
     return {
       header: (
         <CommonHeader
-          TitleComponent={
-            <BookedItineraryTitle
-              duration={"Mar 14 - Mar 24"}
-              title={"PYT1233345"}
-            />
-          }
+          TitleComponent={<BookedItineraryTitle />}
           RightButton={<SearchButton action={() => {}} />}
           title={""}
           navigation={navigation}
@@ -60,6 +56,7 @@ class BookedItinerary extends Component {
         selectedDay: day
       },
       () => {
+        this.props.appState.setSelectedDate(day);
         this.refs._contentScroll.scrollTo({
           x: 0,
           y: this.state.sectionPositions[this.state.selectedDay],
@@ -106,6 +103,7 @@ class BookedItinerary extends Component {
         _currentSection = section;
     });
     this.setState({ selectedDay: _currentSection }, () => {
+      this.props.appState.setSelectedDate(this.state.selectedDay);
       this._headerScroll.scrollTo({
         x:
           this.state.headerPositions[this.state.selectedDay] -
@@ -117,18 +115,7 @@ class BookedItinerary extends Component {
   };
 
   dateSelectedFromModal = date => {
-    this.setState(
-      {
-        selectedDay: date
-      },
-      () => {
-        this.refs._contentScroll.scrollTo({
-          x: 0,
-          y: this.state.sectionPositions[this.state.selectedDay],
-          animated: true
-        });
-      }
-    );
+    this.selectDay(date);
   };
 
   componentDidMount() {
@@ -137,11 +124,7 @@ class BookedItinerary extends Component {
       moment(this.props.itineraries.days[0]).format("DDMMYYYY")
     );
     setTimeout(() => {
-      this.refs._contentScroll.scrollTo({
-        x: 0,
-        y: this.state.sectionPositions[selectedDay],
-        animated: true
-      });
+      this.selectDay(selectedDay);
     }, 350);
   }
 

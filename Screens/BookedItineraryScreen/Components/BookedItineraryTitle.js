@@ -10,30 +10,48 @@ import {
 import PropTypes from "prop-types";
 import { observer, inject } from "mobx-react/custom";
 import MultiLineHeader from "../../../CommonComponents/MultilineHeader/MultiLineHeader";
+import Moment from "moment";
+import { extendMoment } from "moment-range";
 
-const BookedItineraryTitle = inject("appState")(
-  observer(({ title, duration, appState }) => {
-    const { toggleItinerarySelection } = appState;
-    const openMenu = () => {
-      toggleItinerarySelection(true);
-    };
+const moment = extendMoment(Moment);
 
-    return (
-      <TouchableHighlight
-        style={styles.bookingTitleContainer}
-        onPress={openMenu}
-        underlayColor={"transparent"}
-      >
-        <MultiLineHeader duration={duration} title={title} />
-      </TouchableHighlight>
-    );
-  })
+const BookedItineraryTitle = inject("itineraries")(
+  inject("appState")(
+    observer(({ appState, itineraries }) => {
+      const { toggleItinerarySelection, selectedDate } = appState;
+      const openMenu = () => {
+        toggleItinerarySelection(true);
+      };
+      const { cities } = itineraries;
+
+      const selected = moment(selectedDate, "DDMMYYYY").toDate();
+      let selectedCity = cities.find(city => {
+        const range = moment.range(city.startDay, city.endDay);
+        return range.contains(selected);
+      });
+      if (!selectedCity) {
+        selectedCity = cities[0];
+      }
+
+      return (
+        <TouchableHighlight
+          style={styles.bookingTitleContainer}
+          onPress={openMenu}
+          underlayColor={"transparent"}
+        >
+          <MultiLineHeader
+            duration={`${moment(selectedCity.startDay).format(
+              "MMM DD"
+            )} - ${moment(selectedCity.endDay).format("MMM DD")}`}
+            title={selectedCity.city}
+          />
+        </TouchableHighlight>
+      );
+    })
+  )
 );
 
-BookedItineraryTitle.propTypes = {
-  duration: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired
-};
+BookedItineraryTitle.propTypes = {};
 
 const styles = StyleSheet.create({
   bookingTitleContainer: {
