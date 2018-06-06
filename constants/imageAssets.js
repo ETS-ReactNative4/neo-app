@@ -30,7 +30,21 @@ const imageAssets = {
   journalIcon: "journal",
   journalSelectedIcon: "journal-active",
   moreOptionsHorizIcon: "more-options-horiz",
-  arrowRight: "arrow-right"
+  arrowRight: "arrow-right",
+
+  weatherForecastIcon: require("../assets/images/toolIcons/weather-forcast.png"),
+  cancelTripIcon: require("../assets/images/toolIcons/cancel-trip.png"),
+  commonPhrasesIcon: require("../assets/images/toolIcons/common-phrases.png"),
+  completePaymentIcon: require("../assets/images/toolIcons/complete-payment.png"),
+  currencyCalculatorIcon: require("../assets/images/toolIcons/currency-calculator.png"),
+  documentVisaIcon: require("../assets/images/toolIcons/document-visa.png"),
+  downloadInvoiceIcon: require("../assets/images/toolIcons/download-invoice.png"),
+  emergencyContactsIcon: require("../assets/images/toolIcons/emergency-contacts.png"),
+  faqIcon: require("../assets/images/toolIcons/faq.png"),
+  invitePassengersIcon: require("../assets/images/toolIcons/invite-co-passanger.png"),
+  medicalCareIcon: require("../assets/images/toolIcons/medical-care.png"),
+  packageChecklistIcon: require("../assets/images/toolIcons/packing-checklist.png"),
+  passportDetailsIcon: require("../assets/images/toolIcons/passport-details.png")
 };
 
 export default imageAssets;

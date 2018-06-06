@@ -1,31 +1,48 @@
-import React from 'react';
-import {
-  TouchableHighlight,
-  Text,
-  StyleSheet,
-} from 'react-native';
+import React from "react";
+import { TouchableOpacity, Text, StyleSheet, Image, View } from "react-native";
 import constants from "../../../constants/constants";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
-const PrimaryTool = ({text, action, containerStyle}) => {
+const PrimaryTool = ({ text, action, containerStyle, toolIcon }) => {
   return (
-    <TouchableHighlight style={[styles.primaryContainer, containerStyle || {}]} onPress={action} underlayColor={constants.shade3}>
-      <Text style={styles.text}>{text}</Text>
-    </TouchableHighlight>
-  )
+    <TouchableOpacity
+      style={[styles.primaryContainer, containerStyle || {}]}
+      onPress={action}
+    >
+      <View style={styles.textContainer}>
+        <Text style={styles.text}>{text}</Text>
+      </View>
+      <Image source={toolIcon} style={styles.toolIcon} />
+    </TouchableOpacity>
+  );
 };
 
 PrimaryTool.propTypes = {
   text: PropTypes.string.isRequired,
   action: PropTypes.func.isRequired,
+  toolIcon: PropTypes.oneOfType([PropTypes.number, PropTypes.object]).isRequired
 };
 
 const styles = StyleSheet.create({
   primaryContainer: {
+    height: 88,
+    borderRadius: 5,
+    flexDirection: "row",
+    alignItems: "flex-end"
+  },
+  textContainer: {
+    flex: 1,
     height: 80,
     borderRadius: 5,
-    backgroundColor: constants.shade4,
-    justifyContent: 'center',
+    justifyContent: "center",
+    backgroundColor: constants.fifthColor
+  },
+  toolIcon: {
+    height: 80,
+    width: 80,
+    left: 8,
+    bottom: 8,
+    position: "absolute"
   },
   text: {
     fontFamily: constants.primaryRegular,
@@ -33,8 +50,8 @@ const styles = StyleSheet.create({
     color: constants.black2,
     fontSize: 20,
     lineHeight: 24,
-    marginLeft: 16,
-  },
+    marginLeft: 96
+  }
 });
 
 export default PrimaryTool;

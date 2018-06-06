@@ -41,22 +41,22 @@ class Tools extends Component {
 
     const essentialTools = [
       {
-        icon: constants.notificationIcon,
+        icon: constants.commonPhrasesIcon,
         text: `Common Phrases`,
         action: () => this.props.navigation.push("PhraseBook")
       },
       {
-        icon: constants.notificationIcon,
+        icon: constants.emergencyContactsIcon,
         text: `Emergency Contacts`,
         action: () => {}
       },
       {
-        icon: constants.notificationIcon,
+        icon: constants.medicalCareIcon,
         text: `Medical Care`,
         action: () => {}
       },
       {
-        icon: constants.notificationIcon,
+        icon: constants.weatherForecastIcon,
         text: `Weather Forecast`,
         action: () => this.props.navigation.push("Weather")
       }
@@ -64,17 +64,17 @@ class Tools extends Component {
 
     const beforePacking = [
       {
-        icon: constants.notificationIcon,
+        icon: constants.passportDetailsIcon,
         text: `Passport Details`,
         action: () => {}
       },
       {
-        icon: constants.notificationIcon,
+        icon: constants.packageChecklistIcon,
         text: `Packing Checklist`,
         action: () => this.props.navigation.push("PackingChecklist")
       },
       {
-        icon: constants.notificationIcon,
+        icon: constants.documentVisaIcon,
         text: `Documents & Visa`,
         action: () => {}
       }
@@ -82,17 +82,17 @@ class Tools extends Component {
 
     const moreTools = [
       {
-        icon: constants.notificationIcon,
+        icon: constants.downloadInvoiceIcon,
         text: `Download Invoice`,
         action: () => {}
       },
       {
-        icon: constants.notificationIcon,
+        icon: constants.faqIcon,
         text: `Frequently Asked Questions`,
         action: () => {}
       },
       {
-        icon: constants.notificationIcon,
+        icon: constants.cancelTripIcon,
         text: `Cancel Trip`,
         action: () => {}
       }
@@ -116,6 +116,7 @@ class Tools extends Component {
           text={`Currency Calculator`}
           action={() => this.props.navigation.push("CurrencyConverter")}
           containerStyle={{ marginHorizontal: 24 }}
+          toolIcon={constants.currencyCalculatorIcon}
         />
 
         {essentialTools.map((item, index) => (
@@ -137,6 +138,7 @@ class Tools extends Component {
           text={`Invite Co-passengers`}
           action={() => {}}
           containerStyle={{ marginHorizontal: 24 }}
+          toolIcon={constants.invitePassengersIcon}
         />
 
         {beforePacking.map((item, index) => (
@@ -158,6 +160,7 @@ class Tools extends Component {
           containerStyle={{ marginHorizontal: 24 }}
           text={`Complete Payment`}
           action={() => {}}
+          toolIcon={constants.completePaymentIcon}
         />
 
         {moreTools.map((item, index) => (
