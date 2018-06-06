@@ -30,11 +30,7 @@ class BookingsHome extends Component {
             <HamburgerButton action={() => navigation.openDrawer()} />
           }
           TitleComponent={
-            <BookingHomeTitle
-              duration={"Mar 14 - Mar 24"}
-              title={"PYT1233345"}
-              action={() => navigation.push("YourBookings")}
-            />
+            <BookingHomeTitle action={() => navigation.push("YourBookings")} />
           }
           title={""}
           RightButton={<TripToggle containerStyle={{ marginHorizontal: 24 }} />}

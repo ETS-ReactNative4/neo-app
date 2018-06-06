@@ -9,22 +9,34 @@ import {
 } from "react-native";
 import PropTypes from "prop-types";
 import MultiLineHeader from "../../../CommonComponents/MultilineHeader/MultiLineHeader";
+import { inject, observer } from "mobx-react/custom";
+import moment from "moment";
 
-const BookingHomeTitle = ({ title, duration, action }) => {
-  return (
-    <TouchableHighlight
-      style={styles.bookingTitleContainer}
-      onPress={action}
-      underlayColor={"transparent"}
-    >
-      <MultiLineHeader duration={duration} title={title} />
-    </TouchableHighlight>
-  );
-};
+const BookingHomeTitle = inject("itineraries")(
+  observer(({ action, itineraries }) => {
+    const { startEndDates, selectedItineraryId } = itineraries;
+
+    const startDate = moment(startEndDates.startDate).format("MMM DD");
+    const endDate = moment(startEndDates.lastDate).format("MMM DD");
+
+    return (
+      <TouchableHighlight
+        style={styles.bookingTitleContainer}
+        onPress={action}
+        underlayColor={"transparent"}
+      >
+        <MultiLineHeader
+          duration={`${startDate} - ${endDate}`}
+          title={`PYT${selectedItineraryId
+            .substr(selectedItineraryId.length - 7)
+            .toUpperCase()}`}
+        />
+      </TouchableHighlight>
+    );
+  })
+);
 
 BookingHomeTitle.propTypes = {
-  duration: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
   action: PropTypes.func.isRequired
 };
 
