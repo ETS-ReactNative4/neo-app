@@ -10,11 +10,11 @@ const ActivityRow = ({ title, text }) => {
         <Text style={styles.infoTitle} numberOfLines={1} ellipsizeMode={"tail"}>
           {title}
         </Text>
-        <Image
-          source={constants.notificationIcon}
-          style={styles.titleIcon}
-          resizeMode={"contain"}
-        />
+        {/*<Image*/}
+        {/*source={constants.notificationIcon}*/}
+        {/*style={styles.titleIcon}*/}
+        {/*resizeMode={"contain"}*/}
+        {/*/>*/}
       </View>
       <View style={styles.infoTextWrapper}>
         <Text style={styles.infoText} numberOfLines={3} ellipsizeMode={"tail"}>
