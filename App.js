@@ -71,7 +71,7 @@ const ToolStack = createStackNavigator(
     }
   },
   {
-    initialRouteName: "ToolHome",
+    initialRouteName: "Weather",
     navigationOptions: {
       gesturesEnabled: false
     },
