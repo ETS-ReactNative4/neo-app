@@ -1,37 +1,46 @@
-import React, {
-  Component,
-} from 'react';
-import {
-  View,
-  Text,
-} from 'react-native';
-import { NavigationActions } from 'react-navigation';
+import React, { Component } from "react";
+import { ImageBackground, Platform } from "react-native";
+import { StackActions, NavigationActions } from "react-navigation";
+import constants from "../../constants/constants";
+import * as Keychain from "react-native-keychain";
 
-const resetAction = NavigationActions.reset({
+const resetToHome = StackActions.reset({
   index: 0,
-  actions: [
-    NavigationActions.navigate({routeName: 'Starter'}),
-  ]
+  actions: [NavigationActions.navigate({ routeName: "Starter" })]
+});
+
+const resetToItineraries = StackActions.reset({
+  index: 0,
+  actions: [NavigationActions.navigate({ routeName: "AppHome" })]
 });
 
 class Splash extends Component {
-
   static navigationOptions = {
-    header: null,
+    header: null
   };
 
   componentDidMount() {
-    setTimeout(() => {
-      this.props.navigation.dispatch(resetAction);
-    }, 3000)
+    setTimeout(async () => {
+      const credentials = await Keychain.getGenericPassword();
+      if (credentials) {
+        Platform.OS === "ios"
+          ? this.props.navigation.push("AppHome")
+          : this.props.navigation.dispatch(resetToItineraries);
+      } else {
+        Platform.OS === "ios"
+          ? this.props.navigation.push("Starter")
+          : this.props.navigation.dispatch(resetToHome);
+      }
+    }, 3000);
   }
 
   render() {
-    return(
-      <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-        <Text>SplashScreen</Text>
-      </View>
-    )
+    return (
+      <ImageBackground
+        source={constants.splashBackground}
+        style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
+      />
+    );
   }
 }
 

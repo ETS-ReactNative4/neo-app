@@ -1,0 +1,46 @@
+import React from "react";
+import { View, Image, StyleSheet } from "react-native";
+import constants from "../../../../../constants/constants";
+import Icon from "../../../../../CommonComponents/Icon/Icon";
+
+const TransferIcon = ({ transferType }) => {
+  const customStyle = {};
+  let transferImage;
+  switch (transferType) {
+    case "TRAIN":
+      transferImage = constants.trainIcon;
+      break;
+
+    case "FLIGHT":
+      transferImage = constants.aeroplaneIcon;
+      customStyle.paddingLeft = 1;
+      break;
+
+    default:
+      transferImage = false;
+  }
+  if (!transferImage) return null;
+
+  return (
+    <View style={[styles.iconContainer, customStyle]}>
+      <Icon name={transferImage} size={12} color={"white"} />
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  iconContainer: {
+    height: 16,
+    width: 16,
+    borderRadius: 8,
+    backgroundColor: "black",
+    overflow: "hidden",
+    alignItems: "center",
+    justifyContent: "center",
+    position: "absolute",
+    top: 0,
+    right: 0
+  }
+});
+
+export default TransferIcon;

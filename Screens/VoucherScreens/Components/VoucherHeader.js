@@ -1,0 +1,192 @@
+import React from "react";
+import {
+  View,
+  Image,
+  StyleSheet,
+  ImageBackground,
+  TouchableOpacity,
+  Text
+} from "react-native";
+import constants from "../../../constants/constants";
+import { isIphoneX } from "react-native-iphone-x-helper";
+import { responsiveWidth } from "react-native-responsive-dimensions";
+import PropTypes from "prop-types";
+import Icon from "../../../CommonComponents/Icon/Icon";
+import LinearGradient from "react-native-linear-gradient";
+
+const VoucherHeader = ({ infoText, title, onClickClose, menu }) => {
+  return (
+    <View style={styles.headerContainer}>
+      <ImageBackground
+        resizeMode={"cover"}
+        source={constants.splashBackground}
+        style={styles.image}
+      >
+        <LinearGradient
+          locations={[0.25, 0.5, 0.6, 1]}
+          colors={[
+            "rgba(0,0,0,0.1)",
+            "rgba(0,0,0,0.5)",
+            "rgba(0,0,0,0.6)",
+            constants.firstGradientAlpha(55)
+          ]}
+          style={styles.gradientView}
+        >
+          <View style={styles.closeIconRow}>
+            <TouchableOpacity
+              style={styles.closeIconContainer}
+              onPress={onClickClose}
+              activeOpacity={0.2}
+            >
+              <Icon color={"white"} name={constants.closeIcon} size={16} />
+            </TouchableOpacity>
+          </View>
+          <View style={styles.textRow}>
+            <View style={styles.infoTextWrapper}>
+              <Text style={styles.infoText}>{infoText}</Text>
+            </View>
+            <View style={styles.titleTextWrapper}>
+              <Text style={styles.titleText}>{title}</Text>
+            </View>
+          </View>
+          <View style={styles.actionRow}>
+            <TouchableOpacity
+              style={styles.menuIconContainer}
+              onPress={menu}
+              activeOpacity={0.2}
+            >
+              <Icon
+                color={"white"}
+                name={constants.moreOptionsHorizIcon}
+                size={24}
+              />
+            </TouchableOpacity>
+          </View>
+        </LinearGradient>
+      </ImageBackground>
+      <Image
+        style={styles.circleSpace}
+        source={constants.semiCircleShape}
+        resizeMode={"contain"}
+      />
+      <View style={styles.placeHolderLeft} />
+      <View style={styles.placeHolderRight} />
+    </View>
+  );
+};
+
+VoucherHeader.propTypes = {
+  infoText: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  onClickClose: PropTypes.func.isRequired,
+  menu: PropTypes.func.isRequired
+};
+
+const xHeight = isIphoneX() ? constants.xNotchHeight : 0;
+const styles = StyleSheet.create({
+  headerContainer: {
+    height: 214 + xHeight
+  },
+  image: {
+    flex: 1,
+    justifyContent: "space-between"
+  },
+  gradientView: {
+    flex: 1,
+    justifyContent: "space-between"
+  },
+
+  circleSpace: {
+    position: "absolute",
+    bottom: 0,
+    left: responsiveWidth(50) - 20
+  },
+  placeHolderLeft: {
+    height: 16,
+    width: responsiveWidth(50) - 18.3,
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    backgroundColor: "white"
+  },
+  placeHolderRight: {
+    height: 16,
+    width: responsiveWidth(50) - 20,
+    position: "absolute",
+    bottom: 0,
+    right: 0,
+    backgroundColor: "white"
+  },
+
+  closeIconRow: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "flex-start"
+  },
+  closeIconContainer: {
+    height: 24,
+    width: 24,
+    borderRadius: 12,
+    marginLeft: 24,
+    marginTop: 32,
+    backgroundColor: "rgba(0,0,0,0.4)",
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  closeIcon: {
+    height: 20,
+    width: 20,
+    borderRadius: 10,
+    alignSelf: "flex-start"
+  },
+
+  textRow: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  infoTextWrapper: {
+    height: 16,
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  infoText: {
+    fontFamily: constants.primarySemiBold,
+    color: "rgba(255,255,255,0.6)",
+    fontSize: 13
+  },
+  titleTextWrapper: {
+    alignItems: "center",
+    justifyContent: "center",
+    height: 32
+  },
+  titleText: {
+    fontFamily: constants.primarySemiBold,
+    color: constants.secondColor,
+    fontSize: 30
+  },
+
+  actionRow: {
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "flex-end",
+    justifyContent: "flex-end"
+  },
+  menuIconContainer: {
+    height: 24,
+    width: 24,
+    borderRadius: 12,
+    marginRight: 24,
+    marginBottom: 24,
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  menuIcon: {
+    height: 20,
+    width: 20,
+    borderRadius: 10,
+    alignSelf: "flex-start"
+  }
+});
+
+export default VoucherHeader;
