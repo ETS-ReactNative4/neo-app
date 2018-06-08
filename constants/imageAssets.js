@@ -32,6 +32,9 @@ const imageAssets = {
   moreOptionsHorizIcon: "more-options-horiz",
   arrowRight: "arrow-right",
 
+  weatherGraphInactive: require("../assets/images/weatherPlaceholders/weather-graph-disabled.png"),
+  weatherCardPlaceholder: require("../assets/images/weatherPlaceholders/weather-placeholder.png"),
+
   weatherForecastIcon: require("../assets/images/toolIcons/weather-forcast.png"),
   cancelTripIcon: require("../assets/images/toolIcons/cancel-trip.png"),
   commonPhrasesIcon: require("../assets/images/toolIcons/common-phrases.png"),

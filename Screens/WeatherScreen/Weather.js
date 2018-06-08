@@ -4,6 +4,7 @@ import WeatherCard from "./Components/WeatherCard";
 import constants from "../../constants/constants";
 import WeatherChart from "./Components/WeatherChart";
 import WeatherTiles from "./Components/WeatherTiles";
+import WeatherInactivePlaceholder from "./Components/WeatherInactivePlaceholder";
 
 class Weather extends Component {
   static navigationOptions = {
@@ -19,7 +20,8 @@ class Weather extends Component {
       temperature: "27˚",
       weatherIcon: constants.notificationIcon
     },
-    activeWeatherTile: 0
+    activeWeatherTile: 0,
+    isWeatherActive: false
   };
 
   selectWeatherTile = index => {
@@ -86,11 +88,18 @@ class Weather extends Component {
 
     return (
       <View style={styles.weatherContainer}>
-        <WeatherCard
-          containerStyle={{ marginHorizontal: 24, height: 72 }}
-          {...this.state.selectedWeatherInfo}
-        />
-        <WeatherChart />
+        {this.state.isWeatherActive ? (
+          [
+            <WeatherCard
+              key={0}
+              containerStyle={{ marginHorizontal: 24, height: 72 }}
+              {...this.state.selectedWeatherInfo}
+            />,
+            <WeatherChart key={1} />
+          ]
+        ) : (
+          <WeatherInactivePlaceholder />
+        )}
         <WeatherTiles
           weatherArray={weatherArray}
           selectTile={this.selectWeatherTile}
