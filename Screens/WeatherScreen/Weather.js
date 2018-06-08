@@ -5,7 +5,15 @@ import constants from "../../constants/constants";
 import WeatherChart from "./Components/WeatherChart";
 import WeatherTiles from "./Components/WeatherTiles";
 import WeatherInactivePlaceholder from "./Components/WeatherInactivePlaceholder";
+import { inject, observer } from "mobx-react/custom";
+import _ from "lodash";
+import Moment from "moment";
+import { extendMoment } from "moment-range";
 
+const moment = extendMoment(Moment);
+
+@inject("itineraries")
+@observer
 class Weather extends Component {
   static navigationOptions = {
     title: "Weather",
@@ -32,6 +40,25 @@ class Weather extends Component {
 
   componentWillUpdate() {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+  }
+
+  componentDidMount() {
+    const cities = _.flattenDeep(
+      this.props.itineraries.cities.map(city => {
+        const dateRange = moment.range(city.startDay, city.endDay);
+        const dateArray = Array.from(dateRange.by("days"));
+
+        return dateArray.map(date => {
+          return {
+            city: city.city,
+            day: date.toDate(),
+            lat: city.cityObject.latitude,
+            long: city.cityObject.longitude
+          };
+        });
+      })
+    );
+    console.log(cities);
   }
 
   render() {
