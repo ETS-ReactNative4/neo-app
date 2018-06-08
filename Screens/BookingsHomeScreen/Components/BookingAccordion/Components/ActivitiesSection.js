@@ -67,6 +67,9 @@ Activities.propTypes = {
   isLast: PropTypes.bool.isRequired
 };
 
+/**
+ * TODO: Fix Line Height for the header and content
+ */
 const styles = StyleSheet.create({
   contentContainer: {
     paddingTop: 16,

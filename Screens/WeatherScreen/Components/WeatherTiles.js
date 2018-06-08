@@ -5,7 +5,8 @@ import {
   Image,
   Text,
   StyleSheet,
-  ScrollView
+  ScrollView,
+  Platform
 } from "react-native";
 import PropTypes from "prop-types";
 import constants from "../../../constants/constants";
@@ -21,7 +22,12 @@ const WeatherTiles = ({ weatherArray, selectTile, activeTile }) => {
             key={index}
             style={[
               styles.weatherTile,
-              index === activeTile ? styles.activeTile : {}
+              index === activeTile ? styles.activeTile : {},
+              Platform.OS === "android"
+                ? index === weatherArray.length - 1
+                  ? styles.lastTile
+                  : {}
+                : {}
             ]}
           >
             <Text style={styles.dayText}>{weather.day}</Text>
@@ -67,6 +73,9 @@ const styles = StyleSheet.create({
     shadowRadius: 10,
     shadowOpacity: 0.5,
     elevation: 13
+  },
+  lastTile: {
+    marginBottom: 45
   },
   weatherIcon: {
     height: 32,

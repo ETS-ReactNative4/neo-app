@@ -47,11 +47,14 @@ class Upcoming extends Component {
     return (
       <ScrollView>
         {itinerariesList.map((itinerary, index) => {
+          let isLast = false;
+          if (index === itinerariesList.length - 1) isLast = true;
           return (
             <UpcomingCard
               key={index}
               {...itinerary}
               selectItinerary={this.selectItinerary}
+              isLast={isLast}
             />
           );
         })}

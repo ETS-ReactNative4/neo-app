@@ -26,12 +26,13 @@ const UpcomingCard = ({
   adults,
   departureCity,
   bookedOnDateMillis,
-  selectItinerary
+  selectItinerary,
+  isLast
 }) => {
   return (
     <TouchableOpacity
       onPress={() => selectItinerary(itineraryId)}
-      style={styles.upcomingCardContainer}
+      style={[styles.upcomingCardContainer, isLast ? { marginBottom: 16 } : {}]}
     >
       <View style={styles.imageArea}>
         <ImageBackground
@@ -87,7 +88,8 @@ UpcomingCard.propTypes = {
   adults: PropTypes.number.isRequired,
   departureCity: PropTypes.string.isRequired,
   bookedOnDateMillis: PropTypes.number.isRequired,
-  selectItinerary: PropTypes.func.isRequired
+  selectItinerary: PropTypes.func.isRequired,
+  isLast: PropTypes.bool.isRequired
 };
 
 const styles = StyleSheet.create({
@@ -103,8 +105,8 @@ const styles = StyleSheet.create({
       width: 0
     },
     shadowRadius: 5,
-    shadowOpacity: 0.8
-    // elevation: 5
+    shadowOpacity: 0.8,
+    elevation: 5
   },
   imageArea: {
     borderTopLeftRadius: 5,
@@ -125,17 +127,17 @@ const styles = StyleSheet.create({
     marginVertical: 8
   },
   infoArea: {
-    flex: 1,
-    ...Platform.select({
-      android: {
-        borderColor: constants.black2,
-        borderBottomRightRadius: 5,
-        borderBottomLeftRadius: 5,
-        borderBottomWidth: 0.5,
-        borderLeftWidth: 0.5,
-        borderRightWidth: 0.5
-      }
-    })
+    flex: 1
+    // ...Platform.select({
+    //   android: {
+    //     borderColor: constants.black2,
+    //     borderBottomRightRadius: 5,
+    //     borderBottomLeftRadius: 5,
+    //     borderBottomWidth: 0.5,
+    //     borderLeftWidth: 0.5,
+    //     borderRightWidth: 0.5
+    //   }
+    // })
   },
   infoTextWrapper: {
     height: 72,
