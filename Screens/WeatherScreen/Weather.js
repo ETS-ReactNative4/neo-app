@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, StyleSheet, ScrollView, LayoutAnimation } from "react-native";
+import { View, StyleSheet, ScrollView } from "react-native";
 import WeatherCard from "./Components/WeatherCard";
 import constants from "../../constants/constants";
 import WeatherChart from "./Components/WeatherChart";
@@ -33,10 +33,6 @@ class Weather extends Component {
       activeWeatherTile: index
     });
   };
-
-  componentWillUpdate() {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-  }
 
   componentDidMount() {
     const cities = _.flattenDeep(
