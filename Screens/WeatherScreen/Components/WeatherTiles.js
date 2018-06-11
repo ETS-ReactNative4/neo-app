@@ -11,7 +11,7 @@ import {
 import PropTypes from "prop-types";
 import constants from "../../../constants/constants";
 
-const WeatherTiles = ({ weatherArray, selectTile, activeTile }) => {
+const WeatherTiles = ({ weatherArray, selectTile }) => {
   return (
     <ScrollView contentContainerStyle={styles.weatherTileContainer}>
       {weatherArray.map((weather, index) => {
@@ -22,7 +22,7 @@ const WeatherTiles = ({ weatherArray, selectTile, activeTile }) => {
             key={index}
             style={[
               styles.weatherTile,
-              index === activeTile ? styles.activeTile : {},
+              weather.isSelected ? styles.activeTile : {},
               Platform.OS === "android"
                 ? index === weatherArray.length - 1
                   ? styles.lastTile
@@ -104,8 +104,7 @@ const styles = StyleSheet.create({
 
 WeatherTiles.propTypes = {
   weatherArray: PropTypes.array.isRequired,
-  selectTile: PropTypes.func.isRequired,
-  activeTile: PropTypes.number.isRequired
+  selectTile: PropTypes.func.isRequired
 };
 
 export default WeatherTiles;

@@ -12,6 +12,7 @@ import { extendMoment } from "moment-range";
 
 const moment = extendMoment(Moment);
 
+@inject("weatherStore")
 @inject("itineraries")
 @observer
 class Weather extends Component {
@@ -21,15 +22,10 @@ class Weather extends Component {
   };
 
   state = {
-    selectedWeatherInfo: {
-      location: "Ubud, Indonesia",
-      date: "Today, Dec 9, 12pm",
-      description: "Feels like 42˚, partly cloudy",
-      temperature: "27˚",
-      weatherIcon: constants.notificationIcon
-    },
-    activeWeatherTile: 0,
-    isWeatherActive: false
+    /**
+     * TODO: Set weather active status based on tour date
+     */
+    isWeatherActive: true
   };
 
   selectWeatherTile = index => {
@@ -58,60 +54,22 @@ class Weather extends Component {
         });
       })
     );
-    console.log(cities);
+    this.props.weatherStore.getWeatherDetails(cities);
   }
 
   render() {
-    const weatherArray = [
-      {
-        day: `Tue 3/12`,
-        city: `Ubud`,
-        tempC: `22°`,
-        tempF: `13°`,
-        icon: constants.notificationIcon,
-        action: () => {}
-      },
-      {
-        day: `Tue 3/12`,
-        city: `Ubud`,
-        tempC: `22°`,
-        tempF: `13°`,
-        icon: constants.notificationIcon,
-        action: () => {}
-      },
-      {
-        day: `Tue 3/12`,
-        city: `Ubud`,
-        tempC: `22°`,
-        tempF: `13°`,
-        icon: constants.notificationIcon,
-        action: () => {}
-      },
-      {
-        day: `Tue 3/12`,
-        city: `Ubud`,
-        tempC: `22°`,
-        tempF: `13°`,
-        icon: constants.notificationIcon,
-        action: () => {}
-      },
-      {
-        day: `Tue 3/12`,
-        city: `Ubud`,
-        tempC: `22°`,
-        tempF: `13°`,
-        icon: constants.notificationIcon,
-        action: () => {}
-      },
-      {
-        day: `Tue 3/12`,
-        city: `Ubud`,
-        tempC: `22°`,
-        tempF: `13°`,
-        icon: constants.notificationIcon,
-        action: () => {}
-      }
-    ];
+    const { weather, selectWeather } = this.props.weatherStore;
+
+    if (_.isEmpty(weather)) return null;
+
+    let selectedDay = weather.find(day => {
+      return day.isSelected;
+    });
+
+    if (!selectedDay) {
+      weather[0].isSelected = true;
+      selectedDay = weather[0];
+    }
 
     return (
       <View style={styles.weatherContainer}>
@@ -120,18 +78,14 @@ class Weather extends Component {
             <WeatherCard
               key={0}
               containerStyle={{ marginHorizontal: 24, height: 72 }}
-              {...this.state.selectedWeatherInfo}
+              {...selectedDay.widgetDetails}
             />,
-            <WeatherChart key={1} />
+            <WeatherChart key={1} selectedDay={selectedDay} />
           ]
         ) : (
           <WeatherInactivePlaceholder />
         )}
-        <WeatherTiles
-          weatherArray={weatherArray}
-          selectTile={this.selectWeatherTile}
-          activeTile={this.state.activeWeatherTile}
-        />
+        <WeatherTiles weatherArray={weather} selectTile={selectWeather} />
       </View>
     );
   }

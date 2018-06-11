@@ -5,8 +5,13 @@ import { responsiveWidth } from "react-native-responsive-dimensions";
 import { Text as SText, Defs, LinearGradient, Stop } from "react-native-svg";
 import * as shape from "d3-shape";
 import constants from "../../../constants/constants";
+import PropTypes from "prop-types";
 
 class WeatherChart extends Component {
+  static propTypes = {
+    selectedDay: PropTypes.object.isRequired
+  };
+
   state = {
     showDecorators: false
   };
@@ -20,18 +25,29 @@ class WeatherChart extends Component {
   }
 
   render() {
-    const data = [21, 20, 27, 24, 22, 21, 18, 21, 0];
-    const time = [
-      "8AM",
-      "10AM",
-      "12PM",
-      "2PM",
-      "4PM",
-      "6PM",
-      "8PM",
-      "10PM",
-      "11PM"
-    ];
+    const { hourly, isToday } = this.props.selectedDay;
+
+    let data = [],
+      time = [];
+    if (!isToday) {
+      data.push(hourly[1].temperature);
+      time.push("AAA");
+
+      hourly.slice(0, 7).map((hour, index) => {
+        data.push(hour.temperature);
+        time.push(hour.time);
+      });
+
+      data.push(0);
+      time.push("AAA");
+    } else {
+      /**
+       * TODO: Slice for today's weather
+       */
+      /**
+       * TODO: test in iOS Prod build
+       */
+    }
 
     const chartColor = "rgba(28,173,69,1)";
 
