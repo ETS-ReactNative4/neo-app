@@ -38,6 +38,9 @@ class WeatherChart extends Component {
         time.push(hour.time);
       });
 
+      data.push(hourly[1].temperature);
+      time.push("AAA");
+
       data.push(0);
       time.push("AAA");
     } else {
@@ -140,7 +143,7 @@ class WeatherChart extends Component {
     return (
       <View>
         <AreaChart
-          style={{ height: 200, width: responsiveWidth(110) }}
+          style={{ height: 200, width: responsiveWidth(115) }}
           data={data}
           contentInset={{ top: 30, bottom: 30, left: 0, right: 0 }}
           curve={shape.curveNatural}
