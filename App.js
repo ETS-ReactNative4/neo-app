@@ -71,13 +71,24 @@ const ToolStack = createStackNavigator(
     }
   },
   {
-    initialRouteName: "Weather",
+    initialRouteName: "ToolHome",
     navigationOptions: {
       gesturesEnabled: false
     },
     transitionConfig
   }
 );
+
+ToolStack.navigationOptions = ({ navigation }) => {
+  let tabBarVisible = true;
+  if (navigation.state.index > 0) {
+    tabBarVisible = false;
+  }
+
+  return {
+    tabBarVisible
+  };
+};
 
 const HomeTabs = createBottomTabNavigator(
   {
@@ -103,16 +114,10 @@ const HomeTabs = createBottomTabNavigator(
 const HomeStack = createStackNavigator(
   {
     Splash: {
-      screen: Splash,
-      navigationOptions: {
-        drawerLockMode: "locked-closed"
-      }
+      screen: Splash
     },
     Starter: {
-      screen: Starter,
-      navigationOptions: {
-        drawerLockMode: "locked-closed"
-      }
+      screen: Starter
     },
     AppHome: {
       screen: HomeTabs,
@@ -121,22 +126,13 @@ const HomeStack = createStackNavigator(
       }
     },
     YourBookings: {
-      screen: YourBookings,
-      navigationOptions: {
-        drawerLockMode: "locked-closed"
-      }
+      screen: YourBookings
     },
     MobileNumber: {
-      screen: MobileNumber,
-      navigationOptions: {
-        drawerLockMode: "locked-closed"
-      }
+      screen: MobileNumber
     },
     Otp: {
-      screen: Otp,
-      navigationOptions: {
-        drawerLockMode: "locked-closed"
-      }
+      screen: Otp
     },
     NewAccount: {
       screen: NewAccount
@@ -158,13 +154,33 @@ const HomeStack = createStackNavigator(
     }
   },
   {
-    initialRouteName: "AppHome",
+    initialRouteName: "Splash",
     navigationOptions: {
       gesturesEnabled: false
     },
     transitionConfig
   }
 );
+
+HomeStack.navigationOptions = ({ navigation }) => {
+  let drawerLockMode = "unlocked";
+
+  const route = navigation.state.routes[navigation.state.routes.length - 1];
+  const routeName = route.routeName;
+  if (
+    routeName === "Splash" ||
+    routeName === "Starter" ||
+    routeName === "YourBookings" ||
+    routeName === "MobileNumber" ||
+    routeName === "Otp"
+  ) {
+    drawerLockMode = "locked-closed";
+  }
+
+  return {
+    drawerLockMode
+  };
+};
 
 const AppNavigator = createDrawerNavigator(
   {

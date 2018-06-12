@@ -17,8 +17,7 @@ const moment = extendMoment(Moment);
 @observer
 class Weather extends Component {
   static navigationOptions = {
-    title: "Weather",
-    tabBarVisible: false
+    title: "Weather"
   };
 
   state = {

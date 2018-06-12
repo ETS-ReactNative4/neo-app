@@ -21,8 +21,7 @@ import currencyConverter from "../../Services/currencyConversion/currencyConvert
 
 class CurrencyConverter extends Component {
   static navigationOptions = {
-    title: "Currency Calculator",
-    tabBarVisible: false
+    title: "Currency Calculator"
   };
 
   state = {
