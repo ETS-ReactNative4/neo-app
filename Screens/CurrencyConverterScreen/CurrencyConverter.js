@@ -184,6 +184,29 @@ class CurrencyConverter extends Component {
       }
     ];
 
+    const outputAmount = currencyConverter({
+      amount: this.state.foreignAmount,
+      from: this.state.nativeCurrency,
+      to: this.state.foreignCurrency
+    });
+    const outputText = outputAmount.toString();
+    let outputFontSize;
+    if (outputText.length <= 5) {
+      outputFontSize = 80;
+    } else if (outputText.length <= 9) {
+      outputFontSize = 40;
+    } else {
+      outputFontSize = 30;
+    }
+
+    const inputAmountText = this.state.foreignAmount.toString();
+    let inputFontSize;
+    if (inputAmountText.length <= 5) {
+      inputFontSize = 60;
+    } else {
+      inputFontSize = 40;
+    }
+
     return [
       <CurrencySelector
         key={0}
@@ -216,12 +239,10 @@ class CurrencyConverter extends Component {
             <View style={styles.outputContainer}>
               {this.state.foreignAmount ? (
                 <View style={styles.outputTextBoxContainer}>
-                  <Text style={styles.outputText}>
-                    {currencyConverter({
-                      amount: this.state.foreignAmount,
-                      from: this.state.nativeCurrency,
-                      to: this.state.foreignCurrency
-                    })}
+                  <Text
+                    style={[styles.outputText, { fontSize: outputFontSize }]}
+                  >
+                    {outputAmount}
                   </Text>
                 </View>
               ) : (
@@ -263,9 +284,9 @@ class CurrencyConverter extends Component {
             >
               <View style={styles.textBoxContainer}>
                 <TextInput
-                  style={styles.textBox}
+                  style={[styles.textBox, { fontSize: inputFontSize }]}
                   onChangeText={this.setAmount}
-                  value={this.state.foreignAmount.toString()}
+                  value={inputAmountText}
                   keyboardType={"numeric"}
                   underlineColorAndroid={"transparent"}
                 />
