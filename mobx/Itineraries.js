@@ -3937,6 +3937,11 @@ class Itineraries {
     });
   }
 
+  @computed
+  get defaultCurrency() {
+    return "INR";
+  }
+
   getCityById = createTransformer(id => {
     if (_.isEmpty(this._selectedItinerary)) return {};
 

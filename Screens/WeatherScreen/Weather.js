@@ -55,6 +55,9 @@ class Weather extends Component {
   render() {
     const { weather, selectWeather } = this.props.weatherStore;
 
+    /**
+     * TODO: Loading indicator for weather details
+     */
     if (_.isEmpty(weather)) return null;
 
     let selectedDay = weather.find(day => {

@@ -34,5 +34,15 @@ hydrate("_tripMode", store.appState)
   .catch(err => {
     console.error(err);
   });
+hydrate("_weather", store.weatherStore)
+  .then(() => {})
+  .catch(err => {
+    console.error(err);
+  });
+hydrate("_conversionRates", store.appState)
+  .then(() => {})
+  .catch(err => {
+    console.error(err);
+  });
 
 export default store;

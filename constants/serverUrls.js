@@ -7,6 +7,7 @@ const serverUrls = {
   verifyOtp: "mobile/login",
   getYourTrips: "mobile/yourtrips",
   getItineraryDetails: "mobile/itineraryDetails",
+  getCurrencyRates: "api/live?access_key=6be04caa4f8d20ec8360509d61d03fd0",
 
   darkSkyKey: "1f95e4bd24b4377d484d0cfceae84a74",
   darkSkyDomain: "https://api.darksky.net/",
