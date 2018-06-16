@@ -3,11 +3,15 @@ import { SwipeRow } from "react-native-swipe-list-view";
 import CheckListText from "./CheckListText";
 import CheckListButtons from "./CheckListButtons";
 
-const CheckListItem = ({ index, item: data }, rowMap) => {
+const CheckListItem = ({
+  index,
+  item: data,
+  toggleCheckListStatus,
+  rowMap
+}) => {
   return (
     <SwipeRow
-      disableRightSwipe={false}
-      disableLeftSwipe={false}
+      disableLeftSwipe={true}
       leftOpenValue={20}
       rightOpenValue={-150}
       preview={true}
@@ -15,7 +19,7 @@ const CheckListItem = ({ index, item: data }, rowMap) => {
       key={data.id}
     >
       <CheckListButtons />
-      <CheckListText {...data} />
+      <CheckListText {...data} toggleCheckListStatus={toggleCheckListStatus} />
     </SwipeRow>
   );
 };

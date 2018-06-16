@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import { SwipeListView, SwipeRow } from "react-native-swipe-list-view";
 import CheckListItem from "./Components/CheckListItem";
 import CheckListSection from "./Components/CheckListSection";
+import { View } from "react-native";
+import EmptyListPlaceholder from "../../../../CommonComponents/EmptyListPlaceholder/EmptyListPlaceholder";
 
 class ToPack extends Component {
   static propTypes = {
@@ -13,21 +15,41 @@ class ToPack extends Component {
           PropTypes.shape({
             id: PropTypes.number.isRequired,
             item: PropTypes.string.isRequired,
-            isComplete: PropTypes.bool.isRequired
+            isComplete: PropTypes.bool.isRequired,
+            type: PropTypes.string.isRequired
           })
         ).isRequired
       })
-    ).isRequired
+    ).isRequired,
+    toggleCheckListStatus: PropTypes.func.isRequired
   };
 
   render() {
     const { listItems } = this.props;
+    const CheckListComponent = props => (
+      <CheckListItem
+        {...props}
+        toggleCheckListStatus={this.props.toggleCheckListStatus}
+      />
+    );
+
     return (
       <SwipeListView
         useSectionList
         sections={listItems}
-        renderItem={CheckListItem}
+        renderItem={CheckListComponent}
         renderSectionHeader={CheckListSection}
+        renderSectionFooter={({ section }) => {
+          if (!section.data.length) {
+            return (
+              <EmptyListPlaceholder
+                text={`No Items in this Section`}
+                containerStyle={{ marginVertical: 24 }}
+              />
+            );
+          }
+          return null;
+        }}
       />
     );
   }

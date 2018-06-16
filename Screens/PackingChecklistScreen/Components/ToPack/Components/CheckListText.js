@@ -1,38 +1,66 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { View, TouchableHighlight, Text, StyleSheet } from "react-native";
+import {
+  View,
+  TouchableOpacity,
+  Text,
+  StyleSheet,
+  Platform
+} from "react-native";
+import constants from "../../../../../constants/constants";
+import Icon from "../../../../../CommonComponents/Icon/Icon";
 
-const CheckListText = ({ id, item, isComplete }) => {
+const CheckListText = ({
+  id,
+  item,
+  isComplete,
+  type,
+  toggleCheckListStatus
+}) => {
   return (
-    <TouchableHighlight style={styles.touchableContainer}>
-      <View style={styles.container}>
-        <View style={styles.checkbox} />
-        <Text>{item}</Text>
-      </View>
-    </TouchableHighlight>
+    <TouchableOpacity
+      style={styles.touchableContainer}
+      activeOpacity={1}
+      onPress={() => toggleCheckListStatus({ id, item, isComplete, type })}
+    >
+      <Icon name={constants.trainIcon} size={16} color={constants.shade5} />
+      <Text
+        style={[styles.textBox, isComplete ? styles.textBoxComplete : null]}
+      >
+        {item}
+      </Text>
+    </TouchableOpacity>
   );
 };
 
 CheckListText.propTypes = {
   id: PropTypes.number.isRequired,
   item: PropTypes.string.isRequired,
-  isComplete: PropTypes.bool.isRequired
+  isComplete: PropTypes.bool.isRequired,
+  toggleCheckListStatus: PropTypes.func.isRequired
 };
 
 const styles = StyleSheet.create({
   touchableContainer: {
     minHeight: 24,
     paddingHorizontal: 24,
-    marginVertical: 16
+    paddingTop: 8,
+    paddingBottom: 8,
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "white"
   },
-  container: {
-    flex: 1,
-    flexDirection: "row"
+  textBox: {
+    marginLeft: 16,
+    ...Platform.select({
+      ios: {
+        marginTop: 6
+      }
+    }),
+    ...constants.fontCustom(constants.primaryLight, 17)
   },
-  checkbox: {
-    height: 16,
-    width: 16,
-    backgroundColor: "rgba(121,5,114,0.1)"
+  textBoxComplete: {
+    textDecorationLine: "line-through"
   }
 });
 
