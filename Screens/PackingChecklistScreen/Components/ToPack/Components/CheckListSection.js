@@ -24,7 +24,8 @@ const styles = StyleSheet.create({
     backgroundColor: "white"
   },
   titleText: {
-    ...constants.fontCustom(constants.primarySemiBold, 19)
+    ...constants.fontCustom(constants.primarySemiBold, 19),
+    color: constants.black1
   }
 });
 

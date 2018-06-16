@@ -57,7 +57,8 @@ const styles = StyleSheet.create({
         marginTop: 6
       }
     }),
-    ...constants.fontCustom(constants.primaryLight, 17)
+    ...constants.fontCustom(constants.primaryLight, 17),
+    color: constants.black2
   },
   textBoxComplete: {
     textDecorationLine: "line-through"

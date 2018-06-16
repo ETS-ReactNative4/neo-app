@@ -200,7 +200,10 @@ class PackingChecklist extends Component {
             height: 2,
             backgroundColor: constants.black2
           }}
-          tabBarTextStyle={{ ...constants.font13(constants.primaryLight) }}
+          tabBarTextStyle={{
+            ...constants.font13(constants.primaryLight),
+            letterSpacing: 2
+          }}
           initialPage={0}
           style={{ alignSelf: "center", width: responsiveWidth(100) }}
           prerenderingSiblingsNumber={Infinity}
@@ -210,12 +213,12 @@ class PackingChecklist extends Component {
           <ToPack
             listItems={this.state.listItems}
             toggleCheckListStatus={this.toggleCheckListStatus}
-            tabLabel="To Pack"
+            tabLabel="TO PACK"
           />
           <ToPack
             listItems={packedList}
             toggleCheckListStatus={this.toggleCheckListStatus}
-            tabLabel="Packed"
+            tabLabel="PACKED"
           />
         </ScrollableTabView>
       </View>
