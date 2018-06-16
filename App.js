@@ -71,7 +71,7 @@ const ToolStack = createStackNavigator(
     }
   },
   {
-    initialRouteName: "ToolHome",
+    initialRouteName: "PackingChecklist",
     navigationOptions: {
       gesturesEnabled: false
     },
@@ -154,7 +154,7 @@ const HomeStack = createStackNavigator(
     }
   },
   {
-    initialRouteName: "Splash",
+    initialRouteName: "AppHome",
     navigationOptions: {
       gesturesEnabled: false
     },

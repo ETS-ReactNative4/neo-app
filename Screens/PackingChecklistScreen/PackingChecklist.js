@@ -3,7 +3,7 @@ import { View, Text } from "react-native";
 import ScrollableTabView from "react-native-scrollable-tab-view";
 import constants from "../../constants/constants";
 import DefaultTabBar from "../../CommonComponents/DefaultTabBar/DefaultTabBar";
-import ToPack from "./Components/ToPack";
+import ToPack from "./Components/ToPack/ToPack";
 
 class PackingChecklist extends Component {
   static navigationOptions = {
@@ -13,39 +13,124 @@ class PackingChecklist extends Component {
   state = {
     listItems: [
       {
-        id: 0,
-        item: "Light weight Clothing",
-        isComplete: false
+        title: "Clothing",
+        data: [
+          {
+            id: 0,
+            item: "Light weight Clothing",
+            isComplete: false
+          },
+          {
+            id: 1,
+            item: "Light weight Clothing",
+            isComplete: false
+          },
+          {
+            id: 2,
+            item: "Light weight Clothing",
+            isComplete: false
+          },
+          {
+            id: 3,
+            item: "Light weight Clothing",
+            isComplete: false
+          },
+          {
+            id: 4,
+            item: "Light weight Clothing",
+            isComplete: false
+          },
+          {
+            id: 5,
+            item: "Light weight Clothing",
+            isComplete: false
+          },
+          {
+            id: 6,
+            item: "Light weight Clothing",
+            isComplete: false
+          }
+        ]
       },
       {
-        id: 1,
-        item: "Light weight Clothing",
-        isComplete: false
+        title: "Travel",
+        data: [
+          {
+            id: 0,
+            item: "Light weight Clothing",
+            isComplete: false
+          },
+          {
+            id: 1,
+            item: "Light weight Clothing",
+            isComplete: false
+          },
+          {
+            id: 2,
+            item: "Light weight Clothing",
+            isComplete: false
+          },
+          {
+            id: 3,
+            item: "Light weight Clothing",
+            isComplete: false
+          },
+          {
+            id: 4,
+            item: "Light weight Clothing",
+            isComplete: false
+          },
+          {
+            id: 5,
+            item: "Light weight Clothing",
+            isComplete: false
+          },
+          {
+            id: 6,
+            item: "Light weight Clothing",
+            isComplete: false
+          }
+        ]
       },
       {
-        id: 2,
-        item: "Light weight Clothing",
-        isComplete: false
-      },
-      {
-        id: 3,
-        item: "Light weight Clothing",
-        isComplete: false
-      },
-      {
-        id: 4,
-        item: "Light weight Clothing",
-        isComplete: false
-      },
-      {
-        id: 5,
-        item: "Light weight Clothing",
-        isComplete: false
-      },
-      {
-        id: 6,
-        item: "Light weight Clothing",
-        isComplete: false
+        title: "Your list",
+        data: [
+          {
+            id: 0,
+            item: "Light weight Clothing",
+            isComplete: false
+          },
+          {
+            id: 1,
+            item: "Light weight Clothing",
+            isComplete: false
+          },
+          {
+            id: 2,
+            item: "Light weight Clothing",
+            isComplete: false
+          },
+          {
+            id: 3,
+            item: "Light weight Clothing",
+            isComplete: false
+          },
+          {
+            id: 4,
+            item: "Light weight Clothing",
+            isComplete: false
+          },
+          {
+            id: 5,
+            item: "Light weight Clothing",
+            isComplete: false
+          },
+          {
+            id: 6,
+            item: "Light weight Clothing",
+            isComplete: false
+          }
+        ]
       }
     ]
   };
@@ -60,6 +145,7 @@ class PackingChecklist extends Component {
         initialPage={0}
         style={{ alignSelf: "center" }}
         prerenderingSiblingsNumber={Infinity}
+        locked={true}
         renderTabBar={() => <DefaultTabBar />}
       >
         <ToPack listItems={this.state.listItems} tabLabel="To Pack" />
