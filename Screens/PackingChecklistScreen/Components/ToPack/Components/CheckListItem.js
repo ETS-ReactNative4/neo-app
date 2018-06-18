@@ -2,6 +2,7 @@ import React from "react";
 import { SwipeRow } from "react-native-swipe-list-view";
 import CheckListText from "./CheckListText";
 import CheckListButtons from "./CheckListButtons";
+import AddCheckListItem from "./AddCheckListItem";
 
 const CheckListItem = ({
   index,
@@ -22,7 +23,14 @@ const CheckListItem = ({
       {data.type === "Your list" ? (
         <CheckListButtons {...data} deleteCheckListItem={deleteCheckListItem} />
       ) : null}
-      <CheckListText {...data} toggleCheckListStatus={toggleCheckListStatus} />
+      {data.type === "user-input" ? (
+        <AddCheckListItem />
+      ) : (
+        <CheckListText
+          {...data}
+          toggleCheckListStatus={toggleCheckListStatus}
+        />
+      )}
     </SwipeRow>
   );
 };
