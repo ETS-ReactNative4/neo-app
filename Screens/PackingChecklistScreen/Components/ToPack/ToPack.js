@@ -21,7 +21,8 @@ class ToPack extends Component {
         ).isRequired
       })
     ).isRequired,
-    toggleCheckListStatus: PropTypes.func.isRequired
+    toggleCheckListStatus: PropTypes.func.isRequired,
+    deleteCheckListItem: PropTypes.func.isRequired
   };
 
   render() {
@@ -30,6 +31,7 @@ class ToPack extends Component {
       <CheckListItem
         {...props}
         toggleCheckListStatus={this.props.toggleCheckListStatus}
+        deleteCheckListItem={this.props.deleteCheckListItem}
       />
     );
 

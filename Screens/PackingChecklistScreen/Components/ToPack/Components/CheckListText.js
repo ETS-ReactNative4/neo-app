@@ -3,12 +3,14 @@ import PropTypes from "prop-types";
 import {
   View,
   TouchableOpacity,
+  TouchableHighlight,
   Text,
   StyleSheet,
   Platform
 } from "react-native";
 import constants from "../../../../../constants/constants";
 import Icon from "../../../../../CommonComponents/Icon/Icon";
+import { responsiveWidth } from "react-native-responsive-dimensions";
 
 const CheckListText = ({
   id,
@@ -18,18 +20,19 @@ const CheckListText = ({
   toggleCheckListStatus
 }) => {
   return (
-    <TouchableOpacity
-      style={styles.touchableContainer}
-      activeOpacity={1}
+    <TouchableHighlight
       onPress={() => toggleCheckListStatus({ id, item, isComplete, type })}
+      underlayColor={constants.shade5}
     >
-      <Icon name={constants.trainIcon} size={16} color={constants.shade5} />
-      <Text
-        style={[styles.textBox, isComplete ? styles.textBoxComplete : null]}
-      >
-        {item}
-      </Text>
-    </TouchableOpacity>
+      <View style={styles.checklistContainer} activeOpacity={1}>
+        <Icon name={constants.trainIcon} size={16} color={constants.shade5} />
+        <Text
+          style={[styles.textBox, isComplete ? styles.textBoxComplete : null]}
+        >
+          {item}
+        </Text>
+      </View>
+    </TouchableHighlight>
   );
 };
 
@@ -37,12 +40,22 @@ CheckListText.propTypes = {
   id: PropTypes.number.isRequired,
   item: PropTypes.string.isRequired,
   isComplete: PropTypes.bool.isRequired,
+  type: PropTypes.string.isRequired,
   toggleCheckListStatus: PropTypes.func.isRequired
 };
 
 const styles = StyleSheet.create({
-  touchableContainer: {
-    minHeight: 24,
+  checklistContainer: {
+    flex: -1,
+    ...Platform.select({
+      ios: {
+        minHeight: 24
+      },
+      android: {
+        minHeight: 30
+      }
+    }),
+    minWidth: responsiveWidth(70),
     paddingHorizontal: 24,
     paddingTop: 8,
     paddingBottom: 8,
@@ -61,7 +74,8 @@ const styles = StyleSheet.create({
     color: constants.black2
   },
   textBoxComplete: {
-    textDecorationLine: "line-through"
+    textDecorationLine: "line-through",
+    color: constants.shade2
   }
 });
 

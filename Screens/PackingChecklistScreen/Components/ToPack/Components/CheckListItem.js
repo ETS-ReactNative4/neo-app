@@ -7,18 +7,21 @@ const CheckListItem = ({
   index,
   item: data,
   toggleCheckListStatus,
+  deleteCheckListItem,
   rowMap
 }) => {
   return (
     <SwipeRow
       disableLeftSwipe={true}
-      leftOpenValue={20}
-      rightOpenValue={-150}
-      preview={true}
+      disableRightSwipe={data.type !== "Your list"}
+      leftOpenValue={56}
+      preview={data.type === "Your list" && index === 0}
       previewOpenValue={75}
       key={data.id}
     >
-      <CheckListButtons />
+      {data.type === "Your list" ? (
+        <CheckListButtons {...data} deleteCheckListItem={deleteCheckListItem} />
+      ) : null}
       <CheckListText {...data} toggleCheckListStatus={toggleCheckListStatus} />
     </SwipeRow>
   );
