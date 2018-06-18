@@ -154,6 +154,9 @@ class PackingChecklist extends Component {
             type: "Your list"
           },
           {
+            id: 7,
+            item: "Light weight Clothing",
+            isComplete: false,
             type: "user-input"
           }
         ]

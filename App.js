@@ -71,7 +71,7 @@ const ToolStack = createStackNavigator(
     }
   },
   {
-    initialRouteName: "PackingChecklist",
+    initialRouteName: "ToolHome",
     navigationOptions: {
       gesturesEnabled: false
     },
