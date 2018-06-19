@@ -25,7 +25,13 @@ const CheckListText = ({
       underlayColor={constants.shade5}
     >
       <View style={styles.checklistContainer} activeOpacity={1}>
-        <Icon name={constants.trainIcon} size={16} color={constants.shade5} />
+        <Icon
+          name={
+            isComplete ? constants.checkBoxCheckedIcon : constants.checkBoxIcon
+          }
+          size={16}
+          color={isComplete ? constants.firstColor : constants.shade5}
+        />
         <Text
           style={[styles.textBox, isComplete ? styles.textBoxComplete : null]}
         >

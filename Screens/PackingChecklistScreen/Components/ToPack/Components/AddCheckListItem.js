@@ -21,7 +21,11 @@ class AddCheckListItem extends Component {
   render() {
     return (
       <View style={styles.addItemContainer}>
-        <Icon name={constants.trainIcon} color={constants.shade5} size={16} />
+        <Icon
+          name={constants.checkBoxIcon}
+          color={constants.shade5}
+          size={16}
+        />
         <TextInput
           style={styles.addItemInput}
           onChange={this.onEditText}

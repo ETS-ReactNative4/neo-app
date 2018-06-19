@@ -17,6 +17,7 @@ const greyPallete = {
 
 const pallete2 = {
   firstColor: `rgba(47,209,93,1)`,
+  firstColorBackground: `rgba(239, 249, 242,1)`,
   secondColor: `rgba(254,218,70,1)`,
   thirdColor: `rgba(255,40,114,1)`,
   fourthColor: `rgba(121,5,114, 1)`,

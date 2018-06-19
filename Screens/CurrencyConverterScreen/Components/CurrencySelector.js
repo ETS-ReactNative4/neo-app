@@ -13,6 +13,7 @@ import PropTypes from "prop-types";
 import { isIphoneX } from "react-native-iphone-x-helper";
 import constants from "../../../constants/constants";
 import SectionHeader from "../../../CommonComponents/SectionHeader/SectionHeader";
+import Icon from "../../../CommonComponents/Icon/Icon";
 
 const CurrencyRow = ({ image, text, action }) => {
   return (
@@ -86,18 +87,16 @@ class CurrencySelector extends Component {
                 underlayColor={"transparent"}
                 onPress={this.props.onClose}
               >
-                <Image
-                  style={styles.icon}
-                  source={constants.notificationIcon}
-                />
+                <Icon size={24} name={constants.closeIcon} />
               </TouchableHighlight>
               <View style={styles.headingArea}>
                 <Text style={styles.headingText}>Output Currency</Text>
               </View>
               <TouchableHighlight style={styles.icon}>
-                <Image
-                  style={styles.icon}
-                  source={constants.notificationIcon}
+                <Icon
+                  style={24}
+                  source={constants.searchIcon}
+                  color={"white"}
                 />
               </TouchableHighlight>
             </View>

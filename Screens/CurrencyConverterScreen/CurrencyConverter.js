@@ -18,6 +18,7 @@ import constants from "../../constants/constants";
 import CurrencySelector from "./Components/CurrencySelector";
 import XSensorPlaceholder from "../../CommonComponents/XSensorPlaceholder/XSensorPlaceholder";
 import { inject, observer } from "mobx-react/custom";
+import Icon from "../../CommonComponents/Icon/Icon";
 
 @inject("appState")
 @observer
@@ -314,10 +315,7 @@ class CurrencyConverter extends Component {
                 }
               ]}
             >
-              <Image
-                source={constants.notificationIcon}
-                style={styles.swapIcon}
-              />
+              <Icon name={constants.swapVertIcon} size={24} />
             </TouchableHighlight>
           </View>
           {isIphoneX() ? (
