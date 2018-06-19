@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { SwipeListView, SwipeRow } from "react-native-swipe-list-view";
 import CheckListItem from "./Components/CheckListItem";
 import CheckListSection from "./Components/CheckListSection";
-import { View } from "react-native";
+import { Keyboard, View, Platform } from "react-native";
 import EmptyListPlaceholder from "../../../../CommonComponents/EmptyListPlaceholder/EmptyListPlaceholder";
 
 class ToPack extends Component {
@@ -25,6 +25,42 @@ class ToPack extends Component {
     deleteCheckListItem: PropTypes.func.isRequired
   };
 
+  state = {
+    keyboardSpace: 0
+  };
+  keyboardDidShowListener = {};
+  keyboardDidHideListener = {};
+
+  componentDidMount() {
+    if (Platform.OS === "ios") {
+      this.keyboardDidShowListener = Keyboard.addListener(
+        "keyboardWillChangeFrame",
+        this.keyboardDidShow
+      );
+      this.keyboardDidHideListener = Keyboard.addListener(
+        "keyboardWillHide",
+        this.keyboardDidHide
+      );
+    }
+  }
+
+  keyboardDidShow = e => {
+    this.setState({
+      keyboardSpace: e.endCoordinates.height
+    });
+  };
+
+  keyboardDidHide = () => {
+    this.setState({
+      keyboardSpace: 0
+    });
+  };
+
+  componentWillUnmount() {
+    this.keyboardDidShowListener.remove();
+    this.keyboardDidHideListener.remove();
+  }
+
   render() {
     const { listItems } = this.props;
     const CheckListComponent = props => (
@@ -36,23 +72,32 @@ class ToPack extends Component {
     );
 
     return (
-      <SwipeListView
-        useSectionList
-        sections={listItems}
-        renderItem={CheckListComponent}
-        renderSectionHeader={CheckListSection}
-        renderSectionFooter={({ section }) => {
-          if (!section.data.length) {
-            return (
-              <EmptyListPlaceholder
-                text={`No Items in this Section`}
-                containerStyle={{ marginVertical: 24 }}
-              />
-            );
-          }
-          return null;
-        }}
-      />
+      <View style={{ flex: 1 }}>
+        <View style={{ flex: 1 }}>
+          <SwipeListView
+            useSectionList
+            sections={listItems}
+            renderItem={CheckListComponent}
+            renderSectionHeader={CheckListSection}
+            renderSectionFooter={({ section }) => {
+              if (!section.data.length) {
+                return (
+                  <EmptyListPlaceholder
+                    text={`No Items in this Section`}
+                    containerStyle={{ marginVertical: 24 }}
+                  />
+                );
+              }
+              return null;
+            }}
+          />
+        </View>
+        {this.state.keyboardSpace ? (
+          <View
+            style={{ flex: 0, height: this.state.keyboardSpace, width: 200 }}
+          />
+        ) : null}
+      </View>
     );
   }
 }

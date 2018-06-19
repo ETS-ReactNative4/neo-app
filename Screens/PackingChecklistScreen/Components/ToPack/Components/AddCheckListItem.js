@@ -9,11 +9,8 @@ class AddCheckListItem extends Component {
   static propTypes = {};
 
   state = {
-    item: "",
-    keyboardSpace: 0
+    item: ""
   };
-  keyboardDidShowListener = {};
-  keyboardDidHideListener = {};
 
   onEditText = e => {
     this.setState({
@@ -21,42 +18,9 @@ class AddCheckListItem extends Component {
     });
   };
 
-  componentDidMount() {
-    this.keyboardDidShowListener = Keyboard.addListener(
-      "keyboardWillChangeFrame",
-      this.keyboardDidShow
-    );
-    this.keyboardDidHideListener = Keyboard.addListener(
-      "keyboardWillHide",
-      this.keyboardDidHide
-    );
-  }
-
-  keyboardDidShow = e => {
-    this.setState({
-      keyboardSpace: -e.endCoordinates.height
-    });
-  };
-
-  keyboardDidHide = () => {
-    this.setState({
-      keyboardSpace: 0
-    });
-  };
-
-  componentWillUnmount() {
-    this.keyboardDidShowListener.remove();
-    this.keyboardDidHideListener.remove();
-  }
-
   render() {
     return (
-      <View
-        style={[
-          styles.addItemContainer,
-          { marginTop: this.state.keyboardSpace }
-        ]}
-      >
+      <View style={styles.addItemContainer}>
         <Icon name={constants.trainIcon} color={constants.shade5} size={16} />
         <TextInput
           style={styles.addItemInput}
