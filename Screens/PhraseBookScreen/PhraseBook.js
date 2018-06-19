@@ -11,6 +11,7 @@ import ScrollableTabBar from "../../CommonComponents/ScrollableTabBar/Scrollable
 import constants from "../../constants/constants";
 import PhrasesSection from "./Components/PhrasesSection";
 import Icon from "../../CommonComponents/Icon/Icon";
+import CustomPhrase from "./Components/CustomPhrase";
 
 class PhraseBook extends Component {
   static navigationOptions = {
@@ -150,6 +151,7 @@ class PhraseBook extends Component {
             />
           </ScrollableTabView>
         </View>
+        <CustomPhrase />
       </View>
     );
   }
