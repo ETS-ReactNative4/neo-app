@@ -3,7 +3,12 @@ import constants from "../../constants/constants";
 
 const timeoutDuration = 60000;
 
-const apiCall = async (route, body = {}, method = "POST") => {
+const apiCall = async (
+  route,
+  body = {},
+  method = "POST",
+  customDomain = false
+) => {
   const credentials = await Keychain.getGenericPassword();
 
   const request = new Promise((resolve, reject) => {
@@ -26,7 +31,7 @@ const apiCall = async (route, body = {}, method = "POST") => {
 
     if (method !== "GET") requestDetails.body = JSON.stringify(body);
 
-    const serverURL = constants.devServer;
+    const serverURL = customDomain ? customDomain : constants.devServer;
 
     console.log(`${serverURL}${route}`);
     console.log(body);

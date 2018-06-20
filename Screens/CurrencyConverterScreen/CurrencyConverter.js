@@ -17,12 +17,14 @@ import CommonRate from "./Components/CommonRate";
 import constants from "../../constants/constants";
 import CurrencySelector from "./Components/CurrencySelector";
 import XSensorPlaceholder from "../../CommonComponents/XSensorPlaceholder/XSensorPlaceholder";
-import currencyConverter from "../../Services/currencyConversion/currencyConverter";
+import { inject, observer } from "mobx-react/custom";
+import Icon from "../../CommonComponents/Icon/Icon";
 
+@inject("appState")
+@observer
 class CurrencyConverter extends Component {
   static navigationOptions = {
-    title: "Currency Calculator",
-    tabBarVisible: false
+    title: "Currency Calculator"
   };
 
   state = {
@@ -68,6 +70,7 @@ class CurrencyConverter extends Component {
       Platform.OS === "ios" ? "keyboardWillHide" : "keyboardDidHide",
       this.keyboardDidHide
     );
+    this.props.appState.getConversionRates();
   }
 
   componentWillUnmount() {
@@ -122,58 +125,88 @@ class CurrencyConverter extends Component {
     const foreignCurrency = this.state.foreignCurrency.substr(3);
     const nativeCurrency = this.state.nativeCurrency.substr(3);
 
+    const { currencyConverter, conversionRates } = this.props.appState;
+
+    /**
+     * TODO: Loading Indicator for conversion rates
+     */
+    if (!conversionRates.quotes) return null;
+
     const currencyRates = [
       {
         foreignAmount: 5,
         foreignCurrency: this.state.foreignCurrency.substr(3),
-        nativeAmount: currencyConverter(
-          5,
-          this.state.foreignCurrency,
-          this.state.nativeCurrency
-        ),
+        nativeAmount: currencyConverter({
+          amount: 5,
+          from: this.state.foreignCurrency,
+          to: this.state.nativeCurrency
+        }),
         nativeCurrency: this.state.nativeCurrency.substr(3)
       },
       {
         foreignAmount: 10,
         foreignCurrency: this.state.foreignCurrency.substr(3),
-        nativeAmount: currencyConverter(
-          10,
-          this.state.foreignCurrency,
-          this.state.nativeCurrency
-        ),
+        nativeAmount: currencyConverter({
+          amount: 10,
+          from: this.state.foreignCurrency,
+          to: this.state.nativeCurrency
+        }),
         nativeCurrency: this.state.nativeCurrency.substr(3)
       },
       {
         foreignAmount: 22,
         foreignCurrency: this.state.foreignCurrency.substr(3),
-        nativeAmount: currencyConverter(
-          22,
-          this.state.foreignCurrency,
-          this.state.nativeCurrency
-        ),
+        nativeAmount: currencyConverter({
+          amount: 22,
+          from: this.state.foreignCurrency,
+          to: this.state.nativeCurrency
+        }),
         nativeCurrency: this.state.nativeCurrency.substr(3)
       },
       {
         foreignAmount: 50,
         foreignCurrency: this.state.foreignCurrency.substr(3),
-        nativeAmount: currencyConverter(
-          50,
-          this.state.foreignCurrency,
-          this.state.nativeCurrency
-        ),
+        nativeAmount: currencyConverter({
+          amount: 50,
+          from: this.state.foreignCurrency,
+          to: this.state.nativeCurrency
+        }),
         nativeCurrency: this.state.nativeCurrency.substr(3)
       },
       {
         foreignAmount: 130,
         foreignCurrency: this.state.foreignCurrency.substr(3),
-        nativeAmount: currencyConverter(
-          130,
-          this.state.foreignCurrency,
-          this.state.nativeCurrency
-        ),
+        nativeAmount: currencyConverter({
+          amount: 130,
+          from: this.state.foreignCurrency,
+          to: this.state.nativeCurrency
+        }),
         nativeCurrency: this.state.nativeCurrency.substr(3)
       }
     ];
+
+    const outputAmount = currencyConverter({
+      amount: this.state.foreignAmount,
+      from: this.state.nativeCurrency,
+      to: this.state.foreignCurrency
+    });
+    const outputText = outputAmount.toString();
+    let outputFontSize;
+    if (outputText.length <= 5) {
+      outputFontSize = 80;
+    } else if (outputText.length <= 9) {
+      outputFontSize = 40;
+    } else {
+      outputFontSize = 30;
+    }
+
+    const inputAmountText = this.state.foreignAmount.toString();
+    let inputFontSize;
+    if (inputAmountText.length <= 5) {
+      inputFontSize = 60;
+    } else {
+      inputFontSize = 40;
+    }
 
     return [
       <CurrencySelector
@@ -207,12 +240,10 @@ class CurrencyConverter extends Component {
             <View style={styles.outputContainer}>
               {this.state.foreignAmount ? (
                 <View style={styles.outputTextBoxContainer}>
-                  <Text style={styles.outputText}>
-                    {currencyConverter(
-                      this.state.foreignAmount,
-                      this.state.nativeCurrency,
-                      this.state.foreignCurrency
-                    )}
+                  <Text
+                    style={[styles.outputText, { fontSize: outputFontSize }]}
+                  >
+                    {outputAmount}
                   </Text>
                 </View>
               ) : (
@@ -222,11 +253,11 @@ class CurrencyConverter extends Component {
                   >{`Today's Conversion Rate`}</Text>
                   <Text
                     style={styles.currentRateText}
-                  >{`1.00 ${nativeCurrency} = ${currencyConverter(
-                    1,
-                    this.state.nativeCurrency,
-                    this.state.foreignCurrency
-                  )} ${foreignCurrency}`}</Text>
+                  >{`1.00 ${nativeCurrency} = ${currencyConverter({
+                    amount: 1,
+                    from: this.state.nativeCurrency,
+                    to: this.state.foreignCurrency
+                  })} ${foreignCurrency}`}</Text>
                 </View>
               )}
               <TouchableHighlight
@@ -254,9 +285,9 @@ class CurrencyConverter extends Component {
             >
               <View style={styles.textBoxContainer}>
                 <TextInput
-                  style={styles.textBox}
+                  style={[styles.textBox, { fontSize: inputFontSize }]}
                   onChangeText={this.setAmount}
-                  value={this.state.foreignAmount.toString()}
+                  value={inputAmountText}
                   keyboardType={"numeric"}
                   underlineColorAndroid={"transparent"}
                 />
@@ -284,10 +315,7 @@ class CurrencyConverter extends Component {
                 }
               ]}
             >
-              <Image
-                source={constants.notificationIcon}
-                style={styles.swapIcon}
-              />
+              <Icon name={constants.swapVertIcon} size={24} />
             </TouchableHighlight>
           </View>
           {isIphoneX() ? (

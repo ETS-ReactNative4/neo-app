@@ -4,12 +4,14 @@ import User from "./User";
 import YourBookings from "./YourBookings";
 import AppState from "./AppState";
 import Itineraries from "./Itineraries";
+import Weather from "./Weather";
 
 const store = {
   userStore: new User(),
   yourBookingsStore: new YourBookings(),
   appState: new AppState(),
-  itineraries: new Itineraries()
+  itineraries: new Itineraries(),
+  weatherStore: new Weather()
 };
 
 const hydrate = create({
@@ -28,6 +30,16 @@ hydrate("_completedItineraries", store.yourBookingsStore)
     console.error(err);
   });
 hydrate("_tripMode", store.appState)
+  .then(() => {})
+  .catch(err => {
+    console.error(err);
+  });
+hydrate("_weather", store.weatherStore)
+  .then(() => {})
+  .catch(err => {
+    console.error(err);
+  });
+hydrate("_conversionRates", store.appState)
   .then(() => {})
   .catch(err => {
     console.error(err);

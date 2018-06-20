@@ -6,7 +6,13 @@ const serverUrls = {
   verifyMobileNumber: "mobile/user/verify/sendotp",
   verifyOtp: "mobile/login",
   getYourTrips: "mobile/yourtrips",
-  getItineraryDetails: "mobile/itineraryDetails"
+  getItineraryDetails: "mobile/itineraryDetails",
+  getCurrencyRates: "api/live?access_key=6be04caa4f8d20ec8360509d61d03fd0",
+
+  darkSkyKey: "1f95e4bd24b4377d484d0cfceae84a74",
+  darkSkyDomain: "https://api.darksky.net/",
+  weatherHourlyForecast: (key, lat, long, time) =>
+    `forecast/${key}/${lat},${long},${time}?exclude=flags,daily&units=si`
 };
 
 export default serverUrls;

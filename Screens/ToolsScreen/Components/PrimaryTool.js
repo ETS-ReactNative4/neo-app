@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
   },
   textContainer: {
     flex: 1,
-    height: 80,
+    height: 64,
     borderRadius: 5,
     justifyContent: "center",
     backgroundColor: constants.fifthColor

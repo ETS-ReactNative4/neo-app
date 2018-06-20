@@ -3933,8 +3933,13 @@ class Itineraries {
         "DD-MMM-YYYY"
       ).toDate();
 
-      return { city, startDay, endDay };
+      return { city, startDay, endDay, cityObject };
     });
+  }
+
+  @computed
+  get defaultCurrency() {
+    return "INR";
   }
 
   getCityById = createTransformer(id => {

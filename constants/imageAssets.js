@@ -5,7 +5,6 @@ const imageAssets = {
   backArrow: require("../assets/images/icons/left-arrow.png"),
   dropDownArrow: require("../assets/images/icons/drop-down-arrow.png"),
   closeIcon: "close",
-  searchIcon: require("../assets/images/icons/magnifying-glass.png"),
   loadingIcon: require("../assets/images/loaders/loader.gif"),
   hamburgerIcon: require("../assets/images/icons/menu.png"),
   headerBackgroundShape: require("../assets/images/shapes/banner_white.png"),
@@ -31,6 +30,15 @@ const imageAssets = {
   journalSelectedIcon: "journal-active",
   moreOptionsHorizIcon: "more-options-horiz",
   arrowRight: "arrow-right",
+  searchIcon: "search",
+  swapVertIcon: "swap_vert",
+  speakerIcon: "speaker",
+  pinIcon: "pin",
+  checkBoxIcon: "checkbox-unchecked",
+  checkBoxCheckedIcon: "checkbox-checked",
+
+  weatherGraphInactive: require("../assets/images/weatherPlaceholders/weather-graph-disabled.png"),
+  weatherCardPlaceholder: require("../assets/images/weatherPlaceholders/weather-placeholder.png"),
 
   weatherForecastIcon: require("../assets/images/toolIcons/weather-forcast.png"),
   cancelTripIcon: require("../assets/images/toolIcons/cancel-trip.png"),
