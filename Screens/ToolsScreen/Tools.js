@@ -43,12 +43,12 @@ class Tools extends Component {
       {
         icon: constants.commonPhrasesIcon,
         text: `Common Phrases`,
-        action: () => this.props.navigation.push("PhraseBook")
+        action: () => this.props.navigation.navigate("PhraseBook")
       },
       {
         icon: constants.emergencyContactsIcon,
         text: `Emergency Contacts`,
-        action: () => {}
+        action: () => this.props.navigation.navigate("EmergencyContacts")
       },
       {
         icon: constants.medicalCareIcon,
@@ -58,7 +58,7 @@ class Tools extends Component {
       {
         icon: constants.weatherForecastIcon,
         text: `Weather Forecast`,
-        action: () => this.props.navigation.push("Weather")
+        action: () => this.props.navigation.navigate("Weather")
       }
     ];
 

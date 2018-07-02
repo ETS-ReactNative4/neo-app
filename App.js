@@ -30,6 +30,7 @@ import HotelVoucher from "./Screens/VoucherScreens/HotelVoucherScreen/HotelVouch
 import HomeTabBar from "./CommonComponents/HomeTabBar/HomeTabBar";
 import ActivityVoucher from "./Screens/VoucherScreens/ActivityVoucherScreen/ActivityVoucher";
 import FlightVoucher from "./Screens/VoucherScreens/FlightVoucherScreen/FlightVoucher";
+import EmergencyContacts from "./Screens/EmergencyContactsScreen/EmergencyContacts";
 
 UIManager.setLayoutAnimationEnabledExperimental &&
   UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -65,6 +66,9 @@ const ToolStack = createStackNavigator(
     },
     PackingChecklist: {
       screen: PackingChecklist
+    },
+    EmergencyContacts: {
+      screen: EmergencyContacts
     },
     Weather: {
       screen: Weather
