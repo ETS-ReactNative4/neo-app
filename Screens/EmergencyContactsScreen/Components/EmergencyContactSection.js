@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import constants from "../../../constants/constants";
+import SimpleButton from "../../../CommonComponents/SimpleButton/SimpleButton";
 
 class EmergencyContactSection extends Component {
   render() {
@@ -38,6 +39,52 @@ For local calls within Belgium, start with the area code (with the initial 0). I
             <Text style={styles.emergencyNumbers}>{"Police"}</Text>
             <Text style={styles.emergencyNumbers}>{"112"}</Text>
           </View>
+          <View style={styles.emergencyNumberWrapper}>
+            <Text style={styles.emergencyNumbers}>{"Ambulance"}</Text>
+            <Text style={styles.emergencyNumbers}>{"112"}</Text>
+          </View>
+          <View style={styles.emergencyNumberWrapper}>
+            <Text style={styles.emergencyNumbers}>{"Fire Department"}</Text>
+            <Text style={styles.emergencyNumbers}>{"112"}</Text>
+          </View>
+        </View>
+
+        <View style={styles.addressTitleContainer}>
+          <Text style={styles.addressTitle}>Indian Embassy</Text>
+        </View>
+        <View style={styles.addressContainer}>
+          <Text style={styles.addressText}>
+            217, Chaussee de Vleurgat, 1050 Brussels
+          </Text>
+        </View>
+
+        <View style={styles.actionRow}>
+          <SimpleButton
+            iconSize={17}
+            textStyle={{
+              ...constants.fontCustom(constants.primaryLight, 17),
+              paddingTop: 5
+            }}
+            icon={constants.trainIcon}
+            text={"Directions"}
+            action={() => null}
+            textColor={constants.black2}
+            color={"white"}
+            hasBorder={true}
+          />
+          <SimpleButton
+            iconSize={17}
+            textStyle={{
+              ...constants.fontCustom(constants.primaryLight, 17),
+              paddingTop: 5
+            }}
+            icon={constants.trainIcon}
+            text={"Contact"}
+            action={() => null}
+            textColor={constants.black2}
+            color={"white"}
+            hasBorder={true}
+          />
         </View>
       </View>
     );
@@ -100,7 +147,43 @@ const styles = StyleSheet.create({
   countryCode: {
     color: constants.black1
   },
-  emergencyNumbersContainer: {}
+  emergencyNumbersContainer: {
+    marginTop: 24,
+    paddingHorizontal: 24,
+    minHeight: 84
+  },
+  emergencyNumberWrapper: {
+    height: 24,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between"
+  },
+  emergencyNumbers: {
+    ...constants.fontCustom(constants.primaryLight, 17),
+    color: constants.black1
+  },
+  addressTitleContainer: {
+    marginTop: 28,
+    paddingHorizontal: 24,
+    justifyContent: "center"
+  },
+  addressTitle: {
+    ...constants.fontCustom(constants.primarySemiBold, 20),
+    color: constants.black1
+  },
+  addressContainer: {
+    paddingHorizontal: 24
+  },
+  addressText: {
+    marginTop: 8,
+    ...constants.fontCustom(constants.primaryLight, 17),
+    color: constants.black2
+  },
+  actionRow: {
+    marginTop: 16,
+    flexDirection: "row",
+    justifyContent: "space-around"
+  }
 });
 
 export default EmergencyContactSection;
