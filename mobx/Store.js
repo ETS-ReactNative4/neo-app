@@ -5,13 +5,15 @@ import YourBookings from "./YourBookings";
 import AppState from "./AppState";
 import Itineraries from "./Itineraries";
 import Weather from "./Weather";
+import PackingChecklist from "./PackingChecklist";
 
 const store = {
   userStore: new User(),
   yourBookingsStore: new YourBookings(),
   appState: new AppState(),
   itineraries: new Itineraries(),
-  weatherStore: new Weather()
+  weatherStore: new Weather(),
+  packingChecklistStore: new PackingChecklist()
 };
 
 const hydrate = create({
@@ -25,6 +27,16 @@ hydrate("_upcomingItineraries", store.yourBookingsStore)
     console.error(err);
   });
 hydrate("_completedItineraries", store.yourBookingsStore)
+  .then(() => {})
+  .catch(err => {
+    console.error(err);
+  });
+hydrate("_itineraries", store.itineraries)
+  .then(() => {})
+  .catch(err => {
+    console.error(err);
+  });
+hydrate("_selectedItinerary", store.itineraries)
   .then(() => {})
   .catch(err => {
     console.error(err);

@@ -8,9 +8,9 @@ const CheckListItem = ({
   index,
   item: data,
   toggleCheckListStatus,
-  deleteCheckListItem,
-  rowMap
+  deleteCheckListItem
 }) => {
+  const toggle = () => toggleCheckListStatus(data.type, data.key);
   return (
     <SwipeRow
       disableLeftSwipe={true}
@@ -26,10 +26,7 @@ const CheckListItem = ({
       {data.type === "user-input" ? (
         <AddCheckListItem />
       ) : (
-        <CheckListText
-          {...data}
-          toggleCheckListStatus={toggleCheckListStatus}
-        />
+        <CheckListText {...data} toggleCheckListStatus={toggle} />
       )}
     </SwipeRow>
   );

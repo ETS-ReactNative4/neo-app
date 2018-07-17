@@ -6,7 +6,12 @@ import DefaultTabBar from "../../CommonComponents/DefaultTabBar/DefaultTabBar";
 import ToPack from "./Components/ToPack/ToPack";
 import { responsiveWidth } from "react-native-responsive-dimensions";
 import _ from "lodash";
+import { inject, observer } from "mobx-react/custom";
 
+@inject("packingChecklistStore")
+@inject("itineraries")
+@inject("yourBookingsStore")
+@observer
 class PackingChecklist extends Component {
   static navigationOptions = {
     title: "Packing Checklist"
@@ -164,6 +169,12 @@ class PackingChecklist extends Component {
     ]
   };
 
+  componentDidMount() {
+    this.props.packingChecklistStore.getPackingChecklist(
+      this.props.itineraries.selectedItineraryId
+    );
+  }
+
   toggleCheckListStatus = item => {
     const newListItems = this.state.listItems.map(listItem => {
       return {
@@ -204,7 +215,12 @@ class PackingChecklist extends Component {
   };
 
   render() {
-    const packedList = this.state.listItems.map(listItem => {
+    const {
+      checkListItems,
+      toggleCheckList
+    } = this.props.packingChecklistStore;
+
+    const packedList = checkListItems.map(listItem => {
       return {
         title: listItem.title,
         data: listItem.data.reduce((data, item) => {
@@ -236,14 +252,14 @@ class PackingChecklist extends Component {
           renderTabBar={() => <DefaultTabBar />}
         >
           <ToPack
-            listItems={this.state.listItems}
-            toggleCheckListStatus={this.toggleCheckListStatus}
+            listItems={checkListItems}
+            toggleCheckListStatus={toggleCheckList}
             deleteCheckListItem={this.deleteCheckListItem}
             tabLabel="TO PACK"
           />
           <ToPack
             listItems={packedList}
-            toggleCheckListStatus={this.toggleCheckListStatus}
+            toggleCheckListStatus={toggleCheckList}
             deleteCheckListItem={this.deleteCheckListItem}
             tabLabel="PACKED"
           />

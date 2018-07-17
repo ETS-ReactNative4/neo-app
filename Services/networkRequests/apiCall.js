@@ -38,12 +38,17 @@ const apiCall = async (
     console.log(method);
     console.log(headers);
 
+    function handleErrors(response) {
+      console.log(response.status);
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw Error(response.statusText);
+      }
+    }
+
     fetch(`${serverURL}${route}`, requestDetails)
-      .then(res => {
-        const response = res.json();
-        console.log(res.status);
-        return response;
-      })
+      .then(handleErrors)
       .then(data => {
         console.log(data);
         console.log(JSON.stringify(data));

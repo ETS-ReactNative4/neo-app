@@ -16,7 +16,8 @@ class ToPack extends Component {
             id: PropTypes.number.isRequired,
             item: PropTypes.string.isRequired,
             isComplete: PropTypes.bool.isRequired,
-            type: PropTypes.string.isRequired
+            type: PropTypes.string.isRequired,
+            key: PropTypes.string.isRequired
           })
         ).isRequired
       })
