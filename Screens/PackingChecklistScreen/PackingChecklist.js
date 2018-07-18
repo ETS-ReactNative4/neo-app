@@ -114,49 +114,49 @@ class PackingChecklist extends Component {
         ]
       },
       {
-        title: "Your list",
+        title: constants.customCheckListName,
         data: [
           {
             id: 0,
             item: "Light weight Clothing",
             isComplete: false,
-            type: "Your list"
+            type: constants.customCheckListName
           },
           {
             id: 1,
             item: "Light weight Clothing",
             isComplete: false,
-            type: "Your list"
+            type: constants.customCheckListName
           },
           {
             id: 2,
             item: "Light weight Clothing",
             isComplete: false,
-            type: "Your list"
+            type: constants.customCheckListName
           },
           {
             id: 3,
             item: "Light weight Clothing",
             isComplete: false,
-            type: "Your list"
+            type: constants.customCheckListName
           },
           {
             id: 4,
             item: "Light weight Clothing",
             isComplete: false,
-            type: "Your list"
+            type: constants.customCheckListName
           },
           {
             id: 5,
             item: "Light weight Clothing",
             isComplete: false,
-            type: "Your list"
+            type: constants.customCheckListName
           },
           {
             id: 6,
             item: "Light weight Clothing",
             isComplete: false,
-            type: "Your list"
+            type: constants.customCheckListName
           },
           {
             id: 7,
@@ -217,7 +217,8 @@ class PackingChecklist extends Component {
   render() {
     const {
       checkListItems,
-      toggleCheckList
+      toggleCheckList,
+      addListItem
     } = this.props.packingChecklistStore;
 
     const packedList = checkListItems.map(listItem => {
@@ -256,12 +257,14 @@ class PackingChecklist extends Component {
             toggleCheckListStatus={toggleCheckList}
             deleteCheckListItem={this.deleteCheckListItem}
             tabLabel="TO PACK"
+            addListItem={addListItem}
           />
           <ToPack
             listItems={packedList}
             toggleCheckListStatus={toggleCheckList}
             deleteCheckListItem={this.deleteCheckListItem}
             tabLabel="PACKED"
+            addListItem={addListItem}
           />
         </ScrollableTabView>
       </View>

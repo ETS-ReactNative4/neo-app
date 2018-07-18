@@ -33,6 +33,7 @@ class PackingChecklist {
     }
   };
   @observable _packingCheckList = {};
+  @observable _yourList = {};
   @observable _isLoading = false;
   @observable _hasError = false;
 
@@ -48,6 +49,7 @@ class PackingChecklist {
         if (response.status === "SUCCESS") {
           this._hasError = false;
           this._packingCheckList = response.data.checkListCategoryUser;
+          this._yourList = response.data.myList;
         } else {
           this._hasError = true;
         }
@@ -60,9 +62,59 @@ class PackingChecklist {
 
   @action
   toggleCheckList = (section, key) => {
-    this._packingCheckList[section][key] === 0
-      ? (this._packingCheckList[section][key] = 1)
-      : (this._packingCheckList[section][key] = 0);
+    if (section === constants.customCheckListName) {
+    } else {
+      this._packingCheckList[section][key] === 0
+        ? (this._packingCheckList[section][key] = 1)
+        : (this._packingCheckList[section][key] = 0);
+      const requestBody = {
+        itineraryId: store.itineraries.selectedItineraryId,
+        checked: [],
+        removed: [],
+        unchecked: [],
+        myList: {
+          checked: [],
+          removed: [],
+          unchecked: []
+        }
+      };
+      const checkedObject = {};
+      checkedObject[section] = [isNaN(key) ? key : parseInt(key)];
+      if (this._packingCheckList[section][key] === 1) {
+        requestBody.checked.push(checkedObject);
+      } else {
+        requestBody.unchecked.push(checkedObject);
+      }
+      const requestFailed = () => {
+        this._packingCheckList[section][key] === 0
+          ? (this._packingCheckList[section][key] = 1)
+          : (this._packingCheckList[section][key] = 0);
+      };
+      apiCall(constants.updatePackingChecklist, requestBody)
+        .then(response => {
+          if (response.status === "SUCCESS") {
+            // no action needed
+          } else {
+            requestFailed();
+          }
+        })
+        .catch(() => {
+          requestFailed();
+        });
+    }
+  };
+
+  @action
+  addListItem = item => {
+    if (this._yourList) {
+      const myList = toJS(this._yourList);
+      myList[item] = 0;
+      this._yourList = myList;
+    } else {
+      const myList = {};
+      myList[item] = 0;
+      this._yourList = myList;
+    }
     const requestBody = {
       itineraryId: store.itineraries.selectedItineraryId,
       checked: [],
@@ -74,28 +126,20 @@ class PackingChecklist {
         unchecked: []
       }
     };
-    const checkedObject = {};
-    checkedObject[section] = [isNaN(key) ? key : parseInt(key)];
-    if (this._packingCheckList[section][key] === 1) {
-      requestBody.checked.push(checkedObject);
-    } else {
-      requestBody.unchecked.push(checkedObject);
-    }
-    const requestFailed = () => {
-      this._packingCheckList[section][key] === 0
-        ? (this._packingCheckList[section][key] = 1)
-        : (this._packingCheckList[section][key] = 0);
+    requestBody.myList.unchecked.push(item);
+    const addFailed = () => {
+      delete this._yourList[item];
     };
     apiCall(constants.updatePackingChecklist, requestBody)
       .then(response => {
         if (response.status === "SUCCESS") {
-          // no action needed
+          // no action
         } else {
-          requestFailed();
+          addFailed();
         }
       })
-      .catch(() => {
-        requestFailed();
+      .catch(error => {
+        addFailed();
       });
   };
 
@@ -116,7 +160,7 @@ class PackingChecklist {
       !_.isEmpty(toJS(this._checkListItems))
     ) {
       const sections = Object.keys(this._checkListItems);
-      return sections.map((section, sectionIndex) => {
+      const checkList = sections.map((section, sectionIndex) => {
         const details = this._checkListItems[section];
         const status = this._packingCheckList[section];
         return {
@@ -132,10 +176,35 @@ class PackingChecklist {
           })
         };
       });
+
+      const myList = !this._yourList
+        ? []
+        : Object.keys(this._yourList).map((item, itemIndex) => {
+            return {
+              id: itemIndex,
+              item,
+              isComplete: !!this._yourList[item],
+              type: constants.customCheckListName,
+              key: item
+            };
+          });
+      myList.push({
+        id: myList.length,
+        type: "user-input",
+        item: "Input Field",
+        isComplete: false,
+        key: `${myList.length}`
+      });
+
+      checkList.push({
+        title: constants.customCheckListName,
+        data: myList
+      });
+      return checkList;
     } else {
       return [
         {
-          title: "Your List",
+          title: constants.customCheckListName,
           data: []
         }
       ];

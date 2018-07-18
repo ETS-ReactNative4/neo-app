@@ -1,26 +1,48 @@
 import React, { Component } from "react";
-import { View, TextInput, StyleSheet, Keyboard } from "react-native";
+import { View, TextInput, StyleSheet, TouchableOpacity } from "react-native";
 import PropTypes from "prop-types";
 import Icon from "../../../../../CommonComponents/Icon/Icon";
 import constants from "../../../../../constants/constants";
 import { isIphoneX } from "react-native-iphone-x-helper";
 
 class AddCheckListItem extends Component {
-  static propTypes = {};
+  static propTypes = {
+    addListItem: PropTypes.func.isRequired
+  };
 
   state = {
     item: ""
   };
 
-  onEditText = e => {
+  onEditText = item => {
     this.setState({
-      item: e.target.value
+      item
+    });
+  };
+
+  done = () => {
+    this.refs._addCheckListInput.blur();
+    this.props.addListItem(this.state.item);
+    this.setState({
+      item: ""
     });
   };
 
   render() {
     return (
-      <View style={styles.addItemContainer}>
+      <View
+        style={[
+          styles.addItemContainer,
+          this.state.item
+            ? {
+                borderTopWidth: 1,
+                borderTopColor: constants.black2,
+                borderBottomWidth: 1,
+                borderBottomColor: constants.black2
+              }
+            : {}
+        ]}
+      >
         <Icon
           name={constants.checkBoxIcon}
           color={constants.shade5}
@@ -28,12 +50,25 @@ class AddCheckListItem extends Component {
         />
         <TextInput
           style={styles.addItemInput}
-          onChange={this.onEditText}
+          ref={"_addCheckListInput"}
+          onChangeText={this.onEditText}
           returnKeyType={"done"}
+          onSubmitEditing={this.done}
           underlineColorAndroid={"transparent"}
           value={this.state.item}
           placeholder={"Add your own item"}
         />
+        {this.state.item ? (
+          <TouchableOpacity style={styles.closeButton} onPress={this.done}>
+            <View style={styles.closeButtonTransform}>
+              <Icon
+                name={constants.closeIcon}
+                color={constants.firstColor}
+                size={16}
+              />
+            </View>
+          </TouchableOpacity>
+        ) : null}
       </View>
     );
   }
@@ -56,6 +91,16 @@ const styles = StyleSheet.create({
     height: 40,
     ...constants.fontCustom(constants.primaryLight, 17),
     color: constants.black2
+  },
+  closeButton: {
+    height: 16,
+    width: 16,
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  closeButtonTransform: {
+    flex: 1,
+    transform: [{ rotate: "45deg" }]
   }
 });
 

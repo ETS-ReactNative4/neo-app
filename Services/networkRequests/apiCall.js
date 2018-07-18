@@ -35,6 +35,7 @@ const apiCall = async (
 
     console.log(`${serverURL}${route}`);
     console.log(body);
+    console.log(JSON.stringify(body));
     console.log(method);
     console.log(headers);
 

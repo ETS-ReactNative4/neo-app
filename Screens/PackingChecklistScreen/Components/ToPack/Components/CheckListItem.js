@@ -3,28 +3,30 @@ import { SwipeRow } from "react-native-swipe-list-view";
 import CheckListText from "./CheckListText";
 import CheckListButtons from "./CheckListButtons";
 import AddCheckListItem from "./AddCheckListItem";
+import constants from "../../../../../constants/constants";
 
 const CheckListItem = ({
   index,
   item: data,
   toggleCheckListStatus,
-  deleteCheckListItem
+  deleteCheckListItem,
+  addListItem
 }) => {
   const toggle = () => toggleCheckListStatus(data.type, data.key);
   return (
     <SwipeRow
       disableLeftSwipe={true}
-      disableRightSwipe={data.type !== "Your list"}
+      disableRightSwipe={data.type !== constants.customCheckListName}
       leftOpenValue={56}
-      preview={data.type === "Your list" && index === 0}
+      preview={data.type === constants.customCheckListName && index === 0}
       previewOpenValue={75}
       key={data.id}
     >
-      {data.type === "Your list" ? (
+      {data.type === constants.customCheckListName ? (
         <CheckListButtons {...data} deleteCheckListItem={deleteCheckListItem} />
       ) : null}
       {data.type === "user-input" ? (
-        <AddCheckListItem />
+        <AddCheckListItem addListItem={addListItem} />
       ) : (
         <CheckListText {...data} toggleCheckListStatus={toggle} />
       )}
