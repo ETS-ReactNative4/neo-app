@@ -9,8 +9,8 @@ const CheckListItem = ({
   index,
   item: data,
   toggleCheckListStatus,
-  deleteCheckListItem,
-  addListItem
+  addListItem,
+  deleteListItem
 }) => {
   const toggle = () => toggleCheckListStatus(data.type, data.key);
   return (
@@ -23,7 +23,7 @@ const CheckListItem = ({
       key={data.id}
     >
       {data.type === constants.customCheckListName ? (
-        <CheckListButtons {...data} deleteCheckListItem={deleteCheckListItem} />
+        <CheckListButtons {...data} deleteListItem={deleteListItem} />
       ) : null}
       {data.type === "user-input" ? (
         <AddCheckListItem addListItem={addListItem} />

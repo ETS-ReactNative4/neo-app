@@ -143,6 +143,38 @@ class PackingChecklist {
       });
   };
 
+  @action
+  deleteListItem = item => {
+    const requestBody = {
+      itineraryId: store.itineraries.selectedItineraryId,
+      checked: [],
+      removed: [],
+      unchecked: [],
+      myList: {
+        checked: [],
+        removed: [],
+        unchecked: []
+      }
+    };
+    requestBody.myList.removed.push(item);
+    const itemStatus = this._yourList[item];
+    delete this._yourList[item];
+    const deleteFailed = () => {
+      this._yourList[item] = itemStatus;
+    };
+    apiCall(constants.updatePackingChecklist, requestBody)
+      .then(response => {
+        if (response.status === "SUCCESS") {
+          // no action
+        } else {
+          deleteFailed();
+        }
+      })
+      .catch(error => {
+        deleteFailed();
+      });
+  };
+
   @computed
   get isLoading() {
     return this._isLoading;

@@ -158,7 +158,7 @@ const HomeStack = createStackNavigator(
     }
   },
   {
-    initialRouteName: "AppHome",
+    initialRouteName: "Splash",
     navigationOptions: {
       gesturesEnabled: false
     },

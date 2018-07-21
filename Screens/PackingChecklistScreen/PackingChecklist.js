@@ -195,30 +195,12 @@ class PackingChecklist extends Component {
     });
   };
 
-  deleteCheckListItem = item => {
-    const newListItems = this.state.listItems.map(listItem => {
-      return {
-        title: listItem.title,
-        data: listItem.data.reduce((data, currentItem) => {
-          if (item.id === currentItem.id && item.type === currentItem.type) {
-            return data;
-          }
-          data.push(currentItem);
-          return data;
-        }, [])
-      };
-    });
-
-    this.setState({
-      listItems: newListItems
-    });
-  };
-
   render() {
     const {
       checkListItems,
       toggleCheckList,
-      addListItem
+      addListItem,
+      deleteListItem
     } = this.props.packingChecklistStore;
 
     const packedList = checkListItems.map(listItem => {
@@ -255,16 +237,16 @@ class PackingChecklist extends Component {
           <ToPack
             listItems={checkListItems}
             toggleCheckListStatus={toggleCheckList}
-            deleteCheckListItem={this.deleteCheckListItem}
             tabLabel="TO PACK"
             addListItem={addListItem}
+            deleteListItem={deleteListItem}
           />
           <ToPack
             listItems={packedList}
             toggleCheckListStatus={toggleCheckList}
-            deleteCheckListItem={this.deleteCheckListItem}
             tabLabel="PACKED"
             addListItem={addListItem}
+            deleteListItem={deleteListItem}
           />
         </ScrollableTabView>
       </View>
