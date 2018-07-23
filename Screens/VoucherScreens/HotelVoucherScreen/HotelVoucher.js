@@ -32,6 +32,10 @@ class HotelVoucher extends Component {
     console.log(direction);
   };
 
+  close = () => {
+    this.props.navigation.goBack();
+  };
+
   render() {
     const xHeight = isIphoneX() ? constants.xNotchHeight : 0;
     return (
@@ -41,7 +45,7 @@ class HotelVoucher extends Component {
         parallaxHeaderHeight={214 + xHeight}
         stickyHeaderHeight={48 + xHeight}
         renderStickyHeader={() => (
-          <VoucherStickyHeader action={() => {}} text={"1242345"} />
+          <VoucherStickyHeader action={this.close} text={"1242345"} />
         )}
         fadeOutForeground={Platform.OS !== "android"}
         renderForeground={() => (
@@ -49,7 +53,7 @@ class HotelVoucher extends Component {
             infoText={`BOOKING ID`}
             title={`1242345`}
             menu={() => {}}
-            onClickClose={() => {}}
+            onClickClose={this.close}
           />
         )}
       >

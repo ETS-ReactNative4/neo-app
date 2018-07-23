@@ -6,7 +6,7 @@ const apiUrls = {
   getPackingChecklist: "mobile/displayCheckList",
   updatePackingChecklist: "mobile/updateCheckList",
   customCheckListName: "Your list",
-  voucherDetails: "mobile/getVouchers",
+  voucherDetails: "mobile/voucher",
   getCurrencyRates: "api/live?access_key=6be04caa4f8d20ec8360509d61d03fd0",
   weatherHourlyForecast: (key, lat, long, time) =>
     `forecast/${key}/${lat},${long},${time}?exclude=flags,daily&units=si`

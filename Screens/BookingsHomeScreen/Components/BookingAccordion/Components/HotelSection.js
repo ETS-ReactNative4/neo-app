@@ -1,27 +1,35 @@
 import React from "react";
-import { View, Text, Image, StyleSheet } from "react-native";
+import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 import moment from "moment";
 import { responsiveWidth } from "react-native-responsive-dimensions";
 import constants from "../../../../../constants/constants";
 import PropTypes from "prop-types";
 
-const HotelSection = ({ section }) => {
+const HotelSection = ({ section, navigation }) => {
   return (
     <View>
       {section.items.map((hotel, index) => {
         let isLast = index === section.items.length - 1;
 
-        return <Hotel key={index} hotel={hotel} isLast={isLast} />;
+        return (
+          <Hotel
+            key={index}
+            hotel={hotel}
+            isLast={isLast}
+            navigation={navigation}
+          />
+        );
       })}
     </View>
   );
 };
 
 HotelSection.propTypes = {
-  section: PropTypes.object.isRequired
+  section: PropTypes.object.isRequired,
+  navigation: PropTypes.object.isRequired
 };
 
-const Hotel = ({ hotel, isLast }) => {
+const Hotel = ({ hotel, isLast, navigation }) => {
   let customStyle = {};
   if (isLast) {
     customStyle = {
@@ -30,8 +38,13 @@ const Hotel = ({ hotel, isLast }) => {
     };
   }
 
+  const openVoucher = () => navigation.navigate("HotelVoucher");
+
   return (
-    <View style={[styles.contentContainer, customStyle]}>
+    <TouchableOpacity
+      onPress={openVoucher}
+      style={[styles.contentContainer, customStyle]}
+    >
       <View style={styles.iconWrapper}>
         <Image
           defaultSource={constants.splashBackground}
@@ -59,13 +72,14 @@ const Hotel = ({ hotel, isLast }) => {
       <View style={styles.rightPlaceholder}>
         <Text style={styles.rightPlaceholderText}>Stayed</Text>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
 Hotel.propTypes = {
   hotel: PropTypes.object.isRequired,
-  isLast: PropTypes.bool.isRequired
+  isLast: PropTypes.bool.isRequired,
+  navigation: PropTypes.object.isRequired
 };
 
 const styles = StyleSheet.create({

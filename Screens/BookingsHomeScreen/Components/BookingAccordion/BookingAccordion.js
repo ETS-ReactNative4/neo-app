@@ -7,6 +7,7 @@ import {
   Image,
   Platform
 } from "react-native";
+import PropTypes from "prop-types";
 import Accordion from "react-native-collapsible/Accordion";
 import constants from "../../../../constants/constants";
 import NotificationCount from "../../../../CommonComponents/NotificationCount/NotificationCount";
@@ -16,10 +17,15 @@ import ActivitiesSection from "./Components/ActivitiesSection";
 import TransferSection from "./Components/TransferSection";
 import TrainsSection from "./Components/TrainsSection";
 import Icon from "../../../../CommonComponents/Icon/Icon";
+import FlightsSection from "./Components/FlightsSection";
 
 @inject("itineraries")
 @observer
 class BookingAccordion extends Component {
+  static propTypes = {
+    navigation: PropTypes.object.isRequired
+  };
+
   _renderHeader = (section, index, isActive, sections) => {
     const customStyle = {};
 
@@ -62,20 +68,24 @@ class BookingAccordion extends Component {
   };
 
   _renderContent = (section, index, isActive, sections) => {
+    const { navigation } = this.props;
     const customStyle = {};
 
     switch (section.type) {
       case "Hotels":
-        return <HotelSection section={section} />;
+        return <HotelSection navigation={navigation} section={section} />;
 
       case "Activities":
-        return <ActivitiesSection section={section} />;
+        return <ActivitiesSection navigation={navigation} section={section} />;
 
       case "Transfers":
-        return <TransferSection section={section} />;
+        return <TransferSection navigation={navigation} section={section} />;
 
       case "Trains":
-        return <TrainsSection section={section} />;
+        return <TrainsSection navigation={navigation} section={section} />;
+
+      case "Flights":
+        return <FlightsSection navigation={navigation} section={section} />;
 
       default:
         return (
@@ -184,6 +194,9 @@ class BookingAccordion extends Component {
     }
 
     if (visa.length) {
+      /**
+       * TODO: Need Visa icon
+       */
       const visaSection = {
         type: "Visa",
         icon: constants.aeroplaneIcon,
@@ -199,6 +212,7 @@ class BookingAccordion extends Component {
           renderHeader={this._renderHeader}
           renderContent={this._renderContent}
           underlayColor={constants.shade5}
+          initiallyActiveSection={0}
         />
       </View>
     );

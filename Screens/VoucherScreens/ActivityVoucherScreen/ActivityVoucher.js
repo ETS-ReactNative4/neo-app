@@ -16,6 +16,10 @@ class ActivityVoucher extends Component {
     header: null
   };
 
+  close = () => {
+    this.props.navigation.goBack();
+  };
+
   render() {
     const xHeight = isIphoneX() ? constants.xNotchHeight : 0;
     const passengerDetails = [
@@ -63,14 +67,14 @@ class ActivityVoucher extends Component {
         stickyHeaderHeight={48 + xHeight}
         fadeOutForeground={Platform.OS !== "android"}
         renderStickyHeader={() => (
-          <VoucherStickyHeader action={() => {}} text={"1242345"} />
+          <VoucherStickyHeader action={this.close} text={"1242345"} />
         )}
         renderForeground={() => (
           <VoucherHeader
             infoText={`BOOKING ID`}
             title={`1242345`}
             menu={() => {}}
-            onClickClose={() => {}}
+            onClickClose={this.close}
           />
         )}
       >

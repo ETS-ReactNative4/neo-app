@@ -1,17 +1,25 @@
 import React from "react";
-import { View, Text, Image, StyleSheet } from "react-native";
+import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 import moment from "moment";
 import { responsiveWidth } from "react-native-responsive-dimensions";
 import constants from "../../../../../constants/constants";
 import PropTypes from "prop-types";
+import FlightVoucher from "../../../../VoucherScreens/FlightVoucherScreen/FlightVoucher";
 
-const FlightsSection = ({ section }) => {
+const FlightsSection = ({ section, navigation }) => {
   return (
     <View>
       {section.items.map((flight, index) => {
         let isLast = index === section.items.length - 1;
 
-        return <Flight key={index} flight={flight} isLast={isLast} />;
+        return (
+          <Flight
+            key={index}
+            navigation={navigation}
+            flight={flight}
+            isLast={isLast}
+          />
+        );
       })}
     </View>
   );
@@ -21,7 +29,7 @@ FlightsSection.propTypes = {
   section: PropTypes.object.isRequired
 };
 
-const Flight = ({ flight, isLast }) => {
+const Flight = ({ flight, isLast, navigation }) => {
   let customStyle = {};
   if (isLast) {
     customStyle = {
@@ -30,8 +38,31 @@ const Flight = ({ flight, isLast }) => {
     };
   }
 
+  const openVoucher = () => navigation.navigate("FlightVoucher");
+
+  const timings = flight.allTrips.map(trip => {
+    return {
+      departure: flight.trips[trip].routes.map(route => {
+        return `${route.depMonth} ${
+          route.depDateOfMonth
+        }, ${route.departureTime.substring(0, 5)}`;
+      }),
+      arrival: flight.trips[trip].routes.map(route => {
+        return `${route.arrMonth} ${
+          route.arrDateOfMonth
+        }, ${route.arrivalTime.substring(0, 5)}`;
+      })
+    };
+  });
+
+  /**
+   * TODO: Flight Icons Needed
+   * */
   return (
-    <View style={[styles.contentContainer, customStyle]}>
+    <TouchableOpacity
+      onPress={openVoucher}
+      style={[styles.contentContainer, customStyle]}
+    >
       <View style={styles.iconWrapper}>
         <Image
           resizeMode={"cover"}
@@ -41,12 +72,9 @@ const Flight = ({ flight, isLast }) => {
       </View>
       <View style={styles.contentTextContainer}>
         <View style={styles.contentHeaderWrapper}>
-          <Text style={styles.contentHeader}>{`${moment(
-            `${flight.day}/${flight.mon}/${constants.currentYear}`,
-            "DD/MMM/YYYY"
-          ).format("MMM DD")} (${flight.departureTime} - ${
-            flight.arrivalTime
-          })`}</Text>
+          <Text style={styles.contentHeader}>{`${timings[0].departure[0]} - ${
+            timings[0].arrival[timings[0].arrival.length - 1]
+          }`}</Text>
         </View>
         <View style={styles.contentTextWrapper}>
           <Text style={styles.contentText} numberOfLines={2}>
@@ -57,7 +85,7 @@ const Flight = ({ flight, isLast }) => {
       <View style={styles.rightPlaceholder}>
         <Text style={styles.rightPlaceholderText}>Stayed</Text>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 

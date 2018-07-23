@@ -5,6 +5,7 @@ import _ from "lodash";
 import moment from "moment";
 import apiCall from "../Services/networkRequests/apiCall";
 import constants from "../constants/constants";
+import store from "./Store";
 
 class Itineraries {
   @observable _isLoading = false;
@@ -3605,8 +3606,10 @@ class Itineraries {
     const selectedItinerary = this._itineraries.find(itineraryDetail => {
       return itineraryDetail.itinerary.itineraryId === itineraryId;
     });
-    if (selectedItinerary) this._selectedItinerary = selectedItinerary;
-    else this.getItineraryDetails(itineraryId);
+    if (selectedItinerary) {
+      this._selectedItinerary = selectedItinerary;
+      store.voucherStore.getVouchers(this.selectedItineraryId);
+    } else this.getItineraryDetails(itineraryId);
   };
 
   @action
@@ -3622,6 +3625,7 @@ class Itineraries {
         if (response.status === "SUCCESS") {
           this._itineraries.push(response.data);
           this._selectedItinerary = response.data;
+          store.voucherStore.getVouchers(this.selectedItineraryId);
           this._loadingError = false;
         } else {
           this._loadingError = true;

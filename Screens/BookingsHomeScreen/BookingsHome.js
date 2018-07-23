@@ -74,7 +74,7 @@ class BookingsHome extends Component {
             navigation={navigation}
           />
 
-          <BookingAccordion />
+          <BookingAccordion navigation={navigation} />
         </ScrollView>
       </View>
     );

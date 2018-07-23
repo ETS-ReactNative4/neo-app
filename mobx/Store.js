@@ -6,6 +6,7 @@ import AppState from "./AppState";
 import Itineraries from "./Itineraries";
 import Weather from "./Weather";
 import PackingChecklist from "./PackingChecklist";
+import Voucher from "./Voucher";
 
 const store = {
   userStore: new User(),
@@ -13,7 +14,8 @@ const store = {
   appState: new AppState(),
   itineraries: new Itineraries(),
   weatherStore: new Weather(),
-  packingChecklistStore: new PackingChecklist()
+  packingChecklistStore: new PackingChecklist(),
+  voucherStore: new Voucher()
 };
 
 const hydrate = create({
@@ -37,6 +39,16 @@ hydrate("_itineraries", store.itineraries)
     console.error(err);
   });
 hydrate("_selectedItinerary", store.itineraries)
+  .then(() => {})
+  .catch(err => {
+    console.error(err);
+  });
+hydrate("_vouchers", store.voucherStore)
+  .then(() => {})
+  .catch(err => {
+    console.error(err);
+  });
+hydrate("_selectedVoucher", store.voucherStore)
   .then(() => {})
   .catch(err => {
     console.error(err);

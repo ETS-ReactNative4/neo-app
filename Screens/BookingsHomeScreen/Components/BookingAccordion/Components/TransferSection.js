@@ -1,27 +1,35 @@
 import React from "react";
-import { View, Text, Image, StyleSheet } from "react-native";
+import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 import moment from "moment";
 import { responsiveWidth } from "react-native-responsive-dimensions";
 import constants from "../../../../../constants/constants";
 import PropTypes from "prop-types";
 
-const TransferSection = ({ section }) => {
+const TransferSection = ({ section, navigation }) => {
   return (
     <View>
       {section.items.map((transfer, index) => {
         let isLast = index === section.items.length - 1;
 
-        return <Transfer key={index} transfer={transfer} isLast={isLast} />;
+        return (
+          <Transfer
+            key={index}
+            navigation={navigation}
+            transfer={transfer}
+            isLast={isLast}
+          />
+        );
       })}
     </View>
   );
 };
 
 TransferSection.propTypes = {
-  section: PropTypes.object.isRequired
+  section: PropTypes.object.isRequired,
+  navigation: PropTypes.object.isRequired
 };
 
-const Transfer = ({ transfer, isLast }) => {
+const Transfer = ({ transfer, isLast, navigation }) => {
   let customStyle = {};
   if (isLast) {
     customStyle = {
@@ -30,8 +38,13 @@ const Transfer = ({ transfer, isLast }) => {
     };
   }
 
+  const openVoucher = () => navigation.navigate("TransferVoucher");
+
   return (
-    <View style={[styles.contentContainer, customStyle]}>
+    <TouchableOpacity
+      onPress={openVoucher}
+      style={[styles.contentContainer, customStyle]}
+    >
       <View style={styles.iconWrapper}>
         <Image
           resizeMode={"cover"}
@@ -55,13 +68,14 @@ const Transfer = ({ transfer, isLast }) => {
       <View style={styles.rightPlaceholder}>
         <Text style={styles.rightPlaceholderText}>Stayed</Text>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
 Transfer.propTypes = {
   transfer: PropTypes.object.isRequired,
-  isLast: PropTypes.bool.isRequired
+  isLast: PropTypes.bool.isRequired,
+  navigation: PropTypes.object.isRequired
 };
 
 const styles = StyleSheet.create({
