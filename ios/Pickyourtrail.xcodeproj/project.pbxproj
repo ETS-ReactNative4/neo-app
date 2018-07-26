@@ -1520,6 +1520,7 @@
 				PRODUCT_NAME = Pickyourtrail;
 				PROVISIONING_PROFILE = "130b669c-0727-41d3-aa85-51c3ef526499";
 				PROVISIONING_PROFILE_SPECIFIER = Voyager;
+				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -1551,6 +1552,7 @@
 				PRODUCT_NAME = Pickyourtrail;
 				PROVISIONING_PROFILE = "98b26561-615d-4850-85b8-8a6fd4731b33";
 				PROVISIONING_PROFILE_SPECIFIER = "Voyager prod";
+				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
