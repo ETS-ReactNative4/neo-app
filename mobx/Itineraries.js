@@ -3959,6 +3959,18 @@ class Itineraries {
     return toJS(this._selectedItinerary.activityById[id]);
   });
 
+  getFlightById = createTransformer(id => {
+    if (_.isEmpty(this._selectedItinerary)) return {};
+
+    return toJS(this._selectedItinerary.flightCostings.flightCostingById[id]);
+  });
+
+  getHotelById = createTransformer(id => {
+    if (_.isEmpty(this._selectedItinerary)) return {};
+
+    return toJS(this._selectedItinerary.hotelCostings.hotelCostingById[id]);
+  });
+
   getDateSelectionMatrixSingle = createTransformer(index => {
     try {
       let dayKey;

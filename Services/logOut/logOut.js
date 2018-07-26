@@ -22,6 +22,7 @@ const logOut = navigation => {
   store.itineraries.reset();
   store.appState.reset();
   store.yourBookingsStore.reset();
+  store.voucherStore.reset();
 };
 
 export default logOut;

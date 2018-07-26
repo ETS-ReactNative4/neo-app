@@ -7,8 +7,12 @@ import VoucherHeader from "../Components/VoucherHeader";
 import VoucherName from "../Components/VoucherName";
 import ParallaxScrollView from "react-native-parallax-scroll-view";
 import { isIphoneX } from "react-native-iphone-x-helper";
+import PropTypes from "prop-types";
 import FlightCard from "./Components/FlightCard";
+import { inject } from "mobx-react/custom";
 
+@inject("itineraries")
+@inject("voucherStore")
 class FlightVoucher extends Component {
   static navigationOptions = {
     header: null
@@ -19,6 +23,13 @@ class FlightVoucher extends Component {
   };
 
   render() {
+    const { getFlightVoucherById } = this.props.voucherStore;
+    const { getFlightById } = this.props.itineraries;
+    const identifier = this.props.navigation.getParam("identifier", "");
+    const flight = {
+      ...getFlightById(identifier),
+      ...getFlightVoucherById(identifier)
+    };
     const xHeight = isIphoneX() ? constants.xNotchHeight : 0;
     return (
       <ParallaxScrollView

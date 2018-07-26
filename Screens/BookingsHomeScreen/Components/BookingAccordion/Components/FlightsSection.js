@@ -38,7 +38,11 @@ const Flight = ({ flight, isLast, navigation }) => {
     };
   }
 
-  const openVoucher = () => navigation.navigate("FlightVoucher");
+  const openVoucher = () =>
+    navigation.navigate("FlightVoucher", {
+      type: constants.flightVoucher,
+      identifier: flight.identifier
+    });
 
   const timings = flight.allTrips.map(trip => {
     return {

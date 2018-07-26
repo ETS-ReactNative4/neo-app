@@ -38,7 +38,11 @@ const Hotel = ({ hotel, isLast, navigation }) => {
     };
   }
 
-  const openVoucher = () => navigation.navigate("HotelVoucher");
+  const openVoucher = () =>
+    navigation.navigate("HotelVoucher", {
+      identifier: hotel.costingKey,
+      type: constants.hotelVoucher
+    });
 
   return (
     <TouchableOpacity
