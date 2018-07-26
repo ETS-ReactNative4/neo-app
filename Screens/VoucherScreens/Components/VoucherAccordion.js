@@ -2,9 +2,14 @@ import React, { Component } from "react";
 import { Text, View, StyleSheet, Animated, Easing } from "react-native";
 import constants from "../../../constants/constants";
 import Icon from "../../../CommonComponents/Icon/Icon";
+import PropTypes from "prop-types";
 import Accordion from "react-native-collapsible/Accordion";
 
 class VoucherAccordion extends Component {
+  static propTypes = {
+    sections: PropTypes.array.isRequired
+  };
+
   _renderHeader = (section, index, isActive, sections) => {
     const iconContainer = {};
     const spinValue = new Animated.Value(0);
@@ -30,7 +35,7 @@ class VoucherAccordion extends Component {
 
     return (
       <View style={styles.amenitiesSection}>
-        <Text style={styles.amenitiesText}>Hotel amenities</Text>
+        <Text style={styles.amenitiesText}>{section.name}</Text>
         <Animated.View style={iconContainer}>
           <Icon
             name={constants.arrowRight}
@@ -43,22 +48,20 @@ class VoucherAccordion extends Component {
   };
 
   _renderContent = (section, index, isActive, sections) => {
-    return <View />;
+    return section.component;
   };
 
   render() {
     const sections = [
       {
         name: "Hotel Amenities",
-        data: {
-          name: "My Hotel"
-        }
+        items: ["My Hotel"]
       }
     ];
     return (
       <View>
         <Accordion
-          sections={sections}
+          sections={this.props.sections}
           renderHeader={this._renderHeader}
           renderContent={this._renderContent}
           underlayColor={constants.shade5}
