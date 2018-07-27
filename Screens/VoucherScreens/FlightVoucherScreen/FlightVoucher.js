@@ -10,6 +10,7 @@ import { isIphoneX } from "react-native-iphone-x-helper";
 import PropTypes from "prop-types";
 import FlightCard from "./Components/FlightCard";
 import { inject } from "mobx-react/custom";
+import FlightTripView from "./Components/FlightTripView";
 
 @inject("itineraries")
 @inject("voucherStore")
@@ -26,10 +27,11 @@ class FlightVoucher extends Component {
     const { getFlightVoucherById } = this.props.voucherStore;
     const { getFlightById } = this.props.itineraries;
     const identifier = this.props.navigation.getParam("identifier", "");
-    const flight = {
-      ...getFlightById(identifier),
-      ...getFlightVoucherById(identifier)
-    };
+
+    // header text content needed
+    const { voucherId, flyCityText } = getFlightVoucherById(identifier);
+    const {} = getFlightById(identifier);
+
     const xHeight = isIphoneX() ? constants.xNotchHeight : 0;
     return (
       <ParallaxScrollView
@@ -39,22 +41,19 @@ class FlightVoucher extends Component {
         stickyHeaderHeight={48 + xHeight}
         fadeOutForeground={Platform.OS !== "android"}
         renderStickyHeader={() => (
-          <VoucherStickyHeader action={this.close} text={"1242345"} />
+          <VoucherStickyHeader action={this.close} text={voucherId} />
         )}
         renderForeground={() => (
           <VoucherHeader
-            infoText={`BOOKING ID`}
-            title={`1242345`}
+            infoText={flyCityText}
+            title={voucherId}
             menu={() => {}}
             onClickClose={this.close}
+            image={constants.splashBackground}
           />
         )}
       >
-        <View style={styles.titleSection}>
-          <Text style={styles.activityDate}>Sun 24</Text>
-        </View>
-
-        <FlightCard />
+        <FlightTripView />
       </ParallaxScrollView>
     );
   }

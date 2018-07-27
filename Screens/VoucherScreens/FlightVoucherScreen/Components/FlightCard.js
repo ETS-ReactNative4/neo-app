@@ -73,12 +73,7 @@ class FlightCard extends Component {
 }
 
 const styles = StyleSheet.create({
-  flightCard: {
-    marginHorizontal: 24,
-    paddingBottom: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: constants.shade4
-  },
+  flightCard: {},
   flightRoute: {
     ...constants.font17(constants.primarySemiBold),
     color: constants.black1

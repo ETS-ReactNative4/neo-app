@@ -38,7 +38,11 @@ const Activities = ({ activity, isLast, navigation }) => {
     };
   }
 
-  const openVoucher = () => navigation.navigate("ActivityVoucher");
+  const openVoucher = () =>
+    navigation.navigate("ActivityVoucher", {
+      identifier: activity.costing.key,
+      type: constants.activityVoucher
+    });
 
   return (
     <TouchableOpacity

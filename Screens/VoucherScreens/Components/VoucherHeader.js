@@ -14,14 +14,10 @@ import PropTypes from "prop-types";
 import Icon from "../../../CommonComponents/Icon/Icon";
 import LinearGradient from "react-native-linear-gradient";
 
-const VoucherHeader = ({ infoText, title, onClickClose, menu }) => {
+const VoucherHeader = ({ infoText, title, onClickClose, menu, image }) => {
   return (
     <View style={styles.headerContainer}>
-      <ImageBackground
-        resizeMode={"cover"}
-        source={constants.splashBackground}
-        style={styles.image}
-      >
+      <ImageBackground resizeMode={"cover"} source={image} style={styles.image}>
         <LinearGradient
           locations={[0.25, 0.5, 0.6, 1]}
           colors={[
@@ -79,7 +75,8 @@ VoucherHeader.propTypes = {
   infoText: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   onClickClose: PropTypes.func.isRequired,
-  menu: PropTypes.func.isRequired
+  menu: PropTypes.func.isRequired,
+  image: PropTypes.oneOfType([PropTypes.object, PropTypes.number]).isRequired
 };
 
 const xHeight = isIphoneX() ? constants.xNotchHeight : 0;

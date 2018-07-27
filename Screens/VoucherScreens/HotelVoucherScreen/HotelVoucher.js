@@ -70,7 +70,8 @@ class HotelVoucher extends Component {
       hotelAddress2,
       rooms,
       amenities,
-      bookingSource
+      bookingSource,
+      imageURL
     } = hotel;
 
     const amenitiesSection = [
@@ -128,6 +129,7 @@ class HotelVoucher extends Component {
             title={voucherId}
             menu={() => {}}
             onClickClose={this.close}
+            image={{ uri: imageURL }}
           />
         )}
       >

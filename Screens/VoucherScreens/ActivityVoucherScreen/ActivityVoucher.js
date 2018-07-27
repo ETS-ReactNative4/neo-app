@@ -10,7 +10,10 @@ import VoucherName from "../Components/VoucherName";
 import VoucherSplitSection from "../Components/VoucherSplitSection";
 import SectionHeader from "../../../CommonComponents/SectionHeader/SectionHeader";
 import SimpleButton from "../../../CommonComponents/SimpleButton/SimpleButton";
+import { inject } from "mobx-react/custom";
 
+@inject("itineraries")
+@inject("voucherStore")
 class ActivityVoucher extends Component {
   static navigationOptions = {
     header: null
@@ -21,6 +24,14 @@ class ActivityVoucher extends Component {
   };
 
   render() {
+    const { getActivityVoucherById, selectedVoucher } = this.props.voucherStore;
+    const { getActivityById } = this.props.itineraries;
+    const identifier = this.props.navigation.getParam("identifier", "");
+    const activity = {
+      ...getActivityVoucherById(identifier),
+      ...getActivityById(identifier)
+    };
+    const {} = activity;
     const xHeight = isIphoneX() ? constants.xNotchHeight : 0;
     const passengerDetails = [
       {

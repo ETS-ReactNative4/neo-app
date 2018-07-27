@@ -52,12 +52,6 @@ class VoucherAccordion extends Component {
   };
 
   render() {
-    const sections = [
-      {
-        name: "Hotel Amenities",
-        items: ["My Hotel"]
-      }
-    ];
     return (
       <View>
         <Accordion
