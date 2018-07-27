@@ -40,8 +40,7 @@ const Activities = ({ activity, isLast, navigation }) => {
 
   const openVoucher = () =>
     navigation.navigate("ActivityVoucher", {
-      identifier: activity.costing.key,
-      type: constants.activityVoucher
+      identifier: activity.costing.key
     });
 
   return (

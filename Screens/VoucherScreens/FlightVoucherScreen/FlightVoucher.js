@@ -30,7 +30,34 @@ class FlightVoucher extends Component {
 
     // header text content needed
     const { voucherId, flyCityText } = getFlightVoucherById(identifier);
-    const {} = getFlightById(identifier);
+    const { trips, allTrips } = getFlightById(identifier);
+
+    const tripDetails = allTrips.map(trip => {
+      return trips[trip];
+      // {
+      //   route: trips[trip].routes.map(route => {
+      //     return `${route.departureCity} → ${
+      //       route.arrivalCity
+      //     }`
+      //   }),
+      //   carrierName: trips[trip].routes.map(route => {
+      //     return route.carrierName;
+      //   }),
+      //   departure: trips[trip].routes.map(route => {
+      //     return `${route.depMonth} ${
+      //       route.depDateOfMonth
+      //       }, ${route.departureTime.substring(0, 5)}`;
+      //   }),
+      //   arrival: trips[trip].routes.map(route => {
+      //     return `${route.arrMonth} ${
+      //       route.arrDateOfMonth
+      //       }, ${route.arrivalTime.substring(0, 5)}`;
+      //   }),
+      // };
+    });
+
+    console.log(tripDetails);
+    debugger;
 
     const xHeight = isIphoneX() ? constants.xNotchHeight : 0;
     return (
@@ -53,7 +80,9 @@ class FlightVoucher extends Component {
           />
         )}
       >
-        <FlightTripView />
+        {tripDetails.map((trip, tripIndex) => {
+          return <FlightTripView key={tripIndex} trip={trip} />;
+        })}
       </ParallaxScrollView>
     );
   }

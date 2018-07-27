@@ -40,8 +40,7 @@ const Hotel = ({ hotel, isLast, navigation }) => {
 
   const openVoucher = () =>
     navigation.navigate("HotelVoucher", {
-      identifier: hotel.costingKey,
-      type: constants.hotelVoucher
+      identifier: hotel.costingKey
     });
 
   return (

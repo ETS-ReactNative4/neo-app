@@ -40,7 +40,6 @@ const Flight = ({ flight, isLast, navigation }) => {
 
   const openVoucher = () =>
     navigation.navigate("FlightVoucher", {
-      type: constants.flightVoucher,
       identifier: flight.key
     });
 

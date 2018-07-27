@@ -151,7 +151,7 @@ class BookingAccordion extends Component {
     if (transfers.length) {
       const transferSection = {
         type: "Transfers",
-        icon: constants.aeroplaneIcon,
+        icon: constants.trainIcon,
         items: transfers
       };
       sections.push(transferSection);

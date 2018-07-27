@@ -11,7 +11,7 @@ import constants from "../../../../constants/constants";
 import Dash from "react-native-dash";
 import Icon from "../../../../CommonComponents/Icon/Icon";
 
-const FlightDivider = ({ onClick, layOverText }) => {
+const FlightDivider = ({ onClick, layoverText }) => {
   /**
    * TODO: Actual Arrow Icon needed
    */
@@ -35,7 +35,7 @@ const FlightDivider = ({ onClick, layOverText }) => {
       </View>
 
       <View style={styles.layoverTextWrapper}>
-        <Text style={styles.layoverText}>{layOverText}</Text>
+        <Text style={styles.layoverText}>{layoverText}</Text>
       </View>
 
       <View style={styles.dottedLineContainer}>
