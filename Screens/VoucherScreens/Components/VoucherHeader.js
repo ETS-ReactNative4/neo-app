@@ -5,6 +5,7 @@ import {
   StyleSheet,
   ImageBackground,
   TouchableOpacity,
+  Platform,
   Text
 } from "react-native";
 import constants from "../../../constants/constants";
@@ -29,13 +30,15 @@ const VoucherHeader = ({ infoText, title, onClickClose, menu, image }) => {
           style={styles.gradientView}
         >
           <View style={styles.closeIconRow}>
-            <TouchableOpacity
-              style={styles.closeIconContainer}
-              onPress={onClickClose}
-              activeOpacity={0.2}
-            >
-              <Icon color={"white"} name={constants.closeIcon} size={16} />
-            </TouchableOpacity>
+            {Platform.OS === "android" ? (
+              <TouchableOpacity
+                style={styles.closeIconContainer}
+                onPress={onClickClose}
+                activeOpacity={0.2}
+              >
+                <Icon color={"white"} name={constants.closeIcon} size={24} />
+              </TouchableOpacity>
+            ) : null}
           </View>
           <View style={styles.textRow}>
             <View style={styles.infoTextWrapper}>
@@ -121,9 +124,9 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start"
   },
   closeIconContainer: {
-    height: 24,
-    width: 24,
-    borderRadius: 12,
+    height: 32,
+    width: 32,
+    borderRadius: 16,
     marginLeft: 24,
     marginTop: 32,
     backgroundColor: "rgba(0,0,0,0.4)",

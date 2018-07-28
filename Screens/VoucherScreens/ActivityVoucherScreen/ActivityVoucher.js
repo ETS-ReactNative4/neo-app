@@ -1,5 +1,12 @@
 import React, { Component } from "react";
-import { View, Text, Image, StyleSheet, Platform } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  Platform,
+  TouchableOpacity
+} from "react-native";
 import { isIphoneX } from "react-native-iphone-x-helper";
 import ParallaxScrollView from "react-native-parallax-scroll-view";
 import { responsiveWidth } from "react-native-responsive-dimensions";
@@ -11,12 +18,24 @@ import VoucherSplitSection from "../Components/VoucherSplitSection";
 import SectionHeader from "../../../CommonComponents/SectionHeader/SectionHeader";
 import SimpleButton from "../../../CommonComponents/SimpleButton/SimpleButton";
 import { inject } from "mobx-react/custom";
+import Icon from "../../../CommonComponents/Icon/Icon";
+import IosCloseButton from "../Components/IosCloseButton";
 
 @inject("itineraries")
 @inject("voucherStore")
 class ActivityVoucher extends Component {
   static navigationOptions = {
     header: null
+  };
+
+  state = {
+    isCloseVisible: true
+  };
+
+  headerToggle = status => {
+    this.setState({
+      isCloseVisible: status
+    });
   };
 
   close = () => {
@@ -27,11 +46,8 @@ class ActivityVoucher extends Component {
     const { getActivityVoucherById, selectedVoucher } = this.props.voucherStore;
     const { getActivityById } = this.props.itineraries;
     const identifier = this.props.navigation.getParam("identifier", "");
-    const activity = {
-      ...getActivityVoucherById(identifier),
-      ...getActivityById(identifier)
-    };
-    const {} = activity;
+    const {} = getActivityVoucherById(identifier) || {};
+    const {} = getActivityById(identifier) || {};
     const xHeight = isIphoneX() ? constants.xNotchHeight : 0;
     const passengerDetails = [
       {
@@ -70,13 +86,15 @@ class ActivityVoucher extends Component {
       }
     ];
 
-    return (
+    return [
       <ParallaxScrollView
+        key={0}
         backgroundColor="white"
         contentBackgroundColor="white"
         parallaxHeaderHeight={214 + xHeight}
         stickyHeaderHeight={48 + xHeight}
         fadeOutForeground={Platform.OS !== "android"}
+        onChangeHeaderVisibility={this.headerToggle}
         renderStickyHeader={() => (
           <VoucherStickyHeader action={this.close} text={"1242345"} />
         )}
@@ -116,8 +134,11 @@ class ActivityVoucher extends Component {
             iconSize={16}
           />
         </View>
-      </ParallaxScrollView>
-    );
+      </ParallaxScrollView>,
+      Platform.OS === "ios" && this.state.isCloseVisible ? (
+        <IosCloseButton key={1} clickAction={this.close} />
+      ) : null
+    ];
   }
 }
 

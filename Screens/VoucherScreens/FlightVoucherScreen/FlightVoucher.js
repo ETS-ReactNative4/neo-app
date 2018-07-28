@@ -14,12 +14,23 @@ import FlightTripView from "./Components/FlightTripView";
 import SectionHeader from "../../../CommonComponents/SectionHeader/SectionHeader";
 import PassengerName from "../HotelVoucherScreen/Components/PassengerName";
 import VoucherSplitSection from "../Components/VoucherSplitSection";
+import IosCloseButton from "../Components/IosCloseButton";
 
 @inject("itineraries")
 @inject("voucherStore")
 class FlightVoucher extends Component {
   static navigationOptions = {
     header: null
+  };
+
+  state = {
+    isCloseVisible: true
+  };
+
+  headerToggle = status => {
+    this.setState({
+      isCloseVisible: status
+    });
   };
 
   close = () => {
@@ -76,13 +87,15 @@ class FlightVoucher extends Component {
       }
     ];
 
-    return (
+    return [
       <ParallaxScrollView
+        key={0}
         backgroundColor="white"
         contentBackgroundColor="white"
         parallaxHeaderHeight={214 + xHeight}
         stickyHeaderHeight={48 + xHeight}
         fadeOutForeground={Platform.OS !== "android"}
+        onChangeHeaderVisibility={this.headerToggle}
         renderStickyHeader={() => (
           <VoucherStickyHeader action={this.close} text={voucherId} />
         )}
@@ -93,6 +106,7 @@ class FlightVoucher extends Component {
             menu={() => {}}
             onClickClose={this.close}
             image={constants.splashBackground}
+            placeHolderHeight={48 + xHeight}
           />
         )}
       >
@@ -124,12 +138,16 @@ class FlightVoucher extends Component {
               borderTopWidth: 1,
               borderColor: constants.shade4,
               marginTop: 16,
-              paddingTop: 16
+              paddingTop: 16,
+              marginBottom: 24
             }}
           />
         </View>
-      </ParallaxScrollView>
-    );
+      </ParallaxScrollView>,
+      Platform.OS === "ios" && this.state.isCloseVisible ? (
+        <IosCloseButton key={1} clickAction={this.close} />
+      ) : null
+    ];
   }
 }
 

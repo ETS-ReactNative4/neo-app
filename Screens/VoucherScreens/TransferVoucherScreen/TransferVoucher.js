@@ -11,10 +11,21 @@ import VoucherSplitSection from "../Components/VoucherSplitSection";
 import SectionHeader from "../../../CommonComponents/SectionHeader/SectionHeader";
 import SimpleButton from "../../../CommonComponents/SimpleButton/SimpleButton";
 import VoucherAccordion from "../Components/VoucherAccordion";
+import IosCloseButton from "../Components/IosCloseButton";
 
 class TransferVoucher extends Component {
   static navigationOptions = {
     header: null
+  };
+
+  state = {
+    isCloseVisible: true
+  };
+
+  headerToggle = status => {
+    this.setState({
+      isCloseVisible: status
+    });
   };
 
   close = () => {
@@ -60,13 +71,15 @@ class TransferVoucher extends Component {
       }
     ];
 
-    return (
+    return [
       <ParallaxScrollView
+        key={0}
         backgroundColor="white"
         contentBackgroundColor="white"
         parallaxHeaderHeight={214 + xHeight}
         stickyHeaderHeight={48 + xHeight}
         fadeOutForeground={Platform.OS !== "android"}
+        onChangeHeaderVisibility={this.headerToggle}
         renderStickyHeader={() => (
           <VoucherStickyHeader action={this.close} text={"1242345"} />
         )}
@@ -107,11 +120,12 @@ class TransferVoucher extends Component {
           />
         </View>
 
-        <View style={styles.accordionSection}>
-          <VoucherAccordion />
-        </View>
-      </ParallaxScrollView>
-    );
+        <View style={styles.accordionSection}>{/*<VoucherAccordion />*/}</View>
+      </ParallaxScrollView>,
+      Platform.OS === "ios" && this.state.isCloseVisible ? (
+        <IosCloseButton key={1} clickAction={this.close} />
+      ) : null
+    ];
   }
 }
 

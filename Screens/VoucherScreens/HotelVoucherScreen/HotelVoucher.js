@@ -22,12 +22,23 @@ import VoucherName from "../Components/VoucherName";
 import { inject } from "mobx-react/custom";
 import PassengerName from "./Components/PassengerName";
 import VoucherAccordion from "../Components/VoucherAccordion";
+import IosCloseButton from "../Components/IosCloseButton";
 
 @inject("itineraries")
 @inject("voucherStore")
 class HotelVoucher extends Component {
   static navigationOptions = {
     header: null
+  };
+
+  state = {
+    isCloseVisible: true
+  };
+
+  headerToggle = status => {
+    this.setState({
+      isCloseVisible: status
+    });
   };
 
   onScroll = event => {
@@ -116,8 +127,9 @@ class HotelVoucher extends Component {
       }
     ];
 
-    return (
+    return [
       <ParallaxScrollView
+        key={0}
         backgroundColor="white"
         contentBackgroundColor="white"
         parallaxHeaderHeight={214 + xHeight}
@@ -126,6 +138,7 @@ class HotelVoucher extends Component {
           <VoucherStickyHeader action={this.close} text={voucherId} />
         )}
         fadeOutForeground={Platform.OS !== "android"}
+        onChangeHeaderVisibility={this.headerToggle}
         renderForeground={() => (
           <VoucherHeader
             infoText={`BOOKING ID`}
@@ -272,8 +285,11 @@ class HotelVoucher extends Component {
             })}
           </View>
         </View>
-      </ParallaxScrollView>
-    );
+      </ParallaxScrollView>,
+      Platform.OS === "ios" && this.state.isCloseVisible ? (
+        <IosCloseButton key={1} clickAction={this.close} />
+      ) : null
+    ];
   }
 }
 
