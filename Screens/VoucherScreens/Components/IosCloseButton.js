@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     backgroundColor: "rgba(0,0,0,0.4)",
     top: 32,
-    left: 24
+    left: 16
   }
 });
 

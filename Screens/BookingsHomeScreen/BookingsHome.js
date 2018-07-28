@@ -54,8 +54,7 @@ class BookingsHome extends Component {
       days,
       getDateSelectionMatrixSingle,
       numOfActivitiesByDay,
-      getTransferTypeByDay,
-      selectedItinerary
+      getTransferTypeByDay
     } = this.props.itineraries;
     const { navigation } = this.props;
 
