@@ -36,6 +36,8 @@ const imageAssets = {
   pinIcon: "pin",
   checkBoxIcon: "checkbox-unchecked",
   checkBoxCheckedIcon: "checkbox-checked",
+  callIcon: "call-end",
+  compassIcon: "compass",
 
   weatherGraphInactive: require("../assets/images/weatherPlaceholders/weather-graph-disabled.png"),
   weatherCardPlaceholder: require("../assets/images/weatherPlaceholders/weather-placeholder.png"),

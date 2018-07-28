@@ -20,6 +20,7 @@ import BookingAccordion from "./Components/BookingAccordion/BookingAccordion";
 import { inject, observer } from "mobx-react/custom";
 
 @inject("itineraries")
+@inject("voucherStore")
 @observer
 class BookingsHome extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -57,9 +58,10 @@ class BookingsHome extends Component {
       getTransferTypeByDay,
       selectedItineraryId
     } = this.props.itineraries;
+    const { selectedVoucher } = this.props.voucherStore;
     const { navigation } = this.props;
 
-    console.log(selectedItineraryId);
+    console.log(JSON.stringify(selectedVoucher));
 
     return (
       <View style={styles.bookingHomeContainer}>

@@ -180,10 +180,10 @@ class HotelVoucher extends Component {
               </Text>
             </View>
             <View style={styles.addressMarkerSection}>
-              <Image
-                style={styles.addressMarker}
-                resizeMode={"contain"}
-                source={constants.notificationIcon}
+              <Icon
+                size={24}
+                color={constants.black1}
+                name={constants.locationIcon}
               />
             </View>
           </View>
@@ -258,7 +258,7 @@ class HotelVoucher extends Component {
               color={"transparent"}
               textColor={constants.black2}
               hasBorder={true}
-              icon={constants.trainIcon}
+              icon={constants.callIcon}
               iconSize={16}
             />
             <SimpleButton
@@ -268,7 +268,7 @@ class HotelVoucher extends Component {
               color={"transparent"}
               textColor={constants.black2}
               hasBorder={true}
-              icon={constants.trainIcon}
+              icon={constants.compassIcon}
               iconSize={16}
             />
           </View>

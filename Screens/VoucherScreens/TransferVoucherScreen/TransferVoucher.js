@@ -115,7 +115,7 @@ class TransferVoucher extends Component {
             containerStyle={{ width: responsiveWidth(100) - 48, marginTop: 24 }}
             textColor={constants.black2}
             hasBorder={true}
-            icon={constants.trainIcon}
+            icon={constants.callIcon}
             iconSize={16}
           />
         </View>

@@ -77,7 +77,8 @@ const styles = StyleSheet.create({
   textStyle: {
     ...constants.font17(constants.primarySemiBold),
     lineHeight: 17,
-    marginTop: 2
+    marginTop: 2,
+    marginLeft: 8
   }
 });
 

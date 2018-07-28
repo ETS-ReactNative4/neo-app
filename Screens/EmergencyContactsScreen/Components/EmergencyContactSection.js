@@ -65,7 +65,7 @@ For local calls within Belgium, start with the area code (with the initial 0). I
               ...constants.fontCustom(constants.primaryLight, 17),
               paddingTop: 5
             }}
-            icon={constants.trainIcon}
+            icon={constants.compassIcon}
             text={"Directions"}
             action={() => null}
             textColor={constants.black2}
@@ -78,7 +78,7 @@ For local calls within Belgium, start with the area code (with the initial 0). I
               ...constants.fontCustom(constants.primaryLight, 17),
               paddingTop: 5
             }}
-            icon={constants.trainIcon}
+            icon={constants.callIcon}
             text={"Contact"}
             action={() => null}
             textColor={constants.black2}

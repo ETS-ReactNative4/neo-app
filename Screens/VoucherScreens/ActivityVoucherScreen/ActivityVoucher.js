@@ -218,7 +218,7 @@ class ActivityVoucher extends Component {
               color={"transparent"}
               textColor={constants.black2}
               hasBorder={true}
-              icon={constants.trainIcon}
+              icon={constants.compassIcon}
               iconSize={16}
             />
             <SimpleButton
@@ -228,7 +228,7 @@ class ActivityVoucher extends Component {
               color={"transparent"}
               textColor={constants.black2}
               hasBorder={true}
-              icon={constants.trainIcon}
+              icon={constants.callIcon}
               iconSize={16}
             />
           </View>
