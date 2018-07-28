@@ -23,15 +23,23 @@ const FlightDivider = ({ onClick, layoverText }) => {
     >
       <View style={styles.arrowBox}>
         <View style={styles.topArrow}>
-          <Icon size={12} name={constants.arrowRight} />
+          <Icon
+            size={12}
+            name={constants.arrowRight}
+            color={constants.shade4}
+          />
         </View>
         <View style={styles.bottomArrow}>
-          <Icon size={12} name={constants.arrowRight} />
+          <Icon
+            size={12}
+            name={constants.arrowRight}
+            color={constants.shade4}
+          />
         </View>
       </View>
 
       <View style={styles.dottedLineContainer}>
-        <Dash dashColor={constants.black2} dashGap={1} dashLength={1} />
+        <Dash dashColor={constants.shade4} dashGap={1} dashLength={1} />
       </View>
 
       <View style={styles.layoverTextWrapper}>
@@ -39,15 +47,23 @@ const FlightDivider = ({ onClick, layoverText }) => {
       </View>
 
       <View style={styles.dottedLineContainer}>
-        <Dash dashColor={constants.black2} dashGap={1} dashLength={1} />
+        <Dash dashColor={constants.shade4} dashGap={1} dashLength={1} />
       </View>
 
       <View style={[styles.arrowBox, { alignItems: "flex-end" }]}>
         <View style={styles.topArrow}>
-          <Icon size={12} name={constants.arrowRight} />
+          <Icon
+            size={12}
+            name={constants.arrowRight}
+            color={constants.shade4}
+          />
         </View>
         <View style={styles.bottomArrow}>
-          <Icon size={12} name={constants.arrowRight} />
+          <Icon
+            size={12}
+            name={constants.arrowRight}
+            color={constants.shade4}
+          />
         </View>
       </View>
     </TouchableOpacity>

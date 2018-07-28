@@ -11,6 +11,9 @@ import PropTypes from "prop-types";
 import FlightCard from "./Components/FlightCard";
 import { inject } from "mobx-react/custom";
 import FlightTripView from "./Components/FlightTripView";
+import SectionHeader from "../../../CommonComponents/SectionHeader/SectionHeader";
+import PassengerName from "../HotelVoucherScreen/Components/PassengerName";
+import VoucherSplitSection from "../Components/VoucherSplitSection";
 
 @inject("itineraries")
 @inject("voucherStore")
@@ -28,38 +31,51 @@ class FlightVoucher extends Component {
     const { getFlightById } = this.props.itineraries;
     const identifier = this.props.navigation.getParam("identifier", "");
 
-    // header text content needed
-    const { voucherId, flyCityText } = getFlightVoucherById(identifier);
-    const { trips, allTrips } = getFlightById(identifier);
+    /**
+     * TODO: header text content needed
+     * TODO: Meal preference missing
+     * // Total Paid
+     * // Booking source missing
+     */
+    const {
+      voucherId,
+      flyCityText,
+      passengers,
+      dateOfIssue,
+      cancellationPolicy
+    } =
+      getFlightVoucherById(identifier) || {};
+    const { trips, allTrips } = getFlightById(identifier) || {};
 
     const tripDetails = allTrips.map(trip => {
       return trips[trip];
-      // {
-      //   route: trips[trip].routes.map(route => {
-      //     return `${route.departureCity} → ${
-      //       route.arrivalCity
-      //     }`
-      //   }),
-      //   carrierName: trips[trip].routes.map(route => {
-      //     return route.carrierName;
-      //   }),
-      //   departure: trips[trip].routes.map(route => {
-      //     return `${route.depMonth} ${
-      //       route.depDateOfMonth
-      //       }, ${route.departureTime.substring(0, 5)}`;
-      //   }),
-      //   arrival: trips[trip].routes.map(route => {
-      //     return `${route.arrMonth} ${
-      //       route.arrDateOfMonth
-      //       }, ${route.arrivalTime.substring(0, 5)}`;
-      //   }),
-      // };
     });
 
-    console.log(tripDetails);
-    debugger;
+    const xHeight = isIphoneX()
+      ? constants.xNotchHeight
+      : Platform.OS === "ios"
+        ? 20
+        : 0;
 
-    const xHeight = isIphoneX() ? constants.xNotchHeight : 0;
+    const flightInvoiceInfo = [
+      {
+        name: "Issued date",
+        value: dateOfIssue
+      },
+      {
+        name: "Total paid",
+        value: ""
+      },
+      {
+        name: "Booking source",
+        value: ""
+      },
+      {
+        name: "Booking type",
+        value: cancellationPolicy
+      }
+    ];
+
     return (
       <ParallaxScrollView
         backgroundColor="white"
@@ -80,9 +96,38 @@ class FlightVoucher extends Component {
           />
         )}
       >
-        {tripDetails.map((trip, tripIndex) => {
-          return <FlightTripView key={tripIndex} trip={trip} />;
-        })}
+        <View style={styles.flightVoucherContainer}>
+          {tripDetails.map((trip, tripIndex) => {
+            return (
+              <FlightTripView
+                key={tripIndex}
+                trip={trip}
+                isLast={tripIndex === tripDetails.length - 1}
+              />
+            );
+          })}
+          <SectionHeader sectionName={"TRAVELLERS"} />
+          {passengers.map((passenger, passengerIndex) => {
+            return (
+              <PassengerName
+                key={passengerIndex}
+                name={`${passenger.salutation}. ${passenger.firstName} ${
+                  passenger.lastName
+                }`}
+                secondaryText={`TICKET NO: ${passenger.ticketNumber}`}
+              />
+            );
+          })}
+          <VoucherSplitSection
+            sections={flightInvoiceInfo}
+            containerStyle={{
+              borderTopWidth: 1,
+              borderColor: constants.shade4,
+              marginTop: 16,
+              paddingTop: 16
+            }}
+          />
+        </View>
       </ParallaxScrollView>
     );
   }
@@ -102,6 +147,9 @@ const styles = StyleSheet.create({
   },
   accordionSection: {
     paddingHorizontal: 24
+  },
+  flightVoucherContainer: {
+    marginHorizontal: 24
   }
 });
 

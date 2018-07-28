@@ -46,11 +46,14 @@ class HotelVoucher extends Component {
     const { getHotelById } = this.props.itineraries;
     const identifier = this.props.navigation.getParam("identifier", "");
     const hotel = {
-      ...getHotelById(identifier),
-      ...getHotelVoucherById(identifier)
+      ...(getHotelById(identifier) || {}),
+      ...(getHotelVoucherById(identifier) || {})
     };
     const xHeight = isIphoneX() ? constants.xNotchHeight : 0;
 
+    /**
+     * TODO: Missing Items
+     */
     // Contact number
     // Google Map linking
     // Booking date

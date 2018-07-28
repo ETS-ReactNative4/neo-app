@@ -1,12 +1,14 @@
 import React, { Component } from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, LayoutAnimation } from "react-native";
 import FlightCard from "./FlightCard";
 import FlightDivider from "./FlightDivider";
 import PropTypes from "prop-types";
+import constants from "../../../../constants/constants";
 
 class FlightTripView extends Component {
   static propTypes = {
-    trip: PropTypes.object.isRequired
+    trip: PropTypes.object.isRequired,
+    isLast: PropTypes.bool.isRequired
   };
 
   state = {
@@ -19,9 +21,28 @@ class FlightTripView extends Component {
     });
   };
 
-  render() {
-    const { routes, flightClass, flyTime } = this.props.trip;
+  componentWillUpdate() {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+  }
 
+  render() {
+    const { isLast } = this.props;
+    const { routes, flightClass, flyTime } = this.props.trip;
+    const containerStyle = [
+      styles.flightTripViewContainer,
+      isLast
+        ? {}
+        : { borderBottomColor: constants.shade4, borderBottomWidth: 1 }
+    ];
+
+    /**
+     * TODO: Missing Items
+     *
+       // need departure year or time in milliseconds
+       // flight Class
+       // airport name
+       // Cabin Baggage
+     */
     if (!this.state.isExpanded) {
       const {
         carrierName,
@@ -53,7 +74,7 @@ class FlightTripView extends Component {
       }`;
 
       return (
-        <View style={styles.flightTripViewContainer}>
+        <View style={containerStyle}>
           <FlightCard
             key={0}
             isFirst={true}
@@ -74,12 +95,8 @@ class FlightTripView extends Component {
     }
 
     return (
-      <View style={styles.flightTripViewContainer}>
+      <View style={containerStyle}>
         {routes.map((route, routeIndex) => {
-          // need departure year or time in milliseconds
-          // flight Class
-          // airport name
-          // Cabin Baggage
           const {
             carrierName,
             departureDayOfWeek,
@@ -147,8 +164,7 @@ class FlightTripView extends Component {
 
 const styles = StyleSheet.create({
   flightTripViewContainer: {
-    marginHorizontal: 24,
-    marginVertical: 16
+    paddingVertical: 16
   }
 });
 

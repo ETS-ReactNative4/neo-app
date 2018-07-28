@@ -4,7 +4,7 @@ import { Text, View, StyleSheet } from "react-native";
 import Icon from "../../../../CommonComponents/Icon/Icon";
 import { PropTypes } from "prop-types";
 
-const PassengerName = ({ name }) => {
+const PassengerName = ({ name, secondaryText }) => {
   return (
     <View style={styles.userDetails}>
       <View style={styles.userIcon}>
@@ -14,6 +14,9 @@ const PassengerName = ({ name }) => {
         <Text numberOfLines={2} ellipsizeMode={"tail"} style={styles.userName}>
           {name}
         </Text>
+        {secondaryText ? (
+          <Text style={styles.secondaryText}>{secondaryText}</Text>
+        ) : null}
       </View>
     </View>
   );
@@ -33,16 +36,21 @@ const styles = StyleSheet.create({
     width: 16,
     alignItems: "center",
     justifyContent: "center",
-    marginLeft: 8
+    marginLeft: 8,
+    marginTop: 3
   },
   userNameWrapper: {
     marginLeft: 8
   },
   userName: {
-    ...constants.fontCustom(constants.primaryLight, 17),
-    fontWeight: "400",
+    ...constants.fontCustom(constants.primarySemiBold, 17),
     marginTop: 3,
     color: constants.black1
+  },
+  secondaryText: {
+    ...constants.fontCustom(constants.primaryLight, 10),
+    marginTop: 3,
+    color: constants.shade1
   }
 });
 

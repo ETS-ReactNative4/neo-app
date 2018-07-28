@@ -4,8 +4,9 @@ import constants from "../../../constants/constants";
 import PropTypes from "prop-types";
 
 const VoucherSplitSection = ({ sections, containerStyle }) => {
+  if (!containerStyle) containerStyle = {};
   return (
-    <View style={styles.splitSection}>
+    <View style={[styles.splitSection, containerStyle]}>
       {sections.map((section, index) => {
         return (
           <View key={index} style={styles.textRowWrapper}>
