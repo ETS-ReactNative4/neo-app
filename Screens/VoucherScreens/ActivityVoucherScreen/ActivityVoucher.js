@@ -20,6 +20,8 @@ import SimpleButton from "../../../CommonComponents/SimpleButton/SimpleButton";
 import { inject } from "mobx-react/custom";
 import Icon from "../../../CommonComponents/Icon/Icon";
 import IosCloseButton from "../Components/IosCloseButton";
+import VoucherAccordion from "../Components/VoucherAccordion";
+import HTMLView from "react-native-htmlview";
 
 @inject("itineraries")
 @inject("voucherStore")
@@ -46,43 +48,125 @@ class ActivityVoucher extends Component {
     const { getActivityVoucherById, selectedVoucher } = this.props.voucherStore;
     const { getActivityById } = this.props.itineraries;
     const identifier = this.props.navigation.getParam("identifier", "");
-    const {} = getActivityVoucherById(identifier) || {};
-    const {} = getActivityById(identifier) || {};
+
+    console.log(selectedVoucher);
+    console.log(identifier);
+    console.log(getActivityVoucherById(identifier));
+    console.log(getActivityById(identifier));
+
+    // Booking Source
+    // Starts at time missing
+    // numof passenger is 0
+    // Booked by detail missing
+    // Slot needs proper formatting
+    // mode of transfer is missing
+    // pickup time not available
+    // exact address for pickup
+    // Lat-long for opening google maps
+    // contact number
+    // booked date
+    // amount paid
+    // refundability status
+    const {
+      bookingId,
+      availabilitySlot,
+      duration,
+      numberOfPassenger,
+      pickupTime,
+      inclusions,
+      exclusions
+    } =
+      getActivityVoucherById(identifier) || {};
+    const { mainPhoto, title, notes, longDesc } =
+      getActivityById(identifier) || {};
+    const { ourSourceProvider, day, dayOfWeek, mon } = getActivityById(
+      identifier
+    ).costing;
+
     const xHeight = isIphoneX() ? constants.xNotchHeight : 0;
     const passengerDetails = [
       {
-        name: "Lead passenger",
-        value: "Mr. Shantanu Agarwal"
+        name: "Booked by",
+        value: ""
       },
       {
-        name: "Number of Passengers",
-        value: "2 adults"
+        name: "No. of pax",
+        value: numberOfPassenger
       },
       {
-        name: "Vehicle type",
-        value: "Car"
+        name: "Starts at",
+        value: ""
       },
       {
-        name: "Type",
-        value: "Private Transfer"
+        name: "Duration",
+        value: `${duration} mins`
+      },
+      {
+        name: "Slot",
+        value: availabilitySlot
       }
     ];
-    const arrivalDetails = [
+    const transferDetails = [
       {
-        name: "Arrival at",
-        value: "Madrid Airport"
+        name: "Mode of transfer",
+        value: ""
       },
       {
-        name: "Arrival time",
-        value: "7:45 am"
+        name: "Pick up time",
+        value: pickupTime
+      }
+    ];
+    const bookingDetails = [
+      {
+        name: "Booked on",
+        value: ""
       },
       {
-        name: "Pickup time",
-        value: "7.45 am"
+        name: "Total paid",
+        value: ""
       },
       {
-        name: "Meeting point",
-        value: "Arrival Terminal"
+        name: "Booking source",
+        value: ourSourceProvider
+      },
+      {
+        name: "Booking type",
+        value: ""
+      }
+    ];
+
+    const bookingDetailSections = [
+      {
+        name: "Inclusions",
+        component: (
+          <View style={styles.accordionTextWrapper}>
+            <HTMLView value={inclusions} stylesheet={{}} />
+          </View>
+        )
+      },
+      {
+        name: "Exclusions",
+        component: (
+          <View style={styles.accordionTextWrapper}>
+            <HTMLView value={exclusions} stylesheet={{}} />
+          </View>
+        )
+      },
+      {
+        name: "Instructions & notes",
+        component: (
+          <View style={styles.accordionTextWrapper}>
+            <HTMLView value={notes} stylesheet={{}} />
+          </View>
+        )
+      },
+      {
+        name: "About",
+        component: (
+          <View style={styles.accordionTextWrapper}>
+            <HTMLView value={longDesc} stylesheet={{}} />
+          </View>
+        )
       }
     ];
 
@@ -96,21 +180,24 @@ class ActivityVoucher extends Component {
         fadeOutForeground={Platform.OS !== "android"}
         onChangeHeaderVisibility={this.headerToggle}
         renderStickyHeader={() => (
-          <VoucherStickyHeader action={this.close} text={"1242345"} />
+          <VoucherStickyHeader action={this.close} text={bookingId} />
         )}
         renderForeground={() => (
           <VoucherHeader
             infoText={`BOOKING ID`}
-            title={`1242345`}
+            title={bookingId}
             menu={() => {}}
             onClickClose={this.close}
+            image={{ uri: mainPhoto }}
           />
         )}
       >
         <View style={styles.titleSection}>
-          <Text style={styles.activityDate}>Sun 24</Text>
+          <Text
+            style={styles.activityDate}
+          >{`${dayOfWeek}, ${day} ${mon}`}</Text>
 
-          <VoucherName name={`Airport transfer - Madrid Airport to Hotel`} />
+          <VoucherName name={title} />
 
           <VoucherSplitSection sections={passengerDetails} />
         </View>
@@ -121,18 +208,34 @@ class ActivityVoucher extends Component {
             containerStyle={{ marginBottom: 0 }}
           />
 
-          <VoucherSplitSection sections={arrivalDetails} />
+          <VoucherSplitSection sections={transferDetails} />
 
-          <SimpleButton
-            text={"Contact"}
-            action={() => null}
-            color={"transparent"}
-            containerStyle={{ width: responsiveWidth(100) - 48, marginTop: 24 }}
-            textColor={constants.black2}
-            hasBorder={true}
-            icon={constants.trainIcon}
-            iconSize={16}
-          />
+          <View style={styles.actionRow}>
+            <SimpleButton
+              text={"Directions"}
+              containerStyle={{ width: responsiveWidth(43) }}
+              action={() => {}}
+              color={"transparent"}
+              textColor={constants.black2}
+              hasBorder={true}
+              icon={constants.trainIcon}
+              iconSize={16}
+            />
+            <SimpleButton
+              text={"Contact"}
+              containerStyle={{ width: responsiveWidth(43) }}
+              action={() => {}}
+              color={"transparent"}
+              textColor={constants.black2}
+              hasBorder={true}
+              icon={constants.trainIcon}
+              iconSize={16}
+            />
+          </View>
+        </View>
+        <View style={styles.bookingDetailsSection}>
+          <VoucherAccordion sections={bookingDetailSections} />
+          <VoucherSplitSection sections={bookingDetails} />
         </View>
       </ParallaxScrollView>,
       Platform.OS === "ios" && this.state.isCloseVisible ? (
@@ -153,6 +256,28 @@ const styles = StyleSheet.create({
   arrivalSection: {
     marginTop: 16,
     paddingHorizontal: 24
+  },
+  actionRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingVertical: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: constants.shade4
+  },
+  bookingDetailsSection: {
+    paddingHorizontal: 24,
+    marginBottom: 24
+  },
+  accordionTextWrapper: {
+    marginTop: 16,
+    paddingBottom: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: constants.shade4
+  },
+  accordionText: {
+    ...constants.fontCustom(constants.primaryLight, 17),
+    color: constants.black2
   }
 });
 

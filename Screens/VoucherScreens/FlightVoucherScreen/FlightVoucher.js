@@ -121,17 +121,18 @@ class FlightVoucher extends Component {
             );
           })}
           <SectionHeader sectionName={"TRAVELLERS"} />
-          {passengers.map((passenger, passengerIndex) => {
-            return (
-              <PassengerName
-                key={passengerIndex}
-                name={`${passenger.salutation}. ${passenger.firstName} ${
-                  passenger.lastName
-                }`}
-                secondaryText={`TICKET NO: ${passenger.ticketNumber}`}
-              />
-            );
-          })}
+          {passengers &&
+            passengers.map((passenger, passengerIndex) => {
+              return (
+                <PassengerName
+                  key={passengerIndex}
+                  name={`${passenger.salutation}. ${passenger.firstName} ${
+                    passenger.lastName
+                  }`}
+                  secondaryText={`TICKET NO: ${passenger.ticketNumber}`}
+                />
+              );
+            })}
           <VoucherSplitSection
             sections={flightInvoiceInfo}
             containerStyle={{

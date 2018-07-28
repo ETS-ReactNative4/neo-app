@@ -39,7 +39,6 @@ class FlightTripView extends Component {
      * TODO: Missing Items
      *
        // need departure year or time in milliseconds
-       // flight Class
        // airport name
        // Cabin Baggage
      */

@@ -3956,7 +3956,7 @@ class Itineraries {
   getActivityById = createTransformer(id => {
     if (_.isEmpty(this._selectedItinerary)) return {};
 
-    return toJS(this._selectedItinerary.activityById[id]);
+    return this.activities.find(activity => id === activity.costing.key);
   });
 
   getFlightById = createTransformer(id => {

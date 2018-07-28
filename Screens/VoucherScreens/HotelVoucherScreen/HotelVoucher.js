@@ -98,6 +98,7 @@ class HotelVoucher extends Component {
           };
           return (
             <View
+              key={amenityIndex}
               style={[
                 styles.amenitiesTextWrapper,
                 amenityIndex === amenities.length - 1 ? customStyle : {}
@@ -277,7 +278,7 @@ class HotelVoucher extends Component {
           <View style={styles.bookingSection}>
             {bookingDetailSection.map((booking, bookingIndex) => {
               return (
-                <View style={styles.textRowWrapper}>
+                <View key={bookingIndex} style={styles.textRowWrapper}>
                   <Text style={styles.sectionName}>{booking.title}</Text>
                   <Text style={styles.sectionValue}>{booking.text}</Text>
                 </View>

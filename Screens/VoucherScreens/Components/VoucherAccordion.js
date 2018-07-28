@@ -11,6 +11,9 @@ class VoucherAccordion extends Component {
   };
 
   _renderHeader = (section, index, isActive, sections) => {
+    const customStyle = {};
+    if (isActive) customStyle.borderBottomWidth = 0;
+
     const iconContainer = {};
     const spinValue = new Animated.Value(0);
     Animated.timing(spinValue, {
@@ -34,7 +37,7 @@ class VoucherAccordion extends Component {
     }
 
     return (
-      <View style={styles.amenitiesSection}>
+      <View style={[styles.amenitiesSection, customStyle]}>
         <Text style={styles.amenitiesText}>{section.name}</Text>
         <Animated.View style={iconContainer}>
           <Icon
