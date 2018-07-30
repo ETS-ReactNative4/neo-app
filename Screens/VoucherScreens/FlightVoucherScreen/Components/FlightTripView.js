@@ -4,13 +4,14 @@ import FlightCard from "./FlightCard";
 import FlightDivider from "./FlightDivider";
 import PropTypes from "prop-types";
 import constants from "../../../../constants/constants";
+import forbidExtraProps from "../../../../Services/PropTypeValidation/forbidExtraProps";
 
 class FlightTripView extends Component {
-  static propTypes = {
+  static propTypes = forbidExtraProps({
     trip: PropTypes.object.isRequired,
     isLast: PropTypes.bool.isRequired,
     airlineCode: PropTypes.string.isRequired
-  };
+  });
 
   state = {
     isExpanded: false
