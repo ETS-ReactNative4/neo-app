@@ -7,11 +7,16 @@ import { inject, observer } from "mobx-react/custom";
 import forbidExtraProps from "../../../../Services/PropTypeValidation/forbidExtraProps";
 
 const Activity = inject("itineraries")(
-  observer(({ activity, itineraries }) => {
+  observer(({ activity, navigation, itineraries }) => {
     const { getActivityById } = itineraries;
+    let onClick = () => null;
 
     switch (activity.type) {
       case "INTERNATIONAL_ARRIVE":
+        onClick = () =>
+          navigation.navigate("FlightVoucher", {
+            identifier: activity.arrivalSlotDetail.flightCostingKey
+          });
         return (
           <SimpleActivity
             activity={activity}
@@ -19,6 +24,7 @@ const Activity = inject("itineraries")(
             text={activity.arrivalSlotDetail.slotText}
             image={constants.notificationIcon}
             icon={constants.aeroplaneIcon}
+            onClick={onClick}
           />
         );
 
@@ -29,6 +35,7 @@ const Activity = inject("itineraries")(
             title={activity.name}
             text={activity.leisureSlotDetail.text}
             image={constants.notificationIcon}
+            onClick={onClick}
           />
         );
 
@@ -36,12 +43,17 @@ const Activity = inject("itineraries")(
         const activityCosting = getActivityById(
           activity.activitySlotDetail.activityCostingIdentifier
         );
+        onClick = () =>
+          navigation.navigate("ActivityVoucher", {
+            identifier: activity.activitySlotDetail.activityCostingIdentifier
+          });
         return (
           <SimpleActivity
             activity={activity}
             title={activity.name}
             text={activityCosting.title}
             image={{ uri: activityCosting.mainPhoto }}
+            onClick={onClick}
           />
         );
 
@@ -56,6 +68,7 @@ const Activity = inject("itineraries")(
             }
             image={constants.notificationIcon}
             icon={constants.aeroplaneIcon}
+            onClick={onClick}
           />
         );
 
@@ -67,10 +80,15 @@ const Activity = inject("itineraries")(
             text={activity.departureSlotDetail.slotText}
             image={constants.notificationIcon}
             icon={constants.aeroplaneIcon}
+            onClick={onClick}
           />
         );
 
       case "ACTIVITY_WITH_TRANSFER":
+        onClick = () =>
+          navigation.navigate("ActivityVoucher", {
+            identifier: activity.activitySlotDetail.activityCostingIdentifier
+          });
         return (
           <SimpleActivity
             activity={activity}
@@ -81,6 +99,7 @@ const Activity = inject("itineraries")(
             }
             image={constants.notificationIcon}
             icon={constants.trainIcon}
+            onClick={onClick}
           />
         );
 
@@ -98,7 +117,8 @@ const Activity = inject("itineraries")(
 );
 
 Activity.propTypes = forbidExtraProps({
-  activity: PropTypes.object.isRequired
+  activity: PropTypes.object.isRequired,
+  navigation: PropTypes.object.isRequired
 });
 
 export default Activity;

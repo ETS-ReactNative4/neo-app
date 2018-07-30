@@ -156,6 +156,7 @@ class BookedItinerary extends Component {
                 day={day}
                 slot={slots[index]}
                 onItemLayout={this.onItemLayout}
+                navigation={navigation}
               />
             );
           })}
