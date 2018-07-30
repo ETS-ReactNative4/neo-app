@@ -41,13 +41,6 @@ class HotelVoucher extends Component {
     });
   };
 
-  onScroll = event => {
-    const currentOffset = event.nativeEvent.contentOffset.y;
-    const direction = currentOffset > this.offset ? "down" : "up";
-    this.offset = currentOffset;
-    console.log(direction);
-  };
-
   close = () => {
     this.props.navigation.goBack();
   };

@@ -49,11 +49,6 @@ class ActivityVoucher extends Component {
     const { getActivityById } = this.props.itineraries;
     const identifier = this.props.navigation.getParam("identifier", "");
 
-    console.log(selectedVoucher);
-    console.log(identifier);
-    console.log(getActivityVoucherById(identifier));
-    console.log(getActivityById(identifier));
-
     // Booking Source
     // Starts at time missing
     // numof passenger is 0
@@ -140,7 +135,10 @@ class ActivityVoucher extends Component {
         name: "Inclusions",
         component: (
           <View style={styles.accordionTextWrapper}>
-            <HTMLView value={inclusions} stylesheet={{}} />
+            <HTMLView
+              value={`<div>${inclusions}</div>`}
+              stylesheet={constants.htmlStyleSheet}
+            />
           </View>
         )
       },
@@ -148,7 +146,10 @@ class ActivityVoucher extends Component {
         name: "Exclusions",
         component: (
           <View style={styles.accordionTextWrapper}>
-            <HTMLView value={exclusions} stylesheet={{}} />
+            <HTMLView
+              value={`<div>${exclusions}</div>`}
+              stylesheet={constants.htmlStyleSheet}
+            />
           </View>
         )
       },
@@ -156,7 +157,10 @@ class ActivityVoucher extends Component {
         name: "Instructions & notes",
         component: (
           <View style={styles.accordionTextWrapper}>
-            <HTMLView value={notes} stylesheet={{}} />
+            <HTMLView
+              value={`<div>${notes}</div>`}
+              stylesheet={constants.htmlStyleSheet}
+            />
           </View>
         )
       },
@@ -164,7 +168,10 @@ class ActivityVoucher extends Component {
         name: "About",
         component: (
           <View style={styles.accordionTextWrapper}>
-            <HTMLView value={longDesc} stylesheet={{}} />
+            <HTMLView
+              value={`<div>${longDesc}</div>`}
+              stylesheet={constants.htmlStyleSheet}
+            />
           </View>
         )
       }

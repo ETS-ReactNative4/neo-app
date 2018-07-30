@@ -61,8 +61,6 @@ class BookingsHome extends Component {
     const { selectedVoucher } = this.props.voucherStore;
     const { navigation } = this.props;
 
-    console.log(JSON.stringify(selectedVoucher));
-
     return (
       <View style={styles.bookingHomeContainer}>
         <SearchPlaceholder action={this.openSearch} />
