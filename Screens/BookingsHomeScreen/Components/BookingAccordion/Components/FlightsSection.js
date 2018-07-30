@@ -58,6 +58,8 @@ const Flight = ({ flight, isLast, navigation }) => {
     };
   });
 
+  const airlineLogo = constants.getAirlineIcon(flight.airlineCode);
+
   /**
    * TODO: Flight Icons Needed
    * */
@@ -68,9 +70,9 @@ const Flight = ({ flight, isLast, navigation }) => {
     >
       <View style={styles.iconWrapper}>
         <Image
-          resizeMode={"cover"}
+          resizeMode={"contain"}
           style={styles.contentIcon}
-          source={constants.splashBackground}
+          source={{ uri: airlineLogo }}
         />
       </View>
       <View style={styles.contentTextContainer}>

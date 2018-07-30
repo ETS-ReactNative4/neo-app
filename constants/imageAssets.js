@@ -1,3 +1,6 @@
+import constants from "./constants";
+import serverUrls from "./serverUrls";
+
 const imageAssets = {
   splashBackground: require("../assets/images/backgrounds/viceroy-bali.jpg.jpg"),
   starterBackground: require("../assets/images/backgrounds/viceroy-bali.jpg.jpg"),
@@ -54,7 +57,17 @@ const imageAssets = {
   invitePassengersIcon: require("../assets/images/toolIcons/invite-co-passanger.png"),
   medicalCareIcon: require("../assets/images/toolIcons/medical-care.png"),
   packageChecklistIcon: require("../assets/images/toolIcons/packing-checklist.png"),
-  passportDetailsIcon: require("../assets/images/toolIcons/passport-details.png")
+  passportDetailsIcon: require("../assets/images/toolIcons/passport-details.png"),
+
+  /**
+   * TODO: Airline logo placeholder
+   * @param airlineCode
+   * @returns {string}
+   */
+  getAirlineIcon: airlineCode =>
+    airlineCode
+      ? `${serverUrls.airlineCdn}${airlineCode.trim()}.png`
+      : `${serverUrls.airlineCdn}${"placeholder"}.png`
 };
 
 export default imageAssets;

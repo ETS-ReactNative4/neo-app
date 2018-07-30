@@ -17,14 +17,22 @@ const FlightCard = ({
   stops,
   showStops,
   toggleCard,
-  flightClass
+  flightClass,
+  airlineCode
 }) => {
+  const airlineLogo = constants.getAirlineIcon(airlineCode);
+
   return (
     <View style={styles.flightCard}>
       {isFirst ? <Text style={styles.flightRoute}>{flightRoute}</Text> : null}
       <View style={styles.flightDetails}>
         <View style={styles.providerSection}>
-          <Icon size={24} name={constants.aeroplaneIcon} />
+          <Image
+            source={{ uri: airlineLogo }}
+            style={styles.airlineLogo}
+            resizeMode={"contain"}
+          />
+          {/*<Icon size={24} name={constants.aeroplaneIcon} />*/}
           <View style={styles.flightProviderWrapper}>
             <Text style={styles.flightProvider}>{carrierName}</Text>
           </View>
@@ -80,6 +88,22 @@ const FlightCard = ({
   );
 };
 
+FlightCard.propTypes = {
+  isFirst: PropTypes.bool.isRequired,
+  departure: PropTypes.string.isRequired,
+  arrival: PropTypes.string.isRequired,
+  departureText: PropTypes.string.isRequired,
+  arrivalText: PropTypes.string.isRequired,
+  flyTime: PropTypes.string.isRequired,
+  carrierName: PropTypes.string.isRequired,
+  flightRoute: PropTypes.string.isRequired,
+  stops: PropTypes.number.isRequired,
+  showStops: PropTypes.bool.isRequired,
+  toggleCard: PropTypes.func.isRequired,
+  flightClass: PropTypes.string.isRequired,
+  airlineCode: PropTypes.string.isRequired
+};
+
 const styles = StyleSheet.create({
   flightCard: {},
   flightRoute: {
@@ -96,6 +120,12 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "flex-start"
+  },
+  airlineLogo: {
+    height: 24,
+    width: 24,
+    borderRadius: 12,
+    marginRight: 4
   },
   flightProviderWrapper: {
     height: 17

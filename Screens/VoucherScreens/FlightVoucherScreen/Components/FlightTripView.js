@@ -8,7 +8,8 @@ import constants from "../../../../constants/constants";
 class FlightTripView extends Component {
   static propTypes = {
     trip: PropTypes.object.isRequired,
-    isLast: PropTypes.bool.isRequired
+    isLast: PropTypes.bool.isRequired,
+    airlineCode: PropTypes.string.isRequired
   };
 
   state = {
@@ -26,7 +27,7 @@ class FlightTripView extends Component {
   }
 
   render() {
-    const { isLast } = this.props;
+    const { isLast, airlineCode } = this.props;
     const { routes, flightClass, flyTime } = this.props.trip;
     const containerStyle = [
       styles.flightTripViewContainer,
@@ -88,6 +89,7 @@ class FlightTripView extends Component {
             stops={routes.length - 1}
             showStops={!this.state.isExpanded}
             flightClass={flightClass}
+            airlineCode={airlineCode}
           />
         </View>
       );
@@ -144,6 +146,7 @@ class FlightTripView extends Component {
                   stops={routes.length - 1}
                   showStops={!this.state.isExpanded}
                   flightClass={flightClass}
+                  airlineCode={airlineCode}
                 />,
                 routeIndex < routes.length - 1 ? (
                   <FlightDivider

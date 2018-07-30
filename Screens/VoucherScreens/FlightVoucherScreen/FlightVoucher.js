@@ -56,7 +56,7 @@ class FlightVoucher extends Component {
       cancellationPolicy
     } =
       getFlightVoucherById(identifier) || {};
-    const { trips, allTrips } = getFlightById(identifier) || {};
+    const { trips, allTrips, airlineCode } = getFlightById(identifier) || {};
 
     const tripDetails = allTrips.map(trip => {
       return trips[trip];
@@ -116,6 +116,7 @@ class FlightVoucher extends Component {
               <FlightTripView
                 key={tripIndex}
                 trip={trip}
+                airlineCode={airlineCode}
                 isLast={tripIndex === tripDetails.length - 1}
               />
             );
