@@ -10,9 +10,28 @@ class VoucherAccordion extends Component {
     sections: PropTypes.array.isRequired
   };
 
+  state = {
+    wasActiveIndex: 0
+  };
+
+  shouldComponentUpdate(nextProps) {
+    return this.props === nextProps;
+  }
+
   _renderHeader = (section, index, isActive, sections) => {
+    const { wasActiveIndex } = this.state;
+
     const customStyle = {};
-    if (isActive) customStyle.borderBottomWidth = 0;
+
+    if (isActive) {
+      customStyle.borderBottomWidth = 0;
+
+      if (wasActiveIndex !== index) {
+        this.setState({
+          wasActiveIndex: index
+        });
+      }
+    }
 
     const iconContainer = {};
     const spinValue = new Animated.Value(0);
@@ -28,7 +47,7 @@ class VoucherAccordion extends Component {
         outputRange: ["0deg", "90deg"]
       });
       iconContainer.transform = [{ rotate: spin }];
-    } else {
+    } else if (wasActiveIndex === index) {
       const reverseSpin = spinValue.interpolate({
         inputRange: [0, 1],
         outputRange: ["90deg", "0deg"]
