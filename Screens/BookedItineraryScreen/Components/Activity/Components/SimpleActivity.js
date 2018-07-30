@@ -1,7 +1,7 @@
 import React from "react";
 import {
   View,
-  TouchableHighlight,
+  TouchableOpacity,
   Text,
   Image,
   StyleSheet,
@@ -15,14 +15,14 @@ import ActivityRow from "./ActivityRow";
 
 const SimpleActivity = ({ activity, title, text, image, icon }) => {
   return (
-    <TouchableHighlight onPress={() => {}}>
+    <TouchableOpacity activeOpacity={0.2} onPress={() => {}}>
       <View style={styles.activityContainer}>
         <View style={styles.imageContainer}>
           <CircleThumbnail image={image} icon={icon} />
         </View>
         <ActivityRow title={title} text={text} />
       </View>
-    </TouchableHighlight>
+    </TouchableOpacity>
   );
 };
 
