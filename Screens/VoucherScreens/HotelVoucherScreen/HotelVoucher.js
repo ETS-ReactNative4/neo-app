@@ -91,25 +91,27 @@ class HotelVoucher extends Component {
     const amenitiesSection = [
       {
         name: "Hotel Amenities",
-        component: amenities.map((amenity, amenityIndex) => {
-          const customStyle = {
-            borderBottomWidth: 1,
-            borderBottomColor: constants.shade4
-          };
-          return (
-            <View
-              key={amenityIndex}
-              style={[
-                styles.amenitiesTextWrapper,
-                amenityIndex === amenities.length - 1 ? customStyle : {}
-              ]}
-            >
-              <Text style={styles.amenitiesText} key={amenityIndex}>{`• ${
-                amenity.name
-              }`}</Text>
-            </View>
-          );
-        })
+        component: amenities
+          ? amenities.map((amenity, amenityIndex) => {
+              const customStyle = {
+                borderBottomWidth: 1,
+                borderBottomColor: constants.shade4
+              };
+              return (
+                <View
+                  key={amenityIndex}
+                  style={[
+                    styles.amenitiesTextWrapper,
+                    amenityIndex === amenities.length - 1 ? customStyle : {}
+                  ]}
+                >
+                  <Text style={styles.amenitiesText} key={amenityIndex}>{`• ${
+                    amenity.name
+                  }`}</Text>
+                </View>
+              );
+            })
+          : null
       }
     ];
 
@@ -194,61 +196,63 @@ class HotelVoucher extends Component {
             sectionName={`BOOKING DETAILS`}
             containerStyle={{ marginBottom: 0 }}
           />
-          {rooms.map((room, roomIndex) => {
-            const {
-              leadPassenger, // Gender Needed?
-              roomType,
-              roomPaxInfo,
-              otherPassengers
-            } = room;
+          {rooms &&
+            rooms.map((room, roomIndex) => {
+              const {
+                leadPassenger, // Gender Needed?
+                roomType,
+                roomPaxInfo,
+                otherPassengers
+              } = room;
 
-            return (
-              <View key={roomIndex} style={styles.bookedSuit}>
-                <View style={styles.bookedSuitInfo}>
-                  <CircleThumbnail image={constants.splashBackground} />
-                  <View style={styles.bookedSuitDetails}>
-                    <Text style={styles.bookedSuitType}>{roomType}</Text>
-                    <Text
-                      style={styles.suitBookingDetails}
-                    >{`Booked for ${roomPaxInfo}`}</Text>
+              return (
+                <View key={roomIndex} style={styles.bookedSuit}>
+                  <View style={styles.bookedSuitInfo}>
+                    <CircleThumbnail image={constants.splashBackground} />
+                    <View style={styles.bookedSuitDetails}>
+                      <Text style={styles.bookedSuitType}>{roomType}</Text>
+                      <Text
+                        style={styles.suitBookingDetails}
+                      >{`Booked for ${roomPaxInfo}`}</Text>
+                    </View>
+                  </View>
+
+                  <PassengerName
+                    name={`${leadPassenger.salutation}. ${
+                      leadPassenger.firstName
+                    } ${leadPassenger.lastName}`}
+                  />
+                  {otherPassengers &&
+                    otherPassengers.map((passenger, passengerIndex) => {
+                      return (
+                        <PassengerName
+                          key={passengerIndex}
+                          name={`${passenger.salutation}. ${
+                            passenger.firstName
+                          } ${passenger.lastName}`}
+                        />
+                      );
+                    })}
+
+                  <View style={styles.hotelDetailsSection}>
+                    <View style={styles.textRowWrapper}>
+                      <Text style={styles.sectionName}>Breakfast</Text>
+                      <Text style={styles.sectionValue}>Complementary</Text>
+                    </View>
+                    <View style={styles.textRowWrapper}>
+                      <Text style={styles.sectionName}>Free Wifi</Text>
+                      <Text style={styles.sectionValue}>Included</Text>
+                    </View>
+                    <View style={styles.textRowWrapper}>
+                      <Text style={styles.sectionName}>Booking Type</Text>
+                      <Text style={styles.sectionValue}>
+                        Partially Refundable
+                      </Text>
+                    </View>
                   </View>
                 </View>
-
-                <PassengerName
-                  name={`${leadPassenger.salutation}. ${
-                    leadPassenger.firstName
-                  } ${leadPassenger.lastName}`}
-                />
-                {otherPassengers.map((passenger, passengerIndex) => {
-                  return (
-                    <PassengerName
-                      key={passengerIndex}
-                      name={`${passenger.salutation}. ${passenger.firstName} ${
-                        passenger.lastName
-                      }`}
-                    />
-                  );
-                })}
-
-                <View style={styles.hotelDetailsSection}>
-                  <View style={styles.textRowWrapper}>
-                    <Text style={styles.sectionName}>Breakfast</Text>
-                    <Text style={styles.sectionValue}>Complementary</Text>
-                  </View>
-                  <View style={styles.textRowWrapper}>
-                    <Text style={styles.sectionName}>Free Wifi</Text>
-                    <Text style={styles.sectionValue}>Included</Text>
-                  </View>
-                  <View style={styles.textRowWrapper}>
-                    <Text style={styles.sectionName}>Booking Type</Text>
-                    <Text style={styles.sectionValue}>
-                      Partially Refundable
-                    </Text>
-                  </View>
-                </View>
-              </View>
-            );
-          })}
+              );
+            })}
 
           <View style={styles.actionRow}>
             <SimpleButton
