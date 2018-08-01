@@ -9,7 +9,7 @@ const CheckListButtons = ({ id, item, isComplete, type, deleteListItem }) => {
   return (
     <TouchableOpacity
       style={styles.checklistButtonContainer}
-      onPress={() => deleteListItem({ item })}
+      onPress={() => deleteListItem(item)}
       activeOpacity={0.5}
     >
       <Icon name={constants.trainIcon} size={18} color={"white"} />
