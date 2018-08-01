@@ -5,33 +5,7 @@ import _ from "lodash";
 import store from "./Store";
 
 class PackingChecklist {
-  @observable
-  _checkListItems = {
-    paperwork: {
-      "1": {
-        name: "passport",
-        deleted: false
-      },
-      "2": {
-        name: "localId",
-        deleted: false
-      },
-      "3": {
-        name: "boardingPass",
-        deleted: false
-      }
-    },
-    electronics: {
-      "1": {
-        name: "smartPhone",
-        deleted: false
-      },
-      "2": {
-        name: "phoneCharger",
-        deleted: false
-      }
-    }
-  };
+  @observable _checkListItems = {};
   @observable _packingCheckList = {};
   @observable _yourList = {};
   @observable _isLoading = false;
@@ -39,6 +13,7 @@ class PackingChecklist {
 
   @action
   getPackingChecklist = itinerary_id => {
+    this.loadChecklistItems();
     const requestBody = {
       itinerary_id
     };
@@ -50,6 +25,25 @@ class PackingChecklist {
           this._hasError = false;
           this._packingCheckList = response.data.checkListCategoryUser;
           this._yourList = response.data.myList;
+        } else {
+          this._hasError = true;
+        }
+      })
+      .catch(() => {
+        this._isLoading = false;
+        this._hasError = true;
+      });
+  };
+
+  @action
+  loadChecklistItems = () => {
+    this._isLoading = true;
+    apiCall(constants.getCheckList, {}, "GET")
+      .then(response => {
+        this._isLoading = false;
+        if (response.status === "SUCCESS") {
+          this._hasError = false;
+          this._checkListItems = response.data.categories;
         } else {
           this._hasError = true;
         }

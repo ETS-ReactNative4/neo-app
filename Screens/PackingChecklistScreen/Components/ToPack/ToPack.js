@@ -65,9 +65,10 @@ class ToPack extends Component {
 
   render() {
     const { listItems, deleteListItem } = this.props;
-    const CheckListComponent = props => (
+    const CheckListComponent = ({ index, item, section, separators }) => (
       <CheckListItem
-        {...props}
+        index={index}
+        item={item}
         toggleCheckListStatus={this.props.toggleCheckListStatus}
         deleteListItem={deleteListItem}
         addListItem={this.props.addListItem}

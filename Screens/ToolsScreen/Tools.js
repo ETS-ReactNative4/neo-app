@@ -124,7 +124,7 @@ class Tools extends Component {
     return (
       <View style={styles.container}>
         <SearchPlaceholder
-          action={this.openSearch}
+          action={() => null}
           containerStyle={{ marginHorizontal: 24 }}
         />
         <ScrollView>
