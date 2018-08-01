@@ -4,11 +4,12 @@ import PropTypes from "prop-types";
 import Icon from "../../../../../CommonComponents/Icon/Icon";
 import constants from "../../../../../constants/constants";
 import { isIphoneX } from "react-native-iphone-x-helper";
+import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidExtraProps";
 
 class AddCheckListItem extends Component {
-  static propTypes = {
+  static propTypes = forbidExtraProps({
     addListItem: PropTypes.func.isRequired
-  };
+  });
 
   state = {
     item: ""

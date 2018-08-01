@@ -12,10 +12,13 @@ import constants from "../../constants/constants";
 import PhrasesSection from "./Components/PhrasesSection";
 import Icon from "../../CommonComponents/Icon/Icon";
 import CustomPhrase from "./Components/CustomPhrase";
+import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 
 class PhraseBook extends Component {
-  static navigationOptions = {
-    title: "Phrase book"
+  static navigationOptions = ({ navigation }) => {
+    return {
+      header: <CommonHeader title={"Common Phrases"} navigation={navigation} />
+    };
   };
 
   state = {

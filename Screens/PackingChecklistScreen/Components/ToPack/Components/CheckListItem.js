@@ -4,6 +4,8 @@ import CheckListText from "./CheckListText";
 import CheckListButtons from "./CheckListButtons";
 import AddCheckListItem from "./AddCheckListItem";
 import constants from "../../../../../constants/constants";
+import PropTypes from "prop-types";
+import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidExtraProps";
 
 const CheckListItem = ({
   index,
@@ -33,5 +35,13 @@ const CheckListItem = ({
     </SwipeRow>
   );
 };
+
+CheckListItem.propTypes = forbidExtraProps({
+  index: PropTypes.number.isRequired,
+  item: PropTypes.object.isRequired,
+  toggleCheckListStatus: PropTypes.func.isRequired,
+  addListItem: PropTypes.func.isRequired,
+  deleteListItem: PropTypes.func.isRequired
+});
 
 export default CheckListItem;

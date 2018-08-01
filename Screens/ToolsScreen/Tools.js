@@ -13,8 +13,31 @@ import SectionHeader from "../../CommonComponents/SectionHeader/SectionHeader";
 import Carousel from "../../CommonComponents/Carousel/Carousel";
 import PrimaryTool from "./Components/PrimaryTool";
 import SecondaryTool from "./Components/SecondaryTool";
+import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
+import HamburgerButton from "../../CommonComponents/HamburgerButton/HamburgerButton";
+import BookingHomeTitle from "../BookingsHomeScreen/Components/BookingHomeTitle";
+import TripToggle from "../../CommonComponents/TripToggle/TripToggle";
+import SearchPlaceholder from "../../CommonComponents/SearchPlaceholder/SearchPlaceholder";
 
 class Tools extends Component {
+  static navigationOptions = ({ navigation }) => {
+    return {
+      header: (
+        <CommonHeader
+          LeftButton={
+            <HamburgerButton action={() => navigation.openDrawer()} />
+          }
+          TitleComponent={
+            <BookingHomeTitle action={() => navigation.push("YourBookings")} />
+          }
+          title={""}
+          RightButton={<TripToggle containerStyle={{ marginHorizontal: 24 }} />}
+          navigation={navigation}
+        />
+      )
+    };
+  };
+
   render() {
     const cityList = [
       {
@@ -99,82 +122,88 @@ class Tools extends Component {
     ];
 
     return (
-      <ScrollView style={styles.container}>
-        <SectionHeader
-          sectionName={"CITY GUIDES"}
+      <View style={styles.container}>
+        <SearchPlaceholder
+          action={this.openSearch}
           containerStyle={{ marginHorizontal: 24 }}
         />
-
-        <Carousel data={cityList} firstMargin={24} />
-
-        <SectionHeader
-          sectionName={"ESSENTIALS"}
-          containerStyle={{ marginTop: 40, marginHorizontal: 24 }}
-        />
-
-        <PrimaryTool
-          text={`Currency Calculator`}
-          action={() => this.props.navigation.push("CurrencyConverter")}
-          containerStyle={{ marginHorizontal: 24 }}
-          toolIcon={constants.currencyCalculatorIcon}
-        />
-
-        {essentialTools.map((item, index) => (
-          <SecondaryTool
+        <ScrollView>
+          <SectionHeader
+            sectionName={"CITY GUIDES"}
             containerStyle={{ marginHorizontal: 24 }}
-            key={index}
-            icon={item.icon}
-            text={item.text}
-            action={item.action}
           />
-        ))}
 
-        <SectionHeader
-          sectionName={"BEFORE PACKING"}
-          containerStyle={{ marginTop: 40, marginHorizontal: 24 }}
-        />
+          <Carousel data={cityList} firstMargin={24} />
 
-        <PrimaryTool
-          text={`Invite Co-passengers`}
-          action={() => {}}
-          containerStyle={{ marginHorizontal: 24 }}
-          toolIcon={constants.invitePassengersIcon}
-        />
+          <SectionHeader
+            sectionName={"ESSENTIALS"}
+            containerStyle={{ marginTop: 40, marginHorizontal: 24 }}
+          />
 
-        {beforePacking.map((item, index) => (
-          <SecondaryTool
+          <PrimaryTool
+            text={`Currency Calculator`}
+            action={() => this.props.navigation.push("CurrencyConverter")}
             containerStyle={{ marginHorizontal: 24 }}
-            key={index}
-            icon={item.icon}
-            text={item.text}
-            action={item.action}
+            toolIcon={constants.currencyCalculatorIcon}
           />
-        ))}
 
-        <SectionHeader
-          sectionName={"MORE TOOLS"}
-          containerStyle={{ marginTop: 40, marginHorizontal: 24 }}
-        />
+          {essentialTools.map((item, index) => (
+            <SecondaryTool
+              containerStyle={{ marginHorizontal: 24 }}
+              key={index}
+              icon={item.icon}
+              text={item.text}
+              action={item.action}
+            />
+          ))}
 
-        <PrimaryTool
-          containerStyle={{ marginHorizontal: 24 }}
-          text={`Complete Payment`}
-          action={() => {}}
-          toolIcon={constants.completePaymentIcon}
-        />
+          <SectionHeader
+            sectionName={"BEFORE PACKING"}
+            containerStyle={{ marginTop: 40, marginHorizontal: 24 }}
+          />
 
-        {moreTools.map((item, index) => (
-          <SecondaryTool
+          <PrimaryTool
+            text={`Invite Co-passengers`}
+            action={() => {}}
             containerStyle={{ marginHorizontal: 24 }}
-            key={index}
-            icon={item.icon}
-            text={item.text}
-            action={item.action}
+            toolIcon={constants.invitePassengersIcon}
           />
-        ))}
 
-        <View style={{ height: 20 }} />
-      </ScrollView>
+          {beforePacking.map((item, index) => (
+            <SecondaryTool
+              containerStyle={{ marginHorizontal: 24 }}
+              key={index}
+              icon={item.icon}
+              text={item.text}
+              action={item.action}
+            />
+          ))}
+
+          <SectionHeader
+            sectionName={"MORE TOOLS"}
+            containerStyle={{ marginTop: 40, marginHorizontal: 24 }}
+          />
+
+          <PrimaryTool
+            containerStyle={{ marginHorizontal: 24 }}
+            text={`Complete Payment`}
+            action={() => {}}
+            toolIcon={constants.completePaymentIcon}
+          />
+
+          {moreTools.map((item, index) => (
+            <SecondaryTool
+              containerStyle={{ marginHorizontal: 24 }}
+              key={index}
+              icon={item.icon}
+              text={item.text}
+              action={item.action}
+            />
+          ))}
+
+          <View style={{ height: 20 }} />
+        </ScrollView>
+      </View>
     );
   }
 }

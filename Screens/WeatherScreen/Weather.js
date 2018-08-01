@@ -9,6 +9,7 @@ import { inject, observer } from "mobx-react/custom";
 import _ from "lodash";
 import Moment from "moment";
 import { extendMoment } from "moment-range";
+import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 
 const moment = extendMoment(Moment);
 
@@ -16,8 +17,10 @@ const moment = extendMoment(Moment);
 @inject("itineraries")
 @observer
 class Weather extends Component {
-  static navigationOptions = {
-    title: "Weather"
+  static navigationOptions = ({ navigation }) => {
+    return {
+      header: <CommonHeader title={"Weather"} navigation={navigation} />
+    };
   };
 
   state = {

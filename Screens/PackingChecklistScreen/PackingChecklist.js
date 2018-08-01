@@ -7,14 +7,19 @@ import ToPack from "./Components/ToPack/ToPack";
 import { responsiveWidth } from "react-native-responsive-dimensions";
 import _ from "lodash";
 import { inject, observer } from "mobx-react/custom";
+import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 
 @inject("packingChecklistStore")
 @inject("itineraries")
 @inject("yourBookingsStore")
 @observer
 class PackingChecklist extends Component {
-  static navigationOptions = {
-    title: "Packing Checklist"
+  static navigationOptions = ({ navigation }) => {
+    return {
+      header: (
+        <CommonHeader title={"Packing Checklist"} navigation={navigation} />
+      )
+    };
   };
 
   state = {

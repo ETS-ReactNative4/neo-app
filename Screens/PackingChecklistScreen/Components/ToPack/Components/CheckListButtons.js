@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import PropTypes from "prop-types";
 import Icon from "../../../../../CommonComponents/Icon/Icon";
 import constants from "../../../../../constants/constants";
+import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidExtraProps";
 
 const CheckListButtons = ({ id, item, isComplete, type, deleteListItem }) => {
   return (
@@ -16,13 +17,13 @@ const CheckListButtons = ({ id, item, isComplete, type, deleteListItem }) => {
   );
 };
 
-CheckListButtons.propTypes = {
+CheckListButtons.propTypes = forbidExtraProps({
   id: PropTypes.number.isRequired,
   item: PropTypes.string.isRequired,
   isComplete: PropTypes.bool.isRequired,
   type: PropTypes.string.isRequired,
   deleteListItem: PropTypes.func.isRequired
-};
+});
 
 const styles = StyleSheet.create({
   checklistButtonContainer: {

@@ -4,8 +4,17 @@ import constants from "../../constants/constants";
 import ScrollableTabView from "react-native-scrollable-tab-view";
 import ScrollableTabBar from "../../CommonComponents/ScrollableTabBar/ScrollableTabBar";
 import EmergencyContactSection from "./Components/EmergencyContactSection";
+import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 
 class EmergencyContacts extends Component {
+  static navigationOptions = ({ navigation }) => {
+    return {
+      header: (
+        <CommonHeader title={"Emergency Contacts"} navigation={navigation} />
+      )
+    };
+  };
+
   render() {
     return (
       <View style={styles.emergencyContactsContainer}>
