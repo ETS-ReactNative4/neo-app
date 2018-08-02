@@ -54,7 +54,11 @@ class HotelVoucher extends Component {
       ...(getHotelById(identifier) || {}),
       ...(getHotelVoucherById(identifier) || {})
     };
-    const xHeight = isIphoneX() ? constants.xNotchHeight : 0;
+    const xHeight = isIphoneX()
+      ? constants.xNotchHeight
+      : Platform.OS === "ios"
+        ? 20
+        : 0;
 
     /**
      * TODO: Missing Items

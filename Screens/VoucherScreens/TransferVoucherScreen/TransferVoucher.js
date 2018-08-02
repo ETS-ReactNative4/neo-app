@@ -33,7 +33,11 @@ class TransferVoucher extends Component {
   };
 
   render() {
-    const xHeight = isIphoneX() ? constants.xNotchHeight : 0;
+    const xHeight = isIphoneX()
+      ? constants.xNotchHeight
+      : Platform.OS === "ios"
+        ? 20
+        : 0;
     const passengerDetails = [
       {
         name: "Lead passenger",
