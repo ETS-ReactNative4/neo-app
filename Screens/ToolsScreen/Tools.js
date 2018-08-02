@@ -28,7 +28,9 @@ class Tools extends Component {
             <HamburgerButton action={() => navigation.openDrawer()} />
           }
           TitleComponent={
-            <BookingHomeTitle action={() => navigation.push("YourBookings")} />
+            <BookingHomeTitle
+              action={() => navigation.navigate("YourBookings")}
+            />
           }
           title={""}
           RightButton={<TripToggle containerStyle={{ marginHorizontal: 24 }} />}
@@ -89,12 +91,12 @@ class Tools extends Component {
       {
         icon: constants.passportDetailsIcon,
         text: `Passport Details`,
-        action: () => {}
+        action: () => this.props.navigation.navigate("PassportDetails")
       },
       {
         icon: constants.packageChecklistIcon,
         text: `Packing Checklist`,
-        action: () => this.props.navigation.push("PackingChecklist")
+        action: () => this.props.navigation.navigate("PackingChecklist")
       },
       {
         icon: constants.documentVisaIcon,
@@ -142,7 +144,7 @@ class Tools extends Component {
 
           <PrimaryTool
             text={`Currency Calculator`}
-            action={() => this.props.navigation.push("CurrencyConverter")}
+            action={() => this.props.navigation.navigate("CurrencyConverter")}
             containerStyle={{ marginHorizontal: 24 }}
             toolIcon={constants.currencyCalculatorIcon}
           />

@@ -4,11 +4,14 @@ import constants from "../../../constants/constants";
 import Icon from "../../../CommonComponents/Icon/Icon";
 import PropTypes from "prop-types";
 import Accordion from "react-native-collapsible/Accordion";
+import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraProps";
 
 class VoucherAccordion extends Component {
-  static propTypes = {
-    sections: PropTypes.array.isRequired
-  };
+  static propTypes = forbidExtraProps({
+    sections: PropTypes.array.isRequired,
+    containerStyle: PropTypes.object,
+    openFirstSection: PropTypes.bool
+  });
 
   state = {
     wasActiveIndex: 0
@@ -74,13 +77,18 @@ class VoucherAccordion extends Component {
   };
 
   render() {
+    let { containerStyle, openFirstSection } = this.props;
+    if (!containerStyle) containerStyle = {};
+    let otherProps = {};
+    if (openFirstSection) otherProps.initiallyActiveSection = 0;
     return (
-      <View>
+      <View style={[containerStyle]}>
         <Accordion
           sections={this.props.sections}
           renderHeader={this._renderHeader}
           renderContent={this._renderContent}
           underlayColor={constants.shade5}
+          {...otherProps}
         />
       </View>
     );

@@ -31,6 +31,7 @@ import HomeTabBar from "./CommonComponents/HomeTabBar/HomeTabBar";
 import ActivityVoucher from "./Screens/VoucherScreens/ActivityVoucherScreen/ActivityVoucher";
 import FlightVoucher from "./Screens/VoucherScreens/FlightVoucherScreen/FlightVoucher";
 import EmergencyContacts from "./Screens/EmergencyContactsScreen/EmergencyContacts";
+import PassportDetails from "./Screens/PassportDetailsScreen/PassportDetails";
 
 UIManager.setLayoutAnimationEnabledExperimental &&
   UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -66,6 +67,9 @@ const ToolStack = createStackNavigator(
     },
     PackingChecklist: {
       screen: PackingChecklist
+    },
+    PassportDetails: {
+      screen: PassportDetails
     },
     EmergencyContacts: {
       screen: EmergencyContacts
