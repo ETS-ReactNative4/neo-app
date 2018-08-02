@@ -96,6 +96,7 @@ class MobileNumber extends Component {
   };
 
   verifyOtp = () => {
+    Keyboard.dismiss();
     const requestBody = {
       mob_num: this.state.mobileNumber,
       ccode: this.state.countryCode,
