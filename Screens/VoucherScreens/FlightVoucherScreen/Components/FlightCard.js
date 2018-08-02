@@ -4,6 +4,7 @@ import Icon from "../../../../CommonComponents/Icon/Icon";
 import constants from "../../../../constants/constants";
 import SimpleButton from "../../../../CommonComponents/SimpleButton/SimpleButton";
 import PropTypes from "prop-types";
+import forbidExtraProps from "../../../../Services/PropTypeValidation/forbidExtraProps";
 
 const FlightCard = ({
   isFirst,
@@ -88,7 +89,7 @@ const FlightCard = ({
   );
 };
 
-FlightCard.propTypes = {
+FlightCard.propTypes = forbidExtraProps({
   isFirst: PropTypes.bool.isRequired,
   departure: PropTypes.string.isRequired,
   arrival: PropTypes.string.isRequired,
@@ -102,7 +103,7 @@ FlightCard.propTypes = {
   toggleCard: PropTypes.func.isRequired,
   flightClass: PropTypes.string.isRequired,
   airlineCode: PropTypes.string.isRequired
-};
+});
 
 const styles = StyleSheet.create({
   flightCard: {},

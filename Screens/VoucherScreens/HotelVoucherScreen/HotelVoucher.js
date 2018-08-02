@@ -23,6 +23,7 @@ import { inject } from "mobx-react/custom";
 import PassengerName from "./Components/PassengerName";
 import VoucherAccordion from "../Components/VoucherAccordion";
 import IosCloseButton from "../Components/IosCloseButton";
+import VoucherSplitSection from "../Components/VoucherSplitSection";
 
 @inject("itineraries")
 @inject("voucherStore")
@@ -98,9 +99,10 @@ class HotelVoucher extends Component {
                     amenityIndex === amenities.length - 1 ? customStyle : {}
                   ]}
                 >
-                  <Text style={styles.amenitiesText} key={amenityIndex}>{`• ${
-                    amenity.name
-                  }`}</Text>
+                  <Text
+                    style={styles.amenitiesText}
+                    key={amenityIndex}
+                  >{`• ${amenity}`}</Text>
                 </View>
               );
             })
@@ -108,18 +110,33 @@ class HotelVoucher extends Component {
       }
     ];
 
+    const hotelAmenitySummary = [
+      {
+        name: "Breakfast",
+        value: ""
+      },
+      {
+        name: "Free Wifi",
+        value: ""
+      },
+      {
+        name: "Booking Type",
+        value: ""
+      }
+    ];
+
     const bookingDetailSection = [
       {
-        title: "Booked on",
-        text: ""
+        name: "Booked on",
+        value: ""
       },
       {
-        title: "Total paid",
-        text: ""
+        name: "Total paid",
+        value: ""
       },
       {
-        title: "Booking source",
-        text: bookingSource
+        name: "Booking source",
+        value: bookingSource
       }
     ];
 
@@ -228,20 +245,7 @@ class HotelVoucher extends Component {
                     })}
 
                   <View style={styles.hotelDetailsSection}>
-                    <View style={styles.textRowWrapper}>
-                      <Text style={styles.sectionName}>Breakfast</Text>
-                      <Text style={styles.sectionValue}>Complementary</Text>
-                    </View>
-                    <View style={styles.textRowWrapper}>
-                      <Text style={styles.sectionName}>Free Wifi</Text>
-                      <Text style={styles.sectionValue}>Included</Text>
-                    </View>
-                    <View style={styles.textRowWrapper}>
-                      <Text style={styles.sectionName}>Booking Type</Text>
-                      <Text style={styles.sectionValue}>
-                        Partially Refundable
-                      </Text>
-                    </View>
+                    <VoucherSplitSection sections={hotelAmenitySummary} />
                   </View>
                 </View>
               );
@@ -273,14 +277,7 @@ class HotelVoucher extends Component {
           <VoucherAccordion sections={amenitiesSection} />
 
           <View style={styles.bookingSection}>
-            {bookingDetailSection.map((booking, bookingIndex) => {
-              return (
-                <View key={bookingIndex} style={styles.textRowWrapper}>
-                  <Text style={styles.sectionName}>{booking.title}</Text>
-                  <Text style={styles.sectionValue}>{booking.text}</Text>
-                </View>
-              );
-            })}
+            <VoucherSplitSection sections={bookingDetailSection} />
           </View>
         </View>
       </ParallaxScrollView>,

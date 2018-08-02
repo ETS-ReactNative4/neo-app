@@ -3928,6 +3928,9 @@ class Itineraries {
       const endDayObject = this._selectedItinerary.iterDayByKey[endDayId];
 
       const city = cityObject.cityName;
+      /**
+       * TODO: Need date in milliseconds
+       */
       const startDay = moment(
         `${startDayObject.day}-${startDayObject.mon}-${constants.currentYear}`,
         "DD-MMM-YYYY"
