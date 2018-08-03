@@ -1,5 +1,6 @@
 import * as Keychain from "react-native-keychain";
 import constants from "../../constants/constants";
+import { logError } from "../errorLogger/errorLogger";
 
 const timeoutDuration = 60000;
 
@@ -41,10 +42,19 @@ const apiCall = async (
 
     function handleErrors(response) {
       console.log(response.status);
+      console.log(response.statusText);
       if (response.ok) {
         return response.json();
       } else {
-        throw Error(response.statusText);
+        const errorInfo = {
+          type: "apiCall",
+          url: `${serverURL}${route}`,
+          body,
+          status: response.status,
+          ...headerObject
+        };
+        logError(new Error(response.status), errorInfo);
+        throw Error(response.status);
       }
     }
 

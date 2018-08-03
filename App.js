@@ -4,7 +4,7 @@ import {
   createDrawerNavigator,
   createBottomTabNavigator
 } from "react-navigation";
-import { UIManager, Platform } from "react-native";
+import { UIManager } from "react-native";
 import Home from "./Screens/HomeScreen/Home";
 import Starter from "./Screens/StartingScreen/Starter";
 import Splash from "./Screens/SplashScreen/Splash";
@@ -32,6 +32,7 @@ import ActivityVoucher from "./Screens/VoucherScreens/ActivityVoucherScreen/Acti
 import FlightVoucher from "./Screens/VoucherScreens/FlightVoucherScreen/FlightVoucher";
 import EmergencyContacts from "./Screens/EmergencyContactsScreen/EmergencyContacts";
 import PassportDetails from "./Screens/PassportDetailsScreen/PassportDetails";
+import { logBreadCrumb } from "./Services/errorLogger/errorLogger";
 
 UIManager.setLayoutAnimationEnabledExperimental &&
   UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -222,10 +223,37 @@ const AppNavigator = createDrawerNavigator(
   }
 );
 
+const getActiveRouteName = navigationState => {
+  if (!navigationState) {
+    return null;
+  }
+  const route = navigationState.routes[navigationState.index];
+  if (route.routes) {
+    return getActiveRouteName(route);
+  }
+  return route.routeName;
+};
+
+const screenTracker = (prevState, currentState) => {
+  const currentScreen = getActiveRouteName(currentState);
+  const prevScreen = getActiveRouteName(prevState);
+
+  /**
+   * TODO: Check if any data can be added here...
+   */
+  if (prevScreen !== currentScreen) {
+    logBreadCrumb({
+      message: `${prevScreen} to ${currentScreen}`,
+      category: `navigation`,
+      data: {}
+    });
+  }
+};
+
 const App = () => {
   return (
     <Provider {...store}>
-      <AppNavigator />
+      <AppNavigator onNavigationStateChange={screenTracker} />
     </Provider>
   );
 };
