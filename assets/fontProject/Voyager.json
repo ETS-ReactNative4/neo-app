@@ -2,7 +2,7 @@
   "metadata": {
     "name": "Voyager",
     "lastOpened": 0,
-    "created": 1528968984359
+    "created": 1533386894514
   },
   "iconSets": [
     {
@@ -268,12 +268,20 @@
     {
       "selection": [
         {
+          "order": 70,
+          "id": 23,
+          "name": "trash-can",
+          "prevSize": 24,
+          "code": 59682,
+          "tempChar": ""
+        },
+        {
           "order": 47,
           "id": 22,
           "name": "search",
           "prevSize": 24,
           "code": 59677,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 48,
@@ -281,7 +289,7 @@
           "name": "swap_vert",
           "prevSize": 24,
           "code": 59678,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 49,
@@ -289,7 +297,7 @@
           "name": "speaker",
           "prevSize": 24,
           "code": 59679,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 50,
@@ -297,7 +305,7 @@
           "name": "pin",
           "prevSize": 24,
           "code": 59680,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 51,
@@ -306,7 +314,7 @@
           "prevSize": 24,
           "code": 59681,
           "codes": [59681, 59682],
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 52,
@@ -314,7 +322,7 @@
           "name": "checkbox-unchecked",
           "prevSize": 24,
           "code": 59676,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 53,
@@ -322,7 +330,7 @@
           "name": "star",
           "prevSize": 24,
           "code": 59671,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 54,
@@ -330,7 +338,7 @@
           "name": "star-active",
           "prevSize": 24,
           "code": 59672,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 55,
@@ -338,7 +346,7 @@
           "name": "call-end",
           "prevSize": 24,
           "code": 59673,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 56,
@@ -346,7 +354,7 @@
           "name": "arrow-right",
           "prevSize": 24,
           "code": 59674,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 57,
@@ -354,7 +362,7 @@
           "name": "arrow-down",
           "prevSize": 24,
           "code": 59675,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 58,
@@ -362,7 +370,7 @@
           "name": "more-options-horiz",
           "prevSize": 24,
           "code": 59656,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 59,
@@ -370,7 +378,7 @@
           "name": "support-active",
           "prevSize": 24,
           "code": 59657,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 60,
@@ -378,7 +386,7 @@
           "name": "trip-feed-active",
           "prevSize": 24,
           "code": 59658,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 61,
@@ -386,7 +394,7 @@
           "name": "tools-active",
           "prevSize": 24,
           "code": 59659,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 62,
@@ -394,7 +402,7 @@
           "name": "journal-active",
           "prevSize": 24,
           "code": 59660,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 63,
@@ -402,7 +410,7 @@
           "name": "booking-active",
           "prevSize": 24,
           "code": 59661,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 64,
@@ -410,7 +418,7 @@
           "name": "support",
           "prevSize": 24,
           "code": 59662,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 65,
@@ -418,7 +426,7 @@
           "name": "trip-feed",
           "prevSize": 24,
           "code": 59663,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 66,
@@ -426,7 +434,7 @@
           "name": "tools",
           "prevSize": 24,
           "code": 59664,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 67,
@@ -434,7 +442,7 @@
           "name": "journal",
           "prevSize": 24,
           "code": 59665,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 68,
@@ -442,7 +450,7 @@
           "name": "booking",
           "prevSize": 24,
           "code": 59666,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 69,
@@ -450,7 +458,7 @@
           "name": "close",
           "prevSize": 24,
           "code": 59667,
-          "tempChar": ""
+          "tempChar": ""
         }
       ],
       "id": 0,
@@ -464,6 +472,20 @@
       "height": 1024,
       "prevSize": 32,
       "icons": [
+        {
+          "id": 23,
+          "paths": [
+            "M178 946q-1 0-3-1l1 0.5t2 0.5zM170 942q-3-2-5-3 2 1 5 3zM950.5 203.5q-10.5-10.5-26.5-10.5h-184v-58q0-29-21-49.5t-50-20.5h-314q-30 0-50.5 20.5t-20.5 49.5v58h-185q-15 0-25.5 10.5t-10.5 25 10.5 25 25.5 10.5h31v623q0 29 21 49.5t50 20.5h632q29 0 50-20.5t21-49.5v-623h20q15 0 26-10.5t11-25-10.5-25zM354 136h315v57h-315v-57zM833 887h-632v-623h632v623zM511.5 384q-14.5 0-25 10.5t-10.5 25.5v334q0 15 10.5 25.5t25 10.5 25-10.5 10.5-25.5v-334q0-15-10.5-25.5t-25-10.5zM317 384q-15 0-25.5 10.5t-10.5 25.5v334q0 15 10.5 25.5t25.5 10.5 25.5-10.5 10.5-25.5v-334q0-15-10.5-25.5t-25.5-10.5zM704 384q-15 0-25.5 10.5t-10.5 25.5v334q0 15 10.5 25.5t25.5 10.5 25.5-10.5 10.5-25.5v-334q0-15-10.5-25.5t-25.5-10.5z"
+          ],
+          "attrs": [{}],
+          "isMulticolor": false,
+          "isMulticolor2": false,
+          "grid": 24,
+          "tags": ["trash-can"],
+          "colorPermutations": {
+            "188190192123923923912552552551281736918889911": [{}]
+          }
+        },
         {
           "id": 22,
           "paths": [

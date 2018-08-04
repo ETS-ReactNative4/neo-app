@@ -12,7 +12,7 @@ const CheckListButtons = ({ id, item, isComplete, type, deleteListItem }) => {
       onPress={() => deleteListItem(item)}
       activeOpacity={0.5}
     >
-      <Icon name={constants.trainIcon} size={18} color={"white"} />
+      <Icon name={constants.trashCanIcon} size={18} color={"white"} />
     </TouchableOpacity>
   );
 };
