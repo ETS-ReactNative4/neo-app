@@ -67,22 +67,22 @@ class Tools extends Component {
     const essentialTools = [
       {
         icon: constants.commonPhrasesIcon,
-        text: `Common Phrases`,
+        text: `Common${"\n"}Phrases`,
         action: () => this.props.navigation.navigate("PhraseBook")
       },
       {
         icon: constants.emergencyContactsIcon,
-        text: `Emergency Contacts`,
+        text: `Emergency${"\n"}Contacts`,
         action: () => this.props.navigation.navigate("EmergencyContacts")
       },
       {
         icon: constants.medicalCareIcon,
-        text: `Medical Care`,
+        text: `Medical${"\n"}Care`,
         action: () => {}
       },
       {
         icon: constants.weatherForecastIcon,
-        text: `Weather Forecast`,
+        text: `Weather${"\n"}Forecast`,
         action: () => this.props.navigation.navigate("Weather")
       }
     ];
@@ -90,22 +90,22 @@ class Tools extends Component {
     const beforePacking = [
       {
         icon: constants.passportDetailsIcon,
-        text: `Passport Details`,
+        text: `Passport${"\n"}Details`,
         action: () => this.props.navigation.navigate("PassportDetails")
       },
       {
         icon: constants.packageChecklistIcon,
-        text: `Packing Checklist`,
+        text: `Packing${"\n"}Checklist`,
         action: () => this.props.navigation.navigate("PackingChecklist")
       },
       {
         icon: constants.documentVisaIcon,
-        text: `Documents & Visa`,
+        text: `Documents${"\n"}& Visa`,
         action: () => {}
       },
       {
-        icon: constants.downloadInvoiceIcon,
-        text: `Your Picks`,
+        icon: constants.yourPickIcon,
+        text: `Your${"\n"}Picks`,
         action: () => {}
       }
     ];
@@ -144,7 +144,7 @@ class Tools extends Component {
 
           <View style={styles.toolMenuRow}>
             <PrimaryTool
-              text={`Currency Calculator`}
+              text={`Currency${"\n"}Calculator`}
               action={() => this.props.navigation.navigate("CurrencyConverter")}
               toolIcon={constants.currencyCalculatorIcon}
             />
@@ -166,7 +166,7 @@ class Tools extends Component {
 
           <View style={styles.toolMenuRow}>
             <PrimaryTool
-              text={`Invite Co-passengers`}
+              text={`Invite${"\n"}Co-passengers`}
               action={() => {}}
               toolIcon={constants.invitePassengersIcon}
             />

@@ -18,7 +18,7 @@ const SecondaryTool = ({ icon, action, text, containerStyle }) => {
       onPress={action}
       underlayColor={"transparent"}
     >
-      <Image source={icon} style={styles.icon} />
+      <Image resizeMode={"contain"} source={icon} style={styles.icon} />
       <Text style={styles.text}>{text}</Text>
     </TouchableOpacity>
   );

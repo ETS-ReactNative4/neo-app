@@ -58,6 +58,7 @@ const imageAssets = {
   medicalCareIcon: require("../assets/images/toolIcons/medical-care.png"),
   packageChecklistIcon: require("../assets/images/toolIcons/packing-checklist.png"),
   passportDetailsIcon: require("../assets/images/toolIcons/passport-details.png"),
+  yourPickIcon: require("../assets/images/toolIcons/your-picks.png"),
 
   /**
    * TODO: Airline logo placeholder
