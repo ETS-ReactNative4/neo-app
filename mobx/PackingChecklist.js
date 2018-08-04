@@ -57,6 +57,41 @@ class PackingChecklist {
   @action
   toggleCheckList = (section, key) => {
     if (section === constants.customCheckListName) {
+      this._yourList[key] === 0
+        ? (this._yourList[key] = 1)
+        : (this._yourList[key] = 0);
+      const requestBody = {
+        itineraryId: store.itineraries.selectedItineraryId,
+        checked: [],
+        removed: [],
+        unchecked: [],
+        myList: {
+          checked: [],
+          removed: [],
+          unchecked: []
+        }
+      };
+      if (this._yourList[key] === 1) {
+        requestBody.myList.checked.push(key);
+      } else {
+        requestBody.myList.unchecked.push(key);
+      }
+      const requestFailed = () => {
+        this._yourList[key] === 0
+          ? (this._yourList[key] = 1)
+          : (this._yourList[key] = 0);
+      };
+      apiCall(constants.updatePackingChecklist, requestBody)
+        .then(response => {
+          if (response.status === "SUCCESS") {
+            // no action needed
+          } else {
+            requestFailed();
+          }
+        })
+        .catch(() => {
+          requestFailed();
+        });
     } else {
       this._packingCheckList[section][key] === 0
         ? (this._packingCheckList[section][key] = 1)
@@ -152,7 +187,9 @@ class PackingChecklist {
     };
     requestBody.myList.removed.push(item);
     const itemStatus = this._yourList[item];
-    delete this._yourList[item];
+    const newList = toJS(this._yourList);
+    delete newList[item];
+    this._yourList = newList;
     const deleteFailed = () => {
       this._yourList[item] = itemStatus;
     };

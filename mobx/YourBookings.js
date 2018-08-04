@@ -1,4 +1,4 @@
-import { observable, computed, action } from "mobx";
+import { observable, computed, action, toJS } from "mobx";
 import { persist } from "mobx-persist";
 import apiCall from "../Services/networkRequests/apiCall";
 import constants from "../constants/constants";
@@ -49,12 +49,12 @@ class YourBookings {
 
   @computed
   get upcomingItineraries() {
-    return this._upcomingItineraries.slice();
+    return toJS(this._upcomingItineraries);
   }
 
   @computed
   get completedItineraries() {
-    return this._completedItineraries.slice();
+    return toJS(this._completedItineraries);
   }
 
   @computed
