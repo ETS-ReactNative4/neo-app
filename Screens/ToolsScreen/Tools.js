@@ -102,15 +102,15 @@ class Tools extends Component {
         icon: constants.documentVisaIcon,
         text: `Documents & Visa`,
         action: () => {}
+      },
+      {
+        icon: constants.downloadInvoiceIcon,
+        text: `Your Picks`,
+        action: () => {}
       }
     ];
 
     const moreTools = [
-      {
-        icon: constants.downloadInvoiceIcon,
-        text: `Download Invoice`,
-        action: () => {}
-      },
       {
         icon: constants.faqIcon,
         text: `Frequently Asked Questions`,
@@ -142,67 +142,66 @@ class Tools extends Component {
             containerStyle={{ marginTop: 40, marginHorizontal: 24 }}
           />
 
-          <PrimaryTool
-            text={`Currency Calculator`}
-            action={() => this.props.navigation.navigate("CurrencyConverter")}
-            containerStyle={{ marginHorizontal: 24 }}
-            toolIcon={constants.currencyCalculatorIcon}
-          />
-
-          {essentialTools.map((item, index) => (
-            <SecondaryTool
-              containerStyle={{ marginHorizontal: 24 }}
-              key={index}
-              icon={item.icon}
-              text={item.text}
-              action={item.action}
+          <View style={styles.toolMenuRow}>
+            <PrimaryTool
+              text={`Currency Calculator`}
+              action={() => this.props.navigation.navigate("CurrencyConverter")}
+              toolIcon={constants.currencyCalculatorIcon}
             />
-          ))}
+
+            {essentialTools.map((item, index) => (
+              <SecondaryTool
+                key={index}
+                icon={item.icon}
+                text={item.text}
+                action={item.action}
+              />
+            ))}
+          </View>
 
           <SectionHeader
             sectionName={"BEFORE PACKING"}
             containerStyle={{ marginTop: 40, marginHorizontal: 24 }}
           />
 
-          <PrimaryTool
-            text={`Invite Co-passengers`}
-            action={() => {}}
-            containerStyle={{ marginHorizontal: 24 }}
-            toolIcon={constants.invitePassengersIcon}
-          />
-
-          {beforePacking.map((item, index) => (
-            <SecondaryTool
-              containerStyle={{ marginHorizontal: 24 }}
-              key={index}
-              icon={item.icon}
-              text={item.text}
-              action={item.action}
+          <View style={styles.toolMenuRow}>
+            <PrimaryTool
+              text={`Invite Co-passengers`}
+              action={() => {}}
+              toolIcon={constants.invitePassengersIcon}
             />
-          ))}
 
-          <SectionHeader
-            sectionName={"MORE TOOLS"}
-            containerStyle={{ marginTop: 40, marginHorizontal: 24 }}
-          />
+            {beforePacking.map((item, index) => (
+              <SecondaryTool
+                key={index}
+                icon={item.icon}
+                text={item.text}
+                action={item.action}
+              />
+            ))}
+          </View>
 
-          <PrimaryTool
-            containerStyle={{ marginHorizontal: 24 }}
-            text={`Complete Payment`}
-            action={() => {}}
-            toolIcon={constants.completePaymentIcon}
-          />
+          {/*<SectionHeader*/}
+          {/*sectionName={"MORE TOOLS"}*/}
+          {/*containerStyle={{ marginTop: 40, marginHorizontal: 24 }}*/}
+          {/*/>*/}
 
-          {moreTools.map((item, index) => (
-            <SecondaryTool
-              containerStyle={{ marginHorizontal: 24 }}
-              key={index}
-              icon={item.icon}
-              text={item.text}
-              action={item.action}
-            />
-          ))}
+          {/*<View style={styles.toolMenuRow}>*/}
+          {/*<PrimaryTool*/}
+          {/*text={`Complete Payment`}*/}
+          {/*action={() => {}}*/}
+          {/*toolIcon={constants.completePaymentIcon}*/}
+          {/*/>*/}
 
+          {/*{moreTools.map((item, index) => (*/}
+          {/*<SecondaryTool*/}
+          {/*key={index}*/}
+          {/*icon={item.icon}*/}
+          {/*text={item.text}*/}
+          {/*action={item.action}*/}
+          {/*/>*/}
+          {/*))}*/}
+          {/*</View>*/}
           <View style={{ height: 20 }} />
         </ScrollView>
       </View>
@@ -226,6 +225,13 @@ const styles = StyleSheet.create({
   icon: {
     height: 24,
     width: 24
+  },
+  toolMenuRow: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    alignItems: "center",
+    justifyContent: "space-around",
+    marginHorizontal: 24
   },
   text2: {
     fontFamily: constants.primaryRegular,
