@@ -65,6 +65,8 @@ PODS:
     - React
     - Sentry (~> 3.12.4)
     - Sentry/KSCrash (~> 3.12.4)
+  - TextToSpeech (1.4.1):
+    - React
   - yoga (0.55.3.React)
 
 DEPENDENCIES:
@@ -83,6 +85,7 @@ DEPENDENCIES:
   - React/RCTText (from `../node_modules/react-native`)
   - React/RCTWebSocket (from `../node_modules/react-native`)
   - SentryReactNative (from `../node_modules/react-native-sentry`)
+  - TextToSpeech (from `../node_modules/react-native-tts`)
   - yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
@@ -102,6 +105,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native"
   SentryReactNative:
     :path: "../node_modules/react-native-sentry"
+  TextToSpeech:
+    :path: "../node_modules/react-native-tts"
   yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
@@ -114,8 +119,9 @@ SPEC CHECKSUMS:
   React: aa2040dbb6f317b95314968021bd2888816e03d5
   Sentry: 7d3ea7176e5184e9c35c12a5825905345807e8c1
   SentryReactNative: 787a08161d641dde91dd36d4c8e76f9b0ba4fc84
+  TextToSpeech: 9eb1620acaff9cc703896d5e05dc8024122a8e57
   yoga: a23273df0088bf7f2bb7e5d7b00044ea57a2a54a
 
-PODFILE CHECKSUM: 25a9e72a43f69603b315217f20a12a5493af4e04
+PODFILE CHECKSUM: 81654c9115612b33c9a1f0e40491ec9610e213c9
 
 COCOAPODS: 1.5.0
