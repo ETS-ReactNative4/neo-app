@@ -13,6 +13,7 @@ import PhrasesSection from "./Components/PhrasesSection";
 import Icon from "../../CommonComponents/Icon/Icon";
 import CustomPhrase from "./Components/CustomPhrase";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
+import Tts from "react-native-tts";
 
 class PhraseBook extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -85,6 +86,11 @@ class PhraseBook extends Component {
     this.setState({ selectedPhrase });
   };
 
+  speak = () => {
+    Tts.setDefaultLanguage("ja-JP");
+    Tts.speak("ありがとうございました");
+  };
+
   render() {
     return [
       <View key={0} style={styles.container}>
@@ -99,7 +105,7 @@ class PhraseBook extends Component {
           <View style={styles.actionsContainer}>
             <TouchableHighlight
               underlayColor={constants.shade1}
-              onPress={() => {}}
+              onPress={this.speak}
               style={styles.buttonContainer}
             >
               <Icon size={24} name={constants.speakerIcon} />
