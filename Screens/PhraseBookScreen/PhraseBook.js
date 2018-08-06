@@ -86,8 +86,8 @@ class PhraseBook extends Component {
   };
 
   render() {
-    return (
-      <View style={styles.container}>
+    return [
+      <View key={0} style={styles.container}>
         <View style={styles.infoContainer}>
           <Text style={styles.selectedPhrase}>
             {this.state.selectedPhrase.phrase}
@@ -154,9 +154,9 @@ class PhraseBook extends Component {
             />
           </ScrollableTabView>
         </View>
-        <CustomPhrase />
-      </View>
-    );
+      </View>,
+      <CustomPhrase key={1} />
+    ];
   }
 }
 
