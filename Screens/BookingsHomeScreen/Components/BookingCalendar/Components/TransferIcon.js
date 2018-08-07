@@ -2,6 +2,8 @@ import React from "react";
 import { View, Image, StyleSheet } from "react-native";
 import constants from "../../../../../constants/constants";
 import Icon from "../../../../../CommonComponents/Icon/Icon";
+import PropTypes from "prop-types";
+import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidExtraProps";
 
 const TransferIcon = ({ transferType }) => {
   const customStyle = {};
@@ -27,6 +29,10 @@ const TransferIcon = ({ transferType }) => {
     </View>
   );
 };
+
+TransferIcon.propTypes = forbidExtraProps({
+  transferType: PropTypes.string.isRequired
+});
 
 const styles = StyleSheet.create({
   iconContainer: {
