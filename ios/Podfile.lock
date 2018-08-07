@@ -59,6 +59,8 @@ PODS:
     - React
   - RNSVG (6.5.2):
     - React
+  - RNVectorIcons (5.0.0):
+    - React
   - Sentry (3.12.4):
     - Sentry/Core (= 3.12.4)
     - Sentry/KSCrash (= 3.12.4)
@@ -90,6 +92,7 @@ DEPENDENCIES:
   - React/RCTWebSocket (from `../node_modules/react-native`)
   - RNKeychain (from `../node_modules/react-native-keychain`)
   - RNSVG (from `../node_modules/react-native-svg`)
+  - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
   - SentryReactNative (from `../node_modules/react-native-sentry`)
   - TextToSpeech (from `../node_modules/react-native-tts`)
   - yoga (from `../node_modules/react-native/ReactCommon/yoga`)
@@ -113,6 +116,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-keychain"
   RNSVG:
     :path: "../node_modules/react-native-svg"
+  RNVectorIcons:
+    :path: "../node_modules/react-native-vector-icons"
   SentryReactNative:
     :path: "../node_modules/react-native-sentry"
   TextToSpeech:
@@ -129,11 +134,12 @@ SPEC CHECKSUMS:
   React: aa2040dbb6f317b95314968021bd2888816e03d5
   RNKeychain: 627c6095cef215dd3d9804a9a9cf45ab96aa3997
   RNSVG: 6252323c0312735f0af5f58b5adf2965b6a9ffbf
+  RNVectorIcons: c0dbfbf6068fefa240c37b0f71bd03b45dddac44
   Sentry: 7d3ea7176e5184e9c35c12a5825905345807e8c1
   SentryReactNative: 787a08161d641dde91dd36d4c8e76f9b0ba4fc84
   TextToSpeech: 9eb1620acaff9cc703896d5e05dc8024122a8e57
   yoga: a23273df0088bf7f2bb7e5d7b00044ea57a2a54a
 
-PODFILE CHECKSUM: 1ed8b4a105c600bf87217dc3b163a39916d2d209
+PODFILE CHECKSUM: 6d5acbdf93a34424eb3367bdd93cbee35c1c935a
 
 COCOAPODS: 1.5.0

@@ -8,7 +8,6 @@ import com.oblador.keychain.KeychainPackage;
 import net.no_mad.tts.TextToSpeechPackage;
 import io.sentry.RNSentryPackage;
 import com.BV.LinearGradient.LinearGradientPackage;
-import com.oblador.vectoricons.VectorIconsPackage;
 import com.centaurwarchief.smslistener.SmsListenerPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
@@ -35,7 +34,6 @@ public class MainApplication extends Application implements ReactApplication {
             new TextToSpeechPackage(),
             new RNSentryPackage(MainApplication.this),
             new LinearGradientPackage(),
-            new VectorIconsPackage(),
             new SmsListenerPackage()
       );
     }
