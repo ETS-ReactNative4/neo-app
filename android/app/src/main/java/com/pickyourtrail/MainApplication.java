@@ -3,13 +3,13 @@ package com.pickyourtrail;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.horcrux.svg.SvgPackage;
 import com.oblador.keychain.KeychainPackage;
 import net.no_mad.tts.TextToSpeechPackage;
 import io.sentry.RNSentryPackage;
 import com.BV.LinearGradient.LinearGradientPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.centaurwarchief.smslistener.SmsListenerPackage;
-import com.horcrux.svg.SvgPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
@@ -30,13 +30,13 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new SvgPackage(),
             new KeychainPackage(),
             new TextToSpeechPackage(),
             new RNSentryPackage(MainApplication.this),
             new LinearGradientPackage(),
             new VectorIconsPackage(),
-            new SmsListenerPackage(),
-            new SvgPackage()
+            new SmsListenerPackage()
       );
     }
 
