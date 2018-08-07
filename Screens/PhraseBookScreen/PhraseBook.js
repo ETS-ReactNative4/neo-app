@@ -14,7 +14,6 @@ import Icon from "../../CommonComponents/Icon/Icon";
 import CustomPhrase from "./Components/CustomPhrase";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import Tts from "react-native-tts";
-import Translate from "@google-cloud/translate";
 
 class PhraseBook extends Component {
   static navigationOptions = ({ navigation }) => {
