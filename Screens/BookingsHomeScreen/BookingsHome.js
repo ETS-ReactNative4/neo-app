@@ -45,13 +45,11 @@ class BookingsHome extends Component {
 
   openSearch = () => {};
 
-  componentWillUpdate() {
+  render() {
     if (Platform.OS === "ios") {
       LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     }
-  }
 
-  render() {
     const {
       startEndDates,
       days,

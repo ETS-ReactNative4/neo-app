@@ -31,10 +31,6 @@ class CustomPhrase extends Component {
     });
   };
 
-  componentWillUpdate() {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-  }
-
   keyboardDidHide = () => {
     this.setState({
       keyboardSpace: isIphoneX() ? constants.xSensorAreaHeight : 0
@@ -64,6 +60,8 @@ class CustomPhrase extends Component {
   };
 
   render() {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+
     return [
       <View
         key={0}

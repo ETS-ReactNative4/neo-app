@@ -83,10 +83,6 @@ class CurrencyConverter extends Component {
     this.keyboardDidHideListener.remove();
   }
 
-  componentWillUpdate() {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-  }
-
   setAmount = foreignAmount => {
     if (!foreignAmount) this.setState({ foreignAmount: 0 });
     else {
@@ -127,6 +123,8 @@ class CurrencyConverter extends Component {
   };
 
   render() {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+
     const foreignCurrency = this.state.foreignCurrency.substr(3);
     const nativeCurrency = this.state.nativeCurrency.substr(3);
 

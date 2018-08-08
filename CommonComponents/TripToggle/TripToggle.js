@@ -18,11 +18,9 @@ class TripToggle extends Component {
     containerStyle: PropTypes.object
   };
 
-  componentWillUpdate() {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-  }
-
   render() {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+
     const { isTripModeOn, setTripMode } = this.props.appState;
     let { containerStyle } = this.props;
     if (!containerStyle) containerStyle = {};

@@ -23,11 +23,9 @@ class FlightTripView extends Component {
     });
   };
 
-  componentWillUpdate() {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-  }
-
   render() {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+
     const { isLast, airlineCode } = this.props;
     const { routes, flightClass, flyTime } = this.props.trip;
     const containerStyle = [
