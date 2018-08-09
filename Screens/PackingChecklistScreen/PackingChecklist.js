@@ -23,9 +23,9 @@ class PackingChecklist extends Component {
   };
 
   componentDidMount() {
-    this.props.packingChecklistStore.getPackingChecklist(
-      this.props.itineraries.selectedItineraryId
-    );
+    const { selectPackingChecklist } = this.props.packingChecklistStore;
+
+    selectPackingChecklist(this.props.itineraries.selectedItineraryId);
   }
 
   render() {
