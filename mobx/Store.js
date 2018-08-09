@@ -7,6 +7,7 @@ import Itineraries from "./Itineraries";
 import Weather from "./Weather";
 import PackingChecklist from "./PackingChecklist";
 import Voucher from "./Voucher";
+import { logError } from "../Services/errorLogger/errorLogger";
 
 const store = {
   userStore: new User(),
@@ -26,47 +27,52 @@ const hydrate = create({
 hydrate("_upcomingItineraries", store.yourBookingsStore)
   .then(() => {})
   .catch(err => {
-    console.error(err);
+    logError(err);
   });
 hydrate("_completedItineraries", store.yourBookingsStore)
   .then(() => {})
   .catch(err => {
-    console.error(err);
+    logError(err);
   });
 hydrate("_itineraries", store.itineraries)
   .then(() => {})
   .catch(err => {
-    console.error(err);
+    logError(err);
   });
 hydrate("_selectedItinerary", store.itineraries)
   .then(() => {})
   .catch(err => {
-    console.error(err);
+    logError(err);
   });
 hydrate("_vouchers", store.voucherStore)
   .then(() => {})
   .catch(err => {
-    console.error(err);
+    logError(err);
   });
 hydrate("_selectedVoucher", store.voucherStore)
   .then(() => {})
   .catch(err => {
-    console.error(err);
+    logError(err);
   });
 hydrate("_tripMode", store.appState)
   .then(() => {})
   .catch(err => {
-    console.error(err);
+    logError(err);
   });
 hydrate("_weather", store.weatherStore)
   .then(() => {})
   .catch(err => {
-    console.error(err);
+    logError(err);
   });
 hydrate("_conversionRates", store.appState)
   .then(() => {})
   .catch(err => {
-    console.error(err);
+    logError(err);
+  });
+hydrate("_allPackingChecklists", store.packingChecklistStore)
+  .then(() => {})
+  .catch(err => {
+    logError(err);
   });
 
 export default store;

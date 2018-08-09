@@ -9,7 +9,7 @@ sentry
   )
   .install();
 
-export const logError = (error, extraInfo) =>
+export const logError = (error, extraInfo = {}) =>
   sentry.captureException(error, { extra: extraInfo });
 
 export const logBreadCrumb = ({ message, category, data }) =>
