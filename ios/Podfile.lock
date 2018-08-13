@@ -34,6 +34,8 @@ PODS:
     - React/Core
   - React/RCTBlob (0.56.0):
     - React/Core
+  - React/RCTGeolocation (0.56.0):
+    - React/Core
   - React/RCTImage (0.56.0):
     - React/Core
     - React/RCTNetwork
@@ -72,6 +74,7 @@ DEPENDENCIES:
   - React/jschelpers (from `../node_modules/react-native`)
   - React/RCTActionSheet (from `../node_modules/react-native`)
   - React/RCTAnimation (from `../node_modules/react-native`)
+  - React/RCTGeolocation (from `../node_modules/react-native`)
   - React/RCTImage (from `../node_modules/react-native`)
   - React/RCTNetwork (from `../node_modules/react-native`)
   - React/RCTText (from `../node_modules/react-native`)
@@ -124,6 +127,6 @@ SPEC CHECKSUMS:
   TextToSpeech: 9eb1620acaff9cc703896d5e05dc8024122a8e57
   yoga: b1ce48b6cf950b98deae82838f5173ea7cf89e85
 
-PODFILE CHECKSUM: 7d340b73b929d8ab649c59a38d3ad986586f9b69
+PODFILE CHECKSUM: b6bc0defac83e73aaa0574b3ba110d57596c7fdf
 
 COCOAPODS: 1.5.0

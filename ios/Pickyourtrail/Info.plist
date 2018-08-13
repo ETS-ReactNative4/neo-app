@@ -40,7 +40,7 @@
 		</dict>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string/>
+	<string>Your current location is needed to find places around you</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Sofia Pro.ttf</string>
