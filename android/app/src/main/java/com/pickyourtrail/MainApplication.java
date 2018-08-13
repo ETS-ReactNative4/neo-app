@@ -8,7 +8,6 @@ import io.sentry.RNSentryPackage;
 import com.horcrux.svg.SvgPackage;
 import com.oblador.keychain.KeychainPackage;
 import com.BV.LinearGradient.LinearGradientPackage;
-import com.centaurwarchief.smslistener.SmsListenerPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
@@ -33,9 +32,7 @@ public class MainApplication extends Application implements ReactApplication {
             new RNSentryPackage(),
             new SvgPackage(),
             new KeychainPackage(),
-            new RNSentryPackage(MainApplication.this),
-            new LinearGradientPackage(),
-            new SmsListenerPackage()
+            new LinearGradientPackage()
       );
     }
 
