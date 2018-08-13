@@ -4965,9 +4965,9 @@ react-native-measureme@0.0.1:
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/react-native-measureme/-/react-native-measureme-0.0.1.tgz#8b1c5595cdbb1cfdf85bff98fe36d33e98b6162c"
 
-react-native-modal@^6.0.0:
-  version "6.0.0"
-  resolved "https://registry.yarnpkg.com/react-native-modal/-/react-native-modal-6.0.0.tgz#72b829454cde207848e4323a96a440c152f7508e"
+react-native-modal@6.5.0:
+  version "6.5.0"
+  resolved "https://registry.yarnpkg.com/react-native-modal/-/react-native-modal-6.5.0.tgz#46220b2289a41597d344c1db17454611b426a758"
   dependencies:
     prop-types "^15.6.1"
     react-native-animatable "^1.2.4"
@@ -5044,9 +5044,9 @@ react-native-tab-view@^1.0.0:
   dependencies:
     prop-types "^15.6.1"
 
-react-native-tts@^1.5.1:
-  version "1.5.1"
-  resolved "https://registry.yarnpkg.com/react-native-tts/-/react-native-tts-1.5.1.tgz#c35c17c539e85d4512c36a0fd2db65445462b882"
+react-native-tts@2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/react-native-tts/-/react-native-tts-2.0.0.tgz#2736182d9da4e192521ef33a23c854c2142ba5d7"
 
 react-native-vector-icons@5.0.0:
   version "5.0.0"

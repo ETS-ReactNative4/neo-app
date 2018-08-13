@@ -24,7 +24,6 @@ target 'Pickyourtrail' do
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
   pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec'
 
-  pod 'TextToSpeech', :path => '../node_modules/react-native-tts'
   # export PATH="$PATH:/Users/mac/.nvm/versions/node/v9.11.1/bin"
   # target 'Pickyourtrail-tvOSTests' do
   #   inherit! :search_paths
@@ -40,6 +39,8 @@ target 'Pickyourtrail' do
 
 
   pod 'SentryReactNative', :path => '../node_modules/react-native-sentry'
+
+  pod 'TextToSpeech', :path => '../node_modules/react-native-tts'
 
   # target 'PickyourtrailTests' do
   #   inherit! :search_paths

@@ -3,10 +3,10 @@ package com.pickyourtrail;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import net.no_mad.tts.TextToSpeechPackage;
 import io.sentry.RNSentryPackage;
 import com.horcrux.svg.SvgPackage;
 import com.oblador.keychain.KeychainPackage;
-import net.no_mad.tts.TextToSpeechPackage;
 import com.BV.LinearGradient.LinearGradientPackage;
 import com.centaurwarchief.smslistener.SmsListenerPackage;
 import com.facebook.react.ReactNativeHost;
@@ -29,10 +29,10 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new TextToSpeechPackage(),
             new RNSentryPackage(),
             new SvgPackage(),
             new KeychainPackage(),
-            new TextToSpeechPackage(),
             new RNSentryPackage(MainApplication.this),
             new LinearGradientPackage(),
             new SmsListenerPackage()
