@@ -21,7 +21,7 @@ import Loader from "../../CommonComponents/Loader/Loader";
 import DebouncedAlert from "../../CommonComponents/DebouncedAlert/DebouncedAlert";
 import registerToken from "../../Services/registerToken/registerToken";
 import MobileNumberInput from "./Components/MobileNumberInput";
-import SmsListener from "react-native-android-sms-listener";
+// import SmsListener from "react-native-android-sms-listener";
 import { inject, observer } from "mobx-react/custom";
 
 @inject("yourBookingsStore")
@@ -52,7 +52,7 @@ class MobileNumber extends Component {
   keyboardDidShowListener = {};
   keyboardDidHideListener = {};
   waitListener = {};
-  smsListener = {};
+  // smsListener = {};
 
   keyboardDidShow = e => {
     this.setState({
@@ -112,7 +112,7 @@ class MobileNumber extends Component {
           isLoading: false
         });
         if (response.status === "VERIFIED") {
-          this.smsListener.remove ? this.smsListener.remove() : () => {};
+          // this.smsListener.remove ? this.smsListener.remove() : () => {};
           clearInterval(this.waitListener);
           await registerToken(response.data.authtoken);
           this.props.yourBookingsStore.getUpcomingItineraries();
@@ -139,7 +139,7 @@ class MobileNumber extends Component {
   };
 
   resendOtp = () => {
-    this.smsListener.remove ? this.smsListener.remove() : () => {};
+    // this.smsListener.remove ? this.smsListener.remove() : () => {};
     this.sendOtp();
   };
 
@@ -171,7 +171,7 @@ class MobileNumber extends Component {
                   response.msg || "OTP Sent",
                   ToastAndroid.SHORT
                 );
-                this.smsListener = SmsListener.addListener(this.otpPrefiller);
+                // this.smsListener = SmsListener.addListener(this.otpPrefiller);
               }
               this.waitListener = setInterval(this.waitCounter, 1000);
             }
@@ -246,7 +246,7 @@ class MobileNumber extends Component {
   componentWillUnmount() {
     this.keyboardDidShowListener.remove();
     this.keyboardDidHideListener.remove();
-    this.smsListener.remove ? this.smsListener.remove() : () => {};
+    // this.smsListener.remove ? this.smsListener.remove() : () => {};
     clearInterval(this.waitListener);
   }
 
