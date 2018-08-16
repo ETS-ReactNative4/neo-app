@@ -3,6 +3,7 @@ package com.pickyourtrail;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.centaurwarchief.smslistener.SmsListenerPackage;
 import com.krazylabs.OpenAppSettingsPackage;
 import net.no_mad.tts.TextToSpeechPackage;
 import io.sentry.RNSentryPackage;
@@ -29,6 +30,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new SmsListenerPackage(),
             new OpenAppSettingsPackage(),
             new TextToSpeechPackage(),
             new RNSentryPackage(),
