@@ -46,15 +46,19 @@ const apiCall = async (
       if (response.ok) {
         return response.json();
       } else {
-        const errorInfo = {
-          type: "apiCall",
-          url: `${serverURL}${route}`,
-          body,
-          status: response.status,
-          ...headerObject
-        };
-        logError(new Error(response.status), errorInfo);
-        throw Error(response.status);
+        response.text().then(errorText => {
+          const errorInfo = {
+            type: "apiCall",
+            url: `${serverURL}${route}`,
+            body,
+            status: response.status,
+            ...headerObject,
+            errorText
+          };
+          const errorObject = { status: response.status, errorText };
+          logError(new Error(errorObject), errorInfo);
+          throw new Error(errorObject);
+        });
       }
     }
 
