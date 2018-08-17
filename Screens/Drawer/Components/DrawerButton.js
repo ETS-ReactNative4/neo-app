@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   },
   menuName: {
-    ...constants.font20(constants.primarySemiBold),
+    ...constants.fontCustom(constants.primarySemiBold, 17),
     paddingLeft: 8
   },
   infoArea: {

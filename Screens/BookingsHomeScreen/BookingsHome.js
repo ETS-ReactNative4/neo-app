@@ -11,13 +11,13 @@ import {
 } from "react-native";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import HamburgerButton from "../../CommonComponents/HamburgerButton/HamburgerButton";
-import BookingHomeTitle from "./Components/BookingHomeTitle";
 import constants from "../../constants/constants";
 import TripToggle from "../../CommonComponents/TripToggle/TripToggle";
 import SearchPlaceholder from "../../CommonComponents/SearchPlaceholder/SearchPlaceholder";
 import BookingCalendar from "./Components/BookingCalendar/BookingCalendar";
 import BookingAccordion from "./Components/BookingAccordion/BookingAccordion";
 import { inject, observer } from "mobx-react/custom";
+import HomeTitle from "../../CommonComponents/HomeTitle/HomeTitle";
 
 @inject("itineraries")
 @inject("voucherStore")
@@ -31,9 +31,7 @@ class BookingsHome extends Component {
             <HamburgerButton action={() => navigation.openDrawer()} />
           }
           TitleComponent={
-            <BookingHomeTitle
-              action={() => navigation.navigate("YourBookings")}
-            />
+            <HomeTitle action={() => navigation.navigate("YourBookings")} />
           }
           title={""}
           RightButton={<TripToggle containerStyle={{ marginHorizontal: 24 }} />}

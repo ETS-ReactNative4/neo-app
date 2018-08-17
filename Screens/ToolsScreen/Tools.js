@@ -15,9 +15,9 @@ import PrimaryTool from "./Components/PrimaryTool";
 import SecondaryTool from "./Components/SecondaryTool";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import HamburgerButton from "../../CommonComponents/HamburgerButton/HamburgerButton";
-import BookingHomeTitle from "../BookingsHomeScreen/Components/BookingHomeTitle";
 import TripToggle from "../../CommonComponents/TripToggle/TripToggle";
 import SearchPlaceholder from "../../CommonComponents/SearchPlaceholder/SearchPlaceholder";
+import HomeTitle from "../../CommonComponents/HomeTitle/HomeTitle";
 
 class Tools extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -28,9 +28,7 @@ class Tools extends Component {
             <HamburgerButton action={() => navigation.openDrawer()} />
           }
           TitleComponent={
-            <BookingHomeTitle
-              action={() => navigation.navigate("YourBookings")}
-            />
+            <HomeTitle action={() => navigation.navigate("YourBookings")} />
           }
           title={""}
           RightButton={<TripToggle containerStyle={{ marginHorizontal: 24 }} />}
