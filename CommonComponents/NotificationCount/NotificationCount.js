@@ -33,7 +33,6 @@ const styles = StyleSheet.create({
   text: {
     fontFamily: constants.primaryLight,
     fontSize: 15,
-    lineHeight: 18,
     color: "white"
   }
 });
