@@ -26,6 +26,7 @@ import { inject, observer } from "mobx-react/custom";
 import getSmsPermissionAndroid from "../../Services/getSmsPermissionAndroid/getSmsPermissionAndroid";
 
 @inject("yourBookingsStore")
+@inject("userStore")
 @observer
 class MobileNumber extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -107,6 +108,9 @@ class MobileNumber extends Component {
     this.setState({
       isLoading: true
     });
+    const { yourBookingsStore, navigation, userStore } = this.props;
+    const { getUpcomingItineraries } = yourBookingsStore;
+    const { getUserDetails } = userStore;
     apiCall(constants.verifyOtp, requestBody)
       .then(async response => {
         this.setState({
@@ -116,8 +120,9 @@ class MobileNumber extends Component {
           this.smsListener.remove ? this.smsListener.remove() : () => null;
           clearInterval(this.waitListener);
           await registerToken(response.data.authtoken);
-          this.props.yourBookingsStore.getUpcomingItineraries();
-          this.props.navigation.push("YourBookings");
+          getUpcomingItineraries();
+          getUserDetails();
+          navigation.navigate("YourBookings");
         } else {
           if (Platform.OS === "ios") {
             DebouncedAlert("OTP Verification Failed!", response.msg);

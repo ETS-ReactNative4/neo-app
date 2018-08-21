@@ -74,5 +74,10 @@ hydrate("_allPackingChecklists", store.packingChecklistStore)
   .catch(err => {
     logError(err);
   });
+hydrate("_user", store.userStore)
+  .then(() => {})
+  .catch(err => {
+    logError(err);
+  });
 
 export default store;
