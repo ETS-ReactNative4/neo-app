@@ -24,11 +24,11 @@ class Splash extends Component {
       const credentials = await Keychain.getGenericPassword();
       if (credentials) {
         Platform.OS === "ios"
-          ? this.props.navigation.push("AppHome")
+          ? this.props.navigation.navigate("AppHome")
           : this.props.navigation.dispatch(resetToItineraries);
       } else {
         Platform.OS === "ios"
-          ? this.props.navigation.push("Starter")
+          ? this.props.navigation.navigate("Starter")
           : this.props.navigation.dispatch(resetToHome);
       }
     }, 3000);

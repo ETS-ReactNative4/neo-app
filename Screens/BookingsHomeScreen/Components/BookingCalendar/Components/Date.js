@@ -49,7 +49,7 @@ const Date = ({
     <TouchableOpacity
       activeOpacity={1}
       onPress={() => {
-        navigation.push("BookedItinerary", {
+        navigation.navigate("BookedItinerary", {
           selectedDate: date
         });
       }}
