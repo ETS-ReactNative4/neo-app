@@ -19,12 +19,17 @@ import CurrencySelector from "./Components/CurrencySelector";
 import XSensorPlaceholder from "../../CommonComponents/XSensorPlaceholder/XSensorPlaceholder";
 import { inject, observer } from "mobx-react/custom";
 import Icon from "../../CommonComponents/Icon/Icon";
+import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 
 @inject("appState")
 @observer
 class CurrencyConverter extends Component {
-  static navigationOptions = {
-    title: "Currency Calculator"
+  static navigationOptions = ({ navigation }) => {
+    return {
+      header: (
+        <CommonHeader title={"Currency Calculator"} navigation={navigation} />
+      )
+    };
   };
 
   state = {
@@ -78,10 +83,6 @@ class CurrencyConverter extends Component {
     this.keyboardDidHideListener.remove();
   }
 
-  componentWillUpdate() {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-  }
-
   setAmount = foreignAmount => {
     if (!foreignAmount) this.setState({ foreignAmount: 0 });
     else {
@@ -122,6 +123,8 @@ class CurrencyConverter extends Component {
   };
 
   render() {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+
     const foreignCurrency = this.state.foreignCurrency.substr(3);
     const nativeCurrency = this.state.nativeCurrency.substr(3);
 
@@ -132,6 +135,9 @@ class CurrencyConverter extends Component {
      */
     if (!conversionRates.quotes) return null;
 
+    /**
+     * TODO: Dynamic suggested rates using user's previous info
+     */
     const currencyRates = [
       {
         foreignAmount: 5,
@@ -320,7 +326,9 @@ class CurrencyConverter extends Component {
           </View>
           {isIphoneX() ? (
             <XSensorPlaceholder
-              containerStyle={{ backgroundColor: constants.shade5 }}
+              containerStyle={{
+                backgroundColor: constants.firstColorBackground
+              }}
             />
           ) : null}
         </View>
@@ -392,7 +400,7 @@ const styles = StyleSheet.create({
   inputContainer: {
     flexDirection: "row",
     height: 80,
-    backgroundColor: constants.shade5,
+    backgroundColor: constants.firstColorBackground,
     paddingHorizontal: 24
   },
   textBoxContainer: {

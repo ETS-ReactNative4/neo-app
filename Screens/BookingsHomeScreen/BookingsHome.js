@@ -11,15 +11,16 @@ import {
 } from "react-native";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import HamburgerButton from "../../CommonComponents/HamburgerButton/HamburgerButton";
-import BookingHomeTitle from "./Components/BookingHomeTitle";
 import constants from "../../constants/constants";
 import TripToggle from "../../CommonComponents/TripToggle/TripToggle";
 import SearchPlaceholder from "../../CommonComponents/SearchPlaceholder/SearchPlaceholder";
 import BookingCalendar from "./Components/BookingCalendar/BookingCalendar";
 import BookingAccordion from "./Components/BookingAccordion/BookingAccordion";
 import { inject, observer } from "mobx-react/custom";
+import HomeTitle from "../../CommonComponents/HomeTitle/HomeTitle";
 
 @inject("itineraries")
+@inject("voucherStore")
 @observer
 class BookingsHome extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -30,7 +31,7 @@ class BookingsHome extends Component {
             <HamburgerButton action={() => navigation.openDrawer()} />
           }
           TitleComponent={
-            <BookingHomeTitle action={() => navigation.push("YourBookings")} />
+            <HomeTitle action={() => navigation.navigate("YourBookings")} />
           }
           title={""}
           RightButton={<TripToggle containerStyle={{ marginHorizontal: 24 }} />}
@@ -42,20 +43,20 @@ class BookingsHome extends Component {
 
   openSearch = () => {};
 
-  componentWillUpdate() {
+  render() {
     if (Platform.OS === "ios") {
       LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     }
-  }
 
-  render() {
     const {
       startEndDates,
       days,
       getDateSelectionMatrixSingle,
       numOfActivitiesByDay,
-      getTransferTypeByDay
+      getTransferTypeByDay,
+      selectedItineraryId
     } = this.props.itineraries;
+    const { selectedVoucher } = this.props.voucherStore;
     const { navigation } = this.props;
 
     return (
@@ -74,7 +75,7 @@ class BookingsHome extends Component {
             navigation={navigation}
           />
 
-          <BookingAccordion />
+          <BookingAccordion navigation={navigation} />
         </ScrollView>
       </View>
     );

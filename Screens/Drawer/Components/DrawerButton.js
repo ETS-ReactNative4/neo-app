@@ -1,52 +1,45 @@
-import React from 'react';
+import React from "react";
 import {
   TouchableHighlight,
   View,
   StyleSheet,
   Image,
-  Text,
-} from 'react-native';
-import PropTypes from 'prop-types';
+  Text
+} from "react-native";
+import PropTypes from "prop-types";
 import constants from "../../../constants/constants";
 
-const DrawerButton = ({icon, text, action, info, isActive}) => {
+const DrawerButton = ({ icon, text, action, info, isActive }) => {
   return (
     <TouchableHighlight
       style={[
         styles.buttonContainer,
         isActive
-        ?
-          {
-            backgroundColor: constants.shade4
-          }
-        : {}
+          ? {
+              backgroundColor: "rgba(0,0,0,0.2)"
+            }
+          : {}
       ]}
       onPress={action}
-      underlayColor={
-        isActive
-          ?
-          constants.shade3
-          :
-          constants.shade4
-      }
-      >
+      underlayColor={isActive ? "rgba(0,0,0,0.4)" : "rgba(0,0,0,0.2)"}
+    >
       <View style={styles.buttonView}>
-
         <View style={styles.iconContainer}>
-          <Image
-            source={icon}
-            style={styles.icon}
-          />
+          <Image source={icon} style={styles.icon} />
         </View>
 
         <View style={styles.textContainer}>
-          <Text style={styles.menuName}>{text}</Text>
+          <Text
+            style={[
+              styles.menuName,
+              isActive ? { color: "white" } : { color: "rgba(255,255,255,0.6)" }
+            ]}
+          >
+            {text}
+          </Text>
         </View>
 
-        <View style={styles.infoArea}>
-          {info}
-        </View>
-
+        <View style={styles.infoArea}>{info}</View>
       </View>
     </TouchableHighlight>
   );
@@ -57,41 +50,40 @@ DrawerButton.propTypes = {
   text: PropTypes.string.isRequired,
   action: PropTypes.func.isRequired,
   info: PropTypes.element,
-  isActive: PropTypes.bool.isRequired,
+  isActive: PropTypes.bool.isRequired
 };
 
 const styles = StyleSheet.create({
   buttonContainer: {
-    height: 48,
+    height: 48
   },
   buttonView: {
     flex: 1,
-    flexDirection: 'row',
+    flexDirection: "row"
   },
   iconContainer: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center"
   },
   icon: {
     height: 24,
-    width: 24,
+    width: 24
   },
   textContainer: {
     flex: 5,
-    alignItems: 'flex-start',
-    justifyContent: 'center',
+    alignItems: "flex-start",
+    justifyContent: "center"
   },
   menuName: {
-    ...constants.font20(constants.primaryRegular),
-    color: constants.shade1,
-    paddingLeft: 8,
+    ...constants.fontCustom(constants.primarySemiBold, 17),
+    paddingLeft: 8
   },
   infoArea: {
     flex: 2,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+    alignItems: "center",
+    justifyContent: "center"
+  }
 });
 
 export default DrawerButton;

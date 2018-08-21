@@ -5,6 +5,7 @@ import {
   NavigationActions,
   DrawerActions
 } from "react-navigation";
+import { setUserContext } from "../errorLogger/errorLogger";
 
 const resetToSplash = StackActions.reset({
   index: 0,
@@ -22,6 +23,9 @@ const logOut = navigation => {
   store.itineraries.reset();
   store.appState.reset();
   store.yourBookingsStore.reset();
+  store.voucherStore.reset();
+  store.packingChecklistStore.reset();
+  setUserContext();
 };
 
 export default logOut;

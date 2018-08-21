@@ -1,14 +1,57 @@
 import React, { Component } from "react";
-import { View, TextInput, StyleSheet, TouchableOpacity } from "react-native";
+import {
+  View,
+  TextInput,
+  StyleSheet,
+  TouchableOpacity,
+  Keyboard,
+  Platform,
+  LayoutAnimation
+} from "react-native";
 import { isIphoneX } from "react-native-iphone-x-helper";
 import XSensorPlaceholder from "../../../CommonComponents/XSensorPlaceholder/XSensorPlaceholder";
 import constants from "../../../constants/constants";
 import SimpleButton from "../../../CommonComponents/SimpleButton/SimpleButton";
+import { responsiveWidth } from "react-native-responsive-dimensions";
 
 class CustomPhrase extends Component {
   state = {
-    customPhrase: ""
+    customPhrase: "",
+    isKeyboardVisible: false,
+    keyboardSpace: isIphoneX() ? constants.xSensorAreaHeight : 0
   };
+  keyboardDidShowListener = {};
+  keyboardDidHideListener = {};
+
+  keyboardDidShow = e => {
+    this.setState({
+      keyboardSpace: isIphoneX()
+        ? e.endCoordinates.height
+        : e.endCoordinates.height
+    });
+  };
+
+  keyboardDidHide = () => {
+    this.setState({
+      keyboardSpace: isIphoneX() ? constants.xSensorAreaHeight : 0
+    });
+  };
+
+  componentDidMount() {
+    this.keyboardDidShowListener = Keyboard.addListener(
+      "keyboardWillChangeFrame",
+      this.keyboardDidShow
+    );
+    this.keyboardDidHideListener = Keyboard.addListener(
+      "keyboardWillHide",
+      this.keyboardDidHide
+    );
+  }
+
+  componentWillUnmount() {
+    this.keyboardDidShowListener.remove();
+    this.keyboardDidHideListener.remove();
+  }
 
   onEditText = e => {
     this.setState({
@@ -17,40 +60,54 @@ class CustomPhrase extends Component {
   };
 
   render() {
-    return (
-      <View>
-        <View style={styles.customPhraseContainer}>
-          <TextInput
-            style={styles.customPhraseInput}
-            onChange={this.onEditText}
-            returnKeyType={"done"}
-            underlineColorAndroid={"transparent"}
-            value={this.state.customPhrase}
-            placeholder={"Or, type a custom message"}
-          />
-          <SimpleButton
-            text={"SPA"}
-            action={() => null}
-            containerStyle={{
-              backgroundColor: "white",
-              width: 32,
-              marginLeft: 16
-            }}
-            textColor={constants.firstColor}
-          />
-        </View>
-        {isIphoneX() ? <XSensorPlaceholder /> : null}
-      </View>
-    );
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+
+    return [
+      <View
+        key={0}
+        style={[
+          styles.customPhraseContainer,
+          { bottom: this.state.keyboardSpace }
+        ]}
+      >
+        <TextInput
+          style={styles.customPhraseInput}
+          onChange={this.onEditText}
+          returnKeyType={"done"}
+          underlineColorAndroid={"transparent"}
+          value={this.state.customPhrase}
+          placeholder={"Or, type a custom message"}
+        />
+        <SimpleButton
+          text={"SPA"}
+          action={() => null}
+          containerStyle={{
+            backgroundColor: "white",
+            width: 40,
+            marginLeft: 16
+          }}
+          textColor={constants.firstColor}
+        />
+      </View>,
+      isIphoneX() && !this.state.isKeyboardVisible ? (
+        <XSensorPlaceholder
+          key={1}
+          containerStyle={{ backgroundColor: "white" }}
+        />
+      ) : null
+    ];
   }
 }
 
 const styles = StyleSheet.create({
   customPhraseContainer: {
     height: 48,
+    width: responsiveWidth(100),
     flexDirection: "row",
     alignItems: "center",
-    paddingHorizontal: 24
+    paddingHorizontal: 24,
+    backgroundColor: "white",
+    position: "absolute"
   },
   customPhraseInput: {
     flex: 1,

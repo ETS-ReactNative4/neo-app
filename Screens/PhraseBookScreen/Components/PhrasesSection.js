@@ -10,6 +10,7 @@ import {
 import PropTypes from "prop-types";
 import constants from "../../../constants/constants";
 import Icon from "../../../CommonComponents/Icon/Icon";
+import { isIphoneX } from "react-native-iphone-x-helper";
 
 const PhrasesSection = ({ phrases, selectPhrase }) => {
   return (
@@ -33,7 +34,15 @@ const Phrase = ({ phrase, selectPhrase, isLast }) => {
     <TouchableHighlight
       onPress={() => {}}
       underlayColor={"white"}
-      style={[styles.phraseTouchable, isLast ? { borderBottomWidth: 1 } : {}]}
+      style={[
+        styles.phraseTouchable,
+        isLast
+          ? {
+              borderBottomWidth: 1,
+              marginBottom: 48 + isIphoneX() ? constants.xSensorAreaHeight : 0
+            }
+          : {}
+      ]}
     >
       <View style={styles.phraseContainer}>
         <Text style={styles.phraseText}>{phrase.phrase}</Text>

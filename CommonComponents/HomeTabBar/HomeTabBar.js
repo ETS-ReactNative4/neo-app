@@ -62,7 +62,7 @@ const HomeTabBar = {
       backgroundColor: "white"
     }
   },
-  initialRouteName: "Tools",
+  initialRouteName: "Bookings",
   swipeEnabled: false
 };
 

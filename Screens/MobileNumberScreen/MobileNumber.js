@@ -23,6 +23,7 @@ import registerToken from "../../Services/registerToken/registerToken";
 import MobileNumberInput from "./Components/MobileNumberInput";
 import SmsListener from "react-native-android-sms-listener";
 import { inject, observer } from "mobx-react/custom";
+import getSmsPermissionAndroid from "../../Services/getSmsPermissionAndroid/getSmsPermissionAndroid";
 
 @inject("yourBookingsStore")
 @observer
@@ -96,6 +97,7 @@ class MobileNumber extends Component {
   };
 
   verifyOtp = () => {
+    Keyboard.dismiss();
     const requestBody = {
       mob_num: this.state.mobileNumber,
       ccode: this.state.countryCode,
@@ -111,7 +113,7 @@ class MobileNumber extends Component {
           isLoading: false
         });
         if (response.status === "VERIFIED") {
-          this.smsListener.remove ? this.smsListener.remove() : () => {};
+          this.smsListener.remove ? this.smsListener.remove() : () => null;
           clearInterval(this.waitListener);
           await registerToken(response.data.authtoken);
           this.props.yourBookingsStore.getUpcomingItineraries();
@@ -138,7 +140,7 @@ class MobileNumber extends Component {
   };
 
   resendOtp = () => {
-    this.smsListener.remove ? this.smsListener.remove() : () => {};
+    this.smsListener.remove ? this.smsListener.remove() : () => null;
     this.sendOtp();
   };
 
@@ -170,7 +172,6 @@ class MobileNumber extends Component {
                   response.msg || "OTP Sent",
                   ToastAndroid.SHORT
                 );
-                this.smsListener = SmsListener.addListener(this.otpPrefiller);
               }
               this.waitListener = setInterval(this.waitCounter, 1000);
             }
@@ -245,21 +246,33 @@ class MobileNumber extends Component {
   componentWillUnmount() {
     this.keyboardDidShowListener.remove();
     this.keyboardDidHideListener.remove();
-    this.smsListener.remove ? this.smsListener.remove() : () => {};
+    this.smsListener.remove ? this.smsListener.remove() : () => null;
     clearInterval(this.waitListener);
   }
 
   submitMobileNumber = () => {
-    if (this.state.mobileNumber.length < 10) {
-      this.setState({
-        hasError: true
-      });
-    } else {
-      this.setState({
-        hasError: false
-      });
-      this.sendOtp();
-    }
+    const sendMobileNumber = () => {
+      if (this.state.mobileNumber.length < 10) {
+        this.setState({
+          hasError: true
+        });
+      } else {
+        this.setState({
+          hasError: false
+        });
+        this.sendOtp();
+      }
+    };
+
+    getSmsPermissionAndroid(
+      () => {
+        this.smsListener = SmsListener.addListener(this.otpPrefiller);
+        sendMobileNumber();
+      },
+      () => {
+        sendMobileNumber();
+      }
+    );
   };
 
   render() {

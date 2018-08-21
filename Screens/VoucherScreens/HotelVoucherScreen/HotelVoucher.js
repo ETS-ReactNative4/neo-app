@@ -19,55 +19,172 @@ import Icon from "../../../CommonComponents/Icon/Icon";
 import SimpleButton from "../../../CommonComponents/SimpleButton/SimpleButton";
 import VoucherStickyHeader from "../Components/VoucherStickyHeader";
 import VoucherName from "../Components/VoucherName";
+import { inject } from "mobx-react/custom";
+import PassengerName from "./Components/PassengerName";
+import VoucherAccordion from "../Components/VoucherAccordion";
+import IosCloseButton from "../Components/IosCloseButton";
+import VoucherSplitSection from "../Components/VoucherSplitSection";
 
+@inject("itineraries")
+@inject("voucherStore")
 class HotelVoucher extends Component {
   static navigationOptions = {
     header: null
   };
 
-  onScroll = event => {
-    const currentOffset = event.nativeEvent.contentOffset.y;
-    const direction = currentOffset > this.offset ? "down" : "up";
-    this.offset = currentOffset;
-    console.log(direction);
+  state = {
+    isCloseVisible: true
+  };
+
+  headerToggle = status => {
+    this.setState({
+      isCloseVisible: status
+    });
+  };
+
+  close = () => {
+    this.props.navigation.goBack();
   };
 
   render() {
-    const xHeight = isIphoneX() ? constants.xNotchHeight : 0;
-    return (
+    const { getHotelVoucherById } = this.props.voucherStore;
+    const { getHotelById } = this.props.itineraries;
+    const identifier = this.props.navigation.getParam("identifier", "");
+    const hotel = {
+      ...(getHotelById(identifier) || {}),
+      ...(getHotelVoucherById(identifier) || {})
+    };
+    const xHeight = isIphoneX()
+      ? constants.xNotchHeight
+      : Platform.OS === "ios"
+        ? 20
+        : 0;
+
+    /**
+     * TODO: Missing Items
+     */
+    // Contact number
+    // Google Map linking
+    // Booking date
+    // total paid
+    const {
+      voucherId,
+      checkInDateDisplay,
+      checkInMonthDisplay,
+      checkInDayOfWeek,
+      checkOutDateDisplay,
+      checkOutMonthDisplay,
+      checkOutDayOfWeek,
+      checkInTime, // 24-hour format?
+      checkOutTime, // 24-hour format?
+      name,
+      hotelAddress1,
+      hotelAddress2,
+      rooms,
+      amenities,
+      bookingSource,
+      imageURL
+    } = hotel;
+
+    const amenitiesSection = [
+      {
+        name: "Hotel Amenities",
+        component: amenities
+          ? amenities.map((amenity, amenityIndex) => {
+              const customStyle = {
+                borderBottomWidth: 1,
+                borderBottomColor: constants.shade4
+              };
+              return (
+                <View
+                  key={amenityIndex}
+                  style={[
+                    styles.amenitiesTextWrapper,
+                    amenityIndex === amenities.length - 1 ? customStyle : {}
+                  ]}
+                >
+                  <Text
+                    style={styles.amenitiesText}
+                    key={amenityIndex}
+                  >{`• ${amenity}`}</Text>
+                </View>
+              );
+            })
+          : null
+      }
+    ];
+
+    const hotelAmenitySummary = [
+      {
+        name: "Breakfast",
+        value: ""
+      },
+      {
+        name: "Free Wifi",
+        value: ""
+      },
+      {
+        name: "Booking Type",
+        value: ""
+      }
+    ];
+
+    const bookingDetailSection = [
+      {
+        name: "Booked on",
+        value: ""
+      },
+      {
+        name: "Total paid",
+        value: ""
+      },
+      {
+        name: "Booking source",
+        value: bookingSource
+      }
+    ];
+
+    return [
       <ParallaxScrollView
+        key={0}
         backgroundColor="white"
         contentBackgroundColor="white"
         parallaxHeaderHeight={214 + xHeight}
         stickyHeaderHeight={48 + xHeight}
         renderStickyHeader={() => (
-          <VoucherStickyHeader action={() => {}} text={"1242345"} />
+          <VoucherStickyHeader action={this.close} text={voucherId} />
         )}
         fadeOutForeground={Platform.OS !== "android"}
+        onChangeHeaderVisibility={this.headerToggle}
         renderForeground={() => (
           <VoucherHeader
             infoText={`BOOKING ID`}
-            title={`1242345`}
+            title={voucherId}
             menu={() => {}}
-            onClickClose={() => {}}
+            onClickClose={this.close}
+            image={{ uri: imageURL }}
           />
         )}
       >
         <View style={styles.checkInRow}>
           <View style={styles.checkInBox}>
             <Text style={styles.checkTitle}>CHECK IN</Text>
-            <Text style={styles.checkDate}>Sun, 24 Dec</Text>
-            <Text style={styles.checkTime}>14:30</Text>
+            <Text
+              style={styles.checkDate}
+            >{`${checkInDayOfWeek}, ${checkInDateDisplay} ${checkInMonthDisplay}`}</Text>
+            <Text style={styles.checkTime}>{checkInTime}</Text>
           </View>
           <View style={styles.checkOutBox}>
             <Text style={styles.checkTitle}>CHECK OUT</Text>
-            <Text style={styles.checkDate}>Sun, 24 Dec</Text>
-            <Text style={styles.checkTime}>14:30</Text>
+            <Text
+              style={styles.checkDate}
+            >{`${checkOutDayOfWeek}, ${checkOutDateDisplay} ${checkOutMonthDisplay}`}</Text>
+            <Text style={styles.checkTime}>{checkOutTime}</Text>
           </View>
         </View>
 
         <View style={styles.addressRow}>
-          <VoucherName name={"Clarement Guest House"} />
+          <VoucherName name={name} />
           <View style={styles.addressContainer}>
             <View style={styles.addressSection}>
               <Text
@@ -75,14 +192,14 @@ class HotelVoucher extends Component {
                 numberOfLines={3}
                 ellipsizeMode={"tail"}
               >
-                {`1-4b, Address line 1, Address Line 2. Address line 3, Addrss lastline 600700`}
+                {`${hotelAddress1 || ""} ${hotelAddress2 || ""}`}
               </Text>
             </View>
             <View style={styles.addressMarkerSection}>
-              <Image
-                style={styles.addressMarker}
-                resizeMode={"contain"}
-                source={constants.notificationIcon}
+              <Icon
+                size={24}
+                color={constants.black1}
+                name={constants.locationIcon}
               />
             </View>
           </View>
@@ -93,97 +210,85 @@ class HotelVoucher extends Component {
             sectionName={`BOOKING DETAILS`}
             containerStyle={{ marginBottom: 0 }}
           />
-          <View style={styles.bookedSuit}>
-            <View style={styles.bookedSuitInfo}>
-              <CircleThumbnail image={constants.splashBackground} />
-              <View style={styles.bookedSuitDetails}>
-                <Text
-                  style={styles.bookedSuitType}
-                >{`Single Bedroom Suite`}</Text>
-                <Text
-                  style={styles.suitBookingDetails}
-                >{`Booked for 2 Adults`}</Text>
-              </View>
-            </View>
+          {rooms &&
+            rooms.map((room, roomIndex) => {
+              const {
+                leadPassenger, // Gender Needed?
+                roomType,
+                roomPaxInfo,
+                otherPassengers
+              } = room;
 
-            <View style={styles.userDetails}>
-              <View style={styles.userIcon}>
-                <Icon name={constants.trainIcon} color={"black"} size={16} />
-              </View>
-              <View style={styles.userNameWrapper}>
-                <Text
-                  numberOfLines={2}
-                  ellipsizeMode={"tail"}
-                  style={styles.userName}
-                >{`Mr. Chetana Purushotham Mewada`}</Text>
-              </View>
-            </View>
+              return (
+                <View key={roomIndex} style={styles.bookedSuit}>
+                  <View style={styles.bookedSuitInfo}>
+                    <CircleThumbnail image={constants.splashBackground} />
+                    <View style={styles.bookedSuitDetails}>
+                      <Text style={styles.bookedSuitType}>{roomType}</Text>
+                      <Text
+                        style={styles.suitBookingDetails}
+                      >{`Booked for ${roomPaxInfo}`}</Text>
+                    </View>
+                  </View>
 
-            <View style={styles.hotelDetailsSection}>
-              <View style={styles.textRowWrapper}>
-                <Text style={styles.sectionName}>Breakfast</Text>
-                <Text style={styles.sectionValue}>Complementary</Text>
-              </View>
-              <View style={styles.textRowWrapper}>
-                <Text style={styles.sectionName}>Free Wifi</Text>
-                <Text style={styles.sectionValue}>Included</Text>
-              </View>
-              <View style={styles.textRowWrapper}>
-                <Text style={styles.sectionName}>Booking Type</Text>
-                <Text style={styles.sectionValue}>Partially Refundable</Text>
-              </View>
-            </View>
+                  <PassengerName
+                    name={`${leadPassenger.salutation}. ${
+                      leadPassenger.firstName
+                    } ${leadPassenger.lastName}`}
+                  />
+                  {otherPassengers &&
+                    otherPassengers.map((passenger, passengerIndex) => {
+                      return (
+                        <PassengerName
+                          key={passengerIndex}
+                          name={`${passenger.salutation}. ${
+                            passenger.firstName
+                          } ${passenger.lastName}`}
+                        />
+                      );
+                    })}
 
-            <View style={styles.actionRow}>
-              <SimpleButton
-                text={"Directions"}
-                containerStyle={{ width: responsiveWidth(43) }}
-                action={() => {}}
-                color={"transparent"}
-                textColor={constants.black2}
-                hasBorder={true}
-                icon={constants.trainIcon}
-                iconSize={16}
-              />
-              <SimpleButton
-                text={"Directions"}
-                containerStyle={{ width: responsiveWidth(43) }}
-                action={() => {}}
-                color={"transparent"}
-                textColor={constants.black2}
-                hasBorder={true}
-                icon={constants.trainIcon}
-                iconSize={16}
-              />
-            </View>
+                  <View style={styles.hotelDetailsSection}>
+                    <VoucherSplitSection sections={hotelAmenitySummary} />
+                  </View>
+                </View>
+              );
+            })}
 
-            <View style={styles.amenitiesSection}>
-              <Text style={styles.amenitiesText}>Hotel amenities</Text>
-              <Icon
-                name={constants.arrowRight}
-                color={constants.shade2}
-                size={16}
-              />
-            </View>
+          <View style={styles.actionRow}>
+            <SimpleButton
+              text={"Contact"}
+              containerStyle={{ width: responsiveWidth(43) }}
+              action={() => {}}
+              color={"transparent"}
+              textColor={constants.black2}
+              hasBorder={true}
+              icon={constants.callIcon}
+              iconSize={16}
+            />
+            <SimpleButton
+              text={"Directions"}
+              containerStyle={{ width: responsiveWidth(43) }}
+              action={() => {}}
+              color={"transparent"}
+              textColor={constants.black2}
+              hasBorder={true}
+              icon={constants.compassIcon}
+              iconSize={16}
+            />
+          </View>
 
-            <View style={styles.bookingSection}>
-              <View style={styles.textRowWrapper}>
-                <Text style={styles.sectionName}>Breakfast</Text>
-                <Text style={styles.sectionValue}>Complementary</Text>
-              </View>
-              <View style={styles.textRowWrapper}>
-                <Text style={styles.sectionName}>Breakfast</Text>
-                <Text style={styles.sectionValue}>Complementary</Text>
-              </View>
-              <View style={styles.textRowWrapper}>
-                <Text style={styles.sectionName}>Breakfast</Text>
-                <Text style={styles.sectionValue}>Complementary</Text>
-              </View>
-            </View>
+          <VoucherAccordion sections={amenitiesSection} />
+
+          <View style={styles.bookingSection}>
+            <VoucherSplitSection sections={bookingDetailSection} />
           </View>
         </View>
-      </ParallaxScrollView>
-    );
+      </ParallaxScrollView>,
+      Platform.OS === "ios" && this.state.isCloseVisible ? (
+        <IosCloseButton key={1} clickAction={this.close} />
+      ) : null
+    ];
   }
 }
 
@@ -247,7 +352,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24
   },
   bookedSuit: {
-    marginTop: 24
+    marginTop: 24,
+    borderBottomWidth: 1,
+    borderBottomColor: constants.shade4
   },
   bookedSuitInfo: {
     minHeight: 40,
@@ -264,27 +371,6 @@ const styles = StyleSheet.create({
   suitBookingDetails: {
     ...constants.font13(constants.primaryLight),
     color: constants.black2
-  },
-
-  userDetails: {
-    flexDirection: "row",
-    marginTop: 16
-  },
-  userIcon: {
-    height: 16,
-    width: 16,
-    alignItems: "center",
-    justifyContent: "center",
-    marginLeft: 8
-  },
-  userNameWrapper: {
-    marginLeft: 8
-  },
-  userName: {
-    ...constants.fontCustom(constants.primaryLight, 17),
-    fontWeight: "400",
-    marginTop: 3,
-    color: constants.black1
   },
 
   hotelDetailsSection: {
@@ -316,16 +402,13 @@ const styles = StyleSheet.create({
     borderBottomColor: constants.shade4
   },
 
-  amenitiesSection: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    paddingVertical: 24,
-    borderBottomWidth: 1,
-    borderBottomColor: constants.shade4
+  amenitiesTextWrapper: {
+    marginTop: 8,
+    marginBottom: 4
   },
   amenitiesText: {
     ...constants.font20(constants.primaryLight),
+    lineHeight: 22,
     color: constants.black2
   },
 

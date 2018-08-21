@@ -1,5 +1,11 @@
 import React from "react";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  Platform
+} from "react-native";
 import PropTypes from "prop-types";
 import { isIphoneX } from "react-native-iphone-x-helper";
 import XSensorPlaceholder from "../../../CommonComponents/XSensorPlaceholder/XSensorPlaceholder";
@@ -9,7 +15,11 @@ import constants from "../../../constants/constants";
 const VoucherStickyHeader = ({ text, action }) => {
   return (
     <View>
-      {isIphoneX() ? <XSensorPlaceholder /> : null}
+      {isIphoneX() ? (
+        <XSensorPlaceholder />
+      ) : Platform.OS === "ios" ? (
+        <View style={{ height: 20 }} />
+      ) : null}
       <View style={styles.headerContainer}>
         <TouchableOpacity onPress={action} style={styles.closeButton}>
           <Icon name={constants.closeIcon} size={24} />

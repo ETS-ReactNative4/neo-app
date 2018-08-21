@@ -57,6 +57,18 @@ const transitionConfig = () => {
         case "YourBookings":
           return slideFromBottom;
 
+        case "TransferVoucher":
+          return slideFromBottom;
+
+        case "ActivityVoucher":
+          return slideFromBottom;
+
+        case "HotelVoucher":
+          return slideFromBottom;
+
+        case "FlightVoucher":
+          return slideFromBottom;
+
         default:
           return slideFromRight;
       }

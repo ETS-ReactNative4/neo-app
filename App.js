@@ -4,7 +4,7 @@ import {
   createDrawerNavigator,
   createBottomTabNavigator
 } from "react-navigation";
-import { UIManager, Platform } from "react-native";
+import { UIManager } from "react-native";
 import Home from "./Screens/HomeScreen/Home";
 import Starter from "./Screens/StartingScreen/Starter";
 import Splash from "./Screens/SplashScreen/Splash";
@@ -30,6 +30,9 @@ import HotelVoucher from "./Screens/VoucherScreens/HotelVoucherScreen/HotelVouch
 import HomeTabBar from "./CommonComponents/HomeTabBar/HomeTabBar";
 import ActivityVoucher from "./Screens/VoucherScreens/ActivityVoucherScreen/ActivityVoucher";
 import FlightVoucher from "./Screens/VoucherScreens/FlightVoucherScreen/FlightVoucher";
+import EmergencyContacts from "./Screens/EmergencyContactsScreen/EmergencyContacts";
+import PassportDetails from "./Screens/PassportDetailsScreen/PassportDetails";
+import { logBreadCrumb } from "./Services/errorLogger/errorLogger";
 
 UIManager.setLayoutAnimationEnabledExperimental &&
   UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -65,6 +68,12 @@ const ToolStack = createStackNavigator(
     },
     PackingChecklist: {
       screen: PackingChecklist
+    },
+    PassportDetails: {
+      screen: PassportDetails
+    },
+    EmergencyContacts: {
+      screen: EmergencyContacts
     },
     Weather: {
       screen: Weather
@@ -154,7 +163,7 @@ const HomeStack = createStackNavigator(
     }
   },
   {
-    initialRouteName: "AppHome",
+    initialRouteName: "Splash",
     navigationOptions: {
       gesturesEnabled: false
     },
@@ -188,25 +197,27 @@ const AppNavigator = createDrawerNavigator(
       screen: HomeStack
     },
     Notifications: {
-      screen: Notifications
+      screen: createStackNavigator({
+        NotificationsStack: { screen: Notifications }
+      })
     },
     Payments: {
-      screen: Home
+      screen: createStackNavigator({ HomeStack1: { screen: Home } })
     },
     SavedItineraries: {
-      screen: Home
+      screen: createStackNavigator({ HomeStack2: { screen: Home } })
     },
     YourBookings: {
-      screen: Home
+      screen: createStackNavigator({ HomeStack3: { screen: Home } })
     },
     Account: {
-      screen: Home
+      screen: createStackNavigator({ HomeStack4: { screen: Home } })
     },
     Support: {
-      screen: Home
+      screen: createStackNavigator({ HomeStack5: { screen: Home } })
     },
     About: {
-      screen: Home
+      screen: createStackNavigator({ HomeStack6: { screen: Home } })
     }
   },
   {
@@ -214,10 +225,37 @@ const AppNavigator = createDrawerNavigator(
   }
 );
 
+const getActiveRouteName = navigationState => {
+  if (!navigationState) {
+    return null;
+  }
+  const route = navigationState.routes[navigationState.index];
+  if (route.routes) {
+    return getActiveRouteName(route);
+  }
+  return route.routeName;
+};
+
+const screenTracker = (prevState, currentState) => {
+  const currentScreen = getActiveRouteName(currentState);
+  const prevScreen = getActiveRouteName(prevState);
+
+  /**
+   * TODO: Check if any data can be added here...
+   */
+  if (prevScreen !== currentScreen) {
+    logBreadCrumb({
+      message: `${prevScreen} to ${currentScreen}`,
+      category: `navigation`,
+      data: {}
+    });
+  }
+};
+
 const App = () => {
   return (
     <Provider {...store}>
-      <AppNavigator />
+      <AppNavigator onNavigationStateChange={screenTracker} />
     </Provider>
   );
 };

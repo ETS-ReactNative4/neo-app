@@ -6,205 +6,37 @@ import DefaultTabBar from "../../CommonComponents/DefaultTabBar/DefaultTabBar";
 import ToPack from "./Components/ToPack/ToPack";
 import { responsiveWidth } from "react-native-responsive-dimensions";
 import _ from "lodash";
+import { inject, observer } from "mobx-react/custom";
+import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 
+@inject("packingChecklistStore")
+@inject("itineraries")
+@inject("yourBookingsStore")
+@observer
 class PackingChecklist extends Component {
-  static navigationOptions = {
-    title: "Packing Checklist"
+  static navigationOptions = ({ navigation }) => {
+    return {
+      header: (
+        <CommonHeader title={"Packing Checklist"} navigation={navigation} />
+      )
+    };
   };
 
-  state = {
-    listItems: [
-      {
-        title: "Clothing",
-        data: [
-          {
-            id: 0,
-            item: "Light weight Clothing",
-            isComplete: false,
-            type: "Clothing"
-          },
-          {
-            id: 1,
-            item: "Light weight Clothing",
-            isComplete: false,
-            type: "Clothing"
-          },
-          {
-            id: 2,
-            item: "Light weight Clothing",
-            isComplete: false,
-            type: "Clothing"
-          },
-          {
-            id: 3,
-            item: "Light weight Clothing",
-            isComplete: false,
-            type: "Clothing"
-          },
-          {
-            id: 4,
-            item: "Light weight Clothing",
-            isComplete: false,
-            type: "Clothing"
-          },
-          {
-            id: 5,
-            item: "Light weight Clothing",
-            isComplete: false,
-            type: "Clothing"
-          },
-          {
-            id: 6,
-            item: "Light weight Clothing",
-            isComplete: false,
-            type: "Clothing"
-          }
-        ]
-      },
-      {
-        title: "Travel",
-        data: [
-          {
-            id: 0,
-            item: "Light weight Clothing",
-            isComplete: false,
-            type: "Travel"
-          },
-          {
-            id: 1,
-            item: "Light weight Clothing",
-            isComplete: false,
-            type: "Travel"
-          },
-          {
-            id: 2,
-            item: "Light weight Clothing",
-            isComplete: false,
-            type: "Travel"
-          },
-          {
-            id: 3,
-            item: "Light weight Clothing",
-            isComplete: false,
-            type: "Travel"
-          },
-          {
-            id: 4,
-            item: "Light weight Clothing",
-            isComplete: false,
-            type: "Travel"
-          },
-          {
-            id: 5,
-            item: "Light weight Clothing",
-            isComplete: false,
-            type: "Travel"
-          },
-          {
-            id: 6,
-            item: "Light weight Clothing",
-            isComplete: false,
-            type: "Travel"
-          }
-        ]
-      },
-      {
-        title: "Your list",
-        data: [
-          {
-            id: 0,
-            item: "Light weight Clothing",
-            isComplete: false,
-            type: "Your list"
-          },
-          {
-            id: 1,
-            item: "Light weight Clothing",
-            isComplete: false,
-            type: "Your list"
-          },
-          {
-            id: 2,
-            item: "Light weight Clothing",
-            isComplete: false,
-            type: "Your list"
-          },
-          {
-            id: 3,
-            item: "Light weight Clothing",
-            isComplete: false,
-            type: "Your list"
-          },
-          {
-            id: 4,
-            item: "Light weight Clothing",
-            isComplete: false,
-            type: "Your list"
-          },
-          {
-            id: 5,
-            item: "Light weight Clothing",
-            isComplete: false,
-            type: "Your list"
-          },
-          {
-            id: 6,
-            item: "Light weight Clothing",
-            isComplete: false,
-            type: "Your list"
-          },
-          {
-            id: 7,
-            item: "Light weight Clothing",
-            isComplete: false,
-            type: "user-input"
-          }
-        ]
-      }
-    ]
-  };
+  componentDidMount() {
+    const { selectPackingChecklist } = this.props.packingChecklistStore;
 
-  toggleCheckListStatus = item => {
-    const newListItems = this.state.listItems.map(listItem => {
-      return {
-        title: listItem.title,
-        data: listItem.data.map(currentItem => {
-          if (currentItem.id === item.id && currentItem.type === item.type) {
-            return {
-              ...currentItem,
-              isComplete: !currentItem.isComplete
-            };
-          } else return currentItem;
-        })
-      };
-    });
-
-    this.setState({
-      listItems: newListItems
-    });
-  };
-
-  deleteCheckListItem = item => {
-    const newListItems = this.state.listItems.map(listItem => {
-      return {
-        title: listItem.title,
-        data: listItem.data.reduce((data, currentItem) => {
-          if (item.id === currentItem.id && item.type === currentItem.type) {
-            return data;
-          }
-          data.push(currentItem);
-          return data;
-        }, [])
-      };
-    });
-
-    this.setState({
-      listItems: newListItems
-    });
-  };
+    selectPackingChecklist(this.props.itineraries.selectedItineraryId);
+  }
 
   render() {
-    const packedList = this.state.listItems.map(listItem => {
+    const {
+      checkListItems,
+      toggleCheckList,
+      addListItem,
+      deleteListItem
+    } = this.props.packingChecklistStore;
+
+    const packedList = checkListItems.map(listItem => {
       return {
         title: listItem.title,
         data: listItem.data.reduce((data, item) => {
@@ -236,16 +68,18 @@ class PackingChecklist extends Component {
           renderTabBar={() => <DefaultTabBar />}
         >
           <ToPack
-            listItems={this.state.listItems}
-            toggleCheckListStatus={this.toggleCheckListStatus}
-            deleteCheckListItem={this.deleteCheckListItem}
+            listItems={checkListItems}
+            toggleCheckListStatus={toggleCheckList}
             tabLabel="TO PACK"
+            addListItem={addListItem}
+            deleteListItem={deleteListItem}
           />
           <ToPack
             listItems={packedList}
-            toggleCheckListStatus={this.toggleCheckListStatus}
-            deleteCheckListItem={this.deleteCheckListItem}
+            toggleCheckListStatus={toggleCheckList}
             tabLabel="PACKED"
+            addListItem={addListItem}
+            deleteListItem={deleteListItem}
           />
         </ScrollableTabView>
       </View>

@@ -1,5 +1,6 @@
 import * as Keychain from "react-native-keychain";
 import constants from "../../constants/constants";
+import { logError } from "../errorLogger/errorLogger";
 
 const timeoutDuration = 60000;
 
@@ -35,15 +36,34 @@ const apiCall = async (
 
     console.log(`${serverURL}${route}`);
     console.log(body);
+    console.log(JSON.stringify(body));
     console.log(method);
     console.log(headers);
 
+    function handleErrors(response) {
+      console.log(response.status);
+      console.log(response.statusText);
+      if (response.ok) {
+        return response.json();
+      } else {
+        response.text().then(errorText => {
+          const errorInfo = {
+            type: "apiCall",
+            url: `${serverURL}${route}`,
+            body,
+            status: response.status,
+            ...headerObject,
+            errorText
+          };
+          const errorObject = { status: response.status, errorText };
+          logError(new Error(errorObject), errorInfo);
+          throw new Error(errorObject);
+        });
+      }
+    }
+
     fetch(`${serverURL}${route}`, requestDetails)
-      .then(res => {
-        const response = res.json();
-        console.log(res.status);
-        return response;
-      })
+      .then(handleErrors)
       .then(data => {
         console.log(data);
         console.log(JSON.stringify(data));

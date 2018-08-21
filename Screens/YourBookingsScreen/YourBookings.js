@@ -1,12 +1,5 @@
 import React, { Component } from "react";
-import {
-  View,
-  ScrollView,
-  TouchableHighlight,
-  BackHandler,
-  Image,
-  StyleSheet
-} from "react-native";
+import { View, StyleSheet } from "react-native";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import constants from "../../constants/constants";
 import ScrollableTabView from "react-native-scrollable-tab-view";

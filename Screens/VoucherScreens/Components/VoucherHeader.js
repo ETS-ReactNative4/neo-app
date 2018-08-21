@@ -5,6 +5,7 @@ import {
   StyleSheet,
   ImageBackground,
   TouchableOpacity,
+  Platform,
   Text
 } from "react-native";
 import constants from "../../../constants/constants";
@@ -14,14 +15,10 @@ import PropTypes from "prop-types";
 import Icon from "../../../CommonComponents/Icon/Icon";
 import LinearGradient from "react-native-linear-gradient";
 
-const VoucherHeader = ({ infoText, title, onClickClose, menu }) => {
+const VoucherHeader = ({ infoText, title, onClickClose, menu, image }) => {
   return (
     <View style={styles.headerContainer}>
-      <ImageBackground
-        resizeMode={"cover"}
-        source={constants.splashBackground}
-        style={styles.image}
-      >
+      <ImageBackground resizeMode={"cover"} source={image} style={styles.image}>
         <LinearGradient
           locations={[0.25, 0.5, 0.6, 1]}
           colors={[
@@ -33,13 +30,15 @@ const VoucherHeader = ({ infoText, title, onClickClose, menu }) => {
           style={styles.gradientView}
         >
           <View style={styles.closeIconRow}>
-            <TouchableOpacity
-              style={styles.closeIconContainer}
-              onPress={onClickClose}
-              activeOpacity={0.2}
-            >
-              <Icon color={"white"} name={constants.closeIcon} size={16} />
-            </TouchableOpacity>
+            {Platform.OS === "android" ? (
+              <TouchableOpacity
+                style={styles.closeIconContainer}
+                onPress={onClickClose}
+                activeOpacity={0.2}
+              >
+                <Icon color={"white"} name={constants.closeIcon} size={24} />
+              </TouchableOpacity>
+            ) : null}
           </View>
           <View style={styles.textRow}>
             <View style={styles.infoTextWrapper}>
@@ -79,7 +78,8 @@ VoucherHeader.propTypes = {
   infoText: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   onClickClose: PropTypes.func.isRequired,
-  menu: PropTypes.func.isRequired
+  menu: PropTypes.func.isRequired,
+  image: PropTypes.oneOfType([PropTypes.object, PropTypes.number]).isRequired
 };
 
 const xHeight = isIphoneX() ? constants.xNotchHeight : 0;
@@ -124,9 +124,9 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start"
   },
   closeIconContainer: {
-    height: 24,
-    width: 24,
-    borderRadius: 12,
+    height: 32,
+    width: 32,
+    borderRadius: 16,
     marginLeft: 24,
     marginTop: 32,
     backgroundColor: "rgba(0,0,0,0.4)",

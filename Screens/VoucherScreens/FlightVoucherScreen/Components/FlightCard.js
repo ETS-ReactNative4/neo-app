@@ -4,81 +4,109 @@ import Icon from "../../../../CommonComponents/Icon/Icon";
 import constants from "../../../../constants/constants";
 import SimpleButton from "../../../../CommonComponents/SimpleButton/SimpleButton";
 import PropTypes from "prop-types";
+import forbidExtraProps from "../../../../Services/PropTypeValidation/forbidExtraProps";
 
-class FlightCard extends Component {
-  render() {
-    return (
-      <View style={styles.flightCard}>
-        <Text style={styles.flightRoute}>{`Kochi → Denpasar`}</Text>
-        <View style={styles.flightDetails}>
-          <View style={styles.providerSection}>
-            <Icon size={24} name={constants.aeroplaneIcon} />
-            <View style={styles.flightProviderWrapper}>
-              <Text style={styles.flightProvider}>GoAir 3245</Text>
-            </View>
-          </View>
-          <View style={styles.flightClassSection}>
-            <View style={styles.flightClassWrapper}>
-              <Text style={styles.flightClass}>Economy</Text>
-            </View>
+const FlightCard = ({
+  isFirst,
+  departure,
+  arrival,
+  departureText,
+  arrivalText,
+  flyTime,
+  carrierName,
+  flightRoute,
+  stops,
+  showStops,
+  toggleCard,
+  flightClass,
+  airlineCode
+}) => {
+  const airlineLogo = constants.getAirlineIcon(airlineCode);
+
+  return (
+    <View style={styles.flightCard}>
+      {isFirst ? <Text style={styles.flightRoute}>{flightRoute}</Text> : null}
+      <View style={styles.flightDetails}>
+        <View style={styles.providerSection}>
+          <Image
+            source={{ uri: airlineLogo }}
+            style={styles.airlineLogo}
+            resizeMode={"contain"}
+          />
+          {/*<Icon size={24} name={constants.aeroplaneIcon} />*/}
+          <View style={styles.flightProviderWrapper}>
+            <Text style={styles.flightProvider}>{carrierName}</Text>
           </View>
         </View>
-        <View style={styles.flightTimingsSection}>
-          <View style={styles.timingLeft}>
-            <Text style={styles.flightDateText}>Sun, 28 Jan 18</Text>
-            <Text style={styles.flightCode}>COC 12:30</Text>
-            <Text
-              numberOfLines={2}
-              ellipsizeMode={"tail"}
-              style={styles.airportAddress}
-            >
-              Chatrapati Shivaji International Airport, Chennai, TamilNadu,
-              India
-            </Text>
-            <Text style={styles.baggageText}>Cabin Baggage</Text>
+        <View style={styles.flightClassSection}>
+          <View style={styles.flightClassWrapper}>
+            <Text style={styles.flightClass}>{flightClass}</Text>
           </View>
-          <View style={styles.timingMiddle}>
-            <Icon
-              size={24}
-              name={constants.clockIcon}
-              color={constants.shade2}
-            />
-            <Text style={styles.timeText}>12h 5m</Text>
+        </View>
+      </View>
+      <View style={styles.flightTimingsSection}>
+        <View style={styles.timingLeft}>
+          <Text style={styles.flightDateText}>{departure}</Text>
+          <Text style={styles.flightCode}>{departureText}</Text>
+          <Text
+            numberOfLines={2}
+            ellipsizeMode={"tail"}
+            style={styles.airportAddress}
+          >
+            Chatrapati Shivaji International Airport, Chennai, TamilNadu, India
+          </Text>
+          <Text style={styles.baggageText}>Cabin Baggage</Text>
+        </View>
+        <View style={styles.timingMiddle}>
+          <Icon size={24} name={constants.clockIcon} color={constants.shade2} />
+          <Text style={styles.timeText}>{flyTime}</Text>
+          {stops && showStops ? (
             <SimpleButton
-              text={`1 STOP`}
-              action={() => null}
+              text={`${stops} STOP`}
+              action={toggleCard}
               containerStyle={{ height: 24, width: 50 }}
               textStyle={{ fontSize: 10, marginTop: 0 }}
               color={"transparent"}
               hasBorder={true}
               textColor={constants.shade1}
             />
-          </View>
-          <View style={styles.timingRight}>
-            <Text style={styles.flightDateText}>Sun, 28 Jan 18</Text>
-            <Text style={styles.flightCode}>12:30 DSP</Text>
-            <Text
-              numberOfLines={2}
-              ellipsizeMode={"tail"}
-              style={styles.airportAddress}
-            >
-              Changi International Airport, Singapore
-            </Text>
-            <Text style={styles.baggageWeight}>30Kg/person</Text>
-          </View>
+          ) : null}
+        </View>
+        <View style={styles.timingRight}>
+          <Text style={styles.flightDateText}>{arrival}</Text>
+          <Text style={styles.flightCode}>{arrivalText}</Text>
+          <Text
+            numberOfLines={2}
+            ellipsizeMode={"tail"}
+            style={styles.airportAddress}
+          >
+            Changi International Airport, Singapore
+          </Text>
+          <Text style={styles.baggageWeight}>30Kg/person</Text>
         </View>
       </View>
-    );
-  }
-}
+    </View>
+  );
+};
+
+FlightCard.propTypes = forbidExtraProps({
+  isFirst: PropTypes.bool.isRequired,
+  departure: PropTypes.string.isRequired,
+  arrival: PropTypes.string.isRequired,
+  departureText: PropTypes.string.isRequired,
+  arrivalText: PropTypes.string.isRequired,
+  flyTime: PropTypes.string.isRequired,
+  carrierName: PropTypes.string.isRequired,
+  flightRoute: PropTypes.string.isRequired,
+  stops: PropTypes.number.isRequired,
+  showStops: PropTypes.bool.isRequired,
+  toggleCard: PropTypes.func.isRequired,
+  flightClass: PropTypes.string.isRequired,
+  airlineCode: PropTypes.string.isRequired
+});
 
 const styles = StyleSheet.create({
-  flightCard: {
-    marginHorizontal: 24,
-    paddingBottom: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: constants.shade4
-  },
+  flightCard: {},
   flightRoute: {
     ...constants.font17(constants.primarySemiBold),
     color: constants.black1
@@ -93,6 +121,12 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "flex-start"
+  },
+  airlineLogo: {
+    height: 24,
+    width: 24,
+    borderRadius: 12,
+    marginRight: 4
   },
   flightProviderWrapper: {
     height: 17

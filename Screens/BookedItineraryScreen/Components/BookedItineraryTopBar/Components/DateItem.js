@@ -10,6 +10,7 @@ import PropTypes from "prop-types";
 import moment from "moment";
 import constants from "../../../../../constants/constants";
 import { observer, inject } from "mobx-react/custom";
+import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidExtraProps";
 
 const DateItem = inject("itineraries")(
   observer(
@@ -54,13 +55,13 @@ const DateItem = inject("itineraries")(
   )
 );
 
-DateItem.propTypes = {
+DateItem.propTypes = forbidExtraProps({
   day: PropTypes.object.isRequired,
   selectDay: PropTypes.func.isRequired,
   selectedDay: PropTypes.string,
   onHeaderLayout: PropTypes.func.isRequired,
   index: PropTypes.number.isRequired
-};
+});
 
 const styles = StyleSheet.create({
   touchableContainer: {

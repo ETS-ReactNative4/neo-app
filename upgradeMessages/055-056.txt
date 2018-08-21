@@ -1,0 +1,69 @@
+git-upgrade info Check for updates
+git-upgrade info Using yarn 1.6.0
+git-upgrade info Read package.json files
+git-upgrade info Check declared version
+git-upgrade info Check matching versions
+git-upgrade info Check React peer dependency
+git-upgrade info Check that Git is installed
+git-upgrade info Get information from NPM registry
+git-upgrade info Upgrading to React Native 0.56.0, React 16.4.1
+git-upgrade info Setup temporary working directory
+git-upgrade info Configure Git environment
+git-upgrade info Init Git repository
+git-upgrade info Add all files to commit
+git-upgrade info Commit current project sources
+git-upgrade info Create a tag before updating sources
+git-upgrade info Generate old version template
+git-upgrade info Add updated files to commit
+git-upgrade info Commit old version template
+git-upgrade info Install the new version
+warning " > react-native-svg@6.5.2" has unmet peer dependency "prop-types@^15.5.7".
+warning " > react-native-swipe-list-view@1.3.0" has unmet peer dependency "prop-types@>=15.5.0".
+warning " > babel-jest@22.4.3" has unmet peer dependency "babel-core@^6.0.0 || ^7.0.0-0".
+warning "react-native > metro-babel-register > @babel/plugin-proposal-class-properties@7.0.0-beta.47" has unmet peer dependency "@babel/core@7.0.0-beta.47".
+warning "react-native > metro-babel-register > @babel/plugin-proposal-object-rest-spread@7.0.0-beta.47" has unmet peer dependency "@babel/core@7.0.0-beta.47".
+warning "react-native > metro-babel-register > @babel/plugin-transform-async-to-generator@7.0.0-beta.47" has unmet peer dependency "@babel/core@7.0.0-beta.47".
+warning "react-native > metro-babel-register > @babel/plugin-proposal-optional-chaining@7.0.0-beta.47" has unmet peer dependency "@babel/core@7.0.0-beta.47".
+warning "react-native > metro-babel-register > @babel/plugin-transform-flow-strip-types@7.0.0-beta.47" has unmet peer dependency "@babel/core@7.0.0-beta.47".
+warning "react-native > metro-babel-register > @babel/register@7.0.0-beta.47" has unmet peer dependency "@babel/core@7.0.0-beta.47".
+warning "react-native > metro-babel-register > @babel/plugin-transform-modules-commonjs@7.0.0-beta.47" has unmet peer dependency "@babel/core@7.0.0-beta.47".
+warning "react-native > metro-babel-register > @babel/plugin-proposal-class-properties > @babel/plugin-syntax-class-properties@7.0.0-beta.47" has unmet peer dependency "@babel/core@7.0.0-beta.47".
+warning "react-native > metro-babel-register > @babel/plugin-proposal-object-rest-spread > @babel/plugin-syntax-object-rest-spread@7.0.0-beta.47" has unmet peer dependency "@babel/core@7.0.0-beta.47".
+warning "react-native > metro-babel-register > @babel/plugin-proposal-optional-chaining > @babel/plugin-syntax-optional-chaining@7.0.0-beta.47" has unmet peer dependency "@babel/core@7.0.0-beta.47".
+warning "react-native > metro-babel-register > @babel/plugin-transform-flow-strip-types > @babel/plugin-syntax-flow@7.0.0-beta.47" hasunmet peer dependency "@babel/core@7.0.0-beta.47".
+git-upgrade info Generate new version template
+git-upgrade info Add updated files to commit
+git-upgrade info Commit new version template
+git-upgrade info Generate the patch between the 2 versions
+git-upgrade info Save the patch in temp directory
+git-upgrade info Reset the 2 temporary commits
+git-upgrade info Apply the patch
+error: patch failed: android/app/build.gradle:138
+Falling back to three-way merge...
+Applied patch to 'android/app/build.gradle' with conflicts.
+error: the patch applies to 'android/app/src/main/res/mipmap-hdpi/ic_launcher.png' (656f8ad3ea1f2c8b9659b5f6f7f24be1bda3b2ed), which does not match the current contents.
+Falling back to three-way merge...
+warning: Cannot merge binary files: android/app/src/main/res/mipmap-hdpi/ic_launcher.png (ours vs. theirs)
+Applied patch to 'android/app/src/main/res/mipmap-hdpi/ic_launcher.png' with conflicts.
+error: the patch applies to 'android/app/src/main/res/mipmap-mdpi/ic_launcher.png' (c3d64df3d2f336f5e41a9e083878e46ff6602dcc), which does not match the current contents.
+Falling back to three-way merge...
+warning: Cannot merge binary files: android/app/src/main/res/mipmap-mdpi/ic_launcher.png (ours vs. theirs)
+Applied patch to 'android/app/src/main/res/mipmap-mdpi/ic_launcher.png' with conflicts.
+error: the patch applies to 'android/app/src/main/res/mipmap-xhdpi/ic_launcher.png' (850f67261751b799f972fbb9afe0c986c96dd497), which does not match the current contents.
+Falling back to three-way merge...
+warning: Cannot merge binary files: android/app/src/main/res/mipmap-xhdpi/ic_launcher.png (ours vs. theirs)
+Applied patch to 'android/app/src/main/res/mipmap-xhdpi/ic_launcher.png' with conflicts.
+error: the patch applies to 'android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png' (2418e65202aad19db6273c30ddf6bffa15a9533a), whichdoes not match the current contents.
+Falling back to three-way merge...
+warning: Cannot merge binary files: android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png (ours vs. theirs)
+Applied patch to 'android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png' with conflicts.
+error: patch failed: ios/Pickyourtrail.xcodeproj/project.pbxproj:1173
+Falling back to three-way merge...
+Applied patch to 'ios/Pickyourtrail.xcodeproj/project.pbxproj' cleanly.
+U android/app/build.gradle
+U android/app/src/main/res/mipmap-hdpi/ic_launcher.png
+U android/app/src/main/res/mipmap-mdpi/ic_launcher.png
+U android/app/src/main/res/mipmap-xhdpi/ic_launcher.png
+U android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png
+git-upgrade WARN The upgrade process succeeded but there might be conflicts to be resolved. See above for the list of files that have merge conflicts.
+git-upgrade info Upgrade done

@@ -11,7 +11,7 @@ import {
   responsiveWidth
 } from "react-native-responsive-dimensions";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
-import BookingHomeTitle from "../BookingsHomeScreen/Components/BookingHomeTitle";
+import BookingHomeTitle from "../../CommonComponents/BookingHomeTitle/BookingHomeTitle";
 import SearchButton from "../../CommonComponents/SearchButton/SearchButton";
 import BookedItineraryTopBar from "./Components/BookedItineraryTopBar/BookedItineraryTopBar";
 import { inject, observer } from "mobx-react/custom";
@@ -156,6 +156,7 @@ class BookedItinerary extends Component {
                 day={day}
                 slot={slots[index]}
                 onItemLayout={this.onItemLayout}
+                navigation={navigation}
               />
             );
           })}

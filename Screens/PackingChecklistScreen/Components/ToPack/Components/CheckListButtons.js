@@ -3,32 +3,27 @@ import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import PropTypes from "prop-types";
 import Icon from "../../../../../CommonComponents/Icon/Icon";
 import constants from "../../../../../constants/constants";
+import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidExtraProps";
 
-const CheckListButtons = ({
-  id,
-  item,
-  isComplete,
-  type,
-  deleteCheckListItem
-}) => {
+const CheckListButtons = ({ id, item, isComplete, type, deleteListItem }) => {
   return (
     <TouchableOpacity
       style={styles.checklistButtonContainer}
-      onPress={() => deleteCheckListItem({ id, item, isComplete, type })}
+      onPress={() => deleteListItem(item)}
       activeOpacity={0.5}
     >
-      <Icon name={constants.trainIcon} size={18} color={"white"} />
+      <Icon name={constants.trashCanIcon} size={18} color={"white"} />
     </TouchableOpacity>
   );
 };
 
-CheckListButtons.propTypes = {
+CheckListButtons.propTypes = forbidExtraProps({
   id: PropTypes.number.isRequired,
   item: PropTypes.string.isRequired,
   isComplete: PropTypes.bool.isRequired,
   type: PropTypes.string.isRequired,
-  deleteCheckListItem: PropTypes.func.isRequired
-};
+  deleteListItem: PropTypes.func.isRequired
+});
 
 const styles = StyleSheet.create({
   checklistButtonContainer: {

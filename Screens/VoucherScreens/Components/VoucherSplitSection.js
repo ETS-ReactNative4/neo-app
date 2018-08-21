@@ -2,10 +2,12 @@ import React from "react";
 import { Text, StyleSheet, View } from "react-native";
 import constants from "../../../constants/constants";
 import PropTypes from "prop-types";
+import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraProps";
 
 const VoucherSplitSection = ({ sections, containerStyle }) => {
+  if (!containerStyle) containerStyle = {};
   return (
-    <View style={styles.splitSection}>
+    <View style={[styles.splitSection, containerStyle]}>
       {sections.map((section, index) => {
         return (
           <View key={index} style={styles.textRowWrapper}>
@@ -18,10 +20,15 @@ const VoucherSplitSection = ({ sections, containerStyle }) => {
   );
 };
 
-VoucherSplitSection.propTypes = {
-  sections: PropTypes.array.isRequired,
+VoucherSplitSection.propTypes = forbidExtraProps({
+  sections: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      value: PropTypes.string.isRequired
+    })
+  ).isRequired,
   containerStyle: PropTypes.object
-};
+});
 
 const styles = StyleSheet.create({
   splitSection: {

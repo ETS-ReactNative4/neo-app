@@ -2,6 +2,7 @@ import React from "react";
 import { TouchableHighlight, Image } from "react-native";
 import constants from "../../constants/constants";
 import PropTypes from "prop-types";
+import Icon from "../Icon/Icon";
 
 const SearchButton = ({ action }) => (
   <TouchableHighlight
@@ -9,11 +10,7 @@ const SearchButton = ({ action }) => (
     onPress={action}
     underlayColor={"transparent"}
   >
-    <Image
-      resizeMode={"contain"}
-      source={constants.searchIcon}
-      style={{ height: 24, width: 30 }}
-    />
+    <Icon name={constants.searchIcon} size={24} color={constants.black1} />
   </TouchableHighlight>
 );
 

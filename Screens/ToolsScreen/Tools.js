@@ -13,8 +13,31 @@ import SectionHeader from "../../CommonComponents/SectionHeader/SectionHeader";
 import Carousel from "../../CommonComponents/Carousel/Carousel";
 import PrimaryTool from "./Components/PrimaryTool";
 import SecondaryTool from "./Components/SecondaryTool";
+import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
+import HamburgerButton from "../../CommonComponents/HamburgerButton/HamburgerButton";
+import TripToggle from "../../CommonComponents/TripToggle/TripToggle";
+import SearchPlaceholder from "../../CommonComponents/SearchPlaceholder/SearchPlaceholder";
+import HomeTitle from "../../CommonComponents/HomeTitle/HomeTitle";
 
 class Tools extends Component {
+  static navigationOptions = ({ navigation }) => {
+    return {
+      header: (
+        <CommonHeader
+          LeftButton={
+            <HamburgerButton action={() => navigation.openDrawer()} />
+          }
+          TitleComponent={
+            <HomeTitle action={() => navigation.navigate("YourBookings")} />
+          }
+          title={""}
+          RightButton={<TripToggle containerStyle={{ marginHorizontal: 24 }} />}
+          navigation={navigation}
+        />
+      )
+    };
+  };
+
   render() {
     const cityList = [
       {
@@ -42,50 +65,50 @@ class Tools extends Component {
     const essentialTools = [
       {
         icon: constants.commonPhrasesIcon,
-        text: `Common Phrases`,
-        action: () => this.props.navigation.push("PhraseBook")
+        text: `Common${"\n"}Phrases`,
+        action: () => this.props.navigation.navigate("PhraseBook")
       },
       {
         icon: constants.emergencyContactsIcon,
-        text: `Emergency Contacts`,
-        action: () => {}
+        text: `Emergency${"\n"}Contacts`,
+        action: () => this.props.navigation.navigate("EmergencyContacts")
       },
       {
         icon: constants.medicalCareIcon,
-        text: `Medical Care`,
+        text: `Medical${"\n"}Care`,
         action: () => {}
       },
       {
         icon: constants.weatherForecastIcon,
-        text: `Weather Forecast`,
-        action: () => this.props.navigation.push("Weather")
+        text: `Weather${"\n"}Forecast`,
+        action: () => this.props.navigation.navigate("Weather")
       }
     ];
 
     const beforePacking = [
       {
         icon: constants.passportDetailsIcon,
-        text: `Passport Details`,
-        action: () => {}
+        text: `Passport${"\n"}Details`,
+        action: () => this.props.navigation.navigate("PassportDetails")
       },
       {
         icon: constants.packageChecklistIcon,
-        text: `Packing Checklist`,
-        action: () => this.props.navigation.push("PackingChecklist")
+        text: `Packing${"\n"}Checklist`,
+        action: () => this.props.navigation.navigate("PackingChecklist")
       },
       {
         icon: constants.documentVisaIcon,
-        text: `Documents & Visa`,
+        text: `Documents${"\n"}& Visa`,
+        action: () => {}
+      },
+      {
+        icon: constants.yourPickIcon,
+        text: `Your${"\n"}Picks`,
         action: () => {}
       }
     ];
 
     const moreTools = [
-      {
-        icon: constants.downloadInvoiceIcon,
-        text: `Download Invoice`,
-        action: () => {}
-      },
       {
         icon: constants.faqIcon,
         text: `Frequently Asked Questions`,
@@ -99,82 +122,87 @@ class Tools extends Component {
     ];
 
     return (
-      <ScrollView style={styles.container}>
-        <SectionHeader
-          sectionName={"CITY GUIDES"}
+      <View style={styles.container}>
+        <SearchPlaceholder
+          action={() => null}
           containerStyle={{ marginHorizontal: 24 }}
         />
-
-        <Carousel data={cityList} firstMargin={24} />
-
-        <SectionHeader
-          sectionName={"ESSENTIALS"}
-          containerStyle={{ marginTop: 40, marginHorizontal: 24 }}
-        />
-
-        <PrimaryTool
-          text={`Currency Calculator`}
-          action={() => this.props.navigation.push("CurrencyConverter")}
-          containerStyle={{ marginHorizontal: 24 }}
-          toolIcon={constants.currencyCalculatorIcon}
-        />
-
-        {essentialTools.map((item, index) => (
-          <SecondaryTool
+        <ScrollView>
+          <SectionHeader
+            sectionName={"CITY GUIDES"}
             containerStyle={{ marginHorizontal: 24 }}
-            key={index}
-            icon={item.icon}
-            text={item.text}
-            action={item.action}
           />
-        ))}
 
-        <SectionHeader
-          sectionName={"BEFORE PACKING"}
-          containerStyle={{ marginTop: 40, marginHorizontal: 24 }}
-        />
+          <Carousel data={cityList} firstMargin={24} />
 
-        <PrimaryTool
-          text={`Invite Co-passengers`}
-          action={() => {}}
-          containerStyle={{ marginHorizontal: 24 }}
-          toolIcon={constants.invitePassengersIcon}
-        />
-
-        {beforePacking.map((item, index) => (
-          <SecondaryTool
-            containerStyle={{ marginHorizontal: 24 }}
-            key={index}
-            icon={item.icon}
-            text={item.text}
-            action={item.action}
+          <SectionHeader
+            sectionName={"ESSENTIALS"}
+            containerStyle={{ marginTop: 40, marginHorizontal: 24 }}
           />
-        ))}
 
-        <SectionHeader
-          sectionName={"MORE TOOLS"}
-          containerStyle={{ marginTop: 40, marginHorizontal: 24 }}
-        />
+          <View style={styles.toolMenuRow}>
+            <PrimaryTool
+              text={`Currency${"\n"}Calculator`}
+              action={() => this.props.navigation.navigate("CurrencyConverter")}
+              toolIcon={constants.currencyCalculatorIcon}
+            />
 
-        <PrimaryTool
-          containerStyle={{ marginHorizontal: 24 }}
-          text={`Complete Payment`}
-          action={() => {}}
-          toolIcon={constants.completePaymentIcon}
-        />
+            {essentialTools.map((item, index) => (
+              <SecondaryTool
+                key={index}
+                icon={item.icon}
+                text={item.text}
+                action={item.action}
+              />
+            ))}
+          </View>
 
-        {moreTools.map((item, index) => (
-          <SecondaryTool
-            containerStyle={{ marginHorizontal: 24 }}
-            key={index}
-            icon={item.icon}
-            text={item.text}
-            action={item.action}
+          <SectionHeader
+            sectionName={"BEFORE PACKING"}
+            containerStyle={{ marginTop: 40, marginHorizontal: 24 }}
           />
-        ))}
 
-        <View style={{ height: 20 }} />
-      </ScrollView>
+          <View style={styles.toolMenuRow}>
+            <PrimaryTool
+              text={`Invite${"\n"}Co-passengers`}
+              action={() => {}}
+              toolIcon={constants.invitePassengersIcon}
+            />
+
+            {beforePacking.map((item, index) => (
+              <SecondaryTool
+                key={index}
+                icon={item.icon}
+                text={item.text}
+                action={item.action}
+              />
+            ))}
+          </View>
+
+          {/*<SectionHeader*/}
+          {/*sectionName={"MORE TOOLS"}*/}
+          {/*containerStyle={{ marginTop: 40, marginHorizontal: 24 }}*/}
+          {/*/>*/}
+
+          {/*<View style={styles.toolMenuRow}>*/}
+          {/*<PrimaryTool*/}
+          {/*text={`Complete Payment`}*/}
+          {/*action={() => {}}*/}
+          {/*toolIcon={constants.completePaymentIcon}*/}
+          {/*/>*/}
+
+          {/*{moreTools.map((item, index) => (*/}
+          {/*<SecondaryTool*/}
+          {/*key={index}*/}
+          {/*icon={item.icon}*/}
+          {/*text={item.text}*/}
+          {/*action={item.action}*/}
+          {/*/>*/}
+          {/*))}*/}
+          {/*</View>*/}
+          <View style={{ height: 20 }} />
+        </ScrollView>
+      </View>
     );
   }
 }
@@ -195,6 +223,13 @@ const styles = StyleSheet.create({
   icon: {
     height: 24,
     width: 24
+  },
+  toolMenuRow: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    alignItems: "center",
+    justifyContent: "space-around",
+    marginHorizontal: 24
   },
   text2: {
     fontFamily: constants.primaryRegular,

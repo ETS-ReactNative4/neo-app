@@ -18,19 +18,30 @@ target 'Pickyourtrail' do
     'RCTActionSheet',
     'RCTAnimation',
     'RCTWebSocket',
+    'RCTGeolocation',
   ]
   pod 'yoga', path: '../node_modules/react-native/ReactCommon/yoga'
   pod 'DoubleConversion', :podspec => '../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec'
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
   pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec'
 
-  pod 'SentryReactNative', :path => '../node_modules/react-native-sentry'
   # export PATH="$PATH:/Users/mac/.nvm/versions/node/v9.11.1/bin"
   # target 'Pickyourtrail-tvOSTests' do
   #   inherit! :search_paths
   #   # Pods for testing
 
   # end
+
+  pod 'RNKeychain', :path => '../node_modules/react-native-keychain'
+
+  pod 'RNSVG', :path => '../node_modules/react-native-svg'
+
+  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
+
+
+  pod 'SentryReactNative', :path => '../node_modules/react-native-sentry'
+
+  pod 'TextToSpeech', :path => '../node_modules/react-native-tts'
 
   # target 'PickyourtrailTests' do
   #   inherit! :search_paths
@@ -51,3 +62,11 @@ end
 #   end
 
 # end
+
+post_install do |installer|
+  installer.pods_project.targets.each do |target|
+    if target.name == "React"
+      target.remove_from_project
+    end
+  end
+end

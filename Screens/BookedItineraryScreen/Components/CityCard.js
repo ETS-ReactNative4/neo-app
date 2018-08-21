@@ -11,6 +11,7 @@ import {
 import PropTypes from "prop-types";
 import constants from "../../../constants/constants";
 import Icon from "../../../CommonComponents/Icon/Icon";
+import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraProps";
 
 const CityCard = ({
   cityImage,
@@ -53,13 +54,14 @@ const CityCard = ({
   );
 };
 
-CityCard.propTypes = {
-  cityImage: PropTypes.object.isRequired,
+CityCard.propTypes = forbidExtraProps({
+  cityImage: PropTypes.oneOfType([PropTypes.object, PropTypes.number])
+    .isRequired,
   activityText: PropTypes.string.isRequired,
   cityName: PropTypes.string.isRequired,
   action: PropTypes.func.isRequired,
   containerStyle: PropTypes.object
-};
+});
 
 const styles = StyleSheet.create({
   cityContainer: {

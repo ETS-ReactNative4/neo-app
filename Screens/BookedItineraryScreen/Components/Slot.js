@@ -7,9 +7,10 @@ import Activity from "./Activity/Activity";
 import constants from "../../../constants/constants";
 import CityCard from "./CityCard";
 import { inject, observer } from "mobx-react/custom";
+import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraProps";
 
 const Slot = inject("itineraries")(
-  observer(({ day, slot, onItemLayout, itineraries }) => {
+  observer(({ day, slot, onItemLayout, navigation, itineraries }) => {
     const setOnLayout = nativeEvent => {
       onItemLayout(nativeEvent, moment(day).format("DDMMYYYY"));
     };
@@ -87,18 +88,21 @@ const Slot = inject("itineraries")(
         />
 
         {slot.map((activity, index) => {
-          return <Activity activity={activity} key={index} />;
+          return (
+            <Activity navigation={navigation} activity={activity} key={index} />
+          );
         })}
       </View>
     );
   })
 );
 
-Slot.propTypes = {
+Slot.propTypes = forbidExtraProps({
   day: PropTypes.object.isRequired,
   slot: PropTypes.array.isRequired,
-  onItemLayout: PropTypes.func.isRequired
-};
+  onItemLayout: PropTypes.func.isRequired,
+  navigation: PropTypes.object.isRequired
+});
 
 const styles = StyleSheet.create({
   slotContainer: {}

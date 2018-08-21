@@ -5,6 +5,7 @@ import _ from "lodash";
 import moment from "moment";
 import apiCall from "../Services/networkRequests/apiCall";
 import constants from "../constants/constants";
+import store from "./Store";
 
 class Itineraries {
   @observable _isLoading = false;
@@ -3605,8 +3606,10 @@ class Itineraries {
     const selectedItinerary = this._itineraries.find(itineraryDetail => {
       return itineraryDetail.itinerary.itineraryId === itineraryId;
     });
-    if (selectedItinerary) this._selectedItinerary = selectedItinerary;
-    else this.getItineraryDetails(itineraryId);
+    if (selectedItinerary) {
+      this._selectedItinerary = selectedItinerary;
+      store.voucherStore.getVouchers(this.selectedItineraryId);
+    } else this.getItineraryDetails(itineraryId);
   };
 
   @action
@@ -3622,6 +3625,7 @@ class Itineraries {
         if (response.status === "SUCCESS") {
           this._itineraries.push(response.data);
           this._selectedItinerary = response.data;
+          store.voucherStore.getVouchers(this.selectedItineraryId);
           this._loadingError = false;
         } else {
           this._loadingError = true;
@@ -3924,6 +3928,9 @@ class Itineraries {
       const endDayObject = this._selectedItinerary.iterDayByKey[endDayId];
 
       const city = cityObject.cityName;
+      /**
+       * TODO: Need date in milliseconds
+       */
       const startDay = moment(
         `${startDayObject.day}-${startDayObject.mon}-${constants.currentYear}`,
         "DD-MMM-YYYY"
@@ -3952,7 +3959,19 @@ class Itineraries {
   getActivityById = createTransformer(id => {
     if (_.isEmpty(this._selectedItinerary)) return {};
 
-    return toJS(this._selectedItinerary.activityById[id]);
+    return this.activities.find(activity => id === activity.costing.key);
+  });
+
+  getFlightById = createTransformer(id => {
+    if (_.isEmpty(this._selectedItinerary)) return {};
+
+    return toJS(this._selectedItinerary.flightCostings.flightCostingById[id]);
+  });
+
+  getHotelById = createTransformer(id => {
+    if (_.isEmpty(this._selectedItinerary)) return {};
+
+    return toJS(this._selectedItinerary.hotelCostings.hotelCostingById[id]);
   });
 
   getDateSelectionMatrixSingle = createTransformer(index => {

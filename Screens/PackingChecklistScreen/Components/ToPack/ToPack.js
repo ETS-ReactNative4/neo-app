@@ -16,13 +16,15 @@ class ToPack extends Component {
             id: PropTypes.number.isRequired,
             item: PropTypes.string.isRequired,
             isComplete: PropTypes.bool.isRequired,
-            type: PropTypes.string.isRequired
+            type: PropTypes.string.isRequired,
+            key: PropTypes.string.isRequired
           })
         ).isRequired
       })
     ).isRequired,
     toggleCheckListStatus: PropTypes.func.isRequired,
-    deleteCheckListItem: PropTypes.func.isRequired
+    addListItem: PropTypes.func.isRequired,
+    deleteListItem: PropTypes.func.isRequired
   };
 
   state = {
@@ -62,12 +64,14 @@ class ToPack extends Component {
   }
 
   render() {
-    const { listItems } = this.props;
-    const CheckListComponent = props => (
+    const { listItems, deleteListItem } = this.props;
+    const CheckListComponent = ({ index, item, section, separators }) => (
       <CheckListItem
-        {...props}
+        index={index}
+        item={item}
         toggleCheckListStatus={this.props.toggleCheckListStatus}
-        deleteCheckListItem={this.props.deleteCheckListItem}
+        deleteListItem={deleteListItem}
+        addListItem={this.props.addListItem}
       />
     );
 

@@ -28,9 +28,10 @@ HamburgerButton.propTypes = {
 
 const styles = StyleSheet.create({
   hamburgerContainer: {
-    paddingHorizontal: 24,
+    width: 56,
+    marginLeft: 24,
     height: constants.headerHeight,
-    alignItems: "center",
+    alignItems: "flex-start",
     justifyContent: "center"
   },
   hamburgerIcon: {

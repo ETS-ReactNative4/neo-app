@@ -1,27 +1,35 @@
 import React from "react";
-import { View, Text, Image, StyleSheet } from "react-native";
+import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 import moment from "moment";
 import { responsiveWidth } from "react-native-responsive-dimensions";
 import constants from "../../../../../constants/constants";
 import PropTypes from "prop-types";
 
-const ActivitiesSection = ({ section }) => {
+const ActivitiesSection = ({ section, navigation }) => {
   return (
     <View>
       {section.items.map((activity, index) => {
         let isLast = index === section.items.length - 1;
 
-        return <Activities key={index} activity={activity} isLast={isLast} />;
+        return (
+          <Activities
+            key={index}
+            navigation={navigation}
+            activity={activity}
+            isLast={isLast}
+          />
+        );
       })}
     </View>
   );
 };
 
 ActivitiesSection.propTypes = {
-  section: PropTypes.object.isRequired
+  section: PropTypes.object.isRequired,
+  navigation: PropTypes.object.isRequired
 };
 
-const Activities = ({ activity, isLast }) => {
+const Activities = ({ activity, isLast, navigation }) => {
   let customStyle = {};
   if (isLast) {
     customStyle = {
@@ -30,8 +38,16 @@ const Activities = ({ activity, isLast }) => {
     };
   }
 
+  const openVoucher = () =>
+    navigation.navigate("ActivityVoucher", {
+      identifier: activity.costing.key
+    });
+
   return (
-    <View style={[styles.contentContainer, customStyle]}>
+    <TouchableOpacity
+      onPress={openVoucher}
+      style={[styles.contentContainer, customStyle]}
+    >
       <View style={styles.iconWrapper}>
         <Image
           defaultSource={constants.splashBackground}
@@ -58,13 +74,14 @@ const Activities = ({ activity, isLast }) => {
       <View style={styles.rightPlaceholder}>
         <Text style={styles.rightPlaceholderText}>Stayed</Text>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
 Activities.propTypes = {
   activity: PropTypes.object.isRequired,
-  isLast: PropTypes.bool.isRequired
+  isLast: PropTypes.bool.isRequired,
+  navigation: PropTypes.object.isRequired
 };
 
 /**

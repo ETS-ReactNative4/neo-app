@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import PropTypes from "prop-types";
 import constants from "../../constants/constants";
+import Icon from "../Icon/Icon";
 
 const SearchPlaceholder = ({ action, containerStyle }) => {
   if (!containerStyle) containerStyle = {};
@@ -19,11 +20,13 @@ const SearchPlaceholder = ({ action, containerStyle }) => {
       underlayColor={constants.shade4}
     >
       <View style={styles.placeHolderView}>
-        <Image
-          source={constants.searchIcon}
-          resizeMode={"contain"}
-          style={styles.searchIcon}
-        />
+        <View style={styles.iconWrapper}>
+          <Icon
+            name={constants.searchIcon}
+            size={18}
+            color={constants.shade2}
+          />
+        </View>
         <View style={styles.searchTextWrapper}>
           <Text style={styles.searchText}>Search</Text>
         </View>
@@ -45,9 +48,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center"
   },
-  searchIcon: {
-    height: 18,
-    width: 18,
+  iconWrapper: {
     marginHorizontal: 8
   },
   searchTextWrapper: {

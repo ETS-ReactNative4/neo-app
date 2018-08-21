@@ -1,6 +1,11 @@
+import constants from "./constants";
+import serverUrls from "./serverUrls";
+
 const imageAssets = {
   splashBackground: require("../assets/images/backgrounds/viceroy-bali.jpg.jpg"),
   starterBackground: require("../assets/images/backgrounds/viceroy-bali.jpg.jpg"),
+  drawerBackground: require("../assets/images/backgrounds/drawer.png"),
+  pytLogo: require("../assets/images/icons/logo.png"),
   notificationIcon: require("../assets/images/icons/notification.png"),
   backArrow: require("../assets/images/icons/left-arrow.png"),
   dropDownArrow: require("../assets/images/icons/drop-down-arrow.png"),
@@ -36,6 +41,9 @@ const imageAssets = {
   pinIcon: "pin",
   checkBoxIcon: "checkbox-unchecked",
   checkBoxCheckedIcon: "checkbox-checked",
+  callIcon: "call-end",
+  compassIcon: "compass",
+  trashCanIcon: "trash-can",
 
   weatherGraphInactive: require("../assets/images/weatherPlaceholders/weather-graph-disabled.png"),
   weatherCardPlaceholder: require("../assets/images/weatherPlaceholders/weather-placeholder.png"),
@@ -52,7 +60,18 @@ const imageAssets = {
   invitePassengersIcon: require("../assets/images/toolIcons/invite-co-passanger.png"),
   medicalCareIcon: require("../assets/images/toolIcons/medical-care.png"),
   packageChecklistIcon: require("../assets/images/toolIcons/packing-checklist.png"),
-  passportDetailsIcon: require("../assets/images/toolIcons/passport-details.png")
+  passportDetailsIcon: require("../assets/images/toolIcons/passport-details.png"),
+  yourPickIcon: require("../assets/images/toolIcons/your-picks.png"),
+
+  /**
+   * TODO: Airline logo placeholder
+   * @param airlineCode
+   * @returns {string}
+   */
+  getAirlineIcon: airlineCode =>
+    airlineCode
+      ? `${serverUrls.airlineCdn}${airlineCode.trim()}.png`
+      : `${serverUrls.airlineCdn}${"placeholder"}.png`
 };
 
 export default imageAssets;

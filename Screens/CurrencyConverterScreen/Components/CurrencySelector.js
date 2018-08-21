@@ -47,7 +47,6 @@ class CurrencySelector extends Component {
     const flagImage = constants.starterBackground;
 
     const selectCurrency = currency => {
-      debugger;
       this.props.selectCurrency(currency);
       this.props.onClose();
     };
