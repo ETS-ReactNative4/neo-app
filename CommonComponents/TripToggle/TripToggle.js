@@ -1,11 +1,5 @@
 import React, { Component } from "react";
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  StyleSheet,
-  LayoutAnimation
-} from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import constants from "../../constants/constants";
 import PropTypes from "prop-types";
 import { inject, observer } from "mobx-react/custom";
@@ -18,8 +12,6 @@ class TripToggle extends Component {
   };
 
   render() {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-
     const { isTripModeOn, setTripMode } = this.props.appState;
     let { containerStyle } = this.props;
     if (!containerStyle) containerStyle = {};
