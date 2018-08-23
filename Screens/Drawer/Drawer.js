@@ -14,7 +14,11 @@ import DrawerButton from "./Components/DrawerButton";
 import NotificationCount from "../../CommonComponents/NotificationCount/NotificationCount";
 import logOut from "../../Services/logOut/logOut";
 import SimpleButton from "../../CommonComponents/SimpleButton/SimpleButton";
+import { inject, observer } from "mobx-react/custom";
+import _ from "lodash";
 
+@inject("userStore")
+@observer
 class Drawer extends Component {
   clickDrawerItem = (index, screen) => {
     this.props.navigation.navigate(screen);
@@ -80,6 +84,8 @@ class Drawer extends Component {
       }
     ];
 
+    const { userDetails } = this.props.userStore;
+
     return (
       <ImageBackground style={{ flex: 1 }} source={constants.drawerBackground}>
         <ScrollView style={styles.drawerContainer}>
@@ -92,30 +98,39 @@ class Drawer extends Component {
               }}
             />
           </View>
-          <Text style={styles.userName}>Hi Anand!</Text>
+          <Text style={styles.userName}>{`Hi ${
+            userDetails.name
+              ? userDetails.name.charAt(0).toUpperCase() +
+                userDetails.name.substr(1).toLowerCase()
+              : ""
+          }!`}</Text>
 
-          <SimpleButton
-            text={"Login"}
-            action={() => null}
-            textColor={"white"}
-            hasBorder={true}
-            color={"transparent"}
-            containerStyle={{
-              alignSelf: "center",
-              width: 64,
-              height: 24,
-              borderRadius: 17,
-              marginBottom: 19
-            }}
-            textStyle={{
-              fontFamily: constants.primaryRegular,
-              fontWeight: "600",
-              color: constants.shade1,
-              fontSize: 10,
-              marginTop: -2,
-              marginLeft: 0
-            }}
-          />
+          {_.isEmpty(userDetails) ? (
+            <SimpleButton
+              text={"Login"}
+              action={() => null}
+              textColor={"white"}
+              hasBorder={true}
+              color={"transparent"}
+              containerStyle={{
+                alignSelf: "center",
+                width: 64,
+                height: 24,
+                borderRadius: 17,
+                marginBottom: 19
+              }}
+              textStyle={{
+                fontFamily: constants.primaryRegular,
+                fontWeight: "600",
+                color: constants.shade1,
+                fontSize: 10,
+                marginTop: -2,
+                marginLeft: 0
+              }}
+            />
+          ) : (
+            <View style={{ height: 24 }} />
+          )}
 
           {menuItems.map((item, index) => {
             const defaultAction = () => this.clickDrawerItem(index, item.text);
