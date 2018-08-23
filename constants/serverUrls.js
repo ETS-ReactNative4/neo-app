@@ -1,5 +1,5 @@
 const serverUrls = {
-  devServer: "https://longweekend.co.in/api/",
+  devServer: "https://dev.pickyourtrail.com/api/",
   localServer: "http://192.168.0.5:8080/",
   cityImageBaseUrl: "https://d3lf10b5gahyby.cloudfront.net/city/960xh/",
   airlineCdn: "https://d3lf10b5gahyby.cloudfront.net/airline_logos/",

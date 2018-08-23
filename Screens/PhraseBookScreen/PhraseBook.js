@@ -87,8 +87,10 @@ class PhraseBook extends Component {
   };
 
   speak = () => {
-    Tts.setDefaultLanguage("ja-JP");
-    Tts.speak("ありがとうございました");
+    // Tts.setDefaultLanguage("ja-JP");
+    // Tts.speak("ありがとうございました");
+    Tts.setDefaultLanguage("id-ID");
+    Tts.speak("Maaf");
   };
 
   render() {
