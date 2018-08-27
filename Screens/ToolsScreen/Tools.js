@@ -31,7 +31,7 @@ class Tools extends Component {
             <HomeTitle action={() => navigation.navigate("YourBookings")} />
           }
           title={""}
-          RightButton={<TripToggle containerStyle={{ marginHorizontal: 24 }} />}
+          RightButton={<TripToggle />}
           navigation={navigation}
         />
       )
