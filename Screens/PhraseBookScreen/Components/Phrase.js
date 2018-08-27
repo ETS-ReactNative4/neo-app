@@ -3,11 +3,12 @@ import PropTypes from "prop-types";
 import { isIphoneX } from "react-native-iphone-x-helper";
 import constants from "../../../constants/constants";
 import { StyleSheet, TouchableHighlight, Platform, Text } from "react-native";
+import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraProps";
 
-const Phrase = ({ phrase, selectPhrase, isLast }) => {
+const Phrase = ({ phrase, selectPhrase, isLast, targetLanguage }) => {
   return (
     <TouchableHighlight
-      onPress={() => selectPhrase(phrase)}
+      onPress={() => selectPhrase(phrase, targetLanguage)}
       underlayColor={"white"}
       style={[
         styles.phraseTouchable,
@@ -24,11 +25,12 @@ const Phrase = ({ phrase, selectPhrase, isLast }) => {
   );
 };
 
-Phrase.propTypes = {
+Phrase.propTypes = forbidExtraProps({
   phrase: PropTypes.string.isRequired,
   selectPhrase: PropTypes.func.isRequired,
-  isLast: PropTypes.bool.isRequired
-};
+  isLast: PropTypes.bool.isRequired,
+  targetLanguage: PropTypes.string.isRequired
+});
 
 const styles = StyleSheet.create({
   phraseTouchable: {

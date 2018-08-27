@@ -26,32 +26,68 @@ class PhraseBook extends Component {
     };
   };
 
-  state = {};
-
-  selectPhrase = selectedPhrase => {
-    this.setState({ selectedPhrase });
+  state = {
+    isTtsSpeaking: false
   };
 
+  componentDidMount() {
+    Tts.addEventListener("tts-start", this.startSpeaking);
+    Tts.addEventListener("tts-finish", this.stopSpeaking);
+    Tts.addEventListener("tts-cancel", this.stopSpeaking);
+  }
+
+  componentWillUnmount() {
+    Tts.removeEventListener("tts-start", this.startSpeaking);
+    Tts.removeEventListener("tts-finish", this.stopSpeaking);
+    Tts.removeEventListener("tts-cancel", this.stopSpeaking);
+  }
+
   speak = () => {
-    // Tts.setDefaultLanguage("ja-JP");
-    // Tts.speak("ありがとうございました");
-    Tts.setDefaultLanguage("id-ID");
-    Tts.speak("Maaf");
+    if (this.state.isTtsSpeaking) Tts.stop();
+    else {
+      const { translatedPhrase } = this.props.phrasesStore;
+      Tts.setDefaultLanguage("ru-RU");
+      Tts.speak(translatedPhrase);
+      // Tts.setDefaultLanguage("ja-JP");
+      // Tts.speak("ありがとうございました");
+      // Tts.setDefaultLanguage("id-ID");
+      // Tts.speak("Maaf");
+    }
+  };
+
+  startSpeaking = () => {
+    this.setState({
+      isTtsSpeaking: true
+    });
+  };
+
+  stopSpeaking = () => {
+    this.setState({
+      isTtsSpeaking: false
+    });
   };
 
   render() {
-    const { phrases, selectedPhrase, selectPhrase } = this.props.phrasesStore;
-
-    const selectedTranslation = selectedPhrase;
+    const {
+      phrases,
+      selectedPhrase,
+      selectPhrase,
+      translatedPhrase
+    } = this.props.phrasesStore;
 
     const sections = Object.keys(phrases);
+
+    const targetLanguage = "ru";
+
+    console.log(this.state.isTtsSpeaking);
 
     return [
       <View key={0} style={styles.container}>
         <PhraseInfo
           selectedPhrase={selectedPhrase}
-          selectedTranslation={selectedTranslation}
+          selectedTranslation={translatedPhrase}
           speak={this.speak}
+          isSpeaking={this.state.isTtsSpeaking}
         />
 
         <View style={{ flex: 1 }}>
@@ -74,6 +110,7 @@ class PhraseBook extends Component {
                   phrases={phrases[section]}
                   selectPhrase={selectPhrase}
                   tabLabel={section}
+                  targetLanguage={targetLanguage}
                 />
               );
             })}

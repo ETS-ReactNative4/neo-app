@@ -3,8 +3,14 @@ import constants from "../../../constants/constants";
 import { Text, TouchableHighlight, View, StyleSheet } from "react-native";
 import Icon from "../../../CommonComponents/Icon/Icon";
 import PropTypes from "prop-types";
+import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraProps";
 
-const PhraseInfo = ({ selectedPhrase, selectedTranslation, speak }) => {
+const PhraseInfo = ({
+  selectedPhrase,
+  selectedTranslation,
+  speak,
+  isSpeaking
+}) => {
   return (
     <View style={styles.infoContainer}>
       <View style={styles.selectedPhraseWrapper}>
@@ -49,11 +55,12 @@ const PhraseInfo = ({ selectedPhrase, selectedTranslation, speak }) => {
   );
 };
 
-PhraseInfo.propTypes = {
+PhraseInfo.propTypes = forbidExtraProps({
   selectedPhrase: PropTypes.string.isRequired,
   selectedTranslation: PropTypes.string.isRequired,
-  speak: PropTypes.func.isRequired
-};
+  speak: PropTypes.func.isRequired,
+  isSpeaking: PropTypes.bool.isRequired
+});
 
 const styles = StyleSheet.create({
   infoContainer: {
