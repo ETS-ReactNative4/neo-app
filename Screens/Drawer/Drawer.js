@@ -85,6 +85,8 @@ class Drawer extends Component {
     ];
 
     const { userDetails } = this.props.userStore;
+    const { name } = userDetails;
+    const firstName = name ? name.split(" ")[0] : "";
 
     return (
       <ImageBackground style={{ flex: 1 }} source={constants.drawerBackground}>
@@ -99,9 +101,9 @@ class Drawer extends Component {
             />
           </View>
           <Text style={styles.userName}>{`Hi ${
-            userDetails.name
-              ? userDetails.name.charAt(0).toUpperCase() +
-                userDetails.name.substr(1).toLowerCase()
+            firstName
+              ? firstName.charAt(0).toUpperCase() +
+                firstName.substr(1).toLowerCase()
               : ""
           }!`}</Text>
 
