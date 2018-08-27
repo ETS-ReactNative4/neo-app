@@ -14,7 +14,11 @@ import Icon from "../../CommonComponents/Icon/Icon";
 import CustomPhrase from "./Components/CustomPhrase";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import Tts from "react-native-tts";
+import { inject, observer } from "mobx-react/custom";
+import PhraseInfo from "./Components/PhraseInfo";
 
+@inject("phrasesStore")
+@observer
 class PhraseBook extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
@@ -22,65 +26,7 @@ class PhraseBook extends Component {
     };
   };
 
-  state = {
-    selectedPhrase: {
-      phrase: `Where's the station`,
-      translation: `¿Habla inglés?`,
-      sound: ""
-    },
-    phrases: [
-      {
-        phrase: `Where's the station`,
-        translation: `¿Habla inglés?`,
-        sound: ""
-      },
-      {
-        phrase: `Where's the station`,
-        translation: `¿Habla inglés?`,
-        sound: ""
-      },
-      {
-        phrase: `Where's the station`,
-        translation: `¿Habla inglés?`,
-        sound: ""
-      },
-      {
-        phrase: `Where's the station`,
-        translation: `¿Habla inglés?`,
-        sound: ""
-      },
-      {
-        phrase: `Where's the station`,
-        translation: `¿Habla inglés?`,
-        sound: ""
-      },
-      {
-        phrase: `Where's the station`,
-        translation: `¿Habla inglés?`,
-        sound: ""
-      },
-      {
-        phrase: `Where's the station`,
-        translation: `¿Habla inglés?`,
-        sound: ""
-      },
-      {
-        phrase: `Where's the station`,
-        translation: `¿Habla inglés?`,
-        sound: ""
-      },
-      {
-        phrase: `Where's the station`,
-        translation: `¿Habla inglés?`,
-        sound: ""
-      },
-      {
-        phrase: `Where's the station`,
-        translation: `¿Habla inglés?`,
-        sound: ""
-      }
-    ]
-  };
+  state = {};
 
   selectPhrase = selectedPhrase => {
     this.setState({ selectedPhrase });
@@ -94,33 +40,19 @@ class PhraseBook extends Component {
   };
 
   render() {
+    const { phrases, selectedPhrase, selectPhrase } = this.props.phrasesStore;
+
+    const selectedTranslation = selectedPhrase;
+
+    const sections = Object.keys(phrases);
+
     return [
       <View key={0} style={styles.container}>
-        <View style={styles.infoContainer}>
-          <Text style={styles.selectedPhrase}>
-            {this.state.selectedPhrase.phrase}
-          </Text>
-          <Text style={styles.selectedTranslation}>
-            {this.state.selectedPhrase.translation}
-          </Text>
-
-          <View style={styles.actionsContainer}>
-            <TouchableHighlight
-              underlayColor={constants.shade1}
-              onPress={this.speak}
-              style={styles.buttonContainer}
-            >
-              <Icon size={24} name={constants.speakerIcon} />
-            </TouchableHighlight>
-            <TouchableHighlight
-              underlayColor={constants.shade1}
-              onPress={() => {}}
-              style={styles.buttonContainer}
-            >
-              <Icon size={24} name={constants.pinIcon} />
-            </TouchableHighlight>
-          </View>
-        </View>
+        <PhraseInfo
+          selectedPhrase={selectedPhrase}
+          selectedTranslation={selectedTranslation}
+          speak={this.speak}
+        />
 
         <View style={{ flex: 1 }}>
           <ScrollableTabView
@@ -135,31 +67,16 @@ class PhraseBook extends Component {
             prerenderingSiblingsNumber={Infinity}
             renderTabBar={() => <ScrollableTabBar />}
           >
-            <PhrasesSection
-              phrases={this.state.phrases}
-              selectPhrase={this.selectPhrase}
-              tabLabel="Favouries"
-            />
-            <PhrasesSection
-              phrases={this.state.phrases}
-              selectPhrase={this.selectPhrase}
-              tabLabel="Pinned"
-            />
-            <PhrasesSection
-              phrases={this.state.phrases}
-              selectPhrase={this.selectPhrase}
-              tabLabel="Basic"
-            />
-            <PhrasesSection
-              phrases={this.state.phrases}
-              selectPhrase={this.selectPhrase}
-              tabLabel="Pattern"
-            />
-            <PhrasesSection
-              phrases={this.state.phrases}
-              selectPhrase={this.selectPhrase}
-              tabLabel="Question"
-            />
+            {sections.map((section, sectionIndex) => {
+              return (
+                <PhrasesSection
+                  key={sectionIndex}
+                  phrases={phrases[section]}
+                  selectPhrase={selectPhrase}
+                  tabLabel={section}
+                />
+              );
+            })}
           </ScrollableTabView>
         </View>
       </View>,
@@ -172,37 +89,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "white"
-  },
-  infoContainer: {
-    paddingHorizontal: 24,
-    height: 184,
-    alignItems: "center",
-    justifyContent: "center"
-  },
-  selectedPhrase: {
-    ...constants.font17(constants.primaryLight)
-  },
-  selectedTranslation: {
-    ...constants.font30(constants.primarySemiBold)
-  },
-  actionsContainer: {
-    flexDirection: "row",
-    marginTop: 8
-  },
-  buttonContainer: {
-    height: 42,
-    width: 42,
-    borderRadius: 21,
-    borderWidth: 0.5,
-    borderColor: constants.shade1,
-    alignItems: "center",
-    justifyContent: "center",
-    marginTop: 8,
-    marginHorizontal: 8
-  },
-  icon: {
-    height: 24,
-    width: 24
   }
 });
 

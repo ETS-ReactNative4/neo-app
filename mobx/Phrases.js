@@ -7,6 +7,9 @@ class Phrases {
   @persist("object")
   @observable
   _phrases = {};
+  @persist
+  @observable
+  _selectedPhrase = "";
   @observable _isLoading = false;
   @observable _isTranslating = false;
   @observable _hasError = false;
@@ -22,18 +25,33 @@ class Phrases {
   @action
   getAllPhrases = () => {
     this._isLoading = true;
-    apiCall(constants.getAllPhrases, {}, "GET", false, false)
+    apiCall(constants.getAllPhrases, {}, "GET")
       .then(response => {
         this._isLoading = false;
-        this._hasError = false;
-        console.log(response);
-        debugger;
+        if (response.status === "SUCCESS") {
+          this._hasError = false;
+          this._phrases = response.data;
+        } else {
+          this._hasError = true;
+        }
       })
       .catch(() => {
         this._isLoading = false;
         this._hasError = true;
       });
   };
+
+  @action selectPhrase = phrase => (this._selectedPhrase = phrase);
+
+  @computed
+  get phrases() {
+    return toJS(this._phrases);
+  }
+
+  @computed
+  get selectedPhrase() {
+    return toJS(this._selectedPhrase);
+  }
 
   constructor() {
     this.getAllPhrases();

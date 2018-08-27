@@ -81,5 +81,15 @@ hydrate("_user", store.userStore)
   .catch(err => {
     logError(err);
   });
+hydrate("_phrases", store.phrasesStore)
+  .then(() => {})
+  .catch(err => {
+    logError(err);
+  });
+hydrate("_selectedPhrase", store.phrasesStore)
+  .then(() => {})
+  .catch(err => {
+    logError(err);
+  });
 
 export default store;
