@@ -17,10 +17,10 @@ export const logError = (error, extraInfo = {}) =>
 export const logBreadCrumb = ({ message, category, data }) =>
   sentry.captureBreadcrumb({ message, category, data });
 
-export const setUserContext = ({ email, id }) => {
-  if (!email || !id) {
-    sentry.setUserContext();
+export const setUserContext = ({ email, userID }) => {
+  if (!email || !userID) {
+    sentry.setUserContext({ email: "", userID: "" });
   } else {
-    sentry.setUserContext({ email, id });
+    sentry.setUserContext({ email, userID });
   }
 };
