@@ -1,8 +1,13 @@
 import * as Keychain from "react-native-keychain";
 import constants from "../../constants/constants";
 import { logError } from "../errorLogger/errorLogger";
+import PackageInfo from "../../package.json";
 
 const timeoutDuration = 60000;
+const apiServer =
+  PackageInfo.environment === "production"
+    ? constants.prodServer
+    : constants.devServer;
 
 const apiCall = async (
   route,
@@ -32,7 +37,7 @@ const apiCall = async (
 
     if (method !== "GET") requestDetails.body = JSON.stringify(body);
 
-    const serverURL = customDomain ? customDomain : constants.devServer;
+    const serverURL = customDomain ? customDomain : apiServer;
 
     console.log(`${serverURL}${route}`);
     console.log(body);

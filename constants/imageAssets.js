@@ -1,11 +1,15 @@
 import constants from "./constants";
 import serverUrls from "./serverUrls";
+import PackageInfo from "../package.json";
 
 const imageAssets = {
   splashBackground: require("../assets/images/backgrounds/viceroy-bali.jpg.jpg"),
   starterBackground: require("../assets/images/backgrounds/viceroy-bali.jpg.jpg"),
   drawerBackground: require("../assets/images/backgrounds/drawer.png"),
-  pytLogo: require("../assets/images/icons/logo.png"),
+  pytLogo:
+    PackageInfo.environment === "production"
+      ? require("../assets/images/icons/logo.png")
+      : require("../assets/images/icons/logo-dev.png"),
   notificationIcon: require("../assets/images/icons/notification.png"),
   backArrow: require("../assets/images/icons/left-arrow.png"),
   dropDownArrow: require("../assets/images/icons/drop-down-arrow.png"),
