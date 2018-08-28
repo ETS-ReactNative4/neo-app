@@ -74,8 +74,6 @@ class Phrases {
         } else {
           this._translatingError = true;
         }
-        console.log(response);
-        debugger;
       })
       .catch(err => {
         this._isTranslating = false;
@@ -115,12 +113,17 @@ class Phrases {
 
   @computed
   get selectedPhrase() {
-    return toJS(this._selectedPhrase);
+    return this._selectedPhrase;
   }
 
   @computed
   get translatedPhrase() {
-    return toJS(this._translatedPhrase);
+    return this._translatedPhrase;
+  }
+
+  @computed
+  get isTranslating() {
+    return this._isTranslating;
   }
 
   constructor() {

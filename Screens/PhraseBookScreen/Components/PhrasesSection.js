@@ -25,7 +25,8 @@ const PhrasesSection = ({ phrases, selectPhrase, targetLanguage }) => {
 PhrasesSection.propTypes = forbidExtraProps({
   phrases: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
   selectPhrase: PropTypes.func.isRequired,
-  targetLanguage: PropTypes.string.isRequired
+  targetLanguage: PropTypes.string.isRequired,
+  tabLabel: PropTypes.string.isRequired
 });
 
 export default PhrasesSection;

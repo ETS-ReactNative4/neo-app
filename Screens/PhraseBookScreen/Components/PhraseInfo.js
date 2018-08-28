@@ -4,10 +4,12 @@ import { Text, TouchableHighlight, View, StyleSheet } from "react-native";
 import Icon from "../../../CommonComponents/Icon/Icon";
 import PropTypes from "prop-types";
 import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraProps";
+import DottedLoading from "../../../CommonComponents/DottedLoading/DottedLoading";
 
 const PhraseInfo = ({
   selectedPhrase,
-  selectedTranslation,
+  translatedPhrase,
+  isTranslating,
   speak,
   isSpeaking
 }) => {
@@ -23,16 +25,28 @@ const PhraseInfo = ({
         </Text>
       </View>
       <View style={styles.selectedTranslationWrapper}>
-        <Text
-          style={[
-            styles.selectedTranslation,
-            selectedTranslation.length > 20 ? { fontSize: 24 } : {}
-          ]}
-          numberOfLines={2}
-          ellipsizeMode={"tail"}
-        >
-          {selectedTranslation}
-        </Text>
+        {isTranslating ? (
+          <DottedLoading
+            text={`Translating`}
+            textStyle={styles.selectedTranslation}
+            numOfDots={3}
+          />
+        ) : (
+          <Text
+            style={[
+              styles.selectedTranslation,
+              translatedPhrase
+                ? translatedPhrase.length > 20
+                  ? { fontSize: 24 }
+                  : {}
+                : {}
+            ]}
+            numberOfLines={2}
+            ellipsizeMode={"tail"}
+          >
+            {translatedPhrase}
+          </Text>
+        )}
       </View>
 
       <View style={styles.actionsContainer}>
@@ -57,9 +71,10 @@ const PhraseInfo = ({
 
 PhraseInfo.propTypes = forbidExtraProps({
   selectedPhrase: PropTypes.string.isRequired,
-  selectedTranslation: PropTypes.string.isRequired,
+  translatedPhrase: PropTypes.string.isRequired,
   speak: PropTypes.func.isRequired,
-  isSpeaking: PropTypes.bool.isRequired
+  isSpeaking: PropTypes.bool.isRequired,
+  isTranslating: PropTypes.bool.isRequired
 });
 
 const styles = StyleSheet.create({

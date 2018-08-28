@@ -1,16 +1,9 @@
 import React, { Component } from "react";
-import {
-  View,
-  StyleSheet,
-  Text,
-  Image,
-  TouchableHighlight
-} from "react-native";
+import { View, StyleSheet } from "react-native";
 import ScrollableTabView from "react-native-scrollable-tab-view";
 import ScrollableTabBar from "../../CommonComponents/ScrollableTabBar/ScrollableTabBar";
 import constants from "../../constants/constants";
 import PhrasesSection from "./Components/PhrasesSection";
-import Icon from "../../CommonComponents/Icon/Icon";
 import CustomPhrase from "./Components/CustomPhrase";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import Tts from "react-native-tts";
@@ -72,20 +65,20 @@ class PhraseBook extends Component {
       phrases,
       selectedPhrase,
       selectPhrase,
-      translatedPhrase
+      translatedPhrase,
+      isTranslating
     } = this.props.phrasesStore;
 
     const sections = Object.keys(phrases);
 
     const targetLanguage = "ru";
 
-    console.log(this.state.isTtsSpeaking);
-
     return [
       <View key={0} style={styles.container}>
         <PhraseInfo
           selectedPhrase={selectedPhrase}
-          selectedTranslation={translatedPhrase}
+          translatedPhrase={translatedPhrase}
+          isTranslating={isTranslating}
           speak={this.speak}
           isSpeaking={this.state.isTtsSpeaking}
         />

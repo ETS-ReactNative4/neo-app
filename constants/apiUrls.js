@@ -12,6 +12,7 @@ const apiUrls = {
     `forecast/${key}/${lat},${long},${time}?exclude=flags,daily&units=si`,
   getUserDetails: "mobile/userdetails",
   getAllPhrases: "mobile/getItineraryPhraseBook",
+  translatePhrase: "mobile/translate",
 
   customCheckListName: "Your list",
   hotelVoucher: "hotel",
