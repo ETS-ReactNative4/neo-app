@@ -86,6 +86,21 @@ hydrate("_phrases", store.phrasesStore)
   .catch(err => {
     logError(err);
   });
+hydrate("_translatedPhrases", store.phrasesStore)
+  .then(() => {})
+  .catch(err => {
+    logError(err);
+  });
+hydrate("_translatedPhrase", store.phrasesStore)
+  .then(() => {})
+  .catch(err => {
+    logError(err);
+  });
+hydrate("_languages", store.phrasesStore)
+  .then(() => {})
+  .catch(err => {
+    logError(err);
+  });
 hydrate("_selectedPhrase", store.phrasesStore)
   .then(() => {})
   .catch(err => {

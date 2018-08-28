@@ -13,8 +13,15 @@ import XSensorPlaceholder from "../../../CommonComponents/XSensorPlaceholder/XSe
 import constants from "../../../constants/constants";
 import SimpleButton from "../../../CommonComponents/SimpleButton/SimpleButton";
 import { responsiveWidth } from "react-native-responsive-dimensions";
+import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraProps";
+import PropTypes from "prop-types";
 
 class CustomPhrase extends Component {
+  static propTypes = forbidExtraProps({
+    openLanguageSelector: PropTypes.func.isRequired,
+    selectedLanguage: PropTypes.object.isRequired
+  });
+
   state = {
     customPhrase: "",
     isKeyboardVisible: false,
@@ -79,12 +86,12 @@ class CustomPhrase extends Component {
           placeholder={"Or, type a custom message"}
         />
         <SimpleButton
-          text={"SPA"}
-          action={() => null}
+          text={this.props.selectedLanguage.languageCode}
+          action={this.props.openLanguageSelector}
           containerStyle={{
             backgroundColor: "white",
-            width: 40,
-            marginLeft: 16
+            width: 64,
+            marginLeft: 8
           }}
           textColor={constants.firstColor}
         />

@@ -1,13 +1,14 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Text } from "react-native";
+import forbidExtraProps from "../../Services/PropTypeValidation/forbidExtraProps";
 
 class DottedLoading extends Component {
-  static propTypes = {
+  static propTypes = forbidExtraProps({
     text: PropTypes.string.isRequired,
     numOfDots: PropTypes.number.isRequired,
     textStyle: PropTypes.oneOfType([PropTypes.number, PropTypes.object])
-  };
+  });
 
   state = {
     dots: ""

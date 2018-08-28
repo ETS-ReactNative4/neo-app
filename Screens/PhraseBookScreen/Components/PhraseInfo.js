@@ -13,6 +13,9 @@ const PhraseInfo = ({
   speak,
   isSpeaking
 }) => {
+  /**
+   * TODO: Add GIF animation for speaking
+   */
   return (
     <View style={styles.infoContainer}>
       <View style={styles.selectedPhraseWrapper}>

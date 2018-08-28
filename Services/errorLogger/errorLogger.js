@@ -19,7 +19,10 @@ export const logBreadCrumb = ({ message, category, data }) =>
 
 export const setUserContext = ({ email, userID }) => {
   if (!email || !userID) {
-    sentry.setUserContext({ email: "", userID: "" });
+    /**
+     * TODO: Logout user from sentry
+     * sentry.setUserContext({ email: "", userID: "" });
+     */
   } else {
     sentry.setUserContext({ email, userID });
   }

@@ -9,8 +9,10 @@ import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import Tts from "react-native-tts";
 import { inject, observer } from "mobx-react/custom";
 import PhraseInfo from "./Components/PhraseInfo";
+import LanguageSelector from "./Components/LanguageSelector";
 
 @inject("phrasesStore")
+@inject("itineraries")
 @observer
 class PhraseBook extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -20,13 +22,17 @@ class PhraseBook extends Component {
   };
 
   state = {
-    isTtsSpeaking: false
+    isTtsSpeaking: false,
+    isLanguageSelectorVisible: false
   };
 
   componentDidMount() {
     Tts.addEventListener("tts-start", this.startSpeaking);
     Tts.addEventListener("tts-finish", this.stopSpeaking);
     Tts.addEventListener("tts-cancel", this.stopSpeaking);
+    const { selectedItineraryId } = this.props.itineraries;
+    const { getLanguages } = this.props.phrasesStore;
+    getLanguages("5b77f7399698f8b69a21867d" || selectedItineraryId);
   }
 
   componentWillUnmount() {
@@ -39,7 +45,6 @@ class PhraseBook extends Component {
     if (this.state.isTtsSpeaking) Tts.stop();
     else {
       const { translatedPhrase } = this.props.phrasesStore;
-      Tts.setDefaultLanguage("ru-RU");
       Tts.speak(translatedPhrase);
       // Tts.setDefaultLanguage("ja-JP");
       // Tts.speak("ありがとうございました");
@@ -60,18 +65,34 @@ class PhraseBook extends Component {
     });
   };
 
+  openLanguageSelector = () => {
+    this.setState({
+      isLanguageSelectorVisible: true
+    });
+  };
+
+  closeLanguageSelector = () => {
+    this.setState({
+      isLanguageSelectorVisible: false
+    });
+  };
+
   render() {
     const {
       phrases,
       selectedPhrase,
       selectPhrase,
       translatedPhrase,
-      isTranslating
+      isTranslating,
+      languages,
+      selectedLanguage,
+      selectLanguage
     } = this.props.phrasesStore;
 
     const sections = Object.keys(phrases);
 
-    const targetLanguage = "ru";
+    const targetLanguage = selectedLanguage.language;
+    Tts.setDefaultLanguage(selectedLanguage.languageCode);
 
     return [
       <View key={0} style={styles.container}>
@@ -102,7 +123,7 @@ class PhraseBook extends Component {
                   key={sectionIndex}
                   phrases={phrases[section]}
                   selectPhrase={selectPhrase}
-                  tabLabel={section}
+                  tabLabel={section.toUpperCase()}
                   targetLanguage={targetLanguage}
                 />
               );
@@ -110,7 +131,18 @@ class PhraseBook extends Component {
           </ScrollableTabView>
         </View>
       </View>,
-      <CustomPhrase key={1} />
+      <CustomPhrase
+        openLanguageSelector={this.openLanguageSelector}
+        key={1}
+        selectedLanguage={selectedLanguage}
+      />,
+      <LanguageSelector
+        selectLanguage={selectLanguage}
+        languages={languages}
+        cancel={this.closeLanguageSelector}
+        isVisible={this.state.isLanguageSelectorVisible}
+        key={2}
+      />
     ];
   }
 }

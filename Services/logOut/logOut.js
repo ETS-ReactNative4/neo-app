@@ -25,7 +25,11 @@ const logOut = navigation => {
   store.yourBookingsStore.reset();
   store.voucherStore.reset();
   store.packingChecklistStore.reset();
-  setUserContext();
+  store.phrasesStore.reset();
+  /**
+   * TODO: Clear sentry user context
+   * setUserContext();
+   */
 };
 
 export default logOut;

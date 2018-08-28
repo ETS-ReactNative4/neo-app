@@ -13,7 +13,7 @@ class Phrases {
   _translatedPhrases = {};
   @persist
   @observable
-  _selectedPhrase = "";
+  _selectedPhrase = "Select a phrase to translate...";
   @persist
   @observable
   _translatedPhrase = "";
@@ -21,6 +21,10 @@ class Phrases {
   @observable _isTranslating = false;
   @observable _translatingError = false;
   @observable _hasError = false;
+  @persist("object")
+  @observable
+  _languages = { itineraryId: "", languages: [] };
+  @observable _selectedLanguage = {};
 
   @action
   reset = () => {
@@ -30,7 +34,10 @@ class Phrases {
     this._translatedPhrases = {};
     this._isLoading = false;
     this._isTranslating = false;
+    this._translatingError = false;
     this._hasError = false;
+    this._languages = { itineraryId: "", languages: [] };
+    this._selectedLanguage = {};
   };
 
   @action
@@ -101,6 +108,46 @@ class Phrases {
   };
 
   @action
+  getLanguages = itineraryId => {
+    if (this._languages.itineraryId !== itineraryId) {
+      const requestObject = { itineraryId };
+      this._isLoading = true;
+      apiCall(constants.getLanguages, requestObject)
+        .then(response => {
+          this._isLoading = false;
+          if (response.status === "SUCCESS") {
+            const languages = _.uniqBy(
+              _.flatten(
+                response.data.map(country => {
+                  return country.languageCodes.map(language => {
+                    return language;
+                  });
+                })
+              ),
+              "language"
+            );
+            this._languages = {
+              itineraryId,
+              languages
+            };
+            this._selectedLanguage = languages[0];
+          } else {
+            this._hasError = true;
+          }
+        })
+        .catch(err => {
+          this._isLoading = false;
+          this._hasError = true;
+        });
+    }
+  };
+
+  @action
+  selectLanguage = language => {
+    this._selectedLanguage = language;
+  };
+
+  @action
   selectPhrase = (phrase, targetLanguage) => {
     this._selectedPhrase = phrase;
     this._translatePhrase(phrase, targetLanguage);
@@ -124,6 +171,16 @@ class Phrases {
   @computed
   get isTranslating() {
     return this._isTranslating;
+  }
+
+  @computed
+  get languages() {
+    return toJS(this._languages.languages);
+  }
+
+  @computed
+  get selectedLanguage() {
+    return toJS(this._selectedLanguage);
   }
 
   constructor() {
