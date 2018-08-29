@@ -106,7 +106,7 @@ hydrate("_selectedPhrase", store.phrasesStore)
   .catch(err => {
     logError(err);
   });
-hydrate("_pinnedPhrases", store.pinnedPhrases)
+hydrate("_pinnedPhrases", store.phrasesStore)
   .then(() => {})
   .catch(err => {
     logError(err);
