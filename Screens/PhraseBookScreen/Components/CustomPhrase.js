@@ -83,10 +83,14 @@ class CustomPhrase extends Component {
         <TextInput
           style={styles.customPhraseInput}
           onChangeText={this.onEditText}
-          returnKeyType={"done"}
+          returnKeyType={
+            Platform.OS === "android" && !customPhrase ? "none" : "done"
+          }
           underlineColorAndroid={"transparent"}
           value={customPhrase}
-          onSubmitEditing={() => selectPhrase(customPhrase, targetLanguage)}
+          onSubmitEditing={() =>
+            customPhrase ? selectPhrase(customPhrase, targetLanguage) : null
+          }
           placeholder={"Or, type a custom message"}
         />
         <SimpleButton
@@ -112,7 +116,14 @@ class CustomPhrase extends Component {
 
 const styles = StyleSheet.create({
   customPhraseContainer: {
-    height: 48,
+    ...Platform.select({
+      ios: {
+        height: 48
+      },
+      android: {
+        height: 56
+      }
+    }),
     width: responsiveWidth(100),
     flexDirection: "row",
     alignItems: "center",
@@ -122,7 +133,14 @@ const styles = StyleSheet.create({
   },
   customPhraseInput: {
     flex: 1,
-    height: 32,
+    ...Platform.select({
+      ios: {
+        height: 32
+      },
+      android: {
+        height: 40
+      }
+    }),
     backgroundColor: constants.shade5,
     borderRadius: 7,
     paddingHorizontal: 8,
