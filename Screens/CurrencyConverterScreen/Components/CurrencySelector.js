@@ -3,12 +3,12 @@ import {
   View,
   ScrollView,
   StyleSheet,
-  Modal,
   TouchableHighlight,
   Image,
   Text,
   SafeAreaView
 } from "react-native";
+import Modal from "react-native-modal";
 import PropTypes from "prop-types";
 import { isIphoneX } from "react-native-iphone-x-helper";
 import constants from "../../../constants/constants";
@@ -51,12 +51,9 @@ class CurrencySelector extends Component {
 
     return (
       <Modal
-        animationType="slide"
-        transparent={false}
-        visible={this.props.isVisible}
-        onRequestClose={() => {
-          console.log("modal closed!");
-        }}
+        isVisible={this.props.isVisible}
+        onBackButtonPress={this.props.onClose}
+        style={{ margin: 0, backgroundColor: "white" }}
       >
         <SafeAreaView style={{ flex: 1 }}>
           <View style={styles.container}>

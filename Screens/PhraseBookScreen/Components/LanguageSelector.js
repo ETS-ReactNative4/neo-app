@@ -1,6 +1,5 @@
 import React from "react";
 import {
-  Modal,
   SafeAreaView,
   ScrollView,
   Text,
@@ -8,6 +7,7 @@ import {
   View,
   StyleSheet
 } from "react-native";
+import Modal from "react-native-modal";
 import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraProps";
 import PropTypes from "prop-types";
 import { isIphoneX } from "react-native-iphone-x-helper";
@@ -19,10 +19,9 @@ import localeCode from "locale-code";
 const LanguageSelector = ({ languages, selectLanguage, cancel, isVisible }) => {
   return (
     <Modal
-      animationType="slide"
-      transparent={false}
-      visible={isVisible}
-      onRequestClose={cancel}
+      isVisible={isVisible}
+      onBackButtonPress={cancel}
+      style={{ margin: 0, backgroundColor: "white" }}
     >
       <SafeAreaView style={{ flex: 1 }}>
         <View style={styles.container}>
@@ -48,7 +47,6 @@ const LanguageSelector = ({ languages, selectLanguage, cancel, isVisible }) => {
             ]}
           >
             {languages.map((language, languageIndex) => {
-              console.log(language);
               return (
                 <SelectionRow
                   key={languageIndex}
