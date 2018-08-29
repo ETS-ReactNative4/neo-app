@@ -1,7 +1,7 @@
 {
   "name": "Pickyourtrail",
   "version": "1.0.0",
-  "build": 7,
+  "build": 8,
   "environment": "development",
   "private": true,
   "scripts": {
