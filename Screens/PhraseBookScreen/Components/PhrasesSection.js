@@ -3,21 +3,29 @@ import { ScrollView } from "react-native";
 import PropTypes from "prop-types";
 import Phrase from "./Phrase";
 import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraProps";
+import EmptyListPlaceholder from "../../../CommonComponents/EmptyListPlaceholder/EmptyListPlaceholder";
 
 const PhrasesSection = ({ phrases, selectPhrase, targetLanguage }) => {
   return (
     <ScrollView>
-      {phrases.map((phrase, index) => {
-        return (
-          <Phrase
-            key={index}
-            phrase={phrase}
-            selectPhrase={selectPhrase}
-            targetLanguage={targetLanguage}
-            isLast={index === phrases.length - 1}
-          />
-        );
-      })}
+      {phrases.length ? (
+        phrases.map((phrase, index) => {
+          return (
+            <Phrase
+              key={index}
+              phrase={phrase}
+              selectPhrase={selectPhrase}
+              targetLanguage={targetLanguage}
+              isLast={index === phrases.length - 1}
+            />
+          );
+        })
+      ) : (
+        <EmptyListPlaceholder
+          containerStyle={{ marginTop: 48 }}
+          text={"No Items in this section yet..."}
+        />
+      )}
     </ScrollView>
   );
 };

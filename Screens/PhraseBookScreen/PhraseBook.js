@@ -32,12 +32,14 @@ class PhraseBook extends Component {
     Tts.addEventListener("tts-finish", this.stopSpeaking);
     Tts.addEventListener("tts-cancel", this.stopSpeaking);
     const { selectedItineraryId } = this.props.itineraries;
-    const { getLanguages, getAllPhrases } = this.props.phrasesStore;
-    /**
-     * TODO: Remove test itinerary id
-     */
-    getLanguages("5b77f7399698f8b69a21867d" || selectedItineraryId);
+    const {
+      getLanguages,
+      getAllPhrases,
+      getPinnedPhrases
+    } = this.props.phrasesStore;
+    getLanguages(selectedItineraryId);
     getAllPhrases();
+    getPinnedPhrases();
   }
 
   componentWillUnmount() {
@@ -51,10 +53,6 @@ class PhraseBook extends Component {
     else {
       const { translatedPhrase } = this.props.phrasesStore;
       Tts.speak(translatedPhrase);
-      // Tts.setDefaultLanguage("ja-JP");
-      // Tts.speak("ありがとうございました");
-      // Tts.setDefaultLanguage("id-ID");
-      // Tts.speak("Maaf");
     }
   };
 
@@ -85,6 +83,7 @@ class PhraseBook extends Component {
   render() {
     const {
       phrases,
+      pinnedPhrases,
       selectedPhrase,
       selectPhrase,
       translatedPhrase,
@@ -92,18 +91,21 @@ class PhraseBook extends Component {
       languages,
       selectedLanguage,
       selectLanguage,
-      isLoading
+      isLoading,
+      pinPhrase,
+      unPinPhrase
     } = this.props.phrasesStore;
 
-    const sections = Object.keys(phrases);
+    const sections = ["pinned", ...Object.keys(phrases)];
+    const allPhrases = {
+      ...phrases,
+      pinned: pinnedPhrases
+    };
 
     const targetLanguage = selectedLanguage.language;
     if (selectLanguage.languageCode) {
       Tts.setDefaultLanguage(selectedLanguage.languageCode);
     }
-
-    console.log(selectedPhrase);
-    console.log(translatedPhrase);
 
     return [
       <View key={0} style={styles.container}>
@@ -113,6 +115,9 @@ class PhraseBook extends Component {
           isTranslating={isTranslating}
           speak={this.speak}
           isSpeaking={this.state.isTtsSpeaking}
+          pinPhrase={pinPhrase}
+          unPinPhrase={unPinPhrase}
+          pinnedPhrases={pinnedPhrases}
         />
 
         <View style={{ flex: 1 }}>
@@ -132,7 +137,7 @@ class PhraseBook extends Component {
               return (
                 <PhrasesSection
                   key={sectionIndex}
-                  phrases={phrases[section]}
+                  phrases={allPhrases[section]}
                   selectPhrase={selectPhrase}
                   tabLabel={section.toUpperCase()}
                   targetLanguage={targetLanguage}

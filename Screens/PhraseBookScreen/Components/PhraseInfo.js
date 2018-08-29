@@ -11,6 +11,9 @@ const PhraseInfo = ({
   translatedPhrase,
   isTranslating,
   speak,
+  pinPhrase,
+  unPinPhrase,
+  pinnedPhrases,
   isSpeaking
 }) => {
   /**
@@ -30,8 +33,11 @@ const PhraseInfo = ({
       <View style={styles.selectedTranslationWrapper}>
         {isTranslating ? (
           <DottedLoading
-            text={`Translating`}
-            textStyle={styles.selectedTranslation}
+            text={`Translating\n`}
+            textStyle={[
+              styles.selectedTranslation,
+              { color: constants.firstColor }
+            ]}
             numOfDots={3}
           />
         ) : (
@@ -52,22 +58,44 @@ const PhraseInfo = ({
         )}
       </View>
 
-      <View style={styles.actionsContainer}>
-        <TouchableHighlight
-          underlayColor={constants.shade1}
-          onPress={speak}
-          style={styles.buttonContainer}
-        >
-          <Icon size={24} name={constants.speakerIcon} />
-        </TouchableHighlight>
-        <TouchableHighlight
-          underlayColor={constants.shade1}
-          onPress={() => {}}
-          style={styles.buttonContainer}
-        >
-          <Icon size={24} name={constants.pinIcon} />
-        </TouchableHighlight>
-      </View>
+      {selectedPhrase ? (
+        <View style={styles.actionsContainer}>
+          <TouchableHighlight
+            underlayColor={constants.shade1}
+            onPress={speak}
+            style={styles.buttonContainer}
+          >
+            <Icon
+              size={24}
+              color={constants.shade1}
+              name={constants.speakerIcon}
+            />
+          </TouchableHighlight>
+          {pinnedPhrases.indexOf(selectedPhrase) === -1 ? (
+            <TouchableHighlight
+              underlayColor={constants.shade1}
+              onPress={() => pinPhrase(selectedPhrase)}
+              style={styles.buttonContainer}
+            >
+              <Icon
+                size={24}
+                color={constants.shade1}
+                name={constants.pinIcon}
+              />
+            </TouchableHighlight>
+          ) : (
+            <TouchableHighlight
+              underlayColor={constants.shade1}
+              onPress={() => unPinPhrase(selectedPhrase)}
+              style={[styles.buttonContainer, styles.buttonContainerPinned]}
+            >
+              <Icon size={24} color={"white"} name={constants.pinIcon} />
+            </TouchableHighlight>
+          )}
+        </View>
+      ) : (
+        <View style={styles.actionsContainer} />
+      )}
     </View>
   );
 };
@@ -77,7 +105,10 @@ PhraseInfo.propTypes = forbidExtraProps({
   translatedPhrase: PropTypes.string.isRequired,
   speak: PropTypes.func.isRequired,
   isSpeaking: PropTypes.bool.isRequired,
-  isTranslating: PropTypes.bool.isRequired
+  isTranslating: PropTypes.bool.isRequired,
+  pinPhrase: PropTypes.func.isRequired,
+  unPinPhrase: PropTypes.func.isRequired,
+  pinnedPhrases: PropTypes.array.isRequired
 });
 
 const styles = StyleSheet.create({
@@ -121,6 +152,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     marginHorizontal: 8
+  },
+  buttonContainerPinned: {
+    backgroundColor: constants.shade1,
+    borderColor: "white"
   },
   icon: {
     height: 24,

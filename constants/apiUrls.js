@@ -14,6 +14,8 @@ const apiUrls = {
   getAllPhrases: "mobile/getItineraryPhraseBook",
   translatePhrase: "mobile/translate",
   getLanguages: "mobile/getLanguageOfCity",
+  pinPhrase: "mobile/pinnedPhrase",
+  getPinnedPhrases: "mobile/getpinnedPhraseForUser",
 
   customCheckListName: "Your list",
   hotelVoucher: "hotel",

@@ -3,6 +3,7 @@ import { persist } from "mobx-persist/lib/index";
 import apiCall from "../Services/networkRequests/apiCall";
 import constants from "../constants/constants";
 import _ from "lodash";
+import DebouncedAlert from "../CommonComponents/DebouncedAlert/DebouncedAlert";
 
 class Phrases {
   @persist("object")
@@ -24,6 +25,9 @@ class Phrases {
   @persist("object")
   @observable
   _languages = { itineraryId: "", languages: [] };
+  @persist("list")
+  @observable
+  _pinnedPhrases = [];
   @observable _selectedLanguage = {};
 
   @action
@@ -37,6 +41,7 @@ class Phrases {
     this._translatingError = false;
     this._hasError = false;
     this._languages = { itineraryId: "", languages: [] };
+    this._pinnedPhrases = [];
     this._selectedLanguage = {};
   };
 
@@ -145,8 +150,82 @@ class Phrases {
   };
 
   @action
-  selectLanguage = language => {
-    this._selectedLanguage = language;
+  getPinnedPhrases = () => {
+    apiCall(constants.getPinnedPhrases)
+      .then(response => {
+        if (response.status === "SUCCESS") {
+          this._hasError = false;
+          this._pinnedPhrases = response.data.checked;
+        } else {
+          this._hasError = true;
+        }
+      })
+      .catch(err => {
+        this._hasError = true;
+      });
+  };
+
+  @action
+  pinPhrase = phrase => {
+    if (this._pinnedPhrases.indexOf(phrase) === -1) {
+      const requestBody = {
+        checked: [phrase]
+      };
+      this._pinnedPhrases.push(phrase);
+      const failed = () => {
+        const pinIndex = this._pinnedPhrases.indexOf(phrase);
+        this._pinnedPhrases.splice(pinIndex, 1);
+      };
+      apiCall(constants.pinPhrase, requestBody)
+        .then(response => {
+          if (response.status === "SUCCESS") {
+          } else {
+            DebouncedAlert("Error", "Unable to Pin the phrase...");
+            failed();
+          }
+        })
+        .catch(err => {
+          DebouncedAlert("Error", "Unable to pin.. Internal Server Error!");
+          failed();
+        });
+    }
+  };
+
+  @action
+  unPinPhrase = phrase => {
+    if (this._pinnedPhrases.indexOf(phrase) > -1) {
+      const requestBody = {
+        removed: [phrase]
+      };
+      const pinIndex = this._pinnedPhrases.indexOf(phrase);
+      this._pinnedPhrases.splice(pinIndex, 1);
+      const failed = () => {
+        this._pinnedPhrases.splice(pinIndex, 0, phrase);
+      };
+      apiCall(constants.pinPhrase, requestBody)
+        .then(response => {
+          if (response.status === "SUCCESS") {
+          } else {
+            DebouncedAlert("Error", "Unable to unpin the phrase...");
+            failed();
+          }
+        })
+        .catch(err => {
+          DebouncedAlert(
+            "Error",
+            "Unable to remove pin.. Internal Server Error!"
+          );
+          failed();
+        });
+    }
+  };
+
+  @action
+  selectLanguage = languageObject => {
+    this._selectedLanguage = languageObject;
+    if (this._selectedPhrase) {
+      this.selectPhrase(this._selectedPhrase, languageObject.language);
+    }
   };
 
   @action
@@ -158,6 +237,11 @@ class Phrases {
   @computed
   get phrases() {
     return toJS(this._phrases);
+  }
+
+  @computed
+  get pinnedPhrases() {
+    return toJS(this._pinnedPhrases);
   }
 
   @computed
