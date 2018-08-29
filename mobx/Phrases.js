@@ -24,11 +24,14 @@ class Phrases {
   @observable _hasError = false;
   @persist("object")
   @observable
-  _languages = { itineraryId: "", languages: [] };
+  _languages = {
+    itineraryId: "",
+    languages: [{ language: "", languageCode: "" }]
+  };
   @persist("list")
   @observable
   _pinnedPhrases = [];
-  @observable _selectedLanguage = {};
+  @observable _selectedLanguage = { language: "", languageCode: "" };
 
   @action
   reset = () => {
@@ -40,9 +43,12 @@ class Phrases {
     this._isTranslating = false;
     this._translatingError = false;
     this._hasError = false;
-    this._languages = { itineraryId: "", languages: [] };
+    this._languages = {
+      itineraryId: "",
+      languages: [{ language: "", languageCode: "" }]
+    };
     this._pinnedPhrases = [];
-    this._selectedLanguage = {};
+    this._selectedLanguage = { language: "", languageCode: "" };
   };
 
   @action
@@ -146,6 +152,8 @@ class Phrases {
           this._isLoading = false;
           this._hasError = true;
         });
+    } else {
+      this._selectedLanguage = this._languages.languages[0];
     }
   };
 
