@@ -13,6 +13,7 @@ const apiUrls = {
   getUserDetails: "mobile/userdetails",
   getAllPhrases: "mobile/getItineraryPhraseBook",
   translatePhrase: "mobile/translate",
+  getLanguages: "mobile/getLanguageOfCity",
 
   customCheckListName: "Your list",
   hotelVoucher: "hotel",

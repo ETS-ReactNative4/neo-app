@@ -13,10 +13,10 @@ class Phrases {
   _translatedPhrases = {};
   @persist
   @observable
-  _selectedPhrase = "Select a phrase to translate...";
+  _selectedPhrase = "";
   @persist
   @observable
-  _translatedPhrase = "";
+  _translatedPhrase = "Select a phrase to translate...";
   @observable _isLoading = false;
   @observable _isTranslating = false;
   @observable _translatingError = false;
@@ -90,21 +90,23 @@ class Phrases {
 
   @action
   getAllPhrases = () => {
-    this._isLoading = true;
-    apiCall(constants.getAllPhrases, {}, "GET")
-      .then(response => {
-        this._isLoading = false;
-        if (response.status === "SUCCESS") {
-          this._hasError = false;
-          this._phrases = response.data;
-        } else {
+    if (_.isEmpty(this.phrases)) {
+      this._isLoading = true;
+      apiCall(constants.getAllPhrases, {}, "GET")
+        .then(response => {
+          this._isLoading = false;
+          if (response.status === "SUCCESS") {
+            this._hasError = false;
+            this._phrases = response.data;
+          } else {
+            this._hasError = true;
+          }
+        })
+        .catch(() => {
+          this._isLoading = false;
           this._hasError = true;
-        }
-      })
-      .catch(() => {
-        this._isLoading = false;
-        this._hasError = true;
-      });
+        });
+    }
   };
 
   @action
@@ -183,8 +185,9 @@ class Phrases {
     return toJS(this._selectedLanguage);
   }
 
-  constructor() {
-    this.getAllPhrases();
+  @computed
+  get isLoading() {
+    return this._isLoading;
   }
 }
 

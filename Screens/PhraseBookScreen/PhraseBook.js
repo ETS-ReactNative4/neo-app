@@ -10,6 +10,7 @@ import Tts from "react-native-tts";
 import { inject, observer } from "mobx-react/custom";
 import PhraseInfo from "./Components/PhraseInfo";
 import LanguageSelector from "./Components/LanguageSelector";
+import Loader from "../../CommonComponents/Loader/Loader";
 
 @inject("phrasesStore")
 @inject("itineraries")
@@ -31,8 +32,12 @@ class PhraseBook extends Component {
     Tts.addEventListener("tts-finish", this.stopSpeaking);
     Tts.addEventListener("tts-cancel", this.stopSpeaking);
     const { selectedItineraryId } = this.props.itineraries;
-    const { getLanguages } = this.props.phrasesStore;
+    const { getLanguages, getAllPhrases } = this.props.phrasesStore;
+    /**
+     * TODO: Remove test itinerary id
+     */
     getLanguages("5b77f7399698f8b69a21867d" || selectedItineraryId);
+    getAllPhrases();
   }
 
   componentWillUnmount() {
@@ -86,13 +91,19 @@ class PhraseBook extends Component {
       isTranslating,
       languages,
       selectedLanguage,
-      selectLanguage
+      selectLanguage,
+      isLoading
     } = this.props.phrasesStore;
 
     const sections = Object.keys(phrases);
 
     const targetLanguage = selectedLanguage.language;
-    Tts.setDefaultLanguage(selectedLanguage.languageCode);
+    if (selectLanguage.languageCode) {
+      Tts.setDefaultLanguage(selectedLanguage.languageCode);
+    }
+
+    console.log(selectedPhrase);
+    console.log(translatedPhrase);
 
     return [
       <View key={0} style={styles.container}>
@@ -113,7 +124,7 @@ class PhraseBook extends Component {
               backgroundColor: constants.black2
             }}
             tabBarTextStyle={{ ...constants.font13(constants.primarySemiBold) }}
-            initialPage={2}
+            initialPage={1}
             prerenderingSiblingsNumber={Infinity}
             renderTabBar={() => <ScrollableTabBar />}
           >
@@ -135,6 +146,8 @@ class PhraseBook extends Component {
         openLanguageSelector={this.openLanguageSelector}
         key={1}
         selectedLanguage={selectedLanguage}
+        selectPhrase={selectPhrase}
+        targetLanguage={targetLanguage}
       />,
       <LanguageSelector
         selectLanguage={selectLanguage}
@@ -142,7 +155,8 @@ class PhraseBook extends Component {
         cancel={this.closeLanguageSelector}
         isVisible={this.state.isLanguageSelectorVisible}
         key={2}
-      />
+      />,
+      <Loader isVisible={isLoading} key={3} />
     ];
   }
 }

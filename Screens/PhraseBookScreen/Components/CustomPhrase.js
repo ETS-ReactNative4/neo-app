@@ -19,7 +19,9 @@ import PropTypes from "prop-types";
 class CustomPhrase extends Component {
   static propTypes = forbidExtraProps({
     openLanguageSelector: PropTypes.func.isRequired,
-    selectedLanguage: PropTypes.object.isRequired
+    selectedLanguage: PropTypes.object.isRequired,
+    selectPhrase: PropTypes.func.isRequired,
+    targetLanguage: PropTypes.string.isRequired
   });
 
   state = {
@@ -60,15 +62,16 @@ class CustomPhrase extends Component {
     this.keyboardDidHideListener.remove();
   }
 
-  onEditText = e => {
+  onEditText = phrase => {
     this.setState({
-      customPhrase: e.target.value
+      customPhrase: phrase
     });
   };
 
   render() {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-
+    const { selectPhrase, targetLanguage } = this.props;
+    const { customPhrase } = this.state;
     return [
       <View
         key={0}
@@ -79,10 +82,11 @@ class CustomPhrase extends Component {
       >
         <TextInput
           style={styles.customPhraseInput}
-          onChange={this.onEditText}
+          onChangeText={this.onEditText}
           returnKeyType={"done"}
           underlineColorAndroid={"transparent"}
-          value={this.state.customPhrase}
+          value={customPhrase}
+          onSubmitEditing={() => selectPhrase(customPhrase, targetLanguage)}
           placeholder={"Or, type a custom message"}
         />
         <SimpleButton

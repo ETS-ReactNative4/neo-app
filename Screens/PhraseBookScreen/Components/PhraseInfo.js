@@ -82,7 +82,7 @@ PhraseInfo.propTypes = forbidExtraProps({
 
 const styles = StyleSheet.create({
   infoContainer: {
-    marginTop: 16,
+    marginTop: 54,
     paddingHorizontal: 24,
     height: 184,
     alignItems: "center",
@@ -93,7 +93,8 @@ const styles = StyleSheet.create({
   },
   selectedPhrase: {
     ...constants.font17(constants.primaryLight),
-    textAlign: "center"
+    textAlign: "center",
+    color: constants.shade1
   },
   selectedTranslationWrapper: {
     flex: 1,
@@ -103,7 +104,8 @@ const styles = StyleSheet.create({
   },
   selectedTranslation: {
     ...constants.font30(constants.primarySemiBold),
-    textAlign: "center"
+    textAlign: "center",
+    color: constants.black1
   },
   actionsContainer: {
     flexDirection: "row",
