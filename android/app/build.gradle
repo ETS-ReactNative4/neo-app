@@ -149,6 +149,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-webview-android-file-upload')
     compile project(':react-native-android-sms-listener')
     compile project(':react-native-app-settings')
     compile project(':react-native-tts')
