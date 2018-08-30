@@ -5094,6 +5094,10 @@ react-native-vector-icons@5.0.0:
     prop-types "^15.5.10"
     yargs "^8.0.2"
 
+"react-native-webview-android-file-upload@git://github.com/DaniAkash/react-native-webview-android-file-upload.git#f04c1285ae5d0eb1f62c4cf7cfb454dba55cb8ce":
+  version "1.4.0"
+  resolved "git://github.com/DaniAkash/react-native-webview-android-file-upload.git#f04c1285ae5d0eb1f62c4cf7cfb454dba55cb8ce"
+
 react-native@0.56.0:
   version "0.56.0"
   resolved "https://registry.yarnpkg.com/react-native/-/react-native-0.56.0.tgz#66686f781ec39a44376aadd4bbc55c8573ab61e5"

@@ -71,7 +71,8 @@ class Drawer extends Component {
       },
       {
         icon: constants.notificationIcon,
-        text: "Support"
+        text: "Support",
+        action: () => this.props.navigation.navigate("AppSupport")
       },
       {
         icon: constants.notificationIcon,

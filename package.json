@@ -31,6 +31,8 @@
       "git://github.com/DaniAkash/react-native-android-sms-listener.git#af305da28ca209626229b7572cda8856fff6b8aa",
     "react-native-app-settings":
       "git://github.com/DaniAkash/react-native-app-settings.git#e1fe1e8358e4d1e907fbb0923bec0fdc72be237a",
+    "react-native-webview-android-file-upload":
+      "git://github.com/DaniAkash/react-native-webview-android-file-upload.git#f04c1285ae5d0eb1f62c4cf7cfb454dba55cb8ce",
     "react-native-collapsible": "^0.11.2",
     "react-native-dash": "^0.0.9",
     "react-native-htmlview": "^0.12.1",

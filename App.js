@@ -33,6 +33,7 @@ import FlightVoucher from "./Screens/VoucherScreens/FlightVoucherScreen/FlightVo
 import EmergencyContacts from "./Screens/EmergencyContactsScreen/EmergencyContacts";
 import PassportDetails from "./Screens/PassportDetailsScreen/PassportDetails";
 import { logBreadCrumb } from "./Services/errorLogger/errorLogger";
+import ChatScreen from "./Screens/ChatScreen/ChatScreen";
 
 UIManager.setLayoutAnimationEnabledExperimental &&
   UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -108,7 +109,7 @@ const HomeTabs = createBottomTabNavigator(
       screen: BookingStack
     },
     Support: {
-      screen: Home
+      screen: ChatScreen
     },
     Tools: {
       screen: ToolStack
@@ -213,7 +214,7 @@ const AppNavigator = createDrawerNavigator(
     Account: {
       screen: createStackNavigator({ HomeStack4: { screen: Home } })
     },
-    Support: {
+    AppSupport: {
       screen: createStackNavigator({ HomeStack5: { screen: Home } })
     },
     About: {
