@@ -1,7 +1,7 @@
 {
   "name": "Pickyourtrail",
   "version": "1.0.0",
-  "build": 9,
+  "build": 10,
   "environment": "development",
   "private": true,
   "scripts": {
@@ -14,6 +14,7 @@
     "precommit": "pretty-quick --staged"
   },
   "dependencies": {
+    "@babel/runtime": "7.0.0-beta.47",
     "country-data": "^0.0.31",
     "d3-shape": "^1.2.0",
     "locale-code": "^2.0.1",
