@@ -37,7 +37,7 @@ class Phrases {
   reset = () => {
     this._phrases = {};
     this._selectedPhrase = "";
-    this._translatedPhrase = "";
+    this._translatedPhrase = "Select a phrase to translate...";
     this._translatedPhrases = {};
     this._isLoading = false;
     this._isTranslating = false;
