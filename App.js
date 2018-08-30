@@ -214,7 +214,7 @@ const AppNavigator = createDrawerNavigator(
     Account: {
       screen: createStackNavigator({ HomeStack4: { screen: Home } })
     },
-    Support: {
+    AppSupport: {
       screen: createStackNavigator({ HomeStack5: { screen: Home } })
     },
     About: {
