@@ -1,16 +1,37 @@
 import React, { Component } from "react";
-import { BackHandler, View } from "react-native";
+import { BackHandler, Keyboard, View } from "react-native";
 import { isIphoneX } from "react-native-iphone-x-helper";
 import CustomWebView from "react-native-webview-android-file-upload";
 import constants from "../../constants/constants";
+import { inject, observer } from "mobx-react/custom";
+import crispSDK from "./Components/crispSDK";
 
+@inject("userStore")
+@inject("itineraries")
+@observer
 class ChatScreen extends Component {
   state = {
-    canGoBack: false
+    canGoBack: false,
+    keyboardVisible: false,
+    injectedJavascript: ""
   };
   _webView = {};
   _didFocusSubscription;
   _willBlurSubscription;
+  _keyboardDidShowListener;
+  _keyboardDidHideListener;
+
+  keyboardDidShow = () => {
+    this.setState({
+      keyboardVisible: true
+    });
+  };
+
+  keyboardDidHide = () => {
+    this.setState({
+      keyboardVisible: false
+    });
+  };
 
   constructor(props) {
     super(props);
@@ -21,7 +42,11 @@ class ChatScreen extends Component {
   }
 
   onNavigationStateChange = navState => {
+    const { userDetails } = this.props.userStore;
+    const { selectedItineraryId } = this.props.itineraries;
+    const { email } = userDetails;
     this.setState({
+      injectedJavascript: crispSDK(email, selectedItineraryId),
       canGoBack: navState.canGoBack
     });
   };
@@ -29,11 +54,10 @@ class ChatScreen extends Component {
   goBack = () => {
     if (this.state.canGoBack) {
       this._webView.goBack();
-      return true;
     } else {
       this.props.navigation.goBack();
-      return true;
     }
+    return true;
   };
 
   componentDidMount() {
@@ -41,16 +65,33 @@ class ChatScreen extends Component {
       "willBlur",
       () => BackHandler.removeEventListener("hardwareBackPress", this.goBack)
     );
+    this._keyboardDidShowListener = Keyboard.addListener(
+      "keyboardWillChangeFrame",
+      this.keyboardDidShow
+    );
+    this._keyboardDidHideListener = Keyboard.addListener(
+      "keyboardWillHide",
+      this.keyboardDidHide
+    );
   }
 
   componentWillUnmount() {
     this._didFocusSubscription && this._didFocusSubscription.remove();
     this._willBlurSubscription && this._willBlurSubscription.remove();
+    this._keyboardDidShowListener && this._keyboardDidShowListener.remove();
+    this._keyboardDidHideListener && this._keyboardDidHideListener.remove();
   }
 
   render() {
     return (
-      <View style={{ flex: 1, backgroundColor: "#6666ff" }}>
+      <View
+        style={{
+          flex: 1,
+          backgroundColor: this.state.keyboardVisible
+            ? constants.chatLightColor
+            : constants.chatMainColor
+        }}
+      >
         <CustomWebView
           source={{ uri: constants.crispServerUrl }}
           startInLoadingState={true}
@@ -60,6 +101,7 @@ class ChatScreen extends Component {
             marginTop: isIphoneX() ? constants.xNotchHeight : 0
           }}
           webviewRef={e => (this._webView = e)}
+          injectedJavaScript={this.state.injectedJavascript}
         />
       </View>
     );
