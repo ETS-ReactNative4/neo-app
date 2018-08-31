@@ -1,10 +1,11 @@
 import React, { Component } from "react";
-import { BackHandler, Keyboard, View } from "react-native";
+import { BackHandler, Keyboard, View, Platform } from "react-native";
 import { isIphoneX } from "react-native-iphone-x-helper";
 import CustomWebView from "react-native-webview-android-file-upload";
 import constants from "../../constants/constants";
 import { inject, observer } from "mobx-react/custom";
 import crispSDK from "./Components/crispSDK";
+import BackButtonIos from "./Components/BackButtonIos";
 
 @inject("userStore")
 @inject("itineraries")
@@ -103,6 +104,12 @@ class ChatScreen extends Component {
           webviewRef={e => (this._webView = e)}
           injectedJavaScript={this.state.injectedJavascript}
         />
+        {Platform.OS === "ios" ? (
+          <BackButtonIos
+            backAction={this.goBack}
+            isVisible={this.state.canGoBack}
+          />
+        ) : null}
       </View>
     );
   }
