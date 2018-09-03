@@ -2,6 +2,8 @@ import * as Keychain from "react-native-keychain";
 import constants from "../../constants/constants";
 import { logError } from "../errorLogger/errorLogger";
 import PackageInfo from "../../package.json";
+import logOut from "../logOut/logOut";
+import DebouncedAlert from "../../CommonComponents/DebouncedAlert/DebouncedAlert";
 
 const timeoutDuration = 60000;
 const apiServer =
@@ -50,6 +52,12 @@ const apiCall = async (
     function handleErrors(response) {
       console.log(response.status);
       console.log(response.statusText);
+
+      if (response.status === 401) {
+        DebouncedAlert("Oops!", "Session Expired... Please Login again!");
+        logOut();
+      }
+
       if (response.ok) {
         return response.json();
       } else {

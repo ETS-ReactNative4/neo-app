@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 import {
   createStackNavigator,
   createDrawerNavigator,
@@ -34,6 +34,7 @@ import EmergencyContacts from "./Screens/EmergencyContactsScreen/EmergencyContac
 import PassportDetails from "./Screens/PassportDetailsScreen/PassportDetails";
 import { logBreadCrumb } from "./Services/errorLogger/errorLogger";
 import ChatScreen from "./Screens/ChatScreen/ChatScreen";
+import { setNavigationService } from "./Services/navigationService/navigationService";
 
 UIManager.setLayoutAnimationEnabledExperimental &&
   UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -256,7 +257,10 @@ const screenTracker = (prevState, currentState) => {
 const App = () => {
   return (
     <Provider {...store}>
-      <AppNavigator onNavigationStateChange={screenTracker} />
+      <AppNavigator
+        ref={setNavigationService}
+        onNavigationStateChange={screenTracker}
+      />
     </Provider>
   );
 };

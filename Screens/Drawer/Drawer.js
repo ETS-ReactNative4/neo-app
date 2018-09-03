@@ -81,7 +81,7 @@ class Drawer extends Component {
       {
         icon: constants.notificationIcon,
         text: "Log Out",
-        action: () => logOut(this.props.navigation)
+        action: () => logOut()
       }
     ];
 

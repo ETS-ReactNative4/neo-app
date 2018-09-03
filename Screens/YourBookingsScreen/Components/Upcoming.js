@@ -34,20 +34,6 @@ class Upcoming extends Component {
   render() {
     const { itinerariesList, isLoading, getUpcomingItineraries } = this.props;
 
-    if (itinerariesList.length === 0 && !isLoading) {
-      return (
-        <EmptyListPlaceholder
-          text={`No active bookings found on this number. If the booking is made by someone else, you need an invite from them to proceed.`}
-          containerStyle={{
-            borderTopWidth: 1,
-            borderTopColor: constants.shade4,
-            marginHorizontal: 24
-          }}
-          textStyle={{ marginTop: -50 }}
-        />
-      );
-    }
-
     return (
       <ScrollView
         refreshControl={
@@ -57,6 +43,16 @@ class Upcoming extends Component {
           />
         }
       >
+        {!itinerariesList.length && !isLoading ? (
+          <EmptyListPlaceholder
+            text={`No active bookings found on this number. If the booking is made by someone else, you need an invite from them to proceed.`}
+            containerStyle={{
+              borderTopWidth: 1,
+              borderTopColor: constants.shade4,
+              marginHorizontal: 24
+            }}
+          />
+        ) : null}
         {itinerariesList.map((itinerary, index) => {
           let isLast = false;
           if (index === itinerariesList.length - 1) isLast = true;
