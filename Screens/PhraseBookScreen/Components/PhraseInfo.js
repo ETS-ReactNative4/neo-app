@@ -1,6 +1,12 @@
 import React from "react";
 import constants from "../../../constants/constants";
-import { Text, TouchableHighlight, View, StyleSheet } from "react-native";
+import {
+  Text,
+  TouchableHighlight,
+  View,
+  StyleSheet,
+  Image
+} from "react-native";
 import Icon from "../../../CommonComponents/Icon/Icon";
 import PropTypes from "prop-types";
 import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraProps";
@@ -65,11 +71,19 @@ const PhraseInfo = ({
             onPress={speak}
             style={styles.buttonContainer}
           >
-            <Icon
-              size={24}
-              color={constants.shade1}
-              name={constants.speakerIcon}
-            />
+            {isSpeaking ? (
+              <Image
+                source={constants.speakerAnimatedIcon}
+                resizeMode={"contain"}
+                style={{ height: 24, width: 24 }}
+              />
+            ) : (
+              <Icon
+                size={24}
+                color={constants.shade1}
+                name={constants.speakerIcon}
+              />
+            )}
           </TouchableHighlight>
           {pinnedPhrases.indexOf(selectedPhrase) === -1 ? (
             <TouchableHighlight

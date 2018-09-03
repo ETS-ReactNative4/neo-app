@@ -42,6 +42,7 @@ const imageAssets = {
   searchIcon: "search",
   swapVertIcon: "swap_vert",
   speakerIcon: "speaker",
+  speakerAnimatedIcon: require("../assets/images/loaders/voice.gif"),
   pinIcon: "pin",
   checkBoxIcon: "checkbox-unchecked",
   checkBoxCheckedIcon: "checkbox-checked",
