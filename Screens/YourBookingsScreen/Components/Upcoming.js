@@ -4,21 +4,25 @@ import {
   View,
   Text,
   ImageBackground,
-  StyleSheet
+  StyleSheet,
+  RefreshControl
 } from "react-native";
 import UpcomingCard from "./UpcomingCard";
 import PropTypes from "prop-types";
 import EmptyListPlaceholder from "../../../CommonComponents/EmptyListPlaceholder/EmptyListPlaceholder";
 import constants from "../../../constants/constants";
 import { inject, observer } from "mobx-react/custom";
+import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraProps";
 
 @inject("itineraries")
 @observer
 class Upcoming extends Component {
   static propTypes = {
+    tabLabel: PropTypes.string.isRequired,
     itinerariesList: PropTypes.array.isRequired,
     isLoading: PropTypes.bool.isRequired,
-    navigation: PropTypes.object.isRequired
+    navigation: PropTypes.object.isRequired,
+    getUpcomingItineraries: PropTypes.func.isRequired
   };
 
   selectItinerary = itineraryId => {
@@ -28,7 +32,7 @@ class Upcoming extends Component {
   };
 
   render() {
-    const { itinerariesList, isLoading } = this.props;
+    const { itinerariesList, isLoading, getUpcomingItineraries } = this.props;
 
     if (itinerariesList.length === 0 && !isLoading) {
       return (
@@ -45,7 +49,14 @@ class Upcoming extends Component {
     }
 
     return (
-      <ScrollView>
+      <ScrollView
+        refreshControl={
+          <RefreshControl
+            refreshing={isLoading}
+            onRefresh={getUpcomingItineraries}
+          />
+        }
+      >
         {itinerariesList.map((itinerary, index) => {
           let isLast = false;
           if (index === itinerariesList.length - 1) isLast = true;
