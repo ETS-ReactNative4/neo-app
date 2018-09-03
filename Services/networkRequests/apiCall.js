@@ -7,7 +7,9 @@ const timeoutDuration = 60000;
 const apiServer =
   PackageInfo.environment === "production"
     ? constants.prodServer
-    : constants.devServer;
+    : PackageInfo.environment === "staging"
+      ? constants.stagingSever
+      : constants.devServer;
 
 const apiCall = async (
   route,

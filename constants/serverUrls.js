@@ -1,6 +1,7 @@
 const serverUrls = {
   localServer: "http://192.168.0.5:8080/api/",
   devServer: "https://dev.pickyourtrail.com/api/",
+  stagingSever: "https://staging.pickyourtrail.com/api/",
   prodServer: "https://pickyourtrail.com/api/",
   cityImageBaseUrl: "https://d3lf10b5gahyby.cloudfront.net/city/960xh/",
   airlineCdn: "https://d3lf10b5gahyby.cloudfront.net/airline_logos/",
