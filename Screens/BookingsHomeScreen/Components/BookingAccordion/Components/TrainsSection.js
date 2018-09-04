@@ -36,7 +36,7 @@ const Train = ({ train, isLast }) => {
         <Image
           resizeMode={"cover"}
           style={styles.contentIcon}
-          source={constants.splashBackground}
+          source={{ uri: constants.miscImageBaseUrl + "transfers-train.jpg" }}
         />
       </View>
       <View style={styles.contentTextContainer}>

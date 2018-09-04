@@ -4,6 +4,7 @@ import moment from "moment";
 import { responsiveWidth } from "react-native-responsive-dimensions";
 import constants from "../../../../../constants/constants";
 import PropTypes from "prop-types";
+import _ from "lodash";
 
 const TransferSection = ({ section, navigation }) => {
   return (
@@ -29,6 +30,30 @@ TransferSection.propTypes = {
   navigation: PropTypes.object.isRequired
 };
 
+const getTransferImage = (vehicle, type) => {
+  let upperCaseVehicle = _.toUpper(vehicle);
+  switch (upperCaseVehicle) {
+    case "BOAT":
+      return "http://d3lf10b5gahyby.cloudfront.net/misc/venice_speed_boat.jpg";
+    case "FERRY":
+      return "https://dig82prjykzgf.cloudfront.net/ferry.jpg";
+    case "TRAIN":
+      return "https://d3lf10b5gahyby.cloudfront.net/misc/transfers-train.jpg";
+    case "BUS":
+      return "https://d3lf10b5gahyby.cloudfront.net/misc/transfers-bus.jpg";
+    case "SHUTTLE":
+      return "https://d3lf10b5gahyby.cloudfront.net/misc/transfers-shuttle.jpg";
+    case "CAR":
+      if (type === "PRIVATE") {
+        return "https://media.zigcdn.com/media/model/2016/Feb/honda_accord2016_600x300.jpg";
+      } else {
+        return "https://d3lf10b5gahyby.cloudfront.net/misc/transfers-shuttle.jpg";
+      }
+    default:
+      return "https://media.zigcdn.com/media/model/2016/Feb/honda_accord2016_600x300.jpg";
+  }
+};
+
 const Transfer = ({ transfer, isLast, navigation }) => {
   let customStyle = {};
   if (isLast) {
@@ -49,7 +74,7 @@ const Transfer = ({ transfer, isLast, navigation }) => {
         <Image
           resizeMode={"cover"}
           style={styles.contentIcon}
-          source={constants.splashBackground}
+          source={{ uri: getTransferImage(transfer.vehicle, transfer.type) }}
         />
       </View>
       <View style={styles.contentTextContainer}>
@@ -65,9 +90,9 @@ const Transfer = ({ transfer, isLast, navigation }) => {
           </Text>
         </View>
       </View>
-      <View style={styles.rightPlaceholder}>
-        <Text style={styles.rightPlaceholderText}>Stayed</Text>
-      </View>
+      {/*<View style={styles.rightPlaceholder}>*/}
+      {/*<Text style={styles.rightPlaceholderText}>Stayed</Text>*/}
+      {/*</View>*/}
     </TouchableOpacity>
   );
 };
