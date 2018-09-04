@@ -5,6 +5,7 @@ import FlightDivider from "./FlightDivider";
 import PropTypes from "prop-types";
 import constants from "../../../../constants/constants";
 import forbidExtraProps from "../../../../Services/PropTypeValidation/forbidExtraProps";
+import FlightActionSection from "./FlightActionSection";
 
 class FlightTripView extends Component {
   static propTypes = forbidExtraProps({
@@ -90,6 +91,7 @@ class FlightTripView extends Component {
             flightClass={flightClass}
             airlineCode={airlineCode}
           />
+          <FlightActionSection />
         </View>
       );
     }
@@ -148,8 +150,11 @@ class FlightTripView extends Component {
                   airlineCode={airlineCode}
                 />,
                 routeIndex < routes.length - 1 ? (
+                  <FlightActionSection key={1} />
+                ) : null,
+                routeIndex < routes.length - 1 ? (
                   <FlightDivider
-                    key={1}
+                    key={2}
                     onClick={this.toggleFlightCard}
                     layoverText={layoverText}
                   />
