@@ -3723,14 +3723,16 @@ class Itineraries {
     try {
       const hotelRefs = this._selectedItinerary.allHotelCostingRefs;
       hotels = hotelRefs.map(ref => {
-        return toJS(
+        const hotel = toJS(
           this._selectedItinerary.hotelCostings.hotelCostingById[ref]
         );
+        if (hotel.status === "SUCCESS") return hotel;
+        else return null;
       });
     } catch (e) {
       hotels = [];
     }
-    return hotels;
+    return _.compact(hotels);
   }
 
   @computed
@@ -3741,6 +3743,9 @@ class Itineraries {
     try {
       activities = Object.values(this._selectedItinerary.activityById);
       const activityRefs = this._selectedItinerary.allActivityCostingRefs;
+      /**
+       * TODO: Multiple maps (needs optimization)
+       */
       const activitiesCosting = activityRefs.map(ref => {
         return toJS(
           this._selectedItinerary.activityCostings.activityCostingById[ref]
@@ -3755,6 +3760,9 @@ class Itineraries {
           })
         };
       });
+      return activities.filter(
+        activity => activity.costing.status === "SUCCESS"
+      );
     } catch (e) {
       activities = [];
     }
@@ -3769,14 +3777,17 @@ class Itineraries {
     try {
       const flightRefs = this._selectedItinerary.allFlightCostingRefs;
       flights = flightRefs.map(ref => {
-        return toJS(
+        const flight = toJS(
           this._selectedItinerary.flightCostings.flightCostingById[ref]
         );
+
+        if (flight.status === "SUCCESS") return flight;
+        else return null;
       });
     } catch (e) {
       flights = [];
     }
-    return flights;
+    return _.compact(flights);
   }
 
   @computed
@@ -3787,14 +3798,17 @@ class Itineraries {
     try {
       const transferRefs = this._selectedItinerary.allTransferCostingRefs;
       transfers = transferRefs.map(ref => {
-        return toJS(
+        const transfer = toJS(
           this._selectedItinerary.transferCostings.transferCostingById[ref]
         );
+
+        if (transfer.status === "SUCCESS") return transfer;
+        else return null;
       });
     } catch (e) {
       transfers = [];
     }
-    return transfers;
+    return _.compact(transfers);
   }
 
   @computed

@@ -4,6 +4,7 @@ const serverUrls = {
   stagingSever: "https://staging.pickyourtrail.com/api/",
   prodServer: "https://pickyourtrail.com/api/",
   cityImageBaseUrl: "https://d3lf10b5gahyby.cloudfront.net/city/960xh/",
+  miscImageBaseUrl: "https://d3lf10b5gahyby.cloudfront.net/misc/",
   airlineCdn: "https://d3lf10b5gahyby.cloudfront.net/airline_logos/",
   crispServerUrl:
     "https://go.crisp.chat/chat/embed/?website_id=b611e2e5-45aa-4b4e-bb40-bf30d8e935be",
