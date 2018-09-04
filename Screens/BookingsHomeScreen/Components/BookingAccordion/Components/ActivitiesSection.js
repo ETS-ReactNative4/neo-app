@@ -58,12 +58,16 @@ const Activities = ({ activity, isLast, navigation }) => {
       </View>
       <View style={styles.contentTextContainer}>
         <View style={styles.contentHeaderWrapper}>
-          <Text style={styles.contentHeader}>{`${moment(
-            `${activity.costing.day}/${activity.costing.mon}/${
-              constants.currentYear
-            }`,
-            "DD/MMM/YYYY"
-          ).format("MMM DD")}`}</Text>
+          <Text style={styles.contentHeader}>{`${
+            activity.costing.dateMillis
+              ? moment(activity.costing.dateMillis).format("MMM DD")
+              : moment(
+                  `${activity.costing.day}/${activity.costing.mon}/${
+                    constants.currentYear
+                  }`,
+                  "DD/MMM/YYYY"
+                ).format("MMM DD")
+          }`}</Text>
         </View>
         <View style={styles.contentTextWrapper}>
           <Text style={styles.contentText} numberOfLines={1}>

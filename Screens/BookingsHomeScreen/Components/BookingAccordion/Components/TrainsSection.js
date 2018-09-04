@@ -41,12 +41,14 @@ const Train = ({ train, isLast }) => {
       </View>
       <View style={styles.contentTextContainer}>
         <View style={styles.contentHeaderWrapper}>
-          <Text style={styles.contentHeader}>{`${moment(
-            `${train.day}/${train.mon}/${constants.currentYear}`,
-            "DD/MMM/YYYY"
-          ).format("MMM DD")} (${train.departureTime} - ${
-            train.arrivalTime
-          })`}</Text>
+          <Text style={styles.contentHeader}>{`${
+            train.dateMillis
+              ? moment(train.dateMillis).format("MMM DD")
+              : moment(
+                  `${train.day}/${train.mon}/${constants.currentYear}`,
+                  "DD/MMM/YYYY"
+                ).format("MMM DD")
+          } (${train.departureTime} - ${train.arrivalTime})`}</Text>
         </View>
         <View style={styles.contentTextWrapper}>
           <Text style={styles.contentText} numberOfLines={2}>

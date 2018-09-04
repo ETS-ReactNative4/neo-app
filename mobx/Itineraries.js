@@ -3608,7 +3608,7 @@ class Itineraries {
     });
     if (selectedItinerary) {
       this._selectedItinerary = selectedItinerary;
-      store.voucherStore.getVouchers(this.selectedItineraryId);
+      store.voucherStore.selectVoucher(this.selectedItineraryId);
     } else this.getItineraryDetails(itineraryId);
   };
 
@@ -3625,7 +3625,7 @@ class Itineraries {
         if (response.status === "SUCCESS") {
           this._itineraries.push(response.data);
           this._selectedItinerary = response.data;
-          store.voucherStore.getVouchers(this.selectedItineraryId);
+          store.voucherStore.selectVoucher(this.selectedItineraryId);
           this._loadingError = false;
         } else {
           this._loadingError = true;
@@ -3677,14 +3677,18 @@ class Itineraries {
 
     const startDay = sortedDays[0];
     const lastDay = sortedDays[sortedDays.length - 1];
-    const startDate = moment(
-      `${startDay.day}-${startDay.mon}-${constants.currentYear}`,
-      "DD-MMM-YYYY"
-    ).toDate();
-    const lastDate = moment(
-      `${lastDay.day}-${lastDay.mon}-${constants.currentYear}`,
-      "DD-MMM-YYYY"
-    ).toDate();
+    const startDate = startDay.dayTs
+      ? moment(startDay.dayTs).toDate()
+      : moment(
+          `${startDay.day}-${startDay.mon}-${constants.currentYear}`,
+          "DD-MMM-YYYY"
+        ).toDate();
+    const lastDate = lastDay.dayTs
+      ? moment(lastDay.dayTs).toDate()
+      : moment(
+          `${lastDay.day}-${lastDay.mon}-${constants.currentYear}`,
+          "DD-MMM-YYYY"
+        ).toDate();
 
     const startWeek = moment(startDate).day();
     const endWeek = moment(lastDate).day();
@@ -3884,10 +3888,12 @@ class Itineraries {
     if (_.isEmpty(this._selectedItinerary)) return [];
 
     return this.sortedDays.map(day => {
-      return moment(
-        `${day.day}-${day.mon}-${constants.currentYear}`,
-        "DD-MMM-YYYY"
-      ).toDate();
+      return day.dayTs
+        ? moment(day.dayTs).toDate()
+        : moment(
+            `${day.day}-${day.mon}-${constants.currentYear}`,
+            "DD-MMM-YYYY"
+          ).toDate();
     });
   }
 
@@ -3931,14 +3937,20 @@ class Itineraries {
       /**
        * TODO: Need date in milliseconds
        */
-      const startDay = moment(
-        `${startDayObject.day}-${startDayObject.mon}-${constants.currentYear}`,
-        "DD-MMM-YYYY"
-      ).toDate();
-      const endDay = moment(
-        `${endDayObject.day}-${endDayObject.mon}-${constants.currentYear}`,
-        "DD-MMM-YYYY"
-      ).toDate();
+      const startDay = startDayObject.dayTs
+        ? moment(startDayObject.dayTs).toDate()
+        : moment(
+            `${startDayObject.day}-${startDayObject.mon}-${
+              constants.currentYear
+            }`,
+            "DD-MMM-YYYY"
+          ).toDate();
+      const endDay = endDayObject.dayTs
+        ? moment(endDayObject.dayTs).toDate()
+        : moment(
+            `${endDayObject.day}-${endDayObject.mon}-${constants.currentYear}`,
+            "DD-MMM-YYYY"
+          ).toDate();
 
       return { city, startDay, endDay, cityObject };
     });
@@ -4062,7 +4074,9 @@ class Itineraries {
   });
 
   constructor() {
-    // console.log(JSON.stringify(toJS(this._selectedItinerary)));
+    // setTimeout(() => {
+    //   console.log(JSON.stringify(toJS(this._selectedItinerary)));
+    // }, 3000);
   }
 }
 
