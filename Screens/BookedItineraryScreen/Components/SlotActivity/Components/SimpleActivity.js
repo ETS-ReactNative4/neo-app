@@ -14,12 +14,24 @@ import CircleThumbnail from "../../../../../CommonComponents/CircleThumbnail/Cir
 import ActivityRow from "./ActivityRow";
 import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidExtraProps";
 
-const SimpleActivity = ({ activity, title, text, image, icon, onClick }) => {
+const SimpleActivity = ({
+  activity,
+  title,
+  text,
+  image,
+  icon,
+  onClick,
+  isImageContain
+}) => {
   return (
     <TouchableOpacity activeOpacity={0.2} onPress={onClick}>
       <View style={styles.activityContainer}>
         <View style={styles.imageContainer}>
-          <CircleThumbnail image={image} icon={icon} />
+          <CircleThumbnail
+            image={image}
+            icon={icon}
+            isContain={isImageContain}
+          />
         </View>
         <ActivityRow title={title} text={text} />
       </View>
@@ -33,7 +45,8 @@ SimpleActivity.propTypes = forbidExtraProps({
   text: PropTypes.string.isRequired,
   image: PropTypes.oneOfType([PropTypes.object, PropTypes.number]).isRequired,
   icon: PropTypes.string,
-  onClick: PropTypes.func.isRequired
+  onClick: PropTypes.func.isRequired,
+  isImageContain: PropTypes.bool
 });
 
 const styles = StyleSheet.create({

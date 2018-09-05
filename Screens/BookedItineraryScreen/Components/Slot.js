@@ -3,7 +3,7 @@ import { View, StyleSheet } from "react-native";
 import moment from "moment";
 import PropTypes from "prop-types";
 import SectionHeader from "../../../CommonComponents/SectionHeader/SectionHeader";
-import Activity from "./Activity/Activity";
+import SlotActivity from "./SlotActivity/SlotActivity";
 import constants from "../../../constants/constants";
 import CityCard from "./CityCard";
 import { inject, observer } from "mobx-react/custom";
@@ -89,7 +89,11 @@ const Slot = inject("itineraries")(
 
         {slot.map((activity, index) => {
           return (
-            <Activity navigation={navigation} activity={activity} key={index} />
+            <SlotActivity
+              navigation={navigation}
+              activity={activity}
+              key={index}
+            />
           );
         })}
       </View>

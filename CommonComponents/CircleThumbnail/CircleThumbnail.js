@@ -3,8 +3,15 @@ import { Image, StyleSheet, View } from "react-native";
 import constants from "../../constants/constants";
 import PropTypes from "prop-types";
 import Icon from "../Icon/Icon";
+import forbidExtraProps from "../../Services/PropTypeValidation/forbidExtraProps";
 
-const CircleThumbnail = ({ image, icon, containerStyle, iconStyle }) => {
+const CircleThumbnail = ({
+  image,
+  icon,
+  containerStyle,
+  iconStyle,
+  isContain
+}) => {
   if (!containerStyle) containerStyle = {};
   if (!iconStyle) iconStyle = {};
 
@@ -14,7 +21,14 @@ const CircleThumbnail = ({ image, icon, containerStyle, iconStyle }) => {
   return (
     <View style={[styles.thumbnailContainer, containerStyle]}>
       <View style={styles.imageWrapper}>
-        <Image resizeMode={"cover"} source={image} style={styles.image} />
+        <Image
+          resizeMode={isContain ? "contain" : "cover"}
+          source={image}
+          style={[
+            styles.image,
+            isContain ? { backgroundColor: "whiter" } : null
+          ]}
+        />
       </View>
       {icon ? (
         <View style={[styles.iconContainer, customStyle]}>
@@ -25,12 +39,13 @@ const CircleThumbnail = ({ image, icon, containerStyle, iconStyle }) => {
   );
 };
 
-CircleThumbnail.propTypes = {
+CircleThumbnail.propTypes = forbidExtraProps({
   image: PropTypes.oneOfType([PropTypes.object, PropTypes.number]).isRequired,
   icon: PropTypes.string,
   containerStyle: PropTypes.object,
-  iconStyle: PropTypes.object
-};
+  iconStyle: PropTypes.object,
+  isContain: PropTypes.bool
+});
 
 const styles = StyleSheet.create({
   thumbnailContainer: {
