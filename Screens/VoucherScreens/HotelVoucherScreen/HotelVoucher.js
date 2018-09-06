@@ -140,7 +140,7 @@ class HotelVoucher extends Component {
       },
       {
         name: "Booking source",
-        value: bookingSource
+        value: bookingSource ? bookingSource : "Pickyourtrail"
       }
     ];
 
@@ -172,14 +172,18 @@ class HotelVoucher extends Component {
             <Text
               style={styles.checkDate}
             >{`${checkInDayOfWeek}, ${checkInDateDisplay} ${checkInMonthDisplay}`}</Text>
-            <Text style={styles.checkTime}>{checkInTime}</Text>
+            <Text style={styles.checkTime}>
+              {checkInTime ? checkInTime : "2:00 PM"}
+            </Text>
           </View>
           <View style={styles.checkOutBox}>
             <Text style={styles.checkTitle}>CHECK OUT</Text>
             <Text
               style={styles.checkDate}
             >{`${checkOutDayOfWeek}, ${checkOutDateDisplay} ${checkOutMonthDisplay}`}</Text>
-            <Text style={styles.checkTime}>{checkOutTime}</Text>
+            <Text style={styles.checkTime}>
+              {checkOutTime ? checkOutTime : "11:00 AM"}
+            </Text>
           </View>
         </View>
 
