@@ -26,7 +26,7 @@ const CircleThumbnail = ({
           source={image}
           style={[
             styles.image,
-            isContain ? { backgroundColor: "whiter" } : null
+            isContain ? { backgroundColor: "white" } : null
           ]}
         />
       </View>
