@@ -39,7 +39,7 @@ const TransferIcon = ({ transferType }) => {
 };
 
 TransferIcon.propTypes = forbidExtraProps({
-  transferType: PropTypes.string.isRequired
+  transferType: PropTypes.object.isRequired
 });
 
 const styles = StyleSheet.create({
