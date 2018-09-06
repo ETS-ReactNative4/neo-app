@@ -65,7 +65,7 @@ const SlotActivity = inject("itineraries")(
         break;
     }
 
-    const SlotRow = () => {
+    const SlotRow = ({ containerStyle }) => {
       switch (activity.type) {
         case "INTERNATIONAL_ARRIVE":
           const internationalFlightCostingKey =
@@ -77,6 +77,7 @@ const SlotActivity = inject("itineraries")(
             });
           return (
             <SimpleActivity
+              containerStyle={containerStyle}
               activity={activity}
               title={activity.name}
               text={activity.arrivalSlotDetail.slotText}
@@ -90,6 +91,7 @@ const SlotActivity = inject("itineraries")(
         case "LEISURE":
           return (
             <SimpleActivity
+              containerStyle={containerStyle}
               activity={activity}
               title={activity.name}
               text={activity.leisureSlotDetail.text}
@@ -108,6 +110,7 @@ const SlotActivity = inject("itineraries")(
             });
           return (
             <SimpleActivity
+              containerStyle={containerStyle}
               activity={activity}
               title={activity.name}
               text={activityCosting.title}
@@ -125,6 +128,7 @@ const SlotActivity = inject("itineraries")(
           imageObject = getSlotImage(transferCostingIdenfier, transferMode);
           return (
             <SimpleActivity
+              containerStyle={containerStyle}
               activity={activity}
               title={activity.name}
               text={slotText}
@@ -143,6 +147,7 @@ const SlotActivity = inject("itineraries")(
           imageObject = {} || getSlotImage(tripKey, "FLIGHT");
           return (
             <SimpleActivity
+              containerStyle={containerStyle}
               activity={activity}
               title={activity.name}
               text={activity.departureSlotDetail.slotText}
@@ -160,6 +165,7 @@ const SlotActivity = inject("itineraries")(
             });
           return (
             <SimpleActivity
+              containerStyle={containerStyle}
               activity={activity}
               title={activity.name}
               text={
@@ -203,7 +209,12 @@ const SlotActivity = inject("itineraries")(
             ) : null
           ]
         : null,
-      <SlotRow key={2} />
+      <SlotRow
+        key={2}
+        containerStyle={[
+          cityCardData && activityIndex !== 0 ? { marginTop: 16 } : {}
+        ]}
+      />
     ];
   })
 );

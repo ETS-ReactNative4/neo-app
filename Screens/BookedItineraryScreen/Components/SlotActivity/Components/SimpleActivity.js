@@ -21,11 +21,13 @@ const SimpleActivity = ({
   image,
   icon,
   onClick,
-  isImageContain
+  isImageContain,
+  containerStyle
 }) => {
+  if (!containerStyle) containerStyle = {};
   return (
     <TouchableOpacity activeOpacity={0.2} onPress={onClick}>
-      <View style={styles.activityContainer}>
+      <View style={[styles.activityContainer, containerStyle]}>
         <View style={styles.imageContainer}>
           <CircleThumbnail
             image={image}
@@ -46,7 +48,8 @@ SimpleActivity.propTypes = forbidExtraProps({
   image: PropTypes.oneOfType([PropTypes.object, PropTypes.number]).isRequired,
   icon: PropTypes.string,
   onClick: PropTypes.func.isRequired,
-  isImageContain: PropTypes.bool
+  isImageContain: PropTypes.bool,
+  containerStyle: PropTypes.object
 });
 
 const styles = StyleSheet.create({
