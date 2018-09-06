@@ -4080,8 +4080,6 @@ class Itineraries {
               activity.type === "INTERNATIONAL_DEPART"
             ) {
               return { mode: "FLIGHT", type: activity.type };
-            } else {
-              return { mode: "NONE", type: activity.type };
             }
           }
         }
