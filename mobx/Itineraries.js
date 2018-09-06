@@ -4069,21 +4069,26 @@ class Itineraries {
           for (let i = 0; i < slotKeys.length; i++) {
             const activity = this._selectedItinerary.iterSlotByKey[slotKeys[i]];
             if (activity.type === "INTERCITY_TRANSFER") {
-              return activity.intercityTransferSlotDetailVO.directTransferDetail
-                .transferMode;
+              return {
+                mode:
+                  activity.intercityTransferSlotDetailVO.directTransferDetail
+                    .transferMode,
+                type: activity.type
+              };
             } else if (
               activity.type === "INTERNATIONAL_ARRIVE" ||
               activity.type === "INTERNATIONAL_DEPART"
             ) {
-              return "FLIGHT";
+              return { mode: "FLIGHT", type: activity.type };
             } else {
-              return "NONE";
+              return { mode: "NONE", type: activity.type };
             }
           }
         }
       }
+      return { mode: "NONE", type: "NONE" };
     } catch (e) {
-      return "NONE";
+      return { mode: "NONE", type: "NONE" };
     }
   });
 
