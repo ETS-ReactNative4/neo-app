@@ -37,8 +37,19 @@ class ChatScreen extends Component {
   constructor(props) {
     super(props);
 
-    this._didFocusSubscription = props.navigation.addListener("didFocus", () =>
-      BackHandler.addEventListener("hardwareBackPress", this.goBack)
+    this._didFocusSubscription = props.navigation.addListener(
+      "didFocus",
+      () => {
+        this._keyboardDidShowListener = Keyboard.addListener(
+          "keyboardWillChangeFrame",
+          this.keyboardDidShow
+        );
+        this._keyboardDidHideListener = Keyboard.addListener(
+          "keyboardWillHide",
+          this.keyboardDidHide
+        );
+        BackHandler.addEventListener("hardwareBackPress", this.goBack);
+      }
     );
   }
 
@@ -64,23 +75,17 @@ class ChatScreen extends Component {
   componentDidMount() {
     this._willBlurSubscription = this.props.navigation.addListener(
       "willBlur",
-      () => BackHandler.removeEventListener("hardwareBackPress", this.goBack)
-    );
-    this._keyboardDidShowListener = Keyboard.addListener(
-      "keyboardWillChangeFrame",
-      this.keyboardDidShow
-    );
-    this._keyboardDidHideListener = Keyboard.addListener(
-      "keyboardWillHide",
-      this.keyboardDidHide
+      () => {
+        this._keyboardDidShowListener && this._keyboardDidShowListener.remove();
+        this._keyboardDidHideListener && this._keyboardDidHideListener.remove();
+        BackHandler.removeEventListener("hardwareBackPress", this.goBack);
+      }
     );
   }
 
   componentWillUnmount() {
     this._didFocusSubscription && this._didFocusSubscription.remove();
     this._willBlurSubscription && this._willBlurSubscription.remove();
-    this._keyboardDidShowListener && this._keyboardDidShowListener.remove();
-    this._keyboardDidHideListener && this._keyboardDidHideListener.remove();
   }
 
   render() {
