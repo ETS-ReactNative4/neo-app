@@ -7,7 +7,8 @@ import {
   TouchableHighlight,
   StyleSheet,
   LayoutAnimation,
-  Platform
+  Platform,
+  RefreshControl
 } from "react-native";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import HamburgerButton from "../../CommonComponents/HamburgerButton/HamburgerButton";
@@ -54,9 +55,11 @@ class BookingsHome extends Component {
       getDateSelectionMatrixSingle,
       numOfActivitiesByDay,
       getTransferTypeByDay,
-      selectedItineraryId
+      selectedItineraryId,
+      getItineraryDetails,
+      isLoading: itineraryLoading
     } = this.props.itineraries;
-    const { selectedVoucher } = this.props.voucherStore;
+    const { isLoading: voucherLoading, getVouchers } = this.props.voucherStore;
     const { navigation } = this.props;
 
     return (
@@ -65,6 +68,15 @@ class BookingsHome extends Component {
         <ScrollView
           style={styles.bookingContainer}
           showsVerticalScrollIndicator={false}
+          refreshControl={
+            <RefreshControl
+              refreshing={itineraryLoading || voucherLoading}
+              onRefresh={() => {
+                getItineraryDetails(selectedItineraryId);
+                getVouchers(selectedItineraryId);
+              }}
+            />
+          }
         >
           <BookingCalendar
             numOfActivitiesByDay={numOfActivitiesByDay}
