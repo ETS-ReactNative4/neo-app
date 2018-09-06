@@ -24,7 +24,13 @@ const BookedItineraryTitle = inject("itineraries")(
       };
       const { cities } = itineraries;
 
-      const selected = moment(selectedDate, "DDMMYYYY").toDate();
+      /**
+       * TODO: Might cause problems with timezone check with different timezones...
+       */
+      const selected = moment(
+        `${selectedDate} 05:30`,
+        "DDMMYYYY hh:mm"
+      ).toDate();
       let selectedCity = cities.find(city => {
         const range = moment.range(city.startDay, city.endDay);
         return range.contains(selected);
