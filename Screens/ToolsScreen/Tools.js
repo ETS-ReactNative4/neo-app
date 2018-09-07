@@ -1,42 +1,15 @@
 import React, { Component } from "react";
-import {
-  View,
-  StyleSheet,
-  Image,
-  ScrollView,
-  TouchableHighlight,
-  ImageBackground,
-  Text
-} from "react-native";
+import { View, StyleSheet, ScrollView } from "react-native";
 import constants from "../../constants/constants";
 import SectionHeader from "../../CommonComponents/SectionHeader/SectionHeader";
 import Carousel from "../../CommonComponents/Carousel/Carousel";
 import PrimaryTool from "./Components/PrimaryTool";
 import SecondaryTool from "./Components/SecondaryTool";
-import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
-import HamburgerButton from "../../CommonComponents/HamburgerButton/HamburgerButton";
-import TripToggle from "../../CommonComponents/TripToggle/TripToggle";
 import SearchPlaceholder from "../../CommonComponents/SearchPlaceholder/SearchPlaceholder";
-import HomeTitle from "../../CommonComponents/HomeTitle/HomeTitle";
+import HomeHeader from "../../CommonComponents/HomeHeader/HomeHeader";
 
 class Tools extends Component {
-  static navigationOptions = ({ navigation }) => {
-    return {
-      header: (
-        <CommonHeader
-          LeftButton={
-            <HamburgerButton action={() => navigation.openDrawer()} />
-          }
-          TitleComponent={
-            <HomeTitle action={() => navigation.navigate("YourBookings")} />
-          }
-          title={""}
-          RightButton={<TripToggle />}
-          navigation={navigation}
-        />
-      )
-    };
-  };
+  static navigationOptions = HomeHeader;
 
   render() {
     const cityList = [

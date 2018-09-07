@@ -2,45 +2,22 @@ import React, { Component } from "react";
 import {
   ScrollView,
   View,
-  Text,
-  Switch,
-  TouchableHighlight,
   StyleSheet,
   LayoutAnimation,
   Platform,
   RefreshControl
 } from "react-native";
-import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
-import HamburgerButton from "../../CommonComponents/HamburgerButton/HamburgerButton";
-import constants from "../../constants/constants";
-import TripToggle from "../../CommonComponents/TripToggle/TripToggle";
 import SearchPlaceholder from "../../CommonComponents/SearchPlaceholder/SearchPlaceholder";
 import BookingCalendar from "./Components/BookingCalendar/BookingCalendar";
 import BookingAccordion from "./Components/BookingAccordion/BookingAccordion";
 import { inject, observer } from "mobx-react/custom";
-import HomeTitle from "../../CommonComponents/HomeTitle/HomeTitle";
+import HomeHeader from "../../CommonComponents/HomeHeader/HomeHeader";
 
 @inject("itineraries")
 @inject("voucherStore")
 @observer
 class BookingsHome extends Component {
-  static navigationOptions = ({ navigation }) => {
-    return {
-      header: (
-        <CommonHeader
-          LeftButton={
-            <HamburgerButton action={() => navigation.openDrawer()} />
-          }
-          TitleComponent={
-            <HomeTitle action={() => navigation.navigate("YourBookings")} />
-          }
-          title={""}
-          RightButton={<TripToggle />}
-          navigation={navigation}
-        />
-      )
-    };
-  };
+  static navigationOptions = HomeHeader;
 
   openSearch = () => {};
 

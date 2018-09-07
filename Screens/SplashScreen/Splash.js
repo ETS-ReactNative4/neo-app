@@ -31,7 +31,7 @@ class Splash extends Component {
           ? this.props.navigation.navigate("Starter")
           : this.props.navigation.dispatch(resetToHome);
       }
-    }, 3000);
+    }, 1000);
   }
 
   render() {
