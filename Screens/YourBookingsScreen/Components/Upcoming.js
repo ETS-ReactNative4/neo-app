@@ -4,6 +4,7 @@ import {
   View,
   Text,
   ImageBackground,
+  Platform,
   StyleSheet,
   RefreshControl
 } from "react-native";
@@ -13,7 +14,13 @@ import EmptyListPlaceholder from "../../../CommonComponents/EmptyListPlaceholder
 import constants from "../../../constants/constants";
 import { inject, observer } from "mobx-react/custom";
 import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraProps";
+import { NavigationActions, StackActions } from "react-navigation";
+const resetAction = StackActions.reset({
+  index: 0,
+  actions: [NavigationActions.navigate({ routeName: "AppHome" })]
+});
 
+@inject("appState")
 @inject("itineraries")
 @observer
 class Upcoming extends Component {
@@ -27,8 +34,18 @@ class Upcoming extends Component {
 
   selectItinerary = itineraryId => {
     const { selectItinerary } = this.props.itineraries;
+    const { activeScenes } = this.props.appState;
+    const previousScene = activeScenes[activeScenes.length - 2];
     selectItinerary(itineraryId);
-    this.props.navigation.navigate("AppHome");
+    if (Platform.OS === "android") {
+      if (!previousScene) {
+        this.props.navigation.dispatch(resetAction);
+      } else {
+        this.props.navigation.navigate("AppHome");
+      }
+    } else {
+      this.props.navigation.navigate("AppHome");
+    }
   };
 
   render() {

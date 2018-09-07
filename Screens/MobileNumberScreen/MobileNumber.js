@@ -24,6 +24,12 @@ import MobileNumberInput from "./Components/MobileNumberInput";
 import SmsListener from "react-native-android-sms-listener";
 import { inject, observer } from "mobx-react/custom";
 import getSmsPermissionAndroid from "../../Services/getSmsPermissionAndroid/getSmsPermissionAndroid";
+import { NavigationActions, StackActions } from "react-navigation";
+
+const resetToBookings = StackActions.reset({
+  index: 0,
+  actions: [NavigationActions.navigate({ routeName: "YourBookings" })]
+});
 
 @inject("yourBookingsStore")
 @inject("userStore")
@@ -122,7 +128,9 @@ class MobileNumber extends Component {
           await registerToken(response.data.authtoken);
           getUpcomingItineraries();
           getUserDetails();
-          navigation.navigate("YourBookings");
+          Platform.OS === "android"
+            ? navigation.dispatch(resetToBookings)
+            : navigation.navigate("YourBookings");
         } else {
           if (Platform.OS === "ios") {
             DebouncedAlert("OTP Verification Failed!", response.msg);

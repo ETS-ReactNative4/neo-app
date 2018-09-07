@@ -40,7 +40,10 @@ class CloseYourBookingsButton extends Component {
   goBack = () => {
     const { activeScenes } = this.props.appState;
     const previousScene = activeScenes[activeScenes.length - 2];
-    if (previousScene.route.routeName === "MobileNumber") {
+    if (!previousScene) {
+      this.props.navigation.dispatch(resetAction);
+    } else if (previousScene.route.routeName === "MobileNumber") {
+      // might not need this check
       this.props.navigation.dispatch(resetAction);
     } else {
       this.props.navigation.goBack();
