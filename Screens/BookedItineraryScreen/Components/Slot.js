@@ -8,7 +8,7 @@ import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraPr
 
 const Slot = ({ day, slot, onItemLayout, navigation }) => {
   const setOnLayout = nativeEvent => {
-    onItemLayout(nativeEvent, moment(day).format("DDMMYYYY"));
+    onItemLayout(nativeEvent, moment(day).format("x"));
   };
 
   const firstSlot = slot[0];

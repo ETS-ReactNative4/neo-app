@@ -39,7 +39,7 @@ const BookingCalendar = ({
   }
 
   const dateArray = days.map(day => {
-    return moment(day).format("DDMMYYYY");
+    return moment(day).format("x");
   });
 
   return (
