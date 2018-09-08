@@ -6,6 +6,7 @@ import constants from "../../constants/constants";
 import { inject, observer } from "mobx-react/custom";
 import crispSDK from "./Components/crispSDK";
 import BackButtonIos from "./Components/BackButtonIos";
+import ChatView from "./Components/ChatView";
 
 @inject("userStore")
 @inject("itineraries")
@@ -98,16 +99,15 @@ class ChatScreen extends Component {
             : constants.chatMainColor
         }}
       >
-        <CustomWebView
+        <ChatView
           source={{ uri: constants.crispServerUrl }}
-          startInLoadingState={true}
           onNavigationStateChange={this.onNavigationStateChange}
           style={{
             flex: 1,
             marginTop: isIphoneX() ? constants.xNotchHeight : 0
           }}
           webviewRef={e => (this._webView = e)}
-          injectedJavaScript={this.state.injectedJavascript}
+          injectedJavascript={this.state.injectedJavascript}
         />
         {Platform.OS === "ios" ? (
           <BackButtonIos

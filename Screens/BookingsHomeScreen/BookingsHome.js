@@ -12,6 +12,8 @@ import BookingCalendar from "./Components/BookingCalendar/BookingCalendar";
 import BookingAccordion from "./Components/BookingAccordion/BookingAccordion";
 import { inject, observer } from "mobx-react/custom";
 import HomeHeader from "../../CommonComponents/HomeHeader/HomeHeader";
+import ChatView from "../ChatScreen/Components/ChatView";
+import constants from "../../constants/constants";
 
 @inject("itineraries")
 @inject("voucherStore")
@@ -65,6 +67,14 @@ class BookingsHome extends Component {
           />
 
           <BookingAccordion navigation={navigation} />
+
+          <ChatView
+            source={{ uri: constants.crispServerUrl }}
+            onNavigationStateChange={() => null}
+            style={{ height: 0, width: 0 }}
+            webviewRef={() => null}
+            injectedJavascript={""}
+          />
         </ScrollView>
       </View>
     );
