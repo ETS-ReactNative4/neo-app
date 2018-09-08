@@ -36,6 +36,7 @@ import { logBreadCrumb } from "./Services/errorLogger/errorLogger";
 import ChatScreen from "./Screens/ChatScreen/ChatScreen";
 import { setNavigationService } from "./Services/navigationService/navigationService";
 import FlightStatus from "./Screens/FlightStatusScreen/FlightStatus";
+import { updateStoreService } from "./Services/storeService/storeService";
 
 UIManager.setLayoutAnimationEnabledExperimental &&
   UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -259,6 +260,7 @@ const screenTracker = (prevState, currentState) => {
 };
 
 const App = () => {
+  updateStoreService(store);
   return (
     <Provider {...store}>
       <AppNavigator

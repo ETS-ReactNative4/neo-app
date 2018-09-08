@@ -5,7 +5,7 @@ import _ from "lodash";
 import moment from "moment";
 import apiCall from "../Services/networkRequests/apiCall";
 import constants from "../constants/constants";
-import store from "./Store";
+import storeService from "../Services/storeService/storeService";
 
 class Itineraries {
   @observable _isLoading = false;
@@ -3608,7 +3608,7 @@ class Itineraries {
     });
     if (selectedItinerary) {
       this._selectedItinerary = selectedItinerary;
-      store.voucherStore.selectVoucher(this.selectedItineraryId);
+      storeService.voucherStore.selectVoucher(this.selectedItineraryId);
     } else this.getItineraryDetails(itineraryId);
   };
 
@@ -3625,7 +3625,7 @@ class Itineraries {
         if (response.status === "SUCCESS") {
           this._itineraries.push(response.data);
           this._selectedItinerary = response.data;
-          store.voucherStore.selectVoucher(this.selectedItineraryId);
+          storeService.voucherStore.selectVoucher(this.selectedItineraryId);
           this._loadingError = false;
         } else {
           this._loadingError = true;

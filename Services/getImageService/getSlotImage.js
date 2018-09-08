@@ -1,11 +1,11 @@
-import store from "../../mobx/Store";
 import constants from "../../constants/constants";
 import getTransferImage from "./getTransferImage";
+import storeService from "../storeService/storeService";
 
 const getSlotImage = (identifier, type) => {
   switch (type) {
     case "FLIGHT":
-      const flight = store.itineraries.flights.find(
+      const flight = storeService.itineraries.flights.find(
         flight => flight.key === identifier
       );
       return {

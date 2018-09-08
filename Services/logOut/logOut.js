@@ -1,4 +1,3 @@
-import store from "../../mobx/Store";
 import * as Keychain from "react-native-keychain";
 import {
   StackActions,
@@ -7,6 +6,7 @@ import {
 } from "react-navigation";
 import { setUserContext } from "../errorLogger/errorLogger";
 import navigationService from "../navigationService/navigationService";
+import storeService from "../storeService/storeService";
 
 const resetToSplash = StackActions.reset({
   index: 0,
@@ -24,12 +24,12 @@ const logOut = () => {
     navigation.dispatch(resetToSplash);
 
     setTimeout(() => {
-      store.itineraries.reset();
-      store.appState.reset();
-      store.yourBookingsStore.reset();
-      store.voucherStore.reset();
-      store.packingChecklistStore.reset();
-      store.phrasesStore.reset();
+      storeService.itineraries.reset();
+      storeService.appState.reset();
+      storeService.yourBookingsStore.reset();
+      storeService.voucherStore.reset();
+      storeService.packingChecklistStore.reset();
+      storeService.phrasesStore.reset();
     }, 100);
   });
   /**
