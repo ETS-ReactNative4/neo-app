@@ -5,6 +5,12 @@ import storeService from "../storeService/storeService";
 const getSlotImage = (identifier, type) => {
   switch (type) {
     case "FLIGHT":
+      if (!identifier) {
+        return {
+          image: constants.transferPlaceHolder,
+          icon: constants.aeroplaneIcon
+        };
+      }
       const flight = storeService.itineraries.flights.find(
         flight => flight.key === identifier
       );
@@ -14,10 +20,19 @@ const getSlotImage = (identifier, type) => {
       };
 
     case "TRAIN":
+      if (!identifier) {
+        return {
+          image: constants.transferPlaceHolder,
+          icon: constants.trainIcon
+        };
+      }
       return { image: getTransferImage("TRAIN"), icon: constants.trainIcon };
 
     default:
-      return "";
+      return {
+        image: constants.transferPlaceHolder,
+        icon: constants.activityIcon
+      };
   }
 };
 

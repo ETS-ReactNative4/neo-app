@@ -76,7 +76,8 @@ const imageAssets = {
   getAirlineIcon: airlineCode =>
     airlineCode
       ? `${serverUrls.airlineCdn}${airlineCode.trim()}.png`
-      : `${serverUrls.airlineCdn}${"placeholder"}.png`
+      : `${serverUrls.airlineCdn}${"placeholder"}.png`,
+  transferPlaceHolder: "placeholder"
 };
 
 export default imageAssets;
