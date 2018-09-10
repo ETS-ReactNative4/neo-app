@@ -18,7 +18,6 @@ import CountryCodePicker from "./Components/CountryCodePicker";
 import UnregisteredNumber from "./Components/UnregisteredNumber";
 import apiCall from "../../Services/networkRequests/apiCall";
 import Loader from "../../CommonComponents/Loader/Loader";
-import DebouncedAlert from "../../CommonComponents/DebouncedAlert/DebouncedAlert";
 import registerToken from "../../Services/registerToken/registerToken";
 import MobileNumberInput from "./Components/MobileNumberInput";
 import SmsListener from "react-native-android-sms-listener";
@@ -33,6 +32,7 @@ const resetToBookings = StackActions.reset({
 
 @inject("yourBookingsStore")
 @inject("userStore")
+@inject("infoStore")
 @observer
 class MobileNumber extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -114,9 +114,10 @@ class MobileNumber extends Component {
     this.setState({
       isLoading: true
     });
-    const { yourBookingsStore, navigation, userStore } = this.props;
+    const { yourBookingsStore, navigation, userStore, infoStore } = this.props;
     const { getUpcomingItineraries } = yourBookingsStore;
     const { getUserDetails } = userStore;
+    const { setError } = infoStore;
     apiCall(constants.verifyOtp, requestBody)
       .then(async response => {
         this.setState({
@@ -133,7 +134,7 @@ class MobileNumber extends Component {
             : navigation.navigate("YourBookings");
         } else {
           if (Platform.OS === "ios") {
-            DebouncedAlert("OTP Verification Failed!", response.msg);
+            setError("OTP Verification Failed!", response.msg);
           } else {
             ToastAndroid.show(
               response.msg || "OTP Verification Failed!",
@@ -149,6 +150,7 @@ class MobileNumber extends Component {
         this.setState({
           isLoading: false
         });
+        setError("Error!", "Internal Server Error.");
       });
   };
 
@@ -165,6 +167,7 @@ class MobileNumber extends Component {
     this.setState({
       isLoading: true
     });
+    const { setInfo, setError } = this.props.infoStore;
     apiCall(constants.verifyMobileNumber, requestBody)
       .then(response => {
         this.setState({
@@ -179,7 +182,7 @@ class MobileNumber extends Component {
             },
             () => {
               if (Platform.OS === "ios") {
-                DebouncedAlert("OTP Sent", response.msg);
+                setInfo("OTP Sent", response.msg);
               } else {
                 ToastAndroid.show(
                   response.msg || "OTP Sent",
@@ -196,9 +199,14 @@ class MobileNumber extends Component {
         }
       })
       .catch(error => {
-        this.setState({
-          isLoading: false
-        });
+        this.setState(
+          {
+            isLoading: false
+          },
+          () => {
+            setError("Error!", "Internal Server Error!");
+          }
+        );
       });
   };
 

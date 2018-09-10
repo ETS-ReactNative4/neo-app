@@ -9,6 +9,7 @@ import PackingChecklist from "./PackingChecklist";
 import Voucher from "./Voucher";
 import { logError } from "../Services/errorLogger/errorLogger";
 import Phrases from "./Phrases";
+import Info from "./Info";
 
 const createStore = () => {
   const appStore = {
@@ -19,7 +20,8 @@ const createStore = () => {
     weatherStore: new Weather(),
     packingChecklistStore: new PackingChecklist(),
     voucherStore: new Voucher(),
-    phrasesStore: new Phrases()
+    phrasesStore: new Phrases(),
+    infoStore: new Info()
   };
 
   const hydrate = create({

@@ -67,6 +67,8 @@ const imageAssets = {
   packageChecklistIcon: require("../assets/images/toolIcons/packing-checklist.png"),
   passportDetailsIcon: require("../assets/images/toolIcons/passport-details.png"),
   yourPickIcon: require("../assets/images/toolIcons/your-picks.png"),
+  dialogBoxIcon:
+    "https://d3lf10b5gahyby.cloudfront.net/misc/transfers-shuttle.jpg",
 
   /**
    * TODO: Airline logo placeholder

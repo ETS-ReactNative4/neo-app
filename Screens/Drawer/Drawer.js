@@ -16,8 +16,10 @@ import logOut from "../../Services/logOut/logOut";
 import SimpleButton from "../../CommonComponents/SimpleButton/SimpleButton";
 import { inject, observer } from "mobx-react/custom";
 import _ from "lodash";
+import DialogBox from "../../CommonComponents/DialogBox/DialogBox";
 
 @inject("userStore")
+@inject("infoStore")
 @observer
 class Drawer extends Component {
   clickDrawerItem = (index, screen) => {
@@ -85,12 +87,17 @@ class Drawer extends Component {
       }
     ];
 
+    const { infoStore } = this.props;
     const { userDetails } = this.props.userStore;
     const { name } = userDetails;
     const firstName = name ? name.split(" ")[0] : "";
 
-    return (
-      <ImageBackground style={{ flex: 1 }} source={constants.drawerBackground}>
+    return [
+      <ImageBackground
+        key={0}
+        style={{ flex: 1 }}
+        source={constants.drawerBackground}
+      >
         <ScrollView style={styles.drawerContainer}>
           <View style={styles.profileImageContainer}>
             <Image
@@ -150,8 +157,15 @@ class Drawer extends Component {
             );
           })}
         </ScrollView>
-      </ImageBackground>
-    );
+      </ImageBackground>,
+      <DialogBox {...infoStore.info} onClose={infoStore.resetInfo} key={1} />,
+      <DialogBox {...infoStore.error} onClose={infoStore.resetError} key={2} />,
+      <DialogBox
+        {...infoStore.success}
+        onClose={infoStore.resetSuccess}
+        key={3}
+      />
+    ];
   }
 }
 
