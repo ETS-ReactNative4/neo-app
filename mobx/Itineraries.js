@@ -3722,17 +3722,21 @@ class Itineraries {
     let hotels;
     try {
       const hotelRefs = this._selectedItinerary.allHotelCostingRefs;
-      hotels = hotelRefs.map(ref => {
+      hotels = hotelRefs.reduce((hotelArray, ref) => {
         const hotel = toJS(
           this._selectedItinerary.hotelCostings.hotelCostingById[ref]
         );
-        if (hotel.status === "SUCCESS") return hotel;
-        else return null;
-      });
+
+        if (hotel.status === "SUCCESS") {
+          hotelArray.push(hotel);
+        }
+
+        return hotelArray;
+      }, []);
     } catch (e) {
       hotels = [];
     }
-    return _.compact(hotels);
+    return hotels;
   }
 
   @computed
@@ -3776,18 +3780,21 @@ class Itineraries {
     let flights;
     try {
       const flightRefs = this._selectedItinerary.allFlightCostingRefs;
-      flights = flightRefs.map(ref => {
+      flights = flightRefs.reduce((flightArray, ref) => {
         const flight = toJS(
           this._selectedItinerary.flightCostings.flightCostingById[ref]
         );
 
-        if (flight.status === "SUCCESS") return flight;
-        else return null;
-      });
+        if (flight.status === "SUCCESS") {
+          flightArray.push(flight);
+        }
+
+        return flightArray;
+      }, []);
     } catch (e) {
       flights = [];
     }
-    return _.compact(flights);
+    return flights;
   }
 
   @computed
@@ -3797,18 +3804,21 @@ class Itineraries {
     let transfers;
     try {
       const transferRefs = this._selectedItinerary.allTransferCostingRefs;
-      transfers = transferRefs.map(ref => {
+      transfers = transferRefs.reduce((transferArray, ref) => {
         const transfer = toJS(
           this._selectedItinerary.transferCostings.transferCostingById[ref]
         );
 
-        if (transfer.status === "SUCCESS") return transfer;
-        else return null;
-      });
+        if (transfer.status === "SUCCESS") {
+          transferArray.push(transfer);
+        }
+
+        return transferArray;
+      }, []);
     } catch (e) {
       transfers = [];
     }
-    return _.compact(transfers);
+    return transfers;
   }
 
   @computed
