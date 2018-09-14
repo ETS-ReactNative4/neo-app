@@ -226,7 +226,10 @@ class HotelVoucher extends Component {
               return (
                 <View key={roomIndex} style={styles.bookedSuit}>
                   <View style={styles.bookedSuitInfo}>
-                    <CircleThumbnail image={constants.splashBackground} />
+                    <CircleThumbnail
+                      defaultImageUri={constants.hotelSmallPlaceHolder}
+                      image={constants.splashBackground}
+                    />
                     <View style={styles.bookedSuitDetails}>
                       <Text style={styles.bookedSuitType}>{roomType}</Text>
                       <Text

@@ -4,13 +4,16 @@ import constants from "../../constants/constants";
 import PropTypes from "prop-types";
 import Icon from "../Icon/Icon";
 import forbidExtraProps from "../../Services/PropTypeValidation/forbidExtraProps";
+import SmartImage from "../SmartImage/SmartImage";
+import FastImage from "react-native-fast-image";
 
 const CircleThumbnail = ({
   image,
   icon,
   containerStyle,
   iconStyle,
-  isContain
+  isContain,
+  defaultImageUri
 }) => {
   if (!containerStyle) containerStyle = {};
   if (!iconStyle) iconStyle = {};
@@ -18,17 +21,31 @@ const CircleThumbnail = ({
   const customStyle = {};
   if (icon === constants.aeroplaneIcon) customStyle.paddingLeft = 1;
 
+  const styleArray = [
+    styles.image,
+    isContain ? { backgroundColor: "white" } : null
+  ];
   return (
     <View style={[styles.thumbnailContainer, containerStyle]}>
       <View style={styles.imageWrapper}>
-        <Image
-          resizeMode={isContain ? "contain" : "cover"}
-          source={image}
-          style={[
-            styles.image,
-            isContain ? { backgroundColor: "white" } : null
-          ]}
-        />
+        {image.uri ? (
+          <SmartImage
+            resizeMode={
+              isContain
+                ? FastImage.resizeMode.contain
+                : FastImage.resizeMode.cover
+            }
+            uri={image.uri}
+            style={styleArray}
+            defaultImageUri={defaultImageUri}
+          />
+        ) : (
+          <Image
+            resizeMode={isContain ? "contain" : "cover"}
+            source={image}
+            style={styleArray}
+          />
+        )}
       </View>
       {icon ? (
         <View style={[styles.iconContainer, customStyle]}>
@@ -44,7 +61,8 @@ CircleThumbnail.propTypes = forbidExtraProps({
   icon: PropTypes.string,
   containerStyle: PropTypes.object,
   iconStyle: PropTypes.object,
-  isContain: PropTypes.bool
+  isContain: PropTypes.bool,
+  defaultImageUri: PropTypes.string
 });
 
 const styles = StyleSheet.create({

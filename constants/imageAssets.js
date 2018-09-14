@@ -2,6 +2,8 @@ import constants from "./constants";
 import serverUrls from "./serverUrls";
 import PackageInfo from "../package.json";
 
+const prefix = serverUrls.miscImageBaseUrl + "placeholders/";
+
 const imageAssets = {
   splashBackground: require("../assets/images/backgrounds/viceroy-bali.jpg.jpg"),
   starterBackground: require("../assets/images/backgrounds/starterImage.jpg"),
@@ -72,7 +74,7 @@ const imageAssets = {
     "https://d3lf10b5gahyby.cloudfront.net/misc/transfers-shuttle.jpg",
 
   /**
-   * TODO: Airline logo placeholder
+   * TODO: Airline logo placeholder && transfer placeholder
    * @param airlineCode
    * @returns {string}
    */
@@ -80,7 +82,31 @@ const imageAssets = {
     airlineCode
       ? `${serverUrls.airlineCdn}${airlineCode.trim()}.png`
       : `${serverUrls.airlineCdn}${"placeholder"}.png`,
-  transferPlaceHolder: "placeholder"
+  airLineLogoPlaceHolder: prefix + "Airline-logo.png",
+  transferPlaceHolder: "placeholder",
+  activitySmallPlaceHolder: prefix + "Activity1-50x50.png",
+  activityMediumPlaceHolder: prefix + "Activity1-125x125.png",
+  activityLargePlaceHolder: prefix + "Activity1-640x360.png",
+  activity2SmallPlaceHolder: prefix + "Activity2-50x50.png",
+  activity2MediumPlaceHolder: prefix + "Activity2-125x125.png",
+  activity2LargePlaceHolder: prefix + "Activity2-640x360.png",
+  activity3SmallPlaceHolder: prefix + "Activity3-50x50.png",
+  activity3MediumPlaceHolder: prefix + "Activity3-125x125.png",
+  activity3LargePlaceHolder: prefix + "Activity3-640x360.png",
+  citySmallPlaceHolder: prefix + "Guides-City-395x360.png",
+  cityLargePlaceHolder: prefix + "Guides-City-790x720.png",
+  foodSmallPlaceHolder: prefix + "Guides-Food-120x120.png",
+  foodLargePlaceHolder: prefix + "Guides-Food-240x240.png",
+  innerAreasSmallPlaceHolder: prefix + "Guides-InnerAreas-230x140.png",
+  innerAreasLargePlaceHolder: prefix + "Guides-InnerAreas-460x280.png",
+  shoppingSmallPlaceHolder: prefix + "Guides-Shopping-150x105.png",
+  shoppingLargePlaceHolder: prefix + "Guides-Shopping-300x210.png",
+  hotelSmallPlaceHolder: prefix + "Hotel-50x50.png",
+  hotelMediumPlaceHolder: prefix + "Hotel-125x125.png",
+  hotelBigPlaceHolder: prefix + "Hotel-200x150.png",
+  hotelLargePlaceHolder: prefix + "Hotel-640x360.png",
+  roomsSmallPlaceHolder: prefix + "HotelRooms-120x90.png",
+  roomsLargePlaceHolder: prefix + "HotelRooms-240x180.png"
 };
 
 export default imageAssets;

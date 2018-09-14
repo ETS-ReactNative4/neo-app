@@ -211,9 +211,9 @@ const SlotActivity = inject("itineraries")(
         : null,
       <SlotRow
         key={2}
-        containerStyle={[
+        containerStyle={
           cityCardData && activityIndex !== 0 ? { marginTop: 16 } : {}
-        ]}
+        }
       />
     ];
   })

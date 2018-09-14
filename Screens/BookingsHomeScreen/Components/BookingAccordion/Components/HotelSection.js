@@ -4,6 +4,7 @@ import moment from "moment";
 import { responsiveWidth } from "react-native-responsive-dimensions";
 import constants from "../../../../../constants/constants";
 import PropTypes from "prop-types";
+import CircleThumbnail from "../../../../../CommonComponents/CircleThumbnail/CircleThumbnail";
 
 const HotelSection = ({ section, navigation }) => {
   return (
@@ -49,11 +50,10 @@ const Hotel = ({ hotel, isLast, navigation }) => {
       style={[styles.contentContainer, customStyle]}
     >
       <View style={styles.iconWrapper}>
-        <Image
-          defaultSource={constants.splashBackground}
-          resizeMode={"cover"}
-          style={styles.contentIcon}
-          source={{ uri: hotel.imageURL }}
+        <CircleThumbnail
+          containerStyle={styles.contentIcon}
+          image={{ uri: hotel.imageURL }}
+          defaultImageUri={constants.hotelSmallPlaceHolder}
         />
       </View>
       <View style={styles.contentTextContainer}>
