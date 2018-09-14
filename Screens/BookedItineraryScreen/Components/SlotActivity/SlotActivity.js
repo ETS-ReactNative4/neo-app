@@ -9,6 +9,7 @@ import getSlotImage from "../../../../Services/getImageService/getSlotImage";
 import CityCard from "../CityCard";
 import moment from "moment";
 import SectionHeader from "../../../../CommonComponents/SectionHeader/SectionHeader";
+import _ from "lodash";
 
 const SlotActivity = inject("itineraries")(
   observer(({ activity, navigation, itineraries, activityIndex, day }) => {
@@ -85,6 +86,7 @@ const SlotActivity = inject("itineraries")(
               icon={imageObject.icon}
               isImageContain={true}
               onClick={onClick}
+              defaultImageUri={constants.airLineLogoPlaceHolder}
             />
           );
 
@@ -97,6 +99,7 @@ const SlotActivity = inject("itineraries")(
               text={activity.leisureSlotDetail.text}
               image={constants.notificationIcon}
               onClick={onClick}
+              defaultImageUri={constants.activity3SmallPlaceHolder}
             />
           );
 
@@ -116,6 +119,11 @@ const SlotActivity = inject("itineraries")(
               text={activityCosting.title}
               image={{ uri: activityCosting.mainPhoto }}
               onClick={onClick}
+              defaultImageUri={_.sample([
+                constants.activitySmallPlaceHolder,
+                constants.activity2SmallPlaceHolder,
+                constants.activity3SmallPlaceHolder
+              ])}
             />
           );
 
@@ -136,6 +144,7 @@ const SlotActivity = inject("itineraries")(
               image={{ uri: imageObject.image }}
               icon={imageObject.icon}
               onClick={onClick}
+              defaultImageUri={constants.transferPlaceHolder}
             />
           );
 
@@ -155,6 +164,7 @@ const SlotActivity = inject("itineraries")(
               icon={constants.aeroplaneIcon}
               isImageContain={true}
               onClick={onClick}
+              defaultImageUri={constants.airLineLogoPlaceHolder}
             />
           );
 
@@ -175,6 +185,7 @@ const SlotActivity = inject("itineraries")(
               image={constants.notificationIcon}
               icon={constants.trainIcon}
               onClick={onClick}
+              defaultImageUri={constants.transferPlaceHolder}
             />
           );
 

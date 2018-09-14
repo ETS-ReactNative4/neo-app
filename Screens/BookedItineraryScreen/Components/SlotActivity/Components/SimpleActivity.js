@@ -22,7 +22,8 @@ const SimpleActivity = ({
   icon,
   onClick,
   isImageContain,
-  containerStyle
+  containerStyle,
+  defaultImageUri
 }) => {
   if (!containerStyle) containerStyle = {};
   return (
@@ -33,6 +34,7 @@ const SimpleActivity = ({
             image={image}
             icon={icon}
             isContain={isImageContain}
+            defaultImageUri={defaultImageUri}
           />
         </View>
         <ActivityRow title={title} text={text} />
@@ -49,7 +51,8 @@ SimpleActivity.propTypes = forbidExtraProps({
   icon: PropTypes.string,
   onClick: PropTypes.func.isRequired,
   isImageContain: PropTypes.bool,
-  containerStyle: PropTypes.object
+  containerStyle: PropTypes.object,
+  defaultImageUri: PropTypes.string.isRequired
 });
 
 const styles = StyleSheet.create({
