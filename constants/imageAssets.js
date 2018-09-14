@@ -4,12 +4,13 @@ import PackageInfo from "../package.json";
 
 const imageAssets = {
   splashBackground: require("../assets/images/backgrounds/viceroy-bali.jpg.jpg"),
-  starterBackground: require("../assets/images/backgrounds/viceroy-bali.jpg.jpg"),
+  starterBackground: require("../assets/images/backgrounds/starterImage.jpg"),
   drawerBackground: require("../assets/images/backgrounds/drawer.png"),
   pytLogo:
     PackageInfo.environment === "production"
       ? require("../assets/images/icons/logo.png")
       : require("../assets/images/icons/logo-dev.png"),
+  pytLogoNew: require("../assets/images/icons/logo_new.png"),
   notificationIcon: require("../assets/images/icons/notification.png"),
   backArrow: require("../assets/images/icons/left-arrow.png"),
   dropDownArrow: require("../assets/images/icons/drop-down-arrow.png"),

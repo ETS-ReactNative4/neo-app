@@ -3,12 +3,14 @@ import {
   View,
   ImageBackground,
   Text,
+  Image,
   StyleSheet,
   SafeAreaView
 } from "react-native";
 import constants from "../../constants/constants";
 import SimpleButton from "../../CommonComponents/SimpleButton/SimpleButton";
 import { isIphoneX } from "react-native-iphone-x-helper";
+import LinearGradient from "react-native-linear-gradient";
 
 class Starter extends Component {
   static navigationOptions = {
@@ -29,37 +31,58 @@ class Starter extends Component {
         source={constants.starterBackground}
         style={styles.container}
       >
-        <SafeAreaView>
-          <View style={styles.buttonRow}>
-            <SimpleButton
-              text={`Find a Booking`}
-              textColor={`white`}
-              color={constants.firstColor}
-              underlayColor={constants.firstColorAlpha(0.7)}
-              action={this.clickedBooking}
-              containerStyle={{ marginRight: 8 }}
-            />
-            <SimpleButton
-              text={`Plan a vacation`}
-              textColor={constants.firstColor}
-              color={"white"}
-              underlayColor={constants.firstColorAlpha(0.7)}
-              action={this.clickedExplore}
-            />
-          </View>
-          <View style={styles.textRow}>
-            <View style={[styles.textWrapper, { marginRight: 8 }]}>
-              <Text style={styles.infoText}>
-                View the trips you have booked or have been invited to join.
-              </Text>
+        <LinearGradient
+          start={{ x: 0, y: 0 }}
+          end={{ x: 0, y: 1 }}
+          locations={[0.6, 0.85, 0.95, 1]}
+          colors={[
+            "transparent",
+            constants.firstGradientAlpha(0.5),
+            constants.firstGradientAlpha(0.7),
+            constants.firstGradientAlpha(0.9)
+          ]}
+          style={styles.gradientContainer}
+        >
+          <SafeAreaView>
+            <View style={styles.logoRow}>
+              <Image
+                source={constants.pytLogoNew}
+                style={styles.logo}
+                resizeMode={"contain"}
+              />
             </View>
-            <View style={styles.textWrapper}>
-              <Text style={styles.infoText}>
-                Open your saved itineraries or plan & book a fabulous vacation.
-              </Text>
+            <View style={styles.buttonRow}>
+              <SimpleButton
+                text={`Find a Booking`}
+                textColor={`white`}
+                color={constants.firstColor}
+                underlayColor={constants.firstColorAlpha(0.7)}
+                action={this.clickedBooking}
+                containerStyle={{ marginRight: 8 }}
+              />
+              <SimpleButton
+                text={`Plan a vacation`}
+                textColor={constants.firstColor}
+                color={"white"}
+                underlayColor={constants.firstColorAlpha(0.7)}
+                action={this.clickedExplore}
+              />
             </View>
-          </View>
-        </SafeAreaView>
+            <View style={styles.textRow}>
+              <View style={[styles.textWrapper, { marginRight: 8 }]}>
+                <Text style={styles.infoText}>
+                  View the trips you have booked or have been invited to join.
+                </Text>
+              </View>
+              <View style={styles.textWrapper}>
+                <Text style={styles.infoText}>
+                  Open your saved itineraries or plan & book a fabulous
+                  vacation.
+                </Text>
+              </View>
+            </View>
+          </SafeAreaView>
+        </LinearGradient>
       </ImageBackground>
     );
   }
@@ -70,6 +93,20 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "flex-end",
     flexWrap: "wrap"
+  },
+  gradientContainer: {
+    flex: 1,
+    justifyContent: "flex-end",
+    flexWrap: "wrap"
+  },
+  logoRow: {
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: 40
+  },
+  logo: {
+    height: 31,
+    width: 168
   },
   buttonRow: {
     flexDirection: "row",
