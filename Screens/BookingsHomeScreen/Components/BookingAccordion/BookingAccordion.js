@@ -52,7 +52,10 @@ class BookingAccordion extends Component {
               textStyle={{
                 color: constants.black2,
                 fontSize: 13,
-                ...Platform.select({ android: { marginTop: -2 } })
+                ...Platform.select({
+                  android: { marginTop: -2 },
+                  ios: { marginTop: 3 }
+                })
               }}
             />
           ) : (
