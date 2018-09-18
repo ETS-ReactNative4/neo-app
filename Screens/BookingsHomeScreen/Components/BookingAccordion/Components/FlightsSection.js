@@ -5,6 +5,7 @@ import { responsiveWidth } from "react-native-responsive-dimensions";
 import constants from "../../../../../constants/constants";
 import PropTypes from "prop-types";
 import FlightVoucher from "../../../../VoucherScreens/FlightVoucherScreen/FlightVoucher";
+import CircleThumbnail from "../../../../../CommonComponents/CircleThumbnail/CircleThumbnail";
 
 const FlightsSection = ({ section, navigation }) => {
   return (
@@ -69,10 +70,11 @@ const Flight = ({ flight, isLast, navigation }) => {
       style={[styles.contentContainer, customStyle]}
     >
       <View style={styles.iconWrapper}>
-        <Image
-          resizeMode={"contain"}
-          style={styles.contentIcon}
-          source={{ uri: airlineLogo }}
+        <CircleThumbnail
+          image={{ uri: airlineLogo }}
+          containerStyle={styles.contentIcon}
+          isContain={true}
+          defaultImageUri={constants.airLineLogoPlaceHolder}
         />
       </View>
       <View style={styles.contentTextContainer}>

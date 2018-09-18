@@ -6,6 +6,7 @@ import constants from "../../../../../constants/constants";
 import PropTypes from "prop-types";
 import _ from "lodash";
 import getTransferImage from "../../../../../Services/getImageService/getTransferImage";
+import CircleThumbnail from "../../../../../CommonComponents/CircleThumbnail/CircleThumbnail";
 
 const TransferSection = ({ section, navigation }) => {
   return (
@@ -48,10 +49,11 @@ const Transfer = ({ transfer, isLast, navigation }) => {
       style={[styles.contentContainer, customStyle]}
     >
       <View style={styles.iconWrapper}>
-        <Image
-          resizeMode={"cover"}
-          style={styles.contentIcon}
-          source={{ uri: getTransferImage(transfer.vehicle, transfer.type) }}
+        <CircleThumbnail
+          isContain={false}
+          containerStyle={styles.contentIcon}
+          image={{ uri: getTransferImage(transfer.vehicle, transfer.type) }}
+          defaultImageUri={constants.transferPlaceHolder}
         />
       </View>
       <View style={styles.contentTextContainer}>

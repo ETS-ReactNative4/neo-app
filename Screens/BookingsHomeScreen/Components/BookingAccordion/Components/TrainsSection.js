@@ -4,6 +4,7 @@ import moment from "moment";
 import { responsiveWidth } from "react-native-responsive-dimensions";
 import constants from "../../../../../constants/constants";
 import PropTypes from "prop-types";
+import CircleThumbnail from "../../../../../CommonComponents/CircleThumbnail/CircleThumbnail";
 
 const TrainsSection = ({ section }) => {
   return (
@@ -33,10 +34,11 @@ const Train = ({ train, isLast }) => {
   return (
     <View style={[styles.contentContainer, customStyle]}>
       <View style={styles.iconWrapper}>
-        <Image
-          resizeMode={"cover"}
-          style={styles.contentIcon}
-          source={{ uri: constants.miscImageBaseUrl + "transfers-train.jpg" }}
+        <CircleThumbnail
+          isContain={false}
+          containerStyle={styles.contentIcon}
+          image={{ uri: constants.miscImageBaseUrl + "transfers-train.jpg" }}
+          defaultImageUri={constants.miscImageBaseUrl + "transfers-train.jpg"}
         />
       </View>
       <View style={styles.contentTextContainer}>
