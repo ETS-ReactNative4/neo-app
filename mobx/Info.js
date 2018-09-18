@@ -7,7 +7,9 @@ class Info {
     icon: { uri: constants.dialogBoxIcon },
     title: "",
     message: "",
-    isVisible: false
+    isVisible: false,
+    action: false,
+    actionText: ""
   };
 
   @observable
@@ -15,7 +17,9 @@ class Info {
     icon: { uri: constants.dialogBoxIcon },
     title: "",
     message: "",
-    isVisible: false
+    isVisible: false,
+    action: false,
+    actionText: ""
   };
 
   @observable
@@ -23,13 +27,28 @@ class Info {
     icon: { uri: constants.dialogBoxIcon },
     title: "",
     message: "",
-    isVisible: false
+    isVisible: false,
+    action: false,
+    actionText: ""
   };
 
   @action
-  setInfo = (title, message, icon = { uri: constants.dialogBoxIcon }) => {
+  setInfo = (
+    title,
+    message,
+    icon = { uri: constants.dialogBoxIcon },
+    actionText = "",
+    action = false
+  ) => {
     setTimeout(() => {
-      this._info = { title, message, icon, isVisible: true };
+      this._info = {
+        title,
+        message,
+        icon,
+        isVisible: true,
+        actionText,
+        action
+      };
     }, 300);
   };
 
@@ -39,7 +58,9 @@ class Info {
       icon: { uri: constants.dialogBoxIcon },
       title: "",
       message: "",
-      isVisible: false
+      isVisible: false,
+      action: false,
+      actionText: ""
     };
   };
 
@@ -49,9 +70,22 @@ class Info {
   }
 
   @action
-  setError = (title, message, icon = { uri: constants.dialogBoxIcon }) => {
+  setError = (
+    title,
+    message,
+    icon = { uri: constants.dialogBoxIcon },
+    actionText = "",
+    action = false
+  ) => {
     setTimeout(() => {
-      this._error = { title, message, icon, isVisible: true };
+      this._error = {
+        title,
+        message,
+        icon,
+        isVisible: true,
+        actionText,
+        action
+      };
     }, 300);
   };
 
@@ -61,7 +95,9 @@ class Info {
       icon: { uri: constants.dialogBoxIcon },
       title: "",
       message: "",
-      isVisible: false
+      isVisible: false,
+      action: false,
+      actionText: ""
     };
   };
 
@@ -71,9 +107,22 @@ class Info {
   }
 
   @action
-  setSuccess = (title, message, icon = { uri: constants.dialogBoxIcon }) => {
+  setSuccess = (
+    title,
+    message,
+    icon = { uri: constants.dialogBoxIcon },
+    actionText = "",
+    action = false
+  ) => {
     setTimeout(() => {
-      this._success = { title, message, icon, isVisible: true };
+      this._success = {
+        title,
+        message,
+        icon,
+        isVisible: true,
+        actionText,
+        action
+      };
     }, 300);
   };
 
@@ -83,7 +132,9 @@ class Info {
       icon: { uri: constants.dialogBoxIcon },
       title: "",
       message: "",
-      isVisible: false
+      isVisible: false,
+      action: false,
+      actionText: ""
     };
   };
 

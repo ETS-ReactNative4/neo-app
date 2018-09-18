@@ -7,7 +7,14 @@ import { responsiveWidth } from "react-native-responsive-dimensions";
 import SimpleButton from "../SimpleButton/SimpleButton";
 import constants from "../../constants/constants";
 
-const DialogBox = ({ icon, title, message, isVisible, onClose }) => {
+const DialogBox = ({
+  icon,
+  title,
+  message,
+  isVisible,
+  onClose,
+  actionText
+}) => {
   return (
     <Modal
       isVisible={isVisible}
@@ -19,12 +26,13 @@ const DialogBox = ({ icon, title, message, isVisible, onClose }) => {
         <Text style={styles.title}>{title}</Text>
         <Text style={styles.message}>{message}</Text>
         <SimpleButton
-          text={"Okay!"}
-          containerStyle={{ width: 80, height: 40 }}
+          text={actionText || "Okay!"}
+          containerStyle={{ width: null, height: 40, marginBottom: 16 }}
           action={onClose}
-          textColor={constants.firstColor}
+          textColor={"white"}
+          textStyle={{ marginHorizontal: 8 }}
           hasBorder={true}
-          color={"transparent"}
+          color={constants.firstColor}
         />
       </View>
     </Modal>
@@ -34,17 +42,17 @@ const DialogBox = ({ icon, title, message, isVisible, onClose }) => {
 const styles = StyleSheet.create({
   dialogBoxContainer: {
     alignSelf: "center",
-    height: 240,
     width: responsiveWidth(80),
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "white",
-    borderRadius: 32
+    borderRadius: 8
   },
   icon: {
     height: 64,
     width: 64,
-    margin: 8
+    margin: 8,
+    marginTop: 24
   },
   title: {
     ...constants.fontCustom(constants.primarySemiBold, 17),
@@ -53,7 +61,8 @@ const styles = StyleSheet.create({
   },
   message: {
     ...constants.fontCustom(constants.primaryLight, 14),
-    marginBottom: 16,
+    marginHorizontal: 16,
+    marginBottom: 24,
     color: constants.black2
   }
 });
@@ -63,7 +72,8 @@ DialogBox.propTypes = forbidExtraProps({
   title: PropTypes.string.isRequired,
   message: PropTypes.string.isRequired,
   isVisible: PropTypes.bool.isRequired,
-  onClose: PropTypes.func.isRequired
+  onClose: PropTypes.func.isRequired,
+  actionText: PropTypes.string.isRequired
 });
 
 export default DialogBox;
