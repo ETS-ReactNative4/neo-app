@@ -25,6 +25,7 @@ const imageAssets = {
   ferryIcon: "ferry",
   trainIcon: "train",
   activityIcon: "activity",
+  leisureIcon: require("../assets/images/icons/leisure.png"),
   hotelIcon: "hotel",
   clockIcon: "clock",
   locationIcon: "location",
