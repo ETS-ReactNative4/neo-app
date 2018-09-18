@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
     height: 40,
     width: 40,
     borderRadius: 20,
-    backgroundColor: constants.shade4
+    backgroundColor: "white"
   },
   iconContainer: {
     position: "absolute",
