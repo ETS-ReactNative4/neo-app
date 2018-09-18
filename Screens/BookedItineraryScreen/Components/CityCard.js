@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
 
   headerBackground: {
     position: "absolute",
-    bottom: 0,
+    bottom: -1,
     left: 0,
     height: 47.5,
     width: 181.25

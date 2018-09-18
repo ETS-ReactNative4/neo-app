@@ -43,6 +43,9 @@ const UpcomingCard = ({
           <Text style={styles.bookingID}>{`PYT${itineraryId
             .substr(itineraryId.length - 7)
             .toUpperCase()}`}</Text>
+          {/**
+           * TODO: make join button conditional
+           */}
           <SimpleButton
             text={"Join"}
             action={() => selectItinerary(itineraryId)}
