@@ -28,7 +28,13 @@ const styles = {
       fontSize: 17,
       lineHeight: 24
     }
-  })
+  }),
+  bookingProcessText: {
+    title: "This booking is in process...",
+    message:
+      "Please be patient. We are working with our travel partners to complete this booking. You will get notified when this voucher is ready.",
+    actionText: "Turn Notifications ON"
+  }
 };
 
 export default styles;

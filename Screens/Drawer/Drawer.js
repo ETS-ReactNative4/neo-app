@@ -158,11 +158,28 @@ class Drawer extends Component {
           })}
         </ScrollView>
       </ImageBackground>,
-      <DialogBox {...infoStore.info} onClose={infoStore.resetInfo} key={1} />,
-      <DialogBox {...infoStore.error} onClose={infoStore.resetError} key={2} />,
+      <DialogBox
+        {...infoStore.info}
+        onClose={() => {
+          infoStore.info.action && infoStore.info.action();
+          infoStore.resetInfo();
+        }}
+        key={1}
+      />,
+      <DialogBox
+        {...infoStore.error}
+        onClose={() => {
+          infoStore.error.action && infoStore.error.action();
+          infoStore.resetError();
+        }}
+        key={2}
+      />,
       <DialogBox
         {...infoStore.success}
-        onClose={infoStore.resetSuccess}
+        onClose={() => {
+          infoStore.success.action && infoStore.success.action();
+          infoStore.resetSuccess();
+        }}
         key={3}
       />
     ];

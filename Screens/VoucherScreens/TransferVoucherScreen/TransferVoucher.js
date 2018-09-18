@@ -12,6 +12,7 @@ import SectionHeader from "../../../CommonComponents/SectionHeader/SectionHeader
 import SimpleButton from "../../../CommonComponents/SimpleButton/SimpleButton";
 import VoucherAccordion from "../Components/VoucherAccordion";
 import IosCloseButton from "../Components/IosCloseButton";
+import moment from "moment";
 
 class TransferVoucher extends Component {
   static navigationOptions = {
@@ -33,6 +34,20 @@ class TransferVoucher extends Component {
   };
 
   render() {
+    const transfer = this.props.navigation.getParam("transfer", {});
+
+    const {
+      passengers,
+      vehicle,
+      type,
+      pickup,
+      drop,
+      text,
+      dateMillis
+    } = transfer;
+
+    const { arrivalTime, pickupTime } = transfer.voucher;
+
     const xHeight = isIphoneX()
       ? constants.xNotchHeight
       : Platform.OS === "ios"
@@ -41,37 +56,39 @@ class TransferVoucher extends Component {
     const passengerDetails = [
       {
         name: "Lead passenger",
-        value: "Mr. Shantanu Agarwal"
+        value: "NA"
       },
       {
         name: "No of Passengers",
-        value: "2 adults"
+        value: passengers || "NA"
       },
       {
         name: "Vehicle type",
-        value: "Car"
+        value: vehicle || "NA"
       },
       {
         name: "Type",
-        value: "Private Transfer"
+        value: type
+          ? type.charAt(0).toUpperCase() + type.substr(1).toLowerCase()
+          : "NA"
       }
     ];
     const arrivalDetails = [
       {
         name: "Arrival at",
-        value: "Madrid Airport"
+        value: drop || "NA"
       },
       {
         name: "Arrival time",
-        value: "7:45 am"
+        value: arrivalTime && arrivalTime !== -1 ? arrivalTime : "NA 00:00 am"
       },
       {
         name: "Pickup time",
-        value: "7.45 am"
+        value: pickupTime && pickupTime !== -1 ? arrivalTime : "NA 00:00 am"
       },
       {
         name: "Meeting point",
-        value: "Arrival Terminal"
+        value: pickup || "NA"
       }
     ];
 
@@ -97,9 +114,11 @@ class TransferVoucher extends Component {
         )}
       >
         <View style={styles.titleSection}>
-          <Text style={styles.activityDate}>Sun 24</Text>
+          <Text style={styles.activityDate}>
+            {moment(dateMillis).format("ddd DD")}
+          </Text>
 
-          <VoucherName name={`Airport transfer - Madrid Airport to Hotel`} />
+          <VoucherName name={text} />
 
           <VoucherSplitSection sections={passengerDetails} />
         </View>

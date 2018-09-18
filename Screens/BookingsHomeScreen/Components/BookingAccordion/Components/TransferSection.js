@@ -7,6 +7,7 @@ import PropTypes from "prop-types";
 import _ from "lodash";
 import getTransferImage from "../../../../../Services/getImageService/getTransferImage";
 import CircleThumbnail from "../../../../../CommonComponents/CircleThumbnail/CircleThumbnail";
+import storeService from "../../../../../Services/storeService/storeService";
 
 const TransferSection = ({ section, navigation }) => {
   return (
@@ -41,7 +42,18 @@ const Transfer = ({ transfer, isLast, navigation }) => {
     };
   }
 
-  const openVoucher = () => navigation.navigate("TransferVoucher");
+  const openVoucher = () => {
+    if (transfer.voucher.booked) {
+      navigation.navigate("TransferVoucher", { transfer });
+    } else {
+      storeService.infoStore.setInfo(
+        constants.bookingProcessText.title,
+        constants.bookingProcessText.message,
+        constants.loadingIcon,
+        constants.bookingProcessText.actionText
+      );
+    }
+  };
 
   return (
     <TouchableOpacity

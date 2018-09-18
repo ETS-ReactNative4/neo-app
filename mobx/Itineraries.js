@@ -3810,6 +3810,10 @@ class Itineraries {
         );
 
         if (transfer.status === "SUCCESS") {
+          transfer.voucher =
+            storeService.voucherStore.getTransferVoucherById(
+              transfer.transferCostingId
+            ) || {};
           transferArray.push(transfer);
         }
 

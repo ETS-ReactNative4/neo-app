@@ -88,10 +88,10 @@ class Voucher {
     )
   );
 
-  getTransferVoucherById = createTransformer(identifier =>
+  getTransferVoucherById = createTransformer(transferCostingId =>
     toJS(
       this._selectedVoucher.transferVouchers.find(
-        transfer => identifier === transfer.identifier
+        transfer => transferCostingId === transfer.transferCostingId
       )
     )
   );
