@@ -54,7 +54,11 @@ const UpcomingCard = ({
               marginHorizontal: 16,
               marginVertical: 8
             }}
-            textStyle={{ ...constants.font11(constants.primarySemiBold) }}
+            textStyle={{
+              ...constants.font11(constants.primarySemiBold),
+              marginLeft: 2,
+              marginTop: -2
+            }}
           />
         </ImageBackground>
       </View>
