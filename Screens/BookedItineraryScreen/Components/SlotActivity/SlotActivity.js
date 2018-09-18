@@ -97,7 +97,7 @@ const SlotActivity = inject("itineraries")(
               activity={activity}
               title={activity.name}
               text={activity.leisureSlotDetail.text}
-              image={constants.notificationIcon}
+              image={constants.leisureIcon}
               onClick={onClick}
               defaultImageUri={constants.activity3SmallPlaceHolder}
             />
