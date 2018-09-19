@@ -6,7 +6,8 @@ import {
   Image,
   Text,
   Platform,
-  ImageBackground
+  ImageBackground,
+  StatusBar
 } from "react-native";
 import { isIphoneX } from "react-native-iphone-x-helper";
 import constants from "../../constants/constants";
@@ -99,6 +100,7 @@ class Drawer extends Component {
         source={constants.drawerBackground}
       >
         <ScrollView style={styles.drawerContainer}>
+          <StatusBar backgroundColor="white" barStyle="dark-content" />
           <View style={styles.profileImageContainer}>
             <Image
               style={styles.profileImage}
