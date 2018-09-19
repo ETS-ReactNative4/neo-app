@@ -44,10 +44,11 @@ class TransferVoucher extends Component {
       pickup,
       drop,
       text,
-      dateMillis
+      dateMillis,
+      totalCost
     } = transfer;
 
-    const { arrivalTime, pickupTime } = transfer.voucher;
+    const { arrivalTime, pickupTime, bookedTime } = transfer.voucher;
 
     const xHeight = isIphoneX()
       ? constants.xNotchHeight
@@ -90,6 +91,20 @@ class TransferVoucher extends Component {
       {
         name: "Meeting point",
         value: pickup || "NA"
+      }
+    ];
+    const bookingDetails = [
+      {
+        name: "Booked On",
+        value: moment(bookedTime).format("DD/MM/YY")
+      },
+      {
+        name: "Total Paid",
+        value: totalCost ? `Rs. ${totalCost}` : "NA"
+      },
+      {
+        name: "Booking Source",
+        value: "NA"
       }
     ];
 
@@ -143,6 +158,8 @@ class TransferVoucher extends Component {
             icon={constants.callIcon}
             iconSize={16}
           />
+
+          <VoucherSplitSection sections={bookingDetails} />
         </View>
 
         <View style={styles.accordionSection}>{/*<VoucherAccordion />*/}</View>

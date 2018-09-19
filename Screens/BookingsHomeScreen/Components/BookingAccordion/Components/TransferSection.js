@@ -9,6 +9,7 @@ import getTransferImage from "../../../../../Services/getImageService/getTransfe
 import CircleThumbnail from "../../../../../CommonComponents/CircleThumbnail/CircleThumbnail";
 import storeService from "../../../../../Services/storeService/storeService";
 import SectionRightPlaceHolder from "./Components/SectionRightPlaceHolder";
+import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidExtraProps";
 
 const TransferSection = ({ section, navigation }) => {
   return (
@@ -29,10 +30,10 @@ const TransferSection = ({ section, navigation }) => {
   );
 };
 
-TransferSection.propTypes = {
+TransferSection.propTypes = forbidExtraProps({
   section: PropTypes.object.isRequired,
   navigation: PropTypes.object.isRequired
-};
+});
 
 const Transfer = ({ transfer, isLast, navigation }) => {
   let customStyle = {};
@@ -87,11 +88,11 @@ const Transfer = ({ transfer, isLast, navigation }) => {
   );
 };
 
-Transfer.propTypes = {
+Transfer.propTypes = forbidExtraProps({
   transfer: PropTypes.object.isRequired,
   isLast: PropTypes.bool.isRequired,
   navigation: PropTypes.object.isRequired
-};
+});
 
 const styles = StyleSheet.create({
   contentContainer: {
