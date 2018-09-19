@@ -118,11 +118,14 @@ class TransferVoucher extends Component {
         fadeOutForeground={Platform.OS !== "android"}
         onChangeHeaderVisibility={this.headerToggle}
         renderStickyHeader={() => (
-          <VoucherStickyHeader action={this.close} text={"NA"} />
+          <VoucherStickyHeader
+            action={this.close}
+            text={"Booking Reference - NA"}
+          />
         )}
         renderForeground={() => (
           <VoucherHeader
-            infoText={`BOOKING ID`}
+            infoText={`BOOKING REFERENCE`}
             title={`NA`}
             menu={() => {}}
             image={{ uri: getTransferImage(vehicle, type) }}

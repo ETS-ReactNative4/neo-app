@@ -50,7 +50,8 @@ class FlightTripView extends Component {
         depMonth,
         depDateOfMonth,
         departureAirportCode,
-        departureTime
+        departureTime,
+        freeCabinBaggage
       } = routes[0];
 
       const {
@@ -90,6 +91,7 @@ class FlightTripView extends Component {
             showStops={!this.state.isExpanded}
             flightClass={flightClass}
             airlineCode={airlineCode}
+            freeCabinBaggage={freeCabinBaggage}
           />
           <FlightActionSection />
         </View>
@@ -113,7 +115,8 @@ class FlightTripView extends Component {
             departureTime,
             arrivalTime,
             arrivalCity,
-            layoverTime
+            layoverTime,
+            freeCabinBaggage
           } = route;
           const departure = `${departureDayOfWeek}, ${depDateOfMonth} ${depMonth}`;
           const departureText = `${departureAirportCode} ${departureTime.slice(
@@ -148,6 +151,7 @@ class FlightTripView extends Component {
                   showStops={!this.state.isExpanded}
                   flightClass={flightClass}
                   airlineCode={airlineCode}
+                  freeCabinBaggage={freeCabinBaggage}
                 />,
                 routeIndex < routes.length - 1 ? (
                   <FlightActionSection key={1} />

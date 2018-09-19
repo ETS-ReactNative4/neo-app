@@ -3786,6 +3786,9 @@ class Itineraries {
         );
 
         if (flight.status === "SUCCESS") {
+          flight.voucher =
+            storeService.voucherStore.getFlightVoucherById(flight.dbFlightId) ||
+            {};
           flightArray.push(flight);
         }
 

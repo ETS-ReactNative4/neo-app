@@ -75,7 +75,7 @@ class Voucher {
   getFlightVoucherById = createTransformer(identifier =>
     toJS(
       this._selectedVoucher.flightVoucherVO.find(
-        flight => identifier === flight.identifier
+        flight => identifier === flight.flightCostingId
       )
     )
   );

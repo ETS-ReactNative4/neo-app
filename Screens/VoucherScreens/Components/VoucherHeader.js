@@ -14,8 +14,16 @@ import { responsiveWidth } from "react-native-responsive-dimensions";
 import PropTypes from "prop-types";
 import Icon from "../../../CommonComponents/Icon/Icon";
 import LinearGradient from "react-native-linear-gradient";
+import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraProps";
 
-const VoucherHeader = ({ infoText, title, onClickClose, menu, image }) => {
+const VoucherHeader = ({
+  infoText,
+  title,
+  onClickClose,
+  menu,
+  image,
+  children
+}) => {
   return (
     <View style={styles.headerContainer}>
       <ImageBackground resizeMode={"cover"} source={image} style={styles.image}>
@@ -40,14 +48,18 @@ const VoucherHeader = ({ infoText, title, onClickClose, menu, image }) => {
               </TouchableOpacity>
             ) : null}
           </View>
-          <View style={styles.textRow}>
-            <View style={styles.infoTextWrapper}>
-              <Text style={styles.infoText}>{infoText}</Text>
+          {children ? (
+            children
+          ) : (
+            <View style={styles.textRow}>
+              <View style={styles.infoTextWrapper}>
+                <Text style={styles.infoText}>{infoText}</Text>
+              </View>
+              <View style={styles.titleTextWrapper}>
+                <Text style={styles.titleText}>{title}</Text>
+              </View>
             </View>
-            <View style={styles.titleTextWrapper}>
-              <Text style={styles.titleText}>{title}</Text>
-            </View>
-          </View>
+          )}
           <View style={styles.actionRow}>
             <TouchableOpacity
               style={styles.menuIconContainer}
@@ -74,13 +86,15 @@ const VoucherHeader = ({ infoText, title, onClickClose, menu, image }) => {
   );
 };
 
-VoucherHeader.propTypes = {
+VoucherHeader.propTypes = forbidExtraProps({
   infoText: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   onClickClose: PropTypes.func.isRequired,
   menu: PropTypes.func.isRequired,
-  image: PropTypes.oneOfType([PropTypes.object, PropTypes.number]).isRequired
-};
+  image: PropTypes.oneOfType([PropTypes.object, PropTypes.number]).isRequired,
+  placeHolderHeight: PropTypes.number.isRequired,
+  children: PropTypes.element
+});
 
 const xHeight = isIphoneX() ? constants.xNotchHeight : 0;
 const styles = StyleSheet.create({
@@ -158,7 +172,7 @@ const styles = StyleSheet.create({
   titleTextWrapper: {
     alignItems: "center",
     justifyContent: "center",
-    height: 32
+    height: 38
   },
   titleText: {
     fontFamily: constants.primarySemiBold,

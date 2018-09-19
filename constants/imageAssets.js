@@ -22,6 +22,7 @@ const imageAssets = {
   hamburgerIcon: require("../assets/images/icons/menu.png"),
   headerBackgroundShape: require("../assets/images/shapes/banner_white.png"),
   aeroplaneIcon: "flight",
+  flightVoucherBanner: require("../assets/images/backgrounds/flightVoucherHeader.jpg"),
   busIcon: "bus",
   ferryIcon: "ferry",
   trainIcon: "train",

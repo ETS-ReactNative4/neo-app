@@ -50,7 +50,7 @@ class BookingAccordion extends Component {
           {!isActive ? (
             [
               bookingProcessingCount ? (
-                <View style={styles.bookingProcessLoadingWrapper}>
+                <View key={0} style={styles.bookingProcessLoadingWrapper}>
                   <Image
                     source={constants.bookingProcessingIcon}
                     style={styles.bookingProcessIcon}

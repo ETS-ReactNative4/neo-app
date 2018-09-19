@@ -1,10 +1,11 @@
 import React, { Component } from "react";
-import { View, Image, Text, StyleSheet } from "react-native";
+import { View, Image, Text, StyleSheet, Platform } from "react-native";
 import Icon from "../../../../CommonComponents/Icon/Icon";
 import constants from "../../../../constants/constants";
 import SimpleButton from "../../../../CommonComponents/SimpleButton/SimpleButton";
 import PropTypes from "prop-types";
 import forbidExtraProps from "../../../../Services/PropTypeValidation/forbidExtraProps";
+import FastImage from "react-native-fast-image";
 
 const FlightCard = ({
   isFirst,
@@ -19,7 +20,8 @@ const FlightCard = ({
   showStops,
   toggleCard,
   flightClass,
-  airlineCode
+  airlineCode,
+  freeCabinBaggage
 }) => {
   const airlineLogo = constants.getAirlineIcon(airlineCode);
 
@@ -28,10 +30,10 @@ const FlightCard = ({
       {isFirst ? <Text style={styles.flightRoute}>{flightRoute}</Text> : null}
       <View style={styles.flightDetails}>
         <View style={styles.providerSection}>
-          <Image
+          <FastImage
             source={{ uri: airlineLogo }}
             style={styles.airlineLogo}
-            resizeMode={"contain"}
+            resizeMode={FastImage.resizeMode.contain}
           />
           {/*<Icon size={24} name={constants.aeroplaneIcon} />*/}
           <View style={styles.flightProviderWrapper}>
@@ -53,7 +55,7 @@ const FlightCard = ({
             ellipsizeMode={"tail"}
             style={styles.airportAddress}
           >
-            Chatrapati Shivaji International Airport, Chennai, TamilNadu, India
+            {"AIRPORT addr NA"}
           </Text>
           <Text style={styles.baggageText}>Cabin Baggage</Text>
         </View>
@@ -64,8 +66,13 @@ const FlightCard = ({
             <SimpleButton
               text={`${stops} STOP`}
               action={toggleCard}
-              containerStyle={{ height: 24, width: 50 }}
-              textStyle={{ fontSize: 10, marginTop: 0 }}
+              containerStyle={{ height: 24, width: 50, marginTop: 0 }}
+              textStyle={{
+                fontSize: 10,
+                marginTop: 0,
+                marginLeft: -0.5,
+                marginTop: -2
+              }}
               color={"transparent"}
               hasBorder={true}
               textColor={constants.shade1}
@@ -80,9 +87,9 @@ const FlightCard = ({
             ellipsizeMode={"tail"}
             style={styles.airportAddress}
           >
-            Changi International Airport, Singapore
+            {"AIRPORT addr NA"}
           </Text>
-          <Text style={styles.baggageWeight}>30Kg/person</Text>
+          <Text style={styles.baggageWeight}>{freeCabinBaggage || "NA"}</Text>
         </View>
       </View>
     </View>
@@ -102,7 +109,8 @@ FlightCard.propTypes = forbidExtraProps({
   showStops: PropTypes.bool.isRequired,
   toggleCard: PropTypes.func.isRequired,
   flightClass: PropTypes.string.isRequired,
-  airlineCode: PropTypes.string.isRequired
+  airlineCode: PropTypes.string.isRequired,
+  freeCabinBaggage: PropTypes.string.isRequired
 });
 
 const styles = StyleSheet.create({
@@ -126,10 +134,13 @@ const styles = StyleSheet.create({
     height: 24,
     width: 24,
     borderRadius: 12,
-    marginRight: 4
+    marginRight: 4,
+    alignItems: "center",
+    justifyContent: "center"
   },
   flightProviderWrapper: {
-    height: 17
+    height: 17,
+    marginTop: Platform.OS === "android" ? -8 : -4
   },
   flightProvider: {
     marginLeft: 4,
@@ -160,6 +171,11 @@ const styles = StyleSheet.create({
   timingMiddle: {
     flex: 1,
     alignItems: "center"
+  },
+  timeText: {
+    ...constants.fontCustom(constants.primaryLight, 13),
+    color: constants.black2,
+    marginVertical: 4
   },
   timingRight: {
     flex: 1,
