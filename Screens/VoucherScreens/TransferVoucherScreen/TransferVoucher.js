@@ -13,6 +13,7 @@ import SimpleButton from "../../../CommonComponents/SimpleButton/SimpleButton";
 import VoucherAccordion from "../Components/VoucherAccordion";
 import IosCloseButton from "../Components/IosCloseButton";
 import moment from "moment";
+import getTransferImage from "../../../Services/getImageService/getTransferImage";
 
 class TransferVoucher extends Component {
   static navigationOptions = {
@@ -102,13 +103,14 @@ class TransferVoucher extends Component {
         fadeOutForeground={Platform.OS !== "android"}
         onChangeHeaderVisibility={this.headerToggle}
         renderStickyHeader={() => (
-          <VoucherStickyHeader action={this.close} text={"1242345"} />
+          <VoucherStickyHeader action={this.close} text={"NA"} />
         )}
         renderForeground={() => (
           <VoucherHeader
             infoText={`BOOKING ID`}
-            title={`1242345`}
+            title={`NA`}
             menu={() => {}}
+            image={{ uri: getTransferImage(vehicle, type) }}
             onClickClose={this.close}
           />
         )}
