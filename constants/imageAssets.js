@@ -18,6 +18,7 @@ const imageAssets = {
   dropDownArrow: require("../assets/images/icons/drop-down-arrow.png"),
   closeIcon: "close",
   loadingIcon: require("../assets/images/loaders/loader.gif"),
+  bookingProcessingIcon: require("../assets/images/loaders/loader.gif"),
   hamburgerIcon: require("../assets/images/icons/menu.png"),
   headerBackgroundShape: require("../assets/images/shapes/banner_white.png"),
   aeroplaneIcon: "flight",

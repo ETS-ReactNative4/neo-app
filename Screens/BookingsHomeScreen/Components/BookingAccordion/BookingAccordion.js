@@ -31,6 +31,13 @@ class BookingAccordion extends Component {
 
     if (isActive) customStyle.borderBottomWidth = 0;
 
+    const bookingProcessingCount = section.items.reduce((count, item) => {
+      if (item.voucher && !item.voucher.booked) {
+        count++;
+      }
+      return count;
+    }, 0);
+
     return (
       <View style={[styles.headerContainer, customStyle]}>
         <View style={styles.headerIcon}>
@@ -41,23 +48,37 @@ class BookingAccordion extends Component {
         </View>
         <View style={styles.notificationWrapper}>
           {!isActive ? (
-            <NotificationCount
-              count={section.items.length}
-              containerStyle={{
-                backgroundColor: constants.secondColor,
-                height: 16,
-                width: 26,
-                borderRadius: 8
-              }}
-              textStyle={{
-                color: constants.black2,
-                fontSize: 13,
-                ...Platform.select({
-                  android: { marginTop: -2 },
-                  ios: { marginTop: 3 }
-                })
-              }}
-            />
+            [
+              bookingProcessingCount ? (
+                <View style={styles.bookingProcessLoadingWrapper}>
+                  <Image
+                    source={constants.bookingProcessingIcon}
+                    style={styles.bookingProcessIcon}
+                  />
+                  <Text style={styles.bookingProcessCount}>
+                    {bookingProcessingCount}
+                  </Text>
+                </View>
+              ) : null,
+              <NotificationCount
+                key={1}
+                count={section.items.length}
+                containerStyle={{
+                  backgroundColor: constants.secondColor,
+                  height: 16,
+                  width: 26,
+                  borderRadius: 8
+                }}
+                textStyle={{
+                  color: constants.black2,
+                  fontSize: 13,
+                  ...Platform.select({
+                    android: { marginTop: -2 },
+                    ios: { marginTop: 3 }
+                  })
+                }}
+              />
+            ]
           ) : (
             <Image
               source={constants.dropDownArrow}
@@ -248,7 +269,29 @@ const styles = StyleSheet.create({
   },
   notificationWrapper: {
     flex: 1,
-    alignItems: "flex-end"
+    alignItems: "center",
+    justifyContent: "flex-end",
+    flexDirection: "row"
+  },
+  bookingProcessLoadingWrapper: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-end"
+  },
+  bookingProcessIcon: {
+    height: 24,
+    width: 24
+  },
+  bookingProcessCount: {
+    ...constants.fontCustom(constants.primaryLight, 13),
+    color: constants.black2,
+    marginLeft: 4,
+    marginRight: 12,
+    ...Platform.select({
+      ios: {
+        marginTop: 6
+      }
+    })
   },
   accordionDownArrow: {
     height: 17,
