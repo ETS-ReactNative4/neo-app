@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
 });
 
 DialogBox.propTypes = forbidExtraProps({
-  icon: PropTypes.object.isRequired,
+  icon: PropTypes.oneOfType([PropTypes.object, PropTypes.number]).isRequired,
   title: PropTypes.string.isRequired,
   message: PropTypes.string.isRequired,
   isVisible: PropTypes.bool.isRequired,
