@@ -7,6 +7,17 @@ import forbidExtraProps from "../../Services/PropTypeValidation/forbidExtraProps
 import SmartImage from "../SmartImage/SmartImage";
 import FastImage from "react-native-fast-image";
 
+/**
+ * TODO: Only works with 40px circles... needs more generic design
+ * @param image
+ * @param icon
+ * @param containerStyle
+ * @param iconStyle
+ * @param isContain
+ * @param defaultImageUri
+ * @returns {*}
+ * @constructor
+ */
 const CircleThumbnail = ({
   image,
   icon,
