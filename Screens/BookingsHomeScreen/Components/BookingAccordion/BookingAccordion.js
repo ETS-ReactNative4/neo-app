@@ -18,6 +18,7 @@ import TransferSection from "./Components/TransferSection";
 import TrainsSection from "./Components/TrainsSection";
 import Icon from "../../../../CommonComponents/Icon/Icon";
 import FlightsSection from "./Components/FlightsSection";
+import PassSection from "./Components/PassSection";
 
 @inject("itineraries")
 @observer
@@ -110,6 +111,9 @@ class BookingAccordion extends Component {
 
       case "Flights":
         return <FlightsSection navigation={navigation} section={section} />;
+
+      case "Passes":
+        return <PassSection section={section} navigation={navigation} />;
 
       default:
         return (

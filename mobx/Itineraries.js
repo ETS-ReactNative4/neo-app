@@ -3894,7 +3894,7 @@ class Itineraries {
 
     let passes;
     try {
-      const passRefs = this._selectedItinerary.allFerryCostingRefs;
+      const passRefs = this._selectedItinerary.allPassCostingRefs;
       passes = passRefs.map(ref => {
         return toJS(this._selectedItinerary.passCostings.passCostingById[ref]);
       });
