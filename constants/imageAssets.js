@@ -49,6 +49,7 @@ const imageAssets = {
   swapVertIcon: "swap_vert",
   speakerIcon: "speaker",
   speakerAnimatedIcon: require("../assets/images/loaders/voice.gif"),
+  speakerInactiveIcon: require("../assets/images/loaders/voice-inactive.jpg"),
   pinIcon: "pin",
   checkBoxIcon: "checkbox-unchecked",
   checkBoxCheckedIcon: "checkbox-checked",

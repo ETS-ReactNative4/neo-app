@@ -78,10 +78,10 @@ const PhraseInfo = ({
                 style={{ height: 24, width: 24 }}
               />
             ) : (
-              <Icon
-                size={24}
-                color={constants.shade1}
-                name={constants.speakerIcon}
+              <Image
+                source={constants.speakerInactiveIcon}
+                resizeMode={"contain"}
+                style={{ height: 24, width: 24 }}
               />
             )}
           </TouchableHighlight>

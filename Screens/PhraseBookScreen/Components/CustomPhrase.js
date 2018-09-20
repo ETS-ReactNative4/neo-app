@@ -34,6 +34,7 @@ class CustomPhrase extends Component {
 
   keyboardDidShow = e => {
     this.setState({
+      isKeyboardVisible: true,
       keyboardSpace: isIphoneX()
         ? e.endCoordinates.height
         : e.endCoordinates.height
@@ -42,6 +43,7 @@ class CustomPhrase extends Component {
 
   keyboardDidHide = () => {
     this.setState({
+      isKeyboardVisible: false,
       keyboardSpace: isIphoneX() ? constants.xSensorAreaHeight : 0
     });
   };
@@ -72,6 +74,8 @@ class CustomPhrase extends Component {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     const { selectPhrase, targetLanguage } = this.props;
     const { customPhrase } = this.state;
+    const translateAction = () =>
+      customPhrase ? selectPhrase(customPhrase, targetLanguage) : null;
     return [
       <View
         key={0}
@@ -88,21 +92,35 @@ class CustomPhrase extends Component {
           }
           underlineColorAndroid={"transparent"}
           value={customPhrase}
-          onSubmitEditing={() =>
-            customPhrase ? selectPhrase(customPhrase, targetLanguage) : null
-          }
+          onSubmitEditing={translateAction}
           placeholder={"Or, type a custom message"}
         />
-        <SimpleButton
-          text={this.props.selectedLanguage.languageCode}
-          action={this.props.openLanguageSelector}
-          containerStyle={{
-            backgroundColor: "white",
-            width: 64,
-            marginLeft: 8
-          }}
-          textColor={constants.firstColor}
-        />
+        {customPhrase && this.state.isKeyboardVisible ? (
+          <SimpleButton
+            text={"Translate"}
+            action={translateAction}
+            containerStyle={{
+              backgroundColor: "white",
+              width: 64,
+              marginLeft: 8
+            }}
+            textStyle={{
+              fontSize: 13
+            }}
+            textColor={constants.firstColor}
+          />
+        ) : (
+          <SimpleButton
+            text={this.props.selectedLanguage.languageCode}
+            action={this.props.openLanguageSelector}
+            containerStyle={{
+              backgroundColor: "white",
+              width: 64,
+              marginLeft: 8
+            }}
+            textColor={constants.firstColor}
+          />
+        )}
       </View>,
       isIphoneX() && !this.state.isKeyboardVisible ? (
         <XSensorPlaceholder
