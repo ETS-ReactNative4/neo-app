@@ -5,6 +5,8 @@ import { responsiveWidth } from "react-native-responsive-dimensions";
 import constants from "../../../../../constants/constants";
 import PropTypes from "prop-types";
 import CircleThumbnail from "../../../../../CommonComponents/CircleThumbnail/CircleThumbnail";
+import storeService from "../../../../../Services/storeService/storeService";
+import SectionRightPlaceHolder from "./Components/SectionRightPlaceHolder";
 
 const HotelSection = ({ section, navigation }) => {
   return (
@@ -39,10 +41,18 @@ const Hotel = ({ hotel, isLast, navigation }) => {
     };
   }
 
-  const openVoucher = () =>
-    navigation.navigate("HotelVoucher", {
-      identifier: hotel.costingKey
-    });
+  const openVoucher = () => {
+    if (hotel.voucher.booked) {
+      navigation.navigate("HotelVoucher", { hotel });
+    } else {
+      storeService.infoStore.setInfo(
+        constants.bookingProcessText.title,
+        constants.bookingProcessText.message,
+        constants.bookingProcessingIcon,
+        constants.bookingProcessText.actionText
+      );
+    }
+  };
 
   return (
     <TouchableOpacity
@@ -72,9 +82,7 @@ const Hotel = ({ hotel, isLast, navigation }) => {
           </Text>
         </View>
       </View>
-      <View style={styles.rightPlaceholder}>
-        <Text style={styles.rightPlaceholderText}>Stayed</Text>
-      </View>
+      <SectionRightPlaceHolder isProcessing={!hotel.voucher.booked} />
     </TouchableOpacity>
   );
 };
@@ -126,15 +134,6 @@ const styles = StyleSheet.create({
     fontFamily: constants.primaryLight,
     fontSize: 17,
     maxWidth: responsiveWidth(60)
-  },
-  rightPlaceholder: {
-    flex: 1,
-    alignItems: "flex-end"
-  },
-  rightPlaceholderText: {
-    fontFamily: constants.primaryLight,
-    fontSize: 10,
-    color: constants.black2
   }
 });
 

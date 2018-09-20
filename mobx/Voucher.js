@@ -67,7 +67,7 @@ class Voucher {
   getHotelVoucherById = createTransformer(identifier =>
     toJS(
       this._selectedVoucher.hotelVoucherVO.find(
-        hotel => identifier === hotel.identifier
+        hotel => identifier === hotel.hotelCostingId
       )
     )
   );

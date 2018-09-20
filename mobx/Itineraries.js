@@ -3728,6 +3728,9 @@ class Itineraries {
         );
 
         if (hotel.status === "SUCCESS") {
+          hotel.voucher =
+            storeService.voucherStore.getHotelVoucherById(hotel.costingId) ||
+            {};
           hotelArray.push(hotel);
         }
 
@@ -3757,11 +3760,16 @@ class Itineraries {
       });
       activities = activities.map(activity => {
         activity = toJS(activity);
+        const costing = _.find(activitiesCosting, {
+          activityId: JSON.stringify(activity.planningToolId)
+        });
         return {
           ...activity,
-          costing: _.find(activitiesCosting, {
-            activityId: JSON.stringify(activity.planningToolId)
-          })
+          costing,
+          voucher:
+            storeService.voucherStore.getActivityVoucherById(
+              costing.activityCostingId
+            ) || {}
         };
       });
       return activities.filter(

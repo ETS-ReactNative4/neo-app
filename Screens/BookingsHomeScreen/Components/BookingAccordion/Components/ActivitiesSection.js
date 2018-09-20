@@ -6,6 +6,8 @@ import constants from "../../../../../constants/constants";
 import PropTypes from "prop-types";
 import CircleThumbnail from "../../../../../CommonComponents/CircleThumbnail/CircleThumbnail";
 import _ from "lodash";
+import storeService from "../../../../../Services/storeService/storeService";
+import SectionRightPlaceHolder from "./Components/SectionRightPlaceHolder";
 
 const ActivitiesSection = ({ section, navigation }) => {
   return (
@@ -40,10 +42,18 @@ const Activities = ({ activity, isLast, navigation }) => {
     };
   }
 
-  const openVoucher = () =>
-    navigation.navigate("ActivityVoucher", {
-      identifier: activity.costing.key
-    });
+  const openVoucher = () => {
+    if (activity.voucher.booked) {
+      navigation.navigate("ActivityVoucher", { activity });
+    } else {
+      storeService.infoStore.setInfo(
+        constants.bookingProcessText.title,
+        constants.bookingProcessText.message,
+        constants.bookingProcessingIcon,
+        constants.bookingProcessText.actionText
+      );
+    }
+  };
 
   return (
     <TouchableOpacity
@@ -81,9 +91,7 @@ const Activities = ({ activity, isLast, navigation }) => {
           </Text>
         </View>
       </View>
-      <View style={styles.rightPlaceholder}>
-        <Text style={styles.rightPlaceholderText}>Stayed</Text>
-      </View>
+      <SectionRightPlaceHolder isProcessing={!activity.voucher.booked} />
     </TouchableOpacity>
   );
 };
@@ -138,15 +146,6 @@ const styles = StyleSheet.create({
     fontFamily: constants.primaryLight,
     fontSize: 17,
     maxWidth: responsiveWidth(60)
-  },
-  rightPlaceholder: {
-    flex: 1,
-    alignItems: "flex-end"
-  },
-  rightPlaceholderText: {
-    fontFamily: constants.primaryLight,
-    fontSize: 10,
-    color: constants.black2
   }
 });
 

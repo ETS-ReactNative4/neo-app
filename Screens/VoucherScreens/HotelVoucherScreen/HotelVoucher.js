@@ -19,14 +19,11 @@ import Icon from "../../../CommonComponents/Icon/Icon";
 import SimpleButton from "../../../CommonComponents/SimpleButton/SimpleButton";
 import VoucherStickyHeader from "../Components/VoucherStickyHeader";
 import VoucherName from "../Components/VoucherName";
-import { inject } from "mobx-react/custom";
 import PassengerName from "./Components/PassengerName";
 import VoucherAccordion from "../Components/VoucherAccordion";
 import IosCloseButton from "../Components/IosCloseButton";
 import VoucherSplitSection from "../Components/VoucherSplitSection";
 
-@inject("itineraries")
-@inject("voucherStore")
 class HotelVoucher extends Component {
   static navigationOptions = {
     header: null
@@ -47,12 +44,13 @@ class HotelVoucher extends Component {
   };
 
   render() {
-    const { getHotelVoucherById } = this.props.voucherStore;
-    const { getHotelById } = this.props.itineraries;
-    const identifier = this.props.navigation.getParam("identifier", "");
+    /**
+     * TODO: Separate this object like other vouchers
+     */
+    const hotelObject = this.props.navigation.getParam("hotel", {});
     const hotel = {
-      ...(getHotelById(identifier) || {}),
-      ...(getHotelVoucherById(identifier) || {})
+      ...hotelObject,
+      ...hotelObject.voucher
     };
     const xHeight = isIphoneX()
       ? constants.xNotchHeight
