@@ -57,6 +57,9 @@ const transitionConfig = () => {
         case "YourBookings":
           return slideFromBottom;
 
+        case "PassVoucher":
+          return slideFromBottom;
+
         case "TransferVoucher":
           return slideFromBottom;
 
