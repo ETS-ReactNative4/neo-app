@@ -37,6 +37,7 @@ import ChatScreen from "./Screens/ChatScreen/ChatScreen";
 import { setNavigationService } from "./Services/navigationService/navigationService";
 import FlightStatus from "./Screens/FlightStatusScreen/FlightStatus";
 import { updateStoreService } from "./Services/storeService/storeService";
+import PassVoucher from "./Screens/VoucherScreens/PassVoucherScreen/PassVoucher";
 
 UIManager.setLayoutAnimationEnabledExperimental &&
   UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -164,6 +165,9 @@ const HomeStack = createStackNavigator(
     },
     FlightVoucher: {
       screen: FlightVoucher
+    },
+    PassVoucher: {
+      screen: PassVoucher
     },
     FlightStatus: {
       screen: FlightStatus

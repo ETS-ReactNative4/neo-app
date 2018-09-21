@@ -12,6 +12,7 @@ import { inject, observer } from "mobx-react/custom";
 import PhraseInfo from "./Components/PhraseInfo";
 import LanguageSelector from "./Components/LanguageSelector";
 import Loader from "../../CommonComponents/Loader/Loader";
+import { logError } from "../../Services/errorLogger/errorLogger";
 
 @inject("phrasesStore")
 @inject("itineraries")
@@ -117,6 +118,9 @@ class PhraseBook extends Component {
           undefined,
           error => {
             if (error) {
+              logError(error, {
+                soundModule: "Unable to obtain the audio from google translate"
+              });
               console.log("Unable to Play sound... Falling back to TTS");
               Tts.speak(translatedPhrase);
             } else {
