@@ -149,6 +149,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-sound')
     compile project(':react-native-fast-image')
     compile project(':react-native-webview-android-file-upload')
     compile project(':react-native-android-sms-listener')

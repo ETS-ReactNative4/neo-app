@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, NetInfo } from "react-native";
 import ScrollableTabView from "react-native-scrollable-tab-view";
 import ScrollableTabBar from "../../CommonComponents/ScrollableTabBar/ScrollableTabBar";
 import constants from "../../constants/constants";
@@ -7,6 +7,7 @@ import PhrasesSection from "./Components/PhrasesSection";
 import CustomPhrase from "./Components/CustomPhrase";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import Tts from "react-native-tts";
+import Sound from "react-native-sound";
 import { inject, observer } from "mobx-react/custom";
 import PhraseInfo from "./Components/PhraseInfo";
 import LanguageSelector from "./Components/LanguageSelector";
@@ -23,14 +24,45 @@ class PhraseBook extends Component {
   };
 
   state = {
+    isSoundPlaying: false,
     isTtsSpeaking: false,
-    isLanguageSelectorVisible: false
+    isLanguageSelectorVisible: false,
+    isInternetAvailable: true
   };
+  _didFocusSubscription;
+  _willBlurSubscription;
+  _translatedAudio;
+
+  constructor(props) {
+    super(props);
+
+    this._didFocusSubscription = props.navigation.addListener(
+      "didFocus",
+      () => {
+        Tts.addEventListener("tts-start", this.startSpeaking);
+        Tts.addEventListener("tts-finish", this.stopSpeaking);
+        Tts.addEventListener("tts-cancel", this.stopSpeaking);
+        NetInfo.isConnected.addEventListener(
+          "connectionChange",
+          this.handleConnectivityChange
+        );
+      }
+    );
+  }
 
   componentDidMount() {
-    Tts.addEventListener("tts-start", this.startSpeaking);
-    Tts.addEventListener("tts-finish", this.stopSpeaking);
-    Tts.addEventListener("tts-cancel", this.stopSpeaking);
+    this._willBlurSubscription = this.props.navigation.addListener(
+      "willBlur",
+      () => {
+        Tts.removeEventListener("tts-start", this.startSpeaking);
+        Tts.removeEventListener("tts-finish", this.stopSpeaking);
+        Tts.removeEventListener("tts-cancel", this.stopSpeaking);
+        NetInfo.isConnected.removeEventListener(
+          "connectionChange",
+          this.handleConnectivityChange
+        );
+      }
+    );
     const { selectedItineraryId } = this.props.itineraries;
     const {
       getLanguages,
@@ -43,16 +75,69 @@ class PhraseBook extends Component {
   }
 
   componentWillUnmount() {
-    Tts.removeEventListener("tts-start", this.startSpeaking);
-    Tts.removeEventListener("tts-finish", this.stopSpeaking);
-    Tts.removeEventListener("tts-cancel", this.stopSpeaking);
+    if (this.state.isTtsSpeaking) {
+      Tts.stop();
+    }
+    if (this.state.isSoundPlaying) {
+      this._translatedAudio.stop(() => {
+        this._translatedAudio.release();
+      });
+    }
+    this._didFocusSubscription && this._didFocusSubscription.remove();
+    this._willBlurSubscription && this._willBlurSubscription.remove();
   }
 
   speak = () => {
-    if (this.state.isTtsSpeaking) Tts.stop();
-    else {
-      const { translatedPhrase } = this.props.phrasesStore;
-      Tts.speak(translatedPhrase);
+    if (this.state.isSoundPlaying) {
+      this._translatedAudio.stop(() => {
+        this.setState({
+          isSoundPlaying: false
+        });
+        this._translatedAudio.release();
+        console.log("Sound was playing... Stopped!");
+      });
+    } else if (this.state.isTtsSpeaking) {
+      Tts.stop();
+      console.log("TTS was speaking... Stopped!");
+    } else {
+      const { translatedPhrase, selectedLanguage } = this.props.phrasesStore;
+      const translatedSoundUri = encodeURI(
+        constants.googleTranslateTts(
+          translatedPhrase,
+          selectedLanguage.language
+        )
+      );
+      if (!this.state.isInternetAvailable) {
+        console.log("Internet Unavailable... attempting with TTS");
+        Tts.speak(translatedPhrase);
+      } else {
+        console.log("Internet Available... attempting to play Sound");
+        this._translatedAudio = new Sound(
+          translatedSoundUri,
+          undefined,
+          error => {
+            if (error) {
+              console.log("Unable to Play sound... Falling back to TTS");
+              Tts.speak(translatedPhrase);
+            } else {
+              console.log("Audio Ready... Playing Sound");
+              this.setState(
+                {
+                  isSoundPlaying: true
+                },
+                () => {
+                  this._translatedAudio.play(() => {
+                    this._translatedAudio.release();
+                    this.setState({
+                      isSoundPlaying: false
+                    });
+                  });
+                }
+              );
+            }
+          }
+        );
+      }
     }
   };
 
@@ -77,6 +162,13 @@ class PhraseBook extends Component {
   closeLanguageSelector = () => {
     this.setState({
       isLanguageSelectorVisible: false
+    });
+  };
+
+  handleConnectivityChange = isConnected => {
+    console.log("Connectivity Change... Connection Status - ", isConnected);
+    this.setState({
+      isInternetAvailable: isConnected
     });
   };
 
@@ -114,7 +206,7 @@ class PhraseBook extends Component {
           translatedPhrase={translatedPhrase}
           isTranslating={isTranslating}
           speak={this.speak}
-          isSpeaking={this.state.isTtsSpeaking}
+          isSpeaking={this.state.isTtsSpeaking || this.state.isSoundPlaying}
           pinPhrase={pinPhrase}
           unPinPhrase={unPinPhrase}
           pinnedPhrases={pinnedPhrases}

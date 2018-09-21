@@ -3,6 +3,7 @@ package com.pickyourtrail;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.zmxv.RNSound.RNSoundPackage;
 import com.dylanvann.fastimage.FastImageViewPackage;
 import com.rncustomwebview.CustomWebViewPackage;
 import com.centaurwarchief.smslistener.SmsListenerPackage;
@@ -32,6 +33,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNSoundPackage(),
             new FastImageViewPackage(),
             new CustomWebViewPackage(),
             new SmsListenerPackage(),
