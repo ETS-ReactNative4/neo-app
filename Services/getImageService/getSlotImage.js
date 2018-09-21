@@ -14,10 +14,12 @@ const getSlotImage = (identifier, type) => {
       const flight = storeService.itineraries.flights.find(
         flight => flight.key === identifier
       );
-      return {
-        image: constants.getAirlineIcon(flight.airlineCode),
-        icon: constants.aeroplaneIcon
-      };
+      if (flight) {
+        return {
+          image: constants.getAirlineIcon(flight.airlineCode),
+          icon: constants.aeroplaneIcon
+        };
+      }
 
     case "TRAIN":
       if (!identifier) {
