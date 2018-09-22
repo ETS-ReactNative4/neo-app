@@ -5,6 +5,7 @@
 	};
 	objectVersion = 46;
 	objects = {
+
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -683,14 +684,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		06D1A558DAAC4B588F48A583 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Frameworks;
-			path = Application;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1294,12 +1287,12 @@
 			buildActionMask = 2147483647;
 			files = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
-			name = "Upload Debug Symbols to Sentry";
 			inputPaths = (
 			);
+			name = "Upload Debug Symbols to Sentry";
 			outputPaths = (
 			);
+			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "export SENTRY_PROPERTIES=sentry.properties\n../node_modules/@sentry/cli/bin/sentry-cli upload-dsym";
 		};
@@ -1448,7 +1441,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.pyt;
 				PRODUCT_NAME = Pickyourtrail;
 				PROVISIONING_PROFILE = "130b669c-0727-41d3-aa85-51c3ef526499";
-				PROVISIONING_PROFILE_SPECIFIER = Voyager;
+				PROVISIONING_PROFILE_SPECIFIER = "Voyager Development";
 				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -1479,7 +1472,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.pyt;
 				PRODUCT_NAME = Pickyourtrail;
 				PROVISIONING_PROFILE = "98b26561-615d-4850-85b8-8a6fd4731b33";
-				PROVISIONING_PROFILE_SPECIFIER = "Voyager prod";
+				PROVISIONING_PROFILE_SPECIFIER = "Voyager Distribution";
 				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
