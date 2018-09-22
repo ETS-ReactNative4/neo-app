@@ -18,6 +18,7 @@ import SimpleButton from "../../CommonComponents/SimpleButton/SimpleButton";
 import { inject, observer } from "mobx-react/custom";
 import _ from "lodash";
 import DialogBox from "../../CommonComponents/DialogBox/DialogBox";
+import FCM from "react-native-fcm";
 
 @inject("userStore")
 @inject("infoStore")
@@ -26,6 +27,17 @@ class Drawer extends Component {
   clickDrawerItem = (index, screen) => {
     this.props.navigation.navigate(screen);
   };
+
+  componentDidMount() {
+    FCM.requestPermissions({ badge: true, sound: true, alert: true });
+    FCM.getAPNSToken()
+      .then(token => {
+        console.log("APNS TOKEN (getFCMToken)", token);
+      })
+      .catch(err => {
+        console.error(err);
+      });
+  }
 
   render() {
     const menuItems = [
