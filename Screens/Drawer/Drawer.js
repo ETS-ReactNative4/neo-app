@@ -29,14 +29,24 @@ class Drawer extends Component {
   };
 
   componentDidMount() {
-    FCM.requestPermissions({ badge: true, sound: true, alert: true });
-    FCM.getAPNSToken()
-      .then(token => {
-        console.log("APNS TOKEN (getFCMToken)", token);
+    FCM.requestPermissions({ badge: true, sound: true, alert: true })
+      .then(response => {
+        console.log(response);
       })
       .catch(err => {
         console.error(err);
       });
+    FCM.getFCMToken().then(token => {
+      console.log("TOKEN (getFCMToken)", token);
+      this.setState({ token: token || "" });
+    });
+    // FCM.getAPNSToken()
+    //   .then(token => {
+    //     console.log("APNS TOKEN (getFCMToken)", token);
+    //   })
+    //   .catch(err => {
+    //     console.error(err);
+    //   });
   }
 
   render() {
