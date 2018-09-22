@@ -15,6 +15,7 @@ import PropTypes from "prop-types";
 import Icon from "../../../CommonComponents/Icon/Icon";
 import LinearGradient from "react-native-linear-gradient";
 import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraProps";
+import FastImage from "react-native-fast-image";
 
 const VoucherHeader = ({
   infoText,
@@ -26,7 +27,11 @@ const VoucherHeader = ({
 }) => {
   return (
     <View style={styles.headerContainer}>
-      <ImageBackground resizeMode={"cover"} source={image} style={styles.image}>
+      <FastImage
+        resizeMode={FastImage.resizeMode.cover}
+        source={image}
+        style={styles.image}
+      >
         <LinearGradient
           locations={[0.25, 0.5, 0.6, 1]}
           colors={[
@@ -74,7 +79,7 @@ const VoucherHeader = ({
             </TouchableOpacity>
           </View>
         </LinearGradient>
-      </ImageBackground>
+      </FastImage>
       <Image
         style={styles.circleSpace}
         source={constants.semiCircleShape}

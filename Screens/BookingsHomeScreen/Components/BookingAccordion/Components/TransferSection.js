@@ -64,7 +64,7 @@ const Transfer = ({ transfer, isLast, navigation }) => {
     >
       <View style={styles.iconWrapper}>
         <CircleThumbnail
-          isContain={true}
+          isContain={transfer.vehicle !== "Train" ? true : false}
           containerStyle={styles.contentIcon}
           image={{ uri: getTransferImage(transfer.vehicle, transfer.type) }}
           defaultImageUri={constants.transferPlaceHolder}
