@@ -16,6 +16,7 @@ const apiUrls = {
   getLanguages: "mobile/getLanguageOfCity",
   pinPhrase: "mobile/pinnedPhrase",
   getPinnedPhrases: "mobile/getpinnedPhraseForUser",
+  registerDeviceToken: "mobile/register/devicetoken",
 
   customCheckListName: "Your list",
   hotelVoucher: "hotel",

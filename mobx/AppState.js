@@ -1,20 +1,26 @@
 import { observable, computed, action, toJS } from "mobx";
 import { persist } from "mobx-persist";
 import { createTransformer } from "mobx-utils";
+import uuidv4 from "uuid/v4";
 import apiCall from "../Services/networkRequests/apiCall";
 import constants from "../constants/constants";
+import { logError } from "../Services/errorLogger/errorLogger";
 
 class AppState {
-  /**
-   * Trip Toggle Button
-   */
   @action
   reset = () => {
     this._tripMode = {
       status: false
     };
+    this._pushTokens = {
+      uid: uuidv4(),
+      deviceToken: ""
+    };
   };
 
+  /**
+   * Trip Toggle Button
+   */
   @persist("object")
   @observable
   _tripMode = {
@@ -122,6 +128,53 @@ class AppState {
 
     return result.toFixed(2);
   });
+
+  /**
+   * Push notification tokens
+   */
+  @persist("object")
+  @observable
+  _pushTokens = {
+    uid: uuidv4(),
+    deviceToken: ""
+  };
+
+  @computed
+  get pushTokens() {
+    return toJS(this._pushTokens);
+  }
+
+  @action
+  setPushTokens = deviceToken => {
+    if (deviceToken && this._pushTokens.deviceToken !== deviceToken) {
+      this._updatePushToken(deviceToken);
+    }
+  };
+
+  _updatePushToken = deviceToken => {
+    const requestBody = {
+      uid: this._pushTokens.uid,
+      deviceToken
+    };
+    apiCall(constants.registerDeviceToken, requestBody)
+      .then(response => {
+        if (response.status === "SUCCESS") {
+          this._pushTokens.deviceToken = deviceToken;
+        } else {
+          this._pushTokens = {
+            uid: uuidv4(),
+            deviceToken: ""
+          };
+        }
+      })
+      .catch(err => {
+        this._pushTokens = {
+          uid: uuidv4(),
+          deviceToken: ""
+        };
+        logError(err, { type: "Device token Failed to register" });
+      });
+  };
 }
 
 export default AppState;

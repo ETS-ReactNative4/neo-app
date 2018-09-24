@@ -14,12 +14,17 @@ import { inject, observer } from "mobx-react/custom";
 import HomeHeader from "../../CommonComponents/HomeHeader/HomeHeader";
 import ChatView from "../ChatScreen/Components/ChatView";
 import constants from "../../constants/constants";
+import { getDeviceToken } from "../../Services/fcmService/fcm";
 
 @inject("itineraries")
 @inject("voucherStore")
 @observer
 class BookingsHome extends Component {
   static navigationOptions = HomeHeader;
+
+  componentDidMount() {
+    getDeviceToken();
+  }
 
   openSearch = () => {};
 

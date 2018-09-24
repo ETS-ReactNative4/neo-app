@@ -53,7 +53,8 @@
     "react-native-vector-icons": "5.0.0",
     "react-native-webview-android-file-upload":
       "git://github.com/DaniAkash/react-native-webview-android-file-upload.git#f04c1285ae5d0eb1f62c4cf7cfb454dba55cb8ce",
-    "react-navigation": "2.2.0"
+    "react-navigation": "2.2.0",
+    "uuid": "^3.3.2"
   },
   "devDependencies": {
     "@babel/plugin-proposal-decorators": "7.0.0-beta.47",

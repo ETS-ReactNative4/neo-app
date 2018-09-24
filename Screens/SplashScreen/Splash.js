@@ -3,6 +3,7 @@ import { ImageBackground, Platform } from "react-native";
 import { StackActions, NavigationActions } from "react-navigation";
 import constants from "../../constants/constants";
 import * as Keychain from "react-native-keychain";
+import { registerFcmRefreshListener } from "../../Services/fcmService/fcm";
 
 const resetToHome = StackActions.reset({
   index: 0,
@@ -20,6 +21,7 @@ class Splash extends Component {
   };
 
   componentDidMount() {
+    registerFcmRefreshListener();
     setTimeout(async () => {
       const credentials = await Keychain.getGenericPassword();
       if (credentials) {

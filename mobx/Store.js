@@ -74,6 +74,11 @@ const createStore = () => {
     .catch(err => {
       logError(err);
     });
+  hydrate("_pushTokens", appStore.appState)
+    .then(() => {})
+    .catch(err => {
+      logError(err);
+    });
   hydrate("_allPackingChecklists", appStore.packingChecklistStore)
     .then(() => {})
     .catch(err => {
