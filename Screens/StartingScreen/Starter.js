@@ -52,33 +52,35 @@ class Starter extends Component {
               />
             </View>
             <View style={styles.buttonRow}>
-              <SimpleButton
-                text={`Find a Booking`}
-                textColor={`white`}
-                color={constants.firstColor}
-                underlayColor={constants.firstColorAlpha(0.7)}
-                action={this.clickedBooking}
-                containerStyle={{ marginRight: 8 }}
-              />
-              <SimpleButton
-                text={`Plan a vacation`}
-                textColor={constants.firstColor}
-                color={"white"}
-                underlayColor={constants.firstColorAlpha(0.7)}
-                action={this.clickedExplore}
-              />
-            </View>
-            <View style={styles.textRow}>
-              <View style={[styles.textWrapper, { marginRight: 8 }]}>
-                <Text style={styles.infoText}>
-                  View the trips you have booked or have been invited to join.
-                </Text>
+              <View>
+                <SimpleButton
+                  text={`Find a Booking`}
+                  textColor={`white`}
+                  color={constants.firstColor}
+                  underlayColor={constants.firstColorAlpha(0.7)}
+                  action={this.clickedBooking}
+                  containerStyle={{ marginRight: 8 }}
+                />
+                <View style={[styles.textWrapper, { marginRight: 8 }]}>
+                  <Text style={styles.infoText}>
+                    View the trips you have booked or have been invited to join.
+                  </Text>
+                </View>
               </View>
-              <View style={styles.textWrapper}>
-                <Text style={styles.infoText}>
-                  Open your saved itineraries or plan & book a fabulous
-                  vacation.
-                </Text>
+              <View>
+                <SimpleButton
+                  text={`Plan a vacation`}
+                  textColor={constants.firstColor}
+                  color={"white"}
+                  underlayColor={constants.firstColorAlpha(0.7)}
+                  action={this.clickedExplore}
+                />
+                <View style={styles.textWrapper}>
+                  <Text style={styles.infoText}>
+                    Open your saved itineraries or plan & book a fabulous
+                    vacation.
+                  </Text>
+                </View>
               </View>
             </View>
           </SafeAreaView>
@@ -113,13 +115,6 @@ const styles = StyleSheet.create({
     alignItems: "flex-end",
     justifyContent: "center",
     flexWrap: "wrap"
-  },
-  textRow: {
-    flexDirection: "row",
-    alignItems: "flex-end",
-    justifyContent: "center",
-    flexWrap: "wrap",
-    marginBottom: isIphoneX() ? 0 : 24
   },
   textWrapper: {
     marginTop: 8,
