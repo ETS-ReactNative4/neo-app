@@ -6,11 +6,13 @@ import ToolStack from "./ToolStack";
 import constants from "../constants/constants";
 import TabBarIcon from "../CommonComponents/TabBarIcon/TabBarIcon";
 import React from "react";
+import Journal from "../Screens/JournalScreen/Journal";
+import TripFeed from "../Screens/TripFeedScreen/TripFeed";
 
 const BookedTabs = createBottomTabNavigator(
   {
     TripFeed: {
-      screen: Home
+      screen: TripFeed
     },
     Bookings: {
       screen: BookedStack
@@ -22,7 +24,7 @@ const BookedTabs = createBottomTabNavigator(
       screen: ToolStack
     },
     Journal: {
-      screen: Home
+      screen: Journal
     }
   },
   {

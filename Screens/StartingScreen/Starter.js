@@ -12,6 +12,7 @@ import SimpleButton from "../../CommonComponents/SimpleButton/SimpleButton";
 import { isIphoneX } from "react-native-iphone-x-helper";
 import LinearGradient from "react-native-linear-gradient";
 import { inject, observer } from "mobx-react/custom";
+import ControlledWebView from "../../CommonComponents/ControlledWebView/ControlledWebView";
 
 @inject("appState")
 @observer
@@ -47,6 +48,14 @@ class Starter extends Component {
           style={styles.gradientContainer}
         >
           <SafeAreaView>
+            <ControlledWebView
+              source={{ uri: constants.productUrl }}
+              onNavigationStateChange={() => null}
+              style={{ height: 0, width: 0 }}
+              webviewRef={() => null}
+              injectedJavascript={""}
+              hideLoadingIndicator={true}
+            />
             <View style={styles.logoRow}>
               <Image
                 source={constants.pytLogoNew}

@@ -79,6 +79,16 @@ class BookingsHome extends Component {
             style={{ height: 0, width: 0 }}
             webviewRef={() => null}
             injectedJavascript={""}
+            hideLoadingIndicator={true}
+          />
+
+          <ControlledWebView
+            source={{ uri: constants.productUrl }}
+            onNavigationStateChange={() => null}
+            style={{ height: 0, width: 0 }}
+            webviewRef={() => null}
+            injectedJavascript={""}
+            hideLoadingIndicator={true}
           />
         </ScrollView>
       </View>

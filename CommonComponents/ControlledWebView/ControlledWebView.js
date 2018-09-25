@@ -8,12 +8,13 @@ const ControlledWebView = ({
   onNavigationStateChange,
   style,
   webviewRef,
-  injectedJavascript
+  injectedJavascript,
+  hideLoadingIndicator
 }) => {
   return (
     <CustomWebView
       source={source}
-      startInLoadingState={true}
+      startInLoadingState={hideLoadingIndicator ? false : true}
       onNavigationStateChange={onNavigationStateChange}
       style={style}
       webviewRef={webviewRef}
@@ -27,7 +28,8 @@ ControlledWebView.propTypes = forbidExtraProps({
   onNavigationStateChange: PropTypes.func.isRequired,
   style: PropTypes.object.isRequired,
   webviewRef: PropTypes.func.isRequired,
-  injectedJavascript: PropTypes.string.isRequired
+  injectedJavascript: PropTypes.string.isRequired,
+  hideLoadingIndicator: PropTypes.bool
 });
 
 export default ControlledWebView;
