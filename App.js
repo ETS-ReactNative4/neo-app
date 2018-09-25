@@ -38,6 +38,7 @@ import { setNavigationService } from "./Services/navigationService/navigationSer
 import FlightStatus from "./Screens/FlightStatusScreen/FlightStatus";
 import { updateStoreService } from "./Services/storeService/storeService";
 import PassVoucher from "./Screens/VoucherScreens/PassVoucherScreen/PassVoucher";
+import Places from "./Screens/PlacesScreen/Places";
 
 UIManager.setLayoutAnimationEnabledExperimental &&
   UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -82,6 +83,9 @@ const ToolStack = createStackNavigator(
     },
     Weather: {
       screen: Weather
+    },
+    Places: {
+      screen: Places
     }
   },
   {
