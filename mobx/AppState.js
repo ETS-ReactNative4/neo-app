@@ -10,7 +10,7 @@ class AppState {
   @action
   reset = () => {
     this._tripMode = {
-      status: false
+      status: true
     };
     this._pushTokens = {
       uid: uuidv4(),
@@ -21,10 +21,13 @@ class AppState {
   /**
    * Trip Toggle Button
    */
+  /**
+   * TODO: Status true by default for development
+   */
   @persist("object")
   @observable
   _tripMode = {
-    status: false
+    status: true
   };
 
   @action

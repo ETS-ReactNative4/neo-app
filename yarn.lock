@@ -4990,6 +4990,14 @@ react-native-fcm@^16.2.3:
   version "16.2.3"
   resolved "https://registry.yarnpkg.com/react-native-fcm/-/react-native-fcm-16.2.3.tgz#f55822b8987007221c691f8603b868e67a99ff10"
 
+react-native-flip-view-next@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/react-native-flip-view-next/-/react-native-flip-view-next-1.0.0.tgz#da0f1c1c9242e3637944e4d7e9cd09ec9d947fd3"
+
+react-native-flip-view@^1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/react-native-flip-view/-/react-native-flip-view-1.0.5.tgz#6f18ac4da021d0672c8531676c8cb08ef4f36915"
+
 react-native-htmlview@^0.12.1:
   version "0.12.1"
   resolved "https://registry.yarnpkg.com/react-native-htmlview/-/react-native-htmlview-0.12.1.tgz#4b987f1f34fae89f7bbd3c478f8f20d601019639"

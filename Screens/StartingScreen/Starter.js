@@ -21,8 +21,8 @@ class Starter extends Component {
     this.props.navigation.navigate("MobileNumber");
   };
 
-  clickedExplore = () => {
-    this.props.navigation.navigate("Explore");
+  clickedPlan = () => {
+    this.props.navigation.navigate("HomeFlip");
   };
 
   render() {
@@ -73,7 +73,7 @@ class Starter extends Component {
                   textColor={constants.firstColor}
                   color={"white"}
                   underlayColor={constants.firstColorAlpha(0.7)}
-                  action={this.clickedExplore}
+                  action={this.clickedPlan}
                 />
                 <View style={styles.textWrapper}>
                   <Text style={styles.infoText}>
