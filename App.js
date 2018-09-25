@@ -39,8 +39,7 @@ import FlightStatus from "./Screens/FlightStatusScreen/FlightStatus";
 import { updateStoreService } from "./Services/storeService/storeService";
 import PassVoucher from "./Screens/VoucherScreens/PassVoucherScreen/PassVoucher";
 import Places from "./Screens/PlacesScreen/Places";
-import HomeFlip from "./Screens/HomeFlipScreen/HomeFlip";
-import HomeTabs from "./Navigators/HomeTabs";
+import BookingTabs from "./Navigators/BookingTabs";
 import HomeStack from "./Navigators/HomeStack";
 
 UIManager.setLayoutAnimationEnabledExperimental &&

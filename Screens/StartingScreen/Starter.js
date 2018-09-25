@@ -22,7 +22,7 @@ class Starter extends Component {
   };
 
   clickedPlan = () => {
-    this.props.navigation.navigate("HomeFlip");
+    this.props.navigation.navigate("Home");
   };
 
   render() {

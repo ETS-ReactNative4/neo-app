@@ -4,9 +4,8 @@ import ChatScreen from "../Screens/ChatScreen/ChatScreen";
 import HomeTabBar from "../CommonComponents/HomeTabBar/HomeTabBar";
 import BookingStack from "./BookingStack";
 import ToolStack from "./ToolStack";
-import HomeFlip from "../Screens/HomeFlipScreen/HomeFlip";
 
-const HomeTabs = createBottomTabNavigator(
+const BookingTabs = createBottomTabNavigator(
   {
     TripFeed: {
       screen: Home
@@ -27,4 +26,4 @@ const HomeTabs = createBottomTabNavigator(
   HomeTabBar
 );
 
-export default HomeTabs;
+export default BookingTabs;
