@@ -12,7 +12,7 @@ import BookingCalendar from "./Components/BookingCalendar/BookingCalendar";
 import BookingAccordion from "./Components/BookingAccordion/BookingAccordion";
 import { inject, observer } from "mobx-react/custom";
 import HomeHeader from "../../CommonComponents/HomeHeader/HomeHeader";
-import ChatView from "../ChatScreen/Components/ChatView";
+import ControlledWebView from "../../CommonComponents/ControlledWebView/ControlledWebView";
 import constants from "../../constants/constants";
 import { getDeviceToken } from "../../Services/fcmService/fcm";
 
@@ -73,7 +73,7 @@ class BookingsHome extends Component {
 
           <BookingAccordion navigation={navigation} />
 
-          <ChatView
+          <ControlledWebView
             source={{ uri: constants.crispServerUrl }}
             onNavigationStateChange={() => null}
             style={{ height: 0, width: 0 }}

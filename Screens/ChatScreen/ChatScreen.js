@@ -5,8 +5,8 @@ import CustomWebView from "react-native-webview-android-file-upload";
 import constants from "../../constants/constants";
 import { inject, observer } from "mobx-react/custom";
 import crispSDK from "./Components/crispSDK";
-import BackButtonIos from "./Components/BackButtonIos";
-import ChatView from "./Components/ChatView";
+import BackButtonIos from "../../CommonComponents/BackButtonIos/BackButtonIos";
+import ControlledWebView from "../../CommonComponents/ControlledWebView/ControlledWebView";
 
 @inject("userStore")
 @inject("itineraries")
@@ -99,7 +99,7 @@ class ChatScreen extends Component {
             : constants.chatMainColor
         }}
       >
-        <ChatView
+        <ControlledWebView
           source={{ uri: constants.crispServerUrl }}
           onNavigationStateChange={this.onNavigationStateChange}
           style={{

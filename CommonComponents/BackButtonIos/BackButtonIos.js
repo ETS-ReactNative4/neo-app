@@ -8,8 +8,8 @@ import {
 } from "react-native";
 import PropTypes from "prop-types";
 import { responsiveWidth } from "react-native-responsive-dimensions";
-import constants from "../../../constants/constants";
-import Icon from "../../../CommonComponents/Icon/Icon";
+import constants from "../../constants/constants";
+import Icon from "../Icon/Icon";
 
 const BackButtonIos = ({ backAction, isVisible, containerStyle }) => {
   if (!containerStyle) containerStyle = {};

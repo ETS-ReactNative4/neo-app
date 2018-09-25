@@ -1,9 +1,9 @@
 import React from "react";
 import CustomWebView from "react-native-webview-android-file-upload";
 import PropTypes from "prop-types";
-import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraProps";
+import forbidExtraProps from "../../Services/PropTypeValidation/forbidExtraProps";
 
-const ChatView = ({
+const ControlledWebView = ({
   source,
   onNavigationStateChange,
   style,
@@ -22,7 +22,7 @@ const ChatView = ({
   );
 };
 
-ChatView.propTypes = forbidExtraProps({
+ControlledWebView.propTypes = forbidExtraProps({
   source: PropTypes.object.isRequired,
   onNavigationStateChange: PropTypes.func.isRequired,
   style: PropTypes.object.isRequired,
@@ -30,4 +30,4 @@ ChatView.propTypes = forbidExtraProps({
   injectedJavascript: PropTypes.string.isRequired
 });
 
-export default ChatView;
+export default ControlledWebView;

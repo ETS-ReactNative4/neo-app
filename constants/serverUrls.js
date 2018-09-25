@@ -10,6 +10,7 @@ const serverUrls = {
   airlineCdn: "https://d3lf10b5gahyby.cloudfront.net/airline_logos/",
   crispServerUrl:
     "https://go.crisp.chat/chat/embed/?website_id=b611e2e5-45aa-4b4e-bb40-bf30d8e935be",
+  productUrl: "https://pickyourtrail.com",
 
   darkSkyKey: "1f95e4bd24b4377d484d0cfceae84a74",
   darkSkyDomain: "https://api.darksky.net/"
