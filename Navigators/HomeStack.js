@@ -1,7 +1,7 @@
 import { createStackNavigator } from "react-navigation";
 import Splash from "../Screens/SplashScreen/Splash";
 import Starter from "../Screens/StartingScreen/Starter";
-import BookingTabs from "./BookingTabs";
+import BookedTabs from "./BookedTabs";
 import YourBookings from "../Screens/YourBookingsScreen/YourBookings";
 import MobileNumber from "../Screens/MobileNumberScreen/MobileNumber";
 import Otp from "../Screens/OtpScreen/Otp";
@@ -14,6 +14,7 @@ import FlightVoucher from "../Screens/VoucherScreens/FlightVoucherScreen/FlightV
 import PassVoucher from "../Screens/VoucherScreens/PassVoucherScreen/PassVoucher";
 import FlightStatus from "../Screens/FlightStatusScreen/FlightStatus";
 import transitionConfig from "../Services/navigationAnimations/transitionConfig";
+import HomeTabs from "./HomeTabs";
 
 const HomeStack = createStackNavigator(
   {
@@ -24,7 +25,7 @@ const HomeStack = createStackNavigator(
       screen: Starter
     },
     AppHome: {
-      screen: BookingTabs,
+      screen: HomeTabs,
       navigationOptions: {
         header: null
       }

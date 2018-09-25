@@ -1,14 +1,21 @@
 import { createBottomTabNavigator } from "react-navigation";
 import Home from "../Screens/HomeScreen/Home";
-import BookingTabs from "./BookingTabs";
+import BookedTabs from "./BookedTabs";
+import NewItineraryStack from "./NewItineraryStack";
 
-const HomeTabs = createBottomTabNavigator({
-  NewItineraryStack: {
-    screen: Home
+const HomeTabs = createBottomTabNavigator(
+  {
+    NewItineraryStack: {
+      screen: NewItineraryStack
+    },
+    BookedItineraryTabs: {
+      screen: BookedTabs
+    }
   },
-  BookedItineraryTabs: {
-    screen: BookingTabs
+  {
+    initialRouteName: "BookedItineraryTabs",
+    swipeEnabled: false
   }
-});
+);
 
 export default HomeTabs;

@@ -2,9 +2,11 @@ import { observable, computed, action, toJS } from "mobx";
 import { persist } from "mobx-persist";
 import { createTransformer } from "mobx-utils";
 import uuidv4 from "uuid/v4";
+import { NavigationActions } from "react-navigation";
 import apiCall from "../Services/networkRequests/apiCall";
 import constants from "../constants/constants";
 import { logError } from "../Services/errorLogger/errorLogger";
+import navigationService from "../Services/navigationService/navigationService";
 
 class AppState {
   @action
@@ -32,6 +34,19 @@ class AppState {
 
   @action
   setTripMode = status => {
+    if (status) {
+      navigationService.navigation.dispatch(
+        NavigationActions.navigate({
+          routeName: "BookedItineraryTabs"
+        })
+      );
+    } else {
+      navigationService.navigation.dispatch(
+        NavigationActions.navigate({
+          routeName: "NewItineraryStack"
+        })
+      );
+    }
     this._tripMode.status = status;
   };
 

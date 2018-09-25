@@ -3,7 +3,7 @@ import BookingsHome from "../Screens/BookingsHomeScreen/BookingsHome";
 import BookedItinerary from "../Screens/BookedItineraryScreen/BookedItinerary";
 import transitionConfig from "../Services/navigationAnimations/transitionConfig";
 
-const BookingStack = createStackNavigator(
+const BookedStack = createStackNavigator(
   {
     BookingsHome: {
       screen: BookingsHome
@@ -21,4 +21,4 @@ const BookingStack = createStackNavigator(
   }
 );
 
-export default BookingStack;
+export default BookedStack;

@@ -1,19 +1,19 @@
 import { createBottomTabNavigator } from "react-navigation";
 import Home from "../Screens/HomeScreen/Home";
 import ChatScreen from "../Screens/ChatScreen/ChatScreen";
-import BookingStack from "./BookingStack";
+import BookedStack from "./BookedStack";
 import ToolStack from "./ToolStack";
 import constants from "../constants/constants";
 import TabBarIcon from "../CommonComponents/TabBarIcon/TabBarIcon";
 import React from "react";
 
-const BookingTabs = createBottomTabNavigator(
+const BookedTabs = createBottomTabNavigator(
   {
     TripFeed: {
       screen: Home
     },
     Bookings: {
-      screen: BookingStack
+      screen: BookedStack
     },
     Support: {
       screen: ChatScreen
@@ -90,4 +90,12 @@ const BookingTabs = createBottomTabNavigator(
   }
 );
 
-export default BookingTabs;
+BookedTabs.navigationOptions = () => {
+  const tabBarVisible = false;
+
+  return {
+    tabBarVisible
+  };
+};
+
+export default BookedTabs;
