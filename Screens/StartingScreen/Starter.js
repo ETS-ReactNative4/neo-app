@@ -11,7 +11,10 @@ import constants from "../../constants/constants";
 import SimpleButton from "../../CommonComponents/SimpleButton/SimpleButton";
 import { isIphoneX } from "react-native-iphone-x-helper";
 import LinearGradient from "react-native-linear-gradient";
+import { inject, observer } from "mobx-react/custom";
 
+@inject("appState")
+@observer
 class Starter extends Component {
   static navigationOptions = {
     header: null
@@ -22,7 +25,7 @@ class Starter extends Component {
   };
 
   clickedPlan = () => {
-    this.props.navigation.navigate("Home");
+    this.props.appState.setTripMode(false);
   };
 
   render() {

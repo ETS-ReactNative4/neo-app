@@ -39,12 +39,13 @@ class Upcoming extends Component {
     selectItinerary(itineraryId);
     if (Platform.OS === "android") {
       if (!previousScene) {
+        this.props.appState.setTripMode(true, "reset");
         this.props.navigation.dispatch(resetAction);
       } else {
-        this.props.navigation.navigate("AppHome");
+        this.props.appState.setTripMode(true);
       }
     } else {
-      this.props.navigation.navigate("AppHome");
+      this.props.appState.setTripMode(true);
     }
   };
 

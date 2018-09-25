@@ -33,13 +33,15 @@ class AppState {
   };
 
   @action
-  setTripMode = status => {
+  setTripMode = (status, mode = "push") => {
     if (status) {
-      navigationService.navigation.dispatch(
-        NavigationActions.navigate({
-          routeName: "BookedItineraryTabs"
-        })
-      );
+      if (mode !== "reset") {
+        navigationService.navigation.dispatch(
+          NavigationActions.navigate({
+            routeName: "BookedItineraryTabs"
+          })
+        );
+      }
     } else {
       navigationService.navigation.dispatch(
         NavigationActions.navigate({
