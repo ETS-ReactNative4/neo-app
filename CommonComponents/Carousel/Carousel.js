@@ -4,9 +4,9 @@ import {
   StyleSheet,
   ScrollView,
   TouchableHighlight,
-  ImageBackground,
   Text
 } from "react-native";
+import FastImage from "react-native-fast-image";
 import constants from "../../constants/constants";
 import PropTypes from "prop-types";
 import LinearGradient from "react-native-linear-gradient";
@@ -35,7 +35,11 @@ const Box = ({ data, firstMargin, index }) => {
         underlayColor={"transparent"}
         style={styles.touchable}
       >
-        <ImageBackground style={styles.imageBackground} source={data.image}>
+        <FastImage
+          style={styles.imageBackground}
+          resizeMode={FastImage.resizeMode.cover}
+          source={data.image}
+        >
           <LinearGradient
             locations={[0.25, 0.5, 0.7, 1]}
             colors={[
@@ -48,7 +52,7 @@ const Box = ({ data, firstMargin, index }) => {
           >
             <Text style={styles.boxTitle}>{data.title}</Text>
           </LinearGradient>
-        </ImageBackground>
+        </FastImage>
       </TouchableHighlight>
     </View>
   );

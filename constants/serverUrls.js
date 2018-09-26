@@ -3,7 +3,7 @@ const serverUrls = {
   devServer: "https://dev.pickyourtrail.com/api/",
   stagingSever: "https://staging.pickyourtrail.com/api/",
   prodServer: "https://pickyourtrail.com/api/",
-  cityImageBaseUrl: "https://d3lf10b5gahyby.cloudfront.net/city/960xh/",
+  cityImageBaseUrl: "https://d2pkrotgd5anq5.cloudfront.net/city/1820xh/",
   miscImageBaseUrl: "https://d3lf10b5gahyby.cloudfront.net/misc/",
   googleTranslateTts: (phrase, language) =>
     `https://translate.google.com.vn/translate_tts?ie=UTF-8&q=${phrase}&tl=${language}&client=tw-ob`,

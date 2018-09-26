@@ -7,33 +7,22 @@ import PrimaryTool from "./Components/PrimaryTool";
 import SecondaryTool from "./Components/SecondaryTool";
 import SearchPlaceholder from "../../CommonComponents/SearchPlaceholder/SearchPlaceholder";
 import HomeHeader from "../../CommonComponents/HomeHeader/HomeHeader";
+import { inject, observer } from "mobx-react/custom";
 
+@inject("itineraries")
+@observer
 class Tools extends Component {
   static navigationOptions = HomeHeader;
 
   render() {
-    const cityList = [
-      {
-        title: "Bali",
-        image: constants.starterBackground,
+    const { cities } = this.props.itineraries;
+    const cityList = cities.map(city => {
+      return {
+        title: city.city,
+        image: { uri: constants.cityImageBaseUrl + city.cityObject.image },
         action: () => {}
-      },
-      {
-        title: "Bali",
-        image: constants.starterBackground,
-        action: () => {}
-      },
-      {
-        title: "Bali",
-        image: constants.starterBackground,
-        action: () => {}
-      },
-      {
-        title: "Bali",
-        image: constants.starterBackground,
-        action: () => {}
-      }
-    ];
+      };
+    });
 
     const essentialTools = [
       {
