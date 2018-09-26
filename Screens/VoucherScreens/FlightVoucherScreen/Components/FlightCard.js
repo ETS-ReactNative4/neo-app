@@ -69,7 +69,6 @@ const FlightCard = ({
               containerStyle={{ height: 24, width: 50, marginTop: 0 }}
               textStyle={{
                 fontSize: 10,
-                marginTop: 0,
                 marginLeft: -0.5,
                 marginTop: -2
               }}

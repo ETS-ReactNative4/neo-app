@@ -20,7 +20,8 @@ class Tools extends Component {
       return {
         title: city.city,
         image: { uri: constants.cityImageBaseUrl + city.cityObject.image },
-        action: () => {}
+        action: () => () =>
+          null || this.props.navigation.navigate("Places", { city })
       };
     });
 
