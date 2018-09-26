@@ -37,7 +37,8 @@
     "react-native-fcm": "^16.2.3",
     "react-native-flip-view-next": "^1.0.0",
     "react-native-htmlview": "^0.12.1",
-    "react-native-iphone-x-helper": "^1.0.2",
+    "react-native-iphone-x-helper":
+      "git://github.com/dsherida/react-native-iphone-x-helper.git#f110e0e093a37892c81a0058afa1e2186dbb3d62",
     "react-native-keychain": "3.0.0",
     "react-native-linear-gradient": "^2.4.0",
     "react-native-modal": "6.5.0",
@@ -54,7 +55,7 @@
     "react-native-vector-icons": "5.0.0",
     "react-native-webview-android-file-upload":
       "git://github.com/DaniAkash/react-native-webview-android-file-upload.git#f04c1285ae5d0eb1f62c4cf7cfb454dba55cb8ce",
-    "react-navigation": "2.2.0",
+    "react-navigation": "2.17.0",
     "uuid": "^3.3.2"
   },
   "devDependencies": {
