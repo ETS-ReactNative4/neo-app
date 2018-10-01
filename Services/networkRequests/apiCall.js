@@ -53,11 +53,11 @@ const apiCall = async (
       console.log(response.status);
       console.log(response.statusText);
 
-      // if (response.status === 401) {
-      //   DebouncedAlert("Oops!", "Session Expired... Please Login again!");
-      //   logOut();
-      //   return { status: "failed" };
-      // }
+      if (response.status === 401) {
+        DebouncedAlert("Oops!", "Session Expired... Please Login again!");
+        logOut();
+        return { status: "failed" };
+      }
 
       if (response.status === 200) {
         return response.json();

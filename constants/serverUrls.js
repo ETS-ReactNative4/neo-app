@@ -1,7 +1,7 @@
 const serverUrls = {
   localServer: "http://192.168.0.5:8080/api/",
   devServer: "https://dev.pickyourtrail.com/api/",
-  stagingSever: "https://staging.pickyourtrail.com/api/",
+  stagingSever: "http://mobile.pickyourtrail.com/",
   prodServer: "https://pickyourtrail.com/api/",
   cityImageBaseUrl: "https://d2pkrotgd5anq5.cloudfront.net/city/1820xh/",
   miscImageBaseUrl: "https://d3lf10b5gahyby.cloudfront.net/misc/",
