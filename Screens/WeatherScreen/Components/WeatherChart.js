@@ -33,9 +33,11 @@ class WeatherChart extends Component {
       data.push(hourly[1].temperature);
       time.push("AAA");
 
-      hourly.slice(0, 7).map((hour, index) => {
-        data.push(hour.temperature);
-        time.push(hour.time);
+      hourly.map((hour, index) => {
+        if (index % 3 === 0) {
+          data.push(hour.temperature);
+          time.push(hour.time);
+        }
       });
 
       data.push(hourly[1].temperature);
