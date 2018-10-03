@@ -5,7 +5,11 @@ import ScrollableTabView from "react-native-scrollable-tab-view";
 import ScrollableTabBar from "../../CommonComponents/ScrollableTabBar/ScrollableTabBar";
 import EmergencyContactSection from "./Components/EmergencyContactSection";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
+import { inject, observer } from "mobx-react/custom";
 
+@inject("itineraries")
+@inject("emergencyContactsStore")
+@observer
 class EmergencyContacts extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
@@ -16,6 +20,10 @@ class EmergencyContacts extends Component {
   };
 
   render() {
+    const { cities } = this.props.itineraries;
+    const { getEmergencyContactsByCity } = this.props.emergencyContactsStore;
+    const cityDetails = getEmergencyContactsByCity(cities);
+
     return (
       <View style={styles.emergencyContactsContainer}>
         <ScrollableTabView
@@ -30,9 +38,13 @@ class EmergencyContacts extends Component {
           prerenderingSiblingsNumber={Infinity}
           renderTabBar={() => <ScrollableTabBar />}
         >
-          <EmergencyContactSection tabLabel={"PARIS"} />
-          <EmergencyContactSection tabLabel={"BRUSSELS"} />
-          <EmergencyContactSection tabLabel={"VIENNA"} />
+          {cityDetails.map((cityContactDetails, cityDetailIndex) => (
+            <EmergencyContactSection
+              key={cityDetailIndex}
+              cityContactDetails={cityContactDetails}
+              tabLabel={cityContactDetails.name.toUpperCase()}
+            />
+          ))}
         </ScrollableTabView>
       </View>
     );

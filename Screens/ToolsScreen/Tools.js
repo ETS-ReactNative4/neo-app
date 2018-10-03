@@ -10,9 +10,17 @@ import HomeHeader from "../../CommonComponents/HomeHeader/HomeHeader";
 import { inject, observer } from "mobx-react/custom";
 
 @inject("itineraries")
+@inject("emergencyContactsStore")
 @observer
 class Tools extends Component {
   static navigationOptions = HomeHeader;
+
+  componentDidMount() {
+    const { cities } = this.props.itineraries;
+    const { getEmergencyContacts } = this.props.emergencyContactsStore;
+
+    getEmergencyContacts(cities);
+  }
 
   render() {
     const { cities } = this.props.itineraries;
