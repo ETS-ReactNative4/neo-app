@@ -11,6 +11,7 @@ import { logError } from "../Services/errorLogger/errorLogger";
 import Phrases from "./Phrases";
 import Info from "./Info";
 import EmergencyContacts from "./EmergencyContacts";
+import PassportDetails from "./PassportDetails";
 
 const createStore = () => {
   const appStore = {
@@ -23,7 +24,8 @@ const createStore = () => {
     voucherStore: new Voucher(),
     phrasesStore: new Phrases(),
     infoStore: new Info(),
-    emergencyContactsStore: new EmergencyContacts()
+    emergencyContactsStore: new EmergencyContacts(),
+    passportDetailsStore: new PassportDetails()
   };
 
   const hydrate = create({
@@ -122,6 +124,11 @@ const createStore = () => {
       logError(err);
     });
   hydrate("_emergencyContacts", appStore.emergencyContactsStore)
+    .then(() => {})
+    .catch(err => {
+      logError(err);
+    });
+  hydrate("_passportDetails", appStore.passportDetailsStore)
     .then(() => {})
     .catch(err => {
       logError(err);

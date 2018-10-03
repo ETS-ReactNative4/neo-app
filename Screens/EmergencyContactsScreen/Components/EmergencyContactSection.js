@@ -21,6 +21,9 @@ class EmergencyContactSection extends Component {
     /**
      * TODO: Need Local Call Code!!
      */
+    /**
+     * TODO: Mail button for Embassy!!
+     */
     const {
       embassyAddress,
       embassyEmail,

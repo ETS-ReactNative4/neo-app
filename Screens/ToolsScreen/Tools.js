@@ -11,15 +11,18 @@ import { inject, observer } from "mobx-react/custom";
 
 @inject("itineraries")
 @inject("emergencyContactsStore")
+@inject("passportDetailsStore")
 @observer
 class Tools extends Component {
   static navigationOptions = HomeHeader;
 
   componentDidMount() {
-    const { cities } = this.props.itineraries;
+    const { cities, selectedItineraryId } = this.props.itineraries;
     const { getEmergencyContacts } = this.props.emergencyContactsStore;
+    const { getPassportDetails } = this.props.passportDetailsStore;
 
     getEmergencyContacts(cities);
+    getPassportDetails(selectedItineraryId);
   }
 
   render() {

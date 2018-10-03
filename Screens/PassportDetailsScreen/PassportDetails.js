@@ -3,7 +3,11 @@ import VoucherAccordion from "../VoucherScreens/Components/VoucherAccordion";
 import VoucherSplitSection from "../VoucherScreens/Components/VoucherSplitSection";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import { View } from "react-native";
+import { inject, observer } from "mobx-react/custom";
 
+@inject("itineraries")
+@inject("passportDetailsStore")
+@observer
 class PassportDetails extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
@@ -14,7 +18,7 @@ class PassportDetails extends Component {
   };
 
   render() {
-    const passengerDetails = [
+    const passengerDetailsOld = [
       {
         name: "Passenger 1",
         component: (
@@ -45,6 +49,53 @@ class PassportDetails extends Component {
         )
       }
     ];
+
+    const { selectedItineraryId } = this.props.itineraries;
+    const { getPassportDetailsByItinerary } = this.props.passportDetailsStore;
+
+    const passportDetails = getPassportDetailsByItinerary(selectedItineraryId);
+
+    const passengerDetails = passportDetails.map(passportInfo => {
+      const {
+        passengerId,
+        salutation,
+        firstName,
+        lastName,
+        passportNumber,
+        birthDay,
+        passportExpirationDate
+      } = passportInfo;
+
+      return {
+        name: `${salutation} ${firstName} ${lastName}`,
+        component: (
+          <VoucherSplitSection
+            sections={[
+              {
+                name: "Passport Number",
+                value: passportNumber || "NA"
+              },
+              {
+                name: "Surname",
+                value: lastName || "NA"
+              },
+              {
+                name: "Given name",
+                value: firstName || "NA"
+              },
+              {
+                name: "Date of birth",
+                value: birthDay || "NA"
+              },
+              {
+                name: "Date of Passport expiry",
+                value: passportExpirationDate || "NA"
+              }
+            ]}
+          />
+        )
+      };
+    });
 
     return (
       <View style={{ flex: 1, backgroundColor: "white" }}>
