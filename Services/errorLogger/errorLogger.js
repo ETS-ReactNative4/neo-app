@@ -14,8 +14,8 @@ sentry.setTagsContext({
 export const logError = (error, extraInfo = {}) =>
   sentry.captureException(error, { extra: extraInfo });
 
-export const logBreadCrumb = ({ message, category, data }) =>
-  sentry.captureBreadcrumb({ message, category, data });
+export const logBreadCrumb = ({ message, category, data, level }) =>
+  sentry.captureBreadcrumb({ message, category, data, level });
 
 export const setUserContext = ({ email, userID }) => {
   if (!email || !userID) {
