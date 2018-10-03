@@ -32,7 +32,8 @@ const screenTracker = (prevState, currentState) => {
     logBreadCrumb({
       message: `${prevScreen} to ${currentScreen}`,
       category: `navigation`,
-      data: {}
+      data: {},
+      level: "info"
     });
   }
 };
