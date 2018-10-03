@@ -27,32 +27,24 @@ class WeatherChart extends Component {
   render() {
     const { hourly, isToday } = this.props.selectedDay;
 
-    let data = [],
+    const data = [],
       time = [];
-    if (!isToday) {
-      data.push(hourly[1].temperature);
-      time.push("AAA");
 
-      hourly.map((hour, index) => {
-        if (index % 3 === 0) {
-          data.push(hour.temperature);
-          time.push(hour.time);
-        }
-      });
+    data.push(hourly[1].temperature);
+    time.push("AAA");
 
-      data.push(hourly[1].temperature);
-      time.push("AAA");
+    hourly.map((hour, index) => {
+      if (index % 3 === 0) {
+        data.push(hour.temperature);
+        time.push(hour.time);
+      }
+    });
 
-      data.push(0);
-      time.push("AAA");
-    } else {
-      /**
-       * TODO: Slice for today's weather
-       */
-      /**
-       * TODO: test in iOS Prod build
-       */
-    }
+    data.push(hourly[1].temperature);
+    time.push("AAA");
+
+    data.push(0);
+    time.push("AAA");
 
     const chartColor = "rgba(28,173,69,1)";
 
