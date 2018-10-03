@@ -192,7 +192,7 @@ class AppState {
           uid: uuidv4(),
           deviceToken: ""
         };
-        logError(err, { type: "Device token Failed to register" });
+        logError(err, { eventType: "Device token Failed to register" });
       });
   };
 }
