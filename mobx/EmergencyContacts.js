@@ -11,6 +11,13 @@ class EmergencyContacts {
   @observable
   _emergencyContacts = {};
 
+  @action
+  reset = () => {
+    this._isLoading = false;
+    this._hasError = false;
+    this._emergencyContacts = {};
+  };
+
   @computed
   get loading() {
     return this._isLoading;
@@ -51,7 +58,9 @@ class EmergencyContacts {
                 city => city.cityObject.cityId === parseInt(cityId)
               );
               response.data[cityId].name = requiredCity.city;
-              this._emergencyContacts[cityId] = response.data[cityId];
+              const emergencyContacts = toJS(this._emergencyContacts);
+              emergencyContacts[cityId] = response.data[cityId];
+              this._emergencyContacts = emergencyContacts;
             }
           }
           console.log(this._emergencyContacts);

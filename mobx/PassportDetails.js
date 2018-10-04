@@ -11,6 +11,13 @@ class PassportDetails {
   @observable
   _passportDetails = {};
 
+  @action
+  reset = () => {
+    this._isLoading = false;
+    this._hasError = false;
+    this._passportDetails = {};
+  };
+
   @computed
   get loading() {
     return this._isLoading;
@@ -21,8 +28,8 @@ class PassportDetails {
     return this._hasError;
   }
 
-  getPassportDetailsByItinerary = createTransformer(
-    itineraryId => this._passportDetails[itineraryId]
+  getPassportDetailsByItinerary = createTransformer(itineraryId =>
+    toJS(this._passportDetails[itineraryId])
   );
 
   @action
@@ -42,7 +49,9 @@ class PassportDetails {
         this._isLoading = false;
         if (response.status === "SUCCESS") {
           this._hasError = false;
-          this._passportDetails[itineraryId] = response.data;
+          const passportDetails = toJS(this._passportDetails);
+          passportDetails[itineraryId] = response.data;
+          this._passportDetails = passportDetails;
         } else {
           this._hasError = true;
         }

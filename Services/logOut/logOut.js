@@ -30,6 +30,8 @@ const logOut = () => {
       storeService.voucherStore.reset();
       storeService.packingChecklistStore.reset();
       storeService.phrasesStore.reset();
+      storeService.emergencyContactsStore.reset();
+      storeService.passportDetailsStore.reset();
     }, 100);
   });
   /**
