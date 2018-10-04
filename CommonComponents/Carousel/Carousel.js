@@ -34,7 +34,7 @@ Carousel.propTypes = {
     })
   ),
   firstMargin: PropTypes.number,
-  children: PropTypes.element
+  children: PropTypes.arrayOf(PropTypes.element)
 };
 
 const styles = StyleSheet.create({
