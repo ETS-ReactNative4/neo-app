@@ -12,17 +12,11 @@ const Carousel = ({ containerStyle, data, firstMargin, children }) => {
         style={styles.scrollView}
         contentContainerStyle={{ alignItems: "center" }}
       >
+        {firstMargin ? <View style={{ width: firstMargin }} /> : null}
         {children
           ? children
           : data.map((item, index) => {
-              return (
-                <Box
-                  key={index}
-                  index={index}
-                  firstMargin={firstMargin}
-                  data={item}
-                />
-              );
+              return <Box key={index} index={index} data={item} />;
             })}
       </ScrollView>
     </View>

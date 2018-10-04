@@ -4,8 +4,9 @@ import FastImage from "react-native-fast-image";
 import LinearGradient from "react-native-linear-gradient";
 import PropTypes from "prop-types";
 import React from "react";
+import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraProps";
 
-const Box = ({ data, firstMargin, index }) => {
+const Box = ({ data, index }) => {
   const gradients = [
     constants.secondGradientAlpha,
     constants.thirdGradientAlpha,
@@ -23,7 +24,7 @@ const Box = ({ data, firstMargin, index }) => {
   }
 
   return (
-    <View style={[styles.box, { marginLeft: index === 0 ? firstMargin : 0 }]}>
+    <View style={styles.box}>
       <TouchableHighlight
         onPress={data.action}
         underlayColor={"transparent"}
@@ -80,14 +81,13 @@ const styles = StyleSheet.create({
   }
 });
 
-Box.propTypes = {
+Box.propTypes = forbidExtraProps({
   data: PropTypes.shape({
     title: PropTypes.string.isRequired,
     image: PropTypes.oneOfType([PropTypes.object, PropTypes.number]).isRequired,
     action: PropTypes.func.isRequired
   }).isRequired,
-  firstMargin: PropTypes.number.isRequired,
   index: PropTypes.number.isRequired
-};
+});
 
 export default Box;
