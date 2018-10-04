@@ -15,6 +15,7 @@ import SimpleButton from "../../../CommonComponents/SimpleButton/SimpleButton";
 import { responsiveWidth } from "react-native-responsive-dimensions";
 import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraProps";
 import PropTypes from "prop-types";
+import localeCode from "locale-code";
 
 class CustomPhrase extends Component {
   static propTypes = forbidExtraProps({
@@ -111,7 +112,10 @@ class CustomPhrase extends Component {
           />
         ) : (
           <SimpleButton
-            text={this.props.selectedLanguage.languageCode}
+            text={localeCode
+              .getLanguageName(this.props.selectedLanguage.languageCode)
+              .toUpperCase()
+              .substr(0, 3)}
             action={this.props.openLanguageSelector}
             containerStyle={{
               backgroundColor: "white",

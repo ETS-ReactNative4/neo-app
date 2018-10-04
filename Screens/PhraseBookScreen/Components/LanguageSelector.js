@@ -51,7 +51,9 @@ const LanguageSelector = ({ languages, selectLanguage, cancel, isVisible }) => {
                 <SelectionRow
                   key={languageIndex}
                   disableImage={true}
-                  text={localeCode.getLanguageName(language.languageCode)}
+                  text={`${localeCode.getLanguageName(
+                    language.languageCode
+                  )} (${language.languageCode})`}
                   action={() => {
                     selectLanguage(language);
                     cancel();
