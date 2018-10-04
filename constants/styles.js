@@ -34,6 +34,23 @@ const styles = {
     message:
       "Please be patient. We are working with our travel partners to complete this booking. You will get notified when this voucher is ready.",
     actionText: "Turn Notifications ON"
+  },
+  elevationTwo: {
+    shadowColor: colorPallete.shade3,
+    shadowOffset: { height: 1, width: 1 },
+    shadowOpacity: 1,
+    shadowRadius: 1,
+    elevation: 2
+  },
+  elevationThirteen: {
+    shadowColor: colorPallete.shade3,
+    shadowOffset: {
+      height: 5,
+      width: 0
+    },
+    shadowRadius: 10,
+    shadowOpacity: 0.5,
+    elevation: 13
   }
 };
 
