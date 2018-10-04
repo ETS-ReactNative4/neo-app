@@ -43,14 +43,7 @@ const styles = StyleSheet.create({
     alignItems: "flex-start",
     justifyContent: "center",
     borderColor: constants.shade4,
-    shadowColor: constants.shade3,
-    shadowOffset: {
-      height: 5,
-      width: 0
-    },
-    shadowRadius: 10,
-    shadowOpacity: 0.3,
-    elevation: 2
+    ...constants.elevationTwo
   },
   icon: {
     height: 32,
