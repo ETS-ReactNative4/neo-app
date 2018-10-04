@@ -43,6 +43,7 @@ class CurrencyConverter extends Component {
   };
   keyboardDidShowListener = {};
   keyboardDidHideListener = {};
+  _inputFieldRef = React.createRef();
 
   keyboardDidShow = e => {
     this.setState({
@@ -76,11 +77,13 @@ class CurrencyConverter extends Component {
       this.keyboardDidHide
     );
     this.props.appState.getConversionRates();
+    this._inputFieldRef.current.focus();
   }
 
   componentWillUnmount() {
     this.keyboardDidShowListener.remove();
     this.keyboardDidHideListener.remove();
+    this._inputFieldRef.current.blur();
   }
 
   setAmount = foreignAmount => {
@@ -227,7 +230,7 @@ class CurrencyConverter extends Component {
         style={styles.container}
       >
         <View style={styles.container}>
-          {!this.state.isKeyboardVisible
+          {!this.state.foreignAmount
             ? currencyRates.map((currency, index) => {
                 return (
                   <CommonRate
@@ -296,6 +299,7 @@ class CurrencyConverter extends Component {
                   value={inputAmountText}
                   keyboardType={"numeric"}
                   underlineColorAndroid={"transparent"}
+                  ref={this._inputFieldRef}
                 />
               </View>
               <View style={styles.infoContainer}>
