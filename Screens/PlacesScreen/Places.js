@@ -4,6 +4,9 @@ import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import constants from "../../constants/constants";
 import Carousel from "../../CommonComponents/Carousel/Carousel";
 import PlaceCard from "./Components/PlaceCard";
+import PlaceSectionTitle from "./Components/PlaceSectionTitle";
+import XSensorPlaceholder from "../../CommonComponents/XSensorPlaceholder/XSensorPlaceholder";
+import { isIphoneX } from "react-native-iphone-x-helper";
 
 class Places extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -16,6 +19,7 @@ class Places extends Component {
     const sections = [
       {
         title: "Shopping",
+        icon: constants.medicalCareIcon,
         items: [
           {
             title: "Malls",
@@ -46,6 +50,7 @@ class Places extends Component {
       },
       {
         title: "Shopping",
+        icon: constants.medicalCareIcon,
         items: [
           {
             title: "Malls",
@@ -76,6 +81,7 @@ class Places extends Component {
       },
       {
         title: "Shopping",
+        icon: constants.medicalCareIcon,
         items: [
           {
             title: "Malls",
@@ -111,11 +117,12 @@ class Places extends Component {
         {sections.map((section, sectionIndex) => {
           return (
             <View key={sectionIndex}>
-              <Text>{section.title}</Text>
+              <PlaceSectionTitle title={section.title} image={section.icon} />
               <Carousel firstMargin={24} containerStyle={{ height: 152 }}>
                 {section.items.map((item, itemIndex) => {
                   return (
                     <PlaceCard
+                      key={itemIndex}
                       image={{ uri: "" }}
                       action={() => null}
                       title={item.title}
@@ -126,6 +133,7 @@ class Places extends Component {
             </View>
           );
         })}
+        {isIphoneX() ? <XSensorPlaceholder /> : null}
       </ScrollView>
     );
   }
