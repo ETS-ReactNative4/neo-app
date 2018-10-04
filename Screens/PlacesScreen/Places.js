@@ -3,6 +3,7 @@ import { View, StyleSheet, ScrollView, Text } from "react-native";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import constants from "../../constants/constants";
 import Carousel from "../../CommonComponents/Carousel/Carousel";
+import PlaceCard from "./Components/PlaceCard";
 
 class Places extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -111,12 +112,14 @@ class Places extends Component {
           return (
             <View key={sectionIndex}>
               <Text>{section.title}</Text>
-              <Carousel containerStyle={{ height: 132 }}>
+              <Carousel firstMargin={24} containerStyle={{ height: 152 }}>
                 {section.items.map((item, itemIndex) => {
                   return (
-                    <View key={itemIndex}>
-                      <Text>{item.title}</Text>
-                    </View>
+                    <PlaceCard
+                      image={{ uri: "" }}
+                      action={() => null}
+                      title={item.title}
+                    />
                   );
                 })}
               </Carousel>
