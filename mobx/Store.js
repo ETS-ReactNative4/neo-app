@@ -12,6 +12,7 @@ import Phrases from "./Phrases";
 import Info from "./Info";
 import EmergencyContacts from "./EmergencyContacts";
 import PassportDetails from "./PassportDetails";
+import Visa from "./Visa";
 
 const createStore = () => {
   const appStore = {
@@ -25,7 +26,8 @@ const createStore = () => {
     phrasesStore: new Phrases(),
     infoStore: new Info(),
     emergencyContactsStore: new EmergencyContacts(),
-    passportDetailsStore: new PassportDetails()
+    passportDetailsStore: new PassportDetails(),
+    visaStore: new Visa()
   };
 
   const hydrate = create({

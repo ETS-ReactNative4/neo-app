@@ -12,6 +12,7 @@ import { inject, observer } from "mobx-react/custom";
 @inject("itineraries")
 @inject("emergencyContactsStore")
 @inject("passportDetailsStore")
+@inject("visaStore")
 @observer
 class Tools extends Component {
   static navigationOptions = HomeHeader;
@@ -20,9 +21,11 @@ class Tools extends Component {
     const { cities, selectedItineraryId } = this.props.itineraries;
     const { getEmergencyContacts } = this.props.emergencyContactsStore;
     const { getPassportDetails } = this.props.passportDetailsStore;
+    const { getVisaDetails } = this.props.visaStore;
 
     getEmergencyContacts(cities);
     getPassportDetails(selectedItineraryId);
+    getVisaDetails(selectedItineraryId);
   }
 
   render() {
@@ -31,8 +34,7 @@ class Tools extends Component {
       return {
         title: city.city,
         image: { uri: constants.cityImageBaseUrl + city.cityObject.image },
-        action: () => () =>
-          null || this.props.navigation.navigate("Places", { city })
+        action: () => this.props.navigation.navigate("Places", { city })
       };
     });
 
@@ -73,7 +75,7 @@ class Tools extends Component {
       {
         icon: constants.documentVisaIcon,
         text: `Documents${"\n"}& Visa`,
-        action: () => {}
+        action: () => this.props.navigation.navigate("Visa")
       },
       {
         icon: constants.yourPickIcon,

@@ -8,6 +8,7 @@ import EmergencyContacts from "../Screens/EmergencyContactsScreen/EmergencyConta
 import Weather from "../Screens/WeatherScreen/Weather";
 import Places from "../Screens/PlacesScreen/Places";
 import transitionConfig from "../Services/navigationAnimations/transitionConfig";
+import Visa from "../Screens/VisaScreen/Visa";
 
 const ToolStack = createStackNavigator(
   {
@@ -34,6 +35,9 @@ const ToolStack = createStackNavigator(
     },
     Places: {
       screen: Places
+    },
+    Visa: {
+      screen: Visa
     }
   },
   {

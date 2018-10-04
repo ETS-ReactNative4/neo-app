@@ -19,6 +19,7 @@ const apiUrls = {
   registerDeviceToken: "mobile/register/devicetoken",
   getEmergencyContacts: "mobile/city/contacts/emergency",
   getPassportDetails: "mobile/passport/details",
+  getVisaDetails: "mobile/:itineraryId/visa/details",
 
   customCheckListName: "Your list",
   hotelVoucher: "hotel",
