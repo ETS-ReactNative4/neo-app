@@ -5,6 +5,7 @@ import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraPr
 import SmartImage from "../../../CommonComponents/SmartImage/SmartImage";
 import FastImage from "react-native-fast-image";
 import Lightbox from "react-native-lightbox";
+import { responsiveHeight } from "react-native-responsive-dimensions";
 
 class PlaceImageContainer extends Component {
   static propTypes = forbidExtraProps({
@@ -31,12 +32,12 @@ class PlaceImageContainer extends Component {
               <SmartImage
                 uri={this.props.imageUrl}
                 style={{
-                  height: 160
+                  height: responsiveHeight(100)
                 }}
                 defaultImageUri={
                   "http://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg"
                 }
-                resizeMode={FastImage.resizeMode.cover}
+                resizeMode={FastImage.resizeMode.contain}
               />
             );
           }}
