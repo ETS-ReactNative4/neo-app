@@ -124,7 +124,7 @@ class Places extends Component {
                     <PlaceCard
                       key={itemIndex}
                       image={{ uri: "" }}
-                      action={() => null}
+                      action={() => this.props.navigation.navigate("NearBy")}
                       title={item.title}
                     />
                   );

@@ -9,6 +9,7 @@ import Weather from "../Screens/WeatherScreen/Weather";
 import Places from "../Screens/PlacesScreen/Places";
 import transitionConfig from "../Services/navigationAnimations/transitionConfig";
 import Visa from "../Screens/VisaScreen/Visa";
+import NearBy from "../Screens/NearByScreen/NearBy";
 
 const ToolStack = createStackNavigator(
   {
@@ -35,6 +36,9 @@ const ToolStack = createStackNavigator(
     },
     Places: {
       screen: Places
+    },
+    NearBy: {
+      screen: NearBy
     },
     Visa: {
       screen: Visa
