@@ -25,17 +25,36 @@ class PlaceImageContainer extends Component {
   render() {
     return (
       <TouchableOpacity activeOpacity={0.7} onPress={() => null}>
-        <SmartImage
-          uri={this.props.imageUrl}
-          style={[
-            styles.placeImage,
-            this.state.width ? { width: Math.min(this.state.width, 192) } : null
-          ]}
-          defaultImageUri={
-            "http://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg"
-          }
-          resizeMode={FastImage.resizeMode.cover}
-        />
+        <Lightbox
+          renderContent={() => {
+            return (
+              <SmartImage
+                uri={this.props.imageUrl}
+                style={{
+                  height: 160
+                }}
+                defaultImageUri={
+                  "http://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg"
+                }
+                resizeMode={FastImage.resizeMode.cover}
+              />
+            );
+          }}
+        >
+          <SmartImage
+            uri={this.props.imageUrl}
+            style={[
+              styles.placeImage,
+              this.state.width
+                ? { width: Math.min(this.state.width, 192) }
+                : null
+            ]}
+            defaultImageUri={
+              "http://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg"
+            }
+            resizeMode={FastImage.resizeMode.cover}
+          />
+        </Lightbox>
       </TouchableOpacity>
     );
   }

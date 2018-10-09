@@ -3,6 +3,7 @@ import { View, StyleSheet } from "react-native";
 import Icon from "../Icon/Icon";
 import PropTypes from "prop-types";
 import forbidExtraProps from "../../Services/PropTypeValidation/forbidExtraProps";
+import constants from "../../constants/constants";
 
 const StarRating = ({ rating, starSize, containerStyle }) => {
   if (!containerStyle) containerStyle = {};
@@ -20,7 +21,7 @@ const StarRating = ({ rating, starSize, containerStyle }) => {
         return (
           <Icon
             key={starIndex}
-            name={"star-active"}
+            name={constants.starActive}
             color={"rgba(245,166,35,1)"}
             size={starSize}
           />

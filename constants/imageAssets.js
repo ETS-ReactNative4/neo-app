@@ -45,6 +45,8 @@ const imageAssets = {
   journalSelectedIcon: "journal-active",
   moreOptionsHorizIcon: "more-options-horiz",
   arrowRight: "arrow-right",
+  arrowDown: "arrow-down",
+  starActive: "star-active",
   searchIcon: "search",
   swapVertIcon: "swap_vert",
   speakerIcon: "speaker",
