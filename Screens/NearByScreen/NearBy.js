@@ -84,8 +84,13 @@ class NearBy extends Component {
             <View key={placeIndex}>
               <Carousel containerStyle={{ height: 176 }}>
                 {place.images.map((imageUrl, imageIndex) => {
+                  const isLast = place.images.length === imageIndex + 1;
                   return (
-                    <PlaceImageContainer key={imageIndex} imageUrl={imageUrl} />
+                    <PlaceImageContainer
+                      key={imageIndex}
+                      imageUrl={imageUrl}
+                      isLast={isLast}
+                    />
                   );
                 })}
               </Carousel>

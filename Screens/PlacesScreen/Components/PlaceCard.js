@@ -28,6 +28,7 @@ const PlaceCard = ({ title, image, action }) => {
 
 const styles = StyleSheet.create({
   placeCardContainer: {
+    backgroundColor: "white",
     height: 132,
     width: 152,
     borderRadius: 5,

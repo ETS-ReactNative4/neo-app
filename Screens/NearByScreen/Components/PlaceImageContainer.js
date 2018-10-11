@@ -9,7 +9,8 @@ import { responsiveHeight } from "react-native-responsive-dimensions";
 
 class PlaceImageContainer extends Component {
   static propTypes = forbidExtraProps({
-    imageUrl: PropTypes.string.isRequired
+    imageUrl: PropTypes.string.isRequired,
+    isLast: PropTypes.bool.isRequired
   });
 
   state = {
@@ -48,7 +49,8 @@ class PlaceImageContainer extends Component {
               styles.placeImage,
               this.state.width
                 ? { width: Math.min(this.state.width, 192) }
-                : null
+                : null,
+              this.props.isLast ? { marginRight: 0 } : null
             ]}
             defaultImageUri={
               "http://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg"
