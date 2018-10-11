@@ -52,7 +52,6 @@ const apiCall = async (
     function handleErrors(response) {
       console.log(response.status);
       console.log(response.statusText);
-
       if (response.status === 401) {
         DebouncedAlert("Oops!", "Session Expired... Please Login again!");
         logOut();
@@ -60,21 +59,24 @@ const apiCall = async (
       }
 
       if (response.status === 200) {
-        return response.json();
+        const data = response.json();
+        return data;
       } else {
-        response.text().then(errorText => {
-          const errorInfo = {
-            type: "apiCall",
-            url: `${serverURL}${route}`,
-            body,
+        const errorInfo = {
+          type: "apiCall",
+          url: `${serverURL}${route}`,
+          body,
+          status: response.status,
+          ...headerObject
+        };
+        const errorObject = Error(
+          JSON.stringify({
             status: response.status,
-            ...headerObject,
-            errorText
-          };
-          const errorObject = { status: response.status, errorText };
-          logError(new Error(errorObject), errorInfo);
-          throw new Error(errorObject);
-        });
+            url: `${serverURL}${route}`
+          })
+        );
+        logError(errorObject, errorInfo);
+        throw errorObject;
       }
     }
 
