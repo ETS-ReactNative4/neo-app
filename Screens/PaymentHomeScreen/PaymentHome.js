@@ -66,7 +66,9 @@ class PaymentHome extends Component {
               <UpcomingCard
                 key={index}
                 {...itinerary}
-                selectItinerary={() => null}
+                selectItinerary={() =>
+                  this.props.navigation.navigate("PaymentSummary")
+                }
                 isLast={isLast}
               />
             );
