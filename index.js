@@ -1,12 +1,4 @@
-/**
- * TODO: revert to actual index once the issue is fixed
- * Workaround for https://github.com/facebook/react-native/issues/20150#issue-340235017
- */
-import applyDecoratedDescriptor from "@babel/runtime/helpers/es6/applyDecoratedDescriptor";
-import initializerDefineProperty from "@babel/runtime/helpers/es6/initializerDefineProperty";
-Object.assign(babelHelpers, {
-  applyDecoratedDescriptor,
-  initializerDefineProperty
-});
+import { AppRegistry } from "react-native";
+import App from "./App";
 
-require("./app-index");
+AppRegistry.registerComponent("Pickyourtrail", () => App);
