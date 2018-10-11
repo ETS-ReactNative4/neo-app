@@ -13,7 +13,8 @@ const DialogBox = ({
   message,
   isVisible,
   onClose,
-  actionText
+  actionText,
+  action
 }) => {
   return (
     <Modal
@@ -73,7 +74,8 @@ DialogBox.propTypes = forbidExtraProps({
   message: PropTypes.string.isRequired,
   isVisible: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
-  actionText: PropTypes.string.isRequired
+  actionText: PropTypes.string.isRequired,
+  action: PropTypes.oneOfType([PropTypes.func, PropTypes.bool])
 });
 
 export default DialogBox;
