@@ -22,28 +22,49 @@ class ToPack extends Component {
         ).isRequired
       })
     ).isRequired,
+    navigation: PropTypes.object.isRequired,
     toggleCheckListStatus: PropTypes.func.isRequired,
     addListItem: PropTypes.func.isRequired,
-    deleteListItem: PropTypes.func.isRequired
+    deleteListItem: PropTypes.func.isRequired,
+    enableKeyboardListener: PropTypes.bool
   };
 
   state = {
     keyboardSpace: 0
   };
-  keyboardDidShowListener = {};
-  keyboardDidHideListener = {};
+  _didFocusSubscription;
+  _willBlurSubscription;
+  _keyboardDidShowListener;
+  _keyboardDidHideListener;
 
-  componentDidMount() {
-    if (Platform.OS === "ios") {
-      this.keyboardDidShowListener = Keyboard.addListener(
-        "keyboardWillChangeFrame",
-        this.keyboardDidShow
-      );
-      this.keyboardDidHideListener = Keyboard.addListener(
-        "keyboardWillHide",
-        this.keyboardDidHide
+  constructor(props) {
+    super(props);
+
+    if (Platform.OS === "ios" && this.props.enableKeyboardListener) {
+      this._didFocusSubscription = props.navigation.addListener(
+        "didFocus",
+        () => {
+          this._keyboardDidShowListener = Keyboard.addListener(
+            "keyboardWillChangeFrame",
+            this.keyboardDidShow
+          );
+          this._keyboardDidHideListener = Keyboard.addListener(
+            "keyboardWillHide",
+            this.keyboardDidHide
+          );
+        }
       );
     }
+  }
+
+  componentDidMount() {
+    this._willBlurSubscription = this.props.navigation.addListener(
+      "willBlur",
+      () => {
+        this._keyboardDidShowListener && this._keyboardDidShowListener.remove();
+        this._keyboardDidHideListener && this._keyboardDidHideListener.remove();
+      }
+    );
   }
 
   keyboardDidShow = e => {
@@ -59,8 +80,8 @@ class ToPack extends Component {
   };
 
   componentWillUnmount() {
-    this.keyboardDidShowListener.remove();
-    this.keyboardDidHideListener.remove();
+    this._didFocusSubscription && this._didFocusSubscription.remove();
+    this._willBlurSubscription && this._willBlurSubscription.remove();
   }
 
   render() {
