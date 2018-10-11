@@ -18,7 +18,7 @@ const apiUrls = {
   getPinnedPhrases: "mobile/getpinnedPhraseForUser",
   registerDeviceToken: "mobile/register/devicetoken",
   getEmergencyContacts: "mobile/city/contacts/emergency",
-  getPassportDetails: "mobile/passport/details",
+  getPassportDetails: "mobile/:itineraryId/passport/details",
   getVisaDetails: "mobile/:itineraryId/visa/details",
 
   customCheckListName: "Your list",

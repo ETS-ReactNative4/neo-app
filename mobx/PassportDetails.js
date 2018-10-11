@@ -42,9 +42,7 @@ class PassportDetails {
   @action
   _getPassportDetailsFromAPI = itineraryId => {
     this._isLoading = true;
-    apiCall(constants.getPassportDetails, {
-      itinerary_id: itineraryId
-    })
+    apiCall(constants.getPassportDetails.replace(":itineraryId", itineraryId))
       .then(response => {
         this._isLoading = false;
         if (response.status === "SUCCESS") {
