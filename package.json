@@ -44,7 +44,7 @@
     "react-native-linear-gradient": "^2.4.0",
     "react-native-modal": "6.5.0",
     "react-native-parallax-scroll-view": "^0.21.0",
-    "react-native-responsive-dimensions": "^1.0.2",
+    "react-native-responsive-dimensions": "2.0.1",
     "react-native-scrollable-tab-view": "^0.8.0",
     "react-native-sentry": "0.39.0",
     "react-native-sound":
