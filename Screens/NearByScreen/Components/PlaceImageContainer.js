@@ -15,47 +15,61 @@ class PlaceImageContainer extends Component {
 
   state = {
     width: 0,
-    height: 0
+    height: 0,
+    displayHeight: 0,
+    displayWidth: 0,
+    isPreviewOpen: false,
+    resizeMode: FastImage.resizeMode.cover
   };
 
   componentDidMount() {
     Image.getSize(this.props.imageUrl, (width, height) => {
-      this.setState({ width, height });
+      this.setState({
+        width,
+        height: 160,
+        resizeMode: FastImage.resizeMode.cover
+      });
     });
   }
+
+  previewOpened = () => {
+    this.setState({
+      height: responsiveHeight(100),
+      resizeMode: FastImage.resizeMode.contain,
+      isPreviewOpen: true
+    });
+  };
+
+  previewClosed = () => {
+    this.setState({
+      height: 160,
+      isPreviewOpen: false,
+      resizeMode: FastImage.resizeMode.cover
+    });
+  };
 
   render() {
     return (
       <TouchableOpacity activeOpacity={0.7} onPress={() => null}>
         <Lightbox
-          renderContent={() => {
-            return (
-              <SmartImage
-                uri={this.props.imageUrl}
-                style={{
-                  height: responsiveHeight(100)
-                }}
-                defaultImageUri={
-                  "http://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg"
-                }
-                resizeMode={FastImage.resizeMode.contain}
-              />
-            );
-          }}
+          didOpen={this.previewOpened}
+          willClose={this.previewClosed}
+          underlayColor={"transparent"}
         >
           <SmartImage
             uri={this.props.imageUrl}
             style={[
               styles.placeImage,
-              this.state.width
+              this.state.width && !this.state.isPreviewOpen
                 ? { width: Math.min(this.state.width, 192) }
                 : null,
+              this.state.height ? { height: this.state.height } : null,
               this.props.isLast ? { marginRight: 0 } : null
             ]}
             defaultImageUri={
               "http://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg"
             }
-            resizeMode={FastImage.resizeMode.cover}
+            resizeMode={this.state.resizeMode}
           />
         </Lightbox>
       </TouchableOpacity>
@@ -65,8 +79,6 @@ class PlaceImageContainer extends Component {
 
 const styles = StyleSheet.create({
   placeImage: {
-    width: 192,
-    height: 160,
     marginRight: 4
   }
 });
