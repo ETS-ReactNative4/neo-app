@@ -10,6 +10,8 @@ import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraPr
 import PropTypes from "prop-types";
 import constants from "../../../constants/constants";
 import StarRating from "../../../CommonComponents/StarRating/StarRating";
+import SimpleButton from "../../../CommonComponents/SimpleButton/SimpleButton";
+import { responsiveWidth } from "react-native-responsive-dimensions";
 
 const PlaceDetails = ({
   name,
@@ -20,25 +22,61 @@ const PlaceDetails = ({
   closesAt,
   opensAt,
   distance,
-  containerStyle
+  containerStyle,
+  action,
+  address,
+  isDetailed
 }) => {
   if (!containerStyle) containerStyle = {};
   return (
     <TouchableOpacity
-      onPress={() => null}
+      onPress={action}
       activeOpacity={0.8}
       style={[styles.placeDetailsContainer, containerStyle]}
     >
-      <View style={styles.titleContainer}>
-        <Text style={styles.titleText}>{name}</Text>
-        <Text style={styles.distanceText}>{distance}</Text>
+      <View
+        style={[
+          styles.titleContainer,
+          isDetailed ? { marginTop: 24, marginBottom: 0 } : null
+        ]}
+      >
+        <Text
+          style={[styles.titleText, isDetailed ? styles.detailedTitle : null]}
+        >
+          {name}
+        </Text>
+        {!isDetailed ? (
+          <Text style={styles.distanceText}>{distance}</Text>
+        ) : null}
       </View>
-      <View style={styles.ratingContainer}>
-        <StarRating containerStyle={{ height: 16 }} starSize={16} rating={4} />
-        <Text style={styles.ratingText}>{`(${ratingCount}). ${type}`}</Text>
+      <View
+        style={[styles.ratingContainer, isDetailed ? { height: 20 } : null]}
+      >
+        <StarRating
+          containerStyle={{ height: isDetailed ? 18 : 16 }}
+          starSize={isDetailed ? 18 : 16}
+          rating={4}
+        />
+        <Text
+          style={[styles.ratingText, isDetailed ? styles.detailedText : null]}
+        >{`(${ratingCount}). ${type}`}</Text>
       </View>
+      {isDetailed ? (
+        <View style={styles.addressTextWrapper}>
+          <Text style={styles.addressText}>{address}</Text>
+        </View>
+      ) : null}
+      {isDetailed ? (
+        <View style={styles.distanceTextWrapper}>
+          <Text
+            style={styles.detailedDistanceText}
+          >{`${distance} from your current location`}</Text>
+        </View>
+      ) : null}
       <View style={styles.statusContainer}>
-        <Text style={styles.statusText}>
+        <Text
+          style={[styles.statusText, isDetailed ? styles.detailedText : null]}
+        >
           <Text style={styles.closedText}>
             {isClosed ? `Closed Now. ` : ""}
           </Text>
@@ -58,7 +96,10 @@ PlaceDetails.propTypes = forbidExtraProps({
   closesAt: PropTypes.string.isRequired,
   opensAt: PropTypes.string.isRequired,
   distance: PropTypes.string.isRequired,
-  containerStyle: PropTypes.object
+  containerStyle: PropTypes.object,
+  action: PropTypes.func.isRequired,
+  address: PropTypes.string.isRequired,
+  isDetailed: PropTypes.bool
 });
 
 const styles = StyleSheet.create({
@@ -76,16 +117,24 @@ const styles = StyleSheet.create({
     ...constants.fontCustom(constants.primarySemiBold, 17),
     color: constants.black1
   },
+  detailedTitle: {
+    fontSize: 20,
+    lineHeight: 20
+  },
   distanceText: {
     ...constants.fontCustom(constants.primarySemiBold, 13),
     color: "rgba(74,144,226,1)"
+  },
+  detailedText: {
+    fontSize: 15,
+    lineHeight: 15
   },
   ratingContainer: {
     height: 16,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "flex-start",
-    marginBottom: 4
+    marginBottom: 8
   },
   ratingText: {
     ...constants.fontCustom(constants.primaryLight, 13),
@@ -99,6 +148,24 @@ const styles = StyleSheet.create({
         marginTop: 2
       }
     })
+  },
+  addressTextWrapper: {
+    marginBottom: 8
+  },
+  addressText: {
+    ...constants.fontCustom(constants.primaryLight, 15),
+    color: constants.black1
+  },
+  distanceTextWrapper: {
+    height: 16,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-start",
+    marginBottom: 4
+  },
+  detailedDistanceText: {
+    ...constants.fontCustom(constants.primaryLight, 15),
+    color: "rgba(74,144,226,1)"
   },
   statusContainer: {
     height: 16,
