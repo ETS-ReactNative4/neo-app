@@ -1,4 +1,8 @@
-import { AppRegistry } from "react-native";
-import App from "./App";
+import applyDecoratedDescriptor from "@babel/runtime/helpers/es6/applyDecoratedDescriptor";
+import initializerDefineProperty from "@babel/runtime/helpers/es6/initializerDefineProperty";
+Object.assign(babelHelpers, {
+  applyDecoratedDescriptor,
+  initializerDefineProperty
+});
 
-AppRegistry.registerComponent("Pickyourtrail", () => App);
+require("./app-index");
