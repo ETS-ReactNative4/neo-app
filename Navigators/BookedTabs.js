@@ -1,5 +1,7 @@
-import { createBottomTabNavigator } from "react-navigation";
-import Home from "../Screens/HomeScreen/Home";
+import {
+  createBottomTabNavigator,
+  createStackNavigator
+} from "react-navigation";
 import ChatScreen from "../Screens/ChatScreen/ChatScreen";
 import BookedStack from "./BookedStack";
 import ToolStack from "./ToolStack";
@@ -12,7 +14,7 @@ import TripFeed from "../Screens/TripFeedScreen/TripFeed";
 const BookedTabs = createBottomTabNavigator(
   {
     TripFeed: {
-      screen: TripFeed
+      screen: createStackNavigator({ TripFeedHome: { screen: TripFeed } })
     },
     Bookings: {
       screen: BookedStack
@@ -87,7 +89,7 @@ const BookedTabs = createBottomTabNavigator(
         backgroundColor: "white"
       }
     },
-    initialRouteName: "Bookings",
+    initialRouteName: "TripFeed",
     swipeEnabled: false
   }
 );
