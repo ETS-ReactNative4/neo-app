@@ -60,13 +60,14 @@
     "uuid": "^3.3.2"
   },
   "devDependencies": {
+    "@babel/plugin-proposal-class-properties": "^7.1.0",
     "@babel/plugin-proposal-decorators": "7.1.2",
+    "babel-core": "7.0.0-bridge.0",
     "babel-jest": "22.4.3",
     "babel-plugin-transform-remove-console": "^6.9.4",
-    "metro-react-native-babel-preset": "^0.45.0",
-    "babel-core": "7.0.0-bridge.0",
     "husky": "^0.14.3",
     "jest": "22.4.3",
+    "metro-react-native-babel-preset": "^0.45.0",
     "precommit": "^1.2.2",
     "prettier": "^1.12.1",
     "pretty-quick": "^1.4.1",
