@@ -7,6 +7,7 @@ import {
   Platform,
   TouchableOpacity
 } from "react-native";
+import _ from "lodash";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import Carousel from "../../CommonComponents/Carousel/Carousel";
 import PlaceImageContainer from "./Components/PlaceImageContainer";
@@ -15,12 +16,17 @@ import { isIphoneX } from "react-native-iphone-x-helper";
 import XSensorPlaceholder from "../../CommonComponents/XSensorPlaceholder/XSensorPlaceholder";
 import Icon from "../../CommonComponents/Icon/Icon";
 import constants from "../../constants/constants";
+import PlaceCard from "./Components/PlaceCard";
 
 class NearBy extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
       header: <CommonHeader title={""} navigation={navigation} />
     };
+  };
+
+  state = {
+    selectedPlace: {}
   };
 
   render() {
@@ -34,6 +40,7 @@ class NearBy extends Component {
         closesAt: "Closes at 9.30pm",
         opensAt: "",
         distance: "5 km",
+        address: "No. 11, Bradfort Street (Near Dominos), New York, USA,",
         images: [
           "http://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg",
           "http://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg",
@@ -50,6 +57,7 @@ class NearBy extends Component {
         closesAt: "",
         opensAt: "Opens in 3 hours",
         distance: "5 Km",
+        address: "No. 11, Bradfort Street (Near Dominos), New York, USA,",
         images: [
           "http://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg",
           "http://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg",
@@ -65,6 +73,7 @@ class NearBy extends Component {
         closesAt: "",
         opensAt: "",
         distance: "10 km",
+        address: "No. 11, Bradfort Street (Near Dominos), New York, USA,",
         images: [
           "http://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg",
           "http://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg",
@@ -79,6 +88,11 @@ class NearBy extends Component {
 
     return [
       <ScrollView key={0} style={styles.nearByContainer}>
+        <PlaceCard
+          selectedPlace={this.state.selectedPlace}
+          isVisible={!_.isEmpty(this.state.selectedPlace)}
+          onClose={() => this.setState({ selectedPlace: {} })}
+        />
         {placeDetails.map((place, placeIndex) => {
           return (
             <View key={placeIndex}>
@@ -104,6 +118,8 @@ class NearBy extends Component {
                 closesAt={place.closesAt}
                 opensAt={place.opensAt}
                 distance={place.distance}
+                address={place.address}
+                action={() => this.setState({ selectedPlace: place })}
               />
             </View>
           );

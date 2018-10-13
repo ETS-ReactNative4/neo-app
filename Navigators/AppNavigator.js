@@ -3,6 +3,7 @@ import HomeStack from "./HomeStack";
 import Notifications from "../Screens/NotificationsScreen/Notifications";
 import Home from "../Screens/HomeScreen/Home";
 import Drawer from "../Screens/Drawer/Drawer";
+import PaymentStack from "./PaymentStack";
 
 const AppNavigator = createDrawerNavigator(
   {
@@ -15,7 +16,7 @@ const AppNavigator = createDrawerNavigator(
       })
     },
     Payments: {
-      screen: createStackNavigator({ HomeStack1: { screen: Home } })
+      screen: PaymentStack
     },
     SavedItineraries: {
       screen: createStackNavigator({ HomeStack2: { screen: Home } })
@@ -34,6 +35,7 @@ const AppNavigator = createDrawerNavigator(
     }
   },
   {
+    initialRouteName: "Home",
     contentComponent: Drawer
   }
 );
