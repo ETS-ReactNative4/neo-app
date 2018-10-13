@@ -14,7 +14,6 @@
     "precommit": "pretty-quick --staged"
   },
   "dependencies": {
-    "@babel/runtime": "7.0.0-beta.47",
     "country-data": "^0.0.31",
     "d3-shape": "^1.2.0",
     "locale-code": "^2.0.1",
@@ -62,6 +61,7 @@
   "devDependencies": {
     "@babel/plugin-proposal-class-properties": "^7.1.0",
     "@babel/plugin-proposal-decorators": "7.1.2",
+    "@babel/runtime": "7.0.0",
     "babel-core": "7.0.0-bridge.0",
     "babel-jest": "22.4.3",
     "babel-plugin-transform-remove-console": "^6.9.4",
