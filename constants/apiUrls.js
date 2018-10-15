@@ -21,6 +21,7 @@ const apiUrls = {
   getPassportDetails: "mobile/:itineraryId/passport/details",
   getVisaDetails: "mobile/:itineraryId/visa/details",
   getPaymentInfo: "mobile/:itineraryId/paymentInfo",
+  initiatePayment: "api/payment/initiatepayment",
 
   customCheckListName: "Your list",
   hotelVoucher: "hotel",

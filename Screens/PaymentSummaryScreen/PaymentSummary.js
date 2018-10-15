@@ -4,7 +4,8 @@ import {
   ScrollView,
   Text,
   StyleSheet,
-  TouchableOpacity
+  TouchableOpacity,
+  RefreshControl
 } from "react-native";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import VoucherSplitSection from "../VoucherScreens/Components/VoucherSplitSection";
@@ -13,6 +14,8 @@ import { responsiveWidth } from "react-native-responsive-dimensions";
 import Icon from "../../CommonComponents/Icon/Icon";
 import SimpleButton from "../../CommonComponents/SimpleButton/SimpleButton";
 import apiCall from "../../Services/networkRequests/apiCall";
+import Loader from "../../CommonComponents/Loader/Loader";
+import paymentScript from "./Components/paymentScript";
 
 class PaymentSummary extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -23,21 +26,83 @@ class PaymentSummary extends Component {
     };
   };
 
+  state = {
+    paymentInfo: [],
+    isLoading: false,
+    isPaymentLoading: false
+  };
+
   componentDidMount() {
+    this.loadPaymentData();
+  }
+
+  apiFailure = () => {};
+
+  loadPaymentData = () => {
+    this.setState({
+      isLoading: true
+    });
     const itineraryId = this.props.navigation.getParam("itineraryId", "");
     apiCall(constants.getPaymentInfo.replace(":itineraryId", itineraryId))
       .then(response => {
-        if (response.status !== "SUCCESS") {
+        this.setState({
+          isLoading: false
+        });
+        if (response.status === "SUCCESS") {
+          this.setState({
+            paymentInfo: response.data
+          });
         } else {
           this.apiFailure();
         }
       })
       .catch(error => {
+        this.setState({
+          isLoading: false
+        });
         this.apiFailure();
       });
-  }
+  };
 
-  apiFailure = () => {};
+  initiatePayment = paymentOptionType => {
+    const itineraryId = this.props.navigation.getParam("itineraryId", "");
+    this.setState({
+      isPaymentLoading: true
+    });
+    apiCall(constants.initiatePayment, {
+      itineraryId,
+      paymentOptionType,
+      userId: ""
+    })
+      .then(response => {
+        this.setState(
+          {
+            isPaymentLoading: false
+          },
+          () => {
+            if (response.status === "SUCCESS") {
+              const paymentScriptJs = paymentScript({
+                ...response.data,
+                successUrl: constants.paymentSuccess,
+                failureUrl: constants.paymentFailure,
+                cancelUrl: constants.paymentFailure
+              });
+              this.props.navigation.navigate("PaymentScreen", {
+                paymentScript: paymentScriptJs
+              });
+            } else {
+              this.apiFailure();
+            }
+          }
+        );
+      })
+      .catch(error => {
+        this.setState({
+          isPaymentLoading: false
+        });
+        this.apiFailure();
+      });
+  };
 
   render() {
     const tripId = [
@@ -46,6 +111,21 @@ class PaymentSummary extends Component {
         value: "PYT283049"
       }
     ];
+
+    const paymentOptions = this.state.paymentInfo.reduce(
+      (detailsArray, amount) => {
+        if (amount.paymentStatus === "PENDING") {
+          const data = {
+            amount: `₹ ${amount.paymentAmount}`,
+            percentage: `${amount.percent}% of total cost`,
+            action: () => this.initiatePayment(amount.paymentType)
+          };
+          detailsArray.push(data);
+        }
+        return detailsArray;
+      },
+      []
+    );
 
     const amountDetails = [
       {
@@ -62,21 +142,19 @@ class PaymentSummary extends Component {
       }
     ];
 
-    const paymentOptions = [
-      {
-        amount: "₹ 1,83,940",
-        percentage: "30% of total cost",
-        action: () => null
-      },
-      {
-        amount: "₹ 1,83,940",
-        percentage: "70% of total cost",
-        action: () => null
-      }
-    ];
-
     return (
-      <ScrollView style={styles.summaryContainer}>
+      <ScrollView
+        style={styles.summaryContainer}
+        refreshControl={
+          <RefreshControl
+            refreshing={this.state.isLoading}
+            onRefresh={() => {
+              this.loadPaymentData();
+            }}
+          />
+        }
+      >
+        <Loader isVisible={this.state.isPaymentLoading} />
         <Text style={styles.titleText}>Anand’s 10nights trip to Europe</Text>
 
         <VoucherSplitSection

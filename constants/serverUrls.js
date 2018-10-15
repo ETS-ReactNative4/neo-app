@@ -12,6 +12,13 @@ const serverUrls = {
     "https://go.crisp.chat/chat/embed/?website_id=b611e2e5-45aa-4b4e-bb40-bf30d8e935be",
   productUrl: "https://pickyourtrail.com",
 
+  /**
+   * Payment Urls
+   */
+  startPayment: "http://192.168.0.43:5000/voyager/start-payment",
+  paymentSuccess: "http://192.168.0.43:5000/voyager/payment-success",
+  paymentFailure: "http://192.168.0.43:5000/voyager/payment-failed",
+
   darkSkyKey: "1f95e4bd24b4377d484d0cfceae84a74",
   darkSkyDomain: "https://api.darksky.net/"
 };
