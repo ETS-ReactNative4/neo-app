@@ -1,4 +1,4 @@
-import { observable, computed, action, toJS } from "mobx";
+import { observable, computed, action, remove, set, toJS } from "mobx";
 import { persist } from "mobx-persist";
 import constants from "../constants/constants";
 import apiCall from "../Services/networkRequests/apiCall";
@@ -168,9 +168,10 @@ class PackingChecklist {
   @action
   addListItem = item => {
     if (this._yourList) {
-      const myList = toJS(this._yourList);
-      myList[item] = 0;
-      this._yourList = myList;
+      set(this._yourList, `${item}`, 0);
+      // const myList = toJS(this._yourList);
+      // myList[item] = 0;
+      // this._yourList = myList;
     } else {
       const myList = {};
       myList[item] = 0;
@@ -189,7 +190,8 @@ class PackingChecklist {
     };
     requestBody.myList.unchecked.push(item);
     const addFailed = () => {
-      delete this._yourList[item];
+      remove(this._yourList, `${item}`);
+      // delete this._yourList[item];
     };
     apiCall(constants.updatePackingChecklist, requestBody)
       .then(response => {
@@ -219,11 +221,13 @@ class PackingChecklist {
     };
     requestBody.myList.removed.push(item);
     const itemStatus = this._yourList[item];
-    const newList = toJS(this._yourList);
-    delete newList[item];
-    this._yourList = newList;
+    remove(this._yourList, `${item}`);
+    // const newList = toJS(this._yourList);
+    // delete newList[item];
+    // this._yourList = newList;
     const deleteFailed = () => {
-      this._yourList[item] = itemStatus;
+      set(this._yourList, `${item}`, itemStatus);
+      // this._yourList[item] = itemStatus;
     };
     apiCall(constants.updatePackingChecklist, requestBody)
       .then(response => {
