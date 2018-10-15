@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraProps";
 import SmartImage from "../../../CommonComponents/SmartImage/SmartImage";
 import FastImage from "react-native-fast-image";
-import Lightbox from "react-native-lightbox";
 import { responsiveHeight } from "react-native-responsive-dimensions";
 
 class PlaceImageContainer extends Component {
@@ -51,27 +50,21 @@ class PlaceImageContainer extends Component {
   render() {
     return (
       <TouchableOpacity activeOpacity={0.7} onPress={() => null}>
-        <Lightbox
-          didOpen={this.previewOpened}
-          willClose={this.previewClosed}
-          underlayColor={"transparent"}
-        >
-          <SmartImage
-            uri={this.props.imageUrl}
-            style={[
-              styles.placeImage,
-              this.state.width && !this.state.isPreviewOpen
-                ? { width: Math.min(this.state.width, 192) }
-                : null,
-              this.state.height ? { height: this.state.height } : null,
-              this.props.isLast ? { marginRight: 0 } : null
-            ]}
-            defaultImageUri={
-              "http://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg"
-            }
-            resizeMode={this.state.resizeMode}
-          />
-        </Lightbox>
+        <SmartImage
+          uri={this.props.imageUrl}
+          style={[
+            styles.placeImage,
+            this.state.width && !this.state.isPreviewOpen
+              ? { width: Math.min(this.state.width, 192) }
+              : null,
+            this.state.height ? { height: this.state.height } : null,
+            this.props.isLast ? { marginRight: 0 } : null
+          ]}
+          defaultImageUri={
+            "http://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg"
+          }
+          resizeMode={this.state.resizeMode}
+        />
       </TouchableOpacity>
     );
   }
