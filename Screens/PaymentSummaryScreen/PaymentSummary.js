@@ -27,10 +27,17 @@ class PaymentSummary extends Component {
     const itineraryId = this.props.navigation.getParam("itineraryId", "");
     apiCall(constants.getPaymentInfo.replace(":itineraryId", itineraryId))
       .then(response => {
-        console.log(response);
+        if (response.status !== "SUCCESS") {
+        } else {
+          this.apiFailure();
+        }
       })
-      .catch(error => {});
+      .catch(error => {
+        this.apiFailure();
+      });
   }
+
+  apiFailure = () => {};
 
   render() {
     const tripId = [
