@@ -67,7 +67,9 @@ class PaymentHome extends Component {
                 key={index}
                 {...itinerary}
                 selectItinerary={() =>
-                  this.props.navigation.navigate("PaymentSummary")
+                  this.props.navigation.navigate("PaymentSummary", {
+                    itineraryId: itinerary.itineraryId
+                  })
                 }
                 isLast={isLast}
               />

@@ -12,6 +12,7 @@ import constants from "../../constants/constants";
 import { responsiveWidth } from "react-native-responsive-dimensions";
 import Icon from "../../CommonComponents/Icon/Icon";
 import SimpleButton from "../../CommonComponents/SimpleButton/SimpleButton";
+import apiCall from "../../Services/networkRequests/apiCall";
 
 class PaymentSummary extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -21,6 +22,15 @@ class PaymentSummary extends Component {
       )
     };
   };
+
+  componentDidMount() {
+    const itineraryId = this.props.navigation.getParam("itineraryId", "");
+    apiCall(constants.getPaymentInfo.replace(":itineraryId", itineraryId))
+      .then(response => {
+        console.log(response);
+      })
+      .catch(error => {});
+  }
 
   render() {
     const tripId = [

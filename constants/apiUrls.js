@@ -20,6 +20,7 @@ const apiUrls = {
   getEmergencyContacts: "mobile/city/contacts/emergency",
   getPassportDetails: "mobile/:itineraryId/passport/details",
   getVisaDetails: "mobile/:itineraryId/visa/details",
+  getPaymentInfo: "mobile/:itineraryId/paymentInfo",
 
   customCheckListName: "Your list",
   hotelVoucher: "hotel",
