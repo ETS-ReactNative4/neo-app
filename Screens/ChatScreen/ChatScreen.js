@@ -17,7 +17,7 @@ class ChatScreen extends Component {
     keyboardVisible: false,
     injectedJavascript: ""
   };
-  _webView = {};
+  _webView = React.createRef();
   _didFocusSubscription;
   _willBlurSubscription;
   _keyboardDidShowListener;

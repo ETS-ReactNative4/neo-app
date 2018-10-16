@@ -11,9 +11,10 @@ import HamburgerButton from "../../CommonComponents/HamburgerButton/HamburgerBut
 import { inject, observer } from "mobx-react/custom";
 import EmptyListPlaceholder from "../../CommonComponents/EmptyListPlaceholder/EmptyListPlaceholder";
 import constants from "../../constants/constants";
-import UpcomingCard from "../YourBookingsScreen/Components/UpcomingCard";
 import { isIphoneX } from "react-native-iphone-x-helper";
 import XSensorPlaceholder from "../../CommonComponents/XSensorPlaceholder/XSensorPlaceholder";
+import PaymentInfoCard from "./Components/PaymentInfoCard";
+import apiCall from "../../Services/networkRequests/apiCall";
 
 @inject("yourBookingsStore")
 @observer
@@ -32,6 +33,59 @@ class PaymentHome extends Component {
     };
   };
 
+  state = {
+    isLoading: false,
+    paymentMeta: {}
+  };
+  _didFocusSubscription;
+
+  constructor(props) {
+    super(props);
+
+    this._didFocusSubscription = props.navigation.addListener(
+      "didFocus",
+      () => {
+        console.log("Focusing Home....");
+        this.getPaymentMeta();
+      }
+    );
+  }
+
+  componentDidMount() {
+    this.getPaymentMeta();
+  }
+
+  componentWillUnmount() {
+    this._didFocusSubscription && this._didFocusSubscription.remove();
+  }
+
+  getPaymentMeta() {
+    this.setState({
+      isLoading: true
+    });
+    apiCall(constants.getPaymentMeta)
+      .then(response => {
+        this.setState({
+          isLoading: false
+        });
+        if (response.status === "SUCCESS") {
+          this.setState({
+            paymentMeta: response.data
+          });
+        } else {
+          this.apiFailure();
+        }
+      })
+      .catch(err => {
+        this.setState({
+          isLoading: false
+        });
+        this.apiFailure();
+      });
+  }
+
+  apiFailure = () => {};
+
   render() {
     const {
       upcomingItineraries,
@@ -44,8 +98,11 @@ class PaymentHome extends Component {
         <ScrollView
           refreshControl={
             <RefreshControl
-              refreshing={isLoading}
-              onRefresh={getUpcomingItineraries}
+              refreshing={isLoading || this.state.isLoading}
+              onRefresh={() => {
+                getUpcomingItineraries();
+                this.getPaymentMeta();
+              }}
             />
           }
         >
@@ -60,18 +117,32 @@ class PaymentHome extends Component {
             />
           ) : null}
           {upcomingItineraries.map((itinerary, index) => {
-            let isLast = false;
-            if (index === upcomingItineraries.length - 1) isLast = true;
-            return (
-              <UpcomingCard
-                key={index}
-                {...itinerary}
-                selectItinerary={() =>
-                  this.props.navigation.navigate("PaymentSummary")
-                }
-                isLast={isLast}
-              />
-            );
+            const paymentDetails = this.state.paymentMeta[
+              itinerary.itineraryId
+            ];
+            if (paymentDetails) {
+              let isLast = false;
+              if (index === upcomingItineraries.length - 1) isLast = true;
+              return (
+                <PaymentInfoCard
+                  key={index}
+                  itineraryName={itinerary.itineraryName}
+                  itineraryId={itinerary.itineraryId}
+                  selectItinerary={() =>
+                    this.props.navigation.navigate("PaymentSummary", {
+                      itineraryId: itinerary.itineraryId
+                    })
+                  }
+                  isLast={isLast}
+                  isPaymentPending={paymentDetails.nextPendingDate > -1}
+                  paymentDue={paymentDetails.paymentDue}
+                  nextPendingDate={paymentDetails.nextPendingDate}
+                  totalAmountPaid={paymentDetails.totalAmountPaid}
+                />
+              );
+            } else {
+              return null;
+            }
           })}
         </ScrollView>
         {isIphoneX() ? <XSensorPlaceholder /> : null}

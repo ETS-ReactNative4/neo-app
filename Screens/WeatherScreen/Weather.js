@@ -10,6 +10,8 @@ import _ from "lodash";
 import Moment from "moment";
 import { extendMoment } from "moment-range";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
+import XSensorPlaceholder from "../../CommonComponents/XSensorPlaceholder/XSensorPlaceholder";
+import { isIphoneX } from "react-native-iphone-x-helper";
 
 const moment = extendMoment(Moment);
 
@@ -24,16 +26,7 @@ class Weather extends Component {
   };
 
   state = {
-    /**
-     * TODO: Set weather active status based on tour date
-     */
-    isWeatherActive: true
-  };
-
-  selectWeatherTile = index => {
-    this.setState({
-      activeWeatherTile: index
-    });
+    isWeatherActive: false
   };
 
   componentDidMount() {
@@ -52,6 +45,14 @@ class Weather extends Component {
         });
       })
     );
+    const today = moment();
+    const firstDay = moment(cities[0].day);
+    const dateDifference = firstDay.diff(today, "days");
+    if (dateDifference < 7) {
+      this.setState({
+        isWeatherActive: true
+      });
+    }
     this.props.weatherStore.getWeatherDetails(cities);
   }
 
@@ -87,6 +88,7 @@ class Weather extends Component {
           <WeatherInactivePlaceholder />
         )}
         <WeatherTiles weatherArray={weather} selectTile={selectWeather} />
+        {isIphoneX() ? <XSensorPlaceholder /> : null}
       </View>
     );
   }
