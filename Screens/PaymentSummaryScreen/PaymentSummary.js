@@ -5,7 +5,8 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
-  RefreshControl
+  RefreshControl,
+  Keyboard
 } from "react-native";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import VoucherSplitSection from "../VoucherScreens/Components/VoucherSplitSection";
@@ -31,9 +32,26 @@ class PaymentSummary extends Component {
     isLoading: false,
     isPaymentLoading: false
   };
+  _didFocusSubscription;
+
+  constructor(props) {
+    super(props);
+
+    this._didFocusSubscription = props.navigation.addListener(
+      "didFocus",
+      () => {
+        console.log("Focusing Summary....");
+        this.loadPaymentData();
+      }
+    );
+  }
 
   componentDidMount() {
     this.loadPaymentData();
+  }
+
+  componentWillUnmount() {
+    this._didFocusSubscription && this._didFocusSubscription.remove();
   }
 
   apiFailure = () => {};
