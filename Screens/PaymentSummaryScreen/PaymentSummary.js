@@ -18,6 +18,9 @@ import apiCall from "../../Services/networkRequests/apiCall";
 import Loader from "../../CommonComponents/Loader/Loader";
 import paymentScript from "./Components/paymentScript";
 
+/**
+ * TODO: Need data from previous api
+ */
 class PaymentSummary extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
