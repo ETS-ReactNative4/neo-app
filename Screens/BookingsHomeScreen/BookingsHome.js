@@ -73,7 +73,7 @@ class BookingsHome extends Component {
 
           <BookingAccordion navigation={navigation} />
 
-          <ControlledWebView
+          {/* <ControlledWebView
             source={{ uri: constants.crispServerUrl }}
             onNavigationStateChange={() => null}
             style={{ height: 0, width: 0 }}
@@ -89,7 +89,7 @@ class BookingsHome extends Component {
             webviewRef={() => null}
             injectedJavascript={""}
             hideLoadingIndicator={true}
-          />
+          /> */}
         </ScrollView>
       </View>
     );
