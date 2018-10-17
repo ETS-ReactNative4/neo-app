@@ -8,7 +8,10 @@ import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidE
 const TransferIcon = ({ transferType }) => {
   const customStyle = {};
   let transferImage;
-  switch (transferType) {
+  /**
+   * TODO: Section needs more icons...
+   */
+  switch (transferType.mode) {
     case "TRAIN":
       transferImage = constants.trainIcon;
       break;
@@ -18,20 +21,36 @@ const TransferIcon = ({ transferType }) => {
       customStyle.paddingLeft = 1;
       break;
 
-    default:
+    case "BUS":
+      transferImage = constants.busIcon;
+      break;
+
+    case "NONE":
       transferImage = false;
+      break;
+
+    default:
+      transferImage = constants.activityIcon;
   }
   if (!transferImage) return null;
 
   return (
-    <View style={[styles.iconContainer, customStyle]}>
+    <View
+      style={[
+        styles.iconContainer,
+        transferType.type === "INTERNATIONAL_DEPART"
+          ? { right: 0 }
+          : { left: 0 },
+        customStyle
+      ]}
+    >
       <Icon name={transferImage} size={12} color={"white"} />
     </View>
   );
 };
 
 TransferIcon.propTypes = forbidExtraProps({
-  transferType: PropTypes.string.isRequired
+  transferType: PropTypes.object.isRequired
 });
 
 const styles = StyleSheet.create({
@@ -44,8 +63,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     position: "absolute",
-    top: 0,
-    right: 0
+    top: 0
   }
 });
 

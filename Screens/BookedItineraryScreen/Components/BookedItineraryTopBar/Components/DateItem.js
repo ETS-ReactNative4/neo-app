@@ -15,10 +15,10 @@ import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidE
 const DateItem = inject("itineraries")(
   observer(
     ({ day, selectDay, selectedDay, onHeaderLayout, index, itineraries }) => {
-      const date = moment(day).format("DDMMYYYY");
-
+      const date = moment(day).format("DD");
+      const dateMillis = moment(day).format("x");
       const layoutEvent = nativeEvent => {
-        onHeaderLayout(nativeEvent, date);
+        onHeaderLayout(nativeEvent, dateMillis);
       };
 
       const selectionMatrix = itineraries.getDateSelectionMatrixSingle(index);
@@ -39,15 +39,15 @@ const DateItem = inject("itineraries")(
 
       return (
         <TouchableWithoutFeedback
-          onPress={() => selectDay(date)}
+          onPress={() => selectDay(dateMillis)}
           style={[styles.touchableContainer, styles[touchableStyleAndroid]]}
           onLayout={layoutEvent}
         >
           <View style={[styles.dateContainer, styles[selectionStyle]]}>
-            {date === selectedDay ? <View style={styles.activeBubble} /> : null}
-            <Text style={[styles.dateText, styles.fdDateText]}>
-              {date.substring(0, 2)}
-            </Text>
+            {dateMillis === selectedDay ? (
+              <View style={styles.activeBubble} />
+            ) : null}
+            <Text style={[styles.dateText, styles.fdDateText]}>{date}</Text>
           </View>
         </TouchableWithoutFeedback>
       );

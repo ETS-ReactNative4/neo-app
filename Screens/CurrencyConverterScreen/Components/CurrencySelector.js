@@ -3,38 +3,18 @@ import {
   View,
   ScrollView,
   StyleSheet,
-  Modal,
   TouchableHighlight,
   Image,
   Text,
   SafeAreaView
 } from "react-native";
+import Modal from "react-native-modal";
 import PropTypes from "prop-types";
 import { isIphoneX } from "react-native-iphone-x-helper";
 import constants from "../../../constants/constants";
 import SectionHeader from "../../../CommonComponents/SectionHeader/SectionHeader";
 import Icon from "../../../CommonComponents/Icon/Icon";
-
-const CurrencyRow = ({ image, text, action }) => {
-  return (
-    <TouchableHighlight
-      underlayColor={"transparent"}
-      onPress={action}
-      style={styles.currencyRowTouchable}
-    >
-      <View style={styles.currencyRowContainer}>
-        <Image style={styles.currencyRowFlagImage} source={image} />
-        <Text style={styles.currencyName}>{text.substr(3)}</Text>
-      </View>
-    </TouchableHighlight>
-  );
-};
-
-CurrencyRow.propTypes = {
-  image: PropTypes.oneOfType([PropTypes.number, PropTypes.object]).isRequired,
-  text: PropTypes.string.isRequired,
-  action: PropTypes.func.isRequired
-};
+import SelectionRow from "../../../CommonComponents/SelectionRow/SelectionRow";
 
 class CurrencySelector extends Component {
   static propTypes = {
@@ -71,12 +51,9 @@ class CurrencySelector extends Component {
 
     return (
       <Modal
-        animationType="slide"
-        transparent={false}
-        visible={this.props.isVisible}
-        onRequestClose={() => {
-          console.log("modal closed!");
-        }}
+        isVisible={this.props.isVisible}
+        onBackButtonPress={this.props.onClose}
+        style={{ margin: 0, backgroundColor: "white" }}
       >
         <SafeAreaView style={{ flex: 1 }}>
           <View style={styles.container}>
@@ -107,10 +84,10 @@ class CurrencySelector extends Component {
             >
               {currencies.map((currency, index) => {
                 return (
-                  <CurrencyRow
+                  <SelectionRow
                     key={index}
                     image={currency.image}
-                    text={currency.name}
+                    text={currency.name.substr(3)}
                     action={currency.action}
                   />
                 );
@@ -123,7 +100,7 @@ class CurrencySelector extends Component {
 
               {currencies.map((currency, index) => {
                 return (
-                  <CurrencyRow
+                  <SelectionRow
                     key={index}
                     image={currency.image}
                     text={currency.name}
@@ -166,26 +143,6 @@ const styles = StyleSheet.create({
   flagImage: {
     height: 20,
     width: 30
-  },
-  currencyRowTouchable: {
-    height: 40,
-    borderBottomWidth: 1,
-    borderBottomColor: constants.shade4
-  },
-  currencyRowContainer: {
-    flex: 1,
-    flexDirection: "row",
-    alignItems: "center"
-  },
-  currencyRowFlagImage: {
-    height: 20,
-    width: 30,
-    marginRight: 8
-  },
-  currencyName: {
-    ...constants.font17(constants.primaryLight),
-    marginTop: 8,
-    color: constants.black2
   }
 });
 

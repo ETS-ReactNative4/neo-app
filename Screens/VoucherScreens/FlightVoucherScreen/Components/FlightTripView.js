@@ -5,6 +5,7 @@ import FlightDivider from "./FlightDivider";
 import PropTypes from "prop-types";
 import constants from "../../../../constants/constants";
 import forbidExtraProps from "../../../../Services/PropTypeValidation/forbidExtraProps";
+import FlightActionSection from "./FlightActionSection";
 
 class FlightTripView extends Component {
   static propTypes = forbidExtraProps({
@@ -49,7 +50,8 @@ class FlightTripView extends Component {
         depMonth,
         depDateOfMonth,
         departureAirportCode,
-        departureTime
+        departureTime,
+        freeCabinBaggage
       } = routes[0];
 
       const {
@@ -89,7 +91,9 @@ class FlightTripView extends Component {
             showStops={!this.state.isExpanded}
             flightClass={flightClass}
             airlineCode={airlineCode}
+            freeCabinBaggage={freeCabinBaggage}
           />
+          <FlightActionSection />
         </View>
       );
     }
@@ -111,7 +115,8 @@ class FlightTripView extends Component {
             departureTime,
             arrivalTime,
             arrivalCity,
-            layoverTime
+            layoverTime,
+            freeCabinBaggage
           } = route;
           const departure = `${departureDayOfWeek}, ${depDateOfMonth} ${depMonth}`;
           const departureText = `${departureAirportCode} ${departureTime.slice(
@@ -146,10 +151,14 @@ class FlightTripView extends Component {
                   showStops={!this.state.isExpanded}
                   flightClass={flightClass}
                   airlineCode={airlineCode}
+                  freeCabinBaggage={freeCabinBaggage}
                 />,
                 routeIndex < routes.length - 1 ? (
+                  <FlightActionSection key={1} />
+                ) : null,
+                routeIndex < routes.length - 1 ? (
                   <FlightDivider
-                    key={1}
+                    key={2}
                     onClick={this.toggleFlightCard}
                     layoverText={layoverText}
                   />

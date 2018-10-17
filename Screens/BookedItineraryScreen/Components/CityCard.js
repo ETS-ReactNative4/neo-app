@@ -4,7 +4,6 @@ import {
   Image,
   Text,
   StyleSheet,
-  ImageBackground,
   Platform,
   TouchableOpacity
 } from "react-native";
@@ -12,6 +11,7 @@ import PropTypes from "prop-types";
 import constants from "../../../constants/constants";
 import Icon from "../../../CommonComponents/Icon/Icon";
 import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraProps";
+import FastImage from "react-native-fast-image";
 
 const CityCard = ({
   cityImage,
@@ -23,9 +23,9 @@ const CityCard = ({
   if (!containerStyle) containerStyle = {};
 
   return (
-    <ImageBackground
+    <FastImage
       source={cityImage}
-      resizeMode={"cover"}
+      resizeMode={FastImage.resizeMode.cover}
       style={[styles.cityContainer, containerStyle]}
     >
       <Image
@@ -50,7 +50,7 @@ const CityCard = ({
           <Text style={styles.actionText}>Explore on Map</Text>
         </TouchableOpacity>
       </View>
-    </ImageBackground>
+    </FastImage>
   );
 };
 
@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
 
   headerBackground: {
     position: "absolute",
-    bottom: 0,
+    bottom: -1,
     left: 0,
     height: 47.5,
     width: 181.25

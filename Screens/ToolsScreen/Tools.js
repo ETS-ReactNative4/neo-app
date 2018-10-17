@@ -1,66 +1,42 @@
 import React, { Component } from "react";
-import {
-  View,
-  StyleSheet,
-  Image,
-  ScrollView,
-  TouchableHighlight,
-  ImageBackground,
-  Text
-} from "react-native";
+import { View, StyleSheet, ScrollView } from "react-native";
 import constants from "../../constants/constants";
 import SectionHeader from "../../CommonComponents/SectionHeader/SectionHeader";
 import Carousel from "../../CommonComponents/Carousel/Carousel";
 import PrimaryTool from "./Components/PrimaryTool";
 import SecondaryTool from "./Components/SecondaryTool";
-import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
-import HamburgerButton from "../../CommonComponents/HamburgerButton/HamburgerButton";
-import TripToggle from "../../CommonComponents/TripToggle/TripToggle";
 import SearchPlaceholder from "../../CommonComponents/SearchPlaceholder/SearchPlaceholder";
-import HomeTitle from "../../CommonComponents/HomeTitle/HomeTitle";
+import HomeHeader from "../../CommonComponents/HomeHeader/HomeHeader";
+import { inject, observer } from "mobx-react/custom";
 
+@inject("itineraries")
+@inject("emergencyContactsStore")
+@inject("passportDetailsStore")
+@inject("visaStore")
+@observer
 class Tools extends Component {
-  static navigationOptions = ({ navigation }) => {
-    return {
-      header: (
-        <CommonHeader
-          LeftButton={
-            <HamburgerButton action={() => navigation.openDrawer()} />
-          }
-          TitleComponent={
-            <HomeTitle action={() => navigation.navigate("YourBookings")} />
-          }
-          title={""}
-          RightButton={<TripToggle containerStyle={{ marginHorizontal: 24 }} />}
-          navigation={navigation}
-        />
-      )
-    };
-  };
+  static navigationOptions = HomeHeader;
+
+  componentDidMount() {
+    const { cities, selectedItineraryId } = this.props.itineraries;
+    const { getEmergencyContacts } = this.props.emergencyContactsStore;
+    const { getPassportDetails } = this.props.passportDetailsStore;
+    const { getVisaDetails } = this.props.visaStore;
+
+    getEmergencyContacts(cities);
+    getPassportDetails(selectedItineraryId);
+    getVisaDetails(selectedItineraryId);
+  }
 
   render() {
-    const cityList = [
-      {
-        title: "Bali",
-        image: constants.starterBackground,
-        action: () => {}
-      },
-      {
-        title: "Bali",
-        image: constants.starterBackground,
-        action: () => {}
-      },
-      {
-        title: "Bali",
-        image: constants.starterBackground,
-        action: () => {}
-      },
-      {
-        title: "Bali",
-        image: constants.starterBackground,
-        action: () => {}
-      }
-    ];
+    const { cities } = this.props.itineraries;
+    const cityList = cities.map(city => {
+      return {
+        title: city.city,
+        image: { uri: constants.cityImageBaseUrl + city.cityObject.image },
+        action: () => this.props.navigation.navigate("Places", { city })
+      };
+    });
 
     const essentialTools = [
       {
@@ -99,7 +75,7 @@ class Tools extends Component {
       {
         icon: constants.documentVisaIcon,
         text: `Documents${"\n"}& Visa`,
-        action: () => {}
+        action: () => this.props.navigation.navigate("Visa")
       },
       {
         icon: constants.yourPickIcon,

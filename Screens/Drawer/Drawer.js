@@ -6,7 +6,8 @@ import {
   Image,
   Text,
   Platform,
-  ImageBackground
+  ImageBackground,
+  StatusBar
 } from "react-native";
 import { isIphoneX } from "react-native-iphone-x-helper";
 import constants from "../../constants/constants";
@@ -14,7 +15,13 @@ import DrawerButton from "./Components/DrawerButton";
 import NotificationCount from "../../CommonComponents/NotificationCount/NotificationCount";
 import logOut from "../../Services/logOut/logOut";
 import SimpleButton from "../../CommonComponents/SimpleButton/SimpleButton";
+import { inject, observer } from "mobx-react/custom";
+import _ from "lodash";
+import DialogBox from "../../CommonComponents/DialogBox/DialogBox";
 
+@inject("userStore")
+@inject("infoStore")
+@observer
 class Drawer extends Component {
   clickDrawerItem = (index, screen) => {
     this.props.navigation.navigate(screen);
@@ -67,7 +74,8 @@ class Drawer extends Component {
       },
       {
         icon: constants.notificationIcon,
-        text: "Support"
+        text: "Support",
+        action: () => this.props.navigation.navigate("AppSupport")
       },
       {
         icon: constants.notificationIcon,
@@ -76,13 +84,23 @@ class Drawer extends Component {
       {
         icon: constants.notificationIcon,
         text: "Log Out",
-        action: () => logOut(this.props.navigation)
+        action: () => logOut()
       }
     ];
 
-    return (
-      <ImageBackground style={{ flex: 1 }} source={constants.drawerBackground}>
+    const { infoStore } = this.props;
+    const { userDetails } = this.props.userStore;
+    const { name } = userDetails;
+    const firstName = name ? name.split(" ")[0] : "";
+
+    return [
+      <ImageBackground
+        key={0}
+        style={{ flex: 1 }}
+        source={constants.drawerBackground}
+      >
         <ScrollView style={styles.drawerContainer}>
+          <StatusBar backgroundColor="white" barStyle="dark-content" />
           <View style={styles.profileImageContainer}>
             <Image
               style={styles.profileImage}
@@ -92,30 +110,39 @@ class Drawer extends Component {
               }}
             />
           </View>
-          <Text style={styles.userName}>Hi Anand!</Text>
+          <Text style={styles.userName}>{`Hi ${
+            firstName
+              ? firstName.charAt(0).toUpperCase() +
+                firstName.substr(1).toLowerCase()
+              : ""
+          }!`}</Text>
 
-          <SimpleButton
-            text={"Login"}
-            action={() => null}
-            textColor={"white"}
-            hasBorder={true}
-            color={"transparent"}
-            containerStyle={{
-              alignSelf: "center",
-              width: 64,
-              height: 24,
-              borderRadius: 17,
-              marginBottom: 19
-            }}
-            textStyle={{
-              fontFamily: constants.primaryRegular,
-              fontWeight: "600",
-              color: constants.shade1,
-              fontSize: 10,
-              marginTop: -2,
-              marginLeft: 0
-            }}
-          />
+          {_.isEmpty(userDetails) ? (
+            <SimpleButton
+              text={"Login"}
+              action={() => null}
+              textColor={"white"}
+              hasBorder={true}
+              color={"transparent"}
+              containerStyle={{
+                alignSelf: "center",
+                width: 64,
+                height: 24,
+                borderRadius: 17,
+                marginBottom: 19
+              }}
+              textStyle={{
+                fontFamily: constants.primaryRegular,
+                fontWeight: "600",
+                color: constants.shade1,
+                fontSize: 10,
+                marginTop: -2,
+                marginLeft: 0
+              }}
+            />
+          ) : (
+            <View style={{ height: 24 }} />
+          )}
 
           {menuItems.map((item, index) => {
             const defaultAction = () => this.clickDrawerItem(index, item.text);
@@ -132,8 +159,32 @@ class Drawer extends Component {
             );
           })}
         </ScrollView>
-      </ImageBackground>
-    );
+      </ImageBackground>,
+      <DialogBox
+        {...infoStore.info}
+        onClose={() => {
+          infoStore.info.action && infoStore.info.action();
+          infoStore.resetInfo();
+        }}
+        key={1}
+      />,
+      <DialogBox
+        {...infoStore.error}
+        onClose={() => {
+          infoStore.error.action && infoStore.error.action();
+          infoStore.resetError();
+        }}
+        key={2}
+      />,
+      <DialogBox
+        {...infoStore.success}
+        onClose={() => {
+          infoStore.success.action && infoStore.success.action();
+          infoStore.resetSuccess();
+        }}
+        key={3}
+      />
+    ];
   }
 }
 

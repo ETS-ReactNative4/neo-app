@@ -1,4 +1,3 @@
-import store from "../../mobx/Store";
 import * as Keychain from "react-native-keychain";
 import {
   StackActions,
@@ -6,6 +5,8 @@ import {
   DrawerActions
 } from "react-navigation";
 import { setUserContext } from "../errorLogger/errorLogger";
+import navigationService from "../navigationService/navigationService";
+import storeService from "../storeService/storeService";
 
 const resetToSplash = StackActions.reset({
   index: 0,
@@ -15,17 +16,28 @@ const resetToSplash = StackActions.reset({
 
 const closeDrawer = DrawerActions.closeDrawer();
 
-const logOut = navigation => {
+const logOut = () => {
+  const { navigation } = navigationService;
+
   navigation.dispatch(closeDrawer);
   Keychain.resetGenericPassword().then(() => {
     navigation.dispatch(resetToSplash);
+
+    setTimeout(() => {
+      storeService.itineraries.reset();
+      storeService.appState.reset();
+      storeService.yourBookingsStore.reset();
+      storeService.voucherStore.reset();
+      storeService.packingChecklistStore.reset();
+      storeService.phrasesStore.reset();
+      storeService.emergencyContactsStore.reset();
+      storeService.passportDetailsStore.reset();
+    }, 100);
   });
-  store.itineraries.reset();
-  store.appState.reset();
-  store.yourBookingsStore.reset();
-  store.voucherStore.reset();
-  store.packingChecklistStore.reset();
-  setUserContext();
+  /**
+   * TODO: Clear sentry user context
+   * setUserContext();
+   */
 };
 
 export default logOut;

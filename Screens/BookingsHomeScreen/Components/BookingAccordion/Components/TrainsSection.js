@@ -1,27 +1,38 @@
 import React from "react";
-import { View, Text, Image, StyleSheet } from "react-native";
+import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 import moment from "moment";
 import { responsiveWidth } from "react-native-responsive-dimensions";
 import constants from "../../../../../constants/constants";
 import PropTypes from "prop-types";
+import CircleThumbnail from "../../../../../CommonComponents/CircleThumbnail/CircleThumbnail";
+import storeService from "../../../../../Services/storeService/storeService";
+import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidExtraProps";
 
-const TrainsSection = ({ section }) => {
+const TrainsSection = ({ section, navigation }) => {
   return (
     <View>
       {section.items.map((train, index) => {
         let isLast = index === section.items.length - 1;
 
-        return <Train key={index} train={train} isLast={isLast} />;
+        return (
+          <Train
+            key={index}
+            navigation={navigation}
+            train={train}
+            isLast={isLast}
+          />
+        );
       })}
     </View>
   );
 };
 
-TrainsSection.propTypes = {
-  section: PropTypes.object.isRequired
-};
+TrainsSection.propTypes = forbidExtraProps({
+  section: PropTypes.object.isRequired,
+  navigation: PropTypes.object.isRequired
+});
 
-const Train = ({ train, isLast }) => {
+const Train = ({ train, isLast, navigation }) => {
   let customStyle = {};
   if (isLast) {
     customStyle = {
@@ -30,23 +41,42 @@ const Train = ({ train, isLast }) => {
     };
   }
 
+  const openVoucher = () => {
+    if (train.voucher.booked) {
+      navigation.navigate("TransferVoucher", { transfer: train });
+    } else {
+      storeService.infoStore.setInfo(
+        constants.bookingProcessText.title,
+        constants.bookingProcessText.message,
+        constants.bookingProcessingIcon,
+        constants.bookingProcessText.actionText
+      );
+    }
+  };
+
   return (
-    <View style={[styles.contentContainer, customStyle]}>
+    <TouchableOpacity
+      onPress={openVoucher}
+      style={[styles.contentContainer, customStyle]}
+    >
       <View style={styles.iconWrapper}>
-        <Image
-          resizeMode={"cover"}
-          style={styles.contentIcon}
-          source={constants.splashBackground}
+        <CircleThumbnail
+          isContain={false}
+          containerStyle={styles.contentIcon}
+          image={{ uri: constants.miscImageBaseUrl + "transfers-train.jpg" }}
+          defaultImageUri={constants.miscImageBaseUrl + "transfers-train.jpg"}
         />
       </View>
       <View style={styles.contentTextContainer}>
         <View style={styles.contentHeaderWrapper}>
-          <Text style={styles.contentHeader}>{`${moment(
-            `${train.day}/${train.mon}/${constants.currentYear}`,
-            "DD/MMM/YYYY"
-          ).format("MMM DD")} (${train.departureTime} - ${
-            train.arrivalTime
-          })`}</Text>
+          <Text style={styles.contentHeader}>{`${
+            train.dateMillis
+              ? moment(train.dateMillis).format("MMM DD")
+              : moment(
+                  `${train.day}/${train.mon}/${constants.currentYear}`,
+                  "DD/MMM/YYYY"
+                ).format("MMM DD")
+          } (${train.departureTime} - ${train.arrivalTime})`}</Text>
         </View>
         <View style={styles.contentTextWrapper}>
           <Text style={styles.contentText} numberOfLines={2}>
@@ -57,14 +87,15 @@ const Train = ({ train, isLast }) => {
       <View style={styles.rightPlaceholder}>
         <Text style={styles.rightPlaceholderText}>Stayed</Text>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
-Train.propTypes = {
+Train.propTypes = forbidExtraProps({
   train: PropTypes.object.isRequired,
-  isLast: PropTypes.bool.isRequired
-};
+  isLast: PropTypes.bool.isRequired,
+  navigation: PropTypes.object.isRequired
+});
 
 const styles = StyleSheet.create({
   contentContainer: {

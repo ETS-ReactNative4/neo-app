@@ -13,8 +13,18 @@ import XSensorPlaceholder from "../../../CommonComponents/XSensorPlaceholder/XSe
 import constants from "../../../constants/constants";
 import SimpleButton from "../../../CommonComponents/SimpleButton/SimpleButton";
 import { responsiveWidth } from "react-native-responsive-dimensions";
+import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraProps";
+import PropTypes from "prop-types";
+import localeCode from "locale-code";
 
 class CustomPhrase extends Component {
+  static propTypes = forbidExtraProps({
+    openLanguageSelector: PropTypes.func.isRequired,
+    selectedLanguage: PropTypes.object.isRequired,
+    selectPhrase: PropTypes.func.isRequired,
+    targetLanguage: PropTypes.string.isRequired
+  });
+
   state = {
     customPhrase: "",
     isKeyboardVisible: false,
@@ -25,6 +35,7 @@ class CustomPhrase extends Component {
 
   keyboardDidShow = e => {
     this.setState({
+      isKeyboardVisible: true,
       keyboardSpace: isIphoneX()
         ? e.endCoordinates.height
         : e.endCoordinates.height
@@ -33,6 +44,7 @@ class CustomPhrase extends Component {
 
   keyboardDidHide = () => {
     this.setState({
+      isKeyboardVisible: false,
       keyboardSpace: isIphoneX() ? constants.xSensorAreaHeight : 0
     });
   };
@@ -53,15 +65,18 @@ class CustomPhrase extends Component {
     this.keyboardDidHideListener.remove();
   }
 
-  onEditText = e => {
+  onEditText = phrase => {
     this.setState({
-      customPhrase: e.target.value
+      customPhrase: phrase
     });
   };
 
   render() {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-
+    const { selectPhrase, targetLanguage } = this.props;
+    const { customPhrase } = this.state;
+    const translateAction = () =>
+      customPhrase ? selectPhrase(customPhrase, targetLanguage) : null;
     return [
       <View
         key={0}
@@ -72,22 +87,44 @@ class CustomPhrase extends Component {
       >
         <TextInput
           style={styles.customPhraseInput}
-          onChange={this.onEditText}
-          returnKeyType={"done"}
+          onChangeText={this.onEditText}
+          returnKeyType={
+            Platform.OS === "android" && !customPhrase ? "none" : "done"
+          }
           underlineColorAndroid={"transparent"}
-          value={this.state.customPhrase}
+          value={customPhrase}
+          onSubmitEditing={translateAction}
           placeholder={"Or, type a custom message"}
         />
-        <SimpleButton
-          text={"SPA"}
-          action={() => null}
-          containerStyle={{
-            backgroundColor: "white",
-            width: 40,
-            marginLeft: 16
-          }}
-          textColor={constants.firstColor}
-        />
+        {customPhrase && this.state.isKeyboardVisible ? (
+          <SimpleButton
+            text={"Translate"}
+            action={translateAction}
+            containerStyle={{
+              backgroundColor: "white",
+              width: 64,
+              marginLeft: 8
+            }}
+            textStyle={{
+              fontSize: 13
+            }}
+            textColor={constants.firstColor}
+          />
+        ) : (
+          <SimpleButton
+            text={localeCode
+              .getLanguageName(this.props.selectedLanguage.languageCode)
+              .toUpperCase()
+              .substr(0, 3)}
+            action={this.props.openLanguageSelector}
+            containerStyle={{
+              backgroundColor: "white",
+              width: 64,
+              marginLeft: 8
+            }}
+            textColor={constants.firstColor}
+          />
+        )}
       </View>,
       isIphoneX() && !this.state.isKeyboardVisible ? (
         <XSensorPlaceholder
@@ -101,7 +138,14 @@ class CustomPhrase extends Component {
 
 const styles = StyleSheet.create({
   customPhraseContainer: {
-    height: 48,
+    ...Platform.select({
+      ios: {
+        height: 48
+      },
+      android: {
+        height: 56
+      }
+    }),
     width: responsiveWidth(100),
     flexDirection: "row",
     alignItems: "center",
@@ -111,7 +155,14 @@ const styles = StyleSheet.create({
   },
   customPhraseInput: {
     flex: 1,
-    height: 32,
+    ...Platform.select({
+      ios: {
+        height: 32
+      },
+      android: {
+        height: 40
+      }
+    }),
     backgroundColor: constants.shade5,
     borderRadius: 7,
     paddingHorizontal: 8,

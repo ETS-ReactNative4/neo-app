@@ -31,11 +31,13 @@ class YourBookings extends Component {
   };
 
   render() {
-    const { upcomingItineraries, isLoading } = this.props.yourBookingsStore;
+    const {
+      upcomingItineraries,
+      isLoading,
+      getUpcomingItineraries
+    } = this.props.yourBookingsStore;
     return (
       <View style={styles.yourBookingsContainer}>
-        <Loader isVisible={isLoading} />
-
         <ScrollableTabView
           tabBarActiveTextColor={constants.black2}
           tabBarInactiveTextColor={constants.firstColor}
@@ -54,6 +56,7 @@ class YourBookings extends Component {
             itinerariesList={upcomingItineraries}
             isLoading={isLoading}
             navigation={this.props.navigation}
+            getUpcomingItineraries={getUpcomingItineraries}
           />
           <Completed tabLabel="COMPLETED" />
         </ScrollableTabView>

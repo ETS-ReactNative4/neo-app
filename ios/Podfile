@@ -43,6 +43,14 @@ target 'Pickyourtrail' do
 
   pod 'TextToSpeech', :path => '../node_modules/react-native-tts'
 
+  pod 'react-native-fast-image', :path => '../node_modules/react-native-fast-image'
+
+  pod 'RNSound', :path => '../node_modules/react-native-sound'
+
+  pod 'Firebase/Messaging'
+
+  pod 'react-native-fcm', :path => '../node_modules/react-native-fcm'
+
   # target 'PickyourtrailTests' do
   #   inherit! :search_paths
   #   # Pods for testing

@@ -1,0 +1,15 @@
+Upgraded manually since react-native-git-upgrade didn't work (cuz babel compiler has changed)
+
+Used instructions from:
+https://github.com/react-native-community/react-native-releases/blob/ce05d53b5e7b3f11234a3cbac6ef7a47ac26fe3f/CHANGELOG.md#updating-to-this-version
+
+Faced Issues:
+
+https://github.com/babel/babel/issues/8284
+solution: change "@babel/plugin-proposal-decorators": "7.1.2" in package.json
+
+https://github.com/facebook/react-native/issues/21150
+solution: yarn add -D schedule@0.4.0
+
+Update - 0.57 upgrade failed due to conflicting babel configurations
+Later used the dependencies from https://github.com/facebook/react-native/issues/20588#issuecomment-430264670 for the upgrading to 0.57.1

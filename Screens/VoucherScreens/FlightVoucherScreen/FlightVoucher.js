@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Text, Platform, StyleSheet } from "react-native";
+import { View, Text, Platform, StyleSheet, StatusBar } from "react-native";
 import constants from "../../../constants/constants";
 import { responsiveWidth } from "react-native-responsive-dimensions";
 import VoucherStickyHeader from "../Components/VoucherStickyHeader";
@@ -9,15 +9,12 @@ import ParallaxScrollView from "react-native-parallax-scroll-view";
 import { isIphoneX } from "react-native-iphone-x-helper";
 import PropTypes from "prop-types";
 import FlightCard from "./Components/FlightCard";
-import { inject } from "mobx-react/custom";
 import FlightTripView from "./Components/FlightTripView";
 import SectionHeader from "../../../CommonComponents/SectionHeader/SectionHeader";
 import PassengerName from "../HotelVoucherScreen/Components/PassengerName";
 import VoucherSplitSection from "../Components/VoucherSplitSection";
 import IosCloseButton from "../Components/IosCloseButton";
 
-@inject("itineraries")
-@inject("voucherStore")
 class FlightVoucher extends Component {
   static navigationOptions = {
     header: null
@@ -38,10 +35,7 @@ class FlightVoucher extends Component {
   };
 
   render() {
-    const { getFlightVoucherById } = this.props.voucherStore;
-    const { getFlightById } = this.props.itineraries;
-    const identifier = this.props.navigation.getParam("identifier", "");
-
+    const flight = this.props.navigation.getParam("flight", {});
     /**
      * TODO: header text content needed
      * TODO: Meal preference missing
@@ -49,14 +43,17 @@ class FlightVoucher extends Component {
      * // Booking source missing
      */
     const {
-      voucherId,
       flyCityText,
       passengers,
       dateOfIssue,
-      cancellationPolicy
-    } =
-      getFlightVoucherById(identifier) || {};
-    const { trips, allTrips, airlineCode } = getFlightById(identifier) || {};
+      cancellationPolicy,
+      pnr,
+      sourceProvider,
+      totalCost,
+      invoiceNumber,
+      bookingReferenceId
+    } = flight.voucher;
+    const { trips, allTrips, airlineCode } = flight;
 
     const tripDetails = allTrips.map(trip => {
       return trips[trip];
@@ -70,20 +67,20 @@ class FlightVoucher extends Component {
 
     const flightInvoiceInfo = [
       {
-        name: "Issued date",
-        value: dateOfIssue
+        name: "Booking Reference ID",
+        value: bookingReferenceId || "NA"
       },
       {
         name: "Total paid",
-        value: ""
+        value: totalCost ? `Rs. ${totalCost.toFixed(2)}` : "NA"
       },
       {
         name: "Booking source",
-        value: ""
+        value: sourceProvider || "NA"
       },
       {
         name: "Booking type",
-        value: cancellationPolicy
+        value: cancellationPolicy || "NA"
       }
     ];
 
@@ -97,19 +94,33 @@ class FlightVoucher extends Component {
         fadeOutForeground={Platform.OS !== "android"}
         onChangeHeaderVisibility={this.headerToggle}
         renderStickyHeader={() => (
-          <VoucherStickyHeader action={this.close} text={voucherId} />
+          <VoucherStickyHeader action={this.close} text={`PNR - ${pnr}`} />
         )}
         renderForeground={() => (
           <VoucherHeader
             infoText={flyCityText}
-            title={voucherId}
+            title={pnr}
             menu={() => {}}
             onClickClose={this.close}
-            image={constants.splashBackground}
+            image={constants.flightVoucherBanner}
             placeHolderHeight={48 + xHeight}
-          />
+          >
+            <View style={styles.voucherHeaderWrapper}>
+              {tripDetails.map((trip, tripIndex) => {
+                const { routes } = trip;
+                return (
+                  <Text key={tripIndex} style={styles.voucherHeaderRoute}>{`${
+                    routes[0].departureCity
+                  } → ${routes[routes.length - 1].arrivalCity}`}</Text>
+                );
+              })}
+              <Text style={styles.voucherHeaderInfo}>{"PNR"}</Text>
+              <Text style={styles.voucherHeaderText}>{pnr}</Text>
+            </View>
+          </VoucherHeader>
         )}
       >
+        <StatusBar backgroundColor="black" barStyle="light-content" />
         <View style={styles.flightVoucherContainer}>
           {tripDetails.map((trip, tripIndex) => {
             return (
@@ -160,6 +171,26 @@ const styles = StyleSheet.create({
   },
   activityDate: {
     marginBottom: 8
+  },
+  voucherHeaderWrapper: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  voucherHeaderRoute: {
+    ...constants.fontCustom(constants.primarySemiBold, 17),
+    color: "white",
+    marginBottom: 8
+  },
+  voucherHeaderInfo: {
+    fontFamily: constants.primarySemiBold,
+    color: "rgba(255,255,255,0.6)",
+    fontSize: 13
+  },
+  voucherHeaderText: {
+    fontFamily: constants.primarySemiBold,
+    color: constants.secondColor,
+    fontSize: 30
   },
   arrivalSection: {
     marginTop: 16,

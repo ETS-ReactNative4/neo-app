@@ -6,7 +6,7 @@
  */
 
 #import "AppDelegate.h"
-
+#import "RNFIRMessaging.h"
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
 #if __has_include(<React/RNSentry.h>)
@@ -28,6 +28,9 @@ RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
                                                    launchOptions:launchOptions];
 [RNSentry installWithRootView:rootView];
 
+  [FIRApp configure];
+  [[UNUserNotificationCenter currentNotificationCenter] setDelegate:self];
+  
   rootView.backgroundColor = [[UIColor alloc] initWithRed:1.0f green:1.0f blue:1.0f alpha:1];
 
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
@@ -37,5 +40,30 @@ RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
   [self.window makeKeyAndVisible];
   return YES;
 }
+
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions))completionHandler
+{
+    [RNFIRMessaging willPresentNotification:notification withCompletionHandler:completionHandler];
+  }
+
+#if defined(__IPHONE_11_0)
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)(void))completionHandler
+{
+    [RNFIRMessaging didReceiveNotificationResponse:response withCompletionHandler:completionHandler];
+  }
+#else
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void(^)())completionHandler
+{
+    [RNFIRMessaging didReceiveNotificationResponse:response withCompletionHandler:completionHandler];
+  }
+#endif
+//You can skip this method if you don't want to use local notification
+-(void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification {
+    [RNFIRMessaging didReceiveLocalNotification:notification];
+  }
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(nonnull NSDictionary *)userInfo fetchCompletionHandler:(nonnull void (^)(UIBackgroundFetchResult))completionHandler{
+    [RNFIRMessaging didReceiveRemoteNotification:userInfo fetchCompletionHandler:completionHandler];
+  }
 
 @end

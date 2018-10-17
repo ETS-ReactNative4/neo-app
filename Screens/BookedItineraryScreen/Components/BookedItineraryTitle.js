@@ -24,7 +24,7 @@ const BookedItineraryTitle = inject("itineraries")(
       };
       const { cities } = itineraries;
 
-      const selected = moment(selectedDate, "DDMMYYYY").toDate();
+      const selected = moment(selectedDate, "x").toDate();
       let selectedCity = cities.find(city => {
         const range = moment.range(city.startDay, city.endDay);
         return range.contains(selected);

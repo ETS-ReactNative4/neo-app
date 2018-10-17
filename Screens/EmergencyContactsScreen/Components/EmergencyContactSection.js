@@ -1,22 +1,72 @@
 import React, { Component } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  ScrollView
+} from "react-native";
 import constants from "../../../constants/constants";
 import SimpleButton from "../../../CommonComponents/SimpleButton/SimpleButton";
+import PropTypes from "prop-types";
+import dialer from "../../../Services/dialer/dialer";
+import directions from "../../../Services/directions/directions";
 
 class EmergencyContactSection extends Component {
+  static propTypes = {
+    cityContactDetails: PropTypes.object.isRequired
+  };
+
   render() {
+    /**
+     * TODO: Need Local Call Code!!
+     */
+    /**
+     * TODO: Mail button for Embassy!!
+     */
+    const {
+      embassyAddress,
+      embassyEmail,
+      embassyContactNumber,
+      policeNumber,
+      ambulanceNumber,
+      fireNumber,
+      missingChildrenNumber,
+      dialCode,
+      dialCodeDescription,
+      embassyLatitude,
+      embassyLongitude
+    } = this.props.cityContactDetails;
+
+    const contactNumbersList = [
+      {
+        title: "Police",
+        number: policeNumber
+      },
+      {
+        title: "Ambulance",
+        number: ambulanceNumber
+      },
+      {
+        title: "Fire Department",
+        number: fireNumber
+      },
+      {
+        title: "In case of missing children",
+        number: missingChildrenNumber
+      }
+    ];
+
     return (
-      <View style={styles.emergencyContactsContainer}>
+      <ScrollView style={styles.emergencyContactsContainer}>
         <View style={styles.dialCodeContainer}>
           <Text style={styles.dialCodeTitle}>{"Dial Code"}</Text>
-          <Text style={styles.dialCodeText}>{"+31"}</Text>
+          <Text style={styles.dialCodeText}>{dialCode || "NA"}</Text>
         </View>
         <View style={styles.emergencyTextContainer}>
-          <Text
-            style={styles.emergencyText}
-          >{`To call Belgium from India, dial + or 00 then 32 (the country code for Belgium), then the area code (without the initial 0) and the local number.
-
-For local calls within Belgium, start with the area code (with the initial 0). In the case above area code is 12`}</Text>
+          <Text style={styles.emergencyText}>
+            {dialCodeDescription || "NA"}
+          </Text>
         </View>
         <View style={styles.phoneNumberTitleContainer}>
           <Text style={styles.phoneNumberTitle}>{"CALLING FROM INDIA"}</Text>
@@ -24,38 +74,40 @@ For local calls within Belgium, start with the area code (with the initial 0). I
         </View>
         <View style={styles.phoneNumberExampleContainer}>
           <Text style={styles.phoneNumber}>
-            <Text style={styles.countryCode}>{"+32"}</Text>
+            <Text style={styles.countryCode}>{dialCode || "NA"}</Text>
             {` `}
             {`12 1234567`}
           </Text>
           <Text style={styles.phoneNumber}>
-            <Text style={styles.countryCode}>{"012"}</Text>
+            <Text style={styles.countryCode}>{"NA"}</Text>
             {` `}
             {`12 1234567`}
           </Text>
         </View>
         <View style={styles.emergencyNumbersContainer}>
-          <View style={styles.emergencyNumberWrapper}>
-            <Text style={styles.emergencyNumbers}>{"Police"}</Text>
-            <Text style={styles.emergencyNumbers}>{"112"}</Text>
-          </View>
-          <View style={styles.emergencyNumberWrapper}>
-            <Text style={styles.emergencyNumbers}>{"Ambulance"}</Text>
-            <Text style={styles.emergencyNumbers}>{"112"}</Text>
-          </View>
-          <View style={styles.emergencyNumberWrapper}>
-            <Text style={styles.emergencyNumbers}>{"Fire Department"}</Text>
-            <Text style={styles.emergencyNumbers}>{"112"}</Text>
-          </View>
+          {contactNumbersList.map((contactNumber, contactNumberIndex) => {
+            return (
+              <TouchableOpacity
+                onPress={() => dialer(contactNumber.number)}
+                key={contactNumberIndex}
+                style={styles.emergencyNumberWrapper}
+              >
+                <Text style={styles.emergencyNumbers}>
+                  {contactNumber.title}
+                </Text>
+                <Text style={styles.emergencyNumbers}>
+                  {contactNumber.number || "NA"}
+                </Text>
+              </TouchableOpacity>
+            );
+          })}
         </View>
 
         <View style={styles.addressTitleContainer}>
           <Text style={styles.addressTitle}>Indian Embassy</Text>
         </View>
         <View style={styles.addressContainer}>
-          <Text style={styles.addressText}>
-            217, Chaussee de Vleurgat, 1050 Brussels
-          </Text>
+          <Text style={styles.addressText}>{embassyAddress || "NA"}</Text>
         </View>
 
         <View style={styles.actionRow}>
@@ -67,7 +119,12 @@ For local calls within Belgium, start with the area code (with the initial 0). I
             }}
             icon={constants.compassIcon}
             text={"Directions"}
-            action={() => null}
+            action={() =>
+              directions({
+                latitude: embassyLatitude,
+                longitude: embassyLongitude
+              })
+            }
             textColor={constants.black2}
             color={"white"}
             hasBorder={true}
@@ -80,13 +137,13 @@ For local calls within Belgium, start with the area code (with the initial 0). I
             }}
             icon={constants.callIcon}
             text={"Contact"}
-            action={() => null}
+            action={() => dialer(embassyContactNumber)}
             textColor={constants.black2}
             color={"white"}
             hasBorder={true}
           />
         </View>
-      </View>
+      </ScrollView>
     );
   }
 }
@@ -156,7 +213,8 @@ const styles = StyleSheet.create({
     height: 24,
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between"
+    justifyContent: "space-between",
+    marginVertical: 8
   },
   emergencyNumbers: {
     ...constants.fontCustom(constants.primaryLight, 17),

@@ -66,16 +66,16 @@ class Voucher {
 
   getHotelVoucherById = createTransformer(identifier =>
     toJS(
-      this._selectedVoucher.hotelVoucherVO.find(
-        hotel => identifier === hotel.identifier
+      this._selectedVoucher.hotelVouchers.find(
+        hotel => identifier === hotel.hotelCostingId
       )
     )
   );
 
   getFlightVoucherById = createTransformer(identifier =>
     toJS(
-      this._selectedVoucher.flightVoucherVO.find(
-        flight => identifier === flight.identifier
+      this._selectedVoucher.flightVouchers.find(
+        flight => identifier === flight.flightCostingId
       )
     )
   );
@@ -88,10 +88,34 @@ class Voucher {
     )
   );
 
-  getTransferVoucherById = createTransformer(identifier =>
+  getTransferVoucherById = createTransformer(transferCostingId =>
     toJS(
       this._selectedVoucher.transferVouchers.find(
-        transfer => identifier === transfer.identifier
+        transfer => transferCostingId === transfer.transferCostingId
+      )
+    )
+  );
+
+  getRentalCarVoucherById = createTransformer(identifier =>
+    toJS(
+      this._selectedVoucher.rentalCarVouchers.find(
+        rentalCar => identifier === rentalCar.identifier
+      )
+    )
+  );
+
+  getFerryVoucherById = createTransformer(identifier =>
+    toJS(
+      this._selectedVoucher.ferryVouchers.find(
+        ferry => identifier === ferry.identifier
+      )
+    )
+  );
+
+  getTrainVoucherById = createTransformer(identifier =>
+    toJS(
+      this._selectedVoucher.trainVouchers.find(
+        train => identifier === train.identifier
       )
     )
   );

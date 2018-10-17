@@ -61,7 +61,7 @@ class CitySelectionMenu extends Component {
                 return (
                   <TouchableHighlight
                     onPress={() => {
-                      const cityDate = moment(city.startDay).format("DDMMYYYY");
+                      const cityDate = moment(city.startDay).format("x");
                       selectDay(cityDate);
                       closeModal();
                     }}

@@ -38,14 +38,10 @@ class BookedItinerary extends Component {
   };
 
   state = {
-    selectedDay: moment(this.props.itineraries.days[0]).format("DDMMYYYY"),
-    headers: this.props.itineraries.days.map(day =>
-      moment(day).format("DDMMYYYY")
-    ),
+    selectedDay: moment(this.props.itineraries.days[0]).format("x"),
+    headers: this.props.itineraries.days.map(day => moment(day).format("x")),
     headerPositions: {},
-    sections: this.props.itineraries.days.map(day =>
-      moment(day).format("DDMMYYYY")
-    ),
+    sections: this.props.itineraries.days.map(day => moment(day).format("x")),
     sectionPositions: {}
   };
   _headerScroll = {};
@@ -121,7 +117,7 @@ class BookedItinerary extends Component {
   componentDidMount() {
     const selectedDay = this.props.navigation.getParam(
       "selectedDate",
-      moment(this.props.itineraries.days[0]).format("DDMMYYYY")
+      moment(this.props.itineraries.days[0]).format("x")
     );
     setTimeout(() => {
       this.selectDay(selectedDay);

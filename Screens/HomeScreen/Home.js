@@ -1,33 +1,89 @@
 import React, { Component } from "react";
-import { View, Text, TouchableHighlight } from "react-native";
-import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
-import HamburgerButton from "../../CommonComponents/HamburgerButton/HamburgerButton";
-import HomeTitle from "../../CommonComponents/HomeTitle/HomeTitle";
-import TripToggle from "../../CommonComponents/TripToggle/TripToggle";
+import { View, Text, Keyboard, BackHandler, Platform } from "react-native";
+import HomeHeader from "../../CommonComponents/HomeHeader/HomeHeader";
+import ControlledWebView from "../../CommonComponents/ControlledWebView/ControlledWebView";
+import constants from "../../constants/constants";
+import { isIphoneX } from "react-native-iphone-x-helper";
+import XSensorPlaceholder from "../../CommonComponents/XSensorPlaceholder/XSensorPlaceholder";
+import BackButtonIos from "../../CommonComponents/BackButtonIos/BackButtonIos";
 
 class Home extends Component {
-  static navigationOptions = ({ navigation }) => {
-    return {
-      header: (
-        <CommonHeader
-          LeftButton={
-            <HamburgerButton action={() => navigation.openDrawer()} />
-          }
-          TitleComponent={
-            <HomeTitle action={() => navigation.navigate("YourBookings")} />
-          }
-          title={""}
-          RightButton={<TripToggle containerStyle={{ marginHorizontal: 24 }} />}
-          navigation={navigation}
-        />
-      )
-    };
+  static navigationOptions = HomeHeader;
+
+  state = {
+    canGoBack: false,
+    injectedJavascript: ""
   };
+  _webView = {};
+  _didFocusSubscription;
+  _willBlurSubscription;
+
+  constructor(props) {
+    super(props);
+
+    this._didFocusSubscription = props.navigation.addListener(
+      "didFocus",
+      () => {
+        BackHandler.addEventListener("hardwareBackPress", this.goBack);
+      }
+    );
+  }
+
+  onNavigationStateChange = navState => {
+    this.setState({
+      canGoBack: navState.canGoBack
+    });
+  };
+
+  goBack = () => {
+    if (this.state.canGoBack) {
+      this._webView.goBack();
+    } else {
+      return false;
+    }
+    return true;
+  };
+
+  componentDidMount() {
+    this._willBlurSubscription = this.props.navigation.addListener(
+      "willBlur",
+      () => {
+        BackHandler.removeEventListener("hardwareBackPress", this.goBack);
+      }
+    );
+  }
+
+  componentWillUnmount() {
+    this._didFocusSubscription && this._didFocusSubscription.remove();
+    this._willBlurSubscription && this._willBlurSubscription.remove();
+  }
 
   render() {
     return (
-      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-        <Text>Home Screen</Text>
+      <View
+        style={{
+          flex: 1,
+          backgroundColor: "white"
+        }}
+      >
+        <ControlledWebView
+          source={{ uri: constants.productUrl }}
+          onNavigationStateChange={this.onNavigationStateChange}
+          style={{
+            flex: 1
+          }}
+          webviewRef={e => (this._webView = e)}
+          injectedJavascript={this.state.injectedJavascript}
+        />
+        {Platform.OS === "ios" ? (
+          <BackButtonIos
+            backAction={this.goBack}
+            isVisible={this.state.canGoBack}
+          />
+        ) : null}
+        {isIphoneX() ? (
+          <XSensorPlaceholder containerStyle={{ backgroundColor: "white" }} />
+        ) : null}
       </View>
     );
   }

@@ -19,14 +19,11 @@ import Icon from "../../../CommonComponents/Icon/Icon";
 import SimpleButton from "../../../CommonComponents/SimpleButton/SimpleButton";
 import VoucherStickyHeader from "../Components/VoucherStickyHeader";
 import VoucherName from "../Components/VoucherName";
-import { inject } from "mobx-react/custom";
 import PassengerName from "./Components/PassengerName";
 import VoucherAccordion from "../Components/VoucherAccordion";
 import IosCloseButton from "../Components/IosCloseButton";
 import VoucherSplitSection from "../Components/VoucherSplitSection";
 
-@inject("itineraries")
-@inject("voucherStore")
 class HotelVoucher extends Component {
   static navigationOptions = {
     header: null
@@ -47,12 +44,13 @@ class HotelVoucher extends Component {
   };
 
   render() {
-    const { getHotelVoucherById } = this.props.voucherStore;
-    const { getHotelById } = this.props.itineraries;
-    const identifier = this.props.navigation.getParam("identifier", "");
+    /**
+     * TODO: Separate this object like other vouchers
+     */
+    const hotelObject = this.props.navigation.getParam("hotel", {});
     const hotel = {
-      ...(getHotelById(identifier) || {}),
-      ...(getHotelVoucherById(identifier) || {})
+      ...hotelObject,
+      ...hotelObject.voucher
     };
     const xHeight = isIphoneX()
       ? constants.xNotchHeight
@@ -140,7 +138,7 @@ class HotelVoucher extends Component {
       },
       {
         name: "Booking source",
-        value: bookingSource
+        value: bookingSource ? bookingSource : "Pickyourtrail"
       }
     ];
 
@@ -172,14 +170,18 @@ class HotelVoucher extends Component {
             <Text
               style={styles.checkDate}
             >{`${checkInDayOfWeek}, ${checkInDateDisplay} ${checkInMonthDisplay}`}</Text>
-            <Text style={styles.checkTime}>{checkInTime}</Text>
+            <Text style={styles.checkTime}>
+              {checkInTime ? checkInTime : "2:00 PM"}
+            </Text>
           </View>
           <View style={styles.checkOutBox}>
             <Text style={styles.checkTitle}>CHECK OUT</Text>
             <Text
               style={styles.checkDate}
             >{`${checkOutDayOfWeek}, ${checkOutDateDisplay} ${checkOutMonthDisplay}`}</Text>
-            <Text style={styles.checkTime}>{checkOutTime}</Text>
+            <Text style={styles.checkTime}>
+              {checkOutTime ? checkOutTime : "11:00 AM"}
+            </Text>
           </View>
         </View>
 
@@ -222,7 +224,10 @@ class HotelVoucher extends Component {
               return (
                 <View key={roomIndex} style={styles.bookedSuit}>
                   <View style={styles.bookedSuitInfo}>
-                    <CircleThumbnail image={constants.splashBackground} />
+                    <CircleThumbnail
+                      defaultImageUri={constants.hotelSmallPlaceHolder}
+                      image={constants.splashBackground}
+                    />
                     <View style={styles.bookedSuitDetails}>
                       <Text style={styles.bookedSuitType}>{roomType}</Text>
                       <Text

@@ -4,6 +4,10 @@ import moment from "moment";
 import { responsiveWidth } from "react-native-responsive-dimensions";
 import constants from "../../../../../constants/constants";
 import PropTypes from "prop-types";
+import CircleThumbnail from "../../../../../CommonComponents/CircleThumbnail/CircleThumbnail";
+import _ from "lodash";
+import storeService from "../../../../../Services/storeService/storeService";
+import SectionRightPlaceHolder from "./Components/SectionRightPlaceHolder";
 
 const ActivitiesSection = ({ section, navigation }) => {
   return (
@@ -38,10 +42,18 @@ const Activities = ({ activity, isLast, navigation }) => {
     };
   }
 
-  const openVoucher = () =>
-    navigation.navigate("ActivityVoucher", {
-      identifier: activity.costing.key
-    });
+  const openVoucher = () => {
+    if (activity.voucher.booked) {
+      navigation.navigate("ActivityVoucher", { activity });
+    } else {
+      storeService.infoStore.setInfo(
+        constants.bookingProcessText.title,
+        constants.bookingProcessText.message,
+        constants.bookingProcessingIcon,
+        constants.bookingProcessText.actionText
+      );
+    }
+  };
 
   return (
     <TouchableOpacity
@@ -49,21 +61,29 @@ const Activities = ({ activity, isLast, navigation }) => {
       style={[styles.contentContainer, customStyle]}
     >
       <View style={styles.iconWrapper}>
-        <Image
-          defaultSource={constants.splashBackground}
-          resizeMode={"cover"}
-          style={styles.contentIcon}
-          source={{ uri: activity.mainPhoto }}
+        <CircleThumbnail
+          image={{ uri: activity.mainPhoto }}
+          containerStyle={styles.contentIcon}
+          isContain={false}
+          defaultImageUri={_.sample([
+            constants.activitySmallPlaceHolder,
+            constants.activity2SmallPlaceHolder,
+            constants.activity3SmallPlaceHolder
+          ])}
         />
       </View>
       <View style={styles.contentTextContainer}>
         <View style={styles.contentHeaderWrapper}>
-          <Text style={styles.contentHeader}>{`${moment(
-            `${activity.costing.day}/${activity.costing.mon}/${
-              constants.currentYear
-            }`,
-            "DD/MMM/YYYY"
-          ).format("MMM DD")}`}</Text>
+          <Text style={styles.contentHeader}>{`${
+            activity.costing.dateMillis
+              ? moment(activity.costing.dateMillis).format("MMM DD")
+              : moment(
+                  `${activity.costing.day}/${activity.costing.mon}/${
+                    constants.currentYear
+                  }`,
+                  "DD/MMM/YYYY"
+                ).format("MMM DD")
+          }`}</Text>
         </View>
         <View style={styles.contentTextWrapper}>
           <Text style={styles.contentText} numberOfLines={1}>
@@ -71,9 +91,7 @@ const Activities = ({ activity, isLast, navigation }) => {
           </Text>
         </View>
       </View>
-      <View style={styles.rightPlaceholder}>
-        <Text style={styles.rightPlaceholderText}>Stayed</Text>
-      </View>
+      <SectionRightPlaceHolder isProcessing={!activity.voucher.booked} />
     </TouchableOpacity>
   );
 };
@@ -128,15 +146,6 @@ const styles = StyleSheet.create({
     fontFamily: constants.primaryLight,
     fontSize: 17,
     maxWidth: responsiveWidth(60)
-  },
-  rightPlaceholder: {
-    flex: 1,
-    alignItems: "flex-end"
-  },
-  rightPlaceholderText: {
-    fontFamily: constants.primaryLight,
-    fontSize: 10,
-    color: constants.black2
   }
 });
 

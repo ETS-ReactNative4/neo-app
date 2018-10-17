@@ -65,14 +65,7 @@ const styles = StyleSheet.create({
   },
   activeTile: {
     backgroundColor: "white",
-    shadowColor: constants.shade3,
-    shadowOffset: {
-      height: 5,
-      width: 0
-    },
-    shadowRadius: 10,
-    shadowOpacity: 0.5,
-    elevation: 13
+    ...constants.elevationThirteen
   },
   lastTile: {
     marginBottom: 45

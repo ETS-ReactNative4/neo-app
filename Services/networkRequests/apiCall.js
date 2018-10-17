@@ -1,8 +1,17 @@
 import * as Keychain from "react-native-keychain";
 import constants from "../../constants/constants";
 import { logError } from "../errorLogger/errorLogger";
+import PackageInfo from "../../package.json";
+import logOut from "../logOut/logOut";
+import DebouncedAlert from "../../CommonComponents/DebouncedAlert/DebouncedAlert";
 
 const timeoutDuration = 60000;
+const apiServer =
+  PackageInfo.environment === "production"
+    ? constants.prodServer
+    : PackageInfo.environment === "staging"
+      ? constants.stagingSever
+      : constants.devServer;
 
 const apiCall = async (
   route,
@@ -32,7 +41,7 @@ const apiCall = async (
 
     if (method !== "GET") requestDetails.body = JSON.stringify(body);
 
-    const serverURL = customDomain ? customDomain : constants.devServer;
+    const serverURL = customDomain ? customDomain : apiServer;
 
     console.log(`${serverURL}${route}`);
     console.log(body);
@@ -43,22 +52,31 @@ const apiCall = async (
     function handleErrors(response) {
       console.log(response.status);
       console.log(response.statusText);
-      if (response.ok) {
-        return response.json();
+      if (response.status === 401) {
+        DebouncedAlert("Oops!", "Session Expired... Please Login again!");
+        logOut();
+        return { status: "failed" };
+      }
+
+      if (response.status === 200) {
+        const data = response.json();
+        return data;
       } else {
-        response.text().then(errorText => {
-          const errorInfo = {
-            type: "apiCall",
-            url: `${serverURL}${route}`,
-            body,
+        const errorInfo = {
+          type: "apiCall",
+          url: `${serverURL}${route}`,
+          body,
+          status: response.status,
+          ...headerObject
+        };
+        const errorObject = Error(
+          JSON.stringify({
             status: response.status,
-            ...headerObject,
-            errorText
-          };
-          const errorObject = { status: response.status, errorText };
-          logError(new Error(errorObject), errorInfo);
-          throw new Error(errorObject);
-        });
+            url: `${serverURL}${route}`
+          })
+        );
+        logError(errorObject, errorInfo);
+        throw errorObject;
       }
     }
 

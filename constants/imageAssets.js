@@ -1,23 +1,33 @@
 import constants from "./constants";
 import serverUrls from "./serverUrls";
+import PackageInfo from "../package.json";
+
+const prefix = serverUrls.miscImageBaseUrl + "placeholders/";
 
 const imageAssets = {
   splashBackground: require("../assets/images/backgrounds/viceroy-bali.jpg.jpg"),
-  starterBackground: require("../assets/images/backgrounds/viceroy-bali.jpg.jpg"),
+  starterBackground: require("../assets/images/backgrounds/starterImage.jpg"),
   drawerBackground: require("../assets/images/backgrounds/drawer.png"),
-  pytLogo: require("../assets/images/icons/logo.png"),
+  pytLogo:
+    PackageInfo.environment === "production"
+      ? require("../assets/images/icons/logo.png")
+      : require("../assets/images/icons/logo-dev.png"),
+  pytLogoNew: require("../assets/images/icons/logo_new.png"),
   notificationIcon: require("../assets/images/icons/notification.png"),
   backArrow: require("../assets/images/icons/left-arrow.png"),
   dropDownArrow: require("../assets/images/icons/drop-down-arrow.png"),
   closeIcon: "close",
   loadingIcon: require("../assets/images/loaders/loader.gif"),
+  bookingProcessingIcon: require("../assets/images/loaders/loader.gif"),
   hamburgerIcon: require("../assets/images/icons/menu.png"),
   headerBackgroundShape: require("../assets/images/shapes/banner_white.png"),
   aeroplaneIcon: "flight",
+  flightVoucherBanner: require("../assets/images/backgrounds/flightVoucherHeader.jpg"),
   busIcon: "bus",
   ferryIcon: "ferry",
   trainIcon: "train",
   activityIcon: "activity",
+  leisureIcon: require("../assets/images/icons/leisure.png"),
   hotelIcon: "hotel",
   clockIcon: "clock",
   locationIcon: "location",
@@ -35,9 +45,13 @@ const imageAssets = {
   journalSelectedIcon: "journal-active",
   moreOptionsHorizIcon: "more-options-horiz",
   arrowRight: "arrow-right",
+  arrowDown: "arrow-down",
+  starActive: "star-active",
   searchIcon: "search",
   swapVertIcon: "swap_vert",
   speakerIcon: "speaker",
+  speakerAnimatedIcon: require("../assets/images/loaders/voice.gif"),
+  speakerInactiveIcon: require("../assets/images/loaders/voice-inactive.png"),
   pinIcon: "pin",
   checkBoxIcon: "checkbox-unchecked",
   checkBoxCheckedIcon: "checkbox-checked",
@@ -62,16 +76,43 @@ const imageAssets = {
   packageChecklistIcon: require("../assets/images/toolIcons/packing-checklist.png"),
   passportDetailsIcon: require("../assets/images/toolIcons/passport-details.png"),
   yourPickIcon: require("../assets/images/toolIcons/your-picks.png"),
+  dialogBoxIcon:
+    "https://d3lf10b5gahyby.cloudfront.net/misc/transfers-shuttle.jpg",
 
   /**
-   * TODO: Airline logo placeholder
+   * TODO: Airline logo placeholder && transfer placeholder
    * @param airlineCode
    * @returns {string}
    */
   getAirlineIcon: airlineCode =>
     airlineCode
       ? `${serverUrls.airlineCdn}${airlineCode.trim()}.png`
-      : `${serverUrls.airlineCdn}${"placeholder"}.png`
+      : `${serverUrls.airlineCdn}${"placeholder"}.png`,
+  airLineLogoPlaceHolder: prefix + "Airline-logo.png",
+  transferPlaceHolder: "placeholder",
+  activitySmallPlaceHolder: prefix + "Activity1-50x50.png",
+  activityMediumPlaceHolder: prefix + "Activity1-125x125.png",
+  activityLargePlaceHolder: prefix + "Activity1-640x360.png",
+  activity2SmallPlaceHolder: prefix + "Activity2-50x50.png",
+  activity2MediumPlaceHolder: prefix + "Activity2-125x125.png",
+  activity2LargePlaceHolder: prefix + "Activity2-640x360.png",
+  activity3SmallPlaceHolder: prefix + "Activity3-50x50.png",
+  activity3MediumPlaceHolder: prefix + "Activity3-125x125.png",
+  activity3LargePlaceHolder: prefix + "Activity3-640x360.png",
+  citySmallPlaceHolder: prefix + "Guides-City-395x360.png",
+  cityLargePlaceHolder: prefix + "Guides-City-790x720.png",
+  foodSmallPlaceHolder: prefix + "Guides-Food-120x120.png",
+  foodLargePlaceHolder: prefix + "Guides-Food-240x240.png",
+  innerAreasSmallPlaceHolder: prefix + "Guides-InnerAreas-230x140.png",
+  innerAreasLargePlaceHolder: prefix + "Guides-InnerAreas-460x280.png",
+  shoppingSmallPlaceHolder: prefix + "Guides-Shopping-150x105.png",
+  shoppingLargePlaceHolder: prefix + "Guides-Shopping-300x210.png",
+  hotelSmallPlaceHolder: prefix + "Hotel-50x50.png",
+  hotelMediumPlaceHolder: prefix + "Hotel-125x125.png",
+  hotelBigPlaceHolder: prefix + "Hotel-200x150.png",
+  hotelLargePlaceHolder: prefix + "Hotel-640x360.png",
+  roomsSmallPlaceHolder: prefix + "HotelRooms-120x90.png",
+  roomsLargePlaceHolder: prefix + "HotelRooms-240x180.png"
 };
 
 export default imageAssets;

@@ -4,6 +4,12 @@ import moment from "moment";
 import { responsiveWidth } from "react-native-responsive-dimensions";
 import constants from "../../../../../constants/constants";
 import PropTypes from "prop-types";
+import _ from "lodash";
+import getTransferImage from "../../../../../Services/getImageService/getTransferImage";
+import CircleThumbnail from "../../../../../CommonComponents/CircleThumbnail/CircleThumbnail";
+import storeService from "../../../../../Services/storeService/storeService";
+import SectionRightPlaceHolder from "./Components/SectionRightPlaceHolder";
+import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidExtraProps";
 
 const TransferSection = ({ section, navigation }) => {
   return (
@@ -24,10 +30,10 @@ const TransferSection = ({ section, navigation }) => {
   );
 };
 
-TransferSection.propTypes = {
+TransferSection.propTypes = forbidExtraProps({
   section: PropTypes.object.isRequired,
   navigation: PropTypes.object.isRequired
-};
+});
 
 const Transfer = ({ transfer, isLast, navigation }) => {
   let customStyle = {};
@@ -38,7 +44,18 @@ const Transfer = ({ transfer, isLast, navigation }) => {
     };
   }
 
-  const openVoucher = () => navigation.navigate("TransferVoucher");
+  const openVoucher = () => {
+    if (transfer.voucher.booked) {
+      navigation.navigate("TransferVoucher", { transfer });
+    } else {
+      storeService.infoStore.setInfo(
+        constants.bookingProcessText.title,
+        constants.bookingProcessText.message,
+        constants.bookingProcessingIcon,
+        constants.bookingProcessText.actionText
+      );
+    }
+  };
 
   return (
     <TouchableOpacity
@@ -46,10 +63,11 @@ const Transfer = ({ transfer, isLast, navigation }) => {
       style={[styles.contentContainer, customStyle]}
     >
       <View style={styles.iconWrapper}>
-        <Image
-          resizeMode={"cover"}
-          style={styles.contentIcon}
-          source={constants.splashBackground}
+        <CircleThumbnail
+          isContain={transfer.vehicle !== "Train"}
+          containerStyle={styles.contentIcon}
+          image={{ uri: getTransferImage(transfer.vehicle, transfer.type) }}
+          defaultImageUri={constants.transferPlaceHolder}
         />
       </View>
       <View style={styles.contentTextContainer}>
@@ -65,18 +83,16 @@ const Transfer = ({ transfer, isLast, navigation }) => {
           </Text>
         </View>
       </View>
-      <View style={styles.rightPlaceholder}>
-        <Text style={styles.rightPlaceholderText}>Stayed</Text>
-      </View>
+      <SectionRightPlaceHolder isProcessing={!transfer.voucher.booked} />
     </TouchableOpacity>
   );
 };
 
-Transfer.propTypes = {
+Transfer.propTypes = forbidExtraProps({
   transfer: PropTypes.object.isRequired,
   isLast: PropTypes.bool.isRequired,
   navigation: PropTypes.object.isRequired
-};
+});
 
 const styles = StyleSheet.create({
   contentContainer: {
@@ -119,15 +135,6 @@ const styles = StyleSheet.create({
     fontFamily: constants.primaryLight,
     fontSize: 17,
     maxWidth: responsiveWidth(60)
-  },
-  rightPlaceholder: {
-    flex: 1,
-    alignItems: "flex-end"
-  },
-  rightPlaceholderText: {
-    fontFamily: constants.primaryLight,
-    fontSize: 10,
-    color: constants.black2
   }
 });
 

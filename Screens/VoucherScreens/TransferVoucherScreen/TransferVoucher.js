@@ -12,6 +12,8 @@ import SectionHeader from "../../../CommonComponents/SectionHeader/SectionHeader
 import SimpleButton from "../../../CommonComponents/SimpleButton/SimpleButton";
 import VoucherAccordion from "../Components/VoucherAccordion";
 import IosCloseButton from "../Components/IosCloseButton";
+import moment from "moment";
+import getTransferImage from "../../../Services/getImageService/getTransferImage";
 
 class TransferVoucher extends Component {
   static navigationOptions = {
@@ -33,6 +35,21 @@ class TransferVoucher extends Component {
   };
 
   render() {
+    const transfer = this.props.navigation.getParam("transfer", {});
+
+    const {
+      passengers,
+      vehicle,
+      type,
+      pickup,
+      drop,
+      text,
+      dateMillis,
+      totalCost
+    } = transfer;
+
+    const { arrivalTime, pickupTime, bookedTime } = transfer.voucher;
+
     const xHeight = isIphoneX()
       ? constants.xNotchHeight
       : Platform.OS === "ios"
@@ -41,37 +58,53 @@ class TransferVoucher extends Component {
     const passengerDetails = [
       {
         name: "Lead passenger",
-        value: "Mr. Shantanu Agarwal"
+        value: "NA"
       },
       {
         name: "No of Passengers",
-        value: "2 adults"
+        value: passengers || "NA"
       },
       {
         name: "Vehicle type",
-        value: "Car"
+        value: vehicle || "NA"
       },
       {
         name: "Type",
-        value: "Private Transfer"
+        value: type
+          ? type.charAt(0).toUpperCase() + type.substr(1).toLowerCase()
+          : "NA"
       }
     ];
     const arrivalDetails = [
       {
         name: "Arrival at",
-        value: "Madrid Airport"
+        value: drop || "NA"
       },
       {
         name: "Arrival time",
-        value: "7:45 am"
+        value: arrivalTime && arrivalTime !== -1 ? arrivalTime : "NA 00:00 am"
       },
       {
         name: "Pickup time",
-        value: "7.45 am"
+        value: pickupTime && pickupTime !== -1 ? arrivalTime : "NA 00:00 am"
       },
       {
         name: "Meeting point",
-        value: "Arrival Terminal"
+        value: pickup || "NA"
+      }
+    ];
+    const bookingDetails = [
+      {
+        name: "Booked On",
+        value: moment(bookedTime).format("DD/MM/YY")
+      },
+      {
+        name: "Total Paid",
+        value: totalCost ? `Rs. ${totalCost}` : "NA"
+      },
+      {
+        name: "Booking Source",
+        value: "NA"
       }
     ];
 
@@ -85,21 +118,27 @@ class TransferVoucher extends Component {
         fadeOutForeground={Platform.OS !== "android"}
         onChangeHeaderVisibility={this.headerToggle}
         renderStickyHeader={() => (
-          <VoucherStickyHeader action={this.close} text={"1242345"} />
+          <VoucherStickyHeader
+            action={this.close}
+            text={"Booking Reference - NA"}
+          />
         )}
         renderForeground={() => (
           <VoucherHeader
-            infoText={`BOOKING ID`}
-            title={`1242345`}
+            infoText={`BOOKING REFERENCE`}
+            title={`NA`}
             menu={() => {}}
+            image={{ uri: getTransferImage(vehicle, type) }}
             onClickClose={this.close}
           />
         )}
       >
         <View style={styles.titleSection}>
-          <Text style={styles.activityDate}>Sun 24</Text>
+          <Text style={styles.activityDate}>
+            {moment(dateMillis).format("ddd DD")}
+          </Text>
 
-          <VoucherName name={`Airport transfer - Madrid Airport to Hotel`} />
+          <VoucherName name={text} />
 
           <VoucherSplitSection sections={passengerDetails} />
         </View>
@@ -122,6 +161,8 @@ class TransferVoucher extends Component {
             icon={constants.callIcon}
             iconSize={16}
           />
+
+          <VoucherSplitSection sections={bookingDetails} />
         </View>
 
         <View style={styles.accordionSection}>{/*<VoucherAccordion />*/}</View>

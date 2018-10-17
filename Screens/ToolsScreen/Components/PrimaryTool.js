@@ -37,14 +37,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: constants.shade4,
     backgroundColor: "white",
-    shadowColor: constants.shade3,
-    shadowOffset: {
-      height: 5,
-      width: 0
-    },
-    shadowRadius: 10,
-    shadowOpacity: 0.3,
-    elevation: 2
+    ...constants.elevationTwo
   },
   textContainer: {
     flex: 1,

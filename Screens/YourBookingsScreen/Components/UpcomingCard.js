@@ -43,6 +43,9 @@ const UpcomingCard = ({
           <Text style={styles.bookingID}>{`PYT${itineraryId
             .substr(itineraryId.length - 7)
             .toUpperCase()}`}</Text>
+          {/**
+           * TODO: make join button conditional
+           */}
           <SimpleButton
             text={"Join"}
             action={() => selectItinerary(itineraryId)}
@@ -54,7 +57,11 @@ const UpcomingCard = ({
               marginHorizontal: 16,
               marginVertical: 8
             }}
-            textStyle={{ ...constants.font11(constants.primarySemiBold) }}
+            textStyle={{
+              ...constants.font11(constants.primarySemiBold),
+              marginLeft: 2,
+              marginTop: -2
+            }}
           />
         </ImageBackground>
       </View>

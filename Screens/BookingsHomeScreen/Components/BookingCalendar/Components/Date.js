@@ -22,7 +22,7 @@ const Date = ({
   getTransferTypeByDay,
   navigation
 }) => {
-  const date = moment(day).format("DDMMYYYY");
+  const date = moment(day).format("x");
   const dateIndex = dateArray.findIndex(singleDate => date === singleDate);
   const selectionMatrix = getDateSelectionMatrixSingle(dateIndex);
   const count = numOfActivitiesByDay(dateIndex);
@@ -49,7 +49,7 @@ const Date = ({
     <TouchableOpacity
       activeOpacity={1}
       onPress={() => {
-        navigation.push("BookedItinerary", {
+        navigation.navigate("BookedItinerary", {
           selectedDate: date
         });
       }}

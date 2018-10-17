@@ -73,6 +73,8 @@ class PackingChecklist extends Component {
             tabLabel="TO PACK"
             addListItem={addListItem}
             deleteListItem={deleteListItem}
+            navigation={this.props.navigation}
+            enableKeyboardListener={true}
           />
           <ToPack
             listItems={packedList}
@@ -80,6 +82,7 @@ class PackingChecklist extends Component {
             tabLabel="PACKED"
             addListItem={addListItem}
             deleteListItem={deleteListItem}
+            navigation={this.props.navigation}
           />
         </ScrollableTabView>
       </View>

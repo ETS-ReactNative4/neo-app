@@ -18,14 +18,21 @@ import CountryCodePicker from "./Components/CountryCodePicker";
 import UnregisteredNumber from "./Components/UnregisteredNumber";
 import apiCall from "../../Services/networkRequests/apiCall";
 import Loader from "../../CommonComponents/Loader/Loader";
-import DebouncedAlert from "../../CommonComponents/DebouncedAlert/DebouncedAlert";
 import registerToken from "../../Services/registerToken/registerToken";
 import MobileNumberInput from "./Components/MobileNumberInput";
 import SmsListener from "react-native-android-sms-listener";
 import { inject, observer } from "mobx-react/custom";
 import getSmsPermissionAndroid from "../../Services/getSmsPermissionAndroid/getSmsPermissionAndroid";
+import { NavigationActions, StackActions } from "react-navigation";
+
+const resetToBookings = StackActions.reset({
+  index: 0,
+  actions: [NavigationActions.navigate({ routeName: "YourBookings" })]
+});
 
 @inject("yourBookingsStore")
+@inject("userStore")
+@inject("infoStore")
 @observer
 class MobileNumber extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -107,6 +114,10 @@ class MobileNumber extends Component {
     this.setState({
       isLoading: true
     });
+    const { yourBookingsStore, navigation, userStore, infoStore } = this.props;
+    const { getUpcomingItineraries } = yourBookingsStore;
+    const { getUserDetails } = userStore;
+    const { setError } = infoStore;
     apiCall(constants.verifyOtp, requestBody)
       .then(async response => {
         this.setState({
@@ -116,11 +127,14 @@ class MobileNumber extends Component {
           this.smsListener.remove ? this.smsListener.remove() : () => null;
           clearInterval(this.waitListener);
           await registerToken(response.data.authtoken);
-          this.props.yourBookingsStore.getUpcomingItineraries();
-          this.props.navigation.push("YourBookings");
+          getUpcomingItineraries();
+          getUserDetails();
+          Platform.OS === "android"
+            ? navigation.dispatch(resetToBookings)
+            : navigation.navigate("YourBookings");
         } else {
           if (Platform.OS === "ios") {
-            DebouncedAlert("OTP Verification Failed!", response.msg);
+            setError("OTP Verification Failed!", response.msg);
           } else {
             ToastAndroid.show(
               response.msg || "OTP Verification Failed!",
@@ -136,6 +150,7 @@ class MobileNumber extends Component {
         this.setState({
           isLoading: false
         });
+        setError("Error!", "Internal Server Error.");
       });
   };
 
@@ -152,6 +167,7 @@ class MobileNumber extends Component {
     this.setState({
       isLoading: true
     });
+    const { setInfo, setError } = this.props.infoStore;
     apiCall(constants.verifyMobileNumber, requestBody)
       .then(response => {
         this.setState({
@@ -166,7 +182,7 @@ class MobileNumber extends Component {
             },
             () => {
               if (Platform.OS === "ios") {
-                DebouncedAlert("OTP Sent", response.msg);
+                setInfo("OTP Sent", response.msg);
               } else {
                 ToastAndroid.show(
                   response.msg || "OTP Sent",
@@ -183,9 +199,14 @@ class MobileNumber extends Component {
         }
       })
       .catch(error => {
-        this.setState({
-          isLoading: false
-        });
+        this.setState(
+          {
+            isLoading: false
+          },
+          () => {
+            setError("Error!", "Internal Server Error!");
+          }
+        );
       });
   };
 

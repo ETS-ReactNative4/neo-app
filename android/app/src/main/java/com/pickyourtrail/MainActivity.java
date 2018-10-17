@@ -1,8 +1,15 @@
 package com.pickyourtrail;
 
 import com.facebook.react.ReactActivity;
+import android.content.Intent;
 
 public class MainActivity extends ReactActivity {
+
+    @Override
+    public void onNewIntent(Intent intent) {
+      super.onNewIntent(intent);
+      setIntent(intent);
+    }
 
     /**
      * Returns the name of the main component registered from JavaScript.
