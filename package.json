@@ -24,8 +24,8 @@
     "mobx-utils": "^4.0.1",
     "moment": "^2.22.1",
     "moment-range": "^4.0.1",
-    "react": "16.5",
-    "react-native": "0.57.0",
+    "react": "16.5.0",
+    "react-native": "0.57.1",
     "react-native-android-sms-listener":
       "git://github.com/DaniAkash/react-native-android-sms-listener.git#af305da28ca209626229b7572cda8856fff6b8aa",
     "react-native-app-settings":
@@ -58,21 +58,20 @@
     "uuid": "^3.3.2"
   },
   "devDependencies": {
-    "@babel/plugin-proposal-decorators": "7.0.0",
-    "@babel/plugin-proposal-class-properties": "7.0.0",
-    "@babel/plugin-transform-flow-strip-types": "7.0.0",
+    "@babel/plugin-proposal-class-properties": "^7.1.0",
+    "@babel/plugin-proposal-decorators": "^7.1.2",
     "@babel/runtime": "7.0.0",
-    "babel-core": "7.0.0-bridge.0",
-    "babel-jest": "22.4.3",
+    "babel-jest": "23.6.0",
+    "babel-plugin-transform-flow-strip-types": "^6.22.0",
     "babel-plugin-transform-remove-console": "^6.9.4",
+    "babel-preset-react-native": "^5.0.1",
     "husky": "^0.14.3",
-    "jest": "22.4.3",
-    "metro-react-native-babel-preset": "^0.45.0",
+    "jest": "23.6.0",
+    "metro-react-native-babel-preset": "0.48.0",
     "precommit": "^1.2.2",
     "prettier": "^1.12.1",
     "pretty-quick": "^1.4.1",
-    "react-test-renderer": "^16.3.0-alpha.1",
-    "schedule": "0.4.0"
+    "react-test-renderer": "16.5.0"
   },
   "jest": {
     "preset": "react-native"

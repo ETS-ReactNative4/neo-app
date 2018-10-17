@@ -10,3 +10,6 @@ solution: change "@babel/plugin-proposal-decorators": "7.1.2" in package.json
 
 https://github.com/facebook/react-native/issues/21150
 solution: yarn add -D schedule@0.4.0
+
+Update - 0.57 upgrade failed due to conflicting babel configurations
+Later used the dependencies from https://github.com/facebook/react-native/issues/20588#issuecomment-430264670 for the upgrading to 0.57.1
