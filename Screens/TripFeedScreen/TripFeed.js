@@ -3,6 +3,7 @@ import { View, Text, ScrollView, StyleSheet } from "react-native";
 import HomeHeader from "../../CommonComponents/HomeHeader/HomeHeader";
 import SearchPlaceholder from "../../CommonComponents/SearchPlaceholder/SearchPlaceholder";
 import constants from "../../constants/constants";
+import DayAhead from "./Components/DayAhead/DayAhead";
 
 class TripFeed extends Component {
   static navigationOptions = HomeHeader;
@@ -17,6 +18,7 @@ class TripFeed extends Component {
         <View style={styles.vacationNameWrapper}>
           <Text style={styles.vacationName}>{"Vacation Name"}</Text>
         </View>
+        <DayAhead />
       </ScrollView>
     );
   }
