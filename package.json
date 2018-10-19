@@ -30,6 +30,7 @@
       "git://github.com/DaniAkash/react-native-android-sms-listener.git#af305da28ca209626229b7572cda8856fff6b8aa",
     "react-native-app-settings":
       "git://github.com/DaniAkash/react-native-app-settings.git#e1fe1e8358e4d1e907fbb0923bec0fdc72be237a",
+    "react-native-card-stack-swiper": "^1.0.9",
     "react-native-collapsible": "^0.11.2",
     "react-native-dash": "^0.0.9",
     "react-native-fast-image": "^5.0.3",
