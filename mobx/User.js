@@ -1,5 +1,5 @@
 import { observable, computed, action, toJS } from "mobx";
-import { persist } from "mobx-persist/lib/index";
+import { persist } from "mobx-persist";
 import apiCall from "../Services/networkRequests/apiCall";
 import constants from "../constants/constants";
 
