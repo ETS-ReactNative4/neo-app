@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
     marginTop: 4
   },
   descriptionText: {
-    ...constants.fontCustom(constants.primaryLight, 15),
+    ...constants.fontCustom(constants.primaryLight, 15, 18),
     color: constants.black1
   }
 });
