@@ -109,7 +109,7 @@ class FeedBackSwiper extends Component {
         }}
         secondCardZoom={0.95}
         onSwipeStart={() => this.props.toggleScrollLock(false)}
-        onSwipeEnd={() => () => this.props.toggleScrollLock(true)}
+        onSwipeEnd={() => this.props.toggleScrollLock(true)}
         verticalSwipe={false}
         onSwiped={index => this.onCardSwiped(index)}
         horizontalThreshold={responsiveWidth(100) / 4}
