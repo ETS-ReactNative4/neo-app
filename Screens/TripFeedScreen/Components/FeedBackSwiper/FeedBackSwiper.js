@@ -1,5 +1,11 @@
 import React, { Component } from "react";
-import { View, Text, StyleSheet, LayoutAnimation } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  LayoutAnimation,
+  Platform
+} from "react-native";
 import CardStack, { Card } from "react-native-card-stack-swiper";
 import constants from "../../../../constants/constants";
 import SimpleButton from "../../../../CommonComponents/SimpleButton/SimpleButton";
@@ -103,7 +109,7 @@ class FeedBackSwiper extends Component {
         }}
         secondCardZoom={0.95}
         onSwipeStart={() => this.props.toggleScrollLock(false)}
-        onSwipeEnd={() => this.props.toggleScrollLock(true)}
+        onSwipeEnd={() => () => this.props.toggleScrollLock(true)}
         verticalSwipe={false}
         onSwiped={index => this.onCardSwiped(index)}
         horizontalThreshold={responsiveWidth(100) / 4}
@@ -127,6 +133,7 @@ class FeedBackSwiper extends Component {
                   underlayColor={"transparent"}
                   containerStyle={{
                     backgroundColor: "transparent",
+                    marginRight: 4,
                     height: 20,
                     width: 80
                   }}
@@ -144,6 +151,7 @@ class FeedBackSwiper extends Component {
                   underlayColor={"transparent"}
                   containerStyle={{
                     backgroundColor: "transparent",
+                    marginLeft: 4,
                     height: 20,
                     width: 80
                   }}
@@ -160,7 +168,8 @@ class FeedBackSwiper extends Component {
 const styles = StyleSheet.create({
   feedBackSwiperContainer: {
     marginHorizontal: 24,
-    height: 120
+    height: 120,
+    marginVertical: 8
   },
   feedBackCard: {
     backgroundColor: constants.secondColor,
@@ -168,7 +177,8 @@ const styles = StyleSheet.create({
     width: responsiveWidth(100) - 48,
     borderRadius: 5,
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
+    paddingVertical: 16
   },
   feedBackTitle: {
     ...constants.fontCustom(constants.primarySemiBold, 16, 24),
@@ -179,6 +189,14 @@ const styles = StyleSheet.create({
     color: constants.black1
   },
   actionBar: {
+    ...Platform.select({
+      android: {
+        marginTop: 4
+      },
+      ios: {
+        marginTop: 2
+      }
+    }),
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center"
