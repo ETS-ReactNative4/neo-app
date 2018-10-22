@@ -9,9 +9,23 @@ import FeedBackSwiper from "./Components/FeedBackSwiper/FeedBackSwiper";
 class TripFeed extends Component {
   static navigationOptions = HomeHeader;
 
+  state = {
+    scrollEnabled: true
+  };
+
+  toggleScrollLock = status => {
+    this.setState({
+      scrollEnabled: status
+    });
+  };
+
   render() {
     return (
-      <ScrollView style={styles.tripFeedContainer}>
+      <ScrollView
+        directionalLockEnabled={true}
+        scrollEnabled={this.state.scrollEnabled}
+        style={styles.tripFeedScrollView}
+      >
         <SearchPlaceholder
           action={() => null}
           containerStyle={{ marginHorizontal: 24 }}
@@ -19,7 +33,7 @@ class TripFeed extends Component {
         <View style={styles.vacationNameWrapper}>
           <Text style={styles.vacationName}>{"Vacation Name"}</Text>
         </View>
-        <FeedBackSwiper />
+        <FeedBackSwiper toggleScrollLock={this.toggleScrollLock} />
         <DayAhead />
       </ScrollView>
     );
@@ -28,6 +42,10 @@ class TripFeed extends Component {
 
 const styles = StyleSheet.create({
   tripFeedContainer: {
+    flex: 1,
+    backgroundColor: "white"
+  },
+  tripFeedScrollView: {
     flex: 1,
     backgroundColor: "white"
   },
