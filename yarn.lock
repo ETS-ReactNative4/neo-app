@@ -6386,10 +6386,9 @@ react-native-animatable@^1.2.4:
   version "2.0.0"
   resolved "git://github.com/DaniAkash/react-native-app-settings.git#e1fe1e8358e4d1e907fbb0923bec0fdc72be237a"
 
-react-native-card-stack-swiper@^1.0.9:
-  version "1.0.9"
-  resolved "https://registry.yarnpkg.com/react-native-card-stack-swiper/-/react-native-card-stack-swiper-1.0.9.tgz#8a370e15e0147a1fc79ab19fbbd3eecadf8d9ab8"
-  integrity sha512-9RAFe7fhxSwyM260Uzr6otG68Eom+StDJzgwvV1FklIgLM4PahiYkf6zBiGWrFerX/Nvy9ZpJ92VmIjpetKSCQ==
+"react-native-card-stack-swiper@git://github.com/DaniAkash/react-native-card-stack-swiper.git#3ef0e679bbd38d311a39e40301f5d143796aece5":
+  version "1.0.6"
+  resolved "git://github.com/DaniAkash/react-native-card-stack-swiper.git#3ef0e679bbd38d311a39e40301f5d143796aece5"
   dependencies:
     prop-types "15.5.10"
 
