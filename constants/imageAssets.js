@@ -58,6 +58,7 @@ const imageAssets = {
   callIcon: "call-end",
   compassIcon: "compass",
   trashCanIcon: "trash-can",
+  noInternetIcon: "no-internet",
 
   weatherGraphInactive: require("../assets/images/weatherPlaceholders/weather-graph-disabled.png"),
   weatherCardPlaceholder: require("../assets/images/weatherPlaceholders/weather-placeholder.png"),

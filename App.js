@@ -6,6 +6,7 @@ import { logBreadCrumb } from "./Services/errorLogger/errorLogger";
 import { setNavigationService } from "./Services/navigationService/navigationService";
 import { updateStoreService } from "./Services/storeService/storeService";
 import AppNavigator from "./Navigators/AppNavigator";
+import NetStatMonitor from "./CommonComponents/NetStatMonitor/NetStatMonitor";
 
 UIManager.setLayoutAnimationEnabledExperimental &&
   UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -40,14 +41,15 @@ const screenTracker = (prevState, currentState) => {
 
 const App = () => {
   updateStoreService(store);
-  return (
-    <Provider {...store}>
+  return [
+    <Provider {...store} key={0}>
       <AppNavigator
         ref={setNavigationService}
         onNavigationStateChange={screenTracker}
       />
-    </Provider>
-  );
+    </Provider>,
+    <NetStatMonitor key={1} />
+  ];
 };
 
 export default App;
