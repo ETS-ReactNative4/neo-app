@@ -15,7 +15,7 @@ class DayAhead extends Component {
         <View style={styles.dayAheadTitleWrapper}>
           <Text style={styles.dayAheadTitle}>{"THE DAY AHEAD"}</Text>
         </View>
-        <Carousel firstMargin={24}>
+        <Carousel firstMargin={24} containerStyle={{ height: 92 }}>
           {dayAhead.map((day, dayIndex) => {
             return <DayAheadBox key={dayIndex} />;
           })}
@@ -51,6 +51,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     borderRadius: 5,
     marginTop: 8,
+    marginBottom: 16,
     ...constants.elevationFive
   },
   rowWrapper: {

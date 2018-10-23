@@ -11,11 +11,11 @@ import constants from "../../../../constants/constants";
 import SimpleButton from "../../../../CommonComponents/SimpleButton/SimpleButton";
 import { responsiveWidth } from "react-native-responsive-dimensions";
 import PropTypes from "prop-types";
+import FeedBackSwiperModal from "./Components/FeedBackSwiperModal";
 
 class FeedBackSwiper extends Component {
   static propTypes = {
-    toggleScrollLock: PropTypes.func.isRequired,
-    isHidden: false
+    toggleScrollLock: PropTypes.func.isRequired
   };
 
   state = {
@@ -23,7 +23,7 @@ class FeedBackSwiper extends Component {
       {
         title: "How was your day?",
         day: "Yesterday, May 23",
-        yey: () => null,
+        yey: () => this.openFeedBackModal(),
         meh: () => null
       },
       {
@@ -51,7 +51,9 @@ class FeedBackSwiper extends Component {
         meh: () => null
       }
     ],
-    activeCardIndex: 0
+    activeCardIndex: 0,
+    isModalVisible: false,
+    isHidden: false
   };
 
   _swiper;
@@ -79,14 +81,27 @@ class FeedBackSwiper extends Component {
     });
   };
 
+  openFeedBackModal = () => {
+    this.setState({
+      isModalVisible: true
+    });
+  };
+
+  closeFeedBackModal = () => {
+    this.setState({
+      isModalVisible: false
+    });
+  };
+
   render() {
     if (this.state.isHidden) return null;
 
     const pendingCards =
       this.state.feedBackArray.length - this.state.activeCardIndex;
 
-    return (
+    return [
       <CardStack
+        key={0}
         renderNoMoreCards={() => [
           pendingCards > 2 ? (
             <View
@@ -179,8 +194,13 @@ class FeedBackSwiper extends Component {
             </Card>
           );
         })}
-      </CardStack>
-    );
+      </CardStack>,
+      <FeedBackSwiperModal
+        key={1}
+        isVisible={this.state.isModalVisible}
+        data={{}}
+      />
+    ];
   }
 }
 

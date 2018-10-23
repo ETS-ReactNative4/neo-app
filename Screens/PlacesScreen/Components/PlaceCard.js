@@ -5,6 +5,14 @@ import SmartImage from "../../../CommonComponents/SmartImage/SmartImage";
 import FastImage from "react-native-fast-image";
 import constants from "../../../constants/constants";
 
+/**
+ * TODO: Fix Image urls
+ * @param title
+ * @param image
+ * @param action
+ * @returns {*}
+ * @constructor
+ */
 const PlaceCard = ({ title, image, action }) => {
   return (
     <TouchableOpacity onPress={action} style={styles.placeCardContainer}>

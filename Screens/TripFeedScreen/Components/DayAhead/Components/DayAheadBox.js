@@ -3,24 +3,33 @@ import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
 import constants from "../../../../../constants/constants";
 import FastImage from "react-native-fast-image";
 import UpcomingBadge from "./UpcomingBadge";
+import SmartImage from "../../../../../CommonComponents/SmartImage/SmartImage";
 
 const DayAheadBox = () => {
   return (
-    <TouchableOpacity onPress={() => null} activeOpacity={0.7}>
-      <FastImage
-        source={constants.starterBackground}
-        style={styles.dayAheadBoxContainer}
-      >
+    <TouchableOpacity
+      style={styles.dayAheadBoxTouchable}
+      onPress={() => null}
+      activeOpacity={0.7}
+    >
+      <View style={styles.dayAheadBoxContainer}>
+        <SmartImage
+          style={styles.imageThumbnail}
+          defaultImageUri={constants.activity2MediumPlaceHolder}
+          uri={
+            "http://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg"
+          }
+          resizeMode={FastImage.resizeMode.cover}
+        />
         <View style={styles.textAreaWrapper}>
-          <UpcomingBadge />
           <View style={styles.timeTextWrapper}>
-            <Text style={styles.timeText}>
-              {"8:00am "}
-              <Text style={styles.whiteText}>{"Pickup"}</Text>
+            <Text style={styles.nextText}>
+              {"NEXT: "}
+              <Text style={styles.timeText}>{"8:00am - 12:00pm"}</Text>
             </Text>
           </View>
           <Text
-            numberOfLines={3}
+            numberOfLines={2}
             ellipsizeMode={"tail"}
             style={styles.descriptionText}
           >
@@ -29,38 +38,52 @@ const DayAheadBox = () => {
             }
           </Text>
         </View>
-      </FastImage>
+      </View>
     </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
-  dayAheadBoxContainer: {
-    height: 136,
-    width: 152,
+  dayAheadBoxTouchable: {
+    backgroundColor: "white",
+    ...constants.elevationFive,
+    height: 64,
+    width: 200,
+    borderRadius: 32.5,
     marginRight: 8,
-    borderRadius: 5,
-    alignItems: "flex-start",
-    justifyContent: "flex-end"
+    alignItems: "center",
+    justifyContent: "center"
   },
-  textAreaWrapper: {
-    marginHorizontal: 8,
-    marginBottom: 16
+  dayAheadBoxContainer: {
+    height: 64,
+    width: 200,
+    borderRadius: 32.5,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-start"
   },
+  imageThumbnail: {
+    height: 40,
+    width: 40,
+    borderRadius: 20,
+    marginHorizontal: 8
+  },
+  textAreaWrapper: {},
   timeTextWrapper: {
     marginTop: 6
   },
-  timeText: {
-    ...constants.fontCustom(constants.primarySemiBold, 13),
-    color: constants.secondColor
+  nextText: {
+    ...constants.fontCustom(constants.primarySemiBold, 11),
+    color: constants.seventhColor
   },
-  whiteText: {
-    color: "white"
+  timeText: {
+    color: constants.firstColor
   },
   descriptionText: {
     ...constants.fontCustom(constants.primaryLight, 11),
-    color: "white",
-    lineHeight: 14
+    color: constants.black1,
+    lineHeight: 14,
+    width: 128
   }
 });
 
