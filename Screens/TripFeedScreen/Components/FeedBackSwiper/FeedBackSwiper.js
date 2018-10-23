@@ -14,28 +14,12 @@ import PropTypes from "prop-types";
 
 class FeedBackSwiper extends Component {
   static propTypes = {
-    toggleScrollLock: PropTypes.func.isRequired
+    toggleScrollLock: PropTypes.func.isRequired,
+    isHidden: false
   };
 
   state = {
-    activeCardIndex: 0
-  };
-
-  _swiper;
-
-  onCardSwiped = index => {
-    this.setState(
-      {
-        activeCardIndex: index + 1
-      },
-      () => {
-        LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-      }
-    );
-  };
-
-  render() {
-    const feedBackArray = [
+    feedBackArray: [
       {
         title: "How was your day?",
         day: "Yesterday, May 23",
@@ -66,9 +50,40 @@ class FeedBackSwiper extends Component {
         yey: () => null,
         meh: () => null
       }
-    ];
+    ],
+    activeCardIndex: 0
+  };
 
-    const pendingCards = feedBackArray.length - this.state.activeCardIndex;
+  _swiper;
+
+  onCardSwiped = index => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    this.setState(
+      {
+        activeCardIndex: index + 1
+      },
+      () => {
+        if (this.state.activeCardIndex >= this.state.feedBackArray.length) {
+          setTimeout(() => {
+            this.hideWidget();
+          }, 1000);
+        }
+      }
+    );
+  };
+
+  hideWidget = () => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    this.setState({
+      isHidden: true
+    });
+  };
+
+  render() {
+    if (this.state.isHidden) return null;
+
+    const pendingCards =
+      this.state.feedBackArray.length - this.state.activeCardIndex;
 
     return (
       <CardStack
@@ -101,7 +116,11 @@ class FeedBackSwiper extends Component {
               ]}
             />
           ) : null,
-          pendingCards < 1 ? <View key={2} style={styles.feedBackCard} /> : null
+          pendingCards < 1 ? (
+            <View key={2} style={[styles.feedBackCard, styles.feedBackCleared]}>
+              <Text style={styles.feedBackClearedText}>{"All caught up!"}</Text>
+            </View>
+          ) : null
         ]}
         style={styles.feedBackSwiperContainer}
         ref={swiper => {
@@ -114,7 +133,7 @@ class FeedBackSwiper extends Component {
         onSwiped={index => this.onCardSwiped(index)}
         horizontalThreshold={responsiveWidth(100) / 4}
       >
-        {feedBackArray.map((feedBack, feedBackIndex) => {
+        {this.state.feedBackArray.map((feedBack, feedBackIndex) => {
           return (
             <Card key={feedBackIndex} style={styles.feedBackCard}>
               <Text style={styles.feedBackTitle}>{feedBack.title}</Text>
@@ -179,6 +198,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     paddingVertical: 16
+  },
+  feedBackCleared: {
+    backgroundColor: "transparent"
+  },
+  feedBackClearedText: {
+    ...constants.fontCustom(constants.primarySemiBold, 21),
+    color: constants.black1
   },
   feedBackTitle: {
     ...constants.fontCustom(constants.primarySemiBold, 16, 24),
