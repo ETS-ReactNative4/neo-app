@@ -20,11 +20,13 @@ class DayAhead extends Component {
             return <DayAheadBox key={dayIndex} />;
           })}
         </Carousel>
-        <View style={styles.rowContainer}>
-          {dayAhead.map((day, dayIndex) => {
-            const isLast = dayAhead.length === dayIndex + 1;
-            return <DayAheadRow key={dayIndex} isLast={isLast} />;
-          })}
+        <View style={styles.rowWrapper}>
+          <View style={styles.rowContainer}>
+            {dayAhead.map((day, dayIndex) => {
+              const isLast = dayAhead.length === dayIndex + 1;
+              return <DayAheadRow key={dayIndex} isLast={isLast} />;
+            })}
+          </View>
         </View>
       </View>
     );
@@ -46,11 +48,13 @@ const styles = StyleSheet.create({
     color: constants.sixthColor
   },
   rowContainer: {
-    marginHorizontal: 24,
+    backgroundColor: "white",
     borderRadius: 5,
-    borderWidth: StyleSheet.hairlineWidth,
-    borderColor: constants.shade3,
-    marginTop: 8
+    marginTop: 8,
+    ...constants.elevationFive
+  },
+  rowWrapper: {
+    marginHorizontal: 24
   }
 });
 

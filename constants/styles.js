@@ -42,6 +42,13 @@ const styles = {
     shadowRadius: 1,
     elevation: 2
   },
+  elevationFive: {
+    shadowColor: colorPallete.shade3,
+    shadowOffset: { height: 0, width: 0 },
+    shadowOpacity: 0.5,
+    shadowRadius: 5,
+    elevation: 5
+  },
   elevationThirteen: {
     shadowColor: colorPallete.shade3,
     shadowOffset: {
