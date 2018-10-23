@@ -2,13 +2,13 @@
   "metadata": {
     "name": "Voyager",
     "lastOpened": 0,
-    "created": 1533386894514
+    "created": 1540278689796
   },
   "iconSets": [
     {
       "selection": [
         {
-          "order": 36,
+          "order": 72,
           "id": 3,
           "name": "location",
           "prevSize": 24,
@@ -16,7 +16,7 @@
           "tempChar": ""
         },
         {
-          "order": 37,
+          "order": 73,
           "id": 4,
           "name": "compass",
           "prevSize": 24,
@@ -24,7 +24,7 @@
           "tempChar": ""
         },
         {
-          "order": 38,
+          "order": 74,
           "id": 5,
           "name": "clock",
           "prevSize": 24,
@@ -32,7 +32,7 @@
           "tempChar": ""
         },
         {
-          "order": 39,
+          "order": 75,
           "id": 1,
           "name": "activity",
           "prevSize": 24,
@@ -40,7 +40,7 @@
           "tempChar": ""
         },
         {
-          "order": 40,
+          "order": 76,
           "id": 2,
           "name": "hotel",
           "prevSize": 24,
@@ -130,7 +130,7 @@
     {
       "selection": [
         {
-          "order": 41,
+          "order": 77,
           "id": 4,
           "name": "train",
           "prevSize": 24,
@@ -138,7 +138,7 @@
           "tempChar": ""
         },
         {
-          "order": 42,
+          "order": 78,
           "id": 5,
           "name": "car",
           "prevSize": 24,
@@ -146,7 +146,7 @@
           "tempChar": ""
         },
         {
-          "order": 43,
+          "order": 79,
           "id": 2,
           "name": "insurance",
           "prevSize": 24,
@@ -154,7 +154,7 @@
           "tempChar": ""
         },
         {
-          "order": 44,
+          "order": 80,
           "id": 3,
           "name": "pass",
           "prevSize": 24,
@@ -162,7 +162,7 @@
           "tempChar": ""
         },
         {
-          "order": 45,
+          "order": 81,
           "id": 0,
           "name": "bus",
           "prevSize": 24,
@@ -170,7 +170,7 @@
           "tempChar": ""
         },
         {
-          "order": 46,
+          "order": 82,
           "id": 1,
           "name": "flight",
           "prevSize": 24,
@@ -268,197 +268,205 @@
     {
       "selection": [
         {
-          "order": 70,
+          "order": 83,
+          "id": 24,
+          "name": "no-internet",
+          "prevSize": 24,
+          "code": 59683,
+          "tempChar": ""
+        },
+        {
+          "order": 84,
           "id": 23,
           "name": "trash-can",
           "prevSize": 24,
           "code": 59682,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
-          "order": 47,
+          "order": 85,
           "id": 22,
           "name": "search",
           "prevSize": 24,
           "code": 59677,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
-          "order": 48,
+          "order": 86,
           "id": 21,
           "name": "swap_vert",
           "prevSize": 24,
           "code": 59678,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
-          "order": 49,
+          "order": 87,
           "id": 20,
           "name": "speaker",
           "prevSize": 24,
           "code": 59679,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
-          "order": 50,
+          "order": 88,
           "id": 19,
           "name": "pin",
           "prevSize": 24,
           "code": 59680,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
-          "order": 51,
+          "order": 89,
           "id": 18,
           "name": "checkbox-checked",
           "prevSize": 24,
           "code": 59681,
           "codes": [59681, 59682],
-          "tempChar": ""
+          "tempChar": ""
         },
         {
-          "order": 52,
+          "order": 90,
           "id": 17,
           "name": "checkbox-unchecked",
           "prevSize": 24,
           "code": 59676,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
-          "order": 53,
+          "order": 91,
           "id": 16,
           "name": "star",
           "prevSize": 24,
           "code": 59671,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
-          "order": 54,
+          "order": 92,
           "id": 15,
           "name": "star-active",
           "prevSize": 24,
           "code": 59672,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
-          "order": 55,
+          "order": 93,
           "id": 14,
           "name": "call-end",
           "prevSize": 24,
           "code": 59673,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
-          "order": 56,
+          "order": 94,
           "id": 13,
           "name": "arrow-right",
           "prevSize": 24,
           "code": 59674,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
-          "order": 57,
+          "order": 95,
           "id": 12,
           "name": "arrow-down",
           "prevSize": 24,
           "code": 59675,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
-          "order": 58,
+          "order": 96,
           "id": 11,
           "name": "more-options-horiz",
           "prevSize": 24,
           "code": 59656,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
-          "order": 59,
+          "order": 97,
           "id": 10,
           "name": "support-active",
           "prevSize": 24,
           "code": 59657,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
-          "order": 60,
+          "order": 98,
           "id": 8,
           "name": "trip-feed-active",
           "prevSize": 24,
           "code": 59658,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
-          "order": 61,
+          "order": 99,
           "id": 7,
           "name": "tools-active",
           "prevSize": 24,
           "code": 59659,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
-          "order": 62,
+          "order": 100,
           "id": 6,
           "name": "journal-active",
           "prevSize": 24,
           "code": 59660,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
-          "order": 63,
+          "order": 101,
           "id": 5,
           "name": "booking-active",
           "prevSize": 24,
           "code": 59661,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
-          "order": 64,
+          "order": 102,
           "id": 9,
           "name": "support",
           "prevSize": 24,
           "code": 59662,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
-          "order": 65,
+          "order": 103,
           "id": 4,
           "name": "trip-feed",
           "prevSize": 24,
           "code": 59663,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
-          "order": 66,
+          "order": 104,
           "id": 3,
           "name": "tools",
           "prevSize": 24,
           "code": 59664,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
-          "order": 67,
+          "order": 105,
           "id": 2,
           "name": "journal",
           "prevSize": 24,
           "code": 59665,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
-          "order": 68,
+          "order": 106,
           "id": 1,
           "name": "booking",
           "prevSize": 24,
           "code": 59666,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
-          "order": 69,
+          "order": 107,
           "id": 0,
           "name": "close",
           "prevSize": 24,
           "code": 59667,
-          "tempChar": ""
+          "tempChar": ""
         }
       ],
       "id": 0,
@@ -472,6 +480,17 @@
       "height": 1024,
       "prevSize": 32,
       "icons": [
+        {
+          "id": 24,
+          "paths": [
+            "M86 938l852-852v256h-170v596h-682zM854 938v-84h84v84h-84zM854 768v-342h84v342h-84z"
+          ],
+          "attrs": [{}],
+          "isMulticolor": false,
+          "isMulticolor2": false,
+          "grid": 24,
+          "tags": ["no-internet"]
+        },
         {
           "id": 23,
           "paths": [
