@@ -49,7 +49,6 @@ target 'Pickyourtrail' do
 
   pod 'Firebase/Messaging'
 
-  pod 'react-native-fcm', :path => '../node_modules/react-native-fcm'
 
   # target 'PickyourtrailTests' do
   #   inherit! :search_paths

@@ -2,7 +2,6 @@ package com.pickyourtrail;
 
 import android.app.Application;
 
-import com.evollu.react.fcm.FIRMessagingPackage;
 import com.facebook.react.ReactApplication;
 import com.zmxv.RNSound.RNSoundPackage;
 import com.dylanvann.fastimage.FastImageViewPackage;
@@ -43,8 +42,7 @@ public class MainApplication extends Application implements ReactApplication {
             new RNSentryPackage(),
             new SvgPackage(),
             new KeychainPackage(),
-            new LinearGradientPackage(),
-            new FIRMessagingPackage()
+            new LinearGradientPackage()
       );
     }
 

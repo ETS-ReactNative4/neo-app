@@ -6431,11 +6431,6 @@ react-native-fast-image@^5.0.3:
   resolved "https://registry.yarnpkg.com/react-native-fast-image/-/react-native-fast-image-5.0.3.tgz#cb53b70a904d908c2c531dcc3d4a77834c9e1c63"
   integrity sha512-70XlQPt8b7yQSMwUEEIN5jTx7KOx1EBD2XhIRIEHChfNv5Gwn8dh28RSo/Dq9qezf4CWJXO3CAb4lq+Hu9d0vw==
 
-react-native-fcm@^16.2.3:
-  version "16.2.3"
-  resolved "https://registry.yarnpkg.com/react-native-fcm/-/react-native-fcm-16.2.3.tgz#f55822b8987007221c691f8603b868e67a99ff10"
-  integrity sha512-X/VOCso/Ox6xZp1cQ+TEWK+mqFoX+rjvp1Y/3PIgXC0MzfAo2VdQupXoFezXu2nLwDQe1t6DaZBK8qmXYzwVug==
-
 react-native-flip-view-next@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/react-native-flip-view-next/-/react-native-flip-view-next-1.0.0.tgz#da0f1c1c9242e3637944e4d7e9cd09ec9d947fd3"
