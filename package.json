@@ -31,7 +31,7 @@
     "react-native-app-settings":
       "git://github.com/DaniAkash/react-native-app-settings.git#e1fe1e8358e4d1e907fbb0923bec0fdc72be237a",
     "react-native-card-stack-swiper":
-      "git://github.com/DaniAkash/react-native-card-stack-swiper.git#3ef0e679bbd38d311a39e40301f5d143796aece5",
+      "git://github.com/DaniAkash/react-native-card-stack-swiper.git#1aed50872ed575a037562bd174bf42b853e5001a",
     "react-native-collapsible": "^0.11.2",
     "react-native-dash": "^0.0.9",
     "react-native-fast-image": "^5.0.3",
