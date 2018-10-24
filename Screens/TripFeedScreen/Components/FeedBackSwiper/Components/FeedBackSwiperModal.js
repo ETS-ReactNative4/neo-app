@@ -7,13 +7,18 @@ import constants from "../../../../../constants/constants";
 import SmartImage from "../../../../../CommonComponents/SmartImage/SmartImage";
 import FastImage from "react-native-fast-image";
 import FeedBackButtons from "./FeedBackButtons";
+import SimpleButton from "../../../../../CommonComponents/SimpleButton/SimpleButton";
+import Icon from "../../../../../CommonComponents/Icon/Icon";
 
 class FeedBackSwiperModal extends Component {
   static propTypes = {
     isVisible: PropTypes.bool.isRequired,
     isNegative: PropTypes.bool,
-    data: PropTypes.object.isRequired
+    data: PropTypes.object.isRequired,
+    submit: PropTypes.func.isRequired
   };
+
+  onEditText = () => {};
 
   render() {
     const { isVisible, isNegative, data, onClose } = this.props;
@@ -117,14 +122,42 @@ class FeedBackSwiperModal extends Component {
               );
             })}
             <View style={styles.textInputWrapper}>
-              <TextInput />
+              <TextInput
+                style={styles.textInput}
+                onChangeText={this.onEditText}
+                returnKeyType={"done"}
+                underlineColorAndroid={"transparent"}
+                onSubmitEditing={() => null}
+                placeholder={"Or, type a custom message"}
+                placeholderTextColor={"rgba(155,155,155,1)"}
+              />
             </View>
+            <SimpleButton
+              text={"Done"}
+              containerStyle={{
+                height: 40,
+                width: responsiveWidth(100) - 48 - 32,
+                marginBottom: 16,
+                backgroundColor: "white"
+              }}
+              action={this.props.submit}
+              textColor={constants.black1}
+            />
+          </View>
+          <View style={styles.feedBackIconContainer}>
+            <Icon
+              name={constants.activityIcon}
+              color={constants.firstColor}
+              size={22}
+            />
           </View>
         </View>
       </Modal>
     );
   }
 }
+
+const modalWidth = responsiveWidth(100) - 48;
 
 const styles = StyleSheet.create({
   modalContainer: {
@@ -134,7 +167,7 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   },
   modalView: {
-    width: responsiveWidth(100) - 48,
+    width: modalWidth,
     backgroundColor: "white",
     borderRadius: 5
   },
@@ -186,7 +219,39 @@ const styles = StyleSheet.create({
     ...constants.fontCustom(constants.primaryLight, 13),
     color: constants.shade4
   },
-  textInputWrapper: {}
+  textInputWrapper: {
+    ...Platform.select({
+      android: {
+        height: 40
+      },
+      ios: {
+        height: 32
+      }
+    }),
+    width: modalWidth - 16,
+    marginVertical: 8,
+    borderRadius: 4,
+    overflow: "hidden"
+  },
+  textInput: {
+    backgroundColor: "rgba(255,255,255,0.1)",
+    flex: 1,
+    paddingHorizontal: 8,
+    borderRadius: 4,
+    ...constants.fontCustom(constants.primaryLight, 13),
+    color: "white"
+  },
+  feedBackIconContainer: {
+    height: 48,
+    width: 48,
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 24,
+    backgroundColor: "white",
+    position: "absolute",
+    top: 64 - 24,
+    left: modalWidth / 2 - 24
+  }
 });
 
 export default FeedBackSwiperModal;

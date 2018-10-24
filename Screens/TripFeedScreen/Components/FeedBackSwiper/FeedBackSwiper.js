@@ -24,31 +24,31 @@ class FeedBackSwiper extends Component {
         title: "How was your day?",
         day: "Yesterday, May 23",
         yey: () => this.openFeedBackModal(),
-        meh: () => null
+        meh: () => this.openFeedBackModal()
       },
       {
         title: "How was your day?",
         day: "May 22",
-        yey: () => null,
-        meh: () => null
+        yey: () => this.openFeedBackModal(),
+        meh: () => this.openFeedBackModal()
       },
       {
         title: "How was your day?",
         day: "May 21",
-        yey: () => null,
-        meh: () => null
+        yey: () => this.openFeedBackModal(),
+        meh: () => this.openFeedBackModal()
       },
       {
         title: "How was your day?",
         day: "May 20",
-        yey: () => null,
-        meh: () => null
+        yey: () => this.openFeedBackModal(),
+        meh: () => this.openFeedBackModal()
       },
       {
         title: "How was your day?",
         day: "May 19",
-        yey: () => null,
-        meh: () => null
+        yey: () => this.openFeedBackModal(),
+        meh: () => this.openFeedBackModal()
       }
     ],
     activeCardIndex: 0,
@@ -91,6 +91,19 @@ class FeedBackSwiper extends Component {
     this.setState({
       isModalVisible: false
     });
+  };
+
+  submitFeedBack = () => {
+    this.setState(
+      {
+        isModalVisible: false
+      },
+      () => {
+        setTimeout(() => {
+          this._swiper.swipeRight();
+        }, 300);
+      }
+    );
   };
 
   render() {
@@ -199,6 +212,7 @@ class FeedBackSwiper extends Component {
         key={1}
         isVisible={this.state.isModalVisible}
         data={{}}
+        submit={this.submitFeedBack}
       />
     ];
   }

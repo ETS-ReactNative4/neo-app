@@ -79,8 +79,6 @@ class NetStatMonitor extends Component {
   }
 
   render() {
-    console.log("rendering!");
-
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
 
     if (this.state.isConnected) return null;
