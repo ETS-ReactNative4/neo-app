@@ -6392,12 +6392,12 @@ react-native-animatable@^1.2.4:
   dependencies:
     prop-types "15.5.10"
 
-react-native-collapsible@^0.11.2:
-  version "0.11.2"
-  resolved "https://registry.yarnpkg.com/react-native-collapsible/-/react-native-collapsible-0.11.2.tgz#35a2e7a335f5acf8c959c889731a604cfc3fcd09"
-  integrity sha512-aaGq9tVAU6o9+ziSQ6VhMRlamy0Zitycm1dYTaGrWGcnn07k6uuzUWtvoMaFJppkgJgPCgJjb/Z34MhQWdVYsw==
+react-native-collapsible@^1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/react-native-collapsible/-/react-native-collapsible-1.2.1.tgz#d7cecf66dd7c0578e1021826eac913f7434594eb"
+  integrity sha512-l1NfPyHDnRMEmdCaQG6eRNvaFNfzqQ6Jg3NBz7x7BAv9Plid2zC6Yow2/0q9TO0zuaZLl4Hles/1kS2nWYGisw==
   dependencies:
-    prop-types "^15.5.10"
+    prop-types "^15.6.2"
 
 react-native-dash@^0.0.9:
   version "0.0.9"
