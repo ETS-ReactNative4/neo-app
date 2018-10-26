@@ -112,18 +112,8 @@ class ToPack extends Component {
             useSectionList
             sections={listItems}
             renderItem={CheckListComponent}
+            stickySectionHeadersEnabled={true}
             renderSectionHeader={CheckListSection}
-            renderSectionFooter={({ section }) => {
-              // if (!section.data.length) {
-              //   return (
-              //     <EmptyListPlaceholder
-              //       text={`No Items in this Section`}
-              //       containerStyle={{ marginVertical: 24 }}
-              //     />
-              //   );
-              // }
-              return null;
-            }}
           />
         </View>
         {this.state.keyboardSpace ? (
