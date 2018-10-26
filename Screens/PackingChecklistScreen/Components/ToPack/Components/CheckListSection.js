@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import constants from "../../../../../constants/constants";
 
 const CheckListSection = ({ section }) => {
+  if (!section.data.length) return null;
   return (
     <View style={styles.titleContainer}>
       <Text style={styles.titleText}>{section.title}</Text>

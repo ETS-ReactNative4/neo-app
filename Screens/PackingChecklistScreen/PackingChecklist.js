@@ -36,11 +36,14 @@ class PackingChecklist extends Component {
       deleteListItem
     } = this.props.packingChecklistStore;
 
+    let isPackedEmpty = true;
+
     const packedList = checkListItems.map(listItem => {
       return {
         title: listItem.title,
         data: listItem.data.reduce((data, item) => {
           if (item.isComplete) {
+            isPackedEmpty = false;
             data.push(item);
           }
           return data;
@@ -75,6 +78,7 @@ class PackingChecklist extends Component {
             deleteListItem={deleteListItem}
             navigation={this.props.navigation}
             enableKeyboardListener={true}
+            isPackedEmpty={false}
           />
           <ToPack
             listItems={packedList}
@@ -83,6 +87,7 @@ class PackingChecklist extends Component {
             addListItem={addListItem}
             deleteListItem={deleteListItem}
             navigation={this.props.navigation}
+            isPackedEmpty={isPackedEmpty}
           />
         </ScrollableTabView>
       </View>

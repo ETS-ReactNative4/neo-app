@@ -26,7 +26,8 @@ class ToPack extends Component {
     toggleCheckListStatus: PropTypes.func.isRequired,
     addListItem: PropTypes.func.isRequired,
     deleteListItem: PropTypes.func.isRequired,
-    enableKeyboardListener: PropTypes.bool
+    enableKeyboardListener: PropTypes.bool,
+    isPackedEmpty: PropTypes.bool.isRequired
   };
 
   state = {
@@ -85,7 +86,15 @@ class ToPack extends Component {
   }
 
   render() {
-    const { listItems, deleteListItem } = this.props;
+    const { listItems, deleteListItem, isPackedEmpty } = this.props;
+
+    if (isPackedEmpty)
+      return (
+        <EmptyListPlaceholder
+          text={"Looks like you haven't started packing yet!"}
+        />
+      );
+
     const CheckListComponent = ({ index, item, section, separators }) => (
       <CheckListItem
         index={index}
@@ -105,14 +114,14 @@ class ToPack extends Component {
             renderItem={CheckListComponent}
             renderSectionHeader={CheckListSection}
             renderSectionFooter={({ section }) => {
-              if (!section.data.length) {
-                return (
-                  <EmptyListPlaceholder
-                    text={`No Items in this Section`}
-                    containerStyle={{ marginVertical: 24 }}
-                  />
-                );
-              }
+              // if (!section.data.length) {
+              //   return (
+              //     <EmptyListPlaceholder
+              //       text={`No Items in this Section`}
+              //       containerStyle={{ marginVertical: 24 }}
+              //     />
+              //   );
+              // }
               return null;
             }}
           />
