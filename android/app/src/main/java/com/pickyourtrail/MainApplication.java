@@ -3,6 +3,7 @@ package com.pickyourtrail;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import io.invertase.firebase.RNFirebasePackage;
 import com.zmxv.RNSound.RNSoundPackage;
 import com.dylanvann.fastimage.FastImageViewPackage;
 import com.rncustomwebview.CustomWebViewPackage;
@@ -33,6 +34,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNFirebasePackage(),
             new RNSoundPackage(),
             new FastImageViewPackage(),
             new CustomWebViewPackage(),
