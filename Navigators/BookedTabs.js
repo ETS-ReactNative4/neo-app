@@ -90,7 +90,8 @@ const BookedTabs = createBottomTabNavigator(
       }
     },
     initialRouteName: "TripFeed",
-    swipeEnabled: false
+    swipeEnabled: false,
+    lazy: false
   }
 );
 
