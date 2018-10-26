@@ -280,7 +280,7 @@ class PackingChecklist {
         };
       });
 
-      const myList = !this._yourList
+      const myList = _.isEmpty(toJS(this._yourList))
         ? []
         : Object.keys(this._yourList).map((item, itemIndex) => {
             return {
