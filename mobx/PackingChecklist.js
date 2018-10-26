@@ -27,10 +27,13 @@ class PackingChecklist {
 
   @action
   selectPackingChecklist = itinerary_id => {
-    const checklist = this._allPackingChecklists.find(
+    const checklistObject = this._allPackingChecklists.find(
       checklist => checklist.itinerary_id === itinerary_id
     );
-    if (checklist) this._packingCheckList = checklist;
+    if (checklistObject) {
+      this._packingCheckList = checklistObject.checklist;
+      this._yourList = checklistObject.myList;
+    }
     this.getPackingChecklist(itinerary_id);
   };
 
@@ -55,7 +58,8 @@ class PackingChecklist {
           );
           this._allPackingChecklists.push({
             itinerary_id,
-            checklist: response.data.checkListCategoryUser
+            checklist: response.data.checkListCategoryUser,
+            myList: response.data.myList
           });
         } else {
           this._hasError = true;
