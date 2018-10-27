@@ -6,6 +6,7 @@ import { logBreadCrumb } from "./Services/errorLogger/errorLogger";
 import { setNavigationService } from "./Services/navigationService/navigationService";
 import { updateStoreService } from "./Services/storeService/storeService";
 import AppNavigator from "./Navigators/AppNavigator";
+import { analytics } from "react-native-firebase";
 import NetStatMonitor from "./CommonComponents/NetStatMonitor/NetStatMonitor";
 
 UIManager.setLayoutAnimationEnabledExperimental &&
@@ -36,6 +37,7 @@ const screenTracker = (prevState, currentState) => {
       data: {},
       level: "info"
     });
+    analytics().setCurrentScreen(currentScreen);
   }
 };
 
