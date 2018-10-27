@@ -20,7 +20,8 @@ const styles = {
       fontFamily: fonts.primaryLight,
       color: colorPallete.black2,
       fontSize: 17,
-      lineHeight: 24
+      lineHeight: 24,
+      minHeight: 32
     },
     li: {
       fontFamily: fonts.primaryLight,
