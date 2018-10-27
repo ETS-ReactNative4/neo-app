@@ -64,58 +64,60 @@ class Voucher {
     }
   }
 
-  getHotelVoucherById = createTransformer(identifier =>
+  getHotelVoucherById = createTransformer(id =>
     toJS(
       this._selectedVoucher.hotelVouchers.find(
-        hotel => identifier === hotel.hotelCostingId
+        hotel => id === hotel.hotelCostingId || id === hotel.identifier
       )
     )
   );
 
-  getFlightVoucherById = createTransformer(identifier =>
+  getFlightVoucherById = createTransformer(id =>
     toJS(
       this._selectedVoucher.flightVouchers.find(
-        flight => identifier === flight.flightCostingId
+        flight => id === flight.flightCostingId || id === flight.identifier
       )
     )
   );
 
-  getActivityVoucherById = createTransformer(identifier =>
+  getActivityVoucherById = createTransformer(id =>
     toJS(
       this._selectedVoucher.activityVouchers.find(
-        activity => identifier === activity.identifier
+        activity =>
+          id === activity.identifier || id === activity.activityCostingId
       )
     )
   );
 
-  getTransferVoucherById = createTransformer(transferCostingId =>
+  getTransferVoucherById = createTransformer(id =>
     toJS(
       this._selectedVoucher.transferVouchers.find(
-        transfer => transferCostingId === transfer.transferCostingId
+        transfer =>
+          id === transfer.transferCostingId || id === transfer.identifier
       )
     )
   );
 
-  getRentalCarVoucherById = createTransformer(identifier =>
+  getRentalCarVoucherById = createTransformer(id =>
     toJS(
       this._selectedVoucher.rentalCarVouchers.find(
-        rentalCar => identifier === rentalCar.identifier
+        rentalCar => id === rentalCar.identifier || id === rentalCar.rcCostingId
       )
     )
   );
 
-  getFerryVoucherById = createTransformer(identifier =>
+  getFerryVoucherById = createTransformer(id =>
     toJS(
       this._selectedVoucher.ferryVouchers.find(
-        ferry => identifier === ferry.identifier
+        ferry => id === ferry.identifier || id === ferry.ferryCostingId
       )
     )
   );
 
-  getTrainVoucherById = createTransformer(identifier =>
+  getTrainVoucherById = createTransformer(id =>
     toJS(
       this._selectedVoucher.trainVouchers.find(
-        train => identifier === train.identifier
+        train => id === train.identifier || id === train.trainCostingId
       )
     )
   );
