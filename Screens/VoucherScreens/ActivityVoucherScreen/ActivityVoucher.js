@@ -22,6 +22,7 @@ import Icon from "../../../CommonComponents/Icon/Icon";
 import IosCloseButton from "../Components/IosCloseButton";
 import VoucherAccordion from "../Components/VoucherAccordion";
 import HTMLView from "react-native-htmlview";
+import dialer from "../../../Services/dialer/dialer";
 
 @inject("itineraries")
 @inject("voucherStore")
@@ -47,7 +48,7 @@ class ActivityVoucher extends Component {
   render() {
     const { getActivityVoucherById, selectedVoucher } = this.props.voucherStore;
     const { getActivityById } = this.props.itineraries;
-    const identifier = this.props.navigation.getParam("identifier", "");
+    const activity = this.props.navigation.getParam("activity", {});
 
     // Booking Source
     // Starts at time missing
@@ -66,17 +67,15 @@ class ActivityVoucher extends Component {
       bookingId,
       availabilitySlot,
       duration,
-      numberOfPassenger,
+      adults,
+      children,
       pickupTime,
       inclusions,
-      exclusions
-    } =
-      getActivityVoucherById(identifier) || {};
-    const { mainPhoto, title, notes, longDesc } =
-      getActivityById(identifier) || {};
-    const { ourSourceProvider, day, dayOfWeek, mon } = getActivityById(
-      identifier
-    ).costing;
+      exclusions,
+      contactNumber
+    } = activity.voucher;
+    const { mainPhoto, title, notes, longDesc } = activity;
+    const { ourSourceProvider, day, dayOfWeek, mon } = activity.costing;
 
     const xHeight = isIphoneX()
       ? constants.xNotchHeight
@@ -90,7 +89,14 @@ class ActivityVoucher extends Component {
       },
       {
         name: "No. of pax",
-        value: numberOfPassenger
+        value:
+          adults > 0
+            ? `${adults} adult${adults > 1 ? "s" : ""}${
+                children > 0
+                  ? ` ${children} child${children > 1 ? "ren" : ""}`
+                  : ""
+              }`
+            : ""
       },
       {
         name: "Starts at",
@@ -235,7 +241,7 @@ class ActivityVoucher extends Component {
             <SimpleButton
               text={"Contact"}
               containerStyle={{ width: responsiveWidth(43) }}
-              action={() => {}}
+              action={() => dialer(contactNumber)}
               color={"transparent"}
               textColor={constants.black2}
               hasBorder={true}
