@@ -46,7 +46,7 @@ target 'Pickyourtrail' do
 
   pod 'RNSound', :path => '../node_modules/react-native-sound'
 
-  pod 'Firebase/Core', '~> 5.9.0'
+  pod 'Firebase/Core', '~> 5.11.0'
 
   # target 'PickyourtrailTests' do
   #   inherit! :search_paths
