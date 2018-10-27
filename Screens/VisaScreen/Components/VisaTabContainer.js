@@ -4,6 +4,7 @@ import VoucherSplitSection from "../../VoucherScreens/Components/VoucherSplitSec
 import HTMLView from "react-native-htmlview";
 import constants from "../../../constants/constants";
 import XSensorPlaceholder from "../../../CommonComponents/XSensorPlaceholder/XSensorPlaceholder";
+import VisaProgressIndicator from "./VisaProgressIndicator/VisaProgressIndicator";
 
 const VisaTabContainer = ({
   regionName,
@@ -18,6 +19,7 @@ const VisaTabContainer = ({
 }) => {
   return (
     <ScrollView style={styles.visaTabContainer}>
+      <VisaProgressIndicator completed={3} totalSteps={5} />
       <HTMLView
         style={styles.htmlViewContainer}
         addLineBreaks={false}

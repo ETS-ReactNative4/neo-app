@@ -2,7 +2,6 @@ import { isIphoneX } from "react-native-iphone-x-helper";
 import { Platform, StyleSheet } from "react-native";
 import colorPallete from "./colorPallete";
 import fonts from "./fonts";
-import constants from "./constants";
 
 const styles = {
   tabBarBottomHeight: isIphoneX() ? 86 : 56,
@@ -31,7 +30,7 @@ const styles = {
       lineHeight: 24
     },
     a: {
-      color: constants.firstColor,
+      color: colorPallete.firstColor,
       fontFamily: fonts.primarySemiBold
     }
   }),
