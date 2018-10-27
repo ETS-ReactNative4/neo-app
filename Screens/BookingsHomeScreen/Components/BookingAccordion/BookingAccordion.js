@@ -27,6 +27,10 @@ class BookingAccordion extends Component {
     navigation: PropTypes.object.isRequired
   };
 
+  state = {
+    activeSections: [0]
+  };
+
   _renderHeader = (section, index, isActive, sections) => {
     const customStyle = {};
 
@@ -143,6 +147,12 @@ class BookingAccordion extends Component {
     }
   };
 
+  _updateActiveSections = activeSections => {
+    this.setState({
+      activeSections
+    });
+  };
+
   render() {
     const sections = [];
 
@@ -236,6 +246,8 @@ class BookingAccordion extends Component {
     return (
       <View style={{ marginBottom: 24 }}>
         <Accordion
+          activeSections={this.state.activeSections}
+          onChange={this._updateActiveSections}
           sections={sections}
           renderHeader={this._renderHeader}
           renderContent={this._renderContent}

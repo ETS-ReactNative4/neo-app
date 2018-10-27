@@ -12,8 +12,6 @@ import BookingCalendar from "./Components/BookingCalendar/BookingCalendar";
 import BookingAccordion from "./Components/BookingAccordion/BookingAccordion";
 import { inject, observer } from "mobx-react/custom";
 import HomeHeader from "../../CommonComponents/HomeHeader/HomeHeader";
-import ControlledWebView from "../../CommonComponents/ControlledWebView/ControlledWebView";
-import constants from "../../constants/constants";
 import { getDeviceToken } from "../../Services/fcmService/fcm";
 
 @inject("itineraries")
@@ -72,24 +70,6 @@ class BookingsHome extends Component {
           />
 
           <BookingAccordion navigation={navigation} />
-
-          {/* <ControlledWebView
-            source={{ uri: constants.crispServerUrl }}
-            onNavigationStateChange={() => null}
-            style={{ height: 0, width: 0 }}
-            webviewRef={() => null}
-            injectedJavascript={""}
-            hideLoadingIndicator={true}
-          />
-
-          <ControlledWebView
-            source={{ uri: constants.productUrl }}
-            onNavigationStateChange={() => null}
-            style={{ height: 0, width: 0 }}
-            webviewRef={() => null}
-            injectedJavascript={""}
-            hideLoadingIndicator={true}
-          /> */}
         </ScrollView>
       </View>
     );

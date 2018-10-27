@@ -1,13 +1,14 @@
 {
   "name": "pickyourtrail",
   "version": "1.0.0",
-  "build": 23,
+  "build": 25,
   "environment": "staging",
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "jest",
-    "build-android": "cd android && ./gradlew assembleRelease && cd ..",
+    "build-android":
+      "react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res && cd android && ./gradlew assembleRelease && cd .. && git clean -fd",
     "run-android": "react-native run-android",
     "run-ios": "react-native run-ios",
     "pod-install": "cd ios && pod install && cd ..",
@@ -32,7 +33,7 @@
       "git://github.com/DaniAkash/react-native-app-settings.git#e1fe1e8358e4d1e907fbb0923bec0fdc72be237a",
     "react-native-card-stack-swiper":
       "git://github.com/DaniAkash/react-native-card-stack-swiper.git#1aed50872ed575a037562bd174bf42b853e5001a",
-    "react-native-collapsible": "^0.11.2",
+    "react-native-collapsible": "^1.2.1",
     "react-native-dash": "^0.0.9",
     "react-native-fast-image": "^5.0.3",
     "react-native-firebase": "^5.0.0",

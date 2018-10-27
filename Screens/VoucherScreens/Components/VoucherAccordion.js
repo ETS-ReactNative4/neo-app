@@ -10,11 +10,13 @@ class VoucherAccordion extends Component {
   static propTypes = forbidExtraProps({
     sections: PropTypes.array.isRequired,
     containerStyle: PropTypes.object,
-    openFirstSection: PropTypes.bool
+    openFirstSection: PropTypes.bool,
+    expandMultiple: PropTypes.bool
   });
 
   state = {
-    wasActiveIndex: 0
+    wasActiveIndex: [],
+    activeSections: []
   };
 
   shouldComponentUpdate(nextProps) {
@@ -29,11 +31,11 @@ class VoucherAccordion extends Component {
     if (isActive) {
       customStyle.borderBottomWidth = 0;
 
-      if (wasActiveIndex !== index) {
-        this.setState({
-          wasActiveIndex: index
-        });
-      }
+      // if (wasActiveIndex !== index) {
+      //   this.setState({
+      //     wasActiveIndex: index
+      //   });
+      // }
     }
 
     const iconContainer = {};
@@ -45,12 +47,16 @@ class VoucherAccordion extends Component {
     }).start();
 
     if (isActive) {
-      const spin = spinValue.interpolate({
-        inputRange: [0, 1],
-        outputRange: ["0deg", "90deg"]
-      });
-      iconContainer.transform = [{ rotate: spin }];
-    } else if (wasActiveIndex === index) {
+      if (!wasActiveIndex.includes(index)) {
+        const spin = spinValue.interpolate({
+          inputRange: [0, 1],
+          outputRange: ["0deg", "90deg"]
+        });
+        iconContainer.transform = [{ rotate: spin }];
+      } else {
+        iconContainer.transform = [{ rotate: "90deg" }];
+      }
+    } else if (wasActiveIndex.includes(index)) {
       const reverseSpin = spinValue.interpolate({
         inputRange: [0, 1],
         outputRange: ["90deg", "0deg"]
@@ -76,17 +82,47 @@ class VoucherAccordion extends Component {
     return section.component;
   };
 
+  _updateActiveSections = activeSections => {
+    this.setState(
+      {
+        wasActiveIndex: this.state.activeSections
+      },
+      () => {
+        this.setState({
+          activeSections
+        });
+      }
+    );
+  };
+
+  componentDidMount() {
+    const { openFirstSection } = this.props;
+    if (openFirstSection) {
+      this.setState({
+        activeSections: [0]
+      });
+    }
+  }
+
   render() {
-    let { containerStyle, openFirstSection } = this.props;
+    let { containerStyle, expandMultiple } = this.props;
     if (!containerStyle) containerStyle = {};
     let otherProps = {};
-    if (openFirstSection) otherProps.initiallyActiveSection = 0;
+    if (expandMultiple) {
+      otherProps = {
+        expandMultiple: true,
+        ...otherProps
+      };
+    }
+
     return (
       <View style={[containerStyle]}>
         <Accordion
           sections={this.props.sections}
+          activeSections={this.state.activeSections}
           renderHeader={this._renderHeader}
           renderContent={this._renderContent}
+          onChange={this._updateActiveSections}
           underlayColor={constants.shade5}
           {...otherProps}
         />

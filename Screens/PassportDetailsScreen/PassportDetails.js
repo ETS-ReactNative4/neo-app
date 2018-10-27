@@ -18,38 +18,6 @@ class PassportDetails extends Component {
   };
 
   render() {
-    const passengerDetailsOld = [
-      {
-        name: "Passenger 1",
-        component: (
-          <VoucherSplitSection
-            sections={[
-              {
-                name: "Passport ID",
-                value: ""
-              },
-              {
-                name: "Surname",
-                value: ""
-              },
-              {
-                name: "Given name",
-                value: ""
-              },
-              {
-                name: "Date of birth",
-                value: ""
-              },
-              {
-                name: "Date of expiry",
-                value: ""
-              }
-            ]}
-          />
-        )
-      }
-    ];
-
     const { selectedItineraryId } = this.props.itineraries;
     const { getPassportDetailsByItinerary } = this.props.passportDetailsStore;
 
@@ -103,6 +71,7 @@ class PassportDetails extends Component {
           openFirstSection={true}
           sections={passengerDetails}
           containerStyle={{ marginHorizontal: 24 }}
+          expandMultiple={true}
         />
       </View>
     );

@@ -10,7 +10,8 @@ const VisaTabContainer = ({
   onArrival,
   schengen,
   itineraryId,
-  visaStatus
+  visaStatus,
+  visaDetailText
 }) => {
   return <View />;
 };
