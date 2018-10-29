@@ -326,11 +326,14 @@ class Itineraries {
 
     let ferries;
     try {
-      const trainRefs = this._selectedItinerary.allFerryCostingRefs;
-      ferries = trainRefs.map(ref => {
-        return toJS(
+      const ferryRefs = this._selectedItinerary.allFerryCostingRefs;
+      ferries = ferryRefs.map(ref => {
+        const ferry = toJS(
           this._selectedItinerary.ferryCostings.ferryCostingById[ref]
         );
+        ferry.voucher =
+          storeService.voucherStore.getFerryVoucherById(ferry.costingId) || {};
+        return ferry;
       });
     } catch (e) {
       ferries = [];
