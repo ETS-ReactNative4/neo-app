@@ -3,6 +3,7 @@ import { createTransformer } from "mobx-utils";
 import { persist } from "mobx-persist";
 import apiCall from "../Services/networkRequests/apiCall";
 import constants from "../constants/constants";
+import storeService from "../Services/storeService/storeService";
 
 class PassportDetails {
   @observable _isLoading = false;
@@ -28,15 +29,39 @@ class PassportDetails {
     return this._hasError;
   }
 
-  getPassportDetailsByItinerary = createTransformer(itineraryId =>
-    toJS(this._passportDetails[itineraryId])
-  );
+  @computed
+  get leadPassengerName() {
+    const itineraryId = storeService.itineraries.selectedItineraryId;
+    const { leadPassengerDetail } = this._passportDetails[itineraryId];
+    const { firstName, lastName } = leadPassengerDetail;
+    return `${firstName} ${lastName}`;
+  }
+
+  @computed
+  get passengerCount() {
+    const itineraryId = storeService.itineraries.selectedItineraryId;
+    const passengersList = this.getPassportDetailsByItinerary(itineraryId);
+    return passengersList.length;
+  }
+
+  getPassportDetailsByItinerary = createTransformer(itineraryId => {
+    const passportDetails = toJS(this._passportDetails[itineraryId]);
+    return [
+      passportDetails.leadPassengerDetail,
+      ...passportDetails.otherPassengerDetailList
+    ];
+  });
 
   @action
   getPassportDetails = itineraryId => {
     if (!this._passportDetails[itineraryId]) {
       this._getPassportDetailsFromAPI(itineraryId);
     }
+  };
+
+  @action
+  updatePassportDetails = itineraryId => {
+    this._getPassportDetailsFromAPI(itineraryId);
   };
 
   @action
