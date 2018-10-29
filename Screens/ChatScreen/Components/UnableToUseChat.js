@@ -33,7 +33,8 @@ const styles = StyleSheet.create({
   },
   message: {
     ...constants.fontCustom(constants.primaryLight, 15, 18),
-    color: constants.black2
+    color: constants.black2,
+    textAlign: "center"
   }
 });
 
