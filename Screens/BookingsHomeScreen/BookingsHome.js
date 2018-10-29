@@ -13,6 +13,7 @@ import BookingAccordion from "./Components/BookingAccordion/BookingAccordion";
 import { inject, observer } from "mobx-react/custom";
 import HomeHeader from "../../CommonComponents/HomeHeader/HomeHeader";
 import { getDeviceToken } from "../../Services/fcmService/fcm";
+import pullToRefresh from "../../Services/refresh/pullToRefresh";
 
 @inject("itineraries")
 @inject("voucherStore")
@@ -37,11 +38,9 @@ class BookingsHome extends Component {
       getDateSelectionMatrixSingle,
       numOfActivitiesByDay,
       getTransferTypeByDay,
-      selectedItineraryId,
-      getItineraryDetails,
       isLoading: itineraryLoading
     } = this.props.itineraries;
-    const { isLoading: voucherLoading, getVouchers } = this.props.voucherStore;
+    const { isLoading: voucherLoading } = this.props.voucherStore;
     const { navigation } = this.props;
 
     return (
@@ -54,8 +53,10 @@ class BookingsHome extends Component {
             <RefreshControl
               refreshing={itineraryLoading || voucherLoading}
               onRefresh={() => {
-                getItineraryDetails(selectedItineraryId);
-                getVouchers(selectedItineraryId);
+                pullToRefresh({
+                  itinerary: true,
+                  voucher: true
+                });
               }}
             />
           }

@@ -36,7 +36,10 @@ class Itineraries {
     if (selectedItinerary) {
       this._selectedItinerary = selectedItinerary;
       storeService.voucherStore.selectVoucher(this.selectedItineraryId);
-    } else this.getItineraryDetails(itineraryId);
+    } else {
+      this.getItineraryDetails(itineraryId);
+      storeService.voucherStore.selectVoucher(this.selectedItineraryId);
+    }
   };
 
   @action
@@ -52,7 +55,38 @@ class Itineraries {
         if (response.status === "SUCCESS") {
           this._itineraries.push(response.data);
           this._selectedItinerary = response.data;
-          storeService.voucherStore.selectVoucher(this.selectedItineraryId);
+          this._loadingError = false;
+        } else {
+          this._loadingError = true;
+        }
+      })
+      .catch(error => {
+        console.error(error);
+        this._isLoading = false;
+        this._loadingError = true;
+      });
+  };
+
+  @action
+  updateItineraryDetails = itineraryId => {
+    this._isLoading = true;
+    const requestBody = {};
+    apiCall(
+      `${constants.getItineraryDetails}?itineraryId=${itineraryId}`,
+      requestBody
+    )
+      .then(response => {
+        this._isLoading = false;
+        if (response.status === "SUCCESS") {
+          this._selectedItinerary = response.data;
+          for (let i = 0; i < this._itineraries.length; i++) {
+            const itineraryDetail = this._itineraries[i];
+            if (itineraryDetail.itinerary.itineraryId === itineraryId) {
+              this._itineraries.splice(i, 1);
+              this._itineraries.push(response.data);
+              break;
+            }
+          }
           this._loadingError = false;
         } else {
           this._loadingError = true;
@@ -275,7 +309,9 @@ class Itineraries {
           this._selectedItinerary.trainCostings.trainCostingById[ref]
         );
         trainCosting.voucher =
-          storeService.voucherStore.getTrainVoucherById(trainCosting.key) || {};
+          storeService.voucherStore.getTrainVoucherById(
+            trainCosting.costingId
+          ) || {};
         return trainCosting;
       });
     } catch (e) {

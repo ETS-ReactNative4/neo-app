@@ -26,7 +26,7 @@ class Voucher {
   };
 
   @action
-  getVouchers(itineraryId) {
+  getVouchers = itineraryId => {
     const requestBody = {
       itineraryId
     };
@@ -50,10 +50,10 @@ class Voucher {
         this._isLoading = false;
         this._loadingError = true;
       });
-  }
+  };
 
   @action
-  selectVoucher(itineraryId) {
+  selectVoucher = itineraryId => {
     const selectedVoucher = this._vouchers.find(
       voucher => voucher.itineraryId === itineraryId
     );
@@ -62,7 +62,41 @@ class Voucher {
     } else {
       this.getVouchers(itineraryId);
     }
-  }
+  };
+
+  @action
+  updateVoucher = itineraryId => {
+    const requestBody = {
+      itineraryId
+    };
+    this._isLoading = true;
+    apiCall(constants.voucherDetails, requestBody)
+      .then(response => {
+        this._isLoading = false;
+        if (response.status === "SUCCESS") {
+          this._loadingError = false;
+          const newVoucher = {
+            itineraryId,
+            ...response.data
+          };
+          this._selectedVoucher = newVoucher;
+          for (let i = 0; i < this._vouchers.length; i++) {
+            const voucher = this._vouchers[i];
+            if (voucher.itineraryId === itineraryId) {
+              this._vouchers.splice(i, 1);
+              this._vouchers.push(newVoucher);
+              break;
+            }
+          }
+        } else {
+          this._loadingError = true;
+        }
+      })
+      .catch(error => {
+        this._isLoading = false;
+        this._loadingError = true;
+      });
+  };
 
   getHotelVoucherById = createTransformer(id =>
     toJS(
