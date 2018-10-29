@@ -195,6 +195,21 @@ class AppState {
         logError(err, { eventType: "Device token Failed to register" });
       });
   };
+
+  /**
+   * Internet status
+   */
+  @observable _isConnected = true;
+
+  @computed
+  get isConnected() {
+    return this._isConnected;
+  }
+
+  @action
+  setConnectionStatus = status => {
+    this._isConnected = status;
+  };
 }
 
 export default AppState;
