@@ -43,7 +43,9 @@ const Train = ({ train, isLast, navigation }) => {
 
   const openVoucher = () => {
     if (train.voucher.booked) {
-      navigation.navigate("TransferVoucher", { transfer: train });
+      navigation.navigate("TransferVoucher", {
+        transfer: { ...train, vehicle: "TRAIN" }
+      });
     } else {
       storeService.infoStore.setInfo(
         constants.bookingProcessText.title,
