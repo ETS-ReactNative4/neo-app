@@ -7,15 +7,20 @@ import { inject, observer } from "mobx-react/custom";
 import crispSDK from "./Components/crispSDK";
 import BackButtonIos from "../../CommonComponents/BackButtonIos/BackButtonIos";
 import ControlledWebView from "../../CommonComponents/ControlledWebView/ControlledWebView";
+import UnableToUseChat from "./Components/UnableToUseChat";
+import PreTrip from "./Components/PreTrip";
+import moment from "moment";
 
 @inject("userStore")
 @inject("itineraries")
+@inject("appState")
 @observer
 class ChatScreen extends Component {
   state = {
     canGoBack: false,
     keyboardVisible: false,
-    injectedJavascript: ""
+    injectedJavascript: "",
+    isChatActive: true
   };
   _webView = React.createRef();
   _didFocusSubscription;
@@ -41,6 +46,7 @@ class ChatScreen extends Component {
     this._didFocusSubscription = props.navigation.addListener(
       "didFocus",
       () => {
+        this.getDateDiff();
         this._keyboardDidShowListener = Keyboard.addListener(
           "keyboardWillChangeFrame",
           this.keyboardDidShow
@@ -74,6 +80,7 @@ class ChatScreen extends Component {
   };
 
   componentDidMount() {
+    this.getDateDiff();
     this._willBlurSubscription = this.props.navigation.addListener(
       "willBlur",
       () => {
@@ -89,33 +96,58 @@ class ChatScreen extends Component {
     this._willBlurSubscription && this._willBlurSubscription.remove();
   }
 
+  getDateDiff = () => {
+    if (this.props.itineraries.cities[0]) {
+      const today = moment();
+      const firstDay = moment(this.props.itineraries.cities[0].startDay);
+      const timeDiff = firstDay.diff(today, "hours");
+      if (timeDiff > 48) {
+        this.setState({
+          isChatActive: false
+        });
+      } else {
+        this.setState({
+          isChatActive: true
+        });
+      }
+    }
+  };
+
   render() {
-    return (
-      <View
-        style={{
-          flex: 1,
-          backgroundColor: this.state.keyboardVisible
-            ? constants.chatLightColor
-            : constants.chatMainColor
-        }}
-      >
-        <ControlledWebView
-          source={{ uri: constants.crispServerUrl }}
-          onNavigationStateChange={this.onNavigationStateChange}
+    const { isChatActive } = this.state;
+    const { isConnected } = this.props.appState;
+    return isChatActive ? (
+      isConnected ? (
+        <View
           style={{
             flex: 1,
-            marginTop: isIphoneX() ? constants.xNotchHeight : 0
+            backgroundColor: this.state.keyboardVisible
+              ? constants.chatLightColor
+              : constants.chatMainColor
           }}
-          webviewRef={e => (this._webView = e)}
-          injectedJavascript={this.state.injectedJavascript}
-        />
-        {Platform.OS === "ios" ? (
-          <BackButtonIos
-            backAction={this.goBack}
-            isVisible={this.state.canGoBack}
+        >
+          <ControlledWebView
+            source={{ uri: constants.crispServerUrl }}
+            onNavigationStateChange={this.onNavigationStateChange}
+            style={{
+              flex: 1,
+              marginTop: isIphoneX() ? constants.xNotchHeight : 0
+            }}
+            webviewRef={e => (this._webView = e)}
+            injectedJavascript={this.state.injectedJavascript}
           />
-        ) : null}
-      </View>
+          {Platform.OS === "ios" ? (
+            <BackButtonIos
+              backAction={this.goBack}
+              isVisible={this.state.canGoBack}
+            />
+          ) : null}
+        </View>
+      ) : (
+        <UnableToUseChat />
+      )
+    ) : (
+      <PreTrip />
     );
   }
 }
