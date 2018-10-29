@@ -10,19 +10,20 @@ import {
 import { isIphoneX } from "react-native-iphone-x-helper";
 import constants from "../../constants/constants";
 import Icon from "../Icon/Icon";
+import { inject, observer } from "mobx-react/custom";
 
+@inject("appState")
+@observer
 class NetStatMonitor extends Component {
   state = {
-    isConnected: true,
     showText: false,
     opacity: new Animated.Value(0.3)
   };
 
   componentDidMount() {
     NetInfo.isConnected.fetch().then(isConnected => {
-      this.setState({ isConnected }, () => {
-        this.textTimer();
-      });
+      this.props.appState.setConnectionStatus(isConnected);
+      this.textTimer();
     });
 
     NetInfo.isConnected.addEventListener(
@@ -49,13 +50,12 @@ class NetStatMonitor extends Component {
   };
 
   handleFirstConnectivityChange = isConnected => {
-    this.setState({ isConnected }, () => {
-      this.textTimer();
-    });
+    this.props.appState.setConnectionStatus(isConnected);
+    this.textTimer();
   };
 
   textTimer = () => {
-    if (!this.state.isConnected) {
+    if (!this.props.appState.isConnected) {
       this.setState(
         {
           showText: true
@@ -81,7 +81,7 @@ class NetStatMonitor extends Component {
   render() {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
 
-    if (this.state.isConnected) return null;
+    if (this.props.appState.isConnected) return null;
 
     const backgroundColor = this.state.opacity.interpolate({
       inputRange: [0.3, 0.35, 0.4, 0.45, 0.5],
