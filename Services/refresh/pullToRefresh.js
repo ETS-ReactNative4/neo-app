@@ -1,13 +1,13 @@
 import storeService from "../storeService/storeService";
 
-const pullToRefresh = ({ itinerary, voucher }) => {
+const pullToRefresh = ({ itinerary, voucher }, itineraryId = "") => {
   if (itinerary) {
     const { updateItineraryDetails } = storeService.itineraries;
-    updateItineraryDetails();
+    updateItineraryDetails(itineraryId);
   }
   if (voucher) {
     const { updateVoucher } = storeService.voucherStore;
-    updateVoucher();
+    updateVoucher(itineraryId);
   }
 };
 

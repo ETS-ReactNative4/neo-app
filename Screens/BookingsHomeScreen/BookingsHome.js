@@ -38,7 +38,8 @@ class BookingsHome extends Component {
       getDateSelectionMatrixSingle,
       numOfActivitiesByDay,
       getTransferTypeByDay,
-      isLoading: itineraryLoading
+      isLoading: itineraryLoading,
+      selectedItineraryId
     } = this.props.itineraries;
     const { isLoading: voucherLoading } = this.props.voucherStore;
     const { navigation } = this.props;
@@ -53,10 +54,13 @@ class BookingsHome extends Component {
             <RefreshControl
               refreshing={itineraryLoading || voucherLoading}
               onRefresh={() => {
-                pullToRefresh({
-                  itinerary: true,
-                  voucher: true
-                });
+                pullToRefresh(
+                  {
+                    itinerary: true,
+                    voucher: true
+                  },
+                  selectedItineraryId
+                );
               }}
             />
           }
