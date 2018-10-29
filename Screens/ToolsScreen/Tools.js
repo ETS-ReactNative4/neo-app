@@ -20,11 +20,11 @@ class Tools extends Component {
   componentDidMount() {
     const { cities, selectedItineraryId } = this.props.itineraries;
     const { getEmergencyContacts } = this.props.emergencyContactsStore;
-    const { getPassportDetails } = this.props.passportDetailsStore;
+    const { updatePassportDetails } = this.props.passportDetailsStore;
     const { getVisaDetails } = this.props.visaStore;
 
     getEmergencyContacts(cities);
-    getPassportDetails(selectedItineraryId);
+    updatePassportDetails(selectedItineraryId);
     getVisaDetails(selectedItineraryId);
   }
 
