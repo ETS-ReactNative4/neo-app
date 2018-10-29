@@ -14,6 +14,7 @@ import VoucherAccordion from "../Components/VoucherAccordion";
 import IosCloseButton from "../Components/IosCloseButton";
 import moment from "moment";
 import getTransferImage from "../../../Services/getImageService/getTransferImage";
+import dialer from "../../../Services/dialer/dialer";
 
 class TransferVoucher extends Component {
   static navigationOptions = {
@@ -48,7 +49,19 @@ class TransferVoucher extends Component {
       totalCost
     } = transfer;
 
-    const { arrivalTime, pickupTime, bookedTime } = transfer.voucher;
+    const {
+      arrivalTime,
+      pickupTime,
+      bookedTime,
+      bookingId,
+      contactNumber
+    } = transfer.voucher;
+
+    let passengerCount;
+    if (vehicle.toUpperCase() === "TRAIN") {
+    } else {
+      passengerCount = transfer.voucher.travellers;
+    }
 
     const xHeight = isIphoneX()
       ? constants.xNotchHeight
@@ -62,19 +75,21 @@ class TransferVoucher extends Component {
       },
       {
         name: "No of Passengers",
-        value: passengers || "NA"
+        value: passengerCount || "NA"
       },
       {
         name: "Vehicle type",
         value: vehicle || "NA"
-      },
-      {
+      }
+    ];
+    if (type) {
+      passengerDetails.push({
         name: "Type",
         value: type
           ? type.charAt(0).toUpperCase() + type.substr(1).toLowerCase()
           : "NA"
-      }
-    ];
+      });
+    }
     const arrivalDetails = [
       {
         name: "Arrival at",
@@ -86,7 +101,7 @@ class TransferVoucher extends Component {
       },
       {
         name: "Pickup time",
-        value: pickupTime && pickupTime !== -1 ? arrivalTime : "NA 00:00 am"
+        value: moment(pickupTime).format("hh:mm a")
       },
       {
         name: "Meeting point",
@@ -96,7 +111,7 @@ class TransferVoucher extends Component {
     const bookingDetails = [
       {
         name: "Booked On",
-        value: moment(bookedTime).format("DD/MM/YY")
+        value: moment(bookedTime).format("DD MMM, YY")
       },
       {
         name: "Total Paid",
@@ -104,7 +119,7 @@ class TransferVoucher extends Component {
       },
       {
         name: "Booking Source",
-        value: "NA"
+        value: "Pickyourtrail"
       }
     ];
 
@@ -120,13 +135,13 @@ class TransferVoucher extends Component {
         renderStickyHeader={() => (
           <VoucherStickyHeader
             action={this.close}
-            text={"Booking Reference - NA"}
+            text={`Booking Reference - ${bookingId}`}
           />
         )}
         renderForeground={() => (
           <VoucherHeader
             infoText={`BOOKING REFERENCE`}
-            title={`NA`}
+            title={bookingId}
             menu={() => {}}
             image={{ uri: getTransferImage(vehicle, type) }}
             onClickClose={this.close}
@@ -153,7 +168,7 @@ class TransferVoucher extends Component {
 
           <SimpleButton
             text={"Contact"}
-            action={() => null}
+            action={() => dialer(contactNumber)}
             color={"transparent"}
             containerStyle={{ width: responsiveWidth(100) - 48, marginTop: 24 }}
             textColor={constants.black2}
