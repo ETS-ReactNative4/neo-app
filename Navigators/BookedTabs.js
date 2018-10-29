@@ -86,7 +86,8 @@ const BookedTabs = createBottomTabNavigator(
     tabBarOptions: {
       showLabel: false,
       style: {
-        backgroundColor: "white"
+        backgroundColor: "white",
+        height: 56
       }
     },
     initialRouteName: "TripFeed",
