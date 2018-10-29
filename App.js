@@ -50,7 +50,7 @@ const App = () => {
         onNavigationStateChange={screenTracker}
       />
     </Provider>,
-    <Provider {...store} kye={1}>
+    <Provider {...store} key={1}>
       <NetStatMonitor />
     </Provider>
   ];

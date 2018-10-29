@@ -15,7 +15,10 @@ import IosCloseButton from "../Components/IosCloseButton";
 import moment from "moment";
 import getTransferImage from "../../../Services/getImageService/getTransferImage";
 import dialer from "../../../Services/dialer/dialer";
+import { inject, observer } from "mobx-react/custom";
 
+@inject("passportDetailsStore")
+@observer
 class TransferVoucher extends Component {
   static navigationOptions = {
     header: null
@@ -39,6 +42,11 @@ class TransferVoucher extends Component {
     const transfer = this.props.navigation.getParam("transfer", {});
 
     const {
+      leadPassengerName,
+      passengerCount
+    } = this.props.passportDetailsStore;
+
+    const {
       passengers,
       vehicle,
       type,
@@ -57,12 +65,6 @@ class TransferVoucher extends Component {
       contactNumber
     } = transfer.voucher;
 
-    let passengerCount;
-    if (vehicle.toUpperCase() === "TRAIN") {
-    } else {
-      passengerCount = transfer.voucher.travellers;
-    }
-
     const xHeight = isIphoneX()
       ? constants.xNotchHeight
       : Platform.OS === "ios"
@@ -71,7 +73,7 @@ class TransferVoucher extends Component {
     const passengerDetails = [
       {
         name: "Lead passenger",
-        value: "NA"
+        value: leadPassengerName || "NA"
       },
       {
         name: "No of Passengers",
