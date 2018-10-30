@@ -78,7 +78,13 @@ class ActivityVoucher extends Component {
       activityTime
     } = activity.voucher;
     const { mainPhoto, title, notes, longDesc, latitude, longitude } = activity;
-    const { ourSourceProvider, day, dayOfWeek, mon } = activity.costing;
+    const {
+      ourSourceProvider,
+      day,
+      dayOfWeek,
+      mon,
+      totalCost
+    } = activity.costing;
 
     const {
       leadPassengerName,
@@ -129,7 +135,7 @@ class ActivityVoucher extends Component {
       },
       {
         name: "Total paid",
-        value: ""
+        value: totalCost || "NA"
       },
       {
         name: "Booking source",
