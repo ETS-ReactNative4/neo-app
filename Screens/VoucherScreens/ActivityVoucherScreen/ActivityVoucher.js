@@ -26,6 +26,8 @@ import dialer from "../../../Services/dialer/dialer";
 import directions from "../../../Services/directions/directions";
 import moment from "moment";
 import TitleDate from "../Components/TitleDate";
+import getLocaleString from "../../../Services/getLocaleString/getLocaleString";
+import VoucherAddressSection from "../Components/VoucherAddressSection";
 
 @inject("passportDetailsStore")
 @observer
@@ -75,7 +77,8 @@ class ActivityVoucher extends Component {
       exclusions,
       contactNumber,
       bookedTime,
-      activityTime
+      activityTime,
+      pickupAddress
     } = activity.voucher;
     const { mainPhoto, title, notes, longDesc, latitude, longitude } = activity;
     const {
@@ -107,7 +110,7 @@ class ActivityVoucher extends Component {
       },
       {
         name: "Starts at",
-        value: ""
+        value: activityTime ? moment(activityTime).format("hh:mm a") : "NA"
       },
       {
         name: "Duration",
@@ -135,15 +138,11 @@ class ActivityVoucher extends Component {
       },
       {
         name: "Total paid",
-        value: totalCost || "NA"
+        value: getLocaleString(totalCost) || "NA"
       },
       {
         name: "Booking source",
         value: "Pickyourtrail"
-      },
-      {
-        name: "Booking type",
-        value: ""
       }
     ];
 
@@ -231,6 +230,11 @@ class ActivityVoucher extends Component {
           />
 
           <VoucherSplitSection sections={transferDetails} />
+
+          <VoucherAddressSection
+            containerStyle={{ marginTop: 8 }}
+            address={pickupAddress}
+          />
 
           <View style={styles.actionRow}>
             <SimpleButton

@@ -23,6 +23,7 @@ import PassengerName from "./Components/PassengerName";
 import VoucherAccordion from "../Components/VoucherAccordion";
 import IosCloseButton from "../Components/IosCloseButton";
 import VoucherSplitSection from "../Components/VoucherSplitSection";
+import VoucherAddressSection from "../Components/VoucherAddressSection";
 
 class HotelVoucher extends Component {
   static navigationOptions = {
@@ -187,24 +188,9 @@ class HotelVoucher extends Component {
 
         <View style={styles.addressRow}>
           <VoucherName name={name} />
-          <View style={styles.addressContainer}>
-            <View style={styles.addressSection}>
-              <Text
-                style={styles.hotelAddress}
-                numberOfLines={3}
-                ellipsizeMode={"tail"}
-              >
-                {`${hotelAddress1 || ""} ${hotelAddress2 || ""}`}
-              </Text>
-            </View>
-            <View style={styles.addressMarkerSection}>
-              <Icon
-                size={24}
-                color={constants.black1}
-                name={constants.locationIcon}
-              />
-            </View>
-          </View>
+          <VoucherAddressSection
+            address={`${hotelAddress1 || ""} ${hotelAddress2 || ""}`}
+          />
         </View>
 
         <View style={styles.bookingDetailsRow}>
@@ -333,24 +319,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     minHeight: 80,
     marginTop: 16
-  },
-  addressContainer: {
-    flexDirection: "row"
-  },
-  addressSection: {
-    width: responsiveWidth(80)
-  },
-  hotelAddress: {
-    fontFamily: constants.primaryLight,
-    fontSize: 17,
-    color: constants.black1
-  },
-  addressMarkerSection: {
-    flex: 1
-  },
-  addressMarker: {
-    height: 24,
-    width: 24
   },
 
   bookingDetailsRow: {
