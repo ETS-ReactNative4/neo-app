@@ -299,7 +299,7 @@ class PackingChecklist {
         key: `${myList.length}`
       });
 
-      checkList.push({
+      checkList.unshift({
         title: constants.customCheckListName,
         data: myList
       });
