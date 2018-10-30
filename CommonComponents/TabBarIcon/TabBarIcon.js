@@ -4,13 +4,17 @@ import PropTypes from "prop-types";
 import constants from "../../constants/constants";
 import Icon from "../Icon/Icon";
 
-const TabBarIcon = ({ text, icon }) => {
+const TabBarIcon = ({ text, icon, color }) => {
   return (
     <View style={styles.iconWrapper}>
       <View style={styles.icon}>
-        <Icon color={constants.black1} name={icon} size={25} />
+        <Icon color={color} name={icon} size={25} />
       </View>
-      <Text numberOfLines={1} ellipsizeMode={"tail"} style={styles.label}>
+      <Text
+        numberOfLines={1}
+        ellipsizeMode={"tail"}
+        style={[styles.label, { color }]}
+      >
         {text}
       </Text>
     </View>
@@ -19,7 +23,8 @@ const TabBarIcon = ({ text, icon }) => {
 
 TabBarIcon.propTypes = {
   text: PropTypes.string.isRequired,
-  icon: PropTypes.string.isRequired
+  icon: PropTypes.string.isRequired,
+  color: PropTypes.string.isRequired
 };
 
 const styles = StyleSheet.create({
@@ -42,8 +47,7 @@ const styles = StyleSheet.create({
   },
   label: {
     fontFamily: constants.primaryLight,
-    fontSize: 8,
-    color: constants.black1
+    fontSize: 8
   }
 });
 
