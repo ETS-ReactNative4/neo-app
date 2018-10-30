@@ -16,6 +16,7 @@ import moment from "moment";
 import getTransferImage from "../../../Services/getImageService/getTransferImage";
 import dialer from "../../../Services/dialer/dialer";
 import { inject, observer } from "mobx-react/custom";
+import TitleDate from "../Components/TitleDate";
 
 @inject("passportDetailsStore")
 @observer
@@ -151,9 +152,7 @@ class TransferVoucher extends Component {
         )}
       >
         <View style={styles.titleSection}>
-          <Text style={styles.activityDate}>
-            {moment(dateMillis).format("ddd DD")}
-          </Text>
+          <TitleDate date={dateMillis} />
 
           <VoucherName name={text} />
 
@@ -195,9 +194,6 @@ const styles = StyleSheet.create({
   titleSection: {
     marginTop: 16,
     paddingHorizontal: 24
-  },
-  activityDate: {
-    marginBottom: 8
   },
   arrivalSection: {
     marginTop: 16,

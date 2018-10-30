@@ -17,15 +17,18 @@ import VoucherName from "../Components/VoucherName";
 import VoucherSplitSection from "../Components/VoucherSplitSection";
 import SectionHeader from "../../../CommonComponents/SectionHeader/SectionHeader";
 import SimpleButton from "../../../CommonComponents/SimpleButton/SimpleButton";
-import { inject } from "mobx-react/custom";
+import { inject, observer } from "mobx-react/custom";
 import Icon from "../../../CommonComponents/Icon/Icon";
 import IosCloseButton from "../Components/IosCloseButton";
 import VoucherAccordion from "../Components/VoucherAccordion";
 import HTMLView from "react-native-htmlview";
 import dialer from "../../../Services/dialer/dialer";
+import directions from "../../../Services/directions/directions";
+import moment from "moment";
+import TitleDate from "../Components/TitleDate";
 
-@inject("itineraries")
-@inject("voucherStore")
+@inject("passportDetailsStore")
+@observer
 class ActivityVoucher extends Component {
   static navigationOptions = {
     header: null
@@ -46,8 +49,6 @@ class ActivityVoucher extends Component {
   };
 
   render() {
-    const { getActivityVoucherById, selectedVoucher } = this.props.voucherStore;
-    const { getActivityById } = this.props.itineraries;
     const activity = this.props.navigation.getParam("activity", {});
 
     // Booking Source
@@ -72,10 +73,17 @@ class ActivityVoucher extends Component {
       pickupTime,
       inclusions,
       exclusions,
-      contactNumber
+      contactNumber,
+      bookedTime,
+      activityTime
     } = activity.voucher;
-    const { mainPhoto, title, notes, longDesc } = activity;
+    const { mainPhoto, title, notes, longDesc, latitude, longitude } = activity;
     const { ourSourceProvider, day, dayOfWeek, mon } = activity.costing;
+
+    const {
+      leadPassengerName,
+      passengerCount
+    } = this.props.passportDetailsStore;
 
     const xHeight = isIphoneX()
       ? constants.xNotchHeight
@@ -85,18 +93,11 @@ class ActivityVoucher extends Component {
     const passengerDetails = [
       {
         name: "Booked by",
-        value: ""
+        value: leadPassengerName || "NA"
       },
       {
         name: "No. of pax",
-        value:
-          adults > 0
-            ? `${adults} adult${adults > 1 ? "s" : ""}${
-                children > 0
-                  ? ` ${children} child${children > 1 ? "ren" : ""}`
-                  : ""
-              }`
-            : ""
+        value: passengerCount || "NA"
       },
       {
         name: "Starts at",
@@ -124,7 +125,7 @@ class ActivityVoucher extends Component {
     const bookingDetails = [
       {
         name: "Booked on",
-        value: ""
+        value: bookedTime ? moment(bookedTime).format("DD MMM, YY") : "NA"
       },
       {
         name: "Total paid",
@@ -132,7 +133,7 @@ class ActivityVoucher extends Component {
       },
       {
         name: "Booking source",
-        value: ourSourceProvider
+        value: "Pickyourtrail"
       },
       {
         name: "Booking type",
@@ -210,9 +211,7 @@ class ActivityVoucher extends Component {
         )}
       >
         <View style={styles.titleSection}>
-          <Text
-            style={styles.activityDate}
-          >{`${dayOfWeek}, ${day} ${mon}`}</Text>
+          <TitleDate date={activityTime} />
 
           <VoucherName name={title} />
 
@@ -231,7 +230,7 @@ class ActivityVoucher extends Component {
             <SimpleButton
               text={"Directions"}
               containerStyle={{ width: responsiveWidth(43) }}
-              action={() => {}}
+              action={() => directions({ latitude, longitude })}
               color={"transparent"}
               textColor={constants.black2}
               hasBorder={true}
@@ -266,9 +265,6 @@ const styles = StyleSheet.create({
   titleSection: {
     marginTop: 16,
     paddingHorizontal: 24
-  },
-  activityDate: {
-    marginBottom: 8
   },
   arrivalSection: {
     marginTop: 16,
