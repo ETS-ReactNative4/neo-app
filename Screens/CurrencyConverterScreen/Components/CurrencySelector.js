@@ -86,7 +86,7 @@ class CurrencySelector extends Component {
                 return (
                   <SelectionRow
                     key={index}
-                    image={currency.image}
+                    disableImage={true}
                     text={currency.name.substr(3)}
                     action={currency.action}
                   />
@@ -102,8 +102,8 @@ class CurrencySelector extends Component {
                 return (
                   <SelectionRow
                     key={index}
-                    image={currency.image}
-                    text={currency.name}
+                    disableImage={true}
+                    text={currency.name.substr(3)}
                     action={currency.action}
                   />
                 );

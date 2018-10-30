@@ -102,9 +102,9 @@ class CurrencyConverter extends Component {
     }
   };
 
-  openSelector = () => {
+  openSelector = type => {
     this.setState({
-      isSelectorActive: true
+      isSelectorActive: type
     });
   };
 
@@ -121,9 +121,15 @@ class CurrencyConverter extends Component {
     });
   };
 
-  selectCurrency = currency => {
+  selectForeignCurrency = currency => {
     this.setState({
       foreignCurrency: currency
+    });
+  };
+
+  selectNativeCurrency = currency => {
+    this.setState({
+      nativeCurrency: currency
     });
   };
 
@@ -146,53 +152,53 @@ class CurrencyConverter extends Component {
     const currencyRates = [
       {
         foreignAmount: 5,
-        foreignCurrency: this.state.foreignCurrency.substr(3),
+        foreignCurrency,
         nativeAmount: currencyConverter({
           amount: 5,
           from: this.state.foreignCurrency,
           to: this.state.nativeCurrency
         }),
-        nativeCurrency: this.state.nativeCurrency.substr(3)
+        nativeCurrency
       },
       {
         foreignAmount: 10,
-        foreignCurrency: this.state.foreignCurrency.substr(3),
+        foreignCurrency,
         nativeAmount: currencyConverter({
           amount: 10,
           from: this.state.foreignCurrency,
           to: this.state.nativeCurrency
         }),
-        nativeCurrency: this.state.nativeCurrency.substr(3)
+        nativeCurrency
       },
       {
         foreignAmount: 22,
-        foreignCurrency: this.state.foreignCurrency.substr(3),
+        foreignCurrency,
         nativeAmount: currencyConverter({
           amount: 22,
           from: this.state.foreignCurrency,
           to: this.state.nativeCurrency
         }),
-        nativeCurrency: this.state.nativeCurrency.substr(3)
+        nativeCurrency
       },
       {
         foreignAmount: 50,
-        foreignCurrency: this.state.foreignCurrency.substr(3),
+        foreignCurrency,
         nativeAmount: currencyConverter({
           amount: 50,
           from: this.state.foreignCurrency,
           to: this.state.nativeCurrency
         }),
-        nativeCurrency: this.state.nativeCurrency.substr(3)
+        nativeCurrency
       },
       {
         foreignAmount: 130,
-        foreignCurrency: this.state.foreignCurrency.substr(3),
+        foreignCurrency,
         nativeAmount: currencyConverter({
           amount: 130,
           from: this.state.foreignCurrency,
           to: this.state.nativeCurrency
         }),
-        nativeCurrency: this.state.nativeCurrency.substr(3)
+        nativeCurrency
       }
     ];
 
@@ -224,7 +230,13 @@ class CurrencyConverter extends Component {
         key={0}
         isVisible={this.state.isSelectorActive}
         onClose={this.closeSelector}
-        selectCurrency={this.selectCurrency}
+        selectCurrency={currency => {
+          if (this.state.isSelectorActive === "foreign") {
+            this.selectForeignCurrency(currency);
+          } else {
+            this.selectNativeCurrency(currency);
+          }
+        }}
       />,
       <TouchableWithoutFeedback
         key={1}
@@ -272,7 +284,7 @@ class CurrencyConverter extends Component {
                 </View>
               )}
               <TouchableHighlight
-                onPress={this.openSelector}
+                onPress={() => this.openSelector("foreign")}
                 underlayColor={"transparent"}
                 style={styles.outputInfoContainer}
               >
@@ -280,10 +292,10 @@ class CurrencyConverter extends Component {
                   <Text style={styles.outputCurrencyName}>
                     {this.state.foreignCurrency.substr(3)}
                   </Text>
-                  <Image
-                    style={styles.outputFlagImage}
-                    source={constants.starterBackground}
-                  />
+                  {/*<Image*/}
+                  {/*style={styles.outputFlagImage}*/}
+                  {/*source={constants.starterBackground}*/}
+                  {/*/>*/}
                 </View>
               </TouchableHighlight>
             </View>
@@ -304,15 +316,21 @@ class CurrencyConverter extends Component {
                   ref={this._inputFieldRef}
                 />
               </View>
-              <View style={styles.infoContainer}>
-                <Text style={styles.currencyName}>
-                  {this.state.nativeCurrency.substr(3)}
-                </Text>
-                <Image
-                  style={styles.flagImage}
-                  source={constants.starterBackground}
-                />
-              </View>
+              <TouchableHighlight
+                onPress={() => this.openSelector("native")}
+                underlayColor={"transparent"}
+                style={styles.infoContainer}
+              >
+                <View style={styles.infoContainer}>
+                  <Text style={styles.currencyName}>
+                    {this.state.nativeCurrency.substr(3)}
+                  </Text>
+                  {/*<Image*/}
+                  {/*style={styles.flagImage}*/}
+                  {/*source={constants.starterBackground}*/}
+                  {/*/>*/}
+                </View>
+              </TouchableHighlight>
             </View>
 
             <TouchableHighlight
@@ -395,7 +413,7 @@ const styles = StyleSheet.create({
     margin: 8,
     fontWeight: "400",
     paddingBottom: 12, // 11 diff for circle margin, 5 for line height
-    color: "rgba(255,87,109,1)"
+    color: constants.firstColor
   },
   outputFlagImage: {
     height: 20,
@@ -426,7 +444,7 @@ const styles = StyleSheet.create({
     margin: 8,
     fontWeight: "400",
     paddingTop: 16, // 11 diff for circle margin, 5 for line height
-    color: "rgba(255,87,109,1)"
+    color: constants.firstColor
   },
   flagImage: {
     height: 20,
@@ -443,7 +461,7 @@ const styles = StyleSheet.create({
     borderColor: constants.shade2,
     position: "absolute",
     bottom: 60,
-    right: 48,
+    right: 28,
     alignItems: "center",
     justifyContent: "center"
   },
