@@ -4,6 +4,7 @@ import { persist } from "mobx-persist";
 import apiCall from "../Services/networkRequests/apiCall";
 import constants from "../constants/constants";
 import storeService from "../Services/storeService/storeService";
+import { logError } from "../Services/errorLogger/errorLogger";
 
 class PassportDetails {
   @observable _isLoading = false;
@@ -31,25 +32,40 @@ class PassportDetails {
 
   @computed
   get leadPassengerName() {
-    const itineraryId = storeService.itineraries.selectedItineraryId;
-    const { leadPassengerDetail } = this._passportDetails[itineraryId];
-    const { firstName, lastName } = leadPassengerDetail;
-    return `${firstName} ${lastName}`;
+    try {
+      const itineraryId = storeService.itineraries.selectedItineraryId;
+      const { leadPassengerDetail } = this._passportDetails[itineraryId];
+      const { firstName, lastName } = leadPassengerDetail;
+      return `${firstName} ${lastName}`;
+    } catch (e) {
+      logError(e);
+      return "";
+    }
   }
 
   @computed
   get passengerCount() {
-    const itineraryId = storeService.itineraries.selectedItineraryId;
-    const passengersList = this.getPassportDetailsByItinerary(itineraryId);
-    return passengersList.length;
+    try {
+      const itineraryId = storeService.itineraries.selectedItineraryId;
+      const passengersList = this.getPassportDetailsByItinerary(itineraryId);
+      return passengersList.length;
+    } catch (e) {
+      logError(e);
+      return 0;
+    }
   }
 
   getPassportDetailsByItinerary = createTransformer(itineraryId => {
-    const passportDetails = toJS(this._passportDetails[itineraryId]);
-    return [
-      passportDetails.leadPassengerDetail,
-      ...passportDetails.otherPassengerDetailList
-    ];
+    try {
+      const passportDetails = toJS(this._passportDetails[itineraryId]);
+      return [
+        passportDetails.leadPassengerDetail,
+        ...passportDetails.otherPassengerDetailList
+      ];
+    } catch (e) {
+      logError(e);
+      return [];
+    }
   });
 
   @action
