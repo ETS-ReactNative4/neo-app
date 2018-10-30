@@ -23,10 +23,12 @@ class AddCheckListItem extends Component {
 
   done = () => {
     this.refs._addCheckListInput.blur();
-    this.props.addListItem(this.state.item);
-    this.setState({
-      item: ""
-    });
+    if (this.state.item) {
+      this.props.addListItem(this.state.item);
+      this.setState({
+        item: ""
+      });
+    }
   };
 
   render() {
