@@ -14,6 +14,9 @@ import { inject, observer } from "mobx-react/custom";
 import HomeHeader from "../../CommonComponents/HomeHeader/HomeHeader";
 import { getDeviceToken } from "../../Services/fcmService/fcm";
 import pullToRefresh from "../../Services/refresh/pullToRefresh";
+import SimpleButton from "../../CommonComponents/SimpleButton/SimpleButton";
+import constants from "../../constants/constants";
+import { responsiveWidth } from "react-native-responsive-dimensions";
 
 @inject("itineraries")
 @inject("voucherStore")
@@ -75,6 +78,20 @@ class BookingsHome extends Component {
           />
 
           <BookingAccordion navigation={navigation} />
+
+          <SimpleButton
+            containerStyle={{
+              width: responsiveWidth(100) - 48,
+              marginBottom: 16
+            }}
+            color={"white"}
+            hasBorder={true}
+            text={"Download all vouchers"}
+            icon={constants.activityIcon}
+            action={() => null}
+            iconSize={20}
+            textColor={constants.firstColor}
+          />
         </ScrollView>
       </View>
     );
