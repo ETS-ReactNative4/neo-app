@@ -125,7 +125,7 @@ class ActivityVoucher extends Component {
     const transferDetails = [
       {
         name: "Mode of transfer",
-        value: ""
+        value: "NA"
       },
       {
         name: "Pick up time",
