@@ -78,7 +78,7 @@ class CurrencyConverter extends Component {
     );
     this.props.appState.getConversionRates();
     setTimeout(() => {
-      this._inputFieldRef.current.focus();
+      this._inputFieldRef.current.focus && this._inputFieldRef.current.focus();
     }, 300);
   }
 

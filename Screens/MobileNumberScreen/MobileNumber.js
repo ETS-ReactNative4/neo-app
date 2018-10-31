@@ -285,15 +285,19 @@ class MobileNumber extends Component {
       }
     };
 
-    getSmsPermissionAndroid(
-      () => {
-        this.smsListener = SmsListener.addListener(this.otpPrefiller);
-        sendMobileNumber();
-      },
-      () => {
-        sendMobileNumber();
-      }
-    );
+    if (Platform.OS === "android") {
+      getSmsPermissionAndroid(
+        () => {
+          this.smsListener = SmsListener.addListener(this.otpPrefiller);
+          sendMobileNumber();
+        },
+        () => {
+          sendMobileNumber();
+        }
+      );
+    } else {
+      sendMobileNumber();
+    }
   };
 
   render() {
