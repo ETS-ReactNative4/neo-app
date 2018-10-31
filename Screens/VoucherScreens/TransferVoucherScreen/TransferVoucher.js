@@ -17,6 +17,7 @@ import getTransferImage from "../../../Services/getImageService/getTransferImage
 import dialer from "../../../Services/dialer/dialer";
 import { inject, observer } from "mobx-react/custom";
 import TitleDate from "../Components/TitleDate";
+import getLocaleString from "../../../Services/getLocaleString/getLocaleString";
 
 @inject("passportDetailsStore")
 @observer
@@ -55,7 +56,8 @@ class TransferVoucher extends Component {
       drop,
       text,
       dateMillis,
-      totalCost
+      totalCost,
+      publishedCost
     } = transfer;
 
     const {
@@ -118,7 +120,7 @@ class TransferVoucher extends Component {
       },
       {
         name: "Total Paid",
-        value: totalCost ? `Rs. ${totalCost}` : "NA"
+        value: publishedCost ? getLocaleString(publishedCost) : "NA"
       },
       {
         name: "Booking Source",

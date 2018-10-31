@@ -24,6 +24,9 @@ import VoucherAccordion from "../Components/VoucherAccordion";
 import IosCloseButton from "../Components/IosCloseButton";
 import VoucherSplitSection from "../Components/VoucherSplitSection";
 import VoucherAddressSection from "../Components/VoucherAddressSection";
+import moment from "moment";
+import getLocaleString from "../../../Services/getLocaleString/getLocaleString";
+import directions from "../../../Services/directions/directions";
 
 class HotelVoucher extends Component {
   static navigationOptions = {
@@ -48,11 +51,7 @@ class HotelVoucher extends Component {
     /**
      * TODO: Separate this object like other vouchers
      */
-    const hotelObject = this.props.navigation.getParam("hotel", {});
-    const hotel = {
-      ...hotelObject,
-      ...hotelObject.voucher
-    };
+    const hotel = this.props.navigation.getParam("hotel", {});
     const xHeight = isIphoneX()
       ? constants.xNotchHeight
       : Platform.OS === "ios"
@@ -67,7 +66,6 @@ class HotelVoucher extends Component {
     // Booking date
     // total paid
     const {
-      voucherId,
       checkInDateDisplay,
       checkInMonthDisplay,
       checkInDayOfWeek,
@@ -77,19 +75,30 @@ class HotelVoucher extends Component {
       checkInTime, // 24-hour format?
       checkOutTime, // 24-hour format?
       name,
+      roomsInHotel,
+      amenitiesList,
+      bookingSource,
+      imageURL,
+      finalPrice,
+      lat,
+      lon
+    } = hotel;
+
+    const {
+      rooms,
+      voucherId,
+      checkInDateTs,
+      checkOutDateTs,
       hotelAddress1,
       hotelAddress2,
-      rooms,
-      amenities,
-      bookingSource,
-      imageURL
-    } = hotel;
+      bookedTime
+    } = hotel.voucher;
 
     const amenitiesSection = [
       {
         name: "Hotel Amenities",
-        component: amenities
-          ? amenities.map((amenity, amenityIndex) => {
+        component: amenitiesList
+          ? amenitiesList.map((amenity, amenityIndex) => {
               const customStyle = {
                 borderBottomWidth: 1,
                 borderBottomColor: constants.shade4
@@ -99,7 +108,7 @@ class HotelVoucher extends Component {
                   key={amenityIndex}
                   style={[
                     styles.amenitiesTextWrapper,
-                    amenityIndex === amenities.length - 1 ? customStyle : {}
+                    amenityIndex === amenitiesList.length - 1 ? customStyle : {}
                   ]}
                 >
                   <Text
@@ -113,33 +122,18 @@ class HotelVoucher extends Component {
       }
     ];
 
-    const hotelAmenitySummary = [
-      {
-        name: "Breakfast",
-        value: ""
-      },
-      {
-        name: "Free Wifi",
-        value: ""
-      },
-      {
-        name: "Booking Type",
-        value: ""
-      }
-    ];
-
     const bookingDetailSection = [
       {
         name: "Booked on",
-        value: ""
+        value: bookedTime ? moment(bookedTime).format("DD MMM, YY") : "NA"
       },
       {
         name: "Total paid",
-        value: ""
+        value: finalPrice ? getLocaleString(finalPrice) : "NA"
       },
       {
         name: "Booking source",
-        value: bookingSource ? bookingSource : "Pickyourtrail"
+        value: "Pickyourtrail"
       }
     ];
 
@@ -151,7 +145,10 @@ class HotelVoucher extends Component {
         parallaxHeaderHeight={214 + xHeight}
         stickyHeaderHeight={48 + xHeight}
         renderStickyHeader={() => (
-          <VoucherStickyHeader action={this.close} text={voucherId} />
+          <VoucherStickyHeader
+            action={this.close}
+            text={`Booking ID - ${voucherId}`}
+          />
         )}
         fadeOutForeground={Platform.OS !== "android"}
         onChangeHeaderVisibility={this.headerToggle}
@@ -168,29 +165,29 @@ class HotelVoucher extends Component {
         <View style={styles.checkInRow}>
           <View style={styles.checkInBox}>
             <Text style={styles.checkTitle}>CHECK IN</Text>
-            <Text
-              style={styles.checkDate}
-            >{`${checkInDayOfWeek}, ${checkInDateDisplay} ${checkInMonthDisplay}`}</Text>
+            <Text style={styles.checkDate}>
+              {moment(checkInDateTs).format("ddd, DD MMM")}
+            </Text>
             <Text style={styles.checkTime}>
-              {checkInTime ? checkInTime : "2:00 PM"}
+              {checkInDateTs ? moment(checkInDateTs).format("hh:mm a") : "NA"}
             </Text>
           </View>
           <View style={styles.checkOutBox}>
             <Text style={styles.checkTitle}>CHECK OUT</Text>
-            <Text
-              style={styles.checkDate}
-            >{`${checkOutDayOfWeek}, ${checkOutDateDisplay} ${checkOutMonthDisplay}`}</Text>
+            <Text style={styles.checkDate}>
+              {moment(checkOutDateTs).format("ddd, DD MMM")}
+            </Text>
             <Text style={styles.checkTime}>
-              {checkOutTime ? checkOutTime : "11:00 AM"}
+              {checkOutDateTs ? moment(checkOutDateTs).format("hh:mm a") : "NA"}
             </Text>
           </View>
         </View>
 
         <View style={styles.addressRow}>
           <VoucherName name={name} />
-          <VoucherAddressSection
-            address={`${hotelAddress1 || ""} ${hotelAddress2 || ""}`}
-          />
+          {hotelAddress1 || hotelAddress2 ? (
+            <VoucherAddressSection address={hotelAddress1 || hotelAddress2} />
+          ) : null}
         </View>
 
         <View style={styles.bookingDetailsRow}>
@@ -198,14 +195,45 @@ class HotelVoucher extends Component {
             sectionName={`BOOKING DETAILS`}
             containerStyle={{ marginBottom: 0 }}
           />
-          {rooms &&
-            rooms.map((room, roomIndex) => {
+          {roomsInHotel &&
+            roomsInHotel.map((room, roomIndex) => {
               const {
-                leadPassenger, // Gender Needed?
-                roomType,
+                // leadPassenger, // Gender Needed?
+                name,
                 roomPaxInfo,
-                otherPassengers
+                freeBreakFast,
+                freeWireless,
+                refundable,
+                roomConfiguration,
+                roomTypeId
               } = room;
+
+              const { adultCount, childAges } = roomConfiguration;
+
+              const hotelAmenitySummary = [];
+
+              if (freeBreakFast) {
+                hotelAmenitySummary.push({
+                  name: "Breakfast",
+                  value: "Complementary"
+                });
+              }
+              if (freeWireless) {
+                hotelAmenitySummary.push({
+                  name: "Free Wifi",
+                  value: "Included"
+                });
+              }
+              hotelAmenitySummary.push({
+                name: "Booking Type",
+                value: refundable ? "Refundable" : "Non-Refundable"
+              });
+
+              const roomVoucherDetails =
+                rooms.find(room => room.roomTypeId === roomTypeId) || {};
+              let { leadPassenger, otherPassengers } = roomVoucherDetails;
+              leadPassenger = leadPassenger || {};
+              otherPassengers = otherPassengers || [];
 
               return (
                 <View key={roomIndex} style={styles.bookedSuit}>
@@ -215,10 +243,18 @@ class HotelVoucher extends Component {
                       image={constants.splashBackground}
                     />
                     <View style={styles.bookedSuitDetails}>
-                      <Text style={styles.bookedSuitType}>{roomType}</Text>
+                      <Text style={styles.bookedSuitType}>{name}</Text>
                       <Text
                         style={styles.suitBookingDetails}
-                      >{`Booked for ${roomPaxInfo}`}</Text>
+                      >{`Booked for ${adultCount} adult${
+                        adultCount > 1 ? "s" : ""
+                      } ${
+                        childAges.length
+                          ? `${childAges.length} child${
+                              childAges.length > 1 ? "ren" : ""
+                            }`
+                          : ""
+                      }`}</Text>
                     </View>
                   </View>
 
@@ -260,7 +296,7 @@ class HotelVoucher extends Component {
             <SimpleButton
               text={"Directions"}
               containerStyle={{ width: responsiveWidth(43) }}
-              action={() => {}}
+              action={() => directions({ latitude: lat, longitude: lon })}
               color={"transparent"}
               textColor={constants.black2}
               hasBorder={true}

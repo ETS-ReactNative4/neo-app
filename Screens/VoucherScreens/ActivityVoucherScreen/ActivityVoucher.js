@@ -86,7 +86,8 @@ class ActivityVoucher extends Component {
       day,
       dayOfWeek,
       mon,
-      totalCost
+      totalCost,
+      publishedCost
     } = activity.costing;
 
     const {
@@ -138,7 +139,7 @@ class ActivityVoucher extends Component {
       },
       {
         name: "Total paid",
-        value: getLocaleString(totalCost) || "NA"
+        value: publishedCost ? getLocaleString(publishedCost) : "NA"
       },
       {
         name: "Booking source",
