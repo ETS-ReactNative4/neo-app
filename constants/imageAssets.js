@@ -55,6 +55,8 @@ const imageAssets = {
   pinIcon: "pin",
   checkBoxIcon: "checkbox-unchecked",
   checkBoxCheckedIcon: "checkbox-checked",
+  checkIcon: "check",
+  syncIcon: "sync",
   callIcon: "call-end",
   compassIcon: "compass",
   trashCanIcon: "trash-can",

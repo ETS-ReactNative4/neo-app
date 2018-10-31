@@ -15,9 +15,17 @@ const VisaProgressIndicator = ({ totalSteps, completed }) => {
         const isLastActive = stepIndex + 1 === completed;
 
         return [
-          <Step isActive={isActive} isLastActive={isLastActive} />,
+          <Step
+            key={stepIndex}
+            isActive={isActive}
+            isLastActive={isLastActive}
+          />,
           !isLast ? (
-            <Connector isActive={isActive} isLastActive={isLastActive} />
+            <Connector
+              key={stepIndex + stepArray.length}
+              isActive={isActive}
+              isLastActive={isLastActive}
+            />
           ) : null
         ];
       })}

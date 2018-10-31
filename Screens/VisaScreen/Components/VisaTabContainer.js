@@ -17,9 +17,33 @@ const VisaTabContainer = ({
   visaStatus,
   visaDetailText
 }) => {
+  const visaDetailsArray = [
+    {
+      name: "Document received",
+      value: ""
+    },
+    {
+      name: "Appointment Booked",
+      value: ""
+    },
+    {
+      name: "Final Document Review",
+      value: ""
+    },
+    {
+      name: "Visa Appointment",
+      value: ""
+    },
+    {
+      name: "Visa Issual",
+      value: ""
+    }
+  ];
+
   return (
     <ScrollView style={styles.visaTabContainer}>
       <VisaProgressIndicator completed={3} totalSteps={5} />
+      <VoucherSplitSection sections={visaDetailsArray} />
       <HTMLView
         style={styles.htmlViewContainer}
         addLineBreaks={false}
