@@ -1,14 +1,13 @@
 {
   "name": "pickyourtrail",
   "version": "1.0.0",
-  "build": 27,
+  "build": 28,
   "environment": "staging",
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "jest",
-    "build-android":
-      "react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res && cd android && ./gradlew assembleRelease && cd .. && git clean -fd",
+    "build-android": "cd android && ./gradlew assembleRelease && cd ..",
     "run-android": "react-native run-android",
     "run-ios": "react-native run-ios",
     "pod-install": "cd ios && pod install && cd ..",
