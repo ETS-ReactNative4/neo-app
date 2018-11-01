@@ -10,6 +10,7 @@ import Places from "../Screens/PlacesScreen/Places";
 import transitionConfig from "../Services/navigationAnimations/transitionConfig";
 import Visa from "../Screens/VisaScreen/Visa";
 import NearBy from "../Screens/NearByScreen/NearBy";
+import SupportCenter from "../Screens/SupportCenterScreen/SupportCenter";
 
 const ToolStack = createStackNavigator(
   {
@@ -42,6 +43,9 @@ const ToolStack = createStackNavigator(
     },
     Visa: {
       screen: Visa
+    },
+    SupportCenter: {
+      screen: SupportCenter
     }
   },
   {
