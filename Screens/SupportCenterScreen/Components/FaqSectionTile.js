@@ -14,7 +14,10 @@ import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraPr
 const FaqSectionTile = ({ containerStyle, sectionName, onClick }) => {
   if (!containerStyle) containerStyle = {};
   return (
-    <TouchableOpacity style={[styles.faqTileContainer, containerStyle]}>
+    <TouchableOpacity
+      onPress={onClick}
+      style={[styles.faqTileContainer, containerStyle]}
+    >
       <Text style={styles.faqTileText}>{sectionName}</Text>
       <View style={styles.iconContainer}>
         <Icon name={constants.arrowRight} color={constants.shade2} size={16} />

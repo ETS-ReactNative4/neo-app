@@ -11,6 +11,7 @@ import transitionConfig from "../Services/navigationAnimations/transitionConfig"
 import Visa from "../Screens/VisaScreen/Visa";
 import NearBy from "../Screens/NearByScreen/NearBy";
 import SupportCenter from "../Screens/SupportCenterScreen/SupportCenter";
+import FAQ from "../Screens/FAQScreens/FAQScreen/FAQ";
 
 const ToolStack = createStackNavigator(
   {
@@ -46,6 +47,9 @@ const ToolStack = createStackNavigator(
     },
     SupportCenter: {
       screen: SupportCenter
+    },
+    FAQ: {
+      screen: FAQ
     }
   },
   {

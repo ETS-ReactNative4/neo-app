@@ -20,23 +20,24 @@ class SupportCenter extends Component {
     const faqSections = [
       {
         sectionName: "Visa Processing",
-        onClick: () => navigation.navigate("FAQ")
+        onClick: () => navigation.navigate("FAQ", { title: "Visa Processing" })
       },
       {
         sectionName: "Cancellation",
-        onClick: () => navigation.navigate("FAQ")
+        onClick: () => navigation.navigate("FAQ", { title: "Cancellation" })
       },
       {
         sectionName: "Payment related questions",
-        onClick: () => navigation.navigate("FAQ")
+        onClick: () =>
+          navigation.navigate("FAQ", { title: "Payment related questions" })
       },
       {
         sectionName: "Trip feedback",
-        onClick: () => navigation.navigate("FAQ")
+        onClick: () => navigation.navigate("FAQ", { title: "Trip feedback" })
       },
       {
         sectionName: "Other",
-        onClick: () => navigation.navigate("FAQ")
+        onClick: () => navigation.navigate("FAQ", { title: "Other" })
       }
     ];
 
