@@ -21,11 +21,16 @@ import { responsiveWidth } from "react-native-responsive-dimensions";
 import { logError } from "../../Services/errorLogger/errorLogger";
 import apiCall from "../../Services/networkRequests/apiCall";
 
+@inject("infoStore")
 @inject("itineraries")
 @inject("voucherStore")
 @observer
 class BookingsHome extends Component {
   static navigationOptions = HomeHeader;
+
+  state = {
+    isDownloadLoading: false
+  };
 
   componentDidMount() {
     getDeviceToken();
@@ -35,33 +40,61 @@ class BookingsHome extends Component {
 
   downloadAllVouchers = () => {
     const { selectedItineraryId } = this.props.itineraries;
-    apiCall(
-      constants.getFinalVoucherDownloadUrl.replace(
-        ":itineraryId",
-        selectedItineraryId
-      )
-    )
-      .then(response => {
-        console.log(response);
-        CustomTabs.openURL("https://www.pickyourtrail.com", {
-          showPageTitle: true
-        })
-          .then(launched => {
-            if (!launched) {
-              logError(
-                "Unable to launch custom tab to download final Voucher!",
-                {}
+    const { setError } = this.props.infoStore;
+    this.setState(
+      {
+        isDownloadLoading: true
+      },
+      () => {
+        apiCall(
+          constants.getFinalVoucherDownloadUrl.replace(
+            ":itineraryId",
+            selectedItineraryId
+          )
+        )
+          .then(response => {
+            this.setState({
+              isDownloadLoading: false
+            });
+            if (response.status === "SUCCESS" && response.data) {
+              CustomTabs.openURL(response.data, {
+                showPageTitle: true
+              })
+                .then(launched => {
+                  if (!launched) {
+                    logError(
+                      "Unable to launch custom tab to download final Voucher!",
+                      {}
+                    );
+                  }
+                  return null;
+                })
+                .catch(err => {
+                  logError(err);
+                });
+            } else {
+              setError(
+                "Unable to Download!",
+                "Looks like your vouchers aren't ready yet!",
+                constants.notificationIcon,
+                "Okay"
               );
             }
-            return null;
           })
           .catch(err => {
-            logError(err);
+            this.setState({
+              isDownloadLoading: false
+            });
+            setError(
+              "Unable to Download!",
+              "Internal Server Error!",
+              constants.notificationIcon,
+              "Okay"
+            );
+            console.error(err);
           });
-      })
-      .catch(err => {
-        console.error(err);
-      });
+      }
+    );
   };
 
   render() {
@@ -112,20 +145,35 @@ class BookingsHome extends Component {
           />
 
           <BookingAccordion navigation={navigation} />
-
-          <SimpleButton
-            containerStyle={{
-              width: responsiveWidth(100) - 48,
-              marginBottom: 16
-            }}
-            color={"white"}
-            hasBorder={true}
-            text={"Download all vouchers"}
-            icon={constants.activityIcon}
-            action={this.downloadAllVouchers}
-            iconSize={20}
-            textColor={constants.firstColor}
-          />
+          {this.state.isDownloadLoading ? (
+            <SimpleButton
+              containerStyle={{
+                width: responsiveWidth(100) - 48,
+                marginBottom: 16
+              }}
+              color={"white"}
+              hasBorder={true}
+              text={"Download all vouchers"}
+              icon={constants.activityIcon}
+              action={() => null}
+              iconSize={20}
+              textColor={constants.firstColor}
+            />
+          ) : (
+            <SimpleButton
+              containerStyle={{
+                width: responsiveWidth(100) - 48,
+                marginBottom: 16
+              }}
+              color={"white"}
+              hasBorder={true}
+              text={"Download all vouchers"}
+              icon={constants.activityIcon}
+              action={this.downloadAllVouchers}
+              iconSize={20}
+              textColor={constants.firstColor}
+            />
+          )}
         </ScrollView>
       </View>
     );
