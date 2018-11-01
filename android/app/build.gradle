@@ -149,6 +149,7 @@ android {
 }
 
 dependencies {
+    implementation project(':react-native-custom-tabs')
     implementation project(':react-native-firebase')
     implementation project(':react-native-sound')
     implementation project(':react-native-fast-image')

@@ -16,7 +16,10 @@ import { getDeviceToken } from "../../Services/fcmService/fcm";
 import pullToRefresh from "../../Services/refresh/pullToRefresh";
 import SimpleButton from "../../CommonComponents/SimpleButton/SimpleButton";
 import constants from "../../constants/constants";
+import { CustomTabs } from "react-native-custom-tabs";
 import { responsiveWidth } from "react-native-responsive-dimensions";
+import { logError } from "../../Services/errorLogger/errorLogger";
+import apiCall from "../../Services/networkRequests/apiCall";
 
 @inject("itineraries")
 @inject("voucherStore")
@@ -29,6 +32,37 @@ class BookingsHome extends Component {
   }
 
   openSearch = () => {};
+
+  downloadAllVouchers = () => {
+    const { selectedItineraryId } = this.props.itineraries;
+    apiCall(
+      constants.getFinalVoucherDownloadUrl.replace(
+        ":itineraryId",
+        selectedItineraryId
+      )
+    )
+      .then(response => {
+        console.log(response);
+        CustomTabs.openURL("https://www.pickyourtrail.com", {
+          showPageTitle: true
+        })
+          .then(launched => {
+            if (!launched) {
+              logError(
+                "Unable to launch custom tab to download final Voucher!",
+                {}
+              );
+            }
+            return null;
+          })
+          .catch(err => {
+            logError(err);
+          });
+      })
+      .catch(err => {
+        console.error(err);
+      });
+  };
 
   render() {
     if (Platform.OS === "ios") {
@@ -88,7 +122,7 @@ class BookingsHome extends Component {
             hasBorder={true}
             text={"Download all vouchers"}
             icon={constants.activityIcon}
-            action={() => null}
+            action={this.downloadAllVouchers}
             iconSize={20}
             textColor={constants.firstColor}
           />

@@ -3,6 +3,7 @@ const apiUrls = {
   verifyOtp: "mobile/login",
   getYourTrips: "mobile/yourtrips",
   getItineraryDetails: "mobile/itineraryDetails",
+  getFinalVoucherDownloadUrl: "mobile/:itineraryId/getFinalVoucherUrl",
   getPackingChecklist: "mobile/displayCheckList",
   getCheckList: "mobile/getCheckList",
   updatePackingChecklist: "mobile/updateCheckList",
