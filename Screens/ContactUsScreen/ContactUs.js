@@ -71,8 +71,7 @@ const styles = StyleSheet.create({
     marginTop: 8,
     ...constants.fontCustom(constants.primarySemiBold, 17, 24),
     color: constants.black2,
-    maxHeight: responsiveHeight(50),
-    borderWidth: 2
+    maxHeight: responsiveHeight(50)
   }
 });
 
