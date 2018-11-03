@@ -4,6 +4,7 @@ import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import FaqSectionTile from "./Components/FaqSectionTile";
 import ContactUsTile from "./Components/ContactUsTile";
 import TicketTile from "./Components/TicketTile";
+import constants from "../../constants/constants";
 
 class SupportCenter extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -12,7 +13,11 @@ class SupportCenter extends Component {
     };
   };
 
-  contactSupport = () => {};
+  contactSupport = () => {
+    this.props.navigation.navigate("ContactUs", {
+      type: constants.defaultSupportType
+    });
+  };
 
   render() {
     const { navigation } = this.props;

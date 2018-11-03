@@ -12,6 +12,8 @@ import Visa from "../Screens/VisaScreen/Visa";
 import NearBy from "../Screens/NearByScreen/NearBy";
 import SupportCenter from "../Screens/SupportCenterScreen/SupportCenter";
 import FAQ from "../Screens/FAQScreens/FAQScreen/FAQ";
+import FAQAnswers from "../Screens/FAQScreens/FAQAnswersScreen/FAQAnswers";
+import ContactUs from "../Screens/ContactUsScreen/ContactUs";
 
 const ToolStack = createStackNavigator(
   {
@@ -50,6 +52,12 @@ const ToolStack = createStackNavigator(
     },
     FAQ: {
       screen: FAQ
+    },
+    FAQAnswers: {
+      screen: FAQAnswers
+    },
+    ContactUs: {
+      screen: ContactUs
     }
   },
   {

@@ -26,6 +26,7 @@ const apiUrls = {
   initiatePayment: "api/payment/initiatepayment",
 
   customCheckListName: "Your list",
+  defaultSupportType: "GENERAL",
   hotelVoucher: "hotel",
   flightVoucher: "flight",
   activityVoucher: "activity",
