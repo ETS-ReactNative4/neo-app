@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { View, ScrollView, StyleSheet, TextInput } from "react-native";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import constants from "../../constants/constants";
+import ContactActionBar from "./Components/ContactActionBar";
+import { responsiveHeight } from "react-native-responsive-dimensions";
 
 class ContactUs extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -40,8 +42,11 @@ class ContactUs extends Component {
             underlineColorAndroid={"transparent"}
             placeholder={"Message"}
             placeholderTextColor={constants.shade2}
+            textAlignVertical={"top"}
+            numberOfLines={10}
           />
         </ScrollView>
+        <ContactActionBar />
       </View>
     );
   }
@@ -65,7 +70,9 @@ const styles = StyleSheet.create({
   messageTextBox: {
     marginTop: 8,
     ...constants.fontCustom(constants.primarySemiBold, 17, 24),
-    color: constants.black2
+    color: constants.black2,
+    maxHeight: responsiveHeight(50),
+    borderWidth: 2
   }
 });
 
