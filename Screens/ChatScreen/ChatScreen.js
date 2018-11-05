@@ -116,6 +116,9 @@ class ChatScreen extends Component {
   render() {
     const { isChatActive } = this.state;
     const { isConnected } = this.props.appState;
+    const openSupportCenter = () =>
+      this.props.navigation.navigate("SupportCenter");
+
     return isChatActive ? (
       isConnected ? (
         <View
@@ -147,7 +150,7 @@ class ChatScreen extends Component {
         <UnableToUseChat />
       )
     ) : (
-      <PreTrip />
+      <PreTrip action={openSupportCenter} />
     );
   }
 }

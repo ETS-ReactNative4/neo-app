@@ -2,8 +2,10 @@ import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import SimpleButton from "../../../CommonComponents/SimpleButton/SimpleButton";
 import constants from "../../../constants/constants";
+import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraProps";
+import PropTypes from "prop-types";
 
-const PreTrip = () => {
+const PreTrip = ({ action }) => {
   return (
     <View style={styles.preTripContainer}>
       <Text style={styles.message}>
@@ -14,12 +16,16 @@ const PreTrip = () => {
       <SimpleButton
         containerStyle={{ marginTop: 8, width: 192 }}
         text={"Visit support center"}
-        action={() => null}
+        action={action}
         textColor={"white"}
       />
     </View>
   );
 };
+
+PreTrip.propTypes = forbidExtraProps({
+  action: PropTypes.func.isRequired
+});
 
 const styles = StyleSheet.create({
   preTripContainer: {

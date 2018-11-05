@@ -91,7 +91,7 @@ const Ferry = ({ ferry, isLast, navigation }) => {
 };
 
 Ferry.propTypes = forbidExtraProps({
-  transfer: PropTypes.object.isRequired,
+  ferry: PropTypes.object.isRequired,
   isLast: PropTypes.bool.isRequired,
   navigation: PropTypes.object.isRequired
 });
