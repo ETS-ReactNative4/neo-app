@@ -12,11 +12,17 @@ import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraPr
 import XSensorPlaceholder from "../../../CommonComponents/XSensorPlaceholder/XSensorPlaceholder";
 import SimpleButton from "../../../CommonComponents/SimpleButton/SimpleButton";
 import { responsiveWidth } from "react-native-responsive-dimensions";
+import KeyboardAvoidingActionBar from "../../../CommonComponents/KeyboardAvoidingActionBar/KeyboardAvoidingActionBar";
 
-const ContactActionBar = ({ containerStyle, cancelAction, sendAction }) => {
+const ContactActionBar = ({
+  containerStyle,
+  cancelAction,
+  sendAction,
+  navigation
+}) => {
   if (!containerStyle) containerStyle = {};
   return (
-    <View style={[styles.contactActionContainer, containerStyle]}>
+    <KeyboardAvoidingActionBar navigation={navigation}>
       <View style={styles.contactActionSection}>
         <SimpleButton
           text={"Cancel"}
@@ -36,15 +42,15 @@ const ContactActionBar = ({ containerStyle, cancelAction, sendAction }) => {
           containerStyle={{ width: responsiveWidth(40), marginHorizontal: 4 }}
         />
       </View>
-      <XSensorPlaceholder />
-    </View>
+    </KeyboardAvoidingActionBar>
   );
 };
 
 ContactActionBar.propTypes = forbidExtraProps({
   containerStyle: PropTypes.object,
   sectionName: PropTypes.string.isRequired,
-  onClick: PropTypes.func.isRequired
+  onClick: PropTypes.func.isRequired,
+  navigation: PropTypes.object.isRequired
 });
 
 const styles = StyleSheet.create({

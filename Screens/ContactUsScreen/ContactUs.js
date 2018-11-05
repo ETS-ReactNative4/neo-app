@@ -46,7 +46,7 @@ class ContactUs extends Component {
             numberOfLines={10}
           />
         </ScrollView>
-        <ContactActionBar />
+        <ContactActionBar navigation={this.props.navigation} />
       </View>
     );
   }
