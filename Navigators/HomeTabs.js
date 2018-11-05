@@ -14,7 +14,8 @@ const HomeTabs = createBottomTabNavigator(
   },
   {
     initialRouteName: "BookedItineraryTabs",
-    swipeEnabled: false
+    swipeEnabled: false,
+    lazy: false
   }
 );
 
