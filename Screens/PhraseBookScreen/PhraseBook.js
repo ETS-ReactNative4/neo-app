@@ -191,6 +191,7 @@ class PhraseBook extends Component {
       pinPhrase,
       unPinPhrase
     } = this.props.phrasesStore;
+    const { navigation } = this.props;
 
     const sections = ["pinned", ...Object.keys(phrases)];
     const allPhrases = {
@@ -246,6 +247,7 @@ class PhraseBook extends Component {
       <CustomPhrase
         openLanguageSelector={this.openLanguageSelector}
         key={1}
+        navigation={navigation}
         selectedLanguage={selectedLanguage}
         selectPhrase={selectPhrase}
         targetLanguage={targetLanguage}
