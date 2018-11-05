@@ -5,40 +5,35 @@ import constants from "../../../constants/constants";
 import SimpleButton from "../../../CommonComponents/SimpleButton/SimpleButton";
 import XSensorPlaceholder from "../../../CommonComponents/XSensorPlaceholder/XSensorPlaceholder";
 import PropTypes from "prop-types";
+import KeyboardAvoidingActionBar from "../../../CommonComponents/KeyboardAvoidingActionBar/KeyboardAvoidingActionBar";
 
-const NextBar = ({ onClickNext, keyboardSpace }) => {
+const NextBar = ({ onClickNext, navigation }) => {
   return (
-    <View key={2}>
-      <KeyboardAvoidingView
-        behavior="padding"
-        style={[styles.bottomBar, { marginBottom: keyboardSpace }]}
-      >
-        <SimpleButton
-          containerStyle={{
-            height: 24,
-            width: 52,
-            alignSelf: "flex-end",
-            marginHorizontal: 24
-          }}
-          text={"next"}
-          action={onClickNext}
-          textColor={constants.firstColor}
-          underlayColor={"transparent"}
-          color={"transparent"}
-        />
-      </KeyboardAvoidingView>
-      {isIphoneX() ? (
-        <XSensorPlaceholder
-          containerStyle={{ backgroundColor: "rgba(239,249,242,1)" }}
-        />
-      ) : null}
-    </View>
+    <KeyboardAvoidingActionBar
+      containerStyle={styles.bottomBar}
+      xSensorPlaceholderColor={"rgba(239,249,242,1)"}
+      navigation={navigation}
+    >
+      <SimpleButton
+        containerStyle={{
+          height: 24,
+          width: 52,
+          alignSelf: "flex-end",
+          marginHorizontal: 24
+        }}
+        text={"next"}
+        action={onClickNext}
+        textColor={constants.firstColor}
+        underlayColor={"transparent"}
+        color={"transparent"}
+      />
+    </KeyboardAvoidingActionBar>
   );
 };
 
 NextBar.propTypes = {
   onClickNext: PropTypes.func.isRequired,
-  keyboardSpace: PropTypes.number.isRequired
+  navigation: PropTypes.object.isRequired
 };
 
 const styles = StyleSheet.create({

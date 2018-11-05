@@ -47,7 +47,6 @@ class MobileNumber extends Component {
     mobileNumber: "",
     otp: new Array(6).fill(""),
     otpId: "",
-    keyboardSpace: 0,
     password: "",
     isCountryCodeModalVisible: false,
     isMobileVerified: false,
@@ -57,24 +56,8 @@ class MobileNumber extends Component {
     waitTime: 30,
     isWaiting: false
   };
-  keyboardDidShowListener = {};
-  keyboardDidHideListener = {};
   waitListener = {};
   smsListener = {};
-
-  keyboardDidShow = e => {
-    this.setState({
-      keyboardSpace: isIphoneX()
-        ? e.endCoordinates.height - constants.xSensorAreaHeight
-        : e.endCoordinates.height
-    });
-  };
-
-  keyboardDidHide = () => {
-    this.setState({
-      keyboardSpace: 0
-    });
-  };
 
   selectCountryCode = countryCode => {
     this.setState({ countryCode });
@@ -241,17 +224,6 @@ class MobileNumber extends Component {
     }
   };
 
-  componentDidMount() {
-    this.keyboardDidShowListener = Keyboard.addListener(
-      "keyboardWillChangeFrame",
-      this.keyboardDidShow
-    );
-    this.keyboardDidHideListener = Keyboard.addListener(
-      "keyboardWillHide",
-      this.keyboardDidHide
-    );
-  }
-
   showCountryCodeModal = () => {
     this.setState({
       isCountryCodeModalVisible: true
@@ -265,8 +237,6 @@ class MobileNumber extends Component {
   };
 
   componentWillUnmount() {
-    this.keyboardDidShowListener.remove();
-    this.keyboardDidHideListener.remove();
     this.smsListener.remove ? this.smsListener.remove() : () => null;
     clearInterval(this.waitListener);
   }
@@ -343,11 +313,11 @@ class MobileNumber extends Component {
       this.state.isMobileVerified ? (
         <OtpBar
           key={2}
-          keyboardSpace={this.state.keyboardSpace}
           resendOtp={this.resendOtp}
           verifyOtp={this.verifyOtp}
           isWaiting={this.state.isWaiting}
           waitTime={this.state.waitTime}
+          navigation={this.props.navigation}
         />
       ) : null,
 
@@ -355,7 +325,7 @@ class MobileNumber extends Component {
         <NextBar
           key={3}
           onClickNext={this.submitMobileNumber}
-          keyboardSpace={this.state.keyboardSpace}
+          navigation={this.props.navigation}
         />
       ) : null,
 
