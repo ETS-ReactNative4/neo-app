@@ -60,7 +60,6 @@ class KeyboardAvoidingActionBar extends Component {
   }
 
   keyboardDidShow = e => {
-    console.log("keyboard show!", e.endCoordinates.height);
     this.setState({
       isKeyboardVisible: true,
       keyboardSpace: e.endCoordinates.height
@@ -68,7 +67,6 @@ class KeyboardAvoidingActionBar extends Component {
   };
 
   keyboardDidHide = () => {
-    console.log("keyboard hide!!");
     this.setState({
       isKeyboardVisible: false,
       keyboardSpace: 0
@@ -83,7 +81,6 @@ class KeyboardAvoidingActionBar extends Component {
       containerStyle,
       { marginBottom: this.state.keyboardSpace }
     ];
-    console.log(style);
     return [
       <View key={0} style={style}>
         {this.props.children}
