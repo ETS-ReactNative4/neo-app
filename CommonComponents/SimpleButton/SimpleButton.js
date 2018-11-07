@@ -55,7 +55,7 @@ SimpleButton.propTypes = {
   textColor: PropTypes.string.isRequired,
   underlayColor: PropTypes.string,
   hasBorder: PropTypes.bool,
-  containerStyle: PropTypes.object,
+  containerStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.number]),
   textStyle: PropTypes.object,
   icon: PropTypes.string,
   iconSize: PropTypes.number

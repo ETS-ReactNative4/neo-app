@@ -5,6 +5,8 @@ import HTMLView from "react-native-htmlview";
 import constants from "../../../constants/constants";
 import XSensorPlaceholder from "../../../CommonComponents/XSensorPlaceholder/XSensorPlaceholder";
 import VisaProgressIndicator from "./VisaProgressIndicator/VisaProgressIndicator";
+import VisaActionBar from "./VisaActionBar";
+import PropTypes from "prop-types";
 
 const VisaTabContainer = ({
   regionName,
@@ -15,6 +17,7 @@ const VisaTabContainer = ({
   schengen,
   itineraryId,
   visaStatus,
+  navigation,
   visaDetailText
 }) => {
   const visaDetailsArray = [
@@ -42,8 +45,8 @@ const VisaTabContainer = ({
 
   return (
     <ScrollView style={styles.visaTabContainer}>
-      <VisaProgressIndicator completed={3} totalSteps={5} />
       <VoucherSplitSection sections={visaDetailsArray} />
+      <VisaActionBar navigation={navigation} />
       <HTMLView
         style={styles.htmlViewContainer}
         addLineBreaks={false}
@@ -53,6 +56,11 @@ const VisaTabContainer = ({
       <XSensorPlaceholder />
     </ScrollView>
   );
+};
+
+VisaTabContainer.propTypes = {
+  visaDetailText: PropTypes.string.isRequired,
+  navigation: PropTypes.object.isRequired
 };
 
 const styles = StyleSheet.create({

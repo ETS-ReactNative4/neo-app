@@ -60,6 +60,7 @@ class Visa extends Component {
                 itineraryId={itineraryId}
                 visaStatus={visaStatus}
                 tabLabel={visa.regionName.toUpperCase()}
+                navigation={this.props.navigation}
                 key={visaIndex}
               />
             );
