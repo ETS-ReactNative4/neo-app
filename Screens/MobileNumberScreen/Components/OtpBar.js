@@ -9,43 +9,39 @@ import KeyboardAvoidingActionBar from "../../../CommonComponents/KeyboardAvoidin
 import { responsiveWidth } from "react-native-responsive-dimensions";
 import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraProps";
 
-const OtpBar = ({ resendOtp, verifyOtp, isWaiting, waitTime, navigation }) => {
-  return (
-    <KeyboardAvoidingActionBar
-      navigation={navigation}
-      containerStyle={styles.otpButtonContainer}
-    >
-      <SimpleButton
-        containerStyle={{
-          height: 40,
-          width: 160,
-          marginRight: 8,
-          borderWidth: 0.5
-        }}
-        text={isWaiting ? `ResendOtp (${waitTime}s)` : "ResendOtp"}
-        hasBorder={true}
-        action={isWaiting ? () => {} : resendOtp}
-        textColor={isWaiting ? constants.shade5 : constants.black2}
-        underlayColor={constants.shade4}
-        color={"white"}
-      />
-      <SimpleButton
-        containerStyle={{
-          height: 40,
-          width: 160
-        }}
-        text={"Verify"}
-        action={verifyOtp}
-        textColor={"white"}
-        underlayColor={constants.firstColorAlpha(0.4)}
-        color={constants.firstColor}
-      />
-    </KeyboardAvoidingActionBar>
-  );
+const OtpBar = ({ resendOtp, verifyOtp, isWaiting, waitTime }) => {
+  return [
+    <SimpleButton
+      containerStyle={{
+        height: 40,
+        width: 160,
+        marginRight: 8,
+        borderWidth: 0.5
+      }}
+      key={0}
+      text={isWaiting ? `ResendOtp (${waitTime}s)` : "ResendOtp"}
+      hasBorder={true}
+      action={isWaiting ? () => {} : resendOtp}
+      textColor={isWaiting ? constants.shade5 : constants.black2}
+      underlayColor={constants.shade4}
+      color={"white"}
+    />,
+    <SimpleButton
+      containerStyle={{
+        height: 40,
+        width: 160
+      }}
+      key={1}
+      text={"Verify"}
+      action={verifyOtp}
+      textColor={"white"}
+      underlayColor={constants.firstColorAlpha(0.4)}
+      color={constants.firstColor}
+    />
+  ];
 };
 
 OtpBar.propTypes = forbidExtraProps({
-  navigation: PropTypes.object.isRequired,
   resendOtp: PropTypes.func.isRequired,
   verifyOtp: PropTypes.func.isRequired,
   isWaiting: PropTypes.bool.isRequired,
@@ -59,16 +55,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center"
-  },
-  otpBarWrapper: {
-    shadowColor: constants.shade4,
-    shadowOffset: {
-      height: -2,
-      width: 0
-    },
-    shadowRadius: 0,
-    shadowOpacity: 0.5,
-    elevation: 5
   }
 });
 
