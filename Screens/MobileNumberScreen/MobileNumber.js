@@ -24,6 +24,7 @@ import SmsListener from "react-native-android-sms-listener";
 import { inject, observer } from "mobx-react/custom";
 import getSmsPermissionAndroid from "../../Services/getSmsPermissionAndroid/getSmsPermissionAndroid";
 import { NavigationActions, StackActions } from "react-navigation";
+import KeyboardAvoidingActionBar from "../../CommonComponents/KeyboardAvoidingActionBar/KeyboardAvoidingActionBar";
 
 const resetToBookings = StackActions.reset({
   index: 0,
@@ -47,7 +48,6 @@ class MobileNumber extends Component {
     mobileNumber: "",
     otp: new Array(6).fill(""),
     otpId: "",
-    keyboardSpace: 0,
     password: "",
     isCountryCodeModalVisible: false,
     isMobileVerified: false,
@@ -57,24 +57,8 @@ class MobileNumber extends Component {
     waitTime: 30,
     isWaiting: false
   };
-  keyboardDidShowListener = {};
-  keyboardDidHideListener = {};
   waitListener = {};
   smsListener = {};
-
-  keyboardDidShow = e => {
-    this.setState({
-      keyboardSpace: isIphoneX()
-        ? e.endCoordinates.height - constants.xSensorAreaHeight
-        : e.endCoordinates.height
-    });
-  };
-
-  keyboardDidHide = () => {
-    this.setState({
-      keyboardSpace: 0
-    });
-  };
 
   selectCountryCode = countryCode => {
     this.setState({ countryCode });
@@ -241,17 +225,6 @@ class MobileNumber extends Component {
     }
   };
 
-  componentDidMount() {
-    this.keyboardDidShowListener = Keyboard.addListener(
-      "keyboardWillChangeFrame",
-      this.keyboardDidShow
-    );
-    this.keyboardDidHideListener = Keyboard.addListener(
-      "keyboardWillHide",
-      this.keyboardDidHide
-    );
-  }
-
   showCountryCodeModal = () => {
     this.setState({
       isCountryCodeModalVisible: true
@@ -265,8 +238,6 @@ class MobileNumber extends Component {
   };
 
   componentWillUnmount() {
-    this.keyboardDidShowListener.remove();
-    this.keyboardDidHideListener.remove();
     this.smsListener.remove ? this.smsListener.remove() : () => null;
     clearInterval(this.waitListener);
   }
@@ -301,6 +272,8 @@ class MobileNumber extends Component {
   };
 
   render() {
+    const { isMobileVerified } = this.state;
+
     return [
       <CountryCodePicker
         key={0}
@@ -340,26 +313,29 @@ class MobileNumber extends Component {
         ) : null}
       </View>,
 
-      this.state.isMobileVerified ? (
-        <OtpBar
-          key={2}
-          keyboardSpace={this.state.keyboardSpace}
-          resendOtp={this.resendOtp}
-          verifyOtp={this.verifyOtp}
-          isWaiting={this.state.isWaiting}
-          waitTime={this.state.waitTime}
-        />
-      ) : null,
+      <KeyboardAvoidingActionBar
+        containerStyle={
+          isMobileVerified ? styles.otpBottomBar : styles.nextBottomBar
+        }
+        xSensorPlaceholderColor={
+          isMobileVerified ? "white" : "rgba(239,249,242,1)"
+        }
+        navigation={this.props.navigation}
+        key={2}
+      >
+        {isMobileVerified ? (
+          <OtpBar
+            resendOtp={this.resendOtp}
+            verifyOtp={this.verifyOtp}
+            isWaiting={this.state.isWaiting}
+            waitTime={this.state.waitTime}
+          />
+        ) : (
+          <NextBar onClickNext={this.submitMobileNumber} />
+        )}
+      </KeyboardAvoidingActionBar>,
 
-      !this.state.isMobileVerified ? (
-        <NextBar
-          key={3}
-          onClickNext={this.submitMobileNumber}
-          keyboardSpace={this.state.keyboardSpace}
-        />
-      ) : null,
-
-      <Loader isVisible={this.state.isLoading} key={4} />
+      <Loader isVisible={this.state.isLoading} key={3} />
     ];
   }
 }
@@ -385,6 +361,18 @@ const styles = StyleSheet.create({
     ...constants.font17(constants.primaryLight),
     lineHeight: 17,
     color: constants.shade1
+  },
+  nextBottomBar: {
+    height: 40,
+    backgroundColor: "rgba(239,249,242,1)",
+    justifyContent: "center"
+  },
+  otpBottomBar: {
+    backgroundColor: "white",
+    height: 56,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center"
   }
 });
 

@@ -1,52 +1,30 @@
 import React from "react";
-import { View, KeyboardAvoidingView, StyleSheet } from "react-native";
-import { isIphoneX } from "react-native-iphone-x-helper";
+import { View, KeyboardAvoidingView } from "react-native";
 import constants from "../../../constants/constants";
 import SimpleButton from "../../../CommonComponents/SimpleButton/SimpleButton";
-import XSensorPlaceholder from "../../../CommonComponents/XSensorPlaceholder/XSensorPlaceholder";
 import PropTypes from "prop-types";
+import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraProps";
 
-const NextBar = ({ onClickNext, keyboardSpace }) => {
+const NextBar = ({ onClickNext }) => {
   return (
-    <View key={2}>
-      <KeyboardAvoidingView
-        behavior="padding"
-        style={[styles.bottomBar, { marginBottom: keyboardSpace }]}
-      >
-        <SimpleButton
-          containerStyle={{
-            height: 24,
-            width: 52,
-            alignSelf: "flex-end",
-            marginHorizontal: 24
-          }}
-          text={"next"}
-          action={onClickNext}
-          textColor={constants.firstColor}
-          underlayColor={"transparent"}
-          color={"transparent"}
-        />
-      </KeyboardAvoidingView>
-      {isIphoneX() ? (
-        <XSensorPlaceholder
-          containerStyle={{ backgroundColor: "rgba(239,249,242,1)" }}
-        />
-      ) : null}
-    </View>
+    <SimpleButton
+      containerStyle={{
+        height: 24,
+        width: 52,
+        alignSelf: "flex-end",
+        marginHorizontal: 24
+      }}
+      text={"next"}
+      action={onClickNext}
+      textColor={constants.firstColor}
+      underlayColor={"transparent"}
+      color={"transparent"}
+    />
   );
 };
 
-NextBar.propTypes = {
-  onClickNext: PropTypes.func.isRequired,
-  keyboardSpace: PropTypes.number.isRequired
-};
-
-const styles = StyleSheet.create({
-  bottomBar: {
-    height: 40,
-    backgroundColor: "rgba(239,249,242,1)",
-    justifyContent: "center"
-  }
+NextBar.propTypes = forbidExtraProps({
+  onClickNext: PropTypes.func.isRequired
 });
 
 export default NextBar;
