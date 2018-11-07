@@ -15,6 +15,7 @@ import FAQ from "../Screens/FAQScreens/FAQScreen/FAQ";
 import FAQAnswers from "../Screens/FAQScreens/FAQAnswersScreen/FAQAnswers";
 import ContactUs from "../Screens/ContactUsScreen/ContactUs";
 import YourTickets from "../Screens/YourTickets/YourTickets";
+import VisaChecklist from "../Screens/VisaChecklistScreen/VisaChecklist";
 
 const ToolStack = createStackNavigator(
   {
@@ -47,6 +48,9 @@ const ToolStack = createStackNavigator(
     },
     Visa: {
       screen: Visa
+    },
+    VisaChecklist: {
+      screen: VisaChecklist
     },
     SupportCenter: {
       screen: SupportCenter

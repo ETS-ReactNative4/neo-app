@@ -10,7 +10,7 @@ const VisaActionBar = ({ navigation }) => {
     <View style={styles.visaActionContainer}>
       <SimpleButton
         text={"View checklist"}
-        action={() => navigation.navigate("Tools")}
+        action={() => navigation.navigate("VisaChecklist")}
         textColor={"white"}
         containerStyle={{
           backgroundColor: constants.firstColor,

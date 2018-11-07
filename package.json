@@ -50,6 +50,7 @@
     "react-native-responsive-dimensions": "2.0.1",
     "react-native-scrollable-tab-view": "^0.8.0",
     "react-native-sentry": "0.39.0",
+    "react-native-simple-radio-button": "^2.7.3",
     "react-native-sound":
       "git://github.com/DaniAkash/react-native-sound.git#7c8dea53a051b6a1b2b79ba41871d01cc24c1544",
     "react-native-svg": "6.5.2",
