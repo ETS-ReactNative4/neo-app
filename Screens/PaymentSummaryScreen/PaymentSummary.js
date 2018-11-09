@@ -128,6 +128,7 @@ class PaymentSummary extends Component {
           },
           () => {
             if (response.status === "SUCCESS") {
+              const transactionId = response.data.transactionId;
               const paymentScriptJs = paymentScript({
                 ...response.data,
                 successUrl: constants.paymentSuccess,
@@ -135,7 +136,8 @@ class PaymentSummary extends Component {
                 cancelUrl: constants.paymentCancelled
               });
               this.props.navigation.navigate("PaymentScreen", {
-                paymentScript: paymentScriptJs
+                paymentScript: paymentScriptJs,
+                transactionId
               });
             } else {
               this.apiFailure();
