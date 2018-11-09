@@ -41,7 +41,8 @@ class PaymentSummary extends Component {
     nextPendingDate: "",
     itineraryTotalCost: "",
     totalAmountPaid: "",
-    paymentDue: ""
+    paymentDue: "",
+    isFirstLoad: true
   };
   _didFocusSubscription;
 
@@ -51,8 +52,13 @@ class PaymentSummary extends Component {
     this._didFocusSubscription = props.navigation.addListener(
       "didFocus",
       () => {
-        console.log("Focusing Summary....");
-        this.loadPaymentData();
+        if (this.state.isFirstLoad) {
+          this.setState({
+            isFirstLoad: false
+          });
+        } else {
+          this.loadPaymentData();
+        }
       }
     );
   }
@@ -168,20 +174,27 @@ class PaymentSummary extends Component {
       []
     );
 
-    const amountDetails = [
+    let amountDetails = [
       {
         name: "Total cost",
         value: this.state.itineraryTotalCost
-      },
-      {
-        name: "Amount paid",
-        value: this.state.totalAmountPaid
-      },
-      {
-        name: "Amount pending",
-        value: this.state.paymentDue
       }
     ];
+
+    const isPaymentComplete = !paymentOptions.length;
+    if (!isPaymentComplete) {
+      amountDetails = [
+        ...amountDetails,
+        {
+          name: "Amount paid",
+          value: this.state.totalAmountPaid
+        },
+        {
+          name: "Amount pending",
+          value: this.state.paymentDue
+        }
+      ];
+    }
 
     return (
       <ScrollView
@@ -217,50 +230,59 @@ class PaymentSummary extends Component {
         />
 
         <View style={styles.dueDateWrapper}>
-          <Text style={styles.dueDate}>{`Due date for next payment ${
-            this.state.nextPendingDate
-          }`}</Text>
+          <Text style={styles.dueDate}>
+            {isPaymentComplete
+              ? "Payment Completed!"
+              : `Due date for next payment ${this.state.nextPendingDate}`}
+          </Text>
         </View>
 
-        <Text style={styles.paymentTitle}>Choose Payment</Text>
-
-        <View style={styles.paymentOptionsBox}>
-          {paymentOptions.map((paymentOption, optionKey) => {
-            const isLast = paymentOptions.length === optionKey + 1;
-            return (
-              <TouchableOpacity
-                onPress={paymentOption.action}
-                style={[
-                  styles.optionButton,
-                  !isLast
-                    ? {
-                        borderBottomWidth: 1,
-                        borderBottomColor: constants.shade3
-                      }
-                    : null
-                ]}
-                key={optionKey}
-              >
-                <View>
-                  <Text style={styles.amountText}>{paymentOption.amount}</Text>
-                  <Text style={styles.percentageText}>
-                    {paymentOption.percentage}
-                  </Text>
-                </View>
-                <View>
-                  <Icon
-                    name={constants.arrowRight}
-                    size={16}
-                    color={constants.shade2}
-                  />
-                </View>
-              </TouchableOpacity>
-            );
-          })}
-        </View>
+        {isPaymentComplete
+          ? null
+          : [
+              <Text key={0} style={styles.paymentTitle}>
+                Choose Payment
+              </Text>,
+              <View key={1} style={styles.paymentOptionsBox}>
+                {paymentOptions.map((paymentOption, optionKey) => {
+                  const isLast = paymentOptions.length === optionKey + 1;
+                  return (
+                    <TouchableOpacity
+                      onPress={paymentOption.action}
+                      style={[
+                        styles.optionButton,
+                        !isLast
+                          ? {
+                              borderBottomWidth: 1,
+                              borderBottomColor: constants.shade3
+                            }
+                          : null
+                      ]}
+                      key={optionKey}
+                    >
+                      <View>
+                        <Text style={styles.amountText}>
+                          {paymentOption.amount}
+                        </Text>
+                        <Text style={styles.percentageText}>
+                          {paymentOption.percentage}
+                        </Text>
+                      </View>
+                      <View>
+                        <Icon
+                          name={constants.arrowRight}
+                          size={16}
+                          color={constants.shade2}
+                        />
+                      </View>
+                    </TouchableOpacity>
+                  );
+                })}
+              </View>
+            ]}
 
         <View style={styles.actionRow}>
-          <SimpleButton
+          {/* <SimpleButton
             text={"Support"}
             containerStyle={{ width: responsiveWidth(43), borderWidth: 0.5 }}
             action={() => {}}
@@ -269,7 +291,7 @@ class PaymentSummary extends Component {
             hasBorder={true}
             icon={constants.compassIcon}
             iconSize={16}
-          />
+          /> */}
           <SimpleButton
             text={"Invoice"}
             containerStyle={{ width: responsiveWidth(43), borderWidth: 0.5 }}
@@ -277,7 +299,7 @@ class PaymentSummary extends Component {
             color={"transparent"}
             textColor={constants.black2}
             hasBorder={true}
-            icon={constants.callIcon}
+            icon={constants.activityIcon}
             iconSize={16}
           />
         </View>
@@ -341,7 +363,7 @@ const styles = StyleSheet.create({
   actionRow: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between",
+    justifyContent: "center",
     paddingVertical: 24
   }
 });
