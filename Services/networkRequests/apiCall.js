@@ -1,17 +1,11 @@
 import * as Keychain from "react-native-keychain";
 import constants from "../../constants/constants";
 import { logError } from "../errorLogger/errorLogger";
-import PackageInfo from "../../package.json";
 import logOut from "../logOut/logOut";
 import DebouncedAlert from "../../CommonComponents/DebouncedAlert/DebouncedAlert";
 
 const timeoutDuration = 60000;
-const apiServer =
-  PackageInfo.environment === "production"
-    ? constants.prodServer
-    : PackageInfo.environment === "staging"
-      ? constants.stagingSever
-      : constants.devServer;
+const apiServer = constants.apiServerUrl;
 
 const apiCall = async (
   route,

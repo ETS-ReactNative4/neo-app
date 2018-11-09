@@ -1,8 +1,44 @@
-const serverUrls = {
+import PackageInfo from "../package.json";
+
+const apiServers = {
   localServer: "http://192.168.0.5:8080/api/",
   devServer: "https://dev.pickyourtrail.com/api/",
   stagingSever: "https://mobile.pickyourtrail.com/",
-  prodServer: "https://pickyourtrail.com/api/",
+  prodServer: "https://pickyourtrail.com/api/"
+};
+
+const productUrls = {
+  localProductUrl: "http://192.168.0.5:8080/",
+  devProductUrl: "https://dev.pickyourtrail.com/",
+  stagingProductUrl: "https://staging.pickyourtrail.com/",
+  prodProductUrl: "https://pickyourtrail.com/"
+};
+
+let apiServerUrl, productUrl;
+switch (PackageInfo.environment) {
+  case "production":
+    apiServerUrl = apiServers.prodServer;
+    productUrl = productUrls.prodProductUrl;
+    break;
+
+  case "staging":
+    apiServerUrl = apiServers.stagingSever;
+    productUrl = productUrls.stagingProductUrl;
+    break;
+
+  case "dev":
+    apiServerUrl = apiServers.devServer;
+    productUrl = productUrls.devProductUrl;
+    break;
+
+  default:
+    apiServerUrl = apiServers.localServer;
+    productUrl = productUrls.localProductUrl;
+}
+
+const serverUrls = {
+  apiServerUrl,
+  productUrl,
   cityImageBaseUrl: "https://d2pkrotgd5anq5.cloudfront.net/city/1820xh/",
   miscImageBaseUrl: "https://d3lf10b5gahyby.cloudfront.net/misc/",
   googleTranslateTts: (phrase, language) =>
@@ -10,14 +46,14 @@ const serverUrls = {
   airlineCdn: "https://d3lf10b5gahyby.cloudfront.net/airline_logos/",
   crispServerUrl:
     "https://go.crisp.chat/chat/embed/?website_id=b611e2e5-45aa-4b4e-bb40-bf30d8e935be",
-  productUrl: "https://pickyourtrail.com",
 
   /**
    * Payment Urls
    */
-  startPayment: "http://192.168.0.43:5000/voyager/start-payment",
-  paymentSuccess: "http://192.168.0.43:5000/voyager/payment-success",
-  paymentFailure: "http://192.168.0.43:5000/voyager/payment-failed",
+  startPayment: `${productUrl}voyager/start-payment`,
+  paymentSuccess: `${productUrl}payment/processing`,
+  paymentComplete: `payment/success`,
+  paymentFailure: `${productUrl}payment/failure`,
 
   darkSkyKey: "1f95e4bd24b4377d484d0cfceae84a74",
   darkSkyDomain: "https://api.darksky.net/"
