@@ -7,6 +7,7 @@ import apiCall from "../Services/networkRequests/apiCall";
 import constants from "../constants/constants";
 import { logError } from "../Services/errorLogger/errorLogger";
 import navigationService from "../Services/navigationService/navigationService";
+import DebouncedAlert from "../CommonComponents/DebouncedAlert/DebouncedAlert";
 
 class AppState {
   @action
@@ -119,9 +120,13 @@ class AppState {
     /**
      * TODO: Change api to dev server
      */
-    apiCall(constants.getCurrencyRates, {}, "GET", "http://www.apilayer.net/")
+    apiCall(constants.getCurrencyRates, {}, "GET")
       .then(response => {
-        this._conversionRates = response;
+        if (response.status === "SUCCESS") {
+          this._conversionRates = response.data;
+        } else {
+          DebouncedAlert("Unable to get conversion rates!");
+        }
       })
       .catch(e => {
         console.error(e);
@@ -129,7 +134,7 @@ class AppState {
   };
 
   currencyConverter = createTransformer(({ amount, from, to }) => {
-    const quotes = this.conversionRates.quotes;
+    const quotes = this.conversionRates;
 
     amount = parseFloat(amount);
 

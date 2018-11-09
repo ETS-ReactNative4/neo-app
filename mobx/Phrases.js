@@ -108,7 +108,7 @@ class Phrases {
           this._isLoading = false;
           if (response.status === "SUCCESS") {
             this._hasError = false;
-            this._phrases = response.data;
+            this._phrases = response.data.phrases;
           } else {
             this._hasError = true;
           }
@@ -123,9 +123,8 @@ class Phrases {
   @action
   getLanguages = itineraryId => {
     if (this._languages.itineraryId !== itineraryId) {
-      const requestObject = { itineraryId };
       this._isLoading = true;
-      apiCall(constants.getLanguages, requestObject)
+      apiCall(`${constants.getLanguages}?itineraryId=${itineraryId}`, {}, "GET")
         .then(response => {
           this._isLoading = false;
           if (response.status === "SUCCESS") {

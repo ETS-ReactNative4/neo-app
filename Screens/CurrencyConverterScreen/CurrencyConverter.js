@@ -144,7 +144,7 @@ class CurrencyConverter extends Component {
     /**
      * TODO: Loading Indicator for conversion rates
      */
-    if (!conversionRates.quotes) return null;
+    if (!conversionRates) return null;
 
     /**
      * TODO: Dynamic suggested rates using user's previous info

@@ -48,14 +48,6 @@ class Starter extends Component {
           style={styles.gradientContainer}
         >
           <SafeAreaView>
-            <ControlledWebView
-              source={{ uri: constants.productUrl }}
-              onNavigationStateChange={() => null}
-              style={{ height: 0, width: 0 }}
-              webviewRef={() => null}
-              injectedJavascript={""}
-              hideLoadingIndicator={true}
-            />
             <View style={styles.logoRow}>
               <Image
                 source={constants.pytLogoNew}

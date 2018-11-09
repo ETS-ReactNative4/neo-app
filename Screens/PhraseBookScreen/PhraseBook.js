@@ -218,30 +218,34 @@ class PhraseBook extends Component {
         />
 
         <View style={{ flex: 1 }}>
-          <ScrollableTabView
-            tabBarActiveTextColor={constants.black2}
-            tabBarInactiveTextColor={constants.firstColor}
-            tabBarUnderlineStyle={{
-              height: 2,
-              backgroundColor: constants.black2
-            }}
-            tabBarTextStyle={{ ...constants.font13(constants.primarySemiBold) }}
-            initialPage={1}
-            prerenderingSiblingsNumber={Infinity}
-            renderTabBar={() => <ScrollableTabBar />}
-          >
-            {sections.map((section, sectionIndex) => {
-              return (
-                <PhrasesSection
-                  key={sectionIndex}
-                  phrases={allPhrases[section]}
-                  selectPhrase={selectPhrase}
-                  tabLabel={section.toUpperCase()}
-                  targetLanguage={targetLanguage}
-                />
-              );
-            })}
-          </ScrollableTabView>
+          {sections.length > 1 ? (
+            <ScrollableTabView
+              tabBarActiveTextColor={constants.black2}
+              tabBarInactiveTextColor={constants.firstColor}
+              tabBarUnderlineStyle={{
+                height: 2,
+                backgroundColor: constants.black2
+              }}
+              tabBarTextStyle={{
+                ...constants.font13(constants.primarySemiBold)
+              }}
+              initialPage={1}
+              prerenderingSiblingsNumber={Infinity}
+              renderTabBar={() => <ScrollableTabBar />}
+            >
+              {sections.map((section, sectionIndex) => {
+                return (
+                  <PhrasesSection
+                    key={sectionIndex}
+                    phrases={allPhrases[section]}
+                    selectPhrase={selectPhrase}
+                    tabLabel={section.toUpperCase()}
+                    targetLanguage={targetLanguage}
+                  />
+                );
+              })}
+            </ScrollableTabView>
+          ) : null}
         </View>
       </View>,
       <CustomPhrase

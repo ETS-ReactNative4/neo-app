@@ -42,11 +42,12 @@ class PackingChecklist {
     if (_.isEmpty(this._checkListItems)) {
       this.loadChecklistItems();
     }
-    const requestBody = {
-      itinerary_id
-    };
     this._isLoading = true;
-    apiCall(constants.getPackingChecklist, requestBody)
+    apiCall(
+      `${constants.getPackingChecklist}?itineraryId=${itinerary_id}`,
+      {},
+      "GET"
+    )
       .then(response => {
         this._isLoading = false;
         if (response.status === "SUCCESS") {
