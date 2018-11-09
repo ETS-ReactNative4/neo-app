@@ -16,7 +16,9 @@ import Icon from "../../CommonComponents/Icon/Icon";
 import SimpleButton from "../../CommonComponents/SimpleButton/SimpleButton";
 import apiCall from "../../Services/networkRequests/apiCall";
 import Loader from "../../CommonComponents/Loader/Loader";
+import moment from "moment";
 import paymentScript from "./Components/paymentScript";
+import getLocaleString from "../../Services/getLocaleString/getLocaleString";
 
 /**
  * TODO: Need data from previous api
@@ -33,7 +35,13 @@ class PaymentSummary extends Component {
   state = {
     paymentInfo: [],
     isLoading: false,
-    isPaymentLoading: false
+    isPaymentLoading: false,
+    itineraryName: "",
+    tripId: "",
+    nextPendingDate: "",
+    itineraryTotalCost: "",
+    totalAmountPaid: "",
+    paymentDue: ""
   };
   _didFocusSubscription;
 
@@ -60,10 +68,22 @@ class PaymentSummary extends Component {
   apiFailure = () => {};
 
   loadPaymentData = () => {
+    const itineraryId = this.props.navigation.getParam("itineraryId", "");
+    const paymentDetails = this.props.navigation.getParam("paymentDetails", {});
+    const itineraryName = this.props.navigation.getParam("itineraryName", "");
+    this.setState({
+      tripId: `PYT${itineraryId.substr(itineraryId.length - 7).toUpperCase()}`,
+      itineraryName,
+      nextPendingDate: moment(paymentDetails.nextPendingDate).format(
+        "MM/DD/YYYY"
+      ),
+      itineraryTotalCost: getLocaleString(paymentDetails.itineraryTotalCost),
+      totalAmountPaid: getLocaleString(paymentDetails.totalAmountPaid),
+      paymentDue: getLocaleString(paymentDetails.paymentDue)
+    });
     this.setState({
       isLoading: true
     });
-    const itineraryId = this.props.navigation.getParam("itineraryId", "");
     apiCall(constants.getPaymentInfo.replace(":itineraryId", itineraryId))
       .then(response => {
         this.setState({
@@ -129,7 +149,7 @@ class PaymentSummary extends Component {
     const tripId = [
       {
         name: "Trip ID",
-        value: "PYT283049"
+        value: this.state.tripId
       }
     ];
 
@@ -151,15 +171,15 @@ class PaymentSummary extends Component {
     const amountDetails = [
       {
         name: "Total cost",
-        value: "₹ 1,83,940"
+        value: this.state.itineraryTotalCost
       },
       {
         name: "Amount paid",
-        value: "₹ 1,83,940"
+        value: this.state.totalAmountPaid
       },
       {
         name: "Amount pending",
-        value: "₹ 1,83,940"
+        value: this.state.paymentDue
       }
     ];
 
@@ -176,7 +196,7 @@ class PaymentSummary extends Component {
         }
       >
         <Loader isVisible={this.state.isPaymentLoading} />
-        <Text style={styles.titleText}>Anand’s 10nights trip to Europe</Text>
+        <Text style={styles.titleText}>{this.state.itineraryName}</Text>
 
         <VoucherSplitSection
           sections={tripId}
@@ -197,7 +217,9 @@ class PaymentSummary extends Component {
         />
 
         <View style={styles.dueDateWrapper}>
-          <Text style={styles.dueDate}>Due date for next payment mm/dd/yy</Text>
+          <Text style={styles.dueDate}>{`Due date for next payment ${
+            this.state.nextPendingDate
+          }`}</Text>
         </View>
 
         <Text style={styles.paymentTitle}>Choose Payment</Text>
