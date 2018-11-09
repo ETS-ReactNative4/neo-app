@@ -52,8 +52,11 @@ const serverUrls = {
    */
   startPayment: `${productUrl}voyager/start-payment`,
   paymentSuccess: `${productUrl}payment/processing`,
+  paymentFailure: `${productUrl}payment/processing`,
+  paymentCancelled: `${productUrl}payment/processing`,
   paymentComplete: `payment/success`,
-  paymentFailure: `${productUrl}payment/failure`,
+  paymentInComplete: `payment/failure`,
+  paymentCancel: `inclusions`,
 
   darkSkyKey: "1f95e4bd24b4377d484d0cfceae84a74",
   darkSkyDomain: "https://api.darksky.net/"

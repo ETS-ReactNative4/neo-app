@@ -106,7 +106,7 @@ class PaymentSummary extends Component {
                 ...response.data,
                 successUrl: constants.paymentSuccess,
                 failureUrl: constants.paymentFailure,
-                cancelUrl: constants.paymentFailure
+                cancelUrl: constants.paymentCancelled
               });
               this.props.navigation.navigate("PaymentScreen", {
                 paymentScript: paymentScriptJs

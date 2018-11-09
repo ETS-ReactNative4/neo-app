@@ -45,7 +45,6 @@ class PaymentHome extends Component {
     this._didFocusSubscription = props.navigation.addListener(
       "didFocus",
       () => {
-        console.log("Focusing Home....");
         this.getPaymentMeta();
       }
     );
