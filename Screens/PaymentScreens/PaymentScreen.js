@@ -17,14 +17,14 @@ class PaymentScreen extends Component {
   onNavigationStateChange = webViewState => {
     const url = webViewState.url;
     const { navigation } = this.props;
-    if (url.indexOf("404") !== -1) {
-      if (url.indexOf(constants.paymentComplete) !== -1) {
+    if (url.indexOf("404") === -1) {
+      if (url.indexOf(constants.paymentComplete) > -1) {
         navigation.replace("PaymentSuccess");
       }
-      if (url.indexOf(constants.paymentInComplete) !== -1) {
+      if (url.indexOf(constants.paymentInComplete) > -1) {
         navigation.replace("PaymentFailure");
       }
-      if (url.indexOf(constants.paymentCancel) !== -1) {
+      if (url.indexOf(constants.paymentCancel) > -1) {
         navigation.goBack();
       }
     } else {
