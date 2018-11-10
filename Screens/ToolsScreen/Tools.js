@@ -55,7 +55,7 @@ class Tools extends Component {
         action: () => this.props.navigation.navigate("Weather")
       },
       {
-        icon: constants.medicalCareIcon,
+        icon: constants.faqIcon,
         text: `Support${"\n"}Center`,
         action: () => this.props.navigation.navigate("SupportCenter")
       }

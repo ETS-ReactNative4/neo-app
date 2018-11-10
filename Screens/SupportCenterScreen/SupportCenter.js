@@ -1,10 +1,14 @@
 import React, { Component } from "react";
-import { View, StyleSheet, ScrollView } from "react-native";
+import { View, StyleSheet, ScrollView, Image } from "react-native";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import FaqSectionTile from "./Components/FaqSectionTile";
 import ContactUsTile from "./Components/ContactUsTile";
 import TicketTile from "./Components/TicketTile";
 import constants from "../../constants/constants";
+import {
+  responsiveHeight,
+  responsiveWidth
+} from "react-native-responsive-dimensions";
 
 class SupportCenter extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -49,6 +53,11 @@ class SupportCenter extends Component {
     return (
       <View style={styles.supportCenterContainer}>
         <ScrollView style={styles.supportScroll}>
+          <Image
+            source={constants.helpSupportIllus}
+            resizeMode={"contain"}
+            style={styles.supportIllustration}
+          />
           <TicketTile action={() => null} />
           {faqSections.map((faqSection, faqIndex) => {
             return (
@@ -73,6 +82,10 @@ const styles = StyleSheet.create({
   },
   supportScroll: {
     paddingHorizontal: 24
+  },
+  supportIllustration: {
+    height: responsiveHeight(40),
+    width: responsiveWidth(100) - 48
   }
 });
 
