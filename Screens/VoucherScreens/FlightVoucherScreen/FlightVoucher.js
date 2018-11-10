@@ -51,7 +51,8 @@ class FlightVoucher extends Component {
       sourceProvider,
       totalCost,
       invoiceNumber,
-      bookingReferenceId
+      bookingReferenceId,
+      refundable
     } = flight.voucher;
     const { trips, allTrips, airlineCode } = flight;
 
@@ -66,21 +67,21 @@ class FlightVoucher extends Component {
         : 0;
 
     const flightInvoiceInfo = [
-      {
-        name: "Booking Reference ID",
-        value: bookingReferenceId || "NA"
-      },
-      {
-        name: "Total paid",
-        value: totalCost ? `Rs. ${totalCost.toFixed(2)}` : "NA"
-      },
-      {
-        name: "Booking source",
-        value: sourceProvider || "NA"
-      },
+      // {
+      //   name: "Booking Reference ID",
+      //   value: bookingReferenceId || "NA"
+      // },
+      // {
+      //   name: "Total paid",
+      //   value: totalCost ? `Rs. ${totalCost.toFixed(2)}` : "NA"
+      // },
+      // {
+      //   name: "Booking source",
+      //   value: sourceProvider || "NA"
+      // },
       {
         name: "Booking type",
-        value: cancellationPolicy || "NA"
+        value: refundable ? "Refundable" : "Non-Refundable"
       }
     ];
 
