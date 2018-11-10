@@ -47,7 +47,7 @@ class PassportDetails {
   get passengerCount() {
     try {
       const itineraryId = storeService.itineraries.selectedItineraryId;
-      const passengersList = this.getPassportDetailsByItinerary(itineraryId);
+      const passengersList = this._getPassportDetailsByItinerary(itineraryId);
       return passengersList.length;
     } catch (e) {
       logError(e);
@@ -55,7 +55,29 @@ class PassportDetails {
     }
   }
 
-  getPassportDetailsByItinerary = createTransformer(itineraryId => {
+  @computed
+  get getPassportDetails() {
+    try {
+      const itineraryId = storeService.itineraries.selectedItineraryId;
+      return toJS(this._passportDetails[itineraryId]);
+    } catch (e) {
+      logError(e);
+      return {};
+    }
+  }
+
+  @computed
+  get getPassengerDetails() {
+    try {
+      const itineraryId = storeService.itineraries.selectedItineraryId;
+      return this._getPassportDetailsByItinerary(itineraryId);
+    } catch (e) {
+      logError(e);
+      return {};
+    }
+  }
+
+  _getPassportDetailsByItinerary = createTransformer(itineraryId => {
     try {
       const passportDetails = toJS(this._passportDetails[itineraryId]);
       return [

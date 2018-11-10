@@ -5,7 +5,6 @@ import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import { View } from "react-native";
 import { inject, observer } from "mobx-react/custom";
 
-@inject("itineraries")
 @inject("passportDetailsStore")
 @observer
 class PassportDetails extends Component {
@@ -18,10 +17,9 @@ class PassportDetails extends Component {
   };
 
   render() {
-    const { selectedItineraryId } = this.props.itineraries;
-    const { getPassportDetailsByItinerary } = this.props.passportDetailsStore;
+    const { getPassengerDetails } = this.props.passportDetailsStore;
 
-    const passportDetails = getPassportDetailsByItinerary(selectedItineraryId);
+    const passportDetails = getPassengerDetails();
 
     const passengerDetails = passportDetails.map(passportInfo => {
       const {
