@@ -9,6 +9,7 @@ const apiUrls = {
   updatePackingChecklist: "mobile/updateCheckList",
   voucherDetails: "mobile/voucher",
   getCurrencyRates: "mobile/getCurrencyConverterRates",
+  getCurrencyList: "mobile/getCurrency",
   weatherHourlyForecast: (key, lat, long, time) =>
     `forecast/${key}/${lat},${long},${time}?exclude=flags,daily&units=si`,
   getUserDetails: "mobile/userdetails",

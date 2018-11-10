@@ -1,4 +1,4 @@
-import { observable, computed, action, toJS } from "mobx";
+import { observable, computed, action, set, toJS } from "mobx";
 import { persist } from "mobx-persist";
 import { createTransformer } from "mobx-utils";
 import uuidv4 from "uuid/v4";
@@ -8,6 +8,7 @@ import constants from "../constants/constants";
 import { logError } from "../Services/errorLogger/errorLogger";
 import navigationService from "../Services/navigationService/navigationService";
 import DebouncedAlert from "../CommonComponents/DebouncedAlert/DebouncedAlert";
+import storeService from "../Services/storeService/storeService";
 
 class AppState {
   @action
@@ -19,6 +20,7 @@ class AppState {
       uid: uuidv4(),
       deviceToken: ""
     };
+    this._currencies = {};
   };
 
   /**
@@ -153,6 +155,44 @@ class AppState {
 
     return result.toFixed(2);
   });
+
+  @persist("object")
+  @observable
+  _currencies = {};
+
+  @computed
+  get currencies() {
+    const itineraryId = storeService.itineraries.selectedItineraryId;
+    if (this._currencies[itineraryId])
+      return toJS(this._currencies[itineraryId]);
+    else return [];
+  }
+
+  @action
+  loadCurrencies = () => {
+    const itineraryId = storeService.itineraries.selectedItineraryId;
+    if (!this._currencies[itineraryId])
+      this._getCurrencyByItineraryId(itineraryId);
+  };
+
+  @action
+  _getCurrencyByItineraryId = itineraryId => {
+    apiCall(`${constants.getCurrencyList}?itineraryId=${itineraryId}`)
+      .then(response => {
+        if (response.status === "SUCCESS") {
+          set(
+            this._currencies,
+            `${itineraryId}`,
+            response.data.map(each => each.toUpperCase())
+          );
+        } else {
+          DebouncedAlert("Error!", "Unable to retrieve currency details!");
+        }
+      })
+      .catch(err => {
+        DebouncedAlert("Error!", "Unable to retrieve currency details!");
+      });
+  };
 
   /**
    * Push notification tokens

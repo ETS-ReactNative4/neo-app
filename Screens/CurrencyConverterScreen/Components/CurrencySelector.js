@@ -20,34 +20,26 @@ class CurrencySelector extends Component {
   static propTypes = {
     isVisible: PropTypes.bool.isRequired,
     onClose: PropTypes.func.isRequired,
-    selectCurrency: PropTypes.func.isRequired
+    selectCurrency: PropTypes.func.isRequired,
+    currenciesList: PropTypes.array.isRequired
   };
 
   render() {
     const flagImage = constants.starterBackground;
+    const { currenciesList } = this.props;
 
     const selectCurrency = currency => {
       this.props.selectCurrency(currency);
       this.props.onClose();
     };
 
-    const currencies = [
-      {
+    const currencies = currenciesList.map(currency => {
+      return {
         image: flagImage,
-        name: "USDEUR",
-        action: () => selectCurrency("USDEUR")
-      },
-      {
-        image: flagImage,
-        name: "USDINR",
-        action: () => selectCurrency("USDINR")
-      },
-      {
-        image: flagImage,
-        name: "USDJPY",
-        action: () => selectCurrency("USDJPY")
-      }
-    ];
+        name: currency,
+        action: () => selectCurrency(`USD${currency}`)
+      };
+    });
 
     return (
       <Modal
@@ -87,27 +79,27 @@ class CurrencySelector extends Component {
                   <SelectionRow
                     key={index}
                     disableImage={true}
-                    text={currency.name.substr(3)}
+                    text={currency.name}
                     action={currency.action}
                   />
                 );
               })}
 
-              <SectionHeader
-                sectionName={"MORE CURRENCIES"}
-                containerStyle={{ marginTop: 40, marginBottom: 0 }}
-              />
+              {/*<SectionHeader*/}
+              {/*sectionName={"MORE CURRENCIES"}*/}
+              {/*containerStyle={{ marginTop: 40, marginBottom: 0 }}*/}
+              {/*/>*/}
 
-              {currencies.map((currency, index) => {
-                return (
-                  <SelectionRow
-                    key={index}
-                    disableImage={true}
-                    text={currency.name.substr(3)}
-                    action={currency.action}
-                  />
-                );
-              })}
+              {/*{currencies.map((currency, index) => {*/}
+              {/*return (*/}
+              {/*<SelectionRow*/}
+              {/*key={index}*/}
+              {/*disableImage={true}*/}
+              {/*text={currency.name.substr(3)}*/}
+              {/*action={currency.action}*/}
+              {/*/>*/}
+              {/*);*/}
+              {/*})}*/}
             </ScrollView>
           </View>
         </SafeAreaView>

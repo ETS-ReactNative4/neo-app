@@ -35,8 +35,8 @@ class CurrencyConverter extends Component {
   state = {
     nativeAmount: 0,
     foreignAmount: 0,
-    nativeCurrency: "USDINR",
-    foreignCurrency: "USDUSD",
+    nativeCurrency: "USDUSD",
+    foreignCurrency: "USDINR",
     keyboardSpace: 0,
     isKeyboardVisible: false,
     isSelectorActive: false
@@ -76,7 +76,10 @@ class CurrencyConverter extends Component {
       Platform.OS === "ios" ? "keyboardWillHide" : "keyboardDidHide",
       this.keyboardDidHide
     );
-    this.props.appState.getConversionRates();
+    const { getConversionRates, loadCurrencies } = this.props.appState;
+    getConversionRates();
+    loadCurrencies();
+    this.setDefaultCurrency();
     setTimeout(() => {
       this._inputFieldRef.current.focus && this._inputFieldRef.current.focus();
     }, 300);
@@ -87,6 +90,19 @@ class CurrencyConverter extends Component {
     this.keyboardDidHideListener.remove();
     this._inputFieldRef.current.blur();
   }
+
+  setDefaultCurrency = () => {
+    const { currencies } = this.props.appState;
+    if (currencies.length) {
+      this.setState({
+        nativeCurrency: `USD${currencies[0]}`
+      });
+    } else {
+      setTimeout(() => {
+        this.setDefaultCurrency();
+      }, 500);
+    }
+  };
 
   setAmount = foreignAmount => {
     if (!foreignAmount) this.setState({ foreignAmount: 0 });
@@ -225,8 +241,11 @@ class CurrencyConverter extends Component {
       inputFontSize = 40;
     }
 
+    const { currencies } = this.props.appState;
+
     return [
       <CurrencySelector
+        currenciesList={currencies}
         key={0}
         isVisible={this.state.isSelectorActive}
         onClose={this.closeSelector}

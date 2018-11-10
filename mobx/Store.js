@@ -70,6 +70,11 @@ const createStore = () => {
     .catch(err => {
       logError(err);
     });
+  hydrate("_currencies", appStore.appState)
+    .then(() => {})
+    .catch(err => {
+      logError(err);
+    });
   hydrate("_weather", appStore.weatherStore)
     .then(() => {})
     .catch(err => {
