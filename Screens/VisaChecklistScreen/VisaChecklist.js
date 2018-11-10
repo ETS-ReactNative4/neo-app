@@ -13,7 +13,10 @@ import RadioForm, {
 } from "react-native-simple-radio-button";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import constants from "../../constants/constants";
+import { inject, observer } from "mobx-react/custom";
 
+@inject("itineraries")
+@observer
 class VisaChecklist extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
@@ -24,7 +27,6 @@ class VisaChecklist extends Component {
   state = {
     sections: {
       Country: [],
-
       Occupation: [
         { label: "Salaried", value: 0, isSelected: true },
         { label: "Self employed", value: 1, isSelected: false }
@@ -36,6 +38,23 @@ class VisaChecklist extends Component {
       ]
     }
   };
+
+  componentDidMount() {
+    const { countries } = this.props.itineraries;
+    const sections = { ...this.state.sections };
+    countries.map((country, countryIndex) => {
+      const countryObject = {
+        label: country.name,
+        value: country.countryId,
+        isSelected: !!(countryIndex === 0)
+      };
+      sections.Country.push(countryObject);
+      return null;
+    });
+    this.setState({
+      sections
+    });
+  }
 
   selectItem = (section, label) => {
     const sections = { ...this.state.sections };

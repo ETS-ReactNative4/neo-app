@@ -21,26 +21,26 @@ const VisaTabContainer = ({
   visaDetailText
 }) => {
   const visaDetailsArray = [
-    {
-      name: "Document received",
-      value: ""
-    },
-    {
-      name: "Appointment Booked",
-      value: ""
-    },
-    {
-      name: "Final Document Review",
-      value: ""
-    },
-    {
-      name: "Visa Appointment",
-      value: ""
-    },
-    {
-      name: "Visa Issual",
-      value: ""
-    }
+    //   {
+    //     name: "Document received",
+    //     value: ""
+    //   },
+    //   {
+    //     name: "Appointment Booked",
+    //     value: ""
+    //   },
+    //   {
+    //     name: "Final Document Review",
+    //     value: ""
+    //   },
+    //   {
+    //     name: "Visa Appointment",
+    //     value: ""
+    //   },
+    //   {
+    //     name: "Visa Issual",
+    //     value: ""
+    //   }
   ];
 
   return (
