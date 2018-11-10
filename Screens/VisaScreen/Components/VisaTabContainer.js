@@ -43,10 +43,9 @@ const VisaTabContainer = ({
     //   }
   ];
 
-  return (
-    <ScrollView style={styles.visaTabContainer}>
+  return [
+    <ScrollView style={styles.visaTabContainer} key={0}>
       <VoucherSplitSection sections={visaDetailsArray} />
-      <VisaActionBar navigation={navigation} />
       <HTMLView
         style={styles.htmlViewContainer}
         addLineBreaks={false}
@@ -54,8 +53,13 @@ const VisaTabContainer = ({
         stylesheet={constants.htmlStyleSheet}
       />
       <XSensorPlaceholder />
-    </ScrollView>
-  );
+    </ScrollView>,
+    <VisaActionBar
+      isVisaOnArrival={onArrival}
+      navigation={navigation}
+      key={1}
+    />
+  ];
 };
 
 VisaTabContainer.propTypes = {

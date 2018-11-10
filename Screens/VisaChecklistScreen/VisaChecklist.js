@@ -14,6 +14,12 @@ import RadioForm, {
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import constants from "../../constants/constants";
 import { inject, observer } from "mobx-react/custom";
+import SimpleButton from "../../CommonComponents/SimpleButton/SimpleButton";
+import { isIphoneX } from "react-native-iphone-x-helper";
+import { responsiveWidth } from "react-native-responsive-dimensions";
+import Loader from "../../CommonComponents/Loader/Loader";
+import apiCall from "../../Services/networkRequests/apiCall";
+import storeService from "../../Services/storeService/storeService";
 
 @inject("itineraries")
 @observer
@@ -28,15 +34,18 @@ class VisaChecklist extends Component {
     sections: {
       Country: [],
       Occupation: [
-        { label: "Salaried", value: 0, isSelected: true },
-        { label: "Self employed", value: 1, isSelected: false }
+        { label: "Salaried", value: "SALARIED", isSelected: true },
+        { label: "Self employed", value: "SELF_EMPLOYED", isSelected: false }
       ],
       "Group Type": [
-        { label: "Couple", value: 0, isSelected: true },
-        { label: "Family", value: 1, isSelected: false },
-        { label: "Solo", value: 2, isSelected: false }
+        { label: "Couple", value: "COUPLE", isSelected: true },
+        { label: "Family", value: "FAMILY", isSelected: false },
+        { label: "Solo", value: "SOLO", isSelected: false },
+        { label: "Single", value: "SINGLE", isSelected: false },
+        { label: "Married", value: "MARRIED", isSelected: false }
       ]
-    }
+    },
+    isLoading: false
   };
 
   componentDidMount() {
@@ -70,10 +79,59 @@ class VisaChecklist extends Component {
     });
   };
 
+  emailChecklist = () => {
+    const { selectedItineraryId: itineraryId } = this.props.itineraries;
+    const { sections } = this.state;
+    const requestParams = {
+      countryId: sections.Country.find(country => country.isSelected).value,
+      occupationType: sections.Occupation.find(
+        occupation => occupation.isSelected
+      ).value,
+      martialStatus: sections["Group Type"].find(status => status.isSelected)
+        .value
+    };
+    this.setState({
+      isLoading: true
+    });
+    apiCall(
+      `${constants.sendVisaDocs}?itineraryId=${itineraryId}&countryId=${
+        requestParams.countryId
+      }&occupationType=${requestParams.occupationType}&martialStatus=${
+        requestParams.martialStatus
+      }`
+    )
+      .then(response => {
+        this.setState({
+          isLoading: false
+        });
+        if (response.status === "SUCCESS") {
+          storeService.infoStore.setSuccess(
+            "Email Sent!",
+            "Visa Documents have been sent to your email address."
+          );
+          this.props.navigation.goBack();
+        } else {
+          storeService.infoStore.setError(
+            "Unable to Send Email!",
+            "Please try again after some time..."
+          );
+        }
+      })
+      .catch(err => {
+        this.setState({
+          isLoading: false
+        });
+        storeService.infoStore.setError(
+          "Unable to Send Email!",
+          "Please try again after some time..."
+        );
+      });
+  };
+
   render() {
     const sectionKeys = Object.keys(this.state.sections);
-    return (
-      <View style={styles.visaChecklistContainer}>
+    return [
+      <View style={styles.visaChecklistContainer} key={0}>
         <ScrollView style={styles.visaChecklistScroll}>
           {sectionKeys.map((sectionKey, sectionIndex) => {
             const title = sectionKey;
@@ -120,8 +178,18 @@ class VisaChecklist extends Component {
             );
           })}
         </ScrollView>
-      </View>
-    );
+        <View style={styles.actionBar}>
+          <SimpleButton
+            containerStyle={{ height: 40, width: responsiveWidth(100) - 48 }}
+            underlayColor={constants.firstColorAlpha(0.7)}
+            text={"Email Checklist"}
+            action={this.emailChecklist}
+            textColor={"white"}
+          />
+        </View>
+      </View>,
+      <Loader isVisible={this.state.isLoading} key={1} />
+    ];
   }
 }
 
@@ -141,6 +209,14 @@ const styles = StyleSheet.create({
   labelStyle: {
     ...constants.fontCustom(constants.primaryLight, 20, 24),
     color: constants.black2
+  },
+  actionBar: {
+    height: 56,
+    alignItems: "center",
+    justifyContent: "center",
+    borderTopWidth: StyleSheet.hairlineWidth,
+    borderTopColor: "rgba(0,0,0,.3)",
+    marginBottom: isIphoneX() ? constants.xSensorAreaHeight : 0
   }
 });
 
