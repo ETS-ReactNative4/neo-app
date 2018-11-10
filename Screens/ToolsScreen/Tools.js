@@ -10,23 +10,9 @@ import HomeHeader from "../../CommonComponents/HomeHeader/HomeHeader";
 import { inject, observer } from "mobx-react/custom";
 
 @inject("itineraries")
-@inject("emergencyContactsStore")
-@inject("passportDetailsStore")
-@inject("visaStore")
 @observer
 class Tools extends Component {
   static navigationOptions = HomeHeader;
-
-  componentDidMount() {
-    const { cities, selectedItineraryId } = this.props.itineraries;
-    const { getEmergencyContacts } = this.props.emergencyContactsStore;
-    const { updatePassportDetails } = this.props.passportDetailsStore;
-    const { getVisaDetails } = this.props.visaStore;
-
-    getEmergencyContacts(cities);
-    updatePassportDetails(selectedItineraryId);
-    getVisaDetails(selectedItineraryId);
-  }
 
   render() {
     const { cities } = this.props.itineraries;

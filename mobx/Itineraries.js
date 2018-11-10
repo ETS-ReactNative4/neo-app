@@ -37,9 +37,13 @@ class Itineraries {
     if (selectedItinerary) {
       this._selectedItinerary = selectedItinerary;
       storeService.voucherStore.selectVoucher(this.selectedItineraryId);
+      storeService.emergencyContactsStore.getEmergencyContacts(this.cities);
+      storeService.passportDetailsStore.updatePassportDetails(
+        this.selectedItineraryId
+      );
+      storeService.visaStore.getVisaDetails(this.selectedItineraryId);
     } else {
       this.getItineraryDetails(itineraryId);
-      storeService.voucherStore.selectVoucher(this.selectedItineraryId);
     }
   };
 
@@ -54,9 +58,15 @@ class Itineraries {
       .then(response => {
         this._isLoading = false;
         if (response.status === "SUCCESS") {
+          this._loadingError = false;
           this._itineraries.push(response.data);
           this._selectedItinerary = response.data;
-          this._loadingError = false;
+          storeService.voucherStore.selectVoucher(this.selectedItineraryId);
+          storeService.emergencyContactsStore.getEmergencyContacts(this.cities);
+          storeService.passportDetailsStore.updatePassportDetails(
+            this.selectedItineraryId
+          );
+          storeService.visaStore.getVisaDetails(this.selectedItineraryId);
         } else {
           this._loadingError = true;
         }

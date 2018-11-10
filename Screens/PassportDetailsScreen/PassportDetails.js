@@ -19,9 +19,7 @@ class PassportDetails extends Component {
   render() {
     const { getPassengerDetails } = this.props.passportDetailsStore;
 
-    const passportDetails = getPassengerDetails();
-
-    const passengerDetails = passportDetails.map(passportInfo => {
+    const passengerDetails = getPassengerDetails.map(passportInfo => {
       const {
         passengerId,
         salutation,

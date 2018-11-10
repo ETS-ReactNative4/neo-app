@@ -18,9 +18,11 @@ class Visa {
     this._visaDetails = {};
   };
 
-  getVisaDetailsByItineraryId = createTransformer(itineraryId =>
-    toJS(this._visaDetails[itineraryId])
-  );
+  getVisaDetailsByItineraryId = createTransformer(itineraryId => {
+    if (this._visaDetails[itineraryId])
+      return toJS(this._visaDetails[itineraryId]);
+    else return [];
+  });
 
   @action
   getVisaDetails = itineraryId => {
