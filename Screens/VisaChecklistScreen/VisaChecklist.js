@@ -22,40 +22,49 @@ class VisaChecklist extends Component {
   };
 
   state = {
-    sections: [
-      {
-        Country: []
-      },
-      {
-        Occupation: [
-          { label: "Salaried", value: 0, isSelected: true },
-          { label: "Self employed", value: 1, isSelected: false }
-        ]
-      },
-      {
-        "Group Type": [
-          { label: "Couple", value: 0, isSelected: true },
-          { label: "Family", value: 1, isSelected: false },
-          { label: "Solo", value: 2, isSelected: false }
-        ]
-      }
-    ]
+    sections: {
+      Country: [],
+
+      Occupation: [
+        { label: "Salaried", value: 0, isSelected: true },
+        { label: "Self employed", value: 1, isSelected: false }
+      ],
+      "Group Type": [
+        { label: "Couple", value: 0, isSelected: true },
+        { label: "Family", value: 1, isSelected: false },
+        { label: "Solo", value: 2, isSelected: false }
+      ]
+    }
   };
 
-  selectItem = (section, label) => {};
+  selectItem = (section, label) => {
+    const sections = { ...this.state.sections };
+    const requiredSection = sections[section];
+    requiredSection.forEach((item, itemIndex) => {
+      if (item.label === label) item.isSelected = true;
+      else item.isSelected = false;
+      if (itemIndex === requiredSection.length - 1) {
+        this.setState({
+          sections
+        });
+      }
+    });
+  };
 
   render() {
+    const sectionKeys = Object.keys(this.state.sections);
     return (
       <View style={styles.visaChecklistContainer}>
         <ScrollView style={styles.visaChecklistScroll}>
-          {this.state.sections.map((section, sectionIndex) => {
-            const title = Object.keys(section)[0];
+          {sectionKeys.map((sectionKey, sectionIndex) => {
+            const title = sectionKey;
+            const section = this.state.sections[sectionKey];
             return (
               <View key={sectionIndex}>
                 <Text style={styles.titleText}>{title}</Text>
                 <RadioForm formHorizontal={false} animation={true}>
-                  {section[title].map((item, itemIndex) => {
-                    const onPress = () => this.selectItem(title);
+                  {section.map((item, itemIndex) => {
+                    const onPress = () => this.selectItem(title, item.label);
                     const isSelected = item.isSelected;
                     return (
                       <RadioButton labelHorizontal={true} key={itemIndex}>
