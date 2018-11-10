@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, Image, ImageBackground } from "react-native";
 import PropTypes from "prop-types";
 import constants from "../../../constants/constants";
 import { responsiveWidth } from "react-native-responsive-dimensions";
+import Icon from "../../../CommonComponents/Icon/Icon";
 
 const WeatherInactivePlaceholder = ({ containerStyle }) => {
   if (!containerStyle) containerStyle = {};
@@ -18,11 +19,8 @@ const WeatherInactivePlaceholder = ({ containerStyle }) => {
           />
         </View>
         <View style={styles.imageContainer}>
-          <Text style={styles.temperature}>{`00°`}</Text>
-          <Image
-            style={styles.temperatureIcon}
-            source={constants.notificationIcon}
-          />
+          <Text style={styles.temperature}>{`--°`}</Text>
+          <Icon name={"clear-day"} size={46} color={constants.black1} />
         </View>
       </View>
       <ImageBackground
