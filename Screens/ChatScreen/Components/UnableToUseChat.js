@@ -2,6 +2,7 @@ import React from "react";
 import { View, StyleSheet, Text } from "react-native";
 import constants from "../../../constants/constants";
 import SimpleButton from "../../../CommonComponents/SimpleButton/SimpleButton";
+import dialer from "../../../Services/dialer/dialer";
 
 const UnableToUseChat = () => {
   return (
@@ -13,8 +14,8 @@ const UnableToUseChat = () => {
       </Text>
       <SimpleButton
         containerStyle={{ marginTop: 8 }}
-        text={"+91 9600019211"}
-        action={() => null}
+        text={constants.offlineContact}
+        action={() => dialer(constants.offlineContact)}
         textColor={constants.firstColor}
         color={"transparent"}
         hasBorder={true}
