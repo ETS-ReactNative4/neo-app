@@ -6,6 +6,7 @@ import moment from "moment";
 import apiCall from "../Services/networkRequests/apiCall";
 import constants from "../constants/constants";
 import storeService from "../Services/storeService/storeService";
+import { logError } from "../Services/errorLogger/errorLogger";
 
 class Itineraries {
   @observable _isLoading = false;
@@ -428,40 +429,59 @@ class Itineraries {
   @computed
   get cities() {
     if (_.isEmpty(this._selectedItinerary)) return [];
+    try {
+      const cityKeys = this._selectedItinerary.itinerary.allCityKeys;
+      return cityKeys.map(key => {
+        const cityKeyObject = this._selectedItinerary.iterCityByKey[key];
+        const cityId = cityKeyObject.cityId;
+        const startDayId = cityKeyObject.allDayKeys[0];
+        const endDayId =
+          cityKeyObject.allDayKeys[cityKeyObject.allDayKeys.length - 1];
 
-    const cityKeys = this._selectedItinerary.itinerary.allCityKeys;
-    return cityKeys.map(key => {
-      const cityKeyObject = this._selectedItinerary.iterCityByKey[key];
-      const cityId = cityKeyObject.cityId;
-      const startDayId = cityKeyObject.allDayKeys[0];
-      const endDayId =
-        cityKeyObject.allDayKeys[cityKeyObject.allDayKeys.length - 1];
+        const cityObject = this._selectedItinerary.cityById[cityId];
+        const startDayObject = this._selectedItinerary.iterDayByKey[startDayId];
+        const endDayObject = this._selectedItinerary.iterDayByKey[endDayId];
 
-      const cityObject = this._selectedItinerary.cityById[cityId];
-      const startDayObject = this._selectedItinerary.iterDayByKey[startDayId];
-      const endDayObject = this._selectedItinerary.iterDayByKey[endDayId];
+        const city = cityObject.cityName;
+        /**
+         * TODO: Need date in milliseconds
+         */
+        const startDay = startDayObject.dayTs
+          ? moment(startDayObject.dayTs).toDate()
+          : moment(
+              `${startDayObject.day}-${startDayObject.mon}-${
+                constants.currentYear
+              }`,
+              "DD-MMM-YYYY"
+            ).toDate();
+        const endDay = endDayObject.dayTs
+          ? moment(endDayObject.dayTs).toDate()
+          : moment(
+              `${endDayObject.day}-${endDayObject.mon}-${
+                constants.currentYear
+              }`,
+              "DD-MMM-YYYY"
+            ).toDate();
 
-      const city = cityObject.cityName;
-      /**
-       * TODO: Need date in milliseconds
-       */
-      const startDay = startDayObject.dayTs
-        ? moment(startDayObject.dayTs).toDate()
-        : moment(
-            `${startDayObject.day}-${startDayObject.mon}-${
-              constants.currentYear
-            }`,
-            "DD-MMM-YYYY"
-          ).toDate();
-      const endDay = endDayObject.dayTs
-        ? moment(endDayObject.dayTs).toDate()
-        : moment(
-            `${endDayObject.day}-${endDayObject.mon}-${constants.currentYear}`,
-            "DD-MMM-YYYY"
-          ).toDate();
+        return { city, startDay, endDay, cityObject };
+      });
+    } catch (e) {
+      logError(e);
+      return [];
+    }
+  }
 
-      return { city, startDay, endDay, cityObject };
-    });
+  @computed
+  get countries() {
+    if (_.isEmpty(this._selectedItinerary)) return [];
+
+    try {
+      const countries = this._selectedItinerary.itinerary.countries;
+      return toJS(countries);
+    } catch (e) {
+      logError(e);
+      return [];
+    }
   }
 
   @computed
@@ -527,6 +547,7 @@ class Itineraries {
         }
       }
     } catch (e) {
+      logError(e);
       return [0, 0, 0];
     }
   });
