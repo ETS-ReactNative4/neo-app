@@ -32,6 +32,7 @@ const logOut = () => {
       storeService.phrasesStore.reset();
       storeService.emergencyContactsStore.reset();
       storeService.passportDetailsStore.reset();
+      storeService.placesStore.reset();
     }, 100);
   });
   /**

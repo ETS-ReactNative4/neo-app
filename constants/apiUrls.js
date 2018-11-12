@@ -11,6 +11,7 @@ const apiUrls = {
   getCurrencyRates: "mobile/getCurrencyConverterRates",
   getCurrencyList: "mobile/getCurrency",
   googleTextSearch: "mobile/places/search/:keyword",
+  getCityPlaceCategory: "mobile/places/categories",
   weatherHourlyForecast: (key, lat, long, time) =>
     `forecast/${key}/${lat},${long},${time}?exclude=flags,daily&units=si`,
   getUserDetails: "mobile/userdetails",
