@@ -36,12 +36,18 @@ class Places {
     return this._hasError;
   }
 
+  /**
+   * TODO: Better way to use empty objects instead of try-catch (creates sentry entry)
+   */
   @computed
   get categories() {
     try {
-      return toJS(
-        get(this._cityCategories, this._selectedCity.cityObject.cityId)
+      const category = get(
+        this._cityCategories,
+        this._selectedCity.cityObject.cityId
       );
+      if (category) return toJS(category);
+      else return {};
     } catch (e) {
       logError(e);
       return {};
@@ -67,27 +73,12 @@ class Places {
         this._isLoading = false;
         if (response.status === "SUCCESS") {
           this._hasError = false;
-          // TODO: Handle Success
+          const cityCategories = toJS(this._cityCategories);
+          cityCategories[cityId] = response.data;
+          this._cityCategories = cityCategories;
+          // set(this._cityCategories, `${cityId}`, response.data);
         } else {
           this._hasError = true;
-          set(this._cityCategories, `${cityId}`, {
-            Shopping: [
-              {
-                category: "Malls",
-                image: ""
-              },
-              {
-                category: "abc",
-                image: "abc"
-              }
-            ],
-            Food: [
-              {
-                category: "Indian",
-                image: ""
-              }
-            ]
-          });
         }
       })
       .catch(err => {

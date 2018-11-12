@@ -17,6 +17,9 @@ import { responsiveHeight } from "react-native-responsive-dimensions";
 import PropTypes from "prop-types";
 import constants from "../../constants/constants";
 
+/**
+ * TODO: Make module more generic
+ */
 @inject("appState")
 @inject("itineraries")
 @observer

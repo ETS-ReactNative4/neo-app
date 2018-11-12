@@ -1,5 +1,11 @@
 import React, { Component } from "react";
-import { View, StyleSheet, ScrollView, Text } from "react-native";
+import {
+  View,
+  StyleSheet,
+  ScrollView,
+  Text,
+  LayoutAnimation
+} from "react-native";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import constants from "../../constants/constants";
 import Carousel from "../../CommonComponents/Carousel/Carousel";
@@ -38,6 +44,7 @@ class Places extends Component {
   };
 
   render() {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     const { navigation } = this.props;
     const sections = [
       {
@@ -136,7 +143,7 @@ class Places extends Component {
     ];
 
     const { categories } = this.props.placesStore;
-    console.log(categories);
+    const categorySections = Object.keys(categories);
 
     return (
       <ScrollView style={styles.placesContainer}>
@@ -144,18 +151,19 @@ class Places extends Component {
           navigation={navigation}
           selectCity={this.changeCity}
         />
-        {sections.map((section, sectionIndex) => {
+        {categorySections.map((section, sectionIndex) => {
+          const category = categories[section];
           return (
             <View key={sectionIndex}>
-              <PlaceSectionTitle title={section.title} image={section.icon} />
+              <PlaceSectionTitle title={section} />
               <Carousel firstMargin={24} containerStyle={{ height: 152 }}>
-                {section.items.map((item, itemIndex) => {
+                {category.map((item, itemIndex) => {
                   return (
                     <PlaceCard
                       key={itemIndex}
-                      image={{ uri: "" }}
+                      image={{ uri: item.image }}
                       action={() => this.props.navigation.navigate("NearBy")}
-                      title={item.title}
+                      title={item.category}
                     />
                   );
                 })}

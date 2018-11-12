@@ -21,10 +21,7 @@ const PlaceCard = ({ title, image, action }) => {
           "http://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg"
         }
         style={styles.image}
-        uri={
-          "http://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg" ||
-          image.uri
-        }
+        uri={image.uri}
         resizeMode={FastImage.resizeMode.cover}
       />
       <View style={styles.textContainer}>

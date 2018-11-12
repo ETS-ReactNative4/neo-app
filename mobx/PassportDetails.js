@@ -1,4 +1,4 @@
-import { observable, computed, action, toJS } from "mobx";
+import { observable, computed, action, toJS, set } from "mobx";
 import { createTransformer } from "mobx-utils";
 import { persist } from "mobx-persist";
 import apiCall from "../Services/networkRequests/apiCall";
@@ -113,6 +113,7 @@ class PassportDetails {
           const passportDetails = toJS(this._passportDetails);
           passportDetails[itineraryId] = response.data;
           this._passportDetails = passportDetails;
+          // set(this._passportDetails, `${itineraryId}`, response.data);
         } else {
           this._hasError = true;
         }
