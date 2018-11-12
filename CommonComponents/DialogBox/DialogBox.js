@@ -58,13 +58,15 @@ const styles = StyleSheet.create({
   title: {
     ...constants.fontCustom(constants.primarySemiBold, 17),
     margin: 16,
-    color: constants.black1
+    color: constants.black1,
+    textAlign: "center"
   },
   message: {
     ...constants.fontCustom(constants.primaryLight, 14),
     marginHorizontal: 16,
     marginBottom: 24,
-    color: constants.black2
+    color: constants.black2,
+    textAlign: "center"
   }
 });
 
