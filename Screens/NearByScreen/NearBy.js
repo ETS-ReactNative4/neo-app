@@ -17,6 +17,8 @@ import XSensorPlaceholder from "../../CommonComponents/XSensorPlaceholder/XSenso
 import Icon from "../../CommonComponents/Icon/Icon";
 import constants from "../../constants/constants";
 import PlaceCard from "./Components/PlaceCard";
+import apiCall from "../../Services/networkRequests/apiCall";
+import FilterOptions from "./Components/FilterOptions";
 
 class NearBy extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -26,7 +28,97 @@ class NearBy extends Component {
   };
 
   state = {
-    selectedPlace: {}
+    selectedPlace: {},
+    places: [],
+    isLoading: false,
+    sortOptions: [
+      {
+        text: "Distance from your hotel",
+        action: () => null,
+        isSelected: true
+      },
+      {
+        text: "Distance from your current location",
+        action: () => null,
+        isSelected: false
+      },
+      {
+        text: "Number of reviews",
+        action: () => null,
+        isSelected: false
+      }
+    ],
+    filterOptions: [
+      {
+        text: "All Ratings",
+        action: () => null,
+        isSelected: true
+      },
+      {
+        text: "Rated 3 stars and above",
+        action: () => null,
+        isSelected: false
+      },
+      {
+        text: "Rated 4 stars and above",
+        action: () => null,
+        isSelected: false
+      },
+      {
+        text: "Rated 5 stars",
+        action: () => null,
+        isSelected: false
+      }
+    ],
+    isSortVisible: false,
+    isFilterVisible: false
+  };
+
+  componentDidMount() {
+    apiCall(
+      constants.googleTextSearch.replace(":keyword", "hotels-in-bali"),
+      {},
+      "GET"
+    )
+      .then(response => {
+        console.log(response);
+        debugger;
+      })
+      .catch(err => {
+        console.error(err);
+      });
+  }
+
+  toggleFilter = () => {
+    this.setState({
+      isFilterVisible: !this.state.isFilterVisible
+    });
+  };
+
+  toggleSort = () => {
+    this.setState({
+      isSortVisible: !this.state.isSortVisible
+    });
+  };
+
+  selectFilter = index => {
+    const filterOptions = this.state.filterOptions.map((item, itemIndex) => {
+      item.isSelected = itemIndex === index;
+      return item;
+    });
+    this.setState({
+      filterOptions
+    });
+  };
+
+  selectSort = index => {
+    const sortOptions = this.state.sortOptions.map((item, itemIndex) => {
+      item.isSelected = itemIndex === index;
+      return item;
+    });
+    this.setState({
+      sortOptions
+    });
   };
 
   render() {
@@ -86,6 +178,11 @@ class NearBy extends Component {
       }
     ];
 
+    const selectedSort = this.state.sortOptions.find(item => item.isSelected);
+    const selectedFilter = this.state.filterOptions.find(
+      item => item.isSelected
+    );
+
     return [
       <ScrollView key={0} style={styles.nearByContainer}>
         <PlaceCard
@@ -126,7 +223,7 @@ class NearBy extends Component {
         })}
       </ScrollView>,
       <View key={1} style={styles.bottomBar}>
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity style={styles.button} onPress={this.toggleSort}>
           <View style={styles.buttonTitleWrapper}>
             <Text style={styles.buttonTitleText}>Sort By</Text>
             <Icon
@@ -137,10 +234,10 @@ class NearBy extends Component {
             />
           </View>
           <View style={styles.buttonTextWrapper}>
-            <Text style={styles.buttonText}>Distance from Hotel</Text>
+            <Text style={styles.buttonText}>{selectedSort.text || ""}</Text>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity style={styles.button} onPress={this.toggleFilter}>
           <View style={styles.buttonTitleWrapper}>
             <Text style={styles.buttonTitleText}>Filter By</Text>
             <Icon
@@ -151,7 +248,7 @@ class NearBy extends Component {
             />
           </View>
           <View style={styles.buttonTextWrapper}>
-            <Text style={styles.buttonText}>All Ratings</Text>
+            <Text style={styles.buttonText}>{selectedFilter.text || ""}</Text>
           </View>
         </TouchableOpacity>
       </View>,
@@ -160,7 +257,23 @@ class NearBy extends Component {
           key={2}
           containerStyle={{ backgroundColor: "white" }}
         />
-      ) : null
+      ) : null,
+      <FilterOptions
+        key={3}
+        title={"Filter Results by"}
+        isVisible={this.state.isFilterVisible}
+        onClose={this.toggleFilter}
+        options={this.state.filterOptions}
+        onSelect={this.selectFilter}
+      />,
+      <FilterOptions
+        key={4}
+        title={"Sort Results by"}
+        isVisible={this.state.isSortVisible}
+        onClose={this.toggleSort}
+        options={this.state.sortOptions}
+        onSelect={this.selectSort}
+      />
     ];
   }
 }
