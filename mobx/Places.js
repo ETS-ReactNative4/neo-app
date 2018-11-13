@@ -10,12 +10,10 @@ class Places {
   @persist("object")
   @observable
   _cityCategories = {};
-  @persist("object")
-  @observable
-  _textSearches = {};
-  @persist("object")
-  @observable
-  _placesList = {};
+  // @persist("object")
+  @observable _textSearches = {};
+  // @persist("object")
+  @observable _placesList = {};
   @observable _selectedPlace = "";
   @observable _isLoading = false;
   @observable _isPlaceLoading = false;
@@ -70,7 +68,7 @@ class Places {
       if (category) return toJS(category);
       else return {};
     } catch (e) {
-      logError(e);
+      // logError(e);
       return {};
     }
   }
