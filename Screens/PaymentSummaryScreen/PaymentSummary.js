@@ -92,9 +92,11 @@ class PaymentSummary extends Component {
     });
     apiCall(constants.getPaymentInfo.replace(":itineraryId", itineraryId))
       .then(response => {
-        this.setState({
-          isLoading: false
-        });
+        setTimeout(() => {
+          this.setState({
+            isLoading: false
+          });
+        }, 1000);
         if (response.status === "SUCCESS") {
           this.setState({
             paymentInfo: response.data

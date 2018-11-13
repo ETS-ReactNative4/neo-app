@@ -64,9 +64,11 @@ class PaymentHome extends Component {
     });
     apiCall(constants.getPaymentMeta)
       .then(response => {
-        this.setState({
-          isLoading: false
-        });
+        setTimeout(() => {
+          this.setState({
+            isLoading: false
+          });
+        }, 1000);
         if (response.status === "SUCCESS") {
           this.setState({
             paymentMeta: response.data
