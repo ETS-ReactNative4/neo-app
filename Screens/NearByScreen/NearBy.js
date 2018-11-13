@@ -5,26 +5,28 @@ import {
   StyleSheet,
   Text,
   Platform,
-  TouchableOpacity
+  FlatList,
+  TouchableOpacity,
+  Image
 } from "react-native";
 import _ from "lodash";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
-import Carousel from "../../CommonComponents/Carousel/Carousel";
-import PlaceImageContainer from "./Components/PlaceImageContainer";
 import PlaceDetails from "./Components/PlaceDetails";
 import { isIphoneX } from "react-native-iphone-x-helper";
 import XSensorPlaceholder from "../../CommonComponents/XSensorPlaceholder/XSensorPlaceholder";
 import Icon from "../../CommonComponents/Icon/Icon";
 import constants from "../../constants/constants";
 import PlaceCard from "./Components/PlaceCard";
-import apiCall from "../../Services/networkRequests/apiCall";
 import FilterOptions from "./Components/FilterOptions";
 import MultiLineHeader from "../../CommonComponents/MultilineHeader/MultiLineHeader";
 import { inject, observer } from "mobx-react/custom";
-import getDeviceLocation from "../../Services/getDeviceLocation/getDeviceLocation";
 import SmartImage from "../../CommonComponents/SmartImage/SmartImage";
 import FastImage from "react-native-fast-image";
-import { responsiveWidth } from "react-native-responsive-dimensions";
+import {
+  responsiveHeight,
+  responsiveWidth
+} from "react-native-responsive-dimensions";
+import EmptyListPlaceholder from "../../CommonComponents/EmptyListPlaceholder/EmptyListPlaceholder";
 
 @inject("placesStore")
 @observer
@@ -74,22 +76,26 @@ class NearBy extends Component {
       {
         text: "All Ratings",
         action: () => null,
-        isSelected: true
+        isSelected: true,
+        filter: 0
       },
       {
         text: "Rated 3 stars and above",
         action: () => null,
-        isSelected: false
+        isSelected: false,
+        filter: 3
       },
       {
         text: "Rated 4 stars and above",
         action: () => null,
-        isSelected: false
+        isSelected: false,
+        filter: 4
       },
       {
         text: "Rated 5 stars",
         action: () => null,
-        isSelected: false
+        isSelected: false,
+        filter: 5
       }
     ],
     isSortVisible: false,
@@ -97,11 +103,6 @@ class NearBy extends Component {
   };
 
   componentDidMount() {
-    // getDeviceLocation(success => {
-    //
-    // }, error => {
-    //
-    // });
     const searchText = this.props.navigation.getParam("searchQuery", "");
     const { loadTextSearch } = this.props.placesStore;
     loadTextSearch(searchText);
@@ -139,82 +140,51 @@ class NearBy extends Component {
     });
   };
 
-  render() {
-    // const placeDetails = [
-    //   {
-    //     name: "Mall 1",
-    //     rating: 4,
-    //     ratingCount: 50,
-    //     type: "Shopping Mall",
-    //     isClosed: false,
-    //     closesAt: "Closes at 9.30pm",
-    //     opensAt: "",
-    //     distance: "5 km",
-    //     address: "No. 11, Bradfort Street (Near Dominos), New York, USA,",
-    //     images: [
-    //       "http://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg",
-    //       "http://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg",
-    //       "http://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg",
-    //       "http://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg"
-    //     ]
-    //   },
-    //   {
-    //     name: "Mall 2",
-    //     rating: 4,
-    //     ratingCount: 50,
-    //     type: "",
-    //     isClosed: true,
-    //     closesAt: "",
-    //     opensAt: "Opens in 3 hours",
-    //     distance: "5 Km",
-    //     address: "No. 11, Bradfort Street (Near Dominos), New York, USA,",
-    //     images: [
-    //       "http://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg",
-    //       "http://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg",
-    //       "http://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg"
-    //     ]
-    //   },
-    //   {
-    //     name: "Mall 3",
-    //     rating: 4,
-    //     ratingCount: 50,
-    //     type: "",
-    //     isClosed: false,
-    //     closesAt: "",
-    //     opensAt: "",
-    //     distance: "10 km",
-    //     address: "No. 11, Bradfort Street (Near Dominos), New York, USA,",
-    //     images: [
-    //       "http://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg",
-    //       "http://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg",
-    //       "http://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg",
-    //       "http://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg",
-    //       "http://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg",
-    //       "http://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg",
-    //       "http://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg"
-    //     ]
-    //   }
-    // ];
+  loadPlaceDetail = place => {
+    const { selectPlace } = this.props.placesStore;
+    selectPlace(place);
+  };
 
+  render() {
     const selectedSort = this.state.sortOptions.find(item => item.isSelected);
     const selectedFilter = this.state.filterOptions.find(
       item => item.isSelected
     );
-    const { getSearchResultsByText } = this.props.placesStore;
+    const {
+      getSearchResultsByText,
+      isLoading,
+      unSelectPlace,
+      selectedPlace,
+      getPlaceById
+    } = this.props.placesStore;
     const searchText = this.props.navigation.getParam("searchQuery", "");
     const resultObject = getSearchResultsByText(searchText);
-    const placeDetails = resultObject.searchResults;
+    const placeDetails = resultObject.searchResults.filter(result => {
+      if (selectedFilter.filter) {
+        if (selectedFilter.filter === 3) {
+          return result.rating >= 3;
+        } else if (selectedFilter.filter === 4) {
+          return result.rating >= 4;
+        } else if (selectedFilter.filter === 5) {
+          return result.rating === 5;
+        }
+      }
+      return true;
+    });
+    const activePlace = getPlaceById(selectedPlace);
     return [
-      <ScrollView key={0} style={styles.nearByContainer}>
-        <PlaceCard
-          selectedPlace={this.state.selectedPlace}
-          isVisible={!_.isEmpty(this.state.selectedPlace)}
-          onClose={() => this.setState({ selectedPlace: {} })}
-        />
-        {placeDetails.map((place, placeIndex) => {
+      <FlatList
+        key={0}
+        data={placeDetails}
+        renderItem={({ item: place }) => {
+          if (_.isEmpty(place)) return null;
           const imageUrl = place.photos[0].photoUrl;
           return (
-            <View key={placeIndex}>
+            <TouchableOpacity
+              onPress={() => this.loadPlaceDetail(place)}
+              activeOpacity={0.8}
+              style={styles.listItemContainer}
+            >
               <SmartImage
                 uri={imageUrl}
                 style={styles.imageCover}
@@ -233,12 +203,44 @@ class NearBy extends Component {
                 opensAt={place.openingHours.weekdayText}
                 distance={place.distance}
                 formattedAddress={place.formattedAddress}
-                action={() => this.setState({ selectedPlace: place })}
+                action={() => this.loadPlaceDetail(place)}
               />
-            </View>
+            </TouchableOpacity>
           );
-        })}
-      </ScrollView>,
+        }}
+        ListFooterComponent={() => {
+          if (!isLoading && !placeDetails.length) {
+            return (
+              <EmptyListPlaceholder
+                containerStyle={{
+                  backgroundColor: "white",
+                  height: responsiveHeight(100) - 60 - 44 - 56
+                }}
+                text={"No items found for you current filters..."}
+              />
+            );
+          } else if (isLoading && !placeDetails.length) {
+            return (
+              <View
+                style={{
+                  backgroundColor: "white",
+                  height: responsiveHeight(100) - 60 - 44 - 56,
+                  alignItems: "center",
+                  justifyContent: "center"
+                }}
+              >
+                <Image
+                  resizeMode={"contain"}
+                  source={constants.loadingIcon}
+                  style={{ height: 40, width: 40 }}
+                />
+              </View>
+            );
+          } else {
+            return null;
+          }
+        }}
+      />,
       <View key={1} style={styles.bottomBar}>
         <TouchableOpacity style={styles.button} onPress={this.toggleSort}>
           <View style={styles.buttonTitleWrapper}>
@@ -290,6 +292,12 @@ class NearBy extends Component {
         onClose={this.toggleSort}
         options={this.state.sortOptions}
         onSelect={this.selectSort}
+      />,
+      <PlaceCard
+        key={5}
+        selectedPlace={activePlace}
+        isVisible={!_.isEmpty(activePlace)}
+        onClose={unSelectPlace}
       />
     ];
   }
@@ -340,6 +348,9 @@ const styles = StyleSheet.create({
   imageCover: {
     height: 160,
     width: responsiveWidth(100)
+  },
+  listItemContainer: {
+    backgroundColor: "white"
   }
 });
 

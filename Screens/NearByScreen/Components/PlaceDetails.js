@@ -65,7 +65,7 @@ const PlaceDetails = ({
           <Text style={styles.addressText}>{formattedAddress}</Text>
         </View>
       ) : null}
-      {isDetailed ? (
+      {isDetailed && distance ? (
         <View style={styles.distanceTextWrapper}>
           <Text
             style={styles.detailedDistanceText}

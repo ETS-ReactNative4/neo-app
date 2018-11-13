@@ -147,7 +147,16 @@ const createStore = () => {
     .catch(err => {
       logError(err);
     });
-
+  hydrate("_textSearches", appStore.placesStore)
+    .then(() => {})
+    .catch(err => {
+      logError(err);
+    });
+  hydrate("_placesList", appStore.placesStore)
+    .then(() => {})
+    .catch(err => {
+      logError(err);
+    });
   return appStore;
 };
 
