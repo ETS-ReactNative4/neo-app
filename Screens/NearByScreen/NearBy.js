@@ -27,6 +27,8 @@ import {
   responsiveWidth
 } from "react-native-responsive-dimensions";
 import EmptyListPlaceholder from "../../CommonComponents/EmptyListPlaceholder/EmptyListPlaceholder";
+import getDeviceLocation from "../../Services/getDeviceLocation/getDeviceLocation";
+import apiCall from "../../Services/networkRequests/apiCall";
 
 @inject("placesStore")
 @observer
@@ -57,19 +59,22 @@ class NearBy extends Component {
     isLoading: false,
     sortOptions: [
       {
-        text: "Distance from your hotel",
+        text: "Ratings",
         action: () => null,
-        isSelected: true
+        isSelected: false,
+        type: "text"
       },
       {
         text: "Distance from your current location",
         action: () => null,
-        isSelected: false
+        isSelected: false,
+        type: "nearby"
       },
       {
-        text: "Number of reviews",
+        text: "Distance from your hotel",
         action: () => null,
-        isSelected: false
+        isSelected: true,
+        type: "nearHotel"
       }
     ],
     filterOptions: [
@@ -135,9 +140,42 @@ class NearBy extends Component {
       item.isSelected = itemIndex === index;
       return item;
     });
-    this.setState({
-      sortOptions
-    });
+    this.setState(
+      {
+        sortOptions
+      },
+      () => {
+        // const selectedSort = this.state.sortOptions.find(item => item.isSelected);
+        // if(selectedSort.type === 'nearby') {
+        //   this.nearbySearch();
+        // }
+      }
+    );
+  };
+
+  nearbySearch = (token = "") => {
+    getDeviceLocation(
+      location => {
+        const lat = location.coords.latitude;
+        const lng = location.coords.longitude;
+        const keyword = this.props.navigation.getParam("title", "");
+        const requestObject = {
+          location: {
+            lat,
+            lng
+          },
+          keyword,
+          rankBy: false
+        };
+        if (token) requestObject.token = token;
+        apiCall(constants.googleNearBySearch, requestObject)
+          .then(response => {
+            console.log(response);
+          })
+          .catch(err => {});
+      },
+      error => {}
+    );
   };
 
   loadPlaceDetail = place => {
@@ -155,7 +193,8 @@ class NearBy extends Component {
       isLoading,
       unSelectPlace,
       selectedPlace,
-      getPlaceById
+      getPlaceById,
+      paginateTextSearch
     } = this.props.placesStore;
     const searchText = this.props.navigation.getParam("searchQuery", "");
     const resultObject = getSearchResultsByText(searchText);
@@ -176,6 +215,11 @@ class NearBy extends Component {
       <FlatList
         key={0}
         data={placeDetails}
+        onEndReached={() => {
+          if (resultObject.token) {
+            paginateTextSearch(searchText, resultObject.token);
+          }
+        }}
         renderItem={({ item: place }) => {
           if (_.isEmpty(place)) return null;
           const imageUrl = place.photos ? place.photos[0].photoUrl : "";

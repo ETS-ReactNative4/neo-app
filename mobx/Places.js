@@ -17,6 +17,7 @@ class Places {
   @observable _selectedPlace = "";
   @observable _isLoading = false;
   @observable _isPlaceLoading = false;
+  @observable _isNextPageLoading = false;
   @observable _hasError = false;
 
   @action
@@ -38,6 +39,11 @@ class Places {
   @computed
   get selectedPlace() {
     return this._selectedPlace;
+  }
+
+  @computed
+  get isNextPageLoading() {
+    return this._isNextPageLoading;
   }
 
   @computed
@@ -147,6 +153,38 @@ class Places {
       })
       .catch(err => {
         this._isLoading = false;
+        this._hasError = true;
+      });
+  };
+
+  @action
+  paginateTextSearch = (text, token) => {
+    this._isNextPageLoading = true;
+    apiCall(
+      `${constants.googleTextSearch.replace(
+        ":keyword",
+        encodeURIComponent(text)
+      )}?pageToken=${token}`,
+      {},
+      "GET"
+    )
+      .then(response => {
+        this._isNextPageLoading = false;
+        if (response.status === "SUCCESS") {
+          this._hasError = false;
+          const textSearches = toJS(this._textSearches);
+          const oldResults = textSearches[text].searchResults;
+          textSearches[text] = {
+            searchResults: [...oldResults, ...response.data.results],
+            token: response.data.nextPageToken
+          };
+          this._textSearches = textSearches;
+        } else {
+          this._hasError = true;
+        }
+      })
+      .catch(err => {
+        this._isNextPageLoading = false;
         this._hasError = true;
       });
   };

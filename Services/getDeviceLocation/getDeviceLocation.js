@@ -5,7 +5,7 @@ import OpenAppSettingsAndroid from "react-native-app-settings";
 
 const getDeviceLocation = async (success, failure) => {
   const getGeoLocation = () => {
-    navigator.geolocation.watchPosition(success, locationFailed);
+    navigator.geolocation.getCurrentPosition(success, locationFailed);
   };
 
   const openAppSettings = locationError => {
