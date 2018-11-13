@@ -9,9 +9,7 @@ import {
 import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraProps";
 import PropTypes from "prop-types";
 import constants from "../../../constants/constants";
-import StarRating from "../../../CommonComponents/StarRating/StarRating";
-import SimpleButton from "../../../CommonComponents/SimpleButton/SimpleButton";
-import { responsiveWidth } from "react-native-responsive-dimensions";
+import { Rating } from "react-native-ratings";
 
 const PlaceDetails = ({
   name,
@@ -51,11 +49,14 @@ const PlaceDetails = ({
       <View
         style={[styles.ratingContainer, isDetailed ? { height: 20 } : null]}
       >
-        <StarRating
-          containerStyle={{ height: isDetailed ? 18 : 16 }}
-          starSize={isDetailed ? 18 : 16}
-          rating={4}
-        />
+        {rating ? (
+          <Rating
+            type="star"
+            startingValue={rating}
+            readonly
+            imageSize={isDetailed ? 18 : 16}
+          />
+        ) : null}
         <Text
           style={[styles.ratingText, isDetailed ? styles.detailedText : null]}
         >{`${ratingCount ? `(${ratingCount}) ` : ""}${type}`}</Text>
