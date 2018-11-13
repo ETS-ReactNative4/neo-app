@@ -19,7 +19,7 @@ class Tools extends Component {
     const cityList = cities.map(city => {
       return {
         title: city.city,
-        image: { uri: constants.cityImageBaseUrl + city.cityObject.image },
+        image: { uri: city.cityObject.image },
         action: () => this.props.navigation.navigate("Places", { city })
       };
     });
