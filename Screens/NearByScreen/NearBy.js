@@ -178,7 +178,7 @@ class NearBy extends Component {
         data={placeDetails}
         renderItem={({ item: place }) => {
           if (_.isEmpty(place)) return null;
-          const imageUrl = place.photos[0].photoUrl;
+          const imageUrl = place.photos ? place.photos[0].photoUrl : "";
           return (
             <TouchableOpacity
               onPress={() => this.loadPlaceDetail(place)}
@@ -198,7 +198,7 @@ class NearBy extends Component {
                 name={place.name}
                 rating={place.rating}
                 ratingCount={place.ratingCount}
-                type={place.types[0]}
+                type={place.types ? place.types[0] : ""}
                 isClosed={!place.openingHours.openNow}
                 opensAt={place.openingHours.weekdayText}
                 distance={place.distance}
