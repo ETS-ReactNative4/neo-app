@@ -83,6 +83,8 @@ const imageAssets = {
     "https://d3lf10b5gahyby.cloudfront.net/misc/transfers-shuttle.jpg",
 
   helpSupportIllus: require("../assets/images/illustrations/help-and-support-image.png"),
+  paymentSuccessIllus: require("../assets/images/illustrations/payment-success.png"),
+  paymentFailureIllus: require("../assets/images/illustrations/payment-failure.png"),
 
   /**
    * TODO: Airline logo placeholder && transfer placeholder
