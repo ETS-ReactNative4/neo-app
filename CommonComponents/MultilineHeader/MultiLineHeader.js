@@ -3,7 +3,7 @@ import { View, Text, Image, StyleSheet, Platform } from "react-native";
 import PropTypes from "prop-types";
 import constants from "../../constants/constants";
 
-const MultiLineHeader = ({ duration, title }) => {
+const MultiLineHeader = ({ duration, title, disableDropDown }) => {
   return (
     <View style={styles.bookingTitleView}>
       <View style={styles.durationTextWrapper}>
@@ -11,13 +11,15 @@ const MultiLineHeader = ({ duration, title }) => {
       </View>
       <View style={styles.titleTextWrapper}>
         <Text style={styles.title}>{title}</Text>
-        <View style={styles.dropDownIconContainer}>
-          <Image
-            resizeMode={"contain"}
-            style={styles.dropDownIcon}
-            source={constants.dropDownArrow}
-          />
-        </View>
+        {!disableDropDown ? (
+          <View style={styles.dropDownIconContainer}>
+            <Image
+              resizeMode={"contain"}
+              style={styles.dropDownIcon}
+              source={constants.dropDownArrow}
+            />
+          </View>
+        ) : null}
       </View>
     </View>
   );
@@ -25,7 +27,8 @@ const MultiLineHeader = ({ duration, title }) => {
 
 MultiLineHeader.propTypes = {
   duration: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired
+  title: PropTypes.string.isRequired,
+  disableDropDown: PropTypes.bool
 };
 
 const styles = StyleSheet.create({

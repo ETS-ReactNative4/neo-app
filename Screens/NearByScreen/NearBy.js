@@ -19,11 +19,33 @@ import constants from "../../constants/constants";
 import PlaceCard from "./Components/PlaceCard";
 import apiCall from "../../Services/networkRequests/apiCall";
 import FilterOptions from "./Components/FilterOptions";
+import MultiLineHeader from "../../CommonComponents/MultilineHeader/MultiLineHeader";
+import { inject, observer } from "mobx-react/custom";
+import getDeviceLocation from "../../Services/getDeviceLocation/getDeviceLocation";
+import SmartImage from "../../CommonComponents/SmartImage/SmartImage";
+import FastImage from "react-native-fast-image";
+import { responsiveWidth } from "react-native-responsive-dimensions";
 
+@inject("placesStore")
+@observer
 class NearBy extends Component {
   static navigationOptions = ({ navigation }) => {
+    const city = navigation.getParam("city", {});
+    const title = navigation.getParam("title", "");
     return {
-      header: <CommonHeader title={""} navigation={navigation} />
+      header: (
+        <CommonHeader
+          TitleComponent={
+            <MultiLineHeader
+              duration={city.city}
+              title={title}
+              disableDropDown={true}
+            />
+          }
+          title={""}
+          navigation={navigation}
+        />
+      )
     };
   };
 
@@ -75,18 +97,14 @@ class NearBy extends Component {
   };
 
   componentDidMount() {
-    apiCall(
-      constants.googleTextSearch.replace(":keyword", "hotels-in-bali"),
-      {},
-      "GET"
-    )
-      .then(response => {
-        console.log(response);
-        debugger;
-      })
-      .catch(err => {
-        console.error(err);
-      });
+    // getDeviceLocation(success => {
+    //
+    // }, error => {
+    //
+    // });
+    const searchText = this.props.navigation.getParam("searchQuery", "");
+    const { loadTextSearch } = this.props.placesStore;
+    loadTextSearch(searchText);
   }
 
   toggleFilter = () => {
@@ -122,67 +140,70 @@ class NearBy extends Component {
   };
 
   render() {
-    const placeDetails = [
-      {
-        name: "Mall 1",
-        rating: 4,
-        ratingCount: 50,
-        type: "Shopping Mall",
-        isClosed: false,
-        closesAt: "Closes at 9.30pm",
-        opensAt: "",
-        distance: "5 km",
-        address: "No. 11, Bradfort Street (Near Dominos), New York, USA,",
-        images: [
-          "http://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg",
-          "http://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg",
-          "http://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg",
-          "http://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg"
-        ]
-      },
-      {
-        name: "Mall 2",
-        rating: 4,
-        ratingCount: 50,
-        type: "",
-        isClosed: true,
-        closesAt: "",
-        opensAt: "Opens in 3 hours",
-        distance: "5 Km",
-        address: "No. 11, Bradfort Street (Near Dominos), New York, USA,",
-        images: [
-          "http://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg",
-          "http://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg",
-          "http://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg"
-        ]
-      },
-      {
-        name: "Mall 3",
-        rating: 4,
-        ratingCount: 50,
-        type: "",
-        isClosed: false,
-        closesAt: "",
-        opensAt: "",
-        distance: "10 km",
-        address: "No. 11, Bradfort Street (Near Dominos), New York, USA,",
-        images: [
-          "http://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg",
-          "http://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg",
-          "http://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg",
-          "http://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg",
-          "http://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg",
-          "http://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg",
-          "http://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg"
-        ]
-      }
-    ];
+    // const placeDetails = [
+    //   {
+    //     name: "Mall 1",
+    //     rating: 4,
+    //     ratingCount: 50,
+    //     type: "Shopping Mall",
+    //     isClosed: false,
+    //     closesAt: "Closes at 9.30pm",
+    //     opensAt: "",
+    //     distance: "5 km",
+    //     address: "No. 11, Bradfort Street (Near Dominos), New York, USA,",
+    //     images: [
+    //       "http://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg",
+    //       "http://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg",
+    //       "http://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg",
+    //       "http://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg"
+    //     ]
+    //   },
+    //   {
+    //     name: "Mall 2",
+    //     rating: 4,
+    //     ratingCount: 50,
+    //     type: "",
+    //     isClosed: true,
+    //     closesAt: "",
+    //     opensAt: "Opens in 3 hours",
+    //     distance: "5 Km",
+    //     address: "No. 11, Bradfort Street (Near Dominos), New York, USA,",
+    //     images: [
+    //       "http://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg",
+    //       "http://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg",
+    //       "http://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg"
+    //     ]
+    //   },
+    //   {
+    //     name: "Mall 3",
+    //     rating: 4,
+    //     ratingCount: 50,
+    //     type: "",
+    //     isClosed: false,
+    //     closesAt: "",
+    //     opensAt: "",
+    //     distance: "10 km",
+    //     address: "No. 11, Bradfort Street (Near Dominos), New York, USA,",
+    //     images: [
+    //       "http://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg",
+    //       "http://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg",
+    //       "http://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg",
+    //       "http://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg",
+    //       "http://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg",
+    //       "http://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg",
+    //       "http://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg"
+    //     ]
+    //   }
+    // ];
 
     const selectedSort = this.state.sortOptions.find(item => item.isSelected);
     const selectedFilter = this.state.filterOptions.find(
       item => item.isSelected
     );
-
+    const { getSearchResultsByText } = this.props.placesStore;
+    const searchText = this.props.navigation.getParam("searchQuery", "");
+    const resultObject = getSearchResultsByText(searchText);
+    const placeDetails = resultObject.searchResults;
     return [
       <ScrollView key={0} style={styles.nearByContainer}>
         <PlaceCard
@@ -191,31 +212,27 @@ class NearBy extends Component {
           onClose={() => this.setState({ selectedPlace: {} })}
         />
         {placeDetails.map((place, placeIndex) => {
+          const imageUrl = place.photos[0].photoUrl;
           return (
             <View key={placeIndex}>
-              <Carousel containerStyle={{ height: 176 }}>
-                {place.images.map((imageUrl, imageIndex) => {
-                  const isLast = place.images.length === imageIndex + 1;
-                  return (
-                    <PlaceImageContainer
-                      key={imageIndex}
-                      imageUrl={imageUrl}
-                      isLast={isLast}
-                    />
-                  );
-                })}
-              </Carousel>
+              <SmartImage
+                uri={imageUrl}
+                style={styles.imageCover}
+                defaultImageUri={
+                  "http://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg"
+                }
+                resizeMode={FastImage.resizeMode.cover}
+              />
               <PlaceDetails
                 containerStyle={{ marginBottom: 16 }}
                 name={place.name}
                 rating={place.rating}
                 ratingCount={place.ratingCount}
-                type={place.type}
-                isClosed={place.isClosed}
-                closesAt={place.closesAt}
-                opensAt={place.opensAt}
+                type={place.types[0]}
+                isClosed={!place.openingHours.openNow}
+                opensAt={place.openingHours.weekdayText}
                 distance={place.distance}
-                address={place.address}
+                formattedAddress={place.formattedAddress}
                 action={() => this.setState({ selectedPlace: place })}
               />
             </View>
@@ -319,6 +336,10 @@ const styles = StyleSheet.create({
   buttonText: {
     ...constants.fontCustom(constants.primarySemiBold, 13),
     color: constants.black1
+  },
+  imageCover: {
+    height: 160,
+    width: responsiveWidth(100)
   }
 });
 

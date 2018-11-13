@@ -19,7 +19,18 @@ const PlaceCard = ({ selectedPlace, isVisible, onClose }) => {
       style={styles.modalContainer}
     >
       <View style={styles.modalView}>
-        <PlaceDetails {...selectedPlace} isDetailed={true} />
+        <PlaceDetails
+          name={selectedPlace.name}
+          rating={selectedPlace.rating}
+          ratingCount={selectedPlace.ratingCount}
+          type={selectedPlace.types[0]}
+          isClosed={!selectedPlace.openingHours.openNow}
+          closesAt={selectedPlace.closesAt}
+          opensAt={selectedPlace.openingHours.weekdayText}
+          distance={selectedPlace.distance}
+          formattedAddress={selectedPlace.formattedAddress}
+          isDetailed={true}
+        />
         {selectedPlace.images ? (
           <Carousel containerStyle={{ height: 176 }}>
             {selectedPlace.images.map((imageUrl, imageIndex) => {

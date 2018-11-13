@@ -46,104 +46,9 @@ class Places extends Component {
   render() {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     const { navigation } = this.props;
-    const sections = [
-      {
-        title: "Shopping",
-        icon: constants.medicalCareIcon,
-        items: [
-          {
-            title: "Malls",
-            image: constants.splashBackground,
-            action: () => {}
-          },
-          {
-            title: "Malls",
-            image: constants.splashBackground,
-            action: () => {}
-          },
-          {
-            title: "Malls",
-            image: constants.splashBackground,
-            action: () => {}
-          },
-          {
-            title: "Malls",
-            image: constants.splashBackground,
-            action: () => {}
-          },
-          {
-            title: "Malls",
-            image: constants.splashBackground,
-            action: () => {}
-          }
-        ]
-      },
-      {
-        title: "Shopping",
-        icon: constants.medicalCareIcon,
-        items: [
-          {
-            title: "Malls",
-            image: constants.splashBackground,
-            action: () => {}
-          },
-          {
-            title: "Malls",
-            image: constants.splashBackground,
-            action: () => {}
-          },
-          {
-            title: "Malls",
-            image: constants.splashBackground,
-            action: () => {}
-          },
-          {
-            title: "Malls",
-            image: constants.splashBackground,
-            action: () => {}
-          },
-          {
-            title: "Malls",
-            image: constants.splashBackground,
-            action: () => {}
-          }
-        ]
-      },
-      {
-        title: "Shopping",
-        icon: constants.medicalCareIcon,
-        items: [
-          {
-            title: "Malls",
-            image: constants.splashBackground,
-            action: () => {}
-          },
-          {
-            title: "Malls",
-            image: constants.splashBackground,
-            action: () => {}
-          },
-          {
-            title: "Malls",
-            image: constants.splashBackground,
-            action: () => {}
-          },
-          {
-            title: "Malls",
-            image: constants.splashBackground,
-            action: () => {}
-          },
-          {
-            title: "Malls",
-            image: constants.splashBackground,
-            action: () => {}
-          }
-        ]
-      }
-    ];
-
     const { categories } = this.props.placesStore;
     const categorySections = Object.keys(categories);
+    const city = this.props.navigation.getParam("city", {});
 
     return (
       <ScrollView style={styles.placesContainer}>
@@ -162,7 +67,13 @@ class Places extends Component {
                     <PlaceCard
                       key={itemIndex}
                       image={{ uri: item.image }}
-                      action={() => this.props.navigation.navigate("NearBy")}
+                      action={() =>
+                        this.props.navigation.navigate("NearBy", {
+                          title: item.category,
+                          city,
+                          searchQuery: `${item.category} in ${city.city}`
+                        })
+                      }
                       title={item.category}
                     />
                   );

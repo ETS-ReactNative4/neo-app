@@ -19,12 +19,11 @@ const PlaceDetails = ({
   ratingCount,
   type,
   isClosed,
-  closesAt,
   opensAt,
   distance,
   containerStyle,
   action,
-  address,
+  formattedAddress,
   isDetailed
 }) => {
   if (!containerStyle) containerStyle = {};
@@ -45,7 +44,7 @@ const PlaceDetails = ({
         >
           {name}
         </Text>
-        {!isDetailed ? (
+        {!isDetailed && distance ? (
           <Text style={styles.distanceText}>{distance}</Text>
         ) : null}
       </View>
@@ -59,11 +58,11 @@ const PlaceDetails = ({
         />
         <Text
           style={[styles.ratingText, isDetailed ? styles.detailedText : null]}
-        >{`(${ratingCount}). ${type}`}</Text>
+        >{`${ratingCount ? `(${ratingCount}) ` : ""}${type}`}</Text>
       </View>
       {isDetailed ? (
         <View style={styles.addressTextWrapper}>
-          <Text style={styles.addressText}>{address}</Text>
+          <Text style={styles.addressText}>{formattedAddress}</Text>
         </View>
       ) : null}
       {isDetailed ? (
@@ -80,7 +79,8 @@ const PlaceDetails = ({
           <Text style={styles.closedText}>
             {isClosed ? `Closed Now. ` : ""}
           </Text>
-          {`${isClosed ? `${opensAt}` : `${closesAt}`}`}
+          <Text style={styles.openText}>{!isClosed ? `Open Now. ` : ""}</Text>
+          {opensAt}
         </Text>
       </View>
     </TouchableOpacity>
@@ -88,17 +88,16 @@ const PlaceDetails = ({
 };
 
 PlaceDetails.propTypes = forbidExtraProps({
-  name: PropTypes.string.isRequired,
-  rating: PropTypes.number.isRequired,
-  ratingCount: PropTypes.number.isRequired,
-  type: PropTypes.string.isRequired,
-  isClosed: PropTypes.bool.isRequired,
-  closesAt: PropTypes.string.isRequired,
-  opensAt: PropTypes.string.isRequired,
-  distance: PropTypes.string.isRequired,
-  containerStyle: PropTypes.object,
-  action: PropTypes.func.isRequired,
-  address: PropTypes.string.isRequired,
+  name: PropTypes.string,
+  rating: PropTypes.number,
+  ratingCount: PropTypes.number,
+  type: PropTypes.string,
+  isClosed: PropTypes.bool,
+  opensAt: PropTypes.string,
+  distance: PropTypes.string,
+  containerStyle: PropTypes,
+  action: PropTypes.func,
+  formattedAddress: PropTypes.string,
   isDetailed: PropTypes.bool
 });
 
@@ -179,6 +178,9 @@ const styles = StyleSheet.create({
   },
   closedText: {
     color: "rgba(255,87,109,1)"
+  },
+  openText: {
+    color: constants.firstColor
   }
 });
 
