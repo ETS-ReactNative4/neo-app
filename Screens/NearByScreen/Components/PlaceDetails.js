@@ -10,6 +10,7 @@ import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraPr
 import PropTypes from "prop-types";
 import constants from "../../../constants/constants";
 import { Rating } from "react-native-ratings";
+import createReadableText from "../../../Services/createReadableText/createReadableText";
 
 const PlaceDetails = ({
   name,
@@ -59,7 +60,9 @@ const PlaceDetails = ({
         ) : null}
         <Text
           style={[styles.ratingText, isDetailed ? styles.detailedText : null]}
-        >{`${ratingCount ? `(${ratingCount}) ` : ""}${type}`}</Text>
+        >{`${ratingCount ? `(${ratingCount}) ` : ""}${createReadableText(
+          type
+        )}`}</Text>
       </View>
       {isDetailed ? (
         <View style={styles.addressTextWrapper}>

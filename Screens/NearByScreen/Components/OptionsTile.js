@@ -22,7 +22,7 @@ const OptionsTile = ({ text, action, isSelected }) => {
     >
       {isSelected ? (
         <Icon
-          name={constants.activityIcon}
+          name={constants.checkIcon}
           color={constants.firstColor}
           size={17}
         />
