@@ -10,9 +10,8 @@ class Places {
   @persist("object")
   @observable
   _cityCategories = {};
-  // @persist("object")
   @observable _textSearches = {};
-  // @persist("object")
+  @observable _locationSearches = {};
   @observable _placesList = {};
   @observable _selectedPlace = "";
   @observable _isLoading = false;
@@ -138,7 +137,6 @@ class Places {
       "GET"
     )
       .then(response => {
-        this._isLoading = false;
         if (response.status === "SUCCESS") {
           this._hasError = false;
           const textSearches = toJS(this._textSearches);
@@ -147,7 +145,9 @@ class Places {
             token: response.data.nextPageToken
           };
           this._textSearches = textSearches;
+          this._isLoading = false;
         } else {
+          this._isLoading = false;
           this._hasError = true;
         }
       })
@@ -159,39 +159,131 @@ class Places {
 
   @action
   paginateTextSearch = (text, token) => {
-    this._isNextPageLoading = true;
-    apiCall(
-      `${constants.googleTextSearch.replace(
-        ":keyword",
-        encodeURIComponent(text)
-      )}?pageToken=${token}`,
-      {},
-      "GET"
-    )
-      .then(response => {
-        this._isNextPageLoading = false;
-        if (response.status === "SUCCESS") {
-          this._hasError = false;
-          const textSearches = toJS(this._textSearches);
-          const oldResults = textSearches[text].searchResults;
-          textSearches[text] = {
-            searchResults: [...oldResults, ...response.data.results],
-            token: response.data.nextPageToken
-          };
-          this._textSearches = textSearches;
-        } else {
+    if (token) {
+      this._isNextPageLoading = true;
+      apiCall(
+        `${constants.googleTextSearch.replace(
+          ":keyword",
+          encodeURIComponent(text)
+        )}?pageToken=${token}`,
+        {},
+        "GET"
+      )
+        .then(response => {
+          if (response.status === "SUCCESS") {
+            this._hasError = false;
+            const textSearches = toJS(this._textSearches);
+            const oldResults = textSearches[text].searchResults;
+            const oldToken = textSearches[text].token;
+            const newToken = response.data.nextPageToken;
+            textSearches[text] = {
+              searchResults: [...oldResults, ...response.data.results],
+              token: oldToken !== newToken ? newToken : null
+            };
+            this._textSearches = textSearches;
+            this._isNextPageLoading = false;
+          } else {
+            this._isNextPageLoading = false;
+            this._hasError = true;
+          }
+        })
+        .catch(err => {
+          this._isNextPageLoading = false;
           this._hasError = true;
-        }
-      })
-      .catch(err => {
-        this._isNextPageLoading = false;
-        this._hasError = true;
-      });
+        });
+    }
   };
 
   getSearchResultsByText = createTransformer(text => {
     if (this._textSearches[text]) {
       return toJS(this._textSearches[text]);
+    } else {
+      return {
+        searchResults: [],
+        token: ""
+      };
+    }
+  });
+
+  @action
+  loadLocationSearch = ({ lat, lng, keyword, token }) => {
+    this._isLoading = true;
+    const requestObject = {
+      location: {
+        lat,
+        lng
+      },
+      keyword,
+      rankBy: true
+    };
+    if (token) requestObject.token = token;
+    apiCall(constants.googleNearBySearch, requestObject)
+      .then(response => {
+        if (response.status === "SUCCESS") {
+          this._hasError = false;
+          const locationSearches = toJS(this._locationSearches);
+          const key = `${lat},${lng}`;
+          locationSearches[key] = {
+            searchResults: response.data.results,
+            token: response.data.nextPageToken
+          };
+          this._locationSearches = locationSearches;
+          this._isLoading = false;
+        } else {
+          this._isLoading = false;
+          this._hasError = true;
+        }
+      })
+      .catch(err => {
+        this._isLoading = false;
+        this._hasError = true;
+      });
+  };
+
+  @action
+  paginateLocationSearch = ({ lat, lng, keyword, token }) => {
+    if (token) {
+      this._isNextPageLoading = true;
+      const requestObject = {
+        location: {
+          lat,
+          lng
+        },
+        keyword,
+        token,
+        rankBy: true
+      };
+      apiCall(constants.googleNearBySearch, requestObject)
+        .then(response => {
+          if (response.status === "SUCCESS") {
+            this._hasError = false;
+            const locationSearches = toJS(this._locationSearches);
+            const key = `${lat},${lng}`;
+            const oldResults = locationSearches[key].searchResults;
+            const oldToken = locationSearches[key].token;
+            const newToken = response.data.nextPageToken;
+            locationSearches[key] = {
+              searchResults: [...oldResults, ...response.data.results],
+              token: oldToken !== newToken ? newToken : null
+            };
+            this._locationSearches = locationSearches;
+            this._isNextPageLoading = false;
+          } else {
+            this._isNextPageLoading = false;
+            this._hasError = true;
+          }
+        })
+        .catch(err => {
+          this._isNextPageLoading = false;
+          this._hasError = true;
+        });
+    }
+  };
+
+  getSearchResultsByLocation = createTransformer(({ lat, lng }) => {
+    const key = `${lat},${lng}`;
+    if (this._locationSearches[key]) {
+      return toJS(this._locationSearches[key]);
     } else {
       return {
         searchResults: [],

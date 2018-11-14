@@ -3,7 +3,7 @@ import { logError } from "../errorLogger/errorLogger";
 import DebouncedAlert from "../../CommonComponents/DebouncedAlert/DebouncedAlert";
 import OpenAppSettingsAndroid from "react-native-app-settings";
 
-const getDeviceLocation = async (success, failure) => {
+const getDeviceLocation = async (success, failure, settings = () => null) => {
   const getGeoLocation = () => {
     navigator.geolocation.getCurrentPosition(success, locationFailed);
   };
@@ -23,6 +23,7 @@ const getDeviceLocation = async (success, failure) => {
                   if (!supported) {
                     failure(locationError);
                   } else {
+                    settings();
                     return Linking.openURL("app-settings:");
                   }
                 })

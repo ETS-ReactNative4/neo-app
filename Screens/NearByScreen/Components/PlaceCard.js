@@ -41,7 +41,9 @@ const PlaceCard = ({ selectedPlace, isVisible, onClose }) => {
                 : ""
             }
             distance={selectedPlace.distance}
-            formattedAddress={selectedPlace.formattedAddress}
+            formattedAddress={
+              selectedPlace.formattedAddress || selectedPlace.vicinity
+            }
             isDetailed={true}
           />
           {selectedPlace.photos && selectedPlace.photos.length ? (

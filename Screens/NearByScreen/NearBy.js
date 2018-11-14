@@ -29,6 +29,7 @@ import {
 import EmptyListPlaceholder from "../../CommonComponents/EmptyListPlaceholder/EmptyListPlaceholder";
 import getDeviceLocation from "../../Services/getDeviceLocation/getDeviceLocation";
 import apiCall from "../../Services/networkRequests/apiCall";
+import DebouncedAlert from "../../CommonComponents/DebouncedAlert/DebouncedAlert";
 
 @inject("placesStore")
 @observer
@@ -54,14 +55,12 @@ class NearBy extends Component {
   };
 
   state = {
-    selectedPlace: {},
-    places: [],
     isLoading: false,
     sortOptions: [
       {
         text: "Ratings",
         action: () => null,
-        isSelected: false,
+        isSelected: true,
         type: "text"
       },
       {
@@ -73,7 +72,7 @@ class NearBy extends Component {
       {
         text: "Distance from your hotel",
         action: () => null,
-        isSelected: true,
+        isSelected: false,
         type: "nearHotel"
       }
     ],
@@ -104,7 +103,9 @@ class NearBy extends Component {
       }
     ],
     isSortVisible: false,
-    isFilterVisible: false
+    isFilterVisible: false,
+    lat: "",
+    lng: ""
   };
 
   componentDidMount() {
@@ -145,36 +146,59 @@ class NearBy extends Component {
         sortOptions
       },
       () => {
-        // const selectedSort = this.state.sortOptions.find(item => item.isSelected);
-        // if(selectedSort.type === 'nearby') {
-        //   this.nearbySearch();
-        // }
+        const selectedSort = this.state.sortOptions.find(
+          item => item.isSelected
+        );
+        if (selectedSort.type === "nearby") {
+          // fix modal issue
+          setTimeout(() => {
+            this.nearbySearch();
+          }, 500);
+        }
       }
     );
   };
 
-  nearbySearch = (token = "") => {
+  nearbySearch = () => {
+    const { loadLocationSearch } = this.props.placesStore;
     getDeviceLocation(
       location => {
         const lat = location.coords.latitude;
         const lng = location.coords.longitude;
         const keyword = this.props.navigation.getParam("title", "");
-        const requestObject = {
-          location: {
-            lat,
-            lng
-          },
-          keyword,
-          rankBy: false
-        };
-        if (token) requestObject.token = token;
-        apiCall(constants.googleNearBySearch, requestObject)
-          .then(response => {
-            console.log(response);
-          })
-          .catch(err => {});
+        loadLocationSearch({
+          lat,
+          lng,
+          keyword
+        });
+        this.setState({
+          lat,
+          lng
+        });
       },
-      error => {}
+      error => {
+        this.selectSort(0);
+        this.removeNearBySearch();
+      },
+      () => {
+        this.selectSort(0);
+      }
+    );
+  };
+
+  removeNearBySearch = () => {
+    const sortOptions = [...this.state.sortOptions];
+    sortOptions.splice(1, 1);
+    this.setState(
+      {
+        sortOptions
+      },
+      () => {
+        DebouncedAlert(
+          "Device location unavailable!",
+          "Unable to perform Location Search..."
+        );
+      }
     );
   };
 
@@ -194,11 +218,31 @@ class NearBy extends Component {
       unSelectPlace,
       selectedPlace,
       getPlaceById,
-      paginateTextSearch
+      paginateTextSearch,
+      paginateLocationSearch,
+      getSearchResultsByLocation,
+      isNextPageLoading
     } = this.props.placesStore;
     const searchText = this.props.navigation.getParam("searchQuery", "");
-    const resultObject = getSearchResultsByText(searchText);
-    const placeDetails = resultObject.searchResults.filter(result => {
+    const keyword = this.props.navigation.getParam("title", "");
+    const { lat, lng } = this.state;
+    let placeDetails = {
+      searchResults: [],
+      token: ""
+    };
+    switch (selectedSort.type) {
+      case "nearby":
+        if (lat && lng) {
+          placeDetails = getSearchResultsByLocation({ lat, lng });
+        }
+        break;
+      case "text":
+        placeDetails = getSearchResultsByText(searchText);
+        break;
+      case "nearHotel":
+        break;
+    }
+    const placesArray = placeDetails.searchResults.filter(result => {
       if (selectedFilter.filter) {
         if (selectedFilter.filter === 3) {
           return result.rating >= 3;
@@ -214,10 +258,26 @@ class NearBy extends Component {
     return [
       <FlatList
         key={0}
-        data={placeDetails}
+        data={placesArray}
         onEndReached={() => {
-          if (resultObject.token) {
-            paginateTextSearch(searchText, resultObject.token);
+          if (placeDetails.token) {
+            switch (selectedSort.type) {
+              case "nearby":
+                if (lat && lng) {
+                  paginateLocationSearch({
+                    lat,
+                    lng,
+                    keyword,
+                    token: placeDetails.token
+                  });
+                }
+                break;
+              case "text":
+                paginateTextSearch(searchText, placeDetails.token);
+                break;
+              case "nearHotel":
+                break;
+            }
           }
         }}
         renderItem={({ item: place }) => {
@@ -253,7 +313,24 @@ class NearBy extends Component {
           );
         }}
         ListFooterComponent={() => {
-          if (!isLoading && !placeDetails.length) {
+          if (isLoading) {
+            return (
+              <View
+                style={{
+                  backgroundColor: "white",
+                  height: responsiveHeight(100) - 60 - 44 - 56,
+                  alignItems: "center",
+                  justifyContent: "center"
+                }}
+              >
+                <Image
+                  resizeMode={"contain"}
+                  source={constants.loadingIcon}
+                  style={{ height: 40, width: 40 }}
+                />
+              </View>
+            );
+          } else if (!isLoading && !placesArray.length) {
             return (
               <EmptyListPlaceholder
                 containerStyle={{
@@ -263,12 +340,12 @@ class NearBy extends Component {
                 text={"No items found for you current filters..."}
               />
             );
-          } else if (isLoading && !placeDetails.length) {
+          } else if (isNextPageLoading) {
             return (
               <View
                 style={{
-                  backgroundColor: "white",
-                  height: responsiveHeight(100) - 60 - 44 - 56,
+                  width: responsiveWidth(100),
+                  height: 56,
                   alignItems: "center",
                   justifyContent: "center"
                 }}
