@@ -5,7 +5,7 @@ import fonts from "./fonts";
 
 const styles = {
   tabBarBottomHeight: isIphoneX() ? 86 : 56,
-  headerHeight: Platform.OS === "ios" ? 44 : 56,
+  headerHeight: 56,
   xSensorAreaHeight: 30,
   xNotchHeight: 30,
   currentYear: new Date().getYear() + 1900,
