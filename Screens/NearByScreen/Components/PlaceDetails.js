@@ -40,11 +40,13 @@ const PlaceDetails = ({
       >
         <Text
           style={[styles.titleText, isDetailed ? styles.detailedTitle : null]}
+          numberOfLines={2}
+          ellipsizeMode={"tail"}
         >
           {name}
         </Text>
         {!isDetailed && distance ? (
-          <Text style={styles.distanceText}>{distance}</Text>
+          <Text style={styles.distanceText}>{`${distance.toFixed(1)} km`}</Text>
         ) : null}
       </View>
       <View
@@ -71,9 +73,9 @@ const PlaceDetails = ({
       ) : null}
       {isDetailed && distance ? (
         <View style={styles.distanceTextWrapper}>
-          <Text
-            style={styles.detailedDistanceText}
-          >{`${distance} from your current location`}</Text>
+          <Text style={styles.detailedDistanceText}>{`${distance.toFixed(
+            1
+          )} km from your current location`}</Text>
         </View>
       ) : null}
       <View style={styles.statusContainer}>
@@ -110,7 +112,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 24
   },
   titleContainer: {
-    height: 24,
+    minHeight: 24,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
