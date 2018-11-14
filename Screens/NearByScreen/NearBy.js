@@ -256,112 +256,122 @@ class NearBy extends Component {
     });
     const activePlace = getPlaceById(selectedPlace);
     return [
-      <FlatList
-        key={0}
-        data={placesArray}
-        onEndReached={() => {
-          if (placeDetails.token) {
-            switch (selectedSort.type) {
-              case "nearby":
-                if (lat && lng) {
-                  paginateLocationSearch({
-                    lat,
-                    lng,
-                    keyword,
-                    token: placeDetails.token
-                  });
-                }
-                break;
-              case "text":
-                paginateTextSearch(searchText, placeDetails.token);
-                break;
-              case "nearHotel":
-                break;
+      <View key={0} style={styles.flatListContainer}>
+        <FlatList
+          data={placesArray}
+          onEndReached={() => {
+            if (placeDetails.token) {
+              switch (selectedSort.type) {
+                case "nearby":
+                  if (lat && lng) {
+                    paginateLocationSearch({
+                      lat,
+                      lng,
+                      keyword,
+                      token: placeDetails.token
+                    });
+                  }
+                  break;
+                case "text":
+                  paginateTextSearch(searchText, placeDetails.token);
+                  break;
+                case "nearHotel":
+                  break;
+              }
             }
-          }
-        }}
-        renderItem={({ item: place }) => {
-          if (_.isEmpty(place)) return null;
-          const imageUrl = place.photos ? place.photos[0].photoUrl : "";
-          return (
-            <TouchableOpacity
-              onPress={() => this.loadPlaceDetail(place)}
-              activeOpacity={0.8}
-              style={styles.listItemContainer}
-            >
-              <SmartImage
-                uri={imageUrl}
-                style={styles.imageCover}
-                defaultImageUri={
-                  "http://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg"
-                }
-                resizeMode={FastImage.resizeMode.cover}
-              />
-              <PlaceDetails
-                containerStyle={{ marginBottom: 16 }}
-                name={place.name}
-                rating={place.rating}
-                ratingCount={place.ratingCount}
-                type={place.types ? place.types[0] : ""}
-                isClosed={!place.openingHours.openNow}
-                opensAt={place.openingHours.weekdayText}
-                distance={place.distance}
-                formattedAddress={place.formattedAddress}
-                action={() => this.loadPlaceDetail(place)}
-              />
-            </TouchableOpacity>
-          );
-        }}
-        ListFooterComponent={() => {
-          if (isLoading) {
+          }}
+          renderItem={({ item: place, index }) => {
+            const isLast = index === placesArray.length - 1;
+            if (_.isEmpty(place)) return null;
+            const imageUrl = place.photos ? place.photos[0].photoUrl : "";
             return (
-              <View
-                style={{
-                  backgroundColor: "white",
-                  height: responsiveHeight(100) - 60 - 44 - 56,
-                  alignItems: "center",
-                  justifyContent: "center"
-                }}
+              <TouchableOpacity
+                onPress={() => this.loadPlaceDetail(place)}
+                activeOpacity={0.8}
+                style={[
+                  styles.listItemContainer,
+                  isLast
+                    ? {
+                        marginBottom:
+                          56 + (isIphoneX() ? constants.xSensorAreaHeight : 0)
+                      }
+                    : null
+                ]}
               >
-                <Image
-                  resizeMode={"contain"}
-                  source={constants.loadingIcon}
-                  style={{ height: 40, width: 40 }}
+                <SmartImage
+                  uri={imageUrl}
+                  style={styles.imageCover}
+                  defaultImageUri={
+                    "http://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg"
+                  }
+                  resizeMode={FastImage.resizeMode.cover}
                 />
-              </View>
-            );
-          } else if (!isLoading && !placesArray.length) {
-            return (
-              <EmptyListPlaceholder
-                containerStyle={{
-                  backgroundColor: "white",
-                  height: responsiveHeight(100) - 60 - 44 - 56
-                }}
-                text={"No items found for you current filters..."}
-              />
-            );
-          } else if (isNextPageLoading) {
-            return (
-              <View
-                style={{
-                  width: responsiveWidth(100),
-                  height: 56,
-                  alignItems: "center",
-                  justifyContent: "center"
-                }}
-              >
-                <Image
-                  resizeMode={"contain"}
-                  source={constants.loadingIcon}
-                  style={{ height: 40, width: 40 }}
+                <PlaceDetails
+                  containerStyle={{ marginBottom: 16 }}
+                  name={place.name}
+                  rating={place.rating}
+                  ratingCount={place.ratingCount}
+                  type={place.types ? place.types[0] : ""}
+                  isClosed={!place.openingHours.openNow}
+                  opensAt={place.openingHours.weekdayText}
+                  distance={place.distance}
+                  formattedAddress={place.formattedAddress}
+                  action={() => this.loadPlaceDetail(place)}
                 />
-              </View>
+              </TouchableOpacity>
             );
-          } else {
-            return null;
-          }
-        }}
-      />,
+          }}
+          ListFooterComponent={() => {
+            if (isLoading) {
+              return (
+                <View
+                  style={{
+                    backgroundColor: "white",
+                    marginTop: responsiveHeight(40),
+                    alignItems: "center",
+                    justifyContent: "center"
+                  }}
+                >
+                  <Image
+                    resizeMode={"contain"}
+                    source={constants.loadingIcon}
+                    style={{ height: 40, width: 40 }}
+                  />
+                </View>
+              );
+            } else if (!isLoading && !placesArray.length) {
+              return (
+                <EmptyListPlaceholder
+                  containerStyle={{
+                    backgroundColor: "white",
+                    marginTop: responsiveHeight(40)
+                  }}
+                  text={"No items found for you current filters..."}
+                />
+              );
+            } else if (isNextPageLoading) {
+              return (
+                <View
+                  style={{
+                    width: responsiveWidth(100),
+                    height: 56,
+                    alignItems: "center",
+                    justifyContent: "center"
+                  }}
+                >
+                  <Image
+                    resizeMode={"contain"}
+                    source={constants.loadingIcon}
+                    style={{ height: 40, width: 40 }}
+                  />
+                </View>
+              );
+            } else {
+              return null;
+            }
+          }}
+        />
+      </View>,
       <View key={1} style={styles.bottomBar}>
         <TouchableOpacity style={styles.button} onPress={this.toggleSort}>
           <View style={styles.buttonTitleWrapper}>
@@ -395,7 +405,12 @@ class NearBy extends Component {
       isIphoneX() ? (
         <XSensorPlaceholder
           key={2}
-          containerStyle={{ backgroundColor: "white" }}
+          containerStyle={{
+            backgroundColor: "white",
+            width: responsiveWidth(100),
+            position: "absolute",
+            bottom: 0
+          }}
         />
       ) : null,
       <FilterOptions
@@ -425,11 +440,20 @@ class NearBy extends Component {
 }
 
 const styles = StyleSheet.create({
+  flatListContainer: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "white"
+  },
   nearByContainer: {
     backgroundColor: "white"
   },
   bottomBar: {
     height: 56,
+    width: responsiveWidth(100),
+    position: "absolute",
+    bottom: isIphoneX() ? constants.xSensorAreaHeight : 0,
     backgroundColor: "white",
     flexDirection: "row",
     borderTopWidth: StyleSheet.hairlineWidth,
