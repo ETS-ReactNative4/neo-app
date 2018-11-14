@@ -35,7 +35,7 @@ const PlaceDetails = ({
       <View
         style={[
           styles.titleContainer,
-          isDetailed ? { marginTop: 24, marginBottom: 0 } : null
+          isDetailed ? { marginTop: 24, marginBottom: 0 } : { marginTop: 8 }
         ]}
       >
         <Text
