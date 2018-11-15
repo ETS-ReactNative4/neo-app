@@ -30,9 +30,7 @@ class CurrencyConverter extends Component {
         <CommonHeader
           leftAction={() => {
             Keyboard.dismiss();
-            setTimeout(() => {
-              navigation.goBack();
-            }, 500);
+            navigation.goBack();
           }}
           title={"Currency Calculator"}
           navigation={navigation}
