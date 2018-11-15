@@ -99,8 +99,7 @@ class ChatScreen extends Component {
   getDateDiff = () => {
     if (this.props.itineraries.cities[0]) {
       const today = moment();
-      const firstDay = moment(this.props.itineraries.cities[0].startDay);
-      const timeDiff = firstDay.diff(today, "hours");
+      const timeDiff = this.props.itineraries.firstDay.diff(today, "hours");
       if (timeDiff > 48) {
         this.setState({
           isChatActive: false

@@ -544,6 +544,27 @@ class Itineraries {
     return "INR";
   }
 
+  @computed
+  get firstDay() {
+    if (_.isEmpty(this._selectedItinerary)) return moment();
+
+    try {
+      const iterDayByKey = toJS(this._selectedItinerary.iterDayByKey);
+      for (const key in iterDayByKey) {
+        if (iterDayByKey.hasOwnProperty(key)) {
+          const dayObject = iterDayByKey[key];
+          if (dayObject.dayNum === 1) {
+            return moment(dayObject.dayTs);
+          }
+        }
+      }
+      return moment();
+    } catch (e) {
+      logError(e);
+      return moment();
+    }
+  }
+
   getCityById = createTransformer(id => {
     if (_.isEmpty(this._selectedItinerary)) return {};
 

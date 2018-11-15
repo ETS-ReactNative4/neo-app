@@ -46,8 +46,7 @@ class Weather extends Component {
       })
     );
     const today = moment();
-    const firstDay = moment(cities[0].day);
-    const dateDifference = firstDay.diff(today, "days");
+    const dateDifference = this.props.itineraries.firstDay.diff(today, "days");
     if (dateDifference < 7) {
       this.setState({
         isWeatherActive: true
