@@ -30,8 +30,10 @@ import EmptyListPlaceholder from "../../CommonComponents/EmptyListPlaceholder/Em
 import getDeviceLocation from "../../Services/getDeviceLocation/getDeviceLocation";
 import apiCall from "../../Services/networkRequests/apiCall";
 import DebouncedAlert from "../../CommonComponents/DebouncedAlert/DebouncedAlert";
+import moment from "moment";
 
 @inject("placesStore")
+@inject("itineraries")
 @observer
 class NearBy extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -54,59 +56,62 @@ class NearBy extends Component {
     };
   };
 
-  state = {
-    isLoading: false,
-    sortOptions: [
-      {
-        text: "Ratings",
-        action: () => null,
-        isSelected: true,
-        type: "text"
-      },
-      {
-        text: "Distance from your current location",
-        action: () => null,
-        isSelected: false,
-        type: "nearby"
-      },
-      {
-        text: "Distance from your hotel",
-        action: () => null,
-        isSelected: false,
-        type: "nearHotel"
-      }
-    ],
-    filterOptions: [
-      {
-        text: "All Ratings",
-        action: () => null,
-        isSelected: true,
-        filter: 0
-      },
-      {
-        text: "Rated 3 stars and above",
-        action: () => null,
-        isSelected: false,
-        filter: 3
-      },
-      {
-        text: "Rated 4 stars and above",
-        action: () => null,
-        isSelected: false,
-        filter: 4
-      },
-      {
-        text: "Rated 5 stars",
-        action: () => null,
-        isSelected: false,
-        filter: 5
-      }
-    ],
-    isSortVisible: false,
-    isFilterVisible: false,
-    lat: "",
-    lng: ""
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      isLoading: false,
+      sortOptions: [
+        {
+          text: "Ratings",
+          action: () => null,
+          isSelected: true,
+          type: "text"
+        },
+        {
+          text: "Distance from your current location",
+          action: () => null,
+          isSelected: false,
+          type: "nearby"
+        },
+        {
+          text: "Distance from your hotel",
+          action: () => null,
+          isSelected: false,
+          type: "nearHotel"
+        }
+      ],
+      filterOptions: [
+        {
+          text: "All Ratings",
+          action: () => null,
+          isSelected: true,
+          filter: 0
+        },
+        {
+          text: "Rated 3 stars and above",
+          action: () => null,
+          isSelected: false,
+          filter: 3
+        },
+        {
+          text: "Rated 4 stars and above",
+          action: () => null,
+          isSelected: false,
+          filter: 4
+        },
+        {
+          text: "Rated 5 stars",
+          action: () => null,
+          isSelected: false,
+          filter: 5
+        }
+      ],
+      isSortVisible: false,
+      isFilterVisible: false,
+      lat: "",
+      lng: ""
+    };
+  }
 
   componentDidMount() {
     const searchText = this.props.navigation.getParam("searchQuery", "");
@@ -141,25 +146,21 @@ class NearBy extends Component {
       item.isSelected = itemIndex === index;
       return item;
     });
-    this.setState(
-      {
-        sortOptions
-      },
-      () => {
-        const selectedSort = this.state.sortOptions.find(
-          item => item.isSelected
-        );
-        if (selectedSort.type === "nearby") {
-          // fix modal issue
-          setTimeout(() => {
-            this.nearbySearch();
-          }, 500);
-        }
-      }
-    );
+    const selectedSort = sortOptions.find(item => item.isSelected);
+    if (selectedSort.type === "nearby") {
+      // fix modal issue
+      setTimeout(() => {
+        this.nearbySearch(sortOptions);
+      }, 500);
+    } else if (selectedSort.type === "nearHotel") {
+      // fix modal issue
+      setTimeout(() => {
+        this.hotelNearBySearch(sortOptions);
+      }, 500);
+    }
   };
 
-  nearbySearch = () => {
+  nearbySearch = sortOptions => {
     const { loadLocationSearch } = this.props.placesStore;
     getDeviceLocation(
       location => {
@@ -171,10 +172,17 @@ class NearBy extends Component {
           lng,
           keyword
         });
-        this.setState({
-          lat,
-          lng
-        });
+        this.setState(
+          {
+            lat,
+            lng
+          },
+          () => {
+            this.setState({
+              sortOptions
+            });
+          }
+        );
       },
       error => {
         this.selectSort(0);
@@ -182,6 +190,32 @@ class NearBy extends Component {
       },
       () => {
         this.selectSort(0);
+      }
+    );
+  };
+
+  hotelNearBySearch = sortOptions => {
+    const { getHotelByDate } = this.props.itineraries;
+    const today = moment().format("DDMMYYYY");
+    const { loadLocationSearch } = this.props.placesStore;
+    const hotelDetails = getHotelByDate(today);
+    const keyword = this.props.navigation.getParam("title", "");
+    const lat = Number(hotelDetails.lat);
+    const lng = Number(hotelDetails.lon);
+    loadLocationSearch({
+      lat,
+      lng,
+      keyword
+    });
+    this.setState(
+      {
+        lat,
+        lng
+      },
+      () => {
+        this.setState({
+          sortOptions
+        });
       }
     );
   };
@@ -231,16 +265,13 @@ class NearBy extends Component {
       token: ""
     };
     switch (selectedSort.type) {
-      case "nearby":
-        if (lat && lng) {
-          placeDetails = getSearchResultsByLocation({ lat, lng });
-        }
-        break;
       case "text":
         placeDetails = getSearchResultsByText(searchText);
         break;
-      case "nearHotel":
-        break;
+      default:
+        if (lat && lng) {
+          placeDetails = getSearchResultsByLocation({ lat, lng });
+        }
     }
     const placesArray = placeDetails.searchResults.filter(result => {
       if (selectedFilter.filter) {
@@ -281,22 +312,13 @@ class NearBy extends Component {
             }
           }}
           renderItem={({ item: place, index }) => {
-            const isLast = index === placesArray.length - 1;
             if (_.isEmpty(place)) return null;
             const imageUrl = place.photos ? place.photos[0].photoUrl : "";
             return (
               <TouchableOpacity
                 onPress={() => this.loadPlaceDetail(place)}
                 activeOpacity={0.8}
-                style={[
-                  styles.listItemContainer,
-                  isLast
-                    ? {
-                        marginBottom:
-                          56 + (isIphoneX() ? constants.xSensorAreaHeight : 0)
-                      }
-                    : null
-                ]}
+                style={styles.listItemContainer}
               >
                 <SmartImage
                   uri={imageUrl}
@@ -371,6 +393,7 @@ class NearBy extends Component {
             }
           }}
         />
+        <View style={styles.footerPlaceholder} />
       </View>,
       <View key={1} style={styles.bottomBar}>
         <TouchableOpacity style={styles.button} onPress={this.toggleSort}>
@@ -434,6 +457,7 @@ class NearBy extends Component {
         selectedPlace={activePlace}
         isVisible={!_.isEmpty(activePlace)}
         onClose={unSelectPlace}
+        fromLocation={selectedSort.type}
       />
     ];
   }
@@ -496,6 +520,10 @@ const styles = StyleSheet.create({
   },
   listItemContainer: {
     backgroundColor: "white"
+  },
+  footerPlaceholder: {
+    height: 56 + (isIphoneX() ? constants.xSensorAreaHeight : 0),
+    width: responsiveWidth(100)
   }
 });
 

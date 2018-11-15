@@ -13,7 +13,7 @@ import _ from "lodash";
 import dialer from "../../../Services/dialer/dialer";
 import directions from "../../../Services/directions/directions";
 
-const PlaceCard = ({ selectedPlace, isVisible, onClose }) => {
+const PlaceCard = ({ selectedPlace, isVisible, onClose, fromLocation }) => {
   return (
     <Modal
       isVisible={isVisible}
@@ -45,6 +45,7 @@ const PlaceCard = ({ selectedPlace, isVisible, onClose }) => {
               selectedPlace.formattedAddress || selectedPlace.vicinity
             }
             isDetailed={true}
+            fromLocation={fromLocation}
           />
           {selectedPlace.photos && selectedPlace.photos.length ? (
             <Carousel containerStyle={{ height: 176 }}>
@@ -97,7 +98,8 @@ const PlaceCard = ({ selectedPlace, isVisible, onClose }) => {
 PlaceCard.propTypes = forbidExtraProps({
   selectedPlace: PropTypes.string.isRequired,
   isVisible: PropTypes.bool.isRequired,
-  onClose: PropTypes.func.isRequired
+  onClose: PropTypes.func.isRequired,
+  fromLocation: PropTypes.string.isRequired
 });
 
 const styles = StyleSheet.create({

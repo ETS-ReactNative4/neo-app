@@ -23,7 +23,8 @@ const PlaceDetails = ({
   containerStyle,
   action,
   formattedAddress,
-  isDetailed
+  isDetailed,
+  fromLocation
 }) => {
   if (!containerStyle) containerStyle = {};
   return (
@@ -75,7 +76,9 @@ const PlaceDetails = ({
         <View style={styles.distanceTextWrapper}>
           <Text style={styles.detailedDistanceText}>{`${distance.toFixed(
             1
-          )} km from your current location`}</Text>
+          )} km from your ${
+            fromLocation === "nearby" ? "current location" : "hotel"
+          }`}</Text>
         </View>
       ) : null}
       <View style={styles.statusContainer}>
@@ -104,7 +107,8 @@ PlaceDetails.propTypes = forbidExtraProps({
   containerStyle: PropTypes,
   action: PropTypes.func,
   formattedAddress: PropTypes.string,
-  isDetailed: PropTypes.bool
+  isDetailed: PropTypes.bool,
+  fromLocation: PropTypes.string
 });
 
 const styles = StyleSheet.create({

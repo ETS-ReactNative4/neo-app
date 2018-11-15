@@ -556,6 +556,28 @@ class Itineraries {
     }
   });
 
+  getHotelByDate = createTransformer(date => {
+    if (_.isEmpty(this._selectedItinerary)) return {};
+
+    try {
+      const hotelCostings = toJS(
+        this._selectedItinerary.hotelCostings.hotelCostingById
+      );
+      for (const key in hotelCostings) {
+        if (hotelCostings.hasOwnProperty(key)) {
+          const hotel = hotelCostings[key];
+          const hotelDate = moment(hotel.checkInTs).format("DDMMYYYY");
+          if (hotelDate === date) return hotel;
+        }
+      }
+      logError("No Hotel found for the given date...");
+      return {};
+    } catch (e) {
+      logError(e);
+      return {};
+    }
+  });
+
   getActivityById = createTransformer(id => {
     if (_.isEmpty(this._selectedItinerary)) return {};
 
