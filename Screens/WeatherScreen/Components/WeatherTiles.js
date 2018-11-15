@@ -11,6 +11,7 @@ import {
 import PropTypes from "prop-types";
 import constants from "../../../constants/constants";
 import Icon from "../../../CommonComponents/Icon/Icon";
+import getWeatherIcon from "../../../Services/getWeatherIcon/getWeatherIcon";
 
 const WeatherTiles = ({ weatherArray, selectTile }) => {
   return (
@@ -34,7 +35,11 @@ const WeatherTiles = ({ weatherArray, selectTile }) => {
             <Text style={styles.dayText}>{weather.day}</Text>
             <Text style={styles.cityText}>{weather.city}</Text>
             <View style={styles.weatherIcon}>
-              <Icon name={weather.icon} size={32} color={constants.black1} />
+              <Icon
+                name={getWeatherIcon(weather.icon)}
+                size={32}
+                color={constants.black1}
+              />
             </View>
             <Text style={styles.tempText}>
               {weather.tempC}
