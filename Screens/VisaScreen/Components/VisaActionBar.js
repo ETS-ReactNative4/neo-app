@@ -9,7 +9,7 @@ import { isIphoneX } from "react-native-iphone-x-helper";
 const VisaActionBar = ({ isVisaOnArrival, navigation }) => {
   return (
     <View style={styles.visaActionContainer}>
-      {true || !isVisaOnArrival ? (
+      {!isVisaOnArrival ? (
         <SimpleButton
           text={"View checklist"}
           action={() => navigation.navigate("VisaChecklist")}
