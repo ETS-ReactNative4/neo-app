@@ -34,6 +34,7 @@ import moment from "moment";
 
 @inject("placesStore")
 @inject("itineraries")
+@inject("infoStore")
 @observer
 class NearBy extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -109,8 +110,16 @@ class NearBy extends Component {
       isSortVisible: false,
       isFilterVisible: false,
       lat: "",
-      lng: ""
+      lng: "",
+      isTripActive: false
     };
+    const today = moment();
+    const dateDifference = this.props.itineraries.firstDay.diff(today, "days");
+    if (dateDifference < 1) {
+      this.setState({
+        isTripActive: true
+      });
+    }
   }
 
   componentDidMount() {
@@ -126,9 +135,16 @@ class NearBy extends Component {
   };
 
   toggleSort = () => {
-    this.setState({
-      isSortVisible: !this.state.isSortVisible
-    });
+    if (this.state.isTripActive) {
+      this.setState({
+        isSortVisible: !this.state.isSortVisible
+      });
+    } else {
+      this.props.infoStore.setInfo(
+        "Not yet there...",
+        "Sort options will be available once you have started your trip!"
+      );
+    }
   };
 
   selectFilter = index => {
