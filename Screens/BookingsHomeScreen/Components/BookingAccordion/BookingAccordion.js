@@ -20,6 +20,7 @@ import Icon from "../../../../CommonComponents/Icon/Icon";
 import FlightsSection from "./Components/FlightsSection";
 import PassSection from "./Components/PassSection";
 import FerriesSection from "./Components/FerriesSection";
+import RentalCarSection from "./Components/RentalCarSection";
 
 @inject("itineraries")
 @observer
@@ -100,7 +101,6 @@ class BookingAccordion extends Component {
   _renderContent = (section, index, isActive, sections) => {
     const { navigation } = this.props;
     const customStyle = {};
-
     switch (section.type) {
       case "Hotels":
         return <HotelSection navigation={navigation} section={section} />;
@@ -122,6 +122,9 @@ class BookingAccordion extends Component {
 
       case "Passes":
         return <PassSection section={section} navigation={navigation} />;
+
+      case "Rental Cars":
+        return <RentalCarSection navigation={navigation} section={section} />;
 
       default:
         return (
@@ -229,10 +232,19 @@ class BookingAccordion extends Component {
     if (ferries.length) {
       const ferriesSection = {
         type: "Ferries",
-        icon: constants.notificationIcon,
+        icon: constants.activityIcon,
         items: ferries
       };
       sections.push(ferriesSection);
+    }
+
+    if (rentals.length) {
+      const rentalsSection = {
+        type: "Rental Cars",
+        icon: constants.activityIcon,
+        items: rentals
+      };
+      sections.push(rentalsSection);
     }
 
     if (visa.length) {

@@ -65,7 +65,9 @@ class TransferVoucher extends Component {
       pickupTime,
       bookedTime,
       bookingId,
-      contactNumber
+      contactNumber,
+      from,
+      to
     } = transfer.voucher;
 
     const xHeight = isIphoneX()
@@ -100,13 +102,21 @@ class TransferVoucher extends Component {
         name: "Arrival at",
         value: drop || "NA"
       },
-      {
-        name: "Arrival time",
-        value: arrivalTime && arrivalTime !== -1 ? arrivalTime : "NA 00:00 am"
-      },
+      vehicle === "Rental Car"
+        ? null
+        : {
+            name: "Arrival time",
+            value:
+              arrivalTime && arrivalTime !== -1
+                ? moment(arrivalTime).format("hh:mm a")
+                : "NA"
+          },
       {
         name: "Pickup time",
-        value: moment(pickupTime).format("hh:mm a")
+        value:
+          pickupTime && pickupTime !== -1
+            ? moment(pickupTime).format("hh:mm a")
+            : "NA"
       },
       {
         name: "Meeting point",
@@ -120,7 +130,14 @@ class TransferVoucher extends Component {
       },
       {
         name: "Total Paid",
-        value: publishedCost ? getLocaleString(publishedCost) : "NA"
+        value:
+          vehicle === "Rental Car"
+            ? totalCost
+              ? getLocaleString(totalCost)
+              : "NA"
+            : publishedCost
+              ? getLocaleString(publishedCost)
+              : "NA"
       },
       {
         name: "Booking Source",

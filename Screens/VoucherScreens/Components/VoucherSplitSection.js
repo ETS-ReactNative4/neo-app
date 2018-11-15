@@ -9,6 +9,7 @@ const VoucherSplitSection = ({ sections, containerStyle }) => {
   return (
     <View style={[styles.splitSection, containerStyle]}>
       {sections.map((section, index) => {
+        if (!section) return null;
         return (
           <View key={index} style={styles.textRowWrapper}>
             <Text style={styles.sectionName}>{section.name}</Text>

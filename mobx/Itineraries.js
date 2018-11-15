@@ -426,9 +426,14 @@ class Itineraries {
     try {
       const rentalRefs = this._selectedItinerary.allRentalCostingRefs;
       rentals = rentalRefs.map(ref => {
-        return toJS(
-          this._selectedItinerary.rentalCostings.rentalCostingById[ref]
+        const rental = toJS(
+          this._selectedItinerary.rentalCarCostings.rentalCostingById[ref]
         );
+        rental.voucher =
+          storeService.voucherStore.getRentalCarVoucherById(
+            rental.rcCostingId || rental.dbRef
+          ) || {};
+        return rental;
       });
     } catch (e) {
       logError(e);
