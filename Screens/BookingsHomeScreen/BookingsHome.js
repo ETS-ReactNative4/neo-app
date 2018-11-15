@@ -50,7 +50,9 @@ class BookingsHome extends Component {
           constants.getFinalVoucherDownloadUrl.replace(
             ":itineraryId",
             selectedItineraryId
-          )
+          ),
+          {},
+          "GET"
         )
           .then(response => {
             this.setState({

@@ -33,7 +33,11 @@ class Visa {
   @action
   _getVisaDetailsFromAPI = itineraryId => {
     this._isLoading = true;
-    apiCall(constants.getVisaDetails.replace(":itineraryId", itineraryId), {})
+    apiCall(
+      constants.getVisaDetails.replace(":itineraryId", itineraryId),
+      {},
+      "GET"
+    )
       .then(response => {
         this._isLoading = false;
         if (response.status === "SUCCESS") {

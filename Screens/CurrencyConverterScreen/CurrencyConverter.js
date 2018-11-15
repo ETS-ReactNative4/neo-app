@@ -27,7 +27,16 @@ class CurrencyConverter extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
       header: (
-        <CommonHeader title={"Currency Calculator"} navigation={navigation} />
+        <CommonHeader
+          leftAction={() => {
+            Keyboard.dismiss();
+            setTimeout(() => {
+              navigation.goBack();
+            }, 500);
+          }}
+          title={"Currency Calculator"}
+          navigation={navigation}
+        />
       )
     };
   };

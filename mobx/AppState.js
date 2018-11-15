@@ -177,7 +177,11 @@ class AppState {
 
   @action
   _getCurrencyByItineraryId = itineraryId => {
-    apiCall(`${constants.getCurrencyList}?itineraryId=${itineraryId}`)
+    apiCall(
+      `${constants.getCurrencyList}?itineraryId=${itineraryId}`,
+      {},
+      "GET"
+    )
       .then(response => {
         if (response.status === "SUCCESS") {
           // set(
@@ -185,10 +189,19 @@ class AppState {
           //   `${itineraryId}`,
           //   response.data.map(each => each.toUpperCase())
           // );
+          let currencyArray = [];
           const currencies = toJS(this._currencies);
-          currencies[itineraryId] = response.data.map(each =>
-            each.toUpperCase()
-          );
+          for (let key in response.data) {
+            if (response.data.hasOwnProperty(key)) {
+              const country = response.data[key];
+              currencyArray.push(country.default.toUpperCase());
+              currencyArray = [
+                ...currencyArray,
+                ...country.others.map(each => each.toUpperCase())
+              ];
+            }
+          }
+          currencies[itineraryId] = currencyArray;
           this._currencies = currencies;
         } else {
           DebouncedAlert("Error!", "Unable to retrieve currency details!");
