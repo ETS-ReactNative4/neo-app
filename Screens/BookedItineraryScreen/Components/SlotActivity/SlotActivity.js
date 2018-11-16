@@ -18,12 +18,10 @@ const SlotActivity = inject("itineraries")(
     let imageObject;
     let cityCardData;
     switch (activity.type) {
-      /**
-       * TODO: Get City ID in international Arrive
-       */
       case "INTERNATIONAL_ARRIVE":
+        const cityImage = itineraries.cities[0].cityObject.image;
         cityCardData = {
-          cityImage: constants.splashBackground,
+          cityImage: { uri: cityImage },
           action: () => null,
           cityName: activity.arrivalSlotDetail.airportCity,
           activityText: activity.arrivalSlotDetail.transferIndicatorText
@@ -33,9 +31,8 @@ const SlotActivity = inject("itineraries")(
       case "INTERCITY_TRANSFER":
         cityCardData = {
           cityImage: {
-            uri:
-              constants.cityImageBaseUrl +
-              getCityById(activity.intercityTransferSlotDetailVO.toCity).image
+            uri: getCityById(activity.intercityTransferSlotDetailVO.toCity)
+              .image
           },
           action: () => null,
           cityName: getCityById(activity.intercityTransferSlotDetailVO.toCity)
@@ -49,9 +46,8 @@ const SlotActivity = inject("itineraries")(
       case "ACTIVITY_WITH_TRANSFER":
         cityCardData = {
           cityImage: {
-            uri:
-              constants.cityImageBaseUrl +
-              getCityById(activity.intercityTransferSlotDetailVO.toCity).image
+            uri: getCityById(activity.intercityTransferSlotDetailVO.toCity)
+              .image
           },
           action: () => null,
           cityName: getCityById(activity.intercityTransferSlotDetailVO.toCity)
