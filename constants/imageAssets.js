@@ -17,6 +17,7 @@ const imageAssets = {
   backArrow: require("../assets/images/icons/left-arrow.png"),
   dropDownArrow: require("../assets/images/icons/drop-down-arrow.png"),
   closeIcon: "close",
+  userIcon: "account",
   loadingIcon: require("../assets/images/loaders/loader.gif"),
   bookingProcessingIcon: require("../assets/images/loaders/bookingProcessing.gif"),
   hamburgerIcon: require("../assets/images/icons/menu.png"),

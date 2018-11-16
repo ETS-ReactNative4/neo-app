@@ -8,7 +8,7 @@ const PassengerName = ({ name, secondaryText }) => {
   return (
     <View style={styles.userDetails}>
       <View style={styles.userIcon}>
-        <Icon name={constants.trainIcon} color={"black"} size={16} />
+        <Icon name={constants.userIcon} color={"black"} size={16} />
       </View>
       <View style={styles.userNameWrapper}>
         <Text numberOfLines={2} ellipsizeMode={"tail"} style={styles.userName}>
