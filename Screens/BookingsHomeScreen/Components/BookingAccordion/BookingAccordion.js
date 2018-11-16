@@ -39,7 +39,7 @@ class BookingAccordion extends Component {
     if (isActive) customStyle.borderBottomWidth = 0;
 
     const bookingProcessingCount = section.items.reduce((count, item) => {
-      if (item.voucher && !item.voucher.booked) {
+      if (item.voucher && !(item.voucher.booked || item.voucher.self)) {
         count++;
       }
       return count;

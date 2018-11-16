@@ -43,7 +43,7 @@ const Activities = ({ activity, isLast, navigation }) => {
   }
 
   const openVoucher = () => {
-    if (activity.voucher.booked) {
+    if (activity.voucher.booked || activity.voucher.self) {
       navigation.navigate("ActivityVoucher", { activity });
     } else {
       storeService.infoStore.setInfo(
@@ -91,7 +91,9 @@ const Activities = ({ activity, isLast, navigation }) => {
           </Text>
         </View>
       </View>
-      <SectionRightPlaceHolder isProcessing={!activity.voucher.booked} />
+      <SectionRightPlaceHolder
+        isProcessing={!(activity.voucher.booked || activity.voucher.self)}
+      />
     </TouchableOpacity>
   );
 };
