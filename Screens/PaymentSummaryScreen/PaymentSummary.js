@@ -162,21 +162,21 @@ class PaymentSummary extends Component {
         value: this.state.tripId
       }
     ];
+    const { paymentInfo } = this.state;
 
-    const paymentOptions = this.state.paymentInfo.reduce(
-      (detailsArray, amount) => {
-        if (amount.paymentStatus === "PENDING") {
-          const data = {
-            amount: `₹ ${amount.paymentAmount}`,
-            percentage: `${amount.percent}% of total cost`,
-            action: () => this.initiatePayment(amount.paymentType)
-          };
-          detailsArray.push(data);
-        }
-        return detailsArray;
-      },
-      []
-    );
+    const paymentOptions = paymentInfo.productPayments
+      ? paymentInfo.productPayments.reduce((detailsArray, amount) => {
+          if (amount.paymentStatus === "PENDING") {
+            const data = {
+              amount: `₹ ${amount.paymentAmount}`,
+              percentage: `${amount.percent}% of total cost`,
+              action: () => this.initiatePayment(amount.paymentType)
+            };
+            detailsArray.push(data);
+          }
+          return detailsArray;
+        }, [])
+      : [];
 
     let amountDetails = [
       {
