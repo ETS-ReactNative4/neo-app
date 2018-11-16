@@ -40,10 +40,10 @@ const ToolStack = createStackNavigator(
     Weather: {
       screen: Weather
     },
-    Places: {
+    ToolPlaces: {
       screen: Places
     },
-    NearBy: {
+    ToolNearBy: {
       screen: NearBy
     },
     Visa: {

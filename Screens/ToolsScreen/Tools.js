@@ -20,7 +20,11 @@ class Tools extends Component {
       return {
         title: city.city,
         image: { uri: city.cityObject.image },
-        action: () => this.props.navigation.navigate("Places", { city })
+        action: () =>
+          this.props.navigation.navigate("ToolPlaces", {
+            city,
+            target: "ToolNearBy"
+          })
       };
     });
 

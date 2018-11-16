@@ -13,30 +13,41 @@ import _ from "lodash";
 
 const SlotActivity = inject("itineraries")(
   observer(({ activity, navigation, itineraries, activityIndex, day }) => {
-    const { getActivityById, getCityById } = itineraries;
+    const { getActivityById, getCityById, cities } = itineraries;
     let onClick = () => null;
     let imageObject;
     let cityCardData;
+    let city, currentCity;
     switch (activity.type) {
       case "INTERNATIONAL_ARRIVE":
-        const cityImage = itineraries.cities[0].cityObject.image;
+        currentCity = itineraries.cities[0];
         cityCardData = {
-          cityImage: { uri: cityImage },
-          action: () => null,
+          cityImage: { uri: currentCity.cityObject.image },
+          action: () =>
+            navigation.navigate("BookedPlaces", {
+              city: currentCity,
+              target: "BookedNearBy"
+            }),
           cityName: activity.arrivalSlotDetail.airportCity,
           activityText: activity.arrivalSlotDetail.transferIndicatorText
         };
         break;
 
       case "INTERCITY_TRANSFER":
+        currentCity = getCityById(
+          activity.intercityTransferSlotDetailVO.toCity
+        );
+        city = _.find(cities, { city: currentCity.cityName });
         cityCardData = {
           cityImage: {
-            uri: getCityById(activity.intercityTransferSlotDetailVO.toCity)
-              .image
+            uri: currentCity.image
           },
-          action: () => null,
-          cityName: getCityById(activity.intercityTransferSlotDetailVO.toCity)
-            .cityName,
+          action: () =>
+            navigation.navigate("BookedPlaces", {
+              city,
+              target: "BookedNearBy"
+            }),
+          cityName: currentCity.cityName,
           activityText:
             activity.intercityTransferSlotDetailVO.directTransferDetail
               .transferIndicatorText
@@ -44,14 +55,20 @@ const SlotActivity = inject("itineraries")(
         break;
 
       case "ACTIVITY_WITH_TRANSFER":
+        currentCity = getCityById(
+          activity.intercityTransferSlotDetailVO.toCity
+        );
+        city = _.find(cities, { city: currentCity.cityName });
         cityCardData = {
           cityImage: {
-            uri: getCityById(activity.intercityTransferSlotDetailVO.toCity)
-              .image
+            uri: currentCity.image
           },
-          action: () => null,
-          cityName: getCityById(activity.intercityTransferSlotDetailVO.toCity)
-            .cityName,
+          action: () =>
+            navigation.navigate("BookedPlaces", {
+              city,
+              target: "BookedNearBy"
+            }),
+          cityName: currentCity.cityName,
           activityText:
             activity.intercityTransferSlotDetailVO.directTransferDetail
               .transferIndicatorText

@@ -49,6 +49,7 @@ class Places extends Component {
     const { categories } = this.props.placesStore;
     const categorySections = Object.keys(categories);
     const city = this.props.navigation.getParam("city", {});
+    const target = this.props.navigation.getParam("target", "");
 
     return (
       <ScrollView style={styles.placesContainer}>
@@ -67,13 +68,13 @@ class Places extends Component {
                     <PlaceCard
                       key={itemIndex}
                       image={{ uri: item.image }}
-                      action={() =>
-                        this.props.navigation.navigate("NearBy", {
+                      action={() => {
+                        this.props.navigation.navigate(target, {
                           title: item.category,
                           city,
                           searchQuery: `${item.category} in ${city.city}`
-                        })
-                      }
+                        });
+                      }}
                       title={item.category}
                     />
                   );
