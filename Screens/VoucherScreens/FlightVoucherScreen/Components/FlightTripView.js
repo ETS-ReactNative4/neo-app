@@ -11,7 +11,8 @@ class FlightTripView extends Component {
   static propTypes = forbidExtraProps({
     trip: PropTypes.object.isRequired,
     isLast: PropTypes.bool.isRequired,
-    airlineCode: PropTypes.string.isRequired
+    airlineCode: PropTypes.string.isRequired,
+    webCheckInUrl: PropTypes.string.isRequired
   });
 
   state = {
@@ -27,7 +28,7 @@ class FlightTripView extends Component {
   render() {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
 
-    const { isLast, airlineCode } = this.props;
+    const { isLast, airlineCode, webCheckInUrl } = this.props;
     const { routes, flightClass, flyTime } = this.props.trip;
     const containerStyle = [
       styles.flightTripViewContainer,
@@ -93,7 +94,7 @@ class FlightTripView extends Component {
             airlineCode={airlineCode}
             freeCabinBaggage={freeCabinBaggage}
           />
-          <FlightActionSection />
+          <FlightActionSection webCheckInUrl={webCheckInUrl} />
         </View>
       );
     }

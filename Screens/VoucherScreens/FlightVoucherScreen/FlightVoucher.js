@@ -52,6 +52,7 @@ class FlightVoucher extends Component {
       totalCost,
       invoiceNumber,
       bookingReferenceId,
+      webCheckInUrl,
       refundable
     } = flight.voucher;
     const { trips, allTrips, airlineCode } = flight;
@@ -126,6 +127,7 @@ class FlightVoucher extends Component {
           {tripDetails.map((trip, tripIndex) => {
             return (
               <FlightTripView
+                webCheckInUrl={webCheckInUrl}
                 key={tripIndex}
                 trip={trip}
                 airlineCode={airlineCode}
