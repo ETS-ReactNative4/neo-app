@@ -52,7 +52,10 @@ class FlightTripView extends Component {
         depDateOfMonth,
         departureAirportCode,
         departureTime,
-        freeCabinBaggage
+        freeCabinBaggage,
+        freeCheckInBaggage,
+        departureAirportName,
+        departureCity
       } = routes[0];
 
       const {
@@ -61,7 +64,8 @@ class FlightTripView extends Component {
         arrDateOfMonth,
         arrivalAirportCode,
         arrivalTime,
-        arrivalCity
+        arrivalCity,
+        arrivalAirportName
       } = routes[routes.length - 1];
 
       const departure = `${departureDayOfWeek}, ${depDateOfMonth} ${depMonth}`;
@@ -93,6 +97,11 @@ class FlightTripView extends Component {
             flightClass={flightClass}
             airlineCode={airlineCode}
             freeCabinBaggage={freeCabinBaggage}
+            freeCheckInBaggage={freeCheckInBaggage}
+            departureAirportName={departureAirportName}
+            departureCity={departureCity}
+            arrivalCity={arrivalCity}
+            arrivalAirportName={arrivalAirportName}
           />
           <FlightActionSection webCheckInUrl={webCheckInUrl} />
         </View>
@@ -115,9 +124,13 @@ class FlightTripView extends Component {
             arrivalAirportCode,
             departureTime,
             arrivalTime,
+            departureAirportName,
+            departureCity,
             arrivalCity,
+            arrivalAirportName,
             layoverTime,
-            freeCabinBaggage
+            freeCabinBaggage,
+            freeCheckInBaggage
           } = route;
           const departure = `${departureDayOfWeek}, ${depDateOfMonth} ${depMonth}`;
           const departureText = `${departureAirportCode} ${departureTime.slice(
@@ -153,9 +166,14 @@ class FlightTripView extends Component {
                   flightClass={flightClass}
                   airlineCode={airlineCode}
                   freeCabinBaggage={freeCabinBaggage}
+                  freeCheckInBaggage={freeCheckInBaggage}
+                  departureAirportName={departureAirportName}
+                  departureCity={departureCity}
+                  arrivalCity={arrivalCity}
+                  arrivalAirportName={arrivalAirportName}
                 />,
                 routeIndex < routes.length - 1 ? (
-                  <FlightActionSection key={1} />
+                  <FlightActionSection key={1} webCheckInUrl={webCheckInUrl} />
                 ) : null,
                 routeIndex < routes.length - 1 ? (
                   <FlightDivider

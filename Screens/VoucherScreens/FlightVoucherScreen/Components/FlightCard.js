@@ -21,7 +21,12 @@ const FlightCard = ({
   toggleCard,
   flightClass,
   airlineCode,
-  freeCabinBaggage
+  freeCabinBaggage,
+  freeCheckInBaggage,
+  departureAirportName,
+  departureCity,
+  arrivalCity,
+  arrivalAirportName
 }) => {
   const airlineLogo = constants.getAirlineIcon(airlineCode);
 
@@ -55,9 +60,12 @@ const FlightCard = ({
             ellipsizeMode={"tail"}
             style={styles.airportAddress}
           >
-            {"AIRPORT addr NA"}
+            {`${departureAirportName ? `${departureAirportName}, ` : ""}${
+              departureCity ? departureCity : ""
+            }`}
           </Text>
           <Text style={styles.baggageText}>Cabin Baggage</Text>
+          <Text style={styles.baggageText}>Free Checkin Baggage</Text>
         </View>
         <View style={styles.timingMiddle}>
           <Icon size={24} name={constants.clockIcon} color={constants.shade2} />
@@ -86,9 +94,12 @@ const FlightCard = ({
             ellipsizeMode={"tail"}
             style={styles.airportAddress}
           >
-            {"AIRPORT addr NA"}
+            {`${arrivalAirportName ? `${arrivalAirportName}, ` : ""}${
+              arrivalCity ? arrivalCity : ""
+            }`}
           </Text>
           <Text style={styles.baggageWeight}>{freeCabinBaggage || "NA"}</Text>
+          <Text style={styles.baggageWeight}>{freeCheckInBaggage || "NA"}</Text>
         </View>
       </View>
     </View>
@@ -109,7 +120,12 @@ FlightCard.propTypes = forbidExtraProps({
   toggleCard: PropTypes.func.isRequired,
   flightClass: PropTypes.string.isRequired,
   airlineCode: PropTypes.string.isRequired,
-  freeCabinBaggage: PropTypes.string.isRequired
+  freeCabinBaggage: PropTypes.string.isRequired,
+  freeCheckInBaggage: PropTypes.string.isRequired,
+  departureAirportName: PropTypes.string.isRequired,
+  departureCity: PropTypes.string.isRequired,
+  arrivalCity: PropTypes.string.isRequired,
+  arrivalAirportName: PropTypes.string.isRequired
 });
 
 const styles = StyleSheet.create({
@@ -159,8 +175,8 @@ const styles = StyleSheet.create({
     color: constants.shade2
   },
   flightTimingsSection: {
-    marginTop: 8,
-    height: 112,
+    marginVertical: 8,
+    minHeight: 112,
     flexDirection: "row"
   },
   timingLeft: {

@@ -14,7 +14,10 @@ import SectionHeader from "../../../CommonComponents/SectionHeader/SectionHeader
 import PassengerName from "../HotelVoucherScreen/Components/PassengerName";
 import VoucherSplitSection from "../Components/VoucherSplitSection";
 import IosCloseButton from "../Components/IosCloseButton";
+import { inject, observer } from "mobx-react/custom";
 
+@inject("passportDetailsStore")
+@observer
 class FlightVoucher extends Component {
   static navigationOptions = {
     header: null
@@ -44,7 +47,6 @@ class FlightVoucher extends Component {
      */
     const {
       flyCityText,
-      passengers,
       dateOfIssue,
       cancellationPolicy,
       pnr,
@@ -56,6 +58,8 @@ class FlightVoucher extends Component {
       refundable
     } = flight.voucher;
     const { trips, allTrips, airlineCode } = flight;
+
+    const { getPassengerDetails: passengers } = this.props.passportDetailsStore;
 
     const tripDetails = allTrips.map(trip => {
       return trips[trip];
@@ -144,7 +148,6 @@ class FlightVoucher extends Component {
                   name={`${passenger.salutation}. ${passenger.firstName} ${
                     passenger.lastName
                   }`}
-                  secondaryText={`TICKET NO: ${passenger.ticketNumber}`}
                 />
               );
             })}
