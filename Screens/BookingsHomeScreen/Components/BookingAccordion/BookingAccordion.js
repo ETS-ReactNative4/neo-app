@@ -291,7 +291,14 @@ const styles = StyleSheet.create({
     marginRight: 8
   },
   headerTextWrapper: {
-    height: 20,
+    ...Platform.select({
+      ios: {
+        height: 24
+      },
+      android: {
+        height: 24
+      }
+    }),
     alignItems: "center",
     justifyContent: "center"
   },
@@ -299,7 +306,15 @@ const styles = StyleSheet.create({
     fontFamily: constants.primarySemiBold,
     fontSize: 20,
     lineHeight: 20,
-    color: constants.black1
+    color: constants.black1,
+    ...Platform.select({
+      ios: {
+        marginTop: 4
+      },
+      android: {
+        marginTop: 4
+      }
+    })
   },
   notificationWrapper: {
     flex: 1,
