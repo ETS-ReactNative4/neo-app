@@ -45,7 +45,7 @@ class SupportCenter extends Component {
             resizeMode={"contain"}
             style={styles.supportIllustration}
           />
-          <TicketTile action={() => null} />
+          <TicketTile action={() => navigation.navigate("YourTickets")} />
           {faqSections.map((faqSection, faqIndex) => {
             return (
               <FaqSectionTile
