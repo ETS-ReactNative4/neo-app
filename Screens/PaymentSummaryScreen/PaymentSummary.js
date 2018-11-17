@@ -19,6 +19,7 @@ import Loader from "../../CommonComponents/Loader/Loader";
 import moment from "moment";
 import paymentScript from "./Components/paymentScript";
 import getLocaleString from "../../Services/getLocaleString/getLocaleString";
+import VoucherAccordion from "../VoucherScreens/Components/VoucherAccordion";
 
 /**
  * TODO: Need data from previous api
@@ -163,9 +164,10 @@ class PaymentSummary extends Component {
       }
     ];
     const { paymentInfo } = this.state;
+    const { productPayments, platoPayements } = paymentInfo;
 
-    const paymentOptions = paymentInfo.productPayments
-      ? paymentInfo.productPayments.reduce((detailsArray, amount) => {
+    const paymentOptions = productPayments
+      ? productPayments.reduce((detailsArray, amount) => {
           if (amount.paymentStatus === "PENDING") {
             const data = {
               amount: `₹ ${amount.paymentAmount}`,
@@ -177,6 +179,65 @@ class PaymentSummary extends Component {
           return detailsArray;
         }, [])
       : [];
+
+    const paymentHistory = productPayments
+      ? productPayments.reduce((detailsArray, amount) => {
+          if (amount.paymentStatus === "SUCCESS") {
+            const data = {
+              paymentAmount: `₹ ${amount.paymentAmount}`,
+              transactionId: amount.transactionId,
+              mode: "PayU",
+              date: amount.paidOn
+            };
+            detailsArray.push(data);
+          }
+          return detailsArray;
+        }, [])
+      : platoPayements &&
+        platoPayements.paidInstallments.reduce((detailsArray, amount) => {
+          detailsArray.push({
+            paymentAmount: getLocaleString(amount.amount),
+            transactionId: amount.transactionId,
+            mode: "Offline",
+            date: moment(amount.paymentTime)
+          });
+          return detailsArray;
+        }, []);
+
+    const paymentLedger = [
+      {
+        name: "Payment History",
+        component: (
+          <View>
+            {paymentHistory.map((payment, paymentIndex) => {
+              const paymentSectionData = [
+                {
+                  name: "Date",
+                  value: payment.date
+                },
+                {
+                  name: "Mode",
+                  value: payment.mode
+                },
+                {
+                  name: "Transaction ID",
+                  value: payment.transactionId
+                },
+                {
+                  name: "Amount",
+                  value: payment.paymentAmount
+                }
+              ];
+              return (
+                <View key={paymentIndex} style={styles.historySplitContainer}>
+                  <VoucherSplitSection sections={paymentSectionData} />
+                </View>
+              );
+            })}
+          </View>
+        )
+      }
+    ];
 
     let amountDetails = [
       {
@@ -285,28 +346,9 @@ class PaymentSummary extends Component {
               </View>
             ]}
 
-        <View style={styles.actionRow}>
-          {/* <SimpleButton
-            text={"Support"}
-            containerStyle={{ width: responsiveWidth(43), borderWidth: 0.5 }}
-            action={() => {}}
-            color={"transparent"}
-            textColor={constants.black2}
-            hasBorder={true}
-            icon={constants.compassIcon}
-            iconSize={16}
-          /> */}
-          <SimpleButton
-            text={"Invoice"}
-            containerStyle={{ width: responsiveWidth(43), borderWidth: 0.5 }}
-            action={() => {}}
-            color={"transparent"}
-            textColor={constants.black2}
-            hasBorder={true}
-            icon={constants.activityIcon}
-            iconSize={16}
-          />
-        </View>
+        {paymentHistory.length ? (
+          <VoucherAccordion sections={paymentLedger} />
+        ) : null}
       </ScrollView>
     );
   }
@@ -369,6 +411,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     paddingVertical: 24
+  },
+  historySplitContainer: {
+    marginTop: 8,
+    borderBottomWidth: 1,
+    borderBottomColor: constants.shade4
   }
 });
 
