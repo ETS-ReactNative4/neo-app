@@ -198,7 +198,7 @@ class BookingAccordion extends Component {
     if (transfers.length) {
       const transferSection = {
         type: "Transfers",
-        icon: constants.trainIcon,
+        icon: constants.transferIcon,
         items: transfers
       };
       sections.push(transferSection);
@@ -207,7 +207,7 @@ class BookingAccordion extends Component {
     if (passes.length) {
       const passesSection = {
         type: "Passes",
-        icon: constants.notificationIcon,
+        icon: constants.passIcon,
         items: passes
       };
       sections.push(passesSection);
@@ -234,7 +234,7 @@ class BookingAccordion extends Component {
     if (ferries.length) {
       const ferriesSection = {
         type: "Ferries",
-        icon: constants.activityIcon,
+        icon: constants.ferryIcon,
         items: ferries
       };
       sections.push(ferriesSection);
@@ -243,7 +243,7 @@ class BookingAccordion extends Component {
     if (rentals.length) {
       const rentalsSection = {
         type: "Rental Cars",
-        icon: constants.activityIcon,
+        icon: constants.carIcon,
         items: rentals
       };
       sections.push(rentalsSection);
@@ -255,7 +255,7 @@ class BookingAccordion extends Component {
        */
       const visaSection = {
         type: "Visa",
-        icon: constants.aeroplaneIcon,
+        icon: constants.visaIcon,
         items: visa
       };
       sections.push(visaSection);
