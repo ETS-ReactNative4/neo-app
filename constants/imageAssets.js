@@ -15,6 +15,7 @@ const imageAssets = {
   pytLogoNew: require("../assets/images/icons/logo_new.png"),
   notificationIcon: require("../assets/images/icons/notification.png"),
   backArrow: require("../assets/images/icons/left-arrow.png"),
+  backIcon: "nav-left",
   dropDownArrow: require("../assets/images/icons/drop-down-arrow.png"),
   closeIcon: "close",
   userIcon: "account",
