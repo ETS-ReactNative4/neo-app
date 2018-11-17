@@ -42,6 +42,7 @@ class Itineraries {
         this.selectedItineraryId
       );
       storeService.visaStore.getVisaDetails(this.selectedItineraryId);
+      storeService.supportStore.loadFaqDetails();
     } else {
       this.getItineraryDetails(itineraryId);
     }
@@ -67,6 +68,7 @@ class Itineraries {
             this.selectedItineraryId
           );
           storeService.visaStore.getVisaDetails(this.selectedItineraryId);
+          storeService.supportStore.loadFaqDetails();
         } else {
           this._loadingError = true;
         }

@@ -14,6 +14,7 @@ import EmergencyContacts from "./EmergencyContacts";
 import PassportDetails from "./PassportDetails";
 import Visa from "./Visa";
 import Places from "./Places";
+import SupportStore from "./SupportStore";
 
 const createStore = () => {
   const appStore = {
@@ -29,7 +30,8 @@ const createStore = () => {
     emergencyContactsStore: new EmergencyContacts(),
     passportDetailsStore: new PassportDetails(),
     visaStore: new Visa(),
-    placesStore: new Places()
+    placesStore: new Places(),
+    supportStore: new SupportStore()
   };
 
   const hydrate = create({
@@ -157,6 +159,11 @@ const createStore = () => {
   //   .catch(err => {
   //     logError(err);
   //   });
+  hydrate("_faqDetails", appStore.supportStore)
+    .then(() => {})
+    .catch(err => {
+      logError(err);
+    });
   return appStore;
 };
 

@@ -9,7 +9,10 @@ import {
   responsiveHeight,
   responsiveWidth
 } from "react-native-responsive-dimensions";
+import { inject, observer } from "mobx-react/custom";
 
+@inject("supportStore")
+@observer
 class SupportCenter extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
@@ -25,30 +28,14 @@ class SupportCenter extends Component {
 
   render() {
     const { navigation } = this.props;
+    const { faqDetails } = this.props.supportStore;
 
-    const faqSections = [
-      {
-        sectionName: "Visa Processing",
-        onClick: () => navigation.navigate("FAQ", { title: "Visa Processing" })
-      },
-      {
-        sectionName: "Cancellation",
-        onClick: () => navigation.navigate("FAQ", { title: "Cancellation" })
-      },
-      {
-        sectionName: "Payment related questions",
-        onClick: () =>
-          navigation.navigate("FAQ", { title: "Payment related questions" })
-      },
-      {
-        sectionName: "Trip feedback",
-        onClick: () => navigation.navigate("FAQ", { title: "Trip feedback" })
-      },
-      {
-        sectionName: "Other",
-        onClick: () => navigation.navigate("FAQ", { title: "Other" })
-      }
-    ];
+    const faqSections = Object.keys(faqDetails).map(faqSection => {
+      return {
+        sectionName: faqSection,
+        onClick: () => navigation.navigate("FAQ", { title: faqSection })
+      };
+    });
 
     return (
       <View style={styles.supportCenterContainer}>
