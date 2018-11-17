@@ -34,7 +34,7 @@ class PaymentSummary extends Component {
   };
 
   state = {
-    paymentInfo: [],
+    paymentInfo: {},
     isLoading: false,
     isPaymentLoading: false,
     itineraryName: "",
@@ -193,16 +193,17 @@ class PaymentSummary extends Component {
           }
           return detailsArray;
         }, [])
-      : platoPayements &&
-        platoPayements.paidInstallments.reduce((detailsArray, amount) => {
-          detailsArray.push({
-            paymentAmount: getLocaleString(amount.amount),
-            transactionId: amount.transactionId,
-            mode: "Offline",
-            date: moment(amount.paymentTime)
-          });
-          return detailsArray;
-        }, []);
+      : platoPayements && platoPayements.paidInstallments
+        ? platoPayments.paidInstallments.reduce((detailsArray, amount) => {
+            detailsArray.push({
+              paymentAmount: getLocaleString(amount.amount),
+              transactionId: amount.transactionId,
+              mode: "Offline",
+              date: moment(amount.paymentTime)
+            });
+            return detailsArray;
+          }, [])
+        : [];
 
     const paymentLedger = [
       {
