@@ -50,16 +50,16 @@ class VoucherAccordion extends Component {
       if (!wasActiveIndex.includes(index)) {
         const spin = spinValue.interpolate({
           inputRange: [0, 1],
-          outputRange: ["0deg", "90deg"]
+          outputRange: ["0deg", "180deg"]
         });
         iconContainer.transform = [{ rotate: spin }];
       } else {
-        iconContainer.transform = [{ rotate: "90deg" }];
+        iconContainer.transform = [{ rotate: "180deg" }];
       }
     } else if (wasActiveIndex.includes(index)) {
       const reverseSpin = spinValue.interpolate({
         inputRange: [0, 1],
-        outputRange: ["90deg", "0deg"]
+        outputRange: ["180deg", "0deg"]
       });
       iconContainer.transform = [{ rotate: reverseSpin }];
     }
@@ -68,11 +68,7 @@ class VoucherAccordion extends Component {
       <View style={[styles.amenitiesSection, customStyle]}>
         <Text style={styles.amenitiesText}>{section.name}</Text>
         <Animated.View style={iconContainer}>
-          <Icon
-            name={constants.arrowRight}
-            color={constants.shade2}
-            size={16}
-          />
+          <Icon name={constants.arrowDown} color={constants.shade2} size={16} />
         </Animated.View>
       </View>
     );
