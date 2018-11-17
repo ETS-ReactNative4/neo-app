@@ -23,7 +23,7 @@ const VisaActionBar = ({ isVisaOnArrival, navigation }) => {
       ) : null}
       <SimpleButton
         text={"Contact helpdesk"}
-        action={() => navigation.navigate("FAQ", { title: "Visa Processing" })}
+        action={() => navigation.navigate("FAQ", { title: "Visa Related" })}
         textColor={constants.black2}
         containerStyle={{ backgroundColor: "white", marginHorizontal: 4 }}
         hasBorder={true}
