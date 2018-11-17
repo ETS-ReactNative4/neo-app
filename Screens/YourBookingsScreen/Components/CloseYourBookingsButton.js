@@ -8,7 +8,7 @@ import Icon from "../../../CommonComponents/Icon/Icon";
 
 const resetAction = StackActions.reset({
   index: 0,
-  actions: [NavigationActions.navigate({ routeName: "Itineraries" })]
+  actions: [NavigationActions.navigate({ routeName: "AppHome" })]
 });
 
 @inject("appState")
@@ -41,9 +41,11 @@ class CloseYourBookingsButton extends Component {
     const { activeScenes } = this.props.appState;
     const previousScene = activeScenes[activeScenes.length - 2];
     if (!previousScene) {
+      this.props.appState.setTripMode(false, "reset");
       this.props.navigation.dispatch(resetAction);
     } else if (previousScene.route.routeName === "MobileNumber") {
       // might not need this check
+      this.props.appState.setTripMode(false, "reset");
       this.props.navigation.dispatch(resetAction);
     } else {
       this.props.navigation.goBack();

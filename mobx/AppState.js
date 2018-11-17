@@ -46,11 +46,13 @@ class AppState {
         );
       }
     } else {
-      navigationService.navigation.dispatch(
-        NavigationActions.navigate({
-          routeName: "NewItineraryStack"
-        })
-      );
+      if (mode !== "reset") {
+        navigationService.navigation.dispatch(
+          NavigationActions.navigate({
+            routeName: "NewItineraryStack"
+          })
+        );
+      }
     }
     this._tripMode.status = status;
   };
