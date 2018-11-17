@@ -6,6 +6,9 @@ import SimpleButton from "../../../../CommonComponents/SimpleButton/SimpleButton
 import PropTypes from "prop-types";
 import forbidExtraProps from "../../../../Services/PropTypeValidation/forbidExtraProps";
 import FastImage from "react-native-fast-image";
+import getLocaleString from "../../../../Services/getLocaleString/getLocaleString";
+import VoucherSplitSection from "../../Components/VoucherSplitSection";
+import VoucherAccordion from "../../Components/VoucherAccordion";
 
 const FlightCard = ({
   isFirst,
@@ -26,10 +29,60 @@ const FlightCard = ({
   departureAirportName,
   departureCity,
   arrivalCity,
-  arrivalAirportName
+  arrivalAirportName,
+  excessBaggageInfo,
+  departureAirportCode,
+  arrivalAirportCode
 }) => {
   const airlineLogo = constants.getAirlineIcon(airlineCode);
+  let baggageList =
+    excessBaggageInfo.available && excessBaggageInfo.excessBaggages.length
+      ? excessBaggageInfo.excessBaggages.map(baggage => {
+          return {
+            baggageOptions: baggage.baggageOptions,
+            departure: baggage.origin,
+            arrival: baggage.destination
+          };
+        })
+      : [];
+  baggageList = baggageList.filter(baggage => {
+    if (
+      baggage.departure === departureAirportCode &&
+      baggage.arrival === arrivalAirportCode
+    ) {
+      return true;
+    }
+    return false;
+  });
 
+  const baggageOptions = [
+    {
+      name: "Baggage Info",
+      component: (
+        <View>
+          {baggageList.length
+            ? baggageList[0].baggageOptions.map((baggage, baggageIndex) => {
+                const baggageSectionData = [
+                  {
+                    name: "Weight",
+                    value: `${baggage.weight} kg`
+                  },
+                  {
+                    name: "Price",
+                    value: getLocaleString(baggage.price)
+                  }
+                ];
+                return (
+                  <View key={baggageIndex} style={styles.baggageSplitContainer}>
+                    <VoucherSplitSection sections={baggageSectionData} />
+                  </View>
+                );
+              })
+            : null}
+        </View>
+      )
+    }
+  ];
   return (
     <View style={styles.flightCard}>
       {isFirst ? <Text style={styles.flightRoute}>{flightRoute}</Text> : null}
@@ -64,8 +117,8 @@ const FlightCard = ({
               departureCity ? departureCity : ""
             }`}
           </Text>
-          <Text style={styles.baggageText}>Cabin Baggage</Text>
-          <Text style={styles.baggageText}>Free Checkin Baggage</Text>
+          {/*<Text style={styles.baggageText}>Cabin Baggage</Text>*/}
+          {/*<Text style={styles.baggageText}>Free Checkin Baggage</Text>*/}
         </View>
         <View style={styles.timingMiddle}>
           <Icon size={24} name={constants.clockIcon} color={constants.shade2} />
@@ -92,16 +145,19 @@ const FlightCard = ({
           <Text
             numberOfLines={2}
             ellipsizeMode={"tail"}
-            style={styles.airportAddress}
+            style={[styles.airportAddress, styles.addressRight]}
           >
             {`${arrivalAirportName ? `${arrivalAirportName}, ` : ""}${
               arrivalCity ? arrivalCity : ""
             }`}
           </Text>
-          <Text style={styles.baggageWeight}>{freeCabinBaggage || "NA"}</Text>
-          <Text style={styles.baggageWeight}>{freeCheckInBaggage || "NA"}</Text>
+          {/*<Text style={styles.baggageWeight}>{freeCabinBaggage || "NA"}</Text>*/}
+          {/*<Text style={styles.baggageWeight}>{freeCheckInBaggage || "NA"}</Text>*/}
         </View>
       </View>
+      {baggageList.length ? (
+        <VoucherAccordion sections={baggageOptions} />
+      ) : null}
     </View>
   );
 };
@@ -125,11 +181,18 @@ FlightCard.propTypes = forbidExtraProps({
   departureAirportName: PropTypes.string.isRequired,
   departureCity: PropTypes.string.isRequired,
   arrivalCity: PropTypes.string.isRequired,
-  arrivalAirportName: PropTypes.string.isRequired
+  arrivalAirportName: PropTypes.string.isRequired,
+  departureAirportCode: PropTypes.string.isRequired,
+  arrivalAirportCode: PropTypes.string.isRequired
 });
 
 const styles = StyleSheet.create({
   flightCard: {},
+  baggageSplitContainer: {
+    borderBottomWidth: 1,
+    borderBottomColor: constants.shade4,
+    marginBottom: 18
+  },
   flightRoute: {
     ...constants.font17(constants.primarySemiBold),
     color: constants.black1
@@ -176,7 +239,7 @@ const styles = StyleSheet.create({
   },
   flightTimingsSection: {
     marginVertical: 8,
-    minHeight: 112,
+    minHeight: 96,
     flexDirection: "row"
   },
   timingLeft: {
@@ -211,6 +274,9 @@ const styles = StyleSheet.create({
     fontFamily: constants.primaryLight,
     fontSize: 10,
     color: constants.black2
+  },
+  addressRight: {
+    textAlign: "right"
   },
   baggageText: {
     marginTop: 8,

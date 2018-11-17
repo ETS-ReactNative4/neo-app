@@ -12,7 +12,8 @@ class FlightTripView extends Component {
     trip: PropTypes.object.isRequired,
     isLast: PropTypes.bool.isRequired,
     airlineCode: PropTypes.string.isRequired,
-    webCheckInUrl: PropTypes.string.isRequired
+    webCheckInUrl: PropTypes.string.isRequired,
+    excessBaggageInfo: PropTypes.string.isRequired
   });
 
   state = {
@@ -28,7 +29,12 @@ class FlightTripView extends Component {
   render() {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
 
-    const { isLast, airlineCode, webCheckInUrl } = this.props;
+    const {
+      isLast,
+      airlineCode,
+      webCheckInUrl,
+      excessBaggageInfo
+    } = this.props;
     const { routes, flightClass, flyTime } = this.props.trip;
     const containerStyle = [
       styles.flightTripViewContainer,
@@ -102,6 +108,9 @@ class FlightTripView extends Component {
             departureCity={departureCity}
             arrivalCity={arrivalCity}
             arrivalAirportName={arrivalAirportName}
+            excessBaggageInfo={excessBaggageInfo}
+            departureAirportCode={departureAirportCode}
+            arrivalAirportCode={arrivalAirportCode}
           />
           <FlightActionSection webCheckInUrl={webCheckInUrl} />
         </View>
@@ -171,6 +180,9 @@ class FlightTripView extends Component {
                   departureCity={departureCity}
                   arrivalCity={arrivalCity}
                   arrivalAirportName={arrivalAirportName}
+                  excessBaggageInfo={excessBaggageInfo}
+                  departureAirportCode={departureAirportCode}
+                  arrivalAirportCode={arrivalAirportCode}
                 />,
                 routeIndex < routes.length - 1 ? (
                   <FlightActionSection key={1} webCheckInUrl={webCheckInUrl} />

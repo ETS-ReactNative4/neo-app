@@ -29,6 +29,7 @@ const apiUrls = {
   sendVisaDocs: "mobile/sendVisaDocs",
   getPaymentMeta: "mobile/booked/itinerary/paymentMetaInfo",
   getPaymentInfo: "mobile/:itineraryId/paymentInfo",
+  getFaq: "mobile/getFAQ",
   initiatePayment: "api/payment/initiatepayment",
 
   customCheckListName: "Your list",

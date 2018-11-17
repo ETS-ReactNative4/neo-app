@@ -57,7 +57,7 @@ class FlightVoucher extends Component {
       webCheckInUrl,
       refundable
     } = flight.voucher;
-    const { trips, allTrips, airlineCode } = flight;
+    const { trips, allTrips, airlineCode, excessBaggageInfo } = flight;
 
     const { getPassengerDetails: passengers } = this.props.passportDetailsStore;
 
@@ -131,6 +131,7 @@ class FlightVoucher extends Component {
           {tripDetails.map((trip, tripIndex) => {
             return (
               <FlightTripView
+                excessBaggageInfo={excessBaggageInfo}
                 webCheckInUrl={webCheckInUrl}
                 key={tripIndex}
                 trip={trip}
