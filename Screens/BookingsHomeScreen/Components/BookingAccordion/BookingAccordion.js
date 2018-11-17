@@ -87,11 +87,13 @@ class BookingAccordion extends Component {
               />
             ]
           ) : (
-            <Image
-              source={constants.dropDownArrow}
-              resizeMode={"contain"}
-              style={styles.accordionDownArrow}
-            />
+            <View style={styles.accordionDownArrowContainer}>
+              <Icon
+                name={constants.arrowDown}
+                color={constants.black1}
+                size={17}
+              />
+            </View>
           )}
         </View>
       </View>
@@ -325,9 +327,8 @@ const styles = StyleSheet.create({
       }
     })
   },
-  accordionDownArrow: {
-    height: 17,
-    width: 17
+  accordionDownArrowContainer: {
+    // transform: [{rotate: '180deg'}]
   },
 
   contentContainer: {
