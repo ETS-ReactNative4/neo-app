@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
   },
   distanceText: {
     ...constants.fontCustom(constants.primarySemiBold, 13),
-    color: "rgba(74,144,226,1)"
+    color: constants.eighthColor
   },
   detailedText: {
     fontSize: 15,
@@ -174,7 +174,7 @@ const styles = StyleSheet.create({
   },
   detailedDistanceText: {
     ...constants.fontCustom(constants.primaryLight, 15),
-    color: "rgba(74,144,226,1)"
+    color: constants.eighthColor
   },
   statusContainer: {
     height: 16,

@@ -28,6 +28,8 @@ import moment from "moment";
 import TitleDate from "../Components/TitleDate";
 import getLocaleString from "../../../Services/getLocaleString/getLocaleString";
 import VoucherAddressSection from "../Components/VoucherAddressSection";
+import PickupInfoBox from "./Components/PickupInfoBox";
+import TransferInfoBox from "./Components/TransferInfoBox";
 
 @inject("passportDetailsStore")
 @observer
@@ -78,9 +80,18 @@ class ActivityVoucher extends Component {
       contactNumber,
       bookedTime,
       activityTime,
-      pickupAddress
+      pickupAddress,
+      self
     } = activity.voucher;
-    const { mainPhoto, title, notes, longDesc, latitude, longitude } = activity;
+    const {
+      mainPhoto,
+      title,
+      notes,
+      longDesc,
+      latitude,
+      longitude,
+      transferIncluded
+    } = activity;
     const {
       ourSourceProvider,
       day,
@@ -100,100 +111,143 @@ class ActivityVoucher extends Component {
       : Platform.OS === "ios"
         ? 20
         : 0;
-    const passengerDetails = [
-      {
-        name: "Booked by",
-        value: leadPassengerName || "NA"
-      },
-      {
-        name: "No. of pax",
-        value: passengerCount || "NA"
-      },
-      {
-        name: "Starts at",
-        value: activityTime ? moment(activityTime).format("hh:mm a") : "NA"
-      },
-      {
-        name: "Duration",
-        value: `${duration} mins`
-      },
-      {
-        name: "Slot",
-        value: availabilitySlot
-      }
-    ];
-    const transferDetails = [
-      {
-        name: "Mode of transfer",
-        value: "NA"
-      },
-      {
-        name: "Pick up time",
-        value: pickupTime
-      }
-    ];
-    const bookingDetails = [
-      {
-        name: "Booked on",
-        value: bookedTime ? moment(bookedTime).format("DD MMM, YY") : "NA"
-      },
-      {
-        name: "Total paid",
-        value: publishedCost ? getLocaleString(publishedCost) : "NA"
-      },
-      {
-        name: "Booking source",
-        value: "Pickyourtrail"
-      }
-    ];
+    let passengerDetails = [];
+    let transferDetails = [];
+    let bookingDetails = [];
+    let bookingDetailSections = [];
 
-    const bookingDetailSections = [
-      {
-        name: "Inclusions",
-        component: (
-          <View style={styles.accordionTextWrapper}>
-            <HTMLView
-              value={`<div>${inclusions}</div>`}
-              stylesheet={constants.htmlStyleSheet}
-            />
-          </View>
-        )
-      },
-      {
-        name: "Exclusions",
-        component: (
-          <View style={styles.accordionTextWrapper}>
-            <HTMLView
-              value={`<div>${exclusions}</div>`}
-              stylesheet={constants.htmlStyleSheet}
-            />
-          </View>
-        )
-      },
-      {
-        name: "Instructions & notes",
-        component: (
-          <View style={styles.accordionTextWrapper}>
-            <HTMLView
-              value={`<div>${notes}</div>`}
-              stylesheet={constants.htmlStyleSheet}
-            />
-          </View>
-        )
-      },
-      {
-        name: "About",
-        component: (
-          <View style={styles.accordionTextWrapper}>
-            <HTMLView
-              value={`<div>${longDesc}</div>`}
-              stylesheet={constants.htmlStyleSheet}
-            />
-          </View>
-        )
-      }
-    ];
-
+    let voucherTitle = {
+      header: "",
+      text: ""
+    };
+    if (self) {
+      passengerDetails = [
+        {
+          name: "Duration",
+          value: `${duration} mins`
+        },
+        {
+          name: "Slot",
+          value: availabilitySlot
+        },
+        {
+          name: "Type",
+          value: "Self Exploration"
+        }
+      ];
+      bookingDetailSections = [
+        {
+          name: "About",
+          component: (
+            <View style={styles.accordionTextWrapper}>
+              <HTMLView
+                value={`<div>${longDesc}</div>`}
+                stylesheet={constants.htmlStyleSheet}
+              />
+            </View>
+          )
+        }
+      ];
+    } else {
+      voucherTitle = {
+        header: "BOOKING ID",
+        text: bookingId
+      };
+      transferDetails = transferIncluded
+        ? [
+            {
+              name: "Mode of transfer",
+              value: "NA"
+            },
+            {
+              name: "Pick up time",
+              value: pickupTime
+            }
+          ]
+        : [];
+      passengerDetails = [
+        {
+          name: "Booked by",
+          value: leadPassengerName || "NA"
+        },
+        {
+          name: "No. of pax",
+          value: passengerCount || "NA"
+        },
+        {
+          name: "Starts at",
+          value: activityTime ? moment(activityTime).format("hh:mm a") : "NA"
+        },
+        {
+          name: "Duration",
+          value: `${duration} mins`
+        },
+        {
+          name: "Slot",
+          value: availabilitySlot
+        }
+      ];
+      bookingDetailSections = [
+        {
+          name: "Inclusions",
+          component: (
+            <View style={styles.accordionTextWrapper}>
+              <HTMLView
+                value={`<div>${inclusions}</div>`}
+                stylesheet={constants.htmlStyleSheet}
+              />
+            </View>
+          )
+        },
+        {
+          name: "Exclusions",
+          component: (
+            <View style={styles.accordionTextWrapper}>
+              <HTMLView
+                value={`<div>${exclusions}</div>`}
+                stylesheet={constants.htmlStyleSheet}
+              />
+            </View>
+          )
+        },
+        {
+          name: "Instructions & notes",
+          component: (
+            <View style={styles.accordionTextWrapper}>
+              <HTMLView
+                value={`<div>${notes}</div>`}
+                stylesheet={constants.htmlStyleSheet}
+              />
+            </View>
+          )
+        },
+        {
+          name: "About",
+          component: (
+            <View style={styles.accordionTextWrapper}>
+              <HTMLView
+                value={`<div>${longDesc}</div>`}
+                stylesheet={constants.htmlStyleSheet}
+              />
+            </View>
+          )
+        }
+      ];
+      bookingDetails = [
+        {
+          name: "Booked on",
+          value: bookedTime ? moment(bookedTime).format("DD MMM, YY") : "NA"
+        },
+        {
+          name: "Total paid",
+          value: publishedCost ? getLocaleString(publishedCost) : "NA"
+        },
+        {
+          name: "Booking source",
+          value: "Pickyourtrail"
+        }
+      ];
+    }
     return [
       <ParallaxScrollView
         key={0}
@@ -204,12 +258,12 @@ class ActivityVoucher extends Component {
         fadeOutForeground={Platform.OS !== "android"}
         onChangeHeaderVisibility={this.headerToggle}
         renderStickyHeader={() => (
-          <VoucherStickyHeader action={this.close} text={bookingId} />
+          <VoucherStickyHeader action={this.close} text={voucherTitle.text} />
         )}
         renderForeground={() => (
           <VoucherHeader
-            infoText={`BOOKING ID`}
-            title={bookingId}
+            infoText={voucherTitle.header}
+            title={voucherTitle.text}
             menu={() => {}}
             onClickClose={this.close}
             image={{ uri: mainPhoto }}
@@ -226,12 +280,17 @@ class ActivityVoucher extends Component {
 
         <View style={styles.arrivalSection}>
           <SectionHeader
-            sectionName={"TRANSFER INFO"}
+            sectionName={transferIncluded ? "TRANSFER INFO" : "LOCATION INFO"}
             containerStyle={{ marginBottom: 0 }}
           />
 
           <VoucherSplitSection sections={transferDetails} />
 
+          {self ? (
+            <TransferInfoBox />
+          ) : transferIncluded ? (
+            <PickupInfoBox />
+          ) : null}
           <VoucherAddressSection
             containerStyle={{ marginTop: 8 }}
             address={pickupAddress}
@@ -243,7 +302,7 @@ class ActivityVoucher extends Component {
               containerStyle={{ width: responsiveWidth(43) }}
               action={() => directions({ latitude, longitude })}
               color={"transparent"}
-              textColor={constants.black2}
+              textColor={constants.firstColor}
               hasBorder={true}
               icon={constants.compassIcon}
               iconSize={16}
@@ -253,7 +312,7 @@ class ActivityVoucher extends Component {
               containerStyle={{ width: responsiveWidth(43) }}
               action={() => dialer(contactNumber)}
               color={"transparent"}
-              textColor={constants.black2}
+              textColor={constants.firstColor}
               hasBorder={true}
               icon={constants.callIcon}
               iconSize={16}

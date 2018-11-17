@@ -31,6 +31,7 @@ const imageAssets = {
   leisureIcon: require("../assets/images/icons/leisure.png"),
   hotelIcon: "hotel",
   clockIcon: "clock",
+  infoIcon: "about",
   locationIcon: "location",
   semiCircleShape: require("../assets/images/shapes/hiring_topic.png"),
 

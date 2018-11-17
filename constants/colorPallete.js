@@ -13,6 +13,7 @@ const pallete2 = {
   fifthColor: `rgba(169,233,180,1)`,
   sixthColor: `rgba(120,5,114,1)`,
   seventhColor: `rgba(35,123,226,1)`,
+  eighthColor: `rgba(74,144,226,1)`,
 
   firstColorAlpha: alpha => `rgba(47, 209, 93, ${alpha})`,
   secondColorAlpha: alpha => `rgba(254, 218 ,70, ${alpha})`,
@@ -20,7 +21,8 @@ const pallete2 = {
   fourthColorAlpha: alpha => `rgba(121,5,114,${alpha})`,
   fifthColorAlpha: alpha => `rgba(169,233,180,${alpha})`,
   sixthColorAlpha: alpha => `rgba(120,5,114,${alpha})`,
-  seventhColorAlpha: alpha => `rgba(35,123,226,${alpha})`
+  seventhColorAlpha: alpha => `rgba(35,123,226,${alpha})`,
+  eighthColorAlpha: alpha => `rgba(74,144,226,${alpha})`
 };
 
 const pallete3 = {};

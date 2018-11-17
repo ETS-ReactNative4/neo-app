@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
   dateText: {
     marginBottom: 8,
     ...constants.fontCustom(constants.primaryLight, 15),
-    color: "rgba(74,144,226,1)"
+    color: constants.eighthColor
   }
 });
 
