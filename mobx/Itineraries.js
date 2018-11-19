@@ -609,13 +609,44 @@ class Itineraries {
   getActivityById = createTransformer(id => {
     if (_.isEmpty(this._selectedItinerary)) return {};
 
-    return this.activities.find(activity => id === activity.costing.key);
+    try {
+      return this.activities.find(activity => id === activity.costing.key);
+    } catch (e) {
+      logError(e);
+      return {};
+    }
   });
 
   getFlightById = createTransformer(id => {
     if (_.isEmpty(this._selectedItinerary)) return {};
 
-    return toJS(this._selectedItinerary.flightCostings.flightCostingById[id]);
+    try {
+      const flight = toJS(
+        this._selectedItinerary.flightCostings.flightCostingById[id]
+      );
+      flight.voucher =
+        storeService.voucherStore.getFlightVoucherById(flight.key) || {};
+      return flight;
+    } catch (e) {
+      logError(e);
+      return {};
+    }
+  });
+
+  getTransferById = createTransformer(id => {
+    if (_.isEmpty(this._selectedItinerary)) return {};
+
+    try {
+      const transfer = toJS(
+        this._selectedItinerary.transferCostings.transferCostingById[id]
+      );
+      transfer.voucher =
+        storeService.voucherStore.getTransferVoucherById(transfer.key) || {};
+      return transfer;
+    } catch (e) {
+      logError(e);
+      return {};
+    }
   });
 
   getHotelById = createTransformer(id => {
