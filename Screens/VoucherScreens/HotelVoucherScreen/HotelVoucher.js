@@ -48,9 +48,6 @@ class HotelVoucher extends Component {
   };
 
   render() {
-    /**
-     * TODO: Separate this object like other vouchers
-     */
     const hotel = this.props.navigation.getParam("hotel", {});
     const xHeight = isIphoneX()
       ? constants.xNotchHeight
@@ -58,13 +55,6 @@ class HotelVoucher extends Component {
         ? 20
         : 0;
 
-    /**
-     * TODO: Missing Items
-     */
-    // Contact number
-    // Google Map linking
-    // Booking date
-    // total paid
     const {
       checkInDateDisplay,
       checkInMonthDisplay,
@@ -197,7 +187,7 @@ class HotelVoucher extends Component {
           />
           {roomsInHotel &&
             roomsInHotel.map((room, roomIndex) => {
-              const {
+              let {
                 // leadPassenger, // Gender Needed?
                 name,
                 roomPaxInfo,
@@ -205,10 +195,25 @@ class HotelVoucher extends Component {
                 freeWireless,
                 refundable,
                 roomConfiguration,
-                roomTypeId
+                roomTypeId,
+                shortCancellationPolicy
               } = room;
 
               const { adultCount, childAges } = roomConfiguration;
+
+              const roomVoucherDetails =
+                rooms.find(room => room.roomTypeId === roomTypeId) || {};
+              let { leadPassenger, otherPassengers } = roomVoucherDetails;
+              leadPassenger = leadPassenger || {};
+              otherPassengers = otherPassengers || [];
+
+              const { checkIn, checkOut } = roomVoucherDetails;
+
+              if (checkIn > 1 && checkOut > 1) {
+                refundable = roomVoucherDetails.refundable;
+                freeWireless = roomVoucherDetails.freeWireless;
+                freeBreakFast = roomVoucherDetails.freeBreakFast;
+              }
 
               const hotelAmenitySummary = [];
 
@@ -228,12 +233,6 @@ class HotelVoucher extends Component {
                 name: "Booking Type",
                 value: refundable ? "Refundable" : "Non-Refundable"
               });
-
-              const roomVoucherDetails =
-                rooms.find(room => room.roomTypeId === roomTypeId) || {};
-              let { leadPassenger, otherPassengers } = roomVoucherDetails;
-              leadPassenger = leadPassenger || {};
-              otherPassengers = otherPassengers || [];
 
               return (
                 <View key={roomIndex} style={styles.bookedSuit}>
