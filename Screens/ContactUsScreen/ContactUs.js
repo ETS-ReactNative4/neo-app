@@ -1,14 +1,48 @@
 import React, { Component } from "react";
-import { View, ScrollView, StyleSheet, TextInput } from "react-native";
+import {
+  View,
+  ScrollView,
+  StyleSheet,
+  TextInput,
+  Keyboard
+} from "react-native";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import constants from "../../constants/constants";
 import ContactActionBar from "./Components/ContactActionBar";
-import { responsiveHeight } from "react-native-responsive-dimensions";
+import DebouncedAlert from "../../CommonComponents/DebouncedAlert/DebouncedAlert";
 
+let subjectText, messageText;
 class ContactUs extends Component {
   static navigationOptions = ({ navigation }) => {
+    const backAction = () => {
+      Keyboard.dismiss();
+      if (subjectText || messageText) {
+        DebouncedAlert(
+          "You have a draft message...",
+          "If you go back now, your message will be lost!",
+          [
+            {
+              text: "Delete Message!",
+              onPress: () => {
+                navigation.goBack();
+              }
+            },
+            { text: "Cancel", onPress: () => null }
+          ],
+          { cancelable: false }
+        );
+      } else {
+        navigation.goBack();
+      }
+    };
     return {
-      header: <CommonHeader title={"Contact Us"} navigation={navigation} />
+      header: (
+        <CommonHeader
+          leftAction={backAction}
+          title={"Contact Us"}
+          navigation={navigation}
+        />
+      )
     };
   };
 
@@ -18,18 +52,27 @@ class ContactUs extends Component {
   };
   _containerScroll = React.createRef();
 
-  setSubject = subject => this.setState({ subject });
+  setSubject = subject => {
+    this.setState({ subject });
+    subjectText = subject;
+  };
 
   setMessage = message => {
     const currentLastChar = this.state.message.substr(
       this.state.message.length - 3
     );
-    const newLastChar = message(message.length - 3);
+    const newLastChar = message.substr(message.length - 3);
     this.setState({ message });
     if (currentLastChar !== newLastChar) {
       this._containerScroll.scrollToEnd();
     }
+    messageText = message;
   };
+
+  componentWillUnmount() {
+    subjectText = null;
+    messageText = null;
+  }
 
   render() {
     return (
