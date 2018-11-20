@@ -15,7 +15,7 @@
       },
       "attrs": [{}],
       "properties": {
-        "order": 454,
+        "order": 486,
         "id": 11,
         "name": "sleet",
         "prevSize": 32,
@@ -39,7 +39,7 @@
       },
       "attrs": [{}],
       "properties": {
-        "order": 455,
+        "order": 487,
         "id": 3,
         "name": "wind",
         "prevSize": 32,
@@ -63,7 +63,7 @@
       },
       "attrs": [{}],
       "properties": {
-        "order": 456,
+        "order": 488,
         "id": 4,
         "name": "cloudy",
         "prevSize": 32,
@@ -87,7 +87,7 @@
       },
       "attrs": [{}],
       "properties": {
-        "order": 457,
+        "order": 489,
         "id": 5,
         "name": "partly-cloudy-day",
         "prevSize": 32,
@@ -111,7 +111,7 @@
       },
       "attrs": [{}],
       "properties": {
-        "order": 458,
+        "order": 490,
         "id": 6,
         "name": "fog",
         "prevSize": 32,
@@ -135,7 +135,7 @@
       },
       "attrs": [{}],
       "properties": {
-        "order": 459,
+        "order": 491,
         "id": 7,
         "name": "hail",
         "prevSize": 32,
@@ -159,7 +159,7 @@
       },
       "attrs": [{}],
       "properties": {
-        "order": 460,
+        "order": 492,
         "id": 8,
         "name": "partly-cloudy-night",
         "prevSize": 32,
@@ -183,7 +183,7 @@
       },
       "attrs": [{}],
       "properties": {
-        "order": 461,
+        "order": 493,
         "id": 9,
         "name": "snow",
         "prevSize": 32,
@@ -207,7 +207,7 @@
       },
       "attrs": [{}],
       "properties": {
-        "order": 462,
+        "order": 494,
         "id": 10,
         "name": "thunderstorm",
         "prevSize": 32,
@@ -231,7 +231,7 @@
       },
       "attrs": [{}],
       "properties": {
-        "order": 463,
+        "order": 495,
         "id": 2,
         "name": "rain",
         "prevSize": 32,
@@ -255,7 +255,7 @@
       },
       "attrs": [{}],
       "properties": {
-        "order": 464,
+        "order": 496,
         "id": 1,
         "name": "clear-night",
         "prevSize": 32,
@@ -279,7 +279,7 @@
       },
       "attrs": [{}],
       "properties": {
-        "order": 465,
+        "order": 497,
         "id": 0,
         "name": "clear-day",
         "prevSize": 32,
@@ -302,7 +302,7 @@
       },
       "attrs": [{}],
       "properties": {
-        "order": 371,
+        "order": 498,
         "id": 0,
         "name": "location",
         "prevSize": 24,
@@ -325,7 +325,7 @@
       },
       "attrs": [{}],
       "properties": {
-        "order": 372,
+        "order": 499,
         "id": 1,
         "name": "compass",
         "prevSize": 24,
@@ -349,7 +349,7 @@
       },
       "attrs": [{}],
       "properties": {
-        "order": 373,
+        "order": 500,
         "id": 2,
         "name": "clock",
         "prevSize": 24,
@@ -372,7 +372,7 @@
       },
       "attrs": [{}],
       "properties": {
-        "order": 374,
+        "order": 501,
         "id": 3,
         "name": "activity",
         "prevSize": 24,
@@ -395,7 +395,7 @@
       },
       "attrs": [{}],
       "properties": {
-        "order": 375,
+        "order": 502,
         "id": 4,
         "name": "hotel",
         "prevSize": 24,
@@ -443,7 +443,7 @@
         { "fill": "rgb(243, 243, 243)" }
       ],
       "properties": {
-        "order": 483,
+        "order": 503,
         "id": 8,
         "name": "visa",
         "prevSize": 24,
@@ -469,7 +469,7 @@
       },
       "attrs": [{}, {}],
       "properties": {
-        "order": 482,
+        "order": 504,
         "id": 7,
         "name": "transfer",
         "prevSize": 24,
@@ -517,7 +517,7 @@
         }
       ],
       "properties": {
-        "order": 481,
+        "order": 505,
         "id": 6,
         "name": "ferry",
         "prevSize": 24,
@@ -540,7 +540,7 @@
       },
       "attrs": [{}],
       "properties": {
-        "order": 376,
+        "order": 506,
         "id": 0,
         "name": "train",
         "prevSize": 24,
@@ -563,7 +563,7 @@
       },
       "attrs": [{}],
       "properties": {
-        "order": 377,
+        "order": 507,
         "id": 1,
         "name": "car",
         "prevSize": 24,
@@ -586,7 +586,7 @@
       },
       "attrs": [{}],
       "properties": {
-        "order": 378,
+        "order": 508,
         "id": 2,
         "name": "insurance",
         "prevSize": 24,
@@ -609,7 +609,7 @@
       },
       "attrs": [{}],
       "properties": {
-        "order": 379,
+        "order": 509,
         "id": 3,
         "name": "pass",
         "prevSize": 24,
@@ -632,7 +632,7 @@
       },
       "attrs": [{}],
       "properties": {
-        "order": 380,
+        "order": 510,
         "id": 4,
         "name": "bus",
         "prevSize": 24,
@@ -655,7 +655,7 @@
       },
       "attrs": [{}],
       "properties": {
-        "order": 381,
+        "order": 511,
         "id": 5,
         "name": "flight",
         "prevSize": 24,
@@ -684,7 +684,7 @@
       },
       "attrs": [{}],
       "properties": {
-        "order": 472,
+        "order": 512,
         "id": 53,
         "name": "about",
         "prevSize": 24,
@@ -713,7 +713,7 @@
       },
       "attrs": [{}],
       "properties": {
-        "order": 473,
+        "order": 513,
         "id": 52,
         "name": "account",
         "prevSize": 24,
@@ -742,7 +742,7 @@
       },
       "attrs": [{}],
       "properties": {
-        "order": 474,
+        "order": 514,
         "id": 51,
         "name": "booking1",
         "prevSize": 24,
@@ -771,7 +771,7 @@
       },
       "attrs": [{}],
       "properties": {
-        "order": 475,
+        "order": 515,
         "id": 50,
         "name": "home",
         "prevSize": 24,
@@ -800,7 +800,7 @@
       },
       "attrs": [{}],
       "properties": {
-        "order": 476,
+        "order": 516,
         "id": 49,
         "name": "logout",
         "prevSize": 24,
@@ -829,7 +829,7 @@
       },
       "attrs": [{}],
       "properties": {
-        "order": 477,
+        "order": 517,
         "id": 48,
         "name": "notification",
         "prevSize": 24,
@@ -857,7 +857,7 @@
       },
       "attrs": [{}],
       "properties": {
-        "order": 480,
+        "order": 520,
         "id": 45,
         "name": "pin1",
         "prevSize": 24,
@@ -885,7 +885,7 @@
       },
       "attrs": [{}],
       "properties": {
-        "order": 466,
+        "order": 521,
         "id": 44,
         "name": "booking-option-map",
         "prevSize": 24,
@@ -923,7 +923,7 @@
       },
       "attrs": [{}, {}, {}, {}, {}, {}],
       "properties": {
-        "order": 467,
+        "order": 522,
         "id": 43,
         "name": "booking-options-calculator",
         "prevSize": 24,
@@ -951,7 +951,7 @@
       },
       "attrs": [{}],
       "properties": {
-        "order": 468,
+        "order": 523,
         "id": 42,
         "name": "booking-options-city-guide",
         "prevSize": 24,
@@ -979,7 +979,7 @@
       },
       "attrs": [{}],
       "properties": {
-        "order": 469,
+        "order": 524,
         "id": 41,
         "name": "booking-options-contact",
         "prevSize": 24,
@@ -1009,7 +1009,7 @@
       },
       "attrs": [{}, {}],
       "properties": {
-        "order": 470,
+        "order": 525,
         "id": 40,
         "name": "booking-options-direction",
         "prevSize": 24,
@@ -1037,7 +1037,7 @@
       },
       "attrs": [{}],
       "properties": {
-        "order": 471,
+        "order": 526,
         "id": 39,
         "name": "booking-options-talk",
         "prevSize": 24,
@@ -1067,7 +1067,7 @@
       },
       "attrs": [{}, {}],
       "properties": {
-        "order": 421,
+        "order": 527,
         "id": 38,
         "name": "translate",
         "prevSize": 24,
@@ -1093,7 +1093,7 @@
       },
       "attrs": [],
       "properties": {
-        "order": 422,
+        "order": 528,
         "id": 31,
         "name": "download",
         "prevSize": 24,
@@ -1119,7 +1119,7 @@
       },
       "attrs": [{}],
       "properties": {
-        "order": 423,
+        "order": 529,
         "id": 30,
         "name": "arrow",
         "prevSize": 24,
@@ -1147,7 +1147,7 @@
       },
       "attrs": [{}],
       "properties": {
-        "order": 424,
+        "order": 530,
         "id": 29,
         "name": "nav-left",
         "prevSize": 24,
@@ -1175,7 +1175,7 @@
       },
       "attrs": [{}],
       "properties": {
-        "order": 425,
+        "order": 531,
         "id": 28,
         "name": "nav-menu",
         "prevSize": 24,
@@ -1203,7 +1203,7 @@
       },
       "attrs": [{ "fill": "rgb(88, 89, 91)" }],
       "properties": {
-        "order": 426,
+        "order": 532,
         "id": 27,
         "name": "support_active",
         "prevSize": 24,
@@ -1231,7 +1231,7 @@
       },
       "attrs": [{}],
       "properties": {
-        "order": 427,
+        "order": 533,
         "id": 0,
         "name": "sync",
         "prevSize": 24,
@@ -1257,7 +1257,7 @@
       },
       "attrs": [{}],
       "properties": {
-        "order": 428,
+        "order": 534,
         "id": 1,
         "name": "check",
         "prevSize": 24,
@@ -1285,7 +1285,7 @@
       },
       "attrs": [{}],
       "properties": {
-        "order": 429,
+        "order": 535,
         "id": 2,
         "name": "no-internet",
         "prevSize": 24,
@@ -1313,7 +1313,7 @@
       },
       "attrs": [{}],
       "properties": {
-        "order": 430,
+        "order": 536,
         "id": 3,
         "name": "trash-can",
         "prevSize": 24,
@@ -1341,7 +1341,7 @@
       },
       "attrs": [{}],
       "properties": {
-        "order": 431,
+        "order": 537,
         "id": 4,
         "name": "search",
         "prevSize": 24,
@@ -1369,7 +1369,7 @@
       },
       "attrs": [{}],
       "properties": {
-        "order": 432,
+        "order": 538,
         "id": 5,
         "name": "swap_vert",
         "prevSize": 24,
@@ -1397,7 +1397,7 @@
       },
       "attrs": [{}],
       "properties": {
-        "order": 433,
+        "order": 539,
         "id": 6,
         "name": "speaker",
         "prevSize": 24,
@@ -1425,7 +1425,7 @@
       },
       "attrs": [{}],
       "properties": {
-        "order": 434,
+        "order": 540,
         "id": 7,
         "name": "pin",
         "prevSize": 24,
@@ -1453,7 +1453,7 @@
       },
       "attrs": [{ "fill": "rgb(28, 173, 69)" }],
       "properties": {
-        "order": 435,
+        "order": 541,
         "id": 8,
         "name": "checkbox-checked",
         "prevSize": 24,
@@ -1483,7 +1483,7 @@
       },
       "attrs": [{ "fill": "rgb(239, 239, 239)" }],
       "properties": {
-        "order": 436,
+        "order": 542,
         "id": 9,
         "name": "checkbox-unchecked",
         "prevSize": 24,
@@ -1512,7 +1512,7 @@
       },
       "attrs": [{}],
       "properties": {
-        "order": 437,
+        "order": 543,
         "id": 10,
         "name": "star",
         "prevSize": 24,
@@ -1541,7 +1541,7 @@
       },
       "attrs": [{}],
       "properties": {
-        "order": 438,
+        "order": 544,
         "id": 11,
         "name": "star-active",
         "prevSize": 24,
@@ -1570,7 +1570,7 @@
       },
       "attrs": [{}],
       "properties": {
-        "order": 439,
+        "order": 545,
         "id": 12,
         "name": "call-end",
         "prevSize": 24,
@@ -1599,7 +1599,7 @@
       },
       "attrs": [{}],
       "properties": {
-        "order": 440,
+        "order": 546,
         "id": 13,
         "name": "arrow-right",
         "prevSize": 24,
@@ -1628,7 +1628,7 @@
       },
       "attrs": [{}],
       "properties": {
-        "order": 441,
+        "order": 547,
         "id": 14,
         "name": "arrow-down",
         "prevSize": 24,
@@ -1657,7 +1657,7 @@
       },
       "attrs": [{}],
       "properties": {
-        "order": 442,
+        "order": 548,
         "id": 15,
         "name": "more-options-horiz",
         "prevSize": 24,
@@ -1686,7 +1686,7 @@
       },
       "attrs": [{ "fill": "rgb(88, 89, 91)" }],
       "properties": {
-        "order": 443,
+        "order": 549,
         "id": 16,
         "name": "support-active",
         "prevSize": 24,
@@ -1717,7 +1717,7 @@
       },
       "attrs": [{ "fill": "rgb(88, 89, 91)" }, { "fill": "rgb(88, 89, 91)" }],
       "properties": {
-        "order": 444,
+        "order": 550,
         "id": 17,
         "name": "trip-feed-active",
         "prevSize": 24,
@@ -1746,7 +1746,7 @@
       },
       "attrs": [{ "fill": "rgb(88, 89, 91)" }],
       "properties": {
-        "order": 445,
+        "order": 551,
         "id": 18,
         "name": "tools-active",
         "prevSize": 24,
@@ -1777,7 +1777,7 @@
       },
       "attrs": [{ "fill": "rgb(88, 89, 91)" }, { "fill": "rgb(88, 89, 91)" }],
       "properties": {
-        "order": 446,
+        "order": 552,
         "id": 19,
         "name": "journal-active",
         "prevSize": 24,
@@ -1806,7 +1806,7 @@
       },
       "attrs": [{ "fill": "rgb(88, 89, 91)" }],
       "properties": {
-        "order": 447,
+        "order": 553,
         "id": 20,
         "name": "booking-active",
         "prevSize": 24,
@@ -1835,7 +1835,7 @@
       },
       "attrs": [{ "fill": "rgb(188, 190, 192)" }],
       "properties": {
-        "order": 448,
+        "order": 554,
         "id": 21,
         "name": "support",
         "prevSize": 24,
@@ -1872,7 +1872,7 @@
         { "fill": "rgb(188, 190, 192)" }
       ],
       "properties": {
-        "order": 449,
+        "order": 555,
         "id": 22,
         "name": "trip-feed",
         "prevSize": 24,
@@ -1917,7 +1917,7 @@
         { "fill": "rgb(188, 190, 192)" }
       ],
       "properties": {
-        "order": 450,
+        "order": 556,
         "id": 23,
         "name": "tools",
         "prevSize": 24,
@@ -1954,7 +1954,7 @@
         { "fill": "rgb(188, 190, 192)" }
       ],
       "properties": {
-        "order": 451,
+        "order": 557,
         "id": 24,
         "name": "journal",
         "prevSize": 24,
@@ -1983,7 +1983,7 @@
       },
       "attrs": [{ "fill": "rgb(188, 190, 192)" }],
       "properties": {
-        "order": 452,
+        "order": 558,
         "id": 25,
         "name": "booking",
         "prevSize": 24,
@@ -2012,7 +2012,7 @@
       },
       "attrs": [{}],
       "properties": {
-        "order": 453,
+        "order": 559,
         "id": 26,
         "name": "close",
         "prevSize": 24,
@@ -2041,7 +2041,7 @@
       },
       "attrs": [{}],
       "properties": {
-        "order": 478,
+        "order": 518,
         "id": 47,
         "name": "payment",
         "prevSize": 32,
@@ -2069,7 +2069,7 @@
       },
       "attrs": [{}],
       "properties": {
-        "order": 479,
+        "order": 519,
         "id": 46,
         "name": "support1",
         "prevSize": 32,
