@@ -6,70 +6,11 @@ import constants from "../../constants/constants";
 import KeyboardAvoidingActionBar from "../../CommonComponents/KeyboardAvoidingActionBar/KeyboardAvoidingActionBar";
 import SimpleButton from "../../CommonComponents/SimpleButton/SimpleButton";
 import MultiLineHeader from "../../CommonComponents/MultilineHeader/MultiLineHeader";
+import apiCall from "../../Services/networkRequests/apiCall";
+import { inject, observer } from "mobx-react/custom";
 
-const data = [
-  {
-    msg: "Sample Message",
-    msgId: "2",
-    msgTime: "Yesterday, 6:30pm"
-  },
-  {
-    msg: "Another Sample Message",
-    msgId: "3",
-    msgTime: "Yesterday, 6:30pm"
-  },
-  {
-    msg: "This is also Sample Message",
-    msgId: "4",
-    msgTime: "Yesterday, 6:30pm"
-  },
-  {
-    msg: "Sample Message",
-    msgId: "2",
-    msgTime: "Yesterday, 6:30pm"
-  },
-  {
-    msg: "Another Sample Message",
-    msgId: "3",
-    msgTime: "Yesterday, 6:30pm"
-  },
-  {
-    msg: "This is also Sample Message",
-    msgId: "4",
-    msgTime: "Yesterday, 6:30pm"
-  },
-  {
-    msg: "Sample Message",
-    msgId: "2",
-    msgTime: "Yesterday, 6:30pm"
-  },
-  {
-    msg: "Another Sample Message",
-    msgId: "3",
-    msgTime: "Yesterday, 6:30pm"
-  },
-  {
-    msg: "This is also Sample Message",
-    msgId: "4",
-    msgTime: "Yesterday, 6:30pm"
-  },
-  {
-    msg: "Sample Message",
-    msgId: "2",
-    msgTime: "Yesterday, 6:30pm"
-  },
-  {
-    msg: "Another Sample Message",
-    msgId: "3",
-    msgTime: "Yesterday, 6:30pm"
-  },
-  {
-    msg: "This is also Sample Message",
-    msgId: "4",
-    msgTime: "Yesterday, 6:30pm"
-  }
-];
-
+@inject("supportStore")
+@observer
 class TicketsConversation extends Component {
   static navigationOptions = ({ navigation }) => {
     const title = navigation.getParam("title", "");
@@ -106,16 +47,35 @@ class TicketsConversation extends Component {
     );
   };
 
+  componentDidMount() {
+    const ticketId = this.props.navigation.getParam("ticketId", "");
+    const { loadTickets } = this.props.supportStore;
+    loadTickets(ticketId);
+  }
+
+  _keyExtractor = (item, index) => index;
+
   onEditText = messageText => this.setState({ messageText });
 
   sendMessage = () => {};
 
   render() {
+    const ticketId = this.props.navigation.getParam("ticketId", "");
+    const {
+      loadTickets,
+      isMessagesLoading,
+      getMessagesByTicket
+    } = this.props.supportStore;
+    const data = getMessagesByTicket(ticketId);
     return [
       <View style={styles.ticketsConversationContainer} key={0}>
         <FlatList
           data={data}
+          keyExtractor={this._keyExtractor}
+          onRefresh={() => loadTickets(ticketId)}
+          refreshing={isMessagesLoading}
           renderItem={this._renderItem}
+          inverted={true}
           ItemSeparatorComponent={() => (
             <View
               style={{

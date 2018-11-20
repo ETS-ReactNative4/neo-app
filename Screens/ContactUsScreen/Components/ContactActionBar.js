@@ -39,6 +39,7 @@ const ContactActionBar = ({
           text={"Send"}
           action={sendAction}
           textColor={"white"}
+          underlayColor={constants.firstColorAlpha(0.4)}
           containerStyle={{ width: responsiveWidth(40), marginHorizontal: 4 }}
         />
       </View>

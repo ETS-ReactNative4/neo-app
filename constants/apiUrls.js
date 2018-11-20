@@ -31,6 +31,9 @@ const apiUrls = {
   getPaymentInfo: "mobile/:itineraryId/paymentInfo",
   getFaq: "mobile/getFAQ",
   initiatePayment: "api/payment/initiatepayment",
+  sendTicketMessage: "mobile/ticket/msg",
+  retrieveTicketMessages: "mobile/ticket/msgs/retrieve",
+  retrieveTickets: "mobile/tickets/status",
 
   customCheckListName: "Your list",
   defaultSupportType: "GENERAL",

@@ -12,6 +12,14 @@ class SupportStore {
   @persist("object")
   @observable
   _faqDetails = {};
+  @persist("object")
+  @observable
+  _conversations = [];
+  @persist("object")
+  @observable
+  _messages = {};
+  @observable _isConversationLoading = false;
+  @observable _isMessagesLoading = false;
 
   @action
   reset = () => {
@@ -24,6 +32,82 @@ class SupportStore {
   get faqDetails() {
     return toJS(this._faqDetails);
   }
+
+  @computed
+  get isConversationLoading() {
+    return this._isConversationLoading;
+  }
+
+  @computed
+  get isMessagesLoading() {
+    return this._isMessagesLoading;
+  }
+
+  @computed
+  get conversations() {
+    return toJS(this._conversations);
+  }
+
+  @action
+  loadConversation = () => {
+    this._isConversationLoading = true;
+    apiCall(constants.retrieveTickets, {}, "GET")
+      .then(response => {
+        setTimeout(() => {
+          this._isConversationLoading = false;
+        }, 1000);
+        if (response.status === "SUCCESS") {
+          this._hasError = false;
+          this._conversations = response.data;
+        } else {
+          this._hasError = true;
+        }
+      })
+      .catch(error => {
+        this._isConversationLoading = false;
+        this._hasError = true;
+      });
+  };
+
+  @action
+  loadTickets = ticketId => {
+    this._isMessagesLoading = true;
+    apiCall(
+      `${constants.retrieveTicketMessages}?ticketId=${ticketId}&from=-1&to=-1`,
+      {},
+      "GET"
+    )
+      .then(response => {
+        setTimeout(() => {
+          this._isMessagesLoading = false;
+        }, 1000);
+        if (response.status === "SUCCESS") {
+          this._hasError = false;
+          const messages = toJS(this._messages);
+          messages[ticketId] = response.data;
+          this._messages = messages;
+        } else {
+          this._hasError = true;
+        }
+      })
+      .catch(error => {
+        this._isMessagesLoading = false;
+        this._hasError = true;
+      });
+  };
+
+  getMessagesByTicket = createTransformer(ticketId => {
+    try {
+      if (this._messages[ticketId]) {
+        return toJS(this._messages[ticketId]);
+      } else {
+        return [];
+      }
+    } catch (e) {
+      logError(e);
+      return [];
+    }
+  });
 
   getFaqByType = createTransformer(faqSection => {
     try {

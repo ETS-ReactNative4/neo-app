@@ -10,8 +10,13 @@ import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import constants from "../../constants/constants";
 import ContactActionBar from "./Components/ContactActionBar";
 import DebouncedAlert from "../../CommonComponents/DebouncedAlert/DebouncedAlert";
+import apiCall from "../../Services/networkRequests/apiCall";
+import { inject, observer } from "mobx-react/custom";
 
 let subjectText, messageText;
+
+@inject("itineraries")
+@observer
 class ContactUs extends Component {
   static navigationOptions = ({ navigation }) => {
     const backAction = () => {
@@ -48,7 +53,8 @@ class ContactUs extends Component {
 
   state = {
     subject: "",
-    message: ""
+    message: "",
+    isSubmitAttempted: false
   };
   _containerScroll = React.createRef();
 
@@ -69,12 +75,56 @@ class ContactUs extends Component {
     messageText = message;
   };
 
+  sendMessage = () => {
+    this.setState({
+      isSubmitAttempted: true
+    });
+    if (this.state.message && this.state.subject) {
+      const ticketType = this.props.navigation.getParam("type", "");
+      const { selectedItineraryId } = this.props.itineraries;
+      const requestObject = {
+        itineraryId: selectedItineraryId,
+        msg: this.state.message,
+        ticketId: "",
+        ticketType,
+        title: this.state.subject
+      };
+      apiCall(constants.sendTicketMessage, requestObject)
+        .then(response => {})
+        .catch(error => {});
+    }
+  };
+
+  cancelMessage = () => {
+    Keyboard.dismiss();
+    if (this.state.subject || this.state.message) {
+      DebouncedAlert(
+        "You have a draft message...",
+        "If you go back now, your message will be lost!",
+        [
+          {
+            text: "Delete Message!",
+            onPress: () => {
+              navigation.goBack();
+            }
+          },
+          { text: "Cancel", onPress: () => null }
+        ],
+        { cancelable: false }
+      );
+    } else {
+      this.props.navigation.goBack();
+    }
+  };
+
   componentWillUnmount() {
     subjectText = null;
     messageText = null;
   }
 
   render() {
+    const { subject, message, isSubmitAttempted } = this.state;
+
     return (
       <View style={styles.contactUsContainer}>
         <ScrollView
@@ -83,18 +133,24 @@ class ContactUs extends Component {
         >
           <TextInput
             multiline={true}
-            style={styles.subjectTextBox}
+            style={[
+              styles.subjectTextBox,
+              isSubmitAttempted && !subject ? styles.error : null
+            ]}
             onChangeText={this.setSubject}
-            value={this.state.subject}
+            value={subject}
             underlineColorAndroid={"transparent"}
             placeholder={"Subject"}
             placeholderTextColor={constants.shade3}
           />
           <TextInput
             multiline={true}
-            style={styles.messageTextBox}
+            style={[
+              styles.messageTextBox,
+              isSubmitAttempted && !message ? styles.error : null
+            ]}
             onChangeText={this.setMessage}
-            value={this.state.message}
+            value={message}
             underlineColorAndroid={"transparent"}
             placeholder={"Message"}
             placeholderTextColor={constants.shade2}
@@ -102,7 +158,11 @@ class ContactUs extends Component {
             numberOfLines={10}
           />
         </ScrollView>
-        <ContactActionBar navigation={this.props.navigation} />
+        <ContactActionBar
+          cancelAction={this.cancelMessage}
+          sendAction={this.sendMessage}
+          navigation={this.props.navigation}
+        />
       </View>
     );
   }
@@ -128,6 +188,10 @@ const styles = StyleSheet.create({
     ...constants.fontCustom(constants.primarySemiBold, 17, 24),
     color: constants.black2,
     marginBottom: 24
+  },
+  error: {
+    borderBottomColor: "red",
+    borderBottomWidth: 1
   }
 });
 

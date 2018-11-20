@@ -2,79 +2,24 @@ import React, { Component } from "react";
 import { FlatList, View, StyleSheet, Platform, TextInput } from "react-native";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import TicketPreview from "./Components/TicketPreview";
+import apiCall from "../../Services/networkRequests/apiCall";
+import constants from "../../constants/constants";
+import { inject, observer } from "mobx-react/custom";
+import Loader from "../../CommonComponents/Loader/Loader";
 
-const data = [
-  {
-    ticketId: "1",
-    lastMsg:
-      "This is a sample Message for the your tickets screen as a placeholder for testing purposes...",
-    closed: true,
-    maxMsgId: "1",
-    title: "Hello world",
-    lastSeenMsgId: ""
-  },
-  {
-    ticketId: "1",
-    lastMsg:
-      "This is a sample Message for the your tickets screen as a placeholder for testing purposes...",
-    closed: true,
-    maxMsgId: "1",
-    title: "Hello world",
-    lastSeenMsgId: ""
-  },
-  {
-    ticketId: "1",
-    lastMsg:
-      "This is a sample Message for the your tickets screen as a placeholder for testing purposes...",
-    closed: true,
-    maxMsgId: "1",
-    title: "Hello world",
-    lastSeenMsgId: ""
-  },
-  {
-    ticketId: "1",
-    lastMsg:
-      "This is a sample Message for the your tickets screen as a placeholder for testing purposes...",
-    closed: true,
-    maxMsgId: "1",
-    title: "Hello world",
-    lastSeenMsgId: ""
-  },
-  {
-    ticketId: "1",
-    lastMsg:
-      "This is a sample Message for the your tickets screen as a placeholder for testing purposes...",
-    closed: true,
-    maxMsgId: "1",
-    title: "Hello world",
-    lastSeenMsgId: ""
-  },
-  {
-    ticketId: "1",
-    lastMsg:
-      "This is a sample Message for the your tickets screen as a placeholder for testing purposes...",
-    closed: true,
-    maxMsgId: "1",
-    title: "Hello world",
-    lastSeenMsgId: ""
-  },
-  {
-    ticketId: "1",
-    lastMsg:
-      "This is a sample Message for the your tickets screen as a placeholder for testing purposes...",
-    closed: true,
-    maxMsgId: "1",
-    title: "Hello world",
-    lastSeenMsgId: ""
-  }
-];
-
+@inject("supportStore")
+@observer
 class YourTickets extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
       header: <CommonHeader title={"Your Tickets"} navigation={navigation} />
     };
   };
+
+  componentDidMount() {
+    const { loadConversation } = this.props.supportStore;
+    loadConversation();
+  }
 
   _renderItem = ({ item: ticket, index }) => {
     return (
@@ -85,23 +30,38 @@ class YourTickets extends Component {
         lastMessageTime={"6:30pm"}
         isClosed={ticket.closed}
         isUnRead={true}
-        isLast={index === data.length - 1}
+        isLast={false}
         action={() =>
           this.props.navigation.navigate("TicketsConversation", {
             title: ticket.title,
-            status: ticket.closed ? "Closed" : "Open"
+            status: ticket.closed ? "Closed" : "Open",
+            ticketId: ticket.ticketId
           })
         }
       />
     );
   };
 
+  _keyExtractor = (item, index) => index;
+
   render() {
-    return (
+    const {
+      conversations,
+      isConversationLoading,
+      loadConversation
+    } = this.props.supportStore;
+    return [
       <View key={0} style={styles.yourTicketsContainer}>
-        <FlatList data={data} renderItem={this._renderItem} />
+        <View style={styles.firstLine} />
+        <FlatList
+          refreshing={isConversationLoading}
+          keyExtractor={this._keyExtractor}
+          data={conversations}
+          onRefresh={() => loadConversation()}
+          renderItem={this._renderItem}
+        />
       </View>
-    );
+    ];
   }
 }
 
@@ -109,6 +69,11 @@ const styles = StyleSheet.create({
   yourTicketsContainer: {
     flex: 1,
     backgroundColor: "white"
+  },
+  firstLine: {
+    height: 1,
+    backgroundColor: constants.shade4,
+    marginHorizontal: 24
   }
 });
 

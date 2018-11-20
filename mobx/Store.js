@@ -164,6 +164,16 @@ const createStore = () => {
     .catch(err => {
       logError(err);
     });
+  hydrate("_conversations", appStore.supportStore)
+    .then(() => {})
+    .catch(err => {
+      logError(err);
+    });
+  hydrate("_messages", appStore.supportStore)
+    .then(() => {})
+    .catch(err => {
+      logError(err);
+    });
   return appStore;
 };
 
