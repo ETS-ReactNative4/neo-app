@@ -28,7 +28,7 @@ class SupportCenter extends Component {
 
   render() {
     const { navigation } = this.props;
-    const { faqDetails } = this.props.supportStore;
+    const { faqDetails, conversations } = this.props.supportStore;
 
     const faqSections = Object.keys(faqDetails).map(faqSection => {
       return {
@@ -45,7 +45,9 @@ class SupportCenter extends Component {
             resizeMode={"contain"}
             style={styles.supportIllustration}
           />
-          <TicketTile action={() => navigation.navigate("YourTickets")} />
+          {conversations.length ? (
+            <TicketTile action={() => navigation.navigate("YourTickets")} />
+          ) : null}
           {faqSections.map((faqSection, faqIndex) => {
             return (
               <FaqSectionTile

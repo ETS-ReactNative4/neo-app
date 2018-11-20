@@ -26,7 +26,7 @@ const TicketPreview = ({
     >
       <View style={styles.titleContainer}>
         <Text style={styles.title}>{title}</Text>
-        <Text style={styles.time}>{lastMessageTime}</Text>
+        <Text style={styles.time}>{isClosed ? "Closed" : lastMessageTime}</Text>
       </View>
       <View style={styles.textContainer}>
         <Text style={styles.message} numberOfLines={1} ellipsizeMode={"tail"}>

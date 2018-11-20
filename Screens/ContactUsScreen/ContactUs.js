@@ -16,6 +16,8 @@ import { inject, observer } from "mobx-react/custom";
 let subjectText, messageText;
 
 @inject("itineraries")
+@inject("infoStore")
+@inject("supportStore")
 @observer
 class ContactUs extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -82,6 +84,8 @@ class ContactUs extends Component {
     if (this.state.message && this.state.subject) {
       const ticketType = this.props.navigation.getParam("type", "");
       const { selectedItineraryId } = this.props.itineraries;
+      const { setSuccess, setError } = this.props.infoStore;
+      const { loadConversation } = this.props.supportStore;
       const requestObject = {
         itineraryId: selectedItineraryId,
         msg: this.state.message,
@@ -90,8 +94,28 @@ class ContactUs extends Component {
         title: this.state.subject
       };
       apiCall(constants.sendTicketMessage, requestObject)
-        .then(response => {})
-        .catch(error => {});
+        .then(response => {
+          if (response.status === "SUCCESS") {
+            loadConversation();
+            Keyboard.dismiss();
+            setSuccess(
+              "Ticket Created!",
+              "We will get back to you as early as possible..."
+            );
+            this.props.navigation.goBack();
+          } else {
+            setError(
+              "Unable to Create Ticket!",
+              "Looks like something went wrong, please try again after sometime..."
+            );
+          }
+        })
+        .catch(error => {
+          setError(
+            "Unable to Create Ticket!",
+            "Looks like something went wrong, please try again after sometime..."
+          );
+        });
     }
   };
 

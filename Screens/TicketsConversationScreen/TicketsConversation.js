@@ -7,7 +7,9 @@ import KeyboardAvoidingActionBar from "../../CommonComponents/KeyboardAvoidingAc
 import SimpleButton from "../../CommonComponents/SimpleButton/SimpleButton";
 import MultiLineHeader from "../../CommonComponents/MultilineHeader/MultiLineHeader";
 import { inject, observer } from "mobx-react/custom";
+import moment from "moment";
 
+@inject("userStore")
 @inject("supportStore")
 @observer
 class TicketsConversation extends Component {
@@ -36,11 +38,15 @@ class TicketsConversation extends Component {
   };
 
   _renderItem = ({ item: conversation, index }) => {
+    const { userDetails } = this.props.userStore;
+    const user = userDetails.email === conversation.userEmail ? "You" : "Admin";
     return (
       <ConversationCard
         message={conversation.msg}
-        time={conversation.msgTime}
-        user={index % 2 ? "You" : "Admin"}
+        time={`${moment(conversation.msgTime).fromNow()}, ${moment(
+          conversation.msgTime
+        ).format("hh:mma")}`}
+        user={user}
         containerStyle={{ marginHorizontal: 24 }}
       />
     );
