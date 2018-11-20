@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { FlatList, View, StyleSheet } from "react-native";
+import { FlatList, View, StyleSheet, Platform, TextInput } from "react-native";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import TicketPreview from "./Components/TicketPreview";
 
@@ -80,19 +80,25 @@ class YourTickets extends Component {
     return (
       <TicketPreview
         title={ticket.title}
+        containerStyle={{ marginHorizontal: 24 }}
         lastMessage={ticket.lastMsg}
         lastMessageTime={"6:30pm"}
         isClosed={ticket.closed}
         isUnRead={true}
         isLast={index === data.length - 1}
-        action={() => this.props.navigation.navigate("TicketsConversation")}
+        action={() =>
+          this.props.navigation.navigate("TicketsConversation", {
+            title: ticket.title,
+            status: ticket.closed ? "Closed" : "Open"
+          })
+        }
       />
     );
   };
 
   render() {
     return (
-      <View style={styles.yourTicketsContainer}>
+      <View key={0} style={styles.yourTicketsContainer}>
         <FlatList data={data} renderItem={this._renderItem} />
       </View>
     );
@@ -102,8 +108,7 @@ class YourTickets extends Component {
 const styles = StyleSheet.create({
   yourTicketsContainer: {
     flex: 1,
-    backgroundColor: "white",
-    paddingHorizontal: 24
+    backgroundColor: "white"
   }
 });
 

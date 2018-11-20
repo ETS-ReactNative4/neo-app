@@ -7,10 +7,14 @@ const MultiLineHeader = ({ duration, title, disableDropDown }) => {
   return (
     <View style={styles.bookingTitleView}>
       <View style={styles.durationTextWrapper}>
-        <Text style={styles.duration}>{duration}</Text>
+        <Text style={styles.duration} numberOfLines={1} ellipsizeMode={"tail"}>
+          {duration}
+        </Text>
       </View>
       <View style={styles.titleTextWrapper}>
-        <Text style={styles.title}>{title}</Text>
+        <Text style={styles.title} numberOfLines={1} ellipsizeMode={"tail"}>
+          {title}
+        </Text>
         {!disableDropDown ? (
           <View style={styles.dropDownIconContainer}>
             <Image

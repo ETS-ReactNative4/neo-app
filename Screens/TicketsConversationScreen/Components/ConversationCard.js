@@ -1,10 +1,13 @@
 import React, { Component } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import constants from "../../../constants/constants";
+import PropTypes from "prop-types";
+import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraProps";
 
-const ConversationCard = ({ message, time, user }) => {
+const ConversationCard = ({ message, time, user, containerStyle }) => {
+  if (!containerStyle) containerStyle = {};
   return (
-    <View style={styles.conversationCard}>
+    <View style={[styles.conversationCard, containerStyle]}>
       <View style={styles.header}>
         <Text style={styles.name}>{user}</Text>
         <Text style={styles.time}>{time}</Text>
@@ -13,6 +16,14 @@ const ConversationCard = ({ message, time, user }) => {
     </View>
   );
 };
+
+ConversationCard.propTypes = forbidExtraProps({
+  message: PropTypes.string.isRequired,
+  time: PropTypes.string.isRequired,
+  user: PropTypes.string.isRequired,
+  containerStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.number])
+    .isRequired
+});
 
 const styles = StyleSheet.create({
   conversationCard: {

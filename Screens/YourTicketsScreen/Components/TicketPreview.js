@@ -11,12 +11,18 @@ const TicketPreview = ({
   action,
   isClosed,
   isUnRead,
-  isLast
+  isLast,
+  containerStyle
 }) => {
+  if (!containerStyle) containerStyle = {};
   return (
     <TouchableOpacity
       onPress={action}
-      style={[styles.previewContainer, isLast ? styles.lastContainer : null]}
+      style={[
+        styles.previewContainer,
+        isLast ? styles.lastContainer : null,
+        containerStyle
+      ]}
     >
       <View style={styles.titleContainer}>
         <Text style={styles.title}>{title}</Text>
@@ -67,7 +73,9 @@ TicketPreview.propTypes = forbidExtraProps({
   isClosed: PropTypes.bool.isRequired,
   isUnRead: PropTypes.bool.isRequired,
   isLast: PropTypes.bool.isRequired,
-  action: PropTypes.func.isRequired
+  action: PropTypes.func.isRequired,
+  containerStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.number])
+    .isRequired
 });
 
 export default TicketPreview;
