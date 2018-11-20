@@ -96,6 +96,13 @@ class SupportStore {
       });
   };
 
+  @action
+  addMessageToConversation = (ticketId, messageObject) => {
+    const messages = toJS(this._messages);
+    messages[ticketId].push(messageObject);
+    this._messages = messages;
+  };
+
   getMessagesByTicket = createTransformer(ticketId => {
     try {
       if (this._messages[ticketId]) {
