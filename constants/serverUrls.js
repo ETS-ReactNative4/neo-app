@@ -45,7 +45,7 @@ const serverUrls = {
     `https://translate.google.com.vn/translate_tts?ie=UTF-8&q=${phrase}&tl=${language}&client=tw-ob`,
   airlineCdn: "https://d3lf10b5gahyby.cloudfront.net/airline_logos/",
   crispServerUrl:
-    "https://go.crisp.chat/chat/embed/?website_id=b611e2e5-45aa-4b4e-bb40-bf30d8e935be",
+    "https://go.crisp.chat/chat/embed/?website_id=a04827ba-5aa9-4540-866f-e1850a0476eb",
   offlineContact: "+91 8939891682",
 
   /**
