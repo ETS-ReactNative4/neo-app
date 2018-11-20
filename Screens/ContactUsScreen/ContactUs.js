@@ -16,15 +16,28 @@ class ContactUs extends Component {
     subject: "",
     message: ""
   };
+  _containerScroll = React.createRef();
 
   setSubject = subject => this.setState({ subject });
 
-  setMessage = message => this.setState({ message });
+  setMessage = message => {
+    const currentLastChar = this.state.message.substr(
+      this.state.message.length - 3
+    );
+    const newLastChar = message(message.length - 3);
+    this.setState({ message });
+    if (currentLastChar !== newLastChar) {
+      this._containerScroll.scrollToEnd();
+    }
+  };
 
   render() {
     return (
       <View style={styles.contactUsContainer}>
-        <ScrollView style={styles.contactUsInputArea}>
+        <ScrollView
+          ref={e => (this._containerScroll = e)}
+          style={styles.contactUsInputArea}
+        >
           <TextInput
             multiline={true}
             style={styles.subjectTextBox}
@@ -71,7 +84,7 @@ const styles = StyleSheet.create({
     marginTop: 8,
     ...constants.fontCustom(constants.primarySemiBold, 17, 24),
     color: constants.black2,
-    maxHeight: responsiveHeight(50)
+    marginBottom: 24
   }
 });
 
