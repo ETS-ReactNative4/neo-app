@@ -6,7 +6,6 @@ import constants from "../../constants/constants";
 import KeyboardAvoidingActionBar from "../../CommonComponents/KeyboardAvoidingActionBar/KeyboardAvoidingActionBar";
 import SimpleButton from "../../CommonComponents/SimpleButton/SimpleButton";
 import MultiLineHeader from "../../CommonComponents/MultilineHeader/MultiLineHeader";
-import apiCall from "../../Services/networkRequests/apiCall";
 import { inject, observer } from "mobx-react/custom";
 
 @inject("supportStore")
@@ -99,6 +98,7 @@ class TicketsConversation extends Component {
             value={() => {}}
             multiline={true}
             onSubmitEditing={() => {}}
+            placeholderTextColor={constants.shade2}
             placeholder={"Type your message..."}
           />
           <SimpleButton
@@ -131,8 +131,13 @@ const styles = StyleSheet.create({
   supportTextInput: {
     flex: 1,
     minHeight: 32,
-    borderWidth: StyleSheet.hairlineWidth,
-    borderColor: constants.shade5,
+    borderWidth: 1,
+    borderColor: constants.shade4,
+    backgroundColor: constants.shade5,
+    paddingTop: 8,
+    paddingHorizontal: 8,
+    marginBottom: 4,
+    justifyContent: "center",
     borderRadius: 7,
     marginLeft: 24,
     marginTop: 8,
