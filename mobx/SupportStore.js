@@ -5,6 +5,7 @@ import apiCall from "../Services/networkRequests/apiCall";
 import constants from "../constants/constants";
 import storeService from "../Services/storeService/storeService";
 import { logError } from "../Services/errorLogger/errorLogger";
+import _ from "lodash";
 
 class SupportStore {
   @observable _isLoading = false;
@@ -106,7 +107,8 @@ class SupportStore {
   getMessagesByTicket = createTransformer(ticketId => {
     try {
       if (this._messages[ticketId]) {
-        return toJS(this._messages[ticketId]);
+        const messages = toJS(this._messages[ticketId]);
+        return _.orderBy(messages, "msgTime", "desc");
       } else {
         return [];
       }
