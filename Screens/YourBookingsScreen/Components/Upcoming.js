@@ -17,7 +17,12 @@ import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraPr
 import { NavigationActions, StackActions } from "react-navigation";
 const resetAction = StackActions.reset({
   index: 0,
-  actions: [NavigationActions.navigate({ routeName: "AppHome" })]
+  actions: [
+    NavigationActions.navigate({
+      routeName: "AppHome",
+      action: NavigationActions.navigate({ routeName: "BookedItineraryTabs" })
+    })
+  ]
 });
 
 @inject("appState")
@@ -39,13 +44,15 @@ class Upcoming extends Component {
     selectItinerary(itineraryId);
     if (Platform.OS === "android") {
       if (!previousScene) {
-        this.props.appState.setTripMode(true, "reset");
+        this.props.appState.setTripMode(true);
         this.props.navigation.dispatch(resetAction);
       } else {
         this.props.appState.setTripMode(true);
+        this.props.navigation.navigate("BookedItineraryTabs");
       }
     } else {
       this.props.appState.setTripMode(true);
+      this.props.navigation.navigate("BookedItineraryTabs");
     }
   };
 
