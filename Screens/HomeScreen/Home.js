@@ -39,9 +39,8 @@ class Home extends Component {
     if (this.state.canGoBack) {
       this._webView.goBack();
     } else {
-      return false;
+      BackHandler.exitApp();
     }
-    return true;
   };
 
   componentDidMount() {

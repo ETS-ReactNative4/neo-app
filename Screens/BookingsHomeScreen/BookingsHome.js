@@ -5,7 +5,8 @@ import {
   StyleSheet,
   LayoutAnimation,
   Platform,
-  RefreshControl
+  RefreshControl,
+  BackHandler
 } from "react-native";
 import SearchPlaceholder from "../../CommonComponents/SearchPlaceholder/SearchPlaceholder";
 import BookingCalendar from "./Components/BookingCalendar/BookingCalendar";
@@ -28,12 +29,47 @@ import apiCall from "../../Services/networkRequests/apiCall";
 class BookingsHome extends Component {
   static navigationOptions = HomeHeader;
 
+  _didFocusSubscription;
+  _willBlurSubscription;
+
   state = {
     isDownloadLoading: false
   };
 
+  constructor(props) {
+    super(props);
+
+    this._didFocusSubscription = props.navigation.addListener(
+      "didFocus",
+      () => {
+        BackHandler.addEventListener(
+          "hardwareBackPress",
+          this.onBackButtonPressAndroid
+        );
+      }
+    );
+  }
+
+  onBackButtonPressAndroid = () => {
+    BackHandler.exitApp();
+  };
+
   componentDidMount() {
     getDeviceToken();
+    this._willBlurSubscription = this.props.navigation.addListener(
+      "willBlur",
+      () => {
+        BackHandler.removeEventListener(
+          "hardwareBackPress",
+          this.onBackButtonPressAndroid
+        );
+      }
+    );
+  }
+
+  componentWillUnmount() {
+    this._didFocusSubscription && this._didFocusSubscription.remove();
+    this._willBlurSubscription && this._willBlurSubscription.remove();
   }
 
   openSearch = () => {};
