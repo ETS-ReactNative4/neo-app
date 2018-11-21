@@ -26,10 +26,10 @@ import getSmsPermissionAndroid from "../../Services/getSmsPermissionAndroid/getS
 import { NavigationActions, StackActions } from "react-navigation";
 import KeyboardAvoidingActionBar from "../../CommonComponents/KeyboardAvoidingActionBar/KeyboardAvoidingActionBar";
 
-const resetToBookings = StackActions.reset({
-  index: 0,
-  actions: [NavigationActions.navigate({ routeName: "YourBookings" })]
-});
+// const resetToBookings = StackActions.reset({
+//   index: 0,
+//   actions: [NavigationActions.navigate({ routeName: "YourBookings" })]
+// });
 
 @inject("yourBookingsStore")
 @inject("userStore")
@@ -113,9 +113,7 @@ class MobileNumber extends Component {
           await registerToken(response.data.authtoken);
           getUpcomingItineraries();
           getUserDetails();
-          Platform.OS === "android"
-            ? navigation.dispatch(resetToBookings)
-            : navigation.navigate("YourBookings");
+          navigation.navigate("YourBookings");
         } else {
           if (Platform.OS === "ios") {
             setError("OTP Verification Failed!", response.msg);

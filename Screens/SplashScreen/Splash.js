@@ -6,15 +6,15 @@ import * as Keychain from "react-native-keychain";
 import { registerFcmRefreshListener } from "../../Services/fcmService/fcm";
 import { inject, observer } from "mobx-react/custom";
 
-const resetToHome = StackActions.reset({
-  index: 0,
-  actions: [NavigationActions.navigate({ routeName: "Starter" })]
-});
-
-const resetToItineraries = StackActions.reset({
-  index: 0,
-  actions: [NavigationActions.navigate({ routeName: "AppHome" })]
-});
+// const resetToHome = StackActions.reset({
+//   index: 0,
+//   actions: [NavigationActions.navigate({ routeName: "Starter" })]
+// });
+//
+// const resetToItineraries = StackActions.reset({
+//   index: 0,
+//   actions: [NavigationActions.navigate({ routeName: "AppHome" })]
+// });
 
 @inject("appState")
 @observer
@@ -29,13 +29,9 @@ class Splash extends Component {
       const credentials = await Keychain.getGenericPassword();
       this.props.appState.setTripMode(true, "reset");
       if (credentials) {
-        Platform.OS === "ios"
-          ? this.props.navigation.navigate("AppHome")
-          : this.props.navigation.dispatch(resetToItineraries);
+        this.props.navigation.navigate("AppHome");
       } else {
-        Platform.OS === "ios"
-          ? this.props.navigation.navigate("Starter")
-          : this.props.navigation.dispatch(resetToHome);
+        this.props.navigation.navigate("Starter");
       }
     }, 1000);
   }

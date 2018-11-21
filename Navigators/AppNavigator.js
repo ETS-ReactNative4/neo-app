@@ -1,5 +1,5 @@
 import { createDrawerNavigator, createStackNavigator } from "react-navigation";
-import HomeStack from "./HomeStack";
+import HomeSwitch from "./HomeSwitch";
 import Notifications from "../Screens/NotificationsScreen/Notifications";
 import Home from "../Screens/HomeScreen/Home";
 import Drawer from "../Screens/Drawer/Drawer";
@@ -8,7 +8,7 @@ import PaymentStack from "./PaymentStack";
 const AppNavigator = createDrawerNavigator(
   {
     Home: {
-      screen: HomeStack
+      screen: HomeSwitch
     },
     Notifications: {
       screen: createStackNavigator({
