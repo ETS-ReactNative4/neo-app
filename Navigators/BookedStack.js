@@ -23,7 +23,7 @@ const BookedStack = createStackNavigator(
   {
     initialRouteName: "BookingsHome",
     navigationOptions: {
-      gesturesEnabled: false
+      gesturesEnabled: true
     },
     transitionConfig
   }
