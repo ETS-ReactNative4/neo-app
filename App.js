@@ -8,20 +8,10 @@ import { updateStoreService } from "./Services/storeService/storeService";
 import AppNavigator from "./Navigators/AppNavigator";
 import { analytics } from "react-native-firebase";
 import NetStatMonitor from "./CommonComponents/NetStatMonitor/NetStatMonitor";
+import getActiveRouteName from "./Services/getActiveRouteName/getActiveRouteName";
 
 UIManager.setLayoutAnimationEnabledExperimental &&
   UIManager.setLayoutAnimationEnabledExperimental(true);
-
-const getActiveRouteName = navigationState => {
-  if (!navigationState) {
-    return null;
-  }
-  const route = navigationState.routes[navigationState.index];
-  if (route.routes) {
-    return getActiveRouteName(route);
-  }
-  return route.routeName;
-};
 
 const screenTracker = (prevState, currentState) => {
   const currentScreen = getActiveRouteName(currentState);
