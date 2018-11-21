@@ -75,7 +75,7 @@ const ToolStack = createStackNavigator(
   {
     initialRouteName: "ToolHome",
     navigationOptions: {
-      gesturesEnabled: false
+      gesturesEnabled: true
     },
     transitionConfig
   }
