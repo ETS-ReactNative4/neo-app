@@ -15,7 +15,10 @@ const PaymentStack = createStackNavigator(
       screen: PaymentSummary
     },
     PaymentScreen: {
-      screen: PaymentScreen
+      screen: PaymentScreen,
+      navigationOptions: {
+        gesturesEnabled: false
+      }
     },
     PaymentSuccess: {
       screen: PaymentSuccess
@@ -27,10 +30,22 @@ const PaymentStack = createStackNavigator(
   {
     initialRouteName: "PaymentHome",
     navigationOptions: {
-      gesturesEnabled: false
+      gesturesEnabled: true
     },
     transitionConfig
   }
 );
+
+PaymentStack.navigationOptions = ({ navigation }) => {
+  let drawerLockMode = "locked-closed";
+  const route = navigation.state.routes[navigation.state.routes.length - 1];
+  const routeName = route.routeName;
+  if (routeName === "PaymentHome") {
+    drawerLockMode = "unlocked";
+  }
+  return {
+    drawerLockMode
+  };
+};
 
 export default PaymentStack;
