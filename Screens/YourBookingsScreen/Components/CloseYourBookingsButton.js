@@ -63,7 +63,6 @@ class CloseYourBookingsButton extends Component {
       this.props.appState.setTripMode(false);
       this.props.navigation.dispatch(resetAction);
     } else if (routeName === "YourBookingsUniversal") {
-      this.props.appState.setTripMode(true);
       this.props.navigation.goBack();
     }
   };
