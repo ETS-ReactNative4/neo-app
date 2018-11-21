@@ -18,18 +18,38 @@ class CloseYourBookingsButton extends Component {
     navigation: PropTypes.object.isRequired
   };
 
+  _didFocusSubscription;
+  _willBlurSubscription;
+
+  constructor(props) {
+    super(props);
+
+    this._didFocusSubscription = props.navigation.addListener(
+      "didFocus",
+      () => {
+        BackHandler.addEventListener(
+          "hardwareBackPress",
+          this.onBackButtonPressAndroid
+        );
+      }
+    );
+  }
+
   componentDidMount() {
-    BackHandler.addEventListener(
-      "hardwareBackPress",
-      this.onBackButtonPressAndroid
+    this._willBlurSubscription = this.props.navigation.addListener(
+      "willBlur",
+      () => {
+        BackHandler.removeEventListener(
+          "hardwareBackPress",
+          this.onBackButtonPressAndroid
+        );
+      }
     );
   }
 
   componentWillUnmount() {
-    BackHandler.removeEventListener(
-      "hardwareBackPress",
-      this.onBackButtonPressAndroid
-    );
+    this._didFocusSubscription && this._didFocusSubscription.remove();
+    this._willBlurSubscription && this._willBlurSubscription.remove();
   }
 
   onBackButtonPressAndroid = () => {
@@ -41,11 +61,11 @@ class CloseYourBookingsButton extends Component {
     const { activeScenes } = this.props.appState;
     const previousScene = activeScenes[activeScenes.length - 2];
     if (!previousScene) {
-      this.props.appState.setTripMode(false, "reset");
+      this.props.appState.setTripMode(false);
       this.props.navigation.dispatch(resetAction);
     } else if (previousScene.route.routeName === "MobileNumber") {
       // might not need this check
-      this.props.appState.setTripMode(false, "reset");
+      this.props.appState.setTripMode(false);
       this.props.navigation.dispatch(resetAction);
     } else {
       this.props.navigation.goBack();
