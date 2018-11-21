@@ -6,15 +6,15 @@ import * as Keychain from "react-native-keychain";
 import { registerFcmRefreshListener } from "../../Services/fcmService/fcm";
 import { inject, observer } from "mobx-react/custom";
 
-// const resetToHome = StackActions.reset({
-//   index: 0,
-//   actions: [NavigationActions.navigate({ routeName: "Starter" })]
-// });
-//
-// const resetToItineraries = StackActions.reset({
-//   index: 0,
-//   actions: [NavigationActions.navigate({ routeName: "AppHome" })]
-// });
+const resetToBooked = NavigationActions.navigate({
+  routeName: "AppHome",
+  action: NavigationActions.navigate({ routeName: "BookedItineraryTabs" })
+});
+
+const resetToPlan = NavigationActions.navigate({
+  routeName: "AppHome",
+  action: NavigationActions.navigate({ routeName: "NewItineraryStack" })
+});
 
 @inject("appState")
 @observer
@@ -25,11 +25,15 @@ class Splash extends Component {
 
   componentDidMount() {
     registerFcmRefreshListener();
+    const { isTripModeOn } = this.props.appState;
     setTimeout(async () => {
       const credentials = await Keychain.getGenericPassword();
-      this.props.appState.setTripMode(true, "reset");
       if (credentials) {
-        this.props.navigation.navigate("AppHome");
+        if (isTripModeOn) {
+          this.props.navigation.dispatch(resetToBooked);
+        } else {
+          this.props.navigation.dispatch(resetToPlan);
+        }
       } else {
         this.props.navigation.navigate("Starter");
       }
