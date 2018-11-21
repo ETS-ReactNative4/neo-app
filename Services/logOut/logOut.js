@@ -21,7 +21,7 @@ const logOut = () => {
 
   navigation.dispatch(closeDrawer);
   Keychain.resetGenericPassword().then(() => {
-    navigation.dispatch(resetToSplash);
+    navigation._navigation.navigate("Splash");
 
     setTimeout(() => {
       storeService.itineraries.reset();
