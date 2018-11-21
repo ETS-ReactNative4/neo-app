@@ -52,6 +52,9 @@ const HomeSwitch = createSwitchNavigator(
         },
         FlightStatus: {
           screen: FlightStatus
+        },
+        YourBookingsUniversal: {
+          screen: YourBookings
         }
       },
       {

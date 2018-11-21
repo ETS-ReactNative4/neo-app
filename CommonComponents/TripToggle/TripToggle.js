@@ -3,7 +3,10 @@ import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import constants from "../../constants/constants";
 import PropTypes from "prop-types";
 import { inject, observer } from "mobx-react/custom";
+import * as Keychain from "react-native-keychain";
+import { logError } from "../../Services/errorLogger/errorLogger";
 
+@inject("itineraries")
 @inject("appState")
 @observer
 class TripToggle extends Component {
@@ -14,13 +17,28 @@ class TripToggle extends Component {
 
   toggleNavigation = () => {
     const { isTripModeOn, setTripMode } = this.props.appState;
+    const { selectedItineraryId } = this.props.itineraries;
     const { navigation } = this.props;
     if (isTripModeOn) {
       setTripMode(!isTripModeOn);
       navigation.navigate("NewItineraryStack");
     } else {
-      setTripMode(!isTripModeOn);
-      navigation.navigate("BookedItineraryTabs");
+      if (selectedItineraryId) {
+        setTripMode(!isTripModeOn);
+        navigation.navigate("BookedItineraryTabs");
+      } else {
+        Keychain.getGenericPassword()
+          .then(credentials => {
+            if (credentials) {
+              navigation.navigate("YourBookingsUniversal");
+            } else {
+              navigation.navigate("MobileNumber");
+            }
+          })
+          .catch(e => {
+            logError(e);
+          });
+      }
     }
   };
 

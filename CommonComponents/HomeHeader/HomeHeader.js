@@ -10,7 +10,9 @@ const HomeHeader = ({ navigation }) => {
       <CommonHeader
         LeftButton={<HamburgerButton action={() => navigation.openDrawer()} />}
         TitleComponent={
-          <HomeTitle action={() => navigation.push("YourBookings")} />
+          <HomeTitle
+            action={() => navigation.navigate("YourBookingsUniversal")}
+          />
         }
         title={""}
         RightButton={<TripToggle navigation={navigation} />}

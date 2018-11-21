@@ -39,6 +39,9 @@ class Upcoming extends Component {
     if (routeName === "YourBookings") {
       this.props.appState.setTripMode(true);
       this.props.navigation.dispatch(resetAction);
+    } else if (routeName === "YourBookingsUniversal") {
+      this.props.appState.setTripMode(true);
+      this.props.navigation.goBack();
     }
   };
 
