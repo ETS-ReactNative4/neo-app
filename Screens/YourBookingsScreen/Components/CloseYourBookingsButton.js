@@ -6,9 +6,9 @@ import { StackActions, NavigationActions } from "react-navigation";
 import { inject, observer } from "mobx-react/custom";
 import Icon from "../../../CommonComponents/Icon/Icon";
 
-const resetAction = StackActions.reset({
-  index: 0,
-  actions: [NavigationActions.navigate({ routeName: "AppHome" })]
+const resetAction = NavigationActions.navigate({
+  routeName: "AppHome",
+  action: NavigationActions.navigate({ routeName: "NewItineraryStack" })
 });
 
 @inject("appState")
@@ -58,17 +58,10 @@ class CloseYourBookingsButton extends Component {
   };
 
   goBack = () => {
-    const { activeScenes } = this.props.appState;
-    const previousScene = activeScenes[activeScenes.length - 2];
-    if (!previousScene) {
+    const routeName = this.props.navigation.state.routeName;
+    if (routeName === "YourBookings") {
       this.props.appState.setTripMode(false);
       this.props.navigation.dispatch(resetAction);
-    } else if (previousScene.route.routeName === "MobileNumber") {
-      // might not need this check
-      this.props.appState.setTripMode(false);
-      this.props.navigation.dispatch(resetAction);
-    } else {
-      this.props.navigation.goBack();
     }
   };
 

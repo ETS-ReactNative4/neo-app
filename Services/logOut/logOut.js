@@ -8,11 +8,11 @@ import { setUserContext } from "../errorLogger/errorLogger";
 import navigationService from "../navigationService/navigationService";
 import storeService from "../storeService/storeService";
 
-const resetToSplash = StackActions.reset({
-  index: 0,
-  actions: [NavigationActions.navigate({ routeName: "Splash" })],
-  key: null
-});
+// const resetToSplash = StackActions.reset({
+//   index: 0,
+//   actions: [NavigationActions.navigate({ routeName: "Splash" })],
+//   key: null
+// });
 
 const closeDrawer = DrawerActions.closeDrawer();
 
