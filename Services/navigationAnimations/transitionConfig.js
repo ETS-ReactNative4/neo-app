@@ -54,7 +54,7 @@ const transitionConfig = () => {
         case "Starter":
           return scaleWithOpacity;
 
-        case "YourBookings":
+        case "YourBookingsUniversal":
           return slideFromBottom;
 
         case "PassVoucher":
