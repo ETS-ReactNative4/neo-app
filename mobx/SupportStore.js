@@ -26,7 +26,11 @@ class SupportStore {
   reset = () => {
     this._isLoading = false;
     this._hasError = false;
+    this._isConversationLoading = false;
+    this._isMessagesLoading = false;
     this._faqDetails = {};
+    this._messages = {};
+    this._conversations = [];
   };
 
   @computed
