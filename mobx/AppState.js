@@ -36,24 +36,7 @@ class AppState {
   };
 
   @action
-  setTripMode = (status, mode = "push") => {
-    if (status) {
-      if (mode !== "reset") {
-        navigationService.navigation.dispatch(
-          NavigationActions.navigate({
-            routeName: "BookedItineraryTabs"
-          })
-        );
-      }
-    } else {
-      if (mode !== "reset") {
-        navigationService.navigation.dispatch(
-          NavigationActions.navigate({
-            routeName: "NewItineraryStack"
-          })
-        );
-      }
-    }
+  setTripMode = status => {
     this._tripMode.status = status;
   };
 

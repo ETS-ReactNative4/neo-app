@@ -26,7 +26,7 @@ class Starter extends Component {
   };
 
   clickedPlan = () => {
-    this.props.appState.setTripMode(false);
+    this.props.navigation.navigate("NewItineraryStack");
   };
 
   render() {

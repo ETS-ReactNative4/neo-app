@@ -13,7 +13,7 @@ const HomeHeader = ({ navigation }) => {
           <HomeTitle action={() => navigation.push("YourBookings")} />
         }
         title={""}
-        RightButton={<TripToggle />}
+        RightButton={<TripToggle navigation={navigation} />}
         navigation={navigation}
       />
     )

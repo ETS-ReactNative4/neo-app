@@ -2,6 +2,7 @@ import { createBottomTabNavigator } from "react-navigation";
 import Home from "../Screens/HomeScreen/Home";
 import BookedTabs from "./BookedTabs";
 import NewItineraryStack from "./NewItineraryStack";
+import storeService from "../Services/storeService/storeService";
 
 const HomeTabs = createBottomTabNavigator(
   {
@@ -13,7 +14,18 @@ const HomeTabs = createBottomTabNavigator(
     }
   },
   {
-    initialRouteName: "BookedItineraryTabs",
+    navigationOptions: ({ navigation }) => {
+      const { routeName } = navigation.state;
+      if (navigation.isFocused()) {
+        if (routeName === "NewItineraryStack") {
+          storeService.appState.setTripMode(false);
+        } else if (routeName === "BookedItineraryTabs") {
+          storeService.appState.setTripMode(true);
+        }
+      }
+      return {};
+    },
+    initialRouteName: "NewItineraryStack",
     swipeEnabled: false,
     lazy: false
   }

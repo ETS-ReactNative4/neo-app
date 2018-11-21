@@ -8,18 +8,30 @@ import { inject, observer } from "mobx-react/custom";
 @observer
 class TripToggle extends Component {
   static propTypes = {
-    containerStyle: PropTypes.object
+    containerStyle: PropTypes.object,
+    navigation: PropTypes.object.isRequired
+  };
+
+  toggleNavigation = () => {
+    const { isTripModeOn, setTripMode } = this.props.appState;
+    const { navigation } = this.props;
+    if (isTripModeOn) {
+      setTripMode(!isTripModeOn);
+      navigation.navigate("NewItineraryStack");
+    } else {
+      setTripMode(!isTripModeOn);
+      navigation.navigate("BookedItineraryTabs");
+    }
   };
 
   render() {
-    const { isTripModeOn, setTripMode } = this.props.appState;
+    const { isTripModeOn } = this.props.appState;
     let { containerStyle } = this.props;
     if (!containerStyle) containerStyle = {};
-
     return (
       <TouchableOpacity
         activeOpacity={1}
-        onPress={() => setTripMode(!isTripModeOn)}
+        onPress={this.toggleNavigation}
         style={[styles.toggleContainer, containerStyle]}
       >
         <View
