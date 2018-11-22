@@ -57,7 +57,7 @@ class CitySelectionMenu extends Component {
             <CommonHeader
               title={"Your Itinerary"}
               leftAction={closeModal}
-              RightButton={<SearchButton action={() => {}} />}
+              // RightButton={<SearchButton action={() => {}} />}
               navigation={navigation}
             />
             <ScrollView>

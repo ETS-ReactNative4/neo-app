@@ -89,10 +89,10 @@ class Tools extends Component {
 
     return (
       <View style={styles.container}>
-        <SearchPlaceholder
-          action={() => null}
-          containerStyle={{ marginHorizontal: 24 }}
-        />
+        {/*<SearchPlaceholder*/}
+        {/*action={() => null}*/}
+        {/*containerStyle={{ marginHorizontal: 24 }}*/}
+        {/*/>*/}
         <ScrollView>
           <SectionHeader
             sectionName={"CITY GUIDES"}

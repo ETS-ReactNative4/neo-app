@@ -29,7 +29,7 @@ class BookedItinerary extends Component {
       header: (
         <CommonHeader
           TitleComponent={<BookedItineraryTitle />}
-          RightButton={<SearchButton action={() => {}} />}
+          // RightButton={<SearchButton action={() => {}} />}
           title={""}
           navigation={navigation}
         />

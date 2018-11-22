@@ -60,13 +60,13 @@ class CurrencySelector extends Component {
               <View style={styles.headingArea}>
                 <Text style={styles.headingText}>Output Currency</Text>
               </View>
-              <TouchableHighlight style={styles.icon}>
-                <Icon
-                  style={24}
-                  source={constants.searchIcon}
-                  color={"white"}
-                />
-              </TouchableHighlight>
+              {/*<TouchableHighlight style={styles.icon}>*/}
+              {/*<Icon*/}
+              {/*style={24}*/}
+              {/*source={constants.searchIcon}*/}
+              {/*color={"white"}*/}
+              {/*/>*/}
+              {/*</TouchableHighlight>*/}
             </View>
             <ScrollView
               style={[

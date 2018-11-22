@@ -22,7 +22,7 @@ class YourBookings extends Component {
       header: (
         <CommonHeader
           LeftButton={LeftButton}
-          RightButton={<SearchButton action={() => {}} />}
+          // RightButton={<SearchButton action={() => {}} />}
           title={"Your Bookings"}
           navigation={navigation}
         />

@@ -36,9 +36,9 @@ const LanguageSelector = ({ languages, selectLanguage, cancel, isVisible }) => {
             <View style={styles.headingArea}>
               <Text style={styles.headingText}>Select Language</Text>
             </View>
-            <TouchableHighlight style={styles.icon}>
-              <Icon style={24} source={constants.searchIcon} color={"white"} />
-            </TouchableHighlight>
+            {/*<TouchableHighlight style={styles.icon}>*/}
+            {/*<Icon style={24} source={constants.searchIcon} color={"white"} />*/}
+            {/*</TouchableHighlight>*/}
           </View>
           <ScrollView
             style={[
