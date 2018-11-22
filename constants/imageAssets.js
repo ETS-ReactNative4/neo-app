@@ -97,6 +97,7 @@ const imageAssets = {
   errorBoxIllus: require("../assets/images/illustrations/Alert-icons-failure.png"),
   infoBoxIllus: require("../assets/images/illustrations/Alert-icons-info.png"),
   alertBoxIllus: require("../assets/images/illustrations/Alert-icons.png"),
+  journalComingSoonIllus: require("../assets/images/illustrations/coming-soon/travel-memories-coming-soon.png"),
 
   /**
    * TODO: Airline logo placeholder && transfer placeholder
