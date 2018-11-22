@@ -47,7 +47,7 @@ const CityCard = ({
         </View>
         <TouchableOpacity onPress={action} style={styles.actionView}>
           <Icon name={constants.locationIcon} size={16} color={"white"} />
-          <Text style={styles.actionText}>Explore on Map</Text>
+          <Text style={styles.actionText}>Explore Guide</Text>
         </TouchableOpacity>
       </View>
     </FastImage>
