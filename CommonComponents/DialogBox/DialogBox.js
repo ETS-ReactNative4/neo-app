@@ -6,6 +6,7 @@ import forbidExtraProps from "../../Services/PropTypeValidation/forbidExtraProps
 import { responsiveWidth } from "react-native-responsive-dimensions";
 import SimpleButton from "../SimpleButton/SimpleButton";
 import constants from "../../constants/constants";
+import Icon from "../Icon/Icon";
 
 const DialogBox = ({
   icon,
@@ -23,7 +24,13 @@ const DialogBox = ({
       onBackButtonPress={onClose}
     >
       <View style={styles.dialogBoxContainer}>
-        <Image source={icon} style={styles.icon} resizeMode={"contain"} />
+        {typeof icon === "string" ? (
+          <View style={styles.iconContainer}>
+            <Icon name={icon} size={64} />
+          </View>
+        ) : (
+          <Image source={icon} style={styles.icon} resizeMode={"contain"} />
+        )}
         <Text style={styles.title}>{title}</Text>
         <Text style={styles.message}>{message}</Text>
         <SimpleButton
@@ -52,6 +59,10 @@ const styles = StyleSheet.create({
   icon: {
     height: 64,
     width: 64,
+    margin: 8,
+    marginTop: 24
+  },
+  iconContainer: {
     margin: 8,
     marginTop: 24
   },
