@@ -51,6 +51,7 @@
     "react-native-parallax-scroll-view": "^0.21.0",
     "react-native-ratings": "^6.0.0",
     "react-native-responsive-dimensions": "2.0.1",
+    "react-native-restart": "^0.0.7",
     "react-native-scrollable-tab-view": "^0.8.0",
     "react-native-sentry": "0.39.0",
     "react-native-simple-radio-button": "^2.7.3",

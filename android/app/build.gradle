@@ -149,6 +149,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-restart')
     implementation project(':react-native-custom-tabs')
     implementation project(':react-native-firebase')
     implementation project(':react-native-sound')
