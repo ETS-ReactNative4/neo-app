@@ -58,9 +58,10 @@ class BookingAccordion extends Component {
             [
               bookingProcessingCount ? (
                 <View key={0} style={styles.bookingProcessLoadingWrapper}>
-                  <Image
-                    source={constants.bookingProcessingIcon}
-                    style={styles.bookingProcessIcon}
+                  <Icon
+                    name={constants.bookingProcessingIcon}
+                    size={24}
+                    color={constants.eighthColor}
                   />
                   <Text style={styles.bookingProcessCount}>
                     {bookingProcessingCount}

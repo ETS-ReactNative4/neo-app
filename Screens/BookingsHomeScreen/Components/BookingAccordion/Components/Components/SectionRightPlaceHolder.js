@@ -3,14 +3,16 @@ import { View, Image, Text, StyleSheet } from "react-native";
 import PropTypes from "prop-types";
 import constants from "../../../../../../constants/constants";
 import forbidExtraProps from "../../../../../../Services/PropTypeValidation/forbidExtraProps";
+import Icon from "../../../../../../CommonComponents/Icon/Icon";
 
 const SectionRightPlaceHolder = ({ isProcessing, isStayed }) => {
   return (
     <View style={styles.rightPlaceholder}>
       {isProcessing ? (
-        <Image
-          source={constants.bookingProcessingIcon}
-          style={styles.rightPlaceholderIcon}
+        <Icon
+          name={constants.bookingProcessingIcon}
+          size={24}
+          color={constants.eighthColor}
         />
       ) : null}
       {isStayed ? (

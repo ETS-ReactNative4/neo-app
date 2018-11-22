@@ -7,6 +7,7 @@ import PropTypes from "prop-types";
 import CircleThumbnail from "../../../../../CommonComponents/CircleThumbnail/CircleThumbnail";
 import storeService from "../../../../../Services/storeService/storeService";
 import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidExtraProps";
+import SectionRightPlaceHolder from "./Components/SectionRightPlaceHolder";
 
 const TrainsSection = ({ section, navigation }) => {
   return (
@@ -86,9 +87,7 @@ const Train = ({ train, isLast, navigation }) => {
           </Text>
         </View>
       </View>
-      <View style={styles.rightPlaceholder}>
-        <Text style={styles.rightPlaceholderText}>Stayed</Text>
-      </View>
+      <SectionRightPlaceHolder isProcessing={!train.voucher.booked} />
     </TouchableOpacity>
   );
 };

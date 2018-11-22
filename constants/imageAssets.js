@@ -20,7 +20,7 @@ const imageAssets = {
   closeIcon: "close",
   userIcon: "account",
   loadingIcon: require("../assets/images/loaders/loader.gif"),
-  bookingProcessingIcon: require("../assets/images/loaders/bookingProcessing.gif"),
+  bookingProcessingIcon: "refresh",
   hamburgerIcon: require("../assets/images/icons/menu.png"),
   aeroplaneIcon: "flight",
   flightVoucherBanner: require("../assets/images/backgrounds/flightVoucherHeader.jpg"),
