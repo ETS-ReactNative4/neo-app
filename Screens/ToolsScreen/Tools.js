@@ -58,14 +58,14 @@ class Tools extends Component {
         action: () => this.props.navigation.navigate("PassportDetails")
       },
       {
-        icon: constants.packageChecklistIcon,
-        text: `Packing${"\n"}Checklist`,
-        action: () => this.props.navigation.navigate("PackingChecklist")
-      },
-      {
         icon: constants.documentVisaIcon,
         text: `Documents${"\n"}& Visa`,
         action: () => this.props.navigation.navigate("Visa")
+      },
+      {
+        icon: constants.invitePassengersIcon,
+        text: `Invite${"\n"}Co-passengers`,
+        action: () => null
       },
       {
         icon: constants.yourPickIcon,
@@ -130,9 +130,9 @@ class Tools extends Component {
 
           <View style={styles.toolMenuRow}>
             <PrimaryTool
-              text={`Invite${"\n"}Co-passengers`}
-              action={() => {}}
-              toolIcon={constants.invitePassengersIcon}
+              text={`Packing${"\n"}Checklist`}
+              action={() => this.props.navigation.navigate("PackingChecklist")}
+              toolIcon={constants.packageChecklistIcon}
             />
 
             {beforePacking.map((item, index) => (
