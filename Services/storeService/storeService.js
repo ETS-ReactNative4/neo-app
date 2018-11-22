@@ -2,7 +2,9 @@ const storeService = {};
 
 export const updateStoreService = store => {
   for (const key in store) {
-    storeService[key] = store[key];
+    if (store.hasOwnProperty(key)) {
+      storeService[key] = store[key];
+    }
   }
 };
 
