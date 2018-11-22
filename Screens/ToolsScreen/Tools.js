@@ -65,12 +65,14 @@ class Tools extends Component {
       {
         icon: constants.invitePassengersIcon,
         text: `Invite${"\n"}Co-passengers`,
-        action: () => null
+        action: () => null,
+        isComingSoon: true
       },
       {
         icon: constants.yourPickIcon,
         text: `Your${"\n"}Picks`,
-        action: () => {}
+        action: () => null,
+        isComingSoon: true
       }
     ];
 
@@ -119,6 +121,7 @@ class Tools extends Component {
                 icon={item.icon}
                 text={item.text}
                 action={item.action}
+                isComingSoon={item.isComingSoon}
               />
             ))}
           </View>
@@ -141,6 +144,7 @@ class Tools extends Component {
                 icon={item.icon}
                 text={item.text}
                 action={item.action}
+                isComingSoon={item.isComingSoon}
               />
             ))}
           </View>

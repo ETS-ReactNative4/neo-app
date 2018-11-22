@@ -22,7 +22,6 @@ const imageAssets = {
   loadingIcon: require("../assets/images/loaders/loader.gif"),
   bookingProcessingIcon: require("../assets/images/loaders/bookingProcessing.gif"),
   hamburgerIcon: require("../assets/images/icons/menu.png"),
-  headerBackgroundShape: require("../assets/images/shapes/banner_white.png"),
   aeroplaneIcon: "flight",
   flightVoucherBanner: require("../assets/images/backgrounds/flightVoucherHeader.jpg"),
   busIcon: "bus",
@@ -39,7 +38,10 @@ const imageAssets = {
   clockIcon: "clock",
   infoIcon: "about",
   locationIcon: "location",
+
   semiCircleShape: require("../assets/images/shapes/hiring_topic.png"),
+  headerBackgroundShape: require("../assets/images/shapes/banner_white.png"),
+  comingSoonShape: require("../assets/images/shapes/coming-soon.png"),
 
   tripFeedIcon: "trip-feed",
   tripFeedSelectedIcon: "trip-feed-active",
@@ -82,9 +84,9 @@ const imageAssets = {
   downloadInvoiceIcon: require("../assets/images/toolIcons/download-invoice.png"),
   emergencyContactsIcon: require("../assets/images/toolIcons/emergency-contacts.png"),
   faqIcon: require("../assets/images/toolIcons/faq.png"),
-  invitePassengersIcon: require("../assets/images/toolIcons/invite-co-passanger.png"),
+  invitePassengersIcon: require("../assets/images/toolIcons/invite-co-passanger-240px.png"),
   medicalCareIcon: require("../assets/images/toolIcons/medical-care.png"),
-  packageChecklistIcon: require("../assets/images/toolIcons/packing-checklist.png"),
+  packageChecklistIcon: require("../assets/images/toolIcons/packing-checklist-480.png"),
   passportDetailsIcon: require("../assets/images/toolIcons/passport-details.png"),
   yourPickIcon: require("../assets/images/toolIcons/your-picks.png"),
   dialogBoxIcon:
