@@ -46,7 +46,7 @@ const SecondaryTool = ({
             height: 30,
             width: 30,
             position: "absolute",
-            top: 0,
+            top: 10,
             right: 0
           }}
         />
