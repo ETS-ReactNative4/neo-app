@@ -2,48 +2,64 @@ import React, { Component } from "react";
 import { UIManager } from "react-native";
 import { Provider } from "mobx-react";
 import store from "./mobx/Store";
-import { logBreadCrumb } from "./Services/errorLogger/errorLogger";
 import { setNavigationService } from "./Services/navigationService/navigationService";
 import { updateStoreService } from "./Services/storeService/storeService";
 import AppNavigator from "./Navigators/AppNavigator";
-import { analytics } from "react-native-firebase";
 import NetStatMonitor from "./CommonComponents/NetStatMonitor/NetStatMonitor";
-import getActiveRouteName from "./Services/getActiveRouteName/getActiveRouteName";
+import screenTracker from "./Services/screenTracker/screenTracker";
+import storeService from "./Services/storeService/storeService";
+import constants from "./constants/constants";
+import RNRestart from "react-native-restart";
+import { logError } from "./Services/errorLogger/errorLogger";
 
-UIManager.setLayoutAnimationEnabledExperimental &&
-  UIManager.setLayoutAnimationEnabledExperimental(true);
+class App extends Component {
+  state = {
+    _errorShown: false
+  };
 
-const screenTracker = (prevState, currentState) => {
-  const currentScreen = getActiveRouteName(currentState);
-  const prevScreen = getActiveRouteName(prevState);
-
-  /**
-   * TODO: Check if any data can be added here...
-   */
-  if (prevScreen !== currentScreen) {
-    logBreadCrumb({
-      message: `${prevScreen} to ${currentScreen}`,
-      category: `navigation`,
-      data: {},
-      level: "info"
-    });
-    analytics().setCurrentScreen(currentScreen);
+  componentDidMount() {
+    UIManager.setLayoutAnimationEnabledExperimental &&
+      UIManager.setLayoutAnimationEnabledExperimental(true);
   }
-};
 
-const App = () => {
-  updateStoreService(store);
-  return [
-    <Provider {...store} key={0}>
-      <AppNavigator
-        ref={setNavigationService}
-        onNavigationStateChange={screenTracker}
-      />
-    </Provider>,
-    <Provider {...store} key={1}>
-      <NetStatMonitor />
-    </Provider>
-  ];
-};
+  componentDidCatch(error) {
+    if (__DEV__) {
+      return;
+    }
+
+    logError(error);
+
+    if (this.state._errorShown) {
+      return;
+    }
+
+    this.setState({
+      _errorShown: true
+    });
+
+    storeService.infoStore.setError(
+      "Something went wrong!",
+      "We encountered a problem and need the app to restart...",
+      constants.errorBoxIllus,
+      "Restart!",
+      RNRestart.Restart
+    );
+  }
+
+  render() {
+    updateStoreService(store);
+    return [
+      <Provider {...store} key={0}>
+        <AppNavigator
+          ref={setNavigationService}
+          onNavigationStateChange={screenTracker}
+        />
+      </Provider>,
+      <Provider {...store} key={1}>
+        <NetStatMonitor />
+      </Provider>
+    ];
+  }
+}
 
 export default App;
