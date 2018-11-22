@@ -113,9 +113,7 @@ class BookingsHome extends Component {
             } else {
               setError(
                 "Unable to Download!",
-                "Looks like your vouchers aren't ready yet!",
-                constants.notificationIcon,
-                "Okay"
+                "Looks like your vouchers aren't ready yet!"
               );
             }
           })
@@ -192,7 +190,7 @@ class BookingsHome extends Component {
               color={"white"}
               hasBorder={true}
               text={"Download all vouchers"}
-              icon={constants.activityIcon}
+              icon={constants.downloadIcon}
               action={() => null}
               iconSize={20}
               textColor={constants.firstColor}
@@ -206,7 +204,7 @@ class BookingsHome extends Component {
               color={"white"}
               hasBorder={true}
               text={"Download all vouchers"}
-              icon={constants.activityIcon}
+              icon={constants.downloadIcon}
               action={this.downloadAllVouchers}
               iconSize={20}
               textColor={constants.firstColor}

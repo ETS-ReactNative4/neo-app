@@ -81,7 +81,7 @@ const imageAssets = {
   completePaymentIcon: require("../assets/images/toolIcons/complete-payment.png"),
   currencyCalculatorIcon: require("../assets/images/toolIcons/currency-calculator.png"),
   documentVisaIcon: require("../assets/images/toolIcons/document-visa.png"),
-  downloadInvoiceIcon: require("../assets/images/toolIcons/download-invoice.png"),
+  downloadIcon: "download",
   emergencyContactsIcon: require("../assets/images/toolIcons/emergency-contacts.png"),
   faqIcon: require("../assets/images/toolIcons/faq.png"),
   invitePassengersIcon: require("../assets/images/toolIcons/invite-co-passanger-240px.png"),
