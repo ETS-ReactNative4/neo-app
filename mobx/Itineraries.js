@@ -640,9 +640,13 @@ class Itineraries {
       const transfer = toJS(
         this._selectedItinerary.transferCostings.transferCostingById[id]
       );
-      transfer.voucher =
-        storeService.voucherStore.getTransferVoucherById(transfer.key) || {};
-      return transfer;
+      if (transfer) {
+        transfer.voucher =
+          storeService.voucherStore.getTransferVoucherById(transfer.key) || {};
+        return transfer;
+      } else {
+        return {};
+      }
     } catch (e) {
       logError(e);
       return {};

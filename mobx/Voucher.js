@@ -3,6 +3,8 @@ import { persist } from "mobx-persist";
 import apiCall from "../Services/networkRequests/apiCall";
 import constants from "../constants/constants";
 import { createTransformer } from "mobx-utils";
+import { logError } from "../Services/errorLogger/errorLogger";
+import _ from "lodash";
 
 class Voucher {
   @observable _isLoading = false;
@@ -98,63 +100,106 @@ class Voucher {
       });
   };
 
-  getHotelVoucherById = createTransformer(id =>
-    toJS(
-      this._selectedVoucher.hotelVouchers.find(
-        hotel => id === hotel.hotelCostingId || id === hotel.identifier
-      )
-    )
-  );
+  getHotelVoucherById = createTransformer(id => {
+    if (_.isEmpty(this._selectedVoucher)) return {};
+    try {
+      return toJS(
+        this._selectedVoucher.hotelVouchers.find(
+          hotel => id === hotel.hotelCostingId || id === hotel.identifier
+        )
+      );
+    } catch (e) {
+      logError(e);
+      return {};
+    }
+  });
 
-  getFlightVoucherById = createTransformer(id =>
-    toJS(
-      this._selectedVoucher.flightVouchers.find(
-        flight => id === flight.flightCostingId || id === flight.identifier
-      )
-    )
-  );
+  getFlightVoucherById = createTransformer(id => {
+    if (_.isEmpty(this._selectedVoucher)) return {};
+    try {
+      return toJS(
+        this._selectedVoucher.flightVouchers.find(
+          flight => id === flight.flightCostingId || id === flight.identifier
+        )
+      );
+    } catch (e) {
+      logError(e);
+      return {};
+    }
+  });
 
-  getActivityVoucherById = createTransformer(id =>
-    toJS(
-      this._selectedVoucher.activityVouchers.find(
-        activity =>
-          id === activity.identifier || id === activity.activityCostingId
-      )
-    )
-  );
+  getActivityVoucherById = createTransformer(id => {
+    if (_.isEmpty(this._selectedVoucher)) return {};
+    try {
+      return toJS(
+        this._selectedVoucher.activityVouchers.find(
+          activity =>
+            id === activity.identifier || id === activity.activityCostingId
+        )
+      );
+    } catch (e) {
+      logError(e);
+      return {};
+    }
+  });
 
-  getTransferVoucherById = createTransformer(id =>
-    toJS(
-      this._selectedVoucher.transferVouchers.find(
-        transfer =>
-          id === transfer.transferCostingId || id === transfer.identifier
-      )
-    )
-  );
+  getTransferVoucherById = createTransformer(id => {
+    if (_.isEmpty(this._selectedVoucher)) return {};
+    try {
+      return toJS(
+        this._selectedVoucher.transferVouchers.find(
+          transfer =>
+            id === transfer.transferCostingId || id === transfer.identifier
+        )
+      );
+    } catch (e) {
+      logError(e);
+      return {};
+    }
+  });
 
-  getRentalCarVoucherById = createTransformer(id =>
-    toJS(
-      this._selectedVoucher.rentalCarVouchers.find(
-        rentalCar => id === rentalCar.identifier || id === rentalCar.rcCostingId
-      )
-    )
-  );
+  getRentalCarVoucherById = createTransformer(id => {
+    if (_.isEmpty(this._selectedVoucher)) return {};
+    try {
+      return toJS(
+        this._selectedVoucher.rentalCarVouchers.find(
+          rentalCar =>
+            id === rentalCar.identifier || id === rentalCar.rcCostingId
+        )
+      );
+    } catch (e) {
+      logError(e);
+      return {};
+    }
+  });
 
-  getFerryVoucherById = createTransformer(id =>
-    toJS(
-      this._selectedVoucher.ferryVouchers.find(
-        ferry => id === ferry.identifier || id === ferry.ferryCostingId
-      )
-    )
-  );
+  getFerryVoucherById = createTransformer(id => {
+    if (_.isEmpty(this._selectedVoucher)) return {};
+    try {
+      return toJS(
+        this._selectedVoucher.ferryVouchers.find(
+          ferry => id === ferry.identifier || id === ferry.ferryCostingId
+        )
+      );
+    } catch (e) {
+      logError(e);
+      return {};
+    }
+  });
 
-  getTrainVoucherById = createTransformer(id =>
-    toJS(
-      this._selectedVoucher.trainVouchers.find(
-        train => id === train.identifier || id === train.trainCostingId
-      )
-    )
-  );
+  getTrainVoucherById = createTransformer(id => {
+    if (_.isEmpty(this._selectedVoucher)) return {};
+    try {
+      toJS(
+        this._selectedVoucher.trainVouchers.find(
+          train => id === train.identifier || id === train.trainCostingId
+        )
+      );
+    } catch (e) {
+      logError(e);
+      return {};
+    }
+  });
 
   @computed
   get isLoading() {
