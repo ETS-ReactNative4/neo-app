@@ -1,5 +1,6 @@
 import { analytics } from "react-native-firebase";
-import { logError } from "../errorLogger/errorLogger";
+import { logBreadCrumb, logError } from "../errorLogger/errorLogger";
+import getActiveRouteName from "../getActiveRouteName/getActiveRouteName";
 
 const reserved = [
   "app_clear_data",
@@ -44,4 +45,22 @@ export const disableAnalytics = () =>
 export const setUserDetails = ({ id, name, email, phoneNumber }) => {
   analytics().setUserId(id);
   analytics().setUserProperty({ name, email, phoneNumber });
+};
+
+export const screenTracker = (prevState, currentState) => {
+  const currentScreen = getActiveRouteName(currentState);
+  const prevScreen = getActiveRouteName(prevState);
+
+  /**
+   * TODO: Check if any data can be added here...
+   */
+  if (prevScreen !== currentScreen) {
+    logBreadCrumb({
+      message: `${prevScreen} to ${currentScreen}`,
+      category: `navigation`,
+      data: {},
+      level: "info"
+    });
+    analytics().setCurrentScreen(currentScreen);
+  }
 };

@@ -6,11 +6,15 @@ import { setNavigationService } from "./Services/navigationService/navigationSer
 import { updateStoreService } from "./Services/storeService/storeService";
 import AppNavigator from "./Navigators/AppNavigator";
 import NetStatMonitor from "./CommonComponents/NetStatMonitor/NetStatMonitor";
-import screenTracker from "./Services/screenTracker/screenTracker";
 import storeService from "./Services/storeService/storeService";
 import constants from "./constants/constants";
 import RNRestart from "react-native-restart";
 import { logError } from "./Services/errorLogger/errorLogger";
+import {
+  enableAnalytics,
+  screenTracker
+} from "./Services/analytics/analyticsService";
+import PackageInfo from "./package.json";
 
 class App extends Component {
   state = {
@@ -20,6 +24,14 @@ class App extends Component {
   componentDidMount() {
     UIManager.setLayoutAnimationEnabledExperimental &&
       UIManager.setLayoutAnimationEnabledExperimental(true);
+
+    if (
+      __DEV__ &&
+      (PackageInfo.environment === "production" ||
+        PackageInfo.environment === "staging")
+    ) {
+      enableAnalytics();
+    }
   }
 
   componentDidCatch(error) {
