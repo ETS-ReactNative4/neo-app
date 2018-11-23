@@ -36,7 +36,9 @@ const FlightCard = ({
 }) => {
   const airlineLogo = constants.getAirlineIcon(airlineCode);
   let baggageList =
-    excessBaggageInfo.available && excessBaggageInfo.excessBaggages.length
+    excessBaggageInfo &&
+    excessBaggageInfo.available &&
+    excessBaggageInfo.excessBaggages.length
       ? excessBaggageInfo.excessBaggages.map(baggage => {
           return {
             baggageOptions: baggage.baggageOptions,
