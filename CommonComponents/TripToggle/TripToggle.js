@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import { inject, observer } from "mobx-react/custom";
 import * as Keychain from "react-native-keychain";
 import { logError } from "../../Services/errorLogger/errorLogger";
+import { recordEvent } from "../../Services/analytics/analyticsService";
 
 @inject("itineraries")
 @inject("appState")
@@ -16,6 +17,7 @@ class TripToggle extends Component {
   };
 
   toggleNavigation = () => {
+    recordEvent(constants.tripToggleClickEvent);
     const { isTripModeOn, setTripMode } = this.props.appState;
     const { selectedItineraryId } = this.props.itineraries;
     const { navigation } = this.props;

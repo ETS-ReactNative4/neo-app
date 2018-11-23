@@ -3,6 +3,8 @@ import CommonHeader from "../CommonHeader/CommonHeader";
 import HamburgerButton from "../HamburgerButton/HamburgerButton";
 import HomeTitle from "../HomeTitle/HomeTitle";
 import TripToggle from "../TripToggle/TripToggle";
+import { recordEvent } from "../../Services/analytics/analyticsService";
+import constants from "../../constants/constants";
 
 const HomeHeader = ({ navigation }) => {
   return {
@@ -11,7 +13,10 @@ const HomeHeader = ({ navigation }) => {
         LeftButton={<HamburgerButton action={() => navigation.openDrawer()} />}
         TitleComponent={
           <HomeTitle
-            action={() => navigation.navigate("YourBookingsUniversal")}
+            action={() => {
+              recordEvent(constants.selectBookingHeaderClick);
+              navigation.navigate("YourBookingsUniversal");
+            }}
           />
         }
         title={""}

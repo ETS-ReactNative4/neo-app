@@ -10,7 +10,9 @@ const appEvents = {
   mobileNumberVerifyOtp: "mobile_number_verify_otp_click",
   mobileNumberOtpAutoFill: "mobile_number_otp_autofill",
   mobileNumberOtpFailed: "mobile_number_otp_failed",
-  userLoggedIn: "user_logged_in"
+  userLoggedIn: "user_logged_in",
+  tripToggleClickEvent: "trip_toggle_click",
+  selectBookingHeaderClick: "select_booking_header_button_click"
 };
 
 export default appEvents;
