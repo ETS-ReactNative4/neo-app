@@ -28,7 +28,7 @@ const reserved = [
   "ad_activeiew"
 ];
 
-export const recordEvent = (event, params) => {
+export const recordEvent = (event, params = undefined) => {
   if (!reserved.includes(event)) {
     analytics().logEvent(event, params);
   } else {

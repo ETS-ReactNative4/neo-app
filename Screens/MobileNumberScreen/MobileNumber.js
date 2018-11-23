@@ -25,6 +25,7 @@ import { inject, observer } from "mobx-react/custom";
 import getSmsPermissionAndroid from "../../Services/getSmsPermissionAndroid/getSmsPermissionAndroid";
 import { NavigationActions, StackActions } from "react-navigation";
 import KeyboardAvoidingActionBar from "../../CommonComponents/KeyboardAvoidingActionBar/KeyboardAvoidingActionBar";
+import { recordEvent } from "../../Services/analytics/analyticsService";
 
 // const resetToBookings = StackActions.reset({
 //   index: 0,
@@ -61,6 +62,7 @@ class MobileNumber extends Component {
   smsListener = {};
 
   selectCountryCode = countryCode => {
+    recordEvent(constants.mobileNumberSelectCountryCode);
     this.setState({ countryCode });
   };
 
@@ -115,6 +117,7 @@ class MobileNumber extends Component {
           getUserDetails();
           navigation.navigate("YourBookings");
         } else {
+          recordEvent(constants.mobileNumberOtpFailed);
           if (Platform.OS === "ios") {
             setError("OTP Verification Failed!", response.msg);
           } else {
@@ -210,6 +213,7 @@ class MobileNumber extends Component {
   otpPrefiller = message => {
     if (message.originatingAddress.indexOf("PYTBRK") > -1) {
       const otp = message.body.substr(0, 6).split("");
+      recordEvent(constants.mobileNumberOtpAutoFill);
       this.setState(
         {
           otp
@@ -224,12 +228,14 @@ class MobileNumber extends Component {
   };
 
   showCountryCodeModal = () => {
+    recordEvent(constants.mobileNumberOpenCountryCode);
     this.setState({
       isCountryCodeModalVisible: true
     });
   };
 
   hideCountryCodeModal = () => {
+    recordEvent(constants.mobileNumberCloseCountryCode);
     this.setState({
       isCountryCodeModalVisible: false
     });
@@ -298,6 +304,7 @@ class MobileNumber extends Component {
           isMobileVerified={this.state.isMobileVerified}
           mobileNumber={this.state.mobileNumber}
           showCountryCodeModal={this.showCountryCodeModal}
+          submitMobileNumber={this.submitMobileNumber}
         />
 
         {this.state.isUnregisteredNumber ? <UnregisteredNumber /> : null}

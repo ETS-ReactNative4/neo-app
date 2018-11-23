@@ -8,6 +8,7 @@ import PropTypes from "prop-types";
 import KeyboardAvoidingActionBar from "../../../CommonComponents/KeyboardAvoidingActionBar/KeyboardAvoidingActionBar";
 import { responsiveWidth } from "react-native-responsive-dimensions";
 import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraProps";
+import { recordEvent } from "../../../Services/analytics/analyticsService";
 
 const OtpBar = ({ resendOtp, verifyOtp, isWaiting, waitTime }) => {
   return [
@@ -21,7 +22,14 @@ const OtpBar = ({ resendOtp, verifyOtp, isWaiting, waitTime }) => {
       key={0}
       text={isWaiting ? `ResendOtp (${waitTime}s)` : "ResendOtp"}
       hasBorder={true}
-      action={isWaiting ? () => {} : resendOtp}
+      action={
+        isWaiting
+          ? () => {}
+          : () => {
+              recordEvent(constants.mobileNumberResendOtp);
+              resendOtp();
+            }
+      }
       textColor={isWaiting ? constants.shade5 : constants.black2}
       underlayColor={constants.shade4}
       color={"white"}
@@ -33,7 +41,10 @@ const OtpBar = ({ resendOtp, verifyOtp, isWaiting, waitTime }) => {
       }}
       key={1}
       text={"Verify"}
-      action={verifyOtp}
+      action={() => {
+        recordEvent(constants.mobileNumberVerifyOtp);
+        verifyOtp();
+      }}
       textColor={"white"}
       underlayColor={constants.firstColorAlpha(0.4)}
       color={constants.firstColor}

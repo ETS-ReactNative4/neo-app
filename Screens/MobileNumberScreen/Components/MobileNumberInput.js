@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import constants from "../../../constants/constants";
 import PropTypes from "prop-types";
+import { recordEvent } from "../../../Services/analytics/analyticsService";
 
 const MobileNumberInput = ({
   hasError,
@@ -17,7 +18,8 @@ const MobileNumberInput = ({
   countryCode,
   editMobileNumber,
   mobileNumber,
-  isMobileVerified
+  isMobileVerified,
+  submitMobileNumber
 }) => {
   return (
     <View
@@ -49,6 +51,10 @@ const MobileNumberInput = ({
           underlineColorAndroid={"transparent"}
           returnKeyType={"next"}
           editable={!isMobileVerified}
+          onSubmitEditing={() => {
+            recordEvent(constants.mobileNumberKeyboardClick);
+            submitMobileNumber();
+          }}
         />
       </View>
     </View>
@@ -61,7 +67,8 @@ MobileNumberInput.propTypes = {
   countryCode: PropTypes.string.isRequired,
   editMobileNumber: PropTypes.func.isRequired,
   mobileNumber: PropTypes.string.isRequired,
-  isMobileVerified: PropTypes.bool.isRequired
+  isMobileVerified: PropTypes.bool.isRequired,
+  submitMobileNumber: PropTypes.func.isRequired
 };
 
 const styles = StyleSheet.create({
