@@ -30,7 +30,7 @@ const apiUrls = {
   getPaymentMeta: "mobile/booked/itinerary/paymentMetaInfo",
   getPaymentInfo: "mobile/:itineraryId/paymentInfo",
   getFaq: "mobile/getFAQ",
-  initiatePayment: "api/payment/initiatepayment",
+  initiatePayment: "payment/initiatepayment",
   sendTicketMessage: "mobile/ticket/msg",
   retrieveTicketMessages: "mobile/ticket/msgs/retrieve",
   retrieveTickets: "mobile/tickets/status",
