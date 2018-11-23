@@ -11,6 +11,7 @@ import constants from "./constants/constants";
 import RNRestart from "react-native-restart";
 import { logError } from "./Services/errorLogger/errorLogger";
 import {
+  disableAnalytics,
   enableAnalytics,
   screenTracker
 } from "./Services/analytics/analyticsService";
@@ -25,13 +26,14 @@ class App extends Component {
     UIManager.setLayoutAnimationEnabledExperimental &&
       UIManager.setLayoutAnimationEnabledExperimental(true);
 
-    if (
-      __DEV__ &&
-      (PackageInfo.environment === "production" ||
-        PackageInfo.environment === "staging")
-    ) {
-      enableAnalytics();
-    }
+    // if (
+    //   !__DEV__ &&
+    //   PackageInfo.environment === "production"
+    // ) {
+    enableAnalytics();
+    // } else {
+    //   disableAnalytics();
+    // }
   }
 
   componentDidCatch(error) {

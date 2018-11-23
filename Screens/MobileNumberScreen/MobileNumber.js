@@ -113,6 +113,7 @@ class MobileNumber extends Component {
           this.smsListener.remove ? this.smsListener.remove() : () => null;
           clearInterval(this.waitListener);
           await registerToken(response.data.authtoken);
+          recordEvent(constants.userLoggedIn);
           getUpcomingItineraries();
           getUserDetails();
           navigation.navigate("YourBookings");

@@ -9,7 +9,8 @@ const appEvents = {
   mobileNumberResendOtp: "mobile_number_resend_otp_click",
   mobileNumberVerifyOtp: "mobile_number_verify_otp_click",
   mobileNumberOtpAutoFill: "mobile_number_otp_autofill",
-  mobileNumberOtpFailed: "mobile_number_otp_failed"
+  mobileNumberOtpFailed: "mobile_number_otp_failed",
+  userLoggedIn: "user_logged_in"
 };
 
 export default appEvents;
