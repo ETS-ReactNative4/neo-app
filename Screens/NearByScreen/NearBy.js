@@ -31,6 +31,7 @@ import getDeviceLocation from "../../Services/getDeviceLocation/getDeviceLocatio
 import apiCall from "../../Services/networkRequests/apiCall";
 import DebouncedAlert from "../../CommonComponents/DebouncedAlert/DebouncedAlert";
 import moment from "moment";
+import { recordEvent } from "../../Services/analytics/analyticsService";
 
 @inject("placesStore")
 @inject("itineraries")
@@ -152,6 +153,21 @@ class NearBy extends Component {
       item.isSelected = itemIndex === index;
       return item;
     });
+    const selectedFilter = filterOptions.find(item => item.isSelected);
+    switch (selectedFilter.text) {
+      case "All Ratings":
+        recordEvent(constants.nearByAllStarClick);
+        break;
+      case "Rated 3 stars and above":
+        recordEvent(constants.nearByThreeStarClick);
+        break;
+      case "Rated 4 stars and above":
+        recordEvent(constants.nearByFourStarClick);
+        break;
+      case "Rated 5 stars":
+        recordEvent(constants.nearByFiveStarClick);
+        break;
+    }
     this.setState({
       filterOptions
     });
@@ -163,6 +179,17 @@ class NearBy extends Component {
       return item;
     });
     const selectedSort = sortOptions.find(item => item.isSelected);
+    switch (selectedSort.type) {
+      case "nearHotel":
+        recordEvent(constants.nearByHotelClick);
+        break;
+      case "nearby":
+        recordEvent(constants.nearByLocationClick);
+        break;
+      case "text":
+        recordEvent(constants.nearByRatingsClick);
+        break;
+    }
     if (selectedSort.type === "nearby") {
       // fix modal issue
       setTimeout(() => {
@@ -253,6 +280,7 @@ class NearBy extends Component {
   };
 
   loadPlaceDetail = place => {
+    recordEvent(constants.nearByPlaceDetailsClick);
     const { selectPlace } = this.props.placesStore;
     selectPlace(place);
   };

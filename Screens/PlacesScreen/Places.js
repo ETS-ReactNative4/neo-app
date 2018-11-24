@@ -16,6 +16,7 @@ import { isIphoneX } from "react-native-iphone-x-helper";
 import { inject, observer } from "mobx-react/custom";
 import CitySelectionMenu from "../../CommonComponents/CitySelectionMenu/CitySelectionMenu";
 import PlacesPageTitle from "./Components/PlacesPageTitle";
+import { recordEvent } from "../../Services/analytics/analyticsService";
 
 @inject("placesStore")
 @observer
@@ -32,6 +33,10 @@ class Places extends Component {
     };
   };
 
+  state = {
+    isScrollRecorded: false
+  };
+
   componentDidMount() {
     const { selectCity } = this.props.placesStore;
     const city = this.props.navigation.getParam("city", {});
@@ -39,8 +44,18 @@ class Places extends Component {
   }
 
   changeCity = city => {
+    recordEvent(constants.placesHeaderCityNameClick);
     const { selectCity } = this.props.placesStore;
     selectCity(city);
+  };
+
+  scrollAction = () => {
+    if (!this.state.isScrollRecorded) {
+      recordEvent(constants.placesCarouselScroll);
+      this.setState({
+        isScrollRecorded: true
+      });
+    }
   };
 
   render() {
@@ -50,7 +65,10 @@ class Places extends Component {
     const categorySections = Object.keys(categories);
     const city = this.props.navigation.getParam("city", {});
     const target = this.props.navigation.getParam("target", "");
-
+    let onScrollProps = {};
+    if (!this.state.isScrollRecorded) {
+      onScrollProps["onScroll"] = () => this.scrollAction();
+    }
     return (
       <ScrollView style={styles.placesContainer}>
         <CitySelectionMenu
@@ -62,13 +80,18 @@ class Places extends Component {
           return (
             <View key={sectionIndex}>
               <PlaceSectionTitle title={section} />
-              <Carousel firstMargin={24} containerStyle={{ height: 152 }}>
+              <Carousel
+                {...onScrollProps}
+                firstMargin={24}
+                containerStyle={{ height: 152 }}
+              >
                 {category.map((item, itemIndex) => {
                   return (
                     <PlaceCard
                       key={itemIndex}
                       image={{ uri: item.image }}
                       action={() => {
+                        recordEvent(constants.placesCategoryTileClick);
                         this.props.navigation.navigate(target, {
                           title: item.category,
                           city,

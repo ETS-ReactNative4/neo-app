@@ -73,7 +73,21 @@ const appEvents = {
   toolsWeatherForecastTileClick: "tools_weather_forecast_tile_click",
   toolsSupportCenterTileClick: "tools_support_center_tile_click",
   toolsPassportTileClick: "tools_passport_tile_click",
-  toolsDocumentsVisaTileClick: "tools_documents_visa_tile_click"
+  toolsDocumentsVisaTileClick: "tools_documents_visa_tile_click",
+  placesHeaderClick: "places_header_click",
+  placesHeaderCityNameClick: "places_header_city_name_click",
+  placesCarouselScroll: "places_carousel_scroll",
+  placesCategoryTileClick: "places_category_tile_click",
+  nearByAllStarClick: "near_by_filter_all_star_click",
+  nearByThreeStarClick: "near_by_filter_three_star_click",
+  nearByFourStarClick: "near_by_filter_four_star_click",
+  nearByFiveStarClick: "near_by_filter_five_star_click",
+  nearByRatingsClick: "near_by_sort_ratings_click",
+  nearByLocationClick: "near_by_sort_location_click",
+  nearByHotelClick: "near_by_sort_hotel_click",
+  nearByPlaceDetailsClick: "near_by_place_details_click",
+  nearByPlaceDirectionsClick: "near_by_place_directions_click",
+  nearByContactPlaceClick: "near_by_place_contact_click"
 };
 
 // console.log('-----------------------------------');

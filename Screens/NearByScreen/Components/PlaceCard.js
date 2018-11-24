@@ -12,6 +12,7 @@ import constants from "../../../constants/constants";
 import _ from "lodash";
 import dialer from "../../../Services/dialer/dialer";
 import directions from "../../../Services/directions/directions";
+import { recordEvent } from "../../../Services/analytics/analyticsService";
 
 const PlaceCard = ({ selectedPlace, isVisible, onClose, fromLocation }) => {
   return (
@@ -66,12 +67,13 @@ const PlaceCard = ({ selectedPlace, isVisible, onClose, fromLocation }) => {
             <SimpleButton
               text={"Directions"}
               containerStyle={{ width: (responsiveWidth(100) - 48) / 2 - 12 }}
-              action={() =>
+              action={() => {
+                recordEvent(constants.nearByPlaceDirectionsClick);
                 directions({
                   latitude: selectedPlace.geometry.location.lat,
                   longitude: selectedPlace.geometry.location.lng
-                })
-              }
+                });
+              }}
               color={"transparent"}
               textColor={constants.firstColor}
               hasBorder={true}
@@ -81,7 +83,10 @@ const PlaceCard = ({ selectedPlace, isVisible, onClose, fromLocation }) => {
             <SimpleButton
               text={"Contact"}
               containerStyle={{ width: (responsiveWidth(100) - 48) / 2 - 12 }}
-              action={() => dialer(selectedPlace.internationalPhoneNumber)}
+              action={() => {
+                recordEvent(constants.nearByContactPlaceClick);
+                dialer(selectedPlace.internationalPhoneNumber);
+              }}
               color={"transparent"}
               textColor={constants.firstColor}
               hasBorder={true}
