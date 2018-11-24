@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import { StackActions, NavigationActions } from "react-navigation";
 import { inject, observer } from "mobx-react/custom";
 import Icon from "../../../CommonComponents/Icon/Icon";
+import { recordEvent } from "../../../Services/analytics/analyticsService";
 
 const resetAction = NavigationActions.navigate({
   routeName: "AppHome",
@@ -71,7 +72,10 @@ class CloseYourBookingsButton extends Component {
     return (
       <TouchableHighlight
         style={{ paddingHorizontal: 16 }}
-        onPress={this.goBack}
+        onPress={() => {
+          recordEvent(constants.yourBookingsCloseButtonClick);
+          this.goBack();
+        }}
         underlayColor={"transparent"}
       >
         <Icon color={constants.black1} name={constants.closeIcon} size={24} />

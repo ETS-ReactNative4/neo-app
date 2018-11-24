@@ -15,6 +15,7 @@ import constants from "../../../constants/constants";
 import { inject, observer } from "mobx-react/custom";
 import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraProps";
 import { NavigationActions, StackActions } from "react-navigation";
+import { recordEvent } from "../../../Services/analytics/analyticsService";
 const resetAction = NavigationActions.navigate({
   routeName: "AppHome",
   action: NavigationActions.navigate({ routeName: "BookedItineraryTabs" })
@@ -33,6 +34,7 @@ class Upcoming extends Component {
   };
 
   selectItinerary = itineraryId => {
+    recordEvent(constants.yourBookingsSelectItineraryClick);
     const { selectItinerary } = this.props.itineraries;
     selectItinerary(itineraryId);
     const routeName = this.props.navigation.state.routeName;

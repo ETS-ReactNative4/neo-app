@@ -61,7 +61,13 @@ const appEvents = {
   bookedItineraryTransferVoucherClick:
     "booked_itinerary_transfer_voucher_click",
   bookedItineraryHeaderClick: "booked_itinerary_header_click",
-  bookedItineraryHeaderCityNameClick: "booked_itinerary_header_city_name_click"
+  bookedItineraryHeaderCityNameClick: "booked_itinerary_header_city_name_click",
+  yourBookingsCloseButtonClick: "your_bookings_close_button_click",
+  yourBookingsSelectItineraryClick: "your_bookings_select_itinerary_click"
 };
+
+// console.log('-----------------------------------');
+// console.log(Object.values(appEvents).length);
+// console.log('-----------------------------------');
 
 export default appEvents;
