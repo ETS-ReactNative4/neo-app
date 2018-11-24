@@ -10,6 +10,7 @@ import ControlledWebView from "../../CommonComponents/ControlledWebView/Controll
 import UnableToUseChat from "./Components/UnableToUseChat";
 import PreTrip from "./Components/PreTrip";
 import moment from "moment";
+import { recordEvent } from "../../Services/analytics/analyticsService";
 
 @inject("userStore")
 @inject("itineraries")
@@ -115,8 +116,10 @@ class ChatScreen extends Component {
   render() {
     const { isChatActive } = this.state;
     const { isConnected } = this.props.appState;
-    const openSupportCenter = () =>
+    const openSupportCenter = () => {
+      recordEvent(constants.chatOpenSupportCenterClick);
       this.props.navigation.navigate("SupportCenter");
+    };
 
     return isChatActive ? (
       isConnected ? (

@@ -3,6 +3,7 @@ import { View, StyleSheet, Text } from "react-native";
 import constants from "../../../constants/constants";
 import SimpleButton from "../../../CommonComponents/SimpleButton/SimpleButton";
 import dialer from "../../../Services/dialer/dialer";
+import { recordEvent } from "../../../Services/analytics/analyticsService";
 
 const UnableToUseChat = () => {
   return (
@@ -15,7 +16,10 @@ const UnableToUseChat = () => {
       <SimpleButton
         containerStyle={{ marginTop: 8 }}
         text={constants.offlineContact}
-        action={() => dialer(constants.offlineContact)}
+        action={() => {
+          recordEvent(constants.chatCallSupportClick);
+          dialer(constants.offlineContact);
+        }}
         textColor={constants.firstColor}
         color={"transparent"}
         hasBorder={true}
