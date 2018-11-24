@@ -52,7 +52,16 @@ const appEvents = {
   bookingsHomeAccordionVisaVoucherClick:
     "bookings_home_accordion_visa_voucher_click",
   bookingsHomeDownloadAllVouchersClick:
-    "bookings_home_download_all_vouchers_click"
+    "bookings_home_download_all_vouchers_click",
+  bookedItineraryContentScroll: "booked_itinerary_content_scroll",
+  bookedItineraryExploreGuideClick: "booked_itinerary_explore_guide_click",
+  bookedItineraryFlightVoucherClick: "booked_itinerary_flight_voucher_click",
+  bookedItineraryActivityVoucherClick:
+    "booked_itinerary_activity_voucher_click",
+  bookedItineraryTransferVoucherClick:
+    "booked_itinerary_transfer_voucher_click",
+  bookedItineraryHeaderClick: "booked_itinerary_header_click",
+  bookedItineraryHeaderCityNameClick: "booked_itinerary_header_city_name_click"
 };
 
 export default appEvents;

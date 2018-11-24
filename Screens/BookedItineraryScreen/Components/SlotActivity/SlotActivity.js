@@ -10,6 +10,7 @@ import CityCard from "../CityCard";
 import moment from "moment";
 import SectionHeader from "../../../../CommonComponents/SectionHeader/SectionHeader";
 import _ from "lodash";
+import { recordEvent } from "../../../../Services/analytics/analyticsService";
 
 let internationalFlightKey;
 const SlotActivity = inject("infoStore")(
@@ -104,6 +105,7 @@ const SlotActivity = inject("infoStore")(
               imageObject = getSlotImage(internationalFlightKey, "FLIGHT");
               const flight = getFlightById(internationalFlightKey);
               onClick = () => {
+                recordEvent(constants.bookedItineraryFlightVoucherClick);
                 if (flight.voucher && flight.voucher.booked) {
                   navigation.navigate("FlightVoucher", { flight });
                 } else {
@@ -150,6 +152,7 @@ const SlotActivity = inject("infoStore")(
                 activity.activitySlotDetail.activityCostingIdentifier
               );
               onClick = () => {
+                recordEvent(constants.bookedItineraryActivityVoucherClick);
                 if (
                   activityInfo.voucher &&
                   (activityInfo.voucher.booked || activityInfo.voucher.self)
@@ -191,6 +194,7 @@ const SlotActivity = inject("infoStore")(
               imageObject = getSlotImage(transferCostingIdenfier, transferMode);
               const transfer = getTransferById(transferCostingIdenfier);
               onClick = () => {
+                recordEvent(constants.bookedItineraryTransferVoucherClick);
                 if (transfer.voucher && transfer.voucher.booked) {
                   navigation.navigate("TransferVoucher", { transfer });
                 } else {
@@ -219,6 +223,7 @@ const SlotActivity = inject("infoStore")(
             case "INTERNATIONAL_DEPART":
               const departureFlight = getFlightById(internationalFlightKey);
               onClick = () => {
+                recordEvent(constants.bookedItineraryFlightVoucherClick);
                 if (departureFlight.voucher && departureFlight.voucher.booked) {
                   navigation.navigate("FlightVoucher", {
                     flight: departureFlight
