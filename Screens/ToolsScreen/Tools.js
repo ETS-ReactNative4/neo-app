@@ -8,6 +8,7 @@ import SecondaryTool from "./Components/SecondaryTool";
 import SearchPlaceholder from "../../CommonComponents/SearchPlaceholder/SearchPlaceholder";
 import HomeHeader from "../../CommonComponents/HomeHeader/HomeHeader";
 import { inject, observer } from "mobx-react/custom";
+import { recordEvent } from "../../Services/analytics/analyticsService";
 
 @inject("itineraries")
 @observer
@@ -20,11 +21,13 @@ class Tools extends Component {
       return {
         title: city.city,
         image: { uri: city.cityObject.image },
-        action: () =>
+        action: () => {
+          recordEvent(constants.toolsPlacesTileClick);
           this.props.navigation.navigate("ToolPlaces", {
             city,
             target: "ToolNearBy"
-          })
+          });
+        }
       };
     });
 
@@ -32,22 +35,34 @@ class Tools extends Component {
       {
         icon: constants.commonPhrasesIcon,
         text: `Common${"\n"}Phrases`,
-        action: () => this.props.navigation.navigate("PhraseBook")
+        action: () => {
+          recordEvent(constants.toolsCommonPhrasesTileClick);
+          this.props.navigation.navigate("PhraseBook");
+        }
       },
       {
         icon: constants.emergencyContactsIcon,
         text: `Emergency${"\n"}Contacts`,
-        action: () => this.props.navigation.navigate("EmergencyContacts")
+        action: () => {
+          recordEvent(constants.toolsEmergencyContactsTileClick);
+          this.props.navigation.navigate("EmergencyContacts");
+        }
       },
       {
         icon: constants.weatherForecastIcon,
         text: `Weather${"\n"}Forecast`,
-        action: () => this.props.navigation.navigate("Weather")
+        action: () => {
+          recordEvent(constants.toolsWeatherForecastTileClick);
+          this.props.navigation.navigate("Weather");
+        }
       },
       {
         icon: constants.faqIcon,
         text: `Support${"\n"}Center`,
-        action: () => this.props.navigation.navigate("SupportCenter")
+        action: () => {
+          recordEvent(constants.toolsSupportCenterTileClick);
+          this.props.navigation.navigate("SupportCenter");
+        }
       }
     ];
 
@@ -55,12 +70,18 @@ class Tools extends Component {
       {
         icon: constants.passportDetailsIcon,
         text: `Passport${"\n"}Details`,
-        action: () => this.props.navigation.navigate("PassportDetails")
+        action: () => {
+          recordEvent(constants.toolsPassportTileClick);
+          this.props.navigation.navigate("PassportDetails");
+        }
       },
       {
         icon: constants.documentVisaIcon,
         text: `Documents${"\n"}& Visa`,
-        action: () => this.props.navigation.navigate("Visa")
+        action: () => {
+          recordEvent(constants.toolsDocumentsVisaTileClick);
+          this.props.navigation.navigate("Visa");
+        }
       },
       {
         icon: constants.invitePassengersIcon,
