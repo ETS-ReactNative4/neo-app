@@ -20,6 +20,7 @@ import XSensorPlaceholder from "../../CommonComponents/XSensorPlaceholder/XSenso
 import { inject, observer } from "mobx-react/custom";
 import Icon from "../../CommonComponents/Icon/Icon";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
+import { recordEvent } from "../../Services/analytics/analyticsService";
 
 @inject("appState")
 @observer
@@ -126,6 +127,11 @@ class CurrencyConverter extends Component {
   };
 
   openSelector = type => {
+    if (type === "foreign") {
+      recordEvent(constants.currencyConverterChangeCurrencyForeignClick);
+    } else if (type === "native") {
+      recordEvent(constants.currencyConverterChangeCurrencyNativeClick);
+    }
     this.setState({
       isSelectorActive: type
     });
@@ -138,6 +144,7 @@ class CurrencyConverter extends Component {
   };
 
   swapCurrencies = () => {
+    recordEvent(constants.currencyConverterSwapCurrencyClick);
     this.setState({
       nativeCurrency: this.state.foreignCurrency,
       foreignCurrency: this.state.nativeCurrency
@@ -145,12 +152,14 @@ class CurrencyConverter extends Component {
   };
 
   selectForeignCurrency = currency => {
+    recordEvent(constants.currencyConverterSelectCurrencyClick);
     this.setState({
       foreignCurrency: currency
     });
   };
 
   selectNativeCurrency = currency => {
+    recordEvent(constants.currencyConverterSelectCurrencyClick);
     this.setState({
       nativeCurrency: currency
     });

@@ -87,7 +87,14 @@ const appEvents = {
   nearByHotelClick: "near_by_sort_hotel_click",
   nearByPlaceDetailsClick: "near_by_place_details_click",
   nearByPlaceDirectionsClick: "near_by_place_directions_click",
-  nearByContactPlaceClick: "near_by_place_contact_click"
+  nearByContactPlaceClick: "near_by_place_contact_click",
+  currencyConverterSwapCurrencyClick: "currency_converter_swap_currency_click",
+  currencyConverterChangeCurrencyNativeClick:
+    "currency_converter_change_currency_native_click",
+  currencyConverterChangeCurrencyForeignClick:
+    "currency_converter_change_currency_foreign_click",
+  currencyConverterSelectCurrencyClick:
+    "currency_converter_select_currency_click"
 };
 
 // console.log('-----------------------------------');
