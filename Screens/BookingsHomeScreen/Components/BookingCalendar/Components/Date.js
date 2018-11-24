@@ -50,7 +50,7 @@ const Date = ({
       activeOpacity={1}
       onPress={() => {
         navigation.navigate("BookedItinerary", {
-          selectedDate: date
+          selectedDate: dateIndex !== -1 ? date : 0
         });
       }}
     >

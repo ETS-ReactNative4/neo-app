@@ -115,13 +115,12 @@ class BookedItinerary extends Component {
   };
 
   componentDidMount() {
-    const selectedDay = this.props.navigation.getParam(
-      "selectedDate",
-      moment(this.props.itineraries.days[0]).format("x")
-    );
-    setTimeout(() => {
-      this.selectDay(selectedDay);
-    }, 350);
+    const selectedDay = this.props.navigation.getParam("selectedDate", 0);
+    if (selectedDay) {
+      setTimeout(() => {
+        this.selectDay(selectedDay);
+      }, 350);
+    }
   }
 
   render() {
