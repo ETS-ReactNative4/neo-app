@@ -10,6 +10,7 @@ import CircleThumbnail from "../../../../../CommonComponents/CircleThumbnail/Cir
 import storeService from "../../../../../Services/storeService/storeService";
 import SectionRightPlaceHolder from "./Components/SectionRightPlaceHolder";
 import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidExtraProps";
+import { recordEvent } from "../../../../../Services/analytics/analyticsService";
 
 const FerriesSection = ({ section, navigation }) => {
   return (
@@ -46,6 +47,7 @@ const Ferry = ({ ferry, isLast, navigation }) => {
 
   const openVoucher = () => {
     if (ferry.voucher.booked) {
+      recordEvent(constants.bookingsHomeAccordionFerriesVoucherClick);
       navigation.navigate("TransferVoucher", {
         transfer: { ...ferry, vehicle: "FERRY" }
       });

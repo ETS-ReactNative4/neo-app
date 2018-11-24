@@ -7,6 +7,7 @@ import PropTypes from "prop-types";
 import CircleThumbnail from "../../../../../CommonComponents/CircleThumbnail/CircleThumbnail";
 import storeService from "../../../../../Services/storeService/storeService";
 import SectionRightPlaceHolder from "./Components/SectionRightPlaceHolder";
+import { recordEvent } from "../../../../../Services/analytics/analyticsService";
 
 const HotelSection = ({ section, navigation }) => {
   return (
@@ -43,6 +44,7 @@ const Hotel = ({ hotel, isLast, navigation }) => {
 
   const openVoucher = () => {
     if (hotel.voucher.booked) {
+      recordEvent(constants.bookingsHomeAccordionHotelsVoucherClick);
       navigation.navigate("HotelVoucher", { hotel });
     } else {
       storeService.infoStore.setInfo(

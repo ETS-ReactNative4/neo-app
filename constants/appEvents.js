@@ -10,9 +10,49 @@ const appEvents = {
   mobileNumberVerifyOtp: "mobile_number_verify_otp_click",
   mobileNumberOtpAutoFill: "mobile_number_otp_autofill",
   mobileNumberOtpFailed: "mobile_number_otp_failed",
-  userLoggedIn: "user_logged_in",
+  userLoggedInEvent: "user_logged_in",
   tripToggleClickEvent: "trip_toggle_click",
-  selectBookingHeaderClick: "select_booking_header_button_click"
+  selectBookingHeaderClick: "select_booking_header_button_click",
+  bookingsHomeCalendarDateClick: "bookings_home_calendar_date_click",
+  bookingsHomeCalendarNoEventClick: "bookings_home_calendar_no_event_click",
+  bookingsHomeAccordionFlightsHeaderClick:
+    "bookings_home_accordion_flights_header_click",
+  bookingsHomeAccordionHotelsHeaderClick:
+    "bookings_home_accordion_hotels_header_click",
+  bookingsHomeAccordionTransfersHeaderClick:
+    "bookings_home_accordion_transfers_header_click",
+  bookingsHomeAccordionPassesHeaderClick:
+    "bookings_home_accordion_passes_header_click",
+  bookingsHomeAccordionActivitiesHeaderClick:
+    "bookings_home_accordion_activities_header_click",
+  bookingsHomeAccordionTrainsHeaderClick:
+    "bookings_home_accordion_trains_header_click",
+  bookingsHomeAccordionFerriesHeaderClick:
+    "bookings_home_accordion_ferries_header_click",
+  bookingsHomeAccordionRentalCarsHeaderClick:
+    "bookings_home_accordion_rental_cars_header_click",
+  bookingsHomeAccordionVisaHeaderClick:
+    "bookings_home_accordion_visa_header_click",
+  bookingsHomeAccordionFlightsVoucherClick:
+    "bookings_home_accordion_flights_voucher_click",
+  bookingsHomeAccordionHotelsVoucherClick:
+    "bookings_home_accordion_hotels_voucher_click",
+  bookingsHomeAccordionTransfersVoucherClick:
+    "bookings_home_accordion_transfers_voucher_click",
+  bookingsHomeAccordionPassesVoucherClick:
+    "bookings_home_accordion_passes_voucher_click",
+  bookingsHomeAccordionActivitiesVoucherClick:
+    "bookings_home_accordion_activities_voucher_click",
+  bookingsHomeAccordionTrainsVoucherClick:
+    "bookings_home_accordion_trains_voucher_click",
+  bookingsHomeAccordionFerriesVoucherClick:
+    "bookings_home_accordion_ferries_voucher_click",
+  bookingsHomeAccordionRentalCarsVoucherClick:
+    "bookings_home_accordion_rental_cars_voucher_click",
+  bookingsHomeAccordionVisaVoucherClick:
+    "bookings_home_accordion_visa_voucher_click",
+  bookingsHomeDownloadAllVouchersClick:
+    "bookings_home_download_all_vouchers_click"
 };
 
 export default appEvents;

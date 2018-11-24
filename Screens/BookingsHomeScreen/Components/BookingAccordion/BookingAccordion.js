@@ -21,7 +21,9 @@ import FlightsSection from "./Components/FlightsSection";
 import PassSection from "./Components/PassSection";
 import FerriesSection from "./Components/FerriesSection";
 import RentalCarSection from "./Components/RentalCarSection";
+import { recordEvent } from "../../../../Services/analytics/analyticsService";
 
+let sections = [];
 @inject("itineraries")
 @observer
 class BookingAccordion extends Component {
@@ -158,14 +160,53 @@ class BookingAccordion extends Component {
   };
 
   _updateActiveSections = activeSections => {
+    const sectionIndex = activeSections[0];
+    if (sectionIndex) {
+      const selectedSection = sections[sectionIndex];
+      switch (selectedSection.type) {
+        case "Hotels":
+          recordEvent(constants.bookingsHomeAccordionHotelsHeaderClick);
+          break;
+
+        case "Activities":
+          recordEvent(constants.bookingsHomeAccordionActivitiesHeaderClick);
+          break;
+
+        case "Transfers":
+          recordEvent(constants.bookingsHomeAccordionTransfersHeaderClick);
+          break;
+
+        case "Ferries":
+          recordEvent(constants.bookingsHomeAccordionFerriesHeaderClick);
+          break;
+
+        case "Trains":
+          recordEvent(constants.bookingsHomeAccordionTrainsHeaderClick);
+          break;
+
+        case "Flights":
+          recordEvent(constants.bookingsHomeAccordionFlightsHeaderClick);
+          break;
+
+        case "Passes":
+          recordEvent(constants.bookingsHomeAccordionPassesHeaderClick);
+          break;
+
+        case "Rental Cars":
+          recordEvent(constants.bookingsHomeAccordionRentalCarsHeaderClick);
+          break;
+
+        default:
+          break;
+      }
+    }
     this.setState({
       activeSections
     });
   };
 
   render() {
-    const sections = [];
-
+    sections = [];
     const {
       hotels,
       activities,

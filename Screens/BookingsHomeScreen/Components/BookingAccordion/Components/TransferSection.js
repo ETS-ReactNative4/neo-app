@@ -10,6 +10,7 @@ import CircleThumbnail from "../../../../../CommonComponents/CircleThumbnail/Cir
 import storeService from "../../../../../Services/storeService/storeService";
 import SectionRightPlaceHolder from "./Components/SectionRightPlaceHolder";
 import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidExtraProps";
+import { recordEvent } from "../../../../../Services/analytics/analyticsService";
 
 const TransferSection = ({ section, navigation }) => {
   return (
@@ -46,6 +47,7 @@ const Transfer = ({ transfer, isLast, navigation }) => {
 
   const openVoucher = () => {
     if (transfer.voucher.booked) {
+      recordEvent(constants.bookingsHomeAccordionTransfersVoucherClick);
       navigation.navigate("TransferVoucher", { transfer });
     } else {
       storeService.infoStore.setInfo(

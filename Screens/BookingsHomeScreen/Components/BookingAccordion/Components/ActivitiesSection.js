@@ -8,6 +8,7 @@ import CircleThumbnail from "../../../../../CommonComponents/CircleThumbnail/Cir
 import _ from "lodash";
 import storeService from "../../../../../Services/storeService/storeService";
 import SectionRightPlaceHolder from "./Components/SectionRightPlaceHolder";
+import { recordEvent } from "../../../../../Services/analytics/analyticsService";
 
 const ActivitiesSection = ({ section, navigation }) => {
   return (
@@ -44,6 +45,7 @@ const Activities = ({ activity, isLast, navigation }) => {
 
   const openVoucher = () => {
     if (activity.voucher.booked || activity.voucher.self) {
+      recordEvent(constants.bookingsHomeAccordionActivitiesVoucherClick);
       navigation.navigate("ActivityVoucher", { activity });
     } else {
       storeService.infoStore.setInfo(

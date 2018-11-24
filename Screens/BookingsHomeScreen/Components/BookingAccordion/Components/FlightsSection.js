@@ -8,6 +8,7 @@ import FlightVoucher from "../../../../VoucherScreens/FlightVoucherScreen/Flight
 import CircleThumbnail from "../../../../../CommonComponents/CircleThumbnail/CircleThumbnail";
 import SectionRightPlaceHolder from "./Components/SectionRightPlaceHolder";
 import storeService from "../../../../../Services/storeService/storeService";
+import { recordEvent } from "../../../../../Services/analytics/analyticsService";
 
 const FlightsSection = ({ section, navigation }) => {
   return (
@@ -43,6 +44,7 @@ const Flight = ({ flight, isLast, navigation }) => {
 
   const openVoucher = () => {
     if (flight.voucher.booked) {
+      recordEvent(constants.bookingsHomeAccordionFlightsVoucherClick);
       navigation.navigate("FlightVoucher", { flight });
     } else {
       storeService.infoStore.setInfo(

@@ -8,6 +8,7 @@ import CircleThumbnail from "../../../../../CommonComponents/CircleThumbnail/Cir
 import storeService from "../../../../../Services/storeService/storeService";
 import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidExtraProps";
 import SectionRightPlaceHolder from "./Components/SectionRightPlaceHolder";
+import { recordEvent } from "../../../../../Services/analytics/analyticsService";
 
 const TrainsSection = ({ section, navigation }) => {
   return (
@@ -44,6 +45,7 @@ const Train = ({ train, isLast, navigation }) => {
 
   const openVoucher = () => {
     if (train.voucher.booked) {
+      recordEvent(constants.bookingsHomeAccordionTrainsVoucherClick);
       navigation.navigate("TransferVoucher", {
         transfer: { ...train, vehicle: "TRAIN" }
       });

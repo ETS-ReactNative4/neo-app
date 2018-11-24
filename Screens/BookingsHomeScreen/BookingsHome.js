@@ -21,6 +21,7 @@ import { CustomTabs } from "react-native-custom-tabs";
 import { responsiveWidth } from "react-native-responsive-dimensions";
 import { logError } from "../../Services/errorLogger/errorLogger";
 import apiCall from "../../Services/networkRequests/apiCall";
+import { recordEvent } from "../../Services/analytics/analyticsService";
 
 @inject("infoStore")
 @inject("itineraries")
@@ -75,6 +76,7 @@ class BookingsHome extends Component {
   openSearch = () => {};
 
   downloadAllVouchers = () => {
+    recordEvent(constants.bookingsHomeDownloadAllVouchersClick);
     const { selectedItineraryId } = this.props.itineraries;
     const { setError } = this.props.infoStore;
     this.setState(
