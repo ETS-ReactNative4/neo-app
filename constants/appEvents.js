@@ -12,6 +12,7 @@ const appEvents = {
   mobileNumberOtpFailed: "mobile_number_otp_failed",
   userLoggedInEvent: "user_logged_in",
   tripToggleClickEvent: "trip_toggle_click",
+  hamburgerButtonClick: "hamburger_click",
   selectBookingHeaderClick: "select_booking_header_button_click",
   bookingsHomeCalendarDateClick: "bookings_home_calendar_date_click",
   bookingsHomeCalendarNoEventClick: "bookings_home_calendar_no_event_click",

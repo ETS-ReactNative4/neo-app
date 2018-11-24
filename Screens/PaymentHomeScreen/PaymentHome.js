@@ -15,6 +15,7 @@ import { isIphoneX } from "react-native-iphone-x-helper";
 import XSensorPlaceholder from "../../CommonComponents/XSensorPlaceholder/XSensorPlaceholder";
 import PaymentInfoCard from "./Components/PaymentInfoCard";
 import apiCall from "../../Services/networkRequests/apiCall";
+import { recordEvent } from "../../Services/analytics/analyticsService";
 
 @inject("yourBookingsStore")
 @observer
@@ -24,7 +25,12 @@ class PaymentHome extends Component {
       header: (
         <CommonHeader
           LeftButton={
-            <HamburgerButton action={() => navigation.openDrawer()} />
+            <HamburgerButton
+              action={() => {
+                recordEvent(constants.hamburgerButtonClick);
+                navigation.openDrawer();
+              }}
+            />
           }
           title={"Payments"}
           navigation={navigation}
