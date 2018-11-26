@@ -357,8 +357,7 @@ class PaymentSummary extends Component {
 
 const styles = StyleSheet.create({
   summaryContainer: {
-    backgroundColor: "white",
-    paddingHorizontal: 24
+    backgroundColor: "white"
   },
   titleText: {
     alignSelf: "center",

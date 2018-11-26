@@ -33,50 +33,50 @@ class Drawer extends Component {
         icon: constants.notificationIcon,
         text: "Home"
       },
-      {
-        icon: constants.notificationIcon,
-        text: "Notifications",
-        info: (
-          <NotificationCount
-            containerStyle={{
-              backgroundColor: "white"
-            }}
-            textStyle={{
-              color: "rgba(88,96,150,1)",
-              ...Platform.select({
-                ios: {
-                  marginTop: 5
-                },
-                android: {
-                  marginTop: -2
-                }
-              })
-            }}
-            count={3}
-          />
-        )
-      },
+      // {
+      //   icon: constants.notificationIcon,
+      //   text: "Notifications",
+      //   info: (
+      //     <NotificationCount
+      //       containerStyle={{
+      //         backgroundColor: "white"
+      //       }}
+      //       textStyle={{
+      //         color: "rgba(88,96,150,1)",
+      //         ...Platform.select({
+      //           ios: {
+      //             marginTop: 5
+      //           },
+      //           android: {
+      //             marginTop: -2
+      //           }
+      //         })
+      //       }}
+      //       count={3}
+      //     />
+      //   )
+      // },
       {
         icon: constants.notificationIcon,
         text: "Payments"
       },
-      {
-        icon: constants.notificationIcon,
-        text: "Saved Itineraries"
-      },
-      {
-        icon: constants.notificationIcon,
-        text: "Your Bookings"
-      },
-      {
-        icon: constants.notificationIcon,
-        text: "Your Account"
-      },
-      {
-        icon: constants.notificationIcon,
-        text: "Support",
-        action: () => this.props.navigation.navigate("AppSupport")
-      },
+      // {
+      //   icon: constants.notificationIcon,
+      //   text: "Saved Itineraries"
+      // },
+      // {
+      //   icon: constants.notificationIcon,
+      //   text: "Your Bookings"
+      // },
+      // {
+      //   icon: constants.notificationIcon,
+      //   text: "Your Account"
+      // },
+      // {
+      //   icon: constants.notificationIcon,
+      //   text: "Support",
+      //   action: () => this.props.navigation.navigate("AppSupport")
+      // },
       {
         icon: constants.notificationIcon,
         text: "About"

@@ -10,26 +10,26 @@ const AppNavigator = createDrawerNavigator(
     Home: {
       screen: HomeSwitch
     },
-    Notifications: {
-      screen: createStackNavigator({
-        NotificationsStack: { screen: Notifications }
-      })
-    },
+    // Notifications: {
+    //   screen: createStackNavigator({
+    //     NotificationsStack: { screen: Notifications }
+    //   })
+    // },
     Payments: {
       screen: PaymentStack
     },
-    SavedItineraries: {
-      screen: createStackNavigator({ HomeStack2: { screen: Home } })
-    },
-    YourBookings: {
-      screen: createStackNavigator({ HomeStack3: { screen: Home } })
-    },
-    Account: {
-      screen: createStackNavigator({ HomeStack4: { screen: Home } })
-    },
-    AppSupport: {
-      screen: createStackNavigator({ HomeStack5: { screen: Home } })
-    },
+    // SavedItineraries: {
+    //   screen: createStackNavigator({ HomeStack2: { screen: Home } })
+    // },
+    // YourBookings: {
+    //   screen: createStackNavigator({ HomeStack3: { screen: Home } })
+    // },
+    // Account: {
+    //   screen: createStackNavigator({ HomeStack4: { screen: Home } })
+    // },
+    // AppSupport: {
+    //   screen: createStackNavigator({ HomeStack5: { screen: Home } })
+    // },
     About: {
       screen: createStackNavigator({ HomeStack6: { screen: Home } })
     }
