@@ -12,15 +12,19 @@ class KeyboardAvoidingActionBar extends Component {
       .isRequired,
     navigation: PropTypes.object.isRequired,
     children: PropTypes.element.isRequired,
-    xSensorPlaceholderColor: PropTypes.string
+    xSensorPlaceholderColor: PropTypes.string,
+    onKeyBoardStateChange: PropTypes.func
   });
 
   state = {
     keyboardSpace: 0,
-    isKeyboardVisible: false
+    isKeyboardVisibleiOS: false,
+    isKeyboardVisibleAndroid: false
   };
   _didFocusSubscription;
   _willBlurSubscription;
+  _keyboardWillChangeFrameListener;
+  _keyboardWillHideListener;
   _keyboardDidShowListener;
   _keyboardDidHideListener;
 
@@ -30,12 +34,20 @@ class KeyboardAvoidingActionBar extends Component {
     this._didFocusSubscription = props.navigation.addListener(
       "didFocus",
       () => {
-        this._keyboardDidShowListener = Keyboard.addListener(
+        this._keyboardWillChangeFrameListener = Keyboard.addListener(
           "keyboardWillChangeFrame",
+          this.keyboardWillChangeFrame
+        );
+        this._keyboardWillHideListener = Keyboard.addListener(
+          "keyboardWillHide",
+          this.keyboardWillHide
+        );
+        this._keyboardDidShowListener = Keyboard.addListener(
+          "keyboardDidShow",
           this.keyboardDidShow
         );
         this._keyboardDidHideListener = Keyboard.addListener(
-          "keyboardWillHide",
+          "keyboardDidHide",
           this.keyboardDidHide
         );
       }
@@ -46,6 +58,10 @@ class KeyboardAvoidingActionBar extends Component {
     this._willBlurSubscription = this.props.navigation.addListener(
       "willBlur",
       () => {
+        this._keyboardWillChangeFrameListener &&
+          this._keyboardWillChangeFrameListener.remove();
+        this._keyboardWillHideListener &&
+          this._keyboardWillHideListener.remove();
         this._keyboardDidShowListener && this._keyboardDidShowListener.remove();
         this._keyboardDidHideListener && this._keyboardDidHideListener.remove();
       }
@@ -55,22 +71,45 @@ class KeyboardAvoidingActionBar extends Component {
   componentWillUnmount() {
     this._didFocusSubscription && this._didFocusSubscription.remove();
     this._willBlurSubscription && this._willBlurSubscription.remove();
+    this._keyboardWillChangeFrameListener &&
+      this._keyboardWillChangeFrameListener.remove();
+    this._keyboardWillHideListener && this._keyboardWillHideListener.remove();
     this._keyboardDidShowListener && this._keyboardDidShowListener.remove();
     this._keyboardDidHideListener && this._keyboardDidHideListener.remove();
   }
 
-  keyboardDidShow = e => {
+  keyboardWillChangeFrame = e => {
     this.setState({
-      isKeyboardVisible: true,
+      isKeyboardVisibleiOS: true,
       keyboardSpace: e.endCoordinates.height
     });
+    const { onKeyBoardStateChange } = this.props;
+    onKeyBoardStateChange && onKeyBoardStateChange("visible");
+  };
+
+  keyboardWillHide = () => {
+    this.setState({
+      isKeyboardVisibleiOS: false,
+      keyboardSpace: 0
+    });
+    const { onKeyBoardStateChange } = this.props;
+    onKeyBoardStateChange && onKeyBoardStateChange("hidden");
+  };
+
+  keyboardDidShow = () => {
+    this.setState({
+      isKeyboardVisibleAndroid: true
+    });
+    const { onKeyBoardStateChange } = this.props;
+    onKeyBoardStateChange && onKeyBoardStateChange("visible");
   };
 
   keyboardDidHide = () => {
     this.setState({
-      isKeyboardVisible: false,
-      keyboardSpace: 0
+      isKeyboardVisibleAndroid: false
     });
+    const { onKeyBoardStateChange } = this.props;
+    onKeyBoardStateChange && onKeyBoardStateChange("hidden");
   };
 
   render() {
@@ -85,7 +124,7 @@ class KeyboardAvoidingActionBar extends Component {
       <View key={0} style={style}>
         {this.props.children}
       </View>,
-      this.state.isKeyboardVisible ? null : (
+      this.state.isKeyboardVisibleiOS ? null : (
         <XSensorPlaceholder
           key={1}
           containerStyle={{

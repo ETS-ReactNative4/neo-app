@@ -28,7 +28,8 @@ class PhraseBook extends Component {
     isSoundPlaying: false,
     isTtsSpeaking: false,
     isLanguageSelectorVisible: false,
-    isInternetAvailable: true
+    isInternetAvailable: true,
+    isKeyboardVisible: false
   };
   _didFocusSubscription;
   _willBlurSubscription;
@@ -176,6 +177,18 @@ class PhraseBook extends Component {
     });
   };
 
+  onKeyBoardStateChange = visiblity => {
+    if (visiblity === "hidden") {
+      this.setState({
+        isKeyboardVisible: false
+      });
+    } else {
+      this.setState({
+        isKeyboardVisible: true
+      });
+    }
+  };
+
   render() {
     const {
       phrases,
@@ -255,6 +268,8 @@ class PhraseBook extends Component {
         selectedLanguage={selectedLanguage}
         selectPhrase={selectPhrase}
         targetLanguage={targetLanguage}
+        onKeyBoardStateChange={this.onKeyBoardStateChange}
+        isKeyboardVisible={this.state.isKeyboardVisible}
       />,
       <LanguageSelector
         selectLanguage={selectLanguage}

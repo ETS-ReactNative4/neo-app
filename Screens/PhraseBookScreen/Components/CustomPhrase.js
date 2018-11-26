@@ -5,7 +5,8 @@ import {
   StyleSheet,
   TouchableOpacity,
   Platform,
-  LayoutAnimation
+  LayoutAnimation,
+  Keyboard
 } from "react-native";
 import { isIphoneX } from "react-native-iphone-x-helper";
 import XSensorPlaceholder from "../../../CommonComponents/XSensorPlaceholder/XSensorPlaceholder";
@@ -23,7 +24,9 @@ class CustomPhrase extends Component {
     selectedLanguage: PropTypes.object.isRequired,
     selectPhrase: PropTypes.func.isRequired,
     targetLanguage: PropTypes.string.isRequired,
-    navigation: PropTypes.object.isRequired
+    navigation: PropTypes.object.isRequired,
+    onKeyBoardStateChange: PropTypes.func.isRequired,
+    isKeyboardVisible: PropTypes.bool.isRequired
   });
 
   state = {
@@ -38,15 +41,18 @@ class CustomPhrase extends Component {
 
   render() {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-    const { selectPhrase, targetLanguage } = this.props;
+    const { selectPhrase, targetLanguage, isKeyboardVisible } = this.props;
     const { customPhrase } = this.state;
-    const translateAction = () =>
+    const translateAction = () => {
       customPhrase ? selectPhrase(customPhrase, targetLanguage) : null;
+      Keyboard.dismiss();
+    };
     return [
       <KeyboardAvoidingActionBar
         key={0}
         containerStyle={styles.customPhraseContainer}
         navigation={this.props.navigation}
+        onKeyBoardStateChange={this.props.onKeyBoardStateChange}
       >
         <TextInput
           style={styles.customPhraseInput}
@@ -59,7 +65,7 @@ class CustomPhrase extends Component {
           onSubmitEditing={translateAction}
           placeholder={"Or, type a custom message"}
         />
-        {customPhrase ? (
+        {isKeyboardVisible && customPhrase ? (
           <SimpleButton
             text={"Translate"}
             action={translateAction}
