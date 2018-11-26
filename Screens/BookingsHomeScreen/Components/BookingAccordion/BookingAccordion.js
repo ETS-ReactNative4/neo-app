@@ -324,7 +324,7 @@ const styles = StyleSheet.create({
     height: 56,
     flexDirection: "row",
     alignItems: "center",
-    borderBottomWidth: 1,
+    borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: constants.shade4
   },
   headerIcon: {
@@ -390,7 +390,7 @@ const styles = StyleSheet.create({
 
   contentContainer: {
     paddingVertical: 8,
-    borderBottomWidth: 1,
+    borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: constants.shade4,
     flexDirection: "row",
     alignItems: "center"

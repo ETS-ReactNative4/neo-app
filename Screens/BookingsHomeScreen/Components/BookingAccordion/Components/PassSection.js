@@ -37,7 +37,7 @@ const Pass = ({ pass, isLast, navigation }) => {
   let customStyle = {};
   if (isLast) {
     customStyle = {
-      borderBottomWidth: 1,
+      borderBottomWidth: StyleSheet.hairlineWidth,
       paddingBottom: 16
     };
   }

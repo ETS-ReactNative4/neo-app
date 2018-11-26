@@ -40,7 +40,7 @@ const Ferry = ({ ferry, isLast, navigation }) => {
   let customStyle = {};
   if (isLast) {
     customStyle = {
-      borderBottomWidth: 1,
+      borderBottomWidth: StyleSheet.hairlineWidth,
       paddingBottom: 16
     };
   }
