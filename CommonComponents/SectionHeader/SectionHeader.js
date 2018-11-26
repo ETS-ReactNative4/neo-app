@@ -48,9 +48,9 @@ const styles = StyleSheet.create({
     borderBottomColor: constants.black2
   },
   placeholder: {
-    flex: 1,
-    borderBottomWidth: 1,
-    borderBottomColor: constants.shade4
+    flex: 1
+    // borderBottomWidth: 1,
+    // borderBottomColor: constants.shade4
   },
   sectionName: {
     ...constants.font13(constants.primarySemiBold),
