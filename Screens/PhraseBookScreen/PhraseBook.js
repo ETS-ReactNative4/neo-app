@@ -1,5 +1,11 @@
 import React, { Component } from "react";
-import { View, StyleSheet, NetInfo } from "react-native";
+import {
+  View,
+  StyleSheet,
+  NetInfo,
+  Keyboard,
+  TouchableWithoutFeedback
+} from "react-native";
 import ScrollableTabView from "react-native-scrollable-tab-view";
 import ScrollableTabBar from "../../CommonComponents/ScrollableTabBar/ScrollableTabBar";
 import constants from "../../constants/constants";
@@ -218,49 +224,51 @@ class PhraseBook extends Component {
     }
 
     return [
-      <View key={0} style={styles.container}>
-        <PhraseInfo
-          selectedPhrase={selectedPhrase}
-          translatedPhrase={translatedPhrase}
-          isTranslating={isTranslating}
-          speak={this.speak}
-          isSpeaking={this.state.isTtsSpeaking || this.state.isSoundPlaying}
-          pinPhrase={pinPhrase}
-          unPinPhrase={unPinPhrase}
-          pinnedPhrases={pinnedPhrases}
-        />
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View key={0} style={styles.container}>
+          <PhraseInfo
+            selectedPhrase={selectedPhrase}
+            translatedPhrase={translatedPhrase}
+            isTranslating={isTranslating}
+            speak={this.speak}
+            isSpeaking={this.state.isTtsSpeaking || this.state.isSoundPlaying}
+            pinPhrase={pinPhrase}
+            unPinPhrase={unPinPhrase}
+            pinnedPhrases={pinnedPhrases}
+          />
 
-        <View style={{ flex: 1 }}>
-          {sections.length > 1 ? (
-            <ScrollableTabView
-              tabBarActiveTextColor={constants.black2}
-              tabBarInactiveTextColor={constants.firstColor}
-              tabBarUnderlineStyle={{
-                height: 2,
-                backgroundColor: constants.black2
-              }}
-              tabBarTextStyle={{
-                ...constants.font13(constants.primarySemiBold)
-              }}
-              initialPage={1}
-              prerenderingSiblingsNumber={Infinity}
-              renderTabBar={() => <ScrollableTabBar />}
-            >
-              {sections.map((section, sectionIndex) => {
-                return (
-                  <PhrasesSection
-                    key={sectionIndex}
-                    phrases={allPhrases[section]}
-                    selectPhrase={selectPhrase}
-                    tabLabel={section.toUpperCase()}
-                    targetLanguage={targetLanguage}
-                  />
-                );
-              })}
-            </ScrollableTabView>
-          ) : null}
+          <View style={{ flex: 1 }}>
+            {sections.length > 1 ? (
+              <ScrollableTabView
+                tabBarActiveTextColor={constants.black2}
+                tabBarInactiveTextColor={constants.firstColor}
+                tabBarUnderlineStyle={{
+                  height: 2,
+                  backgroundColor: constants.black2
+                }}
+                tabBarTextStyle={{
+                  ...constants.font13(constants.primarySemiBold)
+                }}
+                initialPage={1}
+                prerenderingSiblingsNumber={Infinity}
+                renderTabBar={() => <ScrollableTabBar />}
+              >
+                {sections.map((section, sectionIndex) => {
+                  return (
+                    <PhrasesSection
+                      key={sectionIndex}
+                      phrases={allPhrases[section]}
+                      selectPhrase={selectPhrase}
+                      tabLabel={section.toUpperCase()}
+                      targetLanguage={targetLanguage}
+                    />
+                  );
+                })}
+              </ScrollableTabView>
+            ) : null}
+          </View>
         </View>
-      </View>,
+      </TouchableWithoutFeedback>,
       <CustomPhrase
         openLanguageSelector={this.openLanguageSelector}
         key={1}
