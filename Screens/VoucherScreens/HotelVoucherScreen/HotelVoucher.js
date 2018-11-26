@@ -90,7 +90,7 @@ class HotelVoucher extends Component {
         component: amenitiesList
           ? amenitiesList.map((amenity, amenityIndex) => {
               const customStyle = {
-                borderBottomWidth: 1,
+                borderBottomWidth: StyleSheet.hairlineWidth,
                 borderBottomColor: constants.shade4
               };
               return (
@@ -361,7 +361,7 @@ const styles = StyleSheet.create({
   },
   bookedSuit: {
     marginTop: 24,
-    borderBottomWidth: 1,
+    borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: constants.shade4
   },
   bookedSuitInfo: {
@@ -406,7 +406,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     paddingVertical: 16,
-    borderBottomWidth: 1,
+    borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: constants.shade4
   },
 

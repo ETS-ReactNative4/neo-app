@@ -345,7 +345,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     paddingVertical: 16,
-    borderBottomWidth: 1,
+    borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: constants.shade4
   },
   bookingDetailsSection: {
@@ -355,7 +355,7 @@ const styles = StyleSheet.create({
   accordionTextWrapper: {
     marginTop: 16,
     paddingBottom: 16,
-    borderBottomWidth: 1,
+    borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: constants.shade4
   },
   accordionText: {

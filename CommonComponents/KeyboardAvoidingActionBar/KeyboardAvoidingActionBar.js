@@ -138,7 +138,7 @@ class KeyboardAvoidingActionBar extends Component {
 
 const styles = StyleSheet.create({
   actionBarContainer: {
-    borderTopWidth: 0.5,
+    borderTopWidth: StyleSheet.hairlineWidth,
     borderTopColor: "rgba(0, 0, 0, .3)"
   }
 });

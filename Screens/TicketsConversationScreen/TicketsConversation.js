@@ -126,7 +126,7 @@ class TicketsConversation extends Component {
           ItemSeparatorComponent={() => (
             <View
               style={{
-                borderTopWidth: 1,
+                borderTopWidth: StyleSheet.hairlineWidth,
                 borderTopColor: constants.shade4,
                 marginHorizontal: 24
               }}
@@ -179,7 +179,7 @@ const styles = StyleSheet.create({
   supportTextInput: {
     flex: 1,
     minHeight: 32,
-    borderWidth: 1,
+    borderWidth: StyleSheet.hairlineWidth,
     borderColor: constants.shade4,
     backgroundColor: constants.shade5,
     paddingTop: 8,

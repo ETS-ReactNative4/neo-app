@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
     top: 0,
     height: 20,
     width: 20,
-    borderWidth: 1,
+    borderWidth: StyleSheet.hairlineWidth,
     borderColor: "white",
     borderRadius: 10,
     backgroundColor: constants.black1,

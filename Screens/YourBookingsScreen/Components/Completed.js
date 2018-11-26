@@ -19,7 +19,7 @@ class Completed extends Component {
 
 const styles = StyleSheet.create({
   completedContainer: {
-    borderTopWidth: 1,
+    borderTopWidth: StyleSheet.hairlineWidth,
     borderTopColor: constants.shade4,
     marginHorizontal: 24
   },

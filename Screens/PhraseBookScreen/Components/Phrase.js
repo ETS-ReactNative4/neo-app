@@ -14,7 +14,7 @@ const Phrase = ({ phrase, selectPhrase, isLast, targetLanguage }) => {
         styles.phraseTouchable,
         isLast
           ? {
-              borderBottomWidth: 1,
+              borderBottomWidth: StyleSheet.hairlineWidth,
               marginBottom: 48 + isIphoneX() ? constants.xSensorAreaHeight : 0
             }
           : {}
@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 24,
     height: 40,
-    borderTopWidth: 1,
+    borderTopWidth: StyleSheet.hairlineWidth,
     backgroundColor: constants.firstColorBackground,
     borderColor: constants.shade5,
     justifyContent: "center"

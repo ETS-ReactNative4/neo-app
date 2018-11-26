@@ -155,7 +155,7 @@ class FlightVoucher extends Component {
           <VoucherSplitSection
             sections={flightInvoiceInfo}
             containerStyle={{
-              borderTopWidth: 1,
+              borderTopWidth: StyleSheet.hairlineWidth,
               borderColor: constants.shade4,
               marginTop: 16,
               paddingTop: 16,

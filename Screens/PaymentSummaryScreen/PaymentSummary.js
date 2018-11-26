@@ -280,7 +280,7 @@ class PaymentSummary extends Component {
         <VoucherSplitSection
           sections={tripId}
           containerStyle={{
-            borderBottomWidth: 2,
+            borderBottomWidth: StyleSheet.hairlineWidth,
             borderBottomColor: constants.shade4,
             marginTop: 24
           }}
@@ -289,7 +289,7 @@ class PaymentSummary extends Component {
         <VoucherSplitSection
           sections={amountDetails}
           containerStyle={{
-            borderBottomWidth: 2,
+            borderBottomWidth: StyleSheet.hairlineWidth,
             borderBottomColor: constants.shade4,
             marginTop: 24
           }}
@@ -319,7 +319,7 @@ class PaymentSummary extends Component {
                         styles.optionButton,
                         !isLast
                           ? {
-                              borderBottomWidth: 1,
+                              borderBottomWidth: StyleSheet.hairlineWidth,
                               borderBottomColor: constants.shade3
                             }
                           : null
@@ -369,7 +369,7 @@ const styles = StyleSheet.create({
     width: responsiveWidth(100) - 48,
     paddingTop: 16,
     paddingBottom: 12,
-    borderBottomWidth: 2,
+    borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: constants.shade4,
     alignSelf: "center"
   },
@@ -387,7 +387,7 @@ const styles = StyleSheet.create({
     marginTop: 8,
     backgroundColor: constants.firstColorBackground,
     borderRadius: 3,
-    borderWidth: 1,
+    borderWidth: StyleSheet.hairlineWidth,
     borderColor: constants.shade3
   },
   optionButton: {
@@ -414,7 +414,7 @@ const styles = StyleSheet.create({
   },
   historySplitContainer: {
     marginTop: 8,
-    borderBottomWidth: 1,
+    borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: constants.shade4
   }
 });

@@ -39,12 +39,12 @@ const TicketPreview = ({
 
 const styles = StyleSheet.create({
   previewContainer: {
-    borderBottomWidth: 1,
+    borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: constants.shade4,
     paddingVertical: 4
   },
   lastContainer: {
-    borderBottomWidth: 1,
+    borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: constants.shade4
   },
   titleContainer: {

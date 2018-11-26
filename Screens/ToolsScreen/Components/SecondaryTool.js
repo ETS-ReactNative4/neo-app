@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
     height: 104,
     width: containerWidth,
     marginBottom: 8,
-    borderWidth: 1,
+    borderWidth: StyleSheet.hairlineWidth,
     borderRadius: 5,
     alignItems: "flex-start",
     justifyContent: "center",

@@ -506,7 +506,7 @@ const styles = StyleSheet.create({
     width: 40,
     borderRadius: 20,
     backgroundColor: "white",
-    borderWidth: 0.5,
+    borderWidth: StyleSheet.hairlineWidth,
     borderColor: constants.shade2,
     position: "absolute",
     bottom: 60,

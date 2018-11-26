@@ -191,7 +191,7 @@ FlightCard.propTypes = forbidExtraProps({
 const styles = StyleSheet.create({
   flightCard: {},
   baggageSplitContainer: {
-    borderBottomWidth: 1,
+    borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: constants.shade4,
     marginBottom: 18
   },

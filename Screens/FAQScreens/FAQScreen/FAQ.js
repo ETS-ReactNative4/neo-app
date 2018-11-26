@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
   faqScrollView: {
     paddingHorizontal: 24,
     paddingTop: 8,
-    borderTopWidth: 2,
+    borderTopWidth: StyleSheet.hairlineWidth,
     borderTopColor: constants.shade4
   },
   questionContainer: {

@@ -63,7 +63,7 @@ class Upcoming extends Component {
           <EmptyListPlaceholder
             text={`No active bookings found on this number. If the booking is made by someone else, you need an invite from them to proceed.`}
             containerStyle={{
-              borderTopWidth: 1,
+              borderTopWidth: StyleSheet.hairlineWidth,
               borderTopColor: constants.shade4,
               marginHorizontal: 24
             }}

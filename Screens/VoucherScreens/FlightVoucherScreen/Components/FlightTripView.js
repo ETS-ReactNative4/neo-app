@@ -40,7 +40,10 @@ class FlightTripView extends Component {
       styles.flightTripViewContainer,
       isLast
         ? {}
-        : { borderBottomColor: constants.shade4, borderBottomWidth: 1 }
+        : {
+            borderBottomColor: constants.shade4,
+            borderBottomWidth: StyleSheet.hairlineWidth
+          }
     ];
 
     /**

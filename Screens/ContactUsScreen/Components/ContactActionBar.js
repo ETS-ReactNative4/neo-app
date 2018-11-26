@@ -56,7 +56,7 @@ ContactActionBar.propTypes = forbidExtraProps({
 
 const styles = StyleSheet.create({
   contactActionContainer: {
-    borderTopWidth: 0.5,
+    borderTopWidth: StyleSheet.hairlineWidth,
     borderTopColor: "rgba(0, 0, 0, .3)"
   },
   contactActionSection: {
