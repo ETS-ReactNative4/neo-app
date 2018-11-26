@@ -69,10 +69,11 @@ const imageAssets = {
   checkIcon: "check",
   syncIcon: "sync",
   callIcon: "call-end",
+  helpIcon: "help",
   compassIcon: "compass",
   trashCanIcon: "trash-can",
   noInternetIcon: "no-internet",
-  translateIcon: "translate1",
+  translateIcon: "translate",
 
   weatherGraphInactive: require("../assets/images/weatherPlaceholders/weather-graph-disabled.png"),
   weatherCardPlaceholder: require("../assets/images/weatherPlaceholders/weather-placeholder.png"),
