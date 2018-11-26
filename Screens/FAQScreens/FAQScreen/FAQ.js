@@ -54,8 +54,8 @@ class FAQ extends Component {
                 style={styles.questionContainer}
               >
                 <Icon
-                  name={constants.activityIcon}
-                  color={constants.shade3}
+                  name={constants.helpIcon}
+                  color={constants.black2}
                   size={18}
                 />
                 <Text style={styles.questionText}>{qa.question}</Text>
@@ -75,7 +75,8 @@ const styles = StyleSheet.create({
     backgroundColor: "white"
   },
   faqScrollView: {
-    marginHorizontal: 24,
+    paddingHorizontal: 24,
+    paddingTop: 8,
     borderTopWidth: 2,
     borderTopColor: constants.shade4
   },
@@ -84,10 +85,12 @@ const styles = StyleSheet.create({
     minHeight: 24,
     justifyContent: "flex-start",
     alignItems: "flex-start",
-    marginVertical: 8
+    marginVertical: 8,
+    marginRight: 24
   },
   questionText: {
-    marginLeft: 8,
+    marginLeft: 16,
+    marginTop: 2,
     ...constants.fontCustom(constants.primaryLight, 17),
     color: constants.black2,
     flexWrap: "wrap"
