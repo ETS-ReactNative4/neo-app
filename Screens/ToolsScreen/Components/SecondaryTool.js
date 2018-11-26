@@ -31,7 +31,12 @@ const SecondaryTool = ({
       onPress={action}
       underlayColor={"transparent"}
     >
-      <Image resizeMode={"contain"} source={icon} style={styles.icon} />
+      <Image
+        resizeMode={"contain"}
+        source={icon}
+        style={styles.icon}
+        opacity={isComingSoon ? 0.5 : 1}
+      />
       <Text
         numberOfLines={2}
         ellipsizeMode={"tail"}
