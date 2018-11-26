@@ -282,7 +282,8 @@ class PaymentSummary extends Component {
           containerStyle={{
             borderBottomWidth: StyleSheet.hairlineWidth,
             borderBottomColor: constants.shade4,
-            marginTop: 24
+            marginTop: 24,
+            marginHorizontal: 24
           }}
         />
 
@@ -291,7 +292,9 @@ class PaymentSummary extends Component {
           containerStyle={{
             borderBottomWidth: StyleSheet.hairlineWidth,
             borderBottomColor: constants.shade4,
-            marginTop: 24
+            marginTop: 24,
+            marginHorizontal: 24,
+            paddingBottom: 16
           }}
         />
 
@@ -348,7 +351,12 @@ class PaymentSummary extends Component {
             ]}
 
         {paymentHistory.length ? (
-          <VoucherAccordion sections={paymentLedger} />
+          <VoucherAccordion
+            containerStyle={{
+              marginHorizontal: 24
+            }}
+            sections={paymentLedger}
+          />
         ) : null}
       </ScrollView>
     );
@@ -371,7 +379,8 @@ const styles = StyleSheet.create({
     paddingBottom: 12,
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: constants.shade4,
-    alignSelf: "center"
+    alignSelf: "center",
+    marginHorizontal: 24
   },
   dueDate: {
     alignSelf: "center",
@@ -381,14 +390,16 @@ const styles = StyleSheet.create({
   paymentTitle: {
     marginTop: 19,
     ...constants.fontCustom(constants.primarySemiBold, 20),
-    color: constants.black1
+    color: constants.black1,
+    marginHorizontal: 24
   },
   paymentOptionsBox: {
     marginTop: 8,
     backgroundColor: constants.firstColorBackground,
     borderRadius: 3,
     borderWidth: StyleSheet.hairlineWidth,
-    borderColor: constants.shade3
+    borderColor: constants.shade3,
+    marginHorizontal: 24
   },
   optionButton: {
     flexDirection: "row",
