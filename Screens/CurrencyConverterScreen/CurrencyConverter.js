@@ -327,10 +327,13 @@ class CurrencyConverter extends Component {
                   <Text style={styles.outputCurrencyName}>
                     {this.state.foreignCurrency.substr(3)}
                   </Text>
-                  {/*<Image*/}
-                  {/*style={styles.outputFlagImage}*/}
-                  {/*source={constants.starterBackground}*/}
-                  {/*/>*/}
+                  <View style={styles.iconIndicatorContainerOutput}>
+                    <Icon
+                      name={constants.dropDownArrowIcon}
+                      size={8}
+                      color={constants.firstColor}
+                    />
+                  </View>
                 </View>
               </TouchableHighlight>
             </View>
@@ -360,10 +363,13 @@ class CurrencyConverter extends Component {
                   <Text style={styles.currencyName}>
                     {this.state.nativeCurrency.substr(3)}
                   </Text>
-                  {/*<Image*/}
-                  {/*style={styles.flagImage}*/}
-                  {/*source={constants.starterBackground}*/}
-                  {/*/>*/}
+                  <View style={styles.iconIndicatorContainerInput}>
+                    <Icon
+                      name={constants.dropDownArrowIcon}
+                      size={8}
+                      color={constants.firstColor}
+                    />
+                  </View>
                 </View>
               </TouchableHighlight>
             </View>
@@ -441,8 +447,10 @@ const styles = StyleSheet.create({
   outputInfoContainer: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
+    paddingHorizontal: 8
   },
+  iconIndicatorContainerOutput: { position: "absolute", top: 16, right: 0 },
   outputCurrencyName: {
     ...constants.font24(constants.primaryLight),
     margin: 8,
@@ -472,7 +480,13 @@ const styles = StyleSheet.create({
   infoContainer: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
+    paddingHorizontal: 8
+  },
+  iconIndicatorContainerInput: {
+    position: "absolute",
+    right: 0,
+    top: 30
   },
   currencyName: {
     ...constants.font24(constants.primaryLight),
