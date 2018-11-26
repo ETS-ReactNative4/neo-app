@@ -67,12 +67,14 @@ class CustomPhrase extends Component {
         />
         {isKeyboardVisible && customPhrase ? (
           <SimpleButton
-            text={"Translate"}
+            text={""}
             action={translateAction}
+            icon={constants.translateIcon}
+            iconSize={24}
             containerStyle={{
               backgroundColor: "white",
-              width: 64,
-              marginLeft: 8
+              width: null,
+              paddingLeft: 16
             }}
             textStyle={{
               fontSize: 13
@@ -81,14 +83,13 @@ class CustomPhrase extends Component {
           />
         ) : (
           <SimpleButton
-            text={localeCode
-              .getLanguageName(this.props.selectedLanguage.languageCode)
-              .toUpperCase()
-              .substr(0, 3)}
+            text={localeCode.getLanguageName(
+              this.props.selectedLanguage.languageCode
+            )}
             action={this.props.openLanguageSelector}
             containerStyle={{
               backgroundColor: "white",
-              width: 64,
+              width: null,
               marginLeft: 8
             }}
             textColor={constants.firstColor}
