@@ -8,7 +8,7 @@ const VoucherName = ({ name, textStyle }) => {
   return (
     <Text
       style={[styles.name, textStyle]}
-      numberOfLines={2}
+      numberOfLines={4}
       ellipsizeMode={"tail"}
     >
       {name}
