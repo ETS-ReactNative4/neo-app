@@ -19,13 +19,15 @@ const VoucherAddressSection = ({ address, containerStyle }) => {
           {address}
         </Text>
       </View>
-      <View style={styles.addressMarkerSection}>
-        <Icon
-          size={24}
-          color={constants.black1}
-          name={constants.locationIcon}
-        />
-      </View>
+      {address ? (
+        <View style={styles.addressMarkerSection}>
+          <Icon
+            size={24}
+            color={constants.black1}
+            name={constants.locationIcon}
+          />
+        </View>
+      ) : null}
     </View>
   );
 };
