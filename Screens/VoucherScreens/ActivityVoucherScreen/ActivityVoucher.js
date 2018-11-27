@@ -98,7 +98,8 @@ class ActivityVoucher extends Component {
       dayOfWeek,
       mon,
       totalCost,
-      publishedCost
+      publishedCost,
+      dateMillis
     } = activity.costing;
 
     const {
@@ -271,7 +272,7 @@ class ActivityVoucher extends Component {
         )}
       >
         <View style={styles.titleSection}>
-          <TitleDate date={activityTime} />
+          <TitleDate date={activityTime > 0 ? activityTime : dateMillis} />
 
           <VoucherName name={title} />
 
@@ -298,16 +299,6 @@ class ActivityVoucher extends Component {
 
           <View style={styles.actionRow}>
             <SimpleButton
-              text={"Directions"}
-              containerStyle={{ width: responsiveWidth(43) }}
-              action={() => directions({ latitude, longitude })}
-              color={"transparent"}
-              textColor={constants.firstColor}
-              hasBorder={true}
-              icon={constants.compassIcon}
-              iconSize={16}
-            />
-            <SimpleButton
               text={"Contact"}
               containerStyle={{ width: responsiveWidth(43) }}
               action={() => dialer(contactNumber)}
@@ -315,6 +306,16 @@ class ActivityVoucher extends Component {
               textColor={constants.firstColor}
               hasBorder={true}
               icon={constants.callIcon}
+              iconSize={16}
+            />
+            <SimpleButton
+              text={"Directions"}
+              containerStyle={{ width: responsiveWidth(43) }}
+              action={() => directions({ latitude, longitude })}
+              color={"transparent"}
+              textColor={constants.firstColor}
+              hasBorder={true}
+              icon={constants.compassIcon}
               iconSize={16}
             />
           </View>
