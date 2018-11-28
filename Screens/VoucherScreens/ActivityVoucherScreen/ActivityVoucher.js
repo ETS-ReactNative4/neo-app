@@ -123,11 +123,16 @@ class ActivityVoucher extends Component {
       header: "",
       text: ""
     };
+    const hours = Math.floor(duration / 60);
+    const minutes = duration % 60;
+    const totalDuration = `${hours ? `${hours} hrs ` : ""}${
+      minutes ? `${minutes} mins` : ""
+    }`;
     if (self) {
       passengerDetails = [
         {
           name: "Duration",
-          value: `${duration} mins`
+          value: totalDuration
         },
         {
           name: "Slot",
@@ -183,7 +188,7 @@ class ActivityVoucher extends Component {
         },
         {
           name: "Duration",
-          value: `${duration} mins`
+          value: totalDuration
         },
         {
           name: "Slot",
