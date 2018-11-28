@@ -6,6 +6,7 @@ import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraPr
 
 const VoucherSplitSection = ({ sections, containerStyle }) => {
   if (!containerStyle) containerStyle = {};
+  if (!sections.length) return null;
   return (
     <View style={[styles.splitSection, containerStyle]}>
       {sections.map((section, index) => {
