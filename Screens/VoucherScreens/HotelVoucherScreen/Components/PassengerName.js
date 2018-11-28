@@ -43,8 +43,8 @@ const styles = StyleSheet.create({
     marginLeft: 8
   },
   userName: {
-    ...constants.fontCustom(constants.primarySemiBold, 17),
-    marginTop: 3,
+    ...constants.fontCustom(constants.primaryLight, 17),
+    marginTop: 5,
     color: constants.black1
   },
   secondaryText: {
