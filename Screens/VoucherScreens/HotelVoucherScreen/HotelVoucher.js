@@ -118,10 +118,6 @@ class HotelVoucher extends Component {
         value: bookedTime ? moment(bookedTime).format("DD MMM, YY") : "NA"
       },
       {
-        name: "Total paid",
-        value: finalPrice ? getLocaleString(finalPrice) : "NA"
-      },
-      {
         name: "Booking source",
         value: "Pickyourtrail"
       }
