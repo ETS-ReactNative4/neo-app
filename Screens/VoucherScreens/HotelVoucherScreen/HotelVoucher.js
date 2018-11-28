@@ -175,9 +175,6 @@ class HotelVoucher extends Component {
 
         <View style={styles.addressRow}>
           <VoucherName name={name} />
-          {hotelAddress1 || hotelAddress2 ? (
-            <VoucherAddressSection address={hotelAddress1 || hotelAddress2} />
-          ) : null}
         </View>
 
         <View style={styles.bookingDetailsRow}>
@@ -208,31 +205,26 @@ class HotelVoucher extends Component {
               otherPassengers = otherPassengers || [];
 
               const { checkIn, checkOut } = roomVoucherDetails;
-
               if (checkIn > 1 && checkOut > 1) {
                 refundable = roomVoucherDetails.refundable;
                 freeWireless = roomVoucherDetails.freeWireless;
                 freeBreakFast = roomVoucherDetails.freeBreakFast;
               }
 
-              const hotelAmenitySummary = [];
-
-              if (freeBreakFast) {
-                hotelAmenitySummary.push({
+              const hotelAmenitySummary = [
+                {
                   name: "Breakfast",
-                  value: "Complementary"
-                });
-              }
-              if (freeWireless) {
-                hotelAmenitySummary.push({
+                  value: freeBreakFast ? "Complementary" : "Not Included"
+                },
+                {
                   name: "Free Wifi",
-                  value: "Included"
-                });
-              }
-              hotelAmenitySummary.push({
-                name: "Booking Type",
-                value: refundable ? "Refundable" : "Non-Refundable"
-              });
+                  value: freeWireless ? "Included" : "Not Included"
+                },
+                {
+                  name: "Booking Type",
+                  value: refundable ? "Refundable" : "Non-Refundable"
+                }
+              ];
 
               return (
                 <View key={roomIndex} style={styles.bookedSuit}>
@@ -280,6 +272,13 @@ class HotelVoucher extends Component {
                 </View>
               );
             })}
+
+          {hotelAddress1 || hotelAddress2 ? (
+            <VoucherAddressSection
+              containerStyle={{ marginTop: 16 }}
+              address={hotelAddress1 || hotelAddress2}
+            />
+          ) : null}
 
           <View style={styles.actionRow}>
             <SimpleButton
