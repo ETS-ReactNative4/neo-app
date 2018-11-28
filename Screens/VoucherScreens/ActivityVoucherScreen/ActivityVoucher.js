@@ -92,7 +92,8 @@ class ActivityVoucher extends Component {
       longDesc,
       latitude,
       longitude,
-      transferIncluded
+      transferIncluded,
+      free
     } = activity;
     const {
       ourSourceProvider,
@@ -128,7 +129,7 @@ class ActivityVoucher extends Component {
     const totalDuration = `${hours ? `${hours} hrs ` : ""}${
       minutes ? `${minutes} mins` : ""
     }`;
-    if (self) {
+    if (free) {
       passengerDetails = [
         {
           name: "Duration",
@@ -158,8 +159,8 @@ class ActivityVoucher extends Component {
       ];
     } else {
       voucherTitle = {
-        header: "BOOKING ID",
-        text: bookingId
+        header: bookingId ? "BOOKING ID" : "",
+        text: bookingId ? bookingId : ""
       };
       transferDetails = transferIncluded
         ? [
@@ -192,7 +193,7 @@ class ActivityVoucher extends Component {
         },
         {
           name: "Slot",
-          value: availabilitySlot
+          value: getTitleCase(availabilitySlot)
         }
       ];
       bookingDetailSections = [
@@ -294,9 +295,9 @@ class ActivityVoucher extends Component {
 
           <VoucherSplitSection sections={transferDetails} />
 
-          {self ? (
+          {free ? (
             <TransferInfoBox />
-          ) : transferIncluded ? (
+          ) : transferIncluded && pickupAddress ? (
             <PickupInfoBox />
           ) : null}
           <VoucherAddressSection
