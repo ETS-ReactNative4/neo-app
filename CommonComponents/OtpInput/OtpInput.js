@@ -54,6 +54,7 @@ class OtpInput extends Component {
                   }}
                   underlineColorAndroid={"transparent"}
                   keyboardType={"phone-pad"}
+                  keyboardAppearance={"dark"}
                 />
               </View>
             );

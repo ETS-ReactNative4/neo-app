@@ -11,6 +11,7 @@ import {
 import constants from "../../../constants/constants";
 import PropTypes from "prop-types";
 import { recordEvent } from "../../../Services/analytics/analyticsService";
+import Icon from "../../../CommonComponents/Icon/Icon";
 
 const MobileNumberInput = ({
   hasError,
@@ -19,7 +20,8 @@ const MobileNumberInput = ({
   editMobileNumber,
   mobileNumber,
   isMobileVerified,
-  submitMobileNumber
+  submitMobileNumber,
+  mobileInputRef
 }) => {
   return (
     <View
@@ -36,11 +38,18 @@ const MobileNumberInput = ({
           <View style={styles.countryCodeTextWrapper}>
             <Text style={styles.countryCodeText}>{countryCode}</Text>
           </View>
-          <Image style={styles.dropDownIcon} source={constants.dropDownArrow} />
+          <View style={styles.dropDownIconContainer}>
+            <Icon
+              name={constants.arrowDown}
+              color={constants.shade2}
+              size={16}
+            />
+          </View>
         </View>
       </TouchableHighlight>
       <View style={styles.numberInputBox}>
         <TextInput
+          ref={e => mobileInputRef(e)}
           onChangeText={editMobileNumber}
           placeholder={"1234567890"}
           value={mobileNumber}
@@ -55,6 +64,7 @@ const MobileNumberInput = ({
             recordEvent(constants.mobileNumberKeyboardClick);
             submitMobileNumber();
           }}
+          keyboardAppearance={"dark"}
         />
       </View>
     </View>
@@ -68,7 +78,8 @@ MobileNumberInput.propTypes = {
   editMobileNumber: PropTypes.func.isRequired,
   mobileNumber: PropTypes.string.isRequired,
   isMobileVerified: PropTypes.bool.isRequired,
-  submitMobileNumber: PropTypes.func.isRequired
+  submitMobileNumber: PropTypes.func.isRequired,
+  mobileInputRef: PropTypes.func.isRequired
 };
 
 const styles = StyleSheet.create({
@@ -109,9 +120,9 @@ const styles = StyleSheet.create({
       }
     })
   },
-  dropDownIcon: {
-    height: 20,
-    width: 20,
+  dropDownIconContainer: {
+    height: 16,
+    width: 16,
     marginHorizontal: 8,
     ...Platform.select({
       ios: {

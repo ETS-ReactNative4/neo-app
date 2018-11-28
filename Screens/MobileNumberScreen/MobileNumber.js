@@ -39,7 +39,16 @@ import { recordEvent } from "../../Services/analytics/analyticsService";
 class MobileNumber extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
-      header: <CommonHeader title={""} navigation={navigation} />
+      header: (
+        <CommonHeader
+          title={""}
+          leftAction={() => {
+            Keyboard.dismiss();
+            navigation.goBack();
+          }}
+          navigation={navigation}
+        />
+      )
     };
   };
 
@@ -60,11 +69,14 @@ class MobileNumber extends Component {
   };
   waitListener = {};
   smsListener = {};
+  _mobileInputRef = React.createRef();
 
   selectCountryCode = countryCode => {
     recordEvent(constants.mobileNumberSelectCountryCode);
     this.setState({ countryCode });
   };
+
+  setMobileInputRef = e => (this._mobileInputRef = e);
 
   editMobileNumber = mobileNumber => {
     if (mobileNumber.length <= 10) {
@@ -276,6 +288,10 @@ class MobileNumber extends Component {
     }
   };
 
+  componentDidMount() {
+    this._mobileInputRef.focus && this._mobileInputRef.focus();
+  }
+
   render() {
     const { isMobileVerified } = this.state;
 
@@ -306,6 +322,7 @@ class MobileNumber extends Component {
           mobileNumber={this.state.mobileNumber}
           showCountryCodeModal={this.showCountryCodeModal}
           submitMobileNumber={this.submitMobileNumber}
+          mobileInputRef={this.setMobileInputRef}
         />
 
         {this.state.isUnregisteredNumber ? <UnregisteredNumber /> : null}
@@ -371,14 +388,16 @@ const styles = StyleSheet.create({
   nextBottomBar: {
     height: 40,
     backgroundColor: "rgba(239,249,242,1)",
-    justifyContent: "center"
+    justifyContent: "center",
+    borderTopWidth: 0
   },
   otpBottomBar: {
     backgroundColor: "white",
     height: 56,
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
+    borderTopWidth: 0
   }
 });
 

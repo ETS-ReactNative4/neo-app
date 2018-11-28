@@ -352,6 +352,7 @@ class CurrencyConverter extends Component {
                   keyboardType={"numeric"}
                   underlineColorAndroid={"transparent"}
                   ref={this._inputFieldRef}
+                  keyboardAppearance={"dark"}
                 />
               </View>
               <TouchableHighlight
