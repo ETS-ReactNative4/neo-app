@@ -44,7 +44,9 @@ class MobileNumber extends Component {
           title={""}
           leftAction={() => {
             Keyboard.dismiss();
-            navigation.goBack();
+            setTimeout(() => {
+              navigation.goBack();
+            }, 250);
           }}
           navigation={navigation}
         />
@@ -289,7 +291,9 @@ class MobileNumber extends Component {
   };
 
   componentDidMount() {
-    this._mobileInputRef.focus && this._mobileInputRef.focus();
+    setTimeout(() => {
+      this._mobileInputRef.focus && this._mobileInputRef.focus();
+    }, 250);
   }
 
   render() {
