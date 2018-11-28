@@ -68,10 +68,6 @@ const FlightCard = ({
                   {
                     name: "Weight",
                     value: `${baggage.weight} kg`
-                  },
-                  {
-                    name: "Price",
-                    value: getLocaleString(baggage.price)
                   }
                 ];
                 return (
