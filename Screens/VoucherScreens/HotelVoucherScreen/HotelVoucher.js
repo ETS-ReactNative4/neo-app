@@ -157,7 +157,8 @@ class HotelVoucher extends Component {
               {moment(checkInDateTs).format("ddd, DD MMM")}
             </Text>
             <Text style={styles.checkTime}>
-              {checkInDateTs ? moment(checkInDateTs).format("hh:mm a") : "NA"}
+              {"02:00 pm"}{" "}
+              {/*checkInDateTs ? moment(checkInDateTs).format("hh:mm a") : "02:00 pm"*/}
             </Text>
           </View>
           <View style={styles.checkOutBox}>
@@ -166,7 +167,8 @@ class HotelVoucher extends Component {
               {moment(checkOutDateTs).format("ddd, DD MMM")}
             </Text>
             <Text style={styles.checkTime}>
-              {checkOutDateTs ? moment(checkOutDateTs).format("hh:mm a") : "NA"}
+              {"11:00 pm"}{" "}
+              {/*checkOutDateTs ? moment(checkOutDateTs).format("hh:mm a") : "11:00 pm"*/}
             </Text>
           </View>
         </View>
