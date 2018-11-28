@@ -8,6 +8,7 @@ import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraPr
 
 const VoucherAddressSection = ({ address, containerStyle }) => {
   if (!containerStyle) containerStyle = {};
+  if (!address) return null;
   return (
     <View style={[styles.addressContainer, containerStyle]}>
       <View style={styles.addressSection}>
@@ -19,15 +20,13 @@ const VoucherAddressSection = ({ address, containerStyle }) => {
           {address}
         </Text>
       </View>
-      {address ? (
-        <View style={styles.addressMarkerSection}>
-          <Icon
-            size={24}
-            color={constants.black1}
-            name={constants.locationIcon}
-          />
-        </View>
-      ) : null}
+      <View style={styles.addressMarkerSection}>
+        <Icon
+          size={24}
+          color={constants.black1}
+          name={constants.locationIcon}
+        />
+      </View>
     </View>
   );
 };
