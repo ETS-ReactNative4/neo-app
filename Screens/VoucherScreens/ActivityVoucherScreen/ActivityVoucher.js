@@ -30,6 +30,7 @@ import getLocaleString from "../../../Services/getLocaleString/getLocaleString";
 import VoucherAddressSection from "../Components/VoucherAddressSection";
 import PickupInfoBox from "./Components/PickupInfoBox";
 import TransferInfoBox from "./Components/TransferInfoBox";
+import VoucherContactActionBar from "../Components/VoucherContactActionBar";
 
 @inject("passportDetailsStore")
 @observer
@@ -297,28 +298,10 @@ class ActivityVoucher extends Component {
             address={pickupAddress}
           />
 
-          <View style={styles.actionRow}>
-            <SimpleButton
-              text={"Contact"}
-              containerStyle={{ width: responsiveWidth(43) }}
-              action={() => dialer(contactNumber)}
-              color={"transparent"}
-              textColor={constants.firstColor}
-              hasBorder={true}
-              icon={constants.callIcon}
-              iconSize={16}
-            />
-            <SimpleButton
-              text={"Directions"}
-              containerStyle={{ width: responsiveWidth(43) }}
-              action={() => directions({ latitude, longitude })}
-              color={"transparent"}
-              textColor={constants.firstColor}
-              hasBorder={true}
-              icon={constants.compassIcon}
-              iconSize={16}
-            />
-          </View>
+          <VoucherContactActionBar
+            contact={contactNumber}
+            location={{ lat: latitude, lon: longitude }}
+          />
         </View>
         <View style={styles.bookingDetailsSection}>
           <VoucherAccordion sections={bookingDetailSections} />

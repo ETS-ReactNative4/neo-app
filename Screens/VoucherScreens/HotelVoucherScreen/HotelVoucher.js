@@ -27,6 +27,7 @@ import VoucherAddressSection from "../Components/VoucherAddressSection";
 import moment from "moment";
 import getLocaleString from "../../../Services/getLocaleString/getLocaleString";
 import directions from "../../../Services/directions/directions";
+import VoucherContactActionBar from "../Components/VoucherContactActionBar";
 
 class HotelVoucher extends Component {
   static navigationOptions = {
@@ -70,6 +71,7 @@ class HotelVoucher extends Component {
       bookingSource,
       imageURL,
       finalPrice,
+      mobile,
       lat,
       lon
     } = hotel;
@@ -276,28 +278,7 @@ class HotelVoucher extends Component {
             />
           ) : null}
 
-          <View style={styles.actionRow}>
-            <SimpleButton
-              text={"Contact"}
-              containerStyle={{ width: responsiveWidth(43) }}
-              action={() => {}}
-              color={"transparent"}
-              textColor={constants.black2}
-              hasBorder={true}
-              icon={constants.callIcon}
-              iconSize={16}
-            />
-            <SimpleButton
-              text={"Directions"}
-              containerStyle={{ width: responsiveWidth(43) }}
-              action={() => directions({ latitude: lat, longitude: lon })}
-              color={"transparent"}
-              textColor={constants.black2}
-              hasBorder={true}
-              icon={constants.compassIcon}
-              iconSize={16}
-            />
-          </View>
+          <VoucherContactActionBar contact={mobile} location={{ lat, lon }} />
 
           <VoucherAccordion sections={amenitiesSection} />
 
