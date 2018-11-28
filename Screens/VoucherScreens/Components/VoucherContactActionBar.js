@@ -24,7 +24,7 @@ const VoucherContactActionBar = ({ contact, location }) => {
           iconSize={16}
         />
       ) : null}
-      {!contact ? (
+      {contact ? (
         <SimpleButton
           text={"Contact"}
           containerStyle={{ width: responsiveWidth(43) }}
