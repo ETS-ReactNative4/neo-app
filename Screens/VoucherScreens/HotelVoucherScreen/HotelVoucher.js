@@ -212,7 +212,7 @@ class HotelVoucher extends Component {
               const hotelAmenitySummary = [
                 {
                   name: "Breakfast",
-                  value: freeBreakFast ? "Complementary" : "Not Included"
+                  value: freeBreakFast ? "Included" : "Not Included"
                 },
                 {
                   name: "Free Wifi",
