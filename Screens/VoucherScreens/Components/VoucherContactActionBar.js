@@ -15,7 +15,11 @@ const VoucherContactActionBar = ({ contact, location }) => {
       {lat && lon ? (
         <SimpleButton
           text={"Directions"}
-          containerStyle={{ width: responsiveWidth(43), marginRight: 16 }}
+          containerStyle={
+            contact
+              ? { width: responsiveWidth(43), marginRight: 16 }
+              : { width: responsiveWidth(100) - 48 }
+          }
           action={() => directions({ latitude: lat, longitude: lon })}
           color={"transparent"}
           textColor={constants.firstColor}
