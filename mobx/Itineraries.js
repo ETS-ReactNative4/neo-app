@@ -270,9 +270,10 @@ class Itineraries {
               ) || {}
           };
         });
-        return activities.filter(
+        activities = activities.filter(
           activity => activity.costing.status === "SUCCESS"
         );
+        return _.sortBy(activities, "costing.dateMillis");
       } catch (e) {
         activities = [];
       }
