@@ -15,8 +15,10 @@ import PassengerName from "../HotelVoucherScreen/Components/PassengerName";
 import VoucherSplitSection from "../Components/VoucherSplitSection";
 import IosCloseButton from "../Components/IosCloseButton";
 import { inject, observer } from "mobx-react/custom";
+import moment from "moment";
 
 @inject("passportDetailsStore")
+@inject("itineraries")
 @observer
 class FlightVoucher extends Component {
   static navigationOptions = {
@@ -58,6 +60,10 @@ class FlightVoucher extends Component {
       refundable
     } = flight.voucher;
     const { trips, allTrips, airlineCode, excessBaggageInfo } = flight;
+    const { firstDay } = this.props.itineraries;
+    const today = moment();
+    const timeDiff = firstDay.diff(today, "hours");
+    const isWebCheckinActive = timeDiff <= 48;
 
     const { getPassengerDetails: passengers } = this.props.passportDetailsStore;
 
@@ -133,6 +139,7 @@ class FlightVoucher extends Component {
               <FlightTripView
                 excessBaggageInfo={excessBaggageInfo}
                 webCheckInUrl={webCheckInUrl}
+                isWebCheckinActive={isWebCheckinActive}
                 key={tripIndex}
                 trip={trip}
                 airlineCode={airlineCode}

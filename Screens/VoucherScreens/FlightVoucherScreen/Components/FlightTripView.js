@@ -13,6 +13,7 @@ class FlightTripView extends Component {
     isLast: PropTypes.bool.isRequired,
     airlineCode: PropTypes.string.isRequired,
     webCheckInUrl: PropTypes.string.isRequired,
+    isWebCheckinActive: PropTypes.bool.isRequired,
     excessBaggageInfo: PropTypes.string.isRequired
   });
 
@@ -33,6 +34,7 @@ class FlightTripView extends Component {
       isLast,
       airlineCode,
       webCheckInUrl,
+      isWebCheckinActive,
       excessBaggageInfo
     } = this.props;
     const { routes, flightClass, flyTime } = this.props.trip;
@@ -115,7 +117,10 @@ class FlightTripView extends Component {
             departureAirportCode={departureAirportCode}
             arrivalAirportCode={arrivalAirportCode}
           />
-          <FlightActionSection webCheckInUrl={webCheckInUrl} />
+          <FlightActionSection
+            webCheckInUrl={webCheckInUrl}
+            isWebCheckinActive={isWebCheckinActive}
+          />
         </View>
       );
     }
@@ -188,7 +193,11 @@ class FlightTripView extends Component {
                   arrivalAirportCode={arrivalAirportCode}
                 />,
                 routeIndex < routes.length - 1 ? (
-                  <FlightActionSection key={1} webCheckInUrl={webCheckInUrl} />
+                  <FlightActionSection
+                    key={1}
+                    webCheckInUrl={webCheckInUrl}
+                    isWebCheckinActive={isWebCheckinActive}
+                  />
                 ) : null,
                 routeIndex < routes.length - 1 ? (
                   <FlightDivider

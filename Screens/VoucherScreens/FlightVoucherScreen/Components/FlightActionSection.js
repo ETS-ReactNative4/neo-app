@@ -8,34 +8,44 @@ import { responsiveWidth } from "react-native-responsive-dimensions";
 import PropTypes from "prop-types";
 import { CustomTabs } from "react-native-custom-tabs";
 import { logError } from "../../../../Services/errorLogger/errorLogger";
+import storeService from "../../../../Services/storeService/storeService";
 
 const openStatus = NavigationActions.navigate({ routeName: "FlightStatus" });
-const FlightActionSection = ({ webCheckInUrl }) => {
+const FlightActionSection = ({ webCheckInUrl, isWebCheckinActive }) => {
   return (
     <View style={styles.flightActionSection}>
-      <SimpleButton
-        text={"Web Checkin"}
-        action={() => {
-          CustomTabs.openURL(webCheckInUrl, {
-            showPageTitle: true
-          })
-            .then(launched => {
-              if (!launched) {
-                logError(
-                  `Unable to launch custom tab for web checkin! - ${webCheckInUrl}`
-                );
-              }
-              return null;
-            })
-            .catch(err => {
-              logError(err);
-            });
-        }}
-        textColor={constants.firstColor}
-        color={"white"}
-        hasBorder={true}
-        containerStyle={{ height: 40, width: responsiveWidth(100) - 48 }}
-      />
+      {webCheckInUrl ? (
+        <SimpleButton
+          text={"Web Checkin"}
+          action={() => {
+            if (isWebCheckinActive) {
+              CustomTabs.openURL(webCheckInUrl, {
+                showPageTitle: true
+              })
+                .then(launched => {
+                  if (!launched) {
+                    logError(
+                      `Unable to launch custom tab for web checkin! - ${webCheckInUrl}`
+                    );
+                  }
+                  return null;
+                })
+                .catch(err => {
+                  logError(err);
+                });
+            } else {
+              storeService.infoStore.setInfo(
+                "Web checkin not yet available",
+                "Web checkin will be available only 48 hrs prior to the trip."
+              );
+            }
+          }}
+          textColor={constants.firstColor}
+          color={"white"}
+          hasBorder={true}
+          containerStyle={{ height: 40, width: responsiveWidth(100) - 48 }}
+        />
+      ) : null}
     </View>
   );
 };
@@ -48,7 +58,8 @@ const styles = StyleSheet.create({
 });
 
 FlightActionSection.propTypes = {
-  webCheckInUrl: PropTypes.string.isRequired
+  webCheckInUrl: PropTypes.string.isRequired,
+  isWebCheckinActive: PropTypes.bool.isRequired
 };
 
 export default FlightActionSection;
