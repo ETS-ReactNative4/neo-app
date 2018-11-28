@@ -83,6 +83,7 @@ class ActivityVoucher extends Component {
       bookedTime,
       activityTime,
       pickupAddress,
+      transferType,
       self
     } = activity.voucher;
     const {
@@ -93,7 +94,8 @@ class ActivityVoucher extends Component {
       latitude,
       longitude,
       transferIncluded,
-      free
+      free,
+      selectedTourGrade
     } = activity;
     const {
       ourSourceProvider,
@@ -162,18 +164,27 @@ class ActivityVoucher extends Component {
         header: bookingId ? "BOOKING ID" : "",
         text: bookingId ? bookingId : ""
       };
-      transferDetails = transferIncluded
-        ? [
-            {
-              name: "Mode of transfer",
-              value: "NA"
-            },
-            {
-              name: "Pick up time",
-              value: pickupTime
-            }
-          ]
-        : [];
+      if (transferIncluded) {
+        transferDetails.push({
+          name: "Transfer Type",
+          value: transferType
+            ? getTitleCase(transferType)
+            : selectedTourGrade
+              ? getTitleCase(selectedTourGrade.transferType)
+              : "NA"
+        });
+        transferDetails.push({
+          name: "Pick up time",
+          value:
+            pickupTime > 1
+              ? moment(pickupTime).format("hh:mm a")
+              : selectedTourGrade && selectedTourGrade.departureTime
+                ? moment(selectedTourGrade.departureTime, "HHmm").format(
+                    "hh:mm a"
+                  )
+                : "NA"
+        });
+      }
       passengerDetails = [
         {
           name: "Booked by",
@@ -247,10 +258,10 @@ class ActivityVoucher extends Component {
           name: "Booked on",
           value: bookedTime ? moment(bookedTime).format("DD MMM, YY") : "NA"
         },
-        {
-          name: "Total paid",
-          value: publishedCost ? getLocaleString(publishedCost) : "NA"
-        },
+        // {
+        //   name: "Total paid",
+        //   value: publishedCost ? getLocaleString(publishedCost) : "NA"
+        // },
         {
           name: "Booking source",
           value: "Pickyourtrail"
