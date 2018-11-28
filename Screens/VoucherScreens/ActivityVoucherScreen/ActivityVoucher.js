@@ -31,6 +31,7 @@ import VoucherAddressSection from "../Components/VoucherAddressSection";
 import PickupInfoBox from "./Components/PickupInfoBox";
 import TransferInfoBox from "./Components/TransferInfoBox";
 import VoucherContactActionBar from "../Components/VoucherContactActionBar";
+import getTitleCase from "../../../Services/getTitleCase/getTitleCase";
 
 @inject("passportDetailsStore")
 @observer
@@ -130,7 +131,7 @@ class ActivityVoucher extends Component {
         },
         {
           name: "Slot",
-          value: availabilitySlot
+          value: getTitleCase(availabilitySlot)
         },
         {
           name: "Type",
