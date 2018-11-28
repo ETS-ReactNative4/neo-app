@@ -8,6 +8,7 @@ import CircleThumbnail from "../../../../../CommonComponents/CircleThumbnail/Cir
 import storeService from "../../../../../Services/storeService/storeService";
 import SectionRightPlaceHolder from "./Components/SectionRightPlaceHolder";
 import { recordEvent } from "../../../../../Services/analytics/analyticsService";
+import getTitleCase from "../../../../../Services/getTitleCase/getTitleCase";
 
 const HotelSection = ({ section, navigation }) => {
   return (
@@ -80,7 +81,7 @@ const Hotel = ({ hotel, isLast, navigation }) => {
         </View>
         <View style={styles.contentTextWrapper}>
           <Text style={styles.contentText} numberOfLines={1}>
-            {hotel.name}
+            {getTitleCase(hotel.name)}
           </Text>
         </View>
       </View>

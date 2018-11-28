@@ -9,6 +9,7 @@ import _ from "lodash";
 import storeService from "../../../../../Services/storeService/storeService";
 import SectionRightPlaceHolder from "./Components/SectionRightPlaceHolder";
 import { recordEvent } from "../../../../../Services/analytics/analyticsService";
+import getTitleCase from "../../../../../Services/getTitleCase/getTitleCase";
 
 const ActivitiesSection = ({ section, navigation }) => {
   return (
@@ -89,7 +90,7 @@ const Activities = ({ activity, isLast, navigation }) => {
         </View>
         <View style={styles.contentTextWrapper}>
           <Text style={styles.contentText} numberOfLines={1}>
-            {activity.title}
+            {getTitleCase(activity.title)}
           </Text>
         </View>
       </View>
