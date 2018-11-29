@@ -6,6 +6,7 @@ import moment from "moment";
 import apiCall from "../Services/networkRequests/apiCall";
 import constants from "../constants/constants";
 import storeService from "../Services/storeService/storeService";
+import { logError } from "../Services/errorLogger/errorLogger";
 
 class Itineraries {
   @observable _isLoading = false;
@@ -36,7 +37,15 @@ class Itineraries {
     if (selectedItinerary) {
       this._selectedItinerary = selectedItinerary;
       storeService.voucherStore.selectVoucher(this.selectedItineraryId);
-    } else this.getItineraryDetails(itineraryId);
+      storeService.emergencyContactsStore.getEmergencyContacts(this.cities);
+      storeService.passportDetailsStore.updatePassportDetails(
+        this.selectedItineraryId
+      );
+      storeService.visaStore.getVisaDetails(this.selectedItineraryId);
+      storeService.supportStore.loadFaqDetails();
+    } else {
+      this.getItineraryDetails(itineraryId);
+    }
   };
 
   @action
@@ -50,16 +59,52 @@ class Itineraries {
       .then(response => {
         this._isLoading = false;
         if (response.status === "SUCCESS") {
+          this._loadingError = false;
           this._itineraries.push(response.data);
           this._selectedItinerary = response.data;
           storeService.voucherStore.selectVoucher(this.selectedItineraryId);
+          storeService.emergencyContactsStore.getEmergencyContacts(this.cities);
+          storeService.passportDetailsStore.updatePassportDetails(
+            this.selectedItineraryId
+          );
+          storeService.visaStore.getVisaDetails(this.selectedItineraryId);
+          storeService.supportStore.loadFaqDetails();
+        } else {
+          this._loadingError = true;
+        }
+      })
+      .catch(error => {
+        this._isLoading = false;
+        this._loadingError = true;
+      });
+  };
+
+  @action
+  updateItineraryDetails = itineraryId => {
+    this._isLoading = true;
+    const requestBody = {};
+    apiCall(
+      `${constants.getItineraryDetails}?itineraryId=${itineraryId}`,
+      requestBody
+    )
+      .then(response => {
+        this._isLoading = false;
+        if (response.status === "SUCCESS") {
+          this._selectedItinerary = response.data;
+          for (let i = 0; i < this._itineraries.length; i++) {
+            const itineraryDetail = this._itineraries[i];
+            if (itineraryDetail.itinerary.itineraryId === itineraryId) {
+              this._itineraries.splice(i, 1);
+              this._itineraries.push(response.data);
+              break;
+            }
+          }
           this._loadingError = false;
         } else {
           this._loadingError = true;
         }
       })
       .catch(error => {
-        console.error(error);
         this._isLoading = false;
         this._loadingError = true;
       });
@@ -79,138 +124,169 @@ class Itineraries {
   get selectedItineraryId() {
     if (_.isEmpty(this._selectedItinerary)) return "";
 
-    return this._selectedItinerary.itinerary.itineraryId;
+    try {
+      return this._selectedItinerary.itinerary.itineraryId;
+    } catch (e) {
+      logError(e);
+      return "";
+    }
   }
 
   @computed
   get selectedItinerary() {
     if (_.isEmpty(this._selectedItinerary)) return {};
 
-    return toJS(this._selectedItinerary);
+    try {
+      return toJS(this._selectedItinerary);
+    } catch (e) {
+      logError(e);
+      return "";
+    }
   }
 
   @computed
   get sortedDays() {
-    const itineraryDayByKey = toJS(this._selectedItinerary.iterDayByKey);
-    const days = Object.values(itineraryDayByKey);
-    return _.sortBy(days, "dayNum");
+    try {
+      const itineraryDayByKey = toJS(this._selectedItinerary.iterDayByKey);
+      const days = Object.values(itineraryDayByKey);
+      return _.sortBy(days, "dayNum");
+    } catch (e) {
+      logError(e);
+      return [];
+    }
   }
 
   @computed
   get startEndDates() {
     if (_.isEmpty(this._selectedItinerary)) return {};
 
-    const sortedDays = this.sortedDays;
+    try {
+      const sortedDays = this.sortedDays;
 
-    const startDay = sortedDays[0];
-    const lastDay = sortedDays[sortedDays.length - 1];
-    const startDate = startDay.dayTs
-      ? moment(startDay.dayTs).toDate()
-      : moment(
-          `${startDay.day}-${startDay.mon}-${constants.currentYear}`,
-          "DD-MMM-YYYY"
-        ).toDate();
-    const lastDate = lastDay.dayTs
-      ? moment(lastDay.dayTs).toDate()
-      : moment(
-          `${lastDay.day}-${lastDay.mon}-${constants.currentYear}`,
-          "DD-MMM-YYYY"
-        ).toDate();
+      const startDay = sortedDays[0];
+      const lastDay = sortedDays[sortedDays.length - 1];
+      const startDate = startDay.dayTs
+        ? moment(startDay.dayTs).toDate()
+        : moment(
+            `${startDay.day}-${startDay.mon}-${constants.currentYear}`,
+            "DD-MMM-YYYY"
+          ).toDate();
+      const lastDate = lastDay.dayTs
+        ? moment(lastDay.dayTs).toDate()
+        : moment(
+            `${lastDay.day}-${lastDay.mon}-${constants.currentYear}`,
+            "DD-MMM-YYYY"
+          ).toDate();
 
-    const startWeek = moment(startDate).day();
-    const endWeek = moment(lastDate).day();
+      const startWeek = moment(startDate).day();
+      const endWeek = moment(lastDate).day();
 
-    const startBuffer = startWeek;
-    const endBuffer = 6 - endWeek;
+      const startBuffer = startWeek;
+      const endBuffer = 6 - endWeek;
 
-    const calendarStartDate = moment(startDate)
-      .subtract(startBuffer, "days")
-      .toDate();
-    const calendarLastDate = moment(lastDate)
-      .add(endBuffer, "days")
-      .toDate();
+      const calendarStartDate = moment(startDate)
+        .subtract(startBuffer, "days")
+        .toDate();
+      const calendarLastDate = moment(lastDate)
+        .add(endBuffer, "days")
+        .toDate();
 
-    const numberOfDays =
-      moment(calendarLastDate).diff(calendarStartDate, "days") + 1;
+      const numberOfDays =
+        moment(calendarLastDate).diff(calendarStartDate, "days") + 1;
 
-    return {
-      calendarStartDate,
-      calendarLastDate,
-      startDate,
-      lastDate,
-      numberOfDays
-    };
+      return {
+        calendarStartDate,
+        calendarLastDate,
+        startDate,
+        lastDate,
+        numberOfDays
+      };
+    } catch (e) {
+      logError(e);
+      return {};
+    }
   }
 
   @computed
   get hotels() {
-    if (_.isEmpty(this._selectedItinerary)) return {};
+    if (_.isEmpty(this._selectedItinerary)) return [];
 
-    let hotels;
     try {
-      const hotelRefs = this._selectedItinerary.allHotelCostingRefs;
-      hotels = hotelRefs.reduce((hotelArray, ref) => {
-        const hotel = toJS(
-          this._selectedItinerary.hotelCostings.hotelCostingById[ref]
-        );
+      let hotels;
+      try {
+        const hotelRefs = this._selectedItinerary.allHotelCostingRefs;
+        hotels = hotelRefs.reduce((hotelArray, ref) => {
+          const hotel = toJS(
+            this._selectedItinerary.hotelCostings.hotelCostingById[ref]
+          );
 
-        if (hotel.status === "SUCCESS") {
-          hotel.voucher =
-            storeService.voucherStore.getHotelVoucherById(hotel.costingId) ||
-            {};
-          hotelArray.push(hotel);
-        }
+          if (hotel.status === "SUCCESS") {
+            hotel.voucher =
+              storeService.voucherStore.getHotelVoucherById(hotel.costingId) ||
+              {};
+            hotelArray.push(hotel);
+          }
 
-        return hotelArray;
-      }, []);
+          return hotelArray;
+        }, []);
+      } catch (e) {
+        hotels = [];
+      }
+      return hotels;
     } catch (e) {
-      hotels = [];
+      logError(e);
+      return [];
     }
-    return hotels;
   }
 
   @computed
   get activities() {
-    if (_.isEmpty(this._selectedItinerary)) return {};
+    if (_.isEmpty(this._selectedItinerary)) return [];
 
-    let activities;
     try {
-      activities = Object.values(this._selectedItinerary.activityById);
-      const activityRefs = this._selectedItinerary.allActivityCostingRefs;
-      /**
-       * TODO: Multiple maps (needs optimization)
-       */
-      const activitiesCosting = activityRefs.map(ref => {
-        return toJS(
-          this._selectedItinerary.activityCostings.activityCostingById[ref]
-        );
-      });
-      activities = activities.map(activity => {
-        activity = toJS(activity);
-        const costing = _.find(activitiesCosting, {
-          activityId: JSON.stringify(activity.planningToolId)
+      let activities;
+      try {
+        activities = Object.values(this._selectedItinerary.activityById);
+        const activityRefs = this._selectedItinerary.allActivityCostingRefs;
+        /**
+         * TODO: Multiple maps (needs optimization)
+         */
+        const activitiesCosting = activityRefs.map(ref => {
+          return toJS(
+            this._selectedItinerary.activityCostings.activityCostingById[ref]
+          );
         });
-        return {
-          ...activity,
-          costing,
-          voucher:
-            storeService.voucherStore.getActivityVoucherById(
-              costing.activityCostingId
-            ) || {}
-        };
-      });
-      return activities.filter(
-        activity => activity.costing.status === "SUCCESS"
-      );
+        activities = activities.map(activity => {
+          activity = toJS(activity);
+          const costing = _.find(activitiesCosting, {
+            activityId: JSON.stringify(activity.planningToolId)
+          });
+          return {
+            ...activity,
+            costing,
+            voucher:
+              storeService.voucherStore.getActivityVoucherById(
+                costing.activityCostingId
+              ) || {}
+          };
+        });
+        activities = activities.filter(
+          activity => activity.costing.status === "SUCCESS"
+        );
+        return _.sortBy(activities, "costing.dateMillis");
+      } catch (e) {
+        activities = [];
+      }
+      return activities;
     } catch (e) {
-      activities = [];
+      logError(e);
+      return [];
     }
-    return activities;
   }
 
   @computed
   get flights() {
-    if (_.isEmpty(this._selectedItinerary)) return {};
+    if (_.isEmpty(this._selectedItinerary)) return [];
 
     let flights;
     try {
@@ -230,6 +306,7 @@ class Itineraries {
         return flightArray;
       }, []);
     } catch (e) {
+      logError(e);
       flights = [];
     }
     return flights;
@@ -237,7 +314,7 @@ class Itineraries {
 
   @computed
   get transfers() {
-    if (_.isEmpty(this._selectedItinerary)) return {};
+    if (_.isEmpty(this._selectedItinerary)) return [];
 
     let transfers;
     try {
@@ -258,6 +335,7 @@ class Itineraries {
         return transferArray;
       }, []);
     } catch (e) {
+      logError(e);
       transfers = [];
     }
     return transfers;
@@ -265,7 +343,7 @@ class Itineraries {
 
   @computed
   get trains() {
-    if (_.isEmpty(this._selectedItinerary)) return {};
+    if (_.isEmpty(this._selectedItinerary)) return [];
 
     let trains;
     try {
@@ -275,10 +353,13 @@ class Itineraries {
           this._selectedItinerary.trainCostings.trainCostingById[ref]
         );
         trainCosting.voucher =
-          storeService.voucherStore.getTrainVoucherById(trainCosting.key) || {};
+          storeService.voucherStore.getTrainVoucherById(
+            trainCosting.costingId
+          ) || {};
         return trainCosting;
       });
     } catch (e) {
+      logError(e);
       trains = [];
     }
     return trains;
@@ -286,17 +367,21 @@ class Itineraries {
 
   @computed
   get ferries() {
-    if (_.isEmpty(this._selectedItinerary)) return {};
+    if (_.isEmpty(this._selectedItinerary)) return [];
 
     let ferries;
     try {
-      const trainRefs = this._selectedItinerary.allFerryCostingRefs;
-      ferries = trainRefs.map(ref => {
-        return toJS(
+      const ferryRefs = this._selectedItinerary.allFerryCostingRefs;
+      ferries = ferryRefs.map(ref => {
+        const ferry = toJS(
           this._selectedItinerary.ferryCostings.ferryCostingById[ref]
         );
+        ferry.voucher =
+          storeService.voucherStore.getFerryVoucherById(ferry.costingId) || {};
+        return ferry;
       });
     } catch (e) {
+      logError(e);
       ferries = [];
     }
     return ferries;
@@ -304,7 +389,7 @@ class Itineraries {
 
   @computed
   get visa() {
-    if (_.isEmpty(this._selectedItinerary)) return {};
+    if (_.isEmpty(this._selectedItinerary)) return [];
 
     let visa;
     try {
@@ -313,6 +398,7 @@ class Itineraries {
         return toJS(this._selectedItinerary.visaCostings.visaCostingById[ref]);
       });
     } catch (e) {
+      logError(e);
       visa = [];
     }
     return visa;
@@ -320,7 +406,7 @@ class Itineraries {
 
   @computed
   get passes() {
-    if (_.isEmpty(this._selectedItinerary)) return {};
+    if (_.isEmpty(this._selectedItinerary)) return [];
 
     let passes;
     try {
@@ -329,6 +415,7 @@ class Itineraries {
         return toJS(this._selectedItinerary.passCostings.passCostingById[ref]);
       });
     } catch (e) {
+      logError(e);
       passes = [];
     }
     return passes;
@@ -336,17 +423,23 @@ class Itineraries {
 
   @computed
   get rentals() {
-    if (_.isEmpty(this._selectedItinerary)) return {};
+    if (_.isEmpty(this._selectedItinerary)) return [];
 
     let rentals;
     try {
       const rentalRefs = this._selectedItinerary.allRentalCostingRefs;
       rentals = rentalRefs.map(ref => {
-        return toJS(
-          this._selectedItinerary.rentalCostings.rentalCostingById[ref]
+        const rental = toJS(
+          this._selectedItinerary.rentalCarCostings.rentalCostingById[ref]
         );
+        rental.voucher =
+          storeService.voucherStore.getRentalCarVoucherById(
+            rental.rcCostingId || rental.dbRef
+          ) || {};
+        return rental;
       });
     } catch (e) {
+      logError(e);
       rentals = [];
     }
     return rentals;
@@ -356,73 +449,102 @@ class Itineraries {
   get days() {
     if (_.isEmpty(this._selectedItinerary)) return [];
 
-    return this.sortedDays.map(day => {
-      return day.dayTs
-        ? moment(day.dayTs).toDate()
-        : moment(
-            `${day.day}-${day.mon}-${constants.currentYear}`,
-            "DD-MMM-YYYY"
-          ).toDate();
-    });
+    try {
+      return this.sortedDays.map(day => {
+        return day.dayTs
+          ? moment(day.dayTs).toDate()
+          : moment(
+              `${day.day}-${day.mon}-${constants.currentYear}`,
+              "DD-MMM-YYYY"
+            ).toDate();
+      });
+    } catch (e) {
+      logError(e);
+      return [];
+    }
   }
 
   @computed
   get slots() {
     if (_.isEmpty(this._selectedItinerary)) return [];
 
-    return this.sortedDays.reduce((slots, day) => {
-      return slots.concat([
-        day.allSlotKeys.map(slotKey => {
-          const slot = toJS(this._selectedItinerary.iterSlotByKey[slotKey]);
-          if (slot.type === "ACTIVITY") {
-            slot.activitySlotDetail = {
-              ...slot.activitySlotDetail,
-              ...this.getActivityById(slot.activitySlotDetail.activityId)
-            };
-          }
-          return slot;
-        })
-      ]);
-    }, []);
+    try {
+      return this.sortedDays.reduce((slots, day) => {
+        return slots.concat([
+          day.allSlotKeys.map(slotKey => {
+            const slot = toJS(this._selectedItinerary.iterSlotByKey[slotKey]);
+            if (slot.type === "ACTIVITY") {
+              slot.activitySlotDetail = {
+                ...slot.activitySlotDetail,
+                ...this.getActivityById(slot.activitySlotDetail.activityId)
+              };
+            }
+            return slot;
+          })
+        ]);
+      }, []);
+    } catch (e) {
+      logError(e);
+      return [];
+    }
   }
 
   @computed
   get cities() {
     if (_.isEmpty(this._selectedItinerary)) return [];
+    try {
+      const cityKeys = this._selectedItinerary.itinerary.allCityKeys;
+      return cityKeys.map(key => {
+        const cityKeyObject = this._selectedItinerary.iterCityByKey[key];
+        const cityId = cityKeyObject.cityId;
+        const startDayId = cityKeyObject.allDayKeys[0];
+        const endDayId =
+          cityKeyObject.allDayKeys[cityKeyObject.allDayKeys.length - 1];
 
-    const cityKeys = this._selectedItinerary.itinerary.allCityKeys;
-    return cityKeys.map(key => {
-      const cityKeyObject = this._selectedItinerary.iterCityByKey[key];
-      const cityId = cityKeyObject.cityId;
-      const startDayId = cityKeyObject.allDayKeys[0];
-      const endDayId =
-        cityKeyObject.allDayKeys[cityKeyObject.allDayKeys.length - 1];
+        const cityObject = this._selectedItinerary.cityById[cityId];
+        const startDayObject = this._selectedItinerary.iterDayByKey[startDayId];
+        const endDayObject = this._selectedItinerary.iterDayByKey[endDayId];
 
-      const cityObject = this._selectedItinerary.cityById[cityId];
-      const startDayObject = this._selectedItinerary.iterDayByKey[startDayId];
-      const endDayObject = this._selectedItinerary.iterDayByKey[endDayId];
+        const city = cityObject.cityName;
+        /**
+         * TODO: Need date in milliseconds
+         */
+        const startDay = startDayObject.dayTs
+          ? moment(startDayObject.dayTs).toDate()
+          : moment(
+              `${startDayObject.day}-${startDayObject.mon}-${
+                constants.currentYear
+              }`,
+              "DD-MMM-YYYY"
+            ).toDate();
+        const endDay = endDayObject.dayTs
+          ? moment(endDayObject.dayTs).toDate()
+          : moment(
+              `${endDayObject.day}-${endDayObject.mon}-${
+                constants.currentYear
+              }`,
+              "DD-MMM-YYYY"
+            ).toDate();
 
-      const city = cityObject.cityName;
-      /**
-       * TODO: Need date in milliseconds
-       */
-      const startDay = startDayObject.dayTs
-        ? moment(startDayObject.dayTs).toDate()
-        : moment(
-            `${startDayObject.day}-${startDayObject.mon}-${
-              constants.currentYear
-            }`,
-            "DD-MMM-YYYY"
-          ).toDate();
-      const endDay = endDayObject.dayTs
-        ? moment(endDayObject.dayTs).toDate()
-        : moment(
-            `${endDayObject.day}-${endDayObject.mon}-${constants.currentYear}`,
-            "DD-MMM-YYYY"
-          ).toDate();
+        return { city, startDay, endDay, cityObject };
+      });
+    } catch (e) {
+      logError(e);
+      return [];
+    }
+  }
 
-      return { city, startDay, endDay, cityObject };
-    });
+  @computed
+  get countries() {
+    if (_.isEmpty(this._selectedItinerary)) return [];
+
+    try {
+      const countries = this._selectedItinerary.itinerary.countries;
+      return toJS(countries);
+    } catch (e) {
+      logError(e);
+      return [];
+    }
   }
 
   @computed
@@ -430,23 +552,106 @@ class Itineraries {
     return "INR";
   }
 
+  @computed
+  get firstDay() {
+    if (_.isEmpty(this._selectedItinerary)) return moment();
+
+    try {
+      const iterDayByKey = toJS(this._selectedItinerary.iterDayByKey);
+      for (const key in iterDayByKey) {
+        if (iterDayByKey.hasOwnProperty(key)) {
+          const dayObject = iterDayByKey[key];
+          if (dayObject.dayNum === 1) {
+            return moment(dayObject.dayTs);
+          }
+        }
+      }
+      return moment();
+    } catch (e) {
+      logError(e);
+      return moment();
+    }
+  }
+
   getCityById = createTransformer(id => {
     if (_.isEmpty(this._selectedItinerary)) return {};
 
-    const cityObject = this._selectedItinerary.cityById[id];
-    return toJS(cityObject);
+    try {
+      const cityObject = this._selectedItinerary.cityById[id];
+      return toJS(cityObject);
+    } catch (e) {
+      logError(e);
+      return {};
+    }
+  });
+
+  getHotelByDate = createTransformer(date => {
+    if (_.isEmpty(this._selectedItinerary)) return {};
+
+    try {
+      const hotelCostings = toJS(
+        this._selectedItinerary.hotelCostings.hotelCostingById
+      );
+      for (const key in hotelCostings) {
+        if (hotelCostings.hasOwnProperty(key)) {
+          const hotel = hotelCostings[key];
+          const hotelDate = moment(hotel.checkInTs).format("DDMMYYYY");
+          if (hotelDate === date) return hotel;
+        }
+      }
+      logError("No Hotel found for the given date...");
+      return {};
+    } catch (e) {
+      logError(e);
+      return {};
+    }
   });
 
   getActivityById = createTransformer(id => {
     if (_.isEmpty(this._selectedItinerary)) return {};
 
-    return this.activities.find(activity => id === activity.costing.key);
+    try {
+      return this.activities.find(activity => id === activity.costing.key);
+    } catch (e) {
+      logError(e);
+      return {};
+    }
   });
 
   getFlightById = createTransformer(id => {
     if (_.isEmpty(this._selectedItinerary)) return {};
 
-    return toJS(this._selectedItinerary.flightCostings.flightCostingById[id]);
+    try {
+      const flight = toJS(
+        this._selectedItinerary.flightCostings.flightCostingById[id]
+      );
+      flight.voucher =
+        storeService.voucherStore.getFlightVoucherById(flight.key) || {};
+      return flight;
+    } catch (e) {
+      logError(e);
+      return {};
+    }
+  });
+
+  getTransferById = createTransformer(id => {
+    if (_.isEmpty(this._selectedItinerary)) return {};
+
+    try {
+      const transfer = toJS(
+        this._selectedItinerary.transferCostings.transferCostingById[id]
+      );
+      if (transfer) {
+        transfer.voucher =
+          storeService.voucherStore.getTransferVoucherById(transfer.key) || {};
+        return transfer;
+      } else {
+        return {};
+      }
+    } catch (e) {
+      logError(e);
+      return {};
+    }
   });
 
   getHotelById = createTransformer(id => {
@@ -488,6 +693,7 @@ class Itineraries {
         }
       }
     } catch (e) {
+      logError(e);
       return [0, 0, 0];
     }
   });
@@ -541,6 +747,7 @@ class Itineraries {
       }
       return { mode: "NONE", type: "NONE" };
     } catch (e) {
+      logError(e);
       return { mode: "NONE", type: "NONE" };
     }
   });

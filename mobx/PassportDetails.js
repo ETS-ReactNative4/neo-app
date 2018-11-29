@@ -1,8 +1,10 @@
-import { observable, computed, action, toJS } from "mobx";
+import { observable, computed, action, toJS, set } from "mobx";
 import { createTransformer } from "mobx-utils";
 import { persist } from "mobx-persist";
 import apiCall from "../Services/networkRequests/apiCall";
 import constants from "../constants/constants";
+import storeService from "../Services/storeService/storeService";
+import { logError } from "../Services/errorLogger/errorLogger";
 
 class PassportDetails {
   @observable _isLoading = false;
@@ -28,9 +30,65 @@ class PassportDetails {
     return this._hasError;
   }
 
-  getPassportDetailsByItinerary = createTransformer(itineraryId =>
-    toJS(this._passportDetails[itineraryId])
-  );
+  @computed
+  get leadPassengerName() {
+    try {
+      const itineraryId = storeService.itineraries.selectedItineraryId;
+      const { leadPassengerDetail } = this._passportDetails[itineraryId];
+      const { firstName, lastName } = leadPassengerDetail;
+      return `${firstName} ${lastName}`;
+    } catch (e) {
+      logError(e);
+      return "";
+    }
+  }
+
+  @computed
+  get passengerCount() {
+    try {
+      const itineraryId = storeService.itineraries.selectedItineraryId;
+      const passengersList = this._getPassportDetailsByItinerary(itineraryId);
+      return passengersList.length;
+    } catch (e) {
+      logError(e);
+      return 0;
+    }
+  }
+
+  @computed
+  get getPassportDetails() {
+    try {
+      const itineraryId = storeService.itineraries.selectedItineraryId;
+      return toJS(this._passportDetails[itineraryId]);
+    } catch (e) {
+      logError(e);
+      return {};
+    }
+  }
+
+  @computed
+  get getPassengerDetails() {
+    try {
+      const itineraryId = storeService.itineraries.selectedItineraryId;
+      return this._getPassportDetailsByItinerary(itineraryId);
+    } catch (e) {
+      logError(e);
+      return {};
+    }
+  }
+
+  _getPassportDetailsByItinerary = createTransformer(itineraryId => {
+    try {
+      const passportDetails = toJS(this._passportDetails[itineraryId]);
+      return [
+        passportDetails.leadPassengerDetail,
+        ...passportDetails.otherPassengerDetailList
+      ];
+    } catch (e) {
+      logError(e);
+      return [];
+    }
+  });
 
   @action
   getPassportDetails = itineraryId => {
@@ -40,9 +98,18 @@ class PassportDetails {
   };
 
   @action
+  updatePassportDetails = itineraryId => {
+    this._getPassportDetailsFromAPI(itineraryId);
+  };
+
+  @action
   _getPassportDetailsFromAPI = itineraryId => {
     this._isLoading = true;
-    apiCall(constants.getPassportDetails.replace(":itineraryId", itineraryId))
+    apiCall(
+      constants.getPassportDetails.replace(":itineraryId", itineraryId),
+      {},
+      "GET"
+    )
       .then(response => {
         this._isLoading = false;
         if (response.status === "SUCCESS") {
@@ -50,6 +117,7 @@ class PassportDetails {
           const passportDetails = toJS(this._passportDetails);
           passportDetails[itineraryId] = response.data;
           this._passportDetails = passportDetails;
+          // set(this._passportDetails, `${itineraryId}`, response.data);
         } else {
           this._hasError = true;
         }

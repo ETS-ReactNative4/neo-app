@@ -95,7 +95,7 @@ class EmergencyContactSection extends Component {
                 <Text style={styles.emergencyNumbers}>
                   {contactNumber.title}
                 </Text>
-                <Text style={styles.emergencyNumbers}>
+                <Text style={[styles.emergencyNumbers, styles.numberText]}>
                   {contactNumber.number || "NA"}
                 </Text>
               </TouchableOpacity>
@@ -219,6 +219,11 @@ const styles = StyleSheet.create({
   emergencyNumbers: {
     ...constants.fontCustom(constants.primaryLight, 17),
     color: constants.black1
+  },
+  numberText: {
+    color: constants.firstColor,
+    fontFamily: constants.primarySemiBold,
+    textDecorationLine: "underline"
   },
   addressTitleContainer: {
     marginTop: 28,

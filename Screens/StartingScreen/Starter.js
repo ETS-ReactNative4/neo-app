@@ -13,6 +13,7 @@ import { isIphoneX } from "react-native-iphone-x-helper";
 import LinearGradient from "react-native-linear-gradient";
 import { inject, observer } from "mobx-react/custom";
 import ControlledWebView from "../../CommonComponents/ControlledWebView/ControlledWebView";
+import { recordEvent } from "../../Services/analytics/analyticsService";
 
 @inject("appState")
 @observer
@@ -26,7 +27,7 @@ class Starter extends Component {
   };
 
   clickedPlan = () => {
-    this.props.appState.setTripMode(false);
+    this.props.navigation.navigate("NewItineraryStack");
   };
 
   render() {
@@ -48,14 +49,6 @@ class Starter extends Component {
           style={styles.gradientContainer}
         >
           <SafeAreaView>
-            <ControlledWebView
-              source={{ uri: constants.productUrl }}
-              onNavigationStateChange={() => null}
-              style={{ height: 0, width: 0 }}
-              webviewRef={() => null}
-              injectedJavascript={""}
-              hideLoadingIndicator={true}
-            />
             <View style={styles.logoRow}>
               <Image
                 source={constants.pytLogoNew}
@@ -70,7 +63,10 @@ class Starter extends Component {
                   textColor={`white`}
                   color={constants.firstColor}
                   underlayColor={constants.firstColorAlpha(0.7)}
-                  action={this.clickedBooking}
+                  action={() => {
+                    this.clickedBooking();
+                    recordEvent(constants.starterFindBooking);
+                  }}
                   containerStyle={{ marginRight: 8 }}
                 />
                 <View style={[styles.textWrapper, { marginRight: 8 }]}>
@@ -85,7 +81,10 @@ class Starter extends Component {
                   textColor={constants.firstColor}
                   color={"white"}
                   underlayColor={constants.firstColorAlpha(0.7)}
-                  action={this.clickedPlan}
+                  action={() => {
+                    this.clickedPlan();
+                    recordEvent(constants.starterPlanVacation);
+                  }}
                 />
                 <View style={styles.textWrapper}>
                   <Text style={styles.infoText}>

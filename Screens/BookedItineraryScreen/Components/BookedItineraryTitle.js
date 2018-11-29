@@ -12,6 +12,8 @@ import { observer, inject } from "mobx-react/custom";
 import MultiLineHeader from "../../../CommonComponents/MultilineHeader/MultiLineHeader";
 import Moment from "moment";
 import { extendMoment } from "moment-range";
+import { recordEvent } from "../../../Services/analytics/analyticsService";
+import constants from "../../../constants/constants";
 
 const moment = extendMoment(Moment);
 
@@ -20,6 +22,7 @@ const BookedItineraryTitle = inject("itineraries")(
     observer(({ appState, itineraries }) => {
       const { toggleItinerarySelection, selectedDate } = appState;
       const openMenu = () => {
+        recordEvent(constants.bookedItineraryHeaderClick);
         toggleItinerarySelection(true);
       };
       const { cities } = itineraries;

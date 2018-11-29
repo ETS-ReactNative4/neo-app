@@ -20,6 +20,7 @@ import XSensorPlaceholder from "../../CommonComponents/XSensorPlaceholder/XSenso
 import { inject, observer } from "mobx-react/custom";
 import Icon from "../../CommonComponents/Icon/Icon";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
+import { recordEvent } from "../../Services/analytics/analyticsService";
 
 @inject("appState")
 @observer
@@ -27,7 +28,14 @@ class CurrencyConverter extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
       header: (
-        <CommonHeader title={"Currency Calculator"} navigation={navigation} />
+        <CommonHeader
+          leftAction={() => {
+            Keyboard.dismiss();
+            navigation.goBack();
+          }}
+          title={"Currency Calculator"}
+          navigation={navigation}
+        />
       )
     };
   };
@@ -35,8 +43,8 @@ class CurrencyConverter extends Component {
   state = {
     nativeAmount: 0,
     foreignAmount: 0,
-    nativeCurrency: "USDINR",
-    foreignCurrency: "USDUSD",
+    nativeCurrency: "USDUSD",
+    foreignCurrency: "USDINR",
     keyboardSpace: 0,
     isKeyboardVisible: false,
     isSelectorActive: false
@@ -76,8 +84,13 @@ class CurrencyConverter extends Component {
       Platform.OS === "ios" ? "keyboardWillHide" : "keyboardDidHide",
       this.keyboardDidHide
     );
-    this.props.appState.getConversionRates();
-    this._inputFieldRef.current.focus();
+    const { getConversionRates, loadCurrencies } = this.props.appState;
+    getConversionRates();
+    loadCurrencies();
+    this.setDefaultCurrency();
+    setTimeout(() => {
+      this._inputFieldRef.current.focus && this._inputFieldRef.current.focus();
+    }, 300);
   }
 
   componentWillUnmount() {
@@ -85,6 +98,19 @@ class CurrencyConverter extends Component {
     this.keyboardDidHideListener.remove();
     this._inputFieldRef.current.blur();
   }
+
+  setDefaultCurrency = () => {
+    const { currencies } = this.props.appState;
+    if (currencies.length) {
+      this.setState({
+        nativeCurrency: `USD${currencies[0]}`
+      });
+    } else {
+      setTimeout(() => {
+        this.setDefaultCurrency();
+      }, 500);
+    }
+  };
 
   setAmount = foreignAmount => {
     if (!foreignAmount) this.setState({ foreignAmount: 0 });
@@ -100,9 +126,14 @@ class CurrencyConverter extends Component {
     }
   };
 
-  openSelector = () => {
+  openSelector = type => {
+    if (type === "foreign") {
+      recordEvent(constants.currencyConverterChangeCurrencyForeignClick);
+    } else if (type === "native") {
+      recordEvent(constants.currencyConverterChangeCurrencyNativeClick);
+    }
     this.setState({
-      isSelectorActive: true
+      isSelectorActive: type
     });
   };
 
@@ -113,15 +144,24 @@ class CurrencyConverter extends Component {
   };
 
   swapCurrencies = () => {
+    recordEvent(constants.currencyConverterSwapCurrencyClick);
     this.setState({
       nativeCurrency: this.state.foreignCurrency,
       foreignCurrency: this.state.nativeCurrency
     });
   };
 
-  selectCurrency = currency => {
+  selectForeignCurrency = currency => {
+    recordEvent(constants.currencyConverterSelectCurrencyClick);
     this.setState({
       foreignCurrency: currency
+    });
+  };
+
+  selectNativeCurrency = currency => {
+    recordEvent(constants.currencyConverterSelectCurrencyClick);
+    this.setState({
+      nativeCurrency: currency
     });
   };
 
@@ -136,7 +176,7 @@ class CurrencyConverter extends Component {
     /**
      * TODO: Loading Indicator for conversion rates
      */
-    if (!conversionRates.quotes) return null;
+    if (!conversionRates) return null;
 
     /**
      * TODO: Dynamic suggested rates using user's previous info
@@ -144,53 +184,53 @@ class CurrencyConverter extends Component {
     const currencyRates = [
       {
         foreignAmount: 5,
-        foreignCurrency: this.state.foreignCurrency.substr(3),
+        foreignCurrency,
         nativeAmount: currencyConverter({
           amount: 5,
           from: this.state.foreignCurrency,
           to: this.state.nativeCurrency
         }),
-        nativeCurrency: this.state.nativeCurrency.substr(3)
+        nativeCurrency
       },
       {
         foreignAmount: 10,
-        foreignCurrency: this.state.foreignCurrency.substr(3),
+        foreignCurrency,
         nativeAmount: currencyConverter({
           amount: 10,
           from: this.state.foreignCurrency,
           to: this.state.nativeCurrency
         }),
-        nativeCurrency: this.state.nativeCurrency.substr(3)
+        nativeCurrency
       },
       {
         foreignAmount: 22,
-        foreignCurrency: this.state.foreignCurrency.substr(3),
+        foreignCurrency,
         nativeAmount: currencyConverter({
           amount: 22,
           from: this.state.foreignCurrency,
           to: this.state.nativeCurrency
         }),
-        nativeCurrency: this.state.nativeCurrency.substr(3)
+        nativeCurrency
       },
       {
         foreignAmount: 50,
-        foreignCurrency: this.state.foreignCurrency.substr(3),
+        foreignCurrency,
         nativeAmount: currencyConverter({
           amount: 50,
           from: this.state.foreignCurrency,
           to: this.state.nativeCurrency
         }),
-        nativeCurrency: this.state.nativeCurrency.substr(3)
+        nativeCurrency
       },
       {
         foreignAmount: 130,
-        foreignCurrency: this.state.foreignCurrency.substr(3),
+        foreignCurrency,
         nativeAmount: currencyConverter({
           amount: 130,
           from: this.state.foreignCurrency,
           to: this.state.nativeCurrency
         }),
-        nativeCurrency: this.state.nativeCurrency.substr(3)
+        nativeCurrency
       }
     ];
 
@@ -217,12 +257,21 @@ class CurrencyConverter extends Component {
       inputFontSize = 40;
     }
 
+    const { currencies } = this.props.appState;
+
     return [
       <CurrencySelector
+        currenciesList={currencies}
         key={0}
         isVisible={this.state.isSelectorActive}
         onClose={this.closeSelector}
-        selectCurrency={this.selectCurrency}
+        selectCurrency={currency => {
+          if (this.state.isSelectorActive === "foreign") {
+            this.selectForeignCurrency(currency);
+          } else {
+            this.selectNativeCurrency(currency);
+          }
+        }}
       />,
       <TouchableWithoutFeedback
         key={1}
@@ -270,7 +319,7 @@ class CurrencyConverter extends Component {
                 </View>
               )}
               <TouchableHighlight
-                onPress={this.openSelector}
+                onPress={() => this.openSelector("foreign")}
                 underlayColor={"transparent"}
                 style={styles.outputInfoContainer}
               >
@@ -278,10 +327,13 @@ class CurrencyConverter extends Component {
                   <Text style={styles.outputCurrencyName}>
                     {this.state.foreignCurrency.substr(3)}
                   </Text>
-                  <Image
-                    style={styles.outputFlagImage}
-                    source={constants.starterBackground}
-                  />
+                  <View style={styles.iconIndicatorContainerOutput}>
+                    <Icon
+                      name={constants.dropDownArrowIcon}
+                      size={8}
+                      color={constants.firstColor}
+                    />
+                  </View>
                 </View>
               </TouchableHighlight>
             </View>
@@ -300,17 +352,27 @@ class CurrencyConverter extends Component {
                   keyboardType={"numeric"}
                   underlineColorAndroid={"transparent"}
                   ref={this._inputFieldRef}
+                  keyboardAppearance={"dark"}
                 />
               </View>
-              <View style={styles.infoContainer}>
-                <Text style={styles.currencyName}>
-                  {this.state.nativeCurrency.substr(3)}
-                </Text>
-                <Image
-                  style={styles.flagImage}
-                  source={constants.starterBackground}
-                />
-              </View>
+              <TouchableHighlight
+                onPress={() => this.openSelector("native")}
+                underlayColor={"transparent"}
+                style={styles.infoContainer}
+              >
+                <View style={styles.infoContainer}>
+                  <Text style={styles.currencyName}>
+                    {this.state.nativeCurrency.substr(3)}
+                  </Text>
+                  <View style={styles.iconIndicatorContainerInput}>
+                    <Icon
+                      name={constants.dropDownArrowIcon}
+                      size={8}
+                      color={constants.firstColor}
+                    />
+                  </View>
+                </View>
+              </TouchableHighlight>
             </View>
 
             <TouchableHighlight
@@ -386,14 +448,16 @@ const styles = StyleSheet.create({
   outputInfoContainer: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
+    paddingHorizontal: 8
   },
+  iconIndicatorContainerOutput: { position: "absolute", top: 16, right: 0 },
   outputCurrencyName: {
     ...constants.font24(constants.primaryLight),
     margin: 8,
     fontWeight: "400",
     paddingBottom: 12, // 11 diff for circle margin, 5 for line height
-    color: "rgba(255,87,109,1)"
+    color: constants.firstColor
   },
   outputFlagImage: {
     height: 20,
@@ -417,14 +481,20 @@ const styles = StyleSheet.create({
   infoContainer: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
+    paddingHorizontal: 8
+  },
+  iconIndicatorContainerInput: {
+    position: "absolute",
+    right: 0,
+    top: 30
   },
   currencyName: {
     ...constants.font24(constants.primaryLight),
     margin: 8,
     fontWeight: "400",
     paddingTop: 16, // 11 diff for circle margin, 5 for line height
-    color: "rgba(255,87,109,1)"
+    color: constants.firstColor
   },
   flagImage: {
     height: 20,
@@ -437,11 +507,11 @@ const styles = StyleSheet.create({
     width: 40,
     borderRadius: 20,
     backgroundColor: "white",
-    borderWidth: 0.5,
+    borderWidth: StyleSheet.hairlineWidth,
     borderColor: constants.shade2,
     position: "absolute",
     bottom: 60,
-    right: 48,
+    right: 28,
     alignItems: "center",
     justifyContent: "center"
   },

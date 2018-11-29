@@ -1,5 +1,11 @@
 import React, { Component } from "react";
-import { View, StyleSheet, NetInfo } from "react-native";
+import {
+  View,
+  StyleSheet,
+  NetInfo,
+  Keyboard,
+  TouchableWithoutFeedback
+} from "react-native";
 import ScrollableTabView from "react-native-scrollable-tab-view";
 import ScrollableTabBar from "../../CommonComponents/ScrollableTabBar/ScrollableTabBar";
 import constants from "../../constants/constants";
@@ -28,7 +34,8 @@ class PhraseBook extends Component {
     isSoundPlaying: false,
     isTtsSpeaking: false,
     isLanguageSelectorVisible: false,
-    isInternetAvailable: true
+    isInternetAvailable: true,
+    isKeyboardVisible: false
   };
   _didFocusSubscription;
   _willBlurSubscription;
@@ -176,6 +183,18 @@ class PhraseBook extends Component {
     });
   };
 
+  onKeyBoardStateChange = visiblity => {
+    if (visiblity === "hidden") {
+      this.setState({
+        isKeyboardVisible: false
+      });
+    } else {
+      this.setState({
+        isKeyboardVisible: true
+      });
+    }
+  };
+
   render() {
     const {
       phrases,
@@ -191,6 +210,7 @@ class PhraseBook extends Component {
       pinPhrase,
       unPinPhrase
     } = this.props.phrasesStore;
+    const { navigation } = this.props;
 
     const sections = ["pinned", ...Object.keys(phrases)];
     const allPhrases = {
@@ -204,51 +224,60 @@ class PhraseBook extends Component {
     }
 
     return [
-      <View key={0} style={styles.container}>
-        <PhraseInfo
-          selectedPhrase={selectedPhrase}
-          translatedPhrase={translatedPhrase}
-          isTranslating={isTranslating}
-          speak={this.speak}
-          isSpeaking={this.state.isTtsSpeaking || this.state.isSoundPlaying}
-          pinPhrase={pinPhrase}
-          unPinPhrase={unPinPhrase}
-          pinnedPhrases={pinnedPhrases}
-        />
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View key={0} style={styles.container}>
+          <PhraseInfo
+            selectedPhrase={selectedPhrase}
+            translatedPhrase={translatedPhrase}
+            isTranslating={isTranslating}
+            speak={this.speak}
+            isSpeaking={this.state.isTtsSpeaking || this.state.isSoundPlaying}
+            pinPhrase={pinPhrase}
+            unPinPhrase={unPinPhrase}
+            pinnedPhrases={pinnedPhrases}
+          />
 
-        <View style={{ flex: 1 }}>
-          <ScrollableTabView
-            tabBarActiveTextColor={constants.black2}
-            tabBarInactiveTextColor={constants.firstColor}
-            tabBarUnderlineStyle={{
-              height: 2,
-              backgroundColor: constants.black2
-            }}
-            tabBarTextStyle={{ ...constants.font13(constants.primarySemiBold) }}
-            initialPage={1}
-            prerenderingSiblingsNumber={Infinity}
-            renderTabBar={() => <ScrollableTabBar />}
-          >
-            {sections.map((section, sectionIndex) => {
-              return (
-                <PhrasesSection
-                  key={sectionIndex}
-                  phrases={allPhrases[section]}
-                  selectPhrase={selectPhrase}
-                  tabLabel={section.toUpperCase()}
-                  targetLanguage={targetLanguage}
-                />
-              );
-            })}
-          </ScrollableTabView>
+          <View style={{ flex: 1 }}>
+            {sections.length > 1 ? (
+              <ScrollableTabView
+                tabBarActiveTextColor={constants.black2}
+                tabBarInactiveTextColor={constants.firstColor}
+                tabBarUnderlineStyle={{
+                  height: 2,
+                  backgroundColor: constants.black2
+                }}
+                tabBarTextStyle={{
+                  ...constants.font13(constants.primarySemiBold)
+                }}
+                initialPage={1}
+                prerenderingSiblingsNumber={Infinity}
+                renderTabBar={() => <ScrollableTabBar />}
+              >
+                {sections.map((section, sectionIndex) => {
+                  return (
+                    <PhrasesSection
+                      key={sectionIndex}
+                      phrases={allPhrases[section]}
+                      selectPhrase={selectPhrase}
+                      tabLabel={section.toUpperCase()}
+                      targetLanguage={targetLanguage}
+                    />
+                  );
+                })}
+              </ScrollableTabView>
+            ) : null}
+          </View>
         </View>
-      </View>,
+      </TouchableWithoutFeedback>,
       <CustomPhrase
         openLanguageSelector={this.openLanguageSelector}
         key={1}
+        navigation={navigation}
         selectedLanguage={selectedLanguage}
         selectPhrase={selectPhrase}
         targetLanguage={targetLanguage}
+        onKeyBoardStateChange={this.onKeyBoardStateChange}
+        isKeyboardVisible={this.state.isKeyboardVisible}
       />,
       <LanguageSelector
         selectLanguage={selectLanguage}

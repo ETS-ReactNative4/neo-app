@@ -10,6 +10,8 @@ import {
 } from "react-native";
 import PropTypes from "prop-types";
 import constants from "../../../constants/constants";
+import Icon from "../../../CommonComponents/Icon/Icon";
+import getWeatherIcon from "../../../Services/getWeatherIcon/getWeatherIcon";
 
 const WeatherTiles = ({ weatherArray, selectTile }) => {
   return (
@@ -32,10 +34,13 @@ const WeatherTiles = ({ weatherArray, selectTile }) => {
           >
             <Text style={styles.dayText}>{weather.day}</Text>
             <Text style={styles.cityText}>{weather.city}</Text>
-            <Image
-              source={constants.notificationIcon}
-              style={styles.weatherIcon}
-            />
+            <View style={styles.weatherIcon}>
+              <Icon
+                name={getWeatherIcon(weather.icon)}
+                size={32}
+                color={constants.black1}
+              />
+            </View>
             <Text style={styles.tempText}>
               {weather.tempC}
               <Text style={styles.tempFText}>{` ${weather.tempF}`}</Text>
@@ -73,7 +78,9 @@ const styles = StyleSheet.create({
   weatherIcon: {
     height: 32,
     width: 32,
-    marginVertical: 8
+    marginVertical: 8,
+    alignItems: "center",
+    justifyContent: "center"
   },
   dayText: {
     fontFamily: constants.primaryLight,

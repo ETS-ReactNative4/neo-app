@@ -12,6 +12,7 @@ import constants from "../../../constants/constants";
 import Icon from "../../../CommonComponents/Icon/Icon";
 import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraProps";
 import FastImage from "react-native-fast-image";
+import { recordEvent } from "../../../Services/analytics/analyticsService";
 
 const CityCard = ({
   cityImage,
@@ -45,9 +46,15 @@ const CityCard = ({
             {cityName}
           </Text>
         </View>
-        <TouchableOpacity onPress={action} style={styles.actionView}>
+        <TouchableOpacity
+          onPress={() => {
+            recordEvent(constants.bookedItineraryExploreGuideClick);
+            action();
+          }}
+          style={styles.actionView}
+        >
           <Icon name={constants.locationIcon} size={16} color={"white"} />
-          <Text style={styles.actionText}>Explore on Map</Text>
+          <Text style={styles.actionText}>Explore Guide</Text>
         </TouchableOpacity>
       </View>
     </FastImage>

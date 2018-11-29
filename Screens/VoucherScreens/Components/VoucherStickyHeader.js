@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "flex-start",
-    borderBottomWidth: 0.25,
+    borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: constants.black2
   },
   closeButton: {

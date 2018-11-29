@@ -43,13 +43,13 @@ const styles = StyleSheet.create({
   },
   textContainer: {
     alignSelf: "flex-start",
-    borderBottomWidth: 1,
+    borderBottomWidth: StyleSheet.hairlineWidth,
     height: 32,
     borderBottomColor: constants.black2
   },
   placeholder: {
     flex: 1,
-    borderBottomWidth: 1,
+    borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: constants.shade4
   },
   sectionName: {

@@ -3,17 +3,16 @@ import { ImageBackground, Platform } from "react-native";
 import { StackActions, NavigationActions } from "react-navigation";
 import constants from "../../constants/constants";
 import * as Keychain from "react-native-keychain";
-import { registerFcmRefreshListener } from "../../Services/fcmService/fcm";
 import { inject, observer } from "mobx-react/custom";
 
-const resetToHome = StackActions.reset({
-  index: 0,
-  actions: [NavigationActions.navigate({ routeName: "Starter" })]
+const resetToBooked = NavigationActions.navigate({
+  routeName: "AppHome",
+  action: NavigationActions.navigate({ routeName: "BookedItineraryTabs" })
 });
 
-const resetToItineraries = StackActions.reset({
-  index: 0,
-  actions: [NavigationActions.navigate({ routeName: "AppHome" })]
+const resetToPlan = NavigationActions.navigate({
+  routeName: "AppHome",
+  action: NavigationActions.navigate({ routeName: "NewItineraryStack" })
 });
 
 @inject("appState")
@@ -24,18 +23,17 @@ class Splash extends Component {
   };
 
   componentDidMount() {
-    registerFcmRefreshListener();
+    const { isTripModeOn } = this.props.appState;
     setTimeout(async () => {
       const credentials = await Keychain.getGenericPassword();
-      this.props.appState.setTripMode(true, "reset");
       if (credentials) {
-        Platform.OS === "ios"
-          ? this.props.navigation.navigate("AppHome")
-          : this.props.navigation.dispatch(resetToItineraries);
+        if (isTripModeOn) {
+          this.props.navigation.dispatch(resetToBooked);
+        } else {
+          this.props.navigation.dispatch(resetToPlan);
+        }
       } else {
-        Platform.OS === "ios"
-          ? this.props.navigation.navigate("Starter")
-          : this.props.navigation.dispatch(resetToHome);
+        this.props.navigation.navigate("Starter");
       }
     }, 1000);
   }

@@ -12,6 +12,7 @@ import SimpleButton from "../../../CommonComponents/SimpleButton/SimpleButton";
 import PropTypes from "prop-types";
 import moment from "moment";
 import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraProps";
+import getLocaleString from "../../../Services/getLocaleString/getLocaleString";
 
 /**
  * TODO: Need minimum payment due
@@ -64,10 +65,10 @@ const PaymentInfoCard = ({
             </Text>
           </View>
           <View style={styles.bookingDateWrapper}>
-            <Text style={styles.bookingDate}>{`₹ ${
+            <Text style={styles.bookingDate}>{`${
               isPaymentPending
-                ? paymentDue.toLocaleString("en-IN")
-                : totalAmountPaid.toLocaleString("en-IN")
+                ? getLocaleString(paymentDue)
+                : getLocaleString(totalAmountPaid)
             }`}</Text>
           </View>
         </View>

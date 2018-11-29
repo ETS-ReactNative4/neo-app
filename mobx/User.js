@@ -1,7 +1,8 @@
 import { observable, computed, action, toJS } from "mobx";
-import { persist } from "mobx-persist/lib/index";
+import { persist } from "mobx-persist";
 import apiCall from "../Services/networkRequests/apiCall";
 import constants from "../constants/constants";
+import { setUserDetails } from "../Services/analytics/analyticsService";
 
 class User {
   @persist("object")
@@ -32,6 +33,13 @@ class User {
         if (response.status === "SUCCESS") {
           this._hasError = false;
           this._user = response.data;
+          const { mob_num, name, email } = response.data;
+          setUserDetails({
+            id: mob_num,
+            name,
+            email,
+            phoneNumber: mob_num
+          });
         } else {
           this._hasError = true;
         }

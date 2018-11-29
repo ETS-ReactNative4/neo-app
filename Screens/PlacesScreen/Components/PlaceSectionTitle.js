@@ -3,10 +3,10 @@ import { View, Text, StyleSheet, Image, Platform } from "react-native";
 import PropTypes from "prop-types";
 import constants from "../../../constants/constants";
 
-const PlaceSectionTitle = ({ title, image }) => {
+const PlaceSectionTitle = ({ title }) => {
   return (
     <View style={styles.titleContainer}>
-      <Image source={image} style={styles.titleIcon} />
+      {/*<Image source={image} style={styles.titleIcon} />*/}
       <Text style={styles.titleText}>{title}</Text>
     </View>
   );
@@ -18,12 +18,12 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "flex-start",
-    marginVertical: 4
+    marginVertical: 4,
+    marginHorizontal: 24
   },
   titleIcon: {
     height: 24,
-    width: 24,
-    marginLeft: 24
+    width: 24
   },
   titleText: {
     ...Platform.select({
@@ -41,8 +41,7 @@ const styles = StyleSheet.create({
 });
 
 PlaceSectionTitle.propTypes = {
-  title: PropTypes.string.isRequired,
-  image: PropTypes.number.isRequired
+  title: PropTypes.string.isRequired
 };
 
 export default PlaceSectionTitle;

@@ -161,7 +161,7 @@ const styles = StyleSheet.create({
     height: 42,
     width: 42,
     borderRadius: 21,
-    borderWidth: 0.5,
+    borderWidth: StyleSheet.hairlineWidth,
     borderColor: constants.shade1,
     alignItems: "center",
     justifyContent: "center",

@@ -35,13 +35,16 @@ const BookedTabs = createBottomTabNavigator(
         const { routeName } = navigation.state;
         let icon;
 
+        const color = focused ? constants.black1 : constants.shade2;
+
         switch (routeName) {
           case "TripFeed":
             icon = {
               text: "TRIP FEED",
               icon: focused
                 ? constants.tripFeedSelectedIcon
-                : constants.tripFeedIcon
+                : constants.tripFeedIcon,
+              color
             };
             break;
 
@@ -50,7 +53,8 @@ const BookedTabs = createBottomTabNavigator(
               text: "BOOKINGS",
               icon: focused
                 ? constants.bookingSelectedIcon
-                : constants.bookingIcon
+                : constants.bookingIcon,
+              color
             };
             break;
 
@@ -59,14 +63,16 @@ const BookedTabs = createBottomTabNavigator(
               text: "SUPPORT",
               icon: focused
                 ? constants.supportSelectedIcon
-                : constants.supportIcon
+                : constants.supportIcon,
+              color
             };
             break;
 
           case "Tools":
             icon = {
               text: "TOOLS",
-              icon: focused ? constants.toolSelectedIcon : constants.toolIcon
+              icon: focused ? constants.toolSelectedIcon : constants.toolIcon,
+              color
             };
             break;
 
@@ -75,7 +81,8 @@ const BookedTabs = createBottomTabNavigator(
               text: "JOURNAL",
               icon: focused
                 ? constants.journalSelectedIcon
-                : constants.journalIcon
+                : constants.journalIcon,
+              color
             };
             break;
         }
@@ -86,11 +93,13 @@ const BookedTabs = createBottomTabNavigator(
     tabBarOptions: {
       showLabel: false,
       style: {
-        backgroundColor: "white"
+        backgroundColor: "white",
+        height: 56
       }
     },
-    initialRouteName: "TripFeed",
-    swipeEnabled: false
+    initialRouteName: "Bookings",
+    swipeEnabled: false,
+    lazy: false
   }
 );
 

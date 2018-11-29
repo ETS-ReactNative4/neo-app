@@ -5,7 +5,6 @@ import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import { View } from "react-native";
 import { inject, observer } from "mobx-react/custom";
 
-@inject("itineraries")
 @inject("passportDetailsStore")
 @observer
 class PassportDetails extends Component {
@@ -18,44 +17,9 @@ class PassportDetails extends Component {
   };
 
   render() {
-    const passengerDetailsOld = [
-      {
-        name: "Passenger 1",
-        component: (
-          <VoucherSplitSection
-            sections={[
-              {
-                name: "Passport ID",
-                value: ""
-              },
-              {
-                name: "Surname",
-                value: ""
-              },
-              {
-                name: "Given name",
-                value: ""
-              },
-              {
-                name: "Date of birth",
-                value: ""
-              },
-              {
-                name: "Date of expiry",
-                value: ""
-              }
-            ]}
-          />
-        )
-      }
-    ];
+    const { getPassengerDetails } = this.props.passportDetailsStore;
 
-    const { selectedItineraryId } = this.props.itineraries;
-    const { getPassportDetailsByItinerary } = this.props.passportDetailsStore;
-
-    const passportDetails = getPassportDetailsByItinerary(selectedItineraryId);
-
-    const passengerDetails = passportDetails.map(passportInfo => {
+    const passengerDetails = getPassengerDetails.map(passportInfo => {
       const {
         passengerId,
         salutation,
@@ -103,6 +67,7 @@ class PassportDetails extends Component {
           openFirstSection={true}
           sections={passengerDetails}
           containerStyle={{ marginHorizontal: 24 }}
+          expandMultiple={true}
         />
       </View>
     );

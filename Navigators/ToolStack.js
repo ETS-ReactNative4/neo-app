@@ -10,6 +10,13 @@ import Places from "../Screens/PlacesScreen/Places";
 import transitionConfig from "../Services/navigationAnimations/transitionConfig";
 import Visa from "../Screens/VisaScreen/Visa";
 import NearBy from "../Screens/NearByScreen/NearBy";
+import SupportCenter from "../Screens/SupportCenterScreen/SupportCenter";
+import FAQ from "../Screens/FAQScreens/FAQScreen/FAQ";
+import FAQAnswers from "../Screens/FAQScreens/FAQAnswersScreen/FAQAnswers";
+import ContactUs from "../Screens/ContactUsScreen/ContactUs";
+import YourTickets from "../Screens/YourTicketsScreen/YourTickets";
+import VisaChecklist from "../Screens/VisaChecklistScreen/VisaChecklist";
+import TicketsConversation from "../Screens/TicketsConversationScreen/TicketsConversation";
 
 const ToolStack = createStackNavigator(
   {
@@ -34,20 +41,41 @@ const ToolStack = createStackNavigator(
     Weather: {
       screen: Weather
     },
-    Places: {
+    ToolPlaces: {
       screen: Places
     },
-    NearBy: {
+    ToolNearBy: {
       screen: NearBy
     },
     Visa: {
       screen: Visa
+    },
+    VisaChecklist: {
+      screen: VisaChecklist
+    },
+    SupportCenter: {
+      screen: SupportCenter
+    },
+    FAQ: {
+      screen: FAQ
+    },
+    FAQAnswers: {
+      screen: FAQAnswers
+    },
+    ContactUs: {
+      screen: ContactUs
+    },
+    YourTickets: {
+      screen: YourTickets
+    },
+    TicketsConversation: {
+      screen: TicketsConversation
     }
   },
   {
     initialRouteName: "ToolHome",
     navigationOptions: {
-      gesturesEnabled: false
+      gesturesEnabled: true
     },
     transitionConfig
   }

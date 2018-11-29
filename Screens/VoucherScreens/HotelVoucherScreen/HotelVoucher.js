@@ -23,6 +23,11 @@ import PassengerName from "./Components/PassengerName";
 import VoucherAccordion from "../Components/VoucherAccordion";
 import IosCloseButton from "../Components/IosCloseButton";
 import VoucherSplitSection from "../Components/VoucherSplitSection";
+import VoucherAddressSection from "../Components/VoucherAddressSection";
+import moment from "moment";
+import getLocaleString from "../../../Services/getLocaleString/getLocaleString";
+import directions from "../../../Services/directions/directions";
+import VoucherContactActionBar from "../Components/VoucherContactActionBar";
 
 class HotelVoucher extends Component {
   static navigationOptions = {
@@ -44,29 +49,14 @@ class HotelVoucher extends Component {
   };
 
   render() {
-    /**
-     * TODO: Separate this object like other vouchers
-     */
-    const hotelObject = this.props.navigation.getParam("hotel", {});
-    const hotel = {
-      ...hotelObject,
-      ...hotelObject.voucher
-    };
+    const hotel = this.props.navigation.getParam("hotel", {});
     const xHeight = isIphoneX()
       ? constants.xNotchHeight
       : Platform.OS === "ios"
         ? 20
         : 0;
 
-    /**
-     * TODO: Missing Items
-     */
-    // Contact number
-    // Google Map linking
-    // Booking date
-    // total paid
     const {
-      voucherId,
       checkInDateDisplay,
       checkInMonthDisplay,
       checkInDayOfWeek,
@@ -76,21 +66,33 @@ class HotelVoucher extends Component {
       checkInTime, // 24-hour format?
       checkOutTime, // 24-hour format?
       name,
+      roomsInHotel,
+      amenitiesList,
+      bookingSource,
+      imageURL,
+      finalPrice,
+      mobile,
+      lat,
+      lon
+    } = hotel;
+
+    const {
+      rooms,
+      voucherId,
+      checkInDateTs,
+      checkOutDateTs,
       hotelAddress1,
       hotelAddress2,
-      rooms,
-      amenities,
-      bookingSource,
-      imageURL
-    } = hotel;
+      bookedTime
+    } = hotel.voucher;
 
     const amenitiesSection = [
       {
         name: "Hotel Amenities",
-        component: amenities
-          ? amenities.map((amenity, amenityIndex) => {
+        component: amenitiesList
+          ? amenitiesList.map((amenity, amenityIndex) => {
               const customStyle = {
-                borderBottomWidth: 1,
+                borderBottomWidth: StyleSheet.hairlineWidth,
                 borderBottomColor: constants.shade4
               };
               return (
@@ -98,7 +100,7 @@ class HotelVoucher extends Component {
                   key={amenityIndex}
                   style={[
                     styles.amenitiesTextWrapper,
-                    amenityIndex === amenities.length - 1 ? customStyle : {}
+                    amenityIndex === amenitiesList.length - 1 ? customStyle : {}
                   ]}
                 >
                   <Text
@@ -112,33 +114,14 @@ class HotelVoucher extends Component {
       }
     ];
 
-    const hotelAmenitySummary = [
-      {
-        name: "Breakfast",
-        value: ""
-      },
-      {
-        name: "Free Wifi",
-        value: ""
-      },
-      {
-        name: "Booking Type",
-        value: ""
-      }
-    ];
-
     const bookingDetailSection = [
       {
         name: "Booked on",
-        value: ""
-      },
-      {
-        name: "Total paid",
-        value: ""
+        value: bookedTime ? moment(bookedTime).format("DD MMM, YY") : "NA"
       },
       {
         name: "Booking source",
-        value: bookingSource ? bookingSource : "Pickyourtrail"
+        value: "Pickyourtrail"
       }
     ];
 
@@ -150,7 +133,10 @@ class HotelVoucher extends Component {
         parallaxHeaderHeight={214 + xHeight}
         stickyHeaderHeight={48 + xHeight}
         renderStickyHeader={() => (
-          <VoucherStickyHeader action={this.close} text={voucherId} />
+          <VoucherStickyHeader
+            action={this.close}
+            text={`Booking ID - ${voucherId}`}
+          />
         )}
         fadeOutForeground={Platform.OS !== "android"}
         onChangeHeaderVisibility={this.headerToggle}
@@ -167,44 +153,28 @@ class HotelVoucher extends Component {
         <View style={styles.checkInRow}>
           <View style={styles.checkInBox}>
             <Text style={styles.checkTitle}>CHECK IN</Text>
-            <Text
-              style={styles.checkDate}
-            >{`${checkInDayOfWeek}, ${checkInDateDisplay} ${checkInMonthDisplay}`}</Text>
+            <Text style={styles.checkDate}>
+              {moment(checkInDateTs).format("ddd, DD MMM")}
+            </Text>
             <Text style={styles.checkTime}>
-              {checkInTime ? checkInTime : "2:00 PM"}
+              {"02:00 pm"}
+              {/*checkInDateTs ? moment(checkInDateTs).format("hh:mm a") : "02:00 pm"*/}
             </Text>
           </View>
           <View style={styles.checkOutBox}>
             <Text style={styles.checkTitle}>CHECK OUT</Text>
-            <Text
-              style={styles.checkDate}
-            >{`${checkOutDayOfWeek}, ${checkOutDateDisplay} ${checkOutMonthDisplay}`}</Text>
+            <Text style={styles.checkDate}>
+              {moment(checkOutDateTs).format("ddd, DD MMM")}
+            </Text>
             <Text style={styles.checkTime}>
-              {checkOutTime ? checkOutTime : "11:00 AM"}
+              {"11:00 pm"}
+              {/*checkOutDateTs ? moment(checkOutDateTs).format("hh:mm a") : "11:00 pm"*/}
             </Text>
           </View>
         </View>
 
         <View style={styles.addressRow}>
           <VoucherName name={name} />
-          <View style={styles.addressContainer}>
-            <View style={styles.addressSection}>
-              <Text
-                style={styles.hotelAddress}
-                numberOfLines={3}
-                ellipsizeMode={"tail"}
-              >
-                {`${hotelAddress1 || ""} ${hotelAddress2 || ""}`}
-              </Text>
-            </View>
-            <View style={styles.addressMarkerSection}>
-              <Icon
-                size={24}
-                color={constants.black1}
-                name={constants.locationIcon}
-              />
-            </View>
-          </View>
         </View>
 
         <View style={styles.bookingDetailsRow}>
@@ -212,14 +182,49 @@ class HotelVoucher extends Component {
             sectionName={`BOOKING DETAILS`}
             containerStyle={{ marginBottom: 0 }}
           />
-          {rooms &&
-            rooms.map((room, roomIndex) => {
-              const {
-                leadPassenger, // Gender Needed?
-                roomType,
+          {roomsInHotel &&
+            roomsInHotel.map((room, roomIndex) => {
+              let {
+                // leadPassenger, // Gender Needed?
+                name,
                 roomPaxInfo,
-                otherPassengers
+                freeBreakFast,
+                freeWireless,
+                refundable,
+                roomConfiguration,
+                roomTypeId,
+                shortCancellationPolicy
               } = room;
+
+              const { adultCount, childAges } = roomConfiguration;
+
+              const roomVoucherDetails =
+                rooms.find(room => room.roomTypeId === roomTypeId) || {};
+              let { leadPassenger, otherPassengers } = roomVoucherDetails;
+              leadPassenger = leadPassenger || {};
+              otherPassengers = otherPassengers || [];
+
+              const { checkIn, checkOut } = roomVoucherDetails;
+              if (checkIn > 1 && checkOut > 1) {
+                refundable = roomVoucherDetails.refundable;
+                freeWireless = roomVoucherDetails.freeWireless;
+                freeBreakFast = roomVoucherDetails.freeBreakFast;
+              }
+
+              const hotelAmenitySummary = [
+                {
+                  name: "Breakfast",
+                  value: freeBreakFast ? "Included" : "Not Included"
+                },
+                {
+                  name: "Free Wifi",
+                  value: freeWireless ? "Included" : "Not Included"
+                },
+                {
+                  name: "Booking Type",
+                  value: refundable ? "Refundable" : "Non-Refundable"
+                }
+              ];
 
               return (
                 <View key={roomIndex} style={styles.bookedSuit}>
@@ -229,10 +234,18 @@ class HotelVoucher extends Component {
                       image={constants.splashBackground}
                     />
                     <View style={styles.bookedSuitDetails}>
-                      <Text style={styles.bookedSuitType}>{roomType}</Text>
+                      <Text style={styles.bookedSuitType}>{name}</Text>
                       <Text
                         style={styles.suitBookingDetails}
-                      >{`Booked for ${roomPaxInfo}`}</Text>
+                      >{`Booked for ${adultCount} adult${
+                        adultCount > 1 ? "s" : ""
+                      } ${
+                        childAges.length
+                          ? `${childAges.length} child${
+                              childAges.length > 1 ? "ren" : ""
+                            }`
+                          : ""
+                      }`}</Text>
                     </View>
                   </View>
 
@@ -260,28 +273,14 @@ class HotelVoucher extends Component {
               );
             })}
 
-          <View style={styles.actionRow}>
-            <SimpleButton
-              text={"Contact"}
-              containerStyle={{ width: responsiveWidth(43) }}
-              action={() => {}}
-              color={"transparent"}
-              textColor={constants.black2}
-              hasBorder={true}
-              icon={constants.callIcon}
-              iconSize={16}
+          {hotelAddress1 || hotelAddress2 ? (
+            <VoucherAddressSection
+              containerStyle={{ marginTop: 16 }}
+              address={hotelAddress1 || hotelAddress2}
             />
-            <SimpleButton
-              text={"Directions"}
-              containerStyle={{ width: responsiveWidth(43) }}
-              action={() => {}}
-              color={"transparent"}
-              textColor={constants.black2}
-              hasBorder={true}
-              icon={constants.compassIcon}
-              iconSize={16}
-            />
-          </View>
+          ) : null}
+
+          <VoucherContactActionBar contact={mobile} location={{ lat, lon }} />
 
           <VoucherAccordion sections={amenitiesSection} />
 
@@ -334,31 +333,13 @@ const styles = StyleSheet.create({
     minHeight: 80,
     marginTop: 16
   },
-  addressContainer: {
-    flexDirection: "row"
-  },
-  addressSection: {
-    width: responsiveWidth(80)
-  },
-  hotelAddress: {
-    fontFamily: constants.primaryLight,
-    fontSize: 17,
-    color: constants.black1
-  },
-  addressMarkerSection: {
-    flex: 1
-  },
-  addressMarker: {
-    height: 24,
-    width: 24
-  },
 
   bookingDetailsRow: {
     paddingHorizontal: 24
   },
   bookedSuit: {
     marginTop: 24,
-    borderBottomWidth: 1,
+    borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: constants.shade4
   },
   bookedSuitInfo: {
@@ -403,7 +384,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     paddingVertical: 16,
-    borderBottomWidth: 1,
+    borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: constants.shade4
   },
 

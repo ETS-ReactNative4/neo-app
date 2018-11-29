@@ -17,13 +17,17 @@ import { responsiveHeight } from "react-native-responsive-dimensions";
 import PropTypes from "prop-types";
 import constants from "../../constants/constants";
 
+/**
+ * TODO: Make module more generic
+ */
 @inject("appState")
 @inject("itineraries")
 @observer
 class CitySelectionMenu extends Component {
   static propTypes = {
     navigation: PropTypes.object.isRequired,
-    selectDay: PropTypes.func.isRequired
+    selectDay: PropTypes.func,
+    selectCity: PropTypes.func
   };
 
   render() {
@@ -32,7 +36,7 @@ class CitySelectionMenu extends Component {
       toggleItinerarySelection
     } = this.props.appState;
     const { cities } = this.props.itineraries;
-    const { navigation, selectDay } = this.props;
+    const { navigation, selectDay, selectCity } = this.props;
     const closeModal = () => toggleItinerarySelection(false);
 
     return (
@@ -53,7 +57,7 @@ class CitySelectionMenu extends Component {
             <CommonHeader
               title={"Your Itinerary"}
               leftAction={closeModal}
-              RightButton={<SearchButton action={() => {}} />}
+              // RightButton={<SearchButton action={() => {}} />}
               navigation={navigation}
             />
             <ScrollView>
@@ -61,8 +65,12 @@ class CitySelectionMenu extends Component {
                 return (
                   <TouchableHighlight
                     onPress={() => {
-                      const cityDate = moment(city.startDay).format("x");
-                      selectDay(cityDate);
+                      if (selectDay) {
+                        const cityDate = moment(city.startDay).format("x");
+                        selectDay(cityDate);
+                      } else if (selectCity) {
+                        selectCity(city);
+                      }
                       closeModal();
                     }}
                     key={index}
@@ -70,11 +78,13 @@ class CitySelectionMenu extends Component {
                     style={styles.itinerarySelectorTouchable}
                   >
                     <View style={styles.itineraryDetails}>
-                      <Text style={styles.itineraryName}>
-                        {`${moment(city.startDay).format("MMM DD")} - ${moment(
-                          city.endDay
-                        ).format("MMM DD")}`}
-                      </Text>
+                      {selectDay ? (
+                        <Text style={styles.itineraryName}>
+                          {`${moment(city.startDay).format(
+                            "MMM DD"
+                          )} - ${moment(city.endDay).format("MMM DD")}`}
+                        </Text>
+                      ) : null}
                       <Text style={styles.itineraryId}>{city.city}</Text>
                     </View>
                   </TouchableHighlight>

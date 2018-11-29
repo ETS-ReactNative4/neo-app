@@ -3,6 +3,8 @@ import { persist } from "mobx-persist";
 import apiCall from "../Services/networkRequests/apiCall";
 import constants from "../constants/constants";
 import { createTransformer } from "mobx-utils";
+import { logError } from "../Services/errorLogger/errorLogger";
+import _ from "lodash";
 
 class Voucher {
   @observable _isLoading = false;
@@ -26,7 +28,7 @@ class Voucher {
   };
 
   @action
-  getVouchers(itineraryId) {
+  getVouchers = itineraryId => {
     const requestBody = {
       itineraryId
     };
@@ -50,10 +52,10 @@ class Voucher {
         this._isLoading = false;
         this._loadingError = true;
       });
-  }
+  };
 
   @action
-  selectVoucher(itineraryId) {
+  selectVoucher = itineraryId => {
     const selectedVoucher = this._vouchers.find(
       voucher => voucher.itineraryId === itineraryId
     );
@@ -62,63 +64,142 @@ class Voucher {
     } else {
       this.getVouchers(itineraryId);
     }
-  }
+  };
 
-  getHotelVoucherById = createTransformer(identifier =>
-    toJS(
-      this._selectedVoucher.hotelVouchers.find(
-        hotel => identifier === hotel.hotelCostingId
-      )
-    )
-  );
+  @action
+  updateVoucher = itineraryId => {
+    const requestBody = {
+      itineraryId
+    };
+    this._isLoading = true;
+    apiCall(constants.voucherDetails, requestBody)
+      .then(response => {
+        this._isLoading = false;
+        if (response.status === "SUCCESS") {
+          this._loadingError = false;
+          const newVoucher = {
+            itineraryId,
+            ...response.data
+          };
+          this._selectedVoucher = newVoucher;
+          for (let i = 0; i < this._vouchers.length; i++) {
+            const voucher = this._vouchers[i];
+            if (voucher.itineraryId === itineraryId) {
+              this._vouchers.splice(i, 1);
+              this._vouchers.push(newVoucher);
+              break;
+            }
+          }
+        } else {
+          this._loadingError = true;
+        }
+      })
+      .catch(error => {
+        this._isLoading = false;
+        this._loadingError = true;
+      });
+  };
 
-  getFlightVoucherById = createTransformer(identifier =>
-    toJS(
-      this._selectedVoucher.flightVouchers.find(
-        flight => identifier === flight.flightCostingId
-      )
-    )
-  );
+  getHotelVoucherById = createTransformer(id => {
+    if (_.isEmpty(this._selectedVoucher)) return {};
+    try {
+      return toJS(
+        this._selectedVoucher.hotelVouchers.find(
+          hotel => id === hotel.hotelCostingId || id === hotel.identifier
+        )
+      );
+    } catch (e) {
+      logError(e);
+      return {};
+    }
+  });
 
-  getActivityVoucherById = createTransformer(identifier =>
-    toJS(
-      this._selectedVoucher.activityVouchers.find(
-        activity => identifier === activity.identifier
-      )
-    )
-  );
+  getFlightVoucherById = createTransformer(id => {
+    if (_.isEmpty(this._selectedVoucher)) return {};
+    try {
+      return toJS(
+        this._selectedVoucher.flightVouchers.find(
+          flight => id === flight.flightCostingId || id === flight.identifier
+        )
+      );
+    } catch (e) {
+      logError(e);
+      return {};
+    }
+  });
 
-  getTransferVoucherById = createTransformer(transferCostingId =>
-    toJS(
-      this._selectedVoucher.transferVouchers.find(
-        transfer => transferCostingId === transfer.transferCostingId
-      )
-    )
-  );
+  getActivityVoucherById = createTransformer(id => {
+    if (_.isEmpty(this._selectedVoucher)) return {};
+    try {
+      return toJS(
+        this._selectedVoucher.activityVouchers.find(
+          activity =>
+            id === activity.identifier || id === activity.activityCostingId
+        )
+      );
+    } catch (e) {
+      logError(e);
+      return {};
+    }
+  });
 
-  getRentalCarVoucherById = createTransformer(identifier =>
-    toJS(
-      this._selectedVoucher.rentalCarVouchers.find(
-        rentalCar => identifier === rentalCar.identifier
-      )
-    )
-  );
+  getTransferVoucherById = createTransformer(id => {
+    if (_.isEmpty(this._selectedVoucher)) return {};
+    try {
+      return toJS(
+        this._selectedVoucher.transferVouchers.find(
+          transfer =>
+            id === transfer.transferCostingId || id === transfer.identifier
+        )
+      );
+    } catch (e) {
+      logError(e);
+      return {};
+    }
+  });
 
-  getFerryVoucherById = createTransformer(identifier =>
-    toJS(
-      this._selectedVoucher.ferryVouchers.find(
-        ferry => identifier === ferry.identifier
-      )
-    )
-  );
+  getRentalCarVoucherById = createTransformer(id => {
+    if (_.isEmpty(this._selectedVoucher)) return {};
+    try {
+      return toJS(
+        this._selectedVoucher.rentalCarVouchers.find(
+          rentalCar =>
+            id === rentalCar.identifier || id === rentalCar.rcCostingId
+        )
+      );
+    } catch (e) {
+      logError(e);
+      return {};
+    }
+  });
 
-  getTrainVoucherById = createTransformer(identifier =>
-    toJS(
-      this._selectedVoucher.trainVouchers.find(
-        train => identifier === train.identifier
-      )
-    )
-  );
+  getFerryVoucherById = createTransformer(id => {
+    if (_.isEmpty(this._selectedVoucher)) return {};
+    try {
+      return toJS(
+        this._selectedVoucher.ferryVouchers.find(
+          ferry => id === ferry.identifier || id === ferry.ferryCostingId
+        )
+      );
+    } catch (e) {
+      logError(e);
+      return {};
+    }
+  });
+
+  getTrainVoucherById = createTransformer(id => {
+    if (_.isEmpty(this._selectedVoucher)) return {};
+    try {
+      toJS(
+        this._selectedVoucher.trainVouchers.find(
+          train => id === train.identifier || id === train.trainCostingId
+        )
+      );
+    } catch (e) {
+      logError(e);
+      return {};
+    }
+  });
 
   @computed
   get isLoading() {

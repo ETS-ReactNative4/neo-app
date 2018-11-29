@@ -5,128 +5,442 @@ import {
   StyleSheet,
   Text,
   Platform,
-  TouchableOpacity
+  FlatList,
+  TouchableOpacity,
+  Image
 } from "react-native";
 import _ from "lodash";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
-import Carousel from "../../CommonComponents/Carousel/Carousel";
-import PlaceImageContainer from "./Components/PlaceImageContainer";
 import PlaceDetails from "./Components/PlaceDetails";
 import { isIphoneX } from "react-native-iphone-x-helper";
 import XSensorPlaceholder from "../../CommonComponents/XSensorPlaceholder/XSensorPlaceholder";
 import Icon from "../../CommonComponents/Icon/Icon";
 import constants from "../../constants/constants";
 import PlaceCard from "./Components/PlaceCard";
+import FilterOptions from "./Components/FilterOptions";
+import MultiLineHeader from "../../CommonComponents/MultilineHeader/MultiLineHeader";
+import { inject, observer } from "mobx-react/custom";
+import SmartImage from "../../CommonComponents/SmartImage/SmartImage";
+import FastImage from "react-native-fast-image";
+import {
+  responsiveHeight,
+  responsiveWidth
+} from "react-native-responsive-dimensions";
+import EmptyListPlaceholder from "../../CommonComponents/EmptyListPlaceholder/EmptyListPlaceholder";
+import getDeviceLocation from "../../Services/getDeviceLocation/getDeviceLocation";
+import apiCall from "../../Services/networkRequests/apiCall";
+import DebouncedAlert from "../../CommonComponents/DebouncedAlert/DebouncedAlert";
+import moment from "moment";
+import { recordEvent } from "../../Services/analytics/analyticsService";
 
+@inject("placesStore")
+@inject("itineraries")
+@inject("infoStore")
+@observer
 class NearBy extends Component {
   static navigationOptions = ({ navigation }) => {
+    const city = navigation.getParam("city", {});
+    const title = navigation.getParam("title", "");
     return {
-      header: <CommonHeader title={""} navigation={navigation} />
+      header: (
+        <CommonHeader
+          TitleComponent={
+            <MultiLineHeader
+              duration={city.city}
+              title={title}
+              disableDropDown={true}
+            />
+          }
+          title={""}
+          navigation={navigation}
+        />
+      )
     };
   };
 
-  state = {
-    selectedPlace: {}
+  constructor(props) {
+    super(props);
+    this.state = {
+      isLoading: false,
+      sortOptions: [
+        {
+          text: "Ratings",
+          action: () => null,
+          isSelected: true,
+          type: "text"
+        },
+        {
+          text: "Distance from your current location",
+          action: () => null,
+          isSelected: false,
+          type: "nearby"
+        },
+        {
+          text: "Distance from your hotel",
+          action: () => null,
+          isSelected: false,
+          type: "nearHotel"
+        }
+      ],
+      filterOptions: [
+        {
+          text: "All Ratings",
+          action: () => null,
+          isSelected: true,
+          filter: 0
+        },
+        {
+          text: "Rated 3 stars and above",
+          action: () => null,
+          isSelected: false,
+          filter: 3
+        },
+        {
+          text: "Rated 4 stars and above",
+          action: () => null,
+          isSelected: false,
+          filter: 4
+        },
+        {
+          text: "Rated 5 stars",
+          action: () => null,
+          isSelected: false,
+          filter: 5
+        }
+      ],
+      isSortVisible: false,
+      isFilterVisible: false,
+      lat: "",
+      lng: "",
+      isTripActive: false
+    };
+    const today = moment();
+    const dateDifference = this.props.itineraries.firstDay.diff(today, "days");
+    if (dateDifference < 1) {
+      this.setState({
+        isTripActive: true
+      });
+    }
+  }
+
+  componentDidMount() {
+    const searchText = this.props.navigation.getParam("searchQuery", "");
+    const { loadTextSearch } = this.props.placesStore;
+    loadTextSearch(searchText);
+  }
+
+  toggleFilter = () => {
+    this.setState({
+      isFilterVisible: !this.state.isFilterVisible
+    });
+  };
+
+  toggleSort = () => {
+    if (this.state.isTripActive) {
+      this.setState({
+        isSortVisible: !this.state.isSortVisible
+      });
+    } else {
+      this.props.infoStore.setInfo(
+        "Not yet there...",
+        "Sort options will be available once you have started your trip!"
+      );
+    }
+  };
+
+  selectFilter = index => {
+    const filterOptions = this.state.filterOptions.map((item, itemIndex) => {
+      item.isSelected = itemIndex === index;
+      return item;
+    });
+    const selectedFilter = filterOptions.find(item => item.isSelected);
+    switch (selectedFilter.text) {
+      case "All Ratings":
+        recordEvent(constants.nearByAllStarClick);
+        break;
+      case "Rated 3 stars and above":
+        recordEvent(constants.nearByThreeStarClick);
+        break;
+      case "Rated 4 stars and above":
+        recordEvent(constants.nearByFourStarClick);
+        break;
+      case "Rated 5 stars":
+        recordEvent(constants.nearByFiveStarClick);
+        break;
+    }
+    this.setState({
+      filterOptions
+    });
+  };
+
+  selectSort = index => {
+    const sortOptions = this.state.sortOptions.map((item, itemIndex) => {
+      item.isSelected = itemIndex === index;
+      return item;
+    });
+    const selectedSort = sortOptions.find(item => item.isSelected);
+    switch (selectedSort.type) {
+      case "nearHotel":
+        recordEvent(constants.nearByHotelClick);
+        break;
+      case "nearby":
+        recordEvent(constants.nearByLocationClick);
+        break;
+      case "text":
+        recordEvent(constants.nearByRatingsClick);
+        break;
+    }
+    if (selectedSort.type === "nearby") {
+      // fix modal issue
+      setTimeout(() => {
+        this.nearbySearch(sortOptions);
+      }, 500);
+    } else if (selectedSort.type === "nearHotel") {
+      // fix modal issue
+      setTimeout(() => {
+        this.hotelNearBySearch(sortOptions);
+      }, 500);
+    }
+  };
+
+  nearbySearch = sortOptions => {
+    const { loadLocationSearch } = this.props.placesStore;
+    getDeviceLocation(
+      location => {
+        const lat = location.coords.latitude;
+        const lng = location.coords.longitude;
+        const keyword = this.props.navigation.getParam("title", "");
+        loadLocationSearch({
+          lat,
+          lng,
+          keyword
+        });
+        this.setState(
+          {
+            lat,
+            lng
+          },
+          () => {
+            this.setState({
+              sortOptions
+            });
+          }
+        );
+      },
+      error => {
+        this.selectSort(0);
+        this.removeNearBySearch();
+      },
+      () => {
+        this.selectSort(0);
+      }
+    );
+  };
+
+  hotelNearBySearch = sortOptions => {
+    const { getHotelByDate } = this.props.itineraries;
+    const today = moment().format("DDMMYYYY");
+    const { loadLocationSearch } = this.props.placesStore;
+    const hotelDetails = getHotelByDate(today);
+    const keyword = this.props.navigation.getParam("title", "");
+    const lat = Number(hotelDetails.lat);
+    const lng = Number(hotelDetails.lon);
+    loadLocationSearch({
+      lat,
+      lng,
+      keyword
+    });
+    this.setState(
+      {
+        lat,
+        lng
+      },
+      () => {
+        this.setState({
+          sortOptions
+        });
+      }
+    );
+  };
+
+  removeNearBySearch = () => {
+    const sortOptions = [...this.state.sortOptions];
+    sortOptions.splice(1, 1);
+    this.setState(
+      {
+        sortOptions
+      },
+      () => {
+        DebouncedAlert(
+          "Device location unavailable!",
+          "Unable to perform Location Search..."
+        );
+      }
+    );
+  };
+
+  loadPlaceDetail = place => {
+    recordEvent(constants.nearByPlaceDetailsClick);
+    const { selectPlace } = this.props.placesStore;
+    selectPlace(place);
   };
 
   render() {
-    const placeDetails = [
-      {
-        name: "Mall 1",
-        rating: 4,
-        ratingCount: 50,
-        type: "Shopping Mall",
-        isClosed: false,
-        closesAt: "Closes at 9.30pm",
-        opensAt: "",
-        distance: "5 km",
-        address: "No. 11, Bradfort Street (Near Dominos), New York, USA,",
-        images: [
-          "http://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg",
-          "http://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg",
-          "http://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg",
-          "http://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg"
-        ]
-      },
-      {
-        name: "Mall 2",
-        rating: 4,
-        ratingCount: 50,
-        type: "",
-        isClosed: true,
-        closesAt: "",
-        opensAt: "Opens in 3 hours",
-        distance: "5 Km",
-        address: "No. 11, Bradfort Street (Near Dominos), New York, USA,",
-        images: [
-          "http://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg",
-          "http://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg",
-          "http://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg"
-        ]
-      },
-      {
-        name: "Mall 3",
-        rating: 4,
-        ratingCount: 50,
-        type: "",
-        isClosed: false,
-        closesAt: "",
-        opensAt: "",
-        distance: "10 km",
-        address: "No. 11, Bradfort Street (Near Dominos), New York, USA,",
-        images: [
-          "http://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg",
-          "http://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg",
-          "http://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg",
-          "http://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg",
-          "http://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg",
-          "http://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg",
-          "http://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg"
-        ]
+    const selectedSort = this.state.sortOptions.find(item => item.isSelected);
+    const selectedFilter = this.state.filterOptions.find(
+      item => item.isSelected
+    );
+    const {
+      getSearchResultsByText,
+      isLoading,
+      unSelectPlace,
+      selectedPlace,
+      getPlaceById,
+      paginateTextSearch,
+      paginateLocationSearch,
+      getSearchResultsByLocation,
+      isNextPageLoading
+    } = this.props.placesStore;
+    const searchText = this.props.navigation.getParam("searchQuery", "");
+    const keyword = this.props.navigation.getParam("title", "");
+    const { lat, lng } = this.state;
+    let placeDetails = {
+      searchResults: [],
+      token: ""
+    };
+    switch (selectedSort.type) {
+      case "text":
+        placeDetails = getSearchResultsByText(searchText);
+        break;
+      default:
+        if (lat && lng) {
+          placeDetails = getSearchResultsByLocation({ lat, lng });
+        }
+    }
+    const placesArray = placeDetails.searchResults.filter(result => {
+      if (selectedFilter.filter) {
+        if (selectedFilter.filter === 3) {
+          return result.rating >= 3;
+        } else if (selectedFilter.filter === 4) {
+          return result.rating >= 4;
+        } else if (selectedFilter.filter === 5) {
+          return result.rating === 5;
+        }
       }
-    ];
-
+      return true;
+    });
+    const activePlace = getPlaceById(selectedPlace);
     return [
-      <ScrollView key={0} style={styles.nearByContainer}>
-        <PlaceCard
-          selectedPlace={this.state.selectedPlace}
-          isVisible={!_.isEmpty(this.state.selectedPlace)}
-          onClose={() => this.setState({ selectedPlace: {} })}
+      <View key={0} style={styles.flatListContainer}>
+        <FlatList
+          data={placesArray}
+          onEndReached={() => {
+            if (placeDetails.token) {
+              switch (selectedSort.type) {
+                case "nearby":
+                  if (lat && lng) {
+                    paginateLocationSearch({
+                      lat,
+                      lng,
+                      keyword,
+                      token: placeDetails.token
+                    });
+                  }
+                  break;
+                case "text":
+                  paginateTextSearch(searchText, placeDetails.token);
+                  break;
+                case "nearHotel":
+                  break;
+              }
+            }
+          }}
+          renderItem={({ item: place, index }) => {
+            if (_.isEmpty(place)) return null;
+            const imageUrl = place.photos ? place.photos[0].photoUrl : "";
+            return (
+              <TouchableOpacity
+                onPress={() => this.loadPlaceDetail(place)}
+                activeOpacity={0.8}
+                style={styles.listItemContainer}
+              >
+                <SmartImage
+                  uri={imageUrl}
+                  style={styles.imageCover}
+                  defaultImageUri={
+                    "http://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg"
+                  }
+                  resizeMode={FastImage.resizeMode.cover}
+                />
+                <PlaceDetails
+                  containerStyle={{ marginBottom: 16 }}
+                  name={place.name}
+                  rating={place.rating}
+                  ratingCount={place.ratingCount}
+                  type={place.types ? place.types[0] : ""}
+                  isClosed={!place.openingHours.openNow}
+                  opensAt={place.openingHours.weekdayText}
+                  distance={place.distance}
+                  formattedAddress={place.formattedAddress}
+                  action={() => this.loadPlaceDetail(place)}
+                />
+              </TouchableOpacity>
+            );
+          }}
+          ListFooterComponent={() => {
+            if (isLoading) {
+              return (
+                <View
+                  style={{
+                    backgroundColor: "white",
+                    marginTop: responsiveHeight(40),
+                    alignItems: "center",
+                    justifyContent: "center"
+                  }}
+                >
+                  <Image
+                    resizeMode={"contain"}
+                    source={constants.loadingIcon}
+                    style={{ height: 40, width: 40 }}
+                  />
+                </View>
+              );
+            } else if (!isLoading && !placesArray.length) {
+              return (
+                <EmptyListPlaceholder
+                  containerStyle={{
+                    backgroundColor: "white",
+                    marginTop: responsiveHeight(40)
+                  }}
+                  text={"No items found for you current filters..."}
+                />
+              );
+            } else if (isNextPageLoading) {
+              return (
+                <View
+                  style={{
+                    width: responsiveWidth(100),
+                    height: 56,
+                    alignItems: "center",
+                    justifyContent: "center"
+                  }}
+                >
+                  <Image
+                    resizeMode={"contain"}
+                    source={constants.loadingIcon}
+                    style={{ height: 40, width: 40 }}
+                  />
+                </View>
+              );
+            } else {
+              return null;
+            }
+          }}
         />
-        {placeDetails.map((place, placeIndex) => {
-          return (
-            <View key={placeIndex}>
-              <Carousel containerStyle={{ height: 176 }}>
-                {place.images.map((imageUrl, imageIndex) => {
-                  const isLast = place.images.length === imageIndex + 1;
-                  return (
-                    <PlaceImageContainer
-                      key={imageIndex}
-                      imageUrl={imageUrl}
-                      isLast={isLast}
-                    />
-                  );
-                })}
-              </Carousel>
-              <PlaceDetails
-                containerStyle={{ marginBottom: 16 }}
-                name={place.name}
-                rating={place.rating}
-                ratingCount={place.ratingCount}
-                type={place.type}
-                isClosed={place.isClosed}
-                closesAt={place.closesAt}
-                opensAt={place.opensAt}
-                distance={place.distance}
-                address={place.address}
-                action={() => this.setState({ selectedPlace: place })}
-              />
-            </View>
-          );
-        })}
-      </ScrollView>,
+        <View style={styles.footerPlaceholder} />
+      </View>,
       <View key={1} style={styles.bottomBar}>
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity style={styles.button} onPress={this.toggleSort}>
           <View style={styles.buttonTitleWrapper}>
             <Text style={styles.buttonTitleText}>Sort By</Text>
             <Icon
@@ -137,10 +451,10 @@ class NearBy extends Component {
             />
           </View>
           <View style={styles.buttonTextWrapper}>
-            <Text style={styles.buttonText}>Distance from Hotel</Text>
+            <Text style={styles.buttonText}>{selectedSort.text || ""}</Text>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity style={styles.button} onPress={this.toggleFilter}>
           <View style={styles.buttonTitleWrapper}>
             <Text style={styles.buttonTitleText}>Filter By</Text>
             <Icon
@@ -151,26 +465,63 @@ class NearBy extends Component {
             />
           </View>
           <View style={styles.buttonTextWrapper}>
-            <Text style={styles.buttonText}>All Ratings</Text>
+            <Text style={styles.buttonText}>{selectedFilter.text || ""}</Text>
           </View>
         </TouchableOpacity>
       </View>,
       isIphoneX() ? (
         <XSensorPlaceholder
           key={2}
-          containerStyle={{ backgroundColor: "white" }}
+          containerStyle={{
+            backgroundColor: "white",
+            width: responsiveWidth(100),
+            position: "absolute",
+            bottom: 0
+          }}
         />
-      ) : null
+      ) : null,
+      <FilterOptions
+        key={3}
+        title={"Filter Results by"}
+        isVisible={this.state.isFilterVisible}
+        onClose={this.toggleFilter}
+        options={this.state.filterOptions}
+        onSelect={this.selectFilter}
+      />,
+      <FilterOptions
+        key={4}
+        title={"Sort Results by"}
+        isVisible={this.state.isSortVisible}
+        onClose={this.toggleSort}
+        options={this.state.sortOptions}
+        onSelect={this.selectSort}
+      />,
+      <PlaceCard
+        key={5}
+        selectedPlace={activePlace}
+        isVisible={!_.isEmpty(activePlace)}
+        onClose={unSelectPlace}
+        fromLocation={selectedSort.type}
+      />
     ];
   }
 }
 
 const styles = StyleSheet.create({
+  flatListContainer: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "white"
+  },
   nearByContainer: {
     backgroundColor: "white"
   },
   bottomBar: {
     height: 56,
+    width: responsiveWidth(100),
+    position: "absolute",
+    bottom: isIphoneX() ? constants.xSensorAreaHeight : 0,
     backgroundColor: "white",
     flexDirection: "row",
     borderTopWidth: StyleSheet.hairlineWidth,
@@ -206,6 +557,17 @@ const styles = StyleSheet.create({
   buttonText: {
     ...constants.fontCustom(constants.primarySemiBold, 13),
     color: constants.black1
+  },
+  imageCover: {
+    height: 160,
+    width: responsiveWidth(100)
+  },
+  listItemContainer: {
+    backgroundColor: "white"
+  },
+  footerPlaceholder: {
+    height: 56 + (isIphoneX() ? constants.xSensorAreaHeight : 0),
+    width: responsiveWidth(100)
   }
 });
 

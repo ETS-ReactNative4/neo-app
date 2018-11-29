@@ -3,23 +3,55 @@ import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import constants from "../../constants/constants";
 import PropTypes from "prop-types";
 import { inject, observer } from "mobx-react/custom";
+import * as Keychain from "react-native-keychain";
+import { logError } from "../../Services/errorLogger/errorLogger";
+import { recordEvent } from "../../Services/analytics/analyticsService";
 
+@inject("itineraries")
 @inject("appState")
 @observer
 class TripToggle extends Component {
   static propTypes = {
-    containerStyle: PropTypes.object
+    containerStyle: PropTypes.object,
+    navigation: PropTypes.object.isRequired
+  };
+
+  toggleNavigation = () => {
+    recordEvent(constants.tripToggleClickEvent);
+    const { isTripModeOn, setTripMode } = this.props.appState;
+    const { selectedItineraryId } = this.props.itineraries;
+    const { navigation } = this.props;
+    if (isTripModeOn) {
+      setTripMode(!isTripModeOn);
+      navigation.navigate("NewItineraryStack");
+    } else {
+      if (selectedItineraryId) {
+        setTripMode(!isTripModeOn);
+        navigation.navigate("BookedItineraryTabs");
+      } else {
+        Keychain.getGenericPassword()
+          .then(credentials => {
+            if (credentials) {
+              navigation.navigate("YourBookingsUniversal");
+            } else {
+              navigation.navigate("MobileNumber");
+            }
+          })
+          .catch(e => {
+            logError(e);
+          });
+      }
+    }
   };
 
   render() {
-    const { isTripModeOn, setTripMode } = this.props.appState;
+    const { isTripModeOn } = this.props.appState;
     let { containerStyle } = this.props;
     if (!containerStyle) containerStyle = {};
-
     return (
       <TouchableOpacity
         activeOpacity={1}
-        onPress={() => setTripMode(!isTripModeOn)}
+        onPress={this.toggleNavigation}
         style={[styles.toggleContainer, containerStyle]}
       >
         <View

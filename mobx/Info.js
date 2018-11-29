@@ -4,7 +4,7 @@ import constants from "../constants/constants";
 class Info {
   @observable
   _info = {
-    icon: { uri: constants.dialogBoxIcon },
+    icon: constants.infoBoxIllus,
     title: "",
     message: "",
     isVisible: false,
@@ -14,7 +14,7 @@ class Info {
 
   @observable
   _error = {
-    icon: { uri: constants.dialogBoxIcon },
+    icon: constants.errorBoxIllus,
     title: "",
     message: "",
     isVisible: false,
@@ -24,7 +24,7 @@ class Info {
 
   @observable
   _success = {
-    icon: { uri: constants.dialogBoxIcon },
+    icon: constants.successBoxIllus,
     title: "",
     message: "",
     isVisible: false,
@@ -36,7 +36,7 @@ class Info {
   setInfo = (
     title,
     message,
-    icon = { uri: constants.dialogBoxIcon },
+    icon = constants.infoBoxIllus,
     actionText = "",
     action = false
   ) => {
@@ -55,7 +55,7 @@ class Info {
   @action
   resetInfo = () => {
     this._info = {
-      icon: { uri: constants.dialogBoxIcon },
+      icon: constants.infoBoxIllus,
       title: "",
       message: "",
       isVisible: false,
@@ -73,7 +73,7 @@ class Info {
   setError = (
     title,
     message,
-    icon = { uri: constants.dialogBoxIcon },
+    icon = constants.errorBoxIllus,
     actionText = "",
     action = false
   ) => {
@@ -92,7 +92,7 @@ class Info {
   @action
   resetError = () => {
     this._error = {
-      icon: { uri: constants.dialogBoxIcon },
+      icon: constants.errorBoxIllus,
       title: "",
       message: "",
       isVisible: false,
@@ -110,7 +110,7 @@ class Info {
   setSuccess = (
     title,
     message,
-    icon = { uri: constants.dialogBoxIcon },
+    icon = constants.successBoxIllus,
     actionText = "",
     action = false
   ) => {
@@ -129,7 +129,7 @@ class Info {
   @action
   resetSuccess = () => {
     this._success = {
-      icon: { uri: constants.dialogBoxIcon },
+      icon: constants.successBoxIllus,
       title: "",
       message: "",
       isVisible: false,

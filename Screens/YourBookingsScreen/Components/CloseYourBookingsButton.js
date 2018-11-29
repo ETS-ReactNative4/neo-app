@@ -5,10 +5,11 @@ import PropTypes from "prop-types";
 import { StackActions, NavigationActions } from "react-navigation";
 import { inject, observer } from "mobx-react/custom";
 import Icon from "../../../CommonComponents/Icon/Icon";
+import { recordEvent } from "../../../Services/analytics/analyticsService";
 
-const resetAction = StackActions.reset({
-  index: 0,
-  actions: [NavigationActions.navigate({ routeName: "Itineraries" })]
+const resetAction = NavigationActions.navigate({
+  routeName: "AppHome",
+  action: NavigationActions.navigate({ routeName: "NewItineraryStack" })
 });
 
 @inject("appState")
@@ -18,18 +19,38 @@ class CloseYourBookingsButton extends Component {
     navigation: PropTypes.object.isRequired
   };
 
+  _didFocusSubscription;
+  _willBlurSubscription;
+
+  constructor(props) {
+    super(props);
+
+    this._didFocusSubscription = props.navigation.addListener(
+      "didFocus",
+      () => {
+        BackHandler.addEventListener(
+          "hardwareBackPress",
+          this.onBackButtonPressAndroid
+        );
+      }
+    );
+  }
+
   componentDidMount() {
-    BackHandler.addEventListener(
-      "hardwareBackPress",
-      this.onBackButtonPressAndroid
+    this._willBlurSubscription = this.props.navigation.addListener(
+      "willBlur",
+      () => {
+        BackHandler.removeEventListener(
+          "hardwareBackPress",
+          this.onBackButtonPressAndroid
+        );
+      }
     );
   }
 
   componentWillUnmount() {
-    BackHandler.removeEventListener(
-      "hardwareBackPress",
-      this.onBackButtonPressAndroid
-    );
+    this._didFocusSubscription && this._didFocusSubscription.remove();
+    this._willBlurSubscription && this._willBlurSubscription.remove();
   }
 
   onBackButtonPressAndroid = () => {
@@ -38,14 +59,11 @@ class CloseYourBookingsButton extends Component {
   };
 
   goBack = () => {
-    const { activeScenes } = this.props.appState;
-    const previousScene = activeScenes[activeScenes.length - 2];
-    if (!previousScene) {
+    const routeName = this.props.navigation.state.routeName;
+    if (routeName === "YourBookings") {
+      this.props.appState.setTripMode(false);
       this.props.navigation.dispatch(resetAction);
-    } else if (previousScene.route.routeName === "MobileNumber") {
-      // might not need this check
-      this.props.navigation.dispatch(resetAction);
-    } else {
+    } else if (routeName === "YourBookingsUniversal") {
       this.props.navigation.goBack();
     }
   };
@@ -54,7 +72,10 @@ class CloseYourBookingsButton extends Component {
     return (
       <TouchableHighlight
         style={{ paddingHorizontal: 16 }}
-        onPress={this.goBack}
+        onPress={() => {
+          recordEvent(constants.yourBookingsCloseButtonClick);
+          this.goBack();
+        }}
         underlayColor={"transparent"}
       >
         <Icon color={constants.black1} name={constants.closeIcon} size={24} />

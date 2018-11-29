@@ -15,7 +15,22 @@ class PaymentScreen extends Component {
   _webView = React.createRef();
 
   onNavigationStateChange = webViewState => {
-    console.log(webViewState);
+    const transactionId = this.props.navigation.getParam("transactionId", "");
+    const url = webViewState.url;
+    const { navigation } = this.props;
+    if (url.indexOf("404") === -1) {
+      if (url.indexOf(constants.paymentComplete) > -1) {
+        navigation.replace("PaymentSuccess", { transactionId });
+      }
+      if (url.indexOf(constants.paymentInComplete) > -1) {
+        navigation.replace("PaymentFailure");
+      }
+      if (url.indexOf(constants.paymentCancel) > -1) {
+        navigation.goBack();
+      }
+    } else {
+      navigation.replace("PaymentFailure");
+    }
   };
 
   render() {

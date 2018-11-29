@@ -13,6 +13,8 @@ import Info from "./Info";
 import EmergencyContacts from "./EmergencyContacts";
 import PassportDetails from "./PassportDetails";
 import Visa from "./Visa";
+import Places from "./Places";
+import SupportStore from "./SupportStore";
 
 const createStore = () => {
   const appStore = {
@@ -27,7 +29,9 @@ const createStore = () => {
     infoStore: new Info(),
     emergencyContactsStore: new EmergencyContacts(),
     passportDetailsStore: new PassportDetails(),
-    visaStore: new Visa()
+    visaStore: new Visa(),
+    placesStore: new Places(),
+    supportStore: new SupportStore()
   };
 
   const hydrate = create({
@@ -66,6 +70,11 @@ const createStore = () => {
       logError(err);
     });
   hydrate("_tripMode", appStore.appState)
+    .then(() => {})
+    .catch(err => {
+      logError(err);
+    });
+  hydrate("_currencies", appStore.appState)
     .then(() => {})
     .catch(err => {
       logError(err);
@@ -135,7 +144,36 @@ const createStore = () => {
     .catch(err => {
       logError(err);
     });
-
+  hydrate("_cityCategories", appStore.placesStore)
+    .then(() => {})
+    .catch(err => {
+      logError(err);
+    });
+  // hydrate("_textSearches", appStore.placesStore)
+  //   .then(() => {})
+  //   .catch(err => {
+  //     logError(err);
+  //   });
+  // hydrate("_placesList", appStore.placesStore)
+  //   .then(() => {})
+  //   .catch(err => {
+  //     logError(err);
+  //   });
+  hydrate("_faqDetails", appStore.supportStore)
+    .then(() => {})
+    .catch(err => {
+      logError(err);
+    });
+  hydrate("_conversations", appStore.supportStore)
+    .then(() => {})
+    .catch(err => {
+      logError(err);
+    });
+  hydrate("_messages", appStore.supportStore)
+    .then(() => {})
+    .catch(err => {
+      logError(err);
+    });
   return appStore;
 };
 

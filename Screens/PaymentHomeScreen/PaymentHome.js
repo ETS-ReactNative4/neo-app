@@ -15,6 +15,7 @@ import { isIphoneX } from "react-native-iphone-x-helper";
 import XSensorPlaceholder from "../../CommonComponents/XSensorPlaceholder/XSensorPlaceholder";
 import PaymentInfoCard from "./Components/PaymentInfoCard";
 import apiCall from "../../Services/networkRequests/apiCall";
+import { recordEvent } from "../../Services/analytics/analyticsService";
 
 @inject("yourBookingsStore")
 @observer
@@ -24,7 +25,12 @@ class PaymentHome extends Component {
       header: (
         <CommonHeader
           LeftButton={
-            <HamburgerButton action={() => navigation.openDrawer()} />
+            <HamburgerButton
+              action={() => {
+                recordEvent(constants.hamburgerButtonClick);
+                navigation.openDrawer();
+              }}
+            />
           }
           title={"Payments"}
           navigation={navigation}
@@ -45,7 +51,6 @@ class PaymentHome extends Component {
     this._didFocusSubscription = props.navigation.addListener(
       "didFocus",
       () => {
-        console.log("Focusing Home....");
         this.getPaymentMeta();
       }
     );
@@ -65,9 +70,11 @@ class PaymentHome extends Component {
     });
     apiCall(constants.getPaymentMeta)
       .then(response => {
-        this.setState({
-          isLoading: false
-        });
+        setTimeout(() => {
+          this.setState({
+            isLoading: false
+          });
+        }, 1000);
         if (response.status === "SUCCESS") {
           this.setState({
             paymentMeta: response.data
@@ -110,7 +117,7 @@ class PaymentHome extends Component {
             <EmptyListPlaceholder
               text={`No active bookings found on this number. If the booking is made by someone else, you need an invite from them to proceed.`}
               containerStyle={{
-                borderTopWidth: 1,
+                borderTopWidth: StyleSheet.hairlineWidth,
                 borderTopColor: constants.shade4,
                 marginHorizontal: 24
               }}
@@ -130,7 +137,9 @@ class PaymentHome extends Component {
                   itineraryId={itinerary.itineraryId}
                   selectItinerary={() =>
                     this.props.navigation.navigate("PaymentSummary", {
-                      itineraryId: itinerary.itineraryId
+                      itineraryId: itinerary.itineraryId,
+                      itineraryName: itinerary.itineraryName,
+                      paymentDetails
                     })
                   }
                   isLast={isLast}

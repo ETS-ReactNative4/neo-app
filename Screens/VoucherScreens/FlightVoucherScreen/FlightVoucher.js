@@ -14,7 +14,12 @@ import SectionHeader from "../../../CommonComponents/SectionHeader/SectionHeader
 import PassengerName from "../HotelVoucherScreen/Components/PassengerName";
 import VoucherSplitSection from "../Components/VoucherSplitSection";
 import IosCloseButton from "../Components/IosCloseButton";
+import { inject, observer } from "mobx-react/custom";
+import moment from "moment";
 
+@inject("passportDetailsStore")
+@inject("itineraries")
+@observer
 class FlightVoucher extends Component {
   static navigationOptions = {
     header: null
@@ -44,16 +49,23 @@ class FlightVoucher extends Component {
      */
     const {
       flyCityText,
-      passengers,
       dateOfIssue,
       cancellationPolicy,
       pnr,
       sourceProvider,
       totalCost,
       invoiceNumber,
-      bookingReferenceId
+      bookingReferenceId,
+      webCheckInUrl,
+      refundable
     } = flight.voucher;
-    const { trips, allTrips, airlineCode } = flight;
+    const { trips, allTrips, airlineCode, excessBaggageInfo } = flight;
+    const { firstDay } = this.props.itineraries;
+    const today = moment();
+    const timeDiff = firstDay.diff(today, "hours");
+    const isWebCheckinActive = timeDiff <= 48;
+
+    const { getPassengerDetails: passengers } = this.props.passportDetailsStore;
 
     const tripDetails = allTrips.map(trip => {
       return trips[trip];
@@ -66,21 +78,21 @@ class FlightVoucher extends Component {
         : 0;
 
     const flightInvoiceInfo = [
-      {
-        name: "Booking Reference ID",
-        value: bookingReferenceId || "NA"
-      },
-      {
-        name: "Total paid",
-        value: totalCost ? `Rs. ${totalCost.toFixed(2)}` : "NA"
-      },
-      {
-        name: "Booking source",
-        value: sourceProvider || "NA"
-      },
+      // {
+      //   name: "Booking Reference ID",
+      //   value: bookingReferenceId || "NA"
+      // },
+      // {
+      //   name: "Total paid",
+      //   value: totalCost ? `Rs. ${totalCost.toFixed(2)}` : "NA"
+      // },
+      // {
+      //   name: "Booking source",
+      //   value: sourceProvider || "NA"
+      // },
       {
         name: "Booking type",
-        value: cancellationPolicy || "NA"
+        value: refundable ? "Refundable" : "Non-Refundable"
       }
     ];
 
@@ -125,6 +137,9 @@ class FlightVoucher extends Component {
           {tripDetails.map((trip, tripIndex) => {
             return (
               <FlightTripView
+                excessBaggageInfo={excessBaggageInfo}
+                webCheckInUrl={webCheckInUrl}
+                isWebCheckinActive={isWebCheckinActive}
                 key={tripIndex}
                 trip={trip}
                 airlineCode={airlineCode}
@@ -141,14 +156,13 @@ class FlightVoucher extends Component {
                   name={`${passenger.salutation}. ${passenger.firstName} ${
                     passenger.lastName
                   }`}
-                  secondaryText={`TICKET NO: ${passenger.ticketNumber}`}
                 />
               );
             })}
           <VoucherSplitSection
             sections={flightInvoiceInfo}
             containerStyle={{
-              borderTopWidth: 1,
+              borderTopWidth: StyleSheet.hairlineWidth,
               borderColor: constants.shade4,
               marginTop: 16,
               paddingTop: 16,

@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     height: 104,
     width: containerWidth,
-    borderWidth: 1,
+    borderWidth: StyleSheet.hairlineWidth,
     borderColor: constants.shade4,
     backgroundColor: "white",
     ...constants.elevationTwo

@@ -7,6 +7,8 @@ import PropTypes from "prop-types";
 import CircleThumbnail from "../../../../../CommonComponents/CircleThumbnail/CircleThumbnail";
 import storeService from "../../../../../Services/storeService/storeService";
 import SectionRightPlaceHolder from "./Components/SectionRightPlaceHolder";
+import { recordEvent } from "../../../../../Services/analytics/analyticsService";
+import getTitleCase from "../../../../../Services/getTitleCase/getTitleCase";
 
 const HotelSection = ({ section, navigation }) => {
   return (
@@ -36,13 +38,14 @@ const Hotel = ({ hotel, isLast, navigation }) => {
   let customStyle = {};
   if (isLast) {
     customStyle = {
-      borderBottomWidth: 1,
+      borderBottomWidth: StyleSheet.hairlineWidth,
       paddingBottom: 16
     };
   }
 
   const openVoucher = () => {
     if (hotel.voucher.booked) {
+      recordEvent(constants.bookingsHomeAccordionHotelsVoucherClick);
       navigation.navigate("HotelVoucher", { hotel });
     } else {
       storeService.infoStore.setInfo(
@@ -78,7 +81,7 @@ const Hotel = ({ hotel, isLast, navigation }) => {
         </View>
         <View style={styles.contentTextWrapper}>
           <Text style={styles.contentText} numberOfLines={1}>
-            {hotel.name}
+            {getTitleCase(hotel.name)}
           </Text>
         </View>
       </View>

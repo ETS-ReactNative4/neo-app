@@ -1,4 +1,4 @@
-import { observable, computed, action, toJS } from "mobx";
+import { observable, computed, action, set, toJS } from "mobx";
 import { persist } from "mobx-persist";
 import { createTransformer } from "mobx-utils";
 import uuidv4 from "uuid/v4";
@@ -7,6 +7,9 @@ import apiCall from "../Services/networkRequests/apiCall";
 import constants from "../constants/constants";
 import { logError } from "../Services/errorLogger/errorLogger";
 import navigationService from "../Services/navigationService/navigationService";
+import DebouncedAlert from "../CommonComponents/DebouncedAlert/DebouncedAlert";
+import storeService from "../Services/storeService/storeService";
+import * as Keychain from "react-native-keychain";
 
 class AppState {
   @action
@@ -18,6 +21,8 @@ class AppState {
       uid: uuidv4(),
       deviceToken: ""
     };
+    this._currencies = {};
+    this._isChatNotificationActive = false;
   };
 
   /**
@@ -33,22 +38,7 @@ class AppState {
   };
 
   @action
-  setTripMode = (status, mode = "push") => {
-    if (status) {
-      if (mode !== "reset") {
-        navigationService.navigation.dispatch(
-          NavigationActions.navigate({
-            routeName: "BookedItineraryTabs"
-          })
-        );
-      }
-    } else {
-      navigationService.navigation.dispatch(
-        NavigationActions.navigate({
-          routeName: "NewItineraryStack"
-        })
-      );
-    }
+  setTripMode = status => {
     this._tripMode.status = status;
   };
 
@@ -119,9 +109,13 @@ class AppState {
     /**
      * TODO: Change api to dev server
      */
-    apiCall(constants.getCurrencyRates, {}, "GET", "http://www.apilayer.net/")
+    apiCall(constants.getCurrencyRates, {}, "GET")
       .then(response => {
-        this._conversionRates = response;
+        if (response.status === "SUCCESS") {
+          this._conversionRates = response.data;
+        } else {
+          DebouncedAlert("Unable to get conversion rates!");
+        }
       })
       .catch(e => {
         console.error(e);
@@ -129,7 +123,7 @@ class AppState {
   };
 
   currencyConverter = createTransformer(({ amount, from, to }) => {
-    const quotes = this.conversionRates.quotes;
+    const quotes = this.conversionRates;
 
     amount = parseFloat(amount);
 
@@ -148,6 +142,62 @@ class AppState {
 
     return result.toFixed(2);
   });
+
+  @persist("object")
+  @observable
+  _currencies = {};
+
+  @computed
+  get currencies() {
+    const itineraryId = storeService.itineraries.selectedItineraryId;
+    if (this._currencies[itineraryId])
+      return toJS(this._currencies[itineraryId]);
+    else return [];
+  }
+
+  @action
+  loadCurrencies = () => {
+    const itineraryId = storeService.itineraries.selectedItineraryId;
+    if (!this._currencies[itineraryId])
+      this._getCurrencyByItineraryId(itineraryId);
+  };
+
+  @action
+  _getCurrencyByItineraryId = itineraryId => {
+    apiCall(
+      `${constants.getCurrencyList}?itineraryId=${itineraryId}`,
+      {},
+      "GET"
+    )
+      .then(response => {
+        if (response.status === "SUCCESS") {
+          // set(
+          //   this._currencies,
+          //   `${itineraryId}`,
+          //   response.data.map(each => each.toUpperCase())
+          // );
+          let currencyArray = [];
+          const currencies = toJS(this._currencies);
+          for (let key in response.data) {
+            if (response.data.hasOwnProperty(key)) {
+              const country = response.data[key];
+              currencyArray.push(country.default.toUpperCase());
+              currencyArray = [
+                ...currencyArray,
+                ...country.others.map(each => each.toUpperCase())
+              ];
+            }
+          }
+          currencies[itineraryId] = currencyArray;
+          this._currencies = currencies;
+        } else {
+          DebouncedAlert("Error!", "Unable to retrieve currency details!");
+        }
+      })
+      .catch(err => {
+        DebouncedAlert("Error!", "Unable to retrieve currency details!");
+      });
+  };
 
   /**
    * Push notification tokens
@@ -176,24 +226,63 @@ class AppState {
       uid: this._pushTokens.uid,
       deviceToken
     };
-    apiCall(constants.registerDeviceToken, requestBody)
-      .then(response => {
-        if (response.status === "SUCCESS") {
-          this._pushTokens.deviceToken = deviceToken;
-        } else {
-          this._pushTokens = {
-            uid: uuidv4(),
-            deviceToken: ""
-          };
-        }
-      })
-      .catch(err => {
-        this._pushTokens = {
-          uid: uuidv4(),
-          deviceToken: ""
-        };
-        logError(err, { eventType: "Device token Failed to register" });
-      });
+    Keychain.getGenericPassword().then(credentials => {
+      if (credentials && credentials.password) {
+        apiCall(constants.registerDeviceToken, requestBody)
+          .then(response => {
+            if (response.status === "SUCCESS") {
+              this._pushTokens.deviceToken = deviceToken;
+            } else {
+              this._pushTokens = {
+                uid: uuidv4(),
+                deviceToken: ""
+              };
+            }
+          })
+          .catch(err => {
+            this._pushTokens = {
+              uid: uuidv4(),
+              deviceToken: ""
+            };
+            logError(err, { eventType: "Device token Failed to register" });
+          });
+      }
+    });
+  };
+
+  /**
+   * Internet status
+   */
+  @observable _isConnected = true;
+
+  @computed
+  get isConnected() {
+    return this._isConnected;
+  }
+
+  @action
+  setConnectionStatus = status => {
+    this._isConnected = status;
+  };
+
+  /**
+   * Chat Notification
+   */
+  @observable _isChatNotificationActive = false;
+
+  @computed
+  get isChatNotificationActive() {
+    return this._isChatNotificationActive;
+  }
+
+  @action
+  setChatNotification = () => {
+    this._isChatNotificationActive = true;
+  };
+
+  @action
+  clearChatNotification = () => {
+    this._isChatNotificationActive = false;
   };
 }
 

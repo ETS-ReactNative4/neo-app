@@ -19,12 +19,20 @@ import TrainsSection from "./Components/TrainsSection";
 import Icon from "../../../../CommonComponents/Icon/Icon";
 import FlightsSection from "./Components/FlightsSection";
 import PassSection from "./Components/PassSection";
+import FerriesSection from "./Components/FerriesSection";
+import RentalCarSection from "./Components/RentalCarSection";
+import { recordEvent } from "../../../../Services/analytics/analyticsService";
 
+let sections = [];
 @inject("itineraries")
 @observer
 class BookingAccordion extends Component {
   static propTypes = {
     navigation: PropTypes.object.isRequired
+  };
+
+  state = {
+    activeSections: [0]
   };
 
   _renderHeader = (section, index, isActive, sections) => {
@@ -33,7 +41,7 @@ class BookingAccordion extends Component {
     if (isActive) customStyle.borderBottomWidth = 0;
 
     const bookingProcessingCount = section.items.reduce((count, item) => {
-      if (item.voucher && !item.voucher.booked) {
+      if (item.voucher && !(item.voucher.booked || item.voucher.self)) {
         count++;
       }
       return count;
@@ -52,9 +60,10 @@ class BookingAccordion extends Component {
             [
               bookingProcessingCount ? (
                 <View key={0} style={styles.bookingProcessLoadingWrapper}>
-                  <Image
-                    source={constants.bookingProcessingIcon}
-                    style={styles.bookingProcessIcon}
+                  <Icon
+                    name={constants.bookingProcessingIcon}
+                    size={24}
+                    color={constants.eighthColor}
                   />
                   <Text style={styles.bookingProcessCount}>
                     {bookingProcessingCount}
@@ -81,11 +90,13 @@ class BookingAccordion extends Component {
               />
             ]
           ) : (
-            <Image
-              source={constants.dropDownArrow}
-              resizeMode={"contain"}
-              style={styles.accordionDownArrow}
-            />
+            <View style={styles.accordionDownArrowContainer}>
+              <Icon
+                name={constants.arrowDown}
+                color={constants.black1}
+                size={17}
+              />
+            </View>
           )}
         </View>
       </View>
@@ -95,7 +106,6 @@ class BookingAccordion extends Component {
   _renderContent = (section, index, isActive, sections) => {
     const { navigation } = this.props;
     const customStyle = {};
-
     switch (section.type) {
       case "Hotels":
         return <HotelSection navigation={navigation} section={section} />;
@@ -106,6 +116,9 @@ class BookingAccordion extends Component {
       case "Transfers":
         return <TransferSection navigation={navigation} section={section} />;
 
+      case "Ferries":
+        return <FerriesSection navigation={navigation} section={section} />;
+
       case "Trains":
         return <TrainsSection navigation={navigation} section={section} />;
 
@@ -114,6 +127,9 @@ class BookingAccordion extends Component {
 
       case "Passes":
         return <PassSection section={section} navigation={navigation} />;
+
+      case "Rental Cars":
+        return <RentalCarSection navigation={navigation} section={section} />;
 
       default:
         return (
@@ -143,9 +159,54 @@ class BookingAccordion extends Component {
     }
   };
 
-  render() {
-    const sections = [];
+  _updateActiveSections = activeSections => {
+    const sectionIndex = activeSections[0];
+    if (sectionIndex) {
+      const selectedSection = sections[sectionIndex];
+      switch (selectedSection.type) {
+        case "Hotels":
+          recordEvent(constants.bookingsHomeAccordionHotelsHeaderClick);
+          break;
 
+        case "Activities":
+          recordEvent(constants.bookingsHomeAccordionActivitiesHeaderClick);
+          break;
+
+        case "Transfers":
+          recordEvent(constants.bookingsHomeAccordionTransfersHeaderClick);
+          break;
+
+        case "Ferries":
+          recordEvent(constants.bookingsHomeAccordionFerriesHeaderClick);
+          break;
+
+        case "Trains":
+          recordEvent(constants.bookingsHomeAccordionTrainsHeaderClick);
+          break;
+
+        case "Flights":
+          recordEvent(constants.bookingsHomeAccordionFlightsHeaderClick);
+          break;
+
+        case "Passes":
+          recordEvent(constants.bookingsHomeAccordionPassesHeaderClick);
+          break;
+
+        case "Rental Cars":
+          recordEvent(constants.bookingsHomeAccordionRentalCarsHeaderClick);
+          break;
+
+        default:
+          break;
+      }
+    }
+    this.setState({
+      activeSections
+    });
+  };
+
+  render() {
+    sections = [];
     const {
       hotels,
       activities,
@@ -179,7 +240,7 @@ class BookingAccordion extends Component {
     if (transfers.length) {
       const transferSection = {
         type: "Transfers",
-        icon: constants.trainIcon,
+        icon: constants.transferIcon,
         items: transfers
       };
       sections.push(transferSection);
@@ -188,7 +249,7 @@ class BookingAccordion extends Component {
     if (passes.length) {
       const passesSection = {
         type: "Passes",
-        icon: constants.notificationIcon,
+        icon: constants.passIcon,
         items: passes
       };
       sections.push(passesSection);
@@ -215,10 +276,19 @@ class BookingAccordion extends Component {
     if (ferries.length) {
       const ferriesSection = {
         type: "Ferries",
-        icon: constants.notificationIcon,
+        icon: constants.ferryIcon,
         items: ferries
       };
       sections.push(ferriesSection);
+    }
+
+    if (rentals.length) {
+      const rentalsSection = {
+        type: "Rental Cars",
+        icon: constants.carIcon,
+        items: rentals
+      };
+      sections.push(rentalsSection);
     }
 
     if (visa.length) {
@@ -227,7 +297,7 @@ class BookingAccordion extends Component {
        */
       const visaSection = {
         type: "Visa",
-        icon: constants.aeroplaneIcon,
+        icon: constants.visaIcon,
         items: visa
       };
       sections.push(visaSection);
@@ -236,6 +306,8 @@ class BookingAccordion extends Component {
     return (
       <View style={{ marginBottom: 24 }}>
         <Accordion
+          activeSections={this.state.activeSections}
+          onChange={this._updateActiveSections}
           sections={sections}
           renderHeader={this._renderHeader}
           renderContent={this._renderContent}
@@ -252,7 +324,7 @@ const styles = StyleSheet.create({
     height: 56,
     flexDirection: "row",
     alignItems: "center",
-    borderBottomWidth: 1,
+    borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: constants.shade4
   },
   headerIcon: {
@@ -261,7 +333,14 @@ const styles = StyleSheet.create({
     marginRight: 8
   },
   headerTextWrapper: {
-    height: 20,
+    ...Platform.select({
+      ios: {
+        height: 24
+      },
+      android: {
+        height: 24
+      }
+    }),
     alignItems: "center",
     justifyContent: "center"
   },
@@ -269,7 +348,15 @@ const styles = StyleSheet.create({
     fontFamily: constants.primarySemiBold,
     fontSize: 20,
     lineHeight: 20,
-    color: constants.black1
+    color: constants.black1,
+    ...Platform.select({
+      ios: {
+        marginTop: 4
+      },
+      android: {
+        marginTop: 4
+      }
+    })
   },
   notificationWrapper: {
     flex: 1,
@@ -297,14 +384,13 @@ const styles = StyleSheet.create({
       }
     })
   },
-  accordionDownArrow: {
-    height: 17,
-    width: 17
+  accordionDownArrowContainer: {
+    // transform: [{rotate: '180deg'}]
   },
 
   contentContainer: {
     paddingVertical: 8,
-    borderBottomWidth: 1,
+    borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: constants.shade4,
     flexDirection: "row",
     alignItems: "center"

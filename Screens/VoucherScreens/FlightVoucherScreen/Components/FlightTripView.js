@@ -11,7 +11,10 @@ class FlightTripView extends Component {
   static propTypes = forbidExtraProps({
     trip: PropTypes.object.isRequired,
     isLast: PropTypes.bool.isRequired,
-    airlineCode: PropTypes.string.isRequired
+    airlineCode: PropTypes.string.isRequired,
+    webCheckInUrl: PropTypes.string.isRequired,
+    isWebCheckinActive: PropTypes.bool.isRequired,
+    excessBaggageInfo: PropTypes.string.isRequired
   });
 
   state = {
@@ -27,13 +30,22 @@ class FlightTripView extends Component {
   render() {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
 
-    const { isLast, airlineCode } = this.props;
+    const {
+      isLast,
+      airlineCode,
+      webCheckInUrl,
+      isWebCheckinActive,
+      excessBaggageInfo
+    } = this.props;
     const { routes, flightClass, flyTime } = this.props.trip;
     const containerStyle = [
       styles.flightTripViewContainer,
       isLast
         ? {}
-        : { borderBottomColor: constants.shade4, borderBottomWidth: 1 }
+        : {
+            borderBottomColor: constants.shade4,
+            borderBottomWidth: StyleSheet.hairlineWidth
+          }
     ];
 
     /**
@@ -51,7 +63,10 @@ class FlightTripView extends Component {
         depDateOfMonth,
         departureAirportCode,
         departureTime,
-        freeCabinBaggage
+        freeCabinBaggage,
+        freeCheckInBaggage,
+        departureAirportName,
+        departureCity
       } = routes[0];
 
       const {
@@ -60,7 +75,8 @@ class FlightTripView extends Component {
         arrDateOfMonth,
         arrivalAirportCode,
         arrivalTime,
-        arrivalCity
+        arrivalCity,
+        arrivalAirportName
       } = routes[routes.length - 1];
 
       const departure = `${departureDayOfWeek}, ${depDateOfMonth} ${depMonth}`;
@@ -92,8 +108,19 @@ class FlightTripView extends Component {
             flightClass={flightClass}
             airlineCode={airlineCode}
             freeCabinBaggage={freeCabinBaggage}
+            freeCheckInBaggage={freeCheckInBaggage}
+            departureAirportName={departureAirportName}
+            departureCity={departureCity}
+            arrivalCity={arrivalCity}
+            arrivalAirportName={arrivalAirportName}
+            excessBaggageInfo={excessBaggageInfo}
+            departureAirportCode={departureAirportCode}
+            arrivalAirportCode={arrivalAirportCode}
           />
-          <FlightActionSection />
+          <FlightActionSection
+            webCheckInUrl={webCheckInUrl}
+            isWebCheckinActive={isWebCheckinActive}
+          />
         </View>
       );
     }
@@ -114,9 +141,13 @@ class FlightTripView extends Component {
             arrivalAirportCode,
             departureTime,
             arrivalTime,
+            departureAirportName,
+            departureCity,
             arrivalCity,
+            arrivalAirportName,
             layoverTime,
-            freeCabinBaggage
+            freeCabinBaggage,
+            freeCheckInBaggage
           } = route;
           const departure = `${departureDayOfWeek}, ${depDateOfMonth} ${depMonth}`;
           const departureText = `${departureAirportCode} ${departureTime.slice(
@@ -152,9 +183,21 @@ class FlightTripView extends Component {
                   flightClass={flightClass}
                   airlineCode={airlineCode}
                   freeCabinBaggage={freeCabinBaggage}
+                  freeCheckInBaggage={freeCheckInBaggage}
+                  departureAirportName={departureAirportName}
+                  departureCity={departureCity}
+                  arrivalCity={arrivalCity}
+                  arrivalAirportName={arrivalAirportName}
+                  excessBaggageInfo={excessBaggageInfo}
+                  departureAirportCode={departureAirportCode}
+                  arrivalAirportCode={arrivalAirportCode}
                 />,
                 routeIndex < routes.length - 1 ? (
-                  <FlightActionSection key={1} />
+                  <FlightActionSection
+                    key={1}
+                    webCheckInUrl={webCheckInUrl}
+                    isWebCheckinActive={isWebCheckinActive}
+                  />
                 ) : null,
                 routeIndex < routes.length - 1 ? (
                   <FlightDivider

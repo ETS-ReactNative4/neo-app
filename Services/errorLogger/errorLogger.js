@@ -11,8 +11,10 @@ sentry.setTagsContext({
   environment: PackageInfo.environment
 });
 
-export const logError = (error, extraInfo = {}) =>
-  sentry.captureException(error, { extra: extraInfo });
+export const logError = (error, extraInfo = {}) => {
+  if (__DEV__) console.error(error);
+  else sentry.captureException(error, { extra: extraInfo });
+};
 
 export const logBreadCrumb = ({ message, category, data, level }) =>
   sentry.captureBreadcrumb({ message, category, data, level });

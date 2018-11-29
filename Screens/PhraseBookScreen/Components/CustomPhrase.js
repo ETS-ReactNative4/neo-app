@@ -4,9 +4,9 @@ import {
   TextInput,
   StyleSheet,
   TouchableOpacity,
-  Keyboard,
   Platform,
-  LayoutAnimation
+  LayoutAnimation,
+  Keyboard
 } from "react-native";
 import { isIphoneX } from "react-native-iphone-x-helper";
 import XSensorPlaceholder from "../../../CommonComponents/XSensorPlaceholder/XSensorPlaceholder";
@@ -16,54 +16,22 @@ import { responsiveWidth } from "react-native-responsive-dimensions";
 import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraProps";
 import PropTypes from "prop-types";
 import localeCode from "locale-code";
+import KeyboardAvoidingActionBar from "../../../CommonComponents/KeyboardAvoidingActionBar/KeyboardAvoidingActionBar";
 
 class CustomPhrase extends Component {
   static propTypes = forbidExtraProps({
     openLanguageSelector: PropTypes.func.isRequired,
     selectedLanguage: PropTypes.object.isRequired,
     selectPhrase: PropTypes.func.isRequired,
-    targetLanguage: PropTypes.string.isRequired
+    targetLanguage: PropTypes.string.isRequired,
+    navigation: PropTypes.object.isRequired,
+    onKeyBoardStateChange: PropTypes.func.isRequired,
+    isKeyboardVisible: PropTypes.bool.isRequired
   });
 
   state = {
-    customPhrase: "",
-    isKeyboardVisible: false,
-    keyboardSpace: isIphoneX() ? constants.xSensorAreaHeight : 0
+    customPhrase: ""
   };
-  keyboardDidShowListener = {};
-  keyboardDidHideListener = {};
-
-  keyboardDidShow = e => {
-    this.setState({
-      isKeyboardVisible: true,
-      keyboardSpace: isIphoneX()
-        ? e.endCoordinates.height
-        : e.endCoordinates.height
-    });
-  };
-
-  keyboardDidHide = () => {
-    this.setState({
-      isKeyboardVisible: false,
-      keyboardSpace: isIphoneX() ? constants.xSensorAreaHeight : 0
-    });
-  };
-
-  componentDidMount() {
-    this.keyboardDidShowListener = Keyboard.addListener(
-      "keyboardWillChangeFrame",
-      this.keyboardDidShow
-    );
-    this.keyboardDidHideListener = Keyboard.addListener(
-      "keyboardWillHide",
-      this.keyboardDidHide
-    );
-  }
-
-  componentWillUnmount() {
-    this.keyboardDidShowListener.remove();
-    this.keyboardDidHideListener.remove();
-  }
 
   onEditText = phrase => {
     this.setState({
@@ -73,17 +41,18 @@ class CustomPhrase extends Component {
 
   render() {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-    const { selectPhrase, targetLanguage } = this.props;
+    const { selectPhrase, targetLanguage, isKeyboardVisible } = this.props;
     const { customPhrase } = this.state;
-    const translateAction = () =>
+    const translateAction = () => {
       customPhrase ? selectPhrase(customPhrase, targetLanguage) : null;
+      Keyboard.dismiss();
+    };
     return [
-      <View
+      <KeyboardAvoidingActionBar
         key={0}
-        style={[
-          styles.customPhraseContainer,
-          { bottom: this.state.keyboardSpace }
-        ]}
+        containerStyle={styles.customPhraseContainer}
+        navigation={this.props.navigation}
+        onKeyBoardStateChange={this.props.onKeyBoardStateChange}
       >
         <TextInput
           style={styles.customPhraseInput}
@@ -96,14 +65,16 @@ class CustomPhrase extends Component {
           onSubmitEditing={translateAction}
           placeholder={"Or, type a custom message"}
         />
-        {customPhrase && this.state.isKeyboardVisible ? (
+        {isKeyboardVisible && customPhrase ? (
           <SimpleButton
-            text={"Translate"}
+            text={""}
             action={translateAction}
+            icon={constants.translateIcon}
+            iconSize={24}
             containerStyle={{
               backgroundColor: "white",
-              width: 64,
-              marginLeft: 8
+              width: null,
+              paddingLeft: 16
             }}
             textStyle={{
               fontSize: 13
@@ -112,26 +83,19 @@ class CustomPhrase extends Component {
           />
         ) : (
           <SimpleButton
-            text={localeCode
-              .getLanguageName(this.props.selectedLanguage.languageCode)
-              .toUpperCase()
-              .substr(0, 3)}
+            text={localeCode.getLanguageName(
+              this.props.selectedLanguage.languageCode
+            )}
             action={this.props.openLanguageSelector}
             containerStyle={{
               backgroundColor: "white",
-              width: 64,
+              width: null,
               marginLeft: 8
             }}
             textColor={constants.firstColor}
           />
         )}
-      </View>,
-      isIphoneX() && !this.state.isKeyboardVisible ? (
-        <XSensorPlaceholder
-          key={1}
-          containerStyle={{ backgroundColor: "white" }}
-        />
-      ) : null
+      </KeyboardAvoidingActionBar>
     ];
   }
 }
@@ -150,8 +114,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     paddingHorizontal: 24,
-    backgroundColor: "white",
-    position: "absolute"
+    backgroundColor: "white"
   },
   customPhraseInput: {
     flex: 1,

@@ -45,7 +45,8 @@ class Visa extends Component {
               onArrival,
               schengen,
               itineraryId,
-              visaStatus
+              visaStatus,
+              visaDetailText
             } = visa;
             return (
               <VisaTabContainer
@@ -55,9 +56,11 @@ class Visa extends Component {
                 visaName={visaName}
                 onArrival={onArrival}
                 schengen={schengen}
+                visaDetailText={visaDetailText}
                 itineraryId={itineraryId}
                 visaStatus={visaStatus}
                 tabLabel={visa.regionName.toUpperCase()}
+                navigation={this.props.navigation}
                 key={visaIndex}
               />
             );

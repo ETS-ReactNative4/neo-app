@@ -20,34 +20,26 @@ class CurrencySelector extends Component {
   static propTypes = {
     isVisible: PropTypes.bool.isRequired,
     onClose: PropTypes.func.isRequired,
-    selectCurrency: PropTypes.func.isRequired
+    selectCurrency: PropTypes.func.isRequired,
+    currenciesList: PropTypes.array.isRequired
   };
 
   render() {
     const flagImage = constants.starterBackground;
+    const { currenciesList } = this.props;
 
     const selectCurrency = currency => {
       this.props.selectCurrency(currency);
       this.props.onClose();
     };
 
-    const currencies = [
-      {
+    const currencies = currenciesList.map(currency => {
+      return {
         image: flagImage,
-        name: "USDEUR",
-        action: () => selectCurrency("USDEUR")
-      },
-      {
-        image: flagImage,
-        name: "USDINR",
-        action: () => selectCurrency("USDINR")
-      },
-      {
-        image: flagImage,
-        name: "USDJPY",
-        action: () => selectCurrency("USDJPY")
-      }
-    ];
+        name: currency,
+        action: () => selectCurrency(`USD${currency}`)
+      };
+    });
 
     return (
       <Modal
@@ -68,13 +60,13 @@ class CurrencySelector extends Component {
               <View style={styles.headingArea}>
                 <Text style={styles.headingText}>Output Currency</Text>
               </View>
-              <TouchableHighlight style={styles.icon}>
-                <Icon
-                  style={24}
-                  source={constants.searchIcon}
-                  color={"white"}
-                />
-              </TouchableHighlight>
+              {/*<TouchableHighlight style={styles.icon}>*/}
+              {/*<Icon*/}
+              {/*style={24}*/}
+              {/*source={constants.searchIcon}*/}
+              {/*color={"white"}*/}
+              {/*/>*/}
+              {/*</TouchableHighlight>*/}
             </View>
             <ScrollView
               style={[
@@ -86,28 +78,28 @@ class CurrencySelector extends Component {
                 return (
                   <SelectionRow
                     key={index}
-                    image={currency.image}
-                    text={currency.name.substr(3)}
-                    action={currency.action}
-                  />
-                );
-              })}
-
-              <SectionHeader
-                sectionName={"MORE CURRENCIES"}
-                containerStyle={{ marginTop: 40, marginBottom: 0 }}
-              />
-
-              {currencies.map((currency, index) => {
-                return (
-                  <SelectionRow
-                    key={index}
-                    image={currency.image}
+                    disableImage={true}
                     text={currency.name}
                     action={currency.action}
                   />
                 );
               })}
+
+              {/*<SectionHeader*/}
+              {/*sectionName={"MORE CURRENCIES"}*/}
+              {/*containerStyle={{ marginTop: 40, marginBottom: 0 }}*/}
+              {/*/>*/}
+
+              {/*{currencies.map((currency, index) => {*/}
+              {/*return (*/}
+              {/*<SelectionRow*/}
+              {/*key={index}*/}
+              {/*disableImage={true}*/}
+              {/*text={currency.name.substr(3)}*/}
+              {/*action={currency.action}*/}
+              {/*/>*/}
+              {/*);*/}
+              {/*})}*/}
             </ScrollView>
           </View>
         </SafeAreaView>

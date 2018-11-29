@@ -7,6 +7,8 @@ import PropTypes from "prop-types";
 import CircleThumbnail from "../../../../../CommonComponents/CircleThumbnail/CircleThumbnail";
 import storeService from "../../../../../Services/storeService/storeService";
 import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidExtraProps";
+import SectionRightPlaceHolder from "./Components/SectionRightPlaceHolder";
+import { recordEvent } from "../../../../../Services/analytics/analyticsService";
 
 const TrainsSection = ({ section, navigation }) => {
   return (
@@ -36,14 +38,17 @@ const Train = ({ train, isLast, navigation }) => {
   let customStyle = {};
   if (isLast) {
     customStyle = {
-      borderBottomWidth: 1,
+      borderBottomWidth: StyleSheet.hairlineWidth,
       paddingBottom: 16
     };
   }
 
   const openVoucher = () => {
     if (train.voucher.booked) {
-      navigation.navigate("TransferVoucher", { transfer: train });
+      recordEvent(constants.bookingsHomeAccordionTrainsVoucherClick);
+      navigation.navigate("TransferVoucher", {
+        transfer: { ...train, vehicle: "TRAIN" }
+      });
     } else {
       storeService.infoStore.setInfo(
         constants.bookingProcessText.title,
@@ -84,9 +89,7 @@ const Train = ({ train, isLast, navigation }) => {
           </Text>
         </View>
       </View>
-      <View style={styles.rightPlaceholder}>
-        <Text style={styles.rightPlaceholderText}>Stayed</Text>
-      </View>
+      <SectionRightPlaceHolder isProcessing={!train.voucher.booked} />
     </TouchableOpacity>
   );
 };

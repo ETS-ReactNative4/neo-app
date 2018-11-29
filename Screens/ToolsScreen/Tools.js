@@ -8,33 +8,26 @@ import SecondaryTool from "./Components/SecondaryTool";
 import SearchPlaceholder from "../../CommonComponents/SearchPlaceholder/SearchPlaceholder";
 import HomeHeader from "../../CommonComponents/HomeHeader/HomeHeader";
 import { inject, observer } from "mobx-react/custom";
+import { recordEvent } from "../../Services/analytics/analyticsService";
 
 @inject("itineraries")
-@inject("emergencyContactsStore")
-@inject("passportDetailsStore")
-@inject("visaStore")
 @observer
 class Tools extends Component {
   static navigationOptions = HomeHeader;
-
-  componentDidMount() {
-    const { cities, selectedItineraryId } = this.props.itineraries;
-    const { getEmergencyContacts } = this.props.emergencyContactsStore;
-    const { getPassportDetails } = this.props.passportDetailsStore;
-    const { getVisaDetails } = this.props.visaStore;
-
-    getEmergencyContacts(cities);
-    getPassportDetails(selectedItineraryId);
-    getVisaDetails(selectedItineraryId);
-  }
 
   render() {
     const { cities } = this.props.itineraries;
     const cityList = cities.map(city => {
       return {
         title: city.city,
-        image: { uri: constants.cityImageBaseUrl + city.cityObject.image },
-        action: () => this.props.navigation.navigate("Places", { city })
+        image: { uri: city.cityObject.image },
+        action: () => {
+          recordEvent(constants.toolsPlacesTileClick);
+          this.props.navigation.navigate("ToolPlaces", {
+            city,
+            target: "ToolNearBy"
+          });
+        }
       };
     });
 
@@ -42,22 +35,34 @@ class Tools extends Component {
       {
         icon: constants.commonPhrasesIcon,
         text: `Common${"\n"}Phrases`,
-        action: () => this.props.navigation.navigate("PhraseBook")
+        action: () => {
+          recordEvent(constants.toolsCommonPhrasesTileClick);
+          this.props.navigation.navigate("PhraseBook");
+        }
       },
       {
         icon: constants.emergencyContactsIcon,
         text: `Emergency${"\n"}Contacts`,
-        action: () => this.props.navigation.navigate("EmergencyContacts")
-      },
-      {
-        icon: constants.medicalCareIcon,
-        text: `Medical${"\n"}Care`,
-        action: () => {}
+        action: () => {
+          recordEvent(constants.toolsEmergencyContactsTileClick);
+          this.props.navigation.navigate("EmergencyContacts");
+        }
       },
       {
         icon: constants.weatherForecastIcon,
         text: `Weather${"\n"}Forecast`,
-        action: () => this.props.navigation.navigate("Weather")
+        action: () => {
+          recordEvent(constants.toolsWeatherForecastTileClick);
+          this.props.navigation.navigate("Weather");
+        }
+      },
+      {
+        icon: constants.faqIcon,
+        text: `Support${"\n"}Center`,
+        action: () => {
+          recordEvent(constants.toolsSupportCenterTileClick);
+          this.props.navigation.navigate("SupportCenter");
+        }
       }
     ];
 
@@ -65,22 +70,30 @@ class Tools extends Component {
       {
         icon: constants.passportDetailsIcon,
         text: `Passport${"\n"}Details`,
-        action: () => this.props.navigation.navigate("PassportDetails")
-      },
-      {
-        icon: constants.packageChecklistIcon,
-        text: `Packing${"\n"}Checklist`,
-        action: () => this.props.navigation.navigate("PackingChecklist")
+        action: () => {
+          recordEvent(constants.toolsPassportTileClick);
+          this.props.navigation.navigate("PassportDetails");
+        }
       },
       {
         icon: constants.documentVisaIcon,
         text: `Documents${"\n"}& Visa`,
-        action: () => this.props.navigation.navigate("Visa")
+        action: () => {
+          recordEvent(constants.toolsDocumentsVisaTileClick);
+          this.props.navigation.navigate("Visa");
+        }
+      },
+      {
+        icon: constants.invitePassengersIcon,
+        text: `Invite${"\n"}Co-passengers`,
+        action: () => null,
+        isComingSoon: true
       },
       {
         icon: constants.yourPickIcon,
         text: `Your${"\n"}Picks`,
-        action: () => {}
+        action: () => null,
+        isComingSoon: true
       }
     ];
 
@@ -99,10 +112,10 @@ class Tools extends Component {
 
     return (
       <View style={styles.container}>
-        <SearchPlaceholder
-          action={() => null}
-          containerStyle={{ marginHorizontal: 24 }}
-        />
+        {/*<SearchPlaceholder*/}
+        {/*action={() => null}*/}
+        {/*containerStyle={{ marginHorizontal: 24 }}*/}
+        {/*/>*/}
         <ScrollView>
           <SectionHeader
             sectionName={"CITY GUIDES"}
@@ -129,6 +142,7 @@ class Tools extends Component {
                 icon={item.icon}
                 text={item.text}
                 action={item.action}
+                isComingSoon={item.isComingSoon}
               />
             ))}
           </View>
@@ -140,9 +154,9 @@ class Tools extends Component {
 
           <View style={styles.toolMenuRow}>
             <PrimaryTool
-              text={`Invite${"\n"}Co-passengers`}
-              action={() => {}}
-              toolIcon={constants.invitePassengersIcon}
+              text={`Packing${"\n"}Checklist`}
+              action={() => this.props.navigation.navigate("PackingChecklist")}
+              toolIcon={constants.packageChecklistIcon}
             />
 
             {beforePacking.map((item, index) => (
@@ -151,6 +165,7 @@ class Tools extends Component {
                 icon={item.icon}
                 text={item.text}
                 action={item.action}
+                isComingSoon={item.isComingSoon}
               />
             ))}
           </View>

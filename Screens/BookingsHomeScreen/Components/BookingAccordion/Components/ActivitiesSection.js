@@ -8,6 +8,8 @@ import CircleThumbnail from "../../../../../CommonComponents/CircleThumbnail/Cir
 import _ from "lodash";
 import storeService from "../../../../../Services/storeService/storeService";
 import SectionRightPlaceHolder from "./Components/SectionRightPlaceHolder";
+import { recordEvent } from "../../../../../Services/analytics/analyticsService";
+import getTitleCase from "../../../../../Services/getTitleCase/getTitleCase";
 
 const ActivitiesSection = ({ section, navigation }) => {
   return (
@@ -37,13 +39,14 @@ const Activities = ({ activity, isLast, navigation }) => {
   let customStyle = {};
   if (isLast) {
     customStyle = {
-      borderBottomWidth: 1,
+      borderBottomWidth: StyleSheet.hairlineWidth,
       paddingBottom: 16
     };
   }
 
   const openVoucher = () => {
-    if (activity.voucher.booked) {
+    if (activity.voucher.booked || activity.voucher.self) {
+      recordEvent(constants.bookingsHomeAccordionActivitiesVoucherClick);
       navigation.navigate("ActivityVoucher", { activity });
     } else {
       storeService.infoStore.setInfo(
@@ -87,11 +90,13 @@ const Activities = ({ activity, isLast, navigation }) => {
         </View>
         <View style={styles.contentTextWrapper}>
           <Text style={styles.contentText} numberOfLines={1}>
-            {activity.title}
+            {getTitleCase(activity.title)}
           </Text>
         </View>
       </View>
-      <SectionRightPlaceHolder isProcessing={!activity.voucher.booked} />
+      <SectionRightPlaceHolder
+        isProcessing={!(activity.voucher.booked || activity.voucher.self)}
+      />
     </TouchableOpacity>
   );
 };

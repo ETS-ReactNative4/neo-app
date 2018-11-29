@@ -5,6 +5,14 @@ import SmartImage from "../../../CommonComponents/SmartImage/SmartImage";
 import FastImage from "react-native-fast-image";
 import constants from "../../../constants/constants";
 
+/**
+ * TODO: Fix Image urls
+ * @param title
+ * @param image
+ * @param action
+ * @returns {*}
+ * @constructor
+ */
 const PlaceCard = ({ title, image, action }) => {
   return (
     <TouchableOpacity onPress={action} style={styles.placeCardContainer}>
@@ -13,10 +21,7 @@ const PlaceCard = ({ title, image, action }) => {
           "http://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg"
         }
         style={styles.image}
-        uri={
-          "http://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg" ||
-          image.uri
-        }
+        uri={image.uri}
         resizeMode={FastImage.resizeMode.cover}
       />
       <View style={styles.textContainer}>

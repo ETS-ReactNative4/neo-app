@@ -2,16 +2,17 @@ import React from "react";
 import { Text, StyleSheet } from "react-native";
 import constants from "../../../constants/constants";
 import PropTypes from "prop-types";
+import getTitleCase from "../../../Services/getTitleCase/getTitleCase";
 
 const VoucherName = ({ name, textStyle }) => {
   if (!textStyle) textStyle = {};
   return (
     <Text
       style={[styles.name, textStyle]}
-      numberOfLines={2}
+      numberOfLines={4}
       ellipsizeMode={"tail"}
     >
-      {name}
+      {getTitleCase(name)}
     </Text>
   );
 };

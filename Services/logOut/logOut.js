@@ -8,11 +8,11 @@ import { setUserContext } from "../errorLogger/errorLogger";
 import navigationService from "../navigationService/navigationService";
 import storeService from "../storeService/storeService";
 
-const resetToSplash = StackActions.reset({
-  index: 0,
-  actions: [NavigationActions.navigate({ routeName: "Splash" })],
-  key: null
-});
+// const resetToSplash = StackActions.reset({
+//   index: 0,
+//   actions: [NavigationActions.navigate({ routeName: "Splash" })],
+//   key: null
+// });
 
 const closeDrawer = DrawerActions.closeDrawer();
 
@@ -21,7 +21,7 @@ const logOut = () => {
 
   navigation.dispatch(closeDrawer);
   Keychain.resetGenericPassword().then(() => {
-    navigation.dispatch(resetToSplash);
+    navigation._navigation.navigate("Splash");
 
     setTimeout(() => {
       storeService.itineraries.reset();
@@ -32,6 +32,8 @@ const logOut = () => {
       storeService.phrasesStore.reset();
       storeService.emergencyContactsStore.reset();
       storeService.passportDetailsStore.reset();
+      storeService.placesStore.reset();
+      storeService.supportStore.reset();
     }, 100);
   });
   /**

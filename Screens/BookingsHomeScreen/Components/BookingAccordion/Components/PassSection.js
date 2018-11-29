@@ -7,6 +7,7 @@ import PropTypes from "prop-types";
 import CircleThumbnail from "../../../../../CommonComponents/CircleThumbnail/CircleThumbnail";
 import storeService from "../../../../../Services/storeService/storeService";
 import SectionRightPlaceHolder from "./Components/SectionRightPlaceHolder";
+import { recordEvent } from "../../../../../Services/analytics/analyticsService";
 
 const PassSection = ({ section, navigation }) => {
   return (
@@ -36,12 +37,13 @@ const Pass = ({ pass, isLast, navigation }) => {
   let customStyle = {};
   if (isLast) {
     customStyle = {
-      borderBottomWidth: 1,
+      borderBottomWidth: StyleSheet.hairlineWidth,
       paddingBottom: 16
     };
   }
 
   const openVoucher = () => {
+    recordEvent(constants.bookingsHomeAccordionPassesVoucherClick);
     navigation.navigate("PassVoucher", { pass });
   };
 

@@ -2,8 +2,13 @@ package com.pickyourtrail;
 
 import android.app.Application;
 
-import com.evollu.react.fcm.FIRMessagingPackage;
 import com.facebook.react.ReactApplication;
+import com.avishayil.rnrestart.ReactNativeRestartPackage;
+import com.github.droibit.android.reactnative.customtabs.CustomTabsPackage;
+import io.invertase.firebase.RNFirebasePackage;
+import io.invertase.firebase.messaging.RNFirebaseMessagingPackage;
+import io.invertase.firebase.notifications.RNFirebaseNotificationsPackage;
+import io.invertase.firebase.analytics.RNFirebaseAnalyticsPackage;
 import com.zmxv.RNSound.RNSoundPackage;
 import com.dylanvann.fastimage.FastImageViewPackage;
 import com.rncustomwebview.CustomWebViewPackage;
@@ -34,6 +39,12 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new ReactNativeRestartPackage(),
+            new CustomTabsPackage(),
+            new RNFirebasePackage(),
+            new RNFirebaseMessagingPackage(),
+            new RNFirebaseNotificationsPackage(),
+            new RNFirebaseAnalyticsPackage(),
             new RNSoundPackage(),
             new FastImageViewPackage(),
             new CustomWebViewPackage(),
@@ -43,8 +54,7 @@ public class MainApplication extends Application implements ReactApplication {
             new RNSentryPackage(),
             new SvgPackage(),
             new KeychainPackage(),
-            new LinearGradientPackage(),
-            new FIRMessagingPackage()
+            new LinearGradientPackage()
       );
     }
 

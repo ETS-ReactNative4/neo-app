@@ -1,7 +1,7 @@
 {
   "name": "pickyourtrail",
   "version": "1.0.0",
-  "build": 22,
+  "build": 39,
   "environment": "staging",
   "private": true,
   "scripts": {
@@ -11,11 +11,13 @@
     "run-android": "react-native run-android",
     "run-ios": "react-native run-ios",
     "pod-install": "cd ios && pod install && cd ..",
-    "precommit": "pretty-quick --staged"
+    "precommit": "pretty-quick --staged",
+    "debug": "react-devtools"
   },
   "dependencies": {
     "country-data": "^0.0.31",
     "d3-shape": "^1.2.0",
+    "intl": "^1.2.5",
     "locale-code": "^2.0.1",
     "lodash": "^4.17.5",
     "mobx": "4.2.0",
@@ -30,21 +32,29 @@
       "git://github.com/DaniAkash/react-native-android-sms-listener.git#af305da28ca209626229b7572cda8856fff6b8aa",
     "react-native-app-settings":
       "git://github.com/DaniAkash/react-native-app-settings.git#e1fe1e8358e4d1e907fbb0923bec0fdc72be237a",
-    "react-native-collapsible": "^0.11.2",
+    "react-native-card-stack-swiper":
+      "git://github.com/DaniAkash/react-native-card-stack-swiper.git#1aed50872ed575a037562bd174bf42b853e5001a",
+    "react-native-collapsible": "^1.2.1",
+    "react-native-custom-tabs":
+      "git://github.com/DaniAkash/react-native-custom-tabs.git#a92bfcc1fda8c42a2710249656ae99ee1968ab96",
     "react-native-dash": "^0.0.9",
     "react-native-fast-image": "^5.0.3",
-    "react-native-fcm": "^16.2.3",
+    "react-native-firebase": "^5.0.0",
     "react-native-flip-view-next": "^1.0.0",
     "react-native-htmlview": "^0.12.1",
     "react-native-iphone-x-helper":
       "git://github.com/dsherida/react-native-iphone-x-helper.git#f110e0e093a37892c81a0058afa1e2186dbb3d62",
+    "react-native-keyboard-aware-scroll-view": "^0.7.4",
     "react-native-keychain": "3.0.0",
     "react-native-linear-gradient": "^2.4.0",
     "react-native-modal": "6.5.0",
     "react-native-parallax-scroll-view": "^0.21.0",
+    "react-native-ratings": "^6.0.0",
     "react-native-responsive-dimensions": "2.0.1",
+    "react-native-restart": "^0.0.7",
     "react-native-scrollable-tab-view": "^0.8.0",
     "react-native-sentry": "0.39.0",
+    "react-native-simple-radio-button": "^2.7.3",
     "react-native-sound":
       "git://github.com/DaniAkash/react-native-sound.git#7c8dea53a051b6a1b2b79ba41871d01cc24c1544",
     "react-native-svg": "6.5.2",
@@ -55,6 +65,7 @@
     "react-native-webview-android-file-upload":
       "git://github.com/DaniAkash/react-native-webview-android-file-upload.git#f04c1285ae5d0eb1f62c4cf7cfb454dba55cb8ce",
     "react-navigation": "2.17.0",
+    "title-case": "^2.1.1",
     "uuid": "^3.3.2"
   },
   "devDependencies": {
@@ -71,6 +82,7 @@
     "precommit": "^1.2.2",
     "prettier": "^1.12.1",
     "pretty-quick": "^1.4.1",
+    "react-devtools": "^3.4.2",
     "react-test-renderer": "16.5.0"
   },
   "jest": {

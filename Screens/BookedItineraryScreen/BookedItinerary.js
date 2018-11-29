@@ -19,6 +19,8 @@ import Slot from "./Components/Slot";
 import moment from "moment/moment";
 import BookedItineraryTitle from "./Components/BookedItineraryTitle";
 import CitySelectionMenu from "../../CommonComponents/CitySelectionMenu/CitySelectionMenu";
+import { recordEvent } from "../../Services/analytics/analyticsService";
+import constants from "../../constants/constants";
 
 @inject("appState")
 @inject("itineraries")
@@ -29,7 +31,7 @@ class BookedItinerary extends Component {
       header: (
         <CommonHeader
           TitleComponent={<BookedItineraryTitle />}
-          RightButton={<SearchButton action={() => {}} />}
+          // RightButton={<SearchButton action={() => {}} />}
           title={""}
           navigation={navigation}
         />
@@ -42,7 +44,8 @@ class BookedItinerary extends Component {
     headers: this.props.itineraries.days.map(day => moment(day).format("x")),
     headerPositions: {},
     sections: this.props.itineraries.days.map(day => moment(day).format("x")),
-    sectionPositions: {}
+    sectionPositions: {},
+    isScrollRecorded: false
   };
   _headerScroll = {};
 
@@ -93,6 +96,12 @@ class BookedItinerary extends Component {
       contentOffset: { y, x }
     }
   }) => {
+    if (!this.state.isScrollRecorded) {
+      recordEvent(constants.bookedItineraryContentScroll);
+      this.setState({
+        isScrollRecorded: true
+      });
+    }
     let _currentSection;
     this.state.sections.forEach(section => {
       if (y + responsiveHeight(10) > this.state.sectionPositions[section])
@@ -111,17 +120,17 @@ class BookedItinerary extends Component {
   };
 
   dateSelectedFromModal = date => {
+    recordEvent(constants.bookedItineraryHeaderCityNameClick);
     this.selectDay(date);
   };
 
   componentDidMount() {
-    const selectedDay = this.props.navigation.getParam(
-      "selectedDate",
-      moment(this.props.itineraries.days[0]).format("x")
-    );
-    setTimeout(() => {
-      this.selectDay(selectedDay);
-    }, 350);
+    const selectedDay = this.props.navigation.getParam("selectedDate", 0);
+    if (selectedDay) {
+      setTimeout(() => {
+        this.selectDay(selectedDay);
+      }, 350);
+    }
   }
 
   render() {

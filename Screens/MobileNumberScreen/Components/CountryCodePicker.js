@@ -188,6 +188,7 @@ class CountryCodePicker extends Component {
             sections={this.state.countriesToDisplay}
             ListFooterComponent={this.sectionFooter}
             keyExtractor={(item, index) => index}
+            stickySectionHeadersEnabled={true}
           />
         </SafeAreaView>
       </Modal>

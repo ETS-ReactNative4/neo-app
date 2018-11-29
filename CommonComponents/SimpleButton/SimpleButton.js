@@ -20,7 +20,7 @@ const SimpleButton = ({
 
   if (!containerStyle) containerStyle = {};
 
-  if (textColor) textStyle.color = textColor;
+  if (textColor) textStyle = { ...textStyle, color: textColor };
 
   if (color) containerStyle.backgroundColor = color;
 

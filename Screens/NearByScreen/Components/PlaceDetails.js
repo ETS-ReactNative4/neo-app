@@ -9,9 +9,8 @@ import {
 import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraProps";
 import PropTypes from "prop-types";
 import constants from "../../../constants/constants";
-import StarRating from "../../../CommonComponents/StarRating/StarRating";
-import SimpleButton from "../../../CommonComponents/SimpleButton/SimpleButton";
-import { responsiveWidth } from "react-native-responsive-dimensions";
+import { Rating } from "react-native-ratings";
+import createReadableText from "../../../Services/createReadableText/createReadableText";
 
 const PlaceDetails = ({
   name,
@@ -19,13 +18,13 @@ const PlaceDetails = ({
   ratingCount,
   type,
   isClosed,
-  closesAt,
   opensAt,
   distance,
   containerStyle,
   action,
-  address,
-  isDetailed
+  formattedAddress,
+  isDetailed,
+  fromLocation
 }) => {
   if (!containerStyle) containerStyle = {};
   return (
@@ -37,40 +36,49 @@ const PlaceDetails = ({
       <View
         style={[
           styles.titleContainer,
-          isDetailed ? { marginTop: 24, marginBottom: 0 } : null
+          isDetailed ? { marginTop: 24, marginBottom: 0 } : { marginTop: 8 }
         ]}
       >
         <Text
           style={[styles.titleText, isDetailed ? styles.detailedTitle : null]}
+          numberOfLines={2}
+          ellipsizeMode={"tail"}
         >
           {name}
         </Text>
-        {!isDetailed ? (
-          <Text style={styles.distanceText}>{distance}</Text>
+        {!isDetailed && distance ? (
+          <Text style={styles.distanceText}>{`${distance.toFixed(1)} km`}</Text>
         ) : null}
       </View>
       <View
         style={[styles.ratingContainer, isDetailed ? { height: 20 } : null]}
       >
-        <StarRating
-          containerStyle={{ height: isDetailed ? 18 : 16 }}
-          starSize={isDetailed ? 18 : 16}
-          rating={4}
-        />
+        {rating ? (
+          <Rating
+            type="star"
+            startingValue={rating}
+            readonly
+            imageSize={isDetailed ? 18 : 16}
+          />
+        ) : null}
         <Text
           style={[styles.ratingText, isDetailed ? styles.detailedText : null]}
-        >{`(${ratingCount}). ${type}`}</Text>
+        >{`${ratingCount ? `(${ratingCount}) ` : ""}${createReadableText(
+          type
+        )}`}</Text>
       </View>
       {isDetailed ? (
         <View style={styles.addressTextWrapper}>
-          <Text style={styles.addressText}>{address}</Text>
+          <Text style={styles.addressText}>{formattedAddress}</Text>
         </View>
       ) : null}
-      {isDetailed ? (
+      {isDetailed && distance ? (
         <View style={styles.distanceTextWrapper}>
-          <Text
-            style={styles.detailedDistanceText}
-          >{`${distance} from your current location`}</Text>
+          <Text style={styles.detailedDistanceText}>{`${distance.toFixed(
+            1
+          )} km from your ${
+            fromLocation === "nearby" ? "current location" : "hotel"
+          }`}</Text>
         </View>
       ) : null}
       <View style={styles.statusContainer}>
@@ -80,7 +88,8 @@ const PlaceDetails = ({
           <Text style={styles.closedText}>
             {isClosed ? `Closed Now. ` : ""}
           </Text>
-          {`${isClosed ? `${opensAt}` : `${closesAt}`}`}
+          <Text style={styles.openText}>{!isClosed ? `Open Now. ` : ""}</Text>
+          {opensAt}
         </Text>
       </View>
     </TouchableOpacity>
@@ -88,18 +97,18 @@ const PlaceDetails = ({
 };
 
 PlaceDetails.propTypes = forbidExtraProps({
-  name: PropTypes.string.isRequired,
-  rating: PropTypes.number.isRequired,
-  ratingCount: PropTypes.number.isRequired,
-  type: PropTypes.string.isRequired,
-  isClosed: PropTypes.bool.isRequired,
-  closesAt: PropTypes.string.isRequired,
-  opensAt: PropTypes.string.isRequired,
-  distance: PropTypes.string.isRequired,
-  containerStyle: PropTypes.object,
-  action: PropTypes.func.isRequired,
-  address: PropTypes.string.isRequired,
-  isDetailed: PropTypes.bool
+  name: PropTypes.string,
+  rating: PropTypes.number,
+  ratingCount: PropTypes.number,
+  type: PropTypes.string,
+  isClosed: PropTypes.bool,
+  opensAt: PropTypes.string,
+  distance: PropTypes.string,
+  containerStyle: PropTypes,
+  action: PropTypes.func,
+  formattedAddress: PropTypes.string,
+  isDetailed: PropTypes.bool,
+  fromLocation: PropTypes.string
 });
 
 const styles = StyleSheet.create({
@@ -107,7 +116,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 24
   },
   titleContainer: {
-    height: 24,
+    minHeight: 24,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
@@ -123,7 +132,7 @@ const styles = StyleSheet.create({
   },
   distanceText: {
     ...constants.fontCustom(constants.primarySemiBold, 13),
-    color: "rgba(74,144,226,1)"
+    color: constants.eighthColor
   },
   detailedText: {
     fontSize: 15,
@@ -165,7 +174,7 @@ const styles = StyleSheet.create({
   },
   detailedDistanceText: {
     ...constants.fontCustom(constants.primaryLight, 15),
-    color: "rgba(74,144,226,1)"
+    color: constants.eighthColor
   },
   statusContainer: {
     height: 16,
@@ -179,6 +188,9 @@ const styles = StyleSheet.create({
   },
   closedText: {
     color: "rgba(255,87,109,1)"
+  },
+  openText: {
+    color: constants.firstColor
   }
 });
 

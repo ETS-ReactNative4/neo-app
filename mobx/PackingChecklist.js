@@ -27,10 +27,13 @@ class PackingChecklist {
 
   @action
   selectPackingChecklist = itinerary_id => {
-    const checklist = this._allPackingChecklists.find(
+    const checklistObject = this._allPackingChecklists.find(
       checklist => checklist.itinerary_id === itinerary_id
     );
-    if (checklist) this._packingCheckList = checklist;
+    if (checklistObject) {
+      this._packingCheckList = checklistObject.checklist;
+      this._yourList = checklistObject.myList;
+    }
     this.getPackingChecklist(itinerary_id);
   };
 
@@ -39,11 +42,12 @@ class PackingChecklist {
     if (_.isEmpty(this._checkListItems)) {
       this.loadChecklistItems();
     }
-    const requestBody = {
-      itinerary_id
-    };
     this._isLoading = true;
-    apiCall(constants.getPackingChecklist, requestBody)
+    apiCall(
+      `${constants.getPackingChecklist}?itineraryId=${itinerary_id}`,
+      {},
+      "GET"
+    )
       .then(response => {
         this._isLoading = false;
         if (response.status === "SUCCESS") {
@@ -55,7 +59,8 @@ class PackingChecklist {
           );
           this._allPackingChecklists.push({
             itinerary_id,
-            checklist: response.data.checkListCategoryUser
+            checklist: response.data.checkListCategoryUser,
+            myList: response.data.myList
           });
         } else {
           this._hasError = true;
@@ -276,7 +281,7 @@ class PackingChecklist {
         };
       });
 
-      const myList = !this._yourList
+      const myList = _.isEmpty(toJS(this._yourList))
         ? []
         : Object.keys(this._yourList).map((item, itemIndex) => {
             return {
@@ -295,7 +300,7 @@ class PackingChecklist {
         key: `${myList.length}`
       });
 
-      checkList.push({
+      checkList.unshift({
         title: constants.customCheckListName,
         data: myList
       });

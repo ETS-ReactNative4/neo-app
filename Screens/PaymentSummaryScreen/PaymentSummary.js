@@ -16,7 +16,10 @@ import Icon from "../../CommonComponents/Icon/Icon";
 import SimpleButton from "../../CommonComponents/SimpleButton/SimpleButton";
 import apiCall from "../../Services/networkRequests/apiCall";
 import Loader from "../../CommonComponents/Loader/Loader";
+import moment from "moment";
 import paymentScript from "./Components/paymentScript";
+import getLocaleString from "../../Services/getLocaleString/getLocaleString";
+import VoucherAccordion from "../VoucherScreens/Components/VoucherAccordion";
 
 /**
  * TODO: Need data from previous api
@@ -31,9 +34,16 @@ class PaymentSummary extends Component {
   };
 
   state = {
-    paymentInfo: [],
+    paymentInfo: {},
     isLoading: false,
-    isPaymentLoading: false
+    isPaymentLoading: false,
+    itineraryName: "",
+    tripId: "",
+    nextPendingDate: "",
+    itineraryTotalCost: "",
+    totalAmountPaid: "",
+    paymentDue: "",
+    isFirstLoad: true
   };
   _didFocusSubscription;
 
@@ -43,8 +53,13 @@ class PaymentSummary extends Component {
     this._didFocusSubscription = props.navigation.addListener(
       "didFocus",
       () => {
-        console.log("Focusing Summary....");
-        this.loadPaymentData();
+        if (this.state.isFirstLoad) {
+          this.setState({
+            isFirstLoad: false
+          });
+        } else {
+          this.loadPaymentData();
+        }
       }
     );
   }
@@ -60,15 +75,29 @@ class PaymentSummary extends Component {
   apiFailure = () => {};
 
   loadPaymentData = () => {
+    const itineraryId = this.props.navigation.getParam("itineraryId", "");
+    const paymentDetails = this.props.navigation.getParam("paymentDetails", {});
+    const itineraryName = this.props.navigation.getParam("itineraryName", "");
+    this.setState({
+      tripId: `PYT${itineraryId.substr(itineraryId.length - 7).toUpperCase()}`,
+      itineraryName,
+      nextPendingDate: moment(paymentDetails.nextPendingDate).format(
+        "MM/DD/YYYY"
+      ),
+      itineraryTotalCost: getLocaleString(paymentDetails.itineraryTotalCost),
+      totalAmountPaid: getLocaleString(paymentDetails.totalAmountPaid),
+      paymentDue: getLocaleString(paymentDetails.paymentDue)
+    });
     this.setState({
       isLoading: true
     });
-    const itineraryId = this.props.navigation.getParam("itineraryId", "");
     apiCall(constants.getPaymentInfo.replace(":itineraryId", itineraryId))
       .then(response => {
-        this.setState({
-          isLoading: false
-        });
+        setTimeout(() => {
+          this.setState({
+            isLoading: false
+          });
+        }, 1000);
         if (response.status === "SUCCESS") {
           this.setState({
             paymentInfo: response.data
@@ -102,14 +131,16 @@ class PaymentSummary extends Component {
           },
           () => {
             if (response.status === "SUCCESS") {
+              const transactionId = response.data.transactionId;
               const paymentScriptJs = paymentScript({
                 ...response.data,
                 successUrl: constants.paymentSuccess,
                 failureUrl: constants.paymentFailure,
-                cancelUrl: constants.paymentFailure
+                cancelUrl: constants.paymentCancelled
               });
               this.props.navigation.navigate("PaymentScreen", {
-                paymentScript: paymentScriptJs
+                paymentScript: paymentScriptJs,
+                transactionId
               });
             } else {
               this.apiFailure();
@@ -129,39 +160,107 @@ class PaymentSummary extends Component {
     const tripId = [
       {
         name: "Trip ID",
-        value: "PYT283049"
+        value: this.state.tripId
+      }
+    ];
+    const { paymentInfo } = this.state;
+    const { productPayments, platoPayements } = paymentInfo;
+
+    const paymentOptions = productPayments
+      ? productPayments.reduce((detailsArray, amount) => {
+          if (amount.paymentStatus === "PENDING") {
+            const data = {
+              amount: `₹ ${amount.paymentAmount}`,
+              percentage: `${amount.percent}% of total cost`,
+              action: () => this.initiatePayment(amount.paymentType)
+            };
+            detailsArray.push(data);
+          }
+          return detailsArray;
+        }, [])
+      : [];
+
+    const paymentHistory = productPayments
+      ? productPayments.reduce((detailsArray, amount) => {
+          if (amount.paymentStatus === "SUCCESS") {
+            const data = {
+              paymentAmount: `₹ ${amount.paymentAmount}`,
+              transactionId: amount.transactionId,
+              mode: "PayU",
+              date: amount.paidOn
+            };
+            detailsArray.push(data);
+          }
+          return detailsArray;
+        }, [])
+      : platoPayements && platoPayements.paidInstallments
+        ? platoPayments.paidInstallments.reduce((detailsArray, amount) => {
+            detailsArray.push({
+              paymentAmount: getLocaleString(amount.amount),
+              transactionId: amount.transactionId,
+              mode: "Offline",
+              date: moment(amount.paymentTime)
+            });
+            return detailsArray;
+          }, [])
+        : [];
+
+    const paymentLedger = [
+      {
+        name: "Payment History",
+        component: (
+          <View>
+            {paymentHistory.map((payment, paymentIndex) => {
+              const paymentSectionData = [
+                {
+                  name: "Date",
+                  value: payment.date
+                },
+                {
+                  name: "Mode",
+                  value: payment.mode
+                },
+                {
+                  name: "Transaction ID",
+                  value: payment.transactionId
+                },
+                {
+                  name: "Amount",
+                  value: payment.paymentAmount
+                }
+              ];
+              return (
+                <View key={paymentIndex} style={styles.historySplitContainer}>
+                  <VoucherSplitSection sections={paymentSectionData} />
+                </View>
+              );
+            })}
+          </View>
+        )
       }
     ];
 
-    const paymentOptions = this.state.paymentInfo.reduce(
-      (detailsArray, amount) => {
-        if (amount.paymentStatus === "PENDING") {
-          const data = {
-            amount: `₹ ${amount.paymentAmount}`,
-            percentage: `${amount.percent}% of total cost`,
-            action: () => this.initiatePayment(amount.paymentType)
-          };
-          detailsArray.push(data);
-        }
-        return detailsArray;
-      },
-      []
-    );
-
-    const amountDetails = [
+    let amountDetails = [
       {
         name: "Total cost",
-        value: "₹ 1,83,940"
-      },
-      {
-        name: "Amount paid",
-        value: "₹ 1,83,940"
-      },
-      {
-        name: "Amount pending",
-        value: "₹ 1,83,940"
+        value: this.state.itineraryTotalCost
       }
     ];
+
+    const isPaymentComplete = !paymentOptions.length;
+    if (!isPaymentComplete) {
+      amountDetails = [
+        ...amountDetails,
+        {
+          name: "Amount paid",
+          value: this.state.totalAmountPaid
+        },
+        {
+          name: "Amount pending",
+          value: this.state.paymentDue
+        }
+      ];
+    }
 
     return (
       <ScrollView
@@ -176,89 +275,89 @@ class PaymentSummary extends Component {
         }
       >
         <Loader isVisible={this.state.isPaymentLoading} />
-        <Text style={styles.titleText}>Anand’s 10nights trip to Europe</Text>
+        <Text style={styles.titleText}>{this.state.itineraryName}</Text>
 
         <VoucherSplitSection
           sections={tripId}
           containerStyle={{
-            borderBottomWidth: 2,
+            borderBottomWidth: StyleSheet.hairlineWidth,
             borderBottomColor: constants.shade4,
-            marginTop: 24
+            marginTop: 24,
+            marginHorizontal: 24
           }}
         />
 
         <VoucherSplitSection
           sections={amountDetails}
           containerStyle={{
-            borderBottomWidth: 2,
+            borderBottomWidth: StyleSheet.hairlineWidth,
             borderBottomColor: constants.shade4,
-            marginTop: 24
+            marginTop: 24,
+            marginHorizontal: 24,
+            paddingBottom: 16
           }}
         />
 
         <View style={styles.dueDateWrapper}>
-          <Text style={styles.dueDate}>Due date for next payment mm/dd/yy</Text>
+          <Text style={styles.dueDate}>
+            {isPaymentComplete
+              ? "Payment Completed!"
+              : `Due date for next payment ${this.state.nextPendingDate}`}
+          </Text>
         </View>
 
-        <Text style={styles.paymentTitle}>Choose Payment</Text>
+        {isPaymentComplete
+          ? null
+          : [
+              <Text key={0} style={styles.paymentTitle}>
+                Choose Payment
+              </Text>,
+              <View key={1} style={styles.paymentOptionsBox}>
+                {paymentOptions.map((paymentOption, optionKey) => {
+                  const isLast = paymentOptions.length === optionKey + 1;
+                  return (
+                    <TouchableOpacity
+                      onPress={paymentOption.action}
+                      style={[
+                        styles.optionButton,
+                        !isLast
+                          ? {
+                              borderBottomWidth: StyleSheet.hairlineWidth,
+                              borderBottomColor: constants.shade3
+                            }
+                          : null
+                      ]}
+                      key={optionKey}
+                    >
+                      <View>
+                        <Text style={styles.amountText}>
+                          {paymentOption.amount}
+                        </Text>
+                        <Text style={styles.percentageText}>
+                          {paymentOption.percentage}
+                        </Text>
+                      </View>
+                      <View>
+                        <Icon
+                          name={constants.arrowRight}
+                          size={16}
+                          color={constants.shade2}
+                        />
+                      </View>
+                    </TouchableOpacity>
+                  );
+                })}
+              </View>
+            ]}
 
-        <View style={styles.paymentOptionsBox}>
-          {paymentOptions.map((paymentOption, optionKey) => {
-            const isLast = paymentOptions.length === optionKey + 1;
-            return (
-              <TouchableOpacity
-                onPress={paymentOption.action}
-                style={[
-                  styles.optionButton,
-                  !isLast
-                    ? {
-                        borderBottomWidth: 1,
-                        borderBottomColor: constants.shade3
-                      }
-                    : null
-                ]}
-                key={optionKey}
-              >
-                <View>
-                  <Text style={styles.amountText}>{paymentOption.amount}</Text>
-                  <Text style={styles.percentageText}>
-                    {paymentOption.percentage}
-                  </Text>
-                </View>
-                <View>
-                  <Icon
-                    name={constants.arrowRight}
-                    size={16}
-                    color={constants.shade2}
-                  />
-                </View>
-              </TouchableOpacity>
-            );
-          })}
-        </View>
-
-        <View style={styles.actionRow}>
-          <SimpleButton
-            text={"Support"}
-            containerStyle={{ width: responsiveWidth(43), borderWidth: 0.5 }}
-            action={() => {}}
-            color={"transparent"}
-            textColor={constants.black2}
-            hasBorder={true}
-            icon={constants.compassIcon}
-            iconSize={16}
+        {paymentHistory.length ? (
+          <VoucherAccordion
+            containerStyle={{
+              marginHorizontal: 24
+            }}
+            sections={paymentLedger}
           />
-          <SimpleButton
-            text={"Invoice"}
-            containerStyle={{ width: responsiveWidth(43), borderWidth: 0.5 }}
-            action={() => {}}
-            color={"transparent"}
-            textColor={constants.black2}
-            hasBorder={true}
-            icon={constants.callIcon}
-            iconSize={16}
-          />
-        </View>
+        ) : null}
       </ScrollView>
     );
   }
@@ -266,8 +365,7 @@ class PaymentSummary extends Component {
 
 const styles = StyleSheet.create({
   summaryContainer: {
-    backgroundColor: "white",
-    paddingHorizontal: 24
+    backgroundColor: "white"
   },
   titleText: {
     alignSelf: "center",
@@ -279,9 +377,10 @@ const styles = StyleSheet.create({
     width: responsiveWidth(100) - 48,
     paddingTop: 16,
     paddingBottom: 12,
-    borderBottomWidth: 2,
+    borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: constants.shade4,
-    alignSelf: "center"
+    alignSelf: "center",
+    marginHorizontal: 24
   },
   dueDate: {
     alignSelf: "center",
@@ -291,14 +390,16 @@ const styles = StyleSheet.create({
   paymentTitle: {
     marginTop: 19,
     ...constants.fontCustom(constants.primarySemiBold, 20),
-    color: constants.black1
+    color: constants.black1,
+    marginHorizontal: 24
   },
   paymentOptionsBox: {
     marginTop: 8,
     backgroundColor: constants.firstColorBackground,
     borderRadius: 3,
-    borderWidth: 1,
-    borderColor: constants.shade3
+    borderWidth: StyleSheet.hairlineWidth,
+    borderColor: constants.shade3,
+    marginHorizontal: 24
   },
   optionButton: {
     flexDirection: "row",
@@ -319,8 +420,13 @@ const styles = StyleSheet.create({
   actionRow: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between",
+    justifyContent: "center",
     paddingVertical: 24
+  },
+  historySplitContainer: {
+    marginTop: 8,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomColor: constants.shade4
   }
 });
 

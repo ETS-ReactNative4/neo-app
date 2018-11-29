@@ -2,6 +2,8 @@ import React from "react";
 import { View, Text, StyleSheet, Image } from "react-native";
 import PropTypes from "prop-types";
 import constants from "../../../constants/constants";
+import Icon from "../../../CommonComponents/Icon/Icon";
+import getWeatherIcon from "../../../Services/getWeatherIcon/getWeatherIcon";
 
 const WeatherCard = ({
   location,
@@ -28,7 +30,9 @@ const WeatherCard = ({
       </View>
       <View style={styles.imageContainer}>
         <Text style={styles.temperature}>{temperature}</Text>
-        <Image style={styles.temperatureIcon} source={weatherIcon} />
+        <View style={styles.temperatureIcon}>
+          <Icon name={getWeatherIcon(weatherIcon)} size={46} />
+        </View>
       </View>
     </View>
   );
@@ -83,7 +87,9 @@ const styles = StyleSheet.create({
   },
   temperatureIcon: {
     height: 46,
-    width: 46
+    width: 46,
+    alignItems: "center",
+    justifyContent: "center"
   }
 });
 

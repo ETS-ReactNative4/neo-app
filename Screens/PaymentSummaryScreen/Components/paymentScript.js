@@ -26,6 +26,7 @@ const paymentScript = ({
   cancelUrl
 }) => {
   return `
+  localStorage.setItem("mobileAppDetails", true);
   var $payUForm = document.querySelector('#payUPaymentForm');
   $payUForm.action = "${url}";
   var $key = document.querySelector('#key');

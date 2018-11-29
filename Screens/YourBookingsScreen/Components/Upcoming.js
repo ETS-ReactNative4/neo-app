@@ -15,9 +15,10 @@ import constants from "../../../constants/constants";
 import { inject, observer } from "mobx-react/custom";
 import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraProps";
 import { NavigationActions, StackActions } from "react-navigation";
-const resetAction = StackActions.reset({
-  index: 0,
-  actions: [NavigationActions.navigate({ routeName: "AppHome" })]
+import { recordEvent } from "../../../Services/analytics/analyticsService";
+const resetAction = NavigationActions.navigate({
+  routeName: "AppHome",
+  action: NavigationActions.navigate({ routeName: "BookedItineraryTabs" })
 });
 
 @inject("appState")
@@ -33,19 +34,16 @@ class Upcoming extends Component {
   };
 
   selectItinerary = itineraryId => {
+    recordEvent(constants.yourBookingsSelectItineraryClick);
     const { selectItinerary } = this.props.itineraries;
-    const { activeScenes } = this.props.appState;
-    const previousScene = activeScenes[activeScenes.length - 2];
     selectItinerary(itineraryId);
-    if (Platform.OS === "android") {
-      if (!previousScene) {
-        this.props.appState.setTripMode(true, "reset");
-        this.props.navigation.dispatch(resetAction);
-      } else {
-        this.props.appState.setTripMode(true);
-      }
-    } else {
+    const routeName = this.props.navigation.state.routeName;
+    if (routeName === "YourBookings") {
       this.props.appState.setTripMode(true);
+      this.props.navigation.dispatch(resetAction);
+    } else if (routeName === "YourBookingsUniversal") {
+      this.props.appState.setTripMode(true);
+      this.props.navigation.navigate("BookedItineraryTabs");
     }
   };
 
@@ -65,7 +63,7 @@ class Upcoming extends Component {
           <EmptyListPlaceholder
             text={`No active bookings found on this number. If the booking is made by someone else, you need an invite from them to proceed.`}
             containerStyle={{
-              borderTopWidth: 1,
+              borderTopWidth: StyleSheet.hairlineWidth,
               borderTopColor: constants.shade4,
               marginHorizontal: 24
             }}

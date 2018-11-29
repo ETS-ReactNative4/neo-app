@@ -12,6 +12,7 @@ import constants from "../../../../../constants/constants";
 import { responsiveWidth } from "react-native-responsive-dimensions";
 import ActivityDotRow from "./ActivityDotRow";
 import TransferIcon from "./TransferIcon";
+import { recordEvent } from "../../../../../Services/analytics/analyticsService";
 
 const Date = ({
   day,
@@ -49,8 +50,13 @@ const Date = ({
     <TouchableOpacity
       activeOpacity={1}
       onPress={() => {
+        if (dateIndex !== -1) {
+          recordEvent(constants.bookingsHomeCalendarDateClick);
+        } else {
+          recordEvent(constants.bookingsHomeCalendarNoEventClick);
+        }
         navigation.navigate("BookedItinerary", {
-          selectedDate: date
+          selectedDate: dateIndex !== -1 ? date : 0
         });
       }}
     >
