@@ -1,5 +1,12 @@
 import React, { Component } from "react";
-import { View, FlatList, StyleSheet, TextInput, Keyboard } from "react-native";
+import {
+  View,
+  FlatList,
+  StyleSheet,
+  TextInput,
+  Keyboard,
+  Platform
+} from "react-native";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import ConversationCard from "./Components/ConversationCard";
 import constants from "../../constants/constants";
@@ -67,43 +74,45 @@ class TicketsConversation extends Component {
   onEditText = messageText => this.setState({ messageText });
 
   sendMessage = () => {
-    const ticketId = this.props.navigation.getParam("ticketId", "");
-    const { setError } = this.props.infoStore;
-    const { addMessageToConversation } = this.props.supportStore;
-    const { selectedItineraryId } = this.props.itineraries;
-    const { userDetails } = this.props.userStore;
-    const requestObject = {
-      itineraryId: selectedItineraryId,
-      msg: this.state.messageText,
-      ticketId
-    };
-    apiCall(constants.sendTicketMessage, requestObject)
-      .then(response => {
-        if (response.status === "SUCCESS") {
-          Keyboard.dismiss();
-          const messageObject = {
-            userEmail: userDetails.email,
-            msg: this.state.messageText,
-            msgId: uuidv4(),
-            msgTime: moment().valueOf()
-          };
-          addMessageToConversation(ticketId, messageObject);
-          this.setState({
-            messageText: ""
-          });
-        } else {
+    if (this.state.messageText) {
+      const ticketId = this.props.navigation.getParam("ticketId", "");
+      const { setError } = this.props.infoStore;
+      const { addMessageToConversation } = this.props.supportStore;
+      const { selectedItineraryId } = this.props.itineraries;
+      const { userDetails } = this.props.userStore;
+      const requestObject = {
+        itineraryId: selectedItineraryId,
+        msg: this.state.messageText,
+        ticketId
+      };
+      apiCall(constants.sendTicketMessage, requestObject)
+        .then(response => {
+          if (response.status === "SUCCESS") {
+            Keyboard.dismiss();
+            const messageObject = {
+              userEmail: userDetails.email,
+              msg: this.state.messageText,
+              msgId: uuidv4(),
+              msgTime: moment().valueOf()
+            };
+            addMessageToConversation(ticketId, messageObject);
+            this.setState({
+              messageText: ""
+            });
+          } else {
+            setError(
+              "Unable to send message!",
+              "Looks like something went wrong, please try again after sometime..."
+            );
+          }
+        })
+        .catch(error => {
           setError(
             "Unable to send message!",
             "Looks like something went wrong, please try again after sometime..."
           );
-        }
-      })
-      .catch(error => {
-        setError(
-          "Unable to send message!",
-          "Looks like something went wrong, please try again after sometime..."
-        );
-      });
+        });
+    }
   };
 
   render() {
@@ -154,12 +163,18 @@ class TicketsConversation extends Component {
             containerStyle={{
               width: 24,
               marginRight: 16,
-              marginLeft: 8
+              marginLeft: 8,
+              ...Platform.select({
+                android: {
+                  marginTop: 12,
+                  marginLeft: 16
+                }
+              })
             }}
             color={"transparent"}
             action={this.sendMessage}
             icon={constants.arrowRight}
-            iconSize={24}
+            iconSize={Platform.OS === "ios" ? 24 : 28}
             textColor={constants.shade3}
           />
         </KeyboardAvoidingActionBar>
