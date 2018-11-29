@@ -22,6 +22,7 @@ class AppState {
       deviceToken: ""
     };
     this._currencies = {};
+    this._isChatNotificationActive = false;
   };
 
   /**
@@ -262,6 +263,26 @@ class AppState {
   @action
   setConnectionStatus = status => {
     this._isConnected = status;
+  };
+
+  /**
+   * Chat Notification
+   */
+  @observable _isChatNotificationActive = false;
+
+  @computed
+  get isChatNotificationActive() {
+    return this._isChatNotificationActive;
+  }
+
+  @action
+  setChatNotification = () => {
+    this._isChatNotificationActive = true;
+  };
+
+  @action
+  clearChatNotification = () => {
+    this._isChatNotificationActive = false;
   };
 }
 
