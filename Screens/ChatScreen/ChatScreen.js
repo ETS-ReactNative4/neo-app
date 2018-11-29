@@ -4,7 +4,6 @@ import { isIphoneX } from "react-native-iphone-x-helper";
 import CustomWebView from "react-native-webview-android-file-upload";
 import constants from "../../constants/constants";
 import { inject, observer } from "mobx-react/custom";
-import crispSDK from "./Components/crispSDK";
 import BackButtonIos from "../../CommonComponents/BackButtonIos/BackButtonIos";
 import ControlledWebView from "../../CommonComponents/ControlledWebView/ControlledWebView";
 import UnableToUseChat from "./Components/UnableToUseChat";
@@ -20,7 +19,6 @@ class ChatScreen extends Component {
   state = {
     canGoBack: false,
     keyboardVisible: false,
-    injectedJavascript: "",
     isChatActive: true
   };
   _webView = React.createRef();
@@ -62,11 +60,7 @@ class ChatScreen extends Component {
   }
 
   onNavigationStateChange = navState => {
-    const { userDetails } = this.props.userStore;
-    const { selectedItineraryId } = this.props.itineraries;
-    const { email } = userDetails;
     this.setState({
-      injectedJavascript: crispSDK(email, selectedItineraryId),
       canGoBack: navState.canGoBack
     });
   };
@@ -120,6 +114,8 @@ class ChatScreen extends Component {
       recordEvent(constants.chatOpenSupportCenterClick);
       this.props.navigation.navigate("SupportCenter");
     };
+    const { userDetails } = this.props.userStore;
+    const { email } = userDetails;
 
     return isChatActive ? (
       isConnected ? (
@@ -132,14 +128,13 @@ class ChatScreen extends Component {
           }}
         >
           <ControlledWebView
-            source={{ uri: constants.crispServerUrl }}
+            source={{ uri: constants.crispServerUrl(email) }}
             onNavigationStateChange={this.onNavigationStateChange}
             style={{
               flex: 1,
               marginTop: isIphoneX() ? constants.xNotchHeight : 0
             }}
             webviewRef={e => (this._webView = e)}
-            injectedJavascript={this.state.injectedJavascript}
           />
           {Platform.OS === "ios" ? (
             <BackButtonIos

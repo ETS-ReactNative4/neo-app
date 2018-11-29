@@ -58,7 +58,7 @@ ControlledWebView.propTypes = forbidExtraProps({
   onNavigationStateChange: PropTypes.func.isRequired,
   style: PropTypes.object.isRequired,
   webviewRef: PropTypes.func.isRequired,
-  injectedJavascript: PropTypes.string.isRequired,
+  injectedJavascript: PropTypes.string,
   hideLoadingIndicator: PropTypes.bool
 });
 

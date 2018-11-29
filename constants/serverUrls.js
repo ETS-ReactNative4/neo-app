@@ -44,8 +44,10 @@ const serverUrls = {
   googleTranslateTts: (phrase, language) =>
     `https://translate.google.com.vn/translate_tts?ie=UTF-8&q=${phrase}&tl=${language}&client=tw-ob`,
   airlineCdn: "https://d3lf10b5gahyby.cloudfront.net/airline_logos/",
-  crispServerUrl:
-    "https://go.crisp.chat/chat/embed/?website_id=a04827ba-5aa9-4540-866f-e1850a0476eb",
+  crispServerUrl: email =>
+    encodeURI(
+      `https://go.crisp.chat/chat/embed/?website_id=a04827ba-5aa9-4540-866f-e1850a0476eb&user_email=${email}`
+    ),
   offlineContact: "+91 8939891682",
 
   /**
