@@ -16,11 +16,21 @@ import {
   screenTracker
 } from "./Services/analytics/analyticsService";
 import PackageInfo from "./package.json";
+import {
+  getInitialNotification,
+  onNotificationDisplayed,
+  onNotificationOpened,
+  onNotificationReceived
+} from "./Services/fcmService/fcm";
 
 class App extends Component {
   state = {
     _errorShown: false
   };
+  _onNotificationReceived;
+  _onNotificationDisplayed;
+  _onNotificationOpened;
+  _getInitialNotification;
 
   componentDidMount() {
     UIManager.setLayoutAnimationEnabledExperimental &&
@@ -34,6 +44,11 @@ class App extends Component {
     // } else {
     //   disableAnalytics();
     // }
+
+    this._onNotificationDisplayed = onNotificationDisplayed;
+    this._onNotificationReceived = onNotificationReceived;
+    this._onNotificationOpened = onNotificationOpened;
+    this._getInitialNotification = getInitialNotification;
   }
 
   componentDidCatch(error) {
@@ -58,6 +73,13 @@ class App extends Component {
       "Restart!",
       RNRestart.Restart
     );
+  }
+
+  componentWillUnmount() {
+    this._onNotificationReceived && this._onNotificationReceived();
+    this._onNotificationDisplayed && this._onNotificationDisplayed();
+    this._onNotificationOpened && this._onNotificationOpened();
+    this._getInitialNotification && this._getInitialNotification();
   }
 
   render() {
