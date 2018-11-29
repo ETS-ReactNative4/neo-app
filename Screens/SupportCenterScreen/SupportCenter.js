@@ -1,5 +1,11 @@
 import React, { Component } from "react";
-import { View, StyleSheet, ScrollView, Image } from "react-native";
+import {
+  View,
+  StyleSheet,
+  ScrollView,
+  Image,
+  RefreshControl
+} from "react-native";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import FaqSectionTile from "./Components/FaqSectionTile";
 import ContactUsTile from "./Components/ContactUsTile";
@@ -28,7 +34,12 @@ class SupportCenter extends Component {
 
   render() {
     const { navigation } = this.props;
-    const { faqDetails, conversations } = this.props.supportStore;
+    const {
+      faqDetails,
+      conversations,
+      loadConversation,
+      isConversationLoading
+    } = this.props.supportStore;
 
     const faqSections = Object.keys(faqDetails).map(faqSection => {
       return {
@@ -39,18 +50,30 @@ class SupportCenter extends Component {
 
     return (
       <View style={styles.supportCenterContainer}>
-        <ScrollView style={styles.supportScroll}>
+        <ScrollView
+          refreshControl={
+            <RefreshControl
+              refreshing={isConversationLoading}
+              onRefresh={() => loadConversation()}
+            />
+          }
+          style={styles.supportScroll}
+        >
           <Image
             source={constants.helpSupportIllus}
             resizeMode={"contain"}
             style={styles.supportIllustration}
           />
           {conversations.length ? (
-            <TicketTile action={() => navigation.navigate("YourTickets")} />
+            <TicketTile
+              containerStyle={{ marginHorizontal: 24 }}
+              action={() => navigation.navigate("YourTickets")}
+            />
           ) : null}
           {faqSections.map((faqSection, faqIndex) => {
             return (
               <FaqSectionTile
+                containerStyle={{ marginHorizontal: 24 }}
                 onClick={faqSection.onClick}
                 key={faqIndex}
                 sectionName={faqSection.sectionName}
@@ -69,12 +92,11 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "white"
   },
-  supportScroll: {
-    paddingHorizontal: 24
-  },
+  supportScroll: {},
   supportIllustration: {
     height: responsiveHeight(40),
-    width: responsiveWidth(100) - 48
+    width: responsiveWidth(100) - 48,
+    marginHorizontal: 24
   }
 });
 
