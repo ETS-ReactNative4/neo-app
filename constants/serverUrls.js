@@ -4,14 +4,14 @@ const apiServers = {
   localServer: "http://192.168.0.5:8080/api/",
   devServer: "https://dev.pickyourtrail.com/api/",
   stagingSever: "https://staging.pickyourtrail.com/api/",
-  prodServer: ""
+  prodServer: "https://pickyourtrail.com/api/"
 };
 
 const productUrls = {
   localProductUrl: "http://192.168.0.5:8080/",
   devProductUrl: "https://dev.pickyourtrail.com/",
   stagingProductUrl: "https://staging.pickyourtrail.com/",
-  prodProductUrl: ""
+  prodProductUrl: "https://pickyourtrail.com/"
 };
 
 let apiServerUrl, productUrl;
