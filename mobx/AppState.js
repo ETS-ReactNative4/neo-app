@@ -9,6 +9,7 @@ import { logError } from "../Services/errorLogger/errorLogger";
 import navigationService from "../Services/navigationService/navigationService";
 import DebouncedAlert from "../CommonComponents/DebouncedAlert/DebouncedAlert";
 import storeService from "../Services/storeService/storeService";
+import * as Keychain from "react-native-keychain";
 
 class AppState {
   @action
@@ -224,24 +225,28 @@ class AppState {
       uid: this._pushTokens.uid,
       deviceToken
     };
-    apiCall(constants.registerDeviceToken, requestBody)
-      .then(response => {
-        if (response.status === "SUCCESS") {
-          this._pushTokens.deviceToken = deviceToken;
-        } else {
-          this._pushTokens = {
-            uid: uuidv4(),
-            deviceToken: ""
-          };
-        }
-      })
-      .catch(err => {
-        this._pushTokens = {
-          uid: uuidv4(),
-          deviceToken: ""
-        };
-        logError(err, { eventType: "Device token Failed to register" });
-      });
+    Keychain.getGenericPassword().then(credentials => {
+      if (credentials && credentials.password) {
+        apiCall(constants.registerDeviceToken, requestBody)
+          .then(response => {
+            if (response.status === "SUCCESS") {
+              this._pushTokens.deviceToken = deviceToken;
+            } else {
+              this._pushTokens = {
+                uid: uuidv4(),
+                deviceToken: ""
+              };
+            }
+          })
+          .catch(err => {
+            this._pushTokens = {
+              uid: uuidv4(),
+              deviceToken: ""
+            };
+            logError(err, { eventType: "Device token Failed to register" });
+          });
+      }
+    });
   };
 
   /**

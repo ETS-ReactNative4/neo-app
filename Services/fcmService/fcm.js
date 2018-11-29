@@ -16,7 +16,7 @@ export const getDeviceToken = async () => {
         // TODO: user refused permission
       }
     }
-    // storeService.appState.setPushTokens(token);
+    storeService.appState.setPushTokens(token);
   } catch (err) {
     logError(err);
   }
@@ -24,6 +24,6 @@ export const getDeviceToken = async () => {
 
 export const registerFcmRefreshListener = () => {
   messaging().onTokenRefresh(token => {
-    // storeService.appState.setPushTokens(token);
+    storeService.appState.setPushTokens(token);
   });
 };
