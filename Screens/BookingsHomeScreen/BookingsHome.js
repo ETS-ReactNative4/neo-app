@@ -22,6 +22,7 @@ import { responsiveWidth } from "react-native-responsive-dimensions";
 import { logError } from "../../Services/errorLogger/errorLogger";
 import apiCall from "../../Services/networkRequests/apiCall";
 import { recordEvent } from "../../Services/analytics/analyticsService";
+import { registerFcmRefreshListener } from "../../Services/fcmService/fcm";
 
 @inject("infoStore")
 @inject("itineraries")
@@ -56,7 +57,9 @@ class BookingsHome extends Component {
   };
 
   componentDidMount() {
-    getDeviceToken();
+    getDeviceToken(token => {
+      registerFcmRefreshListener();
+    });
     this._willBlurSubscription = this.props.navigation.addListener(
       "willBlur",
       () => {
