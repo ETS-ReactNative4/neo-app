@@ -42,10 +42,13 @@ class ChatScreen extends Component {
   constructor(props) {
     super(props);
 
+    const { clearChatNotification } = props.appState;
+
     this._didFocusSubscription = props.navigation.addListener(
       "didFocus",
       () => {
         this.getDateDiff();
+        clearChatNotification();
         this._keyboardDidShowListener = Keyboard.addListener(
           "keyboardWillChangeFrame",
           this.keyboardDidShow
