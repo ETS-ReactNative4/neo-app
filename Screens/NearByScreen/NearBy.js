@@ -364,14 +364,16 @@ class NearBy extends Component {
                 activeOpacity={0.8}
                 style={styles.listItemContainer}
               >
-                <SmartImage
-                  uri={imageUrl}
-                  style={styles.imageCover}
-                  defaultImageUri={
-                    "http://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg"
-                  }
-                  resizeMode={FastImage.resizeMode.cover}
-                />
+                {imageUrl ? (
+                  <SmartImage
+                    uri={imageUrl}
+                    style={styles.imageCover}
+                    defaultImageUri={
+                      "http://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg"
+                    }
+                    resizeMode={FastImage.resizeMode.cover}
+                  />
+                ) : null}
                 <PlaceDetails
                   containerStyle={{ marginBottom: 16 }}
                   name={place.name}
