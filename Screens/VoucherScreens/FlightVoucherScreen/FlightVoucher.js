@@ -16,6 +16,7 @@ import VoucherSplitSection from "../Components/VoucherSplitSection";
 import IosCloseButton from "../Components/IosCloseButton";
 import { inject, observer } from "mobx-react/custom";
 import moment from "moment";
+import FlightActionSection from "./Components/FlightActionSection";
 
 @inject("passportDetailsStore")
 @inject("itineraries")
@@ -135,7 +136,7 @@ class FlightVoucher extends Component {
         <StatusBar backgroundColor="black" barStyle="light-content" />
         <View style={styles.flightVoucherContainer}>
           {tripDetails.map((trip, tripIndex) => {
-            return (
+            return [
               <FlightTripView
                 excessBaggageInfo={excessBaggageInfo}
                 webCheckInUrl={webCheckInUrl}
@@ -144,8 +145,13 @@ class FlightVoucher extends Component {
                 trip={trip}
                 airlineCode={airlineCode}
                 isLast={tripIndex === tripDetails.length - 1}
+              />,
+              <FlightActionSection
+                key={tripIndex + trip.length}
+                webCheckInUrl={webCheckInUrl}
+                isWebCheckinActive={isWebCheckinActive}
               />
-            );
+            ];
           })}
           <SectionHeader sectionName={"TRAVELLERS"} />
           {passengers &&
