@@ -5,6 +5,7 @@ import TicketPreview from "./Components/TicketPreview";
 import apiCall from "../../Services/networkRequests/apiCall";
 import constants from "../../constants/constants";
 import { inject, observer } from "mobx-react/custom";
+import moment from "moment";
 import Loader from "../../CommonComponents/Loader/Loader";
 
 @inject("supportStore")
@@ -27,7 +28,11 @@ class YourTickets extends Component {
         title={ticket.title}
         containerStyle={{ marginHorizontal: 24 }}
         lastMessage={ticket.lastMsg}
-        lastMessageTime={"6:30pm"}
+        lastMessageTime={
+          ticket.closed
+            ? "closed"
+            : moment(ticket.lastMsgTime).format("hh:mm a")
+        }
         isClosed={ticket.closed}
         isUnRead={true}
         isLast={false}

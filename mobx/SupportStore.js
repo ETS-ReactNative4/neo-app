@@ -112,7 +112,7 @@ class SupportStore {
     try {
       if (this._messages[ticketId]) {
         const messages = toJS(this._messages[ticketId]);
-        return _.orderBy(messages, "msgTime", "desc");
+        return _.orderBy(messages, "msgId", "desc");
       } else {
         return [];
       }
