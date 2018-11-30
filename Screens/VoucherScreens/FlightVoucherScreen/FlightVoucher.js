@@ -17,6 +17,7 @@ import IosCloseButton from "../Components/IosCloseButton";
 import { inject, observer } from "mobx-react/custom";
 import moment from "moment";
 import FlightActionSection from "./Components/FlightActionSection";
+import getTitleCase from "../../../Services/getTitleCase/getTitleCase";
 
 @inject("passportDetailsStore")
 @inject("itineraries")
@@ -60,7 +61,13 @@ class FlightVoucher extends Component {
       webCheckInUrl,
       refundable
     } = flight.voucher;
-    const { trips, allTrips, airlineCode, excessBaggageInfo } = flight;
+    const {
+      trips,
+      allTrips,
+      airlineCode,
+      excessBaggageInfo,
+      flightClass
+    } = flight;
     const { firstDay } = this.props.itineraries;
     const today = moment();
     const timeDiff = firstDay.diff(today, "hours");
@@ -139,6 +146,7 @@ class FlightVoucher extends Component {
             return [
               <FlightTripView
                 excessBaggageInfo={excessBaggageInfo}
+                flightClass={getTitleCase(flightClass)}
                 webCheckInUrl={webCheckInUrl}
                 isWebCheckinActive={isWebCheckinActive}
                 key={tripIndex}
