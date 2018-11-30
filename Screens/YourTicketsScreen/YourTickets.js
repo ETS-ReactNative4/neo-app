@@ -23,6 +23,8 @@ class YourTickets extends Component {
   }
 
   _renderItem = ({ item: ticket, index }) => {
+    const { getLastMessageByTicket } = this.props.supportStore;
+    const ticketDetails = getLastMessageByTicket(ticket.ticketId);
     return (
       <TicketPreview
         title={ticket.title}
@@ -34,7 +36,7 @@ class YourTickets extends Component {
             : moment(ticket.lastMsgTime).format("hh:mm a")
         }
         isClosed={ticket.closed}
-        isUnRead={true}
+        isUnRead={ticketDetails.msgId !== ticket.lastSeenMsgId}
         isLast={false}
         action={() =>
           this.props.navigation.navigate("TicketsConversation", {
