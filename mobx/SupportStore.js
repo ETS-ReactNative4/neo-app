@@ -91,6 +91,7 @@ class SupportStore {
           const messages = toJS(this._messages);
           messages[ticketId] = response.data;
           this._messages = messages;
+          this.loadConversation();
         } else {
           this._hasError = true;
         }
@@ -119,6 +120,19 @@ class SupportStore {
     } catch (e) {
       logError(e);
       return [];
+    }
+  });
+
+  getLastMessageByTicket = createTransformer(ticketId => {
+    try {
+      if (this._messages[ticketId]) {
+        return toJS(_.maxBy(this._messages[ticketId], "msgId"));
+      } else {
+        return {};
+      }
+    } catch (e) {
+      logError(e);
+      return {};
     }
   });
 
