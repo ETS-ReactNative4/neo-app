@@ -17,10 +17,6 @@ class AppState {
     this._tripMode = {
       status: true
     };
-    this._pushTokens = {
-      uid: uuidv4(),
-      deviceToken: ""
-    };
     this._currencies = {};
     this._isChatNotificationActive = false;
   };
@@ -228,26 +224,51 @@ class AppState {
     };
     Keychain.getGenericPassword().then(credentials => {
       if (credentials && credentials.password) {
-        apiCall(constants.registerDeviceToken, requestBody)
+        apiCall(`${constants.registerDeviceToken}?opr=add`, requestBody)
           .then(response => {
             if (response.status === "SUCCESS") {
               this._pushTokens.deviceToken = deviceToken;
             } else {
-              this._pushTokens = {
-                uid: uuidv4(),
-                deviceToken: ""
-              };
+              this._pushTokens.deviceToken = "";
             }
           })
           .catch(err => {
-            this._pushTokens = {
-              uid: uuidv4(),
-              deviceToken: ""
-            };
+            this._pushTokens.deviceToken = "";
             logError(err, { eventType: "Device token Failed to register" });
           });
       }
     });
+  };
+
+  removePushToken = () => {
+    const requestBody = {
+      uid: this._pushTokens.uid,
+      deviceToken: this._pushTokens.deviceToken
+    };
+    apiCall(`${constants.registerDeviceToken}?opr=remove`, requestBody)
+      .then(response => {
+        if (response.status === "SUCCESS") {
+          this._pushTokens = {
+            uid: uuidv4(),
+            deviceToken: ""
+          };
+        } else {
+          logError("failed to remove device token after logOut");
+          this._pushTokens = {
+            uid: uuidv4(),
+            deviceToken: ""
+          };
+        }
+      })
+      .catch(err => {
+        this._pushTokens = {
+          uid: uuidv4(),
+          deviceToken: ""
+        };
+        logError(err, {
+          eventType: "failed to remove device token after logOut"
+        });
+      });
   };
 
   /**

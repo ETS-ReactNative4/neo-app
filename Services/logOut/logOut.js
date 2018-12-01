@@ -20,6 +20,7 @@ const logOut = () => {
   const { navigation } = navigationService;
 
   navigation.dispatch(closeDrawer);
+  storeService.appState.removePushToken();
   Keychain.resetGenericPassword().then(() => {
     navigation._navigation.navigate("Splash");
 
