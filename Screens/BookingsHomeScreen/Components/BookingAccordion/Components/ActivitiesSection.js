@@ -10,6 +10,8 @@ import storeService from "../../../../../Services/storeService/storeService";
 import SectionRightPlaceHolder from "./Components/SectionRightPlaceHolder";
 import { recordEvent } from "../../../../../Services/analytics/analyticsService";
 import getTitleCase from "../../../../../Services/getTitleCase/getTitleCase";
+import { CustomTabs } from "react-native-custom-tabs";
+import { logError } from "../../../../../Services/errorLogger/errorLogger";
 
 const ActivitiesSection = ({ section, navigation }) => {
   return (
@@ -45,7 +47,23 @@ const Activities = ({ activity, isLast, navigation }) => {
   }
 
   const openVoucher = () => {
-    if (activity.voucher.booked || activity.voucher.self) {
+    if (activity.voucher && activity.voucher.voucherUrl) {
+      /**
+       * TODO: Track this click event
+       */
+      CustomTabs.openURL(activity.voucher ? activity.voucher.voucherUrl : "", {
+        showPageTitle: true
+      })
+        .then(launched => {
+          if (!launched) {
+            logError("Unable to launch custom tab for viator voucher!", {});
+          }
+          return null;
+        })
+        .catch(err => {
+          logError(err);
+        });
+    } else if (activity.voucher.booked || activity.voucher.self) {
       recordEvent(constants.bookingsHomeAccordionActivitiesVoucherClick);
       navigation.navigate("ActivityVoucher", { activity });
     } else {
