@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import PropTypes from "prop-types";
 import constants from "../../../constants/constants";
+import Icon from "../../../CommonComponents/Icon/Icon";
 
 const DrawerButton = ({ icon, text, action, info, isActive }) => {
   return (
@@ -25,7 +26,11 @@ const DrawerButton = ({ icon, text, action, info, isActive }) => {
     >
       <View style={styles.buttonView}>
         <View style={styles.iconContainer}>
-          <Image source={icon} style={styles.icon} />
+          <Icon
+            name={icon}
+            size={24}
+            color={isActive ? "white" : constants.firstColor}
+          />
         </View>
 
         <View style={styles.textContainer}>
@@ -46,7 +51,7 @@ const DrawerButton = ({ icon, text, action, info, isActive }) => {
 };
 
 DrawerButton.propTypes = {
-  icon: PropTypes.number.isRequired,
+  icon: PropTypes.string.isRequired,
   text: PropTypes.string.isRequired,
   action: PropTypes.func.isRequired,
   info: PropTypes.element,
@@ -64,7 +69,8 @@ const styles = StyleSheet.create({
   iconContainer: {
     flex: 1,
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
+    marginHorizontal: 8
   },
   icon: {
     height: 24,
@@ -77,7 +83,8 @@ const styles = StyleSheet.create({
   },
   menuName: {
     ...constants.fontCustom(constants.primarySemiBold, 17),
-    paddingLeft: 8
+    paddingLeft: 8,
+    marginTop: 4
   },
   infoArea: {
     flex: 2,
