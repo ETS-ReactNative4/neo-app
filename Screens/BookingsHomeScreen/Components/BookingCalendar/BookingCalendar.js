@@ -44,7 +44,7 @@ const BookingCalendar = ({
 
   return (
     <View style={styles.calendarContainer}>
-      <WeekNameRow />
+      {rowArray.length ? <WeekNameRow /> : null}
 
       {rowArray.map((dates, index) => {
         return (

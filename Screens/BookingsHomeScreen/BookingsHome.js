@@ -186,35 +186,37 @@ class BookingsHome extends Component {
           />
 
           <BookingAccordion navigation={navigation} />
-          {this.state.isDownloadLoading ? (
-            <SimpleButton
-              containerStyle={{
-                width: responsiveWidth(100) - 48,
-                marginBottom: 16
-              }}
-              color={"white"}
-              hasBorder={true}
-              text={"Download all vouchers"}
-              icon={constants.downloadIcon}
-              action={() => null}
-              iconSize={20}
-              textColor={constants.firstColor}
-            />
-          ) : (
-            <SimpleButton
-              containerStyle={{
-                width: responsiveWidth(100) - 48,
-                marginBottom: 16
-              }}
-              color={"white"}
-              hasBorder={true}
-              text={"Download all vouchers"}
-              icon={constants.downloadIcon}
-              action={this.downloadAllVouchers}
-              iconSize={20}
-              textColor={constants.firstColor}
-            />
-          )}
+          {selectedItineraryId ? (
+            this.state.isDownloadLoading ? (
+              <SimpleButton
+                containerStyle={{
+                  width: responsiveWidth(100) - 48,
+                  marginBottom: 16
+                }}
+                color={"white"}
+                hasBorder={true}
+                text={"Download all vouchers"}
+                icon={constants.downloadIcon}
+                action={() => null}
+                iconSize={20}
+                textColor={constants.firstColor}
+              />
+            ) : (
+              <SimpleButton
+                containerStyle={{
+                  width: responsiveWidth(100) - 48,
+                  marginBottom: 16
+                }}
+                color={"white"}
+                hasBorder={true}
+                text={"Download all vouchers"}
+                icon={constants.downloadIcon}
+                action={this.downloadAllVouchers}
+                iconSize={20}
+                textColor={constants.firstColor}
+              />
+            )
+          ) : null}
         </ScrollView>
       </View>
     );
