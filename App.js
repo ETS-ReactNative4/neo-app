@@ -22,10 +22,12 @@ import {
   onNotificationOpened,
   onNotificationReceived
 } from "./Services/fcmService/fcm";
+import DebouncedAlert from "./CommonComponents/DebouncedAlert/DebouncedAlert";
+import { View } from "react-native";
 
 class App extends Component {
   state = {
-    _errorShown: false
+    isCrashed: false
   };
   _onNotificationReceived;
   _onNotificationDisplayed;
@@ -52,27 +54,18 @@ class App extends Component {
   }
 
   componentDidCatch(error) {
-    if (__DEV__) {
-      return;
-    }
-
     logError(error);
 
-    if (this.state._errorShown) {
-      return;
+    if (!this.state.isCrashed) {
+      this.setState({
+        isCrashed: true
+      });
+      DebouncedAlert(
+        "Something went wrong!",
+        "We encountered a problem and need the app to restart...",
+        [{ text: "Restart!", onPress: () => RNRestart.Restart() }]
+      );
     }
-
-    this.setState({
-      _errorShown: true
-    });
-
-    storeService.infoStore.setError(
-      "Something went wrong!",
-      "We encountered a problem and need the app to restart...",
-      constants.errorBoxIllus,
-      "Restart!",
-      RNRestart.Restart
-    );
   }
 
   componentWillUnmount() {
@@ -83,6 +76,9 @@ class App extends Component {
   }
 
   render() {
+    if (this.state.isCrashed) {
+      return <View style={{ flex: 1, backgroundColor: "white" }} />;
+    }
     updateStoreService(store);
     return [
       <Provider {...store} key={0}>
