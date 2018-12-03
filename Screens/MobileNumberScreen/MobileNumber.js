@@ -291,9 +291,9 @@ class MobileNumber extends Component {
   };
 
   componentDidMount() {
-    setTimeout(() => {
-      this._mobileInputRef.focus && this._mobileInputRef.focus();
-    }, 250);
+    // setTimeout(() => {
+    //   this._mobileInputRef.focus && this._mobileInputRef.focus();
+    // }, 250);
   }
 
   render() {

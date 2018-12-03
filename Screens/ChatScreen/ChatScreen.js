@@ -10,6 +10,7 @@ import UnableToUseChat from "./Components/UnableToUseChat";
 import PreTrip from "./Components/PreTrip";
 import moment from "moment";
 import { recordEvent } from "../../Services/analytics/analyticsService";
+import CrispSDK from "./Components/CrispSDK";
 
 @inject("userStore")
 @inject("itineraries")
@@ -138,6 +139,7 @@ class ChatScreen extends Component {
               marginTop: isIphoneX() ? constants.xNotchHeight : 0
             }}
             webviewRef={e => (this._webView = e)}
+            injectedJavascript={CrispSDK}
           />
           {Platform.OS === "ios" ? (
             <BackButtonIos

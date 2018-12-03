@@ -2,6 +2,7 @@ import React from "react";
 import { View, StyleSheet, Image, TouchableHighlight } from "react-native";
 import constants from "../../constants/constants";
 import PropTypes from "prop-types";
+import Icon from "../Icon/Icon";
 
 const HamburgerButton = ({ action, containerStyle }) => {
   if (!containerStyle) containerStyle = {};
@@ -12,11 +13,7 @@ const HamburgerButton = ({ action, containerStyle }) => {
       onPress={action}
       underlayColor={"transparent"}
     >
-      <Image
-        style={styles.hamburgerIcon}
-        source={constants.hamburgerIcon}
-        resizeMode={"contain"}
-      />
+      <Icon name={constants.hamburgerIcon} color={constants.black1} size={30} />
     </TouchableHighlight>
   );
 };

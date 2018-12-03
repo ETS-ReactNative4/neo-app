@@ -30,7 +30,7 @@ class Drawer extends Component {
   render() {
     const menuItems = [
       {
-        icon: constants.notificationIcon,
+        icon: constants.homeIcon,
         text: "Home"
       },
       // {
@@ -57,7 +57,7 @@ class Drawer extends Component {
       //   )
       // },
       {
-        icon: constants.notificationIcon,
+        icon: constants.paymentIcon,
         text: "Payments"
       },
       // {
@@ -78,11 +78,11 @@ class Drawer extends Component {
       //   action: () => this.props.navigation.navigate("AppSupport")
       // },
       {
-        icon: constants.notificationIcon,
+        icon: constants.infoIcon,
         text: "About"
       },
       {
-        icon: constants.notificationIcon,
+        icon: constants.logoutIcon,
         text: "Log Out",
         action: () => logOut()
       }

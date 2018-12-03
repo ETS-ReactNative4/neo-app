@@ -30,8 +30,11 @@ import EmptyListPlaceholder from "../../CommonComponents/EmptyListPlaceholder/Em
 import getDeviceLocation from "../../Services/getDeviceLocation/getDeviceLocation";
 import apiCall from "../../Services/networkRequests/apiCall";
 import DebouncedAlert from "../../CommonComponents/DebouncedAlert/DebouncedAlert";
-import moment from "moment";
+import Moment from "moment";
 import { recordEvent } from "../../Services/analytics/analyticsService";
+import { extendMoment } from "moment-range";
+
+const moment = extendMoment(Moment);
 
 @inject("placesStore")
 @inject("itineraries")
@@ -114,6 +117,30 @@ class NearBy extends Component {
       lng: "",
       isTripActive: false
     };
+  }
+
+  componentDidMount() {
+    const searchText = this.props.navigation.getParam("searchQuery", "");
+    const { loadTextSearch } = this.props.placesStore;
+    loadTextSearch(searchText);
+    this.checkCurrentCity();
+    this.checkTripStatus();
+  }
+
+  checkCurrentCity = () => {
+    const city = this.props.navigation.getParam("city", {});
+    const today = moment().toDate();
+    const startDayText = moment(city.startDay).format("DD/MM/YYYY");
+    const endDayText = moment(city.endDay).format("DD/MM/YYYY");
+    const startDay = moment(startDayText, "DD/MM/YYYY").toDate();
+    const endDay = moment(endDayText, "DD/MM/YYYY").toDate();
+    const range = moment.range(startDay, endDay);
+    if (!range.contains(today)) {
+      this.removeNearHotelSearch();
+    }
+  };
+
+  checkTripStatus = () => {
     const today = moment();
     const dateDifference = this.props.itineraries.firstDay.diff(today, "days");
     if (dateDifference < 1) {
@@ -121,13 +148,7 @@ class NearBy extends Component {
         isTripActive: true
       });
     }
-  }
-
-  componentDidMount() {
-    const searchText = this.props.navigation.getParam("searchQuery", "");
-    const { loadTextSearch } = this.props.placesStore;
-    loadTextSearch(searchText);
-  }
+  };
 
   toggleFilter = () => {
     this.setState({
@@ -264,8 +285,8 @@ class NearBy extends Component {
   };
 
   removeNearBySearch = () => {
-    const sortOptions = [...this.state.sortOptions];
-    sortOptions.splice(1, 1);
+    let sortOptions = [...this.state.sortOptions];
+    sortOptions = sortOptions.filter(item => item.type !== "nearby");
     this.setState(
       {
         sortOptions
@@ -277,6 +298,14 @@ class NearBy extends Component {
         );
       }
     );
+  };
+
+  removeNearHotelSearch = () => {
+    let sortOptions = [...this.state.sortOptions];
+    sortOptions = sortOptions.filter(item => item.type !== "nearHotel");
+    this.setState({
+      sortOptions
+    });
   };
 
   loadPlaceDetail = place => {
@@ -364,14 +393,16 @@ class NearBy extends Component {
                 activeOpacity={0.8}
                 style={styles.listItemContainer}
               >
-                <SmartImage
-                  uri={imageUrl}
-                  style={styles.imageCover}
-                  defaultImageUri={
-                    "http://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg"
-                  }
-                  resizeMode={FastImage.resizeMode.cover}
-                />
+                {imageUrl ? (
+                  <SmartImage
+                    uri={imageUrl}
+                    style={styles.imageCover}
+                    defaultImageUri={
+                      "http://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg"
+                    }
+                    resizeMode={FastImage.resizeMode.cover}
+                  />
+                ) : null}
                 <PlaceDetails
                   containerStyle={{ marginBottom: 16 }}
                   name={place.name}

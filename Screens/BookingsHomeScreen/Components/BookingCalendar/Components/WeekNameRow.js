@@ -2,6 +2,7 @@ import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { Platform } from "react-native";
 import constants from "../../../../../constants/constants";
+import { responsiveWidth } from "react-native-responsive-dimensions";
 
 const WeekNameRow = () => {
   return (
@@ -38,16 +39,17 @@ const WeekNameRow = () => {
   );
 };
 
+const itemWidth = (responsiveWidth(100) - 48) / 7;
 const styles = StyleSheet.create({
   weekNameRow: {
     height: 40,
-    flexDirection: "row",
-    justifyContent: "space-around"
+    flexDirection: "row"
   },
   weekNameWrapper: {
     height: 40,
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
+    width: itemWidth
   },
   weekName: {
     fontFamily: constants.primaryLight,

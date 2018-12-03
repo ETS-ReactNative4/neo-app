@@ -25,11 +25,19 @@ const TicketPreview = ({
       ]}
     >
       <View style={styles.titleContainer}>
-        <Text style={styles.title}>{title}</Text>
-        <Text style={styles.time}>{isClosed ? "Closed" : lastMessageTime}</Text>
+        <Text style={[styles.title, isUnRead ? styles.isUnread : {}]}>
+          {title}
+        </Text>
+        <Text style={[styles.time, isUnRead ? styles.isUnread : {}]}>
+          {isClosed ? "Closed" : lastMessageTime}
+        </Text>
       </View>
       <View style={styles.textContainer}>
-        <Text style={styles.message} numberOfLines={1} ellipsizeMode={"tail"}>
+        <Text
+          style={[styles.message, isUnRead ? styles.isUnread : {}]}
+          numberOfLines={1}
+          ellipsizeMode={"tail"}
+        >
           {lastMessage}
         </Text>
       </View>
@@ -54,15 +62,20 @@ const styles = StyleSheet.create({
   },
   title: {
     ...constants.fontCustom(constants.primarySemiBold, 17, 24),
-    color: constants.black2
+    color: constants.shade1
   },
   time: {
     ...constants.fontCustom(constants.primaryLight, 15, 18),
-    color: constants.black2
+    color: constants.shade2
+  },
+  isUnread: {
+    color: constants.black1,
+    fontWeight: "bold"
   },
   textContainer: {},
   message: {
-    ...constants.fontCustom(constants.primaryLight, 15, 24)
+    ...constants.fontCustom(constants.primaryLight, 15, 24),
+    color: constants.shade2
   }
 });
 

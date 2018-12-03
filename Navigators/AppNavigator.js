@@ -4,6 +4,7 @@ import Notifications from "../Screens/NotificationsScreen/Notifications";
 import Home from "../Screens/HomeScreen/Home";
 import Drawer from "../Screens/Drawer/Drawer";
 import PaymentStack from "./PaymentStack";
+import About from "../Screens/AboutScreen/About";
 
 const AppNavigator = createDrawerNavigator(
   {
@@ -31,7 +32,7 @@ const AppNavigator = createDrawerNavigator(
     //   screen: createStackNavigator({ HomeStack5: { screen: Home } })
     // },
     About: {
-      screen: createStackNavigator({ HomeStack6: { screen: Home } })
+      screen: createStackNavigator({ AboutUs: { screen: About } })
     }
   },
   {

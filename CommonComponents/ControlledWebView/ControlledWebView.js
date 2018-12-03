@@ -26,7 +26,7 @@ const ControlledWebView = ({
       webviewRef={webviewRef}
       injectedJavaScript={injectedJavascript}
     />,
-    PackageInfo.environment !== "Production" ? (
+    PackageInfo.environment !== "production" ? (
       <View key={1} style={styles.urlInfoBox} pointerEvents={"none"}>
         <Text style={styles.urlInfo}>{`${PackageInfo.environment} : ${
           source.uri
