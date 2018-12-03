@@ -56,10 +56,6 @@ class Drawer extends Component {
       //     />
       //   )
       // },
-      {
-        icon: constants.paymentIcon,
-        text: "Payments"
-      },
       // {
       //   icon: constants.notificationIcon,
       //   text: "Saved Itineraries"
@@ -80,18 +76,26 @@ class Drawer extends Component {
       {
         icon: constants.infoIcon,
         text: "About"
-      },
-      {
-        icon: constants.logoutIcon,
-        text: "Log Out",
-        action: () => logOut()
       }
     ];
 
-    const { infoStore } = this.props;
+    const { infoStore, navigation } = this.props;
     const { userDetails } = this.props.userStore;
     const { name } = userDetails;
     const firstName = name ? name.split(" ")[0] : "";
+
+    if (!_.isEmpty(userDetails)) {
+      menuItems.splice(1, 0, {
+        icon: constants.paymentIcon,
+        text: "Payments"
+      });
+
+      menuItems.push({
+        icon: constants.logoutIcon,
+        text: "Log Out",
+        action: () => logOut()
+      });
+    }
 
     return [
       <ImageBackground
@@ -110,17 +114,19 @@ class Drawer extends Component {
               }}
             />
           </View>
-          <Text style={styles.userName}>{`Hi ${
-            firstName
-              ? firstName.charAt(0).toUpperCase() +
-                firstName.substr(1).toLowerCase()
-              : ""
-          }!`}</Text>
+          {!_.isEmpty(userDetails) ? (
+            <Text style={styles.userName}>{`Hi ${
+              firstName
+                ? firstName.charAt(0).toUpperCase() +
+                  firstName.substr(1).toLowerCase()
+                : ""
+            }!`}</Text>
+          ) : null}
 
           {_.isEmpty(userDetails) ? (
             <SimpleButton
               text={"Login"}
-              action={() => null}
+              action={() => navigation.navigate("MobileNumber")}
               textColor={"white"}
               hasBorder={true}
               color={"transparent"}
@@ -129,7 +135,8 @@ class Drawer extends Component {
                 width: 64,
                 height: 24,
                 borderRadius: 17,
-                marginBottom: 19
+                marginBottom: 19,
+                marginTop: 16
               }}
               textStyle={{
                 fontFamily: constants.primaryRegular,

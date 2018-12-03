@@ -11,7 +11,8 @@ const apiCall = async (
   route,
   body = {},
   method = "POST",
-  customDomain = false
+  customDomain = false,
+  customToken = null
 ) => {
   const credentials = await Keychain.getGenericPassword();
 
@@ -23,6 +24,8 @@ const apiCall = async (
 
     if (credentials) {
       headerObject.Authorization = credentials.password;
+    } else if (customToken) {
+      headerObject.Authorization = customToken;
     }
 
     const headers = new Headers(headerObject);

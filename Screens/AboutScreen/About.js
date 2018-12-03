@@ -1,9 +1,11 @@
 import React, { Component } from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Text } from "react-native";
 import constants from "../../constants/constants";
 import ControlledWebView from "../../CommonComponents/ControlledWebView/ControlledWebView";
 import HomeHeader from "../../CommonComponents/HomeHeader/HomeHeader";
+import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 
+@ErrorBoundary
 class About extends Component {
   static navigationOptions = HomeHeader;
   _webView;

@@ -1,8 +1,8 @@
 import { observable, computed, action, set, toJS } from "mobx";
 import { persist } from "mobx-persist";
 import { createTransformer } from "mobx-utils";
-import uuidv4 from "uuid/v4";
 import { NavigationActions } from "react-navigation";
+import _ from "lodash";
 import apiCall from "../Services/networkRequests/apiCall";
 import constants from "../constants/constants";
 import { logError } from "../Services/errorLogger/errorLogger";
@@ -147,7 +147,7 @@ class AppState {
   get currencies() {
     const itineraryId = storeService.itineraries.selectedItineraryId;
     if (this._currencies[itineraryId])
-      return toJS(this._currencies[itineraryId]);
+      return _.uniq(toJS(this._currencies[itineraryId]));
     else return [];
   }
 
@@ -201,7 +201,6 @@ class AppState {
   @persist("object")
   @observable
   _pushTokens = {
-    uid: uuidv4(),
     deviceToken: ""
   };
 
@@ -219,7 +218,6 @@ class AppState {
 
   _updatePushToken = deviceToken => {
     const requestBody = {
-      uid: this._pushTokens.uid,
       deviceToken
     };
     Keychain.getGenericPassword().then(credentials => {
@@ -242,29 +240,31 @@ class AppState {
 
   removePushToken = callback => {
     const requestBody = {
-      uid: this._pushTokens.uid,
       deviceToken: this._pushTokens.deviceToken
     };
     Keychain.getGenericPassword().then(credentials => {
       if (credentials && credentials.password) {
-        apiCall(`${constants.registerDeviceToken}?opr=remove`, requestBody)
+        apiCall(
+          `${constants.registerDeviceToken}?opr=remove`,
+          requestBody,
+          "POST",
+          false,
+          credentials.password
+        )
           .then(response => {
             if (response.status === "SUCCESS") {
               this._pushTokens = {
-                uid: uuidv4(),
                 deviceToken: ""
               };
             } else {
               logError("failed to remove device token after logOut");
               this._pushTokens = {
-                uid: uuidv4(),
                 deviceToken: ""
               };
             }
           })
           .catch(err => {
             this._pushTokens = {
-              uid: uuidv4(),
               deviceToken: ""
             };
             logError(err, {
