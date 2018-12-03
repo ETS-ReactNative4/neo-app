@@ -164,7 +164,7 @@ class CountryCodePicker extends Component {
             <SimpleButton
               containerStyle={{
                 height: 24,
-                width: 56,
+                width: null,
                 alignSelf: "center",
                 marginLeft: 8
               }}

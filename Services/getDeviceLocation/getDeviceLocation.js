@@ -47,13 +47,7 @@ const getDeviceLocation = async (success, failure, settings = () => null) => {
   };
 
   const locationFailed = locationError => {
-    if (Platform.OS === "ios") {
-      if (locationError.code === 1) {
-        openAppSettings(locationError);
-      }
-    } else {
-      openAppSettings(locationError);
-    }
+    openAppSettings(locationError);
   };
 
   if (Platform.OS === "android") {

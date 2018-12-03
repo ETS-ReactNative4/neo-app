@@ -60,20 +60,22 @@ const Date = ({
         });
       }}
     >
-      <View style={[styles.weekDayWrapper, styles[containerStyle]]}>
-        <Text style={[styles.weekDay, styles[textStyle]]}>
-          {moment(day).format("DD")}
-        </Text>
-        {textStyle === "isHighlighted" ? (
-          <ActivityDotRow count={count} />
-        ) : null}
+      <View style={styles.weekDayWrapper}>
+        <View style={[styles.weekDayWrapper, styles[containerStyle]]}>
+          <Text style={[styles.weekDay, styles[textStyle]]}>
+            {moment(day).format("DD")}
+          </Text>
+          {textStyle === "isHighlighted" ? (
+            <ActivityDotRow count={count} />
+          ) : null}
+        </View>
       </View>
       <TransferIcon transferType={transferType} />
     </TouchableOpacity>
   );
 };
 
-const dateItemWidth = (responsiveWidth(100) - 24 - 4 * 14) / 7 - 2;
+const dateItemWidth = (responsiveWidth(100) - 48) / 7;
 const styles = StyleSheet.create({
   weekDayWrapper: {
     width: dateItemWidth,
@@ -90,30 +92,28 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 20,
     borderBottomRightRadius: 20,
     marginRight: 4,
-    width: dateItemWidth + 4
+    width: dateItemWidth - 4
   },
   lastRightCorner: {
     backgroundColor: constants.firstColor,
     borderTopRightRadius: 20,
     borderBottomRightRadius: 20,
     marginRight: 4,
-    width: dateItemWidth - 6
+    width: dateItemWidth - 4
   },
   leftCorner: {
     backgroundColor: constants.firstColor,
     borderTopLeftRadius: 20,
     borderBottomLeftRadius: 20,
     marginLeft: 4,
-    width: dateItemWidth + 4
+    width: dateItemWidth - 4
   },
   middleSection: {
     backgroundColor: constants.firstColor,
-    width: dateItemWidth + 8,
     marginHorizontal: 0
   },
   lastMiddleSection: {
     backgroundColor: constants.firstColor,
-    width: dateItemWidth - 3,
     marginHorizontal: 0
   },
   weekDay: {
@@ -136,9 +136,7 @@ const styles = StyleSheet.create({
       }
     })
   },
-  defaultStyle: {
-    marginHorizontal: 4
-  }
+  defaultStyle: {}
 });
 
 Date.propTypes = {

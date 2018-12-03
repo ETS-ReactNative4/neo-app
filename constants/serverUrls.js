@@ -7,6 +7,11 @@ const apiServers = {
   prodServer: "https://pickyourtrail.com/api/"
 };
 
+const platoServers = {
+  platoDevServer: "https://platodev.pickyourtrail.com/",
+  platoProdServer: "https://plato.pickyourtrail.com/"
+};
+
 const productUrls = {
   localProductUrl: "http://192.168.0.5:8080/",
   devProductUrl: "https://dev.pickyourtrail.com/",
@@ -14,21 +19,24 @@ const productUrls = {
   prodProductUrl: "https://pickyourtrail.com/"
 };
 
-let apiServerUrl, productUrl;
+let apiServerUrl, productUrl, platoServerUrl;
 switch (PackageInfo.environment) {
   case "production":
     apiServerUrl = apiServers.prodServer;
     productUrl = productUrls.prodProductUrl;
+    platoServerUrl = platoServers.platoProdServer;
     break;
 
   case "staging":
     apiServerUrl = apiServers.stagingSever;
     productUrl = productUrls.stagingProductUrl;
+    platoServerUrl = platoServers.platoDevServer;
     break;
 
   case "dev":
     apiServerUrl = apiServers.devServer;
     productUrl = productUrls.devProductUrl;
+    platoServerUrl = platoServers.platoDevServer;
     break;
 
   default:
@@ -39,6 +47,7 @@ switch (PackageInfo.environment) {
 const serverUrls = {
   apiServerUrl,
   productUrl,
+  platoServerUrl,
   cityImageBaseUrl: "https://d2pkrotgd5anq5.cloudfront.net/city/1820xh/",
   miscImageBaseUrl: "https://d3lf10b5gahyby.cloudfront.net/misc/",
   googleTranslateTts: (phrase, language) =>
