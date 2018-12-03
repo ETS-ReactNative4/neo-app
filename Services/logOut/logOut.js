@@ -34,6 +34,7 @@ const logOut = () => {
         storeService.phrasesStore.reset();
         storeService.emergencyContactsStore.reset();
         storeService.passportDetailsStore.reset();
+        storeService.visaStore.reset();
         storeService.placesStore.reset();
         storeService.supportStore.reset();
       }, 100);
