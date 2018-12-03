@@ -20,22 +20,23 @@ const logOut = () => {
   const { navigation } = navigationService;
 
   navigation.dispatch(closeDrawer);
-  storeService.appState.removePushToken();
-  Keychain.resetGenericPassword().then(() => {
-    navigation._navigation.navigate("Splash");
+  storeService.appState.removePushToken(() => {
+    Keychain.resetGenericPassword().then(() => {
+      navigation._navigation.navigate("Splash");
 
-    setTimeout(() => {
-      storeService.itineraries.reset();
-      storeService.appState.reset();
-      storeService.yourBookingsStore.reset();
-      storeService.voucherStore.reset();
-      storeService.packingChecklistStore.reset();
-      storeService.phrasesStore.reset();
-      storeService.emergencyContactsStore.reset();
-      storeService.passportDetailsStore.reset();
-      storeService.placesStore.reset();
-      storeService.supportStore.reset();
-    }, 100);
+      setTimeout(() => {
+        storeService.itineraries.reset();
+        storeService.appState.reset();
+        storeService.yourBookingsStore.reset();
+        storeService.voucherStore.reset();
+        storeService.packingChecklistStore.reset();
+        storeService.phrasesStore.reset();
+        storeService.emergencyContactsStore.reset();
+        storeService.passportDetailsStore.reset();
+        storeService.placesStore.reset();
+        storeService.supportStore.reset();
+      }, 100);
+    });
   });
   /**
    * TODO: Clear sentry user context
