@@ -11,6 +11,11 @@ import DebouncedAlert from "../CommonComponents/DebouncedAlert/DebouncedAlert";
 import storeService from "../Services/storeService/storeService";
 import * as Keychain from "react-native-keychain";
 
+const {
+  conversionRateError,
+  currencyDetailsError
+} = constants.currencyConverterText;
+
 class AppState {
   @action
   reset = () => {
@@ -110,11 +115,23 @@ class AppState {
         if (response.status === "SUCCESS") {
           this._conversionRates = response.data;
         } else {
-          DebouncedAlert("Unable to get conversion rates!");
+          storeService.infoStore.setError(
+            conversionRateError.title,
+            conversionRateError.message,
+            constants.errorBoxIllus,
+            conversionRateError.actionText,
+            () => navigationService.navigation._navigation.goBack()
+          );
         }
       })
       .catch(e => {
-        console.error(e);
+        storeService.infoStore.setError(
+          conversionRateError.title,
+          conversionRateError.message,
+          constants.errorBoxIllus,
+          conversionRateError.actionText,
+          () => navigationService.navigation._navigation.goBack()
+        );
       });
   };
 
@@ -187,11 +204,23 @@ class AppState {
           currencies[itineraryId] = currencyArray;
           this._currencies = currencies;
         } else {
-          DebouncedAlert("Error!", "Unable to retrieve currency details!");
+          storeService.infoStore.setError(
+            currencyDetailsError.title,
+            currencyDetailsError.message,
+            constants.errorBoxIllus,
+            currencyDetailsError.actionText,
+            () => navigationService.navigation._navigation.goBack()
+          );
         }
       })
       .catch(err => {
-        DebouncedAlert("Error!", "Unable to retrieve currency details!");
+        storeService.infoStore.setError(
+          currencyDetailsError.title,
+          currencyDetailsError.message,
+          constants.errorBoxIllus,
+          currencyDetailsError.actionText,
+          () => navigationService.navigation._navigation.goBack()
+        );
       });
   };
 
