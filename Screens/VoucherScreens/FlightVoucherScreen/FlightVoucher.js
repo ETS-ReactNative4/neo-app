@@ -1,14 +1,10 @@
 import React, { Component } from "react";
 import { View, Text, Platform, StyleSheet, StatusBar } from "react-native";
 import constants from "../../../constants/constants";
-import { responsiveWidth } from "react-native-responsive-dimensions";
 import VoucherStickyHeader from "../Components/VoucherStickyHeader";
 import VoucherHeader from "../Components/VoucherHeader";
-import VoucherName from "../Components/VoucherName";
 import ParallaxScrollView from "react-native-parallax-scroll-view";
 import { isIphoneX } from "react-native-iphone-x-helper";
-import PropTypes from "prop-types";
-import FlightCard from "./Components/FlightCard";
 import FlightTripView from "./Components/FlightTripView";
 import SectionHeader from "../../../CommonComponents/SectionHeader/SectionHeader";
 import PassengerName from "../HotelVoucherScreen/Components/PassengerName";
@@ -18,7 +14,9 @@ import { inject, observer } from "mobx-react/custom";
 import moment from "moment";
 import FlightActionSection from "./Components/FlightActionSection";
 import getTitleCase from "../../../Services/getTitleCase/getTitleCase";
+import ErrorBoundary from "../../../CommonComponents/ErrorBoundary/ErrorBoundary";
 
+@ErrorBoundary()
 @inject("passportDetailsStore")
 @inject("itineraries")
 @observer

@@ -6,12 +6,10 @@ import {
   StyleSheet,
   TouchableWithoutFeedback,
   TouchableHighlight,
-  Image,
   Keyboard,
   Platform,
   LayoutAnimation
 } from "react-native";
-import { SafeAreaView } from "react-navigation";
 import { isIphoneX } from "react-native-iphone-x-helper";
 import CommonRate from "./Components/CommonRate";
 import constants from "../../constants/constants";
@@ -21,7 +19,9 @@ import { inject, observer } from "mobx-react/custom";
 import Icon from "../../CommonComponents/Icon/Icon";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import { recordEvent } from "../../Services/analytics/analyticsService";
+import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 
+@ErrorBoundary()
 @inject("appState")
 @observer
 class CurrencyConverter extends Component {

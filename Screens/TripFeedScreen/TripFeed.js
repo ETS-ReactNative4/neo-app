@@ -1,11 +1,12 @@
 import React, { Component } from "react";
 import { View, Text, ScrollView, StyleSheet } from "react-native";
 import HomeHeader from "../../CommonComponents/HomeHeader/HomeHeader";
-import SearchPlaceholder from "../../CommonComponents/SearchPlaceholder/SearchPlaceholder";
 import constants from "../../constants/constants";
 import DayAhead from "./Components/DayAhead/DayAhead";
 import FeedBackSwiper from "./Components/FeedBackSwiper/FeedBackSwiper";
+import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 
+@ErrorBoundary({ isRoot: true })
 class TripFeed extends Component {
   static navigationOptions = HomeHeader;
 

@@ -16,7 +16,9 @@ import {
   responsiveWidth
 } from "react-native-responsive-dimensions";
 import { inject, observer } from "mobx-react/custom";
+import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 
+@ErrorBoundary()
 @inject("supportStore")
 @observer
 class SupportCenter extends Component {

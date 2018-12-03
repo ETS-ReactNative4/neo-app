@@ -1,11 +1,13 @@
 import React, { Component } from "react";
-import { ScrollView, View, StyleSheet, Text, Image } from "react-native";
+import { View, StyleSheet, Text, Image } from "react-native";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import constants from "../../constants/constants";
 import { responsiveWidth } from "react-native-responsive-dimensions";
 import ScrollableTabView from "react-native-scrollable-tab-view";
 import ScrollableTabBar from "../../CommonComponents/ScrollableTabBar/ScrollableTabBar";
+import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 
+@ErrorBoundary()
 class FlightStatus extends Component {
   static navigationOptions = ({ navigation }) => {
     return {

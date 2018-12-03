@@ -12,9 +12,11 @@ import ContactActionBar from "./Components/ContactActionBar";
 import DebouncedAlert from "../../CommonComponents/DebouncedAlert/DebouncedAlert";
 import apiCall from "../../Services/networkRequests/apiCall";
 import { inject, observer } from "mobx-react/custom";
+import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 
 let subjectText, messageText;
 
+@ErrorBoundary()
 @inject("itineraries")
 @inject("infoStore")
 @inject("supportStore")

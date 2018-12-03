@@ -1,22 +1,11 @@
 import React, { Component } from "react";
-import {
-  View,
-  Text,
-  Image,
-  StyleSheet,
-  ScrollView,
-  Animated,
-  Platform
-} from "react-native";
+import { View, Text, StyleSheet, Platform } from "react-native";
 import { isIphoneX } from "react-native-iphone-x-helper";
 import ParallaxScrollView from "react-native-parallax-scroll-view";
-import { responsiveWidth } from "react-native-responsive-dimensions";
 import VoucherHeader from "../Components/VoucherHeader";
 import constants from "../../../constants/constants";
 import SectionHeader from "../../../CommonComponents/SectionHeader/SectionHeader";
 import CircleThumbnail from "../../../CommonComponents/CircleThumbnail/CircleThumbnail";
-import Icon from "../../../CommonComponents/Icon/Icon";
-import SimpleButton from "../../../CommonComponents/SimpleButton/SimpleButton";
 import VoucherStickyHeader from "../Components/VoucherStickyHeader";
 import VoucherName from "../Components/VoucherName";
 import PassengerName from "./Components/PassengerName";
@@ -25,10 +14,10 @@ import IosCloseButton from "../Components/IosCloseButton";
 import VoucherSplitSection from "../Components/VoucherSplitSection";
 import VoucherAddressSection from "../Components/VoucherAddressSection";
 import moment from "moment";
-import getLocaleString from "../../../Services/getLocaleString/getLocaleString";
-import directions from "../../../Services/directions/directions";
 import VoucherContactActionBar from "../Components/VoucherContactActionBar";
+import ErrorBoundary from "../../../CommonComponents/ErrorBoundary/ErrorBoundary";
 
+@ErrorBoundary()
 class HotelVoucher extends Component {
   static navigationOptions = {
     header: null

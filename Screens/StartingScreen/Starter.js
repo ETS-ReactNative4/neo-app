@@ -9,12 +9,12 @@ import {
 } from "react-native";
 import constants from "../../constants/constants";
 import SimpleButton from "../../CommonComponents/SimpleButton/SimpleButton";
-import { isIphoneX } from "react-native-iphone-x-helper";
 import LinearGradient from "react-native-linear-gradient";
 import { inject, observer } from "mobx-react/custom";
-import ControlledWebView from "../../CommonComponents/ControlledWebView/ControlledWebView";
 import { recordEvent } from "../../Services/analytics/analyticsService";
+import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 
+@ErrorBoundary({ isRoot: true })
 @inject("appState")
 @observer
 class Starter extends Component {

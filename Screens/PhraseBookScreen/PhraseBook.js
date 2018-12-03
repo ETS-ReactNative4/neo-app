@@ -19,7 +19,9 @@ import PhraseInfo from "./Components/PhraseInfo";
 import LanguageSelector from "./Components/LanguageSelector";
 import Loader from "../../CommonComponents/Loader/Loader";
 import { logError } from "../../Services/errorLogger/errorLogger";
+import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 
+@ErrorBoundary()
 @inject("phrasesStore")
 @inject("itineraries")
 @observer

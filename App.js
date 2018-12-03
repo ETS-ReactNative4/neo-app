@@ -6,8 +6,6 @@ import { setNavigationService } from "./Services/navigationService/navigationSer
 import { updateStoreService } from "./Services/storeService/storeService";
 import AppNavigator from "./Navigators/AppNavigator";
 import NetStatMonitor from "./CommonComponents/NetStatMonitor/NetStatMonitor";
-import storeService from "./Services/storeService/storeService";
-import constants from "./constants/constants";
 import RNRestart from "react-native-restart";
 import { logError } from "./Services/errorLogger/errorLogger";
 import {

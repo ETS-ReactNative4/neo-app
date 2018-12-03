@@ -8,7 +8,9 @@ import { responsiveWidth } from "react-native-responsive-dimensions";
 import _ from "lodash";
 import { inject, observer } from "mobx-react/custom";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
+import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 
+@ErrorBoundary()
 @inject("packingChecklistStore")
 @inject("itineraries")
 @inject("yourBookingsStore")

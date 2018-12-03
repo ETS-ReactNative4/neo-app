@@ -4,6 +4,7 @@ import { StackActions, NavigationActions } from "react-navigation";
 import constants from "../../constants/constants";
 import * as Keychain from "react-native-keychain";
 import { inject, observer } from "mobx-react/custom";
+import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 
 const resetToBooked = NavigationActions.navigate({
   routeName: "AppHome",
@@ -15,6 +16,7 @@ const resetToPlan = NavigationActions.navigate({
   action: NavigationActions.navigate({ routeName: "NewItineraryStack" })
 });
 
+@ErrorBoundary({ isRoot: true })
 @inject("appState")
 @observer
 class Splash extends Component {

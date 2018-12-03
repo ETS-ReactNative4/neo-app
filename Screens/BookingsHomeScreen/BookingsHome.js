@@ -8,7 +8,6 @@ import {
   RefreshControl,
   BackHandler
 } from "react-native";
-import SearchPlaceholder from "../../CommonComponents/SearchPlaceholder/SearchPlaceholder";
 import BookingCalendar from "./Components/BookingCalendar/BookingCalendar";
 import BookingAccordion from "./Components/BookingAccordion/BookingAccordion";
 import { inject, observer } from "mobx-react/custom";
@@ -23,7 +22,9 @@ import { logError } from "../../Services/errorLogger/errorLogger";
 import apiCall from "../../Services/networkRequests/apiCall";
 import { recordEvent } from "../../Services/analytics/analyticsService";
 import { registerFcmRefreshListener } from "../../Services/fcmService/fcm";
+import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 
+@ErrorBoundary({ isRoot: true })
 @inject("infoStore")
 @inject("itineraries")
 @inject("voucherStore")

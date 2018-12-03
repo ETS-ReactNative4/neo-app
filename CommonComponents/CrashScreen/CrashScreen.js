@@ -7,8 +7,8 @@ import {
 } from "react-native-responsive-dimensions";
 import { isIphoneX } from "react-native-iphone-x-helper";
 import SimpleButton from "../../CommonComponents/SimpleButton/SimpleButton";
-import { RNRestart } from "react-native-restart";
-import { PropTypes } from "prop-types";
+import RNRestart from "react-native-restart";
+import PropTypes from "prop-types";
 import forbidExtraProps from "../../Services/PropTypeValidation/forbidExtraProps";
 
 const CrashScreen = ({ isRoot, navigation }) => {

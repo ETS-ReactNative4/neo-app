@@ -5,7 +5,7 @@ import ControlledWebView from "../../CommonComponents/ControlledWebView/Controll
 import HomeHeader from "../../CommonComponents/HomeHeader/HomeHeader";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 
-@ErrorBoundary
+@ErrorBoundary({ isRoot: true })
 class About extends Component {
   static navigationOptions = HomeHeader;
   _webView;

@@ -1,7 +1,6 @@
 import React, { Component } from "react";
-import { View, StyleSheet, ScrollView } from "react-native";
+import { View, StyleSheet } from "react-native";
 import WeatherCard from "./Components/WeatherCard";
-import constants from "../../constants/constants";
 import WeatherChart from "./Components/WeatherChart";
 import WeatherTiles from "./Components/WeatherTiles";
 import WeatherInactivePlaceholder from "./Components/WeatherInactivePlaceholder";
@@ -12,9 +11,11 @@ import { extendMoment } from "moment-range";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import XSensorPlaceholder from "../../CommonComponents/XSensorPlaceholder/XSensorPlaceholder";
 import { isIphoneX } from "react-native-iphone-x-helper";
+import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 
 const moment = extendMoment(Moment);
 
+@ErrorBoundary()
 @inject("weatherStore")
 @inject("itineraries")
 @observer
