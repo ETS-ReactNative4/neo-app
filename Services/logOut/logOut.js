@@ -25,6 +25,7 @@ const logOut = () => {
       navigation._navigation.navigate("Splash");
 
       setTimeout(() => {
+        storeService.userStore.reset();
         storeService.itineraries.reset();
         storeService.appState.reset();
         storeService.yourBookingsStore.reset();

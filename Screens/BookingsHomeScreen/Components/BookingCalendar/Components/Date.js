@@ -85,7 +85,9 @@ const styles = StyleSheet.create({
   },
   singleDateContainer: {
     backgroundColor: constants.firstColor,
-    borderRadius: dateItemWidth / 2
+    borderRadius: (dateItemWidth - 8) / 2,
+    width: dateItemWidth - 8,
+    marginHorizontal: 4
   },
   rightCorner: {
     backgroundColor: constants.firstColor,
