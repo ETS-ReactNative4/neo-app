@@ -245,30 +245,34 @@ class AppState {
       uid: this._pushTokens.uid,
       deviceToken: this._pushTokens.deviceToken
     };
-    apiCall(`${constants.registerDeviceToken}?opr=remove`, requestBody)
-      .then(response => {
-        if (response.status === "SUCCESS") {
-          this._pushTokens = {
-            uid: uuidv4(),
-            deviceToken: ""
-          };
-        } else {
-          logError("failed to remove device token after logOut");
-          this._pushTokens = {
-            uid: uuidv4(),
-            deviceToken: ""
-          };
-        }
-      })
-      .catch(err => {
-        this._pushTokens = {
-          uid: uuidv4(),
-          deviceToken: ""
-        };
-        logError(err, {
-          eventType: "failed to remove device token after logOut"
-        });
-      });
+    Keychain.getGenericPassword().then(credentials => {
+      if (credentials && credentials.password) {
+        apiCall(`${constants.registerDeviceToken}?opr=remove`, requestBody)
+          .then(response => {
+            if (response.status === "SUCCESS") {
+              this._pushTokens = {
+                uid: uuidv4(),
+                deviceToken: ""
+              };
+            } else {
+              logError("failed to remove device token after logOut");
+              this._pushTokens = {
+                uid: uuidv4(),
+                deviceToken: ""
+              };
+            }
+          })
+          .catch(err => {
+            this._pushTokens = {
+              uid: uuidv4(),
+              deviceToken: ""
+            };
+            logError(err, {
+              eventType: "failed to remove device token after logOut"
+            });
+          });
+      }
+    });
   };
 
   /**
