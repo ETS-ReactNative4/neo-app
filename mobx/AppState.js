@@ -2,6 +2,7 @@ import { observable, computed, action, set, toJS } from "mobx";
 import { persist } from "mobx-persist";
 import { createTransformer } from "mobx-utils";
 import { NavigationActions } from "react-navigation";
+import _ from "lodash";
 import apiCall from "../Services/networkRequests/apiCall";
 import constants from "../constants/constants";
 import { logError } from "../Services/errorLogger/errorLogger";
@@ -146,7 +147,7 @@ class AppState {
   get currencies() {
     const itineraryId = storeService.itineraries.selectedItineraryId;
     if (this._currencies[itineraryId])
-      return toJS(this._currencies[itineraryId]);
+      return _.uniq(toJS(this._currencies[itineraryId]));
     else return [];
   }
 
