@@ -240,7 +240,7 @@ class AppState {
     });
   };
 
-  removePushToken = () => {
+  removePushToken = callback => {
     const requestBody = {
       uid: this._pushTokens.uid,
       deviceToken: this._pushTokens.deviceToken
@@ -271,6 +271,7 @@ class AppState {
               eventType: "failed to remove device token after logOut"
             });
           });
+        callback();
       }
     });
   };
