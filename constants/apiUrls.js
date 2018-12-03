@@ -22,7 +22,7 @@ const apiUrls = {
   getLanguages: "mobile/getLanguageOfCity",
   pinPhrase: "mobile/pinnedPhrase",
   getPinnedPhrases: "mobile/getpinnedPhraseForUser",
-  registerDeviceToken: "mobile/register/devicetoken",
+  registerDeviceToken: "mobile/devicetoken",
   getEmergencyContacts: "mobile/city/contacts/emergency",
   getPassportDetails: "mobile/:itineraryId/passport/details",
   getVisaDetails: "mobile/:itineraryId/visa/details",

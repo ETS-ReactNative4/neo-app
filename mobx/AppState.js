@@ -253,7 +253,7 @@ class AppState {
     };
     Keychain.getGenericPassword().then(credentials => {
       if (credentials && credentials.password) {
-        apiCall(`${constants.registerDeviceToken}?opr=add`, requestBody)
+        apiCall(constants.registerDeviceToken, requestBody, "PUT")
           .then(response => {
             if (response.status === "SUCCESS") {
               this._pushTokens.deviceToken = deviceToken;
@@ -276,9 +276,9 @@ class AppState {
     Keychain.getGenericPassword().then(credentials => {
       if (credentials && credentials.password) {
         apiCall(
-          `${constants.registerDeviceToken}?opr=remove`,
+          constants.registerDeviceToken,
           requestBody,
-          "POST",
+          "DELETE",
           false,
           credentials.password
         )
