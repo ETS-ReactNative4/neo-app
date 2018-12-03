@@ -1,9 +1,8 @@
 import React, { Component } from "react";
-import { ImageBackground, Platform } from "react-native";
-import { StackActions, NavigationActions } from "react-navigation";
+import { AsyncStorage, ImageBackground, Platform } from "react-native";
+import { NavigationActions } from "react-navigation";
 import constants from "../../constants/constants";
 import * as Keychain from "react-native-keychain";
-import { inject, observer } from "mobx-react/custom";
 
 const resetToBooked = NavigationActions.navigate({
   routeName: "AppHome",
@@ -15,23 +14,24 @@ const resetToPlan = NavigationActions.navigate({
   action: NavigationActions.navigate({ routeName: "NewItineraryStack" })
 });
 
-@inject("appState")
-@observer
 class Splash extends Component {
   static navigationOptions = {
     header: null
   };
 
   componentDidMount() {
-    const { isTripModeOn } = this.props.appState;
     setTimeout(async () => {
       const credentials = await Keychain.getGenericPassword();
       if (credentials) {
-        if (isTripModeOn) {
-          this.props.navigation.dispatch(resetToBooked);
-        } else {
-          this.props.navigation.dispatch(resetToPlan);
-        }
+        AsyncStorage.getItem(constants.tripToggleStatusStorageKey).then(
+          isTripModeOn => {
+            if (JSON.parse(isTripModeOn)) {
+              this.props.navigation.dispatch(resetToBooked);
+            } else {
+              this.props.navigation.dispatch(resetToPlan);
+            }
+          }
+        );
       } else {
         this.props.navigation.navigate("Starter");
       }

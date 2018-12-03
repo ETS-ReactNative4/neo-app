@@ -40,7 +40,9 @@ const apiUrls = {
   hotelVoucher: "hotel",
   flightVoucher: "flight",
   activityVoucher: "activity",
-  transferVoucher: "transfer"
+  transferVoucher: "transfer",
+
+  tripToggleStatusStorageKey: "@Pickyourtrail/tripToggleStatus"
 };
 
 export default apiUrls;

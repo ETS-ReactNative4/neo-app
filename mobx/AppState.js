@@ -10,6 +10,7 @@ import navigationService from "../Services/navigationService/navigationService";
 import DebouncedAlert from "../CommonComponents/DebouncedAlert/DebouncedAlert";
 import storeService from "../Services/storeService/storeService";
 import * as Keychain from "react-native-keychain";
+import { AsyncStorage } from "react-native";
 
 const {
   conversionRateError,
@@ -29,18 +30,19 @@ class AppState {
   /**
    * Trip Toggle Button
    */
-  /**
-   * TODO: Status true by default for development
-   */
   @persist("object")
   @observable
   _tripMode = {
-    status: true
+    status: false
   };
 
   @action
   setTripMode = status => {
     this._tripMode.status = status;
+    AsyncStorage.setItem(
+      constants.tripToggleStatusStorageKey,
+      JSON.stringify(status)
+    );
   };
 
   @computed
