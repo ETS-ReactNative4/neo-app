@@ -57,6 +57,7 @@ class HotelVoucher extends Component {
       name,
       roomsInHotel,
       amenitiesList,
+      amenityDisplayList,
       bookingSource,
       imageURL,
       finalPrice,
@@ -82,24 +83,26 @@ class HotelVoucher extends Component {
     const amenitiesSection = [
       {
         name: "Hotel Amenities",
-        component: amenitiesList
-          ? amenitiesList.map((amenity, amenityIndex) => {
+        component: amenityDisplayList
+          ? amenityDisplayList.map((amenity, amenityIndex) => {
               const customStyle = {
                 borderBottomWidth: StyleSheet.hairlineWidth,
-                borderBottomColor: constants.shade4
+                borderBottomColor: constants.shade4,
+                paddingBottom: 8
               };
               return (
                 <View
                   key={amenityIndex}
                   style={[
                     styles.amenitiesTextWrapper,
-                    amenityIndex === amenitiesList.length - 1 ? customStyle : {}
+                    amenityIndex === amenityDisplayList.length - 1
+                      ? customStyle
+                      : {}
                   ]}
                 >
-                  <Text
-                    style={styles.amenitiesText}
-                    key={amenityIndex}
-                  >{`• ${amenity}`}</Text>
+                  <Text style={styles.amenitiesText} key={amenityIndex}>{`• ${
+                    amenity.amenityName
+                  }`}</Text>
                 </View>
               );
             })
@@ -152,7 +155,6 @@ class HotelVoucher extends Component {
             </Text>
             <Text style={styles.checkTime}>
               {checkInTimeVoucher || "02:00 pm"}
-              {/*checkInDateTs ? moment(checkInDateTs).format("hh:mm a") : "02:00 pm"*/}
             </Text>
           </View>
           <View style={styles.checkOutBox}>
@@ -166,14 +168,11 @@ class HotelVoucher extends Component {
             </Text>
             <Text style={styles.checkTime}>
               {checkOutTimeVoucher || "11:00 pm"}
-              {/*checkOutDateTs ? moment(checkOutDateTs).format("hh:mm a") : "11:00 pm"*/}
             </Text>
           </View>
         </View>
 
-        <View style={styles.addressRow}>
-          <VoucherName name={name} />
-        </View>
+        <VoucherName name={name} textStyle={{ marginHorizontal: 24 }} />
 
         <View style={styles.bookingDetailsRow}>
           <SectionHeader
@@ -326,12 +325,6 @@ const styles = StyleSheet.create({
     marginTop: 5
   },
 
-  addressRow: {
-    paddingHorizontal: 24,
-    minHeight: 80,
-    marginTop: 16
-  },
-
   bookingDetailsRow: {
     paddingHorizontal: 24
   },
@@ -391,8 +384,7 @@ const styles = StyleSheet.create({
     marginBottom: 4
   },
   amenitiesText: {
-    ...constants.font20(constants.primaryLight),
-    lineHeight: 22,
+    ...constants.fontCustom(constants.primaryLight, 18, 20),
     color: constants.black2
   },
 
