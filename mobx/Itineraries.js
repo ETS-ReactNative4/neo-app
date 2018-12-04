@@ -405,6 +405,24 @@ class Itineraries {
   }
 
   @computed
+  get insurance() {
+    if (_.isEmpty(this._selectedItinerary)) return {};
+
+    try {
+      const insuranceCosting = this._selectedItinerary.insuranceCosting
+        .insuranceCostingById;
+      if (insuranceCosting.plan) {
+        return insuranceCosting;
+      } else {
+        return {};
+      }
+    } catch (e) {
+      logError(e);
+      return {};
+    }
+  }
+
+  @computed
   get passes() {
     if (_.isEmpty(this._selectedItinerary)) return [];
 

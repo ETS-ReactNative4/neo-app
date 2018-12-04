@@ -103,15 +103,15 @@ class TransferVoucher extends Component {
         name: "Arrival at",
         value: drop || "NA"
       },
-      vehicle === "Rental Car"
-        ? null
-        : {
-            name: "Arrival time",
-            value:
-              arrivalTime && arrivalTime !== -1
-                ? moment(arrivalTime).format("hh:mm a")
-                : "NA"
-          },
+      // vehicle === "Rental Car"
+      //   ? null
+      //   : {
+      //       name: "Arrival time",
+      //       value:
+      //         arrivalTime && arrivalTime !== -1
+      //           ? moment(arrivalTime).format("hh:mm a")
+      //           : "NA"
+      //     },
       {
         name: "Pickup time",
         value:
@@ -129,17 +129,17 @@ class TransferVoucher extends Component {
         name: "Booked On",
         value: moment(bookedTime).format("DD MMM, YY")
       },
-      {
-        name: "Total Paid",
-        value:
-          vehicle === "Rental Car"
-            ? totalCost
-              ? getLocaleString(totalCost)
-              : "NA"
-            : publishedCost
-              ? getLocaleString(publishedCost)
-              : "NA"
-      },
+      // {
+      //   name: "Total Paid",
+      //   value:
+      //     vehicle === "Rental Car"
+      //       ? totalCost
+      //         ? getLocaleString(totalCost)
+      //         : "NA"
+      //       : publishedCost
+      //         ? getLocaleString(publishedCost)
+      //         : "NA"
+      // },
       {
         name: "Booking Source",
         value: "Pickyourtrail"
