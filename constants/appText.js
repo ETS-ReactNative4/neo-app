@@ -10,6 +10,12 @@ const appText = {
       message: "We are currently unable to fetch the currency details...",
       actionText: "Go Back"
     }
+  },
+  bookingProcessText: {
+    title: "This booking is in process...",
+    message:
+      "Please be patient. We are working with our travel partners to complete this booking. You will get notified when this voucher is ready.",
+    actionText: "Okay!"
   }
 };
 
