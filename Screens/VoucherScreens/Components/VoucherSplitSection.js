@@ -4,17 +4,30 @@ import constants from "../../../constants/constants";
 import PropTypes from "prop-types";
 import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraProps";
 
-const VoucherSplitSection = ({ sections, containerStyle }) => {
+const VoucherSplitSection = ({
+  sections,
+  containerStyle,
+  leftFontStyle,
+  rightFontStyle,
+  textWrapperStyle
+}) => {
   if (!containerStyle) containerStyle = {};
+  if (!leftFontStyle) leftFontStyle = {};
+  if (!rightFontStyle) rightFontStyle = {};
+  if (!textWrapperStyle) textWrapperStyle = {};
   if (!sections.length) return null;
   return (
     <View style={[styles.splitSection, containerStyle]}>
       {sections.map((section, index) => {
         if (!section) return null;
         return (
-          <View key={index} style={styles.textRowWrapper}>
-            <Text style={styles.sectionName}>{section.name}</Text>
-            <Text style={styles.sectionValue}>{section.value}</Text>
+          <View key={index} style={[styles.textRowWrapper, textWrapperStyle]}>
+            <Text style={[styles.sectionName, leftFontStyle]}>
+              {section.name}
+            </Text>
+            <Text style={[styles.sectionValue, rightFontStyle]}>
+              {section.value}
+            </Text>
           </View>
         );
       })}
@@ -29,7 +42,10 @@ VoucherSplitSection.propTypes = forbidExtraProps({
       value: PropTypes.string.isRequired
     })
   ).isRequired,
-  containerStyle: PropTypes.object
+  containerStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.number]),
+  leftFontStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.number]),
+  rightFontStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.number]),
+  textWrapperStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.number])
 });
 
 const styles = StyleSheet.create({
@@ -43,11 +59,11 @@ const styles = StyleSheet.create({
     marginVertical: 4
   },
   sectionName: {
-    ...constants.font17(constants.primaryLight),
+    ...constants.fontCustom(constants.primaryLight, 17, 24),
     color: constants.shade2
   },
   sectionValue: {
-    ...constants.font17(constants.primaryLight),
+    ...constants.fontCustom(constants.primaryLight, 17, 24),
     color: constants.black1
   }
 });
