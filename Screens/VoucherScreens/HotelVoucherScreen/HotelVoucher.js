@@ -52,8 +52,8 @@ class HotelVoucher extends Component {
       checkOutDateDisplay,
       checkOutMonthDisplay,
       checkOutDayOfWeek,
-      checkInTime, // 24-hour format?
-      checkOutTime, // 24-hour format?
+      checkInDate,
+      checkOutDate,
       name,
       roomsInHotel,
       amenitiesList,
@@ -72,7 +72,11 @@ class HotelVoucher extends Component {
       checkOutDateTs,
       hotelAddress1,
       hotelAddress2,
-      bookedTime
+      bookedTime,
+      checkInDate: checkInDateVoucher,
+      checkInTime: checkInTimeVoucher,
+      checkOutDate: checkOutDateVoucher,
+      checkOutTime: checkOutTimeVoucher
     } = hotel.voucher;
 
     const amenitiesSection = [
@@ -113,7 +117,6 @@ class HotelVoucher extends Component {
         value: "Pickyourtrail"
       }
     ];
-
     return [
       <ParallaxScrollView
         key={0}
@@ -143,20 +146,26 @@ class HotelVoucher extends Component {
           <View style={styles.checkInBox}>
             <Text style={styles.checkTitle}>CHECK IN</Text>
             <Text style={styles.checkDate}>
-              {moment(checkInDateTs).format("ddd, DD MMM")}
+              {checkInDateVoucher
+                ? moment(checkInDateVoucher, "YYYY-MM-DD").format("ddd, DD MMM")
+                : moment(checkInDate, "DD/MMM/YYYY").format("ddd, DD MMM")}
             </Text>
             <Text style={styles.checkTime}>
-              {"02:00 pm"}
+              {checkInTimeVoucher || "02:00 pm"}
               {/*checkInDateTs ? moment(checkInDateTs).format("hh:mm a") : "02:00 pm"*/}
             </Text>
           </View>
           <View style={styles.checkOutBox}>
             <Text style={styles.checkTitle}>CHECK OUT</Text>
             <Text style={styles.checkDate}>
-              {moment(checkOutDateTs).format("ddd, DD MMM")}
+              {checkOutDateVoucher
+                ? moment(checkOutDateVoucher, "YYYY-MM-DD").format(
+                    "ddd, DD MMM"
+                  )
+                : moment(checkOutDate, "DD/MMM/YYYY").format("ddd, DD MMM")}
             </Text>
             <Text style={styles.checkTime}>
-              {"11:00 pm"}
+              {checkOutTimeVoucher || "11:00 pm"}
               {/*checkOutDateTs ? moment(checkOutDateTs).format("hh:mm a") : "11:00 pm"*/}
             </Text>
           </View>
