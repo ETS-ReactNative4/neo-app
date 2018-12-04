@@ -22,6 +22,7 @@ import PassSection from "./Components/PassSection";
 import FerriesSection from "./Components/FerriesSection";
 import RentalCarSection from "./Components/RentalCarSection";
 import { recordEvent } from "../../../../Services/analytics/analyticsService";
+import _ from "lodash";
 
 let sections = [];
 @inject("itineraries")
@@ -40,12 +41,14 @@ class BookingAccordion extends Component {
 
     if (isActive) customStyle.borderBottomWidth = 0;
 
-    const bookingProcessingCount = section.items.reduce((count, item) => {
-      if (item.voucher && !(item.voucher.booked || item.voucher.self)) {
-        count++;
-      }
-      return count;
-    }, 0);
+    const bookingProcessingCount = section.items.length
+      ? section.items.reduce((count, item) => {
+          if (item.voucher && !(item.voucher.booked || item.voucher.self)) {
+            count++;
+          }
+          return count;
+        }, 0)
+      : 0;
 
     return (
       <View style={[styles.headerContainer, customStyle]}>
@@ -72,7 +75,7 @@ class BookingAccordion extends Component {
               ) : null,
               <NotificationCount
                 key={1}
-                count={section.items.length}
+                count={section.items.length || 1}
                 containerStyle={{
                   backgroundColor: constants.secondColor,
                   height: 16,
@@ -216,7 +219,8 @@ class BookingAccordion extends Component {
       ferries,
       visa,
       passes,
-      rentals
+      rentals,
+      insurance
     } = this.props.itineraries;
 
     if (flights.length) {
@@ -301,6 +305,15 @@ class BookingAccordion extends Component {
         items: visa
       };
       sections.push(visaSection);
+    }
+
+    if (_.isEmpty(insurance)) {
+      const insuranceSection = {
+        type: "Insurance",
+        icon: constants.insuranceIcon,
+        items: insurance
+      };
+      sections.push(insuranceSection);
     }
 
     return (
