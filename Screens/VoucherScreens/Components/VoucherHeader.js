@@ -61,17 +61,17 @@ const VoucherHeader = ({
             </View>
           )}
           <View style={styles.actionRow}>
-            <TouchableOpacity
-              style={styles.menuIconContainer}
-              onPress={menu}
-              activeOpacity={0.2}
-            >
-              <Icon
-                color={"white"}
-                name={constants.moreOptionsHorizIcon}
-                size={24}
-              />
-            </TouchableOpacity>
+            {/*<TouchableOpacity*/}
+            {/*style={styles.menuIconContainer}*/}
+            {/*onPress={menu}*/}
+            {/*activeOpacity={0.2}*/}
+            {/*>*/}
+            {/*<Icon*/}
+            {/*color={"white"}*/}
+            {/*name={constants.moreOptionsHorizIcon}*/}
+            {/*size={24}*/}
+            {/*/>*/}
+            {/*</TouchableOpacity>*/}
           </View>
         </LinearGradient>
       </ImageBackground>
