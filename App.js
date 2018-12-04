@@ -50,7 +50,6 @@ class App extends Component {
     this._onNotificationReceived && this._onNotificationReceived();
     this._onNotificationDisplayed && this._onNotificationDisplayed();
     this._onNotificationOpened && this._onNotificationOpened();
-    this._getInitialNotification && this._getInitialNotification();
   }
 
   render() {
