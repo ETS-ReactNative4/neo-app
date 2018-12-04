@@ -10,7 +10,7 @@ import { responsiveWidth } from "react-native-responsive-dimensions";
 import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraProps";
 import { recordEvent } from "../../../Services/analytics/analyticsService";
 
-const OtpBar = ({ resendOtp, verifyOtp, isWaiting, waitTime }) => {
+const OtpBar = ({ resendOtp, verifyOtp, isWaiting, waitTime, isLoading }) => {
   return [
     <SimpleButton
       containerStyle={{
@@ -40,14 +40,16 @@ const OtpBar = ({ resendOtp, verifyOtp, isWaiting, waitTime }) => {
         width: 160
       }}
       key={1}
-      text={"Verify"}
+      text={isLoading ? "Verifying..." : "Verify"}
       action={() => {
-        recordEvent(constants.mobileNumberVerifyOtp);
-        verifyOtp();
+        if (!isLoading) {
+          recordEvent(constants.mobileNumberVerifyOtp);
+          verifyOtp();
+        }
       }}
-      textColor={"white"}
+      textColor={isLoading ? constants.firstColor : "white"}
       underlayColor={constants.firstColorAlpha(0.4)}
-      color={constants.firstColor}
+      color={isLoading ? "white" : constants.firstColor}
     />
   ];
 };
@@ -56,7 +58,8 @@ OtpBar.propTypes = forbidExtraProps({
   resendOtp: PropTypes.func.isRequired,
   verifyOtp: PropTypes.func.isRequired,
   isWaiting: PropTypes.bool.isRequired,
-  waitTime: PropTypes.number.isRequired
+  waitTime: PropTypes.number.isRequired,
+  isLoading: PropTypes.bool.isRequired
 });
 
 const styles = StyleSheet.create({

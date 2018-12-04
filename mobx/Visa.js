@@ -42,7 +42,10 @@ class Visa {
         this._isLoading = false;
         if (response.status === "SUCCESS") {
           this._hasError = false;
-          set(this._visaDetails, itineraryId, response.data);
+          const visaDetails = toJS(this._visaDetails);
+          visaDetails[itineraryId] = response.data;
+          this._visaDetails = visaDetails;
+          // set(this._visaDetails, itineraryId, response.data);
         } else {
           this._hasError = true;
         }

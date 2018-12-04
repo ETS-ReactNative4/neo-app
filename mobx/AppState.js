@@ -10,6 +10,12 @@ import navigationService from "../Services/navigationService/navigationService";
 import DebouncedAlert from "../CommonComponents/DebouncedAlert/DebouncedAlert";
 import storeService from "../Services/storeService/storeService";
 import * as Keychain from "react-native-keychain";
+import { AsyncStorage } from "react-native";
+
+const {
+  conversionRateError,
+  currencyDetailsError
+} = constants.currencyConverterText;
 
 class AppState {
   @action
@@ -24,18 +30,19 @@ class AppState {
   /**
    * Trip Toggle Button
    */
-  /**
-   * TODO: Status true by default for development
-   */
   @persist("object")
   @observable
   _tripMode = {
-    status: true
+    status: false
   };
 
   @action
   setTripMode = status => {
     this._tripMode.status = status;
+    AsyncStorage.setItem(
+      constants.tripToggleStatusStorageKey,
+      JSON.stringify(status)
+    );
   };
 
   @computed
@@ -110,11 +117,23 @@ class AppState {
         if (response.status === "SUCCESS") {
           this._conversionRates = response.data;
         } else {
-          DebouncedAlert("Unable to get conversion rates!");
+          storeService.infoStore.setError(
+            conversionRateError.title,
+            conversionRateError.message,
+            constants.errorBoxIllus,
+            conversionRateError.actionText,
+            () => navigationService.navigation._navigation.goBack()
+          );
         }
       })
       .catch(e => {
-        console.error(e);
+        storeService.infoStore.setError(
+          conversionRateError.title,
+          conversionRateError.message,
+          constants.errorBoxIllus,
+          conversionRateError.actionText,
+          () => navigationService.navigation._navigation.goBack()
+        );
       });
   };
 
@@ -187,11 +206,23 @@ class AppState {
           currencies[itineraryId] = currencyArray;
           this._currencies = currencies;
         } else {
-          DebouncedAlert("Error!", "Unable to retrieve currency details!");
+          storeService.infoStore.setError(
+            currencyDetailsError.title,
+            currencyDetailsError.message,
+            constants.errorBoxIllus,
+            currencyDetailsError.actionText,
+            () => navigationService.navigation._navigation.goBack()
+          );
         }
       })
       .catch(err => {
-        DebouncedAlert("Error!", "Unable to retrieve currency details!");
+        storeService.infoStore.setError(
+          currencyDetailsError.title,
+          currencyDetailsError.message,
+          constants.errorBoxIllus,
+          currencyDetailsError.actionText,
+          () => navigationService.navigation._navigation.goBack()
+        );
       });
   };
 
@@ -222,7 +253,7 @@ class AppState {
     };
     Keychain.getGenericPassword().then(credentials => {
       if (credentials && credentials.password) {
-        apiCall(`${constants.registerDeviceToken}?opr=add`, requestBody)
+        apiCall(constants.registerDeviceToken, requestBody, "PUT")
           .then(response => {
             if (response.status === "SUCCESS") {
               this._pushTokens.deviceToken = deviceToken;
@@ -245,9 +276,9 @@ class AppState {
     Keychain.getGenericPassword().then(credentials => {
       if (credentials && credentials.password) {
         apiCall(
-          `${constants.registerDeviceToken}?opr=remove`,
+          constants.registerDeviceToken,
           requestBody,
-          "POST",
+          "DELETE",
           false,
           credentials.password
         )

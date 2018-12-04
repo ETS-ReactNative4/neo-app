@@ -144,6 +144,11 @@ const createStore = () => {
     .catch(err => {
       logError(err);
     });
+  hydrate("_visaDetails", appStore.visaStore)
+    .then(() => {})
+    .catch(err => {
+      logError(err);
+    });
   hydrate("_cityCategories", appStore.placesStore)
     .then(() => {})
     .catch(err => {

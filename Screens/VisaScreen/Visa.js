@@ -18,6 +18,20 @@ class Visa extends Component {
       header: <CommonHeader title={"Visa Documents"} navigation={navigation} />
     };
   };
+
+  componentDidMount() {
+    const { selectedItineraryId } = this.props.itineraries;
+    const {
+      getVisaDetailsByItineraryId,
+      getVisaDetails
+    } = this.props.visaStore;
+
+    const visaDetails = getVisaDetailsByItineraryId(selectedItineraryId);
+    if (!visaDetails.length) {
+      getVisaDetails(selectedItineraryId);
+    }
+  }
+
   render() {
     const { selectedItineraryId } = this.props.itineraries;
     const { getVisaDetailsByItineraryId } = this.props.visaStore;
