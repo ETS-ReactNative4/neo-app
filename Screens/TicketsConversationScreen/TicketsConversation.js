@@ -17,7 +17,9 @@ import { inject, observer } from "mobx-react/custom";
 import moment from "moment";
 import uuidv4 from "uuid/v4";
 import apiCall from "../../Services/networkRequests/apiCall";
+import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 
+@ErrorBoundary()
 @inject("userStore")
 @inject("infoStore")
 @inject("itineraries")

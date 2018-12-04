@@ -34,6 +34,10 @@ const styles = {
       fontFamily: fonts.primarySemiBold
     }
   }),
+  appCrashText: {
+    reload: "Oops! Something went wrong. Kindly tap reload",
+    goBack: "Oops! Something went wrong."
+  },
   bookingProcessText: {
     title: "This booking is in process...",
     message:

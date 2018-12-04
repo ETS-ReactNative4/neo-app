@@ -1,13 +1,13 @@
 import React, { Component } from "react";
-import { FlatList, View, StyleSheet, Platform, TextInput } from "react-native";
+import { FlatList, View, StyleSheet } from "react-native";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import TicketPreview from "./Components/TicketPreview";
-import apiCall from "../../Services/networkRequests/apiCall";
 import constants from "../../constants/constants";
 import { inject, observer } from "mobx-react/custom";
 import moment from "moment";
-import Loader from "../../CommonComponents/Loader/Loader";
+import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 
+@ErrorBoundary()
 @inject("supportStore")
 @observer
 class YourTickets extends Component {

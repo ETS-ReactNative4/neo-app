@@ -3,8 +3,9 @@ import { View } from "react-native";
 import constants from "../../constants/constants";
 import { isIphoneX } from "react-native-iphone-x-helper";
 import ControlledWebView from "../../CommonComponents/ControlledWebView/ControlledWebView";
-import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
+import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 
+@ErrorBoundary()
 class PaymentScreen extends Component {
   static navigationOptions = ({ navigation }) => {
     return {

@@ -3,6 +3,7 @@ import { AsyncStorage, ImageBackground, Platform } from "react-native";
 import { NavigationActions } from "react-navigation";
 import constants from "../../constants/constants";
 import * as Keychain from "react-native-keychain";
+import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 
 const resetToBooked = NavigationActions.navigate({
   routeName: "AppHome",
@@ -14,6 +15,7 @@ const resetToPlan = NavigationActions.navigate({
   action: NavigationActions.navigate({ routeName: "NewItineraryStack" })
 });
 
+@ErrorBoundary({ isRoot: true })
 class Splash extends Component {
   static navigationOptions = {
     header: null

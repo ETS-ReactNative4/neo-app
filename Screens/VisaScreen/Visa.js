@@ -1,12 +1,14 @@
 import React, { Component } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import { inject, observer } from "mobx-react/custom";
 import constants from "../../constants/constants";
 import ScrollableTabBar from "../../CommonComponents/ScrollableTabBar/ScrollableTabBar";
 import ScrollableTabView from "react-native-scrollable-tab-view";
 import VisaTabContainer from "./Components/VisaTabContainer";
+import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 
+@ErrorBoundary()
 @inject("itineraries")
 @inject("visaStore")
 @observer

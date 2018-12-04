@@ -6,10 +6,6 @@ import { setNavigationService } from "./Services/navigationService/navigationSer
 import { updateStoreService } from "./Services/storeService/storeService";
 import AppNavigator from "./Navigators/AppNavigator";
 import NetStatMonitor from "./CommonComponents/NetStatMonitor/NetStatMonitor";
-import storeService from "./Services/storeService/storeService";
-import constants from "./constants/constants";
-import RNRestart from "react-native-restart";
-import { logError } from "./Services/errorLogger/errorLogger";
 import {
   disableAnalytics,
   enableAnalytics,
@@ -22,13 +18,10 @@ import {
   onNotificationOpened,
   onNotificationReceived
 } from "./Services/fcmService/fcm";
-import DebouncedAlert from "./CommonComponents/DebouncedAlert/DebouncedAlert";
-import { View } from "react-native";
+import ErrorBoundary from "./CommonComponents/ErrorBoundary/ErrorBoundary";
 
+@ErrorBoundary({ isRoot: true })
 class App extends Component {
-  state = {
-    isCrashed: false
-  };
   _onNotificationReceived;
   _onNotificationDisplayed;
   _onNotificationOpened;
@@ -53,21 +46,6 @@ class App extends Component {
     this._getInitialNotification = getInitialNotification;
   }
 
-  componentDidCatch(error) {
-    logError(error);
-
-    if (!this.state.isCrashed) {
-      this.setState({
-        isCrashed: true
-      });
-      DebouncedAlert(
-        "Something went wrong!",
-        "We encountered a problem and need the app to restart...",
-        [{ text: "Restart!", onPress: () => RNRestart.Restart() }]
-      );
-    }
-  }
-
   componentWillUnmount() {
     this._onNotificationReceived && this._onNotificationReceived();
     this._onNotificationDisplayed && this._onNotificationDisplayed();
@@ -76,9 +54,6 @@ class App extends Component {
   }
 
   render() {
-    if (this.state.isCrashed) {
-      return <View style={{ flex: 1, backgroundColor: "white" }} />;
-    }
     updateStoreService(store);
     return [
       <Provider {...store} key={0}>

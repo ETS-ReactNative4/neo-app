@@ -24,15 +24,16 @@ import MobileNumberInput from "./Components/MobileNumberInput";
 import SmsListener from "react-native-android-sms-listener";
 import { inject, observer } from "mobx-react/custom";
 import getSmsPermissionAndroid from "../../Services/getSmsPermissionAndroid/getSmsPermissionAndroid";
-import { NavigationActions, StackActions } from "react-navigation";
 import KeyboardAvoidingActionBar from "../../CommonComponents/KeyboardAvoidingActionBar/KeyboardAvoidingActionBar";
 import { recordEvent } from "../../Services/analytics/analyticsService";
+import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 
 // const resetToBookings = StackActions.reset({
 //   index: 0,
 //   actions: [NavigationActions.navigate({ routeName: "YourBookings" })]
 // });
 
+@ErrorBoundary()
 @inject("yourBookingsStore")
 @inject("userStore")
 @inject("infoStore")

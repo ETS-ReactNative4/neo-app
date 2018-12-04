@@ -2,7 +2,9 @@ import React, { Component } from "react";
 import { ScrollView, Text, StyleSheet } from "react-native";
 import CommonHeader from "../../../CommonComponents/CommonHeader/CommonHeader";
 import constants from "../../../constants/constants";
+import ErrorBoundary from "../../../CommonComponents/ErrorBoundary/ErrorBoundary";
 
+@ErrorBoundary()
 class FAQAnswers extends Component {
   static navigationOptions = ({ navigation }) => {
     const data = navigation.getParam("data", {});

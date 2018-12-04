@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { BackHandler, Keyboard, View, Platform } from "react-native";
 import { isIphoneX } from "react-native-iphone-x-helper";
-import CustomWebView from "react-native-webview-android-file-upload";
 import constants from "../../constants/constants";
 import { inject, observer } from "mobx-react/custom";
 import BackButtonIos from "../../CommonComponents/BackButtonIos/BackButtonIos";
@@ -11,7 +10,9 @@ import PreTrip from "./Components/PreTrip";
 import moment from "moment";
 import { recordEvent } from "../../Services/analytics/analyticsService";
 import CrispSDK from "./Components/CrispSDK";
+import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 
+@ErrorBoundary({ isRoot: true })
 @inject("userStore")
 @inject("itineraries")
 @inject("appState")

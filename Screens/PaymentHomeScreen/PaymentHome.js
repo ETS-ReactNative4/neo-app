@@ -16,7 +16,9 @@ import XSensorPlaceholder from "../../CommonComponents/XSensorPlaceholder/XSenso
 import PaymentInfoCard from "./Components/PaymentInfoCard";
 import apiCall from "../../Services/networkRequests/apiCall";
 import { recordEvent } from "../../Services/analytics/analyticsService";
+import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 
+@ErrorBoundary({ isRoot: true })
 @inject("yourBookingsStore")
 @observer
 class PaymentHome extends Component {

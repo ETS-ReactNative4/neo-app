@@ -1,11 +1,5 @@
 import React, { Component } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  TouchableOpacity
-} from "react-native";
+import { View, Text, StyleSheet, ScrollView } from "react-native";
 import RadioForm, {
   RadioButton,
   RadioButtonInput,
@@ -20,7 +14,9 @@ import { responsiveWidth } from "react-native-responsive-dimensions";
 import Loader from "../../CommonComponents/Loader/Loader";
 import apiCall from "../../Services/networkRequests/apiCall";
 import storeService from "../../Services/storeService/storeService";
+import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 
+@ErrorBoundary()
 @inject("itineraries")
 @observer
 class VisaChecklist extends Component {

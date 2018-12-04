@@ -4,7 +4,9 @@ import VoucherSplitSection from "../VoucherScreens/Components/VoucherSplitSectio
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import { View } from "react-native";
 import { inject, observer } from "mobx-react/custom";
+import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 
+@ErrorBoundary()
 @inject("passportDetailsStore")
 @observer
 class PassportDetails extends Component {

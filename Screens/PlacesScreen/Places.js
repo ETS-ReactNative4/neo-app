@@ -17,7 +17,9 @@ import { inject, observer } from "mobx-react/custom";
 import CitySelectionMenu from "../../CommonComponents/CitySelectionMenu/CitySelectionMenu";
 import PlacesPageTitle from "./Components/PlacesPageTitle";
 import { recordEvent } from "../../Services/analytics/analyticsService";
+import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 
+@ErrorBoundary()
 @inject("placesStore")
 @observer
 class Places extends Component {

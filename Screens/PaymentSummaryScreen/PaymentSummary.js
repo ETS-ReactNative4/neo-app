@@ -20,10 +20,12 @@ import moment from "moment";
 import paymentScript from "./Components/paymentScript";
 import getLocaleString from "../../Services/getLocaleString/getLocaleString";
 import VoucherAccordion from "../VoucherScreens/Components/VoucherAccordion";
+import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 
 /**
  * TODO: Need data from previous api
  */
+@ErrorBoundary()
 class PaymentSummary extends Component {
   static navigationOptions = ({ navigation }) => {
     return {

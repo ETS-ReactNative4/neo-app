@@ -21,7 +21,9 @@ import BookedItineraryTitle from "./Components/BookedItineraryTitle";
 import CitySelectionMenu from "../../CommonComponents/CitySelectionMenu/CitySelectionMenu";
 import { recordEvent } from "../../Services/analytics/analyticsService";
 import constants from "../../constants/constants";
+import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 
+@ErrorBoundary()
 @inject("appState")
 @inject("itineraries")
 @observer
@@ -136,7 +138,6 @@ class BookedItinerary extends Component {
   render() {
     const { days, slots } = this.props.itineraries;
     const { navigation } = this.props;
-
     return (
       <View style={styles.bookedItineraryContainer}>
         <CitySelectionMenu

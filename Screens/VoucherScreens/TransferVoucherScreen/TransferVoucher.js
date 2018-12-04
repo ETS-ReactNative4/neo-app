@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Text, Image, StyleSheet, Platform } from "react-native";
+import { View, StyleSheet, Platform } from "react-native";
 import { isIphoneX } from "react-native-iphone-x-helper";
 import ParallaxScrollView from "react-native-parallax-scroll-view";
 import { responsiveWidth } from "react-native-responsive-dimensions";
@@ -10,7 +10,6 @@ import VoucherName from "../Components/VoucherName";
 import VoucherSplitSection from "../Components/VoucherSplitSection";
 import SectionHeader from "../../../CommonComponents/SectionHeader/SectionHeader";
 import SimpleButton from "../../../CommonComponents/SimpleButton/SimpleButton";
-import VoucherAccordion from "../Components/VoucherAccordion";
 import IosCloseButton from "../Components/IosCloseButton";
 import moment from "moment";
 import getTransferImage from "../../../Services/getImageService/getTransferImage";
@@ -18,7 +17,9 @@ import dialer from "../../../Services/dialer/dialer";
 import { inject, observer } from "mobx-react/custom";
 import TitleDate from "../Components/TitleDate";
 import getLocaleString from "../../../Services/getLocaleString/getLocaleString";
+import ErrorBoundary from "../../../CommonComponents/ErrorBoundary/ErrorBoundary";
 
+@ErrorBoundary()
 @inject("passportDetailsStore")
 @observer
 class TransferVoucher extends Component {
