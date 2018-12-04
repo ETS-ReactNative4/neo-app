@@ -15,7 +15,6 @@ import SimpleButton from "../../CommonComponents/SimpleButton/SimpleButton";
 import MultiLineHeader from "../../CommonComponents/MultilineHeader/MultiLineHeader";
 import { inject, observer } from "mobx-react/custom";
 import moment from "moment";
-import uuidv4 from "uuid/v4";
 import apiCall from "../../Services/networkRequests/apiCall";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 
@@ -47,7 +46,8 @@ class TicketsConversation extends Component {
   };
 
   state = {
-    messageText: ""
+    messageText: "",
+    isSending: false
   };
 
   _renderItem = ({ item: conversation, index }) => {
@@ -76,12 +76,19 @@ class TicketsConversation extends Component {
   onEditText = messageText => this.setState({ messageText });
 
   sendMessage = () => {
+    this.setState({
+      isSending: true
+    });
     if (this.state.messageText) {
       const ticketId = this.props.navigation.getParam("ticketId", "");
       const { setError } = this.props.infoStore;
-      const { addMessageToConversation } = this.props.supportStore;
+      const {
+        addMessageToConversation,
+        getLastMessageByTicket
+      } = this.props.supportStore;
       const { selectedItineraryId } = this.props.itineraries;
       const { userDetails } = this.props.userStore;
+      const lastTicketDetails = getLastMessageByTicket(ticketId);
       const requestObject = {
         itineraryId: selectedItineraryId,
         msg: this.state.messageText,
@@ -89,12 +96,15 @@ class TicketsConversation extends Component {
       };
       apiCall(constants.sendTicketMessage, requestObject)
         .then(response => {
+          this.setState({
+            isSending: false
+          });
           if (response.status === "SUCCESS") {
             Keyboard.dismiss();
             const messageObject = {
               userEmail: userDetails.email,
               msg: this.state.messageText,
-              msgId: uuidv4(),
+              msgId: lastTicketDetails.msgId + 1,
               msgTime: moment().valueOf()
             };
             addMessageToConversation(ticketId, messageObject);
@@ -109,6 +119,9 @@ class TicketsConversation extends Component {
           }
         })
         .catch(error => {
+          this.setState({
+            isSending: false
+          });
           setError(
             "Unable to send message!",
             "Looks like something went wrong, please try again after sometime..."
@@ -174,7 +187,9 @@ class TicketsConversation extends Component {
               })
             }}
             color={"transparent"}
-            action={this.sendMessage}
+            action={
+              this.state.isSending ? () => null : () => this.sendMessage()
+            }
             icon={constants.arrowRight}
             iconSize={Platform.OS === "ios" ? 24 : 28}
             textColor={constants.shade3}
