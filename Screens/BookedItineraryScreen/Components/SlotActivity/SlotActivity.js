@@ -192,7 +192,9 @@ const SlotActivity = inject("infoStore")(
                 slotText
               } = activity.intercityTransferSlotDetailVO.directTransferDetail;
               imageObject = getSlotImage(transferCostingIdenfier, transferMode);
-              const transfer = getTransferById(transferCostingIdenfier);
+              const transfer = transferCostingIdenfier
+                ? getTransferById(transferCostingIdenfier)
+                : {};
               onClick = () => {
                 recordEvent(constants.bookedItineraryTransferVoucherClick);
                 if (transfer.voucher && transfer.voucher.booked) {
@@ -243,7 +245,11 @@ const SlotActivity = inject("infoStore")(
                   containerStyle={containerStyle}
                   activity={activity}
                   title={activity.name}
-                  text={activity.departureSlotDetail.slotText}
+                  text={
+                    activity.departureSlotDetail
+                      ? activity.departureSlotDetail.slotText
+                      : ""
+                  }
                   image={{ uri: imageObject.image }}
                   icon={constants.aeroplaneIcon}
                   isImageContain={true}
