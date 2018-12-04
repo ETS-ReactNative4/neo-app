@@ -40,13 +40,16 @@ class EmergencyContacts extends Component {
           prerenderingSiblingsNumber={Infinity}
           renderTabBar={() => <ScrollableTabBar />}
         >
-          {cityDetails.map((cityContactDetails, cityDetailIndex) => (
-            <EmergencyContactSection
-              key={cityDetailIndex}
-              cityContactDetails={cityContactDetails}
-              tabLabel={cityContactDetails.name.toUpperCase()}
-            />
-          ))}
+          {cityDetails.map(
+            (cityContactDetails, cityDetailIndex) =>
+              cityContactDetails ? (
+                <EmergencyContactSection
+                  key={cityDetailIndex}
+                  cityContactDetails={cityContactDetails}
+                  tabLabel={cityContactDetails.name.toUpperCase()}
+                />
+              ) : null
+          )}
         </ScrollableTabView>
       </View>
     );
