@@ -410,8 +410,9 @@ class Itineraries {
 
     try {
       const insuranceCosting = this._selectedItinerary.insuranceCosting
-        .insuranceCostingById;
-      if (insuranceCosting.plan) {
+        ? this._selectedItinerary.insuranceCosting.insuranceCostingById
+        : {};
+      if (insuranceCosting && insuranceCosting.plan) {
         return insuranceCosting;
       } else {
         return {};
