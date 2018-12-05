@@ -394,9 +394,15 @@ class Itineraries {
     let visa;
     try {
       const visaRefs = this._selectedItinerary.allVisaCostingRefs;
-      visa = visaRefs.map(ref => {
-        return toJS(this._selectedItinerary.visaCostings.visaCostingById[ref]);
-      });
+      visa = visaRefs.reduce((visaArray, ref) => {
+        const visaObject = toJS(
+          this._selectedItinerary.visaCostings.visaCostingById[ref]
+        );
+        if (!visaObject.onArrival) {
+          visaArray.push(visaObject);
+        }
+        return visaArray;
+      }, []);
     } catch (e) {
       logError(e);
       visa = [];

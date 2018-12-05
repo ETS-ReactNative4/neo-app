@@ -307,7 +307,7 @@ class BookingAccordion extends Component {
       sections.push(visaSection);
     }
 
-    if (_.isEmpty(insurance)) {
+    if (!_.isEmpty(insurance)) {
       const insuranceSection = {
         type: "Insurance",
         icon: constants.insuranceIcon,
