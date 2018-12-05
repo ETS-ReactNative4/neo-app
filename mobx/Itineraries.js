@@ -464,6 +464,37 @@ class Itineraries {
     return rentals;
   }
 
+  getRentalCarByCityOrder = createTransformer(
+    ({ fromCityOrder, toCityOrder }) => {
+      if (_.isEmpty(this._selectedItinerary)) return {};
+      try {
+        const rental = this.rentals.find(rental => {
+          const { pickupCityId, dropCityId } = rental;
+          const pickUpCityOrder = this.getCityOrderById(pickupCityId);
+          const dropCityOrder = this.getCityOrderById(dropCityId);
+          return (
+            pickUpCityOrder <= fromCityOrder && dropCityOrder <= toCityOrder
+          );
+        });
+        if (rental) return rental;
+        else return {};
+      } catch (e) {
+        logError(e);
+        return {};
+      }
+    }
+  );
+
+  getCityOrderById = createTransformer(cityId => {
+    if (_.isEmpty(this._selectedItinerary)) return "";
+    try {
+      return this._selectedItinerary.itinerary.cityWiseOrderMap[cityId];
+    } catch (e) {
+      logError(e);
+      return "";
+    }
+  });
+
   @computed
   get days() {
     if (_.isEmpty(this._selectedItinerary)) return [];
