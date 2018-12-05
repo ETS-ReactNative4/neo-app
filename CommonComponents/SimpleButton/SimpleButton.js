@@ -10,16 +10,12 @@ const SimpleButton = ({
   action,
   textColor,
   underlayColor,
-  textStyle,
+  textStyle = {},
   hasBorder,
-  containerStyle,
+  containerStyle = {},
   icon,
   iconSize
 }) => {
-  if (!textStyle) textStyle = {};
-
-  if (!containerStyle) containerStyle = {};
-
   if (textColor) textStyle = { ...textStyle, color: textColor };
 
   if (color) containerStyle.backgroundColor = color;

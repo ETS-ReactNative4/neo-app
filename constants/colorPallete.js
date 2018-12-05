@@ -39,6 +39,7 @@ const greyPallete = {
 };
 
 const gradientPallete = {
+  darkGradient: `rgba(0,0,0,1)`,
   firstGradient: `rgba(66,5,62,1)`,
   secondGradient: `rgba(222,99,160,1)`,
   thirdGradient: `rgba(137,129,195,1)`,
@@ -47,6 +48,7 @@ const gradientPallete = {
   sixthGradient: `rgba(110,188,118,1)`,
   seventhGradient: `rgba(77,159,197,1)`,
 
+  darkGradientAlpha: alpha => `rgba(0,0,0,${alpha})`,
   firstGradientAlpha: alpha => `rgba(66,5,62,${alpha})`,
   secondGradientAlpha: alpha => `rgba(222,99,160,${alpha})`,
   thirdGradientAlpha: alpha => `rgba(137,129,195,${alpha})`,
