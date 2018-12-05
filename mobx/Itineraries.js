@@ -475,9 +475,10 @@ class Itineraries {
       if (_.isEmpty(this._selectedItinerary)) return {};
       try {
         const rental = this.rentals.find(rental => {
-          const { pickupCityId, dropCityId } = rental;
-          const pickUpCityOrder = this.getCityOrderById(pickupCityId);
-          const dropCityOrder = this.getCityOrderById(dropCityId);
+          const { key } = rental;
+          const rentalKeyArray = key.split(/#|_/);
+          const pickUpCityOrder = parseInt(rentalKeyArray[1]);
+          const dropCityOrder = parseInt(rentalKeyArray[3]);
           return (
             pickUpCityOrder <= fromCityOrder && dropCityOrder <= toCityOrder
           );
