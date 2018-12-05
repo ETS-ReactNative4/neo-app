@@ -40,6 +40,10 @@ class OtpInput extends Component {
     }
   };
 
+  componentDidMount() {
+    this.refs[`input_0`] && this.refs[`input_0`].focus();
+  }
+
   render() {
     let { containerStyle } = this.props;
     let { otp } = this.props;
