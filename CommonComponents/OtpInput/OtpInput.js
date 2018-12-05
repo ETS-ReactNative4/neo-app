@@ -29,6 +29,17 @@ class OtpInput extends Component {
     if (index > 0) this.refs[`input_${index - 1}`].focus();
   };
 
+  keyPressListener = (keyValue, value, index) => {
+    if (!value && keyValue === "Backspace") {
+      this.moveLeft(index);
+    } else if (value && keyValue !== "Backspace" && keyValue) {
+      if (index < this.props.otp.length - 1) {
+        this.props.onEdit(keyValue, index + 1);
+        this.moveRight(index + 1);
+      }
+    }
+  };
+
   render() {
     let { containerStyle } = this.props;
     let { otp } = this.props;
@@ -51,6 +62,9 @@ class OtpInput extends Component {
                   onChangeText={value => {
                     this.props.onEdit(value, index);
                     this.moveFocus(value, index);
+                  }}
+                  onKeyPress={({ nativeEvent: { key: keyValue } }) => {
+                    this.keyPressListener(keyValue, value, index);
                   }}
                   underlineColorAndroid={"transparent"}
                   keyboardType={"phone-pad"}
