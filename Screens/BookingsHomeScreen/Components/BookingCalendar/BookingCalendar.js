@@ -21,7 +21,8 @@ const BookingCalendar = ({
   getDateSelectionMatrixSingle,
   numOfActivitiesByDay,
   getTransferTypeByDay,
-  navigation
+  navigation,
+  containerStyle = {}
 }) => {
   const numberOfRows = startEndDates.numberOfDays / 7;
   const rowArray = [];
@@ -43,7 +44,7 @@ const BookingCalendar = ({
   });
 
   return (
-    <View style={styles.calendarContainer}>
+    <View style={[styles.calendarContainer, containerStyle]}>
       {rowArray.length ? <WeekNameRow /> : null}
 
       {rowArray.map((dates, index) => {
@@ -76,7 +77,8 @@ BookingCalendar.propTypes = {
   getDateSelectionMatrixSingle: PropTypes.func.isRequired,
   numOfActivitiesByDay: PropTypes.func.isRequired,
   getTransferTypeByDay: PropTypes.func.isRequired,
-  navigation: PropTypes.object.isRequired
+  navigation: PropTypes.object.isRequired,
+  containerStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.number])
 };
 
 const styles = StyleSheet.create({

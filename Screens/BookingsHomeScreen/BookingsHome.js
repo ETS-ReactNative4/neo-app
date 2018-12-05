@@ -178,6 +178,7 @@ class BookingsHome extends Component {
           }
         >
           <BookingCalendar
+            containerStyle={styles.calendarContainer}
             numOfActivitiesByDay={numOfActivitiesByDay}
             startEndDates={startEndDates}
             days={days}
@@ -229,6 +230,9 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 24,
     backgroundColor: "white"
+  },
+  calendarContainer: {
+    marginTop: 16
   },
   bookingContainer: {}
 });
