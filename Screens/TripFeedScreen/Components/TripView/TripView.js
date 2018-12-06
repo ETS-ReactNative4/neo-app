@@ -79,7 +79,7 @@ class TripView extends Component {
                     title: item.title,
                     helpText: item.period,
                     image: { uri: item.image },
-                    action: () => {}
+                    action: item.action
                   }}
                   gradients={[constants.darkGradientAlpha]}
                 />

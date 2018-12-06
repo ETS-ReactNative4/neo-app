@@ -62,7 +62,8 @@ const ContentImageSection = ({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: "row"
+    flexDirection: "row",
+    marginVertical: 16
   },
   contentContainer: {
     width: responsiveWidth(50) + 24,

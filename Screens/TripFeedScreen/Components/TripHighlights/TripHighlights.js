@@ -5,7 +5,7 @@ import forbidExtraProps from "../../../../Services/PropTypeValidation/forbidExtr
 import constants from "../../../../constants/constants";
 import Carousel from "../../../../CommonComponents/Carousel/Carousel";
 import { recordEvent } from "../../../../Services/analytics/analyticsService";
-import Box from "../../../../CommonComponents/Box/Box";
+import SimpleCard from "../../../../CommonComponents/SimpleCard/SimpleCard";
 
 class TripHighlights extends Component {
   state = {
@@ -42,19 +42,22 @@ class TripHighlights extends Component {
         >
           {data.map((item, itemIndex) => {
             return (
-              <Box
+              <SimpleCard
                 key={itemIndex}
-                showBar
-                size={boxSize}
-                data={{
-                  title: item.title,
-                  image: { uri: item.image },
-                  action: () => {}
+                title={item.title}
+                image= {{ uri: item.image }}
+                action={item.action}
+                containerStyle={{
+                  width: boxSize,
+                  height: boxSize
                 }}
-                gradients={[constants.black1]}
-                titleStyle={{
-                  fontSize: 13,
-                  fontWeight: "400"
+                imageStyle={{
+                  height: boxSize * 0.8
+                }}
+                textStyle={{
+                  ...constants.fontCustom(constants.primaryRegular, 13),
+                  backgroundColor: constants.black1,
+                  color: 'white'
                 }}
               />
             );

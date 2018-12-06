@@ -19,7 +19,7 @@ const ContentSection = ({
       ) : null}
       {text ? (
         <View style={styles.textContainer}>
-          <Text style={[styles.subText, textStyle]} numberOfLines={3}>
+          <Text style={[styles.subText, textStyle]} numberOfLines={5}>
             {text}
           </Text>
         </View>
@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
     fontWeight: "600"
   },
   subText: {
-    ...constants.fontCustom(constants.primaryRegular, 15),
+    ...constants.fontCustom(constants.primaryRegular, 15, 18),
     color: constants.shade1,
     fontWeight: "300"
   }

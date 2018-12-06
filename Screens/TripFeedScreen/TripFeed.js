@@ -10,6 +10,8 @@ import ContentImageSection from "./Components/ContentImageSection/ContentImageSe
 import TripViewLite from "./Components/TripViewLite/TripViewLite";
 import TripView from "./Components/TripView/TripView";
 import TripHighlights from "./Components/TripHighlights/TripHighlights";
+import JournalCard from "./Components/JournalCard/JournalCard";
+import Icon from '../../CommonComponents/Icon/Icon'
 
 @ErrorBoundary({ isRoot: true })
 class TripFeed extends Component {
@@ -31,6 +33,7 @@ class TripFeed extends Component {
         title: "Chennai",
         icon: "FLIGHT",
         period: "May 14-15",
+        action: () => {},
         image:
           "https://www.larousse.fr/encyclopedie/data/images/1314562-Barcelone.jpg"
       },
@@ -38,6 +41,7 @@ class TripFeed extends Component {
         title: "Barcelona",
         icon: "FLIGHT",
         period: "May 17-18",
+        action: () => {},
         image:
           "https://www.larousse.fr/encyclopedie/data/images/1314562-Barcelone.jpg"
       },
@@ -45,6 +49,7 @@ class TripFeed extends Component {
         title: "Sevilla",
         icon: "CAR",
         period: "May 17",
+        action: () => {},
         image:
           "https://www.larousse.fr/encyclopedie/data/images/1314562-Barcelone.jpg"
       },
@@ -52,6 +57,7 @@ class TripFeed extends Component {
         title: "Sevilla",
         icon: "TRAIN",
         period: "May 17",
+        action: () => {},
         image:
           "https://www.larousse.fr/encyclopedie/data/images/1314562-Barcelone.jpg"
       },
@@ -59,6 +65,7 @@ class TripFeed extends Component {
         title: "Sevilla",
         icon: "FERRY",
         period: "May 18",
+        action: () => {},
         image:
           "https://www.larousse.fr/encyclopedie/data/images/1314562-Barcelone.jpg"
       },
@@ -66,6 +73,7 @@ class TripFeed extends Component {
         title: "Sevilla",
         icon: "BUS",
         period: "May19",
+        action: () => {},
         image:
           "https://www.larousse.fr/encyclopedie/data/images/1314562-Barcelone.jpg"
       }
@@ -98,6 +106,7 @@ class TripFeed extends Component {
             marginHorizontal: 24
           }}
         />
+        
         <TripHighlights title={"TRIP HIGHLIGHTS"} data={tripData} />
         <ContentImageSection
           title="Travel adaper needed!"
@@ -112,8 +121,35 @@ class TripFeed extends Component {
             marginTop: 16
           }}
         />
-        <FeedBackSwiper toggleScrollLock={this.toggleScrollLock} />
-        <DayAhead />
+
+        <JournalCard 
+          data={{
+            title: "Memories from Samantha’s family vacation in July '18",
+            type: "JOURNAL",
+            image: {uri: "https://www.larousse.fr/encyclopedie/data/images/1314562-Barcelone.jpg"},
+            action: () => {}
+          }}
+          boxStyle={{
+            height: 320,
+            margin: 24,
+            marginRight: 24
+          }}
+          icon={<Icon name={constants.starActive} color={constants.thirdColor} size={26} />}
+          iconText={234}
+          gradients={[constants.darkGradientAlpha]}
+        />
+
+        <ContentImageSection
+          imageFirst
+          title="Size doesn't matter"
+          text="Mona Lisa is that it isn’t as big as everyone thinks, It is just a little bit larger than an A2 piece of paper."
+          containerStyle={{
+            marginHorizontal: 24
+          }}
+        />
+
+        {/* <FeedBackSwiper toggleScrollLock={this.toggleScrollLock} />
+        <DayAhead /> */}
       </ScrollView>
     );
   }
