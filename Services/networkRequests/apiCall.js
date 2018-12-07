@@ -52,7 +52,7 @@ const apiCall = async (
       if (response.status === 401) {
         DebouncedAlert("Oops!", "Session Expired... Please Login again!");
         logOut();
-        return { status: "failed" };
+        return { status: "EXPIRED" };
       }
 
       if (response.status === 200) {

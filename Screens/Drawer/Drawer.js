@@ -27,6 +27,36 @@ class Drawer extends Component {
     this.props.navigation.navigate(screen);
   };
 
+  state = {
+    isLoggedIn: false
+  };
+
+  componentDidMount() {
+    this.checkLogin();
+  }
+
+  componentDidUpdate() {
+    this.checkLogin();
+  }
+
+  checkLogin = () => {
+    Keychain.getGenericPassword().then(credentials => {
+      if (credentials && credentials.password) {
+        if (!this.state.isLoggedIn) {
+          this.setState({
+            isLoggedIn: true
+          });
+        }
+      } else {
+        if (this.state.isLoggedIn) {
+          this.setState({
+            isLoggedIn: false
+          });
+        }
+      }
+    });
+  };
+
   render() {
     const menuItems = [
       {
@@ -84,7 +114,7 @@ class Drawer extends Component {
     const { name } = userDetails;
     const firstName = name ? name.split(" ")[0] : "";
 
-    if (!_.isEmpty(userDetails)) {
+    if (this.state.isLoggedIn) {
       menuItems.splice(1, 0, {
         icon: constants.paymentIcon,
         text: "Payments"
@@ -123,7 +153,7 @@ class Drawer extends Component {
             }!`}</Text>
           ) : null}
 
-          {_.isEmpty(userDetails) ? (
+          {!this.state.isLoggedIn ? (
             <SimpleButton
               text={"Login"}
               action={() => navigation.navigate("MobileNumber")}

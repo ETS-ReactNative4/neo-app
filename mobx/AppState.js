@@ -11,6 +11,7 @@ import DebouncedAlert from "../CommonComponents/DebouncedAlert/DebouncedAlert";
 import storeService from "../Services/storeService/storeService";
 import * as Keychain from "react-native-keychain";
 import { AsyncStorage } from "react-native";
+import logOut from "../Services/logOut/logOut";
 
 const {
   conversionRateError,
@@ -290,13 +291,17 @@ class AppState {
               };
               callback();
             } else {
-              logError("failed to remove device token during logOut");
-              storeService.infoStore.setError(
-                logOutError.title,
-                logOutError.message,
-                constants.errorBoxIllus,
-                logOutError.actionText
-              );
+              if (response.status === "EXPIRED") {
+                logOut(true);
+              } else {
+                logError("failed to remove device token during logOut");
+                storeService.infoStore.setError(
+                  logOutError.title,
+                  logOutError.message,
+                  constants.errorBoxIllus,
+                  logOutError.actionText
+                );
+              }
             }
           })
           .catch(err => {
