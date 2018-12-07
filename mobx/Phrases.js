@@ -22,6 +22,9 @@ class Phrases {
   @observable _isTranslating = false;
   @observable _translatingError = false;
   @observable _hasError = false;
+  /**
+   * TODO: Make the object 2D Array for multiple itineraries
+   */
   @persist("object")
   @observable
   _languages = {
@@ -138,6 +141,7 @@ class Phrases {
               ),
               "language"
             );
+            console.log(languages);
             this._languages = {
               itineraryId,
               languages
