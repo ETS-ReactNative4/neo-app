@@ -51,6 +51,10 @@ class Places extends Component {
     selectCity(city);
   };
 
+  componentWillUnmount() {
+    this.props.placesStore.clearCache();
+  }
+
   scrollAction = () => {
     if (!this.state.isScrollRecorded) {
       recordEvent(constants.placesCarouselScroll);
