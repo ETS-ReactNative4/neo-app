@@ -55,7 +55,7 @@ const apiCall = async (
         return { status: "failed" };
       }
 
-      if (response.status === 200) {
+      if (response.status === 200 || response.status === 204) {
         const data = response.json();
         return data;
       } else {
