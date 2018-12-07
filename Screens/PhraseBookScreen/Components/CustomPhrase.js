@@ -83,9 +83,11 @@ class CustomPhrase extends Component {
           />
         ) : (
           <SimpleButton
-            text={localeCode.getLanguageName(
-              this.props.selectedLanguage.languageCode
-            )}
+            text={
+              localeCode.getLanguageName(
+                this.props.selectedLanguage.languageCode
+              ) || this.props.selectedLanguage.languageCode
+            }
             action={this.props.openLanguageSelector}
             containerStyle={{
               backgroundColor: "white",
