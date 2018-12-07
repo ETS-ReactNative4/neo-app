@@ -23,6 +23,7 @@ import FerriesSection from "./Components/FerriesSection";
 import RentalCarSection from "./Components/RentalCarSection";
 import { recordEvent } from "../../../../Services/analytics/analyticsService";
 import _ from "lodash";
+import VisaSection from "./Components/VisaSection";
 
 let sections = [];
 @inject("itineraries")
@@ -133,6 +134,9 @@ class BookingAccordion extends Component {
 
       case "Rental Cars":
         return <RentalCarSection navigation={navigation} section={section} />;
+
+      case "Visa":
+        return <VisaSection navigation={navigation} section={section} />;
 
       default:
         return (
