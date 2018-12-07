@@ -8,6 +8,7 @@ import moment from "moment";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 
 @ErrorBoundary()
+@inject("itineraries")
 @inject("supportStore")
 @observer
 class YourTickets extends Component {
@@ -51,10 +52,15 @@ class YourTickets extends Component {
 
   render() {
     const {
-      conversations,
+      getConversationsByItineraryId,
       isConversationLoading,
       loadConversation
     } = this.props.supportStore;
+
+    const { selectedItineraryId } = this.props.itineraries;
+
+    const conversations = getConversationsByItineraryId(selectedItineraryId);
+
     return [
       <View key={0} style={styles.yourTicketsContainer}>
         <View style={styles.firstLine} />
