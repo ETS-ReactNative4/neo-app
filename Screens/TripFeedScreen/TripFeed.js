@@ -5,13 +5,13 @@ import constants from "../../constants/constants";
 import DayAhead from "./Components/DayAhead/DayAhead";
 import FeedBackSwiper from "./Components/FeedBackSwiper/FeedBackSwiper";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
-import ItineraryHeader from "./Components/ItineraryHeader/ItineraryHeader";
 import ContentImageSection from "./Components/ContentImageSection/ContentImageSection";
 import TripViewLite from "./Components/TripViewLite/TripViewLite";
 import TripView from "./Components/TripView/TripView";
 import TripHighlights from "./Components/TripHighlights/TripHighlights";
 import JournalCard from "./Components/JournalCard/JournalCard";
-import Icon from '../../CommonComponents/Icon/Icon'
+import Icon from "../../CommonComponents/Icon/Icon";
+import TripTitle from "./Components/TripTitle/TripTitle";
 
 @ErrorBoundary({ isRoot: true })
 class TripFeed extends Component {
@@ -91,10 +91,17 @@ class TripFeed extends Component {
         {/* <View style={styles.vacationNameWrapper}>
           <Text style={styles.vacationName}>{"Vacation Name"}</Text>
         </View> */}
-        <ItineraryHeader
+        <TripTitle
           title="Anand’s Vacation to Europe"
-          text="30 days to go..."
           containerStyle={styles.wrapper}
+        />
+        <TripTitle
+          title="30 days to go..."
+          containerStyle={styles.wrapper}
+          titleStyle={{
+            fontSize: 17,
+            fontWeight: "300"
+          }}
         />
         <TripView data={tripData} containerStyle={{ marginTop: 0 }} />
         <TripViewLite data={tripData} />
@@ -106,7 +113,7 @@ class TripFeed extends Component {
             marginHorizontal: 24
           }}
         />
-        
+
         <TripHighlights title={"TRIP HIGHLIGHTS"} data={tripData} />
         <ContentImageSection
           title="Travel adaper needed!"
@@ -122,11 +129,14 @@ class TripFeed extends Component {
           }}
         />
 
-        <JournalCard 
+        <JournalCard
           data={{
             title: "Memories from Samantha’s family vacation in July '18",
             type: "JOURNAL",
-            image: {uri: "https://www.larousse.fr/encyclopedie/data/images/1314562-Barcelone.jpg"},
+            image: {
+              uri:
+                "https://www.larousse.fr/encyclopedie/data/images/1314562-Barcelone.jpg"
+            },
             action: () => {}
           }}
           boxStyle={{
@@ -134,7 +144,13 @@ class TripFeed extends Component {
             margin: 24,
             marginRight: 24
           }}
-          icon={<Icon name={constants.starActive} color={constants.thirdColor} size={26} />}
+          icon={
+            <Icon
+              name={constants.starActive}
+              color={constants.thirdColor}
+              size={26}
+            />
+          }
           iconText={234}
           gradients={[constants.darkGradientAlpha]}
         />
@@ -147,9 +163,9 @@ class TripFeed extends Component {
             marginHorizontal: 24
           }}
         />
+        <FeedBackSwiper toggleScrollLock={this.toggleScrollLock} />
 
-        {/* <FeedBackSwiper toggleScrollLock={this.toggleScrollLock} />
-        <DayAhead /> */}
+        <DayAhead />
       </ScrollView>
     );
   }
