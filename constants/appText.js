@@ -19,6 +19,12 @@ const appText = {
       actionText: "Okay!"
     }
   },
+  insuranceComingSoonText: {
+    title: "Work in Progress...",
+    message:
+      "We are working hard to bring your insurance details to mobile app. Keep a lookout on this section for future updates!",
+    actionText: "Okay!"
+  },
   bookingProcessText: {
     title: "This booking is in process...",
     message:

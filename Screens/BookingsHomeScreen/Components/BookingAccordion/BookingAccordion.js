@@ -24,6 +24,7 @@ import RentalCarSection from "./Components/RentalCarSection";
 import { recordEvent } from "../../../../Services/analytics/analyticsService";
 import _ from "lodash";
 import VisaSection from "./Components/VisaSection";
+import InsuranceSection from "./Components/InsuranceSection";
 
 let sections = [];
 @inject("itineraries")
@@ -138,6 +139,9 @@ class BookingAccordion extends Component {
       case "Visa":
         return <VisaSection navigation={navigation} section={section} />;
 
+      case "Insurance":
+        return <InsuranceSection navigation={navigation} section={section} />;
+
       default:
         return (
           <View style={[styles.contentContainer, customStyle]}>
@@ -201,6 +205,14 @@ class BookingAccordion extends Component {
 
         case "Rental Cars":
           recordEvent(constants.bookingsHomeAccordionRentalCarsHeaderClick);
+          break;
+
+        case "Visa":
+          recordEvent(constants.bookingsHomeAccordionVisaHeaderClick);
+          break;
+
+        case "Insurance":
+          recordEvent(constants.bookingsHomeAccordionInsuranceHeaderClick);
           break;
 
         default:
