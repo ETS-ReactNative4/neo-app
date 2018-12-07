@@ -16,6 +16,7 @@ const {
   conversionRateError,
   currencyDetailsError
 } = constants.currencyConverterText;
+const { logOutError } = constants.logOutText;
 
 class AppState {
   @action
@@ -287,22 +288,28 @@ class AppState {
               this._pushTokens = {
                 deviceToken: ""
               };
+              callback();
             } else {
-              logError("failed to remove device token after logOut");
-              this._pushTokens = {
-                deviceToken: ""
-              };
+              logError("failed to remove device token during logOut");
+              storeService.infoStore.setError(
+                logOutError.title,
+                logOutError.message,
+                constants.errorBoxIllus,
+                logOutError.actionText
+              );
             }
           })
           .catch(err => {
-            this._pushTokens = {
-              deviceToken: ""
-            };
             logError(err, {
-              eventType: "failed to remove device token after logOut"
+              eventType: "failed to remove device token during logOut"
             });
+            storeService.infoStore.setError(
+              logOutError.title,
+              logOutError.message,
+              constants.errorBoxIllus,
+              logOutError.actionText
+            );
           });
-        callback();
       }
     });
   };

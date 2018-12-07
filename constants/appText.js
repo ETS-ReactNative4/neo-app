@@ -11,6 +11,14 @@ const appText = {
       actionText: "Go Back"
     }
   },
+  logOutText: {
+    logOutError: {
+      title: "Unable to log out!",
+      message:
+        "Please check your internet connection or try again after some time...",
+      actionText: "Okay!"
+    }
+  },
   bookingProcessText: {
     title: "This booking is in process...",
     message:
