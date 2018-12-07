@@ -17,6 +17,7 @@ import logOut from "../../Services/logOut/logOut";
 import SimpleButton from "../../CommonComponents/SimpleButton/SimpleButton";
 import { inject, observer } from "mobx-react/custom";
 import _ from "lodash";
+import * as Keychain from "react-native-keychain";
 import DialogBox from "../../CommonComponents/DialogBox/DialogBox";
 
 @inject("userStore")
