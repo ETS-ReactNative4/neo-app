@@ -97,10 +97,14 @@ const Flight = ({ flight, isLast, navigation }) => {
             ellipsizeMode={"tail"}
           >{`${timings[0].departure[0]} - ${
             timings[0].arrival[timings[0].arrival.length - 1]
-          },${"\n"}${timings[timings.length - 1].departure[0]} - ${
-            timings[timings.length - 1].arrival[
-              timings[timings.length - 1].arrival.length - 1
-            ]
+          }${
+            timings.length > 1
+              ? `,${"\n"}${timings[timings.length - 1].departure[0]} - ${
+                  timings[timings.length - 1].arrival[
+                    timings[timings.length - 1].arrival.length - 1
+                  ]
+                }`
+              : ""
           }`}</Text>
         </View>
         <View style={styles.contentTextWrapper}>
@@ -148,7 +152,7 @@ const styles = StyleSheet.create({
   contentHeader: {
     fontFamily: constants.primaryLight,
     fontSize: 14,
-    lineHeight: 14,
+    lineHeight: 16,
     color: constants.shade2
   },
   contentTextWrapper: {
