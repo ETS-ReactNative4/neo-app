@@ -91,8 +91,16 @@ const Flight = ({ flight, isLast, navigation }) => {
       </View>
       <View style={styles.contentTextContainer}>
         <View style={styles.contentHeaderWrapper}>
-          <Text style={styles.contentHeader}>{`${timings[0].departure[0]} - ${
+          <Text
+            style={styles.contentHeader}
+            numberOfLines={2}
+            ellipsizeMode={"tail"}
+          >{`${timings[0].departure[0]} - ${
             timings[0].arrival[timings[0].arrival.length - 1]
+          },${"\n"}${timings[timings.length - 1].departure[0]} - ${
+            timings[timings.length - 1].arrival[
+              timings[timings.length - 1].arrival.length - 1
+            ]
           }`}</Text>
         </View>
         <View style={styles.contentTextWrapper}>
@@ -134,7 +142,7 @@ const styles = StyleSheet.create({
     marginLeft: 16
   },
   contentHeaderWrapper: {
-    height: 16,
+    minHeight: 16,
     justifyContent: "center"
   },
   contentHeader: {
