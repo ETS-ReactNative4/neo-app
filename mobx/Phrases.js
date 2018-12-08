@@ -71,35 +71,52 @@ class Phrases {
 
   @action
   _networkTranslate = (phrase, targetLanguage) => {
-    const requestBody = {
-      text: phrase,
-      targetLanguage
-    };
-    this._isTranslating = true;
-    apiCall(constants.translatePhrase, requestBody)
-      .then(response => {
-        this._isTranslating = false;
-        if (response.status === "SUCCESS") {
-          this._translatingError = false;
-          if (this._translatedPhrases[targetLanguage]) {
-            this._translatedPhrases[targetLanguage].push({
-              phrase,
-              translation: response.data
-            });
-          } else {
-            this._translatedPhrases[targetLanguage] = [
-              { phrase, translation: response.data }
-            ];
+    if (targetLanguage === "en") {
+      if (this._translatedPhrase[targetLanguage]) {
+        this._translatedPhrases[targetLanguage].push({
+          phrase,
+          translation: phrase
+        });
+      } else {
+        this._translatedPhrase[targetLanguage] = [
+          {
+            phrase,
+            translation: phrase
           }
-          this._translatedPhrase = response.data;
-        } else {
+        ];
+      }
+      this._translatedPhrase = phrase;
+    } else {
+      const requestBody = {
+        text: phrase,
+        targetLanguage
+      };
+      this._isTranslating = true;
+      apiCall(constants.translatePhrase, requestBody)
+        .then(response => {
+          this._isTranslating = false;
+          if (response.status === "SUCCESS") {
+            this._translatingError = false;
+            if (this._translatedPhrases[targetLanguage]) {
+              this._translatedPhrases[targetLanguage].push({
+                phrase,
+                translation: response.data
+              });
+            } else {
+              this._translatedPhrases[targetLanguage] = [
+                { phrase, translation: response.data }
+              ];
+            }
+            this._translatedPhrase = response.data;
+          } else {
+            this._translatingError = true;
+          }
+        })
+        .catch(err => {
+          this._isTranslating = false;
           this._translatingError = true;
-        }
-      })
-      .catch(err => {
-        this._isTranslating = false;
-        this._translatingError = true;
-      });
+        });
+    }
   };
 
   @action
