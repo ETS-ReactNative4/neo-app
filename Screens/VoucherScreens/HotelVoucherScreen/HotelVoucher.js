@@ -185,7 +185,7 @@ class HotelVoucher extends Component {
                 // leadPassenger, // Gender Needed?
                 name,
                 roomPaxInfo,
-                freeBreakFast,
+                freeBreakfast,
                 freeWireless,
                 refundable,
                 roomConfiguration,
@@ -203,15 +203,24 @@ class HotelVoucher extends Component {
 
               const { checkIn, checkOut } = roomVoucherDetails;
               if (checkIn > 1 && checkOut > 1) {
-                refundable = roomVoucherDetails.refundable;
-                freeWireless = roomVoucherDetails.freeWireless;
-                freeBreakFast = roomVoucherDetails.freeBreakFast;
+                refundable =
+                  typeof roomVoucherDetails.refundable === "boolean"
+                    ? roomVoucherDetails.refundable
+                    : refundable;
+                freeWireless =
+                  typeof roomVoucherDetails.freeWireless === "boolean"
+                    ? roomVoucherDetails.freeWireless
+                    : freeWireless;
+                freeBreakfast =
+                  typeof roomVoucherDetails.freeBreakFast === "boolean"
+                    ? roomVoucherDetails.freeBreakFast
+                    : freeBreakfast;
               }
 
               const hotelAmenitySummary = [
                 {
                   name: "Breakfast",
-                  value: freeBreakFast ? "Included" : "Not Included"
+                  value: freeBreakfast ? "Included" : "Not Included"
                 },
                 {
                   name: "Free Wifi",
