@@ -158,7 +158,6 @@ class Phrases {
               ),
               "language"
             );
-            console.log(languages);
             this._languages = {
               itineraryId,
               languages
