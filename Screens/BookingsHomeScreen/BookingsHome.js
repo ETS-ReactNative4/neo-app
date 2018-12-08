@@ -54,7 +54,12 @@ class BookingsHome extends Component {
   }
 
   onBackButtonPressAndroid = () => {
-    BackHandler.exitApp();
+    const { navigation } = this.props;
+    if (navigation.isFocused()) {
+      BackHandler.exitApp();
+    } else {
+      return false;
+    }
   };
 
   componentDidMount() {
