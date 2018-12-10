@@ -103,19 +103,24 @@ class AppState {
   @persist("object")
   @observable
   _conversionRates = {};
+  @observable _isConversionLoading = false;
 
   @computed
   get conversionRates() {
     return toJS(this._conversionRates);
   }
 
+  @computed
+  get isConversionLoading() {
+    return this._isConversionLoading;
+  }
+
   @action
   getConversionRates = () => {
-    /**
-     * TODO: Change api to dev server
-     */
+    this._isConversionLoading = true;
     apiCall(constants.getCurrencyRates, {}, "GET")
       .then(response => {
+        this._isConversionLoading = false;
         if (response.status === "SUCCESS") {
           this._conversionRates = response.data;
         } else {
@@ -129,6 +134,7 @@ class AppState {
         }
       })
       .catch(e => {
+        this._isConversionLoading = false;
         storeService.infoStore.setError(
           conversionRateError.title,
           conversionRateError.message,
