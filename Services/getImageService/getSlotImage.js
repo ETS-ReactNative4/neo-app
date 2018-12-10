@@ -19,7 +19,13 @@ const getSlotImage = (identifier, type) => {
           image: constants.getAirlineIcon(flight.airlineCode),
           icon: constants.aeroplaneIcon
         };
+      } else {
+        return {
+          image: constants.transferPlaceHolder,
+          icon: constants.aeroplaneIcon
+        };
       }
+      break;
 
     case "TRAIN":
       if (!identifier) {
