@@ -16,6 +16,7 @@ import { inject, observer } from "mobx-react/custom";
 import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraProps";
 import { NavigationActions, StackActions } from "react-navigation";
 import { recordEvent } from "../../../Services/analytics/analyticsService";
+import CustomScrollView from "../../../CommonComponents/CustomScrollView/CustomScrollView";
 const resetAction = NavigationActions.navigate({
   routeName: "AppHome",
   action: NavigationActions.navigate({ routeName: "BookedItineraryTabs" })
@@ -51,13 +52,9 @@ class Upcoming extends Component {
     const { itinerariesList, isLoading, getUpcomingItineraries } = this.props;
 
     return (
-      <ScrollView
-        refreshControl={
-          <RefreshControl
-            refreshing={isLoading}
-            onRefresh={getUpcomingItineraries}
-          />
-        }
+      <CustomScrollView
+        refreshing={isLoading}
+        onRefresh={getUpcomingItineraries}
       >
         {!itinerariesList.length && !isLoading ? (
           <EmptyListPlaceholder
@@ -81,7 +78,7 @@ class Upcoming extends Component {
             />
           );
         })}
-      </ScrollView>
+      </CustomScrollView>
     );
   }
 }

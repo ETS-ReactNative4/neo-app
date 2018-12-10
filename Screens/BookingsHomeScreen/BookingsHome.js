@@ -149,10 +149,6 @@ class BookingsHome extends Component {
   };
 
   render() {
-    if (Platform.OS === "ios") {
-      LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-    }
-
     const {
       startEndDates,
       days,
@@ -165,21 +161,19 @@ class BookingsHome extends Component {
     const { isLoading: voucherLoading } = this.props.voucherStore;
     const { navigation } = this.props;
 
-    //itineraryLoading || voucherLoading
     return (
       <View style={styles.bookingHomeContainer}>
         {/*<SearchPlaceholder action={this.openSearch} />*/}
         <CustomScrollView
           style={styles.bookingContainer}
           showsVerticalScrollIndicator={false}
+          horizontalPadding={24}
+          refreshing={itineraryLoading || voucherLoading}
           onRefresh={() => {
-            pullToRefresh(
-              {
-                itinerary: true,
-                voucher: true
-              },
-              selectedItineraryId
-            );
+            pullToRefresh({
+              itinerary: true,
+              voucher: true
+            });
           }}
         >
           <BookingCalendar
@@ -233,7 +227,6 @@ class BookingsHome extends Component {
 const styles = StyleSheet.create({
   bookingHomeContainer: {
     flex: 1,
-    paddingHorizontal: 24,
     backgroundColor: "white"
   },
   calendarContainer: {
