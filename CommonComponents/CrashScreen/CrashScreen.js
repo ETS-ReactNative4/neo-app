@@ -24,7 +24,7 @@ const CrashScreen = ({ isRoot, navigation }) => {
       </Text>
       {isRoot ? (
         <SimpleButton
-          text={"Reload"}
+          text={"Restart"}
           color={constants.firstColor}
           textColor={"white"}
           action={() => {

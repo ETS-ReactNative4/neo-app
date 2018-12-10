@@ -34,10 +34,6 @@ const styles = {
       fontFamily: fonts.primarySemiBold
     }
   }),
-  appCrashText: {
-    reload: "Oops! Something went wrong. Kindly tap reload",
-    goBack: "Oops! Something went wrong."
-  },
   elevationTwo: {
     shadowColor: colorPallete.shade3,
     shadowOffset: { height: 1, width: 1 },

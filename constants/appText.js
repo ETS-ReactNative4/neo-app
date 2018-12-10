@@ -25,11 +25,20 @@ const appText = {
       "We are working hard to bring your insurance details to mobile app. Keep a lookout on this section for future updates!",
     actionText: "Okay!"
   },
+  journalComingSoonText: {
+    title: "Sit Tight",
+    message: "Your personal trip diary is coming soon!"
+  },
   bookingProcessText: {
-    title: "This booking is in process...",
+    title: "Almost there!",
     message:
-      "Please be patient. We are working with our travel partners to complete this booking. You will get notified when this voucher is ready.",
+      "We are working with our travel partners to complete this booking. Sit back and relax, we'll notify you, once the vouchers are ready!",
     actionText: "Okay!"
+  },
+  appCrashText: {
+    reload:
+      "We feel aweful :(\n\nPlease close the app and try launching it again?\n\n",
+    goBack: "Yikes, our bad\n\nGo back and reload this page again please\n\n"
   }
 };
 
