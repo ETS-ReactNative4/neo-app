@@ -34,13 +34,13 @@ class CustomPhrase extends Component {
   };
 
   onEditText = phrase => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     this.setState({
       customPhrase: phrase
     });
   };
 
   render() {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     const { selectPhrase, targetLanguage, isKeyboardVisible } = this.props;
     const { customPhrase } = this.state;
     const translateAction = () => {

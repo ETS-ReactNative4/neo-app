@@ -35,15 +35,7 @@ const LineProgressBar = ({ isVisible, containerStyle = {}, height = 2 }) => {
       </View>
     );
   } else {
-    return (
-      <View
-        style={{
-          height,
-          width: StyleSheet.hairlineWidth,
-          backgroundColor: "transparent"
-        }}
-      />
-    );
+    return <View style={[styles.lineContainerStyle, containerStyle]} />;
   }
 };
 
