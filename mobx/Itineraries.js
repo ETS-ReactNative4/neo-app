@@ -7,6 +7,7 @@ import apiCall from "../Services/networkRequests/apiCall";
 import constants from "../constants/constants";
 import storeService from "../Services/storeService/storeService";
 import { logError } from "../Services/errorLogger/errorLogger";
+import { LayoutAnimation, Platform } from "react-native";
 
 class Itineraries {
   @observable _isLoading = false;
@@ -35,6 +36,9 @@ class Itineraries {
       return itineraryDetail.itinerary.itineraryId === itineraryId;
     });
     if (selectedItinerary) {
+      if (Platform.OS === "ios") {
+        LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+      }
       this._selectedItinerary = selectedItinerary;
       storeService.voucherStore.selectVoucher(this.selectedItineraryId);
       storeService.emergencyContactsStore.getEmergencyContacts(this.cities);
@@ -61,6 +65,11 @@ class Itineraries {
         if (response.status === "SUCCESS") {
           this._loadingError = false;
           this._itineraries.push(response.data);
+          if (Platform.OS === "ios") {
+            LayoutAnimation.configureNext(
+              LayoutAnimation.Presets.easeInEaseOut
+            );
+          }
           this._selectedItinerary = response.data;
           storeService.voucherStore.selectVoucher(this.selectedItineraryId);
           storeService.emergencyContactsStore.getEmergencyContacts(this.cities);

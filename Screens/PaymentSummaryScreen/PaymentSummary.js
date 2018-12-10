@@ -21,6 +21,7 @@ import paymentScript from "./Components/paymentScript";
 import getLocaleString from "../../Services/getLocaleString/getLocaleString";
 import VoucherAccordion from "../VoucherScreens/Components/VoucherAccordion";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
+import CustomScrollView from "../../CommonComponents/CustomScrollView/CustomScrollView";
 
 /**
  * TODO: Need data from previous api
@@ -265,16 +266,12 @@ class PaymentSummary extends Component {
     }
 
     return (
-      <ScrollView
+      <CustomScrollView
         style={styles.summaryContainer}
-        refreshControl={
-          <RefreshControl
-            refreshing={this.state.isLoading}
-            onRefresh={() => {
-              this.loadPaymentData();
-            }}
-          />
-        }
+        refreshing={this.state.isLoading}
+        onRefresh={() => {
+          this.loadPaymentData();
+        }}
       >
         <Loader isVisible={this.state.isPaymentLoading} />
         <Text style={styles.titleText}>{this.state.itineraryName}</Text>
@@ -360,7 +357,7 @@ class PaymentSummary extends Component {
             sections={paymentLedger}
           />
         ) : null}
-      </ScrollView>
+      </CustomScrollView>
     );
   }
 }

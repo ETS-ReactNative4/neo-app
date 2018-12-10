@@ -4,6 +4,7 @@ import apiCall from "../Services/networkRequests/apiCall";
 import constants from "../constants/constants";
 import _ from "lodash";
 import DebouncedAlert from "../CommonComponents/DebouncedAlert/DebouncedAlert";
+import { LayoutAnimation } from "react-native";
 
 class Phrases {
   @persist("object")
@@ -60,6 +61,7 @@ class Phrases {
     if (translatedPhrases) {
       const translatedPhrase = _.find(translatedPhrases, { phrase });
       if (translatedPhrase) {
+        LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
         this._translatedPhrase = translatedPhrase.translation;
       } else {
         this._networkTranslate(phrase, targetLanguage);
@@ -85,15 +87,18 @@ class Phrases {
           }
         ];
       }
+      LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
       this._translatedPhrase = phrase;
     } else {
       const requestBody = {
         text: phrase,
         targetLanguage
       };
+      LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
       this._isTranslating = true;
       apiCall(constants.translatePhrase, requestBody)
         .then(response => {
+          LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
           this._isTranslating = false;
           if (response.status === "SUCCESS") {
             this._translatingError = false;
@@ -107,6 +112,9 @@ class Phrases {
                 { phrase, translation: response.data }
               ];
             }
+            LayoutAnimation.configureNext(
+              LayoutAnimation.Presets.easeInEaseOut
+            );
             this._translatedPhrase = response.data;
           } else {
             this._translatingError = true;
