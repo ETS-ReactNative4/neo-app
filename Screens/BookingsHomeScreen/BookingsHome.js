@@ -17,12 +17,16 @@ import pullToRefresh from "../../Services/refresh/pullToRefresh";
 import SimpleButton from "../../CommonComponents/SimpleButton/SimpleButton";
 import constants from "../../constants/constants";
 import { CustomTabs } from "react-native-custom-tabs";
-import { responsiveWidth } from "react-native-responsive-dimensions";
+import {
+  responsiveHeight,
+  responsiveWidth
+} from "react-native-responsive-dimensions";
 import { logError } from "../../Services/errorLogger/errorLogger";
 import apiCall from "../../Services/networkRequests/apiCall";
 import { recordEvent } from "../../Services/analytics/analyticsService";
 import { registerFcmRefreshListener } from "../../Services/fcmService/fcm";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
+import CustomScrollView from "../../CommonComponents/CustomScrollView/CustomScrollView";
 
 @ErrorBoundary({ isRoot: true })
 @inject("infoStore")
@@ -161,26 +165,22 @@ class BookingsHome extends Component {
     const { isLoading: voucherLoading } = this.props.voucherStore;
     const { navigation } = this.props;
 
+    //itineraryLoading || voucherLoading
     return (
       <View style={styles.bookingHomeContainer}>
         {/*<SearchPlaceholder action={this.openSearch} />*/}
-        <ScrollView
+        <CustomScrollView
           style={styles.bookingContainer}
           showsVerticalScrollIndicator={false}
-          refreshControl={
-            <RefreshControl
-              refreshing={itineraryLoading || voucherLoading}
-              onRefresh={() => {
-                pullToRefresh(
-                  {
-                    itinerary: true,
-                    voucher: true
-                  },
-                  selectedItineraryId
-                );
-              }}
-            />
-          }
+          onRefresh={() => {
+            pullToRefresh(
+              {
+                itinerary: true,
+                voucher: true
+              },
+              selectedItineraryId
+            );
+          }}
         >
           <BookingCalendar
             containerStyle={styles.calendarContainer}
@@ -224,7 +224,7 @@ class BookingsHome extends Component {
               />
             )
           ) : null}
-        </ScrollView>
+        </CustomScrollView>
       </View>
     );
   }
