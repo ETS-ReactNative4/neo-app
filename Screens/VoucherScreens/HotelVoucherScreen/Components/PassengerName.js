@@ -3,6 +3,7 @@ import constants from "../../../../constants/constants";
 import { Text, View, StyleSheet } from "react-native";
 import Icon from "../../../../CommonComponents/Icon/Icon";
 import { PropTypes } from "prop-types";
+import getTitleCase from "../../../../Services/getTitleCase/getTitleCase";
 
 const PassengerName = ({ name, secondaryText }) => {
   return (
@@ -12,7 +13,7 @@ const PassengerName = ({ name, secondaryText }) => {
       </View>
       <View style={styles.userNameWrapper}>
         <Text numberOfLines={2} ellipsizeMode={"tail"} style={styles.userName}>
-          {name}
+          {getTitleCase(name)}
         </Text>
         {secondaryText ? (
           <Text style={styles.secondaryText}>{secondaryText}</Text>
