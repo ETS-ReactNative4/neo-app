@@ -190,7 +190,7 @@ class Voucher {
   getTrainVoucherById = createTransformer(id => {
     if (_.isEmpty(this._selectedVoucher)) return {};
     try {
-      toJS(
+      return toJS(
         this._selectedVoucher.trainVouchers.find(
           train => id === train.identifier || id === train.trainCostingId
         )
