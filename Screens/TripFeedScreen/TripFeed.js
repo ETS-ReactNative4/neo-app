@@ -12,6 +12,8 @@ import TripHighlights from "./Components/TripHighlights/TripHighlights";
 import JournalCard from "./Components/JournalCard/JournalCard";
 import Icon from "../../CommonComponents/Icon/Icon";
 import TripTitle from "./Components/TripTitle/TripTitle";
+import Notify from "./Components/Notify/Notify";
+import ReminderCard from "./Components/ReminderCard/ReminderCard";
 
 @ErrorBoundary({ isRoot: true })
 class TripFeed extends Component {
@@ -78,6 +80,37 @@ class TripFeed extends Component {
           "https://www.larousse.fr/encyclopedie/data/images/1314562-Barcelone.jpg"
       }
     ];
+
+    const notifyData = [
+      {
+        title: "Heads up!",
+        message: "Your pick up is scheduled at 8:30am from your hotel lobby.",
+        action: () => {},
+        actionText: "LEARN MORE",
+        modalButton: "Alright!",
+        details: [
+          {
+            text:
+              "Plan a trip to some local attractions, dine at a local restaurent or go shopping!"
+          },
+          {
+            text:
+              "That’s how you greet in Spanish. Learn more phrases that could come handy. That’s how you greet in Spanish. Learn more phrases that could come handy!"
+          }
+        ]
+      }
+    ];
+
+    const reminderData = {
+      title: "Royal plaza Eaplanade",
+      content:
+        "30 minutes from the Airport by car. Your transfer will be waiting for you outside the arrival hall.",
+      image:
+        "https://www.larousse.fr/encyclopedie/data/images/1314562-Barcelone.jpg",
+      action: () => {},
+      modalButton: "Alright!"
+    };
+
     return (
       <ScrollView
         directionalLockEnabled={true}
@@ -95,6 +128,7 @@ class TripFeed extends Component {
           title="Anand’s Vacation to Europe"
           containerStyle={styles.wrapper}
         />
+        <Notify data={notifyData} />
         <TripTitle
           title="30 days to go..."
           containerStyle={styles.wrapper}
@@ -126,6 +160,31 @@ class TripFeed extends Component {
           containerStyle={{
             marginHorizontal: 24,
             marginTop: 16
+          }}
+        />
+
+        <ReminderCard data={reminderData} />
+
+        <ContentImageSection
+          imageFirst
+          title="Have you done Web Check in?"
+          text="Escape long queues and spend more time lounging at the airport. Do a web checkin."
+          imageSrc={constants.infoBoxIllus}
+          options={[
+            {
+              title: "Etihad A234",
+              text: "Mar 23, Thu"
+            },
+            {
+              title: "Etihad A234",
+              text: "Mar 23, Thu"
+            },
+            {
+              title: "Yep, all done!"
+            }
+          ]}
+          containerStyle={{
+            marginHorizontal: 24
           }}
         />
 

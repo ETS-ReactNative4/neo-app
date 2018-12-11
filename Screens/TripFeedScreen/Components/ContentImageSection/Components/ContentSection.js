@@ -45,13 +45,11 @@ const styles = StyleSheet.create({
   },
   titleText: {
     color: constants.black1,
-    ...constants.fontCustom(constants.primaryRegular, 20),
-    fontWeight: "600"
+    ...constants.fontCustom(constants.primarySemiBold, 20, 22)
   },
   subText: {
-    ...constants.fontCustom(constants.primaryRegular, 15, 18),
-    color: constants.shade1,
-    fontWeight: "300"
+    ...constants.fontCustom(constants.primaryLight, 15, 18),
+    color: constants.shade1
   }
 });
 

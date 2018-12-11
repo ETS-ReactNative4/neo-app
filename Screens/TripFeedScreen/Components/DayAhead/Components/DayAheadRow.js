@@ -59,9 +59,11 @@ const styles = StyleSheet.create({
   imageContainer: {
     width: 40,
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "flex-start",
     marginRight: 8,
-    marginLeft: 12
+    marginLeft: 12,
+    marginTop: 16,
+    marginBottom: 8
   },
   image: {
     height: 40,
@@ -69,6 +71,8 @@ const styles = StyleSheet.create({
     borderRadius: 20
   },
   textContainer: {
+    marginTop: 16,
+    marginBottom: 8,
     alignItems: "flex-start",
     justifyContent: "center"
   },
@@ -77,7 +81,7 @@ const styles = StyleSheet.create({
   },
   headerTimeTextWrapper: {
     height: 16,
-    justifyContent: "center"
+    justifyContent: "flex-start"
   },
   headerTimeText: {
     color: constants.shade2,

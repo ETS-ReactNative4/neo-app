@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, TouchableHighlight, View, StyleSheet } from "react-native";
+import { Text, TouchableOpacity, View, StyleSheet } from "react-native";
 import FastImage from "react-native-fast-image";
 import LinearGradient from "react-native-linear-gradient";
 import PropTypes from "prop-types";
@@ -51,38 +51,32 @@ const JournalCard = ({
 
   return (
     <View style={[styles.box, boxStyle]}>
-      <TouchableHighlight
-        onPress={data.action}
-        underlayColor={"transparent"}
-        style={styles.touchable}
-      >
+      <TouchableOpacity onPress={data.action} style={styles.touchable}>
         <FastImage
           style={styles.imageBackground}
           resizeMode={FastImage.resizeMode.cover}
           source={data.image}
         >
           <LinearGradient {...gradientOptions} style={styles.gradientView}>
-            
             {data.type ? (
-            <Text style={[styles.boxHelpText, typeStyle]}>
-              {data.type}
-            </Text>
+              <Text style={[styles.boxHelpText, typeStyle]}>{data.type}</Text>
             ) : null}
             <View style={styles.header}>
               <View style={styles.titleWrapper}>
-                <Text style={[styles.boxTitle, titleStyle]} numberOfLines={2}>{data.title}</Text>
+                <Text style={[styles.boxTitle, titleStyle]} numberOfLines={2}>
+                  {data.title}
+                </Text>
               </View>
-              {
-                icon ?
-                  <View style={styles.iconWrapper}>
-                    {icon}
-                    <Text style={styles.iconText}>{iconText}</Text>
-                  </View> : null
-              }
+              {icon ? (
+                <View style={styles.iconWrapper}>
+                  {icon}
+                  <Text style={styles.iconText}>{iconText}</Text>
+                </View>
+              ) : null}
             </View>
           </LinearGradient>
         </FastImage>
-      </TouchableHighlight>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -121,7 +115,7 @@ const styles = StyleSheet.create({
   iconText: {
     marginTop: 8,
     ...constants.fontCustom(constants.primaryRegular, 13),
-    color: 'white'
+    color: "white"
   },
   boxTitle: {
     margin: 8,

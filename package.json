@@ -32,12 +32,12 @@
       "git://github.com/DaniAkash/react-native-android-sms-listener.git#af305da28ca209626229b7572cda8856fff6b8aa",
     "react-native-app-settings":
       "git://github.com/DaniAkash/react-native-app-settings.git#e1fe1e8358e4d1e907fbb0923bec0fdc72be237a",
-    "react-native-card-stack-swiper":
-      "git://github.com/DaniAkash/react-native-card-stack-swiper.git#1aed50872ed575a037562bd174bf42b853e5001a",
+    "react-native-card-stack-swiper": "^1.1.0",
     "react-native-collapsible": "^1.2.1",
     "react-native-custom-tabs":
       "git://github.com/DaniAkash/react-native-custom-tabs.git#a92bfcc1fda8c42a2710249656ae99ee1968ab96",
     "react-native-dash": "^0.0.9",
+    "react-native-deck-swiper": "^1.5.26",
     "react-native-fast-image": "^5.0.3",
     "react-native-firebase": "^5.0.0",
     "react-native-flip-view-next": "^1.0.0",
@@ -52,7 +52,7 @@
     "react-native-ratings": "^6.0.0",
     "react-native-responsive-dimensions": "2.0.1",
     "react-native-restart": "^0.0.7",
-    "react-native-scrollable-tab-view": "^0.8.0",
+    "react-native-scrollable-tab-view": "^0.10.0",
     "react-native-sentry": "0.39.0",
     "react-native-simple-radio-button": "^2.7.3",
     "react-native-sound":
