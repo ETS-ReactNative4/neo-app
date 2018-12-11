@@ -7,10 +7,22 @@ import ProgressBar from "react-native-progress/Bar";
 import constants from "../../constants/constants";
 
 const LineProgressBar = ({ isVisible, containerStyle = {}, height = 2 }) => {
-  if (isVisible) {
-    return (
-      <View style={[styles.lineContainerStyle, containerStyle]}>
-        <View style={{ transform: [{ rotate: "180deg" }] }}>
+  return (
+    <View style={[styles.lineContainerStyle, containerStyle]}>
+      {isVisible ? (
+        [
+          <View style={{ transform: [{ rotate: "180deg" }] }}>
+            <ProgressBar
+              indeterminate={true}
+              width={responsiveWidth(50)}
+              height={height}
+              borderWidth={0}
+              borderRadius={0}
+              color={constants.firstColor}
+              useNativeDriver={true}
+              animationConfig={{ bounciness: 5 }}
+            />
+          </View>,
           <ProgressBar
             indeterminate={true}
             width={responsiveWidth(50)}
@@ -21,22 +33,12 @@ const LineProgressBar = ({ isVisible, containerStyle = {}, height = 2 }) => {
             useNativeDriver={true}
             animationConfig={{ bounciness: 5 }}
           />
-        </View>
-        <ProgressBar
-          indeterminate={true}
-          width={responsiveWidth(50)}
-          height={height}
-          borderWidth={0}
-          borderRadius={0}
-          color={constants.firstColor}
-          useNativeDriver={true}
-          animationConfig={{ bounciness: 5 }}
-        />
-      </View>
-    );
-  } else {
-    return <View style={[styles.lineContainerStyle, containerStyle]} />;
-  }
+        ]
+      ) : (
+        <View style={[styles.lineContainerPlaceholder, { height }]} />
+      )}
+    </View>
+  );
 };
 
 LineProgressBar.propTypes = forbidExtraProps({
@@ -51,6 +53,9 @@ const styles = StyleSheet.create({
   lineContainerStyle: {
     flexDirection: "row",
     justifyContent: "center",
+    width: responsiveWidth(100)
+  },
+  lineContainerPlaceholder: {
     width: responsiveWidth(100)
   }
 });
