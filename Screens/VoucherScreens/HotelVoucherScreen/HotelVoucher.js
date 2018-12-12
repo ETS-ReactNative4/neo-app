@@ -120,6 +120,18 @@ class HotelVoucher extends Component {
         value: "Pickyourtrail"
       }
     ];
+
+    const bookingPNR = rooms
+      ? rooms.reduce((pnrString, room) => {
+          if (pnrString) {
+            pnrString += `${"\n"}, ${room.bookingReferenceId}`;
+          } else {
+            pnrString = room.bookingReferenceId;
+          }
+          return pnrString;
+        }, "")
+      : "";
+
     return [
       <ParallaxScrollView
         key={0}
@@ -130,7 +142,7 @@ class HotelVoucher extends Component {
         renderStickyHeader={() => (
           <VoucherStickyHeader
             action={this.close}
-            text={`Booking ID - ${voucherId}`}
+            text={`Booking ID - ${bookingPNR}`}
           />
         )}
         fadeOutForeground={Platform.OS !== "android"}
@@ -138,7 +150,7 @@ class HotelVoucher extends Component {
         renderForeground={() => (
           <VoucherHeader
             infoText={`BOOKING ID`}
-            title={voucherId}
+            title={bookingPNR}
             menu={() => {}}
             onClickClose={this.close}
             image={{ uri: imageURL }}
@@ -197,7 +209,11 @@ class HotelVoucher extends Component {
 
               const roomVoucherDetails =
                 rooms.find(room => room.roomTypeId === roomTypeId) || {};
-              let { leadPassenger, otherPassengers } = roomVoucherDetails;
+              let {
+                leadPassenger,
+                otherPassengers,
+                bookingReferenceId
+              } = roomVoucherDetails;
               leadPassenger = leadPassenger || {};
               otherPassengers = otherPassengers || [];
 
@@ -218,6 +234,10 @@ class HotelVoucher extends Component {
               }
 
               const hotelAmenitySummary = [
+                {
+                  name: "Booking Reference ID",
+                  value: bookingReferenceId
+                },
                 {
                   name: "Breakfast",
                   value: freeBreakfast ? "Included" : "Not Included"
