@@ -123,6 +123,16 @@ class PhraseBook extends Component {
         console.log("Internet Unavailable... attempting with TTS");
         Tts.speak(translatedPhrase);
       } else {
+        let hasTtsStarted = false;
+        const cutOffToTts = setTimeout(() => {
+          this.setState({
+            isSoundPlaying: false,
+            isTextSoundLoading: false
+          });
+          hasTtsStarted = true;
+          Tts.speak(translatedPhrase);
+          console.log("Sound was loading... Stopped in cutoff timer!");
+        }, 5000);
         console.log("Internet Available... attempting to play Sound");
         this.setState({
           isTextSoundLoading: true
@@ -131,33 +141,35 @@ class PhraseBook extends Component {
           translatedSoundUri,
           undefined,
           error => {
-            if (error) {
+            if (!hasTtsStarted) {
+              clearTimeout(cutOffToTts);
+              console.log("Cleared cutoff timer!");
               this.setState({
                 isTextSoundLoading: false
               });
-              logError(error, {
-                soundModule: "Unable to obtain the audio from google translate"
-              });
-              console.log("Unable to Play sound... Falling back to TTS");
-              Tts.speak(translatedPhrase);
-            } else {
-              this.setState({
-                isTextSoundLoading: false
-              });
-              console.log("Audio Ready... Playing Sound");
-              this.setState(
-                {
-                  isSoundPlaying: true
-                },
-                () => {
-                  this._translatedAudio.play(() => {
-                    this._translatedAudio.release();
-                    this.setState({
-                      isSoundPlaying: false
+              if (error) {
+                logError(error, {
+                  soundModule:
+                    "Unable to obtain the audio from google translate"
+                });
+                console.log("Unable to Play sound... Falling back to TTS");
+                Tts.speak(translatedPhrase);
+              } else {
+                console.log("Audio Ready... Playing Sound");
+                this.setState(
+                  {
+                    isSoundPlaying: true
+                  },
+                  () => {
+                    this._translatedAudio.play(() => {
+                      this._translatedAudio.release();
+                      this.setState({
+                        isSoundPlaying: false
+                      });
                     });
-                  });
-                }
-              );
+                  }
+                );
+              }
             }
           }
         );
@@ -221,7 +233,8 @@ class PhraseBook extends Component {
       selectLanguage,
       isLoading,
       pinPhrase,
-      unPinPhrase
+      unPinPhrase,
+      translatingError
     } = this.props.phrasesStore;
     const { navigation } = this.props;
     const { isTextSoundLoading } = this.state;
@@ -246,6 +259,7 @@ class PhraseBook extends Component {
       <TouchableWithoutFeedback key={1} onPress={Keyboard.dismiss}>
         <View style={styles.container}>
           <PhraseInfo
+            translatingError={translatingError}
             selectedPhrase={selectedPhrase}
             translatedPhrase={translatedPhrase}
             isTranslating={isTranslating}

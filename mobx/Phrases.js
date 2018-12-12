@@ -5,6 +5,7 @@ import constants from "../constants/constants";
 import _ from "lodash";
 import DebouncedAlert from "../CommonComponents/DebouncedAlert/DebouncedAlert";
 import { LayoutAnimation } from "react-native";
+import { toastShort } from "../Services/toast/toast";
 
 class Phrases {
   @persist("object")
@@ -62,6 +63,7 @@ class Phrases {
       const translatedPhrase = _.find(translatedPhrases, { phrase });
       if (translatedPhrase) {
         LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+        this._translatingError = false;
         this._translatedPhrase = translatedPhrase.translation;
       } else {
         this._networkTranslate(phrase, targetLanguage);
@@ -117,10 +119,12 @@ class Phrases {
             );
             this._translatedPhrase = response.data;
           } else {
+            toastShort(constants.phrasesTranslationFailedText);
             this._translatingError = true;
           }
         })
         .catch(err => {
+          toastShort(constants.phrasesTranslationFailedText);
           this._isTranslating = false;
           this._translatingError = true;
         });
@@ -307,6 +311,11 @@ class Phrases {
   @computed
   get isLoading() {
     return this._isLoading;
+  }
+
+  @computed
+  get translatingError() {
+    return this._translatingError;
   }
 }
 

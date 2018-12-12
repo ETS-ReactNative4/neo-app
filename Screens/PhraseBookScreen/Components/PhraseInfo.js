@@ -20,7 +20,8 @@ const PhraseInfo = ({
   pinPhrase,
   unPinPhrase,
   pinnedPhrases,
-  isSpeaking
+  isSpeaking,
+  translatingError
 }) => {
   /**
    * TODO: Add GIF animation for speaking
@@ -46,6 +47,12 @@ const PhraseInfo = ({
             ]}
             numOfDots={3}
           />
+        ) : translatingError ? (
+          <Text
+            style={styles.selectedTranslationError}
+            numberOfLines={4}
+            ellipsizeMode={"tail"}
+          />
         ) : (
           <Text
             style={[
@@ -64,7 +71,7 @@ const PhraseInfo = ({
         )}
       </View>
 
-      {selectedPhrase ? (
+      {selectedPhrase && !translatingError ? (
         <View style={styles.actionsContainer}>
           <TouchableHighlight
             underlayColor={constants.shade1}
@@ -122,7 +129,8 @@ PhraseInfo.propTypes = forbidExtraProps({
   isTranslating: PropTypes.bool.isRequired,
   pinPhrase: PropTypes.func.isRequired,
   unPinPhrase: PropTypes.func.isRequired,
-  pinnedPhrases: PropTypes.array.isRequired
+  pinnedPhrases: PropTypes.array.isRequired,
+  translatingError: PropTypes.bool.isRequired
 });
 
 const styles = StyleSheet.create({
@@ -146,6 +154,11 @@ const styles = StyleSheet.create({
     marginTop: 16,
     flexDirection: "row",
     flexWrap: "wrap"
+  },
+  selectedTranslationError: {
+    ...constants.font30(constants.primarySemiBold),
+    textAlign: "center",
+    color: constants.thirdColor
   },
   selectedTranslation: {
     ...constants.font30(constants.primarySemiBold),
