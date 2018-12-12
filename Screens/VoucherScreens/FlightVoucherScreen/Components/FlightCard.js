@@ -57,30 +57,38 @@ const FlightCard = ({
     return false;
   });
 
-  const baggageOptions = [
+  const excessBaggageWeight = baggageList.length
+    ? baggageList[0].baggageOptions
+      ? baggageList[0].baggageOptions.reduce((weight, baggage) => {
+          console.log(baggage, weight);
+          return weight + baggage.weight;
+        }, 0)
+      : 0
+    : 0;
+
+  const baggageSectionData = [
     {
-      name: "Baggage Info",
-      component: (
-        <View>
-          {baggageList.length
-            ? baggageList[0].baggageOptions.map((baggage, baggageIndex) => {
-                const baggageSectionData = [
-                  {
-                    name: "Weight",
-                    value: `${baggage.weight} kg`
-                  }
-                ];
-                return (
-                  <View key={baggageIndex} style={styles.baggageSplitContainer}>
-                    <VoucherSplitSection sections={baggageSectionData} />
-                  </View>
-                );
-              })
-            : null}
-        </View>
-      )
-    }
+      name: "Cabin Baggage",
+      value: freeCabinBaggage
+    },
+    {
+      name: "Free Checkin Baggage",
+      value: freeCheckInBaggage
+    },
+    baggageList.length
+      ? {
+          name: "Excess Baggage Count",
+          value: baggageList.length
+        }
+      : null,
+    excessBaggageWeight
+      ? {
+          name: "Excess Baggage Weight",
+          value: `${excessBaggageWeight} kg`
+        }
+      : null
   ];
+
   return (
     <View style={styles.flightCard}>
       {isFirst ? <Text style={styles.flightRoute}>{flightRoute}</Text> : null}
@@ -115,8 +123,6 @@ const FlightCard = ({
               departureCity ? departureCity : ""
             }`}
           </Text>
-          {/*<Text style={styles.baggageText}>Cabin Baggage</Text>*/}
-          {/*<Text style={styles.baggageText}>Free Checkin Baggage</Text>*/}
         </View>
         <View style={styles.timingMiddle}>
           <Icon size={24} name={constants.clockIcon} color={constants.shade2} />
@@ -149,13 +155,14 @@ const FlightCard = ({
               arrivalCity ? arrivalCity : ""
             }`}
           </Text>
-          {/*<Text style={styles.baggageWeight}>{freeCabinBaggage || "NA"}</Text>*/}
-          {/*<Text style={styles.baggageWeight}>{freeCheckInBaggage || "NA"}</Text>*/}
         </View>
       </View>
-      {baggageList.length ? (
-        <VoucherAccordion sections={baggageOptions} />
-      ) : null}
+      <VoucherSplitSection
+        sections={baggageSectionData}
+        leftFontStyle={styles.baggageText}
+        rightFontStyle={styles.baggageWeight}
+        textWrapperStyle={styles.baggageTextWrapper}
+      />
     </View>
   );
 };
@@ -236,8 +243,7 @@ const styles = StyleSheet.create({
     color: constants.shade2
   },
   flightTimingsSection: {
-    marginVertical: 8,
-    minHeight: 96,
+    marginTop: 8,
     flexDirection: "row"
   },
   timingLeft: {
@@ -278,15 +284,16 @@ const styles = StyleSheet.create({
   },
   baggageText: {
     marginTop: 8,
-    fontFamily: constants.primaryLight,
-    fontSize: 13,
+    ...constants.fontCustom(constants.primaryLight, 13),
     color: constants.shade2
   },
   baggageWeight: {
     marginTop: 8,
-    fontFamily: constants.primaryLight,
-    fontSize: 13,
+    ...constants.fontCustom(constants.primaryLight, 13),
     color: constants.black1
+  },
+  baggageTextWrapper: {
+    marginVertical: null
   }
 });
 

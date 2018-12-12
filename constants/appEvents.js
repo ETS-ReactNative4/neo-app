@@ -37,6 +37,8 @@ const appEvents = {
     "bookings_home_accordion_rental_cars_header_click",
   bookingsHomeAccordionVisaHeaderClick:
     "bookings_home_accordion_visa_header_click",
+  bookingsHomeAccordionInsuranceHeaderClick:
+    "bookings_home_accordion_insurance_header_click",
   bookingsHomeAccordionFlightsVoucherClick:
     "bookings_home_accordion_flights_voucher_click",
   bookingsHomeAccordionHotelsVoucherClick:
@@ -55,6 +57,8 @@ const appEvents = {
     "bookings_home_accordion_rental_cars_voucher_click",
   bookingsHomeAccordionVisaVoucherClick:
     "bookings_home_accordion_visa_voucher_click",
+  bookingsHomeAccordionInsuranceVoucherClick:
+    "bookings_home_accordion_insurance_voucher_click",
   bookingsHomeDownloadAllVouchersClick:
     "bookings_home_download_all_vouchers_click",
   bookedItineraryContentScroll: "booked_itinerary_content_scroll",

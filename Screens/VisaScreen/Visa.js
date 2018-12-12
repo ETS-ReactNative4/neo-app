@@ -38,6 +38,20 @@ class Visa extends Component {
 
     const visaDetails = getVisaDetailsByItineraryId(selectedItineraryId);
 
+    const selectedCountry = this.props.navigation.getParam("country", "");
+    let activeTabIndex = 0;
+    if (selectedCountry) {
+      for (let i = 0; i < visaDetails.length; i++) {
+        const currentVisa = visaDetails[i];
+        if (
+          currentVisa.regionName.toUpperCase() === selectedCountry.toUpperCase()
+        ) {
+          activeTabIndex = i;
+          break;
+        }
+      }
+    }
+
     return (
       <View style={styles.visaContainer}>
         <ScrollableTabView
@@ -48,7 +62,7 @@ class Visa extends Component {
             backgroundColor: constants.black2
           }}
           tabBarTextStyle={{ ...constants.font13(constants.primarySemiBold) }}
-          initialPage={0}
+          initialPage={activeTabIndex ? activeTabIndex : 0}
           prerenderingSiblingsNumber={Infinity}
           renderTabBar={() => <ScrollableTabBar />}
         >

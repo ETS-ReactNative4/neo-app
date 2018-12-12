@@ -20,6 +20,7 @@ import Icon from "../../CommonComponents/Icon/Icon";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import { recordEvent } from "../../Services/analytics/analyticsService";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
+import LineProgressBar from "../../CommonComponents/LineProgressBar/LineProgressBar";
 
 @ErrorBoundary()
 @inject("appState")
@@ -166,17 +167,18 @@ class CurrencyConverter extends Component {
   };
 
   render() {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    if (Platform.OS === "ios") {
+      LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    }
 
     const foreignCurrency = this.state.foreignCurrency.substr(3);
     const nativeCurrency = this.state.nativeCurrency.substr(3);
 
-    const { currencyConverter, conversionRates } = this.props.appState;
-
-    /**
-     * TODO: Loading Indicator for conversion rates
-     */
-    if (!conversionRates) return null;
+    const {
+      currencyConverter,
+      conversionRates,
+      isConversionLoading
+    } = this.props.appState;
 
     /**
      * TODO: Dynamic suggested rates using user's previous info
@@ -279,6 +281,7 @@ class CurrencyConverter extends Component {
         style={styles.container}
       >
         <View style={styles.container}>
+          <LineProgressBar isVisible={isConversionLoading} />
           {!this.state.foreignAmount
             ? currencyRates.map((currency, index) => {
                 return (

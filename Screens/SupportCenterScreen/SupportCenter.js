@@ -17,8 +17,10 @@ import {
 } from "react-native-responsive-dimensions";
 import { inject, observer } from "mobx-react/custom";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
+import CustomScrollView from "../../CommonComponents/CustomScrollView/CustomScrollView";
 
 @ErrorBoundary()
+@inject("itineraries")
 @inject("supportStore")
 @observer
 class SupportCenter extends Component {
@@ -34,14 +36,25 @@ class SupportCenter extends Component {
     });
   };
 
+  componentDidMount() {
+    const { loadConversation } = this.props.supportStore;
+    setTimeout(() => {
+      loadConversation();
+    }, 1000);
+  }
+
   render() {
     const { navigation } = this.props;
     const {
       faqDetails,
-      conversations,
+      getConversationsByItineraryId,
       loadConversation,
       isConversationLoading
     } = this.props.supportStore;
+
+    const { selectedItineraryId } = this.props.itineraries;
+
+    const conversations = getConversationsByItineraryId(selectedItineraryId);
 
     const faqSections = Object.keys(faqDetails).map(faqSection => {
       return {
@@ -52,13 +65,9 @@ class SupportCenter extends Component {
 
     return (
       <View style={styles.supportCenterContainer}>
-        <ScrollView
-          refreshControl={
-            <RefreshControl
-              refreshing={isConversationLoading}
-              onRefresh={() => loadConversation()}
-            />
-          }
+        <CustomScrollView
+          refreshing={isConversationLoading}
+          onRefresh={() => loadConversation()}
           style={styles.supportScroll}
         >
           <Image
@@ -82,7 +91,7 @@ class SupportCenter extends Component {
               />
             );
           })}
-        </ScrollView>
+        </CustomScrollView>
         <ContactUsTile contactAction={this.contactSupport} />
       </View>
     );

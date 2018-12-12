@@ -20,6 +20,7 @@ import LanguageSelector from "./Components/LanguageSelector";
 import Loader from "../../CommonComponents/Loader/Loader";
 import { logError } from "../../Services/errorLogger/errorLogger";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
+import LineProgressBar from "../../CommonComponents/LineProgressBar/LineProgressBar";
 
 @ErrorBoundary()
 @inject("phrasesStore")
@@ -226,8 +227,13 @@ class PhraseBook extends Component {
     }
 
     return [
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View key={0} style={styles.container}>
+      <LineProgressBar
+        containerStyle={{ backgroundColor: "white" }}
+        key={0}
+        isVisible={isLoading}
+      />,
+      <TouchableWithoutFeedback key={1} onPress={Keyboard.dismiss}>
+        <View style={styles.container}>
           <PhraseInfo
             selectedPhrase={selectedPhrase}
             translatedPhrase={translatedPhrase}
@@ -273,7 +279,7 @@ class PhraseBook extends Component {
       </TouchableWithoutFeedback>,
       <CustomPhrase
         openLanguageSelector={this.openLanguageSelector}
-        key={1}
+        key={2}
         navigation={navigation}
         selectedLanguage={selectedLanguage}
         selectPhrase={selectPhrase}
@@ -286,9 +292,8 @@ class PhraseBook extends Component {
         languages={languages}
         cancel={this.closeLanguageSelector}
         isVisible={this.state.isLanguageSelectorVisible}
-        key={2}
-      />,
-      <Loader isVisible={isLoading} key={3} />
+        key={3}
+      />
     ];
   }
 }

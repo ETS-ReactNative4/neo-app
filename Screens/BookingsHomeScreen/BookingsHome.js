@@ -17,12 +17,16 @@ import pullToRefresh from "../../Services/refresh/pullToRefresh";
 import SimpleButton from "../../CommonComponents/SimpleButton/SimpleButton";
 import constants from "../../constants/constants";
 import { CustomTabs } from "react-native-custom-tabs";
-import { responsiveWidth } from "react-native-responsive-dimensions";
+import {
+  responsiveHeight,
+  responsiveWidth
+} from "react-native-responsive-dimensions";
 import { logError } from "../../Services/errorLogger/errorLogger";
 import apiCall from "../../Services/networkRequests/apiCall";
 import { recordEvent } from "../../Services/analytics/analyticsService";
 import { registerFcmRefreshListener } from "../../Services/fcmService/fcm";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
+import CustomScrollView from "../../CommonComponents/CustomScrollView/CustomScrollView";
 
 @ErrorBoundary({ isRoot: true })
 @inject("infoStore")
@@ -54,7 +58,12 @@ class BookingsHome extends Component {
   }
 
   onBackButtonPressAndroid = () => {
-    BackHandler.exitApp();
+    const { navigation } = this.props;
+    if (navigation.isFocused()) {
+      BackHandler.exitApp();
+    } else {
+      return false;
+    }
   };
 
   componentDidMount() {
@@ -140,10 +149,6 @@ class BookingsHome extends Component {
   };
 
   render() {
-    if (Platform.OS === "ios") {
-      LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-    }
-
     const {
       startEndDates,
       days,
@@ -159,25 +164,20 @@ class BookingsHome extends Component {
     return (
       <View style={styles.bookingHomeContainer}>
         {/*<SearchPlaceholder action={this.openSearch} />*/}
-        <ScrollView
+        <CustomScrollView
           style={styles.bookingContainer}
           showsVerticalScrollIndicator={false}
-          refreshControl={
-            <RefreshControl
-              refreshing={itineraryLoading || voucherLoading}
-              onRefresh={() => {
-                pullToRefresh(
-                  {
-                    itinerary: true,
-                    voucher: true
-                  },
-                  selectedItineraryId
-                );
-              }}
-            />
-          }
+          horizontalPadding={24}
+          refreshing={itineraryLoading || voucherLoading}
+          onRefresh={() => {
+            pullToRefresh({
+              itinerary: true,
+              voucher: true
+            });
+          }}
         >
           <BookingCalendar
+            containerStyle={styles.calendarContainer}
             numOfActivitiesByDay={numOfActivitiesByDay}
             startEndDates={startEndDates}
             days={days}
@@ -218,7 +218,7 @@ class BookingsHome extends Component {
               />
             )
           ) : null}
-        </ScrollView>
+        </CustomScrollView>
       </View>
     );
   }
@@ -227,8 +227,10 @@ class BookingsHome extends Component {
 const styles = StyleSheet.create({
   bookingHomeContainer: {
     flex: 1,
-    paddingHorizontal: 24,
     backgroundColor: "white"
+  },
+  calendarContainer: {
+    marginTop: 16
   },
   bookingContainer: {}
 });

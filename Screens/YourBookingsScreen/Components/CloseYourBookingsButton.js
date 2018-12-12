@@ -54,8 +54,13 @@ class CloseYourBookingsButton extends Component {
   }
 
   onBackButtonPressAndroid = () => {
-    this.goBack();
-    return true;
+    const { navigation } = this.props;
+    if (navigation.isFocused()) {
+      this.goBack();
+      return true;
+    } else {
+      return false;
+    }
   };
 
   goBack = () => {

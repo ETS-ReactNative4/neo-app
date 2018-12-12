@@ -5,13 +5,10 @@ import PropTypes from "prop-types";
 
 const SectionHeader = ({
   sectionName,
-  containerStyle,
-  textStyle,
+  containerStyle = {},
+  textStyle = {},
   setOnLayout
 }) => {
-  if (!containerStyle) containerStyle = {};
-  if (!textStyle) textStyle = {};
-
   const customProps = {};
   if (setOnLayout) customProps.onLayout = setOnLayout;
 

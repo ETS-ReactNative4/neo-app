@@ -30,6 +30,14 @@ class Places {
     this._hasError = false;
   };
 
+  @action
+  clearCache = () => {
+    this._textSearches = {};
+    this._locationSearches = {};
+    this._placesList = {};
+    this._selectedPlace = "";
+  };
+
   @computed
   get selectedCity() {
     return this._selectedCity;

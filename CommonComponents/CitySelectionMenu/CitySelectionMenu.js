@@ -44,7 +44,7 @@ class CitySelectionMenu extends Component {
         animationIn="slideInDown"
         animationOut="slideOutUp"
         backdropColor={"black"}
-        isVisible={isItinerarySelectionMenuVisible}
+        isVisible={isItinerarySelectionMenuVisible && navigation.isFocused()}
         onBackButtonPress={closeModal}
         onBackdropPress={closeModal}
         backdropOpacity={0.2}

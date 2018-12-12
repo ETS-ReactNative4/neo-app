@@ -17,6 +17,7 @@ import PaymentInfoCard from "./Components/PaymentInfoCard";
 import apiCall from "../../Services/networkRequests/apiCall";
 import { recordEvent } from "../../Services/analytics/analyticsService";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
+import CustomScrollView from "../../CommonComponents/CustomScrollView/CustomScrollView";
 
 @ErrorBoundary({ isRoot: true })
 @inject("yourBookingsStore")
@@ -104,16 +105,12 @@ class PaymentHome extends Component {
 
     return (
       <View style={styles.paymentContainer}>
-        <ScrollView
-          refreshControl={
-            <RefreshControl
-              refreshing={isLoading || this.state.isLoading}
-              onRefresh={() => {
-                getUpcomingItineraries();
-                this.getPaymentMeta();
-              }}
-            />
-          }
+        <CustomScrollView
+          refreshing={isLoading || this.state.isLoading}
+          onRefresh={() => {
+            getUpcomingItineraries();
+            this.getPaymentMeta();
+          }}
         >
           {!upcomingItineraries.length && !isLoading ? (
             <EmptyListPlaceholder
@@ -155,7 +152,7 @@ class PaymentHome extends Component {
               return null;
             }
           })}
-        </ScrollView>
+        </CustomScrollView>
         {isIphoneX() ? <XSensorPlaceholder /> : null}
       </View>
     );

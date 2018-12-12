@@ -73,6 +73,7 @@ class ActivityVoucher extends Component {
       activityTime,
       pickupAddress,
       transferType,
+      departureTimeStr,
       self
     } = activity.voucher;
     const {
@@ -185,7 +186,9 @@ class ActivityVoucher extends Component {
         },
         {
           name: "Starts at",
-          value: activityTime ? moment(activityTime).format("hh:mm a") : "NA"
+          value: departureTimeStr
+            ? departureTimeStr
+            : moment(dateMillis).format("hh:mm a")
         },
         {
           name: "Duration",

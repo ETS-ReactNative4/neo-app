@@ -80,10 +80,14 @@ class PassportDetails {
   _getPassportDetailsByItinerary = createTransformer(itineraryId => {
     try {
       const passportDetails = toJS(this._passportDetails[itineraryId]);
-      return [
-        passportDetails.leadPassengerDetail,
-        ...passportDetails.otherPassengerDetailList
-      ];
+      if (passportDetails && passportDetails.leadPassengerDetail) {
+        return [
+          passportDetails.leadPassengerDetail,
+          ...passportDetails.otherPassengerDetailList
+        ];
+      } else {
+        return [];
+      }
     } catch (e) {
       logError(e);
       return [];

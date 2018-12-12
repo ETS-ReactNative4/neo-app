@@ -27,6 +27,7 @@ import getSmsPermissionAndroid from "../../Services/getSmsPermissionAndroid/getS
 import KeyboardAvoidingActionBar from "../../CommonComponents/KeyboardAvoidingActionBar/KeyboardAvoidingActionBar";
 import { recordEvent } from "../../Services/analytics/analyticsService";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
+import { toastCenter } from "../../Services/toast/toast";
 
 // const resetToBookings = StackActions.reset({
 //   index: 0,
@@ -136,14 +137,7 @@ class MobileNumber extends Component {
               isLoading: false
             });
             recordEvent(constants.mobileNumberOtpFailed);
-            if (Platform.OS === "ios") {
-              setError("OTP Verification Failed!", response.msg);
-            } else {
-              ToastAndroid.show(
-                response.msg || "OTP Verification Failed!",
-                ToastAndroid.SHORT
-              );
-            }
+            toastCenter(response.msg || "OTP Verification Failed!");
             this.setState({
               otp: new Array(6).fill("")
             });
@@ -186,14 +180,7 @@ class MobileNumber extends Component {
               otpId: response.data.otp_id
             },
             () => {
-              if (Platform.OS === "ios") {
-                setInfo("OTP Sent", response.msg);
-              } else {
-                ToastAndroid.show(
-                  response.msg || "OTP Sent",
-                  ToastAndroid.SHORT
-                );
-              }
+              toastCenter(response.msg || "OTP Sent");
               this.waitListener = setInterval(this.waitCounter, 1000);
             }
           );

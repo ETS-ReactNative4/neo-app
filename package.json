@@ -1,7 +1,7 @@
 {
   "name": "pickyourtrail",
   "version": "1.0.0",
-  "build": 41,
+  "build": 47,
   "environment": "staging",
   "private": true,
   "scripts": {
@@ -50,12 +50,14 @@
     "react-native-linear-gradient": "^2.4.0",
     "react-native-modal": "6.5.0",
     "react-native-parallax-scroll-view": "^0.21.0",
+    "react-native-progress": "^3.5.0",
     "react-native-ratings": "^6.0.0",
     "react-native-responsive-dimensions": "2.0.1",
     "react-native-restart": "^0.0.7",
     "react-native-scrollable-tab-view": "^0.10.0",
     "react-native-sentry": "0.39.0",
     "react-native-simple-radio-button": "^2.7.3",
+    "react-native-simple-toast": "^0.0.8",
     "react-native-sound":
       "git://github.com/DaniAkash/react-native-sound.git#7c8dea53a051b6a1b2b79ba41871d01cc24c1544",
     "react-native-svg": "6.5.2",

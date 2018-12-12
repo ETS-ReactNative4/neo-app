@@ -29,7 +29,9 @@ const SlotActivity = inject("infoStore")(
           getCityById,
           cities,
           getFlightById,
-          getTransferById
+          getTransferById,
+          getCityOrderById,
+          getRentalCarByCityOrder
         } = itineraries;
         const { setInfo } = infoStore;
         let onClick = () => null;
@@ -103,7 +105,12 @@ const SlotActivity = inject("infoStore")(
               internationalFlightKey =
                 activity.arrivalSlotDetail.flightCostingKey;
               imageObject = getSlotImage(internationalFlightKey, "FLIGHT");
-              const flight = getFlightById(internationalFlightKey);
+              const flight = internationalFlightKey
+                ? getFlightById(internationalFlightKey)
+                : {};
+              if (!internationalFlightKey) {
+                return null;
+              }
               onClick = () => {
                 recordEvent(constants.bookedItineraryFlightVoucherClick);
                 if (flight.voucher && flight.voucher.booked) {
@@ -191,8 +198,24 @@ const SlotActivity = inject("infoStore")(
                 transferMode,
                 slotText
               } = activity.intercityTransferSlotDetailVO.directTransferDetail;
+              const {
+                fromCity,
+                toCity
+              } = activity.intercityTransferSlotDetailVO;
               imageObject = getSlotImage(transferCostingIdenfier, transferMode);
-              const transfer = getTransferById(transferCostingIdenfier);
+              let transfer = transferCostingIdenfier
+                ? getTransferById(transferCostingIdenfier)
+                : {};
+              if (!transferCostingIdenfier) {
+                if (transferMode === "RENTALCAR") {
+                  const fromCityOrder = getCityOrderById(fromCity);
+                  const toCityOrder = getCityOrderById(toCity);
+                  transfer = getRentalCarByCityOrder({
+                    fromCityOrder,
+                    toCityOrder
+                  });
+                }
+              }
               onClick = () => {
                 recordEvent(constants.bookedItineraryTransferVoucherClick);
                 if (transfer.voucher && transfer.voucher.booked) {
@@ -221,7 +244,12 @@ const SlotActivity = inject("infoStore")(
               );
 
             case "INTERNATIONAL_DEPART":
-              const departureFlight = getFlightById(internationalFlightKey);
+              const departureFlight = internationalFlightKey
+                ? getFlightById(internationalFlightKey)
+                : null;
+              if (!internationalFlightKey) {
+                return null;
+              }
               onClick = () => {
                 recordEvent(constants.bookedItineraryFlightVoucherClick);
                 if (departureFlight.voucher && departureFlight.voucher.booked) {
@@ -243,7 +271,11 @@ const SlotActivity = inject("infoStore")(
                   containerStyle={containerStyle}
                   activity={activity}
                   title={activity.name}
-                  text={activity.departureSlotDetail.slotText}
+                  text={
+                    activity.departureSlotDetail
+                      ? activity.departureSlotDetail.slotText
+                      : ""
+                  }
                   image={{ uri: imageObject.image }}
                   icon={constants.aeroplaneIcon}
                   isImageContain={true}

@@ -41,7 +41,12 @@ class Home extends Component {
     if (this.state.canGoBack) {
       this._webView.goBack();
     } else {
-      BackHandler.exitApp();
+      const { navigation } = this.props;
+      if (navigation.isFocused()) {
+        BackHandler.exitApp();
+      } else {
+        return false;
+      }
     }
   };
 

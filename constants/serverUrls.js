@@ -3,7 +3,7 @@ import PackageInfo from "../package.json";
 const apiServers = {
   localServer: "http://192.168.0.5:8080/api/",
   devServer: "https://dev.pickyourtrail.com/api/",
-  stagingSever: "https://mobile.pickyourtrail.com/",
+  stagingSever: "https://staging.pickyourtrail.com/api/",
   prodServer: "https://pickyourtrail.com/api/"
 };
 

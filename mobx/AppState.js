@@ -11,11 +11,13 @@ import DebouncedAlert from "../CommonComponents/DebouncedAlert/DebouncedAlert";
 import storeService from "../Services/storeService/storeService";
 import * as Keychain from "react-native-keychain";
 import { AsyncStorage } from "react-native";
+import logOut from "../Services/logOut/logOut";
 
 const {
   conversionRateError,
   currencyDetailsError
 } = constants.currencyConverterText;
+const { logOutError } = constants.logOutText;
 
 class AppState {
   @action
@@ -101,19 +103,24 @@ class AppState {
   @persist("object")
   @observable
   _conversionRates = {};
+  @observable _isConversionLoading = false;
 
   @computed
   get conversionRates() {
     return toJS(this._conversionRates);
   }
 
+  @computed
+  get isConversionLoading() {
+    return this._isConversionLoading;
+  }
+
   @action
   getConversionRates = () => {
-    /**
-     * TODO: Change api to dev server
-     */
+    this._isConversionLoading = true;
     apiCall(constants.getCurrencyRates, {}, "GET")
       .then(response => {
+        this._isConversionLoading = false;
         if (response.status === "SUCCESS") {
           this._conversionRates = response.data;
         } else {
@@ -127,6 +134,7 @@ class AppState {
         }
       })
       .catch(e => {
+        this._isConversionLoading = false;
         storeService.infoStore.setError(
           conversionRateError.title,
           conversionRateError.message,
@@ -287,22 +295,32 @@ class AppState {
               this._pushTokens = {
                 deviceToken: ""
               };
+              callback();
             } else {
-              logError("failed to remove device token after logOut");
-              this._pushTokens = {
-                deviceToken: ""
-              };
+              if (response.status === "EXPIRED") {
+                logOut(true);
+              } else {
+                logError("failed to remove device token during logOut");
+                storeService.infoStore.setError(
+                  logOutError.title,
+                  logOutError.message,
+                  constants.errorBoxIllus,
+                  logOutError.actionText
+                );
+              }
             }
           })
           .catch(err => {
-            this._pushTokens = {
-              deviceToken: ""
-            };
             logError(err, {
-              eventType: "failed to remove device token after logOut"
+              eventType: "failed to remove device token during logOut"
             });
+            storeService.infoStore.setError(
+              logOutError.title,
+              logOutError.message,
+              constants.errorBoxIllus,
+              logOutError.actionText
+            );
           });
-        callback();
       }
     });
   };

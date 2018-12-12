@@ -16,11 +16,10 @@ import storeService from "../storeService/storeService";
 
 const closeDrawer = DrawerActions.closeDrawer();
 
-const logOut = () => {
+const logOut = (isForced = false) => {
   const { navigation } = navigationService;
 
-  navigation.dispatch(closeDrawer);
-  storeService.appState.removePushToken(() => {
+  const logOutActionQueue = () => {
     Keychain.resetGenericPassword().then(() => {
       navigation._navigation.navigate("Splash");
 
@@ -39,7 +38,15 @@ const logOut = () => {
         storeService.supportStore.reset();
       }, 100);
     });
-  });
+  };
+
+  navigation.dispatch(closeDrawer);
+  if (!isForced) {
+    storeService.appState.removePushToken(logOutActionQueue);
+  } else {
+    logOutActionQueue();
+  }
+
   /**
    * TODO: Clear sentry user context
    * setUserContext();
