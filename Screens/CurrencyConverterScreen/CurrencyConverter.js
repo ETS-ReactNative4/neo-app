@@ -167,7 +167,9 @@ class CurrencyConverter extends Component {
   };
 
   render() {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    if (Platform.OS === "ios") {
+      LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    }
 
     const foreignCurrency = this.state.foreignCurrency.substr(3);
     const nativeCurrency = this.state.nativeCurrency.substr(3);

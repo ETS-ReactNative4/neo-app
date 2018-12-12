@@ -4,7 +4,8 @@ import {
   StyleSheet,
   ScrollView,
   Text,
-  LayoutAnimation
+  LayoutAnimation,
+  Platform
 } from "react-native";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import constants from "../../constants/constants";
@@ -65,7 +66,9 @@ class Places extends Component {
   };
 
   render() {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    if (Platform.OS === "ios") {
+      LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    }
     const { navigation } = this.props;
     const { categories } = this.props.placesStore;
     const categorySections = Object.keys(categories);
