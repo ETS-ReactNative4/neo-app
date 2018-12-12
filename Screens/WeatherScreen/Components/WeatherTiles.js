@@ -12,12 +12,18 @@ import PropTypes from "prop-types";
 import constants from "../../../constants/constants";
 import Icon from "../../../CommonComponents/Icon/Icon";
 import getWeatherIcon from "../../../Services/getWeatherIcon/getWeatherIcon";
+import CustomScrollView from "../../../CommonComponents/CustomScrollView/CustomScrollView";
+import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraProps";
 
-const WeatherTiles = ({ weatherArray, selectTile }) => {
+const WeatherTiles = ({ weatherArray, selectTile, isLoading, loadWeather }) => {
   return (
-    <ScrollView contentContainerStyle={styles.weatherTileContainer}>
+    <CustomScrollView
+      contentContainerStyle={styles.weatherTileContainer}
+      refreshing={isLoading}
+      onRefresh={loadWeather}
+    >
       {weatherArray.map((weather, index) => {
-        const clicked = () => selectTile(index);
+        const clicked = () => selectTile(weather.weatherIndex);
         return (
           <TouchableOpacity
             onPress={clicked}
@@ -48,7 +54,7 @@ const WeatherTiles = ({ weatherArray, selectTile }) => {
           </TouchableOpacity>
         );
       })}
-    </ScrollView>
+    </CustomScrollView>
   );
 };
 
@@ -102,9 +108,11 @@ const styles = StyleSheet.create({
   }
 });
 
-WeatherTiles.propTypes = {
+WeatherTiles.propTypes = forbidExtraProps({
   weatherArray: PropTypes.array.isRequired,
-  selectTile: PropTypes.func.isRequired
-};
+  selectTile: PropTypes.func.isRequired,
+  isLoading: PropTypes.bool.isRequired,
+  loadWeather: PropTypes.func.isRequired
+});
 
 export default WeatherTiles;

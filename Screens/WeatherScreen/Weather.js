@@ -31,6 +31,10 @@ class Weather extends Component {
   };
 
   componentDidMount() {
+    this.loadWeather();
+  }
+
+  loadWeather = () => {
     const cities = _.flattenDeep(
       this.props.itineraries.cities.map(city => {
         const dateRange = moment.range(city.startDay, city.endDay);
@@ -54,10 +58,15 @@ class Weather extends Component {
       });
     }
     this.props.weatherStore.getWeatherDetails(cities);
-  }
+  };
 
   render() {
-    const { weather, selectWeather } = this.props.weatherStore;
+    const {
+      weather,
+      selectWeather,
+      isLoading,
+      lastUpdated
+    } = this.props.weatherStore;
 
     /**
      * TODO: Loading indicator for weather details
@@ -87,7 +96,12 @@ class Weather extends Component {
         ) : (
           <WeatherInactivePlaceholder />
         )}
-        <WeatherTiles weatherArray={weather} selectTile={selectWeather} />
+        <WeatherTiles
+          isLoading={isLoading}
+          loadWeather={this.loadWeather}
+          weatherArray={weather}
+          selectTile={selectWeather}
+        />
         {isIphoneX() ? <XSensorPlaceholder /> : null}
       </View>
     );
