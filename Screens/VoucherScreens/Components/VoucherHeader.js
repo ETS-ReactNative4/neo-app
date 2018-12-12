@@ -56,7 +56,13 @@ const VoucherHeader = ({
                 <Text style={styles.infoText}>{infoText}</Text>
               </View>
               <View style={styles.titleTextWrapper}>
-                <Text style={styles.titleText}>{title}</Text>
+                <Text
+                  style={styles.titleText}
+                  numberOfLines={1}
+                  ellipsizeMode={"tail"}
+                >
+                  {title}
+                </Text>
               </View>
             </View>
           )}

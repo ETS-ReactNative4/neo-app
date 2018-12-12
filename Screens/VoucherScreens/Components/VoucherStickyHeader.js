@@ -24,7 +24,9 @@ const VoucherStickyHeader = ({ text, action }) => {
         <TouchableOpacity onPress={action} style={styles.closeButton}>
           <Icon name={constants.closeIcon} size={24} />
         </TouchableOpacity>
-        <Text style={styles.title}>{text}</Text>
+        <Text numberOfLines={1} ellipsizeMode={"tail"} style={styles.title}>
+          {text}
+        </Text>
       </View>
     </View>
   );
