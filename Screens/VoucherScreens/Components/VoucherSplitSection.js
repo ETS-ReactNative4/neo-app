@@ -56,11 +56,13 @@ const styles = StyleSheet.create({
   },
   sectionName: {
     ...constants.fontCustom(constants.primaryLight, 17, 24),
-    color: constants.shade2
+    color: constants.shade2,
+    marginRight: 8
   },
   sectionValue: {
     ...constants.fontCustom(constants.primaryLight, 17, 24),
-    color: constants.black1
+    color: constants.black1,
+    marginLeft: 8
   }
 });
 
