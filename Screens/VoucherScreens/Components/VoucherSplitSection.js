@@ -18,10 +18,18 @@ const VoucherSplitSection = ({
         if (!section) return null;
         return (
           <View key={index} style={[styles.textRowWrapper, textWrapperStyle]}>
-            <Text style={[styles.sectionName, leftFontStyle]}>
+            <Text
+              numberOfLines={1}
+              ellipsizeMode={"tail"}
+              style={[styles.sectionName, leftFontStyle]}
+            >
               {section.name}
             </Text>
-            <Text style={[styles.sectionValue, rightFontStyle]}>
+            <Text
+              numberOfLines={1}
+              ellipsizeMode={"tail"}
+              style={[styles.sectionValue, rightFontStyle]}
+            >
               {section.value}
             </Text>
           </View>
