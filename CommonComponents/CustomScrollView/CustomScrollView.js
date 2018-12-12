@@ -21,16 +21,6 @@ class CustomScrollView extends Component {
   };
   _refreshControlRef = React.createRef();
 
-  componentWillUpdate() {
-    // console.log(this._refreshControlRef);
-    console.log(this._refreshControlRef._nativeRef);
-  }
-
-  componentDidUpdate() {
-    // console.log(this._refreshControlRef);
-    console.log(this._refreshControlRef._nativeRef);
-  }
-
   render() {
     const {
       onRefresh,
