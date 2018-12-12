@@ -6857,10 +6857,9 @@ react-native-dash@^0.0.9:
     prop-types "^15.5.10"
     react-native-measureme "0.0.1"
 
-react-native-deck-swiper@^1.5.26:
-  version "1.5.26"
-  resolved "https://registry.yarnpkg.com/react-native-deck-swiper/-/react-native-deck-swiper-1.5.26.tgz#c55c443b4ebe92eceaa67fe2f7d0288df4966cd0"
-  integrity sha512-6sB1T0EDlrZ4SSxL2qUOltq5ufhBXQ9I0ZvflmkO6k+zDOtGJ0BoFnVSfdjIuXnfVpdZVdSHQmpKtDmtIxPzmQ==
+"react-native-deck-swiper@git://github.com/sriram10/react-native-deck-swiper.git#a40eefe7a5178aba8b45392fc225ecc5fdb12e9a":
+  version "1.6.2"
+  resolved "git://github.com/sriram10/react-native-deck-swiper.git#a40eefe7a5178aba8b45392fc225ecc5fdb12e9a"
   dependencies:
     prop-types "15.5.10"
 
