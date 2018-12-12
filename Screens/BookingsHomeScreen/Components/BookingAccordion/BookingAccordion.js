@@ -45,7 +45,7 @@ class BookingAccordion extends Component {
 
     const bookingProcessingCount = section.items.length
       ? section.items.reduce((count, item) => {
-          if (item.voucher && !(item.voucher.booked || item.voucher.free)) {
+          if (item.voucher && !(item.voucher.booked || item.free)) {
             count++;
           }
           return count;
