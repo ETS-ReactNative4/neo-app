@@ -175,7 +175,10 @@ class TransferVoucher extends Component {
 
           <VoucherName name={text} />
 
-          <VoucherSplitSection sections={passengerDetails} />
+          <VoucherSplitSection
+            sections={passengerDetails}
+            rightFontStyle={{ width: responsiveWidth(50) - 24 }}
+          />
         </View>
 
         <View style={styles.arrivalSection}>

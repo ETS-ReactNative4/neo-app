@@ -20,6 +20,7 @@ import TransferInfoBox from "./Components/TransferInfoBox";
 import VoucherContactActionBar from "../Components/VoucherContactActionBar";
 import getTitleCase from "../../../Services/getTitleCase/getTitleCase";
 import ErrorBoundary from "../../../CommonComponents/ErrorBoundary/ErrorBoundary";
+import { responsiveWidth } from "react-native-responsive-dimensions";
 
 @ErrorBoundary()
 @inject("passportDetailsStore")
@@ -287,7 +288,10 @@ class ActivityVoucher extends Component {
 
           <VoucherName name={title} />
 
-          <VoucherSplitSection sections={passengerDetails} />
+          <VoucherSplitSection
+            sections={passengerDetails}
+            rightFontStyle={{ width: responsiveWidth(50) - 24 }}
+          />
         </View>
 
         <View style={styles.arrivalSection}>

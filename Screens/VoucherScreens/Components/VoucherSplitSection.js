@@ -50,19 +50,21 @@ const styles = StyleSheet.create({
   },
   textRowWrapper: {
     justifyContent: "space-between",
-    alignItems: "center",
+    alignItems: "flex-start",
     flexDirection: "row",
     marginVertical: 4
   },
   sectionName: {
     ...constants.fontCustom(constants.primaryLight, 17, 24),
     color: constants.shade2,
-    marginRight: 8
+    marginRight: 8,
+    textAlign: "left"
   },
   sectionValue: {
     ...constants.fontCustom(constants.primaryLight, 17, 24),
     color: constants.black1,
-    marginLeft: 8
+    marginLeft: 8,
+    textAlign: "right"
   }
 });
 
