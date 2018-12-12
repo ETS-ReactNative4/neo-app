@@ -38,7 +38,8 @@ class PhraseBook extends Component {
     isTtsSpeaking: false,
     isLanguageSelectorVisible: false,
     isInternetAvailable: true,
-    isKeyboardVisible: false
+    isKeyboardVisible: false,
+    isTextSoundLoading: false
   };
   _didFocusSubscription;
   _willBlurSubscription;
@@ -123,17 +124,26 @@ class PhraseBook extends Component {
         Tts.speak(translatedPhrase);
       } else {
         console.log("Internet Available... attempting to play Sound");
+        this.setState({
+          isTextSoundLoading: true
+        });
         this._translatedAudio = new Sound(
           translatedSoundUri,
           undefined,
           error => {
             if (error) {
+              this.setState({
+                isTextSoundLoading: false
+              });
               logError(error, {
                 soundModule: "Unable to obtain the audio from google translate"
               });
               console.log("Unable to Play sound... Falling back to TTS");
               Tts.speak(translatedPhrase);
             } else {
+              this.setState({
+                isTextSoundLoading: false
+              });
               console.log("Audio Ready... Playing Sound");
               this.setState(
                 {
@@ -214,6 +224,7 @@ class PhraseBook extends Component {
       unPinPhrase
     } = this.props.phrasesStore;
     const { navigation } = this.props;
+    const { isTextSoundLoading } = this.state;
 
     const sections = ["pinned", ...Object.keys(phrases)];
     const allPhrases = {
@@ -230,7 +241,7 @@ class PhraseBook extends Component {
       <LineProgressBar
         containerStyle={{ backgroundColor: "white" }}
         key={0}
-        isVisible={isLoading}
+        isVisible={isLoading || isTextSoundLoading}
       />,
       <TouchableWithoutFeedback key={1} onPress={Keyboard.dismiss}>
         <View style={styles.container}>

@@ -56,7 +56,7 @@ const PhraseInfo = ({
                   : {}
                 : {}
             ]}
-            numberOfLines={2}
+            numberOfLines={4}
             ellipsizeMode={"tail"}
           >
             {translatedPhrase}
@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
   infoContainer: {
     marginTop: 54,
     paddingHorizontal: 24,
-    height: 184,
+    minHeight: 184,
     alignItems: "center",
     justifyContent: "center"
   },
