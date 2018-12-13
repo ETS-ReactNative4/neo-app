@@ -14,6 +14,11 @@ class Weather {
   @observable
   _weather = [];
 
+  @action
+  reset = () => {
+    this._weather = [];
+  };
+
   @computed
   get isLoading() {
     return this._isLoading;

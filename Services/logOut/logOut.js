@@ -24,18 +24,19 @@ const logOut = (isForced = false) => {
       navigation._navigation.navigate("Splash");
 
       setTimeout(() => {
-        storeService.userStore.reset();
-        storeService.itineraries.reset();
         storeService.appState.reset();
-        storeService.yourBookingsStore.reset();
-        storeService.voucherStore.reset();
-        storeService.packingChecklistStore.reset();
-        storeService.phrasesStore.reset();
         storeService.emergencyContactsStore.reset();
+        storeService.itineraries.reset();
+        storeService.packingChecklistStore.reset();
         storeService.passportDetailsStore.reset();
-        storeService.visaStore.reset();
+        storeService.phrasesStore.reset();
         storeService.placesStore.reset();
         storeService.supportStore.reset();
+        storeService.userStore.reset();
+        storeService.visaStore.reset();
+        storeService.voucherStore.reset();
+        storeService.weatherStore.reset();
+        storeService.yourBookingsStore.reset();
       }, 100);
     });
   };
