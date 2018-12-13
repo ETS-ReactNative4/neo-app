@@ -42,7 +42,7 @@ const Visa = ({ visa, isLast, navigation }) => {
 
   const openVoucher = () => {
     recordEvent(constants.bookingsHomeAccordionVisaVoucherClick);
-    navigation.navigate("Visa", {
+    navigation.navigate("VisaBooked", {
       country: visa.country
     });
   };
