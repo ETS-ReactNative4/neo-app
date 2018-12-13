@@ -10,7 +10,6 @@ import {
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import constants from "../../constants/constants";
 import Carousel from "../../CommonComponents/Carousel/Carousel";
-import PlaceCard from "./Components/PlaceCard";
 import PlaceSectionTitle from "./Components/PlaceSectionTitle";
 import XSensorPlaceholder from "../../CommonComponents/XSensorPlaceholder/XSensorPlaceholder";
 import { isIphoneX } from "react-native-iphone-x-helper";
@@ -19,6 +18,7 @@ import CitySelectionMenu from "../../CommonComponents/CitySelectionMenu/CitySele
 import PlacesPageTitle from "./Components/PlacesPageTitle";
 import { recordEvent } from "../../Services/analytics/analyticsService";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
+import SimpleCard from "../../CommonComponents/SimpleCard/SimpleCard";
 
 @ErrorBoundary()
 @inject("placesStore")
@@ -96,7 +96,7 @@ class Places extends Component {
               >
                 {category.map((item, itemIndex) => {
                   return (
-                    <PlaceCard
+                    <SimpleCard
                       key={itemIndex}
                       image={{ uri: item.image }}
                       action={() => {
