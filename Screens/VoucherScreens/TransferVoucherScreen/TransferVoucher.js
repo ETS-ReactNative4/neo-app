@@ -99,6 +99,12 @@ class TransferVoucher extends Component {
               ? moment(departureTime, "HH:mm").format("hh:mm a")
               : "NA"
           }
+        : null,
+      vehicle === "TRAIN"
+        ? {
+            name: "Departure Station",
+            value: pickup || "NA"
+          }
         : null
     ];
     if (type) {
@@ -121,10 +127,12 @@ class TransferVoucher extends Component {
                 : "NA"
           }
         : null,
-      {
-        name: "Meeting point",
-        value: pickup || "NA"
-      },
+      vehicle !== "TRAIN"
+        ? {
+            name: "Meeting point",
+            value: pickup || "NA"
+          }
+        : null,
       vehicle === "TRAIN"
         ? {
             name: "Arrival Time",
