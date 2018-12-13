@@ -101,7 +101,7 @@ UpcomingCard.propTypes = {
 
 const styles = StyleSheet.create({
   upcomingCardContainer: {
-    height: 208,
+    minHeight: 208,
     marginHorizontal: 24,
     backgroundColor: "white",
     marginTop: 16,
@@ -122,7 +122,7 @@ const styles = StyleSheet.create({
     overflow: "hidden"
   },
   imageBackground: {
-    flex: 1,
+    height: 104,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "flex-end"
@@ -147,12 +147,12 @@ const styles = StyleSheet.create({
     // })
   },
   infoTextWrapper: {
-    height: 72,
+    minHeight: 72,
     marginHorizontal: 16,
     marginTop: 16
   },
   dateWrapper: {
-    height: 16,
+    minHeight: 16,
     justifyContent: "center"
   },
   date: {
@@ -162,17 +162,18 @@ const styles = StyleSheet.create({
     lineHeight: 14
   },
   bookingNameWrapper: {
-    height: 24,
-    justifyContent: "center"
+    minHeight: 24,
+    justifyContent: "center",
+    marginBottom: 4
   },
   bookingName: {
     fontFamily: constants.primarySemiBold,
     color: constants.black1,
     fontSize: 17,
-    lineHeight: 17
+    lineHeight: 20
   },
   bookingDetailWrapper: {
-    height: 16,
+    minHeight: 16,
     justifyContent: "center"
   },
   bookingDetail: {
@@ -182,8 +183,9 @@ const styles = StyleSheet.create({
     lineHeight: 13
   },
   bookingDateWrapper: {
-    height: 16,
-    justifyContent: "center"
+    minHeight: 16,
+    justifyContent: "center",
+    marginBottom: 4
   },
   bookingDate: {
     fontFamily: constants.primaryLight,
