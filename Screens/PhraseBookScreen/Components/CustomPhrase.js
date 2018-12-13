@@ -41,12 +41,18 @@ class CustomPhrase extends Component {
   };
 
   render() {
-    const { selectPhrase, targetLanguage, isKeyboardVisible } = this.props;
+    const {
+      selectPhrase,
+      targetLanguage,
+      isKeyboardVisible,
+      selectedLanguage
+    } = this.props;
     const { customPhrase } = this.state;
     const translateAction = () => {
       customPhrase ? selectPhrase(customPhrase, targetLanguage) : null;
       Keyboard.dismiss();
     };
+    const languageCode = selectedLanguage ? selectedLanguage.languageCode : "";
     return [
       <KeyboardAvoidingActionBar
         key={0}
@@ -83,11 +89,7 @@ class CustomPhrase extends Component {
           />
         ) : (
           <SimpleButton
-            text={
-              localeCode.getLanguageName(
-                this.props.selectedLanguage.languageCode
-              ) || this.props.selectedLanguage.languageCode
-            }
+            text={languageCode ? localeCode.getLanguageName(languageCode) : ""}
             action={this.props.openLanguageSelector}
             containerStyle={{
               backgroundColor: "white",

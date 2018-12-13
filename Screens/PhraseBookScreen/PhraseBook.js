@@ -245,8 +245,8 @@ class PhraseBook extends Component {
       pinned: pinnedPhrases
     };
 
-    const targetLanguage = selectedLanguage.language;
-    if (selectLanguage.languageCode) {
+    const targetLanguage = selectedLanguage ? selectedLanguage.language : "";
+    if (selectedLanguage && selectedLanguage.languageCode) {
       Tts.setDefaultLanguage(selectedLanguage.languageCode);
     }
 
