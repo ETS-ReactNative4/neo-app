@@ -166,7 +166,7 @@ class PaymentSummary extends Component {
         value: this.state.tripId
       }
     ];
-    const { paymentInfo } = this.state;
+    const { paymentInfo, isLoading } = this.state;
     const { productPayments, platoPayements } = paymentInfo;
 
     const paymentOptions = productPayments
@@ -300,7 +300,9 @@ class PaymentSummary extends Component {
         <View style={styles.dueDateWrapper}>
           <Text style={styles.dueDate}>
             {isPaymentComplete
-              ? "Payment Completed!"
+              ? !isLoading
+                ? "Payment Completed!"
+                : ""
               : `Due date for next payment ${this.state.nextPendingDate}`}
           </Text>
         </View>
