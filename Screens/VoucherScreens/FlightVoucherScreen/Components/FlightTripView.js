@@ -59,7 +59,9 @@ class FlightTripView extends Component {
         freeCabinBaggage,
         freeCheckInBaggage,
         departureAirportName,
-        departureCity
+        departureCity,
+        carrierCode,
+        flightNumber
       } = routes[0];
 
       const {
@@ -109,6 +111,8 @@ class FlightTripView extends Component {
             excessBaggageInfo={excessBaggageInfo}
             departureAirportCode={departureAirportCode}
             arrivalAirportCode={arrivalAirportCode}
+            carrierCode={carrierCode}
+            flightNumber={flightNumber}
           />
         </View>
       );
@@ -136,7 +140,9 @@ class FlightTripView extends Component {
             arrivalAirportName,
             layoverTime,
             freeCabinBaggage,
-            freeCheckInBaggage
+            freeCheckInBaggage,
+            carrierCode,
+            flightNumber
           } = route;
           const departure = `${departureDayOfWeek}, ${depDateOfMonth} ${depMonth}`;
           const departureText = `${departureAirportCode} ${departureTime.slice(
@@ -180,6 +186,8 @@ class FlightTripView extends Component {
                   excessBaggageInfo={excessBaggageInfo}
                   departureAirportCode={departureAirportCode}
                   arrivalAirportCode={arrivalAirportCode}
+                  carrierCode={carrierCode}
+                  flightNumber={flightNumber}
                 />,
                 routeIndex < routes.length - 1 ? (
                   <FlightDivider

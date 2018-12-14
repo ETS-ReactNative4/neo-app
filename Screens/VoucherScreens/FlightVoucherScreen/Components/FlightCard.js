@@ -32,7 +32,9 @@ const FlightCard = ({
   arrivalAirportName,
   excessBaggageInfo,
   departureAirportCode,
-  arrivalAirportCode
+  arrivalAirportCode,
+  carrierCode,
+  flightNumber
 }) => {
   const airlineLogo = constants.getAirlineIcon(airlineCode);
   let baggageList =
@@ -108,6 +110,11 @@ const FlightCard = ({
             <Text style={styles.flightClass}>{flightClass}</Text>
           </View>
         </View>
+      </View>
+      <View style={styles.flightCarrierCodeWrapper}>
+        <Text
+          style={styles.flightNumber}
+        >{`${carrierCode} ${flightNumber}`}</Text>
       </View>
       <View style={styles.flightTimingsSection}>
         <View style={styles.timingLeft}>
@@ -187,7 +194,9 @@ FlightCard.propTypes = forbidExtraProps({
   arrivalCity: PropTypes.string.isRequired,
   arrivalAirportName: PropTypes.string.isRequired,
   departureAirportCode: PropTypes.string.isRequired,
-  arrivalAirportCode: PropTypes.string.isRequired
+  arrivalAirportCode: PropTypes.string.isRequired,
+  carrierCode: PropTypes.string.isRequired,
+  flightNumber: PropTypes.string.isRequired
 });
 
 const styles = StyleSheet.create({
@@ -221,7 +230,7 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   },
   flightProviderWrapper: {
-    height: 17,
+    height: 20,
     marginTop: Platform.OS === "android" ? -8 : -4
   },
   flightProvider: {
@@ -237,9 +246,17 @@ const styles = StyleSheet.create({
   flightClassWrapper: {
     height: 20
   },
+  flightCarrierCodeWrapper: {
+    height: 20,
+    marginTop: 8
+  },
   flightClass: {
-    ...constants.font17(constants.primaryLight, 17),
+    ...constants.fontCustom(constants.primaryLight, 17),
     color: constants.shade2
+  },
+  flightNumber: {
+    ...constants.fontCustom(constants.primarySemiBold, 17),
+    color: constants.black2
   },
   flightTimingsSection: {
     marginTop: 8,
