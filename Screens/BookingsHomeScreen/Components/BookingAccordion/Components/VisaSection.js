@@ -47,6 +47,8 @@ const Visa = ({ visa, isLast, navigation }) => {
     });
   };
 
+  const isSchengen = visa.schengen;
+
   return (
     <TouchableOpacity
       onPress={openVoucher}
@@ -61,11 +63,11 @@ const Visa = ({ visa, isLast, navigation }) => {
         />
       </View>
       <View style={styles.contentTextContainer}>
-        <View style={styles.contentHeaderWrapper}>
-          <Text style={styles.contentHeader}>
-            {visa.schengen ? "Schengen" : "Non Schengen"}
-          </Text>
-        </View>
+        {isSchengen ? (
+          <View style={styles.contentHeaderWrapper}>
+            <Text style={styles.contentHeader}>{"Schengen"}</Text>
+          </View>
+        ) : null}
         <View style={styles.contentTextWrapper}>
           <Text style={styles.contentText} numberOfLines={2}>
             {visa.country}
