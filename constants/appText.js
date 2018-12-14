@@ -11,6 +11,9 @@ const appText = {
       actionText: "Go Back"
     }
   },
+  weatherText: {
+    unableToGetWeatherText: "Unable to retrieve latest weather information..."
+  },
   logOutText: {
     logOutError: {
       title: "Unable to log out!",
