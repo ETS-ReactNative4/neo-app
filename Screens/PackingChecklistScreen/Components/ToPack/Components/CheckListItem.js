@@ -12,7 +12,8 @@ const CheckListItem = ({
   item: data,
   toggleCheckListStatus,
   addListItem,
-  deleteListItem
+  deleteListItem,
+  isPackedTab
 }) => {
   const toggle = () => toggleCheckListStatus(data.type, data.key);
   return (
@@ -30,7 +31,11 @@ const CheckListItem = ({
       {data.type === "user-input" ? (
         <AddCheckListItem addListItem={addListItem} />
       ) : (
-        <CheckListText {...data} toggleCheckListStatus={toggle} />
+        <CheckListText
+          {...data}
+          isPackedTab={isPackedTab}
+          toggleCheckListStatus={toggle}
+        />
       )}
     </SwipeRow>
   );
@@ -41,6 +46,7 @@ CheckListItem.propTypes = forbidExtraProps({
   item: PropTypes.object.isRequired,
   toggleCheckListStatus: PropTypes.func.isRequired,
   addListItem: PropTypes.func.isRequired,
+  isPackedTab: PropTypes.bool.isRequired,
   deleteListItem: PropTypes.func.isRequired
 });
 
