@@ -11,7 +11,7 @@ const LineProgressBar = ({ isVisible, containerStyle = {}, height = 2 }) => {
     <View style={[styles.lineContainerStyle, containerStyle]}>
       {isVisible ? (
         [
-          <View style={{ transform: [{ rotate: "180deg" }] }}>
+          <View key={0} style={{ transform: [{ rotate: "180deg" }] }}>
             <ProgressBar
               indeterminate={true}
               width={responsiveWidth(50)}
@@ -24,6 +24,7 @@ const LineProgressBar = ({ isVisible, containerStyle = {}, height = 2 }) => {
             />
           </View>,
           <ProgressBar
+            key={1}
             indeterminate={true}
             width={responsiveWidth(50)}
             height={height}
