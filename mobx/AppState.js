@@ -211,7 +211,7 @@ class AppState {
               ];
             }
           }
-          currencies[itineraryId] = currencyArray;
+          currencies[itineraryId] = _.compact(currencyArray);
           this._currencies = currencies;
         } else {
           storeService.infoStore.setError(
