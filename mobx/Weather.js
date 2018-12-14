@@ -14,6 +14,8 @@ class Weather {
   @observable
   _weather = [];
 
+  @observable _lastUpdated = "";
+
   @action
   reset = () => {
     this._weather = [];
@@ -27,6 +29,11 @@ class Weather {
   @computed
   get weather() {
     return _.compact(toJS(this._weather));
+  }
+
+  @computed
+  get lastUpdated() {
+    return this._lastUpdated;
   }
 
   @action
@@ -61,6 +68,7 @@ class Weather {
             weatherObject[index] = data;
             const days = Object.keys(weatherObject);
             if (days.length === cities.length) {
+              this._lastUpdated = moment().format("MMM DD, hh:mm a");
               this._loadingError = false;
               this._isLoading = false;
               this._weather = days.map((day, dayIndex) => {

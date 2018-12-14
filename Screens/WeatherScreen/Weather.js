@@ -90,6 +90,7 @@ class Weather extends Component {
               key={0}
               containerStyle={{ marginHorizontal: 24, height: 72 }}
               {...selectedDay.widgetDetails}
+              lastUpdated={lastUpdated}
             />,
             <WeatherChart key={1} selectedDay={selectedDay} />
           ]

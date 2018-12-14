@@ -11,7 +11,8 @@ const WeatherCard = ({
   description,
   temperature,
   weatherIcon,
-  containerStyle
+  containerStyle,
+  lastUpdated
 }) => {
   if (!containerStyle) containerStyle = {};
 
@@ -26,6 +27,11 @@ const WeatherCard = ({
         </View>
         <View style={styles.textWrapper}>
           <Text style={styles.descriptionText}>{description}</Text>
+        </View>
+        <View style={styles.textWrapper}>
+          <Text
+            style={styles.lastUpdatedText}
+          >{`Last Updated on ${lastUpdated}`}</Text>
         </View>
       </View>
       <View style={styles.imageContainer}>
@@ -45,6 +51,7 @@ WeatherCard.propTypes = {
   temperature: PropTypes.string.isRequired,
   weatherIcon: PropTypes.oneOfType([PropTypes.object, PropTypes.number])
     .isRequired,
+  lastUpdated: PropTypes.string.isRequired,
   containerStyle: PropTypes.object
 };
 
@@ -64,15 +71,19 @@ const styles = StyleSheet.create({
     alignItems: "flex-start"
   },
   locationText: {
-    ...constants.font20(constants.primaryLight),
+    ...constants.fontCustom(constants.primaryLight, 20, 24),
     color: constants.black1
   },
   dateText: {
-    ...constants.font17(constants.primaryLight),
+    ...constants.fontCustom(constants.primaryLight, 17, 24),
     color: "rgba(121,5,114,1)"
   },
   descriptionText: {
-    ...constants.font13(constants.primaryLight),
+    ...constants.fontCustom(constants.primaryLight, 13, 16),
+    color: constants.black2
+  },
+  lastUpdatedText: {
+    ...constants.fontCustom(constants.primaryLight, 11),
     color: constants.black2
   },
   imageContainer: {
