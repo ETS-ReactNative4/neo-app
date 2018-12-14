@@ -70,11 +70,11 @@ const FlightCard = ({
   const baggageSectionData = [
     {
       name: "Cabin Baggage",
-      value: freeCabinBaggage
+      value: "7kg per person"
     },
     {
       name: "Free Checkin Baggage",
-      value: freeCheckInBaggage
+      value: freeCheckInBaggage ? `${freeCheckInBaggage} per person` : ""
     },
     baggageList.length
       ? {
