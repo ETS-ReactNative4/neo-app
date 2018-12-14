@@ -13,20 +13,32 @@ import SmartImage from "../SmartImage/SmartImage";
  * @returns {*}
  * @constructor
  */
-const Card = ({ title, image, action, containerStyle = {}, imageStyle = {}, textStyle = {} }) => {
+const Card = ({
+  title,
+  image,
+  action,
+  containerStyle = {},
+  imageStyle = {},
+  textStyle = {}
+}) => {
   if (containerStyle.width) {
-    imageStyle.width = containerStyle.width
+    imageStyle.width = containerStyle.width;
   }
   if (containerStyle.height && imageStyle.height) {
-    console.log('Height >> ', containerStyle, imageStyle)
-    imageStyle.height = imageStyle.height > (containerStyle.height*0.75) ? (containerStyle.height*0.75) : imageStyle.height;
+    imageStyle.height =
+      imageStyle.height > containerStyle.height * 0.75
+        ? containerStyle.height * 0.75
+        : imageStyle.height;
   }
   let textWrapper = {};
   if (textStyle.backgroundColor) {
     textWrapper.backgroundColor = textStyle.backgroundColor;
   }
   return (
-    <TouchableOpacity onPress={action} style={[styles.cardContainer, containerStyle]}>
+    <TouchableOpacity
+      onPress={action}
+      style={[styles.cardContainer, containerStyle]}
+    >
       <SmartImage
         defaultImageUri={
           "http://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg"
