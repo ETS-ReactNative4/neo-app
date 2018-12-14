@@ -9,16 +9,14 @@ import VoucherStickyHeader from "../Components/VoucherStickyHeader";
 import VoucherName from "../Components/VoucherName";
 import VoucherSplitSection from "../Components/VoucherSplitSection";
 import SectionHeader from "../../../CommonComponents/SectionHeader/SectionHeader";
-import SimpleButton from "../../../CommonComponents/SimpleButton/SimpleButton";
 import IosCloseButton from "../Components/IosCloseButton";
 import moment from "moment";
 import getTransferImage from "../../../Services/getImageService/getTransferImage";
-import dialer from "../../../Services/dialer/dialer";
 import { inject, observer } from "mobx-react/custom";
 import TitleDate from "../Components/TitleDate";
-import getLocaleString from "../../../Services/getLocaleString/getLocaleString";
 import ErrorBoundary from "../../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import getTitleCase from "../../../Services/getTitleCase/getTitleCase";
+import VoucherContactActionBar from "../Components/VoucherContactActionBar";
 
 @ErrorBoundary()
 @inject("passportDetailsStore")
@@ -197,21 +195,7 @@ class TransferVoucher extends Component {
 
           <VoucherSplitSection sections={arrivalDetails} />
 
-          {contactNumber ? (
-            <SimpleButton
-              text={"Contact"}
-              action={() => dialer(contactNumber)}
-              color={"transparent"}
-              containerStyle={{
-                width: responsiveWidth(100) - 48,
-                marginTop: 24
-              }}
-              textColor={constants.black2}
-              hasBorder={true}
-              icon={constants.callIcon}
-              iconSize={16}
-            />
-          ) : null}
+          <VoucherContactActionBar contact={contactNumber} />
 
           <VoucherSplitSection sections={bookingDetails} />
         </View>
