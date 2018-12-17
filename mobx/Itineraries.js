@@ -702,6 +702,22 @@ class Itineraries {
     }
   });
 
+  getTransferFromAllById = createTransformer(id => {
+    try {
+      let transfer = this.getTransferById(id);
+      if (_.isEmpty(transfer)) {
+        transfer = this.getFerryById(id);
+        if (_.isEmpty(transfer)) {
+          transfer = this.getTrainById(id);
+        }
+      }
+      return transfer;
+    } catch (e) {
+      logError(e);
+      return {};
+    }
+  });
+
   getTransferById = createTransformer(id => {
     if (_.isEmpty(this._selectedItinerary)) return {};
 
@@ -713,6 +729,46 @@ class Itineraries {
         transfer.voucher =
           storeService.voucherStore.getTransferVoucherById(transfer.key) || {};
         return transfer;
+      } else {
+        return {};
+      }
+    } catch (e) {
+      logError(e);
+      return {};
+    }
+  });
+
+  getFerryById = createTransformer(id => {
+    if (_.isEmpty(this._selectedItinerary)) return {};
+
+    try {
+      const ferry = toJS(
+        this._selectedItinerary.ferryCostings.ferryCostingById[id]
+      );
+      if (ferry) {
+        ferry.voucher =
+          storeService.voucherStore.getFerryVoucherById(ferry.key) || {};
+        return ferry;
+      } else {
+        return {};
+      }
+    } catch (e) {
+      logError(e);
+      return {};
+    }
+  });
+
+  getTrainById = createTransformer(id => {
+    if (_.isEmpty(this._selectedItinerary)) return {};
+
+    try {
+      const train = toJS(
+        this._selectedItinerary.trainCostings.trainCostingById[id]
+      );
+      if (train) {
+        train.voucher =
+          storeService.voucherStore.getTrainVoucherById(train.key) || {};
+        return train;
       } else {
         return {};
       }

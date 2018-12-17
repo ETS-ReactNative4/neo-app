@@ -29,7 +29,7 @@ const SlotActivity = inject("infoStore")(
           getCityById,
           cities,
           getFlightById,
-          getTransferById,
+          getTransferFromAllById,
           getCityOrderById,
           getRentalCarByCityOrder
         } = itineraries;
@@ -204,7 +204,7 @@ const SlotActivity = inject("infoStore")(
               } = activity.intercityTransferSlotDetailVO;
               imageObject = getSlotImage(transferCostingIdenfier, transferMode);
               let transfer = transferCostingIdenfier
-                ? getTransferById(transferCostingIdenfier)
+                ? getTransferFromAllById(transferCostingIdenfier)
                 : {};
               if (!transferCostingIdenfier) {
                 if (transferMode === "RENTALCAR") {
