@@ -12,7 +12,6 @@ import io.invertase.firebase.analytics.RNFirebaseAnalyticsPackage;
 import com.zmxv.RNSound.RNSoundPackage;
 import com.dylanvann.fastimage.FastImageViewPackage;
 import com.rncustomwebview.CustomWebViewPackage;
-import com.centaurwarchief.smslistener.SmsListenerPackage;
 import com.krazylabs.OpenAppSettingsPackage;
 import net.no_mad.tts.TextToSpeechPackage;
 import io.sentry.RNSentryPackage;
@@ -48,7 +47,6 @@ public class MainApplication extends Application implements ReactApplication {
             new RNSoundPackage(),
             new FastImageViewPackage(),
             new CustomWebViewPackage(),
-            new SmsListenerPackage(),
             new OpenAppSettingsPackage(),
             new TextToSpeechPackage(),
             new RNSentryPackage(),

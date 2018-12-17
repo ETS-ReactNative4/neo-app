@@ -11,8 +11,6 @@ include ':react-native-fast-image'
 project(':react-native-fast-image').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-fast-image/android')
 include ':react-native-webview-android-file-upload'
 project(':react-native-webview-android-file-upload').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-webview-android-file-upload/android')
-include ':react-native-android-sms-listener'
-project(':react-native-android-sms-listener').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-android-sms-listener/android')
 include ':react-native-app-settings'
 project(':react-native-app-settings').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-app-settings/android')
 include ':react-native-tts'

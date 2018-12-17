@@ -21,9 +21,7 @@ import apiCall from "../../Services/networkRequests/apiCall";
 import Loader from "../../CommonComponents/Loader/Loader";
 import registerToken from "../../Services/registerToken/registerToken";
 import MobileNumberInput from "./Components/MobileNumberInput";
-import SmsListener from "react-native-android-sms-listener";
 import { inject, observer } from "mobx-react/custom";
-import getSmsPermissionAndroid from "../../Services/getSmsPermissionAndroid/getSmsPermissionAndroid";
 import KeyboardAvoidingActionBar from "../../CommonComponents/KeyboardAvoidingActionBar/KeyboardAvoidingActionBar";
 import { recordEvent } from "../../Services/analytics/analyticsService";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
@@ -217,22 +215,25 @@ class MobileNumber extends Component {
     }
   };
 
-  otpPrefiller = message => {
-    if (message.originatingAddress.indexOf("PYTBRK") > -1) {
-      const otp = message.body.substr(0, 6).split("");
-      recordEvent(constants.mobileNumberOtpAutoFill);
-      this.setState(
-        {
-          otp
-        },
-        () => {
-          setTimeout(() => {
-            this.verifyOtp();
-          }, 1000);
-        }
-      );
-    }
-  };
+  /**
+   * SMS listener for android is Removed hence otp prefiller won't work
+   */
+  // otpPrefiller = message => {
+  //   if (message.originatingAddress.indexOf("PYTBRK") > -1) {
+  //     const otp = message.body.substr(0, 6).split("");
+  //     recordEvent(constants.mobileNumberOtpAutoFill);
+  //     this.setState(
+  //       {
+  //         otp
+  //       },
+  //       () => {
+  //         setTimeout(() => {
+  //           this.verifyOtp();
+  //         }, 1000);
+  //       }
+  //     );
+  //   }
+  // };
 
   showCountryCodeModal = () => {
     recordEvent(constants.mobileNumberOpenCountryCode);
@@ -254,31 +255,15 @@ class MobileNumber extends Component {
   }
 
   submitMobileNumber = () => {
-    const sendMobileNumber = () => {
-      if (this.state.mobileNumber.length < 10) {
-        this.setState({
-          hasError: true
-        });
-      } else {
-        this.setState({
-          hasError: false
-        });
-        this.sendOtp();
-      }
-    };
-
-    if (Platform.OS === "android") {
-      getSmsPermissionAndroid(
-        () => {
-          this.smsListener = SmsListener.addListener(this.otpPrefiller);
-          sendMobileNumber();
-        },
-        () => {
-          sendMobileNumber();
-        }
-      );
+    if (this.state.mobileNumber.length < 10) {
+      this.setState({
+        hasError: true
+      });
     } else {
-      sendMobileNumber();
+      this.setState({
+        hasError: false
+      });
+      this.sendOtp();
     }
   };
 
