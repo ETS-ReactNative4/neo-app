@@ -3410,7 +3410,7 @@ fbjs-scripts@^0.8.1:
     semver "^5.1.0"
     through2 "^2.0.0"
 
-fbjs@0.8.17:
+fbjs@0.8.17, fbjs@^0.8.17:
   version "0.8.17"
   resolved "https://registry.yarnpkg.com/fbjs/-/fbjs-0.8.17.tgz#c4d598ead6949112653d6588b01a5cdcd9f90fdd"
   integrity sha1-xNWY6taUkRJlPWWIsBpc3Nn5D90=
@@ -7074,6 +7074,14 @@ react-native-vector-icons@5.0.0:
 "react-native-webview-android-file-upload@git://github.com/DaniAkash/react-native-webview-android-file-upload.git#f04c1285ae5d0eb1f62c4cf7cfb454dba55cb8ce":
   version "1.4.0"
   resolved "git://github.com/DaniAkash/react-native-webview-android-file-upload.git#f04c1285ae5d0eb1f62c4cf7cfb454dba55cb8ce"
+
+react-native-webview@^2.14.3:
+  version "2.14.3"
+  resolved "https://registry.yarnpkg.com/react-native-webview/-/react-native-webview-2.14.3.tgz#25ed93d4b12659fb330dd21b6d8802b86628f079"
+  integrity sha512-hKG+3G1zLosbGFm/QgZsjBWDnf9tX4UGshcCzHBifXKgwhRY3sscs70lYdGMV/J7SxVRyiA4SebUiwUwbsstyw==
+  dependencies:
+    escape-string-regexp "^1.0.5"
+    fbjs "^0.8.17"
 
 react-native@0.57.1:
   version "0.57.1"

@@ -3,6 +3,7 @@ package com.pickyourtrail;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.reactnativecommunity.webview.RNCWebViewPackage;
 import com.avishayil.rnrestart.ReactNativeRestartPackage;
 import com.github.droibit.android.reactnative.customtabs.CustomTabsPackage;
 import io.invertase.firebase.RNFirebasePackage;
@@ -38,6 +39,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNCWebViewPackage(),
             new ReactNativeRestartPackage(),
             new CustomTabsPackage(),
             new RNFirebasePackage(),

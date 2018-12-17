@@ -149,13 +149,13 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-webview')
     compile project(':react-native-restart')
     implementation project(':react-native-custom-tabs')
     implementation project(':react-native-firebase')
     implementation project(':react-native-sound')
     implementation project(':react-native-fast-image')
     implementation project(':react-native-webview-android-file-upload')
-    implementation project(':react-native-android-sms-listener')
     implementation project(':react-native-app-settings')
     implementation project(':react-native-tts')
     implementation project(':react-native-sentry')
