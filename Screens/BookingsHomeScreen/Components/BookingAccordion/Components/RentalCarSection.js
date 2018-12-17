@@ -80,7 +80,7 @@ const RentalCar = ({ rentalCar, isLast, navigation }) => {
         </View>
         <View style={styles.contentTextWrapper}>
           <Text style={styles.contentText} numberOfLines={2}>
-            {rentalCar.text}
+            {rentalCar.pickup + " to " + rentalCar.drop}
           </Text>
         </View>
       </View>

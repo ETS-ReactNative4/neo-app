@@ -151,6 +151,9 @@ class TransferVoucher extends Component {
       }
     ];
 
+    const voucherName =
+      vehicle === "Rental Car" ? `${pickup} to ${drop}` : text;
+
     return [
       <ParallaxScrollView
         key={0}
@@ -179,7 +182,7 @@ class TransferVoucher extends Component {
         <View style={styles.titleSection}>
           <TitleDate date={dateMillis} />
 
-          <VoucherName name={text} />
+          <VoucherName name={voucherName} />
 
           <VoucherSplitSection
             sections={passengerDetails}
