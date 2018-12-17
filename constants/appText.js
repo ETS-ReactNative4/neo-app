@@ -11,6 +11,10 @@ const appText = {
       actionText: "Go Back"
     }
   },
+  mobileNumberScreenText: {
+    unregisteredNumberText:
+      "Looks like you haven't created an account with Pickyourtrail yet!"
+  },
   weatherText: {
     unableToGetWeatherText: "Unable to retrieve latest weather information..."
   },
