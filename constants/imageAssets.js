@@ -67,6 +67,7 @@ const imageAssets = {
   speakerAnimatedIcon: require("../assets/images/loaders/voice.gif"),
   speakerInactiveIcon: require("../assets/images/loaders/voice-inactive.png"),
   pinIcon: "pin",
+  changeIcon: "change",
   checkBoxIcon: "checkbox-unchecked",
   checkBoxCheckedIcon: "checkbox-checked",
   checkIcon: "check",

@@ -91,6 +91,9 @@ class CustomPhrase extends Component {
           />
         ) : (
           <SimpleButton
+            icon={constants.changeIcon}
+            iconSize={17}
+            rightIcon={true}
             text={displayLanguage}
             action={this.props.openLanguageSelector}
             containerStyle={{
