@@ -185,54 +185,54 @@ class CurrencyConverter extends Component {
      */
     const currencyRates = [
       {
-        foreignAmount: 5,
-        foreignCurrency,
-        nativeAmount: currencyConverter({
+        nativeAmount: 5,
+        nativeCurrency,
+        foreignAmount: currencyConverter({
           amount: 5,
-          from: this.state.foreignCurrency,
-          to: this.state.nativeCurrency
+          from: this.state.nativeCurrency,
+          to: this.state.foreignCurrency
         }),
-        nativeCurrency
+        foreignCurrency
       },
       {
-        foreignAmount: 10,
-        foreignCurrency,
-        nativeAmount: currencyConverter({
+        nativeAmount: 10,
+        nativeCurrency,
+        foreignAmount: currencyConverter({
           amount: 10,
-          from: this.state.foreignCurrency,
-          to: this.state.nativeCurrency
+          from: this.state.nativeCurrency,
+          to: this.state.foreignCurrency
         }),
-        nativeCurrency
+        foreignCurrency
       },
       {
-        foreignAmount: 22,
-        foreignCurrency,
-        nativeAmount: currencyConverter({
+        nativeAmount: 22,
+        nativeCurrency,
+        foreignAmount: currencyConverter({
           amount: 22,
-          from: this.state.foreignCurrency,
-          to: this.state.nativeCurrency
+          from: this.state.nativeCurrency,
+          to: this.state.foreignCurrency
         }),
-        nativeCurrency
+        foreignCurrency
       },
       {
-        foreignAmount: 50,
-        foreignCurrency,
-        nativeAmount: currencyConverter({
+        nativeAmount: 50,
+        nativeCurrency,
+        foreignAmount: currencyConverter({
           amount: 50,
-          from: this.state.foreignCurrency,
-          to: this.state.nativeCurrency
+          from: this.state.nativeCurrency,
+          to: this.state.foreignCurrency
         }),
-        nativeCurrency
+        foreignCurrency
       },
       {
-        foreignAmount: 130,
-        foreignCurrency,
-        nativeAmount: currencyConverter({
+        nativeAmount: 130,
+        nativeCurrency,
+        foreignAmount: currencyConverter({
           amount: 130,
-          from: this.state.foreignCurrency,
-          to: this.state.nativeCurrency
+          from: this.state.nativeCurrency,
+          to: this.state.foreignCurrency
         }),
-        nativeCurrency
+        foreignCurrency
       }
     ];
 
