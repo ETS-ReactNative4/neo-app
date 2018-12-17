@@ -19,6 +19,7 @@ import PlacesPageTitle from "./Components/PlacesPageTitle";
 import { recordEvent } from "../../Services/analytics/analyticsService";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import SimpleCard from "../../CommonComponents/SimpleCard/SimpleCard";
+import CustomScrollView from "../../CommonComponents/CustomScrollView/CustomScrollView";
 
 @ErrorBoundary()
 @inject("placesStore")
@@ -37,17 +38,24 @@ class Places extends Component {
   };
 
   state = {
-    isScrollRecorded: false
+    isScrollRecorded: false,
+    selectedCity: {}
   };
 
   componentDidMount() {
     const { selectCity } = this.props.placesStore;
     const city = this.props.navigation.getParam("city", {});
+    this.setState({
+      selectedCity: city
+    });
     selectCity(city);
   }
 
   changeCity = city => {
     recordEvent(constants.placesHeaderCityNameClick);
+    this.setState({
+      selectedCity: city
+    });
     const { selectCity } = this.props.placesStore;
     selectCity(city);
   };
@@ -66,11 +74,8 @@ class Places extends Component {
   };
 
   render() {
-    if (Platform.OS === "ios") {
-      LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-    }
     const { navigation } = this.props;
-    const { categories } = this.props.placesStore;
+    const { categories, isLoading, refreshCity } = this.props.placesStore;
     const categorySections = Object.keys(categories);
     const city = this.props.navigation.getParam("city", {});
     const target = this.props.navigation.getParam("target", "");
@@ -79,7 +84,11 @@ class Places extends Component {
       onScrollProps["onScroll"] = () => this.scrollAction();
     }
     return (
-      <ScrollView style={styles.placesContainer}>
+      <CustomScrollView
+        refreshing={isLoading}
+        onRefresh={() => refreshCity(this.state.selectedCity)}
+        style={styles.placesContainer}
+      >
         <CitySelectionMenu
           navigation={navigation}
           selectCity={this.changeCity}
@@ -116,7 +125,7 @@ class Places extends Component {
           );
         })}
         {isIphoneX() ? <XSensorPlaceholder /> : null}
-      </ScrollView>
+      </CustomScrollView>
     );
   }
 }
