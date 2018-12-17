@@ -53,6 +53,8 @@ class CustomPhrase extends Component {
       Keyboard.dismiss();
     };
     const languageCode = selectedLanguage ? selectedLanguage.languageCode : "";
+    const languageName = localeCode.getLanguageName(languageCode);
+    const displayLanguage = languageName ? languageName : languageCode;
     return [
       <KeyboardAvoidingActionBar
         key={0}
@@ -89,7 +91,7 @@ class CustomPhrase extends Component {
           />
         ) : (
           <SimpleButton
-            text={languageCode ? localeCode.getLanguageName(languageCode) : ""}
+            text={displayLanguage}
             action={this.props.openLanguageSelector}
             containerStyle={{
               backgroundColor: "white",
