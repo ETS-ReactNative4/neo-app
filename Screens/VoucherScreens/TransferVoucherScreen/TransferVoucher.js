@@ -120,7 +120,7 @@ class TransferVoucher extends Component {
         ? {
             name: "Pickup time",
             value:
-              pickupTime && pickupTime !== -1
+              pickupTime && pickupTime > 0
                 ? moment(pickupTime).format("hh:mm a")
                 : "NA"
           }
