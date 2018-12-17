@@ -141,10 +141,10 @@ class TransferVoucher extends Component {
         : null
     ];
     const bookingDetails = [
-      // {
-      //   name: "Booked On",
-      //   value: moment(bookedTime).format("DD MMM, YY")
-      // },
+      {
+        name: "Booked On",
+        value: moment(bookedTime).format("DD MMM, YY")
+      },
       {
         name: "Booking Source",
         value: "Pickyourtrail"
