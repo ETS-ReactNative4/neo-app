@@ -18,6 +18,7 @@ const closeDrawer = DrawerActions.closeDrawer();
 
 const logOut = (isForced = false) => {
   const { navigation } = navigationService;
+  navigation.dispatch(closeDrawer);
 
   const logOutActionQueue = () => {
     Keychain.resetGenericPassword().then(() => {
@@ -41,7 +42,6 @@ const logOut = (isForced = false) => {
     });
   };
 
-  navigation.dispatch(closeDrawer);
   if (!isForced) {
     storeService.appState.removePushToken(logOutActionQueue);
   } else {
