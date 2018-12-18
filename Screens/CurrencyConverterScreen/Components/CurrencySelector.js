@@ -21,12 +21,20 @@ class CurrencySelector extends Component {
     isVisible: PropTypes.bool.isRequired,
     onClose: PropTypes.func.isRequired,
     selectCurrency: PropTypes.func.isRequired,
-    currenciesList: PropTypes.array.isRequired
+    currenciesList: PropTypes.array.isRequired,
+    mode: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]).isRequired,
+    foreignCurrency: PropTypes.string.isRequired,
+    nativeCurrency: PropTypes.string.isRequired
   };
 
   render() {
     const flagImage = constants.starterBackground;
-    const { currenciesList } = this.props;
+    const {
+      currenciesList,
+      mode,
+      nativeCurrency,
+      foreignCurrency
+    } = this.props;
 
     const selectCurrency = currency => {
       this.props.selectCurrency(currency);
@@ -75,6 +83,10 @@ class CurrencySelector extends Component {
               ]}
             >
               {currencies.map((currency, index) => {
+                if (mode === "native" && currency.name === foreignCurrency)
+                  return null;
+                if (mode === "foreign" && currency.name === nativeCurrency)
+                  return null;
                 return (
                   <SelectionRow
                     key={index}

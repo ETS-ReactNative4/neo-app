@@ -265,7 +265,10 @@ class CurrencyConverter extends Component {
       <CurrencySelector
         currenciesList={currencies}
         key={0}
-        isVisible={this.state.isSelectorActive}
+        nativeCurrency={nativeCurrency}
+        foreignCurrency={foreignCurrency}
+        isVisible={!!this.state.isSelectorActive}
+        mode={this.state.isSelectorActive}
         onClose={this.closeSelector}
         selectCurrency={currency => {
           if (this.state.isSelectorActive === "foreign") {
