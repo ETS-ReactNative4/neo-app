@@ -27,6 +27,12 @@ const getSlotImage = (identifier, type) => {
       }
       break;
 
+    case "RENTALCAR":
+      return {
+        image: getTransferImage("CAR"),
+        icon: constants.carIcon
+      };
+
     case "TRAIN":
       if (!identifier) {
         return {
@@ -39,7 +45,7 @@ const getSlotImage = (identifier, type) => {
     default:
       return {
         image: constants.transferPlaceHolder,
-        icon: constants.activityIcon
+        icon: constants.transferIcon
       };
   }
 };

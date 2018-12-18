@@ -219,7 +219,9 @@ const SlotActivity = inject("infoStore")(
               onClick = () => {
                 recordEvent(constants.bookedItineraryTransferVoucherClick);
                 if (transfer.voucher && transfer.voucher.booked) {
-                  navigation.navigate("TransferVoucher", { transfer });
+                  if (transferMode === "FLIGHT")
+                    navigation.navigate("FlightVoucher", { flight: transfer });
+                  else navigation.navigate("TransferVoucher", { transfer });
                 } else {
                   setInfo(
                     constants.bookingProcessText.title,
@@ -317,7 +319,7 @@ const SlotActivity = inject("infoStore")(
                       .transferIndicatorText
                   }
                   image={{ uri: mainPhoto }}
-                  icon={constants.trainIcon}
+                  icon={constants.transferIcon}
                   onClick={onClick}
                   defaultImageUri={constants.transferPlaceHolder}
                 />

@@ -709,6 +709,9 @@ class Itineraries {
         transfer = this.getFerryById(id);
         if (_.isEmpty(transfer)) {
           transfer = this.getTrainById(id);
+          if (_.isEmpty(transfer)) {
+            transfer = this.getFlightById(id);
+          }
         }
       }
       return transfer;
