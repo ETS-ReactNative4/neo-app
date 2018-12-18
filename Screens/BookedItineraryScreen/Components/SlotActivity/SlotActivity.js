@@ -314,10 +314,7 @@ const SlotActivity = inject("infoStore")(
                   containerStyle={containerStyle}
                   activity={activity}
                   title={activity.name}
-                  text={
-                    activity.intercityTransferSlotDetailVO.directTransferDetail
-                      .transferIndicatorText
-                  }
+                  text={activityTransferInfo.title}
                   image={{ uri: mainPhoto }}
                   icon={constants.transferIcon}
                   onClick={onClick}
