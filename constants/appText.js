@@ -1,3 +1,5 @@
+import constants from "./constants";
+
 const appText = {
   currencyConverterText: {
     conversionRateError: {
@@ -9,6 +11,18 @@ const appText = {
       title: "Oops!",
       message: "We are currently unable to fetch the currency details...",
       actionText: "Go Back"
+    }
+  },
+  downloadVoucherText: {
+    error: {
+      title: "Unable to Download!",
+      message: "Internal Server Error!",
+      actionText: "Okay"
+    },
+    almostThere: {
+      title: "Almost There!",
+      message:
+        "You will be able to download vouchers once all your pending bookings will be completed."
     }
   },
   mobileNumberScreenText: {

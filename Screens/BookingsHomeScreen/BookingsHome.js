@@ -91,7 +91,7 @@ class BookingsHome extends Component {
   downloadAllVouchers = () => {
     recordEvent(constants.bookingsHomeDownloadAllVouchersClick);
     const { selectedItineraryId } = this.props.itineraries;
-    const { setError } = this.props.infoStore;
+    const { setError, setInfo } = this.props.infoStore;
     this.setState(
       {
         isDownloadLoading: true
@@ -126,9 +126,9 @@ class BookingsHome extends Component {
                   logError(err);
                 });
             } else {
-              setError(
-                "Unable to Download!",
-                "Looks like your vouchers aren't ready yet!"
+              setInfo(
+                constants.downloadVoucherText.almostThere.title,
+                constants.downloadVoucherText.almostThere.message
               );
             }
           })
@@ -137,10 +137,10 @@ class BookingsHome extends Component {
               isDownloadLoading: false
             });
             setError(
-              "Unable to Download!",
-              "Internal Server Error!",
-              constants.notificationIcon,
-              "Okay"
+              constants.downloadVoucherText.error.title,
+              constants.downloadVoucherText.error.message,
+              constants.errorBoxIllus,
+              constants.downloadVoucherText.error.actionText
             );
             console.error(err);
           });
