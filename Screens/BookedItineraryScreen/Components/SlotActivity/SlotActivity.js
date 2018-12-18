@@ -290,6 +290,14 @@ const SlotActivity = inject("infoStore")(
               const activityTransferInfo = getActivityById(
                 activity.activitySlotDetail.activityCostingIdentifier
               );
+              const {
+                transferCostingIdenfier: withActivityTransferCostingIdentifier,
+                transferMode: withActivityTransferMode
+              } = activity.intercityTransferSlotDetailVO.directTransferDetail;
+              imageObject = getSlotImage(
+                withActivityTransferCostingIdentifier,
+                withActivityTransferMode
+              );
               const { mainPhoto } = activityTransferInfo;
               onClick = () => {
                 if (
@@ -316,7 +324,7 @@ const SlotActivity = inject("infoStore")(
                   title={activity.name}
                   text={activityTransferInfo.title}
                   image={{ uri: mainPhoto }}
-                  icon={constants.transferIcon}
+                  icon={imageObject.icon}
                   onClick={onClick}
                   defaultImageUri={constants.transferPlaceHolder}
                 />

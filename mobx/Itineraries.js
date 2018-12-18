@@ -868,6 +868,13 @@ class Itineraries {
               activity.type === "INTERNATIONAL_DEPART"
             ) {
               return { mode: "FLIGHT", type: activity.type };
+            } else if (activity.type === "ACTIVITY_WITH_TRANSFER") {
+              return {
+                mode:
+                  activity.intercityTransferSlotDetailVO.directTransferDetail
+                    .transferMode,
+                type: activity.type
+              };
             }
           }
         }

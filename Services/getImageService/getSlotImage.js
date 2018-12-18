@@ -33,14 +33,20 @@ const getSlotImage = (identifier, type) => {
         icon: constants.carIcon
       };
 
+    case "CAR":
+      return {
+        image: getTransferImage("CAR"),
+        icon: constants.carIcon
+      };
+
     case "TRAIN":
-      if (!identifier) {
-        return {
-          image: constants.transferPlaceHolder,
-          icon: constants.trainIcon
-        };
-      }
       return { image: getTransferImage("TRAIN"), icon: constants.trainIcon };
+
+    case "BUS":
+      return { image: getTransferImage("BUS"), icon: constants.busIcon };
+
+    case "FERRY":
+      return { image: getTransferImage("FERRY"), icon: constants.ferryIcon };
 
     default:
       return {

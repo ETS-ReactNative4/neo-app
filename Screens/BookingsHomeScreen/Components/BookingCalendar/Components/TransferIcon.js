@@ -30,6 +30,10 @@ const TransferIcon = ({ transferType }) => {
       transferImage = constants.carIcon;
       break;
 
+    case "CAR":
+      transferImage = constants.carIcon;
+      break;
+
     case "NONE":
       transferImage = false;
       break;
