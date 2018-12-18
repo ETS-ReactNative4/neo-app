@@ -67,15 +67,22 @@ const FlightCard = ({
       : 0
     : 0;
 
+  const isFreeCheckinAvailable =
+    freeCheckInBaggage && parseInt(freeCheckInBaggage);
+
   const baggageSectionData = [
     {
       name: "Cabin Baggage",
       value: "7kg per person"
     },
-    {
-      name: "Free Checkin Baggage",
-      value: freeCheckInBaggage ? `${freeCheckInBaggage} per person` : ""
-    },
+    isFreeCheckinAvailable || !baggageList.length
+      ? {
+          name: "Free Checkin Baggage",
+          value: isFreeCheckinAvailable
+            ? `${freeCheckInBaggage} per person`
+            : "Not Included"
+        }
+      : null,
     baggageList.length
       ? {
           name: "Excess Baggage Count",
