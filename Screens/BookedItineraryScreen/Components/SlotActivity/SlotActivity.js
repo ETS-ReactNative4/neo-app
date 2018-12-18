@@ -48,7 +48,7 @@ const SlotActivity = inject("infoStore")(
                   city: currentCity,
                   target: "BookedNearBy"
                 }),
-              cityName: activity.arrivalSlotDetail.airportCity,
+              cityName: currentCity.city,
               activityText: activity.arrivalSlotDetail.transferIndicatorText
             };
             break;
