@@ -51,7 +51,7 @@ const FlightCard = ({
       : [];
   baggageList = baggageList.filter(baggage => {
     if (
-      baggage.departure === departureAirportCode &&
+      baggage.departure === departureAirportCode ||
       baggage.arrival === arrivalAirportCode
     ) {
       return true;
