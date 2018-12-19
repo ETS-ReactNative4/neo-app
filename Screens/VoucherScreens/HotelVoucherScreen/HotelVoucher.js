@@ -16,6 +16,7 @@ import VoucherAddressSection from "../Components/VoucherAddressSection";
 import moment from "moment";
 import VoucherContactActionBar from "../Components/VoucherContactActionBar";
 import ErrorBoundary from "../../../CommonComponents/ErrorBoundary/ErrorBoundary";
+import Icon from "../../../CommonComponents/Icon/Icon";
 
 @ErrorBoundary()
 class HotelVoucher extends Component {
@@ -100,9 +101,14 @@ class HotelVoucher extends Component {
                       : {}
                   ]}
                 >
-                  <Text style={styles.amenitiesText} key={amenityIndex}>{`• ${
-                    amenity.amenityName
-                  }`}</Text>
+                  <Icon
+                    name={amenity.iconUrl.replace("vehoicon-", "")}
+                    size={18}
+                    color={constants.black2}
+                  />
+                  <Text style={styles.amenitiesText} key={amenityIndex}>
+                    {amenity.amenityName}
+                  </Text>
                 </View>
               );
             })
@@ -410,11 +416,13 @@ const styles = StyleSheet.create({
 
   amenitiesTextWrapper: {
     marginTop: 8,
-    marginBottom: 4
+    marginBottom: 4,
+    flexDirection: "row"
   },
   amenitiesText: {
     ...constants.fontCustom(constants.primaryLight, 18, 20),
-    color: constants.black2
+    color: constants.black2,
+    marginLeft: 8
   },
 
   bookingSection: {
