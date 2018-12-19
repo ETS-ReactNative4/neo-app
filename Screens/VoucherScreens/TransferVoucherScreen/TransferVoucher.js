@@ -59,7 +59,11 @@ class TransferVoucher extends Component {
       totalCost,
       publishedCost,
       departureTime,
-      arrivalTime: costingArrivalTime
+      arrivalTime: costingArrivalTime,
+      pDateMillis,
+      day,
+      duration,
+      mon
     } = transfer;
 
     const {
@@ -90,6 +94,12 @@ class TransferVoucher extends Component {
         name: "Vehicle type",
         value: getTitleCase(vehicle) || "NA"
       },
+      vehicle === "Rental Car"
+        ? {
+            name: "Duration",
+            value: `${duration} day${duration > 1 ? "s" : ""}`
+          }
+        : null,
       vehicle === "TRAIN"
         ? {
             name: "Departure Time",
@@ -154,6 +164,22 @@ class TransferVoucher extends Component {
     const voucherName =
       vehicle === "Rental Car" ? `${pickup} to ${drop}` : text;
 
+    let voucherDate = dateMillis;
+    if (vehicle === "Rental Car") {
+      voucherDate =
+        pickupTime && pickupTime > 0
+          ? moment(pickupTime).valueOf()
+          : pDateMillis && pDateMillis > 0
+            ? moment(pDateMillis).valueOf()
+            : moment(
+                `${day}/${mon}/${constants.currentYear}`,
+                "DD/MMM/YYYY"
+              ).valueOf();
+    }
+    if (pickupTime && pickupTime > 0) {
+      voucherDate = moment(pickupTime).valueOf();
+    }
+
     return [
       <ParallaxScrollView
         key={0}
@@ -180,7 +206,7 @@ class TransferVoucher extends Component {
         )}
       >
         <View style={styles.titleSection}>
-          <TitleDate date={dateMillis} />
+          <TitleDate date={voucherDate} />
 
           <VoucherName name={voucherName} />
 

@@ -73,10 +73,20 @@ const RentalCar = ({ rentalCar, isLast, navigation }) => {
       </View>
       <View style={styles.contentTextContainer}>
         <View style={styles.contentHeaderWrapper}>
-          <Text style={styles.contentHeader}>{`${moment(
-            `${rentalCar.day}/${rentalCar.mon}/${constants.currentYear}`,
-            "DD/MMM/YYYY"
-          ).format("MMM DD")} (${rentalCar.duration})`}</Text>
+          <Text style={styles.contentHeader}>{`${
+            rentalCar.voucher.pickupTime && rentalCar.voucher.pickupTime > 0
+              ? moment(rentalCar.voucher.pickupTime).format("MMM DD")
+              : rentalCar.pDateMillis && rentalCar.pDateMillis > 0
+                ? moment(rentalCar.pDateMillis).format("MMM DD")
+                : moment(
+                    `${rentalCar.day}/${rentalCar.mon}/${
+                      constants.currentYear
+                    }`,
+                    "DD/MMM/YYYY"
+                  ).format("MMM DD")
+          } (${rentalCar.duration} day${
+            rentalCar.duration > 1 ? "s" : ""
+          })`}</Text>
         </View>
         <View style={styles.contentTextWrapper}>
           <Text style={styles.contentText} numberOfLines={2}>
