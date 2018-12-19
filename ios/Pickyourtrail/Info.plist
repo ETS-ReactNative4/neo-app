@@ -26,6 +26,8 @@
 	<false/>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+  <key>NSCameraUsageDescription</key>
+  <string>This will let you take photos using your camera and send it to Pickyourtrail.</string>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
