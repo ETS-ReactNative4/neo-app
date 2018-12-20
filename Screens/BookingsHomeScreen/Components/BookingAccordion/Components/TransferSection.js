@@ -11,6 +11,7 @@ import storeService from "../../../../../Services/storeService/storeService";
 import SectionRightPlaceHolder from "./Components/SectionRightPlaceHolder";
 import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidExtraProps";
 import { recordEvent } from "../../../../../Services/analytics/analyticsService";
+import BookingSectionComponent from "./Components/BookingSectionComponent";
 
 const TransferSection = ({ section, navigation }) => {
   return (
@@ -61,6 +62,22 @@ const Transfer = ({ transfer, isLast, navigation }) => {
 
   const { pickupTime } = transfer.voucher;
   const { dateMillis } = transfer;
+
+  return (
+    <BookingSectionComponent
+      containerStyle={customStyle}
+      sectionImage={{ uri: getTransferImage(transfer.vehicle, transfer.type) }}
+      isProcessing={!transfer.voucher.booked}
+      onClick={openVoucher}
+      content={transfer.text}
+      title={`${moment(
+        pickupTime && pickupTime > 1 ? pickupTime : dateMillis
+      ).format(constants.commonDateFormat)}`}
+      isImageContain={false}
+      defaultImageUri={constants.transferPlaceHolder}
+    />
+  );
+
   return (
     <TouchableOpacity
       onPress={openVoucher}

@@ -9,6 +9,7 @@ import storeService from "../../../../../Services/storeService/storeService";
 import SectionRightPlaceHolder from "./Components/SectionRightPlaceHolder";
 import { recordEvent } from "../../../../../Services/analytics/analyticsService";
 import getTitleCase from "../../../../../Services/getTitleCase/getTitleCase";
+import BookingSectionComponent from "./Components/BookingSectionComponent";
 
 const HotelSection = ({ section, navigation }) => {
   return (
@@ -56,6 +57,27 @@ const Hotel = ({ hotel, isLast, navigation }) => {
       );
     }
   };
+
+  return (
+    <BookingSectionComponent
+      containerStyle={customStyle}
+      isProcessing={!hotel.voucher.booked}
+      onClick={openVoucher}
+      content={getTitleCase(hotel.name)}
+      title={
+        hotel.voucher.checkInDate
+          ? moment(hotel.voucher.checkInDate, "YYYY-MM-DD").format(
+              constants.commonDateFormat
+            )
+          : moment(hotel.checkInDate, "DD/MMM/YYYY").format(
+              constants.commonDateFormat
+            )
+      }
+      isImageContain={false}
+      defaultImageUri={constants.hotelSmallPlaceHolder}
+      sectionImage={{ uri: hotel.imageURL }}
+    />
+  );
 
   return (
     <TouchableOpacity

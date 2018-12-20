@@ -10,6 +10,7 @@ import CircleThumbnail from "../../../../../CommonComponents/CircleThumbnail/Cir
 import storeService from "../../../../../Services/storeService/storeService";
 import SectionRightPlaceHolder from "./Components/SectionRightPlaceHolder";
 import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidExtraProps";
+import BookingSectionComponent from "./Components/BookingSectionComponent";
 
 const RentalCarSection = ({ section, navigation }) => {
   return (
@@ -57,6 +58,32 @@ const RentalCar = ({ rentalCar, isLast, navigation }) => {
       );
     }
   };
+
+  return (
+    <BookingSectionComponent
+      sectionImage={{
+        uri: getTransferImage(rentalCar.vehicle, rentalCar.type)
+      }}
+      containerStyle={customStyle}
+      isProcessing={!rentalCar.voucher.booked}
+      onClick={openVoucher}
+      content={rentalCar.pickup + " to " + rentalCar.drop}
+      title={`${
+        rentalCar.voucher.pickupTime && rentalCar.voucher.pickupTime > 0
+          ? moment(rentalCar.voucher.pickupTime).format(
+              constants.commonDateFormat
+            )
+          : rentalCar.pDateMillis && rentalCar.pDateMillis > 0
+            ? moment(rentalCar.pDateMillis).format(constants.commonDateFormat)
+            : moment(
+                `${rentalCar.day}/${rentalCar.mon}/${constants.currentYear}`,
+                "DD/MMM/YYYY"
+              ).format(constants.commonDateFormat)
+      }`}
+      isImageContain={false}
+      defaultImageUri={constants.transferPlaceHolder}
+    />
+  );
 
   return (
     <TouchableOpacity

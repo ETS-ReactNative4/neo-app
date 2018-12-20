@@ -9,6 +9,7 @@ import storeService from "../../../../../Services/storeService/storeService";
 import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidExtraProps";
 import SectionRightPlaceHolder from "./Components/SectionRightPlaceHolder";
 import { recordEvent } from "../../../../../Services/analytics/analyticsService";
+import BookingSectionComponent from "./Components/BookingSectionComponent";
 
 const TrainsSection = ({ section, navigation }) => {
   return (
@@ -61,6 +62,29 @@ const Train = ({ train, isLast, navigation }) => {
 
   const { pickupTime } = train.voucher;
   const { dateMillis } = train;
+
+  return (
+    <BookingSectionComponent
+      containerStyle={customStyle}
+      sectionImage={{ uri: constants.miscImageBaseUrl + "transfers-train.jpg" }}
+      isProcessing={!train.voucher.booked}
+      onClick={openVoucher}
+      content={train.text}
+      title={`${
+        pickupTime && pickupTime > 1
+          ? moment(pickupTime).format(constants.commonDateFormat)
+          : dateMillis
+            ? moment(dateMillis).format(constants.commonDateFormat)
+            : moment(
+                `${train.day}/${train.mon}/${constants.currentYear}`,
+                "DD/MMM/YYYY"
+              ).format(constants.commonDateFormat)
+      }`}
+      isImageContain={false}
+      defaultImageUri={constants.miscImageBaseUrl + "transfers-train.jpg"}
+    />
+  );
+
   return (
     <TouchableOpacity
       onPress={openVoucher}

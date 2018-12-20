@@ -6,6 +6,7 @@ import PropTypes from "prop-types";
 import CircleThumbnail from "../../../../../CommonComponents/CircleThumbnail/CircleThumbnail";
 import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidExtraProps";
 import { recordEvent } from "../../../../../Services/analytics/analyticsService";
+import BookingSectionComponent from "./Components/BookingSectionComponent";
 
 const VisaSection = ({ section, navigation }) => {
   return (
@@ -48,6 +49,20 @@ const Visa = ({ visa, isLast, navigation }) => {
   };
 
   const isSchengen = visa.schengen;
+
+  return (
+    <BookingSectionComponent
+      containerStyle={customStyle}
+      sectionImage={constants.splashBackground}
+      isProcessing={false}
+      onClick={openVoucher}
+      content={visa.country}
+      title={isSchengen ? "Schengen" : ""}
+      isImageContain={false}
+      defaultImageUri={constants.transferPlaceHolder}
+      hideTitle={!isSchengen}
+    />
+  );
 
   return (
     <TouchableOpacity

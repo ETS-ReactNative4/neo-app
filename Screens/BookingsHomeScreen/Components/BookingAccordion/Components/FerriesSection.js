@@ -11,6 +11,7 @@ import storeService from "../../../../../Services/storeService/storeService";
 import SectionRightPlaceHolder from "./Components/SectionRightPlaceHolder";
 import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidExtraProps";
 import { recordEvent } from "../../../../../Services/analytics/analyticsService";
+import BookingSectionComponent from "./Components/BookingSectionComponent";
 
 const FerriesSection = ({ section, navigation }) => {
   return (
@@ -63,6 +64,29 @@ const Ferry = ({ ferry, isLast, navigation }) => {
 
   const { pickupTime } = ferry.voucher;
   const { dateMillis } = ferry;
+
+  return (
+    <BookingSectionComponent
+      sectionImage={{ uri: getTransferImage("FERRY") }}
+      containerStyle={customStyle}
+      isProcessing={!ferry.voucher.booked}
+      onClick={openVoucher}
+      content={ferry.text}
+      title={`${
+        pickupTime && pickupTime > 1
+          ? moment(pickupTime).format(constants.commonDateFormat)
+          : dateMillis
+            ? moment(dateMillis).format(constants.commonDateFormat)
+            : moment(
+                `${ferry.day}/${ferry.mon}/${constants.currentYear}`,
+                "DD/MMM/YYYY"
+              ).format(constants.commonDateFormat)
+      }`}
+      isImageContain={false}
+      defaultImageUri={constants.transferPlaceHolder}
+    />
+  );
+
   return (
     <TouchableOpacity
       onPress={openVoucher}

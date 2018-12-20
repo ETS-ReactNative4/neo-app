@@ -9,6 +9,7 @@ import CircleThumbnail from "../../../../../CommonComponents/CircleThumbnail/Cir
 import SectionRightPlaceHolder from "./Components/SectionRightPlaceHolder";
 import storeService from "../../../../../Services/storeService/storeService";
 import { recordEvent } from "../../../../../Services/analytics/analyticsService";
+import BookingSectionComponent from "./Components/BookingSectionComponent";
 
 const FlightsSection = ({ section, navigation }) => {
   return (
@@ -73,6 +74,28 @@ const Flight = ({ flight, isLast, navigation }) => {
 
   const airlineLogo = constants.getAirlineIcon(flight.airlineCode);
 
+  return (
+    <BookingSectionComponent
+      containerStyle={customStyle}
+      sectionImage={{ uri: airlineLogo }}
+      onClick={openVoucher}
+      content={flight.text}
+      isProcessing={!flight.voucher.booked}
+      title={`${moment(timings[0].departure[0], "MMM DD, HH:mm").format(
+        "MMM DD"
+      )}${
+        timings.length > 1
+          ? `${" / "}${moment(
+              timings[timings.length - 1].departure[0],
+              "MMM DD, HH:mm"
+            ).format("MMM DD")}`
+          : ""
+      }`}
+      isImageContain={true}
+      defaultImageUri={constants.airLineLogoPlaceHolder}
+    />
+  );
+
   /**
    * TODO: Flight Icons Needed
    * */
@@ -107,9 +130,7 @@ const Flight = ({ flight, isLast, navigation }) => {
           }`}</Text>
         </View>
         <View style={styles.contentTextWrapper}>
-          <Text style={styles.contentText} numberOfLines={2}>
-            {flight.text}
-          </Text>
+          <Text style={styles.contentText} numberOfLines={2} />
         </View>
       </View>
       <SectionRightPlaceHolder isProcessing={!flight.voucher.booked} />

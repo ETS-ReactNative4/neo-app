@@ -12,6 +12,7 @@ import { recordEvent } from "../../../../../Services/analytics/analyticsService"
 import getTitleCase from "../../../../../Services/getTitleCase/getTitleCase";
 import { CustomTabs } from "react-native-custom-tabs";
 import { logError } from "../../../../../Services/errorLogger/errorLogger";
+import BookingSectionComponent from "./Components/BookingSectionComponent";
 
 const ActivitiesSection = ({ section, navigation }) => {
   return (
@@ -75,6 +76,40 @@ const Activities = ({ activity, isLast, navigation }) => {
       );
     }
   };
+
+  return (
+    <BookingSectionComponent
+      containerStyle={customStyle}
+      sectionImage={{
+        uri: activity.mainPhoto
+      }}
+      isProcessing={!(activity.voucher.booked || activity.free)}
+      onClick={openVoucher}
+      content={getTitleCase(activity.title)}
+      title={`${
+        activity.voucher.activityTime && activity.voucher.activityTime > 1
+          ? moment(activity.voucher.activityTime).format(
+              constants.commonDateFormat
+            )
+          : activity.costing.dateMillis
+            ? moment(activity.costing.dateMillis).format(
+                constants.commonDateFormat
+              )
+            : moment(
+                `${activity.costing.day}/${activity.costing.mon}/${
+                  constants.currentYear
+                }`,
+                "DD/MMM/YYYY"
+              ).format(constants.commonDateFormat)
+      }`}
+      isImageContain={false}
+      defaultImageUri={_.sample([
+        constants.activitySmallPlaceHolder,
+        constants.activity2SmallPlaceHolder,
+        constants.activity3SmallPlaceHolder
+      ])}
+    />
+  );
 
   return (
     <TouchableOpacity

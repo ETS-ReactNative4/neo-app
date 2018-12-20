@@ -8,6 +8,7 @@ import CircleThumbnail from "../../../../../CommonComponents/CircleThumbnail/Cir
 import storeService from "../../../../../Services/storeService/storeService";
 import SectionRightPlaceHolder from "./Components/SectionRightPlaceHolder";
 import { recordEvent } from "../../../../../Services/analytics/analyticsService";
+import BookingSectionComponent from "./Components/BookingSectionComponent";
 
 const PassSection = ({ section, navigation }) => {
   return (
@@ -46,6 +47,21 @@ const Pass = ({ pass, isLast, navigation }) => {
     recordEvent(constants.bookingsHomeAccordionPassesVoucherClick);
     navigation.navigate("PassVoucher", { pass });
   };
+
+  return (
+    <BookingSectionComponent
+      containerStyle={customStyle}
+      sectionImage={{ uri: pass.image }}
+      isProcessing={false}
+      onClick={openVoucher}
+      content={pass.name}
+      title={moment(pass.start, "DD/MMM/YYYY").format(
+        constants.commonDateFormat
+      )}
+      isImageContain={false}
+      defaultImageUri={constants.activity3SmallPlaceHolder}
+    />
+  );
 
   return (
     <TouchableOpacity

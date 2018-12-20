@@ -8,6 +8,7 @@ import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidE
 import { recordEvent } from "../../../../../Services/analytics/analyticsService";
 import storeService from "../../../../../Services/storeService/storeService";
 import { inject, observer } from "mobx-react/custom";
+import BookingSectionComponent from "./Components/BookingSectionComponent";
 
 const { insuranceComingSoonText } = constants;
 
@@ -64,6 +65,21 @@ const Insurance = inject("passportDetailsStore")(
             insuranceComingSoonText.actionText
           );
         };
+
+        return (
+          <BookingSectionComponent
+            containerStyle={customStyle}
+            sectionImage={constants.splashBackground}
+            isProcessing={false}
+            onClick={openVoucher}
+            content={`${insurance.plan} for ${passengerCount} person${
+              passengerCount > 1 ? "s" : ""
+            }`}
+            title={countriesText}
+            isImageContain={false}
+            defaultImageUri={constants.transferPlaceHolder}
+          />
+        );
 
         return (
           <TouchableOpacity
