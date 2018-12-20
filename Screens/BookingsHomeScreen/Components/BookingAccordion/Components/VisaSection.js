@@ -94,7 +94,7 @@ const Visa = ({ visa, isLast, navigation }) => {
 };
 
 Visa.propTypes = forbidExtraProps({
-  transfer: PropTypes.object.isRequired,
+  visa: PropTypes.object.isRequired,
   isLast: PropTypes.bool.isRequired,
   navigation: PropTypes.object.isRequired
 });

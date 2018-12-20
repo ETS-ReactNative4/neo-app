@@ -120,7 +120,7 @@ const Insurance = inject("passportDetailsStore")(
 );
 
 Insurance.propTypes = forbidExtraProps({
-  transfer: PropTypes.object.isRequired,
+  insurance: PropTypes.object.isRequired,
   isLast: PropTypes.bool.isRequired,
   navigation: PropTypes.object.isRequired
 });
