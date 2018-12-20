@@ -354,7 +354,7 @@ const SlotActivity = inject("infoStore")(
                   <SectionHeader
                     key={1}
                     sectionName={moment(day)
-                      .format("MMM DD, dddd")
+                      .format(constants.commonDateFormat)
                       .toUpperCase()}
                     containerStyle={{ marginHorizontal: 24 }}
                   />

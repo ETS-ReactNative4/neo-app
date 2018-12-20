@@ -59,6 +59,8 @@ const Transfer = ({ transfer, isLast, navigation }) => {
     }
   };
 
+  const { pickupTime } = transfer.voucher;
+  const { dateMillis } = transfer;
   return (
     <TouchableOpacity
       onPress={openVoucher}
@@ -75,9 +77,8 @@ const Transfer = ({ transfer, isLast, navigation }) => {
       <View style={styles.contentTextContainer}>
         <View style={styles.contentHeaderWrapper}>
           <Text style={styles.contentHeader}>{`${moment(
-            `${transfer.day}/${transfer.mon}/${constants.currentYear}`,
-            "DD/MMM/YYYY"
-          ).format("MMM DD")} (${transfer.duration})`}</Text>
+            pickupTime && pickupTime > 1 ? pickupTime : dateMillis
+          ).format(constants.commonDateFormat)}`}</Text>
         </View>
         <View style={styles.contentTextWrapper}>
           <Text style={styles.contentText} numberOfLines={2}>

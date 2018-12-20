@@ -95,15 +95,14 @@ const Flight = ({ flight, isLast, navigation }) => {
             style={styles.contentHeader}
             numberOfLines={2}
             ellipsizeMode={"tail"}
-          >{`${timings[0].departure[0]} - ${
-            timings[0].arrival[timings[0].arrival.length - 1]
-          }${
+          >{`${moment(timings[0].departure[0], "MMM DD, HH:mm").format(
+            "MMM DD"
+          )}${
             timings.length > 1
-              ? `,${"\n"}${timings[timings.length - 1].departure[0]} - ${
-                  timings[timings.length - 1].arrival[
-                    timings[timings.length - 1].arrival.length - 1
-                  ]
-                }`
+              ? `,${" / "}${moment(
+                  timings[timings.length - 1].departure[0],
+                  "MMM DD, HH:mm"
+                ).format("MMM DD")}`
               : ""
           }`}</Text>
         </View>

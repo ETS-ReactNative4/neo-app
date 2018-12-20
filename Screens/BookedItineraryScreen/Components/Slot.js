@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import SectionHeader from "../../../CommonComponents/SectionHeader/SectionHeader";
 import SlotActivity from "./SlotActivity/SlotActivity";
 import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraProps";
+import constants from "../../../constants/constants";
 
 const Slot = ({ day, slot, onItemLayout, navigation }) => {
   const setOnLayout = nativeEvent => {
@@ -22,7 +23,7 @@ const Slot = ({ day, slot, onItemLayout, navigation }) => {
       ].indexOf(firstSlot.type) === -1 ? (
         <SectionHeader
           sectionName={moment(day)
-            .format("MMM DD, dddd")
+            .format(constants.commonDateFormat)
             .toUpperCase()}
           containerStyle={{ marginHorizontal: 24 }}
         />

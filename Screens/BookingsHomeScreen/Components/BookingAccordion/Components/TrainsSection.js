@@ -59,6 +59,8 @@ const Train = ({ train, isLast, navigation }) => {
     }
   };
 
+  const { pickupTime } = train.voucher;
+  const { dateMillis } = train;
   return (
     <TouchableOpacity
       onPress={openVoucher}
@@ -75,13 +77,15 @@ const Train = ({ train, isLast, navigation }) => {
       <View style={styles.contentTextContainer}>
         <View style={styles.contentHeaderWrapper}>
           <Text style={styles.contentHeader}>{`${
-            train.dateMillis
-              ? moment(train.dateMillis).format("MMM DD")
-              : moment(
-                  `${train.day}/${train.mon}/${constants.currentYear}`,
-                  "DD/MMM/YYYY"
-                ).format("MMM DD")
-          } (${train.departureTime} - ${train.arrivalTime})`}</Text>
+            pickupTime && pickupTime > 1
+              ? moment(pickupTime).format(constants.commonDateFormat)
+              : dateMillis
+                ? moment(dateMillis).format(constants.commonDateFormat)
+                : moment(
+                    `${train.day}/${train.mon}/${constants.currentYear}`,
+                    "DD/MMM/YYYY"
+                  ).format(constants.commonDateFormat)
+          }`}</Text>
         </View>
         <View style={styles.contentTextWrapper}>
           <Text style={styles.contentText} numberOfLines={2}>

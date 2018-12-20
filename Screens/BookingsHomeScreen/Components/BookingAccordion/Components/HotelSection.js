@@ -71,13 +71,15 @@ const Hotel = ({ hotel, isLast, navigation }) => {
       </View>
       <View style={styles.contentTextContainer}>
         <View style={styles.contentHeaderWrapper}>
-          <Text style={styles.contentHeader}>{`${moment(
-            hotel.checkInDate,
-            "DD/MMM/YYYY"
-          ).format("MMM DD")} - ${moment(
-            hotel.checkOutDate,
-            "DD/MMM/YYYY"
-          ).format("MMM DD")}, ${hotel.cityName}`}</Text>
+          <Text style={styles.contentHeader}>
+            {hotel.voucher.checkInDate
+              ? moment(hotel.voucher.checkInDate, "YYYY-MM-DD").format(
+                  constants.commonDateFormat
+                )
+              : moment(hotel.checkInDate, "DD/MMM/YYYY").format(
+                  constants.commonDateFormat
+                )}
+          </Text>
         </View>
         <View style={styles.contentTextWrapper}>
           <Text style={styles.contentText} numberOfLines={1}>

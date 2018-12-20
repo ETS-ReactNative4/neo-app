@@ -96,14 +96,20 @@ const Activities = ({ activity, isLast, navigation }) => {
       <View style={styles.contentTextContainer}>
         <View style={styles.contentHeaderWrapper}>
           <Text style={styles.contentHeader}>{`${
-            activity.costing.dateMillis
-              ? moment(activity.costing.dateMillis).format("MMM DD")
-              : moment(
-                  `${activity.costing.day}/${activity.costing.mon}/${
-                    constants.currentYear
-                  }`,
-                  "DD/MMM/YYYY"
-                ).format("MMM DD")
+            activity.voucher.activityTime && activity.voucher.activityTime > 1
+              ? moment(activity.voucher.activityTime).format(
+                  constants.commonDateFormat
+                )
+              : activity.costing.dateMillis
+                ? moment(activity.costing.dateMillis).format(
+                    constants.commonDateFormat
+                  )
+                : moment(
+                    `${activity.costing.day}/${activity.costing.mon}/${
+                      constants.currentYear
+                    }`,
+                    "DD/MMM/YYYY"
+                  ).format(constants.commonDateFormat)
           }`}</Text>
         </View>
         <View style={styles.contentTextWrapper}>

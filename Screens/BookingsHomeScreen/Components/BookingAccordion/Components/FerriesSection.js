@@ -61,6 +61,8 @@ const Ferry = ({ ferry, isLast, navigation }) => {
     }
   };
 
+  const { pickupTime } = ferry.voucher;
+  const { dateMillis } = ferry;
   return (
     <TouchableOpacity
       onPress={openVoucher}
@@ -76,10 +78,16 @@ const Ferry = ({ ferry, isLast, navigation }) => {
       </View>
       <View style={styles.contentTextContainer}>
         <View style={styles.contentHeaderWrapper}>
-          <Text style={styles.contentHeader}>{`${moment(
-            `${ferry.day}/${ferry.mon}/${constants.currentYear}`,
-            "DD/MMM/YYYY"
-          ).format("MMM DD")} (${ferry.duration})`}</Text>
+          <Text style={styles.contentHeader}>{`${
+            pickupTime && pickupTime > 1
+              ? moment(pickupTime).format(constants.commonDateFormat)
+              : dateMillis
+                ? moment(dateMillis).format(constants.commonDateFormat)
+                : moment(
+                    `${ferry.day}/${ferry.mon}/${constants.currentYear}`,
+                    "DD/MMM/YYYY"
+                  ).format(constants.commonDateFormat)
+          }`}</Text>
         </View>
         <View style={styles.contentTextWrapper}>
           <Text style={styles.contentText} numberOfLines={2}>

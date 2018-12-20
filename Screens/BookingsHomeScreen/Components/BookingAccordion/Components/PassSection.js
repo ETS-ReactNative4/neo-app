@@ -61,9 +61,11 @@ const Pass = ({ pass, isLast, navigation }) => {
       </View>
       <View style={styles.contentTextContainer}>
         <View style={styles.contentHeaderWrapper}>
-          <Text style={styles.contentHeader}>{`${pass.start} - ${
-            pass.end
-          }`}</Text>
+          <Text style={styles.contentHeader}>
+            {moment(pass.start, "DD/MMM/YYYY").format(
+              constants.commonDateFormat
+            )}
+          </Text>
         </View>
         <View style={styles.contentTextWrapper}>
           <Text style={styles.contentText} numberOfLines={1}>
