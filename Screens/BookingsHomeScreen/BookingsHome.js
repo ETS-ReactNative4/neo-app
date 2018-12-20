@@ -156,7 +156,8 @@ class BookingsHome extends Component {
       numOfActivitiesByDay,
       getTransferTypeByDay,
       isLoading: itineraryLoading,
-      selectedItineraryId
+      selectedItineraryId,
+      cities
     } = this.props.itineraries;
     const { isLoading: voucherLoading } = this.props.voucherStore;
     const { navigation } = this.props;
@@ -181,6 +182,7 @@ class BookingsHome extends Component {
             numOfActivitiesByDay={numOfActivitiesByDay}
             startEndDates={startEndDates}
             days={days}
+            cities={cities}
             getDateSelectionMatrixSingle={getDateSelectionMatrixSingle}
             getTransferTypeByDay={getTransferTypeByDay}
             navigation={navigation}
