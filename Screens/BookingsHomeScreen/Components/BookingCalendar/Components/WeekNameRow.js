@@ -52,9 +52,9 @@ const styles = StyleSheet.create({
     width: itemWidth
   },
   weekName: {
-    fontFamily: constants.primaryLight,
+    fontFamily: constants.primarySemiBold,
     fontSize: 14,
-    color: constants.shade1
+    color: constants.shade2
   }
 });
 
