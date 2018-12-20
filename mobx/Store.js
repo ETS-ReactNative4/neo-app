@@ -84,6 +84,11 @@ const createStore = () => {
     .catch(err => {
       logError(err);
     });
+  hydrate("_lastUpdated", appStore.weatherStore)
+    .then(() => {})
+    .catch(err => {
+      logError(err);
+    });
   hydrate("_conversionRates", appStore.appState)
     .then(() => {})
     .catch(err => {
@@ -140,6 +145,11 @@ const createStore = () => {
       logError(err);
     });
   hydrate("_passportDetails", appStore.passportDetailsStore)
+    .then(() => {})
+    .catch(err => {
+      logError(err);
+    });
+  hydrate("_visaDetails", appStore.visaStore)
     .then(() => {})
     .catch(err => {
       logError(err);

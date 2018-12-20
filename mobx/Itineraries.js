@@ -7,6 +7,7 @@ import apiCall from "../Services/networkRequests/apiCall";
 import constants from "../constants/constants";
 import storeService from "../Services/storeService/storeService";
 import { logError } from "../Services/errorLogger/errorLogger";
+import { LayoutAnimation, Platform } from "react-native";
 
 class Itineraries {
   @observable _isLoading = false;
@@ -35,6 +36,9 @@ class Itineraries {
       return itineraryDetail.itinerary.itineraryId === itineraryId;
     });
     if (selectedItinerary) {
+      if (Platform.OS === "ios") {
+        LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+      }
       this._selectedItinerary = selectedItinerary;
       storeService.voucherStore.selectVoucher(this.selectedItineraryId);
       storeService.emergencyContactsStore.getEmergencyContacts(this.cities);
@@ -43,6 +47,7 @@ class Itineraries {
       );
       storeService.visaStore.getVisaDetails(this.selectedItineraryId);
       storeService.supportStore.loadFaqDetails();
+      storeService.weatherStore.reset();
     } else {
       this.getItineraryDetails(itineraryId);
     }
@@ -61,6 +66,11 @@ class Itineraries {
         if (response.status === "SUCCESS") {
           this._loadingError = false;
           this._itineraries.push(response.data);
+          if (Platform.OS === "ios") {
+            LayoutAnimation.configureNext(
+              LayoutAnimation.Presets.easeInEaseOut
+            );
+          }
           this._selectedItinerary = response.data;
           storeService.voucherStore.selectVoucher(this.selectedItineraryId);
           storeService.emergencyContactsStore.getEmergencyContacts(this.cities);
@@ -69,6 +79,7 @@ class Itineraries {
           );
           storeService.visaStore.getVisaDetails(this.selectedItineraryId);
           storeService.supportStore.loadFaqDetails();
+          storeService.weatherStore.reset();
         } else {
           this._loadingError = true;
         }
@@ -394,14 +405,39 @@ class Itineraries {
     let visa;
     try {
       const visaRefs = this._selectedItinerary.allVisaCostingRefs;
-      visa = visaRefs.map(ref => {
-        return toJS(this._selectedItinerary.visaCostings.visaCostingById[ref]);
-      });
+      visa = visaRefs.reduce((visaArray, ref) => {
+        const visaObject = toJS(
+          this._selectedItinerary.visaCostings.visaCostingById[ref]
+        );
+        if (!visaObject.onArrival) {
+          visaArray.push(visaObject);
+        }
+        return visaArray;
+      }, []);
     } catch (e) {
       logError(e);
       visa = [];
     }
     return visa;
+  }
+
+  @computed
+  get insurance() {
+    if (_.isEmpty(this._selectedItinerary)) return {};
+
+    try {
+      const insuranceCosting = this._selectedItinerary.insuranceCosting
+        ? this._selectedItinerary.insuranceCosting.insuranceCostingById
+        : {};
+      if (insuranceCosting && insuranceCosting.plan) {
+        return insuranceCosting;
+      } else {
+        return {};
+      }
+    } catch (e) {
+      logError(e);
+      return {};
+    }
   }
 
   @computed
@@ -444,6 +480,38 @@ class Itineraries {
     }
     return rentals;
   }
+
+  getRentalCarByCityOrder = createTransformer(
+    ({ fromCityOrder, toCityOrder }) => {
+      if (_.isEmpty(this._selectedItinerary)) return {};
+      try {
+        const rental = this.rentals.find(rental => {
+          const { key } = rental;
+          const rentalKeyArray = key.split(/#|_/);
+          const pickUpCityOrder = parseInt(rentalKeyArray[1]);
+          const dropCityOrder = parseInt(rentalKeyArray[3]);
+          return (
+            pickUpCityOrder <= fromCityOrder && dropCityOrder <= toCityOrder
+          );
+        });
+        if (rental) return rental;
+        else return {};
+      } catch (e) {
+        logError(e);
+        return {};
+      }
+    }
+  );
+
+  getCityOrderById = createTransformer(cityId => {
+    if (_.isEmpty(this._selectedItinerary)) return "";
+    try {
+      return this._selectedItinerary.itinerary.cityWiseOrderMap[cityId];
+    } catch (e) {
+      logError(e);
+      return "";
+    }
+  });
 
   @computed
   get days() {
@@ -634,6 +702,25 @@ class Itineraries {
     }
   });
 
+  getTransferFromAllById = createTransformer(id => {
+    try {
+      let transfer = this.getTransferById(id);
+      if (_.isEmpty(transfer)) {
+        transfer = this.getFerryById(id);
+        if (_.isEmpty(transfer)) {
+          transfer = this.getTrainById(id);
+          if (_.isEmpty(transfer)) {
+            transfer = this.getFlightById(id);
+          }
+        }
+      }
+      return transfer;
+    } catch (e) {
+      logError(e);
+      return {};
+    }
+  });
+
   getTransferById = createTransformer(id => {
     if (_.isEmpty(this._selectedItinerary)) return {};
 
@@ -645,6 +732,46 @@ class Itineraries {
         transfer.voucher =
           storeService.voucherStore.getTransferVoucherById(transfer.key) || {};
         return transfer;
+      } else {
+        return {};
+      }
+    } catch (e) {
+      logError(e);
+      return {};
+    }
+  });
+
+  getFerryById = createTransformer(id => {
+    if (_.isEmpty(this._selectedItinerary)) return {};
+
+    try {
+      const ferry = toJS(
+        this._selectedItinerary.ferryCostings.ferryCostingById[id]
+      );
+      if (ferry) {
+        ferry.voucher =
+          storeService.voucherStore.getFerryVoucherById(ferry.key) || {};
+        return ferry;
+      } else {
+        return {};
+      }
+    } catch (e) {
+      logError(e);
+      return {};
+    }
+  });
+
+  getTrainById = createTransformer(id => {
+    if (_.isEmpty(this._selectedItinerary)) return {};
+
+    try {
+      const train = toJS(
+        this._selectedItinerary.trainCostings.trainCostingById[id]
+      );
+      if (train) {
+        train.voucher =
+          storeService.voucherStore.getTrainVoucherById(train.key) || {};
+        return train;
       } else {
         return {};
       }
@@ -741,6 +868,13 @@ class Itineraries {
               activity.type === "INTERNATIONAL_DEPART"
             ) {
               return { mode: "FLIGHT", type: activity.type };
+            } else if (activity.type === "ACTIVITY_WITH_TRANSFER") {
+              return {
+                mode:
+                  activity.intercityTransferSlotDetailVO.directTransferDetail
+                    .transferMode,
+                type: activity.type
+              };
             }
           }
         }

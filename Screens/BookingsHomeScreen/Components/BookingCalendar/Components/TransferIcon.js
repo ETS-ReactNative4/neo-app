@@ -8,9 +8,6 @@ import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidE
 const TransferIcon = ({ transferType }) => {
   const customStyle = {};
   let transferImage;
-  /**
-   * TODO: Section needs more icons...
-   */
   switch (transferType.mode) {
     case "TRAIN":
       transferImage = constants.trainIcon;
@@ -25,12 +22,24 @@ const TransferIcon = ({ transferType }) => {
       transferImage = constants.busIcon;
       break;
 
+    case "FERRY":
+      transferImage = constants.ferryIcon;
+      break;
+
+    case "RENTALCAR":
+      transferImage = constants.carIcon;
+      break;
+
+    case "CAR":
+      transferImage = constants.carIcon;
+      break;
+
     case "NONE":
       transferImage = false;
       break;
 
     default:
-      transferImage = constants.activityIcon;
+      transferImage = constants.transferIcon;
   }
   if (!transferImage) return null;
 

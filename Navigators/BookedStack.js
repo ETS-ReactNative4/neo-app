@@ -4,6 +4,7 @@ import BookedItinerary from "../Screens/BookedItineraryScreen/BookedItinerary";
 import transitionConfig from "../Services/navigationAnimations/transitionConfig";
 import Places from "../Screens/PlacesScreen/Places";
 import NearBy from "../Screens/NearByScreen/NearBy";
+import Visa from "../Screens/VisaScreen/Visa";
 
 const BookedStack = createStackNavigator(
   {
@@ -18,6 +19,9 @@ const BookedStack = createStackNavigator(
     },
     BookedNearBy: {
       screen: NearBy
+    },
+    VisaBooked: {
+      screen: Visa
     }
   },
   {
@@ -31,7 +35,7 @@ const BookedStack = createStackNavigator(
 
 BookedStack.navigationOptions = ({ navigation }) => {
   let tabBarVisible = true;
-  if (navigation.state.index > 1) {
+  if (navigation.state.index > 0) {
     tabBarVisible = false;
   }
 

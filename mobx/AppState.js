@@ -10,6 +10,14 @@ import navigationService from "../Services/navigationService/navigationService";
 import DebouncedAlert from "../CommonComponents/DebouncedAlert/DebouncedAlert";
 import storeService from "../Services/storeService/storeService";
 import * as Keychain from "react-native-keychain";
+import { AsyncStorage } from "react-native";
+import logOut from "../Services/logOut/logOut";
+
+const {
+  conversionRateError,
+  currencyDetailsError
+} = constants.currencyConverterText;
+const { logOutError } = constants.logOutText;
 
 class AppState {
   @action
@@ -24,18 +32,19 @@ class AppState {
   /**
    * Trip Toggle Button
    */
-  /**
-   * TODO: Status true by default for development
-   */
   @persist("object")
   @observable
   _tripMode = {
-    status: true
+    status: false
   };
 
   @action
   setTripMode = status => {
     this._tripMode.status = status;
+    AsyncStorage.setItem(
+      constants.tripToggleStatusStorageKey,
+      JSON.stringify(status)
+    );
   };
 
   @computed
@@ -94,27 +103,45 @@ class AppState {
   @persist("object")
   @observable
   _conversionRates = {};
+  @observable _isConversionLoading = false;
 
   @computed
   get conversionRates() {
     return toJS(this._conversionRates);
   }
 
+  @computed
+  get isConversionLoading() {
+    return this._isConversionLoading;
+  }
+
   @action
   getConversionRates = () => {
-    /**
-     * TODO: Change api to dev server
-     */
+    this._isConversionLoading = true;
     apiCall(constants.getCurrencyRates, {}, "GET")
       .then(response => {
+        this._isConversionLoading = false;
         if (response.status === "SUCCESS") {
           this._conversionRates = response.data;
         } else {
-          DebouncedAlert("Unable to get conversion rates!");
+          storeService.infoStore.setError(
+            conversionRateError.title,
+            conversionRateError.message,
+            constants.errorBoxIllus,
+            conversionRateError.actionText,
+            () => navigationService.navigation._navigation.goBack()
+          );
         }
       })
       .catch(e => {
-        console.error(e);
+        this._isConversionLoading = false;
+        storeService.infoStore.setError(
+          conversionRateError.title,
+          conversionRateError.message,
+          constants.errorBoxIllus,
+          conversionRateError.actionText,
+          () => navigationService.navigation._navigation.goBack()
+        );
       });
   };
 
@@ -184,14 +211,26 @@ class AppState {
               ];
             }
           }
-          currencies[itineraryId] = currencyArray;
+          currencies[itineraryId] = _.compact(currencyArray);
           this._currencies = currencies;
         } else {
-          DebouncedAlert("Error!", "Unable to retrieve currency details!");
+          storeService.infoStore.setError(
+            currencyDetailsError.title,
+            currencyDetailsError.message,
+            constants.errorBoxIllus,
+            currencyDetailsError.actionText,
+            () => navigationService.navigation._navigation.goBack()
+          );
         }
       })
       .catch(err => {
-        DebouncedAlert("Error!", "Unable to retrieve currency details!");
+        storeService.infoStore.setError(
+          currencyDetailsError.title,
+          currencyDetailsError.message,
+          constants.errorBoxIllus,
+          currencyDetailsError.actionText,
+          () => navigationService.navigation._navigation.goBack()
+        );
       });
   };
 
@@ -222,7 +261,7 @@ class AppState {
     };
     Keychain.getGenericPassword().then(credentials => {
       if (credentials && credentials.password) {
-        apiCall(`${constants.registerDeviceToken}?opr=add`, requestBody)
+        apiCall(constants.registerDeviceToken, requestBody, "PUT")
           .then(response => {
             if (response.status === "SUCCESS") {
               this._pushTokens.deviceToken = deviceToken;
@@ -245,9 +284,9 @@ class AppState {
     Keychain.getGenericPassword().then(credentials => {
       if (credentials && credentials.password) {
         apiCall(
-          `${constants.registerDeviceToken}?opr=remove`,
+          constants.registerDeviceToken,
           requestBody,
-          "POST",
+          "DELETE",
           false,
           credentials.password
         )
@@ -256,22 +295,32 @@ class AppState {
               this._pushTokens = {
                 deviceToken: ""
               };
+              callback();
             } else {
-              logError("failed to remove device token after logOut");
-              this._pushTokens = {
-                deviceToken: ""
-              };
+              if (response.status === "EXPIRED") {
+                logOut(true);
+              } else {
+                logError("failed to remove device token during logOut");
+                storeService.infoStore.setError(
+                  logOutError.title,
+                  logOutError.message,
+                  constants.errorBoxIllus,
+                  logOutError.actionText
+                );
+              }
             }
           })
           .catch(err => {
-            this._pushTokens = {
-              deviceToken: ""
-            };
             logError(err, {
-              eventType: "failed to remove device token after logOut"
+              eventType: "failed to remove device token during logOut"
             });
+            storeService.infoStore.setError(
+              logOutError.title,
+              logOutError.message,
+              constants.errorBoxIllus,
+              logOutError.actionText
+            );
           });
-        callback();
       }
     });
   };

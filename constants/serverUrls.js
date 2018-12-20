@@ -4,6 +4,7 @@ const apiServers = {
   localServer: "http://192.168.0.5:8080/api/",
   devServer: "https://dev.pickyourtrail.com/api/",
   stagingSever: "https://staging.pickyourtrail.com/api/",
+  uatServer: "https://uat.pickyourtrail.com/api/",
   prodServer: "https://pickyourtrail.com/api/"
 };
 
@@ -16,6 +17,7 @@ const productUrls = {
   localProductUrl: "http://192.168.0.5:8080/",
   devProductUrl: "https://dev.pickyourtrail.com/",
   stagingProductUrl: "https://staging.pickyourtrail.com/",
+  uatProductUrl: "https://uat.pickyourtrail.com/",
   prodProductUrl: "https://pickyourtrail.com/"
 };
 
@@ -25,6 +27,12 @@ switch (PackageInfo.environment) {
     apiServerUrl = apiServers.prodServer;
     productUrl = productUrls.prodProductUrl;
     platoServerUrl = platoServers.platoProdServer;
+    break;
+
+  case "uat":
+    apiServerUrl = apiServers.uatServer;
+    productUrl = productUrls.uatProductUrl;
+    platoServerUrl = platoServers.platoDevServer;
     break;
 
   case "staging":

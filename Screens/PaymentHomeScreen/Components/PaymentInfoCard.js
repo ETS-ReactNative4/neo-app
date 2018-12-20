@@ -57,7 +57,13 @@ const PaymentInfoCard = ({
             )}
           </View>
           <View style={styles.bookingNameWrapper}>
-            <Text style={styles.bookingName}>{itineraryName}</Text>
+            <Text
+              numberOfLines={1}
+              ellipsizeMode={"tail"}
+              style={styles.bookingName}
+            >
+              {itineraryName}
+            </Text>
           </View>
           <View style={styles.bookingDetailWrapper}>
             <Text style={styles.bookingDetail}>

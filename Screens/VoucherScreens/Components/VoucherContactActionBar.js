@@ -8,7 +8,9 @@ import dialer from "../../../Services/dialer/dialer";
 import PropTypes from "prop-types";
 import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraProps";
 
-const VoucherContactActionBar = ({ contact, location }) => {
+const doesContainNumber = contact => /\d/.test(contact);
+
+const VoucherContactActionBar = ({ contact, location = {} }) => {
   const { lat, lon } = location;
   return (
     <View style={styles.actionRow}>
@@ -16,7 +18,7 @@ const VoucherContactActionBar = ({ contact, location }) => {
         <SimpleButton
           text={"Directions"}
           containerStyle={
-            contact
+            doesContainNumber(contact)
               ? { width: responsiveWidth(43), marginRight: 16 }
               : { width: responsiveWidth(100) - 48 }
           }
@@ -28,10 +30,14 @@ const VoucherContactActionBar = ({ contact, location }) => {
           iconSize={16}
         />
       ) : null}
-      {contact ? (
+      {doesContainNumber(contact) ? (
         <SimpleButton
           text={"Contact"}
-          containerStyle={{ width: responsiveWidth(43) }}
+          containerStyle={
+            lat && lon
+              ? { width: responsiveWidth(43) }
+              : { width: responsiveWidth(100) - 48 }
+          }
           action={() => dialer(contact)}
           color={"transparent"}
           textColor={constants.firstColor}

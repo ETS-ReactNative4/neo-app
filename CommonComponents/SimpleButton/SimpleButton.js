@@ -10,16 +10,13 @@ const SimpleButton = ({
   action,
   textColor,
   underlayColor,
-  textStyle,
+  textStyle = {},
   hasBorder,
-  containerStyle,
+  containerStyle = {},
   icon,
-  iconSize
+  iconSize,
+  rightIcon = false
 }) => {
-  if (!textStyle) textStyle = {};
-
-  if (!containerStyle) containerStyle = {};
-
   if (textColor) textStyle = { ...textStyle, color: textColor };
 
   if (color) containerStyle.backgroundColor = color;
@@ -38,7 +35,12 @@ const SimpleButton = ({
       onPress={action}
       underlayColor={underlayColor || "white"}
     >
-      <View style={styles.buttonWrapper}>
+      <View
+        style={[
+          styles.buttonWrapper,
+          rightIcon ? { flexDirection: "row-reverse" } : {}
+        ]}
+      >
         {icon && iconSize ? (
           <Icon name={icon} size={iconSize} color={textColor} />
         ) : null}

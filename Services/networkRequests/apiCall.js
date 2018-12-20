@@ -6,6 +6,7 @@ import DebouncedAlert from "../../CommonComponents/DebouncedAlert/DebouncedAlert
 
 const timeoutDuration = 60000;
 const apiServer = constants.apiServerUrl;
+let isJustLoggedOut = false;
 
 const apiCall = async (
   route,
@@ -50,30 +51,37 @@ const apiCall = async (
       console.log(response.status);
       console.log(response.statusText);
       if (response.status === 401) {
-        DebouncedAlert("Oops!", "Session Expired... Please Login again!");
+        if (!isJustLoggedOut) {
+          isJustLoggedOut = true;
+          DebouncedAlert("Oops!", "Session Expired... Please Login again!");
+        }
         logOut();
-        return { status: "failed" };
-      }
-
-      if (response.status === 200) {
-        const data = response.json();
-        return data;
+        return { status: "EXPIRED" };
       } else {
-        const errorInfo = {
-          type: "apiCall",
-          url: `${serverURL}${route}`,
-          body,
-          status: response.status,
-          ...headerObject
-        };
-        const errorObject = Error(
-          JSON.stringify({
+        isJustLoggedOut = false;
+        if (response.status === 200) {
+          const data = response.json();
+          return data;
+        } else if (response.status === 204) {
+          const data = { status: "SUCCESS" };
+          return data;
+        } else {
+          const errorInfo = {
+            type: "apiCall",
+            url: `${serverURL}${route}`,
+            body,
             status: response.status,
-            url: `${serverURL}${route}`
-          })
-        );
-        logError(errorObject, errorInfo);
-        throw errorObject;
+            ...headerObject
+          };
+          const errorObject = Error(
+            JSON.stringify({
+              status: response.status,
+              url: `${serverURL}${route}`
+            })
+          );
+          logError(errorObject, errorInfo);
+          throw errorObject;
+        }
       }
     }
 

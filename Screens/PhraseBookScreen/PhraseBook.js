@@ -19,7 +19,10 @@ import PhraseInfo from "./Components/PhraseInfo";
 import LanguageSelector from "./Components/LanguageSelector";
 import Loader from "../../CommonComponents/Loader/Loader";
 import { logError } from "../../Services/errorLogger/errorLogger";
+import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
+import LineProgressBar from "../../CommonComponents/LineProgressBar/LineProgressBar";
 
+@ErrorBoundary()
 @inject("phrasesStore")
 @inject("itineraries")
 @observer
@@ -35,7 +38,8 @@ class PhraseBook extends Component {
     isTtsSpeaking: false,
     isLanguageSelectorVisible: false,
     isInternetAvailable: true,
-    isKeyboardVisible: false
+    isKeyboardVisible: false,
+    isTextSoundLoading: false
   };
   _didFocusSubscription;
   _willBlurSubscription;
@@ -119,32 +123,53 @@ class PhraseBook extends Component {
         console.log("Internet Unavailable... attempting with TTS");
         Tts.speak(translatedPhrase);
       } else {
+        let hasTtsStarted = false;
+        const cutOffToTts = setTimeout(() => {
+          this.setState({
+            isSoundPlaying: false,
+            isTextSoundLoading: false
+          });
+          hasTtsStarted = true;
+          Tts.speak(translatedPhrase);
+          console.log("Sound was loading... Stopped in cutoff timer!");
+        }, 5000);
         console.log("Internet Available... attempting to play Sound");
+        this.setState({
+          isTextSoundLoading: true
+        });
         this._translatedAudio = new Sound(
           translatedSoundUri,
           undefined,
           error => {
-            if (error) {
-              logError(error, {
-                soundModule: "Unable to obtain the audio from google translate"
+            if (!hasTtsStarted) {
+              clearTimeout(cutOffToTts);
+              console.log("Cleared cutoff timer!");
+              this.setState({
+                isTextSoundLoading: false
               });
-              console.log("Unable to Play sound... Falling back to TTS");
-              Tts.speak(translatedPhrase);
-            } else {
-              console.log("Audio Ready... Playing Sound");
-              this.setState(
-                {
-                  isSoundPlaying: true
-                },
-                () => {
-                  this._translatedAudio.play(() => {
-                    this._translatedAudio.release();
-                    this.setState({
-                      isSoundPlaying: false
+              if (error) {
+                logError(error, {
+                  soundModule:
+                    "Unable to obtain the audio from google translate"
+                });
+                console.log("Unable to Play sound... Falling back to TTS");
+                Tts.speak(translatedPhrase);
+              } else {
+                console.log("Audio Ready... Playing Sound");
+                this.setState(
+                  {
+                    isSoundPlaying: true
+                  },
+                  () => {
+                    this._translatedAudio.play(() => {
+                      this._translatedAudio.release();
+                      this.setState({
+                        isSoundPlaying: false
+                      });
                     });
-                  });
-                }
-              );
+                  }
+                );
+              }
             }
           }
         );
@@ -208,9 +233,11 @@ class PhraseBook extends Component {
       selectLanguage,
       isLoading,
       pinPhrase,
-      unPinPhrase
+      unPinPhrase,
+      translatingError
     } = this.props.phrasesStore;
     const { navigation } = this.props;
+    const { isTextSoundLoading } = this.state;
 
     const sections = ["pinned", ...Object.keys(phrases)];
     const allPhrases = {
@@ -218,15 +245,21 @@ class PhraseBook extends Component {
       pinned: pinnedPhrases
     };
 
-    const targetLanguage = selectedLanguage.language;
-    if (selectLanguage.languageCode) {
+    const targetLanguage = selectedLanguage ? selectedLanguage.language : "";
+    if (selectedLanguage && selectedLanguage.languageCode) {
       Tts.setDefaultLanguage(selectedLanguage.languageCode);
     }
 
     return [
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View key={0} style={styles.container}>
+      <LineProgressBar
+        containerStyle={{ backgroundColor: "white" }}
+        key={0}
+        isVisible={isLoading || isTextSoundLoading}
+      />,
+      <TouchableWithoutFeedback key={1} onPress={Keyboard.dismiss}>
+        <View style={styles.container}>
           <PhraseInfo
+            translatingError={translatingError}
             selectedPhrase={selectedPhrase}
             translatedPhrase={translatedPhrase}
             isTranslating={isTranslating}
@@ -271,7 +304,7 @@ class PhraseBook extends Component {
       </TouchableWithoutFeedback>,
       <CustomPhrase
         openLanguageSelector={this.openLanguageSelector}
-        key={1}
+        key={2}
         navigation={navigation}
         selectedLanguage={selectedLanguage}
         selectPhrase={selectPhrase}
@@ -284,9 +317,8 @@ class PhraseBook extends Component {
         languages={languages}
         cancel={this.closeLanguageSelector}
         isVisible={this.state.isLanguageSelectorVisible}
-        key={2}
-      />,
-      <Loader isVisible={isLoading} key={3} />
+        key={3}
+      />
     ];
   }
 }

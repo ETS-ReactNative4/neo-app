@@ -34,12 +34,6 @@ const styles = {
       fontFamily: fonts.primarySemiBold
     }
   }),
-  bookingProcessText: {
-    title: "This booking is in process...",
-    message:
-      "Please be patient. We are working with our travel partners to complete this booking. You will get notified when this voucher is ready.",
-    actionText: "Turn Notifications ON"
-  },
   elevationTwo: {
     shadowColor: colorPallete.shade3,
     shadowOffset: { height: 1, width: 1 },

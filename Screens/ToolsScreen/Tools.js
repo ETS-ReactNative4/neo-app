@@ -5,11 +5,12 @@ import SectionHeader from "../../CommonComponents/SectionHeader/SectionHeader";
 import Carousel from "../../CommonComponents/Carousel/Carousel";
 import PrimaryTool from "./Components/PrimaryTool";
 import SecondaryTool from "./Components/SecondaryTool";
-import SearchPlaceholder from "../../CommonComponents/SearchPlaceholder/SearchPlaceholder";
 import HomeHeader from "../../CommonComponents/HomeHeader/HomeHeader";
 import { inject, observer } from "mobx-react/custom";
 import { recordEvent } from "../../Services/analytics/analyticsService";
+import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 
+@ErrorBoundary({ isRoot: true })
 @inject("itineraries")
 @observer
 class Tools extends Component {

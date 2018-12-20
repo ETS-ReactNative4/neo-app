@@ -15,10 +15,10 @@ const CommonRate = ({
   return (
     <View style={[styles.container, componentStyle]}>
       <Text style={styles.font}>
-        {foreignAmount} {foreignCurrency}
+        {nativeAmount} {nativeCurrency}
       </Text>
       <Text style={styles.font}>
-        {nativeAmount} {nativeCurrency}
+        {foreignAmount} {foreignCurrency}
       </Text>
     </View>
   );

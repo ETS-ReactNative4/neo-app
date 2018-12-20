@@ -1,22 +1,11 @@
 import React, { Component } from "react";
-import {
-  View,
-  Text,
-  Image,
-  StyleSheet,
-  ScrollView,
-  Animated,
-  Platform
-} from "react-native";
+import { View, Text, StyleSheet, Platform } from "react-native";
 import { isIphoneX } from "react-native-iphone-x-helper";
 import ParallaxScrollView from "react-native-parallax-scroll-view";
-import { responsiveWidth } from "react-native-responsive-dimensions";
 import VoucherHeader from "../Components/VoucherHeader";
 import constants from "../../../constants/constants";
 import SectionHeader from "../../../CommonComponents/SectionHeader/SectionHeader";
 import CircleThumbnail from "../../../CommonComponents/CircleThumbnail/CircleThumbnail";
-import Icon from "../../../CommonComponents/Icon/Icon";
-import SimpleButton from "../../../CommonComponents/SimpleButton/SimpleButton";
 import VoucherStickyHeader from "../Components/VoucherStickyHeader";
 import VoucherName from "../Components/VoucherName";
 import PassengerName from "./Components/PassengerName";
@@ -25,10 +14,11 @@ import IosCloseButton from "../Components/IosCloseButton";
 import VoucherSplitSection from "../Components/VoucherSplitSection";
 import VoucherAddressSection from "../Components/VoucherAddressSection";
 import moment from "moment";
-import getLocaleString from "../../../Services/getLocaleString/getLocaleString";
-import directions from "../../../Services/directions/directions";
 import VoucherContactActionBar from "../Components/VoucherContactActionBar";
+import ErrorBoundary from "../../../CommonComponents/ErrorBoundary/ErrorBoundary";
+import Icon from "../../../CommonComponents/Icon/Icon";
 
+@ErrorBoundary()
 class HotelVoucher extends Component {
   static navigationOptions = {
     header: null
@@ -63,11 +53,12 @@ class HotelVoucher extends Component {
       checkOutDateDisplay,
       checkOutMonthDisplay,
       checkOutDayOfWeek,
-      checkInTime, // 24-hour format?
-      checkOutTime, // 24-hour format?
+      checkInDate,
+      checkOutDate,
       name,
       roomsInHotel,
       amenitiesList,
+      amenityDisplayList,
       bookingSource,
       imageURL,
       finalPrice,
@@ -83,30 +74,41 @@ class HotelVoucher extends Component {
       checkOutDateTs,
       hotelAddress1,
       hotelAddress2,
-      bookedTime
+      bookedTime,
+      checkInDate: checkInDateVoucher,
+      checkInTime: checkInTimeVoucher,
+      checkOutDate: checkOutDateVoucher,
+      checkOutTime: checkOutTimeVoucher
     } = hotel.voucher;
 
     const amenitiesSection = [
       {
         name: "Hotel Amenities",
-        component: amenitiesList
-          ? amenitiesList.map((amenity, amenityIndex) => {
+        component: amenityDisplayList
+          ? amenityDisplayList.map((amenity, amenityIndex) => {
               const customStyle = {
                 borderBottomWidth: StyleSheet.hairlineWidth,
-                borderBottomColor: constants.shade4
+                borderBottomColor: constants.shade4,
+                paddingBottom: 8
               };
               return (
                 <View
                   key={amenityIndex}
                   style={[
                     styles.amenitiesTextWrapper,
-                    amenityIndex === amenitiesList.length - 1 ? customStyle : {}
+                    amenityIndex === amenityDisplayList.length - 1
+                      ? customStyle
+                      : {}
                   ]}
                 >
-                  <Text
-                    style={styles.amenitiesText}
-                    key={amenityIndex}
-                  >{`• ${amenity}`}</Text>
+                  <Icon
+                    name={amenity.iconUrl.replace("vehoicon-", "")}
+                    size={18}
+                    color={constants.black2}
+                  />
+                  <Text style={styles.amenitiesText} key={amenityIndex}>
+                    {amenity.amenityName}
+                  </Text>
                 </View>
               );
             })
@@ -125,6 +127,17 @@ class HotelVoucher extends Component {
       }
     ];
 
+    const bookingPNR = rooms
+      ? rooms.reduce((pnrString, room) => {
+          if (pnrString) {
+            pnrString += `${"\n"}, ${room.bookingReferenceId}`;
+          } else {
+            pnrString = room.bookingReferenceId;
+          }
+          return pnrString;
+        }, "")
+      : "";
+
     return [
       <ParallaxScrollView
         key={0}
@@ -135,7 +148,7 @@ class HotelVoucher extends Component {
         renderStickyHeader={() => (
           <VoucherStickyHeader
             action={this.close}
-            text={`Booking ID - ${voucherId}`}
+            text={`Booking ID - ${bookingPNR}`}
           />
         )}
         fadeOutForeground={Platform.OS !== "android"}
@@ -143,7 +156,7 @@ class HotelVoucher extends Component {
         renderForeground={() => (
           <VoucherHeader
             infoText={`BOOKING ID`}
-            title={voucherId}
+            title={bookingPNR}
             menu={() => {}}
             onClickClose={this.close}
             image={{ uri: imageURL }}
@@ -154,28 +167,30 @@ class HotelVoucher extends Component {
           <View style={styles.checkInBox}>
             <Text style={styles.checkTitle}>CHECK IN</Text>
             <Text style={styles.checkDate}>
-              {moment(checkInDateTs).format("ddd, DD MMM")}
+              {checkInDateVoucher
+                ? moment(checkInDateVoucher, "YYYY-MM-DD").format("ddd, DD MMM")
+                : moment(checkInDate, "DD/MMM/YYYY").format("ddd, DD MMM")}
             </Text>
             <Text style={styles.checkTime}>
-              {"02:00 pm"}
-              {/*checkInDateTs ? moment(checkInDateTs).format("hh:mm a") : "02:00 pm"*/}
+              {checkInTimeVoucher || "02:00 pm"}
             </Text>
           </View>
           <View style={styles.checkOutBox}>
             <Text style={styles.checkTitle}>CHECK OUT</Text>
             <Text style={styles.checkDate}>
-              {moment(checkOutDateTs).format("ddd, DD MMM")}
+              {checkOutDateVoucher
+                ? moment(checkOutDateVoucher, "YYYY-MM-DD").format(
+                    "ddd, DD MMM"
+                  )
+                : moment(checkOutDate, "DD/MMM/YYYY").format("ddd, DD MMM")}
             </Text>
             <Text style={styles.checkTime}>
-              {"11:00 pm"}
-              {/*checkOutDateTs ? moment(checkOutDateTs).format("hh:mm a") : "11:00 pm"*/}
+              {checkOutTimeVoucher || "11:00 pm"}
             </Text>
           </View>
         </View>
 
-        <View style={styles.addressRow}>
-          <VoucherName name={name} />
-        </View>
+        <VoucherName name={name} textStyle={{ marginHorizontal: 24 }} />
 
         <View style={styles.bookingDetailsRow}>
           <SectionHeader
@@ -188,7 +203,7 @@ class HotelVoucher extends Component {
                 // leadPassenger, // Gender Needed?
                 name,
                 roomPaxInfo,
-                freeBreakFast,
+                freeBreakfast,
                 freeWireless,
                 refundable,
                 roomConfiguration,
@@ -200,21 +215,38 @@ class HotelVoucher extends Component {
 
               const roomVoucherDetails =
                 rooms.find(room => room.roomTypeId === roomTypeId) || {};
-              let { leadPassenger, otherPassengers } = roomVoucherDetails;
+              let {
+                leadPassenger,
+                otherPassengers,
+                bookingReferenceId
+              } = roomVoucherDetails;
               leadPassenger = leadPassenger || {};
               otherPassengers = otherPassengers || [];
 
               const { checkIn, checkOut } = roomVoucherDetails;
               if (checkIn > 1 && checkOut > 1) {
-                refundable = roomVoucherDetails.refundable;
-                freeWireless = roomVoucherDetails.freeWireless;
-                freeBreakFast = roomVoucherDetails.freeBreakFast;
+                refundable =
+                  typeof roomVoucherDetails.refundable === "boolean"
+                    ? roomVoucherDetails.refundable
+                    : refundable;
+                freeWireless =
+                  typeof roomVoucherDetails.freeWireless === "boolean"
+                    ? roomVoucherDetails.freeWireless
+                    : freeWireless;
+                freeBreakfast =
+                  typeof roomVoucherDetails.freeBreakFast === "boolean"
+                    ? roomVoucherDetails.freeBreakFast
+                    : freeBreakfast;
               }
 
               const hotelAmenitySummary = [
                 {
+                  name: "Booking Reference ID",
+                  value: bookingReferenceId
+                },
+                {
                   name: "Breakfast",
-                  value: freeBreakFast ? "Included" : "Not Included"
+                  value: freeBreakfast ? "Included" : "Not Included"
                 },
                 {
                   name: "Free Wifi",
@@ -328,12 +360,6 @@ const styles = StyleSheet.create({
     marginTop: 5
   },
 
-  addressRow: {
-    paddingHorizontal: 24,
-    minHeight: 80,
-    marginTop: 16
-  },
-
   bookingDetailsRow: {
     paddingHorizontal: 24
   },
@@ -390,12 +416,13 @@ const styles = StyleSheet.create({
 
   amenitiesTextWrapper: {
     marginTop: 8,
-    marginBottom: 4
+    marginBottom: 4,
+    flexDirection: "row"
   },
   amenitiesText: {
-    ...constants.font20(constants.primaryLight),
-    lineHeight: 22,
-    color: constants.black2
+    ...constants.fontCustom(constants.primaryLight, 18, 20),
+    color: constants.black2,
+    marginLeft: 8
   },
 
   bookingSection: {

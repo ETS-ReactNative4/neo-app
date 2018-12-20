@@ -3,6 +3,7 @@ package com.pickyourtrail;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.reactnativecommunity.webview.RNCWebViewPackage;
 import com.avishayil.rnrestart.ReactNativeRestartPackage;
 import com.github.droibit.android.reactnative.customtabs.CustomTabsPackage;
 import io.invertase.firebase.RNFirebasePackage;
@@ -11,8 +12,6 @@ import io.invertase.firebase.notifications.RNFirebaseNotificationsPackage;
 import io.invertase.firebase.analytics.RNFirebaseAnalyticsPackage;
 import com.zmxv.RNSound.RNSoundPackage;
 import com.dylanvann.fastimage.FastImageViewPackage;
-import com.rncustomwebview.CustomWebViewPackage;
-import com.centaurwarchief.smslistener.SmsListenerPackage;
 import com.krazylabs.OpenAppSettingsPackage;
 import net.no_mad.tts.TextToSpeechPackage;
 import io.sentry.RNSentryPackage;
@@ -39,6 +38,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNCWebViewPackage(),
             new ReactNativeRestartPackage(),
             new CustomTabsPackage(),
             new RNFirebasePackage(),
@@ -47,8 +47,6 @@ public class MainApplication extends Application implements ReactApplication {
             new RNFirebaseAnalyticsPackage(),
             new RNSoundPackage(),
             new FastImageViewPackage(),
-            new CustomWebViewPackage(),
-            new SmsListenerPackage(),
             new OpenAppSettingsPackage(),
             new TextToSpeechPackage(),
             new RNSentryPackage(),

@@ -27,7 +27,8 @@ class ToPack extends Component {
     addListItem: PropTypes.func.isRequired,
     deleteListItem: PropTypes.func.isRequired,
     enableKeyboardListener: PropTypes.bool,
-    isPackedEmpty: PropTypes.bool.isRequired
+    isPackedEmpty: PropTypes.bool.isRequired,
+    tabLabel: PropTypes.string.isRequired
   };
 
   state = {
@@ -86,7 +87,9 @@ class ToPack extends Component {
   }
 
   render() {
-    const { listItems, deleteListItem, isPackedEmpty } = this.props;
+    const { listItems, deleteListItem, isPackedEmpty, tabLabel } = this.props;
+
+    const isPackedTab = tabLabel === "PACKED";
 
     if (isPackedEmpty)
       return (
@@ -102,6 +105,7 @@ class ToPack extends Component {
         toggleCheckListStatus={this.props.toggleCheckListStatus}
         deleteListItem={deleteListItem}
         addListItem={this.props.addListItem}
+        isPackedTab={isPackedTab}
       />
     );
 

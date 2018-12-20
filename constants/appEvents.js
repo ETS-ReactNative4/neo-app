@@ -12,6 +12,9 @@ const appEvents = {
   mobileNumberOtpFailed: "mobile_number_otp_failed",
   userLoggedInEvent: "user_logged_in",
   tripToggleClickEvent: "trip_toggle_click",
+  tripViewScroll: "trip_view_scroll",
+  tripViewLiteScroll: "trip_view_lite_scroll",
+  tripHighlightsScroll: "trip_highlights_scroll",
   hamburgerButtonClick: "hamburger_click",
   selectBookingHeaderClick: "select_booking_header_button_click",
   bookingsHomeCalendarDateClick: "bookings_home_calendar_date_click",
@@ -34,6 +37,8 @@ const appEvents = {
     "bookings_home_accordion_rental_cars_header_click",
   bookingsHomeAccordionVisaHeaderClick:
     "bookings_home_accordion_visa_header_click",
+  bookingsHomeAccordionInsuranceHeaderClick:
+    "bookings_home_accordion_insurance_header_click",
   bookingsHomeAccordionFlightsVoucherClick:
     "bookings_home_accordion_flights_voucher_click",
   bookingsHomeAccordionHotelsVoucherClick:
@@ -52,6 +57,8 @@ const appEvents = {
     "bookings_home_accordion_rental_cars_voucher_click",
   bookingsHomeAccordionVisaVoucherClick:
     "bookings_home_accordion_visa_voucher_click",
+  bookingsHomeAccordionInsuranceVoucherClick:
+    "bookings_home_accordion_insurance_voucher_click",
   bookingsHomeDownloadAllVouchersClick:
     "bookings_home_download_all_vouchers_click",
   bookedItineraryContentScroll: "booked_itinerary_content_scroll",

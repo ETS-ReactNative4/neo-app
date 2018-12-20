@@ -32,7 +32,9 @@ const FlightCard = ({
   arrivalAirportName,
   excessBaggageInfo,
   departureAirportCode,
-  arrivalAirportCode
+  arrivalAirportCode,
+  carrierCode,
+  flightNumber
 }) => {
   const airlineLogo = constants.getAirlineIcon(airlineCode);
   let baggageList =
@@ -49,7 +51,7 @@ const FlightCard = ({
       : [];
   baggageList = baggageList.filter(baggage => {
     if (
-      baggage.departure === departureAirportCode &&
+      baggage.departure === departureAirportCode ||
       baggage.arrival === arrivalAirportCode
     ) {
       return true;
@@ -57,30 +59,44 @@ const FlightCard = ({
     return false;
   });
 
-  const baggageOptions = [
+  const excessBaggageWeight = baggageList.length
+    ? baggageList[0].baggageOptions
+      ? baggageList[0].baggageOptions.reduce((weight, baggage) => {
+          return weight + baggage.weight;
+        }, 0)
+      : 0
+    : 0;
+
+  const isFreeCheckinAvailable =
+    freeCheckInBaggage && parseInt(freeCheckInBaggage);
+
+  const baggageSectionData = [
     {
-      name: "Baggage Info",
-      component: (
-        <View>
-          {baggageList.length
-            ? baggageList[0].baggageOptions.map((baggage, baggageIndex) => {
-                const baggageSectionData = [
-                  {
-                    name: "Weight",
-                    value: `${baggage.weight} kg`
-                  }
-                ];
-                return (
-                  <View key={baggageIndex} style={styles.baggageSplitContainer}>
-                    <VoucherSplitSection sections={baggageSectionData} />
-                  </View>
-                );
-              })
-            : null}
-        </View>
-      )
-    }
+      name: "Cabin Baggage",
+      value: "7kg per person"
+    },
+    isFreeCheckinAvailable || !baggageList.length
+      ? {
+          name: "Free Checkin Baggage",
+          value: isFreeCheckinAvailable
+            ? `${freeCheckInBaggage} per person`
+            : "Not Included"
+        }
+      : null,
+    baggageList.length
+      ? {
+          name: "Excess Baggage Count",
+          value: baggageList.length
+        }
+      : null,
+    excessBaggageWeight
+      ? {
+          name: "Excess Baggage Weight",
+          value: `${excessBaggageWeight} kg`
+        }
+      : null
   ];
+
   return (
     <View style={styles.flightCard}>
       {isFirst ? <Text style={styles.flightRoute}>{flightRoute}</Text> : null}
@@ -102,6 +118,11 @@ const FlightCard = ({
           </View>
         </View>
       </View>
+      <View style={styles.flightCarrierCodeWrapper}>
+        <Text
+          style={styles.flightNumber}
+        >{`${carrierCode} ${flightNumber}`}</Text>
+      </View>
       <View style={styles.flightTimingsSection}>
         <View style={styles.timingLeft}>
           <Text style={styles.flightDateText}>{departure}</Text>
@@ -115,8 +136,6 @@ const FlightCard = ({
               departureCity ? departureCity : ""
             }`}
           </Text>
-          {/*<Text style={styles.baggageText}>Cabin Baggage</Text>*/}
-          {/*<Text style={styles.baggageText}>Free Checkin Baggage</Text>*/}
         </View>
         <View style={styles.timingMiddle}>
           <Icon size={24} name={constants.clockIcon} color={constants.shade2} />
@@ -149,13 +168,14 @@ const FlightCard = ({
               arrivalCity ? arrivalCity : ""
             }`}
           </Text>
-          {/*<Text style={styles.baggageWeight}>{freeCabinBaggage || "NA"}</Text>*/}
-          {/*<Text style={styles.baggageWeight}>{freeCheckInBaggage || "NA"}</Text>*/}
         </View>
       </View>
-      {baggageList.length ? (
-        <VoucherAccordion sections={baggageOptions} />
-      ) : null}
+      <VoucherSplitSection
+        sections={baggageSectionData}
+        leftFontStyle={styles.baggageText}
+        rightFontStyle={styles.baggageWeight}
+        textWrapperStyle={styles.baggageTextWrapper}
+      />
     </View>
   );
 };
@@ -181,7 +201,9 @@ FlightCard.propTypes = forbidExtraProps({
   arrivalCity: PropTypes.string.isRequired,
   arrivalAirportName: PropTypes.string.isRequired,
   departureAirportCode: PropTypes.string.isRequired,
-  arrivalAirportCode: PropTypes.string.isRequired
+  arrivalAirportCode: PropTypes.string.isRequired,
+  carrierCode: PropTypes.string.isRequired,
+  flightNumber: PropTypes.string.isRequired
 });
 
 const styles = StyleSheet.create({
@@ -215,7 +237,7 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   },
   flightProviderWrapper: {
-    height: 17,
+    height: 20,
     marginTop: Platform.OS === "android" ? -8 : -4
   },
   flightProvider: {
@@ -231,13 +253,20 @@ const styles = StyleSheet.create({
   flightClassWrapper: {
     height: 20
   },
+  flightCarrierCodeWrapper: {
+    height: 20,
+    marginTop: 8
+  },
   flightClass: {
-    ...constants.font17(constants.primaryLight, 17),
+    ...constants.fontCustom(constants.primaryLight, 17),
     color: constants.shade2
   },
+  flightNumber: {
+    ...constants.fontCustom(constants.primarySemiBold, 17),
+    color: constants.black2
+  },
   flightTimingsSection: {
-    marginVertical: 8,
-    minHeight: 96,
+    marginTop: 8,
     flexDirection: "row"
   },
   timingLeft: {
@@ -278,15 +307,16 @@ const styles = StyleSheet.create({
   },
   baggageText: {
     marginTop: 8,
-    fontFamily: constants.primaryLight,
-    fontSize: 13,
+    ...constants.fontCustom(constants.primaryLight, 13),
     color: constants.shade2
   },
   baggageWeight: {
     marginTop: 8,
-    fontFamily: constants.primaryLight,
-    fontSize: 13,
+    ...constants.fontCustom(constants.primaryLight, 13),
     color: constants.black1
+  },
+  baggageTextWrapper: {
+    marginVertical: null
   }
 });
 

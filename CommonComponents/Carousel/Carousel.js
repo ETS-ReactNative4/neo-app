@@ -1,7 +1,8 @@
 import React from "react";
 import { View, StyleSheet, ScrollView } from "react-native";
 import PropTypes from "prop-types";
-import Box from "./Components/Box";
+import Box from "../Box/Box";
+import constants from "../../constants/constants";
 
 const Carousel = ({
   containerStyle,
@@ -11,6 +12,15 @@ const Carousel = ({
   onScroll
 }) => {
   let scrollProps = {};
+  const gradients = [
+    constants.secondGradientAlpha,
+    constants.thirdGradientAlpha,
+    constants.fourthGradientAlpha,
+    constants.fifthGradientAlpha,
+    constants.sixthGradientAlpha,
+    constants.seventhGradientAlpha
+  ];
+
   if (onScroll) scrollProps["onScroll"] = () => onScroll();
   return (
     <View style={[styles.scrollContainer, containerStyle]}>
@@ -25,7 +35,14 @@ const Carousel = ({
         {children
           ? children
           : data.map((item, index) => {
-              return <Box key={index} index={index} data={item} />;
+              return (
+                <Box
+                  key={index}
+                  index={index}
+                  data={item}
+                  gradients={gradients}
+                />
+              );
             })}
       </ScrollView>
     </View>

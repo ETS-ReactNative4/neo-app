@@ -21,7 +21,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>41</string>
+	<string>52</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 	<key>LSRequiresIPhoneOS</key>
@@ -39,8 +39,14 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>NSCameraUsageDescription</key>
+	<string>This will let you take photos using your camera and send it to Pickyourtrail.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Your current location is needed to find places around you</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>This will let you record audio for your videos using your camera and send it to Pickyourtrail.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>This will let you select photos from your library and send it to Pickyourtrail.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Sofia Pro.ttf</string>

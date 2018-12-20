@@ -1,38 +1,28 @@
 import React, { Component } from "react";
-import {
-  View,
-  Text,
-  Image,
-  StyleSheet,
-  Platform,
-  TouchableOpacity
-} from "react-native";
+import { View, StyleSheet, Platform } from "react-native";
 import { isIphoneX } from "react-native-iphone-x-helper";
 import ParallaxScrollView from "react-native-parallax-scroll-view";
-import { responsiveWidth } from "react-native-responsive-dimensions";
 import VoucherHeader from "../Components/VoucherHeader";
 import constants from "../../../constants/constants";
 import VoucherStickyHeader from "../Components/VoucherStickyHeader";
 import VoucherName from "../Components/VoucherName";
 import VoucherSplitSection from "../Components/VoucherSplitSection";
 import SectionHeader from "../../../CommonComponents/SectionHeader/SectionHeader";
-import SimpleButton from "../../../CommonComponents/SimpleButton/SimpleButton";
 import { inject, observer } from "mobx-react/custom";
-import Icon from "../../../CommonComponents/Icon/Icon";
 import IosCloseButton from "../Components/IosCloseButton";
 import VoucherAccordion from "../Components/VoucherAccordion";
 import HTMLView from "react-native-htmlview";
-import dialer from "../../../Services/dialer/dialer";
-import directions from "../../../Services/directions/directions";
 import moment from "moment";
 import TitleDate from "../Components/TitleDate";
-import getLocaleString from "../../../Services/getLocaleString/getLocaleString";
 import VoucherAddressSection from "../Components/VoucherAddressSection";
 import PickupInfoBox from "./Components/PickupInfoBox";
 import TransferInfoBox from "./Components/TransferInfoBox";
 import VoucherContactActionBar from "../Components/VoucherContactActionBar";
 import getTitleCase from "../../../Services/getTitleCase/getTitleCase";
+import ErrorBoundary from "../../../CommonComponents/ErrorBoundary/ErrorBoundary";
+import { responsiveWidth } from "react-native-responsive-dimensions";
 
+@ErrorBoundary()
 @inject("passportDetailsStore")
 @observer
 class ActivityVoucher extends Component {
@@ -84,6 +74,7 @@ class ActivityVoucher extends Component {
       activityTime,
       pickupAddress,
       transferType,
+      departureTimeStr,
       self
     } = activity.voucher;
     const {
@@ -196,7 +187,9 @@ class ActivityVoucher extends Component {
         },
         {
           name: "Starts at",
-          value: activityTime ? moment(activityTime).format("hh:mm a") : "NA"
+          value: departureTimeStr
+            ? departureTimeStr
+            : moment(dateMillis).format("hh:mm a")
         },
         {
           name: "Duration",
@@ -295,7 +288,10 @@ class ActivityVoucher extends Component {
 
           <VoucherName name={title} />
 
-          <VoucherSplitSection sections={passengerDetails} />
+          <VoucherSplitSection
+            sections={passengerDetails}
+            rightFontStyle={{ width: responsiveWidth(50) - 24 }}
+          />
         </View>
 
         <View style={styles.arrivalSection}>

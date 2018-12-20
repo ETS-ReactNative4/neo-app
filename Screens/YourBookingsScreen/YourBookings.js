@@ -11,7 +11,9 @@ import YourBookingsTabBar from "./Components/YourBookingsTabBar";
 import { inject, observer } from "mobx-react/custom";
 import Loader from "../../CommonComponents/Loader/Loader";
 import SearchButton from "../../CommonComponents/SearchButton/SearchButton";
+import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 
+@ErrorBoundary({ isRoot: true })
 @inject("yourBookingsStore")
 @observer
 class YourBookings extends Component {

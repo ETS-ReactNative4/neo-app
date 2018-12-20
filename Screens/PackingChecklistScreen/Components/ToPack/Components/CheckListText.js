@@ -17,7 +17,8 @@ const CheckListText = ({
   item,
   isComplete,
   type,
-  toggleCheckListStatus
+  toggleCheckListStatus,
+  isPackedTab
 }) => {
   return (
     <TouchableHighlight
@@ -33,7 +34,10 @@ const CheckListText = ({
           color={isComplete ? constants.firstColor : constants.shade5}
         />
         <Text
-          style={[styles.textBox, isComplete ? styles.textBoxComplete : null]}
+          style={[
+            styles.textBox,
+            isComplete && !isPackedTab ? styles.textBoxComplete : null
+          ]}
         >
           {item}
         </Text>
@@ -47,7 +51,8 @@ CheckListText.propTypes = {
   item: PropTypes.string.isRequired,
   isComplete: PropTypes.bool.isRequired,
   type: PropTypes.string.isRequired,
-  toggleCheckListStatus: PropTypes.func.isRequired
+  toggleCheckListStatus: PropTypes.func.isRequired,
+  isPackedTab: PropTypes.bool.isRequired
 };
 
 const styles = StyleSheet.create({

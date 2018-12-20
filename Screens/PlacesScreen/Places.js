@@ -4,12 +4,12 @@ import {
   StyleSheet,
   ScrollView,
   Text,
-  LayoutAnimation
+  LayoutAnimation,
+  Platform
 } from "react-native";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import constants from "../../constants/constants";
 import Carousel from "../../CommonComponents/Carousel/Carousel";
-import PlaceCard from "./Components/PlaceCard";
 import PlaceSectionTitle from "./Components/PlaceSectionTitle";
 import XSensorPlaceholder from "../../CommonComponents/XSensorPlaceholder/XSensorPlaceholder";
 import { isIphoneX } from "react-native-iphone-x-helper";
@@ -17,7 +17,11 @@ import { inject, observer } from "mobx-react/custom";
 import CitySelectionMenu from "../../CommonComponents/CitySelectionMenu/CitySelectionMenu";
 import PlacesPageTitle from "./Components/PlacesPageTitle";
 import { recordEvent } from "../../Services/analytics/analyticsService";
+import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
+import SimpleCard from "../../CommonComponents/SimpleCard/SimpleCard";
+import CustomScrollView from "../../CommonComponents/CustomScrollView/CustomScrollView";
 
+@ErrorBoundary()
 @inject("placesStore")
 @observer
 class Places extends Component {
@@ -34,20 +38,31 @@ class Places extends Component {
   };
 
   state = {
-    isScrollRecorded: false
+    isScrollRecorded: false,
+    selectedCity: {}
   };
 
   componentDidMount() {
     const { selectCity } = this.props.placesStore;
     const city = this.props.navigation.getParam("city", {});
+    this.setState({
+      selectedCity: city
+    });
     selectCity(city);
   }
 
   changeCity = city => {
     recordEvent(constants.placesHeaderCityNameClick);
+    this.setState({
+      selectedCity: city
+    });
     const { selectCity } = this.props.placesStore;
     selectCity(city);
   };
+
+  componentWillUnmount() {
+    this.props.placesStore.clearCache();
+  }
 
   scrollAction = () => {
     if (!this.state.isScrollRecorded) {
@@ -59,9 +74,8 @@ class Places extends Component {
   };
 
   render() {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     const { navigation } = this.props;
-    const { categories } = this.props.placesStore;
+    const { categories, isLoading, refreshCity } = this.props.placesStore;
     const categorySections = Object.keys(categories);
     const city = this.props.navigation.getParam("city", {});
     const target = this.props.navigation.getParam("target", "");
@@ -70,7 +84,11 @@ class Places extends Component {
       onScrollProps["onScroll"] = () => this.scrollAction();
     }
     return (
-      <ScrollView style={styles.placesContainer}>
+      <CustomScrollView
+        refreshing={isLoading}
+        onRefresh={() => refreshCity(this.state.selectedCity)}
+        style={styles.placesContainer}
+      >
         <CitySelectionMenu
           navigation={navigation}
           selectCity={this.changeCity}
@@ -87,7 +105,7 @@ class Places extends Component {
               >
                 {category.map((item, itemIndex) => {
                   return (
-                    <PlaceCard
+                    <SimpleCard
                       key={itemIndex}
                       image={{ uri: item.image }}
                       action={() => {
@@ -107,7 +125,7 @@ class Places extends Component {
           );
         })}
         {isIphoneX() ? <XSensorPlaceholder /> : null}
-      </ScrollView>
+      </CustomScrollView>
     );
   }
 }

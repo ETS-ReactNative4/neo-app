@@ -19,21 +19,39 @@ const getSlotImage = (identifier, type) => {
           image: constants.getAirlineIcon(flight.airlineCode),
           icon: constants.aeroplaneIcon
         };
-      }
-
-    case "TRAIN":
-      if (!identifier) {
+      } else {
         return {
           image: constants.transferPlaceHolder,
-          icon: constants.trainIcon
+          icon: constants.aeroplaneIcon
         };
       }
+      break;
+
+    case "RENTALCAR":
+      return {
+        image: getTransferImage("CAR"),
+        icon: constants.carIcon
+      };
+
+    case "CAR":
+      return {
+        image: getTransferImage("CAR"),
+        icon: constants.carIcon
+      };
+
+    case "TRAIN":
       return { image: getTransferImage("TRAIN"), icon: constants.trainIcon };
+
+    case "BUS":
+      return { image: getTransferImage("BUS"), icon: constants.busIcon };
+
+    case "FERRY":
+      return { image: getTransferImage("FERRY"), icon: constants.ferryIcon };
 
     default:
       return {
         image: constants.transferPlaceHolder,
-        icon: constants.activityIcon
+        icon: constants.transferIcon
       };
   }
 };

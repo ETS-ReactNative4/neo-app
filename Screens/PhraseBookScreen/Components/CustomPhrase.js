@@ -34,19 +34,27 @@ class CustomPhrase extends Component {
   };
 
   onEditText = phrase => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     this.setState({
       customPhrase: phrase
     });
   };
 
   render() {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-    const { selectPhrase, targetLanguage, isKeyboardVisible } = this.props;
+    const {
+      selectPhrase,
+      targetLanguage,
+      isKeyboardVisible,
+      selectedLanguage
+    } = this.props;
     const { customPhrase } = this.state;
     const translateAction = () => {
       customPhrase ? selectPhrase(customPhrase, targetLanguage) : null;
       Keyboard.dismiss();
     };
+    const languageCode = selectedLanguage ? selectedLanguage.languageCode : "";
+    const languageName = localeCode.getLanguageName(languageCode);
+    const displayLanguage = languageName ? languageName : languageCode;
     return [
       <KeyboardAvoidingActionBar
         key={0}
@@ -83,9 +91,10 @@ class CustomPhrase extends Component {
           />
         ) : (
           <SimpleButton
-            text={localeCode.getLanguageName(
-              this.props.selectedLanguage.languageCode
-            )}
+            icon={constants.changeIcon}
+            iconSize={17}
+            rightIcon={true}
+            text={displayLanguage}
             action={this.props.openLanguageSelector}
             containerStyle={{
               backgroundColor: "white",

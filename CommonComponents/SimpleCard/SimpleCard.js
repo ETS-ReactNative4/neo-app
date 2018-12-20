@@ -1,9 +1,9 @@
 import React from "react";
 import { Text, View, TouchableOpacity, StyleSheet } from "react-native";
 import PropTypes from "prop-types";
-import SmartImage from "../../../CommonComponents/SmartImage/SmartImage";
 import FastImage from "react-native-fast-image";
-import constants from "../../../constants/constants";
+import constants from "../../constants/constants";
+import SmartImage from "../SmartImage/SmartImage";
 
 /**
  * TODO: Fix Image urls
@@ -13,26 +13,49 @@ import constants from "../../../constants/constants";
  * @returns {*}
  * @constructor
  */
-const PlaceCard = ({ title, image, action }) => {
+const Card = ({
+  title,
+  image,
+  action,
+  containerStyle = {},
+  imageStyle = {},
+  textStyle = {}
+}) => {
+  if (containerStyle.width) {
+    imageStyle.width = containerStyle.width;
+  }
+  if (containerStyle.height && imageStyle.height) {
+    imageStyle.height =
+      imageStyle.height > containerStyle.height * 0.75
+        ? containerStyle.height * 0.75
+        : imageStyle.height;
+  }
+  let textWrapper = {};
+  if (textStyle.backgroundColor) {
+    textWrapper.backgroundColor = textStyle.backgroundColor;
+  }
   return (
-    <TouchableOpacity onPress={action} style={styles.placeCardContainer}>
+    <TouchableOpacity
+      onPress={action}
+      style={[styles.cardContainer, containerStyle]}
+    >
       <SmartImage
         defaultImageUri={
           "http://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg"
         }
-        style={styles.image}
+        style={[styles.image, imageStyle]}
         uri={image.uri}
         resizeMode={FastImage.resizeMode.cover}
       />
-      <View style={styles.textContainer}>
-        <Text style={styles.titleText}>{title}</Text>
+      <View style={[styles.textContainer, textWrapper]}>
+        <Text style={[styles.titleText, textStyle]}>{title}</Text>
       </View>
     </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
-  placeCardContainer: {
+  cardContainer: {
     backgroundColor: "white",
     height: 132,
     width: 152,
@@ -61,10 +84,13 @@ const styles = StyleSheet.create({
   }
 });
 
-PlaceCard.propTypes = {
+Card.propTypes = {
   title: PropTypes.string.isRequired,
   image: PropTypes.object.isRequired,
-  action: PropTypes.func.isRequired
+  action: PropTypes.func.isRequired,
+  containerStyle: PropTypes.object,
+  imageStyle: PropTypes.object,
+  textStyle: PropTypes.object
 };
 
-export default PlaceCard;
+export default Card;

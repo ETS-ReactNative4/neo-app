@@ -50,6 +50,8 @@ target 'Pickyourtrail' do
 
   pod 'Firebase/Messaging', '~> 5.11.0'
 
+  pod 'react-native-webview', :path => '../node_modules/react-native-webview'
+
   # target 'PickyourtrailTests' do
   #   inherit! :search_paths
   #   # Pods for testing

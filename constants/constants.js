@@ -5,6 +5,7 @@ import imageAssets from "./imageAssets";
 import serverUrls from "./serverUrls";
 import styles from "./styles";
 import appEvents from "./appEvents";
+import appText from "./appText";
 
 const constants = {
   ...apiUrls,
@@ -13,7 +14,8 @@ const constants = {
   ...imageAssets,
   ...serverUrls,
   ...appEvents,
-  ...styles
+  ...styles,
+  ...appText
 };
 
 export default constants;

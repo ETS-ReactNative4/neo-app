@@ -1,13 +1,14 @@
 import React, { Component } from "react";
-import { FlatList, View, StyleSheet, Platform, TextInput } from "react-native";
+import { FlatList, View, StyleSheet } from "react-native";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import TicketPreview from "./Components/TicketPreview";
-import apiCall from "../../Services/networkRequests/apiCall";
 import constants from "../../constants/constants";
 import { inject, observer } from "mobx-react/custom";
 import moment from "moment";
-import Loader from "../../CommonComponents/Loader/Loader";
+import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 
+@ErrorBoundary()
+@inject("itineraries")
 @inject("supportStore")
 @observer
 class YourTickets extends Component {
@@ -23,8 +24,6 @@ class YourTickets extends Component {
   }
 
   _renderItem = ({ item: ticket, index }) => {
-    const { getLastMessageByTicket } = this.props.supportStore;
-    const ticketDetails = getLastMessageByTicket(ticket.ticketId);
     return (
       <TicketPreview
         title={ticket.title}
@@ -36,7 +35,7 @@ class YourTickets extends Component {
             : moment(ticket.lastMsgTime).format("hh:mm a")
         }
         isClosed={ticket.closed}
-        isUnRead={ticketDetails.msgId !== ticket.lastSeenMsgId}
+        isUnRead={ticket.lastSeenMsgId < ticket.maxMsgId}
         isLast={false}
         action={() =>
           this.props.navigation.navigate("TicketsConversation", {
@@ -53,10 +52,15 @@ class YourTickets extends Component {
 
   render() {
     const {
-      conversations,
+      getConversationsByItineraryId,
       isConversationLoading,
       loadConversation
     } = this.props.supportStore;
+
+    const { selectedItineraryId } = this.props.itineraries;
+
+    const conversations = getConversationsByItineraryId(selectedItineraryId);
+
     return [
       <View key={0} style={styles.yourTicketsContainer}>
         <View style={styles.firstLine} />

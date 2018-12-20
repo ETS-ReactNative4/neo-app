@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Text, Image, StyleSheet, Platform } from "react-native";
+import { View, StyleSheet, Platform } from "react-native";
 import { isIphoneX } from "react-native-iphone-x-helper";
 import ParallaxScrollView from "react-native-parallax-scroll-view";
 import { responsiveWidth } from "react-native-responsive-dimensions";
@@ -9,16 +9,16 @@ import VoucherStickyHeader from "../Components/VoucherStickyHeader";
 import VoucherName from "../Components/VoucherName";
 import VoucherSplitSection from "../Components/VoucherSplitSection";
 import SectionHeader from "../../../CommonComponents/SectionHeader/SectionHeader";
-import SimpleButton from "../../../CommonComponents/SimpleButton/SimpleButton";
-import VoucherAccordion from "../Components/VoucherAccordion";
 import IosCloseButton from "../Components/IosCloseButton";
 import moment from "moment";
 import getTransferImage from "../../../Services/getImageService/getTransferImage";
-import dialer from "../../../Services/dialer/dialer";
 import { inject, observer } from "mobx-react/custom";
 import TitleDate from "../Components/TitleDate";
-import getLocaleString from "../../../Services/getLocaleString/getLocaleString";
+import ErrorBoundary from "../../../CommonComponents/ErrorBoundary/ErrorBoundary";
+import getTitleCase from "../../../Services/getTitleCase/getTitleCase";
+import VoucherContactActionBar from "../Components/VoucherContactActionBar";
 
+@ErrorBoundary()
 @inject("passportDetailsStore")
 @observer
 class TransferVoucher extends Component {
@@ -57,7 +57,13 @@ class TransferVoucher extends Component {
       text,
       dateMillis,
       totalCost,
-      publishedCost
+      publishedCost,
+      departureTime,
+      arrivalTime: costingArrivalTime,
+      pDateMillis,
+      day,
+      duration,
+      mon
     } = transfer;
 
     const {
@@ -86,15 +92,33 @@ class TransferVoucher extends Component {
       },
       {
         name: "Vehicle type",
-        value: vehicle || "NA"
-      }
+        value: getTitleCase(vehicle) || "NA"
+      },
+      vehicle === "Rental Car"
+        ? {
+            name: "Duration",
+            value: `${duration} day${duration > 1 ? "s" : ""}`
+          }
+        : null,
+      vehicle === "TRAIN"
+        ? {
+            name: "Departure Time",
+            value: departureTime
+              ? moment(departureTime, "HH:mm").format("hh:mm a")
+              : "NA"
+          }
+        : null,
+      vehicle === "TRAIN"
+        ? {
+            name: "Departure Station",
+            value: pickup || "NA"
+          }
+        : null
     ];
     if (type) {
       passengerDetails.push({
         name: "Type",
-        value: type
-          ? type.charAt(0).toUpperCase() + type.substr(1).toLowerCase()
-          : "NA"
+        value: type ? getTitleCase(type) : "NA"
       });
     }
     const arrivalDetails = [
@@ -102,26 +126,29 @@ class TransferVoucher extends Component {
         name: "Arrival at",
         value: drop || "NA"
       },
-      vehicle === "Rental Car"
-        ? null
-        : {
-            name: "Arrival time",
+      vehicle !== "TRAIN"
+        ? {
+            name: "Pickup time",
             value:
-              arrivalTime && arrivalTime !== -1
-                ? moment(arrivalTime).format("hh:mm a")
+              pickupTime && pickupTime > 0
+                ? moment(pickupTime).format("hh:mm a")
                 : "NA"
-          },
-      {
-        name: "Pickup time",
-        value:
-          pickupTime && pickupTime !== -1
-            ? moment(pickupTime).format("hh:mm a")
-            : "NA"
-      },
-      {
-        name: "Meeting point",
-        value: pickup || "NA"
-      }
+          }
+        : null,
+      vehicle !== "TRAIN"
+        ? {
+            name: "Meeting point",
+            value: pickup || "NA"
+          }
+        : null,
+      vehicle === "TRAIN"
+        ? {
+            name: "Arrival Time",
+            value: costingArrivalTime
+              ? moment(costingArrivalTime, "HH:mm").format("hh:mm a")
+              : "NA"
+          }
+        : null
     ];
     const bookingDetails = [
       {
@@ -129,21 +156,29 @@ class TransferVoucher extends Component {
         value: moment(bookedTime).format("DD MMM, YY")
       },
       {
-        name: "Total Paid",
-        value:
-          vehicle === "Rental Car"
-            ? totalCost
-              ? getLocaleString(totalCost)
-              : "NA"
-            : publishedCost
-              ? getLocaleString(publishedCost)
-              : "NA"
-      },
-      {
         name: "Booking Source",
         value: "Pickyourtrail"
       }
     ];
+
+    const voucherName =
+      vehicle === "Rental Car" ? `${pickup} to ${drop}` : text;
+
+    let voucherDate = dateMillis;
+    if (vehicle === "Rental Car") {
+      voucherDate =
+        pickupTime && pickupTime > 0
+          ? moment(pickupTime).valueOf()
+          : pDateMillis && pDateMillis > 0
+            ? moment(pDateMillis).valueOf()
+            : moment(
+                `${day}/${mon}/${constants.currentYear}`,
+                "DD/MMM/YYYY"
+              ).valueOf();
+    }
+    if (pickupTime && pickupTime > 0) {
+      voucherDate = moment(pickupTime).valueOf();
+    }
 
     return [
       <ParallaxScrollView
@@ -171,11 +206,14 @@ class TransferVoucher extends Component {
         )}
       >
         <View style={styles.titleSection}>
-          <TitleDate date={dateMillis} />
+          <TitleDate date={voucherDate} />
 
-          <VoucherName name={text} />
+          <VoucherName name={voucherName} />
 
-          <VoucherSplitSection sections={passengerDetails} />
+          <VoucherSplitSection
+            sections={passengerDetails}
+            rightFontStyle={{ width: responsiveWidth(50) - 24 }}
+          />
         </View>
 
         <View style={styles.arrivalSection}>
@@ -186,16 +224,7 @@ class TransferVoucher extends Component {
 
           <VoucherSplitSection sections={arrivalDetails} />
 
-          <SimpleButton
-            text={"Contact"}
-            action={() => dialer(contactNumber)}
-            color={"transparent"}
-            containerStyle={{ width: responsiveWidth(100) - 48, marginTop: 24 }}
-            textColor={constants.black2}
-            hasBorder={true}
-            icon={constants.callIcon}
-            iconSize={16}
-          />
+          <VoucherContactActionBar contact={contactNumber} />
 
           <VoucherSplitSection sections={bookingDetails} />
         </View>

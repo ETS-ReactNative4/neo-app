@@ -1,7 +1,6 @@
 import React, { Component } from "react";
-import { View, StyleSheet, ScrollView } from "react-native";
+import { View, StyleSheet } from "react-native";
 import WeatherCard from "./Components/WeatherCard";
-import constants from "../../constants/constants";
 import WeatherChart from "./Components/WeatherChart";
 import WeatherTiles from "./Components/WeatherTiles";
 import WeatherInactivePlaceholder from "./Components/WeatherInactivePlaceholder";
@@ -12,9 +11,11 @@ import { extendMoment } from "moment-range";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import XSensorPlaceholder from "../../CommonComponents/XSensorPlaceholder/XSensorPlaceholder";
 import { isIphoneX } from "react-native-iphone-x-helper";
+import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 
 const moment = extendMoment(Moment);
 
+@ErrorBoundary()
 @inject("weatherStore")
 @inject("itineraries")
 @observer
@@ -30,6 +31,10 @@ class Weather extends Component {
   };
 
   componentDidMount() {
+    this.loadWeather();
+  }
+
+  loadWeather = () => {
     const cities = _.flattenDeep(
       this.props.itineraries.cities.map(city => {
         const dateRange = moment.range(city.startDay, city.endDay);
@@ -53,10 +58,15 @@ class Weather extends Component {
       });
     }
     this.props.weatherStore.getWeatherDetails(cities);
-  }
+  };
 
   render() {
-    const { weather, selectWeather } = this.props.weatherStore;
+    const {
+      weather,
+      selectWeather,
+      isLoading,
+      lastUpdated
+    } = this.props.weatherStore;
 
     /**
      * TODO: Loading indicator for weather details
@@ -80,13 +90,19 @@ class Weather extends Component {
               key={0}
               containerStyle={{ marginHorizontal: 24, height: 72 }}
               {...selectedDay.widgetDetails}
+              lastUpdated={lastUpdated}
             />,
             <WeatherChart key={1} selectedDay={selectedDay} />
           ]
         ) : (
           <WeatherInactivePlaceholder />
         )}
-        <WeatherTiles weatherArray={weather} selectTile={selectWeather} />
+        <WeatherTiles
+          isLoading={isLoading}
+          loadWeather={this.loadWeather}
+          weatherArray={weather}
+          selectTile={selectWeather}
+        />
         {isIphoneX() ? <XSensorPlaceholder /> : null}
       </View>
     );

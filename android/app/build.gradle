@@ -102,7 +102,7 @@ android {
         applicationId "com.pickyourtrail"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 41
+        versionCode 52
         versionName "1.0.0"
         ndk {
             abiFilters "armeabi-v7a", "x86"
@@ -149,13 +149,12 @@ android {
 }
 
 dependencies {
-    compile project(':react-native-restart')
+    implementation project(':react-native-webview')
+    implementation project(':react-native-restart')
     implementation project(':react-native-custom-tabs')
     implementation project(':react-native-firebase')
     implementation project(':react-native-sound')
     implementation project(':react-native-fast-image')
-    implementation project(':react-native-webview-android-file-upload')
-    implementation project(':react-native-android-sms-listener')
     implementation project(':react-native-app-settings')
     implementation project(':react-native-tts')
     implementation project(':react-native-sentry')

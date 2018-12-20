@@ -33,9 +33,11 @@ import DebouncedAlert from "../../CommonComponents/DebouncedAlert/DebouncedAlert
 import Moment from "moment";
 import { recordEvent } from "../../Services/analytics/analyticsService";
 import { extendMoment } from "moment-range";
+import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 
 const moment = extendMoment(Moment);
 
+@ErrorBoundary()
 @inject("placesStore")
 @inject("itineraries")
 @inject("infoStore")

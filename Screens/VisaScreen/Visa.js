@@ -1,12 +1,14 @@
 import React, { Component } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import { inject, observer } from "mobx-react/custom";
 import constants from "../../constants/constants";
 import ScrollableTabBar from "../../CommonComponents/ScrollableTabBar/ScrollableTabBar";
 import ScrollableTabView from "react-native-scrollable-tab-view";
 import VisaTabContainer from "./Components/VisaTabContainer";
+import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 
+@ErrorBoundary()
 @inject("itineraries")
 @inject("visaStore")
 @observer
@@ -16,11 +18,39 @@ class Visa extends Component {
       header: <CommonHeader title={"Visa Documents"} navigation={navigation} />
     };
   };
+
+  componentDidMount() {
+    const { selectedItineraryId } = this.props.itineraries;
+    const {
+      getVisaDetailsByItineraryId,
+      getVisaDetails
+    } = this.props.visaStore;
+
+    const visaDetails = getVisaDetailsByItineraryId(selectedItineraryId);
+    if (!visaDetails.length) {
+      getVisaDetails(selectedItineraryId);
+    }
+  }
+
   render() {
     const { selectedItineraryId } = this.props.itineraries;
     const { getVisaDetailsByItineraryId } = this.props.visaStore;
 
     const visaDetails = getVisaDetailsByItineraryId(selectedItineraryId);
+
+    const selectedCountry = this.props.navigation.getParam("country", "");
+    let activeTabIndex = 0;
+    if (selectedCountry) {
+      for (let i = 0; i < visaDetails.length; i++) {
+        const currentVisa = visaDetails[i];
+        if (
+          currentVisa.regionName.toUpperCase() === selectedCountry.toUpperCase()
+        ) {
+          activeTabIndex = i;
+          break;
+        }
+      }
+    }
 
     return (
       <View style={styles.visaContainer}>
@@ -32,7 +62,7 @@ class Visa extends Component {
             backgroundColor: constants.black2
           }}
           tabBarTextStyle={{ ...constants.font13(constants.primarySemiBold) }}
-          initialPage={0}
+          initialPage={activeTabIndex ? activeTabIndex : 0}
           prerenderingSiblingsNumber={Infinity}
           renderTabBar={() => <ScrollableTabBar />}
         >

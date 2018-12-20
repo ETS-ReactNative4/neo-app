@@ -3410,7 +3410,7 @@ fbjs-scripts@^0.8.1:
     semver "^5.1.0"
     through2 "^2.0.0"
 
-fbjs@0.8.17:
+fbjs@0.8.17, fbjs@^0.8.17:
   version "0.8.17"
   resolved "https://registry.yarnpkg.com/fbjs/-/fbjs-0.8.17.tgz#c4d598ead6949112653d6588b01a5cdcd9f90fdd"
   integrity sha1-xNWY6taUkRJlPWWIsBpc3Nn5D90=
@@ -6816,10 +6816,6 @@ react-lifecycles-compat@^3.0.4:
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
   integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
 
-"react-native-android-sms-listener@git://github.com/DaniAkash/react-native-android-sms-listener.git#af305da28ca209626229b7572cda8856fff6b8aa":
-  version "0.5.0"
-  resolved "git://github.com/DaniAkash/react-native-android-sms-listener.git#af305da28ca209626229b7572cda8856fff6b8aa"
-
 react-native-animatable@^1.2.4:
   version "1.2.4"
   resolved "https://registry.yarnpkg.com/react-native-animatable/-/react-native-animatable-1.2.4.tgz#b5fb7657e8f6edadbc26697057a327fb920b3039"
@@ -6831,9 +6827,10 @@ react-native-animatable@^1.2.4:
   version "2.0.0"
   resolved "git://github.com/DaniAkash/react-native-app-settings.git#e1fe1e8358e4d1e907fbb0923bec0fdc72be237a"
 
-"react-native-card-stack-swiper@git://github.com/DaniAkash/react-native-card-stack-swiper.git#1aed50872ed575a037562bd174bf42b853e5001a":
-  version "1.0.6"
-  resolved "git://github.com/DaniAkash/react-native-card-stack-swiper.git#1aed50872ed575a037562bd174bf42b853e5001a"
+react-native-card-stack-swiper@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/react-native-card-stack-swiper/-/react-native-card-stack-swiper-1.1.0.tgz#5713afc3f4506f68cd90fe6102287aab7766e4ad"
+  integrity sha512-+xMXOYU2aS4CfTWqtL7vPnS9SdFCCD88CyciDDHyY5QP2SgxMpk4tge4b8mIiTBNrXPY0vwI6nGTyAgCjNncaw==
   dependencies:
     prop-types "15.5.10"
 
@@ -6855,6 +6852,12 @@ react-native-dash@^0.0.9:
   dependencies:
     prop-types "^15.5.10"
     react-native-measureme "0.0.1"
+
+"react-native-deck-swiper@git://github.com/sriram10/react-native-deck-swiper.git#a40eefe7a5178aba8b45392fc225ecc5fdb12e9a":
+  version "1.6.2"
+  resolved "git://github.com/sriram10/react-native-deck-swiper.git#a40eefe7a5178aba8b45392fc225ecc5fdb12e9a"
+  dependencies:
+    prop-types "15.5.10"
 
 react-native-dismiss-keyboard@1.0.0:
   version "1.0.0"
@@ -6901,14 +6904,10 @@ react-native-htmlview@^0.12.1:
     entities "^1.1.1"
     htmlparser2-without-node-native "^3.9.2"
 
-react-native-iphone-x-helper@^1.0.3:
+react-native-iphone-x-helper@1.2.0, react-native-iphone-x-helper@^1.0.3:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/react-native-iphone-x-helper/-/react-native-iphone-x-helper-1.2.0.tgz#9f8a376eb00bc712115abff4420318a0063fa796"
   integrity sha512-xIeTo4s77wwKgBZLVRIZC9tM9/PkXS46Ul76NXmvmixEb3ZwqGdQesR3zRiLMOoIdfOURB6N9bba9po7+x9Bag==
-
-"react-native-iphone-x-helper@git://github.com/dsherida/react-native-iphone-x-helper.git#f110e0e093a37892c81a0058afa1e2186dbb3d62":
-  version "1.1.0"
-  resolved "git://github.com/dsherida/react-native-iphone-x-helper.git#f110e0e093a37892c81a0058afa1e2186dbb3d62"
 
 react-native-keyboard-aware-scroll-view@^0.7.4:
   version "0.7.4"
@@ -6950,6 +6949,13 @@ react-native-parallax-scroll-view@^0.21.0:
   dependencies:
     prop-types "^15.6.0"
 
+react-native-progress@^3.5.0:
+  version "3.5.0"
+  resolved "https://registry.yarnpkg.com/react-native-progress/-/react-native-progress-3.5.0.tgz#d1ccc7f96dc17c609aedb43b2e6695d67deae0ec"
+  integrity sha512-Tgc002D0BGes1fTlObu/qNItlsTPYKFrF9XRQaJLme77TNxNX9I04sgIz3kaq8O4R+z/jlai64dk1HDEDQhzMA==
+  dependencies:
+    prop-types "^15.5.8"
+
 react-native-ratings@^6.0.0:
   version "6.0.0"
   resolved "https://registry.yarnpkg.com/react-native-ratings/-/react-native-ratings-6.0.0.tgz#8083c4955c14aef0751abb7f5ba6c48ae8b2189b"
@@ -6980,10 +6986,10 @@ react-native-screens@^1.0.0-alpha.11:
   resolved "https://registry.yarnpkg.com/react-native-screens/-/react-native-screens-1.0.0-alpha.12.tgz#5953c39c9dbfbe324610005e07d85a416081c48c"
   integrity sha512-n/XyqUStDjtCymXUhAxG98asvgI8/OSH+v9AaAzUFEqfBwJLY8/UjY6m8PIJSgqRt4aR/Z9nO+A1mcMXw6dMdA==
 
-react-native-scrollable-tab-view@^0.8.0:
-  version "0.8.0"
-  resolved "https://registry.yarnpkg.com/react-native-scrollable-tab-view/-/react-native-scrollable-tab-view-0.8.0.tgz#5cb1fcfce07bf530a3c81ab51fc5071144edac5c"
-  integrity sha512-8Q7v4f1WyV5cKqvV3QHxnLFRWV8gi24JW2T+Cfx++b3ctHxtJCkGg5Zs15ufYMxaN4W68iDkJrftVVAq0tqb8w==
+react-native-scrollable-tab-view@^0.10.0:
+  version "0.10.0"
+  resolved "https://registry.yarnpkg.com/react-native-scrollable-tab-view/-/react-native-scrollable-tab-view-0.10.0.tgz#8ce7908254685ee37d35df7d849676eaa1e81132"
+  integrity sha512-7FWw9X2hLozWqpGJTAU/p7ONdTTO635bbAZ5AUPDrB4JwaLbhNV6ePjsNUjsCaopgCwz/EdmH0hTCPeja9dh4w==
   dependencies:
     create-react-class "^15.6.2"
     prop-types "^15.6.0"
@@ -7001,6 +7007,11 @@ react-native-simple-radio-button@^2.7.3:
   version "2.7.3"
   resolved "https://registry.yarnpkg.com/react-native-simple-radio-button/-/react-native-simple-radio-button-2.7.3.tgz#c7227c0f963d6bbcfa245255d18a5a8b98fde41f"
   integrity sha512-kiYRarFj7PXzV9fbQwMBiYwS4YnhrR4NZGT68atlFIoNFxZLrt5OMCDqXZqu6R6bUWKLndzPpO/nhXc6/OU1Mg==
+
+react-native-simple-toast@^0.0.8:
+  version "0.0.8"
+  resolved "https://registry.yarnpkg.com/react-native-simple-toast/-/react-native-simple-toast-0.0.8.tgz#513f4add8d30e4c5109e536bfc6ea5825fea5d83"
+  integrity sha512-qfhHsAtZuMV7llF74WjAHCjAQhfyDDRVrE9nmczCZSHZ5JRZ3XkqnZ8IyNnNUQMsGQodyV+0QEf5uPiWBICnUA==
 
 "react-native-sound@git://github.com/DaniAkash/react-native-sound.git#7c8dea53a051b6a1b2b79ba41871d01cc24c1544":
   version "0.10.9"
@@ -7060,9 +7071,13 @@ react-native-vector-icons@5.0.0:
     prop-types "^15.5.10"
     yargs "^8.0.2"
 
-"react-native-webview-android-file-upload@git://github.com/DaniAkash/react-native-webview-android-file-upload.git#f04c1285ae5d0eb1f62c4cf7cfb454dba55cb8ce":
-  version "1.4.0"
-  resolved "git://github.com/DaniAkash/react-native-webview-android-file-upload.git#f04c1285ae5d0eb1f62c4cf7cfb454dba55cb8ce"
+react-native-webview@^2.14.3:
+  version "2.14.3"
+  resolved "https://registry.yarnpkg.com/react-native-webview/-/react-native-webview-2.14.3.tgz#25ed93d4b12659fb330dd21b6d8802b86628f079"
+  integrity sha512-hKG+3G1zLosbGFm/QgZsjBWDnf9tX4UGshcCzHBifXKgwhRY3sscs70lYdGMV/J7SxVRyiA4SebUiwUwbsstyw==
+  dependencies:
+    escape-string-regexp "^1.0.5"
+    fbjs "^0.8.17"
 
 react-native@0.57.1:
   version "0.57.1"

@@ -6,12 +6,10 @@ import {
   StyleSheet,
   TouchableWithoutFeedback,
   TouchableHighlight,
-  Image,
   Keyboard,
   Platform,
   LayoutAnimation
 } from "react-native";
-import { SafeAreaView } from "react-navigation";
 import { isIphoneX } from "react-native-iphone-x-helper";
 import CommonRate from "./Components/CommonRate";
 import constants from "../../constants/constants";
@@ -21,7 +19,10 @@ import { inject, observer } from "mobx-react/custom";
 import Icon from "../../CommonComponents/Icon/Icon";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import { recordEvent } from "../../Services/analytics/analyticsService";
+import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
+import LineProgressBar from "../../CommonComponents/LineProgressBar/LineProgressBar";
 
+@ErrorBoundary()
 @inject("appState")
 @observer
 class CurrencyConverter extends Component {
@@ -166,71 +167,72 @@ class CurrencyConverter extends Component {
   };
 
   render() {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    if (Platform.OS === "ios") {
+      LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    }
 
     const foreignCurrency = this.state.foreignCurrency.substr(3);
     const nativeCurrency = this.state.nativeCurrency.substr(3);
 
-    const { currencyConverter, conversionRates } = this.props.appState;
-
-    /**
-     * TODO: Loading Indicator for conversion rates
-     */
-    if (!conversionRates) return null;
+    const {
+      currencyConverter,
+      conversionRates,
+      isConversionLoading
+    } = this.props.appState;
 
     /**
      * TODO: Dynamic suggested rates using user's previous info
      */
     const currencyRates = [
       {
-        foreignAmount: 5,
-        foreignCurrency,
-        nativeAmount: currencyConverter({
+        nativeAmount: 5,
+        nativeCurrency,
+        foreignAmount: currencyConverter({
           amount: 5,
-          from: this.state.foreignCurrency,
-          to: this.state.nativeCurrency
+          from: this.state.nativeCurrency,
+          to: this.state.foreignCurrency
         }),
-        nativeCurrency
+        foreignCurrency
       },
       {
-        foreignAmount: 10,
-        foreignCurrency,
-        nativeAmount: currencyConverter({
+        nativeAmount: 10,
+        nativeCurrency,
+        foreignAmount: currencyConverter({
           amount: 10,
-          from: this.state.foreignCurrency,
-          to: this.state.nativeCurrency
+          from: this.state.nativeCurrency,
+          to: this.state.foreignCurrency
         }),
-        nativeCurrency
+        foreignCurrency
       },
       {
-        foreignAmount: 22,
-        foreignCurrency,
-        nativeAmount: currencyConverter({
+        nativeAmount: 22,
+        nativeCurrency,
+        foreignAmount: currencyConverter({
           amount: 22,
-          from: this.state.foreignCurrency,
-          to: this.state.nativeCurrency
+          from: this.state.nativeCurrency,
+          to: this.state.foreignCurrency
         }),
-        nativeCurrency
+        foreignCurrency
       },
       {
-        foreignAmount: 50,
-        foreignCurrency,
-        nativeAmount: currencyConverter({
+        nativeAmount: 50,
+        nativeCurrency,
+        foreignAmount: currencyConverter({
           amount: 50,
-          from: this.state.foreignCurrency,
-          to: this.state.nativeCurrency
+          from: this.state.nativeCurrency,
+          to: this.state.foreignCurrency
         }),
-        nativeCurrency
+        foreignCurrency
       },
       {
-        foreignAmount: 130,
-        foreignCurrency,
-        nativeAmount: currencyConverter({
+        nativeAmount: 130,
+        nativeCurrency,
+        foreignAmount: currencyConverter({
           amount: 130,
-          from: this.state.foreignCurrency,
-          to: this.state.nativeCurrency
+          from: this.state.nativeCurrency,
+          to: this.state.foreignCurrency
         }),
-        nativeCurrency
+        foreignCurrency
       }
     ];
 
@@ -263,7 +265,10 @@ class CurrencyConverter extends Component {
       <CurrencySelector
         currenciesList={currencies}
         key={0}
-        isVisible={this.state.isSelectorActive}
+        nativeCurrency={nativeCurrency}
+        foreignCurrency={foreignCurrency}
+        isVisible={!!this.state.isSelectorActive}
+        mode={this.state.isSelectorActive}
         onClose={this.closeSelector}
         selectCurrency={currency => {
           if (this.state.isSelectorActive === "foreign") {
@@ -279,6 +284,7 @@ class CurrencyConverter extends Component {
         style={styles.container}
       >
         <View style={styles.container}>
+          <LineProgressBar isVisible={isConversionLoading} />
           {!this.state.foreignAmount
             ? currencyRates.map((currency, index) => {
                 return (

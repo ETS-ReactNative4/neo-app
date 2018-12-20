@@ -5,7 +5,8 @@ import {
   StyleSheet,
   Keyboard,
   Platform,
-  ToastAndroid
+  ToastAndroid,
+  Image
 } from "react-native";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import constants from "../../constants/constants";
@@ -20,18 +21,18 @@ import apiCall from "../../Services/networkRequests/apiCall";
 import Loader from "../../CommonComponents/Loader/Loader";
 import registerToken from "../../Services/registerToken/registerToken";
 import MobileNumberInput from "./Components/MobileNumberInput";
-import SmsListener from "react-native-android-sms-listener";
 import { inject, observer } from "mobx-react/custom";
-import getSmsPermissionAndroid from "../../Services/getSmsPermissionAndroid/getSmsPermissionAndroid";
-import { NavigationActions, StackActions } from "react-navigation";
 import KeyboardAvoidingActionBar from "../../CommonComponents/KeyboardAvoidingActionBar/KeyboardAvoidingActionBar";
 import { recordEvent } from "../../Services/analytics/analyticsService";
+import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
+import { toastCenter } from "../../Services/toast/toast";
 
 // const resetToBookings = StackActions.reset({
 //   index: 0,
 //   actions: [NavigationActions.navigate({ routeName: "YourBookings" })]
 // });
 
+@ErrorBoundary()
 @inject("yourBookingsStore")
 @inject("userStore")
 @inject("infoStore")
@@ -104,7 +105,6 @@ class MobileNumber extends Component {
   };
 
   verifyOtp = () => {
-    Keyboard.dismiss();
     const requestBody = {
       mob_num: this.state.mobileNumber,
       ccode: this.state.countryCode,
@@ -119,34 +119,31 @@ class MobileNumber extends Component {
     const { getUserDetails } = userStore;
     const { setError } = infoStore;
     apiCall(constants.verifyOtp, requestBody)
-      .then(async response => {
-        this.setState({
-          isLoading: false
-        });
-        if (response.status === "VERIFIED") {
-          this.smsListener.remove ? this.smsListener.remove() : () => null;
-          clearInterval(this.waitListener);
-          await registerToken(response.data.authtoken);
-          recordEvent(constants.userLoggedInEvent);
-          getUpcomingItineraries();
-          getUserDetails();
-          navigation.navigate("YourBookings");
-        } else {
-          recordEvent(constants.mobileNumberOtpFailed);
-          if (Platform.OS === "ios") {
-            setError("OTP Verification Failed!", response.msg);
+      .then(response => {
+        setTimeout(async () => {
+          Keyboard.dismiss();
+          if (response.status === "VERIFIED") {
+            this.smsListener.remove ? this.smsListener.remove() : () => null;
+            clearInterval(this.waitListener);
+            await registerToken(response.data.authtoken);
+            recordEvent(constants.userLoggedInEvent);
+            getUpcomingItineraries();
+            getUserDetails();
+            navigation.navigate("YourBookings");
           } else {
-            ToastAndroid.show(
-              response.msg || "OTP Verification Failed!",
-              ToastAndroid.SHORT
-            );
+            this.setState({
+              isLoading: false
+            });
+            recordEvent(constants.mobileNumberOtpFailed);
+            toastCenter(response.msg || "OTP Verification Failed!");
+            this.setState({
+              otp: new Array(6).fill("")
+            });
           }
-          this.setState({
-            otp: new Array(6).fill("")
-          });
-        }
+        }, 1500);
       })
       .catch(error => {
+        Keyboard.dismiss();
         this.setState({
           isLoading: false
         });
@@ -181,14 +178,7 @@ class MobileNumber extends Component {
               otpId: response.data.otp_id
             },
             () => {
-              if (Platform.OS === "ios") {
-                setInfo("OTP Sent", response.msg);
-              } else {
-                ToastAndroid.show(
-                  response.msg || "OTP Sent",
-                  ToastAndroid.SHORT
-                );
-              }
+              toastCenter(response.msg || "OTP Sent");
               this.waitListener = setInterval(this.waitCounter, 1000);
             }
           );
@@ -225,22 +215,25 @@ class MobileNumber extends Component {
     }
   };
 
-  otpPrefiller = message => {
-    if (message.originatingAddress.indexOf("PYTBRK") > -1) {
-      const otp = message.body.substr(0, 6).split("");
-      recordEvent(constants.mobileNumberOtpAutoFill);
-      this.setState(
-        {
-          otp
-        },
-        () => {
-          setTimeout(() => {
-            this.verifyOtp();
-          }, 1000);
-        }
-      );
-    }
-  };
+  /**
+   * SMS listener for android is Removed hence otp prefiller won't work
+   */
+  // otpPrefiller = message => {
+  //   if (message.originatingAddress.indexOf("PYTBRK") > -1) {
+  //     const otp = message.body.substr(0, 6).split("");
+  //     recordEvent(constants.mobileNumberOtpAutoFill);
+  //     this.setState(
+  //       {
+  //         otp
+  //       },
+  //       () => {
+  //         setTimeout(() => {
+  //           this.verifyOtp();
+  //         }, 1000);
+  //       }
+  //     );
+  //   }
+  // };
 
   showCountryCodeModal = () => {
     recordEvent(constants.mobileNumberOpenCountryCode);
@@ -262,31 +255,15 @@ class MobileNumber extends Component {
   }
 
   submitMobileNumber = () => {
-    const sendMobileNumber = () => {
-      if (this.state.mobileNumber.length < 10) {
-        this.setState({
-          hasError: true
-        });
-      } else {
-        this.setState({
-          hasError: false
-        });
-        this.sendOtp();
-      }
-    };
-
-    if (Platform.OS === "android") {
-      getSmsPermissionAndroid(
-        () => {
-          this.smsListener = SmsListener.addListener(this.otpPrefiller);
-          sendMobileNumber();
-        },
-        () => {
-          sendMobileNumber();
-        }
-      );
+    if (this.state.mobileNumber.length < 10) {
+      this.setState({
+        hasError: true
+      });
     } else {
-      sendMobileNumber();
+      this.setState({
+        hasError: false
+      });
+      this.sendOtp();
     }
   };
 
@@ -331,6 +308,14 @@ class MobileNumber extends Component {
 
         {this.state.isUnregisteredNumber ? <UnregisteredNumber /> : null}
 
+        {!this.state.isMobileVerified && this.state.isLoading ? (
+          <Image
+            resizeMode={"contain"}
+            source={constants.loadingIcon}
+            style={styles.numberVerificationLoadingIcon}
+          />
+        ) : null}
+
         {this.state.isMobileVerified ? (
           <OtpInput
             otp={this.state.otp}
@@ -356,13 +341,14 @@ class MobileNumber extends Component {
             verifyOtp={this.verifyOtp}
             isWaiting={this.state.isWaiting}
             waitTime={this.state.waitTime}
+            isLoading={this.state.isLoading}
           />
         ) : (
           <NextBar onClickNext={this.submitMobileNumber} />
         )}
-      </KeyboardAvoidingActionBar>,
+      </KeyboardAvoidingActionBar>
 
-      <Loader isVisible={this.state.isLoading} key={3} />
+      //<Loader isVisible={this.state.isLoading} key={3} />
     ];
   }
 }
@@ -402,6 +388,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     borderTopWidth: 0
+  },
+  numberVerificationLoadingIcon: {
+    height: 40,
+    width: 40,
+    alignSelf: "center",
+    marginTop: 16
   }
 });
 

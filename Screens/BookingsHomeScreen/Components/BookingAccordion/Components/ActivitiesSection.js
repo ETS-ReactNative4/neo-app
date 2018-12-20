@@ -63,7 +63,7 @@ const Activities = ({ activity, isLast, navigation }) => {
         .catch(err => {
           logError(err);
         });
-    } else if (activity.voucher.booked || activity.voucher.self) {
+    } else if (activity.voucher.booked || activity.free) {
       recordEvent(constants.bookingsHomeAccordionActivitiesVoucherClick);
       navigation.navigate("ActivityVoucher", { activity });
     } else {
@@ -113,7 +113,7 @@ const Activities = ({ activity, isLast, navigation }) => {
         </View>
       </View>
       <SectionRightPlaceHolder
-        isProcessing={!(activity.voucher.booked || activity.voucher.self)}
+        isProcessing={!(activity.voucher.booked || activity.free)}
       />
     </TouchableOpacity>
   );

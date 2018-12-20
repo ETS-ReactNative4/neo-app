@@ -4,7 +4,9 @@ import CommonHeader from "../../../CommonComponents/CommonHeader/CommonHeader";
 import constants from "../../../constants/constants";
 import Icon from "../../../CommonComponents/Icon/Icon";
 import SimpleButton from "../../../CommonComponents/SimpleButton/SimpleButton";
+import ErrorBoundary from "../../../CommonComponents/ErrorBoundary/ErrorBoundary";
 
+@ErrorBoundary()
 class PassVoucher extends Component {
   static navigationOptions = ({ navigation }) => {
     return {

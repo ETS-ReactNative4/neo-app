@@ -15,7 +15,7 @@ class SupportStore {
   _faqDetails = {};
   @persist("object")
   @observable
-  _conversations = [];
+  _conversations = {};
   @persist("object")
   @observable
   _messages = {};
@@ -30,7 +30,7 @@ class SupportStore {
     this._isMessagesLoading = false;
     this._faqDetails = {};
     this._messages = {};
-    this._conversations = [];
+    this._conversations = {};
   };
 
   @computed
@@ -53,17 +53,38 @@ class SupportStore {
     return toJS(this._conversations);
   }
 
+  getConversationsByItineraryId = createTransformer(itineraryId => {
+    try {
+      const conversations = toJS(this._conversations[itineraryId]);
+      if (conversations) {
+        return conversations;
+      } else {
+        return [];
+      }
+    } catch (e) {
+      logError(e);
+      return [];
+    }
+  });
+
   @action
   loadConversation = () => {
     this._isConversationLoading = true;
-    apiCall(constants.retrieveTickets, {}, "GET")
+    const itineraryId = storeService.itineraries.selectedItineraryId;
+    apiCall(
+      `${constants.retrieveTickets}?itineraryId=${itineraryId}`,
+      {},
+      "GET"
+    )
       .then(response => {
         setTimeout(() => {
           this._isConversationLoading = false;
         }, 1000);
         if (response.status === "SUCCESS") {
           this._hasError = false;
-          this._conversations = response.data;
+          const conversations = toJS(this._conversations);
+          conversations[itineraryId] = response.data;
+          this._conversations = conversations;
         } else {
           this._hasError = true;
         }

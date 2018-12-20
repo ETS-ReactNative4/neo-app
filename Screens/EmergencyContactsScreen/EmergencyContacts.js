@@ -1,12 +1,14 @@
 import React, { Component } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
 import constants from "../../constants/constants";
 import ScrollableTabView from "react-native-scrollable-tab-view";
 import ScrollableTabBar from "../../CommonComponents/ScrollableTabBar/ScrollableTabBar";
 import EmergencyContactSection from "./Components/EmergencyContactSection";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import { inject, observer } from "mobx-react/custom";
+import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 
+@ErrorBoundary()
 @inject("itineraries")
 @inject("emergencyContactsStore")
 @observer
@@ -38,13 +40,16 @@ class EmergencyContacts extends Component {
           prerenderingSiblingsNumber={Infinity}
           renderTabBar={() => <ScrollableTabBar />}
         >
-          {cityDetails.map((cityContactDetails, cityDetailIndex) => (
-            <EmergencyContactSection
-              key={cityDetailIndex}
-              cityContactDetails={cityContactDetails}
-              tabLabel={cityContactDetails.name.toUpperCase()}
-            />
-          ))}
+          {cityDetails.map(
+            (cityContactDetails, cityDetailIndex) =>
+              cityContactDetails ? (
+                <EmergencyContactSection
+                  key={cityDetailIndex}
+                  cityContactDetails={cityContactDetails}
+                  tabLabel={cityContactDetails.name.toUpperCase()}
+                />
+              ) : null
+          )}
         </ScrollableTabView>
       </View>
     );

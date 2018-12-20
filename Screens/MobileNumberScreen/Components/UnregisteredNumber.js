@@ -1,15 +1,16 @@
 import React from "react";
 import { View, StyleSheet, Text, Image } from "react-native";
 import constants from "../../../constants/constants";
+import Icon from "../../../CommonComponents/Icon/Icon";
 
 const UnregisteredNumber = () => {
   return (
     <View style={styles.container}>
-      <Image style={styles.icon} source={constants.notificationIcon} />
+      <Icon size={24} color={constants.black2} name={constants.infoIcon} />
       <View style={styles.errorTextWrapper}>
-        <Text
-          style={styles.errorText}
-        >{`No active bookings linked with this number. If someone else has made this booking, you need an invite from them to access it.`}</Text>
+        <Text style={styles.errorText}>
+          {constants.mobileNumberScreenText.unregisteredNumberText}
+        </Text>
       </View>
     </View>
   );
@@ -21,19 +22,15 @@ const styles = StyleSheet.create({
     marginHorizontal: 24,
     marginTop: 24
   },
-  icon: {
-    height: 24,
-    width: 24,
-    marginRight: 8,
-    marginTop: 8
-  },
   errorTextWrapper: {
-    flexWrap: "wrap"
+    flexWrap: "wrap",
+    marginLeft: 8
   },
   errorText: {
     fontFamily: constants.primaryLight,
     fontSize: 12,
-    lineHeight: 16
+    lineHeight: 16,
+    color: constants.black2
   }
 });
 

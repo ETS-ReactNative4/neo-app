@@ -4,6 +4,7 @@ import { persist } from "mobx-persist";
 import apiCall from "../Services/networkRequests/apiCall";
 import constants from "../constants/constants";
 import { logError } from "../Services/errorLogger/errorLogger";
+import { LayoutAnimation, Platform } from "react-native";
 
 class Places {
   @observable _selectedCity = {};
@@ -28,6 +29,14 @@ class Places {
     this._selectedPlace = "";
     this._isLoading = false;
     this._hasError = false;
+  };
+
+  @action
+  clearCache = () => {
+    this._textSearches = {};
+    this._locationSearches = {};
+    this._placesList = {};
+    this._selectedPlace = "";
   };
 
   @computed
@@ -299,6 +308,11 @@ class Places {
   };
 
   @action
+  refreshCity = city => {
+    this._loadCityCategoryFromAPI(city.cityObject.cityId);
+  };
+
+  @action
   loadCityCategory = cityId => {
     if (!this._cityCategories[cityId]) this._loadCityCategoryFromAPI(cityId);
   };
@@ -313,6 +327,11 @@ class Places {
           this._hasError = false;
           const cityCategories = toJS(this._cityCategories);
           cityCategories[cityId] = response.data;
+          if (Platform.OS === "ios") {
+            LayoutAnimation.configureNext(
+              LayoutAnimation.Presets.easeInEaseOut
+            );
+          }
           this._cityCategories = cityCategories;
           // set(this._cityCategories, `${cityId}`, response.data);
         } else {

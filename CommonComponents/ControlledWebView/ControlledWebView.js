@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
-import CustomWebView from "react-native-webview-android-file-upload";
+import { WebView } from "react-native-webview";
 import PropTypes from "prop-types";
 import forbidExtraProps from "../../Services/PropTypeValidation/forbidExtraProps";
 import PackageInfo from "../../package.json";
@@ -17,7 +17,7 @@ const ControlledWebView = ({
   hideLoadingIndicator
 }) => {
   return [
-    <CustomWebView
+    <WebView
       key={0}
       source={source}
       startInLoadingState={hideLoadingIndicator ? false : true}

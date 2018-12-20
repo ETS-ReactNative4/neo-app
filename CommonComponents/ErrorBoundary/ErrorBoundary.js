@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { logError } from "../../Services/errorLogger/errorLogger";
-import { View } from "react-native";
+import CrashScreen from "../CrashScreen/CrashScreen";
 
-const ErrorBoundary = WrappedComponent => {
+const ErrorBoundary = ({ isRoot } = {}) => WrappedComponent => {
   return class extends Component {
     static navigationOptions = WrappedComponent.navigationOptions;
 
@@ -21,7 +21,9 @@ const ErrorBoundary = WrappedComponent => {
 
     render() {
       if (this.state.isCrashed) {
-        return <View style={{ flex: 1, backgroundColor: "red" }} />;
+        return (
+          <CrashScreen isRoot={isRoot} navigation={this.props.navigation} />
+        );
       }
       return <WrappedComponent {...this.props} />;
     }

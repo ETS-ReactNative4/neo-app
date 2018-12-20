@@ -22,10 +22,9 @@ const SimpleActivity = ({
   icon,
   onClick,
   isImageContain,
-  containerStyle,
+  containerStyle = {},
   defaultImageUri
 }) => {
-  if (!containerStyle) containerStyle = {};
   return (
     <TouchableOpacity activeOpacity={0.2} onPress={onClick}>
       <View style={[styles.activityContainer, containerStyle]}>

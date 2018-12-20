@@ -5,6 +5,7 @@ import apiCall from "../Services/networkRequests/apiCall";
 import constants from "../constants/constants";
 import storeService from "../Services/storeService/storeService";
 import { logError } from "../Services/errorLogger/errorLogger";
+import getTitleCase from "../Services/getTitleCase/getTitleCase";
 
 class PassportDetails {
   @observable _isLoading = false;
@@ -36,7 +37,7 @@ class PassportDetails {
       const itineraryId = storeService.itineraries.selectedItineraryId;
       const { leadPassengerDetail } = this._passportDetails[itineraryId];
       const { firstName, lastName } = leadPassengerDetail;
-      return `${firstName} ${lastName}`;
+      return getTitleCase(`${firstName} ${lastName}`);
     } catch (e) {
       logError(e);
       return "";
@@ -80,10 +81,14 @@ class PassportDetails {
   _getPassportDetailsByItinerary = createTransformer(itineraryId => {
     try {
       const passportDetails = toJS(this._passportDetails[itineraryId]);
-      return [
-        passportDetails.leadPassengerDetail,
-        ...passportDetails.otherPassengerDetailList
-      ];
+      if (passportDetails && passportDetails.leadPassengerDetail) {
+        return [
+          passportDetails.leadPassengerDetail,
+          ...passportDetails.otherPassengerDetailList
+        ];
+      } else {
+        return [];
+      }
     } catch (e) {
       logError(e);
       return [];
