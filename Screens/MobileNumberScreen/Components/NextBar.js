@@ -10,19 +10,19 @@ const NextBar = ({ onClickNext }) => {
   return (
     <SimpleButton
       containerStyle={{
-        height: 24,
-        width: 52,
-        alignSelf: "flex-end",
-        marginHorizontal: 24
+        height: 40,
+        width: 160,
+        marginRight: 24,
+        alignSelf: "flex-end"
       }}
       text={"next"}
       action={() => {
         recordEvent(constants.mobileNumberNextClick);
         onClickNext();
       }}
-      textColor={constants.firstColor}
-      underlayColor={"transparent"}
-      color={"transparent"}
+      textColor={"white"}
+      underlayColor={constants.firstColorAlpha(0.3)}
+      color={constants.firstColor}
     />
   );
 };

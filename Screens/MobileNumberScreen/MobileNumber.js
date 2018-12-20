@@ -4,13 +4,11 @@ import {
   Text,
   StyleSheet,
   Keyboard,
-  Platform,
-  ToastAndroid,
-  Image
+  ActivityIndicator,
+  BackHandler
 } from "react-native";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import constants from "../../constants/constants";
-import { isIphoneX } from "react-native-iphone-x-helper";
 import OtpInput from "../../CommonComponents/OtpInput/OtpInput";
 import NextBar from "./Components/NextBar";
 import OtpBar from "./Components/OtpBar";
@@ -18,7 +16,6 @@ import YourBookings from "../YourBookingsScreen/YourBookings";
 import CountryCodePicker from "./Components/CountryCodePicker";
 import UnregisteredNumber from "./Components/UnregisteredNumber";
 import apiCall from "../../Services/networkRequests/apiCall";
-import Loader from "../../CommonComponents/Loader/Loader";
 import registerToken from "../../Services/registerToken/registerToken";
 import MobileNumberInput from "./Components/MobileNumberInput";
 import { inject, observer } from "mobx-react/custom";
@@ -27,10 +24,7 @@ import { recordEvent } from "../../Services/analytics/analyticsService";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import { toastCenter } from "../../Services/toast/toast";
 
-// const resetToBookings = StackActions.reset({
-//   index: 0,
-//   actions: [NavigationActions.navigate({ routeName: "YourBookings" })]
-// });
+let MobileNumberComponentInstance;
 
 @ErrorBoundary()
 @inject("yourBookingsStore")
@@ -43,12 +37,7 @@ class MobileNumber extends Component {
       header: (
         <CommonHeader
           title={""}
-          leftAction={() => {
-            Keyboard.dismiss();
-            setTimeout(() => {
-              navigation.goBack();
-            }, 250);
-          }}
+          leftAction={() => MobileNumberComponentInstance.onBackButtonPress()}
           navigation={navigation}
         />
       )
@@ -61,7 +50,6 @@ class MobileNumber extends Component {
     mobileNumber: "",
     otp: new Array(6).fill(""),
     otpId: "",
-    password: "",
     isCountryCodeModalVisible: false,
     isMobileVerified: false,
     isUnregisteredNumber: false,
@@ -71,8 +59,12 @@ class MobileNumber extends Component {
     isWaiting: false
   };
   waitListener = {};
-  smsListener = {};
   _mobileInputRef = React.createRef();
+
+  constructor() {
+    super();
+    MobileNumberComponentInstance = this;
+  }
 
   selectCountryCode = countryCode => {
     recordEvent(constants.mobileNumberSelectCountryCode);
@@ -94,14 +86,34 @@ class MobileNumber extends Component {
     }
   };
 
+  onBackButtonPress = () => {
+    if (this.props.navigation.isFocused()) {
+      if (this.state.isMobileVerified) {
+        this.setState(
+          {
+            isMobileVerified: false,
+            otp: new Array(6).fill("")
+          },
+          () => {
+            this._mobileInputRef.focus && this._mobileInputRef.focus();
+          }
+        );
+      } else {
+        Keyboard.dismiss();
+        setTimeout(() => {
+          this.props.navigation.goBack();
+        }, 250);
+      }
+      return true;
+    } else {
+      return false;
+    }
+  };
+
   editOtp = (value, index) => {
     const otp = [...this.state.otp];
     otp[index] = value;
     this.setState({ otp });
-  };
-
-  editPassword = password => {
-    this.setState({ password });
   };
 
   verifyOtp = () => {
@@ -123,7 +135,6 @@ class MobileNumber extends Component {
         setTimeout(async () => {
           Keyboard.dismiss();
           if (response.status === "VERIFIED") {
-            this.smsListener.remove ? this.smsListener.remove() : () => null;
             clearInterval(this.waitListener);
             await registerToken(response.data.authtoken);
             recordEvent(constants.userLoggedInEvent);
@@ -152,7 +163,6 @@ class MobileNumber extends Component {
   };
 
   resendOtp = () => {
-    this.smsListener.remove ? this.smsListener.remove() : () => null;
     this.sendOtp();
   };
 
@@ -250,7 +260,10 @@ class MobileNumber extends Component {
   };
 
   componentWillUnmount() {
-    this.smsListener.remove ? this.smsListener.remove() : () => null;
+    BackHandler.removeEventListener(
+      "hardwareBackPress",
+      this.onBackButtonPress
+    );
     clearInterval(this.waitListener);
   }
 
@@ -268,9 +281,7 @@ class MobileNumber extends Component {
   };
 
   componentDidMount() {
-    // setTimeout(() => {
-    //   this._mobileInputRef.focus && this._mobileInputRef.focus();
-    // }, 250);
+    BackHandler.addEventListener("hardwareBackPress", this.onBackButtonPress);
   }
 
   render() {
@@ -309,11 +320,9 @@ class MobileNumber extends Component {
         {this.state.isUnregisteredNumber ? <UnregisteredNumber /> : null}
 
         {!this.state.isMobileVerified && this.state.isLoading ? (
-          <Image
-            resizeMode={"contain"}
-            source={constants.loadingIcon}
-            style={styles.numberVerificationLoadingIcon}
-          />
+          <View style={styles.numberVerificationLoadingContainer}>
+            <ActivityIndicator size="large" color={constants.firstColor} />
+          </View>
         ) : null}
 
         {this.state.isMobileVerified ? (
@@ -326,12 +335,11 @@ class MobileNumber extends Component {
       </View>,
 
       <KeyboardAvoidingActionBar
-        containerStyle={
-          isMobileVerified ? styles.otpBottomBar : styles.nextBottomBar
-        }
-        xSensorPlaceholderColor={
-          isMobileVerified ? "white" : "rgba(239,249,242,1)"
-        }
+        containerStyle={[
+          styles.otpBottomBar,
+          isMobileVerified ? { flexDirection: "row" } : {}
+        ]}
+        xSensorPlaceholderColor={"white"}
         navigation={this.props.navigation}
         key={2}
       >
@@ -384,14 +392,11 @@ const styles = StyleSheet.create({
   otpBottomBar: {
     backgroundColor: "white",
     height: 56,
-    flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
     borderTopWidth: 0
   },
-  numberVerificationLoadingIcon: {
-    height: 40,
-    width: 40,
+  numberVerificationLoadingContainer: {
     alignSelf: "center",
     marginTop: 16
   }

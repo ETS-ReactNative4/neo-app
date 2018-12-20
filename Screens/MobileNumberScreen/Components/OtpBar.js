@@ -48,7 +48,7 @@ const OtpBar = ({ resendOtp, verifyOtp, isWaiting, waitTime, isLoading }) => {
         }
       }}
       textColor={isLoading ? constants.firstColor : "white"}
-      underlayColor={constants.firstColorAlpha(0.4)}
+      underlayColor={isLoading ? "transparent" : constants.firstColorAlpha(0.4)}
       color={isLoading ? "white" : constants.firstColor}
     />
   ];
