@@ -1,10 +1,10 @@
 import React from "react";
 import CircleThumbnail from "../../../../../../CommonComponents/CircleThumbnail/CircleThumbnail";
 import constants from "../../../../../../constants/constants";
-import SectionRightPlaceHolder from "./SectionRightPlaceHolder";
 import { Text, TouchableOpacity, View, StyleSheet } from "react-native";
 import { responsiveWidth } from "react-native-responsive-dimensions";
 import PropTypes from "prop-types";
+import Icon from "../../../../../../CommonComponents/Icon/Icon";
 
 const BookingSectionComponent = ({
   onClick,
@@ -25,12 +25,20 @@ const BookingSectionComponent = ({
       style={[styles.contentContainer, containerStyle]}
     >
       <View style={styles.iconWrapper}>
-        <CircleThumbnail
-          image={sectionImage}
-          containerStyle={styles.contentIcon}
-          isContain={isImageContain}
-          defaultImageUri={defaultImageUri}
-        />
+        {isProcessing ? (
+          <Icon
+            name={constants.bookingProcessingIcon}
+            size={30}
+            color={constants.eighthColor}
+          />
+        ) : (
+          <CircleThumbnail
+            image={sectionImage}
+            containerStyle={styles.contentIcon}
+            isContain={isImageContain}
+            defaultImageUri={defaultImageUri}
+          />
+        )}
       </View>
       <View style={styles.contentTextContainer}>
         {!hideTitle ? (
@@ -54,7 +62,6 @@ const BookingSectionComponent = ({
           </Text>
         </View>
       </View>
-      <SectionRightPlaceHolder isProcessing={isProcessing} />
     </TouchableOpacity>
   );
 };
@@ -74,6 +81,8 @@ BookingSectionComponent.propTypes = {
   hideTitle: PropTypes.bool
 };
 
+const maxTextAreaWidth = responsiveWidth(100) - 48 - 40 - 16;
+
 const styles = StyleSheet.create({
   contentContainer: {
     paddingTop: 16,
@@ -85,7 +94,9 @@ const styles = StyleSheet.create({
     overflow: "hidden",
     height: 40,
     width: 40,
-    borderRadius: 20
+    borderRadius: 20,
+    alignItems: "center",
+    justifyContent: "center"
   },
   contentIcon: {
     height: 40,
@@ -99,23 +110,25 @@ const styles = StyleSheet.create({
   },
   contentHeaderWrapper: {
     minHeight: 16,
-    justifyContent: "center"
+    justifyContent: "center",
+    maxWidth: maxTextAreaWidth
   },
   contentHeader: {
     fontFamily: constants.primaryLight,
     fontSize: 14,
     lineHeight: 16,
-    color: constants.shade2
+    color: constants.shade2,
+    maxWidth: maxTextAreaWidth
   },
   contentTextWrapper: {
     minHeight: 24,
-    maxWidth: responsiveWidth(60),
+    maxWidth: maxTextAreaWidth,
     justifyContent: "center"
   },
   contentText: {
     fontFamily: constants.primaryLight,
     fontSize: 17,
-    maxWidth: responsiveWidth(60)
+    maxWidth: maxTextAreaWidth
   }
 });
 
