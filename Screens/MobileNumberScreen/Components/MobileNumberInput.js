@@ -51,7 +51,7 @@ const MobileNumberInput = ({
         <TextInput
           ref={e => mobileInputRef(e)}
           onChangeText={editMobileNumber}
-          placeholder={"1234567890"}
+          placeholder={"9888888888"}
           value={mobileNumber}
           placeholderTextColor={constants.shade5}
           style={styles.numberInput}
@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 24,
     height: 48,
     borderBottomColor: constants.shade3,
-    borderBottomWidth: 1,
+    borderBottomWidth: StyleSheet.hairlineWidth,
     flexDirection: "row",
     justifyContent: "center"
   },

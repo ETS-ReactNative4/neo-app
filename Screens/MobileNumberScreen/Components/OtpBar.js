@@ -11,35 +11,14 @@ import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraPr
 import { recordEvent } from "../../../Services/analytics/analyticsService";
 
 const OtpBar = ({ resendOtp, verifyOtp, isWaiting, waitTime, isLoading }) => {
-  return [
+  return (
     <SimpleButton
       containerStyle={{
         height: 40,
         width: 160,
-        marginRight: 8,
-        borderWidth: 0.5
+        marginRight: 24,
+        alignSelf: "flex-end"
       }}
-      key={0}
-      text={isWaiting ? `ResendOtp (${waitTime}s)` : "ResendOtp"}
-      hasBorder={true}
-      action={
-        isWaiting
-          ? () => {}
-          : () => {
-              recordEvent(constants.mobileNumberResendOtp);
-              resendOtp();
-            }
-      }
-      textColor={isWaiting ? constants.shade5 : constants.black2}
-      underlayColor={constants.shade4}
-      color={"white"}
-    />,
-    <SimpleButton
-      containerStyle={{
-        height: 40,
-        width: 160
-      }}
-      key={1}
       text={isLoading ? "Verifying..." : "Verify"}
       action={() => {
         if (!isLoading) {
@@ -51,7 +30,7 @@ const OtpBar = ({ resendOtp, verifyOtp, isWaiting, waitTime, isLoading }) => {
       underlayColor={isLoading ? "transparent" : constants.firstColorAlpha(0.4)}
       color={isLoading ? "white" : constants.firstColor}
     />
-  ];
+  );
 };
 
 OtpBar.propTypes = forbidExtraProps({
