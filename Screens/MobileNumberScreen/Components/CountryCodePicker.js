@@ -13,6 +13,7 @@ import CountryData from "country-data";
 import constants from "../../../constants/constants";
 import SimpleButton from "../../../CommonComponents/SimpleButton/SimpleButton";
 import PropTypes from "prop-types";
+import _ from "lodash";
 import SearchInput from "../../../CommonComponents/SearchInput/SearchInput";
 import SectionHeader from "../../../CommonComponents/SectionHeader/SectionHeader";
 
@@ -25,7 +26,7 @@ const countriesList = [
   },
   {
     title: "All Countries",
-    data: CountryData.countries.all
+    data: _.orderBy(CountryData.countries.all, "name", "asc")
   }
 ];
 
@@ -53,27 +54,35 @@ class CountryCodePicker extends Component {
       countriesToDisplay: [
         {
           title: "Default",
-          data: CountryData.countries.all.filter(
-            each => each.alpha2 === "US" || each.alpha2 === "IN"
-          )
+          data: this.state.search
+            ? []
+            : CountryData.countries.all.filter(
+                each => each.alpha2 === "US" || each.alpha2 === "IN"
+              )
         },
         {
           title: "All Countries",
-          data: CountryData.countries.all.filter(country => {
-            const name = country.name.replace(/ /g, "").toUpperCase();
-            const countryCode = country.alpha2.replace(/ /g, "").toUpperCase();
-            const searchQuery = this.state.search
-              .replace(/ /g, "")
-              .toUpperCase();
+          data: _.orderBy(
+            CountryData.countries.all.filter(country => {
+              const name = country.name.replace(/ /g, "").toUpperCase();
+              const countryCode = country.alpha2
+                .replace(/ /g, "")
+                .toUpperCase();
+              const searchQuery = this.state.search
+                .replace(/ /g, "")
+                .toUpperCase();
 
-            if (
-              name.includes(searchQuery) ||
-              countryCode.includes(searchQuery)
-            ) {
-              return true;
-            }
-            return false;
-          })
+              if (
+                name.includes(searchQuery) ||
+                countryCode.includes(searchQuery)
+              ) {
+                return true;
+              }
+              return false;
+            }),
+            "name",
+            "asc"
+          )
         }
       ]
     });
@@ -134,10 +143,10 @@ class CountryCodePicker extends Component {
         style={styles.countryCodeTouchable}
       >
         <View style={styles.countryCodeItem}>
-          <Text style={styles.countryCode}>{`${item.alpha2}`}</Text>
           <Text style={styles.countryName}>{`${item.name} (${
             item.countryCallingCodes[0]
           })`}</Text>
+          <Text style={styles.countryCode}>{`${item.alpha2}`}</Text>
         </View>
       </TouchableHighlight>
     );
@@ -211,15 +220,14 @@ const styles = StyleSheet.create({
     flexDirection: "row"
   },
   countryCodeTouchable: {
-    height: 40,
-    borderBottomColor: constants.shade2,
-    borderBottomWidth: 0.5,
+    height: 56,
     justifyContent: "center"
   },
   countryCodeItem: {
     flex: 1,
     flexDirection: "row",
-    alignItems: "center"
+    alignItems: "center",
+    justifyContent: "space-between"
   },
   countryCode: {
     width: 40,
