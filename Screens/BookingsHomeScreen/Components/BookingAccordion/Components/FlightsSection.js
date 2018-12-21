@@ -38,7 +38,7 @@ const Flight = ({ flight, isLast, navigation }) => {
   let customStyle = {};
   if (isLast) {
     customStyle = {
-      borderBottomWidth: StyleSheet.hairlineWidth,
+      // borderBottomWidth: StyleSheet.hairlineWidth,
       paddingBottom: 16
     };
   }
