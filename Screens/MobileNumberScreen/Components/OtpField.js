@@ -37,7 +37,7 @@ const OtpField = ({
       />
       <SimpleButton
         containerStyle={{ width: null }}
-        textStyle={isWaiting ? { width: 120 } : {}}
+        textStyle={isWaiting ? { width: 110, textAlign: "left" } : {}}
         text={isWaiting ? `Resend (${waitTime}s)` : "Resend?"}
         action={() => (isWaiting ? null : resendOtp())}
         textColor={isWaiting ? constants.shade3 : constants.firstColor}

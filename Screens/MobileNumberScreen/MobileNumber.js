@@ -166,7 +166,7 @@ class MobileNumber extends Component {
                 isLoading: false
               });
               recordEvent(constants.mobileNumberOtpFailed);
-              toastCenter(response.msg || "OTP Verification Failed!");
+              toastCenter(response.message || "OTP Verification Failed!");
               this.setState({
                 otpNumber: ""
               });
@@ -212,7 +212,7 @@ class MobileNumber extends Component {
               otpId: response.data.otp_id
             },
             () => {
-              toastCenter(response.msg || "OTP Sent");
+              toastCenter(response.message || "OTP Sent");
               this.waitListener = setInterval(this.waitCounter, 1000);
               this._otpInputRef.focus && this._otpInputRef.focus();
             }
@@ -311,7 +311,7 @@ class MobileNumber extends Component {
   }
 
   render() {
-    const { isMobileVerified } = this.state;
+    const { isMobileVerified, countryCode, mobileNumber } = this.state;
 
     return [
       <CountryCodePicker
@@ -323,13 +323,19 @@ class MobileNumber extends Component {
 
       <View key={1} style={styles.mobileNumberContainer}>
         <View style={styles.headerTextWrapper}>
-          <Text style={styles.headerText}>{`Verify your mobile number.`}</Text>
+          <Text style={styles.headerText}>
+            {isMobileVerified ? `Enter OTP` : `Verify your mobile number.`}
+          </Text>
         </View>
 
         <View style={styles.infoTextWrapper}>
-          <Text
-            style={styles.infoText}
-          >{`So that we can find bookings that are linked to your mobile number.`}</Text>
+          <Text style={styles.infoText}>
+            {isMobileVerified
+              ? countryCode === "+91"
+                ? `Please enter the OTP sent to your mobile (${mobileNumber}) and your registered email address`
+                : `Please enter the OTP sent to your registered email address.`
+              : `So that we can find bookings that are linked to your mobile number.`}
+          </Text>
         </View>
 
         {isMobileVerified ? (
