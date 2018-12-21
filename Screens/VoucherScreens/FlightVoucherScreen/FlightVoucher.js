@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Text, Platform, StyleSheet, StatusBar } from "react-native";
+import { View, Text, Platform, StyleSheet } from "react-native";
 import constants from "../../../constants/constants";
 import VoucherStickyHeader from "../Components/VoucherStickyHeader";
 import VoucherHeader from "../Components/VoucherHeader";
@@ -138,7 +138,6 @@ class FlightVoucher extends Component {
           </VoucherHeader>
         )}
       >
-        <StatusBar backgroundColor="black" barStyle="light-content" />
         <View style={styles.flightVoucherContainer}>
           {tripDetails.map((trip, tripIndex) => {
             return [
