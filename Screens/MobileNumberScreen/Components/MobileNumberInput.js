@@ -135,17 +135,12 @@ const styles = StyleSheet.create({
     flex: 1
   },
   numberInput: {
+    fontFamily: constants.primaryLight,
+    fontSize: 36,
+    textAlign: "justify",
     ...Platform.select({
-      ios: {
-        fontFamily: constants.primaryLight,
-        fontSize: 36,
-        textAlign: "justify"
-      },
       android: {
-        fontFamily: constants.primaryLight,
-        fontSize: 36,
-        height: 56,
-        textAlign: "justify"
+        height: 56
       }
     }),
     color: constants.black2

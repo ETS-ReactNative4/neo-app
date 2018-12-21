@@ -18,13 +18,10 @@ const OtpField = ({
       <TextInput
         ref={e => setOtpInputRef(e)}
         onChangeText={editOtp}
-        placeholder={"Enter OTP"}
+        placeholder={""}
         value={otp}
         placeholderTextColor={constants.shade3}
-        style={[
-          styles.numberInput,
-          otp ? { letterSpacing: Platform.OS === "ios" ? 8 : 4 } : {}
-        ]}
+        style={styles.numberInput}
         keyboardType={"phone-pad"}
         maxLength={6}
         underlineColorAndroid={"transparent"}
@@ -62,13 +59,15 @@ const styles = StyleSheet.create({
   numberInput: {
     flex: 1,
     fontFamily: constants.primaryLight,
+    fontSize: 36,
     textAlign: "justify",
-    fontSize: 24,
     ...Platform.select({
-      ios: {},
-      android: {}
+      android: {
+        height: 56
+      }
     }),
-    color: constants.black1
+    color: constants.black2,
+    letterSpacing: Platform.OS === "ios" ? 8 : 4
   }
 });
 

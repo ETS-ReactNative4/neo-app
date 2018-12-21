@@ -21,7 +21,7 @@ import { inject, observer } from "mobx-react/custom";
 import KeyboardAvoidingActionBar from "../../CommonComponents/KeyboardAvoidingActionBar/KeyboardAvoidingActionBar";
 import { recordEvent } from "../../Services/analytics/analyticsService";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
-import { toastCenter } from "../../Services/toast/toast";
+import { toastTop } from "../../Services/toast/toast";
 import OtpField from "./Components/OtpField";
 
 let MobileNumberComponentInstance;
@@ -102,10 +102,12 @@ class MobileNumber extends Component {
   onBackButtonPress = () => {
     if (this.props.navigation.isFocused()) {
       if (this.state.isMobileVerified) {
+        clearInterval(this.waitListener);
         this.setState(
           {
             isMobileVerified: false,
-            otp: new Array(6).fill("")
+            otp: new Array(6).fill(""),
+            waitTime: 45
           },
           () => {
             this._mobileInputRef.focus && this._mobileInputRef.focus();
@@ -166,7 +168,7 @@ class MobileNumber extends Component {
                 isLoading: false
               });
               recordEvent(constants.mobileNumberOtpFailed);
-              toastCenter(response.message || "OTP Verification Failed!");
+              toastTop(response.message || "OTP Verification Failed!");
               this.setState({
                 otpNumber: ""
               });
@@ -181,7 +183,7 @@ class MobileNumber extends Component {
           setError("Error!", "Internal Server Error.");
         });
     } else {
-      toastCenter("Enter a valid OTP...");
+      toastTop("Enter a valid OTP...");
     }
   };
 
@@ -212,7 +214,7 @@ class MobileNumber extends Component {
               otpId: response.data.otp_id
             },
             () => {
-              toastCenter(response.message || "OTP Sent");
+              toastTop(response.message || "OTP Sent");
               this.waitListener = setInterval(this.waitCounter, 1000);
               this._otpInputRef.focus && this._otpInputRef.focus();
             }
