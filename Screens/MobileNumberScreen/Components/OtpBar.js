@@ -19,7 +19,7 @@ const OtpBar = ({ resendOtp, verifyOtp, isWaiting, waitTime, isLoading }) => {
         marginRight: 24,
         alignSelf: "flex-end"
       }}
-      text={isLoading ? "Verifying..." : "Verify"}
+      text={isLoading ? "Verifying..." : "Verify OTP"}
       action={() => {
         if (!isLoading) {
           recordEvent(constants.mobileNumberVerifyOtp);

@@ -15,7 +15,7 @@ const NextBar = ({ onClickNext }) => {
         marginRight: 24,
         alignSelf: "flex-end"
       }}
-      text={"next"}
+      text={"Request OTP"}
       action={() => {
         recordEvent(constants.mobileNumberNextClick);
         onClickNext();
