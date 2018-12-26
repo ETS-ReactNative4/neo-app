@@ -10,8 +10,9 @@ import SectionRightPlaceHolder from "./Components/SectionRightPlaceHolder";
 import storeService from "../../../../../Services/storeService/storeService";
 import { recordEvent } from "../../../../../Services/analytics/analyticsService";
 import BookingSectionComponent from "./Components/BookingSectionComponent";
+import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidExtraProps";
 
-const FlightsSection = ({ section, navigation }) => {
+const FlightsSection = ({ section, navigation, spinValue }) => {
   return (
     <View>
       {section.items.map((flight, index) => {
@@ -23,6 +24,7 @@ const FlightsSection = ({ section, navigation }) => {
             navigation={navigation}
             flight={flight}
             isLast={isLast}
+            spinValue={spinValue}
           />
         );
       })}
@@ -30,11 +32,14 @@ const FlightsSection = ({ section, navigation }) => {
   );
 };
 
-FlightsSection.propTypes = {
-  section: PropTypes.object.isRequired
-};
+FlightsSection.propTypes = forbidExtraProps({
+  section: PropTypes.object.isRequired,
+  navigation: PropTypes.object.isRequired,
+  spinValue: PropTypes.oneOfType([PropTypes.object, PropTypes.number])
+    .isRequired
+});
 
-const Flight = ({ flight, isLast, navigation }) => {
+const Flight = ({ flight, isLast, navigation, spinValue }) => {
   let customStyle = {};
   if (isLast) {
     customStyle = {
@@ -76,6 +81,7 @@ const Flight = ({ flight, isLast, navigation }) => {
 
   return (
     <BookingSectionComponent
+      spinValue={spinValue}
       containerStyle={customStyle}
       sectionImage={{ uri: airlineLogo }}
       onClick={openVoucher}
@@ -138,10 +144,12 @@ const Flight = ({ flight, isLast, navigation }) => {
   );
 };
 
-Flight.propTypes = {
+Flight.propTypes = forbidExtraProps({
   flight: PropTypes.object.isRequired,
-  isLast: PropTypes.bool.isRequired
-};
+  isLast: PropTypes.bool.isRequired,
+  spinValue: PropTypes.oneOfType([PropTypes.object, PropTypes.number])
+    .isRequired
+});
 
 const styles = StyleSheet.create({
   contentContainer: {

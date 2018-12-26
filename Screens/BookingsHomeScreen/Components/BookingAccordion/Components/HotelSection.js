@@ -10,8 +10,9 @@ import SectionRightPlaceHolder from "./Components/SectionRightPlaceHolder";
 import { recordEvent } from "../../../../../Services/analytics/analyticsService";
 import getTitleCase from "../../../../../Services/getTitleCase/getTitleCase";
 import BookingSectionComponent from "./Components/BookingSectionComponent";
+import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidExtraProps";
 
-const HotelSection = ({ section, navigation }) => {
+const HotelSection = ({ section, navigation, spinValue }) => {
   return (
     <View>
       {section.items.map((hotel, index) => {
@@ -23,6 +24,7 @@ const HotelSection = ({ section, navigation }) => {
             hotel={hotel}
             isLast={isLast}
             navigation={navigation}
+            spinValue={spinValue}
           />
         );
       })}
@@ -30,12 +32,14 @@ const HotelSection = ({ section, navigation }) => {
   );
 };
 
-HotelSection.propTypes = {
+HotelSection.propTypes = forbidExtraProps({
   section: PropTypes.object.isRequired,
-  navigation: PropTypes.object.isRequired
-};
+  navigation: PropTypes.object.isRequired,
+  spinValue: PropTypes.oneOfType([PropTypes.object, PropTypes.number])
+    .isRequired
+});
 
-const Hotel = ({ hotel, isLast, navigation }) => {
+const Hotel = ({ hotel, isLast, navigation, spinValue }) => {
   let customStyle = {};
   if (isLast) {
     customStyle = {
@@ -60,6 +64,7 @@ const Hotel = ({ hotel, isLast, navigation }) => {
 
   return (
     <BookingSectionComponent
+      spinValue={spinValue}
       containerStyle={customStyle}
       isProcessing={!hotel.voucher.booked}
       onClick={openVoucher}
@@ -114,11 +119,13 @@ const Hotel = ({ hotel, isLast, navigation }) => {
   );
 };
 
-Hotel.propTypes = {
+Hotel.propTypes = forbidExtraProps({
   hotel: PropTypes.object.isRequired,
   isLast: PropTypes.bool.isRequired,
-  navigation: PropTypes.object.isRequired
-};
+  navigation: PropTypes.object.isRequired,
+  spinValue: PropTypes.oneOfType([PropTypes.object, PropTypes.number])
+    .isRequired
+});
 
 const styles = StyleSheet.create({
   contentContainer: {

@@ -13,7 +13,7 @@ import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidE
 import { recordEvent } from "../../../../../Services/analytics/analyticsService";
 import BookingSectionComponent from "./Components/BookingSectionComponent";
 
-const TransferSection = ({ section, navigation }) => {
+const TransferSection = ({ section, navigation, spinValue }) => {
   return (
     <View>
       {section.items.map((transfer, index) => {
@@ -25,6 +25,7 @@ const TransferSection = ({ section, navigation }) => {
             navigation={navigation}
             transfer={transfer}
             isLast={isLast}
+            spinValue={spinValue}
           />
         );
       })}
@@ -34,10 +35,12 @@ const TransferSection = ({ section, navigation }) => {
 
 TransferSection.propTypes = forbidExtraProps({
   section: PropTypes.object.isRequired,
-  navigation: PropTypes.object.isRequired
+  navigation: PropTypes.object.isRequired,
+  spinValue: PropTypes.oneOfType([PropTypes.object, PropTypes.number])
+    .isRequired
 });
 
-const Transfer = ({ transfer, isLast, navigation }) => {
+const Transfer = ({ transfer, isLast, navigation, spinValue }) => {
   let customStyle = {};
   if (isLast) {
     customStyle = {
@@ -68,6 +71,7 @@ const Transfer = ({ transfer, isLast, navigation }) => {
 
   return (
     <BookingSectionComponent
+      spinValue={spinValue}
       containerStyle={customStyle}
       sectionImage={{ uri: getTransferImage(vehicle, transferType) }}
       isProcessing={!transfer.voucher.booked}
@@ -120,7 +124,9 @@ const Transfer = ({ transfer, isLast, navigation }) => {
 Transfer.propTypes = forbidExtraProps({
   transfer: PropTypes.object.isRequired,
   isLast: PropTypes.bool.isRequired,
-  navigation: PropTypes.object.isRequired
+  navigation: PropTypes.object.isRequired,
+  spinValue: PropTypes.oneOfType([PropTypes.object, PropTypes.number])
+    .isRequired
 });
 
 const styles = StyleSheet.create({

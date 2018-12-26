@@ -12,7 +12,7 @@ import SectionRightPlaceHolder from "./Components/SectionRightPlaceHolder";
 import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidExtraProps";
 import BookingSectionComponent from "./Components/BookingSectionComponent";
 
-const RentalCarSection = ({ section, navigation }) => {
+const RentalCarSection = ({ section, navigation, spinValue }) => {
   return (
     <View>
       {section.items.map((rentalCar, index) => {
@@ -24,6 +24,7 @@ const RentalCarSection = ({ section, navigation }) => {
             navigation={navigation}
             rentalCar={rentalCar}
             isLast={isLast}
+            spinValue={spinValue}
           />
         );
       })}
@@ -33,10 +34,12 @@ const RentalCarSection = ({ section, navigation }) => {
 
 RentalCarSection.propTypes = forbidExtraProps({
   section: PropTypes.object.isRequired,
-  navigation: PropTypes.object.isRequired
+  navigation: PropTypes.object.isRequired,
+  spinValue: PropTypes.oneOfType([PropTypes.object, PropTypes.number])
+    .isRequired
 });
 
-const RentalCar = ({ rentalCar, isLast, navigation }) => {
+const RentalCar = ({ rentalCar, isLast, navigation, spinValue }) => {
   let customStyle = {};
   if (isLast) {
     customStyle = {
@@ -61,6 +64,7 @@ const RentalCar = ({ rentalCar, isLast, navigation }) => {
 
   return (
     <BookingSectionComponent
+      spinValue={spinValue}
       sectionImage={{
         uri: getTransferImage(rentalCar.vehicle, rentalCar.type)
       }}
@@ -131,7 +135,9 @@ const RentalCar = ({ rentalCar, isLast, navigation }) => {
 RentalCar.propTypes = forbidExtraProps({
   transfer: PropTypes.object.isRequired,
   isLast: PropTypes.bool.isRequired,
-  navigation: PropTypes.object.isRequired
+  navigation: PropTypes.object.isRequired,
+  spinValue: PropTypes.oneOfType([PropTypes.object, PropTypes.number])
+    .isRequired
 });
 
 const styles = StyleSheet.create({

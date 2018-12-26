@@ -13,7 +13,7 @@ import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidE
 import { recordEvent } from "../../../../../Services/analytics/analyticsService";
 import BookingSectionComponent from "./Components/BookingSectionComponent";
 
-const FerriesSection = ({ section, navigation }) => {
+const FerriesSection = ({ section, navigation, spinValue }) => {
   return (
     <View>
       {section.items.map((ferry, index) => {
@@ -25,6 +25,7 @@ const FerriesSection = ({ section, navigation }) => {
             navigation={navigation}
             ferry={ferry}
             isLast={isLast}
+            spinValue={spinValue}
           />
         );
       })}
@@ -34,10 +35,12 @@ const FerriesSection = ({ section, navigation }) => {
 
 FerriesSection.propTypes = forbidExtraProps({
   section: PropTypes.object.isRequired,
-  navigation: PropTypes.object.isRequired
+  navigation: PropTypes.object.isRequired,
+  spinValue: PropTypes.oneOfType([PropTypes.object, PropTypes.number])
+    .isRequired
 });
 
-const Ferry = ({ ferry, isLast, navigation }) => {
+const Ferry = ({ ferry, isLast, navigation, spinValue }) => {
   let customStyle = {};
   if (isLast) {
     customStyle = {
@@ -67,6 +70,7 @@ const Ferry = ({ ferry, isLast, navigation }) => {
 
   return (
     <BookingSectionComponent
+      spinValue={spinValue}
       sectionImage={{ uri: getTransferImage("FERRY") }}
       containerStyle={customStyle}
       isProcessing={!ferry.voucher.booked}
@@ -127,7 +131,9 @@ const Ferry = ({ ferry, isLast, navigation }) => {
 Ferry.propTypes = forbidExtraProps({
   ferry: PropTypes.object.isRequired,
   isLast: PropTypes.bool.isRequired,
-  navigation: PropTypes.object.isRequired
+  navigation: PropTypes.object.isRequired,
+  spinValue: PropTypes.oneOfType([PropTypes.object, PropTypes.number])
+    .isRequired
 });
 
 const styles = StyleSheet.create({

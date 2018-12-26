@@ -11,7 +11,7 @@ import SectionRightPlaceHolder from "./Components/SectionRightPlaceHolder";
 import { recordEvent } from "../../../../../Services/analytics/analyticsService";
 import BookingSectionComponent from "./Components/BookingSectionComponent";
 
-const TrainsSection = ({ section, navigation }) => {
+const TrainsSection = ({ section, navigation, spinValue }) => {
   return (
     <View>
       {section.items.map((train, index) => {
@@ -23,6 +23,7 @@ const TrainsSection = ({ section, navigation }) => {
             navigation={navigation}
             train={train}
             isLast={isLast}
+            spinValue={spinValue}
           />
         );
       })}
@@ -32,10 +33,12 @@ const TrainsSection = ({ section, navigation }) => {
 
 TrainsSection.propTypes = forbidExtraProps({
   section: PropTypes.object.isRequired,
-  navigation: PropTypes.object.isRequired
+  navigation: PropTypes.object.isRequired,
+  spinValue: PropTypes.oneOfType([PropTypes.object, PropTypes.number])
+    .isRequired
 });
 
-const Train = ({ train, isLast, navigation }) => {
+const Train = ({ train, isLast, navigation, spinValue }) => {
   let customStyle = {};
   if (isLast) {
     customStyle = {
@@ -65,6 +68,7 @@ const Train = ({ train, isLast, navigation }) => {
 
   return (
     <BookingSectionComponent
+      spinValue={spinValue}
       containerStyle={customStyle}
       sectionImage={{ uri: constants.miscImageBaseUrl + "transfers-train.jpg" }}
       isProcessing={!train.voucher.booked}
@@ -125,7 +129,9 @@ const Train = ({ train, isLast, navigation }) => {
 Train.propTypes = forbidExtraProps({
   train: PropTypes.object.isRequired,
   isLast: PropTypes.bool.isRequired,
-  navigation: PropTypes.object.isRequired
+  navigation: PropTypes.object.isRequired,
+  spinValue: PropTypes.oneOfType([PropTypes.object, PropTypes.number])
+    .isRequired
 });
 
 const styles = StyleSheet.create({

@@ -13,8 +13,9 @@ import getTitleCase from "../../../../../Services/getTitleCase/getTitleCase";
 import { CustomTabs } from "react-native-custom-tabs";
 import { logError } from "../../../../../Services/errorLogger/errorLogger";
 import BookingSectionComponent from "./Components/BookingSectionComponent";
+import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidExtraProps";
 
-const ActivitiesSection = ({ section, navigation }) => {
+const ActivitiesSection = ({ section, navigation, spinValue }) => {
   return (
     <View>
       {section.items.map((activity, index) => {
@@ -26,6 +27,7 @@ const ActivitiesSection = ({ section, navigation }) => {
             navigation={navigation}
             activity={activity}
             isLast={isLast}
+            spinValue={spinValue}
           />
         );
       })}
@@ -33,12 +35,14 @@ const ActivitiesSection = ({ section, navigation }) => {
   );
 };
 
-ActivitiesSection.propTypes = {
+ActivitiesSection.propTypes = forbidExtraProps({
   section: PropTypes.object.isRequired,
-  navigation: PropTypes.object.isRequired
-};
+  navigation: PropTypes.object.isRequired,
+  spinValue: PropTypes.oneOfType([PropTypes.object, PropTypes.number])
+    .isRequired
+});
 
-const Activities = ({ activity, isLast, navigation }) => {
+const Activities = ({ activity, isLast, navigation, spinValue }) => {
   let customStyle = {};
   if (isLast) {
     customStyle = {
@@ -79,6 +83,7 @@ const Activities = ({ activity, isLast, navigation }) => {
 
   return (
     <BookingSectionComponent
+      spinValue={spinValue}
       containerStyle={customStyle}
       sectionImage={{
         uri: activity.mainPhoto
@@ -160,11 +165,13 @@ const Activities = ({ activity, isLast, navigation }) => {
   );
 };
 
-Activities.propTypes = {
+Activities.propTypes = forbidExtraProps({
   activity: PropTypes.object.isRequired,
   isLast: PropTypes.bool.isRequired,
-  navigation: PropTypes.object.isRequired
-};
+  navigation: PropTypes.object.isRequired,
+  spinValue: PropTypes.oneOfType([PropTypes.object, PropTypes.number])
+    .isRequired
+});
 
 /**
  * TODO: Fix Line Height for the header and content

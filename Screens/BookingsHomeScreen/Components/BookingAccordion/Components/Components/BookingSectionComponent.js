@@ -1,7 +1,14 @@
 import React from "react";
 import CircleThumbnail from "../../../../../../CommonComponents/CircleThumbnail/CircleThumbnail";
 import constants from "../../../../../../constants/constants";
-import { Text, TouchableOpacity, View, StyleSheet, Image } from "react-native";
+import {
+  Text,
+  TouchableOpacity,
+  View,
+  StyleSheet,
+  Image,
+  Animated
+} from "react-native";
 import { responsiveWidth } from "react-native-responsive-dimensions";
 import PropTypes from "prop-types";
 import Icon from "../../../../../../CommonComponents/Icon/Icon";
@@ -19,8 +26,20 @@ const BookingSectionComponent = ({
   titleNumberOfLines = 1,
   contentNumberOfLines = 1,
   isProcessing,
-  hideTitle
+  hideTitle,
+  spinValue
 }) => {
+  let processingSpin = null;
+
+  if (isProcessing) {
+    processingSpin = spinValue
+      ? spinValue.interpolate({
+          inputRange: [0, 1],
+          outputRange: ["360deg", "0deg"]
+        })
+      : null;
+  }
+
   return (
     <TouchableOpacity
       onPress={onClick}
@@ -48,14 +67,19 @@ const BookingSectionComponent = ({
           )}
         </View>
         {isProcessing ? (
-          <View style={styles.bookingProcessIconWrapper}>
+          <Animated.View
+            style={[
+              styles.bookingProcessIconWrapper,
+              processingSpin ? { transform: [{ rotate: processingSpin }] } : {}
+            ]}
+          >
             <Icon
               name={constants.bookingProcessingIcon}
               key={1}
               size={24}
               color={"white"}
             />
-          </View>
+          </Animated.View>
         ) : null}
       </View>
       <View style={styles.contentTextContainer}>

@@ -8,7 +8,7 @@ import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidE
 import { recordEvent } from "../../../../../Services/analytics/analyticsService";
 import BookingSectionComponent from "./Components/BookingSectionComponent";
 
-const VisaSection = ({ section, navigation }) => {
+const VisaSection = ({ section, navigation, spinValue }) => {
   return (
     <View>
       {section.items.map((visa, index) => {
@@ -20,6 +20,7 @@ const VisaSection = ({ section, navigation }) => {
             navigation={navigation}
             visa={visa}
             isLast={isLast}
+            spinValue={spinValue}
           />
         );
       })}
@@ -29,10 +30,12 @@ const VisaSection = ({ section, navigation }) => {
 
 VisaSection.propTypes = forbidExtraProps({
   section: PropTypes.object.isRequired,
-  navigation: PropTypes.object.isRequired
+  navigation: PropTypes.object.isRequired,
+  spinValue: PropTypes.oneOfType([PropTypes.object, PropTypes.number])
+    .isRequired
 });
 
-const Visa = ({ visa, isLast, navigation }) => {
+const Visa = ({ visa, isLast, navigation, spinValue }) => {
   let customStyle = {};
   if (isLast) {
     customStyle = {
@@ -52,6 +55,7 @@ const Visa = ({ visa, isLast, navigation }) => {
 
   return (
     <BookingSectionComponent
+      spinValue={spinValue}
       containerStyle={customStyle}
       sectionImage={constants.splashBackground}
       isProcessing={false}
@@ -96,7 +100,9 @@ const Visa = ({ visa, isLast, navigation }) => {
 Visa.propTypes = forbidExtraProps({
   visa: PropTypes.object.isRequired,
   isLast: PropTypes.bool.isRequired,
-  navigation: PropTypes.object.isRequired
+  navigation: PropTypes.object.isRequired,
+  spinValue: PropTypes.oneOfType([PropTypes.object, PropTypes.number])
+    .isRequired
 });
 
 const styles = StyleSheet.create({

@@ -12,13 +12,14 @@ import BookingSectionComponent from "./Components/BookingSectionComponent";
 
 const { insuranceComingSoonText } = constants;
 
-const InsuranceSection = ({ section: insurance, navigation }) => {
+const InsuranceSection = ({ section: insurance, navigation, spinValue }) => {
   return (
     <View>
       <Insurance
         navigation={navigation}
         insurance={insurance.items}
         isLast={true}
+        spinValue={spinValue}
       />
     </View>
   );
@@ -26,7 +27,9 @@ const InsuranceSection = ({ section: insurance, navigation }) => {
 
 InsuranceSection.propTypes = forbidExtraProps({
   section: PropTypes.object.isRequired,
-  navigation: PropTypes.object.isRequired
+  navigation: PropTypes.object.isRequired,
+  spinValue: PropTypes.oneOfType([PropTypes.object, PropTypes.number])
+    .isRequired
 });
 
 const Insurance = inject("passportDetailsStore")(
@@ -37,7 +40,8 @@ const Insurance = inject("passportDetailsStore")(
         itineraries,
         insurance,
         isLast,
-        navigation
+        navigation,
+        spinValue
       }) => {
         const { countries } = itineraries;
         const { passengerCount } = passportDetailsStore;
@@ -68,6 +72,7 @@ const Insurance = inject("passportDetailsStore")(
 
         return (
           <BookingSectionComponent
+            spinValue={spinValue}
             containerStyle={customStyle}
             sectionImage={constants.splashBackground}
             isProcessing={false}
@@ -122,7 +127,9 @@ const Insurance = inject("passportDetailsStore")(
 Insurance.propTypes = forbidExtraProps({
   insurance: PropTypes.object.isRequired,
   isLast: PropTypes.bool.isRequired,
-  navigation: PropTypes.object.isRequired
+  navigation: PropTypes.object.isRequired,
+  spinValue: PropTypes.oneOfType([PropTypes.object, PropTypes.number])
+    .isRequired
 });
 
 const styles = StyleSheet.create({

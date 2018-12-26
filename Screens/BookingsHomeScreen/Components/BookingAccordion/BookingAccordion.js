@@ -40,6 +40,18 @@ class BookingAccordion extends Component {
     activeSections: [0],
     wasActiveIndex: []
   };
+  spinValue = new Animated.Value(0);
+
+  componentDidMount() {
+    Animated.loop(
+      Animated.timing(this.spinValue, {
+        toValue: 1,
+        duration: 3000,
+        easing: Easing.linear,
+        useNativeDriver: true
+      })
+    ).start();
+  }
 
   _renderHeader = (section, index, isActive, sections) => {
     const { wasActiveIndex } = this.state;
@@ -74,6 +86,11 @@ class BookingAccordion extends Component {
       iconContainer.transform = [{ rotate: "-90deg" }];
     }
 
+    const processingSpin = this.spinValue.interpolate({
+      inputRange: [0, 1],
+      outputRange: ["360deg", "0deg"]
+    });
+
     const bookingProcessingCount = section.items.length
       ? section.items.reduce((count, item) => {
           if (item.voucher && !(item.voucher.booked || item.free)) {
@@ -91,13 +108,18 @@ class BookingAccordion extends Component {
         <View style={styles.headerTextWrapper}>
           <Text style={styles.headerText}>{section.type}</Text>
           {bookingProcessingCount ? (
-            <View style={styles.bookingProcessLoadingWrapper}>
+            <Animated.View
+              style={[
+                styles.bookingProcessLoadingWrapper,
+                { transform: [{ rotate: processingSpin }] }
+              ]}
+            >
               <Icon
                 name={constants.bookingProcessingIcon}
                 size={24}
                 color={constants.eighthColor}
               />
-            </View>
+            </Animated.View>
           ) : null}
         </View>
         <View style={styles.notificationWrapper}>
@@ -132,36 +154,102 @@ class BookingAccordion extends Component {
   _renderContent = (section, index, isActive, sections) => {
     const { navigation } = this.props;
     const customStyle = {};
+
+    let spinValue = 0;
+    if (!(section.voucher && section.voucher.booked) || !section.free) {
+      spinValue = this.spinValue;
+    }
+
     switch (section.type) {
       case "Hotels":
-        return <HotelSection navigation={navigation} section={section} />;
+        return (
+          <HotelSection
+            navigation={navigation}
+            section={section}
+            spinValue={spinValue}
+          />
+        );
 
       case "Activities":
-        return <ActivitiesSection navigation={navigation} section={section} />;
+        return (
+          <ActivitiesSection
+            navigation={navigation}
+            section={section}
+            spinValue={spinValue}
+          />
+        );
 
       case "Transfers":
-        return <TransferSection navigation={navigation} section={section} />;
+        return (
+          <TransferSection
+            navigation={navigation}
+            section={section}
+            spinValue={spinValue}
+          />
+        );
 
       case "Ferries":
-        return <FerriesSection navigation={navigation} section={section} />;
+        return (
+          <FerriesSection
+            navigation={navigation}
+            section={section}
+            spinValue={spinValue}
+          />
+        );
 
       case "Trains":
-        return <TrainsSection navigation={navigation} section={section} />;
+        return (
+          <TrainsSection
+            navigation={navigation}
+            section={section}
+            spinValue={spinValue}
+          />
+        );
 
       case "Flights":
-        return <FlightsSection navigation={navigation} section={section} />;
+        return (
+          <FlightsSection
+            navigation={navigation}
+            section={section}
+            spinValue={spinValue}
+          />
+        );
 
       case "Passes":
-        return <PassSection section={section} navigation={navigation} />;
+        return (
+          <PassSection
+            section={section}
+            navigation={navigation}
+            spinValue={spinValue}
+          />
+        );
 
       case "Rental Cars":
-        return <RentalCarSection navigation={navigation} section={section} />;
+        return (
+          <RentalCarSection
+            navigation={navigation}
+            section={section}
+            spinValue={spinValue}
+          />
+        );
 
       case "Visa":
-        return <VisaSection navigation={navigation} section={section} />;
+        return (
+          <VisaSection
+            navigation={navigation}
+            section={section}
+            spinValue={spinValue}
+          />
+        );
 
       case "Insurance":
-        return <InsuranceSection navigation={navigation} section={section} />;
+        return (
+          <InsuranceSection
+            navigation={navigation}
+            section={section}
+            spinValue={spinValue}
+          />
+        );
 
       default:
         return (

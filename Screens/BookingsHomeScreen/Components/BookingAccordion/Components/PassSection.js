@@ -9,8 +9,9 @@ import storeService from "../../../../../Services/storeService/storeService";
 import SectionRightPlaceHolder from "./Components/SectionRightPlaceHolder";
 import { recordEvent } from "../../../../../Services/analytics/analyticsService";
 import BookingSectionComponent from "./Components/BookingSectionComponent";
+import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidExtraProps";
 
-const PassSection = ({ section, navigation }) => {
+const PassSection = ({ section, navigation, spinValue }) => {
   return (
     <View>
       {section.items.map((pass, index) => {
@@ -22,6 +23,7 @@ const PassSection = ({ section, navigation }) => {
             pass={pass}
             isLast={isLast}
             navigation={navigation}
+            spinValue={spinValue}
           />
         );
       })}
@@ -29,12 +31,14 @@ const PassSection = ({ section, navigation }) => {
   );
 };
 
-PassSection.propTypes = {
+PassSection.propTypes = forbidExtraProps({
   section: PropTypes.object.isRequired,
-  navigation: PropTypes.object.isRequired
-};
+  navigation: PropTypes.object.isRequired,
+  spinValue: PropTypes.oneOfType([PropTypes.object, PropTypes.number])
+    .isRequired
+});
 
-const Pass = ({ pass, isLast, navigation }) => {
+const Pass = ({ pass, isLast, navigation, spinValue }) => {
   let customStyle = {};
   if (isLast) {
     customStyle = {
@@ -50,6 +54,7 @@ const Pass = ({ pass, isLast, navigation }) => {
 
   return (
     <BookingSectionComponent
+      spinValue={spinValue}
       containerStyle={customStyle}
       sectionImage={{ uri: pass.image }}
       isProcessing={false}
@@ -93,11 +98,13 @@ const Pass = ({ pass, isLast, navigation }) => {
   );
 };
 
-Pass.propTypes = {
+Pass.propTypes = forbidExtraProps({
   pass: PropTypes.object.isRequired,
   isLast: PropTypes.bool.isRequired,
-  navigation: PropTypes.object.isRequired
-};
+  navigation: PropTypes.object.isRequired,
+  spinValue: PropTypes.oneOfType([PropTypes.object, PropTypes.number])
+    .isRequired
+});
 
 const styles = StyleSheet.create({
   contentContainer: {
