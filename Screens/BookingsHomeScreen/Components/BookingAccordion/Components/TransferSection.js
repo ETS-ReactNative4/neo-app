@@ -63,17 +63,26 @@ const Transfer = ({ transfer, isLast, navigation }) => {
   const { pickupTime } = transfer.voucher;
   const { dateMillis } = transfer;
 
+  const vehicle = _.toUpper(transfer.vehicle);
+  const transferType = _.toUpper(transfer.type);
+
   return (
     <BookingSectionComponent
       containerStyle={customStyle}
-      sectionImage={{ uri: getTransferImage(transfer.vehicle, transfer.type) }}
+      sectionImage={{ uri: getTransferImage(vehicle, transferType) }}
       isProcessing={!transfer.voucher.booked}
       onClick={openVoucher}
       content={transfer.text}
       title={`${moment(
         pickupTime && pickupTime > 1 ? pickupTime : dateMillis
       ).format(constants.commonDateFormat)}`}
-      isImageContain={false}
+      isImageContain={
+        vehicle === "CAR" && transferType === "PRIVATE"
+          ? true
+          : vehicle === "BUS" || vehicle === "SHUTTLE"
+            ? true
+            : false
+      }
       defaultImageUri={constants.transferPlaceHolder}
     />
   );
