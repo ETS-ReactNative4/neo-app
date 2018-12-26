@@ -30,7 +30,7 @@ const imageAssets = {
   flightVoucherBanner: require("../assets/images/backgrounds/flightVoucherHeader.jpg"),
   busIcon: "bus",
   ferryIcon: "ferry",
-  visaIcon: "cc-visa",
+  visaIcon: "visa",
   insuranceIcon: "insurance",
   transferIcon: "transfer",
   trainIcon: "train",
