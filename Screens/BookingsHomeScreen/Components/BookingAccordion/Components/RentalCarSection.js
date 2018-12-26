@@ -84,7 +84,7 @@ const RentalCar = ({ rentalCar, isLast, navigation, spinValue }) => {
                 "DD/MMM/YYYY"
               ).format(constants.commonDateFormat)
       }`}
-      isImageContain={false}
+      isImageContain={true}
       defaultImageUri={constants.transferPlaceHolder}
     />
   );

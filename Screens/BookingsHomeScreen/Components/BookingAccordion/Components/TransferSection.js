@@ -81,11 +81,9 @@ const Transfer = ({ transfer, isLast, navigation, spinValue }) => {
         pickupTime && pickupTime > 1 ? pickupTime : dateMillis
       ).format(constants.commonDateFormat)}`}
       isImageContain={
-        vehicle === "CAR" && transferType === "PRIVATE"
+        vehicle === "CAR" || vehicle === "BUS" || vehicle === "SHUTTLE"
           ? true
-          : vehicle === "BUS" || vehicle === "SHUTTLE"
-            ? true
-            : false
+          : false
       }
       defaultImageUri={constants.transferPlaceHolder}
     />
