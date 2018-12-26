@@ -31,7 +31,6 @@ const SimpleActivity = ({
         <View style={styles.imageContainer}>
           <CircleThumbnail
             image={image}
-            icon={icon}
             isContain={isImageContain}
             defaultImageUri={defaultImageUri}
           />
