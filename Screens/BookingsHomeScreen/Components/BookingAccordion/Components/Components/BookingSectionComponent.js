@@ -138,7 +138,6 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   },
   bookingProcessIconWrapper: {
-    overflow: "hidden",
     height: 48,
     width: 48,
     borderRadius: 24,
