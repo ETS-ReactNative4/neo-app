@@ -105,6 +105,7 @@ class FlightVoucher extends Component {
     return [
       <ParallaxScrollView
         key={0}
+        bounces={false}
         backgroundColor="white"
         contentBackgroundColor="white"
         parallaxHeaderHeight={214 + xHeight}
