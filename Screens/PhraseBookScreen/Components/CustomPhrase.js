@@ -15,7 +15,6 @@ import SimpleButton from "../../../CommonComponents/SimpleButton/SimpleButton";
 import { responsiveWidth } from "react-native-responsive-dimensions";
 import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraProps";
 import PropTypes from "prop-types";
-import localeCode from "locale-code";
 import KeyboardAvoidingActionBar from "../../../CommonComponents/KeyboardAvoidingActionBar/KeyboardAvoidingActionBar";
 
 class CustomPhrase extends Component {
@@ -53,7 +52,7 @@ class CustomPhrase extends Component {
       Keyboard.dismiss();
     };
     const languageCode = selectedLanguage ? selectedLanguage.languageCode : "";
-    const languageName = localeCode.getLanguageName(languageCode);
+    const languageName = selectedLanguage ? selectedLanguage.languageName : "";
     const displayLanguage = languageName ? languageName : languageCode;
     return [
       <KeyboardAvoidingActionBar
