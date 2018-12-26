@@ -54,7 +54,7 @@ const CityCard = ({
           style={styles.actionView}
         >
           <Icon name={constants.locationIcon} size={16} color={"white"} />
-          <Text style={styles.actionText}>Explore Guide</Text>
+          <Text style={styles.actionText}>Explore Places</Text>
         </TouchableOpacity>
       </View>
     </FastImage>
