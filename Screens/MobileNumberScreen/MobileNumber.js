@@ -312,6 +312,10 @@ class MobileNumber extends Component {
     BackHandler.addEventListener("hardwareBackPress", this.onBackButtonPress);
   }
 
+  moveToExplore = () => {
+    this.props.navigation.navigate("NewItineraryStack");
+  };
+
   render() {
     const { isMobileVerified, countryCode, mobileNumber } = this.state;
 
@@ -363,7 +367,9 @@ class MobileNumber extends Component {
           />
         )}
 
-        {this.state.isUnregisteredNumber ? <UnregisteredNumber /> : null}
+        {this.state.isUnregisteredNumber ? (
+          <UnregisteredNumber onClick={this.moveToExplore} />
+        ) : null}
 
         {!this.state.isMobileVerified && this.state.isLoading ? (
           <View style={styles.numberVerificationLoadingContainer}>

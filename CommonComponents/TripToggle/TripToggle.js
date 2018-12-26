@@ -34,7 +34,7 @@ class TripToggle extends Component {
             if (credentials) {
               navigation.navigate("YourBookingsUniversal");
             } else {
-              navigation.navigate("MobileNumber");
+              navigation.push("MobileNumber");
             }
           })
           .catch(e => {
