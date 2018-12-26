@@ -17,7 +17,7 @@ const imageAssets = {
   backArrow: require("../assets/images/icons/left-arrow.png"),
   backIcon: "nav-left",
   dropDownArrow: require("../assets/images/icons/drop-down-arrow.png"),
-  dropDownArrowIcon: "arrow1",
+  dropDownArrowIcon: "arrow",
   closeIcon: "close",
   userIcon: "account",
   loadingIcon: require("../assets/images/loaders/loader.gif"),
