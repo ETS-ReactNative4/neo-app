@@ -8,7 +8,7 @@ const styles = {
   headerHeight: 56,
   xSensorAreaHeight: 30,
   xNotchHeight: 30,
-  commonDateFormat: "MMM DD, dddd",
+  commonDateFormat: "MMM DD, ddd",
   currentYear: new Date().getYear() + 1900,
   htmlStyleSheet: StyleSheet.create({
     div: {

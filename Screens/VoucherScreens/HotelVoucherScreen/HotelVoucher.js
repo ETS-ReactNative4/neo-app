@@ -169,8 +169,12 @@ class HotelVoucher extends Component {
             <Text style={styles.checkTitle}>CHECK IN</Text>
             <Text style={styles.checkDate}>
               {checkInDateVoucher
-                ? moment(checkInDateVoucher, "YYYY-MM-DD").format("ddd, DD MMM")
-                : moment(checkInDate, "DD/MMM/YYYY").format("ddd, DD MMM")}
+                ? moment(checkInDateVoucher, "YYYY-MM-DD").format(
+                    constants.commonDateFormat
+                  )
+                : moment(checkInDate, "DD/MMM/YYYY").format(
+                    constants.commonDateFormat
+                  )}
             </Text>
             <Text style={styles.checkTime}>
               {checkInTimeVoucher || "02:00 pm"}
