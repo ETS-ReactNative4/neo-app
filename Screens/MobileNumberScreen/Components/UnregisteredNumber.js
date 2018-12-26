@@ -6,7 +6,7 @@ import Icon from "../../../CommonComponents/Icon/Icon";
 const UnregisteredNumber = () => {
   return (
     <View style={styles.container}>
-      <Icon size={24} color={constants.black2} name={constants.infoIcon} />
+      <Icon size={17} color={constants.black2} name={constants.infoIcon} />
       <View style={styles.errorTextWrapper}>
         <Text style={styles.errorText}>
           {constants.mobileNumberScreenText.unregisteredNumberText}
@@ -27,9 +27,7 @@ const styles = StyleSheet.create({
     marginLeft: 8
   },
   errorText: {
-    fontFamily: constants.primaryLight,
-    fontSize: 12,
-    lineHeight: 16,
+    ...constants.fontCustom(constants.primaryLight, 17),
     color: constants.black2
   }
 });
