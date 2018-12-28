@@ -103,11 +103,11 @@ class BookingAccordion extends Component {
     return (
       <View style={[styles.headerContainer, customStyle]}>
         <View style={styles.headerIcon}>
-          <Icon name={section.icon} size={20} color={constants.black1} />
+          <Icon name={section.icon} size={20} color={constants.shade1} />
         </View>
         <View style={styles.headerTextWrapper}>
           <Text style={styles.headerText}>{section.type}</Text>
-          {bookingProcessingCount ? (
+          {bookingProcessingCount && !isActive ? (
             <Animated.View
               style={[
                 styles.bookingProcessLoadingWrapper,
@@ -142,7 +142,7 @@ class BookingAccordion extends Component {
           <Animated.View style={iconContainer}>
             <Icon
               name={constants.backIcon}
-              color={constants.black1}
+              color={constants.shade1}
               size={17}
             />
           </Animated.View>
@@ -469,8 +469,6 @@ const styles = StyleSheet.create({
     height: 56,
     flexDirection: "row",
     alignItems: "center"
-    // borderBottomWidth: StyleSheet.hairlineWidth,
-    // borderBottomColor: constants.shade4
   },
   headerIcon: {
     height: 20,
@@ -494,7 +492,7 @@ const styles = StyleSheet.create({
     fontFamily: constants.primarySemiBold,
     fontSize: 20,
     lineHeight: 20,
-    color: constants.black1,
+    color: constants.shade1,
     ...Platform.select({
       ios: {
         marginTop: 4

@@ -121,7 +121,7 @@ BookingSectionComponent.propTypes = {
   hideTitle: PropTypes.bool
 };
 
-const maxTextAreaWidth = responsiveWidth(100) - 48 - 40 - 16;
+const maxTextAreaWidth = responsiveWidth(100) - 48 - 8 - 40 - 16;
 
 const styles = StyleSheet.create({
   contentContainer: {
@@ -135,7 +135,9 @@ const styles = StyleSheet.create({
     width: 48,
     borderRadius: 24,
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
+    borderWidth: StyleSheet.hairlineWidth,
+    borderColor: constants.shade2
   },
   bookingProcessIconWrapper: {
     height: 48,
@@ -161,19 +163,19 @@ const styles = StyleSheet.create({
   contentHeader: {
     fontFamily: constants.primaryLight,
     fontSize: 14,
+    fontWeight: "normal",
     lineHeight: 14,
     color: constants.shade2,
     maxWidth: maxTextAreaWidth
   },
   contentTextWrapper: {
-    width: maxTextAreaWidth,
-    borderBottomColor: constants.shade4,
-    borderBottomWidth: StyleSheet.hairlineWidth
+    width: maxTextAreaWidth
   },
   contentText: {
-    fontFamily: constants.primaryLight,
+    fontFamily: constants.primarySemiBold,
     fontSize: 17,
     lineHeight: 20,
+    color: constants.black1,
     maxWidth: maxTextAreaWidth
   }
 });
