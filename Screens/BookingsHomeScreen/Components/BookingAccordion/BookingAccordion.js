@@ -466,7 +466,7 @@ class BookingAccordion extends Component {
 
 const styles = StyleSheet.create({
   headerContainer: {
-    height: 56,
+    height: 48,
     flexDirection: "row",
     alignItems: "center"
   },
@@ -489,7 +489,7 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   },
   headerText: {
-    fontFamily: constants.primarySemiBold,
+    fontFamily: constants.primaryLight,
     fontSize: 20,
     lineHeight: 20,
     color: constants.shade1,

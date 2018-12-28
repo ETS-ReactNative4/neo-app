@@ -6,11 +6,17 @@ import constants from "../../constants/constants";
 const MultiLineHeader = ({ duration, title, disableDropDown }) => {
   return (
     <View style={styles.bookingTitleView}>
-      <View style={styles.durationTextWrapper}>
-        <Text style={styles.duration} numberOfLines={1} ellipsizeMode={"tail"}>
-          {duration}
-        </Text>
-      </View>
+      {duration ? (
+        <View style={styles.durationTextWrapper}>
+          <Text
+            style={styles.duration}
+            numberOfLines={1}
+            ellipsizeMode={"tail"}
+          >
+            {duration}
+          </Text>
+        </View>
+      ) : null}
       <View style={styles.titleTextWrapper}>
         <Text style={styles.title} numberOfLines={1} ellipsizeMode={"tail"}>
           {title}
@@ -30,7 +36,7 @@ const MultiLineHeader = ({ duration, title, disableDropDown }) => {
 };
 
 MultiLineHeader.propTypes = {
-  duration: PropTypes.string.isRequired,
+  duration: PropTypes.string,
   title: PropTypes.string.isRequired,
   disableDropDown: PropTypes.bool
 };

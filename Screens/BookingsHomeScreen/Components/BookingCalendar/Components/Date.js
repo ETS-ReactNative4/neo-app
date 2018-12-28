@@ -110,6 +110,7 @@ const styles = StyleSheet.create({
   cityName: {
     ...constants.fontCustom(constants.primaryLight, 10),
     color: constants.black1,
+    marginBottom: 2,
     ...Platform.select({
       ios: {
         height: 10
@@ -158,24 +159,15 @@ const styles = StyleSheet.create({
     marginHorizontal: 0
   },
   weekDay: {
-    fontFamily: constants.primaryLight,
+    fontFamily: constants.primarySemiBold,
     fontSize: 14,
-    color: constants.shade2,
-    ...Platform.select({
-      ios: {
-        marginBottom: -4
-      }
-    })
+    color: constants.shade3,
+    marginTop: -7
   },
   isHighlighted: {
     fontFamily: constants.primarySemiBold,
     fontSize: 14,
-    color: "white",
-    ...Platform.select({
-      ios: {
-        marginTop: -7
-      }
-    })
+    color: "white"
   },
   defaultStyle: {}
 });

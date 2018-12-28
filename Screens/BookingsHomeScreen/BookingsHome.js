@@ -231,9 +231,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "white"
   },
-  calendarContainer: {
-    marginTop: 16
-  },
+  calendarContainer: {},
   bookingContainer: {}
 });
 

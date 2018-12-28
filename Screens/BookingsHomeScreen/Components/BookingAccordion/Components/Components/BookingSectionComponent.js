@@ -43,6 +43,7 @@ const BookingSectionComponent = ({
   return (
     <TouchableOpacity
       onPress={onClick}
+      activeOpacity={0.6}
       style={[styles.contentContainer, containerStyle]}
     >
       <View style={styles.iconWrapper}>
