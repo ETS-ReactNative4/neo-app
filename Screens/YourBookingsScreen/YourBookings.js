@@ -17,29 +17,37 @@ import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 @inject("yourBookingsStore")
 @observer
 class YourBookings extends Component {
-  static navigationOptions = ({ navigation }) => {
-    const LeftButton = <CloseYourBookingsButton navigation={navigation} />;
+  // static navigationOptions = ({ navigation }) => {
+  //   const LeftButton = <CloseYourBookingsButton navigation={navigation} />;
+  //
+  //   return {
+  //     header: (
+  //       <CommonHeader
+  //         LeftButton={LeftButton}
+  //         // RightButton={<SearchButton action={() => {}} />}
+  //         title={"Your Bookings"}
+  //         navigation={navigation}
+  //       />
+  //     )
+  //   };
+  // };
 
-    return {
-      header: (
+  render() {
+    const { navigation } = this.props;
+    const {
+      upcomingItineraries,
+      isLoading,
+      getUpcomingItineraries
+    } = this.props.yourBookingsStore;
+    const LeftButton = <CloseYourBookingsButton navigation={navigation} />;
+    return (
+      <View style={styles.yourBookingsContainer}>
         <CommonHeader
           LeftButton={LeftButton}
           // RightButton={<SearchButton action={() => {}} />}
           title={"Your Bookings"}
           navigation={navigation}
         />
-      )
-    };
-  };
-
-  render() {
-    const {
-      upcomingItineraries,
-      isLoading,
-      getUpcomingItineraries
-    } = this.props.yourBookingsStore;
-    return (
-      <View style={styles.yourBookingsContainer}>
         {/*<ScrollableTabView*/}
         {/*tabBarActiveTextColor={constants.black2}*/}
         {/*tabBarInactiveTextColor={constants.firstColor}*/}

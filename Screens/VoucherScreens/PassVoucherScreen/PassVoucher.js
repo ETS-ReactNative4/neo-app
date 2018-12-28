@@ -8,35 +8,30 @@ import ErrorBoundary from "../../../CommonComponents/ErrorBoundary/ErrorBoundary
 
 @ErrorBoundary()
 class PassVoucher extends Component {
-  static navigationOptions = ({ navigation }) => {
-    return {
-      header: (
-        <CommonHeader
-          LeftButton={
-            <TouchableHighlight
-              style={styles.leftButtonContainer}
-              onPress={() => {
-                navigation.goBack();
-              }}
-              underlayColor={"transparent"}
-            >
-              <Icon
-                name={constants.closeIcon}
-                size={24}
-                color={constants.shade1}
-              />
-            </TouchableHighlight>
-          }
-          title={""}
-          navigation={navigation}
-        />
-      )
-    };
-  };
-
   render() {
-    return (
-      <View style={styles.passVoucherContainer}>
+    const { navigation } = this.props;
+    return [
+      <CommonHeader
+        key={0}
+        LeftButton={
+          <TouchableHighlight
+            style={styles.leftButtonContainer}
+            onPress={() => {
+              navigation.goBack();
+            }}
+            underlayColor={"transparent"}
+          >
+            <Icon
+              name={constants.closeIcon}
+              size={24}
+              color={constants.shade1}
+            />
+          </TouchableHighlight>
+        }
+        title={""}
+        navigation={navigation}
+      />,
+      <View key={1} style={styles.passVoucherContainer}>
         <Text
           style={styles.passInfoText}
         >{`Your Pass is Confirmed.\nWe will be sending this pass to your postal address soon.`}</Text>
@@ -49,7 +44,7 @@ class PassVoucher extends Component {
           color={"white"}
         />
       </View>
-    );
+    ];
   }
 }
 
