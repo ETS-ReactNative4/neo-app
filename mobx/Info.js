@@ -4,7 +4,7 @@ import constants from "../constants/constants";
 class Info {
   @observable
   _info = {
-    icon: constants.infoBoxIllus,
+    icon: "",
     title: "",
     message: "",
     isVisible: false,
@@ -14,7 +14,7 @@ class Info {
 
   @observable
   _error = {
-    icon: constants.errorBoxIllus,
+    icon: "",
     title: "",
     message: "",
     isVisible: false,
@@ -24,7 +24,7 @@ class Info {
 
   @observable
   _success = {
-    icon: constants.successBoxIllus,
+    icon: "",
     title: "",
     message: "",
     isVisible: false,
@@ -55,7 +55,7 @@ class Info {
   @action
   resetInfo = () => {
     this._info = {
-      icon: constants.infoBoxIllus,
+      icon: "",
       title: "",
       message: "",
       isVisible: false,
@@ -92,7 +92,7 @@ class Info {
   @action
   resetError = () => {
     this._error = {
-      icon: constants.errorBoxIllus,
+      icon: "",
       title: "",
       message: "",
       isVisible: false,
@@ -129,7 +129,7 @@ class Info {
   @action
   resetSuccess = () => {
     this._success = {
-      icon: constants.successBoxIllus,
+      icon: "",
       title: "",
       message: "",
       isVisible: false,
