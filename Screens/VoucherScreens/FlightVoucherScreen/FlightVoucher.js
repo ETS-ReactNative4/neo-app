@@ -16,13 +16,22 @@ import FlightActionSection from "./Components/FlightActionSection";
 import getTitleCase from "../../../Services/getTitleCase/getTitleCase";
 import ErrorBoundary from "../../../CommonComponents/ErrorBoundary/ErrorBoundary";
 
+const xHeight = isIphoneX()
+  ? constants.xNotchHeight
+  : Platform.OS === "ios"
+    ? 20
+    : 0;
+
 @ErrorBoundary()
 @inject("passportDetailsStore")
 @inject("itineraries")
 @observer
 class FlightVoucher extends Component {
   static navigationOptions = {
-    header: null
+    header: null,
+    gestureResponseDistance: {
+      vertical: 214 + xHeight
+    }
   };
 
   state = {
@@ -76,12 +85,6 @@ class FlightVoucher extends Component {
     const tripDetails = allTrips.map(trip => {
       return trips[trip];
     });
-
-    const xHeight = isIphoneX()
-      ? constants.xNotchHeight
-      : Platform.OS === "ios"
-        ? 20
-        : 0;
 
     const flightInvoiceInfo = [
       // {

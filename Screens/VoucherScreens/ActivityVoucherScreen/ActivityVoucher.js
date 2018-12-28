@@ -22,12 +22,21 @@ import getTitleCase from "../../../Services/getTitleCase/getTitleCase";
 import ErrorBoundary from "../../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import { responsiveWidth } from "react-native-responsive-dimensions";
 
+const xHeight = isIphoneX()
+  ? constants.xNotchHeight
+  : Platform.OS === "ios"
+    ? 20
+    : 0;
+
 @ErrorBoundary()
 @inject("passportDetailsStore")
 @observer
 class ActivityVoucher extends Component {
   static navigationOptions = {
-    header: null
+    header: null,
+    gestureResponseDistance: {
+      vertical: 214 + xHeight
+    }
   };
 
   state = {
@@ -103,11 +112,6 @@ class ActivityVoucher extends Component {
       passengerCount
     } = this.props.passportDetailsStore;
 
-    const xHeight = isIphoneX()
-      ? constants.xNotchHeight
-      : Platform.OS === "ios"
-        ? 20
-        : 0;
     let passengerDetails = [];
     let transferDetails = [];
     let bookingDetails = [];
@@ -264,6 +268,7 @@ class ActivityVoucher extends Component {
     return [
       <ParallaxScrollView
         key={0}
+        bounces={false}
         backgroundColor="white"
         contentBackgroundColor="white"
         parallaxHeaderHeight={214 + xHeight}

@@ -18,10 +18,19 @@ import VoucherContactActionBar from "../Components/VoucherContactActionBar";
 import ErrorBoundary from "../../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import Icon from "../../../CommonComponents/Icon/Icon";
 
+const xHeight = isIphoneX()
+  ? constants.xNotchHeight
+  : Platform.OS === "ios"
+    ? 20
+    : 0;
+
 @ErrorBoundary()
 class HotelVoucher extends Component {
   static navigationOptions = {
-    header: null
+    header: null,
+    gestureResponseDistance: {
+      vertical: 214 + xHeight
+    }
   };
 
   state = {
@@ -40,11 +49,6 @@ class HotelVoucher extends Component {
 
   render() {
     const hotel = this.props.navigation.getParam("hotel", {});
-    const xHeight = isIphoneX()
-      ? constants.xNotchHeight
-      : Platform.OS === "ios"
-        ? 20
-        : 0;
 
     const {
       checkInDateDisplay,

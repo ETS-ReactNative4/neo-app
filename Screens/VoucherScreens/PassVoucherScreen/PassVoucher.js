@@ -1,13 +1,33 @@
 import React, { Component } from "react";
-import { View, Text, StyleSheet, TouchableHighlight } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableHighlight,
+  Platform
+} from "react-native";
 import CommonHeader from "../../../CommonComponents/CommonHeader/CommonHeader";
 import constants from "../../../constants/constants";
 import Icon from "../../../CommonComponents/Icon/Icon";
+import { isIphoneX } from "react-native-iphone-x-helper";
 import SimpleButton from "../../../CommonComponents/SimpleButton/SimpleButton";
 import ErrorBoundary from "../../../CommonComponents/ErrorBoundary/ErrorBoundary";
 
+const xHeight = isIphoneX()
+  ? constants.xNotchHeight
+  : Platform.OS === "ios"
+    ? 20
+    : 0;
+
 @ErrorBoundary()
 class PassVoucher extends Component {
+  static navigationOptions = {
+    header: null,
+    gestureResponseDistance: {
+      vertical: 214 + xHeight
+    }
+  };
+
   render() {
     const { navigation } = this.props;
     return [
