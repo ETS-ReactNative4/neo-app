@@ -11,6 +11,7 @@ import storeService from "../../../../../Services/storeService/storeService";
 import { recordEvent } from "../../../../../Services/analytics/analyticsService";
 import BookingSectionComponent from "./Components/BookingSectionComponent";
 import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidExtraProps";
+import { toastBottom } from "../../../../../Services/toast/toast";
 
 const FlightsSection = ({ section, navigation, spinValue }) => {
   return (
@@ -53,12 +54,13 @@ const Flight = ({ flight, isLast, navigation, spinValue }) => {
       recordEvent(constants.bookingsHomeAccordionFlightsVoucherClick);
       navigation.navigate("FlightVoucher", { flight });
     } else {
-      storeService.infoStore.setInfo(
-        constants.bookingProcessText.title,
-        constants.bookingProcessText.message,
-        constants.bookingProcessingIcon,
-        constants.bookingProcessText.actionText
-      );
+      toastBottom(constants.bookingProcessText.message);
+      // storeService.infoStore.setInfo(
+      //   constants.bookingProcessText.title,
+      //   constants.bookingProcessText.message,
+      //   constants.bookingProcessingIcon,
+      //   constants.bookingProcessText.actionText
+      // );
     }
   };
 

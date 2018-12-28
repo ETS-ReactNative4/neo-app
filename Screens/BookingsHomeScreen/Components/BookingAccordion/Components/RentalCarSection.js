@@ -11,6 +11,7 @@ import storeService from "../../../../../Services/storeService/storeService";
 import SectionRightPlaceHolder from "./Components/SectionRightPlaceHolder";
 import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidExtraProps";
 import BookingSectionComponent from "./Components/BookingSectionComponent";
+import { toastBottom } from "../../../../../Services/toast/toast";
 
 const RentalCarSection = ({ section, navigation, spinValue }) => {
   return (
@@ -53,12 +54,13 @@ const RentalCar = ({ rentalCar, isLast, navigation, spinValue }) => {
     if (rentalCar.voucher.booked) {
       navigation.navigate("TransferVoucher", { transfer: rentalCar });
     } else {
-      storeService.infoStore.setInfo(
-        constants.bookingProcessText.title,
-        constants.bookingProcessText.message,
-        constants.bookingProcessingIcon,
-        constants.bookingProcessText.actionText
-      );
+      toastBottom(constants.bookingProcessText.message);
+      // storeService.infoStore.setInfo(
+      //   constants.bookingProcessText.title,
+      //   constants.bookingProcessText.message,
+      //   constants.bookingProcessingIcon,
+      //   constants.bookingProcessText.actionText
+      // );
     }
   };
 

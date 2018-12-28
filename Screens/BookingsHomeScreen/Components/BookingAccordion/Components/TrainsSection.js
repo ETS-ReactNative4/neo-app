@@ -10,6 +10,7 @@ import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidE
 import SectionRightPlaceHolder from "./Components/SectionRightPlaceHolder";
 import { recordEvent } from "../../../../../Services/analytics/analyticsService";
 import BookingSectionComponent from "./Components/BookingSectionComponent";
+import { toastBottom } from "../../../../../Services/toast/toast";
 
 const TrainsSection = ({ section, navigation, spinValue }) => {
   return (
@@ -54,12 +55,13 @@ const Train = ({ train, isLast, navigation, spinValue }) => {
         transfer: { ...train, vehicle: "TRAIN" }
       });
     } else {
-      storeService.infoStore.setInfo(
-        constants.bookingProcessText.title,
-        constants.bookingProcessText.message,
-        constants.bookingProcessingIcon,
-        constants.bookingProcessText.actionText
-      );
+      toastBottom(constants.bookingProcessText.message);
+      // storeService.infoStore.setInfo(
+      //   constants.bookingProcessText.title,
+      //   constants.bookingProcessText.message,
+      //   constants.bookingProcessingIcon,
+      //   constants.bookingProcessText.actionText
+      // );
     }
   };
 

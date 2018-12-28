@@ -11,6 +11,7 @@ import { recordEvent } from "../../../../../Services/analytics/analyticsService"
 import getTitleCase from "../../../../../Services/getTitleCase/getTitleCase";
 import BookingSectionComponent from "./Components/BookingSectionComponent";
 import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidExtraProps";
+import { toastBottom } from "../../../../../Services/toast/toast";
 
 const HotelSection = ({ section, navigation, spinValue }) => {
   return (
@@ -53,12 +54,13 @@ const Hotel = ({ hotel, isLast, navigation, spinValue }) => {
       recordEvent(constants.bookingsHomeAccordionHotelsVoucherClick);
       navigation.navigate("HotelVoucher", { hotel });
     } else {
-      storeService.infoStore.setInfo(
-        constants.bookingProcessText.title,
-        constants.bookingProcessText.message,
-        constants.bookingProcessingIcon,
-        constants.bookingProcessText.actionText
-      );
+      toastBottom(constants.bookingProcessText.message);
+      // storeService.infoStore.setInfo(
+      //   constants.bookingProcessText.title,
+      //   constants.bookingProcessText.message,
+      //   constants.bookingProcessingIcon,
+      //   constants.bookingProcessText.actionText
+      // );
     }
   };
 

@@ -14,6 +14,7 @@ import { CustomTabs } from "react-native-custom-tabs";
 import { logError } from "../../../../../Services/errorLogger/errorLogger";
 import BookingSectionComponent from "./Components/BookingSectionComponent";
 import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidExtraProps";
+import { toastBottom } from "../../../../../Services/toast/toast";
 
 const ActivitiesSection = ({ section, navigation, spinValue }) => {
   return (
@@ -72,12 +73,13 @@ const Activities = ({ activity, isLast, navigation, spinValue }) => {
       recordEvent(constants.bookingsHomeAccordionActivitiesVoucherClick);
       navigation.navigate("ActivityVoucher", { activity });
     } else {
-      storeService.infoStore.setInfo(
-        constants.bookingProcessText.title,
-        constants.bookingProcessText.message,
-        constants.bookingProcessingIcon,
-        constants.bookingProcessText.actionText
-      );
+      toastBottom(constants.bookingProcessText.message);
+      // storeService.infoStore.setInfo(
+      //   constants.bookingProcessText.title,
+      //   constants.bookingProcessText.message,
+      //   constants.bookingProcessingIcon,
+      //   constants.bookingProcessText.actionText
+      // );
     }
   };
 

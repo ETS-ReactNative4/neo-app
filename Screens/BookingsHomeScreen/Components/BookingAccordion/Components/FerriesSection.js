@@ -12,6 +12,7 @@ import SectionRightPlaceHolder from "./Components/SectionRightPlaceHolder";
 import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidExtraProps";
 import { recordEvent } from "../../../../../Services/analytics/analyticsService";
 import BookingSectionComponent from "./Components/BookingSectionComponent";
+import { toastBottom } from "../../../../../Services/toast/toast";
 
 const FerriesSection = ({ section, navigation, spinValue }) => {
   return (
@@ -56,12 +57,13 @@ const Ferry = ({ ferry, isLast, navigation, spinValue }) => {
         transfer: { ...ferry, vehicle: "FERRY" }
       });
     } else {
-      storeService.infoStore.setInfo(
-        constants.bookingProcessText.title,
-        constants.bookingProcessText.message,
-        constants.bookingProcessingIcon,
-        constants.bookingProcessText.actionText
-      );
+      toastBottom(constants.bookingProcessText.message);
+      // storeService.infoStore.setInfo(
+      //   constants.bookingProcessText.title,
+      //   constants.bookingProcessText.message,
+      //   constants.bookingProcessingIcon,
+      //   constants.bookingProcessText.actionText
+      // );
     }
   };
 
