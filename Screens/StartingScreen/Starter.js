@@ -57,41 +57,30 @@ class Starter extends Component {
               />
             </View>
             <View style={styles.buttonRow}>
-              <View>
-                <SimpleButton
-                  text={`Find a Booking`}
-                  textColor={`white`}
-                  color={constants.firstColor}
-                  underlayColor={constants.firstColorAlpha(0.7)}
-                  action={() => {
-                    this.clickedBooking();
-                    recordEvent(constants.starterFindBooking);
-                  }}
-                  containerStyle={{ marginRight: 8 }}
-                />
-                <View style={[styles.textWrapper, { marginRight: 8 }]}>
-                  <Text style={styles.infoText}>
-                    View the trips you have booked or have been invited to join.
-                  </Text>
-                </View>
-              </View>
-              <View>
-                <SimpleButton
-                  text={`Plan a vacation`}
-                  textColor={constants.firstColor}
-                  color={"white"}
-                  underlayColor={constants.firstColorAlpha(0.7)}
-                  action={() => {
-                    this.clickedPlan();
-                    recordEvent(constants.starterPlanVacation);
-                  }}
-                />
-                <View style={styles.textWrapper}>
-                  <Text style={styles.infoText}>
-                    Open your saved itineraries or plan & book a fabulous
-                    vacation.
-                  </Text>
-                </View>
+              <SimpleButton
+                text={`Find a Booking`}
+                textColor={`white`}
+                color={constants.firstColor}
+                underlayColor={constants.firstColorAlpha(0.7)}
+                action={() => {
+                  this.clickedBooking();
+                  recordEvent(constants.starterFindBooking);
+                }}
+                containerStyle={{ marginHorizontal: 48, width: null }}
+              />
+              <View style={styles.textWrapper}>
+                <Text style={styles.infoText}>
+                  or{" "}
+                  <Text
+                    onPress={() => {
+                      this.clickedPlan();
+                      recordEvent(constants.starterPlanVacation);
+                    }}
+                    style={styles.hyperlink}
+                  >
+                    Explore Itineraries
+                  </Text>.
+                </Text>
               </View>
             </View>
           </SafeAreaView>
@@ -122,23 +111,25 @@ const styles = StyleSheet.create({
     width: 168
   },
   buttonRow: {
-    flexDirection: "row",
-    alignItems: "flex-end",
+    alignItems: "stretch",
     justifyContent: "center",
     flexWrap: "wrap"
   },
   textWrapper: {
     marginTop: 8,
-    height: 32,
-    width: 160,
-    flexWrap: "wrap"
+    marginBottom: 16,
+    flexWrap: "wrap",
+    marginHorizontal: 56
   },
   infoText: {
     color: "rgba(255,255,255,0.6)",
     textAlign: "center",
     flexWrap: "wrap",
-    ...constants.font10(constants.primaryLight),
-    lineHeight: 10
+    ...constants.font17(constants.primarySemiBold)
+  },
+  hyperlink: {
+    color: constants.firstColor,
+    textDecorationLine: "underline"
   }
 });
 
