@@ -20,8 +20,8 @@ const DialogBox = ({
   return (
     <Modal
       isVisible={isVisible}
-      animationInTiming={500}
-      animationOutTiming={500}
+      animationInTiming={300}
+      animationOutTiming={300}
       onBackButtonPress={onClose}
       useNativeDriver={true}
     >
