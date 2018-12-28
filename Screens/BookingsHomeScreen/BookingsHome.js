@@ -27,6 +27,7 @@ import { recordEvent } from "../../Services/analytics/analyticsService";
 import { registerFcmRefreshListener } from "../../Services/fcmService/fcm";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import CustomScrollView from "../../CommonComponents/CustomScrollView/CustomScrollView";
+import SectionHeader from "../../CommonComponents/SectionHeader/SectionHeader";
 
 @ErrorBoundary({ isRoot: true })
 @inject("infoStore")
@@ -162,6 +163,8 @@ class BookingsHome extends Component {
     const { isLoading: voucherLoading } = this.props.voucherStore;
     const { navigation } = this.props;
 
+    const isRefreshing = itineraryLoading || voucherLoading;
+
     return (
       <View style={styles.bookingHomeContainer}>
         {/*<SearchPlaceholder action={this.openSearch} />*/}
@@ -169,7 +172,7 @@ class BookingsHome extends Component {
           style={styles.bookingContainer}
           showsVerticalScrollIndicator={false}
           horizontalPadding={24}
-          refreshing={itineraryLoading || voucherLoading}
+          refreshing={isRefreshing}
           onRefresh={() => {
             pullToRefresh({
               itinerary: true,
@@ -187,6 +190,10 @@ class BookingsHome extends Component {
             getTransferTypeByDay={getTransferTypeByDay}
             navigation={navigation}
           />
+
+          {selectedItineraryId ? (
+            <SectionHeader sectionName={"Trip Vouchers"} />
+          ) : null}
 
           <BookingAccordion navigation={navigation} />
           {selectedItineraryId ? (

@@ -158,7 +158,7 @@ const styles = StyleSheet.create({
   },
   contentTextContainer: {
     minHeight: 48,
-    marginLeft: 16,
+    marginLeft: 8,
     justifyContent: "center"
   },
   contentHeader: {
@@ -177,6 +177,7 @@ const styles = StyleSheet.create({
     fontSize: 17,
     lineHeight: 20,
     color: constants.black1,
+    fontWeight: "400",
     maxWidth: maxTextAreaWidth
   }
 });

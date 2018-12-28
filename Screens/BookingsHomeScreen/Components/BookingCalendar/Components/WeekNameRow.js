@@ -35,6 +35,7 @@ const WeekNameRow = () => {
 const itemWidth = (responsiveWidth(100) - 48) / 7;
 const styles = StyleSheet.create({
   weekNameRow: {
+    marginVertical: 8,
     flexDirection: "row",
     justifyContent: "space-around",
     alignItems: "center"

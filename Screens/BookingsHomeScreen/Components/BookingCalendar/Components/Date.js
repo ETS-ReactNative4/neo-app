@@ -108,8 +108,8 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end"
   },
   cityName: {
-    ...constants.fontCustom(constants.primaryLight, 10),
-    color: constants.black1,
+    ...constants.fontCustom(constants.primarySemiBold, 10),
+    color: constants.firstColor,
     marginBottom: 2,
     ...Platform.select({
       ios: {

@@ -86,7 +86,7 @@ BookingCalendar.propTypes = {
 
 const styles = StyleSheet.create({
   calendarContainer: {
-    marginBottom: 48
+    marginBottom: 24
   },
   weekDayRow: {
     height: 56,

@@ -130,7 +130,7 @@ class BookingAccordion extends Component {
               height: 26,
               width: 26,
               borderRadius: 13,
-              marginRight: 8
+              marginRight: 2
             }}
             textStyle={{
               ...constants.fontCustom(constants.primarySemiBold, 13),
