@@ -5,7 +5,8 @@ import {
   Text,
   Image,
   StyleSheet,
-  SafeAreaView
+  SafeAreaView,
+  Platform
 } from "react-native";
 import constants from "../../constants/constants";
 import SimpleButton from "../../CommonComponents/SimpleButton/SimpleButton";
@@ -66,11 +67,11 @@ class Starter extends Component {
                   this.clickedBooking();
                   recordEvent(constants.starterFindBooking);
                 }}
-                containerStyle={{ marginHorizontal: 48, width: null }}
+                containerStyle={{ width: 182 }}
               />
               <View style={styles.textWrapper}>
                 <Text style={styles.infoText}>
-                  or{" "}
+                  {`or `}
                   <Text
                     onPress={() => {
                       this.clickedPlan();
@@ -78,8 +79,8 @@ class Starter extends Component {
                     }}
                     style={styles.hyperlink}
                   >
-                    Explore Itineraries
-                  </Text>.
+                    explore itineraries
+                  </Text>
                 </Text>
               </View>
             </View>
@@ -111,13 +112,21 @@ const styles = StyleSheet.create({
     width: 168
   },
   buttonRow: {
-    alignItems: "stretch",
+    alignItems: "center",
     justifyContent: "center",
     flexWrap: "wrap"
   },
   textWrapper: {
-    marginTop: 8,
-    marginBottom: 16,
+    width: 182,
+    marginTop: 12,
+    ...Platform.select({
+      ios: {
+        marginBottom: 16
+      },
+      android: {
+        marginBottom: 32
+      }
+    }),
     flexWrap: "wrap",
     marginHorizontal: 56
   },
@@ -128,7 +137,6 @@ const styles = StyleSheet.create({
     ...constants.font17(constants.primarySemiBold)
   },
   hyperlink: {
-    color: constants.firstColor,
     textDecorationLine: "underline"
   }
 });
