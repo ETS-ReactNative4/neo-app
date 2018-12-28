@@ -37,7 +37,7 @@ class BookingAccordion extends Component {
   };
 
   state = {
-    activeSections: [0],
+    activeSections: [],
     wasActiveIndex: []
   };
   spinValue = new Animated.Value(0);
@@ -489,10 +489,10 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   },
   headerText: {
-    fontFamily: constants.primaryLight,
+    fontFamily: constants.primaryRegular,
     fontSize: 20,
     lineHeight: 20,
-    color: constants.shade1,
+    color: constants.black2,
     ...Platform.select({
       ios: {
         marginTop: 4

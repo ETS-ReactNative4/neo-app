@@ -42,7 +42,7 @@ const MobileNumberInput = ({
             <Icon
               name={constants.arrowDown}
               color={constants.shade2}
-              size={16}
+              size={8}
             />
           </View>
         </View>
@@ -84,11 +84,18 @@ MobileNumberInput.propTypes = {
 
 const styles = StyleSheet.create({
   mobileNumberBox: {
-    marginTop: 8,
+    marginTop: 16,
     marginHorizontal: 24,
-    height: 48,
-    borderBottomColor: constants.shade3,
-    borderBottomWidth: StyleSheet.hairlineWidth,
+    ...Platform.select({
+      android: {
+        height: 56
+      },
+      ios: {
+        height: 48
+      }
+    }),
+    borderBottomColor: constants.shade4,
+    borderBottomWidth: 1,
     flexDirection: "row",
     justifyContent: "center"
   },
@@ -121,8 +128,8 @@ const styles = StyleSheet.create({
     })
   },
   dropDownIconContainer: {
-    height: 16,
-    width: 16,
+    height: 8,
+    width: 8,
     marginHorizontal: 8,
     ...Platform.select({
       ios: {
@@ -132,7 +139,8 @@ const styles = StyleSheet.create({
     })
   },
   numberInputBox: {
-    flex: 1
+    flex: 1,
+    height: 56
   },
   numberInput: {
     fontFamily: constants.primaryLight,

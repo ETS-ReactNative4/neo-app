@@ -14,6 +14,7 @@ import PropTypes from "prop-types";
 import Icon from "../../../../../../CommonComponents/Icon/Icon";
 import SmartImage from "../../../../../../CommonComponents/SmartImage/SmartImage";
 import FastImage from "react-native-fast-image";
+import _ from "lodash";
 
 const BookingSectionComponent = ({
   onClick,
@@ -90,7 +91,7 @@ const BookingSectionComponent = ({
             numberOfLines={titleNumberOfLines}
             ellipsizeMode={"tail"}
           >
-            {title}
+            {_.toUpper(title)}
           </Text>
         ) : null}
         <View style={styles.contentTextWrapper}>
@@ -162,9 +163,8 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   },
   contentHeader: {
-    fontFamily: constants.primaryLight,
-    fontSize: 14,
-    fontWeight: "normal",
+    fontFamily: constants.primaryRegular,
+    fontSize: 11,
     lineHeight: 14,
     color: constants.shade2,
     maxWidth: maxTextAreaWidth
@@ -173,11 +173,12 @@ const styles = StyleSheet.create({
     width: maxTextAreaWidth
   },
   contentText: {
-    fontFamily: constants.primarySemiBold,
+    marginTop: 4,
+    fontFamily: constants.primaryLight,
     fontSize: 17,
     lineHeight: 20,
-    color: constants.black1,
-    fontWeight: "400",
+    color: constants.black2,
+    ...constants.kern1,
     maxWidth: maxTextAreaWidth
   }
 });

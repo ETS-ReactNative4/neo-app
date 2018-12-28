@@ -6,7 +6,8 @@ import {
   Keyboard,
   ActivityIndicator,
   BackHandler,
-  LayoutAnimation
+  LayoutAnimation,
+  Platform
 } from "react-native";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import constants from "../../constants/constants";
@@ -330,7 +331,7 @@ class MobileNumber extends Component {
       <View key={1} style={styles.mobileNumberContainer}>
         <View style={styles.headerTextWrapper}>
           <Text style={styles.headerText}>
-            {isMobileVerified ? `Enter OTP` : `Verify your mobile number.`}
+            {isMobileVerified ? `Enter OTP` : `Verify your mobile number`}
           </Text>
         </View>
 
@@ -338,8 +339,8 @@ class MobileNumber extends Component {
           <Text style={styles.infoText}>
             {isMobileVerified
               ? countryCode === "+91"
-                ? `Please enter the OTP sent to your mobile (${mobileNumber}) and your registered email address`
-                : `Please enter the OTP sent to your registered email address.`
+                ? `OTP is sent to your mobile (${mobileNumber}) and registered email.`
+                : `OTP is sent to your registered email address.`
               : `So that we can find bookings that are linked to your mobile number.`}
           </Text>
         </View>
@@ -429,8 +430,13 @@ const styles = StyleSheet.create({
   },
   infoText: {
     ...constants.font17(constants.primaryLight),
-    lineHeight: 17,
-    color: constants.shade1
+    ...Platform.select({
+      ios: {
+        lineHeight: 20
+      }
+    }),
+    color: constants.shade1,
+    ...constants.kern1
   },
   nextBottomBar: {
     height: 40,

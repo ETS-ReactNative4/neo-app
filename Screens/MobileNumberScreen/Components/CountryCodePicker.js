@@ -106,6 +106,7 @@ class CountryCodePicker extends Component {
   };
 
   sectionHeader = ({ section: { title } }) => {
+    if (this.state.search) return null;
     if (title === "Default")
       return <View style={{ height: 24, backgroundColor: "white" }} />;
     else
@@ -120,8 +121,8 @@ class CountryCodePicker extends Component {
   sectionFooter = () => {
     if (this.state.countriesToDisplay[1].data.length === 0) {
       return (
-        <Text style={styles.countryName}>
-          {"No countries matching your search criteria..."}
+        <Text style={styles.notFoundText}>
+          {"No countries matching your search criteria."}
         </Text>
       );
     }
@@ -143,10 +144,10 @@ class CountryCodePicker extends Component {
         style={styles.countryCodeTouchable}
       >
         <View style={styles.countryCodeItem}>
-          <Text style={styles.countryName}>{`${item.name} (${
+          <Text style={styles.countryName}>{`${item.name}`}</Text>
+          <Text style={styles.countryCode}>{`${
             item.countryCallingCodes[0]
-          })`}</Text>
-          <Text style={styles.countryCode}>{`${item.alpha2}`}</Text>
+          }`}</Text>
         </View>
       </TouchableHighlight>
     );
@@ -191,6 +192,7 @@ class CountryCodePicker extends Component {
           </View>
 
           <SectionList
+            showsVerticalScrollIndicator={false}
             style={{ marginHorizontal: 24 }}
             renderSectionHeader={this.sectionHeader}
             renderItem={this.sectionItem}
@@ -230,11 +232,19 @@ const styles = StyleSheet.create({
     justifyContent: "space-between"
   },
   countryCode: {
-    width: 40,
-    fontFamily: constants.primaryLight
+    width: 64,
+    ...constants.fontCustom(constants.primaryLight, 20),
+    textAlign: "right",
+    color: constants.shade3
   },
   countryName: {
-    fontFamily: constants.primaryLight
+    ...constants.fontCustom(constants.primaryLight, 20),
+    color: constants.shade1
+  },
+  notFoundText: {
+    ...constants.font17(constants.primaryLight),
+    marginTop: 24,
+    color: constants.shade1
   }
 });
 

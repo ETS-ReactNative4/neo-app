@@ -59,19 +59,22 @@ class Starter extends Component {
             </View>
             <View style={styles.buttonRow}>
               <SimpleButton
-                text={`Find a Booking`}
+                text={`Find your booking`}
                 textColor={`white`}
+                textStyle={{
+                  ...constants.fontCustom(constants.primarySemiBold, 18)
+                }}
                 color={constants.firstColor}
                 underlayColor={constants.firstColorAlpha(0.7)}
                 action={() => {
                   this.clickedBooking();
                   recordEvent(constants.starterFindBooking);
                 }}
-                containerStyle={{ width: 182 }}
+                containerStyle={{ width: 220, height: 48 }}
               />
               <View style={styles.textWrapper}>
                 <Text style={styles.infoText}>
-                  {`or `}
+                  {`Or `}
                   <Text
                     onPress={() => {
                       this.clickedPlan();
@@ -118,7 +121,7 @@ const styles = StyleSheet.create({
   },
   textWrapper: {
     width: 182,
-    marginTop: 12,
+    marginTop: 24,
     ...Platform.select({
       ios: {
         marginBottom: 16
