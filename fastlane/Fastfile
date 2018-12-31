@@ -1,0 +1,20 @@
+fastlane_version '2.112.0'
+
+before_all do
+  ensure_git_branch(
+    branch: 'fastlane'
+  )
+  ensure_git_status_clean
+end
+
+platform :ios do
+  lane :beta do
+    build_app(scheme: "Pickyourtrail",
+        workspace: "../ios/Pickyourtrail.xcworkspace",
+        include_bitcode: true)
+  end
+end
+
+platform :android do
+
+end
