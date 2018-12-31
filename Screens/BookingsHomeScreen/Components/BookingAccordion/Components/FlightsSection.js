@@ -9,7 +9,7 @@ import CircleThumbnail from "../../../../../CommonComponents/CircleThumbnail/Cir
 import SectionRightPlaceHolder from "./Components/SectionRightPlaceHolder";
 import storeService from "../../../../../Services/storeService/storeService";
 import { recordEvent } from "../../../../../Services/analytics/analyticsService";
-import BookingSectionComponent from "./Components/BookingSectionComponent";
+import BookingSectionComponent from "../../../../../CommonComponents/BookingSectionComponent/BookingSectionComponent";
 import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidExtraProps";
 import { toastBottom } from "../../../../../Services/toast/toast";
 

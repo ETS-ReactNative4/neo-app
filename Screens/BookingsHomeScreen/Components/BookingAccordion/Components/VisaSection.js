@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 import CircleThumbnail from "../../../../../CommonComponents/CircleThumbnail/CircleThumbnail";
 import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidExtraProps";
 import { recordEvent } from "../../../../../Services/analytics/analyticsService";
-import BookingSectionComponent from "./Components/BookingSectionComponent";
+import BookingSectionComponent from "../../../../../CommonComponents/BookingSectionComponent/BookingSectionComponent";
 
 const VisaSection = ({ section, navigation, spinValue }) => {
   return (

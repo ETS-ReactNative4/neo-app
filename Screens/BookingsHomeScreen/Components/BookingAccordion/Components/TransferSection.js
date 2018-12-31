@@ -11,7 +11,7 @@ import storeService from "../../../../../Services/storeService/storeService";
 import SectionRightPlaceHolder from "./Components/SectionRightPlaceHolder";
 import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidExtraProps";
 import { recordEvent } from "../../../../../Services/analytics/analyticsService";
-import BookingSectionComponent from "./Components/BookingSectionComponent";
+import BookingSectionComponent from "../../../../../CommonComponents/BookingSectionComponent/BookingSectionComponent";
 import { toastBottom } from "../../../../../Services/toast/toast";
 
 const TransferSection = ({ section, navigation, spinValue }) => {

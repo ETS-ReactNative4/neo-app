@@ -8,7 +8,7 @@ import CircleThumbnail from "../../../../../CommonComponents/CircleThumbnail/Cir
 import storeService from "../../../../../Services/storeService/storeService";
 import SectionRightPlaceHolder from "./Components/SectionRightPlaceHolder";
 import { recordEvent } from "../../../../../Services/analytics/analyticsService";
-import BookingSectionComponent from "./Components/BookingSectionComponent";
+import BookingSectionComponent from "../../../../../CommonComponents/BookingSectionComponent/BookingSectionComponent";
 import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidExtraProps";
 
 const PassSection = ({ section, navigation, spinValue }) => {

@@ -12,7 +12,7 @@ import { recordEvent } from "../../../../../Services/analytics/analyticsService"
 import getTitleCase from "../../../../../Services/getTitleCase/getTitleCase";
 import { CustomTabs } from "react-native-custom-tabs";
 import { logError } from "../../../../../Services/errorLogger/errorLogger";
-import BookingSectionComponent from "./Components/BookingSectionComponent";
+import BookingSectionComponent from "../../../../../CommonComponents/BookingSectionComponent/BookingSectionComponent";
 import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidExtraProps";
 import { toastBottom } from "../../../../../Services/toast/toast";
 

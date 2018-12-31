@@ -1,6 +1,6 @@
 import React from "react";
-import CircleThumbnail from "../../../../../../CommonComponents/CircleThumbnail/CircleThumbnail";
-import constants from "../../../../../../constants/constants";
+import CircleThumbnail from "../CircleThumbnail/CircleThumbnail";
+import constants from "../../constants/constants";
 import {
   Text,
   TouchableOpacity,
@@ -11,8 +11,8 @@ import {
 } from "react-native";
 import { responsiveWidth } from "react-native-responsive-dimensions";
 import PropTypes from "prop-types";
-import Icon from "../../../../../../CommonComponents/Icon/Icon";
-import SmartImage from "../../../../../../CommonComponents/SmartImage/SmartImage";
+import Icon from "../Icon/Icon";
+import SmartImage from "../SmartImage/SmartImage";
 import FastImage from "react-native-fast-image";
 import _ from "lodash";
 
@@ -120,7 +120,8 @@ BookingSectionComponent.propTypes = {
   titleNumberOfLines: PropTypes.number,
   contentNumberOfLines: PropTypes.number,
   isProcessing: PropTypes.bool.isRequired,
-  hideTitle: PropTypes.bool
+  hideTitle: PropTypes.bool,
+  spinValue: PropTypes.object
 };
 
 const maxTextAreaWidth = responsiveWidth(100) - 48 - 8 - 40 - 16;
@@ -129,7 +130,7 @@ const styles = StyleSheet.create({
   contentContainer: {
     paddingTop: 16,
     flexDirection: "row",
-    alignItems: "center"
+    alignItems: "flex-start"
   },
   iconWrapper: {
     overflow: "hidden",

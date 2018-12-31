@@ -8,7 +8,7 @@ import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidE
 import { recordEvent } from "../../../../../Services/analytics/analyticsService";
 import storeService from "../../../../../Services/storeService/storeService";
 import { inject, observer } from "mobx-react/custom";
-import BookingSectionComponent from "./Components/BookingSectionComponent";
+import BookingSectionComponent from "../../../../../CommonComponents/BookingSectionComponent/BookingSectionComponent";
 
 const { insuranceComingSoonText } = constants;
 
