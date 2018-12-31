@@ -1,17 +1,33 @@
 fastlane_version '2.112.0'
 
+account="dani@pickyourtrail.com"
+identifierIOS="com.pyt"
+
 before_all do
   ensure_git_branch(
-    branch: 'fastlane'
+    branch: 'development'
   )
   ensure_git_status_clean
 end
 
 platform :ios do
   lane :beta do
-    build_app(scheme: "Pickyourtrail",
-        workspace: "../ios/Pickyourtrail.xcworkspace",
-        include_bitcode: true)
+    increment_build_number(
+      build_number: latest_testflight_build_number(
+        username: account,
+        app_identifier: identifierIOS
+      ) + 1,
+      xcodeproj: "./ios/Pickyourtrail.xcodeproj"
+    )
+    build_app(
+      scheme: "Pickyourtrail",
+      workspace: "./ios/Pickyourtrail.xcworkspace",
+      include_bitcode: true
+    )
+    upload_to_testflight(
+      username: account,
+      app_identifier: identifierIOS
+    )
   end
 end
 
