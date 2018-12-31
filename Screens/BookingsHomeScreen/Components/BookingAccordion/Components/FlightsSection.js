@@ -5,9 +5,6 @@ import { responsiveWidth } from "react-native-responsive-dimensions";
 import constants from "../../../../../constants/constants";
 import PropTypes from "prop-types";
 import FlightVoucher from "../../../../VoucherScreens/FlightVoucherScreen/FlightVoucher";
-import CircleThumbnail from "../../../../../CommonComponents/CircleThumbnail/CircleThumbnail";
-import SectionRightPlaceHolder from "./Components/SectionRightPlaceHolder";
-import storeService from "../../../../../Services/storeService/storeService";
 import { recordEvent } from "../../../../../Services/analytics/analyticsService";
 import BookingSectionComponent from "../../../../../CommonComponents/BookingSectionComponent/BookingSectionComponent";
 import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidExtraProps";
@@ -55,12 +52,6 @@ const Flight = ({ flight, isLast, navigation, spinValue }) => {
       navigation.navigate("FlightVoucher", { flight });
     } else {
       toastBottom(constants.bookingProcessText.message);
-      // storeService.infoStore.setInfo(
-      //   constants.bookingProcessText.title,
-      //   constants.bookingProcessText.message,
-      //   constants.bookingProcessingIcon,
-      //   constants.bookingProcessText.actionText
-      // );
     }
   };
 
@@ -102,47 +93,6 @@ const Flight = ({ flight, isLast, navigation, spinValue }) => {
       isImageContain={true}
       defaultImageUri={constants.airLineLogoPlaceHolder}
     />
-  );
-
-  /**
-   * TODO: Flight Icons Needed
-   * */
-  return (
-    <TouchableOpacity
-      onPress={openVoucher}
-      style={[styles.contentContainer, customStyle]}
-    >
-      <View style={styles.iconWrapper}>
-        <CircleThumbnail
-          image={{ uri: airlineLogo }}
-          containerStyle={styles.contentIcon}
-          isContain={true}
-          defaultImageUri={constants.airLineLogoPlaceHolder}
-        />
-      </View>
-      <View style={styles.contentTextContainer}>
-        <View style={styles.contentHeaderWrapper}>
-          <Text
-            style={styles.contentHeader}
-            numberOfLines={2}
-            ellipsizeMode={"tail"}
-          >{`${moment(timings[0].departure[0], "MMM DD, HH:mm").format(
-            "MMM DD"
-          )}${
-            timings.length > 1
-              ? `,${" / "}${moment(
-                  timings[timings.length - 1].departure[0],
-                  "MMM DD, HH:mm"
-                ).format("MMM DD")}`
-              : ""
-          }`}</Text>
-        </View>
-        <View style={styles.contentTextWrapper}>
-          <Text style={styles.contentText} numberOfLines={2} />
-        </View>
-      </View>
-      <SectionRightPlaceHolder isProcessing={!flight.voucher.booked} />
-    </TouchableOpacity>
   );
 };
 

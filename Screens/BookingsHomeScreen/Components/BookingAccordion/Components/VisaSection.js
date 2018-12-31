@@ -3,7 +3,6 @@ import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { responsiveWidth } from "react-native-responsive-dimensions";
 import constants from "../../../../../constants/constants";
 import PropTypes from "prop-types";
-import CircleThumbnail from "../../../../../CommonComponents/CircleThumbnail/CircleThumbnail";
 import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidExtraProps";
 import { recordEvent } from "../../../../../Services/analytics/analyticsService";
 import BookingSectionComponent from "../../../../../CommonComponents/BookingSectionComponent/BookingSectionComponent";
@@ -66,34 +65,6 @@ const Visa = ({ visa, isLast, navigation, spinValue }) => {
       defaultImageUri={constants.transferPlaceHolder}
       hideTitle={!isSchengen}
     />
-  );
-
-  return (
-    <TouchableOpacity
-      onPress={openVoucher}
-      style={[styles.contentContainer, customStyle]}
-    >
-      <View style={styles.iconWrapper}>
-        <CircleThumbnail
-          isContain={false}
-          containerStyle={styles.contentIcon}
-          image={constants.splashBackground}
-          defaultImageUri={constants.transferPlaceHolder}
-        />
-      </View>
-      <View style={styles.contentTextContainer}>
-        {isSchengen ? (
-          <View style={styles.contentHeaderWrapper}>
-            <Text style={styles.contentHeader}>{"Schengen"}</Text>
-          </View>
-        ) : null}
-        <View style={styles.contentTextWrapper}>
-          <Text style={styles.contentText} numberOfLines={2}>
-            {visa.country}
-          </Text>
-        </View>
-      </View>
-    </TouchableOpacity>
   );
 };
 

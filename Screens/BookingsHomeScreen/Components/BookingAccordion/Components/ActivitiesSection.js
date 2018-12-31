@@ -4,10 +4,7 @@ import moment from "moment";
 import { responsiveWidth } from "react-native-responsive-dimensions";
 import constants from "../../../../../constants/constants";
 import PropTypes from "prop-types";
-import CircleThumbnail from "../../../../../CommonComponents/CircleThumbnail/CircleThumbnail";
 import _ from "lodash";
-import storeService from "../../../../../Services/storeService/storeService";
-import SectionRightPlaceHolder from "./Components/SectionRightPlaceHolder";
 import { recordEvent } from "../../../../../Services/analytics/analyticsService";
 import getTitleCase from "../../../../../Services/getTitleCase/getTitleCase";
 import { CustomTabs } from "react-native-custom-tabs";
@@ -74,12 +71,6 @@ const Activities = ({ activity, isLast, navigation, spinValue }) => {
       navigation.navigate("ActivityVoucher", { activity });
     } else {
       toastBottom(constants.bookingProcessText.message);
-      // storeService.infoStore.setInfo(
-      //   constants.bookingProcessText.title,
-      //   constants.bookingProcessText.message,
-      //   constants.bookingProcessingIcon,
-      //   constants.bookingProcessText.actionText
-      // );
     }
   };
 
@@ -116,54 +107,6 @@ const Activities = ({ activity, isLast, navigation, spinValue }) => {
         constants.activity3SmallPlaceHolder
       ])}
     />
-  );
-
-  return (
-    <TouchableOpacity
-      onPress={openVoucher}
-      style={[styles.contentContainer, customStyle]}
-    >
-      <View style={styles.iconWrapper}>
-        <CircleThumbnail
-          image={{ uri: activity.mainPhoto }}
-          containerStyle={styles.contentIcon}
-          isContain={false}
-          defaultImageUri={_.sample([
-            constants.activitySmallPlaceHolder,
-            constants.activity2SmallPlaceHolder,
-            constants.activity3SmallPlaceHolder
-          ])}
-        />
-      </View>
-      <View style={styles.contentTextContainer}>
-        <View style={styles.contentHeaderWrapper}>
-          <Text style={styles.contentHeader}>{`${
-            activity.voucher.activityTime && activity.voucher.activityTime > 1
-              ? moment(activity.voucher.activityTime).format(
-                  constants.commonDateFormat
-                )
-              : activity.costing.dateMillis
-                ? moment(activity.costing.dateMillis).format(
-                    constants.commonDateFormat
-                  )
-                : moment(
-                    `${activity.costing.day}/${activity.costing.mon}/${
-                      constants.currentYear
-                    }`,
-                    "DD/MMM/YYYY"
-                  ).format(constants.commonDateFormat)
-          }`}</Text>
-        </View>
-        <View style={styles.contentTextWrapper}>
-          <Text style={styles.contentText} numberOfLines={1}>
-            {getTitleCase(activity.title)}
-          </Text>
-        </View>
-      </View>
-      <SectionRightPlaceHolder
-        isProcessing={!(activity.voucher.booked || activity.free)}
-      />
-    </TouchableOpacity>
   );
 };
 

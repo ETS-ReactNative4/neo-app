@@ -1,5 +1,4 @@
 import React from "react";
-import CircleThumbnail from "../CircleThumbnail/CircleThumbnail";
 import constants from "../../constants/constants";
 import {
   Text,

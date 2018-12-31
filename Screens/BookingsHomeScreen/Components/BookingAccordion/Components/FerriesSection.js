@@ -4,11 +4,7 @@ import moment from "moment";
 import { responsiveWidth } from "react-native-responsive-dimensions";
 import constants from "../../../../../constants/constants";
 import PropTypes from "prop-types";
-import _ from "lodash";
 import getTransferImage from "../../../../../Services/getImageService/getTransferImage";
-import CircleThumbnail from "../../../../../CommonComponents/CircleThumbnail/CircleThumbnail";
-import storeService from "../../../../../Services/storeService/storeService";
-import SectionRightPlaceHolder from "./Components/SectionRightPlaceHolder";
 import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidExtraProps";
 import { recordEvent } from "../../../../../Services/analytics/analyticsService";
 import BookingSectionComponent from "../../../../../CommonComponents/BookingSectionComponent/BookingSectionComponent";
@@ -58,12 +54,6 @@ const Ferry = ({ ferry, isLast, navigation, spinValue }) => {
       });
     } else {
       toastBottom(constants.bookingProcessText.message);
-      // storeService.infoStore.setInfo(
-      //   constants.bookingProcessText.title,
-      //   constants.bookingProcessText.message,
-      //   constants.bookingProcessingIcon,
-      //   constants.bookingProcessText.actionText
-      // );
     }
   };
 
@@ -91,42 +81,6 @@ const Ferry = ({ ferry, isLast, navigation, spinValue }) => {
       isImageContain={false}
       defaultImageUri={constants.transferPlaceHolder}
     />
-  );
-
-  return (
-    <TouchableOpacity
-      onPress={openVoucher}
-      style={[styles.contentContainer, customStyle]}
-    >
-      <View style={styles.iconWrapper}>
-        <CircleThumbnail
-          isContain={false}
-          containerStyle={styles.contentIcon}
-          image={{ uri: getTransferImage("FERRY") }}
-          defaultImageUri={constants.transferPlaceHolder}
-        />
-      </View>
-      <View style={styles.contentTextContainer}>
-        <View style={styles.contentHeaderWrapper}>
-          <Text style={styles.contentHeader}>{`${
-            pickupTime && pickupTime > 1
-              ? moment(pickupTime).format(constants.commonDateFormat)
-              : dateMillis
-                ? moment(dateMillis).format(constants.commonDateFormat)
-                : moment(
-                    `${ferry.day}/${ferry.mon}/${constants.currentYear}`,
-                    "DD/MMM/YYYY"
-                  ).format(constants.commonDateFormat)
-          }`}</Text>
-        </View>
-        <View style={styles.contentTextWrapper}>
-          <Text style={styles.contentText} numberOfLines={2}>
-            {ferry.text}
-          </Text>
-        </View>
-      </View>
-      <SectionRightPlaceHolder isProcessing={!ferry.voucher.booked} />
-    </TouchableOpacity>
   );
 };
 

@@ -4,11 +4,7 @@ import moment from "moment";
 import { responsiveWidth } from "react-native-responsive-dimensions";
 import constants from "../../../../../constants/constants";
 import PropTypes from "prop-types";
-import _ from "lodash";
 import getTransferImage from "../../../../../Services/getImageService/getTransferImage";
-import CircleThumbnail from "../../../../../CommonComponents/CircleThumbnail/CircleThumbnail";
-import storeService from "../../../../../Services/storeService/storeService";
-import SectionRightPlaceHolder from "./Components/SectionRightPlaceHolder";
 import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidExtraProps";
 import BookingSectionComponent from "../../../../../CommonComponents/BookingSectionComponent/BookingSectionComponent";
 import { toastBottom } from "../../../../../Services/toast/toast";
@@ -55,12 +51,6 @@ const RentalCar = ({ rentalCar, isLast, navigation, spinValue }) => {
       navigation.navigate("TransferVoucher", { transfer: rentalCar });
     } else {
       toastBottom(constants.bookingProcessText.message);
-      // storeService.infoStore.setInfo(
-      //   constants.bookingProcessText.title,
-      //   constants.bookingProcessText.message,
-      //   constants.bookingProcessingIcon,
-      //   constants.bookingProcessText.actionText
-      // );
     }
   };
 
@@ -89,48 +79,6 @@ const RentalCar = ({ rentalCar, isLast, navigation, spinValue }) => {
       isImageContain={true}
       defaultImageUri={constants.transferPlaceHolder}
     />
-  );
-
-  return (
-    <TouchableOpacity
-      onPress={openVoucher}
-      style={[styles.contentContainer, customStyle]}
-    >
-      <View style={styles.iconWrapper}>
-        <CircleThumbnail
-          isContain={rentalCar.vehicle !== "Train"}
-          containerStyle={styles.contentIcon}
-          image={{ uri: getTransferImage(rentalCar.vehicle, rentalCar.type) }}
-          defaultImageUri={constants.transferPlaceHolder}
-        />
-      </View>
-      <View style={styles.contentTextContainer}>
-        <View style={styles.contentHeaderWrapper}>
-          <Text style={styles.contentHeader}>{`${
-            rentalCar.voucher.pickupTime && rentalCar.voucher.pickupTime > 0
-              ? moment(rentalCar.voucher.pickupTime).format(
-                  constants.commonDateFormat
-                )
-              : rentalCar.pDateMillis && rentalCar.pDateMillis > 0
-                ? moment(rentalCar.pDateMillis).format(
-                    constants.commonDateFormat
-                  )
-                : moment(
-                    `${rentalCar.day}/${rentalCar.mon}/${
-                      constants.currentYear
-                    }`,
-                    "DD/MMM/YYYY"
-                  ).format(constants.commonDateFormat)
-          }`}</Text>
-        </View>
-        <View style={styles.contentTextWrapper}>
-          <Text style={styles.contentText} numberOfLines={2}>
-            {rentalCar.pickup + " to " + rentalCar.drop}
-          </Text>
-        </View>
-      </View>
-      <SectionRightPlaceHolder isProcessing={!rentalCar.voucher.booked} />
-    </TouchableOpacity>
   );
 };
 

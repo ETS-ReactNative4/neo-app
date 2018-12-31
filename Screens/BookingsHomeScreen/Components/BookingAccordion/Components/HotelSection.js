@@ -4,9 +4,6 @@ import moment from "moment";
 import { responsiveWidth } from "react-native-responsive-dimensions";
 import constants from "../../../../../constants/constants";
 import PropTypes from "prop-types";
-import CircleThumbnail from "../../../../../CommonComponents/CircleThumbnail/CircleThumbnail";
-import storeService from "../../../../../Services/storeService/storeService";
-import SectionRightPlaceHolder from "./Components/SectionRightPlaceHolder";
 import { recordEvent } from "../../../../../Services/analytics/analyticsService";
 import getTitleCase from "../../../../../Services/getTitleCase/getTitleCase";
 import BookingSectionComponent from "../../../../../CommonComponents/BookingSectionComponent/BookingSectionComponent";
@@ -55,12 +52,6 @@ const Hotel = ({ hotel, isLast, navigation, spinValue }) => {
       navigation.navigate("HotelVoucher", { hotel });
     } else {
       toastBottom(constants.bookingProcessText.message);
-      // storeService.infoStore.setInfo(
-      //   constants.bookingProcessText.title,
-      //   constants.bookingProcessText.message,
-      //   constants.bookingProcessingIcon,
-      //   constants.bookingProcessText.actionText
-      // );
     }
   };
 
@@ -84,40 +75,6 @@ const Hotel = ({ hotel, isLast, navigation, spinValue }) => {
       defaultImageUri={constants.hotelSmallPlaceHolder}
       sectionImage={{ uri: hotel.imageURL }}
     />
-  );
-
-  return (
-    <TouchableOpacity
-      onPress={openVoucher}
-      style={[styles.contentContainer, customStyle]}
-    >
-      <View style={styles.iconWrapper}>
-        <CircleThumbnail
-          containerStyle={styles.contentIcon}
-          image={{ uri: hotel.imageURL }}
-          defaultImageUri={constants.hotelSmallPlaceHolder}
-        />
-      </View>
-      <View style={styles.contentTextContainer}>
-        <View style={styles.contentHeaderWrapper}>
-          <Text style={styles.contentHeader}>
-            {hotel.voucher.checkInDate
-              ? moment(hotel.voucher.checkInDate, "YYYY-MM-DD").format(
-                  constants.commonDateFormat
-                )
-              : moment(hotel.checkInDate, "DD/MMM/YYYY").format(
-                  constants.commonDateFormat
-                )}
-          </Text>
-        </View>
-        <View style={styles.contentTextWrapper}>
-          <Text style={styles.contentText} numberOfLines={1}>
-            {getTitleCase(hotel.name)}
-          </Text>
-        </View>
-      </View>
-      <SectionRightPlaceHolder isProcessing={!hotel.voucher.booked} />
-    </TouchableOpacity>
   );
 };
 

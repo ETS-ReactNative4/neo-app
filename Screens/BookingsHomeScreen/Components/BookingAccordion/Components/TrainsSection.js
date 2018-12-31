@@ -4,10 +4,7 @@ import moment from "moment";
 import { responsiveWidth } from "react-native-responsive-dimensions";
 import constants from "../../../../../constants/constants";
 import PropTypes from "prop-types";
-import CircleThumbnail from "../../../../../CommonComponents/CircleThumbnail/CircleThumbnail";
-import storeService from "../../../../../Services/storeService/storeService";
 import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidExtraProps";
-import SectionRightPlaceHolder from "./Components/SectionRightPlaceHolder";
 import { recordEvent } from "../../../../../Services/analytics/analyticsService";
 import BookingSectionComponent from "../../../../../CommonComponents/BookingSectionComponent/BookingSectionComponent";
 import { toastBottom } from "../../../../../Services/toast/toast";
@@ -56,12 +53,6 @@ const Train = ({ train, isLast, navigation, spinValue }) => {
       });
     } else {
       toastBottom(constants.bookingProcessText.message);
-      // storeService.infoStore.setInfo(
-      //   constants.bookingProcessText.title,
-      //   constants.bookingProcessText.message,
-      //   constants.bookingProcessingIcon,
-      //   constants.bookingProcessText.actionText
-      // );
     }
   };
 
@@ -89,42 +80,6 @@ const Train = ({ train, isLast, navigation, spinValue }) => {
       isImageContain={false}
       defaultImageUri={constants.miscImageBaseUrl + "transfers-train.jpg"}
     />
-  );
-
-  return (
-    <TouchableOpacity
-      onPress={openVoucher}
-      style={[styles.contentContainer, customStyle]}
-    >
-      <View style={styles.iconWrapper}>
-        <CircleThumbnail
-          isContain={false}
-          containerStyle={styles.contentIcon}
-          image={{ uri: constants.miscImageBaseUrl + "transfers-train.jpg" }}
-          defaultImageUri={constants.miscImageBaseUrl + "transfers-train.jpg"}
-        />
-      </View>
-      <View style={styles.contentTextContainer}>
-        <View style={styles.contentHeaderWrapper}>
-          <Text style={styles.contentHeader}>{`${
-            pickupTime && pickupTime > 1
-              ? moment(pickupTime).format(constants.commonDateFormat)
-              : dateMillis
-                ? moment(dateMillis).format(constants.commonDateFormat)
-                : moment(
-                    `${train.day}/${train.mon}/${constants.currentYear}`,
-                    "DD/MMM/YYYY"
-                  ).format(constants.commonDateFormat)
-          }`}</Text>
-        </View>
-        <View style={styles.contentTextWrapper}>
-          <Text style={styles.contentText} numberOfLines={2}>
-            {train.text}
-          </Text>
-        </View>
-      </View>
-      <SectionRightPlaceHolder isProcessing={!train.voucher.booked} />
-    </TouchableOpacity>
   );
 };
 
