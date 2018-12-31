@@ -11,14 +11,15 @@ before_all do
 end
 
 platform :ios do
-  lane :testflight do
+
+  lane :increaseBuildNumber do |options|
     increment_build_number(
-      build_number: latest_testflight_build_number(
-        username: account,
-        app_identifier: identifierIOS
-      ) + 1,
+      build_number: options[:build_number],
       xcodeproj: "./ios/Pickyourtrail.xcodeproj"
     )
+  end
+
+  lane :uploadToTestflight do
     build_app(
       scheme: "Pickyourtrail",
       workspace: "./ios/Pickyourtrail.xcworkspace",

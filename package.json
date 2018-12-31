@@ -12,6 +12,7 @@
     "run-ios": "react-native run-ios",
     "pod-install": "cd ios && pod install && cd ..",
     "precommit": "pretty-quick --staged",
+    "bump-version": "node bumpVersion.js",
     "debug": "react-devtools"
   },
   "dependencies": {
@@ -76,6 +77,7 @@
     "babel-preset-react-native": "^5.0.1",
     "husky": "^0.14.3",
     "jest": "23.6.0",
+    "jsonfile": "^5.0.0",
     "metro-react-native-babel-preset": "0.48.0",
     "precommit": "^1.2.2",
     "prettier": "^1.12.1",
@@ -83,10 +85,6 @@
     "react-devtools": "^3.4.2",
     "react-test-renderer": "16.5.0"
   },
-  "jest": {
-    "preset": "react-native"
-  },
-  "rnpm": {
-    "assets": ["./assets/fonts/"]
-  }
+  "jest": { "preset": "react-native" },
+  "rnpm": { "assets": ["./assets/fonts/"] }
 }
