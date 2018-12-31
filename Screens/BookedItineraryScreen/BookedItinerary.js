@@ -4,15 +4,15 @@ import {
   Text,
   StyleSheet,
   ScrollView,
-  LayoutAnimation
+  LayoutAnimation,
+  Animated,
+  Easing
 } from "react-native";
 import {
   responsiveHeight,
   responsiveWidth
 } from "react-native-responsive-dimensions";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
-import BookingHomeTitle from "../../CommonComponents/BookingHomeTitle/BookingHomeTitle";
-import SearchButton from "../../CommonComponents/SearchButton/SearchButton";
 import BookedItineraryTopBar from "./Components/BookedItineraryTopBar/BookedItineraryTopBar";
 import { inject, observer } from "mobx-react/custom";
 import Slot from "./Components/Slot";
@@ -50,6 +50,7 @@ class BookedItinerary extends Component {
     isScrollRecorded: false
   };
   _headerScroll = {};
+  spinValue = new Animated.Value(0);
 
   selectDay = day => {
     this.setState(
@@ -133,6 +134,14 @@ class BookedItinerary extends Component {
         this.selectDay(selectedDay);
       }, 350);
     }
+    Animated.loop(
+      Animated.timing(this.spinValue, {
+        toValue: 1,
+        duration: 3000,
+        easing: Easing.linear,
+        useNativeDriver: true
+      })
+    ).start();
   }
 
   render() {
@@ -158,6 +167,7 @@ class BookedItinerary extends Component {
           {days.map((day, index) => {
             return (
               <Slot
+                spinValue={this.spinValue}
                 key={index}
                 day={day}
                 slot={slots[index]}
