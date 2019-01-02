@@ -83,6 +83,8 @@ const styles = StyleSheet.create({
     marginHorizontal: 24,
     marginVertical: 16,
     minHeight: 260,
+    borderWidth: StyleSheet.hairlineWidth,
+    borderColor: constants.shade5,
     ...constants.elevationTwo
   },
   touchable: {
