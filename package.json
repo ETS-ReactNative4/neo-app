@@ -8,6 +8,7 @@
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "jest",
     "build-android": "cd android && ./gradlew assembleRelease && cd ..",
+    "testflight-ios": "fastlane ios uploadToTestflight",
     "run-android": "react-native run-android",
     "run-ios": "react-native run-ios",
     "pod-install": "cd ios && pod install && cd ..",
