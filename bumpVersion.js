@@ -11,20 +11,24 @@ function getValueByKey(text, key) {
 }
 
 function handleErrors(err) {
+  console.log("Version bump failed due to following error: ");
   console.error(err);
+  console.log("Resetting git repo");
+  exec(`git reset --hard`);
   process.exit(1);
 }
 
 console.log("Checking if repo is clean...");
 const checkIfRepoClean = exec(
-  `git diff-index --quiet HEAD -- || echo "untracked"`,
+  `git diff-index --quiet HEAD -- || echo "dirty"`,
   function(err, stdout, stderr) {
     if (err) handleErrors(err);
     else {
       const repoStatus = stdout;
       console.log(repoStatus);
-      if (repoStatus.includes("untracked")) {
-        handleErrors("Untracked Files in Repo");
+      if (repoStatus.includes("dirty")) {
+        console.error("Uncommitted Files in Repo");
+        process.exit(1);
       } else {
         jsonfile
           .readFile(file)
