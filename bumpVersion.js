@@ -69,6 +69,10 @@ const checkIfRepoClean = exec(
                                   "New build number - ",
                                   newBuildNumber
                                 );
+                                console.log("Committing Version bump");
+                                exec(
+                                  `git add . && git commit -m "bump version code"`
+                                );
                               }
                             }
                           );
