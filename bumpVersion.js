@@ -71,7 +71,13 @@ const checkIfRepoClean = exec(
                                 );
                                 console.log("Committing Version bump");
                                 exec(
-                                  `git add . && git commit -m "bump version code"`
+                                  `git add . && git commit -m "bump version code"`,
+                                  function(err, stdout, stderr) {
+                                    if (err) handleErrors(err);
+                                    else {
+                                      console.log(stdout);
+                                    }
+                                  }
                                 );
                               }
                             }
