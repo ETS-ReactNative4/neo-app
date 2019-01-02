@@ -69,8 +69,9 @@ const checkIfRepoClean = exec(
                             }
                           );
                           fastlaneScript.on("exit", function(code) {
-                            console.log("Fastlane exit code - ", code);
-                            handleErrors("Fastlane exit code - " + code);
+                            if (code === 1) {
+                              handleErrors("Fastlane ios version bump failed");
+                            }
                           });
                         }
                       }
