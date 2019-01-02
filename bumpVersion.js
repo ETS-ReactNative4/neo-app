@@ -12,52 +12,76 @@ function getValueByKey(text, key) {
 
 function handleErrors(err) {
   console.error(err);
+  process.exit(1);
 }
 
-jsonfile
-  .readFile(file)
-  .then(obj => {
-    console.log("Current Build Number - ", obj.build);
-    const newBuildNumber = ++obj.build;
-    console.log("Updating package.json");
-    jsonfile
-      .writeFile(file, obj)
-      .then(res => {
-        fs.readFile("./android/gradle.properties", function(err, buf) {
-          if (err) handleErrors(err);
-          else {
-            let gradleProps = buf.toString();
-            const oldBuildNumber = getValueByKey(gradleProps, "VERSION_CODE");
-            gradleProps = gradleProps.replace(
-              `VERSION_CODE=${oldBuildNumber}`,
-              `VERSION_CODE=${newBuildNumber}`
-            );
-            console.log("Updating gradle.properties");
-            fs.writeFile("./android/gradle.properties", gradleProps, function(
-              err,
-              data
-            ) {
-              if (err) handleErrors(err);
-              else {
-                console.log("Updating iOS build numbers");
-                const dir = exec(
-                  `fastlane ios increaseBuildNumber build_number:${newBuildNumber}`,
-                  function(err, stdout, stderr) {
-                    if (err) handleErrors(err);
-                    else {
-                      console.log(stdout);
-                      console.log("New build number - ", newBuildNumber);
-                    }
+console.log("Checking if repo is clean...");
+const checkIfRepoClean = exec(
+  `git diff-index --quiet HEAD -- || echo "untracked"`,
+  function(err, stdout, stderr) {
+    if (err) handleErrors(err);
+    else {
+      const repoStatus = stdout;
+      console.log(repoStatus);
+      if (repoStatus.includes("untracked")) {
+        handleErrors("Untracked Files in Repo");
+      } else {
+        jsonfile
+          .readFile(file)
+          .then(obj => {
+            console.log("Current Build Number - ", obj.build);
+            const newBuildNumber = ++obj.build;
+            console.log("Updating package.json");
+            jsonfile
+              .writeFile(file, obj)
+              .then(res => {
+                fs.readFile("./android/gradle.properties", function(err, buf) {
+                  if (err) handleErrors(err);
+                  else {
+                    let gradleProps = buf.toString();
+                    const oldBuildNumber = getValueByKey(
+                      gradleProps,
+                      "VERSION_CODE"
+                    );
+                    gradleProps = gradleProps.replace(
+                      `VERSION_CODE=${oldBuildNumber}`,
+                      `VERSION_CODE=${newBuildNumber}`
+                    );
+                    console.log("Updating gradle.properties");
+                    fs.writeFile(
+                      "./android/gradle.properties",
+                      gradleProps,
+                      function(err, data) {
+                        if (err) handleErrors(err);
+                        else {
+                          console.log("Updating iOS build numbers");
+                          const fastlaneScript = exec(
+                            `fastlane ios increaseBuildNumber build_number:${newBuildNumber}`,
+                            function(err, stdout, stderr) {
+                              if (err) handleErrors(err);
+                              else {
+                                console.log(stdout);
+                                console.log(
+                                  "New build number - ",
+                                  newBuildNumber
+                                );
+                              }
+                            }
+                          );
+                          fastlaneScript.on("exit", function(code) {
+                            console.log("Fastlane exit code - ", code);
+                            handleErrors("Fastlane exit code - " + code);
+                          });
+                        }
+                      }
+                    );
                   }
-                );
-                dir.on("exit", function(code) {
-                  console.log("Fastlane exit code - ", code);
                 });
-              }
-            });
-          }
-        });
-      })
-      .catch(handleErrors);
-  })
-  .catch(handleErrors);
+              })
+              .catch(handleErrors);
+          })
+          .catch(handleErrors);
+      }
+    }
+  }
+);
