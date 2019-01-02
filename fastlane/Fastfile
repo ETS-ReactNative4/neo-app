@@ -4,10 +4,10 @@ account="dani@pickyourtrail.com"
 identifierIOS="com.pyt"
 
 before_all do
-  # ensure_git_branch(
-  #   branch: 'development'
-  # )
-  # ensure_git_status_clean
+  ensure_git_branch(
+    branch: 'development'
+  )
+  ensure_git_status_clean
 end
 
 platform :ios do
