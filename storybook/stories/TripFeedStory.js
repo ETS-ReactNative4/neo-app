@@ -3,6 +3,72 @@ import { storiesOf } from "@storybook/react-native";
 import WidgetTitle from "../../Screens/TripFeedScreen/Components/WidgetTitle/WidgetTitle";
 import ToolTip from "../../Screens/TripFeedScreen/Components/ToolTip/ToolTip";
 import constants from "../../constants/constants";
+import TripView from "../../Screens/TripFeedScreen/Components/TripView/TripView";
+import TripViewLite from "../../Screens/TripFeedScreen/Components/TripViewLite/TripViewLite";
+import TripFeedCarousel from "../../Screens/TripFeedScreen/Components/TripFeedCarousel/TripFeedCarousel";
+
+const tripData = [
+  {
+    title: "Chennai",
+    icon: "FLIGHT",
+    period: "May 14-15",
+    action: () => {},
+    image: {
+      uri:
+        "https://www.larousse.fr/encyclopedie/data/images/1314562-Barcelone.jpg"
+    }
+  },
+  {
+    title: "Barcelona",
+    icon: "FLIGHT",
+    period: "May 17-18",
+    action: () => {},
+    image: {
+      uri:
+        "https://www.larousse.fr/encyclopedie/data/images/1314562-Barcelone.jpg"
+    }
+  },
+  {
+    title: "Sevilla",
+    icon: "CAR",
+    period: "May 17",
+    action: () => {},
+    image: {
+      uri:
+        "https://www.larousse.fr/encyclopedie/data/images/1314562-Barcelone.jpg"
+    }
+  },
+  {
+    title: "Sevilla",
+    icon: "TRAIN",
+    period: "May 17",
+    action: () => {},
+    image: {
+      uri:
+        "https://www.larousse.fr/encyclopedie/data/images/1314562-Barcelone.jpg"
+    }
+  },
+  {
+    title: "Sevilla",
+    icon: "FERRY",
+    period: "May 18",
+    action: () => {},
+    image: {
+      uri:
+        "https://www.larousse.fr/encyclopedie/data/images/1314562-Barcelone.jpg"
+    }
+  },
+  {
+    title: "Sevilla",
+    icon: "BUS",
+    period: "May19",
+    action: () => {},
+    image: {
+      uri:
+        "https://www.larousse.fr/encyclopedie/data/images/1314562-Barcelone.jpg"
+    }
+  }
+];
 
 storiesOf("Trip Feed Widgets", module)
   .add("widget title", () => {
@@ -66,6 +132,17 @@ storiesOf("Trip Feed Widgets", module)
       />
     );
   })
-  .add("carousal widget", () => {
-    return null;
+  .add("Trip View Detailed", () => {
+    return <TripView data={tripData} />;
+  })
+  .add("Trip View Short", () => {
+    return <TripViewLite data={tripData} />;
+  })
+  .add("Carousel default", () => {
+    return <TripFeedCarousel title={"Trip HighLights"} data={tripData} />;
+  })
+  .add("Carousel with backdrop", () => {
+    return (
+      <TripFeedCarousel title={"Trip HighLights"} data={tripData} hasBackdrop />
+    );
   });

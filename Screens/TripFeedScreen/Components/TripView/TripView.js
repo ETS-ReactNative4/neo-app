@@ -8,6 +8,19 @@ import Box from "../../../../CommonComponents/Box/Box";
 import { recordEvent } from "../../../../Services/analytics/analyticsService";
 
 class TripView extends Component {
+  static propTypes = {
+    containerStyle: PropTypes.object,
+    data: PropTypes.arrayOf(
+      PropTypes.shape({
+        title: PropTypes.string.isRequired,
+        icon: PropTypes.string,
+        period: PropTypes.string,
+        image: PropTypes.oneOfType([PropTypes.object, PropTypes.number])
+          .isRequired
+      })
+    )
+  };
+
   state = {
     isScrollRecorded: false
   };
@@ -78,7 +91,7 @@ class TripView extends Component {
                   data={{
                     title: item.title,
                     helpText: item.period,
-                    image: { uri: item.image },
+                    image: item.image,
                     action: item.action
                   }}
                   gradients={[constants.darkGradientAlpha]}
@@ -97,17 +110,5 @@ const styles = StyleSheet.create({
     marginVertical: 8
   }
 });
-
-TripView.propTypes = {
-  containerStyle: PropTypes.object,
-  data: PropTypes.arrayOf(
-    PropTypes.shape({
-      title: PropTypes.string.isRequired,
-      icon: PropTypes.string,
-      period: PropTypes.string,
-      image: PropTypes.string.isRequired
-    })
-  )
-};
 
 export default TripView;

@@ -65,9 +65,7 @@ Carousel.propTypes = {
 };
 
 const styles = StyleSheet.create({
-  scrollContainer: {
-    height: 160
-  },
+  scrollContainer: {},
   scrollView: {}
 });
 
