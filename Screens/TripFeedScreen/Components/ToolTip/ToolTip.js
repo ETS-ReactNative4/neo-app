@@ -13,34 +13,23 @@ import ContentSection from "./Components/ContentSection";
 import SimpleButton from "../../../../CommonComponents/SimpleButton/SimpleButton";
 import constants from "../../../../constants/constants";
 
-class ContentImageSection extends Component {
+class ToolTip extends Component {
   static propTypes = {
     imageFirst: PropTypes.bool,
-    title: PropTypes.string,
+    title: PropTypes.string.isRequired,
     text: PropTypes.string,
     buttonText: PropTypes.string,
-    imageSrc: Image.propTypes.source,
+    imageSrc: PropTypes.oneOfType([PropTypes.object, PropTypes.number]),
     containerStyle: PropTypes.object,
     action: PropTypes.func,
     buttonStyle: PropTypes.object,
-    buttonAction: PropTypes.func,
     options: PropTypes.arrayOf(
       PropTypes.shape({
         title: PropTypes.string,
-        text: PropTypes.string
+        text: PropTypes.string,
+        action: PropTypes.func
       })
     )
-  };
-
-  selected = (option, index) => {
-    this.setState(
-      {
-        selectedOption: index
-      },
-      () => {
-        this.props.optionsCB && this.props.optionsCB(option);
-      }
-    );
   };
 
   render() {
@@ -89,15 +78,15 @@ class ContentImageSection extends Component {
               />
             ) : null}
           </View>
-          <View style={styles.imgContainer}>
-            {imageSrc ? (
+          {imageSrc ? (
+            <View style={styles.imgContainer}>
               <Image
                 source={imageSrc}
                 resizeMode={"contain"}
                 style={styles.imgStyle}
               />
-            ) : null}
-          </View>
+            </View>
+          ) : null}
         </View>
         {options && options.length ? (
           <ScrollView
@@ -110,7 +99,7 @@ class ContentImageSection extends Component {
                 <TouchableOpacity
                   key={itemIndex}
                   style={styles.optionsButton}
-                  onPress={() => this.selected(item, itemIndex)}
+                  onPress={options.action}
                 >
                   <View style={styles.optionsView}>
                     <Text style={styles.optionTitle}>{item.title}</Text>
@@ -130,28 +119,27 @@ class ContentImageSection extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    marginVertical: 16
+    marginVertical: 16,
+    marginHorizontal: 24
   },
   mainContainer: {
-    flex: 1,
     flexDirection: "row",
-    marginBottom: 16
+    alignItems: "center",
+    justifyContent: "center"
   },
   contentContainer: {
-    width: responsiveWidth(50) + 24,
-    paddingBottom: 8,
-    paddingHorizontal: 8
+    flex: 1,
+    paddingHorizontal: 8,
+    paddingVertical: 4
   },
   imgContainer: {
-    flex: 1
+    alignItems: "center",
+    justifyContent: "center",
+    width: responsiveWidth(30)
   },
   imgStyle: {
-    width: "100%",
-    height: "100%"
-  },
-  options: {
-    flex: 1
+    flex: 1,
+    width: responsiveWidth(30)
   },
   optionsButton: {
     borderWidth: 1.2,
@@ -179,4 +167,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default ContentImageSection;
+export default ToolTip;

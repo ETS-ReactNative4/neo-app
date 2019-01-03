@@ -5,13 +5,13 @@ import constants from "../../constants/constants";
 import DayAhead from "./Components/DayAhead/DayAhead";
 import FeedBackSwiper from "./Components/FeedBackSwiper/FeedBackSwiper";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
-import ContentImageSection from "./Components/ContentImageSection/ContentImageSection";
+import ToolTip from "./Components/ToolTip/ToolTip";
 import TripViewLite from "./Components/TripViewLite/TripViewLite";
 import TripView from "./Components/TripView/TripView";
 import TripHighlights from "./Components/TripHighlights/TripHighlights";
 import JournalCard from "./Components/JournalCard/JournalCard";
 import Icon from "../../CommonComponents/Icon/Icon";
-import TripTitle from "./Components/TripTitle/TripTitle";
+import WidgetTitle from "./Components/WidgetTitle/WidgetTitle";
 import Notify from "./Components/Notify/Notify";
 import ReminderCard from "./Components/ReminderCard/ReminderCard";
 
@@ -124,12 +124,12 @@ class TripFeed extends Component {
         {/* <View style={styles.vacationNameWrapper}>
           <Text style={styles.vacationName}>{"Vacation Name"}</Text>
         </View> */}
-        <TripTitle
+        <WidgetTitle
           title="Anand’s Vacation to Europe"
           containerStyle={styles.wrapper}
         />
         <Notify data={notifyData} />
-        <TripTitle
+        <WidgetTitle
           title="30 days to go..."
           containerStyle={styles.wrapper}
           titleStyle={{
@@ -139,7 +139,7 @@ class TripFeed extends Component {
         />
         <TripView data={tripData} containerStyle={{ marginTop: 0 }} />
         <TripViewLite data={tripData} />
-        <ContentImageSection
+        <ToolTip
           title="All aboard?"
           text="Invite your buddies. Everyone invited gets access to the vouchers and itinerary."
           buttonText="Invite Contacts"
@@ -149,7 +149,7 @@ class TripFeed extends Component {
         />
 
         <TripHighlights title={"TRIP HIGHLIGHTS"} data={tripData} />
-        <ContentImageSection
+        <ToolTip
           title="Travel adaper needed!"
           text="In Europe, you will need one to power your electronic items."
           buttonText="Buy one"
@@ -165,7 +165,7 @@ class TripFeed extends Component {
 
         <ReminderCard data={reminderData} />
 
-        <ContentImageSection
+        <ToolTip
           imageFirst
           title="Have you done Web Check in?"
           text="Escape long queues and spend more time lounging at the airport. Do a web checkin."
@@ -173,14 +173,17 @@ class TripFeed extends Component {
           options={[
             {
               title: "Etihad A234",
-              text: "Mar 23, Thu"
+              text: "Mar 23, Thu",
+              action: () => null
             },
             {
               title: "Etihad A234",
-              text: "Mar 23, Thu"
+              text: "Mar 23, Thu",
+              action: () => null
             },
             {
-              title: "Yep, all done!"
+              title: "Yep, all done!",
+              action: () => null
             }
           ]}
           containerStyle={{
@@ -214,7 +217,7 @@ class TripFeed extends Component {
           gradients={[constants.darkGradientAlpha]}
         />
 
-        <ContentImageSection
+        <ToolTip
           imageFirst
           title="Size doesn't matter"
           text="Mona Lisa is that it isn’t as big as everyone thinks, It is just a little bit larger than an A2 piece of paper."

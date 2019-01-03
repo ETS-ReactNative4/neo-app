@@ -2,9 +2,23 @@ import { observable, computed, action, toJS } from "mobx";
 import { persist } from "mobx-persist";
 
 class TripFeed {
-  @persist("object")
+  @persist("list")
   @observable
-  _tripFeed = [];
+  _tripFeed = [
+    {
+      type: "",
+      title: "City Guides",
+      data: [
+        {
+          name: "",
+          deepLink: "",
+          image: "",
+          url: "",
+          backdropColor: "rgba(0,0,0,0.5)"
+        }
+      ]
+    }
+  ];
 
   constructor() {
     this.generateTripFeed();
