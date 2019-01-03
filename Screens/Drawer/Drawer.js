@@ -110,6 +110,13 @@ class Drawer extends Component {
       }
     ];
 
+    if (__DEV__) {
+      menuItems.push({
+        icon: constants.activityIcon,
+        text: "StoryBook"
+      });
+    }
+
     const { infoStore, navigation } = this.props;
     const { userDetails } = this.props.userStore;
     const { name } = userDetails;

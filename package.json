@@ -72,6 +72,7 @@
     "@babel/plugin-proposal-class-properties": "^7.1.0",
     "@babel/plugin-proposal-decorators": "^7.1.2",
     "@babel/runtime": "7.0.0",
+    "@storybook/react-native": "^4.1.4",
     "babel-jest": "23.6.0",
     "babel-plugin-transform-flow-strip-types": "^6.22.0",
     "babel-plugin-transform-remove-console": "^6.9.4",
@@ -86,6 +87,10 @@
     "react-devtools": "^3.4.2",
     "react-test-renderer": "16.5.0"
   },
-  "jest": { "preset": "react-native" },
-  "rnpm": { "assets": ["./assets/fonts/"] }
+  "jest": {
+    "preset": "react-native"
+  },
+  "rnpm": {
+    "assets": ["./assets/fonts/"]
+  }
 }
