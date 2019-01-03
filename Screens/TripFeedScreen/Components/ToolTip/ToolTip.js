@@ -47,8 +47,14 @@ class ToolTip extends Component {
     const buttonAction = action ? action : () => {};
     const contentStyleUpdate = {},
       changeLayout = {};
+    let titleStyle = {},
+      textStyle = {},
+      buttonAlignment = {};
     if (imageFirst) {
       changeLayout.flexDirection = "row-reverse";
+      titleStyle = { textAlign: "right" };
+      textStyle = { textAlign: "right" };
+      buttonAlignment = { alignSelf: "flex-end" };
     } else {
       contentStyleUpdate.paddingHorizontal = 0;
       contentStyleUpdate.paddingRight = 8;
@@ -58,7 +64,12 @@ class ToolTip extends Component {
       <View style={[styles.container, containerStyle]}>
         <View style={[styles.mainContainer, changeLayout]}>
           <View style={[styles.contentContainer, contentStyleUpdate]}>
-            <ContentSection title={title} text={text} />
+            <ContentSection
+              title={title}
+              text={text}
+              textStyle={textStyle}
+              titleStyle={titleStyle}
+            />
             {buttonText ? (
               <SimpleButton
                 text={buttonText}
@@ -67,7 +78,8 @@ class ToolTip extends Component {
                 action={buttonAction}
                 containerStyle={{
                   width: buttonStyle.width || 116,
-                  height: buttonStyle.height || 32
+                  height: buttonStyle.height || 32,
+                  ...buttonAlignment
                 }}
                 textStyle={{
                   fontSize: 13,
@@ -135,10 +147,11 @@ const styles = StyleSheet.create({
   imgContainer: {
     alignItems: "center",
     justifyContent: "center",
+    height: responsiveWidth(30),
     width: responsiveWidth(30)
   },
   imgStyle: {
-    flex: 1,
+    height: responsiveWidth(30),
     width: responsiveWidth(30)
   },
   optionsButton: {
