@@ -13,7 +13,7 @@ import JournalCard from "./Components/JournalCard/JournalCard";
 import Icon from "../../CommonComponents/Icon/Icon";
 import WidgetTitle from "./Components/WidgetTitle/WidgetTitle";
 import Notify from "./Components/Notify/Notify";
-import ReminderCard from "./Components/ReminderCard/ReminderCard";
+import InfoBox from "./Components/InfoBox/InfoBox";
 
 @ErrorBoundary({ isRoot: true })
 class TripFeed extends Component {
@@ -50,16 +50,6 @@ class TripFeed extends Component {
       }
     ];
 
-    const reminderData = {
-      title: "Royal plaza Eaplanade",
-      content:
-        "30 minutes from the Airport by car. Your transfer will be waiting for you outside the arrival hall.",
-      image:
-        "https://www.larousse.fr/encyclopedie/data/images/1314562-Barcelone.jpg",
-      action: () => {},
-      modalButton: "Alright!"
-    };
-
     return (
       <ScrollView
         directionalLockEnabled={true}
@@ -67,8 +57,6 @@ class TripFeed extends Component {
         style={styles.tripFeedScrollView}
       >
         <Notify data={notifyData} />
-
-        <ReminderCard data={reminderData} />
 
         <JournalCard
           data={{

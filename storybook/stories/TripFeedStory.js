@@ -7,6 +7,7 @@ import TripView from "../../Screens/TripFeedScreen/Components/TripView/TripView"
 import TripViewLite from "../../Screens/TripFeedScreen/Components/TripViewLite/TripViewLite";
 import TripFeedCarousel from "../../Screens/TripFeedScreen/Components/TripFeedCarousel/TripFeedCarousel";
 import PropTypes from "prop-types";
+import InfoBox from "../../Screens/TripFeedScreen/Components/InfoBox/InfoBox";
 
 const tripData = [
   {
@@ -107,6 +108,17 @@ const carousel = {
       action: ""
     }
   ]
+};
+
+const infoData = {
+  title: "Royal plaza Eaplanade",
+  content:
+    "30 minutes from the Airport by car. Your transfer will be waiting for you outside the arrival hall.",
+  image: {
+    uri:
+      "https://www.larousse.fr/encyclopedie/data/images/1314562-Barcelone.jpg"
+  },
+  action: ""
 };
 
 storiesOf("Trip Feed Widgets", module)
@@ -295,4 +307,23 @@ storiesOf("Trip Feed Widgets", module)
     };
     console.log(props);
     return <TripFeedCarousel {...props} />;
+  })
+  .add("Info box default", () => {
+    const props = {
+      title: infoData.title,
+      content: infoData.content,
+      image: infoData.image,
+      action: infoData.action
+    };
+    console.log(props);
+    return <InfoBox {...props} />;
+  })
+  .add("Info box with no Image", () => {
+    const props = {
+      title: infoData.title,
+      content: infoData.content,
+      action: infoData.action
+    };
+    console.log(props);
+    return <InfoBox {...props} />;
   });
