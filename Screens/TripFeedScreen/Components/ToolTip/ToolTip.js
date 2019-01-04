@@ -8,10 +8,8 @@ import {
   TouchableOpacity
 } from "react-native";
 import { responsiveWidth } from "react-native-responsive-dimensions";
-import { PropTypes } from "prop-types";
+import PropTypes from "prop-types";
 import ContentSection from "./Components/ContentSection";
-import SimpleButton from "../../../../CommonComponents/SimpleButton/SimpleButton";
-import constants from "../../../../constants/constants";
 import MultilineButton from "./Components/MultilineButton";
 import forbidExtraProps from "../../../../Services/PropTypeValidation/forbidExtraProps";
 
