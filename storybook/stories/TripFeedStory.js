@@ -72,77 +72,154 @@ const tripData = [
 
 storiesOf("Trip Feed Widgets", module)
   .add("widget title", () => {
-    return <WidgetTitle title={`This is a widget's title...`} />;
+    const props = {
+      title: `This is a widget's title...`
+    };
+    console.log(props);
+    return <WidgetTitle {...props} />;
   })
   .add("Tool Tip default", () => {
-    return (
-      <ToolTip
-        title="All aboard?"
-        text="Invite your buddies. Everyone invited gets access to the vouchers and itinerary."
-        buttonText="Invite Contacts"
-        action={() => null}
-      />
-    );
+    const props = {
+      title: "All aboard?",
+      text:
+        "Invite your buddies. Everyone invited gets access to the vouchers and itinerary."
+    };
+    console.log(props);
+    return <ToolTip {...props} />;
+  })
+  .add("Tool Tip with action cta default", () => {
+    const props = {
+      title: "All aboard?",
+      text:
+        "Invite your buddies. Everyone invited gets access to the vouchers and itinerary.",
+      options: [
+        {
+          title: "All abroad?",
+          action: () => null
+        }
+      ]
+    };
+    console.log(props);
+    return <ToolTip {...props} />;
+  })
+  .add("Tool Tip with action cta multiple lines", () => {
+    const props = {
+      title: "All aboard?",
+      text:
+        "Invite your buddies. Everyone invited gets access to the vouchers and itinerary.",
+      options: [
+        {
+          title: "All abroad?",
+          text: "click here!",
+          action: () => null
+        }
+      ]
+    };
+    console.log(props);
+    return <ToolTip {...props} />;
+  })
+  .add("Tool Tip with action cta custom color", () => {
+    const props = {
+      title: "All aboard?",
+      text:
+        "Invite your buddies. Everyone invited gets access to the vouchers and itinerary.",
+      options: [
+        {
+          title: "All abroad?",
+          action: () => null,
+          color: constants.firstColor
+        }
+      ]
+    };
+    console.log(props);
+    return <ToolTip {...props} />;
   })
   .add("Tool Tip with icon left", () => {
-    return (
-      <ToolTip
-        imageFirst
-        imageSrc={constants.infoBoxIllus}
-        title="All aboard?"
-        text="Invite your buddies. Everyone invited gets access to the vouchers and itinerary."
-        buttonText="Invite Contacts"
-        action={() => null}
-      />
-    );
+    const props = {
+      imageFirst: true,
+      imageSrc: constants.infoBoxIllus,
+      title: "All aboard?",
+      text:
+        "Invite your buddies. Everyone invited gets access to the vouchers and itinerary.",
+      options: [
+        {
+          title: "All abroad?",
+          action: () => null,
+          color: constants.firstColor
+        }
+      ]
+    };
+    console.log(props);
+    return <ToolTip {...props} />;
   })
   .add("Tool Tip with icon right", () => {
-    return (
-      <ToolTip
-        imageSrc={constants.infoBoxIllus}
-        title="All aboard?"
-        text="Invite your buddies. Everyone invited gets access to the vouchers and itinerary."
-        buttonText="Invite Contacts"
-        action={() => null}
-      />
-    );
+    const props = {
+      imageSrc: constants.infoBoxIllus,
+      title: "All aboard?",
+      text:
+        "Invite your buddies. Everyone invited gets access to the vouchers and itinerary.",
+      options: [
+        {
+          title: "All abroad?",
+          action: () => null,
+          color: constants.firstColor
+        }
+      ]
+    };
+    console.log(props);
+    return <ToolTip {...props} />;
   })
-  .add("Tool Tip with multiple options", () => {
-    return (
-      <ToolTip
-        title="All aboard?"
-        text="Invite your buddies. Everyone invited gets access to the vouchers and itinerary."
-        imageSrc={constants.infoBoxIllus}
-        options={[
-          {
-            title: "Etihad A234",
-            text: "Mar 23, Thu",
-            action: () => null
-          },
-          {
-            title: "Etihad A234",
-            text: "Mar 23, Thu",
-            action: () => null
-          },
-          {
-            title: "Yep, all done!",
-            action: () => null
-          }
-        ]}
-      />
-    );
+  .add("Tool Tip with multiple action cta", () => {
+    const props = {
+      title: "All aboard?",
+      text:
+        "Invite your buddies. Everyone invited gets access to the vouchers and itinerary.",
+      imageSrc: constants.infoBoxIllus,
+      options: [
+        {
+          title: "Etihad A234",
+          text: "Mar 23, Thu",
+          action: () => null
+        },
+        {
+          title: "Etihad A234",
+          text: "Mar 23, Thu",
+          action: () => null
+        },
+        {
+          title: "Yep, all done!",
+          action: () => null,
+          color: constants.firstColor
+        }
+      ]
+    };
+    console.log(props);
+    return <ToolTip {...props} />;
   })
   .add("Trip View default", () => {
-    return <TripView data={tripData} />;
+    const props = { data: tripData };
+    console.log(props);
+    return <TripView {...props} />;
   })
   .add("Trip View Lite", () => {
-    return <TripViewLite data={tripData} />;
+    const props = { data: tripData };
+    console.log(props);
+    return <TripViewLite {...props} />;
   })
   .add("Carousel default", () => {
-    return <TripFeedCarousel title={"Trip HighLights"} data={tripData} />;
+    const props = {
+      title: "Trip HighLights",
+      data: tripData
+    };
+    console.log(props);
+    return <TripFeedCarousel {...props} />;
   })
   .add("Carousel with backdrop", () => {
-    return (
-      <TripFeedCarousel title={"Trip HighLights"} data={tripData} hasBackdrop />
-    );
+    const props = {
+      title: "Trip HighLights",
+      data: tripData,
+      hasBackdrop: true
+    };
+    console.log(props);
+    return <TripFeedCarousel {...props} />;
   });
