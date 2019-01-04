@@ -5,6 +5,7 @@ import Home from "../Screens/HomeScreen/Home";
 import Drawer from "../Screens/Drawer/Drawer";
 import PaymentStack from "./PaymentStack";
 import About from "../Screens/AboutScreen/About";
+import { shouldIncludeStoryBook } from "../storybook/Storybook";
 
 const navigators = {
   Home: {
@@ -35,7 +36,7 @@ const navigators = {
   }
 };
 
-if (__DEV__) {
+if (shouldIncludeStoryBook()) {
   const StorybookUIRoot = require("../storybook/Storybook").default;
   navigators.StoryBook = {
     screen: StorybookUIRoot

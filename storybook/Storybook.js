@@ -5,10 +5,11 @@ import {
   addDecorator,
   configure
 } from "@storybook/react-native";
-import { View } from "react-native";
+import { View, Platform } from "react-native";
 
 import "./rn-addons";
 import constants from "../constants/constants";
+import PackageInfo from "../package.json";
 
 addDecorator(story => (
   <View
@@ -28,5 +29,9 @@ configure(() => {
 }, module);
 
 const StorybookUIRoot = getStorybookUI({});
+
+export const shouldIncludeStoryBook = () =>
+  __DEV__ ||
+  (Platform.OS === "ios" && PackageInfo.environment !== "production");
 
 export default StorybookUIRoot;
