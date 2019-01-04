@@ -95,7 +95,7 @@ storiesOf("Trip Feed Widgets", module)
       options: [
         {
           title: "All abroad?",
-          action: () => null
+          link: ""
         }
       ]
     };
@@ -111,7 +111,7 @@ storiesOf("Trip Feed Widgets", module)
         {
           title: "All abroad?",
           text: "click here!",
-          action: () => null
+          link: ""
         }
       ]
     };
@@ -126,7 +126,7 @@ storiesOf("Trip Feed Widgets", module)
       options: [
         {
           title: "All abroad?",
-          action: () => null,
+          link: "",
           color: constants.firstColor
         }
       ]
@@ -144,7 +144,7 @@ storiesOf("Trip Feed Widgets", module)
       options: [
         {
           title: "All abroad?",
-          action: () => null,
+          link: "",
           color: constants.firstColor
         }
       ]
@@ -161,7 +161,7 @@ storiesOf("Trip Feed Widgets", module)
       options: [
         {
           title: "All abroad?",
-          action: () => null,
+          link: "",
           color: constants.firstColor
         }
       ]
@@ -179,16 +179,16 @@ storiesOf("Trip Feed Widgets", module)
         {
           title: "Etihad A234",
           text: "Mar 23, Thu",
-          action: () => null
+          link: ""
         },
         {
           title: "Etihad A234",
           text: "Mar 23, Thu",
-          action: () => null
+          link: ""
         },
         {
           title: "Yep, all done!",
-          action: () => null,
+          link: "",
           color: constants.firstColor
         }
       ]

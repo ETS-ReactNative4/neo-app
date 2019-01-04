@@ -12,6 +12,7 @@ import PropTypes from "prop-types";
 import ContentSection from "./Components/ContentSection";
 import MultilineButton from "./Components/MultilineButton";
 import forbidExtraProps from "../../../../Services/PropTypeValidation/forbidExtraProps";
+import resolveLinks from "../../../../Services/resolveLinks/resolveLinks";
 
 class ToolTip extends Component {
   static propTypes = forbidExtraProps({
@@ -24,7 +25,7 @@ class ToolTip extends Component {
       PropTypes.shape({
         title: PropTypes.string.isRequired,
         text: PropTypes.string,
-        action: PropTypes.func.isRequired
+        link: PropTypes.string.isRequired
       })
     )
   });
@@ -74,7 +75,7 @@ class ToolTip extends Component {
                 containerStyle={{ ...buttonAlignment }}
                 title={button.title}
                 text={button.text}
-                action={button.action}
+                action={() => resolveLinks(button.link)}
               />
             ) : null}
           </View>
@@ -99,7 +100,7 @@ class ToolTip extends Component {
                 <MultilineButton
                   color={item.color}
                   title={item.title}
-                  action={item.action}
+                  action={() => resolveLinks(item.link)}
                   text={item.text}
                   key={itemIndex}
                 />
