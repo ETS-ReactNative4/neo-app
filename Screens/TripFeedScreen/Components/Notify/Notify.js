@@ -7,7 +7,7 @@ import {
   LayoutAnimation
 } from "react-native";
 import forbidExtraProps from "../../../../Services/PropTypeValidation/forbidExtraProps";
-import { PropTypes } from "prop-types";
+import PropTypes from "prop-types";
 import Swiper from "react-native-deck-swiper";
 import constants from "../../../../constants/constants";
 import Icon from "../../../../CommonComponents/Icon/Icon";

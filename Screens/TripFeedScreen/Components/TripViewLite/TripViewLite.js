@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { View, StyleSheet } from "react-native";
 import Carousel from "../../../../CommonComponents/Carousel/Carousel";
-import { PropTypes } from "prop-types";
+import PropTypes from "prop-types";
 import constants from "../../../../constants/constants";
 import CircleIcon from "./Components/CircleIcon";
 import TokenText from "./Components/TokenText";

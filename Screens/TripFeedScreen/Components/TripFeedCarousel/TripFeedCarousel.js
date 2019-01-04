@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { View, Text, StyleSheet } from "react-native";
-import { PropTypes } from "prop-types";
+import PropTypes from "prop-types";
 import forbidExtraProps from "../../../../Services/PropTypeValidation/forbidExtraProps";
 import constants from "../../../../constants/constants";
 import Carousel from "../../../../CommonComponents/Carousel/Carousel";

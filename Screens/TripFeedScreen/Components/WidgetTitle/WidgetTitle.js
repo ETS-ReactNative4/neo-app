@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import constants from "../../../../constants/constants";
-import { PropTypes } from "prop-types";
+import PropTypes from "prop-types";
 
 const WidgetTitle = ({ title, containerStyle = {}, titleStyle = {} }) => {
   return (

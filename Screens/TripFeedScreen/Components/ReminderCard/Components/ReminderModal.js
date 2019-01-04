@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { View, StyleSheet, Text } from "react-native";
 import Modal from "react-native-modal";
-import { PropTypes } from "prop-types";
+import PropTypes from "prop-types";
 import { responsiveWidth } from "react-native-responsive-dimensions";
 import constants from "../../../../../constants/constants";
 import SimpleButton from "../../../../../CommonComponents/SimpleButton/SimpleButton";
