@@ -66,13 +66,6 @@ class TripFeed extends Component {
         scrollEnabled={this.state.scrollEnabled}
         style={styles.tripFeedScrollView}
       >
-        {/* <SearchPlaceholder */}
-        {/*action={() => null}*/}
-        {/*containerStyle={{ marginHorizontal: 24 }}*/}
-        {/*/>*/}
-        {/* <View style={styles.vacationNameWrapper}>
-          <Text style={styles.vacationName}>{"Vacation Name"}</Text>
-        </View> */}
         <Notify data={notifyData} />
 
         <ReminderCard data={reminderData} />

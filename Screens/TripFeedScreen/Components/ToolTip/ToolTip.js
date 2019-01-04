@@ -17,14 +17,14 @@ class ToolTip extends Component {
   static propTypes = forbidExtraProps({
     imageFirst: PropTypes.bool,
     title: PropTypes.string.isRequired,
-    text: PropTypes.string,
+    text: PropTypes.string.isRequired,
     imageSrc: PropTypes.oneOfType([PropTypes.object, PropTypes.number]),
     containerStyle: PropTypes.object,
     options: PropTypes.arrayOf(
       PropTypes.shape({
-        title: PropTypes.string,
+        title: PropTypes.string.isRequired,
         text: PropTypes.string,
-        action: PropTypes.func
+        action: PropTypes.func.isRequired
       })
     )
   });
