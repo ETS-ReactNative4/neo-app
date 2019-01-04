@@ -7,21 +7,23 @@ import Carousel from "../../../../CommonComponents/Carousel/Carousel";
 import { recordEvent } from "../../../../Services/analytics/analyticsService";
 import SimpleCard from "../../../../CommonComponents/SimpleCard/SimpleCard";
 import WidgetTitle from "../WidgetTitle/WidgetTitle";
+import resolveLinks from "../../../../Services/resolveLinks/resolveLinks";
 
 class TripFeedCarousel extends Component {
   static propTypes = forbidExtraProps({
     containerStyle: PropTypes.object,
     title: PropTypes.string,
-    data: PropTypes.arrayOf(
+    elements: PropTypes.arrayOf(
       PropTypes.shape({
         title: PropTypes.string.isRequired,
         image: PropTypes.oneOfType([PropTypes.object, PropTypes.number])
           .isRequired,
-        action: PropTypes.func.isRequired
+        action: PropTypes.string.isRequired,
+        gradientColor: PropTypes.string,
+        backdropColor: PropTypes.string
       })
     ).isRequired,
-    hasBackdrop: PropTypes.bool,
-    backdropColor: PropTypes.string
+    backdrop: PropTypes.bool
   });
 
   state = {
@@ -38,13 +40,14 @@ class TripFeedCarousel extends Component {
   };
 
   render() {
-    const {
-      data,
-      title,
-      containerStyle = {},
-      hasBackdrop,
-      backdropColor = constants.black1
-    } = this.props;
+    const { title, containerStyle = {}, backdrop } = this.props;
+    let { elements } = this.props;
+    elements = elements.map(item => {
+      return {
+        ...item,
+        action: () => resolveLinks(item.action)
+      };
+    });
     const boxSize = 132,
       onScrollProps = {};
     if (!this.state.isScrollRecorded) {
@@ -52,10 +55,12 @@ class TripFeedCarousel extends Component {
     }
     return (
       <View style={[styles.wrapperContainer, containerStyle]}>
-        <WidgetTitle title={title} containerStyle={styles.header} />
-        <Carousel {...onScrollProps} firstMargin={24} data={data}>
-          {hasBackdrop
-            ? data.map((item, itemIndex) => {
+        {title ? (
+          <WidgetTitle title={title} containerStyle={styles.header} />
+        ) : null}
+        <Carousel {...onScrollProps} firstMargin={24} data={elements}>
+          {backdrop
+            ? elements.map((item, itemIndex) => {
                 return (
                   <SimpleCard
                     key={itemIndex}
@@ -73,7 +78,7 @@ class TripFeedCarousel extends Component {
                       ...constants.fontCustom(constants.primaryRegular, 13),
                       color: "white"
                     }}
-                    backdropColor={backdropColor}
+                    backdropColor={item.backdropColor}
                   />
                 );
               })

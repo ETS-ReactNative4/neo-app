@@ -5,45 +5,39 @@ import PropTypes from "prop-types";
 import React from "react";
 import constants from "../../constants/constants";
 import forbidExtraProps from "../../Services/PropTypeValidation/forbidExtraProps";
+import changeColorAlpha from "../../Services/changeColorAlpha/changeColorAlpha";
 
 const Box = ({
   data,
   index = 0,
   size,
-  showBar,
   boxStyle = {},
   titleStyle = {},
   helpTextStyle = {},
-  gradients = []
+  gradientColor
 }) => {
-  let gradientColor,
-    len = gradients.length;
   const gradientOptions = {
     locations: [0.25, 0.5, 0.7, 1]
   };
-  if (index < len) {
-    gradientColor = gradients[index];
-  } else {
-    gradientColor = gradients[index % len];
-  }
 
   if (size) {
     boxStyle.width = size;
     boxStyle.height = size;
   }
 
-  if (showBar) {
-    gradientOptions.colors = [
-      constants.darkGradientAlpha(0),
-      gradientColor || constants.black1
-    ];
-    gradientOptions.locations = [0.75, 0.75];
-  } else {
+  if (typeof gradientColor === "function") {
     gradientOptions.colors = [
       constants.darkGradientAlpha(0.1),
       gradientColor(0.1),
       gradientColor(0.5),
       gradientColor(0.89)
+    ];
+  } else {
+    gradientOptions.colors = [
+      constants.darkGradientAlpha(0.1),
+      changeColorAlpha(gradientColor, 0.1),
+      changeColorAlpha(gradientColor, 0.5),
+      changeColorAlpha(gradientColor, 0.89)
     ];
   }
 
@@ -116,13 +110,11 @@ Box.propTypes = forbidExtraProps({
   }).isRequired,
   index: PropTypes.number,
   size: PropTypes.number,
-  showBar: PropTypes.bool,
   boxStyle: PropTypes.object,
   titleStyle: PropTypes.object,
   helpTextStyle: PropTypes.object,
-  gradients: PropTypes.arrayOf(
-    PropTypes.oneOfType([PropTypes.string, PropTypes.func])
-  ).isRequired
+  gradientColor: PropTypes.oneOfType([PropTypes.string, PropTypes.func])
+    .isRequired
 });
 
 export default Box;

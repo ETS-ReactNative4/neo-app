@@ -6,6 +6,7 @@ import constants from "../../constants/constants";
 import TripView from "../../Screens/TripFeedScreen/Components/TripView/TripView";
 import TripViewLite from "../../Screens/TripFeedScreen/Components/TripViewLite/TripViewLite";
 import TripFeedCarousel from "../../Screens/TripFeedScreen/Components/TripFeedCarousel/TripFeedCarousel";
+import PropTypes from "prop-types";
 
 const tripData = [
   {
@@ -69,6 +70,44 @@ const tripData = [
     }
   }
 ];
+
+const carousel = {
+  title: "Trip HighLights",
+  elements: [
+    {
+      title: "Barcelona",
+      image: {
+        uri:
+          "https://www.larousse.fr/encyclopedie/data/images/1314562-Barcelone.jpg"
+      },
+      action: ""
+    },
+    {
+      title: "Barcelona",
+      image: {
+        uri:
+          "https://www.larousse.fr/encyclopedie/data/images/1314562-Barcelone.jpg"
+      },
+      action: ""
+    },
+    {
+      title: "Barcelona",
+      image: {
+        uri:
+          "https://www.larousse.fr/encyclopedie/data/images/1314562-Barcelone.jpg"
+      },
+      action: ""
+    },
+    {
+      title: "Barcelona",
+      image: {
+        uri:
+          "https://www.larousse.fr/encyclopedie/data/images/1314562-Barcelone.jpg"
+      },
+      action: ""
+    }
+  ]
+};
 
 storiesOf("Trip Feed Widgets", module)
   .add("widget title", () => {
@@ -208,8 +247,28 @@ storiesOf("Trip Feed Widgets", module)
   })
   .add("Carousel default", () => {
     const props = {
-      title: "Trip HighLights",
-      data: tripData
+      title: carousel.title,
+      elements: carousel.elements
+    };
+    console.log(props);
+    return <TripFeedCarousel {...props} />;
+  })
+  .add("Carousel with custom gradient color", () => {
+    const props = {
+      title: carousel.title,
+      elements: carousel.elements.map(item => {
+        return {
+          ...item,
+          gradientColor: constants.firstColor
+        };
+      })
+    };
+    console.log(props);
+    return <TripFeedCarousel {...props} />;
+  })
+  .add("Carousel without title", () => {
+    const props = {
+      elements: carousel.elements
     };
     console.log(props);
     return <TripFeedCarousel {...props} />;
@@ -217,8 +276,22 @@ storiesOf("Trip Feed Widgets", module)
   .add("Carousel with backdrop", () => {
     const props = {
       title: "Trip HighLights",
-      data: tripData,
-      hasBackdrop: true
+      elements: carousel.elements,
+      backdrop: true
+    };
+    console.log(props);
+    return <TripFeedCarousel {...props} />;
+  })
+  .add("Carousel with custom backdrop color", () => {
+    const props = {
+      title: "Trip HighLights",
+      elements: carousel.elements.map(item => {
+        return {
+          ...item,
+          backdropColor: constants.thirdColor
+        };
+      }),
+      backdrop: true
     };
     console.log(props);
     return <TripFeedCarousel {...props} />;

@@ -94,7 +94,7 @@ class TripView extends Component {
                     image: item.image,
                     action: item.action
                   }}
-                  gradients={[constants.darkGradientAlpha]}
+                  gradientColor={constants.darkGradientAlpha}
                 />
               </View>
             );
