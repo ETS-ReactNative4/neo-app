@@ -132,10 +132,10 @@ storiesOf("Trip Feed Widgets", module)
       />
     );
   })
-  .add("Trip View Detailed", () => {
+  .add("Trip View default", () => {
     return <TripView data={tripData} />;
   })
-  .add("Trip View Short", () => {
+  .add("Trip View Lite", () => {
     return <TripViewLite data={tripData} />;
   })
   .add("Carousel default", () => {
