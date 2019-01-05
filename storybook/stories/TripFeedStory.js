@@ -199,7 +199,7 @@ storiesOf("Trip Feed Widgets", module)
   .add("Tool Tip with icon left", () => {
     const props = {
       imageFirst: true,
-      imageSrc: constants.infoBoxIllus,
+      image: constants.infoBoxIllus,
       title: "All aboard?",
       text:
         "Invite your buddies. Everyone invited gets access to the vouchers and itinerary.",
@@ -216,7 +216,7 @@ storiesOf("Trip Feed Widgets", module)
   })
   .add("Tool Tip with icon right", () => {
     const props = {
-      imageSrc: constants.infoBoxIllus,
+      image: constants.infoBoxIllus,
       title: "All aboard?",
       text:
         "Invite your buddies. Everyone invited gets access to the vouchers and itinerary.",
@@ -236,7 +236,7 @@ storiesOf("Trip Feed Widgets", module)
       title: "All aboard?",
       text:
         "Invite your buddies. Everyone invited gets access to the vouchers and itinerary.",
-      imageSrc: constants.infoBoxIllus,
+      image: constants.infoBoxIllus,
       options: [
         {
           title: "Etihad A234",

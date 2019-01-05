@@ -19,7 +19,7 @@ class ToolTip extends Component {
     imageFirst: PropTypes.bool,
     title: PropTypes.string.isRequired,
     text: PropTypes.string.isRequired,
-    imageSrc: PropTypes.oneOfType([PropTypes.object, PropTypes.number]),
+    image: PropTypes.oneOfType([PropTypes.object, PropTypes.number]),
     containerStyle: PropTypes.object,
     options: PropTypes.arrayOf(
       PropTypes.shape({
@@ -35,7 +35,7 @@ class ToolTip extends Component {
       imageFirst,
       title,
       text,
-      imageSrc,
+      image,
       containerStyle = {},
       options
     } = this.props;
@@ -44,7 +44,7 @@ class ToolTip extends Component {
     let titleStyle = {},
       textStyle = {},
       buttonAlignment = { alignSelf: "flex-start" };
-    if (imageFirst) {
+    if (imageFirst && image) {
       changeLayout.flexDirection = "row-reverse";
       titleStyle = { textAlign: "right" };
       textStyle = { textAlign: "right" };
@@ -79,10 +79,10 @@ class ToolTip extends Component {
               />
             ) : null}
           </View>
-          {imageSrc ? (
+          {image ? (
             <View style={styles.imgContainer}>
               <Image
-                source={imageSrc}
+                source={image}
                 resizeMode={"contain"}
                 style={styles.imgStyle}
               />
