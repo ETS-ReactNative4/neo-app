@@ -14,8 +14,13 @@ import Icon from "../../CommonComponents/Icon/Icon";
 import WidgetTitle from "./Components/WidgetTitle/WidgetTitle";
 import Notify from "./Components/Notify/Notify";
 import InfoBox from "./Components/InfoBox/InfoBox";
+import { inject, observer } from "mobx-react/custom";
+import _ from "lodash";
+import CustomScrollView from "../../CommonComponents/CustomScrollView/CustomScrollView";
 
 @ErrorBoundary({ isRoot: true })
+@inject("tripFeedStore")
+@observer
 class TripFeed extends Component {
   static navigationOptions = HomeHeader;
 
@@ -27,6 +32,15 @@ class TripFeed extends Component {
     this.setState({
       scrollEnabled: status
     });
+  };
+
+  componentDidMount() {
+    this.loadTripFeedData();
+  }
+
+  loadTripFeedData = () => {
+    const { generateTripFeed } = this.props.tripFeedStore;
+    generateTripFeed();
   };
 
   render() {
@@ -49,13 +63,29 @@ class TripFeed extends Component {
         ]
       }
     ];
-
+    const { isLoading, widgets } = this.props.tripFeedStore;
     return (
-      <ScrollView
+      <CustomScrollView
+        onRefresh={this.loadTripFeedData}
+        refreshing={isLoading}
         directionalLockEnabled={true}
         scrollEnabled={this.state.scrollEnabled}
         style={styles.tripFeedScrollView}
       >
+        {widgets.map((widget, widgetIndex) => {
+          switch (widget.type) {
+            case "TOOL_TIP":
+              return (
+                <ToolTip
+                  {...widget.data}
+                  imageFirst={_.sample([true, false])}
+                />
+              );
+            default:
+              return null;
+          }
+        })}
+
         <Notify data={notifyData} />
 
         <BigImageCard
@@ -80,7 +110,7 @@ class TripFeed extends Component {
         <FeedBackSwiper toggleScrollLock={this.toggleScrollLock} />
 
         <DayAhead />
-      </ScrollView>
+      </CustomScrollView>
     );
   }
 }

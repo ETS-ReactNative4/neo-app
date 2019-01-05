@@ -15,6 +15,7 @@ import PassportDetails from "./PassportDetails";
 import Visa from "./Visa";
 import Places from "./Places";
 import SupportStore from "./SupportStore";
+import TripFeed from "./TripFeed";
 
 const createStore = () => {
   const appStore = {
@@ -31,7 +32,8 @@ const createStore = () => {
     passportDetailsStore: new PassportDetails(),
     visaStore: new Visa(),
     placesStore: new Places(),
-    supportStore: new SupportStore()
+    supportStore: new SupportStore(),
+    tripFeedStore: new TripFeed()
   };
 
   const hydrate = create({
