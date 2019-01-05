@@ -11,7 +11,7 @@ class InfoBox extends Component {
     title: PropTypes.string.isRequired,
     image: PropTypes.oneOfType([PropTypes.object, PropTypes.number]),
     content: PropTypes.string.isRequired,
-    action: PropTypes.string.isRequired,
+    link: PropTypes.string.isRequired,
     boxStyle: PropTypes.object,
     titleStyle: PropTypes.object
   });
@@ -21,11 +21,11 @@ class InfoBox extends Component {
       title,
       image,
       content,
+      link,
       boxStyle = {},
       titleStyle = {}
     } = this.props;
-    let { action } = this.props;
-    action = () => resolveLinks(action);
+    const action = () => resolveLinks(link);
     return (
       <TouchableOpacity
         activeOpacity={0.8}

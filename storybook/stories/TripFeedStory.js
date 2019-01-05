@@ -117,7 +117,7 @@ const infoData = {
     uri:
       "https://www.larousse.fr/encyclopedie/data/images/1314562-Barcelone.jpg"
   },
-  action: ""
+  link: ""
 };
 
 storiesOf("Trip Feed Widgets", module)
@@ -308,12 +308,7 @@ storiesOf("Trip Feed Widgets", module)
     return <TripFeedCarousel {...props} />;
   })
   .add("Info box default", () => {
-    const props = {
-      title: infoData.title,
-      content: infoData.content,
-      image: infoData.image,
-      action: infoData.action
-    };
+    const props = infoData;
     console.log(props);
     return <InfoBox {...props} />;
   })
@@ -321,7 +316,7 @@ storiesOf("Trip Feed Widgets", module)
     const props = {
       title: infoData.title,
       content: infoData.content,
-      action: infoData.action
+      link: infoData.link
     };
     console.log(props);
     return <InfoBox {...props} />;
