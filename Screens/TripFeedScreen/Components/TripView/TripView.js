@@ -6,20 +6,27 @@ import constants from "../../../../constants/constants";
 import CircleIcon from "./Components/CircleIcon";
 import Box from "../../../../CommonComponents/Box/Box";
 import { recordEvent } from "../../../../Services/analytics/analyticsService";
+import WidgetTitle from "../WidgetTitle/WidgetTitle";
+import resolveLinks from "../../../../Services/resolveLinks/resolveLinks";
+import forbidExtraProps from "../../../../Services/PropTypeValidation/forbidExtraProps";
 
 class TripView extends Component {
-  static propTypes = {
+  static propTypes = forbidExtraProps({
     containerStyle: PropTypes.object,
+    title: PropTypes.string,
     data: PropTypes.arrayOf(
       PropTypes.shape({
-        title: PropTypes.string.isRequired,
-        icon: PropTypes.string,
-        period: PropTypes.string,
+        cityName: PropTypes.string.isRequired,
+        icon: PropTypes.string.isRequired,
+        period: PropTypes.string.isRequired,
         image: PropTypes.oneOfType([PropTypes.object, PropTypes.number])
-          .isRequired
-      })
+          .isRequired,
+        transferId: PropTypes.string,
+        date: PropTypes.string.isRequired,
+        link: PropTypes.string.isRequired
+      }).isRequired
     )
-  };
+  });
 
   state = {
     isScrollRecorded: false
@@ -35,14 +42,7 @@ class TripView extends Component {
   };
 
   render() {
-    const { data = [], containerStyle = {} } = this.props;
-    const iconTypes = {
-      FLIGHT: constants.aeroplaneIcon,
-      CAR: constants.carIcon,
-      BUS: constants.busIcon,
-      TRAIN: constants.trainIcon,
-      FERRY: constants.ferryIcon
-    };
+    const { data = [], containerStyle = {}, title } = this.props;
     const onScrollProps = {},
       boxSize = 136,
       circleSize = 32;
@@ -51,6 +51,12 @@ class TripView extends Component {
     }
     return (
       <View style={[styles.listWrapper, containerStyle]}>
+        {title ? (
+          <WidgetTitle
+            containerStyle={{ marginHorizontal: 24 }}
+            title={title}
+          />
+        ) : null}
         <Carousel
           {...onScrollProps}
           firstMargin={24}
@@ -60,7 +66,8 @@ class TripView extends Component {
         >
           {data.map((item, itemIndex) => {
             const rotate = item.icon === "FLIGHT" ? "90deg" : "0deg";
-            const ic = iconTypes[item.icon];
+            const action = () => resolveLinks(item.link, { date: item.date });
+            const circleAction = () => null;
             return (
               <View
                 style={{
@@ -72,10 +79,11 @@ class TripView extends Component {
               >
                 {itemIndex ? (
                   <CircleIcon
-                    icon={ic}
+                    icon={item.icon}
                     color={constants.black1}
                     circleSize={circleSize}
                     rotate={rotate}
+                    action={circleAction}
                     containerStyle={{
                       top: boxSize / 2 - circleSize / 2,
                       zIndex: 10,
@@ -89,10 +97,10 @@ class TripView extends Component {
                 <Box
                   size={boxSize}
                   data={{
-                    title: item.title,
+                    title: item.cityName,
                     helpText: item.period,
                     image: item.image,
-                    action: item.action
+                    action
                   }}
                   gradientColor={constants.darkGradientAlpha}
                 />

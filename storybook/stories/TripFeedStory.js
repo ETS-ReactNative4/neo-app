@@ -10,64 +10,76 @@ import InfoBox from "../../Screens/TripFeedScreen/Components/InfoBox/InfoBox";
 
 const tripData = [
   {
-    title: "Chennai",
-    icon: "FLIGHT",
+    cityName: "Chennai",
+    icon: "flight",
     period: "May 14-15",
-    action: () => {},
+    link: "",
     image: {
       uri:
         "https://www.larousse.fr/encyclopedie/data/images/1314562-Barcelone.jpg"
-    }
+    },
+    transferId: "",
+    date: ""
   },
   {
-    title: "Barcelona",
-    icon: "FLIGHT",
+    cityName: "Barcelona",
+    icon: "car",
     period: "May 17-18",
-    action: () => {},
+    link: "",
     image: {
       uri:
         "https://www.larousse.fr/encyclopedie/data/images/1314562-Barcelone.jpg"
-    }
+    },
+    transferId: "",
+    date: ""
   },
   {
-    title: "Sevilla",
-    icon: "CAR",
+    cityName: "Sevilla",
+    icon: "bus",
     period: "May 17",
-    action: () => {},
+    link: "",
     image: {
       uri:
         "https://www.larousse.fr/encyclopedie/data/images/1314562-Barcelone.jpg"
-    }
+    },
+    transferId: "",
+    date: ""
   },
   {
-    title: "Sevilla",
-    icon: "TRAIN",
+    cityName: "Sevilla",
+    icon: "train",
     period: "May 17",
-    action: () => {},
+    link: "",
     image: {
       uri:
         "https://www.larousse.fr/encyclopedie/data/images/1314562-Barcelone.jpg"
-    }
+    },
+    transferId: "",
+    date: ""
   },
   {
-    title: "Sevilla",
-    icon: "FERRY",
+    cityName: "Sevilla",
+    icon: "ferry",
     period: "May 18",
-    action: () => {},
+    link: "",
     image: {
       uri:
         "https://www.larousse.fr/encyclopedie/data/images/1314562-Barcelone.jpg"
-    }
+    },
+    transferId: "",
+    date: ""
   },
   {
-    title: "Sevilla",
-    icon: "BUS",
+    cityName: "Sevilla",
+    icon: "flight",
     period: "May19",
-    action: () => {},
+    link: "",
     image: {
       uri:
         "https://www.larousse.fr/encyclopedie/data/images/1314562-Barcelone.jpg"
-    }
+    },
+    transferId: "",
+    date: ""
   }
 ];
 
@@ -248,6 +260,11 @@ storiesOf("Trip Feed Widgets", module)
   })
   .add("Trip View default", () => {
     const props = { data: tripData };
+    console.log(props);
+    return <TripView {...props} />;
+  })
+  .add("Trip View with title", () => {
+    const props = { title: "Trip Summary", data: tripData };
     console.log(props);
     return <TripView {...props} />;
   })
