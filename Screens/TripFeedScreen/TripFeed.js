@@ -9,7 +9,7 @@ import ToolTip from "./Components/ToolTip/ToolTip";
 import TripViewLite from "./Components/TripViewLite/TripViewLite";
 import TripView from "./Components/TripView/TripView";
 import TripFeedCarousel from "./Components/TripFeedCarousel/TripFeedCarousel";
-import JournalCard from "./Components/JournalCard/JournalCard";
+import BigImageCard from "./Components/BigImageCard/BigImageCard";
 import Icon from "../../CommonComponents/Icon/Icon";
 import WidgetTitle from "./Components/WidgetTitle/WidgetTitle";
 import Notify from "./Components/Notify/Notify";
@@ -58,7 +58,7 @@ class TripFeed extends Component {
       >
         <Notify data={notifyData} />
 
-        <JournalCard
+        <BigImageCard
           data={{
             title: "Memories from Samantha’s family vacation in July '18",
             type: "JOURNAL",
@@ -73,13 +73,7 @@ class TripFeed extends Component {
             margin: 24,
             marginRight: 24
           }}
-          icon={
-            <Icon
-              name={constants.starActive}
-              color={constants.thirdColor}
-              size={26}
-            />
-          }
+          icon={constants.starActive}
           iconText={234}
           gradients={[constants.darkGradientAlpha]}
         />

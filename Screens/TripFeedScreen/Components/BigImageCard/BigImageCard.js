@@ -5,12 +5,12 @@ import LinearGradient from "react-native-linear-gradient";
 import PropTypes from "prop-types";
 import forbidExtraProps from "../../../../Services/PropTypeValidation/forbidExtraProps";
 import constants from "../../../../constants/constants";
+import Icon from "../../../../CommonComponents/Icon/Icon";
 
-const JournalCard = ({
+const BigImageCard = ({
   data,
   index = 0,
   size,
-  showBar,
   boxStyle = {},
   titleStyle = {},
   typeStyle = {},
@@ -34,20 +34,12 @@ const JournalCard = ({
     boxStyle.height = size;
   }
 
-  if (showBar) {
-    gradientOptions.colors = [
-      constants.darkGradientAlpha(0),
-      gradientColor || constants.black1
-    ];
-    gradientOptions.locations = [0.75, 0.75];
-  } else {
-    gradientOptions.colors = [
-      constants.darkGradientAlpha(0.1),
-      gradientColor(0.1),
-      gradientColor(0.5),
-      gradientColor(0.89)
-    ];
-  }
+  gradientOptions.colors = [
+    constants.darkGradientAlpha(0.1),
+    gradientColor(0.1),
+    gradientColor(0.5),
+    gradientColor(0.89)
+  ];
 
   return (
     <View style={[styles.box, boxStyle]}>
@@ -69,7 +61,7 @@ const JournalCard = ({
               </View>
               {icon ? (
                 <View style={styles.iconWrapper}>
-                  {icon}
+                  <Icon name={icon} color={constants.thirdColor} size={26} />
                   <Text style={styles.iconText}>{iconText}</Text>
                 </View>
               ) : null}
@@ -130,7 +122,7 @@ const styles = StyleSheet.create({
   }
 });
 
-JournalCard.propTypes = forbidExtraProps({
+BigImageCard.propTypes = forbidExtraProps({
   data: PropTypes.shape({
     title: PropTypes.string.isRequired,
     type: PropTypes.string,
@@ -139,15 +131,14 @@ JournalCard.propTypes = forbidExtraProps({
   }).isRequired,
   index: PropTypes.number,
   size: PropTypes.number,
-  showBar: PropTypes.bool,
   boxStyle: PropTypes.object,
   titleStyle: PropTypes.object,
   typeStyle: PropTypes.object,
-  icon: PropTypes.element,
+  icon: PropTypes.string,
   iconText: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   gradients: PropTypes.arrayOf(
     PropTypes.oneOfType([PropTypes.string, PropTypes.func])
   ).isRequired
 });
 
-export default JournalCard;
+export default BigImageCard;
