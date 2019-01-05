@@ -6,7 +6,6 @@ import constants from "../../constants/constants";
 import TripView from "../../Screens/TripFeedScreen/Components/TripView/TripView";
 import TripViewLite from "../../Screens/TripFeedScreen/Components/TripViewLite/TripViewLite";
 import TripFeedCarousel from "../../Screens/TripFeedScreen/Components/TripFeedCarousel/TripFeedCarousel";
-import PropTypes from "prop-types";
 import InfoBox from "../../Screens/TripFeedScreen/Components/InfoBox/InfoBox";
 
 const tripData = [
@@ -81,7 +80,7 @@ const carousel = {
         uri:
           "https://www.larousse.fr/encyclopedie/data/images/1314562-Barcelone.jpg"
       },
-      action: ""
+      link: ""
     },
     {
       title: "Barcelona",
@@ -89,7 +88,7 @@ const carousel = {
         uri:
           "https://www.larousse.fr/encyclopedie/data/images/1314562-Barcelone.jpg"
       },
-      action: ""
+      link: ""
     },
     {
       title: "Barcelona",
@@ -97,7 +96,7 @@ const carousel = {
         uri:
           "https://www.larousse.fr/encyclopedie/data/images/1314562-Barcelone.jpg"
       },
-      action: ""
+      link: ""
     },
     {
       title: "Barcelona",
@@ -105,7 +104,7 @@ const carousel = {
         uri:
           "https://www.larousse.fr/encyclopedie/data/images/1314562-Barcelone.jpg"
       },
-      action: ""
+      link: ""
     }
   ]
 };
