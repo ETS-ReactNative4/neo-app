@@ -51,26 +51,10 @@ class FeedBackSwiper extends Component {
         meh: () => this.openFeedBackModal()
       }
     ],
-    isModalVisible: false,
-    isHidden: false
+    isModalVisible: false
   };
 
   _cardStack = React.createRef();
-
-  onCardSwiped = index => {
-    if (index >= this.state.feedBackArray.length) {
-      setTimeout(() => {
-        this.hideWidget();
-      }, 1000);
-    }
-  };
-
-  hideWidget = () => {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-    this.setState({
-      isHidden: true
-    });
-  };
 
   openFeedBackModal = () => {
     this.setState({
@@ -98,8 +82,6 @@ class FeedBackSwiper extends Component {
   };
 
   render() {
-    if (this.state.isHidden) return null;
-
     const NextCard = () => (
       <View
         style={[
@@ -145,8 +127,8 @@ class FeedBackSwiper extends Component {
         onSwipeStart={() => this.props.toggleScrollLock(false)}
         onSwipeEnd={() => this.props.toggleScrollLock(true)}
         containerStyle={styles.feedBackSwiperContainer}
-        onCardSwiped={index => this.onCardSwiped(index)}
         verticalSwipe={false}
+        hideEmptyWidget={true}
       >
         {this.state.feedBackArray.map((feedBack, feedBackIndex) => {
           return (

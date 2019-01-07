@@ -9,9 +9,9 @@ class CardStack extends Component {
   static propTypes = forbidExtraProps({
     onCardSwiped: PropTypes.func,
     children: PropTypes.arrayOf(PropTypes.element).isRequired,
-    NextCard: PropTypes.element,
-    LastCard: PropTypes.element,
-    EmptyPlaceHolder: PropTypes.element,
+    NextCard: PropTypes.func,
+    LastCard: PropTypes.func,
+    EmptyPlaceHolder: PropTypes.func,
     containerStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.number])
       .isRequired,
     onSwipeStart: PropTypes.func,
@@ -20,7 +20,8 @@ class CardStack extends Component {
     horizontalSwipe: PropTypes.bool,
     setRef: PropTypes.func,
     horizontalThreshold: PropTypes.number,
-    secondCardZoom: PropTypes.number
+    secondCardZoom: PropTypes.number,
+    hideEmptyWidget: PropTypes.bool
   });
 
   state = {
@@ -35,13 +36,30 @@ class CardStack extends Component {
         activeCardIndex: index + 1
       },
       () => {
+        const { hideEmptyWidget = true } = this.props;
+        if (this.state.activeCardIndex >= this.props.children.length) {
+          if (hideEmptyWidget) {
+            setTimeout(() => {
+              this.hideWidget();
+            }, 1000);
+          }
+        }
         this.props.onCardSwiped &&
           this.props.onCardSwiped(this.state.activeCardIndex);
       }
     );
   };
 
+  hideWidget = () => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    this.setState({
+      isHidden: true
+    });
+  };
+
   render() {
+    if (this.state.isHidden) return null;
+
     const {
       children = [],
       NextCard = () => null,
