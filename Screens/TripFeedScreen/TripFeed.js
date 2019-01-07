@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Text, ScrollView, StyleSheet } from "react-native";
+import { View, Text, ScrollView, StyleSheet, BackHandler } from "react-native";
 import HomeHeader from "../../CommonComponents/HomeHeader/HomeHeader";
 import constants from "../../constants/constants";
 import DayAhead from "./Components/DayAhead/DayAhead";
@@ -27,6 +27,31 @@ class TripFeed extends Component {
   state = {
     scrollEnabled: true
   };
+  _didFocusSubscription;
+  _willBlurSubscription;
+
+  constructor(props) {
+    super(props);
+
+    this._didFocusSubscription = props.navigation.addListener(
+      "didFocus",
+      () => {
+        BackHandler.addEventListener(
+          "hardwareBackPress",
+          this.onBackButtonPressAndroid
+        );
+      }
+    );
+  }
+
+  onBackButtonPressAndroid = () => {
+    const { navigation } = this.props;
+    if (navigation.isFocused()) {
+      BackHandler.exitApp();
+    } else {
+      return false;
+    }
+  };
 
   toggleScrollLock = status => {
     this.setState({
@@ -36,12 +61,27 @@ class TripFeed extends Component {
 
   componentDidMount() {
     this.loadTripFeedData();
+
+    this._willBlurSubscription = this.props.navigation.addListener(
+      "willBlur",
+      () => {
+        BackHandler.removeEventListener(
+          "hardwareBackPress",
+          this.onBackButtonPressAndroid
+        );
+      }
+    );
   }
 
   loadTripFeedData = () => {
     const { generateTripFeed } = this.props.tripFeedStore;
     generateTripFeed();
   };
+
+  componentWillUnmount() {
+    this._didFocusSubscription && this._didFocusSubscription.remove();
+    this._willBlurSubscription && this._willBlurSubscription.remove();
+  }
 
   render() {
     const notifyData = [
@@ -64,6 +104,7 @@ class TripFeed extends Component {
       }
     ];
     const { isLoading, widgets } = this.props.tripFeedStore;
+    let isImageFirst = false;
     return (
       <CustomScrollView
         onRefresh={this.loadTripFeedData}
@@ -73,14 +114,10 @@ class TripFeed extends Component {
         style={styles.tripFeedScrollView}
       >
         {widgets.map((widget, widgetIndex) => {
+          isImageFirst = !isImageFirst;
           switch (widget.type) {
             case "TOOL_TIP":
-              return (
-                <ToolTip
-                  {...widget.data}
-                  imageFirst={_.sample([true, false])}
-                />
-              );
+              return <ToolTip {...widget.data} imageFirst={isImageFirst} />;
             default:
               return null;
           }

@@ -37,26 +37,9 @@ import SectionHeader from "../../CommonComponents/SectionHeader/SectionHeader";
 class BookingsHome extends Component {
   static navigationOptions = HomeHeader;
 
-  _didFocusSubscription;
-  _willBlurSubscription;
-
   state = {
     isDownloadLoading: false
   };
-
-  constructor(props) {
-    super(props);
-
-    this._didFocusSubscription = props.navigation.addListener(
-      "didFocus",
-      () => {
-        BackHandler.addEventListener(
-          "hardwareBackPress",
-          this.onBackButtonPressAndroid
-        );
-      }
-    );
-  }
 
   onBackButtonPressAndroid = () => {
     const { navigation } = this.props;
@@ -71,20 +54,6 @@ class BookingsHome extends Component {
     getDeviceToken(token => {
       registerFcmRefreshListener();
     });
-    this._willBlurSubscription = this.props.navigation.addListener(
-      "willBlur",
-      () => {
-        BackHandler.removeEventListener(
-          "hardwareBackPress",
-          this.onBackButtonPressAndroid
-        );
-      }
-    );
-  }
-
-  componentWillUnmount() {
-    this._didFocusSubscription && this._didFocusSubscription.remove();
-    this._willBlurSubscription && this._willBlurSubscription.remove();
   }
 
   openSearch = () => {};
