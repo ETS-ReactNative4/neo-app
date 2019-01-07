@@ -6,7 +6,7 @@ import {
   LayoutAnimation,
   Platform
 } from "react-native";
-import CardStack, { Card } from "react-native-card-stack-swiper";
+import CardStack from "../../../../CommonComponents/CardStack/CardStack";
 import constants from "../../../../constants/constants";
 import SimpleButton from "../../../../CommonComponents/SimpleButton/SimpleButton";
 import { responsiveWidth } from "react-native-responsive-dimensions";
@@ -51,27 +51,18 @@ class FeedBackSwiper extends Component {
         meh: () => this.openFeedBackModal()
       }
     ],
-    activeCardIndex: 0,
     isModalVisible: false,
     isHidden: false
   };
 
-  _swiper;
+  _cardStack = React.createRef();
 
   onCardSwiped = index => {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-    this.setState(
-      {
-        activeCardIndex: index + 1
-      },
-      () => {
-        if (this.state.activeCardIndex >= this.state.feedBackArray.length) {
-          setTimeout(() => {
-            this.hideWidget();
-          }, 1000);
-        }
-      }
-    );
+    if (index >= this.state.feedBackArray.length) {
+      setTimeout(() => {
+        this.hideWidget();
+      }, 1000);
+    }
   };
 
   hideWidget = () => {
@@ -100,7 +91,7 @@ class FeedBackSwiper extends Component {
       },
       () => {
         setTimeout(() => {
-          this._swiper.swipeRight();
+          this._cardStack.swipeRight && this._cardStack.swipeRight();
         }, 300);
       }
     );
@@ -109,117 +100,107 @@ class FeedBackSwiper extends Component {
   render() {
     if (this.state.isHidden) return null;
 
-    const pendingCards =
-      this.state.feedBackArray.length - this.state.activeCardIndex;
-
-    return (
-      <>
-        <CardStack
-          renderNoMoreCards={() => [
-            pendingCards > 2 ? (
-              <View
-                key={0}
-                style={[
-                  styles.feedBackCard,
-                  {
-                    position: "absolute",
-                    bottom: 0,
-                    backgroundColor: constants.secondColorAlpha(0.5),
-                    transform: [{ scale: 0.9 }]
-                  }
-                ]}
-              />
-            ) : null,
-            pendingCards > 1 ? (
-              <View
-                key={1}
-                style={[
-                  styles.feedBackCard,
-                  {
-                    position: "absolute",
-                    bottom: 8,
-                    backgroundColor: constants.secondColorAlpha(0.65),
-                    transform: [{ scale: 0.95 }]
-                  }
-                ]}
-              />
-            ) : null,
-            pendingCards < 1 ? (
-              <View
-                key={2}
-                style={[styles.feedBackCard, styles.feedBackCleared]}
-              >
-                <Text style={styles.feedBackClearedText}>
-                  {"All caught up!"}
-                </Text>
-              </View>
-            ) : null
-          ]}
-          style={styles.feedBackSwiperContainer}
-          ref={swiper => {
-            this._swiper = swiper;
-          }}
-          secondCardZoom={0.95}
-          onSwipeStart={() => this.props.toggleScrollLock(false)}
-          onSwipeEnd={() => this.props.toggleScrollLock(true)}
-          verticalSwipe={false}
-          onSwiped={index => this.onCardSwiped(index)}
-          horizontalThreshold={responsiveWidth(100) / 4}
-        >
-          {this.state.feedBackArray.map((feedBack, feedBackIndex) => {
-            return (
-              <Card key={feedBackIndex} style={styles.feedBackCard}>
-                <Text style={styles.feedBackTitle}>{feedBack.title}</Text>
-                <Text style={styles.feedBackDay}>{feedBack.day}</Text>
-                <View style={styles.actionBar}>
-                  <SimpleButton
-                    text={"Meh!"}
-                    action={feedBack.meh}
-                    textColor={"rgba(255,87,109,1)"}
-                    hasBorder={false}
-                    icon={constants.activityIcon}
-                    textStyle={{
-                      ...constants.fontCustom(constants.primarySemiBold, 17)
-                    }}
-                    iconSize={16}
-                    underlayColor={"transparent"}
-                    containerStyle={{
-                      backgroundColor: "transparent",
-                      marginRight: 4,
-                      height: 20,
-                      width: 80
-                    }}
-                  />
-                  <SimpleButton
-                    text={"Yey!"}
-                    action={feedBack.yey}
-                    textColor={constants.firstColor}
-                    hasBorder={false}
-                    icon={constants.activityIcon}
-                    textStyle={{
-                      ...constants.fontCustom(constants.primarySemiBold, 17)
-                    }}
-                    iconSize={16}
-                    underlayColor={"transparent"}
-                    containerStyle={{
-                      backgroundColor: "transparent",
-                      marginLeft: 4,
-                      height: 20,
-                      width: 80
-                    }}
-                  />
-                </View>
-              </Card>
-            );
-          })}
-        </CardStack>
-        <FeedBackSwiperModal
-          isVisible={this.state.isModalVisible}
-          data={{}}
-          submit={this.submitFeedBack}
-        />
-      </>
+    const NextCard = () => (
+      <View
+        style={[
+          styles.feedBackCard,
+          {
+            position: "absolute",
+            bottom: 8,
+            backgroundColor: constants.secondColorAlpha(0.65),
+            transform: [{ scale: 0.95 }]
+          }
+        ]}
+      />
     );
+
+    const LastCard = () => (
+      <View
+        style={[
+          styles.feedBackCard,
+          {
+            position: "absolute",
+            bottom: 0,
+            backgroundColor: constants.secondColorAlpha(0.5),
+            transform: [{ scale: 0.9 }]
+          }
+        ]}
+      />
+    );
+
+    const EmptyPlaceHolder = () => {
+      return (
+        <View style={[styles.feedBackCard, styles.feedBackCleared]}>
+          <Text style={styles.feedBackClearedText}>{"All caught up!"}</Text>
+        </View>
+      );
+    };
+
+    return [
+      <CardStack
+        setRef={cardStack => (this._cardStack = cardStack)}
+        NextCard={NextCard}
+        LastCard={LastCard}
+        EmptyPlaceHolder={EmptyPlaceHolder}
+        onSwipeStart={() => this.props.toggleScrollLock(false)}
+        onSwipeEnd={() => this.props.toggleScrollLock(true)}
+        containerStyle={styles.feedBackSwiperContainer}
+        onCardSwiped={index => this.onCardSwiped(index)}
+        verticalSwipe={false}
+      >
+        {this.state.feedBackArray.map((feedBack, feedBackIndex) => {
+          return (
+            <View key={feedBackIndex} style={styles.feedBackCard}>
+              <Text style={styles.feedBackTitle}>{feedBack.title}</Text>
+              <Text style={styles.feedBackDay}>{feedBack.day}</Text>
+              <View style={styles.actionBar}>
+                <SimpleButton
+                  text={"Meh!"}
+                  action={feedBack.meh}
+                  textColor={"rgba(255,87,109,1)"}
+                  hasBorder={false}
+                  icon={constants.activityIcon}
+                  textStyle={{
+                    ...constants.fontCustom(constants.primarySemiBold, 17)
+                  }}
+                  iconSize={16}
+                  underlayColor={"transparent"}
+                  containerStyle={{
+                    backgroundColor: "transparent",
+                    marginRight: 4,
+                    height: 20,
+                    width: 80
+                  }}
+                />
+                <SimpleButton
+                  text={"Yey!"}
+                  action={feedBack.yey}
+                  textColor={constants.firstColor}
+                  hasBorder={false}
+                  icon={constants.activityIcon}
+                  textStyle={{
+                    ...constants.fontCustom(constants.primarySemiBold, 17)
+                  }}
+                  iconSize={16}
+                  underlayColor={"transparent"}
+                  containerStyle={{
+                    backgroundColor: "transparent",
+                    marginLeft: 4,
+                    height: 20,
+                    width: 80
+                  }}
+                />
+              </View>
+            </View>
+          );
+        })}
+      </CardStack>,
+      <FeedBackSwiperModal
+        isVisible={this.state.isModalVisible}
+        data={{}}
+        submit={this.submitFeedBack}
+      />
+    ];
   }
 }
 

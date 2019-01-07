@@ -84,25 +84,6 @@ class TripFeed extends Component {
   }
 
   render() {
-    const notifyData = [
-      {
-        title: "Heads up!",
-        message: "Your pick up is scheduled at 8:30am from your hotel lobby.",
-        action: () => {},
-        actionText: "LEARN MORE",
-        modalButton: "Alright!",
-        details: [
-          {
-            text:
-              "Plan a trip to some local attractions, dine at a local restaurent or go shopping!"
-          },
-          {
-            text:
-              "That’s how you greet in Spanish. Learn more phrases that could come handy. That’s how you greet in Spanish. Learn more phrases that could come handy!"
-          }
-        ]
-      }
-    ];
     const { isLoading, widgets } = this.props.tripFeedStore;
     let isImageFirst = false;
     return (
@@ -123,7 +104,7 @@ class TripFeed extends Component {
           }
         })}
 
-        <Notify data={notifyData} />
+        <FeedBackSwiper toggleScrollLock={this.toggleScrollLock} />
 
         <BigImageCard
           data={{
@@ -144,7 +125,6 @@ class TripFeed extends Component {
           iconText={234}
           gradients={[constants.darkGradientAlpha]}
         />
-        <FeedBackSwiper toggleScrollLock={this.toggleScrollLock} />
 
         <DayAhead />
       </CustomScrollView>
