@@ -7,6 +7,8 @@ import TripView from "../../Screens/TripFeedScreen/Components/TripView/TripView"
 import TripViewLite from "../../Screens/TripFeedScreen/Components/TripViewLite/TripViewLite";
 import TripFeedCarousel from "../../Screens/TripFeedScreen/Components/TripFeedCarousel/TripFeedCarousel";
 import InfoBox from "../../Screens/TripFeedScreen/Components/InfoBox/InfoBox";
+import NotificationCard from "../../Screens/TripFeedScreen/Components/NotificationCard/NotificationCard";
+import FeedBackSwiper from "../../Screens/TripFeedScreen/Components/FeedBackSwiper/FeedBackSwiper";
 
 const tripData = [
   {
@@ -131,6 +133,23 @@ const infoData = {
   },
   link: ""
 };
+
+const notifyData = [
+  {
+    title: "Heads up!",
+    message: "Your pick up is scheduled at 8:30am from your hotel lobby.",
+    link: "",
+    type: "info",
+    modalData: {}
+  },
+  {
+    title: "Heads up!",
+    message: "Your pick up is scheduled at 8:30am from your hotel lobby.",
+    link: "",
+    type: "alert",
+    modalData: {}
+  }
+];
 
 storiesOf("Trip Feed Widgets", module)
   .add("widget title", () => {
@@ -337,4 +356,71 @@ storiesOf("Trip Feed Widgets", module)
     };
     console.log(props);
     return <InfoBox {...props} />;
+  })
+  .add("Info Notification Card default", () => {
+    const props = {
+      data: [notifyData[0]],
+      toggleScrollLock: () => null
+    };
+    console.log(props);
+    return <NotificationCard {...props} />;
+  })
+  .add("Info Notification Card dismissable", () => {
+    const props = {
+      data: [notifyData[0]],
+      canDismiss: true,
+      toggleScrollLock: () => null
+    };
+    console.log(props);
+    return <NotificationCard {...props} />;
+  })
+  .add("Info Notification Card with cta", () => {
+    const props = {
+      data: [
+        {
+          ...notifyData[0],
+          actionText: "Learn More"
+        }
+      ],
+      toggleScrollLock: () => null
+    };
+    console.log(props);
+    return <NotificationCard {...props} />;
+  })
+  .add("Alert Notification Card default", () => {
+    const props = {
+      data: [notifyData[1]],
+      toggleScrollLock: () => null
+    };
+    console.log(props);
+    return <NotificationCard {...props} />;
+  })
+  .add("Alert Notification Card dismissable", () => {
+    const props = {
+      data: [notifyData[1]],
+      canDismiss: true,
+      toggleScrollLock: () => null
+    };
+    console.log(props);
+    return <NotificationCard {...props} />;
+  })
+  .add("Alert Notification Card with cta", () => {
+    const props = {
+      data: [
+        {
+          ...notifyData[1],
+          actionText: "Learn More"
+        }
+      ],
+      toggleScrollLock: () => null
+    };
+    console.log(props);
+    return <NotificationCard {...props} />;
+  })
+  .add("Feedback swiper", () => {
+    const props = {
+      toggleScrollLock: () => null
+    };
+    console.log(props);
+    return <FeedBackSwiper {...props} />;
   });

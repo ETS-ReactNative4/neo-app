@@ -83,9 +83,9 @@ class CardStack extends Component {
         onSwipeEnd={() => onSwipeEnd()}
         onSwiped={index => this.onCardSwiped(index)}
         renderNoMoreCards={() => [
-          pendingCards > 2 ? <LastCard /> : null,
-          pendingCards > 1 ? <NextCard /> : null,
-          pendingCards < 1 ? <EmptyPlaceHolder /> : null
+          pendingCards > 2 ? <LastCard key={0} /> : null,
+          pendingCards > 1 ? <NextCard key={1} /> : null,
+          pendingCards < 1 ? <EmptyPlaceHolder key={2} /> : null
         ]}
         verticalSwipe={verticalSwipe}
         horizontalSwipe={horizontalSwipe}

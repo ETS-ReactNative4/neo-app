@@ -12,7 +12,7 @@ import TripFeedCarousel from "./Components/TripFeedCarousel/TripFeedCarousel";
 import BigImageCard from "./Components/BigImageCard/BigImageCard";
 import Icon from "../../CommonComponents/Icon/Icon";
 import WidgetTitle from "./Components/WidgetTitle/WidgetTitle";
-import Notify from "./Components/Notify/Notify";
+import NotificationCard from "./Components/NotificationCard/NotificationCard";
 import InfoBox from "./Components/InfoBox/InfoBox";
 import { inject, observer } from "mobx-react/custom";
 import _ from "lodash";

@@ -36,8 +36,6 @@
     "react-native-custom-tabs":
       "git://github.com/DaniAkash/react-native-custom-tabs.git#a92bfcc1fda8c42a2710249656ae99ee1968ab96",
     "react-native-dash": "^0.0.9",
-    "react-native-deck-swiper":
-      "git://github.com/sriram10/react-native-deck-swiper.git#a40eefe7a5178aba8b45392fc225ecc5fdb12e9a",
     "react-native-fast-image": "^5.0.3",
     "react-native-firebase": "^5.0.0",
     "react-native-flip-view-next": "^1.0.0",
