@@ -6,9 +6,10 @@ import constants from "../../constants/constants";
 import TripView from "../../Screens/TripFeedScreen/Components/TripView/TripView";
 import TripViewLite from "../../Screens/TripFeedScreen/Components/TripViewLite/TripViewLite";
 import TripFeedCarousel from "../../Screens/TripFeedScreen/Components/TripFeedCarousel/TripFeedCarousel";
-import InfoBox from "../../Screens/TripFeedScreen/Components/InfoBox/InfoBox";
+import InfoCard from "../../Screens/TripFeedScreen/Components/InfoCard/InfoCard";
 import NotificationCard from "../../Screens/TripFeedScreen/Components/NotificationCard/NotificationCard";
 import FeedBackSwiper from "../../Screens/TripFeedScreen/Components/FeedBackSwiper/FeedBackSwiper";
+import BigImageCard from "../../Screens/TripFeedScreen/Components/BigImageCard/BigImageCard";
 
 const tripData = [
   {
@@ -150,6 +151,19 @@ const notifyData = [
     modalData: {}
   }
 ];
+
+const bigImageData = {
+  title: "Memories from Samantha’s family vacation in July '18",
+  type: "JOURNAL",
+  image: {
+    uri:
+      "https://www.larousse.fr/encyclopedie/data/images/1314562-Barcelone.jpg"
+  },
+  link: "",
+  icon: constants.starActive,
+  iconText: 234,
+  gradient: constants.darkGradientAlpha
+};
 
 storiesOf("Trip Feed Widgets", module)
   .add("widget title", () => {
@@ -343,19 +357,19 @@ storiesOf("Trip Feed Widgets", module)
     console.log(props);
     return <TripFeedCarousel {...props} />;
   })
-  .add("Info box default", () => {
+  .add("Info card default", () => {
     const props = infoData;
     console.log(props);
-    return <InfoBox {...props} />;
+    return <InfoCard {...props} />;
   })
-  .add("Info box with no Image", () => {
+  .add("Info card with no Image", () => {
     const props = {
       title: infoData.title,
       content: infoData.content,
       link: infoData.link
     };
     console.log(props);
-    return <InfoBox {...props} />;
+    return <InfoCard {...props} />;
   })
   .add("Info Notification Card default", () => {
     const props = {
@@ -416,6 +430,43 @@ storiesOf("Trip Feed Widgets", module)
     };
     console.log(props);
     return <NotificationCard {...props} />;
+  })
+  .add("Big Image card default", () => {
+    const props = {
+      title: bigImageData.title,
+      image: bigImageData.image
+    };
+    console.log(props);
+    return <BigImageCard {...props} />;
+  })
+  .add("Big Image card with type", () => {
+    const props = {
+      title: bigImageData.title,
+      type: bigImageData.type,
+      image: bigImageData.image
+    };
+    console.log(props);
+    return <BigImageCard {...props} />;
+  })
+  .add("Big Image card with icon", () => {
+    const props = {
+      title: bigImageData.title,
+      type: bigImageData.type,
+      image: bigImageData.image,
+      icon: bigImageData.icon
+    };
+    console.log(props);
+    return <BigImageCard {...props} />;
+  })
+  .add("Big Image card with icon text", () => {
+    const props = {
+      title: bigImageData.title,
+      type: bigImageData.type,
+      image: bigImageData.image,
+      icon: bigImageData.icon
+    };
+    console.log(props);
+    return <BigImageCard {...props} />;
   })
   .add("Feedback swiper", () => {
     const props = {

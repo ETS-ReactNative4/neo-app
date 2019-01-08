@@ -6,7 +6,7 @@ import forbidExtraProps from "../../../../Services/PropTypeValidation/forbidExtr
 import constants from "../../../../constants/constants";
 import resolveLinks from "../../../../Services/resolveLinks/resolveLinks";
 
-class InfoBox extends Component {
+class InfoCard extends Component {
   static propTypes = forbidExtraProps({
     title: PropTypes.string.isRequired,
     image: PropTypes.oneOfType([PropTypes.object, PropTypes.number]),
@@ -89,4 +89,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default InfoBox;
+export default InfoCard;

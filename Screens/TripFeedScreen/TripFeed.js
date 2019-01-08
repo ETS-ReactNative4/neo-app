@@ -13,7 +13,7 @@ import BigImageCard from "./Components/BigImageCard/BigImageCard";
 import Icon from "../../CommonComponents/Icon/Icon";
 import WidgetTitle from "./Components/WidgetTitle/WidgetTitle";
 import NotificationCard from "./Components/NotificationCard/NotificationCard";
-import InfoBox from "./Components/InfoBox/InfoBox";
+import InfoCard from "./Components/InfoCard/InfoCard";
 import { inject, observer } from "mobx-react/custom";
 import _ from "lodash";
 import CustomScrollView from "../../CommonComponents/CustomScrollView/CustomScrollView";
