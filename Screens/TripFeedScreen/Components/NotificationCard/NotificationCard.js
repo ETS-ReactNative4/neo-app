@@ -42,7 +42,7 @@ class NotificationCard extends Component {
 
     const { containerStyle = {}, canDismiss = false, data = [] } = this.props;
 
-    const NotificationCard = ({ item, itemIndex }) => {
+    const NotifCard = ({ item, itemIndex }) => {
       const { link, title, message, actionText, type } = item;
       let backgroundColor, icon, ctaColor, textColor;
       switch (type) {
@@ -112,11 +112,7 @@ class NotificationCard extends Component {
       >
         {data.map((item, itemIndex) => {
           return (
-            <NotificationCard
-              key={itemIndex}
-              item={item}
-              itemIndex={itemIndex}
-            />
+            <NotifCard key={itemIndex} item={item} itemIndex={itemIndex} />
           );
         })}
       </CardStack>
