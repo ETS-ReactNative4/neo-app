@@ -371,7 +371,7 @@ storiesOf("Trip Feed Widgets", module)
     console.log(props);
     return <InfoCard {...props} />;
   })
-  .add("Info Notification Card default", () => {
+  .add("Notification Card Info default", () => {
     const props = {
       data: [notifyData[0]],
       toggleScrollLock: () => null
@@ -379,7 +379,7 @@ storiesOf("Trip Feed Widgets", module)
     console.log(props);
     return <NotificationCard {...props} />;
   })
-  .add("Info Notification Card dismissable", () => {
+  .add("Notification Card Info dismissable", () => {
     const props = {
       data: [notifyData[0]],
       canDismiss: true,
@@ -388,7 +388,7 @@ storiesOf("Trip Feed Widgets", module)
     console.log(props);
     return <NotificationCard {...props} />;
   })
-  .add("Info Notification Card with cta", () => {
+  .add("Notification Card Info with cta", () => {
     const props = {
       data: [
         {
@@ -401,7 +401,7 @@ storiesOf("Trip Feed Widgets", module)
     console.log(props);
     return <NotificationCard {...props} />;
   })
-  .add("Alert Notification Card default", () => {
+  .add("Notification Card Alert default", () => {
     const props = {
       data: [notifyData[1]],
       toggleScrollLock: () => null
@@ -409,7 +409,7 @@ storiesOf("Trip Feed Widgets", module)
     console.log(props);
     return <NotificationCard {...props} />;
   })
-  .add("Alert Notification Card dismissable", () => {
+  .add("Notification Card Alert dismissable", () => {
     const props = {
       data: [notifyData[1]],
       canDismiss: true,
@@ -418,7 +418,7 @@ storiesOf("Trip Feed Widgets", module)
     console.log(props);
     return <NotificationCard {...props} />;
   })
-  .add("Alert Notification Card with cta", () => {
+  .add("Notification Card Alert with cta", () => {
     const props = {
       data: [
         {
