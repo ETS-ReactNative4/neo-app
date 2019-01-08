@@ -28,7 +28,8 @@ class Tools extends Component {
             city,
             target: "ToolNearBy"
           });
-        }
+        },
+        gradientColor: constants.darkGradientAlpha
       };
     });
 
@@ -119,7 +120,7 @@ class Tools extends Component {
         {/*/>*/}
         <ScrollView>
           <SectionHeader
-            sectionName={"CITY GUIDES"}
+            sectionName={"Explore Places"}
             containerStyle={{ marginHorizontal: 24 }}
           />
 
