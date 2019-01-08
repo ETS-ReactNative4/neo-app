@@ -24,13 +24,12 @@ class TripFeed {
   @computed
   get widgets() {
     try {
-      return toJS(
-        _.sortBy(
-          this._widgets.filter(
-            widget => widget.expiry === -1 || moment().valueOf() < widget.expiry
-          ),
-          "pos"
-        )
+      return _.sortBy(
+        toJS(this._widgets).filter(
+          widget =>
+            true || widget.expiry === -1 || moment().valueOf() < widget.expiry
+        ),
+        "pos"
       );
     } catch (e) {
       logError(e);

@@ -95,12 +95,24 @@ class TripFeed extends Component {
         style={styles.tripFeedScrollView}
       >
         {widgets.map((widget, widgetIndex) => {
-          isImageFirst = !isImageFirst;
-          switch (widget.type) {
-            case "TOOL_TIP":
-              return <ToolTip {...widget.data} imageFirst={isImageFirst} />;
-            default:
-              return null;
+          try {
+            isImageFirst = !isImageFirst;
+            switch (widget.type) {
+              case "TOOL_TIP":
+                return (
+                  <ToolTip
+                    key={widgetIndex}
+                    {...widget.data}
+                    imageFirst={isImageFirst}
+                  />
+                );
+              case "INFO_CARD":
+                return <InfoCard key={widgetIndex} {...widget.data} />;
+              default:
+                return null;
+            }
+          } catch (e) {
+            return null;
           }
         })}
       </CustomScrollView>
