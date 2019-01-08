@@ -162,7 +162,7 @@ const bigImageData = {
   link: "",
   icon: constants.starActive,
   iconText: 234,
-  gradient: constants.darkGradientAlpha
+  gradient: constants.thirdColorAlpha
 };
 
 storiesOf("Trip Feed Widgets", module)
@@ -464,6 +464,17 @@ storiesOf("Trip Feed Widgets", module)
       type: bigImageData.type,
       image: bigImageData.image,
       icon: bigImageData.icon
+    };
+    console.log(props);
+    return <BigImageCard {...props} />;
+  })
+  .add("Big Image card with custom gradient color", () => {
+    const props = {
+      title: bigImageData.title,
+      type: bigImageData.type,
+      image: bigImageData.image,
+      icon: bigImageData.icon,
+      gradient: bigImageData.gradient
     };
     console.log(props);
     return <BigImageCard {...props} />;

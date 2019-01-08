@@ -142,7 +142,7 @@ BigImageCard.propTypes = forbidExtraProps({
   typeStyle: PropTypes.object,
   icon: PropTypes.string,
   iconText: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  gradient: PropTypes.oneOfType([PropTypes.string, PropTypes.func]).isRequired
+  gradient: PropTypes.oneOfType([PropTypes.string, PropTypes.func])
 });
 
 export default BigImageCard;
