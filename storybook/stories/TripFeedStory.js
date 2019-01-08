@@ -10,6 +10,7 @@ import InfoCard from "../../Screens/TripFeedScreen/Components/InfoCard/InfoCard"
 import NotificationCard from "../../Screens/TripFeedScreen/Components/NotificationCard/NotificationCard";
 import FeedBackSwiper from "../../Screens/TripFeedScreen/Components/FeedBackSwiper/FeedBackSwiper";
 import BigImageCard from "../../Screens/TripFeedScreen/Components/BigImageCard/BigImageCard";
+import DayAhead from "../../Screens/TripFeedScreen/Components/DayAhead/DayAhead";
 
 const tripData = [
   {
@@ -485,4 +486,9 @@ storiesOf("Trip Feed Widgets", module)
     };
     console.log(props);
     return <FeedBackSwiper {...props} />;
+  })
+  .add("The Day Ahead", () => {
+    const props = {};
+    console.log(props);
+    return <DayAhead {...props} />;
   });

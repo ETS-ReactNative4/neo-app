@@ -103,30 +103,6 @@ class TripFeed extends Component {
               return null;
           }
         })}
-
-        <FeedBackSwiper toggleScrollLock={this.toggleScrollLock} />
-
-        <BigImageCard
-          data={{
-            title: "Memories from Samantha’s family vacation in July '18",
-            type: "JOURNAL",
-            image: {
-              uri:
-                "https://www.larousse.fr/encyclopedie/data/images/1314562-Barcelone.jpg"
-            },
-            action: () => {}
-          }}
-          boxStyle={{
-            height: 320,
-            margin: 24,
-            marginRight: 24
-          }}
-          icon={constants.starActive}
-          iconText={234}
-          gradients={[constants.darkGradientAlpha]}
-        />
-
-        <DayAhead />
       </CustomScrollView>
     );
   }
