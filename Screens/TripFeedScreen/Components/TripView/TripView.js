@@ -9,6 +9,7 @@ import { recordEvent } from "../../../../Services/analytics/analyticsService";
 import WidgetTitle from "../WidgetTitle/WidgetTitle";
 import resolveLinks from "../../../../Services/resolveLinks/resolveLinks";
 import forbidExtraProps from "../../../../Services/PropTypeValidation/forbidExtraProps";
+import storeService from "../../../../Services/storeService/storeService";
 
 class TripView extends Component {
   static propTypes = forbidExtraProps({
@@ -21,7 +22,7 @@ class TripView extends Component {
         period: PropTypes.string.isRequired,
         image: PropTypes.oneOfType([PropTypes.object, PropTypes.number])
           .isRequired,
-        transferId: PropTypes.string,
+        costingId: PropTypes.string,
         date: PropTypes.string.isRequired,
         link: PropTypes.string.isRequired
       }).isRequired
@@ -66,8 +67,18 @@ class TripView extends Component {
         >
           {data.map((item, itemIndex) => {
             const rotate = item.icon === "FLIGHT" ? "90deg" : "0deg";
-            const action = () => resolveLinks(item.link, { date: item.date });
-            const circleAction = () => null;
+            const action = () =>
+              resolveLinks(item.link, {
+                selectedDate: JSON.stringify(item.date)
+              });
+            const circleAction = () => {
+              const transfer = storeService.itineraries.getTransferFromAllById(
+                item.costingId
+              );
+              if (icon === "flight")
+                resolveLinks("FlightVoucher", { flight: transfer });
+              else resolveLinks("TransferVoucher", { transfer });
+            };
             return (
               <View
                 style={{

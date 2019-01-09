@@ -26,7 +26,7 @@ const tripData = [
       uri:
         "https://www.larousse.fr/encyclopedie/data/images/1314562-Barcelone.jpg"
     },
-    transferId: "",
+    costingId: "",
     date: ""
   },
   {
@@ -38,7 +38,7 @@ const tripData = [
       uri:
         "https://www.larousse.fr/encyclopedie/data/images/1314562-Barcelone.jpg"
     },
-    transferId: "",
+    costingId: "",
     date: ""
   },
   {
@@ -50,7 +50,7 @@ const tripData = [
       uri:
         "https://www.larousse.fr/encyclopedie/data/images/1314562-Barcelone.jpg"
     },
-    transferId: "",
+    costingId: "",
     date: ""
   },
   {
@@ -62,7 +62,7 @@ const tripData = [
       uri:
         "https://www.larousse.fr/encyclopedie/data/images/1314562-Barcelone.jpg"
     },
-    transferId: "",
+    costingId: "",
     date: ""
   },
   {
@@ -74,7 +74,7 @@ const tripData = [
       uri:
         "https://www.larousse.fr/encyclopedie/data/images/1314562-Barcelone.jpg"
     },
-    transferId: "",
+    costingId: "",
     date: ""
   },
   {
@@ -86,7 +86,7 @@ const tripData = [
       uri:
         "https://www.larousse.fr/encyclopedie/data/images/1314562-Barcelone.jpg"
     },
-    transferId: "",
+    costingId: "",
     date: ""
   }
 ];

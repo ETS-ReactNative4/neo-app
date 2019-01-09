@@ -3,7 +3,7 @@ import openCustomTab from "../openCustomTab/openCustomTab";
 import storeService from "../storeService/storeService";
 import PropTypes from "prop-types";
 
-const resolveLinks = (link, screenProps) => {
+const resolveLinks = (link, screenProps = {}) => {
   if (link) {
     if (link.includes("http://") || link.includes("https://")) {
       openCustomTab(link);
@@ -11,7 +11,7 @@ const resolveLinks = (link, screenProps) => {
       navigationService.navigation._navigation.navigate("TripFeed");
       storeService.tripFeedStore.openInfoCardModal(screenProps);
     } else {
-      navigationService.navigation._navigation.navigate(link);
+      navigationService.navigation._navigation.navigate(link, screenProps);
     }
   }
 };
