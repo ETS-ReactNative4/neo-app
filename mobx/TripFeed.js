@@ -13,11 +13,22 @@ class TripFeed {
     this._widgets = [];
     this._isLoading = false;
     this._hasError = false;
+    this._infoCardModal = {
+      isVisible: false,
+      modalData: {}
+    };
   };
 
   @persist("list")
   @observable
   _widgets = [];
+
+  @observable
+  _infoCardModal = {
+    isVisible: false,
+    modalData: {}
+  };
+  _infoCardClearTimeout;
 
   @observable _isLoading = false;
 
@@ -44,6 +55,11 @@ class TripFeed {
     }
   }
 
+  @computed
+  get infoCardModal() {
+    return toJS(this._infoCardModal);
+  }
+
   @action
   generateTripFeed = () => {
     this._isLoading = true;
@@ -67,6 +83,26 @@ class TripFeed {
         this._hasError = true;
         logError(err);
       });
+  };
+
+  @action
+  openInfoCardModal = modalData => {
+    clearTimeout(this._infoCardClearTimeout);
+    this._infoCardModal = {
+      isVisible: true,
+      modalData
+    };
+  };
+
+  @action
+  closeInfoCardModal = () => {
+    this._infoCardModal.isVisible = false;
+    this._infoCardClearTimeout = setTimeout(() => {
+      this._infoCardModal = {
+        isVisible: false,
+        modalData: {}
+      };
+    }, 150);
   };
 }
 

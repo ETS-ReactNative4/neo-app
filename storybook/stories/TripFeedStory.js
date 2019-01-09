@@ -1,5 +1,6 @@
 import React from "react";
 import { storiesOf } from "@storybook/react-native";
+import { View } from "react-native";
 import WidgetTitle from "../../Screens/TripFeedScreen/Components/WidgetTitle/WidgetTitle";
 import ToolTip from "../../Screens/TripFeedScreen/Components/ToolTip/ToolTip";
 import constants from "../../constants/constants";
@@ -11,6 +12,9 @@ import NotificationCard from "../../Screens/TripFeedScreen/Components/Notificati
 import FeedBackSwiper from "../../Screens/TripFeedScreen/Components/FeedBackSwiper/FeedBackSwiper";
 import BigImageCard from "../../Screens/TripFeedScreen/Components/BigImageCard/BigImageCard";
 import DayAhead from "../../Screens/TripFeedScreen/Components/DayAhead/DayAhead";
+import SimpleButton from "../../CommonComponents/SimpleButton/SimpleButton";
+import InfoCardModal from "../../Screens/TripFeedScreen/Components/InfoCardModal/InfoCardModal";
+import { inject, observer } from "mobx-react/custom";
 
 const tripData = [
   {
@@ -165,6 +169,42 @@ const bigImageData = {
   iconText: 234,
   gradient: constants.thirdColorAlpha
 };
+
+const modalData = {
+  image: {
+    uri:
+      "https://media.istockphoto.com/vectors/colorful-welcome-word-vector-id645958690?k=6&m=645958690&s=612x612&w=0&h=CetH7H2_vmRKvvJ7NLK96glVvj49QT3Z5s1ifR1eLr4="
+  },
+  title: "What makes this app amazing?",
+  content:
+    "This app is packed with tons of content to help you throughout your vacation. If you need more, feel free to contact our live travel support!",
+  bulletedList: [
+    "Experience live concierge 24 hours prior to your travel",
+    "Download links to your trip vouchers and other docs",
+    "Regular travel updates on upcoming activities",
+    "Handy tools to back you up during your travel"
+  ],
+  cta: "Awesome, got it!"
+};
+
+const InfoCardModalWrapper = inject("tripFeedStore")(
+  observer(({ tripFeedStore, props }) => {
+    return (
+      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+        <SimpleButton
+          text={"Open Modal"}
+          action={() => tripFeedStore.openInfoCardModal(props)}
+          textColor={"white"}
+        />
+        <InfoCardModal
+          isVisible={tripFeedStore.infoCardModal.isVisible}
+          {...tripFeedStore.infoCardModal.modalData}
+          onClose={tripFeedStore.closeInfoCardModal}
+        />
+      </View>
+    );
+  })
+);
 
 storiesOf("Trip Feed Widgets", module)
   .add("widget title", () => {
@@ -486,6 +526,29 @@ storiesOf("Trip Feed Widgets", module)
     };
     console.log(props);
     return <FeedBackSwiper {...props} />;
+  })
+  .add("Info Card Modal default", () => {
+    const props = modalData;
+    console.log(props);
+    return <InfoCardModalWrapper props={props} />;
+  })
+  .add("Info Card Modal with only List", () => {
+    const props = { ...modalData };
+    delete props["content"];
+    console.log(props);
+    return <InfoCardModalWrapper props={props} />;
+  })
+  .add("Info Card Modal with only Content", () => {
+    const props = { ...modalData };
+    delete props["bulletedList"];
+    console.log(props);
+    return <InfoCardModalWrapper props={props} />;
+  })
+  .add("Info Card Modal with no image", () => {
+    const props = { ...modalData };
+    delete props["image"];
+    console.log(props);
+    return <InfoCardModalWrapper props={props} />;
   })
   .add("The Day Ahead", () => {
     const props = {};

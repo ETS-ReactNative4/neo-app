@@ -13,7 +13,8 @@ class InfoCard extends Component {
     content: PropTypes.string.isRequired,
     link: PropTypes.string.isRequired,
     boxStyle: PropTypes.object,
-    titleStyle: PropTypes.object
+    titleStyle: PropTypes.object,
+    modalData: PropTypes.object
   });
 
   render() {
@@ -23,9 +24,10 @@ class InfoCard extends Component {
       content,
       link,
       boxStyle = {},
-      titleStyle = {}
+      titleStyle = {},
+      modalData
     } = this.props;
-    const action = () => resolveLinks(link);
+    const action = () => resolveLinks(link, modalData);
     return (
       <TouchableOpacity
         activeOpacity={0.8}

@@ -17,6 +17,7 @@ import InfoCard from "./Components/InfoCard/InfoCard";
 import { inject, observer } from "mobx-react/custom";
 import _ from "lodash";
 import CustomScrollView from "../../CommonComponents/CustomScrollView/CustomScrollView";
+import InfoCardModal from "./Components/InfoCardModal/InfoCardModal";
 
 @ErrorBoundary({ isRoot: true })
 @inject("tripFeedStore")
@@ -84,7 +85,12 @@ class TripFeed extends Component {
   }
 
   render() {
-    const { isLoading, widgets } = this.props.tripFeedStore;
+    const {
+      isLoading,
+      widgets,
+      infoCardModal,
+      closeInfoCardModal
+    } = this.props.tripFeedStore;
     let isImageFirst = false;
     return (
       <CustomScrollView
@@ -108,6 +114,13 @@ class TripFeed extends Component {
                 );
               case "INFO_CARD":
                 return <InfoCard key={widgetIndex} {...widget.data} />;
+              case "CAROUSEL":
+                return <TripFeedCarousel key={widgetIndex} {...widget.data} />;
+              case "TRIP_VIEW":
+                return <TripView key={widgetIndex} {...widget.data} />;
+              case "TRIP_VIEW_LITE":
+                return <TripViewLite key={widgetIndex} {...widget.data} />;
+              // TOOL_TIP, FEEDBACK_SWIPER, CAROUSEL, INFO_CARD, BIG_IMAGE_CARD, TRIP_VIEW, TRIP_VIEW_LITE, NOTIFICATION_CARD
               default:
                 return null;
             }
@@ -115,6 +128,11 @@ class TripFeed extends Component {
             return null;
           }
         })}
+        <InfoCardModal
+          isVisible={infoCardModal.isVisible}
+          onClose={closeInfoCardModal}
+          {...infoCardModal.modalData}
+        />
       </CustomScrollView>
     );
   }
