@@ -8,6 +8,13 @@ import moment from "moment";
 import _ from "lodash";
 
 class TripFeed {
+  @action
+  reset = () => {
+    this._widgets = [];
+    this._isLoading = false;
+    this._hasError = false;
+  };
+
   @persist("list")
   @observable
   _widgets = [];

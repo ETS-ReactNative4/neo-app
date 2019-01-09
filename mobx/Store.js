@@ -186,6 +186,11 @@ const createStore = () => {
     .catch(err => {
       logError(err);
     });
+  hydrate("_widgets", appStore.tripFeedStore)
+    .then(() => {})
+    .catch(err => {
+      logError(err);
+    });
   return appStore;
 };
 
