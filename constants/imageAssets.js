@@ -41,6 +41,7 @@ const imageAssets = {
   hotelIcon: "hotel",
   clockIcon: "clock",
   infoIcon: "about",
+  warningIcon: "warning",
   locationIcon: "location",
 
   semiCircleShape: require("../assets/images/shapes/hiring_topic.png"),

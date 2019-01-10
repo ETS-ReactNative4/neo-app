@@ -19,6 +19,7 @@ import { inject, observer } from "mobx-react/custom";
 import _ from "lodash";
 import * as Keychain from "react-native-keychain";
 import DialogBox from "../../CommonComponents/DialogBox/DialogBox";
+import { shouldIncludeStoryBook } from "../../storybook/Storybook";
 
 @inject("userStore")
 @inject("infoStore")
@@ -109,6 +110,13 @@ class Drawer extends Component {
         text: "About"
       }
     ];
+
+    if (shouldIncludeStoryBook()) {
+      menuItems.push({
+        icon: constants.activityIcon,
+        text: "StoryBook"
+      });
+    }
 
     const { infoStore, navigation } = this.props;
     const { userDetails } = this.props.userStore;

@@ -1,6 +1,6 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
-import { PropTypes } from "prop-types";
+import { View, StyleSheet, TouchableOpacity } from "react-native";
+import PropTypes from "prop-types";
 import constants from "../../../../../constants/constants";
 import Icon from "../../../../../CommonComponents/Icon/Icon";
 import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidExtraProps";
@@ -11,7 +11,8 @@ const CircleIcon = ({
   circleSize,
   rotate = "0deg",
   color = constants.black2,
-  containerStyle = {}
+  containerStyle = {},
+  action
 }) => {
   if (!containerStyle.transform) {
     containerStyle.transform = [{ rotate: rotate }];
@@ -22,9 +23,13 @@ const CircleIcon = ({
     containerStyle.borderRadius = circleSize / 2;
   }
   return (
-    <View style={[styles.iconWrapper, containerStyle]}>
+    <TouchableOpacity
+      onPress={action}
+      activeOpacity={0.9}
+      style={[styles.iconWrapper, containerStyle]}
+    >
       <Icon name={icon} size={iconSize} color={color} />
-    </View>
+    </TouchableOpacity>
   );
 };
 
@@ -48,7 +53,8 @@ CircleIcon.propTypes = forbidExtraProps({
   circleSize: PropTypes.number,
   rotate: PropTypes.string,
   color: PropTypes.string,
-  containerStyle: PropTypes.object
+  containerStyle: PropTypes.object,
+  action: PropTypes.func.isRequired
 });
 
 export default CircleIcon;

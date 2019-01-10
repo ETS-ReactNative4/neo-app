@@ -47,6 +47,7 @@ class Itineraries {
       );
       storeService.visaStore.getVisaDetails(this.selectedItineraryId);
       storeService.supportStore.loadFaqDetails();
+      storeService.tripFeedStore.generateTripFeed();
       storeService.weatherStore.reset();
     } else {
       this.getItineraryDetails(itineraryId);
@@ -79,6 +80,7 @@ class Itineraries {
           );
           storeService.visaStore.getVisaDetails(this.selectedItineraryId);
           storeService.supportStore.loadFaqDetails();
+          storeService.tripFeedStore.generateTripFeed();
           storeService.weatherStore.reset();
         } else {
           this._loadingError = true;

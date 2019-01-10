@@ -1,9 +1,9 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import constants from "../../../../constants/constants";
-import { PropTypes } from "prop-types";
+import PropTypes from "prop-types";
 
-const TripTitle = ({ title, containerStyle = {}, titleStyle = {} }) => {
+const WidgetTitle = ({ title, containerStyle = {}, titleStyle = {} }) => {
   return (
     <View style={[styles.container, containerStyle]}>
       <Text style={[styles.titleText, titleStyle]}>{title}</Text>
@@ -11,7 +11,7 @@ const TripTitle = ({ title, containerStyle = {}, titleStyle = {} }) => {
   );
 };
 
-TripTitle.propTypes = {
+WidgetTitle.propTypes = {
   title: PropTypes.string.isRequired,
   containerStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.number]),
   titleStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.number])
@@ -23,9 +23,8 @@ const styles = StyleSheet.create({
   },
   titleText: {
     color: constants.black1,
-    ...constants.fontCustom(constants.primaryRegular, 24),
-    fontWeight: "600"
+    ...constants.fontCustom(constants.primaryRegular, 17)
   }
 });
 
-export default TripTitle;
+export default WidgetTitle;

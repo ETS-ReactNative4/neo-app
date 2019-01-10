@@ -7,19 +7,15 @@ import SmartImage from "../SmartImage/SmartImage";
 
 /**
  * TODO: Fix Image urls
- * @param title
- * @param image
- * @param action
- * @returns {*}
- * @constructor
  */
-const Card = ({
+const SimpleCard = ({
   title,
   image,
   action,
   containerStyle = {},
   imageStyle = {},
-  textStyle = {}
+  textStyle = {},
+  backdropColor = constants.black1
 }) => {
   if (containerStyle.width) {
     imageStyle.width = containerStyle.width;
@@ -31,9 +27,7 @@ const Card = ({
         : imageStyle.height;
   }
   let textWrapper = {};
-  if (textStyle.backgroundColor) {
-    textWrapper.backgroundColor = textStyle.backgroundColor;
-  }
+  textWrapper.backgroundColor = backdropColor;
   return (
     <TouchableOpacity
       onPress={action}
@@ -71,7 +65,6 @@ const styles = StyleSheet.create({
   },
   textContainer: {
     flex: 1,
-    backgroundColor: "white",
     justifyContent: "center",
     alignItems: "flex-start",
     borderBottomRightRadius: 5,
@@ -84,13 +77,14 @@ const styles = StyleSheet.create({
   }
 });
 
-Card.propTypes = {
+SimpleCard.propTypes = {
   title: PropTypes.string.isRequired,
   image: PropTypes.object.isRequired,
   action: PropTypes.func.isRequired,
   containerStyle: PropTypes.object,
   imageStyle: PropTypes.object,
-  textStyle: PropTypes.object
+  textStyle: PropTypes.object,
+  backdropColor: PropTypes.string
 };
 
-export default Card;
+export default SimpleCard;

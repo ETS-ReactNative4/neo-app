@@ -2,7 +2,7 @@ import React from "react";
 import constants from "../../../../constants/constants";
 import { Text, View, StyleSheet } from "react-native";
 import Icon from "../../../../CommonComponents/Icon/Icon";
-import { PropTypes } from "prop-types";
+import PropTypes from "prop-types";
 import getTitleCase from "../../../../Services/getTitleCase/getTitleCase";
 
 const PassengerName = ({ name, secondaryText }) => {

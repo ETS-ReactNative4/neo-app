@@ -1,13 +1,32 @@
 import React, { Component } from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, TouchableOpacity } from "react-native";
 import Carousel from "../../../../CommonComponents/Carousel/Carousel";
-import { PropTypes } from "prop-types";
+import PropTypes from "prop-types";
 import constants from "../../../../constants/constants";
-import CircleIcon from "./Components/CircleIcon";
+import CircleIcon from "../TripView/Components/CircleIcon";
 import TokenText from "./Components/TokenText";
 import { recordEvent } from "../../../../Services/analytics/analyticsService";
+import forbidExtraProps from "../../../../Services/PropTypeValidation/forbidExtraProps";
+import resolveLinks from "../../../../Services/resolveLinks/resolveLinks";
 
 class TripViewLite extends Component {
+  static propTypes = forbidExtraProps({
+    containerStyle: PropTypes.object,
+    title: PropTypes.string,
+    data: PropTypes.arrayOf(
+      PropTypes.shape({
+        cityName: PropTypes.string.isRequired,
+        icon: PropTypes.string.isRequired,
+        period: PropTypes.string.isRequired,
+        image: PropTypes.oneOfType([PropTypes.object, PropTypes.number])
+          .isRequired,
+        transferId: PropTypes.string,
+        date: PropTypes.string.isRequired,
+        link: PropTypes.string.isRequired
+      }).isRequired
+    )
+  });
+
   state = {
     isScrollRecorded: false
   };
@@ -23,13 +42,6 @@ class TripViewLite extends Component {
 
   render() {
     const { data = [] } = this.props;
-    const iconTypes = {
-      FLIGHT: constants.aeroplaneIcon,
-      CAR: constants.carIcon,
-      BUS: constants.busIcon,
-      TRAIN: constants.trainIcon,
-      FERRY: constants.ferryIcon
-    };
 
     const onScrollProps = {};
     if (!this.state.isScrollRecorded) {
@@ -45,13 +57,25 @@ class TripViewLite extends Component {
           }}
         >
           {data.map((item, itemIndex) => {
+            const action = () => resolveLinks(item.link, { date: item.date });
+            const circleAction = () => null;
             const rotate = item.icon === "FLIGHT" ? "90deg" : "0deg";
-            const ic = iconTypes[item.icon];
             return (
-              <View style={{ flex: 1, flexDirection: "row" }} key={itemIndex}>
-                {itemIndex ? <CircleIcon icon={ic} rotate={rotate} /> : null}
-                <TokenText text={item.title} />
-              </View>
+              <TouchableOpacity
+                onPress={action}
+                activeOpacity={0.9}
+                style={{ flex: 1, flexDirection: "row" }}
+                key={itemIndex}
+              >
+                {itemIndex ? (
+                  <CircleIcon
+                    icon={item.icon}
+                    rotate={rotate}
+                    action={circleAction}
+                  />
+                ) : null}
+                <TokenText text={item.cityName} />
+              </TouchableOpacity>
             );
           })}
         </Carousel>
@@ -65,15 +89,5 @@ const styles = StyleSheet.create({
     marginVertical: 16
   }
 });
-
-TripViewLite.propTypes = {
-  containerStyle: PropTypes.object,
-  data: PropTypes.arrayOf(
-    PropTypes.shape({
-      title: PropTypes.string.isRequired,
-      icon: PropTypes.string
-    })
-  )
-};
 
 export default TripViewLite;

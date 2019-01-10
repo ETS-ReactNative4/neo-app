@@ -6,9 +6,9 @@ import navigationService from "../../../../Services/navigationService/navigation
 import constants from "../../../../constants/constants";
 import { responsiveWidth } from "react-native-responsive-dimensions";
 import PropTypes from "prop-types";
-import { CustomTabs } from "react-native-custom-tabs";
 import { logError } from "../../../../Services/errorLogger/errorLogger";
 import storeService from "../../../../Services/storeService/storeService";
+import openCustomTab from "../../../../Services/openCustomTab/openCustomTab";
 
 const openStatus = NavigationActions.navigate({ routeName: "FlightStatus" });
 const FlightActionSection = ({ webCheckInUrl, isWebCheckinActive }) => {
@@ -19,20 +19,15 @@ const FlightActionSection = ({ webCheckInUrl, isWebCheckinActive }) => {
           text={"Web Checkin"}
           action={() => {
             if (isWebCheckinActive) {
-              CustomTabs.openURL(webCheckInUrl, {
-                showPageTitle: true
-              })
-                .then(launched => {
-                  if (!launched) {
-                    logError(
-                      `Unable to launch custom tab for web checkin! - ${webCheckInUrl}`
-                    );
-                  }
-                  return null;
-                })
-                .catch(err => {
-                  logError(err);
-                });
+              openCustomTab(
+                webCheckInUrl,
+                () => null,
+                () => {
+                  logError(
+                    `Unable to launch custom tab for web checkin! - ${webCheckInUrl}`
+                  );
+                }
+              );
             } else {
               storeService.infoStore.setInfo(
                 "Web checkin not yet available",

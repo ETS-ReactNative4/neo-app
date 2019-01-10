@@ -97,7 +97,7 @@ const BookedTabs = createBottomTabNavigator(
         height: 56
       }
     },
-    initialRouteName: "Bookings",
+    initialRouteName: "TripFeed",
     swipeEnabled: false,
     lazy: false
   }

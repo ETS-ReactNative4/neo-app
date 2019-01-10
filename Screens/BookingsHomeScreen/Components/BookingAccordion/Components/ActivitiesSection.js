@@ -7,11 +7,11 @@ import PropTypes from "prop-types";
 import _ from "lodash";
 import { recordEvent } from "../../../../../Services/analytics/analyticsService";
 import getTitleCase from "../../../../../Services/getTitleCase/getTitleCase";
-import { CustomTabs } from "react-native-custom-tabs";
 import { logError } from "../../../../../Services/errorLogger/errorLogger";
 import BookingSectionComponent from "../../../../../CommonComponents/BookingSectionComponent/BookingSectionComponent";
 import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidExtraProps";
 import { toastBottom } from "../../../../../Services/toast/toast";
+import openCustomTab from "../../../../../Services/openCustomTab/openCustomTab";
 
 const ActivitiesSection = ({ section, navigation, spinValue }) => {
   return (
@@ -54,18 +54,13 @@ const Activities = ({ activity, isLast, navigation, spinValue }) => {
       /**
        * TODO: Track this click event
        */
-      CustomTabs.openURL(activity.voucher ? activity.voucher.voucherUrl : "", {
-        showPageTitle: true
-      })
-        .then(launched => {
-          if (!launched) {
-            logError("Unable to launch custom tab for viator voucher!", {});
-          }
-          return null;
-        })
-        .catch(err => {
-          logError(err);
-        });
+      openCustomTab(
+        activity.voucher.voucherUrl,
+        () => null,
+        () => {
+          logError("Unable to launch custom tab for viator voucher!", {});
+        }
+      );
     } else if (activity.voucher.booked || activity.free) {
       recordEvent(constants.bookingsHomeAccordionActivitiesVoucherClick);
       navigation.navigate("ActivityVoucher", { activity });

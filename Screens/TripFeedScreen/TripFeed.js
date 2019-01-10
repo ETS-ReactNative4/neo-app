@@ -1,26 +1,57 @@
 import React, { Component } from "react";
-import { View, Text, ScrollView, StyleSheet } from "react-native";
+import { View, Text, ScrollView, StyleSheet, BackHandler } from "react-native";
 import HomeHeader from "../../CommonComponents/HomeHeader/HomeHeader";
 import constants from "../../constants/constants";
 import DayAhead from "./Components/DayAhead/DayAhead";
 import FeedBackSwiper from "./Components/FeedBackSwiper/FeedBackSwiper";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
-import ContentImageSection from "./Components/ContentImageSection/ContentImageSection";
+import ToolTip from "./Components/ToolTip/ToolTip";
 import TripViewLite from "./Components/TripViewLite/TripViewLite";
 import TripView from "./Components/TripView/TripView";
-import TripHighlights from "./Components/TripHighlights/TripHighlights";
-import JournalCard from "./Components/JournalCard/JournalCard";
+import TripFeedCarousel from "./Components/TripFeedCarousel/TripFeedCarousel";
+import BigImageCard from "./Components/BigImageCard/BigImageCard";
 import Icon from "../../CommonComponents/Icon/Icon";
-import TripTitle from "./Components/TripTitle/TripTitle";
-import Notify from "./Components/Notify/Notify";
-import ReminderCard from "./Components/ReminderCard/ReminderCard";
+import WidgetTitle from "./Components/WidgetTitle/WidgetTitle";
+import NotificationCard from "./Components/NotificationCard/NotificationCard";
+import InfoCard from "./Components/InfoCard/InfoCard";
+import { inject, observer } from "mobx-react/custom";
+import _ from "lodash";
+import CustomScrollView from "../../CommonComponents/CustomScrollView/CustomScrollView";
+import InfoCardModal from "./Components/InfoCardModal/InfoCardModal";
 
 @ErrorBoundary({ isRoot: true })
+@inject("tripFeedStore")
+@observer
 class TripFeed extends Component {
   static navigationOptions = HomeHeader;
 
   state = {
     scrollEnabled: true
+  };
+  _didFocusSubscription;
+  _willBlurSubscription;
+
+  constructor(props) {
+    super(props);
+
+    this._didFocusSubscription = props.navigation.addListener(
+      "didFocus",
+      () => {
+        BackHandler.addEventListener(
+          "hardwareBackPress",
+          this.onBackButtonPressAndroid
+        );
+      }
+    );
+  }
+
+  onBackButtonPressAndroid = () => {
+    const { navigation } = this.props;
+    if (navigation.isFocused()) {
+      BackHandler.exitApp();
+    } else {
+      return false;
+    }
   };
 
   toggleScrollLock = status => {
@@ -29,203 +60,80 @@ class TripFeed extends Component {
     });
   };
 
+  componentDidMount() {
+    this.loadTripFeedData();
+
+    this._willBlurSubscription = this.props.navigation.addListener(
+      "willBlur",
+      () => {
+        BackHandler.removeEventListener(
+          "hardwareBackPress",
+          this.onBackButtonPressAndroid
+        );
+      }
+    );
+  }
+
+  loadTripFeedData = () => {
+    const { generateTripFeed } = this.props.tripFeedStore;
+    generateTripFeed();
+  };
+
+  componentWillUnmount() {
+    this._didFocusSubscription && this._didFocusSubscription.remove();
+    this._willBlurSubscription && this._willBlurSubscription.remove();
+  }
+
   render() {
-    const tripData = [
-      {
-        title: "Chennai",
-        icon: "FLIGHT",
-        period: "May 14-15",
-        action: () => {},
-        image:
-          "https://www.larousse.fr/encyclopedie/data/images/1314562-Barcelone.jpg"
-      },
-      {
-        title: "Barcelona",
-        icon: "FLIGHT",
-        period: "May 17-18",
-        action: () => {},
-        image:
-          "https://www.larousse.fr/encyclopedie/data/images/1314562-Barcelone.jpg"
-      },
-      {
-        title: "Sevilla",
-        icon: "CAR",
-        period: "May 17",
-        action: () => {},
-        image:
-          "https://www.larousse.fr/encyclopedie/data/images/1314562-Barcelone.jpg"
-      },
-      {
-        title: "Sevilla",
-        icon: "TRAIN",
-        period: "May 17",
-        action: () => {},
-        image:
-          "https://www.larousse.fr/encyclopedie/data/images/1314562-Barcelone.jpg"
-      },
-      {
-        title: "Sevilla",
-        icon: "FERRY",
-        period: "May 18",
-        action: () => {},
-        image:
-          "https://www.larousse.fr/encyclopedie/data/images/1314562-Barcelone.jpg"
-      },
-      {
-        title: "Sevilla",
-        icon: "BUS",
-        period: "May19",
-        action: () => {},
-        image:
-          "https://www.larousse.fr/encyclopedie/data/images/1314562-Barcelone.jpg"
-      }
-    ];
-
-    const notifyData = [
-      {
-        title: "Heads up!",
-        message: "Your pick up is scheduled at 8:30am from your hotel lobby.",
-        action: () => {},
-        actionText: "LEARN MORE",
-        modalButton: "Alright!",
-        details: [
-          {
-            text:
-              "Plan a trip to some local attractions, dine at a local restaurent or go shopping!"
-          },
-          {
-            text:
-              "That’s how you greet in Spanish. Learn more phrases that could come handy. That’s how you greet in Spanish. Learn more phrases that could come handy!"
-          }
-        ]
-      }
-    ];
-
-    const reminderData = {
-      title: "Royal plaza Eaplanade",
-      content:
-        "30 minutes from the Airport by car. Your transfer will be waiting for you outside the arrival hall.",
-      image:
-        "https://www.larousse.fr/encyclopedie/data/images/1314562-Barcelone.jpg",
-      action: () => {},
-      modalButton: "Alright!"
-    };
-
+    const {
+      isLoading,
+      widgets,
+      infoCardModal,
+      closeInfoCardModal
+    } = this.props.tripFeedStore;
+    let isImageFirst = false;
     return (
-      <ScrollView
+      <CustomScrollView
+        onRefresh={this.loadTripFeedData}
+        refreshing={isLoading}
         directionalLockEnabled={true}
         scrollEnabled={this.state.scrollEnabled}
         style={styles.tripFeedScrollView}
       >
-        {/* <SearchPlaceholder */}
-        {/*action={() => null}*/}
-        {/*containerStyle={{ marginHorizontal: 24 }}*/}
-        {/*/>*/}
-        {/* <View style={styles.vacationNameWrapper}>
-          <Text style={styles.vacationName}>{"Vacation Name"}</Text>
-        </View> */}
-        <TripTitle
-          title="Anand’s Vacation to Europe"
-          containerStyle={styles.wrapper}
-        />
-        <Notify data={notifyData} />
-        <TripTitle
-          title="30 days to go..."
-          containerStyle={styles.wrapper}
-          titleStyle={{
-            fontSize: 17,
-            fontWeight: "300"
-          }}
-        />
-        <TripView data={tripData} containerStyle={{ marginTop: 0 }} />
-        <TripViewLite data={tripData} />
-        <ContentImageSection
-          title="All aboard?"
-          text="Invite your buddies. Everyone invited gets access to the vouchers and itinerary."
-          buttonText="Invite Contacts"
-          containerStyle={{
-            marginHorizontal: 24
-          }}
-        />
-
-        <TripHighlights title={"TRIP HIGHLIGHTS"} data={tripData} />
-        <ContentImageSection
-          title="Travel adaper needed!"
-          text="In Europe, you will need one to power your electronic items."
-          buttonText="Buy one"
-          imageSrc={constants.infoBoxIllus}
-          buttonStyle={{
-            width: 75
-          }}
-          containerStyle={{
-            marginHorizontal: 24,
-            marginTop: 16
-          }}
-        />
-
-        <ReminderCard data={reminderData} />
-
-        <ContentImageSection
-          imageFirst
-          title="Have you done Web Check in?"
-          text="Escape long queues and spend more time lounging at the airport. Do a web checkin."
-          imageSrc={constants.infoBoxIllus}
-          options={[
-            {
-              title: "Etihad A234",
-              text: "Mar 23, Thu"
-            },
-            {
-              title: "Etihad A234",
-              text: "Mar 23, Thu"
-            },
-            {
-              title: "Yep, all done!"
+        {widgets.map((widget, widgetIndex) => {
+          try {
+            isImageFirst = !isImageFirst;
+            switch (widget.type) {
+              case "TOOL_TIP":
+                return (
+                  <ToolTip
+                    key={widgetIndex}
+                    {...widget.data}
+                    imageFirst={isImageFirst}
+                  />
+                );
+              case "INFO_CARD":
+                return <InfoCard key={widgetIndex} {...widget.data} />;
+              case "CAROUSEL":
+                return <TripFeedCarousel key={widgetIndex} {...widget.data} />;
+              case "TRIP_VIEW":
+                return <TripView key={widgetIndex} {...widget.data} />;
+              case "TRIP_VIEW_LITE":
+                return <TripViewLite key={widgetIndex} {...widget.data} />;
+              // TOOL_TIP, FEEDBACK_SWIPER, CAROUSEL, INFO_CARD, BIG_IMAGE_CARD, TRIP_VIEW, TRIP_VIEW_LITE, NOTIFICATION_CARD
+              default:
+                return null;
             }
-          ]}
-          containerStyle={{
-            marginHorizontal: 24
-          }}
-        />
-
-        <JournalCard
-          data={{
-            title: "Memories from Samantha’s family vacation in July '18",
-            type: "JOURNAL",
-            image: {
-              uri:
-                "https://www.larousse.fr/encyclopedie/data/images/1314562-Barcelone.jpg"
-            },
-            action: () => {}
-          }}
-          boxStyle={{
-            height: 320,
-            margin: 24,
-            marginRight: 24
-          }}
-          icon={
-            <Icon
-              name={constants.starActive}
-              color={constants.thirdColor}
-              size={26}
-            />
+          } catch (e) {
+            return null;
           }
-          iconText={234}
-          gradients={[constants.darkGradientAlpha]}
+        })}
+        <InfoCardModal
+          isVisible={infoCardModal.isVisible}
+          onClose={closeInfoCardModal}
+          {...infoCardModal.modalData}
         />
-
-        <ContentImageSection
-          imageFirst
-          title="Size doesn't matter"
-          text="Mona Lisa is that it isn’t as big as everyone thinks, It is just a little bit larger than an A2 piece of paper."
-          containerStyle={{
-            marginHorizontal: 24
-          }}
-        />
-        <FeedBackSwiper toggleScrollLock={this.toggleScrollLock} />
-
-        <DayAhead />
-      </ScrollView>
+      </CustomScrollView>
     );
   }
 }

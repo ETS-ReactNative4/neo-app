@@ -35,12 +35,19 @@ const Carousel = ({
         {children
           ? children
           : data.map((item, index) => {
+              const len = gradients.length;
+              let gradientColor;
+              if (index < len) {
+                gradientColor = gradients[index];
+              } else {
+                gradientColor = gradients[index % len];
+              }
               return (
                 <Box
                   key={index}
                   index={index}
                   data={item}
-                  gradients={gradients}
+                  gradientColor={item.gradientColor || gradientColor}
                 />
               );
             })}
@@ -56,7 +63,8 @@ Carousel.propTypes = {
       title: PropTypes.string.isRequired,
       image: PropTypes.oneOfType([PropTypes.object, PropTypes.number])
         .isRequired,
-      action: PropTypes.func.isRequired
+      action: PropTypes.func.isRequired,
+      gradientColor: PropTypes.oneOfType([PropTypes.string, PropTypes.func])
     })
   ),
   firstMargin: PropTypes.number,
@@ -65,9 +73,7 @@ Carousel.propTypes = {
 };
 
 const styles = StyleSheet.create({
-  scrollContainer: {
-    height: 160
-  },
+  scrollContainer: {},
   scrollView: {}
 });
 

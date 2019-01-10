@@ -116,6 +116,7 @@ class Places extends Component {
                           searchQuery: `${item.category} in ${city.city}`
                         });
                       }}
+                      backdropColor={"white"}
                       title={item.category}
                     />
                   );

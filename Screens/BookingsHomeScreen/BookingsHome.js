@@ -16,7 +16,6 @@ import { getDeviceToken } from "../../Services/fcmService/fcm";
 import pullToRefresh from "../../Services/refresh/pullToRefresh";
 import SimpleButton from "../../CommonComponents/SimpleButton/SimpleButton";
 import constants from "../../constants/constants";
-import { CustomTabs } from "react-native-custom-tabs";
 import {
   responsiveHeight,
   responsiveWidth
@@ -28,6 +27,7 @@ import { registerFcmRefreshListener } from "../../Services/fcmService/fcm";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import CustomScrollView from "../../CommonComponents/CustomScrollView/CustomScrollView";
 import SectionHeader from "../../CommonComponents/SectionHeader/SectionHeader";
+import openCustomTab from "../../Services/openCustomTab/openCustomTab";
 
 @ErrorBoundary({ isRoot: true })
 @inject("infoStore")
@@ -37,26 +37,9 @@ import SectionHeader from "../../CommonComponents/SectionHeader/SectionHeader";
 class BookingsHome extends Component {
   static navigationOptions = HomeHeader;
 
-  _didFocusSubscription;
-  _willBlurSubscription;
-
   state = {
     isDownloadLoading: false
   };
-
-  constructor(props) {
-    super(props);
-
-    this._didFocusSubscription = props.navigation.addListener(
-      "didFocus",
-      () => {
-        BackHandler.addEventListener(
-          "hardwareBackPress",
-          this.onBackButtonPressAndroid
-        );
-      }
-    );
-  }
 
   onBackButtonPressAndroid = () => {
     const { navigation } = this.props;
@@ -71,20 +54,6 @@ class BookingsHome extends Component {
     getDeviceToken(token => {
       registerFcmRefreshListener();
     });
-    this._willBlurSubscription = this.props.navigation.addListener(
-      "willBlur",
-      () => {
-        BackHandler.removeEventListener(
-          "hardwareBackPress",
-          this.onBackButtonPressAndroid
-        );
-      }
-    );
-  }
-
-  componentWillUnmount() {
-    this._didFocusSubscription && this._didFocusSubscription.remove();
-    this._willBlurSubscription && this._willBlurSubscription.remove();
   }
 
   openSearch = () => {};
@@ -111,21 +80,16 @@ class BookingsHome extends Component {
               isDownloadLoading: false
             });
             if (response.status === "SUCCESS" && response.data) {
-              CustomTabs.openURL(response.data, {
-                showPageTitle: true
-              })
-                .then(launched => {
-                  if (!launched) {
-                    logError(
-                      "Unable to launch custom tab to download final Voucher!",
-                      {}
-                    );
-                  }
-                  return null;
-                })
-                .catch(err => {
-                  logError(err);
-                });
+              openCustomTab(
+                response.data,
+                () => null,
+                () => {
+                  logError(
+                    "Unable to launch custom tab to download final Voucher!",
+                    {}
+                  );
+                }
+              );
             } else {
               setInfo(
                 constants.downloadVoucherText.almostThere.title,
