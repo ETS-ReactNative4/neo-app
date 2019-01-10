@@ -4,15 +4,13 @@ import moment from "moment";
 import { responsiveWidth } from "react-native-responsive-dimensions";
 import constants from "../../../../../constants/constants";
 import PropTypes from "prop-types";
-import _ from "lodash";
 import getTransferImage from "../../../../../Services/getImageService/getTransferImage";
-import CircleThumbnail from "../../../../../CommonComponents/CircleThumbnail/CircleThumbnail";
-import storeService from "../../../../../Services/storeService/storeService";
-import SectionRightPlaceHolder from "./Components/SectionRightPlaceHolder";
 import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidExtraProps";
 import { recordEvent } from "../../../../../Services/analytics/analyticsService";
+import BookingSectionComponent from "../../../../../CommonComponents/BookingSectionComponent/BookingSectionComponent";
+import { toastBottom } from "../../../../../Services/toast/toast";
 
-const FerriesSection = ({ section, navigation }) => {
+const FerriesSection = ({ section, navigation, spinValue }) => {
   return (
     <View>
       {section.items.map((ferry, index) => {
@@ -24,6 +22,7 @@ const FerriesSection = ({ section, navigation }) => {
             navigation={navigation}
             ferry={ferry}
             isLast={isLast}
+            spinValue={spinValue}
           />
         );
       })}
@@ -33,14 +32,16 @@ const FerriesSection = ({ section, navigation }) => {
 
 FerriesSection.propTypes = forbidExtraProps({
   section: PropTypes.object.isRequired,
-  navigation: PropTypes.object.isRequired
+  navigation: PropTypes.object.isRequired,
+  spinValue: PropTypes.oneOfType([PropTypes.object, PropTypes.number])
+    .isRequired
 });
 
-const Ferry = ({ ferry, isLast, navigation }) => {
+const Ferry = ({ ferry, isLast, navigation, spinValue }) => {
   let customStyle = {};
   if (isLast) {
     customStyle = {
-      borderBottomWidth: StyleSheet.hairlineWidth,
+      // borderBottomWidth: StyleSheet.hairlineWidth,
       paddingBottom: 16
     };
   }
@@ -52,50 +53,43 @@ const Ferry = ({ ferry, isLast, navigation }) => {
         transfer: { ...ferry, vehicle: "FERRY" }
       });
     } else {
-      storeService.infoStore.setInfo(
-        constants.bookingProcessText.title,
-        constants.bookingProcessText.message,
-        constants.bookingProcessingIcon,
-        constants.bookingProcessText.actionText
-      );
+      toastBottom(constants.bookingProcessText.message);
     }
   };
 
+  const { pickupTime } = ferry.voucher;
+  const { dateMillis } = ferry;
+
   return (
-    <TouchableOpacity
-      onPress={openVoucher}
-      style={[styles.contentContainer, customStyle]}
-    >
-      <View style={styles.iconWrapper}>
-        <CircleThumbnail
-          isContain={false}
-          containerStyle={styles.contentIcon}
-          image={{ uri: getTransferImage("FERRY") }}
-          defaultImageUri={constants.transferPlaceHolder}
-        />
-      </View>
-      <View style={styles.contentTextContainer}>
-        <View style={styles.contentHeaderWrapper}>
-          <Text style={styles.contentHeader}>{`${moment(
-            `${ferry.day}/${ferry.mon}/${constants.currentYear}`,
-            "DD/MMM/YYYY"
-          ).format("MMM DD")} (${ferry.duration})`}</Text>
-        </View>
-        <View style={styles.contentTextWrapper}>
-          <Text style={styles.contentText} numberOfLines={2}>
-            {ferry.text}
-          </Text>
-        </View>
-      </View>
-      <SectionRightPlaceHolder isProcessing={!ferry.voucher.booked} />
-    </TouchableOpacity>
+    <BookingSectionComponent
+      spinValue={spinValue}
+      sectionImage={{ uri: getTransferImage("FERRY") }}
+      containerStyle={customStyle}
+      isProcessing={!ferry.voucher.booked}
+      onClick={openVoucher}
+      content={ferry.text}
+      title={`${
+        pickupTime && pickupTime > 1
+          ? moment(pickupTime).format(constants.commonDateFormat)
+          : dateMillis
+            ? moment(dateMillis).format(constants.commonDateFormat)
+            : moment(
+                `${ferry.day}/${ferry.mon}/${constants.currentYear}`,
+                "DD/MMM/YYYY"
+              ).format(constants.commonDateFormat)
+      }`}
+      isImageContain={false}
+      defaultImageUri={constants.transferPlaceHolder}
+    />
   );
 };
 
 Ferry.propTypes = forbidExtraProps({
   ferry: PropTypes.object.isRequired,
   isLast: PropTypes.bool.isRequired,
-  navigation: PropTypes.object.isRequired
+  navigation: PropTypes.object.isRequired,
+  spinValue: PropTypes.oneOfType([PropTypes.object, PropTypes.number])
+    .isRequired
 });
 
 const styles = StyleSheet.create({

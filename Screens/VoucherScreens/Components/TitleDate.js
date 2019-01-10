@@ -7,7 +7,9 @@ import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraPr
 
 const TitleDate = ({ date }) => {
   return (
-    <Text style={styles.dateText}>{moment(date).format("ddd, DD MMM")}</Text>
+    <Text style={styles.dateText}>
+      {moment(date).format(constants.commonDateFormat)}
+    </Text>
   );
 };
 
@@ -18,8 +20,8 @@ TitleDate.propTypes = forbidExtraProps({
 const styles = StyleSheet.create({
   dateText: {
     marginBottom: 8,
-    ...constants.fontCustom(constants.primaryLight, 15),
-    color: constants.eighthColor
+    ...constants.fontCustom(constants.primarySemiBold, 15),
+    color: constants.thirdColor
   }
 });
 

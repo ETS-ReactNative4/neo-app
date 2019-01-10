@@ -26,7 +26,7 @@ const BookingHomeTitle = inject("itineraries")(
         underlayColor={"transparent"}
       >
         <MultiLineHeader
-          duration={`${startDate} - ${endDate}`}
+          // duration={`${startDate} - ${endDate}`}
           title={`PYT${selectedItineraryId
             .substr(selectedItineraryId.length - 7)
             .toUpperCase()}`}

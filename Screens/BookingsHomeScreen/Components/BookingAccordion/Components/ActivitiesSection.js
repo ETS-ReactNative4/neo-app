@@ -4,16 +4,16 @@ import moment from "moment";
 import { responsiveWidth } from "react-native-responsive-dimensions";
 import constants from "../../../../../constants/constants";
 import PropTypes from "prop-types";
-import CircleThumbnail from "../../../../../CommonComponents/CircleThumbnail/CircleThumbnail";
 import _ from "lodash";
-import storeService from "../../../../../Services/storeService/storeService";
-import SectionRightPlaceHolder from "./Components/SectionRightPlaceHolder";
 import { recordEvent } from "../../../../../Services/analytics/analyticsService";
 import getTitleCase from "../../../../../Services/getTitleCase/getTitleCase";
 import { CustomTabs } from "react-native-custom-tabs";
 import { logError } from "../../../../../Services/errorLogger/errorLogger";
+import BookingSectionComponent from "../../../../../CommonComponents/BookingSectionComponent/BookingSectionComponent";
+import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidExtraProps";
+import { toastBottom } from "../../../../../Services/toast/toast";
 
-const ActivitiesSection = ({ section, navigation }) => {
+const ActivitiesSection = ({ section, navigation, spinValue }) => {
   return (
     <View>
       {section.items.map((activity, index) => {
@@ -25,6 +25,7 @@ const ActivitiesSection = ({ section, navigation }) => {
             navigation={navigation}
             activity={activity}
             isLast={isLast}
+            spinValue={spinValue}
           />
         );
       })}
@@ -32,16 +33,18 @@ const ActivitiesSection = ({ section, navigation }) => {
   );
 };
 
-ActivitiesSection.propTypes = {
+ActivitiesSection.propTypes = forbidExtraProps({
   section: PropTypes.object.isRequired,
-  navigation: PropTypes.object.isRequired
-};
+  navigation: PropTypes.object.isRequired,
+  spinValue: PropTypes.oneOfType([PropTypes.object, PropTypes.number])
+    .isRequired
+});
 
-const Activities = ({ activity, isLast, navigation }) => {
+const Activities = ({ activity, isLast, navigation, spinValue }) => {
   let customStyle = {};
   if (isLast) {
     customStyle = {
-      borderBottomWidth: StyleSheet.hairlineWidth,
+      // borderBottomWidth: StyleSheet.hairlineWidth,
       paddingBottom: 16
     };
   }
@@ -67,63 +70,53 @@ const Activities = ({ activity, isLast, navigation }) => {
       recordEvent(constants.bookingsHomeAccordionActivitiesVoucherClick);
       navigation.navigate("ActivityVoucher", { activity });
     } else {
-      storeService.infoStore.setInfo(
-        constants.bookingProcessText.title,
-        constants.bookingProcessText.message,
-        constants.bookingProcessingIcon,
-        constants.bookingProcessText.actionText
-      );
+      toastBottom(constants.bookingProcessText.message);
     }
   };
 
   return (
-    <TouchableOpacity
-      onPress={openVoucher}
-      style={[styles.contentContainer, customStyle]}
-    >
-      <View style={styles.iconWrapper}>
-        <CircleThumbnail
-          image={{ uri: activity.mainPhoto }}
-          containerStyle={styles.contentIcon}
-          isContain={false}
-          defaultImageUri={_.sample([
-            constants.activitySmallPlaceHolder,
-            constants.activity2SmallPlaceHolder,
-            constants.activity3SmallPlaceHolder
-          ])}
-        />
-      </View>
-      <View style={styles.contentTextContainer}>
-        <View style={styles.contentHeaderWrapper}>
-          <Text style={styles.contentHeader}>{`${
-            activity.costing.dateMillis
-              ? moment(activity.costing.dateMillis).format("MMM DD")
-              : moment(
-                  `${activity.costing.day}/${activity.costing.mon}/${
-                    constants.currentYear
-                  }`,
-                  "DD/MMM/YYYY"
-                ).format("MMM DD")
-          }`}</Text>
-        </View>
-        <View style={styles.contentTextWrapper}>
-          <Text style={styles.contentText} numberOfLines={1}>
-            {getTitleCase(activity.title)}
-          </Text>
-        </View>
-      </View>
-      <SectionRightPlaceHolder
-        isProcessing={!(activity.voucher.booked || activity.free)}
-      />
-    </TouchableOpacity>
+    <BookingSectionComponent
+      spinValue={spinValue}
+      containerStyle={customStyle}
+      sectionImage={{
+        uri: activity.mainPhoto
+      }}
+      isProcessing={!(activity.voucher.booked || activity.free)}
+      onClick={openVoucher}
+      content={getTitleCase(activity.title)}
+      title={`${
+        activity.voucher.activityTime && activity.voucher.activityTime > 1
+          ? moment(activity.voucher.activityTime).format(
+              constants.commonDateFormat
+            )
+          : activity.costing.dateMillis
+            ? moment(activity.costing.dateMillis).format(
+                constants.commonDateFormat
+              )
+            : moment(
+                `${activity.costing.day}/${activity.costing.mon}/${
+                  constants.currentYear
+                }`,
+                "DD/MMM/YYYY"
+              ).format(constants.commonDateFormat)
+      }`}
+      isImageContain={false}
+      defaultImageUri={_.sample([
+        constants.activitySmallPlaceHolder,
+        constants.activity2SmallPlaceHolder,
+        constants.activity3SmallPlaceHolder
+      ])}
+    />
   );
 };
 
-Activities.propTypes = {
+Activities.propTypes = forbidExtraProps({
   activity: PropTypes.object.isRequired,
   isLast: PropTypes.bool.isRequired,
-  navigation: PropTypes.object.isRequired
-};
+  navigation: PropTypes.object.isRequired,
+  spinValue: PropTypes.oneOfType([PropTypes.object, PropTypes.number])
+    .isRequired
+});
 
 /**
  * TODO: Fix Line Height for the header and content

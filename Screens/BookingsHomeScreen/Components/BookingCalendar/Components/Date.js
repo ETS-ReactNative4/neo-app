@@ -7,12 +7,15 @@ import {
   TouchableOpacity
 } from "react-native";
 import PropTypes from "prop-types";
-import moment from "moment/moment";
 import constants from "../../../../../constants/constants";
 import { responsiveWidth } from "react-native-responsive-dimensions";
 import ActivityDotRow from "./ActivityDotRow";
 import TransferIcon from "./TransferIcon";
 import { recordEvent } from "../../../../../Services/analytics/analyticsService";
+import { extendMoment } from "moment-range";
+import Moment from "moment";
+
+const moment = extendMoment(Moment);
 
 const Date = ({
   day,
@@ -21,7 +24,8 @@ const Date = ({
   getDateSelectionMatrixSingle,
   numOfActivitiesByDay,
   getTransferTypeByDay,
-  navigation
+  navigation,
+  cities
 }) => {
   const date = moment(day).format("x");
   const dateIndex = dateArray.findIndex(singleDate => date === singleDate);
@@ -46,6 +50,17 @@ const Date = ({
     }
   }
 
+  let currentCity = {};
+  if (
+    containerStyle === "leftCorner" ||
+    containerStyle === "singleDateContainer"
+  ) {
+    currentCity = cities.find(city => {
+      const range = moment.range(city.startDay, city.endDay);
+      return range.contains(day);
+    });
+  }
+
   return (
     <TouchableOpacity
       activeOpacity={1}
@@ -60,6 +75,15 @@ const Date = ({
         });
       }}
     >
+      {currentCity.city ? (
+        <View style={styles.weekDayTextArea}>
+          <Text style={styles.cityName}>
+            {currentCity.city.substring(0, 3).toUpperCase()}
+          </Text>
+        </View>
+      ) : (
+        <View style={styles.weekDayTextArea} />
+      )}
       <View style={styles.weekDayWrapper}>
         <View style={[styles.weekDayWrapper, styles[containerStyle]]}>
           <Text style={[styles.weekDay, styles[textStyle]]}>
@@ -77,6 +101,22 @@ const Date = ({
 
 const dateItemWidth = (responsiveWidth(100) - 48) / 7;
 const styles = StyleSheet.create({
+  weekDayTextArea: {
+    height: 16,
+    width: dateItemWidth,
+    alignItems: "center",
+    justifyContent: "flex-end"
+  },
+  cityName: {
+    ...constants.fontCustom(constants.primarySemiBold, 10),
+    color: constants.firstColor,
+    marginBottom: 2,
+    ...Platform.select({
+      ios: {
+        height: 10
+      }
+    })
+  },
   weekDayWrapper: {
     width: dateItemWidth,
     height: 40,
@@ -119,24 +159,15 @@ const styles = StyleSheet.create({
     marginHorizontal: 0
   },
   weekDay: {
-    fontFamily: constants.primaryLight,
+    fontFamily: constants.primarySemiBold,
     fontSize: 14,
-    color: constants.shade2,
-    ...Platform.select({
-      ios: {
-        marginBottom: -4
-      }
-    })
+    color: constants.shade3,
+    marginTop: -7
   },
   isHighlighted: {
     fontFamily: constants.primarySemiBold,
     fontSize: 14,
-    color: "white",
-    ...Platform.select({
-      ios: {
-        marginTop: -7
-      }
-    })
+    color: "white"
   },
   defaultStyle: {}
 });
@@ -148,7 +179,8 @@ Date.propTypes = {
   getDateSelectionMatrixSingle: PropTypes.func.isRequired,
   numOfActivitiesByDay: PropTypes.func.isRequired,
   getTransferTypeByDay: PropTypes.func.isRequired,
-  navigation: PropTypes.object.isRequired
+  navigation: PropTypes.object.isRequired,
+  cities: PropTypes.array.isRequired
 };
 
 // Testing highlight styles

@@ -13,6 +13,7 @@ import CountryData from "country-data";
 import constants from "../../../constants/constants";
 import SimpleButton from "../../../CommonComponents/SimpleButton/SimpleButton";
 import PropTypes from "prop-types";
+import _ from "lodash";
 import SearchInput from "../../../CommonComponents/SearchInput/SearchInput";
 import SectionHeader from "../../../CommonComponents/SectionHeader/SectionHeader";
 
@@ -25,7 +26,7 @@ const countriesList = [
   },
   {
     title: "All Countries",
-    data: CountryData.countries.all
+    data: _.orderBy(CountryData.countries.all, "name", "asc")
   }
 ];
 
@@ -53,27 +54,35 @@ class CountryCodePicker extends Component {
       countriesToDisplay: [
         {
           title: "Default",
-          data: CountryData.countries.all.filter(
-            each => each.alpha2 === "US" || each.alpha2 === "IN"
-          )
+          data: this.state.search
+            ? []
+            : CountryData.countries.all.filter(
+                each => each.alpha2 === "US" || each.alpha2 === "IN"
+              )
         },
         {
           title: "All Countries",
-          data: CountryData.countries.all.filter(country => {
-            const name = country.name.replace(/ /g, "").toUpperCase();
-            const countryCode = country.alpha2.replace(/ /g, "").toUpperCase();
-            const searchQuery = this.state.search
-              .replace(/ /g, "")
-              .toUpperCase();
+          data: _.orderBy(
+            CountryData.countries.all.filter(country => {
+              const name = country.name.replace(/ /g, "").toUpperCase();
+              const countryCode = country.alpha2
+                .replace(/ /g, "")
+                .toUpperCase();
+              const searchQuery = this.state.search
+                .replace(/ /g, "")
+                .toUpperCase();
 
-            if (
-              name.includes(searchQuery) ||
-              countryCode.includes(searchQuery)
-            ) {
-              return true;
-            }
-            return false;
-          })
+              if (
+                name.includes(searchQuery) ||
+                countryCode.includes(searchQuery)
+              ) {
+                return true;
+              }
+              return false;
+            }),
+            "name",
+            "asc"
+          )
         }
       ]
     });
@@ -97,6 +106,7 @@ class CountryCodePicker extends Component {
   };
 
   sectionHeader = ({ section: { title } }) => {
+    if (this.state.search) return null;
     if (title === "Default")
       return <View style={{ height: 24, backgroundColor: "white" }} />;
     else
@@ -111,8 +121,8 @@ class CountryCodePicker extends Component {
   sectionFooter = () => {
     if (this.state.countriesToDisplay[1].data.length === 0) {
       return (
-        <Text style={styles.countryName}>
-          {"No countries matching your search criteria..."}
+        <Text style={styles.notFoundText}>
+          {"No countries matching your search criteria."}
         </Text>
       );
     }
@@ -134,10 +144,10 @@ class CountryCodePicker extends Component {
         style={styles.countryCodeTouchable}
       >
         <View style={styles.countryCodeItem}>
-          <Text style={styles.countryCode}>{`${item.alpha2}`}</Text>
-          <Text style={styles.countryName}>{`${item.name} (${
+          <Text style={styles.countryName}>{`${item.name}`}</Text>
+          <Text style={styles.countryCode}>{`${
             item.countryCallingCodes[0]
-          })`}</Text>
+          }`}</Text>
         </View>
       </TouchableHighlight>
     );
@@ -182,6 +192,7 @@ class CountryCodePicker extends Component {
           </View>
 
           <SectionList
+            showsVerticalScrollIndicator={false}
             style={{ marginHorizontal: 24 }}
             renderSectionHeader={this.sectionHeader}
             renderItem={this.sectionItem}
@@ -211,22 +222,29 @@ const styles = StyleSheet.create({
     flexDirection: "row"
   },
   countryCodeTouchable: {
-    height: 40,
-    borderBottomColor: constants.shade2,
-    borderBottomWidth: 0.5,
+    height: 56,
     justifyContent: "center"
   },
   countryCodeItem: {
     flex: 1,
     flexDirection: "row",
-    alignItems: "center"
+    alignItems: "center",
+    justifyContent: "space-between"
   },
   countryCode: {
-    width: 40,
-    fontFamily: constants.primaryLight
+    width: 64,
+    ...constants.fontCustom(constants.primaryLight, 20),
+    textAlign: "right",
+    color: constants.shade3
   },
   countryName: {
-    fontFamily: constants.primaryLight
+    ...constants.fontCustom(constants.primaryLight, 20),
+    color: constants.shade1
+  },
+  notFoundText: {
+    ...constants.font17(constants.primaryLight),
+    marginTop: 24,
+    color: constants.shade1
   }
 });
 

@@ -4,33 +4,28 @@ import {
   Text,
   StyleSheet,
   Keyboard,
-  Platform,
-  ToastAndroid,
-  Image
+  ActivityIndicator,
+  BackHandler,
+  LayoutAnimation,
+  Platform
 } from "react-native";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import constants from "../../constants/constants";
-import { isIphoneX } from "react-native-iphone-x-helper";
-import OtpInput from "../../CommonComponents/OtpInput/OtpInput";
 import NextBar from "./Components/NextBar";
 import OtpBar from "./Components/OtpBar";
-import YourBookings from "../YourBookingsScreen/YourBookings";
 import CountryCodePicker from "./Components/CountryCodePicker";
 import UnregisteredNumber from "./Components/UnregisteredNumber";
 import apiCall from "../../Services/networkRequests/apiCall";
-import Loader from "../../CommonComponents/Loader/Loader";
 import registerToken from "../../Services/registerToken/registerToken";
 import MobileNumberInput from "./Components/MobileNumberInput";
 import { inject, observer } from "mobx-react/custom";
 import KeyboardAvoidingActionBar from "../../CommonComponents/KeyboardAvoidingActionBar/KeyboardAvoidingActionBar";
 import { recordEvent } from "../../Services/analytics/analyticsService";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
-import { toastCenter } from "../../Services/toast/toast";
+import { toastTop } from "../../Services/toast/toast";
+import OtpField from "./Components/OtpField";
 
-// const resetToBookings = StackActions.reset({
-//   index: 0,
-//   actions: [NavigationActions.navigate({ routeName: "YourBookings" })]
-// });
+let MobileNumberComponentInstance;
 
 @ErrorBoundary()
 @inject("yourBookingsStore")
@@ -43,12 +38,7 @@ class MobileNumber extends Component {
       header: (
         <CommonHeader
           title={""}
-          leftAction={() => {
-            Keyboard.dismiss();
-            setTimeout(() => {
-              navigation.goBack();
-            }, 250);
-          }}
+          leftAction={() => MobileNumberComponentInstance.onBackButtonPress()}
           navigation={navigation}
         />
       )
@@ -60,8 +50,8 @@ class MobileNumber extends Component {
     countryCode: "+91",
     mobileNumber: "",
     otp: new Array(6).fill(""),
+    otpNumber: "",
     otpId: "",
-    password: "",
     isCountryCodeModalVisible: false,
     isMobileVerified: false,
     isUnregisteredNumber: false,
@@ -71,8 +61,13 @@ class MobileNumber extends Component {
     isWaiting: false
   };
   waitListener = {};
-  smsListener = {};
   _mobileInputRef = React.createRef();
+  _otpInputRef = React.createRef();
+
+  constructor() {
+    super();
+    MobileNumberComponentInstance = this;
+  }
 
   selectCountryCode = countryCode => {
     recordEvent(constants.mobileNumberSelectCountryCode);
@@ -80,6 +75,8 @@ class MobileNumber extends Component {
   };
 
   setMobileInputRef = e => (this._mobileInputRef = e);
+
+  setOtpInputRef = e => (this._otpInputRef = e);
 
   editMobileNumber = mobileNumber => {
     if (mobileNumber.length <= 10) {
@@ -94,65 +91,104 @@ class MobileNumber extends Component {
     }
   };
 
+  editOtpNumber = otpNumber => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    this.setState({ otpNumber }, () => {
+      if (this.state.otpNumber.length === 6) {
+        this.verifyOtp();
+      }
+    });
+  };
+
+  onBackButtonPress = () => {
+    if (this.props.navigation.isFocused()) {
+      if (this.state.isMobileVerified) {
+        clearInterval(this.waitListener);
+        this.setState(
+          {
+            isMobileVerified: false,
+            otp: new Array(6).fill(""),
+            waitTime: 45
+          },
+          () => {
+            this._mobileInputRef.focus && this._mobileInputRef.focus();
+          }
+        );
+      } else {
+        Keyboard.dismiss();
+        setTimeout(() => {
+          this.props.navigation.goBack();
+        }, 250);
+      }
+      return true;
+    } else {
+      return false;
+    }
+  };
+
   editOtp = (value, index) => {
     const otp = [...this.state.otp];
     otp[index] = value;
     this.setState({ otp });
   };
 
-  editPassword = password => {
-    this.setState({ password });
-  };
-
   verifyOtp = () => {
-    const requestBody = {
-      mob_num: this.state.mobileNumber,
-      ccode: this.state.countryCode,
-      otp_id: this.state.otpId,
-      otp: this.state.otp.join("")
-    };
-    this.setState({
-      isLoading: true
-    });
-    const { yourBookingsStore, navigation, userStore, infoStore } = this.props;
-    const { getUpcomingItineraries } = yourBookingsStore;
-    const { getUserDetails } = userStore;
-    const { setError } = infoStore;
-    apiCall(constants.verifyOtp, requestBody)
-      .then(response => {
-        setTimeout(async () => {
-          Keyboard.dismiss();
-          if (response.status === "VERIFIED") {
-            this.smsListener.remove ? this.smsListener.remove() : () => null;
-            clearInterval(this.waitListener);
-            await registerToken(response.data.authtoken);
-            recordEvent(constants.userLoggedInEvent);
-            getUpcomingItineraries();
-            getUserDetails();
-            navigation.navigate("YourBookings");
-          } else {
-            this.setState({
-              isLoading: false
-            });
-            recordEvent(constants.mobileNumberOtpFailed);
-            toastCenter(response.msg || "OTP Verification Failed!");
-            this.setState({
-              otp: new Array(6).fill("")
-            });
-          }
-        }, 1500);
-      })
-      .catch(error => {
-        Keyboard.dismiss();
-        this.setState({
-          isLoading: false
-        });
-        setError("Error!", "Internal Server Error.");
+    if (this.state.otpNumber) {
+      const requestBody = {
+        mob_num: this.state.mobileNumber,
+        ccode: this.state.countryCode,
+        otp_id: this.state.otpId,
+        otp: this.state.otpNumber
+      };
+      LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+      this.setState({
+        isLoading: true
       });
+      const {
+        yourBookingsStore,
+        navigation,
+        userStore,
+        infoStore
+      } = this.props;
+      const { getUpcomingItineraries } = yourBookingsStore;
+      const { getUserDetails } = userStore;
+      const { setError } = infoStore;
+      apiCall(constants.verifyOtp, requestBody)
+        .then(response => {
+          setTimeout(async () => {
+            if (response.status === "VERIFIED") {
+              Keyboard.dismiss();
+              clearInterval(this.waitListener);
+              await registerToken(response.data.authtoken);
+              recordEvent(constants.userLoggedInEvent);
+              getUpcomingItineraries();
+              getUserDetails();
+              navigation.navigate("YourBookings");
+            } else {
+              this.setState({
+                isLoading: false
+              });
+              recordEvent(constants.mobileNumberOtpFailed);
+              toastTop(response.message || "OTP Verification Failed!");
+              this.setState({
+                otpNumber: ""
+              });
+            }
+          }, 1500);
+        })
+        .catch(error => {
+          Keyboard.dismiss();
+          this.setState({
+            isLoading: false
+          });
+          setError("Error!", "Internal Server Error.");
+        });
+    } else {
+      toastTop("Enter a valid OTP...");
+    }
   };
 
   resendOtp = () => {
-    this.smsListener.remove ? this.smsListener.remove() : () => null;
     this.sendOtp();
   };
 
@@ -171,6 +207,7 @@ class MobileNumber extends Component {
           isLoading: false
         });
         if (response.status === "SUCCESS") {
+          LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
           this.setState(
             {
               isUnregisteredNumber: false,
@@ -178,8 +215,9 @@ class MobileNumber extends Component {
               otpId: response.data.otp_id
             },
             () => {
-              toastCenter(response.msg || "OTP Sent");
+              toastTop(response.message || "OTP Sent");
               this.waitListener = setInterval(this.waitCounter, 1000);
+              this._otpInputRef.focus && this._otpInputRef.focus();
             }
           );
         } else {
@@ -201,6 +239,7 @@ class MobileNumber extends Component {
   };
 
   waitCounter = () => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     if (this.state.waitTime) {
       this.setState({
         isWaiting: true,
@@ -250,7 +289,10 @@ class MobileNumber extends Component {
   };
 
   componentWillUnmount() {
-    this.smsListener.remove ? this.smsListener.remove() : () => null;
+    BackHandler.removeEventListener(
+      "hardwareBackPress",
+      this.onBackButtonPress
+    );
     clearInterval(this.waitListener);
   }
 
@@ -268,13 +310,15 @@ class MobileNumber extends Component {
   };
 
   componentDidMount() {
-    // setTimeout(() => {
-    //   this._mobileInputRef.focus && this._mobileInputRef.focus();
-    // }, 250);
+    BackHandler.addEventListener("hardwareBackPress", this.onBackButtonPress);
   }
 
+  moveToExplore = () => {
+    this.props.navigation.navigate("NewItineraryStack");
+  };
+
   render() {
-    const { isMobileVerified } = this.state;
+    const { isMobileVerified, countryCode, mobileNumber } = this.state;
 
     return [
       <CountryCodePicker
@@ -286,52 +330,66 @@ class MobileNumber extends Component {
 
       <View key={1} style={styles.mobileNumberContainer}>
         <View style={styles.headerTextWrapper}>
-          <Text style={styles.headerText}>{`Verify your mobile number.`}</Text>
+          <Text style={styles.headerText}>
+            {isMobileVerified ? `Enter OTP` : `Verify your mobile number`}
+          </Text>
         </View>
 
         <View style={styles.infoTextWrapper}>
-          <Text
-            style={styles.infoText}
-          >{`So that we can find bookings that are linked to your mobile number.`}</Text>
+          <Text style={styles.infoText}>
+            {isMobileVerified
+              ? countryCode === "+91"
+                ? `OTP is sent to your mobile (${mobileNumber}) and registered email.`
+                : `OTP is sent to your registered email address.`
+              : `So that we can find bookings that are linked to your mobile number.`}
+          </Text>
         </View>
 
-        <MobileNumberInput
-          countryCode={this.state.countryCode}
-          editMobileNumber={this.editMobileNumber}
-          hasError={this.state.hasError}
-          isMobileVerified={this.state.isMobileVerified}
-          mobileNumber={this.state.mobileNumber}
-          showCountryCodeModal={this.showCountryCodeModal}
-          submitMobileNumber={this.submitMobileNumber}
-          mobileInputRef={this.setMobileInputRef}
-        />
+        {isMobileVerified ? (
+          <OtpField
+            isWaiting={this.state.isWaiting}
+            waitTime={this.state.waitTime}
+            resendOtp={this.resendOtp}
+            setOtpInputRef={this.setOtpInputRef}
+            otp={this.state.otpNumber}
+            editOtp={this.editOtpNumber}
+            submitOtp={this.verifyOtp}
+          />
+        ) : (
+          <MobileNumberInput
+            countryCode={this.state.countryCode}
+            editMobileNumber={this.editMobileNumber}
+            hasError={this.state.hasError}
+            isMobileVerified={this.state.isMobileVerified}
+            mobileNumber={this.state.mobileNumber}
+            showCountryCodeModal={this.showCountryCodeModal}
+            submitMobileNumber={this.submitMobileNumber}
+            mobileInputRef={this.setMobileInputRef}
+          />
+        )}
 
-        {this.state.isUnregisteredNumber ? <UnregisteredNumber /> : null}
+        {this.state.isUnregisteredNumber ? (
+          <UnregisteredNumber onClick={this.moveToExplore} />
+        ) : null}
 
         {!this.state.isMobileVerified && this.state.isLoading ? (
-          <Image
-            resizeMode={"contain"}
-            source={constants.loadingIcon}
-            style={styles.numberVerificationLoadingIcon}
-          />
+          <View style={styles.numberVerificationLoadingContainer}>
+            <ActivityIndicator size="large" color={constants.firstColor} />
+          </View>
         ) : null}
 
-        {this.state.isMobileVerified ? (
-          <OtpInput
-            otp={this.state.otp}
-            onEdit={this.editOtp}
-            onComplete={this.verifyOtp}
-          />
-        ) : null}
+        {/*{this.state.isMobileVerified ? (*/}
+        {/*<OtpInput*/}
+        {/*otp={this.state.otp}*/}
+        {/*onEdit={this.editOtp}*/}
+        {/*onComplete={this.verifyOtp}*/}
+        {/*/>*/}
+        {/*) : null}*/}
       </View>,
 
       <KeyboardAvoidingActionBar
-        containerStyle={
-          isMobileVerified ? styles.otpBottomBar : styles.nextBottomBar
-        }
-        xSensorPlaceholderColor={
-          isMobileVerified ? "white" : "rgba(239,249,242,1)"
-        }
+        containerStyle={styles.otpBottomBar}
+        xSensorPlaceholderColor={"white"}
         navigation={this.props.navigation}
         key={2}
       >
@@ -372,8 +430,13 @@ const styles = StyleSheet.create({
   },
   infoText: {
     ...constants.font17(constants.primaryLight),
-    lineHeight: 17,
-    color: constants.shade1
+    ...Platform.select({
+      ios: {
+        lineHeight: 20
+      }
+    }),
+    color: constants.shade1,
+    ...constants.kern1
   },
   nextBottomBar: {
     height: 40,
@@ -384,14 +447,11 @@ const styles = StyleSheet.create({
   otpBottomBar: {
     backgroundColor: "white",
     height: 56,
-    flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
     borderTopWidth: 0
   },
-  numberVerificationLoadingIcon: {
-    height: 40,
-    width: 40,
+  numberVerificationLoadingContainer: {
     alignSelf: "center",
     marginTop: 16
   }

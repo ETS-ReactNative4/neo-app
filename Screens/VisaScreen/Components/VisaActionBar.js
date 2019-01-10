@@ -11,7 +11,7 @@ const VisaActionBar = ({ isVisaOnArrival, navigation }) => {
     <View style={styles.visaActionContainer}>
       {!isVisaOnArrival ? (
         <SimpleButton
-          text={"View checklist"}
+          text={"Get checklist"}
           action={() => navigation.navigate("VisaChecklist")}
           textColor={"white"}
           containerStyle={{

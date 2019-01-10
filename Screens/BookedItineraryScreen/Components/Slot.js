@@ -5,8 +5,9 @@ import PropTypes from "prop-types";
 import SectionHeader from "../../../CommonComponents/SectionHeader/SectionHeader";
 import SlotActivity from "./SlotActivity/SlotActivity";
 import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraProps";
+import constants from "../../../constants/constants";
 
-const Slot = ({ day, slot, onItemLayout, navigation }) => {
+const Slot = ({ day, slot, onItemLayout, navigation, spinValue }) => {
   const setOnLayout = nativeEvent => {
     onItemLayout(nativeEvent, moment(day).format("x"));
   };
@@ -22,7 +23,7 @@ const Slot = ({ day, slot, onItemLayout, navigation }) => {
       ].indexOf(firstSlot.type) === -1 ? (
         <SectionHeader
           sectionName={moment(day)
-            .format("MMM DD, dddd")
+            .format(constants.commonDateFormat)
             .toUpperCase()}
           containerStyle={{ marginHorizontal: 24 }}
         />
@@ -36,6 +37,7 @@ const Slot = ({ day, slot, onItemLayout, navigation }) => {
             activityIndex={index}
             key={index}
             day={day}
+            spinValue={spinValue}
           />
         );
       })}
@@ -44,6 +46,7 @@ const Slot = ({ day, slot, onItemLayout, navigation }) => {
 };
 
 Slot.propTypes = forbidExtraProps({
+  spinValue: PropTypes.object.isRequired,
   day: PropTypes.object.isRequired,
   slot: PropTypes.array.isRequired,
   onItemLayout: PropTypes.func.isRequired,

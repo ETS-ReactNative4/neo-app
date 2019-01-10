@@ -23,7 +23,7 @@ class AppState {
   @action
   reset = () => {
     this._tripMode = {
-      status: true
+      status: false
     };
     this._currencies = {};
     this._isChatNotificationActive = false;

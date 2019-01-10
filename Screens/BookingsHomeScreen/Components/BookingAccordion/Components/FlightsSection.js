@@ -5,12 +5,12 @@ import { responsiveWidth } from "react-native-responsive-dimensions";
 import constants from "../../../../../constants/constants";
 import PropTypes from "prop-types";
 import FlightVoucher from "../../../../VoucherScreens/FlightVoucherScreen/FlightVoucher";
-import CircleThumbnail from "../../../../../CommonComponents/CircleThumbnail/CircleThumbnail";
-import SectionRightPlaceHolder from "./Components/SectionRightPlaceHolder";
-import storeService from "../../../../../Services/storeService/storeService";
 import { recordEvent } from "../../../../../Services/analytics/analyticsService";
+import BookingSectionComponent from "../../../../../CommonComponents/BookingSectionComponent/BookingSectionComponent";
+import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidExtraProps";
+import { toastBottom } from "../../../../../Services/toast/toast";
 
-const FlightsSection = ({ section, navigation }) => {
+const FlightsSection = ({ section, navigation, spinValue }) => {
   return (
     <View>
       {section.items.map((flight, index) => {
@@ -22,6 +22,7 @@ const FlightsSection = ({ section, navigation }) => {
             navigation={navigation}
             flight={flight}
             isLast={isLast}
+            spinValue={spinValue}
           />
         );
       })}
@@ -29,15 +30,18 @@ const FlightsSection = ({ section, navigation }) => {
   );
 };
 
-FlightsSection.propTypes = {
-  section: PropTypes.object.isRequired
-};
+FlightsSection.propTypes = forbidExtraProps({
+  section: PropTypes.object.isRequired,
+  navigation: PropTypes.object.isRequired,
+  spinValue: PropTypes.oneOfType([PropTypes.object, PropTypes.number])
+    .isRequired
+});
 
-const Flight = ({ flight, isLast, navigation }) => {
+const Flight = ({ flight, isLast, navigation, spinValue }) => {
   let customStyle = {};
   if (isLast) {
     customStyle = {
-      borderBottomWidth: StyleSheet.hairlineWidth,
+      // borderBottomWidth: StyleSheet.hairlineWidth,
       paddingBottom: 16
     };
   }
@@ -47,12 +51,7 @@ const Flight = ({ flight, isLast, navigation }) => {
       recordEvent(constants.bookingsHomeAccordionFlightsVoucherClick);
       navigation.navigate("FlightVoucher", { flight });
     } else {
-      storeService.infoStore.setInfo(
-        constants.bookingProcessText.title,
-        constants.bookingProcessText.message,
-        constants.bookingProcessingIcon,
-        constants.bookingProcessText.actionText
-      );
+      toastBottom(constants.bookingProcessText.message);
     }
   };
 
@@ -73,55 +72,36 @@ const Flight = ({ flight, isLast, navigation }) => {
 
   const airlineLogo = constants.getAirlineIcon(flight.airlineCode);
 
-  /**
-   * TODO: Flight Icons Needed
-   * */
   return (
-    <TouchableOpacity
-      onPress={openVoucher}
-      style={[styles.contentContainer, customStyle]}
-    >
-      <View style={styles.iconWrapper}>
-        <CircleThumbnail
-          image={{ uri: airlineLogo }}
-          containerStyle={styles.contentIcon}
-          isContain={true}
-          defaultImageUri={constants.airLineLogoPlaceHolder}
-        />
-      </View>
-      <View style={styles.contentTextContainer}>
-        <View style={styles.contentHeaderWrapper}>
-          <Text
-            style={styles.contentHeader}
-            numberOfLines={2}
-            ellipsizeMode={"tail"}
-          >{`${timings[0].departure[0]} - ${
-            timings[0].arrival[timings[0].arrival.length - 1]
-          }${
-            timings.length > 1
-              ? `,${"\n"}${timings[timings.length - 1].departure[0]} - ${
-                  timings[timings.length - 1].arrival[
-                    timings[timings.length - 1].arrival.length - 1
-                  ]
-                }`
-              : ""
-          }`}</Text>
-        </View>
-        <View style={styles.contentTextWrapper}>
-          <Text style={styles.contentText} numberOfLines={2}>
-            {flight.text}
-          </Text>
-        </View>
-      </View>
-      <SectionRightPlaceHolder isProcessing={!flight.voucher.booked} />
-    </TouchableOpacity>
+    <BookingSectionComponent
+      spinValue={spinValue}
+      containerStyle={customStyle}
+      sectionImage={{ uri: airlineLogo }}
+      onClick={openVoucher}
+      content={flight.text}
+      isProcessing={!flight.voucher.booked}
+      title={`${moment(timings[0].departure[0], "MMM DD, HH:mm").format(
+        "MMM DD"
+      )}${
+        timings.length > 1
+          ? `${" / "}${moment(
+              timings[timings.length - 1].departure[0],
+              "MMM DD, HH:mm"
+            ).format("MMM DD")}`
+          : ""
+      }`}
+      isImageContain={true}
+      defaultImageUri={constants.airLineLogoPlaceHolder}
+    />
   );
 };
 
-Flight.propTypes = {
+Flight.propTypes = forbidExtraProps({
   flight: PropTypes.object.isRequired,
-  isLast: PropTypes.bool.isRequired
-};
+  isLast: PropTypes.bool.isRequired,
+  spinValue: PropTypes.oneOfType([PropTypes.object, PropTypes.number])
+    .isRequired
+});
 
 const styles = StyleSheet.create({
   contentContainer: {

@@ -3,11 +3,11 @@ import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { responsiveWidth } from "react-native-responsive-dimensions";
 import constants from "../../../../../constants/constants";
 import PropTypes from "prop-types";
-import CircleThumbnail from "../../../../../CommonComponents/CircleThumbnail/CircleThumbnail";
 import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidExtraProps";
 import { recordEvent } from "../../../../../Services/analytics/analyticsService";
+import BookingSectionComponent from "../../../../../CommonComponents/BookingSectionComponent/BookingSectionComponent";
 
-const VisaSection = ({ section, navigation }) => {
+const VisaSection = ({ section, navigation, spinValue }) => {
   return (
     <View>
       {section.items.map((visa, index) => {
@@ -19,6 +19,7 @@ const VisaSection = ({ section, navigation }) => {
             navigation={navigation}
             visa={visa}
             isLast={isLast}
+            spinValue={spinValue}
           />
         );
       })}
@@ -28,14 +29,16 @@ const VisaSection = ({ section, navigation }) => {
 
 VisaSection.propTypes = forbidExtraProps({
   section: PropTypes.object.isRequired,
-  navigation: PropTypes.object.isRequired
+  navigation: PropTypes.object.isRequired,
+  spinValue: PropTypes.oneOfType([PropTypes.object, PropTypes.number])
+    .isRequired
 });
 
-const Visa = ({ visa, isLast, navigation }) => {
+const Visa = ({ visa, isLast, navigation, spinValue }) => {
   let customStyle = {};
   if (isLast) {
     customStyle = {
-      borderBottomWidth: StyleSheet.hairlineWidth,
+      // borderBottomWidth: StyleSheet.hairlineWidth,
       paddingBottom: 16
     };
   }
@@ -50,38 +53,27 @@ const Visa = ({ visa, isLast, navigation }) => {
   const isSchengen = visa.schengen;
 
   return (
-    <TouchableOpacity
-      onPress={openVoucher}
-      style={[styles.contentContainer, customStyle]}
-    >
-      <View style={styles.iconWrapper}>
-        <CircleThumbnail
-          isContain={false}
-          containerStyle={styles.contentIcon}
-          image={constants.splashBackground}
-          defaultImageUri={constants.transferPlaceHolder}
-        />
-      </View>
-      <View style={styles.contentTextContainer}>
-        {isSchengen ? (
-          <View style={styles.contentHeaderWrapper}>
-            <Text style={styles.contentHeader}>{"Schengen"}</Text>
-          </View>
-        ) : null}
-        <View style={styles.contentTextWrapper}>
-          <Text style={styles.contentText} numberOfLines={2}>
-            {visa.country}
-          </Text>
-        </View>
-      </View>
-    </TouchableOpacity>
+    <BookingSectionComponent
+      spinValue={spinValue}
+      containerStyle={customStyle}
+      sectionImage={constants.splashBackground}
+      isProcessing={false}
+      onClick={openVoucher}
+      content={visa.country}
+      title={isSchengen ? "Schengen" : ""}
+      isImageContain={false}
+      defaultImageUri={constants.transferPlaceHolder}
+      hideTitle={!isSchengen}
+    />
   );
 };
 
 Visa.propTypes = forbidExtraProps({
-  transfer: PropTypes.object.isRequired,
+  visa: PropTypes.object.isRequired,
   isLast: PropTypes.bool.isRequired,
-  navigation: PropTypes.object.isRequired
+  navigation: PropTypes.object.isRequired,
+  spinValue: PropTypes.oneOfType([PropTypes.object, PropTypes.number])
+    .isRequired
 });
 
 const styles = StyleSheet.create({

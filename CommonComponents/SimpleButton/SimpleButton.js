@@ -44,7 +44,15 @@ const SimpleButton = ({
         {icon && iconSize ? (
           <Icon name={icon} size={iconSize} color={textColor} />
         ) : null}
-        <Text style={[styles.textStyle, textStyle]}>{text}</Text>
+        <Text
+          style={[
+            styles.textStyle,
+            textStyle,
+            icon && iconSize ? { marginLeft: 8 } : {}
+          ]}
+        >
+          {text}
+        </Text>
       </View>
     </TouchableHighlight>
   );
@@ -79,8 +87,7 @@ const styles = StyleSheet.create({
   textStyle: {
     ...constants.font17(constants.primarySemiBold),
     lineHeight: 17,
-    marginTop: 2,
-    marginLeft: 8
+    marginTop: 2
   }
 });
 

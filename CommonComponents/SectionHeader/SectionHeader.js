@@ -2,6 +2,7 @@ import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import constants from "../../constants/constants";
 import PropTypes from "prop-types";
+import _ from "lodash";
 
 const SectionHeader = ({
   sectionName,
@@ -15,7 +16,9 @@ const SectionHeader = ({
   return (
     <View style={[styles.sectionContainer, containerStyle]} {...customProps}>
       <View style={styles.textContainer}>
-        <Text style={[styles.sectionName, textStyle]}>{sectionName}</Text>
+        <Text style={[styles.sectionName, textStyle]}>
+          {_.toUpper(sectionName)}
+        </Text>
       </View>
       <View style={styles.placeholder} />
     </View>
@@ -40,14 +43,14 @@ const styles = StyleSheet.create({
   },
   textContainer: {
     alignSelf: "flex-start",
-    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomWidth: 1,
     height: 32,
     borderBottomColor: constants.black2
   },
   placeholder: {
     flex: 1,
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: constants.shade4
+    borderBottomWidth: 0.5,
+    borderBottomColor: constants.shade3
   },
   sectionName: {
     ...constants.font13(constants.primarySemiBold),

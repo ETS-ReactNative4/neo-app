@@ -80,7 +80,16 @@ const font = {
   font20,
   font24,
   font30,
-  fontCustom
+  fontCustom,
+  kern1: {
+    letterSpacing: -0.2
+  },
+  kern2: {
+    letterSpacing: -0.5
+  },
+  kern3: {
+    letterSpacing: -1
+  }
 };
 
 export default font;

@@ -1,42 +1,57 @@
 import React, { Component } from "react";
-import { View, Text, StyleSheet, TouchableHighlight } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableHighlight,
+  Platform
+} from "react-native";
 import CommonHeader from "../../../CommonComponents/CommonHeader/CommonHeader";
 import constants from "../../../constants/constants";
 import Icon from "../../../CommonComponents/Icon/Icon";
+import { isIphoneX } from "react-native-iphone-x-helper";
 import SimpleButton from "../../../CommonComponents/SimpleButton/SimpleButton";
 import ErrorBoundary from "../../../CommonComponents/ErrorBoundary/ErrorBoundary";
 
+const xHeight = isIphoneX()
+  ? constants.xNotchHeight
+  : Platform.OS === "ios"
+    ? 20
+    : 0;
+
 @ErrorBoundary()
 class PassVoucher extends Component {
-  static navigationOptions = ({ navigation }) => {
-    return {
-      header: (
-        <CommonHeader
-          LeftButton={
-            <TouchableHighlight
-              style={styles.leftButtonContainer}
-              onPress={() => {
-                navigation.goBack();
-              }}
-              underlayColor={"transparent"}
-            >
-              <Icon
-                name={constants.closeIcon}
-                size={24}
-                color={constants.shade1}
-              />
-            </TouchableHighlight>
-          }
-          title={""}
-          navigation={navigation}
-        />
-      )
-    };
+  static navigationOptions = {
+    header: null,
+    gestureResponseDistance: {
+      vertical: 214 + xHeight
+    }
   };
 
   render() {
-    return (
-      <View style={styles.passVoucherContainer}>
+    const { navigation } = this.props;
+    return [
+      <CommonHeader
+        key={0}
+        LeftButton={
+          <TouchableHighlight
+            style={styles.leftButtonContainer}
+            onPress={() => {
+              navigation.goBack();
+            }}
+            underlayColor={"transparent"}
+          >
+            <Icon
+              name={constants.closeIcon}
+              size={24}
+              color={constants.shade1}
+            />
+          </TouchableHighlight>
+        }
+        title={""}
+        navigation={navigation}
+      />,
+      <View key={1} style={styles.passVoucherContainer}>
         <Text
           style={styles.passInfoText}
         >{`Your Pass is Confirmed.\nWe will be sending this pass to your postal address soon.`}</Text>
@@ -49,7 +64,7 @@ class PassVoucher extends Component {
           color={"white"}
         />
       </View>
-    );
+    ];
   }
 }
 

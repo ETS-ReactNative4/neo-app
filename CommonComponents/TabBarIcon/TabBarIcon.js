@@ -12,7 +12,7 @@ const TabBarIcon = inject("appState")(
     return (
       <View style={styles.iconWrapper}>
         <View style={styles.icon}>
-          <Icon color={color} name={icon} size={25} />
+          <Icon color={color} name={icon} size={24} />
         </View>
         <Text
           numberOfLines={1}

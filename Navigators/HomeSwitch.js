@@ -10,11 +10,9 @@ const HomeSwitch = createSwitchNavigator(
       screen: Splash
     },
     UniversalStack,
-    YourBookingsStack: createStackNavigator({
-      YourBookings: {
-        screen: YourBookings
-      }
-    })
+    YourBookings: {
+      screen: YourBookings
+    }
   },
   {
     initialRouteName: "Splash"

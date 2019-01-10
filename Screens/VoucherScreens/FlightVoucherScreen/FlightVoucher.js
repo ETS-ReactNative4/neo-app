@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Text, Platform, StyleSheet, StatusBar } from "react-native";
+import { View, Text, Platform, StyleSheet } from "react-native";
 import constants from "../../../constants/constants";
 import VoucherStickyHeader from "../Components/VoucherStickyHeader";
 import VoucherHeader from "../Components/VoucherHeader";
@@ -16,13 +16,22 @@ import FlightActionSection from "./Components/FlightActionSection";
 import getTitleCase from "../../../Services/getTitleCase/getTitleCase";
 import ErrorBoundary from "../../../CommonComponents/ErrorBoundary/ErrorBoundary";
 
+const xHeight = isIphoneX()
+  ? constants.xNotchHeight
+  : Platform.OS === "ios"
+    ? 20
+    : 0;
+
 @ErrorBoundary()
 @inject("passportDetailsStore")
 @inject("itineraries")
 @observer
 class FlightVoucher extends Component {
   static navigationOptions = {
-    header: null
+    header: null,
+    gestureResponseDistance: {
+      vertical: 214 + xHeight
+    }
   };
 
   state = {
@@ -77,12 +86,6 @@ class FlightVoucher extends Component {
       return trips[trip];
     });
 
-    const xHeight = isIphoneX()
-      ? constants.xNotchHeight
-      : Platform.OS === "ios"
-        ? 20
-        : 0;
-
     const flightInvoiceInfo = [
       // {
       //   name: "Booking Reference ID",
@@ -105,6 +108,7 @@ class FlightVoucher extends Component {
     return [
       <ParallaxScrollView
         key={0}
+        bounces={false}
         backgroundColor="white"
         contentBackgroundColor="white"
         parallaxHeaderHeight={214 + xHeight}
@@ -138,7 +142,6 @@ class FlightVoucher extends Component {
           </VoucherHeader>
         )}
       >
-        <StatusBar backgroundColor="black" barStyle="light-content" />
         <View style={styles.flightVoucherContainer}>
           {tripDetails.map((trip, tripIndex) => {
             return [

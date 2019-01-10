@@ -2,14 +2,19 @@ import React from "react";
 import { View, StyleSheet, Text, Image } from "react-native";
 import constants from "../../../constants/constants";
 import Icon from "../../../CommonComponents/Icon/Icon";
+import PropTypes from "prop-types";
 
-const UnregisteredNumber = () => {
+const UnregisteredNumber = ({ onClick }) => {
   return (
     <View style={styles.container}>
-      <Icon size={24} color={constants.black2} name={constants.infoIcon} />
       <View style={styles.errorTextWrapper}>
         <Text style={styles.errorText}>
           {constants.mobileNumberScreenText.unregisteredNumberText}
+          {"\n\n"}
+          <Text
+            style={styles.exploreText}
+            onPress={onClick}
+          >{`Explore Itineraries`}</Text>
         </Text>
       </View>
     </View>
@@ -23,15 +28,22 @@ const styles = StyleSheet.create({
     marginTop: 24
   },
   errorTextWrapper: {
-    flexWrap: "wrap",
-    marginLeft: 8
+    flexWrap: "wrap"
   },
   errorText: {
-    fontFamily: constants.primaryLight,
-    fontSize: 12,
-    lineHeight: 16,
-    color: constants.black2
+    ...constants.fontCustom(constants.primaryLight, 15, 20),
+    color: constants.shade1
+  },
+  exploreText: {
+    fontSize: 17,
+    fontFamily: constants.primarySemiBold,
+    color: constants.firstColor,
+    textDecorationLine: "underline"
   }
 });
+
+UnregisteredNumber.propTypes = {
+  onClick: PropTypes.func.isRequired
+};
 
 export default UnregisteredNumber;

@@ -11,7 +11,7 @@ import FlightStatus from "../Screens/FlightStatusScreen/FlightStatus";
 import YourBookings from "../Screens/YourBookingsScreen/YourBookings";
 import transitionConfig from "../Services/navigationAnimations/transitionConfig";
 
-const UniversalStack = createStackNavigator(
+const MainStack = createStackNavigator(
   {
     Starter: {
       screen: Starter
@@ -27,7 +27,27 @@ const UniversalStack = createStackNavigator(
       navigationOptions: {
         gesturesEnabled: true
       }
+    }
+  },
+  {
+    navigationOptions: {
+      gesturesEnabled: false
     },
+    transitionConfig
+  }
+);
+
+MainStack.navigationOptions = () => {
+  let drawerLockMode = "locked-closed";
+
+  return {
+    drawerLockMode
+  };
+};
+
+const UniversalStack = createStackNavigator(
+  {
+    MainStack,
     TransferVoucher: {
       screen: TransferVoucher
     },
@@ -51,19 +71,14 @@ const UniversalStack = createStackNavigator(
     }
   },
   {
+    headerMode: "none",
     navigationOptions: {
-      gesturesEnabled: false
+      gesturesEnabled: true,
+      drawerLockMode: "locked-closed"
     },
+    mode: "modal",
     transitionConfig
   }
 );
-
-UniversalStack.navigationOptions = () => {
-  let drawerLockMode = "locked-closed";
-
-  return {
-    drawerLockMode
-  };
-};
 
 export default UniversalStack;

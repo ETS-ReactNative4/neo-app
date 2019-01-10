@@ -3,8 +3,7 @@ import { View, Text, StyleSheet } from "react-native";
 import constants from "../../../../constants/constants";
 import { PropTypes } from "prop-types";
 
-const TripTitle = props => {
-  const { title, containerStyle = {}, titleStyle = {} } = props;
+const TripTitle = ({ title, containerStyle = {}, titleStyle = {} }) => {
   return (
     <View style={[styles.container, containerStyle]}>
       <Text style={[styles.titleText, titleStyle]}>{title}</Text>

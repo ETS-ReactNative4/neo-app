@@ -6,13 +6,12 @@ import constants from "../../../../../constants/constants";
 import PropTypes from "prop-types";
 import _ from "lodash";
 import getTransferImage from "../../../../../Services/getImageService/getTransferImage";
-import CircleThumbnail from "../../../../../CommonComponents/CircleThumbnail/CircleThumbnail";
-import storeService from "../../../../../Services/storeService/storeService";
-import SectionRightPlaceHolder from "./Components/SectionRightPlaceHolder";
 import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidExtraProps";
 import { recordEvent } from "../../../../../Services/analytics/analyticsService";
+import BookingSectionComponent from "../../../../../CommonComponents/BookingSectionComponent/BookingSectionComponent";
+import { toastBottom } from "../../../../../Services/toast/toast";
 
-const TransferSection = ({ section, navigation }) => {
+const TransferSection = ({ section, navigation, spinValue }) => {
   return (
     <View>
       {section.items.map((transfer, index) => {
@@ -24,6 +23,7 @@ const TransferSection = ({ section, navigation }) => {
             navigation={navigation}
             transfer={transfer}
             isLast={isLast}
+            spinValue={spinValue}
           />
         );
       })}
@@ -33,14 +33,16 @@ const TransferSection = ({ section, navigation }) => {
 
 TransferSection.propTypes = forbidExtraProps({
   section: PropTypes.object.isRequired,
-  navigation: PropTypes.object.isRequired
+  navigation: PropTypes.object.isRequired,
+  spinValue: PropTypes.oneOfType([PropTypes.object, PropTypes.number])
+    .isRequired
 });
 
-const Transfer = ({ transfer, isLast, navigation }) => {
+const Transfer = ({ transfer, isLast, navigation, spinValue }) => {
   let customStyle = {};
   if (isLast) {
     customStyle = {
-      borderBottomWidth: StyleSheet.hairlineWidth,
+      // borderBottomWidth: StyleSheet.hairlineWidth,
       paddingBottom: 16
     };
   }
@@ -50,50 +52,43 @@ const Transfer = ({ transfer, isLast, navigation }) => {
       recordEvent(constants.bookingsHomeAccordionTransfersVoucherClick);
       navigation.navigate("TransferVoucher", { transfer });
     } else {
-      storeService.infoStore.setInfo(
-        constants.bookingProcessText.title,
-        constants.bookingProcessText.message,
-        constants.bookingProcessingIcon,
-        constants.bookingProcessText.actionText
-      );
+      toastBottom(constants.bookingProcessText.message);
     }
   };
 
+  const { pickupTime } = transfer.voucher;
+  const { dateMillis } = transfer;
+
+  const vehicle = _.toUpper(transfer.vehicle);
+  const transferType = _.toUpper(transfer.type);
+
   return (
-    <TouchableOpacity
-      onPress={openVoucher}
-      style={[styles.contentContainer, customStyle]}
-    >
-      <View style={styles.iconWrapper}>
-        <CircleThumbnail
-          isContain={transfer.vehicle !== "Train"}
-          containerStyle={styles.contentIcon}
-          image={{ uri: getTransferImage(transfer.vehicle, transfer.type) }}
-          defaultImageUri={constants.transferPlaceHolder}
-        />
-      </View>
-      <View style={styles.contentTextContainer}>
-        <View style={styles.contentHeaderWrapper}>
-          <Text style={styles.contentHeader}>{`${moment(
-            `${transfer.day}/${transfer.mon}/${constants.currentYear}`,
-            "DD/MMM/YYYY"
-          ).format("MMM DD")} (${transfer.duration})`}</Text>
-        </View>
-        <View style={styles.contentTextWrapper}>
-          <Text style={styles.contentText} numberOfLines={2}>
-            {transfer.text}
-          </Text>
-        </View>
-      </View>
-      <SectionRightPlaceHolder isProcessing={!transfer.voucher.booked} />
-    </TouchableOpacity>
+    <BookingSectionComponent
+      spinValue={spinValue}
+      containerStyle={customStyle}
+      sectionImage={{ uri: getTransferImage(vehicle, transferType) }}
+      isProcessing={!transfer.voucher.booked}
+      onClick={openVoucher}
+      content={transfer.text}
+      title={`${moment(
+        pickupTime && pickupTime > 1 ? pickupTime : dateMillis
+      ).format(constants.commonDateFormat)}`}
+      isImageContain={
+        vehicle === "CAR" || vehicle === "BUS" || vehicle === "SHUTTLE"
+          ? true
+          : false
+      }
+      defaultImageUri={constants.transferPlaceHolder}
+    />
   );
 };
 
 Transfer.propTypes = forbidExtraProps({
   transfer: PropTypes.object.isRequired,
   isLast: PropTypes.bool.isRequired,
-  navigation: PropTypes.object.isRequired
+  navigation: PropTypes.object.isRequired,
+  spinValue: PropTypes.oneOfType([PropTypes.object, PropTypes.number])
+    .isRequired
 });
 
 const styles = StyleSheet.create({

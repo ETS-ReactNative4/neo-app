@@ -18,12 +18,21 @@ import ErrorBoundary from "../../../CommonComponents/ErrorBoundary/ErrorBoundary
 import getTitleCase from "../../../Services/getTitleCase/getTitleCase";
 import VoucherContactActionBar from "../Components/VoucherContactActionBar";
 
+const xHeight = isIphoneX()
+  ? constants.xNotchHeight
+  : Platform.OS === "ios"
+    ? 20
+    : 0;
+
 @ErrorBoundary()
 @inject("passportDetailsStore")
 @observer
 class TransferVoucher extends Component {
   static navigationOptions = {
-    header: null
+    header: null,
+    gestureResponseDistance: {
+      vertical: 214 + xHeight
+    }
   };
 
   state = {
@@ -76,11 +85,6 @@ class TransferVoucher extends Component {
       to
     } = transfer.voucher;
 
-    const xHeight = isIphoneX()
-      ? constants.xNotchHeight
-      : Platform.OS === "ios"
-        ? 20
-        : 0;
     const passengerDetails = [
       {
         name: "Lead passenger",
@@ -183,6 +187,7 @@ class TransferVoucher extends Component {
     return [
       <ParallaxScrollView
         key={0}
+        bounces={false}
         backgroundColor="white"
         contentBackgroundColor="white"
         parallaxHeaderHeight={214 + xHeight}

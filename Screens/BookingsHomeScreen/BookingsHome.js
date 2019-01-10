@@ -27,6 +27,7 @@ import { recordEvent } from "../../Services/analytics/analyticsService";
 import { registerFcmRefreshListener } from "../../Services/fcmService/fcm";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import CustomScrollView from "../../CommonComponents/CustomScrollView/CustomScrollView";
+import SectionHeader from "../../CommonComponents/SectionHeader/SectionHeader";
 
 @ErrorBoundary({ isRoot: true })
 @inject("infoStore")
@@ -156,10 +157,13 @@ class BookingsHome extends Component {
       numOfActivitiesByDay,
       getTransferTypeByDay,
       isLoading: itineraryLoading,
-      selectedItineraryId
+      selectedItineraryId,
+      cities
     } = this.props.itineraries;
     const { isLoading: voucherLoading } = this.props.voucherStore;
     const { navigation } = this.props;
+
+    const isRefreshing = itineraryLoading || voucherLoading;
 
     return (
       <View style={styles.bookingHomeContainer}>
@@ -168,7 +172,7 @@ class BookingsHome extends Component {
           style={styles.bookingContainer}
           showsVerticalScrollIndicator={false}
           horizontalPadding={24}
-          refreshing={itineraryLoading || voucherLoading}
+          refreshing={isRefreshing}
           onRefresh={() => {
             pullToRefresh({
               itinerary: true,
@@ -181,10 +185,15 @@ class BookingsHome extends Component {
             numOfActivitiesByDay={numOfActivitiesByDay}
             startEndDates={startEndDates}
             days={days}
+            cities={cities}
             getDateSelectionMatrixSingle={getDateSelectionMatrixSingle}
             getTransferTypeByDay={getTransferTypeByDay}
             navigation={navigation}
           />
+
+          {selectedItineraryId ? (
+            <SectionHeader sectionName={"Trip Vouchers"} />
+          ) : null}
 
           <BookingAccordion navigation={navigation} />
           {selectedItineraryId ? (
@@ -229,9 +238,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "white"
   },
-  calendarContainer: {
-    marginTop: 16
-  },
+  calendarContainer: {},
   bookingContainer: {}
 });
 

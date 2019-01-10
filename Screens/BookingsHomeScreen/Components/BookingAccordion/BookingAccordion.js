@@ -5,7 +5,9 @@ import {
   StyleSheet,
   ScrollView,
   Image,
-  Platform
+  Platform,
+  Animated,
+  Easing
 } from "react-native";
 import PropTypes from "prop-types";
 import Accordion from "react-native-collapsible/Accordion";
@@ -35,13 +37,59 @@ class BookingAccordion extends Component {
   };
 
   state = {
-    activeSections: [0]
+    activeSections: [],
+    wasActiveIndex: []
   };
+  spinValue = new Animated.Value(0);
+
+  componentDidMount() {
+    Animated.loop(
+      Animated.timing(this.spinValue, {
+        toValue: 1,
+        duration: 3000,
+        easing: Easing.linear,
+        useNativeDriver: true
+      })
+    ).start();
+  }
 
   _renderHeader = (section, index, isActive, sections) => {
+    const { wasActiveIndex } = this.state;
     const customStyle = {};
 
-    if (isActive) customStyle.borderBottomWidth = 0;
+    // if (isActive) customStyle.borderBottomWidth = 0;
+
+    const iconContainer = {};
+    const spinValue = new Animated.Value(0);
+    Animated.timing(spinValue, {
+      toValue: 1,
+      duration: 300,
+      easing: Easing.linear
+    }).start();
+    if (isActive) {
+      if (!wasActiveIndex.includes(index)) {
+        const spin = spinValue.interpolate({
+          inputRange: [0, 1],
+          outputRange: ["-90deg", "90deg"]
+        });
+        iconContainer.transform = [{ rotate: spin }];
+      } else {
+        iconContainer.transform = [{ rotate: "90deg" }];
+      }
+    } else if (wasActiveIndex.includes(index)) {
+      const reverseSpin = spinValue.interpolate({
+        inputRange: [0, 1],
+        outputRange: ["90deg", "-90deg"]
+      });
+      iconContainer.transform = [{ rotate: reverseSpin }];
+    } else {
+      iconContainer.transform = [{ rotate: "-90deg" }];
+    }
+
+    const processingSpin = this.spinValue.interpolate({
+      inputRange: [0, 1],
+      outputRange: ["360deg", "0deg"]
+    });
 
     const bookingProcessingCount = section.items.length
       ? section.items.reduce((count, item) => {
@@ -55,54 +103,49 @@ class BookingAccordion extends Component {
     return (
       <View style={[styles.headerContainer, customStyle]}>
         <View style={styles.headerIcon}>
-          <Icon name={section.icon} size={20} color={constants.black1} />
+          <Icon name={section.icon} size={20} color={constants.shade1} />
         </View>
         <View style={styles.headerTextWrapper}>
           <Text style={styles.headerText}>{section.type}</Text>
+          {bookingProcessingCount && !isActive ? (
+            <Animated.View
+              style={[
+                styles.bookingProcessLoadingWrapper,
+                { transform: [{ rotate: processingSpin }] }
+              ]}
+            >
+              <Icon
+                name={constants.bookingProcessingIcon}
+                size={24}
+                color={constants.eighthColor}
+              />
+            </Animated.View>
+          ) : null}
         </View>
         <View style={styles.notificationWrapper}>
-          {!isActive ? (
-            [
-              bookingProcessingCount ? (
-                <View key={0} style={styles.bookingProcessLoadingWrapper}>
-                  <Icon
-                    name={constants.bookingProcessingIcon}
-                    size={24}
-                    color={constants.eighthColor}
-                  />
-                  <Text style={styles.bookingProcessCount}>
-                    {bookingProcessingCount}
-                  </Text>
-                </View>
-              ) : null,
-              <NotificationCount
-                key={1}
-                count={section.items.length || 1}
-                containerStyle={{
-                  backgroundColor: constants.secondColor,
-                  height: 16,
-                  width: 26,
-                  borderRadius: 8
-                }}
-                textStyle={{
-                  color: constants.black2,
-                  fontSize: 13,
-                  ...Platform.select({
-                    android: { marginTop: -2 },
-                    ios: { marginTop: 3 }
-                  })
-                }}
-              />
-            ]
-          ) : (
-            <View style={styles.accordionDownArrowContainer}>
-              <Icon
-                name={constants.arrowDown}
-                color={constants.black1}
-                size={17}
-              />
-            </View>
-          )}
+          <NotificationCount
+            count={section.items.length || 1}
+            containerStyle={{
+              backgroundColor: constants.secondColor,
+              height: 26,
+              width: 26,
+              borderRadius: 13,
+              marginRight: 2
+            }}
+            textStyle={{
+              ...constants.fontCustom(constants.primarySemiBold, 13),
+              color: constants.black2,
+              marginTop: 3
+            }}
+          />
+
+          <Animated.View style={iconContainer}>
+            <Icon
+              name={constants.backIcon}
+              color={constants.shade1}
+              size={17}
+            />
+          </Animated.View>
         </View>
       </View>
     );
@@ -111,36 +154,102 @@ class BookingAccordion extends Component {
   _renderContent = (section, index, isActive, sections) => {
     const { navigation } = this.props;
     const customStyle = {};
+
+    let spinValue = 0;
+    if (!(section.voucher && section.voucher.booked) || !section.free) {
+      spinValue = this.spinValue;
+    }
+
     switch (section.type) {
       case "Hotels":
-        return <HotelSection navigation={navigation} section={section} />;
+        return (
+          <HotelSection
+            navigation={navigation}
+            section={section}
+            spinValue={spinValue}
+          />
+        );
 
       case "Activities":
-        return <ActivitiesSection navigation={navigation} section={section} />;
+        return (
+          <ActivitiesSection
+            navigation={navigation}
+            section={section}
+            spinValue={spinValue}
+          />
+        );
 
       case "Transfers":
-        return <TransferSection navigation={navigation} section={section} />;
+        return (
+          <TransferSection
+            navigation={navigation}
+            section={section}
+            spinValue={spinValue}
+          />
+        );
 
       case "Ferries":
-        return <FerriesSection navigation={navigation} section={section} />;
+        return (
+          <FerriesSection
+            navigation={navigation}
+            section={section}
+            spinValue={spinValue}
+          />
+        );
 
       case "Trains":
-        return <TrainsSection navigation={navigation} section={section} />;
+        return (
+          <TrainsSection
+            navigation={navigation}
+            section={section}
+            spinValue={spinValue}
+          />
+        );
 
       case "Flights":
-        return <FlightsSection navigation={navigation} section={section} />;
+        return (
+          <FlightsSection
+            navigation={navigation}
+            section={section}
+            spinValue={spinValue}
+          />
+        );
 
       case "Passes":
-        return <PassSection section={section} navigation={navigation} />;
+        return (
+          <PassSection
+            section={section}
+            navigation={navigation}
+            spinValue={spinValue}
+          />
+        );
 
       case "Rental Cars":
-        return <RentalCarSection navigation={navigation} section={section} />;
+        return (
+          <RentalCarSection
+            navigation={navigation}
+            section={section}
+            spinValue={spinValue}
+          />
+        );
 
       case "Visa":
-        return <VisaSection navigation={navigation} section={section} />;
+        return (
+          <VisaSection
+            navigation={navigation}
+            section={section}
+            spinValue={spinValue}
+          />
+        );
 
       case "Insurance":
-        return <InsuranceSection navigation={navigation} section={section} />;
+        return (
+          <InsuranceSection
+            navigation={navigation}
+            section={section}
+            spinValue={spinValue}
+          />
+        );
 
       default:
         return (
@@ -171,57 +280,64 @@ class BookingAccordion extends Component {
   };
 
   _updateActiveSections = activeSections => {
-    const sectionIndex = activeSections[0];
-    if (sectionIndex) {
-      const selectedSection = sections[sectionIndex];
-      switch (selectedSection.type) {
-        case "Hotels":
-          recordEvent(constants.bookingsHomeAccordionHotelsHeaderClick);
-          break;
+    this.setState(
+      {
+        wasActiveIndex: this.state.activeSections
+      },
+      () => {
+        const sectionIndex = activeSections[0];
+        if (sectionIndex) {
+          const selectedSection = sections[sectionIndex];
+          switch (selectedSection.type) {
+            case "Hotels":
+              recordEvent(constants.bookingsHomeAccordionHotelsHeaderClick);
+              break;
 
-        case "Activities":
-          recordEvent(constants.bookingsHomeAccordionActivitiesHeaderClick);
-          break;
+            case "Activities":
+              recordEvent(constants.bookingsHomeAccordionActivitiesHeaderClick);
+              break;
 
-        case "Transfers":
-          recordEvent(constants.bookingsHomeAccordionTransfersHeaderClick);
-          break;
+            case "Transfers":
+              recordEvent(constants.bookingsHomeAccordionTransfersHeaderClick);
+              break;
 
-        case "Ferries":
-          recordEvent(constants.bookingsHomeAccordionFerriesHeaderClick);
-          break;
+            case "Ferries":
+              recordEvent(constants.bookingsHomeAccordionFerriesHeaderClick);
+              break;
 
-        case "Trains":
-          recordEvent(constants.bookingsHomeAccordionTrainsHeaderClick);
-          break;
+            case "Trains":
+              recordEvent(constants.bookingsHomeAccordionTrainsHeaderClick);
+              break;
 
-        case "Flights":
-          recordEvent(constants.bookingsHomeAccordionFlightsHeaderClick);
-          break;
+            case "Flights":
+              recordEvent(constants.bookingsHomeAccordionFlightsHeaderClick);
+              break;
 
-        case "Passes":
-          recordEvent(constants.bookingsHomeAccordionPassesHeaderClick);
-          break;
+            case "Passes":
+              recordEvent(constants.bookingsHomeAccordionPassesHeaderClick);
+              break;
 
-        case "Rental Cars":
-          recordEvent(constants.bookingsHomeAccordionRentalCarsHeaderClick);
-          break;
+            case "Rental Cars":
+              recordEvent(constants.bookingsHomeAccordionRentalCarsHeaderClick);
+              break;
 
-        case "Visa":
-          recordEvent(constants.bookingsHomeAccordionVisaHeaderClick);
-          break;
+            case "Visa":
+              recordEvent(constants.bookingsHomeAccordionVisaHeaderClick);
+              break;
 
-        case "Insurance":
-          recordEvent(constants.bookingsHomeAccordionInsuranceHeaderClick);
-          break;
+            case "Insurance":
+              recordEvent(constants.bookingsHomeAccordionInsuranceHeaderClick);
+              break;
 
-        default:
-          break;
+            default:
+              break;
+          }
+        }
+        this.setState({
+          activeSections
+        });
       }
-    }
-    this.setState({
-      activeSections
-    });
+    );
   };
 
   render() {
@@ -350,11 +466,9 @@ class BookingAccordion extends Component {
 
 const styles = StyleSheet.create({
   headerContainer: {
-    height: 56,
+    height: 48,
     flexDirection: "row",
-    alignItems: "center",
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: constants.shade4
+    alignItems: "center"
   },
   headerIcon: {
     height: 20,
@@ -370,14 +484,15 @@ const styles = StyleSheet.create({
         height: 24
       }
     }),
+    flexDirection: "row",
     alignItems: "center",
     justifyContent: "center"
   },
   headerText: {
-    fontFamily: constants.primarySemiBold,
+    fontFamily: constants.primaryRegular,
     fontSize: 20,
     lineHeight: 20,
-    color: constants.black1,
+    color: constants.black2,
     ...Platform.select({
       ios: {
         marginTop: 4
@@ -396,7 +511,7 @@ const styles = StyleSheet.create({
   bookingProcessLoadingWrapper: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "flex-end"
+    marginLeft: 4
   },
   bookingProcessIcon: {
     height: 24,
@@ -412,9 +527,6 @@ const styles = StyleSheet.create({
         marginTop: 6
       }
     })
-  },
-  accordionDownArrowContainer: {
-    // transform: [{rotate: '180deg'}]
   },
 
   contentContainer: {

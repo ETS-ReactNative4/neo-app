@@ -1,24 +1,25 @@
 {
   "name": "pickyourtrail",
   "version": "1.0.0",
-  "build": 52,
+  "build": 58,
   "environment": "staging",
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "jest",
     "build-android": "cd android && ./gradlew assembleRelease && cd ..",
+    "testflight-ios": "fastlane ios uploadToTestflight",
     "run-android": "react-native run-android",
     "run-ios": "react-native run-ios",
     "pod-install": "cd ios && pod install && cd ..",
     "precommit": "pretty-quick --staged",
+    "bump-version": "node bumpVersion.js",
     "debug": "react-devtools"
   },
   "dependencies": {
     "country-data": "^0.0.31",
     "d3-shape": "^1.2.0",
     "intl": "^1.2.5",
-    "locale-code": "^2.0.1",
     "lodash": "^4.17.5",
     "mobx": "4.2.0",
     "mobx-persist": "^0.4.1",
@@ -77,6 +78,7 @@
     "babel-preset-react-native": "^5.0.1",
     "husky": "^0.14.3",
     "jest": "23.6.0",
+    "jsonfile": "^5.0.0",
     "metro-react-native-babel-preset": "0.48.0",
     "precommit": "^1.2.2",
     "prettier": "^1.12.1",
@@ -84,10 +86,6 @@
     "react-devtools": "^3.4.2",
     "react-test-renderer": "16.5.0"
   },
-  "jest": {
-    "preset": "react-native"
-  },
-  "rnpm": {
-    "assets": ["./assets/fonts/"]
-  }
+  "jest": { "preset": "react-native" },
+  "rnpm": { "assets": ["./assets/fonts/"] }
 }

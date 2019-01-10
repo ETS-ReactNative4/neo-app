@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
     width: 4,
     margin: 1,
     borderRadius: 2,
-    backgroundColor: "white"
+    backgroundColor: "rgba(255,255,255,.5)"
   }
 });
 

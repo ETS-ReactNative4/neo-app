@@ -27,7 +27,7 @@ const appText = {
   },
   mobileNumberScreenText: {
     unregisteredNumberText:
-      "Looks like you haven't created an account with Pickyourtrail yet!"
+      "We could not find an account linked to this mobile number. New here?"
   },
   weatherText: {
     unableToGetWeatherText: "Unable to retrieve latest weather information..."
@@ -52,8 +52,8 @@ const appText = {
   },
   bookingProcessText: {
     title: "Almost there!",
-    message:
-      "We are working with our travel partners to complete this booking. Sit back and relax, we'll notify you, once the vouchers are ready!",
+    message: "Booking is still under processing",
+    // "We are working with our travel partners to complete this booking. Sit back and relax, we'll notify you, once the vouchers are ready!",
     actionText: "Okay!"
   },
   appCrashText: {

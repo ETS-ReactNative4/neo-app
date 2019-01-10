@@ -46,23 +46,23 @@ const UpcomingCard = ({
           {/**
            * TODO: make join button conditional
            */}
-          <SimpleButton
-            text={"Join"}
-            action={() => selectItinerary(itineraryId)}
-            textColor={"white"}
-            underlayColor={constants.firstColorAlpha(0.8)}
-            containerStyle={{
-              height: 24,
-              width: 48,
-              marginHorizontal: 16,
-              marginVertical: 8
-            }}
-            textStyle={{
-              ...constants.font11(constants.primarySemiBold),
-              marginLeft: 2,
-              marginTop: -2
-            }}
-          />
+          {/*<SimpleButton*/}
+          {/*text={"Join"}*/}
+          {/*action={() => selectItinerary(itineraryId)}*/}
+          {/*textColor={"white"}*/}
+          {/*underlayColor={constants.firstColorAlpha(0.8)}*/}
+          {/*containerStyle={{*/}
+          {/*height: 24,*/}
+          {/*width: 48,*/}
+          {/*marginHorizontal: 16,*/}
+          {/*marginVertical: 8*/}
+          {/*}}*/}
+          {/*textStyle={{*/}
+          {/*...constants.font11(constants.primarySemiBold),*/}
+          {/*marginLeft: 2,*/}
+          {/*marginTop: -2*/}
+          {/*}}*/}
+          {/*/>*/}
         </ImageBackground>
       </View>
       <View style={styles.infoArea}>

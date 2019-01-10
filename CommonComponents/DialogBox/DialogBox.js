@@ -21,27 +21,33 @@ const DialogBox = ({
     <Modal
       isVisible={isVisible}
       animationInTiming={300}
+      animationOutTiming={300}
       onBackButtonPress={onClose}
+      useNativeDriver={true}
     >
       <View style={styles.dialogBoxContainer}>
-        {typeof icon === "string" ? (
-          <View style={styles.iconContainer}>
-            <Icon name={icon} size={64} />
-          </View>
-        ) : (
-          <Image source={icon} style={styles.icon} resizeMode={"contain"} />
-        )}
+        {icon ? (
+          typeof icon === "string" ? (
+            <View style={styles.iconContainer}>
+              <Icon name={icon} size={64} />
+            </View>
+          ) : (
+            <Image source={icon} style={styles.icon} resizeMode={"contain"} />
+          )
+        ) : null}
         <Text style={styles.title}>{title}</Text>
         <Text style={styles.message}>{message}</Text>
-        <SimpleButton
-          text={actionText || "Okay!"}
-          containerStyle={{ width: null, height: 40, marginBottom: 16 }}
-          action={onClose}
-          textColor={"white"}
-          textStyle={{ marginHorizontal: 8 }}
-          hasBorder={true}
-          color={constants.firstColor}
-        />
+        {isVisible ? (
+          <SimpleButton
+            text={actionText || "Okay!"}
+            containerStyle={{ width: null, height: 40, marginBottom: 16 }}
+            action={onClose}
+            textColor={"white"}
+            textStyle={{ marginHorizontal: 8 }}
+            hasBorder={true}
+            color={constants.firstColor}
+          />
+        ) : null}
       </View>
     </Modal>
   );

@@ -13,7 +13,10 @@ import LineProgressBar from "../LineProgressBar/LineProgressBar";
 
 class CustomScrollView extends Component {
   static propTypes = {
-    children: PropTypes.element.isRequired,
+    children: PropTypes.oneOfType([
+      PropTypes.element,
+      PropTypes.arrayOf(PropTypes.element)
+    ]).isRequired,
     onRefresh: PropTypes.func.isRequired,
     refreshing: PropTypes.bool.isRequired,
     horizontalPadding: PropTypes.number,

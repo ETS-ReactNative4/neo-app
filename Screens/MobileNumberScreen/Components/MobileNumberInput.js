@@ -42,7 +42,7 @@ const MobileNumberInput = ({
             <Icon
               name={constants.arrowDown}
               color={constants.shade2}
-              size={16}
+              size={8}
             />
           </View>
         </View>
@@ -51,7 +51,7 @@ const MobileNumberInput = ({
         <TextInput
           ref={e => mobileInputRef(e)}
           onChangeText={editMobileNumber}
-          placeholder={"1234567890"}
+          placeholder={"9888888888"}
           value={mobileNumber}
           placeholderTextColor={constants.shade5}
           style={styles.numberInput}
@@ -84,10 +84,17 @@ MobileNumberInput.propTypes = {
 
 const styles = StyleSheet.create({
   mobileNumberBox: {
-    marginTop: 8,
+    marginTop: 16,
     marginHorizontal: 24,
-    height: 48,
-    borderBottomColor: constants.shade3,
+    ...Platform.select({
+      android: {
+        height: 56
+      },
+      ios: {
+        height: 48
+      }
+    }),
+    borderBottomColor: constants.shade4,
     borderBottomWidth: 1,
     flexDirection: "row",
     justifyContent: "center"
@@ -121,8 +128,8 @@ const styles = StyleSheet.create({
     })
   },
   dropDownIconContainer: {
-    height: 16,
-    width: 16,
+    height: 8,
+    width: 8,
     marginHorizontal: 8,
     ...Platform.select({
       ios: {
@@ -132,20 +139,16 @@ const styles = StyleSheet.create({
     })
   },
   numberInputBox: {
-    flex: 1
+    flex: 1,
+    height: 56
   },
   numberInput: {
+    fontFamily: constants.primaryLight,
+    fontSize: 36,
+    textAlign: "justify",
     ...Platform.select({
-      ios: {
-        fontFamily: constants.primaryLight,
-        fontSize: 36,
-        textAlign: "justify"
-      },
       android: {
-        fontFamily: constants.primaryLight,
-        fontSize: 36,
-        height: 56,
-        textAlign: "justify"
+        height: 56
       }
     }),
     color: constants.black2

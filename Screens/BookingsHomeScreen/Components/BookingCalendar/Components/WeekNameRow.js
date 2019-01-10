@@ -26,14 +26,7 @@ const WeekNameRow = () => {
         <Text style={styles.weekName}>{"F"}</Text>
       </View>
       <View style={styles.weekNameWrapper}>
-        <Text
-          style={[
-            styles.weekName,
-            Platform.OS === "ios" ? { marginRight: -5 } : {}
-          ]}
-        >
-          {"S"}
-        </Text>
+        <Text style={styles.weekName}>{"S"}</Text>
       </View>
     </View>
   );
@@ -42,19 +35,23 @@ const WeekNameRow = () => {
 const itemWidth = (responsiveWidth(100) - 48) / 7;
 const styles = StyleSheet.create({
   weekNameRow: {
-    height: 40,
-    flexDirection: "row"
+    marginVertical: 8,
+    flexDirection: "row",
+    justifyContent: "space-around",
+    alignItems: "center"
   },
   weekNameWrapper: {
-    height: 40,
+    height: 24,
+    borderRadius: 14,
     alignItems: "center",
     justifyContent: "center",
-    width: itemWidth
+    width: 24,
+    backgroundColor: constants.shade4
   },
   weekName: {
-    fontFamily: constants.primaryLight,
-    fontSize: 14,
-    color: constants.shade1
+    fontFamily: constants.primarySemiBold,
+    fontSize: 12,
+    color: "white"
   }
 });
 

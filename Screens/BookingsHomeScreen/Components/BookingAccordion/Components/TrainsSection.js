@@ -4,13 +4,12 @@ import moment from "moment";
 import { responsiveWidth } from "react-native-responsive-dimensions";
 import constants from "../../../../../constants/constants";
 import PropTypes from "prop-types";
-import CircleThumbnail from "../../../../../CommonComponents/CircleThumbnail/CircleThumbnail";
-import storeService from "../../../../../Services/storeService/storeService";
 import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidExtraProps";
-import SectionRightPlaceHolder from "./Components/SectionRightPlaceHolder";
 import { recordEvent } from "../../../../../Services/analytics/analyticsService";
+import BookingSectionComponent from "../../../../../CommonComponents/BookingSectionComponent/BookingSectionComponent";
+import { toastBottom } from "../../../../../Services/toast/toast";
 
-const TrainsSection = ({ section, navigation }) => {
+const TrainsSection = ({ section, navigation, spinValue }) => {
   return (
     <View>
       {section.items.map((train, index) => {
@@ -22,6 +21,7 @@ const TrainsSection = ({ section, navigation }) => {
             navigation={navigation}
             train={train}
             isLast={isLast}
+            spinValue={spinValue}
           />
         );
       })}
@@ -31,14 +31,16 @@ const TrainsSection = ({ section, navigation }) => {
 
 TrainsSection.propTypes = forbidExtraProps({
   section: PropTypes.object.isRequired,
-  navigation: PropTypes.object.isRequired
+  navigation: PropTypes.object.isRequired,
+  spinValue: PropTypes.oneOfType([PropTypes.object, PropTypes.number])
+    .isRequired
 });
 
-const Train = ({ train, isLast, navigation }) => {
+const Train = ({ train, isLast, navigation, spinValue }) => {
   let customStyle = {};
   if (isLast) {
     customStyle = {
-      borderBottomWidth: StyleSheet.hairlineWidth,
+      // borderBottomWidth: StyleSheet.hairlineWidth,
       paddingBottom: 16
     };
   }
@@ -50,54 +52,43 @@ const Train = ({ train, isLast, navigation }) => {
         transfer: { ...train, vehicle: "TRAIN" }
       });
     } else {
-      storeService.infoStore.setInfo(
-        constants.bookingProcessText.title,
-        constants.bookingProcessText.message,
-        constants.bookingProcessingIcon,
-        constants.bookingProcessText.actionText
-      );
+      toastBottom(constants.bookingProcessText.message);
     }
   };
 
+  const { pickupTime } = train.voucher;
+  const { dateMillis } = train;
+
   return (
-    <TouchableOpacity
-      onPress={openVoucher}
-      style={[styles.contentContainer, customStyle]}
-    >
-      <View style={styles.iconWrapper}>
-        <CircleThumbnail
-          isContain={false}
-          containerStyle={styles.contentIcon}
-          image={{ uri: constants.miscImageBaseUrl + "transfers-train.jpg" }}
-          defaultImageUri={constants.miscImageBaseUrl + "transfers-train.jpg"}
-        />
-      </View>
-      <View style={styles.contentTextContainer}>
-        <View style={styles.contentHeaderWrapper}>
-          <Text style={styles.contentHeader}>{`${
-            train.dateMillis
-              ? moment(train.dateMillis).format("MMM DD")
-              : moment(
-                  `${train.day}/${train.mon}/${constants.currentYear}`,
-                  "DD/MMM/YYYY"
-                ).format("MMM DD")
-          } (${train.departureTime} - ${train.arrivalTime})`}</Text>
-        </View>
-        <View style={styles.contentTextWrapper}>
-          <Text style={styles.contentText} numberOfLines={2}>
-            {train.text}
-          </Text>
-        </View>
-      </View>
-      <SectionRightPlaceHolder isProcessing={!train.voucher.booked} />
-    </TouchableOpacity>
+    <BookingSectionComponent
+      spinValue={spinValue}
+      containerStyle={customStyle}
+      sectionImage={{ uri: constants.miscImageBaseUrl + "transfers-train.jpg" }}
+      isProcessing={!train.voucher.booked}
+      onClick={openVoucher}
+      content={train.text}
+      title={`${
+        pickupTime && pickupTime > 1
+          ? moment(pickupTime).format(constants.commonDateFormat)
+          : dateMillis
+            ? moment(dateMillis).format(constants.commonDateFormat)
+            : moment(
+                `${train.day}/${train.mon}/${constants.currentYear}`,
+                "DD/MMM/YYYY"
+              ).format(constants.commonDateFormat)
+      }`}
+      isImageContain={false}
+      defaultImageUri={constants.miscImageBaseUrl + "transfers-train.jpg"}
+    />
   );
 };
 
 Train.propTypes = forbidExtraProps({
   train: PropTypes.object.isRequired,
   isLast: PropTypes.bool.isRequired,
-  navigation: PropTypes.object.isRequired
+  navigation: PropTypes.object.isRequired,
+  spinValue: PropTypes.oneOfType([PropTypes.object, PropTypes.number])
+    .isRequired
 });
 
 const styles = StyleSheet.create({

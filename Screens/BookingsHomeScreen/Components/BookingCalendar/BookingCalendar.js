@@ -22,6 +22,7 @@ const BookingCalendar = ({
   numOfActivitiesByDay,
   getTransferTypeByDay,
   navigation,
+  cities,
   containerStyle = {}
 }) => {
   const numberOfRows = startEndDates.numberOfDays / 7;
@@ -55,6 +56,7 @@ const BookingCalendar = ({
                 <Date
                   key={dayIndex}
                   day={day}
+                  cities={cities}
                   dayIndex={dayIndex}
                   dateArray={dateArray}
                   getDateSelectionMatrixSingle={getDateSelectionMatrixSingle}
@@ -78,17 +80,18 @@ BookingCalendar.propTypes = {
   numOfActivitiesByDay: PropTypes.func.isRequired,
   getTransferTypeByDay: PropTypes.func.isRequired,
   navigation: PropTypes.object.isRequired,
-  containerStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.number])
+  containerStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.number]),
+  cities: PropTypes.array.isRequired
 };
 
 const styles = StyleSheet.create({
   calendarContainer: {
-    marginBottom: 48
+    marginBottom: 24
   },
   weekDayRow: {
-    height: 40,
-    marginVertical: 4,
-    flexDirection: "row"
+    height: 56,
+    flexDirection: "row",
+    alignItems: "flex-end"
   },
   isDepartureDate: {
     fontFamily: constants.primarySemiBold,

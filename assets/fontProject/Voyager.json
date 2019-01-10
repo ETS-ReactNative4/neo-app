@@ -1090,6 +1090,14 @@
     {
       "selection": [
         {
+          "order": 1052,
+          "id": 11,
+          "name": "visa",
+          "prevSize": 32,
+          "code": 59757,
+          "tempChar": ""
+        },
+        {
           "order": 986,
           "id": 10,
           "name": "pass",
@@ -1111,7 +1119,7 @@
           "name": "ferry",
           "prevSize": 32,
           "code": 59701,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 989,
@@ -1171,13 +1179,27 @@
         "licenseURL": "",
         "license": "",
         "importSize": {
-          "width": 32,
-          "height": 32
+          "width": 16,
+          "height": 16
         }
       },
       "height": 1024,
-      "prevSize": 24,
+      "prevSize": 32,
       "icons": [
+        {
+          "id": 11,
+          "paths": [
+            "M1024 384v-195.2c0-32-28.8-60.8-60.8-60.8h-902.4c-32 0-60.8 28.8-60.8 60.8v195.2c70.4 0 128 57.6 128 128s-57.6 128-128 128v195.2c0 32 28.8 60.8 60.8 60.8h899.2c35.2 0 60.8-28.8 60.8-60.8v-195.2c-67.2 0-124.8-57.6-124.8-128s57.6-128 128-128zM768 576l-224-32v160l32 32v32l-64-32-64 32v-32l32-32v-160l-224 32v-64l224-96v-128c0 0 0-32 32-32s32 32 32 32v128l224 96v64z"
+          ],
+          "attrs": [{}],
+          "grid": 32,
+          "tags": ["visa"],
+          "isMulticolor": false,
+          "isMulticolor2": false,
+          "colorPermutations": {
+            "12432432431": [{}]
+          }
+        },
         {
           "id": 10,
           "paths": [
@@ -1189,7 +1211,10 @@
           "tags": ["pass"],
           "isMulticolor": false,
           "isMulticolor2": false,
-          "defaultCode": 59703
+          "defaultCode": 59703,
+          "colorPermutations": {
+            "12432432431": [{}, {}]
+          }
         },
         {
           "id": 9,
@@ -1320,7 +1345,7 @@
           "name": "change",
           "prevSize": 32,
           "code": 59709,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 996,
@@ -1336,7 +1361,7 @@
           "name": "warning",
           "prevSize": 32,
           "code": 59755,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 998,
@@ -1432,7 +1457,7 @@
           "name": "life-support",
           "prevSize": 32,
           "code": 59726,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 1010,
@@ -1509,7 +1534,7 @@
         {
           "order": 1019,
           "id": 30,
-          "name": "arrow1",
+          "name": "arrow",
           "prevSize": 24,
           "code": 59722,
           "tempChar": ""
