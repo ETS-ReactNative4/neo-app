@@ -122,7 +122,8 @@ const appEvents = {
   emergencyContactsEmbassyDirectionsClick:
     "emergency_contacts_embassy_directions_click",
   emergencyContactsEmbassyContactsClick:
-    "emergency_contacts_embassy_contact_click"
+    "emergency_contacts_embassy_contact_click",
+  weatherTileClick: "weather_tile_click"
 };
 
 // console.log('-----------------------------------');
