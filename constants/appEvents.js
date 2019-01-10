@@ -111,7 +111,18 @@ const appEvents = {
   commonPhrasesChangeLanguageButtonClick:
     "common_phrases_change_language_button_click",
   commonPhrasesSelectDifferentLanguageClick:
-    "common_phrases_select_different_language_click"
+    "common_phrases_select_different_language_click",
+  emergencyContactsPoliceNumberClick: "emergency_contacts_police_number_click",
+  emergencyContactsAmbulanceNumberClick:
+    "emergency_contacts_ambulance_number_click",
+  emergencyContactsFireDeptNumberClick:
+    "emergency_contacts_fire_dept_number_click",
+  emergencyContactsChildrenMissingNumberClick:
+    "emergency_contacts_children_missing_number_click",
+  emergencyContactsEmbassyDirectionsClick:
+    "emergency_contacts_embassy_directions_click",
+  emergencyContactsEmbassyContactsClick:
+    "emergency_contacts_embassy_contact_click"
 };
 
 // console.log('-----------------------------------');
