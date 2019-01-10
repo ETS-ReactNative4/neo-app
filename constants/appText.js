@@ -1,5 +1,3 @@
-import constants from "./constants";
-
 const appText = {
   aboutUsText: {
     title: "About Us",
