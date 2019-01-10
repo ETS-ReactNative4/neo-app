@@ -16,6 +16,7 @@ import { responsiveWidth } from "react-native-responsive-dimensions";
 import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraProps";
 import PropTypes from "prop-types";
 import KeyboardAvoidingActionBar from "../../../CommonComponents/KeyboardAvoidingActionBar/KeyboardAvoidingActionBar";
+import { recordEvent } from "../../../Services/analytics/analyticsService";
 
 class CustomPhrase extends Component {
   static propTypes = forbidExtraProps({
@@ -75,7 +76,10 @@ class CustomPhrase extends Component {
         {isKeyboardVisible && customPhrase ? (
           <SimpleButton
             text={""}
-            action={translateAction}
+            action={() => {
+              recordEvent(constants.commonPhrasesTranslateButtonClick);
+              translateAction();
+            }}
             icon={constants.translateIcon}
             iconSize={24}
             containerStyle={{
@@ -94,7 +98,10 @@ class CustomPhrase extends Component {
             iconSize={17}
             rightIcon={true}
             text={displayLanguage}
-            action={this.props.openLanguageSelector}
+            action={() => {
+              recordEvent(constants.commonPhrasesChangeLanguageButtonClick);
+              this.props.openLanguageSelector();
+            }}
             containerStyle={{
               backgroundColor: "white",
               width: null,

@@ -101,7 +101,17 @@ const appEvents = {
   currencyConverterChangeCurrencyForeignClick:
     "currency_converter_change_currency_foreign_click",
   currencyConverterSelectCurrencyClick:
-    "currency_converter_select_currency_click"
+    "currency_converter_select_currency_click",
+  commonPhrasesPlayAudioClick: "common_phrases_play_audio_click",
+  commonPhrasesTranslateFromBookClick:
+    "common_phrases_translate_from_book_click",
+  commonPhrasesPinClick: "common_phrases_pin_click",
+  commonPhrasesUnPinClick: "common_phrases_unpin_click",
+  commonPhrasesTranslateButtonClick: "common_phrases_translate_button_click",
+  commonPhrasesChangeLanguageButtonClick:
+    "common_phrases_change_language_button_click",
+  commonPhrasesSelectDifferentLanguageClick:
+    "common_phrases_select_different_language_click"
 };
 
 // console.log('-----------------------------------');
