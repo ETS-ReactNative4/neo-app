@@ -18,6 +18,7 @@ import { inject, observer } from "mobx-react/custom";
 import _ from "lodash";
 import CustomScrollView from "../../CommonComponents/CustomScrollView/CustomScrollView";
 import InfoCardModal from "./Components/InfoCardModal/InfoCardModal";
+import { logError } from "../../Services/errorLogger/errorLogger";
 
 @ErrorBoundary({ isRoot: true })
 @inject("tripFeedStore")
@@ -125,6 +126,7 @@ class TripFeed extends Component {
                 return null;
             }
           } catch (e) {
+            logError(e);
             return null;
           }
         })}
