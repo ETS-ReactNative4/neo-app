@@ -13,6 +13,42 @@ import { responsiveWidth } from "react-native-responsive-dimensions";
 import PropTypes from "prop-types";
 import FeedBackSwiperModal from "./Components/FeedBackSwiperModal";
 
+const NextCard = () => (
+  <View
+    style={[
+      styles.feedBackCard,
+      {
+        position: "absolute",
+        bottom: 8,
+        backgroundColor: constants.secondColorAlpha(0.65),
+        transform: [{ scale: 0.95 }]
+      }
+    ]}
+  />
+);
+
+const LastCard = () => (
+  <View
+    style={[
+      styles.feedBackCard,
+      {
+        position: "absolute",
+        bottom: 0,
+        backgroundColor: constants.secondColorAlpha(0.5),
+        transform: [{ scale: 0.9 }]
+      }
+    ]}
+  />
+);
+
+const EmptyPlaceHolder = () => {
+  return (
+    <View style={[styles.feedBackCard, styles.feedBackCleared]}>
+      <Text style={styles.feedBackClearedText}>{"All caught up!"}</Text>
+    </View>
+  );
+};
+
 class FeedBackSwiper extends Component {
   static propTypes = {
     toggleScrollLock: PropTypes.func.isRequired
@@ -82,44 +118,9 @@ class FeedBackSwiper extends Component {
   };
 
   render() {
-    const NextCard = () => (
-      <View
-        style={[
-          styles.feedBackCard,
-          {
-            position: "absolute",
-            bottom: 8,
-            backgroundColor: constants.secondColorAlpha(0.65),
-            transform: [{ scale: 0.95 }]
-          }
-        ]}
-      />
-    );
-
-    const LastCard = () => (
-      <View
-        style={[
-          styles.feedBackCard,
-          {
-            position: "absolute",
-            bottom: 0,
-            backgroundColor: constants.secondColorAlpha(0.5),
-            transform: [{ scale: 0.9 }]
-          }
-        ]}
-      />
-    );
-
-    const EmptyPlaceHolder = () => {
-      return (
-        <View style={[styles.feedBackCard, styles.feedBackCleared]}>
-          <Text style={styles.feedBackClearedText}>{"All caught up!"}</Text>
-        </View>
-      );
-    };
-
     return [
       <CardStack
+        key={0}
         setRef={cardStack => (this._cardStack = cardStack)}
         NextCard={NextCard}
         LastCard={LastCard}
@@ -178,6 +179,7 @@ class FeedBackSwiper extends Component {
         })}
       </CardStack>,
       <FeedBackSwiperModal
+        key={1}
         isVisible={this.state.isModalVisible}
         data={{}}
         submit={this.submitFeedBack}
