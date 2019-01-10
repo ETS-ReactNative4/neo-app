@@ -25,6 +25,7 @@ class TripView extends Component {
         image: PropTypes.oneOfType([PropTypes.object, PropTypes.number])
           .isRequired,
         costingId: PropTypes.string,
+        costingIdentifier: PropTypes.string,
         date: PropTypes.string.isRequired,
         link: PropTypes.string.isRequired
       }).isRequired
@@ -75,7 +76,7 @@ class TripView extends Component {
               });
             const circleAction = () => {
               const transfer = storeService.itineraries.getTransferFromAllById(
-                item.costingId
+                item.costingIdentifier || item.costingId
               );
               /**
                * TODO: Causes unnecessary error logs for activity with transfers
