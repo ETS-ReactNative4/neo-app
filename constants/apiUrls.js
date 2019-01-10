@@ -43,6 +43,15 @@ const apiUrls = {
   activityVoucher: "activity",
   transferVoucher: "transfer",
 
+  /**
+   * Static Page Urls
+   */
+  aboutUs: "about-us",
+  termsAndConditions: "terms-and-conditions",
+  privacyPolicy: "privacy-policy",
+  cancellationPolicy: "cancelation-policy",
+  careers: "careers",
+
   tripToggleStatusStorageKey: "@Pickyourtrail/tripToggleStatus"
 };
 
