@@ -1,6 +1,12 @@
 import constants from "./constants";
 
 const appText = {
+  aboutUs: {
+    title: "About Us",
+    content:
+      "All material herein is the copyright of Travel Troops Global Pvt ltd. All Rights Reserved.",
+    versionText: "App version v."
+  },
   currencyConverterText: {
     conversionRateError: {
       title: "Oh no!",
