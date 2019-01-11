@@ -83,7 +83,7 @@ class TripView extends Component {
                */
               if (transfer && !_.isEmpty(transfer)) {
                 if (transfer.voucher.booked) {
-                  if (icon === "flight")
+                  if (item.icon === "flight")
                     resolveLinks("FlightVoucher", { flight: transfer });
                   else resolveLinks("TransferVoucher", { transfer });
                 } else {
@@ -91,7 +91,7 @@ class TripView extends Component {
                 }
               } else {
                 const activity = storeService.itineraries.getActivityById(
-                  item.costingId
+                  item.costingIdentifier || item.costingId
                 );
                 if (
                   activity &&
