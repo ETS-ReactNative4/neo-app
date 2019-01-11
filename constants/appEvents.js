@@ -123,7 +123,13 @@ const appEvents = {
     "emergency_contacts_embassy_directions_click",
   emergencyContactsEmbassyContactsClick:
     "emergency_contacts_embassy_contact_click",
-  weatherTileClick: "weather_tile_click"
+  weatherTileClick: "weather_tile_click",
+  packingChecklistSelectItemClick: "packing_checklist_select_item_click",
+  packingChecklistUnselectItemClick: "packing_checklist_unselect_item_click",
+  packingChecklistAddItemClick: "packing_checklist_add_item_click",
+  packingChecklistAddItemClickKeyboard:
+    "packing_checklist_add_item_click_keyboard",
+  packingChecklistRemoveItemClick: "packing_checklist_remove_item_click"
 };
 
 // console.log('-----------------------------------');
