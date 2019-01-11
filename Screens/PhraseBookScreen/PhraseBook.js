@@ -21,8 +21,10 @@ import Loader from "../../CommonComponents/Loader/Loader";
 import { logError } from "../../Services/errorLogger/errorLogger";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import LineProgressBar from "../../CommonComponents/LineProgressBar/LineProgressBar";
+import DeepLinkHandler from "../../CommonComponents/DeepLinkHandler/DeepLinkHandler";
 
 @ErrorBoundary()
+@DeepLinkHandler
 @inject("phrasesStore")
 @inject("itineraries")
 @observer

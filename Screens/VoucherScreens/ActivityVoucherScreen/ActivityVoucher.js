@@ -21,6 +21,7 @@ import VoucherContactActionBar from "../Components/VoucherContactActionBar";
 import getTitleCase from "../../../Services/getTitleCase/getTitleCase";
 import ErrorBoundary from "../../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import { responsiveWidth } from "react-native-responsive-dimensions";
+import DeepLinkHandler from "../../../CommonComponents/DeepLinkHandler/DeepLinkHandler";
 
 const xHeight = isIphoneX()
   ? constants.xNotchHeight
@@ -29,6 +30,7 @@ const xHeight = isIphoneX()
     : 0;
 
 @ErrorBoundary()
+@DeepLinkHandler
 @inject("passportDetailsStore")
 @observer
 class ActivityVoucher extends Component {

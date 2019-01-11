@@ -12,10 +12,12 @@ import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import XSensorPlaceholder from "../../CommonComponents/XSensorPlaceholder/XSensorPlaceholder";
 import { isIphoneX } from "react-native-iphone-x-helper";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
+import DeepLinkHandler from "../../CommonComponents/DeepLinkHandler/DeepLinkHandler";
 
 const moment = extendMoment(Moment);
 
 @ErrorBoundary()
+@DeepLinkHandler
 @inject("weatherStore")
 @inject("itineraries")
 @observer
