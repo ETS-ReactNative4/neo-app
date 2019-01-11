@@ -66,7 +66,7 @@ class TripViewLite extends Component {
               });
             const circleAction = () => {
               const transfer = storeService.itineraries.getTransferFromAllById(
-                item.costingIdentifier || item.costingId
+                item.costingIdentifier || item.costingId || ""
               );
               /**
                * TODO: Causes unnecessary error logs for activity with transfers
@@ -81,7 +81,7 @@ class TripViewLite extends Component {
                 }
               } else {
                 const activity = storeService.itineraries.getActivityById(
-                  item.costingIdentifier || item.costingId
+                  item.costingIdentifier || item.costingId || ""
                 );
                 if (
                   activity &&
