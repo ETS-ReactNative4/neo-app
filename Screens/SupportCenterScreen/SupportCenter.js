@@ -18,8 +18,10 @@ import {
 import { inject, observer } from "mobx-react/custom";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import CustomScrollView from "../../CommonComponents/CustomScrollView/CustomScrollView";
+import DeepLinkHandler from "../../CommonComponents/DeepLinkHandler/DeepLinkHandler";
 
 @ErrorBoundary()
+@DeepLinkHandler
 @inject("itineraries")
 @inject("supportStore")
 @observer

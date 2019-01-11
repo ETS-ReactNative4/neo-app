@@ -20,8 +20,10 @@ import { recordEvent } from "../../Services/analytics/analyticsService";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import SimpleCard from "../../CommonComponents/SimpleCard/SimpleCard";
 import CustomScrollView from "../../CommonComponents/CustomScrollView/CustomScrollView";
+import DeepLinkHandler from "../../CommonComponents/DeepLinkHandler/DeepLinkHandler";
 
 @ErrorBoundary()
+@DeepLinkHandler
 @inject("placesStore")
 @observer
 class Places extends Component {

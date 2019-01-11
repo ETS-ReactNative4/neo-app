@@ -1,7 +1,5 @@
-import constants from "./constants";
-
 const appText = {
-  aboutUs: {
+  aboutUsText: {
     title: "About Us",
     content:
       "All material herein is the copyright of Travel Troops Global Pvt ltd. All Rights Reserved.",

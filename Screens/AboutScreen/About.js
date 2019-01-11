@@ -6,43 +6,44 @@ import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import Icon from "../../CommonComponents/Icon/Icon";
 import HamburgerButton from "../../CommonComponents/HamburgerButton/HamburgerButton";
 import { version } from "../../package.json";
+import openCustomTab from "../../Services/openCustomTab/openCustomTab";
 
-const appVersionText = constants.aboutUs.versionText + version;
+const appVersionText = constants.aboutUsText.versionText + version;
 const data = [
   {
     icon: constants.infoIcon,
     text: "About us",
-    action: () => {}
+    action: () => {
+      openCustomTab(`${constants.productUrl}${constants.aboutUs}`);
+    }
   },
   {
     icon: constants.infoIcon,
     text: "Terms & conditions",
-    action: () => {}
+    action: () => {
+      openCustomTab(`${constants.productUrl}${constants.termsAndConditions}`);
+    }
   },
   {
     icon: constants.infoIcon,
     text: "Privacy Policy",
-    action: () => {}
+    action: () => {
+      openCustomTab(`${constants.productUrl}${constants.privacyPolicy}`);
+    }
   },
   {
     icon: constants.infoIcon,
     text: "Cancellation Policy",
-    action: () => {}
-  },
-  {
-    icon: constants.infoIcon,
-    text: "Cookie Policy",
-    action: () => {}
+    action: () => {
+      openCustomTab(`${constants.productUrl}${constants.cancellationPolicy}`);
+    }
   },
   {
     icon: constants.infoIcon,
     text: "Careers at Pickyourtrail",
-    action: () => {}
-  },
-  {
-    icon: constants.infoIcon,
-    text: "Libraries & Frameworks",
-    action: () => {}
+    action: () => {
+      openCustomTab(`${constants.productUrl}${constants.careers}`);
+    }
   }
 ];
 
@@ -80,7 +81,7 @@ class About extends Component {
           LeftButton={
             <HamburgerButton action={() => navigation.openDrawer()} />
           }
-          title={constants.aboutUs.title}
+          title={constants.aboutUsText.title}
           navigation={navigation}
         />
       )
@@ -93,7 +94,7 @@ class About extends Component {
         <View style={styles.logoContainer}>
           <Image source={constants.pytLogoNew} style={{ width: 196 }} />
         </View>
-        <Text style={styles.contentStyle}>{constants.aboutUs.content}</Text>
+        <Text style={styles.contentStyle}>{constants.aboutUsText.content}</Text>
         <View style={styles.appVersionContainer}>
           <Text style={styles.appVersionText}>{appVersionText}</Text>
         </View>

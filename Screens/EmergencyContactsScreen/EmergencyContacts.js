@@ -7,8 +7,10 @@ import EmergencyContactSection from "./Components/EmergencyContactSection";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import { inject, observer } from "mobx-react/custom";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
+import DeepLinkHandler from "../../CommonComponents/DeepLinkHandler/DeepLinkHandler";
 
 @ErrorBoundary()
+@DeepLinkHandler
 @inject("itineraries")
 @inject("emergencyContactsStore")
 @observer
