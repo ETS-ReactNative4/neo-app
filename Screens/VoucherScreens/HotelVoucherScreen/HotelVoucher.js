@@ -17,6 +17,7 @@ import moment from "moment";
 import VoucherContactActionBar from "../Components/VoucherContactActionBar";
 import ErrorBoundary from "../../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import Icon from "../../../CommonComponents/Icon/Icon";
+import DeepLinkHandler from "../../../CommonComponents/DeepLinkHandler/DeepLinkHandler";
 
 const xHeight = isIphoneX()
   ? constants.xNotchHeight
@@ -25,6 +26,7 @@ const xHeight = isIphoneX()
     : 0;
 
 @ErrorBoundary()
+@DeepLinkHandler
 class HotelVoucher extends Component {
   static navigationOptions = {
     header: null,

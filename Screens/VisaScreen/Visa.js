@@ -7,8 +7,10 @@ import ScrollableTabBar from "../../CommonComponents/ScrollableTabBar/Scrollable
 import ScrollableTabView from "react-native-scrollable-tab-view";
 import VisaTabContainer from "./Components/VisaTabContainer";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
+import DeepLinkHandler from "../../CommonComponents/DeepLinkHandler/DeepLinkHandler";
 
 @ErrorBoundary()
+@DeepLinkHandler
 @inject("itineraries")
 @inject("visaStore")
 @observer
