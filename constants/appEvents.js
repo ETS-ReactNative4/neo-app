@@ -129,7 +129,10 @@ const appEvents = {
   packingChecklistAddItemClick: "packing_checklist_add_item_click",
   packingChecklistAddItemClickKeyboard:
     "packing_checklist_add_item_click_keyboard",
-  packingChecklistRemoveItemClick: "packing_checklist_remove_item_click"
+  packingChecklistRemoveItemClick: "packing_checklist_remove_item_click",
+  visaDocumentsContactHelpdeskClick: "visa_documents_contact_helpdesk_click",
+  visaDocumentsGetChecklistClick: "visa_documents_get_checklist_click",
+  visaDocumentsEmailChecklistClick: "visa_documents_email_checklist_click"
 };
 
 // console.log('-----------------------------------');

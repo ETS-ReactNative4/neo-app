@@ -15,6 +15,7 @@ import Loader from "../../CommonComponents/Loader/Loader";
 import apiCall from "../../Services/networkRequests/apiCall";
 import storeService from "../../Services/storeService/storeService";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
+import { recordEvent } from "../../Services/analytics/analyticsService";
 
 @ErrorBoundary()
 @inject("itineraries")
@@ -179,7 +180,10 @@ class VisaChecklist extends Component {
             containerStyle={{ height: 40, width: responsiveWidth(100) - 48 }}
             underlayColor={constants.firstColorAlpha(0.7)}
             text={"Email Checklist"}
-            action={this.emailChecklist}
+            action={() => {
+              recordEvent(constants.visaDocumentsEmailChecklistClick);
+              this.emailChecklist();
+            }}
             textColor={"white"}
           />
         </View>
