@@ -4,6 +4,7 @@ import constants from "../../constants/constants";
 import { isIphoneX } from "react-native-iphone-x-helper";
 import ControlledWebView from "../../CommonComponents/ControlledWebView/ControlledWebView";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
+import { recordEvent } from "../../Services/analytics/analyticsService";
 
 @ErrorBoundary()
 class PaymentScreen extends Component {
@@ -21,15 +22,18 @@ class PaymentScreen extends Component {
     const { navigation } = this.props;
     if (url.indexOf("404") === -1) {
       if (url.indexOf(constants.paymentComplete) > -1) {
+        recordEvent(constants.paymentScreenPaymentSuccess);
         navigation.replace("PaymentSuccess", { transactionId });
       }
       if (url.indexOf(constants.paymentInComplete) > -1) {
+        recordEvent(constants.paymentScreenPaymentFailure);
         navigation.replace("PaymentFailure");
       }
       if (url.indexOf(constants.paymentCancel) > -1) {
         navigation.goBack();
       }
     } else {
+      recordEvent(constants.paymentScreenPaymentFailure);
       navigation.replace("PaymentFailure");
     }
   };

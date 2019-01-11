@@ -133,7 +133,11 @@ const appEvents = {
   packingChecklistRemoveItemClick: "packing_checklist_remove_item_click",
   visaDocumentsContactHelpdeskClick: "visa_documents_contact_helpdesk_click",
   visaDocumentsGetChecklistClick: "visa_documents_get_checklist_click",
-  visaDocumentsEmailChecklistClick: "visa_documents_email_checklist_click"
+  visaDocumentsEmailChecklistClick: "visa_documents_email_checklist_click",
+  paymentScreenItineraryCardClick: "payment_screen_itinerary_card_click",
+  paymentScreenStartPayment: "payment_screen_start_payment",
+  paymentScreenPaymentSuccess: "payment_screen_payment_success",
+  paymentScreenPaymentFailure: "payment_screen_payment_failure"
 };
 
 // console.log('-----------------------------------');
