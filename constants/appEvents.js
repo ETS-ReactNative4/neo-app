@@ -11,6 +11,7 @@ const appEvents = {
   mobileNumberOtpAutoFill: "mobile_number_otp_autofill",
   mobileNumberOtpFailed: "mobile_number_otp_failed",
   userLoggedInEvent: "user_logged_in",
+  userLoggedOutEvent: "user_logged_out",
   tripToggleClickEvent: "trip_toggle_click",
   tripViewScroll: "trip_view_scroll",
   tripViewLiteScroll: "trip_view_lite_scroll",

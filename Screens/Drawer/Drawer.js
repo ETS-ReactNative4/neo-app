@@ -20,6 +20,7 @@ import _ from "lodash";
 import * as Keychain from "react-native-keychain";
 import DialogBox from "../../CommonComponents/DialogBox/DialogBox";
 import { shouldIncludeStoryBook } from "../../storybook/Storybook";
+import { recordEvent } from "../../Services/analytics/analyticsService";
 
 @inject("userStore")
 @inject("infoStore")
@@ -132,7 +133,10 @@ class Drawer extends Component {
       menuItems.push({
         icon: constants.logoutIcon,
         text: "Log Out",
-        action: () => logOut()
+        action: () => {
+          recordEvent(constants.userLoggedOutEvent);
+          logOut();
+        }
       });
     }
 
