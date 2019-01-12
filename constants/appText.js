@@ -66,7 +66,20 @@ const appText = {
     goBack: "Yikes, our bad\n\nGo back and reload this page again please\n\n"
   },
   phrasesTranslationFailedText: "Unable to translate...",
-  noInernetText: "No internet connection. Some features may not work."
+  noInernetText: "No internet connection. Some features may not work.",
+  preTripChatText:
+    "Chat will be enabled 48hrs prior to your trip. Meanwhile, please visit our support center if you have questions or clarifications.",
+  onChatNoInternetText:
+    "We are unable to connect to the live chat currently. Please check for a proper internet connection and try again. Alternatively, you can contact us on the number below.",
+  paymentText: {
+    failureTitle: "We are sorry!",
+    failureMessage:
+      "We are unable to process your payment. Please try again or contact our helpdesk for further assistance.",
+    contactHelpdesk: "Contact helpdesk",
+    successTitle: "Yeh! Payment successful",
+    successMessage:
+      "We got your payment! Please note the below transaction ID for further references."
+  }
 };
 
 export default appText;
