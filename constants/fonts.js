@@ -2,7 +2,7 @@ import { Platform } from "react-native";
 
 const primaryFont = {
   primaryRegular: Platform.OS === "ios" ? "PTSans-Regular" : "PT Sans",
-  primaryLight: Platform.OS === "ios" ? "PTSans-Caption" : "PT Sans Caption",
+  primaryLight: Platform.OS === "ios" ? "PTSans-Regular" : "PT Sans",
   primarySemiBold: Platform.OS === "ios" ? "PTSans-Bold" : "PT Sans Bold"
 };
 
