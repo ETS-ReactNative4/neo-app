@@ -128,9 +128,12 @@ class BookingsHome extends Component {
     const { navigation } = this.props;
 
     const isRefreshing = itineraryLoading || voucherLoading;
+    const Header = () =>
+      HomeHeader({ navigation: this.props.navigation }).header;
 
     return (
       <View style={styles.bookingHomeContainer}>
+        <Header />
         {/*<SearchPlaceholder action={this.openSearch} />*/}
         <CustomScrollView
           style={styles.bookingContainer}

@@ -11,6 +11,7 @@ import Icon from "../../../CommonComponents/Icon/Icon";
 import PropTypes from "prop-types";
 import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraProps";
 import DottedLoading from "../../../CommonComponents/DottedLoading/DottedLoading";
+import { recordEvent } from "../../../Services/analytics/analyticsService";
 
 const PhraseInfo = ({
   selectedPhrase,
@@ -75,7 +76,10 @@ const PhraseInfo = ({
         <View style={styles.actionsContainer}>
           <TouchableHighlight
             underlayColor={constants.shade1}
-            onPress={speak}
+            onPress={() => {
+              recordEvent(constants.commonPhrasesPlayAudioClick);
+              speak();
+            }}
             style={styles.buttonContainer}
           >
             {isSpeaking ? (
@@ -95,7 +99,10 @@ const PhraseInfo = ({
           {pinnedPhrases.indexOf(selectedPhrase) === -1 ? (
             <TouchableHighlight
               underlayColor={constants.shade1}
-              onPress={() => pinPhrase(selectedPhrase)}
+              onPress={() => {
+                recordEvent(constants.commonPhrasesPinClick);
+                pinPhrase(selectedPhrase);
+              }}
               style={styles.buttonContainer}
             >
               <Icon
@@ -107,7 +114,10 @@ const PhraseInfo = ({
           ) : (
             <TouchableHighlight
               underlayColor={constants.shade1}
-              onPress={() => unPinPhrase(selectedPhrase)}
+              onPress={() => {
+                recordEvent(constants.commonPhrasesUnPinClick);
+                unPinPhrase(selectedPhrase);
+              }}
               style={[styles.buttonContainer, styles.buttonContainerPinned]}
             >
               <Icon size={24} color={"white"} name={constants.pinIcon} />

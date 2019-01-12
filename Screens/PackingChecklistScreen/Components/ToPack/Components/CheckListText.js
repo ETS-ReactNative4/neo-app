@@ -11,6 +11,7 @@ import {
 import constants from "../../../../../constants/constants";
 import Icon from "../../../../../CommonComponents/Icon/Icon";
 import { responsiveWidth } from "react-native-responsive-dimensions";
+import { recordEvent } from "../../../../../Services/analytics/analyticsService";
 
 const CheckListText = ({
   id,
@@ -22,7 +23,14 @@ const CheckListText = ({
 }) => {
   return (
     <TouchableHighlight
-      onPress={() => toggleCheckListStatus({ id, item, isComplete, type })}
+      onPress={() => {
+        if (isComplete) {
+          recordEvent(constants.packingChecklistUnselectItemClick);
+        } else {
+          recordEvent(constants.packingChecklistSelectItemClick);
+        }
+        toggleCheckListStatus({ id, item, isComplete, type });
+      }}
       underlayColor={constants.shade5}
     >
       <View style={styles.checklistContainer} activeOpacity={1}>

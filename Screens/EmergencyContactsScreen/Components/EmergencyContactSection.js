@@ -11,6 +11,7 @@ import SimpleButton from "../../../CommonComponents/SimpleButton/SimpleButton";
 import PropTypes from "prop-types";
 import dialer from "../../../Services/dialer/dialer";
 import directions from "../../../Services/directions/directions";
+import { recordEvent } from "../../../Services/analytics/analyticsService";
 
 class EmergencyContactSection extends Component {
   static propTypes = {
@@ -41,19 +42,27 @@ class EmergencyContactSection extends Component {
     const contactNumbersList = [
       {
         title: "Police",
-        number: policeNumber
+        number: policeNumber,
+        recordEvent: () =>
+          recordEvent(constants.emergencyContactsPoliceNumberClick)
       },
       {
         title: "Ambulance",
-        number: ambulanceNumber
+        number: ambulanceNumber,
+        recordEvent: () =>
+          recordEvent(constants.emergencyContactsAmbulanceNumberClick)
       },
       {
         title: "Fire Department",
-        number: fireNumber
+        number: fireNumber,
+        recordEvent: () =>
+          recordEvent(constants.emergencyContactsFireDeptNumberClick)
       },
       {
         title: "In case of missing children",
-        number: missingChildrenNumber
+        number: missingChildrenNumber,
+        recordEvent: () =>
+          recordEvent(constants.emergencyContactsChildrenMissingNumberClick)
       }
     ];
 
@@ -88,7 +97,10 @@ class EmergencyContactSection extends Component {
           {contactNumbersList.map((contactNumber, contactNumberIndex) => {
             return (
               <TouchableOpacity
-                onPress={() => dialer(contactNumber.number)}
+                onPress={() => {
+                  contactNumber.recordEvent();
+                  dialer(contactNumber.number);
+                }}
                 key={contactNumberIndex}
                 style={styles.emergencyNumberWrapper}
               >
@@ -119,12 +131,13 @@ class EmergencyContactSection extends Component {
             }}
             icon={constants.compassIcon}
             text={"Directions"}
-            action={() =>
+            action={() => {
+              recordEvent(constants.emergencyContactsEmbassyDirectionsClick);
               directions({
                 latitude: embassyLatitude,
                 longitude: embassyLongitude
-              })
-            }
+              });
+            }}
             textColor={constants.black2}
             color={"white"}
             hasBorder={true}
@@ -137,7 +150,10 @@ class EmergencyContactSection extends Component {
             }}
             icon={constants.callIcon}
             text={"Contact"}
-            action={() => dialer(embassyContactNumber)}
+            action={() => {
+              recordEvent(constants.emergencyContactsEmbassyContactsClick);
+              dialer(embassyContactNumber);
+            }}
             textColor={constants.black2}
             color={"white"}
             hasBorder={true}

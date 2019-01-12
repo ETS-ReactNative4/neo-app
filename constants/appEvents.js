@@ -11,6 +11,7 @@ const appEvents = {
   mobileNumberOtpAutoFill: "mobile_number_otp_autofill",
   mobileNumberOtpFailed: "mobile_number_otp_failed",
   userLoggedInEvent: "user_logged_in",
+  userLoggedOutEvent: "user_logged_out",
   tripToggleClickEvent: "trip_toggle_click",
   tripViewScroll: "trip_view_scroll",
   tripViewLiteScroll: "trip_view_lite_scroll",
@@ -101,7 +102,42 @@ const appEvents = {
   currencyConverterChangeCurrencyForeignClick:
     "currency_converter_change_currency_foreign_click",
   currencyConverterSelectCurrencyClick:
-    "currency_converter_select_currency_click"
+    "currency_converter_select_currency_click",
+  commonPhrasesPlayAudioClick: "common_phrases_play_audio_click",
+  commonPhrasesTranslateFromBookClick:
+    "common_phrases_translate_from_book_click",
+  commonPhrasesPinClick: "common_phrases_pin_click",
+  commonPhrasesUnPinClick: "common_phrases_unpin_click",
+  commonPhrasesTranslateButtonClick: "common_phrases_translate_button_click",
+  commonPhrasesChangeLanguageButtonClick:
+    "common_phrases_change_language_button_click",
+  commonPhrasesSelectDifferentLanguageClick:
+    "common_phrases_select_different_language_click",
+  emergencyContactsPoliceNumberClick: "emergency_contacts_police_number_click",
+  emergencyContactsAmbulanceNumberClick:
+    "emergency_contacts_ambulance_number_click",
+  emergencyContactsFireDeptNumberClick:
+    "emergency_contacts_fire_dept_number_click",
+  emergencyContactsChildrenMissingNumberClick:
+    "emergency_contacts_children_missing_number_click",
+  emergencyContactsEmbassyDirectionsClick:
+    "emergency_contacts_embassy_directions_click",
+  emergencyContactsEmbassyContactsClick:
+    "emergency_contacts_embassy_contact_click",
+  weatherTileClick: "weather_tile_click",
+  packingChecklistSelectItemClick: "packing_checklist_select_item_click",
+  packingChecklistUnselectItemClick: "packing_checklist_unselect_item_click",
+  packingChecklistAddItemClick: "packing_checklist_add_item_click",
+  packingChecklistAddItemClickKeyboard:
+    "packing_checklist_add_item_click_keyboard",
+  packingChecklistRemoveItemClick: "packing_checklist_remove_item_click",
+  visaDocumentsContactHelpdeskClick: "visa_documents_contact_helpdesk_click",
+  visaDocumentsGetChecklistClick: "visa_documents_get_checklist_click",
+  visaDocumentsEmailChecklistClick: "visa_documents_email_checklist_click",
+  paymentScreenItineraryCardClick: "payment_screen_itinerary_card_click",
+  paymentScreenStartPayment: "payment_screen_start_payment",
+  paymentScreenPaymentSuccess: "payment_screen_payment_success",
+  paymentScreenPaymentFailure: "payment_screen_payment_failure"
 };
 
 // console.log('-----------------------------------');

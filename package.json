@@ -1,7 +1,7 @@
 {
   "name": "pickyourtrail",
   "version": "1.0.0",
-  "build": 60,
+  "build": 61,
   "environment": "staging",
   "private": true,
   "scripts": {
@@ -17,6 +17,7 @@
     "debug": "react-devtools"
   },
   "dependencies": {
+    "@matt-block/react-native-in-app-browser": "^1.2.1",
     "country-data": "^0.0.31",
     "d3-shape": "^1.2.0",
     "intl": "^1.2.5",

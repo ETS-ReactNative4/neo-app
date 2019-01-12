@@ -112,8 +112,12 @@ class Tools extends Component {
       }
     ];
 
+    const Header = () =>
+      HomeHeader({ navigation: this.props.navigation }).header;
+
     return (
       <View style={styles.container}>
+        <Header />
         {/*<SearchPlaceholder*/}
         {/*action={() => null}*/}
         {/*containerStyle={{ marginHorizontal: 24 }}*/}

@@ -681,7 +681,11 @@ class Itineraries {
     if (_.isEmpty(this._selectedItinerary)) return {};
 
     try {
-      return this.activities.find(activity => id === activity.costing.key);
+      return this.activities.find(
+        activity =>
+          id === activity.costing.key ||
+          id === activity.costing.activityCostingId
+      );
     } catch (e) {
       logError(e);
       return {};

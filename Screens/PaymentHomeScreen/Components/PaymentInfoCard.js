@@ -13,6 +13,7 @@ import PropTypes from "prop-types";
 import moment from "moment";
 import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraProps";
 import getLocaleString from "../../../Services/getLocaleString/getLocaleString";
+import { recordEvent } from "../../../Services/analytics/analyticsService";
 
 /**
  * TODO: Need minimum payment due
@@ -29,7 +30,10 @@ const PaymentInfoCard = ({
 }) => {
   return (
     <TouchableOpacity
-      onPress={() => selectItinerary(itineraryId)}
+      onPress={() => {
+        recordEvent(constants.paymentScreenItineraryCardClick);
+        selectItinerary(itineraryId);
+      }}
       style={[styles.upcomingCardContainer, isLast ? { marginBottom: 16 } : {}]}
     >
       <View style={styles.imageArea}>
