@@ -1,27 +1,52 @@
 import { createStackNavigator } from "react-navigation";
-import Tools from "../Screens/ToolsScreen/Tools";
+import Starter from "../Screens/StartingScreen/Starter";
+import HomeTabs from "./HomeTabs";
+import MobileNumber from "../Screens/MobileNumberScreen/MobileNumber";
+import BookedItinerary from "../Screens/BookedItineraryScreen/BookedItinerary";
+import Places from "../Screens/PlacesScreen/Places";
+import NearBy from "../Screens/NearByScreen/NearBy";
+import Visa from "../Screens/VisaScreen/Visa";
 import CurrencyConverter from "../Screens/CurrencyConverterScreen/CurrencyConverter";
 import PhraseBook from "../Screens/PhraseBookScreen/PhraseBook";
 import PackingChecklist from "../Screens/PackingChecklistScreen/PackingChecklist";
 import PassportDetails from "../Screens/PassportDetailsScreen/PassportDetails";
 import EmergencyContacts from "../Screens/EmergencyContactsScreen/EmergencyContacts";
 import Weather from "../Screens/WeatherScreen/Weather";
-import Places from "../Screens/PlacesScreen/Places";
-import transitionConfig from "../Services/navigationAnimations/transitionConfig";
-import Visa from "../Screens/VisaScreen/Visa";
-import NearBy from "../Screens/NearByScreen/NearBy";
+import VisaChecklist from "../Screens/VisaChecklistScreen/VisaChecklist";
 import SupportCenter from "../Screens/SupportCenterScreen/SupportCenter";
 import FAQ from "../Screens/FAQScreens/FAQScreen/FAQ";
 import FAQAnswers from "../Screens/FAQScreens/FAQAnswersScreen/FAQAnswers";
 import ContactUs from "../Screens/ContactUsScreen/ContactUs";
 import YourTickets from "../Screens/YourTicketsScreen/YourTickets";
-import VisaChecklist from "../Screens/VisaChecklistScreen/VisaChecklist";
 import TicketsConversation from "../Screens/TicketsConversationScreen/TicketsConversation";
+import transitionConfig from "../Services/navigationAnimations/transitionConfig";
 
-const ToolStack = createStackNavigator(
+const MainStack = createStackNavigator(
   {
-    ToolHome: {
-      screen: Tools
+    Starter: {
+      screen: Starter
+    },
+    AppHome: {
+      screen: HomeTabs,
+      navigationOptions: {
+        header: null,
+        gesturesEnabled: false
+      }
+    },
+    MobileNumber: {
+      screen: MobileNumber
+    },
+    BookedItinerary: {
+      screen: BookedItinerary
+    },
+    BookedPlaces: {
+      screen: Places
+    },
+    BookedNearBy: {
+      screen: NearBy
+    },
+    VisaBooked: {
+      screen: Visa
     },
     CurrencyConverter: {
       screen: CurrencyConverter
@@ -73,23 +98,16 @@ const ToolStack = createStackNavigator(
     }
   },
   {
-    initialRouteName: "ToolHome",
-    navigationOptions: {
-      gesturesEnabled: true
-    },
     transitionConfig
   }
 );
 
-ToolStack.navigationOptions = ({ navigation }) => {
-  let tabBarVisible = true;
-  if (navigation.state.index > 0) {
-    tabBarVisible = false;
-  }
+MainStack.navigationOptions = () => {
+  let drawerLockMode = "locked-closed";
 
   return {
-    tabBarVisible
+    drawerLockMode
   };
 };
 
-export default ToolStack;
+export default MainStack;

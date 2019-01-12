@@ -23,9 +23,10 @@ HomeSwitch.navigationOptions = ({ navigation }) => {
   let drawerLockMode = "locked-closed";
   const routeName = getActiveRouteName(navigation.state);
   if (
-    routeName === "BookingsHome" ||
+    routeName === "TripFeed" ||
+    routeName === "Bookings" ||
     routeName === "Support" ||
-    routeName === "ToolHome" ||
+    routeName === "Tools" ||
     routeName === "Journal"
   ) {
     drawerLockMode = "unlocked";

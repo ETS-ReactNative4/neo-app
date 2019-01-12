@@ -87,59 +87,66 @@ class TripFeed extends Component {
       closeInfoCardModal
     } = this.props.tripFeedStore;
     let isImageFirst = false;
+    const Header = () =>
+      HomeHeader({ navigation: this.props.navigation }).header;
     return (
-      <CustomScrollView
-        onRefresh={this.loadTripFeedData}
-        refreshing={isLoading}
-        directionalLockEnabled={true}
-        scrollEnabled={this.state.scrollEnabled}
-        style={styles.tripFeedScrollView}
-      >
-        {widgets.map((widget, widgetIndex) => {
-          try {
-            isImageFirst = !isImageFirst;
-            switch (widget.type) {
-              case "TOOL_TIP":
-                return (
-                  <ToolTip
-                    key={widgetIndex}
-                    {...widget.data}
-                    imageFirst={isImageFirst}
-                  />
-                );
-              case "INFO_CARD":
-                return <InfoCard key={widgetIndex} {...widget.data} />;
-              case "CAROUSEL":
-                return <TripFeedCarousel key={widgetIndex} {...widget.data} />;
-              case "TRIP_VIEW":
-                return <TripView key={widgetIndex} {...widget.data} />;
-              case "TRIP_VIEW_LITE":
-                return <TripViewLite key={widgetIndex} {...widget.data} />;
-              case "BIG_IMAGE_CARD":
-                return <BigImageCard key={widgetIndex} {...widget.data} />;
-              case "NOTIFICATION_CARD":
-                return (
-                  <NotificationCard
-                    key={widgetIndex}
-                    {...widget.data}
-                    toggleScrollLock={this.toggleScrollLock}
-                  />
-                );
-              // FEEDBACK_SWIPER
-              default:
-                return null;
+      <View style={styles.tripFeedContainer}>
+        <Header />
+        <CustomScrollView
+          onRefresh={this.loadTripFeedData}
+          refreshing={isLoading}
+          directionalLockEnabled={true}
+          scrollEnabled={this.state.scrollEnabled}
+          style={styles.tripFeedScrollView}
+        >
+          {widgets.map((widget, widgetIndex) => {
+            try {
+              isImageFirst = !isImageFirst;
+              switch (widget.type) {
+                case "TOOL_TIP":
+                  return (
+                    <ToolTip
+                      key={widgetIndex}
+                      {...widget.data}
+                      imageFirst={isImageFirst}
+                    />
+                  );
+                case "INFO_CARD":
+                  return <InfoCard key={widgetIndex} {...widget.data} />;
+                case "CAROUSEL":
+                  return (
+                    <TripFeedCarousel key={widgetIndex} {...widget.data} />
+                  );
+                case "TRIP_VIEW":
+                  return <TripView key={widgetIndex} {...widget.data} />;
+                case "TRIP_VIEW_LITE":
+                  return <TripViewLite key={widgetIndex} {...widget.data} />;
+                case "BIG_IMAGE_CARD":
+                  return <BigImageCard key={widgetIndex} {...widget.data} />;
+                case "NOTIFICATION_CARD":
+                  return (
+                    <NotificationCard
+                      key={widgetIndex}
+                      {...widget.data}
+                      toggleScrollLock={this.toggleScrollLock}
+                    />
+                  );
+                // FEEDBACK_SWIPER
+                default:
+                  return null;
+              }
+            } catch (e) {
+              // logError(e);
+              return null;
             }
-          } catch (e) {
-            // logError(e);
-            return null;
-          }
-        })}
-        <InfoCardModal
-          isVisible={infoCardModal.isVisible}
-          onClose={closeInfoCardModal}
-          {...infoCardModal.modalData}
-        />
-      </CustomScrollView>
+          })}
+          <InfoCardModal
+            isVisible={infoCardModal.isVisible}
+            onClose={closeInfoCardModal}
+            {...infoCardModal.modalData}
+          />
+        </CustomScrollView>
+      </View>
     );
   }
 }
