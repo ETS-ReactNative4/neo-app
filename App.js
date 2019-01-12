@@ -1,11 +1,10 @@
 import React, { Component } from "react";
-import { UIManager } from "react-native";
+import { UIManager, NetInfo } from "react-native";
 import { Provider } from "mobx-react";
 import store from "./mobx/Store";
 import { setNavigationService } from "./Services/navigationService/navigationService";
 import { updateStoreService } from "./Services/storeService/storeService";
 import AppNavigator from "./Navigators/AppNavigator";
-import NetStatMonitor from "./CommonComponents/NetStatMonitor/NetStatMonitor";
 import {
   disableAnalytics,
   enableAnalytics,
@@ -44,27 +43,42 @@ class App extends Component {
     this._onNotificationReceived = onNotificationReceived;
     this._onNotificationOpened = onNotificationOpened;
     this._getInitialNotification = getInitialNotification;
+
+    NetInfo.isConnected.fetch().then(isConnected => {
+      this.handleFirstConnectivityChange(isConnected);
+    });
+
+    NetInfo.isConnected.addEventListener(
+      "connectionChange",
+      this.handleFirstConnectivityChange
+    );
   }
+
+  handleFirstConnectivityChange = isConnected => {
+    store.appState.setConnectionStatus(isConnected);
+  };
 
   componentWillUnmount() {
     this._onNotificationReceived && this._onNotificationReceived();
     this._onNotificationDisplayed && this._onNotificationDisplayed();
     this._onNotificationOpened && this._onNotificationOpened();
+
+    NetInfo.isConnected.removeEventListener(
+      "connectionChange",
+      this.handleFirstConnectivityChange
+    );
   }
 
   render() {
     updateStoreService(store);
-    return [
-      <Provider {...store} key={0}>
+    return (
+      <Provider {...store}>
         <AppNavigator
           ref={setNavigationService}
           onNavigationStateChange={screenTracker}
         />
-      </Provider>,
-      <Provider {...store} key={1}>
-        <NetStatMonitor />
       </Provider>
-    ];
+    );
   }
 }
 
