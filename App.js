@@ -5,7 +5,6 @@ import store from "./mobx/Store";
 import { setNavigationService } from "./Services/navigationService/navigationService";
 import { updateStoreService } from "./Services/storeService/storeService";
 import AppNavigator from "./Navigators/AppNavigator";
-import NetStatMonitor from "./CommonComponents/NetStatMonitor/NetStatMonitor";
 import {
   disableAnalytics,
   enableAnalytics,
@@ -54,17 +53,14 @@ class App extends Component {
 
   render() {
     updateStoreService(store);
-    return [
-      <Provider {...store} key={0}>
+    return (
+      <Provider {...store}>
         <AppNavigator
           ref={setNavigationService}
           onNavigationStateChange={screenTracker}
         />
-      </Provider>,
-      <Provider {...store} key={1}>
-        <NetStatMonitor />
       </Provider>
-    ];
+    );
   }
 }
 

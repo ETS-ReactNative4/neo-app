@@ -65,7 +65,8 @@ const appText = {
       "We feel aweful :(\n\nPlease close the app and try launching it again?\n\n",
     goBack: "Yikes, our bad\n\nGo back and reload this page again please\n\n"
   },
-  phrasesTranslationFailedText: "Unable to translate..."
+  phrasesTranslationFailedText: "Unable to translate...",
+  noInernetText: "No internet connection. Some features may not work."
 };
 
 export default appText;
