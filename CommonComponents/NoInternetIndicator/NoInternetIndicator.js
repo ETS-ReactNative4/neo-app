@@ -1,18 +1,21 @@
 import React from "react";
-import { StyleSheet, Text, View, LayoutAnimation } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import constants from "../../constants/constants";
 import Icon from "../Icon/Icon";
 import { inject, observer } from "mobx-react/custom";
 
 const NoInternetIndicator = inject("appState")(
   observer(({ appState }) => {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-
     if (appState.isConnected) return null;
 
     return (
       <View style={styles.noInternetViewContainer}>
-        <Icon name={constants.noInternetIcon} size={14} color={"white"} />
+        <Icon
+          name={constants.noInternetIcon}
+          size={13}
+          color={"white"}
+          style={styles.noInternetIcon}
+        />
         <Text style={styles.noInternetText}>{constants.noInernetText}</Text>
       </View>
     );
@@ -23,15 +26,18 @@ const styles = StyleSheet.create({
   noInternetViewContainer: {
     backgroundColor: constants.black1,
     flexDirection: "row",
-    alignItems: "center",
+    alignItems: "flex-start",
     justifyContent: "center",
-    paddingVertical: 8,
-    marginLeft: 2
+    paddingVertical: 12,
+    paddingHorizontal: 24
+  },
+  noInternetIcon: {
+    marginTop: -3
   },
   noInternetText: {
     ...constants.fontCustom(constants.primaryRegular, 13),
     color: "white",
-    marginTop: 2
+    marginLeft: 4
   }
 });
 
