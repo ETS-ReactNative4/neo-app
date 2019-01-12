@@ -92,7 +92,7 @@ class TripViewLite extends Component {
                 else toastBottom(constants.bookingProcessText.message);
               }
             };
-            const rotate = item.icon === "FLIGHT" ? "90deg" : "0deg";
+            const rotate = item.icon === "flight" ? "90deg" : "0deg";
             return (
               <TouchableOpacity
                 onPress={action}
