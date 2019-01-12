@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { UIManager } from "react-native";
+import { UIManager, NetInfo } from "react-native";
 import { Provider } from "mobx-react";
 import store from "./mobx/Store";
 import { setNavigationService } from "./Services/navigationService/navigationService";
@@ -43,12 +43,30 @@ class App extends Component {
     this._onNotificationReceived = onNotificationReceived;
     this._onNotificationOpened = onNotificationOpened;
     this._getInitialNotification = getInitialNotification;
+
+    NetInfo.isConnected.fetch().then(isConnected => {
+      this.handleFirstConnectivityChange(isConnected);
+    });
+
+    NetInfo.isConnected.addEventListener(
+      "connectionChange",
+      this.handleFirstConnectivityChange
+    );
   }
+
+  handleFirstConnectivityChange = isConnected => {
+    store.appState.setConnectionStatus(isConnected);
+  };
 
   componentWillUnmount() {
     this._onNotificationReceived && this._onNotificationReceived();
     this._onNotificationDisplayed && this._onNotificationDisplayed();
     this._onNotificationOpened && this._onNotificationOpened();
+
+    NetInfo.isConnected.removeEventListener(
+      "connectionChange",
+      this.handleFirstConnectivityChange
+    );
   }
 
   render() {

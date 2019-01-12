@@ -1,47 +1,23 @@
-import React, { Component } from "react";
-import { StyleSheet, Text, View, NetInfo, LayoutAnimation } from "react-native";
+import React from "react";
+import { StyleSheet, Text, View, LayoutAnimation } from "react-native";
 import constants from "../../constants/constants";
 import Icon from "../Icon/Icon";
 import { inject, observer } from "mobx-react/custom";
 
-@inject("appState")
-@observer
-class NoInternetIndicator extends Component {
-  componentDidMount() {
-    NetInfo.isConnected.fetch().then(isConnected => {
-      this.props.appState.setConnectionStatus(isConnected);
-    });
-
-    NetInfo.isConnected.addEventListener(
-      "connectionChange",
-      this.handleFirstConnectivityChange
-    );
-  }
-
-  handleFirstConnectivityChange = isConnected => {
-    this.props.appState.setConnectionStatus(isConnected);
-  };
-
-  componentWillUnmount() {
-    NetInfo.isConnected.removeEventListener(
-      "connectionChange",
-      this.handleFirstConnectivityChange
-    );
-  }
-
-  render() {
+const NoInternetIndicator = inject("appState")(
+  observer(({ appState }) => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
 
-    if (this.props.appState.isConnected) return null;
+    if (appState.isConnected) return null;
 
     return (
       <View style={styles.noInternetViewContainer}>
-        <Icon name={constants.noInternetIcon} size={16} color={"white"} />
+        <Icon name={constants.noInternetIcon} size={14} color={"white"} />
         <Text style={styles.noInternetText}>{constants.noInernetText}</Text>
       </View>
     );
-  }
-}
+  })
+);
 
 const styles = StyleSheet.create({
   noInternetViewContainer: {
@@ -49,11 +25,13 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    paddingVertical: 8
+    paddingVertical: 8,
+    marginLeft: 2
   },
   noInternetText: {
     ...constants.fontCustom(constants.primaryRegular, 13),
-    color: "white"
+    color: "white",
+    marginTop: 2
   }
 });
 

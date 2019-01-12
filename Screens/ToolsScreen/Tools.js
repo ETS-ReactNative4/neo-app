@@ -9,6 +9,7 @@ import HomeHeader from "../../CommonComponents/HomeHeader/HomeHeader";
 import { inject, observer } from "mobx-react/custom";
 import { recordEvent } from "../../Services/analytics/analyticsService";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
+import NoInternetIndicator from "../../CommonComponents/NoInternetIndicator/NoInternetIndicator";
 
 @ErrorBoundary({ isRoot: true })
 @inject("itineraries")
@@ -118,6 +119,7 @@ class Tools extends Component {
     return (
       <View style={styles.container}>
         <Header />
+        <NoInternetIndicator />
         {/*<SearchPlaceholder*/}
         {/*action={() => null}*/}
         {/*containerStyle={{ marginHorizontal: 24 }}*/}
