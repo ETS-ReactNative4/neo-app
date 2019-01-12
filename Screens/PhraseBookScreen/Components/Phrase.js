@@ -4,11 +4,15 @@ import { isIphoneX } from "react-native-iphone-x-helper";
 import constants from "../../../constants/constants";
 import { StyleSheet, TouchableHighlight, Platform, Text } from "react-native";
 import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraProps";
+import { recordEvent } from "../../../Services/analytics/analyticsService";
 
 const Phrase = ({ phrase, selectPhrase, isLast, targetLanguage }) => {
   return (
     <TouchableHighlight
-      onPress={() => selectPhrase(phrase, targetLanguage)}
+      onPress={() => {
+        recordEvent(constants.commonPhrasesTranslateFromBookClick);
+        selectPhrase(phrase, targetLanguage);
+      }}
       underlayColor={"white"}
       style={[
         styles.phraseTouchable,

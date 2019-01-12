@@ -5,6 +5,7 @@ import constants from "../../../constants/constants";
 import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraProps";
 import PropTypes from "prop-types";
 import { isIphoneX } from "react-native-iphone-x-helper";
+import { recordEvent } from "../../../Services/analytics/analyticsService";
 
 const VisaActionBar = ({ isVisaOnArrival, navigation }) => {
   return (
@@ -12,7 +13,10 @@ const VisaActionBar = ({ isVisaOnArrival, navigation }) => {
       {!isVisaOnArrival ? (
         <SimpleButton
           text={"Get checklist"}
-          action={() => navigation.navigate("VisaChecklist")}
+          action={() => {
+            recordEvent(constants.visaDocumentsGetChecklistClick);
+            navigation.navigate("VisaChecklist");
+          }}
           textColor={"white"}
           containerStyle={{
             backgroundColor: constants.firstColor,
@@ -23,7 +27,10 @@ const VisaActionBar = ({ isVisaOnArrival, navigation }) => {
       ) : null}
       <SimpleButton
         text={"Contact helpdesk"}
-        action={() => navigation.navigate("FAQ", { title: "Visa Related" })}
+        action={() => {
+          recordEvent(constants.visaDocumentsContactHelpdeskClick);
+          navigation.navigate("FAQ", { title: "Visa Related" });
+        }}
         textColor={constants.black2}
         containerStyle={{ backgroundColor: "white", marginHorizontal: 4 }}
         hasBorder={true}

@@ -14,6 +14,7 @@ import { isIphoneX } from "react-native-iphone-x-helper";
 import constants from "../../../constants/constants";
 import Icon from "../../../CommonComponents/Icon/Icon";
 import SelectionRow from "../../../CommonComponents/SelectionRow/SelectionRow";
+import { recordEvent } from "../../../Services/analytics/analyticsService";
 
 const LanguageSelector = ({ languages, selectLanguage, cancel, isVisible }) => {
   return (
@@ -52,6 +53,9 @@ const LanguageSelector = ({ languages, selectLanguage, cancel, isVisible }) => {
                   disableImage={true}
                   text={`${language.languageName} (${language.languageCode})`}
                   action={() => {
+                    recordEvent(
+                      constants.commonPhrasesSelectDifferentLanguageClick
+                    );
                     selectLanguage(language);
                     cancel();
                   }}

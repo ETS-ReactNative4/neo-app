@@ -4,12 +4,16 @@ import PropTypes from "prop-types";
 import Icon from "../../../../../CommonComponents/Icon/Icon";
 import constants from "../../../../../constants/constants";
 import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidExtraProps";
+import { recordEvent } from "../../../../../Services/analytics/analyticsService";
 
 const CheckListButtons = ({ id, item, isComplete, type, deleteListItem }) => {
   return (
     <TouchableOpacity
       style={styles.checklistButtonContainer}
-      onPress={() => deleteListItem(item)}
+      onPress={() => {
+        recordEvent(constants.packingChecklistRemoveItemClick);
+        deleteListItem(item);
+      }}
       activeOpacity={0.5}
     >
       <Icon name={constants.trashCanIcon} size={18} color={"white"} />

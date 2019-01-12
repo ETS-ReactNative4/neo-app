@@ -22,6 +22,7 @@ import getLocaleString from "../../Services/getLocaleString/getLocaleString";
 import VoucherAccordion from "../VoucherScreens/Components/VoucherAccordion";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import CustomScrollView from "../../CommonComponents/CustomScrollView/CustomScrollView";
+import { recordEvent } from "../../Services/analytics/analyticsService";
 
 /**
  * TODO: Need data from previous api
@@ -318,7 +319,10 @@ class PaymentSummary extends Component {
                   const isLast = paymentOptions.length === optionKey + 1;
                   return (
                     <TouchableOpacity
-                      onPress={paymentOption.action}
+                      onPress={() => {
+                        recordEvent(constants.paymentScreenStartPayment);
+                        paymentOption.action();
+                      }}
                       style={[
                         styles.optionButton,
                         !isLast

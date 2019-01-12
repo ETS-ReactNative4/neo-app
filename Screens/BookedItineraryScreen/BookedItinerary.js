@@ -22,8 +22,10 @@ import CitySelectionMenu from "../../CommonComponents/CitySelectionMenu/CitySele
 import { recordEvent } from "../../Services/analytics/analyticsService";
 import constants from "../../constants/constants";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
+import DeepLinkHandler from "../../CommonComponents/DeepLinkHandler/DeepLinkHandler";
 
 @ErrorBoundary()
+@DeepLinkHandler
 @inject("appState")
 @inject("itineraries")
 @observer
