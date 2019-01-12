@@ -13,6 +13,7 @@ import { inject, observer } from "mobx-react/custom";
 import CustomScrollView from "../../CommonComponents/CustomScrollView/CustomScrollView";
 import InfoCardModal from "./Components/InfoCardModal/InfoCardModal";
 import { logError } from "../../Services/errorLogger/errorLogger";
+import NoInternetIndicator from "../../CommonComponents/NoInternetIndicator/NoInternetIndicator";
 
 @ErrorBoundary({ isRoot: true })
 @inject("tripFeedStore")
@@ -92,6 +93,7 @@ class TripFeed extends Component {
     return (
       <View style={styles.tripFeedContainer}>
         <Header />
+        <NoInternetIndicator />
         <CustomScrollView
           onRefresh={this.loadTripFeedData}
           refreshing={isLoading}

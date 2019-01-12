@@ -28,6 +28,7 @@ import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import CustomScrollView from "../../CommonComponents/CustomScrollView/CustomScrollView";
 import SectionHeader from "../../CommonComponents/SectionHeader/SectionHeader";
 import openCustomTab from "../../Services/openCustomTab/openCustomTab";
+import NoInternetIndicator from "../../CommonComponents/NoInternetIndicator/NoInternetIndicator";
 
 @ErrorBoundary({ isRoot: true })
 @inject("infoStore")
@@ -135,6 +136,7 @@ class BookingsHome extends Component {
       <View style={styles.bookingHomeContainer}>
         <Header />
         {/*<SearchPlaceholder action={this.openSearch} />*/}
+        <NoInternetIndicator />
         <CustomScrollView
           style={styles.bookingContainer}
           showsVerticalScrollIndicator={false}
