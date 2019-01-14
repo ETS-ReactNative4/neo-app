@@ -19,7 +19,7 @@ class TripFeedCarousel extends Component {
         image: PropTypes.oneOfType([PropTypes.object, PropTypes.number])
           .isRequired,
         link: PropTypes.string.isRequired,
-        modalData: PropTypes.object.isRequired,
+        modalData: PropTypes.object,
         gradientColor: PropTypes.string,
         backdropColor: PropTypes.string
       })

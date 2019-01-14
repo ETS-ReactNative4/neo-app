@@ -429,6 +429,15 @@ storiesOf("Trip Feed Widgets", module)
     console.log(props);
     return <AlertCard {...props} />;
   })
+  .add("Alert Card Info dismissable stacked", () => {
+    const props = {
+      elements: [alertData[0], alertData[0], alertData[0]],
+      canDismiss: true,
+      toggleScrollLock: () => null
+    };
+    console.log(props);
+    return <AlertCard {...props} />;
+  })
   .add("Alert Card Info with cta", () => {
     const props = {
       elements: [
@@ -467,6 +476,15 @@ storiesOf("Trip Feed Widgets", module)
           cta: "Learn More"
         }
       ],
+      toggleScrollLock: () => null
+    };
+    console.log(props);
+    return <AlertCard {...props} />;
+  })
+  .add("Alert Card Alert dismissable stacked", () => {
+    const props = {
+      elements: [alertData[1], alertData[1], alertData[1]],
+      canDismiss: true,
       toggleScrollLock: () => null
     };
     console.log(props);

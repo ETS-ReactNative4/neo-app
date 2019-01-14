@@ -32,13 +32,31 @@ class AlertCard extends Component {
         message: PropTypes.string.isRequired,
         link: PropTypes.string.isRequired,
         type: PropTypes.string.isRequired,
-        modalData: PropTypes.object.isRequired,
+        modalData: PropTypes.object,
         cta: PropTypes.string
       })
     ).isRequired,
     canDismiss: PropTypes.bool,
     toggleScrollLock: PropTypes.func.isRequired
   };
+
+  state = {
+    primaryCardHeight: 0,
+    nextCardColor: "white",
+    lastCardColor: "white",
+    activeCardIndex: 0
+  };
+
+  _onLayout = event => {
+    const { x, y, height, width } = event.nativeEvent.layout;
+    this.setState({ primaryCardHeight: height });
+  };
+
+  _setNextCardColor = nextCardColor => this.setState({ nextCardColor });
+
+  _setLastCardColor = lastCardColor => this.setState({ lastCardColor });
+
+  _setActiveCardIndex = activeCardIndex => this.setState({ activeCardIndex });
 
   render() {
     const {
@@ -47,18 +65,66 @@ class AlertCard extends Component {
       elements = []
     } = this.props;
 
+    const NextCard = () => (
+      <View
+        style={[
+          styles.cardWrapper,
+          {
+            position: "absolute",
+            bottom: 12,
+            backgroundColor: this.state.nextCardColor,
+            transform: [{ scale: 0.95 }],
+            height: this.state.primaryCardHeight,
+            paddingVertical: 0,
+            paddingHorizontal: 0
+          }
+        ]}
+      />
+    );
+
+    const LastCard = () => (
+      <View
+        style={[
+          styles.cardWrapper,
+          {
+            position: "absolute",
+            bottom: 4,
+            backgroundColor: this.state.lastCardColor,
+            transform: [{ scale: 0.9 }],
+            height: this.state.primaryCardHeight,
+            paddingVertical: 0,
+            paddingHorizontal: 0
+          }
+        ]}
+      />
+    );
+
     return (
       <CardStack
         key={0}
         EmptyPlaceHolder={EmptyPlaceHolder}
+        NextCard={NextCard}
+        LastCard={LastCard}
+        onActiveIndexChange={this._setActiveCardIndex}
         horizontalSwipe={canDismiss}
         onSwipeStart={() => this.props.toggleScrollLock(false)}
         onSwipeEnd={() => this.props.toggleScrollLock(true)}
         containerStyle={[styles.cardsContainer, containerStyle]}
       >
-        {elements.map((item, itemIndex) => {
+        {elements.map((item, itemIndex, allElements) => {
           return (
-            <NotifCard key={itemIndex} item={item} itemIndex={itemIndex} />
+            <NotifCard
+              onLayout={event => this._onLayout(event)}
+              setNextCardColor={this._setNextCardColor}
+              setLastCardColor={this._setLastCardColor}
+              nextCardColor={this.state.nextCardColor}
+              lastCardColor={this.state.lastCardColor}
+              allElements={allElements}
+              key={itemIndex}
+              item={item}
+              itemIndex={itemIndex}
+              activeCardIndex={this.state.activeCardIndex}
+            />
           );
         })}
       </CardStack>
@@ -75,7 +141,6 @@ const styles = StyleSheet.create({
     minHeight: 110
   },
   cardWrapper: {
-    backgroundColor: "red",
     width: responsiveWidth(100) - 48,
     paddingVertical: 16,
     paddingHorizontal: 8,

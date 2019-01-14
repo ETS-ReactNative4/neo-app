@@ -6,36 +6,68 @@ import PropTypes from "prop-types";
 import React from "react";
 import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidExtraProps";
 import { responsiveWidth } from "react-native-responsive-dimensions";
+import changeColorAlpha from "../../../../../Services/changeColorAlpha/changeColorAlpha";
 
-const NotifCard = ({ item, itemIndex }) => {
-  const { link, title, message, cta, modalData, type } = item;
-  let backgroundColor, icon, ctaColor, textColor;
+const getNotifProps = type => {
   switch (type) {
     case "info":
-      icon = constants.infoIcon;
-      ctaColor = constants.secondColor;
-      textColor = "white";
-      backgroundColor = constants.seventhColor;
-      break;
+      return {
+        icon: constants.infoIcon,
+        ctaColor: constants.secondColor,
+        textColor: "white",
+        backgroundColor: constants.seventhColor
+      };
     case "alert":
-      icon = constants.warningIcon;
-      ctaColor = "white";
-      textColor = "white";
-      backgroundColor = constants.fourthColor;
-      break;
+      return {
+        icon: constants.warningIcon,
+        ctaColor: "white",
+        textColor: "white",
+        backgroundColor: constants.fourthColor
+      };
     default:
-      icon = constants.infoIcon;
-      ctaColor = constants.secondColor;
-      backgroundColor = constants.seventhColor;
-      textColor = "white";
-      break;
+      return {
+        icon: constants.infoIcon,
+        ctaColor: constants.secondColor,
+        textColor: "white",
+        backgroundColor: constants.seventhColor
+      };
   }
-  const action = () => resolveLinks(link);
+};
+
+const NotifCard = ({
+  item,
+  itemIndex,
+  onLayout,
+  allElements,
+  setNextCardColor,
+  setLastCardColor,
+  nextCardColor,
+  lastCardColor,
+  activeCardIndex
+}) => {
+  const { link, title, message, cta, modalData, type } = item;
+  const { backgroundColor, icon, ctaColor, textColor } = getNotifProps(type);
+  const action = () => resolveLinks(link, modalData);
+  if (itemIndex === activeCardIndex) {
+    if (allElements[itemIndex + 1]) {
+      const nextItem = allElements[itemIndex + 1];
+      const { backgroundColor } = getNotifProps(nextItem.type);
+      const newColor = changeColorAlpha(backgroundColor, 0.65);
+      if (newColor !== nextCardColor) setNextCardColor(newColor);
+    }
+    if (allElements[itemIndex + 2]) {
+      const lastItem = allElements[itemIndex + 2];
+      const { backgroundColor } = getNotifProps(lastItem.type);
+      const newColor = changeColorAlpha(backgroundColor, 0.65);
+      if (newColor !== lastCardColor) setLastCardColor(newColor);
+    }
+  }
   return (
     <TouchableOpacity
       activeOpacity={0.8}
       style={[styles.cardWrapper, { backgroundColor }]}
       onPress={action}
+      onLayout={onLayout}
     >
       <View style={styles.iconWrapper}>
         <Icon name={icon} size={32} color={textColor} />
@@ -104,10 +136,17 @@ NotifCard.propTypes = forbidExtraProps({
     message: PropTypes.string.isRequired,
     link: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
-    modalData: PropTypes.object.isRequired,
+    modalData: PropTypes.object,
     cta: PropTypes.string
   }),
-  itemIndex: PropTypes.number
+  itemIndex: PropTypes.number,
+  onLayout: PropTypes.func.isRequired,
+  allElements: PropTypes.array.isRequired,
+  setNextCardColor: PropTypes.func.isRequired,
+  setLastCardColor: PropTypes.func.isRequired,
+  nextCardColor: PropTypes.string.isRequired,
+  lastCardColor: PropTypes.string.isRequired,
+  activeCardIndex: PropTypes.number.isRequired
 });
 
 export default NotifCard;
