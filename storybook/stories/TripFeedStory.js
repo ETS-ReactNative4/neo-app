@@ -8,7 +8,7 @@ import TripView from "../../Screens/TripFeedScreen/Components/TripView/TripView"
 import TripViewLite from "../../Screens/TripFeedScreen/Components/TripViewLite/TripViewLite";
 import TripFeedCarousel from "../../Screens/TripFeedScreen/Components/TripFeedCarousel/TripFeedCarousel";
 import InfoCard from "../../Screens/TripFeedScreen/Components/InfoCard/InfoCard";
-import NotificationCard from "../../Screens/TripFeedScreen/Components/NotificationCard/NotificationCard";
+import AlertCard from "../../Screens/TripFeedScreen/Components/AlertCard/AlertCard";
 import FeedBackSwiper from "../../Screens/TripFeedScreen/Components/FeedBackSwiper/FeedBackSwiper";
 import BigImageCard from "../../Screens/TripFeedScreen/Components/BigImageCard/BigImageCard";
 import DayAhead from "../../Screens/TripFeedScreen/Components/DayAhead/DayAhead";
@@ -140,7 +140,7 @@ const infoData = {
   link: ""
 };
 
-const notifyData = [
+const alertData = [
   {
     title: "Heads up!",
     message: "Your pick up is scheduled at 8:30am from your hotel lobby.",
@@ -412,65 +412,65 @@ storiesOf("Trip Feed Widgets", module)
     console.log(props);
     return <InfoCard {...props} />;
   })
-  .add("Notification Card Info default", () => {
+  .add("Alert Card Info default", () => {
     const props = {
-      data: [notifyData[0]],
+      elements: [alertData[0]],
       toggleScrollLock: () => null
     };
     console.log(props);
-    return <NotificationCard {...props} />;
+    return <AlertCard {...props} />;
   })
-  .add("Notification Card Info dismissable", () => {
+  .add("Alert Card Info dismissable", () => {
     const props = {
-      data: [notifyData[0]],
+      elements: [alertData[0]],
       canDismiss: true,
       toggleScrollLock: () => null
     };
     console.log(props);
-    return <NotificationCard {...props} />;
+    return <AlertCard {...props} />;
   })
-  .add("Notification Card Info with cta", () => {
+  .add("Alert Card Info with cta", () => {
     const props = {
-      data: [
+      elements: [
         {
-          ...notifyData[0],
+          ...alertData[0],
           cta: "Learn More"
         }
       ],
       toggleScrollLock: () => null
     };
     console.log(props);
-    return <NotificationCard {...props} />;
+    return <AlertCard {...props} />;
   })
-  .add("Notification Card Alert default", () => {
+  .add("Alert Card Alert default", () => {
     const props = {
-      data: [notifyData[1]],
+      elements: [alertData[1]],
       toggleScrollLock: () => null
     };
     console.log(props);
-    return <NotificationCard {...props} />;
+    return <AlertCard {...props} />;
   })
-  .add("Notification Card Alert dismissable", () => {
+  .add("Alert Card Alert dismissable", () => {
     const props = {
-      data: [notifyData[1]],
+      elements: [alertData[1]],
       canDismiss: true,
       toggleScrollLock: () => null
     };
     console.log(props);
-    return <NotificationCard {...props} />;
+    return <AlertCard {...props} />;
   })
-  .add("Notification Card Alert with cta", () => {
+  .add("Alert Card Alert with cta", () => {
     const props = {
-      data: [
+      elements: [
         {
-          ...notifyData[1],
+          ...alertData[1],
           cta: "Learn More"
         }
       ],
       toggleScrollLock: () => null
     };
     console.log(props);
-    return <NotificationCard {...props} />;
+    return <AlertCard {...props} />;
   })
   .add("Big Image card default", () => {
     const props = {

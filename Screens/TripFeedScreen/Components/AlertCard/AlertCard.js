@@ -23,10 +23,10 @@ const EmptyPlaceHolder = () => {
   );
 };
 
-class NotificationCard extends Component {
+class AlertCard extends Component {
   static propTypes = {
     containerStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.number]),
-    data: PropTypes.arrayOf(
+    elements: PropTypes.arrayOf(
       PropTypes.shape({
         title: PropTypes.string,
         message: PropTypes.string.isRequired,
@@ -41,7 +41,11 @@ class NotificationCard extends Component {
   };
 
   render() {
-    const { containerStyle = {}, canDismiss = false, data = [] } = this.props;
+    const {
+      containerStyle = {},
+      canDismiss = false,
+      elements = []
+    } = this.props;
 
     return (
       <CardStack
@@ -52,7 +56,7 @@ class NotificationCard extends Component {
         onSwipeEnd={() => this.props.toggleScrollLock(true)}
         containerStyle={[styles.cardsContainer, containerStyle]}
       >
-        {data.map((item, itemIndex) => {
+        {elements.map((item, itemIndex) => {
           return (
             <NotifCard key={itemIndex} item={item} itemIndex={itemIndex} />
           );
@@ -66,7 +70,19 @@ const styles = StyleSheet.create({
   cardsContainer: {
     marginVertical: 8,
     marginHorizontal: 24,
+    alignItems: "center",
+    justifyContent: "center",
     minHeight: 110
+  },
+  cardWrapper: {
+    backgroundColor: "red",
+    width: responsiveWidth(100) - 48,
+    paddingVertical: 16,
+    paddingHorizontal: 8,
+    borderRadius: 5,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center"
   },
   doneTextWrapper: {
     justifyContent: "center",
@@ -80,4 +96,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default NotificationCard;
+export default AlertCard;

@@ -7,7 +7,7 @@ import TripViewLite from "./Components/TripViewLite/TripViewLite";
 import TripView from "./Components/TripView/TripView";
 import TripFeedCarousel from "./Components/TripFeedCarousel/TripFeedCarousel";
 import BigImageCard from "./Components/BigImageCard/BigImageCard";
-import NotificationCard from "./Components/NotificationCard/NotificationCard";
+import AlertCard from "./Components/AlertCard/AlertCard";
 import InfoCard from "./Components/InfoCard/InfoCard";
 import { inject, observer } from "mobx-react/custom";
 import CustomScrollView from "../../CommonComponents/CustomScrollView/CustomScrollView";
@@ -126,9 +126,9 @@ class TripFeed extends Component {
                   return <TripViewLite key={widgetIndex} {...widget.data} />;
                 case "BIG_IMAGE_CARD":
                   return <BigImageCard key={widgetIndex} {...widget.data} />;
-                case "NOTIFICATION_CARD":
+                case "ALERT_CARD":
                   return (
-                    <NotificationCard
+                    <AlertCard
                       key={widgetIndex}
                       {...widget.data}
                       toggleScrollLock={this.toggleScrollLock}
