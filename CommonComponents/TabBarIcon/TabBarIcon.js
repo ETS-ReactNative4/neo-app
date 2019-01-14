@@ -51,11 +51,13 @@ const styles = StyleSheet.create({
   icon: {
     height: 25,
     width: 25,
-    margin: 8
+    marginTop: 8,
+    marginBottom: 4
   },
   label: {
     fontFamily: constants.primaryLight,
-    fontSize: 8
+    fontSize: 8,
+    marginBottom: 8
   },
   dotStyle: {
     position: "absolute",
