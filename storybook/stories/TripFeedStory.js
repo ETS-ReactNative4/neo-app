@@ -522,7 +522,8 @@ storiesOf("Trip Feed Widgets", module)
       title: bigImageData.title,
       type: bigImageData.type,
       image: bigImageData.image,
-      icon: bigImageData.icon
+      icon: bigImageData.icon,
+      iconText: "230"
     };
     console.log(props);
     return <BigImageCard {...props} />;
