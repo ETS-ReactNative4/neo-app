@@ -8,7 +8,7 @@ import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidE
 import { responsiveWidth } from "react-native-responsive-dimensions";
 
 const NotifCard = ({ item, itemIndex }) => {
-  const { link, title, message, actionText, modalData, type } = item;
+  const { link, title, message, cta, modalData, type } = item;
   let backgroundColor, icon, ctaColor, textColor;
   switch (type) {
     case "info":
@@ -50,11 +50,11 @@ const NotifCard = ({ item, itemIndex }) => {
             {message}
           </Text>
         </View>
-        {actionText ? (
+        {cta ? (
           <View style={styles.messageLinkWrapper}>
             <TouchableOpacity activeOpacity={0.8} onPress={action}>
               <Text style={[styles.messageLink, { color: ctaColor }]}>
-                {actionText}
+                {cta}
               </Text>
             </TouchableOpacity>
           </View>
@@ -105,7 +105,7 @@ NotifCard.propTypes = forbidExtraProps({
     link: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
     modalData: PropTypes.object.isRequired,
-    actionText: PropTypes.string
+    cta: PropTypes.string
   }),
   itemIndex: PropTypes.number
 });

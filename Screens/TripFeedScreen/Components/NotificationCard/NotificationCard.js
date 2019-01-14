@@ -33,7 +33,7 @@ class NotificationCard extends Component {
         link: PropTypes.string.isRequired,
         type: PropTypes.string.isRequired,
         modalData: PropTypes.object.isRequired,
-        actionText: PropTypes.string
+        cta: PropTypes.string
       })
     ).isRequired,
     canDismiss: PropTypes.bool,

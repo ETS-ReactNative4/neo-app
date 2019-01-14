@@ -434,7 +434,7 @@ storiesOf("Trip Feed Widgets", module)
       data: [
         {
           ...notifyData[0],
-          actionText: "Learn More"
+          cta: "Learn More"
         }
       ],
       toggleScrollLock: () => null
@@ -464,7 +464,7 @@ storiesOf("Trip Feed Widgets", module)
       data: [
         {
           ...notifyData[1],
-          actionText: "Learn More"
+          cta: "Learn More"
         }
       ],
       toggleScrollLock: () => null
