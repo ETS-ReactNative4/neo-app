@@ -33,6 +33,7 @@ class TripFeed extends Component {
     this._didFocusSubscription = props.navigation.addListener(
       "didFocus",
       () => {
+        this.loadTripFeedData();
         BackHandler.addEventListener(
           "hardwareBackPress",
           this.onBackButtonPressAndroid
