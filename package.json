@@ -87,6 +87,9 @@
     "react-devtools": "^3.4.2",
     "react-test-renderer": "16.5.0"
   },
+  "resolutions": {
+    "core-js": "2.5.7"
+  },
   "jest": { "preset": "react-native" },
   "rnpm": { "assets": ["./assets/fonts/"] }
 }
