@@ -52,6 +52,13 @@ class TripFeed extends Component {
   };
 
   toggleScrollLock = status => {
+    if (!status) {
+      setTimeout(() => {
+        this.setState({
+          scrollEnabled: true
+        });
+      }, 1000);
+    }
     this.setState({
       scrollEnabled: status
     });
