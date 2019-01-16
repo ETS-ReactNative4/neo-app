@@ -15,6 +15,7 @@ import DayAhead from "../../Screens/TripFeedScreen/Components/DayAhead/DayAhead"
 import SimpleButton from "../../CommonComponents/SimpleButton/SimpleButton";
 import InfoCardModal from "../../Screens/TripFeedScreen/Components/InfoCardModal/InfoCardModal";
 import { inject, observer } from "mobx-react/custom";
+import DayAheadLite from "../../Screens/TripFeedScreen/Components/DayAheadLite/DayAheadLite";
 
 const tripData = [
   {
@@ -185,6 +186,48 @@ const modalData = {
     "Handy tools to back you up during your travel"
   ],
   cta: "Awesome, got it!"
+};
+
+const dayAhead = {
+  title: "The Day Ahead",
+  elements: [
+    {
+      image: {
+        uri:
+          "http://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg"
+      },
+      label: "NEXT",
+      title: "8:00am Pick up",
+      text:
+        "City Sightseeing Barcelona Hop-On Hop-Off Tour longer Barcelona Hop-On Tour longer",
+      voucherType: "",
+      costingIdentifier: ""
+    },
+    {
+      image: {
+        uri:
+          "http://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg"
+      },
+      label: "NEXT",
+      title: "8:00am Pick up",
+      text:
+        "City Sightseeing Barcelona Hop-On Hop-Off Tour longer Barcelona Hop-On Tour longer",
+      voucherType: "",
+      costingIdentifier: ""
+    },
+    {
+      image: {
+        uri:
+          "http://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg"
+      },
+      label: "NEXT",
+      title: "8:00am Pick up",
+      text:
+        "City Sightseeing Barcelona Hop-On Hop-Off Tour longer Barcelona Hop-On Tour longer",
+      voucherType: "",
+      costingIdentifier: ""
+    }
+  ]
 };
 
 const InfoCardModalWrapper = inject("tripFeedStore")(
@@ -569,8 +612,13 @@ storiesOf("Trip Feed Widgets", module)
     console.log(props);
     return <InfoCardModalWrapper props={props} />;
   })
-  .add("The Day Ahead", () => {
-    const props = {};
+  .add("Day Ahead default", () => {
+    const props = dayAhead;
     console.log(props);
     return <DayAhead {...props} />;
+  })
+  .add("Day Ahead Lite", () => {
+    const props = dayAhead;
+    console.log(props);
+    return <DayAheadLite {...props} />;
   });

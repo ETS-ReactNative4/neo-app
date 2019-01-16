@@ -2,29 +2,39 @@ import React, { Component } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import Carousel from "../../../../CommonComponents/Carousel/Carousel";
 import constants from "../../../../constants/constants";
-import DayAheadBox from "./Components/DayAheadBox";
+import DayAheadBox from "../DayAheadLite/Components/DayAheadBox";
 import DayAheadRow from "./Components/DayAheadRow";
-import { responsiveWidth } from "react-native-responsive-dimensions";
+import PropTypes from "prop-types";
+import forbidExtraProps from "../../../../Services/PropTypeValidation/forbidExtraProps";
+import DayAheadTitle from "./Components/DayAheadTitle";
 
 class DayAhead extends Component {
+  static propTypes = forbidExtraProps({
+    title: PropTypes.string,
+    elements: PropTypes.arrayOf(
+      PropTypes.shape({
+        image: PropTypes.oneOfType([PropTypes.object, PropTypes.number])
+          .isRequired,
+        label: PropTypes.string.isRequired,
+        title: PropTypes.string.isRequired,
+        text: PropTypes.string.isRequired,
+        voucherType: PropTypes.string.isRequired,
+        costingIdentifier: PropTypes.string.isRequired
+      })
+    ).isRequired
+  });
+
   render() {
-    const dayAhead = [{}, {}, {}];
+    const { title, elements } = this.props;
 
     return (
       <View style={styles.dayAheadContainer}>
-        <View style={styles.dayAheadTitleWrapper}>
-          <Text style={styles.dayAheadTitle}>{"THE DAY AHEAD"}</Text>
-        </View>
-        <Carousel firstMargin={24} containerStyle={{ height: 92 }}>
-          {dayAhead.map((day, dayIndex) => {
-            return <DayAheadBox key={dayIndex} />;
-          })}
-        </Carousel>
+        {title ? <DayAheadTitle title={title} /> : null}
         <View style={styles.rowWrapper}>
           <View style={styles.rowContainer}>
-            {dayAhead.map((day, dayIndex) => {
-              const isLast = dayAhead.length === dayIndex + 1;
-              return <DayAheadRow key={dayIndex} isLast={isLast} />;
+            {elements.map((day, dayIndex) => {
+              const isLast = elements.length === dayIndex + 1;
+              return <DayAheadRow key={dayIndex} {...day} isLast={isLast} />;
             })}
           </View>
         </View>
@@ -35,17 +45,7 @@ class DayAhead extends Component {
 
 const styles = StyleSheet.create({
   dayAheadContainer: {
-    marginTop: 24
-  },
-  dayAheadTitleWrapper: {
-    height: 16,
-    marginLeft: 24,
-    alignItems: "flex-start",
-    justifyContent: "center"
-  },
-  dayAheadTitle: {
-    ...constants.fontCustom(constants.primarySemiBold, 13),
-    color: constants.sixthColor
+    marginVertical: 16
   },
   rowContainer: {
     backgroundColor: "white",
