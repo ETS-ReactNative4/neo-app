@@ -17,6 +17,7 @@ import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraPr
 import { NavigationActions, StackActions } from "react-navigation";
 import { recordEvent } from "../../../Services/analytics/analyticsService";
 import CustomScrollView from "../../../CommonComponents/CustomScrollView/CustomScrollView";
+import EmptyScreenPlaceholder from "../../../CommonComponents/EmptyScreenPlaceholder/EmptyScreenPlaceholder";
 const resetAction = NavigationActions.navigate({
   routeName: "AppHome",
   action: NavigationActions.navigate({ routeName: "BookedItineraryTabs" })
@@ -57,13 +58,9 @@ class Upcoming extends Component {
         onRefresh={getUpcomingItineraries}
       >
         {!itinerariesList.length && !isLoading ? (
-          <EmptyListPlaceholder
-            text={`No active bookings found on this number. If the booking is made by someone else, you need an invite from them to proceed.`}
-            containerStyle={{
-              borderTopWidth: StyleSheet.hairlineWidth,
-              borderTopColor: constants.shade4,
-              marginHorizontal: 24
-            }}
+          <EmptyScreenPlaceholder
+            image={constants.noBookingsIllus}
+            body={constants.noBookingsText}
           />
         ) : null}
         {itinerariesList.map((itinerary, index) => {
