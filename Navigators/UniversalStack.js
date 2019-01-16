@@ -5,6 +5,7 @@ import HotelVoucher from "../Screens/VoucherScreens/HotelVoucherScreen/HotelVouc
 import FlightVoucher from "../Screens/VoucherScreens/FlightVoucherScreen/FlightVoucher";
 import PassVoucher from "../Screens/VoucherScreens/PassVoucherScreen/PassVoucher";
 import FlightStatus from "../Screens/FlightStatusScreen/FlightStatus";
+import LeisureScreen from "../Screens/VoucherScreens/LeisureScreen/LeisureScreen";
 import YourBookings from "../Screens/YourBookingsScreen/YourBookings";
 import transitionConfig from "../Services/navigationAnimations/transitionConfig";
 import MainStack from "./MainStack";
@@ -29,6 +30,9 @@ const UniversalStack = createStackNavigator(
     },
     FlightStatus: {
       screen: FlightStatus
+    },
+    LeisureScreen: {
+      screen: LeisureScreen
     },
     YourBookingsUniversal: {
       screen: YourBookings

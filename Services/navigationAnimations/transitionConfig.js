@@ -1,6 +1,10 @@
 import { Easing, Animated } from "react-native";
 import storeService from "../storeService/storeService";
 
+/**
+ * Reference for transition animations
+ * https://medium.com/async-la/custom-transitions-in-react-navigation-2f759408a053
+ */
 const transitionConfig = () => {
   return {
     transitionSpec: {
@@ -58,6 +62,9 @@ const transitionConfig = () => {
           return slideFromBottom;
 
         case "PassVoucher":
+          return slideFromBottom;
+
+        case "LeisureScreen":
           return slideFromBottom;
 
         case "TransferVoucher":
