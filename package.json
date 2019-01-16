@@ -48,6 +48,7 @@
     "react-native-linear-gradient": "^2.4.0",
     "react-native-modal": "6.5.0",
     "react-native-parallax-scroll-view": "^0.21.0",
+    "react-native-particles": "^0.0.7",
     "react-native-progress": "^3.5.0",
     "react-native-ratings": "^6.0.0",
     "react-native-responsive-dimensions": "2.0.1",
@@ -88,7 +89,13 @@
     "react-devtools": "^3.4.2",
     "react-test-renderer": "16.5.0"
   },
-  "resolutions": { "core-js": "2.5.7" },
-  "jest": { "preset": "react-native" },
-  "rnpm": { "assets": ["./assets/fonts/"] }
+  "resolutions": {
+    "core-js": "2.5.7"
+  },
+  "jest": {
+    "preset": "react-native"
+  },
+  "rnpm": {
+    "assets": ["./assets/fonts/"]
+  }
 }

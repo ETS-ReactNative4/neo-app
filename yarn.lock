@@ -10501,6 +10501,13 @@ react-native-parallax-scroll-view@^0.21.0:
   dependencies:
     prop-types "^15.6.0"
 
+react-native-particles@^0.0.7:
+  version "0.0.7"
+  resolved "https://registry.yarnpkg.com/react-native-particles/-/react-native-particles-0.0.7.tgz#c8bb6187c835335f39fa617e97b0aba3a70fec67"
+  integrity sha512-angiV92rFZwjEws5EsOxxfCBYbPERYPuHUxoONwSNRDS0RDl50TKjgDDE0+TMAuKwPjX+uwqmoUmsfvSljXM1w==
+  dependencies:
+    lodash.debounce "^4.0.8"
+
 react-native-progress@^3.5.0:
   version "3.5.0"
   resolved "https://registry.yarnpkg.com/react-native-progress/-/react-native-progress-3.5.0.tgz#d1ccc7f96dc17c609aedb43b2e6695d67deae0ec"
