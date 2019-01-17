@@ -13,6 +13,7 @@ const imageAssets = {
       ? require("../assets/images/icons/logo.png")
       : require("../assets/images/icons/logo-dev.png"),
   pytLogoNew: require("../assets/images/icons/logo_new.png"),
+  pytLogoWhite: require("../assets/images/icons/pickyourtrail-white-logo.png"),
   notificationIcon: require("../assets/images/icons/notification.png"),
   backArrow: require("../assets/images/icons/left-arrow.png"),
   backIcon: "nav-left",

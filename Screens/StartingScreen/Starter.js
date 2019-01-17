@@ -52,7 +52,7 @@ class Starter extends Component {
           <SafeAreaView>
             <View style={styles.logoRow}>
               <Image
-                source={constants.pytLogoNew}
+                source={constants.pytLogoWhite}
                 style={styles.logo}
                 resizeMode={"contain"}
               />
@@ -108,11 +108,11 @@ const styles = StyleSheet.create({
   logoRow: {
     alignItems: "center",
     justifyContent: "center",
-    marginBottom: 40
+    marginBottom: 32
   },
   logo: {
-    height: 31,
-    width: 168
+    height: 62,
+    width: 200
   },
   buttonRow: {
     alignItems: "center",
