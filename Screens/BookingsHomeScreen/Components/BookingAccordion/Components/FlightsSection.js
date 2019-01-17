@@ -1,10 +1,8 @@
 import React from "react";
-import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
+import { View, StyleSheet } from "react-native";
 import moment from "moment";
-import { responsiveWidth } from "react-native-responsive-dimensions";
 import constants from "../../../../../constants/constants";
 import PropTypes from "prop-types";
-import FlightVoucher from "../../../../VoucherScreens/FlightVoucherScreen/FlightVoucher";
 import { recordEvent } from "../../../../../Services/analytics/analyticsService";
 import BookingSectionComponent from "../../../../../CommonComponents/BookingSectionComponent/BookingSectionComponent";
 import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidExtraProps";
@@ -91,7 +89,7 @@ const Flight = ({ flight, isLast, navigation, spinValue }) => {
           : ""
       }`}
       isImageContain={true}
-      defaultImageUri={constants.airLineLogoPlaceHolder}
+      defaultSource={constants.flightLogoPlaceholderIllus}
     />
   );
 };
@@ -101,50 +99,6 @@ Flight.propTypes = forbidExtraProps({
   isLast: PropTypes.bool.isRequired,
   spinValue: PropTypes.oneOfType([PropTypes.object, PropTypes.number])
     .isRequired
-});
-
-const styles = StyleSheet.create({
-  contentContainer: {
-    paddingTop: 16,
-    borderBottomColor: constants.shade4,
-    flexDirection: "row",
-    alignItems: "center"
-  },
-  iconWrapper: {
-    overflow: "hidden",
-    height: 40,
-    width: 40,
-    borderRadius: 20
-  },
-  contentIcon: {
-    height: 40,
-    width: 40,
-    borderRadius: 20
-  },
-  contentTextContainer: {
-    minHeight: 40,
-    marginLeft: 16
-  },
-  contentHeaderWrapper: {
-    minHeight: 16,
-    justifyContent: "center"
-  },
-  contentHeader: {
-    fontFamily: constants.primaryLight,
-    fontSize: 14,
-    lineHeight: 16,
-    color: constants.shade2
-  },
-  contentTextWrapper: {
-    minHeight: 24,
-    maxWidth: responsiveWidth(60),
-    justifyContent: "center"
-  },
-  contentText: {
-    fontFamily: constants.primaryLight,
-    fontSize: 17,
-    maxWidth: responsiveWidth(60)
-  }
 });
 
 export default FlightsSection;

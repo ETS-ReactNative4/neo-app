@@ -1,14 +1,11 @@
-import React, { Component } from "react";
+import React from "react";
 import { View, Image, Text, StyleSheet, Platform } from "react-native";
 import Icon from "../../../../CommonComponents/Icon/Icon";
 import constants from "../../../../constants/constants";
 import SimpleButton from "../../../../CommonComponents/SimpleButton/SimpleButton";
 import PropTypes from "prop-types";
 import forbidExtraProps from "../../../../Services/PropTypeValidation/forbidExtraProps";
-import FastImage from "react-native-fast-image";
-import getLocaleString from "../../../../Services/getLocaleString/getLocaleString";
 import VoucherSplitSection from "../../Components/VoucherSplitSection";
-import VoucherAccordion from "../../Components/VoucherAccordion";
 
 const FlightCard = ({
   isFirst,
@@ -102,10 +99,11 @@ const FlightCard = ({
       {isFirst ? <Text style={styles.flightRoute}>{flightRoute}</Text> : null}
       <View style={styles.flightDetails}>
         <View style={styles.providerSection}>
-          <FastImage
+          <Image
             source={{ uri: airlineLogo }}
             style={styles.airlineLogo}
-            resizeMode={FastImage.resizeMode.contain}
+            resizeMode={"contain"}
+            defaultSource={constants.flightLogoPlaceholderIllus}
           />
           {/*<Icon size={24} name={constants.aeroplaneIcon} />*/}
           <View style={styles.flightProviderWrapper}>

@@ -11,8 +11,6 @@ import {
 import { responsiveWidth } from "react-native-responsive-dimensions";
 import PropTypes from "prop-types";
 import Icon from "../Icon/Icon";
-import SmartImage from "../SmartImage/SmartImage";
-import FastImage from "react-native-fast-image";
 import _ from "lodash";
 
 const BookingSectionComponent = ({
@@ -20,7 +18,7 @@ const BookingSectionComponent = ({
   containerStyle = {},
   sectionImage,
   isImageContain,
-  defaultImageUri,
+  defaultSource,
   title,
   content,
   titleNumberOfLines = 1,
@@ -40,6 +38,8 @@ const BookingSectionComponent = ({
       : null;
   }
 
+  const imageProps = defaultSource ? { defaultSource } : {};
+
   return (
     <TouchableOpacity
       onPress={onClick}
@@ -48,24 +48,12 @@ const BookingSectionComponent = ({
     >
       <View style={styles.iconWrapper}>
         <View style={styles.contentIcon}>
-          {sectionImage.uri ? (
-            <SmartImage
-              resizeMode={
-                isImageContain
-                  ? FastImage.resizeMode.contain
-                  : FastImage.resizeMode.cover
-              }
-              uri={sectionImage.uri}
-              style={styles.contentIcon}
-              defaultImageUri={defaultImageUri}
-            />
-          ) : (
-            <Image
-              resizeMode={isImageContain ? "contain" : "cover"}
-              source={sectionImage}
-              style={styles.contentIcon}
-            />
-          )}
+          <Image
+            resizeMode={isImageContain ? "contain" : "cover"}
+            source={sectionImage}
+            {...imageProps}
+            style={styles.contentIcon}
+          />
         </View>
         {isProcessing ? (
           <Animated.View
