@@ -11,35 +11,35 @@ import openCustomTab from "../../Services/openCustomTab/openCustomTab";
 const appVersionText = constants.aboutUsText.versionText + version;
 const data = [
   {
-    icon: constants.infoIcon,
+    icon: constants.rocketIcon,
     text: "About us",
     action: () => {
       openCustomTab(`${constants.productUrl}${constants.aboutUs}`);
     }
   },
   {
-    icon: constants.infoIcon,
+    icon: constants.exceptionIcon,
     text: "Terms & conditions",
     action: () => {
       openCustomTab(`${constants.productUrl}${constants.termsAndConditions}`);
     }
   },
   {
-    icon: constants.infoIcon,
+    icon: constants.privacyIcon,
     text: "Privacy Policy",
     action: () => {
       openCustomTab(`${constants.productUrl}${constants.privacyPolicy}`);
     }
   },
   {
-    icon: constants.infoIcon,
+    icon: constants.cancellationIcon,
     text: "Cancellation Policy",
     action: () => {
       openCustomTab(`${constants.productUrl}${constants.cancellationPolicy}`);
     }
   },
   {
-    icon: constants.infoIcon,
+    icon: constants.careersIcon,
     text: "Careers at Pickyourtrail",
     action: () => {
       openCustomTab(`${constants.productUrl}${constants.careers}`);
