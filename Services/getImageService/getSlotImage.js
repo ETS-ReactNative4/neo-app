@@ -2,6 +2,9 @@ import constants from "../../constants/constants";
 import getTransferImage from "./getTransferImage";
 import storeService from "../storeService/storeService";
 
+/**
+ * TODO: Handle empty transferplaceholder images
+ */
 const getSlotImage = (identifier, type) => {
   switch (type) {
     case "FLIGHT":

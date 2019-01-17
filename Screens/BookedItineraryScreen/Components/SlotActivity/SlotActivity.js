@@ -1,5 +1,4 @@
 import React from "react";
-import { View, Text } from "react-native";
 import PropTypes from "prop-types";
 import constants from "../../../../constants/constants";
 import { inject, observer } from "mobx-react/custom";
@@ -119,7 +118,7 @@ const SlotActivity = inject("itineraries")(
                 isImageContain={true}
                 onClick={onClick}
                 contentNumberOfLines={3}
-                defaultImageUri={constants.airLineLogoPlaceHolder}
+                defaultSource={constants.flightLogoPlaceholderIllus}
                 isProcessing={!(flight.voucher && flight.voucher.booked)}
                 spinValue={spinValue}
               />
@@ -139,7 +138,7 @@ const SlotActivity = inject("itineraries")(
                 sectionImage={constants.leisureIcon}
                 isProcessing={false}
                 onClick={() => onClick(city)}
-                defaultImageUri={constants.activity3SmallPlaceHolder}
+                defaultSource={constants.activityThumbPlaceholderIllus}
                 contentNumberOfLines={3}
                 isImageContain={true}
                 spinValue={spinValue}
@@ -174,11 +173,7 @@ const SlotActivity = inject("itineraries")(
                 sectionImage={{ uri: activityCosting.mainPhoto }}
                 onClick={onClick}
                 contentNumberOfLines={3}
-                defaultImageUri={_.sample([
-                  constants.activitySmallPlaceHolder,
-                  constants.activity2SmallPlaceHolder,
-                  constants.activity3SmallPlaceHolder
-                ])}
+                defaultSource={constants.activityThumbPlaceholderIllus}
                 isImageContain={false}
                 isProcessing={
                   !(
@@ -230,7 +225,11 @@ const SlotActivity = inject("itineraries")(
                 sectionImage={{ uri: imageObject.image }}
                 onClick={onClick}
                 contentNumberOfLines={3}
-                defaultImageUri={constants.transferPlaceHolder}
+                defaultSource={
+                  transferMode === "FLIGHT"
+                    ? constants.flightLogoPlaceholderIllus
+                    : constants.transferPlaceHolder
+                }
                 isProcessing={!(transfer.voucher && transfer.voucher.booked)}
                 spinValue={spinValue}
               />
@@ -268,7 +267,7 @@ const SlotActivity = inject("itineraries")(
                 contentNumberOfLines={3}
                 isImageContain={true}
                 onClick={onClick}
-                defaultImageUri={constants.airLineLogoPlaceHolder}
+                defaultSource={constants.flightLogoPlaceholderIllus}
                 isProcessing={
                   !(departureFlight.voucher && departureFlight.voucher.booked)
                 }
@@ -318,20 +317,13 @@ const SlotActivity = inject("itineraries")(
                 onClick={onClick}
                 contentNumberOfLines={3}
                 isImageContain={false}
-                defaultImageUri={constants.transferPlaceHolder}
+                defaultSource={constants.activityThumbPlaceholderIllus}
                 spinValue={spinValue}
               />
             );
 
           default:
-            /**
-             * TODO: Remove black space before release
-             */
-            return (
-              <View style={{ height: 40, backgroundColor: "black" }}>
-                <Text>{"section missing"}</Text>
-              </View>
-            );
+            return null;
         }
       };
 

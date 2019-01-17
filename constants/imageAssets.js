@@ -111,6 +111,12 @@ const imageAssets = {
   errorBoxIllus: require("../assets/images/illustrations/Alert-icons-failure.png"),
   infoBoxIllus: require("../assets/images/illustrations/Alert-icons-info.png"),
   alertBoxIllus: require("../assets/images/illustrations/Alert-icons.png"),
+  flightLogoPlaceholderIllus: require("../assets/images/placeholder-images/flight.png"),
+  activityThumbPlaceholderIllus: require("../assets/images/placeholder-images/activity.png"),
+  hotelThumbPlaceholderIllus: require("../assets/images/placeholder-images/hotel.png"),
+  passThumbPlaceholderIllus: require("../assets/images/placeholder-images/pass.png"),
+  visaThumbnailIllus: require("../assets/images/placeholder-images/visa.png"),
+  insuranceThumbnailIllus: require("../assets/images/placeholder-images/insurance.png"),
   journalComingSoonIllus: require("../assets/images/illustrations/coming-soon/travel-memories-coming-soon.png"),
 
   /**
