@@ -53,6 +53,7 @@ const imageAssets = {
   bookingIcon: "booking",
   bookingSelectedIcon: "booking-active",
   supportIcon: "support",
+  supportIconLight: "support-01",
   supportSelectedIcon: "support-active",
   toolIcon: "tools",
   toolSelectedIcon: "tools-active",
