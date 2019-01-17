@@ -1,11 +1,13 @@
-import constants from "./constants";
 import serverUrls from "./serverUrls";
 import PackageInfo from "../package.json";
+import { isIphoneX } from "react-native-iphone-x-helper";
 
 const prefix = serverUrls.miscImageBaseUrl + "placeholders/";
 
 const imageAssets = {
-  splashBackground: require("../assets/images/backgrounds/splashImage.webp"),
+  splashBackground: isIphoneX()
+    ? require("../assets/images/backgrounds/splashImage.webp")
+    : require("../assets/images/backgrounds/splashImageAndroid.webp"),
   starterBackground: require("../assets/images/backgrounds/starterImage.jpg"),
   drawerBackground: require("../assets/images/backgrounds/drawer.png"),
   pytLogo:
