@@ -25,6 +25,7 @@ class Places {
     this._selectedCity = {};
     this._cityCategories = {};
     this._textSearches = {};
+    this._locationSearches = {};
     this._placesList = {};
     this._selectedPlace = "";
     this._isLoading = false;
