@@ -95,8 +95,8 @@ class TripView extends Component {
                 );
                 if (
                   activity &&
-                  (activity.voucher.booked || activity.free) &&
-                  !_.isEmpty(activity)
+                  !_.isEmpty(activity) &&
+                  (activity.voucher.booked || activity.free)
                 )
                   resolveLinks("ActivityVoucher", { activity });
                 else toastBottom(constants.bookingProcessText.message);
