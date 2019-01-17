@@ -5,7 +5,6 @@
 	};
 	objectVersion = 46;
 	objects = {
-
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -51,6 +50,9 @@
 		DCFDAB3BA6D140FEBFA5E460 /* libRCTRestart.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C42E03626FC34A04B1171170 /* libRCTRestart.a */; };
 		E14959986C3643CB89615645 /* Sofia Pro Semi Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 25C3910E84224321B6F428F9 /* Sofia Pro Semi Bold.ttf */; };
 		EB6B9EDEF4AF1D1506B6BD7D /* libPods-Pickyourtrail.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E7AD8A2F9AA6EC8B4478E82 /* libPods-Pickyourtrail.a */; };
+		61E8A27696E34C4F91743234 /* PT Sans Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3DED57950DBF4A70A14E3C88 /* PT Sans Bold.ttf */; };
+		A341C89F1EA74653B0FC90E5 /* PT Sans Caption.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B71F5758E9B04530804F33F4 /* PT Sans Caption.ttf */; };
+		1D100DD19E7B49C38FC59241 /* PT Sans.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F7E553E782E74C21B18CBABA /* PT Sans.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -429,6 +431,9 @@
 		EDBD12E989F546B9B16654FD /* libRNInAppBrowser.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNInAppBrowser.a; sourceTree = "<group>"; };
 		F6370F0DF5019E8F43169028 /* Pods-Pickyourtrail.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pickyourtrail.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Pickyourtrail/Pods-Pickyourtrail.debug.xcconfig"; sourceTree = "<group>"; };
 		F9DC3CE20F8045D4ACED9C38 /* libRNFirebase.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNFirebase.a; sourceTree = "<group>"; };
+		3DED57950DBF4A70A14E3C88 /* PT Sans Bold.ttf */ = {isa = PBXFileReference; name = "PT Sans Bold.ttf"; path = "../assets/fonts/PT Sans Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		B71F5758E9B04530804F33F4 /* PT Sans Caption.ttf */ = {isa = PBXFileReference; name = "PT Sans Caption.ttf"; path = "../assets/fonts/PT Sans Caption.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		F7E553E782E74C21B18CBABA /* PT Sans.ttf */ = {isa = PBXFileReference; name = "PT Sans.ttf"; path = "../assets/fonts/PT Sans.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -772,6 +777,9 @@
 				AA8053EC3AF84EE2B1F260D0 /* Sofia Pro Light.ttf */,
 				25C3910E84224321B6F428F9 /* Sofia Pro Semi Bold.ttf */,
 				B054342012024D2E85FE4A9A /* voyager.ttf */,
+				3DED57950DBF4A70A14E3C88 /* PT Sans Bold.ttf */,
+				B71F5758E9B04530804F33F4 /* PT Sans Caption.ttf */,
+				F7E553E782E74C21B18CBABA /* PT Sans.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -1337,6 +1345,9 @@
 				E14959986C3643CB89615645 /* Sofia Pro Semi Bold.ttf in Resources */,
 				1A401BD115174463898AB2A9 /* voyager.ttf in Resources */,
 				33A79BD121564F4F00A5A7EF /* GoogleService-Info.plist in Resources */,
+				61E8A27696E34C4F91743234 /* PT Sans Bold.ttf in Resources */,
+				A341C89F1EA74653B0FC90E5 /* PT Sans Caption.ttf in Resources */,
+				1D100DD19E7B49C38FC59241 /* PT Sans.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1617,7 +1628,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Pickyourtrail/Pickyourtrail.entitlements;
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 61;
+				CURRENT_PROJECT_VERSION = 64;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = KCHL242759;
 				HEADER_SEARCH_PATHS = (
@@ -1657,7 +1668,7 @@
 				CODE_SIGN_ENTITLEMENTS = Pickyourtrail/Pickyourtrail.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 61;
+				CURRENT_PROJECT_VERSION = 64;
 				DEVELOPMENT_TEAM = KCHL242759;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",

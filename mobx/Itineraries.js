@@ -699,9 +699,13 @@ class Itineraries {
       const flight = toJS(
         this._selectedItinerary.flightCostings.flightCostingById[id]
       );
-      flight.voucher =
-        storeService.voucherStore.getFlightVoucherById(flight.key) || {};
-      return flight;
+      if (flight && flight.key) {
+        flight.voucher =
+          storeService.voucherStore.getFlightVoucherById(flight.key) || {};
+        return flight;
+      } else {
+        return {};
+      }
     } catch (e) {
       logError(e);
       return {};

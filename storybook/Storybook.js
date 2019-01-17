@@ -31,7 +31,6 @@ configure(() => {
 const StorybookUIRoot = getStorybookUI({});
 
 export const shouldIncludeStoryBook = () =>
-  __DEV__ ||
-  (Platform.OS === "ios" && PackageInfo.environment !== "production");
+  __DEV__ || PackageInfo.environment !== "production";
 
 export default StorybookUIRoot;

@@ -29,6 +29,7 @@ import CustomScrollView from "../../CommonComponents/CustomScrollView/CustomScro
 import SectionHeader from "../../CommonComponents/SectionHeader/SectionHeader";
 import openCustomTab from "../../Services/openCustomTab/openCustomTab";
 import NoInternetIndicator from "../../CommonComponents/NoInternetIndicator/NoInternetIndicator";
+import * as Keychain from "react-native-keychain";
 
 @ErrorBoundary({ isRoot: true })
 @inject("infoStore")
@@ -52,10 +53,28 @@ class BookingsHome extends Component {
   };
 
   componentDidMount() {
-    getDeviceToken(token => {
-      registerFcmRefreshListener();
-    });
+    this.enablePushNotificationServices();
+    const { selectedItineraryId } = this.props.itineraries;
+    if (selectedItineraryId) {
+      pullToRefresh({
+        itinerary: true,
+        voucher: true
+      });
+    }
   }
+
+  enablePushNotificationServices = async () => {
+    try {
+      const credentials = await Keychain.getGenericPassword();
+      if (credentials) {
+        getDeviceToken(token => {
+          registerFcmRefreshListener();
+        });
+      }
+    } catch (e) {
+      logError(e);
+    }
+  };
 
   openSearch = () => {};
 

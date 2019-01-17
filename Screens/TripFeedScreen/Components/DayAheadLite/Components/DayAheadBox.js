@@ -1,11 +1,21 @@
 import React from "react";
-import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
+import { Text, View, StyleSheet, Image, TouchableOpacity } from "react-native";
 import constants from "../../../../../constants/constants";
 import FastImage from "react-native-fast-image";
-import UpcomingBadge from "./UpcomingBadge";
+import UpcomingBadge from "../../DayAhead/Components/UpcomingBadge";
 import SmartImage from "../../../../../CommonComponents/SmartImage/SmartImage";
+import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidExtraProps";
+import PropTypes from "prop-types";
+import DayAheadRow from "../../DayAhead/Components/DayAheadRow";
 
-const DayAheadBox = () => {
+const DayAheadBox = ({
+  image,
+  label,
+  title,
+  text,
+  voucherType,
+  costingIdentifier
+}) => {
   return (
     <TouchableOpacity
       style={styles.dayAheadBoxTouchable}
@@ -13,19 +23,16 @@ const DayAheadBox = () => {
       activeOpacity={0.7}
     >
       <View style={styles.dayAheadBoxContainer}>
-        <SmartImage
+        <Image
+          source={image}
           style={styles.imageThumbnail}
-          defaultImageUri={constants.activity2MediumPlaceHolder}
-          uri={
-            "http://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg"
-          }
-          resizeMode={FastImage.resizeMode.cover}
+          resizeMode={"cover"}
         />
         <View style={styles.textAreaWrapper}>
           <View style={styles.timeTextWrapper}>
             <Text style={styles.nextText}>
-              {"NEXT: "}
-              <Text style={styles.timeText}>{"8:00am - 12:00pm"}</Text>
+              {`${label} `}
+              <Text style={styles.timeText}>{title}</Text>
             </Text>
           </View>
           <Text
@@ -33,15 +40,22 @@ const DayAheadBox = () => {
             ellipsizeMode={"tail"}
             style={styles.descriptionText}
           >
-            {
-              "City Sightseeing Barcelona Hop-On Hop-Off Tour longer Barcelona Hop-On Hop-Off Tour longer"
-            }
+            {text}
           </Text>
         </View>
       </View>
     </TouchableOpacity>
   );
 };
+
+DayAheadBox.propTypes = forbidExtraProps({
+  image: PropTypes.oneOfType([PropTypes.object, PropTypes.number]).isRequired,
+  label: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  text: PropTypes.string.isRequired,
+  voucherType: PropTypes.string.isRequired,
+  costingIdentifier: PropTypes.string.isRequired
+});
 
 const styles = StyleSheet.create({
   dayAheadBoxTouchable: {

@@ -1,10 +1,9 @@
 import { Platform } from "react-native";
 
 const primaryFont = {
-  primaryRegular: "Sofia Pro",
-  primaryLight: Platform.OS === "ios" ? "SofiaPro-Light" : "Sofia Pro Light",
-  primarySemiBold:
-    Platform.OS === "ios" ? "SofiaPro-SemiBold" : "Sofia Pro Semi Bold"
+  primaryRegular: Platform.OS === "ios" ? "PTSans-Regular" : "PT Sans",
+  primaryLight: Platform.OS === "ios" ? "PTSans-Regular" : "PT Sans",
+  primarySemiBold: Platform.OS === "ios" ? "PTSans-Bold" : "PT Sans Bold"
 };
 
 const font10 = fontFamily => {

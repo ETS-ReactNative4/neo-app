@@ -15,6 +15,7 @@ const BigImageCard = ({
   type,
   image,
   link,
+  modalData = {},
   containerStyle = {},
   titleStyle = {},
   typeStyle = {},
@@ -45,7 +46,7 @@ const BigImageCard = ({
     ];
   }
 
-  const action = () => resolveLinks(link);
+  const action = () => resolveLinks(link, modalData);
 
   return (
     <TouchableOpacity
@@ -137,6 +138,7 @@ BigImageCard.propTypes = forbidExtraProps({
   type: PropTypes.string,
   image: PropTypes.oneOfType([PropTypes.object, PropTypes.number]).isRequired,
   link: PropTypes.string.isRequired,
+  modalData: PropTypes.object,
   containerStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.number]),
   titleStyle: PropTypes.object,
   typeStyle: PropTypes.object,

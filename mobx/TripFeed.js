@@ -63,26 +63,24 @@ class TripFeed {
   @action
   generateTripFeed = () => {
     this._isLoading = true;
-    apiCall(
-      `${constants.getTripFeed}?itineraryId=${
-        storeService.itineraries.selectedItineraryId
-      }`,
-      {}
-    )
-      .then(response => {
-        this._isLoading = false;
-        if (response.status === "SUCCESS") {
-          this._widgets = response.data;
-          this._hasError = false;
-        } else {
+    const { selectedItineraryId } = storeService.itineraries;
+    if (selectedItineraryId) {
+      apiCall(`${constants.getTripFeed}?itineraryId=${selectedItineraryId}`, {})
+        .then(response => {
+          this._isLoading = false;
+          if (response.status === "SUCCESS") {
+            this._widgets = response.data;
+            this._hasError = false;
+          } else {
+            this._hasError = true;
+          }
+        })
+        .catch(err => {
+          this._isLoading = false;
           this._hasError = true;
-        }
-      })
-      .catch(err => {
-        this._isLoading = false;
-        this._hasError = true;
-        logError(err);
-      });
+          logError(err);
+        });
+    }
   };
 
   @action

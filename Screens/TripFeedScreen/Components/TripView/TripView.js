@@ -69,7 +69,7 @@ class TripView extends Component {
           }}
         >
           {data.map((item, itemIndex) => {
-            const rotate = item.icon === "FLIGHT" ? "90deg" : "0deg";
+            const rotate = item.icon === "flight" ? "90deg" : "0deg";
             const action = () =>
               resolveLinks(item.link, {
                 selectedDate: JSON.stringify(item.date)
@@ -95,8 +95,8 @@ class TripView extends Component {
                 );
                 if (
                   activity &&
-                  (activity.voucher.booked || activity.free) &&
-                  !_.isEmpty(activity)
+                  !_.isEmpty(activity) &&
+                  (activity.voucher.booked || activity.free)
                 )
                   resolveLinks("ActivityVoucher", { activity });
                 else toastBottom(constants.bookingProcessText.message);

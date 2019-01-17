@@ -12,6 +12,7 @@ import SimpleButton from "../../../../CommonComponents/SimpleButton/SimpleButton
 import { responsiveWidth } from "react-native-responsive-dimensions";
 import PropTypes from "prop-types";
 import FeedBackSwiperModal from "./Components/FeedBackSwiperModal";
+import FeedBackPositiveExplosion from "./Components/FeedBackPositiveExplosion";
 
 const NextCard = () => (
   <View
@@ -59,42 +60,45 @@ class FeedBackSwiper extends Component {
       {
         title: "How was your day?",
         day: "Yesterday, May 23",
-        yey: () => this.openFeedBackModal(),
-        meh: () => this.openFeedBackModal()
+        yey: () => this.openFeedBackModal({}),
+        meh: () => this.openFeedBackModal({ isNegative: true })
       },
       {
         title: "How was your day?",
         day: "May 22",
-        yey: () => this.openFeedBackModal(),
-        meh: () => this.openFeedBackModal()
+        yey: () => this.openFeedBackModal({}),
+        meh: () => this.openFeedBackModal({ isNegative: true })
       },
       {
         title: "How was your day?",
         day: "May 21",
-        yey: () => this.openFeedBackModal(),
-        meh: () => this.openFeedBackModal()
+        yey: () => this.openFeedBackModal({}),
+        meh: () => this.openFeedBackModal({ isNegative: true })
       },
       {
         title: "How was your day?",
         day: "May 20",
-        yey: () => this.openFeedBackModal(),
-        meh: () => this.openFeedBackModal()
+        yey: () => this.openFeedBackModal({}),
+        meh: () => this.openFeedBackModal({ isNegative: true })
       },
       {
         title: "How was your day?",
         day: "May 19",
-        yey: () => this.openFeedBackModal(),
-        meh: () => this.openFeedBackModal()
+        yey: () => this.openFeedBackModal({}),
+        meh: () => this.openFeedBackModal({ isNegative: true })
       }
     ],
-    isModalVisible: false
+    isModalVisible: false,
+    isNegative: false
   };
 
   _cardStack = React.createRef();
+  _emitterComponent = React.createRef();
 
-  openFeedBackModal = () => {
+  openFeedBackModal = ({ isNegative = false }) => {
     this.setState({
-      isModalVisible: true
+      isModalVisible: true,
+      isNegative
     });
   };
 
@@ -182,7 +186,13 @@ class FeedBackSwiper extends Component {
         key={1}
         isVisible={this.state.isModalVisible}
         data={{}}
+        emitterComponent={this._emitterComponent}
+        onClose={this.closeFeedBackModal}
+        isNegative={this.state.isNegative}
         submit={this.submitFeedBack}
+      />,
+      <FeedBackPositiveExplosion
+        ref={emitterComponent => (this._emitterComponent = emitterComponent)}
       />
     ];
   }
