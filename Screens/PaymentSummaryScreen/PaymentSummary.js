@@ -170,8 +170,10 @@ class PaymentSummary extends Component {
     const { paymentInfo, isLoading } = this.state;
     const { productPayments, platoPayements } = paymentInfo;
 
+    let isPaymentExpired = false;
     const paymentOptions = productPayments
       ? productPayments.reduce((detailsArray, amount) => {
+          if (amount.paymentStatus === "EXPIRED") isPaymentExpired = true;
           if (amount.paymentStatus === "PENDING") {
             const data = {
               amount: `₹ ${amount.paymentAmount}`,
@@ -308,7 +310,9 @@ class PaymentSummary extends Component {
           <Text style={styles.dueDate}>
             {isPaymentComplete
               ? !isLoading
-                ? "Payment Completed!"
+                ? !isPaymentExpired
+                  ? "Payment Completed!"
+                  : "Payment Expired!"
                 : ""
               : `Due date for next payment ${this.state.nextPendingDate}`}
           </Text>

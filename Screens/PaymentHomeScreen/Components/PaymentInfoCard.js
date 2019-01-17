@@ -51,9 +51,11 @@ const PaymentInfoCard = ({
         <View style={styles.infoTextWrapper}>
           <View style={styles.dateWrapper}>
             {isPaymentPending ? (
-              <Text style={styles.paymentDueText}>{`Next Payment due ${moment(
-                nextPendingDate
-              ).fromNow()}`}</Text>
+              nextPendingDate > 0 ? (
+                <Text style={styles.paymentDueText}>{`Next Payment due ${moment(
+                  nextPendingDate
+                ).fromNow()}`}</Text>
+              ) : null
             ) : (
               <Text
                 style={[styles.paymentDueText, styles.paymentCompleteText]}
