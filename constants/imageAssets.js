@@ -5,7 +5,7 @@ import PackageInfo from "../package.json";
 const prefix = serverUrls.miscImageBaseUrl + "placeholders/";
 
 const imageAssets = {
-  splashBackground: require("../assets/images/backgrounds/viceroy-bali.jpg.jpg"),
+  splashBackground: require("../assets/images/backgrounds/splashImage.webp"),
   starterBackground: require("../assets/images/backgrounds/starterImage.jpg"),
   drawerBackground: require("../assets/images/backgrounds/drawer.png"),
   pytLogo:
