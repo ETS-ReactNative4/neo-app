@@ -60,7 +60,7 @@ const BookedTabs = createBottomTabNavigator(
               text: "SUPPORT",
               icon: focused
                 ? constants.supportSelectedIcon
-                : constants.supportIcon,
+                : constants.supportIconLight,
               color: focused ? constants.firstColor : color
             };
             break;
