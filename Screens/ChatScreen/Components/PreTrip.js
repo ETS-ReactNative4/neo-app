@@ -1,18 +1,20 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, Image } from "react-native";
 import SimpleButton from "../../../CommonComponents/SimpleButton/SimpleButton";
 import constants from "../../../constants/constants";
 import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraProps";
 import PropTypes from "prop-types";
+import { responsiveWidth } from "react-native-responsive-dimensions";
 
 const PreTrip = ({ action }) => {
   return (
     <View style={styles.preTripContainer}>
-      <Text style={styles.message}>
-        {
-          "Chat will be enabled 48hrs prior to your trip. Meanwhile, please visit our support center if you have questions or clarifications."
-        }
-      </Text>
+      <Image
+        source={constants.preChatSupportIllus}
+        style={styles.image}
+        resizeMode="contain"
+      />
+      <Text style={styles.message}>{constants.preTripChatText}</Text>
       <SimpleButton
         containerStyle={{ marginTop: 8, width: 192 }}
         text={"Visit support center"}
@@ -34,6 +36,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     paddingHorizontal: 24
+  },
+  image: {
+    width: responsiveWidth(60),
+    maxWidth: 200
   },
   message: {
     ...constants.fontCustom(constants.primaryLight, 15, 18),

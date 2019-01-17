@@ -1,5 +1,13 @@
 import React, { Component } from "react";
-import { View, StyleSheet, Text, TextInput, Platform } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Text,
+  TextInput,
+  Platform,
+  Keyboard,
+  KeyboardAvoidingView
+} from "react-native";
 import Modal from "react-native-modal";
 import PropTypes from "prop-types";
 import { responsiveWidth } from "react-native-responsive-dimensions";
@@ -9,19 +17,68 @@ import FastImage from "react-native-fast-image";
 import FeedBackButtons from "./FeedBackButtons";
 import SimpleButton from "../../../../../CommonComponents/SimpleButton/SimpleButton";
 import Icon from "../../../../../CommonComponents/Icon/Icon";
+import { toastCenter } from "../../../../../Services/toast/toast";
 
 class FeedBackSwiperModal extends Component {
   static propTypes = {
     isVisible: PropTypes.bool.isRequired,
     isNegative: PropTypes.bool,
     data: PropTypes.object.isRequired,
-    submit: PropTypes.func.isRequired
+    submit: PropTypes.func.isRequired,
+    onClose: PropTypes.func.isRequired,
+    emitterComponent: PropTypes.object.isRequired
+  };
+
+  state = {
+    isKeyboardVisible: false
+  };
+  keyboardDidShowListener;
+  keyboardDidHideListener;
+
+  componentDidMount() {
+    this.keyboardDidShowListener = Keyboard.addListener(
+      "keyboardDidShow",
+      this._keyboardDidShow
+    );
+    this.keyboardDidHideListener = Keyboard.addListener(
+      "keyboardDidHide",
+      this._keyboardDidHide
+    );
+  }
+
+  componentWillUnmount() {
+    this.keyboardDidShowListener.remove();
+    this.keyboardDidHideListener.remove();
+  }
+
+  _keyboardDidShow = () => {
+    this.setState({
+      isKeyboardVisible: true
+    });
+  };
+
+  _keyboardDidHide = () => {
+    this.setState({
+      isKeyboardVisible: false
+    });
   };
 
   onEditText = () => {};
 
+  positiveSubmit = () => {
+    toastCenter("Thanks for the feedback!");
+    this.props.emitterComponent && this.props.emitterComponent.start();
+    this.props.submit();
+  };
+
+  negativeSubmit = () => {
+    toastCenter("Thanks for the feedback!");
+    this.props.submit();
+  };
+
   render() {
-    const { isVisible, isNegative, data, onClose } = this.props;
+    const { isVisible, isNegative, data, onClose, submit } = this.props;
+    const { isKeyboardVisible } = this.state;
 
     const items = [
       {
@@ -82,12 +139,23 @@ class FeedBackSwiperModal extends Component {
 
     return (
       <Modal
+        animationInTiming={600}
+        animationIn={"zoomIn"}
+        animationOutTiming={600}
+        animationOut={"zoomOut"}
+        useNativeDriver={true}
         isVisible={isVisible}
         onBackButtonPress={onClose}
-        onBackdropPress={onClose}
+        onBackdropPress={() =>
+          isKeyboardVisible ? Keyboard.dismiss() : onClose()
+        }
         style={styles.modalContainer}
       >
-        <View style={styles.modalView}>
+        <KeyboardAvoidingView
+          style={styles.modalView}
+          behavior="padding"
+          enabled
+        >
           <View style={styles.header}>
             <Text style={styles.headerText}>{"Yesterday, May 23"}</Text>
           </View>
@@ -95,7 +163,7 @@ class FeedBackSwiperModal extends Component {
             <Text style={styles.bodyHeaderText}>
               {isNegative ? "Oops! What went wrong?" : "Nice! Tell us more..."}
             </Text>
-            {items.map((item, itemIndex) => {
+            {/*items.map((item, itemIndex) => {
               return (
                 <View key={itemIndex} style={styles.feedBackRow}>
                   <SmartImage
@@ -120,15 +188,21 @@ class FeedBackSwiperModal extends Component {
                   />
                 </View>
               );
-            })}
+            })*/}
             <View style={styles.textInputWrapper}>
               <TextInput
                 style={styles.textInput}
                 onChangeText={this.onEditText}
-                returnKeyType={"done"}
+                returnKeyType={"next"}
                 underlineColorAndroid={"transparent"}
-                onSubmitEditing={() => null}
-                placeholder={"Or, type a custom message"}
+                multiline={true}
+                numberOfLines={5}
+                textAlignVertical={"top"}
+                placeholder={
+                  isNegative
+                    ? "had issues with..."
+                    : "the day was a blast because..."
+                }
                 placeholderTextColor={"rgba(155,155,155,1)"}
               />
             </View>
@@ -140,7 +214,9 @@ class FeedBackSwiperModal extends Component {
                 marginBottom: 16,
                 backgroundColor: "white"
               }}
-              action={this.props.submit}
+              action={() =>
+                isNegative ? this.negativeSubmit() : this.positiveSubmit()
+              }
               textColor={constants.black1}
             />
           </View>
@@ -151,7 +227,7 @@ class FeedBackSwiperModal extends Component {
               size={22}
             />
           </View>
-        </View>
+        </KeyboardAvoidingView>
       </Modal>
     );
   }
@@ -220,14 +296,7 @@ const styles = StyleSheet.create({
     color: constants.shade4
   },
   textInputWrapper: {
-    ...Platform.select({
-      android: {
-        height: 40
-      },
-      ios: {
-        height: 32
-      }
-    }),
+    height: 70,
     width: modalWidth - 16,
     marginVertical: 8,
     borderRadius: 4,
@@ -235,9 +304,9 @@ const styles = StyleSheet.create({
   },
   textInput: {
     backgroundColor: "rgba(255,255,255,0.1)",
-    flex: 1,
     paddingHorizontal: 8,
     borderRadius: 4,
+    height: 70,
     ...constants.fontCustom(constants.primaryLight, 13),
     color: "white"
   },

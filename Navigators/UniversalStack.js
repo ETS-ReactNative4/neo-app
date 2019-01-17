@@ -1,49 +1,14 @@
 import { createStackNavigator } from "react-navigation";
-import Starter from "../Screens/StartingScreen/Starter";
-import HomeTabs from "./HomeTabs";
-import MobileNumber from "../Screens/MobileNumberScreen/MobileNumber";
 import TransferVoucher from "../Screens/VoucherScreens/TransferVoucherScreen/TransferVoucher";
 import ActivityVoucher from "../Screens/VoucherScreens/ActivityVoucherScreen/ActivityVoucher";
 import HotelVoucher from "../Screens/VoucherScreens/HotelVoucherScreen/HotelVoucher";
 import FlightVoucher from "../Screens/VoucherScreens/FlightVoucherScreen/FlightVoucher";
 import PassVoucher from "../Screens/VoucherScreens/PassVoucherScreen/PassVoucher";
 import FlightStatus from "../Screens/FlightStatusScreen/FlightStatus";
+import LeisureScreen from "../Screens/VoucherScreens/LeisureScreen/LeisureScreen";
 import YourBookings from "../Screens/YourBookingsScreen/YourBookings";
 import transitionConfig from "../Services/navigationAnimations/transitionConfig";
-
-const MainStack = createStackNavigator(
-  {
-    Starter: {
-      screen: Starter
-    },
-    AppHome: {
-      screen: HomeTabs,
-      navigationOptions: {
-        header: null
-      }
-    },
-    MobileNumber: {
-      screen: MobileNumber,
-      navigationOptions: {
-        gesturesEnabled: true
-      }
-    }
-  },
-  {
-    navigationOptions: {
-      gesturesEnabled: false
-    },
-    transitionConfig
-  }
-);
-
-MainStack.navigationOptions = () => {
-  let drawerLockMode = "locked-closed";
-
-  return {
-    drawerLockMode
-  };
-};
+import MainStack from "./MainStack";
 
 const UniversalStack = createStackNavigator(
   {
@@ -65,6 +30,9 @@ const UniversalStack = createStackNavigator(
     },
     FlightStatus: {
       screen: FlightStatus
+    },
+    LeisureScreen: {
+      screen: LeisureScreen
     },
     YourBookingsUniversal: {
       screen: YourBookings

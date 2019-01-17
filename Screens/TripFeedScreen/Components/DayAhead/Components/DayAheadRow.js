@@ -3,6 +3,7 @@ import {
   TouchableOpacity,
   View,
   Text,
+  Image,
   StyleSheet,
   Platform
 } from "react-native";
@@ -11,8 +12,17 @@ import constants from "../../../../../constants/constants";
 import FastImage from "react-native-fast-image";
 import UpcomingBadge from "./UpcomingBadge";
 import { responsiveWidth } from "react-native-responsive-dimensions";
+import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidExtraProps";
 
-const DayAheadRow = ({ isLast }) => {
+const DayAheadRow = ({
+  image,
+  label,
+  title,
+  text,
+  voucherType,
+  costingIdentifier,
+  isLast
+}) => {
   return (
     <TouchableOpacity
       style={[
@@ -26,13 +36,13 @@ const DayAheadRow = ({ isLast }) => {
       ]}
     >
       <View style={styles.imageContainer}>
-        <FastImage source={constants.splashBackground} style={styles.image} />
+        <Image source={image} style={styles.image} resizeMode={"cover"} />
       </View>
       <View style={styles.textContainer}>
         <View style={styles.headerTextWrapper}>
-          <UpcomingBadge containerStyle={{ marginRight: 8 }} />
+          <UpcomingBadge text={label} containerStyle={{ marginRight: 8 }} />
           <View style={styles.headerTimeTextWrapper}>
-            <Text style={styles.headerTimeText}>{"8:00am Pick up"}</Text>
+            <Text style={styles.headerTimeText}>{title}</Text>
           </View>
         </View>
         <View style={styles.descriptionTextWrapper}>
@@ -40,16 +50,24 @@ const DayAheadRow = ({ isLast }) => {
             numberOfLines={2}
             ellipsizeMode={"tail"}
             style={styles.descriptionText}
-          >{`City Sightseeing Barcelona Hop-On Hop-Off Tour longer Barcelona Hop-On Hop-Off Tour longer`}</Text>
+          >
+            {text}
+          </Text>
         </View>
       </View>
     </TouchableOpacity>
   );
 };
 
-DayAheadRow.propTypes = {
+DayAheadRow.propTypes = forbidExtraProps({
+  image: PropTypes.oneOfType([PropTypes.object, PropTypes.number]).isRequired,
+  label: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  text: PropTypes.string.isRequired,
+  voucherType: PropTypes.string.isRequired,
+  costingIdentifier: PropTypes.string.isRequired,
   isLast: PropTypes.bool.isRequired
-};
+});
 
 const styles = StyleSheet.create({
   dayAheadRowContainer: {

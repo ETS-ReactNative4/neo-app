@@ -3,10 +3,10 @@ import PropTypes from "prop-types";
 import { Text, View, StyleSheet } from "react-native";
 import constants from "../../../../../constants/constants";
 
-const UpcomingBadge = ({ containerStyle }) => {
+const UpcomingBadge = ({ containerStyle, text }) => {
   return (
     <View style={[styles.upcomingWrapper, containerStyle]}>
-      <Text style={styles.upcomingText}>{"UPCOMING"}</Text>
+      <Text style={styles.upcomingText}>{text}</Text>
     </View>
   );
 };
@@ -29,7 +29,8 @@ const styles = StyleSheet.create({
 });
 
 UpcomingBadge.propTypes = {
-  containerStyle: PropTypes.object
+  containerStyle: PropTypes.object,
+  text: PropTypes.string.isRequired
 };
 
 export default UpcomingBadge;

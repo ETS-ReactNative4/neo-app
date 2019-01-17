@@ -11,6 +11,7 @@ import SimpleButton from "../../../CommonComponents/SimpleButton/SimpleButton";
 import PropTypes from "prop-types";
 import dialer from "../../../Services/dialer/dialer";
 import directions from "../../../Services/directions/directions";
+import { recordEvent } from "../../../Services/analytics/analyticsService";
 
 class EmergencyContactSection extends Component {
   static propTypes = {
@@ -39,22 +40,38 @@ class EmergencyContactSection extends Component {
     } = this.props.cityContactDetails;
 
     const contactNumbersList = [
-      {
-        title: "Police",
-        number: policeNumber
-      },
-      {
-        title: "Ambulance",
-        number: ambulanceNumber
-      },
-      {
-        title: "Fire Department",
-        number: fireNumber
-      },
-      {
-        title: "In case of missing children",
-        number: missingChildrenNumber
-      }
+      policeNumber
+        ? {
+            title: "Police",
+            number: policeNumber,
+            recordEvent: () =>
+              recordEvent(constants.emergencyContactsPoliceNumberClick)
+          }
+        : null,
+      ambulanceNumber
+        ? {
+            title: "Ambulance",
+            number: ambulanceNumber,
+            recordEvent: () =>
+              recordEvent(constants.emergencyContactsAmbulanceNumberClick)
+          }
+        : null,
+      fireNumber
+        ? {
+            title: "Fire Department",
+            number: fireNumber,
+            recordEvent: () =>
+              recordEvent(constants.emergencyContactsFireDeptNumberClick)
+          }
+        : null,
+      missingChildrenNumber
+        ? {
+            title: "In case of missing children",
+            number: missingChildrenNumber,
+            recordEvent: () =>
+              recordEvent(constants.emergencyContactsChildrenMissingNumberClick)
+          }
+        : null
     ];
 
     return (
@@ -86,9 +103,13 @@ class EmergencyContactSection extends Component {
         </View>
         <View style={styles.emergencyNumbersContainer}>
           {contactNumbersList.map((contactNumber, contactNumberIndex) => {
+            if (!contactNumber) return null;
             return (
               <TouchableOpacity
-                onPress={() => dialer(contactNumber.number)}
+                onPress={() => {
+                  contactNumber.recordEvent();
+                  dialer(contactNumber.number);
+                }}
                 key={contactNumberIndex}
                 style={styles.emergencyNumberWrapper}
               >
@@ -119,12 +140,13 @@ class EmergencyContactSection extends Component {
             }}
             icon={constants.compassIcon}
             text={"Directions"}
-            action={() =>
+            action={() => {
+              recordEvent(constants.emergencyContactsEmbassyDirectionsClick);
               directions({
                 latitude: embassyLatitude,
                 longitude: embassyLongitude
-              })
-            }
+              });
+            }}
             textColor={constants.black2}
             color={"white"}
             hasBorder={true}
@@ -137,7 +159,10 @@ class EmergencyContactSection extends Component {
             }}
             icon={constants.callIcon}
             text={"Contact"}
-            action={() => dialer(embassyContactNumber)}
+            action={() => {
+              recordEvent(constants.emergencyContactsEmbassyContactsClick);
+              dialer(embassyContactNumber);
+            }}
             textColor={constants.black2}
             color={"white"}
             hasBorder={true}

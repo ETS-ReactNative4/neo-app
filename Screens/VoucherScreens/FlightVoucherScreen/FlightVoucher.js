@@ -15,7 +15,6 @@ import moment from "moment";
 import FlightActionSection from "./Components/FlightActionSection";
 import getTitleCase from "../../../Services/getTitleCase/getTitleCase";
 import ErrorBoundary from "../../../CommonComponents/ErrorBoundary/ErrorBoundary";
-import DeepLinkHandler from "../../../CommonComponents/DeepLinkHandler/DeepLinkHandler";
 
 const xHeight = isIphoneX()
   ? constants.xNotchHeight
@@ -24,7 +23,6 @@ const xHeight = isIphoneX()
     : 0;
 
 @ErrorBoundary()
-@DeepLinkHandler
 @inject("passportDetailsStore")
 @inject("itineraries")
 @observer

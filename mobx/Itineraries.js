@@ -681,7 +681,11 @@ class Itineraries {
     if (_.isEmpty(this._selectedItinerary)) return {};
 
     try {
-      return this.activities.find(activity => id === activity.costing.key);
+      return this.activities.find(
+        activity =>
+          id === activity.costing.key ||
+          id === activity.costing.activityCostingId
+      );
     } catch (e) {
       logError(e);
       return {};
@@ -695,9 +699,13 @@ class Itineraries {
       const flight = toJS(
         this._selectedItinerary.flightCostings.flightCostingById[id]
       );
-      flight.voucher =
-        storeService.voucherStore.getFlightVoucherById(flight.key) || {};
-      return flight;
+      if (flight && flight.key) {
+        flight.voucher =
+          storeService.voucherStore.getFlightVoucherById(flight.key) || {};
+        return flight;
+      } else {
+        return {};
+      }
     } catch (e) {
       logError(e);
       return {};

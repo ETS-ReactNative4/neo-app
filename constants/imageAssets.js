@@ -100,6 +100,10 @@ const imageAssets = {
   dialogBoxIcon:
     "https://d3lf10b5gahyby.cloudfront.net/misc/transfers-shuttle.jpg",
 
+  noBookingsIllus: require("../assets/images/illustrations/no-bookings-image.png"),
+  leisureIllus: require("../assets/images/illustrations/leisure-illustration.png"),
+  preChatSupportIllus: require("../assets/images/illustrations/pre-chat-support.png"),
+  onChatNoInternetIllus: require("../assets/images/illustrations/on-chat-no-internet.png"),
   helpSupportIllus: require("../assets/images/illustrations/help-and-support-image.png"),
   paymentSuccessIllus: require("../assets/images/illustrations/payment-success.png"),
   paymentFailureIllus: require("../assets/images/illustrations/payment-failure.png"),

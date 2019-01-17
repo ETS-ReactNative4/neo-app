@@ -21,7 +21,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>60</string>
+	<string>64</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 	<key>LSRequiresIPhoneOS</key>
@@ -53,6 +53,9 @@
 		<string>Sofia Pro Light.ttf</string>
 		<string>Sofia Pro Semi Bold.ttf</string>
 		<string>voyager.ttf</string>
+		<string>PT Sans Bold.ttf</string>
+		<string>PT Sans Caption.ttf</string>
+		<string>PT Sans.ttf</string>
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>

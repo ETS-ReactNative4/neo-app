@@ -19,6 +19,7 @@ class TripFeedCarousel extends Component {
         image: PropTypes.oneOfType([PropTypes.object, PropTypes.number])
           .isRequired,
         link: PropTypes.string.isRequired,
+        modalData: PropTypes.object,
         gradientColor: PropTypes.string,
         backdropColor: PropTypes.string
       })
@@ -45,7 +46,7 @@ class TripFeedCarousel extends Component {
     elements = elements.map(item => {
       return {
         ...item,
-        action: () => resolveLinks(item.link)
+        action: () => resolveLinks(item.link, item.modalData)
       };
     });
     const boxSize = 132,

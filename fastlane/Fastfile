@@ -7,6 +7,7 @@ before_all do
   ensure_git_branch(
     branch: 'development'
   )
+  ensure_git_status_clean
 end
 
 platform :ios do
@@ -37,6 +38,12 @@ platform :android do
       task: 'assemble',
       build_type: 'Release',
       project_dir: './android/'
+    )
+    upload_to_play_store(
+      package_name: 'com.pickyourtrail',
+      track: 'alpha',
+      json_key: '~/api-8129985453383320852-6005-3d812222e70d.json',
+      apk: './android/app/build/outputs/apk/release/app-release.apk'
     )
   end
 end

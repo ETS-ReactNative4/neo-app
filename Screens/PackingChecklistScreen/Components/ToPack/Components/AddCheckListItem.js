@@ -5,6 +5,7 @@ import Icon from "../../../../../CommonComponents/Icon/Icon";
 import constants from "../../../../../constants/constants";
 import { isIphoneX } from "react-native-iphone-x-helper";
 import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidExtraProps";
+import { recordEvent } from "../../../../../Services/analytics/analyticsService";
 
 class AddCheckListItem extends Component {
   static propTypes = forbidExtraProps({
@@ -56,13 +57,22 @@ class AddCheckListItem extends Component {
           ref={"_addCheckListInput"}
           onChangeText={this.onEditText}
           returnKeyType={"done"}
-          onSubmitEditing={this.done}
+          onSubmitEditing={() => {
+            recordEvent(constants.packingChecklistAddItemClickKeyboard);
+            this.done();
+          }}
           underlineColorAndroid={"transparent"}
           value={this.state.item}
           placeholder={"Add your own item"}
         />
         {this.state.item ? (
-          <TouchableOpacity style={styles.closeButton} onPress={this.done}>
+          <TouchableOpacity
+            style={styles.closeButton}
+            onPress={() => {
+              recordEvent(constants.packingChecklistAddItemClick);
+              this.done();
+            }}
+          >
             <View style={styles.closeButtonTransform}>
               <Icon
                 name={constants.closeIcon}

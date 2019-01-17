@@ -1,7 +1,7 @@
 {
   "name": "pickyourtrail",
   "version": "1.0.0",
-  "build": 60,
+  "build": 64,
   "environment": "staging",
   "private": true,
   "scripts": {
@@ -9,6 +9,7 @@
     "test": "jest",
     "build-android": "cd android && ./gradlew assembleRelease && cd ..",
     "testflight-ios": "fastlane ios uploadToTestflight",
+    "alpha-android": "fastlane android alpha",
     "run-android": "react-native run-android",
     "run-ios": "react-native run-ios",
     "pod-install": "cd ios && pod install && cd ..",
@@ -17,6 +18,7 @@
     "debug": "react-devtools"
   },
   "dependencies": {
+    "@matt-block/react-native-in-app-browser": "^1.2.1",
     "country-data": "^0.0.31",
     "d3-shape": "^1.2.0",
     "intl": "^1.2.5",
@@ -46,6 +48,7 @@
     "react-native-linear-gradient": "^2.4.0",
     "react-native-modal": "6.5.0",
     "react-native-parallax-scroll-view": "^0.21.0",
+    "react-native-particles": "^0.0.7",
     "react-native-progress": "^3.5.0",
     "react-native-ratings": "^6.0.0",
     "react-native-responsive-dimensions": "2.0.1",
@@ -86,6 +89,13 @@
     "react-devtools": "^3.4.2",
     "react-test-renderer": "16.5.0"
   },
-  "jest": { "preset": "react-native" },
-  "rnpm": { "assets": ["./assets/fonts/"] }
+  "resolutions": {
+    "core-js": "2.5.7"
+  },
+  "jest": {
+    "preset": "react-native"
+  },
+  "rnpm": {
+    "assets": ["./assets/fonts/"]
+  }
 }

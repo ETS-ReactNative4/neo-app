@@ -14,9 +14,6 @@ const CircleIcon = ({
   containerStyle = {},
   action
 }) => {
-  if (!containerStyle.transform) {
-    containerStyle.transform = [{ rotate: rotate }];
-  }
   if (circleSize) {
     containerStyle.width = circleSize;
     containerStyle.height = circleSize;
@@ -28,7 +25,9 @@ const CircleIcon = ({
       activeOpacity={0.9}
       style={[styles.iconWrapper, containerStyle]}
     >
-      <Icon name={icon} size={iconSize} color={color} />
+      <View style={[styles.iconContainer, { transform: [{ rotate }] }]}>
+        <Icon name={icon} size={iconSize} color={color} />
+      </View>
     </TouchableOpacity>
   );
 };
@@ -41,7 +40,10 @@ const styles = StyleSheet.create({
     backgroundColor: constants.secondColor,
     borderWidth: StyleSheet.hairlineWidth,
     borderColor: constants.secondColor,
-    marginRight: 8,
+    marginRight: 8
+  },
+  iconContainer: {
+    flex: 1,
     justifyContent: "center",
     alignItems: "center"
   }

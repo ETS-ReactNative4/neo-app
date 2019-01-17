@@ -21,7 +21,8 @@ class CardStack extends Component {
     setRef: PropTypes.func,
     horizontalThreshold: PropTypes.number,
     secondCardZoom: PropTypes.number,
-    hideEmptyWidget: PropTypes.bool
+    hideEmptyWidget: PropTypes.bool,
+    onActiveIndexChange: PropTypes.func
   });
 
   state = {
@@ -36,6 +37,8 @@ class CardStack extends Component {
         activeCardIndex: index + 1
       },
       () => {
+        const { onActiveIndexChange = () => null } = this.props;
+        onActiveIndexChange(this.state.activeCardIndex);
         const { hideEmptyWidget = true } = this.props;
         if (this.state.activeCardIndex >= this.props.children.length) {
           if (hideEmptyWidget) {

@@ -4,6 +4,7 @@ import { NavigationActions } from "react-navigation";
 import constants from "../../constants/constants";
 import * as Keychain from "react-native-keychain";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
+import { logError } from "../../Services/errorLogger/errorLogger";
 
 const resetToBooked = NavigationActions.navigate({
   routeName: "AppHome",
@@ -23,18 +24,23 @@ class Splash extends Component {
 
   componentDidMount() {
     setTimeout(async () => {
-      const credentials = await Keychain.getGenericPassword();
-      if (credentials) {
-        AsyncStorage.getItem(constants.tripToggleStatusStorageKey).then(
-          isTripModeOn => {
-            if (JSON.parse(isTripModeOn)) {
-              this.props.navigation.dispatch(resetToBooked);
-            } else {
-              this.props.navigation.dispatch(resetToPlan);
+      try {
+        const credentials = await Keychain.getGenericPassword();
+        if (credentials) {
+          AsyncStorage.getItem(constants.tripToggleStatusStorageKey).then(
+            isTripModeOn => {
+              if (JSON.parse(isTripModeOn)) {
+                this.props.navigation.dispatch(resetToBooked);
+              } else {
+                this.props.navigation.dispatch(resetToPlan);
+              }
             }
-          }
-        );
-      } else {
+          );
+        } else {
+          this.props.navigation.navigate("Starter");
+        }
+      } catch (e) {
+        logError(e);
         this.props.navigation.navigate("Starter");
       }
     }, 1000);

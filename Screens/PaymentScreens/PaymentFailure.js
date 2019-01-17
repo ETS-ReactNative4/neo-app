@@ -2,6 +2,12 @@ import React from "react";
 import { View, Text, StyleSheet, Image } from "react-native";
 import constants from "../../constants/constants";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
+import SimpleButton from "../../CommonComponents/SimpleButton/SimpleButton";
+import { recordEvent } from "../../Services/analytics/analyticsService";
+import {
+  responsiveWidth,
+  responsiveHeight
+} from "react-native-responsive-dimensions";
 
 const PaymentFailure = () => {
   return (
@@ -11,7 +17,21 @@ const PaymentFailure = () => {
         style={styles.illustration}
         resizeMode={"contain"}
       />
-      <Text style={styles.paymentFailureText}>Payment Failed!!</Text>
+      <Text style={styles.paymentFailureText}>
+        {constants.paymentText.failureTitle}
+      </Text>
+      <Text style={styles.message}>{constants.paymentText.failureMessage}</Text>
+      <SimpleButton
+        containerStyle={{ marginTop: 8 }}
+        text={constants.paymentText.contactHelpdesk}
+        action={() => {
+          // TODO: Add recordEvent
+          // recordEvent();
+        }}
+        textColor={constants.black2}
+        color={"transparent"}
+        hasBorder={true}
+      />
     </View>
   );
 };
@@ -27,15 +47,22 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "white",
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
+    paddingHorizontal: 40
   },
   paymentFailureText: {
     ...constants.fontCustom(constants.primarySemiBold, 20),
-    color: constants.black1
+    color: constants.black1,
+    marginVertical: 16
+  },
+  message: {
+    ...constants.fontCustom(constants.primaryLight, 15, 18),
+    color: constants.black2,
+    textAlign: "center"
   },
   illustration: {
-    height: 330,
-    width: 285
+    width: responsiveWidth(100) - 48,
+    height: responsiveHeight(25)
   }
 });
 

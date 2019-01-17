@@ -1,13 +1,12 @@
 import { observable, computed, action, set, toJS } from "mobx";
 import { persist } from "mobx-persist";
 import { createTransformer } from "mobx-utils";
-import { NavigationActions } from "react-navigation";
+import { LayoutAnimation } from "react-native";
 import _ from "lodash";
 import apiCall from "../Services/networkRequests/apiCall";
 import constants from "../constants/constants";
 import { logError } from "../Services/errorLogger/errorLogger";
 import navigationService from "../Services/navigationService/navigationService";
-import DebouncedAlert from "../CommonComponents/DebouncedAlert/DebouncedAlert";
 import storeService from "../Services/storeService/storeService";
 import * as Keychain from "react-native-keychain";
 import { AsyncStorage } from "react-native";
@@ -337,6 +336,7 @@ class AppState {
 
   @action
   setConnectionStatus = status => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     this._isConnected = status;
   };
 

@@ -86,14 +86,7 @@ const styles = StyleSheet.create({
   mobileNumberBox: {
     marginTop: 16,
     marginHorizontal: 24,
-    ...Platform.select({
-      android: {
-        height: 56
-      },
-      ios: {
-        height: 48
-      }
-    }),
+    height: 48,
     borderBottomColor: constants.shade4,
     borderBottomWidth: 1,
     flexDirection: "row",
@@ -104,39 +97,19 @@ const styles = StyleSheet.create({
     flexDirection: "row"
   },
   countryCodeTextWrapper: {
-    ...Platform.select({
-      ios: {
-        height: 36,
-        paddingTop: 5
-      },
-      android: {
-        height: 48
-      }
-    })
+    height: 36
   },
   countryCodeText: {
     fontFamily: constants.primaryLight,
     textAlign: "justify",
     color: constants.black2,
-    ...Platform.select({
-      ios: {
-        fontSize: 36
-      },
-      android: {
-        fontSize: 30
-      }
-    })
+    fontSize: 36
   },
   dropDownIconContainer: {
     height: 8,
     width: 8,
     marginHorizontal: 8,
-    ...Platform.select({
-      ios: {
-        marginTop: 8
-      },
-      android: {}
-    })
+    marginTop: 8
   },
   numberInputBox: {
     flex: 1,

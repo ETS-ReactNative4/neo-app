@@ -25,7 +25,8 @@ class ToolTip extends Component {
       PropTypes.shape({
         title: PropTypes.string.isRequired,
         text: PropTypes.string,
-        link: PropTypes.string.isRequired
+        link: PropTypes.string.isRequired,
+        modalData: PropTypes.object
       })
     )
   });
@@ -75,7 +76,7 @@ class ToolTip extends Component {
                 containerStyle={{ ...buttonAlignment }}
                 title={button.title}
                 text={button.text}
-                action={() => resolveLinks(button.link)}
+                action={() => resolveLinks(button.link, button.modalData)}
               />
             ) : null}
           </View>
@@ -100,7 +101,7 @@ class ToolTip extends Component {
                 <MultilineButton
                   color={item.color}
                   title={item.title}
-                  action={() => resolveLinks(item.link)}
+                  action={() => resolveLinks(item.link, item.modalData)}
                   text={item.text}
                   key={itemIndex}
                 />

@@ -1,29 +1,26 @@
-import {
-  createBottomTabNavigator,
-  createStackNavigator
-} from "react-navigation";
+import { createBottomTabNavigator } from "react-navigation";
 import ChatScreen from "../Screens/ChatScreen/ChatScreen";
-import BookedStack from "./BookedStack";
-import ToolStack from "./ToolStack";
 import constants from "../constants/constants";
 import TabBarIcon from "../CommonComponents/TabBarIcon/TabBarIcon";
 import React from "react";
 import Journal from "../Screens/JournalScreen/Journal";
 import TripFeed from "../Screens/TripFeedScreen/TripFeed";
+import Tools from "../Screens/ToolsScreen/Tools";
+import BookingsHome from "../Screens/BookingsHomeScreen/BookingsHome";
 
 const BookedTabs = createBottomTabNavigator(
   {
     TripFeed: {
-      screen: createStackNavigator({ TripFeedHome: { screen: TripFeed } })
+      screen: TripFeed
     },
     Bookings: {
-      screen: BookedStack
+      screen: BookingsHome
     },
     Support: {
       screen: ChatScreen
     },
     Tools: {
-      screen: ToolStack
+      screen: Tools
     },
     Journal: {
       screen: Journal
@@ -35,7 +32,7 @@ const BookedTabs = createBottomTabNavigator(
         const { routeName } = navigation.state;
         let icon;
 
-        const color = focused ? constants.black1 : constants.shade2;
+        const color = focused ? constants.black1 : constants.shade1dot5;
 
         switch (routeName) {
           case "TripFeed":
@@ -64,7 +61,7 @@ const BookedTabs = createBottomTabNavigator(
               icon: focused
                 ? constants.supportSelectedIcon
                 : constants.supportIcon,
-              color
+              color: focused ? constants.firstColor : color
             };
             break;
 

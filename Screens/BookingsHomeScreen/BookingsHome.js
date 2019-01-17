@@ -28,6 +28,8 @@ import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import CustomScrollView from "../../CommonComponents/CustomScrollView/CustomScrollView";
 import SectionHeader from "../../CommonComponents/SectionHeader/SectionHeader";
 import openCustomTab from "../../Services/openCustomTab/openCustomTab";
+import NoInternetIndicator from "../../CommonComponents/NoInternetIndicator/NoInternetIndicator";
+import * as Keychain from "react-native-keychain";
 
 @ErrorBoundary({ isRoot: true })
 @inject("infoStore")
@@ -51,10 +53,28 @@ class BookingsHome extends Component {
   };
 
   componentDidMount() {
-    getDeviceToken(token => {
-      registerFcmRefreshListener();
-    });
+    this.enablePushNotificationServices();
+    const { selectedItineraryId } = this.props.itineraries;
+    if (selectedItineraryId) {
+      pullToRefresh({
+        itinerary: true,
+        voucher: true
+      });
+    }
   }
+
+  enablePushNotificationServices = async () => {
+    try {
+      const credentials = await Keychain.getGenericPassword();
+      if (credentials) {
+        getDeviceToken(token => {
+          registerFcmRefreshListener();
+        });
+      }
+    } catch (e) {
+      logError(e);
+    }
+  };
 
   openSearch = () => {};
 
@@ -128,10 +148,14 @@ class BookingsHome extends Component {
     const { navigation } = this.props;
 
     const isRefreshing = itineraryLoading || voucherLoading;
+    const Header = () =>
+      HomeHeader({ navigation: this.props.navigation }).header;
 
     return (
       <View style={styles.bookingHomeContainer}>
+        <Header />
         {/*<SearchPlaceholder action={this.openSearch} />*/}
+        <NoInternetIndicator />
         <CustomScrollView
           style={styles.bookingContainer}
           showsVerticalScrollIndicator={false}

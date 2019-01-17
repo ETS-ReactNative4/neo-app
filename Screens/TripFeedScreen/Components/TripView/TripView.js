@@ -9,7 +9,9 @@ import { recordEvent } from "../../../../Services/analytics/analyticsService";
 import WidgetTitle from "../WidgetTitle/WidgetTitle";
 import resolveLinks from "../../../../Services/resolveLinks/resolveLinks";
 import forbidExtraProps from "../../../../Services/PropTypeValidation/forbidExtraProps";
+import _ from "lodash";
 import storeService from "../../../../Services/storeService/storeService";
+import { toastBottom } from "../../../../Services/toast/toast";
 
 class TripView extends Component {
   static propTypes = forbidExtraProps({
@@ -23,6 +25,7 @@ class TripView extends Component {
         image: PropTypes.oneOfType([PropTypes.object, PropTypes.number])
           .isRequired,
         costingId: PropTypes.string,
+        costingIdentifier: PropTypes.string,
         date: PropTypes.string.isRequired,
         link: PropTypes.string.isRequired
       }).isRequired
@@ -66,18 +69,38 @@ class TripView extends Component {
           }}
         >
           {data.map((item, itemIndex) => {
-            const rotate = item.icon === "FLIGHT" ? "90deg" : "0deg";
+            const rotate = item.icon === "flight" ? "90deg" : "0deg";
             const action = () =>
               resolveLinks(item.link, {
                 selectedDate: JSON.stringify(item.date)
               });
             const circleAction = () => {
               const transfer = storeService.itineraries.getTransferFromAllById(
-                item.costingId
+                item.costingIdentifier || item.costingId || ""
               );
-              if (icon === "flight")
-                resolveLinks("FlightVoucher", { flight: transfer });
-              else resolveLinks("TransferVoucher", { transfer });
+              /**
+               * TODO: Causes unnecessary error logs for activity with transfers
+               */
+              if (transfer && !_.isEmpty(transfer)) {
+                if (transfer.voucher.booked) {
+                  if (item.icon === "flight")
+                    resolveLinks("FlightVoucher", { flight: transfer });
+                  else resolveLinks("TransferVoucher", { transfer });
+                } else {
+                  toastBottom(constants.bookingProcessText.message);
+                }
+              } else {
+                const activity = storeService.itineraries.getActivityById(
+                  item.costingIdentifier || item.costingId || ""
+                );
+                if (
+                  activity &&
+                  !_.isEmpty(activity) &&
+                  (activity.voucher.booked || activity.free)
+                )
+                  resolveLinks("ActivityVoucher", { activity });
+                else toastBottom(constants.bookingProcessText.message);
+              }
             };
             return (
               <View

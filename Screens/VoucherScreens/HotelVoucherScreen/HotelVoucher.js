@@ -17,7 +17,6 @@ import moment from "moment";
 import VoucherContactActionBar from "../Components/VoucherContactActionBar";
 import ErrorBoundary from "../../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import Icon from "../../../CommonComponents/Icon/Icon";
-import DeepLinkHandler from "../../../CommonComponents/DeepLinkHandler/DeepLinkHandler";
 
 const xHeight = isIphoneX()
   ? constants.xNotchHeight
@@ -26,7 +25,6 @@ const xHeight = isIphoneX()
     : 0;
 
 @ErrorBoundary()
-@DeepLinkHandler
 class HotelVoucher extends Component {
   static navigationOptions = {
     header: null,
@@ -213,6 +211,7 @@ class HotelVoucher extends Component {
               let {
                 // leadPassenger, // Gender Needed?
                 name,
+                roomImages,
                 roomPaxInfo,
                 freeBreakfast,
                 freeWireless,
@@ -233,6 +232,10 @@ class HotelVoucher extends Component {
               } = roomVoucherDetails;
               leadPassenger = leadPassenger || {};
               otherPassengers = otherPassengers || [];
+
+              const roomImage = roomImages.length
+                ? { uri: roomImages[0] }
+                : constants.hotelSmallPlaceHolder;
 
               const { checkIn, checkOut } = roomVoucherDetails;
               if (checkIn > 1 && checkOut > 1) {
@@ -274,7 +277,7 @@ class HotelVoucher extends Component {
                   <View style={styles.bookedSuitInfo}>
                     <CircleThumbnail
                       defaultImageUri={constants.hotelSmallPlaceHolder}
-                      image={constants.splashBackground}
+                      image={roomImage}
                     />
                     <View style={styles.bookedSuitDetails}>
                       <Text style={styles.bookedSuitType}>{name}</Text>

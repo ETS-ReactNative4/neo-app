@@ -8,13 +8,14 @@ import TripView from "../../Screens/TripFeedScreen/Components/TripView/TripView"
 import TripViewLite from "../../Screens/TripFeedScreen/Components/TripViewLite/TripViewLite";
 import TripFeedCarousel from "../../Screens/TripFeedScreen/Components/TripFeedCarousel/TripFeedCarousel";
 import InfoCard from "../../Screens/TripFeedScreen/Components/InfoCard/InfoCard";
-import NotificationCard from "../../Screens/TripFeedScreen/Components/NotificationCard/NotificationCard";
+import AlertCard from "../../Screens/TripFeedScreen/Components/AlertCard/AlertCard";
 import FeedBackSwiper from "../../Screens/TripFeedScreen/Components/FeedBackSwiper/FeedBackSwiper";
 import BigImageCard from "../../Screens/TripFeedScreen/Components/BigImageCard/BigImageCard";
 import DayAhead from "../../Screens/TripFeedScreen/Components/DayAhead/DayAhead";
 import SimpleButton from "../../CommonComponents/SimpleButton/SimpleButton";
 import InfoCardModal from "../../Screens/TripFeedScreen/Components/InfoCardModal/InfoCardModal";
 import { inject, observer } from "mobx-react/custom";
+import DayAheadLite from "../../Screens/TripFeedScreen/Components/DayAheadLite/DayAheadLite";
 
 const tripData = [
   {
@@ -140,7 +141,7 @@ const infoData = {
   link: ""
 };
 
-const notifyData = [
+const alertData = [
   {
     title: "Heads up!",
     message: "Your pick up is scheduled at 8:30am from your hotel lobby.",
@@ -185,6 +186,48 @@ const modalData = {
     "Handy tools to back you up during your travel"
   ],
   cta: "Awesome, got it!"
+};
+
+const dayAhead = {
+  title: "The Day Ahead",
+  elements: [
+    {
+      image: {
+        uri:
+          "http://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg"
+      },
+      label: "NEXT",
+      title: "8:00am Pick up",
+      text:
+        "City Sightseeing Barcelona Hop-On Hop-Off Tour longer Barcelona Hop-On Tour longer",
+      voucherType: "",
+      costingIdentifier: ""
+    },
+    {
+      image: {
+        uri:
+          "http://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg"
+      },
+      label: "NEXT",
+      title: "8:00am Pick up",
+      text:
+        "City Sightseeing Barcelona Hop-On Hop-Off Tour longer Barcelona Hop-On Tour longer",
+      voucherType: "",
+      costingIdentifier: ""
+    },
+    {
+      image: {
+        uri:
+          "http://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg"
+      },
+      label: "NEXT",
+      title: "8:00am Pick up",
+      text:
+        "City Sightseeing Barcelona Hop-On Hop-Off Tour longer Barcelona Hop-On Tour longer",
+      voucherType: "",
+      costingIdentifier: ""
+    }
+  ]
 };
 
 const InfoCardModalWrapper = inject("tripFeedStore")(
@@ -412,65 +455,83 @@ storiesOf("Trip Feed Widgets", module)
     console.log(props);
     return <InfoCard {...props} />;
   })
-  .add("Notification Card Info default", () => {
+  .add("Alert Card Info default", () => {
     const props = {
-      data: [notifyData[0]],
+      elements: [alertData[0]],
       toggleScrollLock: () => null
     };
     console.log(props);
-    return <NotificationCard {...props} />;
+    return <AlertCard {...props} />;
   })
-  .add("Notification Card Info dismissable", () => {
+  .add("Alert Card Info dismissable", () => {
     const props = {
-      data: [notifyData[0]],
+      elements: [alertData[0]],
       canDismiss: true,
       toggleScrollLock: () => null
     };
     console.log(props);
-    return <NotificationCard {...props} />;
+    return <AlertCard {...props} />;
   })
-  .add("Notification Card Info with cta", () => {
+  .add("Alert Card Info dismissable stacked", () => {
     const props = {
-      data: [
+      elements: [alertData[0], alertData[0], alertData[0]],
+      canDismiss: true,
+      toggleScrollLock: () => null
+    };
+    console.log(props);
+    return <AlertCard {...props} />;
+  })
+  .add("Alert Card Info with cta", () => {
+    const props = {
+      elements: [
         {
-          ...notifyData[0],
-          actionText: "Learn More"
+          ...alertData[0],
+          cta: "Learn More"
         }
       ],
       toggleScrollLock: () => null
     };
     console.log(props);
-    return <NotificationCard {...props} />;
+    return <AlertCard {...props} />;
   })
-  .add("Notification Card Alert default", () => {
+  .add("Alert Card Alert default", () => {
     const props = {
-      data: [notifyData[1]],
+      elements: [alertData[1]],
       toggleScrollLock: () => null
     };
     console.log(props);
-    return <NotificationCard {...props} />;
+    return <AlertCard {...props} />;
   })
-  .add("Notification Card Alert dismissable", () => {
+  .add("Alert Card Alert dismissable", () => {
     const props = {
-      data: [notifyData[1]],
+      elements: [alertData[1]],
       canDismiss: true,
       toggleScrollLock: () => null
     };
     console.log(props);
-    return <NotificationCard {...props} />;
+    return <AlertCard {...props} />;
   })
-  .add("Notification Card Alert with cta", () => {
+  .add("Alert Card Alert with cta", () => {
     const props = {
-      data: [
+      elements: [
         {
-          ...notifyData[1],
-          actionText: "Learn More"
+          ...alertData[1],
+          cta: "Learn More"
         }
       ],
       toggleScrollLock: () => null
     };
     console.log(props);
-    return <NotificationCard {...props} />;
+    return <AlertCard {...props} />;
+  })
+  .add("Alert Card Alert dismissable stacked", () => {
+    const props = {
+      elements: [alertData[1], alertData[1], alertData[1]],
+      canDismiss: true,
+      toggleScrollLock: () => null
+    };
+    console.log(props);
+    return <AlertCard {...props} />;
   })
   .add("Big Image card default", () => {
     const props = {
@@ -504,7 +565,8 @@ storiesOf("Trip Feed Widgets", module)
       title: bigImageData.title,
       type: bigImageData.type,
       image: bigImageData.image,
-      icon: bigImageData.icon
+      icon: bigImageData.icon,
+      iconText: "230"
     };
     console.log(props);
     return <BigImageCard {...props} />;
@@ -550,8 +612,13 @@ storiesOf("Trip Feed Widgets", module)
     console.log(props);
     return <InfoCardModalWrapper props={props} />;
   })
-  .add("The Day Ahead", () => {
-    const props = {};
+  .add("Day Ahead default", () => {
+    const props = dayAhead;
     console.log(props);
     return <DayAhead {...props} />;
+  })
+  .add("Day Ahead Lite", () => {
+    const props = dayAhead;
+    console.log(props);
+    return <DayAheadLite {...props} />;
   });

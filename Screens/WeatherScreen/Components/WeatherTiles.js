@@ -14,6 +14,7 @@ import Icon from "../../../CommonComponents/Icon/Icon";
 import getWeatherIcon from "../../../Services/getWeatherIcon/getWeatherIcon";
 import CustomScrollView from "../../../CommonComponents/CustomScrollView/CustomScrollView";
 import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraProps";
+import { recordEvent } from "../../../Services/analytics/analyticsService";
 
 const WeatherTiles = ({ weatherArray, selectTile, isLoading, loadWeather }) => {
   return (
@@ -23,7 +24,10 @@ const WeatherTiles = ({ weatherArray, selectTile, isLoading, loadWeather }) => {
       onRefresh={loadWeather}
     >
       {weatherArray.map((weather, index) => {
-        const clicked = () => selectTile(weather.weatherIndex);
+        const clicked = () => {
+          recordEvent(constants.weatherTileClick);
+          selectTile(weather.weatherIndex);
+        };
         return (
           <TouchableOpacity
             onPress={clicked}

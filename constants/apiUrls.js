@@ -49,7 +49,7 @@ const apiUrls = {
   aboutUs: "about-us",
   termsAndConditions: "terms-and-conditions",
   privacyPolicy: "privacy-policy",
-  cancellationPolicy: "cancelation-policy",
+  cancellationPolicy: "cancellation-policy",
   careers: "careers",
 
   tripToggleStatusStorageKey: "@Pickyourtrail/tripToggleStatus"

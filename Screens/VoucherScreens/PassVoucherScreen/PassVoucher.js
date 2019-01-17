@@ -12,7 +12,6 @@ import Icon from "../../../CommonComponents/Icon/Icon";
 import { isIphoneX } from "react-native-iphone-x-helper";
 import SimpleButton from "../../../CommonComponents/SimpleButton/SimpleButton";
 import ErrorBoundary from "../../../CommonComponents/ErrorBoundary/ErrorBoundary";
-import DeepLinkHandler from "../../../CommonComponents/DeepLinkHandler/DeepLinkHandler";
 
 const xHeight = isIphoneX()
   ? constants.xNotchHeight
@@ -21,7 +20,6 @@ const xHeight = isIphoneX()
     : 0;
 
 @ErrorBoundary()
-@DeepLinkHandler
 class PassVoucher extends Component {
   static navigationOptions = {
     header: null,

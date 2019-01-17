@@ -13,7 +13,7 @@ import { recordEvent } from "../../../../Services/analytics/analyticsService";
 import BookingSectionComponent from "../../../../CommonComponents/BookingSectionComponent/BookingSectionComponent";
 import { toastBottom } from "../../../../Services/toast/toast";
 
-let internationalFlightKey;
+let internationalFlightKey, city;
 const SlotActivity = inject("itineraries")(
   observer(
     ({ activity, navigation, itineraries, activityIndex, day, spinValue }) => {
@@ -28,8 +28,7 @@ const SlotActivity = inject("itineraries")(
       } = itineraries;
       let onClick = () => null;
       let imageObject;
-      let cityCardData;
-      let city, currentCity;
+      let currentCity, cityCardData;
       switch (activity.type) {
         case "INTERNATIONAL_ARRIVE":
           currentCity = itineraries.cities[0];
@@ -127,6 +126,11 @@ const SlotActivity = inject("itineraries")(
             );
 
           case "LEISURE":
+            onClick = city => {
+              navigation.navigate("LeisureScreen", {
+                city
+              });
+            };
             return (
               <BookingSectionComponent
                 containerStyle={[containerStyle, { marginHorizontal: 24 }]}
@@ -134,7 +138,7 @@ const SlotActivity = inject("itineraries")(
                 content={activity.leisureSlotDetail.text}
                 sectionImage={constants.leisureIcon}
                 isProcessing={false}
-                onClick={onClick}
+                onClick={() => onClick(city)}
                 defaultImageUri={constants.activity3SmallPlaceHolder}
                 contentNumberOfLines={3}
                 isImageContain={true}

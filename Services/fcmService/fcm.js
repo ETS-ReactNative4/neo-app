@@ -2,6 +2,8 @@ import { messaging, notifications } from "react-native-firebase";
 import { logError } from "../errorLogger/errorLogger";
 import storeService from "../storeService/storeService";
 import navigationService from "../navigationService/navigationService";
+import resolveLinks from "../resolveLinks/resolveLinks";
+import * as Keychain from "react-native-keychain";
 
 export const getDeviceToken = async (
   success = () => null,
@@ -67,28 +69,46 @@ export const getInitialNotification = notifications()
     }
   });
 
-const notificationClickHandler = data => {
-  const screen = data.screen;
-  const { navigation } = navigationService;
-  switch (screen) {
-    case "CRISP_CHAT":
-      navigation._navigation.navigate("Support");
-      break;
+const notificationClickHandler = async data => {
+  try {
+    const credentials = await Keychain.getGenericPassword();
+    if (credentials) {
+      const { screen, link, modalData } = data;
+      const { navigation } = navigationService;
+      if (link) {
+        resolveLinks(link, JSON.parse(modalData));
+      } else {
+        switch (screen) {
+          case "CRISP_CHAT":
+            navigation._navigation.navigate("Support");
+            break;
 
-    default:
-      break;
+          default:
+            break;
+        }
+      }
+    }
+  } catch (e) {
+    logError(e);
   }
 };
 
-const notificationReceivedHandler = data => {
-  const screen = data.screen;
-  const { appState } = storeService;
-  switch (screen) {
-    case "CRISP_CHAT":
-      appState.setChatNotification();
-      break;
+const notificationReceivedHandler = async data => {
+  try {
+    const credentials = await Keychain.getGenericPassword();
+    if (credentials) {
+      const screen = data.screen;
+      const { appState } = storeService;
+      switch (screen) {
+        case "CRISP_CHAT":
+          appState.setChatNotification();
+          break;
 
-    default:
-      break;
+        default:
+          break;
+      }
+    }
+  } catch (e) {
+    logError(e);
   }
 };
