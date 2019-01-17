@@ -71,7 +71,7 @@ const PaymentInfoCard = ({
           </View>
           <View style={styles.bookingDetailWrapper}>
             <Text style={styles.bookingDetail}>
-              {isPaymentPending ? `Minimum Payment due:` : `Total Amount Paid:`}
+              {isPaymentPending ? `Total Payment due:` : `Total Amount Paid:`}
             </Text>
           </View>
           <View style={styles.bookingDateWrapper}>

@@ -184,27 +184,29 @@ class PaymentSummary extends Component {
         }, [])
       : [];
 
-    const paymentHistory = productPayments
-      ? productPayments.reduce((detailsArray, amount) => {
-          if (amount.paymentStatus === "SUCCESS") {
-            const data = {
-              paymentAmount: `₹ ${amount.paymentAmount}`,
-              transactionId: amount.transactionId,
-              mode: "PayU",
-              date: amount.paidOn
-            };
-            detailsArray.push(data);
-          }
-          return detailsArray;
-        }, [])
-      : platoPayements && platoPayements.paidInstallments
-        ? platoPayments.paidInstallments.reduce((detailsArray, amount) => {
+    const paymentHistory = platoPayements
+      ? platoPayements.paidInstallments
+        ? platoPayements.paidInstallments.reduce((detailsArray, amount) => {
             detailsArray.push({
               paymentAmount: getLocaleString(amount.amount),
               transactionId: amount.transactionId,
               mode: "Offline",
-              date: moment(amount.paymentTime)
+              date: moment(amount.paymentTime).format("DD/MMM/YYYY")
             });
+            return detailsArray;
+          }, [])
+        : []
+      : productPayments
+        ? productPayments.reduce((detailsArray, amount) => {
+            if (amount.paymentStatus === "SUCCESS") {
+              const data = {
+                paymentAmount: `₹ ${amount.paymentAmount}`,
+                transactionId: amount.transactionId,
+                mode: "PayU",
+                date: amount.paidOn
+              };
+              detailsArray.push(data);
+            }
             return detailsArray;
           }, [])
         : [];
@@ -251,7 +253,11 @@ class PaymentSummary extends Component {
       }
     ];
 
-    const isPaymentComplete = !paymentOptions.length;
+    const isPlatoPaymentPending =
+      platoPayements &&
+      platoPayements.pendingInstallments &&
+      platoPayements.pendingInstallments.length;
+    const isPaymentComplete = !paymentOptions.length && !isPlatoPaymentPending;
     if (!isPaymentComplete) {
       amountDetails = [
         ...amountDetails,
@@ -311,9 +317,21 @@ class PaymentSummary extends Component {
         {isPaymentComplete
           ? null
           : [
-              <Text key={0} style={styles.paymentTitle}>
-                Choose Payment
-              </Text>,
+              isPlatoPaymentPending ? (
+                <Text key={0} style={styles.offlinePaymentText}>
+                  {`You have payed offline. To complete the next payment use the following `}
+                  <Text
+                    style={{
+                      color: constants.firstColor,
+                      textDecorationLine: "underline"
+                    }}
+                  >{`bank account`}</Text>
+                </Text>
+              ) : (
+                <Text key={0} style={styles.paymentTitle}>
+                  Choose Payment
+                </Text>
+              ),
               <View key={1} style={styles.paymentOptionsBox}>
                 {paymentOptions.map((paymentOption, optionKey) => {
                   const isLast = paymentOptions.length === optionKey + 1;
@@ -397,6 +415,13 @@ const styles = StyleSheet.create({
     ...constants.fontCustom(constants.primarySemiBold, 20),
     color: constants.black1,
     marginHorizontal: 24
+  },
+  offlinePaymentText: {
+    textAlign: "center",
+    marginHorizontal: 24,
+    marginTop: 8,
+    color: constants.black2,
+    ...constants.fontCustom(constants.primarySemiBold, 18)
   },
   paymentOptionsBox: {
     marginTop: 8,
