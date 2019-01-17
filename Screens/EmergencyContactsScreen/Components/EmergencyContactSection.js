@@ -40,30 +40,38 @@ class EmergencyContactSection extends Component {
     } = this.props.cityContactDetails;
 
     const contactNumbersList = [
-      {
-        title: "Police",
-        number: policeNumber,
-        recordEvent: () =>
-          recordEvent(constants.emergencyContactsPoliceNumberClick)
-      },
-      {
-        title: "Ambulance",
-        number: ambulanceNumber,
-        recordEvent: () =>
-          recordEvent(constants.emergencyContactsAmbulanceNumberClick)
-      },
-      {
-        title: "Fire Department",
-        number: fireNumber,
-        recordEvent: () =>
-          recordEvent(constants.emergencyContactsFireDeptNumberClick)
-      },
-      {
-        title: "In case of missing children",
-        number: missingChildrenNumber,
-        recordEvent: () =>
-          recordEvent(constants.emergencyContactsChildrenMissingNumberClick)
-      }
+      policeNumber
+        ? {
+            title: "Police",
+            number: policeNumber,
+            recordEvent: () =>
+              recordEvent(constants.emergencyContactsPoliceNumberClick)
+          }
+        : null,
+      ambulanceNumber
+        ? {
+            title: "Ambulance",
+            number: ambulanceNumber,
+            recordEvent: () =>
+              recordEvent(constants.emergencyContactsAmbulanceNumberClick)
+          }
+        : null,
+      fireNumber
+        ? {
+            title: "Fire Department",
+            number: fireNumber,
+            recordEvent: () =>
+              recordEvent(constants.emergencyContactsFireDeptNumberClick)
+          }
+        : null,
+      missingChildrenNumber
+        ? {
+            title: "In case of missing children",
+            number: missingChildrenNumber,
+            recordEvent: () =>
+              recordEvent(constants.emergencyContactsChildrenMissingNumberClick)
+          }
+        : null
     ];
 
     return (
@@ -95,6 +103,7 @@ class EmergencyContactSection extends Component {
         </View>
         <View style={styles.emergencyNumbersContainer}>
           {contactNumbersList.map((contactNumber, contactNumberIndex) => {
+            if (!contactNumber) return null;
             return (
               <TouchableOpacity
                 onPress={() => {
