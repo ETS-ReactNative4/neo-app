@@ -721,6 +721,9 @@ class Itineraries {
           transfer = this.getTrainById(id);
           if (_.isEmpty(transfer)) {
             transfer = this.getFlightById(id);
+            if (_.isEmpty(transfer)) {
+              transfer = this.getRentalCarById(id);
+            }
           }
         }
       }
@@ -771,6 +774,28 @@ class Itineraries {
     }
   });
 
+  getRentalCarById = createTransformer(id => {
+    if (_.isEmpty(this._selectedItinerary)) return {};
+
+    try {
+      const rentalCar = toJS(
+        this._selectedItinerary.rentalCarCostings.rentalCostingById[id]
+      );
+      if (rentalCar) {
+        rentalCar.voucher =
+          storeService.voucherStore.getRentalCarVoucherById(
+            rentalCar.rcCostingId || rentalCar.dbRef
+          ) || {};
+        return rentalCar;
+      } else {
+        return {};
+      }
+    } catch (e) {
+      logError(e);
+      return {};
+    }
+  });
+
   getTrainById = createTransformer(id => {
     if (_.isEmpty(this._selectedItinerary)) return {};
 
@@ -794,7 +819,16 @@ class Itineraries {
   getHotelById = createTransformer(id => {
     if (_.isEmpty(this._selectedItinerary)) return {};
 
-    return toJS(this._selectedItinerary.hotelCostings.hotelCostingById[id]);
+    try {
+      const hotel =
+        this._selectedItinerary.hotelCostings.hotelCostingById[id] || {};
+      hotel.voucher =
+        storeService.voucherStore.getHotelVoucherById(hotel.costingId) || {};
+      return hotel;
+    } catch (e) {
+      logError(e);
+      return {};
+    }
   });
 
   getDateSelectionMatrixSingle = createTransformer(index => {

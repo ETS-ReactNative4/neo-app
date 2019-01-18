@@ -26,6 +26,7 @@ class ToolTip extends Component {
         title: PropTypes.string.isRequired,
         text: PropTypes.string,
         link: PropTypes.string.isRequired,
+        deepLink: PropTypes.object,
         modalData: PropTypes.object
       })
     )
@@ -76,7 +77,9 @@ class ToolTip extends Component {
                 containerStyle={{ ...buttonAlignment }}
                 title={button.title}
                 text={button.text}
-                action={() => resolveLinks(button.link, button.modalData)}
+                action={() =>
+                  resolveLinks(button.link, button.modalData, button.deepLink)
+                }
               />
             ) : null}
           </View>
@@ -101,7 +104,9 @@ class ToolTip extends Component {
                 <MultilineButton
                   color={item.color}
                   title={item.title}
-                  action={() => resolveLinks(item.link, item.modalData)}
+                  action={() =>
+                    resolveLinks(item.link, item.modalData, item.deepLink)
+                  }
                   text={item.text}
                   key={itemIndex}
                 />

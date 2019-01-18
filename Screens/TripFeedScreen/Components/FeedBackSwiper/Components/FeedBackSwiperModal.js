@@ -63,16 +63,11 @@ class FeedBackSwiperModal extends Component {
     });
   };
 
-  onEditText = () => {};
-
   positiveSubmit = () => {
-    toastCenter("Thanks for the feedback!");
-    this.props.emitterComponent && this.props.emitterComponent.start();
     this.props.submit();
   };
 
   negativeSubmit = () => {
-    toastCenter("Thanks for the feedback!");
     this.props.submit();
   };
 
@@ -80,62 +75,62 @@ class FeedBackSwiperModal extends Component {
     const { isVisible, isNegative, data, onClose, submit } = this.props;
     const { isKeyboardVisible } = this.state;
 
-    const items = [
-      {
-        image:
-          "http://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg",
-        text: `City Sightseeing Barcelona Hop-On Hop-Off Tour longer Barcelona Hop-On Hop-Off Tour longer`,
-        score: 0
-      },
-      {
-        image:
-          "http://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg",
-        text: `City Sightseeing Barcelona Hop-On Hop-Off Tour longer Barcelona Hop-On Hop-Off Tour longer`,
-        score: 0
-      }
-    ];
+    // const items = [
+    //   {
+    //     image:
+    //       "http://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg",
+    //     text: `City Sightseeing Barcelona Hop-On Hop-Off Tour longer Barcelona Hop-On Hop-Off Tour longer`,
+    //     score: 0
+    //   },
+    //   {
+    //     image:
+    //       "http://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg",
+    //     text: `City Sightseeing Barcelona Hop-On Hop-Off Tour longer Barcelona Hop-On Hop-Off Tour longer`,
+    //     score: 0
+    //   }
+    // ];
 
-    const positiveButtons = [
-      {
-        active: constants.notificationIcon,
-        inactive: constants.notificationIcon,
-        score: 1,
-        onClick: () => null
-      },
-      {
-        active: constants.notificationIcon,
-        inactive: constants.notificationIcon,
-        score: 2,
-        onClick: () => null
-      },
-      {
-        active: constants.notificationIcon,
-        inactive: constants.notificationIcon,
-        score: 3,
-        onClick: () => null
-      }
-    ];
+    // const positiveButtons = [
+    //   {
+    //     active: constants.notificationIcon,
+    //     inactive: constants.notificationIcon,
+    //     score: 1,
+    //     onClick: () => null
+    //   },
+    //   {
+    //     active: constants.notificationIcon,
+    //     inactive: constants.notificationIcon,
+    //     score: 2,
+    //     onClick: () => null
+    //   },
+    //   {
+    //     active: constants.notificationIcon,
+    //     inactive: constants.notificationIcon,
+    //     score: 3,
+    //     onClick: () => null
+    //   }
+    // ];
 
-    const negativeButtons = [
-      {
-        active: constants.notificationIcon,
-        inactive: constants.notificationIcon,
-        score: -1,
-        onClick: () => null
-      },
-      {
-        active: constants.notificationIcon,
-        inactive: constants.notificationIcon,
-        score: -2,
-        onClick: () => null
-      },
-      {
-        active: constants.notificationIcon,
-        inactive: constants.notificationIcon,
-        score: -3,
-        onClick: () => null
-      }
-    ];
+    // const negativeButtons = [
+    //   {
+    //     active: constants.notificationIcon,
+    //     inactive: constants.notificationIcon,
+    //     score: -1,
+    //     onClick: () => null
+    //   },
+    //   {
+    //     active: constants.notificationIcon,
+    //     inactive: constants.notificationIcon,
+    //     score: -2,
+    //     onClick: () => null
+    //   },
+    //   {
+    //     active: constants.notificationIcon,
+    //     inactive: constants.notificationIcon,
+    //     score: -3,
+    //     onClick: () => null
+    //   }
+    // ];
 
     return (
       <Modal
@@ -145,7 +140,7 @@ class FeedBackSwiperModal extends Component {
         animationOut={"zoomOut"}
         useNativeDriver={true}
         isVisible={isVisible}
-        onBackButtonPress={onClose}
+        onBackButtonPress={() => null}
         onBackdropPress={() =>
           isKeyboardVisible ? Keyboard.dismiss() : onClose()
         }
@@ -192,16 +187,17 @@ class FeedBackSwiperModal extends Component {
             <View style={styles.textInputWrapper}>
               <TextInput
                 style={styles.textInput}
-                onChangeText={this.onEditText}
+                onChangeText={this.props.onEditText}
                 returnKeyType={"next"}
                 underlineColorAndroid={"transparent"}
                 multiline={true}
+                value={this.props.review}
                 numberOfLines={5}
                 textAlignVertical={"top"}
                 placeholder={
                   isNegative
-                    ? "had issues with..."
-                    : "the day was a blast because..."
+                    ? "Had issues with..."
+                    : "The day was a blast because..."
                 }
                 placeholderTextColor={"rgba(155,155,155,1)"}
               />
@@ -214,16 +210,20 @@ class FeedBackSwiperModal extends Component {
                 marginBottom: 16,
                 backgroundColor: "white"
               }}
-              action={() =>
-                isNegative ? this.negativeSubmit() : this.positiveSubmit()
-              }
+              action={() => {
+                if (!this.props.isFeedbackApiLoading) {
+                  this.props.submit();
+                }
+              }}
               textColor={constants.black1}
             />
           </View>
           <View style={styles.feedBackIconContainer}>
             <Icon
-              name={constants.activityIcon}
-              color={constants.firstColor}
+              name={
+                isNegative ? constants.thumbsDownIcon : constants.thumbsUpIcon
+              }
+              color={isNegative ? "rgba(255,87,109,1)" : constants.firstColor}
               size={22}
             />
           </View>

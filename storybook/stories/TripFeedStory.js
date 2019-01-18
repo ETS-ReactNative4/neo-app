@@ -582,13 +582,6 @@ storiesOf("Trip Feed Widgets", module)
     console.log(props);
     return <BigImageCard {...props} />;
   })
-  .add("Feedback swiper", () => {
-    const props = {
-      toggleScrollLock: () => null
-    };
-    console.log(props);
-    return <FeedBackSwiper {...props} />;
-  })
   .add("Info Card Modal default", () => {
     const props = modalData;
     console.log(props);

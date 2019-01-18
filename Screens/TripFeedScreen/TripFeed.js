@@ -14,6 +14,10 @@ import CustomScrollView from "../../CommonComponents/CustomScrollView/CustomScro
 import InfoCardModal from "./Components/InfoCardModal/InfoCardModal";
 import { logError } from "../../Services/errorLogger/errorLogger";
 import NoInternetIndicator from "../../CommonComponents/NoInternetIndicator/NoInternetIndicator";
+import FeedBackSwiper from "./Components/FeedBackSwiper/FeedBackSwiper";
+import FeedBackPositiveExplosion from "./Components/FeedBackSwiper/Components/FeedBackPositiveExplosion";
+import DayAhead from "./Components/DayAhead/DayAhead";
+import DayAheadLite from "./Components/DayAheadLite/DayAheadLite";
 
 @ErrorBoundary({ isRoot: true })
 @inject("tripFeedStore")
@@ -26,6 +30,7 @@ class TripFeed extends Component {
   };
   _didFocusSubscription;
   _willBlurSubscription;
+  _emitterComponent = React.createRef();
 
   constructor(props) {
     super(props);
@@ -88,6 +93,9 @@ class TripFeed extends Component {
     this._willBlurSubscription && this._willBlurSubscription.remove();
   }
 
+  setEmitterComponent = emitterComponent =>
+    (this._emitterComponent = emitterComponent);
+
   render() {
     const {
       isLoading,
@@ -141,7 +149,19 @@ class TripFeed extends Component {
                       toggleScrollLock={this.toggleScrollLock}
                     />
                   );
-                // FEEDBACK_SWIPER
+                case "FEEDBACK_SWIPER":
+                  return (
+                    <FeedBackSwiper
+                      emitterComponent={this._emitterComponent}
+                      toggleScrollLock={this.toggleScrollLock}
+                      key={widgetIndex}
+                      {...widget.data}
+                    />
+                  );
+                case "DAY_AHEAD":
+                  return <DayAhead key={widgetIndex} {...widget.data} />;
+                case "DAY_AHEAD_LITE":
+                  return <DayAheadLite key={widgetIndex} {...widget.data} />;
                 default:
                   return null;
               }
@@ -156,6 +176,10 @@ class TripFeed extends Component {
             {...infoCardModal.modalData}
           />
         </CustomScrollView>
+        <FeedBackPositiveExplosion
+          emitterRef={this.setEmitterComponent}
+          emitterComponent={this._emitterComponent}
+        />
       </View>
     );
   }

@@ -49,6 +49,8 @@ const imageAssets = {
   clockIcon: "clock",
   infoIcon: "about",
   warningIcon: "warning",
+  thumbsUpIcon: "like",
+  thumbsDownIcon: "unlike",
   locationIcon: "location",
 
   semiCircleShape: require("../assets/images/shapes/hiring_topic.png"),

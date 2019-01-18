@@ -12,7 +12,9 @@ import SimpleButton from "../../../../CommonComponents/SimpleButton/SimpleButton
 import { responsiveWidth } from "react-native-responsive-dimensions";
 import PropTypes from "prop-types";
 import FeedBackSwiperModal from "./Components/FeedBackSwiperModal";
-import FeedBackPositiveExplosion from "./Components/FeedBackPositiveExplosion";
+import apiCall from "../../../../Services/networkRequests/apiCall";
+import storeService from "../../../../Services/storeService/storeService";
+import { toastBottom, toastCenter } from "../../../../Services/toast/toast";
 
 const NextCard = () => (
   <View
@@ -52,53 +54,52 @@ const EmptyPlaceHolder = () => {
 
 class FeedBackSwiper extends Component {
   static propTypes = {
-    toggleScrollLock: PropTypes.func.isRequired
+    toggleScrollLock: PropTypes.func.isRequired,
+    emitterComponent: PropTypes.object.isRequired,
+    elements: PropTypes.array.isRequired
   };
 
   state = {
-    feedBackArray: [
-      {
-        title: "How was your day?",
-        day: "Yesterday, May 23",
-        yey: () => this.openFeedBackModal({}),
-        meh: () => this.openFeedBackModal({ isNegative: true })
-      },
-      {
-        title: "How was your day?",
-        day: "May 22",
-        yey: () => this.openFeedBackModal({}),
-        meh: () => this.openFeedBackModal({ isNegative: true })
-      },
-      {
-        title: "How was your day?",
-        day: "May 21",
-        yey: () => this.openFeedBackModal({}),
-        meh: () => this.openFeedBackModal({ isNegative: true })
-      },
-      {
-        title: "How was your day?",
-        day: "May 20",
-        yey: () => this.openFeedBackModal({}),
-        meh: () => this.openFeedBackModal({ isNegative: true })
-      },
-      {
-        title: "How was your day?",
-        day: "May 19",
-        yey: () => this.openFeedBackModal({}),
-        meh: () => this.openFeedBackModal({ isNegative: true })
-      }
-    ],
     isModalVisible: false,
-    isNegative: false
+    isNegative: false,
+    activeCardIndex: 0,
+    activeModalIndex: -1,
+    dismissedCard: -1,
+    disableDissmissApi: false,
+    isFeedbackApiLoading: false
   };
 
   _cardStack = React.createRef();
-  _emitterComponent = React.createRef();
 
   openFeedBackModal = ({ isNegative = false }) => {
     this.setState({
       isModalVisible: true,
+      activeModalIndex: this.state.activeCardIndex,
       isNegative
+    });
+  };
+
+  swipedCard = nextCardIndex => {
+    if (!this.state.disableDissmissApi) {
+      const activeElement = this.props.elements[this.state.activeCardIndex];
+      const requestObject = {
+        itineraryId: storeService.itineraries.selectedItineraryId,
+        review: "",
+        responseType: "DISMISSED"
+      };
+      apiCall(activeElement.url, requestObject)
+        .then(response => {
+          if (response.status === "SUCCESS") {
+            // NO Action needed for dismiss
+          }
+        })
+        .catch(err => {
+          //TODO:  Handle error on dismiss card
+        });
+    }
+    this.setState({
+      dismissedCard: nextCardIndex - 1,
+      activeCardIndex: nextCardIndex
     });
   };
 
@@ -109,19 +110,75 @@ class FeedBackSwiper extends Component {
   };
 
   submitFeedBack = () => {
-    this.setState(
-      {
-        isModalVisible: false
-      },
-      () => {
-        setTimeout(() => {
-          this._cardStack.swipeRight && this._cardStack.swipeRight();
-        }, 300);
-      }
-    );
+    const activeElement = this.props.elements[this.state.activeCardIndex];
+    const requestObject = {
+      itineraryId: storeService.itineraries.selectedItineraryId,
+      review: this.state.review,
+      responseType: this.state.isNegative ? "NEGATIVE" : "POSITIVE"
+    };
+    this.setState({
+      isFeedbackApiLoading: true
+    });
+    apiCall(activeElement.url, requestObject)
+      .then(response => {
+        this.setState({
+          isFeedbackApiLoading: false
+        });
+        if (response.status === "SUCCESS") {
+          toastCenter("Thanks for the feedback!");
+          if (!this.state.isNegative) {
+            this.props.emitterComponent && this.props.emitterComponent.start();
+          }
+          this.setState(
+            {
+              review: "",
+              isModalVisible: false
+            },
+            () => {
+              this.setState(
+                {
+                  disableDissmissApi: true
+                },
+                () => {
+                  setTimeout(() => {
+                    this._cardStack.swipeRight && this._cardStack.swipeRight();
+                    setTimeout(() => {
+                      this.setState({
+                        disableDissmissApi: false
+                      });
+                    }, 500);
+                  }, 300);
+                }
+              );
+            }
+          );
+        } else {
+          this.setState({
+            review: "",
+            isModalVisible: false
+          });
+          toastBottom(
+            "Unable to collect feedback. Please try after sometime..."
+          );
+        }
+      })
+      .catch(err => {
+        this.setState({
+          isFeedbackApiLoading: false
+        });
+        this.setState({
+          review: "",
+          isModalVisible: false
+        });
+        toastBottom("Unable to collect feedback. Please try after sometime...");
+      });
   };
 
+  onEditText = review => this.setState({ review });
+
   render() {
+    const { elements } = this.props;
+    if (!elements || !elements.length) return null;
     return [
       <CardStack
         key={0}
@@ -131,49 +188,50 @@ class FeedBackSwiper extends Component {
         EmptyPlaceHolder={EmptyPlaceHolder}
         onSwipeStart={() => this.props.toggleScrollLock(false)}
         onSwipeEnd={() => this.props.toggleScrollLock(true)}
+        onCardSwiped={nextCardIndex => this.swipedCard(nextCardIndex)}
         containerStyle={styles.feedBackSwiperContainer}
         verticalSwipe={false}
         hideEmptyWidget={true}
       >
-        {this.state.feedBackArray.map((feedBack, feedBackIndex) => {
+        {elements.map((feedBack, feedBackIndex) => {
           return (
             <View key={feedBackIndex} style={styles.feedBackCard}>
               <Text style={styles.feedBackTitle}>{feedBack.title}</Text>
-              <Text style={styles.feedBackDay}>{feedBack.day}</Text>
+              <Text style={styles.feedBackDay}>{feedBack.text}</Text>
               <View style={styles.actionBar}>
                 <SimpleButton
-                  text={"Meh!"}
-                  action={feedBack.meh}
+                  text={"Meh."}
+                  action={() => this.openFeedBackModal({ isNegative: true })}
                   textColor={"rgba(255,87,109,1)"}
                   hasBorder={false}
-                  icon={constants.activityIcon}
+                  icon={constants.thumbsDownIcon}
                   textStyle={{
-                    ...constants.fontCustom(constants.primarySemiBold, 17)
+                    ...constants.fontCustom(constants.primarySemiBold, 21)
                   }}
-                  iconSize={16}
+                  iconSize={20}
                   underlayColor={"transparent"}
                   containerStyle={{
                     backgroundColor: "transparent",
-                    marginRight: 4,
-                    height: 20,
+                    marginHorizontal: 8,
+                    height: 42,
                     width: 80
                   }}
                 />
                 <SimpleButton
                   text={"Yey!"}
-                  action={feedBack.yey}
+                  action={() => this.openFeedBackModal({ isNegative: false })}
                   textColor={constants.firstColor}
                   hasBorder={false}
-                  icon={constants.activityIcon}
+                  icon={constants.thumbsUpIcon}
                   textStyle={{
-                    ...constants.fontCustom(constants.primarySemiBold, 17)
+                    ...constants.fontCustom(constants.primarySemiBold, 21)
                   }}
-                  iconSize={16}
+                  iconSize={20}
                   underlayColor={"transparent"}
                   containerStyle={{
                     backgroundColor: "transparent",
-                    marginLeft: 4,
-                    height: 20,
+                    marginHorizontal: 8,
+                    height: 42,
                     width: 80
                   }}
                 />
@@ -186,13 +244,13 @@ class FeedBackSwiper extends Component {
         key={1}
         isVisible={this.state.isModalVisible}
         data={{}}
-        emitterComponent={this._emitterComponent}
+        onEditText={this.onEditText}
+        review={this.state.review}
+        emitterComponent={this.props.emitterComponent}
         onClose={this.closeFeedBackModal}
         isNegative={this.state.isNegative}
         submit={this.submitFeedBack}
-      />,
-      <FeedBackPositiveExplosion
-        ref={emitterComponent => (this._emitterComponent = emitterComponent)}
+        isFeedbackApiLoading={this.state.isFeedbackApiLoading}
       />
     ];
   }

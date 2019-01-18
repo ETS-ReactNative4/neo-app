@@ -14,6 +14,7 @@ import constants from "../../constants/constants";
 import { responsiveWidth } from "react-native-responsive-dimensions";
 import Icon from "../../CommonComponents/Icon/Icon";
 import SimpleButton from "../../CommonComponents/SimpleButton/SimpleButton";
+import Modal from "react-native-modal";
 import apiCall from "../../Services/networkRequests/apiCall";
 import Loader from "../../CommonComponents/Loader/Loader";
 import moment from "moment";
@@ -47,7 +48,8 @@ class PaymentSummary extends Component {
     itineraryTotalCost: "",
     totalAmountPaid: "",
     paymentDue: "",
-    isFirstLoad: true
+    isFirstLoad: true,
+    isBankDetailModalVisible: false
   };
   _didFocusSubscription;
 
@@ -75,6 +77,18 @@ class PaymentSummary extends Component {
   componentWillUnmount() {
     this._didFocusSubscription && this._didFocusSubscription.remove();
   }
+
+  openBankDetailModal = () => {
+    this.setState({
+      isBankDetailModalVisible: true
+    });
+  };
+
+  closeModal = () => {
+    this.setState({
+      isBankDetailModalVisible: false
+    });
+  };
 
   apiFailure = () => {};
 
@@ -161,6 +175,29 @@ class PaymentSummary extends Component {
   };
 
   render() {
+    const platoBankDetails = [
+      {
+        name: "Account",
+        value: "50200003337649"
+      },
+      {
+        name: "Name",
+        value: "Travel Troops global pvt ltd"
+      },
+      {
+        name: "Branch",
+        value: "T Nagar - GN Chetty Rd, Chennai"
+      },
+      {
+        name: "IFSCode",
+        value: "HDFC0000206"
+      },
+      {
+        name: "Swift Code",
+        value: "HDFCINBB"
+      }
+    ];
+
     const tripId = [
       {
         name: "Trip ID",
@@ -274,6 +311,9 @@ class PaymentSummary extends Component {
       ];
     }
 
+    /**
+     * TODO: Move bank details out of the app to api/webview
+     */
     return (
       <CustomScrollView
         style={styles.summaryContainer}
@@ -283,6 +323,29 @@ class PaymentSummary extends Component {
         }}
       >
         <Loader isVisible={this.state.isPaymentLoading} />
+        <Modal
+          isVisible={this.state.isBankDetailModalVisible}
+          animationInTiming={600}
+          animationOutTiming={600}
+          onBackButtonPress={this.closeModal}
+          onBackdropPress={this.closeModal}
+          useNativeDriver={true}
+          style={{ margin: 0 }}
+          backdropOpacity={0.2}
+        >
+          <View style={styles.platoBankDetailContainer}>
+            <Text style={styles.platoBankDetailTitle}>{"Bank Details"}</Text>
+            <VoucherSplitSection sections={platoBankDetails} />
+            <SimpleButton
+              text={"Got it!"}
+              hasBorder={true}
+              color={"white"}
+              action={this.closeModal}
+              textColor={constants.firstColor}
+              containerStyle={{ padding: 4 }}
+            />
+          </View>
+        </Modal>
         <Text style={styles.titleText}>{this.state.itineraryName}</Text>
 
         <VoucherSplitSection
@@ -325,6 +388,7 @@ class PaymentSummary extends Component {
                 <Text key={0} style={styles.offlinePaymentText}>
                   {`You have payed offline. To complete the next payment use the following `}
                   <Text
+                    onPress={this.openBankDetailModal}
                     style={{
                       color: constants.firstColor,
                       textDecorationLine: "underline"
@@ -337,43 +401,44 @@ class PaymentSummary extends Component {
                 </Text>
               ),
               <View key={1} style={styles.paymentOptionsBox}>
-                {paymentOptions.map((paymentOption, optionKey) => {
-                  const isLast = paymentOptions.length === optionKey + 1;
-                  return (
-                    <TouchableOpacity
-                      onPress={() => {
-                        recordEvent(constants.paymentScreenStartPayment);
-                        paymentOption.action();
-                      }}
-                      style={[
-                        styles.optionButton,
-                        !isLast
-                          ? {
-                              borderBottomWidth: StyleSheet.hairlineWidth,
-                              borderBottomColor: constants.shade3
-                            }
-                          : null
-                      ]}
-                      key={optionKey}
-                    >
-                      <View>
-                        <Text style={styles.amountText}>
-                          {paymentOption.amount}
-                        </Text>
-                        <Text style={styles.percentageText}>
-                          {paymentOption.percentage}
-                        </Text>
-                      </View>
-                      <View>
-                        <Icon
-                          name={constants.arrowRight}
-                          size={16}
-                          color={constants.shade2}
-                        />
-                      </View>
-                    </TouchableOpacity>
-                  );
-                })}
+                {!isPlatoPaymentPending &&
+                  paymentOptions.map((paymentOption, optionKey) => {
+                    const isLast = paymentOptions.length === optionKey + 1;
+                    return (
+                      <TouchableOpacity
+                        onPress={() => {
+                          recordEvent(constants.paymentScreenStartPayment);
+                          paymentOption.action();
+                        }}
+                        style={[
+                          styles.optionButton,
+                          !isLast
+                            ? {
+                                borderBottomWidth: StyleSheet.hairlineWidth,
+                                borderBottomColor: constants.shade3
+                              }
+                            : null
+                        ]}
+                        key={optionKey}
+                      >
+                        <View>
+                          <Text style={styles.amountText}>
+                            {paymentOption.amount}
+                          </Text>
+                          <Text style={styles.percentageText}>
+                            {paymentOption.percentage}
+                          </Text>
+                        </View>
+                        <View>
+                          <Icon
+                            name={constants.arrowRight}
+                            size={16}
+                            color={constants.shade2}
+                          />
+                        </View>
+                      </TouchableOpacity>
+                    );
+                  })}
               </View>
             ]}
 
@@ -461,6 +526,18 @@ const styles = StyleSheet.create({
     marginTop: 8,
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: constants.shade4
+  },
+  platoBankDetailContainer: {
+    backgroundColor: "white",
+    marginHorizontal: 24,
+    borderRadius: 5,
+    padding: 16,
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  platoBankDetailTitle: {
+    ...constants.fontCustom(constants.primarySemiBold, 17),
+    padding: 16
   }
 });
 
