@@ -27,6 +27,9 @@ const resolveLinks = (link, screenProps = {}, deepLink = {}) => {
   } else if (!_.isEmpty(deepLink)) {
     const { voucherType, costingIdentifier } = deepLink;
     if (voucherType && costingIdentifier) {
+      /**
+       * TODO: use a common function for toastBottom message
+       */
       switch (voucherType) {
         case "FLIGHT":
           const flight = storeService.itineraries.getFlightById(
