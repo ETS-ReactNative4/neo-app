@@ -9,16 +9,22 @@ import {
 } from "react-native-responsive-dimensions";
 import Icon from "../../../../../CommonComponents/Icon/Icon";
 import constants from "../../../../../constants/constants";
+import PropTypes from "prop-types";
 
 class FeedBackPositiveExplosion extends Component {
+  static propTypes = {
+    emitterRef: PropTypes.func.isRequired,
+    emitterComponent: PropTypes.object.isRequired
+  };
+
   _emitter = React.createRef();
 
   start() {
-    this._emitter.start();
+    this.props.emitterComponent.start();
   }
 
   stopEmitting() {
-    this._emitter.stopEmitting();
+    this.props.emitterComponent.stopEmitting();
   }
 
   render() {
@@ -32,12 +38,12 @@ class FeedBackPositiveExplosion extends Component {
         particleLife={3000}
         fromPosition={Vector(responsiveWidth(50), responsiveHeight(40))}
         finalPoint={Vector(responsiveWidth(50) - 24, responsiveHeight(75))}
-        ref={emitter => (this._emitter = emitter)}
+        ref={this.props.emitterRef}
         radius={100}
       >
         <View style={styles.feedBackIconContainer}>
           <Icon
-            name={constants.activityIcon}
+            name={constants.thumbsUpIcon}
             color={constants.firstColor}
             size={22}
           />
