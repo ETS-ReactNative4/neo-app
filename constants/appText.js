@@ -1,4 +1,8 @@
 const appText = {
+  starterScreenText: {
+    mainButton: "Find your booking",
+    exploreButton: "Or, explore itineraries"
+  },
   aboutUsText: {
     title: "About Us",
     content:

@@ -8,14 +8,18 @@ const imageAssets = {
   splashBackground: isIphoneX()
     ? require("../assets/images/backgrounds/splashImage.webp")
     : require("../assets/images/backgrounds/splashImageAndroid.webp"),
+  starterScreenBackground: isIphoneX()
+    ? require("../assets/images/backgrounds/starterScreenBackground.jpg")
+    : require("../assets/images/backgrounds/starterScreenBackgroundAndroid.jpg"),
   starterBackground: require("../assets/images/backgrounds/starterImage.jpg"),
   drawerBackground: require("../assets/images/backgrounds/drawer.png"),
   pytLogo:
     PackageInfo.environment === "production"
-      ? require("../assets/images/icons/logo.png")
+      ? require("../assets/images/icons/logo_new.png")
       : require("../assets/images/icons/logo-dev.png"),
   pytLogoNew: require("../assets/images/icons/logo_new.png"),
   pytLogoWhite: require("../assets/images/icons/pickyourtrail-white-logo.png"),
+  pytLogoBlack: require("../assets/images/icons/pickyourtrail-black-logo.png"),
   notificationIcon: require("../assets/images/icons/notification.png"),
   backArrow: require("../assets/images/icons/left-arrow.png"),
   backIcon: "nav-left",

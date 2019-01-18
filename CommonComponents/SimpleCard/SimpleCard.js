@@ -1,9 +1,7 @@
 import React from "react";
-import { Text, View, TouchableOpacity, StyleSheet } from "react-native";
+import { Text, View, TouchableOpacity, StyleSheet, Image } from "react-native";
 import PropTypes from "prop-types";
-import FastImage from "react-native-fast-image";
 import constants from "../../constants/constants";
-import SmartImage from "../SmartImage/SmartImage";
 
 /**
  * TODO: Fix Image urls
@@ -33,14 +31,13 @@ const SimpleCard = ({
       onPress={action}
       style={[styles.cardContainer, containerStyle]}
     >
-      <SmartImage
-        defaultImageUri={
-          "http://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg"
-        }
-        style={[styles.image, imageStyle]}
-        uri={image.uri}
-        resizeMode={FastImage.resizeMode.cover}
-      />
+      <View style={styles.imageContainer}>
+        <Image
+          style={[styles.image, imageStyle]}
+          source={image}
+          resizeMode={"cover"}
+        />
+      </View>
       <View style={[styles.textContainer, textWrapper]}>
         <Text style={[styles.titleText, textStyle]}>{title}</Text>
       </View>
@@ -56,6 +53,11 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     marginRight: 8,
     ...constants.elevationTwo
+  },
+  imageContainer: {
+    overflow: "hidden",
+    borderTopRightRadius: 5,
+    borderTopLeftRadius: 5
   },
   image: {
     width: 152,
