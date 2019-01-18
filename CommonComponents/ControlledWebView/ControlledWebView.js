@@ -23,7 +23,7 @@ const ControlledWebView = ({
       startInLoadingState={hideLoadingIndicator ? false : true}
       onNavigationStateChange={onNavigationStateChange}
       style={style}
-      webviewRef={webviewRef}
+      ref={webviewRef}
       injectedJavaScript={injectedJavascript}
     />,
     PackageInfo.environment !== "production" ? (
