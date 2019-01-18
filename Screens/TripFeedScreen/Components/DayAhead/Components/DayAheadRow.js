@@ -13,18 +13,23 @@ import FastImage from "react-native-fast-image";
 import UpcomingBadge from "./UpcomingBadge";
 import { responsiveWidth } from "react-native-responsive-dimensions";
 import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidExtraProps";
+import resolveLinks from "../../../../../Services/resolveLinks/resolveLinks";
 
 const DayAheadRow = ({
   image,
   label,
   title,
   text,
+  deepLink,
   voucherType,
   costingIdentifier,
   isLast
 }) => {
   return (
     <TouchableOpacity
+      onPress={() =>
+        resolveLinks("", {}, deepLink || { voucherType, costingIdentifier })
+      }
       style={[
         styles.dayAheadRowContainer,
         !isLast
@@ -42,7 +47,13 @@ const DayAheadRow = ({
         <View style={styles.headerTextWrapper}>
           <UpcomingBadge text={label} containerStyle={{ marginRight: 8 }} />
           <View style={styles.headerTimeTextWrapper}>
-            <Text style={styles.headerTimeText}>{title}</Text>
+            <Text
+              numberOfLines={1}
+              ellipsizeMode={"tail"}
+              style={styles.headerTimeText}
+            >
+              {title}
+            </Text>
           </View>
         </View>
         <View style={styles.descriptionTextWrapper}>
@@ -66,7 +77,8 @@ DayAheadRow.propTypes = forbidExtraProps({
   text: PropTypes.string.isRequired,
   voucherType: PropTypes.string.isRequired,
   costingIdentifier: PropTypes.string.isRequired,
-  isLast: PropTypes.bool.isRequired
+  isLast: PropTypes.bool.isRequired,
+  deepLink: PropTypes.object
 });
 
 const styles = StyleSheet.create({

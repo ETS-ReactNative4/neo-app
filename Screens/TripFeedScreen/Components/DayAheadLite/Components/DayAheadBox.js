@@ -7,19 +7,23 @@ import SmartImage from "../../../../../CommonComponents/SmartImage/SmartImage";
 import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidExtraProps";
 import PropTypes from "prop-types";
 import DayAheadRow from "../../DayAhead/Components/DayAheadRow";
+import resolveLinks from "../../../../../Services/resolveLinks/resolveLinks";
 
 const DayAheadBox = ({
   image,
   label,
   title,
   text,
+  deepLink,
   voucherType,
   costingIdentifier
 }) => {
   return (
     <TouchableOpacity
       style={styles.dayAheadBoxTouchable}
-      onPress={() => null}
+      onPress={() =>
+        resolveLinks("", {}, deepLink || { voucherType, costingIdentifier })
+      }
       activeOpacity={0.7}
     >
       <View style={styles.dayAheadBoxContainer}>
@@ -30,7 +34,11 @@ const DayAheadBox = ({
         />
         <View style={styles.textAreaWrapper}>
           <View style={styles.timeTextWrapper}>
-            <Text style={styles.nextText}>
+            <Text
+              numberOfLines={1}
+              ellipsizeMode={"tail"}
+              style={styles.nextText}
+            >
               {`${label} `}
               <Text style={styles.timeText}>{title}</Text>
             </Text>
@@ -54,7 +62,8 @@ DayAheadBox.propTypes = forbidExtraProps({
   title: PropTypes.string.isRequired,
   text: PropTypes.string.isRequired,
   voucherType: PropTypes.string.isRequired,
-  costingIdentifier: PropTypes.string.isRequired
+  costingIdentifier: PropTypes.string.isRequired,
+  deepLink: PropTypes.object
 });
 
 const styles = StyleSheet.create({

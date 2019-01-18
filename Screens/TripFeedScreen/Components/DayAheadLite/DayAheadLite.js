@@ -30,7 +30,8 @@ DayAheadLite.propTypes = forbidExtraProps({
       title: PropTypes.string.isRequired,
       text: PropTypes.string.isRequired,
       voucherType: PropTypes.string.isRequired,
-      costingIdentifier: PropTypes.string.isRequired
+      costingIdentifier: PropTypes.string.isRequired,
+      deepLink: PropTypes.object
     })
   ).isRequired
 });
