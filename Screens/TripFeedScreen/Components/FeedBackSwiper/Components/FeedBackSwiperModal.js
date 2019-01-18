@@ -75,62 +75,62 @@ class FeedBackSwiperModal extends Component {
     const { isVisible, isNegative, data, onClose, submit } = this.props;
     const { isKeyboardVisible } = this.state;
 
-    const items = [
-      {
-        image:
-          "http://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg",
-        text: `City Sightseeing Barcelona Hop-On Hop-Off Tour longer Barcelona Hop-On Hop-Off Tour longer`,
-        score: 0
-      },
-      {
-        image:
-          "http://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg",
-        text: `City Sightseeing Barcelona Hop-On Hop-Off Tour longer Barcelona Hop-On Hop-Off Tour longer`,
-        score: 0
-      }
-    ];
+    // const items = [
+    //   {
+    //     image:
+    //       "http://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg",
+    //     text: `City Sightseeing Barcelona Hop-On Hop-Off Tour longer Barcelona Hop-On Hop-Off Tour longer`,
+    //     score: 0
+    //   },
+    //   {
+    //     image:
+    //       "http://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg",
+    //     text: `City Sightseeing Barcelona Hop-On Hop-Off Tour longer Barcelona Hop-On Hop-Off Tour longer`,
+    //     score: 0
+    //   }
+    // ];
 
-    const positiveButtons = [
-      {
-        active: constants.notificationIcon,
-        inactive: constants.notificationIcon,
-        score: 1,
-        onClick: () => null
-      },
-      {
-        active: constants.notificationIcon,
-        inactive: constants.notificationIcon,
-        score: 2,
-        onClick: () => null
-      },
-      {
-        active: constants.notificationIcon,
-        inactive: constants.notificationIcon,
-        score: 3,
-        onClick: () => null
-      }
-    ];
+    // const positiveButtons = [
+    //   {
+    //     active: constants.notificationIcon,
+    //     inactive: constants.notificationIcon,
+    //     score: 1,
+    //     onClick: () => null
+    //   },
+    //   {
+    //     active: constants.notificationIcon,
+    //     inactive: constants.notificationIcon,
+    //     score: 2,
+    //     onClick: () => null
+    //   },
+    //   {
+    //     active: constants.notificationIcon,
+    //     inactive: constants.notificationIcon,
+    //     score: 3,
+    //     onClick: () => null
+    //   }
+    // ];
 
-    const negativeButtons = [
-      {
-        active: constants.notificationIcon,
-        inactive: constants.notificationIcon,
-        score: -1,
-        onClick: () => null
-      },
-      {
-        active: constants.notificationIcon,
-        inactive: constants.notificationIcon,
-        score: -2,
-        onClick: () => null
-      },
-      {
-        active: constants.notificationIcon,
-        inactive: constants.notificationIcon,
-        score: -3,
-        onClick: () => null
-      }
-    ];
+    // const negativeButtons = [
+    //   {
+    //     active: constants.notificationIcon,
+    //     inactive: constants.notificationIcon,
+    //     score: -1,
+    //     onClick: () => null
+    //   },
+    //   {
+    //     active: constants.notificationIcon,
+    //     inactive: constants.notificationIcon,
+    //     score: -2,
+    //     onClick: () => null
+    //   },
+    //   {
+    //     active: constants.notificationIcon,
+    //     inactive: constants.notificationIcon,
+    //     score: -3,
+    //     onClick: () => null
+    //   }
+    // ];
 
     return (
       <Modal
