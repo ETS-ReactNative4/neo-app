@@ -49,11 +49,6 @@ const DeepLinkHandler = WrappedComponent => {
           );
         }
       );
-
-      console.log(
-        "DeepLinkHandler >> ",
-        WrappedComponent.navigationOptions({ navigation: props.navigation })
-      );
     }
 
     componentDidMount() {

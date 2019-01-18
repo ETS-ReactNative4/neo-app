@@ -51,9 +51,11 @@ const PaymentInfoCard = ({
         <View style={styles.infoTextWrapper}>
           <View style={styles.dateWrapper}>
             {isPaymentPending ? (
-              <Text style={styles.paymentDueText}>{`Next Payment due ${moment(
-                nextPendingDate
-              ).fromNow()}`}</Text>
+              nextPendingDate > 0 ? (
+                <Text style={styles.paymentDueText}>{`Next Payment due ${moment(
+                  nextPendingDate
+                ).fromNow()}`}</Text>
+              ) : null
             ) : (
               <Text
                 style={[styles.paymentDueText, styles.paymentCompleteText]}
@@ -71,7 +73,7 @@ const PaymentInfoCard = ({
           </View>
           <View style={styles.bookingDetailWrapper}>
             <Text style={styles.bookingDetail}>
-              {isPaymentPending ? `Minimum Payment due:` : `Total Amount Paid:`}
+              {isPaymentPending ? `Total Payment due:` : `Total Amount Paid:`}
             </Text>
           </View>
           <View style={styles.bookingDateWrapper}>

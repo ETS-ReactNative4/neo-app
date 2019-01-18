@@ -62,7 +62,7 @@ const appText = {
   },
   appCrashText: {
     reload:
-      "We feel aweful :(\n\nPlease close the app and try launching it again?\n\n",
+      "We feel awful :(\n\nPlease close the app and try launching it again?\n\n",
     goBack: "Yikes, our bad\n\nGo back and reload this page again please\n\n"
   },
   phrasesTranslationFailedText: "Unable to translate...",

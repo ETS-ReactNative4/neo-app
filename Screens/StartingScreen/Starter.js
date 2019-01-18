@@ -14,6 +14,7 @@ import LinearGradient from "react-native-linear-gradient";
 import { inject, observer } from "mobx-react/custom";
 import { recordEvent } from "../../Services/analytics/analyticsService";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
+import openCustomTab from "../../Services/openCustomTab/openCustomTab";
 
 @ErrorBoundary({ isRoot: true })
 @inject("appState")
@@ -52,7 +53,7 @@ class Starter extends Component {
           <SafeAreaView>
             <View style={styles.logoRow}>
               <Image
-                source={constants.pytLogoNew}
+                source={constants.pytLogoWhite}
                 style={styles.logo}
                 resizeMode={"contain"}
               />
@@ -87,6 +88,32 @@ class Starter extends Component {
                 </Text>
               </View>
             </View>
+            <View style={styles.tncWrapper}>
+              <Text style={styles.tncText}>
+                By using pickyourtrail app you agree to our{" "}
+                <Text
+                  style={styles.tncLink}
+                  onPress={() => {
+                    openCustomTab(
+                      `${constants.productUrl}${constants.termsAndConditions}`
+                    );
+                  }}
+                >
+                  Terms and Conditions
+                </Text>{" "}
+                and all your data will be protected by our{" "}
+                <Text
+                  style={styles.tncLink}
+                  onPress={() => {
+                    openCustomTab(
+                      `${constants.productUrl}${constants.privacyPolicy}`
+                    );
+                  }}
+                >
+                  Privacy Policy
+                </Text>
+              </Text>
+            </View>
           </SafeAreaView>
         </LinearGradient>
       </ImageBackground>
@@ -108,11 +135,11 @@ const styles = StyleSheet.create({
   logoRow: {
     alignItems: "center",
     justifyContent: "center",
-    marginBottom: 40
+    marginBottom: 32
   },
   logo: {
-    height: 31,
-    width: 168
+    height: 62,
+    width: 200
   },
   buttonRow: {
     alignItems: "center",
@@ -140,6 +167,19 @@ const styles = StyleSheet.create({
     ...constants.font17(constants.primarySemiBold)
   },
   hyperlink: {
+    textDecorationLine: "underline"
+  },
+  tncWrapper: {
+    marginHorizontal: 24,
+    marginBottom: 16
+  },
+  tncText: {
+    ...constants.fontCustom(constants.primaryLight, 8, 12),
+    color: "white",
+    textAlign: "center"
+  },
+  tncLink: {
+    fontFamily: constants.primarySemiBold,
     textDecorationLine: "underline"
   }
 });

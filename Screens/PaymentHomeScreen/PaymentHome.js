@@ -142,7 +142,7 @@ class PaymentHome extends Component {
                     })
                   }
                   isLast={isLast}
-                  isPaymentPending={paymentDetails.nextPendingDate > -1}
+                  isPaymentPending={paymentDetails.paymentDue > 0}
                   paymentDue={paymentDetails.paymentDue}
                   nextPendingDate={paymentDetails.nextPendingDate}
                   totalAmountPaid={paymentDetails.totalAmountPaid}

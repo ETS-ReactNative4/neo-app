@@ -1,11 +1,13 @@
-import constants from "./constants";
 import serverUrls from "./serverUrls";
 import PackageInfo from "../package.json";
+import { isIphoneX } from "react-native-iphone-x-helper";
 
 const prefix = serverUrls.miscImageBaseUrl + "placeholders/";
 
 const imageAssets = {
-  splashBackground: require("../assets/images/backgrounds/viceroy-bali.jpg.jpg"),
+  splashBackground: isIphoneX()
+    ? require("../assets/images/backgrounds/splashImage.webp")
+    : require("../assets/images/backgrounds/splashImageAndroid.webp"),
   starterBackground: require("../assets/images/backgrounds/starterImage.jpg"),
   drawerBackground: require("../assets/images/backgrounds/drawer.png"),
   pytLogo:
@@ -13,6 +15,7 @@ const imageAssets = {
       ? require("../assets/images/icons/logo.png")
       : require("../assets/images/icons/logo-dev.png"),
   pytLogoNew: require("../assets/images/icons/logo_new.png"),
+  pytLogoWhite: require("../assets/images/icons/pickyourtrail-white-logo.png"),
   notificationIcon: require("../assets/images/icons/notification.png"),
   backArrow: require("../assets/images/icons/left-arrow.png"),
   backIcon: "nav-left",
@@ -53,6 +56,12 @@ const imageAssets = {
   bookingIcon: "booking",
   bookingSelectedIcon: "booking-active",
   supportIcon: "support",
+  supportIconLight: "support-01",
+  rocketIcon: "rocket",
+  exceptionIcon: "exception",
+  privacyIcon: "key",
+  cancellationIcon: "close-circle-o",
+  careersIcon: "idcard",
   supportSelectedIcon: "support-active",
   toolIcon: "tools",
   toolSelectedIcon: "tools-active",
@@ -111,6 +120,12 @@ const imageAssets = {
   errorBoxIllus: require("../assets/images/illustrations/Alert-icons-failure.png"),
   infoBoxIllus: require("../assets/images/illustrations/Alert-icons-info.png"),
   alertBoxIllus: require("../assets/images/illustrations/Alert-icons.png"),
+  flightLogoPlaceholderIllus: require("../assets/images/placeholder-images/flight.png"),
+  activityThumbPlaceholderIllus: require("../assets/images/placeholder-images/activity.png"),
+  hotelThumbPlaceholderIllus: require("../assets/images/placeholder-images/hotel.png"),
+  passThumbPlaceholderIllus: require("../assets/images/placeholder-images/pass.png"),
+  visaThumbnailIllus: require("../assets/images/placeholder-images/visa.png"),
+  insuranceThumbnailIllus: require("../assets/images/placeholder-images/insurance.png"),
   journalComingSoonIllus: require("../assets/images/illustrations/coming-soon/travel-memories-coming-soon.png"),
 
   /**

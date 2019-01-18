@@ -1,7 +1,6 @@
 import React from "react";
-import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
+import { View, StyleSheet } from "react-native";
 import moment from "moment";
-import { responsiveWidth } from "react-native-responsive-dimensions";
 import constants from "../../../../../constants/constants";
 import PropTypes from "prop-types";
 import getTransferImage from "../../../../../Services/getImageService/getTransferImage";
@@ -79,7 +78,6 @@ const Ferry = ({ ferry, isLast, navigation, spinValue }) => {
               ).format(constants.commonDateFormat)
       }`}
       isImageContain={false}
-      defaultImageUri={constants.transferPlaceHolder}
     />
   );
 };
@@ -90,50 +88,6 @@ Ferry.propTypes = forbidExtraProps({
   navigation: PropTypes.object.isRequired,
   spinValue: PropTypes.oneOfType([PropTypes.object, PropTypes.number])
     .isRequired
-});
-
-const styles = StyleSheet.create({
-  contentContainer: {
-    paddingTop: 16,
-    borderBottomColor: constants.shade4,
-    flexDirection: "row",
-    alignItems: "center"
-  },
-  iconWrapper: {
-    overflow: "hidden",
-    height: 40,
-    width: 40,
-    borderRadius: 20
-  },
-  contentIcon: {
-    height: 40,
-    width: 40,
-    borderRadius: 20
-  },
-  contentTextContainer: {
-    minHeight: 40,
-    marginLeft: 16
-  },
-  contentHeaderWrapper: {
-    height: 16,
-    justifyContent: "center"
-  },
-  contentHeader: {
-    fontFamily: constants.primaryLight,
-    fontSize: 14,
-    lineHeight: 14,
-    color: constants.shade2
-  },
-  contentTextWrapper: {
-    minHeight: 24,
-    maxWidth: responsiveWidth(60),
-    justifyContent: "center"
-  },
-  contentText: {
-    fontFamily: constants.primaryLight,
-    fontSize: 17,
-    maxWidth: responsiveWidth(60)
-  }
 });
 
 export default FerriesSection;

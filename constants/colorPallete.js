@@ -5,9 +5,9 @@ const pallete1 = {
 };
 
 const pallete2 = {
-  firstColor: `rgba(47,209,93,1)`, // theme green
+  firstColor: `rgba(0,198,132,1)`, // theme green
   firstColorBackground: `rgba(239, 249, 242,1)`,
-  secondColor: `rgba(254,218,70,1)`, // theme yellow
+  secondColor: `rgba(255, 201, 51, 1)`, // theme yellow
   thirdColor: `rgba(255,40,114,1)`, // theme red
   fourthColor: `rgba(121,5,114, 1)`, // theme red dark
   fifthColor: `rgba(169,233,180,1)`,
@@ -15,8 +15,8 @@ const pallete2 = {
   seventhColor: `rgba(35,123,226,1)`, // theme blue
   eighthColor: `rgba(74,144,226,1)`,
 
-  firstColorAlpha: alpha => `rgba(47, 209, 93, ${alpha})`,
-  secondColorAlpha: alpha => `rgba(254, 218 ,70, ${alpha})`,
+  firstColorAlpha: alpha => `rgba(0, 198, 132, ${alpha})`,
+  secondColorAlpha: alpha => `rgba(255, 201, 51, ${alpha})`,
   thirdColorAlpha: alpha => `rgba(255,40,114,${alpha})`,
   fourthColorAlpha: alpha => `rgba(121,5,114,${alpha})`,
   fifthColorAlpha: alpha => `rgba(169,233,180,${alpha})`,

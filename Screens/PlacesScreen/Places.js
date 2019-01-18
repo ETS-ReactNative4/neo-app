@@ -21,6 +21,7 @@ import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import SimpleCard from "../../CommonComponents/SimpleCard/SimpleCard";
 import CustomScrollView from "../../CommonComponents/CustomScrollView/CustomScrollView";
 import DeepLinkHandler from "../../CommonComponents/DeepLinkHandler/DeepLinkHandler";
+import storeService from "../../Services/storeService/storeService";
 
 @ErrorBoundary()
 @DeepLinkHandler
@@ -77,10 +78,14 @@ class Places extends Component {
 
   render() {
     const { navigation } = this.props;
-    const { categories, isLoading, refreshCity } = this.props.placesStore;
+    const {
+      categories,
+      isLoading,
+      refreshCity,
+      selectedCity: city
+    } = this.props.placesStore;
     const categorySections = Object.keys(categories);
-    const city = this.props.navigation.getParam("city", {});
-    const target = this.props.navigation.getParam("target", "");
+    const target = this.props.navigation.getParam("target", "ToolNearBy");
     let onScrollProps = {};
     if (!this.state.isScrollRecorded) {
       onScrollProps["onScroll"] = () => this.scrollAction();
