@@ -819,7 +819,16 @@ class Itineraries {
   getHotelById = createTransformer(id => {
     if (_.isEmpty(this._selectedItinerary)) return {};
 
-    return toJS(this._selectedItinerary.hotelCostings.hotelCostingById[id]);
+    try {
+      const hotel =
+        this._selectedItinerary.hotelCostings.hotelCostingById[id] || {};
+      hotel.voucher =
+        storeService.voucherStore.getHotelVoucherById(hotel.costingId) || {};
+      return hotel;
+    } catch (e) {
+      logError(e);
+      return {};
+    }
   });
 
   getDateSelectionMatrixSingle = createTransformer(index => {
