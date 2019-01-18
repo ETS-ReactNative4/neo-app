@@ -210,7 +210,11 @@ class FeedBackSwiperModal extends Component {
                 marginBottom: 16,
                 backgroundColor: "white"
               }}
-              action={() => this.props.submit()}
+              action={() => {
+                if (!this.props.isFeedbackApiLoading) {
+                  this.props.submit();
+                }
+              }}
               textColor={constants.black1}
             />
           </View>

@@ -65,7 +65,8 @@ class FeedBackSwiper extends Component {
     activeCardIndex: 0,
     activeModalIndex: -1,
     dismissedCard: -1,
-    disableDissmissApi: false
+    disableDissmissApi: false,
+    isFeedbackApiLoading: false
   };
 
   _cardStack = React.createRef();
@@ -115,8 +116,14 @@ class FeedBackSwiper extends Component {
       review: this.state.review,
       responseType: this.state.isNegative ? "NEGATIVE" : "POSITIVE"
     };
+    this.setState({
+      isFeedbackApiLoading: true
+    });
     apiCall(activeElement.url, requestObject)
       .then(response => {
+        this.setState({
+          isFeedbackApiLoading: false
+        });
         if (response.status === "SUCCESS") {
           toastCenter("Thanks for the feedback!");
           if (!this.state.isNegative) {
@@ -156,6 +163,9 @@ class FeedBackSwiper extends Component {
         }
       })
       .catch(err => {
+        this.setState({
+          isFeedbackApiLoading: false
+        });
         this.setState({
           review: "",
           isModalVisible: false
@@ -240,6 +250,7 @@ class FeedBackSwiper extends Component {
         onClose={this.closeFeedBackModal}
         isNegative={this.state.isNegative}
         submit={this.submitFeedBack}
+        isFeedbackApiLoading={this.state.isFeedbackApiLoading}
       />
     ];
   }
