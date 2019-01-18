@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { AsyncStorage, ImageBackground, Platform } from "react-native";
+import { AsyncStorage, ImageBackground } from "react-native";
 import { NavigationActions } from "react-navigation";
 import constants from "../../constants/constants";
 import * as Keychain from "react-native-keychain";
