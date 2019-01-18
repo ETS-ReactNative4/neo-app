@@ -35,6 +35,7 @@ class EmergencyContactSection extends Component {
       missingChildrenNumber,
       dialCode,
       dialCodeDescription,
+      dialCodeDescriptionLocal,
       embassyLatitude,
       embassyLongitude
     } = this.props.cityContactDetails;
@@ -83,6 +84,11 @@ class EmergencyContactSection extends Component {
         <View style={styles.emergencyTextContainer}>
           <Text style={styles.emergencyText}>
             {dialCodeDescription || "NA"}
+          </Text>
+        </View>
+        <View style={styles.emergencyTextContainer}>
+          <Text style={styles.emergencyText}>
+            {dialCodeDescriptionLocal || "NA"}
           </Text>
         </View>
         {/*<View style={styles.phoneNumberTitleContainer}>*/}
