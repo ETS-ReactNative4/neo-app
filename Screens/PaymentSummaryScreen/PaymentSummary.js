@@ -337,43 +337,44 @@ class PaymentSummary extends Component {
                 </Text>
               ),
               <View key={1} style={styles.paymentOptionsBox}>
-                {paymentOptions.map((paymentOption, optionKey) => {
-                  const isLast = paymentOptions.length === optionKey + 1;
-                  return (
-                    <TouchableOpacity
-                      onPress={() => {
-                        recordEvent(constants.paymentScreenStartPayment);
-                        paymentOption.action();
-                      }}
-                      style={[
-                        styles.optionButton,
-                        !isLast
-                          ? {
-                              borderBottomWidth: StyleSheet.hairlineWidth,
-                              borderBottomColor: constants.shade3
-                            }
-                          : null
-                      ]}
-                      key={optionKey}
-                    >
-                      <View>
-                        <Text style={styles.amountText}>
-                          {paymentOption.amount}
-                        </Text>
-                        <Text style={styles.percentageText}>
-                          {paymentOption.percentage}
-                        </Text>
-                      </View>
-                      <View>
-                        <Icon
-                          name={constants.arrowRight}
-                          size={16}
-                          color={constants.shade2}
-                        />
-                      </View>
-                    </TouchableOpacity>
-                  );
-                })}
+                {!isPlatoPaymentPending &&
+                  paymentOptions.map((paymentOption, optionKey) => {
+                    const isLast = paymentOptions.length === optionKey + 1;
+                    return (
+                      <TouchableOpacity
+                        onPress={() => {
+                          recordEvent(constants.paymentScreenStartPayment);
+                          paymentOption.action();
+                        }}
+                        style={[
+                          styles.optionButton,
+                          !isLast
+                            ? {
+                                borderBottomWidth: StyleSheet.hairlineWidth,
+                                borderBottomColor: constants.shade3
+                              }
+                            : null
+                        ]}
+                        key={optionKey}
+                      >
+                        <View>
+                          <Text style={styles.amountText}>
+                            {paymentOption.amount}
+                          </Text>
+                          <Text style={styles.percentageText}>
+                            {paymentOption.percentage}
+                          </Text>
+                        </View>
+                        <View>
+                          <Icon
+                            name={constants.arrowRight}
+                            size={16}
+                            color={constants.shade2}
+                          />
+                        </View>
+                      </TouchableOpacity>
+                    );
+                  })}
               </View>
             ]}
 

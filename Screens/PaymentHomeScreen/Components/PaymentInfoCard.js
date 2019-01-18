@@ -26,7 +26,8 @@ const PaymentInfoCard = ({
   isPaymentPending,
   nextPendingDate,
   paymentDue,
-  totalAmountPaid
+  totalAmountPaid,
+  paymentStatus
 }) => {
   return (
     <TouchableOpacity
@@ -51,10 +52,14 @@ const PaymentInfoCard = ({
         <View style={styles.infoTextWrapper}>
           <View style={styles.dateWrapper}>
             {isPaymentPending ? (
-              nextPendingDate > 0 ? (
+              paymentStatus === "PENDING" ? (
                 <Text style={styles.paymentDueText}>{`Next Payment due ${moment(
                   nextPendingDate
                 ).fromNow()}`}</Text>
+              ) : paymentStatus === "EXPIRED" ? (
+                <Text
+                  style={styles.paymentDueText}
+                >{`Your payment date is expired`}</Text>
               ) : null
             ) : (
               <Text
@@ -97,7 +102,8 @@ PaymentInfoCard.propTypes = forbidExtraProps({
   isPaymentPending: PropTypes.bool.isRequired,
   nextPendingDate: PropTypes.number.isRequired,
   paymentDue: PropTypes.number.isRequired,
-  totalAmountPaid: PropTypes.number.isRequired
+  totalAmountPaid: PropTypes.number.isRequired,
+  paymentStatus: PropTypes.string.isRequired
 });
 
 const styles = StyleSheet.create({

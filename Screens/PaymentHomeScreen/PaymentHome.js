@@ -142,8 +142,9 @@ class PaymentHome extends Component {
                     })
                   }
                   isLast={isLast}
-                  isPaymentPending={paymentDetails.paymentDue > 0}
+                  isPaymentPending={paymentDetails.paymentStatus !== "SUCCESS"}
                   paymentDue={paymentDetails.paymentDue}
+                  paymentStatus={paymentDetails.paymentStatus}
                   nextPendingDate={paymentDetails.nextPendingDate}
                   totalAmountPaid={paymentDetails.totalAmountPaid}
                 />
