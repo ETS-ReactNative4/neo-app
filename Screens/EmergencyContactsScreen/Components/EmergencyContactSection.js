@@ -85,22 +85,22 @@ class EmergencyContactSection extends Component {
             {dialCodeDescription || "NA"}
           </Text>
         </View>
-        <View style={styles.phoneNumberTitleContainer}>
-          <Text style={styles.phoneNumberTitle}>{"CALLING FROM INDIA"}</Text>
-          <Text style={styles.phoneNumberTitle}>{"LOCAL CALL"}</Text>
-        </View>
-        <View style={styles.phoneNumberExampleContainer}>
-          <Text style={styles.phoneNumber}>
-            <Text style={styles.countryCode}>{dialCode || "NA"}</Text>
-            {` `}
-            {`12 1234567`}
-          </Text>
-          <Text style={styles.phoneNumber}>
-            <Text style={styles.countryCode}>{"NA"}</Text>
-            {` `}
-            {`12 1234567`}
-          </Text>
-        </View>
+        {/*<View style={styles.phoneNumberTitleContainer}>*/}
+        {/*<Text style={styles.phoneNumberTitle}>{"CALLING FROM INDIA"}</Text>*/}
+        {/*<Text style={styles.phoneNumberTitle}>{"LOCAL CALL"}</Text>*/}
+        {/*</View>*/}
+        {/*<View style={styles.phoneNumberExampleContainer}>*/}
+        {/*<Text style={styles.phoneNumber}>*/}
+        {/*<Text style={styles.countryCode}>{dialCode || "NA"}</Text>*/}
+        {/*{` `}*/}
+        {/*{`12 1234567`}*/}
+        {/*</Text>*/}
+        {/*<Text style={styles.phoneNumber}>*/}
+        {/*<Text style={styles.countryCode}>{"NA"}</Text>*/}
+        {/*{` `}*/}
+        {/*{`12 1234567`}*/}
+        {/*</Text>*/}
+        {/*</View>*/}
         <View style={styles.emergencyNumbersContainer}>
           {contactNumbersList.map((contactNumber, contactNumberIndex) => {
             if (!contactNumber) return null;
