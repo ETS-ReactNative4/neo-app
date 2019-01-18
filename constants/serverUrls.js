@@ -5,12 +5,12 @@ const apiServers = {
   devServer: "https://dev.pickyourtrail.com/api/",
   stagingSever: "https://mobile.pickyourtrail.com/api/",
   uatServer: "https://uat.pickyourtrail.com/api/",
-  prodServer: "https://pickyourtrail.com/api/"
+  prodServer: "https://mobile.pickyourtrail.com/api/"
 };
 
 const platoServers = {
   platoDevServer: "https://platodev.pickyourtrail.com/",
-  platoProdServer: "https://plato.pickyourtrail.com/"
+  platoProdServer: "https://platodev.pickyourtrail.com/"
 };
 
 const productUrls = {
@@ -18,7 +18,7 @@ const productUrls = {
   devProductUrl: "https://dev.pickyourtrail.com/",
   stagingProductUrl: "https://staging.pickyourtrail.com/",
   uatProductUrl: "https://uat.pickyourtrail.com/",
-  prodProductUrl: "https://pickyourtrail.com/"
+  prodProductUrl: "https://staging.pickyourtrail.com/"
 };
 
 let apiServerUrl, productUrl, platoServerUrl;

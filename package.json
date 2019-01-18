@@ -1,8 +1,8 @@
 {
   "name": "pickyourtrail",
   "version": "1.0.0",
-  "build": 64,
-  "environment": "staging",
+  "build": 65,
+  "environment": "production",
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
@@ -90,13 +90,7 @@
     "react-devtools": "^3.4.2",
     "react-test-renderer": "16.5.0"
   },
-  "resolutions": {
-    "core-js": "2.5.7"
-  },
-  "jest": {
-    "preset": "react-native"
-  },
-  "rnpm": {
-    "assets": ["./assets/fonts/"]
-  }
+  "resolutions": { "core-js": "2.5.7" },
+  "jest": { "preset": "react-native" },
+  "rnpm": { "assets": ["./assets/fonts/"] }
 }
