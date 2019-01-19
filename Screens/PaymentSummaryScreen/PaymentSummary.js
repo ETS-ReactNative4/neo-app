@@ -48,6 +48,7 @@ class PaymentSummary extends Component {
     itineraryTotalCost: "",
     totalAmountPaid: "",
     paymentDue: "",
+    paymentStatus: "",
     isFirstLoad: true,
     isBankDetailModalVisible: false
   };
@@ -96,6 +97,7 @@ class PaymentSummary extends Component {
     const itineraryId = this.props.navigation.getParam("itineraryId", "");
     const paymentDetails = this.props.navigation.getParam("paymentDetails", {});
     const itineraryName = this.props.navigation.getParam("itineraryName", "");
+    const paymentStatus = this.props.navigation.getParam("paymentStatus", "");
     this.setState({
       tripId: `PYT${itineraryId.substr(itineraryId.length - 7).toUpperCase()}`,
       itineraryName,
@@ -104,7 +106,8 @@ class PaymentSummary extends Component {
       ),
       itineraryTotalCost: getLocaleString(paymentDetails.itineraryTotalCost),
       totalAmountPaid: getLocaleString(paymentDetails.totalAmountPaid),
-      paymentDue: getLocaleString(paymentDetails.paymentDue)
+      paymentDue: getLocaleString(paymentDetails.paymentDue),
+      paymentStatus
     });
     this.setState({
       isLoading: true
@@ -207,10 +210,8 @@ class PaymentSummary extends Component {
     const { paymentInfo, isLoading } = this.state;
     const { productPayments, platoPayements } = paymentInfo;
 
-    let isPaymentExpired = false;
     const paymentOptions = productPayments
       ? productPayments.reduce((detailsArray, amount) => {
-          if (amount.paymentStatus === "EXPIRED") isPaymentExpired = true;
           if (amount.paymentStatus === "PENDING") {
             const data = {
               amount: `₹ ${amount.paymentAmount}`,
@@ -292,11 +293,11 @@ class PaymentSummary extends Component {
       }
     ];
 
-    const isPlatoPaymentPending =
+    const isPayedWithPlato =
       platoPayements &&
-      platoPayements.pendingInstallments &&
-      platoPayements.pendingInstallments.length;
-    const isPaymentComplete = !paymentOptions.length && !isPlatoPaymentPending;
+      platoPayements.paidInstallments &&
+      platoPayements.paidInstallments.length;
+    const isPaymentComplete = this.state.paymentStatus === "SUCCESS";
     if (!isPaymentComplete) {
       amountDetails = [
         ...amountDetails,
@@ -371,20 +372,20 @@ class PaymentSummary extends Component {
 
         <View style={styles.dueDateWrapper}>
           <Text style={styles.dueDate}>
-            {isPaymentComplete
-              ? !isLoading
-                ? !isPaymentExpired
-                  ? "Payment Completed!"
+            {!isLoading
+              ? this.state.paymentStatus === "SUCCESS"
+                ? "Payment Completed!"
+                  ? this.state.paymentStatus === "EXPIRED"
                   : "Payment Expired!"
-                : ""
-              : `Due date for next payment ${this.state.nextPendingDate}`}
+                : `Due date for next payment ${this.state.nextPendingDate}`
+              : null}
           </Text>
         </View>
 
         {isPaymentComplete
           ? null
           : [
-              isPlatoPaymentPending ? (
+              isPayedWithPlato ? (
                 <Text key={0} style={styles.offlinePaymentText}>
                   {`You have payed offline. To complete the next payment use the following `}
                   <Text
@@ -401,7 +402,7 @@ class PaymentSummary extends Component {
                 </Text>
               ),
               <View key={1} style={styles.paymentOptionsBox}>
-                {!isPlatoPaymentPending &&
+                {!isPayedWithPlato &&
                   paymentOptions.map((paymentOption, optionKey) => {
                     const isLast = paymentOptions.length === optionKey + 1;
                     return (
