@@ -2,7 +2,7 @@
   "name": "pickyourtrail",
   "version": "1.0.0",
   "build": 66,
-  "environment": "production",
+  "environment": "staging",
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
