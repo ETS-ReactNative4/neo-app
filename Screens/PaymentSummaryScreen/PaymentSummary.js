@@ -387,7 +387,7 @@ class PaymentSummary extends Component {
           : [
               isPayedWithPlato ? (
                 <Text key={0} style={styles.offlinePaymentText}>
-                  {`You have payed offline. To complete the next payment use the following `}
+                  {`You have paid offline. To complete the next payment use the following `}
                   <Text
                     onPress={this.openBankDetailModal}
                     style={{
