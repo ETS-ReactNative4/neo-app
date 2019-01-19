@@ -33,6 +33,7 @@ class AlertCard extends Component {
         link: PropTypes.string.isRequired,
         type: PropTypes.string.isRequired,
         modalData: PropTypes.object,
+        deepLink: PropTypes.object,
         cta: PropTypes.string
       })
     ).isRequired,

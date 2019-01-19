@@ -38,6 +38,9 @@ class YourBookings extends Component {
       isLoading,
       getUpcomingItineraries
     } = this.props.yourBookingsStore;
+    /**
+     * TODO: Destructure the screen to move click action out of close button
+     */
     const LeftButton = <CloseYourBookingsButton navigation={navigation} />;
     return (
       <View style={styles.yourBookingsContainer}>
