@@ -1,0 +1,49 @@
+fastlane_version '2.112.0'
+
+account="dani@pickyourtrail.com"
+identifierIOS="com.pyt"
+
+before_all do
+  ensure_git_branch(
+    branch: 'development'
+  )
+  # ensure_git_status_clean
+end
+
+platform :ios do
+
+  lane :increaseBuildNumber do |options|
+    increment_build_number(
+      build_number: options[:build_number],
+      xcodeproj: "./ios/Pickyourtrail.xcodeproj"
+    )
+  end
+
+  lane :uploadToTestflight do
+    build_app(
+      scheme: "Pickyourtrail",
+      workspace: "./ios/Pickyourtrail.xcworkspace",
+      include_bitcode: true
+    )
+    upload_to_testflight(
+      username: account,
+      app_identifier: identifierIOS
+    )
+  end
+end
+
+platform :android do
+  lane :alpha do
+    gradle(
+      task: 'assemble',
+      build_type: 'Release',
+      project_dir: './android/'
+    )
+    upload_to_play_store(
+      package_name: 'com.pickyourtrail',
+      track: 'alpha',
+      json_key: '~/api-8129985453383320852-6005-3d812222e70d.json',
+      apk: './android/app/build/outputs/apk/release/app-release.apk'
+    )
+  end
+end

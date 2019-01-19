@@ -1,58 +1,85 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
-
-import React, { Component } from 'react';
+import React, { Component } from "react";
+import { UIManager, NetInfo } from "react-native";
+import { Provider } from "mobx-react";
+import store from "./mobx/Store";
+import { setNavigationService } from "./Services/navigationService/navigationService";
+import { updateStoreService } from "./Services/storeService/storeService";
+import AppNavigator from "./Navigators/AppNavigator";
 import {
-  Platform,
-  StyleSheet,
-  Text,
-  View
-} from 'react-native';
+  disableAnalytics,
+  enableAnalytics,
+  screenTracker
+} from "./Services/analytics/analyticsService";
+import PackageInfo from "./package.json";
+import {
+  getInitialNotification,
+  onNotificationDisplayed,
+  onNotificationOpened,
+  onNotificationReceived
+} from "./Services/fcmService/fcm";
+import ErrorBoundary from "./CommonComponents/ErrorBoundary/ErrorBoundary";
 
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' +
-    'Cmd+D or shake for dev menu',
-  android: 'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
-});
+@ErrorBoundary({ isRoot: true })
+class App extends Component {
+  _onNotificationReceived;
+  _onNotificationDisplayed;
+  _onNotificationOpened;
+  _getInitialNotification;
 
-type Props = {};
-export default class App extends Component<Props> {
+  componentDidMount() {
+    UIManager.setLayoutAnimationEnabledExperimental &&
+      UIManager.setLayoutAnimationEnabledExperimental(true);
+
+    // if (
+    //   !__DEV__ &&
+    //   PackageInfo.environment === "production"
+    // ) {
+    enableAnalytics();
+    // } else {
+    //   disableAnalytics();
+    // }
+
+    this._onNotificationDisplayed = onNotificationDisplayed;
+    this._onNotificationReceived = onNotificationReceived;
+    this._onNotificationOpened = onNotificationOpened;
+    this._getInitialNotification = getInitialNotification;
+
+    NetInfo.isConnected.fetch().then(isConnected => {
+      this.handleFirstConnectivityChange(isConnected);
+    });
+
+    NetInfo.isConnected.addEventListener(
+      "connectionChange",
+      this.handleFirstConnectivityChange
+    );
+  }
+
+  handleFirstConnectivityChange = isConnected => {
+    store.appState.setConnectionStatus(isConnected);
+  };
+
+  componentWillUnmount() {
+    this._onNotificationReceived && this._onNotificationReceived();
+    this._onNotificationDisplayed && this._onNotificationDisplayed();
+    this._onNotificationOpened && this._onNotificationOpened();
+
+    NetInfo.isConnected.removeEventListener(
+      "connectionChange",
+      this.handleFirstConnectivityChange
+    );
+  }
+
   render() {
+    updateStoreService(store);
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit App.js
-        </Text>
-        <Text style={styles.instructions}>
-          {instructions}
-        </Text>
-      </View>
+      <Provider {...store}>
+        <AppNavigator
+          ref={setNavigationService}
+          onNavigationStateChange={screenTracker}
+        />
+      </Provider>
     );
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-});
+export default App;

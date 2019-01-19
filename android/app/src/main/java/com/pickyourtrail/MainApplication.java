@@ -3,6 +3,21 @@ package com.pickyourtrail;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.reactnativecommunity.webview.RNCWebViewPackage;
+import com.avishayil.rnrestart.ReactNativeRestartPackage;
+import com.github.droibit.android.reactnative.customtabs.CustomTabsPackage;
+import io.invertase.firebase.RNFirebasePackage;
+import io.invertase.firebase.messaging.RNFirebaseMessagingPackage;
+import io.invertase.firebase.notifications.RNFirebaseNotificationsPackage;
+import io.invertase.firebase.analytics.RNFirebaseAnalyticsPackage;
+import com.zmxv.RNSound.RNSoundPackage;
+import com.dylanvann.fastimage.FastImageViewPackage;
+import com.krazylabs.OpenAppSettingsPackage;
+import net.no_mad.tts.TextToSpeechPackage;
+import io.sentry.RNSentryPackage;
+import com.horcrux.svg.SvgPackage;
+import com.oblador.keychain.KeychainPackage;
+import com.BV.LinearGradient.LinearGradientPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
@@ -22,7 +37,22 @@ public class MainApplication extends Application implements ReactApplication {
     @Override
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
-          new MainReactPackage()
+          new MainReactPackage(),
+            new RNCWebViewPackage(),
+            new ReactNativeRestartPackage(),
+            new CustomTabsPackage(),
+            new RNFirebasePackage(),
+            new RNFirebaseMessagingPackage(),
+            new RNFirebaseNotificationsPackage(),
+            new RNFirebaseAnalyticsPackage(),
+            new RNSoundPackage(),
+            new FastImageViewPackage(),
+            new OpenAppSettingsPackage(),
+            new TextToSpeechPackage(),
+            new RNSentryPackage(),
+            new SvgPackage(),
+            new KeychainPackage(),
+            new LinearGradientPackage()
       );
     }
 
