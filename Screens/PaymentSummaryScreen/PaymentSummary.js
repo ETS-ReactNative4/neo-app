@@ -208,7 +208,7 @@ class PaymentSummary extends Component {
       }
     ];
     const { paymentInfo, isLoading } = this.state;
-    const { productPayments, platoPayements } = paymentInfo;
+    const { productPayments, platoPayements: platoPayments } = paymentInfo;
 
     const paymentOptions = productPayments
       ? productPayments.reduce((detailsArray, amount) => {
@@ -224,9 +224,9 @@ class PaymentSummary extends Component {
         }, [])
       : [];
 
-    const paymentHistory = platoPayements
-      ? platoPayements.paidInstallments
-        ? platoPayements.paidInstallments.reduce((detailsArray, amount) => {
+    const paymentHistory = platoPayments
+      ? platoPayments.paidInstallments
+        ? platoPayments.paidInstallments.reduce((detailsArray, amount) => {
             detailsArray.push({
               paymentAmount: getLocaleString(amount.amount),
               transactionId: amount.transactionId,
@@ -293,10 +293,10 @@ class PaymentSummary extends Component {
       }
     ];
 
-    const isPayedWithPlato =
-      platoPayements &&
-      platoPayements.paidInstallments &&
-      platoPayements.paidInstallments.length;
+    const isPaidWithPlato =
+      platoPayments &&
+      platoPayments.paidInstallments &&
+      platoPayments.paidInstallments.length;
     const isPaymentComplete = this.state.paymentStatus === "SUCCESS";
     if (!isPaymentComplete) {
       amountDetails = [
@@ -385,7 +385,7 @@ class PaymentSummary extends Component {
         {isPaymentComplete
           ? null
           : [
-              isPayedWithPlato ? (
+              isPaidWithPlato ? (
                 <Text key={0} style={styles.offlinePaymentText}>
                   {`You have paid offline. To complete the next payment use the following `}
                   <Text
@@ -402,7 +402,7 @@ class PaymentSummary extends Component {
                 </Text>
               ),
               <View key={1} style={styles.paymentOptionsBox}>
-                {!isPayedWithPlato &&
+                {!isPaidWithPlato &&
                   paymentOptions.map((paymentOption, optionKey) => {
                     const isLast = paymentOptions.length === optionKey + 1;
                     return (
