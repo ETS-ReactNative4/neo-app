@@ -45,9 +45,9 @@ const NotifCard = ({
   lastCardColor,
   activeCardIndex
 }) => {
-  const { link, title, message, cta, modalData, type } = item;
+  const { link, title, message, cta, modalData, type, deepLink } = item;
   const { backgroundColor, icon, ctaColor, textColor } = getNotifProps(type);
-  const action = () => resolveLinks(link, modalData);
+  const action = () => resolveLinks(link, modalData, deepLink);
   if (itemIndex === activeCardIndex) {
     if (allElements[itemIndex + 1]) {
       const nextItem = allElements[itemIndex + 1];
@@ -137,6 +137,7 @@ NotifCard.propTypes = forbidExtraProps({
     link: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
     modalData: PropTypes.object,
+    deepLink: PropTypes.object,
     cta: PropTypes.string
   }),
   itemIndex: PropTypes.number,
