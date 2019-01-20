@@ -18,7 +18,7 @@ const productUrls = {
   devProductUrl: "https://dev.pickyourtrail.com/",
   stagingProductUrl: "https://staging.pickyourtrail.com/",
   uatProductUrl: "https://uat.pickyourtrail.com/",
-  prodProductUrl: "https://staging.pickyourtrail.com/"
+  prodProductUrl: "https://pickyourtrail.com/"
 };
 
 let apiServerUrl, productUrl, platoServerUrl;
