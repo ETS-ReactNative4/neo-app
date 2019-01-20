@@ -3,9 +3,9 @@ import PackageInfo from "../package.json";
 const apiServers = {
   localServer: "http://192.168.0.5:8080/api/",
   devServer: "https://dev.pickyourtrail.com/api/",
-  stagingSever: "https://mobile-prod.pickyourtrail.com/api/",
+  stagingSever: "https://mobile.pickyourtrail.com/api/",
   uatServer: "https://uat.pickyourtrail.com/api/",
-  prodServer: "https://mobile.pickyourtrail.com/api/"
+  prodServer: "https://mobile-prod.pickyourtrail.com/api/"
 };
 
 const platoServers = {
