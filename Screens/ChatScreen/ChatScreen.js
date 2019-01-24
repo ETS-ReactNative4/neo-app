@@ -141,6 +141,7 @@ class ChatScreen extends Component {
             }}
             webviewRef={e => (this._webView = e)}
             injectedJavascript={CrispSDK}
+            useWebKit={false}
           />
           {Platform.OS === "ios" ? (
             <BackButtonIos

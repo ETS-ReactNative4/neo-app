@@ -14,7 +14,8 @@ const ControlledWebView = ({
   style,
   webviewRef,
   injectedJavascript,
-  hideLoadingIndicator
+  hideLoadingIndicator,
+  useWebKit = true
 }) => {
   return [
     <WebView
@@ -24,6 +25,7 @@ const ControlledWebView = ({
       onNavigationStateChange={onNavigationStateChange}
       style={style}
       ref={webviewRef}
+      useWebKit={useWebKit}
       injectedJavaScript={injectedJavascript}
     />,
     PackageInfo.environment !== "production" ? (
@@ -59,7 +61,8 @@ ControlledWebView.propTypes = forbidExtraProps({
   style: PropTypes.object.isRequired,
   webviewRef: PropTypes.func.isRequired,
   injectedJavascript: PropTypes.string,
-  hideLoadingIndicator: PropTypes.bool
+  hideLoadingIndicator: PropTypes.bool,
+  useWebKit: PropTypes.bool
 });
 
 export default ControlledWebView;
