@@ -27,6 +27,8 @@ const UpcomingCard = ({
   departureCity,
   bookedOnDateMillis,
   selectItinerary,
+  departureDateMillis,
+  nights,
   isLast
 }) => {
   return (
@@ -68,7 +70,11 @@ const UpcomingCard = ({
       <View style={styles.infoArea}>
         <View style={styles.infoTextWrapper}>
           <View style={styles.dateWrapper}>
-            <Text style={styles.date}>{`Apr 03 - Apr 12`}</Text>
+            <Text style={styles.date}>{`${moment(departureDateMillis).format(
+              constants.commonDateFormat
+            )} - ${moment(departureDateMillis)
+              .add(nights, "days")
+              .format(constants.commonDateFormat)}`}</Text>
           </View>
           <View style={styles.bookingNameWrapper}>
             <Text style={styles.bookingName}>{itineraryName}</Text>
