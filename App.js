@@ -30,14 +30,11 @@ class App extends Component {
     UIManager.setLayoutAnimationEnabledExperimental &&
       UIManager.setLayoutAnimationEnabledExperimental(true);
 
-    // if (
-    //   !__DEV__ &&
-    //   PackageInfo.environment === "production"
-    // ) {
-    enableAnalytics();
-    // } else {
-    //   disableAnalytics();
-    // }
+    if (!__DEV__ && PackageInfo.environment === "production") {
+      enableAnalytics();
+    } else {
+      disableAnalytics();
+    }
 
     this._onNotificationDisplayed = onNotificationDisplayed;
     this._onNotificationReceived = onNotificationReceived;
