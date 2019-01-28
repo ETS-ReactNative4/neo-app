@@ -1,7 +1,7 @@
 {
   "name": "pickyourtrail",
   "version": "1.0.2",
-  "build": 70,
+  "build": 71,
   "environment": "production",
   "private": true,
   "scripts": {
