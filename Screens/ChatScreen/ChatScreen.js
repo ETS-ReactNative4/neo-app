@@ -132,13 +132,17 @@ class ChatScreen extends Component {
     return isChatActive ? (
       isConnected ? (
         <View
-          style={{
-            flex: 1,
-            backgroundColor:
-              this.state.keyboardVisible || this.state.canGoBack
-                ? constants.chatLightColor
-                : constants.chatMainColor
-          }}
+          style={[
+            { flex: 1 },
+            Platform.OS === "ios" && isIphoneX()
+              ? {
+                  backgroundColor:
+                    this.state.keyboardVisible || this.state.canGoBack
+                      ? constants.chatLightColor
+                      : constants.chatMainColor
+                }
+              : null
+          ]}
         >
           <ControlledWebView
             source={{ uri: constants.crispServerUrl(email) }}

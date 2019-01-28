@@ -60,7 +60,7 @@ const gradientPallete = {
 };
 
 const chatColorPallete = {
-  chatMainColor: "white",
+  chatMainColor: "rgba(0,198,132,1)",
   chatLightColor: "rgba(249,249,249,1)"
 };
 
