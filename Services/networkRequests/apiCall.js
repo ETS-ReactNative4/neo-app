@@ -50,7 +50,7 @@ const apiCall = async (
     function handleErrors(response) {
       console.log(response.status);
       console.log(response.statusText);
-      if (response.status === 401) {
+      if (response.status === 401 && credentials && credentials.password) {
         if (!isJustLoggedOut) {
           isJustLoggedOut = true;
           DebouncedAlert("Oops!", "Session Expired... Please Login again!");
