@@ -92,7 +92,11 @@ class About extends Component {
     return (
       <View style={styles.aboutContainer}>
         <View style={styles.logoContainer}>
-          <Image source={constants.pytLogoNew} style={{ width: 196 }} />
+          <Image
+            source={constants.pytLogoNew}
+            resizeMode={"contain"}
+            style={styles.logo}
+          />
         </View>
         <Text style={styles.contentStyle}>{constants.aboutUsText.content}</Text>
         <View style={styles.appVersionContainer}>
@@ -113,6 +117,10 @@ const styles = StyleSheet.create({
   logoContainer: {
     alignItems: "center",
     paddingVertical: 24
+  },
+  logo: {
+    height: 62,
+    width: 200
   },
   contentStyle: {
     ...constants.fontCustom(constants.primaryLight, 15),
