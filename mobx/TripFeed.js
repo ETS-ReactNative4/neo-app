@@ -1,3 +1,4 @@
+import { LayoutAnimation } from "react-native";
 import { observable, computed, action, toJS } from "mobx";
 import { persist } from "mobx-persist";
 import apiCall from "../Services/networkRequests/apiCall";
@@ -65,7 +66,32 @@ class TripFeed {
         .then(response => {
           this._isLoading = false;
           if (response.status === "SUCCESS") {
-            this._widgets = response.data;
+            const feedBackWidgets = [];
+            const widgets = response.data;
+            for (let i = 0; i <= widgets.length; i++) {
+              const widget = widgets[i];
+              if (widget && widget.type === "FEEDBACK_SWIPER") {
+                feedBackWidgets.push({
+                  index: i,
+                  widgetData: widget
+                });
+              }
+            }
+            LayoutAnimation.configureNext(
+              LayoutAnimation.Presets.easeInEaseOut
+            );
+            this._widgets = widgets;
+            feedBackWidgets.forEach(feedBackWidget => {
+              this._widgets.splice(feedBackWidget.index, 1);
+              LayoutAnimation.configureNext(
+                LayoutAnimation.Presets.easeInEaseOut
+              );
+              this._widgets.splice(
+                feedBackWidget.index,
+                0,
+                feedBackWidget.widgetData
+              );
+            });
             this._hasError = false;
           } else {
             this._hasError = true;
