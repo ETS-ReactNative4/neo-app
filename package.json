@@ -1,6 +1,6 @@
 {
   "name": "pickyourtrail",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "build": 73,
   "environment": "staging",
   "private": true,
