@@ -71,26 +71,25 @@ const maxWidth = responsiveWidth(100) - 48;
 const containerWidth = maxWidth / 3 - 8;
 const styles = StyleSheet.create({
   secondaryContainer: {
+    flexDirection: "row",
     backgroundColor: "white",
-    height: 104,
-    width: containerWidth,
-    marginBottom: 8,
+    width: responsiveWidth(100) - 48,
+    marginVertical: 8,
     borderWidth: StyleSheet.hairlineWidth,
     borderRadius: 5,
-    alignItems: "flex-start",
-    justifyContent: "center",
-    borderColor: constants.shade4
+    alignItems: "center",
+    justifyContent: "flex-start",
+    borderColor: constants.shade4,
+    padding: 16
   },
   icon: {
     height: 32,
-    width: 32,
-    marginLeft: 16,
-    marginBottom: 12
+    width: 32
   },
   text: {
     fontFamily: constants.primaryLight,
     marginLeft: 16,
-    fontSize: 13,
+    fontSize: 15,
     color: constants.black2,
     marginRight: 16
   }

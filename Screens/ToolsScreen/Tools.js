@@ -36,8 +36,13 @@ class Tools extends Component {
 
     const essentialTools = [
       {
+        text: `Currency Calculator`,
+        action: () => this.props.navigation.navigate("CurrencyConverter"),
+        icon: constants.currencyCalculatorIcon
+      },
+      {
         icon: constants.commonPhrasesIcon,
-        text: `Common${"\n"}Phrases`,
+        text: `Common Phrases`,
         action: () => {
           recordEvent(constants.toolsCommonPhrasesTileClick);
           this.props.navigation.navigate("PhraseBook");
@@ -45,7 +50,7 @@ class Tools extends Component {
       },
       {
         icon: constants.emergencyContactsIcon,
-        text: `Emergency${"\n"}Contacts`,
+        text: `Emergency Contacts`,
         action: () => {
           recordEvent(constants.toolsEmergencyContactsTileClick);
           this.props.navigation.navigate("EmergencyContacts");
@@ -53,7 +58,7 @@ class Tools extends Component {
       },
       {
         icon: constants.weatherForecastIcon,
-        text: `Weather${"\n"}Forecast`,
+        text: `Weather Forecast`,
         action: () => {
           recordEvent(constants.toolsWeatherForecastTileClick);
           this.props.navigation.navigate("Weather");
@@ -61,7 +66,7 @@ class Tools extends Component {
       },
       {
         icon: constants.faqIcon,
-        text: `Support${"\n"}Center`,
+        text: `Support Center`,
         action: () => {
           recordEvent(constants.toolsSupportCenterTileClick);
           this.props.navigation.navigate("SupportCenter");
@@ -71,8 +76,13 @@ class Tools extends Component {
 
     const beforePacking = [
       {
+        text: `Packing Checklist`,
+        action: () => this.props.navigation.navigate("PackingChecklist"),
+        icon: constants.packageChecklistIcon
+      },
+      {
         icon: constants.passportDetailsIcon,
-        text: `Passport${"\n"}Details`,
+        text: `Passport Details`,
         action: () => {
           recordEvent(constants.toolsPassportTileClick);
           this.props.navigation.navigate("PassportDetails");
@@ -80,7 +90,7 @@ class Tools extends Component {
       },
       {
         icon: constants.documentVisaIcon,
-        text: `Documents${"\n"}& Visa`,
+        text: `Documents & Visa`,
         action: () => {
           recordEvent(constants.toolsDocumentsVisaTileClick);
           this.props.navigation.navigate("Visa");
@@ -88,13 +98,13 @@ class Tools extends Component {
       },
       {
         icon: constants.invitePassengersIcon,
-        text: `Invite${"\n"}Co-passengers`,
+        text: `Invite Co-passengers`,
         action: () => null,
         isComingSoon: true
       },
       {
         icon: constants.yourPickIcon,
-        text: `Your${"\n"}Picks`,
+        text: `Your Picks`,
         action: () => null,
         isComingSoon: true
       }
@@ -138,11 +148,11 @@ class Tools extends Component {
           />
 
           <View style={styles.toolMenuRow}>
-            <PrimaryTool
-              text={`Currency${"\n"}Calculator`}
+            {/* <PrimaryTool
+              text={`Currency Calculator`}
               action={() => this.props.navigation.navigate("CurrencyConverter")}
               toolIcon={constants.currencyCalculatorIcon}
-            />
+            /> */}
 
             {essentialTools.map((item, index) => (
               <SecondaryTool
@@ -161,11 +171,11 @@ class Tools extends Component {
           />
 
           <View style={styles.toolMenuRow}>
-            <PrimaryTool
-              text={`Packing${"\n"}Checklist`}
+            {/* <PrimaryTool
+              text={`Packing Checklist`}
               action={() => this.props.navigation.navigate("PackingChecklist")}
               toolIcon={constants.packageChecklistIcon}
-            />
+            /> */}
 
             {beforePacking.map((item, index) => (
               <SecondaryTool
@@ -224,10 +234,8 @@ const styles = StyleSheet.create({
     width: 24
   },
   toolMenuRow: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    alignItems: "center",
-    justifyContent: "space-around",
+    alignItems: "flex-start",
+    // marginVertical: 24,
     marginHorizontal: 24
   },
   text2: {
