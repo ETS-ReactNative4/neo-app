@@ -11,13 +11,7 @@ import constants from "../../../constants/constants";
 import PropTypes from "prop-types";
 import { responsiveWidth } from "react-native-responsive-dimensions";
 
-const SecondaryTool = ({
-  icon,
-  action,
-  text,
-  containerStyle,
-  isComingSoon
-}) => {
+const ToolListItem = ({ icon, action, text, containerStyle, isComingSoon }) => {
   const Container = isComingSoon ? View : TouchableOpacity;
   return (
     <Container
@@ -56,7 +50,7 @@ const SecondaryTool = ({
   );
 };
 
-SecondaryTool.propTypes = {
+ToolListItem.propTypes = {
   icon: PropTypes.oneOfType([PropTypes.object, PropTypes.number]).isRequired,
   action: PropTypes.func.isRequired,
   text: PropTypes.string.isRequired,
@@ -106,4 +100,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default SecondaryTool;
+export default ToolListItem;

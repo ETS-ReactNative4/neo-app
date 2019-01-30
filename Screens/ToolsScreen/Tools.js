@@ -4,7 +4,7 @@ import constants from "../../constants/constants";
 import SectionHeader from "../../CommonComponents/SectionHeader/SectionHeader";
 import Carousel from "../../CommonComponents/Carousel/Carousel";
 import PrimaryTool from "./Components/PrimaryTool";
-import SecondaryTool from "./Components/SecondaryTool";
+import ToolListItem from "./Components/ToolListItem";
 import HomeHeader from "../../CommonComponents/HomeHeader/HomeHeader";
 import { inject, observer } from "mobx-react/custom";
 import { recordEvent } from "../../Services/analytics/analyticsService";
@@ -148,14 +148,8 @@ class Tools extends Component {
           />
 
           <View style={styles.toolMenuRow}>
-            {/* <PrimaryTool
-              text={`Currency Calculator`}
-              action={() => this.props.navigation.navigate("CurrencyConverter")}
-              toolIcon={constants.currencyCalculatorIcon}
-            /> */}
-
             {essentialTools.map((item, index) => (
-              <SecondaryTool
+              <ToolListItem
                 key={index}
                 icon={item.icon}
                 text={item.text}
@@ -171,14 +165,8 @@ class Tools extends Component {
           />
 
           <View style={styles.toolMenuRow}>
-            {/* <PrimaryTool
-              text={`Packing Checklist`}
-              action={() => this.props.navigation.navigate("PackingChecklist")}
-              toolIcon={constants.packageChecklistIcon}
-            /> */}
-
             {beforePacking.map((item, index) => (
-              <SecondaryTool
+              <ToolListItem
                 key={index}
                 icon={item.icon}
                 text={item.text}
