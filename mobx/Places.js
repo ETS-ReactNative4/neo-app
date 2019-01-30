@@ -4,6 +4,7 @@ import { persist } from "mobx-persist";
 import apiCall from "../Services/networkRequests/apiCall";
 import constants from "../constants/constants";
 import { logError } from "../Services/errorLogger/errorLogger";
+import _ from "lodash";
 import { LayoutAnimation, Platform } from "react-native";
 
 class Places {
@@ -204,9 +205,20 @@ class Places {
     }
   };
 
+  /**
+   * Returns an object that contains
+   * - searchResults: array of all the places searched based on the text query (Must be sorted by ratings)
+   * - token:  used to paginate results if it is present
+   */
   getSearchResultsByText = createTransformer(text => {
-    if (this._textSearches[text]) {
-      return toJS(this._textSearches[text]);
+    const placesData = toJS(this._textSearches[text]);
+    if (placesData && placesData.searchResults) {
+      placesData.searchResults = _.orderBy(
+        placesData.searchResults,
+        "rating",
+        "desc"
+      );
+      return placesData;
     } else {
       return {
         searchResults: [],
