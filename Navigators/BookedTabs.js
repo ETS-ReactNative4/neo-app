@@ -1,5 +1,8 @@
 import { Platform } from "react-native";
-import { createBottomTabNavigator } from "react-navigation";
+import {
+  createStackNavigator,
+  createBottomTabNavigator
+} from "react-navigation";
 import ChatScreen from "../Screens/ChatScreen/ChatScreen";
 import constants from "../constants/constants";
 import TabBarIcon from "../CommonComponents/TabBarIcon/TabBarIcon";
@@ -18,7 +21,14 @@ const TabBarComponent =
 const BookedTabs = createBottomTabNavigator(
   {
     TripFeed: {
-      screen: TripFeed
+      screen: createStackNavigator({
+        /**
+         * StackNavigator needed to render proper header in trip feed
+         */
+        TripFeedHome: {
+          screen: TripFeed
+        }
+      })
     },
     Bookings: {
       screen: BookingsHome

@@ -104,11 +104,8 @@ class TripFeed extends Component {
       closeInfoCardModal
     } = this.props.tripFeedStore;
     let isImageFirst = false;
-    const Header = () =>
-      HomeHeader({ navigation: this.props.navigation }).header;
     return (
       <View style={styles.tripFeedContainer}>
-        <Header />
         <NoInternetIndicator />
         <CustomScrollView
           onRefresh={this.loadTripFeedData}
