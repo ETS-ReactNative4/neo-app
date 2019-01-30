@@ -11,6 +11,10 @@ import moment from "moment";
 import { recordEvent } from "../../Services/analytics/analyticsService";
 import CrispSDK from "./Components/CrispSDK";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
+import {
+  responsiveHeight,
+  responsiveWidth
+} from "react-native-responsive-dimensions";
 
 @ErrorBoundary({ isRoot: true })
 @inject("userStore")
@@ -21,7 +25,8 @@ class ChatScreen extends Component {
   state = {
     canGoBack: false,
     keyboardVisible: false,
-    isChatActive: true
+    isChatActive: true,
+    keyboardSpace: 0
   };
   _webView = React.createRef();
   _didFocusSubscription;
@@ -29,15 +34,17 @@ class ChatScreen extends Component {
   _keyboardDidShowListener;
   _keyboardDidHideListener;
 
-  keyboardDidShow = () => {
+  keyboardDidShow = e => {
     this.setState({
-      keyboardVisible: true
+      keyboardVisible: true,
+      keyboardSpace: e.endCoordinates.height
     });
   };
 
   keyboardDidHide = () => {
     this.setState({
-      keyboardVisible: false
+      keyboardVisible: false,
+      keyboardSpace: 0
     });
   };
 
@@ -52,11 +59,11 @@ class ChatScreen extends Component {
         this.getDateDiff();
         clearChatNotification();
         this._keyboardDidShowListener = Keyboard.addListener(
-          "keyboardWillChangeFrame",
+          Platform.OS === "ios" ? "keyboardWillChangeFrame" : "keyboardDidShow",
           this.keyboardDidShow
         );
         this._keyboardDidHideListener = Keyboard.addListener(
-          "keyboardWillHide",
+          Platform.OS === "ios" ? "keyboardWillHide" : "keyboardDidHide",
           this.keyboardDidHide
         );
         BackHandler.addEventListener("hardwareBackPress", this.goBack);
@@ -125,12 +132,17 @@ class ChatScreen extends Component {
     return isChatActive ? (
       isConnected ? (
         <View
-          style={{
-            flex: 1,
-            backgroundColor: this.state.keyboardVisible
-              ? constants.chatLightColor
-              : constants.chatMainColor
-          }}
+          style={[
+            { flex: 1 },
+            Platform.OS === "ios" && isIphoneX()
+              ? {
+                  backgroundColor:
+                    this.state.keyboardVisible || this.state.canGoBack
+                      ? constants.chatLightColor
+                      : constants.chatMainColor
+                }
+              : null
+          ]}
         >
           <ControlledWebView
             source={{ uri: constants.crispServerUrl(email) }}
@@ -141,6 +153,7 @@ class ChatScreen extends Component {
             }}
             webviewRef={e => (this._webView = e)}
             injectedJavascript={CrispSDK}
+            useWebKit={false}
           />
           {Platform.OS === "ios" ? (
             <BackButtonIos

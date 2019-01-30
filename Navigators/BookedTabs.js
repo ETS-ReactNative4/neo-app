@@ -1,3 +1,4 @@
+import { Platform } from "react-native";
 import { createBottomTabNavigator } from "react-navigation";
 import ChatScreen from "../Screens/ChatScreen/ChatScreen";
 import constants from "../constants/constants";
@@ -7,6 +8,12 @@ import Journal from "../Screens/JournalScreen/Journal";
 import TripFeed from "../Screens/TripFeedScreen/TripFeed";
 import Tools from "../Screens/ToolsScreen/Tools";
 import BookingsHome from "../Screens/BookingsHomeScreen/BookingsHome";
+import KeyboardFriendlyBottomTabBar from "../CommonComponents/KeyboardFriendlyBottomTabBar/KeyboardFriendlyBottomTabBar";
+
+const TabBarComponent =
+  Platform.OS === "android"
+    ? { tabBarComponent: KeyboardFriendlyBottomTabBar }
+    : {};
 
 const BookedTabs = createBottomTabNavigator(
   {
@@ -87,6 +94,7 @@ const BookedTabs = createBottomTabNavigator(
         return <TabBarIcon {...icon} />;
       }
     }),
+    ...TabBarComponent,
     tabBarOptions: {
       showLabel: false,
       style: {

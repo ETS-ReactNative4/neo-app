@@ -66,7 +66,7 @@ class BookingsHome extends Component {
   enablePushNotificationServices = async () => {
     try {
       const credentials = await Keychain.getGenericPassword();
-      if (credentials) {
+      if (credentials && credentials.password) {
         getDeviceToken(token => {
           registerFcmRefreshListener();
         });
