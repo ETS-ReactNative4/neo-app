@@ -3,6 +3,7 @@ import { persist } from "mobx-persist";
 import apiCall from "../Services/networkRequests/apiCall";
 import constants from "../constants/constants";
 import { setUserDetails } from "../Services/analytics/analyticsService";
+import { setUserContext } from "../Services/errorLogger/errorLogger";
 
 class User {
   @persist("object")
@@ -40,6 +41,7 @@ class User {
             email,
             phoneNumber: mob_num
           });
+          setUserContext({ email, userID: mob_num });
         } else {
           this._hasError = true;
         }
