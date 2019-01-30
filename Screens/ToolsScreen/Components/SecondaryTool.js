@@ -23,9 +23,12 @@ const SecondaryTool = ({
     <Container
       style={[
         styles.secondaryContainer,
-        isComingSoon
-          ? { borderColor: constants.shade5 }
-          : { ...constants.elevationTwo },
+        /**
+         * use the following styles for card layout
+         */
+        // isComingSoon
+        //   ? { borderColor: constants.shade5 }
+        //   : { ...constants.elevationTwo },
         containerStyle || {}
       ]}
       onPress={action}
@@ -40,22 +43,15 @@ const SecondaryTool = ({
       <Text
         numberOfLines={2}
         ellipsizeMode={"tail"}
-        style={[styles.text, isComingSoon ? { color: constants.shade2 } : {}]}
+        style={[styles.text, isComingSoon ? styles.comingSoonTextStyle : {}]}
       >
         {text}
       </Text>
-      {isComingSoon ? (
-        <Image
-          source={constants.comingSoonShape}
-          style={{
-            height: 30,
-            width: 30,
-            position: "absolute",
-            top: 10,
-            right: 0
-          }}
-        />
-      ) : null}
+      <View style={styles.comingSoonContainer}>
+        {isComingSoon ? (
+          <Text style={styles.comingSoonText}>{`coming soon`}</Text>
+        ) : null}
+      </View>
     </Container>
   );
 };
@@ -72,26 +68,41 @@ const containerWidth = maxWidth / 3 - 8;
 const styles = StyleSheet.create({
   secondaryContainer: {
     flexDirection: "row",
-    backgroundColor: "white",
     width: responsiveWidth(100) - 48,
     marginVertical: 8,
-    borderWidth: StyleSheet.hairlineWidth,
-    borderRadius: 5,
     alignItems: "center",
-    justifyContent: "flex-start",
-    borderColor: constants.shade4,
-    padding: 16
+    justifyContent: "flex-start"
+    /**
+     * use the following styles for card layout
+     */
+    // backgroundColor: "white",
+    // borderWidth: StyleSheet.hairlineWidth,
+    // borderRadius: 5,
+    // borderColor: constants.shade4,
+    // padding: 16
   },
   icon: {
     height: 32,
     width: 32
   },
   text: {
-    fontFamily: constants.primaryLight,
-    marginLeft: 16,
-    fontSize: 15,
+    ...constants.fontCustom(constants.primaryLight, 17),
     color: constants.black2,
-    marginRight: 16
+    marginLeft: 16
+  },
+  comingSoonTextStyle: {
+    alignSelf: "flex-start",
+    color: constants.shade2,
+    marginTop: 8
+  },
+  comingSoonContainer: {
+    flex: 1,
+    marginTop: -4
+  },
+  comingSoonText: {
+    ...constants.fontCustom(constants.primaryLight, 10),
+    color: constants.shade2,
+    textAlign: "right"
   }
 });
 
