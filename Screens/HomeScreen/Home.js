@@ -67,9 +67,8 @@ class Home extends Component {
     const { navigation } = this.props;
     if (navigation.isFocused()) {
       BackHandler.exitApp();
-    } else {
-      return false;
     }
+    return false;
   };
 
   componentDidMount() {
