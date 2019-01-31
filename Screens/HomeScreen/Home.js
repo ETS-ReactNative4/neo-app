@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, BackHandler, Platform } from "react-native";
+import { View, BackHandler, Platform, StyleSheet } from "react-native";
 import HomeHeader from "../../CommonComponents/HomeHeader/HomeHeader";
 import ControlledWebView from "../../CommonComponents/ControlledWebView/ControlledWebView";
 import constants from "../../constants/constants";
@@ -7,8 +7,14 @@ import { isIphoneX } from "react-native-iphone-x-helper";
 import XSensorPlaceholder from "../../CommonComponents/XSensorPlaceholder/XSensorPlaceholder";
 import BackButtonIos from "../../CommonComponents/BackButtonIos/BackButtonIos";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
+import NoInternetIndicator from "../../CommonComponents/NoInternetIndicator/NoInternetIndicator";
+import CustomScrollView from "../../CommonComponents/CustomScrollView/CustomScrollView";
+import pullToRefresh from "../../Services/refresh/pullToRefresh";
+import { inject, observer } from "mobx-react/custom";
 
 @ErrorBoundary({ isRoot: true })
+@inject("packagesStore")
+@observer
 class Home extends Component {
   static navigationOptions = HomeHeader;
 
@@ -16,7 +22,6 @@ class Home extends Component {
     canGoBack: false,
     injectedJavascript: ""
   };
-  _webView = {};
   _didFocusSubscription;
   _willBlurSubscription;
 
@@ -31,22 +36,12 @@ class Home extends Component {
     );
   }
 
-  onNavigationStateChange = navState => {
-    this.setState({
-      canGoBack: navState.canGoBack
-    });
-  };
-
   goBack = () => {
-    if (this.state.canGoBack) {
-      this._webView.goBack();
+    const { navigation } = this.props;
+    if (navigation.isFocused()) {
+      BackHandler.exitApp();
     } else {
-      const { navigation } = this.props;
-      if (navigation.isFocused()) {
-        BackHandler.exitApp();
-      } else {
-        return false;
-      }
+      return false;
     }
   };
 
@@ -57,6 +52,8 @@ class Home extends Component {
         BackHandler.removeEventListener("hardwareBackPress", this.goBack);
       }
     );
+    const { getPackages } = this.props.packagesStore;
+    getPackages();
   }
 
   componentWillUnmount() {
@@ -65,6 +62,7 @@ class Home extends Component {
   }
 
   render() {
+    const { packages, getPackages, isLoading } = this.props.packagesStore;
     return (
       <View
         style={{
@@ -72,27 +70,22 @@ class Home extends Component {
           backgroundColor: "white"
         }}
       >
-        <ControlledWebView
-          source={{ uri: constants.productUrl }}
-          onNavigationStateChange={this.onNavigationStateChange}
-          style={{
-            flex: 1
-          }}
-          webviewRef={e => (this._webView = e)}
-          injectedJavascript={this.state.injectedJavascript}
+        <NoInternetIndicator />
+        <CustomScrollView
+          style={styles.homeScrollContainer}
+          showsVerticalScrollIndicator={true}
+          refreshing={isLoading}
+          onRefresh={getPackages}
         />
-        {Platform.OS === "ios" ? (
-          <BackButtonIos
-            backAction={this.goBack}
-            isVisible={this.state.canGoBack}
-          />
-        ) : null}
-        {isIphoneX() ? (
-          <XSensorPlaceholder containerStyle={{ backgroundColor: "white" }} />
-        ) : null}
       </View>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  homeScrollContainer: {
+    flex: 1
+  }
+});
 
 export default Home;

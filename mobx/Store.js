@@ -16,6 +16,7 @@ import Visa from "./Visa";
 import Places from "./Places";
 import SupportStore from "./SupportStore";
 import TripFeed from "./TripFeed";
+import Packages from "./Packages";
 
 const createStore = () => {
   const appStore = {
@@ -33,7 +34,8 @@ const createStore = () => {
     visaStore: new Visa(),
     placesStore: new Places(),
     supportStore: new SupportStore(),
-    tripFeedStore: new TripFeed()
+    tripFeedStore: new TripFeed(),
+    packagesStore: new Packages()
   };
 
   const hydrate = create({
@@ -187,6 +189,11 @@ const createStore = () => {
       logError(err);
     });
   hydrate("_widgets", appStore.tripFeedStore)
+    .then(() => {})
+    .catch(err => {
+      logError(err);
+    });
+  hydrate("_packages", appStore.packagesStore)
     .then(() => {})
     .catch(err => {
       logError(err);
