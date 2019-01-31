@@ -44,6 +44,12 @@ const apiUrls = {
   transferVoucher: "transfer",
 
   /**
+   * Product APIs
+   */
+  getPackagesListFromProduct: "api/packages/itineraries",
+  productCustomizePage: "customize",
+
+  /**
    * Static Page Urls
    */
   aboutUs: "about-us",

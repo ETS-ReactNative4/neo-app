@@ -26,6 +26,7 @@ addDecorator(story => (
 
 configure(() => {
   require("./stories/TripFeedStory");
+  require("./stories/PackagesPageStory");
 }, module);
 
 const StorybookUIRoot = getStorybookUI({});
