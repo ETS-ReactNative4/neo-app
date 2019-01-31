@@ -2,10 +2,20 @@ import React from "react";
 import { TouchableOpacity, View, Text, Image, StyleSheet } from "react-native";
 import constants from "../../../constants/constants";
 import getLocaleString from "../../../Services/getLocaleString/getLocaleString";
+import openCustomTab from "../../../Services/openCustomTab/openCustomTab";
+import PropTypes from "prop-types";
+import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraProps";
 
-const PackageCard = ({ title, image, price, region }) => {
+const PackageCard = ({ title, image, price, region, slug }) => {
   return (
-    <TouchableOpacity style={styles.packagesCardContainer}>
+    <TouchableOpacity
+      style={styles.packagesCardContainer}
+      onPress={() => {
+        console.log(`${constants.productUrl}${slug}`);
+        openCustomTab(`${constants.productUrl}${slug}`);
+      }}
+      activeOpacity={0.8}
+    >
       <View style={styles.packageImageWrapper}>
         <Image
           source={image}
@@ -33,7 +43,9 @@ const PackageCard = ({ title, image, price, region }) => {
 
 const styles = StyleSheet.create({
   packagesCardContainer: {
-    width: 224
+    width: 224,
+    marginRight: 16,
+    alignSelf: "flex-start"
   },
   packageImageWrapper: {
     overflow: "hidden",
@@ -78,6 +90,14 @@ const styles = StyleSheet.create({
     ...constants.fontCustom(constants.primarySemiBold, 13),
     color: "white"
   }
+});
+
+PackageCard.propTypes = forbidExtraProps({
+  title: PropTypes.string.isRequired,
+  image: PropTypes.oneOfType([PropTypes.object, PropTypes.number]).isRequired,
+  price: PropTypes.number.isRequired,
+  region: PropTypes.string.isRequired,
+  slug: PropTypes.string.isRequired
 });
 
 export default PackageCard;
