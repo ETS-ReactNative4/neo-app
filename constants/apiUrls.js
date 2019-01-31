@@ -47,6 +47,7 @@ const apiUrls = {
    * Product APIs
    */
   getPackagesListFromProduct: "api/packages/itineraries",
+  productCustomizePage: "customize",
 
   /**
    * Static Page Urls

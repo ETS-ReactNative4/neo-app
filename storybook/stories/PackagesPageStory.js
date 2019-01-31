@@ -2,6 +2,7 @@ import React from "react";
 import { storiesOf } from "@storybook/react-native";
 import PackageCard from "../../Screens/HomeScreen/Components/PackageCard";
 import PackageCarousel from "../../Screens/HomeScreen/Components/PackageCarousel";
+import constants from "../../constants/constants";
 
 const packageData = {
   campaignItineraryId: "5a378ec4b58ce008e806b2ea",
@@ -320,7 +321,9 @@ storiesOf("Packages Page", module)
       title: packageData.title,
       price: packageData.itineraryCost,
       region: packageData.regionName,
-      slug: packageData.slug
+      slug: packageData.slug,
+      color: "rgba(255,201,51,1)",
+      triangle: constants.packageTriangleGold
     };
     console.log(props);
     return <PackageCard {...props} />;
@@ -334,7 +337,9 @@ storiesOf("Packages Page", module)
           title: packageData.title,
           price: packageData.itineraryCost,
           region: packageData.regionName,
-          slug: packageData.slug
+          slug: packageData.slug,
+          color: "rgba(255,201,51,1)",
+          triangle: constants.packageTriangleGold
         };
       })
     };

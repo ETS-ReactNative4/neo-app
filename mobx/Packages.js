@@ -28,6 +28,9 @@ class Packages {
     return this._hasError;
   }
 
+  /**
+   * Uses Product API to fetch the packages that are being displayed in product homepage
+   */
   @action
   getPackages = () => {
     this._isLoading = true;

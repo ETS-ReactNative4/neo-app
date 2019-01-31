@@ -26,9 +26,12 @@ PackageCarousel.propTypes = forbidExtraProps({
       title: PropTypes.string.isRequired,
       image: PropTypes.oneOfType([PropTypes.object, PropTypes.number])
         .isRequired,
+      triangle: PropTypes.oneOfType([PropTypes.object, PropTypes.number])
+        .isRequired,
       price: PropTypes.number.isRequired,
       region: PropTypes.string.isRequired,
-      slug: PropTypes.string.isRequired
+      slug: PropTypes.string.isRequired,
+      color: PropTypes.string.isRequired
     })
   ).isRequired
 });
