@@ -132,11 +132,11 @@ class Home extends Component {
           {packagesList.map((packages, packagesIndex) => {
             if (packagesIndex === 2) {
               return [
-                <PackageCarousel key={packagesIndex} {...packages} />,
                 <CustomTripInfo
                   navigation={this.props.navigation}
                   key={packagesIndex + "section"}
-                />
+                />,
+                <PackageCarousel key={packagesIndex} {...packages} />
               ];
             }
             return <PackageCarousel key={packagesIndex} {...packages} />;

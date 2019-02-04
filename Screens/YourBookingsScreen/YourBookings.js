@@ -50,6 +50,8 @@ class YourBookings extends Component {
         );
       }
     );
+    const { getUpcomingItineraries } = this.props.yourBookingsStore;
+    getUpcomingItineraries();
   }
 
   componentWillUnmount() {
