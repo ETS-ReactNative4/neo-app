@@ -16,7 +16,7 @@ const ControlledWebView = ({
   injectedJavascript,
   hideLoadingIndicator,
   useWebKit = true,
-  onShouldStartLoadWithRequest = () => null
+  onShouldStartLoadWithRequest = () => true // should always return true to properly load pages
 }) => {
   return [
     <WebView
