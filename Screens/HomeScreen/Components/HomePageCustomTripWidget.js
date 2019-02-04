@@ -9,11 +9,11 @@ import toggleHomeScreen from "../../../Services/toggleHomeScreen/toggleHomeScree
 import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraProps";
 
 /**
- * Displays a static infomation section inside homepage with two options
+ * Displays a static information section inside homepage with two options
  * - Take user to the product url using custom tab
  * - Toggle home screen to the booking screen
  */
-const CustomTripInfo = ({ navigation }) => {
+const HomePageCustomTripWidget = ({ navigation }) => {
   return (
     <View style={styles.customTripInfoContainer}>
       <Image
@@ -59,7 +59,7 @@ const CustomTripInfo = ({ navigation }) => {
   );
 };
 
-CustomTripInfo.propTypes = forbidExtraProps({
+HomePageCustomTripWidget.propTypes = forbidExtraProps({
   navigation: PropTypes.object.isRequired
 });
 
@@ -93,4 +93,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default CustomTripInfo;
+export default HomePageCustomTripWidget;

@@ -13,7 +13,7 @@ import { responsiveWidth } from "react-native-responsive-dimensions";
 import { recordEvent } from "../../Services/analytics/analyticsService";
 import openCustomTab from "../../Services/openCustomTab/openCustomTab";
 import changeColorAlpha from "../../Services/changeColorAlpha/changeColorAlpha";
-import CustomTripInfo from "./Components/CustomTripInfo";
+import HomePageCustomTripWidget from "./Components/HomePageCustomTripWidget";
 
 /**
  * Converts package type key to readable package name
@@ -132,7 +132,7 @@ class Home extends Component {
           {packagesList.map((packages, packagesIndex) => {
             if (packagesIndex === 2) {
               return [
-                <CustomTripInfo
+                <HomePageCustomTripWidget
                   navigation={this.props.navigation}
                   key={packagesIndex + "section"}
                 />,
