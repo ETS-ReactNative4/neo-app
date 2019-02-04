@@ -12,6 +12,7 @@ import getLocaleString from "../../../Services/getLocaleString/getLocaleString";
 import openCustomTab from "../../../Services/openCustomTab/openCustomTab";
 import PropTypes from "prop-types";
 import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraProps";
+import { recordEvent } from "../../../Services/analytics/analyticsService";
 
 const PackageCard = ({
   title,
@@ -26,7 +27,7 @@ const PackageCard = ({
     <TouchableOpacity
       style={styles.packagesCardContainer}
       onPress={() => {
-        console.log(`${constants.productUrl}${slug}`);
+        recordEvent(constants.homePackageCardClick);
         openCustomTab(`${constants.productUrl}${slug}`);
       }}
       activeOpacity={0.8}

@@ -19,7 +19,8 @@ const EmptyScreenPlaceholder = ({
   buttonTextStyle = {},
   containerStyle = {},
   titleStyle = {},
-  bodyTextStyle = {}
+  bodyTextStyle = {},
+  buttonProps = {}
 }) => {
   return (
     <View style={[styles.placeholderContainer, containerStyle]}>
@@ -45,6 +46,7 @@ const EmptyScreenPlaceholder = ({
           textColor={constants.black2}
           color={"transparent"}
           hasBorder={true}
+          {...buttonProps}
         />
       ) : null}
     </View>

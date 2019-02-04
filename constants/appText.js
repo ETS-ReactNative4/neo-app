@@ -75,8 +75,16 @@ const appText = {
     "Chat will be enabled 48hrs prior to your trip. Meanwhile, please visit our support center if you have questions or clarifications.",
   onChatNoInternetText:
     "We are unable to connect to the live chat currently. Please check for a proper internet connection and try again. Alternatively, you can contact us on the number below.",
-  noBookingsText:
-    "No active bookings found on this number. If the booking is made by someone else, you need an invite from them to proceed.",
+  noBookingsTitle: "No active bookings",
+  noBookingsText: "Lets unwrap the world.",
+  exploreItinerariesText: "Plan a trip",
+  homeText: {
+    customTripTitle: "Want to create a custom trip?",
+    customTripBody:
+      "Plan and book your own vacations on the Pickyourtrail Web App.",
+    openProductText: "Take me there",
+    findBookingText: "Find my booking"
+  },
   leisureText: "Got more time?",
   explorePlacesText: "Explore Places",
   paymentText: {

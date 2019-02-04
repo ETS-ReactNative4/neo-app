@@ -136,6 +136,7 @@ const imageAssets = {
   visaThumbnailIllus: require("../assets/images/placeholder-images/visa.png"),
   insuranceThumbnailIllus: require("../assets/images/placeholder-images/insurance.png"),
   journalComingSoonIllus: require("../assets/images/illustrations/coming-soon/travel-memories-coming-soon.png"),
+  customTripIllus: require("../assets/images/illustrations/logo-custom-trip-illus.png"),
 
   /**
    * TODO: Airline logo placeholder && transfer placeholder
