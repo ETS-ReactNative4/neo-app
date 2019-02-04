@@ -3,9 +3,8 @@ import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import constants from "../../constants/constants";
 import PropTypes from "prop-types";
 import { inject, observer } from "mobx-react/custom";
-import * as Keychain from "react-native-keychain";
-import { logError } from "../../Services/errorLogger/errorLogger";
 import { recordEvent } from "../../Services/analytics/analyticsService";
+import toggleHomeScreen from "../../Services/toggleHomeScreen/toggleHomeScreen";
 
 @inject("itineraries")
 @inject("appState")
@@ -18,30 +17,7 @@ class TripToggle extends Component {
 
   toggleNavigation = () => {
     recordEvent(constants.tripToggleClickEvent);
-    const { isTripModeOn, setTripMode } = this.props.appState;
-    const { selectedItineraryId } = this.props.itineraries;
-    const { navigation } = this.props;
-    if (isTripModeOn) {
-      setTripMode(!isTripModeOn);
-      navigation.navigate("NewItineraryStack");
-    } else {
-      if (selectedItineraryId) {
-        setTripMode(!isTripModeOn);
-        navigation.navigate("BookedItineraryTabs");
-      } else {
-        Keychain.getGenericPassword()
-          .then(credentials => {
-            if (credentials) {
-              navigation.navigate("YourBookingsUniversal");
-            } else {
-              navigation.push("MobileNumber");
-            }
-          })
-          .catch(e => {
-            logError(e);
-          });
-      }
-    }
+    toggleHomeScreen(this.props.navigation);
   };
 
   render() {

@@ -13,6 +13,7 @@ import { responsiveWidth } from "react-native-responsive-dimensions";
 import { recordEvent } from "../../Services/analytics/analyticsService";
 import openCustomTab from "../../Services/openCustomTab/openCustomTab";
 import changeColorAlpha from "../../Services/changeColorAlpha/changeColorAlpha";
+import HomePageCustomTripWidget from "./Components/HomePageCustomTripWidget";
 
 /**
  * Converts package type key to readable package name
@@ -129,6 +130,15 @@ class Home extends Component {
           onRefresh={getPackages}
         >
           {packagesList.map((packages, packagesIndex) => {
+            if (packagesIndex === 2) {
+              return [
+                <HomePageCustomTripWidget
+                  navigation={this.props.navigation}
+                  key={packagesIndex + "section"}
+                />,
+                <PackageCarousel key={packagesIndex} {...packages} />
+              ];
+            }
             return <PackageCarousel key={packagesIndex} {...packages} />;
           })}
         </CustomScrollView>
@@ -139,6 +149,7 @@ class Home extends Component {
               underlayColor={constants.firstColorAlpha(0.7)}
               text={"Start planning now"}
               action={() => {
+                recordEvent(constants.homeStartPlanningNowClick);
                 openCustomTab(
                   `${constants.productUrl}${constants.productCustomizePage}`
                 );
