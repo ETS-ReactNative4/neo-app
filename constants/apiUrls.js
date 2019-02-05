@@ -58,7 +58,8 @@ const apiUrls = {
   cancellationPolicy: "cancellation-policy",
   careers: "careers",
 
-  tripToggleStatusStorageKey: "@Pickyourtrail/tripToggleStatus"
+  tripToggleStatusStorageKey: "@Pickyourtrail/tripToggleStatus",
+  preTripChatActivationTime: 72
 };
 
 export default apiUrls;

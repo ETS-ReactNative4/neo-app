@@ -57,7 +57,7 @@ class ChatScreen extends Component {
     this._didFocusSubscription = props.navigation.addListener(
       "didFocus",
       () => {
-        this.getDateDiff();
+        this.checkChatActivationStatus();
         clearChatNotification();
         this._keyboardDidShowListener = Keyboard.addListener(
           Platform.OS === "ios" ? "keyboardWillChangeFrame" : "keyboardDidShow",
@@ -88,7 +88,7 @@ class ChatScreen extends Component {
   };
 
   componentDidMount() {
-    this.getDateDiff();
+    this.checkChatActivationStatus();
     this._willBlurSubscription = this.props.navigation.addListener(
       "willBlur",
       () => {
@@ -104,11 +104,11 @@ class ChatScreen extends Component {
     this._willBlurSubscription && this._willBlurSubscription.remove();
   }
 
-  getDateDiff = () => {
+  checkChatActivationStatus = () => {
     if (this.props.itineraries.cities[0]) {
       const today = moment();
       const timeDiff = this.props.itineraries.firstDay.diff(today, "hours");
-      if (timeDiff > 72) {
+      if (timeDiff > constants.preTripChatActivationTime) {
         this.setState({
           isChatActive: false
         });
