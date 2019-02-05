@@ -7,6 +7,7 @@ import React from "react";
 import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidExtraProps";
 import { responsiveWidth } from "react-native-responsive-dimensions";
 import changeColorAlpha from "../../../../../Services/changeColorAlpha/changeColorAlpha";
+import { recordEvent } from "../../../../../Services/analytics/analyticsService";
 
 const getNotifProps = type => {
   switch (type) {
@@ -43,11 +44,15 @@ const NotifCard = ({
   setLastCardColor,
   nextCardColor,
   lastCardColor,
-  activeCardIndex
+  activeCardIndex,
+  widgetName
 }) => {
   const { link, title, message, cta, modalData, type, deepLink } = item;
   const { backgroundColor, icon, ctaColor, textColor } = getNotifProps(type);
-  const action = () => resolveLinks(link, modalData, deepLink);
+  const action = () => {
+    if (widgetName) recordEvent(widgetName);
+    resolveLinks(link, modalData, deepLink);
+  };
   if (itemIndex === activeCardIndex) {
     if (allElements[itemIndex + 1]) {
       const nextItem = allElements[itemIndex + 1];
@@ -147,7 +152,8 @@ NotifCard.propTypes = forbidExtraProps({
   setLastCardColor: PropTypes.func.isRequired,
   nextCardColor: PropTypes.string.isRequired,
   lastCardColor: PropTypes.string.isRequired,
-  activeCardIndex: PropTypes.number.isRequired
+  activeCardIndex: PropTypes.number.isRequired,
+  widgetName: PropTypes.string
 });
 
 export default NotifCard;

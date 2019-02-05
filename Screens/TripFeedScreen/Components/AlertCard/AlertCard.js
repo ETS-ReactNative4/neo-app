@@ -38,7 +38,8 @@ class AlertCard extends Component {
       })
     ).isRequired,
     canDismiss: PropTypes.bool,
-    toggleScrollLock: PropTypes.func.isRequired
+    toggleScrollLock: PropTypes.func.isRequired,
+    widgetName: PropTypes.string
   };
 
   state = {
@@ -63,7 +64,8 @@ class AlertCard extends Component {
     const {
       containerStyle = {},
       canDismiss = false,
-      elements = []
+      elements = [],
+      widgetName
     } = this.props;
 
     const NextCard = () => (
@@ -125,6 +127,7 @@ class AlertCard extends Component {
               item={item}
               itemIndex={itemIndex}
               activeCardIndex={this.state.activeCardIndex}
+              widgetName={widgetName}
             />
           );
         })}

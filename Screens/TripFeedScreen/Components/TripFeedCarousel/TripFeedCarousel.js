@@ -24,7 +24,8 @@ class TripFeedCarousel extends Component {
         backdropColor: PropTypes.string
       })
     ).isRequired,
-    backdrop: PropTypes.bool
+    backdrop: PropTypes.bool,
+    widgetName: PropTypes.string
   });
 
   state = {
@@ -41,12 +42,15 @@ class TripFeedCarousel extends Component {
   };
 
   render() {
-    const { title, containerStyle = {}, backdrop } = this.props;
+    const { title, containerStyle = {}, backdrop, widgetName } = this.props;
     let { elements } = this.props;
     elements = elements.map(item => {
       return {
         ...item,
-        action: () => resolveLinks(item.link, item.modalData)
+        action: () => {
+          if (widgetName) recordEvent(widgetName);
+          resolveLinks(item.link, item.modalData, {});
+        }
       };
     });
     const boxSize = 132,

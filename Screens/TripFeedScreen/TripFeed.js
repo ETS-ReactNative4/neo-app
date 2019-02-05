@@ -123,27 +123,57 @@ class TripFeed extends Component {
                     <ToolTip
                       key={widgetIndex}
                       {...widget.data}
+                      widgetName={widget.widgetName}
                       imageFirst={isImageFirst}
                     />
                   );
                 case "INFO_CARD":
-                  return <InfoCard key={widgetIndex} {...widget.data} />;
+                  return (
+                    <InfoCard
+                      key={widgetIndex}
+                      {...widget.data}
+                      widgetName={widget.widgetName}
+                    />
+                  );
                 case "CAROUSEL":
                   return (
-                    <TripFeedCarousel key={widgetIndex} {...widget.data} />
+                    <TripFeedCarousel
+                      key={widgetIndex}
+                      {...widget.data}
+                      widgetName={widget.widgetName}
+                    />
                   );
                 case "TRIP_VIEW":
-                  return <TripView key={widgetIndex} {...widget.data} />;
+                  return (
+                    <TripView
+                      key={widgetIndex}
+                      {...widget.data}
+                      widgetName={widget.widgetName}
+                    />
+                  );
                 case "TRIP_VIEW_LITE":
-                  return <TripViewLite key={widgetIndex} {...widget.data} />;
+                  return (
+                    <TripViewLite
+                      key={widgetIndex}
+                      {...widget.data}
+                      widgetName={widget.widgetName}
+                    />
+                  );
                 case "BIG_IMAGE_CARD":
-                  return <BigImageCard key={widgetIndex} {...widget.data} />;
+                  return (
+                    <BigImageCard
+                      key={widgetIndex}
+                      {...widget.data}
+                      widgetName={widget.widgetName}
+                    />
+                  );
                 case "ALERT_CARD":
                   return (
                     <AlertCard
                       key={widgetIndex}
                       {...widget.data}
                       toggleScrollLock={this.toggleScrollLock}
+                      widgetName={widget.widgetName}
                     />
                   );
                 case "FEEDBACK_SWIPER":
@@ -153,12 +183,25 @@ class TripFeed extends Component {
                       toggleScrollLock={this.toggleScrollLock}
                       key={widgetIndex}
                       {...widget.data}
+                      widgetName={widget.widgetName}
                     />
                   );
                 case "DAY_AHEAD":
-                  return <DayAhead key={widgetIndex} {...widget.data} />;
+                  return (
+                    <DayAhead
+                      key={widgetIndex}
+                      {...widget.data}
+                      widgetName={widget.widgetName}
+                    />
+                  );
                 case "DAY_AHEAD_LITE":
-                  return <DayAheadLite key={widgetIndex} {...widget.data} />;
+                  return (
+                    <DayAheadLite
+                      key={widgetIndex}
+                      {...widget.data}
+                      widgetName={widget.widgetName}
+                    />
+                  );
                 default:
                   return null;
               }

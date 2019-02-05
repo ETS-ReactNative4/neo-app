@@ -1,13 +1,10 @@
 import React from "react";
 import { Text, View, StyleSheet, Image, TouchableOpacity } from "react-native";
 import constants from "../../../../../constants/constants";
-import FastImage from "react-native-fast-image";
-import UpcomingBadge from "../../DayAhead/Components/UpcomingBadge";
-import SmartImage from "../../../../../CommonComponents/SmartImage/SmartImage";
 import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidExtraProps";
 import PropTypes from "prop-types";
-import DayAheadRow from "../../DayAhead/Components/DayAheadRow";
 import resolveLinks from "../../../../../Services/resolveLinks/resolveLinks";
+import { recordEvent } from "../../../../../Services/analytics/analyticsService";
 
 const DayAheadBox = ({
   image,
@@ -16,14 +13,16 @@ const DayAheadBox = ({
   text,
   deepLink,
   voucherType,
-  costingIdentifier
+  costingIdentifier,
+  widgetName
 }) => {
   return (
     <TouchableOpacity
       style={styles.dayAheadBoxTouchable}
-      onPress={() =>
-        resolveLinks("", {}, deepLink || { voucherType, costingIdentifier })
-      }
+      onPress={() => {
+        recordEvent(widgetName);
+        resolveLinks("", {}, deepLink || { voucherType, costingIdentifier });
+      }}
       activeOpacity={0.7}
     >
       <View style={styles.dayAheadBoxContainer}>
@@ -63,7 +62,8 @@ DayAheadBox.propTypes = forbidExtraProps({
   text: PropTypes.string.isRequired,
   voucherType: PropTypes.string.isRequired,
   costingIdentifier: PropTypes.string.isRequired,
-  deepLink: PropTypes.object
+  deepLink: PropTypes.object,
+  widgetName: PropTypes.string
 });
 
 const styles = StyleSheet.create({

@@ -9,6 +9,7 @@ import Icon from "../../../../CommonComponents/Icon/Icon";
 import { responsiveWidth } from "react-native-responsive-dimensions";
 import changeColorAlpha from "../../../../Services/changeColorAlpha/changeColorAlpha";
 import resolveLinks from "../../../../Services/resolveLinks/resolveLinks";
+import { recordEvent } from "../../../../Services/analytics/analyticsService";
 
 const BigImageCard = ({
   title,
@@ -21,7 +22,8 @@ const BigImageCard = ({
   typeStyle = {},
   icon,
   iconText,
-  gradient = constants.darkGradientAlpha
+  gradient = constants.darkGradientAlpha,
+  widgetName
 }) => {
   let gradientColor;
   gradientColor = gradient;
@@ -46,7 +48,10 @@ const BigImageCard = ({
     ];
   }
 
-  const action = () => resolveLinks(link, modalData);
+  const action = () => {
+    if (widgetName) recordEvent(widgetName);
+    resolveLinks(link, modalData);
+  };
 
   return (
     <TouchableOpacity
@@ -144,7 +149,8 @@ BigImageCard.propTypes = forbidExtraProps({
   typeStyle: PropTypes.object,
   icon: PropTypes.string,
   iconText: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  gradient: PropTypes.oneOfType([PropTypes.string, PropTypes.func])
+  gradient: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
+  widgetName: PropTypes.string
 });
 
 export default BigImageCard;
