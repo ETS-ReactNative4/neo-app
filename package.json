@@ -2,13 +2,19 @@
   "name": "pickyourtrail",
   "version": "1.0.4",
   "build": 76,
-  "environment": "production",
   "private": true,
   "scripts": {
-    "start": "node node_modules/react-native/local-cli/cli.js start",
+    "set-staging-environment": "cp .env.staging .env",
+    "set-prod-environment": "cp .env.prod .env",
+    "start":
+      "yarn set-prod-environment && node node_modules/react-native/local-cli/cli.js start",
     "test": "jest",
     "build-android": "cd android && ./gradlew assembleRelease && cd ..",
-    "testflight-ios": "fastlane ios uploadToTestflight",
+    "build-android-alpha": "yarn set-staging-environment && yarn build-android",
+    "build-android-prod": "yarn set-prod-environment && yarn build-android",
+    "build-ios": "fastlane ios uploadToTestflight",
+    "testflight-ios": "yarn set-staging-environment && yarn build-ios",
+    "prod-ios": "yarn set-prod-environment && yarn build-ios",
     "alpha-android": "fastlane android alpha",
     "run-android": "react-native run-android",
     "run-ios": "react-native run-ios",
@@ -88,9 +94,16 @@
     "prettier": "^1.12.1",
     "pretty-quick": "^1.4.1",
     "react-devtools": "^3.4.2",
+    "react-native-dotenv": "^0.2.0",
     "react-test-renderer": "16.5.0"
   },
-  "resolutions": { "core-js": "2.5.7" },
-  "jest": { "preset": "react-native" },
-  "rnpm": { "assets": ["./assets/fonts/"] }
+  "resolutions": {
+    "core-js": "2.5.7"
+  },
+  "jest": {
+    "preset": "react-native"
+  },
+  "rnpm": {
+    "assets": ["./assets/fonts/"]
+  }
 }
