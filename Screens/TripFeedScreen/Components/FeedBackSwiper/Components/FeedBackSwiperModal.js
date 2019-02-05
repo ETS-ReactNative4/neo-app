@@ -26,7 +26,8 @@ class FeedBackSwiperModal extends Component {
     data: PropTypes.object.isRequired,
     submit: PropTypes.func.isRequired,
     onClose: PropTypes.func.isRequired,
-    emitterComponent: PropTypes.object.isRequired
+    emitterComponent: PropTypes.object.isRequired,
+    title: PropTypes.string
   };
 
   state = {
@@ -72,7 +73,7 @@ class FeedBackSwiperModal extends Component {
   };
 
   render() {
-    const { isVisible, isNegative, data, onClose, submit } = this.props;
+    const { isVisible, isNegative, data, onClose, submit, title } = this.props;
     const { isKeyboardVisible } = this.state;
 
     // const items = [
@@ -152,7 +153,7 @@ class FeedBackSwiperModal extends Component {
           enabled
         >
           <View style={styles.header}>
-            <Text style={styles.headerText}>{"Yesterday, May 23"}</Text>
+            <Text style={styles.headerText}>{title}</Text>
           </View>
           <View style={styles.body}>
             <Text style={styles.bodyHeaderText}>
@@ -244,7 +245,6 @@ const styles = StyleSheet.create({
   },
   modalView: {
     width: modalWidth,
-    backgroundColor: "white",
     borderRadius: 5
   },
   header: {

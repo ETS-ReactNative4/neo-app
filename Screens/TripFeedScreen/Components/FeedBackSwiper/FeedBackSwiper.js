@@ -185,6 +185,7 @@ class FeedBackSwiper extends Component {
   render() {
     const { elements } = this.props;
     if (!elements || !elements.length) return null;
+    const activeElement = this.props.elements[this.state.activeCardIndex]; // data of the element visible to the user in the swiper
     return [
       <CardStack
         key={0}
@@ -250,6 +251,7 @@ class FeedBackSwiper extends Component {
         key={1}
         isVisible={this.state.isModalVisible}
         data={{}}
+        title={activeElement ? activeElement.title : ""}
         onEditText={this.onEditText}
         review={this.state.review}
         emitterComponent={this.props.emitterComponent}
