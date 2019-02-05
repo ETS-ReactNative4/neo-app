@@ -13,6 +13,7 @@ import ContentSection from "./Components/ContentSection";
 import MultilineButton from "./Components/MultilineButton";
 import forbidExtraProps from "../../../../Services/PropTypeValidation/forbidExtraProps";
 import resolveLinks from "../../../../Services/resolveLinks/resolveLinks";
+import { recordEvent } from "../../../../Services/analytics/analyticsService";
 
 class ToolTip extends Component {
   static propTypes = forbidExtraProps({
@@ -29,7 +30,8 @@ class ToolTip extends Component {
         deepLink: PropTypes.object,
         modalData: PropTypes.object
       })
-    )
+    ),
+    widgetName: PropTypes.string
   });
 
   render() {
@@ -39,7 +41,8 @@ class ToolTip extends Component {
       text,
       image,
       containerStyle = {},
-      options
+      options,
+      widgetName
     } = this.props;
     const contentStyleUpdate = {},
       changeLayout = {};
@@ -77,9 +80,10 @@ class ToolTip extends Component {
                 containerStyle={{ ...buttonAlignment }}
                 title={button.title}
                 text={button.text}
-                action={() =>
-                  resolveLinks(button.link, button.modalData, button.deepLink)
-                }
+                action={() => {
+                  if (widgetName) recordEvent(widgetName);
+                  resolveLinks(button.link, button.modalData, button.deepLink);
+                }}
               />
             ) : null}
           </View>
