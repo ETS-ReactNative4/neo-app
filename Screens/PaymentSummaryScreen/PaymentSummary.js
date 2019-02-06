@@ -97,7 +97,7 @@ class PaymentSummary extends Component {
     const itineraryId = this.props.navigation.getParam("itineraryId", "");
     const paymentDetails = this.props.navigation.getParam("paymentDetails", {});
     const itineraryName = this.props.navigation.getParam("itineraryName", "");
-    const paymentStatus = this.props.navigation.getParam("paymentStatus", "");
+    const paymentStatus = paymentDetails.paymentStatus;
     this.setState({
       tripId: `PYT${itineraryId.substr(itineraryId.length - 7).toUpperCase()}`,
       itineraryName,
@@ -375,9 +375,9 @@ class PaymentSummary extends Component {
             {!isLoading
               ? this.state.paymentStatus === "SUCCESS"
                 ? "Payment Completed!"
-                  ? this.state.paymentStatus === "EXPIRED"
-                  : "Payment Expired!"
-                : `Due date for next payment ${this.state.nextPendingDate}`
+                : this.state.paymentStatus === "EXPIRED"
+                  ? "Payment Expired!"
+                  : `Due date for next payment ${this.state.nextPendingDate}`
               : null}
           </Text>
         </View>
