@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import forbidExtraProps from "../../../../Services/PropTypeValidation/forbidExtraProps";
 import constants from "../../../../constants/constants";
 import resolveLinks from "../../../../Services/resolveLinks/resolveLinks";
+import { recordEvent } from "../../../../Services/analytics/analyticsService";
 
 class InfoCard extends Component {
   static propTypes = forbidExtraProps({
@@ -14,7 +15,8 @@ class InfoCard extends Component {
     link: PropTypes.string.isRequired,
     boxStyle: PropTypes.object,
     titleStyle: PropTypes.object,
-    modalData: PropTypes.object
+    modalData: PropTypes.object,
+    widgetName: PropTypes.string
   });
 
   render() {
@@ -25,9 +27,13 @@ class InfoCard extends Component {
       link,
       boxStyle = {},
       titleStyle = {},
-      modalData
+      modalData,
+      widgetName
     } = this.props;
-    const action = () => resolveLinks(link, modalData);
+    const action = () => {
+      if (widgetName) recordEvent(widgetName);
+      resolveLinks(link, modalData, {});
+    };
     return (
       <TouchableOpacity
         activeOpacity={0.8}

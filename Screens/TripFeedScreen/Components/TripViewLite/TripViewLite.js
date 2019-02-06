@@ -27,7 +27,8 @@ class TripViewLite extends Component {
         date: PropTypes.string.isRequired,
         link: PropTypes.string.isRequired
       }).isRequired
-    )
+    ),
+    widgetName: PropTypes.string
   });
 
   state = {
@@ -44,7 +45,7 @@ class TripViewLite extends Component {
   };
 
   render() {
-    const { data = [] } = this.props;
+    const { data = [], widgetName } = this.props;
 
     const onScrollProps = {};
     if (!this.state.isScrollRecorded) {
@@ -60,11 +61,14 @@ class TripViewLite extends Component {
           }}
         >
           {data.map((item, itemIndex) => {
-            const action = () =>
+            const action = () => {
+              if (widgetName) recordEvent(widgetName);
               resolveLinks(item.link, {
                 selectedDate: JSON.stringify(item.date)
               });
+            };
             const circleAction = () => {
+              if (widgetName) recordEvent(`${widgetName}_CIRCLE`);
               const transfer = storeService.itineraries.getTransferFromAllById(
                 item.costingIdentifier || item.costingId || ""
               );

@@ -1,5 +1,8 @@
 import { Platform } from "react-native";
-import { createBottomTabNavigator } from "react-navigation";
+import {
+  createStackNavigator,
+  createBottomTabNavigator
+} from "react-navigation";
 import ChatScreen from "../Screens/ChatScreen/ChatScreen";
 import constants from "../constants/constants";
 import TabBarIcon from "../CommonComponents/TabBarIcon/TabBarIcon";
@@ -18,7 +21,14 @@ const TabBarComponent =
 const BookedTabs = createBottomTabNavigator(
   {
     TripFeed: {
-      screen: TripFeed
+      screen: createStackNavigator({
+        /**
+         * StackNavigator needed to render proper header in trip feed
+         */
+        TripFeedHome: {
+          screen: TripFeed
+        }
+      })
     },
     Bookings: {
       screen: BookingsHome
@@ -39,7 +49,7 @@ const BookedTabs = createBottomTabNavigator(
         const { routeName } = navigation.state;
         let icon;
 
-        const color = focused ? constants.black1 : constants.shade1dot5;
+        const color = focused ? constants.firstColor : constants.shade1dot5;
 
         switch (routeName) {
           case "TripFeed":
@@ -68,7 +78,7 @@ const BookedTabs = createBottomTabNavigator(
               icon: focused
                 ? constants.supportSelectedIcon
                 : constants.supportIconLight,
-              color: focused ? constants.firstColor : color
+              color
             };
             break;
 

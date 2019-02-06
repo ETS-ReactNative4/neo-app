@@ -56,6 +56,9 @@ const imageAssets = {
   semiCircleShape: require("../assets/images/shapes/hiring_topic.png"),
   headerBackgroundShape: require("../assets/images/shapes/banner_white.png"),
   comingSoonShape: require("../assets/images/shapes/coming-soon.png"),
+  packageTrianglePink: require("../assets/images/shapes/package-shape-pink.png"),
+  packageTriangleBlue: require("../assets/images/shapes/package-shape-blue.png"),
+  packageTriangleGold: require("../assets/images/shapes/package-shape-gold.png"),
 
   tripFeedIcon: "trip-feed",
   tripFeedSelectedIcon: "trip-feed-active",
@@ -133,6 +136,7 @@ const imageAssets = {
   visaThumbnailIllus: require("../assets/images/placeholder-images/visa.png"),
   insuranceThumbnailIllus: require("../assets/images/placeholder-images/insurance.png"),
   journalComingSoonIllus: require("../assets/images/illustrations/coming-soon/travel-memories-coming-soon.png"),
+  customTripIllus: require("../assets/images/illustrations/logo-custom-trip-illus.png"),
 
   /**
    * TODO: Airline logo placeholder && transfer placeholder

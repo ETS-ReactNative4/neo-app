@@ -15,6 +15,7 @@ import {
   responsiveHeight,
   responsiveWidth
 } from "react-native-responsive-dimensions";
+import openCustomTab from "../../Services/openCustomTab/openCustomTab";
 
 @ErrorBoundary({ isRoot: true })
 @inject("userStore")
@@ -56,7 +57,7 @@ class ChatScreen extends Component {
     this._didFocusSubscription = props.navigation.addListener(
       "didFocus",
       () => {
-        this.getDateDiff();
+        this.checkChatActivationStatus();
         clearChatNotification();
         this._keyboardDidShowListener = Keyboard.addListener(
           Platform.OS === "ios" ? "keyboardWillChangeFrame" : "keyboardDidShow",
@@ -87,7 +88,7 @@ class ChatScreen extends Component {
   };
 
   componentDidMount() {
-    this.getDateDiff();
+    this.checkChatActivationStatus();
     this._willBlurSubscription = this.props.navigation.addListener(
       "willBlur",
       () => {
@@ -103,11 +104,11 @@ class ChatScreen extends Component {
     this._willBlurSubscription && this._willBlurSubscription.remove();
   }
 
-  getDateDiff = () => {
+  checkChatActivationStatus = () => {
     if (this.props.itineraries.cities[0]) {
       const today = moment();
       const timeDiff = this.props.itineraries.firstDay.diff(today, "hours");
-      if (timeDiff > 48) {
+      if (timeDiff > constants.preTripChatActivationTime) {
         this.setState({
           isChatActive: false
         });
@@ -128,6 +129,7 @@ class ChatScreen extends Component {
     };
     const { userDetails } = this.props.userStore;
     const { email } = userDetails;
+    const uri = constants.crispServerUrl(email);
 
     return isChatActive ? (
       isConnected ? (
@@ -145,7 +147,7 @@ class ChatScreen extends Component {
           ]}
         >
           <ControlledWebView
-            source={{ uri: constants.crispServerUrl(email) }}
+            source={{ uri }}
             onNavigationStateChange={this.onNavigationStateChange}
             style={{
               flex: 1,
@@ -154,6 +156,17 @@ class ChatScreen extends Component {
             webviewRef={e => (this._webView = e)}
             injectedJavascript={CrispSDK}
             useWebKit={false}
+            onShouldStartLoadWithRequest={event => {
+              /**
+               * Prevent user from navigating away from chat window by opening
+               * external links in custom tab (helps with file downloads)
+               */
+              if (event.url !== uri) {
+                openCustomTab(event.url);
+                return false;
+              }
+              return true;
+            }}
           />
           {Platform.OS === "ios" ? (
             <BackButtonIos

@@ -1,18 +1,7 @@
 import * as Keychain from "react-native-keychain";
-import {
-  StackActions,
-  NavigationActions,
-  DrawerActions
-} from "react-navigation";
-import { setUserContext } from "../errorLogger/errorLogger";
+import { DrawerActions } from "react-navigation";
 import navigationService from "../navigationService/navigationService";
 import storeService from "../storeService/storeService";
-
-// const resetToSplash = StackActions.reset({
-//   index: 0,
-//   actions: [NavigationActions.navigate({ routeName: "Splash" })],
-//   key: null
-// });
 
 const closeDrawer = DrawerActions.closeDrawer();
 
@@ -48,11 +37,6 @@ const logOut = (isForced = false) => {
   } else {
     logOutActionQueue();
   }
-
-  /**
-   * TODO: Clear sentry user context
-   * setUserContext();
-   */
 };
 
 export default logOut;

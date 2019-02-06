@@ -43,9 +43,7 @@ class TripFeed {
   @computed
   get widgets() {
     try {
-      return toJS(this._widgets).filter(
-        widget => widget.expiry === -1 || moment().valueOf() < widget.expiry
-      );
+      return toJS(this._widgets);
     } catch (e) {
       logError(e);
       return [];

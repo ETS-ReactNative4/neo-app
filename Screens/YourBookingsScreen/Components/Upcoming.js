@@ -32,7 +32,8 @@ class Upcoming extends Component {
     itinerariesList: PropTypes.array.isRequired,
     isLoading: PropTypes.bool.isRequired,
     navigation: PropTypes.object.isRequired,
-    getUpcomingItineraries: PropTypes.func.isRequired
+    getUpcomingItineraries: PropTypes.func.isRequired,
+    goBack: PropTypes.func.isRequired
   };
 
   selectItinerary = itineraryId => {
@@ -50,7 +51,12 @@ class Upcoming extends Component {
   };
 
   render() {
-    const { itinerariesList, isLoading, getUpcomingItineraries } = this.props;
+    const {
+      itinerariesList,
+      isLoading,
+      getUpcomingItineraries,
+      goBack
+    } = this.props;
 
     return (
       <CustomScrollView
@@ -61,6 +67,18 @@ class Upcoming extends Component {
           <EmptyScreenPlaceholder
             image={constants.noBookingsIllus}
             body={constants.noBookingsText}
+            title={constants.noBookingsTitle}
+            buttonText={constants.exploreItinerariesText}
+            buttonAction={goBack}
+            buttonTextStyle={{
+              ...constants.fontCustom(constants.primarySemiBold, 17),
+              color: "white"
+            }}
+            buttonContainerStyle={{ backgroundColor: constants.firstColor }}
+            buttonProps={{
+              color: constants.firstColor,
+              textColor: "white"
+            }}
           />
         ) : null}
         {itinerariesList.map((itinerary, index) => {

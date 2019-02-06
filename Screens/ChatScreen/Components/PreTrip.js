@@ -14,7 +14,9 @@ const PreTrip = ({ action }) => {
         style={styles.image}
         resizeMode="contain"
       />
-      <Text style={styles.message}>{constants.preTripChatText}</Text>
+      <Text style={styles.message}>
+        {constants.preTripChatText(constants.preTripChatActivationTime)}
+      </Text>
       <SimpleButton
         containerStyle={{ marginTop: 8, width: 192 }}
         text={"Visit support center"}

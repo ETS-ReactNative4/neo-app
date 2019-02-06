@@ -19,10 +19,10 @@ export const logError = (error, extraInfo = {}) => {
 export const logBreadCrumb = ({ message, category, data, level }) =>
   sentry.captureBreadcrumb({ message, category, data, level });
 
-export const setUserContext = ({ email, userID }) => {
+export const setUserContext = ({ email, userID } = {}) => {
   if (!email || !userID) {
     /**
-     * TODO: Logout user from sentry
+     * TODO: Do we need to Logout user from sentry?
      * sentry.setUserContext({ email: "", userID: "" });
      */
   } else {

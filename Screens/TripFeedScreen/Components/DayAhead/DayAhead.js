@@ -22,11 +22,12 @@ class DayAhead extends Component {
         costingIdentifier: PropTypes.string.isRequired,
         deepLink: PropTypes.object
       })
-    ).isRequired
+    ).isRequired,
+    widgetName: PropTypes.string
   });
 
   render() {
-    const { title, elements } = this.props;
+    const { title, elements, widgetName } = this.props;
 
     return (
       <View style={styles.dayAheadContainer}>
@@ -35,7 +36,14 @@ class DayAhead extends Component {
           <View style={styles.rowContainer}>
             {elements.map((day, dayIndex) => {
               const isLast = elements.length === dayIndex + 1;
-              return <DayAheadRow key={dayIndex} {...day} isLast={isLast} />;
+              return (
+                <DayAheadRow
+                  key={dayIndex}
+                  {...day}
+                  isLast={isLast}
+                  widgetName={widgetName}
+                />
+              );
             })}
           </View>
         </View>

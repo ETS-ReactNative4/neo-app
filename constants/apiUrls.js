@@ -44,6 +44,12 @@ const apiUrls = {
   transferVoucher: "transfer",
 
   /**
+   * Product APIs
+   */
+  getPackagesListFromProduct: "api/packages/itineraries",
+  productCustomizePage: "customize",
+
+  /**
    * Static Page Urls
    */
   aboutUs: "about-us",
@@ -52,7 +58,8 @@ const apiUrls = {
   cancellationPolicy: "cancellation-policy",
   careers: "careers",
 
-  tripToggleStatusStorageKey: "@Pickyourtrail/tripToggleStatus"
+  tripToggleStatusStorageKey: "@Pickyourtrail/tripToggleStatus",
+  preTripChatActivationTime: 72
 };
 
 export default apiUrls;
