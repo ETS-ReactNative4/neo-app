@@ -114,7 +114,7 @@ class VoucherAccordion extends Component {
     return (
       <View style={[containerStyle]}>
         <Accordion
-          sections={this.props.sections}
+          sections={_.compact(this.props.sections)} // ignore null values in the accordion section
           activeSections={this.state.activeSections}
           renderHeader={this._renderHeader}
           renderContent={this._renderContent}

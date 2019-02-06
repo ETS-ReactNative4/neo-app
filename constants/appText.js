@@ -21,6 +21,12 @@ const appText = {
       actionText: "Go Back"
     }
   },
+  voucherText: {
+    freeTransferInfo:
+      "This is a free activity. You will need to manage your transport to and from this location. Reach the meeting point 30 minutes prior to avoid last minute hassle.",
+    sharedTransferInfo:
+      "Reach the meeting point 20 minutes prior to avoid last minute hassle. Since the transfer is on shared basis, you can expect a delay of 15 - 30 minutes depending on traffic."
+  },
   downloadVoucherText: {
     error: {
       title: "Unable to Download!",

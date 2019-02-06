@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, StyleSheet, Platform } from "react-native";
+import { View, StyleSheet, Platform, Text } from "react-native";
 import { isIphoneX } from "react-native-iphone-x-helper";
 import ParallaxScrollView from "react-native-parallax-scroll-view";
 import VoucherHeader from "../Components/VoucherHeader";
@@ -84,6 +84,8 @@ class ActivityVoucher extends Component {
       pickupAddress,
       transferType,
       departureTimeStr,
+      notes: voucherNotes,
+      pickupDetail,
       self
     } = activity.voucher;
     const {
@@ -91,8 +93,8 @@ class ActivityVoucher extends Component {
       title,
       notes,
       longDesc,
-      latitude,
-      longitude,
+      latitude: costingLatitude,
+      longitude: costingLongitude,
       transferIncluded,
       free,
       selectedTourGrade
@@ -189,12 +191,14 @@ class ActivityVoucher extends Component {
           name: "No. of pax",
           value: passengerCount || "NA"
         },
-        {
-          name: "Starts at",
-          value: departureTimeStr
-            ? departureTimeStr
-            : moment(dateMillis).format("hh:mm a")
-        },
+        !transferIncluded // Display activity start time only when transfer is not included
+          ? {
+              name: "Starts at",
+              value: departureTimeStr
+                ? departureTimeStr
+                : moment(dateMillis).format("hh:mm a")
+            }
+          : null,
         {
           name: "Duration",
           value: totalDuration
@@ -265,6 +269,17 @@ class ActivityVoucher extends Component {
         }
       ];
     }
+    if (voucherNotes) {
+      // Add notes section if Activity notes are updated in PLATO
+      bookingDetailSections.unshift({
+        name: "Notes",
+        component: (
+          <View style={styles.accordionTextWrapper}>
+            <Text style={styles.accordionText}>{voucherNotes}</Text>
+          </View>
+        )
+      });
+    }
     return [
       <ParallaxScrollView
         key={0}
@@ -308,7 +323,7 @@ class ActivityVoucher extends Component {
           <VoucherSplitSection sections={transferDetails} />
 
           {free ? (
-            <TransferInfoBox />
+            <TransferInfoBox text={constants.voucherText.freeTransferInfo} />
           ) : transferIncluded && pickupAddress ? (
             <PickupInfoBox />
           ) : null}
@@ -319,11 +334,14 @@ class ActivityVoucher extends Component {
 
           <VoucherContactActionBar
             contact={contactNumber}
-            location={{ lat: latitude, lon: longitude }}
+            location={{ lat: costingLatitude, lon: costingLongitude }}
           />
         </View>
         <View style={styles.bookingDetailsSection}>
-          <VoucherAccordion sections={bookingDetailSections} />
+          <VoucherAccordion
+            sections={bookingDetailSections}
+            openFirstSection={!!voucherNotes}
+          />
           <VoucherSplitSection sections={bookingDetails} />
         </View>
       </ParallaxScrollView>,
