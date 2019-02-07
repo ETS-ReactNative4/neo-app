@@ -84,7 +84,7 @@ class ActivityVoucher extends Component {
       transferType,
       departureTimeStr,
       notes: voucherNotes,
-      pickupDetail = {}, // contains array of pickup details
+      pickupDetail: pickupDetails, // contains array of pickup details
       activityLocation = {},
       activityAddress,
       self
@@ -114,6 +114,7 @@ class ActivityVoucher extends Component {
     } = activity.costing;
 
     const transferIncluded = transferType !== "NOTRANSFER";
+    const pickupDetail = pickupDetails ? pickupDetails[0] : {};
     const { pickupTime, location = {}, address: pickupAddress } = pickupDetail;
 
     const { latitude, longitude } = location;
