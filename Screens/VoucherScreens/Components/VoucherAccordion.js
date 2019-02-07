@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Text, View, StyleSheet, Animated, Easing } from "react-native";
+import _ from "lodash";
 import constants from "../../../constants/constants";
 import Icon from "../../../CommonComponents/Icon/Icon";
 import PropTypes from "prop-types";
@@ -114,7 +115,7 @@ class VoucherAccordion extends Component {
     return (
       <View style={[containerStyle]}>
         <Accordion
-          sections={this.props.sections}
+          sections={_.compact(this.props.sections)} // ignore null values in the accordion section
           activeSections={this.state.activeSections}
           renderHeader={this._renderHeader}
           renderContent={this._renderContent}

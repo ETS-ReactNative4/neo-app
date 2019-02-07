@@ -13,6 +13,7 @@ import openCustomTab from "../../../Services/openCustomTab/openCustomTab";
 import PropTypes from "prop-types";
 import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraProps";
 import { recordEvent } from "../../../Services/analytics/analyticsService";
+import FastImage from "react-native-fast-image";
 
 const PackageCard = ({
   title,
@@ -21,7 +22,9 @@ const PackageCard = ({
   price,
   region,
   slug,
-  color
+  color,
+  rowIndex,
+  index: colIndex
 }) => {
   return (
     <TouchableOpacity
@@ -33,10 +36,19 @@ const PackageCard = ({
       activeOpacity={0.8}
     >
       <View style={styles.packageImageWrapper}>
-        <Image
-          source={image}
+        {/**
+         * First four visible images to the user must be loaded with high priority
+         */}
+        <FastImage
+          source={{
+            ...image,
+            priority:
+              rowIndex < 2 && colIndex < 2
+                ? FastImage.priority.high
+                : FastImage.priority.low
+          }}
           style={styles.packageImage}
-          resizeMode={"cover"}
+          resizeMode={FastImage.resizeMode.cover}
         />
       </View>
       <View style={styles.textViewWrapper}>
@@ -44,7 +56,7 @@ const PackageCard = ({
       </View>
       <View style={styles.priceWrapper}>
         <Text style={styles.priceText}>
-          {getLocaleString(price)}
+          {getLocaleString(price).slice(0, -3)}
           <Text style={styles.priceRateText}>{"/person"}</Text>
         </Text>
       </View>
@@ -70,7 +82,8 @@ const styles = StyleSheet.create({
   },
   packageImageWrapper: {
     overflow: "hidden",
-    borderRadius: 5
+    borderRadius: 5,
+    backgroundColor: constants.shade5
   },
   packageImage: {
     borderRadius: 5,
@@ -131,7 +144,9 @@ PackageCard.propTypes = forbidExtraProps({
   price: PropTypes.number.isRequired,
   region: PropTypes.string.isRequired,
   slug: PropTypes.string.isRequired,
-  color: PropTypes.string.isRequired
+  color: PropTypes.string.isRequired,
+  rowIndex: PropTypes.number,
+  index: PropTypes.number
 });
 
 export default PackageCard;

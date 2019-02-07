@@ -20,6 +20,7 @@ platform :ios do
   end
 
   lane :uploadToTestflight do
+    changelog = File.read("../changeLog.txt")
     build_app(
       scheme: "Pickyourtrail",
       workspace: "./ios/Pickyourtrail.xcworkspace",
@@ -27,7 +28,8 @@ platform :ios do
     )
     upload_to_testflight(
       username: account,
-      app_identifier: identifierIOS
+      app_identifier: identifierIOS,
+      changelog: changelog
     )
   end
 end

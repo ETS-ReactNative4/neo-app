@@ -58,6 +58,9 @@ buck-out/
 # Ignore archives
 *.zip
 
+# Ignore changelog
+changeLog.txt
+
 # Created by https://www.gitignore.io/api/visualstudiocode,xcode,eclipse,android,intellij,cocoapods,androidstudio,fastlane
 # Edit at https://www.gitignore.io/?templates=visualstudiocode,xcode,eclipse,android,intellij,cocoapods,androidstudio,fastlane
 

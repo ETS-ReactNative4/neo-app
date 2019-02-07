@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, StyleSheet, Platform } from "react-native";
+import { View, StyleSheet, Platform, Text } from "react-native";
 import { isIphoneX } from "react-native-iphone-x-helper";
 import ParallaxScrollView from "react-native-parallax-scroll-view";
 import VoucherHeader from "../Components/VoucherHeader";
@@ -21,6 +21,7 @@ import VoucherContactActionBar from "../Components/VoucherContactActionBar";
 import getTitleCase from "../../../Services/getTitleCase/getTitleCase";
 import ErrorBoundary from "../../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import { responsiveWidth } from "react-native-responsive-dimensions";
+import _ from "lodash";
 
 const xHeight = isIphoneX()
   ? constants.xNotchHeight
@@ -75,25 +76,30 @@ class ActivityVoucher extends Component {
       duration,
       adults,
       children,
-      pickupTime,
       inclusions,
       exclusions,
       contactNumber,
       bookedTime,
       activityTime,
-      pickupAddress,
       transferType,
       departureTimeStr,
+      notes: voucherNotes,
+      pickupDetail: pickupDetails, // contains array of pickup details
+      activityLocation = {},
+      activityAddress,
       self
     } = activity.voucher;
+    const {
+      latitude: activityLatitude,
+      longitude: activityLongitude
+    } = activityLocation;
     const {
       mainPhoto,
       title,
       notes,
       longDesc,
-      latitude,
-      longitude,
-      transferIncluded,
+      latitude: costingLatitude,
+      longitude: costingLongitude,
       free,
       selectedTourGrade
     } = activity;
@@ -106,6 +112,13 @@ class ActivityVoucher extends Component {
       publishedCost,
       dateMillis
     } = activity.costing;
+
+    const transferIncluded = _.toUpper(transferType) !== "NOTRANSFER";
+    const pickupDetail =
+      pickupDetails && pickupDetails.length ? pickupDetails[0] : {};
+    const { pickupTime, location = {}, address: pickupAddress } = pickupDetail;
+
+    const { latitude, longitude } = location;
 
     const {
       leadPassengerName,
@@ -189,12 +202,14 @@ class ActivityVoucher extends Component {
           name: "No. of pax",
           value: passengerCount || "NA"
         },
-        {
-          name: "Starts at",
-          value: departureTimeStr
-            ? departureTimeStr
-            : moment(dateMillis).format("hh:mm a")
-        },
+        !transferIncluded // Display activity start time only when transfer is not included
+          ? {
+              name: "Starts at",
+              value: departureTimeStr
+                ? departureTimeStr
+                : moment(dateMillis).format("hh:mm a")
+            }
+          : null,
         {
           name: "Duration",
           value: totalDuration
@@ -251,19 +266,56 @@ class ActivityVoucher extends Component {
         }
       ];
       bookingDetails = [
-        {
-          name: "Booked on",
-          value: bookedTime ? moment(bookedTime).format("DD MMM, YY") : "NA"
-        },
+        // removed temporarily since not enough data in plato
+        // {
+        //   name: "Booked on",
+        //   value: bookedTime ? moment(bookedTime).format("DD MMM, YY") : "NA"
+        // },
         // {
         //   name: "Total paid",
         //   value: publishedCost ? getLocaleString(publishedCost) : "NA"
         // },
-        {
-          name: "Booking source",
-          value: "Pickyourtrail"
-        }
+        // {
+        //   name: "Booking source",
+        //   value: "Pickyourtrail"
+        // }
       ];
+    }
+    if (voucherNotes) {
+      // Add notes section if Activity notes are updated in PLATO
+      bookingDetailSections.unshift({
+        name: "Notes",
+        component: (
+          <View style={styles.accordionTextWrapper}>
+            <Text style={styles.accordionText}>{voucherNotes}</Text>
+          </View>
+        )
+      });
+    }
+    let lat, lon;
+    /**
+     * Check if pickup lat and long are present for the activity
+     */
+    if (latitude && longitude) {
+      lat = latitude;
+      lon = longitude;
+    } else if (!transferIncluded) {
+      /**
+       * If Pickup lat and long are missing, get the activity lat and long
+       * However, only if transfer is not included.
+       * If transfer is included & pickup lat-long is missing simply hide the button
+       */
+      if (activityLatitude && activityLongitude) {
+        lat = activityLatitude;
+        lon = activityLongitude;
+      } else if (costingLatitude && costingLongitude) {
+        /**
+         * If no activity lat-long is provided in PLATO voucher, get default activity lat-long from costing object
+         * Again, only if transfer is not included.
+         */
+        lat = costingLatitude;
+        lon = costingLongitude;
+      }
     }
     return [
       <ParallaxScrollView
@@ -307,23 +359,39 @@ class ActivityVoucher extends Component {
 
           <VoucherSplitSection sections={transferDetails} />
 
+          {_.toUpper(transferType) === "SHARED" ? (
+            <TransferInfoBox
+              text={constants.voucherText.sharedTransferInfo}
+              containerStyle={{ marginVertical: 8 }}
+            />
+          ) : null}
+
           {free ? (
-            <TransferInfoBox />
+            <TransferInfoBox text={constants.voucherText.freeTransferInfo} />
           ) : transferIncluded && pickupAddress ? (
             <PickupInfoBox />
           ) : null}
           <VoucherAddressSection
             containerStyle={{ marginTop: 8 }}
-            address={pickupAddress}
+            address={
+              pickupAddress
+                ? pickupAddress
+                : !transferIncluded
+                  ? activityAddress
+                  : null
+            }
           />
 
           <VoucherContactActionBar
             contact={contactNumber}
-            location={{ lat: latitude, lon: longitude }}
+            location={{ lat, lon }}
           />
         </View>
         <View style={styles.bookingDetailsSection}>
-          <VoucherAccordion sections={bookingDetailSections} />
+          <VoucherAccordion
+            sections={bookingDetailSections}
+            openFirstSection={!!voucherNotes}
+          />
           <VoucherSplitSection sections={bookingDetails} />
         </View>
       </ParallaxScrollView>,

@@ -21,6 +21,12 @@ const appText = {
       actionText: "Go Back"
     }
   },
+  voucherText: {
+    freeTransferInfo:
+      "This is a self exploration activity. You will need to manage your transport to and from this location. Reach the meeting point 30 minutes prior to avoid last minute hassle.",
+    sharedTransferInfo:
+      "As the transfer is on shared basis, the arrival time of transfer could vary plus or minus 15 - 30 minutes depending on traffic."
+  },
   downloadVoucherText: {
     error: {
       title: "Unable to Download!",

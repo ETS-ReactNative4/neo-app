@@ -56,7 +56,6 @@ const MobileNumberInput = ({
           placeholderTextColor={constants.shade5}
           style={styles.numberInput}
           keyboardType={"phone-pad"}
-          maxLength={10}
           underlineColorAndroid={"transparent"}
           returnKeyType={"next"}
           editable={!isMobileVerified}
