@@ -1,7 +1,7 @@
 {
   "name": "pickyourtrail",
   "version": "1.0.6",
-  "build": 78,
+  "build": 79,
   "environment": "production",
   "private": true,
   "scripts": {
@@ -91,13 +91,7 @@
     "react-devtools": "^3.4.2",
     "react-test-renderer": "16.5.0"
   },
-  "resolutions": {
-    "core-js": "2.5.7"
-  },
-  "jest": {
-    "preset": "react-native"
-  },
-  "rnpm": {
-    "assets": ["./assets/fonts/"]
-  }
+  "resolutions": { "core-js": "2.5.7" },
+  "jest": { "preset": "react-native" },
+  "rnpm": { "assets": ["./assets/fonts/"] }
 }
