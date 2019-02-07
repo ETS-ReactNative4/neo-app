@@ -233,8 +233,10 @@ class HotelVoucher extends Component {
               leadPassenger = leadPassenger || {};
               otherPassengers = otherPassengers || [];
 
-              const roomImage = roomImages.length
-                ? { uri: roomImages[0] }
+              const roomImage = roomImages
+                ? roomImages.length
+                  ? { uri: roomImages[0] }
+                  : constants.hotelSmallPlaceHolder
                 : constants.hotelSmallPlaceHolder;
 
               const { checkIn, checkOut } = roomVoucherDetails;
