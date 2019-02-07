@@ -94,7 +94,6 @@ class ActivityVoucher extends Component {
       longDesc,
       latitude: costingLatitude,
       longitude: costingLongitude,
-      transferIncluded,
       free,
       selectedTourGrade
     } = activity;
@@ -108,6 +107,7 @@ class ActivityVoucher extends Component {
       dateMillis
     } = activity.costing;
 
+    const transferIncluded = transferType !== "NOTRANSFER";
     const pickupDetail = pickupDetails ? pickupDetails[0] : {};
     const { pickupTime, location = {}, address: pickupAddress } = pickupDetail;
 
@@ -288,7 +288,7 @@ class ActivityVoucher extends Component {
     if (latitude && longitude) {
       lat = latitude;
       lon = longitude;
-    } else if (costingLatitude && costingLongitude) {
+    } else if (costingLatitude && costingLongitude && !transferIncluded) {
       lat = costingLatitude;
       lon = costingLongitude;
     }
