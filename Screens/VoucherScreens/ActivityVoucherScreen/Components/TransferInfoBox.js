@@ -4,6 +4,7 @@ import constants from "../../../../constants/constants";
 import Icon from "../../../../CommonComponents/Icon/Icon";
 import PropTypes from "prop-types";
 import forbidExtraProps from "../../../../Services/PropTypeValidation/forbidExtraProps";
+import { responsiveWidth } from "react-native-responsive-dimensions";
 
 const TransferInfoBox = ({ containerStyle = {}, text }) => {
   return (
@@ -21,17 +22,20 @@ TransferInfoBox.propTypes = forbidExtraProps({
   text: PropTypes.string.isRequired
 });
 
+const containerWidth = responsiveWidth(100) - 48;
+const iconWidth = 20;
 const styles = StyleSheet.create({
   transferInfoBox: {
     flexDirection: "row",
     alignItems: "center",
     backgroundColor: constants.black1,
     minHeight: 32,
-    borderRadius: 3
+    borderRadius: 3,
+    width: containerWidth
   },
   alertContainer: {
     height: 20,
-    width: 20,
+    width: iconWidth,
     alignItems: "center",
     justifyContent: "center",
     marginLeft: 8
@@ -40,6 +44,7 @@ const styles = StyleSheet.create({
     ...constants.fontCustom(constants.primarySemiBold, 13, 16),
     color: "white",
     marginHorizontal: 4,
+    width: containerWidth - iconWidth - 16,
     marginVertical: 4,
     ...Platform.select({
       ios: {

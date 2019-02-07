@@ -21,6 +21,7 @@ import VoucherContactActionBar from "../Components/VoucherContactActionBar";
 import getTitleCase from "../../../Services/getTitleCase/getTitleCase";
 import ErrorBoundary from "../../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import { responsiveWidth } from "react-native-responsive-dimensions";
+import _ from "lodash";
 
 const xHeight = isIphoneX()
   ? constants.xNotchHeight
@@ -75,17 +76,15 @@ class ActivityVoucher extends Component {
       duration,
       adults,
       children,
-      pickupTime,
       inclusions,
       exclusions,
       contactNumber,
       bookedTime,
       activityTime,
-      pickupAddress,
       transferType,
       departureTimeStr,
       notes: voucherNotes,
-      pickupDetail,
+      pickupDetail: pickupDetails, // contains array of pickup details
       self
     } = activity.voucher;
     const {
@@ -108,6 +107,11 @@ class ActivityVoucher extends Component {
       publishedCost,
       dateMillis
     } = activity.costing;
+
+    const pickupDetail = pickupDetails ? pickupDetails[0] : {};
+    const { pickupTime, location = {}, address: pickupAddress } = pickupDetail;
+
+    const { latitude, longitude } = location;
 
     const {
       leadPassengerName,
@@ -322,6 +326,13 @@ class ActivityVoucher extends Component {
 
           <VoucherSplitSection sections={transferDetails} />
 
+          {_.toUpper(transferType) === "SHARED" ? (
+            <TransferInfoBox
+              text={constants.voucherText.sharedTransferInfo}
+              containerStyle={{ marginVertical: 8 }}
+            />
+          ) : null}
+
           {free ? (
             <TransferInfoBox text={constants.voucherText.freeTransferInfo} />
           ) : transferIncluded && pickupAddress ? (
@@ -334,7 +345,10 @@ class ActivityVoucher extends Component {
 
           <VoucherContactActionBar
             contact={contactNumber}
-            location={{ lat: costingLatitude, lon: costingLongitude }}
+            location={{
+              lat: latitude || costingLatitude,
+              lon: longitude || costingLongitude
+            }}
           />
         </View>
         <View style={styles.bookingDetailsSection}>
