@@ -23,9 +23,9 @@ const appText = {
   },
   voucherText: {
     freeTransferInfo:
-      "This is a free activity. You will need to manage your transport to and from this location. Reach the meeting point 30 minutes prior to avoid last minute hassle.",
+      "This is a self exploration activity. You will need to manage your transport to and from this location. Reach the meeting point 30 minutes prior to avoid last minute hassle.",
     sharedTransferInfo:
-      "Reach the meeting point 20 minutes prior to avoid last minute hassle. Since the transfer is on shared basis, you can expect a delay of 15 - 30 minutes depending on traffic."
+      "As the transfer is on shared basis, the arrival time of transfer could vary plus or minus 15 - 30 minutes depending on traffic."
   },
   downloadVoucherText: {
     error: {

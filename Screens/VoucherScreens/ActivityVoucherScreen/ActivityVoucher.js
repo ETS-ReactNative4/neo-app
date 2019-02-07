@@ -259,18 +259,19 @@ class ActivityVoucher extends Component {
         }
       ];
       bookingDetails = [
-        {
-          name: "Booked on",
-          value: bookedTime ? moment(bookedTime).format("DD MMM, YY") : "NA"
-        },
+        // removed temporarily since not enough data in plato
+        // {
+        //   name: "Booked on",
+        //   value: bookedTime ? moment(bookedTime).format("DD MMM, YY") : "NA"
+        // },
         // {
         //   name: "Total paid",
         //   value: publishedCost ? getLocaleString(publishedCost) : "NA"
         // },
-        {
-          name: "Booking source",
-          value: "Pickyourtrail"
-        }
+        // {
+        //   name: "Booking source",
+        //   value: "Pickyourtrail"
+        // }
       ];
     }
     if (voucherNotes) {

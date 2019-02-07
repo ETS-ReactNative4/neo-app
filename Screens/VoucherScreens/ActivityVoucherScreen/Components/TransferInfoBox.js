@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
     marginLeft: 8
   },
   transferInfoText: {
-    ...constants.fontCustom(constants.primarySemiBold, 13, 16),
+    ...constants.fontCustom(constants.primaryLight, 13, 16),
     color: "white",
     marginHorizontal: 4,
     width: containerWidth - iconWidth - 16,
