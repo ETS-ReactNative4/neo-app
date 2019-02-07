@@ -6,13 +6,20 @@ import constants from "../../../constants/constants";
 import PropTypes from "prop-types";
 import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraProps";
 
-const PackageCarousel = ({ title, packages }) => {
+const PackageCarousel = ({ title, packages, index: rowIndex }) => {
   return (
     <View style={styles.packageCarouselContainer}>
       <Text style={styles.packageCarouselTitle}>{title}</Text>
       <Carousel firstMargin={24} containerStyle={{ marginTop: 16 }}>
         {packages.map((packageData, packageIndex) => {
-          return <PackageCard key={packageIndex} {...packageData} />;
+          return (
+            <PackageCard
+              key={packageIndex}
+              {...packageData}
+              rowIndex={rowIndex}
+              index={packageIndex}
+            />
+          );
         })}
       </Carousel>
     </View>
@@ -33,7 +40,8 @@ PackageCarousel.propTypes = forbidExtraProps({
       slug: PropTypes.string.isRequired,
       color: PropTypes.string.isRequired
     })
-  ).isRequired
+  ).isRequired,
+  index: PropTypes.number
 });
 
 const styles = StyleSheet.create({

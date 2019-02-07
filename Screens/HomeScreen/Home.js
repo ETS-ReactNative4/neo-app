@@ -136,10 +136,20 @@ class Home extends Component {
                   navigation={this.props.navigation}
                   key={packagesIndex + "section"}
                 />,
-                <PackageCarousel key={packagesIndex} {...packages} />
+                <PackageCarousel
+                  key={packagesIndex}
+                  {...packages}
+                  index={packagesIndex}
+                />
               ];
             }
-            return <PackageCarousel key={packagesIndex} {...packages} />;
+            return (
+              <PackageCarousel
+                key={packagesIndex}
+                {...packages}
+                index={packagesIndex}
+              />
+            );
           })}
         </CustomScrollView>
         <View style={styles.actionBarWrapper}>
