@@ -284,6 +284,14 @@ class ActivityVoucher extends Component {
         )
       });
     }
+    let lat, lon;
+    if (latitude && longitude) {
+      lat = latitude;
+      lon = longitude;
+    } else if (costingLatitude && costingLongitude) {
+      lat = costingLatitude;
+      lon = costingLongitude;
+    }
     return [
       <ParallaxScrollView
         key={0}
@@ -345,10 +353,7 @@ class ActivityVoucher extends Component {
 
           <VoucherContactActionBar
             contact={contactNumber}
-            location={{
-              lat: latitude || costingLatitude,
-              lon: longitude || costingLongitude
-            }}
+            location={{ lat, lon }}
           />
         </View>
         <View style={styles.bookingDetailsSection}>
