@@ -114,7 +114,8 @@ class ActivityVoucher extends Component {
     } = activity.costing;
 
     const transferIncluded = transferType !== "NOTRANSFER";
-    const pickupDetail = pickupDetails ? pickupDetails[0] : {};
+    const pickupDetail =
+      pickupDetails && pickupDetails.length ? pickupDetails[0] : {};
     const { pickupTime, location = {}, address: pickupAddress } = pickupDetail;
 
     const { latitude, longitude } = location;
@@ -292,15 +293,29 @@ class ActivityVoucher extends Component {
       });
     }
     let lat, lon;
+    /**
+     * Check if pickup lat and long are present for the activity
+     */
     if (latitude && longitude) {
       lat = latitude;
       lon = longitude;
-    } else if (activityLatitude && activityLongitude && !transferIncluded) {
-      lat = activityLatitude;
-      lon = activityLongitude;
-    } else if (costingLatitude && costingLongitude && !transferIncluded) {
-      lat = costingLatitude;
-      lon = costingLongitude;
+    } else if (!transferIncluded) {
+      /**
+       * If Pickup lat and long are missing, get the activity lat and long
+       * However, only if transfer is not included.
+       * If transfer is included & pickup lat-long is missing simply hide the button
+       */
+      if (activityLatitude && activityLongitude) {
+        lat = activityLatitude;
+        lon = activityLongitude;
+      } else if (costingLatitude && costingLongitude) {
+      /**
+       * If no activity lat-long is provided in PLATO voucher, get default activity lat-long from costing object
+       * Again, only if transfer is not included.
+       */
+        lat = costingLatitude;
+        lon = costingLongitude;
+      }
     }
     return [
       <ParallaxScrollView
