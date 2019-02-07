@@ -84,9 +84,15 @@ class ActivityVoucher extends Component {
       transferType,
       departureTimeStr,
       notes: voucherNotes,
-      pickupDetail: pickupDetails, // contains array of pickup details
+      pickupDetail = {}, // contains array of pickup details
+      activityLocation = {},
+      activityAddress,
       self
     } = activity.voucher;
+    const {
+      latitude: activityLatitude,
+      longitude: activityLongitude
+    } = activityLocation;
     const {
       mainPhoto,
       title,
@@ -108,7 +114,6 @@ class ActivityVoucher extends Component {
     } = activity.costing;
 
     const transferIncluded = transferType !== "NOTRANSFER";
-    const pickupDetail = pickupDetails ? pickupDetails[0] : {};
     const { pickupTime, location = {}, address: pickupAddress } = pickupDetail;
 
     const { latitude, longitude } = location;
@@ -289,6 +294,9 @@ class ActivityVoucher extends Component {
     if (latitude && longitude) {
       lat = latitude;
       lon = longitude;
+    } else if (activityLatitude && activityLongitude && !transferIncluded) {
+      lat = activityLatitude;
+      lon = activityLongitude;
     } else if (costingLatitude && costingLongitude && !transferIncluded) {
       lat = costingLatitude;
       lon = costingLongitude;
@@ -349,7 +357,13 @@ class ActivityVoucher extends Component {
           ) : null}
           <VoucherAddressSection
             containerStyle={{ marginTop: 8 }}
-            address={pickupAddress}
+            address={
+              pickupAddress
+                ? pickupAddress
+                : !transferIncluded
+                  ? activityAddress
+                  : null
+            }
           />
 
           <VoucherContactActionBar
