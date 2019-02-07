@@ -113,7 +113,7 @@ class ActivityVoucher extends Component {
       dateMillis
     } = activity.costing;
 
-    const transferIncluded = transferType !== "NOTRANSFER";
+    const transferIncluded = _.toUpper(transferType) !== "NOTRANSFER";
     const pickupDetail =
       pickupDetails && pickupDetails.length ? pickupDetails[0] : {};
     const { pickupTime, location = {}, address: pickupAddress } = pickupDetail;
@@ -309,10 +309,10 @@ class ActivityVoucher extends Component {
         lat = activityLatitude;
         lon = activityLongitude;
       } else if (costingLatitude && costingLongitude) {
-      /**
-       * If no activity lat-long is provided in PLATO voucher, get default activity lat-long from costing object
-       * Again, only if transfer is not included.
-       */
+        /**
+         * If no activity lat-long is provided in PLATO voucher, get default activity lat-long from costing object
+         * Again, only if transfer is not included.
+         */
         lat = costingLatitude;
         lon = costingLongitude;
       }

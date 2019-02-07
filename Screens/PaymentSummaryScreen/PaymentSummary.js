@@ -24,6 +24,7 @@ import VoucherAccordion from "../VoucherScreens/Components/VoucherAccordion";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import CustomScrollView from "../../CommonComponents/CustomScrollView/CustomScrollView";
 import { recordEvent } from "../../Services/analytics/analyticsService";
+import _ from "lodash";
 
 /**
  * TODO: Need data from previous api
@@ -373,9 +374,9 @@ class PaymentSummary extends Component {
         <View style={styles.dueDateWrapper}>
           <Text style={styles.dueDate}>
             {!isLoading
-              ? this.state.paymentStatus === "SUCCESS"
+              ? _.toUpper(this.state.paymentStatus) === "SUCCESS"
                 ? "Payment Completed!"
-                : this.state.paymentStatus === "EXPIRED"
+                : _.toUpper(this.state.paymentStatus) === "EXPIRED"
                   ? "Payment Expired!"
                   : `Due date for next payment ${this.state.nextPendingDate}`
               : null}
