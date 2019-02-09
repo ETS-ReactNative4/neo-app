@@ -59,7 +59,13 @@ const FlightCard = ({
   const excessBaggageWeight = baggageList.length
     ? baggageList[0].baggageOptions
       ? baggageList[0].baggageOptions.reduce((weight, baggage) => {
-          return weight + baggage.weight;
+          /**
+           * Add baggage weight info only when the baggage is selected by the user
+           */
+          if (baggage.selected) {
+            return weight + baggage.weight;
+          }
+          return weight;
         }, 0)
       : 0
     : 0;
