@@ -17,6 +17,7 @@ import moment from "moment";
 import VoucherContactActionBar from "../Components/VoucherContactActionBar";
 import ErrorBoundary from "../../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import Icon from "../../../CommonComponents/Icon/Icon";
+import ViewVoucherButton from "../Components/ViewVoucherButton";
 
 const xHeight = isIphoneX()
   ? constants.xNotchHeight
@@ -82,7 +83,8 @@ class HotelVoucher extends Component {
       checkInDate: checkInDateVoucher,
       checkInTime: checkInTimeVoucher,
       checkOutDate: checkOutDateVoucher,
-      checkOutTime: checkOutTimeVoucher
+      checkOutTime: checkOutTimeVoucher,
+      voucherUrl
     } = hotel.voucher;
 
     const amenitiesSection = [
@@ -331,6 +333,8 @@ class HotelVoucher extends Component {
           <VoucherContactActionBar contact={mobile} location={{ lat, lon }} />
 
           <VoucherAccordion sections={amenitiesSection} />
+
+          <ViewVoucherButton voucherUrl={voucherUrl} />
 
           <View style={styles.bookingSection}>
             <VoucherSplitSection sections={bookingDetailSection} />

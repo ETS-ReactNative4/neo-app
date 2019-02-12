@@ -17,6 +17,7 @@ import TitleDate from "../Components/TitleDate";
 import ErrorBoundary from "../../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import getTitleCase from "../../../Services/getTitleCase/getTitleCase";
 import VoucherContactActionBar from "../Components/VoucherContactActionBar";
+import ViewVoucherButton from "../Components/ViewVoucherButton";
 
 const xHeight = isIphoneX()
   ? constants.xNotchHeight
@@ -82,7 +83,8 @@ class TransferVoucher extends Component {
       bookingId,
       contactNumber,
       from,
-      to
+      to,
+      voucherUrl
     } = transfer.voucher;
 
     const passengerDetails = [
@@ -230,6 +232,8 @@ class TransferVoucher extends Component {
           <VoucherSplitSection sections={arrivalDetails} />
 
           <VoucherContactActionBar contact={contactNumber} />
+
+          <ViewVoucherButton voucherUrl={voucherUrl} />
 
           <VoucherSplitSection sections={bookingDetails} />
         </View>

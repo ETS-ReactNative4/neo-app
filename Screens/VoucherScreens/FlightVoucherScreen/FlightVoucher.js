@@ -15,6 +15,7 @@ import moment from "moment";
 import FlightActionSection from "./Components/FlightActionSection";
 import getTitleCase from "../../../Services/getTitleCase/getTitleCase";
 import ErrorBoundary from "../../../CommonComponents/ErrorBoundary/ErrorBoundary";
+import ViewVoucherButton from "../Components/ViewVoucherButton";
 
 const xHeight = isIphoneX()
   ? constants.xNotchHeight
@@ -66,6 +67,7 @@ class FlightVoucher extends Component {
       invoiceNumber,
       bookingReferenceId,
       webCheckInUrl,
+      voucherUrl,
       refundable
     } = flight.voucher;
     const {
@@ -174,6 +176,7 @@ class FlightVoucher extends Component {
                 />
               );
             })}
+          <ViewVoucherButton voucherUrl={voucherUrl} />
           <VoucherSplitSection
             sections={flightInvoiceInfo}
             containerStyle={{

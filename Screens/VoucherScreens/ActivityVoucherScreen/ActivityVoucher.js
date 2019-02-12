@@ -22,6 +22,7 @@ import getTitleCase from "../../../Services/getTitleCase/getTitleCase";
 import ErrorBoundary from "../../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import { responsiveWidth } from "react-native-responsive-dimensions";
 import _ from "lodash";
+import ViewVoucherButton from "../Components/ViewVoucherButton";
 
 const xHeight = isIphoneX()
   ? constants.xNotchHeight
@@ -87,7 +88,8 @@ class ActivityVoucher extends Component {
       pickupDetail: pickupDetails, // contains array of pickup details
       activityLocation = {},
       activityAddress,
-      self
+      self,
+      voucherUrl
     } = activity.voucher;
     const {
       latitude: activityLatitude,
@@ -392,6 +394,9 @@ class ActivityVoucher extends Component {
             sections={bookingDetailSections}
             openFirstSection={!!voucherNotes}
           />
+
+          <ViewVoucherButton voucherUrl={voucherUrl} />
+
           <VoucherSplitSection sections={bookingDetails} />
         </View>
       </ParallaxScrollView>,
