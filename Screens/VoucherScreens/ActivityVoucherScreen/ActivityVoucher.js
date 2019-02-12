@@ -434,6 +434,7 @@ const styles = StyleSheet.create({
     borderBottomColor: constants.shade4
   },
   accordionText: {
+    width: responsiveWidth(100) - 48,
     ...constants.fontCustom(constants.primaryLight, 17),
     color: constants.black2
   }
