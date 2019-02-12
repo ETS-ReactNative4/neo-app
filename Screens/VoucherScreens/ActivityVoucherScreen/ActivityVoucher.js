@@ -23,6 +23,7 @@ import ErrorBoundary from "../../../CommonComponents/ErrorBoundary/ErrorBoundary
 import { responsiveWidth } from "react-native-responsive-dimensions";
 import _ from "lodash";
 import ViewVoucherButton from "../Components/ViewVoucherButton";
+import FooterStickyActionBar from "../../../CommonComponents/FooterStickyActionBar/FooterStickyActionBar";
 
 const xHeight = isIphoneX()
   ? constants.xNotchHeight
@@ -393,14 +394,16 @@ class ActivityVoucher extends Component {
             sections={bookingDetailSections}
             openFirstSection={!!voucherNotes}
           />
-
-          <ViewVoucherButton voucherUrl={voucherUrl} />
-
           <VoucherSplitSection sections={bookingDetails} />
         </View>
       </ParallaxScrollView>,
+      voucherUrl ? (
+        <FooterStickyActionBar key={1}>
+          <ViewVoucherButton voucherUrl={voucherUrl} />
+        </FooterStickyActionBar>
+      ) : null,
       Platform.OS === "ios" && this.state.isCloseVisible ? (
-        <IosCloseButton key={1} clickAction={this.close} />
+        <IosCloseButton key={2} clickAction={this.close} />
       ) : null
     ];
   }

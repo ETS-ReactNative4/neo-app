@@ -18,6 +18,7 @@ import VoucherContactActionBar from "../Components/VoucherContactActionBar";
 import ErrorBoundary from "../../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import Icon from "../../../CommonComponents/Icon/Icon";
 import ViewVoucherButton from "../Components/ViewVoucherButton";
+import FooterStickyActionBar from "../../../CommonComponents/FooterStickyActionBar/FooterStickyActionBar";
 
 const xHeight = isIphoneX()
   ? constants.xNotchHeight
@@ -334,15 +335,18 @@ class HotelVoucher extends Component {
 
           <VoucherAccordion sections={amenitiesSection} />
 
-          <ViewVoucherButton voucherUrl={voucherUrl} />
-
           <View style={styles.bookingSection}>
             <VoucherSplitSection sections={bookingDetailSection} />
           </View>
         </View>
       </ParallaxScrollView>,
+      voucherUrl ? (
+        <FooterStickyActionBar key={1}>
+          <ViewVoucherButton voucherUrl={voucherUrl} />
+        </FooterStickyActionBar>
+      ) : null,
       Platform.OS === "ios" && this.state.isCloseVisible ? (
-        <IosCloseButton key={1} clickAction={this.close} />
+        <IosCloseButton key={2} clickAction={this.close} />
       ) : null
     ];
   }

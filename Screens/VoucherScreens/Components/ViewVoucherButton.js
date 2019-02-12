@@ -28,8 +28,7 @@ const ViewVoucherButton = ({
       containerStyle={[
         {
           height: 40,
-          width: responsiveWidth(100) - 48,
-          marginTop: 16
+          width: responsiveWidth(100) - 48
         },
         containerStyle
       ]}
