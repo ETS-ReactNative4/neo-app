@@ -77,7 +77,8 @@ class Upcoming extends Component {
             buttonContainerStyle={{ backgroundColor: constants.firstColor }}
             buttonProps={{
               color: constants.firstColor,
-              textColor: "white"
+              textColor: "white",
+              underlayColor: constants.firstColorAlpha(0.8)
             }}
           />
         ) : null}
