@@ -185,14 +185,13 @@ class ActivityVoucher extends Component {
         });
         transferDetails.push({
           name: "Pick up time",
-          value:
-            pickupTime > 1
-              ? moment(pickupTime).format("hh:mm a")
-              : selectedTourGrade && selectedTourGrade.departureTime
-                ? moment(selectedTourGrade.departureTime, "HHmm").format(
-                    "hh:mm a"
-                  )
-                : "NA"
+          value: pickupTime
+            ? pickupTime
+            : selectedTourGrade && selectedTourGrade.departureTime
+              ? moment(selectedTourGrade.departureTime, "HHmm").format(
+                  "hh:mm a"
+                )
+              : "NA"
         });
       }
       passengerDetails = [
