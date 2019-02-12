@@ -209,9 +209,16 @@ const SlotActivity = inject("itineraries")(
             onClick = () => {
               recordEvent(constants.bookedItineraryTransferVoucherClick);
               if (transfer.voucher && transfer.voucher.booked) {
-                if (transferMode === "FLIGHT")
+                if (transferMode === "FLIGHT") {
                   navigation.navigate("FlightVoucher", { flight: transfer });
-                else navigation.navigate("TransferVoucher", { transfer });
+                } else {
+                  /**
+                   * transferMode needed to display appropriate vehicle info in voucher
+                   */
+                  navigation.navigate("TransferVoucher", {
+                    transfer: { ...transfer, vehicle: transferMode }
+                  });
+                }
               } else {
                 toastBottom(constants.bookingProcessText.message);
               }
