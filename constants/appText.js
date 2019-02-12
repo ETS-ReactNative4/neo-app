@@ -66,7 +66,7 @@ const appText = {
   },
   bookingProcessText: {
     title: "Almost there!",
-    message: "Booking is still under processing",
+    message: "Your booking is in progress. Please check again later",
     // "We are working with our travel partners to complete this booking. Sit back and relax, we'll notify you, once the vouchers are ready!",
     actionText: "Okay!"
   },
