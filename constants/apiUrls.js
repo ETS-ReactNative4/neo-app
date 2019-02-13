@@ -59,7 +59,8 @@ const apiUrls = {
   careers: "careers",
 
   tripToggleStatusStorageKey: "@Pickyourtrail/tripToggleStatus",
-  preTripChatActivationTime: 72
+  preTripChatActivationTime: 72,
+  googleDrivePdfViewer: "https://drive.google.com/viewerng/viewer?url="
 };
 
 export default apiUrls;

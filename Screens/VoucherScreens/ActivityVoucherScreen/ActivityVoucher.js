@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { View, StyleSheet, Platform, Text } from "react-native";
 import { isIphoneX } from "react-native-iphone-x-helper";
 import ParallaxScrollView from "react-native-parallax-scroll-view";
@@ -22,6 +22,8 @@ import getTitleCase from "../../../Services/getTitleCase/getTitleCase";
 import ErrorBoundary from "../../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import { responsiveWidth } from "react-native-responsive-dimensions";
 import _ from "lodash";
+import ViewVoucherButton from "../Components/ViewVoucherButton";
+import FooterStickyActionBar from "../../../CommonComponents/FooterStickyActionBar/FooterStickyActionBar";
 
 const xHeight = isIphoneX()
   ? constants.xNotchHeight
@@ -87,7 +89,8 @@ class ActivityVoucher extends Component {
       pickupDetail: pickupDetails, // contains array of pickup details
       activityLocation = {},
       activityAddress,
-      self
+      self,
+      voucherUrl
     } = activity.voucher;
     const {
       latitude: activityLatitude,
@@ -183,14 +186,13 @@ class ActivityVoucher extends Component {
         });
         transferDetails.push({
           name: "Pick up time",
-          value:
-            pickupTime > 1
-              ? moment(pickupTime).format("hh:mm a")
-              : selectedTourGrade && selectedTourGrade.departureTime
-                ? moment(selectedTourGrade.departureTime, "HHmm").format(
-                    "hh:mm a"
-                  )
-                : "NA"
+          value: pickupTime
+            ? pickupTime
+            : selectedTourGrade && selectedTourGrade.departureTime
+              ? moment(selectedTourGrade.departureTime, "HHmm").format(
+                  "hh:mm a"
+                )
+              : "NA"
         });
       }
       passengerDetails = [
@@ -317,88 +319,93 @@ class ActivityVoucher extends Component {
         lon = costingLongitude;
       }
     }
-    return [
-      <ParallaxScrollView
-        key={0}
-        bounces={false}
-        backgroundColor="white"
-        contentBackgroundColor="white"
-        parallaxHeaderHeight={214 + xHeight}
-        stickyHeaderHeight={48 + xHeight}
-        fadeOutForeground={Platform.OS !== "android"}
-        onChangeHeaderVisibility={this.headerToggle}
-        renderStickyHeader={() => (
-          <VoucherStickyHeader action={this.close} text={voucherTitle.text} />
-        )}
-        renderForeground={() => (
-          <VoucherHeader
-            infoText={voucherTitle.header}
-            title={voucherTitle.text}
-            menu={() => {}}
-            onClickClose={this.close}
-            image={{ uri: mainPhoto }}
-          />
-        )}
-      >
-        <View style={styles.titleSection}>
-          <TitleDate date={activityTime > 0 ? activityTime : dateMillis} />
-
-          <VoucherName name={title} />
-
-          <VoucherSplitSection
-            sections={passengerDetails}
-            rightFontStyle={{ width: responsiveWidth(50) - 24 }}
-          />
-        </View>
-
-        <View style={styles.arrivalSection}>
-          <SectionHeader
-            sectionName={transferIncluded ? "TRANSFER INFO" : "LOCATION INFO"}
-            containerStyle={{ marginBottom: 0 }}
-          />
-
-          <VoucherSplitSection sections={transferDetails} />
-
-          {_.toUpper(transferType) === "SHARED" ? (
-            <TransferInfoBox
-              text={constants.voucherText.sharedTransferInfo}
-              containerStyle={{ marginVertical: 8 }}
+    return (
+      <Fragment>
+        <ParallaxScrollView
+          bounces={false}
+          backgroundColor="white"
+          contentBackgroundColor="white"
+          parallaxHeaderHeight={214 + xHeight}
+          stickyHeaderHeight={48 + xHeight}
+          fadeOutForeground={Platform.OS !== "android"}
+          onChangeHeaderVisibility={this.headerToggle}
+          renderStickyHeader={() => (
+            <VoucherStickyHeader action={this.close} text={voucherTitle.text} />
+          )}
+          renderForeground={() => (
+            <VoucherHeader
+              infoText={voucherTitle.header}
+              title={voucherTitle.text}
+              menu={() => {}}
+              onClickClose={this.close}
+              image={{ uri: mainPhoto }}
             />
-          ) : null}
+          )}
+        >
+          <View style={styles.titleSection}>
+            <TitleDate date={activityTime > 0 ? activityTime : dateMillis} />
 
-          {free ? (
-            <TransferInfoBox text={constants.voucherText.freeTransferInfo} />
-          ) : transferIncluded && pickupAddress ? (
-            <PickupInfoBox />
-          ) : null}
-          <VoucherAddressSection
-            containerStyle={{ marginTop: 8 }}
-            address={
-              pickupAddress
-                ? pickupAddress
-                : !transferIncluded
-                  ? activityAddress
-                  : null
-            }
-          />
+            <VoucherName name={title} />
 
-          <VoucherContactActionBar
-            contact={contactNumber}
-            location={{ lat, lon }}
+            <VoucherSplitSection
+              sections={passengerDetails}
+              rightFontStyle={{ width: responsiveWidth(50) - 24 }}
+            />
+          </View>
+
+          <View style={styles.arrivalSection}>
+            <SectionHeader
+              sectionName={transferIncluded ? "TRANSFER INFO" : "LOCATION INFO"}
+              containerStyle={{ marginBottom: 0 }}
+            />
+
+            <VoucherSplitSection sections={transferDetails} />
+
+            {_.toUpper(transferType) === "SHARED" ? (
+              <TransferInfoBox
+                text={constants.voucherText.sharedTransferInfo}
+                containerStyle={{ marginVertical: 8 }}
+              />
+            ) : null}
+
+            {free ? (
+              <TransferInfoBox text={constants.voucherText.freeTransferInfo} />
+            ) : transferIncluded && pickupAddress ? (
+              <PickupInfoBox />
+            ) : null}
+            <VoucherAddressSection
+              containerStyle={{ marginTop: 8 }}
+              address={
+                pickupAddress
+                  ? pickupAddress
+                  : !transferIncluded
+                    ? activityAddress
+                    : null
+              }
+            />
+
+            <VoucherContactActionBar
+              contact={contactNumber}
+              location={{ lat, lon }}
+            />
+          </View>
+          <View style={styles.bookingDetailsSection}>
+            <VoucherAccordion
+              sections={bookingDetailSections}
+              openFirstSection={!!voucherNotes}
+            />
+            <VoucherSplitSection sections={bookingDetails} />
+          </View>
+          <ViewVoucherButton
+            containerStyle={{ alignSelf: "center" }}
+            voucherUrl={voucherUrl}
           />
-        </View>
-        <View style={styles.bookingDetailsSection}>
-          <VoucherAccordion
-            sections={bookingDetailSections}
-            openFirstSection={!!voucherNotes}
-          />
-          <VoucherSplitSection sections={bookingDetails} />
-        </View>
-      </ParallaxScrollView>,
-      Platform.OS === "ios" && this.state.isCloseVisible ? (
-        <IosCloseButton key={1} clickAction={this.close} />
-      ) : null
-    ];
+        </ParallaxScrollView>
+        {Platform.OS === "ios" && this.state.isCloseVisible ? (
+          <IosCloseButton clickAction={this.close} />
+        ) : null}
+      </Fragment>
+    );
   }
 }
 
@@ -430,6 +437,7 @@ const styles = StyleSheet.create({
     borderBottomColor: constants.shade4
   },
   accordionText: {
+    width: responsiveWidth(100) - 48,
     ...constants.fontCustom(constants.primaryLight, 17),
     color: constants.black2
   }

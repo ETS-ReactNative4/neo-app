@@ -163,9 +163,12 @@ class Phrases {
             const languages = _.uniqBy(
               _.flatten(
                 response.data.map(country => {
-                  return country.languageCodes.map(language => {
-                    return language;
-                  });
+                  return [
+                    country.defaultCode,
+                    ...country.languageCodes.map(language => {
+                      return language;
+                    })
+                  ];
                 })
               ),
               "language"

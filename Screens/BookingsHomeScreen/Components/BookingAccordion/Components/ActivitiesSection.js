@@ -48,7 +48,14 @@ const Activities = ({ activity, isLast, navigation, spinValue }) => {
   }
 
   const openVoucher = () => {
-    if (activity.voucher && activity.voucher.voucherUrl) {
+    /**
+     * Open customtab directly only when voucherUrl is available and it is a viator voucher
+     */
+    if (
+      activity.voucher &&
+      activity.voucher.voucherUrl &&
+      activity.costing.viator
+    ) {
       /**
        * TODO: Track this click event
        */
