@@ -6,6 +6,7 @@ import openCustomTab from "../../../Services/openCustomTab/openCustomTab";
 import { responsiveWidth } from "react-native-responsive-dimensions";
 import constants from "../../../constants/constants";
 import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraProps";
+import { isIphoneX } from "react-native-iphone-x-helper";
 
 const ViewVoucherButton = ({
   containerStyle = {},
@@ -28,7 +29,8 @@ const ViewVoucherButton = ({
       containerStyle={[
         {
           height: 40,
-          width: responsiveWidth(100) - 48
+          width: responsiveWidth(100) - 48,
+          marginBottom: isIphoneX() ? constants.xSensorAreaHeight + 16 : 16
         },
         containerStyle
       ]}

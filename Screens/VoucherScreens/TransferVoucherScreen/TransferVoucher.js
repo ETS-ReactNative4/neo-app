@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { View, StyleSheet, Platform } from "react-native";
 import { isIphoneX } from "react-native-iphone-x-helper";
 import ParallaxScrollView from "react-native-parallax-scroll-view";
@@ -189,72 +189,75 @@ class TransferVoucher extends Component {
       voucherDate = moment(pickupTime).valueOf();
     }
 
-    return [
-      <ParallaxScrollView
-        key={0}
-        bounces={false}
-        backgroundColor="white"
-        contentBackgroundColor="white"
-        parallaxHeaderHeight={214 + xHeight}
-        stickyHeaderHeight={48 + xHeight}
-        fadeOutForeground={Platform.OS !== "android"}
-        onChangeHeaderVisibility={this.headerToggle}
-        renderStickyHeader={() => (
-          <VoucherStickyHeader
-            action={this.close}
-            text={`Booking Reference - ${bookingId}`}
+    return (
+      <Fragment>
+        <ParallaxScrollView
+          bounces={false}
+          backgroundColor="white"
+          contentBackgroundColor="white"
+          parallaxHeaderHeight={214 + xHeight}
+          stickyHeaderHeight={48 + xHeight}
+          fadeOutForeground={Platform.OS !== "android"}
+          onChangeHeaderVisibility={this.headerToggle}
+          renderStickyHeader={() => (
+            <VoucherStickyHeader
+              action={this.close}
+              text={`Booking Reference - ${bookingId}`}
+            />
+          )}
+          renderForeground={() => (
+            <VoucherHeader
+              infoText={`BOOKING REFERENCE`}
+              title={bookingId}
+              menu={() => {}}
+              image={{ uri: getTransferImage(vehicle, type) }}
+              onClickClose={this.close}
+            />
+          )}
+        >
+          <View style={styles.titleSection}>
+            <TitleDate date={voucherDate} />
+
+            <VoucherName name={voucherName} />
+
+            <VoucherSplitSection
+              sections={passengerDetails}
+              rightFontStyle={{ width: responsiveWidth(50) - 24 }}
+            />
+          </View>
+
+          <View style={styles.arrivalSection}>
+            <SectionHeader
+              sectionName={"ARRIVAL DETAILS"}
+              containerStyle={{ marginBottom: 0 }}
+            />
+
+            <VoucherSplitSection sections={arrivalDetails} />
+
+            <VoucherAddressSection
+              containerStyle={{ marginTop: 16 }}
+              address={meetingPoint}
+            />
+
+            <VoucherContactActionBar contact={contactNumber} />
+
+            <VoucherSplitSection sections={bookingDetails} />
+          </View>
+
+          <View style={styles.accordionSection}>
+            {/*<VoucherAccordion />*/}
+          </View>
+
+          <ViewVoucherButton
+            containerStyle={{ alignSelf: "center", marginTop: 16 }}
+            voucherUrl={voucherUrl}
           />
-        )}
-        renderForeground={() => (
-          <VoucherHeader
-            infoText={`BOOKING REFERENCE`}
-            title={bookingId}
-            menu={() => {}}
-            image={{ uri: getTransferImage(vehicle, type) }}
-            onClickClose={this.close}
-          />
-        )}
-      >
-        <View style={styles.titleSection}>
-          <TitleDate date={voucherDate} />
-
-          <VoucherName name={voucherName} />
-
-          <VoucherSplitSection
-            sections={passengerDetails}
-            rightFontStyle={{ width: responsiveWidth(50) - 24 }}
-          />
-        </View>
-
-        <View style={styles.arrivalSection}>
-          <SectionHeader
-            sectionName={"ARRIVAL DETAILS"}
-            containerStyle={{ marginBottom: 0 }}
-          />
-
-          <VoucherSplitSection sections={arrivalDetails} />
-
-          <VoucherAddressSection
-            containerStyle={{ marginTop: 16 }}
-            address={meetingPoint}
-          />
-
-          <VoucherContactActionBar contact={contactNumber} />
-
-          <VoucherSplitSection sections={bookingDetails} />
-        </View>
-
-        <View style={styles.accordionSection}>{/*<VoucherAccordion />*/}</View>
-      </ParallaxScrollView>,
-      voucherUrl ? (
-        <FooterStickyActionBar key={1}>
-          <ViewVoucherButton voucherUrl={voucherUrl} />
-        </FooterStickyActionBar>
-      ) : null,
-      Platform.OS === "ios" && this.state.isCloseVisible ? (
-        <IosCloseButton key={2} clickAction={this.close} />
-      ) : null
-    ];
+        </ParallaxScrollView>
+        {Platform.OS === "ios" && this.state.isCloseVisible ? (
+          <IosCloseButton clickAction={this.close} />
+        ) : null}
+      </Fragment>
+    );
   }
 }
 

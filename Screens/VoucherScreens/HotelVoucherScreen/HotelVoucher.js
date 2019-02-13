@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { View, Text, StyleSheet, Platform } from "react-native";
 import { isIphoneX } from "react-native-iphone-x-helper";
 import ParallaxScrollView from "react-native-parallax-scroll-view";
@@ -145,210 +145,208 @@ class HotelVoucher extends Component {
         }, "")
       : "";
 
-    return [
-      <ParallaxScrollView
-        key={0}
-        bounces={false}
-        backgroundColor="white"
-        contentBackgroundColor="white"
-        parallaxHeaderHeight={214 + xHeight}
-        stickyHeaderHeight={48 + xHeight}
-        renderStickyHeader={() => (
-          <VoucherStickyHeader
-            action={this.close}
-            text={`Booking ID - ${bookingPNR}`}
-          />
-        )}
-        fadeOutForeground={Platform.OS !== "android"}
-        onChangeHeaderVisibility={this.headerToggle}
-        renderForeground={() => (
-          <VoucherHeader
-            infoText={`BOOKING ID`}
-            title={bookingPNR}
-            menu={() => {}}
-            onClickClose={this.close}
-            image={{ uri: imageURL }}
-          />
-        )}
-      >
-        <View style={styles.checkInRow}>
-          <View style={styles.checkInBox}>
-            <Text style={styles.checkTitle}>CHECK IN</Text>
-            <Text style={styles.checkDate}>
-              {checkInDateVoucher
-                ? moment(checkInDateVoucher, "YYYY-MM-DD").format(
-                    constants.commonDateFormat
-                  )
-                : moment(checkInDate, "DD/MMM/YYYY").format(
-                    constants.commonDateFormat
-                  )}
-            </Text>
-            <Text style={styles.checkTime}>
-              {checkInTimeVoucher || "02:00 pm"}
-            </Text>
+    return (
+      <Fragment>
+        <ParallaxScrollView
+          bounces={false}
+          backgroundColor="white"
+          contentBackgroundColor="white"
+          parallaxHeaderHeight={214 + xHeight}
+          stickyHeaderHeight={48 + xHeight}
+          renderStickyHeader={() => (
+            <VoucherStickyHeader
+              action={this.close}
+              text={`Booking ID - ${bookingPNR}`}
+            />
+          )}
+          fadeOutForeground={Platform.OS !== "android"}
+          onChangeHeaderVisibility={this.headerToggle}
+          renderForeground={() => (
+            <VoucherHeader
+              infoText={`BOOKING ID`}
+              title={bookingPNR}
+              menu={() => {}}
+              onClickClose={this.close}
+              image={{ uri: imageURL }}
+            />
+          )}
+        >
+          <View style={styles.checkInRow}>
+            <View style={styles.checkInBox}>
+              <Text style={styles.checkTitle}>CHECK IN</Text>
+              <Text style={styles.checkDate}>
+                {checkInDateVoucher
+                  ? moment(checkInDateVoucher, "YYYY-MM-DD").format(
+                      constants.commonDateFormat
+                    )
+                  : moment(checkInDate, "DD/MMM/YYYY").format(
+                      constants.commonDateFormat
+                    )}
+              </Text>
+              <Text style={styles.checkTime}>
+                {checkInTimeVoucher || "02:00 pm"}
+              </Text>
+            </View>
+            <View style={styles.checkOutBox}>
+              <Text style={styles.checkTitle}>CHECK OUT</Text>
+              <Text style={styles.checkDate}>
+                {checkOutDateVoucher
+                  ? moment(checkOutDateVoucher, "YYYY-MM-DD").format(
+                      "ddd, DD MMM"
+                    )
+                  : moment(checkOutDate, "DD/MMM/YYYY").format("ddd, DD MMM")}
+              </Text>
+              <Text style={styles.checkTime}>
+                {checkOutTimeVoucher || "11:00 pm"}
+              </Text>
+            </View>
           </View>
-          <View style={styles.checkOutBox}>
-            <Text style={styles.checkTitle}>CHECK OUT</Text>
-            <Text style={styles.checkDate}>
-              {checkOutDateVoucher
-                ? moment(checkOutDateVoucher, "YYYY-MM-DD").format(
-                    "ddd, DD MMM"
-                  )
-                : moment(checkOutDate, "DD/MMM/YYYY").format("ddd, DD MMM")}
-            </Text>
-            <Text style={styles.checkTime}>
-              {checkOutTimeVoucher || "11:00 pm"}
-            </Text>
-          </View>
-        </View>
 
-        <VoucherName name={name} textStyle={{ marginHorizontal: 24 }} />
+          <VoucherName name={name} textStyle={{ marginHorizontal: 24 }} />
 
-        <View style={styles.bookingDetailsRow}>
-          <SectionHeader
-            sectionName={`BOOKING DETAILS`}
-            containerStyle={{ marginBottom: 0 }}
-          />
-          {roomsInHotel &&
-            roomsInHotel.map((room, roomIndex) => {
-              let {
-                // leadPassenger, // Gender Needed?
-                name,
-                roomImages,
-                roomPaxInfo,
-                freeBreakfast,
-                freeWireless,
-                refundable,
-                roomConfiguration,
-                roomTypeId,
-                shortCancellationPolicy
-              } = room;
+          <View style={styles.bookingDetailsRow}>
+            <SectionHeader
+              sectionName={`BOOKING DETAILS`}
+              containerStyle={{ marginBottom: 0 }}
+            />
+            {roomsInHotel &&
+              roomsInHotel.map((room, roomIndex) => {
+                let {
+                  // leadPassenger, // Gender Needed?
+                  name,
+                  roomImages,
+                  roomPaxInfo,
+                  freeBreakfast,
+                  freeWireless,
+                  refundable,
+                  roomConfiguration,
+                  roomTypeId,
+                  shortCancellationPolicy
+                } = room;
 
-              const { adultCount, childAges } = roomConfiguration;
+                const { adultCount, childAges } = roomConfiguration;
 
-              const roomVoucherDetails =
-                rooms.find(room => room.roomTypeId === roomTypeId) || {};
-              let {
-                leadPassenger,
-                otherPassengers,
-                bookingReferenceId
-              } = roomVoucherDetails;
-              leadPassenger = leadPassenger || {};
-              otherPassengers = otherPassengers || [];
+                const roomVoucherDetails =
+                  rooms.find(room => room.roomTypeId === roomTypeId) || {};
+                let {
+                  leadPassenger,
+                  otherPassengers,
+                  bookingReferenceId
+                } = roomVoucherDetails;
+                leadPassenger = leadPassenger || {};
+                otherPassengers = otherPassengers || [];
 
-              const roomImage = roomImages
-                ? roomImages.length
-                  ? { uri: roomImages[0] }
-                  : constants.hotelSmallPlaceHolder
-                : constants.hotelSmallPlaceHolder;
+                const roomImage = roomImages
+                  ? roomImages.length
+                    ? { uri: roomImages[0] }
+                    : constants.hotelSmallPlaceHolder
+                  : constants.hotelSmallPlaceHolder;
 
-              const { checkIn, checkOut } = roomVoucherDetails;
-              if (checkIn > 1 && checkOut > 1) {
-                refundable =
-                  typeof roomVoucherDetails.refundable === "boolean"
-                    ? roomVoucherDetails.refundable
-                    : refundable;
-                freeWireless =
-                  typeof roomVoucherDetails.freeWireless === "boolean"
-                    ? roomVoucherDetails.freeWireless
-                    : freeWireless;
-                freeBreakfast =
-                  typeof roomVoucherDetails.freeBreakFast === "boolean"
-                    ? roomVoucherDetails.freeBreakFast
-                    : freeBreakfast;
-              }
-
-              const hotelAmenitySummary = [
-                {
-                  name: "Booking Reference ID",
-                  value: bookingReferenceId
-                },
-                {
-                  name: "Breakfast",
-                  value: freeBreakfast ? "Included" : "Not Included"
-                },
-                {
-                  name: "Free Wifi",
-                  value: freeWireless ? "Included" : "Not Included"
-                },
-                {
-                  name: "Booking Type",
-                  value: refundable ? "Refundable" : "Non-Refundable"
+                const { checkIn, checkOut } = roomVoucherDetails;
+                if (checkIn > 1 && checkOut > 1) {
+                  refundable =
+                    typeof roomVoucherDetails.refundable === "boolean"
+                      ? roomVoucherDetails.refundable
+                      : refundable;
+                  freeWireless =
+                    typeof roomVoucherDetails.freeWireless === "boolean"
+                      ? roomVoucherDetails.freeWireless
+                      : freeWireless;
+                  freeBreakfast =
+                    typeof roomVoucherDetails.freeBreakFast === "boolean"
+                      ? roomVoucherDetails.freeBreakFast
+                      : freeBreakfast;
                 }
-              ];
 
-              return (
-                <View key={roomIndex} style={styles.bookedSuit}>
-                  <View style={styles.bookedSuitInfo}>
-                    <CircleThumbnail
-                      defaultImageUri={constants.hotelSmallPlaceHolder}
-                      image={roomImage}
+                const hotelAmenitySummary = [
+                  {
+                    name: "Booking Reference ID",
+                    value: bookingReferenceId
+                  },
+                  {
+                    name: "Breakfast",
+                    value: freeBreakfast ? "Included" : "Not Included"
+                  },
+                  {
+                    name: "Free Wifi",
+                    value: freeWireless ? "Included" : "Not Included"
+                  },
+                  {
+                    name: "Booking Type",
+                    value: refundable ? "Refundable" : "Non-Refundable"
+                  }
+                ];
+
+                return (
+                  <View key={roomIndex} style={styles.bookedSuit}>
+                    <View style={styles.bookedSuitInfo}>
+                      <CircleThumbnail
+                        defaultImageUri={constants.hotelSmallPlaceHolder}
+                        image={roomImage}
+                      />
+                      <View style={styles.bookedSuitDetails}>
+                        <Text style={styles.bookedSuitType}>{name}</Text>
+                        <Text
+                          style={styles.suitBookingDetails}
+                        >{`Booked for ${adultCount} adult${
+                          adultCount > 1 ? "s" : ""
+                        } ${
+                          childAges.length
+                            ? `${childAges.length} child${
+                                childAges.length > 1 ? "ren" : ""
+                              }`
+                            : ""
+                        }`}</Text>
+                      </View>
+                    </View>
+
+                    <PassengerName
+                      name={`${leadPassenger.salutation}. ${
+                        leadPassenger.firstName
+                      } ${leadPassenger.lastName}`}
                     />
-                    <View style={styles.bookedSuitDetails}>
-                      <Text style={styles.bookedSuitType}>{name}</Text>
-                      <Text
-                        style={styles.suitBookingDetails}
-                      >{`Booked for ${adultCount} adult${
-                        adultCount > 1 ? "s" : ""
-                      } ${
-                        childAges.length
-                          ? `${childAges.length} child${
-                              childAges.length > 1 ? "ren" : ""
-                            }`
-                          : ""
-                      }`}</Text>
+                    {otherPassengers &&
+                      otherPassengers.map((passenger, passengerIndex) => {
+                        return (
+                          <PassengerName
+                            key={passengerIndex}
+                            name={`${passenger.salutation}. ${
+                              passenger.firstName
+                            } ${passenger.lastName}`}
+                          />
+                        );
+                      })}
+
+                    <View style={styles.hotelDetailsSection}>
+                      <VoucherSplitSection sections={hotelAmenitySummary} />
                     </View>
                   </View>
+                );
+              })}
 
-                  <PassengerName
-                    name={`${leadPassenger.salutation}. ${
-                      leadPassenger.firstName
-                    } ${leadPassenger.lastName}`}
-                  />
-                  {otherPassengers &&
-                    otherPassengers.map((passenger, passengerIndex) => {
-                      return (
-                        <PassengerName
-                          key={passengerIndex}
-                          name={`${passenger.salutation}. ${
-                            passenger.firstName
-                          } ${passenger.lastName}`}
-                        />
-                      );
-                    })}
+            {hotelAddress1 || hotelAddress2 ? (
+              <VoucherAddressSection
+                containerStyle={{ marginTop: 16 }}
+                address={hotelAddress1 || hotelAddress2}
+              />
+            ) : null}
 
-                  <View style={styles.hotelDetailsSection}>
-                    <VoucherSplitSection sections={hotelAmenitySummary} />
-                  </View>
-                </View>
-              );
-            })}
+            <VoucherContactActionBar contact={mobile} location={{ lat, lon }} />
 
-          {hotelAddress1 || hotelAddress2 ? (
-            <VoucherAddressSection
-              containerStyle={{ marginTop: 16 }}
-              address={hotelAddress1 || hotelAddress2}
-            />
-          ) : null}
+            <VoucherAccordion sections={amenitiesSection} />
 
-          <VoucherContactActionBar contact={mobile} location={{ lat, lon }} />
+            <View style={styles.bookingSection}>
+              <VoucherSplitSection sections={bookingDetailSection} />
+            </View>
 
-          <VoucherAccordion sections={amenitiesSection} />
-
-          <View style={styles.bookingSection}>
-            <VoucherSplitSection sections={bookingDetailSection} />
+            <ViewVoucherButton voucherUrl={voucherUrl} />
           </View>
-        </View>
-      </ParallaxScrollView>,
-      voucherUrl ? (
-        <FooterStickyActionBar key={1}>
-          <ViewVoucherButton voucherUrl={voucherUrl} />
-        </FooterStickyActionBar>
-      ) : null,
-      Platform.OS === "ios" && this.state.isCloseVisible ? (
-        <IosCloseButton key={2} clickAction={this.close} />
-      ) : null
-    ];
+        </ParallaxScrollView>
+        {Platform.OS === "ios" && this.state.isCloseVisible ? (
+          <IosCloseButton clickAction={this.close} />
+        ) : null}
+      </Fragment>
+    );
   }
 }
 
