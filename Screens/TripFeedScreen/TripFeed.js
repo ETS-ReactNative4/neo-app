@@ -1,12 +1,5 @@
 import React, { Component } from "react";
-import {
-  View,
-  Text,
-  ScrollView,
-  StyleSheet,
-  BackHandler,
-  AppState
-} from "react-native";
+import { View, Text, ScrollView, StyleSheet, BackHandler } from "react-native";
 import HomeHeader from "../../CommonComponents/HomeHeader/HomeHeader";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import ToolTip from "./Components/ToolTip/ToolTip";
@@ -28,14 +21,12 @@ import DayAheadLite from "./Components/DayAheadLite/DayAheadLite";
 
 @ErrorBoundary({ isRoot: true })
 @inject("tripFeedStore")
-@inject("dataRefreshStore")
 @observer
 class TripFeed extends Component {
   static navigationOptions = HomeHeader;
 
   state = {
-    scrollEnabled: true,
-    appState: AppState.currentState
+    scrollEnabled: true
   };
   _didFocusSubscription;
   _willBlurSubscription;
@@ -48,11 +39,6 @@ class TripFeed extends Component {
       "didFocus",
       () => {
         this.loadTripFeedData();
-        /**
-         * Update App data when user switches to the trip feed
-         */
-        const { updateData } = props.dataRefreshStore;
-        updateData();
         BackHandler.addEventListener(
           "hardwareBackPress",
           this.onBackButtonPressAndroid
@@ -70,20 +56,6 @@ class TripFeed extends Component {
     }
   };
 
-  _handleAppStateChange = nextAppState => {
-    /**
-     * Refresh App data when the app moves to foreground from background
-     */
-    if (
-      this.state.appState.match(/inactive|background/) &&
-      nextAppState === "active"
-    ) {
-      const { updateData } = this.props.dataRefreshStore;
-      updateData();
-    }
-    this.setState({ appState: nextAppState });
-  };
-
   toggleScrollLock = status => {
     if (!status) {
       setTimeout(() => {
@@ -99,14 +71,6 @@ class TripFeed extends Component {
 
   componentDidMount() {
     this.loadTripFeedData();
-
-    /**
-     * Refresh App data when user launches the app
-     */
-    const { updateData } = this.props.dataRefreshStore;
-    updateData();
-
-    AppState.addEventListener("change", this._handleAppStateChange);
 
     this._willBlurSubscription = this.props.navigation.addListener(
       "willBlur",
@@ -127,7 +91,6 @@ class TripFeed extends Component {
   componentWillUnmount() {
     this._didFocusSubscription && this._didFocusSubscription.remove();
     this._willBlurSubscription && this._willBlurSubscription.remove();
-    AppState.removeEventListener("change", this._handleAppStateChange);
   }
 
   setEmitterComponent = emitterComponent =>

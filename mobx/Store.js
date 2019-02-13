@@ -17,7 +17,6 @@ import Places from "./Places";
 import SupportStore from "./SupportStore";
 import TripFeed from "./TripFeed";
 import Packages from "./Packages";
-import DataRefresh from "./DataRefresh";
 
 const createStore = () => {
   const appStore = {
@@ -36,8 +35,7 @@ const createStore = () => {
     placesStore: new Places(),
     supportStore: new SupportStore(),
     tripFeedStore: new TripFeed(),
-    packagesStore: new Packages(),
-    dataRefreshStore: new DataRefresh()
+    packagesStore: new Packages()
   };
 
   const hydrate = create({
@@ -196,11 +194,6 @@ const createStore = () => {
       logError(err);
     });
   hydrate("_packages", appStore.packagesStore)
-    .then(() => {})
-    .catch(err => {
-      logError(err);
-    });
-  hydrate("_lastUpdated", appStore.dataRefreshStore)
     .then(() => {})
     .catch(err => {
       logError(err);

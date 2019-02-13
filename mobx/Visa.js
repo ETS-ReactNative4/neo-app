@@ -27,11 +27,11 @@ class Visa {
   @action
   getVisaDetails = itineraryId => {
     if (!this._visaDetails[itineraryId])
-      this.getVisaDetailsFromAPI(itineraryId);
+      this._getVisaDetailsFromAPI(itineraryId);
   };
 
   @action
-  getVisaDetailsFromAPI = itineraryId => {
+  _getVisaDetailsFromAPI = itineraryId => {
     this._isLoading = true;
     apiCall(
       constants.getVisaDetails.replace(":itineraryId", itineraryId),

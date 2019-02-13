@@ -38,11 +38,11 @@ class EmergencyContacts {
       city => !this._emergencyContacts[city.cityObject.cityId]
     );
     if (unavailableCities.length)
-      this.getEmergencyContactsFromAPI(unavailableCities);
+      this._getEmergencyContactsFromAPI(unavailableCities);
   };
 
   @action
-  getEmergencyContactsFromAPI = cities => {
+  _getEmergencyContactsFromAPI = cities => {
     this._isLoading = true;
     apiCall(
       constants.getEmergencyContacts,
