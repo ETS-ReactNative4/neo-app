@@ -12,6 +12,7 @@ class VoucherAccordion extends Component {
     sections: PropTypes.array.isRequired,
     containerStyle: PropTypes.object,
     openFirstSection: PropTypes.bool,
+    openAllSections: PropTypes.bool,
     expandMultiple: PropTypes.bool
   });
 
@@ -93,10 +94,16 @@ class VoucherAccordion extends Component {
   };
 
   componentDidMount() {
-    const { openFirstSection } = this.props;
+    const { openFirstSection, openAllSections, sections } = this.props;
     if (openFirstSection) {
       this.setState({
         activeSections: [0]
+      });
+    }
+    if (openAllSections) {
+      const activeSections = [...Array(sections.length).keys()];
+      this.setState({
+        activeSections
       });
     }
   }
