@@ -25,7 +25,12 @@ const appText = {
     freeTransferInfo:
       "This is a self exploration activity. You will need to manage your transport to and from this location. Reach the meeting point 30 minutes prior to avoid last minute hassle.",
     sharedTransferInfo:
-      "As the transfer is on shared basis, the arrival time of transfer could vary plus or minus 15 - 30 minutes depending on traffic."
+      "As the transfer is on shared basis, the arrival time of transfer could vary plus or minus 15 - 30 minutes depending on traffic.",
+    webCheckinUnavailableHeader: "Web checkin not yet available",
+    webCheckinUnavailableText:
+      "Web checkin will be available only 48 hrs prior to the trip.",
+    webCheckinInfoText:
+      "Web checkin may not be available for flights with airline code share"
   },
   downloadVoucherText: {
     error: {

@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, Text } from "react-native";
 import { NavigationActions } from "react-navigation";
 import SimpleButton from "../../../../CommonComponents/SimpleButton/SimpleButton";
 import navigationService from "../../../../Services/navigationService/navigationService";
@@ -30,8 +30,8 @@ const FlightActionSection = ({ webCheckInUrl, isWebCheckinActive }) => {
               );
             } else {
               storeService.infoStore.setInfo(
-                "Web checkin not yet available",
-                "Web checkin will be available only 48 hrs prior to the trip."
+                constants.voucherText.webCheckinUnavailableHeader,
+                constants.voucherText.webCheckinUnavailableText
               );
             }
           }}
@@ -41,14 +41,29 @@ const FlightActionSection = ({ webCheckInUrl, isWebCheckinActive }) => {
           containerStyle={{ height: 40, width: responsiveWidth(100) - 48 }}
         />
       ) : null}
+      {webCheckInUrl ? (
+        <Text style={styles.webCheckinInfoText}>
+          <Text style={styles.noteText}>{"Note: "}</Text>
+          {constants.voucherText.webCheckinInfoText}
+        </Text>
+      ) : null}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   flightActionSection: {
-    flexDirection: "row",
-    justifyContent: "center"
+    flexDirection: "column",
+    alignItems: "center"
+  },
+  webCheckinInfoText: {
+    marginVertical: 8,
+    ...constants.fontCustom(constants.primaryLight, 12),
+    color: constants.black1,
+    textAlign: "left"
+  },
+  noteText: {
+    fontFamily: constants.primarySemiBold
   }
 });
 
