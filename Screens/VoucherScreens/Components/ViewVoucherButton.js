@@ -13,6 +13,10 @@ const ViewVoucherButton = ({
   title = "View Voucher",
   voucherUrl
 }) => {
+  /**
+   * TODO: Disabled this button. Will be enabled after confirming new UI
+   */
+  return null;
   if (!voucherUrl) return null;
 
   if (Platform.OS === "android") {
