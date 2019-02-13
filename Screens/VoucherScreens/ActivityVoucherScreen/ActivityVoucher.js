@@ -115,6 +115,10 @@ class ActivityVoucher extends Component {
       publishedCost,
       dateMillis
     } = activity.costing;
+    const {
+      inclusion: costingInclusions,
+      exclusion: costingExclusions
+    } = selectedTourGrade;
 
     const transferIncluded = _.toUpper(transferType) !== "NOTRANSFER";
     const pickupDetail =
@@ -227,7 +231,9 @@ class ActivityVoucher extends Component {
           component: (
             <View style={styles.accordionTextWrapper}>
               <HTMLView
-                value={`<div>${inclusions}</div>`}
+                value={
+                  inclusions ? `<div>${inclusions}</div>` : costingInclusions
+                }
                 stylesheet={constants.htmlStyleSheet}
               />
             </View>
@@ -238,23 +244,27 @@ class ActivityVoucher extends Component {
           component: (
             <View style={styles.accordionTextWrapper}>
               <HTMLView
-                value={`<div>${exclusions}</div>`}
+                value={
+                  exclusions ? `<div>${exclusions}</div>` : costingExclusions
+                }
                 stylesheet={constants.htmlStyleSheet}
               />
             </View>
           )
         },
-        {
-          name: "Instructions & notes",
-          component: (
-            <View style={styles.accordionTextWrapper}>
-              <HTMLView
-                value={`<div>${notes}</div>`}
-                stylesheet={constants.htmlStyleSheet}
-              />
-            </View>
-          )
-        },
+        notes
+          ? {
+              name: "Instructions & notes",
+              component: (
+                <View style={styles.accordionTextWrapper}>
+                  <HTMLView
+                    value={`<div>${notes}</div>`}
+                    stylesheet={constants.htmlStyleSheet}
+                  />
+                </View>
+              )
+            }
+          : null,
         {
           name: "About",
           component: (
