@@ -69,6 +69,21 @@ const SlotActivity = inject("itineraries")(
             activity.intercityTransferSlotDetailVO.toCity
           );
           city = _.find(cities, { city: currentCity.cityName });
+          let transferIndicatorText;
+          const {
+            intercityTransferSlotDetailVO: interCityTransferDetail
+          } = activity;
+          if (_.toUpper(interCityTransferDetail.transferType) === "DIRECT") {
+            transferIndicatorText =
+              interCityTransferDetail.directTransferDetail
+                .transferIndicatorText;
+          } else if (
+            _.toUpper(interCityTransferDetail.transferType) === "TRANSIT"
+          ) {
+            transferIndicatorText =
+              interCityTransferDetail.transitTransferDetail
+                .transferIndicatorText;
+          }
           cityCardData = {
             cityImage: {
               uri: currentCity.image
@@ -79,9 +94,7 @@ const SlotActivity = inject("itineraries")(
                 target: "BookedNearBy"
               }),
             cityName: currentCity.cityName,
-            activityText:
-              activity.intercityTransferSlotDetailVO.directTransferDetail
-                .transferIndicatorText
+            activityText: transferIndicatorText
           };
           break;
 
@@ -286,10 +299,28 @@ const SlotActivity = inject("itineraries")(
             const activityTransferInfo = getActivityById(
               activity.activitySlotDetail.activityCostingIdentifier
             );
-            const {
-              transferCostingIdenfier: withActivityTransferCostingIdentifier,
-              transferMode: withActivityTransferMode
-            } = activity.intercityTransferSlotDetailVO.directTransferDetail;
+            let withActivityTransferCostingIdentifier, withActivityTransferMode;
+            const { intercityTransferSlotDetailVO } = activity;
+            if (
+              _.toUpper(intercityTransferSlotDetailVO.transferType) === "DIRECT"
+            ) {
+              const {
+                transferCostingIdenfier: directTransferCostingIdenfier,
+                transferMode: directTransferMode
+              } = intercityTransferSlotDetailVO.directTransferDetail;
+              withActivityTransferCostingIdentifier = directTransferCostingIdenfier;
+              withActivityTransferMode = directTransferMode;
+            } else if (
+              _.toUpper(intercityTransferSlotDetailVO.transferType) ===
+              "TRANSIT"
+            ) {
+              const {
+                transitMode: directTransferMode,
+                transferCostingIdenfier: directTransferCostingIdenfier
+              } = intercityTransferSlotDetailVO.transitTransferDetail.arriveTransit;
+              withActivityTransferCostingIdentifier = directTransferCostingIdenfier;
+              withActivityTransferMode = directTransferMode;
+            }
             imageObject = getSlotImage(
               withActivityTransferCostingIdentifier,
               withActivityTransferMode
