@@ -161,7 +161,9 @@ class Home extends Component {
             action={() => {
               recordEvent(constants.homeStartPlanningNowClick);
               openCustomTab(
-                `${constants.productUrl}${constants.productCustomizePage}`
+                `${constants.productUrl}${
+                  constants.productCustomizePage
+                }?cpid=${constants.productAnalyticsCPID}`
               );
             }}
             textColor={"white"}

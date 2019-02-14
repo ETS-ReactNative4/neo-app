@@ -31,7 +31,11 @@ const PackageCard = ({
       style={styles.packagesCardContainer}
       onPress={() => {
         recordEvent(constants.homePackageCardClick);
-        openCustomTab(`${constants.productUrl}${slug}`);
+        openCustomTab(
+          `${constants.productUrl}${slug}?cpid=${
+            constants.productAnalyticsCPID
+          }`
+        );
       }}
       activeOpacity={0.8}
     >
