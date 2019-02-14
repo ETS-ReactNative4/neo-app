@@ -97,6 +97,11 @@ class ChatScreen extends Component {
         BackHandler.removeEventListener("hardwareBackPress", this.goBack);
       }
     );
+    const { userDetails, getUserDetails } = this.props.userStore;
+    const { email, crisp_token } = userDetails;
+    if (!crisp_token || !email) {
+      getUserDetails();
+    }
   }
 
   componentWillUnmount() {
@@ -128,8 +133,8 @@ class ChatScreen extends Component {
       this.props.navigation.navigate("SupportCenter");
     };
     const { userDetails } = this.props.userStore;
-    const { email } = userDetails;
-    const uri = constants.crispServerUrl(email);
+    const { email, crisp_token } = userDetails;
+    const uri = constants.crispServerUrl(email, crisp_token);
 
     return isChatActive ? (
       isConnected ? (
