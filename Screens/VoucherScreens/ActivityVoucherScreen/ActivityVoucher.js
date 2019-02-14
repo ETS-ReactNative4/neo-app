@@ -152,10 +152,13 @@ class ActivityVoucher extends Component {
           name: "Duration",
           value: totalDuration
         },
-        {
-          name: "Slot",
-          value: getTitleCase(availabilitySlot)
-        },
+        /**
+         * Slot will be hidden for now
+         */
+        // {
+        //   name: "Slot",
+        //   value: getTitleCase(availabilitySlot)
+        // },
         {
           name: "Type",
           value: "Self Exploration"
@@ -219,11 +222,14 @@ class ActivityVoucher extends Component {
         {
           name: "Duration",
           value: totalDuration
-        },
-        {
-          name: "Slot",
-          value: getTitleCase(availabilitySlot)
         }
+        /**
+         * Slot will be hidden for now
+         */
+        // {
+        //   name: "Slot",
+        //   value: getTitleCase(availabilitySlot)
+        // }
       ];
       bookingDetailSections = [
         {
