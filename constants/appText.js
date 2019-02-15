@@ -30,7 +30,8 @@ const appText = {
     webCheckinUnavailableText:
       "Web checkin will be available only 48 hrs prior to the trip.",
     webCheckinInfoText:
-      "Web checkin may not be available for flights with airline code share"
+      "Web checkin may not be available for flights with airline code share",
+    conditionsApplyText: "*Cancellation terms & conditions apply"
   },
   downloadVoucherText: {
     error: {

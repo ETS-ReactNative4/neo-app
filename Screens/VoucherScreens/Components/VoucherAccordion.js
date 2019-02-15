@@ -101,7 +101,7 @@ class VoucherAccordion extends Component {
       });
     }
     if (openAllSections) {
-      const activeSections = [...Array(sections.length).keys()];
+      const activeSections = [...Array(_.compact(sections).length).keys()];
       this.setState({
         activeSections
       });

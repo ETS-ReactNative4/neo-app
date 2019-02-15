@@ -19,6 +19,7 @@ import ErrorBoundary from "../../../CommonComponents/ErrorBoundary/ErrorBoundary
 import Icon from "../../../CommonComponents/Icon/Icon";
 import ViewVoucherButton from "../Components/ViewVoucherButton";
 import FooterStickyActionBar from "../../../CommonComponents/FooterStickyActionBar/FooterStickyActionBar";
+import ConditionsApplyText from "../Components/ConditionsApplyText";
 
 const xHeight = isIphoneX()
   ? constants.xNotchHeight
@@ -145,6 +146,8 @@ class HotelVoucher extends Component {
         }, "")
       : "";
 
+    let isRoomRefundable = false;
+
     return (
       <Fragment>
         <ParallaxScrollView
@@ -258,6 +261,8 @@ class HotelVoucher extends Component {
                       : freeBreakfast;
                 }
 
+                if (refundable) isRoomRefundable = true;
+
                 const hotelAmenitySummary = [
                   {
                     name: "Booking Reference ID",
@@ -273,7 +278,7 @@ class HotelVoucher extends Component {
                   },
                   {
                     name: "Booking Type",
-                    value: refundable ? "Refundable" : "Non-Refundable"
+                    value: refundable ? "Refundable*" : "Non-Refundable"
                   }
                 ];
 
@@ -340,6 +345,8 @@ class HotelVoucher extends Component {
             </View>
 
             <ViewVoucherButton voucherUrl={voucherUrl} />
+
+            {isRoomRefundable ? <ConditionsApplyText /> : null}
           </View>
         </ParallaxScrollView>
         {Platform.OS === "ios" && this.state.isCloseVisible ? (

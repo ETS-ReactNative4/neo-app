@@ -48,6 +48,7 @@ const apiUrls = {
    */
   getPackagesListFromProduct: "api/packages/itineraries",
   productCustomizePage: "customize",
+  productAnalyticsCPID: "mobile-app",
 
   /**
    * Static Page Urls

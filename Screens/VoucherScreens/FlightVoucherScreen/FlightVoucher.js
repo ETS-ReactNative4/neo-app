@@ -17,6 +17,7 @@ import getTitleCase from "../../../Services/getTitleCase/getTitleCase";
 import ErrorBoundary from "../../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import ViewVoucherButton from "../Components/ViewVoucherButton";
 import FooterStickyActionBar from "../../../CommonComponents/FooterStickyActionBar/FooterStickyActionBar";
+import ConditionsApplyText from "../Components/ConditionsApplyText";
 
 const xHeight = isIphoneX()
   ? constants.xNotchHeight
@@ -104,7 +105,7 @@ class FlightVoucher extends Component {
       // },
       {
         name: "Booking type",
-        value: refundable ? "Refundable" : "Non-Refundable"
+        value: refundable ? "Refundable*" : "Non-Refundable"
       }
     ];
 
@@ -188,6 +189,8 @@ class FlightVoucher extends Component {
               }}
             />
             <ViewVoucherButton voucherUrl={voucherUrl} />
+
+            {refundable ? <ConditionsApplyText /> : null}
           </View>
         </ParallaxScrollView>
         {Platform.OS === "ios" && this.state.isCloseVisible ? (
