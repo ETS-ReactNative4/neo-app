@@ -915,6 +915,11 @@ class Itineraries {
             } else if (activity.type === "ACTIVITY_WITH_TRANSFER") {
               let transferMode;
               const { intercityTransferSlotDetailVO } = activity;
+              /**
+               * Activity with transfer will have two types of transfers
+               * - Direct
+               * - Transit
+               */
               if (
                 _.toUpper(intercityTransferSlotDetailVO.transferType) ===
                 "DIRECT"
