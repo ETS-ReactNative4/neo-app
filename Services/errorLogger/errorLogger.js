@@ -1,7 +1,7 @@
 import { Sentry as sentry } from "react-native-sentry";
 import PackageInfo from "../../package.json";
 
-if (!__DEV__) {
+if (!__DEV__ && PackageInfo.environment === "production") {
   sentry
     .config("https://af21f52962874bf49a888d1826e5a827@sentry.io/1216774")
     .install();
