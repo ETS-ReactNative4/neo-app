@@ -7,7 +7,7 @@
     "set-staging-environment": "cp .env.staging .env",
     "set-prod-environment": "cp .env.prod .env",
     "start":
-      "yarn set-prod-environment && node node_modules/react-native/local-cli/cli.js start",
+      "yarn set-staging-environment && node node_modules/react-native/local-cli/cli.js start --reset-cache",
     "test": "jest",
     "build-android": "cd android && ./gradlew assembleRelease && cd ..",
     "build-android-alpha": "yarn set-staging-environment && yarn build-android",
