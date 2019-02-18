@@ -14,6 +14,7 @@ import { recordEvent } from "../../Services/analytics/analyticsService";
 import openCustomTab from "../../Services/openCustomTab/openCustomTab";
 import changeColorAlpha from "../../Services/changeColorAlpha/changeColorAlpha";
 import HomePageCustomTripWidget from "./Components/HomePageCustomTripWidget";
+import FooterStickyActionBar from "../../CommonComponents/FooterStickyActionBar/FooterStickyActionBar";
 
 /**
  * Converts package type key to readable package name
@@ -136,28 +137,38 @@ class Home extends Component {
                   navigation={this.props.navigation}
                   key={packagesIndex + "section"}
                 />,
-                <PackageCarousel key={packagesIndex} {...packages} />
+                <PackageCarousel
+                  key={packagesIndex}
+                  {...packages}
+                  index={packagesIndex}
+                />
               ];
             }
-            return <PackageCarousel key={packagesIndex} {...packages} />;
+            return (
+              <PackageCarousel
+                key={packagesIndex}
+                {...packages}
+                index={packagesIndex}
+              />
+            );
           })}
         </CustomScrollView>
-        <View style={styles.actionBarWrapper}>
-          <View style={styles.actionBar}>
-            <SimpleButton
-              containerStyle={{ height: 40, width: responsiveWidth(100) - 48 }}
-              underlayColor={constants.firstColorAlpha(0.7)}
-              text={"Start planning now"}
-              action={() => {
-                recordEvent(constants.homeStartPlanningNowClick);
-                openCustomTab(
-                  `${constants.productUrl}${constants.productCustomizePage}`
-                );
-              }}
-              textColor={"white"}
-            />
-          </View>
-        </View>
+        <FooterStickyActionBar containerStyle={styles.footerBackgroundColor}>
+          <SimpleButton
+            containerStyle={{ height: 40, width: responsiveWidth(100) - 48 }}
+            underlayColor={constants.firstColorAlpha(0.7)}
+            text={"Start planning now"}
+            action={() => {
+              recordEvent(constants.homeStartPlanningNowClick);
+              openCustomTab(
+                `${constants.productUrl}${
+                  constants.productCustomizePage
+                }?cpid=${constants.productAnalyticsCPID}`
+              );
+            }}
+            textColor={"white"}
+          />
+        </FooterStickyActionBar>
       </View>
     );
   }
@@ -167,15 +178,7 @@ const styles = StyleSheet.create({
   homeScrollContainer: {
     flex: 1
   },
-  actionBar: {
-    height: 56,
-    alignItems: "center",
-    justifyContent: "center",
-    borderTopWidth: StyleSheet.hairlineWidth,
-    borderTopColor: "rgba(0,0,0,.3)",
-    marginBottom: isIphoneX() ? constants.xSensorAreaHeight : 0
-  },
-  actionBarWrapper: {
+  footerBackgroundColor: {
     backgroundColor: isIphoneX()
       ? "white"
       : changeColorAlpha(constants.black1, 0.9)

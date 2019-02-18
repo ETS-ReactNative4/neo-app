@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Text, View, StyleSheet, Animated, Easing } from "react-native";
+import _ from "lodash";
 import constants from "../../../constants/constants";
 import Icon from "../../../CommonComponents/Icon/Icon";
 import PropTypes from "prop-types";
@@ -11,6 +12,7 @@ class VoucherAccordion extends Component {
     sections: PropTypes.array.isRequired,
     containerStyle: PropTypes.object,
     openFirstSection: PropTypes.bool,
+    openAllSections: PropTypes.bool,
     expandMultiple: PropTypes.bool
   });
 
@@ -92,10 +94,16 @@ class VoucherAccordion extends Component {
   };
 
   componentDidMount() {
-    const { openFirstSection } = this.props;
+    const { openFirstSection, openAllSections, sections } = this.props;
     if (openFirstSection) {
       this.setState({
         activeSections: [0]
+      });
+    }
+    if (openAllSections) {
+      const activeSections = [...Array(_.compact(sections).length).keys()];
+      this.setState({
+        activeSections
       });
     }
   }
@@ -114,7 +122,7 @@ class VoucherAccordion extends Component {
     return (
       <View style={[containerStyle]}>
         <Accordion
-          sections={this.props.sections}
+          sections={_.compact(this.props.sections)} // ignore null values in the accordion section
           activeSections={this.state.activeSections}
           renderHeader={this._renderHeader}
           renderContent={this._renderContent}

@@ -10,8 +10,8 @@ const ErrorBoundary = ({ isRoot } = {}) => WrappedComponent => {
       isCrashed: false
     };
 
-    componentDidCatch(error) {
-      logError(error);
+    componentDidCatch(error, errorInfo) {
+      logError(error, { errorInfo });
       if (!this.state.isCrashed) {
         this.setState({
           isCrashed: true

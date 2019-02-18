@@ -48,6 +48,7 @@ const apiUrls = {
    */
   getPackagesListFromProduct: "api/packages/itineraries",
   productCustomizePage: "customize",
+  productAnalyticsCPID: "mobile-app",
 
   /**
    * Static Page Urls
@@ -58,7 +59,9 @@ const apiUrls = {
   cancellationPolicy: "cancellation-policy",
   careers: "careers",
 
-  tripToggleStatusStorageKey: "@Pickyourtrail/tripToggleStatus"
+  tripToggleStatusStorageKey: "@Pickyourtrail/tripToggleStatus",
+  preTripChatActivationTime: 72,
+  googleDrivePdfViewer: "https://drive.google.com/viewerng/viewer?url="
 };
 
 export default apiUrls;

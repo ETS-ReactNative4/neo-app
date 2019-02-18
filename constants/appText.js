@@ -21,6 +21,18 @@ const appText = {
       actionText: "Go Back"
     }
   },
+  voucherText: {
+    freeTransferInfo:
+      "This is a self exploration activity. You will need to manage your transport to and from this location. Reach the meeting point 30 minutes prior to avoid last minute hassle.",
+    sharedTransferInfo:
+      "As the transfer is on shared basis, the arrival time of transfer could vary plus or minus 15 - 30 minutes depending on traffic.",
+    webCheckinUnavailableHeader: "Web checkin not yet available",
+    webCheckinUnavailableText:
+      "Web checkin will be available only 48 hrs prior to the trip.",
+    webCheckinInfoText:
+      "Web checkin may not be available for flights with airline code share",
+    conditionsApplyText: "*Cancellation terms & conditions apply"
+  },
   downloadVoucherText: {
     error: {
       title: "Unable to Download!",
@@ -60,7 +72,7 @@ const appText = {
   },
   bookingProcessText: {
     title: "Almost there!",
-    message: "Booking is still under processing",
+    message: "Your booking is in progress.",
     // "We are working with our travel partners to complete this booking. Sit back and relax, we'll notify you, once the vouchers are ready!",
     actionText: "Okay!"
   },
@@ -71,8 +83,8 @@ const appText = {
   },
   phrasesTranslationFailedText: "Unable to translate...",
   noInernetText: "No internet connection. Some features may not work.",
-  preTripChatText:
-    "Chat will be enabled 48hrs prior to your trip. Meanwhile, please visit our support center if you have questions or clarifications.",
+  preTripChatText: chatActivationTime =>
+    `Chat will be enabled ${chatActivationTime}hrs prior to your trip. Meanwhile, please visit our support center if you have questions or clarifications.`,
   onChatNoInternetText:
     "We are unable to connect to the live chat currently. Please check for a proper internet connection and try again. Alternatively, you can contact us on the number below.",
   noBookingsTitle: "No active bookings",

@@ -71,18 +71,19 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   },
   customTripImage: {
-    width: 168,
-    height: 147
+    width: 250,
+    height: 175,
+    marginBottom: 16
   },
   headerText: {
     ...constants.fontCustom(constants.primarySemiBold, 20),
     color: constants.black1,
-    textAlign: "center"
+    textAlign: "center",
+    marginBottom: 8
   },
   bodyText: {
-    marginTop: 8,
     marginBottom: 16,
-    ...constants.fontCustom(constants.primaryLight, 17),
+    ...constants.fontCustom(constants.primaryLight, 16, 20),
     color: constants.shade1,
     textAlign: "center"
   },

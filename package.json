@@ -1,7 +1,7 @@
 {
   "name": "pickyourtrail",
-  "version": "1.0.4",
-  "build": 76,
+  "version": "1.0.8",
+  "build": 81,
   "private": true,
   "scripts": {
     "set-staging-environment": "cp .env.staging .env",
@@ -28,6 +28,7 @@
     "country-data": "^0.0.31",
     "d3-shape": "^1.2.0",
     "intl": "^1.2.5",
+    "libphonenumber-js": "^1.7.8",
     "lodash": "^4.17.5",
     "mobx": "4.2.0",
     "mobx-persist": "^0.4.1",

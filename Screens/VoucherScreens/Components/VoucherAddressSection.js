@@ -12,11 +12,7 @@ const VoucherAddressSection = ({ address, containerStyle }) => {
   return (
     <View style={[styles.addressContainer, containerStyle]}>
       <View style={styles.addressSection}>
-        <Text
-          style={styles.hotelAddress}
-          numberOfLines={3}
-          ellipsizeMode={"tail"}
-        >
+        <Text style={styles.hotelAddress} ellipsizeMode={"tail"}>
           {address}
         </Text>
       </View>

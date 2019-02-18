@@ -9,11 +9,11 @@ import {
 } from "react-native";
 import PropTypes from "prop-types";
 import constants from "../../../../../constants/constants";
-import FastImage from "react-native-fast-image";
 import UpcomingBadge from "./UpcomingBadge";
 import { responsiveWidth } from "react-native-responsive-dimensions";
 import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidExtraProps";
 import resolveLinks from "../../../../../Services/resolveLinks/resolveLinks";
+import { recordEvent } from "../../../../../Services/analytics/analyticsService";
 
 const DayAheadRow = ({
   image,
@@ -23,13 +23,15 @@ const DayAheadRow = ({
   deepLink,
   voucherType,
   costingIdentifier,
-  isLast
+  isLast,
+  widgetName
 }) => {
   return (
     <TouchableOpacity
-      onPress={() =>
-        resolveLinks("", {}, deepLink || { voucherType, costingIdentifier })
-      }
+      onPress={() => {
+        if (widgetName) recordEvent(widgetName);
+        resolveLinks("", {}, deepLink || { voucherType, costingIdentifier });
+      }}
       style={[
         styles.dayAheadRowContainer,
         !isLast
@@ -78,7 +80,8 @@ DayAheadRow.propTypes = forbidExtraProps({
   voucherType: PropTypes.string.isRequired,
   costingIdentifier: PropTypes.string.isRequired,
   isLast: PropTypes.bool.isRequired,
-  deepLink: PropTypes.object
+  deepLink: PropTypes.object,
+  widgetName: PropTypes.string
 });
 
 const styles = StyleSheet.create({

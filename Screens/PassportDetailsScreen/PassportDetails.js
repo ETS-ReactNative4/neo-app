@@ -10,6 +10,7 @@ import DeepLinkHandler from "../../CommonComponents/DeepLinkHandler/DeepLinkHand
 @ErrorBoundary()
 @DeepLinkHandler
 @inject("passportDetailsStore")
+@inject("itineraries")
 @observer
 class PassportDetails extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -19,6 +20,12 @@ class PassportDetails extends Component {
       )
     };
   };
+
+  componentDidMount() {
+    this.props.passportDetailsStore.updatePassportDetails(
+      this.props.itineraries.selectedItineraryId
+    );
+  }
 
   render() {
     const { getPassengerDetails } = this.props.passportDetailsStore;
@@ -68,7 +75,7 @@ class PassportDetails extends Component {
     return (
       <View style={{ flex: 1, backgroundColor: "white" }}>
         <VoucherAccordion
-          openFirstSection={true}
+          openAllSections={true}
           sections={passengerDetails}
           containerStyle={{ marginHorizontal: 24 }}
           expandMultiple={true}

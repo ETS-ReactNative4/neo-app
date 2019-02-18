@@ -42,6 +42,7 @@ class BookingsHome extends Component {
   state = {
     isDownloadLoading: false
   };
+  _didFocusSubscription;
 
   onBackButtonPressAndroid = () => {
     const { navigation } = this.props;
@@ -54,13 +55,22 @@ class BookingsHome extends Component {
 
   componentDidMount() {
     this.enablePushNotificationServices();
-    const { selectedItineraryId } = this.props.itineraries;
-    if (selectedItineraryId) {
-      pullToRefresh({
-        itinerary: true,
-        voucher: true
-      });
-    }
+    this._didFocusSubscription = this.props.navigation.addListener(
+      "didFocus",
+      () => {
+        const { selectedItineraryId } = this.props.itineraries;
+        if (selectedItineraryId) {
+          pullToRefresh({
+            itinerary: true,
+            voucher: true
+          });
+        }
+      }
+    );
+  }
+
+  componentWillUnmount() {
+    this._didFocusSubscription && this._didFocusSubscription.remove();
   }
 
   enablePushNotificationServices = async () => {

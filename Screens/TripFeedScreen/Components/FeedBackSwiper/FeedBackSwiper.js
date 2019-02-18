@@ -15,6 +15,7 @@ import FeedBackSwiperModal from "./Components/FeedBackSwiperModal";
 import apiCall from "../../../../Services/networkRequests/apiCall";
 import storeService from "../../../../Services/storeService/storeService";
 import { toastBottom, toastCenter } from "../../../../Services/toast/toast";
+import { recordEvent } from "../../../../Services/analytics/analyticsService";
 
 const NextCard = () => (
   <View
@@ -56,7 +57,8 @@ class FeedBackSwiper extends Component {
   static propTypes = {
     toggleScrollLock: PropTypes.func.isRequired,
     emitterComponent: PropTypes.object.isRequired,
-    elements: PropTypes.array.isRequired
+    elements: PropTypes.array.isRequired,
+    widgetName: PropTypes.string
   };
 
   state = {
@@ -72,6 +74,8 @@ class FeedBackSwiper extends Component {
   _cardStack = React.createRef();
 
   openFeedBackModal = ({ isNegative = false }) => {
+    const { widgetName } = this.props;
+    if (widgetName) recordEvent(widgetName);
     this.setState({
       isModalVisible: true,
       activeModalIndex: this.state.activeCardIndex,
@@ -80,6 +84,8 @@ class FeedBackSwiper extends Component {
   };
 
   swipedCard = nextCardIndex => {
+    const { widgetName } = this.props;
+    if (widgetName) recordEvent(`${widgetName}_DISMISSED`);
     if (!this.state.disableDissmissApi) {
       const activeElement = this.props.elements[this.state.activeCardIndex];
       const requestObject = {
@@ -179,6 +185,7 @@ class FeedBackSwiper extends Component {
   render() {
     const { elements } = this.props;
     if (!elements || !elements.length) return null;
+    const activeElement = this.props.elements[this.state.activeCardIndex]; // data of the element visible to the user in the swiper
     return [
       <CardStack
         key={0}
@@ -244,6 +251,7 @@ class FeedBackSwiper extends Component {
         key={1}
         isVisible={this.state.isModalVisible}
         data={{}}
+        title={activeElement ? activeElement.title : ""}
         onEditText={this.onEditText}
         review={this.state.review}
         emitterComponent={this.props.emitterComponent}

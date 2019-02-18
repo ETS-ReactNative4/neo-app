@@ -900,7 +900,7 @@ class Itineraries {
             .allSlotKeys;
           for (let i = 0; i < slotKeys.length; i++) {
             const activity = this._selectedItinerary.iterSlotByKey[slotKeys[i]];
-            if (activity.type === "INTERCITY_TRANSFER") {
+            if (_.toUpper(activity.type) === "INTERCITY_TRANSFER") {
               return {
                 mode:
                   activity.intercityTransferSlotDetailVO.directTransferDetail
@@ -908,15 +908,35 @@ class Itineraries {
                 type: activity.type
               };
             } else if (
-              activity.type === "INTERNATIONAL_ARRIVE" ||
-              activity.type === "INTERNATIONAL_DEPART"
+              _.toUpper(activity.type) === "INTERNATIONAL_ARRIVE" ||
+              _.toUpper(activity.type) === "INTERNATIONAL_DEPART"
             ) {
               return { mode: "FLIGHT", type: activity.type };
             } else if (activity.type === "ACTIVITY_WITH_TRANSFER") {
+              let transferMode;
+              const { intercityTransferSlotDetailVO } = activity;
+              /**
+               * Activity with transfer will have two types of transfers
+               * - Direct
+               * - Transit
+               */
+              if (
+                _.toUpper(intercityTransferSlotDetailVO.transferType) ===
+                "DIRECT"
+              ) {
+                transferMode =
+                  intercityTransferSlotDetailVO.directTransferDetail
+                    .transferMode;
+              } else if (
+                _.toUpper(intercityTransferSlotDetailVO.transferType) ===
+                "TRANSIT"
+              ) {
+                transferMode =
+                  intercityTransferSlotDetailVO.transitTransferDetail
+                    .arriveTransit.transitMode;
+              }
               return {
-                mode:
-                  activity.intercityTransferSlotDetailVO.directTransferDetail
-                    .transferMode,
+                mode: transferMode,
                 type: activity.type
               };
             }
