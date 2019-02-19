@@ -1,4 +1,4 @@
-import PackageInfo from "../package.json";
+import { getEnvironmentName } from "../Services/getEnvironmentDetails/getEnvironmentDetails";
 
 const apiServers = {
   localServer: "http://192.168.0.5:8080/api/",
@@ -22,7 +22,7 @@ const productUrls = {
 };
 
 let apiServerUrl, productUrl, platoServerUrl;
-switch (PackageInfo.environment) {
+switch (getEnvironmentName()) {
   case "production":
     apiServerUrl = apiServers.prodServer;
     productUrl = productUrls.prodProductUrl;

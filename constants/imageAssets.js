@@ -1,6 +1,6 @@
 import serverUrls from "./serverUrls";
-import PackageInfo from "../package.json";
 import { isIphoneX } from "react-native-iphone-x-helper";
+import { isProduction } from "../Services/getEnvironmentDetails/getEnvironmentDetails";
 
 const prefix = serverUrls.miscImageBaseUrl + "placeholders/";
 
@@ -13,10 +13,9 @@ const imageAssets = {
     : require("../assets/images/backgrounds/starterScreenBackgroundAndroid.jpg"),
   starterBackground: require("../assets/images/backgrounds/starterImage.jpg"),
   drawerBackground: require("../assets/images/backgrounds/drawer.png"),
-  pytLogo:
-    PackageInfo.environment === "production"
-      ? require("../assets/images/icons/logo_new.png")
-      : require("../assets/images/icons/logo-dev.png"),
+  pytLogo: isProduction()
+    ? require("../assets/images/icons/logo_new.png")
+    : require("../assets/images/icons/logo-dev.png"),
   pytLogoNew: require("../assets/images/icons/logo_new.png"),
   pytLogoWhite: require("../assets/images/icons/pickyourtrail-white-logo.png"),
   pytLogoBlack: require("../assets/images/icons/pickyourtrail-black-logo.png"),

@@ -10,7 +10,6 @@ import {
   enableAnalytics,
   screenTracker
 } from "./Services/analytics/analyticsService";
-import PackageInfo from "./package.json";
 import {
   getInitialNotification,
   onNotificationDisplayed,
@@ -18,6 +17,7 @@ import {
   onNotificationReceived
 } from "./Services/fcmService/fcm";
 import ErrorBoundary from "./CommonComponents/ErrorBoundary/ErrorBoundary";
+import { isProduction } from "./Services/getEnvironmentDetails/getEnvironmentDetails";
 
 @ErrorBoundary({ isRoot: true })
 class App extends Component {
@@ -30,7 +30,7 @@ class App extends Component {
     UIManager.setLayoutAnimationEnabledExperimental &&
       UIManager.setLayoutAnimationEnabledExperimental(true);
 
-    if (!__DEV__ && PackageInfo.environment === "production") {
+    if (!__DEV__ && isProduction()) {
       enableAnalytics();
     } else {
       disableAnalytics();

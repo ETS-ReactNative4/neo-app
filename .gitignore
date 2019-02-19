@@ -58,6 +58,8 @@ buck-out/
 # Ignore archives
 *.zip
 
+# Ignore env
+.env
 # Ignore changelog
 changeLog.txt
 
