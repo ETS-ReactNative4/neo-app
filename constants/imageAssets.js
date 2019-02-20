@@ -12,7 +12,6 @@ const imageAssets = {
     ? require("../assets/images/backgrounds/starterScreenBackground.jpg")
     : require("../assets/images/backgrounds/starterScreenBackgroundAndroid.jpg"),
   starterBackground: require("../assets/images/backgrounds/starterImage.jpg"),
-  drawerBackground: require("../assets/images/backgrounds/drawer.png"),
   pytLogo: isProduction()
     ? require("../assets/images/icons/logo_new.png")
     : require("../assets/images/icons/logo-dev.png"),
