@@ -3,10 +3,13 @@ import { View, Text, StyleSheet } from "react-native";
 import { WebView } from "react-native-webview";
 import PropTypes from "prop-types";
 import forbidExtraProps from "../../Services/PropTypeValidation/forbidExtraProps";
-import PackageInfo from "../../package.json";
 import { responsiveWidth } from "react-native-responsive-dimensions";
 import constants from "../../constants/constants";
 import { isIphoneX } from "react-native-iphone-x-helper";
+import {
+  getEnvironmentName,
+  isProduction
+} from "../../Services/getEnvironmentDetails/getEnvironmentDetails";
 
 const ControlledWebView = ({
   source,
@@ -30,9 +33,9 @@ const ControlledWebView = ({
       injectedJavaScript={injectedJavascript}
       onShouldStartLoadWithRequest={onShouldStartLoadWithRequest}
     />,
-    PackageInfo.environment !== "production" ? (
+    !isProduction() ? (
       <View key={1} style={styles.urlInfoBox} pointerEvents={"none"}>
-        <Text style={styles.urlInfo}>{`${PackageInfo.environment} : ${
+        <Text style={styles.urlInfo}>{`${getEnvironmentName()} : ${
           source.uri
         }`}</Text>
       </View>

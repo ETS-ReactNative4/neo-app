@@ -9,7 +9,7 @@ import { View, Platform } from "react-native";
 
 import "./rn-addons";
 import constants from "../constants/constants";
-import PackageInfo from "../package.json";
+import { isProduction } from "../Services/getEnvironmentDetails/getEnvironmentDetails";
 
 addDecorator(story => (
   <View
@@ -32,7 +32,6 @@ configure(() => {
 
 const StorybookUIRoot = getStorybookUI({});
 
-export const shouldIncludeStoryBook = () =>
-  __DEV__ || PackageInfo.environment !== "production";
+export const shouldIncludeStoryBook = () => __DEV__ || !isProduction();
 
 export default StorybookUIRoot;

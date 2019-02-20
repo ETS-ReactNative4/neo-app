@@ -1,5 +1,5 @@
 import { Sentry as sentry } from "react-native-sentry";
-import PackageInfo from "../../package.json";
+import { getEnvironmentName } from "../getEnvironmentDetails/getEnvironmentDetails";
 
 if (!__DEV__ && PackageInfo.environment === "production") {
   sentry
@@ -8,7 +8,7 @@ if (!__DEV__ && PackageInfo.environment === "production") {
 }
 
 sentry.setTagsContext({
-  environment: PackageInfo.environment
+  environment: getEnvironmentName()
 });
 
 export const logError = (error, extraInfo = {}) => {
