@@ -56,6 +56,9 @@
 		<string>PT Sans Bold.ttf</string>
 		<string>PT Sans Caption.ttf</string>
 		<string>PT Sans.ttf</string>
+		<string>SourceSansPro-Light.ttf</string>
+		<string>SourceSansPro-Regular.ttf</string>
+		<string>SourceSansPro-SemiBold.ttf</string>
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>
