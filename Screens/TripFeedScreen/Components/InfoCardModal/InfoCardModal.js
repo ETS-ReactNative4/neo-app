@@ -11,6 +11,7 @@ import SimpleButton from "../../../../CommonComponents/SimpleButton/SimpleButton
 import FastImage from "react-native-fast-image";
 import forbidExtraProps from "../../../../Services/PropTypeValidation/forbidExtraProps";
 import Icon from "../../../../CommonComponents/Icon/Icon";
+import resolveLinks from "../../../../Services/resolveLinks/resolveLinks";
 
 class InfoCardModal extends Component {
   static propTypes = forbidExtraProps({
@@ -18,9 +19,10 @@ class InfoCardModal extends Component {
     title: PropTypes.string.isRequired,
     content: PropTypes.string,
     bulletedList: PropTypes.arrayOf(PropTypes.string),
-    cta: PropTypes.string.isRequired,
+    cta: PropTypes.string,
     isVisible: PropTypes.bool.isRequired,
-    onClose: PropTypes.func.isRequired
+    onClose: PropTypes.func.isRequired,
+    actions: PropTypes.array
   });
 
   render() {
@@ -31,7 +33,8 @@ class InfoCardModal extends Component {
       bulletedList,
       cta,
       isVisible,
-      onClose
+      onClose,
+      actions
     } = this.props;
     return (
       <Modal
@@ -77,20 +80,65 @@ class InfoCardModal extends Component {
                   })
                 : null}
             </View>
-            <SimpleButton
-              hasBorder
-              color={"transparent"}
-              text={cta || "Okay!"}
-              action={onClose}
-              textColor={constants.firstColor}
-              textStyle={{
-                marginLeft: 0,
-                marginTop: 0
-              }}
-              containerStyle={{
-                width: responsiveWidth(100) - 48 - 48
-              }}
-            />
+            {cta ? (
+              <SimpleButton
+                hasBorder
+                color={"transparent"}
+                text={cta || "Okay!"}
+                action={onClose}
+                textColor={constants.firstColor}
+                textStyle={{
+                  marginLeft: 0,
+                  marginTop: 0
+                }}
+                containerStyle={{
+                  width: responsiveWidth(100) - 48 - 48
+                }}
+              />
+            ) : null}
+            <View style={styles.actionBar}>
+              {actions && actions.length
+                ? actions.map((action, actionIndex) => {
+                    return (
+                      <SimpleButton
+                        key={actionIndex}
+                        hasBorder
+                        color={"white"}
+                        text={action.text}
+                        icon={action.icon}
+                        iconSize={16}
+                        action={() => {
+                          onClose();
+                          if (action.link) {
+                            resolveLinks(
+                              action.link,
+                              action.screenProps ? action.screenProps : {}
+                            );
+                          } else {
+                            if (action.deepLink) {
+                              resolveLinks(false, false, action.deepLink);
+                            }
+                          }
+                        }}
+                        textColor={constants.firstColor}
+                        textStyle={{
+                          marginLeft: 0,
+                          marginTop: 0
+                        }}
+                        containerStyle={{
+                          width:
+                            actions.length > 1
+                              ? null
+                              : responsiveWidth(100) - 48 - 48,
+                          ...(actions.length > 1
+                            ? { paddingHorizontal: 16 }
+                            : {})
+                        }}
+                      />
+                    );
+                  })
+                : null}
+            </View>
           </View>
         </View>
       </Modal>
@@ -150,6 +198,11 @@ const styles = StyleSheet.create({
   messageStyle: {
     ...constants.fontCustom(constants.primaryLight, 15, 18),
     color: constants.black1
+  },
+  actionBar: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-around"
   }
 });
 

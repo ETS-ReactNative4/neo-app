@@ -188,6 +188,39 @@ const modalData = {
   cta: "Awesome, got it!"
 };
 
+const modalActions = {
+  actions: [
+    {
+      text: "Directions",
+      icon: constants.compassIcon,
+      deepLink: {
+        location: {
+          latitude: "13.0437071",
+          longitude: "80.2417304"
+        }
+      }
+    },
+    {
+      text: "Contact",
+      icon: constants.callIcon,
+      deepLink: {
+        contactNumber: "199999999"
+      }
+    },
+    {
+      text: "Tools Screen",
+      icon: constants.toolIcon,
+      link: "Tools",
+      screenProps: {}
+    }
+  ],
+  modalLink: {
+    text: "Learn More...",
+    link: "TripFeed",
+    screenProps: {}
+  }
+};
+
 const dayAhead = {
   title: "The Day Ahead",
   elements: [
@@ -602,6 +635,20 @@ storiesOf("Trip Feed Widgets", module)
   .add("Info Card Modal with no image", () => {
     const props = { ...modalData };
     delete props["image"];
+    console.log(props);
+    return <InfoCardModalWrapper props={props} />;
+  })
+  .add("Info Card Modal with directions and contact number", () => {
+    const props = { ...modalData };
+    delete props["cta"];
+    props.actions = [modalActions.actions[0], modalActions.actions[1]];
+    console.log(props);
+    return <InfoCardModalWrapper props={props} />;
+  })
+  .add("Info Card Modal with deep link to a screen", () => {
+    const props = { ...modalData };
+    delete props["cta"];
+    props.actions = [modalActions.actions[2]];
     console.log(props);
     return <InfoCardModalWrapper props={props} />;
   })
