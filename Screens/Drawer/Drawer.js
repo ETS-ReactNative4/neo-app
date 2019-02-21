@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import {
   View,
   ScrollView,
@@ -6,13 +6,11 @@ import {
   Image,
   Text,
   Platform,
-  ImageBackground,
   StatusBar
 } from "react-native";
 import { isIphoneX } from "react-native-iphone-x-helper";
 import constants from "../../constants/constants";
 import DrawerButton from "./Components/DrawerButton";
-import NotificationCount from "../../CommonComponents/NotificationCount/NotificationCount";
 import logOut from "../../Services/logOut/logOut";
 import SimpleButton from "../../CommonComponents/SimpleButton/SimpleButton";
 import { inject, observer } from "mobx-react/custom";
@@ -21,6 +19,7 @@ import * as Keychain from "react-native-keychain";
 import DialogBox from "../../CommonComponents/DialogBox/DialogBox";
 import { shouldIncludeStoryBook } from "../../storybook/Storybook";
 import { recordEvent } from "../../Services/analytics/analyticsService";
+import LinearGradient from "react-native-linear-gradient";
 
 @inject("userStore")
 @inject("infoStore")
@@ -140,101 +139,104 @@ class Drawer extends Component {
       });
     }
 
-    return [
-      <ImageBackground
-        key={0}
-        style={{ flex: 1 }}
-        source={constants.drawerBackground}
-      >
-        <ScrollView style={styles.drawerContainer}>
-          <StatusBar backgroundColor="white" barStyle="dark-content" />
-          <View style={styles.profileImageContainer}>
-            <Image
-              style={styles.profileImage}
-              source={{
-                uri:
-                  "https://www.weact.org/wp-content/uploads/2016/10/Blank-profile.png"
-              }}
-            />
-          </View>
-          {!_.isEmpty(userDetails) ? (
-            <Text style={styles.userName}>{`Hi ${
-              firstName
-                ? firstName.charAt(0).toUpperCase() +
-                  firstName.substr(1).toLowerCase()
-                : ""
-            }!`}</Text>
-          ) : null}
-
-          {!this.state.isLoggedIn ? (
-            <SimpleButton
-              text={"Login"}
-              action={() => navigation.navigate("MobileNumber")}
-              textColor={"white"}
-              hasBorder={true}
-              color={"transparent"}
-              containerStyle={{
-                alignSelf: "center",
-                width: 64,
-                height: 24,
-                borderRadius: 17,
-                marginBottom: 19,
-                marginTop: 16
-              }}
-              textStyle={{
-                fontFamily: constants.primaryRegular,
-                fontWeight: "600",
-                color: constants.shade1,
-                fontSize: 10,
-                marginTop: -2,
-                marginLeft: 0
-              }}
-            />
-          ) : (
-            <View style={{ height: 24 }} />
-          )}
-
-          {menuItems.map((item, index) => {
-            const defaultAction = () => this.clickDrawerItem(index, item.text);
-
-            return (
-              <DrawerButton
-                key={index}
-                icon={item.icon}
-                text={item.text}
-                action={item.action || defaultAction}
-                isActive={item.text === this.props.activeItemKey}
-                info={item.info || null}
+    return (
+      <Fragment>
+        <LinearGradient
+          useAngle={true}
+          angle={180}
+          angleCenter={{ x: 0.5, y: 0.5 }}
+          locations={[0, 0.5, 0.75]}
+          colors={["#444444", "#333333", "#222222"]}
+          style={{ flex: 1 }}
+        >
+          <ScrollView style={styles.drawerContainer}>
+            <StatusBar backgroundColor="white" barStyle="dark-content" />
+            <View style={styles.profileImageContainer}>
+              <Image
+                style={styles.profileImage}
+                source={{
+                  uri:
+                    "https://www.weact.org/wp-content/uploads/2016/10/Blank-profile.png"
+                }}
               />
-            );
-          })}
-        </ScrollView>
-      </ImageBackground>,
-      <DialogBox
-        {...infoStore.info}
-        onClose={() => {
-          infoStore.info.action && infoStore.info.action();
-          infoStore.resetInfo();
-        }}
-        key={1}
-      />,
-      <DialogBox
-        {...infoStore.error}
-        onClose={() => {
-          infoStore.error.action && infoStore.error.action();
-          infoStore.resetError();
-        }}
-        key={2}
-      />,
-      <DialogBox
-        {...infoStore.success}
-        onClose={() => {
-          infoStore.success.action && infoStore.success.action();
-          infoStore.resetSuccess();
-        }}
-        key={3}
-      />
-    ];
+            </View>
+            {!_.isEmpty(userDetails) ? (
+              <Text style={styles.userName}>{`Hi ${
+                firstName
+                  ? firstName.charAt(0).toUpperCase() +
+                    firstName.substr(1).toLowerCase()
+                  : ""
+              }!`}</Text>
+            ) : null}
+
+            {!this.state.isLoggedIn ? (
+              <SimpleButton
+                text={"Login"}
+                action={() => navigation.navigate("MobileNumber")}
+                textColor={"white"}
+                hasBorder={true}
+                color={"transparent"}
+                containerStyle={{
+                  alignSelf: "center",
+                  width: 64,
+                  height: 24,
+                  borderRadius: 17,
+                  marginBottom: 19,
+                  marginTop: 16
+                }}
+                textStyle={{
+                  fontFamily: constants.primaryRegular,
+                  fontWeight: "600",
+                  color: constants.shade1,
+                  fontSize: 10,
+                  marginTop: -2,
+                  marginLeft: 0
+                }}
+              />
+            ) : (
+              <View style={{ height: 24 }} />
+            )}
+
+            {menuItems.map((item, index) => {
+              const defaultAction = () =>
+                this.clickDrawerItem(index, item.text);
+
+              return (
+                <DrawerButton
+                  key={index}
+                  icon={item.icon}
+                  text={item.text}
+                  action={item.action || defaultAction}
+                  isActive={item.text === this.props.activeItemKey}
+                  info={item.info || null}
+                />
+              );
+            })}
+          </ScrollView>
+        </LinearGradient>
+        <DialogBox
+          {...infoStore.info}
+          onClose={() => {
+            infoStore.info.action && infoStore.info.action();
+            infoStore.resetInfo();
+          }}
+        />
+        <DialogBox
+          {...infoStore.error}
+          onClose={() => {
+            infoStore.error.action && infoStore.error.action();
+            infoStore.resetError();
+          }}
+        />
+        <DialogBox
+          {...infoStore.success}
+          onClose={() => {
+            infoStore.success.action && infoStore.success.action();
+            infoStore.resetSuccess();
+          }}
+        />
+      </Fragment>
+    );
   }
 }
 
