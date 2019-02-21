@@ -652,6 +652,14 @@ storiesOf("Trip Feed Widgets", module)
     console.log(props);
     return <InfoCardModalWrapper props={props} />;
   })
+  .add("Info Card Modal with a text link", () => {
+    const props = { ...modalData };
+    delete props["cta"];
+    props.actions = [modalActions.actions[0], modalActions.actions[1]];
+    props.modalLink = modalActions.modalLink;
+    console.log(props);
+    return <InfoCardModalWrapper props={props} />;
+  })
   .add("Day Ahead default", () => {
     const props = dayAhead;
     console.log(props);

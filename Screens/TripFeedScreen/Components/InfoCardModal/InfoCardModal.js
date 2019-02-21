@@ -1,5 +1,11 @@
 import React, { Component } from "react";
-import { View, StyleSheet, Text, TouchableWithoutFeedback } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Text,
+  TouchableWithoutFeedback,
+  TouchableOpacity
+} from "react-native";
 import Modal from "react-native-modal";
 import PropTypes from "prop-types";
 import {
@@ -22,7 +28,8 @@ class InfoCardModal extends Component {
     cta: PropTypes.string,
     isVisible: PropTypes.bool.isRequired,
     onClose: PropTypes.func.isRequired,
-    actions: PropTypes.array
+    actions: PropTypes.array,
+    modalLink: PropTypes.object
   });
 
   render() {
@@ -34,7 +41,8 @@ class InfoCardModal extends Component {
       cta,
       isVisible,
       onClose,
-      actions
+      actions,
+      modalLink
     } = this.props;
     return (
       <Modal
@@ -79,6 +87,27 @@ class InfoCardModal extends Component {
                     );
                   })
                 : null}
+              {modalLink && modalLink.text ? (
+                <TouchableOpacity
+                  onPress={() => {
+                    onClose();
+                    if (modalLink.link) {
+                      resolveLinks(
+                        modalLink.link,
+                        modalLink.screenProps ? modalLink.screenProps : {}
+                      );
+                    } else {
+                      if (modalLink.deepLink) {
+                        resolveLinks(false, false, modalLink.deepLink);
+                      }
+                    }
+                  }}
+                >
+                  <Text style={[styles.messageStyle, styles.textLink]}>
+                    {modalLink.text}
+                  </Text>
+                </TouchableOpacity>
+              ) : null}
             </View>
             {cta ? (
               <SimpleButton
@@ -140,6 +169,13 @@ class InfoCardModal extends Component {
                 : null}
             </View>
           </View>
+          <TouchableOpacity
+            onPress={onClose}
+            activeOpacity={0.8}
+            style={styles.closeIconContainer}
+          >
+            <Icon name={constants.closeIcon} color={"white"} size={16} />
+          </TouchableOpacity>
         </View>
       </Modal>
     );
@@ -198,6 +234,25 @@ const styles = StyleSheet.create({
   messageStyle: {
     ...constants.fontCustom(constants.primaryLight, 15, 18),
     color: constants.black1
+  },
+  textLink: {
+    textDecorationLine: "underline",
+    color: constants.firstColor
+  },
+  closeIconContainer: {
+    position: "absolute",
+    height: 25,
+    width: 25,
+    borderRadius: 12.5,
+    backgroundColor: "rgba(0,0,0,0.8)",
+    alignItems: "center",
+    justifyContent: "center",
+    top: -10,
+    right: -10
+  },
+  closeButton: {
+    height: 25,
+    width: 25
   },
   actionBar: {
     flexDirection: "row",

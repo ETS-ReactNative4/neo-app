@@ -30,7 +30,7 @@ const resolveLinks = (link = "", screenProps = {}, deepLink = {}) => {
     const {
       voucherType,
       costingIdentifier,
-      location,
+      location = {},
       contactNumber
     } = deepLink;
     const { latitude, longitude } = location;
