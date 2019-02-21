@@ -33,7 +33,7 @@ const resolveLinks = (link = "", screenProps = {}, deepLink = {}) => {
       location = {},
       contactNumber
     } = deepLink;
-    const { latitude, longitude } = location;
+    const { latitude, longitude } = location || {};
     if (voucherType && costingIdentifier) {
       /**
        * TODO: use a common function for toastBottom message
