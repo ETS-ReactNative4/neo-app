@@ -19,6 +19,7 @@ import * as Keychain from "react-native-keychain";
 import DialogBox from "../../CommonComponents/DialogBox/DialogBox";
 import { shouldIncludeStoryBook } from "../../storybook/Storybook";
 import { recordEvent } from "../../Services/analytics/analyticsService";
+import LinearGradient from "react-native-linear-gradient";
 
 @inject("userStore")
 @inject("infoStore")
@@ -140,8 +141,13 @@ class Drawer extends Component {
 
     return (
       <Fragment>
-        <View
-          style={{ flex: 1, backgroundColor: constants.drawerBackgroundColor }}
+        <LinearGradient
+          useAngle={true}
+          angle={180}
+          angleCenter={{ x: 0.5, y: 0.5 }}
+          locations={[0, 0.5, 0.75]}
+          colors={constants.drawerBackgroundColor}
+          style={{ flex: 1 }}
         >
           <ScrollView style={styles.drawerContainer}>
             <StatusBar backgroundColor="white" barStyle="dark-content" />
@@ -207,7 +213,7 @@ class Drawer extends Component {
               );
             })}
           </ScrollView>
-        </View>
+        </LinearGradient>
         <DialogBox
           {...infoStore.info}
           onClose={() => {
