@@ -109,7 +109,7 @@ class InfoCardModal extends Component {
                 </TouchableOpacity>
               ) : null}
             </View>
-            {cta ? (
+            {cta || !actions || actions.length === 0 ? ( // display cta if no actions are present in the modal
               <SimpleButton
                 hasBorder
                 color={"transparent"}
