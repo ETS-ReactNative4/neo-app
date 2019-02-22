@@ -142,6 +142,7 @@ class Drawer extends Component {
     return (
       <Fragment>
         <View
+          // Following gradient config might be needed in the future
           // useAngle={true}
           // angle={180}
           // angleCenter={{ x: 0.5, y: 0.5 }}
