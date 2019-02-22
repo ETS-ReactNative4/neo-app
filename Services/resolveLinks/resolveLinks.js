@@ -10,7 +10,7 @@ import dialer from "../dialer/dialer";
 const validateVoucher = voucher =>
   !_.isEmpty(voucher) &&
   voucher.voucher &&
-  (voucher.voucher.booked || voucher.voucher.free);
+  (voucher.voucher.booked || voucher.free);
 
 const resolveLinks = (link = "", screenProps = {}, deepLink = {}) => {
   const { _navigation: navigation } = navigationService.navigation;
