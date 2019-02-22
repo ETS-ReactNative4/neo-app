@@ -141,13 +141,13 @@ class Drawer extends Component {
 
     return (
       <Fragment>
-        <LinearGradient
-          useAngle={true}
-          angle={180}
-          angleCenter={{ x: 0.5, y: 0.5 }}
-          locations={[0, 0.5, 0.75]}
-          colors={constants.drawerBackgroundColor}
-          style={{ flex: 1 }}
+        <View
+          // useAngle={true}
+          // angle={180}
+          // angleCenter={{ x: 0.5, y: 0.5 }}
+          // locations={[0, 0.5, 0.75]}
+          // colors={constants.drawerBackgroundColor}
+          style={{ flex: 1, backgroundColor: constants.drawerBackgroundColor }}
         >
           <ScrollView style={styles.drawerContainer}>
             <StatusBar backgroundColor="white" barStyle="dark-content" />
@@ -213,7 +213,7 @@ class Drawer extends Component {
               );
             })}
           </ScrollView>
-        </LinearGradient>
+        </View>
         <DialogBox
           {...infoStore.info}
           onClose={() => {
