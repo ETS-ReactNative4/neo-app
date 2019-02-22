@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from "react";
-import { View, StyleSheet, Platform } from "react-native";
+import { View, StyleSheet, Platform, Text } from "react-native";
 import { isIphoneX } from "react-native-iphone-x-helper";
 import ParallaxScrollView from "react-native-parallax-scroll-view";
 import { responsiveWidth } from "react-native-responsive-dimensions";
@@ -20,6 +20,7 @@ import VoucherContactActionBar from "../Components/VoucherContactActionBar";
 import ViewVoucherButton from "../Components/ViewVoucherButton";
 import VoucherAddressSection from "../Components/VoucherAddressSection";
 import FooterStickyActionBar from "../../../CommonComponents/FooterStickyActionBar/FooterStickyActionBar";
+import VoucherAccordion from "../Components/VoucherAccordion";
 
 const xHeight = isIphoneX()
   ? constants.xNotchHeight
@@ -87,7 +88,8 @@ class TransferVoucher extends Component {
       from,
       to,
       voucherUrl,
-      meetingPoint
+      meetingPoint,
+      pickupInstructions
     } = transfer.voucher;
 
     const passengerDetails = [
@@ -189,6 +191,19 @@ class TransferVoucher extends Component {
       voucherDate = moment(pickupTime).valueOf();
     }
 
+    const transferAccordionSections = [
+      pickupInstructions
+        ? {
+            name: "Pickup Instructions",
+            component: (
+              <View style={styles.accordionTextWrapper}>
+                <Text style={styles.accordionText}>{pickupInstructions}</Text>
+              </View>
+            )
+          }
+        : null
+    ];
+
     return (
       <Fragment>
         <ParallaxScrollView
@@ -241,11 +256,12 @@ class TransferVoucher extends Component {
 
             <VoucherContactActionBar contact={contactNumber} />
 
-            <VoucherSplitSection sections={bookingDetails} />
-          </View>
+            <VoucherAccordion
+              sections={transferAccordionSections}
+              openFirstSection={true}
+            />
 
-          <View style={styles.accordionSection}>
-            {/*<VoucherAccordion />*/}
+            <VoucherSplitSection sections={bookingDetails} />
           </View>
 
           <ViewVoucherButton
@@ -272,6 +288,17 @@ const styles = StyleSheet.create({
   },
   accordionSection: {
     paddingHorizontal: 24
+  },
+  accordionTextWrapper: {
+    marginTop: 16,
+    paddingBottom: 16,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomColor: constants.shade4
+  },
+  accordionText: {
+    width: responsiveWidth(100) - 48,
+    ...constants.fontCustom(constants.primaryLight, 17),
+    color: constants.black2
   }
 });
 
