@@ -5,12 +5,9 @@ import { Platform } from "react-native";
  * Font name of iOS is the font's name in its meta data
  */
 const primaryFont = {
-  primaryRegular:
-    Platform.OS === "ios" ? "SourceSansPro-Regular" : "SourceSansPro-Regular",
-  primaryLight:
-    Platform.OS === "ios" ? "SourceSansPro-Light" : "SourceSansPro-Light",
-  primarySemiBold:
-    Platform.OS === "ios" ? "SourceSansPro-SemiBold" : "SourceSansPro-SemiBold"
+  primaryRegular: "SourceSansPro-Regular",
+  primaryLight: "SourceSansPro-Light",
+  primarySemiBold: "SourceSansPro-SemiBold"
 };
 
 const font10 = fontFamily => {
