@@ -6,6 +6,7 @@ import { toastBottom } from "../toast/toast";
 import constants from "../../constants/constants";
 import directions from "../directions/directions";
 import dialer from "../dialer/dialer";
+import { logError } from "../errorLogger/errorLogger";
 
 const validateVoucher = voucher =>
   !_.isEmpty(voucher) &&
@@ -64,7 +65,24 @@ const resolveLinks = (link = "", screenProps = {}, deepLink = {}) => {
             costingIdentifier
           );
           if (validateVoucher(activity)) {
-            navigation.navigate("ActivityVoucher", { activity });
+            if (
+              activity.voucher &&
+              activity.voucher.voucherUrl &&
+              activity.costing.viator
+            ) {
+              openCustomTab(
+                activity.voucher.voucherUrl,
+                () => null,
+                () => {
+                  logError(
+                    "Unable to launch custom tab for viator voucher!",
+                    {}
+                  );
+                }
+              );
+            } else {
+              navigation.navigate("ActivityVoucher", { activity });
+            }
           } else {
             toastBottom(constants.bookingProcessText.message);
           }
