@@ -117,8 +117,13 @@ class ActivityVoucher extends Component {
     } = activity.costing;
     const {
       inclusion: costingInclusions,
-      exclusion: costingExclusions
+      exclusion: costingExclusions,
+      departureTime
     } = selectedTourGrade;
+
+    const activityDepartureTime = moment(departureTime, "HHmm").format(
+      "hh:mm a"
+    );
 
     const transferIncluded = _.toUpper(transferType) !== "NOTRANSFER";
     const pickupDetail =
@@ -159,6 +164,10 @@ class ActivityVoucher extends Component {
         //   name: "Slot",
         //   value: getTitleCase(availabilitySlot)
         // },
+        {
+          name: "Starts at",
+          value: departureTimeStr ? departureTimeStr : activityDepartureTime
+        },
         {
           name: "Type",
           value: "Self Exploration"
@@ -214,9 +223,7 @@ class ActivityVoucher extends Component {
         !transferIncluded // Display activity start time only when transfer is not included
           ? {
               name: "Starts at",
-              value: departureTimeStr
-                ? departureTimeStr
-                : moment(dateMillis).format("hh:mm a")
+              value: departureTimeStr ? departureTimeStr : activityDepartureTime
             }
           : null,
         {

@@ -76,7 +76,7 @@ const notificationClickHandler = async data => {
       const { screen, link, modalData } = data;
       const { navigation } = navigationService;
       if (link) {
-        resolveLinks(link, JSON.parse(modalData));
+        resolveLinks(link, modalData ? JSON.parse(modalData) : {});
       } else {
         switch (screen) {
           case "CRISP_CHAT":

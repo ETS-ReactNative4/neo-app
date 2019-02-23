@@ -29,7 +29,7 @@ const DrawerButton = ({ icon, text, action, info, isActive }) => {
           <Icon
             name={icon}
             size={24}
-            color={isActive ? "white" : constants.firstColor}
+            color={isActive ? "white" : "rgba(255,255,255,0.8)"}
           />
         </View>
 
@@ -37,7 +37,7 @@ const DrawerButton = ({ icon, text, action, info, isActive }) => {
           <Text
             style={[
               styles.menuName,
-              isActive ? { color: "white" } : { color: "rgba(255,255,255,0.6)" }
+              isActive ? { color: "white" } : { color: "rgba(255,255,255,0.8)" }
             ]}
           >
             {text}

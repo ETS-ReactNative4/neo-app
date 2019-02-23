@@ -70,7 +70,7 @@ const colorPallete = {
   ...gradientPallete,
   ...chatColorPallete,
   appBackgroundColor: "white",
-  drawerBackgroundColor: "rgba(239,239,239,1)"
+  drawerBackgroundColor: "rgba(46, 124, 239, 1)"
 };
 
 export default colorPallete;

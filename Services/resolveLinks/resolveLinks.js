@@ -4,13 +4,16 @@ import openCustomTab from "../openCustomTab/openCustomTab";
 import storeService from "../storeService/storeService";
 import { toastBottom } from "../toast/toast";
 import constants from "../../constants/constants";
+import directions from "../directions/directions";
+import dialer from "../dialer/dialer";
+import { logError } from "../errorLogger/errorLogger";
 
 const validateVoucher = voucher =>
   !_.isEmpty(voucher) &&
   voucher.voucher &&
-  (voucher.voucher.booked || voucher.voucher.free);
+  (voucher.voucher.booked || voucher.free);
 
-const resolveLinks = (link, screenProps = {}, deepLink = {}) => {
+const resolveLinks = (link = "", screenProps = {}, deepLink = {}) => {
   const { _navigation: navigation } = navigationService.navigation;
   if (link) {
     if (link.includes("http://") || link.includes("https://")) {
@@ -25,7 +28,13 @@ const resolveLinks = (link, screenProps = {}, deepLink = {}) => {
       });
     }
   } else if (!_.isEmpty(deepLink)) {
-    const { voucherType, costingIdentifier } = deepLink;
+    const {
+      voucherType,
+      costingIdentifier,
+      location = {},
+      contactNumber
+    } = deepLink;
+    const { latitude, longitude } = location || {};
     if (voucherType && costingIdentifier) {
       /**
        * TODO: use a common function for toastBottom message
@@ -56,7 +65,24 @@ const resolveLinks = (link, screenProps = {}, deepLink = {}) => {
             costingIdentifier
           );
           if (validateVoucher(activity)) {
-            navigation.navigate("ActivityVoucher", { activity });
+            if (
+              activity.voucher &&
+              activity.voucher.voucherUrl &&
+              activity.costing.viator
+            ) {
+              openCustomTab(
+                activity.voucher.voucherUrl,
+                () => null,
+                () => {
+                  logError(
+                    "Unable to launch custom tab for viator voucher!",
+                    {}
+                  );
+                }
+              );
+            } else {
+              navigation.navigate("ActivityVoucher", { activity });
+            }
           } else {
             toastBottom(constants.bookingProcessText.message);
           }
@@ -106,6 +132,14 @@ const resolveLinks = (link, screenProps = {}, deepLink = {}) => {
           toastBottom(constants.bookingProcessText.message);
           break;
       }
+      return;
+    }
+    if (latitude && longitude) {
+      directions({ latitude, longitude });
+      return;
+    }
+    if (contactNumber) {
+      dialer(contactNumber);
     }
   }
 };

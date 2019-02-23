@@ -16,6 +16,8 @@ import {
   responsiveWidth
 } from "react-native-responsive-dimensions";
 import openCustomTab from "../../Services/openCustomTab/openCustomTab";
+import * as Keychain from "react-native-keychain";
+import { logError } from "../../Services/errorLogger/errorLogger";
 
 @ErrorBoundary({ isRoot: true })
 @inject("userStore")
@@ -97,12 +99,23 @@ class ChatScreen extends Component {
         BackHandler.removeEventListener("hardwareBackPress", this.goBack);
       }
     );
-    const { userDetails, getUserDetails } = this.props.userStore;
-    const { email, crisp_token } = userDetails;
-    if (!crisp_token || !email) {
-      getUserDetails();
-    }
+    this.checkCrispToken();
   }
+
+  checkCrispToken = async () => {
+    try {
+      const credentials = await Keychain.getGenericPassword();
+      if (credentials && credentials.password) {
+        const { userDetails, getUserDetails } = this.props.userStore;
+        const { email, crisp_token } = userDetails;
+        if (!crisp_token || !email) {
+          getUserDetails();
+        }
+      }
+    } catch (e) {
+      logError(e);
+    }
+  };
 
   componentWillUnmount() {
     this._didFocusSubscription && this._didFocusSubscription.remove();

@@ -20,6 +20,7 @@ import Icon from "../../../CommonComponents/Icon/Icon";
 import ViewVoucherButton from "../Components/ViewVoucherButton";
 import FooterStickyActionBar from "../../../CommonComponents/FooterStickyActionBar/FooterStickyActionBar";
 import ConditionsApplyText from "../Components/ConditionsApplyText";
+import CheckInCheckOut from "../Components/CheckInCheckOut";
 
 const xHeight = isIphoneX()
   ? constants.xNotchHeight
@@ -174,36 +175,26 @@ class HotelVoucher extends Component {
             />
           )}
         >
-          <View style={styles.checkInRow}>
-            <View style={styles.checkInBox}>
-              <Text style={styles.checkTitle}>CHECK IN</Text>
-              <Text style={styles.checkDate}>
-                {checkInDateVoucher
-                  ? moment(checkInDateVoucher, "YYYY-MM-DD").format(
-                      constants.commonDateFormat
-                    )
-                  : moment(checkInDate, "DD/MMM/YYYY").format(
-                      constants.commonDateFormat
-                    )}
-              </Text>
-              <Text style={styles.checkTime}>
-                {checkInTimeVoucher || "02:00 pm"}
-              </Text>
-            </View>
-            <View style={styles.checkOutBox}>
-              <Text style={styles.checkTitle}>CHECK OUT</Text>
-              <Text style={styles.checkDate}>
-                {checkOutDateVoucher
-                  ? moment(checkOutDateVoucher, "YYYY-MM-DD").format(
-                      "ddd, DD MMM"
-                    )
-                  : moment(checkOutDate, "DD/MMM/YYYY").format("ddd, DD MMM")}
-              </Text>
-              <Text style={styles.checkTime}>
-                {checkOutTimeVoucher || "11:00 pm"}
-              </Text>
-            </View>
-          </View>
+          <CheckInCheckOut
+            checkInDate={
+              checkInDateVoucher
+                ? moment(checkInDateVoucher, "YYYY-MM-DD").format(
+                    constants.commonDateFormat
+                  )
+                : moment(checkInDate, "DD/MMM/YYYY").format(
+                    constants.commonDateFormat
+                  )
+            }
+            checkInTime={checkInTimeVoucher || "02:00 pm"}
+            checkOutDate={
+              checkOutDateVoucher
+                ? moment(checkOutDateVoucher, "YYYY-MM-DD").format(
+                    "ddd, DD MMM"
+                  )
+                : moment(checkOutDate, "DD/MMM/YYYY").format("ddd, DD MMM")
+            }
+            checkOutTime={checkOutTimeVoucher || "11:00 pm"}
+          />
 
           <VoucherName name={name} textStyle={{ marginHorizontal: 24 }} />
 
@@ -358,37 +349,6 @@ class HotelVoucher extends Component {
 }
 
 const styles = StyleSheet.create({
-  checkInRow: {
-    height: 64,
-    paddingHorizontal: 24,
-    alignItems: "center",
-    justifyContent: "space-between",
-    flexDirection: "row",
-    marginTop: 16
-  },
-  checkInBox: {
-    alignItems: "flex-start"
-  },
-  checkOutBox: {
-    alignItems: "flex-end"
-  },
-  checkTitle: {
-    fontFamily: constants.primarySemiBold,
-    fontSize: 11,
-    color: constants.black2
-  },
-  checkDate: {
-    fontSize: 17,
-    fontFamily: constants.primarySemiBold,
-    color: constants.thirdColor
-  },
-  checkTime: {
-    fontSize: 17,
-    fontFamily: constants.primaryLight,
-    color: constants.shade1,
-    marginTop: 5
-  },
-
   bookingDetailsRow: {
     paddingHorizontal: 24
   },

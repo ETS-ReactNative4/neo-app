@@ -39,9 +39,10 @@ class SupportCenter extends Component {
   };
 
   componentDidMount() {
-    const { loadConversation } = this.props.supportStore;
+    const { loadConversation, loadFaqDetails } = this.props.supportStore;
     setTimeout(() => {
       loadConversation();
+      loadFaqDetails();
     }, 1000);
   }
 

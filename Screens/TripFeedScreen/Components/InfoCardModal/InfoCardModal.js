@@ -1,5 +1,11 @@
 import React, { Component } from "react";
-import { View, StyleSheet, Text, TouchableWithoutFeedback } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Text,
+  TouchableWithoutFeedback,
+  TouchableOpacity
+} from "react-native";
 import Modal from "react-native-modal";
 import PropTypes from "prop-types";
 import {
@@ -11,6 +17,9 @@ import SimpleButton from "../../../../CommonComponents/SimpleButton/SimpleButton
 import FastImage from "react-native-fast-image";
 import forbidExtraProps from "../../../../Services/PropTypeValidation/forbidExtraProps";
 import Icon from "../../../../CommonComponents/Icon/Icon";
+import resolveLinks from "../../../../Services/resolveLinks/resolveLinks";
+
+const singleButtonWidth = responsiveWidth(100) - 48 - 48;
 
 class InfoCardModal extends Component {
   static propTypes = forbidExtraProps({
@@ -18,9 +27,11 @@ class InfoCardModal extends Component {
     title: PropTypes.string.isRequired,
     content: PropTypes.string,
     bulletedList: PropTypes.arrayOf(PropTypes.string),
-    cta: PropTypes.string.isRequired,
+    cta: PropTypes.string,
     isVisible: PropTypes.bool.isRequired,
-    onClose: PropTypes.func.isRequired
+    onClose: PropTypes.func.isRequired,
+    actions: PropTypes.array,
+    modalLink: PropTypes.object
   });
 
   render() {
@@ -31,7 +42,9 @@ class InfoCardModal extends Component {
       bulletedList,
       cta,
       isVisible,
-      onClose
+      onClose,
+      actions,
+      modalLink
     } = this.props;
     return (
       <Modal
@@ -76,22 +89,93 @@ class InfoCardModal extends Component {
                     );
                   })
                 : null}
+              {modalLink && modalLink.text ? (
+                <TouchableOpacity
+                  onPress={() => {
+                    onClose();
+                    if (modalLink.link) {
+                      resolveLinks(
+                        modalLink.link,
+                        modalLink.screenProps ? modalLink.screenProps : {}
+                      );
+                    } else {
+                      if (modalLink.deepLink) {
+                        resolveLinks(false, false, modalLink.deepLink);
+                      }
+                    }
+                  }}
+                >
+                  <Text style={[styles.messageStyle, styles.textLink]}>
+                    {modalLink.text}
+                  </Text>
+                </TouchableOpacity>
+              ) : null}
             </View>
-            <SimpleButton
-              hasBorder
-              color={"transparent"}
-              text={cta || "Okay!"}
-              action={onClose}
-              textColor={constants.firstColor}
-              textStyle={{
-                marginLeft: 0,
-                marginTop: 0
-              }}
-              containerStyle={{
-                width: responsiveWidth(100) - 48 - 48
-              }}
-            />
+            {cta || !actions || actions.length === 0 ? ( // display cta if no actions are present in the modal
+              <SimpleButton
+                hasBorder
+                color={"transparent"}
+                text={cta || "Okay!"}
+                action={onClose}
+                textColor={constants.firstColor}
+                textStyle={{
+                  marginLeft: 0,
+                  marginTop: 0
+                }}
+                containerStyle={{
+                  width: singleButtonWidth
+                }}
+              />
+            ) : null}
+            <View style={styles.actionBar}>
+              {actions && actions.length
+                ? actions.map((action, actionIndex) => {
+                    return (
+                      <SimpleButton
+                        key={actionIndex}
+                        hasBorder
+                        color={"white"}
+                        text={action.text}
+                        icon={action.icon}
+                        iconSize={16}
+                        action={() => {
+                          onClose();
+                          if (action.link) {
+                            resolveLinks(
+                              action.link,
+                              action.screenProps ? action.screenProps : {}
+                            );
+                          } else {
+                            if (action.deepLink) {
+                              resolveLinks(false, false, action.deepLink);
+                            }
+                          }
+                        }}
+                        textColor={constants.firstColor}
+                        textStyle={{
+                          marginLeft: 0,
+                          marginTop: 0
+                        }}
+                        containerStyle={{
+                          width:
+                            actions.length > 1
+                              ? singleButtonWidth / 2 - 16
+                              : responsiveWidth(100) - 48 - 48,
+                          ...(actions.length > 1 ? { marginHorizontal: 4 } : {})
+                        }}
+                      />
+                    );
+                  })
+                : null}
+            </View>
           </View>
+          <TouchableOpacity
+            onPress={onClose}
+            activeOpacity={0.8}
+            style={styles.closeIconContainer}
+          >
+            <Icon name={constants.closeIcon} color={"white"} size={16} />
+          </TouchableOpacity>
         </View>
       </Modal>
     );
@@ -150,6 +234,30 @@ const styles = StyleSheet.create({
   messageStyle: {
     ...constants.fontCustom(constants.primaryLight, 15, 18),
     color: constants.black1
+  },
+  textLink: {
+    textDecorationLine: "underline",
+    color: constants.firstColor
+  },
+  closeIconContainer: {
+    position: "absolute",
+    height: 25,
+    width: 25,
+    borderRadius: 12.5,
+    backgroundColor: "rgba(0,0,0,0.8)",
+    alignItems: "center",
+    justifyContent: "center",
+    top: -10,
+    right: -10
+  },
+  closeButton: {
+    height: 25,
+    width: 25
+  },
+  actionBar: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-around"
   }
 });
 

@@ -82,6 +82,7 @@ const NotifCard = ({
           <Text
             style={[styles.messageContent, { color: textColor }]}
             numberOfLines={2}
+            ellipsizeMode={"middle"}
           >
             {title ? <Text style={styles.messageTitle}>{title} </Text> : null}
             {message}
