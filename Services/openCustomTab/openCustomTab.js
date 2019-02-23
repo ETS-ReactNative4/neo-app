@@ -10,7 +10,7 @@ import constants from "../../constants/constants";
 
 const openCustomTab = (url, success = () => null, failure = () => null) => {
   if (Platform.OS === "ios") {
-    if (parseFloat(Platform.version) < constants.customTabSupportIos) {
+    if (parseFloat(Platform.Version) < constants.customTabSupportIos) {
       Linking.canOpenURL(url)
         .then(supported => {
           if (!supported) {
