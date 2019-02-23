@@ -21,6 +21,8 @@ import ViewVoucherButton from "../Components/ViewVoucherButton";
 import VoucherAddressSection from "../Components/VoucherAddressSection";
 import FooterStickyActionBar from "../../../CommonComponents/FooterStickyActionBar/FooterStickyActionBar";
 import VoucherAccordion from "../Components/VoucherAccordion";
+import HTMLView from "react-native-htmlview";
+import containsHtml from "../../../Services/containsHtml/containsHtml";
 
 const xHeight = isIphoneX()
   ? constants.xNotchHeight
@@ -197,7 +199,14 @@ class TransferVoucher extends Component {
             name: "Pickup Instructions",
             component: (
               <View style={styles.accordionTextWrapper}>
-                <Text style={styles.accordionText}>{pickupInstructions}</Text>
+                {containsHtml(pickupInstructions) ? (
+                  <HTMLView
+                    value={pickupInstructions}
+                    stylesheet={constants.htmlStyleSheet}
+                  />
+                ) : (
+                  <Text style={styles.accordionText}>{pickupInstructions}</Text>
+                )}
               </View>
             )
           }
