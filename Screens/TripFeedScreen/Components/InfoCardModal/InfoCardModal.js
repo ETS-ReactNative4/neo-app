@@ -19,6 +19,8 @@ import forbidExtraProps from "../../../../Services/PropTypeValidation/forbidExtr
 import Icon from "../../../../CommonComponents/Icon/Icon";
 import resolveLinks from "../../../../Services/resolveLinks/resolveLinks";
 
+const singleButtonWidth = responsiveWidth(100) - 48 - 48;
+
 class InfoCardModal extends Component {
   static propTypes = forbidExtraProps({
     image: PropTypes.oneOfType([PropTypes.object, PropTypes.number]),
@@ -121,7 +123,7 @@ class InfoCardModal extends Component {
                   marginTop: 0
                 }}
                 containerStyle={{
-                  width: responsiveWidth(100) - 48 - 48
+                  width: singleButtonWidth
                 }}
               />
             ) : null}
@@ -157,11 +159,9 @@ class InfoCardModal extends Component {
                         containerStyle={{
                           width:
                             actions.length > 1
-                              ? null
+                              ? singleButtonWidth / 2 - 16
                               : responsiveWidth(100) - 48 - 48,
-                          ...(actions.length > 1
-                            ? { paddingHorizontal: 16 }
-                            : {})
+                          ...(actions.length > 1 ? { marginHorizontal: 4 } : {})
                         }}
                       />
                     );
