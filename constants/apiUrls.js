@@ -59,6 +59,11 @@ const apiUrls = {
   cancellationPolicy: "cancellation-policy",
   careers: "careers",
 
+  /**
+   * minimum iOS version for custom tabs
+   */
+  customTabSupportIos: 11.5,
+
   tripToggleStatusStorageKey: "@Pickyourtrail/tripToggleStatus",
   preTripChatActivationTime: 72,
   googleDrivePdfViewer: "https://drive.google.com/viewerng/viewer?url="
