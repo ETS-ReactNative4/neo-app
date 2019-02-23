@@ -449,14 +449,13 @@ class Itineraries {
     let passes;
     try {
       const passRefs = this._selectedItinerary.allPassCostingRefs;
-      passes =
-        passRefs && passRefs.length
-          ? passRefs.map(ref => {
-              return toJS(
-                this._selectedItinerary.passCostings.passCostingById[ref]
-              );
-            })
-          : [];
+      passes = Array.isArray(passRefs)
+        ? passRefs.map(ref => {
+            return toJS(
+              this._selectedItinerary.passCostings.passCostingById[ref]
+            );
+          })
+        : [];
     } catch (e) {
       logError(e);
       passes = [];

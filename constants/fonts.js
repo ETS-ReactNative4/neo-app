@@ -1,5 +1,9 @@
 import { Platform } from "react-native";
 
+/**
+ * Font name of android is the font file's name,
+ * Font name of iOS is the font's name in its meta data
+ */
 const primaryFont = {
   primaryRegular:
     Platform.OS === "ios" ? "SourceSansPro-Regular" : "SourceSansPro-Regular",
