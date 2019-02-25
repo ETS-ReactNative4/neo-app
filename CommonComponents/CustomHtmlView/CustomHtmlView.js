@@ -16,30 +16,23 @@ class CustomHtmlView extends Component {
   });
 
   state = {
-    hasError: false,
-    isUlWrapped: false
+    hasError: false
   };
 
   componentDidCatch(error, errorInfo) {
-    if (!this.state.isUlWrapped) {
-      this.setState({
-        isUlWrapped: true
-      });
-    } else {
-      this.setState(
-        {
-          hasError: true
-        },
-        () => {
-          const { html } = this.props;
-          logError("Invalid HTML data found", {
-            error,
-            errorInfo,
-            html
-          });
-        }
-      );
-    }
+    this.setState(
+      {
+        hasError: true
+      },
+      () => {
+        const { html } = this.props;
+        logError("Invalid HTML data found", {
+          error,
+          errorInfo,
+          html
+        });
+      }
+    );
   }
 
   render() {
@@ -50,13 +43,19 @@ class CustomHtmlView extends Component {
       addLineBreaks = true,
       containerStyle = {}
     } = this.props;
-    const htmlMin = html.replace(/(\r\n|\n|\r)/gm, "");
-    const { isUlWrapped } = this.state;
+    let htmlMin = html.replace(/(\r\n|\n|\r)/gm, ""); // remove unnecessary line breaks
+    if (
+      htmlMin.includes("li") &&
+      !(htmlMin.includes("ul") || htmlMin.includes("ol"))
+    ) {
+      // check if li tag has ul or ol tag to prevent crash
+      htmlMin = `<ul>${htmlMin}</ul>`;
+    }
     return (
       <HTMLView
         style={containerStyle}
         addLineBreaks={addLineBreaks}
-        value={isUlWrapped ? `<ul>${htmlMin}</ul>` : htmlMin}
+        value={htmlMin}
         stylesheet={styleSheet}
       />
     );
