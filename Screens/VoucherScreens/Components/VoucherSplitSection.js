@@ -25,12 +25,13 @@ const VoucherSplitSection = ({
             >
               {section.name}
             </Text>
+            {/**Text section needs prefix with empty space to prevent colliding with left section**/}
             <Text
               numberOfLines={1}
               ellipsizeMode={"tail"}
               style={[styles.sectionValue, rightFontStyle]}
             >
-              {section.value}
+              {`  ${section.value}`}
             </Text>
           </View>
         );
