@@ -48,9 +48,18 @@ const VisaTabContainer = ({
       <VoucherSplitSection sections={visaDetailsArray} />
       <HTMLView
         style={styles.htmlViewContainer}
-        addLineBreaks={false}
+        addLineBreaks={true}
+        paragraphBreak={null}
+        lineBreak={"\n"}
         value={visaDetailText}
-        stylesheet={constants.htmlStyleSheet}
+        stylesheet={{
+          ...constants.htmlStyleSheet,
+          p: {
+            ...constants.htmlStyleSheet.p,
+            marginBottom: 8,
+            marginTop: 16
+          }
+        }}
       />
       <XSensorPlaceholder />
     </ScrollView>,
