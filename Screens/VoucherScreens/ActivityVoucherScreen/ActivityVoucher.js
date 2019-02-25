@@ -24,6 +24,8 @@ import { responsiveWidth } from "react-native-responsive-dimensions";
 import _ from "lodash";
 import ViewVoucherButton from "../Components/ViewVoucherButton";
 import FooterStickyActionBar from "../../../CommonComponents/FooterStickyActionBar/FooterStickyActionBar";
+import containsHtml from "../../../Services/containsHtml/containsHtml";
+import CustomHtmlView from "../../../CommonComponents/CustomHtmlView/CustomHtmlView";
 
 const xHeight = isIphoneX()
   ? constants.xNotchHeight
@@ -312,7 +314,11 @@ class ActivityVoucher extends Component {
         name: "Notes",
         component: (
           <View style={styles.accordionTextWrapper}>
-            <Text style={styles.accordionText}>{voucherNotes}</Text>
+            {containsHtml(voucherNotes) ? (
+              <CustomHtmlView html={voucherNotes} />
+            ) : (
+              <Text style={styles.accordionText}>{voucherNotes}</Text>
+            )}
           </View>
         )
       });
