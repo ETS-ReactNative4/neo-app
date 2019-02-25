@@ -18,7 +18,9 @@ const collapsibleMinHeight = 192;
 class CollapsibleTextSection extends Component {
   static propTypes = forbidExtraProps({
     content: PropTypes.string.isRequired,
-    expandText: PropTypes.string
+    expandText: PropTypes.string,
+    collapseText: PropTypes.string,
+    title: PropTypes.string
   });
 
   state = {
@@ -53,6 +55,7 @@ class CollapsibleTextSection extends Component {
       collapsibleContainerWidth
     } = this.state;
     const isCompressed = isCollapsible && isCollapsed;
+    if (!content) return null;
     return (
       <View>
         <View
