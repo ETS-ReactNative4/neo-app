@@ -1,4 +1,5 @@
 import _ from "lodash";
+import { Platform } from "react-native";
 import navigationService from "../navigationService/navigationService";
 import openCustomTab from "../openCustomTab/openCustomTab";
 import storeService from "../storeService/storeService";
@@ -71,7 +72,9 @@ const resolveLinks = (link = "", screenProps = {}, deepLink = {}) => {
               activity.costing.viator
             ) {
               openCustomTab(
-                activity.voucher.voucherUrl,
+                Platform.OS === "android"
+                  ? constants.googleDrivePdfViewer + activity.voucher.voucherUrl
+                  : activity.voucher.voucherUrl,
                 () => null,
                 () => {
                   logError(

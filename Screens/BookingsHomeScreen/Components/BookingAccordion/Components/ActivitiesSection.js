@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Platform } from "react-native";
 import moment from "moment";
 import constants from "../../../../../constants/constants";
 import PropTypes from "prop-types";
@@ -60,7 +60,9 @@ const Activities = ({ activity, isLast, navigation, spinValue }) => {
        * TODO: Track this click event
        */
       openCustomTab(
-        activity.voucher.voucherUrl,
+        Platform.OS === "android"
+          ? constants.googleDrivePdfViewer + activity.voucher.voucherUrl
+          : activity.voucher.voucherUrl,
         () => null,
         () => {
           logError("Unable to launch custom tab for viator voucher!", {});
