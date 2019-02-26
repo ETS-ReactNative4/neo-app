@@ -115,7 +115,7 @@ class TransferVoucher extends Component {
         ? {
             name: "Departure Time",
             value: departureTime
-              ? moment(departureTime, "HH:mm").format("hh:mm a")
+              ? moment(departureTime, "HH:mm").format(constants.shortTimeFormat)
               : "NA"
           }
         : null,
@@ -144,7 +144,7 @@ class TransferVoucher extends Component {
             name: "Pickup time",
             value:
               pickupTime && pickupTime > 0
-                ? moment(pickupTime).format("hh:mm a")
+                ? moment(pickupTime).format(constants.shortTimeFormat)
                 : "NA"
           }
         : null,
@@ -156,7 +156,9 @@ class TransferVoucher extends Component {
         ? {
             name: "Arrival Time",
             value: costingArrivalTime
-              ? moment(costingArrivalTime, "HH:mm").format("hh:mm a")
+              ? moment(costingArrivalTime, "HH:mm").format(
+                  constants.shortTimeFormat
+                )
               : "NA"
           }
         : null

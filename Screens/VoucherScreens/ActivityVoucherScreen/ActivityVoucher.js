@@ -124,7 +124,7 @@ class ActivityVoucher extends Component {
     } = selectedTourGrade;
 
     const activityDepartureTime = moment(departureTime, "HHmm").format(
-      "hh:mm a"
+      constants.shortTimeFormat
     );
 
     const transferIncluded = _.toUpper(transferType) !== "NOTRANSFER";
@@ -208,7 +208,7 @@ class ActivityVoucher extends Component {
             ? pickupTime
             : selectedTourGrade && selectedTourGrade.departureTime
               ? moment(selectedTourGrade.departureTime, "HHmm").format(
-                  "hh:mm a"
+                  constants.shortTimeFormat
                 )
               : "NA"
         });

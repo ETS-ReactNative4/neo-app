@@ -32,7 +32,7 @@ class YourTickets extends Component {
         lastMessageTime={
           ticket.closed
             ? "closed"
-            : moment(ticket.lastMsgTime).format("hh:mm a")
+            : moment(ticket.lastMsgTime).format(constants.shortTimeFormat)
         }
         isClosed={ticket.closed}
         isUnRead={ticket.lastSeenMsgId < ticket.maxMsgId}
