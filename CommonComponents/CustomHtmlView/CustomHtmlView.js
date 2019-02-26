@@ -45,8 +45,8 @@ class CustomHtmlView extends Component {
     } = this.props;
     let htmlMin = html.replace(/(\r\n|\n|\r)/gm, ""); // remove unnecessary line breaks
     if (
-      htmlMin.includes("li") &&
-      !(htmlMin.includes("ul") || htmlMin.includes("ol"))
+      htmlMin.includes("<li>") &&
+      !(htmlMin.includes("<ul>") || htmlMin.includes("<ol>"))
     ) {
       // check if li tag has ul or ol tag to prevent crash
       htmlMin = `<ul>${htmlMin}</ul>`;
