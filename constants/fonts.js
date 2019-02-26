@@ -6,7 +6,7 @@ import { Platform } from "react-native";
  */
 const primaryFont = {
   primaryRegular: "SourceSansPro-Regular",
-  primaryLight: "SourceSansPro-Light",
+  primaryLight: "SourceSansPro-Regular",
   primarySemiBold: "SourceSansPro-SemiBold"
 };
 

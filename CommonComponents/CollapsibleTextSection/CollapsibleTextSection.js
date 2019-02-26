@@ -10,15 +10,17 @@ import LinearGradient from "react-native-linear-gradient";
 import forbidExtraProps from "../../Services/PropTypeValidation/forbidExtraProps";
 import PropTypes from "prop-types";
 import constants from "../../constants/constants";
-import HTMLView from "react-native-htmlview";
 import containsHtml from "../../Services/containsHtml/containsHtml";
+import CustomHtmlView from "../CustomHtmlView/CustomHtmlView";
 
 const collapsibleMinHeight = 192;
 
 class CollapsibleTextSection extends Component {
   static propTypes = forbidExtraProps({
     content: PropTypes.string.isRequired,
-    expandText: PropTypes.string
+    expandText: PropTypes.string,
+    collapseText: PropTypes.string,
+    title: PropTypes.string
   });
 
   state = {
@@ -46,13 +48,14 @@ class CollapsibleTextSection extends Component {
   };
 
   render() {
-    const { content, expandText, collapseText } = this.props;
+    const { content, expandText, collapseText, title } = this.props;
     const {
       isCollapsible,
       isCollapsed,
       collapsibleContainerWidth
     } = this.state;
     const isCompressed = isCollapsible && isCollapsed;
+    if (!content) return null;
     return (
       <View>
         <View
@@ -62,9 +65,9 @@ class CollapsibleTextSection extends Component {
           ]}
           onLayout={this._onLayout}
         >
-          <HTMLView
-            addLineBreaks={false}
-            value={containsHtml(content) ? content : `<div>${content}</div>`}
+          {title ? <Text style={styles.collapsibleTitle}>{title}</Text> : null}
+          <CustomHtmlView
+            html={containsHtml(content) ? content : `<div>${content}</div>`}
             stylesheet={constants.htmlStyleSheet}
           />
           {isCompressed ? (
@@ -109,6 +112,11 @@ const styles = StyleSheet.create({
   },
   collapsedModeContainer: {
     height: collapsibleMinHeight
+  },
+  collapsibleTitle: {
+    ...constants.font17(constants.primarySemiBold),
+    color: constants.black1,
+    marginVertical: 4
   },
   expandTextWrapper: {
     paddingTop: 8

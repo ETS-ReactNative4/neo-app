@@ -20,9 +20,7 @@ import VoucherContactActionBar from "../Components/VoucherContactActionBar";
 import ViewVoucherButton from "../Components/ViewVoucherButton";
 import VoucherAddressSection from "../Components/VoucherAddressSection";
 import FooterStickyActionBar from "../../../CommonComponents/FooterStickyActionBar/FooterStickyActionBar";
-import VoucherAccordion from "../Components/VoucherAccordion";
-import HTMLView from "react-native-htmlview";
-import containsHtml from "../../../Services/containsHtml/containsHtml";
+import CollapsibleTextSection from "../../../CommonComponents/CollapsibleTextSection/CollapsibleTextSection";
 
 const xHeight = isIphoneX()
   ? constants.xNotchHeight
@@ -135,10 +133,12 @@ class TransferVoucher extends Component {
       });
     }
     const arrivalDetails = [
-      {
-        name: "Arrival at",
-        value: drop || "NA"
-      },
+      vehicle !== "TRAIN"
+        ? {
+            name: "Starting point",
+            value: pickup || "NA"
+          }
+        : null,
       vehicle !== "TRAIN"
         ? {
             name: "Pickup time",
@@ -148,12 +148,10 @@ class TransferVoucher extends Component {
                 : "NA"
           }
         : null,
-      vehicle !== "TRAIN"
-        ? {
-            name: "Meeting point",
-            value: pickup || "NA"
-          }
-        : null,
+      {
+        name: vehicle === "TRAIN" ? "Arrival at" : "Drop off point",
+        value: drop || "NA"
+      },
       vehicle === "TRAIN"
         ? {
             name: "Arrival Time",
@@ -192,26 +190,6 @@ class TransferVoucher extends Component {
     if (pickupTime && pickupTime > 0) {
       voucherDate = moment(pickupTime).valueOf();
     }
-
-    const transferAccordionSections = [
-      pickupInstructions
-        ? {
-            name: "Pickup Instructions",
-            component: (
-              <View style={styles.accordionTextWrapper}>
-                {containsHtml(pickupInstructions) ? (
-                  <HTMLView
-                    value={pickupInstructions}
-                    stylesheet={constants.htmlStyleSheet}
-                  />
-                ) : (
-                  <Text style={styles.accordionText}>{pickupInstructions}</Text>
-                )}
-              </View>
-            )
-          }
-        : null
-    ];
 
     return (
       <Fragment>
@@ -265,10 +243,12 @@ class TransferVoucher extends Component {
 
             <VoucherContactActionBar contact={contactNumber} />
 
-            <VoucherAccordion
-              sections={transferAccordionSections}
-              openFirstSection={true}
-            />
+            {pickupInstructions ? (
+              <CollapsibleTextSection
+                title={"Pickup Instructions"}
+                content={pickupInstructions}
+              />
+            ) : null}
 
             <VoucherSplitSection sections={bookingDetails} />
           </View>

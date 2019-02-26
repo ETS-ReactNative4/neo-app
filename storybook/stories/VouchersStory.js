@@ -13,9 +13,7 @@ const checkInCheckOutData = {
   checkOutTime: "11:00 am"
 };
 
-const htmlData = `
-<div>
-  Instructions
+const htmlData = `<div>
   <ul>
     <li>Upon arrival, phone 0800 935050 and let us know that you are ready to be picked up (Airport free phones are located near the baggage collection area)</li>
     <li>Upon arrival, phone 0800 935050 and let us know that you are ready to be picked up (Airport free phones are located near the baggage collection area)</li>
@@ -23,8 +21,7 @@ const htmlData = `
     <li>Upon arrival, phone 0800 935050 and let us know that you are ready to be picked up (Airport free phones are located near the baggage collection area)</li>
     <li>Upon arrival, phone 0800 935050 and let us know that you are ready to be picked up (Airport free phones are located near the baggage collection area)</li>
   </ul>
-</div>
-`;
+</div>`;
 
 storiesOf("Vouchers", module)
   .add("Check-in Check-out", () => {
@@ -45,6 +42,18 @@ storiesOf("Vouchers", module)
   .add("Collapsible Text Section", () => {
     const props = {
       content: htmlData
+    };
+    console.log(props);
+    return (
+      <ScrollView>
+        <CollapsibleTextSection {...props} />
+      </ScrollView>
+    );
+  })
+  .add("Collapsible Text Section with Title", () => {
+    const props = {
+      content: htmlData,
+      title: "This is custom title"
     };
     console.log(props);
     return (

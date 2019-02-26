@@ -81,7 +81,7 @@ const NotifCard = ({
         <View>
           <Text
             style={[styles.messageContent, { color: textColor }]}
-            numberOfLines={2}
+            numberOfLines={3}
             ellipsizeMode={"middle"}
           >
             {title ? <Text style={styles.messageTitle}>{title} </Text> : null}
