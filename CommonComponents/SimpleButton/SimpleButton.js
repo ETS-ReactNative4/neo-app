@@ -15,7 +15,8 @@ const SimpleButton = ({
   containerStyle = {},
   icon,
   iconSize,
-  rightIcon = false
+  rightIcon = false,
+  lightBoxMode = false
 }) => {
   if (textColor) textStyle = { ...textStyle, color: textColor };
 
@@ -29,12 +30,21 @@ const SimpleButton = ({
     };
   }
 
+  let Parent = TouchableHighlight,
+    parentProps = {};
+  if (!lightBoxMode) {
+    Parent = TouchableHighlight;
+    parentProps = {
+      onPress: action,
+      underlayColor: underlayColor || "white"
+    };
+  } else {
+    Parent = View;
+    parentProps = {};
+  }
+
   return (
-    <TouchableHighlight
-      style={[styles.button, containerStyle]}
-      onPress={action}
-      underlayColor={underlayColor || "white"}
-    >
+    <Parent style={[styles.button, containerStyle]} {...parentProps}>
       <View
         style={[
           styles.buttonWrapper,
@@ -54,7 +64,7 @@ const SimpleButton = ({
           {text}
         </Text>
       </View>
-    </TouchableHighlight>
+    </Parent>
   );
 };
 
@@ -68,7 +78,8 @@ SimpleButton.propTypes = {
   containerStyle: PropTypes.object,
   textStyle: PropTypes.object,
   icon: PropTypes.string,
-  iconSize: PropTypes.number
+  iconSize: PropTypes.number,
+  lightBoxMode: PropTypes.bool
 };
 
 const styles = StyleSheet.create({

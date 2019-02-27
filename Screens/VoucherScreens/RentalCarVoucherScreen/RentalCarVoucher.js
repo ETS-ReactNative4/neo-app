@@ -1,8 +1,11 @@
 import React, { Component, Fragment } from "react";
-import { View, StyleSheet, Platform, Text } from "react-native";
+import { View, StyleSheet, Platform, Text, Image } from "react-native";
 import { isIphoneX } from "react-native-iphone-x-helper";
 import ParallaxScrollView from "react-native-parallax-scroll-view";
-import { responsiveWidth } from "react-native-responsive-dimensions";
+import {
+  responsiveHeight,
+  responsiveWidth
+} from "react-native-responsive-dimensions";
 import VoucherHeader from "../Components/VoucherHeader";
 import constants from "../../../constants/constants";
 import VoucherStickyHeader from "../Components/VoucherStickyHeader";
@@ -23,6 +26,9 @@ import FooterStickyActionBar from "../../../CommonComponents/FooterStickyActionB
 import CollapsibleTextSection from "../../../CommonComponents/CollapsibleTextSection/CollapsibleTextSection";
 import CheckInCheckOut from "../Components/CheckInCheckOut";
 import VoucherAccordion from "../Components/VoucherAccordion";
+import Lightbox from "react-native-lightbox";
+import SimpleButton from "../../../CommonComponents/SimpleButton/SimpleButton";
+import LightBoxButton from "../../../CommonComponents/LightBoxButton/LightBoxButton";
 
 const xHeight = isIphoneX()
   ? constants.xNotchHeight
@@ -99,7 +105,9 @@ class RentalCarVoucher extends Component {
       pickupLocation,
       dropLocation,
       pickupInstructions,
-      dropInstructions
+      dropInstructions,
+      pickupImage,
+      dropImage
     } = rentalCar.voucher;
     const pickupDate =
       pickupTime && pickupTime > 0
@@ -257,6 +265,36 @@ class RentalCarVoucher extends Component {
             />
 
             <VoucherSplitSection sections={bookingDetails} />
+            <View
+              style={{ flexDirection: "row", justifyContent: "space-between" }}
+            >
+              <LightBoxButton
+                LightBoxComponent={() => {
+                  return (
+                    <Image
+                      source={{ uri: pickupImage }}
+                      style={{
+                        height: responsiveHeight(100),
+                        width: responsiveWidth(100)
+                      }}
+                      resizeMode={"contain"}
+                    />
+                  );
+                }}
+                text={"Visual Directions"}
+                hasBorder={true}
+                color={"transparent"}
+                action={() => null}
+                textColor={constants.firstColor}
+              />
+              <SimpleButton
+                text={"Contact"}
+                action={() => null}
+                textColor={constants.firstColor}
+                color={"transparent"}
+                hasBorder={true}
+              />
+            </View>
           </View>
 
           <VoucherContactActionBar contact={contactNumber} />
