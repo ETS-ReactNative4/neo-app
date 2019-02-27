@@ -201,10 +201,7 @@ class RentalCarVoucher extends Component {
             />
             <RentalCarActionBar
               contact={pickupContactNumber}
-              imageUrl={
-                "https://media-cdn.tripadvisor.com/media/photo-s/12/42/44/d8/la-nostra-flotta.jpg" ||
-                pickupImage
-              }
+              imageUrl={pickupImage}
             />
           </View>
         )
@@ -221,10 +218,7 @@ class RentalCarVoucher extends Component {
             />
             <RentalCarActionBar
               contact={dropContactNumber}
-              imageUrl={
-                "https://media-cdn.tripadvisor.com/media/photo-s/12/42/44/d8/la-nostra-flotta.jpg" ||
-                dropImage
-              }
+              imageUrl={dropImage}
             />
           </View>
         )
