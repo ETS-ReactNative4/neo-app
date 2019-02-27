@@ -26,9 +26,7 @@ import FooterStickyActionBar from "../../../CommonComponents/FooterStickyActionB
 import CollapsibleTextSection from "../../../CommonComponents/CollapsibleTextSection/CollapsibleTextSection";
 import CheckInCheckOut from "../Components/CheckInCheckOut";
 import VoucherAccordion from "../Components/VoucherAccordion";
-import Lightbox from "react-native-lightbox";
-import SimpleButton from "../../../CommonComponents/SimpleButton/SimpleButton";
-import LightBoxButton from "../../../CommonComponents/LightBoxButton/LightBoxButton";
+import RentalCarActionBar from "../Components/RentalCarActionBar";
 
 const xHeight = isIphoneX()
   ? constants.xNotchHeight
@@ -107,7 +105,9 @@ class RentalCarVoucher extends Component {
       pickupInstructions,
       dropInstructions,
       pickupImage,
-      dropImage
+      dropImage,
+      pickupContactNumber,
+      dropContactNumber
     } = rentalCar.voucher;
     const pickupDate =
       pickupTime && pickupTime > 0
@@ -199,6 +199,13 @@ class RentalCarVoucher extends Component {
               containerStyle={{ marginTop: 16 }}
               content={pickupInstructions}
             />
+            <RentalCarActionBar
+              contact={pickupContactNumber}
+              imageUrl={
+                "https://media-cdn.tripadvisor.com/media/photo-s/12/42/44/d8/la-nostra-flotta.jpg" ||
+                pickupImage
+              }
+            />
           </View>
         )
       },
@@ -211,6 +218,13 @@ class RentalCarVoucher extends Component {
               title={"Instructions"}
               containerStyle={{ marginTop: 16 }}
               content={dropInstructions}
+            />
+            <RentalCarActionBar
+              contact={dropContactNumber}
+              imageUrl={
+                "https://media-cdn.tripadvisor.com/media/photo-s/12/42/44/d8/la-nostra-flotta.jpg" ||
+                dropImage
+              }
             />
           </View>
         )
@@ -265,36 +279,6 @@ class RentalCarVoucher extends Component {
             />
 
             <VoucherSplitSection sections={bookingDetails} />
-            <View
-              style={{ flexDirection: "row", justifyContent: "space-between" }}
-            >
-              <LightBoxButton
-                LightBoxComponent={() => {
-                  return (
-                    <Image
-                      source={{ uri: pickupImage }}
-                      style={{
-                        height: responsiveHeight(100),
-                        width: responsiveWidth(100)
-                      }}
-                      resizeMode={"contain"}
-                    />
-                  );
-                }}
-                text={"Visual Directions"}
-                hasBorder={true}
-                color={"transparent"}
-                action={() => null}
-                textColor={constants.firstColor}
-              />
-              <SimpleButton
-                text={"Contact"}
-                action={() => null}
-                textColor={constants.firstColor}
-                color={"transparent"}
-                hasBorder={true}
-              />
-            </View>
           </View>
 
           <VoucherContactActionBar contact={contactNumber} />

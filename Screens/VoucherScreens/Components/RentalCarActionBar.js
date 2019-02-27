@@ -10,17 +10,20 @@ import dialer from "../../../Services/dialer/dialer";
 import PropTypes from "prop-types";
 import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraProps";
 import LightBoxButton from "../../../CommonComponents/LightBoxButton/LightBoxButton";
+import PhotoView from "react-native-photo-view";
 
 const doesContainNumber = contact => /\d/.test(contact);
 
-const VoucherContactActionBar = ({ contact, imageUrl }) => {
+const RentalCarActionBar = ({ contact, imageUrl }) => {
   return (
     <View style={styles.actionRow}>
       {imageUrl ? (
         <LightBoxButton
           LightBoxComponent={() => {
             return (
-              <Image
+              <PhotoView
+                minimumZoomScale={1}
+                maximumZoomScale={3}
                 source={{ uri: imageUrl }}
                 style={{
                   height: responsiveHeight(100),
@@ -62,7 +65,7 @@ const VoucherContactActionBar = ({ contact, imageUrl }) => {
   );
 };
 
-VoucherContactActionBar.propTypes = forbidExtraProps({
+RentalCarActionBar.propTypes = forbidExtraProps({
   contact: PropTypes.number,
   imageUrl: PropTypes.string
 });
@@ -78,4 +81,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default VoucherContactActionBar;
+export default RentalCarActionBar;
