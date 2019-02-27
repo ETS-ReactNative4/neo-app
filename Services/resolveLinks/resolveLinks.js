@@ -102,7 +102,7 @@ const resolveLinks = (link = "", screenProps = {}, deepLink = {}) => {
             costingIdentifier
           );
           if (validateVoucher(rentalCar)) {
-            navigation.navigate("TransferVoucher", { transfer: rentalCar });
+            navigation.navigate("RentalCarVoucher", { rentalCar });
           } else {
             toastBottom(constants.bookingProcessText.message);
           }
