@@ -10543,6 +10543,12 @@ react-native-particles@^0.0.7:
   dependencies:
     lodash.debounce "^4.0.8"
 
+"react-native-photo-view@git://github.com/alwx/react-native-photo-view.git#e28f5416574cbfa07b2d4fa862c0048df56f7b02":
+  version "1.5.2"
+  resolved "git://github.com/alwx/react-native-photo-view.git#e28f5416574cbfa07b2d4fa862c0048df56f7b02"
+  dependencies:
+    prop-types "^15.5.10"
+
 react-native-progress@^3.5.0:
   version "3.5.0"
   resolved "https://registry.yarnpkg.com/react-native-progress/-/react-native-progress-3.5.0.tgz#d1ccc7f96dc17c609aedb43b2e6695d67deae0ec"
