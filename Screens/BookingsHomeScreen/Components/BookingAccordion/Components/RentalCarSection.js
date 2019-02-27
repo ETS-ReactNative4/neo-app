@@ -47,7 +47,7 @@ const RentalCar = ({ rentalCar, isLast, navigation, spinValue }) => {
 
   const openVoucher = () => {
     if (rentalCar.voucher.booked) {
-      navigation.navigate("TransferVoucher", { transfer: rentalCar });
+      navigation.navigate("RentalCarVoucher", { rentalCar });
     } else {
       toastBottom(constants.bookingProcessText.message);
     }
