@@ -35,7 +35,7 @@ const RentalCarActionBar = ({ contact, imageUrl }) => {
           }}
           containerStyle={
             doesContainNumber(contact)
-              ? { width: responsiveWidth(43), marginRight: 16 }
+              ? { width: responsiveWidth(40), marginRight: 16 }
               : { width: responsiveWidth(100) - 48 }
           }
           text={"Visual Directions"}
@@ -50,7 +50,7 @@ const RentalCarActionBar = ({ contact, imageUrl }) => {
           text={"Contact"}
           containerStyle={
             imageUrl
-              ? { width: responsiveWidth(43) }
+              ? { width: responsiveWidth(40) }
               : { width: responsiveWidth(100) - 48 }
           }
           action={() => dialer(contact)}
