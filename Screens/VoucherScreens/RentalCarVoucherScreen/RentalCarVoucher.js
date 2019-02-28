@@ -41,7 +41,7 @@ class RentalCarVoucher extends Component {
   static navigationOptions = {
     header: null,
     gestureResponseDistance: {
-      vertical: 214 + xHeight
+      vertical: 1
     }
   };
 
