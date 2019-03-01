@@ -30,6 +30,7 @@ const openCustomTab = (url, success = () => null, failure = () => null) => {
   };
   /**
    * Call fallback if the url is not a web link
+   * Since custom tab cannot handle maito or telephone links
    */
   if (
     !(
