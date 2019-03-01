@@ -52,9 +52,12 @@ switch (getEnvironmentName()) {
     productUrl = productUrls.localProductUrl;
 }
 
+const chatCustomUrl = `https://pickyourtrail.com/app-chat/`;
+
 const serverUrls = {
   apiServerUrl,
   productUrl,
+  chatCustomUrl,
   platoServerUrl,
   cityImageBaseUrl: "https://d2pkrotgd5anq5.cloudfront.net/city/1820xh/",
   miscImageBaseUrl: "https://d3lf10b5gahyby.cloudfront.net/misc/",
@@ -63,9 +66,7 @@ const serverUrls = {
   airlineCdn: "https://d3lf10b5gahyby.cloudfront.net/airline_logos/",
   crispServerUrl: (email, token) =>
     email && token
-      ? encodeURI(
-          `https://go.crisp.chat/chat/embed/?website_id=a04827ba-5aa9-4540-866f-e1850a0476eb&user_email=${email}&token_id=${token}`
-        )
+      ? encodeURI(`${chatCustomUrl}?user_email=${email}&token_id=${token}`)
       : "",
   offlineContact: "+91 8939891682",
 
