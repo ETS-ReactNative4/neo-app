@@ -164,28 +164,30 @@ class ChatScreen extends Component {
               : null
           ]}
         >
-          <ControlledWebView
-            source={{ uri }}
-            onNavigationStateChange={this.onNavigationStateChange}
-            style={{
-              flex: 1,
-              marginTop: isIphoneX() ? constants.xNotchHeight : 0
-            }}
-            webviewRef={e => (this._webView = e)}
-            injectedJavascript={CrispSDK}
-            useWebKit={false}
-            onShouldStartLoadWithRequest={event => {
-              /**
-               * Prevent user from navigating away from chat window by opening
-               * external links in custom tab (helps with file downloads)
-               */
-              if (event.url !== uri) {
-                openCustomTab(event.url);
-                return false;
-              }
-              return true;
-            }}
-          />
+          {uri ? (
+            <ControlledWebView
+              source={{ uri }}
+              onNavigationStateChange={this.onNavigationStateChange}
+              style={{
+                flex: 1,
+                marginTop: isIphoneX() ? constants.xNotchHeight : 0
+              }}
+              webviewRef={e => (this._webView = e)}
+              injectedJavascript={CrispSDK}
+              useWebKit={false}
+              onShouldStartLoadWithRequest={event => {
+                /**
+                 * Prevent user from navigating away from chat window by opening
+                 * external links in custom tab (helps with file downloads)
+                 */
+                if (event.url !== uri) {
+                  openCustomTab(event.url);
+                  return false;
+                }
+                return true;
+              }}
+            />
+          ) : null}
           {Platform.OS === "ios" ? (
             <BackButtonIos
               backAction={this.goBack}
