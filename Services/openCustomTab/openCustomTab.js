@@ -9,42 +9,58 @@ import constants from "../../constants/constants";
  */
 
 const openCustomTab = (url, success = () => null, failure = () => null) => {
-  if (Platform.OS === "ios") {
-    if (parseFloat(Platform.Version) < constants.customTabSupportIos) {
-      Linking.canOpenURL(url)
-        .then(supported => {
-          if (!supported) {
-            logError("Can't handle url: " + url);
-            failure();
-          } else {
-            Linking.openURL(url);
-            success();
-          }
-        })
-        .catch(err => {
-          logError(err);
+  /**
+   * Fallback that opens urls in traditional way instead of custom tabs
+   */
+  const fallback = () => {
+    Linking.canOpenURL(url)
+      .then(supported => {
+        if (!supported) {
+          logError("Can't handle url: " + url);
           failure();
-        });
-    } else {
-      openInApp(url).catch(error => {
-        logError(error);
-        failure(error);
-      });
-    }
-  } else {
-    CustomTabs.openURL(url, {
-      showPageTitle: true
-    })
-      .then(launched => {
-        if (!launched) {
-          failure();
+        } else {
+          Linking.openURL(url);
+          success();
         }
-        success();
       })
       .catch(err => {
         logError(err);
-        failure(err);
+        failure();
       });
+  };
+  /**
+   * Call fallback if the url is not a web link
+   */
+  if (!(url.includes("http://") || url.includes("https://"))) {
+    fallback();
+  } else {
+    if (Platform.OS === "ios") {
+      /**
+       * Call fallback if the iOS version does not properly support custom tabs
+       */
+      if (parseFloat(Platform.Version) < constants.customTabSupportIos) {
+        fallback();
+      } else {
+        openInApp(url).catch(error => {
+          logError(error);
+          failure(error);
+        });
+      }
+    } else {
+      CustomTabs.openURL(url, {
+        showPageTitle: true
+      })
+        .then(launched => {
+          if (!launched) {
+            failure();
+          }
+          success();
+        })
+        .catch(err => {
+          logError(err);
+          failure(err);
+        });
+    }
   }
 };
 
