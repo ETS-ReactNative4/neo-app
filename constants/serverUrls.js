@@ -66,7 +66,9 @@ const serverUrls = {
   airlineCdn: "https://d3lf10b5gahyby.cloudfront.net/airline_logos/",
   crispServerUrl: (email, token) =>
     email && token
-      ? encodeURI(`${chatCustomUrl}?user_email=${email}&token_id=${token}`)
+      ? encodeURI(
+          `${chatCustomUrl}?user_email=${email}&token_id=${token}&webview=true`
+        )
       : "",
   offlineContact: "+91 8939891682",
 

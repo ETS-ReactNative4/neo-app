@@ -31,10 +31,15 @@ const openCustomTab = (url, success = () => null, failure = () => null) => {
   /**
    * Call fallback if the url is not a web link
    */
-  if (!(url.includes("http://") || url.includes("https://"))) {
+  if (
+    !(
+      url.startsWith(constants.httpPrefix) ||
+      url.startsWith(constants.httpsPrefix)
+    )
+  ) {
     fallback();
   } else {
-    if (Platform.OS === "ios") {
+    if (Platform.OS === constants.platformIos) {
       /**
        * Call fallback if the iOS version does not properly support custom tabs
        */

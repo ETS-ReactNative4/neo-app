@@ -18,6 +18,7 @@ import {
 import openCustomTab from "../../Services/openCustomTab/openCustomTab";
 import * as Keychain from "react-native-keychain";
 import { logError } from "../../Services/errorLogger/errorLogger";
+import getUrlParams from "../../Services/getUrlParams/getUrlParams";
 
 @ErrorBoundary({ isRoot: true })
 @inject("userStore")
@@ -180,7 +181,8 @@ class ChatScreen extends Component {
                  * Prevent user from navigating away from chat window by opening
                  * external links in custom tab (helps with file downloads)
                  */
-                if (event.url && !event.url.includes("chat/embed")) {
+                const params = getUrlParams(event.url);
+                if (event.url && params.webview !== "true") {
                   if (event.url !== uri) {
                     openCustomTab(event.url);
                     return false;

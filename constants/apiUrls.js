@@ -59,6 +59,10 @@ const apiUrls = {
   cancellationPolicy: "cancellation-policy",
   careers: "careers",
 
+  platformIos: "ios",
+  httpPrefix: "http://",
+  httpsPrefix: "https://",
+
   /**
    * minimum iOS version for custom tabs
    */
