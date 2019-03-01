@@ -9,7 +9,7 @@ const apiServers = {
 };
 
 const platoServers = {
-  platoDevServer: "https://platodev.pickyourtrail.com/",
+  platoDevServer: "https://plato-uat.pickyourtrail.com/",
   platoProdServer: "https://plato.pickyourtrail.com/"
 };
 
