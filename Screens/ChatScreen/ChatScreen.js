@@ -180,7 +180,7 @@ class ChatScreen extends Component {
                  * Prevent user from navigating away from chat window by opening
                  * external links in custom tab (helps with file downloads)
                  */
-                if (!event.url.contains("chat/embed")) {
+                if (event.url && !event.url.includes("chat/embed")) {
                   if (event.url !== uri) {
                     openCustomTab(event.url);
                     return false;
