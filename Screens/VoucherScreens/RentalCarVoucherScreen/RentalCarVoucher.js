@@ -30,7 +30,7 @@ import RentalCarActionBar from "../Components/RentalCarActionBar";
 
 const xHeight = isIphoneX()
   ? constants.xNotchHeight
-  : Platform.OS === "ios"
+  : Platform.OS === constants.platformIos
     ? 20
     : 0;
 
@@ -233,7 +233,7 @@ class RentalCarVoucher extends Component {
           contentBackgroundColor="white"
           parallaxHeaderHeight={214 + xHeight}
           stickyHeaderHeight={48 + xHeight}
-          fadeOutForeground={Platform.OS !== "android"}
+          fadeOutForeground={Platform.OS !== constants.platformAndroid}
           onChangeHeaderVisibility={this.headerToggle}
           renderStickyHeader={() => (
             <VoucherStickyHeader
@@ -282,7 +282,7 @@ class RentalCarVoucher extends Component {
             voucherUrl={voucherUrl}
           />
         </ParallaxScrollView>
-        {Platform.OS === "ios" && this.state.isCloseVisible ? (
+        {Platform.OS === constants.platformIos && this.state.isCloseVisible ? (
           <IosCloseButton clickAction={this.close} />
         ) : null}
       </Fragment>
