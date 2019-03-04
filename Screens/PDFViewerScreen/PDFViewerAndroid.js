@@ -3,7 +3,9 @@ import { View, StyleSheet, Platform } from "react-native";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import constants from "../../constants/constants";
 import PDFViewAndroid from "../../CommonComponents/PDFViewAndroid/PDFViewAndroid";
+import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 
+@ErrorBoundary()
 class PDFViewerAndroid extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
