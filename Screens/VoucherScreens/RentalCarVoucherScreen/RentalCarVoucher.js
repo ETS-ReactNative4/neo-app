@@ -186,7 +186,7 @@ class RentalCarVoucher extends Component {
     const voucherName =
       pickupLocation && dropLocation
         ? `${pickupLocation} to ${dropLocation}`
-        : "";
+        : `${pickup} to ${drop}`;
 
     const rentalCarAccordion = [
       {
