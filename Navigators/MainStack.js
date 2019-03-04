@@ -20,6 +20,7 @@ import ContactUs from "../Screens/ContactUsScreen/ContactUs";
 import YourTickets from "../Screens/YourTicketsScreen/YourTickets";
 import TicketsConversation from "../Screens/TicketsConversationScreen/TicketsConversation";
 import transitionConfig from "../Services/navigationAnimations/transitionConfig";
+import PDFViewerAndroid from "../Screens/PDFViewerScreen/PDFViewerAndroid";
 
 const MainStack = createStackNavigator(
   {
@@ -95,6 +96,9 @@ const MainStack = createStackNavigator(
     },
     TicketsConversation: {
       screen: TicketsConversation
+    },
+    PDFViewerScreen: {
+      screen: PDFViewerAndroid
     }
   },
   {

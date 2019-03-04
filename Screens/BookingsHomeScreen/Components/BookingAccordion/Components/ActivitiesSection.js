@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Platform } from "react-native";
 import moment from "moment";
 import constants from "../../../../../constants/constants";
 import PropTypes from "prop-types";
@@ -56,20 +56,27 @@ const Activities = ({ activity, isLast, navigation, spinValue }) => {
       activity.voucher.voucherUrl &&
       activity.costing.viator
     ) {
-      /**
-       * TODO: Track this click event
-       */
-      openCustomTab(
-        activity.voucher.voucherUrl,
-        () => null,
-        () => {
-          logError("Unable to launch custom tab for viator voucher!", {});
-        }
-      );
+      recordEvent(constants.bookingsHomeAccordionViatorActivitiesVoucherClick);
+      if (Platform.OS === constants.platformIos) {
+        openCustomTab(
+          activity.voucher.voucherUrl,
+          () => null,
+          () => {
+            logError("Unable to launch custom tab for viator voucher!", {});
+          }
+        );
+      } else {
+        navigation.navigate("PDFViewerScreen", {
+          pdfUri: activity.voucher.voucherUrl
+        });
+      }
     } else if (activity.voucher.booked || activity.free) {
       recordEvent(constants.bookingsHomeAccordionActivitiesVoucherClick);
       navigation.navigate("ActivityVoucher", { activity });
     } else {
+      recordEvent(
+        constants.bookingsHomeAccordionProcessingActivitiesVoucherClick
+      );
       toastBottom(constants.bookingProcessText.message);
     }
   };

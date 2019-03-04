@@ -60,6 +60,7 @@ const apiUrls = {
   careers: "careers",
 
   platformIos: "ios",
+  platformAndroid: "android",
   httpPrefix: "http://",
   httpsPrefix: "https://",
 
