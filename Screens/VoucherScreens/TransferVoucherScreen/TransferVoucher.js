@@ -19,6 +19,7 @@ import getTitleCase from "../../../Services/getTitleCase/getTitleCase";
 import VoucherContactActionBar from "../Components/VoucherContactActionBar";
 import ViewVoucherButton from "../Components/ViewVoucherButton";
 import VoucherAddressSection from "../Components/VoucherAddressSection";
+import _ from "lodash";
 import FooterStickyActionBar from "../../../CommonComponents/FooterStickyActionBar/FooterStickyActionBar";
 import CollapsibleTextSection from "../../../CommonComponents/CollapsibleTextSection/CollapsibleTextSection";
 
@@ -92,7 +93,7 @@ class TransferVoucher extends Component {
       pickupInstructions
     } = transfer.voucher;
 
-    const passengerDetails = [
+    const transferPassengerDetails = () => [
       {
         name: "Lead passenger",
         value: leadPassengerName || "NA"
@@ -105,64 +106,88 @@ class TransferVoucher extends Component {
         name: "Vehicle type",
         value: getTitleCase(vehicle) || "NA"
       },
-      vehicle === "Rental Car"
+      type
         ? {
-            name: "Duration",
-            value: `${duration} day${duration > 1 ? "s" : ""}`
-          }
-        : null,
-      vehicle === "TRAIN"
-        ? {
-            name: "Departure Time",
-            value: departureTime
-              ? moment(departureTime, "HH:mm").format(constants.shortTimeFormat)
-              : "NA"
-          }
-        : null,
-      vehicle === "TRAIN"
-        ? {
-            name: "Departure Station",
-            value: pickup || "NA"
+            name: "Type",
+            value: type ? getTitleCase(type) : "NA"
           }
         : null
     ];
-    if (type) {
-      passengerDetails.push({
-        name: "Type",
-        value: type ? getTitleCase(type) : "NA"
-      });
-    }
-    const arrivalDetails = [
-      vehicle !== "TRAIN"
-        ? {
-            name: "Starting point",
-            value: pickup || "NA"
-          }
-        : null,
-      vehicle !== "TRAIN"
-        ? {
-            name: "Pickup time",
-            value:
-              pickupTime && pickupTime > 0
-                ? moment(pickupTime).format(constants.shortTimeFormat)
-                : "NA"
-          }
-        : null,
+
+    const trainPassengerDetails = () => [
       {
-        name: vehicle === "TRAIN" ? "Arrival at" : "Drop off point",
+        name: "Lead passenger",
+        value: leadPassengerName || "NA"
+      },
+      {
+        name: "No of Passengers",
+        value: passengerCount || "NA"
+      },
+      {
+        name: "Vehicle type",
+        value: getTitleCase(vehicle) || "NA"
+      },
+      {
+        name: "Departure Time",
+        value: departureTime
+          ? moment(departureTime, "HH:mm").format(constants.shortTimeFormat)
+          : "NA"
+      },
+      {
+        name: "Departure Station",
+        value: pickup || "NA"
+      },
+      type
+        ? {
+            name: "Type",
+            value: type ? getTitleCase(type) : "NA"
+          }
+        : null
+    ];
+
+    const passengerDetails =
+      _.toUpper(vehicle) === "TRAIN"
+        ? trainPassengerDetails()
+        : transferPassengerDetails();
+
+    const transferArrivalDetails = () => [
+      {
+        name: "Starting point",
+        value: pickup || "NA"
+      },
+      {
+        name: "Pickup time",
+        value:
+          pickupTime && pickupTime > 0
+            ? moment(pickupTime).format(constants.shortTimeFormat)
+            : "NA"
+      },
+      {
+        name: "Drop off point",
+        value: drop || "NA"
+      }
+    ];
+
+    const trainArrivalDetails = () => [
+      {
+        name: "Arrival at",
         value: drop || "NA"
       },
-      vehicle === "TRAIN"
-        ? {
-            name: "Arrival Time",
-            value: costingArrivalTime
-              ? moment(costingArrivalTime, "HH:mm").format(
-                  constants.shortTimeFormat
-                )
-              : "NA"
-          }
-        : null
+      {
+        name: "Arrival Time",
+        value: costingArrivalTime
+          ? moment(costingArrivalTime, "HH:mm").format(
+              constants.shortTimeFormat
+            )
+          : "NA"
+      }
     ];
+
+    const arrivalDetails =
+      _.toUpper(vehicle) === "TRAIN"
+        ? trainArrivalDetails()
+        : transferArrivalDetails();
+
     const bookingDetails = [
       {
         name: "Booked On",
@@ -174,21 +199,9 @@ class TransferVoucher extends Component {
       }
     ];
 
-    const voucherName =
-      vehicle === "Rental Car" ? `${pickup} to ${drop}` : text;
+    const voucherName = text;
 
     let voucherDate = dateMillis;
-    if (vehicle === "Rental Car") {
-      voucherDate =
-        pickupTime && pickupTime > 0
-          ? moment(pickupTime).valueOf()
-          : pDateMillis && pDateMillis > 0
-            ? moment(pDateMillis).valueOf()
-            : moment(
-                `${day}/${mon}/${constants.currentYear}`,
-                "DD/MMM/YYYY"
-              ).valueOf();
-    }
     if (pickupTime && pickupTime > 0) {
       voucherDate = moment(pickupTime).valueOf();
     }
