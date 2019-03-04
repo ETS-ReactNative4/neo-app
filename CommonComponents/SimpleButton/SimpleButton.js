@@ -7,7 +7,7 @@ import Icon from "../Icon/Icon";
 const SimpleButton = ({
   color,
   text,
-  action,
+  action = () => null,
   textColor,
   underlayColor,
   textStyle = {},
@@ -73,7 +73,7 @@ const SimpleButton = ({
 SimpleButton.propTypes = {
   color: PropTypes.string,
   text: PropTypes.string.isRequired,
-  action: PropTypes.func.isRequired,
+  action: PropTypes.func,
   textColor: PropTypes.string.isRequired,
   underlayColor: PropTypes.string,
   hasBorder: PropTypes.bool,

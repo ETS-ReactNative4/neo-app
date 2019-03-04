@@ -41,7 +41,6 @@ const RentalCarActionBar = ({ contact, imageUrl }) => {
           text={"Visual Directions"}
           hasBorder={true}
           color={"transparent"}
-          action={() => null}
           textColor={constants.firstColor}
         />
       ) : null}
