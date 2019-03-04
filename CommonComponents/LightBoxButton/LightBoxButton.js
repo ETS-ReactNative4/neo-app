@@ -3,6 +3,9 @@ import Lightbox from "react-native-lightbox";
 import SimpleButton from "../SimpleButton/SimpleButton";
 import PropTypes from "prop-types";
 
+/**
+ * Based on Simple Button, the LightBoxButton opens a image inside a lightbox when clicked on it
+ */
 class LightBoxButton extends Component {
   static propTypes = {
     LightBoxComponent: PropTypes.func.isRequired,
@@ -30,7 +33,7 @@ class LightBoxButton extends Component {
     const { LightBoxComponent, ...otherProps } = this.props;
     return (
       <Lightbox
-        springConfig={{ tension: 900000, friction: 900000 }}
+        springConfig={{ tension: 900000, friction: 900000 }} // Spring config set to maximum to disable the animation
         onOpen={this.onOpen}
         willClose={this.willClose}
         swipeToDismiss={false}
