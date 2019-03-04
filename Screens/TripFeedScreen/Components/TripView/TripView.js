@@ -9,9 +9,6 @@ import { recordEvent } from "../../../../Services/analytics/analyticsService";
 import WidgetTitle from "../WidgetTitle/WidgetTitle";
 import resolveLinks from "../../../../Services/resolveLinks/resolveLinks";
 import forbidExtraProps from "../../../../Services/PropTypeValidation/forbidExtraProps";
-import _ from "lodash";
-import storeService from "../../../../Services/storeService/storeService";
-import { toastBottom } from "../../../../Services/toast/toast";
 
 class TripView extends Component {
   static propTypes = forbidExtraProps({
@@ -27,7 +24,8 @@ class TripView extends Component {
         costingId: PropTypes.string,
         costingIdentifier: PropTypes.string,
         date: PropTypes.string.isRequired,
-        link: PropTypes.string.isRequired
+        link: PropTypes.string.isRequired,
+        deepLink: PropTypes.object
       }).isRequired
     ),
     widgetName: PropTypes.string
@@ -79,32 +77,7 @@ class TripView extends Component {
             };
             const circleAction = () => {
               if (widgetName) recordEvent(`${widgetName}_CIRCLE`);
-              const transfer = storeService.itineraries.getTransferFromAllById(
-                item.costingIdentifier || item.costingId || ""
-              );
-              /**
-               * TODO: Causes unnecessary error logs for activity with transfers
-               */
-              if (transfer && !_.isEmpty(transfer)) {
-                if (transfer.voucher.booked) {
-                  if (item.icon === "flight")
-                    resolveLinks("FlightVoucher", { flight: transfer });
-                  else resolveLinks("TransferVoucher", { transfer });
-                } else {
-                  toastBottom(constants.bookingProcessText.message);
-                }
-              } else {
-                const activity = storeService.itineraries.getActivityById(
-                  item.costingIdentifier || item.costingId || ""
-                );
-                if (
-                  activity &&
-                  !_.isEmpty(activity) &&
-                  (activity.voucher.booked || activity.free)
-                )
-                  resolveLinks("ActivityVoucher", { activity });
-                else toastBottom(constants.bookingProcessText.message);
-              }
+              resolveLinks(false, false, item.deepLink);
             };
             return (
               <View
