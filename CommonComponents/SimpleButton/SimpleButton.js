@@ -39,8 +39,10 @@ const SimpleButton = ({
       underlayColor: underlayColor || "white"
     };
   } else {
+    /**
+     * Lightbox mode doesn't support touchable components, hence normal View is used
+     */
     Parent = View;
-    parentProps = {};
   }
 
   return (
