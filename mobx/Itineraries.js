@@ -228,20 +228,24 @@ class Itineraries {
       let hotels;
       try {
         const hotelRefs = this._selectedItinerary.allHotelCostingRefs;
-        hotels = hotelRefs.reduce((hotelArray, ref) => {
-          const hotel = toJS(
-            this._selectedItinerary.hotelCostings.hotelCostingById[ref]
-          );
+        hotels =
+          hotelRefs && hotelRefs.length
+            ? hotelRefs.reduce((hotelArray, ref) => {
+                const hotel = toJS(
+                  this._selectedItinerary.hotelCostings.hotelCostingById[ref]
+                );
 
-          if (hotel.status === "SUCCESS") {
-            hotel.voucher =
-              storeService.voucherStore.getHotelVoucherById(hotel.costingId) ||
-              {};
-            hotelArray.push(hotel);
-          }
+                if (hotel.status === "SUCCESS") {
+                  hotel.voucher =
+                    storeService.voucherStore.getHotelVoucherById(
+                      hotel.costingId
+                    ) || {};
+                  hotelArray.push(hotel);
+                }
 
-          return hotelArray;
-        }, []);
+                return hotelArray;
+              }, [])
+            : [];
       } catch (e) {
         hotels = [];
       }
@@ -264,11 +268,16 @@ class Itineraries {
         /**
          * TODO: Multiple maps (needs optimization)
          */
-        const activitiesCosting = activityRefs.map(ref => {
-          return toJS(
-            this._selectedItinerary.activityCostings.activityCostingById[ref]
-          );
-        });
+        const activitiesCosting =
+          activityRefs && activityRefs.length
+            ? activityRefs.map(ref => {
+                return toJS(
+                  this._selectedItinerary.activityCostings.activityCostingById[
+                    ref
+                  ]
+                );
+              })
+            : [];
         activities = activities.map(activity => {
           activity = toJS(activity);
           const costing = _.find(activitiesCosting, {
@@ -304,20 +313,24 @@ class Itineraries {
     let flights;
     try {
       const flightRefs = this._selectedItinerary.allFlightCostingRefs;
-      flights = flightRefs.reduce((flightArray, ref) => {
-        const flight = toJS(
-          this._selectedItinerary.flightCostings.flightCostingById[ref]
-        );
+      flights =
+        flightRefs && flightRefs.length
+          ? flightRefs.reduce((flightArray, ref) => {
+              const flight = toJS(
+                this._selectedItinerary.flightCostings.flightCostingById[ref]
+              );
 
-        if (flight.status === "SUCCESS") {
-          flight.voucher =
-            storeService.voucherStore.getFlightVoucherById(flight.dbFlightId) ||
-            {};
-          flightArray.push(flight);
-        }
+              if (flight.status === "SUCCESS") {
+                flight.voucher =
+                  storeService.voucherStore.getFlightVoucherById(
+                    flight.dbFlightId
+                  ) || {};
+                flightArray.push(flight);
+              }
 
-        return flightArray;
-      }, []);
+              return flightArray;
+            }, [])
+          : [];
     } catch (e) {
       logError(e);
       flights = [];
@@ -332,21 +345,26 @@ class Itineraries {
     let transfers;
     try {
       const transferRefs = this._selectedItinerary.allTransferCostingRefs;
-      transfers = transferRefs.reduce((transferArray, ref) => {
-        const transfer = toJS(
-          this._selectedItinerary.transferCostings.transferCostingById[ref]
-        );
+      transfers =
+        transferRefs && transferRefs.length
+          ? transferRefs.reduce((transferArray, ref) => {
+              const transfer = toJS(
+                this._selectedItinerary.transferCostings.transferCostingById[
+                  ref
+                ]
+              );
 
-        if (transfer.status === "SUCCESS") {
-          transfer.voucher =
-            storeService.voucherStore.getTransferVoucherById(
-              transfer.transferCostingId
-            ) || {};
-          transferArray.push(transfer);
-        }
+              if (transfer.status === "SUCCESS") {
+                transfer.voucher =
+                  storeService.voucherStore.getTransferVoucherById(
+                    transfer.transferCostingId
+                  ) || {};
+                transferArray.push(transfer);
+              }
 
-        return transferArray;
-      }, []);
+              return transferArray;
+            }, [])
+          : [];
     } catch (e) {
       logError(e);
       transfers = [];
@@ -361,16 +379,19 @@ class Itineraries {
     let trains;
     try {
       const trainRefs = this._selectedItinerary.allTrainCostingRefs;
-      trains = trainRefs.map(ref => {
-        const trainCosting = toJS(
-          this._selectedItinerary.trainCostings.trainCostingById[ref]
-        );
-        trainCosting.voucher =
-          storeService.voucherStore.getTrainVoucherById(
-            trainCosting.costingId
-          ) || {};
-        return trainCosting;
-      });
+      trains =
+        trainRefs && trainRefs.length
+          ? trainRefs.map(ref => {
+              const trainCosting = toJS(
+                this._selectedItinerary.trainCostings.trainCostingById[ref]
+              );
+              trainCosting.voucher =
+                storeService.voucherStore.getTrainVoucherById(
+                  trainCosting.costingId
+                ) || {};
+              return trainCosting;
+            })
+          : [];
     } catch (e) {
       logError(e);
       trains = [];
@@ -385,14 +406,19 @@ class Itineraries {
     let ferries;
     try {
       const ferryRefs = this._selectedItinerary.allFerryCostingRefs;
-      ferries = ferryRefs.map(ref => {
-        const ferry = toJS(
-          this._selectedItinerary.ferryCostings.ferryCostingById[ref]
-        );
-        ferry.voucher =
-          storeService.voucherStore.getFerryVoucherById(ferry.costingId) || {};
-        return ferry;
-      });
+      ferries =
+        ferryRefs && ferryRefs.length
+          ? ferryRefs.map(ref => {
+              const ferry = toJS(
+                this._selectedItinerary.ferryCostings.ferryCostingById[ref]
+              );
+              ferry.voucher =
+                storeService.voucherStore.getFerryVoucherById(
+                  ferry.costingId
+                ) || {};
+              return ferry;
+            })
+          : [];
     } catch (e) {
       logError(e);
       ferries = [];
@@ -407,15 +433,18 @@ class Itineraries {
     let visa;
     try {
       const visaRefs = this._selectedItinerary.allVisaCostingRefs;
-      visa = visaRefs.reduce((visaArray, ref) => {
-        const visaObject = toJS(
-          this._selectedItinerary.visaCostings.visaCostingById[ref]
-        );
-        if (!visaObject.onArrival) {
-          visaArray.push(visaObject);
-        }
-        return visaArray;
-      }, []);
+      visa =
+        visaRefs && visaRefs.length
+          ? visaRefs.reduce((visaArray, ref) => {
+              const visaObject = toJS(
+                this._selectedItinerary.visaCostings.visaCostingById[ref]
+              );
+              if (!visaObject.onArrival) {
+                visaArray.push(visaObject);
+              }
+              return visaArray;
+            }, [])
+          : [];
     } catch (e) {
       logError(e);
       visa = [];
@@ -449,13 +478,14 @@ class Itineraries {
     let passes;
     try {
       const passRefs = this._selectedItinerary.allPassCostingRefs;
-      passes = Array.isArray(passRefs)
-        ? passRefs.map(ref => {
-            return toJS(
-              this._selectedItinerary.passCostings.passCostingById[ref]
-            );
-          })
-        : [];
+      passes =
+        passRefs && passRefs.length
+          ? passRefs.map(ref => {
+              return toJS(
+                this._selectedItinerary.passCostings.passCostingById[ref]
+              );
+            })
+          : [];
     } catch (e) {
       logError(e);
       passes = [];
@@ -470,16 +500,19 @@ class Itineraries {
     let rentals;
     try {
       const rentalRefs = this._selectedItinerary.allRentalCostingRefs;
-      rentals = rentalRefs.map(ref => {
-        const rental = toJS(
-          this._selectedItinerary.rentalCarCostings.rentalCostingById[ref]
-        );
-        rental.voucher =
-          storeService.voucherStore.getRentalCarVoucherById(
-            rental.rcCostingId || rental.dbRef
-          ) || {};
-        return rental;
-      });
+      rentals =
+        rentalRefs && rentalRefs.length
+          ? rentalRefs.map(ref => {
+              const rental = toJS(
+                this._selectedItinerary.rentalCarCostings.rentalCostingById[ref]
+              );
+              rental.voucher =
+                storeService.voucherStore.getRentalCarVoucherById(
+                  rental.rcCostingId || rental.dbRef
+                ) || {};
+              return rental;
+            })
+          : [];
     } catch (e) {
       logError(e);
       rentals = [];
