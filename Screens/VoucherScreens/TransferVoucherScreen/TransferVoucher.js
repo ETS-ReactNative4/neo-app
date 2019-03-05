@@ -213,7 +213,7 @@ class TransferVoucher extends Component {
           backgroundColor="white"
           contentBackgroundColor="white"
           parallaxHeaderHeight={214 + xHeight}
-          stickyHeaderHeight={48 + xHeight}
+          stickyHeaderHeight={this.state.isCloseVisible ? 0 : 48 + xHeight}
           fadeOutForeground={Platform.OS !== "android"}
           onChangeHeaderVisibility={this.headerToggle}
           renderStickyHeader={() => (
