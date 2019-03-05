@@ -225,6 +225,16 @@ class RentalCarVoucher extends Component {
       }
     ];
 
+    /**
+     * Will open pickup or drop sections in the accordion by default based on the current date
+     */
+    const today = moment();
+    const timeDiff = moment(pickupTime).diff(today, "days");
+    let openSections = [0];
+    if (timeDiff < 0) {
+      openSections = [1];
+    }
+
     return (
       <Fragment>
         <ParallaxScrollView
@@ -268,8 +278,8 @@ class RentalCarVoucher extends Component {
             />
 
             <VoucherAccordion
+              activeSections={openSections}
               sections={rentalCarAccordion}
-              openFirstSection={true}
             />
 
             <VoucherSplitSection sections={bookingDetails} />
