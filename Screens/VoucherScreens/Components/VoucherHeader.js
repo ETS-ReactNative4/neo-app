@@ -40,11 +40,13 @@ const VoucherHeader = ({
           <View style={styles.closeIconRow}>
             {Platform.OS === "android" ? (
               <TouchableOpacity
-                style={styles.closeIconContainer}
+                style={styles.closeIconTouchable}
                 onPress={onClickClose}
                 activeOpacity={0.2}
               >
-                <Icon color={"white"} name={constants.closeIcon} size={24} />
+                <View style={styles.iconContainer}>
+                  <Icon color={"white"} name={constants.closeIcon} size={24} />
+                </View>
               </TouchableOpacity>
             ) : null}
           </View>
@@ -143,12 +145,15 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "flex-start"
   },
-  closeIconContainer: {
+  closeIconTouchable: {
+    marginLeft: 8,
+    marginTop: 16,
+    padding: 16
+  },
+  iconContainer: {
     height: 32,
     width: 32,
     borderRadius: 16,
-    marginLeft: 24,
-    marginTop: 32,
     backgroundColor: "rgba(0,0,0,0.4)",
     alignItems: "center",
     justifyContent: "center"
