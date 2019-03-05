@@ -91,6 +91,8 @@ class RentalCarVoucher extends Component {
       pickupTimeStr,
       dropTime,
       dropTimeStr,
+      pickupDateStr,
+      dropDateStr,
       bookedTime,
       bookingId,
       contactNumber,
@@ -107,16 +109,19 @@ class RentalCarVoucher extends Component {
       pickupImage,
       dropImage,
       pickupContactNumber,
-      dropContactNumber
+      dropContactNumber,
+      insuranceType
     } = rentalCar.voucher;
-    const pickupDate =
-      pickupTime && pickupTime > 0
-        ? moment(pickupTime).format(constants.commonDateFormat)
-        : "";
-    const dropDate =
-      dropTime && dropTime > 0
-        ? moment(dropTime).format(constants.commonDateFormatReverse)
-        : "";
+    const pickupDate = pickupDateStr
+      ? moment(pickupDateStr, constants.voucherDateFormat).format(
+          constants.commonDateFormat
+        )
+      : "";
+    const dropDate = dropDateStr
+      ? moment(dropDateStr, constants.voucherDateFormat).format(
+          constants.commonDateFormatReverse
+        )
+      : "";
 
     const passengerDetails = [
       {
@@ -142,6 +147,10 @@ class RentalCarVoucher extends Component {
       {
         name: "GPS Included",
         value: gpsIncluded ? "Yes" : "No"
+      },
+      {
+        name: "Insurance Type",
+        value: insuranceType
       }
     ];
     const pickingUpDetails = [
