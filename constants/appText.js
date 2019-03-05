@@ -107,7 +107,8 @@ const appText = {
     successTitle: "Yeh! Payment successful",
     successMessage:
       "We got your payment! Please note the below transaction ID for further references."
-  }
+  },
+  pdfViewerErrorText: "Unable to load pdf!"
 };
 
 export default appText;

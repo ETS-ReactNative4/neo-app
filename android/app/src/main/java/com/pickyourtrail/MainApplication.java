@@ -3,6 +3,9 @@ package com.pickyourtrail;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import org.wonday.pdf.RCTPdfView;
+import com.RNFetchBlob.RNFetchBlobPackage;
+import com.reactnative.photoview.PhotoViewPackage;
 import com.reactnativecommunity.webview.RNCWebViewPackage;
 import com.avishayil.rnrestart.ReactNativeRestartPackage;
 import com.github.droibit.android.reactnative.customtabs.CustomTabsPackage;
@@ -38,6 +41,9 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNFetchBlobPackage(),
+            new RCTPdfView(),
+            new PhotoViewPackage(),
             new RNCWebViewPackage(),
             new ReactNativeRestartPackage(),
             new CustomTabsPackage(),

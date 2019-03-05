@@ -124,7 +124,7 @@ class ActivityVoucher extends Component {
     } = selectedTourGrade;
 
     const activityDepartureTime = moment(departureTime, "HHmm").format(
-      "hh:mm a"
+      constants.shortTimeFormat
     );
 
     const transferIncluded = _.toUpper(transferType) !== "NOTRANSFER";
@@ -208,7 +208,7 @@ class ActivityVoucher extends Component {
             ? pickupTime
             : selectedTourGrade && selectedTourGrade.departureTime
               ? moment(selectedTourGrade.departureTime, "HHmm").format(
-                  "hh:mm a"
+                  constants.shortTimeFormat
                 )
               : "NA"
         });
@@ -355,7 +355,7 @@ class ActivityVoucher extends Component {
           backgroundColor="white"
           contentBackgroundColor="white"
           parallaxHeaderHeight={214 + xHeight}
-          stickyHeaderHeight={48 + xHeight}
+          stickyHeaderHeight={this.state.isCloseVisible ? 0 : 48 + xHeight}
           fadeOutForeground={Platform.OS !== "android"}
           onChangeHeaderVisibility={this.headerToggle}
           renderStickyHeader={() => (

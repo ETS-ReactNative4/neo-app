@@ -7,7 +7,7 @@ import Icon from "../Icon/Icon";
 const SimpleButton = ({
   color,
   text,
-  action,
+  action = () => null,
   textColor,
   underlayColor,
   textStyle = {},
@@ -15,7 +15,8 @@ const SimpleButton = ({
   containerStyle = {},
   icon,
   iconSize,
-  rightIcon = false
+  rightIcon = false,
+  lightBoxMode = false
 }) => {
   if (textColor) textStyle = { ...textStyle, color: textColor };
 
@@ -29,12 +30,23 @@ const SimpleButton = ({
     };
   }
 
+  let Parent = TouchableHighlight,
+    parentProps = {};
+  if (!lightBoxMode) {
+    Parent = TouchableHighlight;
+    parentProps = {
+      onPress: action,
+      underlayColor: underlayColor || "white"
+    };
+  } else {
+    /**
+     * Lightbox mode doesn't support touchable components, hence normal View is used
+     */
+    Parent = View;
+  }
+
   return (
-    <TouchableHighlight
-      style={[styles.button, containerStyle]}
-      onPress={action}
-      underlayColor={underlayColor || "white"}
-    >
+    <Parent style={[styles.button, containerStyle]} {...parentProps}>
       <View
         style={[
           styles.buttonWrapper,
@@ -54,21 +66,22 @@ const SimpleButton = ({
           {text}
         </Text>
       </View>
-    </TouchableHighlight>
+    </Parent>
   );
 };
 
 SimpleButton.propTypes = {
   color: PropTypes.string,
   text: PropTypes.string.isRequired,
-  action: PropTypes.func.isRequired,
+  action: PropTypes.func,
   textColor: PropTypes.string.isRequired,
   underlayColor: PropTypes.string,
   hasBorder: PropTypes.bool,
   containerStyle: PropTypes.object,
   textStyle: PropTypes.object,
   icon: PropTypes.string,
-  iconSize: PropTypes.number
+  iconSize: PropTypes.number,
+  lightBoxMode: PropTypes.bool
 };
 
 const styles = StyleSheet.create({

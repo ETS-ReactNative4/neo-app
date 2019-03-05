@@ -1,17 +1,19 @@
 import React from "react";
 import constants from "../../../constants/constants";
-import { TouchableOpacity, StyleSheet } from "react-native";
+import { TouchableOpacity, StyleSheet, View } from "react-native";
 import Icon from "../../../CommonComponents/Icon/Icon";
 import PropTypes from "prop-types";
 
 const IosCloseButton = ({ clickAction }) => {
   return (
     <TouchableOpacity
-      style={styles.closeIconContainer}
+      style={styles.closeIconTouchable}
       onPress={clickAction}
       activeOpacity={0.2}
     >
-      <Icon color={"white"} name={constants.closeIcon} size={24} />
+      <View style={styles.iconContainer}>
+        <Icon color={"white"} name={constants.closeIcon} size={24} />
+      </View>
     </TouchableOpacity>
   );
 };
@@ -21,16 +23,18 @@ IosCloseButton.propTypes = {
 };
 
 const styles = StyleSheet.create({
-  closeIconContainer: {
+  iconContainer: {
     height: 32,
     width: 32,
     alignItems: "center",
     justifyContent: "center",
-    borderRadius: 16,
-    position: "absolute",
     backgroundColor: "rgba(0,0,0,0.4)",
-    top: 32,
-    left: 16
+    borderRadius: 16
+  },
+  closeIconTouchable: {
+    position: "absolute",
+    top: 16,
+    padding: 16
   }
 });
 

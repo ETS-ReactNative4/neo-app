@@ -9,6 +9,9 @@ const styles = {
   xSensorAreaHeight: 30,
   xNotchHeight: 30,
   commonDateFormat: "MMM DD, ddd",
+  commonDateFormatReverse: "ddd, DD MMM",
+  shortTimeFormat: "hh:mm a",
+  voucherDateFormat: "YYYY-MM-DD",
   currentYear: new Date().getYear() + 1900,
   htmlStyleSheet: StyleSheet.create({
     div: {

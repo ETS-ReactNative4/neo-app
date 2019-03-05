@@ -54,6 +54,10 @@ const appEvents = {
     "bookings_home_accordion_passes_voucher_click",
   bookingsHomeAccordionActivitiesVoucherClick:
     "bookings_home_accordion_activities_voucher_click",
+  bookingsHomeAccordionViatorActivitiesVoucherClick:
+    "bookings_home_accordion_viator_activities_voucher_click",
+  bookingsHomeAccordionProcessingActivitiesVoucherClick:
+    "bookings_home_accordion_processing_activities_voucher_click",
   bookingsHomeAccordionTrainsVoucherClick:
     "bookings_home_accordion_trains_voucher_click",
   bookingsHomeAccordionFerriesVoucherClick:

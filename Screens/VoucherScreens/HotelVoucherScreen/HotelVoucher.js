@@ -156,7 +156,7 @@ class HotelVoucher extends Component {
           backgroundColor="white"
           contentBackgroundColor="white"
           parallaxHeaderHeight={214 + xHeight}
-          stickyHeaderHeight={48 + xHeight}
+          stickyHeaderHeight={this.state.isCloseVisible ? 0 : 48 + xHeight}
           renderStickyHeader={() => (
             <VoucherStickyHeader
               action={this.close}

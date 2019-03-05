@@ -20,6 +20,8 @@ class CollapsibleTextSection extends Component {
     content: PropTypes.string.isRequired,
     expandText: PropTypes.string,
     collapseText: PropTypes.string,
+    containerStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.number])
+      .isRequired,
     title: PropTypes.string
   });
 
@@ -48,7 +50,13 @@ class CollapsibleTextSection extends Component {
   };
 
   render() {
-    const { content, expandText, collapseText, title } = this.props;
+    const {
+      content,
+      expandText,
+      collapseText,
+      title,
+      containerStyle = {}
+    } = this.props;
     const {
       isCollapsible,
       isCollapsed,
@@ -57,7 +65,7 @@ class CollapsibleTextSection extends Component {
     const isCompressed = isCollapsible && isCollapsed;
     if (!content) return null;
     return (
-      <View>
+      <View style={containerStyle}>
         <View
           style={[
             styles.collapsibleContainer,

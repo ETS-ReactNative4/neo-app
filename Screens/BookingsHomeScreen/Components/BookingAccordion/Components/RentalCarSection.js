@@ -47,11 +47,15 @@ const RentalCar = ({ rentalCar, isLast, navigation, spinValue }) => {
 
   const openVoucher = () => {
     if (rentalCar.voucher.booked) {
-      navigation.navigate("TransferVoucher", { transfer: rentalCar });
+      navigation.navigate("RentalCarVoucher", { rentalCar });
     } else {
       toastBottom(constants.bookingProcessText.message);
     }
   };
+
+  const { pickup, drop } = rentalCar;
+
+  const { pickupLocation, dropLocation } = rentalCar.voucher;
 
   return (
     <BookingSectionComponent
@@ -62,7 +66,11 @@ const RentalCar = ({ rentalCar, isLast, navigation, spinValue }) => {
       containerStyle={customStyle}
       isProcessing={!rentalCar.voucher.booked}
       onClick={openVoucher}
-      content={rentalCar.pickup + " to " + rentalCar.drop}
+      content={
+        pickupLocation && dropLocation
+          ? `${pickupLocation} to ${dropLocation}`
+          : `${pickup} to ${drop}`
+      }
       title={`${
         rentalCar.voucher.pickupTime && rentalCar.voucher.pickupTime > 0
           ? moment(rentalCar.voucher.pickupTime).format(

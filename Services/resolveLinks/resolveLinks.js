@@ -7,6 +7,7 @@ import constants from "../../constants/constants";
 import directions from "../directions/directions";
 import dialer from "../dialer/dialer";
 import { logError } from "../errorLogger/errorLogger";
+import { Platform } from "react-native";
 
 const validateVoucher = voucher =>
   !_.isEmpty(voucher) &&
@@ -70,16 +71,22 @@ const resolveLinks = (link = "", screenProps = {}, deepLink = {}) => {
               activity.voucher.voucherUrl &&
               activity.costing.viator
             ) {
-              openCustomTab(
-                activity.voucher.voucherUrl,
-                () => null,
-                () => {
-                  logError(
-                    "Unable to launch custom tab for viator voucher!",
-                    {}
-                  );
-                }
-              );
+              if (Platform.OS === constants.platformIos) {
+                openCustomTab(
+                  activity.voucher.voucherUrl,
+                  () => null,
+                  () => {
+                    logError(
+                      "Unable to launch custom tab for viator voucher!",
+                      {}
+                    );
+                  }
+                );
+              } else {
+                navigation.navigate("PDFViewerScreen", {
+                  pdfUri: activity.voucher.voucherUrl
+                });
+              }
             } else {
               navigation.navigate("ActivityVoucher", { activity });
             }
@@ -102,7 +109,7 @@ const resolveLinks = (link = "", screenProps = {}, deepLink = {}) => {
             costingIdentifier
           );
           if (validateVoucher(rentalCar)) {
-            navigation.navigate("TransferVoucher", { transfer: rentalCar });
+            navigation.navigate("RentalCarVoucher", { rentalCar });
           } else {
             toastBottom(constants.bookingProcessText.message);
           }

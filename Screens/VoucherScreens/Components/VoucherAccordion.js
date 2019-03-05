@@ -13,7 +13,8 @@ class VoucherAccordion extends Component {
     containerStyle: PropTypes.object,
     openFirstSection: PropTypes.bool,
     openAllSections: PropTypes.bool,
-    expandMultiple: PropTypes.bool
+    expandMultiple: PropTypes.bool,
+    activeSections: PropTypes.arrayOf(PropTypes.number)
   });
 
   state = {
@@ -94,7 +95,12 @@ class VoucherAccordion extends Component {
   };
 
   componentDidMount() {
-    const { openFirstSection, openAllSections, sections } = this.props;
+    const {
+      openFirstSection,
+      openAllSections,
+      sections,
+      activeSections
+    } = this.props;
     if (openFirstSection) {
       this.setState({
         activeSections: [0]
@@ -102,6 +108,11 @@ class VoucherAccordion extends Component {
     }
     if (openAllSections) {
       const activeSections = [...Array(_.compact(sections).length).keys()];
+      this.setState({
+        activeSections
+      });
+    }
+    if (activeSections && activeSections.length) {
       this.setState({
         activeSections
       });

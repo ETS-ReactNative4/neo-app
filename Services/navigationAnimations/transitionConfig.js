@@ -76,6 +76,9 @@ const transitionConfig = () => {
         case "HotelVoucher":
           return slideFromBottom;
 
+        case "RentalCarVoucher":
+          return slideFromBottom;
+
         case "FlightVoucher":
           return slideFromBottom;
 

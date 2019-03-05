@@ -9,6 +9,7 @@ import LeisureScreen from "../Screens/VoucherScreens/LeisureScreen/LeisureScreen
 import YourBookings from "../Screens/YourBookingsScreen/YourBookings";
 import transitionConfig from "../Services/navigationAnimations/transitionConfig";
 import MainStack from "./MainStack";
+import RentalCarVoucher from "../Screens/VoucherScreens/RentalCarVoucherScreen/RentalCarVoucher";
 
 const UniversalStack = createStackNavigator(
   {
@@ -30,6 +31,9 @@ const UniversalStack = createStackNavigator(
     },
     FlightStatus: {
       screen: FlightStatus
+    },
+    RentalCarVoucher: {
+      screen: RentalCarVoucher
     },
     LeisureScreen: {
       screen: LeisureScreen
