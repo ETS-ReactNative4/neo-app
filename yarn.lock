@@ -10573,9 +10573,9 @@ react-native-pdf@^5.0.11:
     crypto-js "^3.1.9-1"
     prop-types "^15.5.10"
 
-"react-native-photo-view@git://github.com/alwx/react-native-photo-view.git#e28f5416574cbfa07b2d4fa862c0048df56f7b02":
+"react-native-photo-view@git://github.com/DaniAkash/react-native-photo-view.git#22e4ff8847dc2c800d216011f981b769edf1daa0":
   version "1.5.2"
-  resolved "git://github.com/alwx/react-native-photo-view.git#e28f5416574cbfa07b2d4fa862c0048df56f7b02"
+  resolved "git://github.com/DaniAkash/react-native-photo-view.git#22e4ff8847dc2c800d216011f981b769edf1daa0"
   dependencies:
     prop-types "^15.5.10"
 
