@@ -278,7 +278,7 @@ class AppState {
     const requestBody = {
       deviceToken: this._pushTokens.deviceToken
     };
-    isUserLoggedInCallback(async credentials => {
+    isUserLoggedInCallback(credentials => {
       try {
         apiCall(
           constants.registerDeviceToken,
