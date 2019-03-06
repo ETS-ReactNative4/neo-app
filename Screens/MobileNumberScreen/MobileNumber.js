@@ -25,6 +25,7 @@ import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import { toastTop } from "../../Services/toast/toast";
 import OtpField from "./Components/OtpField";
 import { isValidNumber } from "libphonenumber-js";
+import { getDeviceToken } from "../../Services/fcmService/fcm";
 
 let MobileNumberComponentInstance;
 
@@ -160,6 +161,7 @@ class MobileNumber extends Component {
               recordEvent(constants.userLoggedInEvent);
               getUpcomingItineraries();
               getUserDetails();
+              getDeviceToken();
               navigation.navigate("YourBookings");
             } else {
               this.setState({

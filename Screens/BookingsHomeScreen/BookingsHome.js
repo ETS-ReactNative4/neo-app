@@ -29,7 +29,7 @@ import CustomScrollView from "../../CommonComponents/CustomScrollView/CustomScro
 import SectionHeader from "../../CommonComponents/SectionHeader/SectionHeader";
 import openCustomTab from "../../Services/openCustomTab/openCustomTab";
 import NoInternetIndicator from "../../CommonComponents/NoInternetIndicator/NoInternetIndicator";
-import * as Keychain from "react-native-keychain";
+import isUserLoggedInCallback from "../../Services/isUserLoggedInCallback/isUserLoggedInCallback";
 
 @ErrorBoundary({ isRoot: true })
 @inject("infoStore")
@@ -73,17 +73,12 @@ class BookingsHome extends Component {
     this._didFocusSubscription && this._didFocusSubscription.remove();
   }
 
-  enablePushNotificationServices = async () => {
-    try {
-      const credentials = await Keychain.getGenericPassword();
-      if (credentials && credentials.password) {
-        getDeviceToken(token => {
-          registerFcmRefreshListener();
-        });
-      }
-    } catch (e) {
-      logError(e);
-    }
+  enablePushNotificationServices = () => {
+    isUserLoggedInCallback(() => {
+      getDeviceToken(token => {
+        registerFcmRefreshListener();
+      });
+    });
   };
 
   openSearch = () => {};

@@ -2,9 +2,8 @@ import React, { Component } from "react";
 import { AsyncStorage, ImageBackground } from "react-native";
 import { NavigationActions } from "react-navigation";
 import constants from "../../constants/constants";
-import * as Keychain from "react-native-keychain";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
-import { logError } from "../../Services/errorLogger/errorLogger";
+import isUserLoggedInCallback from "../../Services/isUserLoggedInCallback/isUserLoggedInCallback";
 
 const resetToBooked = NavigationActions.navigate({
   routeName: "AppHome",
@@ -24,9 +23,8 @@ class Splash extends Component {
 
   componentDidMount() {
     setTimeout(async () => {
-      try {
-        const credentials = await Keychain.getGenericPassword();
-        if (credentials) {
+      isUserLoggedInCallback(
+        () => {
           AsyncStorage.getItem(constants.tripToggleStatusStorageKey).then(
             isTripModeOn => {
               if (JSON.parse(isTripModeOn)) {
@@ -36,13 +34,14 @@ class Splash extends Component {
               }
             }
           );
-        } else {
+        },
+        () => {
+          this.props.navigation.navigate("Starter");
+        },
+        () => {
           this.props.navigation.navigate("Starter");
         }
-      } catch (e) {
-        logError(e);
-        this.props.navigation.navigate("Starter");
-      }
+      );
     }, 1000);
   }
 

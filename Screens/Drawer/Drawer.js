@@ -15,11 +15,10 @@ import logOut from "../../Services/logOut/logOut";
 import SimpleButton from "../../CommonComponents/SimpleButton/SimpleButton";
 import { inject, observer } from "mobx-react/custom";
 import _ from "lodash";
-import * as Keychain from "react-native-keychain";
 import DialogBox from "../../CommonComponents/DialogBox/DialogBox";
 import { shouldIncludeStoryBook } from "../../storybook/Storybook";
 import { recordEvent } from "../../Services/analytics/analyticsService";
-import LinearGradient from "react-native-linear-gradient";
+import isUserLoggedInCallback from "../../Services/isUserLoggedInCallback/isUserLoggedInCallback";
 
 @inject("userStore")
 @inject("infoStore")
@@ -42,21 +41,22 @@ class Drawer extends Component {
   }
 
   checkLogin = () => {
-    Keychain.getGenericPassword().then(credentials => {
-      if (credentials && credentials.password) {
+    isUserLoggedInCallback(
+      () => {
         if (!this.state.isLoggedIn) {
           this.setState({
             isLoggedIn: true
           });
         }
-      } else {
+      },
+      () => {
         if (this.state.isLoggedIn) {
           this.setState({
             isLoggedIn: false
           });
         }
       }
-    });
+    );
   };
 
   render() {

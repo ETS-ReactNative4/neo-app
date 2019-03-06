@@ -4,6 +4,7 @@ import storeService from "../storeService/storeService";
 import navigationService from "../navigationService/navigationService";
 import resolveLinks from "../resolveLinks/resolveLinks";
 import * as Keychain from "react-native-keychain";
+import isUserLoggedInCallback from "../isUserLoggedInCallback/isUserLoggedInCallback";
 
 export const getDeviceToken = async (
   success = () => null,
@@ -18,14 +19,16 @@ export const getDeviceToken = async (
       storeService.appState.setPushTokens(token);
       success(token);
     } else {
-      try {
-        await messaging().requestPermission();
-        token = await messaging().getToken();
-        storeService.appState.setPushTokens(token);
-        success(token);
-      } catch (e) {
-        rejected(e);
-      }
+      isUserLoggedInCallback(async () => {
+        try {
+          await messaging().requestPermission();
+          token = await messaging().getToken();
+          storeService.appState.setPushTokens(token);
+          success(token);
+        } catch (e) {
+          rejected(e);
+        }
+      });
     }
   } catch (err) {
     failure(err);
@@ -69,28 +72,23 @@ export const getInitialNotification = notifications()
     }
   });
 
-const notificationClickHandler = async data => {
-  try {
-    const credentials = await Keychain.getGenericPassword();
-    if (credentials) {
-      const { screen, link, modalData } = data;
-      const { navigation } = navigationService;
-      if (link) {
-        resolveLinks(link, modalData ? JSON.parse(modalData) : {});
-      } else {
-        switch (screen) {
-          case "CRISP_CHAT":
-            navigation._navigation.navigate("Support");
-            break;
+const notificationClickHandler = data => {
+  isUserLoggedInCallback(() => {
+    const { screen, link, modalData } = data;
+    const { navigation } = navigationService;
+    if (link) {
+      resolveLinks(link, modalData ? JSON.parse(modalData) : {});
+    } else {
+      switch (screen) {
+        case "CRISP_CHAT":
+          navigation._navigation.navigate("Support");
+          break;
 
-          default:
-            break;
-        }
+        default:
+          break;
       }
     }
-  } catch (e) {
-    logError(e);
-  }
+  });
 };
 
 const notificationReceivedHandler = async data => {
