@@ -23,7 +23,7 @@ const apiCall = async (
       isMobile: true
     };
 
-    if (credentials) {
+    if (credentials && credentials.username) {
       headerObject.Authorization = credentials.password;
     } else if (customToken) {
       headerObject.Authorization = customToken;
@@ -50,7 +50,7 @@ const apiCall = async (
     function handleErrors(response) {
       console.log(response.status);
       console.log(response.statusText);
-      if (response.status === 401 && credentials && credentials.password) {
+      if (response.status === 401 && credentials && credentials.username) {
         if (!isJustLoggedOut) {
           isJustLoggedOut = true;
           DebouncedAlert("Oops!", "Session Expired... Please Login again!");

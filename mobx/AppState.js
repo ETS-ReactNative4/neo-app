@@ -11,6 +11,7 @@ import storeService from "../Services/storeService/storeService";
 import * as Keychain from "react-native-keychain";
 import { AsyncStorage } from "react-native";
 import logOut from "../Services/logOut/logOut";
+import isUserLoggedInCallback from "../Services/isUserLoggedInCallback/isUserLoggedInCallback";
 
 const {
   conversionRateError,
@@ -258,21 +259,19 @@ class AppState {
     const requestBody = {
       deviceToken
     };
-    Keychain.getGenericPassword().then(credentials => {
-      if (credentials && credentials.password) {
-        apiCall(constants.registerDeviceToken, requestBody, "PUT")
-          .then(response => {
-            if (response.status === "SUCCESS") {
-              this._pushTokens.deviceToken = deviceToken;
-            } else {
-              this._pushTokens.deviceToken = "";
-            }
-          })
-          .catch(err => {
+    isUserLoggedInCallback(() => {
+      apiCall(constants.registerDeviceToken, requestBody, "PUT")
+        .then(response => {
+          if (response.status === "SUCCESS") {
+            this._pushTokens.deviceToken = deviceToken;
+          } else {
             this._pushTokens.deviceToken = "";
-            logError(err, { eventType: "Device token Failed to register" });
-          });
-      }
+          }
+        })
+        .catch(err => {
+          this._pushTokens.deviceToken = "";
+          logError(err, { eventType: "Device token Failed to register" });
+        });
     });
   };
 
@@ -280,8 +279,9 @@ class AppState {
     const requestBody = {
       deviceToken: this._pushTokens.deviceToken
     };
-    Keychain.getGenericPassword().then(credentials => {
-      if (credentials && credentials.password) {
+    isUserLoggedInCallback(async () => {
+      try {
+        const credentials = await Keychain.getGenericPassword();
         apiCall(
           constants.registerDeviceToken,
           requestBody,
@@ -320,6 +320,8 @@ class AppState {
               logOutError.actionText
             );
           });
+      } catch (e) {
+        logError(e);
       }
     });
   };

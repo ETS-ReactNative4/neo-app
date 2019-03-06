@@ -11,14 +11,9 @@ import moment from "moment";
 import { recordEvent } from "../../Services/analytics/analyticsService";
 import CrispSDK from "./Components/CrispSDK";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
-import {
-  responsiveHeight,
-  responsiveWidth
-} from "react-native-responsive-dimensions";
 import openCustomTab from "../../Services/openCustomTab/openCustomTab";
-import * as Keychain from "react-native-keychain";
-import { logError } from "../../Services/errorLogger/errorLogger";
 import getUrlParams from "../../Services/getUrlParams/getUrlParams";
+import isUserLoggedInCallback from "../../Services/isUserLoggedInCallback/isUserLoggedInCallback";
 
 @ErrorBoundary({ isRoot: true })
 @inject("userStore")
@@ -103,19 +98,14 @@ class ChatScreen extends Component {
     this.checkCrispToken();
   }
 
-  checkCrispToken = async () => {
-    try {
-      const credentials = await Keychain.getGenericPassword();
-      if (credentials && credentials.password) {
-        const { userDetails, getUserDetails } = this.props.userStore;
-        const { email, crisp_token } = userDetails;
-        if (!crisp_token || !email) {
-          getUserDetails();
-        }
+  checkCrispToken = () => {
+    isUserLoggedInCallback(() => {
+      const { userDetails, getUserDetails } = this.props.userStore;
+      const { email, crisp_token } = userDetails;
+      if (!crisp_token || !email) {
+        getUserDetails();
       }
-    } catch (e) {
-      logError(e);
-    }
+    });
   };
 
   componentWillUnmount() {
