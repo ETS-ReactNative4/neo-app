@@ -8,7 +8,6 @@ import constants from "../constants/constants";
 import { logError } from "../Services/errorLogger/errorLogger";
 import navigationService from "../Services/navigationService/navigationService";
 import storeService from "../Services/storeService/storeService";
-import * as Keychain from "react-native-keychain";
 import { AsyncStorage } from "react-native";
 import logOut from "../Services/logOut/logOut";
 import isUserLoggedInCallback from "../Services/isUserLoggedInCallback/isUserLoggedInCallback";
@@ -279,9 +278,8 @@ class AppState {
     const requestBody = {
       deviceToken: this._pushTokens.deviceToken
     };
-    isUserLoggedInCallback(async () => {
+    isUserLoggedInCallback(async credentials => {
       try {
-        const credentials = await Keychain.getGenericPassword();
         apiCall(
           constants.registerDeviceToken,
           requestBody,

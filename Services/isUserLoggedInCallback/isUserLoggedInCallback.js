@@ -13,7 +13,7 @@ const isUserLoggedInCallback = async (
   try {
     const credentials = await Keychain.getGenericPassword();
     if (credentials && credentials.username && credentials.password) {
-      callbackSuccess();
+      callbackSuccess(credentials);
     } else {
       callbackFailure();
     }
