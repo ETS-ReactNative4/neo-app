@@ -13,6 +13,7 @@ import constants from "../../../constants/constants";
 import { responsiveWidth } from "react-native-responsive-dimensions";
 import _ from "lodash";
 import CountryCodePicker from "../../MobileNumberScreen/Components/CountryCodePicker";
+import ForexLabel from "./ForexLabel";
 
 class ForexInputField extends Component {
   static propTypes = forbidExtraProps({
@@ -72,7 +73,7 @@ class ForexInputField extends Component {
           selectCountryCode={this.selectCountryCode}
         />
         <View style={[styles.forexInputContainer, containerStyle]}>
-          <Text style={styles.labelText}>{_.toUpper(label)}</Text>
+          <ForexLabel label={label} />
           <View style={styles.textInputWrapper}>
             {isMobileNumberField ? (
               <TouchableOpacity
@@ -118,10 +119,6 @@ class ForexInputField extends Component {
 }
 
 const styles = StyleSheet.create({
-  labelText: {
-    ...constants.fontCustom(constants.primaryLight, 12, 16),
-    color: constants.shade1
-  },
   forexInputContainer: {
     marginHorizontal: 24,
     borderBottomWidth: StyleSheet.hairlineWidth,

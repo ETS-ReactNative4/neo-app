@@ -109,6 +109,7 @@ class ForexSwitchWrapper extends Component {
   render() {
     return (
       <ForexSwitchComponent
+        label={"Product"}
         options={forexOptions}
         onSelect={this.selectOption}
         selectedValue={this.state.selectedOption}

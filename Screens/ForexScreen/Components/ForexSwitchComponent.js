@@ -3,41 +3,46 @@ import { View, TouchableOpacity, Text, StyleSheet } from "react-native";
 import PropTypes from "prop-types";
 import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraProps";
 import constants from "../../../constants/constants";
+import ForexLabel from "./ForexLabel";
 
 const ForexSwitchComponent = ({
   containerStyle = {},
   options = [],
   selectedValue = "",
-  onSelect = () => null
+  onSelect = () => null,
+  label = ""
 }) => {
   return (
-    <View style={styles.forexSwitchContainer}>
-      {options.map((option, optionIndex) => {
-        const isFirstSwitch = optionIndex === 0;
-        const isLastSwitch = optionIndex === options.length - 1;
-        const isSelected = option.value === selectedValue;
-        return (
-          <TouchableOpacity
-            onPress={() => onSelect(option.value)}
-            key={optionIndex}
-            style={[
-              styles.forexSwitch,
-              isFirstSwitch ? styles.firstSwitch : null,
-              isLastSwitch ? styles.lastSwitch : null,
-              isSelected ? styles.selectedSwitch : null
-            ]}
-          >
-            <Text
+    <View style={containerStyle}>
+      <ForexLabel label={label} />
+      <View style={styles.forexSwitchContainer}>
+        {options.map((option, optionIndex) => {
+          const isFirstSwitch = optionIndex === 0;
+          const isLastSwitch = optionIndex === options.length - 1;
+          const isSelected = option.value === selectedValue;
+          return (
+            <TouchableOpacity
+              onPress={() => onSelect(option.value)}
+              key={optionIndex}
               style={[
-                styles.switchText,
-                isSelected ? styles.selectedText : null
+                styles.forexSwitch,
+                isFirstSwitch ? styles.firstSwitch : null,
+                isLastSwitch ? styles.lastSwitch : null,
+                isSelected ? styles.selectedSwitch : null
               ]}
             >
-              {option.label}
-            </Text>
-          </TouchableOpacity>
-        );
-      })}
+              <Text
+                style={[
+                  styles.switchText,
+                  isSelected ? styles.selectedText : null
+                ]}
+              >
+                {option.label}
+              </Text>
+            </TouchableOpacity>
+          );
+        })}
+      </View>
     </View>
   );
 };
@@ -55,7 +60,8 @@ ForexSwitchComponent.propTypes = forbidExtraProps({
 
 const styles = StyleSheet.create({
   forexSwitchContainer: {
-    flexDirection: "row"
+    flexDirection: "row",
+    marginTop: 8
   },
   forexSwitch: {
     borderTopWidth: StyleSheet.hairlineWidth,
