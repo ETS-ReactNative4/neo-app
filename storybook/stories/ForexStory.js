@@ -25,16 +25,47 @@ class ForexInputWrapper extends Component {
     });
   }
 
-  onEdit = value => {
-    this.setState({ value });
-  };
+  onEdit = value => this.setState({ value });
 
   render() {
     return (
       <ForexInputField
         value={this.state.value}
         onEdit={this.onEdit}
+        placeholder={"Your Name..."}
         label={"Name"}
+      />
+    );
+  }
+}
+
+class ForexMobileNumberWrapper extends Component {
+  state = {
+    value: "",
+    ccode: "+91"
+  };
+
+  componentDidMount() {
+    this.setState({
+      value: this.props.value
+    });
+  }
+
+  onEdit = value => this.setState({ value });
+
+  selectCountryCode = ccode => this.setState({ ccode });
+
+  render() {
+    return (
+      <ForexInputField
+        isMobileNumberField={true}
+        value={this.state.value}
+        selectedCountryCode={this.state.ccode}
+        onEdit={this.onEdit}
+        placeholder={"Your Number..."}
+        keyboardType={"phone-pad"}
+        label={"Mobile Number"}
+        onSelectCountryCode={this.selectCountryCode}
       />
     );
   }
@@ -69,6 +100,9 @@ storiesOf("Forex Story", module)
   })
   .add("Forex Input field", () => {
     const props = {};
-    console.log(props);
     return <ForexInputWrapper {...props} />;
+  })
+  .add("Forex Mobile Input field", () => {
+    const props = {};
+    return <ForexMobileNumberWrapper {...props} />;
   });

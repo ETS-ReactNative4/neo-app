@@ -1,10 +1,18 @@
-import React, { Component } from "react";
-import { View, TextInput, Text, StyleSheet, Platform } from "react-native";
+import React, { Component, Fragment } from "react";
+import {
+  View,
+  TextInput,
+  Text,
+  StyleSheet,
+  Platform,
+  TouchableOpacity
+} from "react-native";
 import PropTypes from "prop-types";
 import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraProps";
 import constants from "../../../constants/constants";
 import { responsiveWidth } from "react-native-responsive-dimensions";
 import _ from "lodash";
+import CountryCodePicker from "../../MobileNumberScreen/Components/CountryCodePicker";
 
 class ForexInputField extends Component {
   static propTypes = forbidExtraProps({
@@ -15,37 +23,96 @@ class ForexInputField extends Component {
     onSubmitField: PropTypes.func,
     placeholder: PropTypes.string,
     value: PropTypes.string,
-    onEdit: PropTypes.func
+    onEdit: PropTypes.func,
+    isMobileNumberField: PropTypes.bool,
+    selectedCountryCode: PropTypes.string,
+    onSelectCountryCode: PropTypes.func,
+    keyboardType: PropTypes.string
   });
+
+  state = {
+    isCountryCodeModalVisible: false
+  };
+
+  showCountryCodeModal = () =>
+    this.setState({ isCountryCodeModalVisible: true });
+
+  hideCountryCodeModal = () =>
+    this.setState({ isCountryCodeModalVisible: false });
+
+  selectCountryCode = countryCode => {
+    const { onSelectCountryCode = () => null } = this.props;
+    this.setState({
+      isCountryCodeModalVisible: false
+    });
+    onSelectCountryCode(countryCode);
+  };
 
   render() {
     const {
       label = "",
+      selectedCountryCode = "+91",
       containerStyle = {},
       setRef = () => null,
       returnKeyType = "done",
       onSubmitField = () => null,
       placeholder = "",
       value = "",
-      onEdit = () => null
+      onEdit = () => null,
+      isMobileNumberField = false,
+      keyboardType = "default"
     } = this.props;
+    const { isCountryCodeModalVisible } = this.state;
 
     return (
-      <View style={[styles.forexInputContainer, containerStyle]}>
-        <Text style={styles.labelText}>{_.toUpper(label)}</Text>
-        <TextInput
-          ref={e => setRef(e)}
-          onChangeText={text => onEdit(text)}
-          placeholder={placeholder}
-          value={value}
-          placeholderTextColor={constants.shade5}
-          style={styles.forexInput}
-          underlineColorAndroid={"transparent"}
-          returnKeyType={returnKeyType}
-          onSubmitEditing={onSubmitField}
-          keyboardAppearance={"dark"}
+      <Fragment>
+        <CountryCodePicker
+          isVisible={isCountryCodeModalVisible}
+          onClose={this.hideCountryCodeModal}
+          selectCountryCode={this.selectCountryCode}
         />
-      </View>
+        <View style={[styles.forexInputContainer, containerStyle]}>
+          <Text style={styles.labelText}>{_.toUpper(label)}</Text>
+          <View style={styles.textInputWrapper}>
+            {isMobileNumberField ? (
+              <TouchableOpacity
+                activeOpacity={0.8}
+                onPress={this.showCountryCodeModal}
+                style={styles.countryCodeTouchable}
+              >
+                <View style={styles.countryCodeTextWrapper}>
+                  <Text style={styles.countryCodeText}>
+                    {selectedCountryCode}
+                  </Text>
+                </View>
+              </TouchableOpacity>
+            ) : null}
+            <TextInput
+              ref={e => setRef(e)}
+              onChangeText={text => onEdit(text)}
+              placeholder={placeholder}
+              value={value}
+              placeholderTextColor={constants.shade5}
+              style={[
+                styles.forexInput,
+                isMobileNumberField ? { marginLeft: 8 } : null,
+                {
+                  ...Platform.select({
+                    ios: {
+                      marginTop: value ? 3 : 0
+                    }
+                  })
+                }
+              ]}
+              underlineColorAndroid={"transparent"}
+              keyboardType={keyboardType}
+              returnKeyType={returnKeyType}
+              onSubmitEditing={onSubmitField}
+              keyboardAppearance={"dark"}
+            />
+          </View>
+        </View>
+      </Fragment>
     );
   }
 }
@@ -61,8 +128,20 @@ const styles = StyleSheet.create({
     borderBottomColor: constants.shade2
   },
   forexInput: {
-    height: Platform.OS === constants.platformIos ? 32 : 40,
-    width: responsiveWidth(100) - 48,
+    height: Platform.OS === constants.platformIos ? 32 : 44,
+    ...constants.fontCustom(constants.primaryRegular, 20),
+    color: constants.black1,
+    minWidth: responsiveWidth(50)
+  },
+  textInputWrapper: {
+    flexDirection: "row"
+  },
+  countryCodeTextWrapper: {
+    alignItems: "center",
+    justifyContent: "center",
+    height: Platform.OS === constants.platformIos ? 32 : 44
+  },
+  countryCodeText: {
     ...constants.fontCustom(constants.primaryRegular, 20),
     color: constants.black1
   }
