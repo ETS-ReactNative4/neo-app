@@ -4,6 +4,7 @@ import ForexProviderInfo from "../../Screens/ForexScreen/Components/ForexProvide
 import ForexFeatureLineItem from "../../Screens/ForexScreen/Components/ForexFeatureLineItem";
 import ForexFeaturesList from "../../Screens/ForexScreen/Components/ForexFeaturesList";
 import ForexInputField from "../../Screens/ForexScreen/Components/ForexInputField";
+import ForexSwitchComponent from "../../Screens/ForexScreen/Components/ForexSwitchComponent";
 
 const features = [
   "Easy Top Up Forex Card on trip.",
@@ -12,6 +13,33 @@ const features = [
   "Easy Top Up Forex Card on trip.",
   "This plan includes the new Easy Top Up Forex Card on trip no need to worry about running out of money",
   "This plan includes the new Easy Top Up Forex Card on trip no need to worry about running out of money"
+];
+
+const forexOptions = [
+  {
+    label: "Cash",
+    value: 0
+  },
+  {
+    label: "Card",
+    value: 1
+  },
+  {
+    label: "Cash",
+    value: 2
+  },
+  {
+    label: "Card",
+    value: 3
+  },
+  {
+    label: "Cash",
+    value: 4
+  },
+  {
+    label: "Card",
+    value: 5
+  }
 ];
 
 class ForexInputWrapper extends Component {
@@ -71,6 +99,24 @@ class ForexMobileNumberWrapper extends Component {
   }
 }
 
+class ForexSwitchWrapper extends Component {
+  state = {
+    selectedOption: 0
+  };
+
+  selectOption = selectedOption => this.setState({ selectedOption });
+
+  render() {
+    return (
+      <ForexSwitchComponent
+        options={forexOptions}
+        onSelect={this.selectOption}
+        selectedValue={this.state.selectedOption}
+      />
+    );
+  }
+}
+
 storiesOf("Forex Story", module)
   .add("Forex Provider Info", () => {
     const props = {};
@@ -105,4 +151,7 @@ storiesOf("Forex Story", module)
   .add("Forex Mobile Input field", () => {
     const props = {};
     return <ForexMobileNumberWrapper {...props} />;
+  })
+  .add("Forex Switch field", () => {
+    return <ForexSwitchWrapper />;
   });
