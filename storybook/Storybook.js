@@ -28,6 +28,7 @@ configure(() => {
   require("./stories/TripFeedStory");
   require("./stories/PackagesPageStory");
   require("./stories/VouchersStory");
+  require("./stories/ForexStory");
 }, module);
 
 const StorybookUIRoot = getStorybookUI({});
