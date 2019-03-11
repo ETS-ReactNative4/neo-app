@@ -113,8 +113,6 @@ const imageAssets = {
   packageChecklistIcon: require("../assets/images/toolIcons/packing-checklist-480.png"),
   passportDetailsIcon: require("../assets/images/toolIcons/passport-details.png"),
   yourPickIcon: require("../assets/images/toolIcons/your-picks.png"),
-  dialogBoxIcon:
-    "https://d3lf10b5gahyby.cloudfront.net/misc/transfers-shuttle.jpg",
 
   noBookingsIllus: require("../assets/images/illustrations/no-bookings-image.png"),
   leisureIllus: require("../assets/images/illustrations/leisure-illustration.png"),
