@@ -167,7 +167,10 @@ const imageAssets = {
   hotelBigPlaceHolder: prefix + "Hotel-200x150.png",
   hotelLargePlaceHolder: prefix + "Hotel-640x360.png",
   roomsSmallPlaceHolder: prefix + "HotelRooms-120x90.png",
-  roomsLargePlaceHolder: prefix + "HotelRooms-240x180.png"
+  roomsLargePlaceHolder: prefix + "HotelRooms-240x180.png",
+
+  defaultPlaceImage:
+    "https://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg"
 };
 
 export default imageAssets;

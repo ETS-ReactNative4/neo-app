@@ -399,9 +399,7 @@ class NearBy extends Component {
                   <SmartImage
                     uri={imageUrl}
                     style={styles.imageCover}
-                    defaultImageUri={
-                      "http://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg"
-                    }
+                    defaultImageUri={constants.defaultPlaceImage}
                     resizeMode={FastImage.resizeMode.cover}
                   />
                 ) : null}
