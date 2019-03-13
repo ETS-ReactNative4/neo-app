@@ -76,6 +76,9 @@ const appText = {
     // "We are working with our travel partners to complete this booking. Sit back and relax, we'll notify you, once the vouchers are ready!",
     actionText: "Okay!"
   },
+  feedBackCollectionToastText: {
+    message: "Please input your feedback"
+  },
   appCrashText: {
     reload:
       "We feel awful :(\n\nPlease close the app and try launching it again?\n\n",

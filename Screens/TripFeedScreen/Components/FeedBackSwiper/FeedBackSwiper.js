@@ -68,10 +68,13 @@ class FeedBackSwiper extends Component {
     activeModalIndex: -1,
     dismissedCard: -1,
     disableDissmissApi: false,
-    isFeedbackApiLoading: false
+    isFeedbackApiLoading: false,
+    isFeedbackSubmitAttempted: false,
+    review: ""
   };
 
   _cardStack = React.createRef();
+  _feedBackInputFieldWrapper = React.createRef();
 
   openFeedBackModal = ({ isNegative = false }) => {
     const { widgetName } = this.props;
@@ -123,49 +126,59 @@ class FeedBackSwiper extends Component {
       responseType: this.state.isNegative ? "NEGATIVE" : "POSITIVE"
     };
     this.setState({
-      isFeedbackApiLoading: true
+      isFeedbackApiLoading: true,
+      isFeedbackSubmitAttempted: true
     });
     apiCall(activeElement.url, requestObject)
       .then(response => {
         this.setState({
           isFeedbackApiLoading: false
         });
-        if (response.status === "SUCCESS") {
-          toastCenter("Thanks for the feedback!");
-          if (!this.state.isNegative) {
-            this.props.emitterComponent && this.props.emitterComponent.start();
-          }
-          this.setState(
-            {
-              review: "",
-              isModalVisible: false
-            },
-            () => {
-              this.setState(
-                {
-                  disableDissmissApi: true
-                },
-                () => {
-                  setTimeout(() => {
-                    this._cardStack.swipeRight && this._cardStack.swipeRight();
-                    setTimeout(() => {
-                      this.setState({
-                        disableDissmissApi: false
-                      });
-                    }, 500);
-                  }, 300);
-                }
-              );
-            }
-          );
+        if (!this.state.review) {
+          this._feedBackInputFieldWrapper.shake(800);
+          toastBottom(constants.feedBackCollectionToastText.message);
         } else {
-          this.setState({
-            review: "",
-            isModalVisible: false
-          });
-          toastBottom(
-            "Unable to collect feedback. Please try after sometime..."
-          );
+          if (response.status === "SUCCESS") {
+            toastCenter("Thanks for the feedback!");
+            if (!this.state.isNegative) {
+              this.props.emitterComponent &&
+                this.props.emitterComponent.start();
+            }
+            this.setState(
+              {
+                review: "",
+                isModalVisible: false,
+                isFeedbackSubmitAttempted: false
+              },
+              () => {
+                this.setState(
+                  {
+                    disableDissmissApi: true
+                  },
+                  () => {
+                    setTimeout(() => {
+                      this._cardStack.swipeRight &&
+                        this._cardStack.swipeRight();
+                      setTimeout(() => {
+                        this.setState({
+                          disableDissmissApi: false
+                        });
+                      }, 500);
+                    }, 300);
+                  }
+                );
+              }
+            );
+          } else {
+            this.setState({
+              review: "",
+              isModalVisible: false,
+              isFeedbackSubmitAttempted: false
+            });
+            toastBottom(
+              "Unable to collect feedback. Please try after sometime..."
+            );
+          }
         }
       })
       .catch(err => {
@@ -174,7 +187,8 @@ class FeedBackSwiper extends Component {
         });
         this.setState({
           review: "",
-          isModalVisible: false
+          isModalVisible: false,
+          isFeedbackSubmitAttempted: false
         });
         toastBottom("Unable to collect feedback. Please try after sometime...");
       });
@@ -255,10 +269,13 @@ class FeedBackSwiper extends Component {
         onEditText={this.onEditText}
         review={this.state.review}
         emitterComponent={this.props.emitterComponent}
-        onClose={this.closeFeedBackModal}
         isNegative={this.state.isNegative}
         submit={this.submitFeedBack}
+        setFeedBackInputFieldWrapperRef={inputRef =>
+          (this._feedBackInputFieldWrapper = inputRef)
+        }
         isFeedbackApiLoading={this.state.isFeedbackApiLoading}
+        isFeedbackSubmitAttempted={this.state.isFeedbackSubmitAttempted}
       />
     ];
   }
