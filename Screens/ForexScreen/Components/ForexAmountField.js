@@ -79,6 +79,7 @@ class ForexAmountField extends Component {
                 underlineColorAndroid={"transparent"}
                 keyboardType={"numeric"}
                 keyboardAppearance={"dark"}
+                placeholderTextColor={constants.shade5}
                 placeholder={"--"}
               />
             </View>

@@ -97,6 +97,9 @@ const appText = {
     openProductText: "Take me there",
     findBookingText: "Find my booking"
   },
+  forexText: {
+    howMuchToCarryText: "How much Forex should I carry?"
+  },
   leisureText: "Got more time?",
   explorePlacesText: "Explore Places",
   paymentText: {
@@ -108,7 +111,9 @@ const appText = {
     successMessage:
       "We got your payment! Please note the below transaction ID for further references."
   },
-  pdfViewerErrorText: "Unable to load pdf!"
+  pdfViewerErrorText: "Unable to load pdf!",
+  serverErrorText: "Unable to connect to the server",
+  serverResponseErrorText: "Something went wrong with the server"
 };
 
 export default appText;

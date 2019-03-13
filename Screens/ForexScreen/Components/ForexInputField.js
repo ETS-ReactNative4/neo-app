@@ -10,8 +10,6 @@ import {
 import PropTypes from "prop-types";
 import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraProps";
 import constants from "../../../constants/constants";
-import { responsiveWidth } from "react-native-responsive-dimensions";
-import _ from "lodash";
 import CountryCodePicker from "../../MobileNumberScreen/Components/CountryCodePicker";
 import ForexLabel from "./ForexLabel";
 
@@ -131,10 +129,10 @@ const styles = StyleSheet.create({
     borderBottomColor: constants.shade2
   },
   forexInput: {
+    flex: 1,
     height: Platform.OS === constants.platformIos ? 32 : 44,
     ...constants.fontCustom(constants.primaryRegular, 20),
-    color: constants.black1,
-    minWidth: responsiveWidth(50)
+    color: constants.black1
   },
   textInputWrapper: {
     flexDirection: "row"

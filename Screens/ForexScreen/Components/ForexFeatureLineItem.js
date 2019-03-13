@@ -30,7 +30,8 @@ ForexFeatureLineItem.propTypes = forbidExtraProps({
 const styles = StyleSheet.create({
   forexFeatureLineItemContainer: {
     flexDirection: "row",
-    alignItems: "flex-start"
+    alignItems: "flex-start",
+    marginVertical: 2
   },
   iconContainer: {
     marginTop: 3
