@@ -22,8 +22,9 @@ class CurrencySelector extends Component {
     onClose: PropTypes.func.isRequired,
     selectCurrency: PropTypes.func.isRequired,
     currenciesList: PropTypes.array.isRequired,
-    mode: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]).isRequired,
-    foreignCurrency: PropTypes.string.isRequired,
+    mode: PropTypes.oneOf([true, false, "native", "foreign"]).isRequired,
+    foreignCurrency: PropTypes.string,
+    title: PropTypes.string,
     nativeCurrency: PropTypes.string.isRequired
   };
 
@@ -33,7 +34,8 @@ class CurrencySelector extends Component {
       currenciesList,
       mode,
       nativeCurrency,
-      foreignCurrency
+      foreignCurrency,
+      title = "Output Currency"
     } = this.props;
 
     const selectCurrency = currency => {
@@ -66,7 +68,7 @@ class CurrencySelector extends Component {
                 <Icon size={24} name={constants.closeIcon} />
               </TouchableHighlight>
               <View style={styles.headingArea}>
-                <Text style={styles.headingText}>Output Currency</Text>
+                <Text style={styles.headingText}>{title}</Text>
               </View>
               {/*<TouchableHighlight style={styles.icon}>*/}
               {/*<Icon*/}

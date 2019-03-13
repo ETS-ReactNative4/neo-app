@@ -5,6 +5,7 @@ import ForexFeatureLineItem from "../../Screens/ForexScreen/Components/ForexFeat
 import ForexFeaturesList from "../../Screens/ForexScreen/Components/ForexFeaturesList";
 import ForexInputField from "../../Screens/ForexScreen/Components/ForexInputField";
 import ForexSwitchComponent from "../../Screens/ForexScreen/Components/ForexSwitchComponent";
+import ForexAmountField from "../../Screens/ForexScreen/Components/ForexAmountField";
 
 const features = [
   "Easy Top Up Forex Card on trip.",
@@ -41,6 +42,8 @@ const forexOptions = [
     value: 5
   }
 ];
+
+const currencyList = ["NZD", "EUR", "USD", "INR", "AUD"];
 
 class ForexInputWrapper extends Component {
   state = {
@@ -118,6 +121,30 @@ class ForexSwitchWrapper extends Component {
   }
 }
 
+class ForexAmountWrapper extends Component {
+  state = {
+    amount: "",
+    selectedCurrency: "INR"
+  };
+
+  onEditAmount = amount => this.setState({ amount });
+
+  onSelectCurrency = selectedCurrency => this.setState({ selectedCurrency });
+
+  render() {
+    return (
+      <ForexAmountField
+        amount={this.state.amount}
+        onEdit={this.onEditAmount}
+        selectedCurrency={this.state.selectedCurrency}
+        onSelectCurrency={this.onSelectCurrency}
+        currencies={currencyList}
+        label={"Amount"}
+      />
+    );
+  }
+}
+
 storiesOf("Forex Story", module)
   .add("Forex Provider Info", () => {
     const props = {};
@@ -155,4 +182,7 @@ storiesOf("Forex Story", module)
   })
   .add("Forex Switch field", () => {
     return <ForexSwitchWrapper />;
+  })
+  .add("Forex Amount field", () => {
+    return <ForexAmountWrapper />;
   });
