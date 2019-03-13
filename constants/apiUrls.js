@@ -69,6 +69,16 @@ const apiUrls = {
    */
   customTabSupportIos: 11.5,
 
+  /**
+   * Forex Screen options
+   */
+  forexProduct: {
+    cash: "CASH",
+    card: "CARD",
+    singleCurrencyCard: "ONE_CURRENCY_CARD",
+    multiCurrencyCard: "MULTI_CURRENCY_CARD"
+  },
+
   tripToggleStatusStorageKey: "@Pickyourtrail/tripToggleStatus",
   preTripChatActivationTime: 72,
   googleDrivePdfViewer: "https://drive.google.com/viewerng/viewer?url="

@@ -29,7 +29,8 @@ const styles = StyleSheet.create({
   forexProviderContainer: {
     flexDirection: "row",
     alignItems: "center",
-    marginHorizontal: 24
+    marginHorizontal: 24,
+    marginVertical: 8
   },
   imageContainer: {
     height: 46,

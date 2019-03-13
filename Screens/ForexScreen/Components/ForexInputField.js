@@ -28,7 +28,8 @@ class ForexInputField extends Component {
     isMobileNumberField: PropTypes.bool,
     selectedCountryCode: PropTypes.string,
     onSelectCountryCode: PropTypes.func,
-    keyboardType: PropTypes.string
+    keyboardType: PropTypes.string,
+    maxLength: PropTypes.number
   });
 
   state = {
@@ -61,9 +62,13 @@ class ForexInputField extends Component {
       value = "",
       onEdit = () => null,
       isMobileNumberField = false,
-      keyboardType = "default"
+      keyboardType = "default",
+      maxLength = 0
     } = this.props;
     const { isCountryCodeModalVisible } = this.state;
+
+    const inputProps = {};
+    if (maxLength) inputProps.maxLength = maxLength;
 
     return (
       <Fragment>
@@ -78,7 +83,7 @@ class ForexInputField extends Component {
             {isMobileNumberField ? (
               <TouchableOpacity
                 activeOpacity={0.8}
-                onPress={this.showCountryCodeModal}
+                onPress={() => null || this.showCountryCodeModal} // Country code picker disabled
                 style={styles.countryCodeTouchable}
               >
                 <View style={styles.countryCodeTextWrapper}>
@@ -110,6 +115,7 @@ class ForexInputField extends Component {
               returnKeyType={returnKeyType}
               onSubmitEditing={onSubmitField}
               keyboardAppearance={"dark"}
+              {...inputProps}
             />
           </View>
         </View>
