@@ -10,7 +10,7 @@ const ForexFeatureLineItem = ({ containerStyle = {}, item }) => {
     <View style={[styles.forexFeatureLineItemContainer, containerStyle]}>
       <View style={styles.iconContainer}>
         <Icon
-          name={constants.checkBoxCheckedIcon}
+          name={constants.checkMarkCircle}
           size={14}
           color={constants.firstColor}
         />

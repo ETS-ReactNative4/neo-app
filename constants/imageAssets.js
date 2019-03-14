@@ -88,6 +88,7 @@ const imageAssets = {
   changeIcon: "change",
   checkBoxIcon: "checkbox-unchecked",
   checkBoxCheckedIcon: "checkbox-checked",
+  checkMarkCircle: "24-checkmark",
   checkIcon: "check",
   syncIcon: "sync",
   callIcon: "call-end",
