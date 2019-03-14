@@ -28,6 +28,7 @@ const logOut = (isForced = false) => {
         storeService.weatherStore.reset();
         storeService.yourBookingsStore.reset();
         storeService.tripFeedStore.reset();
+        storeService.forexStore.reset();
       }, 100);
     });
   };

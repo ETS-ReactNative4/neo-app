@@ -49,6 +49,14 @@ class Forex {
   @observable
   _submittedData = {};
 
+  @action
+  reset = () => {
+    this._opportunityId = "";
+    this._userDetails = {};
+    this._forexGuidesDetails = {};
+    this._submittedData = {};
+  };
+
   @computed
   get isForexStatusLoading() {
     return this._isForexStatusLoading;
