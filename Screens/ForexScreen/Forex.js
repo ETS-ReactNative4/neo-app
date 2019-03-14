@@ -192,6 +192,10 @@ class Forex extends Component {
         ? Fragment
         : KeyboardAwareScrollView; // To Prevent Keyboard hiding input field in iOS
 
+    /**
+     * Display Submitted info if opportunity ID is already available,
+     * Otherwise wait for forex status call to complete and Display the form.
+     */
     return (
       <Fragment>
         <ForexGuidesInfo
@@ -209,7 +213,9 @@ class Forex extends Component {
               opportunityId={opportunityId}
               submittedData={submittedData}
             />
-          ) : isForexStatusLoading ? null : (
+          ) : isForexStatusLoading ? (
+            <Fragment />
+          ) : (
             <FormWrapper>
               <ForexProviderInfo />
               <ForexFeaturesList

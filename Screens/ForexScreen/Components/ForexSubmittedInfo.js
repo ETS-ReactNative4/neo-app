@@ -7,6 +7,9 @@ import constants from "../../../constants/constants";
 import PropTypes from "prop-types";
 import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraProps";
 
+/**
+ * Displays Submitted info for the user after he has requested the quote
+ */
 const ForexSubmittedInfo = ({ opportunityId, submittedData }) => {
   const splitSectionData = [
     {

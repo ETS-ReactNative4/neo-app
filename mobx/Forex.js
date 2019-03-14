@@ -84,6 +84,9 @@ class Forex {
     return toJS(this._submittedData);
   }
 
+  /**
+   * Check if the user has already submitted a quote request
+   */
   @action
   getForexStatus = () => {
     const { selectedItineraryId } = storeService.itineraries;
@@ -117,6 +120,9 @@ class Forex {
       });
   };
 
+  /**
+   * Retreive Forex data from Guides
+   */
   @action
   getForexDataFromGuides = () => {
     const { selectedItineraryId } = storeService.itineraries;
@@ -141,6 +147,9 @@ class Forex {
       });
   };
 
+  /**
+   * Submit Forex Data (for the request quote action in UI)
+   */
   @action
   submitForexData = requestObject => {
     this._isSubmitAPILoading = true;
