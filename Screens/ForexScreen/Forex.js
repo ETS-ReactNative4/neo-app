@@ -304,7 +304,7 @@ class Forex extends Component {
                     width: responsiveWidth(100) - 48,
                     height: 56,
                     alignSelf: "center",
-                    marginTop: 24
+                    marginVertical: 24
                   }}
                   text={"Get Quote"}
                   textColor={"white"}
@@ -337,7 +337,7 @@ const styles = StyleSheet.create({
     color: constants.firstColor
   },
   submitLoadingContainer: {
-    marginTop: 24,
+    marginVertical: 24,
     alignSelf: "center"
   }
 });
