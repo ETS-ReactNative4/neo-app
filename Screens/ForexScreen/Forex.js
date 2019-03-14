@@ -4,7 +4,8 @@ import {
   StyleSheet,
   Keyboard,
   Text,
-  ActivityIndicator
+  ActivityIndicator,
+  Platform
 } from "react-native";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import CustomScrollView from "../../CommonComponents/CustomScrollView/CustomScrollView";
@@ -22,6 +23,7 @@ import ForexGuidesInfo from "./Components/ForexGuidesInfo";
 import validateEmail from "../../Services/validateEmail/validateEmail";
 import validateMobileNumber from "../../Services/validateMobileNumber/validateMobileNumber";
 import ForexSubmittedInfo from "./Components/ForexSubmittedInfo";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 const forexFeatures = [
   "Competitive exchange rates",
@@ -185,6 +187,11 @@ class Forex extends Component {
         ? currencies[0]
         : this.state.requiredCurrency;
 
+    const FormWrapper =
+      Platform.OS === constants.platformAndroid
+        ? Fragment
+        : KeyboardAwareScrollView; // To Prevent Keyboard hiding input field in iOS
+
     return (
       <Fragment>
         <ForexGuidesInfo
@@ -203,7 +210,7 @@ class Forex extends Component {
               submittedData={submittedData}
             />
           ) : isForexStatusLoading ? null : (
-            <Fragment>
+            <FormWrapper>
               <ForexProviderInfo />
               <ForexFeaturesList
                 containerStyle={{ marginTop: 16 }}
@@ -297,7 +304,7 @@ class Forex extends Component {
                   textColor={"white"}
                 />
               )}
-            </Fragment>
+            </FormWrapper>
           )}
         </CustomScrollView>
       </Fragment>
