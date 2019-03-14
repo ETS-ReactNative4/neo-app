@@ -11,23 +11,26 @@ const ForexSubmittedInfo = ({ opportunityId, submittedData }) => {
   const splitSectionData = [
     {
       name: "Name",
-      value: submittedData.name
+      value: submittedData.name || ""
     },
     {
       name: "Email",
-      value: submittedData.email
+      value: submittedData.email || ""
     },
     {
       name: "Mobile",
-      value: submittedData.mobileNumber
+      value: submittedData.mobileNumber || ""
     },
     {
       name: "Product",
-      value: getTitleCase(submittedData.forexType)
+      value: getTitleCase(submittedData.forexType) || ""
     },
     {
       name: "Amount",
-      value: `${submittedData.requiredCurrency} ${submittedData.amount}`
+      value:
+        submittedData.requiredCurrency && submittedData.amount
+          ? `${submittedData.requiredCurrency} ${submittedData.amount}`
+          : ""
     }
   ];
   return (
