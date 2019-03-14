@@ -1,9 +1,9 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
-import ForexFeaturesList from "./ForexFeaturesList";
+import ForexFeaturesList from "../../ForexFeaturesList/ForexFeaturesList";
 import PropTypes from "prop-types";
-import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraProps";
-import constants from "../../../constants/constants";
+import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidExtraProps";
+import constants from "../../../../../constants/constants";
 
 const ForexGuidesSection = ({ title = "", data = [] }) => {
   const displayList = data.reduce((textArray, item) => {

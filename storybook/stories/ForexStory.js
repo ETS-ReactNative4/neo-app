@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { storiesOf } from "@storybook/react-native";
 import ForexProviderInfo from "../../Screens/ForexScreen/Components/ForexProviderInfo";
-import ForexFeatureLineItem from "../../Screens/ForexScreen/Components/ForexFeatureLineItem";
-import ForexFeaturesList from "../../Screens/ForexScreen/Components/ForexFeaturesList";
+import ForexFeatureLineItem from "../../Screens/ForexScreen/Components/ForexFeaturesList/Component/ForexFeatureLineItem";
+import ForexFeaturesList from "../../Screens/ForexScreen/Components/ForexFeaturesList/ForexFeaturesList";
 import ForexInputField from "../../Screens/ForexScreen/Components/ForexInputField";
 import ForexSwitchComponent from "../../Screens/ForexScreen/Components/ForexSwitchComponent";
 import ForexAmountField from "../../Screens/ForexScreen/Components/ForexAmountField";

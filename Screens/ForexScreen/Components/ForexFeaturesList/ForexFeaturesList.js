@@ -1,8 +1,8 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
 import PropTypes from "prop-types";
-import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraProps";
-import ForexFeatureLineItem from "./ForexFeatureLineItem";
+import forbidExtraProps from "../../../../Services/PropTypeValidation/forbidExtraProps";
+import ForexFeatureLineItem from "./Component/ForexFeatureLineItem";
 
 const ForexFeaturesList = ({ containerStyle = {}, features }) => {
   return (

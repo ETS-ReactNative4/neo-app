@@ -1,9 +1,9 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
-import Icon from "../../../CommonComponents/Icon/Icon";
-import constants from "../../../constants/constants";
+import Icon from "../../../../../CommonComponents/Icon/Icon";
+import constants from "../../../../../constants/constants";
 import PropTypes from "prop-types";
-import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraProps";
+import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidExtraProps";
 
 const ForexFeatureLineItem = ({ containerStyle = {}, item }) => {
   return (

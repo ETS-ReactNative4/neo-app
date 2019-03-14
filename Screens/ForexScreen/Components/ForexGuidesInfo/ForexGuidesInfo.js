@@ -1,11 +1,11 @@
 import React from "react";
 import { SafeAreaView, View, StyleSheet, ScrollView } from "react-native";
 import Modal from "react-native-modal";
-import ModalHeader from "../../../CommonComponents/ModalHeader/ModalHeader";
-import constants from "../../../constants/constants";
-import ForexGuidesSection from "./ForexGuidesSection";
+import ModalHeader from "../../../../CommonComponents/ModalHeader/ModalHeader";
+import constants from "../../../../constants/constants";
+import ForexGuidesSection from "./Components/ForexGuidesSection";
 import PropTypes from "prop-types";
-import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraProps";
+import forbidExtraProps from "../../../../Services/PropTypeValidation/forbidExtraProps";
 
 /**
  * Used to show the Guides Forex information for all the countries in the itinerary
