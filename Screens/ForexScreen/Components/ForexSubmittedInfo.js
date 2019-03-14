@@ -4,6 +4,8 @@ import getTitleCase from "../../../Services/getTitleCase/getTitleCase";
 import SectionHeader from "../../../CommonComponents/SectionHeader/SectionHeader";
 import VoucherSplitSection from "../../VoucherScreens/Components/VoucherSplitSection";
 import constants from "../../../constants/constants";
+import PropTypes from "prop-types";
+import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraProps";
 
 const ForexSubmittedInfo = ({ opportunityId, submittedData }) => {
   const splitSectionData = [
@@ -42,6 +44,11 @@ const ForexSubmittedInfo = ({ opportunityId, submittedData }) => {
     </View>
   );
 };
+
+ForexSubmittedInfo.propTypes = forbidExtraProps({
+  opportunityId: PropTypes.string.isRequired,
+  submittedData: PropTypes.array.isRequired
+});
 
 const styles = StyleSheet.create({
   forexSubmittedInfoContainer: {
