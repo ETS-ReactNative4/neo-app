@@ -5,17 +5,38 @@ import constants from "../../../../../constants/constants";
 import PropTypes from "prop-types";
 import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidExtraProps";
 
-const ForexFeatureLineItem = ({ containerStyle = {}, item }) => {
+const iconSize = 14;
+const textMargin = 8;
+
+const ForexFeatureLineItem = ({
+  containerStyle = {},
+  item,
+  hideIcon = false,
+  lineWidth
+}) => {
   return (
-    <View style={[styles.forexFeatureLineItemContainer, containerStyle]}>
-      <View style={styles.iconContainer}>
-        <Icon
-          name={constants.checkMarkCircle}
-          size={14}
-          color={constants.firstColor}
-        />
-      </View>
-      <View style={styles.textContainer}>
+    <View
+      style={[
+        styles.forexFeatureLineItemContainer,
+        lineWidth ? { width: lineWidth } : {},
+        containerStyle
+      ]}
+    >
+      {hideIcon ? null : (
+        <View style={styles.iconContainer}>
+          <Icon
+            name={constants.checkMarkCircle}
+            size={iconSize}
+            color={constants.firstColor}
+          />
+        </View>
+      )}
+      <View
+        style={[
+          styles.textContainer,
+          lineWidth ? { width: lineWidth - iconSize - textMargin } : {}
+        ]}
+      >
         <Text style={styles.lineItemText}>{item}</Text>
       </View>
     </View>
@@ -24,7 +45,8 @@ const ForexFeatureLineItem = ({ containerStyle = {}, item }) => {
 
 ForexFeatureLineItem.propTypes = forbidExtraProps({
   containerStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.number]),
-  item: PropTypes.string.isRequired
+  item: PropTypes.string.isRequired,
+  hideIcon: PropTypes.bool
 });
 
 const styles = StyleSheet.create({
@@ -37,7 +59,7 @@ const styles = StyleSheet.create({
     marginTop: 3
   },
   textContainer: {
-    marginLeft: 8
+    marginLeft: textMargin
   },
   lineItemText: {
     ...constants.fontCustom(constants.primaryRegular, 15, 20),

@@ -6,6 +6,7 @@ import ForexFeaturesList from "../../Screens/ForexScreen/Components/ForexFeature
 import ForexInputField from "../../Screens/ForexScreen/Components/ForexInputField";
 import ForexSwitchComponent from "../../Screens/ForexScreen/Components/ForexSwitchComponent";
 import ForexAmountField from "../../Screens/ForexScreen/Components/ForexAmountField";
+import { responsiveWidth } from "react-native-responsive-dimensions";
 
 const features = [
   "Easy Top Up Forex Card on trip.",
@@ -171,6 +172,27 @@ storiesOf("Forex Story", module)
     };
     console.log(props);
     return <ForexFeaturesList {...props} />;
+  })
+  .add("Forex Features List without bullet icons", () => {
+    const props = {
+      features
+    };
+    console.log(props);
+    return <ForexFeaturesList {...props} hideIcon={true} />;
+  })
+  .add("Forex Features List highlighted", () => {
+    const props = {
+      features
+    };
+    console.log(props);
+    return <ForexFeaturesList {...props} highlight={true} />;
+  })
+  .add("Forex Features custom line width", () => {
+    const props = {
+      features
+    };
+    console.log(props);
+    return <ForexFeaturesList {...props} lineWidth={responsiveWidth(50)} />;
   })
   .add("Forex Input field", () => {
     const props = {};

@@ -1,11 +1,13 @@
 import React from "react";
-import { SafeAreaView, View, StyleSheet, ScrollView } from "react-native";
+import { View, StyleSheet, ScrollView } from "react-native";
 import Modal from "react-native-modal";
 import ModalHeader from "../../../../CommonComponents/ModalHeader/ModalHeader";
 import constants from "../../../../constants/constants";
 import ForexGuidesSection from "./Components/ForexGuidesSection";
 import PropTypes from "prop-types";
 import forbidExtraProps from "../../../../Services/PropTypeValidation/forbidExtraProps";
+import XSensorPlaceholder from "../../../../CommonComponents/XSensorPlaceholder/XSensorPlaceholder";
+import { isIphoneX } from "react-native-iphone-x-helper";
 
 /**
  * Used to show the Guides Forex information for all the countries in the itinerary
@@ -17,13 +19,14 @@ const ForexGuidesInfo = ({ isVisible, data = {}, onClose = () => null }) => {
       onBackButtonPress={onClose}
       style={{ margin: 0, backgroundColor: "white" }}
     >
-      <SafeAreaView style={{ flex: 1 }}>
-        <View style={styles.forexGuidesContainer}>
-          <ModalHeader
-            leftIcon={constants.closeIcon}
-            leftButtonAction={onClose}
-            title={"Forex Info"}
-          />
+      <View style={styles.forexGuidesContainer}>
+        <ModalHeader
+          containerStyle={{ marginHorizontal: 24 }}
+          leftIcon={constants.closeIcon}
+          leftButtonAction={onClose}
+          title={"Forex Info"}
+        />
+        <View style={{ flex: 1 }}>
           <ScrollView contentContainerStyle={styles.forexGuidesScrollContainer}>
             {Object.keys(data).map((sectionName, sectionIndex) => {
               return (
@@ -36,16 +39,20 @@ const ForexGuidesInfo = ({ isVisible, data = {}, onClose = () => null }) => {
             })}
           </ScrollView>
         </View>
-      </SafeAreaView>
+        <XSensorPlaceholder />
+      </View>
     </Modal>
   );
 };
 
 const styles = StyleSheet.create({
   forexGuidesContainer: {
-    marginHorizontal: 24
+    flex: 1,
+    marginTop: 24
   },
-  forexGuidesScrollContainer: {}
+  forexGuidesScrollContainer: {
+    paddingHorizontal: 24
+  }
 });
 
 ForexGuidesInfo.propTypes = forbidExtraProps({

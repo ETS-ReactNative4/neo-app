@@ -166,8 +166,12 @@ class Forex {
         this._isSubmitAPILoading = false;
         if (response.status === constants.responseSuccessStatus) {
           this._submitAPIError = false;
-          this._opportunityId = response.data.opportunityId;
-          this._submittedData = requestObject;
+          if (response.data.messageCode === -1) {
+            toastBottom(constants.forexText.requestExistsText);
+          } else {
+            this._opportunityId = response.data.opportunityId;
+            this._submittedData = requestObject;
+          }
         } else {
           this._submitAPIError = true;
           toastBottom(constants.serverResponseErrorText);

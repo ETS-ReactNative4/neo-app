@@ -6,6 +6,7 @@ import forbidExtraProps from "../../Services/PropTypeValidation/forbidExtraProps
 import PropTypes from "prop-types";
 
 const ModalHeader = ({
+  containerStyle = {},
   leftIcon = constants.closeIcon,
   leftButtonAction = () => null,
   rightIcon = "",
@@ -13,7 +14,7 @@ const ModalHeader = ({
   title = ""
 }) => {
   return (
-    <View style={styles.header}>
+    <View style={[styles.header, containerStyle]}>
       <TouchableHighlight
         style={styles.icon}
         underlayColor={"transparent"}
@@ -38,7 +39,8 @@ ModalHeader.propTypes = forbidExtraProps({
   leftButtonAction: PropTypes.func.isRequired,
   rightIcon: PropTypes.string,
   rightButtonAction: PropTypes.func,
-  title: PropTypes.string.isRequired
+  title: PropTypes.string.isRequired,
+  containerStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.number])
 });
 
 const styles = StyleSheet.create({

@@ -106,6 +106,7 @@ const appText = {
       "We have passed on your request to our Forex Partner - Thomas Cook. A representative will get in touch with you soon.",
     requestIdInfoText: "Your Request ID:",
     providerTitle: "Bang for your Buck!",
+    requestExistsText: "A request already exits with the given mobile number",
     providerInfo: "In partnership with thomas cook"
   },
   leisureText: "Got more time?",

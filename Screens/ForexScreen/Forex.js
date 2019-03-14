@@ -219,6 +219,7 @@ class Forex extends Component {
             <FormWrapper>
               <ForexProviderInfo />
               <ForexFeaturesList
+                lineWidth={responsiveWidth(100) - 48}
                 containerStyle={{ marginTop: 16 }}
                 features={forexFeatures}
               />
