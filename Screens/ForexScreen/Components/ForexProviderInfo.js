@@ -14,8 +14,10 @@ const ForexProviderInfo = ({ containerStyle = {} }) => {
         />
       </View>
       <View style={styles.textContainer}>
-        <Text style={styles.titleText}>{"Bang for your Buck!"}</Text>
-        <Text style={styles.infoText}>{"In partnership with thomas cook"}</Text>
+        <Text style={styles.titleText}>
+          {constants.forexText.providerTitle}
+        </Text>
+        <Text style={styles.infoText}>{constants.forexText.providerInfo}</Text>
       </View>
     </View>
   );

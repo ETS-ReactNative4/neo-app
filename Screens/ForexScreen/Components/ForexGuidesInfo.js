@@ -7,6 +7,9 @@ import ForexGuidesSection from "./ForexGuidesSection";
 import PropTypes from "prop-types";
 import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraProps";
 
+/**
+ * Used to show the Guides Forex information for all the countries in the itinerary
+ */
 const ForexGuidesInfo = ({ isVisible, data = {}, onClose = () => null }) => {
   return (
     <Modal

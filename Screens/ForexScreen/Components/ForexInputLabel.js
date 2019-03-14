@@ -3,7 +3,7 @@ import _ from "lodash";
 import { Text, StyleSheet } from "react-native";
 import constants from "../../../constants/constants";
 
-const ForexLabel = ({ label }) =>
+const ForexInputLabel = ({ label }) =>
   label ? <Text style={styles.labelText}>{_.toUpper(label)}</Text> : null;
 
 const styles = StyleSheet.create({
@@ -13,4 +13,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default ForexLabel;
+export default ForexInputLabel;

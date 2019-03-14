@@ -3,7 +3,7 @@ import { View, TouchableOpacity, Text, StyleSheet } from "react-native";
 import PropTypes from "prop-types";
 import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraProps";
 import constants from "../../../constants/constants";
-import ForexLabel from "./ForexLabel";
+import ForexInputLabel from "./ForexInputLabel";
 
 const ForexSwitchComponent = ({
   containerStyle = {},
@@ -14,7 +14,7 @@ const ForexSwitchComponent = ({
 }) => {
   return (
     <View style={containerStyle}>
-      <ForexLabel label={label} />
+      <ForexInputLabel label={label} />
       <View style={styles.forexSwitchContainer}>
         {options.map((option, optionIndex) => {
           const isFirstSwitch = optionIndex === 0;

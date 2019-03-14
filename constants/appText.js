@@ -104,7 +104,9 @@ const appText = {
     howMuchToCarryText: "How much Forex should I carry?",
     forexSubmittedText:
       "We have passed on your request to our Forex Partner - Thomas Cook. A representative will get in touch with you soon.",
-    requestIdInfoText: "Your Request ID:"
+    requestIdInfoText: "Your Request ID:",
+    providerTitle: "Bang for your Buck!",
+    providerInfo: "In partnership with thomas cook"
   },
   leisureText: "Got more time?",
   explorePlacesText: "Explore Places",

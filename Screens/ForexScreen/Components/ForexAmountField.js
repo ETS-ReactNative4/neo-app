@@ -10,7 +10,7 @@ import {
 import PropTypes from "prop-types";
 import Icon from "../../../CommonComponents/Icon/Icon";
 import constants from "../../../constants/constants";
-import ForexLabel from "./ForexLabel";
+import ForexInputLabel from "./ForexInputLabel";
 import CurrencySelector from "../../CurrencyConverterScreen/Components/CurrencySelector";
 import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraProps";
 
@@ -60,7 +60,7 @@ class ForexAmountField extends Component {
           selectCurrency={currency => onSelectCurrency(currency.substr(3))}
         />
         <View style={containerStyle}>
-          <ForexLabel label={label} />
+          <ForexInputLabel label={label} />
           <View style={styles.forexAmountContainer}>
             <TouchableOpacity
               onPress={this.toggleCurrencySelector}

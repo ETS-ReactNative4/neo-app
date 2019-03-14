@@ -11,7 +11,7 @@ import PropTypes from "prop-types";
 import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraProps";
 import constants from "../../../constants/constants";
 import CountryCodePicker from "../../MobileNumberScreen/Components/CountryCodePicker";
-import ForexLabel from "./ForexLabel";
+import ForexInputLabel from "./ForexInputLabel";
 
 class ForexInputField extends Component {
   static propTypes = forbidExtraProps({
@@ -84,7 +84,7 @@ class ForexInputField extends Component {
             containerStyle
           ]}
         >
-          <ForexLabel label={label} />
+          <ForexInputLabel label={label} />
           <View style={styles.textInputWrapper}>
             {isMobileNumberField ? (
               <TouchableOpacity
