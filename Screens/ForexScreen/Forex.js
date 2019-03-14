@@ -47,7 +47,7 @@ class Forex extends Component {
       }
     ],
     forexType: constants.forexProduct.cash,
-    requiredCurrency: "",
+    requiredCurrency: false,
     amount: "",
     isForexModalVisible: false,
     hasFormSubmitAttempted: false
@@ -67,6 +67,9 @@ class Forex extends Component {
       )
     };
   };
+
+  _emailFieldRef = React.createRef();
+  _mobileNumberFieldRef = React.createRef();
 
   onEditName = name => this.setState({ name });
 
@@ -91,6 +94,7 @@ class Forex extends Component {
     });
     const { selectedItineraryId } = this.props.itineraries;
     const { userDetails } = this.props.userStore;
+    const { currencies } = this.props.appState;
     const name = this.state.name === false ? userDetails.name : this.state.name;
     const mobileNumber =
       this.state.mobileNumber === false
@@ -100,6 +104,10 @@ class Forex extends Component {
         : this.state.mobileNumber;
     const email =
       this.state.email === false ? userDetails.email : this.state.email;
+    const requiredCurrency =
+      this.state.requiredCurrency === false
+        ? currencies[0]
+        : this.state.requiredCurrency;
     const requestObject = {
       itineraryId: selectedItineraryId,
       name,
@@ -107,7 +115,7 @@ class Forex extends Component {
       mobileNumber,
       forexType: this.state.forexType,
       amount: this.state.amount,
-      requiredCurrency: this.state.requiredCurrency
+      requiredCurrency
     };
     if (this.validateRequest(requestObject)) {
     }
@@ -153,8 +161,6 @@ class Forex extends Component {
     const { userDetails } = this.props.userStore;
     const { hasFormSubmitAttempted } = this.state;
 
-    const selectedCurrency = this.state.requiredCurrency || currencies[0];
-
     const name = this.state.name === false ? userDetails.name : this.state.name;
     const mobileNumber =
       this.state.mobileNumber === false
@@ -164,6 +170,10 @@ class Forex extends Component {
         : this.state.mobileNumber;
     const email =
       this.state.email === false ? userDetails.email : this.state.email;
+    const selectedCurrency =
+      this.state.requiredCurrency === false
+        ? currencies[0]
+        : this.state.requiredCurrency;
 
     return (
       <Fragment>
@@ -193,8 +203,14 @@ class Forex extends Component {
                 placeholder={"Your Name..."}
                 label={"Name"}
                 hasError={hasFormSubmitAttempted && !name}
+                onSubmitField={() =>
+                  this._emailFieldRef.current &&
+                  this._emailFieldRef.current.focus()
+                }
+                returnKeyType={"next"}
               />
               <ForexInputField
+                setRef={this._emailFieldRef}
                 isMobileNumberField={true}
                 containerStyle={styles.inputField}
                 value={mobileNumber}
@@ -209,8 +225,13 @@ class Forex extends Component {
                   hasFormSubmitAttempted &&
                   !validateMobileNumber(`${this.state.ccode}${mobileNumber}`)
                 }
+                onSubmitField={() =>
+                  this._mobileNumberFieldRef.current &&
+                  this._mobileNumberFieldRef.current.focus()
+                }
               />
               <ForexInputField
+                setRef={this._mobileNumberFieldRef}
                 containerStyle={styles.inputField}
                 value={email}
                 onEdit={this.onEditEmail}
@@ -218,6 +239,7 @@ class Forex extends Component {
                 label={"Email"}
                 keyboardType={"email-address"}
                 hasError={hasFormSubmitAttempted && !validateEmail(email)}
+                returnKeyType={"next"}
               />
               <View style={styles.optionsRow}>
                 <ForexSwitchComponent

@@ -93,7 +93,7 @@ class ForexAmountField extends Component {
                 keyboardType={"numeric"}
                 keyboardAppearance={"dark"}
                 placeholderTextColor={constants.shade5}
-                placeholder={"--"}
+                placeholder={"99"}
               />
             </View>
           </View>
@@ -133,16 +133,15 @@ const styles = StyleSheet.create({
     width: 72
   },
   countryCodeText: {
-    ...constants.fontCustom(constants.primaryRegular, 16),
+    ...constants.fontCustom(constants.primaryRegular, 18),
     color: constants.black1,
     marginRight: 4
   },
   amountInputField: {
-    ...constants.fontCustom(constants.primaryRegular, 16),
+    ...constants.fontCustom(constants.primaryRegular, 18),
     color: constants.black1,
     height: 48,
     minWidth: 60,
-    textAlign: "center",
     ...Platform.select({
       ios: {
         marginTop: 4

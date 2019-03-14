@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
     backgroundColor: constants.firstColor
   },
   switchText: {
-    ...constants.fontCustom(constants.primaryRegular, 16),
+    ...constants.fontCustom(constants.primaryRegular, 18),
     color: constants.black2
   },
   selectedText: {

@@ -17,7 +17,7 @@ class ForexInputField extends Component {
   static propTypes = forbidExtraProps({
     label: PropTypes.string,
     containerStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.number]),
-    setRef: PropTypes.func,
+    setRef: PropTypes.object,
     returnKeyType: PropTypes.string,
     onSubmitField: PropTypes.func,
     placeholder: PropTypes.string,
@@ -100,7 +100,7 @@ class ForexInputField extends Component {
               </TouchableOpacity>
             ) : null}
             <TextInput
-              ref={e => setRef(e)}
+              ref={setRef}
               onChangeText={text => onEdit(text)}
               placeholder={placeholder}
               value={value}
