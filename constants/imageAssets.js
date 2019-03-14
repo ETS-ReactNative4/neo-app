@@ -15,6 +15,7 @@ const imageAssets = {
   pytLogo: isProduction()
     ? require("../assets/images/icons/logo_new.png")
     : require("../assets/images/icons/logo-dev.png"),
+  forexPartnerLogo: require("../assets/images/icons/forex-partner.png"),
   pytLogoNew: require("../assets/images/icons/logo_new.png"),
   pytLogoWhite: require("../assets/images/icons/pickyourtrail-white-logo.png"),
   pytLogoBlack: require("../assets/images/icons/pickyourtrail-black-logo.png"),

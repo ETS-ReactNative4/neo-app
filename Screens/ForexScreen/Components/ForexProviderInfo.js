@@ -10,7 +10,7 @@ const ForexProviderInfo = ({ containerStyle = {} }) => {
       <View style={styles.imageContainer}>
         <Image
           style={styles.forexProviderImage}
-          source={constants.flightLogoPlaceholderIllus}
+          source={constants.forexPartnerLogo}
         />
       </View>
       <View style={styles.textContainer}>

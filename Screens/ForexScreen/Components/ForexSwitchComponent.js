@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 5
   },
   selectedSwitch: {
-    backgroundColor: constants.firstColor
+    backgroundColor: constants.seventhColor
   },
   switchText: {
     ...constants.fontCustom(constants.primaryRegular, 18),
