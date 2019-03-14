@@ -1,7 +1,12 @@
 import React, { Component, Fragment } from "react";
-import { View, StyleSheet, Keyboard, Text } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Keyboard,
+  Text,
+  ActivityIndicator
+} from "react-native";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
-import pullToRefresh from "../../Services/refresh/pullToRefresh";
 import CustomScrollView from "../../CommonComponents/CustomScrollView/CustomScrollView";
 import ForexProviderInfo from "./Components/ForexProviderInfo";
 import ForexInputField from "./Components/ForexInputField";
@@ -16,6 +21,7 @@ import { responsiveWidth } from "react-native-responsive-dimensions";
 import ForexGuidesInfo from "./Components/ForexGuidesInfo";
 import validateEmail from "../../Services/validateEmail/validateEmail";
 import validateMobileNumber from "../../Services/validateMobileNumber/validateMobileNumber";
+import ForexSubmittedInfo from "./Components/ForexSubmittedInfo";
 
 const forexFeatures = [
   "Competitive exchange rates",
@@ -95,6 +101,7 @@ class Forex extends Component {
     const { selectedItineraryId } = this.props.itineraries;
     const { userDetails } = this.props.userStore;
     const { currencies } = this.props.appState;
+    const { submitForexData } = this.props.forexStore;
     const name = this.state.name === false ? userDetails.name : this.state.name;
     const mobileNumber =
       this.state.mobileNumber === false
@@ -118,6 +125,7 @@ class Forex extends Component {
       requiredCurrency
     };
     if (this.validateRequest(requestObject)) {
+      submitForexData(requestObject);
     }
   };
 
@@ -155,7 +163,9 @@ class Forex extends Component {
     const {
       isForexStatusLoading,
       opportunityId,
-      forexGuidesDetails
+      forexGuidesDetails,
+      isSubmitAPILoading,
+      submittedData
     } = this.props.forexStore;
     const { currencies } = this.props.appState;
     const { userDetails } = this.props.userStore;
@@ -188,7 +198,10 @@ class Forex extends Component {
           onRefresh={() => null}
         >
           {opportunityId ? (
-            <View />
+            <ForexSubmittedInfo
+              opportunityId={opportunityId}
+              submittedData={submittedData}
+            />
           ) : isForexStatusLoading ? null : (
             <Fragment>
               <ForexProviderInfo />
@@ -263,18 +276,27 @@ class Forex extends Component {
               <Text onPress={this.toggleGuidesModal} style={styles.forexText}>
                 {constants.forexText.howMuchToCarryText}
               </Text>
-              <SimpleButton
-                action={this.getQuote}
-                underlayColor={constants.firstColorAlpha(0.8)}
-                containerStyle={{
-                  width: responsiveWidth(100) - 48,
-                  height: 56,
-                  alignSelf: "center",
-                  marginTop: 24
-                }}
-                text={"Get Quote"}
-                textColor={"white"}
-              />
+              {isSubmitAPILoading ? (
+                <View style={styles.submitLoadingContainer}>
+                  <ActivityIndicator
+                    size="large"
+                    color={constants.firstColor}
+                  />
+                </View>
+              ) : (
+                <SimpleButton
+                  action={this.getQuote}
+                  underlayColor={constants.firstColorAlpha(0.8)}
+                  containerStyle={{
+                    width: responsiveWidth(100) - 48,
+                    height: 56,
+                    alignSelf: "center",
+                    marginTop: 24
+                  }}
+                  text={"Get Quote"}
+                  textColor={"white"}
+                />
+              )}
             </Fragment>
           )}
         </CustomScrollView>
@@ -300,6 +322,10 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginHorizontal: 24,
     color: constants.firstColor
+  },
+  submitLoadingContainer: {
+    marginTop: 24,
+    alignSelf: "center"
   }
 });
 

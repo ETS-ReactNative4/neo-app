@@ -19,6 +19,9 @@ class Forex {
     hydrate("_forexGuidesDetails", storeInstance)
       .then(() => {})
       .catch(err => logError(err));
+    hydrate("_submittedData", storeInstance)
+      .then(() => {})
+      .catch(err => logError(err));
   };
 
   @observable _isForexStatusLoading = false;
@@ -26,6 +29,9 @@ class Forex {
 
   @observable _isGuidesDataLoading = false;
   @observable _guidesDataError = false;
+
+  @observable _isSubmitAPILoading = false;
+  @observable _submitAPIError = false;
 
   @persist
   @observable
@@ -38,6 +44,10 @@ class Forex {
   @persist("object")
   @observable
   _forexGuidesDetails = {};
+
+  @persist("object")
+  @observable
+  _submittedData = {};
 
   @computed
   get isForexStatusLoading() {
@@ -64,6 +74,16 @@ class Forex {
     return toJS(this._forexGuidesDetails);
   }
 
+  @computed
+  get isSubmitAPILoading() {
+    return this._isSubmitAPILoading;
+  }
+
+  @computed
+  get submittedData() {
+    return toJS(this._submittedData);
+  }
+
   @action
   getForexStatus = () => {
     const { selectedItineraryId } = storeService.itineraries;
@@ -78,7 +98,12 @@ class Forex {
         if (response.status === constants.responseSuccessStatus) {
           this._forexStatusError = false;
           if (response.data) {
-            this._opportunityId = response.data.opportunityId;
+            const { opportunityId, ...otherData } = response.data;
+            this._opportunityId = opportunityId;
+            this._submittedData = otherData;
+          } else {
+            this._opportunityId = "";
+            this._submittedData = {};
           }
         } else {
           this._forexStatusError = true;
@@ -113,6 +138,28 @@ class Forex {
       .catch(() => {
         this._isGuidesDataLoading = false;
         this._guidesDataError = true;
+      });
+  };
+
+  @action
+  submitForexData = requestObject => {
+    this._isSubmitAPILoading = true;
+    apiCall(constants.sendUserDataToForex, requestObject, "POST")
+      .then(response => {
+        this._isSubmitAPILoading = false;
+        if (response.status === constants.responseSuccessStatus) {
+          this._submitAPIError = false;
+          this._opportunityId = response.data.opportunityId;
+          this._submittedData = requestObject;
+        } else {
+          this._submitAPIError = true;
+          toastBottom(constants.serverResponseErrorText);
+        }
+      })
+      .catch(() => {
+        this._isSubmitAPILoading = false;
+        this._submitAPIError = true;
+        toastBottom(constants.serverErrorText);
       });
   };
 }
