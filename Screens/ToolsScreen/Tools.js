@@ -41,6 +41,11 @@ class Tools extends Component {
         icon: constants.currencyCalculatorIcon
       },
       {
+        text: `Forex Information`,
+        action: () => this.props.navigation.navigate("Forex"),
+        icon: constants.currencyCalculatorIcon
+      },
+      {
         icon: constants.commonPhrasesIcon,
         text: `Common Phrases`,
         action: () => {

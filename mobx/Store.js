@@ -17,6 +17,12 @@ import Places from "./Places";
 import SupportStore from "./SupportStore";
 import TripFeed from "./TripFeed";
 import Packages from "./Packages";
+import Forex from "./Forex";
+
+export const hydrate = create({
+  storage: AsyncStorage,
+  jsonify: true
+});
 
 const createStore = () => {
   const appStore = {
@@ -35,13 +41,9 @@ const createStore = () => {
     placesStore: new Places(),
     supportStore: new SupportStore(),
     tripFeedStore: new TripFeed(),
-    packagesStore: new Packages()
+    packagesStore: new Packages(),
+    forexStore: new Forex()
   };
-
-  const hydrate = create({
-    storage: AsyncStorage,
-    jsonify: true
-  });
 
   hydrate("_upcomingItineraries", appStore.yourBookingsStore)
     .then(() => {})
@@ -198,6 +200,7 @@ const createStore = () => {
     .catch(err => {
       logError(err);
     });
+  Forex.hydrator(appStore.forexStore);
   return appStore;
 };
 
