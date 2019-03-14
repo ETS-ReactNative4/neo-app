@@ -13,6 +13,9 @@ import ForexFeaturesList from "./Components/ForexFeaturesList";
 import { inject, observer } from "mobx-react/custom";
 import SimpleButton from "../../CommonComponents/SimpleButton/SimpleButton";
 import { responsiveWidth } from "react-native-responsive-dimensions";
+import ForexGuidesInfo from "./Components/ForexGuidesInfo";
+import validateEmail from "../../Services/validateEmail/validateEmail";
+import validateMobileNumber from "../../Services/validateMobileNumber/validateMobileNumber";
 
 const forexFeatures = [
   "Competitive exchange rates",
@@ -24,14 +27,15 @@ const forexFeatures = [
 @ErrorBoundary()
 @inject("forexStore")
 @inject("appState")
+@inject("itineraries")
 @inject("userStore")
 @observer
 class Forex extends Component {
   state = {
-    name: "",
+    name: false,
     ccode: "+91",
-    mobileNumber: "",
-    email: "",
+    mobileNumber: false,
+    email: false,
     productOptions: [
       {
         label: "Cash",
@@ -44,7 +48,9 @@ class Forex extends Component {
     ],
     forexType: constants.forexProduct.cash,
     requiredCurrency: "",
-    amount: ""
+    amount: "",
+    isForexModalVisible: false,
+    hasFormSubmitAttempted: false
   };
 
   static navigationOptions = ({ navigation }) => {
@@ -76,103 +82,181 @@ class Forex extends Component {
 
   selectProduct = forexType => this.setState({ forexType });
 
+  toggleGuidesModal = () =>
+    this.setState({ isForexModalVisible: !this.state.isForexModalVisible });
+
+  getQuote = () => {
+    this.setState({
+      hasFormSubmitAttempted: true
+    });
+    const { selectedItineraryId } = this.props.itineraries;
+    const { userDetails } = this.props.userStore;
+    const name = this.state.name === false ? userDetails.name : this.state.name;
+    const mobileNumber =
+      this.state.mobileNumber === false
+        ? userDetails.ccode === "+91"
+          ? userDetails.mob_num
+          : ""
+        : this.state.mobileNumber;
+    const email =
+      this.state.email === false ? userDetails.email : this.state.email;
+    const requestObject = {
+      itineraryId: selectedItineraryId,
+      name,
+      email,
+      mobileNumber,
+      forexType: this.state.forexType,
+      amount: this.state.amount,
+      requiredCurrency: this.state.requiredCurrency
+    };
+    if (this.validateRequest(requestObject)) {
+    }
+  };
+
+  validateRequest = requestObject => {
+    if (!validateEmail(requestObject.email)) return false;
+    if (
+      !validateMobileNumber(`${this.state.ccode}${requestObject.mobileNumber}`)
+    )
+      return false;
+    for (let field in requestObject) {
+      if (requestObject.hasOwnProperty(field)) {
+        if (!requestObject[field]) return false;
+      }
+    }
+    return true;
+  };
+
   componentDidMount() {
-    const { getForexStatus, getForexDataFromGuides } = this.props.forexStore;
-    const { loadCurrencies } = this.props.appState;
-    const { getUserDetails } = this.props.userStore;
+    const {
+      getForexStatus,
+      getForexDataFromGuides,
+      opportunityId
+    } = this.props.forexStore;
     getForexStatus();
-    loadCurrencies();
-    getUserDetails();
-    getForexDataFromGuides();
+    if (!opportunityId) {
+      const { loadCurrencies } = this.props.appState;
+      const { getUserDetails } = this.props.userStore;
+      loadCurrencies();
+      getUserDetails();
+      getForexDataFromGuides();
+    }
   }
 
   render() {
-    const { isLoading, opportunityId } = this.props.forexStore;
+    const {
+      isForexStatusLoading,
+      opportunityId,
+      forexGuidesDetails
+    } = this.props.forexStore;
     const { currencies } = this.props.appState;
     const { userDetails } = this.props.userStore;
+    const { hasFormSubmitAttempted } = this.state;
 
     const selectedCurrency = this.state.requiredCurrency || currencies[0];
 
+    const name = this.state.name === false ? userDetails.name : this.state.name;
+    const mobileNumber =
+      this.state.mobileNumber === false
+        ? userDetails.ccode === "+91"
+          ? userDetails.mob_num
+          : ""
+        : this.state.mobileNumber;
+    const email =
+      this.state.email === false ? userDetails.email : this.state.email;
+
     return (
-      <CustomScrollView
-        showsVerticalScrollIndicator={false}
-        refreshing={isLoading}
-        onRefresh={() => null}
-      >
-        {opportunityId ? (
-          <View />
-        ) : isLoading ? null : (
-          <Fragment>
-            <ForexProviderInfo />
-            <ForexFeaturesList
-              containerStyle={{ marginTop: 16 }}
-              features={forexFeatures}
-            />
-            <ForexInputField
-              containerStyle={styles.inputField}
-              value={this.state.name || userDetails.name}
-              onEdit={this.onEditName}
-              placeholder={"Your Name..."}
-              label={"Name"}
-            />
-            <ForexInputField
-              isMobileNumberField={true}
-              containerStyle={styles.inputField}
-              value={
-                this.state.mobileNumber || userDetails.ccode === "+91"
-                  ? userDetails.mob_num
-                  : ""
-              }
-              selectedCountryCode={this.state.ccode}
-              onEdit={this.onEditNumber}
-              placeholder={"Your Phone Number..."}
-              maxLength={10}
-              label={"Mobile Number"}
-              keyboardType={"phone-pad"}
-              onSelectCountryCode={this.selectCountryCode}
-            />
-            <ForexInputField
-              containerStyle={styles.inputField}
-              value={this.state.email || userDetails.email}
-              onEdit={this.onEditEmail}
-              placeholder={"Your Email..."}
-              label={"Email"}
-              keyboardType={"email-address"}
-            />
-            <View style={styles.optionsRow}>
-              <ForexSwitchComponent
-                label={"Product"}
-                containerStyle={styles.switchField}
-                options={this.state.productOptions}
-                onSelect={this.selectProduct}
-                selectedValue={this.state.forexType}
+      <Fragment>
+        <ForexGuidesInfo
+          data={forexGuidesDetails}
+          onClose={this.toggleGuidesModal}
+          isVisible={this.state.isForexModalVisible}
+        />
+        <CustomScrollView
+          showsVerticalScrollIndicator={false}
+          refreshing={isForexStatusLoading}
+          onRefresh={() => null}
+        >
+          {opportunityId ? (
+            <View />
+          ) : isForexStatusLoading ? null : (
+            <Fragment>
+              <ForexProviderInfo />
+              <ForexFeaturesList
+                containerStyle={{ marginTop: 16 }}
+                features={forexFeatures}
               />
-              <ForexAmountField
-                selectedCurrency={selectedCurrency}
-                currencies={currencies}
-                containerStyle={styles.amountField}
-                label={"Amount"}
-                amount={this.state.amount}
-                onEdit={this.onEditAmount}
-                onSelectCurrency={this.selectCurrency}
+              <ForexInputField
+                containerStyle={styles.inputField}
+                value={name}
+                onEdit={this.onEditName}
+                placeholder={"Your Name..."}
+                label={"Name"}
+                hasError={hasFormSubmitAttempted && !name}
               />
-            </View>
-            <Text onPress={() => null} style={styles.forexText}>
-              {constants.forexText.howMuchToCarryText}
-            </Text>
-            <SimpleButton
-              containerStyle={{
-                width: responsiveWidth(100) - 48,
-                height: 56,
-                alignSelf: "center",
-                marginTop: 24
-              }}
-              text={"Get Quote"}
-              textColor={"white"}
-            />
-          </Fragment>
-        )}
-      </CustomScrollView>
+              <ForexInputField
+                isMobileNumberField={true}
+                containerStyle={styles.inputField}
+                value={mobileNumber}
+                selectedCountryCode={this.state.ccode}
+                onEdit={this.onEditNumber}
+                placeholder={"Your Phone Number..."}
+                maxLength={10}
+                label={"Mobile Number"}
+                keyboardType={"phone-pad"}
+                onSelectCountryCode={this.selectCountryCode}
+                hasError={
+                  hasFormSubmitAttempted &&
+                  !validateMobileNumber(`${this.state.ccode}${mobileNumber}`)
+                }
+              />
+              <ForexInputField
+                containerStyle={styles.inputField}
+                value={email}
+                onEdit={this.onEditEmail}
+                placeholder={"Your Email..."}
+                label={"Email"}
+                keyboardType={"email-address"}
+                hasError={hasFormSubmitAttempted && !validateEmail(email)}
+              />
+              <View style={styles.optionsRow}>
+                <ForexSwitchComponent
+                  label={"Product"}
+                  containerStyle={styles.switchField}
+                  options={this.state.productOptions}
+                  onSelect={this.selectProduct}
+                  selectedValue={this.state.forexType}
+                />
+                <ForexAmountField
+                  selectedCurrency={selectedCurrency}
+                  currencies={currencies}
+                  containerStyle={styles.amountField}
+                  label={"Amount"}
+                  amount={this.state.amount}
+                  onEdit={this.onEditAmount}
+                  onSelectCurrency={this.selectCurrency}
+                  hasError={hasFormSubmitAttempted && !this.state.amount}
+                />
+              </View>
+              <Text onPress={this.toggleGuidesModal} style={styles.forexText}>
+                {constants.forexText.howMuchToCarryText}
+              </Text>
+              <SimpleButton
+                action={this.getQuote}
+                underlayColor={constants.firstColorAlpha(0.8)}
+                containerStyle={{
+                  width: responsiveWidth(100) - 48,
+                  height: 56,
+                  alignSelf: "center",
+                  marginTop: 24
+                }}
+                text={"Get Quote"}
+                textColor={"white"}
+              />
+            </Fragment>
+          )}
+        </CustomScrollView>
+      </Fragment>
     );
   }
 }

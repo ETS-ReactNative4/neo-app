@@ -22,7 +22,8 @@ class ForexAmountField extends Component {
     amount: PropTypes.number.isRequired,
     currencies: PropTypes.array.isRequired,
     onSelectCurrency: PropTypes.func.isRequired,
-    onEdit: PropTypes.func.isRequired
+    onEdit: PropTypes.func.isRequired,
+    hasError: PropTypes.bool
   });
 
   state = {
@@ -42,9 +43,11 @@ class ForexAmountField extends Component {
       amount = "",
       currencies = [],
       onSelectCurrency = () => null,
-      onEdit = () => null
+      onEdit = () => null,
+      hasError
     } = this.props;
     const { isCurrencySelectorVisible } = this.state;
+
     return (
       <Fragment>
         <CurrencySelector
@@ -62,7 +65,11 @@ class ForexAmountField extends Component {
             <TouchableOpacity
               onPress={this.toggleCurrencySelector}
               activeOpacity={0.8}
-              style={[styles.countryCodeTextWrapper, styles.leftSection]}
+              style={[
+                styles.countryCodeTextWrapper,
+                hasError ? styles.hasError : {},
+                styles.leftSection
+              ]}
             >
               <Text style={styles.countryCodeText}>{selectedCurrency}</Text>
               <Icon
@@ -71,7 +78,13 @@ class ForexAmountField extends Component {
                 size={8}
               />
             </TouchableOpacity>
-            <View style={[styles.countryCodeTextWrapper, styles.rightSection]}>
+            <View
+              style={[
+                styles.countryCodeTextWrapper,
+                hasError ? styles.hasError : {},
+                styles.rightSection
+              ]}
+            >
               <TextInput
                 value={amount}
                 style={styles.amountInputField}
@@ -103,6 +116,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexDirection: "row",
     justifyContent: "center"
+  },
+  hasError: {
+    borderColor: constants.thirdColor
   },
   leftSection: {
     borderTopLeftRadius: 5,

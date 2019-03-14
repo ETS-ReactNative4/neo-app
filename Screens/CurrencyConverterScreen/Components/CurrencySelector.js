@@ -12,9 +12,8 @@ import Modal from "react-native-modal";
 import PropTypes from "prop-types";
 import { isIphoneX } from "react-native-iphone-x-helper";
 import constants from "../../../constants/constants";
-import SectionHeader from "../../../CommonComponents/SectionHeader/SectionHeader";
-import Icon from "../../../CommonComponents/Icon/Icon";
 import SelectionRow from "../../../CommonComponents/SelectionRow/SelectionRow";
+import ModalHeader from "../../../CommonComponents/ModalHeader/ModalHeader";
 
 class CurrencySelector extends Component {
   static propTypes = {
@@ -59,25 +58,11 @@ class CurrencySelector extends Component {
       >
         <SafeAreaView style={{ flex: 1 }}>
           <View style={styles.container}>
-            <View style={styles.header}>
-              <TouchableHighlight
-                style={styles.icon}
-                underlayColor={"transparent"}
-                onPress={this.props.onClose}
-              >
-                <Icon size={24} name={constants.closeIcon} />
-              </TouchableHighlight>
-              <View style={styles.headingArea}>
-                <Text style={styles.headingText}>{title}</Text>
-              </View>
-              {/*<TouchableHighlight style={styles.icon}>*/}
-              {/*<Icon*/}
-              {/*style={24}*/}
-              {/*source={constants.searchIcon}*/}
-              {/*color={"white"}*/}
-              {/*/>*/}
-              {/*</TouchableHighlight>*/}
-            </View>
+            <ModalHeader
+              leftIcon={constants.closeIcon}
+              leftButtonAction={this.props.onClose}
+              title={title}
+            />
             <ScrollView
               style={[
                 styles.optionsContainer,
@@ -126,24 +111,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: 20
-  },
-  header: {
-    height: 32,
-    marginVertical: 32,
-    flexDirection: "row",
-    alignItems: "center"
-  },
-  headingArea: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center"
-  },
-  headingText: {
-    ...constants.font20(constants.primarySemiBold)
-  },
-  icon: {
-    height: 24,
-    width: 24
   },
   optionsContainer: {},
   flagImage: {

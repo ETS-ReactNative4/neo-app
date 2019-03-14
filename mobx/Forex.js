@@ -21,8 +21,11 @@ class Forex {
       .catch(err => logError(err));
   };
 
-  @observable _isLoading = false;
-  @observable _hasError = false;
+  @observable _isForexStatusLoading = false;
+  @observable _forexStatusError = false;
+
+  @observable _isGuidesDataLoading = false;
+  @observable _guidesDataError = false;
 
   @persist
   @observable
@@ -37,13 +40,13 @@ class Forex {
   _forexGuidesDetails = {};
 
   @computed
-  get isLoading() {
-    return this._isLoading;
+  get isForexStatusLoading() {
+    return this._isForexStatusLoading;
   }
 
   @computed
-  get hasError() {
-    return this._hasError;
+  get forexStatusError() {
+    return this._forexStatusError;
   }
 
   @computed
@@ -56,30 +59,35 @@ class Forex {
     return toJS(this._userDetails);
   }
 
+  @computed
+  get forexGuidesDetails() {
+    return toJS(this._forexGuidesDetails);
+  }
+
   @action
   getForexStatus = () => {
     const { selectedItineraryId } = storeService.itineraries;
-    this._isLoading = true;
+    this._isForexStatusLoading = true;
     apiCall(
       `${constants.getForexStatus}?itineraryId=${selectedItineraryId}`,
       {},
       "GET"
     )
       .then(response => {
-        this._isLoading = false;
+        this._isForexStatusLoading = false;
         if (response.status === constants.responseSuccessStatus) {
-          this._hasError = false;
+          this._forexStatusError = false;
           if (response.data) {
             this._opportunityId = response.data.opportunityId;
           }
         } else {
-          this._hasError = true;
+          this._forexStatusError = true;
           toastBottom(constants.serverResponseErrorText);
         }
       })
       .catch(() => {
-        this._isLoading = false;
-        this._hasError = true;
+        this._isForexStatusLoading = false;
+        this._forexStatusError = true;
         toastBottom(constants.serverErrorText);
       });
   };
@@ -87,14 +95,25 @@ class Forex {
   @action
   getForexDataFromGuides = () => {
     const { selectedItineraryId } = storeService.itineraries;
-    this._isLoading = true;
+    this._isGuidesDataLoading = true;
     apiCall(
       `${constants.getForexInfoFromGuides}?itineraryId=${selectedItineraryId}`,
       {},
       "GET"
     )
-      .then(response => {})
-      .catch(() => {});
+      .then(response => {
+        this._isGuidesDataLoading = false;
+        if (response.status === constants.responseSuccessStatus) {
+          this._guidesDataError = false;
+          this._forexGuidesDetails = response.data;
+        } else {
+          this._guidesDataError = true;
+        }
+      })
+      .catch(() => {
+        this._isGuidesDataLoading = false;
+        this._guidesDataError = true;
+      });
   };
 }
 

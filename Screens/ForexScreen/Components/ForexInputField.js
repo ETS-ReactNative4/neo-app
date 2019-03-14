@@ -27,7 +27,8 @@ class ForexInputField extends Component {
     selectedCountryCode: PropTypes.string,
     onSelectCountryCode: PropTypes.func,
     keyboardType: PropTypes.string,
-    maxLength: PropTypes.number
+    maxLength: PropTypes.number,
+    hasError: PropTypes.bool
   });
 
   state = {
@@ -61,7 +62,8 @@ class ForexInputField extends Component {
       onEdit = () => null,
       isMobileNumberField = false,
       keyboardType = "default",
-      maxLength = 0
+      maxLength = 0,
+      hasError
     } = this.props;
     const { isCountryCodeModalVisible } = this.state;
 
@@ -75,7 +77,13 @@ class ForexInputField extends Component {
           onClose={this.hideCountryCodeModal}
           selectCountryCode={this.selectCountryCode}
         />
-        <View style={[styles.forexInputContainer, containerStyle]}>
+        <View
+          style={[
+            styles.forexInputContainer,
+            hasError ? styles.hasError : {},
+            containerStyle
+          ]}
+        >
           <ForexLabel label={label} />
           <View style={styles.textInputWrapper}>
             {isMobileNumberField ? (
@@ -126,7 +134,10 @@ const styles = StyleSheet.create({
   forexInputContainer: {
     marginHorizontal: 24,
     borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: constants.shade2
+    borderBottomColor: constants.black2
+  },
+  hasError: {
+    borderBottomColor: constants.thirdColor
   },
   forexInput: {
     flex: 1,
