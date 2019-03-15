@@ -90,7 +90,11 @@ class TransferVoucher extends Component {
       to,
       voucherUrl,
       meetingPoint,
-      pickupInstructions
+      pickupInstructions,
+      departureDateStr, //TODO: Departure time to be used from string
+      arrivalDateStr,
+      departureTimeStr,
+      arrivalTimeStr
     } = transfer.voucher;
 
     const transferPassengerDetails = () => [
@@ -129,9 +133,11 @@ class TransferVoucher extends Component {
       },
       {
         name: "Departure Time",
-        value: departureTime
-          ? moment(departureTime, "HH:mm").format(constants.shortTimeFormat)
-          : "NA"
+        value: departureTimeStr
+          ? departureTimeStr
+          : departureTime
+            ? moment(departureTime, "HH:mm").format(constants.shortTimeFormat)
+            : "NA"
       },
       {
         name: "Departure Station",
@@ -175,11 +181,13 @@ class TransferVoucher extends Component {
       },
       {
         name: "Arrival Time",
-        value: costingArrivalTime
-          ? moment(costingArrivalTime, "HH:mm").format(
-              constants.shortTimeFormat
-            )
-          : "NA"
+        value: arrivalTimeStr
+          ? arrivalTimeStr
+          : costingArrivalTime
+            ? moment(costingArrivalTime, "HH:mm").format(
+                constants.shortTimeFormat
+              )
+            : "NA"
       }
     ];
 
