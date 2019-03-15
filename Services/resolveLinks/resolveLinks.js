@@ -119,7 +119,9 @@ const resolveLinks = (link = "", screenProps = {}, deepLink = {}) => {
             costingIdentifier
           );
           if (validateVoucher(ferry)) {
-            navigation.navigate("TransferVoucher", { transfer: ferry });
+            navigation.navigate("TransferVoucher", {
+              transfer: { ...ferry, vehicle: voucherType }
+            });
           } else {
             toastBottom(constants.bookingProcessText.message);
           }
@@ -129,7 +131,9 @@ const resolveLinks = (link = "", screenProps = {}, deepLink = {}) => {
             costingIdentifier
           );
           if (validateVoucher(train)) {
-            navigation.navigate("TransferVoucher", { transfer: train });
+            navigation.navigate("TransferVoucher", {
+              transfer: { ...train, vehicle: voucherType }
+            });
           } else {
             toastBottom(constants.bookingProcessText.message);
           }
