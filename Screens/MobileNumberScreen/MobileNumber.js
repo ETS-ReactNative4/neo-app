@@ -24,8 +24,8 @@ import { recordEvent } from "../../Services/analytics/analyticsService";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import { toastTop } from "../../Services/toast/toast";
 import OtpField from "./Components/OtpField";
-import { isValidNumber } from "libphonenumber-js";
 import { getDeviceToken } from "../../Services/fcmService/fcm";
+import validateMobileNumber from "../../Services/validateMobileNumber/validateMobileNumber";
 
 let MobileNumberComponentInstance;
 
@@ -82,7 +82,7 @@ class MobileNumber extends Component {
 
   editMobileNumber = mobileNumber => {
     this.setState({ mobileNumber });
-    if (isValidNumber(`${this.state.countryCode}${mobileNumber}`)) {
+    if (validateMobileNumber(`${this.state.countryCode}${mobileNumber}`)) {
       this.setState({
         hasError: false
       });
@@ -296,7 +296,11 @@ class MobileNumber extends Component {
   }
 
   submitMobileNumber = () => {
-    if (!isValidNumber(`${this.state.countryCode}${this.state.mobileNumber}`)) {
+    if (
+      !validateMobileNumber(
+        `${this.state.countryCode}${this.state.mobileNumber}`
+      )
+    ) {
       this.setState({
         hasError: true
       });

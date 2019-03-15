@@ -131,7 +131,7 @@ class ContactUs extends Component {
           {
             text: "Delete Message!",
             onPress: () => {
-              navigation.goBack();
+              this.props.navigation.goBack();
             }
           },
           { text: "Cancel", onPress: () => null }

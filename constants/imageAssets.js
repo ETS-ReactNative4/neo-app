@@ -15,6 +15,7 @@ const imageAssets = {
   pytLogo: isProduction()
     ? require("../assets/images/icons/logo_new.png")
     : require("../assets/images/icons/logo-dev.png"),
+  forexPartnerLogo: require("../assets/images/icons/forex-partner.png"),
   pytLogoNew: require("../assets/images/icons/logo_new.png"),
   pytLogoWhite: require("../assets/images/icons/pickyourtrail-white-logo.png"),
   pytLogoBlack: require("../assets/images/icons/pickyourtrail-black-logo.png"),
@@ -87,6 +88,7 @@ const imageAssets = {
   changeIcon: "change",
   checkBoxIcon: "checkbox-unchecked",
   checkBoxCheckedIcon: "checkbox-checked",
+  checkMarkCircle: "24-checkmark",
   checkIcon: "check",
   syncIcon: "sync",
   callIcon: "call-end",
@@ -104,6 +106,7 @@ const imageAssets = {
   commonPhrasesIcon: require("../assets/images/toolIcons/common-phrases.png"),
   completePaymentIcon: require("../assets/images/toolIcons/complete-payment.png"),
   currencyCalculatorIcon: require("../assets/images/toolIcons/currency-calculator.png"),
+  forexIcon: require("../assets/images/toolIcons/forex.png"),
   documentVisaIcon: require("../assets/images/toolIcons/document-visa.png"),
   downloadIcon: "download",
   emergencyContactsIcon: require("../assets/images/toolIcons/emergency-contacts.png"),

@@ -81,6 +81,11 @@ class Tools extends Component {
         icon: constants.packageChecklistIcon
       },
       {
+        text: `Buy Forex`,
+        action: () => this.props.navigation.navigate("Forex"),
+        icon: constants.forexIcon
+      },
+      {
         icon: constants.passportDetailsIcon,
         text: `Passport Details`,
         action: () => {

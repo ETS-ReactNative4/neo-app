@@ -35,6 +35,9 @@ const apiUrls = {
   sendTicketMessage: "mobile/ticket/msg",
   retrieveTicketMessages: "mobile/ticket/msgs/retrieve",
   retrieveTickets: "mobile/tickets/status",
+  getForexStatus: "mobile/forex/status",
+  sendUserDataToForex: "mobile/forex",
+  getForexInfoFromGuides: "mobile/guides/survival/forex",
 
   customCheckListName: "Your list",
   defaultSupportType: "GENERAL",
@@ -63,11 +66,22 @@ const apiUrls = {
   platformAndroid: "android",
   httpPrefix: "http://",
   httpsPrefix: "https://",
+  responseSuccessStatus: "SUCCESS",
 
   /**
    * minimum iOS version for custom tabs
    */
   customTabSupportIos: 11.5,
+
+  /**
+   * Forex Screen options
+   */
+  forexProduct: {
+    cash: "CASH",
+    card: "CARD",
+    singleCurrencyCard: "ONE_CURRENCY_CARD",
+    multiCurrencyCard: "MULTI_CURRENCY_CARD"
+  },
 
   tripToggleStatusStorageKey: "@Pickyourtrail/tripToggleStatus",
   preTripChatActivationTime: 72,

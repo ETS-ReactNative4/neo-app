@@ -1,7 +1,7 @@
 {
   "name": "pickyourtrail",
-  "version": "1.1.1",
-  "build": 92,
+  "version": "1.1.2",
+  "build": 97,
   "private": true,
   "scripts": {
     "set-staging-environment": "cp .env.staging .env",
@@ -38,6 +38,7 @@
     "moment-range": "^4.0.1",
     "react": "16.5.0",
     "react-native": "0.57.1",
+    "react-native-animatable": "^1.3.1",
     "react-native-app-settings":
       "git://github.com/DaniAkash/react-native-app-settings.git#e1fe1e8358e4d1e907fbb0923bec0fdc72be237a",
     "react-native-card-stack-swiper": "^1.1.0",
@@ -50,7 +51,7 @@
     "react-native-flip-view-next": "^1.0.0",
     "react-native-htmlview": "0.13.0",
     "react-native-iphone-x-helper": "1.2.0",
-    "react-native-keyboard-aware-scroll-view": "^0.7.4",
+    "react-native-keyboard-aware-scroll-view": "^0.8.0",
     "react-native-keychain": "3.0.0",
     "react-native-lightbox": "^0.8.0",
     "react-native-linear-gradient": "^2.4.0",

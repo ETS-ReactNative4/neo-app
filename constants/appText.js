@@ -76,6 +76,9 @@ const appText = {
     // "We are working with our travel partners to complete this booking. Sit back and relax, we'll notify you, once the vouchers are ready!",
     actionText: "Okay!"
   },
+  feedBackCollectionToastText: {
+    message: "Please input your feedback"
+  },
   appCrashText: {
     reload:
       "We feel awful :(\n\nPlease close the app and try launching it again?\n\n",
@@ -97,6 +100,16 @@ const appText = {
     openProductText: "Take me there",
     findBookingText: "Find my booking"
   },
+  forexText: {
+    howMuchToCarryText: "How much Forex should I carry?",
+    forexSubmittedText:
+      "We have passed on your request to our Forex Partner - Thomas Cook. A representative will get in touch with you soon.",
+    requestIdInfoText: "Your Request ID:",
+    providerTitle: "Bang for your Buck!",
+    requestExistsText: "A request already exits with the given mobile number",
+    unableToSubmitRequest: "Unable to process your request",
+    providerInfo: "In partnership with Thomas Cook"
+  },
   leisureText: "Got more time?",
   explorePlacesText: "Explore Places",
   paymentText: {
@@ -108,7 +121,9 @@ const appText = {
     successMessage:
       "We got your payment! Please note the below transaction ID for further references."
   },
-  pdfViewerErrorText: "Unable to load pdf!"
+  pdfViewerErrorText: "Unable to load pdf!",
+  serverErrorText: "Unable to connect to the server",
+  serverResponseErrorText: "Something went wrong with the server"
 };
 
 export default appText;
