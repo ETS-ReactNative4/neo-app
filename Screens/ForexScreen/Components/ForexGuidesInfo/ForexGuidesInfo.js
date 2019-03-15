@@ -48,7 +48,7 @@ const ForexGuidesInfo = ({ isVisible, data = {}, onClose = () => null }) => {
 const styles = StyleSheet.create({
   forexGuidesContainer: {
     flex: 1,
-    marginTop: 24
+    marginTop: isIphoneX() ? constants.xNotchHeight : 0
   },
   forexGuidesScrollContainer: {
     paddingHorizontal: 24
