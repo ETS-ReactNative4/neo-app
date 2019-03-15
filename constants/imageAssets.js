@@ -106,6 +106,7 @@ const imageAssets = {
   commonPhrasesIcon: require("../assets/images/toolIcons/common-phrases.png"),
   completePaymentIcon: require("../assets/images/toolIcons/complete-payment.png"),
   currencyCalculatorIcon: require("../assets/images/toolIcons/currency-calculator.png"),
+  forexIcon: require("../assets/images/toolIcons/forex.png"),
   documentVisaIcon: require("../assets/images/toolIcons/document-visa.png"),
   downloadIcon: "download",
   emergencyContactsIcon: require("../assets/images/toolIcons/emergency-contacts.png"),

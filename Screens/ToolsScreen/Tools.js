@@ -41,11 +41,6 @@ class Tools extends Component {
         icon: constants.currencyCalculatorIcon
       },
       {
-        text: `Forex Information`,
-        action: () => this.props.navigation.navigate("Forex"),
-        icon: constants.currencyCalculatorIcon
-      },
-      {
         icon: constants.commonPhrasesIcon,
         text: `Common Phrases`,
         action: () => {
@@ -84,6 +79,11 @@ class Tools extends Component {
         text: `Packing Checklist`,
         action: () => this.props.navigation.navigate("PackingChecklist"),
         icon: constants.packageChecklistIcon
+      },
+      {
+        text: `Buy Forex`,
+        action: () => this.props.navigation.navigate("Forex"),
+        icon: constants.forexIcon
       },
       {
         icon: constants.passportDetailsIcon,
