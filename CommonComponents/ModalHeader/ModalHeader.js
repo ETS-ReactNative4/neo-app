@@ -26,7 +26,11 @@ const ModalHeader = ({
         <Text style={styles.headingText}>{title}</Text>
       </View>
       {rightIcon ? (
-        <TouchableHighlight style={styles.icon}>
+        <TouchableHighlight
+          onPress={rightButtonAction}
+          underlayColor={"transparent"}
+          style={styles.icon}
+        >
           <Icon style={24} name={rightIcon} color={constants.black1} />
         </TouchableHighlight>
       ) : null}
