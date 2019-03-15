@@ -38,6 +38,8 @@ const ForexSubmittedInfo = ({ opportunityId, submittedData }) => {
   ];
   return (
     <View style={styles.forexSubmittedInfoContainer}>
+      <SectionHeader sectionName={"Information Sent"} />
+      <VoucherSplitSection sections={splitSectionData} />
       <Text style={styles.submittedText}>
         {constants.forexText.forexSubmittedText}
       </Text>
@@ -45,15 +47,13 @@ const ForexSubmittedInfo = ({ opportunityId, submittedData }) => {
         {constants.forexText.requestIdInfoText}
       </Text>
       <Text style={styles.opportunityIdText}>{opportunityId}</Text>
-      <SectionHeader sectionName={"Requested Information"} />
-      <VoucherSplitSection sections={splitSectionData} />
     </View>
   );
 };
 
 ForexSubmittedInfo.propTypes = forbidExtraProps({
   opportunityId: PropTypes.string.isRequired,
-  submittedData: PropTypes.array.isRequired
+  submittedData: PropTypes.object.isRequired
 });
 
 const styles = StyleSheet.create({
@@ -62,7 +62,8 @@ const styles = StyleSheet.create({
   },
   submittedText: {
     ...constants.fontCustom(constants.primaryRegular, 15, 20),
-    color: constants.shade1
+    color: constants.shade1,
+    marginTop: 24
   },
   infoText: {
     marginTop: 24,
