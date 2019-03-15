@@ -107,6 +107,7 @@ const appText = {
     requestIdInfoText: "Your Request ID:",
     providerTitle: "Bang for your Buck!",
     requestExistsText: "A request already exits with the given mobile number",
+    unableToSubmitRequest: "Unable to process your request",
     providerInfo: "In partnership with thomas cook"
   },
   leisureText: "Got more time?",

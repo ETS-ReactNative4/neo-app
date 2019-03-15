@@ -168,9 +168,11 @@ class Forex {
           this._submitAPIError = false;
           if (response.data.messageCode === -1) {
             toastBottom(constants.forexText.requestExistsText);
-          } else {
+          } else if (response.data.messageCode === 0) {
             this._opportunityId = response.data.opportunityId;
             this._submittedData = requestObject;
+          } else {
+            toastBottom(constants.forexText.unableToSubmitRequest);
           }
         } else {
           this._submitAPIError = true;
