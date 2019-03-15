@@ -1,4 +1,3 @@
-import React from "react";
 import { isValidNumber } from "libphonenumber-js";
 import { parsePhoneNumberFromString } from "libphonenumber-js/mobile";
 
