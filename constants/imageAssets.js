@@ -113,8 +113,6 @@ const imageAssets = {
   packageChecklistIcon: require("../assets/images/toolIcons/packing-checklist-480.png"),
   passportDetailsIcon: require("../assets/images/toolIcons/passport-details.png"),
   yourPickIcon: require("../assets/images/toolIcons/your-picks.png"),
-  dialogBoxIcon:
-    "https://d3lf10b5gahyby.cloudfront.net/misc/transfers-shuttle.jpg",
 
   noBookingsIllus: require("../assets/images/illustrations/no-bookings-image.png"),
   leisureIllus: require("../assets/images/illustrations/leisure-illustration.png"),
@@ -169,7 +167,10 @@ const imageAssets = {
   hotelBigPlaceHolder: prefix + "Hotel-200x150.png",
   hotelLargePlaceHolder: prefix + "Hotel-640x360.png",
   roomsSmallPlaceHolder: prefix + "HotelRooms-120x90.png",
-  roomsLargePlaceHolder: prefix + "HotelRooms-240x180.png"
+  roomsLargePlaceHolder: prefix + "HotelRooms-240x180.png",
+
+  defaultPlaceImage:
+    "https://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg"
 };
 
 export default imageAssets;

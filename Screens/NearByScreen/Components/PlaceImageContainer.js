@@ -5,6 +5,7 @@ import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraPr
 import SmartImage from "../../../CommonComponents/SmartImage/SmartImage";
 import FastImage from "react-native-fast-image";
 import { responsiveHeight } from "react-native-responsive-dimensions";
+import constants from "../../../constants/constants";
 
 class PlaceImageContainer extends Component {
   static propTypes = forbidExtraProps({
@@ -60,9 +61,7 @@ class PlaceImageContainer extends Component {
             this.state.height ? { height: this.state.height } : null,
             this.props.isLast ? { marginRight: 0 } : null
           ]}
-          defaultImageUri={
-            "http://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg"
-          }
+          defaultImageUri={constants.defaultPlaceImage}
           resizeMode={this.state.resizeMode}
         />
       </TouchableOpacity>

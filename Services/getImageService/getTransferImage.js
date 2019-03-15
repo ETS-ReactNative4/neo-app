@@ -1,26 +1,27 @@
 import _ from "lodash";
+import constants from "../../constants/constants";
 
 const getTransferImage = (vehicle, type = "SHARED") => {
   let upperCaseVehicle = _.toUpper(vehicle);
   switch (upperCaseVehicle) {
     case "BOAT":
-      return "http://d3lf10b5gahyby.cloudfront.net/misc/venice_speed_boat.jpg";
+      return `${constants.miscImageBaseUrl}venice_speed_boat.jpg`;
     case "FERRY":
-      return "https://dig82prjykzgf.cloudfront.net/ferry.jpg";
+      return `${constants.miscImageBaseUrl}ferry.jpg`;
     case "TRAIN":
-      return "https://d3lf10b5gahyby.cloudfront.net/misc/transfers-train.jpg";
+      return `${constants.miscImageBaseUrl}transfers-train.jpg`;
     case "BUS":
-      return "https://d3lf10b5gahyby.cloudfront.net/misc/transfers-bus.jpg";
+      return `${constants.miscImageBaseUrl}transfers-bus.jpg`;
     case "SHUTTLE":
-      return "https://d3lf10b5gahyby.cloudfront.net/misc/transfers-shuttle.jpg";
+      return `${constants.miscImageBaseUrl}transfers-shuttle.jpg`;
     case "CAR":
       if (type === "PRIVATE") {
-        return "https://media.zigcdn.com/media/model/2016/Feb/honda_accord2016_600x300.jpg";
+        return `${constants.miscImageBaseUrl}honda_accord.jpg`;
       } else {
-        return "https://d3lf10b5gahyby.cloudfront.net/misc/transfers-shuttle.jpg";
+        return `${constants.miscImageBaseUrl}transfers-shuttle.jpg`;
       }
     default:
-      return "https://media.zigcdn.com/media/model/2016/Feb/honda_accord2016_600x300.jpg";
+      return `${constants.miscImageBaseUrl}honda_accord.jpg`;
   }
 };
 
