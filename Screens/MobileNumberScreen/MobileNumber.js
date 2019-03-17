@@ -82,7 +82,10 @@ class MobileNumber extends Component {
 
   editMobileNumber = mobileNumber => {
     this.setState({ mobileNumber });
-    if (validateMobileNumber(`${this.state.countryCode}${mobileNumber}`)) {
+    if (
+      validateMobileNumber(`${this.state.countryCode}${mobileNumber}`) ||
+      mobileNumber === constants.testMobileNumber
+    ) {
       this.setState({
         hasError: false
       });
@@ -299,7 +302,8 @@ class MobileNumber extends Component {
     if (
       !validateMobileNumber(
         `${this.state.countryCode}${this.state.mobileNumber}`
-      )
+      ) &&
+      this.state.mobileNumber !== constants.testMobileNumber
     ) {
       this.setState({
         hasError: true
