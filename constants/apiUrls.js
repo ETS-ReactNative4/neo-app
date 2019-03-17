@@ -74,11 +74,6 @@ const apiUrls = {
   customTabSupportIos: 11.5,
 
   /**
-   * Mobile Number used for testing
-   */
-  testMobileNumber: "1999999999",
-
-  /**
    * Forex Screen options
    */
   forexProduct: {

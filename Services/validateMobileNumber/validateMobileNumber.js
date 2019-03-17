@@ -8,4 +8,7 @@ const validateMobileNumber = mobileNumber => {
   );
 };
 
+export const validateLoginMobileNumber = mobileNumber =>
+  isValidNumber(mobileNumber);
+
 export default validateMobileNumber;
