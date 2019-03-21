@@ -266,11 +266,11 @@ class HotelVoucher extends Component {
                   {
                     name: "Free Wifi",
                     value: freeWireless ? "Included" : "Not Included"
-                  },
-                  {
-                    name: "Booking Type",
-                    value: refundable ? "Refundable*" : "Non-Refundable"
                   }
+                  // {
+                  //   name: "Booking Type",
+                  //   value: refundable ? "Refundable*" : "Non-Refundable"
+                  // }
                 ];
 
                 return (
@@ -337,7 +337,7 @@ class HotelVoucher extends Component {
 
             <ViewVoucherButton voucherUrl={voucherUrl} />
 
-            {isRoomRefundable ? <ConditionsApplyText /> : null}
+            {/* isRoomRefundable ? <ConditionsApplyText /> : null */}
           </View>
         </ParallaxScrollView>
         {Platform.OS === "ios" && this.state.isCloseVisible ? (
