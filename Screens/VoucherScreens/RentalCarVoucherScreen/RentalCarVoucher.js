@@ -267,6 +267,7 @@ class RentalCarVoucher extends Component {
               menu={() => {}}
               image={{ uri: getTransferImage(vehicle, type) }}
               onClickClose={this.close}
+              voucherUrl={voucherUrl}
             />
           )}
         >

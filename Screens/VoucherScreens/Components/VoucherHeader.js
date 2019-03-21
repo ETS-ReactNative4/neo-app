@@ -15,6 +15,9 @@ import PropTypes from "prop-types";
 import Icon from "../../../CommonComponents/Icon/Icon";
 import LinearGradient from "react-native-linear-gradient";
 import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraProps";
+import SimpleButton from "../../../CommonComponents/SimpleButton/SimpleButton";
+import openCustomTab from "../../../Services/openCustomTab/openCustomTab";
+import { recordEvent } from "../../../Services/analytics/analyticsService";
 
 const VoucherHeader = ({
   infoText,
@@ -22,7 +25,8 @@ const VoucherHeader = ({
   onClickClose,
   menu,
   image,
-  children
+  children,
+  voucherUrl = ""
 }) => {
   return (
     <View style={styles.headerContainer}>
@@ -69,6 +73,24 @@ const VoucherHeader = ({
             </View>
           )}
           <View style={styles.actionRow}>
+            {voucherUrl ? (
+              <SimpleButton
+                text={"View Voucher"}
+                containerStyle={{
+                  marginBottom: 24,
+                  width: null,
+                  marginRight: 24
+                }}
+                action={() => {
+                  recordEvent(constants.voucherHeaderViewVoucherClick);
+                  openCustomTab(voucherUrl);
+                }}
+                textColor={"white"}
+                textStyle={{ textDecorationLine: "underline", fontSize: 16 }}
+                underlayColor={"transparent"}
+                color={"transparent"}
+              />
+            ) : null}
             {/*<TouchableOpacity*/}
             {/*style={styles.menuIconContainer}*/}
             {/*onPress={menu}*/}
@@ -101,7 +123,8 @@ VoucherHeader.propTypes = forbidExtraProps({
   menu: PropTypes.func.isRequired,
   image: PropTypes.oneOfType([PropTypes.object, PropTypes.number]).isRequired,
   placeHolderHeight: PropTypes.number.isRequired,
-  children: PropTypes.element
+  children: PropTypes.element,
+  voucherUrl: PropTypes.string.isRequired
 });
 
 const xHeight = isIphoneX() ? constants.xNotchHeight : 0;

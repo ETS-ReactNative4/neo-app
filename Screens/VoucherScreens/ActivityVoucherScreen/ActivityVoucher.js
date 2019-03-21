@@ -368,6 +368,7 @@ class ActivityVoucher extends Component {
               menu={() => {}}
               onClickClose={this.close}
               image={{ uri: mainPhoto }}
+              voucherUrl={voucherUrl}
             />
           )}
         >

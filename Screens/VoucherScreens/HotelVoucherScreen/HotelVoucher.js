@@ -172,6 +172,7 @@ class HotelVoucher extends Component {
               menu={() => {}}
               onClickClose={this.close}
               image={{ uri: imageURL }}
+              voucherUrl={voucherUrl}
             />
           )}
         >

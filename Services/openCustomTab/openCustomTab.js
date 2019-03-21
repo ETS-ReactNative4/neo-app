@@ -3,6 +3,7 @@ import { Platform, Linking } from "react-native";
 import openInApp from "@matt-block/react-native-in-app-browser";
 import { logError } from "../errorLogger/errorLogger";
 import constants from "../../constants/constants";
+import navigationService from "../navigationService/navigationService";
 
 /**
  * TODO: in-app-browser android library is having an issue & CustomTabs iOS library is not working. Need to document this
@@ -53,19 +54,27 @@ const openCustomTab = (url, success = () => null, failure = () => null) => {
         });
       }
     } else {
-      CustomTabs.openURL(url, {
-        showPageTitle: true
-      })
-        .then(launched => {
-          if (!launched) {
-            failure();
-          }
-          success();
-        })
-        .catch(err => {
-          logError(err);
-          failure(err);
+      if (url.includes(".pdf")) {
+        // Opens PDF in Native PDF Viewer
+        const { navigation } = navigationService;
+        navigation._navigation.navigate("PDFViewerScreen", {
+          pdfUri: url
         });
+      } else {
+        CustomTabs.openURL(url, {
+          showPageTitle: true
+        })
+          .then(launched => {
+            if (!launched) {
+              failure();
+            }
+            success();
+          })
+          .catch(err => {
+            logError(err);
+            failure(err);
+          });
+      }
     }
   }
 };

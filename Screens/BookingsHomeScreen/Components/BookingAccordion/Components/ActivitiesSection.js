@@ -57,19 +57,13 @@ const Activities = ({ activity, isLast, navigation, spinValue }) => {
       activity.costing.viator
     ) {
       recordEvent(constants.bookingsHomeAccordionViatorActivitiesVoucherClick);
-      if (Platform.OS === constants.platformIos) {
-        openCustomTab(
-          activity.voucher.voucherUrl,
-          () => null,
-          () => {
-            logError("Unable to launch custom tab for viator voucher!", {});
-          }
-        );
-      } else {
-        navigation.navigate("PDFViewerScreen", {
-          pdfUri: activity.voucher.voucherUrl
-        });
-      }
+      openCustomTab(
+        activity.voucher.voucherUrl,
+        () => null,
+        () => {
+          logError("Unable to launch custom tab for viator voucher!", {});
+        }
+      );
     } else if (activity.voucher.booked || activity.free) {
       recordEvent(constants.bookingsHomeAccordionActivitiesVoucherClick);
       navigation.navigate("ActivityVoucher", { activity });

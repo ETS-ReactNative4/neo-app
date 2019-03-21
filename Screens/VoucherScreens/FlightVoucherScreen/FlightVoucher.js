@@ -130,6 +130,7 @@ class FlightVoucher extends Component {
               onClickClose={this.close}
               image={constants.flightVoucherBanner}
               placeHolderHeight={48 + xHeight}
+              voucherUrl={voucherUrl}
             >
               <View style={styles.voucherHeaderWrapper}>
                 {tripDetails.map((trip, tripIndex) => {
