@@ -186,15 +186,17 @@ class HotelVoucher extends Component {
                     constants.commonDateFormat
                   )
             }
-            checkInTime={checkInTimeVoucher || "02:00 pm"}
+            checkInTime={`${checkInTimeVoucher}*` || "02:00 pm*"}
             checkOutDate={
               checkOutDateVoucher
                 ? moment(checkOutDateVoucher, "YYYY-MM-DD").format(
-                    "ddd, DD MMM"
+                    constants.commonDateFormatReverse
                   )
-                : moment(checkOutDate, "DD/MMM/YYYY").format("ddd, DD MMM")
+                : moment(checkOutDate, "DD/MMM/YYYY").format(
+                    constants.commonDateFormatReverse
+                  )
             }
-            checkOutTime={checkOutTimeVoucher || "11:00 pm"}
+            checkOutTime={`${checkOutTimeVoucher}*` || "11:00 pm*"}
           />
 
           <VoucherName name={name} textStyle={{ marginHorizontal: 24 }} />
@@ -339,6 +341,9 @@ class HotelVoucher extends Component {
             <ViewVoucherButton voucherUrl={voucherUrl} />
 
             {/* isRoomRefundable ? <ConditionsApplyText /> : null */}
+            <ConditionsApplyText
+              text={constants.voucherText.hotelTimingConditionText}
+            />
           </View>
         </ParallaxScrollView>
         {Platform.OS === "ios" && this.state.isCloseVisible ? (
