@@ -3,6 +3,7 @@ import constants from "../../constants/constants";
 import { logError } from "../errorLogger/errorLogger";
 import logOut from "../logOut/logOut";
 import DebouncedAlert from "../../CommonComponents/DebouncedAlert/DebouncedAlert";
+import DeviceInfo from "react-native-device-info";
 
 const timeoutDuration = 60000;
 const apiServer = constants.apiServerUrl;
@@ -20,7 +21,8 @@ const apiCall = async (
   const request = new Promise((resolve, reject) => {
     const headerObject = {
       "Content-Type": "application/json",
-      isMobile: true
+      isMobile: true,
+      deviceId: DeviceInfo.getDeviceId()
     };
 
     if (credentials && credentials.username && credentials.password) {
