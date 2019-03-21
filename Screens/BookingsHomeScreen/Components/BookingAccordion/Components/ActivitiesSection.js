@@ -50,21 +50,23 @@ const Activities = ({ activity, isLast, navigation, spinValue }) => {
   const openVoucher = () => {
     /**
      * Open customtab directly only when voucherUrl is available and it is a viator voucher
+     * This functionality is currently disabled since viator vouchers are being outdated after a change in time
      */
-    if (
-      activity.voucher &&
-      activity.voucher.voucherUrl &&
-      activity.costing.viator
-    ) {
-      recordEvent(constants.bookingsHomeAccordionViatorActivitiesVoucherClick);
-      openCustomTab(
-        activity.voucher.voucherUrl,
-        () => null,
-        () => {
-          logError("Unable to launch custom tab for viator voucher!", {});
-        }
-      );
-    } else if (activity.voucher.booked || activity.free) {
+    // if (
+    //   activity.voucher &&
+    //   activity.voucher.voucherUrl &&
+    //   activity.costing.viator
+    // ) {
+    //   recordEvent(constants.bookingsHomeAccordionViatorActivitiesVoucherClick);
+    //   openCustomTab(
+    //     activity.voucher.voucherUrl,
+    //     () => null,
+    //     () => {
+    //       logError("Unable to launch custom tab for viator voucher!", {});
+    //     }
+    //   );
+    // } else
+    if (activity.voucher.booked || activity.free) {
       recordEvent(constants.bookingsHomeAccordionActivitiesVoucherClick);
       navigation.navigate("ActivityVoucher", { activity });
     } else {
