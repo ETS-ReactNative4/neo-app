@@ -29,6 +29,7 @@ const logOut = (isForced = false) => {
         storeService.yourBookingsStore.reset();
         storeService.tripFeedStore.reset();
         storeService.forexStore.reset();
+        storeService.deviceDetailsStore.reset();
       }, 100);
     });
   };

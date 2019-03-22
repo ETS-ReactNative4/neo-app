@@ -38,6 +38,7 @@ const apiUrls = {
   getForexStatus: "mobile/forex/status",
   sendUserDataToForex: "mobile/forex",
   getForexInfoFromGuides: "mobile/guides/survival/forex",
+  setDeviceInfo: "mobile/deviceinfo",
 
   customCheckListName: "Your list",
   defaultSupportType: "GENERAL",
