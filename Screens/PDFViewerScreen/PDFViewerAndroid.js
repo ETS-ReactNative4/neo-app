@@ -7,16 +7,11 @@ import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 
 @ErrorBoundary()
 class PDFViewerAndroid extends Component {
-  static navigationOptions = ({ navigation }) => {
-    return {
-      header: <CommonHeader title={"Voucher"} navigation={navigation} />
-    };
-  };
-
   render() {
     const pdfUri = this.props.navigation.getParam("pdfUri", "");
     return (
       <View style={styles.pdfViewerContainer}>
+        <CommonHeader title={"Voucher"} navigation={this.props.navigation} />
         {Platform.OS === constants.platformAndroid ? (
           <PDFViewAndroid uri={pdfUri} />
         ) : null}

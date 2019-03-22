@@ -10,6 +10,7 @@ import YourBookings from "../Screens/YourBookingsScreen/YourBookings";
 import transitionConfig from "../Services/navigationAnimations/transitionConfig";
 import MainStack from "./MainStack";
 import RentalCarVoucher from "../Screens/VoucherScreens/RentalCarVoucherScreen/RentalCarVoucher";
+import PDFViewerAndroid from "../Screens/PDFViewerScreen/PDFViewerAndroid";
 
 const UniversalStack = createStackNavigator(
   {
@@ -40,6 +41,9 @@ const UniversalStack = createStackNavigator(
     },
     YourBookingsUniversal: {
       screen: YourBookings
+    },
+    PDFViewerScreen: {
+      screen: PDFViewerAndroid
     }
   },
   {

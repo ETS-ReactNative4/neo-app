@@ -100,9 +100,6 @@ const MainStack = createStackNavigator(
     },
     TicketsConversation: {
       screen: TicketsConversation
-    },
-    PDFViewerScreen: {
-      screen: PDFViewerAndroid
     }
   },
   {
