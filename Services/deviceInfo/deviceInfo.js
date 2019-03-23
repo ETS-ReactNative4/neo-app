@@ -13,7 +13,7 @@ export const readDeviceInfo = async (
       buildNumber: DeviceInfo.getBuildNumber() || "",
       versionNumber: DeviceInfo.getVersion() || "",
       carrier: DeviceInfo.getCarrier() || "",
-      deviceId: DeviceInfo.getDeviceId() || "",
+      deviceId: DeviceInfo.getUniqueID() || "",
       deviceName: DeviceInfo.getDeviceName() || "",
       deviceToken: storeService.appState.pushTokens.deviceToken || "",
       deviceType: DeviceInfo.getDeviceType() || "",
