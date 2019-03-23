@@ -179,10 +179,11 @@ class HotelVoucher extends Component {
           <CheckInCheckOut
             checkInDate={
               checkInDateVoucher
-                ? moment(checkInDateVoucher, "YYYY-MM-DD").format(
-                    constants.commonDateFormat
-                  )
-                : moment(checkInDate, "DD/MMM/YYYY").format(
+                ? moment(
+                    checkInDateVoucher,
+                    constants.voucherDateFormat
+                  ).format(constants.commonDateFormat)
+                : moment(checkInDate, constants.costingDateFormat).format(
                     constants.commonDateFormat
                   )
             }
@@ -192,10 +193,11 @@ class HotelVoucher extends Component {
             }
             checkOutDate={
               checkOutDateVoucher
-                ? moment(checkOutDateVoucher, "YYYY-MM-DD").format(
-                    constants.commonDateFormatReverse
-                  )
-                : moment(checkOutDate, "DD/MMM/YYYY").format(
+                ? moment(
+                    checkOutDateVoucher,
+                    constants.voucherDateFormat
+                  ).format(constants.commonDateFormatReverse)
+                : moment(checkOutDate, constants.costingDateFormat).format(
                     constants.commonDateFormatReverse
                   )
             }

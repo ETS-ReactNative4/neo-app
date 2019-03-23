@@ -25,6 +25,9 @@ export const readDeviceInfo = async (
     };
 
     try {
+      /**
+       * Autotimezone status in iOS cannot be retrieved
+       */
       if (Platform.OS === constants.platformAndroid) {
         deviceInfo.isAutoTimeZone = await DeviceInfo.isAutoTimeZone();
       }
