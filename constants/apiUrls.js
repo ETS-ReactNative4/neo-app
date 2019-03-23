@@ -38,6 +38,7 @@ const apiUrls = {
   getForexStatus: "mobile/forex/status",
   sendUserDataToForex: "mobile/forex",
   getForexInfoFromGuides: "mobile/guides/survival/forex",
+  setDeviceInfo: "mobile/deviceinfo",
 
   customCheckListName: "Your list",
   defaultSupportType: "GENERAL",
@@ -82,6 +83,12 @@ const apiUrls = {
     singleCurrencyCard: "ONE_CURRENCY_CARD",
     multiCurrencyCard: "MULTI_CURRENCY_CARD"
   },
+
+  /**
+   * Hotel Default checkin/checkout time
+   */
+  hotelDefaultCheckOutTime: "11:00 am",
+  hotelDefaultCheckInTime: "02:00 pm",
 
   tripToggleStatusStorageKey: "@Pickyourtrail/tripToggleStatus",
   preTripChatActivationTime: 72,

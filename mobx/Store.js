@@ -18,6 +18,7 @@ import SupportStore from "./SupportStore";
 import TripFeed from "./TripFeed";
 import Packages from "./Packages";
 import Forex from "./Forex";
+import DeviceDetails from "./DeviceDetails";
 
 export const hydrate = create({
   storage: AsyncStorage,
@@ -42,7 +43,8 @@ const createStore = () => {
     supportStore: new SupportStore(),
     tripFeedStore: new TripFeed(),
     packagesStore: new Packages(),
-    forexStore: new Forex()
+    forexStore: new Forex(),
+    deviceDetailsStore: new DeviceDetails()
   };
 
   hydrate("_upcomingItineraries", appStore.yourBookingsStore)
@@ -201,6 +203,7 @@ const createStore = () => {
       logError(err);
     });
   Forex.hydrator(appStore.forexStore);
+  DeviceDetails.hydrator(appStore.deviceDetailsStore);
   return appStore;
 };
 

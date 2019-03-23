@@ -35,6 +35,7 @@ import isUserLoggedInCallback from "../../Services/isUserLoggedInCallback/isUser
 @inject("infoStore")
 @inject("itineraries")
 @inject("voucherStore")
+@inject("deviceDetailsStore")
 @observer
 class BookingsHome extends Component {
   static navigationOptions = HomeHeader;
@@ -74,10 +75,12 @@ class BookingsHome extends Component {
   }
 
   enablePushNotificationServices = () => {
+    const { deviceDetailsStore } = this.props;
     isUserLoggedInCallback(() => {
       getDeviceToken(token => {
         registerFcmRefreshListener();
       });
+      deviceDetailsStore.setDeviceDetails();
     });
   };
 

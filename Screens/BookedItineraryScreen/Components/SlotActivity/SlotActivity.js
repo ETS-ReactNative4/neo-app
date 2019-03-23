@@ -169,7 +169,7 @@ const SlotActivity = inject("itineraries")(
               recordEvent(constants.bookedItineraryActivityVoucherClick);
               if (
                 activityInfo.voucher &&
-                (activityInfo.voucher.booked || activityInfo.voucher.self)
+                (activityInfo.voucher.booked || activityInfo.free)
               ) {
                 navigation.navigate("ActivityVoucher", {
                   activity: activityInfo
@@ -191,7 +191,7 @@ const SlotActivity = inject("itineraries")(
                 isProcessing={
                   !(
                     activityInfo.voucher &&
-                    (activityInfo.voucher.booked || activityInfo.voucher.self)
+                    (activityInfo.voucher.booked || activityInfo.free)
                   )
                 }
                 spinValue={spinValue}
@@ -330,7 +330,7 @@ const SlotActivity = inject("itineraries")(
               if (
                 activityTransferInfo.voucher &&
                 (activityTransferInfo.voucher.booked ||
-                  activityTransferInfo.voucher.self)
+                  activityTransferInfo.free)
               ) {
                 navigation.navigate("ActivityVoucher", {
                   activity: activityTransferInfo
@@ -349,7 +349,7 @@ const SlotActivity = inject("itineraries")(
                   !(
                     activityTransferInfo.voucher &&
                     (activityTransferInfo.voucher.booked ||
-                      activityTransferInfo.voucher.self)
+                      activityTransferInfo.free)
                   )
                 }
                 onClick={onClick}

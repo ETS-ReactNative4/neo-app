@@ -103,10 +103,10 @@ class FlightVoucher extends Component {
       //   name: "Booking source",
       //   value: sourceProvider || "NA"
       // },
-      {
-        name: "Booking type",
-        value: refundable ? "Refundable*" : "Non-Refundable"
-      }
+      // {
+      //   name: "Booking type",
+      //   value: refundable ? "Refundable*" : "Non-Refundable"
+      // }
     ];
 
     return (
@@ -130,6 +130,7 @@ class FlightVoucher extends Component {
               onClickClose={this.close}
               image={constants.flightVoucherBanner}
               placeHolderHeight={48 + xHeight}
+              voucherUrl={voucherUrl}
             >
               <View style={styles.voucherHeaderWrapper}>
                 {tripDetails.map((trip, tripIndex) => {
@@ -190,7 +191,7 @@ class FlightVoucher extends Component {
             />
             <ViewVoucherButton voucherUrl={voucherUrl} />
 
-            {refundable ? <ConditionsApplyText /> : null}
+            {/* refundable ? <ConditionsApplyText /> : null */}
           </View>
         </ParallaxScrollView>
         {Platform.OS === "ios" && this.state.isCloseVisible ? (

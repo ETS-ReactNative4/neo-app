@@ -7,6 +7,7 @@ import styles from "./styles";
 import appEvents from "./appEvents";
 import appText from "./appText";
 import { logError } from "../Services/errorLogger/errorLogger";
+import errorTexts from "./errorTexts";
 
 if (__DEV__) {
   const keys = [
@@ -16,7 +17,8 @@ if (__DEV__) {
     Object.keys(imageAssets),
     Object.keys(serverUrls),
     Object.keys(styles),
-    Object.keys(appText)
+    Object.keys(appText),
+    Object.keys(errorTexts)
   ];
 
   const duplicate = keys.reduce((dup, item) => {
@@ -40,7 +42,8 @@ const constants = {
   ...serverUrls,
   ...appEvents,
   ...styles,
-  ...appText
+  ...appText,
+  ...errorTexts
 };
 
 export default constants;

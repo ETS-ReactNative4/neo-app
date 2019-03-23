@@ -172,28 +172,39 @@ class HotelVoucher extends Component {
               menu={() => {}}
               onClickClose={this.close}
               image={{ uri: imageURL }}
+              voucherUrl={voucherUrl}
             />
           )}
         >
           <CheckInCheckOut
             checkInDate={
               checkInDateVoucher
-                ? moment(checkInDateVoucher, "YYYY-MM-DD").format(
-                    constants.commonDateFormat
-                  )
-                : moment(checkInDate, "DD/MMM/YYYY").format(
+                ? moment(
+                    checkInDateVoucher,
+                    constants.voucherDateFormat
+                  ).format(constants.commonDateFormat)
+                : moment(checkInDate, constants.costingDateFormat).format(
                     constants.commonDateFormat
                   )
             }
-            checkInTime={checkInTimeVoucher || "02:00 pm"}
+            checkInTime={
+              `${checkInTimeVoucher}*` ||
+              `${constants.hotelDefaultCheckInTime}*`
+            }
             checkOutDate={
               checkOutDateVoucher
-                ? moment(checkOutDateVoucher, "YYYY-MM-DD").format(
-                    "ddd, DD MMM"
+                ? moment(
+                    checkOutDateVoucher,
+                    constants.voucherDateFormat
+                  ).format(constants.commonDateFormatReverse)
+                : moment(checkOutDate, constants.costingDateFormat).format(
+                    constants.commonDateFormatReverse
                   )
-                : moment(checkOutDate, "DD/MMM/YYYY").format("ddd, DD MMM")
             }
-            checkOutTime={checkOutTimeVoucher || "11:00 pm"}
+            checkOutTime={
+              `${checkOutTimeVoucher}*` ||
+              `${constants.hotelDefaultCheckOutTime}*`
+            }
           />
 
           <VoucherName name={name} textStyle={{ marginHorizontal: 24 }} />
@@ -266,11 +277,11 @@ class HotelVoucher extends Component {
                   {
                     name: "Free Wifi",
                     value: freeWireless ? "Included" : "Not Included"
-                  },
-                  {
-                    name: "Booking Type",
-                    value: refundable ? "Refundable*" : "Non-Refundable"
                   }
+                  // {
+                  //   name: "Booking Type",
+                  //   value: refundable ? "Refundable*" : "Non-Refundable"
+                  // }
                 ];
 
                 return (
@@ -337,7 +348,10 @@ class HotelVoucher extends Component {
 
             <ViewVoucherButton voucherUrl={voucherUrl} />
 
-            {isRoomRefundable ? <ConditionsApplyText /> : null}
+            {/* isRoomRefundable ? <ConditionsApplyText /> : null */}
+            <ConditionsApplyText
+              text={constants.voucherText.hotelTimingConditionText}
+            />
           </View>
         </ParallaxScrollView>
         {Platform.OS === "ios" && this.state.isCloseVisible ? (

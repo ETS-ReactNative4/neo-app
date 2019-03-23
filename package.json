@@ -1,7 +1,7 @@
 {
   "name": "pickyourtrail",
-  "version": "1.1.2",
-  "build": 99,
+  "version": "1.1.4",
+  "build": 104,
   "private": true,
   "scripts": {
     "set-staging-environment": "cp .env.staging .env",
@@ -46,6 +46,7 @@
     "react-native-custom-tabs":
       "git://github.com/DaniAkash/react-native-custom-tabs.git#a92bfcc1fda8c42a2710249656ae99ee1968ab96",
     "react-native-dash": "^0.0.9",
+    "react-native-device-info": "^1.0.1",
     "react-native-fast-image": "^5.0.3",
     "react-native-firebase": "^5.0.0",
     "react-native-flip-view-next": "^1.0.0",

@@ -12,6 +12,7 @@ const styles = {
   commonDateFormatReverse: "ddd, DD MMM",
   shortTimeFormat: "hh:mm a",
   voucherDateFormat: "YYYY-MM-DD",
+  costingDateFormat: "DD/MMM/YYYY",
   currentYear: new Date().getYear() + 1900,
   htmlStyleSheet: StyleSheet.create({
     div: {

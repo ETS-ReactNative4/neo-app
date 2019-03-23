@@ -118,6 +118,8 @@ PODS:
     - React/Core
     - React/fishhook
     - React/RCTBlob
+  - RNDeviceInfo (1.0.1):
+    - React
   - RNKeychain (3.0.0):
     - React
   - RNSound (0.10.9):
@@ -164,6 +166,7 @@ DEPENDENCIES:
   - React/RCTNetwork (from `../node_modules/react-native`)
   - React/RCTText (from `../node_modules/react-native`)
   - React/RCTWebSocket (from `../node_modules/react-native`)
+  - RNDeviceInfo (from `../node_modules/react-native-device-info`)
   - RNKeychain (from `../node_modules/react-native-keychain`)
   - RNSound (from `../node_modules/react-native-sound`)
   - RNSVG (from `../node_modules/react-native-svg`)
@@ -204,6 +207,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-photo-view"
   react-native-webview:
     :path: "../node_modules/react-native-webview"
+  RNDeviceInfo:
+    :path: "../node_modules/react-native-device-info"
   RNKeychain:
     :path: "../node_modules/react-native-keychain"
   RNSound:
@@ -235,20 +240,21 @@ SPEC CHECKSUMS:
   GoogleUtilities: abb092d2c12e817fa3e0e7b274987dd72fb86ec3
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
   Protobuf: 1eb9700044745f00181c136ef21b8ff3ad5a0fd5
-  React: 1fe0eb13d90b625d94c3b117c274dcfd2e760e11
-  react-native-fast-image: cba3d9bf9c2cf8ddb643d887a686c53a5dd90a2c
-  react-native-photo-view: 4312e934465b78b6065151f8967893f0438c624b
-  react-native-webview: a42108b827082f8f0333529b0772102031d5960d
-  RNKeychain: 627c6095cef215dd3d9804a9a9cf45ab96aa3997
-  RNSound: b360b3862d3118ed1c74bb9825696b5957686ac4
-  RNSVG: 6252323c0312735f0af5f58b5adf2965b6a9ffbf
-  RNVectorIcons: c0dbfbf6068fefa240c37b0f71bd03b45dddac44
+  React: b4e0982b0ed6a7de90e96cf6fe5cf036aeadd1ec
+  react-native-fast-image: f33fef29062258f1f4c39cfc19dc25662eb1de40
+  react-native-photo-view: 63e9e61da873531f931008b545d8d10c5373ddf8
+  react-native-webview: 3d5e1613ff95ec60f2546c53a552572207a40062
+  RNDeviceInfo: ec0ee4e9ce33c1c400f143680634ae71e7c64bc5
+  RNKeychain: 3aa3cf891a09a0d18d306862ab2bb9e106079b24
+  RNSound: 24fa73ccfa6236a0b493e3f4bf3c952028dc3ce2
+  RNSVG: 3c037ade1c42014de732e27e3879bf2b77ea78ea
+  RNVectorIcons: f066f73bf4f25564d7ee7b1bb150e3b431f3a194
   SDWebImage: 624d6e296c69b244bcede364c72ae0430ac14681
   Sentry: a38f7879924c02239e121b19d993d23bdd1684db
-  SentryReactNative: d476259b21060a59dc637a29a40d60f0aac09cf7
-  TextToSpeech: d68418db07e7d3ce39fd3360ccca8d8165cef859
-  yoga: b1ce48b6cf950b98deae82838f5173ea7cf89e85
+  SentryReactNative: 0dc14d9821b62658796882a954dc67dd2f175d29
+  TextToSpeech: 4e2fc50c7495416c6da5a1662ad3f750c58d3c85
+  yoga: 5e2e4bcf11188977f799b64625dc5913c2aea8fd
 
-PODFILE CHECKSUM: 66d8283b76cdc4610b36006b5f1dd30507eae3ec
+PODFILE CHECKSUM: f48a45f6e5b53ae8145ade3ac29141d3d6624924
 
-COCOAPODS: 1.5.3
+COCOAPODS: 1.6.1
