@@ -186,7 +186,10 @@ class HotelVoucher extends Component {
                     constants.commonDateFormat
                   )
             }
-            checkInTime={`${checkInTimeVoucher}*` || "02:00 pm*"}
+            checkInTime={
+              `${checkInTimeVoucher}*` ||
+              `${constants.hotelDefaultCheckInTime}*`
+            }
             checkOutDate={
               checkOutDateVoucher
                 ? moment(checkOutDateVoucher, "YYYY-MM-DD").format(
@@ -196,7 +199,10 @@ class HotelVoucher extends Component {
                     constants.commonDateFormatReverse
                   )
             }
-            checkOutTime={`${checkOutTimeVoucher}*` || "11:00 pm*"}
+            checkOutTime={
+              `${checkOutTimeVoucher}*` ||
+              `${constants.hotelDefaultCheckOutTime}*`
+            }
           />
 
           <VoucherName name={name} textStyle={{ marginHorizontal: 24 }} />

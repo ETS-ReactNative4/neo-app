@@ -84,6 +84,12 @@ const apiUrls = {
     multiCurrencyCard: "MULTI_CURRENCY_CARD"
   },
 
+  /**
+   * Hotel Default checkin/checkout time
+   */
+  hotelDefaultCheckOutTime: "11:00 am",
+  hotelDefaultCheckInTime: "02:00 pm",
+
   tripToggleStatusStorageKey: "@Pickyourtrail/tripToggleStatus",
   preTripChatActivationTime: 72,
   googleDrivePdfViewer: "https://drive.google.com/viewerng/viewer?url="
