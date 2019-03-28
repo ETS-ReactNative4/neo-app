@@ -75,7 +75,7 @@ const serverUrls = {
   /**
    * Payment Urls
    */
-  startPayment: `${productUrl}voyager/start-payment`,
+  startPayment: `${productUrl}voyager/initiate-payment`,
   paymentSuccess: `${productUrl}payment/processing`,
   paymentFailure: `${productUrl}payment/processing`,
   paymentCancelled: `${productUrl}payment/processing`,

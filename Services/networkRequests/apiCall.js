@@ -4,6 +4,7 @@ import { logError } from "../errorLogger/errorLogger";
 import logOut from "../logOut/logOut";
 import DebouncedAlert from "../../CommonComponents/DebouncedAlert/DebouncedAlert";
 import DeviceInfo from "react-native-device-info";
+import _ from "lodash";
 
 const timeoutDuration = 60000;
 const apiServer = constants.apiServerUrl;
@@ -14,16 +15,24 @@ const apiCall = async (
   body = {},
   method = "POST",
   customDomain = false,
-  customToken = null
+  customToken = null,
+  customHeader = {}
 ) => {
   const credentials = await Keychain.getGenericPassword();
 
   const request = new Promise((resolve, reject) => {
-    const headerObject = {
+    let headerObject = {
       "Content-Type": "application/json",
       isMobile: true,
       deviceId: DeviceInfo.getDeviceId()
     };
+
+    if (customHeader && !_.isEmpty(customHeader)) {
+      headerObject = {
+        ...headerObject,
+        ...customHeader
+      };
+    }
 
     if (credentials && credentials.username && credentials.password) {
       headerObject.Authorization = credentials.password;

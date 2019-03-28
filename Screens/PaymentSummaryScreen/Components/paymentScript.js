@@ -1,3 +1,51 @@
+const paymentScript = fields => {
+  return `
+  function isEmpty(obj) {
+    for(var prop in obj) {
+      if(obj.hasOwnProperty(prop))
+        return false;
+    }
+
+    return JSON.stringify(obj) === JSON.stringify({});
+  }
+
+  function createInputField(name, value) {
+    var $input = document.createElement("input");
+    $input.type = "text";
+    $input.name = name;
+    $input.value = value;
+    $formElement.appendChild($input);
+  }
+
+  var fields = ${JSON.stringify(fields)};
+  var $formElement = document.getElementById('paymentForm');
+  var submitUrl = "";
+  if(!isEmpty(fields)) {
+    submitUrl = fields.url;
+    delete fields.url;
+    
+    for (var field in fields) {
+      if (fields.hasOwnProperty(field)) {
+        if(typeof fields[field] === 'object') {
+          var innerFields = fields[field];
+          for (var innerField in innerFields) {
+            if(innerFields.hasOwnProperty(innerField)) {
+              createInputField(field + "[" + innerField + "]", innerFields[innerField]);
+            }
+          }
+        } else {
+          createInputField(field, fields[field]);
+        }
+      }
+    }
+    
+    $formElement.action = submitUrl;
+    $formElement.submit();
+  }
+  `;
+};
+
+/*
 const paymentScript = ({
   hash,
   transactionId,
@@ -76,6 +124,7 @@ const paymentScript = ({
   $payUForm.submit();
 `;
 };
+*/
 
 /**
  * XHR Form submit (causes CORS hence unusable)
