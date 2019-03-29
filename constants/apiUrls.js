@@ -70,6 +70,15 @@ const apiUrls = {
   responseSuccessStatus: "SUCCESS",
 
   /**
+   * Payment form used to initialize payments
+   */
+  paymentFormHtml: `
+    <form id="paymentForm" method="post" name="paymentForm">
+      <input type="submit" style="display: none;" />
+    </form>
+  `,
+
+  /**
    * minimum iOS version for custom tabs
    */
   customTabSupportIos: 11.5,
