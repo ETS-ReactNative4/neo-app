@@ -9,7 +9,7 @@ import {
   responsiveHeight
 } from "react-native-responsive-dimensions";
 
-const PaymentFailure = () => {
+const PaymentFailure = ({ navigation }) => {
   return (
     <View style={styles.paymentFailureContainer}>
       <Image
@@ -25,8 +25,8 @@ const PaymentFailure = () => {
         containerStyle={{ marginTop: 8 }}
         text={constants.paymentText.contactHelpdesk}
         action={() => {
-          // TODO: Add recordEvent
-          // recordEvent();
+          recordEvent(constants.paymentFailureSupportClick);
+          navigation.navigate("SupportCenter");
         }}
         textColor={constants.black2}
         color={"transparent"}
