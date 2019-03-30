@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import VoucherAccordion from "../VoucherScreens/Components/VoucherAccordion";
 import VoucherSplitSection from "../VoucherScreens/Components/VoucherSplitSection";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
-import { View } from "react-native";
+import { ScrollView } from "react-native";
 import { inject, observer } from "mobx-react/custom";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import DeepLinkHandler from "../../CommonComponents/DeepLinkHandler/DeepLinkHandler";
@@ -73,14 +73,14 @@ class PassportDetails extends Component {
     });
 
     return (
-      <View style={{ flex: 1, backgroundColor: "white" }}>
+      <ScrollView style={{ flex: 1, backgroundColor: "white" }}>
         <VoucherAccordion
           openAllSections={true}
           sections={passengerDetails}
           containerStyle={{ marginHorizontal: 24 }}
           expandMultiple={true}
         />
-      </View>
+      </ScrollView>
     );
   }
 }
