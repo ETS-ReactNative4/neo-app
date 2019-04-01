@@ -26,9 +26,8 @@ class LeisureVoucher extends Component {
     const { navigation } = this.props;
     const city = navigation.getParam("city", {});
     const action = () => {
-      navigation.navigate("BookedPlaces", {
-        city,
-        target: "BookedNearBy"
+      navigation.navigate("ToolPlaces", {
+        city
       });
     };
 

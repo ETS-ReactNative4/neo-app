@@ -34,9 +34,8 @@ const SlotActivity = inject("itineraries")(
           cityCardData = {
             cityImage: { uri: currentCity.cityObject.image },
             action: () =>
-              navigation.navigate("BookedPlaces", {
-                city: currentCity,
-                target: "BookedNearBy"
+              navigation.navigate("ToolPlaces", {
+                city: currentCity
               }),
             cityName: currentCity.city,
             activityText: activity.arrivalSlotDetail.transferIndicatorText
@@ -53,9 +52,8 @@ const SlotActivity = inject("itineraries")(
               uri: currentCity.image
             },
             action: () =>
-              navigation.navigate("BookedPlaces", {
-                city,
-                target: "BookedNearBy"
+              navigation.navigate("ToolPlaces", {
+                city
               }),
             cityName: currentCity.cityName,
             activityText:
@@ -89,9 +87,8 @@ const SlotActivity = inject("itineraries")(
               uri: currentCity.image
             },
             action: () =>
-              navigation.navigate("BookedPlaces", {
-                city,
-                target: "BookedNearBy"
+              navigation.navigate("ToolPlaces", {
+                city
               }),
             cityName: currentCity.cityName,
             activityText: transferIndicatorText

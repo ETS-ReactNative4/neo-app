@@ -85,7 +85,6 @@ class Places extends Component {
       selectedCity: city
     } = this.props.placesStore;
     const categorySections = Object.keys(categories);
-    const target = this.props.navigation.getParam("target", "ToolNearBy");
     let onScrollProps = {};
     if (!this.state.isScrollRecorded) {
       onScrollProps["onScroll"] = () => this.scrollAction();
@@ -117,7 +116,7 @@ class Places extends Component {
                       image={{ uri: item.image }}
                       action={() => {
                         recordEvent(constants.placesCategoryTileClick);
-                        this.props.navigation.navigate(target, {
+                        this.props.navigation.navigate("ToolNearBy", {
                           title: item.category,
                           city,
                           searchQuery: `${item.category} in ${city.city}`
