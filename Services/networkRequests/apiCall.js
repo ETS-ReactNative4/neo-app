@@ -20,39 +20,41 @@ const apiCall = async (
 ) => {
   const credentials = await Keychain.getGenericPassword();
 
+  let headerObject = {
+    "Content-Type": "application/json",
+    isMobile: true,
+    deviceId: DeviceInfo.getUniqueID()
+  };
+
+  if (customHeader && !_.isEmpty(customHeader)) {
+    headerObject = {
+      ...headerObject,
+      ...customHeader
+    };
+  }
+
+  if (credentials && credentials.username && credentials.password) {
+    headerObject.Authorization = credentials.password;
+  } else if (customToken) {
+    headerObject.Authorization = customToken;
+  }
+
+  const headers = new Headers(headerObject);
+
+  const requestDetails = {
+    method,
+    mode: "cors",
+    headers
+  };
+
+  if (method !== "GET") requestDetails.body = JSON.stringify(body);
+
+  const serverURL = customDomain ? customDomain : apiServer;
+
+  const requestURL = `${serverURL}${route}`;
+
   const request = new Promise((resolve, reject) => {
-    let headerObject = {
-      "Content-Type": "application/json",
-      isMobile: true,
-      deviceId: DeviceInfo.getUniqueID()
-    };
-
-    if (customHeader && !_.isEmpty(customHeader)) {
-      headerObject = {
-        ...headerObject,
-        ...customHeader
-      };
-    }
-
-    if (credentials && credentials.username && credentials.password) {
-      headerObject.Authorization = credentials.password;
-    } else if (customToken) {
-      headerObject.Authorization = customToken;
-    }
-
-    const headers = new Headers(headerObject);
-
-    const requestDetails = {
-      method,
-      mode: "cors",
-      headers
-    };
-
-    if (method !== "GET") requestDetails.body = JSON.stringify(body);
-
-    const serverURL = customDomain ? customDomain : apiServer;
-
-    console.log(`${serverURL}${route}`);
+    console.log(requestURL);
     console.log(body);
     console.log(JSON.stringify(body));
     console.log(method);
@@ -84,7 +86,7 @@ const apiCall = async (
         } else {
           const errorInfo = {
             type: "apiCall",
-            url: `${serverURL}${route}`,
+            url: requestURL,
             body,
             status: response.status,
             ...headerObject
@@ -92,7 +94,7 @@ const apiCall = async (
           const errorObject = Error(
             JSON.stringify({
               status: response.status,
-              url: `${serverURL}${route}`
+              url: requestURL
             })
           );
           logError(errorObject, errorInfo);
@@ -101,9 +103,10 @@ const apiCall = async (
       }
     }
 
-    fetch(`${serverURL}${route}`, requestDetails)
+    fetch(requestURL, requestDetails)
       .then(handleErrors)
       .then(data => {
+        clearTimeout(networkTimeOut);
         console.log(data);
         console.log(JSON.stringify(data));
         resolve(data);
@@ -114,14 +117,36 @@ const apiCall = async (
       });
   });
 
-  const timeout = new Promise((request, reject) => {
-    setTimeout(reject, timeoutDuration, `Request timed out!`);
-  });
+  const networkTimeOut = reject => {
+    return setTimeout(() => {
+      const errorInfo = {
+        type: "apiCall",
+        url: requestURL,
+        body,
+        ...headerObject
+      };
+      const errorObject = Error(
+        JSON.stringify({
+          status: `Request timed out!`,
+          url: requestURL
+        })
+      );
+      logError(errorObject, errorInfo);
+      reject(errorObject);
+    }, timeoutDuration);
+  };
 
   return new Promise((resolve, reject) => {
-    Promise.race([request, timeout])
-      .then(result => resolve(result))
-      .catch(error => reject(error));
+    const timeoutId = networkTimeOut(reject);
+    request
+      .then(result => {
+        clearTimeout(timeoutId);
+        resolve(result);
+      })
+      .catch(error => {
+        clearTimeout(timeoutId);
+        reject(error);
+      });
   });
 };
 
