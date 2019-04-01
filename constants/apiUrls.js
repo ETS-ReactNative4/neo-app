@@ -73,7 +73,7 @@ const apiUrls = {
    * Payment form used to initialize payments
    */
   paymentFormHtml: `
-    <form id="paymentForm" method="post" name="paymentForm">
+    <form id="voyager-paymentForm" method="post" name="paymentForm">
       <input type="submit" style="display: none;" />
     </form>
   `,

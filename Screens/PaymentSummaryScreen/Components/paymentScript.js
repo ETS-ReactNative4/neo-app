@@ -6,7 +6,7 @@ const paymentScript = fields => {
     } catch(e) {
       console.log('unable to set localStorage');
     }
-    
+
     function isEmpty(obj) {
       for(var prop in obj) {
         if(obj.hasOwnProperty(prop))
@@ -25,7 +25,7 @@ const paymentScript = fields => {
     }
 
     var fields = ${JSON.stringify(fields)};
-    var $formElement = document.getElementById('paymentForm');
+    var $formElement = document.getElementById('voyager-paymentForm');
     var submitUrl = "";
     if(!isEmpty(fields) && $formElement) {
       submitUrl = fields.url;
