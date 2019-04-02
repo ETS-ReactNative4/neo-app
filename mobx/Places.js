@@ -8,7 +8,7 @@ import _ from "lodash";
 import { LayoutAnimation, Platform } from "react-native";
 
 class Places {
-  @observable _selectedCity = {};
+  @observable _selectedCity = "";
   @persist("object")
   @observable
   _cityCategories = {};
@@ -23,7 +23,7 @@ class Places {
 
   @action
   reset = () => {
-    this._selectedCity = {};
+    this._selectedCity = "";
     this._cityCategories = {};
     this._textSearches = {};
     this._locationSearches = {};
@@ -77,10 +77,7 @@ class Places {
   @computed
   get categories() {
     try {
-      const category = get(
-        this._cityCategories,
-        this._selectedCity.cityObject.cityId
-      );
+      const category = get(this._cityCategories, this._selectedCity);
       if (category) return toJS(category);
       else return {};
     } catch (e) {
@@ -315,14 +312,14 @@ class Places {
   });
 
   @action
-  selectCity = city => {
-    this._selectedCity = city;
-    this.loadCityCategory(city.cityObject.cityId);
+  selectCity = cityId => {
+    this._selectedCity = cityId;
+    this.loadCityCategory(cityId);
   };
 
   @action
-  refreshCity = city => {
-    this._loadCityCategoryFromAPI(city.cityObject.cityId);
+  refreshCity = cityId => {
+    this._loadCityCategoryFromAPI(cityId);
   };
 
   @action

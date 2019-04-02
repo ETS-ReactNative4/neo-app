@@ -5,26 +5,35 @@ import MultiLineHeader from "../../../CommonComponents/MultilineHeader/MultiLine
 import { recordEvent } from "../../../Services/analytics/analyticsService";
 import constants from "../../../constants/constants";
 
-const PlacesPageTitle = inject("placesStore")(
-  inject("appState")(
-    observer(({ appState, placesStore }) => {
-      const { toggleItinerarySelection, selectedDate } = appState;
-      const openMenu = () => {
-        recordEvent(constants.placesHeaderClick);
-        toggleItinerarySelection(true);
-      };
-      const selectedCity = placesStore.selectedCity;
+const PlacesPageTitle = inject("itineraries")(
+  inject("placesStore")(
+    inject("appState")(
+      observer(({ appState, placesStore, itineraries }) => {
+        const { toggleItinerarySelection, selectedDate } = appState;
+        const { getCityById } = itineraries;
+        const openMenu = () => {
+          recordEvent(constants.placesHeaderClick);
+          toggleItinerarySelection(true);
+        };
+        const selectedCity = placesStore.selectedCity;
 
-      return (
-        <TouchableHighlight
-          style={styles.placesTitleContainer}
-          onPress={openMenu}
-          underlayColor={"transparent"}
-        >
-          <MultiLineHeader duration={`Explore`} title={selectedCity.city} />
-        </TouchableHighlight>
-      );
-    })
+        const city = getCityById(selectedCity);
+        let cityName = "";
+        if (city) {
+          cityName = city.cityName;
+        }
+
+        return (
+          <TouchableHighlight
+            style={styles.placesTitleContainer}
+            onPress={openMenu}
+            underlayColor={"transparent"}
+          >
+            <MultiLineHeader duration={`Explore`} title={cityName} />
+          </TouchableHighlight>
+        );
+      })
+    )
   )
 );
 

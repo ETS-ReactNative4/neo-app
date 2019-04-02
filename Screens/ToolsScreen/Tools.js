@@ -20,13 +20,14 @@ class Tools extends Component {
   render() {
     const { cities } = this.props.itineraries;
     const cityList = cities.map(city => {
+      const cityId = city.cityObject ? city.cityObject.cityId : "";
       return {
         title: city.city,
         image: { uri: city.cityObject.image },
         action: () => {
           recordEvent(constants.toolsPlacesTileClick);
           this.props.navigation.navigate("ToolPlaces", {
-            city,
+            city: cityId,
             target: "ToolNearBy"
           });
         },

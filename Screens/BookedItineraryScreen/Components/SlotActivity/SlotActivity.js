@@ -27,15 +27,16 @@ const SlotActivity = inject("itineraries")(
       } = itineraries;
       let onClick = () => null;
       let imageObject;
-      let currentCity, cityCardData;
+      let currentCity, cityCardData, cityId;
       switch (activity.type) {
         case "INTERNATIONAL_ARRIVE":
           currentCity = itineraries.cities[0];
+          cityId = currentCity.cityObject ? currentCity.cityObject.cityId : "";
           cityCardData = {
             cityImage: { uri: currentCity.cityObject.image },
             action: () =>
               navigation.navigate("ToolPlaces", {
-                city: currentCity
+                city: cityId
               }),
             cityName: currentCity.city,
             activityText: activity.arrivalSlotDetail.transferIndicatorText
@@ -47,13 +48,14 @@ const SlotActivity = inject("itineraries")(
             activity.intercityTransferSlotDetailVO.toCity
           );
           city = _.find(cities, { city: currentCity.cityName });
+          cityId = city.cityObject ? city.cityObject.cityId : "";
           cityCardData = {
             cityImage: {
               uri: currentCity.image
             },
             action: () =>
               navigation.navigate("ToolPlaces", {
-                city
+                city: cityId
               }),
             cityName: currentCity.cityName,
             activityText:
@@ -67,6 +69,7 @@ const SlotActivity = inject("itineraries")(
             activity.intercityTransferSlotDetailVO.toCity
           );
           city = _.find(cities, { city: currentCity.cityName });
+          cityId = city.cityObject ? city.cityObject.cityId : "";
           let transferIndicatorText;
           const {
             intercityTransferSlotDetailVO: interCityTransferDetail
@@ -88,7 +91,7 @@ const SlotActivity = inject("itineraries")(
             },
             action: () =>
               navigation.navigate("ToolPlaces", {
-                city
+                city: cityId
               }),
             cityName: currentCity.cityName,
             activityText: transferIndicatorText
