@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   },
   textStyle: {
-    fontSize: 17,
+    ...constants.fontCustom(constants.primaryRegular, 17, 20),
     color: constants.black2
   },
   arrowContainer: {
