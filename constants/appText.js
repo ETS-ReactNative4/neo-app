@@ -70,7 +70,7 @@ const appText = {
   },
   journalComingSoonText: {
     title: "Sit Tight",
-    message: "Your personal trip diary is coming soon!"
+    message: "Become a travel blogger on the go!"
   },
   bookingProcessText: {
     title: "Almost there!",

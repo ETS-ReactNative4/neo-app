@@ -17,9 +17,9 @@ class Journal extends Component {
           resizeMode={"contain"}
           style={styles.journalComingSoonImage}
         />
-        <Text style={styles.textTitle}>
-          {constants.journalComingSoonText.title}
-        </Text>
+        {/*<Text style={styles.textTitle}>*/}
+        {/*{constants.journalComingSoonText.title}*/}
+        {/*</Text>*/}
         <Text style={styles.textContent}>
           {constants.journalComingSoonText.message}
         </Text>
