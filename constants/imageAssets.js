@@ -172,8 +172,7 @@ const imageAssets = {
   roomsSmallPlaceHolder: prefix + "HotelRooms-120x90.png",
   roomsLargePlaceHolder: prefix + "HotelRooms-240x180.png",
 
-  defaultPlaceImage:
-    "https://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg"
+  defaultPlaceImage: "https://pyt-images.imgix.net/images/place-holder.png"
 };
 
 export default imageAssets;
