@@ -23,7 +23,8 @@ const apiCall = async (
   let headerObject = {
     "Content-Type": "application/json",
     isMobile: true,
-    deviceId: DeviceInfo.getUniqueID()
+    deviceId: DeviceInfo.getUniqueID(),
+    appVersion: DeviceInfo.getVersion()
   };
 
   if (customHeader && !_.isEmpty(customHeader)) {
