@@ -1,3 +1,28 @@
+/**
+ * sample input: fields
+ *  `{
+ *    amount: 23000,
+ *    name: "Vacation Title",
+ *    description: "Vacation Details"
+ *    prefil: {
+ *      email: "test@domain.com"
+ *      mobile: "9000000000"
+ *    }
+ *  }`
+ *  ------
+ *  Loop: check each keys
+ *  Step 1: check if the value is of type 'object' or not
+ *  Step 2:
+ *    IF object(prefil is an object): Run another loop to create inputs
+ *      input names should have actual object key and current Object Key - `prefil[email]`, `prefil[mobile]`
+ *  Step 3:
+ *    ELSE
+ *      create inputs directly from key-value pairs - `name`, `amount`, `description`
+ *  Sample Input 1: <input type="hidden" name="name" value="Vacation Title" />
+ *  Sample Input 2: <input type="hidden" name="prefil[email]" value="test@domain.com" />
+ *
+ *  JS code needs timeout cuz code eval fails due to a RN Webview issue https://github.com/react-native-community/react-native-webview/issues/341#issuecomment-466639820
+ */
 const paymentScript = fields => {
   return `
   setTimeout(() => {
@@ -54,6 +79,9 @@ const paymentScript = fields => {
   `;
 };
 
+/**
+ * Payment script for PayU payment gateway. Currently removed from the product
+ */
 /*
 const paymentScript = ({
   hash,
