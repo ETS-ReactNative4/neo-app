@@ -112,6 +112,9 @@ const appText = {
     unableToSubmitRequest: "Unable to process your request",
     providerInfo: "In partnership with Thomas Cook"
   },
+  visaScreenText: {
+    visaDetailsUnavilable: "Visa details are unavailable for this country"
+  },
   leisureText: "Got more time?",
   explorePlacesText: "Explore Places",
   paymentText: {

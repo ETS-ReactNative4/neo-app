@@ -23,15 +23,9 @@ class Visa extends Component {
 
   componentDidMount() {
     const { selectedItineraryId } = this.props.itineraries;
-    const {
-      getVisaDetailsByItineraryId,
-      getVisaDetails
-    } = this.props.visaStore;
+    const { getVisaDetails } = this.props.visaStore;
 
-    const visaDetails = getVisaDetailsByItineraryId(selectedItineraryId);
-    if (!visaDetails.length) {
-      getVisaDetails(selectedItineraryId);
-    }
+    getVisaDetails(selectedItineraryId);
   }
 
   render() {

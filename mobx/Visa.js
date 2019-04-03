@@ -18,16 +18,25 @@ class Visa {
     this._visaDetails = {};
   };
 
+  /**
+   * This method will retrieve the visa details of an itinerary stored in the local mobx store
+   */
   getVisaDetailsByItineraryId = createTransformer(itineraryId => {
     if (this._visaDetails[itineraryId])
       return toJS(this._visaDetails[itineraryId]);
     else return [];
   });
 
+  /**
+   * This will fetch visa details of an itinerary from the api
+   */
   @action
   getVisaDetails = itineraryId => {
-    if (!this._visaDetails[itineraryId])
-      this._getVisaDetailsFromAPI(itineraryId);
+    /**
+     * Condition used to fetch visa details only when the visa information is not available in mobx
+     */
+    // if (!this._visaDetails[itineraryId])
+    this._getVisaDetailsFromAPI(itineraryId);
   };
 
   @action

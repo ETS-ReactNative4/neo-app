@@ -1,5 +1,5 @@
 import React from "react";
-import { ScrollView, StyleSheet } from "react-native";
+import { ScrollView, StyleSheet, Text } from "react-native";
 import VoucherSplitSection from "../../VoucherScreens/Components/VoucherSplitSection";
 import HTMLView from "react-native-htmlview";
 import constants from "../../../constants/constants";
@@ -46,21 +46,27 @@ const VisaTabContainer = ({
   return [
     <ScrollView style={styles.visaTabContainer} key={0}>
       <VoucherSplitSection sections={visaDetailsArray} />
-      <HTMLView
-        style={styles.htmlViewContainer}
-        addLineBreaks={true}
-        paragraphBreak={null}
-        lineBreak={"\n"}
-        value={visaDetailText}
-        stylesheet={{
-          ...constants.htmlStyleSheet,
-          p: {
-            ...constants.htmlStyleSheet.p,
-            marginBottom: 8,
-            marginTop: 16
-          }
-        }}
-      />
+      {visaDetailText ? (
+        <HTMLView
+          style={styles.htmlViewContainer}
+          addLineBreaks={true}
+          paragraphBreak={null}
+          lineBreak={"\n"}
+          value={visaDetailText}
+          stylesheet={{
+            ...constants.htmlStyleSheet,
+            p: {
+              ...constants.htmlStyleSheet.p,
+              marginBottom: 8,
+              marginTop: 16
+            }
+          }}
+        />
+      ) : (
+        <Text style={styles.placeholderText}>
+          {constants.visaScreenText.visaDetailsUnavilable}
+        </Text>
+      )}
       <XSensorPlaceholder />
     </ScrollView>,
     <VisaActionBar
@@ -82,6 +88,11 @@ const styles = StyleSheet.create({
   },
   htmlViewContainer: {
     marginTop: 16
+  },
+  placeholderText: {
+    ...constants.fontCustom(constants.primaryRegular, 17, 24),
+    textAlign: "center",
+    marginVertical: 16
   }
 });
 
