@@ -107,7 +107,6 @@ const apiCall = async (
     fetch(requestURL, requestDetails)
       .then(handleErrors)
       .then(data => {
-        clearTimeout(networkTimeOut);
         console.log(data);
         console.log(JSON.stringify(data));
         resolve(data);
