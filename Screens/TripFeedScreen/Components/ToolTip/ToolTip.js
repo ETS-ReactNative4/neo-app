@@ -19,7 +19,8 @@ class ToolTip extends Component {
   static propTypes = forbidExtraProps({
     imageFirst: PropTypes.bool,
     title: PropTypes.string.isRequired,
-    text: PropTypes.string.isRequired,
+    text: PropTypes.string,
+    quote: PropTypes.string,
     image: PropTypes.oneOfType([PropTypes.object, PropTypes.number]),
     containerStyle: PropTypes.object,
     options: PropTypes.arrayOf(
@@ -42,7 +43,8 @@ class ToolTip extends Component {
       image,
       containerStyle = {},
       options,
-      widgetName
+      widgetName,
+      quote
     } = this.props;
     const contentStyleUpdate = {},
       changeLayout = {};
@@ -71,6 +73,7 @@ class ToolTip extends Component {
             <ContentSection
               title={title}
               text={text}
+              quote={quote}
               textStyle={textStyle}
               titleStyle={titleStyle}
             />

@@ -299,6 +299,30 @@ storiesOf("Trip Feed Widgets", module)
     console.log(props);
     return <ToolTip {...props} />;
   })
+  .add("Tool Tip with text quote", () => {
+    const props = {
+      title: "All aboard?",
+      quote:
+        "Invite your buddies. Everyone invited gets access to the vouchers and itinerary in the app"
+    };
+    console.log(props);
+    return <ToolTip {...props} />;
+  })
+  .add("Tool Tip with text quote and cta", () => {
+    const props = {
+      title: "All aboard?",
+      quote:
+        "Invite your buddies. Everyone invited gets access to the vouchers and itinerary.Invite your buddies. Everyone invited gets access to the vouchers and itinerary.Invite your buddies. Everyone invited gets access to the vouchers and itinerary.Invite your buddies. Everyone invited gets access to the vouchers and itinerary.Invite your buddies. Everyone invited gets access to the vouchers and itinerary.Invite your buddies. Everyone invited gets access to the vouchers and itinerary.",
+      options: [
+        {
+          title: "Read more",
+          link: ""
+        }
+      ]
+    };
+    console.log(props);
+    return <ToolTip {...props} />;
+  })
   .add("Tool Tip with action cta default", () => {
     const props = {
       title: "All aboard?",
@@ -628,6 +652,25 @@ storiesOf("Trip Feed Widgets", module)
   })
   .add("Info Card Modal with only Content", () => {
     const props = { ...modalData };
+    delete props["bulletedList"];
+    console.log(props);
+    return <InfoCardModalWrapper props={props} />;
+  })
+  .add("Info Card Modal with a quote", () => {
+    const props = {
+      ...modalData,
+      quote: modalData.content
+    };
+    delete props["content"];
+    delete props["bulletedList"];
+    console.log(props);
+    return <InfoCardModalWrapper props={props} />;
+  })
+  .add("Info Card Modal with a quote and content", () => {
+    const props = {
+      ...modalData,
+      quote: modalData.content
+    };
     delete props["bulletedList"];
     console.log(props);
     return <InfoCardModalWrapper props={props} />;
