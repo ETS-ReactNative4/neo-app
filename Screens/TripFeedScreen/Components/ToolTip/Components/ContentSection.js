@@ -1,11 +1,12 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Image, Platform } from "react-native";
 import constants from "../../../../../constants/constants";
 import PropTypes from "prop-types";
 
 const ContentSection = ({
-  title,
-  text,
+  title = "",
+  text = "",
+  quote = "",
   containerStyle = {},
   titleStyle = {},
   textStyle = {}
@@ -24,6 +25,18 @@ const ContentSection = ({
           </Text>
         </View>
       ) : null}
+      {quote ? (
+        <Text numberOfLines={2} style={styles.textContainer}>
+          <Text>{`    `}</Text>
+          <Image
+            source={constants.quotationMarkImage}
+            style={styles.quotationImage}
+          />
+          <Text style={[styles.quoteText, textStyle]} numberOfLines={2}>
+            {`  ${quote}`}
+          </Text>
+        </Text>
+      ) : null}
     </View>
   );
 };
@@ -31,6 +44,7 @@ const ContentSection = ({
 ContentSection.propTypes = {
   title: PropTypes.string,
   text: PropTypes.string,
+  quote: PropTypes.string,
   containerStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.number]),
   titleStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.number]),
   textStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.number])
@@ -46,6 +60,23 @@ const styles = StyleSheet.create({
   titleText: {
     color: constants.black1,
     ...constants.fontCustom(constants.primarySemiBold, 20, 22)
+  },
+  quotationImage: {
+    ...Platform.select({
+      ios: {
+        height: 20,
+        width: 20
+      },
+      android: {
+        height: 20,
+        width: 20
+      }
+    })
+  },
+  quoteText: {
+    ...constants.fontCustom(constants.primaryLight, 17, 22),
+    color: constants.shade1,
+    fontStyle: "italic"
   },
   subText: {
     ...constants.fontCustom(constants.primaryLight, 15, 18),

@@ -4,6 +4,7 @@ import {
   StyleSheet,
   Text,
   TouchableWithoutFeedback,
+  Image,
   TouchableOpacity
 } from "react-native";
 import Modal from "react-native-modal";
@@ -26,6 +27,7 @@ class InfoCardModal extends Component {
     image: PropTypes.oneOfType([PropTypes.object, PropTypes.number]),
     title: PropTypes.string.isRequired,
     content: PropTypes.string,
+    quote: PropTypes.string,
     bulletedList: PropTypes.arrayOf(PropTypes.string),
     cta: PropTypes.string,
     isVisible: PropTypes.bool.isRequired,
@@ -39,6 +41,7 @@ class InfoCardModal extends Component {
       image,
       title,
       content,
+      quote,
       bulletedList,
       cta,
       isVisible,
@@ -71,6 +74,21 @@ class InfoCardModal extends Component {
             </View>
             <View style={styles.body}>
               <Text style={styles.bodyText}>{content}</Text>
+              {quote ? (
+                <Text
+                  style={[
+                    styles.bodyTextQuote,
+                    content ? { marginTop: 12 } : {}
+                  ]}
+                >
+                  <Text>{`    `}</Text>
+                  <Image
+                    source={constants.quotationMarkImage}
+                    style={styles.quotationImage}
+                  />
+                  <Text>{`  ${quote}`}</Text>
+                </Text>
+              ) : null}
               {bulletedList && bulletedList.length
                 ? bulletedList.map((item, itemIndex) => {
                     return (
@@ -211,6 +229,15 @@ const styles = StyleSheet.create({
   bodyText: {
     ...constants.fontCustom(constants.primaryLight, 15, 18),
     color: constants.black1
+  },
+  bodyTextQuote: {
+    ...constants.fontCustom(constants.primaryLight, 17, 22),
+    color: constants.shade1,
+    fontStyle: "italic"
+  },
+  quotationImage: {
+    height: 20,
+    width: 20
   },
   boxTitle: {
     marginVertical: 8,
