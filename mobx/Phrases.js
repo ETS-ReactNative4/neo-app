@@ -152,43 +152,51 @@ class Phrases {
     }
   };
 
+  /**
+   * Will fetch all the languages associated with an itinerary and creates an array of languages
+   * Currently the default language to be displayed is the first element of the array
+   * TODO: handle default language as per the country the user is currently on
+   */
   @action
   getLanguages = itineraryId => {
-    if (this._languages.itineraryId !== itineraryId) {
-      this._isLoading = true;
-      apiCall(`${constants.getLanguages}?itineraryId=${itineraryId}`, {}, "GET")
-        .then(response => {
-          this._isLoading = false;
-          if (response.status === "SUCCESS") {
-            const languages = _.uniqBy(
+    this._isLoading = true;
+    apiCall(`${constants.getLanguages}?itineraryId=${itineraryId}`, {}, "GET")
+      .then(response => {
+        this._isLoading = false;
+        if (response.status === "SUCCESS") {
+          const languages = _.compact(
+            // remove null or undefined values from array
+            _.uniqBy(
+              // filter unique languages
               _.flatten(
+                // flatten multiple country languages into a single array
                 response.data.map(country => {
                   return [
                     country.defaultCode,
-                    ...country.languageCodes.map(language => {
-                      return language;
-                    })
+                    ...(Array.isArray(country.languageCodes)
+                      ? country.languageCodes.map(language => {
+                          return language;
+                        })
+                      : [])
                   ];
                 })
               ),
               "language"
-            );
-            this._languages = {
-              itineraryId,
-              languages
-            };
-            this._selectedLanguage = languages[0];
-          } else {
-            this._hasError = true;
-          }
-        })
-        .catch(err => {
-          this._isLoading = false;
+            )
+          );
+          this._languages = {
+            itineraryId,
+            languages
+          };
+          this._selectedLanguage = languages[0];
+        } else {
           this._hasError = true;
-        });
-    } else {
-      this._selectedLanguage = this._languages.languages[0];
-    }
+        }
+      })
+      .catch(err => {
+        this._isLoading = false;
+        this._hasError = true;
+      });
   };
 
   @action

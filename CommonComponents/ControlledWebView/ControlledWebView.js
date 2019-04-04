@@ -19,6 +19,7 @@ const ControlledWebView = ({
   injectedJavascript,
   hideLoadingIndicator,
   useWebKit = true,
+  originWhitelist = ["*"],
   onShouldStartLoadWithRequest = () => true // should always return true to properly load pages
 }) => {
   return [
@@ -30,6 +31,7 @@ const ControlledWebView = ({
       style={style}
       ref={webviewRef}
       useWebKit={useWebKit}
+      originWhitelist={originWhitelist}
       injectedJavaScript={injectedJavascript}
       onShouldStartLoadWithRequest={onShouldStartLoadWithRequest}
     />,
@@ -68,6 +70,7 @@ ControlledWebView.propTypes = forbidExtraProps({
   injectedJavascript: PropTypes.string,
   hideLoadingIndicator: PropTypes.bool,
   useWebKit: PropTypes.bool,
+  originWhitelist: PropTypes.array,
   onShouldStartLoadWithRequest: PropTypes.func
 });
 

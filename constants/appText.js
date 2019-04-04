@@ -70,7 +70,7 @@ const appText = {
   },
   journalComingSoonText: {
     title: "Sit Tight",
-    message: "Your personal trip diary is coming soon!"
+    message: "Become a travel blogger on the go!"
   },
   bookingProcessText: {
     title: "Almost there!",
@@ -111,6 +111,9 @@ const appText = {
     requestExistsText: "A request already exits with the given mobile number",
     unableToSubmitRequest: "Unable to process your request",
     providerInfo: "In partnership with Thomas Cook"
+  },
+  visaScreenText: {
+    visaDetailsUnavilable: "Visa details are unavailable for this country"
   },
   leisureText: "Got more time?",
   explorePlacesText: "Explore Places",

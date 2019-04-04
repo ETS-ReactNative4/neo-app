@@ -172,9 +172,11 @@ class InfoCardModal extends Component {
           <TouchableOpacity
             onPress={onClose}
             activeOpacity={0.8}
-            style={styles.closeIconContainer}
+            style={styles.closeIconTouchable}
           >
-            <Icon name={constants.closeIcon} color={"white"} size={16} />
+            <View style={styles.closeIconContainer}>
+              <Icon name={constants.closeIcon} color={"white"} size={16} />
+            </View>
           </TouchableOpacity>
         </View>
       </Modal>
@@ -239,16 +241,21 @@ const styles = StyleSheet.create({
     textDecorationLine: "underline",
     color: constants.firstColor
   },
-  closeIconContainer: {
+  closeIconTouchable: {
     position: "absolute",
+    alignItems: "center",
+    justifyContent: "center",
+    top: -18,
+    right: -18,
+    padding: 8
+  },
+  closeIconContainer: {
     height: 25,
     width: 25,
     borderRadius: 12.5,
     backgroundColor: "rgba(0,0,0,0.8)",
     alignItems: "center",
-    justifyContent: "center",
-    top: -10,
-    right: -10
+    justifyContent: "center"
   },
   closeButton: {
     height: 25,

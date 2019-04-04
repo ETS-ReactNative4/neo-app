@@ -23,6 +23,12 @@ class EmergencyContacts extends Component {
     };
   };
 
+  componentDidMount() {
+    const { cities } = this.props.itineraries;
+    const { getEmergencyContacts } = this.props.emergencyContactsStore;
+    getEmergencyContacts(cities);
+  }
+
   render() {
     const { cities } = this.props.itineraries;
     const { getEmergencyContactsByCity } = this.props.emergencyContactsStore;

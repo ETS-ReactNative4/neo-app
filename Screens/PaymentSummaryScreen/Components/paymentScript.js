@@ -1,3 +1,88 @@
+/**
+ * sample input: fields
+ *  `{
+ *    amount: 23000,
+ *    name: "Vacation Title",
+ *    description: "Vacation Details"
+ *    prefil: {
+ *      email: "test@domain.com"
+ *      mobile: "9000000000"
+ *    }
+ *  }`
+ *  ------
+ *  Loop: check each keys
+ *  Step 1: check if the value is of type 'object' or not
+ *  Step 2:
+ *    IF object(prefil is an object): Run another loop to create inputs
+ *      input names should have actual object key and current Object Key - `prefil[email]`, `prefil[mobile]`
+ *  Step 3:
+ *    ELSE
+ *      create inputs directly from key-value pairs - `name`, `amount`, `description`
+ *  Sample Input 1: <input type="hidden" name="name" value="Vacation Title" />
+ *  Sample Input 2: <input type="hidden" name="prefil[email]" value="test@domain.com" />
+ *
+ *  JS code needs timeout cuz code eval fails due to a RN Webview issue https://github.com/react-native-community/react-native-webview/issues/341#issuecomment-466639820
+ */
+const paymentScript = fields => {
+  return `
+  setTimeout(() => {
+    try {
+      localStorage && localStorage.setItem("mobileAppDetails", true);
+    } catch(e) {
+      console.log('unable to set localStorage');
+    }
+
+    function isEmpty(obj) {
+      for(var prop in obj) {
+        if(obj.hasOwnProperty(prop))
+          return false;
+      }
+
+      return JSON.stringify(obj) === JSON.stringify({});
+    }
+
+    function createInputField(name, value) {
+      var $input = document.createElement("input");
+      $input.type = "hidden";
+      $input.name = name;
+      $input.value = value;
+      $formElement.appendChild($input);
+    }
+
+    var fields = ${JSON.stringify(fields)};
+    var $formElement = document.getElementById('voyager-paymentForm');
+    var submitUrl = "";
+    if(!isEmpty(fields) && $formElement) {
+      submitUrl = fields.url;
+      delete fields.url;
+
+      for (var field in fields) {
+        if (fields.hasOwnProperty(field)) {
+          if(typeof fields[field] === 'object') {
+            var innerFields = fields[field];
+            for (var innerField in innerFields) {
+              if(innerFields.hasOwnProperty(innerField)) {
+                createInputField(field + "[" + innerField + "]", innerFields[innerField]);
+              }
+            }
+          } else {
+            createInputField(field, fields[field]);
+          }
+        }
+      }
+
+      $formElement.action = submitUrl;
+      $formElement.submit();
+    }
+
+  }, 1)
+  `;
+};
+
+/**
+ * Payment script for PayU payment gateway. Currently removed from the product
+ */
+/*
 const paymentScript = ({
   hash,
   transactionId,
@@ -76,6 +161,7 @@ const paymentScript = ({
   $payUForm.submit();
 `;
 };
+*/
 
 /**
  * XHR Form submit (causes CORS hence unusable)

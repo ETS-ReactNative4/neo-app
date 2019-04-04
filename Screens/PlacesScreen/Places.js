@@ -25,6 +25,7 @@ import storeService from "../../Services/storeService/storeService";
 
 @ErrorBoundary()
 @DeepLinkHandler
+@inject("itineraries")
 @inject("placesStore")
 @observer
 class Places extends Component {
@@ -42,25 +43,26 @@ class Places extends Component {
 
   state = {
     isScrollRecorded: false,
-    selectedCity: {}
+    selectedCity: ""
   };
 
   componentDidMount() {
     const { selectCity } = this.props.placesStore;
-    const city = this.props.navigation.getParam("city", {});
+    const cityId = this.props.navigation.getParam("city", "");
     this.setState({
-      selectedCity: city
+      selectedCity: cityId
     });
-    selectCity(city);
+    selectCity(cityId);
   }
 
   changeCity = city => {
+    const cityId = city.cityObject.cityId;
     recordEvent(constants.placesHeaderCityNameClick);
     this.setState({
-      selectedCity: city
+      selectedCity: cityId
     });
     const { selectCity } = this.props.placesStore;
-    selectCity(city);
+    selectCity(cityId);
   };
 
   componentWillUnmount() {
@@ -82,10 +84,11 @@ class Places extends Component {
       categories,
       isLoading,
       refreshCity,
-      selectedCity: city
+      selectedCity
     } = this.props.placesStore;
+    const { getCityById } = this.props.itineraries;
+    const city = getCityById(selectedCity);
     const categorySections = Object.keys(categories);
-    const target = this.props.navigation.getParam("target", "ToolNearBy");
     let onScrollProps = {};
     if (!this.state.isScrollRecorded) {
       onScrollProps["onScroll"] = () => this.scrollAction();
@@ -117,10 +120,10 @@ class Places extends Component {
                       image={{ uri: item.image }}
                       action={() => {
                         recordEvent(constants.placesCategoryTileClick);
-                        this.props.navigation.navigate(target, {
+                        this.props.navigation.navigate("ToolNearBy", {
                           title: item.category,
                           city,
-                          searchQuery: `${item.category} in ${city.city}`
+                          searchQuery: `${item.category} in ${city.cityName}`
                         });
                       }}
                       backdropColor={"white"}

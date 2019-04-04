@@ -31,7 +31,7 @@ const apiUrls = {
   getPaymentInfo: "mobile/:itineraryId/paymentInfo",
   getFaq: "mobile/getFAQ",
   getTripFeed: "mobile/feeds",
-  initiatePayment: "payment/initiatepayment",
+  initiatePayment: "api/payment/initiatepayment",
   sendTicketMessage: "mobile/ticket/msg",
   retrieveTicketMessages: "mobile/ticket/msgs/retrieve",
   retrieveTickets: "mobile/tickets/status",
@@ -68,6 +68,15 @@ const apiUrls = {
   httpPrefix: "http://",
   httpsPrefix: "https://",
   responseSuccessStatus: "SUCCESS",
+
+  /**
+   * Payment form used to initialize payments
+   */
+  paymentFormHtml: `
+    <form id="voyager-paymentForm" method="post" name="paymentForm">
+      <input type="submit" style="display: none;" />
+    </form>
+  `,
 
   /**
    * minimum iOS version for custom tabs

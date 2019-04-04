@@ -596,6 +596,13 @@ class Itineraries {
     }
   }
 
+  /**
+   * Returns an array of city list with contains
+   * city name - city
+   * the day user starts his trip on the city - startDay
+   * the day user completes his trip on the city - endDay
+   * city details - cityObject
+   */
   @computed
   get cities() {
     if (_.isEmpty(this._selectedItinerary)) return [];
@@ -680,11 +687,27 @@ class Itineraries {
     }
   }
 
+  /**
+   * Given a city ID, finds all details regarding that city.
+   *
+   * This also includes the startDay and endDay of the city which is calculated
+   * using the cities() method.
+   *
+   * This is needed for checking if the user is currently in that city in the
+   * NearBy screen
+   */
   getCityById = createTransformer(id => {
     if (_.isEmpty(this._selectedItinerary)) return {};
+    if (!id) return {};
 
     try {
       const cityObject = this._selectedItinerary.cityById[id];
+      const cityList = this.cities;
+      const requiredCity = cityList.find(city => {
+        return city.cityObject.cityId === id;
+      });
+      cityObject.startDay = requiredCity.startDay;
+      cityObject.endDay = requiredCity.endDay;
       return toJS(cityObject);
     } catch (e) {
       logError(e);

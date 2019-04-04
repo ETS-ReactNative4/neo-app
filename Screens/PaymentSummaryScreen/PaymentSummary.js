@@ -141,11 +141,20 @@ class PaymentSummary extends Component {
     this.setState({
       isPaymentLoading: true
     });
-    apiCall(constants.initiatePayment, {
-      itineraryId,
-      paymentOptionType,
-      userId: ""
-    })
+    apiCall(
+      constants.initiatePayment,
+      {
+        itineraryId,
+        paymentOptionType,
+        userId: ""
+      },
+      "POST",
+      constants.productUrl,
+      false,
+      {
+        Version: "V_2"
+      }
+    )
       .then(response => {
         this.setState(
           {
@@ -154,12 +163,7 @@ class PaymentSummary extends Component {
           () => {
             if (response.status === "SUCCESS") {
               const transactionId = response.data.transactionId;
-              const paymentScriptJs = paymentScript({
-                ...response.data,
-                successUrl: constants.paymentSuccess,
-                failureUrl: constants.paymentFailure,
-                cancelUrl: constants.paymentCancelled
-              });
+              const paymentScriptJs = paymentScript(response.data);
               this.props.navigation.navigate("PaymentScreen", {
                 paymentScript: paymentScriptJs,
                 transactionId

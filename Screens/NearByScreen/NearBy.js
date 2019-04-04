@@ -51,7 +51,7 @@ class NearBy extends Component {
         <CommonHeader
           TitleComponent={
             <MultiLineHeader
-              duration={city.city}
+              duration={city.cityName}
               title={title}
               disableDropDown={true}
             />

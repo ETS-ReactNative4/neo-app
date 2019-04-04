@@ -146,7 +146,8 @@ const appEvents = {
   paymentScreenItineraryCardClick: "payment_screen_itinerary_card_click",
   paymentScreenStartPayment: "payment_screen_start_payment",
   paymentScreenPaymentSuccess: "payment_screen_payment_success",
-  paymentScreenPaymentFailure: "payment_screen_payment_failure"
+  paymentScreenPaymentFailure: "payment_screen_payment_failure",
+  paymentFailureSupportClick: "payment_failure_support_click"
 };
 
 // console.log('-----------------------------------');

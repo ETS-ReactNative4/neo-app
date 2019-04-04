@@ -41,12 +41,6 @@ const MainStack = createStackNavigator(
     BookedItinerary: {
       screen: BookedItinerary
     },
-    BookedPlaces: {
-      screen: Places
-    },
-    BookedNearBy: {
-      screen: NearBy
-    },
     VisaBooked: {
       screen: Visa
     },

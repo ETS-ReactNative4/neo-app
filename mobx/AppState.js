@@ -1,7 +1,7 @@
 import { observable, computed, action, set, toJS } from "mobx";
 import { persist } from "mobx-persist";
 import { createTransformer } from "mobx-utils";
-import { LayoutAnimation } from "react-native";
+import { LayoutAnimation, Platform } from "react-native";
 import _ from "lodash";
 import apiCall from "../Services/networkRequests/apiCall";
 import constants from "../constants/constants";
@@ -336,7 +336,12 @@ class AppState {
 
   @action
   setConnectionStatus = status => {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    /**
+     * Layout animation is causing a problem in android while hiding the network state info
+     */
+    if (Platform.OS === constants.platformIos) {
+      LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    }
     this._isConnected = status;
   };
 

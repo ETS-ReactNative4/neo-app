@@ -44,7 +44,7 @@ class PaymentScreen extends Component {
     return (
       <View style={{ flex: 1, backgroundColor: "white" }}>
         <ControlledWebView
-          source={{ uri: constants.startPayment }}
+          source={{ html: constants.paymentFormHtml }}
           onNavigationStateChange={this.onNavigationStateChange}
           style={{
             flex: 1,
