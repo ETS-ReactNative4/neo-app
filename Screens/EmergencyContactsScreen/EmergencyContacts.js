@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { View, StyleSheet } from "react-native";
+import { toJS } from "mobx";
 import constants from "../../constants/constants";
 import ScrollableTabView from "react-native-scrollable-tab-view";
 import ScrollableTabBar from "../../CommonComponents/ScrollableTabBar/ScrollableTabBar";
@@ -8,6 +9,7 @@ import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import { inject, observer } from "mobx-react/custom";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import DeepLinkHandler from "../../CommonComponents/DeepLinkHandler/DeepLinkHandler";
+import _ from "lodash";
 
 @ErrorBoundary()
 @DeepLinkHandler
@@ -30,7 +32,8 @@ class EmergencyContacts extends Component {
   }
 
   render() {
-    const { cities } = this.props.itineraries;
+    let { cities } = this.props.itineraries;
+    cities = _.uniqBy(toJS(cities), "cityObject.cityId");
     const { getEmergencyContactsByCity } = this.props.emergencyContactsStore;
     const cityDetails = getEmergencyContactsByCity(cities);
 
