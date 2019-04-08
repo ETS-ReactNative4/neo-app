@@ -247,6 +247,7 @@ class Itineraries {
               }, [])
             : [];
       } catch (e) {
+        logError(e);
         hotels = [];
       }
       return hotels;
@@ -297,6 +298,7 @@ class Itineraries {
         );
         return _.sortBy(activities, "costing.dateMillis");
       } catch (e) {
+        logError(e);
         activities = [];
       }
       return activities;
@@ -948,6 +950,7 @@ class Itineraries {
         }
       }
     } catch (e) {
+      logError(e);
       return 0;
     }
   });
