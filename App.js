@@ -10,22 +10,11 @@ import {
   enableAnalytics,
   screenTracker
 } from "./Services/analytics/analyticsService";
-import {
-  getInitialNotification,
-  onNotificationDisplayed,
-  onNotificationOpened,
-  onNotificationReceived
-} from "./Services/fcmService/fcm";
 import ErrorBoundary from "./CommonComponents/ErrorBoundary/ErrorBoundary";
 import { isProduction } from "./Services/getEnvironmentDetails/getEnvironmentDetails";
 
 @ErrorBoundary({ isRoot: true })
 class App extends Component {
-  _onNotificationReceived;
-  _onNotificationDisplayed;
-  _onNotificationOpened;
-  _getInitialNotification;
-
   componentDidMount() {
     UIManager.setLayoutAnimationEnabledExperimental &&
       UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -35,11 +24,6 @@ class App extends Component {
     } else {
       disableAnalytics();
     }
-
-    this._onNotificationDisplayed = onNotificationDisplayed;
-    this._onNotificationReceived = onNotificationReceived;
-    this._onNotificationOpened = onNotificationOpened;
-    this._getInitialNotification = getInitialNotification;
 
     NetInfo.isConnected.fetch().then(isConnected => {
       this.handleFirstConnectivityChange(isConnected);
@@ -56,10 +40,6 @@ class App extends Component {
   };
 
   componentWillUnmount() {
-    this._onNotificationReceived && this._onNotificationReceived();
-    this._onNotificationDisplayed && this._onNotificationDisplayed();
-    this._onNotificationOpened && this._onNotificationOpened();
-
     NetInfo.isConnected.removeEventListener(
       "connectionChange",
       this.handleFirstConnectivityChange

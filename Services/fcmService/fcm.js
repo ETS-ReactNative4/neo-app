@@ -5,6 +5,7 @@ import navigationService from "../navigationService/navigationService";
 import resolveLinks from "../resolveLinks/resolveLinks";
 import * as Keychain from "react-native-keychain";
 import isUserLoggedInCallback from "../isUserLoggedInCallback/isUserLoggedInCallback";
+import appLauncher from "../appLauncher/appLauncher";
 
 export const getDeviceToken = async (
   success = () => null,
@@ -74,20 +75,22 @@ export const getInitialNotification = notifications()
 
 const notificationClickHandler = data => {
   isUserLoggedInCallback(() => {
-    const { screen, link, modalData } = data;
-    const { navigation } = navigationService;
-    if (link) {
-      resolveLinks(link, modalData ? JSON.parse(modalData) : {});
-    } else {
-      switch (screen) {
-        case "CRISP_CHAT":
-          navigation._navigation.navigate("Support");
-          break;
+    appLauncher().then(() => {
+      const { screen, link, modalData } = data;
+      const { navigation } = navigationService;
+      if (link) {
+        resolveLinks(link, modalData ? JSON.parse(modalData) : {});
+      } else {
+        switch (screen) {
+          case "CRISP_CHAT":
+            navigation._navigation.navigate("Support");
+            break;
 
-        default:
-          break;
+          default:
+            break;
+        }
       }
-    }
+    });
   });
 };
 
