@@ -14,10 +14,6 @@ import appLauncher from "../../Services/appLauncher/appLauncher";
 
 @ErrorBoundary({ isRoot: true })
 class Splash extends Component {
-  _onNotificationReceived;
-  _onNotificationDisplayed;
-  _onNotificationOpened;
-  _getInitialNotification;
   _screenNavigationTimeout;
 
   static navigationOptions = {
@@ -25,11 +21,6 @@ class Splash extends Component {
   };
 
   componentDidMount() {
-    this._onNotificationDisplayed = onNotificationDisplayed;
-    this._onNotificationReceived = onNotificationReceived;
-    this._onNotificationOpened = onNotificationOpened;
-    this._getInitialNotification = getInitialNotification;
-
     this._screenNavigationTimeout = setTimeout(() => {
       appLauncher();
     }, 1000);

@@ -43,54 +43,50 @@ export const registerFcmRefreshListener = () => {
   });
 };
 
-export const onNotificationReceived = notifications().onNotification(
-  notification => {
+export const onNotificationReceived = () =>
+  notifications().onNotification(notification => {
     notificationReceivedHandler(notification.data);
-  }
-);
+  });
 
-export const onNotificationDisplayed = notifications().onNotificationDisplayed(
-  notification => {
+export const onNotificationDisplayed = () =>
+  notifications().onNotificationDisplayed(notification => {
     notificationReceivedHandler(notification.data);
-  }
-);
+  });
 
-export const onNotificationOpened = notifications().onNotificationOpened(
-  notificationOpen => {
+export const onNotificationOpened = () =>
+  notifications().onNotificationOpened(notificationOpen => {
     const action = notificationOpen.action;
     const notification = notificationOpen.notification;
     notificationClickHandler(notification.data);
-  }
-);
-
-export const getInitialNotification = notifications()
-  .getInitialNotification()
-  .then(notificationOpen => {
-    if (notificationOpen) {
-      const action = notificationOpen.action;
-      const notification = notificationOpen.notification;
-      notificationClickHandler(notification.data);
-    }
   });
+
+export const getInitialNotification = () =>
+  notifications()
+    .getInitialNotification()
+    .then(notificationOpen => {
+      if (notificationOpen) {
+        const action = notificationOpen.action;
+        const notification = notificationOpen.notification;
+        notificationClickHandler(notification.data);
+      }
+    });
 
 const notificationClickHandler = data => {
   isUserLoggedInCallback(() => {
-    appLauncher().then(() => {
-      const { screen, link, modalData } = data;
-      const { navigation } = navigationService;
-      if (link) {
-        resolveLinks(link, modalData ? JSON.parse(modalData) : {});
-      } else {
-        switch (screen) {
-          case "CRISP_CHAT":
-            navigation._navigation.navigate("Support");
-            break;
+    const { screen, link, modalData } = data;
+    const { navigation } = navigationService;
+    if (link) {
+      resolveLinks(link, modalData ? JSON.parse(modalData) : {});
+    } else {
+      switch (screen) {
+        case "CRISP_CHAT":
+          navigation._navigation.navigate("Support");
+          break;
 
-          default:
-            break;
-        }
+        default:
+          break;
       }
-    });
+    }
   });
 };
 
