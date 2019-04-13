@@ -264,7 +264,9 @@ class Itineraries {
     try {
       let activities;
       try {
-        activities = Object.values(this._selectedItinerary.activityById);
+        activities = this._selectedItinerary.activityById
+          ? Object.values(this._selectedItinerary.activityById)
+          : [];
         const activityRefs = this._selectedItinerary.allActivityCostingRefs;
         /**
          * TODO: Multiple maps (needs optimization)
