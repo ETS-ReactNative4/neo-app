@@ -49,7 +49,7 @@ const BookedTabs = createBottomTabNavigator(
         const { routeName } = navigation.state;
         let icon;
 
-        const color = focused ? constants.firstColor : constants.shade1dot5;
+        const color = focused ? constants.black1 : constants.shade1dot5;
 
         switch (routeName) {
           case "TripFeed":
