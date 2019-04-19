@@ -78,7 +78,7 @@
     "react-native-tts": "2.0.0",
     "react-native-vector-icons": "5.0.0",
     "react-native-webp-support": "TGPSKI/react-native-webp-support",
-    "react-native-webview": "^2.14.3",
+    "react-native-webview": "5.7.0",
     "react-navigation": "2.17.0",
     "rn-fetch-blob": "^0.10.15",
     "title-case": "^2.1.1",
