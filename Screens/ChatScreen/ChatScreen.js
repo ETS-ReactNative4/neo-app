@@ -19,6 +19,7 @@ import isUserLoggedInCallback from "../../Services/isUserLoggedInCallback/isUser
 @inject("userStore")
 @inject("itineraries")
 @inject("appState")
+@inject("chatDetailsStore")
 @observer
 class ChatScreen extends Component {
   state = {
@@ -96,6 +97,8 @@ class ChatScreen extends Component {
       }
     );
     this.checkCrispToken();
+    const { getUserDetails } = this.props.chatDetailsStore;
+    getUserDetails();
   }
 
   checkCrispToken = () => {
@@ -129,6 +132,13 @@ class ChatScreen extends Component {
     }
   };
 
+  webViewMessageCallback = event => {
+    const data = JSON.parse(event.nativeEvent.data);
+    const { restoreId } = data;
+    if (restoreId) {
+    }
+  };
+
   render() {
     const { isChatActive } = this.state;
     const { isConnected } = this.props.appState;
@@ -138,7 +148,9 @@ class ChatScreen extends Component {
     };
     const { userDetails } = this.props.userStore;
     const { email, crisp_token } = userDetails;
-    const uri = constants.crispServerUrl(email, crisp_token);
+
+    const { chatDetails } = this.props.chatDetailsStore;
+    const uri = constants.chatServerUrl(chatDetails);
 
     return isChatActive ? (
       isConnected ? (
@@ -155,7 +167,7 @@ class ChatScreen extends Component {
               : null
           ]}
         >
-          {uri ? (
+          {chatDetails.feid ? (
             <ControlledWebView
               source={{ uri }}
               onNavigationStateChange={this.onNavigationStateChange}
@@ -171,15 +183,16 @@ class ChatScreen extends Component {
                  * Prevent user from navigating away from chat window by opening
                  * external links in custom tab (helps with file downloads)
                  */
-                const params = getUrlParams(event.url);
-                if (event.url && params.webview !== "true") {
-                  if (event.url !== uri) {
-                    openCustomTab(event.url);
-                    return false;
-                  }
-                }
+                // const params = getUrlParams(event.url);
+                // if (event.url && params.webview !== "true") {
+                //   if (event.url !== uri) {
+                //     openCustomTab(event.url);
+                //     return false;
+                //   }
+                // }
                 return true;
               }}
+              onMessage={this.webViewMessageCallback}
             />
           ) : null}
           {Platform.OS === "ios" ? (

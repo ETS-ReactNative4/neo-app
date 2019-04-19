@@ -64,12 +64,18 @@ const serverUrls = {
   googleTranslateTts: (phrase, language) =>
     `https://translate.google.com.vn/translate_tts?ie=UTF-8&q=${phrase}&tl=${language}&client=tw-ob`,
   airlineCdn: "https://d3lf10b5gahyby.cloudfront.net/airline_logos/",
-  crispServerUrl: (email, token) =>
-    email && token
-      ? encodeURI(
-          `${chatCustomUrl}?user_email=${email}&token_id=${token}&webview=true`
-        )
-      : "",
+  chatServerUrl: ({
+    ccode,
+    trailId,
+    mob_num,
+    feid,
+    frid,
+    name,
+    host,
+    region,
+    email
+  }) =>
+    email && feid ? encodeURI(`http://10.101.2.87:8080/freshchat.html`) : "",
   offlineContact: "+91 8939891682",
 
   /**
