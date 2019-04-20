@@ -64,18 +64,12 @@ const serverUrls = {
   googleTranslateTts: (phrase, language) =>
     `https://translate.google.com.vn/translate_tts?ie=UTF-8&q=${phrase}&tl=${language}&client=tw-ob`,
   airlineCdn: "https://d3lf10b5gahyby.cloudfront.net/airline_logos/",
-  chatServerUrl: ({
-    ccode,
-    trailId,
-    mob_num,
-    feid,
-    frid,
-    name,
-    host,
-    region,
-    email
-  }) =>
-    email && feid ? encodeURI(`http://10.101.2.87:8080/freshchat.html`) : "",
+  chatServerUrl: chatQueryParam =>
+    chatQueryParam
+      ? encodeURI(
+          `http://chat.pickyourtrail.com.s3-website.ap-south-1.amazonaws.com/${chatQueryParam}`
+        )
+      : "",
   offlineContact: "+91 8939891682",
 
   /**

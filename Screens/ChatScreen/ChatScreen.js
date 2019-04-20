@@ -9,7 +9,6 @@ import UnableToUseChat from "./Components/UnableToUseChat";
 import PreTrip from "./Components/PreTrip";
 import moment from "moment";
 import { recordEvent } from "../../Services/analytics/analyticsService";
-import CrispSDK from "./Components/CrispSDK";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import openCustomTab from "../../Services/openCustomTab/openCustomTab";
 import getUrlParams from "../../Services/getUrlParams/getUrlParams";
@@ -18,7 +17,6 @@ import objectToQueryParam from "../../Services/objectToQueryParam/objectToQueryP
 import { logError } from "../../Services/errorLogger/errorLogger";
 
 @ErrorBoundary({ isRoot: true })
-@inject("userStore")
 @inject("itineraries")
 @inject("appState")
 @inject("chatDetailsStore")
@@ -28,7 +26,8 @@ class ChatScreen extends Component {
     canGoBack: false,
     keyboardVisible: false,
     isChatActive: true,
-    keyboardSpace: 0
+    keyboardSpace: 0,
+    isChatKilled: false
   };
   _webView = React.createRef();
   _didFocusSubscription;
@@ -98,20 +97,9 @@ class ChatScreen extends Component {
         BackHandler.removeEventListener("hardwareBackPress", this.goBack);
       }
     );
-    this.checkCrispToken();
     const { getUserDetails } = this.props.chatDetailsStore;
     getUserDetails();
   }
-
-  checkCrispToken = () => {
-    isUserLoggedInCallback(() => {
-      const { userDetails, getUserDetails } = this.props.userStore;
-      const { email, crisp_token } = userDetails;
-      if (!crisp_token || !email) {
-        getUserDetails();
-      }
-    });
-  };
 
   componentWillUnmount() {
     this._didFocusSubscription && this._didFocusSubscription.remove();
@@ -140,7 +128,18 @@ class ChatScreen extends Component {
     const { setChatMetaInfo } = this.props.chatDetailsStore;
     if (restoreId) {
       setChatMetaInfo({ restoreId, actorId }, () => {
-        this.forceUpdate();
+        this.setState(
+          {
+            isChatKilled: true
+          },
+          () => {
+            setTimeout(() => {
+              this.setState({
+                isChatKilled: false
+              });
+            }, 200);
+          }
+        );
       });
     } else {
       logError(error, { data });
@@ -148,20 +147,18 @@ class ChatScreen extends Component {
   };
 
   render() {
-    const { isChatActive } = this.state;
+    const { isChatActive, isChatKilled } = this.state;
     const { isConnected } = this.props.appState;
     const openSupportCenter = () => {
       recordEvent(constants.chatOpenSupportCenterClick);
       this.props.navigation.navigate("SupportCenter");
     };
-    const { userDetails } = this.props.userStore;
-    const { email, crisp_token } = userDetails;
 
     const { chatDetails } = this.props.chatDetailsStore;
     const chatQueryParam = objectToQueryParam(chatDetails);
     const uri = constants.chatServerUrl(chatQueryParam);
 
-    return true ? (
+    return isChatActive ? (
       isConnected ? (
         <View
           style={[
@@ -176,7 +173,7 @@ class ChatScreen extends Component {
               : null
           ]}
         >
-          {chatDetails.feid ? (
+          {chatDetails.feid && !isChatKilled ? (
             <ControlledWebView
               source={{ uri }}
               onNavigationStateChange={this.onNavigationStateChange}
