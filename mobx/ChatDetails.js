@@ -12,17 +12,34 @@ class ChatDetails {
       .catch(err => logError(err));
   };
 
+  @action
+  reset = () => {
+    this._chatDetails = {};
+  };
+
   @persist("object")
   @observable
   _chatDetails = {};
 
   @observable _isLoading = false;
 
-  @observable _hasError = false;
+  @observable _initializationError = false;
+
+  @observable _metaDataError = false;
 
   @computed
   get chatDetails() {
     return toJS(this._chatDetails);
+  }
+
+  @computed
+  get initializationError() {
+    return this._initializationError;
+  }
+
+  @computed
+  get metaDataError() {
+    return this._metaDataError;
   }
 
   @action
@@ -37,13 +54,13 @@ class ChatDetails {
         this._isLoading = false;
         if (response.status === constants.responseSuccessStatus) {
           this._chatDetails = response.data;
-          this._hasError = false;
+          this._initializationError = false;
         } else {
-          this._hasError = true;
+          this._initializationError = true;
         }
       })
       .catch(() => {
-        this._hasError = true;
+        this._initializationError = true;
         this._isLoading = false;
       });
   };
@@ -55,15 +72,15 @@ class ChatDetails {
       .then(response => {
         this._isLoading = false;
         if (response.status === constants.responseSuccessStatus) {
-          this._hasError = false;
+          this._metaDataError = false;
           this._chatDetails.frid = restoreId;
           successCallback();
         } else {
-          this._hasError = true;
+          this._metaDataError = true;
         }
       })
       .catch(() => {
-        this._hasError = true;
+        this._metaDataError = true;
         this._isLoading = false;
       });
   };

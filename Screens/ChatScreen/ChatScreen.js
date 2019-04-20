@@ -154,59 +154,68 @@ class ChatScreen extends Component {
       this.props.navigation.navigate("SupportCenter");
     };
 
-    const { chatDetails } = this.props.chatDetailsStore;
+    const {
+      chatDetails,
+      initializationError,
+      metaDataError
+    } = this.props.chatDetailsStore;
+    const isChatFailed = initializationError || metaDataError;
     const chatQueryParam = objectToQueryParam(chatDetails);
     const uri = constants.chatServerUrl(chatQueryParam);
 
     return isChatActive ? (
       isConnected ? (
-        <View
-          style={[
-            { flex: 1 },
-            Platform.OS === "ios" && isIphoneX()
-              ? {
-                  backgroundColor:
-                    this.state.keyboardVisible || this.state.canGoBack
-                      ? constants.chatLightColor
-                      : constants.chatMainColor
-                }
-              : null
-          ]}
-        >
-          {chatDetails.feid && !isChatKilled ? (
-            <ControlledWebView
-              source={{ uri }}
-              onNavigationStateChange={this.onNavigationStateChange}
-              style={{
-                flex: 1,
-                marginTop: isIphoneX() ? constants.xNotchHeight : 0
-              }}
-              webviewRef={e => (this._webView = e)}
-              useWebKit={false}
-              onShouldStartLoadWithRequest={event => {
-                /**
-                 * Prevent user from navigating away from chat window by opening
-                 * external links in custom tab (helps with file downloads)
-                 */
-                // const params = getUrlParams(event.url);
-                // if (event.url && params.webview !== "true") {
-                //   if (event.url !== uri) {
-                //     openCustomTab(event.url);
-                //     return false;
-                //   }
-                // }
-                return true;
-              }}
-              onMessage={this.webViewMessageCallback}
-            />
-          ) : null}
-          {Platform.OS === "ios" ? (
-            <BackButtonIos
-              backAction={this.goBack}
-              isVisible={this.state.canGoBack}
-            />
-          ) : null}
-        </View>
+        !isChatFailed ? (
+          <View
+            style={[
+              { flex: 1 },
+              Platform.OS === "ios" && isIphoneX()
+                ? {
+                    backgroundColor:
+                      this.state.keyboardVisible || this.state.canGoBack
+                        ? constants.chatLightColor
+                        : constants.chatMainColor
+                  }
+                : null
+            ]}
+          >
+            {chatDetails.feid && !isChatKilled ? (
+              <ControlledWebView
+                source={{ uri }}
+                onNavigationStateChange={this.onNavigationStateChange}
+                style={{
+                  flex: 1,
+                  marginTop: isIphoneX() ? constants.xNotchHeight : 0
+                }}
+                webviewRef={e => (this._webView = e)}
+                useWebKit={false}
+                onShouldStartLoadWithRequest={event => {
+                  /**
+                   * Prevent user from navigating away from chat window by opening
+                   * external links in custom tab (helps with file downloads)
+                   */
+                  // const params = getUrlParams(event.url);
+                  // if (event.url && params.webview !== "true") {
+                  //   if (event.url !== uri) {
+                  //     openCustomTab(event.url);
+                  //     return false;
+                  //   }
+                  // }
+                  return true;
+                }}
+                onMessage={this.webViewMessageCallback}
+              />
+            ) : null}
+            {Platform.OS === "ios" ? (
+              <BackButtonIos
+                backAction={this.goBack}
+                isVisible={this.state.canGoBack}
+              />
+            ) : null}
+          </View>
+        ) : (
+          <UnableToUseChat text={constants.onChatFailedToInitialize} />
+        )
       ) : (
         <UnableToUseChat />
       )
