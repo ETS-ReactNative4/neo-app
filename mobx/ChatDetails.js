@@ -31,12 +31,12 @@ class ChatDetails {
     apiCall(
       `${constants.initiateChat}?itineraryId=${
         storeService.itineraries.selectedItineraryId
-      }`,
-      {}
+      }`
     )
       .then(response => {
         this._isLoading = false;
         if (response.status === constants.responseSuccessStatus) {
+          this._chatDetails = response.data;
           this._hasError = false;
         } else {
           this._hasError = true;
@@ -49,15 +49,15 @@ class ChatDetails {
   };
 
   @action
-  setRestoreId = restoreId => {
+  setChatMetaInfo = (requestBody, successCallback) => {
     this._isLoading = true;
-    const requestBody = { restoreId };
-    apiCall(`${constants.setChatRestoreId}`, requestBody)
+    apiCall(`${constants.setChatRestoreId}`, requestBody, "PUT")
       .then(response => {
         this._isLoading = false;
         if (response.status === constants.responseSuccessStatus) {
           this._hasError = false;
           this._chatDetails.frid = restoreId;
+          successCallback();
         } else {
           this._hasError = true;
         }

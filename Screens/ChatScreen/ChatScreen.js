@@ -14,6 +14,8 @@ import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import openCustomTab from "../../Services/openCustomTab/openCustomTab";
 import getUrlParams from "../../Services/getUrlParams/getUrlParams";
 import isUserLoggedInCallback from "../../Services/isUserLoggedInCallback/isUserLoggedInCallback";
+import objectToQueryParam from "../../Services/objectToQueryParam/objectToQueryParam";
+import { logError } from "../../Services/errorLogger/errorLogger";
 
 @ErrorBoundary({ isRoot: true })
 @inject("userStore")
@@ -134,8 +136,14 @@ class ChatScreen extends Component {
 
   webViewMessageCallback = event => {
     const data = JSON.parse(event.nativeEvent.data);
-    const { restoreId } = data;
+    const { restoreId, error, actorId } = data;
+    const { setChatMetaInfo } = this.props.chatDetailsStore;
     if (restoreId) {
+      setChatMetaInfo({ restoreId, actorId }, () => {
+        this.forceUpdate();
+      });
+    } else {
+      logError(error, { data });
     }
   };
 
@@ -150,9 +158,10 @@ class ChatScreen extends Component {
     const { email, crisp_token } = userDetails;
 
     const { chatDetails } = this.props.chatDetailsStore;
-    const uri = constants.chatServerUrl(chatDetails);
+    const chatQueryParam = objectToQueryParam(chatDetails);
+    const uri = constants.chatServerUrl(chatQueryParam);
 
-    return isChatActive ? (
+    return true ? (
       isConnected ? (
         <View
           style={[
@@ -176,7 +185,6 @@ class ChatScreen extends Component {
                 marginTop: isIphoneX() ? constants.xNotchHeight : 0
               }}
               webviewRef={e => (this._webView = e)}
-              injectedJavascript={CrispSDK}
               useWebKit={false}
               onShouldStartLoadWithRequest={event => {
                 /**
