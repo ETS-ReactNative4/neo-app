@@ -15,6 +15,7 @@ import getUrlParams from "../../Services/getUrlParams/getUrlParams";
 import isUserLoggedInCallback from "../../Services/isUserLoggedInCallback/isUserLoggedInCallback";
 import objectToQueryParam from "../../Services/objectToQueryParam/objectToQueryParam";
 import { logError } from "../../Services/errorLogger/errorLogger";
+import DeviceInfo from "react-native-device-info";
 
 @ErrorBoundary({ isRoot: true })
 @inject("itineraries")
@@ -160,7 +161,10 @@ class ChatScreen extends Component {
       metaDataError
     } = this.props.chatDetailsStore;
     const isChatFailed = initializationError || metaDataError;
-    const chatQueryParam = objectToQueryParam(chatDetails);
+    const chatQueryParam = objectToQueryParam({
+      ...chatDetails,
+      appVersion: DeviceInfo.getVersion()
+    });
     const uri = constants.chatServerUrl(chatQueryParam);
 
     return isChatActive ? (
