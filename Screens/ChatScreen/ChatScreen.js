@@ -126,7 +126,7 @@ class ChatScreen extends Component {
     const data = JSON.parse(event.nativeEvent.data);
     const { restoreId, error, actorId } = data;
     const { setChatMetaInfo } = this.props.chatDetailsStore;
-    if (restoreId) {
+    if (restoreId && actorId) {
       setChatMetaInfo({ restoreId, actorId }, () => {
         this.setState(
           {
