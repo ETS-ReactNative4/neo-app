@@ -73,6 +73,12 @@ const serverUrls = {
   offlineContact: "+91 8939891682",
 
   /**
+   * Freshchat iFrame url
+   */
+  freshChatIframe: "https://wchat.freshchat.com/widget",
+  freshChatIframeBlankPage: "about:blank",
+
+  /**
    * Payment Urls
    */
   startPayment: `${productUrl}voyager/initiate-payment`,

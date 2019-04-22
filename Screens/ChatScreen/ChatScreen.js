@@ -194,14 +194,26 @@ class ChatScreen extends Component {
                    * Prevent user from navigating away from chat window by opening
                    * external links in custom tab (helps with file downloads)
                    */
-                  // const params = getUrlParams(event.url);
-                  // if (event.url && params.webview !== "true") {
-                  //   if (event.url !== uri) {
-                  //     openCustomTab(event.url);
-                  //     return false;
-                  //   }
-                  // }
-                  return true;
+                  if (event.url) {
+                    const isFreshChatIframe = event.url.startsWith(
+                      constants.freshChatIframe
+                    );
+                    const isBlankPageIframe =
+                      event.url === constants.freshChatIframeBlankPage;
+                    if (isFreshChatIframe || isBlankPageIframe) return true; // the action happened inside iframe let it proceed
+                    const params = getUrlParams(event.url); // get query params of the page
+                    if (params.webview !== "true") {
+                      // check if the page is permitted to render inside webview
+                      if (event.url !== uri) {
+                        openCustomTab(event.url);
+                        return false;
+                      }
+                    }
+                    // the page can load inside the webview
+                    return true;
+                  } else {
+                    return false;
+                  }
                 }}
                 onMessage={this.webViewMessageCallback}
               />
