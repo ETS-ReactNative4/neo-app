@@ -73,12 +73,18 @@ class ChatScreen extends Component {
     );
   }
 
+  /**
+   * Keeps track of history of the webview so that back button can navigate through webview history
+   */
   onNavigationStateChange = navState => {
     this.setState({
       canGoBack: navState.canGoBack
     });
   };
 
+  /**
+   * Go back to previous webview page if possible otherwise simply go back to the first tab in the app home screen
+   */
   goBack = () => {
     if (this.state.canGoBack) {
       this._webView.goBack();
@@ -107,6 +113,9 @@ class ChatScreen extends Component {
     this._willBlurSubscription && this._willBlurSubscription.remove();
   }
 
+  /**
+   * Check if user is close enough to initialize live chat for his trip
+   */
   checkChatActivationStatus = () => {
     if (this.props.itineraries.cities[0]) {
       const today = moment();
