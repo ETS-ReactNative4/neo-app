@@ -1,3 +1,6 @@
+/**
+ * Creates a query parameter from a given JS object
+ */
 const objectToQueryParam = data => {
   let index = 0,
     queryParam = "";

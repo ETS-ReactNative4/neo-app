@@ -66,9 +66,7 @@ const serverUrls = {
   airlineCdn: "https://d3lf10b5gahyby.cloudfront.net/airline_logos/",
   chatServerUrl: chatQueryParam =>
     chatQueryParam
-      ? encodeURI(
-          `http://chat.pickyourtrail.com.s3-website.ap-south-1.amazonaws.com/${chatQueryParam}`
-        )
+      ? encodeURI(`http://chat.pickyourtrail.com/${chatQueryParam}`)
       : "",
   offlineContact: "+91 8939891682",
 

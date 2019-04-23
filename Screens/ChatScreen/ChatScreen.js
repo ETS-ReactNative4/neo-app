@@ -123,6 +123,10 @@ class ChatScreen extends Component {
     }
   };
 
+  /**
+   * This will be triggered by the events happening inside the Webview
+   * Used to retrieve `restoreId`, `actorId` and log errors happening inside the HTML
+   */
   webViewMessageCallback = event => {
     const data = JSON.parse(event.nativeEvent.data);
     const { restoreId, error, actorId } = data;
@@ -162,8 +166,11 @@ class ChatScreen extends Component {
     } = this.props.chatDetailsStore;
     const isChatFailed = initializationError || metaDataError;
     const chatQueryParam = objectToQueryParam({
+      // create query parameter for loading webview from the chat details object
       ...chatDetails,
-      appVersion: DeviceInfo.getVersion()
+      region: encodeURI(chatDetails.region), // region is an Array and needs to be encoded
+      appVersion: DeviceInfo.getVersion(),
+      webview: true
     });
     const uri = constants.chatServerUrl(chatQueryParam);
 

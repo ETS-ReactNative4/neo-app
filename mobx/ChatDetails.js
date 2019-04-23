@@ -42,6 +42,10 @@ class ChatDetails {
     return this._metaDataError;
   }
 
+  /**
+   * Retrieve the details needed for initializing chat
+   * This also includes the chat token and the host urls
+   */
   @action
   getUserDetails = () => {
     this._isLoading = true;
@@ -65,6 +69,10 @@ class ChatDetails {
       });
   };
 
+  /**
+   * Set meta data - `restoreId` needed to get the chat history
+   * Also sends meta data such as `actorId` for use in Plato to send push notifications
+   */
   @action
   setChatMetaInfo = (requestBody, successCallback) => {
     this._isLoading = true;
