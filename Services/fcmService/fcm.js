@@ -43,16 +43,25 @@ export const registerFcmRefreshListener = () => {
   });
 };
 
+/**
+ * Called when a notification is received when the app is active - works on android
+ */
 export const onNotificationReceived = () =>
   notifications().onNotification(notification => {
     notificationReceivedHandler(notification.data);
   });
 
+/**
+ * Called when a notification is received when app is active - works on iOS
+ */
 export const onNotificationDisplayed = () =>
   notifications().onNotificationDisplayed(notification => {
     notificationReceivedHandler(notification.data);
   });
 
+/**
+ * Called when a notification is clicked when the app is active
+ */
 export const onNotificationOpened = () =>
   notifications().onNotificationOpened(notificationOpen => {
     const action = notificationOpen.action;
@@ -60,6 +69,9 @@ export const onNotificationOpened = () =>
     notificationClickHandler(notification.data);
   });
 
+/**
+ * Called when the app is launched by clicking on a notification
+ */
 export const getInitialNotification = () =>
   notifications()
     .getInitialNotification()

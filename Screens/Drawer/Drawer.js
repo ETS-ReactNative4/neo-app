@@ -19,6 +19,14 @@ import DialogBox from "../../CommonComponents/DialogBox/DialogBox";
 import { shouldIncludeStoryBook } from "../../storybook/Storybook";
 import { recordEvent } from "../../Services/analytics/analyticsService";
 import isUserLoggedInCallback from "../../Services/isUserLoggedInCallback/isUserLoggedInCallback";
+import appLauncher from "../../Services/appLauncher/appLauncher";
+import {
+  getInitialNotification,
+  onNotificationDisplayed,
+  onNotificationOpened,
+  onNotificationReceived
+} from "../../Services/fcmService/fcm";
+import { logError } from "../../Services/errorLogger/errorLogger";
 
 @inject("userStore")
 @inject("infoStore")
@@ -31,9 +39,30 @@ class Drawer extends Component {
   state = {
     isLoggedIn: false
   };
+  _screenNavigationTimeout;
+  _onNotificationReceived;
+  _onNotificationDisplayed;
+  _onNotificationOpened;
 
   componentDidMount() {
     this.checkLogin();
+
+    this._screenNavigationTimeout = setTimeout(() => {
+      appLauncher()
+        .then(() => {
+          getInitialNotification();
+          this._onNotificationDisplayed = onNotificationDisplayed();
+          this._onNotificationReceived = onNotificationReceived();
+          this._onNotificationOpened = onNotificationOpened();
+        })
+        .catch(logError);
+    }, 1000);
+  }
+
+  componentWillUnmount() {
+    this._onNotificationReceived && this._onNotificationReceived();
+    this._onNotificationDisplayed && this._onNotificationDisplayed();
+    this._onNotificationOpened && this._onNotificationOpened();
   }
 
   componentDidUpdate() {

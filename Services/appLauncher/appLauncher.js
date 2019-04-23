@@ -25,7 +25,7 @@ const resetToPlan = NavigationActions.navigate({
 
 /**
  * Used to redirect the user to his home screen after he opens the app
- * Will be executed in the Splash screen
+ * Will be executed in the Drawer screen
  */
 const AppLauncher = () => {
   return new Promise(resolve => {

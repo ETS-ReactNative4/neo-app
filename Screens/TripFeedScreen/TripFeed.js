@@ -12,18 +12,11 @@ import InfoCard from "./Components/InfoCard/InfoCard";
 import { inject, observer } from "mobx-react/custom";
 import CustomScrollView from "../../CommonComponents/CustomScrollView/CustomScrollView";
 import InfoCardModal from "./Components/InfoCardModal/InfoCardModal";
-import { logError } from "../../Services/errorLogger/errorLogger";
 import NoInternetIndicator from "../../CommonComponents/NoInternetIndicator/NoInternetIndicator";
 import FeedBackSwiper from "./Components/FeedBackSwiper/FeedBackSwiper";
 import FeedBackPositiveExplosion from "./Components/FeedBackSwiper/Components/FeedBackPositiveExplosion";
 import DayAhead from "./Components/DayAhead/DayAhead";
 import DayAheadLite from "./Components/DayAheadLite/DayAheadLite";
-import {
-  getInitialNotification,
-  onNotificationDisplayed,
-  onNotificationOpened,
-  onNotificationReceived
-} from "../../Services/fcmService/fcm";
 
 @ErrorBoundary({ isRoot: true })
 @inject("tripFeedStore")
@@ -37,10 +30,6 @@ class TripFeed extends Component {
   _didFocusSubscription;
   _willBlurSubscription;
   _emitterComponent = React.createRef();
-  _onNotificationReceived;
-  _onNotificationDisplayed;
-  _onNotificationOpened;
-  _getInitialNotification;
 
   constructor(props) {
     super(props);
@@ -82,11 +71,6 @@ class TripFeed extends Component {
   componentDidMount() {
     this.loadTripFeedData();
 
-    this._onNotificationDisplayed = onNotificationDisplayed();
-    this._onNotificationReceived = onNotificationReceived();
-    this._onNotificationOpened = onNotificationOpened();
-    this._getInitialNotification = getInitialNotification();
-
     this._willBlurSubscription = this.props.navigation.addListener(
       "willBlur",
       () => {
@@ -106,10 +90,6 @@ class TripFeed extends Component {
   componentWillUnmount() {
     this._didFocusSubscription && this._didFocusSubscription.remove();
     this._willBlurSubscription && this._willBlurSubscription.remove();
-
-    this._onNotificationReceived && this._onNotificationReceived();
-    this._onNotificationDisplayed && this._onNotificationDisplayed();
-    this._onNotificationOpened && this._onNotificationOpened();
   }
 
   setEmitterComponent = emitterComponent =>
