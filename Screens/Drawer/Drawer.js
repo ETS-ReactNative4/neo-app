@@ -48,8 +48,12 @@ class Drawer extends Component {
     this.checkLogin();
 
     this._screenNavigationTimeout = setTimeout(() => {
+      // This will make sure the splash screen is visible for 1 second
       appLauncher()
         .then(() => {
+          /**
+           * Subscribe to push notification events once app is launched
+           */
           getInitialNotification();
           this._onNotificationDisplayed = onNotificationDisplayed();
           this._onNotificationReceived = onNotificationReceived();

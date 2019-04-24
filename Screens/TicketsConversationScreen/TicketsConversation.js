@@ -96,9 +96,6 @@ class TicketsConversation extends Component {
       };
       apiCall(constants.sendTicketMessage, requestObject)
         .then(response => {
-          this.setState({
-            isSending: false
-          });
           if (response.status === "SUCCESS") {
             Keyboard.dismiss();
             const messageObject = {
@@ -108,9 +105,17 @@ class TicketsConversation extends Component {
               msgTime: moment().valueOf()
             };
             addMessageToConversation(ticketId, messageObject);
-            this.setState({
-              messageText: ""
-            });
+            this.setState(
+              {
+                messageText: ""
+              },
+              () => {
+                // Allow sending another ticket only after the message field is reset
+                this.setState({
+                  isSending: false
+                });
+              }
+            );
           } else {
             setError(
               "Unable to send message!",
