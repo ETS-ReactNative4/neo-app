@@ -2,6 +2,7 @@ import * as Keychain from "react-native-keychain";
 import { DrawerActions } from "react-navigation";
 import navigationService from "../navigationService/navigationService";
 import storeService from "../storeService/storeService";
+import Drawer from "../../Screens/Drawer/Drawer";
 
 const closeDrawer = DrawerActions.closeDrawer();
 
@@ -12,6 +13,7 @@ const logOut = (isForced = false) => {
   const logOutActionQueue = () => {
     Keychain.resetGenericPassword().then(() => {
       navigation._navigation.navigate("Splash");
+      Drawer.launchApp();
 
       setTimeout(() => {
         storeService.appState.reset();

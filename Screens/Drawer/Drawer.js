@@ -28,26 +28,17 @@ import {
 } from "../../Services/fcmService/fcm";
 import { logError } from "../../Services/errorLogger/errorLogger";
 
+let _screenNavigationTimeout,
+  _onNotificationReceived,
+  _onNotificationDisplayed,
+  _onNotificationOpened;
+
 @inject("userStore")
 @inject("infoStore")
 @observer
 class Drawer extends Component {
-  clickDrawerItem = (index, screen) => {
-    this.props.navigation.navigate(screen);
-  };
-
-  state = {
-    isLoggedIn: false
-  };
-  _screenNavigationTimeout;
-  _onNotificationReceived;
-  _onNotificationDisplayed;
-  _onNotificationOpened;
-
-  componentDidMount() {
-    this.checkLogin();
-
-    this._screenNavigationTimeout = setTimeout(() => {
+  static launchApp = () => {
+    setTimeout(() => {
       // This will make sure the splash screen is visible for 1 second
       appLauncher()
         .then(() => {
@@ -55,18 +46,30 @@ class Drawer extends Component {
            * Subscribe to push notification events once app is launched
            */
           getInitialNotification();
-          this._onNotificationDisplayed = onNotificationDisplayed();
-          this._onNotificationReceived = onNotificationReceived();
-          this._onNotificationOpened = onNotificationOpened();
+          _onNotificationDisplayed = onNotificationDisplayed();
+          _onNotificationReceived = onNotificationReceived();
+          _onNotificationOpened = onNotificationOpened();
         })
         .catch(logError);
     }, 1000);
+  };
+
+  clickDrawerItem = (index, screen) => {
+    this.props.navigation.navigate(screen);
+  };
+
+  state = {
+    isLoggedIn: false
+  };
+  componentDidMount() {
+    this.checkLogin();
+    Drawer.launchApp();
   }
 
   componentWillUnmount() {
-    this._onNotificationReceived && this._onNotificationReceived();
-    this._onNotificationDisplayed && this._onNotificationDisplayed();
-    this._onNotificationOpened && this._onNotificationOpened();
+    _onNotificationReceived && _onNotificationReceived();
+    _onNotificationDisplayed && _onNotificationDisplayed();
+    _onNotificationOpened && _onNotificationOpened();
   }
 
   componentDidUpdate() {
