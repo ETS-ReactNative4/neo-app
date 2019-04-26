@@ -28,16 +28,18 @@ import {
 } from "../../Services/fcmService/fcm";
 import { logError } from "../../Services/errorLogger/errorLogger";
 
-let _screenNavigationTimeout,
-  _onNotificationReceived,
-  _onNotificationDisplayed,
-  _onNotificationOpened;
+let _onNotificationReceived, _onNotificationDisplayed, _onNotificationOpened;
 
 @inject("userStore")
 @inject("infoStore")
 @observer
 class Drawer extends Component {
   static launchApp = () => {
+    // clear notification listeners if active
+    _onNotificationReceived && _onNotificationReceived();
+    _onNotificationDisplayed && _onNotificationDisplayed();
+    _onNotificationOpened && _onNotificationOpened();
+
     setTimeout(() => {
       // This will make sure the splash screen is visible for 1 second
       appLauncher()
