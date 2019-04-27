@@ -83,6 +83,8 @@ export const getInitialNotification = () =>
       }
     });
 
+const CHATSCREEN = "CHAT_SCREEN";
+
 const notificationClickHandler = data => {
   isUserLoggedInCallback(() => {
     const { screen, link, modalData } = data;
@@ -91,7 +93,7 @@ const notificationClickHandler = data => {
       resolveLinks(link, modalData ? JSON.parse(modalData) : {});
     } else {
       switch (screen) {
-        case "CRISP_CHAT":
+        case CHATSCREEN:
           navigation._navigation.navigate("Support");
           break;
 
@@ -109,7 +111,7 @@ const notificationReceivedHandler = async data => {
       const screen = data.screen;
       const { appState } = storeService;
       switch (screen) {
-        case "CRISP_CHAT":
+        case CHATSCREEN:
           appState.setChatNotification();
           break;
 

@@ -31,7 +31,7 @@ class Itineraries {
   };
 
   @action
-  selectItinerary = itineraryId => {
+  selectItinerary = (itineraryId, callback = () => null) => {
     const selectedItinerary = this._itineraries.find(itineraryDetail => {
       return itineraryDetail.itinerary.itineraryId === itineraryId;
     });
@@ -49,13 +49,14 @@ class Itineraries {
       storeService.supportStore.loadFaqDetails();
       storeService.tripFeedStore.generateTripFeed();
       storeService.weatherStore.reset();
+      callback();
     } else {
-      this.getItineraryDetails(itineraryId);
+      this.getItineraryDetails(itineraryId, callback);
     }
   };
 
   @action
-  getItineraryDetails = itineraryId => {
+  getItineraryDetails = (itineraryId, callback = () => null) => {
     this._isLoading = true;
     const requestBody = {};
     apiCall(
@@ -82,6 +83,7 @@ class Itineraries {
           storeService.supportStore.loadFaqDetails();
           storeService.tripFeedStore.generateTripFeed();
           storeService.weatherStore.reset();
+          callback();
         } else {
           this._loadingError = true;
         }

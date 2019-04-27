@@ -8,8 +8,10 @@ import {
   responsiveWidth,
   responsiveHeight
 } from "react-native-responsive-dimensions";
+import PropTypes from "prop-types";
+import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraProps";
 
-const UnableToUseChat = () => {
+const UnableToUseChat = ({ text = constants.onChatNoInternetText }) => {
   return (
     <View style={styles.unableToUseChatContainer}>
       <Image
@@ -17,7 +19,7 @@ const UnableToUseChat = () => {
         style={styles.image}
         resizeMode="contain"
       />
-      <Text style={styles.message}>{constants.onChatNoInternetText}</Text>
+      <Text style={styles.message}>{text}</Text>
       <SimpleButton
         containerStyle={{ marginTop: 8 }}
         text={constants.offlineContact}
@@ -32,6 +34,10 @@ const UnableToUseChat = () => {
     </View>
   );
 };
+
+UnableToUseChat.propTypes = forbidExtraProps({
+  text: PropTypes.string
+});
 
 const styles = StyleSheet.create({
   unableToUseChatContainer: {

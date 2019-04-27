@@ -9,23 +9,26 @@ import UnableToUseChat from "./Components/UnableToUseChat";
 import PreTrip from "./Components/PreTrip";
 import moment from "moment";
 import { recordEvent } from "../../Services/analytics/analyticsService";
-import CrispSDK from "./Components/CrispSDK";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import openCustomTab from "../../Services/openCustomTab/openCustomTab";
 import getUrlParams from "../../Services/getUrlParams/getUrlParams";
 import isUserLoggedInCallback from "../../Services/isUserLoggedInCallback/isUserLoggedInCallback";
+import objectToQueryParam from "../../Services/objectToQueryParam/objectToQueryParam";
+import { logError } from "../../Services/errorLogger/errorLogger";
+import DeviceInfo from "react-native-device-info";
 
 @ErrorBoundary({ isRoot: true })
-@inject("userStore")
 @inject("itineraries")
 @inject("appState")
+@inject("chatDetailsStore")
 @observer
 class ChatScreen extends Component {
   state = {
     canGoBack: false,
     keyboardVisible: false,
     isChatActive: true,
-    keyboardSpace: 0
+    keyboardSpace: 0,
+    isChatKilled: false
   };
   _webView = React.createRef();
   _didFocusSubscription;
@@ -70,12 +73,18 @@ class ChatScreen extends Component {
     );
   }
 
+  /**
+   * Keeps track of history of the webview so that back button can navigate through webview history
+   */
   onNavigationStateChange = navState => {
     this.setState({
       canGoBack: navState.canGoBack
     });
   };
 
+  /**
+   * Go back to previous webview page if possible otherwise simply go back to the first tab in the app home screen
+   */
   goBack = () => {
     if (this.state.canGoBack) {
       this._webView.goBack();
@@ -95,24 +104,18 @@ class ChatScreen extends Component {
         BackHandler.removeEventListener("hardwareBackPress", this.goBack);
       }
     );
-    this.checkCrispToken();
+    const { getUserDetails } = this.props.chatDetailsStore;
+    getUserDetails();
   }
-
-  checkCrispToken = () => {
-    isUserLoggedInCallback(() => {
-      const { userDetails, getUserDetails } = this.props.userStore;
-      const { email, crisp_token } = userDetails;
-      if (!crisp_token || !email) {
-        getUserDetails();
-      }
-    });
-  };
 
   componentWillUnmount() {
     this._didFocusSubscription && this._didFocusSubscription.remove();
     this._willBlurSubscription && this._willBlurSubscription.remove();
   }
 
+  /**
+   * Check if user is close enough to initialize live chat for his trip
+   */
   checkChatActivationStatus = () => {
     if (this.props.itineraries.cities[0]) {
       const today = moment();
@@ -129,66 +132,122 @@ class ChatScreen extends Component {
     }
   };
 
+  /**
+   * This will be triggered by the events happening inside the Webview
+   * Used to retrieve `restoreId`, `actorId` and log errors happening inside the HTML
+   */
+  webViewMessageCallback = event => {
+    const data = JSON.parse(event.nativeEvent.data);
+    const { restoreId, error, actorId } = data;
+    const { setChatMetaInfo } = this.props.chatDetailsStore;
+    if (restoreId && actorId) {
+      setChatMetaInfo({ restoreId, actorId }, () => {
+        this.setState(
+          {
+            isChatKilled: true
+          },
+          () => {
+            setTimeout(() => {
+              this.setState({
+                isChatKilled: false
+              });
+            }, 200);
+          }
+        );
+      });
+    } else {
+      logError(error, { data });
+    }
+  };
+
   render() {
-    const { isChatActive } = this.state;
+    const { isChatActive, isChatKilled } = this.state;
     const { isConnected } = this.props.appState;
     const openSupportCenter = () => {
       recordEvent(constants.chatOpenSupportCenterClick);
       this.props.navigation.navigate("SupportCenter");
     };
-    const { userDetails } = this.props.userStore;
-    const { email, crisp_token } = userDetails;
-    const uri = constants.crispServerUrl(email, crisp_token);
+
+    const {
+      chatDetails,
+      initializationError,
+      metaDataError
+    } = this.props.chatDetailsStore;
+    const isChatFailed = initializationError || metaDataError;
+    const chatQueryParam = objectToQueryParam({
+      // create query parameter for loading webview from the chat details object
+      ...chatDetails,
+      region: encodeURI(chatDetails.region), // region is an Array and needs to be encoded
+      appVersion: DeviceInfo.getVersion(),
+      webview: true
+    });
+    const uri = constants.chatServerUrl(chatQueryParam);
 
     return isChatActive ? (
       isConnected ? (
-        <View
-          style={[
-            { flex: 1 },
-            Platform.OS === "ios" && isIphoneX()
-              ? {
-                  backgroundColor:
-                    this.state.keyboardVisible || this.state.canGoBack
-                      ? constants.chatLightColor
-                      : constants.chatMainColor
-                }
-              : null
-          ]}
-        >
-          {uri ? (
-            <ControlledWebView
-              source={{ uri }}
-              onNavigationStateChange={this.onNavigationStateChange}
-              style={{
-                flex: 1,
-                marginTop: isIphoneX() ? constants.xNotchHeight : 0
-              }}
-              webviewRef={e => (this._webView = e)}
-              injectedJavascript={CrispSDK}
-              useWebKit={false}
-              onShouldStartLoadWithRequest={event => {
-                /**
-                 * Prevent user from navigating away from chat window by opening
-                 * external links in custom tab (helps with file downloads)
-                 */
-                const params = getUrlParams(event.url);
-                if (event.url && params.webview !== "true") {
-                  if (event.url !== uri) {
-                    openCustomTab(event.url);
+        !isChatFailed ? (
+          <View
+            style={[
+              { flex: 1 },
+              Platform.OS === "ios" && isIphoneX()
+                ? {
+                    backgroundColor:
+                      this.state.keyboardVisible || this.state.canGoBack
+                        ? constants.chatLightColor
+                        : constants.chatMainColor
+                  }
+                : null
+            ]}
+          >
+            {chatDetails.feid && !isChatKilled ? (
+              <ControlledWebView
+                source={{ uri }}
+                onNavigationStateChange={this.onNavigationStateChange}
+                style={{
+                  flex: 1,
+                  marginTop: isIphoneX() ? constants.xNotchHeight : 0
+                }}
+                webviewRef={e => (this._webView = e)}
+                useWebKit={false}
+                onShouldStartLoadWithRequest={event => {
+                  /**
+                   * Prevent user from navigating away from chat window by opening
+                   * external links in custom tab (helps with file downloads)
+                   */
+                  if (event.url) {
+                    const isFreshChatIframe = event.url.startsWith(
+                      constants.freshChatIframe
+                    );
+                    const isBlankPageIframe =
+                      event.url === constants.freshChatIframeBlankPage;
+                    if (isFreshChatIframe || isBlankPageIframe) return true; // the action happened inside iframe let it proceed
+                    const params = getUrlParams(event.url); // get query params of the page
+                    if (params.webview !== "true") {
+                      // check if the page is permitted to render inside webview
+                      if (event.url !== uri) {
+                        openCustomTab(event.url);
+                        return false;
+                      }
+                    }
+                    // the page can load inside the webview
+                    return true;
+                  } else {
                     return false;
                   }
-                }
-                return true;
-              }}
-            />
-          ) : null}
-          {Platform.OS === "ios" ? (
-            <BackButtonIos
-              backAction={this.goBack}
-              isVisible={this.state.canGoBack}
-            />
-          ) : null}
-        </View>
+                }}
+                onMessage={this.webViewMessageCallback}
+              />
+            ) : null}
+            {Platform.OS === "ios" ? (
+              <BackButtonIos
+                backAction={this.goBack}
+                isVisible={this.state.canGoBack}
+              />
+            ) : null}
+          </View>
+        ) : (
+          <UnableToUseChat text={constants.onChatFailedToInitialize} />
+        )
       ) : (
         <UnableToUseChat />
       )

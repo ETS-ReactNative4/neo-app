@@ -64,13 +64,17 @@ const serverUrls = {
   googleTranslateTts: (phrase, language) =>
     `https://translate.google.com.vn/translate_tts?ie=UTF-8&q=${phrase}&tl=${language}&client=tw-ob`,
   airlineCdn: "https://d3lf10b5gahyby.cloudfront.net/airline_logos/",
-  crispServerUrl: (email, token) =>
-    email && token
-      ? encodeURI(
-          `${chatCustomUrl}?user_email=${email}&token_id=${token}&webview=true`
-        )
+  chatServerUrl: chatQueryParam =>
+    chatQueryParam
+      ? encodeURI(`http://chat.pickyourtrail.com/${chatQueryParam}`)
       : "",
   offlineContact: "+91 8939891682",
+
+  /**
+   * Freshchat iFrame url
+   */
+  freshChatIframe: "https://wchat.freshchat.com/widget",
+  freshChatIframeBlankPage: "about:blank",
 
   /**
    * Payment Urls

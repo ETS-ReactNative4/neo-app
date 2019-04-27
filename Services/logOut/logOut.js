@@ -32,6 +32,7 @@ const logOut = (isForced = false) => {
         storeService.tripFeedStore.reset();
         storeService.forexStore.reset();
         storeService.deviceDetailsStore.reset();
+        storeService.chatDetailsStore.reset();
       }, 100);
     });
   };
