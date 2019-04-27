@@ -52,7 +52,10 @@ class TicketsConversation extends Component {
 
   _renderItem = ({ item: conversation, index }) => {
     const { userDetails } = this.props.userStore;
-    const user = userDetails.email === conversation.userEmail ? "You" : "Admin";
+    const user =
+      userDetails.email === conversation.userEmail
+        ? "You"
+        : conversation.userName || "Admin";
     return (
       <ConversationCard
         message={conversation.msg}
