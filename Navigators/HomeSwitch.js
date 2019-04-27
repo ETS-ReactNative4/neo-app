@@ -25,7 +25,6 @@ HomeSwitch.navigationOptions = ({ navigation }) => {
   if (
     routeName === "TripFeed" ||
     routeName === "Bookings" ||
-    routeName === "Support" ||
     routeName === "Tools" ||
     routeName === "Journal"
   ) {
