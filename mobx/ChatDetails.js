@@ -81,7 +81,7 @@ class ChatDetails {
         this._isLoading = false;
         if (response.status === constants.responseSuccessStatus) {
           this._metaDataError = false;
-          this._chatDetails.frid = restoreId;
+          this._chatDetails.frid = requestBody.restoreId;
           successCallback();
         } else {
           this._metaDataError = true;
