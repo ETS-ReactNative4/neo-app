@@ -85,11 +85,18 @@
    */
   window.fcWidget.on("user:created", function(userCreated) {
     if (userCreated.status === 200 && userCreated.success && userCreated.data) {
+      console.log('User created!', {
+        userCreated: userCreated,
+      });
       window.fcWidget.user.get(function(userDetails) {
         if (userDetails.status === 200 && userDetails.success && userDetails.data) {
           var actorId = userDetails.data.alias;
           var restoreId = userDetails.data.restoreId;
-          window.ReactNativeWebView.postMessage(JSON.stringify({
+          console.log('Actor details', {
+            userCreated: userCreated,
+            userDetails: userDetails
+          });
+          window.ReactNativeWebView && window.ReactNativeWebView.postMessage(JSON.stringify({
             restoreId: restoreId,
             actorId: actorId
           }));
@@ -97,8 +104,8 @@
           console.log("Failed to get actor id", {
             userCreated: userCreated,
             userDetails: userDetails
-          })
-          window.ReactNativeWebView.postMessage(JSON.stringify({
+          });
+          window.ReactNativeWebView && window.ReactNativeWebView.postMessage(JSON.stringify({
             error: "Failed to get actor id",
             userCreation: userCreated,
             actorIdResponse: userDetails
@@ -108,8 +115,8 @@
     } else {
       console.log("Failed to create user", {
         userCreated: userCreated,
-      })
-      window.ReactNativeWebView.postMessage(JSON.stringify({
+      });
+      window.ReactNativeWebView && window.ReactNativeWebView.postMessage(JSON.stringify({
         error: "Failed to create user",
         userCreation: userCreated
       }));
