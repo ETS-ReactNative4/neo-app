@@ -94,6 +94,10 @@
             actorId: actorId
           }));
         } else {
+          console.log("Failed to get actor id", {
+            userCreated: userCreated,
+            userDetails: userDetails
+          })
           window.ReactNativeWebView.postMessage(JSON.stringify({
             error: "Failed to get actor id",
             userCreation: userCreated,
@@ -102,6 +106,9 @@
         }
       })
     } else {
+      console.log("Failed to create user", {
+        userCreated: userCreated,
+      })
       window.ReactNativeWebView.postMessage(JSON.stringify({
         error: "Failed to create user",
         userCreation: userCreated
