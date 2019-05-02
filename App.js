@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { UIManager, NetInfo } from "react-native";
 import { Provider } from "mobx-react";
 import store from "./mobx/Store";
@@ -18,6 +18,7 @@ import {
 } from "./Services/fcmService/fcm";
 import ErrorBoundary from "./CommonComponents/ErrorBoundary/ErrorBoundary";
 import { isProduction } from "./Services/getEnvironmentDetails/getEnvironmentDetails";
+import FooterFeedbackPrompt from "./CommonComponents/FooterFeedbackPrompt/FooterFeedbackPrompt";
 
 @ErrorBoundary({ isRoot: true })
 class App extends Component {
@@ -70,10 +71,13 @@ class App extends Component {
     updateStoreService(store);
     return (
       <Provider {...store}>
-        <AppNavigator
-          ref={setNavigationService}
-          onNavigationStateChange={screenTracker}
-        />
+        <Fragment>
+          <AppNavigator
+            ref={setNavigationService}
+            onNavigationStateChange={screenTracker}
+          />
+          <FooterFeedbackPrompt />
+        </Fragment>
       </Provider>
     );
   }
