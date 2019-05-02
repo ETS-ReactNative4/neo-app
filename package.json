@@ -81,6 +81,7 @@
     "react-native-webview": "^2.14.3",
     "react-navigation": "2.17.0",
     "rn-fetch-blob": "^0.10.15",
+    "rn-sliding-up-panel": "^2.2.0",
     "title-case": "^2.1.1",
     "uuid": "^3.3.2"
   },
@@ -105,7 +106,13 @@
     "react-native-dotenv": "^0.2.0",
     "react-test-renderer": "16.5.0"
   },
-  "resolutions": { "core-js": "2.5.7" },
-  "jest": { "preset": "react-native" },
-  "rnpm": { "assets": ["./assets/fonts/"] }
+  "resolutions": {
+    "core-js": "2.5.7"
+  },
+  "jest": {
+    "preset": "react-native"
+  },
+  "rnpm": {
+    "assets": ["./assets/fonts/"]
+  }
 }
