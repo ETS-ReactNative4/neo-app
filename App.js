@@ -76,7 +76,7 @@ class App extends Component {
             ref={setNavigationService}
             onNavigationStateChange={screenTracker}
           />
-          <FooterFeedbackPrompt prompt={"How was your day?"} />
+          <FooterFeedbackPrompt />
         </Fragment>
       </Provider>
     );

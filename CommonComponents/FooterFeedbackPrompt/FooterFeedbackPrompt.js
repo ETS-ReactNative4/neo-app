@@ -11,20 +11,20 @@ import SimpleButton from "../SimpleButton/SimpleButton";
 import * as Animatable from "react-native-animatable";
 import SlidingUpPanel from "rn-sliding-up-panel";
 import SlidingPanel from "./Components/SlidingPanel/SlidingPanel";
+import { inject, observer } from "mobx-react/custom";
 
+@inject("feedbackPrompt")
+@observer
 class FooterFeedbackPrompt extends Component {
-  static propTypes = {
-    prompt: PropTypes.string.isRequired
-  };
-
   _panelRef = React.createRef();
 
   render() {
     const {
-      prompt,
+      feedbackData,
       positiveAction = () => this._panelRef.current.hide(),
       negativeAction = () => this._panelRef.current.show()
-    } = this.props;
+    } = this.props.feedbackPrompt;
+    const prompt = feedbackData.title;
     return (
       <Fragment>
         <Animatable.View

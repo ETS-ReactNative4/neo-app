@@ -21,6 +21,7 @@ import DayAheadLite from "./Components/DayAheadLite/DayAheadLite";
 
 @ErrorBoundary({ isRoot: true })
 @inject("tripFeedStore")
+@inject("feedbackPrompt")
 @observer
 class TripFeed extends Component {
   static navigationOptions = HomeHeader;
