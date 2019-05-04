@@ -11537,10 +11537,9 @@ rn-fetch-blob@^0.10.15:
     base-64 "0.1.0"
     glob "7.0.6"
 
-rn-sliding-up-panel@^2.2.0:
+"rn-sliding-up-panel@git://github.com/DaniAkash/rn-sliding-up-panel#51215fbd0119e1b661e1de280d92bb3455604450":
   version "2.2.0"
-  resolved "https://registry.yarnpkg.com/rn-sliding-up-panel/-/rn-sliding-up-panel-2.2.0.tgz#e724041c39297d174f46248762c0ad58bd0738d5"
-  integrity sha512-X+40KmlS3WQx0MCYn8tHupPmoUeOCkrjbBJNsli4ax4co+5Lm784ADErVwqnKW1ehbIFU9mB9mI6TakNpn9Hzg==
+  resolved "git://github.com/DaniAkash/rn-sliding-up-panel#51215fbd0119e1b661e1de280d92bb3455604450"
   dependencies:
     clamp "^1.0.1"
     prop-types "^15.7.2"

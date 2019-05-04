@@ -81,7 +81,8 @@
     "react-native-webview": "^2.14.3",
     "react-navigation": "2.17.0",
     "rn-fetch-blob": "^0.10.15",
-    "rn-sliding-up-panel": "^2.2.0",
+    "rn-sliding-up-panel":
+      "git://github.com/DaniAkash/rn-sliding-up-panel#51215fbd0119e1b661e1de280d92bb3455604450",
     "title-case": "^2.1.1",
     "uuid": "^3.3.2"
   },
