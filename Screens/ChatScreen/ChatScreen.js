@@ -142,6 +142,10 @@ class ChatScreen extends Component {
     const { setChatMetaInfo } = this.props.chatDetailsStore;
     if (restoreId && actorId) {
       setChatMetaInfo({ restoreId, actorId }, () => {
+        /**
+         * Chat Webview needs to be killed and restarted, otherwise
+         * it will behave like history.push event
+         */
         this.setState(
           {
             isChatKilled: true
