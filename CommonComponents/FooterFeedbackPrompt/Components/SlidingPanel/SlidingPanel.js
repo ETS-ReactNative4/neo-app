@@ -10,7 +10,7 @@ import PanelLogoContainer from "./Components/PanelLogoContainer";
 
 class SlidingPanel extends Component {
   render() {
-    const { panelRef } = this.props;
+    const { panelRef, onClose } = this.props;
 
     return (
       <SlidingUpPanel
@@ -18,6 +18,7 @@ class SlidingPanel extends Component {
         draggableRange={{ top: responsiveHeight(50) + 44, bottom: 0 }}
         height={responsiveHeight(50) + 44}
         ref={panelRef}
+        onClose={onClose}
       >
         <View style={styles.slidingContainer}>
           <PanelLogoContainer />

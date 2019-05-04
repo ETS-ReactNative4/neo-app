@@ -12,22 +12,38 @@ import * as Animatable from "react-native-animatable";
 import SlidingUpPanel from "rn-sliding-up-panel";
 import SlidingPanel from "./Components/SlidingPanel/SlidingPanel";
 import { inject, observer } from "mobx-react/custom";
+import _ from "lodash";
 
 @inject("feedbackPrompt")
 @observer
 class FooterFeedbackPrompt extends Component {
   _panelRef = React.createRef();
+  _footerRef = React.createRef();
+
+  positiveAction = () => {
+    this._footerRef.current.bounceOutDown().then(endState => {
+      this._panelRef.current.show();
+    });
+  };
+
+  negativeAction = () => {
+    this._footerRef.current.bounceOutDown().then(endState => {
+      this._panelRef.current.show();
+    });
+  };
+
+  showFooter = () => {
+    this._footerRef.current.bounceInUp();
+  };
 
   render() {
-    const {
-      feedbackData,
-      positiveAction = () => this._panelRef.current.hide(),
-      negativeAction = () => this._panelRef.current.show()
-    } = this.props.feedbackPrompt;
-    const prompt = feedbackData.title;
+    const { feedbackOptions } = this.props.feedbackPrompt;
+    if (_.isEmpty(feedbackOptions)) return null;
+    const prompt = feedbackOptions.title;
     return (
       <Fragment>
         <Animatable.View
+          ref={this._footerRef}
           animation={"bounceInUp"}
           style={styles.footerFeedbackPrompt}
         >
@@ -35,7 +51,7 @@ class FooterFeedbackPrompt extends Component {
           <View style={styles.promptActionBar}>
             <SimpleButton
               text={"Yey"}
-              action={positiveAction}
+              action={this.positiveAction}
               textColor={"white"}
               hasBorder={false}
               icon={constants.thumbsUpIcon}
@@ -54,7 +70,7 @@ class FooterFeedbackPrompt extends Component {
             />
             <SimpleButton
               text={"Meh"}
-              action={negativeAction}
+              action={this.negativeAction}
               textColor={"white"}
               hasBorder={false}
               icon={constants.thumbsDownIcon}
@@ -74,7 +90,7 @@ class FooterFeedbackPrompt extends Component {
             />
           </View>
         </Animatable.View>
-        <SlidingPanel panelRef={this._panelRef} />
+        <SlidingPanel onClose={this.showFooter} panelRef={this._panelRef} />
       </Fragment>
     );
   }

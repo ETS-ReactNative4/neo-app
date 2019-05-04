@@ -71,6 +71,7 @@ class TripFeed extends Component {
   };
 
   componentDidMount() {
+    const { fetchFeedBackData } = this.props.feedbackPrompt;
     this.loadTripFeedData();
 
     this._willBlurSubscription = this.props.navigation.addListener(
@@ -82,6 +83,9 @@ class TripFeed extends Component {
         );
       }
     );
+    setTimeout(() => {
+      fetchFeedBackData();
+    }, 2000);
   }
 
   loadTripFeedData = () => {

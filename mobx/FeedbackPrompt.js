@@ -8,11 +8,7 @@ import { hydrate } from "./Store";
 import { logError } from "../Services/errorLogger/errorLogger";
 
 class FeedbackPrompt {
-  static hydrator = storeInstance => {
-    hydrate("_feedbackData", storeInstance)
-      .then(() => {})
-      .catch(err => logError(err));
-  };
+  static hydrator = storeInstance => {};
 
   @action
   reset = () => {
@@ -41,17 +37,16 @@ class FeedbackPrompt {
     feedbackFooterBar: React.createRef()
   };
 
-  @persist("object")
-  @observable
-  _feedbackData = [];
+  @observable _feedbackData = [];
 
   @computed
-  get feedbackData() {
-    return toJS(this._feedbackData);
+  get feedbackOptions() {
+    if (!this._feedbackData.length) return {};
+    return toJS(this._feedbackData[0]);
   }
 
   @action
-  fetchFeedBackData = callback => {
+  fetchFeedBackData = (callback = () => null) => {
     this._feedbackData = [
       {
         title: "How was your day ?",
