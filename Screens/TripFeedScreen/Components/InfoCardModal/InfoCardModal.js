@@ -110,7 +110,10 @@ class InfoCardModal extends Component {
               {modalLink && modalLink.text ? (
                 <TouchableOpacity
                   onPress={() => {
-                    onClose();
+                    //Delay close to prevent freezing due to transition
+                    setTimeout(() => {
+                      onClose();
+                    }, 500);
                     if (modalLink.link) {
                       resolveLinks(
                         modalLink.link,
@@ -157,7 +160,10 @@ class InfoCardModal extends Component {
                         icon={action.icon}
                         iconSize={16}
                         action={() => {
-                          onClose();
+                          //Delay close to prevent freezing due to transition
+                          setTimeout(() => {
+                            onClose();
+                          }, 500);
                           if (action.link) {
                             resolveLinks(
                               action.link,

@@ -152,7 +152,8 @@ class PaymentSummary extends Component {
       constants.productUrl,
       false,
       {
-        Version: "V_2"
+        Version: "V_2",
+        user_device: "MOBILE_APP"
       }
     )
       .then(response => {

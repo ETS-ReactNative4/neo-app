@@ -31,7 +31,7 @@ class Itineraries {
   };
 
   @action
-  selectItinerary = itineraryId => {
+  selectItinerary = (itineraryId, callback = () => null) => {
     const selectedItinerary = this._itineraries.find(itineraryDetail => {
       return itineraryDetail.itinerary.itineraryId === itineraryId;
     });
@@ -49,13 +49,14 @@ class Itineraries {
       storeService.supportStore.loadFaqDetails();
       storeService.tripFeedStore.generateTripFeed();
       storeService.weatherStore.reset();
+      callback();
     } else {
-      this.getItineraryDetails(itineraryId);
+      this.getItineraryDetails(itineraryId, callback);
     }
   };
 
   @action
-  getItineraryDetails = itineraryId => {
+  getItineraryDetails = (itineraryId, callback = () => null) => {
     this._isLoading = true;
     const requestBody = {};
     apiCall(
@@ -82,6 +83,7 @@ class Itineraries {
           storeService.supportStore.loadFaqDetails();
           storeService.tripFeedStore.generateTripFeed();
           storeService.weatherStore.reset();
+          callback();
         } else {
           this._loadingError = true;
         }
@@ -235,7 +237,7 @@ class Itineraries {
                   this._selectedItinerary.hotelCostings.hotelCostingById[ref]
                 );
 
-                if (hotel.status === "SUCCESS") {
+                if (hotel && hotel.status === "SUCCESS") {
                   hotel.voucher =
                     storeService.voucherStore.getHotelVoucherById(
                       hotel.costingId
@@ -247,6 +249,7 @@ class Itineraries {
               }, [])
             : [];
       } catch (e) {
+        logError(e);
         hotels = [];
       }
       return hotels;
@@ -263,7 +266,9 @@ class Itineraries {
     try {
       let activities;
       try {
-        activities = Object.values(this._selectedItinerary.activityById);
+        activities = this._selectedItinerary.activityById
+          ? Object.values(this._selectedItinerary.activityById)
+          : [];
         const activityRefs = this._selectedItinerary.allActivityCostingRefs;
         /**
          * TODO: Multiple maps (needs optimization)
@@ -297,6 +302,7 @@ class Itineraries {
         );
         return _.sortBy(activities, "costing.dateMillis");
       } catch (e) {
+        logError(e);
         activities = [];
       }
       return activities;
@@ -320,7 +326,7 @@ class Itineraries {
                 this._selectedItinerary.flightCostings.flightCostingById[ref]
               );
 
-              if (flight.status === "SUCCESS") {
+              if (flight && flight.status === "SUCCESS") {
                 flight.voucher =
                   storeService.voucherStore.getFlightVoucherById(
                     flight.dbFlightId
@@ -354,7 +360,7 @@ class Itineraries {
                 ]
               );
 
-              if (transfer.status === "SUCCESS") {
+              if (transfer && transfer.status === "SUCCESS") {
                 transfer.voucher =
                   storeService.voucherStore.getTransferVoucherById(
                     transfer.transferCostingId
@@ -948,6 +954,7 @@ class Itineraries {
         }
       }
     } catch (e) {
+      logError(e);
       return 0;
     }
   });

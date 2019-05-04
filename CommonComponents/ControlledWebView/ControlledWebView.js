@@ -20,7 +20,8 @@ const ControlledWebView = ({
   hideLoadingIndicator,
   useWebKit = true,
   originWhitelist = ["*"],
-  onShouldStartLoadWithRequest = () => true // should always return true to properly load pages
+  onShouldStartLoadWithRequest = () => true, // should always return true to properly load pages
+  ...otherProps
 }) => {
   return [
     <WebView
@@ -34,6 +35,7 @@ const ControlledWebView = ({
       originWhitelist={originWhitelist}
       injectedJavaScript={injectedJavascript}
       onShouldStartLoadWithRequest={onShouldStartLoadWithRequest}
+      {...otherProps}
     />,
     !isProduction() ? (
       <View key={1} style={styles.urlInfoBox} pointerEvents={"none"}>
@@ -62,7 +64,7 @@ const styles = StyleSheet.create({
   }
 });
 
-ControlledWebView.propTypes = forbidExtraProps({
+ControlledWebView.propTypes = {
   source: PropTypes.object.isRequired,
   onNavigationStateChange: PropTypes.func.isRequired,
   style: PropTypes.object.isRequired,
@@ -72,6 +74,6 @@ ControlledWebView.propTypes = forbidExtraProps({
   useWebKit: PropTypes.bool,
   originWhitelist: PropTypes.array,
   onShouldStartLoadWithRequest: PropTypes.func
-});
+};
 
 export default ControlledWebView;

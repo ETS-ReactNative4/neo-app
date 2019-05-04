@@ -39,15 +39,16 @@ class Upcoming extends Component {
   selectItinerary = itineraryId => {
     recordEvent(constants.yourBookingsSelectItineraryClick);
     const { selectItinerary } = this.props.itineraries;
-    selectItinerary(itineraryId);
-    const routeName = this.props.navigation.state.routeName;
-    if (routeName === "YourBookings") {
-      this.props.appState.setTripMode(true);
-      this.props.navigation.dispatch(resetAction);
-    } else if (routeName === "YourBookingsUniversal") {
-      this.props.appState.setTripMode(true);
-      this.props.navigation.navigate("BookedItineraryTabs");
-    }
+    selectItinerary(itineraryId, () => {
+      const routeName = this.props.navigation.state.routeName;
+      if (routeName === "YourBookings") {
+        this.props.appState.setTripMode(true);
+        this.props.navigation.dispatch(resetAction);
+      } else if (routeName === "YourBookingsUniversal") {
+        this.props.appState.setTripMode(true);
+        this.props.navigation.navigate("BookedItineraryTabs");
+      }
+    });
   };
 
   render() {

@@ -52,7 +52,10 @@ class TicketsConversation extends Component {
 
   _renderItem = ({ item: conversation, index }) => {
     const { userDetails } = this.props.userStore;
-    const user = userDetails.email === conversation.userEmail ? "You" : "Admin";
+    const user =
+      userDetails.email === conversation.userEmail
+        ? "You"
+        : conversation.userName || "Admin";
     return (
       <ConversationCard
         message={conversation.msg}
@@ -96,9 +99,6 @@ class TicketsConversation extends Component {
       };
       apiCall(constants.sendTicketMessage, requestObject)
         .then(response => {
-          this.setState({
-            isSending: false
-          });
           if (response.status === "SUCCESS") {
             Keyboard.dismiss();
             const messageObject = {
@@ -108,9 +108,17 @@ class TicketsConversation extends Component {
               msgTime: moment().valueOf()
             };
             addMessageToConversation(ticketId, messageObject);
-            this.setState({
-              messageText: ""
-            });
+            this.setState(
+              {
+                messageText: ""
+              },
+              () => {
+                // Allow sending another ticket only after the message field is reset
+                this.setState({
+                  isSending: false
+                });
+              }
+            );
           } else {
             setError(
               "Unable to send message!",
