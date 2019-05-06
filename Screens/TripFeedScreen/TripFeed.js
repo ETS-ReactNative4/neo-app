@@ -12,7 +12,6 @@ import InfoCard from "./Components/InfoCard/InfoCard";
 import { inject, observer } from "mobx-react/custom";
 import CustomScrollView from "../../CommonComponents/CustomScrollView/CustomScrollView";
 import InfoCardModal from "./Components/InfoCardModal/InfoCardModal";
-import { logError } from "../../Services/errorLogger/errorLogger";
 import NoInternetIndicator from "../../CommonComponents/NoInternetIndicator/NoInternetIndicator";
 import FeedBackSwiper from "./Components/FeedBackSwiper/FeedBackSwiper";
 import FeedBackPositiveExplosion from "./Components/FeedBackSwiper/Components/FeedBackPositiveExplosion";

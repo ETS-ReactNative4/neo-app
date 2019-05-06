@@ -5772,7 +5772,7 @@ fbjs-scripts@^0.8.1:
     semver "^5.1.0"
     through2 "^2.0.0"
 
-fbjs@0.8.17, fbjs@^0.8.17:
+fbjs@0.8.17:
   version "0.8.17"
   resolved "https://registry.yarnpkg.com/fbjs/-/fbjs-0.8.17.tgz#c4d598ead6949112653d6588b01a5cdcd9f90fdd"
   integrity sha1-xNWY6taUkRJlPWWIsBpc3Nn5D90=
@@ -7014,7 +7014,7 @@ intl@^1.2.5:
   resolved "https://registry.yarnpkg.com/intl/-/intl-1.2.5.tgz#82244a2190c4e419f8371f5aa34daa3420e2abde"
   integrity sha1-giRKIZDE5Bn4Nx9ao02qNCDiq94=
 
-invariant@^2.2.0, invariant@^2.2.2, invariant@^2.2.4:
+invariant@2.2.4, invariant@^2.2.0, invariant@^2.2.2, invariant@^2.2.4:
   version "2.2.4"
   resolved "https://registry.yarnpkg.com/invariant/-/invariant-2.2.4.tgz#610f3c92c9359ce1db616e538008d23ff35158e6"
   integrity sha512-phJfQVBuaJM5raOpJjSfkiD6BpbCE4Ns//LaXl6wGYtUBY83nWS6Rf9tXm2e8VaK60JEjYldbPif/A2B1C2gNA==
@@ -10736,13 +10736,13 @@ react-native-webp-support@TGPSKI/react-native-webp-support:
   version "0.4.0"
   resolved "https://codeload.github.com/TGPSKI/react-native-webp-support/tar.gz/fefbf58a3f59a82465a6ca1139ed2d922754c3da"
 
-react-native-webview@^2.14.3:
-  version "2.14.3"
-  resolved "https://registry.yarnpkg.com/react-native-webview/-/react-native-webview-2.14.3.tgz#25ed93d4b12659fb330dd21b6d8802b86628f079"
-  integrity sha512-hKG+3G1zLosbGFm/QgZsjBWDnf9tX4UGshcCzHBifXKgwhRY3sscs70lYdGMV/J7SxVRyiA4SebUiwUwbsstyw==
+react-native-webview@5.7.0:
+  version "5.7.0"
+  resolved "https://registry.yarnpkg.com/react-native-webview/-/react-native-webview-5.7.0.tgz#a0417e23ff65053be0ba248de3f98938db4688cf"
+  integrity sha512-0QFhZoKer8jV+avXJJALAC9J/T9PkX4uhCxeprDKLBXO6y2tQUIaVv+uPo2k07tGoeaSU1rKgoh3D8fYGaOwLQ==
   dependencies:
-    escape-string-regexp "^1.0.5"
-    fbjs "^0.8.17"
+    escape-string-regexp "1.0.5"
+    invariant "2.2.4"
 
 react-native@0.57.1:
   version "0.57.1"

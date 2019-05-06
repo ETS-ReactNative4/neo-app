@@ -19,11 +19,43 @@ import DialogBox from "../../CommonComponents/DialogBox/DialogBox";
 import { shouldIncludeStoryBook } from "../../storybook/Storybook";
 import { recordEvent } from "../../Services/analytics/analyticsService";
 import isUserLoggedInCallback from "../../Services/isUserLoggedInCallback/isUserLoggedInCallback";
+import appLauncher from "../../Services/appLauncher/appLauncher";
+import {
+  getInitialNotification,
+  onNotificationDisplayed,
+  onNotificationOpened,
+  onNotificationReceived
+} from "../../Services/fcmService/fcm";
+import { logError } from "../../Services/errorLogger/errorLogger";
+
+let _onNotificationReceived, _onNotificationDisplayed, _onNotificationOpened;
 
 @inject("userStore")
 @inject("infoStore")
 @observer
 class Drawer extends Component {
+  static launchApp = () => {
+    // clear notification listeners if active
+    _onNotificationReceived && _onNotificationReceived();
+    _onNotificationDisplayed && _onNotificationDisplayed();
+    _onNotificationOpened && _onNotificationOpened();
+
+    setTimeout(() => {
+      // This will make sure the splash screen is visible for 1 second
+      appLauncher()
+        .then(() => {
+          /**
+           * Subscribe to push notification events once app is launched
+           */
+          getInitialNotification();
+          _onNotificationDisplayed = onNotificationDisplayed();
+          _onNotificationReceived = onNotificationReceived();
+          _onNotificationOpened = onNotificationOpened();
+        })
+        .catch(logError);
+    }, 1000);
+  };
+
   clickDrawerItem = (index, screen) => {
     this.props.navigation.navigate(screen);
   };
@@ -31,9 +63,15 @@ class Drawer extends Component {
   state = {
     isLoggedIn: false
   };
-
   componentDidMount() {
     this.checkLogin();
+    Drawer.launchApp();
+  }
+
+  componentWillUnmount() {
+    _onNotificationReceived && _onNotificationReceived();
+    _onNotificationDisplayed && _onNotificationDisplayed();
+    _onNotificationOpened && _onNotificationOpened();
   }
 
   componentDidUpdate() {

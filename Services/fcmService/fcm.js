@@ -5,6 +5,7 @@ import navigationService from "../navigationService/navigationService";
 import resolveLinks from "../resolveLinks/resolveLinks";
 import * as Keychain from "react-native-keychain";
 import isUserLoggedInCallback from "../isUserLoggedInCallback/isUserLoggedInCallback";
+import appLauncher from "../appLauncher/appLauncher";
 
 export const getDeviceToken = async (
   success = () => null,
@@ -42,35 +43,47 @@ export const registerFcmRefreshListener = () => {
   });
 };
 
-export const onNotificationReceived = notifications().onNotification(
-  notification => {
+/**
+ * Called when a notification is received when the app is active - works on android
+ */
+export const onNotificationReceived = () =>
+  notifications().onNotification(notification => {
     notificationReceivedHandler(notification.data);
-  }
-);
+  });
 
-export const onNotificationDisplayed = notifications().onNotificationDisplayed(
-  notification => {
+/**
+ * Called when a notification is received when app is active - works on iOS
+ */
+export const onNotificationDisplayed = () =>
+  notifications().onNotificationDisplayed(notification => {
     notificationReceivedHandler(notification.data);
-  }
-);
+  });
 
-export const onNotificationOpened = notifications().onNotificationOpened(
-  notificationOpen => {
+/**
+ * Called when a notification is clicked when the app is active
+ */
+export const onNotificationOpened = () =>
+  notifications().onNotificationOpened(notificationOpen => {
     const action = notificationOpen.action;
     const notification = notificationOpen.notification;
     notificationClickHandler(notification.data);
-  }
-);
-
-export const getInitialNotification = notifications()
-  .getInitialNotification()
-  .then(notificationOpen => {
-    if (notificationOpen) {
-      const action = notificationOpen.action;
-      const notification = notificationOpen.notification;
-      notificationClickHandler(notification.data);
-    }
   });
+
+/**
+ * Called when the app is launched by clicking on a notification
+ */
+export const getInitialNotification = () =>
+  notifications()
+    .getInitialNotification()
+    .then(notificationOpen => {
+      if (notificationOpen) {
+        const action = notificationOpen.action;
+        const notification = notificationOpen.notification;
+        notificationClickHandler(notification.data);
+      }
+    });
+
+const CHATSCREEN = "CHAT_SCREEN";
 
 const notificationClickHandler = data => {
   isUserLoggedInCallback(() => {
@@ -80,7 +93,7 @@ const notificationClickHandler = data => {
       resolveLinks(link, modalData ? JSON.parse(modalData) : {});
     } else {
       switch (screen) {
-        case "CRISP_CHAT":
+        case CHATSCREEN:
           navigation._navigation.navigate("Support");
           break;
 
@@ -98,7 +111,7 @@ const notificationReceivedHandler = async data => {
       const screen = data.screen;
       const { appState } = storeService;
       switch (screen) {
-        case "CRISP_CHAT":
+        case CHATSCREEN:
           appState.setChatNotification();
           break;
 

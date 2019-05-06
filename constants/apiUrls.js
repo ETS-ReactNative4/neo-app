@@ -39,6 +39,8 @@ const apiUrls = {
   sendUserDataToForex: "mobile/forex",
   getForexInfoFromGuides: "mobile/guides/survival/forex",
   setDeviceInfo: "mobile/deviceinfo",
+  initiateChat: "mobile/chat/initiate",
+  setChatRestoreId: "mobile/chat/restoreid",
 
   customCheckListName: "Your list",
   defaultSupportType: "GENERAL",

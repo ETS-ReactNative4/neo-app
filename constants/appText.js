@@ -92,6 +92,8 @@ const appText = {
     `Chat will be enabled ${chatActivationTime}hrs prior to your trip. Meanwhile, please visit our support center if you have questions or clarifications.`,
   onChatNoInternetText:
     "We are unable to connect to the live chat currently. Please check for a proper internet connection and try again. Alternatively, you can contact us on the number below.",
+  onChatFailedToInitialize:
+    "We are unable to initialize live chat for your trip. Please contact support if problem persists.",
   noBookingsTitle: "No active bookings",
   noBookingsText: "Lets unwrap the world.",
   exploreItinerariesText: "Plan a trip",

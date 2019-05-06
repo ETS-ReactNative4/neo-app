@@ -77,7 +77,7 @@ PODS:
     - SDWebImage/GIF
   - react-native-photo-view (1.5.2):
     - React
-  - react-native-webview (2.14.3):
+  - react-native-webview (5.7.0):
     - React
   - React/Core (0.57.1):
     - yoga (= 0.57.1.React)
@@ -243,7 +243,7 @@ SPEC CHECKSUMS:
   React: b4e0982b0ed6a7de90e96cf6fe5cf036aeadd1ec
   react-native-fast-image: f33fef29062258f1f4c39cfc19dc25662eb1de40
   react-native-photo-view: 63e9e61da873531f931008b545d8d10c5373ddf8
-  react-native-webview: 3d5e1613ff95ec60f2546c53a552572207a40062
+  react-native-webview: 69ca34f590814ae44260d30e293ab4b7b3eea793
   RNDeviceInfo: ec0ee4e9ce33c1c400f143680634ae71e7c64bc5
   RNKeychain: 3aa3cf891a09a0d18d306862ab2bb9e106079b24
   RNSound: 24fa73ccfa6236a0b493e3f4bf3c952028dc3ce2
