@@ -7,10 +7,11 @@ import {
 import constants from "../../../../constants/constants";
 import SlidingUpPanel from "rn-sliding-up-panel";
 import PanelLogoContainer from "./Components/PanelLogoContainer";
+import FeedbackOption from "../FeedbackOption/FeedbackOption";
 
 class SlidingPanel extends Component {
   render() {
-    const { panelRef, onClose } = this.props;
+    const { panelRef, onClose, titleIllustrationRef } = this.props;
 
     return (
       <SlidingUpPanel
@@ -21,12 +22,13 @@ class SlidingPanel extends Component {
         onClose={onClose}
       >
         <View style={styles.slidingContainer}>
-          <PanelLogoContainer />
+          <PanelLogoContainer titleIllustrationRef={titleIllustrationRef} />
           <View style={styles.slidingContainerContentSection}>
             <Text style={styles.slidingContainerTitle}>{"Yey!"}</Text>
             <Text style={styles.slidingContainerInfo}>
               {"Pick your favourite moments of the day"}
             </Text>
+            <FeedbackOption />
           </View>
         </View>
       </SlidingUpPanel>

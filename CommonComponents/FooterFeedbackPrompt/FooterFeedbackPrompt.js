@@ -19,21 +19,48 @@ import _ from "lodash";
 class FooterFeedbackPrompt extends Component {
   _panelRef = React.createRef();
   _footerRef = React.createRef();
+  _titleIllustrationRef = React.createRef();
+
+  showFooter = () => {
+    return this._footerRef.current.bounceInUp();
+  };
+
+  hideFooter = () => {
+    return this._footerRef.current.bounceOutDown();
+  };
+
+  openSlidingPanel = () => {
+    this._panelRef.current.show();
+  };
+
+  rotateIllustration = ({ isReverse = false } = {}) => {
+    if (isReverse) {
+      return this._titleIllustrationRef.current.transitionTo({
+        rotate: "0deg"
+      });
+    } else {
+      return this._titleIllustrationRef.current.transitionTo({
+        rotate: "360deg"
+      });
+    }
+  };
 
   positiveAction = () => {
-    this._footerRef.current.bounceOutDown().then(endState => {
-      this._panelRef.current.show();
+    this.hideFooter().then(endState => {
+      this.openSlidingPanel();
+      this.rotateIllustration();
     });
   };
 
   negativeAction = () => {
-    this._footerRef.current.bounceOutDown().then(endState => {
-      this._panelRef.current.show();
+    this.hideFooter().then(endState => {
+      this.openSlidingPanel();
     });
   };
 
-  showFooter = () => {
-    this._footerRef.current.bounceInUp();
+  onPanelClosed = () => {
+    this.rotateIllustration({ isReverse: true });
+    this.showFooter();
   };
 
   render() {
@@ -90,7 +117,11 @@ class FooterFeedbackPrompt extends Component {
             />
           </View>
         </Animatable.View>
-        <SlidingPanel onClose={this.showFooter} panelRef={this._panelRef} />
+        <SlidingPanel
+          titleIllustrationRef={this._titleIllustrationRef}
+          onClose={this.onPanelClosed}
+          panelRef={this._panelRef}
+        />
       </Fragment>
     );
   }
