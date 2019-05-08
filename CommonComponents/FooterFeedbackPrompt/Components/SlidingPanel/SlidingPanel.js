@@ -33,7 +33,9 @@ class SlidingPanel extends Component {
       isFeedbackPositive,
       items,
       userFeedback,
-      updateUserFeedback
+      updateUserFeedback,
+      keyboardHeight,
+      isKeyboardVisible
     } = this.props;
 
     const panelHeight = 320;
@@ -86,6 +88,8 @@ class SlidingPanel extends Component {
                       updateUserFeedback={updateUserFeedback}
                       selectOption={this.selectOption}
                       deselectOption={this.deselectOption}
+                      keyboardHeight={keyboardHeight}
+                      isKeyboardVisible={isKeyboardVisible}
                     />
                   );
                 } else {

@@ -1,5 +1,12 @@
 import React, { Component, Fragment } from "react";
-import { View, StyleSheet, Text, Image } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Text,
+  Image,
+  Keyboard,
+  Platform
+} from "react-native";
 import {
   responsiveHeight,
   responsiveWidth
@@ -20,11 +27,15 @@ class FooterFeedbackPrompt extends Component {
   _panelRef = React.createRef();
   _footerRef = React.createRef();
   _titleIllustrationRef = React.createRef();
+  _keyboardDidShowListener;
+  _keyboardDidHideListener;
 
   state = {
     isFeedbackPositive: true,
     positiveUserFeedback: {},
-    negativeUserFeedback: {}
+    negativeUserFeedback: {},
+    isKeyboardVisibleiOS: false,
+    keyboardSpace: 0
   };
 
   showFooter = () => {
@@ -88,6 +99,38 @@ class FooterFeedbackPrompt extends Component {
       this.setState({ negativeUserFeedback });
     }
   };
+
+  componentDidMount() {
+    if (Platform.OS === "ios") {
+      this._keyboardDidShowListener = Keyboard.addListener(
+        "keyboardWillChangeFrame",
+        this.keyboardWillChangeFrame
+      );
+      this._keyboardDidHideListener = Keyboard.addListener(
+        "keyboardWillHide",
+        this.keyboardWillHide
+      );
+    }
+  }
+
+  keyboardWillChangeFrame = e => {
+    this.setState({
+      isKeyboardVisibleiOS: true,
+      keyboardSpace: e.endCoordinates.height
+    });
+  };
+
+  keyboardWillHide = () => {
+    this.setState({
+      isKeyboardVisibleiOS: false,
+      keyboardSpace: 0
+    });
+  };
+
+  componentWillUnmount() {
+    this._keyboardDidShowListener && this._keyboardDidShowListener.remove();
+    this._keyboardDidHideListener && this._keyboardDidHideListener.remove();
+  }
 
   render() {
     const { feedbackOptions } = this.props.feedbackPrompt;
@@ -164,6 +207,8 @@ class FooterFeedbackPrompt extends Component {
               ? this.state.positiveUserFeedback
               : this.state.negativeUserFeedback
           }
+          isKeyboardVisible={this.state.isKeyboardVisibleiOS}
+          keyboardHeight={this.state.keyboardSpace}
           updateUserFeedback={this.updateUserFeedback}
         />
       </Fragment>

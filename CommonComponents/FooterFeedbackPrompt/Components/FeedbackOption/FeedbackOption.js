@@ -42,7 +42,12 @@ class FeedbackOption extends Component {
   };
 
   render() {
-    const { option, userFeedback } = this.props;
+    const {
+      option,
+      userFeedback,
+      keyboardHeight,
+      isKeyboardVisible
+    } = this.props;
     const { isSelected } = this.state;
 
     const isOptionChosen = typeof userFeedback[option.identifier] === "string";
@@ -54,7 +59,15 @@ class FeedbackOption extends Component {
           onPress: this.toggleSelection
         };
     return (
-      <KeyboardAvoidingView behavior="padding" enabled>
+      <KeyboardAvoidingView
+        style={
+          isKeyboardVisible
+            ? { position: "absolute", bottom: keyboardHeight }
+            : {}
+        }
+        behavior="padding"
+        enabled
+      >
         <OptionWrapper
           activeOpacity={0.8}
           style={
@@ -198,7 +211,8 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 8,
     borderBottomLeftRadius: 8,
     borderWidth: 1,
-    borderColor: constants.shade3
+    borderColor: constants.shade3,
+    backgroundColor: "white"
   },
   feedbackTextInputSelected: {
     padding: 8,
