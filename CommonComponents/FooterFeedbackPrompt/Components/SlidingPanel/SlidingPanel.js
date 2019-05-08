@@ -4,8 +4,8 @@ import {
   Text,
   View,
   StyleSheet,
-  TouchableWithoutFeedback,
-  Keyboard
+  Keyboard,
+  LayoutAnimation
 } from "react-native";
 import {
   responsiveHeight,
@@ -17,6 +17,14 @@ import PanelLogoContainer from "./Components/PanelLogoContainer";
 import FeedbackOption from "../FeedbackOption/FeedbackOption";
 
 class SlidingPanel extends Component {
+  state = {
+    selectedOption: ""
+  };
+
+  selectOption = identifier => this.setState({ selectedOption: identifier });
+
+  deselectOption = () => this.setState({ selectedOption: "" });
+
   render() {
     const {
       panelRef,
@@ -28,18 +36,31 @@ class SlidingPanel extends Component {
       updateUserFeedback
     } = this.props;
 
+    const panelHeight = 320;
+    const optionsHeight = 64;
+
+    const maxSlidingPanelHeight =
+      panelHeight + optionsHeight * items.options.length;
+    const titleImageExtendedHeight = 44;
+
     return (
       <SlidingUpPanel
         backdropOpacity={0.4}
-        draggableRange={{ top: responsiveHeight(50) + 44, bottom: 0 }}
-        height={responsiveHeight(50) + 44}
+        draggableRange={{
+          top: Math.min(
+            maxSlidingPanelHeight,
+            responsiveHeight(100) - titleImageExtendedHeight
+          ),
+          bottom: 0
+        }}
+        height={Math.min(
+          maxSlidingPanelHeight,
+          responsiveHeight(100) - titleImageExtendedHeight
+        )}
         ref={panelRef}
         onClose={onClose}
       >
-        <TouchableWithoutFeedback
-          onPress={Keyboard.dismiss}
-          style={styles.slidingContainer}
-        >
+        <View style={styles.slidingContainer}>
           <View style={styles.slidingContainer}>
             <PanelLogoContainer
               isFeedbackPositive={isFeedbackPositive}
@@ -53,18 +74,27 @@ class SlidingPanel extends Component {
                   : "Where did we go wrong?"}
               </Text>
               {items.options.map((option, optionIndex) => {
-                return (
-                  <FeedbackOption
-                    key={optionIndex}
-                    option={option}
-                    userFeedback={userFeedback}
-                    updateUserFeedback={updateUserFeedback}
-                  />
-                );
+                if (
+                  !this.state.selectedOption ||
+                  this.state.selectedOption === option.identifier
+                ) {
+                  return (
+                    <FeedbackOption
+                      key={optionIndex}
+                      option={option}
+                      userFeedback={userFeedback}
+                      updateUserFeedback={updateUserFeedback}
+                      selectOption={this.selectOption}
+                      deselectOption={this.deselectOption}
+                    />
+                  );
+                } else {
+                  return null;
+                }
               })}
             </View>
           </View>
-        </TouchableWithoutFeedback>
+        </View>
       </SlidingUpPanel>
     );
   }
@@ -78,7 +108,8 @@ const styles = StyleSheet.create({
   },
   slidingContainerTitle: {
     ...constants.fontCustom(constants.primarySemiBold, 50),
-    marginTop: 16
+    marginTop: 16,
+    color: constants.black1
   },
   slidingContainerInfo: {
     ...constants.fontCustom(constants.primaryRegular, 15),

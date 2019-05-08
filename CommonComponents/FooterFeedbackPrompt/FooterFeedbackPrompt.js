@@ -23,7 +23,8 @@ class FooterFeedbackPrompt extends Component {
 
   state = {
     isFeedbackPositive: true,
-    userFeedback: {}
+    positiveUserFeedback: {},
+    negativeUserFeedback: {}
   };
 
   showFooter = () => {
@@ -77,9 +78,15 @@ class FooterFeedbackPrompt extends Component {
   };
 
   updateUserFeedback = (identifier, text) => {
-    const userFeedback = { ...this.state.userFeedback };
-    userFeedback[identifier] = text;
-    this.setState({ userFeedback });
+    if (this.state.isFeedbackPositive) {
+      const positiveUserFeedback = { ...this.state.positiveUserFeedback };
+      positiveUserFeedback[identifier] = text;
+      this.setState({ positiveUserFeedback });
+    } else {
+      const negativeUserFeedback = { ...this.state.negativeUserFeedback };
+      negativeUserFeedback[identifier] = text;
+      this.setState({ negativeUserFeedback });
+    }
   };
 
   render() {
@@ -152,7 +159,11 @@ class FooterFeedbackPrompt extends Component {
           panelRef={this._panelRef}
           isFeedbackPositive={this.state.isFeedbackPositive}
           items={this.state.isFeedbackPositive ? positiveItems : negativeItems}
-          userFeedback={this.state.userFeedback}
+          userFeedback={
+            this.state.isFeedbackPositive
+              ? this.state.positiveUserFeedback
+              : this.state.negativeUserFeedback
+          }
           updateUserFeedback={this.updateUserFeedback}
         />
       </Fragment>

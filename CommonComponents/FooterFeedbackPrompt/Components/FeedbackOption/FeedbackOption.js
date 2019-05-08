@@ -6,7 +6,8 @@ import {
   LayoutAnimation,
   TextInput,
   StyleSheet,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
+  Keyboard
 } from "react-native";
 import PropTypes from "prop-types";
 import { responsiveWidth } from "react-native-responsive-dimensions";
@@ -14,22 +15,37 @@ import constants from "../../../../constants/constants";
 import Icon from "../../../Icon/Icon";
 
 class FeedbackOption extends Component {
+  _feedbackInputRef = React.createRef();
+
   state = {
     isSelected: false,
     feedbackText: ""
   };
 
-  onEditText = feedbackText => this.setState({ feedbackText });
+  onEditText = feedbackText => {
+    const { option, updateUserFeedback } = this.props;
+    this.setState({ feedbackText });
+    updateUserFeedback(option.identifier, feedbackText);
+  };
 
   toggleSelection = () => {
+    const { selectOption, deselectOption, option } = this.props;
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-    this.setState({ isSelected: !this.state.isSelected });
+    this.setState({ isSelected: !this.state.isSelected }, () => {
+      if (this.state.isSelected) {
+        this._feedbackInputRef.current.focus();
+        selectOption(option.identifier);
+      } else {
+        deselectOption();
+      }
+    });
   };
 
   render() {
-    // option={option} userFeedback={userFeedback} updateUserFeedback={updateUserFeedback}
-    const { option, userFeedback, updateUserFeedback } = this.props;
+    const { option, userFeedback } = this.props;
     const { isSelected } = this.state;
+
+    const isOptionChosen = typeof userFeedback[option.identifier] === "string";
 
     const OptionWrapper = isSelected ? View : TouchableOpacity;
     const OptionWrapperProps = isSelected
@@ -57,7 +73,18 @@ class FeedbackOption extends Component {
               />
             </View>
           ) : (
-            <View style={styles.unselectedBox} />
+            <View
+              style={[
+                styles.unselectedBox,
+                isOptionChosen
+                  ? { backgroundColor: constants.seventhColor }
+                  : {}
+              ]}
+            >
+              {isOptionChosen ? (
+                <Icon name={constants.checkIcon} size={22} color={"white"} />
+              ) : null}
+            </View>
           )}
           <Text
             numberOfLines={2}
@@ -80,17 +107,21 @@ class FeedbackOption extends Component {
           }
         >
           <TextInput
+            ref={this._feedbackInputRef}
             style={
               isSelected
                 ? styles.feedbackTextInputSelected
                 : styles.feedbackTextInputUnselected
             }
             onChangeText={this.onEditText}
-            returnKeyType={"next"}
+            returnKeyType={"done"}
             underlineColorAndroid={"transparent"}
             value={this.state.feedbackText}
             multiline={true}
-            onSubmitEditing={() => null}
+            onSubmitEditing={() => {
+              this.toggleSelection();
+              Keyboard.dismiss();
+            }}
             placeholderTextColor={constants.shade2}
             placeholder={"Tell us more..."}
             textAlignVertical={"top"}
@@ -107,6 +138,7 @@ const styles = StyleSheet.create({
   clickableContainer: {
     alignSelf: "center",
     minHeight: 48,
+    marginVertical: 4,
     width: containerWidth,
     backgroundColor: constants.seventhColorAlpha(0.2),
     borderRadius: 100,
