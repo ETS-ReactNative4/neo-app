@@ -218,7 +218,7 @@ class PaymentSummary extends Component {
 
     const paymentOptions = productPayments
       ? productPayments.reduce((detailsArray, amount) => {
-          if (amount.paymentStatus === "PENDING") {
+          if (amount.paymentStatus === "PENDING" && amount.paymentAllowed) {
             const data = {
               amount: `₹ ${amount.paymentAmount}`,
               percentage: `${amount.percent}% of total cost`,
@@ -402,11 +402,11 @@ class PaymentSummary extends Component {
                     }}
                   >{`bank account`}</Text>
                 </Text>
-              ) : (
+              ) : paymentOptions.length ? (
                 <Text key={0} style={styles.paymentTitle}>
                   Choose Payment
                 </Text>
-              ),
+              ) : null,
               <View key={1} style={styles.paymentOptionsBox}>
                 {!isPaidWithPlato &&
                   paymentOptions.map((paymentOption, optionKey) => {
