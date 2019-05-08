@@ -6,6 +6,7 @@ import apiCall from "../Services/networkRequests/apiCall";
 import constants from "../constants/constants";
 import { hydrate } from "./Store";
 import { logError } from "../Services/errorLogger/errorLogger";
+import storeService from "../Services/storeService/storeService";
 
 class FeedbackPrompt {
   static hydrator = storeInstance => {};
@@ -47,25 +48,28 @@ class FeedbackPrompt {
 
   @action
   fetchFeedBackData = (callback = () => null) => {
-    this._feedbackData = [
-      {
-        title: "How was your day ?",
-        items: [
-          {
-            title: "Yeah",
-            options: [
-              {
-                identifier: "ACTIVITY_658_03_May_2019",
-                text:
-                  "White Water Rafting in Ayung River for a thrilling aquatic adventure"
-              }
-            ]
-          }
-        ]
-      }
-    ];
-    this._isFeedbackFooterVisible = true;
-    callback();
+    const itineraryId = storeService.itineraries.selectedItineraryId;
+    this._isFeedbackDataLoading = true;
+    apiCall(
+      `${constants.getDaywiseFeedbackOptions}?itineraryId=${itineraryId}`,
+      {},
+      "GET"
+    )
+      .then(response => {
+        this._isFeedbackDataLoading = false;
+        if (response.status === constants.responseSuccessStatus) {
+          this._feedbackDataError = false;
+          this._feedbackData = response.data;
+          this._isFeedbackFooterVisible = true;
+          callback();
+        } else {
+          this._feedbackDataError = true;
+        }
+      })
+      .catch(() => {
+        this._feedbackDataError = true;
+        this._isFeedbackDataLoading = false;
+      });
   };
 }
 

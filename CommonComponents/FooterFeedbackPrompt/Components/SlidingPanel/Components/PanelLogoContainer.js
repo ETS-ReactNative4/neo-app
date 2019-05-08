@@ -3,18 +3,35 @@ import { Image, View, StyleSheet } from "react-native";
 import * as Animatable from "react-native-animatable";
 import constants from "../../../../../constants/constants";
 import { responsiveWidth } from "react-native-responsive-dimensions";
+import Icon from "../../../../Icon/Icon";
 
-const PanelLogoContainer = ({ titleIllustrationRef }) => {
+const PanelLogoContainer = ({ titleIllustrationRef, isFeedbackPositive }) => {
   return (
     <Fragment>
       <View style={styles.logoBackgroundPlaceholder} />
       <View style={styles.titleLogoContainer}>
         <Animatable.Image
+          duration={3000}
           ref={titleIllustrationRef}
-          source={constants.positiveBackgroundShape}
+          source={
+            isFeedbackPositive
+              ? constants.positiveBackgroundShape
+              : constants.negativeBackgroundShape
+          }
           style={styles.containerTitleLogo}
           resizeMode={"contain"}
         />
+        <View style={styles.titleIcon}>
+          <Icon
+            name={
+              isFeedbackPositive
+                ? constants.thumbsUpIcon
+                : constants.thumbsDownIcon
+            }
+            size={30}
+            color={"white"}
+          />
+        </View>
       </View>
     </Fragment>
   );
@@ -34,6 +51,13 @@ const styles = StyleSheet.create({
   containerTitleLogo: {
     height: 88,
     width: 88
+  },
+  titleIcon: {
+    position: "absolute",
+    height: 88,
+    width: 88,
+    alignItems: "center",
+    justifyContent: "center"
   }
 });
 

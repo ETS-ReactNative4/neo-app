@@ -1,5 +1,12 @@
-import React, { Component } from "react";
-import { Image, Text, View, StyleSheet } from "react-native";
+import React, { Component, Fragment } from "react";
+import {
+  Image,
+  Text,
+  View,
+  StyleSheet,
+  TouchableWithoutFeedback,
+  Keyboard
+} from "react-native";
 import {
   responsiveHeight,
   responsiveWidth
@@ -11,7 +18,15 @@ import FeedbackOption from "../FeedbackOption/FeedbackOption";
 
 class SlidingPanel extends Component {
   render() {
-    const { panelRef, onClose, titleIllustrationRef } = this.props;
+    const {
+      panelRef,
+      onClose,
+      titleIllustrationRef,
+      isFeedbackPositive,
+      items,
+      userFeedback,
+      updateUserFeedback
+    } = this.props;
 
     return (
       <SlidingUpPanel
@@ -21,16 +36,35 @@ class SlidingPanel extends Component {
         ref={panelRef}
         onClose={onClose}
       >
-        <View style={styles.slidingContainer}>
-          <PanelLogoContainer titleIllustrationRef={titleIllustrationRef} />
-          <View style={styles.slidingContainerContentSection}>
-            <Text style={styles.slidingContainerTitle}>{"Yey!"}</Text>
-            <Text style={styles.slidingContainerInfo}>
-              {"Pick your favourite moments of the day"}
-            </Text>
-            <FeedbackOption />
+        <TouchableWithoutFeedback
+          onPress={Keyboard.dismiss}
+          style={styles.slidingContainer}
+        >
+          <View style={styles.slidingContainer}>
+            <PanelLogoContainer
+              isFeedbackPositive={isFeedbackPositive}
+              titleIllustrationRef={titleIllustrationRef}
+            />
+            <View style={styles.slidingContainerContentSection}>
+              <Text style={styles.slidingContainerTitle}>{items.title}</Text>
+              <Text style={styles.slidingContainerInfo}>
+                {isFeedbackPositive
+                  ? "Pick your favourite moments of the day"
+                  : "Where did we go wrong?"}
+              </Text>
+              {items.options.map((option, optionIndex) => {
+                return (
+                  <FeedbackOption
+                    key={optionIndex}
+                    option={option}
+                    userFeedback={userFeedback}
+                    updateUserFeedback={updateUserFeedback}
+                  />
+                );
+              })}
+            </View>
           </View>
-        </View>
+        </TouchableWithoutFeedback>
       </SlidingUpPanel>
     );
   }

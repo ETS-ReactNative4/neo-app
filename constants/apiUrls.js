@@ -41,6 +41,7 @@ const apiUrls = {
   setDeviceInfo: "mobile/deviceinfo",
   initiateChat: "mobile/chat/initiate",
   setChatRestoreId: "mobile/chat/restoreid",
+  getDaywiseFeedbackOptions: "mobile/footers",
 
   customCheckListName: "Your list",
   defaultSupportType: "GENERAL",

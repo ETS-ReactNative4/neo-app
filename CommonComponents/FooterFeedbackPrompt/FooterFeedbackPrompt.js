@@ -21,6 +21,11 @@ class FooterFeedbackPrompt extends Component {
   _footerRef = React.createRef();
   _titleIllustrationRef = React.createRef();
 
+  state = {
+    isFeedbackPositive: true,
+    userFeedback: {}
+  };
+
   showFooter = () => {
     return this._footerRef.current.bounceInUp();
   };
@@ -36,24 +41,32 @@ class FooterFeedbackPrompt extends Component {
   rotateIllustration = ({ isReverse = false } = {}) => {
     if (isReverse) {
       return this._titleIllustrationRef.current.transitionTo({
-        rotate: "0deg"
+        rotate: "180deg"
       });
     } else {
       return this._titleIllustrationRef.current.transitionTo({
-        rotate: "360deg"
+        rotate: "0deg"
       });
     }
   };
 
   positiveAction = () => {
     this.hideFooter().then(endState => {
+      this.setState({
+        isFeedbackPositive: true
+      });
       this.openSlidingPanel();
-      this.rotateIllustration();
+      setTimeout(() => {
+        this.rotateIllustration();
+      }, 500);
     });
   };
 
   negativeAction = () => {
     this.hideFooter().then(endState => {
+      this.setState({
+        isFeedbackPositive: false
+      });
       this.openSlidingPanel();
     });
   };
@@ -63,15 +76,31 @@ class FooterFeedbackPrompt extends Component {
     this.showFooter();
   };
 
+  updateUserFeedback = (identifier, text) => {
+    const userFeedback = { ...this.state.userFeedback };
+    userFeedback[identifier] = text;
+    this.setState({ userFeedback });
+  };
+
   render() {
     const { feedbackOptions } = this.props.feedbackPrompt;
     if (_.isEmpty(feedbackOptions)) return null;
+    const currentDate = new Date();
+    const currentMillis = currentDate.getTime();
+    if (feedbackOptions.endTime < currentMillis) return null;
     const prompt = feedbackOptions.title;
+    const positiveItems = feedbackOptions.items.length
+      ? feedbackOptions.items[0]
+      : [];
+    const negativeItems = feedbackOptions.items.length
+      ? feedbackOptions.items[1]
+      : [];
     return (
       <Fragment>
         <Animatable.View
           ref={this._footerRef}
           animation={"bounceInUp"}
+          duration={1500}
           style={styles.footerFeedbackPrompt}
         >
           <Text style={styles.promptText}>{prompt}</Text>
@@ -121,6 +150,10 @@ class FooterFeedbackPrompt extends Component {
           titleIllustrationRef={this._titleIllustrationRef}
           onClose={this.onPanelClosed}
           panelRef={this._panelRef}
+          isFeedbackPositive={this.state.isFeedbackPositive}
+          items={this.state.isFeedbackPositive ? positiveItems : negativeItems}
+          userFeedback={this.state.userFeedback}
+          updateUserFeedback={this.updateUserFeedback}
         />
       </Fragment>
     );

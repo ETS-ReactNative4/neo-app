@@ -21,27 +21,34 @@ class FeedbackOption extends Component {
 
   onEditText = feedbackText => this.setState({ feedbackText });
 
-  componentWillUpdate() {
+  toggleSelection = () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-  }
+    this.setState({ isSelected: !this.state.isSelected });
+  };
 
   render() {
-    const { optionText = "Visit to the temple" } = this.props;
+    // option={option} userFeedback={userFeedback} updateUserFeedback={updateUserFeedback}
+    const { option, userFeedback, updateUserFeedback } = this.props;
     const { isSelected } = this.state;
 
     const OptionWrapper = isSelected ? View : TouchableOpacity;
-
+    const OptionWrapperProps = isSelected
+      ? {}
+      : {
+          onPress: this.toggleSelection
+        };
     return (
       <KeyboardAvoidingView behavior="padding" enabled>
         <OptionWrapper
           activeOpacity={0.8}
           style={
-            !isSelected
+            isSelected
               ? styles.feedbackHeaderContainer
               : styles.clickableContainer
           }
+          {...OptionWrapperProps}
         >
-          {!isSelected ? (
+          {isSelected ? (
             <View style={styles.selectedCheckBox}>
               <Icon
                 name={constants.checkIcon}
@@ -53,26 +60,31 @@ class FeedbackOption extends Component {
             <View style={styles.unselectedBox} />
           )}
           <Text
-            numberOfLines={1}
+            numberOfLines={2}
             ellipsizeMode={"tail"}
             style={[
               styles.optionText,
-              !isSelected
+              isSelected
                 ? styles.optionTextSelected
                 : styles.optionTextUnselected
             ]}
           >
-            {optionText}
+            {option.text}
           </Text>
         </OptionWrapper>
         <View
           style={
-            styles.unselectedFeedbackTextContainer &&
-            styles.feedbackTextContainer
+            isSelected
+              ? styles.feedbackTextContainerSelected
+              : styles.feedbackTextContainerUnselected
           }
         >
           <TextInput
-            style={styles.feedbackTextInput}
+            style={
+              isSelected
+                ? styles.feedbackTextInputSelected
+                : styles.feedbackTextInputUnselected
+            }
             onChangeText={this.onEditText}
             returnKeyType={"next"}
             underlineColorAndroid={"transparent"}
@@ -144,24 +156,27 @@ const styles = StyleSheet.create({
     color: constants.seventhColor
   },
 
-  unselectedFeedbackTextContainer: {
+  feedbackTextContainerUnselected: {
     width: containerWidth,
     height: 0
   },
-  feedbackTextContainer: {
-    minHeight: 104,
+  feedbackTextContainerSelected: {
+    height: 104,
     width: containerWidth,
     borderBottomRightRadius: 8,
     borderBottomLeftRadius: 8,
     borderWidth: 1,
     borderColor: constants.shade3
   },
-  feedbackTextInput: {
+  feedbackTextInputSelected: {
     padding: 8,
-    minHeight: 104,
+    height: 104,
     ...constants.fontCustom(constants.primaryRegular, 17, 24),
     color: constants.black2,
     marginBottom: 24
+  },
+  feedbackTextInputUnselected: {
+    height: 0
   }
 });
 
