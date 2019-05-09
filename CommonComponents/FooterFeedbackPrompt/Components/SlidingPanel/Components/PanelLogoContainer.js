@@ -11,7 +11,7 @@ const PanelLogoContainer = ({ titleIllustrationRef, isFeedbackPositive }) => {
       <View style={styles.logoBackgroundPlaceholder} />
       <View style={styles.titleLogoContainer}>
         <Animatable.Image
-          duration={3000}
+          duration={1500}
           ref={titleIllustrationRef}
           source={
             isFeedbackPositive
@@ -38,13 +38,17 @@ const PanelLogoContainer = ({ titleIllustrationRef, isFeedbackPositive }) => {
 };
 
 const styles = StyleSheet.create({
-  titleLogoContainer: {},
+  titleLogoContainer: {
+    height: 94,
+    width: responsiveWidth(100),
+    alignItems: "center"
+  },
   logoBackgroundPlaceholder: {
     height: 48, // added 4 to the actual height of the logo container to prevent lines in android
     backgroundColor: "white",
     width: responsiveWidth(100),
     position: "absolute",
-    top: 44, // keep it exactly half of the height of the logo container
+    top: 47, // keep it exactly half of the height of the logo container
     borderTopRightRadius: 4,
     borderTopLeftRadius: 4
   },

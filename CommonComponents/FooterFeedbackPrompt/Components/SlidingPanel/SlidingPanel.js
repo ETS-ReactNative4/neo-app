@@ -39,7 +39,7 @@ class SlidingPanel extends Component {
 
     const maxSlidingPanelHeight =
       panelHeight + optionsHeight * items.options.length;
-    const titleImageExtendedHeight = 44;
+    const titleImageExtendedHeight = 47; // keep it exactly half of the height of the logo container
 
     return (
       <SlidingUpPanel

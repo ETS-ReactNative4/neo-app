@@ -69,13 +69,15 @@ class FooterFeedbackPrompt extends Component {
 
   rotateIllustration = ({ isReverse = false } = {}) => {
     if (!isReverse) {
-      return this._titleIllustrationRef.current.transitionTo({
-        rotate: "180deg"
-      });
+      return this._titleIllustrationRef.current.tada();
+      // return this._titleIllustrationRef.current.transitionTo({
+      //   rotate: "180deg"
+      // });
     } else {
-      return this._titleIllustrationRef.current.transitionTo({
-        rotate: "0deg"
-      });
+      return this._titleIllustrationRef.current.rotate();
+      // return this._titleIllustrationRef.current.transitionTo({
+      //   rotate: "0deg"
+      // });
     }
   };
 
