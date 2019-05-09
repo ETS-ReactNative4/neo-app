@@ -68,7 +68,7 @@ class FooterFeedbackPrompt extends Component {
   };
 
   rotateIllustration = ({ isReverse = false } = {}) => {
-    if (isReverse) {
+    if (!isReverse) {
       return this._titleIllustrationRef.current.transitionTo({
         rotate: "180deg"
       });
@@ -177,45 +177,45 @@ class FooterFeedbackPrompt extends Component {
         >
           <Text style={styles.promptText}>{prompt}</Text>
           <View style={styles.promptActionBar}>
-            <SimpleButton
-              text={"Yey"}
-              action={this.positiveAction}
-              textColor={"white"}
-              hasBorder={false}
-              icon={constants.thumbsUpIcon}
-              textStyle={{
-                ...constants.fontCustom(constants.primarySemiBold, 13)
-              }}
-              iconSize={13}
-              underlayColor={constants.firstColorAlpha(0.8)}
-              containerStyle={{
-                backgroundColor: constants.firstColor,
-                marginHorizontal: 4,
-                height: 32,
-                width: 64,
-                borderRadius: 32
-              }}
-            />
-            <SimpleButton
-              text={"Meh"}
-              action={this.negativeAction}
-              textColor={"white"}
-              hasBorder={false}
-              icon={constants.thumbsDownIcon}
-              textStyle={{
-                ...constants.fontCustom(constants.primarySemiBold, 13)
-              }}
-              iconSize={13}
-              underlayColor={"rgba(0,0,0,0.20)"}
-              containerStyle={{
-                backgroundColor: "rgba(0,0,0,0.33)",
-                marginLeft: 4,
-                marginRight: 8,
-                height: 32,
-                width: 64,
-                borderRadius: 32
-              }}
-            />
+            {feedbackOptions.items.length
+              ? feedbackOptions.items.map((item, itemIndex) => {
+                  const isPositive = itemIndex % 2 === 0;
+                  return (
+                    <SimpleButton
+                      key={itemIndex}
+                      text={item.title}
+                      action={
+                        isPositive ? this.positiveAction : this.negativeAction
+                      }
+                      textColor={"white"}
+                      hasBorder={false}
+                      icon={
+                        isPositive
+                          ? constants.thumbsUpIcon
+                          : constants.thumbsDownIcon
+                      }
+                      textStyle={{
+                        ...constants.fontCustom(constants.primarySemiBold, 13)
+                      }}
+                      iconSize={13}
+                      underlayColor={
+                        isPositive
+                          ? constants.firstColorAlpha(0.8)
+                          : "rgba(0,0,0,0.20)"
+                      }
+                      containerStyle={{
+                        backgroundColor: isPositive
+                          ? constants.firstColor
+                          : "rgba(0,0,0,0.33)",
+                        marginHorizontal: 4,
+                        height: 32,
+                        width: 64,
+                        borderRadius: 32
+                      }}
+                    />
+                  );
+                })
+              : null}
           </View>
         </Animatable.View>
         <SlidingPanel
