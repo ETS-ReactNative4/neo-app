@@ -1,4 +1,4 @@
-import { LayoutAnimation } from "react-native";
+import { LayoutAnimation, Platform } from "react-native";
 import { observable, computed, action, toJS } from "mobx";
 import { persist } from "mobx-persist";
 import apiCall from "../Services/networkRequests/apiCall";
@@ -75,15 +75,19 @@ class TripFeed {
                 });
               }
             }
-            LayoutAnimation.configureNext(
-              LayoutAnimation.Presets.easeInEaseOut
-            );
-            this._widgets = widgets;
-            feedBackWidgets.forEach(feedBackWidget => {
-              this._widgets.splice(feedBackWidget.index, 1);
+            if (Platform.OS === constants.platformIos) {
               LayoutAnimation.configureNext(
                 LayoutAnimation.Presets.easeInEaseOut
               );
+            }
+            this._widgets = widgets;
+            feedBackWidgets.forEach(feedBackWidget => {
+              this._widgets.splice(feedBackWidget.index, 1);
+              if (Platform.OS === constants.platformIos) {
+                LayoutAnimation.configureNext(
+                  LayoutAnimation.Presets.easeInEaseOut
+                );
+              }
               this._widgets.splice(
                 feedBackWidget.index,
                 0,
