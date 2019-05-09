@@ -70,6 +70,13 @@ class FeedbackOption extends Component {
           onPress: this.toggleSelection
         };
 
+    const CheckBoxWrapper = isOptionChosen ? TouchableOpacity : View;
+    const checkBoxProps = isOptionChosen
+      ? {
+          onPress: () => unselectOption(option.identifier)
+        }
+      : {};
+
     const feedbackText = userFeedback[option.identifier] || "";
 
     return (
@@ -107,7 +114,8 @@ class FeedbackOption extends Component {
               />
             </TouchableOpacity>
           ) : (
-            <View
+            <CheckBoxWrapper
+              {...checkBoxProps}
               style={[
                 styles.unselectedBox,
                 isOptionChosen
@@ -118,7 +126,7 @@ class FeedbackOption extends Component {
               {isOptionChosen ? (
                 <Icon name={constants.checkIcon} size={22} color={"white"} />
               ) : null}
-            </View>
+            </CheckBoxWrapper>
           )}
           <Text
             numberOfLines={2}
