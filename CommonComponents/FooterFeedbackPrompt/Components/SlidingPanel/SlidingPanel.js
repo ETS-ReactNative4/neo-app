@@ -17,14 +17,6 @@ import PanelLogoContainer from "./Components/PanelLogoContainer";
 import FeedbackOption from "../FeedbackOption/FeedbackOption";
 
 class SlidingPanel extends Component {
-  state = {
-    selectedOption: ""
-  };
-
-  selectOption = identifier => this.setState({ selectedOption: identifier });
-
-  deselectOption = () => this.setState({ selectedOption: "" });
-
   render() {
     const {
       panelRef,
@@ -35,7 +27,11 @@ class SlidingPanel extends Component {
       userFeedback,
       updateUserFeedback,
       keyboardHeight,
-      isKeyboardVisible
+      isKeyboardVisible,
+      focusOption,
+      blurOption,
+      focusedOption,
+      unselectOption
     } = this.props;
 
     const panelHeight = 320;
@@ -76,20 +72,19 @@ class SlidingPanel extends Component {
                   : "Where did we go wrong?"}
               </Text>
               {items.options.map((option, optionIndex) => {
-                if (
-                  !this.state.selectedOption ||
-                  this.state.selectedOption === option.identifier
-                ) {
+                if (!focusedOption || focusedOption === option.identifier) {
                   return (
                     <FeedbackOption
                       key={optionIndex}
                       option={option}
                       userFeedback={userFeedback}
                       updateUserFeedback={updateUserFeedback}
-                      selectOption={this.selectOption}
-                      deselectOption={this.deselectOption}
+                      isFocusedOption={focusedOption === option.identifier}
+                      focusOption={focusOption}
+                      blurOption={blurOption}
                       keyboardHeight={keyboardHeight}
                       isKeyboardVisible={isKeyboardVisible}
+                      unselectOption={unselectOption}
                     />
                   );
                 } else {

@@ -18,25 +18,35 @@ class FeedbackOption extends Component {
   _feedbackInputRef = React.createRef();
 
   state = {
-    isSelected: false,
-    feedbackText: ""
+    isSelected: false
   };
 
   onEditText = feedbackText => {
     const { option, updateUserFeedback } = this.props;
-    this.setState({ feedbackText });
     updateUserFeedback(option.identifier, feedbackText);
   };
 
+  submitText = () => {
+    setTimeout(() => {
+      // timeout added to let text update complete
+      const { option, updateUserFeedback, userFeedback } = this.props;
+      const feedbackText = userFeedback[option.identifier];
+      if (feedbackText) {
+        updateUserFeedback(option.identifier, feedbackText.trim());
+      }
+    }, 500);
+  };
+
   toggleSelection = () => {
-    const { selectOption, deselectOption, option } = this.props;
+    const { focusOption, blurOption, option } = this.props;
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     this.setState({ isSelected: !this.state.isSelected }, () => {
       if (this.state.isSelected) {
         this._feedbackInputRef.current.focus();
-        selectOption(option.identifier);
+        focusOption(option.identifier);
       } else {
-        deselectOption();
+        Keyboard.dismiss();
+        blurOption();
       }
     });
   };
@@ -46,18 +56,22 @@ class FeedbackOption extends Component {
       option,
       userFeedback,
       keyboardHeight,
-      isKeyboardVisible
+      isKeyboardVisible,
+      unselectOption,
+      isFocusedOption
     } = this.props;
-    const { isSelected } = this.state;
 
     const isOptionChosen = typeof userFeedback[option.identifier] === "string";
 
-    const OptionWrapper = isSelected ? View : TouchableOpacity;
-    const OptionWrapperProps = isSelected
+    const OptionWrapper = isFocusedOption ? View : TouchableOpacity;
+    const OptionWrapperProps = isFocusedOption
       ? {}
       : {
           onPress: this.toggleSelection
         };
+
+    const feedbackText = userFeedback[option.identifier] || "";
+
     return (
       <KeyboardAvoidingView
         style={
@@ -71,20 +85,27 @@ class FeedbackOption extends Component {
         <OptionWrapper
           activeOpacity={0.8}
           style={
-            isSelected
+            isFocusedOption
               ? styles.feedbackHeaderContainer
               : styles.clickableContainer
           }
           {...OptionWrapperProps}
         >
-          {isSelected ? (
-            <View style={styles.selectedCheckBox}>
+          {isFocusedOption ? (
+            <TouchableOpacity
+              activeOpacity={0.8}
+              onPress={() => {
+                this.toggleSelection();
+                unselectOption(option.identifier);
+              }}
+              style={styles.selectedCheckBox}
+            >
               <Icon
                 name={constants.checkIcon}
                 size={22}
                 color={constants.seventhColor}
               />
-            </View>
+            </TouchableOpacity>
           ) : (
             <View
               style={[
@@ -104,7 +125,7 @@ class FeedbackOption extends Component {
             ellipsizeMode={"tail"}
             style={[
               styles.optionText,
-              isSelected
+              isFocusedOption
                 ? styles.optionTextSelected
                 : styles.optionTextUnselected
             ]}
@@ -114,7 +135,7 @@ class FeedbackOption extends Component {
         </OptionWrapper>
         <View
           style={
-            isSelected
+            isFocusedOption
               ? styles.feedbackTextContainerSelected
               : styles.feedbackTextContainerUnselected
           }
@@ -122,18 +143,18 @@ class FeedbackOption extends Component {
           <TextInput
             ref={this._feedbackInputRef}
             style={
-              isSelected
+              isFocusedOption
                 ? styles.feedbackTextInputSelected
                 : styles.feedbackTextInputUnselected
             }
             onChangeText={this.onEditText}
             returnKeyType={"done"}
             underlineColorAndroid={"transparent"}
-            value={this.state.feedbackText}
+            value={feedbackText}
             multiline={true}
             onSubmitEditing={() => {
+              this.submitText();
               this.toggleSelection();
-              Keyboard.dismiss();
             }}
             placeholderTextColor={constants.shade2}
             placeholder={"Tell us more..."}
@@ -222,7 +243,8 @@ const styles = StyleSheet.create({
     marginBottom: 24
   },
   feedbackTextInputUnselected: {
-    height: 0
+    height: 0,
+    color: "transparent"
   }
 });
 

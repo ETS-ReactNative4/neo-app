@@ -35,7 +35,24 @@ class FooterFeedbackPrompt extends Component {
     positiveUserFeedback: {},
     negativeUserFeedback: {},
     isKeyboardVisibleiOS: false,
-    keyboardSpace: 0
+    keyboardSpace: 0,
+    focusedOption: ""
+  };
+
+  focusOption = identifier => this.setState({ focusedOption: identifier });
+
+  blurOption = () => this.setState({ focusedOption: "" });
+
+  unselectOption = identifier => {
+    if (this.state.isFeedbackPositive) {
+      const positiveUserFeedback = { ...this.state.positiveUserFeedback };
+      delete positiveUserFeedback[identifier];
+      this.setState({ positiveUserFeedback });
+    } else {
+      const negativeUserFeedback = { ...this.state.negativeUserFeedback };
+      delete negativeUserFeedback[identifier];
+      this.setState({ negativeUserFeedback });
+    }
   };
 
   showFooter = () => {
@@ -85,6 +102,7 @@ class FooterFeedbackPrompt extends Component {
 
   onPanelClosed = () => {
     this.rotateIllustration({ isReverse: true });
+    this.blurOption();
     this.showFooter();
   };
 
@@ -210,6 +228,10 @@ class FooterFeedbackPrompt extends Component {
           isKeyboardVisible={this.state.isKeyboardVisibleiOS}
           keyboardHeight={this.state.keyboardSpace}
           updateUserFeedback={this.updateUserFeedback}
+          focusOption={this.focusOption}
+          blurOption={this.blurOption}
+          focusedOption={this.state.focusedOption}
+          unselectOption={this.unselectOption}
         />
       </Fragment>
     );
