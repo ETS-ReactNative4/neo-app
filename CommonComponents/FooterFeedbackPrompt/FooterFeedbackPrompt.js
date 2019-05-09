@@ -151,7 +151,11 @@ class FooterFeedbackPrompt extends Component {
   }
 
   render() {
-    const { feedbackOptions } = this.props.feedbackPrompt;
+    const {
+      feedbackOptions,
+      isFeedbackFooterVisible
+    } = this.props.feedbackPrompt;
+    if (!isFeedbackFooterVisible) return null;
     if (_.isEmpty(feedbackOptions)) return null;
     const currentDate = new Date();
     const currentMillis = currentDate.getTime();

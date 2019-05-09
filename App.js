@@ -3,7 +3,9 @@ import { UIManager, NetInfo } from "react-native";
 import { Provider } from "mobx-react";
 import store from "./mobx/Store";
 import { setNavigationService } from "./Services/navigationService/navigationService";
-import { updateStoreService } from "./Services/storeService/storeService";
+import storeService, {
+  updateStoreService
+} from "./Services/storeService/storeService";
 import AppNavigator from "./Navigators/AppNavigator";
 import {
   disableAnalytics,
@@ -47,6 +49,11 @@ class App extends Component {
     );
   }
 
+  _navigationStateChange = (prevState, currentState) => {
+    store.feedbackPrompt.trackScreen(prevState, currentState);
+    screenTracker(prevState, currentState);
+  };
+
   render() {
     updateStoreService(store);
     return (
@@ -54,7 +61,7 @@ class App extends Component {
         <Fragment>
           <AppNavigator
             ref={setNavigationService}
-            onNavigationStateChange={screenTracker}
+            onNavigationStateChange={this._navigationStateChange}
           />
           <FooterFeedbackPrompt />
         </Fragment>

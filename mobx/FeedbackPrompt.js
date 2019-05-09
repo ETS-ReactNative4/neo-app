@@ -1,4 +1,3 @@
-import React from "react";
 import { observable, computed, action, toJS } from "mobx";
 import { persist } from "mobx-persist";
 import _ from "lodash";
@@ -7,6 +6,7 @@ import constants from "../constants/constants";
 import { hydrate } from "./Store";
 import { logError } from "../Services/errorLogger/errorLogger";
 import storeService from "../Services/storeService/storeService";
+import getActiveRouteName from "../Services/getActiveRouteName/getActiveRouteName";
 
 class FeedbackPrompt {
   static hydrator = storeInstance => {};
@@ -19,7 +19,7 @@ class FeedbackPrompt {
     this._isSubmitFeedbackLoading = false;
     this._submitFeedbackError = false;
 
-    this._isPositiveFeedbackMode = false;
+    this._isFeedbackFooterVisible = false;
 
     this._feedbackData = [];
   };
@@ -30,15 +30,35 @@ class FeedbackPrompt {
   @observable _isSubmitFeedbackLoading = false;
   @observable _submitFeedbackError = false;
 
-  @observable _isPositiveFeedbackMode = false;
-
   @observable _isFeedbackFooterVisible = false;
 
-  _componentRefs = {
-    feedbackFooterBar: React.createRef()
-  };
-
   @observable _feedbackData = [];
+
+  @computed
+  get isFeedbackFooterVisible() {
+    return this._isFeedbackFooterVisible;
+  }
+
+  @action
+  setFooterVisibility = visibility =>
+    (this._isFeedbackFooterVisible = visibility);
+
+  @action
+  trackScreen(prevState, currentState) {
+    const currentScreen = getActiveRouteName(currentState);
+    const prevScreen = getActiveRouteName(prevState);
+    if (prevScreen !== currentScreen) {
+      if (
+        ["TripFeedHome", "Bookings", "Tools", "Journal"].indexOf(
+          currentScreen
+        ) > -1
+      ) {
+        this.setFooterVisibility(true);
+      } else {
+        this.setFooterVisibility(false);
+      }
+    }
+  }
 
   @computed
   get feedbackOptions() {
@@ -60,7 +80,6 @@ class FeedbackPrompt {
         if (response.status === constants.responseSuccessStatus) {
           this._feedbackDataError = false;
           this._feedbackData = response.data;
-          this._isFeedbackFooterVisible = true;
           callback();
         } else {
           this._feedbackDataError = true;
