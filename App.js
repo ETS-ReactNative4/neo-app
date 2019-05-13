@@ -15,6 +15,7 @@ import {
 import ErrorBoundary from "./CommonComponents/ErrorBoundary/ErrorBoundary";
 import { isProduction } from "./Services/getEnvironmentDetails/getEnvironmentDetails";
 import FooterFeedbackPrompt from "./CommonComponents/FooterFeedbackPrompt/FooterFeedbackPrompt";
+import AppOverlays from "./Screens/AppOverlays/AppOverlays";
 
 @ErrorBoundary({ isRoot: true })
 class App extends Component {
@@ -63,7 +64,7 @@ class App extends Component {
             ref={setNavigationService}
             onNavigationStateChange={this._navigationStateChange}
           />
-          <FooterFeedbackPrompt />
+          <AppOverlays />
         </Fragment>
       </Provider>
     );

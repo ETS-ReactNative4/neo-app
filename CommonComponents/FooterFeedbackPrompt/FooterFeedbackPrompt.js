@@ -1,22 +1,10 @@
 import React, { Component, Fragment } from "react";
-import {
-  View,
-  StyleSheet,
-  Text,
-  Image,
-  Keyboard,
-  Platform
-} from "react-native";
-import {
-  responsiveHeight,
-  responsiveWidth
-} from "react-native-responsive-dimensions";
+import { View, StyleSheet, Text, Keyboard, Platform } from "react-native";
+import { responsiveWidth } from "react-native-responsive-dimensions";
 import constants from "../../constants/constants";
 import { isIphoneX } from "react-native-iphone-x-helper";
-import PropTypes from "prop-types";
 import SimpleButton from "../SimpleButton/SimpleButton";
 import * as Animatable from "react-native-animatable";
-import SlidingUpPanel from "rn-sliding-up-panel";
 import SlidingPanel from "./Components/SlidingPanel/SlidingPanel";
 import { inject, observer } from "mobx-react/custom";
 import _ from "lodash";
@@ -65,6 +53,10 @@ class FooterFeedbackPrompt extends Component {
 
   openSlidingPanel = () => {
     this._panelRef.current.show();
+  };
+
+  closeSlidingPanel = () => {
+    this._panelRef.current.hide();
   };
 
   rotateIllustration = ({ isReverse = false } = {}) => {
@@ -152,6 +144,30 @@ class FooterFeedbackPrompt extends Component {
     this._keyboardDidHideListener && this._keyboardDidHideListener.remove();
   }
 
+  submitFeedback = () => {
+    this.closeSlidingPanel();
+    const { feedbackOptions, submitFeedback } = this.props.feedbackPrompt;
+    const positiveItems = feedbackOptions.items.length
+      ? feedbackOptions.items[0]
+      : {};
+    const negativeItems = feedbackOptions.items.length
+      ? feedbackOptions.items[1]
+      : {};
+
+    const requestObject = {
+      itineraryId: feedbackOptions.itineraryId,
+      identifier: feedbackOptions.identifier,
+      reviews: this.state.isFeedbackPositive
+        ? this.state.positiveUserFeedback
+        : this.state.negativeUserFeedback,
+      responseType: this.state.isFeedbackPositive
+        ? positiveItems.title
+        : negativeItems.title
+    };
+    const submitApiURL = feedbackOptions.url;
+    submitFeedback(requestObject, submitApiURL);
+  };
+
   render() {
     const {
       feedbackOptions,
@@ -165,10 +181,10 @@ class FooterFeedbackPrompt extends Component {
     const prompt = feedbackOptions.title;
     const positiveItems = feedbackOptions.items.length
       ? feedbackOptions.items[0]
-      : [];
+      : {};
     const negativeItems = feedbackOptions.items.length
       ? feedbackOptions.items[1]
-      : [];
+      : {};
     return (
       <Fragment>
         <Animatable.View
@@ -238,6 +254,7 @@ class FooterFeedbackPrompt extends Component {
           blurOption={this.blurOption}
           focusedOption={this.state.focusedOption}
           unselectOption={this.unselectOption}
+          submitFeedback={this.submitFeedback}
         />
       </Fragment>
     );

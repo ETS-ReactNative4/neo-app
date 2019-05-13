@@ -11,10 +11,12 @@ import {
   responsiveHeight,
   responsiveWidth
 } from "react-native-responsive-dimensions";
+import _ from "lodash";
 import constants from "../../../../constants/constants";
 import SlidingUpPanel from "rn-sliding-up-panel";
 import PanelLogoContainer from "./Components/PanelLogoContainer";
 import FeedbackOption from "../FeedbackOption/FeedbackOption";
+import SimpleButton from "../../../SimpleButton/SimpleButton";
 
 class SlidingPanel extends Component {
   render() {
@@ -31,7 +33,8 @@ class SlidingPanel extends Component {
       focusOption,
       blurOption,
       focusedOption,
-      unselectOption
+      unselectOption,
+      submitFeedback
     } = this.props;
 
     const panelHeight = 320;
@@ -91,6 +94,21 @@ class SlidingPanel extends Component {
                   return null;
                 }
               })}
+              {!_.isEmpty(userFeedback) ? (
+                <SimpleButton
+                  text={"SUBMIT"}
+                  textColor={constants.seventhColor}
+                  action={submitFeedback}
+                  textStyle={{
+                    ...constants.fontCustom(constants.primarySemiBold, 17)
+                  }}
+                  containerStyle={{
+                    backgroundColor: "transparent",
+                    marginTop: 16,
+                    width: responsiveWidth(80)
+                  }}
+                />
+              ) : null}
             </View>
           </View>
         </View>

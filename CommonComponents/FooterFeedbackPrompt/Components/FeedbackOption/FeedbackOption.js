@@ -44,6 +44,7 @@ class FeedbackOption extends Component {
       if (this.state.isSelected) {
         this._feedbackInputRef.current.focus();
         focusOption(option.identifier);
+        this.onEditText("");
       } else {
         Keyboard.dismiss();
         blurOption();
@@ -94,7 +95,14 @@ class FeedbackOption extends Component {
           style={
             isFocusedOption
               ? styles.feedbackHeaderContainer
-              : styles.clickableContainer
+              : [
+                  styles.clickableContainer,
+                  isOptionChosen
+                    ? {
+                        backgroundColor: constants.seventhColor
+                      }
+                    : {}
+                ]
           }
           {...OptionWrapperProps}
         >
@@ -118,13 +126,15 @@ class FeedbackOption extends Component {
               {...checkBoxProps}
               style={[
                 styles.unselectedBox,
-                isOptionChosen
-                  ? { backgroundColor: constants.seventhColor }
-                  : {}
+                isOptionChosen ? { backgroundColor: "white" } : {}
               ]}
             >
               {isOptionChosen ? (
-                <Icon name={constants.checkIcon} size={22} color={"white"} />
+                <Icon
+                  name={constants.checkIcon}
+                  size={22}
+                  color={constants.seventhColor}
+                />
               ) : null}
             </CheckBoxWrapper>
           )}
@@ -133,7 +143,7 @@ class FeedbackOption extends Component {
             ellipsizeMode={"tail"}
             style={[
               styles.optionText,
-              isFocusedOption
+              isOptionChosen
                 ? styles.optionTextSelected
                 : styles.optionTextUnselected
             ]}
