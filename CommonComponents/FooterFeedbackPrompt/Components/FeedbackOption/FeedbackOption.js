@@ -7,7 +7,8 @@ import {
   TextInput,
   StyleSheet,
   KeyboardAvoidingView,
-  Keyboard
+  Keyboard,
+  Platform
 } from "react-native";
 import PropTypes from "prop-types";
 import { responsiveWidth } from "react-native-responsive-dimensions";
@@ -43,7 +44,15 @@ class FeedbackOption extends Component {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     this.setState({ isSelected: !this.state.isSelected }, () => {
       if (this.state.isSelected) {
-        this._feedbackInputRef.current.focus();
+        if (Platform.OS === constants.platformIos) {
+          this._feedbackInputRef.current.focus();
+        } else {
+          // In Android the input field looses focus due to animation.
+          // Need to wait for the animation to complete before focus.
+          setTimeout(() => {
+            this._feedbackInputRef.current.focus();
+          }, 500);
+        }
         focusOption(option.identifier);
         if (!isOptionChosen) {
           this.onEditText("");
@@ -90,7 +99,7 @@ class FeedbackOption extends Component {
             ? { position: "absolute", bottom: keyboardHeight }
             : {}
         }
-        behavior="padding"
+        behavior="height"
         enabled
       >
         <OptionWrapper
