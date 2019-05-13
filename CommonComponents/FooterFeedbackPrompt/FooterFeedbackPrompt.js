@@ -22,7 +22,7 @@ class FooterFeedbackPrompt extends Component {
     isFeedbackPositive: true,
     positiveUserFeedback: {},
     negativeUserFeedback: {},
-    isKeyboardVisibleiOS: false,
+    isKeyboardVisible: false,
     keyboardSpace: 0,
     focusedOption: ""
   };
@@ -113,28 +113,26 @@ class FooterFeedbackPrompt extends Component {
   };
 
   componentDidMount() {
-    if (Platform.OS === "ios") {
-      this._keyboardDidShowListener = Keyboard.addListener(
-        "keyboardWillChangeFrame",
-        this.keyboardWillChangeFrame
-      );
-      this._keyboardDidHideListener = Keyboard.addListener(
-        "keyboardWillHide",
-        this.keyboardWillHide
-      );
-    }
+    this._keyboardDidShowListener = Keyboard.addListener(
+      Platform.OS === "ios" ? "keyboardWillChangeFrame" : "keyboardDidShow",
+      this.keyboardWillShow
+    );
+    this._keyboardDidHideListener = Keyboard.addListener(
+      Platform.OS === "ios" ? "keyboardWillHide" : "keyboardDidHide",
+      this.keyboardWillHide
+    );
   }
 
-  keyboardWillChangeFrame = e => {
+  keyboardWillShow = e => {
     this.setState({
-      isKeyboardVisibleiOS: true,
+      isKeyboardVisible: true,
       keyboardSpace: e.endCoordinates.height
     });
   };
 
   keyboardWillHide = () => {
     this.setState({
-      isKeyboardVisibleiOS: false,
+      isKeyboardVisible: false,
       keyboardSpace: 0
     });
   };
@@ -247,7 +245,7 @@ class FooterFeedbackPrompt extends Component {
               ? this.state.positiveUserFeedback
               : this.state.negativeUserFeedback
           }
-          isKeyboardVisible={this.state.isKeyboardVisibleiOS}
+          isKeyboardVisible={this.state.isKeyboardVisible}
           keyboardHeight={this.state.keyboardSpace}
           updateUserFeedback={this.updateUserFeedback}
           focusOption={this.focusOption}

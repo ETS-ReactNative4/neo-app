@@ -38,13 +38,16 @@ class FeedbackOption extends Component {
   };
 
   toggleSelection = () => {
-    const { focusOption, blurOption, option } = this.props;
+    const { focusOption, blurOption, option, userFeedback } = this.props;
+    const isOptionChosen = typeof userFeedback[option.identifier] === "string";
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     this.setState({ isSelected: !this.state.isSelected }, () => {
       if (this.state.isSelected) {
         this._feedbackInputRef.current.focus();
         focusOption(option.identifier);
-        this.onEditText("");
+        if (!isOptionChosen) {
+          this.onEditText("");
+        }
       } else {
         Keyboard.dismiss();
         blurOption();
@@ -170,6 +173,7 @@ class FeedbackOption extends Component {
             underlineColorAndroid={"transparent"}
             value={feedbackText}
             multiline={true}
+            blurOnSubmit={true}
             onSubmitEditing={() => {
               this.submitText();
               this.toggleSelection();

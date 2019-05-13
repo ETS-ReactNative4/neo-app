@@ -94,7 +94,9 @@ class SlidingPanel extends Component {
                   return null;
                 }
               })}
-              {!_.isEmpty(userFeedback) ? (
+              {!_.isEmpty(userFeedback) &&
+              !isKeyboardVisible &&
+              !focusedOption ? (
                 <SimpleButton
                   text={"SUBMIT"}
                   textColor={constants.seventhColor}
