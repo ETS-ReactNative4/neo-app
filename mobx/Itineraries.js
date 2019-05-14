@@ -387,16 +387,19 @@ class Itineraries {
       const trainRefs = this._selectedItinerary.allTrainCostingRefs;
       trains =
         trainRefs && trainRefs.length
-          ? trainRefs.map(ref => {
+          ? trainRefs.reduce((trainsArray, ref) => {
               const trainCosting = toJS(
                 this._selectedItinerary.trainCostings.trainCostingById[ref]
               );
-              trainCosting.voucher =
-                storeService.voucherStore.getTrainVoucherById(
-                  trainCosting.costingId
-                ) || {};
-              return trainCosting;
-            })
+              if (trainCosting && trainCosting.status === "SUCCESS") {
+                trainCosting.voucher =
+                  storeService.voucherStore.getTrainVoucherById(
+                    trainCosting.costingId
+                  ) || {};
+                trainsArray.push(trainCosting);
+              }
+              return trainsArray;
+            }, [])
           : [];
     } catch (e) {
       logError(e);
@@ -414,16 +417,19 @@ class Itineraries {
       const ferryRefs = this._selectedItinerary.allFerryCostingRefs;
       ferries =
         ferryRefs && ferryRefs.length
-          ? ferryRefs.map(ref => {
+          ? ferryRefs.reduce((ferriesArray, ref) => {
               const ferry = toJS(
                 this._selectedItinerary.ferryCostings.ferryCostingById[ref]
               );
-              ferry.voucher =
-                storeService.voucherStore.getFerryVoucherById(
-                  ferry.costingId
-                ) || {};
-              return ferry;
-            })
+              if (ferry && ferry.status === "SUCCESS") {
+                ferry.voucher =
+                  storeService.voucherStore.getFerryVoucherById(
+                    ferry.costingId
+                  ) || {};
+                ferriesArray.push(ferry);
+              }
+              return ferriesArray;
+            }, [])
           : [];
     } catch (e) {
       logError(e);
@@ -508,16 +514,19 @@ class Itineraries {
       const rentalRefs = this._selectedItinerary.allRentalCostingRefs;
       rentals =
         rentalRefs && rentalRefs.length
-          ? rentalRefs.map(ref => {
+          ? rentalRefs.reduce((rentalsArray, ref) => {
               const rental = toJS(
                 this._selectedItinerary.rentalCarCostings.rentalCostingById[ref]
               );
-              rental.voucher =
-                storeService.voucherStore.getRentalCarVoucherById(
-                  rental.rcCostingId || rental.dbRef
-                ) || {};
-              return rental;
-            })
+              if (rental && rental.status === "SUCCESS") {
+                rental.voucher =
+                  storeService.voucherStore.getRentalCarVoucherById(
+                    rental.rcCostingId || rental.dbRef
+                  ) || {};
+                rentalsArray.push(rental);
+              }
+              return rentalsArray;
+            }, [])
           : [];
     } catch (e) {
       logError(e);
