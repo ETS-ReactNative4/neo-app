@@ -65,7 +65,7 @@ class Itineraries {
     )
       .then(response => {
         this._isLoading = false;
-        if (response.status === "SUCCESS") {
+        if (response.status === constants.responseSuccessStatus) {
           this._loadingError = false;
           this._itineraries.push(response.data);
           if (Platform.OS === "ios") {
@@ -104,7 +104,7 @@ class Itineraries {
     )
       .then(response => {
         this._isLoading = false;
-        if (response.status === "SUCCESS") {
+        if (response.status === constants.responseSuccessStatus) {
           this._selectedItinerary = response.data;
           for (let i = 0; i < this._itineraries.length; i++) {
             const itineraryDetail = this._itineraries[i];
@@ -237,7 +237,7 @@ class Itineraries {
                   this._selectedItinerary.hotelCostings.hotelCostingById[ref]
                 );
 
-                if (hotel && hotel.status === "SUCCESS") {
+                if (hotel && hotel.status === constants.voucherSuccessStatus) {
                   hotel.voucher =
                     storeService.voucherStore.getHotelVoucherById(
                       hotel.costingId
@@ -298,7 +298,7 @@ class Itineraries {
           };
         });
         activities = activities.filter(
-          activity => activity.costing.status === "SUCCESS"
+          activity => activity.costing.status === constants.voucherSuccessStatus
         );
         return _.sortBy(activities, "costing.dateMillis");
       } catch (e) {
@@ -326,7 +326,7 @@ class Itineraries {
                 this._selectedItinerary.flightCostings.flightCostingById[ref]
               );
 
-              if (flight && flight.status === "SUCCESS") {
+              if (flight && flight.status === constants.voucherSuccessStatus) {
                 flight.voucher =
                   storeService.voucherStore.getFlightVoucherById(
                     flight.dbFlightId
@@ -360,7 +360,10 @@ class Itineraries {
                 ]
               );
 
-              if (transfer && transfer.status === "SUCCESS") {
+              if (
+                transfer &&
+                transfer.status === constants.voucherSuccessStatus
+              ) {
                 transfer.voucher =
                   storeService.voucherStore.getTransferVoucherById(
                     transfer.transferCostingId
@@ -391,7 +394,10 @@ class Itineraries {
               const trainCosting = toJS(
                 this._selectedItinerary.trainCostings.trainCostingById[ref]
               );
-              if (trainCosting && trainCosting.status === "SUCCESS") {
+              if (
+                trainCosting &&
+                trainCosting.status === constants.voucherSuccessStatus
+              ) {
                 trainCosting.voucher =
                   storeService.voucherStore.getTrainVoucherById(
                     trainCosting.costingId
@@ -421,7 +427,7 @@ class Itineraries {
               const ferry = toJS(
                 this._selectedItinerary.ferryCostings.ferryCostingById[ref]
               );
-              if (ferry && ferry.status === "SUCCESS") {
+              if (ferry && ferry.status === constants.voucherSuccessStatus) {
                 ferry.voucher =
                   storeService.voucherStore.getFerryVoucherById(
                     ferry.costingId
@@ -518,7 +524,7 @@ class Itineraries {
               const rental = toJS(
                 this._selectedItinerary.rentalCarCostings.rentalCostingById[ref]
               );
-              if (rental && rental.status === "SUCCESS") {
+              if (rental && rental.status === constants.voucherSuccessStatus) {
                 rental.voucher =
                   storeService.voucherStore.getRentalCarVoucherById(
                     rental.rcCostingId || rental.dbRef
