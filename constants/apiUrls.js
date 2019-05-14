@@ -70,6 +70,7 @@ const apiUrls = {
   httpPrefix: "http://",
   httpsPrefix: "https://",
   responseSuccessStatus: "SUCCESS",
+  voucherSuccessStatus: "SUCCESS",
 
   /**
    * Payment form used to initialize payments
