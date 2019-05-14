@@ -6,9 +6,10 @@ import FooterFeedbackPrompt from "../../CommonComponents/FooterFeedbackPrompt/Fo
 @observer
 class AppOverlays extends Component {
   render() {
+    const { isFeedbackFooterActive } = this.props.feedbackPrompt;
     return (
       <Fragment>
-        <FooterFeedbackPrompt />
+        {isFeedbackFooterActive ? <FooterFeedbackPrompt /> : null}
       </Fragment>
     );
   }

@@ -11537,9 +11537,9 @@ rn-fetch-blob@^0.10.15:
     base-64 "0.1.0"
     glob "7.0.6"
 
-"rn-sliding-up-panel@git://github.com/DaniAkash/rn-sliding-up-panel#51215fbd0119e1b661e1de280d92bb3455604450":
+"rn-sliding-up-panel@git://github.com/DaniAkash/rn-sliding-up-panel#e939a958791a73d2bf3739c1be333f45f4dcf6db":
   version "2.2.0"
-  resolved "git://github.com/DaniAkash/rn-sliding-up-panel#51215fbd0119e1b661e1de280d92bb3455604450"
+  resolved "git://github.com/DaniAkash/rn-sliding-up-panel#e939a958791a73d2bf3739c1be333f45f4dcf6db"
   dependencies:
     clamp "^1.0.1"
     prop-types "^15.7.2"

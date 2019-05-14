@@ -59,6 +59,11 @@ class FeedbackPrompt {
     return this._isFeedbackFooterVisible;
   }
 
+  @computed
+  get isFeedbackFooterActive() {
+    return this._isFeedbackFooterActive;
+  }
+
   @action
   setFooterVisibility = visibility =>
     (this._isFeedbackFooterVisible = visibility);
@@ -134,7 +139,13 @@ class FeedbackPrompt {
           toastBottom(constants.feedbackFooterText.submitSuccessful);
 
           this.fetchFeedBackData(() => {
-            this._isFeedbackFooterActive = true;
+            /**
+             * Wait for Two seconds for the toast message to clear up
+             * Then re-activate the footer to collect feedback of previous day
+             */
+            setTimeout(() => {
+              this._isFeedbackFooterActive = true;
+            }, 2000);
           });
         } else {
           toastBottom(constants.feedbackFooterText.submitFailed);

@@ -95,9 +95,16 @@ class FooterFeedbackPrompt extends Component {
   };
 
   onPanelClosed = () => {
-    this.rotateIllustration({ isReverse: true });
-    this.blurOption();
-    this.showFooter();
+    const userFeedback = this.state.isFeedbackPositive
+      ? this.state.positiveUserFeedback
+      : this.state.negativeUserFeedback;
+    if (!_.isEmpty(userFeedback)) {
+      this.submitFeedback();
+    } else {
+      this.rotateIllustration({ isReverse: true });
+      this.blurOption();
+      this.showFooter();
+    }
   };
 
   updateUserFeedback = (identifier, text) => {
@@ -131,6 +138,7 @@ class FooterFeedbackPrompt extends Component {
   };
 
   keyboardWillHide = () => {
+    this.blurOption();
     this.setState({
       isKeyboardVisible: false,
       keyboardSpace: 0

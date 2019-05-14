@@ -60,6 +60,8 @@ class SlidingPanel extends Component {
         )}
         ref={panelRef}
         onClose={onClose}
+        allowDragging={!isKeyboardVisible}
+        onBackdropPress={isKeyboardVisible ? () => null : null}
       >
         <View style={styles.slidingContainer}>
           <View style={styles.slidingContainer}>

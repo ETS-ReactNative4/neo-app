@@ -99,7 +99,9 @@ class FeedbackOption extends Component {
             ? { position: "absolute", bottom: keyboardHeight }
             : {}
         }
-        behavior="height"
+        behavior={
+          Platform.OS === constants.platformAndroid ? "height" : "padding"
+        }
         enabled
       >
         <OptionWrapper
