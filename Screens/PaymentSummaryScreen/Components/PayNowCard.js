@@ -59,11 +59,9 @@ const styles = StyleSheet.create({
     marginVertical: 8
   },
   isFirstInfo: {
-    marginTop: 16,
-    marginBottom: 8
+    marginTop: 16
   },
   isLastInfo: {
-    marginTop: 8,
     marginBottom: 16
   },
   actionArea: {

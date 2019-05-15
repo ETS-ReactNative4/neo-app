@@ -9,6 +9,7 @@ const styles = {
   xSensorAreaHeight: 30,
   xNotchHeight: 30,
   commonDateFormat: "MMM DD, ddd",
+  shortCommonDateFormat: "MMM DD",
   commonDateFormatReverse: "ddd, DD MMM",
   shortTimeFormat: "hh:mm a",
   voucherDateFormat: "YYYY-MM-DD",

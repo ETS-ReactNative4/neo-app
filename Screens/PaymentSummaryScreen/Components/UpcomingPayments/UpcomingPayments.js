@@ -1,0 +1,60 @@
+import React, { Component } from "react";
+import { View, Text, StyleSheet } from "react-native";
+import CustomScrollView from "../../../../CommonComponents/CustomScrollView/CustomScrollView";
+import forbidExtraProps from "../../../../Services/PropTypeValidation/forbidExtraProps";
+import PropTypes from "prop-types";
+import PlatoPayments from "./Components/PlatoPayments";
+import ProductPayments from "./Components/ProductPayments";
+
+class UpcomingPayments extends Component {
+  static propTypes = forbidExtraProps({
+    isLoading: PropTypes.bool.isRequired,
+    loadPaymentData: PropTypes.func.isRequired,
+    isPaidWithPlato: PropTypes.bool.isRequired,
+    paymentOptions: PropTypes.array,
+    platoBankDetails: PropTypes.array,
+    isPaymentExpired: PropTypes.bool.isRequired,
+    paymentDue: PropTypes.string,
+    paymentHistory: PropTypes.array
+  });
+
+  render() {
+    const {
+      isLoading,
+      loadPaymentData,
+      isPaidWithPlato,
+      paymentOptions = [],
+      platoBankDetails,
+      isPaymentExpired,
+      paymentDue,
+      paymentHistory
+    } = this.props;
+    return (
+      <CustomScrollView
+        tabLabel="Upcoming"
+        style={styles.summaryContainer}
+        refreshing={isLoading}
+        onRefresh={loadPaymentData}
+      >
+        {isPaidWithPlato ? (
+          <PlatoPayments />
+        ) : (
+          <ProductPayments
+            paymentHistory={paymentHistory}
+            paymentDue={paymentDue}
+            isPaymentExpired={isPaymentExpired}
+            paymentOptions={paymentOptions}
+          />
+        )}
+      </CustomScrollView>
+    );
+  }
+}
+
+const styles = StyleSheet.create({
+  summaryContainer: {
+    backgroundColor: "white"
+  }
+});
+
+export default UpcomingPayments;

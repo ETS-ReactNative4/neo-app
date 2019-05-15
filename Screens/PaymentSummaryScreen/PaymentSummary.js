@@ -27,6 +27,7 @@ import { recordEvent } from "../../Services/analytics/analyticsService";
 import _ from "lodash";
 import YourBookingsTabBar from "../YourBookingsScreen/Components/YourBookingsTabBar";
 import ScrollableTabView from "react-native-scrollable-tab-view";
+import UpcomingPayments from "./Components/UpcomingPayments/UpcomingPayments";
 
 /**
  * TODO: Need data from previous api
@@ -104,9 +105,7 @@ class PaymentSummary extends Component {
     this.setState({
       tripId: `PYT${itineraryId.substr(itineraryId.length - 7).toUpperCase()}`,
       itineraryName,
-      nextPendingDate: moment(paymentDetails.nextPendingDate).format(
-        "MM/DD/YYYY"
-      ),
+      nextPendingDate: paymentDetails.nextPendingDate,
       itineraryTotalCost: getLocaleString(paymentDetails.itineraryTotalCost),
       totalAmountPaid: getLocaleString(paymentDetails.totalAmountPaid),
       paymentDue: getLocaleString(paymentDetails.paymentDue),
@@ -223,8 +222,13 @@ class PaymentSummary extends Component {
           if (amount.paymentStatus === "PENDING") {
             const data = {
               amount: `₹ ${amount.paymentAmount}`,
-              percentage: `${amount.percent}% of total cost`,
-              action: () => this.initiatePayment(amount.paymentType)
+              percentage:
+                amount.percent === 100
+                  ? `Clear Total Balance Due`
+                  : `Complete ${amount.percent}% of your trip cost`,
+              action: () => this.initiatePayment(amount.paymentType),
+              paymentDue: amount.paymentDue,
+              percent: amount.percent
             };
             detailsArray.push(data);
           }
@@ -341,6 +345,20 @@ class PaymentSummary extends Component {
         prerenderingSiblingsNumber={Infinity}
         renderTabBar={() => <YourBookingsTabBar />}
       >
+        {!isPaymentComplete ? (
+          <UpcomingPayments
+            tabLabel="Upcoming"
+            isLoading={this.state.isLoading}
+            loadPaymentData={this.loadPaymentData}
+            isPaidWithPlato={isPaidWithPlato}
+            paymentOptions={paymentOptions}
+            isPaymentComplete={isPaymentComplete}
+            platoBankDetails={platoBankDetails}
+            isPaymentExpired={_.toUpper(this.state.paymentStatus) === "EXPIRED"}
+            paymentDue={this.state.nextPendingDate}
+            paymentHistory={paymentHistory}
+          />
+        ) : null}
         <CustomScrollView
           tabLabel="Upcoming"
           style={styles.summaryContainer}
