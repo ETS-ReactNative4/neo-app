@@ -206,6 +206,7 @@ class FooterFeedbackPrompt extends Component {
           animation={"bounceInUp"}
           duration={1500}
           style={styles.footerFeedbackPrompt}
+          useNativeDriver={true}
         >
           <Text style={styles.promptText}>{prompt}</Text>
           <View style={styles.promptActionBar}>
