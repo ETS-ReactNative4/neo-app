@@ -22,6 +22,16 @@ class FeedbackOption extends Component {
     isSelected: false
   };
 
+  panResponderStart = () => {
+    this.props.disableDragging();
+    return false;
+  };
+
+  panResponderMove = () => {
+    this.props.disableDragging();
+    return false;
+  };
+
   onEditText = feedbackText => {
     const { option, updateUserFeedback } = this.props;
     updateUserFeedback(option.identifier, feedbackText);
@@ -103,6 +113,8 @@ class FeedbackOption extends Component {
           Platform.OS === constants.platformAndroid ? "height" : "padding"
         }
         enabled
+        onStartShouldSetResponder={this.panResponderStart}
+        onMoveShouldSetResponder={this.panResponderMove}
       >
         <OptionWrapper
           activeOpacity={0.8}

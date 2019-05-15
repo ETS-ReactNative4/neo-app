@@ -34,7 +34,10 @@ class SlidingPanel extends Component {
       blurOption,
       focusedOption,
       unselectOption,
-      submitFeedback
+      submitFeedback,
+      enableDragging,
+      disableDragging,
+      isDraggingEnabled
     } = this.props;
 
     const panelHeight = 320;
@@ -43,7 +46,6 @@ class SlidingPanel extends Component {
     const maxSlidingPanelHeight =
       panelHeight + optionsHeight * items.options.length;
     const titleImageExtendedHeight = 47; // keep it exactly half of the height of the logo container
-
     return (
       <SlidingUpPanel
         backdropOpacity={0.4}
@@ -60,7 +62,7 @@ class SlidingPanel extends Component {
         )}
         ref={panelRef}
         onClose={onClose}
-        allowDragging={!isKeyboardVisible}
+        allowDragging={!isKeyboardVisible && isDraggingEnabled}
         onBackdropPress={isKeyboardVisible ? () => null : null}
       >
         <View style={styles.slidingContainer}>
@@ -90,6 +92,8 @@ class SlidingPanel extends Component {
                       keyboardHeight={keyboardHeight}
                       isKeyboardVisible={isKeyboardVisible}
                       unselectOption={unselectOption}
+                      enableDragging={enableDragging}
+                      disableDragging={disableDragging}
                     />
                   );
                 } else {

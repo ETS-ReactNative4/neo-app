@@ -8,6 +8,7 @@ import * as Animatable from "react-native-animatable";
 import SlidingPanel from "./Components/SlidingPanel/SlidingPanel";
 import { inject, observer } from "mobx-react/custom";
 import _ from "lodash";
+import FeedbackOption from "./Components/FeedbackOption/FeedbackOption";
 
 @inject("feedbackPrompt")
 @observer
@@ -24,8 +25,13 @@ class FooterFeedbackPrompt extends Component {
     negativeUserFeedback: {},
     isKeyboardVisible: false,
     keyboardSpace: 0,
-    focusedOption: ""
+    focusedOption: "",
+    isDraggingEnabled: true
   };
+
+  enableDragging = () => this.setState({ isDraggingEnabled: true });
+
+  disableDragging = () => this.setState({ isDraggingEnabled: false });
 
   focusOption = identifier => this.setState({ focusedOption: identifier });
 
@@ -41,6 +47,7 @@ class FooterFeedbackPrompt extends Component {
       delete negativeUserFeedback[identifier];
       this.setState({ negativeUserFeedback });
     }
+    this.enableDragging();
   };
 
   showFooter = () => {
@@ -139,6 +146,7 @@ class FooterFeedbackPrompt extends Component {
 
   keyboardWillHide = () => {
     this.blurOption();
+    this.enableDragging();
     this.setState({
       isKeyboardVisible: false,
       keyboardSpace: 0
@@ -261,6 +269,9 @@ class FooterFeedbackPrompt extends Component {
           focusedOption={this.state.focusedOption}
           unselectOption={this.unselectOption}
           submitFeedback={this.submitFeedback}
+          enableDragging={this.enableDragging}
+          disableDragging={this.disableDragging}
+          isDraggingEnabled={this.state.isDraggingEnabled}
         />
       </Fragment>
     );
