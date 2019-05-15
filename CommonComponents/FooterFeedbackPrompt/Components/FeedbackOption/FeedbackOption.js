@@ -18,10 +18,6 @@ import Icon from "../../../Icon/Icon";
 class FeedbackOption extends Component {
   _feedbackInputRef = React.createRef();
 
-  state = {
-    isSelected: false
-  };
-
   panResponderStart = () => {
     this.props.disableDragging();
     return false;
@@ -49,29 +45,33 @@ class FeedbackOption extends Component {
   };
 
   toggleSelection = () => {
-    const { focusOption, blurOption, option, userFeedback } = this.props;
+    const {
+      focusOption,
+      blurOption,
+      option,
+      userFeedback,
+      isFocusedOption
+    } = this.props;
     const isOptionChosen = typeof userFeedback[option.identifier] === "string";
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-    this.setState({ isSelected: !this.state.isSelected }, () => {
-      if (this.state.isSelected) {
-        if (Platform.OS === constants.platformIos) {
-          this._feedbackInputRef.current.focus();
-        } else {
-          // In Android the input field looses focus due to animation.
-          // Need to wait for the animation to complete before focus.
-          setTimeout(() => {
-            this._feedbackInputRef.current.focus();
-          }, 500);
-        }
-        focusOption(option.identifier);
-        if (!isOptionChosen) {
-          this.onEditText("");
-        }
+    if (!isFocusedOption) {
+      if (Platform.OS === constants.platformIos) {
+        this._feedbackInputRef.current.focus();
       } else {
-        Keyboard.dismiss();
-        blurOption();
+        // In Android the input field looses focus due to animation.
+        // Need to wait for the animation to complete before focus.
+        setTimeout(() => {
+          this._feedbackInputRef.current.focus();
+        }, 500);
       }
-    });
+      focusOption(option.identifier);
+      if (!isOptionChosen) {
+        this.onEditText("");
+      }
+    } else {
+      Keyboard.dismiss();
+      blurOption();
+    }
   };
 
   render() {
