@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from "react";
 import { inject, observer } from "mobx-react/custom";
 import FooterFeedbackPrompt from "../../CommonComponents/FooterFeedbackPrompt/FooterFeedbackPrompt";
+import OverlayErrorBoundary from "./Components/OverlayErrorBoundary";
 
 @inject("feedbackPrompt")
 @observer
@@ -9,7 +10,9 @@ class AppOverlays extends Component {
     const { isFeedbackFooterActive } = this.props.feedbackPrompt;
     return (
       <Fragment>
-        {isFeedbackFooterActive ? <FooterFeedbackPrompt /> : null}
+        <OverlayErrorBoundary>
+          {isFeedbackFooterActive ? <FooterFeedbackPrompt /> : null}
+        </OverlayErrorBoundary>
       </Fragment>
     );
   }
