@@ -1,14 +1,17 @@
 import React, { Fragment } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, StatusBar, Platform } from "react-native";
 import constants from "../../../../../constants/constants";
 import PayNowCard from "../../PayNowCard";
 import moment from "moment";
 import ordinalConverter from "number-to-words";
 import getTitleCase from "../../../../../Services/getTitleCase/getTitleCase";
+import { responsiveHeight } from "react-native-responsive-dimensions";
+import { isIphoneX } from "react-native-iphone-x-helper";
 
 const ProductPayments = ({
   paymentOptions,
   isPaymentExpired,
+  openSupport,
   paymentDue,
   paymentHistory
 }) => {
@@ -30,11 +33,13 @@ const ProductPayments = ({
       },
       {
         title: `Due by`,
-        text: moment(paymentDue).format(constants.shortCommonDateFormat)
+        text: !isPaymentExpired
+          ? moment(paymentDue).format(constants.shortCommonDateFormat)
+          : "Expired"
       }
     ],
-    actionText: "Pay Now",
-    action: currentPaymentOption.action
+    actionText: !isPaymentExpired ? "Pay Now" : "Call Support",
+    action: !isPaymentExpired ? currentPaymentOption.action : openSupport
   };
 
   const nextPaymentOption = otherPaymentOptions.length
@@ -45,6 +50,18 @@ const ProductPayments = ({
         constants.shortCommonDateFormat
       )
     : null;
+
+  const lastPaymentOption = otherPaymentOptions[otherPaymentOptions.length - 1];
+  const lastPaymentOptionTitle = lastPaymentOption.percentage;
+  const lastPaymentData = {
+    cardInfo: [
+      {
+        title: `Amount`,
+        text: lastPaymentOption.amount
+      }
+    ],
+    action: lastPaymentOption.action
+  };
 
   return (
     <View style={styles.productPaymentsContainer}>
@@ -57,41 +74,50 @@ const ProductPayments = ({
       <Text style={styles.paymentTitleText}>{paymentTitle}</Text>
       <PayNowCard {...currentPaymentData} />
 
-      {otherPaymentOptions.length ? (
+      {!isPaymentExpired ? (
         <Fragment>
-          <Text style={styles.nextPaymentTitleText}>{`Next Payment`}</Text>
-          <Text
-            style={styles.nextPaymentText}
-          >{`Next payment due on ${nextPaymentDue}`}</Text>
-          <Text style={styles.otherOptionsTitle}>{"Or"}</Text>
+          {otherPaymentOptions.length ? (
+            <Fragment>
+              <Text style={styles.nextPaymentTitleText}>{`Next Payment`}</Text>
+              <Text
+                style={styles.nextPaymentText}
+              >{`Next payment due on ${nextPaymentDue}`}</Text>
+            </Fragment>
+          ) : null}
+
+          <View style={styles.clearPaymentContainer}>
+            <Text
+              style={styles.paymentTitleText}
+            >{`Or ${lastPaymentOptionTitle}`}</Text>
+            <PayNowCard {...lastPaymentData} />
+          </View>
         </Fragment>
       ) : null}
-
-      {otherPaymentOptions.map((paymentOption, paymentOptionIndex) => {
-        const paymentOptionTitle = paymentOption.percentage;
-        const paymentData = {
-          cardInfo: [
-            {
-              title: `Amount`,
-              text: paymentOption.amount
-            }
-          ],
-          action: paymentOption.action
-        };
-        return (
-          <Fragment key={paymentOptionIndex}>
-            <Text style={styles.paymentTitleText}>{paymentOptionTitle}</Text>
-            <PayNowCard {...paymentData} />
-          </Fragment>
-        );
-      })}
     </View>
   );
 };
 
+const headerHeight = constants.headerHeight;
+const tabBarHeight = 50;
+
+const androidStatusBarHeight =
+  Platform.OS === constants.platformAndroid ? StatusBar.currentHeight : 0;
+
+const xNotchHeight = constants.xNotchHeight;
+const xSensorAreaHeight = constants.xSensorAreaHeight;
+const xArea = isIphoneX() ? xNotchHeight + xSensorAreaHeight : 0;
+
+const availableAreaHeight =
+  responsiveHeight(100) -
+  tabBarHeight -
+  headerHeight -
+  xArea -
+  androidStatusBarHeight;
+
 const styles = StyleSheet.create({
   productPaymentsContainer: {
-    marginHorizontal: 24
+    marginHorizontal: 24,
+    height: availableAreaHeight
   },
   paymentScheduleText: {
     ...constants.fontCustom(constants.primaryRegular, 18),
@@ -116,6 +142,10 @@ const styles = StyleSheet.create({
     ...constants.fontCustom(constants.primarySemiBold, 14),
     marginVertical: 24,
     color: constants.shade1
+  },
+  clearPaymentContainer: {
+    position: "absolute",
+    bottom: 24
   }
 });
 

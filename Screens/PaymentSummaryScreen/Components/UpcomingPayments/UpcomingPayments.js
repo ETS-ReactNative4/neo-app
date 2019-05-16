@@ -15,7 +15,8 @@ class UpcomingPayments extends Component {
     platoBankDetails: PropTypes.array,
     isPaymentExpired: PropTypes.bool.isRequired,
     paymentDue: PropTypes.string,
-    paymentHistory: PropTypes.array
+    paymentHistory: PropTypes.array,
+    openSupport: PropTypes.func
   });
 
   render() {
@@ -26,6 +27,7 @@ class UpcomingPayments extends Component {
       paymentOptions = [],
       platoBankDetails,
       isPaymentExpired,
+      openSupport,
       paymentDue,
       paymentHistory
     } = this.props;
@@ -43,6 +45,7 @@ class UpcomingPayments extends Component {
             paymentHistory={paymentHistory}
             paymentDue={paymentDue}
             isPaymentExpired={isPaymentExpired}
+            openSupport={openSupport}
             paymentOptions={paymentOptions}
           />
         )}

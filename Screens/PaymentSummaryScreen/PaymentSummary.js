@@ -216,10 +216,11 @@ class PaymentSummary extends Component {
     ];
     const { paymentInfo, isLoading } = this.state;
     const { productPayments, platoPayements: platoPayments } = paymentInfo;
+    const { navigation } = this.props;
 
     const paymentOptions = productPayments
       ? productPayments.reduce((detailsArray, amount) => {
-          if (amount.paymentStatus === "PENDING") {
+          if (amount.paymentStatus !== "SUCCESS") {
             const data = {
               amount: `₹ ${amount.paymentAmount}`,
               percentage:
@@ -235,6 +236,8 @@ class PaymentSummary extends Component {
           return detailsArray;
         }, [])
       : [];
+
+    const openSupport = () => navigation.navigate("SupportCenter");
 
     const paymentHistory = platoPayments
       ? platoPayments.paidInstallments
@@ -357,6 +360,7 @@ class PaymentSummary extends Component {
             isPaymentExpired={_.toUpper(this.state.paymentStatus) === "EXPIRED"}
             paymentDue={this.state.nextPendingDate}
             paymentHistory={paymentHistory}
+            openSupport={openSupport}
           />
         ) : null}
         <CustomScrollView
