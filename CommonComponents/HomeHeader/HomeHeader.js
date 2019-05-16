@@ -5,12 +5,20 @@ import HomeTitle from "../HomeTitle/HomeTitle";
 import TripToggle from "../TripToggle/TripToggle";
 import { recordEvent } from "../../Services/analytics/analyticsService";
 import constants from "../../constants/constants";
+import storeService from "../../Services/storeService/storeService";
 
 const HomeHeader = ({ navigation }) => {
   return {
     header: (
       <CommonHeader
-        LeftButton={<HamburgerButton action={() => navigation.openDrawer()} />}
+        LeftButton={
+          <HamburgerButton
+            action={() => {
+              storeService.appState.onDrawerOpen();
+              navigation.openDrawer();
+            }}
+          />
+        }
         TitleComponent={
           <HomeTitle
             action={() => {
