@@ -270,6 +270,7 @@ class FooterFeedbackPrompt extends Component {
           focusedOption={this.state.focusedOption}
           unselectOption={this.unselectOption}
           submitFeedback={this.submitFeedback}
+          closeSlidingPanel={this.closeSlidingPanel}
           enableDragging={this.enableDragging}
           disableDragging={this.disableDragging}
           isDraggingEnabled={this.state.isDraggingEnabled}

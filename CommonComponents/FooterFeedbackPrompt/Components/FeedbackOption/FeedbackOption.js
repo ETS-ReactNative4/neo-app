@@ -11,7 +11,10 @@ import {
   Platform
 } from "react-native";
 import PropTypes from "prop-types";
-import { responsiveWidth } from "react-native-responsive-dimensions";
+import {
+  responsiveHeight,
+  responsiveWidth
+} from "react-native-responsive-dimensions";
 import constants from "../../../../constants/constants";
 import Icon from "../../../Icon/Icon";
 
@@ -55,15 +58,15 @@ class FeedbackOption extends Component {
     const isOptionChosen = typeof userFeedback[option.identifier] === "string";
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     if (!isFocusedOption) {
-      if (Platform.OS === constants.platformIos) {
+      // if (Platform.OS === constants.platformIos) {
+      //   this._feedbackInputRef.current.focus();
+      // } else {
+      // In Android the input field looses focus due to animation.
+      // Need to wait for the animation to complete before focus.
+      setTimeout(() => {
         this._feedbackInputRef.current.focus();
-      } else {
-        // In Android the input field looses focus due to animation.
-        // Need to wait for the animation to complete before focus.
-        setTimeout(() => {
-          this._feedbackInputRef.current.focus();
-        }, 500);
-      }
+      }, 500);
+      // }
       focusOption(option.identifier);
       if (!isOptionChosen) {
         this.onEditText("");
@@ -81,7 +84,8 @@ class FeedbackOption extends Component {
       keyboardHeight,
       isKeyboardVisible,
       unselectOption,
-      isFocusedOption
+      isFocusedOption,
+      numberOfOptions
     } = this.props;
 
     const isOptionChosen = typeof userFeedback[option.identifier] === "string";
@@ -105,14 +109,20 @@ class FeedbackOption extends Component {
     return (
       <KeyboardAvoidingView
         style={
-          isKeyboardVisible && Platform.OS === constants.platformIos
-            ? { position: "absolute", bottom: keyboardHeight }
+          isKeyboardVisible
+            ? Platform.OS === constants.platformIos
+              ? { position: "absolute", bottom: keyboardHeight }
+              : numberOfOptions > 2
+                ? numberOfOptions === 3
+                  ? { position: "absolute", top: responsiveHeight(25) }
+                  : { position: "absolute", top: keyboardHeight }
+                : {}
             : {}
         }
         behavior={
           Platform.OS === constants.platformAndroid ? "height" : "padding"
         }
-        enabled
+        enabled={false}
         onStartShouldSetResponder={this.panResponderStart}
         onMoveShouldSetResponder={this.panResponderMove}
       >
@@ -201,7 +211,10 @@ class FeedbackOption extends Component {
               this.submitText();
               this.toggleSelection();
             }}
-            placeholderTextColor={constants.shade2}
+            editable={isFocusedOption}
+            placeholderTextColor={
+              isFocusedOption ? constants.shade2 : "transparent"
+            }
             placeholder={"Tell us more..."}
             textAlignVertical={"top"}
           />
@@ -288,7 +301,7 @@ const styles = StyleSheet.create({
     marginBottom: 24
   },
   feedbackTextInputUnselected: {
-    height: 0,
+    height: 104,
     color: "transparent"
   }
 });

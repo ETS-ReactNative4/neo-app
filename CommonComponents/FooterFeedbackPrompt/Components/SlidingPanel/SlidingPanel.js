@@ -5,7 +5,8 @@ import {
   View,
   StyleSheet,
   Keyboard,
-  LayoutAnimation
+  LayoutAnimation,
+  Platform
 } from "react-native";
 import {
   responsiveHeight,
@@ -37,7 +38,8 @@ class SlidingPanel extends Component {
       submitFeedback,
       enableDragging,
       disableDragging,
-      isDraggingEnabled
+      isDraggingEnabled,
+      closeSlidingPanel
     } = this.props;
 
     const panelHeight = 320;
@@ -93,11 +95,20 @@ class SlidingPanel extends Component {
                       isKeyboardVisible={isKeyboardVisible}
                       unselectOption={unselectOption}
                       enableDragging={enableDragging}
+                      numberOfOptions={items.options.length}
                       disableDragging={disableDragging}
                     />
                   );
                 } else {
-                  return null;
+                  if (Platform.OS === constants.platformIos) return null;
+                  else {
+                    return (
+                      <View
+                        key={optionIndex}
+                        style={styles.optionPlaceholder}
+                      />
+                    );
+                  }
                 }
               })}
               {!_.isEmpty(userFeedback) &&
@@ -106,7 +117,7 @@ class SlidingPanel extends Component {
                 <SimpleButton
                   text={"SUBMIT"}
                   textColor={constants.seventhColor}
-                  action={submitFeedback}
+                  action={closeSlidingPanel}
                   textStyle={{
                     ...constants.fontCustom(constants.primarySemiBold, 17)
                   }}
@@ -147,6 +158,12 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     width: responsiveWidth(100),
     alignItems: "center"
+  },
+  optionPlaceholder: {
+    height: 48,
+    width: responsiveWidth(100) - 48,
+    alignSelf: "center",
+    backgroundColor: "transparent"
   }
 });
 
