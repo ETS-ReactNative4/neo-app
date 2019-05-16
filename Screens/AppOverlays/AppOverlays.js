@@ -4,14 +4,20 @@ import FooterFeedbackPrompt from "../../CommonComponents/FooterFeedbackPrompt/Fo
 import OverlayErrorBoundary from "./Components/OverlayErrorBoundary";
 
 @inject("feedbackPrompt")
+@inject("appState")
 @observer
 class AppOverlays extends Component {
   render() {
     const { isFeedbackFooterActive } = this.props.feedbackPrompt;
+    const { isDrawerOpen } = this.props.appState;
     return (
       <Fragment>
         <OverlayErrorBoundary>
-          {isFeedbackFooterActive ? <FooterFeedbackPrompt /> : null}
+          {!isDrawerOpen && isFeedbackFooterActive ? (
+            <FooterFeedbackPrompt />
+          ) : (
+            <Fragment />
+          )}
         </OverlayErrorBoundary>
       </Fragment>
     );

@@ -77,9 +77,12 @@ class FeedbackPrompt {
     const prevScreen = getActiveRouteName(prevState);
     if (prevScreen !== currentScreen) {
       if (
-        ["TripFeedHome", "Bookings", "Tools", "Journal"].indexOf(
-          currentScreen
-        ) > -1
+        [
+          "TripFeedHome"
+          // "Bookings",
+          // "Tools",
+          // "Journal"
+        ].indexOf(currentScreen) > -1
       ) {
         this.setFooterVisibility(true);
       } else {
