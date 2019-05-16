@@ -105,7 +105,7 @@ class FeedbackOption extends Component {
     return (
       <KeyboardAvoidingView
         style={
-          isKeyboardVisible
+          isKeyboardVisible && Platform.OS === constants.platformIos
             ? { position: "absolute", bottom: keyboardHeight }
             : {}
         }
