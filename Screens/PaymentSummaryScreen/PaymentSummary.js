@@ -220,19 +220,18 @@ class PaymentSummary extends Component {
 
     const paymentOptions = productPayments
       ? productPayments.reduce((detailsArray, amount) => {
-          if (amount.paymentStatus !== "SUCCESS") {
-            const data = {
-              amount: `₹ ${amount.paymentAmount}`,
-              percentage:
-                amount.percent === 100
-                  ? `Clear Total Balance Due`
-                  : `Complete ${amount.percent}% of your trip cost`,
-              action: () => this.initiatePayment(amount.paymentType),
-              paymentDue: amount.paymentDue,
-              percent: amount.percent
-            };
-            detailsArray.push(data);
-          }
+          const data = {
+            amount: `₹ ${amount.paymentAmount}`,
+            percentage:
+              amount.percent === 100
+                ? `Clear Total Balance Due`
+                : `Complete ${amount.percent}% of your trip cost`,
+            action: () => this.initiatePayment(amount.paymentType),
+            paymentDue: amount.paymentDue,
+            percent: amount.percent,
+            paymentAllowed: amount.paymentAllowed
+          };
+          detailsArray.push(data);
           return detailsArray;
         }, [])
       : [];
@@ -376,7 +375,7 @@ class PaymentSummary extends Component {
 
         <View tabLabel="Completed" />
         <CustomScrollView
-          tabLabel="Upcoming"
+          tabLabel="Upcoming Old"
           style={styles.summaryContainer}
           refreshing={this.state.isLoading}
           onRefresh={() => {
@@ -396,7 +395,6 @@ class PaymentSummary extends Component {
           >
             <View style={styles.platoBankDetailContainer}>
               <Text style={styles.platoBankDetailTitle}>{"Bank Details"}</Text>
-              <VoucherSplitSection sections={platoBankDetails} />
               <SimpleButton
                 text={"Got it!"}
                 hasBorder={true}

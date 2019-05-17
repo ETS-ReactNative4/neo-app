@@ -17,31 +17,60 @@ const ProductPayments = ({
 }) => {
   if (!paymentOptions.length) return null;
 
-  const [currentPaymentOption, ...otherPaymentOptions] = paymentOptions;
-  const numberOfInstallments = paymentOptions.length;
+  const today = moment();
+  const dueDateDifference = moment(paymentDue).diff(today, "days");
+
+  /**
+   * Find Valid and Invalid payment options
+   */
+  const validPayments = paymentOptions.filter(
+    payment => payment.paymentAllowed
+  );
+  const invalidPayments = paymentOptions.filter(
+    payment => !payment.paymentAllowed
+  );
+
+  const [currentPaymentOption, ...otherPaymentOptions] = validPayments;
+  const numberOfInstallments = validPayments.length;
   const currentInstallment = paymentHistory.length + 1;
+  const isPaymentAllowed =
+    !isPaymentExpired && currentPaymentOption.paymentAllowed;
 
-  const paymentTitle = currentPaymentOption.percentage;
-
-  const currentPaymentData = {
-    cardInfo: [
-      {
-        title: `${getTitleCase(
-          ordinalConverter.toWordsOrdinal(currentInstallment)
-        )} Installment`,
-        text: currentPaymentOption.amount
-      },
-      {
-        title: `Due by`,
-        text: !isPaymentExpired
-          ? moment(paymentDue).format(constants.shortCommonDateFormat)
-          : "Expired"
+  /**
+   * Get data required to display the current payment installment
+   */
+  const paymentTitle = currentPaymentOption
+    ? currentPaymentOption.percentage
+    : null;
+  const currentPaymentData = currentPaymentOption
+    ? {
+        cardInfo: [
+          {
+            title: `${getTitleCase(
+              ordinalConverter.toWordsOrdinal(currentInstallment)
+            )} Installment`,
+            text: currentPaymentOption.amount
+          },
+          {
+            title: `Due`,
+            text: !isPaymentExpired
+              ? dueDateDifference > 7
+                ? moment(paymentDue).format(constants.shortCommonDateFormat)
+                : dueDateDifference === 0
+                  ? "Today"
+                  : moment(paymentDue).fromNow()
+              : "Expired"
+          }
+        ],
+        actionText: isPaymentAllowed ? "Pay Now" : "Call Support",
+        action: isPaymentAllowed ? currentPaymentOption.action : openSupport,
+        actionIcon: isPaymentAllowed ? constants.backIcon : constants.callIcon
       }
-    ],
-    actionText: !isPaymentExpired ? "Pay Now" : "Call Support",
-    action: !isPaymentExpired ? currentPaymentOption.action : openSupport
-  };
+    : null;
 
+  /**
+   * Get data required to display the next installment information
+   */
   const nextPaymentOption = otherPaymentOptions.length
     ? otherPaymentOptions[0]
     : null;
@@ -51,30 +80,79 @@ const ProductPayments = ({
       )
     : null;
 
-  const lastPaymentOption = otherPaymentOptions[otherPaymentOptions.length - 1];
-  const lastPaymentOptionTitle = lastPaymentOption.percentage;
-  const lastPaymentData = {
-    cardInfo: [
-      {
-        title: `Amount`,
-        text: lastPaymentOption.amount
+  /**
+   * Get data required to display the final installment details (used to clear all payments)
+   */
+  const lastPaymentOption = otherPaymentOptions.length
+    ? otherPaymentOptions[otherPaymentOptions.length - 1]
+    : null;
+  const lastPaymentOptionTitle = lastPaymentOption
+    ? lastPaymentOption.percentage
+    : null;
+  const lastPaymentData = lastPaymentOption
+    ? {
+        cardInfo: [
+          {
+            title: `Amount`,
+            text: lastPaymentOption.amount
+          }
+        ],
+        action: lastPaymentOption.action,
+        actionIcon: constants.backIcon
       }
-    ],
-    action: lastPaymentOption.action
-  };
+    : null;
+
+  /**
+   * If payment has expired, display the final installment with expired message
+   */
+  const expiredPaymentOption =
+    isPaymentExpired && invalidPayments.length
+      ? invalidPayments[invalidPayments.length - 1]
+      : null;
+  const expiredPaymentData = expiredPaymentOption
+    ? {
+        cardInfo: [
+          {
+            title: `Amount`,
+            text: expiredPaymentOption.amount
+          },
+          {
+            title: `Due by`,
+            text: "Expired"
+          }
+        ],
+        action: openSupport,
+        actionText: "Expired",
+        actionIcon: constants.callIcon,
+        color: constants.shade2
+      }
+    : null;
 
   return (
     <View style={styles.productPaymentsContainer}>
-      <Text
-        style={styles.paymentScheduleText}
-      >{`You have ${numberOfInstallments} scheduled payment${
-        numberOfInstallments > 1 ? "s" : ""
-      }`}</Text>
-
-      <Text style={styles.paymentTitleText}>{paymentTitle}</Text>
-      <PayNowCard {...currentPaymentData} />
-
       {!isPaymentExpired ? (
+        <Fragment>
+          <Text
+            style={styles.paymentScheduleText}
+          >{`You have ${numberOfInstallments} scheduled payment${
+            numberOfInstallments > 1 ? "s" : ""
+          }`}</Text>
+          <Text style={styles.paymentTitleText}>{paymentTitle}</Text>
+          <PayNowCard {...currentPaymentData} />
+        </Fragment>
+      ) : (
+        <Fragment>
+          <Text style={styles.paymentScheduleText}>
+            {"Your payment has Expired"}
+          </Text>
+          <Text style={styles.paymentTitleText}>
+            {"Please contact Support"}
+          </Text>
+          <PayNowCard {...expiredPaymentData} />
+        </Fragment>
+      )}
+
+      {!isPaymentExpired && lastPaymentOption ? (
         <Fragment>
           {otherPaymentOptions.length ? (
             <Fragment>

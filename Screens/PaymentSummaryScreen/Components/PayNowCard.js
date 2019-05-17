@@ -7,12 +7,18 @@ import Icon from "../../../CommonComponents/Icon/Icon";
 import PropTypes from "prop-types";
 import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraProps";
 
-const PayNowCard = ({ cardInfo = [], actionText = "", action = "" }) => {
+const PayNowCard = ({
+  cardInfo = [],
+  actionText = "",
+  action = () => null,
+  color = constants.ninthColor,
+  actionIcon = constants.backIcon
+}) => {
   return (
     <TouchableOpacity
       onPress={action}
       activeOpacity={0.8}
-      style={styles.payNowCardContainer}
+      style={[styles.payNowCardContainer, { backgroundColor: color }]}
     >
       <View>
         {cardInfo.map((info, infoIndex) => {
@@ -34,11 +40,7 @@ const PayNowCard = ({ cardInfo = [], actionText = "", action = "" }) => {
         <View style={styles.actionTextArea}>
           <Text style={styles.actionText}>{`${actionText}`}</Text>
           <View style={styles.actionIcon}>
-            <Icon
-              name={constants.backIcon}
-              color={constants.ninthColor}
-              size={24}
-            />
+            <Icon name={actionIcon} color={"white"} size={24} />
           </View>
         </View>
       </View>
@@ -46,16 +48,21 @@ const PayNowCard = ({ cardInfo = [], actionText = "", action = "" }) => {
   );
 };
 
-PayNowCard.propTypes = forbidExtraProps({});
+PayNowCard.propTypes = forbidExtraProps({
+  cardInfo: PropTypes.array.isRequired,
+  actionText: PropTypes.string,
+  action: PropTypes.func.isRequired,
+  color: PropTypes.string,
+  actionIcon: PropTypes.string
+});
 
 const styles = StyleSheet.create({
   payNowCardContainer: {
     alignSelf: "center",
     flexDirection: "row",
     width: responsiveWidth(100) - 48,
-    backgroundColor: constants.shade5,
-    borderWidth: 1,
-    borderColor: constants.shade4,
+    borderWidth: StyleSheet.hairlineWidth,
+    borderColor: "transparent",
     borderRadius: 3
   },
   infoAreaWrapper: {
@@ -83,7 +90,7 @@ const styles = StyleSheet.create({
   },
   actionText: {
     ...constants.fontCustom(constants.primaryRegular, 16),
-    color: constants.ninthColor,
+    color: "white",
     marginTop: 5,
     marginRight: 4
   },
