@@ -4,6 +4,8 @@ import { responsiveWidth } from "react-native-responsive-dimensions";
 import constants from "../../../constants/constants";
 import PaymentInfoText from "./PaymentInfoText";
 import Icon from "../../../CommonComponents/Icon/Icon";
+import PropTypes from "prop-types";
+import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraProps";
 
 const PayNowCard = ({ cardInfo = [], actionText = "", action = "" }) => {
   return (
@@ -43,6 +45,8 @@ const PayNowCard = ({ cardInfo = [], actionText = "", action = "" }) => {
     </TouchableOpacity>
   );
 };
+
+PayNowCard.propTypes = forbidExtraProps({});
 
 const styles = StyleSheet.create({
   payNowCardContainer: {

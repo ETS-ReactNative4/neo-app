@@ -327,6 +327,15 @@ class PaymentSummary extends Component {
       ];
     }
 
+    const platoPaidInstallments =
+      platoPayments && platoPayments.paidInstallments
+        ? platoPayments.paidInstallments
+        : [];
+    const platoPendingInstallments =
+      platoPayments && platoPayments.pendingInstallments
+        ? platoPayments.pendingInstallments
+        : [];
+
     /**
      * TODO: Move bank details out of the app to api/webview
      */
@@ -361,8 +370,11 @@ class PaymentSummary extends Component {
             paymentDue={this.state.nextPendingDate}
             paymentHistory={paymentHistory}
             openSupport={openSupport}
+            platoPendingInstallments={platoPendingInstallments}
           />
         ) : null}
+
+        <View tabLabel="Completed" />
         <CustomScrollView
           tabLabel="Upcoming"
           style={styles.summaryContainer}
@@ -500,7 +512,6 @@ class PaymentSummary extends Component {
             />
           ) : null}
         </CustomScrollView>
-        <View tabLabel="Completed" />
       </ScrollableTabView>
     );
   }

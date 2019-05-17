@@ -16,7 +16,8 @@ class UpcomingPayments extends Component {
     isPaymentExpired: PropTypes.bool.isRequired,
     paymentDue: PropTypes.string,
     paymentHistory: PropTypes.array,
-    openSupport: PropTypes.func
+    openSupport: PropTypes.func,
+    platoPendingInstallments: PropTypes.array.isRequired
   });
 
   render() {
@@ -29,7 +30,8 @@ class UpcomingPayments extends Component {
       isPaymentExpired,
       openSupport,
       paymentDue,
-      paymentHistory
+      paymentHistory,
+      platoPendingInstallments
     } = this.props;
     return (
       <CustomScrollView
@@ -39,7 +41,10 @@ class UpcomingPayments extends Component {
         onRefresh={loadPaymentData}
       >
         {isPaidWithPlato ? (
-          <PlatoPayments />
+          <PlatoPayments
+            platoPendingInstallments={platoPendingInstallments}
+            platoBankDetails={platoBankDetails}
+          />
         ) : (
           <ProductPayments
             paymentHistory={paymentHistory}
