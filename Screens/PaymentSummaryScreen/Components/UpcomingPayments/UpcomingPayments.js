@@ -44,6 +44,7 @@ class UpcomingPayments extends Component {
           <PlatoPayments
             platoPendingInstallments={platoPendingInstallments}
             platoBankDetails={platoBankDetails}
+            openSupport={openSupport}
           />
         ) : (
           <ProductPayments

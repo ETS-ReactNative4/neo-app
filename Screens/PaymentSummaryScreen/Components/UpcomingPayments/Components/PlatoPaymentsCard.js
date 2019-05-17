@@ -60,6 +60,7 @@ const styles = StyleSheet.create({
   platoPaymentsCardContainer: {
     alignSelf: "center",
     backgroundColor: "white",
+    borderRadius: 3,
     borderWidth: StyleSheet.hairlineWidth,
     borderColor: "transparent",
     ...constants.elevationFive
