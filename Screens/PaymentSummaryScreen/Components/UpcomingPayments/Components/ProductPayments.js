@@ -64,7 +64,9 @@ const ProductPayments = ({
         ],
         actionText: isPaymentAllowed ? "Pay Now" : "Call Support",
         action: isPaymentAllowed ? currentPaymentOption.action : openSupport,
-        actionIcon: isPaymentAllowed ? constants.backIcon : constants.callIcon
+        actionIcon: isPaymentAllowed ? constants.backIcon : constants.callIcon,
+        color:
+          dueDateDifference > 2 ? constants.ninthColor : constants.tenthColor
       }
     : null;
 
