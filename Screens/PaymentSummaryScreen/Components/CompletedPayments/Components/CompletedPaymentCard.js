@@ -12,13 +12,18 @@ const CompletedPaymentCard = ({
   referenceId,
   mode,
   amount,
-  color = constants.firstColor
+  color = constants.firstColor,
+  containerStyle = {}
 }) => {
   return (
     <TouchableOpacity
       onPress={action}
       activeOpacity={0.8}
-      style={[styles.paymentCompleteCardContainer, { backgroundColor: color }]}
+      style={[
+        styles.paymentCompleteCardContainer,
+        { backgroundColor: color },
+        containerStyle
+      ]}
     >
       <View style={styles.leftSection}>
         <PaymentInfoText
@@ -53,7 +58,8 @@ CompletedPaymentCard.propTypes = forbidExtraProps({
   referenceId: PropTypes.string.isRequired,
   mode: PropTypes.string.isRequired,
   amount: PropTypes.string.isRequired,
-  action: PropTypes.func.isRequired
+  action: PropTypes.func.isRequired,
+  containerStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.number])
 });
 
 const styles = StyleSheet.create({

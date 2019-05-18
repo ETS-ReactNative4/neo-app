@@ -28,6 +28,7 @@ import _ from "lodash";
 import YourBookingsTabBar from "../YourBookingsScreen/Components/YourBookingsTabBar";
 import ScrollableTabView from "react-native-scrollable-tab-view";
 import UpcomingPayments from "./Components/UpcomingPayments/UpcomingPayments";
+import CompletedPayments from "./Components/CompletedPayments/CompletedPayments";
 
 /**
  * TODO: Need data from previous api
@@ -237,15 +238,17 @@ class PaymentSummary extends Component {
       : [];
 
     const openSupport = () => navigation.navigate("SupportCenter");
-
     const paymentHistory = platoPayments
       ? platoPayments.paidInstallments
         ? platoPayments.paidInstallments.reduce((detailsArray, amount) => {
             detailsArray.push({
               paymentAmount: getLocaleString(amount.amount),
-              transactionId: amount.transactionId,
-              mode: "Offline",
-              date: moment(amount.paymentTime).format("DD/MMM/YYYY")
+              transactionId: amount.referenceNumber,
+              mode: amount.paymentMode,
+              date: moment(amount.paymentTime).format(
+                constants.costingDateFormat
+              ),
+              salesReceipt: amount.salesReceipt
             });
             return detailsArray;
           }, [])
@@ -256,8 +259,9 @@ class PaymentSummary extends Component {
               const data = {
                 paymentAmount: `₹ ${amount.paymentAmount}`,
                 transactionId: amount.transactionId,
-                mode: "PayU",
-                date: amount.paidOn
+                mode: amount.mode || "Razor Pay",
+                date: amount.paidOn,
+                salesReceipt: amount.salesReceipt
               };
               detailsArray.push(data);
             }
@@ -372,144 +376,15 @@ class PaymentSummary extends Component {
             platoPendingInstallments={platoPendingInstallments}
           />
         ) : null}
-
-        <View tabLabel="Completed" />
-        <CustomScrollView
-          tabLabel="Upcoming Old"
-          style={styles.summaryContainer}
-          refreshing={this.state.isLoading}
-          onRefresh={() => {
-            this.loadPaymentData();
-          }}
-        >
-          <Loader isVisible={this.state.isPaymentLoading} />
-          <Modal
-            isVisible={this.state.isBankDetailModalVisible}
-            animationInTiming={600}
-            animationOutTiming={600}
-            onBackButtonPress={this.closeModal}
-            onBackdropPress={this.closeModal}
-            useNativeDriver={true}
-            style={{ margin: 0 }}
-            backdropOpacity={0.2}
-          >
-            <View style={styles.platoBankDetailContainer}>
-              <Text style={styles.platoBankDetailTitle}>{"Bank Details"}</Text>
-              <SimpleButton
-                text={"Got it!"}
-                hasBorder={true}
-                color={"white"}
-                action={this.closeModal}
-                textColor={constants.firstColor}
-                containerStyle={{ padding: 4 }}
-              />
-            </View>
-          </Modal>
-          <Text style={styles.titleText}>{this.state.itineraryName}</Text>
-
-          <VoucherSplitSection
-            sections={tripId}
-            containerStyle={{
-              borderBottomWidth: StyleSheet.hairlineWidth,
-              borderBottomColor: constants.shade4,
-              marginTop: 24,
-              marginHorizontal: 24
-            }}
+        {paymentHistory && paymentHistory.length ? (
+          <CompletedPayments
+            tabLabel={"Completed"}
+            isPaymentComplete={isPaymentComplete}
+            paymentHistory={paymentHistory}
+            isLoading={this.state.isLoading}
+            loadPaymentData={this.loadPaymentData}
           />
-
-          <VoucherSplitSection
-            sections={amountDetails}
-            containerStyle={{
-              borderBottomWidth: StyleSheet.hairlineWidth,
-              borderBottomColor: constants.shade4,
-              marginTop: 24,
-              marginHorizontal: 24,
-              paddingBottom: 16
-            }}
-          />
-
-          <View style={styles.dueDateWrapper}>
-            <Text style={styles.dueDate}>
-              {!isLoading
-                ? _.toUpper(this.state.paymentStatus) === "SUCCESS"
-                  ? "Payment Completed!"
-                  : _.toUpper(this.state.paymentStatus) === "EXPIRED"
-                    ? "Payment Expired!"
-                    : `Due date for next payment ${this.state.nextPendingDate}`
-                : null}
-            </Text>
-          </View>
-
-          {isPaymentComplete
-            ? null
-            : [
-                isPaidWithPlato ? (
-                  <Text key={0} style={styles.offlinePaymentText}>
-                    {`You have paid offline. To complete the next payment use the following `}
-                    <Text
-                      onPress={this.openBankDetailModal}
-                      style={{
-                        color: constants.firstColor,
-                        textDecorationLine: "underline"
-                      }}
-                    >{`bank account`}</Text>
-                  </Text>
-                ) : (
-                  <Text key={0} style={styles.paymentTitle}>
-                    Choose Payment
-                  </Text>
-                ),
-                <View key={1} style={styles.paymentOptionsBox}>
-                  {!isPaidWithPlato &&
-                    paymentOptions.map((paymentOption, optionKey) => {
-                      const isLast = paymentOptions.length === optionKey + 1;
-                      return (
-                        <TouchableOpacity
-                          onPress={() => {
-                            recordEvent(constants.paymentScreenStartPayment);
-                            paymentOption.action();
-                          }}
-                          style={[
-                            styles.optionButton,
-                            !isLast
-                              ? {
-                                  borderBottomWidth: StyleSheet.hairlineWidth,
-                                  borderBottomColor: constants.shade3
-                                }
-                              : null
-                          ]}
-                          key={optionKey}
-                        >
-                          <View>
-                            <Text style={styles.amountText}>
-                              {paymentOption.amount}
-                            </Text>
-                            <Text style={styles.percentageText}>
-                              {paymentOption.percentage}
-                            </Text>
-                          </View>
-                          <View>
-                            <Icon
-                              name={constants.arrowRight}
-                              size={16}
-                              color={constants.shade2}
-                            />
-                          </View>
-                        </TouchableOpacity>
-                      );
-                    })}
-                </View>
-              ]}
-
-          {paymentHistory.length ? (
-            <VoucherAccordion
-              containerStyle={{
-                marginHorizontal: 24
-              }}
-              sections={paymentLedger}
-            />
-          ) : null}
-        </CustomScrollView>
+        ) : null}
       </ScrollableTabView>
     );
   }

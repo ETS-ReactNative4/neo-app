@@ -5,6 +5,7 @@ import forbidExtraProps from "../../../../Services/PropTypeValidation/forbidExtr
 import PropTypes from "prop-types";
 import PlatoPayments from "./Components/PlatoPayments";
 import ProductPayments from "./Components/ProductPayments";
+import XSensorPlaceholder from "../../../../CommonComponents/XSensorPlaceholder/XSensorPlaceholder";
 
 class UpcomingPayments extends Component {
   static propTypes = forbidExtraProps({
@@ -35,7 +36,6 @@ class UpcomingPayments extends Component {
     } = this.props;
     return (
       <CustomScrollView
-        tabLabel="Upcoming"
         style={styles.summaryContainer}
         refreshing={isLoading}
         onRefresh={loadPaymentData}
@@ -55,6 +55,7 @@ class UpcomingPayments extends Component {
             paymentOptions={paymentOptions}
           />
         )}
+        <XSensorPlaceholder />
       </CustomScrollView>
     );
   }
