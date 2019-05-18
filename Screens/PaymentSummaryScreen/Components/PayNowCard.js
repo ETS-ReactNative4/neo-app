@@ -12,13 +12,19 @@ const PayNowCard = ({
   actionText = "",
   action = () => null,
   color = constants.ninthColor,
-  actionIcon = constants.backIcon
+  actionIcon = constants.backIcon,
+  containerStyle = {},
+  textColor = "white"
 }) => {
   return (
     <TouchableOpacity
       onPress={action}
       activeOpacity={0.8}
-      style={[styles.payNowCardContainer, { backgroundColor: color }]}
+      style={[
+        styles.payNowCardContainer,
+        { backgroundColor: color },
+        containerStyle
+      ]}
     >
       <View>
         {cardInfo.map((info, infoIndex) => {
@@ -32,15 +38,18 @@ const PayNowCard = ({
               ]}
               title={info.title}
               text={info.text}
+              textColor={textColor}
             />
           );
         })}
       </View>
       <View style={styles.actionArea}>
         <View style={styles.actionTextArea}>
-          <Text style={styles.actionText}>{`${actionText}`}</Text>
+          <Text
+            style={[styles.actionText, { color: textColor }]}
+          >{`${actionText}`}</Text>
           <View style={styles.actionIcon}>
-            <Icon name={actionIcon} color={"white"} size={24} />
+            <Icon name={actionIcon} color={textColor} size={24} />
           </View>
         </View>
       </View>
@@ -53,7 +62,9 @@ PayNowCard.propTypes = forbidExtraProps({
   actionText: PropTypes.string,
   action: PropTypes.func.isRequired,
   color: PropTypes.string,
-  actionIcon: PropTypes.string
+  actionIcon: PropTypes.string,
+  containerStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.number]),
+  textColor: PropTypes.string
 });
 
 const styles = StyleSheet.create({
@@ -90,7 +101,6 @@ const styles = StyleSheet.create({
   },
   actionText: {
     ...constants.fontCustom(constants.primaryRegular, 16),
-    color: "white",
     marginTop: 5,
     marginRight: 4
   },

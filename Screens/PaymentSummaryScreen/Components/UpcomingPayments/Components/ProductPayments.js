@@ -167,7 +167,11 @@ const ProductPayments = ({
             <Text
               style={styles.paymentTitleText}
             >{`Or ${lastPaymentOptionTitle}`}</Text>
-            <PayNowCard {...lastPaymentData} />
+            <PayNowCard
+              {...lastPaymentData}
+              containerStyle={styles.clearPaymentCard}
+              textColor={constants.shade1}
+            />
           </View>
         </Fragment>
       ) : null}
@@ -224,6 +228,11 @@ const styles = StyleSheet.create({
   clearPaymentContainer: {
     position: "absolute",
     bottom: 24
+  },
+  clearPaymentCard: {
+    backgroundColor: "white",
+    borderWidth: 1,
+    borderColor: constants.shade4
   }
 });
 
