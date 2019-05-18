@@ -4,12 +4,15 @@ import openInApp from "@matt-block/react-native-in-app-browser";
 import { logError } from "../errorLogger/errorLogger";
 import constants from "../../constants/constants";
 import navigationService from "../navigationService/navigationService";
+import getUrlParams from "../getUrlParams/getUrlParams";
 
 /**
  * TODO: in-app-browser android library is having an issue & CustomTabs iOS library is not working. Need to document this
  */
 
 const openCustomTab = (url, success = () => null, failure = () => null) => {
+  const params = getUrlParams(url);
+
   /**
    * Fallback that opens urls in traditional way instead of custom tabs
    */
@@ -54,7 +57,11 @@ const openCustomTab = (url, success = () => null, failure = () => null) => {
         });
       }
     } else {
-      if (url.includes(".pdf")) {
+      /**
+       * Open Android PDF Files in Native PDF Viewer
+       * use `?customTab=false` query parameter to bypass
+       */
+      if (url.includes(".pdf") && params.customTab !== "false") {
         // Opens PDF in Native PDF Viewer
         const { navigation } = navigationService;
         navigation._navigation.navigate("PDFViewerScreen", {
