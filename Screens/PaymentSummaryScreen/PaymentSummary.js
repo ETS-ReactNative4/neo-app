@@ -29,6 +29,7 @@ import YourBookingsTabBar from "../YourBookingsScreen/Components/YourBookingsTab
 import ScrollableTabView from "react-native-scrollable-tab-view";
 import UpcomingPayments from "./Components/UpcomingPayments/UpcomingPayments";
 import CompletedPayments from "./Components/CompletedPayments/CompletedPayments";
+import { toastBottom } from "../../Services/toast/toast";
 
 /**
  * TODO: Need data from previous api
@@ -54,8 +55,7 @@ class PaymentSummary extends Component {
     totalAmountPaid: "",
     paymentDue: "",
     paymentStatus: "",
-    isFirstLoad: true,
-    isBankDetailModalVisible: false
+    isFirstLoad: true
   };
   _didFocusSubscription;
 
@@ -84,19 +84,10 @@ class PaymentSummary extends Component {
     this._didFocusSubscription && this._didFocusSubscription.remove();
   }
 
-  openBankDetailModal = () => {
-    this.setState({
-      isBankDetailModalVisible: true
-    });
+  apiFailure = () => {
+    toastBottom("Failed to fetch data from the server");
+    this.props.navigation.goBack();
   };
-
-  closeModal = () => {
-    this.setState({
-      isBankDetailModalVisible: false
-    });
-  };
-
-  apiFailure = () => {};
 
   loadPaymentData = () => {
     const itineraryId = this.props.navigation.getParam("itineraryId", "");
@@ -209,12 +200,6 @@ class PaymentSummary extends Component {
       }
     ];
 
-    const tripId = [
-      {
-        name: "Trip ID",
-        value: this.state.tripId
-      }
-    ];
     const { paymentInfo, isLoading } = this.state;
     const { productPayments, platoPayements: platoPayments } = paymentInfo;
     const { navigation } = this.props;
@@ -238,6 +223,7 @@ class PaymentSummary extends Component {
       : [];
 
     const openSupport = () => navigation.navigate("SupportCenter");
+
     const paymentHistory = platoPayments
       ? platoPayments.paidInstallments
         ? platoPayments.paidInstallments.reduce((detailsArray, amount) => {
@@ -269,71 +255,12 @@ class PaymentSummary extends Component {
           }, [])
         : [];
 
-    const paymentLedger = [
-      {
-        name: "Payment History",
-        component: (
-          <View>
-            {paymentHistory.map((payment, paymentIndex) => {
-              const paymentSectionData = [
-                {
-                  name: "Date",
-                  value: payment.date
-                },
-                {
-                  name: "Mode",
-                  value: payment.mode
-                },
-                {
-                  name: "Transaction ID",
-                  value: payment.transactionId
-                },
-                {
-                  name: "Amount",
-                  value: payment.paymentAmount
-                }
-              ];
-              return (
-                <View key={paymentIndex} style={styles.historySplitContainer}>
-                  <VoucherSplitSection sections={paymentSectionData} />
-                </View>
-              );
-            })}
-          </View>
-        )
-      }
-    ];
-
-    let amountDetails = [
-      {
-        name: "Total cost",
-        value: this.state.itineraryTotalCost
-      }
-    ];
-
     const isPaidWithPlato =
       platoPayments &&
       platoPayments.paidInstallments &&
       platoPayments.paidInstallments.length;
     const isPaymentComplete = this.state.paymentStatus === "SUCCESS";
-    if (!isPaymentComplete) {
-      amountDetails = [
-        ...amountDetails,
-        {
-          name: "Amount paid",
-          value: this.state.totalAmountPaid
-        },
-        {
-          name: "Amount pending",
-          value: this.state.paymentDue
-        }
-      ];
-    }
 
-    const platoPaidInstallments =
-      platoPayments && platoPayments.paidInstallments
-        ? platoPayments.paidInstallments
-        : [];
     const platoPendingInstallments =
       platoPayments && platoPayments.pendingInstallments
         ? platoPayments.pendingInstallments
@@ -363,7 +290,7 @@ class PaymentSummary extends Component {
         {!isPaymentComplete ? (
           <UpcomingPayments
             tabLabel="Upcoming"
-            isLoading={this.state.isLoading}
+            isLoading={isLoading}
             loadPaymentData={this.loadPaymentData}
             isPaidWithPlato={isPaidWithPlato}
             paymentOptions={paymentOptions}
@@ -381,7 +308,7 @@ class PaymentSummary extends Component {
             tabLabel={"Completed"}
             isPaymentComplete={isPaymentComplete}
             paymentHistory={paymentHistory}
-            isLoading={this.state.isLoading}
+            isLoading={isLoading}
             loadPaymentData={this.loadPaymentData}
           />
         ) : null}
