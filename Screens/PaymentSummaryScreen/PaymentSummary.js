@@ -1,29 +1,12 @@
 import React, { Component } from "react";
-import {
-  View,
-  ScrollView,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  RefreshControl,
-  Keyboard
-} from "react-native";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
-import VoucherSplitSection from "../VoucherScreens/Components/VoucherSplitSection";
 import constants from "../../constants/constants";
 import { responsiveWidth } from "react-native-responsive-dimensions";
-import Icon from "../../CommonComponents/Icon/Icon";
-import SimpleButton from "../../CommonComponents/SimpleButton/SimpleButton";
-import Modal from "react-native-modal";
 import apiCall from "../../Services/networkRequests/apiCall";
-import Loader from "../../CommonComponents/Loader/Loader";
 import moment from "moment";
 import paymentScript from "./Components/paymentScript";
 import getLocaleString from "../../Services/getLocaleString/getLocaleString";
-import VoucherAccordion from "../VoucherScreens/Components/VoucherAccordion";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
-import CustomScrollView from "../../CommonComponents/CustomScrollView/CustomScrollView";
-import { recordEvent } from "../../Services/analytics/analyticsService";
 import _ from "lodash";
 import YourBookingsTabBar from "../YourBookingsScreen/Components/YourBookingsTabBar";
 import ScrollableTabView from "react-native-scrollable-tab-view";
@@ -316,91 +299,5 @@ class PaymentSummary extends Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  summaryContainer: {
-    backgroundColor: "white"
-  },
-  titleText: {
-    alignSelf: "center",
-    ...constants.fontCustom(constants.primaryLight, 15),
-    marginTop: 8,
-    color: constants.black1
-  },
-  dueDateWrapper: {
-    width: responsiveWidth(100) - 48,
-    paddingTop: 16,
-    paddingBottom: 12,
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: constants.shade4,
-    alignSelf: "center",
-    marginHorizontal: 24
-  },
-  dueDate: {
-    alignSelf: "center",
-    ...constants.fontCustom(constants.primaryLight, 15),
-    color: constants.black2
-  },
-  paymentTitle: {
-    marginTop: 19,
-    ...constants.fontCustom(constants.primarySemiBold, 20),
-    color: constants.black1,
-    marginHorizontal: 24
-  },
-  offlinePaymentText: {
-    textAlign: "center",
-    marginHorizontal: 24,
-    marginTop: 8,
-    color: constants.black2,
-    ...constants.fontCustom(constants.primarySemiBold, 18)
-  },
-  paymentOptionsBox: {
-    marginTop: 8,
-    backgroundColor: constants.firstColorBackground,
-    borderRadius: 3,
-    borderWidth: StyleSheet.hairlineWidth,
-    borderColor: constants.shade3,
-    marginHorizontal: 24
-  },
-  optionButton: {
-    flexDirection: "row",
-    height: 56,
-    alignItems: "center",
-    justifyContent: "space-between",
-    paddingHorizontal: 16
-  },
-  amountText: {
-    ...constants.fontCustom(constants.primarySemiBold, 17),
-    color: constants.firstColor
-  },
-  percentageText: {
-    ...constants.fontCustom(constants.primaryLight, 13),
-    color: constants.black2,
-    marginBottom: -4
-  },
-  actionRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    paddingVertical: 24
-  },
-  historySplitContainer: {
-    marginTop: 8,
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: constants.shade4
-  },
-  platoBankDetailContainer: {
-    backgroundColor: "white",
-    marginHorizontal: 24,
-    borderRadius: 5,
-    padding: 16,
-    alignItems: "center",
-    justifyContent: "center"
-  },
-  platoBankDetailTitle: {
-    ...constants.fontCustom(constants.primarySemiBold, 17),
-    padding: 16
-  }
-});
 
 export default PaymentSummary;
