@@ -122,7 +122,7 @@ const ProductPayments = ({
         ],
         action: openSupport,
         actionText: "Call Support",
-        actionIcon: constants.callIcon,
+        actionIcon: constants.telephoneIcon,
         color: constants.shade2
       }
     : null;

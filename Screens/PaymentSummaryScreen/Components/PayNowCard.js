@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
     marginRight: 4
   },
   actionIcon: {
-    transform: [{ rotate: "180deg" }]
+    transform: [{ rotateY: "180deg" }]
   }
 });
 

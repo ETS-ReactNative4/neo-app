@@ -93,6 +93,7 @@ const imageAssets = {
   checkIcon: "check",
   syncIcon: "sync",
   callIcon: "call-end",
+  telephoneIcon: "telephone",
   helpIcon: "help",
   compassIcon: "compass",
   trashCanIcon: "trash-can",
