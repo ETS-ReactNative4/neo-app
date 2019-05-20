@@ -15,6 +15,7 @@ import {
 import { inject, observer } from "mobx-react/custom";
 import getTitleCase from "../../../../Services/getTitleCase/getTitleCase";
 import XSensorPlaceholder from "../../../../CommonComponents/XSensorPlaceholder/XSensorPlaceholder";
+import EmptyListPlaceholder from "../../../../CommonComponents/EmptyListPlaceholder/EmptyListPlaceholder";
 
 const CompletedPayments = inject("userStore")(
   observer(
@@ -38,9 +39,13 @@ const CompletedPayments = inject("userStore")(
             resizeMode={"contain"}
             style={styles.paymentIllustration}
           />
-          <Text style={styles.completedPaymentText}>{`Hi ${getTitleCase(
-            name
-          )}, here’s your payment summary. Your consolidated trip invoice will be generated within 7 days of your return`}</Text>
+          {paymentHistory.length ? (
+            <Text
+              style={styles.completedPaymentText}
+            >{`${constants.paymentText.paymentSummaryText(
+              getTitleCase(name)
+            )}`}</Text>
+          ) : null}
           {paymentHistory.map((payment, paymentIndex) => {
             const viewReceipt = () =>
               payment.salesReceipt ? openCustomTab(payment.salesReceipt) : null;
@@ -57,6 +62,12 @@ const CompletedPayments = inject("userStore")(
               />
             );
           })}
+          {!paymentHistory.length ? (
+            <EmptyListPlaceholder
+              containerStyle={{ marginVertical: 16 }}
+              text={constants.paymentText.noPaymentsText}
+            />
+          ) : null}
           <XSensorPlaceholder />
         </CustomScrollView>
       );

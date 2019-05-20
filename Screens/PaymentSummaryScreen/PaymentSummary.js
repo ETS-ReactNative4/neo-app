@@ -302,7 +302,7 @@ class PaymentSummary extends Component {
             platoPaidInstallmentsCount={platoPaidInstallmentsCount}
           />
         ) : null}
-        {paymentHistory && paymentHistory.length ? (
+        {paymentHistory ? (
           <CompletedPayments
             tabLabel={"Completed"}
             isPaymentComplete={isPaymentComplete}

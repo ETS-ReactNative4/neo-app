@@ -126,7 +126,10 @@ const appText = {
     contactHelpdesk: "Contact helpdesk",
     successTitle: "Yeh! Payment successful",
     successMessage:
-      "We got your payment! Please note the below transaction ID for further references."
+      "We got your payment! Please note the below transaction ID for further references.",
+    noPaymentsText: "No Payments available",
+    paymentSummaryText: name =>
+      `Hi ${name}, here’s your payment summary. Your consolidated trip invoice will be generated within 7 days of your return`
   },
   pdfViewerErrorText: "Unable to load pdf!",
   serverErrorText: "Unable to connect to the server",
