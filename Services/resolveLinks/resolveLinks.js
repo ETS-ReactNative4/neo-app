@@ -12,14 +12,16 @@ import { Platform } from "react-native";
 /**
  * Voucher no longer needs validation since voucher screens should open
  * even when booking is incomplete
- */
-const validateVoucher = voucher => true;
-/**
  * Old Logic to check if the booking is complete
  */
-// !_.isEmpty(voucher) &&
+// const validateVoucher = voucher => !_.isEmpty(voucher) &&
 // voucher.voucher &&
 // (voucher.voucher.booked || voucher.free);
+
+const isVoucherBooked = voucher =>
+  !_.isEmpty(voucher) &&
+  voucher.voucher &&
+  (voucher.voucher.booked || voucher.free);
 
 const resolveLinks = (link = "", screenProps = {}, deepLink = {}) => {
   const { _navigation: navigation } = navigationService.navigation;
@@ -62,65 +64,53 @@ const resolveLinks = (link = "", screenProps = {}, deepLink = {}) => {
           const hotel = storeService.itineraries.getHotelById(
             costingIdentifier
           );
-          if (validateVoucher(hotel)) {
-            navigation.navigate("HotelVoucher", { hotel });
-          } else {
+          navigation.navigate("HotelVoucher", { hotel });
+          if (!isVoucherBooked(hotel))
             toastBottom(constants.bookingProcessText.message);
-          }
           break;
         case constants.activityVoucherType:
           const activity = storeService.itineraries.getActivityById(
             costingIdentifier
           );
-          if (validateVoucher(activity)) {
-            navigation.navigate("ActivityVoucher", { activity });
-          } else {
+          navigation.navigate("ActivityVoucher", { activity });
+          if (!isVoucherBooked(activity))
             toastBottom(constants.bookingProcessText.message);
-          }
           break;
         case constants.transferVoucherType:
           const transfer = storeService.itineraries.getTransferById(
             costingIdentifier
           );
-          if (validateVoucher(transfer)) {
-            navigation.navigate("TransferVoucher", { transfer });
-          } else {
+          navigation.navigate("TransferVoucher", { transfer });
+          if (!isVoucherBooked(transfer))
             toastBottom(constants.bookingProcessText.message);
-          }
           break;
         case constants.rentalCarVoucherType:
           const rentalCar = storeService.itineraries.getRentalCarById(
             costingIdentifier
           );
-          if (validateVoucher(rentalCar)) {
-            navigation.navigate("RentalCarVoucher", { rentalCar });
-          } else {
+          navigation.navigate("RentalCarVoucher", { rentalCar });
+          if (!isVoucherBooked(rentalCar))
             toastBottom(constants.bookingProcessText.message);
-          }
           break;
         case constants.ferryVoucherType:
           const ferry = storeService.itineraries.getFerryById(
             costingIdentifier
           );
-          if (validateVoucher(ferry)) {
-            navigation.navigate("TransferVoucher", {
-              transfer: { ...ferry, vehicle: voucherType }
-            });
-          } else {
+          navigation.navigate("TransferVoucher", {
+            transfer: { ...ferry, vehicle: voucherType }
+          });
+          if (!isVoucherBooked(ferry))
             toastBottom(constants.bookingProcessText.message);
-          }
           break;
         case constants.trainVoucherType:
           const train = storeService.itineraries.getTrainById(
             costingIdentifier
           );
-          if (validateVoucher(train)) {
-            navigation.navigate("TransferVoucher", {
-              transfer: { ...train, vehicle: voucherType }
-            });
-          } else {
+          navigation.navigate("TransferVoucher", {
+            transfer: { ...train, vehicle: voucherType }
+          });
+          if (!isVoucherBooked(train))
             toastBottom(constants.bookingProcessText.message);
-          }
           break;
 
         default:
