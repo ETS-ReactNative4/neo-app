@@ -8,6 +8,7 @@ import appEvents from "./appEvents";
 import appText from "./appText";
 import { logError } from "../Services/errorLogger/errorLogger";
 import errorTexts from "./errorTexts";
+import stringConstants from "./stringConstants";
 
 if (__DEV__) {
   const keys = [
@@ -43,7 +44,8 @@ const constants = {
   ...appEvents,
   ...styles,
   ...appText,
-  ...errorTexts
+  ...errorTexts,
+  ...stringConstants
 };
 
 export default constants;

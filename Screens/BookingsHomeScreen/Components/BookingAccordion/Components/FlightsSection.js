@@ -7,6 +7,7 @@ import { recordEvent } from "../../../../../Services/analytics/analyticsService"
 import BookingSectionComponent from "../../../../../CommonComponents/BookingSectionComponent/BookingSectionComponent";
 import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidExtraProps";
 import { toastBottom } from "../../../../../Services/toast/toast";
+import resolveLinks from "../../../../../Services/resolveLinks/resolveLinks";
 
 const FlightsSection = ({ section, navigation, spinValue }) => {
   return (
@@ -45,12 +46,11 @@ const Flight = ({ flight, isLast, navigation, spinValue }) => {
   }
 
   const openVoucher = () => {
-    if (flight.voucher.booked) {
-      recordEvent(constants.bookingsHomeAccordionFlightsVoucherClick);
-      navigation.navigate("FlightVoucher", { flight });
-    } else {
-      toastBottom(constants.bookingProcessText.message);
-    }
+    recordEvent(constants.bookingsHomeAccordionFlightsVoucherClick);
+    resolveLinks(false, false, {
+      voucherType: constants.flightVoucherType,
+      costingIdentifier: flight.key
+    });
   };
 
   const timings = flight.allTrips.map(trip => {

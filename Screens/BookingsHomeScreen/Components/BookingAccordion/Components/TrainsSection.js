@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidExtraProps";
 import { recordEvent } from "../../../../../Services/analytics/analyticsService";
 import BookingSectionComponent from "../../../../../CommonComponents/BookingSectionComponent/BookingSectionComponent";
-import { toastBottom } from "../../../../../Services/toast/toast";
+import resolveLinks from "../../../../../Services/resolveLinks/resolveLinks";
 
 const TrainsSection = ({ section, navigation, spinValue }) => {
   return (
@@ -45,14 +45,11 @@ const Train = ({ train, isLast, navigation, spinValue }) => {
   }
 
   const openVoucher = () => {
-    if (train.voucher.booked) {
-      recordEvent(constants.bookingsHomeAccordionTrainsVoucherClick);
-      navigation.navigate("TransferVoucher", {
-        transfer: { ...train, vehicle: "TRAIN" }
-      });
-    } else {
-      toastBottom(constants.bookingProcessText.message);
-    }
+    recordEvent(constants.bookingsHomeAccordionTrainsVoucherClick);
+    resolveLinks(false, false, {
+      voucherType: constants.trainVoucherType,
+      costingIdentifier: train.key
+    });
   };
 
   const { pickupTime } = train.voucher;

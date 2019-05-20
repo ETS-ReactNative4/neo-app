@@ -231,8 +231,9 @@ class HotelVoucher extends Component {
 
                 const { adultCount, childAges } = roomConfiguration;
 
-                const roomVoucherDetails =
-                  rooms.find(room => room.roomTypeId === roomTypeId) || {};
+                const roomVoucherDetails = rooms
+                  ? rooms.find(room => room.roomTypeId === roomTypeId)
+                  : {};
                 let {
                   leadPassenger,
                   otherPassengers,

@@ -9,10 +9,17 @@ import dialer from "../dialer/dialer";
 import { logError } from "../errorLogger/errorLogger";
 import { Platform } from "react-native";
 
-const validateVoucher = voucher =>
-  !_.isEmpty(voucher) &&
-  voucher.voucher &&
-  (voucher.voucher.booked || voucher.free);
+/**
+ * Voucher no longer needs validation since voucher screens should open
+ * even when booking is incomplete
+ */
+const validateVoucher = voucher => true;
+/**
+ * Old Logic to check if the booking is complete
+ */
+// !_.isEmpty(voucher) &&
+// voucher.voucher &&
+// (voucher.voucher.booked || voucher.free);
 
 const resolveLinks = (link = "", screenProps = {}, deepLink = {}) => {
   const { _navigation: navigation } = navigationService.navigation;
@@ -41,7 +48,7 @@ const resolveLinks = (link = "", screenProps = {}, deepLink = {}) => {
        * TODO: use a common function for toastBottom message
        */
       switch (voucherType) {
-        case "FLIGHT":
+        case constants.flightVoucherType:
           const flight = storeService.itineraries.getFlightById(
             costingIdentifier
           );
@@ -51,7 +58,7 @@ const resolveLinks = (link = "", screenProps = {}, deepLink = {}) => {
             toastBottom(constants.bookingProcessText.message);
           }
           break;
-        case "HOTEL":
+        case constants.hotelVoucherType:
           const hotel = storeService.itineraries.getHotelById(
             costingIdentifier
           );
@@ -61,40 +68,17 @@ const resolveLinks = (link = "", screenProps = {}, deepLink = {}) => {
             toastBottom(constants.bookingProcessText.message);
           }
           break;
-        case "ACTIVITY":
+        case constants.activityVoucherType:
           const activity = storeService.itineraries.getActivityById(
             costingIdentifier
           );
           if (validateVoucher(activity)) {
-            if (
-              activity.voucher &&
-              activity.voucher.voucherUrl &&
-              activity.costing.viator
-            ) {
-              if (Platform.OS === constants.platformIos) {
-                openCustomTab(
-                  activity.voucher.voucherUrl,
-                  () => null,
-                  () => {
-                    logError(
-                      "Unable to launch custom tab for viator voucher!",
-                      {}
-                    );
-                  }
-                );
-              } else {
-                navigation.navigate("PDFViewerScreen", {
-                  pdfUri: activity.voucher.voucherUrl
-                });
-              }
-            } else {
-              navigation.navigate("ActivityVoucher", { activity });
-            }
+            navigation.navigate("ActivityVoucher", { activity });
           } else {
             toastBottom(constants.bookingProcessText.message);
           }
           break;
-        case "TRANSFER":
+        case constants.transferVoucherType:
           const transfer = storeService.itineraries.getTransferById(
             costingIdentifier
           );
@@ -104,7 +88,7 @@ const resolveLinks = (link = "", screenProps = {}, deepLink = {}) => {
             toastBottom(constants.bookingProcessText.message);
           }
           break;
-        case "RENTAL_CAR":
+        case constants.rentalCarVoucherType:
           const rentalCar = storeService.itineraries.getRentalCarById(
             costingIdentifier
           );
@@ -114,7 +98,7 @@ const resolveLinks = (link = "", screenProps = {}, deepLink = {}) => {
             toastBottom(constants.bookingProcessText.message);
           }
           break;
-        case "FERRY":
+        case constants.ferryVoucherType:
           const ferry = storeService.itineraries.getFerryById(
             costingIdentifier
           );
@@ -126,7 +110,7 @@ const resolveLinks = (link = "", screenProps = {}, deepLink = {}) => {
             toastBottom(constants.bookingProcessText.message);
           }
           break;
-        case "TRAIN":
+        case constants.trainVoucherType:
           const train = storeService.itineraries.getTrainById(
             costingIdentifier
           );

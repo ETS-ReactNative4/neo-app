@@ -7,7 +7,7 @@ import getTransferImage from "../../../../../Services/getImageService/getTransfe
 import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidExtraProps";
 import { recordEvent } from "../../../../../Services/analytics/analyticsService";
 import BookingSectionComponent from "../../../../../CommonComponents/BookingSectionComponent/BookingSectionComponent";
-import { toastBottom } from "../../../../../Services/toast/toast";
+import resolveLinks from "../../../../../Services/resolveLinks/resolveLinks";
 
 const FerriesSection = ({ section, navigation, spinValue }) => {
   return (
@@ -46,14 +46,11 @@ const Ferry = ({ ferry, isLast, navigation, spinValue }) => {
   }
 
   const openVoucher = () => {
-    if (ferry.voucher.booked) {
-      recordEvent(constants.bookingsHomeAccordionFerriesVoucherClick);
-      navigation.navigate("TransferVoucher", {
-        transfer: { ...ferry, vehicle: "FERRY" }
-      });
-    } else {
-      toastBottom(constants.bookingProcessText.message);
-    }
+    recordEvent(constants.bookingsHomeAccordionFerriesVoucherClick);
+    resolveLinks(false, false, {
+      voucherType: constants.ferryVoucherType,
+      costingIdentifier: ferry.key
+    });
   };
 
   const { pickupTime } = ferry.voucher;
