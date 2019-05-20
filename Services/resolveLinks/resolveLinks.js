@@ -54,11 +54,9 @@ const resolveLinks = (link = "", screenProps = {}, deepLink = {}) => {
           const flight = storeService.itineraries.getFlightById(
             costingIdentifier
           );
-          if (validateVoucher(flight)) {
-            navigation.navigate("FlightVoucher", { flight });
-          } else {
+          navigation.navigate("FlightVoucher", { flight });
+          if (!isVoucherBooked(flight))
             toastBottom(constants.bookingProcessText.message);
-          }
           break;
         case constants.hotelVoucherType:
           const hotel = storeService.itineraries.getHotelById(
