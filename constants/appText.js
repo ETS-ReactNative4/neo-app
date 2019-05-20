@@ -89,7 +89,7 @@ const appText = {
   phrasesTranslationFailedText: "Unable to translate...",
   noInernetText: "No internet connection. Some features may not work.",
   preTripChatText: chatActivationTime =>
-    `Chat will be enabled ${chatActivationTime}hrs prior to your trip. Meanwhile, please visit our support center if you have questions or clarifications.`,
+    `Chat will be enabled ${chatActivationTime}. Meanwhile, please visit our help desk if you have questions or clarifications.`,
   onChatNoInternetText:
     "We are unable to connect to the live chat currently. Please check for a proper internet connection and try again. Alternatively, you can contact us on the number below.",
   onChatFailedToInitialize:

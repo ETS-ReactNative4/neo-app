@@ -5,8 +5,9 @@ import constants from "../../../constants/constants";
 import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraProps";
 import PropTypes from "prop-types";
 import { responsiveWidth } from "react-native-responsive-dimensions";
+import moment from "moment";
 
-const PreTrip = ({ action }) => {
+const PreTrip = ({ action, chatActivationTime }) => {
   return (
     <View style={styles.preTripContainer}>
       <Image
@@ -15,11 +16,11 @@ const PreTrip = ({ action }) => {
         resizeMode="contain"
       />
       <Text style={styles.message}>
-        {constants.preTripChatText(constants.preTripChatActivationTime)}
+        {constants.preTripChatText(moment(chatActivationTime).fromNow())}
       </Text>
       <SimpleButton
         containerStyle={{ marginTop: 8, width: 192 }}
-        text={"Visit support center"}
+        text={"Visit Help Desk"}
         action={action}
         textColor={"white"}
       />
@@ -28,7 +29,8 @@ const PreTrip = ({ action }) => {
 };
 
 PreTrip.propTypes = forbidExtraProps({
-  action: PropTypes.func.isRequired
+  action: PropTypes.func.isRequired,
+  chatActivationTime: PropTypes.number.isRequired
 });
 
 const styles = StyleSheet.create({

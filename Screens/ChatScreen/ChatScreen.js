@@ -7,7 +7,6 @@ import BackButtonIos from "../../CommonComponents/BackButtonIos/BackButtonIos";
 import ControlledWebView from "../../CommonComponents/ControlledWebView/ControlledWebView";
 import UnableToUseChat from "./Components/UnableToUseChat";
 import PreTrip from "./Components/PreTrip";
-import moment from "moment";
 import { recordEvent } from "../../Services/analytics/analyticsService";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import openCustomTab from "../../Services/openCustomTab/openCustomTab";
@@ -26,7 +25,6 @@ class ChatScreen extends Component {
   state = {
     canGoBack: false,
     keyboardVisible: false,
-    isChatActive: true,
     keyboardSpace: 0,
     isChatKilled: false
   };
@@ -58,7 +56,10 @@ class ChatScreen extends Component {
     this._didFocusSubscription = props.navigation.addListener(
       "didFocus",
       () => {
-        this.checkChatActivationStatus();
+        const { isChatActive } = props.chatDetailsStore;
+        if (!isChatActive) {
+          this.initializeChat();
+        }
         clearChatNotification();
         this._keyboardDidShowListener = Keyboard.addListener(
           Platform.OS === "ios" ? "keyboardWillChangeFrame" : "keyboardDidShow",
@@ -94,8 +95,14 @@ class ChatScreen extends Component {
     return true;
   };
 
+  initializeChat = () => {
+    isUserLoggedInCallback(() => {
+      const { getUserDetails } = this.props.chatDetailsStore;
+      getUserDetails();
+    });
+  };
+
   componentDidMount() {
-    this.checkChatActivationStatus();
     this._willBlurSubscription = this.props.navigation.addListener(
       "willBlur",
       () => {
@@ -104,33 +111,13 @@ class ChatScreen extends Component {
         BackHandler.removeEventListener("hardwareBackPress", this.goBack);
       }
     );
-    const { getUserDetails } = this.props.chatDetailsStore;
-    getUserDetails();
+    this.initializeChat();
   }
 
   componentWillUnmount() {
     this._didFocusSubscription && this._didFocusSubscription.remove();
     this._willBlurSubscription && this._willBlurSubscription.remove();
   }
-
-  /**
-   * Check if user is close enough to initialize live chat for his trip
-   */
-  checkChatActivationStatus = () => {
-    if (this.props.itineraries.cities[0]) {
-      const today = moment();
-      const timeDiff = this.props.itineraries.firstDay.diff(today, "hours");
-      if (timeDiff > constants.preTripChatActivationTime) {
-        this.setState({
-          isChatActive: false
-        });
-      } else {
-        this.setState({
-          isChatActive: true
-        });
-      }
-    }
-  };
 
   /**
    * This will be triggered by the events happening inside the Webview
@@ -165,7 +152,7 @@ class ChatScreen extends Component {
   };
 
   render() {
-    const { isChatActive, isChatKilled } = this.state;
+    const { isChatKilled } = this.state;
     const { isConnected } = this.props.appState;
     const openSupportCenter = () => {
       recordEvent(constants.chatOpenSupportCenterClick);
@@ -175,7 +162,9 @@ class ChatScreen extends Component {
     const {
       chatDetails,
       initializationError,
-      metaDataError
+      metaDataError,
+      isChatActive,
+      chatActivationTime
     } = this.props.chatDetailsStore;
     const isChatFailed = initializationError || metaDataError;
     const chatQueryParam = objectToQueryParam({
@@ -256,7 +245,10 @@ class ChatScreen extends Component {
         <UnableToUseChat />
       )
     ) : (
-      <PreTrip action={openSupportCenter} />
+      <PreTrip
+        action={openSupportCenter}
+        chatActivationTime={chatActivationTime}
+      />
     );
   }
 }

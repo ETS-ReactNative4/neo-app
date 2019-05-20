@@ -27,6 +27,10 @@ class ChatDetails {
 
   @observable _metaDataError = false;
 
+  @observable _isChatActive = false;
+
+  @observable _chatActivationTime = 0;
+
   @computed
   get chatDetails() {
     return toJS(this._chatDetails);
@@ -40,6 +44,16 @@ class ChatDetails {
   @computed
   get metaDataError() {
     return this._metaDataError;
+  }
+
+  @computed
+  get isChatActive() {
+    return this._isChatActive;
+  }
+
+  @computed
+  get chatActivationTime() {
+    return this._chatActivationTime;
   }
 
   /**
@@ -57,8 +71,12 @@ class ChatDetails {
       .then(response => {
         this._isLoading = false;
         if (response.status === constants.responseSuccessStatus) {
+          this._isChatActive = true;
           this._chatDetails = response.data;
           this._initializationError = false;
+        } else if (response.status === "NOT_INITIATED") {
+          this._isChatActive = false;
+          this._chatActivationTime = response.data.departureDateMillis;
         } else {
           this._initializationError = true;
         }
