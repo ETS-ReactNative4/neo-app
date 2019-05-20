@@ -160,32 +160,40 @@ class PaymentSummary extends Component {
   };
 
   render() {
+    const { paymentInfo, isLoading } = this.state;
+    const {
+      productPayments,
+      platoPayements: platoPayments,
+      accountInfo = {}
+    } = paymentInfo;
+    const { navigation } = this.props;
+
     const platoBankDetails = [
       {
         name: "Account",
-        value: "50200003337649"
+        value: accountInfo.van
+      },
+      {
+        name: "Bank",
+        value: accountInfo.bank
       },
       {
         name: "Name",
-        value: "Travel Troops global pvt ltd"
+        value: accountInfo.cname
       },
       {
         name: "Branch",
-        value: "T Nagar - GN Chetty Rd, Chennai"
+        value: accountInfo.branch
       },
       {
         name: "IFSCode",
-        value: "HDFC0000206"
+        value: accountInfo.ifsc
       },
       {
         name: "Swift Code",
-        value: "HDFCINBB"
+        value: accountInfo.swiftId
       }
     ];
-
-    const { paymentInfo, isLoading } = this.state;
-    const { productPayments, platoPayements: platoPayments } = paymentInfo;
-    const { navigation } = this.props;
 
     const paymentOptions = productPayments
       ? productPayments.reduce((detailsArray, amount) => {
