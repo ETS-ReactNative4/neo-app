@@ -14,6 +14,7 @@ import ScrollableTabView from "react-native-scrollable-tab-view";
 import UpcomingPayments from "./Components/UpcomingPayments/UpcomingPayments";
 import CompletedPayments from "./Components/CompletedPayments/CompletedPayments";
 import { toastBottom } from "../../Services/toast/toast";
+import dialer from "../../Services/dialer/dialer";
 
 /**
  * TODO: Need data from previous api
@@ -163,7 +164,8 @@ class PaymentSummary extends Component {
     const {
       productPayments,
       platoPayements: platoPayments,
-      accountInfo = {}
+      accountInfo = {},
+      contactNumber = null
     } = paymentInfo;
     const { navigation } = this.props;
 
@@ -214,7 +216,7 @@ class PaymentSummary extends Component {
         }, [])
       : [];
 
-    const openSupport = () => navigation.navigate("SupportCenter");
+    const openSupport = () => (contactNumber ? dialer(contactNumber) : null);
 
     const paymentHistory = platoPayments
       ? platoPayments.paidInstallments
