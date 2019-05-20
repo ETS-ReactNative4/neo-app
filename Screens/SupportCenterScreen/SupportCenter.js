@@ -28,7 +28,7 @@ import DeepLinkHandler from "../../CommonComponents/DeepLinkHandler/DeepLinkHand
 class SupportCenter extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
-      header: <CommonHeader title={"Support Center"} navigation={navigation} />
+      header: <CommonHeader title={"Help Desk"} navigation={navigation} />
     };
   };
 
