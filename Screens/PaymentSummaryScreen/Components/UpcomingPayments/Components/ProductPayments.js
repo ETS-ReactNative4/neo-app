@@ -116,12 +116,12 @@ const ProductPayments = ({
             text: expiredPaymentOption.amount
           },
           {
-            title: `Due by`,
+            title: `Due Date`,
             text: "Expired"
           }
         ],
         action: openSupport,
-        actionText: "Expired",
+        actionText: "Call Support",
         actionIcon: constants.callIcon,
         color: constants.shade2
       }

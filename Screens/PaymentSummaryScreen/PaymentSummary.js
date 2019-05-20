@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { View } from "react-native";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import constants from "../../constants/constants";
 import { responsiveWidth } from "react-native-responsive-dimensions";
@@ -309,7 +310,9 @@ class PaymentSummary extends Component {
             isLoading={isLoading}
             loadPaymentData={this.loadPaymentData}
           />
-        ) : null}
+        ) : (
+          <View tabLabel={"Completed"} />
+        )}
       </ScrollableTabView>
     );
   }
