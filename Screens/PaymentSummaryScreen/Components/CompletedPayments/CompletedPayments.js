@@ -53,6 +53,7 @@ const CompletedPayments = inject("userStore")(
                 referenceId={payment.transactionId}
                 action={viewReceipt}
                 containerStyle={{ marginVertical: 16 }}
+                salesReceipt={payment.salesReceipt}
               />
             );
           })}

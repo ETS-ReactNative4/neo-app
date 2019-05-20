@@ -13,7 +13,8 @@ const CompletedPaymentCard = ({
   mode,
   amount,
   color = constants.firstColor,
-  containerStyle = {}
+  containerStyle = {},
+  salesReceipt
 }) => {
   return (
     <TouchableOpacity
@@ -46,7 +47,9 @@ const CompletedPaymentCard = ({
           containerStyle={styles.amountSection}
         />
         <View style={styles.actionSection}>
-          <Text style={styles.viewReceiptText}>{"View Receipt"}</Text>
+          <Text style={styles.viewReceiptText}>
+            {salesReceipt ? "View Receipt" : "Receipt Unavailable"}
+          </Text>
         </View>
       </View>
     </TouchableOpacity>
