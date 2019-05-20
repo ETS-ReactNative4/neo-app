@@ -26,7 +26,7 @@ const PlatoPaymentsCard = ({ payments, containerStyle }) => {
             {...WrapperProps}
           >
             <PaymentInfoText
-              title={isExpired ? "Expired" : "Amount"}
+              title={payment.installmentText}
               text={payment.amount}
               textColor={constants.black1}
               titleStyle={[
@@ -35,7 +35,7 @@ const PlatoPaymentsCard = ({ payments, containerStyle }) => {
               ]}
             />
             <PaymentInfoText
-              title={"Due by"}
+              title={isExpired ? "Expired" : "Due by"}
               text={isExpired ? "Call Support" : payment.dueBy}
               textColor={constants.black1}
               titleStyle={[

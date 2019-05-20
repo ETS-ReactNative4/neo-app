@@ -63,19 +63,23 @@ storiesOf("Payments Story", module)
       payments: [
         {
           amount: "₹ 15,454.00",
-          dueBy: "May 20, 2019"
+          dueBy: "May 20, 2019",
+          installmentText: "First Installment"
         },
         {
           amount: "₹ 45,673.00",
-          dueBy: "Jun 20, 2019"
+          dueBy: "Jun 20, 2019",
+          installmentText: "Second Installment"
         },
         {
           amount: "₹ 54,525.00",
-          dueBy: "Jul 20, 2019"
+          dueBy: "Jul 20, 2019",
+          installmentText: "Third Installment"
         },
         {
           amount: "₹ 15,445.00",
-          dueBy: "Aug 20, 2019"
+          dueBy: "Aug 20, 2019",
+          installmentText: "Fourth Installment"
         }
       ]
     };
@@ -88,20 +92,24 @@ storiesOf("Payments Story", module)
         {
           amount: "₹ 15,454.00",
           dueBy: "May 20, 2019",
+          installmentText: "First Installment",
           isExpired: true,
           action: () => null
         },
         {
           amount: "₹ 45,673.00",
-          dueBy: "Jun 20, 2019"
+          dueBy: "Jun 20, 2019",
+          installmentText: "Second Installment"
         },
         {
           amount: "₹ 54,525.00",
-          dueBy: "Jul 20, 2019"
+          dueBy: "Jul 20, 2019",
+          installmentText: "Third Installment"
         },
         {
           amount: "₹ 15,445.00",
-          dueBy: "Aug 20, 2019"
+          dueBy: "Aug 20, 2019",
+          installmentText: "Fourth Installment"
         }
       ]
     };

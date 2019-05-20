@@ -7,26 +7,37 @@ import moment from "moment";
 import constants from "../../../../../constants/constants";
 import PlatoPaymentsCard from "./PlatoPaymentsCard";
 import VoucherSplitSection from "../../../../VoucherScreens/Components/VoucherSplitSection";
+import ordinalConverter from "number-to-words";
+import getTitleCase from "../../../../../Services/getTitleCase/getTitleCase";
 
 const PlatoPayments = ({
   platoPendingInstallments,
   platoBankDetails,
-  openSupport
+  openSupport,
+  platoPaidInstallmentsCount
 }) => {
   const contactSupport = () => openSupport();
 
-  const pendingInstallments = platoPendingInstallments.map(payment => {
-    const today = moment();
-    const paymentDue = moment(payment.paymentDueTime);
-    const isExpired = today.isAfter(paymentDue, "date");
+  const pendingInstallments = platoPendingInstallments.map(
+    (payment, paymentIndex) => {
+      const today = moment();
+      const paymentDue = moment(payment.paymentDueTime);
+      const isExpired = today.isAfter(paymentDue, "date");
+      const installmentText = `${getTitleCase(
+        ordinalConverter.toWordsOrdinal(
+          platoPaidInstallmentsCount + paymentIndex + 1
+        )
+      )} Installment`;
 
-    return {
-      amount: getLocaleString(payment.amount),
-      dueBy: paymentDue.format(constants.shortCommonDateFormat),
-      isExpired,
-      action: contactSupport
-    };
-  });
+      return {
+        amount: getLocaleString(payment.amount),
+        dueBy: paymentDue.format(constants.shortCommonDateFormat),
+        isExpired,
+        action: contactSupport,
+        installmentText
+      };
+    }
+  );
   return (
     <View>
       <Text style={styles.paymentTitle}>{`You have ${
@@ -45,7 +56,8 @@ const PlatoPayments = ({
 PlatoPayments.propTypes = forbidExtraProps({
   platoPendingInstallments: PropTypes.array.isRequired,
   platoBankDetails: PropTypes.array.isRequired,
-  openSupport: PropTypes.func.isRequired
+  openSupport: PropTypes.func.isRequired,
+  platoPaidInstallmentsCount: PropTypes.number
 });
 
 const styles = StyleSheet.create({

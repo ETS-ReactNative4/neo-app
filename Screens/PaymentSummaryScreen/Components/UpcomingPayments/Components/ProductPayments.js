@@ -34,7 +34,9 @@ const ProductPayments = ({
   const numberOfInstallments = validPayments.length;
   const currentInstallment = paymentHistory.length + 1;
   const isPaymentAllowed =
-    !isPaymentExpired && currentPaymentOption.paymentAllowed;
+    !isPaymentExpired &&
+    currentPaymentOption &&
+    currentPaymentOption.paymentAllowed;
 
   /**
    * Get data required to display the current payment installment

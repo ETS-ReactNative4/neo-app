@@ -18,7 +18,8 @@ class UpcomingPayments extends Component {
     paymentDue: PropTypes.string,
     paymentHistory: PropTypes.array,
     openSupport: PropTypes.func,
-    platoPendingInstallments: PropTypes.array.isRequired
+    platoPendingInstallments: PropTypes.array.isRequired,
+    platoPaidInstallmentsCount: PropTypes.number
   });
 
   render() {
@@ -32,7 +33,8 @@ class UpcomingPayments extends Component {
       openSupport,
       paymentDue,
       paymentHistory,
-      platoPendingInstallments
+      platoPendingInstallments,
+      platoPaidInstallmentsCount
     } = this.props;
     return (
       <CustomScrollView
@@ -43,6 +45,7 @@ class UpcomingPayments extends Component {
         {isPaidWithPlato ? (
           <PlatoPayments
             platoPendingInstallments={platoPendingInstallments}
+            platoPaidInstallmentsCount={platoPaidInstallmentsCount}
             platoBankDetails={platoBankDetails}
             openSupport={openSupport}
           />

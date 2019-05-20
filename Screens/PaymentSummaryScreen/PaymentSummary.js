@@ -257,6 +257,12 @@ class PaymentSummary extends Component {
         ? platoPayments.pendingInstallments
         : [];
 
+    const platoPaidInstallmentsCount = platoPayments
+      ? platoPayments.paidInstallments
+        ? platoPayments.paidInstallments.length
+        : 0
+      : 0;
+
     /**
      * TODO: Move bank details out of the app to api/webview
      */
@@ -292,6 +298,7 @@ class PaymentSummary extends Component {
             paymentHistory={paymentHistory}
             openSupport={openSupport}
             platoPendingInstallments={platoPendingInstallments}
+            platoPaidInstallmentsCount={platoPaidInstallmentsCount}
           />
         ) : null}
         {paymentHistory && paymentHistory.length ? (
