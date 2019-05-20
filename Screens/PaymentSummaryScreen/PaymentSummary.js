@@ -21,9 +21,7 @@ import { toastBottom } from "../../Services/toast/toast";
 class PaymentSummary extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
-      header: (
-        <CommonHeader title={"Complete Payment"} navigation={navigation} />
-      )
+      header: <CommonHeader title={"Payment Summary"} navigation={navigation} />
     };
   };
 
@@ -206,7 +204,9 @@ class PaymentSummary extends Component {
             action: () => this.initiatePayment(amount.paymentType),
             paymentDue: amount.paymentDue,
             percent: amount.percent,
-            paymentAllowed: amount.paymentAllowed
+            paymentAllowed: amount.paymentAllowed,
+            nextInstallmentAmount: amount.nextInstallmentAmount,
+            nextInstallmentDate: amount.nextInstallmentDate
           };
           detailsArray.push(data);
           return detailsArray;

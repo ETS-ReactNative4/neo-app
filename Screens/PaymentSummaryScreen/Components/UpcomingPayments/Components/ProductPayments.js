@@ -7,6 +7,7 @@ import ordinalConverter from "number-to-words";
 import getTitleCase from "../../../../../Services/getTitleCase/getTitleCase";
 import { responsiveHeight } from "react-native-responsive-dimensions";
 import { isIphoneX } from "react-native-iphone-x-helper";
+import getLocaleString from "../../../../../Services/getLocaleString/getLocaleString";
 
 const ProductPayments = ({
   paymentOptions,
@@ -68,20 +69,14 @@ const ProductPayments = ({
         action: isPaymentAllowed ? currentPaymentOption.action : openSupport,
         actionIcon: isPaymentAllowed ? constants.backIcon : constants.callIcon,
         color:
-          dueDateDifference > 2 ? constants.ninthColor : constants.tenthColor
+          dueDateDifference > 2 ? constants.ninthColor : constants.tenthColor,
+        nextInstallmentAmount: currentPaymentOption.nextInstallmentAmount
+          ? getLocaleString(currentPaymentOption.nextInstallmentAmount)
+          : 0,
+        nextInstallmentDate: moment(
+          currentPaymentOption.nextInstallmentDate
+        ).format(constants.commonDateFormat)
       }
-    : null;
-
-  /**
-   * Get data required to display the next installment information
-   */
-  const nextPaymentOption = otherPaymentOptions.length
-    ? otherPaymentOptions[0]
-    : null;
-  const nextPaymentDue = nextPaymentOption
-    ? moment(parseInt(nextPaymentOption.paymentDue)).format(
-        constants.shortCommonDateFormat
-      )
     : null;
 
   /**
@@ -143,6 +138,14 @@ const ProductPayments = ({
           }`}</Text>
           <Text style={styles.paymentTitleText}>{paymentTitle}</Text>
           <PayNowCard {...currentPaymentData} />
+          {currentPaymentData.nextInstallmentAmount ? (
+            <Fragment>
+              <Text style={styles.nextPaymentTitleText}>{`Next Payment`}</Text>
+              <Text style={styles.nextPaymentText}>{`${
+                currentPaymentData.nextInstallmentAmount
+              } by ${currentPaymentData.nextInstallmentDate}`}</Text>
+            </Fragment>
+          ) : null}
         </Fragment>
       ) : (
         <Fragment>
@@ -157,27 +160,16 @@ const ProductPayments = ({
       )}
 
       {!isPaymentExpired && lastPaymentOption ? (
-        <Fragment>
-          {otherPaymentOptions.length ? (
-            <Fragment>
-              <Text style={styles.nextPaymentTitleText}>{`Next Payment`}</Text>
-              <Text
-                style={styles.nextPaymentText}
-              >{`Next payment due on ${nextPaymentDue}`}</Text>
-            </Fragment>
-          ) : null}
-
-          <View style={styles.clearPaymentContainer}>
-            <Text
-              style={styles.paymentTitleText}
-            >{`Or ${lastPaymentOptionTitle}`}</Text>
-            <PayNowCard
-              {...lastPaymentData}
-              containerStyle={styles.clearPaymentCard}
-              textColor={constants.shade1}
-            />
-          </View>
-        </Fragment>
+        <View style={styles.clearPaymentContainer}>
+          <Text
+            style={styles.paymentTitleText}
+          >{`Or ${lastPaymentOptionTitle}`}</Text>
+          <PayNowCard
+            {...lastPaymentData}
+            containerStyle={styles.clearPaymentCard}
+            textColor={constants.shade1}
+          />
+        </View>
       ) : null}
     </View>
   );
