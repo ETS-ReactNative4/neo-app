@@ -164,7 +164,8 @@ class ChatScreen extends Component {
       initializationError,
       metaDataError,
       isChatActive,
-      chatActivationTime
+      chatActivationTime,
+      offlineContact
     } = this.props.chatDetailsStore;
     const isChatFailed = initializationError || metaDataError;
     const chatQueryParam = objectToQueryParam({
@@ -239,10 +240,13 @@ class ChatScreen extends Component {
             ) : null}
           </View>
         ) : (
-          <UnableToUseChat text={constants.onChatFailedToInitialize} />
+          <UnableToUseChat
+            contactNumber={offlineContact}
+            text={constants.onChatFailedToInitialize}
+          />
         )
       ) : (
-        <UnableToUseChat />
+        <UnableToUseChat contactNumber={offlineContact} />
       )
     ) : (
       <PreTrip

@@ -11,7 +11,10 @@ import {
 import PropTypes from "prop-types";
 import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraProps";
 
-const UnableToUseChat = ({ text = constants.onChatNoInternetText }) => {
+const UnableToUseChat = ({
+  text = constants.onChatNoInternetText,
+  contactNumber
+}) => {
   return (
     <View style={styles.unableToUseChatContainer}>
       <Image
@@ -25,7 +28,7 @@ const UnableToUseChat = ({ text = constants.onChatNoInternetText }) => {
         text={constants.offlineContact}
         action={() => {
           recordEvent(constants.chatCallSupportClick);
-          dialer(constants.offlineContact);
+          dialer(contactNumber);
         }}
         textColor={constants.firstColor}
         color={"transparent"}
@@ -36,7 +39,8 @@ const UnableToUseChat = ({ text = constants.onChatNoInternetText }) => {
 };
 
 UnableToUseChat.propTypes = forbidExtraProps({
-  text: PropTypes.string
+  text: PropTypes.string,
+  contactNumber: PropTypes.string.isRequired
 });
 
 const styles = StyleSheet.create({
