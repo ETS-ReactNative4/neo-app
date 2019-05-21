@@ -150,35 +150,35 @@ class RentalCarVoucher extends Component {
       },
       {
         name: "Insurance Type",
-        value: insuranceType
+        value: insuranceType || "NA"
       }
     ];
     const pickingUpDetails = [
       {
         name: "Pickup Location",
-        value: pickupLocation
+        value: pickupLocation || "NA"
       },
       {
         name: "Pickup Date",
-        value: pickupDate
+        value: pickupDate || "NA"
       },
       {
         name: "Pickup Time",
-        value: pickupTimeStr
+        value: pickupTimeStr || "NA"
       }
     ];
     const droppingOffDetails = [
       {
         name: "Drop Location",
-        value: dropLocation
+        value: dropLocation || "NA"
       },
       {
         name: "Drop Date",
-        value: dropDate
+        value: dropDate || "NA"
       },
       {
         name: "Drop Time",
-        value: dropTimeStr
+        value: dropTimeStr || "NA"
       }
     ];
     const bookingDetails = [
