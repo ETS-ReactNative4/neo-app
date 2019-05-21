@@ -70,6 +70,11 @@ const stringConstants = {
   paymentStatusExpired: "EXPIRED",
 
   /**
+   * Voucher Success Status
+   */
+  voucherSuccessStatus: "SUCCESS",
+
+  /**
    * Hotel Default checkin/checkout time
    */
   hotelDefaultCheckOutTime: "11:00 am",
