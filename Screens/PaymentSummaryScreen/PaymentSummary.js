@@ -211,7 +211,6 @@ class PaymentSummary extends Component {
             paymentAllowed: amount.paymentAllowed,
             nextInstallmentAmount: amount.nextInstallmentAmount,
             nextInstallmentDate: amount.nextInstallmentDate,
-            installment: amountIndex + 1,
             paymentStatus: amount.paymentStatus
           };
           detailsArray.push(data);

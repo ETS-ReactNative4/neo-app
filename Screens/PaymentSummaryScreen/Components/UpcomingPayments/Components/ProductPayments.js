@@ -15,12 +15,16 @@ const ProductPayments = ({
   paymentOptions,
   isPaymentExpired,
   openSupport,
-  paymentDue
+  paymentDue,
+  paymentHistory
 }) => {
   if (!paymentOptions.length) return null;
 
   const today = moment();
   const dueDateDifference = moment(paymentDue).diff(today, "days");
+
+  const installment =
+    paymentHistory && paymentHistory.length ? paymentHistory.length + 1 : 1;
 
   /**
    * Find Valid and Invalid payment options
@@ -52,7 +56,7 @@ const ProductPayments = ({
         cardInfo: [
           {
             title: `${getTitleCase(
-              ordinalConverter.toWordsOrdinal(currentPaymentOption.installment)
+              ordinalConverter.toWordsOrdinal(installment)
             )} Installment`,
             text: currentPaymentOption.amount
           },
@@ -116,7 +120,7 @@ const ProductPayments = ({
         cardInfo: [
           {
             title: `${getTitleCase(
-              ordinalConverter.toWordsOrdinal(expiredPaymentOption.installment)
+              ordinalConverter.toWordsOrdinal(installment)
             )} Installment`,
             text: expiredPaymentOption.amount
           },
@@ -186,7 +190,8 @@ ProductPayments.propTypes = forbidExtraProps({
   paymentOptions: PropTypes.array.isRequired,
   isPaymentExpired: PropTypes.bool.isRequired,
   openSupport: PropTypes.func.isRequired,
-  paymentDue: PropTypes.number.isRequired
+  paymentDue: PropTypes.number.isRequired,
+  paymentHistory: PropTypes.array.isRequired
 });
 
 const headerHeight = constants.headerHeight;
