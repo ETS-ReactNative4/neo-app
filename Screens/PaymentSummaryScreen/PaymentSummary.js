@@ -201,7 +201,7 @@ class PaymentSummary extends Component {
       ? productPayments.reduce((detailsArray, amount, amountIndex) => {
           const data = {
             amount: `₹ ${amount.paymentAmount}`,
-            percentage:
+            percentageText:
               amount.percent === 100
                 ? `Clear Total Balance Due`
                 : `Complete ${amount.percent}% of your trip cost`,

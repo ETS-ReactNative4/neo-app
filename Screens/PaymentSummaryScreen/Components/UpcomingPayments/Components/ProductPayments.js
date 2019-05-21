@@ -44,7 +44,7 @@ const ProductPayments = ({
    * Get data required to display the current payment installment
    */
   const paymentTitle = currentPaymentOption
-    ? currentPaymentOption.percentage
+    ? currentPaymentOption.percentageText
     : null;
   const currentPaymentData = currentPaymentOption
     ? {
@@ -87,7 +87,7 @@ const ProductPayments = ({
     ? otherPaymentOptions[otherPaymentOptions.length - 1]
     : null;
   const lastPaymentOptionTitle = lastPaymentOption
-    ? lastPaymentOption.percentage
+    ? lastPaymentOption.percentageText
     : null;
   const lastPaymentData = lastPaymentOption
     ? {
@@ -108,7 +108,7 @@ const ProductPayments = ({
   const expiredPaymentOption =
     isPaymentExpired && expiredPayments.length ? expiredPayments[0] : null;
   const expiredTitle = expiredPaymentOption
-    ? expiredPaymentOption.percentage
+    ? expiredPaymentOption.percentageText
     : null;
   const expiredPaymentData = expiredPaymentOption
     ? {
