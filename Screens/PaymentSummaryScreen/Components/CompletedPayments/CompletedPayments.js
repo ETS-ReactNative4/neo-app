@@ -41,62 +41,68 @@ const CompletedPayments = inject("userStore")(
             resizeMode={"contain"}
             style={styles.paymentIllustration}
           />
-          {paymentHistory.length ? (
-            gstReceipt ? (
-              <Fragment>
-                <Text
-                  style={styles.completedPaymentText}
-                >{`${constants.paymentText.gstInvoiceText(
-                  getTitleCase(name)
-                )}`}</Text>
-                <TouchableOpacity
-                  activeOpacity={0.8}
-                  onPress={openGSTInvoice}
-                  style={styles.downloadInvoiceWrapper}
-                >
-                  <Text style={styles.downloadInvoiceText}>
-                    {constants.paymentText.gstInvoiceDownloadText}
-                  </Text>
-                  <View style={styles.payNowIcon}>
-                    <Icon
-                      name={constants.backIcon}
-                      color={constants.ninthColor}
-                      size={14}
-                    />
-                  </View>
-                </TouchableOpacity>
-              </Fragment>
-            ) : (
-              <Text
-                style={styles.completedPaymentText}
-              >{`${constants.paymentText.paymentSummaryText(
-                getTitleCase(name)
-              )}`}</Text>
-            )
-          ) : null}
-          {paymentHistory.map((payment, paymentIndex) => {
-            const viewReceipt = () =>
-              payment.salesReceipt ? openCustomTab(payment.salesReceipt) : null;
-            return (
-              <CompletedPaymentCard
-                key={paymentIndex}
-                amount={payment.paymentAmount}
-                mode={payment.mode}
-                date={payment.date}
-                referenceId={payment.transactionId}
-                action={viewReceipt}
-                containerStyle={{ marginVertical: 16 }}
-                salesReceipt={payment.salesReceipt}
-              />
-            );
-          })}
-          {!paymentHistory.length ? (
-            <EmptyListPlaceholder
-              containerStyle={{ marginVertical: 16 }}
-              text={constants.paymentText.noPaymentsText}
-            />
-          ) : null}
-          <XSensorPlaceholder />
+          {isLoading && !paymentHistory.length ? null : (
+            <Fragment>
+              {paymentHistory.length ? (
+                gstReceipt ? (
+                  <Fragment>
+                    <Text
+                      style={styles.completedPaymentText}
+                    >{`${constants.paymentText.gstInvoiceText(
+                      getTitleCase(name)
+                    )}`}</Text>
+                    <TouchableOpacity
+                      activeOpacity={0.8}
+                      onPress={openGSTInvoice}
+                      style={styles.downloadInvoiceWrapper}
+                    >
+                      <Text style={styles.downloadInvoiceText}>
+                        {constants.paymentText.gstInvoiceDownloadText}
+                      </Text>
+                      <View style={styles.payNowIcon}>
+                        <Icon
+                          name={constants.backIcon}
+                          color={constants.ninthColor}
+                          size={14}
+                        />
+                      </View>
+                    </TouchableOpacity>
+                  </Fragment>
+                ) : (
+                  <Text
+                    style={styles.completedPaymentText}
+                  >{`${constants.paymentText.paymentSummaryText(
+                    getTitleCase(name)
+                  )}`}</Text>
+                )
+              ) : null}
+              {paymentHistory.map((payment, paymentIndex) => {
+                const viewReceipt = () =>
+                  payment.salesReceipt
+                    ? openCustomTab(payment.salesReceipt)
+                    : null;
+                return (
+                  <CompletedPaymentCard
+                    key={paymentIndex}
+                    amount={payment.paymentAmount}
+                    mode={payment.mode}
+                    date={payment.date}
+                    referenceId={payment.transactionId}
+                    action={viewReceipt}
+                    containerStyle={{ marginVertical: 16 }}
+                    salesReceipt={payment.salesReceipt}
+                  />
+                );
+              })}
+              {!paymentHistory.length ? (
+                <EmptyListPlaceholder
+                  containerStyle={{ marginVertical: 16 }}
+                  text={constants.paymentText.noPaymentsText}
+                />
+              ) : null}
+              <XSensorPlaceholder />
+            </Fragment>
+          )}
         </CustomScrollView>
       );
     }
