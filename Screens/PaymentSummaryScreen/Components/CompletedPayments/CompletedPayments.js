@@ -1,7 +1,6 @@
-import React from "react";
-import { View, StyleSheet, Image, Text } from "react-native";
+import React, { Fragment } from "react";
+import { View, StyleSheet, Image, Text, TouchableOpacity } from "react-native";
 import PropTypes from "prop-types";
-import forbidExtraProps from "../../../../Services/PropTypeValidation/forbidExtraProps";
 import CompletedPaymentCard from "./Components/CompletedPaymentCard";
 import getLocaleString from "../../../../Services/getLocaleString/getLocaleString";
 import moment from "../../PaymentSummary";
@@ -16,6 +15,7 @@ import { inject, observer } from "mobx-react/custom";
 import getTitleCase from "../../../../Services/getTitleCase/getTitleCase";
 import XSensorPlaceholder from "../../../../CommonComponents/XSensorPlaceholder/XSensorPlaceholder";
 import EmptyListPlaceholder from "../../../../CommonComponents/EmptyListPlaceholder/EmptyListPlaceholder";
+import Icon from "../../../../CommonComponents/Icon/Icon";
 
 const CompletedPayments = inject("userStore")(
   observer(
@@ -24,10 +24,12 @@ const CompletedPayments = inject("userStore")(
       isPaymentComplete,
       paymentHistory,
       isLoading,
-      loadPaymentData
+      loadPaymentData,
+      gstReceipt
     }) => {
       const { userDetails } = userStore;
       const { name } = userDetails;
+      const openGSTInvoice = () => openCustomTab(gstReceipt);
       return (
         <CustomScrollView
           style={styles.summaryContainer}
@@ -40,11 +42,37 @@ const CompletedPayments = inject("userStore")(
             style={styles.paymentIllustration}
           />
           {paymentHistory.length ? (
-            <Text
-              style={styles.completedPaymentText}
-            >{`${constants.paymentText.paymentSummaryText(
-              getTitleCase(name)
-            )}`}</Text>
+            gstReceipt ? (
+              <Fragment>
+                <Text
+                  style={styles.completedPaymentText}
+                >{`${constants.paymentText.gstInvoiceText(
+                  getTitleCase(name)
+                )}`}</Text>
+                <TouchableOpacity
+                  activeOpacity={0.8}
+                  onPress={openGSTInvoice}
+                  style={styles.downloadInvoiceWrapper}
+                >
+                  <Text style={styles.downloadInvoiceText}>
+                    {constants.paymentText.gstInvoiceDownloadText}
+                  </Text>
+                  <View style={styles.payNowIcon}>
+                    <Icon
+                      name={constants.backIcon}
+                      color={constants.ninthColor}
+                      size={14}
+                    />
+                  </View>
+                </TouchableOpacity>
+              </Fragment>
+            ) : (
+              <Text
+                style={styles.completedPaymentText}
+              >{`${constants.paymentText.paymentSummaryText(
+                getTitleCase(name)
+              )}`}</Text>
+            )
           ) : null}
           {paymentHistory.map((payment, paymentIndex) => {
             const viewReceipt = () =>
@@ -75,9 +103,13 @@ const CompletedPayments = inject("userStore")(
   )
 );
 
-CompletedPayments.propTypes = forbidExtraProps({
-  paymentHistory: {}
-});
+CompletedPayments.propTypes = {
+  isPaymentComplete: PropTypes.bool.isRequired,
+  paymentHistory: PropTypes.array.isRequired,
+  isLoading: PropTypes.bool.isRequired,
+  loadPaymentData: PropTypes.func.isRequired,
+  gstReceipt: PropTypes.string
+};
 
 const styles = StyleSheet.create({
   completedPaymentsContainer: {},
@@ -91,6 +123,21 @@ const styles = StyleSheet.create({
     ...constants.fontCustom(constants.primaryRegular, 18, 28),
     marginBottom: 16,
     color: constants.black2
+  },
+  downloadInvoiceText: {
+    color: constants.ninthColor,
+    ...constants.fontCustom(constants.primaryRegular, 14)
+  },
+  payNowIcon: {
+    marginLeft: 4,
+    transform: [{ rotateY: "180deg" }],
+    marginTop: -2
+  },
+  downloadInvoiceWrapper: {
+    marginHorizontal: 24,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-start"
   }
 });
 

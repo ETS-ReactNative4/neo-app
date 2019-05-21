@@ -48,7 +48,7 @@ const CompletedPaymentCard = ({
         />
         <View style={styles.actionSection}>
           <Text style={styles.viewReceiptText}>
-            {salesReceipt ? "View Receipt" : "Receipt Unavailable"}
+            {salesReceipt ? "View Receipt" : ""}
           </Text>
         </View>
       </View>

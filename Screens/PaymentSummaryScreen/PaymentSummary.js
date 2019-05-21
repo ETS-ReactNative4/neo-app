@@ -165,7 +165,8 @@ class PaymentSummary extends Component {
       productPayments,
       platoPayements: platoPayments,
       accountInfo = {},
-      contactNumber = null
+      contactNumber = null,
+      gstReceipt
     } = paymentInfo;
     const { navigation } = this.props;
 
@@ -311,6 +312,7 @@ class PaymentSummary extends Component {
             paymentHistory={paymentHistory}
             isLoading={isLoading}
             loadPaymentData={this.loadPaymentData}
+            gstReceipt={gstReceipt}
           />
         ) : (
           <View tabLabel={"Completed"} />

@@ -129,7 +129,9 @@ const appText = {
       "We got your payment! Please note the below transaction ID for further references.",
     noPaymentsText: "No Payments available",
     paymentSummaryText: name =>
-      `Hi ${name}, here’s your payment summary. Your consolidated trip invoice will be generated within 7 days of your return`
+      `Hi ${name}, here’s your payment summary. Your consolidated trip invoice will be generated within 7 days of your return`,
+    gstInvoiceText: name => `Hi ${name}, here’s your payment summary.`,
+    gstInvoiceDownloadText: `Download Consolidated GST Invoice`
   },
   pdfViewerErrorText: "Unable to load pdf!",
   serverErrorText: "Unable to connect to the server",
