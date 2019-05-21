@@ -51,7 +51,6 @@ class UpcomingPayments extends Component {
           />
         ) : (
           <ProductPayments
-            paymentHistory={paymentHistory}
             paymentDue={paymentDue}
             isPaymentExpired={isPaymentExpired}
             openSupport={openSupport}

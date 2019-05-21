@@ -58,7 +58,12 @@ const PayNowCard = ({
 };
 
 PayNowCard.propTypes = forbidExtraProps({
-  cardInfo: PropTypes.array.isRequired,
+  cardInfo: PropTypes.arrayOf(
+    PropTypes.shape({
+      title: PropTypes.string.isRequired,
+      text: PropTypes.string.isRequired
+    })
+  ).isRequired,
   actionText: PropTypes.string,
   action: PropTypes.func.isRequired,
   color: PropTypes.string,

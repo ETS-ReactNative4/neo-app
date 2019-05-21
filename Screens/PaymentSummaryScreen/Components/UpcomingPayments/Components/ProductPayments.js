@@ -8,13 +8,14 @@ import getTitleCase from "../../../../../Services/getTitleCase/getTitleCase";
 import { responsiveHeight } from "react-native-responsive-dimensions";
 import { isIphoneX } from "react-native-iphone-x-helper";
 import getLocaleString from "../../../../../Services/getLocaleString/getLocaleString";
+import PropTypes from "prop-types";
+import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidExtraProps";
 
 const ProductPayments = ({
   paymentOptions,
   isPaymentExpired,
   openSupport,
-  paymentDue,
-  paymentHistory
+  paymentDue
 }) => {
   if (!paymentOptions.length) return null;
 
@@ -180,6 +181,13 @@ const ProductPayments = ({
     </View>
   );
 };
+
+ProductPayments.propTypes = forbidExtraProps({
+  paymentOptions: PropTypes.array.isRequired,
+  isPaymentExpired: PropTypes.bool.isRequired,
+  openSupport: PropTypes.func.isRequired,
+  paymentDue: PropTypes.number.isRequired
+});
 
 const headerHeight = constants.headerHeight;
 const tabBarHeight = 50;

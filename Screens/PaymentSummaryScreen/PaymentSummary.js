@@ -16,9 +16,6 @@ import CompletedPayments from "./Components/CompletedPayments/CompletedPayments"
 import { toastBottom } from "../../Services/toast/toast";
 import dialer from "../../Services/dialer/dialer";
 
-/**
- * TODO: Need data from previous api
- */
 @ErrorBoundary()
 class PaymentSummary extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -197,6 +194,9 @@ class PaymentSummary extends Component {
       }
     ];
 
+    /**
+     * Construct Payment Options object array that is used by payment cards to initiate payment
+     */
     const paymentOptions = productPayments
       ? productPayments.reduce((detailsArray, amount, amountIndex) => {
           const data = {
@@ -219,8 +219,14 @@ class PaymentSummary extends Component {
         }, [])
       : [];
 
+    /**
+     * Launch dialer when the payment expires and user clicks call support
+     */
     const openSupport = () => (contactNumber ? dialer(contactNumber) : null);
 
+    /**
+     * create payment history object array using both product and plato payment histories
+     */
     const paymentHistory = platoPayments
       ? platoPayments.paidInstallments
         ? platoPayments.paidInstallments.reduce((detailsArray, amount) => {
