@@ -47,7 +47,12 @@ const CompletedPaymentCard = ({
           containerStyle={styles.amountSection}
         />
         <View style={styles.actionSection}>
-          <Text style={styles.viewReceiptText}>
+          <Text
+            style={[
+              styles.viewReceiptText,
+              salesReceipt ? { textDecorationLine: "underline" } : {}
+            ]}
+          >
             {salesReceipt ? "View Receipt" : ""}
           </Text>
         </View>
