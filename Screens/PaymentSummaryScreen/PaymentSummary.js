@@ -96,7 +96,7 @@ class PaymentSummary extends Component {
             isLoading: false
           });
         }, 1000);
-        if (response.status === "SUCCESS") {
+        if (response.status === constants.responseSuccessStatus) {
           this.setState({
             paymentInfo: response.data
           });
@@ -138,7 +138,7 @@ class PaymentSummary extends Component {
             isPaymentLoading: false
           },
           () => {
-            if (response.status === "SUCCESS") {
+            if (response.status === constants.responseSuccessStatus) {
               const transactionId = response.data.transactionId;
               const paymentScriptJs = paymentScript(response.data);
               this.props.navigation.navigate("PaymentScreen", {
@@ -161,6 +161,7 @@ class PaymentSummary extends Component {
 
   render() {
     const { paymentInfo, isLoading } = this.state;
+
     const {
       productPayments,
       platoPayements: platoPayments,
@@ -168,7 +169,6 @@ class PaymentSummary extends Component {
       contactNumber = null,
       gstReceipt
     } = paymentInfo;
-    const { navigation } = this.props;
 
     const platoBankDetails = [
       {
@@ -238,7 +238,7 @@ class PaymentSummary extends Component {
         : []
       : productPayments
         ? productPayments.reduce((detailsArray, amount) => {
-            if (amount.paymentStatus === "SUCCESS") {
+            if (amount.paymentStatus === constants.paymentStatusSuccess) {
               const data = {
                 paymentAmount: `₹ ${amount.paymentAmount}`,
                 transactionId: amount.transactionId,
@@ -256,7 +256,8 @@ class PaymentSummary extends Component {
       platoPayments &&
       platoPayments.paidInstallments &&
       platoPayments.paidInstallments.length;
-    const isPaymentComplete = this.state.paymentStatus === "SUCCESS";
+    const isPaymentComplete =
+      this.state.paymentStatus === constants.paymentStatusSuccess;
 
     const platoPendingInstallments =
       platoPayments && platoPayments.pendingInstallments
@@ -299,7 +300,10 @@ class PaymentSummary extends Component {
             paymentOptions={paymentOptions}
             isPaymentComplete={isPaymentComplete}
             platoBankDetails={platoBankDetails}
-            isPaymentExpired={_.toUpper(this.state.paymentStatus) === "EXPIRED"}
+            isPaymentExpired={
+              _.toUpper(this.state.paymentStatus) ===
+              constants.paymentStatusExpired
+            }
             paymentDue={this.state.nextPendingDate}
             paymentHistory={paymentHistory}
             openSupport={openSupport}

@@ -28,7 +28,9 @@ const ProductPayments = ({
     payment => payment.paymentAllowed
   );
   const expiredPayments = paymentOptions.filter(
-    payment => !payment.paymentAllowed && payment.paymentStatus === "EXPIRED"
+    payment =>
+      !payment.paymentAllowed &&
+      payment.paymentStatus === constants.paymentStatusExpired
   );
 
   const [currentPaymentOption, ...otherPaymentOptions] = validPayments;

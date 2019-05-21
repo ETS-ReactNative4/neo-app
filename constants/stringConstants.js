@@ -64,6 +64,12 @@ const stringConstants = {
   transferVoucherType: "TRANSFER",
 
   /**
+   * Payment Status Strings
+   */
+  paymentStatusSuccess: "SUCCESS",
+  paymentStatusExpired: "EXPIRED",
+
+  /**
    * Hotel Default checkin/checkout time
    */
   hotelDefaultCheckOutTime: "11:00 am",
