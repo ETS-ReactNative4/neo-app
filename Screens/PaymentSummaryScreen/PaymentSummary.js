@@ -198,7 +198,7 @@ class PaymentSummary extends Component {
     ];
 
     const paymentOptions = productPayments
-      ? productPayments.reduce((detailsArray, amount) => {
+      ? productPayments.reduce((detailsArray, amount, amountIndex) => {
           const data = {
             amount: `₹ ${amount.paymentAmount}`,
             percentage:
@@ -210,7 +210,9 @@ class PaymentSummary extends Component {
             percent: amount.percent,
             paymentAllowed: amount.paymentAllowed,
             nextInstallmentAmount: amount.nextInstallmentAmount,
-            nextInstallmentDate: amount.nextInstallmentDate
+            nextInstallmentDate: amount.nextInstallmentDate,
+            installment: amountIndex + 1,
+            paymentStatus: amount.paymentStatus
           };
           detailsArray.push(data);
           return detailsArray;

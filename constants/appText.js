@@ -131,7 +131,11 @@ const appText = {
     paymentSummaryText: name =>
       `Hi ${name}, here’s your payment summary. Your consolidated trip invoice will be generated within 7 days of your return`,
     gstInvoiceText: name => `Hi ${name}, here’s your payment summary.`,
-    gstInvoiceDownloadText: `Download Consolidated GST Invoice`
+    gstInvoiceDownloadText: `Download Consolidated GST Invoice`,
+    noOfInstallmentsText: numberOfInstallments =>
+      `You have ${numberOfInstallments} scheduled payment${
+        numberOfInstallments > 1 ? "s" : ""
+      }`
   },
   pdfViewerErrorText: "Unable to load pdf!",
   serverErrorText: "Unable to connect to the server",

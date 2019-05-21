@@ -27,13 +27,12 @@ const ProductPayments = ({
   const validPayments = paymentOptions.filter(
     payment => payment.paymentAllowed
   );
-  const invalidPayments = paymentOptions.filter(
-    payment => !payment.paymentAllowed
+  const expiredPayments = paymentOptions.filter(
+    payment => !payment.paymentAllowed && payment.paymentStatus === "EXPIRED"
   );
 
   const [currentPaymentOption, ...otherPaymentOptions] = validPayments;
   const numberOfInstallments = validPayments.length;
-  const currentInstallment = paymentHistory.length + 1;
   const isPaymentAllowed =
     !isPaymentExpired &&
     currentPaymentOption &&
@@ -50,7 +49,7 @@ const ProductPayments = ({
         cardInfo: [
           {
             title: `${getTitleCase(
-              ordinalConverter.toWordsOrdinal(currentInstallment)
+              ordinalConverter.toWordsOrdinal(currentPaymentOption.installment)
             )} Installment`,
             text: currentPaymentOption.amount
           },
@@ -105,14 +104,17 @@ const ProductPayments = ({
    * If payment has expired, display the final installment with expired message
    */
   const expiredPaymentOption =
-    isPaymentExpired && invalidPayments.length
-      ? invalidPayments[invalidPayments.length - 1]
-      : null;
+    isPaymentExpired && expiredPayments.length ? expiredPayments[0] : null;
+  const expiredTitle = expiredPaymentOption
+    ? expiredPaymentOption.percentage
+    : null;
   const expiredPaymentData = expiredPaymentOption
     ? {
         cardInfo: [
           {
-            title: `Amount`,
+            title: `${getTitleCase(
+              ordinalConverter.toWordsOrdinal(expiredPaymentOption.installment)
+            )} Installment`,
             text: expiredPaymentOption.amount
           },
           {
@@ -131,11 +133,11 @@ const ProductPayments = ({
     <View style={styles.productPaymentsContainer}>
       {!isPaymentExpired ? (
         <Fragment>
-          <Text
-            style={styles.paymentScheduleText}
-          >{`You have ${numberOfInstallments} scheduled payment${
-            numberOfInstallments > 1 ? "s" : ""
-          }`}</Text>
+          <Text style={styles.paymentScheduleText}>
+            {numberOfInstallments
+              ? constants.paymentText.noOfInstallmentsText(numberOfInstallments)
+              : ""}
+          </Text>
           <Text style={styles.paymentTitleText}>{paymentTitle}</Text>
           <PayNowCard {...currentPaymentData} />
           {currentPaymentData.nextInstallmentAmount ? (
@@ -150,11 +152,13 @@ const ProductPayments = ({
       ) : (
         <Fragment>
           <Text style={styles.paymentScheduleText}>
-            {"Your payment has Expired"}
+            {expiredPayments && expiredPayments.length
+              ? constants.paymentText.noOfInstallmentsText(
+                  expiredPayments.length
+                )
+              : ""}
           </Text>
-          <Text style={styles.paymentTitleText}>
-            {"Please contact Support"}
-          </Text>
+          <Text style={styles.expiredPaymentTitleText}>{expiredTitle}</Text>
           <PayNowCard {...expiredPaymentData} />
         </Fragment>
       )}
@@ -198,14 +202,19 @@ const styles = StyleSheet.create({
     height: availableAreaHeight
   },
   paymentScheduleText: {
-    ...constants.fontCustom(constants.primaryRegular, 18),
-    color: constants.black1,
+    ...constants.fontCustom(constants.primarySemiBold, 14),
+    color: constants.shade1,
     marginVertical: 24
   },
   paymentTitleText: {
-    ...constants.fontCustom(constants.primarySemiBold, 14),
+    ...constants.fontCustom(constants.primaryRegular, 18),
     marginBottom: 16,
-    color: constants.shade1
+    color: constants.black1
+  },
+  expiredPaymentTitleText: {
+    ...constants.fontCustom(constants.primaryRegular, 18),
+    marginBottom: 16,
+    color: constants.thirdColor
   },
   nextPaymentTitleText: {
     ...constants.fontCustom(constants.primarySemiBold, 14),
