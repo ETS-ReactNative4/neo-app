@@ -10,7 +10,7 @@ import SectionHeader from "../../../../CommonComponents/SectionHeader/SectionHea
 import _ from "lodash";
 import { recordEvent } from "../../../../Services/analytics/analyticsService";
 import BookingSectionComponent from "../../../../CommonComponents/BookingSectionComponent/BookingSectionComponent";
-import { toastBottom } from "../../../../Services/toast/toast";
+import resolveLinks from "../../../../Services/resolveLinks/resolveLinks";
 
 let internationalFlightKey, city;
 const SlotActivity = inject("itineraries")(
@@ -116,11 +116,10 @@ const SlotActivity = inject("itineraries")(
             }
             onClick = () => {
               recordEvent(constants.bookedItineraryFlightVoucherClick);
-              if (flight.voucher && flight.voucher.booked) {
-                navigation.navigate("FlightVoucher", { flight });
-              } else {
-                toastBottom(constants.bookingProcessText.message);
-              }
+              resolveLinks(false, false, {
+                voucherType: constants.flightVoucherType,
+                costingIdentifier: flight.key
+              });
             };
             return (
               <BookingSectionComponent
@@ -167,16 +166,10 @@ const SlotActivity = inject("itineraries")(
             );
             onClick = () => {
               recordEvent(constants.bookedItineraryActivityVoucherClick);
-              if (
-                activityInfo.voucher &&
-                (activityInfo.voucher.booked || activityInfo.free)
-              ) {
-                navigation.navigate("ActivityVoucher", {
-                  activity: activityInfo
-                });
-              } else {
-                toastBottom(constants.bookingProcessText.message);
-              }
+              resolveLinks(false, false, {
+                voucherType: constants.activityVoucherType,
+                costingIdentifier: activityInfo.costing.key
+              });
             };
             return (
               <BookingSectionComponent
@@ -210,7 +203,7 @@ const SlotActivity = inject("itineraries")(
               ? getTransferFromAllById(transferCostingIdenfier)
               : {};
             if (!transferCostingIdenfier) {
-              if (transferMode === "RENTALCAR") {
+              if (transferMode === constants.rentalCarTransferMode) {
                 const fromCityOrder = getCityOrderById(fromCity);
                 const toCityOrder = getCityOrderById(toCity);
                 transfer = getRentalCarByCityOrder({
@@ -221,19 +214,37 @@ const SlotActivity = inject("itineraries")(
             }
             onClick = () => {
               recordEvent(constants.bookedItineraryTransferVoucherClick);
-              if (transfer.voucher && transfer.voucher.booked) {
-                if (transferMode === "FLIGHT") {
-                  navigation.navigate("FlightVoucher", { flight: transfer });
-                } else {
-                  /**
-                   * transferMode needed to display appropriate vehicle info in voucher
-                   */
-                  navigation.navigate("TransferVoucher", {
-                    transfer: { ...transfer, vehicle: transferMode }
-                  });
-                }
+              if (transferMode === constants.flightTransferMode) {
+                resolveLinks(false, false, {
+                  voucherType: constants.flightVoucherType,
+                  costingIdentifier: transfer.key
+                });
               } else {
-                toastBottom(constants.bookingProcessText.message);
+                switch (transferMode) {
+                  case constants.trainTransferMode:
+                    resolveLinks(false, false, {
+                      voucherType: constants.trainVoucherType,
+                      costingIdentifier: transfer.key
+                    });
+                    break;
+                  case constants.ferryTransferMode:
+                    resolveLinks(false, false, {
+                      voucherType: constants.ferryVoucherType,
+                      costingIdentifier: transfer.key
+                    });
+                    break;
+                  case constants.rentalCarTransferMode:
+                    resolveLinks(false, false, {
+                      voucherType: constants.rentalCarVoucherType,
+                      costingIdentifier: transfer.key
+                    });
+                    break;
+                  default:
+                    resolveLinks(false, false, {
+                      voucherType: constants.transferVoucherType,
+                      costingIdentifier: transfer.key
+                    });
+                }
               }
             };
             return (
@@ -264,13 +275,10 @@ const SlotActivity = inject("itineraries")(
             }
             onClick = () => {
               recordEvent(constants.bookedItineraryFlightVoucherClick);
-              if (departureFlight.voucher && departureFlight.voucher.booked) {
-                navigation.navigate("FlightVoucher", {
-                  flight: departureFlight
-                });
-              } else {
-                toastBottom(constants.bookingProcessText.message);
-              }
+              resolveLinks(false, false, {
+                voucherType: constants.flightVoucherType,
+                costingIdentifier: departureFlight.key
+              });
             };
             imageObject = getSlotImage(internationalFlightKey, "FLIGHT");
             return (
@@ -327,17 +335,13 @@ const SlotActivity = inject("itineraries")(
             );
             const { mainPhoto } = activityTransferInfo;
             onClick = () => {
-              if (
-                activityTransferInfo.voucher &&
-                (activityTransferInfo.voucher.booked ||
-                  activityTransferInfo.free)
-              ) {
-                navigation.navigate("ActivityVoucher", {
-                  activity: activityTransferInfo
-                });
-              } else {
-                toastBottom(constants.bookingProcessText.message);
-              }
+              recordEvent(
+                constants.bookedItineraryActivityWithTransferVoucherClick
+              );
+              resolveLinks(false, false, {
+                voucherType: constants.activityVoucherType,
+                costingIdentifier: activityTransferInfo.costing.key
+              });
             };
             return (
               <BookingSectionComponent

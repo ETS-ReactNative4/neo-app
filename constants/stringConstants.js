@@ -64,6 +64,15 @@ const stringConstants = {
   transferVoucherType: "TRANSFER",
 
   /**
+   * Transfer Modes
+   * used to detect `transferMode` in `intercityTransferSlotDetailVO`
+   */
+  flightTransferMode: "FLIGHT",
+  trainTransferMode: "TRAIN",
+  ferryTransferMode: "FERRY",
+  rentalCarTransferMode: "RENTALCAR",
+
+  /**
    * Payment Status Strings
    */
   paymentStatusSuccess: "SUCCESS",

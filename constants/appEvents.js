@@ -77,6 +77,8 @@ const appEvents = {
     "booked_itinerary_activity_voucher_click",
   bookedItineraryTransferVoucherClick:
     "booked_itinerary_transfer_voucher_click",
+  bookedItineraryActivityWithTransferVoucherClick:
+    "booked_itinerary_activity_transfer_voucher_click",
   bookedItineraryHeaderClick: "booked_itinerary_header_click",
   bookedItineraryHeaderCityNameClick: "booked_itinerary_header_city_name_click",
   voucherHeaderViewVoucherClick: "voucher_header_view_voucher_click",
