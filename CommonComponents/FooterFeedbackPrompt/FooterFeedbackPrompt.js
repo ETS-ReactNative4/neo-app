@@ -68,36 +68,34 @@ class FooterFeedbackPrompt extends Component {
 
   rotateIllustration = ({ isReverse = false } = {}) => {
     if (!isReverse) {
-      return this._titleIllustrationRef.current.tada();
-      // return this._titleIllustrationRef.current.transitionTo({
-      //   rotate: "180deg"
-      // });
+      // this._titleIllustrationRef.current.tada();
+      this._titleIllustrationRef.current.transitionTo({
+        rotate: "180deg"
+      });
     } else {
-      return this._titleIllustrationRef.current.rotate();
-      // return this._titleIllustrationRef.current.transitionTo({
-      //   rotate: "0deg"
-      // });
+      // this._titleIllustrationRef.current.rotate();
+      this._titleIllustrationRef.current.transitionTo({
+        rotate: "0deg"
+      });
     }
   };
 
   positiveAction = () => {
+    this.openSlidingPanel();
+    this.rotateIllustration();
     this.hideFooter().then(endState => {
       this.setState({
         isFeedbackPositive: true
       });
-      this.openSlidingPanel();
-      setTimeout(() => {
-        this.rotateIllustration();
-      }, 500);
     });
   };
 
   negativeAction = () => {
+    this.openSlidingPanel();
     this.hideFooter().then(endState => {
       this.setState({
         isFeedbackPositive: false
       });
-      this.openSlidingPanel();
     });
   };
 
