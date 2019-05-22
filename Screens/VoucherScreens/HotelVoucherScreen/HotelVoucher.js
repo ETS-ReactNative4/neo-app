@@ -161,7 +161,7 @@ class HotelVoucher extends Component {
           renderStickyHeader={() => (
             <VoucherStickyHeader
               action={this.close}
-              text={`Booking ID - ${bookingPNR}`}
+              text={bookingPNR ? `Booking ID - ${bookingPNR}` : ""}
             />
           )}
           fadeOutForeground={Platform.OS !== "android"}

@@ -120,7 +120,10 @@ class FlightVoucher extends Component {
           fadeOutForeground={Platform.OS !== "android"}
           onChangeHeaderVisibility={this.headerToggle}
           renderStickyHeader={() => (
-            <VoucherStickyHeader action={this.close} text={`PNR - ${pnr}`} />
+            <VoucherStickyHeader
+              action={this.close}
+              text={pnr ? `PNR - ${pnr}` : ""}
+            />
           )}
           renderForeground={() => (
             <VoucherHeader

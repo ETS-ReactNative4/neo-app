@@ -257,7 +257,7 @@ class RentalCarVoucher extends Component {
           renderStickyHeader={() => (
             <VoucherStickyHeader
               action={this.close}
-              text={`Booking Reference - ${bookingId}`}
+              text={bookingId ? `Booking Reference - ${bookingId}` : ""}
             />
           )}
           renderForeground={() => (
