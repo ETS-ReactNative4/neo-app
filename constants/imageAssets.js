@@ -124,6 +124,7 @@ const imageAssets = {
   preChatSupportIllus: require("../assets/images/illustrations/pre-chat-support.png"),
   onChatNoInternetIllus: require("../assets/images/illustrations/on-chat-no-internet.png"),
   helpSupportIllus: require("../assets/images/illustrations/help-and-support-image.png"),
+  paymentCompleteIllus: require("../assets/images/illustrations/payment-complete.png"),
   paymentSuccessIllus: require("../assets/images/illustrations/payment-success.png"),
   paymentFailureIllus: require("../assets/images/illustrations/payment-failure.png"),
   successBoxIllus: require("../assets/images/illustrations/Alert-icons-success.png"),

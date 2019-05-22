@@ -43,7 +43,7 @@ const CompletedPayments = inject("userStore")(
           onRefresh={loadPaymentData}
         >
           <Image
-            source={constants.helpSupportIllus}
+            source={constants.paymentCompleteIllus}
             resizeMode={"contain"}
             style={styles.paymentIllustration}
           />
@@ -131,9 +131,11 @@ CompletedPayments.propTypes = {
 const styles = StyleSheet.create({
   completedPaymentsContainer: {},
   paymentIllustration: {
-    height: responsiveHeight(40),
-    width: responsiveWidth(100) - 48,
-    marginHorizontal: 24
+    height: 112,
+    width: 96,
+    marginHorizontal: 24,
+    marginVertical: 24,
+    alignSelf: "center"
   },
   completedPaymentText: {
     marginHorizontal: 24,
