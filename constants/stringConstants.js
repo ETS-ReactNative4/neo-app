@@ -89,8 +89,7 @@ const stringConstants = {
   hotelDefaultCheckOutTime: "11:00 am",
   hotelDefaultCheckInTime: "02:00 pm",
 
-  tripToggleStatusStorageKey: "@Pickyourtrail/tripToggleStatus",
-  preTripChatActivationTime: 72
+  tripToggleStatusStorageKey: "@Pickyourtrail/tripToggleStatus"
 };
 
 export default stringConstants;
