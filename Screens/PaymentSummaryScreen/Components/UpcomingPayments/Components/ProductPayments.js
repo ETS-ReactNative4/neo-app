@@ -147,7 +147,7 @@ const ProductPayments = ({
           </Text>
           <Text style={styles.paymentTitleText}>{paymentTitle}</Text>
           <PayNowCard {...currentPaymentData} />
-          {currentPaymentData.nextInstallmentAmount ? (
+          {currentPaymentData && currentPaymentData.nextInstallmentAmount ? (
             <Fragment>
               <Text style={styles.nextPaymentTitleText}>{`Next Payment`}</Text>
               <Text style={styles.nextPaymentText}>{`${

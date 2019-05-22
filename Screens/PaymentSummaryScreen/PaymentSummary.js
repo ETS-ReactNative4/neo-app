@@ -167,6 +167,9 @@ class PaymentSummary extends Component {
       gstReceipt
     } = paymentInfo;
 
+    /**
+     * Construct Bank details to show the virtual account for plato payments
+     */
     const platoBankDetails = [
       {
         name: "Account",
@@ -257,18 +260,25 @@ class PaymentSummary extends Component {
           }, [])
         : [];
 
+    /**
+     * Check if payment is made with plato
+     */
     const isPaidWithPlato =
       platoPayments &&
       platoPayments.paidInstallments &&
       platoPayments.paidInstallments.length;
-    const isPaymentComplete =
-      this.state.paymentStatus === constants.paymentStatusSuccess;
 
+    /**
+     * Find the pending plato installments
+     */
     const platoPendingInstallments =
       platoPayments && platoPayments.pendingInstallments
         ? platoPayments.pendingInstallments
         : [];
 
+    /**
+     * Find the paid plato installments
+     */
     const platoPaidInstallmentsCount = platoPayments
       ? platoPayments.paidInstallments
         ? platoPayments.paidInstallments.length
@@ -276,8 +286,31 @@ class PaymentSummary extends Component {
       : 0;
 
     /**
-     * TODO: Move bank details out of the app to api/webview
+     * Check if payment is complete in Plato
      */
+    const isPlatoPaymentsComplete =
+      isPaidWithPlato && platoPendingInstallments.length === 0;
+
+    /**
+     * Check if payment is complete in product
+     */
+    const isProductPaymentComplete =
+      !isPaidWithPlato && productPayments
+        ? !!productPayments.find(
+            amount =>
+              amount.paymentStatus === "SUCCESS" &&
+              amount.paymentType === "FULL"
+          )
+        : false;
+
+    /**
+     * Flag to check if payment is complete for the trip
+     */
+    const isPaymentComplete =
+      this.state.paymentStatus === constants.paymentStatusSuccess ||
+      isPlatoPaymentsComplete ||
+      isProductPaymentComplete;
+
     return (
       <ScrollableTabView
         tabBarActiveTextColor={constants.black2}
