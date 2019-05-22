@@ -10,7 +10,12 @@ import getUrlParams from "../getUrlParams/getUrlParams";
  * TODO: in-app-browser android library is having an issue & CustomTabs iOS library is not working. Need to document this
  */
 
-const openCustomTab = (url, success = () => null, failure = () => null) => {
+const openCustomTab = (
+  url,
+  success = () => null,
+  failure = () => null,
+  pdfViewerComponent = "PDFViewerScreen"
+) => {
   const params = getUrlParams(url);
 
   /**
@@ -64,7 +69,7 @@ const openCustomTab = (url, success = () => null, failure = () => null) => {
       if (url.includes(".pdf") && params.customTab !== "false") {
         // Opens PDF in Native PDF Viewer
         const { navigation } = navigationService;
-        navigation._navigation.navigate("PDFViewerScreen", {
+        navigation._navigation.navigate(pdfViewerComponent, {
           pdfUri: url
         });
       } else {

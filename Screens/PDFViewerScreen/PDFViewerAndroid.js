@@ -12,6 +12,10 @@ import _ from "lodash";
 
 @ErrorBoundary()
 class PDFViewerAndroid extends Component {
+  static navigationOptions = {
+    header: null
+  };
+
   render() {
     const pdfUri = this.props.navigation.getParam("pdfUri", "");
     const { navigation } = this.props;

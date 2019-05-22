@@ -29,7 +29,13 @@ const CompletedPayments = inject("userStore")(
     }) => {
       const { userDetails } = userStore;
       const { name } = userDetails;
-      const openGSTInvoice = () => openCustomTab(gstReceipt);
+      const openGSTInvoice = () =>
+        openCustomTab(
+          gstReceipt,
+          () => null,
+          () => null,
+          "PaymentPDFViewerScreen"
+        );
       return (
         <CustomScrollView
           style={styles.summaryContainer}
@@ -79,7 +85,12 @@ const CompletedPayments = inject("userStore")(
               {paymentHistory.map((payment, paymentIndex) => {
                 const viewReceipt = () =>
                   payment.salesReceipt
-                    ? openCustomTab(payment.salesReceipt)
+                    ? openCustomTab(
+                        payment.salesReceipt,
+                        () => null,
+                        () => null,
+                        "PaymentPDFViewerScreen"
+                      )
                     : null;
                 return (
                   <CompletedPaymentCard
