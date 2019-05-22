@@ -38,7 +38,8 @@ const PlatoPaymentsCard = ({ payments, containerStyle }) => {
               ]}
             />
             <PaymentInfoText
-              title={isExpired ? "Expired" : "Due by"}
+              containerStyle={styles.paymentDueContainer}
+              title={isExpired ? "Expired" : "Due"}
               text={isExpired ? "Call Support" : payment.dueBy}
               textColor={constants.black1}
               titleStyle={[
@@ -84,6 +85,9 @@ const styles = StyleSheet.create({
   },
   expiredText: {
     color: constants.ninthColor
+  },
+  paymentDueContainer: {
+    width: 104
   }
 });
 

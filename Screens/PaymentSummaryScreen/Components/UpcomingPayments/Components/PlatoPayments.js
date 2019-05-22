@@ -20,11 +20,13 @@ const PlatoPayments = ({
   platoPaidInstallmentsCount
 }) => {
   const contactSupport = () => openSupport();
+  const today = moment();
 
   const pendingInstallments = platoPendingInstallments.map(
     (payment, paymentIndex) => {
       const today = moment();
       const paymentDue = moment(payment.paymentDueTime);
+      const dueDateDifference = paymentDue.diff(today, "days");
       const isExpired = today.isAfter(paymentDue, "date");
       const installmentText = `${getTitleCase(
         ordinalConverter.toWordsOrdinal(
@@ -34,7 +36,13 @@ const PlatoPayments = ({
 
       return {
         amount: getLocaleString(payment.amount),
-        dueBy: paymentDue.format(constants.commonDateFormat),
+        dueBy:
+          dueDateDifference > 7
+            ? paymentDue.format(constants.commonDateFormat)
+            : dueDateDifference === 0
+              ? "Today"
+              : paymentDue.fromNow(),
+
         isExpired,
         action: contactSupport,
         installmentText
