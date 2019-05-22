@@ -43,6 +43,10 @@ class PaymentScreen extends Component {
   }
 
   componentWillUnmount() {
+    BackHandler.removeEventListener(
+      "hardwareBackPress",
+      this.onHardwareBackPress
+    );
     this._didFocusSubscription && this._didFocusSubscription.remove();
     this._willBlurSubscription && this._willBlurSubscription.remove();
   }

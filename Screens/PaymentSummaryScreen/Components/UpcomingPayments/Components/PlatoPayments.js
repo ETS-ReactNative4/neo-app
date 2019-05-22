@@ -31,7 +31,7 @@ const PlatoPayments = ({
 
       return {
         amount: getLocaleString(payment.amount),
-        dueBy: paymentDue.format(constants.shortCommonDateFormat),
+        dueBy: paymentDue.format(constants.commonDateFormat),
         isExpired,
         action: contactSupport,
         installmentText
