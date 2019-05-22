@@ -10,6 +10,7 @@ import { isIphoneX } from "react-native-iphone-x-helper";
 import getLocaleString from "../../../../../Services/getLocaleString/getLocaleString";
 import PropTypes from "prop-types";
 import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidExtraProps";
+import { recordEvent } from "../../../../../Services/analytics/analyticsService";
 
 const ProductPayments = ({
   paymentOptions,
@@ -146,7 +147,13 @@ const ProductPayments = ({
               : ""}
           </Text>
           <Text style={styles.paymentTitleText}>{paymentTitle}</Text>
-          <PayNowCard {...currentPaymentData} />
+          <PayNowCard
+            {...currentPaymentData}
+            action={() => {
+              recordEvent(constants.paymentScreenStartPayment);
+              currentPaymentData.action();
+            }}
+          />
           {currentPaymentData && currentPaymentData.nextInstallmentAmount ? (
             <Fragment>
               <Text style={styles.nextPaymentTitleText}>{`Next Payment`}</Text>
@@ -179,6 +186,10 @@ const ProductPayments = ({
             {...lastPaymentData}
             containerStyle={styles.clearPaymentCard}
             textColor={constants.shade1}
+            action={() => {
+              recordEvent(constants.paymentScreenClearPayment);
+              lastPaymentData.action();
+            }}
           />
         </View>
       ) : null}

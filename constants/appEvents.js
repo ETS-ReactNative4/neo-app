@@ -147,6 +147,7 @@ const appEvents = {
   visaDocumentsEmailChecklistClick: "visa_documents_email_checklist_click",
   paymentScreenItineraryCardClick: "payment_screen_itinerary_card_click",
   paymentScreenStartPayment: "payment_screen_start_payment",
+  paymentScreenClearPayment: "payment_screen_clear_payment",
   paymentScreenPaymentSuccess: "payment_screen_payment_success",
   paymentScreenPaymentFailure: "payment_screen_payment_failure",
   paymentFailureSupportClick: "payment_failure_support_click"
