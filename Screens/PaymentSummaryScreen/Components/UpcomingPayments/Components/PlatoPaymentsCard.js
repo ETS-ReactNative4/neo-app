@@ -6,6 +6,9 @@ import PaymentInfoText from "../../PaymentInfoText";
 import PropTypes from "prop-types";
 import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidExtraProps";
 
+/**
+ * This card will print a list of upcoming plato payments
+ */
 const PlatoPaymentsCard = ({ payments, containerStyle }) => {
   return (
     <View style={[styles.platoPaymentsCardContainer, containerStyle]}>

@@ -4,6 +4,9 @@ import PropTypes from "prop-types";
 import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraProps";
 import constants from "../../../constants/constants";
 
+/**
+ * Prints a two line string - used for displaying the payment information
+ */
 const PaymentInfoText = ({
   title = "",
   text = "",

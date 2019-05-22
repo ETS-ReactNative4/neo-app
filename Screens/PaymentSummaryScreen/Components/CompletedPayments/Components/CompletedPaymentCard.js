@@ -6,6 +6,10 @@ import PropTypes from "prop-types";
 import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidExtraProps";
 import PaymentInfoText from "../../PaymentInfoText";
 
+/**
+ * Card used for displaying the completed payments
+ * Clicking on the card will open the receipt for the payment
+ */
 const CompletedPaymentCard = ({
   action,
   date,

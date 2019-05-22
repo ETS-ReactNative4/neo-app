@@ -7,6 +7,10 @@ import Icon from "../../../CommonComponents/Icon/Icon";
 import PropTypes from "prop-types";
 import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraProps";
 
+/**
+ * This card is used to Show the installment amount
+ * Clicking the card will let user pay the amount
+ */
 const PayNowCard = ({
   cardInfo = [],
   actionText = "",

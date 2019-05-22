@@ -10,6 +10,9 @@ import VoucherSplitSection from "../../../../VoucherScreens/Components/VoucherSp
 import ordinalConverter from "number-to-words";
 import getTitleCase from "../../../../../Services/getTitleCase/getTitleCase";
 
+/**
+ * Will render all the upcoming payments from PLATO
+ */
 const PlatoPayments = ({
   platoPendingInstallments,
   platoBankDetails,

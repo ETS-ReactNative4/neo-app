@@ -12,6 +12,9 @@ import PropTypes from "prop-types";
 import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidExtraProps";
 import { recordEvent } from "../../../../../Services/analytics/analyticsService";
 
+/**
+ * Used for Rendering the upcoming product payments
+ */
 const ProductPayments = ({
   paymentOptions,
   isPaymentExpired,

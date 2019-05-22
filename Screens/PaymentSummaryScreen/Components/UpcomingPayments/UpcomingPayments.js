@@ -7,6 +7,12 @@ import PlatoPayments from "./Components/PlatoPayments";
 import ProductPayments from "./Components/ProductPayments";
 import XSensorPlaceholder from "../../../../CommonComponents/XSensorPlaceholder/XSensorPlaceholder";
 
+/**
+ * Will render two components
+ * - Plato payments
+ * - Product payments
+ * Depending on the type of payments
+ */
 class UpcomingPayments extends Component {
   static propTypes = forbidExtraProps({
     isLoading: PropTypes.bool.isRequired,
