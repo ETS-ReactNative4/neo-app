@@ -2,6 +2,7 @@ import React from "react";
 import { TouchableHighlight, StyleSheet } from "react-native";
 import constants from "../../../constants/constants";
 import Icon from "../../../CommonComponents/Icon/Icon";
+import PropTypes from "prop-types";
 
 const PDFDownloadButton = ({ action }) => {
   return (
@@ -13,6 +14,10 @@ const PDFDownloadButton = ({ action }) => {
       <Icon name={constants.downloadIcon} color={constants.black1} size={24} />
     </TouchableHighlight>
   );
+};
+
+PDFDownloadButton.propTypes = {
+  action: PropTypes.func.isRequired
 };
 
 const styles = StyleSheet.create({
