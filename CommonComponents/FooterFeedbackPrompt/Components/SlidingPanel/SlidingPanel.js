@@ -50,7 +50,7 @@ class SlidingPanel extends Component {
     const titleImageExtendedHeight = 47; // keep it exactly half of the height of the logo container
     return (
       <SlidingUpPanel
-        backdropOpacity={0.4}
+        backdropOpacity={isKeyboardVisible ? 0 : 0.4}
         draggableRange={{
           top: Math.min(
             maxSlidingPanelHeight,

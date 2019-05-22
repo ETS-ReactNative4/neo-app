@@ -1,6 +1,9 @@
 import React, { Component, Fragment } from "react";
 import { View, StyleSheet, Text, Keyboard, Platform } from "react-native";
-import { responsiveWidth } from "react-native-responsive-dimensions";
+import {
+  responsiveWidth,
+  responsiveHeight
+} from "react-native-responsive-dimensions";
 import constants from "../../constants/constants";
 import { isIphoneX } from "react-native-iphone-x-helper";
 import SimpleButton from "../SimpleButton/SimpleButton";
@@ -249,6 +252,17 @@ class FooterFeedbackPrompt extends Component {
               : null}
           </View>
         </Animatable.View>
+        {this.state.isKeyboardVisible ? (
+          <View
+            style={{
+              height: responsiveHeight(100),
+              width: responsiveWidth(100),
+              top: 0,
+              position: "absolute",
+              backgroundColor: "white"
+            }}
+          />
+        ) : null}
         <SlidingPanel
           titleIllustrationRef={this._titleIllustrationRef}
           onClose={this.onPanelClosed}
