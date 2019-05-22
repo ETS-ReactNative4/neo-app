@@ -71,17 +71,10 @@ class PaymentSummary extends Component {
 
   loadPaymentData = () => {
     const itineraryId = this.props.navigation.getParam("itineraryId", "");
-    const paymentDetails = this.props.navigation.getParam("paymentDetails", {});
     const itineraryName = this.props.navigation.getParam("itineraryName", "");
-    const paymentStatus = paymentDetails.paymentStatus;
     this.setState({
       tripId: `PYT${itineraryId.substr(itineraryId.length - 7).toUpperCase()}`,
-      itineraryName,
-      nextPendingDate: paymentDetails.nextPendingDate,
-      itineraryTotalCost: getLocaleString(paymentDetails.itineraryTotalCost),
-      totalAmountPaid: getLocaleString(paymentDetails.totalAmountPaid),
-      paymentDue: getLocaleString(paymentDetails.paymentDue),
-      paymentStatus
+      itineraryName
     });
     this.setState({
       isLoading: true
@@ -94,8 +87,17 @@ class PaymentSummary extends Component {
           });
         }, 1000);
         if (response.status === constants.responseSuccessStatus) {
+          const paymentDetails = response.data.metaInfo;
+          const paymentStatus = paymentDetails.paymentStatus;
           this.setState({
-            paymentInfo: response.data
+            paymentInfo: response.data,
+            nextPendingDate: paymentDetails.nextPendingDate,
+            itineraryTotalCost: getLocaleString(
+              paymentDetails.itineraryTotalCost
+            ),
+            totalAmountPaid: getLocaleString(paymentDetails.totalAmountPaid),
+            paymentDue: getLocaleString(paymentDetails.paymentDue),
+            paymentStatus
           });
         } else {
           this.apiFailure();
@@ -286,30 +288,10 @@ class PaymentSummary extends Component {
       : 0;
 
     /**
-     * Check if payment is complete in Plato
-     */
-    const isPlatoPaymentsComplete =
-      isPaidWithPlato && platoPendingInstallments.length === 0;
-
-    /**
-     * Check if payment is complete in product
-     */
-    const isProductPaymentComplete =
-      !isPaidWithPlato && productPayments
-        ? !!productPayments.find(
-            amount =>
-              amount.paymentStatus === "SUCCESS" &&
-              amount.paymentType === "FULL"
-          )
-        : false;
-
-    /**
      * Flag to check if payment is complete for the trip
      */
     const isPaymentComplete =
-      this.state.paymentStatus === constants.paymentStatusSuccess ||
-      isPlatoPaymentsComplete ||
-      isProductPaymentComplete;
+      this.state.paymentStatus === constants.paymentStatusSuccess;
 
     return (
       <ScrollableTabView
