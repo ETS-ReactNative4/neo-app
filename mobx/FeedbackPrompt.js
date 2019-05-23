@@ -4,6 +4,8 @@ import constants from "../constants/constants";
 import storeService from "../Services/storeService/storeService";
 import getActiveRouteName from "../Services/getActiveRouteName/getActiveRouteName";
 import { toastBottom } from "../Services/toast/toast";
+import { LayoutAnimation } from "react-native";
+import _ from "lodash";
 
 class FeedbackPrompt {
   static hydrator = storeInstance => null;
@@ -25,6 +27,8 @@ class FeedbackPrompt {
 
   @observable _isFeedbackDataLoading = false;
   @observable _feedbackDataError = false;
+
+  @observable _isFeedbackPositive = true;
 
   @observable _isSubmitFeedbackLoading = false;
   @observable _submitFeedbackError = false;
@@ -54,6 +58,8 @@ class FeedbackPrompt {
 
   @observable _feedbackData = [];
 
+  @observable _animatedFeedbackOptions = {};
+
   @computed
   get isFeedbackFooterVisible() {
     return this._isFeedbackFooterVisible;
@@ -64,6 +70,21 @@ class FeedbackPrompt {
     return this._isFeedbackFooterActive;
   }
 
+  @computed
+  get isFeedbackPositive() {
+    return this._isFeedbackPositive;
+  }
+
+  @action
+  setPositiveFeedbackMode = () => {
+    this._isFeedbackPositive = true;
+  };
+
+  @action
+  setNegativeFeedbackMode = () => {
+    this._isFeedbackPositive = false;
+  };
+
   @action
   setFooterVisibility = visibility =>
     (this._isFeedbackFooterVisible = visibility);
@@ -72,7 +93,7 @@ class FeedbackPrompt {
    * Check if the feedback footer should be displayed in the current screen
    */
   @action
-  trackScreen(prevState, currentState) {
+  trackScreen = (prevState, currentState) => {
     const currentScreen = getActiveRouteName(currentState);
     const prevScreen = getActiveRouteName(prevState);
     if (prevScreen !== currentScreen) {
@@ -89,13 +110,81 @@ class FeedbackPrompt {
         this.setFooterVisibility(false);
       }
     }
-  }
+  };
 
   @computed
   get feedbackOptions() {
     if (!this._feedbackData.length) return {};
     return toJS(this._feedbackData[0]);
   }
+
+  @computed
+  get animatedFeedbackOptions() {
+    if (_.isEmpty(this._animatedFeedbackOptions)) return {};
+    return toJS(this._animatedFeedbackOptions);
+  }
+
+  @action
+  resetAnimationFeedback = () => {
+    this._animatedFeedbackOptions = {};
+  };
+
+  @action
+  animateFeedbackOptions = () => {
+    const totalPositiveOptions =
+      this.feedbackOptions.items[0].options.length - 1;
+    const totalNegativeOptions =
+      this.feedbackOptions.items[1].options.length - 1;
+    this._animatedFeedbackOptions = {
+      ...this.feedbackOptions,
+      items: [
+        {
+          options: this.feedbackOptions.items[0].options.map(option => {
+            option.isVisible = false;
+            return option;
+          }),
+          title: this.feedbackOptions.items[0].title
+        },
+        {
+          options: this.feedbackOptions.items[1].options.map(option => {
+            option.isVisible = false;
+            return option;
+          }),
+          title: this.feedbackOptions.items[1].title
+        }
+      ]
+    };
+    let positiveCounter = 0;
+    let negativeCounter = 0;
+    const increasePositiveFeedbackOptions = index => {
+      const item = this.feedbackOptions.items[0].options[index];
+      item.isVisible = true;
+      const newFeedBackOptions = { ...this.animatedFeedbackOptions };
+      newFeedBackOptions.items[0].options[index] = item;
+      LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+      this._animatedFeedbackOptions = newFeedBackOptions;
+      if (positiveCounter >= totalPositiveOptions)
+        clearInterval(positiveAnimationInterval);
+      else positiveCounter++;
+    };
+    const increaseNegativeFeedbackOptions = index => {
+      const item = this.feedbackOptions.items[1].options[index];
+      item.isVisible = true;
+      const newFeedBackOptions = { ...this.animatedFeedbackOptions };
+      newFeedBackOptions.items[1].options[index] = item;
+      LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+      this._animatedFeedbackOptions = newFeedBackOptions;
+      if (negativeCounter >= totalNegativeOptions)
+        clearInterval(negativeAnimationInterval);
+      else negativeCounter++;
+    };
+    const positiveAnimationInterval = setInterval(() => {
+      increasePositiveFeedbackOptions(positiveCounter);
+    }, 300);
+    const negativeAnimationInterval = setInterval(() => {
+      increaseNegativeFeedbackOptions(negativeCounter);
+    }, 300);
+  };
 
   /**
    * Will fetch the data necessary to display the feedback footer

@@ -21,15 +21,15 @@ import Icon from "../../../Icon/Icon";
 class FeedbackOption extends Component {
   _feedbackInputRef = React.createRef();
 
-  panResponderStart = () => {
-    this.props.disableDragging();
-    return false;
-  };
+  // panResponderStart = () => {
+  //   this.props.disableDragging();
+  //   return false;
+  // };
 
-  panResponderMove = () => {
-    this.props.disableDragging();
-    return false;
-  };
+  // panResponderMove = () => {
+  //   this.props.disableDragging();
+  //   return false;
+  // };
 
   onEditText = feedbackText => {
     const { option, updateUserFeedback } = this.props;
@@ -108,23 +108,12 @@ class FeedbackOption extends Component {
 
     return (
       <KeyboardAvoidingView
-        style={
-          isKeyboardVisible
-            ? Platform.OS === constants.platformIos
-              ? { position: "absolute", bottom: keyboardHeight }
-              : numberOfOptions > 2
-                ? numberOfOptions === 3
-                  ? { position: "absolute", top: responsiveHeight(25) }
-                  : { position: "absolute", top: keyboardHeight }
-                : {}
-            : {}
-        }
         behavior={
           Platform.OS === constants.platformAndroid ? "height" : "padding"
         }
         enabled={false}
-        onStartShouldSetResponder={this.panResponderStart}
-        onMoveShouldSetResponder={this.panResponderMove}
+        // onStartShouldSetResponder={this.panResponderStart}
+        // onMoveShouldSetResponder={this.panResponderMove}
       >
         <OptionWrapper
           activeOpacity={0.8}

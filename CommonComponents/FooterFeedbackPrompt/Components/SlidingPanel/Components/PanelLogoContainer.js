@@ -7,33 +7,30 @@ import Icon from "../../../../Icon/Icon";
 
 const PanelLogoContainer = ({ titleIllustrationRef, isFeedbackPositive }) => {
   return (
-    <Fragment>
-      <View style={styles.logoBackgroundPlaceholder} />
-      <View style={styles.titleLogoContainer}>
-        <Animatable.Image
-          duration={1500}
-          ref={titleIllustrationRef}
-          source={
+    <View style={styles.titleLogoContainer}>
+      <Animatable.Image
+        duration={1500}
+        ref={titleIllustrationRef}
+        source={
+          isFeedbackPositive
+            ? constants.positiveBackgroundShape
+            : constants.negativeBackgroundShape
+        }
+        style={styles.containerTitleLogo}
+        resizeMode={"contain"}
+      />
+      <View style={styles.titleIcon}>
+        <Icon
+          name={
             isFeedbackPositive
-              ? constants.positiveBackgroundShape
-              : constants.negativeBackgroundShape
+              ? constants.thumbsUpIcon
+              : constants.thumbsDownIcon
           }
-          style={styles.containerTitleLogo}
-          resizeMode={"contain"}
+          size={30}
+          color={"white"}
         />
-        <View style={styles.titleIcon}>
-          <Icon
-            name={
-              isFeedbackPositive
-                ? constants.thumbsUpIcon
-                : constants.thumbsDownIcon
-            }
-            size={30}
-            color={"white"}
-          />
-        </View>
       </View>
-    </Fragment>
+    </View>
   );
 };
 
@@ -41,7 +38,10 @@ const styles = StyleSheet.create({
   titleLogoContainer: {
     height: 94,
     width: responsiveWidth(100),
-    alignItems: "center"
+    alignItems: "center",
+    backgroundColor: "white",
+    borderTopRightRadius: 5,
+    borderTopLeftRadius: 5
   },
   logoBackgroundPlaceholder: {
     height: 48, // added 4 to the actual height of the logo container to prevent lines in android

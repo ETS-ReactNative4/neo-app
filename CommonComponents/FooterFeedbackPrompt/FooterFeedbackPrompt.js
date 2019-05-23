@@ -12,6 +12,7 @@ import SlidingPanel from "./Components/SlidingPanel/SlidingPanel";
 import { inject, observer } from "mobx-react/custom";
 import _ from "lodash";
 import FeedbackOption from "./Components/FeedbackOption/FeedbackOption";
+import navigationService from "../../Services/navigationService/navigationService";
 
 @inject("feedbackPrompt")
 @observer
@@ -84,22 +85,36 @@ class FooterFeedbackPrompt extends Component {
   };
 
   positiveAction = () => {
-    this.openSlidingPanel();
-    this.rotateIllustration();
-    this.hideFooter().then(endState => {
-      this.setState({
-        isFeedbackPositive: true
-      });
-    });
+    const {
+      setPositiveFeedbackMode,
+      animateFeedbackOptions
+    } = this.props.feedbackPrompt;
+    animateFeedbackOptions();
+    setPositiveFeedbackMode();
+    navigationService.navigation._navigation.navigate("FeedbackPrompt");
+    // this.openSlidingPanel();
+    // this.rotateIllustration();
+    // this.hideFooter().then(endState => {
+    //   this.setState({
+    //     isFeedbackPositive: true
+    //   });
+    // });
   };
 
   negativeAction = () => {
-    this.openSlidingPanel();
-    this.hideFooter().then(endState => {
-      this.setState({
-        isFeedbackPositive: false
-      });
-    });
+    const {
+      setNegativeFeedbackMode,
+      animateFeedbackOptions
+    } = this.props.feedbackPrompt;
+    animateFeedbackOptions();
+    setNegativeFeedbackMode();
+    navigationService.navigation._navigation.navigate("FeedbackPrompt");
+    // this.openSlidingPanel();
+    // this.hideFooter().then(endState => {
+    //   this.setState({
+    //     isFeedbackPositive: false
+    //   });
+    // });
   };
 
   onPanelClosed = () => {
