@@ -87,34 +87,25 @@ class FooterFeedbackPrompt extends Component {
   positiveAction = () => {
     const {
       setPositiveFeedbackMode,
-      animateFeedbackOptions
+      animateFeedbackOptions,
+      feedbackPanelOpened
     } = this.props.feedbackPrompt;
+    feedbackPanelOpened();
     animateFeedbackOptions();
     setPositiveFeedbackMode();
     navigationService.navigation._navigation.navigate("FeedbackPrompt");
-    // this.openSlidingPanel();
-    // this.rotateIllustration();
-    // this.hideFooter().then(endState => {
-    //   this.setState({
-    //     isFeedbackPositive: true
-    //   });
-    // });
   };
 
   negativeAction = () => {
     const {
       setNegativeFeedbackMode,
-      animateFeedbackOptions
+      animateFeedbackOptions,
+      feedbackPanelOpened
     } = this.props.feedbackPrompt;
+    feedbackPanelOpened();
     animateFeedbackOptions();
     setNegativeFeedbackMode();
     navigationService.navigation._navigation.navigate("FeedbackPrompt");
-    // this.openSlidingPanel();
-    // this.hideFooter().then(endState => {
-    //   this.setState({
-    //     isFeedbackPositive: false
-    //   });
-    // });
   };
 
   onPanelClosed = () => {

@@ -8,6 +8,7 @@ import Icon from "../../../../Icon/Icon";
 const PanelLogoContainer = ({ titleIllustrationRef, isFeedbackPositive }) => {
   return (
     <View style={styles.titleLogoContainer}>
+      <View style={styles.logoBackgroundPlaceholder} />
       <Animatable.Image
         duration={1500}
         ref={titleIllustrationRef}
@@ -39,7 +40,7 @@ const styles = StyleSheet.create({
     height: 94,
     width: responsiveWidth(100),
     alignItems: "center",
-    backgroundColor: "white",
+    backgroundColor: "transparent",
     borderTopRightRadius: 5,
     borderTopLeftRadius: 5
   },

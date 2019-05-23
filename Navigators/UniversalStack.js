@@ -52,10 +52,10 @@ const UniversalStack = createStackNavigator(
   },
   {
     headerMode: "none",
-    // cardStyle: {
-    //   backgroundColor: 'rgba(0, 0, 0, 0)',
-    //   opacity: 1
-    // },
+    cardStyle: {
+      backgroundColor: "rgba(0, 0, 0, 0)",
+      opacity: 1
+    },
     navigationOptions: {
       gesturesEnabled: true,
       drawerLockMode: "locked-closed"

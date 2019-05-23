@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import {
   View,
   StyleSheet,
@@ -14,7 +14,10 @@ import PanelLogoContainer from "../../CommonComponents/FooterFeedbackPrompt/Comp
 import FeedbackOption from "../../CommonComponents/FooterFeedbackPrompt/Components/FeedbackOption/FeedbackOption";
 import constants from "../../constants/constants";
 import SimpleButton from "../../CommonComponents/SimpleButton/SimpleButton";
-import { responsiveWidth } from "react-native-responsive-dimensions";
+import {
+  responsiveHeight,
+  responsiveWidth
+} from "react-native-responsive-dimensions";
 import SlidingPanel from "../../CommonComponents/FooterFeedbackPrompt/Components/SlidingPanel/SlidingPanel";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 
@@ -23,7 +26,10 @@ import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 @observer
 class FeedbackPrompt extends Component {
   static navigationOptions = {
-    header: null
+    header: null,
+    gestureResponseDistance: {
+      vertical: responsiveHeight(50)
+    }
   };
 
   _panelRef = React.createRef();
@@ -82,12 +88,18 @@ class FeedbackPrompt extends Component {
   };
 
   onPanelClosed = () => {
-    const { isFeedbackPositive } = this.props.feedbackPrompt;
+    const {
+      isFeedbackPositive,
+      feedbackPanelClosed
+    } = this.props.feedbackPrompt;
+    feedbackPanelClosed();
     const userFeedback = isFeedbackPositive
       ? this.state.positiveUserFeedback
       : this.state.negativeUserFeedback;
     if (!_.isEmpty(userFeedback)) {
       this.submitFeedback();
+    } else {
+      this.props.navigation.goBack();
     }
   };
 
@@ -133,9 +145,13 @@ class FeedbackPrompt extends Component {
   };
 
   componentWillUnmount() {
-    const { resetAnimationFeedback } = this.props.feedbackPrompt;
+    const {
+      resetAnimationFeedback,
+      feedbackPanelClosed
+    } = this.props.feedbackPrompt;
     resetAnimationFeedback();
     this.onPanelClosed();
+    feedbackPanelClosed();
     this._keyboardDidShowListener && this._keyboardDidShowListener.remove();
     this._keyboardDidHideListener && this._keyboardDidHideListener.remove();
   }
@@ -194,100 +210,120 @@ class FeedbackPrompt extends Component {
       : this.state.negativeUserFeedback;
 
     return (
-      <SafeAreaView style={styles.feedbackPromptContainer}>
+      <Fragment>
         <TouchableWithoutFeedback
-          onPress={Keyboard.dismiss}
-          style={styles.touchableContainer}
+          onPress={this.onPanelClosed}
+          style={styles.feedbackPromptContainer}
         >
-          <View
-            style={[
-              styles.slidingContainer,
-              isKeyboardVisible && Platform.OS === constants.platformIos
-                ? { position: "absolute", bottom: keyboardSpace }
-                : {}
-            ]}
-          >
-            <PanelLogoContainer
-              isFeedbackPositive={isFeedbackPositive}
-              titleIllustrationRef={this._titleIllustrationRef}
-            />
-            <View style={styles.slidingContainerContentSection}>
-              <Text style={styles.slidingContainerTitle}>{items.title}</Text>
-              <Text style={styles.slidingContainerInfo}>
-                {isFeedbackPositive
-                  ? "Pick your favourite moments of the day"
-                  : "Where did we go wrong?"}
-              </Text>
-              {items.options.map((option, optionIndex) => {
-                if (!option.isVisible) {
-                  return (
-                    <View key={optionIndex} style={styles.optionPlaceholder} />
-                  );
-                }
-                if (!focusedOption || focusedOption === option.identifier) {
-                  return (
-                    <FeedbackOption
-                      key={optionIndex}
-                      option={option}
-                      userFeedback={userFeedback}
-                      updateUserFeedback={this.updateUserFeedback}
-                      isFocusedOption={focusedOption === option.identifier}
-                      focusOption={this.focusOption}
-                      blurOption={this.blurOption}
-                      keyboardHeight={keyboardSpace}
-                      isKeyboardVisible={isKeyboardVisible}
-                      unselectOption={this.unselectOption}
-                      enableDragging={this.enableDragging}
-                      numberOfOptions={items.options.length}
-                      disableDragging={this.disableDragging}
-                    />
-                  );
-                } else {
-                  return null;
-                }
-              })}
-              {!_.isEmpty(userFeedback) &&
-              !isKeyboardVisible &&
-              !focusedOption ? (
-                <SimpleButton
-                  text={"SUBMIT"}
-                  textColor={constants.seventhColor}
-                  action={this.clickSubmit}
-                  textStyle={{
-                    ...constants.fontCustom(constants.primarySemiBold, 17)
-                  }}
-                  containerStyle={{
-                    backgroundColor: "transparent",
-                    marginTop: 16,
-                    width: responsiveWidth(80)
-                  }}
+          <View style={styles.feedbackPromptContainer}>
+            <View style={styles.backgroundPlaceholder} />
+            <TouchableWithoutFeedback
+              onPress={Keyboard.dismiss}
+              style={styles.touchableContainer}
+            >
+              <View
+                style={[
+                  styles.slidingContainer,
+                  isKeyboardVisible && Platform.OS === constants.platformIos
+                    ? { position: "absolute", bottom: keyboardSpace }
+                    : {}
+                ]}
+              >
+                <PanelLogoContainer
+                  isFeedbackPositive={isFeedbackPositive}
+                  titleIllustrationRef={this._titleIllustrationRef}
                 />
-              ) : (
-                <View style={styles.buttonPlaceholder} />
-              )}
-            </View>
+                <View style={styles.slidingContainerContentSection}>
+                  <Text style={styles.slidingContainerTitle}>
+                    {items.title}
+                  </Text>
+                  <Text style={styles.slidingContainerInfo}>
+                    {isFeedbackPositive
+                      ? "Pick your favourite moments of the day"
+                      : "Where did we go wrong?"}
+                  </Text>
+                  {items.options.map((option, optionIndex) => {
+                    if (!option.isVisible) {
+                      return (
+                        <View
+                          key={optionIndex}
+                          style={styles.optionPlaceholder}
+                        />
+                      );
+                    }
+                    if (!focusedOption || focusedOption === option.identifier) {
+                      return (
+                        <FeedbackOption
+                          key={optionIndex}
+                          option={option}
+                          userFeedback={userFeedback}
+                          updateUserFeedback={this.updateUserFeedback}
+                          isFocusedOption={focusedOption === option.identifier}
+                          focusOption={this.focusOption}
+                          blurOption={this.blurOption}
+                          keyboardHeight={keyboardSpace}
+                          isKeyboardVisible={isKeyboardVisible}
+                          unselectOption={this.unselectOption}
+                          enableDragging={this.enableDragging}
+                          numberOfOptions={items.options.length}
+                          disableDragging={this.disableDragging}
+                        />
+                      );
+                    } else {
+                      return null;
+                    }
+                  })}
+                  {!_.isEmpty(userFeedback) &&
+                  !isKeyboardVisible &&
+                  !focusedOption ? (
+                    <SimpleButton
+                      text={"SUBMIT"}
+                      textColor={constants.seventhColor}
+                      action={this.clickSubmit}
+                      textStyle={{
+                        ...constants.fontCustom(constants.primarySemiBold, 17)
+                      }}
+                      containerStyle={{
+                        backgroundColor: "transparent",
+                        marginTop: 16,
+                        width: responsiveWidth(80)
+                      }}
+                    />
+                  ) : (
+                    <View style={styles.buttonPlaceholder} />
+                  )}
+                </View>
+              </View>
+            </TouchableWithoutFeedback>
           </View>
         </TouchableWithoutFeedback>
-      </SafeAreaView>
+      </Fragment>
     );
   }
 }
 
 const styles = StyleSheet.create({
+  backgroundPlaceholder: {
+    width: responsiveWidth(100),
+    height: responsiveHeight(50),
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    backgroundColor: "white"
+  },
   feedbackPromptContainer: {
     flex: 1,
-    backgroundColor: "white",
+    backgroundColor: "transparent",
     alignItems: "center",
     justifyContent: "center"
   },
   touchableContainer: {
     flex: 1,
-    backgroundColor: "red",
+    backgroundColor: "white",
     alignItems: "center",
     justifyContent: "center"
   },
   slidingContainer: {
-    backgroundColor: "white",
     alignItems: "center",
     justifyContent: "center"
   },

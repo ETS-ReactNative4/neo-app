@@ -15,6 +15,9 @@ class FeedbackPrompt {
     this._isFeedbackDataLoading = false;
     this._feedbackDataError = false;
 
+    this._isFeedbackPositive = true;
+    this._isFeedbackPanelVisible = false;
+
     this._isSubmitFeedbackLoading = false;
     this._submitFeedbackError = false;
 
@@ -23,12 +26,20 @@ class FeedbackPrompt {
     this._isFeedbackFooterActive = true;
 
     this._feedbackData = [];
+    this._animatedFeedbackOptions = {};
   };
 
   @observable _isFeedbackDataLoading = false;
   @observable _feedbackDataError = false;
 
   @observable _isFeedbackPositive = true;
+
+  /**
+   * This flag is used to let other screens know if the feedback panel is visible
+   * - Used in the tripfeed screen to show an overlay that helps with background for the
+   * panel dragging animation
+   */
+  @observable _isFeedbackPanelVisible = false;
 
   @observable _isSubmitFeedbackLoading = false;
   @observable _submitFeedbackError = false;
@@ -74,6 +85,21 @@ class FeedbackPrompt {
   get isFeedbackPositive() {
     return this._isFeedbackPositive;
   }
+
+  @computed
+  get isFeedbackPanelVisible() {
+    return this._isFeedbackPanelVisible;
+  }
+
+  @action
+  feedbackPanelOpened = () => {
+    this._isFeedbackPanelVisible = true;
+  };
+
+  @action
+  feedbackPanelClosed = () => {
+    this._isFeedbackPanelVisible = false;
+  };
 
   @action
   setPositiveFeedbackMode = () => {
@@ -124,17 +150,30 @@ class FeedbackPrompt {
     return toJS(this._animatedFeedbackOptions);
   }
 
+  /**
+   * Resets the animation for the feedback options
+   */
   @action
   resetAnimationFeedback = () => {
     this._animatedFeedbackOptions = {};
   };
 
+  /**
+   * Used for animating the feedback options when the user opens the feedback panel
+   * - Will load the feedback options in intervals of 300ms
+   * - Will also set the layout animations for the options
+   * - Requires the animation to be reset to be used again
+   */
   @action
   animateFeedbackOptions = () => {
     const totalPositiveOptions =
       this.feedbackOptions.items[0].options.length - 1;
     const totalNegativeOptions =
       this.feedbackOptions.items[1].options.length - 1;
+    /**
+     * Creates an empty feedback options array. Data will be added for
+     * positive and negative feedback in the interval functions
+     */
     this._animatedFeedbackOptions = {
       ...this.feedbackOptions,
       items: [
@@ -154,8 +193,13 @@ class FeedbackPrompt {
         }
       ]
     };
+
     let positiveCounter = 0;
     let negativeCounter = 0;
+
+    /**
+     * This will add the positive feedback options
+     */
     const increasePositiveFeedbackOptions = index => {
       const item = this.feedbackOptions.items[0].options[index];
       item.isVisible = true;
@@ -167,6 +211,10 @@ class FeedbackPrompt {
         clearInterval(positiveAnimationInterval);
       else positiveCounter++;
     };
+
+    /**
+     * This will add the negative feedback options
+     */
     const increaseNegativeFeedbackOptions = index => {
       const item = this.feedbackOptions.items[1].options[index];
       item.isVisible = true;
@@ -178,6 +226,7 @@ class FeedbackPrompt {
         clearInterval(negativeAnimationInterval);
       else negativeCounter++;
     };
+
     const positiveAnimationInterval = setInterval(() => {
       increasePositiveFeedbackOptions(positiveCounter);
     }, 300);
