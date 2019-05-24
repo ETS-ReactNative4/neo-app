@@ -10,27 +10,25 @@ import {
   Keyboard,
   Platform
 } from "react-native";
-import PropTypes from "prop-types";
-import {
-  responsiveHeight,
-  responsiveWidth
-} from "react-native-responsive-dimensions";
+import { responsiveWidth } from "react-native-responsive-dimensions";
 import constants from "../../../constants/constants";
 import Icon from "../../../CommonComponents/Icon/Icon";
 import SimpleButton from "../../../CommonComponents/SimpleButton/SimpleButton";
+import PropTypes from "prop-types";
+import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraProps";
 
 class FeedbackOption extends Component {
+  static propTypes = forbidExtraProps({
+    option: PropTypes.object.isRequired,
+    userFeedback: PropTypes.object.isRequired,
+    unselectOption: PropTypes.func.isRequired,
+    isFocusedOption: PropTypes.bool.isRequired,
+    updateUserFeedback: PropTypes.func.isRequired,
+    focusOption: PropTypes.func.isRequired,
+    blurOption: PropTypes.func.isRequired
+  });
+
   _feedbackInputRef = React.createRef();
-
-  // panResponderStart = () => {
-  //   this.props.disableDragging();
-  //   return false;
-  // };
-
-  // panResponderMove = () => {
-  //   this.props.disableDragging();
-  //   return false;
-  // };
 
   onEditText = feedbackText => {
     const { option, updateUserFeedback } = this.props;
@@ -83,11 +81,8 @@ class FeedbackOption extends Component {
     const {
       option,
       userFeedback,
-      keyboardHeight,
-      isKeyboardVisible,
       unselectOption,
-      isFocusedOption,
-      numberOfOptions
+      isFocusedOption
     } = this.props;
 
     const isOptionChosen = typeof userFeedback[option.identifier] === "string";

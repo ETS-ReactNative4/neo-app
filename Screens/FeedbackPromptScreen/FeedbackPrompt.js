@@ -7,7 +7,8 @@ import {
   Text,
   SafeAreaView,
   TouchableWithoutFeedback,
-  LayoutAnimation
+  LayoutAnimation,
+  BackHandler
 } from "react-native";
 import { inject, observer } from "mobx-react/custom";
 import _ from "lodash";
@@ -32,9 +33,9 @@ class FeedbackPrompt extends Component {
     }
   };
 
-  _panelRef = React.createRef();
-  _footerRef = React.createRef();
   _titleIllustrationRef = React.createRef();
+  _didFocusSubscription;
+  _willBlurSubscription;
   _keyboardDidShowListener;
   _keyboardDidHideListener;
 
@@ -43,13 +44,27 @@ class FeedbackPrompt extends Component {
     negativeUserFeedback: {},
     isKeyboardVisible: false,
     keyboardSpace: 0,
-    focusedOption: "",
-    isDraggingEnabled: true
+    focusedOption: ""
   };
 
-  enableDragging = () => this.setState({ isDraggingEnabled: true });
+  constructor(props) {
+    super(props);
 
-  disableDragging = () => this.setState({ isDraggingEnabled: false });
+    this._didFocusSubscription = props.navigation.addListener(
+      "didFocus",
+      () => {
+        this._keyboardDidShowListener = Keyboard.addListener(
+          Platform.OS === "ios" ? "keyboardWillChangeFrame" : "keyboardDidShow",
+          this.keyboardWillShow
+        );
+        this._keyboardDidHideListener = Keyboard.addListener(
+          Platform.OS === "ios" ? "keyboardWillHide" : "keyboardDidHide",
+          this.keyboardWillHide
+        );
+        BackHandler.addEventListener("hardwareBackPress", this.goBack);
+      }
+    );
+  }
 
   focusOption = identifier => this.setState({ focusedOption: identifier });
 
@@ -66,21 +81,14 @@ class FeedbackPrompt extends Component {
       delete negativeUserFeedback[identifier];
       this.setState({ negativeUserFeedback });
     }
-    this.enableDragging();
-  };
-
-  closeSlidingPanel = () => {
-    this._panelRef.current.hide();
   };
 
   rotateIllustration = ({ isReverse = false } = {}) => {
     if (!isReverse) {
-      // this._titleIllustrationRef.current.tada();
       this._titleIllustrationRef.current.transitionTo({
         rotate: "180deg"
       });
     } else {
-      // this._titleIllustrationRef.current.rotate();
       this._titleIllustrationRef.current.transitionTo({
         rotate: "0deg"
       });
@@ -117,13 +125,13 @@ class FeedbackPrompt extends Component {
 
   componentDidMount() {
     this.rotateIllustration();
-    this._keyboardDidShowListener = Keyboard.addListener(
-      Platform.OS === "ios" ? "keyboardWillChangeFrame" : "keyboardDidShow",
-      this.keyboardWillShow
-    );
-    this._keyboardDidHideListener = Keyboard.addListener(
-      Platform.OS === "ios" ? "keyboardWillHide" : "keyboardDidHide",
-      this.keyboardWillHide
+    this._willBlurSubscription = this.props.navigation.addListener(
+      "willBlur",
+      () => {
+        this._keyboardDidShowListener && this._keyboardDidShowListener.remove();
+        this._keyboardDidHideListener && this._keyboardDidHideListener.remove();
+        BackHandler.removeEventListener("hardwareBackPress", this.goBack);
+      }
     );
   }
 
@@ -137,7 +145,6 @@ class FeedbackPrompt extends Component {
 
   keyboardWillHide = () => {
     this.blurOption();
-    this.enableDragging();
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     this.setState({
       isKeyboardVisible: false,
@@ -155,6 +162,7 @@ class FeedbackPrompt extends Component {
     feedbackPanelClosed();
     this._keyboardDidShowListener && this._keyboardDidShowListener.remove();
     this._keyboardDidHideListener && this._keyboardDidHideListener.remove();
+    BackHandler.removeEventListener("hardwareBackPress", this.goBack);
   }
 
   clickSubmit = () => {
@@ -189,6 +197,11 @@ class FeedbackPrompt extends Component {
     };
     const submitApiURL = feedbackOptions.url;
     submitFeedback(requestObject, submitApiURL);
+  };
+
+  goBack = () => {
+    this.onPanelClosed();
+    return true;
   };
 
   render() {
@@ -264,12 +277,7 @@ class FeedbackPrompt extends Component {
                           isFocusedOption={focusedOption === option.identifier}
                           focusOption={this.focusOption}
                           blurOption={this.blurOption}
-                          keyboardHeight={keyboardSpace}
-                          isKeyboardVisible={isKeyboardVisible}
                           unselectOption={this.unselectOption}
-                          enableDragging={this.enableDragging}
-                          numberOfOptions={items.options.length}
-                          disableDragging={this.disableDragging}
                         />
                       );
                     } else {

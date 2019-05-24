@@ -4,7 +4,13 @@ import * as Animatable from "react-native-animatable";
 import constants from "../../../constants/constants";
 import { responsiveWidth } from "react-native-responsive-dimensions";
 import Icon from "../../../CommonComponents/Icon/Icon";
+import PropTypes from "prop-types";
+import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraProps";
 
+/**
+ * Contains the thumps up logo for the feedback panel
+ * It is an animatable components hence ref should be passed to the parent
+ */
 const PanelLogoContainer = ({ titleIllustrationRef, isFeedbackPositive }) => {
   return (
     <View style={styles.titleLogoContainer}>
@@ -19,6 +25,7 @@ const PanelLogoContainer = ({ titleIllustrationRef, isFeedbackPositive }) => {
         }
         style={styles.containerTitleLogo}
         resizeMode={"contain"}
+        useNativeDriver={true}
       />
       <View style={styles.titleIcon}>
         <Icon
@@ -34,6 +41,11 @@ const PanelLogoContainer = ({ titleIllustrationRef, isFeedbackPositive }) => {
     </View>
   );
 };
+
+PanelLogoContainer.propTypes = forbidExtraProps({
+  titleIllustrationRef: PropTypes.object.isRequired,
+  isFeedbackPositive: PropTypes.bool.isRequired
+});
 
 const styles = StyleSheet.create({
   titleLogoContainer: {
