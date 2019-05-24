@@ -72,6 +72,7 @@ const appText = {
     title: "Sit Tight",
     message: "Become a travel blogger on the go!"
   },
+  bookingFailedText: "No Voucher available",
   bookingProcessText: {
     title: "Almost there!",
     message: "Your booking is in progress.",

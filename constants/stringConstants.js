@@ -63,6 +63,8 @@ const stringConstants = {
   activityVoucherType: "ACTIVITY",
   transferVoucherType: "TRANSFER",
 
+  voucherErrorStatus: "ERROR",
+
   /**
    * Transfer Modes
    * used to detect `transferMode` in `intercityTransferSlotDetailVO`
