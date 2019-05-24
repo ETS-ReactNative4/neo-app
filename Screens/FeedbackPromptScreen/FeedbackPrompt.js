@@ -6,7 +6,8 @@ import {
   Platform,
   Text,
   SafeAreaView,
-  TouchableWithoutFeedback
+  TouchableWithoutFeedback,
+  LayoutAnimation
 } from "react-native";
 import { inject, observer } from "mobx-react/custom";
 import _ from "lodash";
@@ -129,6 +130,7 @@ class FeedbackPrompt extends Component {
   }
 
   keyboardWillShow = e => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     this.setState({
       isKeyboardVisible: true,
       keyboardSpace: e.endCoordinates.height
@@ -138,6 +140,7 @@ class FeedbackPrompt extends Component {
   keyboardWillHide = () => {
     this.blurOption();
     this.enableDragging();
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     this.setState({
       isKeyboardVisible: false,
       keyboardSpace: 0

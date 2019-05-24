@@ -17,6 +17,7 @@ import {
 } from "react-native-responsive-dimensions";
 import constants from "../../../../constants/constants";
 import Icon from "../../../Icon/Icon";
+import SimpleButton from "../../../SimpleButton/SimpleButton";
 
 class FeedbackOption extends Component {
   _feedbackInputRef = React.createRef();
@@ -47,6 +48,11 @@ class FeedbackOption extends Component {
     }, 500);
   };
 
+  onInputSubmit = () => {
+    this.submitText();
+    this.toggleSelection();
+  };
+
   toggleSelection = () => {
     const {
       focusOption,
@@ -58,15 +64,11 @@ class FeedbackOption extends Component {
     const isOptionChosen = typeof userFeedback[option.identifier] === "string";
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     if (!isFocusedOption) {
-      // if (Platform.OS === constants.platformIos) {
-      //   this._feedbackInputRef.current.focus();
-      // } else {
       // In Android the input field looses focus due to animation.
       // Need to wait for the animation to complete before focus.
       setTimeout(() => {
         this._feedbackInputRef.current.focus();
       }, 500);
-      // }
       focusOption(option.identifier);
       if (!isOptionChosen) {
         this.onEditText("");
@@ -111,9 +113,7 @@ class FeedbackOption extends Component {
         behavior={
           Platform.OS === constants.platformAndroid ? "height" : "padding"
         }
-        enabled={false}
-        // onStartShouldSetResponder={this.panResponderStart}
-        // onMoveShouldSetResponder={this.panResponderMove}
+        enabled={false} // Set to false - otherwise android will push the entire screen above the keyboard
       >
         <OptionWrapper
           activeOpacity={0.8}
@@ -164,17 +164,30 @@ class FeedbackOption extends Component {
             </CheckBoxWrapper>
           )}
           <Text
-            numberOfLines={2}
+            numberOfLines={1}
             ellipsizeMode={"tail"}
             style={[
               styles.optionText,
               isOptionChosen
                 ? styles.optionTextSelected
-                : styles.optionTextUnselected
+                : styles.optionTextUnselected,
+              isFocusedOption
+                ? styles.optionTextFocused
+                : styles.optionTextBlurred
             ]}
           >
             {option.text}
           </Text>
+          {isFocusedOption ? (
+            <SimpleButton
+              text={"Done"}
+              containerStyle={{ width: 48 }}
+              underlayColor={"transparent"}
+              action={this.onInputSubmit}
+              color={"transparent"}
+              textColor={"white"}
+            />
+          ) : null}
         </OptionWrapper>
         <View
           style={
@@ -196,10 +209,7 @@ class FeedbackOption extends Component {
             value={feedbackText}
             multiline={true}
             blurOnSubmit={true}
-            onSubmitEditing={() => {
-              this.submitText();
-              this.toggleSelection();
-            }}
+            onSubmitEditing={this.onInputSubmit}
             editable={isFocusedOption}
             placeholderTextColor={
               isFocusedOption ? constants.shade2 : "transparent"
@@ -258,9 +268,23 @@ const styles = StyleSheet.create({
   },
 
   optionText: {
-    width: containerWidth - 26 - 16 - 8,
-    ...constants.fontCustom(constants.primaryRegular, 16),
-    padding: 16
+    padding: 16,
+    ...constants.fontCustom(constants.primaryRegular, 16)
+  },
+  optionTextFocused: {
+    width:
+      containerWidth -
+      26 /*margin size*/ -
+      16 /*Icon size*/ -
+      8 /*padding size*/ -
+      50 /*Done Button size*/
+  },
+  optionTextBlurred: {
+    width:
+      containerWidth -
+      26 /*margin size*/ -
+      16 /*Icon size*/ -
+      8 /*padding size*/
   },
   optionTextSelected: {
     color: "white"
