@@ -258,8 +258,9 @@ class FeedbackPrompt extends Component {
                   </Text>
                   <Text style={styles.slidingContainerInfo}>
                     {isFeedbackPositive
-                      ? "Pick your favourite moments of the day"
-                      : "Where did we go wrong?"}
+                      ? feedbackOptions.desc ||
+                        "Pick your favourite moments of the day"
+                      : feedbackOptions.desc || "Where did we go wrong?"}
                   </Text>
                   {items.options.map((option, optionIndex) => {
                     if (!option.isVisible) {

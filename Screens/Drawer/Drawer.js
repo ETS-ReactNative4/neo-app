@@ -35,6 +35,18 @@ let _onNotificationReceived, _onNotificationDisplayed, _onNotificationOpened;
 @inject("appState")
 @observer
 class Drawer extends Component {
+  static getDerivedStateFromProps(props) {
+    if (props.appState && props.navigation && props.navigation.state) {
+      const { onDrawerOpen, onDrawerClose } = props.appState;
+
+      if (props.navigation.state.isDrawerOpen) {
+        onDrawerOpen();
+      } else {
+        onDrawerClose();
+      }
+    }
+  }
+
   static launchApp = () => {
     // clear notification listeners if active
     _onNotificationReceived && _onNotificationReceived();
@@ -97,16 +109,6 @@ class Drawer extends Component {
       }
     );
   };
-
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    const { onDrawerOpen, onDrawerClose } = this.props.appState;
-
-    if (nextProps.navigation.state.isDrawerOpen) {
-      onDrawerOpen();
-    } else {
-      onDrawerClose();
-    }
-  }
 
   render() {
     const menuItems = [
