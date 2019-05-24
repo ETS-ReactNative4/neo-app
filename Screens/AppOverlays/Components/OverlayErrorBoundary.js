@@ -3,6 +3,9 @@ import { logError } from "../../../Services/errorLogger/errorLogger";
 import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraProps";
 import PropTypes from "prop-types";
 
+/**
+ * Error Boundary used to catch errors happening in app overlay components
+ */
 class OverlayErrorBoundary extends Component {
   static propTypes = forbidExtraProps({
     children: PropTypes.node.isRequired

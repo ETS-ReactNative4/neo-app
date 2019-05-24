@@ -19,7 +19,6 @@ import {
   responsiveHeight,
   responsiveWidth
 } from "react-native-responsive-dimensions";
-import SlidingPanel from "../../CommonComponents/FooterFeedbackPrompt/Components/SlidingPanel/SlidingPanel";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 
 @ErrorBoundary()
