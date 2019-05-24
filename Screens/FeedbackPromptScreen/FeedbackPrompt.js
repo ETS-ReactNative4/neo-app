@@ -124,7 +124,10 @@ class FeedbackPrompt extends Component {
   };
 
   componentDidMount() {
-    this.rotateIllustration();
+    const { isFeedbackPositive } = this.props.feedbackPrompt;
+    if (isFeedbackPositive) {
+      this.rotateIllustration();
+    }
     this._willBlurSubscription = this.props.navigation.addListener(
       "willBlur",
       () => {
