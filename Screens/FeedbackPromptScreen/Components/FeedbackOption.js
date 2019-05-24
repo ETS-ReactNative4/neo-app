@@ -17,6 +17,13 @@ import SimpleButton from "../../../CommonComponents/SimpleButton/SimpleButton";
 import PropTypes from "prop-types";
 import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraProps";
 
+/**
+ * This contains the Feedback option component that lets user select and type the feedbacks
+ * This component has 3 states
+ * - Unselected State
+ * - Focused State
+ * - Selected State
+ */
 class FeedbackOption extends Component {
   static propTypes = forbidExtraProps({
     option: PropTypes.object.isRequired,
@@ -82,11 +89,17 @@ class FeedbackOption extends Component {
       option,
       userFeedback,
       unselectOption,
-      isFocusedOption
+      isFocusedOption // Flag to check if the component is focused
     } = this.props;
 
+    /**
+     * Flag to check if the component is selected/chosen
+     */
     const isOptionChosen = typeof userFeedback[option.identifier] === "string";
 
+    /**
+     * Focused option should not be clickable
+     */
     const OptionWrapper = isFocusedOption ? View : TouchableOpacity;
     const OptionWrapperProps = isFocusedOption
       ? {}
@@ -94,6 +107,9 @@ class FeedbackOption extends Component {
           onPress: this.toggleSelection
         };
 
+    /**
+     * Only selected option's checkbox should be clickable
+     */
     const CheckBoxWrapper = isOptionChosen ? TouchableOpacity : View;
     const checkBoxProps = isOptionChosen
       ? {
