@@ -82,6 +82,9 @@ const transitionConfig = () => {
         case "FlightVoucher":
           return slideFromBottom;
 
+        case "FeedbackPrompt":
+          return slideFromBottom;
+
         default:
           return slideFromRight;
       }

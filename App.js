@@ -1,9 +1,11 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { UIManager, NetInfo } from "react-native";
 import { Provider } from "mobx-react";
 import store from "./mobx/Store";
 import { setNavigationService } from "./Services/navigationService/navigationService";
-import { updateStoreService } from "./Services/storeService/storeService";
+import storeService, {
+  updateStoreService
+} from "./Services/storeService/storeService";
 import AppNavigator from "./Navigators/AppNavigator";
 import {
   disableAnalytics,
@@ -12,6 +14,8 @@ import {
 } from "./Services/analytics/analyticsService";
 import ErrorBoundary from "./CommonComponents/ErrorBoundary/ErrorBoundary";
 import { isProduction } from "./Services/getEnvironmentDetails/getEnvironmentDetails";
+import FooterFeedbackPrompt from "./CommonComponents/FooterFeedbackPrompt/FooterFeedbackPrompt";
+import AppOverlays from "./Screens/AppOverlays/AppOverlays";
 
 @ErrorBoundary({ isRoot: true })
 class App extends Component {
@@ -46,14 +50,22 @@ class App extends Component {
     );
   }
 
+  _navigationStateChange = (prevState, currentState) => {
+    store.feedbackPrompt.trackScreen(prevState, currentState);
+    screenTracker(prevState, currentState);
+  };
+
   render() {
     updateStoreService(store);
     return (
       <Provider {...store}>
-        <AppNavigator
-          ref={setNavigationService}
-          onNavigationStateChange={screenTracker}
-        />
+        <Fragment>
+          <AppNavigator
+            ref={setNavigationService}
+            onNavigationStateChange={this._navigationStateChange}
+          />
+          <AppOverlays />
+        </Fragment>
       </Provider>
     );
   }

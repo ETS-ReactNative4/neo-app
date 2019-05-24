@@ -139,6 +139,10 @@ const appText = {
   },
   pdfViewerErrorText: "Unable to load pdf!",
   serverErrorText: "Unable to connect to the server",
+  feedbackFooterText: {
+    submitSuccessful: "Thanks for the feedback!",
+    submitFailed: "Unable to record feedback."
+  },
   serverResponseErrorText: "Something went wrong with the server"
 };
 

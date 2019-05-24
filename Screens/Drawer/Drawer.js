@@ -32,8 +32,21 @@ let _onNotificationReceived, _onNotificationDisplayed, _onNotificationOpened;
 
 @inject("userStore")
 @inject("infoStore")
+@inject("appState")
 @observer
 class Drawer extends Component {
+  static getDerivedStateFromProps(props) {
+    if (props.appState && props.navigation && props.navigation.state) {
+      const { onDrawerOpen, onDrawerClose } = props.appState;
+
+      if (props.navigation.state.isDrawerOpen) {
+        onDrawerOpen();
+      } else {
+        onDrawerClose();
+      }
+    }
+  }
+
   static launchApp = () => {
     // clear notification listeners if active
     _onNotificationReceived && _onNotificationReceived();

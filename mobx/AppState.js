@@ -364,6 +364,20 @@ class AppState {
   clearChatNotification = () => {
     this._isChatNotificationActive = false;
   };
+
+  /**
+   * Drawer open status
+   */
+  @observable _isDrawerOpen = false;
+
+  @computed
+  get isDrawerOpen() {
+    return this._isDrawerOpen;
+  }
+
+  @action onDrawerOpen = () => (this._isDrawerOpen = true);
+
+  @action onDrawerClose = () => (this._isDrawerOpen = false);
 }
 
 export default AppState;

@@ -59,6 +59,8 @@ const imageAssets = {
   packageTriangleBlue: require("../assets/images/shapes/package-shape-blue.png"),
   packageTriangleGold: require("../assets/images/shapes/package-shape-gold.png"),
   quotationMarkImage: require("../assets/images/shapes/quotation-mark.png"),
+  positiveBackgroundShape: require("../assets/images/shapes/positive-background.png"),
+  negativeBackgroundShape: require("../assets/images/shapes/negative-background.png"),
 
   tripFeedIcon: "trip-feed",
   tripFeedSelectedIcon: "trip-feed-active",
