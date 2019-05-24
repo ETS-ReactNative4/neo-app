@@ -18,6 +18,7 @@ import FeedBackPositiveExplosion from "./Components/FeedBackSwiper/Components/Fe
 import DayAhead from "./Components/DayAhead/DayAhead";
 import DayAheadLite from "./Components/DayAheadLite/DayAheadLite";
 import FeedbackPanelOverlay from "./Components/FeedbackPanelOverlay";
+import pullToRefresh from "../../Services/refresh/pullToRefresh";
 
 @ErrorBoundary({ isRoot: true })
 @inject("tripFeedStore")
@@ -99,6 +100,10 @@ class TripFeed extends Component {
     const { generateTripFeed } = this.props.tripFeedStore;
     const { fetchFeedBackData } = this.props.feedbackPrompt;
     generateTripFeed();
+    pullToRefresh({
+      itinerary: true,
+      voucher: true
+    });
     setTimeout(() => {
       fetchFeedBackData();
     }, 2000);
