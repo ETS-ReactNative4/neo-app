@@ -54,11 +54,15 @@ class FeedbackPrompt extends Component {
       "didFocus",
       () => {
         this._keyboardDidShowListener = Keyboard.addListener(
-          Platform.OS === "ios" ? "keyboardWillChangeFrame" : "keyboardDidShow",
+          Platform.OS === constants.platformIos
+            ? "keyboardWillChangeFrame"
+            : "keyboardDidShow",
           this.keyboardWillShow
         );
         this._keyboardDidHideListener = Keyboard.addListener(
-          Platform.OS === "ios" ? "keyboardWillHide" : "keyboardDidHide",
+          Platform.OS === constants.platformIos
+            ? "keyboardWillHide"
+            : "keyboardDidHide",
           this.keyboardWillHide
         );
         BackHandler.addEventListener("hardwareBackPress", this.goBack);
