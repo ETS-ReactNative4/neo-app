@@ -1,9 +1,9 @@
 import React, { Fragment } from "react";
 import { Image, View, StyleSheet } from "react-native";
 import * as Animatable from "react-native-animatable";
-import constants from "../../../../../constants/constants";
+import constants from "../../../constants/constants";
 import { responsiveWidth } from "react-native-responsive-dimensions";
-import Icon from "../../../../Icon/Icon";
+import Icon from "../../../CommonComponents/Icon/Icon";
 
 const PanelLogoContainer = ({ titleIllustrationRef, isFeedbackPositive }) => {
   return (

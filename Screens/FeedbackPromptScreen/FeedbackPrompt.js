@@ -11,8 +11,8 @@ import {
 } from "react-native";
 import { inject, observer } from "mobx-react/custom";
 import _ from "lodash";
-import PanelLogoContainer from "../../CommonComponents/FooterFeedbackPrompt/Components/SlidingPanel/Components/PanelLogoContainer";
-import FeedbackOption from "../../CommonComponents/FooterFeedbackPrompt/Components/FeedbackOption/FeedbackOption";
+import PanelLogoContainer from "./Components/PanelLogoContainer";
+import FeedbackOption from "./Components/FeedbackOption";
 import constants from "../../constants/constants";
 import SimpleButton from "../../CommonComponents/SimpleButton/SimpleButton";
 import {

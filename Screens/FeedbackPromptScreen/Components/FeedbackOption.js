@@ -15,9 +15,9 @@ import {
   responsiveHeight,
   responsiveWidth
 } from "react-native-responsive-dimensions";
-import constants from "../../../../constants/constants";
-import Icon from "../../../Icon/Icon";
-import SimpleButton from "../../../SimpleButton/SimpleButton";
+import constants from "../../../constants/constants";
+import Icon from "../../../CommonComponents/Icon/Icon";
+import SimpleButton from "../../../CommonComponents/SimpleButton/SimpleButton";
 
 class FeedbackOption extends Component {
   _feedbackInputRef = React.createRef();
