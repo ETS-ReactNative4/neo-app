@@ -108,8 +108,7 @@ class ForexSwitchWrapper extends Component {
     selectedOption: 0
   };
 
-  selectOption = selectedOption =>
-    this.setState({ selectedOption: focusedOption });
+  selectOption = selectedOption => this.setState({ selectedOption });
 
   render() {
     return (
