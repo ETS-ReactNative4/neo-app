@@ -75,6 +75,11 @@ class TripFeed extends Component {
 
   componentDidMount() {
     this.loadTripFeedData();
+
+    /**
+     * Loading Header into the view instead of react navigation
+     * To hide it when the feedback overlay shows up
+     */
     this.setState({
       tripFeedHeader: HomeHeader({ navigation: this.props.navigation }).header
     });

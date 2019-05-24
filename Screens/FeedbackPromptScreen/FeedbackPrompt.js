@@ -99,9 +99,8 @@ class FeedbackPrompt extends Component {
       : this.state.negativeUserFeedback;
     if (!_.isEmpty(userFeedback)) {
       this.submitFeedback();
-    } else {
-      this.props.navigation.goBack();
     }
+    this.props.navigation.goBack();
   };
 
   updateUserFeedback = (identifier, text) => {
@@ -160,7 +159,9 @@ class FeedbackPrompt extends Component {
   }
 
   clickSubmit = () => {
+    const { feedbackPanelClosed } = this.props.feedbackPrompt;
     this.submitFeedback();
+    feedbackPanelClosed();
     this.props.navigation.goBack();
   };
 
