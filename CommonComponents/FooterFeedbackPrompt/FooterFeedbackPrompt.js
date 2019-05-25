@@ -16,24 +16,30 @@ class FooterFeedbackPrompt extends Component {
     const {
       setPositiveFeedbackMode,
       animateFeedbackOptions,
+      feedbackOptions,
       feedbackPanelOpened
     } = this.props.feedbackPrompt;
     feedbackPanelOpened();
     animateFeedbackOptions();
     setPositiveFeedbackMode();
-    navigationService.navigation._navigation.navigate("FeedbackPrompt");
+    navigationService.navigation._navigation.navigate("FeedbackPrompt", {
+      identifier: feedbackOptions.identifier
+    });
   };
 
   negativeAction = () => {
     const {
       setNegativeFeedbackMode,
       animateFeedbackOptions,
+      feedbackOptions,
       feedbackPanelOpened
     } = this.props.feedbackPrompt;
     feedbackPanelOpened();
     animateFeedbackOptions();
     setNegativeFeedbackMode();
-    navigationService.navigation._navigation.navigate("FeedbackPrompt");
+    navigationService.navigation._navigation.navigate("FeedbackPrompt", {
+      identifier: feedbackOptions.identifier
+    });
   };
 
   render() {

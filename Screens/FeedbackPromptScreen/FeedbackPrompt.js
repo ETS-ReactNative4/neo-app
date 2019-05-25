@@ -44,7 +44,8 @@ class FeedbackPrompt extends Component {
     negativeUserFeedback: {},
     isKeyboardVisible: false,
     keyboardSpace: 0,
-    focusedOption: ""
+    focusedOption: "",
+    identifier: ""
   };
 
   constructor(props) {
@@ -129,6 +130,13 @@ class FeedbackPrompt extends Component {
 
   componentDidMount() {
     const { isFeedbackPositive } = this.props.feedbackPrompt;
+    /**
+     * This will prevent unknown identifiers from accidentally being submitted
+     */
+    const identifier = this.props.navigation.getParam("identifier", "");
+    this.setState({
+      identifier
+    });
     if (isFeedbackPositive) {
       this.rotateIllustration();
     }
@@ -185,25 +193,30 @@ class FeedbackPrompt extends Component {
       submitFeedback,
       isFeedbackPositive
     } = this.props.feedbackPrompt;
-    const positiveItems = feedbackOptions.items.length
-      ? feedbackOptions.items[0]
-      : {};
-    const negativeItems = feedbackOptions.items.length
-      ? feedbackOptions.items[1]
-      : {};
+    /**
+     * Check if feedback has proper identifier
+     */
+    if (feedbackOptions.identifier === this.state.identifier) {
+      const positiveItems = feedbackOptions.items.length
+        ? feedbackOptions.items[0]
+        : {};
+      const negativeItems = feedbackOptions.items.length
+        ? feedbackOptions.items[1]
+        : {};
 
-    const requestObject = {
-      itineraryId: feedbackOptions.itineraryId,
-      identifier: feedbackOptions.identifier,
-      reviews: isFeedbackPositive
-        ? this.state.positiveUserFeedback
-        : this.state.negativeUserFeedback,
-      responseType: isFeedbackPositive
-        ? positiveItems.title
-        : negativeItems.title
-    };
-    const submitApiURL = feedbackOptions.url;
-    submitFeedback(requestObject, submitApiURL);
+      const requestObject = {
+        itineraryId: feedbackOptions.itineraryId,
+        identifier: feedbackOptions.identifier,
+        reviews: isFeedbackPositive
+          ? this.state.positiveUserFeedback
+          : this.state.negativeUserFeedback,
+        responseType: isFeedbackPositive
+          ? positiveItems.title
+          : negativeItems.title
+      };
+      const submitApiURL = feedbackOptions.url;
+      submitFeedback(requestObject, submitApiURL);
+    }
   };
 
   goBack = () => {
