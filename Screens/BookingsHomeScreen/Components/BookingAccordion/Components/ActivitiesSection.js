@@ -10,6 +10,7 @@ import BookingSectionComponent from "../../../../../CommonComponents/BookingSect
 import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidExtraProps";
 import { toastBottom } from "../../../../../Services/toast/toast";
 import openCustomTab from "../../../../../Services/openCustomTab/openCustomTab";
+import resolveLinks from "../../../../../Services/resolveLinks/resolveLinks";
 
 const ActivitiesSection = ({ section, navigation, spinValue }) => {
   return (
@@ -48,33 +49,11 @@ const Activities = ({ activity, isLast, navigation, spinValue }) => {
   }
 
   const openVoucher = () => {
-    /**
-     * Open customtab directly only when voucherUrl is available and it is a viator voucher
-     * This functionality is currently disabled since viator vouchers are being outdated after a change in time
-     */
-    // if (
-    //   activity.voucher &&
-    //   activity.voucher.voucherUrl &&
-    //   activity.costing.viator
-    // ) {
-    //   recordEvent(constants.bookingsHomeAccordionViatorActivitiesVoucherClick);
-    //   openCustomTab(
-    //     activity.voucher.voucherUrl,
-    //     () => null,
-    //     () => {
-    //       logError("Unable to launch custom tab for viator voucher!", {});
-    //     }
-    //   );
-    // } else
-    if (activity.voucher.booked || activity.free) {
-      recordEvent(constants.bookingsHomeAccordionActivitiesVoucherClick);
-      navigation.navigate("ActivityVoucher", { activity });
-    } else {
-      recordEvent(
-        constants.bookingsHomeAccordionProcessingActivitiesVoucherClick
-      );
-      toastBottom(constants.bookingProcessText.message);
-    }
+    recordEvent(constants.bookingsHomeAccordionActivitiesVoucherClick);
+    resolveLinks(false, false, {
+      voucherType: constants.activityVoucherType,
+      costingIdentifier: activity.costing.key
+    });
   };
 
   return (

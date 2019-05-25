@@ -11,6 +11,7 @@ import transitionConfig from "../Services/navigationAnimations/transitionConfig"
 import MainStack from "./MainStack";
 import RentalCarVoucher from "../Screens/VoucherScreens/RentalCarVoucherScreen/RentalCarVoucher";
 import PDFViewerAndroid from "../Screens/PDFViewerScreen/PDFViewerAndroid";
+import FeedbackPrompt from "../Screens/FeedbackPromptScreen/FeedbackPrompt";
 
 const UniversalStack = createStackNavigator(
   {
@@ -44,10 +45,17 @@ const UniversalStack = createStackNavigator(
     },
     PDFViewerScreen: {
       screen: PDFViewerAndroid
+    },
+    FeedbackPrompt: {
+      screen: FeedbackPrompt
     }
   },
   {
     headerMode: "none",
+    cardStyle: {
+      backgroundColor: "rgba(0, 0, 0, 0)",
+      opacity: 1
+    },
     navigationOptions: {
       gesturesEnabled: true,
       drawerLockMode: "locked-closed"

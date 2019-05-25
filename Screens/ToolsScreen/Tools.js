@@ -67,7 +67,7 @@ class Tools extends Component {
       },
       {
         icon: constants.faqIcon,
-        text: `Support Center`,
+        text: `Help Desk`,
         action: () => {
           recordEvent(constants.toolsSupportCenterTileClick);
           this.props.navigation.navigate("SupportCenter");

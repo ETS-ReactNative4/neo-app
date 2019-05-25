@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View } from "react-native";
+import { BackHandler, View } from "react-native";
 import constants from "../../constants/constants";
 import { isIphoneX } from "react-native-iphone-x-helper";
 import ControlledWebView from "../../CommonComponents/ControlledWebView/ControlledWebView";
@@ -13,6 +13,48 @@ class PaymentScreen extends Component {
       header: null
     };
   };
+  _didFocusSubscription;
+  _willBlurSubscription;
+
+  constructor(props) {
+    super(props);
+
+    this._didFocusSubscription = props.navigation.addListener(
+      "didFocus",
+      () => {
+        BackHandler.addEventListener(
+          "hardwareBackPress",
+          this.onHardwareBackPress
+        );
+      }
+    );
+  }
+
+  componentDidMount() {
+    this._willBlurSubscription = this.props.navigation.addListener(
+      "willBlur",
+      () => {
+        BackHandler.removeEventListener(
+          "hardwareBackPress",
+          this.onHardwareBackPress
+        );
+      }
+    );
+  }
+
+  componentWillUnmount() {
+    BackHandler.removeEventListener(
+      "hardwareBackPress",
+      this.onHardwareBackPress
+    );
+    this._didFocusSubscription && this._didFocusSubscription.remove();
+    this._willBlurSubscription && this._willBlurSubscription.remove();
+  }
+
+  /**
+   * Disable hardware back button when payment screen is active
+   */
+  onHardwareBackPress = () => true;
 
   _webView = React.createRef();
 

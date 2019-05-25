@@ -17,15 +17,21 @@ import FeedBackSwiper from "./Components/FeedBackSwiper/FeedBackSwiper";
 import FeedBackPositiveExplosion from "./Components/FeedBackSwiper/Components/FeedBackPositiveExplosion";
 import DayAhead from "./Components/DayAhead/DayAhead";
 import DayAheadLite from "./Components/DayAheadLite/DayAheadLite";
+import FeedbackPanelOverlay from "./Components/FeedbackPanelOverlay";
+import pullToRefresh from "../../Services/refresh/pullToRefresh";
 
 @ErrorBoundary({ isRoot: true })
 @inject("tripFeedStore")
+@inject("feedbackPrompt")
 @observer
 class TripFeed extends Component {
-  static navigationOptions = HomeHeader;
+  static navigationOptions = {
+    header: null
+  };
 
   state = {
-    scrollEnabled: true
+    scrollEnabled: true,
+    tripFeedHeader: null
   };
   _didFocusSubscription;
   _willBlurSubscription;
@@ -71,6 +77,14 @@ class TripFeed extends Component {
   componentDidMount() {
     this.loadTripFeedData();
 
+    /**
+     * Loading Header into the view instead of react navigation
+     * To hide it when the feedback overlay shows up
+     */
+    this.setState({
+      tripFeedHeader: HomeHeader({ navigation: this.props.navigation }).header
+    });
+
     this._willBlurSubscription = this.props.navigation.addListener(
       "willBlur",
       () => {
@@ -84,7 +98,15 @@ class TripFeed extends Component {
 
   loadTripFeedData = () => {
     const { generateTripFeed } = this.props.tripFeedStore;
+    const { fetchFeedBackData } = this.props.feedbackPrompt;
     generateTripFeed();
+    pullToRefresh({
+      itinerary: true,
+      voucher: true
+    });
+    setTimeout(() => {
+      fetchFeedBackData();
+    }, 2000);
   };
 
   componentWillUnmount() {
@@ -102,9 +124,11 @@ class TripFeed extends Component {
       infoCardModal,
       closeInfoCardModal
     } = this.props.tripFeedStore;
+    const { isFeedbackPanelVisible } = this.props.feedbackPrompt;
     let isImageFirst = false;
     return (
       <View style={styles.tripFeedContainer}>
+        {this.state.tripFeedHeader}
         <NoInternetIndicator />
         <CustomScrollView
           onRefresh={this.loadTripFeedData}
@@ -219,6 +243,7 @@ class TripFeed extends Component {
           emitterRef={this.setEmitterComponent}
           emitterComponent={this._emitterComponent}
         />
+        {isFeedbackPanelVisible ? <FeedbackPanelOverlay /> : null}
       </View>
     );
   }

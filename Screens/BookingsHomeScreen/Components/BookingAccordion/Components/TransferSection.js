@@ -8,7 +8,7 @@ import getTransferImage from "../../../../../Services/getImageService/getTransfe
 import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidExtraProps";
 import { recordEvent } from "../../../../../Services/analytics/analyticsService";
 import BookingSectionComponent from "../../../../../CommonComponents/BookingSectionComponent/BookingSectionComponent";
-import { toastBottom } from "../../../../../Services/toast/toast";
+import resolveLinks from "../../../../../Services/resolveLinks/resolveLinks";
 
 const TransferSection = ({ section, navigation, spinValue }) => {
   return (
@@ -47,12 +47,11 @@ const Transfer = ({ transfer, isLast, navigation, spinValue }) => {
   }
 
   const openVoucher = () => {
-    if (transfer.voucher.booked) {
-      recordEvent(constants.bookingsHomeAccordionTransfersVoucherClick);
-      navigation.navigate("TransferVoucher", { transfer });
-    } else {
-      toastBottom(constants.bookingProcessText.message);
-    }
+    recordEvent(constants.bookingsHomeAccordionTransfersVoucherClick);
+    resolveLinks(false, false, {
+      voucherType: constants.transferVoucherType,
+      costingIdentifier: transfer.key
+    });
   };
 
   const { pickupTime } = transfer.voucher;

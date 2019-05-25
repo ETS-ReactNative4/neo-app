@@ -21,6 +21,7 @@ import ViewVoucherButton from "../Components/ViewVoucherButton";
 import FooterStickyActionBar from "../../../CommonComponents/FooterStickyActionBar/FooterStickyActionBar";
 import ConditionsApplyText from "../Components/ConditionsApplyText";
 import CheckInCheckOut from "../Components/CheckInCheckOut";
+import _ from "lodash";
 
 const xHeight = isIphoneX()
   ? constants.xNotchHeight
@@ -160,7 +161,7 @@ class HotelVoucher extends Component {
           renderStickyHeader={() => (
             <VoucherStickyHeader
               action={this.close}
-              text={`Booking ID - ${bookingPNR}`}
+              text={bookingPNR ? `Booking ID - ${bookingPNR}` : ""}
             />
           )}
           fadeOutForeground={Platform.OS !== "android"}
@@ -187,10 +188,8 @@ class HotelVoucher extends Component {
                     constants.commonDateFormat
                   )
             }
-            checkInTime={
-              `${checkInTimeVoucher}*` ||
-              `${constants.hotelDefaultCheckInTime}*`
-            }
+            checkInTime={`${checkInTimeVoucher ||
+              constants.hotelDefaultCheckInTime}*`}
             checkOutDate={
               checkOutDateVoucher
                 ? moment(
@@ -201,10 +200,8 @@ class HotelVoucher extends Component {
                     constants.commonDateFormatReverse
                   )
             }
-            checkOutTime={
-              `${checkOutTimeVoucher}*` ||
-              `${constants.hotelDefaultCheckOutTime}*`
-            }
+            checkOutTime={`${checkOutTimeVoucher ||
+              constants.hotelDefaultCheckOutTime}*`}
           />
 
           <VoucherName name={name} textStyle={{ marginHorizontal: 24 }} />
@@ -231,8 +228,9 @@ class HotelVoucher extends Component {
 
                 const { adultCount, childAges } = roomConfiguration;
 
-                const roomVoucherDetails =
-                  rooms.find(room => room.roomTypeId === roomTypeId) || {};
+                const roomVoucherDetails = rooms
+                  ? rooms.find(room => room.roomTypeId === roomTypeId)
+                  : {};
                 let {
                   leadPassenger,
                   otherPassengers,
@@ -268,15 +266,25 @@ class HotelVoucher extends Component {
                 const hotelAmenitySummary = [
                   {
                     name: "Booking Reference ID",
-                    value: bookingReferenceId
+                    value: bookingReferenceId || ""
                   },
                   {
                     name: "Breakfast",
-                    value: freeBreakfast ? "Included" : "Not Included"
+                    value:
+                      typeof freeBreakfast === "undefined"
+                        ? ""
+                        : freeBreakfast
+                          ? "Included"
+                          : "Not Included"
                   },
                   {
                     name: "Free Wifi",
-                    value: freeWireless ? "Included" : "Not Included"
+                    value:
+                      typeof freeWireless === "undefined"
+                        ? ""
+                        : freeWireless
+                          ? "Included"
+                          : "Not Included"
                   }
                   // {
                   //   name: "Booking Type",
@@ -307,11 +315,13 @@ class HotelVoucher extends Component {
                       </View>
                     </View>
 
-                    <PassengerName
-                      name={`${leadPassenger.salutation}. ${
-                        leadPassenger.firstName
-                      } ${leadPassenger.lastName}`}
-                    />
+                    {!_.isEmpty(leadPassenger) ? (
+                      <PassengerName
+                        name={`${leadPassenger.salutation}. ${
+                          leadPassenger.firstName
+                        } ${leadPassenger.lastName}`}
+                      />
+                    ) : null}
                     {otherPassengers &&
                       otherPassengers.map((passenger, passengerIndex) => {
                         return (

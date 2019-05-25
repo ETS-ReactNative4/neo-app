@@ -9,10 +9,22 @@ import dialer from "../dialer/dialer";
 import { logError } from "../errorLogger/errorLogger";
 import { Platform } from "react-native";
 
-const validateVoucher = voucher =>
+/**
+ * Voucher no longer needs validation since voucher screens should open
+ * even when booking is incomplete
+ * Old Logic to check if the booking is complete
+ */
+// const validateVoucher = voucher => !_.isEmpty(voucher) &&
+// voucher.voucher &&
+// (voucher.voucher.booked || voucher.free);
+
+const isVoucherBooked = voucher =>
   !_.isEmpty(voucher) &&
   voucher.voucher &&
   (voucher.voucher.booked || voucher.free);
+
+const isVoucherAvailable = voucher =>
+  voucher.status !== constants.voucherErrorStatus;
 
 const resolveLinks = (link = "", screenProps = {}, deepLink = {}) => {
   const { _navigation: navigation } = navigationService.navigation;
@@ -41,101 +53,92 @@ const resolveLinks = (link = "", screenProps = {}, deepLink = {}) => {
        * TODO: use a common function for toastBottom message
        */
       switch (voucherType) {
-        case "FLIGHT":
+        case constants.flightVoucherType:
           const flight = storeService.itineraries.getFlightById(
             costingIdentifier
           );
-          if (validateVoucher(flight)) {
+          if (isVoucherAvailable(flight)) {
             navigation.navigate("FlightVoucher", { flight });
+            if (!isVoucherBooked(flight))
+              toastBottom(constants.bookingProcessText.message);
           } else {
-            toastBottom(constants.bookingProcessText.message);
+            toastBottom(constants.bookingFailedText);
           }
           break;
-        case "HOTEL":
+        case constants.hotelVoucherType:
           const hotel = storeService.itineraries.getHotelById(
             costingIdentifier
           );
-          if (validateVoucher(hotel)) {
+          if (isVoucherAvailable(hotel)) {
             navigation.navigate("HotelVoucher", { hotel });
+            if (!isVoucherBooked(hotel))
+              toastBottom(constants.bookingProcessText.message);
           } else {
-            toastBottom(constants.bookingProcessText.message);
+            toastBottom(constants.bookingFailedText);
           }
           break;
-        case "ACTIVITY":
+        case constants.activityVoucherType:
           const activity = storeService.itineraries.getActivityById(
             costingIdentifier
           );
-          if (validateVoucher(activity)) {
-            if (
-              activity.voucher &&
-              activity.voucher.voucherUrl &&
-              activity.costing.viator
-            ) {
-              if (Platform.OS === constants.platformIos) {
-                openCustomTab(
-                  activity.voucher.voucherUrl,
-                  () => null,
-                  () => {
-                    logError(
-                      "Unable to launch custom tab for viator voucher!",
-                      {}
-                    );
-                  }
-                );
-              } else {
-                navigation.navigate("PDFViewerScreen", {
-                  pdfUri: activity.voucher.voucherUrl
-                });
-              }
-            } else {
-              navigation.navigate("ActivityVoucher", { activity });
-            }
+          if (isVoucherAvailable(activity)) {
+            navigation.navigate("ActivityVoucher", { activity });
+            if (!isVoucherBooked(activity))
+              toastBottom(constants.bookingProcessText.message);
           } else {
-            toastBottom(constants.bookingProcessText.message);
+            toastBottom(constants.bookingFailedText);
           }
           break;
-        case "TRANSFER":
+        case constants.transferVoucherType:
           const transfer = storeService.itineraries.getTransferById(
             costingIdentifier
           );
-          if (validateVoucher(transfer)) {
+          if (isVoucherAvailable(transfer)) {
             navigation.navigate("TransferVoucher", { transfer });
+            if (!isVoucherBooked(transfer))
+              toastBottom(constants.bookingProcessText.message);
           } else {
-            toastBottom(constants.bookingProcessText.message);
+            toastBottom(constants.bookingFailedText);
           }
           break;
-        case "RENTAL_CAR":
+        case constants.rentalCarVoucherType:
           const rentalCar = storeService.itineraries.getRentalCarById(
             costingIdentifier
           );
-          if (validateVoucher(rentalCar)) {
+          if (isVoucherAvailable(rentalCar)) {
             navigation.navigate("RentalCarVoucher", { rentalCar });
+            if (!isVoucherBooked(rentalCar))
+              toastBottom(constants.bookingProcessText.message);
           } else {
-            toastBottom(constants.bookingProcessText.message);
+            toastBottom(constants.bookingFailedText);
           }
           break;
-        case "FERRY":
+        case constants.ferryVoucherType:
           const ferry = storeService.itineraries.getFerryById(
             costingIdentifier
           );
-          if (validateVoucher(ferry)) {
+          if (isVoucherAvailable(ferry)) {
             navigation.navigate("TransferVoucher", {
               transfer: { ...ferry, vehicle: voucherType }
             });
+            if (!isVoucherBooked(ferry))
+              toastBottom(constants.bookingProcessText.message);
           } else {
-            toastBottom(constants.bookingProcessText.message);
+            toastBottom(constants.bookingFailedText);
           }
           break;
-        case "TRAIN":
+        case constants.trainVoucherType:
           const train = storeService.itineraries.getTrainById(
             costingIdentifier
           );
-          if (validateVoucher(train)) {
+          if (isVoucherAvailable(train)) {
             navigation.navigate("TransferVoucher", {
               transfer: { ...train, vehicle: voucherType }
             });
+            if (!isVoucherBooked(train))
+              toastBottom(constants.bookingProcessText.message);
           } else {
-            toastBottom(constants.bookingProcessText.message);
+            toastBottom(constants.bookingFailedText);
           }
           break;
 

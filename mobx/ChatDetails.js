@@ -4,10 +4,14 @@ import constants from "../constants/constants";
 import { hydrate } from "./Store";
 import apiCall from "../Services/networkRequests/apiCall";
 import storeService from "../Services/storeService/storeService";
+import { logError } from "../Services/errorLogger/errorLogger";
 
 class ChatDetails {
   static hydrator = storeInstance => {
     hydrate("_chatDetails", storeInstance)
+      .then(() => {})
+      .catch(err => logError(err));
+    hydrate("__offlineContact", storeInstance)
       .then(() => {})
       .catch(err => logError(err));
   };
@@ -21,11 +25,24 @@ class ChatDetails {
   @observable
   _chatDetails = {};
 
+  @persist
+  @observable
+  _offlineContact = "";
+
   @observable _isLoading = false;
 
   @observable _initializationError = false;
 
   @observable _metaDataError = false;
+
+  @observable _isChatActive = false;
+
+  @observable _chatActivationTime = 0;
+
+  @computed
+  get offlineContact() {
+    return this._offlineContact;
+  }
 
   @computed
   get chatDetails() {
@@ -40,6 +57,16 @@ class ChatDetails {
   @computed
   get metaDataError() {
     return this._metaDataError;
+  }
+
+  @computed
+  get isChatActive() {
+    return this._isChatActive;
+  }
+
+  @computed
+  get chatActivationTime() {
+    return this._chatActivationTime;
   }
 
   /**
@@ -57,8 +84,14 @@ class ChatDetails {
       .then(response => {
         this._isLoading = false;
         if (response.status === constants.responseSuccessStatus) {
+          this._isChatActive = true;
           this._chatDetails = response.data;
           this._initializationError = false;
+          this._offlineContact = response.data.offlineContact;
+        } else if (response.status === "NOT_INITIATED") {
+          this._isChatActive = false;
+          this._chatActivationTime = response.data.departureDateMillis;
+          this._offlineContact = response.data.offlineContact;
         } else {
           this._initializationError = true;
         }

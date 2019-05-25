@@ -77,6 +77,8 @@ const appEvents = {
     "booked_itinerary_activity_voucher_click",
   bookedItineraryTransferVoucherClick:
     "booked_itinerary_transfer_voucher_click",
+  bookedItineraryActivityWithTransferVoucherClick:
+    "booked_itinerary_activity_transfer_voucher_click",
   bookedItineraryHeaderClick: "booked_itinerary_header_click",
   bookedItineraryHeaderCityNameClick: "booked_itinerary_header_city_name_click",
   voucherHeaderViewVoucherClick: "voucher_header_view_voucher_click",
@@ -145,6 +147,7 @@ const appEvents = {
   visaDocumentsEmailChecklistClick: "visa_documents_email_checklist_click",
   paymentScreenItineraryCardClick: "payment_screen_itinerary_card_click",
   paymentScreenStartPayment: "payment_screen_start_payment",
+  paymentScreenClearPayment: "payment_screen_clear_payment",
   paymentScreenPaymentSuccess: "payment_screen_payment_success",
   paymentScreenPaymentFailure: "payment_screen_payment_failure",
   paymentFailureSupportClick: "payment_failure_support_click"

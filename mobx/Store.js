@@ -19,6 +19,7 @@ import TripFeed from "./TripFeed";
 import Packages from "./Packages";
 import Forex from "./Forex";
 import DeviceDetails from "./DeviceDetails";
+import FeedbackPrompt from "./FeedbackPrompt";
 import ChatDetails from "./ChatDetails";
 
 export const hydrate = create({
@@ -46,6 +47,7 @@ const createStore = () => {
     packagesStore: new Packages(),
     forexStore: new Forex(),
     deviceDetailsStore: new DeviceDetails(),
+    feedbackPrompt: new FeedbackPrompt(),
     chatDetailsStore: new ChatDetails()
   };
 
@@ -206,6 +208,7 @@ const createStore = () => {
     });
   Forex.hydrator(appStore.forexStore);
   DeviceDetails.hydrator(appStore.deviceDetailsStore);
+  FeedbackPrompt.hydrator(appStore.feedbackPrompt);
   ChatDetails.hydrator(appStore.chatDetailsStore);
   return appStore;
 };

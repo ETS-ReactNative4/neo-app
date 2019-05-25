@@ -359,7 +359,10 @@ class ActivityVoucher extends Component {
           fadeOutForeground={Platform.OS !== "android"}
           onChangeHeaderVisibility={this.headerToggle}
           renderStickyHeader={() => (
-            <VoucherStickyHeader action={this.close} text={voucherTitle.text} />
+            <VoucherStickyHeader
+              action={this.close}
+              text={voucherTitle.text ? voucherTitle.text : ""}
+            />
           )}
           renderForeground={() => (
             <VoucherHeader

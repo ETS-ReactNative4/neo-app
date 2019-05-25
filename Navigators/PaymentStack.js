@@ -5,6 +5,7 @@ import PaymentSummary from "../Screens/PaymentSummaryScreen/PaymentSummary";
 import PaymentScreen from "../Screens/PaymentScreens/PaymentScreen";
 import PaymentSuccess from "../Screens/PaymentScreens/PaymentSuccess";
 import PaymentFailure from "../Screens/PaymentScreens/PaymentFailure";
+import PDFViewerAndroid from "../Screens/PDFViewerScreen/PDFViewerAndroid";
 
 const PaymentStack = createStackNavigator(
   {
@@ -25,6 +26,9 @@ const PaymentStack = createStackNavigator(
     },
     PaymentFailure: {
       screen: PaymentFailure
+    },
+    PaymentPDFViewerScreen: {
+      screen: PDFViewerAndroid
     }
   },
   {

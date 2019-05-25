@@ -72,6 +72,7 @@ const appText = {
     title: "Sit Tight",
     message: "Become a travel blogger on the go!"
   },
+  bookingFailedText: "No Voucher available",
   bookingProcessText: {
     title: "Almost there!",
     message: "Your booking is in progress.",
@@ -89,7 +90,7 @@ const appText = {
   phrasesTranslationFailedText: "Unable to translate...",
   noInernetText: "No internet connection. Some features may not work.",
   preTripChatText: chatActivationTime =>
-    `Chat will be enabled ${chatActivationTime}hrs prior to your trip. Meanwhile, please visit our support center if you have questions or clarifications.`,
+    `Chat will be enabled ${chatActivationTime}. Meanwhile, please visit our help desk if you have questions or clarifications.`,
   onChatNoInternetText:
     "We are unable to connect to the live chat currently. Please check for a proper internet connection and try again. Alternatively, you can contact us on the number below.",
   onChatFailedToInitialize:
@@ -126,10 +127,23 @@ const appText = {
     contactHelpdesk: "Contact helpdesk",
     successTitle: "Yeh! Payment successful",
     successMessage:
-      "We got your payment! Please note the below transaction ID for further references."
+      "We got your payment! Please note the below transaction ID for further references.",
+    noPaymentsText: "No Payments available",
+    paymentSummaryText: name =>
+      `Hi ${name}, here’s your payment summary. Your consolidated trip invoice will be generated within 7 days of your return`,
+    gstInvoiceText: name => `Hi ${name}, here’s your payment summary.`,
+    gstInvoiceDownloadText: `Download Consolidated GST Invoice`,
+    noOfInstallmentsText: numberOfInstallments =>
+      `You have ${numberOfInstallments} scheduled payment${
+        numberOfInstallments > 1 ? "s" : ""
+      }`
   },
   pdfViewerErrorText: "Unable to load pdf!",
   serverErrorText: "Unable to connect to the server",
+  feedbackFooterText: {
+    submitSuccessful: "Thanks for the feedback!",
+    submitFailed: "Unable to record feedback."
+  },
   serverResponseErrorText: "Something went wrong with the server"
 };
 

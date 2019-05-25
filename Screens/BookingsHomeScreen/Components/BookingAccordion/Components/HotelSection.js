@@ -8,6 +8,7 @@ import getTitleCase from "../../../../../Services/getTitleCase/getTitleCase";
 import BookingSectionComponent from "../../../../../CommonComponents/BookingSectionComponent/BookingSectionComponent";
 import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidExtraProps";
 import { toastBottom } from "../../../../../Services/toast/toast";
+import resolveLinks from "../../../../../Services/resolveLinks/resolveLinks";
 
 const HotelSection = ({ section, navigation, spinValue }) => {
   return (
@@ -46,12 +47,11 @@ const Hotel = ({ hotel, isLast, navigation, spinValue }) => {
   }
 
   const openVoucher = () => {
-    if (hotel.voucher.booked) {
-      recordEvent(constants.bookingsHomeAccordionHotelsVoucherClick);
-      navigation.navigate("HotelVoucher", { hotel });
-    } else {
-      toastBottom(constants.bookingProcessText.message);
-    }
+    recordEvent(constants.bookingsHomeAccordionHotelsVoucherClick);
+    resolveLinks(false, false, {
+      voucherType: constants.hotelVoucherType,
+      costingIdentifier: hotel.costingKey
+    });
   };
 
   return (

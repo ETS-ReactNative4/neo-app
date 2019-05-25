@@ -32,6 +32,7 @@ let _onNotificationReceived, _onNotificationDisplayed, _onNotificationOpened;
 
 @inject("userStore")
 @inject("infoStore")
+@inject("appState")
 @observer
 class Drawer extends Component {
   static launchApp = () => {
@@ -96,6 +97,20 @@ class Drawer extends Component {
       }
     );
   };
+
+  /**
+   * TODO: `getDerivedStateFromProps` prevents mobX from updating DOM elements
+   * Issue Reference - https://github.com/reactjs/reactjs.org/issues/978
+   */
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    const { onDrawerOpen, onDrawerClose } = this.props.appState;
+
+    if (nextProps.navigation.state.isDrawerOpen) {
+      onDrawerOpen();
+    } else {
+      onDrawerClose();
+    }
+  }
 
   render() {
     const menuItems = [

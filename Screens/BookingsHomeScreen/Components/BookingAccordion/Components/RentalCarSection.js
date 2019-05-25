@@ -6,7 +6,8 @@ import PropTypes from "prop-types";
 import getTransferImage from "../../../../../Services/getImageService/getTransferImage";
 import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidExtraProps";
 import BookingSectionComponent from "../../../../../CommonComponents/BookingSectionComponent/BookingSectionComponent";
-import { toastBottom } from "../../../../../Services/toast/toast";
+import resolveLinks from "../../../../../Services/resolveLinks/resolveLinks";
+import { recordEvent } from "../../../../../Services/analytics/analyticsService";
 
 const RentalCarSection = ({ section, navigation, spinValue }) => {
   return (
@@ -46,11 +47,11 @@ const RentalCar = ({ rentalCar, isLast, navigation, spinValue }) => {
   rentalCar.vehicle = "Rental Car";
 
   const openVoucher = () => {
-    if (rentalCar.voucher.booked) {
-      navigation.navigate("RentalCarVoucher", { rentalCar });
-    } else {
-      toastBottom(constants.bookingProcessText.message);
-    }
+    recordEvent(constants.bookingsHomeAccordionRentalCarsVoucherClick);
+    resolveLinks(false, false, {
+      voucherType: constants.rentalCarVoucherType,
+      costingIdentifier: rentalCar.key
+    });
   };
 
   const { pickup, drop } = rentalCar;
