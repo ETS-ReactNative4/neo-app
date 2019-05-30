@@ -7,7 +7,8 @@ import constants from "../../constants/constants";
 import directions from "../directions/directions";
 import dialer from "../dialer/dialer";
 import { logError } from "../errorLogger/errorLogger";
-import { Platform } from "react-native";
+import { Linking, Platform } from "react-native";
+import OpenAppSettingsAndroid from "react-native-app-settings";
 
 /**
  * Voucher no longer needs validation since voucher screens should open
@@ -34,6 +35,22 @@ const resolveLinks = (link = "", screenProps = {}, deepLink = {}) => {
     } else if (link === "InfoCardModal") {
       navigation.navigate("TripFeed");
       storeService.tripFeedStore.openInfoCardModal(screenProps);
+    } else if (link === "SystemSettings") {
+      if (Platform.OS === "ios") {
+        Linking.canOpenURL("app-settings:")
+          .then(supported => {
+            if (!supported) {
+              logError("Failed to open iOS app settings");
+            } else {
+              return Linking.openURL("app-settings:");
+            }
+          })
+          .catch(settingsErr => {
+            logError(settingsErr);
+          });
+      } else {
+        OpenAppSettingsAndroid.open();
+      }
     } else {
       navigation.navigate(link, {
         ...screenProps,
