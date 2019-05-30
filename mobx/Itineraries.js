@@ -84,7 +84,6 @@ class Itineraries {
           storeService.supportStore.loadFaqDetails();
           storeService.tripFeedStore.generateTripFeed();
           storeService.weatherStore.reset();
-          storeService.chatDetailsStore.getUserDetails();
           callback();
         } else {
           this._loadingError = true;
