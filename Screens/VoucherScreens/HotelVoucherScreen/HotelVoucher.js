@@ -127,14 +127,15 @@ class HotelVoucher extends Component {
     ];
 
     const bookingDetailSection = [
-      {
-        name: "Booked on",
-        value: bookedTime ? moment(bookedTime).format("DD MMM, YY") : "NA"
-      },
-      {
-        name: "Booking source",
-        value: "Pickyourtrail"
-      }
+      // Removed Temporarily since data is not accurate
+      // {
+      //   name: "Booked on",
+      //   value: bookedTime ? moment(bookedTime).format("DD MMM, YY") : "NA"
+      // },
+      // {
+      //   name: "Booking source",
+      //   value: "Pickyourtrail"
+      // }
     ];
 
     const bookingPNR = rooms
