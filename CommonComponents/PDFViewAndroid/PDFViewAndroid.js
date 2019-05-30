@@ -12,8 +12,13 @@ const PDFViewAndroid = ({ uri, containerStyle = {} }) => {
     <PDF
       source={{ uri }}
       onError={error => {
-        logError(error, { type: "Error in Android PDF Viewer", PDFUri: uri });
-        Alert.alert("Error", constants.pdfViewerErrorText);
+        if (
+          error.message !== "Canceled" && // happens when user decides to cancel it
+          error.message !== "url is not defined" // happens at component unmount
+        ) {
+          logError(error, { type: "Error in Android PDF Viewer", PDFUri: uri });
+          Alert.alert("Error", constants.pdfViewerErrorText);
+        }
       }}
       style={[styles.pdfViewer, containerStyle]}
     />
