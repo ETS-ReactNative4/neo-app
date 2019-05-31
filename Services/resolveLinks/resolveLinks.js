@@ -36,7 +36,7 @@ const resolveLinks = (link = "", screenProps = {}, deepLink = {}) => {
       navigation.navigate("TripFeed");
       storeService.tripFeedStore.openInfoCardModal(screenProps);
     } else if (link === "SystemSettings") {
-      if (Platform.OS === "ios") {
+      if (Platform.OS === constants.platformIos) {
         Linking.canOpenURL("app-settings:")
           .then(supported => {
             if (!supported) {
