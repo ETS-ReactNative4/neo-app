@@ -84,7 +84,6 @@ class Itineraries {
           storeService.supportStore.loadFaqDetails();
           storeService.tripFeedStore.generateTripFeed();
           storeService.weatherStore.reset();
-          storeService.chatDetailsStore.getUserDetails();
           callback();
         } else {
           this._loadingError = true;
@@ -261,6 +260,10 @@ class Itineraries {
     }
   }
 
+  /**
+   * Will fetch all the activity details from the itinerary
+   * along with the costing information and voucher information
+   */
   @computed
   get activities() {
     if (_.isEmpty(this._selectedItinerary)) return [];
@@ -268,8 +271,8 @@ class Itineraries {
     try {
       let activities;
       try {
-        activities = this._selectedItinerary.activityById
-          ? Object.values(this._selectedItinerary.activityById)
+        const activitiesList = this._selectedItinerary.activityById
+          ? toJS(Object.values(this._selectedItinerary.activityById))
           : [];
         const activityRefs = this._selectedItinerary.allActivityCostingRefs;
         /**
@@ -285,10 +288,9 @@ class Itineraries {
                 );
               })
             : [];
-        activities = activities.map(activity => {
-          activity = toJS(activity);
-          const costing = _.find(activitiesCosting, {
-            activityId: JSON.stringify(activity.planningToolId)
+        activities = activitiesCosting.map(costing => {
+          const activity = _.find(activitiesList, {
+            planningToolId: parseInt(costing.activityId)
           });
           return {
             ...activity,
@@ -302,7 +304,7 @@ class Itineraries {
         activities = activities.filter(
           activity => activity.costing.status === constants.voucherSuccessStatus
         );
-        return _.sortBy(activities, "costing.dateMillis");
+        return activities;
       } catch (e) {
         logError(e);
         activities = [];

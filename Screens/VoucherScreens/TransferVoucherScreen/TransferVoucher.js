@@ -86,8 +86,8 @@ class TransferVoucher extends Component {
       bookedTime,
       bookingId,
       contactNumber,
-      from,
-      to,
+      from: fromLocation,
+      to: toLocation,
       voucherUrl,
       meetingPoint,
       pickupInstructions,
@@ -152,14 +152,17 @@ class TransferVoucher extends Component {
     ];
 
     const passengerDetails =
-      _.toUpper(vehicle) === "TRAIN"
+      _.toUpper(vehicle) === constants.vehicleTypes.train
         ? trainPassengerDetails()
         : transferPassengerDetails();
 
     const transferArrivalDetails = () => [
       {
         name: "Starting point",
-        value: pickup || "NA"
+        value:
+          (_.toUpper(vehicle) === constants.vehicleTypes.ferry
+            ? fromLocation || pickup
+            : pickup) || "NA"
       },
       {
         name: "Pickup time",
@@ -170,7 +173,10 @@ class TransferVoucher extends Component {
       },
       {
         name: "Drop off point",
-        value: drop || "NA"
+        value:
+          (_.toUpper(vehicle) === constants.vehicleTypes.ferry
+            ? toLocation || drop
+            : drop) || "NA"
       }
     ];
 
@@ -192,19 +198,20 @@ class TransferVoucher extends Component {
     ];
 
     const arrivalDetails =
-      _.toUpper(vehicle) === "TRAIN"
+      _.toUpper(vehicle) === constants.vehicleTypes.train
         ? trainArrivalDetails()
         : transferArrivalDetails();
 
     const bookingDetails = [
-      {
-        name: "Booked On",
-        value: moment(bookedTime).format("DD MMM, YY")
-      },
-      {
-        name: "Booking Source",
-        value: "Pickyourtrail"
-      }
+      // Removed Temporarily since data is not accurate
+      // {
+      //   name: "Booked On",
+      //   value: moment(bookedTime).format("DD MMM, YY")
+      // },
+      // {
+      //   name: "Booking Source",
+      //   value: "Pickyourtrail"
+      // }
     ];
 
     const voucherName = text;

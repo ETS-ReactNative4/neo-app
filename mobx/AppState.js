@@ -274,7 +274,7 @@ class AppState {
     });
   };
 
-  removePushToken = callback => {
+  removePushToken = (callback = () => null) => {
     const requestBody = {
       deviceToken: this._pushTokens.deviceToken
     };
