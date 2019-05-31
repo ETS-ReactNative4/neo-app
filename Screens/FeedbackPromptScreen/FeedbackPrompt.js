@@ -21,6 +21,7 @@ import {
   responsiveWidth
 } from "react-native-responsive-dimensions";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
+import { recordEvent } from "../../Services/analytics/analyticsService";
 
 @ErrorBoundary()
 @inject("feedbackPrompt")
@@ -321,7 +322,10 @@ class FeedbackPrompt extends Component {
                     <SimpleButton
                       text={"SUBMIT"}
                       textColor={constants.seventhColor}
-                      action={this.clickSubmit}
+                      action={() => {
+                        recordEvent(constants.tripFeedbackSubmitClick);
+                        this.clickSubmit();
+                      }}
                       textStyle={{
                         ...constants.fontCustom(constants.primarySemiBold, 17)
                       }}

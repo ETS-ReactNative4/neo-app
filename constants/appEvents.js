@@ -150,7 +150,10 @@ const appEvents = {
   paymentScreenClearPayment: "payment_screen_clear_payment",
   paymentScreenPaymentSuccess: "payment_screen_payment_success",
   paymentScreenPaymentFailure: "payment_screen_payment_failure",
-  paymentFailureSupportClick: "payment_failure_support_click"
+  paymentFailureSupportClick: "payment_failure_support_click",
+  tripFeedbackPositiveClick: "trip_feedback_positive_click",
+  tripFeedbackNegativeClick: "trip_feedback_negative_click",
+  tripFeedbackSubmitClick: "trip_feedback_submit_click"
 };
 
 // console.log('-----------------------------------');

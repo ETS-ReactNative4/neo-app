@@ -8,11 +8,13 @@ import * as Animatable from "react-native-animatable";
 import { inject, observer } from "mobx-react/custom";
 import _ from "lodash";
 import navigationService from "../../Services/navigationService/navigationService";
+import { recordEvent } from "../../Services/analytics/analyticsService";
 
 @inject("feedbackPrompt")
 @observer
 class FooterFeedbackPrompt extends Component {
   positiveAction = () => {
+    recordEvent(constants.tripFeedbackPositiveClick);
     const {
       setPositiveFeedbackMode,
       animateFeedbackOptions,
@@ -28,6 +30,7 @@ class FooterFeedbackPrompt extends Component {
   };
 
   negativeAction = () => {
+    recordEvent(constants.tripFeedbackNegativeClick);
     const {
       setNegativeFeedbackMode,
       animateFeedbackOptions,
