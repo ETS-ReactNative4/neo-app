@@ -115,10 +115,12 @@ class ChatDetails {
             response.data.displayMsg || constants.preTripChatText;
           this._offlineContact = response.data.offlineContact;
         } else {
+          logError("Chat failed to Initialize", { response });
           this._initializationError = true;
         }
       })
-      .catch(() => {
+      .catch(err => {
+        logError("Chat failed to Initialize", { err });
         this._initializationError = true;
         this._isLoading = false;
       });
@@ -142,10 +144,15 @@ class ChatDetails {
           };
           successCallback();
         } else {
+          logError("Chat failed to register restore ID", {
+            requestBody,
+            response
+          });
           this._metaDataError = true;
         }
       })
-      .catch(() => {
+      .catch(err => {
+        logError("Chat failed to register restore ID", { requestBody, err });
         this._metaDataError = true;
         this._isLoading = false;
       });
