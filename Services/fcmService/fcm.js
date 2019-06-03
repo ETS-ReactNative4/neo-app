@@ -1,11 +1,10 @@
 import { messaging, notifications } from "react-native-firebase";
-import { logError } from "../errorLogger/errorLogger";
+import { logBreadCrumb, logError } from "../errorLogger/errorLogger";
 import storeService from "../storeService/storeService";
 import navigationService from "../navigationService/navigationService";
 import resolveLinks from "../resolveLinks/resolveLinks";
-import * as Keychain from "react-native-keychain";
 import isUserLoggedInCallback from "../isUserLoggedInCallback/isUserLoggedInCallback";
-import appLauncher from "../appLauncher/appLauncher";
+import constants from "../../constants/constants";
 
 export const getDeviceToken = async (
   success = () => null,
@@ -86,6 +85,12 @@ export const getInitialNotification = () =>
 const CHATSCREEN = "CHAT_SCREEN";
 
 const notificationClickHandler = data => {
+  logBreadCrumb({
+    message: constants.errorLoggerEvents.messages.notifClicked,
+    category: constants.errorLoggerEvents.categories.pushNotif,
+    data,
+    level: constants.errorLoggerEvents.levels.info
+  });
   isUserLoggedInCallback(() => {
     const { screen, link, modalData } = data;
     const { navigation } = navigationService;
@@ -104,10 +109,15 @@ const notificationClickHandler = data => {
   });
 };
 
-const notificationReceivedHandler = async data => {
+const notificationReceivedHandler = data => {
+  logBreadCrumb({
+    message: constants.errorLoggerEvents.messages.notifReceived,
+    category: constants.errorLoggerEvents.categories.pushNotif,
+    data,
+    level: constants.errorLoggerEvents.levels.info
+  });
   try {
-    const credentials = await Keychain.getGenericPassword();
-    if (credentials) {
+    isUserLoggedInCallback(() => {
       const screen = data.screen;
       const { appState } = storeService;
       switch (screen) {
@@ -118,7 +128,7 @@ const notificationReceivedHandler = async data => {
         default:
           break;
       }
-    }
+    });
   } catch (e) {
     logError(e);
   }

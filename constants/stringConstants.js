@@ -66,6 +66,24 @@ const stringConstants = {
   voucherErrorStatus: "ERROR",
 
   /**
+   * Error Logger constants
+   */
+  errorLoggerEvents: {
+    levels: {
+      info: "info"
+    },
+    categories: {
+      pushNotif: "push-notification",
+      networkRequest: `network-request`,
+      navigation: `navigation`
+    },
+    messages: {
+      notifReceived: "notification-received",
+      notifClicked: "notification-clicked"
+    }
+  },
+
+  /**
    * Transfer Modes
    * used to detect `transferMode` in `intercityTransferSlotDetailVO`
    */

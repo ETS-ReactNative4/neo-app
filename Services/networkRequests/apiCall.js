@@ -1,6 +1,6 @@
 import * as Keychain from "react-native-keychain";
 import constants from "../../constants/constants";
-import { logError } from "../errorLogger/errorLogger";
+import { logBreadCrumb, logError } from "../errorLogger/errorLogger";
 import logOut from "../logOut/logOut";
 import DebouncedAlert from "../../CommonComponents/DebouncedAlert/DebouncedAlert";
 import DeviceInfo from "react-native-device-info";
@@ -93,9 +93,9 @@ const apiCall = async (
           const data = response.json();
           return data;
         } else if (response.status === 204) {
-        /**
-         * Request success but no data returned from the server
-         */
+          /**
+           * Request success but no data returned from the server
+           */
           const data = { status: "SUCCESS" };
           return data;
         } else {
@@ -126,6 +126,15 @@ const apiCall = async (
       .then(data => {
         console.log(data);
         console.log(JSON.stringify(data));
+        logBreadCrumb({
+          message: requestURL,
+          category: constants.errorLoggerEvents.categories.networkRequest,
+          data: {
+            requestURL,
+            requestDetails
+          },
+          level: constants.errorLoggerEvents.levels.info
+        });
         resolve(data);
       })
       .catch(err => {
