@@ -95,7 +95,9 @@ class CurrencyConverter extends Component {
      * Some android devices are crashing when keyboard appears during transition
      */
     setTimeout(() => {
-      this._inputFieldRef.current.focus && this._inputFieldRef.current.focus();
+      this._inputFieldRef.current &&
+        this._inputFieldRef.current.focus &&
+        this._inputFieldRef.current.focus();
     }, 1000);
   }
 
