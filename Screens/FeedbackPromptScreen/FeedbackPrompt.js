@@ -21,6 +21,7 @@ import {
   responsiveWidth
 } from "react-native-responsive-dimensions";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
+import { recordEvent } from "../../Services/analytics/analyticsService";
 
 @ErrorBoundary()
 @inject("feedbackPrompt")
@@ -45,7 +46,8 @@ class FeedbackPrompt extends Component {
     isKeyboardVisible: false,
     keyboardSpace: 0,
     focusedOption: "",
-    identifier: ""
+    identifier: "",
+    isSubmitted: false
   };
 
   constructor(props) {
@@ -188,34 +190,43 @@ class FeedbackPrompt extends Component {
   };
 
   submitFeedback = () => {
-    const {
-      feedbackOptions,
-      submitFeedback,
-      isFeedbackPositive
-    } = this.props.feedbackPrompt;
     /**
-     * Check if feedback has proper identifier
+     * Check if the form is already submitted.
+     * Prevents multiple submissions of the same feedback
      */
-    if (feedbackOptions.identifier === this.state.identifier) {
-      const positiveItems = feedbackOptions.items.length
-        ? feedbackOptions.items[0]
-        : {};
-      const negativeItems = feedbackOptions.items.length
-        ? feedbackOptions.items[1]
-        : {};
+    if (!this.state.isSubmitted) {
+      this.setState({
+        isSubmitted: true
+      });
+      const {
+        feedbackOptions,
+        submitFeedback,
+        isFeedbackPositive
+      } = this.props.feedbackPrompt;
+      /**
+       * Check if feedback has proper identifier
+       */
+      if (feedbackOptions.identifier === this.state.identifier) {
+        const positiveItems = feedbackOptions.items.length
+          ? feedbackOptions.items[0]
+          : {};
+        const negativeItems = feedbackOptions.items.length
+          ? feedbackOptions.items[1]
+          : {};
 
-      const requestObject = {
-        itineraryId: feedbackOptions.itineraryId,
-        identifier: feedbackOptions.identifier,
-        reviews: isFeedbackPositive
-          ? this.state.positiveUserFeedback
-          : this.state.negativeUserFeedback,
-        responseType: isFeedbackPositive
-          ? positiveItems.title
-          : negativeItems.title
-      };
-      const submitApiURL = feedbackOptions.url;
-      submitFeedback(requestObject, submitApiURL);
+        const requestObject = {
+          itineraryId: feedbackOptions.itineraryId,
+          identifier: feedbackOptions.identifier,
+          reviews: isFeedbackPositive
+            ? this.state.positiveUserFeedback
+            : this.state.negativeUserFeedback,
+          responseType: isFeedbackPositive
+            ? positiveItems.title
+            : negativeItems.title
+        };
+        const submitApiURL = feedbackOptions.url;
+        submitFeedback(requestObject, submitApiURL);
+      }
     }
   };
 
@@ -311,7 +322,10 @@ class FeedbackPrompt extends Component {
                     <SimpleButton
                       text={"SUBMIT"}
                       textColor={constants.seventhColor}
-                      action={this.clickSubmit}
+                      action={() => {
+                        recordEvent(constants.tripFeedbackSubmitClick);
+                        this.clickSubmit();
+                      }}
                       textStyle={{
                         ...constants.fontCustom(constants.primarySemiBold, 17)
                       }}

@@ -182,14 +182,15 @@ class RentalCarVoucher extends Component {
       }
     ];
     const bookingDetails = [
-      {
-        name: "Booked On",
-        value: moment(bookedTime).format("DD MMM, YY")
-      },
-      {
-        name: "Booking Source",
-        value: "Pickyourtrail"
-      }
+      // Removed Temporarily since data is not accurate
+      // {
+      //   name: "Booked On",
+      //   value: moment(bookedTime).format("DD MMM, YY")
+      // },
+      // {
+      //   name: "Booking Source",
+      //   value: "Pickyourtrail"
+      // }
     ];
 
     const voucherName =

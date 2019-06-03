@@ -84,6 +84,16 @@ const stringConstants = {
   },
 
   /**
+   * Vehicle Types
+   */
+  vehicleTypes: {
+    ferry: "FERRY",
+    train: "TRAIN",
+    car: "CAR",
+    flight: "FLIGHT"
+  },
+
+  /**
    * Transfer Modes
    * used to detect `transferMode` in `intercityTransferSlotDetailVO`
    */

@@ -15,22 +15,38 @@ export const getDeviceToken = async (
   try {
     const enabled = await messaging().hasPermission();
     if (enabled) {
+      /**
+       * Push notifications already enabled!
+       */
       token = await messaging().getToken();
       storeService.appState.setPushTokens(token);
       success(token);
     } else {
       isUserLoggedInCallback(async () => {
         try {
+          /**
+           * Request the user for push notifications permission
+           */
           await messaging().requestPermission();
           token = await messaging().getToken();
+          /**
+           * Got push notifications permission and can update the device token
+           */
           storeService.appState.setPushTokens(token);
           success(token);
         } catch (e) {
+          /**
+           * Unable to retrieve Push notifications - Push notifications are disabled
+           */
+          storeService.appState.removePushToken();
           rejected(e);
         }
       });
     }
   } catch (err) {
+    /**
+     * Something went wrong with the push notification module
+     */
     failure(err);
     logError(err);
   }

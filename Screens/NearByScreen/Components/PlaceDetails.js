@@ -61,11 +61,13 @@ const PlaceDetails = ({
             imageSize={isDetailed ? 18 : 16}
           />
         ) : null}
+        {/**
+         * TODO: Find a better way to display rating count
+         * ${ratingCount ? `(${ratingCount}) ` : ""}
+         */}
         <Text
           style={[styles.ratingText, isDetailed ? styles.detailedText : null]}
-        >{`${ratingCount ? `(${ratingCount}) ` : ""}${createReadableText(
-          type
-        )}`}</Text>
+        >{`${createReadableText(type)}`}</Text>
       </View>
       {isDetailed ? (
         <View style={styles.addressTextWrapper}>

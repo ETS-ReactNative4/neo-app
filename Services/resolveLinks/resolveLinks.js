@@ -7,7 +7,8 @@ import constants from "../../constants/constants";
 import directions from "../directions/directions";
 import dialer from "../dialer/dialer";
 import { logError } from "../errorLogger/errorLogger";
-import { Platform } from "react-native";
+import { Linking, Platform } from "react-native";
+import OpenAppSettingsAndroid from "react-native-app-settings";
 
 /**
  * Voucher no longer needs validation since voucher screens should open
@@ -29,12 +30,40 @@ const isVoucherAvailable = voucher =>
 const resolveLinks = (link = "", screenProps = {}, deepLink = {}) => {
   const { _navigation: navigation } = navigationService.navigation;
   if (link) {
+    /**
+     * If link is a webpage, open customTab
+     */
     if (link.includes("http://") || link.includes("https://")) {
       openCustomTab(link);
     } else if (link === "InfoCardModal") {
+      /**
+       * If link is `InfoCardModal` open the modal
+       */
       navigation.navigate("TripFeed");
       storeService.tripFeedStore.openInfoCardModal(screenProps);
+    } else if (link === "SystemSettings") {
+      /**
+       * If link is `SystemSettings` open the system settings page of the app
+       */
+      if (Platform.OS === constants.platformIos) {
+        Linking.canOpenURL("app-settings:")
+          .then(supported => {
+            if (!supported) {
+              logError("Failed to open iOS app settings");
+            } else {
+              return Linking.openURL("app-settings:");
+            }
+          })
+          .catch(settingsErr => {
+            logError(settingsErr);
+          });
+      } else {
+        OpenAppSettingsAndroid.open();
+      }
     } else {
+      /**
+       * Otherwise, open the app's screen defined by the link
+       */
       navigation.navigate(link, {
         ...screenProps,
         parentScreen: "TripFeed"
@@ -48,10 +77,11 @@ const resolveLinks = (link = "", screenProps = {}, deepLink = {}) => {
       contactNumber
     } = deepLink;
     const { latitude, longitude } = location || {};
+    /**
+     * If `voucherType` and `costingIdentifier` are present in the deeplink,
+     * open the respective voucher
+     */
     if (voucherType && costingIdentifier) {
-      /**
-       * TODO: use a common function for toastBottom message
-       */
       switch (voucherType) {
         case constants.flightVoucherType:
           const flight = storeService.itineraries.getFlightById(
@@ -148,10 +178,17 @@ const resolveLinks = (link = "", screenProps = {}, deepLink = {}) => {
       }
       return;
     }
+    /**
+     * if `latitude` and `longitude` are present in the deeplink,
+     * open the google maps app
+     */
     if (latitude && longitude) {
       directions({ latitude, longitude });
       return;
     }
+    /**
+     * if `contactNumber` is present, open the system dialer
+     */
     if (contactNumber) {
       dialer(contactNumber);
     }
