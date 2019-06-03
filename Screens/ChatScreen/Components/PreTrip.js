@@ -7,7 +7,7 @@ import PropTypes from "prop-types";
 import { responsiveWidth } from "react-native-responsive-dimensions";
 import moment from "moment";
 
-const PreTrip = ({ action, chatActivationTime }) => {
+const PreTrip = ({ action, chatActivationMessage }) => {
   return (
     <View style={styles.preTripContainer}>
       <Image
@@ -15,9 +15,7 @@ const PreTrip = ({ action, chatActivationTime }) => {
         style={styles.image}
         resizeMode="contain"
       />
-      <Text style={styles.message}>
-        {constants.preTripChatText(moment(chatActivationTime).fromNow())}
-      </Text>
+      <Text style={styles.message}>{chatActivationMessage}</Text>
       <SimpleButton
         containerStyle={{ marginTop: 8, width: 192 }}
         text={"Visit Help Desk"}
@@ -30,7 +28,7 @@ const PreTrip = ({ action, chatActivationTime }) => {
 
 PreTrip.propTypes = forbidExtraProps({
   action: PropTypes.func.isRequired,
-  chatActivationTime: PropTypes.number.isRequired
+  chatActivationMessage: PropTypes.string.isRequired
 });
 
 const styles = StyleSheet.create({

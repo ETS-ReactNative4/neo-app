@@ -164,7 +164,7 @@ class ChatScreen extends Component {
       initializationError,
       metaDataError,
       isChatActive,
-      chatActivationTime,
+      chatActivationMessage,
       offlineContact
     } = this.props.chatDetailsStore;
     const isChatFailed = initializationError || metaDataError;
@@ -177,8 +177,8 @@ class ChatScreen extends Component {
     });
     const uri = constants.chatServerUrl(chatQueryParam);
 
-    return isChatActive ? (
-      isConnected ? (
+    return isConnected ? (
+      isChatActive ? (
         !isChatFailed ? (
           <View
             style={[
@@ -246,13 +246,13 @@ class ChatScreen extends Component {
           />
         )
       ) : (
-        <UnableToUseChat contactNumber={offlineContact} />
+        <PreTrip
+          action={openSupportCenter}
+          chatActivationMessage={chatActivationMessage}
+        />
       )
     ) : (
-      <PreTrip
-        action={openSupportCenter}
-        chatActivationTime={chatActivationTime}
-      />
+      <UnableToUseChat contactNumber={offlineContact} />
     );
   }
 }

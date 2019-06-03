@@ -11,7 +11,13 @@ class ChatDetails {
     hydrate("_chatDetails", storeInstance)
       .then(() => {})
       .catch(err => logError(err));
-    hydrate("__offlineContact", storeInstance)
+    hydrate("_chatActivationTime", storeInstance)
+      .then(() => {})
+      .catch(err => logError(err));
+    hydrate("_chatActivationMessage", storeInstance)
+      .then(() => {})
+      .catch(err => logError(err));
+    hydrate("_offlineContact", storeInstance)
       .then(() => {})
       .catch(err => logError(err));
   };
@@ -19,6 +25,9 @@ class ChatDetails {
   @action
   reset = () => {
     this._chatDetails = {};
+    this._chatActivationTime = 0;
+    this._chatActivationMessage = constants.preTripChatText;
+    this._offlineContact = "";
   };
 
   @persist("object")
@@ -37,7 +46,18 @@ class ChatDetails {
 
   @observable _isChatActive = false;
 
-  @observable _chatActivationTime = 0;
+  @persist
+  @observable
+  _chatActivationTime = 0;
+
+  @persist
+  @observable
+  _chatActivationMessage = constants.preTripChatText;
+
+  @computed
+  get chatActivationMessage() {
+    return this._chatActivationMessage;
+  }
 
   @computed
   get offlineContact() {
@@ -91,6 +111,8 @@ class ChatDetails {
         } else if (response.status === "NOT_INITIATED") {
           this._isChatActive = false;
           this._chatActivationTime = response.data.departureDateMillis;
+          this._chatActivationMessage =
+            response.data.displayMsg || constants.preTripChatText;
           this._offlineContact = response.data.offlineContact;
         } else {
           this._initializationError = true;
