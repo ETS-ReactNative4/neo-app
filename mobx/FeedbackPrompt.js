@@ -6,6 +6,7 @@ import getActiveRouteName from "../Services/getActiveRouteName/getActiveRouteNam
 import { toastBottom } from "../Services/toast/toast";
 import { LayoutAnimation } from "react-native";
 import _ from "lodash";
+import { logError } from "../Services/errorLogger/errorLogger";
 
 class FeedbackPrompt {
   static hydrator = storeInstance => null;
@@ -213,7 +214,7 @@ class FeedbackPrompt {
             clearInterval(positiveAnimationInterval);
           else positiveCounter++;
         } catch (e) {
-          console.error("Failed to animate feedback options", e);
+          logError("Failed to animate feedback options", { e });
         }
       };
 
@@ -232,7 +233,7 @@ class FeedbackPrompt {
             clearInterval(negativeAnimationInterval);
           else negativeCounter++;
         } catch (e) {
-          console.error("Failed to animate feedback options", e);
+          logError("Failed to animate feedback options", { e });
         }
       };
 
