@@ -89,9 +89,14 @@ class CurrencyConverter extends Component {
     getConversionRates();
     loadCurrencies();
     this.setDefaultCurrency();
+    /**
+     * keyboard should wait 1 second after screen mounted to appear
+     * default screen transition time 600ms
+     * Some android devices are crashing when keyboard appears during transition
+     */
     setTimeout(() => {
       this._inputFieldRef.current.focus && this._inputFieldRef.current.focus();
-    }, 300);
+    }, 1000);
   }
 
   componentWillUnmount() {
