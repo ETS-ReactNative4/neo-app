@@ -36,15 +36,15 @@ const resolveLinks = (link = "", screenProps = {}, deepLink = {}) => {
     if (link.includes("http://") || link.includes("https://")) {
       openCustomTab(link);
     } else if (link === "InfoCardModal") {
-    /**
-     * If link is `InfoCardModal` open the modal
-     */
+      /**
+       * If link is `InfoCardModal` open the modal
+       */
       navigation.navigate("TripFeed");
       storeService.tripFeedStore.openInfoCardModal(screenProps);
     } else if (link === "SystemSettings") {
-    /**
-     * If link is `SystemSettings` open the system settings page of the app
-     */
+      /**
+       * If link is `SystemSettings` open the system settings page of the app
+       */
       if (Platform.OS === constants.platformIos) {
         Linking.canOpenURL("app-settings:")
           .then(supported => {
@@ -61,9 +61,9 @@ const resolveLinks = (link = "", screenProps = {}, deepLink = {}) => {
         OpenAppSettingsAndroid.open();
       }
     } else {
-    /**
-     * Otherwise, open the app's screen defined by the link
-     */
+      /**
+       * Otherwise, open the app's screen defined by the link
+       */
       navigation.navigate(link, {
         ...screenProps,
         parentScreen: "TripFeed"

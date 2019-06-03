@@ -1,6 +1,7 @@
 import { analytics } from "react-native-firebase";
 import { logBreadCrumb, logError } from "../errorLogger/errorLogger";
 import getActiveRouteName from "../getActiveRouteName/getActiveRouteName";
+import constants from "../../constants/constants";
 
 const reserved = [
   "app_clear_data",
@@ -57,9 +58,9 @@ export const screenTracker = (prevState, currentState) => {
   if (prevScreen !== currentScreen) {
     logBreadCrumb({
       message: `${prevScreen} to ${currentScreen}`,
-      category: `navigation`,
+      category: constants.errorLoggerEvents.categories.navigation,
       data: {},
-      level: "info"
+      level: constants.errorLoggerEvents.levels.info
     });
     analytics().setCurrentScreen(currentScreen);
   }

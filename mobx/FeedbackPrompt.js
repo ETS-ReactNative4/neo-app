@@ -6,6 +6,7 @@ import getActiveRouteName from "../Services/getActiveRouteName/getActiveRouteNam
 import { toastBottom } from "../Services/toast/toast";
 import { LayoutAnimation } from "react-native";
 import _ from "lodash";
+import { logError } from "../Services/errorLogger/errorLogger";
 
 class FeedbackPrompt {
   static hydrator = storeInstance => null;
@@ -166,73 +167,83 @@ class FeedbackPrompt {
    */
   @action
   animateFeedbackOptions = () => {
-    const totalPositiveOptions =
-      this.feedbackOptions.items[0].options.length - 1;
-    const totalNegativeOptions =
-      this.feedbackOptions.items[1].options.length - 1;
-    /**
-     * Creates an empty feedback options array. Data will be added for
-     * positive and negative feedback in the interval functions
-     */
-    this._animatedFeedbackOptions = {
-      ...this.feedbackOptions,
-      items: [
-        {
-          options: this.feedbackOptions.items[0].options.map(option => {
-            option.isVisible = false;
-            return option;
-          }),
-          title: this.feedbackOptions.items[0].title
-        },
-        {
-          options: this.feedbackOptions.items[1].options.map(option => {
-            option.isVisible = false;
-            return option;
-          }),
-          title: this.feedbackOptions.items[1].title
+    if (this.feedbackOptions.items && this.feedbackOptions.items.length) {
+      const totalPositiveOptions =
+        this.feedbackOptions.items[0].options.length - 1;
+      const totalNegativeOptions =
+        this.feedbackOptions.items[1].options.length - 1;
+      /**
+       * Creates an empty feedback options array. Data will be added for
+       * positive and negative feedback in the interval functions
+       */
+      this._animatedFeedbackOptions = {
+        ...this.feedbackOptions,
+        items: [
+          {
+            options: this.feedbackOptions.items[0].options.map(option => {
+              option.isVisible = false;
+              return option;
+            }),
+            title: this.feedbackOptions.items[0].title
+          },
+          {
+            options: this.feedbackOptions.items[1].options.map(option => {
+              option.isVisible = false;
+              return option;
+            }),
+            title: this.feedbackOptions.items[1].title
+          }
+        ]
+      };
+
+      let positiveCounter = 0;
+      let negativeCounter = 0;
+
+      /**
+       * This will add the positive feedback options
+       */
+      const increasePositiveFeedbackOptions = index => {
+        try {
+          const item = this.feedbackOptions.items[0].options[index];
+          item.isVisible = true;
+          const newFeedBackOptions = { ...this.animatedFeedbackOptions };
+          newFeedBackOptions.items[0].options[index] = item;
+          LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+          this._animatedFeedbackOptions = newFeedBackOptions;
+          if (positiveCounter >= totalPositiveOptions)
+            clearInterval(positiveAnimationInterval);
+          else positiveCounter++;
+        } catch (e) {
+          logError("Failed to animate feedback options", { e });
         }
-      ]
-    };
+      };
 
-    let positiveCounter = 0;
-    let negativeCounter = 0;
+      /**
+       * This will add the negative feedback options
+       */
+      const increaseNegativeFeedbackOptions = index => {
+        try {
+          const item = this.feedbackOptions.items[1].options[index];
+          item.isVisible = true;
+          const newFeedBackOptions = { ...this.animatedFeedbackOptions };
+          newFeedBackOptions.items[1].options[index] = item;
+          LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+          this._animatedFeedbackOptions = newFeedBackOptions;
+          if (negativeCounter >= totalNegativeOptions)
+            clearInterval(negativeAnimationInterval);
+          else negativeCounter++;
+        } catch (e) {
+          logError("Failed to animate feedback options", { e });
+        }
+      };
 
-    /**
-     * This will add the positive feedback options
-     */
-    const increasePositiveFeedbackOptions = index => {
-      const item = this.feedbackOptions.items[0].options[index];
-      item.isVisible = true;
-      const newFeedBackOptions = { ...this.animatedFeedbackOptions };
-      newFeedBackOptions.items[0].options[index] = item;
-      LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-      this._animatedFeedbackOptions = newFeedBackOptions;
-      if (positiveCounter >= totalPositiveOptions)
-        clearInterval(positiveAnimationInterval);
-      else positiveCounter++;
-    };
-
-    /**
-     * This will add the negative feedback options
-     */
-    const increaseNegativeFeedbackOptions = index => {
-      const item = this.feedbackOptions.items[1].options[index];
-      item.isVisible = true;
-      const newFeedBackOptions = { ...this.animatedFeedbackOptions };
-      newFeedBackOptions.items[1].options[index] = item;
-      LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-      this._animatedFeedbackOptions = newFeedBackOptions;
-      if (negativeCounter >= totalNegativeOptions)
-        clearInterval(negativeAnimationInterval);
-      else negativeCounter++;
-    };
-
-    const positiveAnimationInterval = setInterval(() => {
-      increasePositiveFeedbackOptions(positiveCounter);
-    }, 300);
-    const negativeAnimationInterval = setInterval(() => {
-      increaseNegativeFeedbackOptions(negativeCounter);
-    }, 300);
+      const positiveAnimationInterval = setInterval(() => {
+        increasePositiveFeedbackOptions(positiveCounter);
+      }, 300);
+      const negativeAnimationInterval = setInterval(() => {
+        increaseNegativeFeedbackOptions(negativeCounter);
+      }, 300);
+    }
   };
 
   /**
