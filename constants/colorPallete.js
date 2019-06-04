@@ -62,6 +62,10 @@ const gradientPallete = {
   seventhGradientAlpha: alpha => `rgba(77,159,197,${alpha})`
 };
 
+const whitePallete = {
+  white1: `rgb(247, 247, 247)`
+};
+
 const chatColorPallete = {
   chatMainColor: "rgba(0,198,132,1)",
   chatLightColor: "rgba(249,249,249,1)"
@@ -72,6 +76,7 @@ const colorPallete = {
   ...greyPallete,
   ...gradientPallete,
   ...chatColorPallete,
+  ...whitePallete,
   appBackgroundColor: "white",
   drawerBackgroundColor: "rgba(46, 124, 239, 1)"
 };
