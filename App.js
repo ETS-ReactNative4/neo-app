@@ -3,9 +3,7 @@ import { UIManager, NetInfo } from "react-native";
 import { Provider } from "mobx-react";
 import store from "./mobx/Store";
 import { setNavigationService } from "./Services/navigationService/navigationService";
-import storeService, {
-  updateStoreService
-} from "./Services/storeService/storeService";
+import { updateStoreService } from "./Services/storeService/storeService";
 import AppNavigator from "./Navigators/AppNavigator";
 import {
   disableAnalytics,
@@ -14,8 +12,9 @@ import {
 } from "./Services/analytics/analyticsService";
 import ErrorBoundary from "./CommonComponents/ErrorBoundary/ErrorBoundary";
 import { isProduction } from "./Services/getEnvironmentDetails/getEnvironmentDetails";
-import FooterFeedbackPrompt from "./CommonComponents/FooterFeedbackPrompt/FooterFeedbackPrompt";
 import AppOverlays from "./Screens/AppOverlays/AppOverlays";
+
+updateStoreService(store);
 
 @ErrorBoundary({ isRoot: true })
 class App extends Component {
@@ -56,7 +55,6 @@ class App extends Component {
   };
 
   render() {
-    updateStoreService(store);
     return (
       <Provider {...store}>
         <Fragment>
