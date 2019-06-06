@@ -6,7 +6,7 @@ import constants from "../../constants/constants";
 import TitleInput from "./Components/TitleInput";
 import SimpleButton from "../../CommonComponents/SimpleButton/SimpleButton";
 
-class JournalSetup extends Component {
+class JournalStart extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
       header: <CommonHeader title={"Journal Start"} navigation={navigation} />
@@ -21,6 +21,10 @@ class JournalSetup extends Component {
   editTitle = title => this.setState({ title });
 
   editDescription = description => this.setState({ description });
+
+  submitJournalInfo = () => {
+    this.props.navigation.navigate("JournalSetup");
+  };
 
   render() {
     return (
@@ -60,7 +64,7 @@ class JournalSetup extends Component {
           }}
           textStyle={{ marginRight: 8 }}
           underlayColor={constants.firstColorAlpha(0.8)}
-          action={() => null}
+          action={() => this.submitJournalInfo()}
           text={"Continue"}
           icon={constants.arrowRight}
           iconSize={12}
@@ -106,4 +110,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default JournalSetup;
+export default JournalStart;
