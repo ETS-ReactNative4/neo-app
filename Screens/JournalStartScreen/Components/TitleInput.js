@@ -9,10 +9,13 @@ const TitleInput = ({
   text = "",
   onEdit = () => null,
   onInputSubmit = () => null,
-  maxCharacters = 50
+  maxCharacters = 50,
+  placeholder = "",
+  containerStyle = {},
+  inputStyle = ""
 }) => {
   return (
-    <View style={styles.inputContainer}>
+    <View style={[styles.inputContainer, containerStyle]}>
       <View style={styles.labelRow}>
         <Text style={styles.titleText}>{titleLabel}</Text>
         <Text style={styles.titleTextCount}>{`${
@@ -23,14 +26,14 @@ const TitleInput = ({
         <TextInput
           maxLength={maxCharacters}
           multiline={true}
-          style={styles.titleInput}
+          style={inputStyle}
           onChangeText={onEdit}
           value={text}
           returnKeyType={"next"}
           blurOnSubmit={true}
           onSubmitEditing={onInputSubmit}
           underlineColorAndroid={"transparent"}
-          placeholder={"Title..."}
+          placeholder={placeholder}
           placeholderTextColor={constants.shade3}
           textAlignVertical={"top"}
         />
@@ -64,12 +67,7 @@ const styles = StyleSheet.create({
     ...constants.fontCustom(constants.primarySemiBold, 10, 10),
     color: constants.shade3
   },
-  inputRow: {},
-  titleInput: {
-    minHeight: 64,
-    ...constants.fontCustom(constants.primarySemiBold, 18, 24),
-    color: constants.black1
-  }
+  inputRow: {}
 });
 
 export default TitleInput;

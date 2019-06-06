@@ -1,8 +1,10 @@
 import React, { Component } from "react";
 import { View, Text, StyleSheet } from "react-native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import constants from "../../constants/constants";
 import TitleInput from "./Components/TitleInput";
+import SimpleButton from "../../CommonComponents/SimpleButton/SimpleButton";
 
 class JournalSetup extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -22,7 +24,7 @@ class JournalSetup extends Component {
 
   render() {
     return (
-      <View style={styles.journalStartContainer}>
+      <KeyboardAwareScrollView style={styles.journalStartContainer}>
         <Text
           style={styles.startTitle}
         >{`Greet your readers with a captivating title.`}</Text>
@@ -33,9 +35,39 @@ class JournalSetup extends Component {
             onEdit={this.editTitle}
             text={this.state.title}
             onInputSubmit={() => null}
+            placeholder={"Title..."}
+            containerStyle={styles.titleInputContainer}
+            inputStyle={styles.titleInput}
+          />
+          <TitleInput
+            titleLabel={"Description"}
+            onEdit={this.editDescription}
+            text={this.state.description}
+            onInputSubmit={() => null}
+            maxCharacters={150}
+            placeholder={"Description..."}
+            inputStyle={styles.descriptionInput}
           />
         </View>
-      </View>
+
+        <SimpleButton
+          containerStyle={{
+            borderRadius: 2,
+            height: 45,
+            width: 170,
+            marginTop: 32,
+            alignSelf: "center"
+          }}
+          textStyle={{ marginRight: 8 }}
+          underlayColor={constants.firstColorAlpha(0.8)}
+          action={() => null}
+          text={"Continue"}
+          icon={constants.arrowRight}
+          iconSize={12}
+          rightIcon={true}
+          textColor={"white"}
+        />
+      </KeyboardAwareScrollView>
     );
   }
 }
@@ -57,6 +89,20 @@ const styles = StyleSheet.create({
     borderWidth: StyleSheet.hairlineWidth,
     borderColor: "transparent",
     ...constants.elevationFive
+  },
+  titleInputContainer: {
+    borderBottomColor: constants.shade5,
+    borderBottomWidth: 1
+  },
+  titleInput: {
+    minHeight: 64,
+    ...constants.fontCustom(constants.primarySemiBold, 18, 24),
+    color: constants.black1
+  },
+  descriptionInput: {
+    minHeight: 104,
+    ...constants.fontCustom(constants.primaryRegular, 15, 24),
+    color: constants.black1
   }
 });
 

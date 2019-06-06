@@ -25,11 +25,15 @@ const NewJournal = ({
         <Text style={styles.descText}>{desc}</Text>
         <SimpleButton
           containerStyle={{
-            borderRadius: 0,
+            borderRadius: 2,
             height: 45,
-            width: 170,
+            width: 186,
             marginTop: 32
           }}
+          textStyle={{ marginRight: 8 }}
+          icon={constants.arrowRight}
+          iconSize={12}
+          rightIcon={true}
           underlayColor={constants.firstColorAlpha(0.8)}
           action={action}
           text={buttonText}
