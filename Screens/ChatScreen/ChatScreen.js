@@ -182,9 +182,9 @@ class ChatScreen extends Component {
     });
     const uri = constants.chatServerUrl(chatQueryParam);
 
-    return isConnected ? (
-      isChatActive ? (
-        !isChatFailed ? (
+    return isConnected ? ( // Is Chat Connected to Internet
+      isChatActive ? ( // Is User active on the chat
+        !isChatFailed ? ( // Chat initialization failed
           <View
             style={[
               { flex: 1 },
