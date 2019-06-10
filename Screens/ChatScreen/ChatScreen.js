@@ -57,7 +57,8 @@ class ChatScreen extends Component {
       "didFocus",
       () => {
         const { isChatActive } = props.chatDetailsStore;
-        if (!isChatActive) {
+        const { selectedItineraryId } = props.itineraries;
+        if (!isChatActive && selectedItineraryId) {
           this.initializeChat();
         }
         clearChatNotification();

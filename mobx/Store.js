@@ -61,16 +61,7 @@ const createStore = () => {
     .catch(err => {
       logError(err);
     });
-  hydrate("_itineraries", appStore.itineraries)
-    .then(() => {})
-    .catch(err => {
-      logError(err);
-    });
-  hydrate("_selectedItinerary", appStore.itineraries)
-    .then(() => {})
-    .catch(err => {
-      logError(err);
-    });
+  Itineraries.hydrator(appStore.itineraries);
   hydrate("_vouchers", appStore.voucherStore)
     .then(() => {})
     .catch(err => {

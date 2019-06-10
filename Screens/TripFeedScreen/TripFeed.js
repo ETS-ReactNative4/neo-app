@@ -23,6 +23,7 @@ import pullToRefresh from "../../Services/refresh/pullToRefresh";
 @ErrorBoundary({ isRoot: true })
 @inject("tripFeedStore")
 @inject("feedbackPrompt")
+@inject("itineraries")
 @observer
 class TripFeed extends Component {
   static navigationOptions = {
@@ -43,7 +44,10 @@ class TripFeed extends Component {
     this._didFocusSubscription = props.navigation.addListener(
       "didFocus",
       () => {
-        this.loadTripFeedData();
+        const { selectedItineraryId } = props.itineraries;
+        if (selectedItineraryId) {
+          this.loadTripFeedData();
+        }
         BackHandler.addEventListener(
           "hardwareBackPress",
           this.onBackButtonPressAndroid
@@ -75,7 +79,10 @@ class TripFeed extends Component {
   };
 
   componentDidMount() {
-    this.loadTripFeedData();
+    const { selectedItineraryId } = this.props.itineraries;
+    if (selectedItineraryId) {
+      this.loadTripFeedData();
+    }
 
     /**
      * Loading Header into the view instead of react navigation
