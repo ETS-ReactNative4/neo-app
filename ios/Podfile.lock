@@ -70,6 +70,8 @@ PODS:
   - Protobuf (3.6.1)
   - React (0.57.1):
     - React/Core (= 0.57.1)
+  - react-native-cameraroll (1.0.5):
+    - React
   - react-native-fast-image (5.0.3):
     - FLAnimatedImage
     - React
@@ -151,6 +153,7 @@ DEPENDENCIES:
   - Firebase/Messaging (~> 5.11.0)
   - Folly (from `../node_modules/react-native/third-party-podspecs/Folly.podspec`)
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
+  - "react-native-cameraroll (from `../node_modules/@react-native-community/cameraroll`)"
   - react-native-fast-image (from `../node_modules/react-native-fast-image`)
   - react-native-photo-view (from `../node_modules/react-native-photo-view`)
   - react-native-webview (from `../node_modules/react-native-webview`)
@@ -201,6 +204,8 @@ EXTERNAL SOURCES:
     :podspec: "../node_modules/react-native/third-party-podspecs/glog.podspec"
   React:
     :path: "../node_modules/react-native"
+  react-native-cameraroll:
+    :path: "../node_modules/@react-native-community/cameraroll"
   react-native-fast-image:
     :path: "../node_modules/react-native-fast-image"
   react-native-photo-view:
@@ -241,6 +246,7 @@ SPEC CHECKSUMS:
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
   Protobuf: 1eb9700044745f00181c136ef21b8ff3ad5a0fd5
   React: b4e0982b0ed6a7de90e96cf6fe5cf036aeadd1ec
+  react-native-cameraroll: b1faef9f2ea27b07bdf818b8043909a93f797eca
   react-native-fast-image: f33fef29062258f1f4c39cfc19dc25662eb1de40
   react-native-photo-view: 63e9e61da873531f931008b545d8d10c5373ddf8
   react-native-webview: 69ca34f590814ae44260d30e293ab4b7b3eea793
@@ -255,6 +261,6 @@ SPEC CHECKSUMS:
   TextToSpeech: 4e2fc50c7495416c6da5a1662ad3f750c58d3c85
   yoga: 5e2e4bcf11188977f799b64625dc5913c2aea8fd
 
-PODFILE CHECKSUM: f48a45f6e5b53ae8145ade3ac29141d3d6624924
+PODFILE CHECKSUM: 45c3cf78f88decc23bb76e3a11419785c376eed5
 
 COCOAPODS: 1.6.1

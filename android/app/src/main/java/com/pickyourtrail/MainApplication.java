@@ -3,6 +3,7 @@ package com.pickyourtrail;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.reactnativecommunity.cameraroll.CameraRollPackage;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
 import org.wonday.pdf.RCTPdfView;
 import com.RNFetchBlob.RNFetchBlobPackage;
@@ -42,6 +43,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new CameraRollPackage(),
             new RNDeviceInfo(),
             new RNFetchBlobPackage(),
             new RCTPdfView(),

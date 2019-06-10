@@ -149,6 +149,7 @@ android {
 }
 
 dependencies {
+    implementation project(':@react-native-community_cameraroll')
     implementation(project(':react-native-device-info')) {
       exclude group: 'com.google.android.gms'
     }
