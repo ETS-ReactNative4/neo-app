@@ -1,13 +1,24 @@
 import React from "react";
-import { View, Text, ImageBackground, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  ImageBackground,
+  StyleSheet,
+  TouchableOpacity
+} from "react-native";
 import PropTypes from "prop-types";
 import { responsiveWidth } from "react-native-responsive-dimensions";
 import constants from "../../../constants/constants";
 import Icon from "../../../CommonComponents/Icon/Icon";
+import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraProps";
 
 const JournalDayCard = ({ image, info, action }) => {
   return (
-    <View style={styles.journalDayCardContainer}>
+    <TouchableOpacity
+      onPress={action}
+      activeOpacity={0.8}
+      style={styles.journalDayCardContainer}
+    >
       <ImageBackground
         blurRadius={2}
         source={image}
@@ -18,14 +29,22 @@ const JournalDayCard = ({ image, info, action }) => {
           <Icon name={constants.downloadIcon} color={"white"} size={24} />
         </View>
       </ImageBackground>
-      <Text style={styles.infoText}>{info}</Text>
-    </View>
+      <Text numberOfLines={2} ellipsizeMode={"tail"} style={styles.infoText}>
+        {info}
+      </Text>
+    </TouchableOpacity>
   );
 };
 
+JournalDayCard.propTypes = forbidExtraProps({
+  image: PropTypes.oneOfType([PropTypes.object, PropTypes.number]),
+  info: PropTypes.string.isRequired,
+  action: PropTypes.func.isRequired
+});
+
 const styles = StyleSheet.create({
   journalDayCardContainer: {
-    minHeight: 254,
+    minHeight: 246,
     width: responsiveWidth(100) - 48,
     marginHorizontal: 24,
     backgroundColor: "white"

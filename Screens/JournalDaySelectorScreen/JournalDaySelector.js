@@ -43,7 +43,9 @@ class JournalDaySelector extends Component {
           info={
             "Snorkeling at Tanjung Benoa whilst getting exposed to the unique life of underwater"
           }
-          action={() => null}
+          action={() => {
+            this.props.navigation.navigate("JournalImagePicker");
+          }}
         />
       </ScrollView>
     );
