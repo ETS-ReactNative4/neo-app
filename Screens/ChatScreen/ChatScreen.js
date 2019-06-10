@@ -112,7 +112,11 @@ class ChatScreen extends Component {
         BackHandler.removeEventListener("hardwareBackPress", this.goBack);
       }
     );
-    this.initializeChat();
+    const { isChatActive } = this.props.chatDetailsStore;
+    const { selectedItineraryId } = this.props.itineraries;
+    if (!isChatActive && selectedItineraryId) {
+      this.initializeChat();
+    }
   }
 
   componentWillUnmount() {
