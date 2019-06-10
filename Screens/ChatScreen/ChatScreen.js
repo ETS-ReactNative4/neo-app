@@ -57,7 +57,8 @@ class ChatScreen extends Component {
       "didFocus",
       () => {
         const { isChatActive } = props.chatDetailsStore;
-        if (!isChatActive) {
+        const { selectedItineraryId } = props.itineraries;
+        if (!isChatActive && selectedItineraryId) {
           this.initializeChat();
         }
         clearChatNotification();
@@ -111,7 +112,11 @@ class ChatScreen extends Component {
         BackHandler.removeEventListener("hardwareBackPress", this.goBack);
       }
     );
-    this.initializeChat();
+    const { isChatActive } = this.props.chatDetailsStore;
+    const { selectedItineraryId } = this.props.itineraries;
+    if (!isChatActive && selectedItineraryId) {
+      this.initializeChat();
+    }
   }
 
   componentWillUnmount() {
@@ -177,9 +182,9 @@ class ChatScreen extends Component {
     });
     const uri = constants.chatServerUrl(chatQueryParam);
 
-    return isConnected ? (
-      isChatActive ? (
-        !isChatFailed ? (
+    return isConnected ? ( // Is Chat Connected to Internet
+      isChatActive ? ( // Is User active on the chat
+        !isChatFailed ? ( // Chat initialization failed
           <View
             style={[
               { flex: 1 },

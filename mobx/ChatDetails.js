@@ -96,11 +96,10 @@ class ChatDetails {
   @action
   getUserDetails = () => {
     this._isLoading = true;
-    apiCall(
-      `${constants.initiateChat}?itineraryId=${
-        storeService.itineraries.selectedItineraryId
-      }`
-    )
+    const initializationUrl = `${constants.initiateChat}?itineraryId=${
+      storeService.itineraries.selectedItineraryId
+    }`;
+    apiCall(initializationUrl)
       .then(response => {
         this._isLoading = false;
         if (response.status === constants.responseSuccessStatus) {
@@ -110,17 +109,21 @@ class ChatDetails {
           this._offlineContact = response.data.offlineContact;
         } else if (response.status === "NOT_INITIATED") {
           this._isChatActive = false;
+          this._initializationError = false; // Chat not initiated but initialization call is success
           this._chatActivationTime = response.data.departureDateMillis;
           this._chatActivationMessage =
             response.data.displayMsg || constants.preTripChatText;
           this._offlineContact = response.data.offlineContact;
         } else {
-          logError("Chat failed to Initialize", { response });
+          logError("Chat failed to Initialize", {
+            response,
+            initializationUrl
+          });
           this._initializationError = true;
         }
       })
       .catch(err => {
-        logError("Chat failed to Initialize", { err });
+        logError("Chat failed to Initialize", { err, initializationUrl });
         this._initializationError = true;
         this._isLoading = false;
       });
