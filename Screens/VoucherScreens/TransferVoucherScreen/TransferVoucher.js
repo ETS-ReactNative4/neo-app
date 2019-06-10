@@ -83,6 +83,7 @@ class TransferVoucher extends Component {
     const {
       arrivalTime,
       pickupTime,
+      pickupTimeStr,
       bookedTime,
       bookingId,
       contactNumber,
@@ -166,8 +167,9 @@ class TransferVoucher extends Component {
       },
       {
         name: "Pickup time",
-        value:
-          pickupTime && pickupTime > 0
+        value: pickupTimeStr
+          ? pickupTimeStr
+          : pickupTime && pickupTime > 0
             ? moment(pickupTime).format(constants.shortTimeFormat)
             : "NA"
       },
