@@ -5,6 +5,7 @@ import JournalStart from "../Screens/JournalStartScreen/JournalStart";
 import JournalSetup from "../Screens/JournalSetupScreen/JournalSetup";
 import JournalDaySelector from "../Screens/JournalDaySelectorScreen/JournalDaySelector";
 import JournalImagePicker from "../Screens/JournalImagePickerScreen/JournalImagePicker";
+import JournalTextEditor from "../Screens/JournalTextEditorScreen/JournalTextEditor";
 
 const JournalStack = createStackNavigator(
   {
@@ -22,6 +23,9 @@ const JournalStack = createStackNavigator(
     },
     JournalImagePicker: {
       screen: JournalImagePicker
+    },
+    JournalTextEditor: {
+      screen: JournalTextEditor
     }
   },
   {

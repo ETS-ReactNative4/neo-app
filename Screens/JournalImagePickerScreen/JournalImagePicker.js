@@ -33,6 +33,7 @@ class JournalImagePicker extends Component {
           navigation={navigation}
           RightButton={
             <SimpleButton
+              action={() => navigation.navigate("JournalTextEditor")}
               text={"Skip"}
               textColor={constants.thirdColor}
               color={"transparent"}
