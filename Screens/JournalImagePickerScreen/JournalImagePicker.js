@@ -17,6 +17,10 @@ import CameraRoll from "@react-native-community/cameraroll";
 import { logError } from "../../Services/errorLogger/errorLogger";
 import ImageTile from "./Components/ImageTile";
 import _ from "lodash";
+import { responsiveWidth } from "react-native-responsive-dimensions";
+import NativeImagePicker from "react-native-image-crop-picker";
+import ImagePreviewCard from "./Components/ImagePreviewCard";
+import Carousel from "../../CommonComponents/Carousel/Carousel";
 
 class JournalImagePicker extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -41,6 +45,8 @@ class JournalImagePicker extends Component {
       )
     };
   };
+
+  _previewCarouselRef = React.createRef();
 
   state = {
     previewImage: {},
@@ -105,6 +111,31 @@ class JournalImagePicker extends Component {
     this.fetchImages();
   }
 
+  cropImage = (selectedImageIndex, uri) => {
+    NativeImagePicker.openCropper({
+      path: uri,
+      width: constants.journalImagePicker.selectedImageWidth,
+      height: constants.journalImagePicker.selectedImageHeight
+    })
+      .then(croppedImage => {
+        console.log(croppedImage);
+        const selectedImagesList = [...this.state.selectedImagesList];
+        selectedImagesList[selectedImageIndex].croppedImage = croppedImage;
+        this.setState({ selectedImagesList });
+        // this.setState(state => {
+        //   const imageMap = new Map(state.imageMap);
+        //   const imageDetails = imageMap.get(uri);
+        //   imageDetails.isContain = false;
+        //   imageDetails.croppedImage = croppedImage.path;
+        //   imageMap.set(uri, imageDetails);
+        //   return { imageMap };
+        // });
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
   selectImage = imageDetails => {
     const selectedImages = [...this.state.selectedImagesList];
     const imageIndex = selectedImages.findIndex(selectedImage => {
@@ -117,7 +148,14 @@ class JournalImagePicker extends Component {
     } else {
       selectedImages.splice(imageIndex, 1);
     }
-    this.setState({ selectedImagesList: selectedImages });
+    this.setState({ selectedImagesList: selectedImages }, () => {
+      setTimeout(() => {
+        if (imageIndex === -1) {
+          this._previewCarouselRef.current &&
+            this._previewCarouselRef.current.scrollToEnd();
+        }
+      }, 300);
+    });
   };
 
   _onPressImage = imageId => {
@@ -159,7 +197,7 @@ class JournalImagePicker extends Component {
   };
 
   render() {
-    const { previewImage, imagesList, selectedFolder } = this.state;
+    const { selectedImagesList, imagesList, selectedFolder } = this.state;
 
     const folders = _.uniq(_.map(imagesList, "node.group_name"));
 
@@ -183,6 +221,29 @@ class JournalImagePicker extends Component {
 
     return (
       <View style={styles.journalImagePickerContainer}>
+        {selectedImagesList.length ? (
+          <Carousel
+            scrollRef={this._previewCarouselRef}
+            firstMargin={24}
+            containerStyle={styles.previewCarousel}
+          >
+            {selectedImagesList.map((selectedImage, imageIndex) => {
+              return (
+                <ImagePreviewCard
+                  key={imageIndex}
+                  imageUri={selectedImage.image.node.image.uri}
+                  previewImage={{
+                    uri:
+                      selectedImage.croppedImage.path ||
+                      selectedImage.image.node.image.uri
+                  }}
+                  cropImage={this.cropImage}
+                  index={imageIndex}
+                />
+              );
+            })}
+          </Carousel>
+        ) : null}
         <Dropdown
           onChangeText={this.onChangeFolder}
           label="Images to display"
@@ -223,6 +284,10 @@ const styles = StyleSheet.create({
     backgroundColor: "white"
   },
   photoGrid: {},
+  previewCarousel: {
+    height: constants.journalImagePicker.selectedImageHeight + 32,
+    justifyContent: "flex-start"
+  },
   dropDownTextWrapper: {
     flexDirection: "row",
     backgroundColor: "white",

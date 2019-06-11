@@ -63,6 +63,10 @@ const styles = {
     shadowRadius: 10,
     shadowOpacity: 0.5,
     elevation: 13
+  },
+  journalImagePicker: {
+    selectedImageHeight: 168,
+    selectedImageWidth: 270
   }
 };
 
