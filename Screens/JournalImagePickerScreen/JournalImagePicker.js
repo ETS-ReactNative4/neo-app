@@ -21,6 +21,8 @@ import { responsiveWidth } from "react-native-responsive-dimensions";
 import NativeImagePicker from "react-native-image-crop-picker";
 import ImagePreviewCard from "./Components/ImagePreviewCard";
 import Carousel from "../../CommonComponents/Carousel/Carousel";
+import getReadFilePermissionAndroid from "../../Services/getReadFilePermissionAndroid/getReadFilePermissionAndroid";
+import getWriteFilePermissionAndroid from "../../Services/getWriteFilePermissionAndroid/getWriteFilePermissionAndroid";
 
 class JournalImagePicker extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -108,32 +110,64 @@ class JournalImagePicker extends Component {
   onChangeFolder = () => {};
 
   componentDidMount() {
-    this.fetchImages();
+    if (Platform.OS === constants.platformAndroid) {
+      getReadFilePermissionAndroid(
+        () => this.fetchImages(),
+        () => null,
+        () => null
+      );
+    } else {
+      this.fetchImages();
+    }
   }
 
   cropImage = (selectedImageIndex, uri) => {
-    NativeImagePicker.openCropper({
-      path: uri,
-      width: constants.journalImagePicker.selectedImageWidth,
-      height: constants.journalImagePicker.selectedImageHeight
-    })
-      .then(croppedImage => {
-        console.log(croppedImage);
-        const selectedImagesList = [...this.state.selectedImagesList];
-        selectedImagesList[selectedImageIndex].croppedImage = croppedImage;
-        this.setState({ selectedImagesList });
-        // this.setState(state => {
-        //   const imageMap = new Map(state.imageMap);
-        //   const imageDetails = imageMap.get(uri);
-        //   imageDetails.isContain = false;
-        //   imageDetails.croppedImage = croppedImage.path;
-        //   imageMap.set(uri, imageDetails);
-        //   return { imageMap };
-        // });
+    const startCropping = () => {
+      NativeImagePicker.openCropper({
+        path: uri,
+        width: constants.journalImagePicker.selectedImageWidth,
+        height: constants.journalImagePicker.selectedImageHeight
       })
-      .catch(error => {
-        console.log(error);
-      });
+        .then(croppedImage => {
+          console.log(croppedImage);
+          const selectedImagesList = [...this.state.selectedImagesList];
+          selectedImagesList[selectedImageIndex].croppedImage = croppedImage;
+          this.setState({ selectedImagesList }, () => {
+            NativeImagePicker.clean()
+              .then(() => {
+                console.log("removed all tmp images from tmp directory");
+              })
+              .catch(e => {
+                alert(e);
+              });
+          });
+          /**
+           * Used to update the original image map if needed
+           * This code is not needed in the current selection implementation
+           */
+          // this.setState(state => {
+          //   const imageMap = new Map(state.imageMap);
+          //   const imageDetails = imageMap.get(uri);
+          //   imageDetails.isContain = false;
+          //   imageDetails.croppedImage = croppedImage.path;
+          //   imageMap.set(uri, imageDetails);
+          //   return { imageMap };
+          // });
+        })
+        .catch(error => {
+          logError(error);
+        });
+    };
+
+    if (Platform.OS === constants.platformAndroid) {
+      getWriteFilePermissionAndroid(
+        () => startCropping(),
+        () => null,
+        () => null
+      );
+    } else {
+      startCropping();
+    }
   };
 
   selectImage = imageDetails => {
@@ -196,6 +230,16 @@ class JournalImagePicker extends Component {
     );
   };
 
+  toggleImageContain = selectedImageIndex => {
+    const selectedImagesList = [...this.state.selectedImagesList];
+    if (selectedImagesList[selectedImageIndex].isContain) {
+      selectedImagesList[selectedImageIndex].isContain = false;
+    } else {
+      selectedImagesList[selectedImageIndex].isContain = true;
+    }
+    this.setState({ selectedImagesList });
+  };
+
   render() {
     const { selectedImagesList, imagesList, selectedFolder } = this.state;
 
@@ -239,6 +283,8 @@ class JournalImagePicker extends Component {
                   }}
                   cropImage={this.cropImage}
                   index={imageIndex}
+                  isContain={!!selectedImage.isContain}
+                  toggleImageContain={this.toggleImageContain}
                 />
               );
             })}

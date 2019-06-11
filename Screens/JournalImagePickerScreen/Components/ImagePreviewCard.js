@@ -18,7 +18,7 @@ const ImagePreviewCard = ({
     <View style={styles.imagePreviewCardContainer}>
       <Image
         style={styles.previewImage}
-        source={previewImage}
+        source={isContain ? previewImage : { uri: imageUri }}
         resizeMode={isContain ? "contain" : "cover"}
       />
       <PreviewControlButton
@@ -27,7 +27,7 @@ const ImagePreviewCard = ({
       />
       <PreviewControlButton
         containerStyle={styles.containButton}
-        onClick={toggleImageContain}
+        onClick={() => toggleImageContain(index)}
       />
     </View>
   );
