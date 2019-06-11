@@ -238,12 +238,12 @@ class FeedbackPrompt extends Component {
       : this.state.negativeUserFeedback;
     if (!_.isEmpty(userFeedback)) {
       DebouncedAlert(
-        "Are you sure?",
-        "You can submit your feedback or go back and edit it.",
+        "Your feedback will be saved",
+        "",
         [
-          { text: "Submit", onPress: () => this.onPanelClosed() },
+          { text: "Yes, I’m good", onPress: () => this.onPanelClosed() },
           {
-            text: "Go Back",
+            text: "No, I need to edit",
             onPress: () => null,
             style: "cancel"
           }
@@ -251,7 +251,7 @@ class FeedbackPrompt extends Component {
         { cancelable: false }
       );
     } else {
-      this.props.navigation.goBack();
+      this.onPanelClosed();
     }
     return true;
   };
