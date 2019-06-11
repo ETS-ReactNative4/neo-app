@@ -31,7 +31,7 @@ class FeedbackPrompt extends Component {
   static navigationOptions = {
     header: null,
     gestureResponseDistance: {
-      vertical: 1
+      vertical: responsiveHeight(50)
     }
   };
 
