@@ -22,6 +22,7 @@ import {
 } from "react-native-responsive-dimensions";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import { recordEvent } from "../../Services/analytics/analyticsService";
+import DebouncedAlert from "../../CommonComponents/DebouncedAlert/DebouncedAlert";
 
 @ErrorBoundary()
 @inject("feedbackPrompt")
@@ -30,7 +31,7 @@ class FeedbackPrompt extends Component {
   static navigationOptions = {
     header: null,
     gestureResponseDistance: {
-      vertical: responsiveHeight(50)
+      vertical: 1
     }
   };
 
@@ -231,7 +232,27 @@ class FeedbackPrompt extends Component {
   };
 
   goBack = () => {
-    this.onPanelClosed();
+    const { isFeedbackPositive } = this.props.feedbackPrompt;
+    const userFeedback = isFeedbackPositive
+      ? this.state.positiveUserFeedback
+      : this.state.negativeUserFeedback;
+    if (!_.isEmpty(userFeedback)) {
+      DebouncedAlert(
+        "Are you sure?",
+        "You can submit your feedback or go back and edit it.",
+        [
+          { text: "Submit", onPress: () => this.onPanelClosed() },
+          {
+            text: "Go Back",
+            onPress: () => null,
+            style: "cancel"
+          }
+        ],
+        { cancelable: false }
+      );
+    } else {
+      this.props.navigation.goBack();
+    }
     return true;
   };
 
@@ -259,7 +280,7 @@ class FeedbackPrompt extends Component {
     return (
       <Fragment>
         <TouchableWithoutFeedback
-          onPress={this.onPanelClosed}
+          onPress={Keyboard.dismiss}
           style={styles.feedbackPromptContainer}
         >
           <View style={styles.feedbackPromptContainer}>
