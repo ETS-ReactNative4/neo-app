@@ -129,17 +129,18 @@ class JournalImagePicker extends Component {
         height: constants.journalImagePicker.selectedImageHeight
       })
         .then(croppedImage => {
-          console.log(croppedImage);
+          console.log(JSON.stringify(croppedImage));
           const selectedImagesList = [...this.state.selectedImagesList];
           selectedImagesList[selectedImageIndex].croppedImage = croppedImage;
+          selectedImagesList[selectedImageIndex].isContain = false;
           this.setState({ selectedImagesList }, () => {
-            NativeImagePicker.clean()
-              .then(() => {
-                console.log("removed all tmp images from tmp directory");
-              })
-              .catch(e => {
-                alert(e);
-              });
+            // NativeImagePicker.clean()
+            //   .then(() => {
+            //     console.log("removed all tmp images from tmp directory");
+            //   })
+            //   .catch(e => {
+            //     alert(e);
+            //   });
           });
           /**
            * Used to update the original image map if needed
@@ -178,7 +179,7 @@ class JournalImagePicker extends Component {
       );
     });
     if (imageIndex === -1) {
-      selectedImages.push(imageDetails);
+      selectedImages.push({ ...imageDetails });
     } else {
       selectedImages.splice(imageIndex, 1);
     }

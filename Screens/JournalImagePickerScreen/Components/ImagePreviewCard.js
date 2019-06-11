@@ -18,7 +18,7 @@ const ImagePreviewCard = ({
     <View style={styles.imagePreviewCardContainer}>
       <Image
         style={styles.previewImage}
-        source={isContain ? previewImage : { uri: imageUri }}
+        source={isContain ? { uri: imageUri } : previewImage}
         resizeMode={isContain ? "contain" : "cover"}
       />
       <PreviewControlButton
