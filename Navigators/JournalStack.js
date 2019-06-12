@@ -6,6 +6,8 @@ import JournalSetup from "../Screens/JournalSetupScreen/JournalSetup";
 import JournalDaySelector from "../Screens/JournalDaySelectorScreen/JournalDaySelector";
 import JournalImagePicker from "../Screens/JournalImagePickerScreen/JournalImagePicker";
 import JournalTextEditor from "../Screens/JournalTextEditorScreen/JournalTextEditor";
+import NewItineraryStack from "./NewItineraryStack";
+import getActiveRouteName from "../Services/getActiveRouteName/getActiveRouteName";
 
 const JournalStack = createStackNavigator(
   {
@@ -36,5 +38,20 @@ const JournalStack = createStackNavigator(
     transitionConfig
   }
 );
+
+JournalStack.navigationOptions = ({ navigation }) => {
+  const routeName = getActiveRouteName(navigation.state);
+  // console.log(routeName);
+  // debugger;
+  let tabBarVisible = true;
+
+  if (routeName === "JournalTextEditor") {
+    tabBarVisible = false;
+  }
+
+  return {
+    tabBarVisible
+  };
+};
 
 export default JournalStack;

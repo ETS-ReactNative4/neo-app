@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, StyleSheet, Text, ScrollView } from "react-native";
+import { View, StyleSheet, Text, ScrollView, Platform } from "react-native";
 import CNRichTextEditor, {
   CNToolbar,
   getInitialObject,
@@ -10,13 +10,14 @@ import constants from "../../../constants/constants";
 import { responsiveWidth } from "react-native-responsive-dimensions";
 import SimpleButton from "../../../CommonComponents/SimpleButton/SimpleButton";
 import KeyboardAvoidingActionBar from "../../../CommonComponents/KeyboardAvoidingActionBar/KeyboardAvoidingActionBar";
+import Icon from "../../../CommonComponents/Icon/Icon";
+import TextEditorControls from "./TextEditorControls";
 
 const defaultStyles = getDefaultStyles();
-console.log(defaultStyles);
+
 const customEditorStyles = Object.keys(defaultStyles).reduce(
   (accumulator, key) => {
     const currentStyle = { ...defaultStyles[key] };
-    console.log(Object.isFrozen(currentStyle));
     currentStyle.fontFamily = constants.primaryRegular;
     currentStyle.color = constants.black1;
     accumulator[key] = currentStyle;
@@ -24,9 +25,6 @@ const customEditorStyles = Object.keys(defaultStyles).reduce(
   },
   {}
 );
-
-console.log(customEditorStyles);
-debugger;
 
 class TextEditor extends Component {
   state = {
@@ -36,6 +34,7 @@ class TextEditor extends Component {
   };
 
   onStyleKeyPress = toolType => {
+    console.log(toolType);
     this.editor.applyToolbar(toolType);
   };
 
@@ -58,8 +57,8 @@ class TextEditor extends Component {
   };
 
   render() {
-    console.log(customEditorStyles);
-
+    console.log(this.state.selectedStyles);
+    console.log(this.state.selectedTag);
     return (
       <View style={styles.textEditorContainer}>
         <View style={styles.textEditorWrapper}>
@@ -74,67 +73,68 @@ class TextEditor extends Component {
           />
         </View>
         <KeyboardAvoidingActionBar
-          xSensorPlaceholderColor={constants.firstColorBackground}
+          xSensorPlaceholderColor={constants.black1}
           navigation={this.props.navigation}
         >
           <View style={styles.toolbarContainer}>
             <View style={styles.toolbarSection}>
-              <ScrollView
-                horizontal={true}
-                keyboardShouldPersistTaps={"always"}
-              >
-                <View style={styles.toolBarWrapper}>
-                  <CNToolbar
-                    backgroundColor={"transparent"}
-                    selectedBackgroundColor={constants.firstColorAlpha(0.6)}
-                    style={styles.toolbarStyle}
-                    size={28}
-                    bold={
-                      <Text style={[styles.toolbarButton, styles.boldButton]}>
-                        B
-                      </Text>
-                    }
-                    italic={
-                      <Text style={[styles.toolbarButton, styles.italicButton]}>
-                        I
-                      </Text>
-                    }
-                    underline={
-                      <Text
-                        style={[styles.toolbarButton, styles.underlineButton]}
-                      >
-                        U
-                      </Text>
-                    }
-                    // lineThrough={
-                    //   <Text
-                    //     style={[styles.toolbarButton, styles.lineThroughButton]}
-                    //   >
-                    //     S
-                    //   </Text>
-                    // }
-                    ol={<Text style={styles.toolbarButton}>ol</Text>}
-                    body={<Text style={styles.toolbarButton}>T</Text>}
-                    // title={<Text style={styles.toolbarButton}>h1</Text>}
-                    // heading={<Text style={styles.toolbarButton}>h3</Text>}
-                    // ul={<Text style={styles.toolbarButton}>ul</Text>}
-                    selectedTag={this.state.selectedTag}
-                    selectedStyles={this.state.selectedStyles}
-                    onStyleKeyPress={this.onStyleKeyPress}
-                  />
-                </View>
-              </ScrollView>
+              <View style={styles.toolBarWrapper}>
+                <TextEditorControls
+                  selectedTag={this.state.selectedTag}
+                  selectedStyles={this.state.selectedStyles}
+                  onStyleKeyPress={this.onStyleKeyPress}
+                />
+                <CNToolbar
+                  backgroundColor={"transparent"}
+                  selectedBackgroundColor={"white"}
+                  style={styles.toolbarStyle}
+                  size={28}
+                  bold={
+                    /*<Icon name={constants.closeIcon} color={'white'}/>*/
+                    <Text style={[styles.toolbarButton, styles.boldButton]}>
+                      B
+                    </Text>
+                  }
+                  italic={
+                    <Text style={[styles.toolbarButton, styles.italicButton]}>
+                      I
+                    </Text>
+                  }
+                  underline={
+                    <Text
+                      style={[styles.toolbarButton, styles.underlineButton]}
+                    >
+                      U
+                    </Text>
+                  }
+                  lineThrough={
+                    <Text
+                      style={[styles.toolbarButton, styles.lineThroughButton]}
+                    >
+                      S
+                    </Text>
+                  }
+                  ol={<Text style={styles.toolbarButton}>ol</Text>}
+                  body={<Text style={styles.toolbarButton}>T</Text>}
+                  title={<Text style={styles.toolbarButton}>h1</Text>}
+                  heading={<Text style={styles.toolbarButton}>h3</Text>}
+                  ul={<Text style={styles.toolbarButton}>ul</Text>}
+                  selectedTag={this.state.selectedTag}
+                  selectedStyles={this.state.selectedStyles}
+                  onStyleKeyPress={this.onStyleKeyPress}
+                />
+              </View>
             </View>
-            <View style={styles.buttonSection}>
-              <SimpleButton
-                action={() => {
-                  this.props.getRichText(convertToHtmlString(this.state.value));
-                }}
-                text={"Done"}
-                textColor={"white"}
-                containerStyle={{ width: 51, height: 24 }}
-              />
-            </View>
+            {/*<View style={styles.buttonSection}>*/}
+            {/*  <SimpleButton*/}
+            {/*    action={() => {*/}
+            {/*      this.props.getRichText(convertToHtmlString(this.state.value));*/}
+            {/*    }}*/}
+            {/*    text={"Done"}*/}
+            {/*    textColor={"white"}*/}
+            {/*    containerStyle={{ width: 51, height: 24 }}*/}
+            {/*  />*/}
+            {/*</View>*/}
           </View>
         </KeyboardAvoidingActionBar>
       </View>
@@ -152,13 +152,13 @@ const styles = StyleSheet.create({
     marginHorizontal: 24
   },
   toolbarContainer: {
-    height: 36,
+    minHeight: 36,
     width: responsiveWidth(100),
-    backgroundColor: constants.firstColorBackground,
+    backgroundColor: constants.black1,
     flexDirection: "row"
   },
   toolbarSection: {
-    height: 36,
+    minHeight: 36,
     width: responsiveWidth(100) - 72
   },
   buttonSection: {
