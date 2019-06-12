@@ -1,16 +1,13 @@
 import React, { Component } from "react";
 import { View, StyleSheet, Text, ScrollView, Platform } from "react-native";
 import CNRichTextEditor, {
-  CNToolbar,
   getInitialObject,
   getDefaultStyles,
   convertToHtmlString
 } from "react-native-cn-richtext-editor";
 import constants from "../../../constants/constants";
 import { responsiveWidth } from "react-native-responsive-dimensions";
-import SimpleButton from "../../../CommonComponents/SimpleButton/SimpleButton";
 import KeyboardAvoidingActionBar from "../../../CommonComponents/KeyboardAvoidingActionBar/KeyboardAvoidingActionBar";
-import Icon from "../../../CommonComponents/Icon/Icon";
 import TextEditorControls from "./TextEditorControls";
 
 const defaultStyles = getDefaultStyles();
@@ -57,8 +54,12 @@ class TextEditor extends Component {
   };
 
   render() {
-    console.log(this.state.selectedStyles);
-    console.log(this.state.selectedTag);
+    const {
+      onKeyBoardStateChange,
+      navigation,
+      getRichText,
+      isTextEditorActive
+    } = this.props;
     return (
       <View style={styles.textEditorContainer}>
         <View style={styles.textEditorWrapper}>
@@ -67,75 +68,37 @@ class TextEditor extends Component {
             onSelectedTagChanged={this.onSelectedTagChanged}
             onSelectedStyleChanged={this.onSelectedStyleChanged}
             value={this.state.value}
-            style={{ backgroundColor: "#fff", margin: 0 }}
+            style={{ backgroundColor: "#fff", margin: 0, padding: 0 }}
             styleList={customEditorStyles}
             onValueChanged={this.onValueChanged}
+            placeholder={"Write a captivating story..."}
           />
         </View>
         <KeyboardAvoidingActionBar
-          xSensorPlaceholderColor={constants.black1}
-          navigation={this.props.navigation}
+          onKeyBoardStateChange={keyboardVisibility => {
+            if (keyboardVisibility === "hidden") {
+              getRichText(convertToHtmlString(this.state.value));
+            }
+            onKeyBoardStateChange(keyboardVisibility);
+          }}
+          xSensorPlaceholderColor={
+            isTextEditorActive ? constants.black1 : "transparent"
+          }
+          navigation={navigation}
         >
-          <View style={styles.toolbarContainer}>
-            <View style={styles.toolbarSection}>
-              <View style={styles.toolBarWrapper}>
-                <TextEditorControls
-                  selectedTag={this.state.selectedTag}
-                  selectedStyles={this.state.selectedStyles}
-                  onStyleKeyPress={this.onStyleKeyPress}
-                />
-                <CNToolbar
-                  backgroundColor={"transparent"}
-                  selectedBackgroundColor={"white"}
-                  style={styles.toolbarStyle}
-                  size={28}
-                  bold={
-                    /*<Icon name={constants.closeIcon} color={'white'}/>*/
-                    <Text style={[styles.toolbarButton, styles.boldButton]}>
-                      B
-                    </Text>
-                  }
-                  italic={
-                    <Text style={[styles.toolbarButton, styles.italicButton]}>
-                      I
-                    </Text>
-                  }
-                  underline={
-                    <Text
-                      style={[styles.toolbarButton, styles.underlineButton]}
-                    >
-                      U
-                    </Text>
-                  }
-                  lineThrough={
-                    <Text
-                      style={[styles.toolbarButton, styles.lineThroughButton]}
-                    >
-                      S
-                    </Text>
-                  }
-                  ol={<Text style={styles.toolbarButton}>ol</Text>}
-                  body={<Text style={styles.toolbarButton}>T</Text>}
-                  title={<Text style={styles.toolbarButton}>h1</Text>}
-                  heading={<Text style={styles.toolbarButton}>h3</Text>}
-                  ul={<Text style={styles.toolbarButton}>ul</Text>}
-                  selectedTag={this.state.selectedTag}
-                  selectedStyles={this.state.selectedStyles}
-                  onStyleKeyPress={this.onStyleKeyPress}
-                />
+          {isTextEditorActive ? (
+            <View style={styles.toolbarContainer}>
+              <View style={styles.toolbarSection}>
+                <View style={styles.toolBarWrapper}>
+                  <TextEditorControls
+                    selectedTag={this.state.selectedTag}
+                    selectedStyles={this.state.selectedStyles}
+                    onStyleKeyPress={this.onStyleKeyPress}
+                  />
+                </View>
               </View>
             </View>
-            {/*<View style={styles.buttonSection}>*/}
-            {/*  <SimpleButton*/}
-            {/*    action={() => {*/}
-            {/*      this.props.getRichText(convertToHtmlString(this.state.value));*/}
-            {/*    }}*/}
-            {/*    text={"Done"}*/}
-            {/*    textColor={"white"}*/}
-            {/*    containerStyle={{ width: 51, height: 24 }}*/}
-            {/*  />*/}
-            {/*</View>*/}
-          </View>
+          ) : null}
         </KeyboardAvoidingActionBar>
       </View>
     );

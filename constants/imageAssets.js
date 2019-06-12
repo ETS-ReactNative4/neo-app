@@ -101,6 +101,12 @@ const imageAssets = {
   trashCanIcon: "trash-can",
   noInternetIcon: "no-internet",
   translateIcon: "translate",
+  boldIcon: "bold",
+  headingIcon: "heading",
+  lineBreakIcon: "line-break",
+  linkIcon: "link",
+  listIcon: "list",
+  textIcon: "text",
 
   weatherGraphInactive: require("../assets/images/weatherPlaceholders/weather-graph-disabled.png"),
   weatherCardPlaceholder: require("../assets/images/weatherPlaceholders/weather-placeholder.png"),

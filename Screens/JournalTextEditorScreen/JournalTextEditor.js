@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { View, StyleSheet, TextInput } from "react-native";
+import React, { Component, Fragment } from "react";
+import { View, StyleSheet, TextInput, Platform } from "react-native";
 import TextEditor from "./Components/TextEditor";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import SimpleButton from "../../CommonComponents/SimpleButton/SimpleButton";
@@ -35,55 +35,80 @@ class JournalTextEditor extends Component {
   };
 
   state = {
-    title: ""
+    title: "",
+    isTitleFocused: false,
+    isKeyboardVisible: false,
+    richText: ""
   };
 
-  getRichText = text => {
-    console.log(text);
+  getRichText = richText => {
+    this.setState({
+      richText
+    });
   };
 
   submitTitle = () => {};
 
   editTitle = title => this.setState({ title });
 
+  titleFocused = () => this.setState({ isTitleFocused: true });
+
+  titleBlurred = () => this.setState({ isTitleFocused: false });
+
+  onKeyBoardStateChange = keyboardVisibility => {
+    if (keyboardVisibility === "visible") {
+      this.setState({ isKeyboardVisible: true });
+    } else {
+      this.setState({ isKeyboardVisible: false });
+    }
+  };
+
   render() {
     const selectedImagesList = this.props.navigation.getParam(
       "selectedImagesList",
       []
     );
+    const isTextEditorActive =
+      !this.state.isTitleFocused && this.state.isKeyboardVisible;
+
     return (
       <View style={styles.journalTextEditorContainer}>
-        <Carousel firstMargin={24}>
-          {selectedImagesList.map((selectedImage, imageIndex) => {
-            return (
-              <ImagePreviewThumbnail
-                key={imageIndex}
-                imageStyle={styles.thumbnailImage}
-                imageSource={{
-                  uri:
-                    selectedImage.croppedImage.path ||
-                    selectedImage.image.node.image.uri
-                }}
-              />
-            );
-          })}
-        </Carousel>
-        <TextInput
-          maxLength={50}
-          multiline={true}
-          style={styles.inputStyle}
-          onChangeText={this.editTitle}
-          value={this.state.title}
-          returnKeyType={"next"}
-          blurOnSubmit={true}
-          onSubmitEditing={this.submitTitle}
-          underlineColorAndroid={"transparent"}
-          placeholder={"Give your post a heading..."}
-          placeholderTextColor={constants.shade3}
-          textAlignVertical={"top"}
-        />
+        {!isTextEditorActive ? (
+          <Fragment>
+            <Carousel firstMargin={24}>
+              {selectedImagesList.map((selectedImage, imageIndex) => {
+                return (
+                  <ImagePreviewThumbnail
+                    key={imageIndex}
+                    imageStyle={styles.thumbnailImage}
+                    imageSource={{
+                      uri:
+                        selectedImage.croppedImage.path ||
+                        selectedImage.image.node.image.uri
+                    }}
+                  />
+                );
+              })}
+            </Carousel>
+            <TextInput
+              style={styles.inputStyle}
+              onChangeText={this.editTitle}
+              value={this.state.title}
+              returnKeyType={"next"}
+              onFocus={this.titleFocused}
+              onBlur={this.titleBlurred}
+              onSubmitEditing={this.submitTitle}
+              underlineColorAndroid={"transparent"}
+              placeholder={"Give your post a heading..."}
+              placeholderTextColor={constants.shade3}
+              textAlignVertical={"center"}
+            />
+          </Fragment>
+        ) : null}
         <TextEditor
+          isTextEditorActive={isTextEditorActive}
           getRichText={this.getRichText}
+          onKeyBoardStateChange={this.onKeyBoardStateChange}
           navigation={this.props.navigation}
         />
       </View>
@@ -100,9 +125,16 @@ const styles = StyleSheet.create({
     borderRadius: 2
   },
   inputStyle: {
+    ...Platform.select({
+      ios: {
+        height: 32
+      },
+      android: {
+        height: 40
+      }
+    }),
     marginHorizontal: 24,
     ...constants.fontCustom(constants.primarySemiBold, 18),
-    height: 32,
     marginTop: 24,
     marginBottom: 16
   }

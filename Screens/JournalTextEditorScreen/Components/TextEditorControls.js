@@ -1,8 +1,10 @@
 import React from "react";
-import { TouchableOpacity, View, StyleSheet } from "react-native";
+import { TouchableOpacity, View, StyleSheet, Text } from "react-native";
 import { responsiveWidth } from "react-native-responsive-dimensions";
 import constants from "../../../constants/constants";
 import Icon from "../../../CommonComponents/Icon/Icon";
+import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraProps";
+import PropTypes from "prop-types";
 
 const ControlIcon = ({ isSelected, iconName, action = () => null }) => {
   return (
@@ -20,21 +22,57 @@ const ControlIcon = ({ isSelected, iconName, action = () => null }) => {
   );
 };
 
-const TextEditorControls = () => {
+ControlIcon.propTypes = forbidExtraProps({
+  isSelected: PropTypes.bool.isRequired,
+  iconName: PropTypes.string.isRequired,
+  action: PropTypes.func.isRequired
+});
+
+const TextEditorControls = ({
+  selectedTag = "",
+  selectedStyles = [],
+  onStyleKeyPress = () => null
+}) => {
   return (
     <View style={styles.textEditorControlsContainer}>
       <ControlIcon
-        iconName={constants.closeIcon}
-        isSelected={false}
-        action={() => null}
+        iconName={constants.headingIcon}
+        isSelected={selectedTag === constants.textEditorControlHeading}
+        action={() => onStyleKeyPress(constants.textEditorControlHeading)}
       />
-      <ControlIcon iconName={constants.telephoneIcon} isSelected={true} />
-      <ControlIcon iconName={constants.callIcon} isSelected={false} />
-      <ControlIcon iconName={constants.checkIcon} isSelected={true} />
-      <ControlIcon iconName={constants.downloadIcon} isSelected={false} />
+      <ControlIcon
+        iconName={constants.textIcon}
+        isSelected={selectedTag === constants.textEditorControlBody}
+        action={() => onStyleKeyPress(constants.textEditorControlBody)}
+      />
+      <ControlIcon
+        iconName={constants.boldIcon}
+        isSelected={
+          selectedStyles.indexOf(constants.textEditorControlBold) > -1
+        }
+        action={() => onStyleKeyPress(constants.textEditorControlBold)}
+      />
+      <ControlIcon
+        iconName={constants.listIcon}
+        isSelected={selectedTag === constants.textEditorControlUnordered}
+        action={() => onStyleKeyPress(constants.textEditorControlUnordered)}
+      />
+      <ControlIcon
+        iconName={constants.lineBreakIcon}
+        isSelected={
+          selectedStyles.indexOf(constants.textEditorControlUnderline) > -1
+        }
+        action={() => onStyleKeyPress(constants.textEditorControlUnderline)}
+      />
     </View>
   );
 };
+
+TextEditorControls.propTypes = forbidExtraProps({
+  selectedTag: PropTypes.string,
+  selectedStyles: PropTypes.array.isRequired,
+  onStyleKeyPress: PropTypes.func.isRequired
+});
 
 const styles = StyleSheet.create({
   textEditorControlsContainer: {
@@ -58,3 +96,47 @@ const styles = StyleSheet.create({
 });
 
 export default TextEditorControls;
+
+/**
+ * Original CN Tool bar. Will be needed for debugging
+ */
+/*
+<CNToolbar
+  backgroundColor={"transparent"}
+  selectedBackgroundColor={"white"}
+  style={styles.toolbarStyle}
+  size={28}
+  bold={
+    <Text style={[styles.toolbarButton, styles.boldButton]}>
+      B
+    </Text>
+  }
+  italic={
+    <Text style={[styles.toolbarButton, styles.italicButton]}>
+      I
+    </Text>
+  }
+  underline={
+    <Text
+      style={[styles.toolbarButton, styles.underlineButton]}
+    >
+      U
+    </Text>
+  }
+  lineThrough={
+    <Text
+      style={[styles.toolbarButton, styles.lineThroughButton]}
+    >
+      S
+    </Text>
+  }
+  ol={<Text style={styles.toolbarButton}>ol</Text>}
+  body={<Text style={styles.toolbarButton}>T</Text>}
+  title={<Text style={styles.toolbarButton}>h1</Text>}
+  heading={<Text style={styles.toolbarButton}>h3</Text>}
+  ul={<Text style={styles.toolbarButton}>ul</Text>}
+  selectedTag={this.state.selectedTag}
+  selectedStyles={this.state.selectedStyles}
+  onStyleKeyPress={this.onStyleKeyPress}
+/>
+*/
