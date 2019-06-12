@@ -238,12 +238,17 @@ class FeedbackPrompt extends Component {
       : this.state.negativeUserFeedback;
     if (!_.isEmpty(userFeedback)) {
       DebouncedAlert(
-        "Your feedback will be saved",
-        "",
+        constants.feedbackPromptText.returnConfirmationTitle,
+        isFeedbackPositive
+          ? constants.feedbackPromptText.returnConfirmationPostiveInfo
+          : constants.feedbackPromptText.returnConfirmationNegativeInfo,
         [
-          { text: "Yes, I’m good", onPress: () => this.onPanelClosed() },
           {
-            text: "No, I need to edit",
+            text: constants.feedbackPromptText.returnCta,
+            onPress: () => this.onPanelClosed()
+          },
+          {
+            text: constants.feedbackPromptText.cancelReturnCta,
             onPress: () => null,
             style: "cancel"
           }

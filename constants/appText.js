@@ -143,6 +143,14 @@ const appText = {
     submitSuccessful: "Thanks for the feedback!",
     submitFailed: "Unable to record feedback."
   },
+  feedbackPromptText: {
+    returnConfirmationTitle: "Thanks for the feedback",
+    returnConfirmationPostiveInfo: "We're glad you had a good time",
+    returnConfirmationNegativeInfo:
+      "We're sorry your experience wasn't up to the mark",
+    returnCta: "Okay, got it",
+    cancelReturnCta: "Continue editing"
+  },
   serverResponseErrorText: "Something went wrong with the server"
 };
 
