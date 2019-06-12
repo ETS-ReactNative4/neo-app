@@ -270,7 +270,7 @@ class JournalImagePicker extends Component {
         {selectedImagesList.length ? (
           <Carousel
             scrollRef={this._previewCarouselRef}
-            firstMargin={24}
+            firstMargin={16}
             containerStyle={styles.previewCarousel}
           >
             {selectedImagesList.map((selectedImage, imageIndex) => {
@@ -331,7 +331,9 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "white"
   },
-  photoGrid: {},
+  photoGrid: {
+    marginHorizontal: 24
+  },
   previewCarousel: {
     height: constants.journalImagePicker.selectedImageHeight + 32,
     justifyContent: "flex-start"
@@ -340,11 +342,12 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     backgroundColor: "white",
     marginVertical: 4,
+    marginLeft: 24,
     height: 24,
     alignItems: "center"
   },
   dropDownText: {
-    ...constants.fontCustom(constants.primaryLight, 14),
+    ...constants.fontCustom(constants.primaryRegular, 16),
     color: constants.black1,
     marginRight: 8
   }

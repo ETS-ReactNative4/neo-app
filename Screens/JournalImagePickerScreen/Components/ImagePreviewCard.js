@@ -5,6 +5,7 @@ import { responsiveWidth } from "react-native-responsive-dimensions";
 import PropTypes from "prop-types";
 import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraProps";
 import PreviewControlButton from "./PreviewControlButtons";
+import ImagePositionIndicator from "./ImagePositionIndicator";
 
 const ImagePreviewCard = ({
   index,
@@ -29,6 +30,11 @@ const ImagePreviewCard = ({
         containerStyle={styles.containButton}
         onClick={() => toggleImageContain(index)}
       />
+      <ImagePositionIndicator
+        action={() => null}
+        containerStyle={styles.selectionPositionWrapper}
+        text={index + 1}
+      />
     </View>
   );
 };
@@ -47,7 +53,7 @@ const styles = StyleSheet.create({
     width:
       responsiveWidth(80) || constants.journalImagePicker.selectedImageWidth,
     borderRadius: 2,
-    marginRight: 24
+    marginRight: 8
   },
   previewImage: {
     height: constants.journalImagePicker.selectedImageHeight,
@@ -66,6 +72,11 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: -16,
     right: 80
+  },
+  selectionPositionWrapper: {
+    position: "absolute",
+    top: 2,
+    left: 2
   }
 });
 

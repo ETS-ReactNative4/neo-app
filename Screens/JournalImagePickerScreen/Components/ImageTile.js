@@ -1,9 +1,16 @@
 import React from "react";
-import { Image, TouchableOpacity, StyleSheet, Text } from "react-native";
+import {
+  Image,
+  TouchableOpacity,
+  StyleSheet,
+  Text,
+  ImageBackground
+} from "react-native";
 import { responsiveWidth } from "react-native-responsive-dimensions";
 import constants from "../../../constants/constants";
 import PropTypes from "prop-types";
 import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraProps";
+import ImagePositionIndicator from "./ImagePositionIndicator";
 
 const ImageTile = ({
   item,
@@ -22,24 +29,21 @@ const ImageTile = ({
       }}
       style={styles.imageTileContainer}
     >
-      <Image
+      <ImageBackground
         style={[styles.tileImage, selected ? styles.selected : null]}
         source={{
           uri: item.node.image.uri
         }}
         resizeMode={"cover"}
-      />
-      {selected ? (
-        <TouchableOpacity
-          activeOpacity={0.8}
-          onPress={() => onPressItem(item.node.image.uri)}
-          style={styles.selectionPositionWrapper}
-        >
-          <Text style={styles.selectionPositionText}>
-            {selectionPosition + 1}
-          </Text>
-        </TouchableOpacity>
-      ) : null}
+      >
+        {selected ? (
+          <ImagePositionIndicator
+            action={() => onPressItem(item.node.image.uri)}
+            containerStyle={styles.selectionPositionWrapper}
+            text={selectionPosition + 1}
+          />
+        ) : null}
+      </ImageBackground>
     </TouchableOpacity>
   );
 };
@@ -52,37 +56,30 @@ ImageTile.propTypes = forbidExtraProps({
   selectionPosition: PropTypes.func.isRequired
 });
 
+const listContainerTotalWidth =
+  responsiveWidth(100) - 48; // device width // flatlist margin
+
 const styles = StyleSheet.create({
   imageTileContainer: {
-    height: responsiveWidth(100) / 4,
-    width: responsiveWidth(100) / 4,
+    height: listContainerTotalWidth / 4,
+    width: listContainerTotalWidth / 4,
     borderColor: "white",
     borderWidth: 1,
     alignItems: "center",
     justifyContent: "center"
   },
   tileImage: {
-    height: responsiveWidth(100) / 4,
-    width: responsiveWidth(100) / 4
+    height: listContainerTotalWidth / 4 - 1,
+    width: listContainerTotalWidth / 4 - 1
   },
   selected: {
-    height: responsiveWidth(100) / 4 - 16,
-    width: responsiveWidth(100) / 4 - 16
+    height: listContainerTotalWidth / 4 - 16,
+    width: listContainerTotalWidth / 4 - 16
   },
   selectionPositionWrapper: {
     position: "absolute",
-    top: 0,
-    right: 0,
-    height: 24,
-    width: 24,
-    borderRadius: 12,
-    backgroundColor: constants.seventhColor,
-    alignItems: "center",
-    justifyContent: "center"
-  },
-  selectionPositionText: {
-    ...constants.fontCustom(constants.primaryRegular, 16),
-    color: "white"
+    top: 2,
+    right: 2
   }
 });
 
