@@ -12,6 +12,21 @@ import SimpleButton from "../../../CommonComponents/SimpleButton/SimpleButton";
 import KeyboardAvoidingActionBar from "../../../CommonComponents/KeyboardAvoidingActionBar/KeyboardAvoidingActionBar";
 
 const defaultStyles = getDefaultStyles();
+console.log(defaultStyles);
+const customEditorStyles = Object.keys(defaultStyles).reduce(
+  (accumulator, key) => {
+    const currentStyle = { ...defaultStyles[key] };
+    console.log(Object.isFrozen(currentStyle));
+    currentStyle.fontFamily = constants.primaryRegular;
+    currentStyle.color = constants.black1;
+    accumulator[key] = currentStyle;
+    return accumulator;
+  },
+  {}
+);
+
+console.log(customEditorStyles);
+debugger;
 
 class TextEditor extends Component {
   state = {
@@ -43,17 +58,21 @@ class TextEditor extends Component {
   };
 
   render() {
+    console.log(customEditorStyles);
+
     return (
-      <View style={{ flex: 1, alignItems: "stretch" }}>
-        <CNRichTextEditor
-          ref={input => (this.editor = input)}
-          onSelectedTagChanged={this.onSelectedTagChanged}
-          onSelectedStyleChanged={this.onSelectedStyleChanged}
-          value={this.state.value}
-          style={{ backgroundColor: "#fff" }}
-          styleList={defaultStyles}
-          onValueChanged={this.onValueChanged}
-        />
+      <View style={styles.textEditorContainer}>
+        <View style={styles.textEditorWrapper}>
+          <CNRichTextEditor
+            ref={input => (this.editor = input)}
+            onSelectedTagChanged={this.onSelectedTagChanged}
+            onSelectedStyleChanged={this.onSelectedStyleChanged}
+            value={this.state.value}
+            style={{ backgroundColor: "#fff", margin: 0 }}
+            styleList={customEditorStyles}
+            onValueChanged={this.onValueChanged}
+          />
+        </View>
         <KeyboardAvoidingActionBar
           xSensorPlaceholderColor={constants.firstColorBackground}
           navigation={this.props.navigation}
@@ -124,6 +143,14 @@ class TextEditor extends Component {
 }
 
 const styles = StyleSheet.create({
+  textEditorContainer: {
+    flex: 1
+  },
+  textEditorWrapper: {
+    flex: 1,
+    alignItems: "stretch",
+    marginHorizontal: 24
+  },
   toolbarContainer: {
     height: 36,
     width: responsiveWidth(100),
