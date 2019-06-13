@@ -1,10 +1,11 @@
 import React, { Component } from "react";
-import { View, ScrollView, StyleSheet } from "react-native";
+import { ScrollView, StyleSheet } from "react-native";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import SimpleButton from "../../CommonComponents/SimpleButton/SimpleButton";
 import constants from "../../constants/constants";
 import JournalDaySelectorTitle from "./Components/JournalDaySelectorTitle";
 import JournalDayCard from "./Components/JournalDayCard";
+import AddStoryButton from "./Components/AddStoryButton";
 
 class JournalDaySelector extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -59,6 +60,10 @@ class JournalDaySelector extends Component {
           deleteAction={() => null}
           editAction={() => null}
         />
+        <AddStoryButton
+          action={() => null}
+          containerStyle={styles.addStoryButton}
+        />
       </ScrollView>
     );
   }
@@ -67,6 +72,9 @@ class JournalDaySelector extends Component {
 const styles = StyleSheet.create({
   journalDaySelectorContainer: {
     backgroundColor: constants.white1
+  },
+  addStoryButton: {
+    marginBottom: 32
   }
 });
 
