@@ -231,6 +231,10 @@ class FeedbackPrompt extends Component {
   };
 
   goBack = () => {
+    /**
+     * Display a confirmation alert to the user if back
+     * button is clicked on android
+     */
     const { isFeedbackPositive } = this.props.feedbackPrompt;
     const userFeedback = isFeedbackPositive
       ? this.state.positiveUserFeedback
