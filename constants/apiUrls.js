@@ -43,6 +43,7 @@ const apiUrls = {
   setChatRestoreId: "mobile/chat/restoreid",
   getDaywiseFeedbackOptions: "mobile/footers",
 
+  getJournalScreenDetails: "mobile/journal/screen/info/home",
   googleDrivePdfViewer: "https://drive.google.com/viewerng/viewer?url="
 };
 
