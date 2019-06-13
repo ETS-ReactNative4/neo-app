@@ -47,6 +47,18 @@ class JournalDaySelector extends Component {
             this.props.navigation.navigate("JournalImagePicker");
           }}
         />
+        <JournalDayCard
+          image={constants.journalComingSoonIllus}
+          info={
+            "Snorkeling at Tanjung Benoa whilst getting exposed to the unique life of underwater"
+          }
+          action={() => {
+            this.props.navigation.navigate("JournalImagePicker");
+          }}
+          isActivated={true}
+          deleteAction={() => null}
+          editAction={() => null}
+        />
       </ScrollView>
     );
   }

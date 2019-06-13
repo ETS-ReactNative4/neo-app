@@ -15,7 +15,7 @@ const JournalDaySelectorTitle = ({ title = "", description = "" }) => {
 const styles = StyleSheet.create({
   daySelectorTitleContainer: {
     marginHorizontal: 24,
-    marginVertical: 32
+    marginTop: 32
   },
   titleText: {
     ...constants.fontCustom(constants.primaryRegular, 16, 17),
