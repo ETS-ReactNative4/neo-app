@@ -184,14 +184,16 @@ class FeedbackPrompt {
               option.isVisible = false;
               return option;
             }),
-            title: this.feedbackOptions.items[0].title
+            title: this.feedbackOptions.items[0].title,
+            desc: this.feedbackOptions.items[0].desc
           },
           {
             options: this.feedbackOptions.items[1].options.map(option => {
               option.isVisible = false;
               return option;
             }),
-            title: this.feedbackOptions.items[1].title
+            title: this.feedbackOptions.items[1].title,
+            desc: this.feedbackOptions.items[1].desc
           }
         ]
       };

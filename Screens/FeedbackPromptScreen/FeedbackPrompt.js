@@ -5,7 +5,6 @@ import {
   Keyboard,
   Platform,
   Text,
-  SafeAreaView,
   TouchableWithoutFeedback,
   LayoutAnimation,
   BackHandler
@@ -276,6 +275,12 @@ class FeedbackPrompt extends Component {
     const negativeItems = feedbackOptions.items.length
       ? feedbackOptions.items[1]
       : {};
+    const positiveDesc = feedbackOptions.items.length
+      ? feedbackOptions.items[0].desc
+      : "";
+    const negativeDesc = feedbackOptions.items.length
+      ? feedbackOptions.items[1].desc
+      : "";
     const items = isFeedbackPositive ? positiveItems : negativeItems;
 
     const userFeedback = isFeedbackPositive
@@ -312,9 +317,9 @@ class FeedbackPrompt extends Component {
                   </Text>
                   <Text style={styles.slidingContainerInfo}>
                     {isFeedbackPositive
-                      ? feedbackOptions.desc ||
+                      ? positiveDesc ||
                         constants.feedbackPromptText.defaultPositiveFeedbackDesc
-                      : feedbackOptions.desc ||
+                      : negativeDesc ||
                         constants.feedbackPromptText
                           .defaultNegativeFeedbackDesc}
                   </Text>

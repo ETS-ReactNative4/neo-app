@@ -140,11 +140,11 @@ const appText = {
   pdfViewerErrorText: "Unable to load pdf!",
   serverErrorText: "Unable to connect to the server",
   feedbackFooterText: {
-    submitSuccessful: "Thanks for the feedback!",
+    submitSuccessful: "Thanks for your feedback!",
     submitFailed: "Unable to record feedback."
   },
   feedbackPromptText: {
-    returnConfirmationTitle: "Thanks for the feedback",
+    returnConfirmationTitle: "Thanks for your feedback!",
     returnConfirmationPostiveInfo: "We're glad you had a good time",
     returnConfirmationNegativeInfo:
       "We're sorry your experience wasn't up to the mark",
