@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
   },
   newJournalIllustration: {
     width: responsiveWidth(100),
-    height: responsiveWidth(50)
+    height: responsiveWidth(100)
   },
   newJournalTextArea: {
     alignItems: "center",
