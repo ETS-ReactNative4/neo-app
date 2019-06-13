@@ -8,8 +8,22 @@ import constants from "../constants/constants";
 import storeService from "../Services/storeService/storeService";
 import { logError } from "../Services/errorLogger/errorLogger";
 import { LayoutAnimation, Platform } from "react-native";
+import { hydrate } from "./Store";
 
 class Itineraries {
+  static hydrator = storeInstance => {
+    hydrate("_itineraries", storeInstance)
+      .then(() => {})
+      .catch(err => {
+        logError(err);
+      });
+    hydrate("_selectedItinerary", storeInstance)
+      .then(() => {})
+      .catch(err => {
+        logError(err);
+      });
+  };
+
   @observable _isLoading = false;
 
   @observable _loadingError = false;
@@ -40,16 +54,18 @@ class Itineraries {
         LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
       }
       this._selectedItinerary = selectedItinerary;
-      storeService.voucherStore.selectVoucher(this.selectedItineraryId);
-      storeService.emergencyContactsStore.getEmergencyContacts(this.cities);
-      storeService.passportDetailsStore.updatePassportDetails(
-        this.selectedItineraryId
-      );
-      storeService.visaStore.getVisaDetails(this.selectedItineraryId);
-      storeService.supportStore.loadFaqDetails();
-      storeService.tripFeedStore.generateTripFeed();
-      storeService.weatherStore.reset();
-      storeService.chatDetailsStore.getUserDetails();
+      if (this.selectedItineraryId) {
+        storeService.voucherStore.selectVoucher(this.selectedItineraryId);
+        storeService.emergencyContactsStore.getEmergencyContacts(this.cities);
+        storeService.passportDetailsStore.updatePassportDetails(
+          this.selectedItineraryId
+        );
+        storeService.visaStore.getVisaDetails(this.selectedItineraryId);
+        storeService.supportStore.loadFaqDetails();
+        storeService.tripFeedStore.generateTripFeed();
+        storeService.weatherStore.reset();
+        storeService.chatDetailsStore.getUserDetails();
+      }
       callback();
     } else {
       this.getItineraryDetails(itineraryId, callback);
@@ -75,15 +91,20 @@ class Itineraries {
             );
           }
           this._selectedItinerary = response.data;
-          storeService.voucherStore.selectVoucher(this.selectedItineraryId);
-          storeService.emergencyContactsStore.getEmergencyContacts(this.cities);
-          storeService.passportDetailsStore.updatePassportDetails(
-            this.selectedItineraryId
-          );
-          storeService.visaStore.getVisaDetails(this.selectedItineraryId);
-          storeService.supportStore.loadFaqDetails();
-          storeService.tripFeedStore.generateTripFeed();
-          storeService.weatherStore.reset();
+          if (this.selectedItineraryId) {
+            storeService.voucherStore.selectVoucher(this.selectedItineraryId);
+            storeService.emergencyContactsStore.getEmergencyContacts(
+              this.cities
+            );
+            storeService.passportDetailsStore.updatePassportDetails(
+              this.selectedItineraryId
+            );
+            storeService.visaStore.getVisaDetails(this.selectedItineraryId);
+            storeService.supportStore.loadFaqDetails();
+            storeService.tripFeedStore.generateTripFeed();
+            storeService.weatherStore.reset();
+            storeService.chatDetailsStore.getUserDetails();
+          }
           callback();
         } else {
           this._loadingError = true;
@@ -461,7 +482,7 @@ class Itineraries {
               const visaObject = toJS(
                 this._selectedItinerary.visaCostings.visaCostingById[ref]
               );
-              if (!visaObject.onArrival) {
+              if (visaObject && !visaObject.onArrival) {
                 visaArray.push(visaObject);
               }
               return visaArray;
