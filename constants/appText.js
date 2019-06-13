@@ -149,7 +149,9 @@ const appText = {
     returnConfirmationNegativeInfo:
       "We're sorry your experience wasn't up to the mark",
     returnCta: "Okay, got it",
-    cancelReturnCta: "Continue editing"
+    cancelReturnCta: "Continue editing",
+    defaultPositiveFeedbackDesc: "Pick your favourite moments of the day",
+    defaultNegativeFeedbackDesc: "Where did it go wrong?"
   },
   serverResponseErrorText: "Something went wrong with the server"
 };
