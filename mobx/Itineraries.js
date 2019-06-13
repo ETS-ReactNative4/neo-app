@@ -482,7 +482,7 @@ class Itineraries {
               const visaObject = toJS(
                 this._selectedItinerary.visaCostings.visaCostingById[ref]
               );
-              if (!visaObject.onArrival) {
+              if (visaObject && !visaObject.onArrival) {
                 visaArray.push(visaObject);
               }
               return visaArray;

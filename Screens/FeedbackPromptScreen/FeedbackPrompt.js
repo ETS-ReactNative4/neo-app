@@ -5,7 +5,6 @@ import {
   Keyboard,
   Platform,
   Text,
-  SafeAreaView,
   TouchableWithoutFeedback,
   LayoutAnimation,
   BackHandler
@@ -22,6 +21,7 @@ import {
 } from "react-native-responsive-dimensions";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import { recordEvent } from "../../Services/analytics/analyticsService";
+import DebouncedAlert from "../../CommonComponents/DebouncedAlert/DebouncedAlert";
 
 @ErrorBoundary()
 @inject("feedbackPrompt")
@@ -231,7 +231,36 @@ class FeedbackPrompt extends Component {
   };
 
   goBack = () => {
-    this.onPanelClosed();
+    /**
+     * Display a confirmation alert to the user if back
+     * button is clicked on android
+     */
+    const { isFeedbackPositive } = this.props.feedbackPrompt;
+    const userFeedback = isFeedbackPositive
+      ? this.state.positiveUserFeedback
+      : this.state.negativeUserFeedback;
+    if (!_.isEmpty(userFeedback)) {
+      DebouncedAlert(
+        constants.feedbackPromptText.returnConfirmationTitle,
+        isFeedbackPositive
+          ? constants.feedbackPromptText.returnConfirmationPostiveInfo
+          : constants.feedbackPromptText.returnConfirmationNegativeInfo,
+        [
+          {
+            text: constants.feedbackPromptText.returnCta,
+            onPress: () => this.onPanelClosed()
+          },
+          {
+            text: constants.feedbackPromptText.cancelReturnCta,
+            onPress: () => null,
+            style: "cancel"
+          }
+        ],
+        { cancelable: false }
+      );
+    } else {
+      this.onPanelClosed();
+    }
     return true;
   };
 
@@ -250,6 +279,12 @@ class FeedbackPrompt extends Component {
     const negativeItems = feedbackOptions.items.length
       ? feedbackOptions.items[1]
       : {};
+    const positiveDesc = feedbackOptions.items.length
+      ? feedbackOptions.items[0].desc
+      : "";
+    const negativeDesc = feedbackOptions.items.length
+      ? feedbackOptions.items[1].desc
+      : "";
     const items = isFeedbackPositive ? positiveItems : negativeItems;
 
     const userFeedback = isFeedbackPositive
@@ -259,7 +294,7 @@ class FeedbackPrompt extends Component {
     return (
       <Fragment>
         <TouchableWithoutFeedback
-          onPress={this.onPanelClosed}
+          onPress={Keyboard.dismiss}
           style={styles.feedbackPromptContainer}
         >
           <View style={styles.feedbackPromptContainer}>
@@ -286,9 +321,11 @@ class FeedbackPrompt extends Component {
                   </Text>
                   <Text style={styles.slidingContainerInfo}>
                     {isFeedbackPositive
-                      ? feedbackOptions.desc ||
-                        "Pick your favourite moments of the day"
-                      : feedbackOptions.desc || "Where did we go wrong?"}
+                      ? positiveDesc ||
+                        constants.feedbackPromptText.defaultPositiveFeedbackDesc
+                      : negativeDesc ||
+                        constants.feedbackPromptText
+                          .defaultNegativeFeedbackDesc}
                   </Text>
                   {items.options.map((option, optionIndex) => {
                     if (!option.isVisible) {

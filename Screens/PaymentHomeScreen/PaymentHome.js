@@ -99,9 +99,12 @@ class PaymentHome extends Component {
   render() {
     const {
       upcomingItineraries,
+      completedItineraries,
       isLoading,
       getUpcomingItineraries
     } = this.props.yourBookingsStore;
+
+    const itinerariesList = [...upcomingItineraries, ...completedItineraries];
 
     return (
       <View style={styles.paymentContainer}>
@@ -112,7 +115,7 @@ class PaymentHome extends Component {
             this.getPaymentMeta();
           }}
         >
-          {!upcomingItineraries.length && !isLoading ? (
+          {!itinerariesList.length && !isLoading ? (
             <EmptyListPlaceholder
               text={`No active bookings found on this number. If the booking is made by someone else, you need an invite from them to proceed.`}
               containerStyle={{
@@ -122,13 +125,13 @@ class PaymentHome extends Component {
               }}
             />
           ) : null}
-          {upcomingItineraries.map((itinerary, index) => {
+          {itinerariesList.map((itinerary, index) => {
             const paymentDetails = this.state.paymentMeta[
               itinerary.itineraryId
             ];
             if (paymentDetails) {
               let isLast = false;
-              if (index === upcomingItineraries.length - 1) isLast = true;
+              if (index === itinerariesList.length - 1) isLast = true;
               return (
                 <PaymentInfoCard
                   key={index}
