@@ -6,7 +6,12 @@ import constants from "../../constants/constants";
 import JournalDaySelectorTitle from "./Components/JournalDaySelectorTitle";
 import JournalDayCard from "./Components/JournalDayCard";
 import AddStoryButton from "./Components/AddStoryButton";
+import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
+import { inject, observer } from "mobx-react/custom";
 
+@ErrorBoundary()
+@inject("journalStore")
+@observer
 class JournalDaySelector extends Component {
   static navigationOptions = ({ navigation }) => {
     const title = navigation.getParam("pageTitle", "");
@@ -32,22 +37,36 @@ class JournalDaySelector extends Component {
     };
   };
 
+  navigateToImagePicker = (activePage, activeStory) => {
+    this.props.navigation.navigate("JournalImagePicker", {
+      activePage,
+      activeStory
+    });
+  };
+
   render() {
+    const title = this.props.navigation.getParam("title", "");
+    const info = this.props.navigation.getParam("info", "");
+    const activePage = this.props.navigation.getParam("activePage", "");
+    const { getStoriesByPageId } = this.props.journalStore;
+    const stories = getStoriesByPageId(activePage);
     return (
       <ScrollView style={styles.journalDaySelectorContainer}>
-        <JournalDaySelectorTitle
-          title={"Tanjung Benoa"}
-          description={"Parasailing / Sea Walking / Tanah Lot"}
-        />
-        <JournalDayCard
-          image={constants.journalComingSoonIllus}
-          info={
-            "Snorkeling at Tanjung Benoa whilst getting exposed to the unique life of underwater"
-          }
-          action={() => {
-            this.props.navigation.navigate("JournalImagePicker");
-          }}
-        />
+        <JournalDaySelectorTitle title={title} description={info} />
+        {stories.map((story, storyIndex) => {
+          return (
+            <JournalDayCard
+              key={storyIndex}
+              image={{
+                uri: story.defaultCoverImage.imageUrl
+              }}
+              info={story.title}
+              action={() =>
+                this.navigateToImagePicker(activePage, story.storyId)
+              }
+            />
+          );
+        })}
         <JournalDayCard
           image={constants.journalComingSoonIllus}
           info={

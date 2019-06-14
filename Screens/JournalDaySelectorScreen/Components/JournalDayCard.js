@@ -28,7 +28,7 @@ const JournalDayCard = ({
       style={styles.journalDayCardContainer}
     >
       <ImageBackground
-        blurRadius={isActivated ? 0 : 2}
+        blurRadius={isActivated ? 0 : 5}
         source={image}
         resizeMode={"cover"}
         style={styles.dayCardImage}
@@ -81,11 +81,12 @@ JournalDayCard.propTypes = forbidExtraProps({
 
 const styles = StyleSheet.create({
   journalDayCardContainer: {
-    minHeight: 246,
     width: responsiveWidth(100) - 48,
     marginHorizontal: 24,
     backgroundColor: "white",
-    marginVertical: 16
+    marginVertical: 16,
+    borderRadius: 2,
+    overflow: "hidden"
   },
   dayCardImage: {
     backgroundColor: "white",

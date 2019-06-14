@@ -19,6 +19,15 @@ class JournalSetup extends Component {
     };
   };
 
+  navigateToDaySelector = page => {
+    this.props.navigation.navigate("JournalDaySelector", {
+      activePage: page.pageId,
+      pageTitle: page.pageDateStr,
+      title: page.title,
+      info: page.info
+    });
+  };
+
   render() {
     const { categorizedPages } = this.props.journalStore;
     return (
@@ -39,12 +48,7 @@ class JournalSetup extends Component {
                     title={page.title}
                     day={page.pageDate}
                     dayString={page.pageDateStr}
-                    action={() =>
-                      this.props.navigation.navigate("JournalDaySelector", {
-                        activePage: page.pageId,
-                        pageTitle: page.pageDateStr
-                      })
-                    }
+                    action={() => this.navigateToDaySelector(page)}
                   />
                 );
               })}
@@ -64,12 +68,7 @@ class JournalSetup extends Component {
                     title={page.title}
                     day={page.pageDate}
                     dayString={page.pageDateStr}
-                    action={() =>
-                      this.props.navigation.navigate("JournalDaySelector", {
-                        activePage: page.pageId,
-                        pageTitle: page.pageDateStr
-                      })
-                    }
+                    action={() => this.navigateToDaySelector(page)}
                   />
                 );
               })}

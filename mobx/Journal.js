@@ -2,6 +2,7 @@ import { observable, computed, action, toJS } from "mobx";
 import constants from "../constants/constants";
 import { hydrate } from "./Store";
 import { persist } from "mobx-persist";
+import { createTransformer } from "mobx-utils";
 import { logError } from "../Services/errorLogger/errorLogger";
 import apiCall from "../Services/networkRequests/apiCall";
 import storeService from "../Services/storeService/storeService";
@@ -269,6 +270,21 @@ class Journal {
       return { upcoming: [], completed: [] };
     }
   }
+
+  getStoriesByPageId = createTransformer(pageId => {
+    if (_.isEmpty(this.journalDetails)) {
+      return [];
+    }
+    try {
+      const pages = this.journalDetails.journal.pages;
+      const requiredPage = pages.find(page => page.pageId === pageId);
+      if (requiredPage) return requiredPage.stories || [];
+      else return [];
+    } catch (e) {
+      logError(e);
+      return [];
+    }
+  });
 }
 
 export default Journal;
