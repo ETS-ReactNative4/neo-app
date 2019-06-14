@@ -22,7 +22,7 @@ const JournalDaySelectionCard = ({
         isLast ? {} : styles.lineSeparator
       ]}
     >
-      <View>
+      <View style={styles.dateSection}>
         <Text
           numberOfLines={1}
           ellipsizeMode={"tail"}
@@ -39,7 +39,7 @@ const JournalDaySelectionCard = ({
         </Text>
       </View>
 
-      <View>
+      <View style={styles.contentSection}>
         <Text
           numberOfLines={1}
           ellipsizeMode={"tail"}
@@ -78,17 +78,26 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 24
   },
+  dateSection: {
+    width: 56
+  },
+  contentSection: {
+    flex: 1,
+    marginLeft: 8
+  },
   lineSeparator: {
     borderBottomWidth: 1,
     borderBottomColor: constants.shade5
   },
   titleString: {
     ...constants.fontCustom(constants.primaryRegular, 16, 32),
-    color: constants.black1
+    color: constants.black1,
+    height: 32
   },
   infoString: {
     ...constants.fontCustom(constants.primarySemiBold, 12, 32),
-    color: constants.shade1
+    color: constants.shade1,
+    height: 32
   }
 });
 

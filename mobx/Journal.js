@@ -79,6 +79,50 @@ class Journal {
   };
 
   /**
+   * Refresh journal Data whenever needed
+   * --------------------------------------------------------------
+   */
+
+  @observable _isJournalRefreshing = false;
+
+  @observable _journalRefreshError = false;
+
+  @computed
+  get isJournalRefreshing() {
+    return this._isJournalRefreshing;
+  }
+
+  @computed
+  get journalRefreshError() {
+    return this._journalRefreshError;
+  }
+
+  @action
+  refreshJournalInformation = (callback = () => null) => {
+    const itineraryId = storeService.itineraries.selectedItineraryId;
+    this._isJournalRefreshing = true;
+    apiCall(
+      `${constants.refreshJournalData}?itineraryId=${itineraryId}`
+      // {},
+      // "GET"
+    )
+      .then(response => {
+        this._isJournalRefreshing = false;
+        if (response.status === constants.responseSuccessStatus) {
+          this._journalRefreshError = false;
+          this._journalDetails = response.data;
+          callback();
+        } else {
+          this._journalRefreshError = true;
+        }
+      })
+      .catch(() => {
+        this._isJournalRefreshing = false;
+        this._journalRefreshError = true;
+      });
+  };
+
+  /**
    * Journal Start - Initialization API
    * --------------------------------------------------------------
    */
@@ -86,11 +130,13 @@ class Journal {
   @observable
   _journalDetails = {};
 
-  @action refreshJournalDetails = () => {};
-
   @observable _isJournalDetailsLoading = false;
 
   @observable _journalDetailsError = false;
+
+  @observable _isJournalTitleLoading = false;
+
+  @observable _isJournalTitleError = false;
 
   @computed
   get journalId() {
@@ -128,6 +174,16 @@ class Journal {
     return this._journalDetailsError;
   }
 
+  @computed
+  get isJournalTitleLoading() {
+    return this._isJournalTitleLoading;
+  }
+
+  @computed
+  get isJournalTitleError() {
+    return this._isJournalTitleError;
+  }
+
   @action
   initializeJournalDetails = () => {
     this._isJournalDetailsLoading = true;
@@ -155,11 +211,11 @@ class Journal {
     const requestObject = {
       data: [
         {
-          key: "sugTitle",
+          key: "title",
           value: title
         },
         {
-          key: "sugDesc",
+          key: "desc",
           value: desc
         }
       ],
@@ -167,12 +223,52 @@ class Journal {
       itineraryId,
       type: journalLevels.journal
     };
-    apiCall(constants.st);
+    this._isJournalTitleLoading = true;
+    apiCall(constants.updateJournalDetails, requestObject)
+      .then(response => {
+        this._isJournalTitleLoading = false;
+        if (response.status === constants.responseSuccessStatus) {
+          this._isJournalTitleError = false;
+          this.refreshJournalInformation(() => {
+            callback();
+          });
+        } else {
+          this._isJournalTitleError = true;
+        }
+      })
+      .catch(() => {
+        this._isJournalTitleLoading = false;
+        this._isJournalTitleError = true;
+      });
   };
 
   /**
-   *
+   * Retrieve Information from journal Details
+   * --------------------------------------------------------------
    */
+  @computed
+  get categorizedPages() {
+    if (_.isEmpty(this.journalDetails)) {
+      return { upcoming: [], completed: [] };
+    }
+    try {
+      const pages = this.journalDetails.journal.pages;
+      return pages.reduce(
+        (pageAccumulator, page) => {
+          if (page.dayCompleted) {
+            pageAccumulator.completed.push(page);
+          } else {
+            pageAccumulator.upcoming.push(page);
+          }
+          return pageAccumulator;
+        },
+        { upcoming: [], completed: [] }
+      );
+    } catch (e) {
+      logError(e);
+      return { upcoming: [], completed: [] };
+    }
+  }
 }
 
 export default Journal;

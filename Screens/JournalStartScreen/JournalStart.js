@@ -30,11 +30,11 @@ class JournalStart extends Component {
   editDescription = description => this.setState({ description });
 
   submitJournalInfo = () => {
-    const { updateJournalTitle, journalStartData } = this.props.journalStore;
+    const { updateJournalTitle } = this.props.journalStore;
     updateJournalTitle(
       {
-        title: this.state.title || journalStartData.title || "",
-        desc: this.state.description || journalStartData.desc || ""
+        title: this.state.title,
+        desc: this.state.description
       },
       () => {
         this.props.navigation.navigate("JournalSetup");
@@ -64,9 +64,9 @@ class JournalStart extends Component {
             inputRef={this._titleRef}
             titleLabel={"Title"}
             onEdit={this.editTitle}
-            text={this.state.title || journalStartData.title || ""}
+            text={this.state.title}
             onInputSubmit={this.submitTitle}
-            placeholder={"Title..."}
+            placeholder={journalStartData.title}
             containerStyle={styles.titleInputContainer}
             inputStyle={styles.titleInput}
             maxCharacters={journalStartData.titleLength}
@@ -75,31 +75,33 @@ class JournalStart extends Component {
             inputRef={this._descRef}
             titleLabel={"Description"}
             onEdit={this.editDescription}
-            text={this.state.description || journalStartData.desc || ""}
+            text={this.state.description}
             onInputSubmit={() => null}
             maxCharacters={journalStartData.descLength}
-            placeholder={"Description..."}
+            placeholder={journalStartData.desc}
             inputStyle={styles.descriptionInput}
           />
         </View>
 
-        <SimpleButton
-          containerStyle={{
-            borderRadius: 2,
-            height: 45,
-            width: 170,
-            marginTop: 32,
-            alignSelf: "center"
-          }}
-          textStyle={{ marginRight: 8 }}
-          underlayColor={constants.firstColorAlpha(0.8)}
-          action={() => this.submitJournalInfo()}
-          text={"Continue"}
-          icon={constants.arrowRight}
-          iconSize={12}
-          rightIcon={true}
-          textColor={"white"}
-        />
+        {this.state.title && this.state.description ? (
+          <SimpleButton
+            containerStyle={{
+              borderRadius: 2,
+              height: 45,
+              width: 170,
+              marginTop: 32,
+              alignSelf: "center"
+            }}
+            textStyle={{ marginRight: 8 }}
+            underlayColor={constants.firstColorAlpha(0.8)}
+            action={() => this.submitJournalInfo()}
+            text={"Continue"}
+            icon={constants.arrowRight}
+            iconSize={12}
+            rightIcon={true}
+            textColor={"white"}
+          />
+        ) : null}
       </KeyboardAwareScrollView>
     );
   }
