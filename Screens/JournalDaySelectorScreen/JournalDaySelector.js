@@ -9,7 +9,7 @@ import AddStoryButton from "./Components/AddStoryButton";
 
 class JournalDaySelector extends Component {
   static navigationOptions = ({ navigation }) => {
-    const title = navigation.getParam("title", "");
+    const title = navigation.getParam("pageTitle", "");
     return {
       header: (
         <CommonHeader

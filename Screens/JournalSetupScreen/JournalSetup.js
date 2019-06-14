@@ -41,7 +41,8 @@ class JournalSetup extends Component {
                     dayString={page.pageDateStr}
                     action={() =>
                       this.props.navigation.navigate("JournalDaySelector", {
-                        activePage: page.pageId
+                        activePage: page.pageId,
+                        pageTitle: page.pageDateStr
                       })
                     }
                   />
@@ -65,7 +66,8 @@ class JournalSetup extends Component {
                     dayString={page.pageDateStr}
                     action={() =>
                       this.props.navigation.navigate("JournalDaySelector", {
-                        activePage: page.pageId
+                        activePage: page.pageId,
+                        pageTitle: page.pageDateStr
                       })
                     }
                   />
