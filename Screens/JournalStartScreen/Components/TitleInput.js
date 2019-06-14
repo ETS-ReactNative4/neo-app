@@ -12,7 +12,8 @@ const TitleInput = ({
   maxCharacters = 50,
   placeholder = "",
   containerStyle = {},
-  inputStyle = ""
+  inputStyle = {},
+  inputRef = {}
 }) => {
   return (
     <View style={[styles.inputContainer, containerStyle]}>
@@ -24,6 +25,7 @@ const TitleInput = ({
       </View>
       <View style={styles.inputRow}>
         <TextInput
+          ref={inputRef}
           maxLength={maxCharacters}
           multiline={true}
           style={inputStyle}
@@ -44,7 +46,14 @@ const TitleInput = ({
 
 TitleInput.propTypes = forbidExtraProps({
   text: PropTypes.string.isRequired,
-  onEdit: PropTypes.func.isRequired
+  onEdit: PropTypes.func.isRequired,
+  titleLabel: PropTypes.string.isRequired,
+  onInputSubmit: PropTypes.func.isRequired,
+  maxCharacters: PropTypes.number,
+  placeholder: PropTypes.string.isRequired,
+  containerStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.number]),
+  inputStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.number]),
+  inputRef: PropTypes.object
 });
 
 const styles = StyleSheet.create({
@@ -56,7 +65,8 @@ const styles = StyleSheet.create({
   },
   labelRow: {
     flexDirection: "row",
-    alignItems: "center"
+    alignItems: "center",
+    height: 16
   },
   titleText: {
     ...constants.fontCustom(constants.primaryRegular, 12, 12),

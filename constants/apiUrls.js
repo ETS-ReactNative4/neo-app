@@ -44,6 +44,9 @@ const apiUrls = {
   getDaywiseFeedbackOptions: "mobile/footers",
 
   getJournalScreenDetails: "mobile/journal/screen/info/home",
+  initializeJournal: "mobile/journal/initialize",
+  updateJournalDetails: "mobile/journal/update",
+
   googleDrivePdfViewer: "https://drive.google.com/viewerng/viewer?url="
 };
 

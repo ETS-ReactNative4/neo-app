@@ -35,6 +35,8 @@ class Journal extends Component {
   }
 
   startNewJournal = () => {
+    const { initializeJournalDetails } = this.props.journalStore;
+    initializeJournalDetails();
     this.props.navigation.navigate("JournalStart");
   };
 

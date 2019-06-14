@@ -5,17 +5,24 @@ import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import constants from "../../constants/constants";
 import TitleInput from "./Components/TitleInput";
 import SimpleButton from "../../CommonComponents/SimpleButton/SimpleButton";
+import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
+import { inject, observer } from "mobx-react/custom";
 
+@ErrorBoundary()
+@inject("journalStore")
+@observer
 class JournalStart extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
       header: <CommonHeader title={"Journal Start"} navigation={navigation} />
     };
   };
+  _titleRef = React.createRef();
+  _descRef = React.createRef();
 
   state = {
-    title: "",
-    description: ""
+    title: false,
+    description: false
   };
 
   editTitle = title => this.setState({ title });
@@ -23,10 +30,29 @@ class JournalStart extends Component {
   editDescription = description => this.setState({ description });
 
   submitJournalInfo = () => {
-    this.props.navigation.navigate("JournalSetup");
+    const { updateJournalTitle, journalStartData } = this.props.journalStore;
+    updateJournalTitle(
+      {
+        title: this.state.title || journalStartData.title || "",
+        desc: this.state.description || journalStartData.desc || ""
+      },
+      () => {
+        this.props.navigation.navigate("JournalSetup");
+      }
+    );
   };
 
+  componentDidMount() {
+    setTimeout(() => {
+      this._titleRef.current && this._titleRef.current.focus();
+    }, 300);
+  }
+
+  submitTitle = () => this._descRef.current && this._descRef.current.focus();
+
   render() {
+    const { journalStartData } = this.props.journalStore;
+
     return (
       <KeyboardAwareScrollView style={styles.journalStartContainer}>
         <Text
@@ -35,20 +61,23 @@ class JournalStart extends Component {
 
         <View style={styles.inputFieldCard}>
           <TitleInput
+            inputRef={this._titleRef}
             titleLabel={"Title"}
             onEdit={this.editTitle}
-            text={this.state.title}
-            onInputSubmit={() => null}
+            text={this.state.title || journalStartData.title || ""}
+            onInputSubmit={this.submitTitle}
             placeholder={"Title..."}
             containerStyle={styles.titleInputContainer}
             inputStyle={styles.titleInput}
+            maxCharacters={journalStartData.titleLength}
           />
           <TitleInput
+            inputRef={this._descRef}
             titleLabel={"Description"}
             onEdit={this.editDescription}
-            text={this.state.description}
+            text={this.state.description || journalStartData.desc || ""}
             onInputSubmit={() => null}
-            maxCharacters={150}
+            maxCharacters={journalStartData.descLength}
             placeholder={"Description..."}
             inputStyle={styles.descriptionInput}
           />
