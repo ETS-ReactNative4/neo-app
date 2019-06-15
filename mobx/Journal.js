@@ -8,6 +8,7 @@ import apiCall from "../Services/networkRequests/apiCall";
 import RNFetchBlob from "rn-fetch-blob";
 import storeService from "../Services/storeService/storeService";
 import _ from "lodash";
+import { Platform } from "react-native";
 
 const journalLevels = {
   page: "PAGE",
@@ -303,10 +304,16 @@ class Journal {
   @action
   addImagesToQueue = (storyId, imagesList = []) => {
     try {
-      this._imageUploadQueue.push({
-        storyId,
-        imagesList: imagesList.map(image => ({ image, isUploaded: false }))
-      });
+      this._imageUploadQueue = [
+        {
+          storyId,
+          imagesList: imagesList.map(image => ({ image, isUploaded: false }))
+        }
+      ];
+      // this._imageUploadQueue.push({
+      //   storyId,
+      //   imagesList: imagesList.map(image => ({ image, isUploaded: false }))
+      // });
       // this._imageUploadQueue = [ ...this.imageUploadQueue, {
       //   storyId,
       //   imagesList: imagesList.map(image => ({image, isUploaded: false})),
@@ -325,11 +332,37 @@ class Journal {
       successCallback = () => null,
       failureCallback = () => null
     ) => {
+      console.log(imageToUpload);
+
+      /**
+       * Get path details of the image & the cropped image
+       */
       const imageDetails = imageToUpload.image.image.node.image;
-      console.log(imageDetails);
-      const imageNameSplit = imageDetails.uri.split("/");
+      const croppedImageDetails = imageToUpload.image.croppedImage;
+
+      /**
+       * Construct image name
+       */
+      const imageNameSplit = croppedImageDetails
+        ? croppedImageDetails.path.split("/")
+        : imageDetails.uri.split("/");
       const imageName = imageNameSplit[imageNameSplit.length - 1];
-      const imagePath = imageDetails.uri;
+
+      /**
+       * Construct the image path from the cropped/original image
+       */
+      const imagePath = croppedImageDetails
+        ? croppedImageDetails.path
+        : Platform.OS === constants.platformIos
+          ? imageDetails.uri.split("//")[1] // must remove the `file://` prefix from ios images
+          : imageDetails.uri;
+
+      const mimeType = croppedImageDetails
+        ? croppedImageDetails.mime
+        : "mime.lookup(imageDetails.uri)" || "file/jpeg";
+
+      console.log(mimeType);
+
       const itineraryId = storeService.itineraries.selectedItineraryId;
       const requestObject = {
         id: storyId,
@@ -345,7 +378,7 @@ class Journal {
               "PUT",
               signedUrl,
               {
-                "Content-Type": "octet-stream"
+                "Content-Type": mimeType
               },
               RNFetchBlob.wrap(imagePath)
             )
