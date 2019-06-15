@@ -341,23 +341,28 @@ class Journal {
         .then(response => {
           if (response.status === constants.responseSuccessStatus) {
             const { imageId, signedUrl } = response.data;
-            // RNFetchBlob.fetch('POST', signedUrl, {
-            //   'Content-Type' : 'octet-stream'
-            // }, RNFetchBlob.wrap(imagePath))
-            //   .uploadProgress((written, total) => {
-            //     console.log('uploaded', written / total)
-            //   })
-            //   .progress((received, total) => {
-            //     console.log('progress', received / total)
-            //   })
-            //   .then((resp) => {
-            //     console.log('Upload Complete!');
-            //     console.log(resp);
-            //   })
-            //   .catch((err) => {
-            //     console.log('Upload Failed!');
-            //     console.log(err);
-            //   })
+            RNFetchBlob.fetch(
+              "PUT",
+              signedUrl,
+              {
+                "Content-Type": "octet-stream"
+              },
+              RNFetchBlob.wrap(imagePath)
+            )
+              .uploadProgress((written, total) => {
+                console.log("uploaded", written / total);
+              })
+              .progress((received, total) => {
+                console.log("progress", received / total);
+              })
+              .then(resp => {
+                console.log("Upload Complete!");
+                console.log(resp);
+              })
+              .catch(err => {
+                console.log("Upload Failed!");
+                console.log(err);
+              });
           } else {
             failureCallback();
           }

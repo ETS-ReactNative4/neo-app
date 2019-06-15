@@ -23,7 +23,9 @@ class JournalTextEditor extends Component {
           navigation={navigation}
           RightButton={
             <SimpleButton
-              action={_submitStory}
+              action={() => {
+                _submitStory();
+              }}
               text={"Done"}
               textColor={constants.firstColor}
               color={"transparent"}
@@ -76,6 +78,7 @@ class JournalTextEditor extends Component {
       "selectedImagesList",
       []
     );
+    debugger;
     addImagesToQueue(activeStory, selectedImagesList);
   };
 
