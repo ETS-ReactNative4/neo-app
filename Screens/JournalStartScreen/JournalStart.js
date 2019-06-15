@@ -21,8 +21,8 @@ class JournalStart extends Component {
   _descRef = React.createRef();
 
   state = {
-    title: false,
-    description: false
+    title: "",
+    description: ""
   };
 
   editTitle = title => this.setState({ title });

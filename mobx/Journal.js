@@ -5,6 +5,7 @@ import { persist } from "mobx-persist";
 import { createTransformer } from "mobx-utils";
 import { logError } from "../Services/errorLogger/errorLogger";
 import apiCall from "../Services/networkRequests/apiCall";
+import RNFetchBlob from "rn-fetch-blob";
 import storeService from "../Services/storeService/storeService";
 import _ from "lodash";
 
@@ -285,6 +286,100 @@ class Journal {
       return [];
     }
   });
+
+  /**
+   * Maintaining the Images List and the upload queue
+   */
+
+  @persist("list")
+  @observable
+  _imageUploadQueue = [];
+
+  @computed
+  get imageUploadQueue() {
+    return toJS(this._imageUploadQueue);
+  }
+
+  @action
+  addImagesToQueue = (storyId, imagesList = []) => {
+    try {
+      this._imageUploadQueue.push({
+        storyId,
+        imagesList: imagesList.map(image => ({ image, isUploaded: false }))
+      });
+      // this._imageUploadQueue = [ ...this.imageUploadQueue, {
+      //   storyId,
+      //   imagesList: imagesList.map(image => ({image, isUploaded: false})),
+      // }];
+      this.startImageUploadQueue();
+    } catch (error) {
+      logError("Failed to create image upload queue", { error });
+    }
+  };
+
+  @action
+  startImageUploadQueue = () => {
+    const uploadImage = (
+      storyId,
+      imageToUpload,
+      successCallback = () => null,
+      failureCallback = () => null
+    ) => {
+      const imageDetails = imageToUpload.image.image.node.image;
+      console.log(imageDetails);
+      const imageNameSplit = imageDetails.uri.split("/");
+      const imageName = imageNameSplit[imageNameSplit.length - 1];
+      const imagePath = imageDetails.uri;
+      const itineraryId = storeService.itineraries.selectedItineraryId;
+      const requestObject = {
+        id: storyId,
+        imageName,
+        itineraryId,
+        type: journalLevels.story
+      };
+      apiCall(constants.getStoryImageSignedUrl, requestObject)
+        .then(response => {
+          if (response.status === constants.responseSuccessStatus) {
+            const { imageId, signedUrl } = response.data;
+            // RNFetchBlob.fetch('POST', signedUrl, {
+            //   'Content-Type' : 'octet-stream'
+            // }, RNFetchBlob.wrap(imagePath))
+            //   .uploadProgress((written, total) => {
+            //     console.log('uploaded', written / total)
+            //   })
+            //   .progress((received, total) => {
+            //     console.log('progress', received / total)
+            //   })
+            //   .then((resp) => {
+            //     console.log('Upload Complete!');
+            //     console.log(resp);
+            //   })
+            //   .catch((err) => {
+            //     console.log('Upload Failed!');
+            //     console.log(err);
+            //   })
+          } else {
+            failureCallback();
+          }
+        })
+        .catch(err => {
+          failureCallback();
+          console.log(err);
+        });
+    };
+
+    const getImageToUpload = () => {
+      if (this.imageUploadQueue.length) {
+        const imageQueue = this.imageUploadQueue[0];
+        const imageToUpload = imageQueue.imagesList.find(
+          imageDetails => !imageDetails.isUploaded
+        );
+        uploadImage(imageQueue.storyId, imageToUpload, () => {}, () => {});
+      }
+    };
+
+    getImageToUpload();
+  };
 }
 
 export default Journal;

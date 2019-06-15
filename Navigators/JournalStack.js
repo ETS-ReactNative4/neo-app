@@ -8,6 +8,7 @@ import JournalImagePicker from "../Screens/JournalImagePickerScreen/JournalImage
 import JournalTextEditor from "../Screens/JournalTextEditorScreen/JournalTextEditor";
 import NewItineraryStack from "./NewItineraryStack";
 import getActiveRouteName from "../Services/getActiveRouteName/getActiveRouteName";
+import JournalPublish from "../Screens/JournalPublishScreen/JournalPublish";
 
 const JournalStack = createStackNavigator(
   {
@@ -28,6 +29,9 @@ const JournalStack = createStackNavigator(
     },
     JournalTextEditor: {
       screen: JournalTextEditor
+    },
+    JournalPublish: {
+      screen: JournalPublish
     }
   },
   {
@@ -41,8 +45,6 @@ const JournalStack = createStackNavigator(
 
 JournalStack.navigationOptions = ({ navigation }) => {
   const routeName = getActiveRouteName(navigation.state);
-  // console.log(routeName);
-  // debugger;
   let tabBarVisible = true;
 
   if (routeName === "JournalTextEditor") {

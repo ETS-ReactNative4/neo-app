@@ -32,7 +32,8 @@ class TextEditor extends Component {
 
   onStyleKeyPress = toolType => {
     console.log(toolType);
-    this.editor.applyToolbar(toolType);
+    const { richTextInputRef } = this.props;
+    richTextInputRef.current && richTextInputRef.current.applyToolbar(toolType);
   };
 
   onSelectedTagChanged = tag => {
@@ -58,13 +59,14 @@ class TextEditor extends Component {
       onKeyBoardStateChange,
       navigation,
       getRichText,
-      isTextEditorActive
+      isTextEditorActive,
+      richTextInputRef
     } = this.props;
     return (
       <View style={styles.textEditorContainer}>
         <View style={styles.textEditorWrapper}>
           <CNRichTextEditor
-            ref={input => (this.editor = input)}
+            ref={richTextInputRef}
             onSelectedTagChanged={this.onSelectedTagChanged}
             onSelectedStyleChanged={this.onSelectedStyleChanged}
             value={this.state.value}

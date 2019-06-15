@@ -242,6 +242,18 @@ class JournalImagePicker extends Component {
     this.setState({ selectedImagesList });
   };
 
+  _keyExtractor = (item, index) => index;
+
+  confirmSelection = () => {
+    const { selectedImagesList } = this.state;
+    const { navigation } = this.props;
+    const activeStory = this.props.navigation.getParam("activeStory", "");
+    navigation.navigate("JournalTextEditor", {
+      selectedImagesList,
+      activeStory
+    });
+  };
+
   render() {
     const { selectedImagesList, imagesList, selectedFolder } = this.state;
 
@@ -337,11 +349,7 @@ class JournalImagePicker extends Component {
             iconSize={12}
             rightIcon={true}
             underlayColor={constants.firstColorAlpha(0.8)}
-            action={() =>
-              this.props.navigation.navigate("JournalTextEditor", {
-                selectedImagesList
-              })
-            }
+            action={this.confirmSelection}
             text={"Continue"}
             textColor={"white"}
           />

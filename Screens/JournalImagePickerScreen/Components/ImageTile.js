@@ -49,15 +49,16 @@ const ImageTile = ({
 };
 
 ImageTile.propTypes = forbidExtraProps({
+  id: PropTypes.string,
+  title: PropTypes.number,
   item: PropTypes.object.isRequired,
   selected: PropTypes.bool.isRequired,
   onPressItem: PropTypes.func.isRequired,
   previewImage: PropTypes.func.isRequired,
-  selectionPosition: PropTypes.func.isRequired
+  selectionPosition: PropTypes.number.isRequired
 });
 
-const listContainerTotalWidth =
-  responsiveWidth(100) - 48; // device width // flatlist margin
+const listContainerTotalWidth = responsiveWidth(100) - 48; // device width // flatlist margin
 
 const styles = StyleSheet.create({
   imageTileContainer: {

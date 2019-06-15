@@ -7,8 +7,13 @@ import constants from "../../constants/constants";
 import Carousel from "../../CommonComponents/Carousel/Carousel";
 import ImagePreviewThumbnail from "./Components/ImagePreviewThumbnail";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
+import { inject, observer } from "mobx-react/custom";
+
+let _submitStory = false;
 
 @ErrorBoundary()
+@inject("journalStore")
+@observer
 class JournalTextEditor extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
@@ -18,7 +23,7 @@ class JournalTextEditor extends Component {
           navigation={navigation}
           RightButton={
             <SimpleButton
-              action={() => navigation.navigate("JournalTextEditor")}
+              action={_submitStory}
               text={"Done"}
               textColor={constants.firstColor}
               color={"transparent"}
@@ -40,6 +45,14 @@ class JournalTextEditor extends Component {
     isKeyboardVisible: false,
     richText: ""
   };
+  _titleInputRef = React.createRef();
+  _richTextInputRef = React.createRef();
+
+  constructor(props) {
+    super(props);
+
+    _submitStory = this.submitStory;
+  }
 
   getRichText = richText => {
     this.setState({
@@ -47,7 +60,24 @@ class JournalTextEditor extends Component {
     });
   };
 
-  submitTitle = () => {};
+  submitTitle = () => {
+    /**
+     * Timeout needed for the editor controls to load and enable the event listeners
+     */
+    setTimeout(() => {
+      this._richTextInputRef.current && this._richTextInputRef.current.focus();
+    }, 500);
+  };
+
+  submitStory = () => {
+    const { addImagesToQueue } = this.props.journalStore;
+    const activeStory = this.props.navigation.getParam("activeStory", "");
+    const selectedImagesList = this.props.navigation.getParam(
+      "selectedImagesList",
+      []
+    );
+    addImagesToQueue(activeStory, selectedImagesList);
+  };
 
   editTitle = title => this.setState({ title });
 
@@ -62,6 +92,15 @@ class JournalTextEditor extends Component {
       this.setState({ isKeyboardVisible: false });
     }
   };
+
+  componentDidMount() {
+    /**
+     * Timeout needed for preventing keyboard from appearing during transitions
+     */
+    setTimeout(() => {
+      this._titleInputRef.current && this._titleInputRef.current.focus();
+    }, 500);
+  }
 
   render() {
     const selectedImagesList = this.props.navigation.getParam(
@@ -91,6 +130,7 @@ class JournalTextEditor extends Component {
               })}
             </Carousel>
             <TextInput
+              ref={this._titleInputRef}
               style={styles.inputStyle}
               onChangeText={this.editTitle}
               value={this.state.title}
@@ -110,6 +150,7 @@ class JournalTextEditor extends Component {
           getRichText={this.getRichText}
           onKeyBoardStateChange={this.onKeyBoardStateChange}
           navigation={this.props.navigation}
+          richTextInputRef={this._richTextInputRef}
         />
       </View>
     );
