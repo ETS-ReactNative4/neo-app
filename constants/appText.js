@@ -72,6 +72,12 @@ const appText = {
     title: "Sit Tight",
     message: "Become a travel blogger on the go!"
   },
+  journalFailureMessages: {
+    failedToSubmitJournalTitle:
+      "Unable to create journal. Please check your internet connection and try again after some time.",
+    failedToSubmitJournalStory:
+      "Unable to submit your story.  Please check your internet connection and try again after some time."
+  },
   bookingFailedText: "No Voucher available",
   bookingProcessText: {
     title: "Almost there!",

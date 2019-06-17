@@ -9,6 +9,7 @@ import ImagePreviewThumbnail from "./Components/ImagePreviewThumbnail";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import _ from "lodash";
 import { inject, observer } from "mobx-react/custom";
+import DebouncedAlert from "../../CommonComponents/DebouncedAlert/DebouncedAlert";
 
 let _submitStory = false;
 
@@ -73,13 +74,21 @@ class JournalTextEditor extends Component {
   };
 
   submitStory = () => {
-    const { addImagesToQueue } = this.props.journalStore;
+    const { addImagesToQueue, submitStory } = this.props.journalStore;
     const activeStory = this.props.navigation.getParam("activeStory", "");
     const selectedImagesList = this.props.navigation.getParam(
       "selectedImagesList",
       []
     );
-    addImagesToQueue(activeStory, selectedImagesList);
+    submitStory(activeStory, this.state.title, this.state.richText)
+      .then(() => {
+        addImagesToQueue(activeStory, selectedImagesList);
+      })
+      .catch(() => {
+        DebouncedAlert(
+          constants.journalFailureMessages.failedToSubmitJournalStory
+        );
+      });
   };
 
   editTitle = title => this.setState({ title });

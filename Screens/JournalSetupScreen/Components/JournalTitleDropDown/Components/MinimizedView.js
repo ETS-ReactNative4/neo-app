@@ -2,19 +2,26 @@ import React from "react";
 import { View, StyleSheet, Text } from "react-native";
 import constants from "../../../../../constants/constants";
 import { responsiveWidth } from "react-native-responsive-dimensions";
+import PropTypes from "prop-types";
+import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidExtraProps";
 
-const MinimizedView = ({}) => {
+const MinimizedView = ({ title, desc }) => {
   return (
     <View style={styles.minimizedViewContainer}>
       <Text numberOfLines={1} ellipsizeMode={"tail"} style={styles.titleText}>
-        {"Our 6 glorious days in beautiful and sunny Bali."}
+        {title}
       </Text>
       <Text numberOfLines={1} ellipsizeMode={"tail"} style={styles.infoText}>
-        {"By Gautam Bhargava, April 2019"}
+        {desc}
       </Text>
     </View>
   );
 };
+
+MinimizedView.propTypes = forbidExtraProps({
+  title: PropTypes.string.isRequired,
+  desc: PropTypes.string.isRequired
+});
 
 const styles = StyleSheet.create({
   minimizedViewContainer: {

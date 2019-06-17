@@ -12,8 +12,15 @@ import ExpandedView from "./Components/ExpandedView";
 import MinimizedView from "./Components/MinimizedView";
 import { responsiveWidth } from "react-native-responsive-dimensions";
 import constants from "../../../../constants/constants";
+import PropTypes from "prop-types";
+import forbidExtraProps from "../../../../Services/PropTypeValidation/forbidExtraProps";
 
 class JournalTitleDropDown extends Component {
+  static propTypes = forbidExtraProps({
+    title: PropTypes.string.isRequired,
+    desc: PropTypes.string.isRequired
+  });
+
   constructor(props) {
     super(props);
   }
@@ -34,13 +41,18 @@ class JournalTitleDropDown extends Component {
 
   render() {
     const { isExpanded } = this.state;
+    const { title, desc } = this.props;
     return (
       <View
         style={
           isExpanded ? styles.expandedContainer : styles.minimizedContainer
         }
       >
-        {isExpanded ? <ExpandedView /> : <MinimizedView />}
+        {isExpanded ? (
+          <ExpandedView />
+        ) : (
+          <MinimizedView title={title} desc={desc} />
+        )}
       </View>
     );
   }

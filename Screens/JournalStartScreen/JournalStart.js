@@ -7,6 +7,7 @@ import TitleInput from "./Components/TitleInput";
 import SimpleButton from "../../CommonComponents/SimpleButton/SimpleButton";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import { inject, observer } from "mobx-react/custom";
+import DebouncedAlert from "../../CommonComponents/DebouncedAlert/DebouncedAlert";
 
 @ErrorBoundary()
 @inject("journalStore")
@@ -31,15 +32,18 @@ class JournalStart extends Component {
 
   submitJournalInfo = () => {
     const { updateJournalTitle } = this.props.journalStore;
-    updateJournalTitle(
-      {
-        title: this.state.title,
-        desc: this.state.description
-      },
-      () => {
+    updateJournalTitle({
+      title: this.state.title,
+      desc: this.state.description
+    })
+      .then(() => {
         this.props.navigation.navigate("JournalSetup");
-      }
-    );
+      })
+      .catch(() => {
+        DebouncedAlert(
+          constants.journalFailureMessages.failedToSubmitJournalTitle
+        );
+      });
   };
 
   componentDidMount() {

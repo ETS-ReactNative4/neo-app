@@ -29,10 +29,14 @@ class JournalSetup extends Component {
   };
 
   render() {
-    const { categorizedPages } = this.props.journalStore;
+    const {
+      categorizedPages,
+      journalTitle,
+      journalDesc
+    } = this.props.journalStore;
     return (
       <ScrollView style={styles.journalSetupContainer}>
-        <JournalTitleDropDown />
+        <JournalTitleDropDown title={journalTitle} desc={journalDesc} />
         <JournalSetupTitle
           title={"An organized journal to enable easy reading."}
         />

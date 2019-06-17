@@ -107,28 +107,32 @@ class Journal {
   }
 
   @action
-  refreshJournalInformation = (callback = () => null) => {
-    const itineraryId = storeService.itineraries.selectedItineraryId;
-    this._isJournalRefreshing = true;
-    apiCall(
-      `${constants.refreshJournalData}?itineraryId=${itineraryId}`
-      // {},
-      // "GET"
-    )
-      .then(response => {
-        this._isJournalRefreshing = false;
-        if (response.status === constants.responseSuccessStatus) {
-          this._journalRefreshError = false;
-          this._journalDetails = response.data;
-          callback();
-        } else {
+  refreshJournalInformation = () => {
+    return new Promise((resolve, reject) => {
+      const itineraryId = storeService.itineraries.selectedItineraryId;
+      this._isJournalRefreshing = true;
+      apiCall(
+        `${constants.refreshJournalData}?itineraryId=${itineraryId}`
+        // {},
+        // "GET"
+      )
+        .then(response => {
+          this._isJournalRefreshing = false;
+          if (response.status === constants.responseSuccessStatus) {
+            this._journalRefreshError = false;
+            this._journalDetails = response.data;
+            resolve();
+          } else {
+            reject();
+            this._journalRefreshError = true;
+          }
+        })
+        .catch(() => {
+          reject();
+          this._isJournalRefreshing = false;
           this._journalRefreshError = true;
-        }
-      })
-      .catch(() => {
-        this._isJournalRefreshing = false;
-        this._journalRefreshError = true;
-      });
+        });
+    });
   };
 
   /**
@@ -153,6 +157,22 @@ class Journal {
       return "";
     }
     return this.journalDetails.journalId;
+  }
+
+  @computed
+  get journalTitle() {
+    if (_.isEmpty(this.journalDetails)) {
+      return "";
+    }
+    return _.get(this.journalDetails, "journal.title");
+  }
+
+  @computed
+  get journalDesc() {
+    if (_.isEmpty(this.journalDetails)) {
+      return "";
+    }
+    return _.get(this.journalDetails, "journal.desc");
   }
 
   @computed
@@ -214,41 +234,45 @@ class Journal {
   };
 
   @action
-  updateJournalTitle = ({ title, desc }, callback = () => null) => {
-    const journalId = this.journalId;
-    const itineraryId = storeService.itineraries.selectedItineraryId;
-    const requestObject = {
-      data: [
-        {
-          key: "title",
-          value: title
-        },
-        {
-          key: "desc",
-          value: desc
-        }
-      ],
-      id: journalId,
-      itineraryId,
-      type: journalLevels.journal
-    };
-    this._isJournalTitleLoading = true;
-    apiCall(constants.updateJournalDetails, requestObject)
-      .then(response => {
-        this._isJournalTitleLoading = false;
-        if (response.status === constants.responseSuccessStatus) {
-          this._isJournalTitleError = false;
-          this.refreshJournalInformation(() => {
-            callback();
-          });
-        } else {
+  updateJournalTitle = ({ title, desc }) => {
+    return new Promise((resolve, reject) => {
+      const journalId = this.journalId;
+      const itineraryId = storeService.itineraries.selectedItineraryId;
+      const requestObject = {
+        data: [
+          {
+            key: "title",
+            value: title
+          },
+          {
+            key: "desc",
+            value: desc
+          }
+        ],
+        id: journalId,
+        itineraryId,
+        type: journalLevels.journal
+      };
+      this._isJournalTitleLoading = true;
+      apiCall(constants.updateJournalDetails, requestObject)
+        .then(response => {
+          this._isJournalTitleLoading = false;
+          if (response.status === constants.responseSuccessStatus) {
+            this._isJournalTitleError = false;
+            this.refreshJournalInformation()
+              .then(resolve)
+              .catch(reject);
+          } else {
+            reject();
+            this._isJournalTitleError = true;
+          }
+        })
+        .catch(() => {
+          reject();
+          this._isJournalTitleLoading = false;
           this._isJournalTitleError = true;
-        }
-      })
-      .catch(() => {
-        this._isJournalTitleLoading = false;
-        this._isJournalTitleError = true;
-      });
+        });
+    });
   };
 
   /**
@@ -293,6 +317,44 @@ class Journal {
       return [];
     }
   });
+
+  /**
+   * Writing Stories
+   */
+  @action
+  submitStory = (storyId, title, richText) => {
+    return new Promise((resolve, reject) => {
+      const itineraryId = storeService.itineraries.selectedItineraryId;
+      const requestObject = {
+        data: [
+          {
+            key: "title",
+            value: title
+          },
+          {
+            key: "storyRichText",
+            value: richText
+          }
+        ],
+        id: storyId,
+        itineraryId,
+        type: journalLevels.story
+      };
+      apiCall(constants.updateJournalDetails, requestObject)
+        .then(response => {
+          if (response.status === constants.responseSuccessStatus) {
+            this.refreshJournalInformation()
+              .then(resolve)
+              .catch(reject);
+          } else {
+            reject();
+          }
+        })
+        .catch(() => {
+          reject();
+        });
+    });
+  };
 
   /**
    * Maintaining the Images List and the upload queue
