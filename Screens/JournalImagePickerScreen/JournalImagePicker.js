@@ -78,13 +78,14 @@ class JournalImagePicker extends Component {
       .then(imageData => {
         const images = imageData.edges;
         const imageMap = images.reduce((mapAccumulator, image) => {
-          if (!image || !image.node || !image.node.image) return;
-          mapAccumulator.set(image.node.image.uri, {
-            isSelected: false,
-            isContain: false,
-            croppedImage: "",
-            image
-          });
+          const key = _.get(image, "node.image.uri");
+          if (key)
+            mapAccumulator.set(key, {
+              isSelected: false,
+              isContain: false,
+              croppedImage: "",
+              image
+            });
           return mapAccumulator;
         }, new Map());
         this.setState(
@@ -95,8 +96,7 @@ class JournalImagePicker extends Component {
           },
           () => {
             const firstImage = this.state.imagesList[0];
-            if (!firstImage || !firstImage.node || !firstImage.node.image)
-              return;
+            if (!_.get(firstImage, "node.image")) return;
             this.setState({
               previewImage: firstImage
             });
@@ -176,7 +176,8 @@ class JournalImagePicker extends Component {
     const selectedImages = [...this.state.selectedImagesList];
     const imageIndex = selectedImages.findIndex(selectedImage => {
       return (
-        imageDetails.image.node.image.uri === selectedImage.image.node.image.uri
+        _.get(imageDetails, "image.node.image.uri") ===
+        _.get(selectedImage, "image.node.image.uri")
       );
     });
     if (imageIndex === -1) {
@@ -215,7 +216,7 @@ class JournalImagePicker extends Component {
     if (imageDetails.isSelected) {
       selectionPosition = this.state.selectedImagesList.findIndex(
         selectedImage => {
-          return imageUri === selectedImage.image.node.image.uri;
+          return imageUri === _.get(selectedImage, "image.node.image.uri");
         }
       );
     }
@@ -275,7 +276,9 @@ class JournalImagePicker extends Component {
     const imagesToDisplay =
       selectedFolder === "all"
         ? imagesList
-        : imagesList.filter(image => image.node.group_name === selectedFolder);
+        : imagesList.filter(
+            image => _.get(image, "node.group_name") === selectedFolder
+          );
 
     return (
       <View style={styles.journalImagePickerContainer}>
@@ -289,11 +292,11 @@ class JournalImagePicker extends Component {
               return (
                 <ImagePreviewCard
                   key={imageIndex}
-                  imageUri={selectedImage.image.node.image.uri}
+                  imageUri={_.get(selectedImage, "image.node.image.uri")}
                   previewImage={{
                     uri:
-                      selectedImage.croppedImage.path ||
-                      selectedImage.image.node.image.uri
+                      _.get(selectedImage, "croppedImage.path") ||
+                      _.get(selectedImage, "image.node.image.uri")
                   }}
                   cropImage={this.cropImage}
                   index={imageIndex}

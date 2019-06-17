@@ -7,6 +7,7 @@ import constants from "../../constants/constants";
 import Carousel from "../../CommonComponents/Carousel/Carousel";
 import ImagePreviewThumbnail from "./Components/ImagePreviewThumbnail";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
+import _ from "lodash";
 import { inject, observer } from "mobx-react/custom";
 
 let _submitStory = false;
@@ -125,8 +126,8 @@ class JournalTextEditor extends Component {
                     imageStyle={styles.thumbnailImage}
                     imageSource={{
                       uri:
-                        selectedImage.croppedImage.path ||
-                        selectedImage.image.node.image.uri
+                        _.get(selectedImage, "croppedImage.path") ||
+                        _.get(selectedImage, "image.node.image.uri")
                     }}
                   />
                 );

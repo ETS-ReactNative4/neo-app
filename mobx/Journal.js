@@ -5,10 +5,10 @@ import { persist } from "mobx-persist";
 import { createTransformer } from "mobx-utils";
 import { logError } from "../Services/errorLogger/errorLogger";
 import apiCall from "../Services/networkRequests/apiCall";
-import RNFetchBlob from "rn-fetch-blob";
 import storeService from "../Services/storeService/storeService";
 import _ from "lodash";
 import { Platform } from "react-native";
+import imageUploader from "../Services/imageUploader/imageUploader";
 
 const journalLevels = {
   page: "PAGE",
@@ -337,8 +337,8 @@ class Journal {
       /**
        * Get path details of the image & the cropped image
        */
-      const imageDetails = imageToUpload.image.image.node.image;
-      const croppedImageDetails = imageToUpload.image.croppedImage;
+      const imageDetails = _.get(imageToUpload, "image.image.node.image");
+      const croppedImageDetails = _.get(imageToUpload, "image.croppedImage");
 
       /**
        * Construct image name
@@ -354,7 +354,7 @@ class Journal {
       const imagePath = croppedImageDetails
         ? croppedImageDetails.path
         : Platform.OS === constants.platformIos
-          ? imageDetails.uri.split("//")[1] // must remove the `file://` prefix from ios images
+          ? imageDetails.uri // must remove the `file://` prefix from ios images
           : imageDetails.uri;
 
       const mimeType = croppedImageDetails
@@ -374,27 +374,12 @@ class Journal {
         .then(response => {
           if (response.status === constants.responseSuccessStatus) {
             const { imageId, signedUrl } = response.data;
-            RNFetchBlob.fetch(
-              "PUT",
-              signedUrl,
-              {
-                "Content-Type": mimeType
-              },
-              RNFetchBlob.wrap(imagePath)
-            )
-              .uploadProgress((written, total) => {
-                console.log("uploaded", written / total);
+            imageUploader(imagePath, signedUrl)
+              .then(() => {
+                console.log("upload success");
               })
-              .progress((received, total) => {
-                console.log("progress", received / total);
-              })
-              .then(resp => {
-                console.log("Upload Complete!");
-                console.log(resp);
-              })
-              .catch(err => {
-                console.log("Upload Failed!");
-                console.log(err);
+              .catch(() => {
+                console.error("upload failed");
               });
           } else {
             failureCallback();
