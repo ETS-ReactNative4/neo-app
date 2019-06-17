@@ -302,6 +302,10 @@ class Journal {
   @observable
   _imageUploadQueue = [];
 
+  @persist("object")
+  @observable
+  _failedImageUploads = {};
+
   @computed
   get imageUploadQueue() {
     return toJS(this._imageUploadQueue);
@@ -310,20 +314,15 @@ class Journal {
   @action
   addImagesToQueue = (storyId, imagesList = []) => {
     try {
-      // this._imageUploadQueue = [
-      //   {
-      //     storyId,
-      //     imagesList: imagesList.map(image => ({ image, isUploaded: false }))
-      //   }
-      // ];
       this._imageUploadQueue.push({
+        isQueueRunning: false,
         storyId,
-        imagesList: imagesList.map(image => ({ image, isUploaded: false }))
+        imagesList: imagesList.map(image => ({
+          image,
+          isUploaded: false,
+          hasFailed: false
+        }))
       });
-      // this._imageUploadQueue = [ ...this.imageUploadQueue, {
-      //   storyId,
-      //   imagesList: imagesList.map(image => ({image, isUploaded: false})),
-      // }];
       this.startImageUploadQueue();
     } catch (error) {
       logError("Failed to create image upload queue", { error });
@@ -443,16 +442,21 @@ class Journal {
     };
 
     const getImageToUpload = () => {
-      if (this.imageUploadQueue.length) {
-        const imageQueue = this.imageUploadQueue[0];
+      if (this._imageUploadQueue.length) {
+        const imageQueue = this._imageUploadQueue[0];
 
-        const getRequiredImage = imageDetails =>
-          !imageDetails.isUploaded && !imageDetails.hasFailed;
+        const imageToUpload = imageQueue.imagesList[0];
+        const imageIndex = 0;
 
-        const imageToUpload = imageQueue.imagesList.find(getRequiredImage);
-        const imageIndex = imageQueue.imagesList.findIndex(getRequiredImage);
-
-        uploadImage(imageQueue.storyId, imageToUpload).then(() => {});
+        uploadImage(imageQueue.storyId, imageToUpload)
+          .then(() => {
+            imageToUpload.isUploaded = true;
+            this._imageUploadQueue[0].imagesList[imageIndex] = imageToUpload;
+          })
+          .catch(() => {
+            imageToUpload.hasFailed = true;
+            this._imageUploadQueue[0].imagesList[imageIndex] = imageToUpload;
+          });
       }
     };
 
