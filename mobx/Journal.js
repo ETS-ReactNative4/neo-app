@@ -8,12 +8,18 @@ import apiCall from "../Services/networkRequests/apiCall";
 import storeService from "../Services/storeService/storeService";
 import _ from "lodash";
 import { Platform } from "react-native";
+const uuidv4 = require("uuid/v4");
 import imageUploader from "../Services/imageUploader/imageUploader";
 
 const journalLevels = {
   page: "PAGE",
   story: "STORY",
   journal: "JOURNAL"
+};
+
+const journalImageTypes = {
+  coverImage: "COVER_IMAGE",
+  otherImage: "OTHERS"
 };
 
 class Journal {
@@ -304,16 +310,16 @@ class Journal {
   @action
   addImagesToQueue = (storyId, imagesList = []) => {
     try {
-      this._imageUploadQueue = [
-        {
-          storyId,
-          imagesList: imagesList.map(image => ({ image, isUploaded: false }))
-        }
-      ];
-      // this._imageUploadQueue.push({
-      //   storyId,
-      //   imagesList: imagesList.map(image => ({ image, isUploaded: false }))
-      // });
+      // this._imageUploadQueue = [
+      //   {
+      //     storyId,
+      //     imagesList: imagesList.map(image => ({ image, isUploaded: false }))
+      //   }
+      // ];
+      this._imageUploadQueue.push({
+        storyId,
+        imagesList: imagesList.map(image => ({ image, isUploaded: false }))
+      });
       // this._imageUploadQueue = [ ...this.imageUploadQueue, {
       //   storyId,
       //   imagesList: imagesList.map(image => ({image, isUploaded: false})),
@@ -326,78 +332,127 @@ class Journal {
 
   @action
   startImageUploadQueue = () => {
-    const uploadImage = (
-      storyId,
-      imageToUpload,
-      successCallback = () => null,
-      failureCallback = () => null
-    ) => {
-      console.log(imageToUpload);
+    const uploadImage = (storyId, imageToUpload) => {
+      return new Promise((resolve, reject) => {
+        /**
+         * Get path details of the image & the cropped image
+         */
+        const imageDetails = _.get(imageToUpload, "image.image.node.image");
+        const croppedImageDetails = _.get(imageToUpload, "image.croppedImage");
 
-      /**
-       * Get path details of the image & the cropped image
-       */
-      const imageDetails = _.get(imageToUpload, "image.image.node.image");
-      const croppedImageDetails = _.get(imageToUpload, "image.croppedImage");
+        const isImageContained = _.get(imageToUpload, "image.isContain");
 
-      /**
-       * Construct image name
-       */
-      const imageNameSplit = croppedImageDetails
-        ? croppedImageDetails.path.split("/")
-        : imageDetails.uri.split("/");
-      const imageName = imageNameSplit[imageNameSplit.length - 1];
+        /**
+         * Construct image name
+         */
+        const imageName = `${uuidv4()}.jpg`;
 
-      /**
-       * Construct the image path from the cropped/original image
-       */
-      const imagePath = croppedImageDetails
-        ? croppedImageDetails.path
-        : Platform.OS === constants.platformIos
-          ? imageDetails.uri // must remove the `file://` prefix from ios images
-          : imageDetails.uri;
+        /**
+         * Construct the image path from the cropped/original image
+         * Currently - using the original image.
+         */
+        const imagePath = imageDetails.uri;
 
-      const mimeType = croppedImageDetails
-        ? croppedImageDetails.mime
-        : "mime.lookup(imageDetails.uri)" || "file/jpeg";
+        const itineraryId = storeService.itineraries.selectedItineraryId;
 
-      console.log(mimeType);
+        const requestObject = {
+          id: storyId,
+          imageName,
+          itineraryId,
+          type: journalLevels.story
+        };
 
-      const itineraryId = storeService.itineraries.selectedItineraryId;
-      const requestObject = {
-        id: storyId,
-        imageName,
-        itineraryId,
-        type: journalLevels.story
-      };
-      apiCall(constants.getStoryImageSignedUrl, requestObject)
-        .then(response => {
-          if (response.status === constants.responseSuccessStatus) {
-            const { imageId, signedUrl } = response.data;
-            imageUploader(imagePath, signedUrl)
-              .then(() => {
-                console.log("upload success");
-              })
-              .catch(() => {
-                console.error("upload failed");
+        apiCall(constants.getStoryImageSignedUrl, requestObject)
+          .then(signedUrlResponse => {
+            if (signedUrlResponse.status === constants.responseSuccessStatus) {
+              const { imageId, signedUrl } = signedUrlResponse.data;
+              imageUploader(imagePath, signedUrl)
+                .then(() => {
+                  const confirmationRequestObject = {
+                    id: storyId,
+                    image: {
+                      contained: isImageContained,
+                      imageId
+                    },
+                    imageType: journalImageTypes.otherImage,
+                    itineraryId: itineraryId,
+                    type: journalLevels.story
+                  };
+
+                  if (croppedImageDetails) {
+                    confirmationRequestObject.image.dimensions = {
+                      ...croppedImageDetails.cropRect
+                    };
+                  }
+
+                  apiCall(
+                    constants.journalImageDetails,
+                    confirmationRequestObject,
+                    "PUT"
+                  )
+                    .then(confirmationResponse => {
+                      if (
+                        confirmationResponse.status ===
+                        constants.responseSuccessStatus
+                      ) {
+                        resolve();
+                      } else {
+                        logError("Failed to confirm imageUpload", {
+                          storyId,
+                          imageId,
+                          imagePath,
+                          signedUrl,
+                          imageDetails: JSON.stringify(imageToUpload)
+                        });
+                      }
+                    })
+                    .catch(() => {
+                      logError("Failed to confirm imageUpload", {
+                        storyId,
+                        imageId,
+                        imagePath,
+                        signedUrl,
+                        imageDetails: JSON.stringify(imageToUpload)
+                      });
+                      reject();
+                    });
+                })
+                .catch(() => {
+                  logError("Failed to upload journal image to S3", {
+                    storyId,
+                    imageId,
+                    imagePath,
+                    signedUrl,
+                    imageDetails: JSON.stringify(imageToUpload)
+                  });
+                  reject();
+                });
+            } else {
+              logError("Failed to get signed URL for the image", {
+                storyId,
+                imagePath,
+                imageDetails: JSON.stringify(imageToUpload)
               });
-          } else {
-            failureCallback();
-          }
-        })
-        .catch(err => {
-          failureCallback();
-          console.log(err);
-        });
+              reject();
+            }
+          })
+          .catch(err => {
+            reject();
+          });
+      });
     };
 
     const getImageToUpload = () => {
       if (this.imageUploadQueue.length) {
         const imageQueue = this.imageUploadQueue[0];
-        const imageToUpload = imageQueue.imagesList.find(
-          imageDetails => !imageDetails.isUploaded
-        );
-        uploadImage(imageQueue.storyId, imageToUpload, () => {}, () => {});
+
+        const getRequiredImage = imageDetails =>
+          !imageDetails.isUploaded && !imageDetails.hasFailed;
+
+        const imageToUpload = imageQueue.imagesList.find(getRequiredImage);
+        const imageIndex = imageQueue.imagesList.findIndex(getRequiredImage);
+
+        uploadImage(imageQueue.storyId, imageToUpload).then(() => {});
       }
     };
 

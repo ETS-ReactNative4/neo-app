@@ -79,7 +79,6 @@ class JournalTextEditor extends Component {
       "selectedImagesList",
       []
     );
-    debugger;
     addImagesToQueue(activeStory, selectedImagesList);
   };
 
