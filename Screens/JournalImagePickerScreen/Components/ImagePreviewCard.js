@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { View, StyleSheet, Image } from "react-native";
 import constants from "../../../constants/constants";
 import { responsiveWidth } from "react-native-responsive-dimensions";
@@ -13,7 +13,8 @@ const ImagePreviewCard = ({
   imageUri,
   isContain = false,
   toggleImageContain = () => null,
-  cropImage = () => null
+  cropImage = () => null,
+  isPreselected = false
 }) => {
   return (
     <View style={styles.imagePreviewCardContainer}>
@@ -22,19 +23,23 @@ const ImagePreviewCard = ({
         source={isContain ? { uri: imageUri } : previewImage}
         resizeMode={isContain ? "contain" : "cover"}
       />
-      <PreviewControlButton
-        containerStyle={styles.cropButton}
-        onClick={() => cropImage(index, imageUri)}
-      />
-      <PreviewControlButton
-        containerStyle={styles.containButton}
-        onClick={() => toggleImageContain(index)}
-      />
-      <ImagePositionIndicator
-        action={() => null}
-        containerStyle={styles.selectionPositionWrapper}
-        text={index + 1}
-      />
+      {!isPreselected ? (
+        <Fragment>
+          <PreviewControlButton
+            containerStyle={styles.cropButton}
+            onClick={() => cropImage(index, imageUri)}
+          />
+          <PreviewControlButton
+            containerStyle={styles.containButton}
+            onClick={() => toggleImageContain(index)}
+          />
+          <ImagePositionIndicator
+            action={() => null}
+            containerStyle={styles.selectionPositionWrapper}
+            text={index + 1}
+          />
+        </Fragment>
+      ) : null}
     </View>
   );
 };
@@ -42,9 +47,10 @@ const ImagePreviewCard = ({
 ImagePreviewCard.propTypes = forbidExtraProps({
   previewImage: PropTypes.oneOfType([PropTypes.object, PropTypes.number])
     .isRequired,
-  toggleImageContain: PropTypes.func.isRequired,
+  toggleImageContain: PropTypes.func,
   imageUri: PropTypes.string.isRequired,
-  cropImage: PropTypes.func.isRequired
+  cropImage: PropTypes.func,
+  isPreselected: PropTypes.bool
 });
 
 const styles = StyleSheet.create({

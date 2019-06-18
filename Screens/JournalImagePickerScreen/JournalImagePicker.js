@@ -23,7 +23,12 @@ import ImagePreviewCard from "./Components/ImagePreviewCard";
 import Carousel from "../../CommonComponents/Carousel/Carousel";
 import getReadFilePermissionAndroid from "../../Services/getReadFilePermissionAndroid/getReadFilePermissionAndroid";
 import getWriteFilePermissionAndroid from "../../Services/getWriteFilePermissionAndroid/getWriteFilePermissionAndroid";
+import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
+import { inject, observer } from "mobx-react/custom";
 
+@ErrorBoundary()
+@inject("journalStore")
+@observer
 class JournalImagePicker extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
@@ -214,11 +219,11 @@ class JournalImagePicker extends Component {
     const imageDetails = this.state.imageMap.get(imageUri);
     let selectionPosition = 0;
     if (imageDetails.isSelected) {
-      selectionPosition = this.state.selectedImagesList.findIndex(
-        selectedImage => {
+      selectionPosition =
+        item.preSelectedLength +
+        this.state.selectedImagesList.findIndex(selectedImage => {
           return imageUri === _.get(selectedImage, "image.node.image.uri");
-        }
-      );
+        });
     }
     return (
       <ImageTile
@@ -256,7 +261,12 @@ class JournalImagePicker extends Component {
   };
 
   render() {
+    const storyId = this.props.navigation.getParam("activeStory", "");
+    const pageId = this.props.navigation.getParam("activePage", "");
+
     const { selectedImagesList, imagesList, selectedFolder } = this.state;
+    const { getImagesById } = this.props.journalStore;
+    const preSelectedImages = getImagesById({ storyId, pageId });
 
     const folders = _.uniq(_.map(imagesList, "node.group_name"));
 
@@ -275,19 +285,44 @@ class JournalImagePicker extends Component {
 
     const imagesToDisplay =
       selectedFolder === "all"
-        ? imagesList
-        : imagesList.filter(
-            image => _.get(image, "node.group_name") === selectedFolder
+        ? imagesList.map(image => {
+            image.preSelectedLength = preSelectedImages.length;
+            return image;
+          })
+        : _.compact(
+            imagesList.map(image => {
+              if (_.get(image, "node.group_name") === selectedFolder) {
+                image.preSelectedLength = preSelectedImages.length;
+                return image;
+              }
+              return null;
+            })
           );
 
     return (
       <View style={styles.journalImagePickerContainer}>
-        {selectedImagesList.length ? (
+        {selectedImagesList.length + preSelectedImages.length ? (
           <Carousel
             scrollRef={this._previewCarouselRef}
             firstMargin={16}
             containerStyle={styles.previewCarousel}
           >
+            {preSelectedImages.map(
+              (preSelectedImage, preSelectedImageIndex) => {
+                return (
+                  <ImagePreviewCard
+                    key={preSelectedImageIndex}
+                    imageUri={_.get(preSelectedImage, "imageUrl")}
+                    previewImage={{
+                      uri: _.get(preSelectedImage, "imageUrl")
+                    }}
+                    index={preSelectedImageIndex}
+                    isContain={preSelectedImage.contained}
+                    isPreselected={true}
+                  />
+                );
+              }
+            )}
             {selectedImagesList.map((selectedImage, imageIndex) => {
               return (
                 <ImagePreviewCard
@@ -298,9 +333,9 @@ class JournalImagePicker extends Component {
                       _.get(selectedImage, "croppedImage.path") ||
                       _.get(selectedImage, "image.node.image.uri")
                   }}
-                  cropImage={this.cropImage}
-                  index={imageIndex}
+                  index={preSelectedImages.length + imageIndex}
                   isContain={!!selectedImage.isContain}
+                  cropImage={this.cropImage}
                   toggleImageContain={this.toggleImageContain}
                 />
               );

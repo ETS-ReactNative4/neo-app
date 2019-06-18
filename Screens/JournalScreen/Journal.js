@@ -58,6 +58,13 @@ class Journal extends Component {
     this.props.navigation.navigate("JournalSetup");
   };
 
+  editJournal = (activePage, activeStory) => {
+    this.props.navigation.navigate("JournalImagePicker", {
+      activePage,
+      activeStory
+    });
+  };
+
   render() {
     const {
       isHomeScreenLoading,
@@ -65,6 +72,7 @@ class Journal extends Component {
       isJournalInitialized,
       activeStories
     } = this.props.journalStore;
+
     return (
       <CustomScrollView
         style={[
@@ -81,6 +89,7 @@ class Journal extends Component {
           <EditJournal
             addNewStory={this.addNewStory}
             activeStories={activeStories}
+            editAction={this.editJournal}
           />
         ) : (
           <NewJournal

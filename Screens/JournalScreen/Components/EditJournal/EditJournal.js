@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
 import AddStoryButton from "../../../JournalDaySelectorScreen/Components/AddStoryButton";
 import CustomScrollView from "../../../../CommonComponents/CustomScrollView/CustomScrollView";
 import constants from "../../../../constants/constants";
@@ -7,7 +7,7 @@ import Dash from "react-native-dash";
 import JournalDayCard from "../../../JournalDaySelectorScreen/Components/JournalDayCard";
 import _ from "lodash";
 
-const EditJournal = ({ activeStories, addNewStory }) => {
+const EditJournal = ({ activeStories, addNewStory, editAction }) => {
   return (
     <CustomScrollView
       containerStyle={styles.scrollContainer}
@@ -18,13 +18,15 @@ const EditJournal = ({ activeStories, addNewStory }) => {
       <AddStoryButton action={addNewStory} />
       <Dash dashColor={constants.shade4} dashGap={2} dashLength={1} />
       {activeStories.map((story, storyIndex) => {
+        const imageUrl = _.get(story, "coverImage.imageUrl");
         return (
           <JournalDayCard
             key={storyIndex}
             action={() => null}
             isActivated={story.initialized}
             info={story.title}
-            image={_.get(story, "defaultCoverImage.imageUrl")}
+            image={imageUrl ? { uri: imageUrl } : null}
+            editAction={() => editAction(story.pageId, story.storyId)}
           />
         );
       })}

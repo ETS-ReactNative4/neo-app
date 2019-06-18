@@ -27,18 +27,20 @@ const JournalDayCard = ({
       activeOpacity={0.8}
       style={styles.journalDayCardContainer}
     >
-      <ImageBackground
-        blurRadius={isActivated ? 0 : 5}
-        source={image}
-        resizeMode={"cover"}
-        style={styles.dayCardImage}
-      >
-        {isActivated ? null : (
-          <View style={styles.imageOverlay}>
-            <Icon name={constants.downloadIcon} color={"white"} size={24} />
-          </View>
-        )}
-      </ImageBackground>
+      {image ? (
+        <ImageBackground
+          blurRadius={isActivated ? 0 : 5}
+          source={image}
+          resizeMode={"cover"}
+          style={styles.dayCardImage}
+        >
+          {isActivated ? null : (
+            <View style={styles.imageOverlay}>
+              <Icon name={constants.downloadIcon} color={"white"} size={24} />
+            </View>
+          )}
+        </ImageBackground>
+      ) : null}
       <Text numberOfLines={2} ellipsizeMode={"tail"} style={styles.infoText}>
         {info}
       </Text>
