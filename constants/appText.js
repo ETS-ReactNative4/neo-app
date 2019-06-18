@@ -76,7 +76,9 @@ const appText = {
     failedToSubmitJournalTitle:
       "Unable to create journal. Please check your internet connection and try again after some time.",
     failedToSubmitJournalStory:
-      "Unable to submit your story.  Please check your internet connection and try again after some time."
+      "Unable to submit your story.  Please check your internet connection and try again after some time.",
+    failedToCreateNewStory:
+      "Unable to create a new story. Please check your internet connection and try again after some time."
   },
   bookingFailedText: "No Voucher available",
   bookingProcessText: {

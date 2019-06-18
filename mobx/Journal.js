@@ -393,6 +393,36 @@ class Journal {
   };
 
   /**
+   * Creating a new story for the journal
+   */
+  createNewStory = pageId => {
+    return new Promise((resolve, reject) => {
+      const itineraryId = storeService.itineraries.selectedItineraryId;
+      const requestObject = {
+        itineraryId,
+        journalId: this.journalId,
+        pageId
+      };
+      apiCall(constants.journalStoryOperations, requestObject)
+        .then(response => {
+          if (response.status === constants.responseSuccessStatus) {
+            const createdStory = response.data;
+            this.refreshJournalInformation()
+              .then(() => {
+                resolve(createdStory.storyId);
+              })
+              .catch(reject);
+          } else {
+            reject();
+          }
+        })
+        .catch(() => {
+          reject();
+        });
+    });
+  };
+
+  /**
    * Maintaining the Images List and the upload queue
    */
 

@@ -8,6 +8,8 @@ import JournalDayCard from "./Components/JournalDayCard";
 import AddStoryButton from "./Components/AddStoryButton";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import { inject, observer } from "mobx-react/custom";
+import DebouncedAlert from "../../CommonComponents/DebouncedAlert/DebouncedAlert";
+import _ from "lodash";
 
 @ErrorBoundary()
 @inject("journalStore")
@@ -44,6 +46,18 @@ class JournalDaySelector extends Component {
     });
   };
 
+  addNewStory = () => {
+    const { createNewStory } = this.props.journalStore;
+    const activePage = this.props.navigation.getParam("activePage", "");
+    createNewStory(activePage)
+      .then(storyId => {
+        this.navigateToImagePicker(activePage, storyId);
+      })
+      .catch(() => {
+        DebouncedAlert(constants.journalFailureMessages.failedToCreateNewStory);
+      });
+  };
+
   render() {
     const title = this.props.navigation.getParam("title", "");
     const info = this.props.navigation.getParam("info", "");
@@ -59,7 +73,7 @@ class JournalDaySelector extends Component {
             <JournalDayCard
               key={storyIndex}
               image={{
-                uri: story.defaultCoverImage.imageUrl
+                uri: _.get(story, "defaultCoverImage.imageUrl")
               }}
               info={story.title}
               action={() =>
@@ -69,7 +83,7 @@ class JournalDaySelector extends Component {
           );
         })}
         <AddStoryButton
-          action={() => null}
+          action={this.addNewStory}
           containerStyle={styles.addStoryButton}
         />
       </ScrollView>

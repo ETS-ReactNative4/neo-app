@@ -43,6 +43,7 @@ const apiUrls = {
   setChatRestoreId: "mobile/chat/restoreid",
   getDaywiseFeedbackOptions: "mobile/footers",
   journalImageDetails: "mobile/journal/image",
+  journalStoryOperations: "mobile/journal/story",
 
   getJournalScreenDetails: "mobile/journal/screen/info/home",
   getJournalStartScreenDetails: "mobile/journal/screen/info/setup",
