@@ -54,6 +54,7 @@ class JournalDaySelector extends Component {
       <ScrollView style={styles.journalDaySelectorContainer}>
         <JournalDaySelectorTitle title={title} description={info} />
         {stories.map((story, storyIndex) => {
+          if (story.initialized) return null;
           return (
             <JournalDayCard
               key={storyIndex}
@@ -67,18 +68,6 @@ class JournalDaySelector extends Component {
             />
           );
         })}
-        <JournalDayCard
-          image={constants.journalComingSoonIllus}
-          info={
-            "Snorkeling at Tanjung Benoa whilst getting exposed to the unique life of underwater"
-          }
-          action={() => {
-            this.props.navigation.navigate("JournalImagePicker");
-          }}
-          isActivated={true}
-          deleteAction={() => null}
-          editAction={() => null}
-        />
         <AddStoryButton
           action={() => null}
           containerStyle={styles.addStoryButton}

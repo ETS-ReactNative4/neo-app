@@ -7,6 +7,7 @@ import NewJournal from "./Components/NewJounal/NewJournal";
 import { inject, observer } from "mobx-react/custom";
 import _ from "lodash";
 import CustomScrollView from "../../CommonComponents/CustomScrollView/CustomScrollView";
+import EditJournal from "./Components/EditJournal/EditJournal";
 
 @ErrorBoundary({ isRoot: true })
 @inject("journalStore")
@@ -15,9 +16,6 @@ import CustomScrollView from "../../CommonComponents/CustomScrollView/CustomScro
 class Journal extends Component {
   static navigationOptions = HomeHeader;
 
-  state = {
-    isNewJournal: true
-  };
   _didFocusSubscription;
 
   constructor(props) {
@@ -56,25 +54,43 @@ class Journal extends Component {
     this._didFocusSubscription && this._didFocusSubscription.remove();
   }
 
+  addNewStory = () => {
+    this.props.navigation.navigate("JournalSetup");
+  };
+
   render() {
-    const { isNewJournal } = this.state;
-    const { isHomeScreenLoading, homeScreenDetails } = this.props.journalStore;
+    const {
+      isHomeScreenLoading,
+      homeScreenDetails,
+      isJournalInitialized,
+      activeStories
+    } = this.props.journalStore;
     return (
       <CustomScrollView
-        style={styles.journalContainer}
+        style={[
+          styles.journalContainer,
+          {
+            backgroundColor: isJournalInitialized ? constants.white1 : "white"
+          }
+        ]}
         showsVerticalScrollIndicator={true}
         refreshing={isHomeScreenLoading}
         onRefresh={this.loadJournalDetails}
       >
-        {_.isEmpty(homeScreenDetails) ? null : isNewJournal ? (
+        {isJournalInitialized ? (
+          <EditJournal
+            addNewStory={this.addNewStory}
+            activeStories={activeStories}
+          />
+        ) : (
           <NewJournal
             title={homeScreenDetails.title}
             desc={homeScreenDetails.desc}
             buttonText={"Start Your Journal"}
-            image={{ uri: homeScreenDetails.coverImage.imageUrl }}
+            image={{ uri: _.get(homeScreenDetails, "coverImage.imageUrl") }}
             action={this.startNewJournal}
           />
-        ) : null}
+        )}
       </CustomScrollView>
     );
   }
@@ -82,8 +98,7 @@ class Journal extends Component {
 
 const styles = StyleSheet.create({
   journalContainer: {
-    flex: 1,
-    backgroundColor: "white"
+    flex: 1
   }
 });
 

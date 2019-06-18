@@ -7,7 +7,6 @@ import { logError } from "../Services/errorLogger/errorLogger";
 import apiCall from "../Services/networkRequests/apiCall";
 import storeService from "../Services/storeService/storeService";
 import _ from "lodash";
-import { Platform } from "react-native";
 const uuidv4 = require("uuid/v4");
 import imageUploader from "../Services/imageUploader/imageUploader";
 
@@ -65,26 +64,38 @@ class Journal {
    */
   @action
   getHomeScreenDetails = () => {
-    const itineraryId = storeService.itineraries.selectedItineraryId;
-    this._isHomeScreenLoading = true;
-    apiCall(
-      `${constants.getJournalScreenDetails}?itineraryId=${itineraryId}`,
-      {},
-      "GET"
-    )
-      .then(response => {
-        this._isHomeScreenLoading = false;
-        if (response.status === constants.responseSuccessStatus) {
-          this._homeScreenDetails = response.data;
-          this._homeScreenError = false;
-        } else {
+    return new Promise((resolve, reject) => {
+      const itineraryId = storeService.itineraries.selectedItineraryId;
+      this._isHomeScreenLoading = true;
+      apiCall(
+        `${constants.getJournalScreenDetails}?itineraryId=${itineraryId}`,
+        {},
+        "GET"
+      )
+        .then(response => {
+          debugger;
+          this._isHomeScreenLoading = false;
+          if (response.status === constants.responseSuccessStatus) {
+            this._homeScreenDetails = _.get(response, "data.conf");
+            if (response.data.initialized) {
+              this.refreshJournalInformation()
+                .then(resolve)
+                .catch(reject);
+            } else {
+              resolve();
+            }
+            this._homeScreenError = false;
+          } else {
+            this._homeScreenError = true;
+            reject();
+          }
+        })
+        .catch(() => {
+          this._isHomeScreenLoading = false;
           this._homeScreenError = true;
-        }
-      })
-      .catch(() => {
-        this._isHomeScreenLoading = false;
-        this._homeScreenError = true;
-      });
+          reject();
+        });
+    });
   };
 
   /**
@@ -181,6 +192,14 @@ class Journal {
   }
 
   @computed
+  get isJournalInitialized() {
+    if (_.isEmpty(this.journalDetails)) {
+      return false;
+    }
+    return this.journalDetails.initialized;
+  }
+
+  @computed
   get journalStartData() {
     if (_.isEmpty(this.journalDetails)) {
       return {};
@@ -211,6 +230,23 @@ class Journal {
   @computed
   get isJournalTitleError() {
     return this._isJournalTitleError;
+  }
+
+  @computed
+  get activeStories() {
+    if (_.isEmpty(this.journalDetails)) {
+      return [];
+    }
+    try {
+      return this.journalDetails.journal.pages.flatMap(page => {
+        return page.stories.filter(story => {
+          return story.initialized;
+        });
+      });
+    } catch (e) {
+      logError(e);
+      return [];
+    }
   }
 
   @action
