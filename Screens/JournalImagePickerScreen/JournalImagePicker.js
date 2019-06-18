@@ -17,7 +17,6 @@ import CameraRoll from "@react-native-community/cameraroll";
 import { logError } from "../../Services/errorLogger/errorLogger";
 import ImageTile from "./Components/ImageTile";
 import _ from "lodash";
-import { responsiveWidth } from "react-native-responsive-dimensions";
 import NativeImagePicker from "react-native-image-crop-picker";
 import ImagePreviewCard from "./Components/ImagePreviewCard";
 import Carousel from "../../CommonComponents/Carousel/Carousel";
@@ -254,9 +253,11 @@ class JournalImagePicker extends Component {
     const { selectedImagesList } = this.state;
     const { navigation } = this.props;
     const activeStory = this.props.navigation.getParam("activeStory", "");
+    const activePage = this.props.navigation.getParam("activePage", "");
     navigation.navigate("JournalTextEditor", {
       selectedImagesList,
-      activeStory
+      activeStory,
+      activePage
     });
   };
 

@@ -73,7 +73,6 @@ class Journal {
         "GET"
       )
         .then(response => {
-          debugger;
           this._isHomeScreenLoading = false;
           if (response.status === constants.responseSuccessStatus) {
             this._homeScreenDetails = _.get(response, "data.conf");
@@ -82,6 +81,7 @@ class Journal {
                 .then(resolve)
                 .catch(reject);
             } else {
+              this._journalDetails = {};
               resolve();
             }
             this._homeScreenError = false;
@@ -123,9 +123,9 @@ class Journal {
       const itineraryId = storeService.itineraries.selectedItineraryId;
       this._isJournalRefreshing = true;
       apiCall(
-        `${constants.refreshJournalData}?itineraryId=${itineraryId}`
-        // {},
-        // "GET"
+        `${constants.refreshJournalData}?itineraryId=${itineraryId}`,
+        {},
+        "GET"
       )
         .then(response => {
           this._isJournalRefreshing = false;
@@ -239,9 +239,15 @@ class Journal {
     }
     try {
       return this.journalDetails.journal.pages.flatMap(page => {
-        return page.stories.filter(story => {
-          return story.initialized;
-        });
+        return _.compact(
+          page.stories.map(story => {
+            if (story.initialized) {
+              story.pageId = page.pageId;
+              return story;
+            }
+            return null;
+          })
+        );
       });
     } catch (e) {
       logError(e);
@@ -442,15 +448,17 @@ class Journal {
   @action
   addImagesToQueue = (storyId, imagesList = []) => {
     try {
-      this._imageUploadQueue.push({
-        isQueueRunning: false,
-        storyId,
-        imagesList: imagesList.map(image => ({
-          image,
-          isUploaded: false,
-          hasFailed: false
-        }))
-      });
+      this._imageUploadQueue = [
+        {
+          isQueueRunning: false,
+          storyId,
+          imagesList: imagesList.map(image => ({
+            image,
+            isUploaded: false,
+            hasFailed: false
+          }))
+        }
+      ];
       this.startImageUploadQueue();
     } catch (error) {
       logError("Failed to create image upload queue", { error });
@@ -590,6 +598,24 @@ class Journal {
 
     getImageToUpload();
   };
+
+  getImagesById = createTransformer(({ pageId, storyId }) => {
+    try {
+      const requiredPage = this.journalDetails.journal.pages.find(
+        page => page.pageId === pageId
+      );
+      const requiredStory = requiredPage.stories.find(
+        story => story.storyId === storyId
+      );
+      if (requiredStory.images) {
+        return Object.values(requiredStory.images);
+      }
+      return [];
+    } catch (e) {
+      logError(e);
+      return [];
+    }
+  });
 }
 
 export default Journal;

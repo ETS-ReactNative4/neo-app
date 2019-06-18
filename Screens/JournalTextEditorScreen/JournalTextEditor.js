@@ -122,11 +122,29 @@ class JournalTextEditor extends Component {
     const isTextEditorActive =
       !this.state.isTitleFocused && this.state.isKeyboardVisible;
 
+    const storyId = this.props.navigation.getParam("activeStory", "");
+    const pageId = this.props.navigation.getParam("activePage", "");
+    const { getImagesById } = this.props.journalStore;
+    const preSelectedImages = getImagesById({ storyId, pageId });
+
     return (
       <View style={styles.journalTextEditorContainer}>
         {!isTextEditorActive ? (
           <Fragment>
             <Carousel firstMargin={24}>
+              {preSelectedImages.map(
+                (preSelectedImage, preSelectedImageIndex) => {
+                  return (
+                    <ImagePreviewThumbnail
+                      key={preSelectedImageIndex}
+                      imageStyle={styles.thumbnailImage}
+                      imageSource={{
+                        uri: _.get(preSelectedImage, "imageUrl")
+                      }}
+                    />
+                  );
+                }
+              )}
               {selectedImagesList.map((selectedImage, imageIndex) => {
                 return (
                   <ImagePreviewThumbnail
