@@ -42,19 +42,19 @@ class JournalPublish extends Component {
         iterations: 1
       }
     ).start(() => {
-      if (!this.state.isPublished) {
-        this.setState(
-          {
-            publishingAnimationTiming: new Animated.Value(0)
-          },
-          () => {
+      this.setState(
+        {
+          publishingAnimationTiming: new Animated.Value(0)
+        },
+        () => {
+          if (!this.state.isPublished) {
             this.loopLoading();
+          } else {
+            this.loopEnd();
+            this.animateSuccess();
           }
-        );
-      } else {
-        this.loopEnd();
-        this.animateSuccess();
-      }
+        }
+      );
     });
   }
 
@@ -79,11 +79,11 @@ class JournalPublish extends Component {
   componentDidMount() {
     this.loopLoading();
 
-    setTimeout(() => {
-      this.setState({
-        isPublished: true
-      });
-    }, 10000);
+    // setTimeout(() => {
+    //   this.setState({
+    //     isPublished: true
+    //   });
+    // }, 10000);
   }
 
   render() {
@@ -192,9 +192,8 @@ const styles = StyleSheet.create({
     marginRight: 16
   },
   successAnimation: {
-    height: 20,
-    width: 20,
-    transform: [{ scale: 3 }]
+    height: 50,
+    width: 50
   },
   infoText: {
     textAlign: "left",
