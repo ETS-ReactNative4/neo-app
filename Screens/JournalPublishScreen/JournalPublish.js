@@ -33,7 +33,7 @@ class JournalPublish extends Component {
       Animated.sequence([
         Animated.timing(this.state.publishingAnimationTiming, {
           toValue: 1,
-          duration: 1500,
+          duration: 2000,
           easing: Easing.linear,
           useNativeDriver: true
         })
