@@ -60,6 +60,8 @@ target 'Pickyourtrail' do
 
   pod 'RNImageCropPicker', :path => '../node_modules/react-native-image-crop-picker'
 
+  pod 'lottie-react-native', :path => '../node_modules/lottie-react-native'
+
   # target 'PickyourtrailTests' do
   #   inherit! :search_paths
   #   # Pods for testing

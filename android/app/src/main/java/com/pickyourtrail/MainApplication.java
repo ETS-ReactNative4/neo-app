@@ -1,8 +1,11 @@
 package com.pickyourtrail;
 
 import android.app.Application;
+import android.content.Context;
+import android.support.multidex.MultiDex;
 
 import com.facebook.react.ReactApplication;
+import com.airbnb.android.react.lottie.LottiePackage;
 import com.reactnative.ivpusic.imagepicker.PickerPackage;
 import com.reactnativecommunity.cameraroll.CameraRollPackage;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
@@ -44,6 +47,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new LottiePackage(),
             new PickerPackage(),
             new CameraRollPackage(),
             new RNDeviceInfo(),
@@ -83,5 +87,11 @@ public class MainApplication extends Application implements ReactApplication {
   public void onCreate() {
     super.onCreate();
     SoLoader.init(this, /* native exopackage */ false);
+  }
+
+  @Override
+  protected void attachBaseContext(Context base) {
+    super.attachBaseContext(base);
+    MultiDex.install(this);
   }
 }
