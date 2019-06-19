@@ -3,7 +3,8 @@ import { View, StyleSheet, Text, ScrollView, Platform } from "react-native";
 import CNRichTextEditor, {
   getInitialObject,
   getDefaultStyles,
-  convertToHtmlString
+  convertToHtmlString,
+  convertToObject
 } from "react-native-cn-richtext-editor";
 import constants from "../../../constants/constants";
 import { responsiveWidth } from "react-native-responsive-dimensions";
@@ -54,9 +55,11 @@ class TextEditor extends Component {
   };
 
   componentDidMount() {
-    this.setState({
-      value: [getInitialObject(this.props.initialValue)]
-    });
+    if (this.props.initialValue) {
+      this.setState({
+        value: convertToObject(this.props.initialValue)
+      });
+    }
   }
 
   render() {
