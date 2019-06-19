@@ -35,7 +35,7 @@ const JournalStack = createStackNavigator(
     }
   },
   {
-    initialRouteName: "JournalHome",
+    initialRouteName: "JournalPublish",
     navigationOptions: {
       gesturesEnabled: true
     },

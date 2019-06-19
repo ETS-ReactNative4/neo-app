@@ -189,7 +189,14 @@ const imageAssets = {
   roomsSmallPlaceHolder: prefix + "HotelRooms-120x90.png",
   roomsLargePlaceHolder: prefix + "HotelRooms-240x180.png",
 
-  defaultPlaceImage: "https://pyt-images.imgix.net/images/place-holder.png"
+  defaultPlaceImage: "https://pyt-images.imgix.net/images/place-holder.png",
+
+  /**
+   * Animation files
+   */
+  journalPublishingLoop: require("../assets/animations/publishloop"),
+  journalPublishEnd: require("../assets/animations/publishend"),
+  journalPublishSuccess: require("../assets/animations/publishSuccess")
 };
 
 export default imageAssets;
