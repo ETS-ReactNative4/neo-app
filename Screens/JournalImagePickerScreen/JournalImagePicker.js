@@ -24,6 +24,32 @@ import getReadFilePermissionAndroid from "../../Services/getReadFilePermissionAn
 import getWriteFilePermissionAndroid from "../../Services/getWriteFilePermissionAndroid/getWriteFilePermissionAndroid";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import { inject, observer } from "mobx-react/custom";
+import { observable, toJS } from "mobx";
+
+let _headerData = observable({
+  selectedImagesCount: 0
+});
+let _confirmSelection = () => null;
+
+const HeaderRightButton = observer(({ headerData }) => {
+  return (
+    <SimpleButton
+      action={() => _confirmSelection()}
+      text={headerData.selectedImagesCount ? "Next" : "Skip"}
+      textColor={
+        headerData.selectedImagesCount
+          ? constants.firstColor
+          : constants.thirdColor
+      }
+      color={"transparent"}
+      containerStyle={{
+        height: 24,
+        width: 62,
+        marginRight: 16
+      }}
+    />
+  );
+});
 
 @ErrorBoundary()
 @inject("journalStore")
@@ -35,19 +61,7 @@ class JournalImagePicker extends Component {
         <CommonHeader
           title={"Select Media"}
           navigation={navigation}
-          RightButton={
-            <SimpleButton
-              action={() => navigation.navigate("JournalTextEditor")}
-              text={"Skip"}
-              textColor={constants.thirdColor}
-              color={"transparent"}
-              containerStyle={{
-                height: 24,
-                width: 62,
-                marginRight: 16
-              }}
-            />
-          }
+          RightButton={<HeaderRightButton headerData={_headerData} />}
         />
       )
     };
@@ -64,6 +78,12 @@ class JournalImagePicker extends Component {
     hasNextPage: false,
     selectedFolder: "all"
   };
+
+  constructor(props) {
+    super(props);
+
+    _confirmSelection = this.confirmSelection;
+  }
 
   previewImage = uri => {
     const previewImage = this.state.imageMap.get(uri);
@@ -190,6 +210,7 @@ class JournalImagePicker extends Component {
       selectedImages.splice(imageIndex, 1);
     }
     this.setState({ selectedImagesList: selectedImages }, () => {
+      _headerData.selectedImagesCount = this.state.selectedImagesList.length;
       setTimeout(() => {
         if (imageIndex === -1) {
           this._previewCarouselRef.current &&

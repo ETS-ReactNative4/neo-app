@@ -51,6 +51,10 @@ const imageAssets = {
   thumbsUpIcon: "like",
   thumbsDownIcon: "unlike",
   locationIcon: "location",
+  cropIcon: "crop",
+  containIcon: "minimize",
+  addIcon: "plus",
+  addImageIcon: "image-upload",
 
   semiCircleShape: require("../assets/images/shapes/hiring_topic.png"),
   headerBackgroundShape: require("../assets/images/shapes/banner_white.png"),
@@ -104,6 +108,7 @@ const imageAssets = {
   boldIcon: "bold",
   headingIcon: "heading",
   lineBreakIcon: "line-break",
+  underLineIcon: "underline",
   linkIcon: "link",
   listIcon: "list",
   textIcon: "text",

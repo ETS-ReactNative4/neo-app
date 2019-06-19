@@ -1,5 +1,11 @@
 import React from "react";
-import { TouchableOpacity, View, StyleSheet, Text } from "react-native";
+import {
+  TouchableOpacity,
+  View,
+  StyleSheet,
+  Text,
+  Keyboard
+} from "react-native";
 import { responsiveWidth } from "react-native-responsive-dimensions";
 import constants from "../../../constants/constants";
 import Icon from "../../../CommonComponents/Icon/Icon";
@@ -58,11 +64,16 @@ const TextEditorControls = ({
         action={() => onStyleKeyPress(constants.textEditorControlUnordered)}
       />
       <ControlIcon
-        iconName={constants.lineBreakIcon}
+        iconName={constants.underLineIcon}
         isSelected={
           selectedStyles.indexOf(constants.textEditorControlUnderline) > -1
         }
         action={() => onStyleKeyPress(constants.textEditorControlUnderline)}
+      />
+      <ControlIcon
+        iconName={constants.closeIcon}
+        isSelected={false}
+        action={Keyboard.dismiss}
       />
     </View>
   );

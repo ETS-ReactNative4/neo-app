@@ -36,7 +36,7 @@ const JournalDayCard = ({
         >
           {isActivated ? null : (
             <View style={styles.imageOverlay}>
-              <Icon name={constants.downloadIcon} color={"white"} size={24} />
+              <Icon name={constants.addImageIcon} color={"white"} size={24} />
             </View>
           )}
         </ImageBackground>

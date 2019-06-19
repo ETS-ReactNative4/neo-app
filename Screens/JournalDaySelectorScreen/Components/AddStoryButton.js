@@ -18,7 +18,7 @@ const AddStoryButton = ({ action = () => null, containerStyle = {} }) => {
       style={[styles.addStoryButtonContainer, containerStyle]}
     >
       <View style={styles.iconContainer}>
-        <Icon name={constants.closeIcon} size={10} color={"white"} />
+        <Icon name={constants.addIcon} size={14} color={"white"} />
       </View>
       <Text style={styles.buttonText}>{"Add a new story"}</Text>
     </TouchableOpacity>

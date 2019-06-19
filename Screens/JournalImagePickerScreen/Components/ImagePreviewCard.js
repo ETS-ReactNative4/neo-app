@@ -26,12 +26,16 @@ const ImagePreviewCard = ({
       {!isPreselected ? (
         <Fragment>
           <PreviewControlButton
+            icon={constants.cropIcon}
             containerStyle={styles.cropButton}
             onClick={() => cropImage(index, imageUri)}
+            isSelected={!isContain && imageUri !== previewImage.uri}
           />
           <PreviewControlButton
+            icon={constants.containIcon}
             containerStyle={styles.containButton}
             onClick={() => toggleImageContain(index)}
+            isSelected={isContain}
           />
           <ImagePositionIndicator
             action={() => null}
@@ -56,15 +60,19 @@ ImagePreviewCard.propTypes = forbidExtraProps({
 const styles = StyleSheet.create({
   imagePreviewCardContainer: {
     height: constants.journalImagePicker.selectedImageHeight,
-    width:
-      responsiveWidth(80) || constants.journalImagePicker.selectedImageWidth,
+    width: Math.min(
+      constants.journalImagePicker.selectedImageWidth,
+      responsiveWidth(80)
+    ),
     borderRadius: 2,
     marginRight: 8
   },
   previewImage: {
     height: constants.journalImagePicker.selectedImageHeight,
-    width:
-      responsiveWidth(80) || constants.journalImagePicker.selectedImageWidth,
+    width: Math.min(
+      constants.journalImagePicker.selectedImageWidth,
+      responsiveWidth(80)
+    ),
     backgroundColor: constants.shade5,
     borderRadius: 2,
     overflow: "hidden"
