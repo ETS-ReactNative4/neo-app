@@ -48,17 +48,17 @@ const JournalDayCard = ({
         <View style={styles.actionBar}>
           <SimpleButton
             color={"transparent"}
-            iconSize={15}
+            iconSize={16}
             textStyle={{ fontSize: 15 }}
             text={"Edit"}
             action={editAction}
             containerStyle={{ width: null, marginHorizontal: 16 }}
             textColor={constants.firstColor}
-            icon={constants.trashCanIcon}
+            icon={constants.editIcon}
           />
           <SimpleButton
             color={"transparent"}
-            iconSize={15}
+            iconSize={16}
             textStyle={{ fontSize: 15 }}
             text={"Delete"}
             action={deleteAction}

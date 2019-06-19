@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  TouchableOpacity,
-  View,
-  StyleSheet,
-  Text,
-  Keyboard
-} from "react-native";
+import { TouchableOpacity, View, StyleSheet, Keyboard } from "react-native";
 import { responsiveWidth } from "react-native-responsive-dimensions";
 import constants from "../../../constants/constants";
 import Icon from "../../../CommonComponents/Icon/Icon";
@@ -17,12 +11,12 @@ const ControlIcon = ({ isSelected, iconName, action = () => null }) => {
     <TouchableOpacity
       activeOpacity={0.8}
       onPress={action}
-      style={[styles.iconWrapper, isSelected ? styles.iconSelected : {}]}
+      style={styles.iconWrapper}
     >
       <Icon
         name={iconName}
-        color={isSelected ? constants.black1 : "white"}
-        size={20}
+        color={isSelected ? constants.firstColor : "white"}
+        size={18}
       />
     </TouchableOpacity>
   );
@@ -87,7 +81,7 @@ TextEditorControls.propTypes = forbidExtraProps({
 
 const styles = StyleSheet.create({
   textEditorControlsContainer: {
-    height: 58,
+    height: 56,
     width: responsiveWidth(100),
     backgroundColor: constants.black1,
     flexDirection: "row",

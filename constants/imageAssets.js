@@ -55,6 +55,7 @@ const imageAssets = {
   containIcon: "minimize",
   addIcon: "plus",
   addImageIcon: "image-upload",
+  editIcon: "edit",
 
   semiCircleShape: require("../assets/images/shapes/hiring_topic.png"),
   headerBackgroundShape: require("../assets/images/shapes/banner_white.png"),
