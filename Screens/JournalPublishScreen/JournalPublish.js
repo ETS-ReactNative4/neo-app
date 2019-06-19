@@ -24,6 +24,7 @@ class JournalPublish extends Component {
   state = {
     publishingAnimationTiming: new Animated.Value(0),
     publishEndAnimationTiming: new Animated.Value(0),
+    publishSuccessAnimationTiming: new Animated.Value(0),
     isPublished: false
   };
 
@@ -51,44 +52,45 @@ class JournalPublish extends Component {
           }
         );
       } else {
-        this.setState(
-          {
-            displayLoading: false,
-            displayLoadEnd: true
-          },
-          () => {
-            this.loopEnd();
-          }
-        );
+        this.loopEnd();
+        this.animateSuccess();
       }
     });
   }
 
-  loopEnd() {
+  loopEnd = () => {
     Animated.timing(this.state.publishEndAnimationTiming, {
       toValue: 1,
-      duration: 1500,
+      duration: 3000,
       easing: Easing.linear,
       useNativeDriver: true
-    }).start(() => {
-      console.log("Done!");
-    });
-  }
+    }).start();
+  };
+
+  animateSuccess = () => {
+    Animated.timing(this.state.publishSuccessAnimationTiming, {
+      toValue: 1,
+      duration: 3000,
+      easing: Easing.linear,
+      useNativeDriver: true
+    }).start();
+  };
 
   componentDidMount() {
     this.loopLoading();
 
-    // setTimeout(() => {
-    //   this.setState({
-    //     isPublished: true,
-    //   });
-    // }, 15000);
+    setTimeout(() => {
+      this.setState({
+        isPublished: true
+      });
+    }, 10000);
   }
 
   render() {
     const {
       publishingAnimationTiming,
       publishEndAnimationTiming,
+      publishSuccessAnimationTiming,
       isPublished
     } = this.state;
 
@@ -117,10 +119,13 @@ class JournalPublish extends Component {
 
         <View style={styles.infoTextContainer}>
           <View style={styles.successAnimationContainer}>
-            <LottieView
-              source={constants.journalPublishingLoop}
-              progress={publishingAnimationTiming}
-            />
+            {isPublished ? (
+              <LottieView
+                style={styles.successAnimation}
+                source={constants.journalPublishSuccess}
+                progress={publishSuccessAnimationTiming}
+              />
+            ) : null}
           </View>
           {isPublished ? (
             <Text>{"Published"}</Text>
@@ -185,6 +190,11 @@ const styles = StyleSheet.create({
     width: 20,
     marginLeft: -16,
     marginRight: 16
+  },
+  successAnimation: {
+    height: 20,
+    width: 20,
+    transform: [{ scale: 3 }]
   },
   infoText: {
     textAlign: "left",
