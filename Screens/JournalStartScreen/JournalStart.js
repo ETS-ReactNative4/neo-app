@@ -37,7 +37,7 @@ class JournalStart extends Component {
       desc: this.state.description
     })
       .then(() => {
-        this.props.navigation.navigate("JournalSetup");
+        this.props.navigation.replace("JournalSetup");
       })
       .catch(() => {
         DebouncedAlert(

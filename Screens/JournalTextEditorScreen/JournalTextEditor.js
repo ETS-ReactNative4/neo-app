@@ -112,6 +112,15 @@ class JournalTextEditor extends Component {
     setTimeout(() => {
       this._titleInputRef.current && this._titleInputRef.current.focus();
     }, 500);
+
+    const storyId = this.props.navigation.getParam("activeStory", "");
+    const pageId = this.props.navigation.getParam("activePage", "");
+
+    const { getStoryById } = this.props.journalStore;
+    const storyDetails = getStoryById({ pageId, storyId });
+    this.setState({
+      title: storyDetails.title
+    });
   }
 
   render() {
@@ -124,8 +133,9 @@ class JournalTextEditor extends Component {
 
     const storyId = this.props.navigation.getParam("activeStory", "");
     const pageId = this.props.navigation.getParam("activePage", "");
-    const { getImagesById } = this.props.journalStore;
+    const { getImagesById, getStoryById } = this.props.journalStore;
     const preSelectedImages = getImagesById({ storyId, pageId });
+    const storyDetails = getStoryById({ pageId, storyId });
 
     return (
       <View style={styles.journalTextEditorContainer}>
@@ -181,6 +191,7 @@ class JournalTextEditor extends Component {
           onKeyBoardStateChange={this.onKeyBoardStateChange}
           navigation={this.props.navigation}
           richTextInputRef={this._richTextInputRef}
+          initialValue={storyDetails.storyRichText || ""}
         />
       </View>
     );

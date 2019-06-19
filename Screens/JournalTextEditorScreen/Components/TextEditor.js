@@ -31,7 +31,6 @@ class TextEditor extends Component {
   };
 
   onStyleKeyPress = toolType => {
-    console.log(toolType);
     const { richTextInputRef } = this.props;
     richTextInputRef.current && richTextInputRef.current.applyToolbar(toolType);
   };
@@ -53,6 +52,12 @@ class TextEditor extends Component {
       value: value
     });
   };
+
+  componentDidMount() {
+    this.setState({
+      value: [getInitialObject(this.props.initialValue)]
+    });
+  }
 
   render() {
     const {

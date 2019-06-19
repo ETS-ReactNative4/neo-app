@@ -616,6 +616,21 @@ class Journal {
       return [];
     }
   });
+
+  getStoryById = createTransformer(({ pageId, storyId }) => {
+    try {
+      const requiredPage = this.journalDetails.journal.pages.find(
+        page => page.pageId === pageId
+      );
+      const requiredStory = requiredPage.stories.find(
+        story => story.storyId === storyId
+      );
+      return requiredStory || {};
+    } catch (e) {
+      logError(e);
+      return {};
+    }
+  });
 }
 
 export default Journal;

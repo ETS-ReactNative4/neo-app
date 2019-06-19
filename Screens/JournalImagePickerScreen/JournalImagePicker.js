@@ -154,7 +154,6 @@ class JournalImagePicker extends Component {
         height: constants.journalImagePicker.selectedImageHeight
       })
         .then(croppedImage => {
-          console.log(JSON.stringify(croppedImage));
           const selectedImagesList = [...this.state.selectedImagesList];
           selectedImagesList[selectedImageIndex].croppedImage = croppedImage;
           selectedImagesList[selectedImageIndex].isContain = false;

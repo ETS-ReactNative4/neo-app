@@ -39,8 +39,16 @@ class Journal extends Component {
   };
 
   loadJournalDetails = () => {
-    const { getHomeScreenDetails } = this.props.journalStore;
-    getHomeScreenDetails();
+    const {
+      getHomeScreenDetails,
+      isJournalInitialized,
+      refreshJournalInformation
+    } = this.props.journalStore;
+    if (isJournalInitialized) {
+      refreshJournalInformation();
+    } else {
+      getHomeScreenDetails();
+    }
   };
 
   componentDidMount() {
