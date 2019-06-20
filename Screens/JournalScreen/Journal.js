@@ -78,7 +78,7 @@ class Journal extends Component {
       isHomeScreenLoading,
       homeScreenDetails,
       isJournalInitialized,
-      activeStories
+      pages
     } = this.props.journalStore;
 
     return (
@@ -96,8 +96,8 @@ class Journal extends Component {
         {isJournalInitialized ? (
           <EditJournal
             addNewStory={this.addNewStory}
-            activeStories={activeStories}
             editAction={this.editJournal}
+            pages={pages}
           />
         ) : (
           <NewJournal

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { StyleSheet } from "react-native";
 import AddStoryButton from "../../../JournalDaySelectorScreen/Components/AddStoryButton";
 import CustomScrollView from "../../../../CommonComponents/CustomScrollView/CustomScrollView";
@@ -6,8 +6,11 @@ import constants from "../../../../constants/constants";
 import Dash from "react-native-dash";
 import JournalDayCard from "../../../JournalDaySelectorScreen/Components/JournalDayCard";
 import _ from "lodash";
+import forbidExtraProps from "../../../../Services/PropTypeValidation/forbidExtraProps";
+import PropTypes from "prop-types";
+import JournalDaySelectorTitle from "../../../JournalDaySelectorScreen/Components/JournalDaySelectorTitle";
 
-const EditJournal = ({ activeStories, addNewStory, editAction }) => {
+const EditJournal = ({ addNewStory, editAction, pages }) => {
   return (
     <CustomScrollView
       containerStyle={styles.scrollContainer}
@@ -17,22 +20,46 @@ const EditJournal = ({ activeStories, addNewStory, editAction }) => {
     >
       <AddStoryButton action={addNewStory} />
       <Dash dashColor={constants.shade4} dashGap={2} dashLength={1} />
-      {activeStories.map((story, storyIndex) => {
-        const imageUrl = _.get(story, "coverImage.imageUrl");
+      {pages.map((page, pageIndex) => {
+        const activeStories = page.stories.filter(story => story.initialized);
         return (
-          <JournalDayCard
-            key={storyIndex}
-            action={() => null}
-            isActivated={story.initialized}
-            info={story.title}
-            image={imageUrl ? { uri: imageUrl } : null}
-            editAction={() => editAction(story.pageId, story.storyId)}
-          />
+          <Fragment key={pageIndex}>
+            {activeStories.length ? (
+              <JournalDaySelectorTitle
+                day={page.pageDate}
+                dayString={page.pageDateStr}
+                title={page.title}
+                description={page.info}
+              />
+            ) : null}
+            {page.stories.map((story, storyIndex) => {
+              if (story.initialized) {
+                const imageUrl = _.get(story, "coverImage.imageUrl");
+                return (
+                  <JournalDayCard
+                    key={storyIndex}
+                    action={() => null}
+                    isActivated={story.initialized}
+                    info={story.title}
+                    image={imageUrl ? { uri: imageUrl } : null}
+                    editAction={() => editAction(story.pageId, story.storyId)}
+                  />
+                );
+              }
+              return null;
+            })}
+          </Fragment>
         );
       })}
     </CustomScrollView>
   );
 };
+
+EditJournal.propTypes = forbidExtraProps({
+  addNewStory: PropTypes.func.isRequired,
+  editAction: PropTypes.func.isRequired,
+  pages: PropTypes.array.isRequired
+});
 
 const styles = StyleSheet.create({
   scrollBackground: {

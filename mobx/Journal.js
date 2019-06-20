@@ -255,6 +255,19 @@ class Journal {
     }
   }
 
+  @computed
+  get pages() {
+    if (_.isEmpty(this.journalDetails)) {
+      return [];
+    }
+    try {
+      return toJS(this.journalDetails.journal.pages);
+    } catch (e) {
+      logError(e);
+      return [];
+    }
+  }
+
   @action
   initializeJournalDetails = () => {
     this._isJournalDetailsLoading = true;

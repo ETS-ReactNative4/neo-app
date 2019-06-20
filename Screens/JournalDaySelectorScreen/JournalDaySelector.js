@@ -68,7 +68,23 @@ class JournalDaySelector extends Component {
       <ScrollView style={styles.journalDaySelectorContainer}>
         <JournalDaySelectorTitle title={title} description={info} />
         {stories.map((story, storyIndex) => {
-          if (story.initialized) return null;
+          if (story.initialized) {
+            const imageUrl = _.get(story, "coverImage.imageUrl");
+            return (
+              <JournalDayCard
+                key={storyIndex}
+                action={() =>
+                  this.navigateToImagePicker(activePage, story.storyId)
+                }
+                isActivated={story.initialized}
+                info={story.title}
+                image={imageUrl ? { uri: imageUrl } : null}
+                editAction={() =>
+                  this.navigateToImagePicker(activePage, story.storyId)
+                }
+              />
+            );
+          }
           return (
             <JournalDayCard
               key={storyIndex}
