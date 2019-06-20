@@ -473,6 +473,12 @@ class Journal {
   @observable
   _imageUploadQueue = [];
 
+  @persist
+  @observable
+  _imageUploadQueueError = false;
+
+  @observable _isImageUploadQueueRunning = false;
+
   @persist("object")
   @observable
   _failedImageUploads = {};
@@ -482,20 +488,23 @@ class Journal {
     return toJS(this._imageUploadQueue);
   }
 
+  @computed
+  get isImageUploadQueueRunning() {
+    return this._isImageUploadQueueRunning;
+  }
+
   @action
   addImagesToQueue = (storyId, imagesList = []) => {
+    this._imageUploadQueue = [];
     try {
-      this._imageUploadQueue = [
-        {
-          isQueueRunning: false,
-          storyId,
-          imagesList: imagesList.map(image => ({
-            image,
-            isUploaded: false,
-            hasFailed: false
-          }))
-        }
-      ];
+      this._imageUploadQueue.push({
+        isQueueRunning: false,
+        storyId,
+        imagesList: imagesList.map(image => ({
+          image,
+          failureCount: 0
+        }))
+      });
       this.startImageUploadQueue();
     } catch (error) {
       logError("Failed to create image upload queue", { error });
@@ -615,25 +624,59 @@ class Journal {
     };
 
     const getImageToUpload = () => {
+      console.log("------------------------------");
+      console.log(toJS(this._imageUploadQueue));
+      console.log("------------------------------");
       if (this._imageUploadQueue.length) {
-        const imageQueue = this._imageUploadQueue[0];
+        const queueIndex = 0;
+        const imageQueue = this._imageUploadQueue[queueIndex];
 
-        const imageToUpload = imageQueue.imagesList[0];
-        const imageIndex = 0;
+        console.log("------------------------------");
+        console.log(toJS(imageQueue));
+        console.log("------------------------------");
 
-        uploadImage(imageQueue.storyId, imageToUpload)
-          .then(() => {
-            imageToUpload.isUploaded = true;
-            this._imageUploadQueue[0].imagesList[imageIndex] = imageToUpload;
-          })
-          .catch(() => {
-            imageToUpload.hasFailed = true;
-            this._imageUploadQueue[0].imagesList[imageIndex] = imageToUpload;
-          });
+        if (imageQueue.imagesList.length === 0) {
+          this._imageUploadQueue.splice(queueIndex, 1);
+          this.startImageUploadQueue();
+        } else {
+          const imageIndex = 0;
+          const imageToUpload = imageQueue.imagesList[imageIndex];
+
+          console.log("------------------------------");
+          console.log(toJS(imageToUpload));
+          console.log("------------------------------");
+
+          uploadImage(imageQueue.storyId, imageToUpload)
+            .then(() => {
+              console.log("Image uploaded! ------------------------------ ");
+              this._imageUploadQueue[0].imagesList.splice(imageIndex, 1);
+              this.startImageUploadQueue();
+            })
+            .catch(() => {
+              imageToUpload.failureCount++;
+              if (imageToUpload.failureCount < 3) {
+                this._imageUploadQueue[0].imagesList[
+                  imageIndex
+                ] = imageToUpload;
+              } else {
+                this._imageUploadQueueError = true;
+                this._imageUploadQueue[0].imagesList.splice(imageIndex, 1);
+              }
+              this.startImageUploadQueue();
+            });
+        }
       }
     };
 
-    getImageToUpload();
+    if (this._imageUploadQueue.length) {
+      this._isImageUploadQueueRunning = true;
+      getImageToUpload();
+    } else {
+      this._isImageUploadQueueRunning = false;
+      console.log("------------------------------ ");
+      console.log("Queue Complete!");
+      console.log("------------------------------ ");
+    }
   };
 
   getImagesById = createTransformer(({ pageId, storyId }) => {
