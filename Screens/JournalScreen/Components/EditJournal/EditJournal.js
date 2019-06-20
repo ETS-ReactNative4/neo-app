@@ -32,21 +32,18 @@ const EditJournal = ({ addNewStory, editAction, pages }) => {
                 description={page.info}
               />
             ) : null}
-            {page.stories.map((story, storyIndex) => {
-              if (story.initialized) {
-                const imageUrl = _.get(story, "coverImage.imageUrl");
-                return (
-                  <JournalDayCard
-                    key={storyIndex}
-                    action={() => null}
-                    isActivated={story.initialized}
-                    info={story.title}
-                    image={imageUrl ? { uri: imageUrl } : null}
-                    editAction={() => editAction(page.pageId, story.storyId)}
-                  />
-                );
-              }
-              return null;
+            {activeStories.map((story, storyIndex) => {
+              const imageUrl = _.get(story, "coverImage.imageUrl");
+              return (
+                <JournalDayCard
+                  key={storyIndex}
+                  action={() => null}
+                  isActivated={story.initialized}
+                  info={story.title}
+                  image={imageUrl ? { uri: imageUrl } : null}
+                  editAction={() => editAction(page.pageId, story.storyId)}
+                />
+              );
             })}
           </Fragment>
         );
