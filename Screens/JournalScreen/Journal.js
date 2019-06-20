@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { View, Text, Image, StyleSheet } from "react-native";
 import constants from "../../constants/constants";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
@@ -8,6 +8,7 @@ import { inject, observer } from "mobx-react/custom";
 import _ from "lodash";
 import CustomScrollView from "../../CommonComponents/CustomScrollView/CustomScrollView";
 import EditJournal from "./Components/EditJournal/EditJournal";
+import JournalTitleDropDown from "../JournalSetupScreen/Components/JournalTitleDropDown/JournalTitleDropDown";
 
 @ErrorBoundary({ isRoot: true })
 @inject("journalStore")
@@ -78,8 +79,16 @@ class Journal extends Component {
       isHomeScreenLoading,
       homeScreenDetails,
       isJournalInitialized,
-      pages
+      pages,
+      journalTitle,
+      journalDesc,
+      journalCoverImage,
+      journalOwner,
+      journalPublishedTime
     } = this.props.journalStore;
+
+    const editJournal = () =>
+      this.props.navigation.navigate("JournalStart", { isEditing: true });
 
     return (
       <CustomScrollView
@@ -94,11 +103,21 @@ class Journal extends Component {
         onRefresh={this.loadJournalDetails}
       >
         {isJournalInitialized ? (
-          <EditJournal
-            addNewStory={this.addNewStory}
-            editAction={this.editJournal}
-            pages={pages}
-          />
+          <Fragment>
+            <JournalTitleDropDown
+              editAction={editJournal}
+              journalOwner={journalOwner}
+              journalPublishedTime={journalPublishedTime}
+              coverImage={{ uri: journalCoverImage }}
+              title={journalTitle}
+              desc={journalDesc}
+            />
+            <EditJournal
+              addNewStory={this.addNewStory}
+              editAction={this.editJournal}
+              pages={pages}
+            />
+          </Fragment>
         ) : (
           <NewJournal
             title={homeScreenDetails.title}

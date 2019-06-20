@@ -32,11 +32,25 @@ class JournalSetup extends Component {
     const {
       categorizedPages,
       journalTitle,
-      journalDesc
+      journalDesc,
+      journalCoverImage,
+      journalOwner,
+      journalPublishedTime
     } = this.props.journalStore;
+
+    const editJournal = () =>
+      this.props.navigation.navigate("JournalStart", { isEditing: true });
+
     return (
       <ScrollView style={styles.journalSetupContainer}>
-        <JournalTitleDropDown title={journalTitle} desc={journalDesc} />
+        <JournalTitleDropDown
+          editAction={editJournal}
+          journalOwner={journalOwner}
+          journalPublishedTime={journalPublishedTime}
+          coverImage={{ uri: journalCoverImage }}
+          title={journalTitle}
+          desc={journalDesc}
+        />
         <JournalSetupTitle
           title={"An organized journal to enable easy reading."}
         />

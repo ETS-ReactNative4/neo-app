@@ -14,8 +14,14 @@ import DebouncedAlert from "../../CommonComponents/DebouncedAlert/DebouncedAlert
 @observer
 class JournalStart extends Component {
   static navigationOptions = ({ navigation }) => {
+    const isEditing = navigation.getParam("isEditing", false);
     return {
-      header: <CommonHeader title={"Journal Start"} navigation={navigation} />
+      header: (
+        <CommonHeader
+          title={isEditing ? "Journal Setup" : "Journal Start"}
+          navigation={navigation}
+        />
+      )
     };
   };
   _titleRef = React.createRef();
@@ -37,7 +43,12 @@ class JournalStart extends Component {
       desc: this.state.description
     })
       .then(() => {
-        this.props.navigation.replace("JournalSetup");
+        const isEditing = this.props.navigation.getParam("isEditing", false);
+        if (isEditing) {
+          this.props.navigation.goBack();
+        } else {
+          this.props.navigation.replace("JournalSetup");
+        }
       })
       .catch(() => {
         DebouncedAlert(
@@ -50,12 +61,18 @@ class JournalStart extends Component {
     setTimeout(() => {
       this._titleRef.current && this._titleRef.current.focus();
     }, 300);
+    const { journalTitle, journalDesc } = this.props.journalStore;
+    this.setState({
+      title: journalTitle,
+      description: journalDesc
+    });
   }
 
   submitTitle = () => this._descRef.current && this._descRef.current.focus();
 
   render() {
     const { journalStartData } = this.props.journalStore;
+    const isEditing = this.props.navigation.getParam("isEditing", false);
 
     return (
       <KeyboardAwareScrollView style={styles.journalStartContainer}>
@@ -99,9 +116,9 @@ class JournalStart extends Component {
             textStyle={{ marginRight: 8 }}
             underlayColor={constants.firstColorAlpha(0.8)}
             action={() => this.submitJournalInfo()}
-            text={"Continue"}
+            text={isEditing ? "Update" : "Continue"}
             icon={constants.arrowRight}
-            iconSize={12}
+            iconSize={isEditing ? 0 : 12}
             rightIcon={true}
             textColor={"white"}
           />

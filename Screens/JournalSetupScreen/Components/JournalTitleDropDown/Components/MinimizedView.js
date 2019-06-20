@@ -23,6 +23,7 @@ MinimizedView.propTypes = forbidExtraProps({
   desc: PropTypes.string.isRequired
 });
 
+const clickableArrowContainerWidth = 96;
 const styles = StyleSheet.create({
   minimizedViewContainer: {
     flex: 1,
@@ -32,12 +33,12 @@ const styles = StyleSheet.create({
   titleText: {
     ...constants.fontCustom(constants.primarySemiBold, 14, 18),
     color: "white",
-    width: responsiveWidth(100) - 72
+    width: responsiveWidth(100) - clickableArrowContainerWidth
   },
   infoText: {
     ...constants.fontCustom(constants.primaryRegular, 12, 14),
     color: "white",
-    width: responsiveWidth(100) - 72
+    width: responsiveWidth(100) - clickableArrowContainerWidth
   }
 });
 

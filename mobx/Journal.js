@@ -187,6 +187,30 @@ class Journal {
   }
 
   @computed
+  get journalCoverImage() {
+    if (_.isEmpty(this.journalDetails)) {
+      return "";
+    }
+    return _.get(this.journalDetails, "journal.coverImage.imageUrl");
+  }
+
+  @computed
+  get journalOwner() {
+    if (_.isEmpty(this.journalDetails)) {
+      return "";
+    }
+    return _.get(this.journalDetails, "journal.owner");
+  }
+
+  @computed
+  get journalPublishedTime() {
+    if (_.isEmpty(this.journalDetails)) {
+      return "";
+    }
+    return _.get(this.journalDetails, "journal.publishedTimeStr");
+  }
+
+  @computed
   get journalDetails() {
     return toJS(this._journalDetails);
   }
