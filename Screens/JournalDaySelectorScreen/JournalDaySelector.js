@@ -58,6 +58,30 @@ class JournalDaySelector extends Component {
       });
   };
 
+  deleteStory = storyId => {
+    const { deleteStory } = this.props.journalStore;
+    DebouncedAlert(
+      "Are you sure?",
+      "Deleting a story is an irreversible action",
+      [
+        {
+          text: "Yes",
+          onPress: () =>
+            deleteStory(storyId).catch(() =>
+              DebouncedAlert("Error!", "Failed to delete the story!")
+            )
+        },
+        {
+          text: "No",
+          onPress: () => null
+        }
+      ],
+      {
+        cancelable: false
+      }
+    );
+  };
+
   render() {
     const title = this.props.navigation.getParam("title", "");
     const info = this.props.navigation.getParam("info", "");
@@ -82,6 +106,7 @@ class JournalDaySelector extends Component {
                 editAction={() =>
                   this.navigateToImagePicker(activePage, story.storyId)
                 }
+                deleteAction={() => this.deleteStory(story.storyId)}
               />
             );
           }

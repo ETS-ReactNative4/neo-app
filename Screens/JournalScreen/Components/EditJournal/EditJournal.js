@@ -10,7 +10,7 @@ import forbidExtraProps from "../../../../Services/PropTypeValidation/forbidExtr
 import PropTypes from "prop-types";
 import JournalDaySelectorTitle from "../../../JournalDaySelectorScreen/Components/JournalDaySelectorTitle";
 
-const EditJournal = ({ addNewStory, editAction, pages }) => {
+const EditJournal = ({ addNewStory, editAction, pages, deleteAction }) => {
   return (
     <CustomScrollView
       containerStyle={styles.scrollContainer}
@@ -42,6 +42,7 @@ const EditJournal = ({ addNewStory, editAction, pages }) => {
                   info={story.title}
                   image={imageUrl ? { uri: imageUrl } : null}
                   editAction={() => editAction(page.pageId, story.storyId)}
+                  deleteAction={() => deleteAction(story.storyId)}
                 />
               );
             })}
@@ -55,6 +56,7 @@ const EditJournal = ({ addNewStory, editAction, pages }) => {
 EditJournal.propTypes = forbidExtraProps({
   addNewStory: PropTypes.func.isRequired,
   editAction: PropTypes.func.isRequired,
+  deleteAction: PropTypes.func.isRequired,
   pages: PropTypes.array.isRequired
 });
 

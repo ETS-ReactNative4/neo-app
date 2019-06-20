@@ -44,6 +44,7 @@ const apiUrls = {
   getDaywiseFeedbackOptions: "mobile/footers",
   journalImageDetails: "mobile/journal/image",
   journalStoryOperations: "mobile/journal/story",
+  journalDeleteStory: "mobile/journal/story/:storyId",
 
   getJournalScreenDetails: "mobile/journal/screen/info/home",
   getJournalStartScreenDetails: "mobile/journal/screen/info/setup",

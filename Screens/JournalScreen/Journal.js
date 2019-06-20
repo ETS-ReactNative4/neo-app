@@ -9,6 +9,7 @@ import _ from "lodash";
 import CustomScrollView from "../../CommonComponents/CustomScrollView/CustomScrollView";
 import EditJournal from "./Components/EditJournal/EditJournal";
 import JournalTitleDropDown from "../JournalSetupScreen/Components/JournalTitleDropDown/JournalTitleDropDown";
+import DebouncedAlert from "../../CommonComponents/DebouncedAlert/DebouncedAlert";
 
 @ErrorBoundary({ isRoot: true })
 @inject("journalStore")
@@ -67,11 +68,35 @@ class Journal extends Component {
     this.props.navigation.navigate("JournalSetup");
   };
 
-  editJournal = (activePage, activeStory) => {
+  editStory = (activePage, activeStory) => {
     this.props.navigation.navigate("JournalImagePicker", {
       activePage,
       activeStory
     });
+  };
+
+  deleteStory = storyId => {
+    const { deleteStory } = this.props.journalStore;
+    DebouncedAlert(
+      "Are you sure?",
+      "Deleting a story is an irreversible action",
+      [
+        {
+          text: "Yes",
+          onPress: () =>
+            deleteStory(storyId).catch(() =>
+              DebouncedAlert("Error!", "Failed to delete the story!")
+            )
+        },
+        {
+          text: "No",
+          onPress: () => null
+        }
+      ],
+      {
+        cancelable: false
+      }
+    );
   };
 
   render() {
@@ -114,7 +139,8 @@ class Journal extends Component {
             />
             <EditJournal
               addNewStory={this.addNewStory}
-              editAction={this.editJournal}
+              editAction={this.editStory}
+              deleteAction={this.deleteStory}
               pages={pages}
             />
           </Fragment>

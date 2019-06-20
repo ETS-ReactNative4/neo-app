@@ -438,6 +438,7 @@ class Journal {
   /**
    * Creating a new story for the journal
    */
+  @action
   createNewStory = pageId => {
     return new Promise((resolve, reject) => {
       const itineraryId = storeService.itineraries.selectedItineraryId;
@@ -454,6 +455,32 @@ class Journal {
               .then(() => {
                 resolve(createdStory.storyId);
               })
+              .catch(reject);
+          } else {
+            reject();
+          }
+        })
+        .catch(() => {
+          reject();
+        });
+    });
+  };
+
+  @action
+  deleteStory = storyId => {
+    return new Promise((resolve, reject) => {
+      const requestObject = {
+        storyId
+      };
+      apiCall(
+        constants.journalDeleteStory.replace(":storyId", storyId),
+        requestObject,
+        "DELETE"
+      )
+        .then(response => {
+          if (response.status === constants.responseSuccessStatus) {
+            this.refreshJournalInformation()
+              .then(resolve)
               .catch(reject);
           } else {
             reject();
