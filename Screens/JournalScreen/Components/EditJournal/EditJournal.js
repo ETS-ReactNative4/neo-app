@@ -42,7 +42,7 @@ const EditJournal = ({ addNewStory, editAction, pages }) => {
                     isActivated={story.initialized}
                     info={story.title}
                     image={imageUrl ? { uri: imageUrl } : null}
-                    editAction={() => editAction(story.pageId, story.storyId)}
+                    editAction={() => editAction(page.pageId, story.storyId)}
                   />
                 );
               }
