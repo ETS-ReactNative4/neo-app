@@ -495,7 +495,6 @@ class Journal {
 
   @action
   addImagesToQueue = (storyId, imagesList = []) => {
-    this._imageUploadQueue = [];
     try {
       this._imageUploadQueue.push({
         isQueueRunning: false,
@@ -673,6 +672,7 @@ class Journal {
       getImageToUpload();
     } else {
       this._isImageUploadQueueRunning = false;
+      this.refreshJournalInformation();
       console.log("------------------------------ ");
       console.log("Queue Complete!");
       console.log("------------------------------ ");
