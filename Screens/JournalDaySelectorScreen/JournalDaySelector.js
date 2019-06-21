@@ -11,6 +11,28 @@ import { inject, observer } from "mobx-react/custom";
 import DebouncedAlert from "../../CommonComponents/DebouncedAlert/DebouncedAlert";
 import _ from "lodash";
 
+const RightButton = inject("journalStore")(
+  observer(({ journalStore }) => {
+    const { activeStories } = journalStore;
+    if (activeStories.length) {
+      return (
+        <SimpleButton
+          text={"Publish"}
+          textColor={constants.firstColor}
+          color={"transparent"}
+          containerStyle={{
+            height: 24,
+            width: 62,
+            marginRight: 16
+          }}
+        />
+      );
+    } else {
+      return null;
+    }
+  })
+);
+
 @ErrorBoundary()
 @inject("journalStore")
 @observer
@@ -22,18 +44,7 @@ class JournalDaySelector extends Component {
         <CommonHeader
           title={title}
           navigation={navigation}
-          RightButton={
-            <SimpleButton
-              text={"Publish"}
-              textColor={constants.firstColor}
-              color={"transparent"}
-              containerStyle={{
-                height: 24,
-                width: 62,
-                marginRight: 16
-              }}
-            />
-          }
+          RightButton={<RightButton />}
         />
       )
     };

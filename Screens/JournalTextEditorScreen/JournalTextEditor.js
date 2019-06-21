@@ -86,6 +86,7 @@ class JournalTextEditor extends Component {
     );
     submitStory(activeStory, this.state.title, richText)
       .then(() => {
+        this.props.navigation.pop(2);
         addImagesToQueue(activeStory, selectedImagesList);
       })
       .catch(() => {

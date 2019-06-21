@@ -422,9 +422,8 @@ class Journal {
       apiCall(constants.updateJournalDetails, requestObject)
         .then(response => {
           if (response.status === constants.responseSuccessStatus) {
-            this.refreshJournalInformation()
-              .then(resolve)
-              .catch(reject);
+            resolve();
+            this.refreshJournalInformation();
           } else {
             reject();
           }
