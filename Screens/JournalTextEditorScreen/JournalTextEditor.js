@@ -11,7 +11,7 @@ import _ from "lodash";
 import { inject, observer } from "mobx-react/custom";
 import DebouncedAlert from "../../CommonComponents/DebouncedAlert/DebouncedAlert";
 
-let _submitStory = false;
+let _submitStory = () => null;
 
 @ErrorBoundary()
 @inject("journalStore")
@@ -51,6 +51,7 @@ class JournalTextEditor extends Component {
   };
   _titleInputRef = React.createRef();
   _richTextInputRef = React.createRef();
+  _textEditorRef = React.createRef();
 
   constructor(props) {
     super(props);
@@ -74,13 +75,16 @@ class JournalTextEditor extends Component {
   };
 
   submitStory = () => {
+    const richText =
+      this._textEditorRef.current &&
+      this._textEditorRef.current.retrieveRichText();
     const { addImagesToQueue, submitStory } = this.props.journalStore;
     const activeStory = this.props.navigation.getParam("activeStory", "");
     const selectedImagesList = this.props.navigation.getParam(
       "selectedImagesList",
       []
     );
-    submitStory(activeStory, this.state.title, this.state.richText)
+    submitStory(activeStory, this.state.title, richText)
       .then(() => {
         addImagesToQueue(activeStory, selectedImagesList);
       })
@@ -186,6 +190,7 @@ class JournalTextEditor extends Component {
           </Fragment>
         ) : null}
         <TextEditor
+          ref={this._textEditorRef}
           isTextEditorActive={isTextEditorActive}
           getRichText={this.getRichText}
           onKeyBoardStateChange={this.onKeyBoardStateChange}

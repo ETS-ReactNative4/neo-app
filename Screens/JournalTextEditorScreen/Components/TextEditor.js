@@ -54,6 +54,8 @@ class TextEditor extends Component {
     });
   };
 
+  retrieveRichText = () => convertToHtmlString(this.state.value);
+
   componentDidMount() {
     if (this.props.initialValue) {
       this.setState({
