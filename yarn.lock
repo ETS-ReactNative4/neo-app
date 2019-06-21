@@ -10519,10 +10519,10 @@ react-native-dash@^0.0.9:
     prop-types "^15.5.10"
     react-native-measureme "0.0.1"
 
-react-native-device-info@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/react-native-device-info/-/react-native-device-info-1.0.1.tgz#4bca46388773ade9a8599dfe0c55d87756b0622b"
-  integrity sha512-TjDO4lPtMmM7Cuj1SanmCPw3RBhXvnUcOHTvX+2QeI2BjrCGjxmc3xFSmBkKn/oy2G67qWdDDgpE4HTSw9ZhUA==
+react-native-device-info@2.1.2:
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/react-native-device-info/-/react-native-device-info-2.1.2.tgz#5c553498e8930410aa65796b83f8f8c8fb9893b4"
+  integrity sha512-q14hVR0eLRXnKeRyKX4naydXstCWetCIL+K+vUqREGkVj6qKoBouKd2yd8AxBfyomQN4uP3XRT6hTCwErIj9Ew==
 
 react-native-dismiss-keyboard@1.0.0:
   version "1.0.0"

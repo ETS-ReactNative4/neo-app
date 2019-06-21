@@ -37,7 +37,7 @@ allprojects {
 ext {
     buildToolsVersion = "26.0.3"
     minSdkVersion = 16
-    compileSdkVersion = 26
+    compileSdkVersion = 29  // React Native Device Info requires updated SDK Version >28 hence default value of 26 is changed to 29
     targetSdkVersion = 26
     supportLibVersion = "26.1.0"
 }
