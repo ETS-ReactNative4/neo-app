@@ -11,6 +11,8 @@ import { inject, observer } from "mobx-react/custom";
 import DebouncedAlert from "../../CommonComponents/DebouncedAlert/DebouncedAlert";
 import _ from "lodash";
 
+let _publishJournal = () => null;
+
 const RightButton = inject("journalStore")(
   observer(({ journalStore }) => {
     const { activeStories } = journalStore;
@@ -25,6 +27,7 @@ const RightButton = inject("journalStore")(
             width: 62,
             marginRight: 16
           }}
+          action={_publishJournal}
         />
       );
     } else {
@@ -49,6 +52,12 @@ class JournalDaySelector extends Component {
       )
     };
   };
+
+  constructor(props) {
+    super(props);
+
+    _publishJournal = this.publishJournal;
+  }
 
   navigateToImagePicker = (activePage, activeStory) => {
     this.props.navigation.navigate("JournalImagePicker", {
@@ -91,6 +100,10 @@ class JournalDaySelector extends Component {
         cancelable: false
       }
     );
+  };
+
+  publishJournal = () => {
+    this.props.navigation.navigate("JournalPublish");
   };
 
   render() {
