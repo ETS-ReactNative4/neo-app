@@ -219,6 +219,33 @@ class JournalImagePicker extends Component {
     });
   };
 
+  clearSelection = () => {
+    const selectedImages = [...this.state.selectedImagesList];
+    this.setState(
+      state => {
+        const imageMap = new Map(state.imageMap);
+        for (let i = 0; i < selectedImages.length; i++) {
+          const selectedImage = selectedImages[i];
+          const key = _.get(selectedImage, "image.node.image.uri");
+          const imageDetails = imageMap.get(key);
+          imageDetails.isSelected = false;
+          imageDetails.isContain = false;
+          imageMap.set(key, imageDetails);
+        }
+        return { imageMap };
+      },
+      () => {
+        this.setState({ selectedImagesList: [] }, () => {
+          _headerData.selectedImagesCount = 0;
+        });
+      }
+    );
+  };
+
+  componentWillUnmount() {
+    _headerData.selectedImagesCount = 0;
+  }
+
   _onPressImage = imageId => {
     this.setState(state => {
       const imageMap = new Map(state.imageMap);
@@ -272,13 +299,16 @@ class JournalImagePicker extends Component {
   confirmSelection = () => {
     const { selectedImagesList } = this.state;
     const { navigation } = this.props;
+    const { addImagesToQueue } = this.props.journalStore;
     const activeStory = this.props.navigation.getParam("activeStory", "");
     const activePage = this.props.navigation.getParam("activePage", "");
+    addImagesToQueue(activeStory, selectedImagesList);
     navigation.navigate("JournalTextEditor", {
       selectedImagesList,
       activeStory,
       activePage
     });
+    this.clearSelection();
   };
 
   render() {
@@ -355,6 +385,7 @@ class JournalImagePicker extends Component {
                       _.get(selectedImage, "image.node.image.uri")
                   }}
                   index={preSelectedImages.length + imageIndex}
+                  actionIndex={imageIndex}
                   isContain={!!selectedImage.isContain}
                   cropImage={this.cropImage}
                   toggleImageContain={this.toggleImageContain}

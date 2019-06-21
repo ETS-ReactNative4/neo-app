@@ -9,6 +9,7 @@ import ImagePositionIndicator from "./ImagePositionIndicator";
 
 const ImagePreviewCard = ({
   index,
+  actionIndex,
   previewImage = constants.starterBackground,
   imageUri,
   isContain = false,
@@ -28,13 +29,13 @@ const ImagePreviewCard = ({
           <PreviewControlButton
             icon={constants.cropIcon}
             containerStyle={styles.cropButton}
-            onClick={() => cropImage(index, imageUri)}
+            onClick={() => cropImage(actionIndex, imageUri)}
             isSelected={!isContain && imageUri !== previewImage.uri}
           />
           <PreviewControlButton
             icon={constants.containIcon}
             containerStyle={styles.containButton}
-            onClick={() => toggleImageContain(index)}
+            onClick={() => toggleImageContain(actionIndex)}
             isSelected={isContain}
           />
           <ImagePositionIndicator
@@ -49,6 +50,8 @@ const ImagePreviewCard = ({
 };
 
 ImagePreviewCard.propTypes = forbidExtraProps({
+  index: PropTypes.number.isRequired,
+  actionIndex: PropTypes.number.isRequired,
   previewImage: PropTypes.oneOfType([PropTypes.object, PropTypes.number])
     .isRequired,
   toggleImageContain: PropTypes.func,

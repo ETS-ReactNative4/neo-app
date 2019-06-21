@@ -47,7 +47,9 @@ class JournalTextEditor extends Component {
     title: "",
     isTitleFocused: false,
     isKeyboardVisible: false,
-    richText: ""
+    richText: "",
+    preSelectedImages: [],
+    selectedImagesList: []
   };
   _titleInputRef = React.createRef();
   _richTextInputRef = React.createRef();
@@ -78,16 +80,11 @@ class JournalTextEditor extends Component {
     const richText =
       this._textEditorRef.current &&
       this._textEditorRef.current.retrieveRichText();
-    const { addImagesToQueue, submitStory } = this.props.journalStore;
+    const { submitStory } = this.props.journalStore;
     const activeStory = this.props.navigation.getParam("activeStory", "");
-    const selectedImagesList = this.props.navigation.getParam(
-      "selectedImagesList",
-      []
-    );
     submitStory(activeStory, this.state.title, richText)
       .then(() => {
         this.props.navigation.pop(2);
-        addImagesToQueue(activeStory, selectedImagesList);
       })
       .catch(() => {
         DebouncedAlert(
@@ -121,26 +118,33 @@ class JournalTextEditor extends Component {
     const storyId = this.props.navigation.getParam("activeStory", "");
     const pageId = this.props.navigation.getParam("activePage", "");
 
-    const { getStoryById } = this.props.journalStore;
+    const { getStoryById, getImagesById } = this.props.journalStore;
     const storyDetails = getStoryById({ pageId, storyId });
     this.setState({
       title: storyDetails.title
     });
-  }
-
-  render() {
+    const preSelectedImages = getImagesById({ storyId, pageId });
     const selectedImagesList = this.props.navigation.getParam(
       "selectedImagesList",
       []
     );
+    this.setState({
+      preSelectedImages,
+      selectedImagesList
+    });
+  }
+
+  render() {
     const isTextEditorActive =
       !this.state.isTitleFocused && this.state.isKeyboardVisible;
 
     const storyId = this.props.navigation.getParam("activeStory", "");
     const pageId = this.props.navigation.getParam("activePage", "");
-    const { getImagesById, getStoryById } = this.props.journalStore;
-    const preSelectedImages = getImagesById({ storyId, pageId });
+
+    const { getStoryById } = this.props.journalStore;
     const storyDetails = getStoryById({ pageId, storyId });
+
+    const { preSelectedImages, selectedImagesList } = this.state;
 
     return (
       <View style={styles.journalTextEditorContainer}>
