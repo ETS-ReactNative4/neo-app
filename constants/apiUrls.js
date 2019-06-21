@@ -49,7 +49,7 @@ const apiUrls = {
   getJournalScreenDetails: "mobile/journal/screen/info/home",
   getJournalStartScreenDetails: "mobile/journal/screen/info/setup",
   initializeJournal: "mobile/journal/initialize",
-  refreshJournalData: "mobile/journal/",
+  refreshJournalData: "mobile/journal",
   updateJournalDetails: "mobile/journal/update",
   getStoryImageSignedUrl: "mobile/journal/image/signedurl",
 
