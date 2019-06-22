@@ -17,7 +17,26 @@ const customEditorStyles = Object.keys(defaultStyles).reduce(
   (accumulator, key) => {
     const currentStyle = { ...defaultStyles[key] };
     currentStyle.fontFamily = constants.primaryRegular;
+    // currentStyle.fontSize = 15;
+    // currentStyle.lineHeight = 26;
     currentStyle.color = constants.black1;
+    // switch(key) {
+    //   case 'bold':
+    //     currentStyle.fontFamily = constants.primarySemiBold;
+    //     currentStyle.fontSize = 18;
+    //     currentStyle.lineHeight = 28;
+    //     break;
+    //   case 'title':
+    //     currentStyle.fontFamily = constants.primarySemiBold;
+    //     currentStyle.fontSize = 24;
+    //     currentStyle.lineHeight = 28;
+    //     break;
+    //   case 'ul':
+    //     currentStyle.lineHeight = 32;
+    //     break;
+    //   default:
+    //     break;
+    // }
     accumulator[key] = currentStyle;
     return accumulator;
   },
