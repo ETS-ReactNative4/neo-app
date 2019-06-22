@@ -56,6 +56,9 @@ const imageAssets = {
   addIcon: "plus",
   addImageIcon: "image-upload",
   editIcon: "edit",
+  shareIcon: "share",
+  facebookIcon: "facebook",
+  twitterIcon: "twitter",
 
   semiCircleShape: require("../assets/images/shapes/hiring_topic.png"),
   headerBackgroundShape: require("../assets/images/shapes/banner_white.png"),

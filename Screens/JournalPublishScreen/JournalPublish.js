@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Fragment, Component } from "react";
 import {
   View,
   StyleSheet,
@@ -19,6 +19,8 @@ import SimpleButton from "../../CommonComponents/SimpleButton/SimpleButton";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import { inject, observer } from "mobx-react/custom";
 import DebouncedAlert from "../../CommonComponents/DebouncedAlert/DebouncedAlert";
+import Journal from "../JournalScreen/Journal";
+import JournalSummary from "./Components/JournalSummary";
 
 @ErrorBoundary()
 @inject("journalStore")
@@ -103,17 +105,17 @@ class JournalPublish extends Component {
       if (isImageUploadQueueRunning) {
         return;
       }
-      console.log("images are uploaded!");
       clearInterval(this._waitForImageQueue);
       publishJournal()
         .then(() => {
+          LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
           this.setState({
             isPublished: true
           });
         })
         .catch(() => {
           // DebouncedAlert(constants.journalFailureMessages);
-          debugger;
+          LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
           this.setState({
             isPublished: true
           });
@@ -133,6 +135,7 @@ class JournalPublish extends Component {
       isPublished,
       isLoopEnded
     } = this.state;
+    const { journalTitle, journalCoverImage } = this.props.journalStore;
 
     return (
       <SafeAreaView style={styles.journalPublishContainer}>
@@ -178,25 +181,77 @@ class JournalPublish extends Component {
             />
           )}
         </View>
-        <View style={styles.cardContainer} />
-        <SimpleButton
-          containerStyle={{
-            borderRadius: 2,
-            height: 45,
-            width: 170,
-            marginTop: 64,
-            marginBottom: -64,
-            alignSelf: "center"
-          }}
-          textStyle={{ marginRight: 8 }}
-          underlayColor={constants.firstColorAlpha(0.8)}
-          action={() => null}
-          text={"See My Journal"}
-          icon={constants.arrowRight}
-          iconSize={12}
-          rightIcon={true}
-          textColor={"white"}
-        />
+        <View style={styles.cardContainer}>
+          <JournalSummary
+            title={journalTitle}
+            image={{ uri: journalCoverImage }}
+            isPublished={isPublished}
+            shareAction={() => null}
+            facebookAction={() => null}
+            twitterAction={() => null}
+          />
+        </View>
+        {isPublished ? (
+          <Fragment>
+            <SimpleButton
+              containerStyle={{
+                borderRadius: 2,
+                height: 45,
+                width: 170,
+                marginTop: 64,
+                marginBottom: -64,
+                alignSelf: "center"
+              }}
+              textStyle={{ marginRight: 8 }}
+              underlayColor={constants.firstColorAlpha(0.8)}
+              action={() => null}
+              text={"See My Journal"}
+              icon={constants.arrowRight}
+              iconSize={12}
+              rightIcon={true}
+              textColor={"white"}
+            />
+            <SimpleButton
+              text={"Journal Home"}
+              textColor={constants.seventhColor}
+              icon={constants.backIcon}
+              iconSize={12}
+              color={"transparent"}
+              underlayColor={"rgba(255, 255, 255, 0.8)"}
+              containerStyle={{
+                borderRadius: 2,
+                height: 45,
+                width: 170,
+                marginTop: 72,
+                marginBottom: -64,
+                alignSelf: "center"
+              }}
+            />
+          </Fragment>
+        ) : (
+          <Fragment>
+            <View
+              style={{
+                borderRadius: 2,
+                height: 45,
+                width: 170,
+                marginTop: 64,
+                marginBottom: -64,
+                alignSelf: "center"
+              }}
+            />
+            <View
+              style={{
+                borderRadius: 2,
+                height: 45,
+                width: 170,
+                marginTop: 72,
+                marginBottom: -64,
+                alignSelf: "center"
+              }}
+            />
+          </Fragment>
+        )}
       </SafeAreaView>
     );
   }
@@ -226,8 +281,6 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   successAnimationContainer: {
-    // height: 20,
-    // width: 20,
     marginLeft: -16,
     marginRight: 16
   },
