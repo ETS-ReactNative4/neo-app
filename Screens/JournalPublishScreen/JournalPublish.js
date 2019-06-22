@@ -21,6 +21,12 @@ import { inject, observer } from "mobx-react/custom";
 import DebouncedAlert from "../../CommonComponents/DebouncedAlert/DebouncedAlert";
 import Journal from "../JournalScreen/Journal";
 import JournalSummary from "./Components/JournalSummary";
+import { StackActions, NavigationActions } from "react-navigation";
+
+const resetAction = StackActions.reset({
+  index: 0,
+  actions: [NavigationActions.navigate({ routeName: "JournalHome" })]
+});
 
 @ErrorBoundary()
 @inject("journalStore")
@@ -216,6 +222,7 @@ class JournalPublish extends Component {
               textColor={constants.seventhColor}
               icon={constants.backIcon}
               iconSize={12}
+              action={() => this.props.navigation.dispatch(resetAction)}
               color={"transparent"}
               underlayColor={"rgba(255, 255, 255, 0.8)"}
               containerStyle={{
