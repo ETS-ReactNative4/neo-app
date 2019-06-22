@@ -62,6 +62,8 @@ target 'Pickyourtrail' do
 
   pod 'lottie-react-native', :path => '../node_modules/lottie-react-native'
 
+  pod 'RNShare', :path => '../node_modules/react-native-share'
+
   # target 'PickyourtrailTests' do
   #   inherit! :search_paths
   #   # Pods for testing
