@@ -52,6 +52,7 @@ const apiUrls = {
   refreshJournalData: "mobile/journal",
   updateJournalDetails: "mobile/journal/update",
   getStoryImageSignedUrl: "mobile/journal/image/signedurl",
+  publishJournal: "mobile/journal/publish",
 
   googleDrivePdfViewer: "https://drive.google.com/viewerng/viewer?url="
 };

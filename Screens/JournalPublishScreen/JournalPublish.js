@@ -5,7 +5,8 @@ import {
   SafeAreaView,
   Animated,
   Easing,
-  Text
+  Text,
+  LayoutAnimation
 } from "react-native";
 import LottieView from "lottie-react-native";
 import constants from "../../constants/constants";
@@ -15,7 +16,13 @@ import {
 } from "react-native-responsive-dimensions";
 import DottedLoading from "../../CommonComponents/DottedLoading/DottedLoading";
 import SimpleButton from "../../CommonComponents/SimpleButton/SimpleButton";
+import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
+import { inject, observer } from "mobx-react/custom";
+import DebouncedAlert from "../../CommonComponents/DebouncedAlert/DebouncedAlert";
 
+@ErrorBoundary()
+@inject("journalStore")
+@observer
 class JournalPublish extends Component {
   static navigationOptions = {
     header: null
@@ -25,8 +32,10 @@ class JournalPublish extends Component {
     publishingAnimationTiming: new Animated.Value(0),
     publishEndAnimationTiming: new Animated.Value(0),
     publishSuccessAnimationTiming: new Animated.Value(0),
-    isPublished: false
+    isPublished: false,
+    isLoopEnded: false
   };
+  _waitForImageQueue;
 
   loopLoading() {
     Animated.loop(
@@ -42,26 +51,33 @@ class JournalPublish extends Component {
         iterations: 1
       }
     ).start(() => {
-      this.setState(
-        {
-          publishingAnimationTiming: new Animated.Value(0)
-        },
-        () => {
-          if (!this.state.isPublished) {
+      if (!this.state.isPublished) {
+        this.setState(
+          {
+            publishingAnimationTiming: new Animated.Value(0)
+          },
+          () => {
             this.loopLoading();
-          } else {
+          }
+        );
+      } else {
+        this.setState(
+          {
+            isLoopEnded: true
+          },
+          () => {
             this.loopEnd();
             this.animateSuccess();
           }
-        }
-      );
+        );
+      }
     });
   }
 
   loopEnd = () => {
     Animated.timing(this.state.publishEndAnimationTiming, {
       toValue: 1,
-      duration: 3000,
+      duration: 2000,
       easing: Easing.linear,
       useNativeDriver: true
     }).start();
@@ -79,11 +95,34 @@ class JournalPublish extends Component {
   componentDidMount() {
     this.loopLoading();
 
-    // setTimeout(() => {
-    //   this.setState({
-    //     isPublished: true
-    //   });
-    // }, 10000);
+    this._waitForImageQueue = setInterval(() => {
+      const {
+        isImageUploadQueueRunning,
+        publishJournal
+      } = this.props.journalStore;
+      if (isImageUploadQueueRunning) {
+        return;
+      }
+      console.log("images are uploaded!");
+      clearInterval(this._waitForImageQueue);
+      publishJournal()
+        .then(() => {
+          this.setState({
+            isPublished: true
+          });
+        })
+        .catch(() => {
+          // DebouncedAlert(constants.journalFailureMessages);
+          debugger;
+          this.setState({
+            isPublished: true
+          });
+        });
+    }, 5000);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this._waitForImageQueue);
   }
 
   render() {
@@ -91,13 +130,14 @@ class JournalPublish extends Component {
       publishingAnimationTiming,
       publishEndAnimationTiming,
       publishSuccessAnimationTiming,
-      isPublished
+      isPublished,
+      isLoopEnded
     } = this.state;
 
     return (
       <SafeAreaView style={styles.journalPublishContainer}>
         <View style={styles.journalPublishBackground}>
-          {!isPublished ? (
+          {!isLoopEnded ? (
             <View style={styles.loadingAnimationContainer}>
               <LottieView
                 style={styles.loadingAnimation}
@@ -106,7 +146,7 @@ class JournalPublish extends Component {
               />
             </View>
           ) : null}
-          {isPublished ? (
+          {isLoopEnded ? (
             <View style={styles.loadingAnimationContainer}>
               <LottieView
                 style={styles.loadingAnimation}
@@ -119,7 +159,7 @@ class JournalPublish extends Component {
 
         <View style={styles.infoTextContainer}>
           <View style={styles.successAnimationContainer}>
-            {isPublished ? (
+            {isPublished || true ? (
               <LottieView
                 style={styles.successAnimation}
                 source={constants.journalPublishSuccess}
@@ -128,7 +168,7 @@ class JournalPublish extends Component {
             ) : null}
           </View>
           {isPublished ? (
-            <Text>{"Published"}</Text>
+            <Text style={styles.infoText}>{"Published"}</Text>
           ) : (
             <DottedLoading
               text={"Publishing"}
@@ -186,8 +226,8 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   successAnimationContainer: {
-    height: 20,
-    width: 20,
+    // height: 20,
+    // width: 20,
     marginLeft: -16,
     marginRight: 16
   },
@@ -199,6 +239,8 @@ const styles = StyleSheet.create({
     textAlign: "left",
     height: 12,
     width: 75,
+    marginLeft: -16,
+    marginBottom: 4,
     ...constants.fontCustom(constants.primaryRegular, 12, 12),
     color: constants.shade1
   },

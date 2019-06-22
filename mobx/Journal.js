@@ -523,7 +523,6 @@ class Journal {
   addImagesToQueue = (storyId, imagesList = []) => {
     try {
       this._imageUploadQueue.push({
-        isQueueRunning: false,
         storyId,
         imagesList: imagesList.map(image => ({
           image,
@@ -737,6 +736,44 @@ class Journal {
       return {};
     }
   });
+
+  storyImageQueueStatus = createTransformer(storyId => {
+    if (this.imageUploadQueue.length) {
+      const story = this._imageUploadQueue.find(
+        storyDetails => storyId === storyDetails.storyId
+      );
+      if (story)
+        return {
+          pendingImages: story.imagesList.length
+        };
+      return {};
+    } else {
+      return {};
+    }
+  });
+
+  /**
+   * Publish Journal
+   */
+  @action
+  publishJournal = () => {
+    return new Promise((resolve, reject) => {
+      const journalId = this.journalId;
+      apiCall(`${constants.publishJournal}?journalId=${journalId}`)
+        .then(response => {
+          if (response.status === constants.responseSuccessStatus) {
+            this.refreshJournalInformation()
+              .then(resolve)
+              .catch(reject);
+          } else {
+            reject();
+          }
+        })
+        .catch(() => {
+          reject();
+        });
+    });
+  };
 }
 
 export default Journal;
