@@ -5,7 +5,8 @@ import { responsiveWidth } from "react-native-responsive-dimensions";
 import PropTypes from "prop-types";
 import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidExtraProps";
 
-const MinimizedView = ({ title, desc }) => {
+const MinimizedView = ({ title, desc, isHidden }) => {
+  if (isHidden) return null;
   return (
     <View style={styles.minimizedViewContainer}>
       <Text numberOfLines={1} ellipsizeMode={"tail"} style={styles.titleText}>
@@ -19,6 +20,7 @@ const MinimizedView = ({ title, desc }) => {
 };
 
 MinimizedView.propTypes = forbidExtraProps({
+  isHidden: PropTypes.bool.isRequired,
   title: PropTypes.string.isRequired,
   desc: PropTypes.string.isRequired
 });
