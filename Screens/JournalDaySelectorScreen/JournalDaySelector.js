@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { ScrollView, StyleSheet } from "react-native";
+import { ScrollView, StyleSheet, View } from "react-native";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import SimpleButton from "../../CommonComponents/SimpleButton/SimpleButton";
 import constants from "../../constants/constants";
@@ -31,7 +31,14 @@ const RightButton = inject("journalStore")(
         />
       );
     } else {
-      return null;
+      return (
+        <View
+          style={{
+            height: 24,
+            width: 62
+          }}
+        />
+      );
     }
   })
 );

@@ -262,12 +262,12 @@ class Journal {
       return [];
     }
     try {
-      return this.journalDetails.journal.pages.flatMap(page => {
+      return this._journalDetails.journal.pages.flatMap(page => {
         return _.compact(
           page.stories.map(story => {
             if (story.initialized) {
               story.pageId = page.pageId;
-              return story;
+              return toJS(story);
             }
             return null;
           })
