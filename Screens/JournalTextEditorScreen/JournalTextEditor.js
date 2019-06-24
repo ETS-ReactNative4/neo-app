@@ -113,7 +113,7 @@ class JournalTextEditor extends Component {
      */
     setTimeout(() => {
       this._titleInputRef.current && this._titleInputRef.current.focus();
-    }, 500);
+    }, 1000);
 
     const storyId = this.props.navigation.getParam("activeStory", "");
     const pageId = this.props.navigation.getParam("activePage", "");
