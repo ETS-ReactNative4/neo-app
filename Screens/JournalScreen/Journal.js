@@ -34,7 +34,7 @@ const RightButton = inject("journalStore")(
         />
       );
     }
-    const { journal } = journalDetails;
+    const { journal = {} } = journalDetails;
     if (!journal.published) {
       if (activeStories.length) {
         return (

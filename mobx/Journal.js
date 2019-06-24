@@ -278,17 +278,20 @@ class Journal {
       return [];
     }
     try {
-      return this._journalDetails.journal.pages.flatMap(page => {
-        return _.compact(
-          page.stories.map(story => {
-            if (story.initialized) {
-              story.pageId = page.pageId;
-              return toJS(story);
-            }
-            return null;
-          })
-        );
-      });
+      return (
+        _.get(this.journalDetails, "journal.pages") ||
+        [].flatMap(page => {
+          return _.compact(
+            page.stories.map(story => {
+              if (story.initialized) {
+                story.pageId = page.pageId;
+                return story;
+              }
+              return null;
+            })
+          );
+        })
+      );
     } catch (e) {
       logError(e);
       return [];
@@ -301,7 +304,7 @@ class Journal {
       return [];
     }
     try {
-      return toJS(this.journalDetails.journal.pages);
+      return _.get(this.journalDetails, "journal.pages");
     } catch (e) {
       logError(e);
       return [];
