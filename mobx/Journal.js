@@ -195,6 +195,14 @@ class Journal {
   }
 
   @computed
+  get journalShareImage() {
+    if (_.isEmpty(this.journalDetails)) {
+      return "";
+    }
+    return _.get(this.journalDetails, "journal.coverImage.imageUrl");
+  }
+
+  @computed
   get journalOwner() {
     if (_.isEmpty(this.journalDetails)) {
       return "";
@@ -221,6 +229,14 @@ class Journal {
       return false;
     }
     return this.journalDetails.initialized;
+  }
+
+  @computed
+  get journalUrl() {
+    if (_.isEmpty(this.journalDetails)) {
+      return "";
+    }
+    return _.get(this.journalDetails, "journal.url");
   }
 
   @computed

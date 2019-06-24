@@ -9,6 +9,7 @@ import JournalTextEditor from "../Screens/JournalTextEditorScreen/JournalTextEdi
 import NewItineraryStack from "./NewItineraryStack";
 import getActiveRouteName from "../Services/getActiveRouteName/getActiveRouteName";
 import JournalPublish from "../Screens/JournalPublishScreen/JournalPublish";
+import JournalShare from "../Screens/JournalShareScreen/JournalShare";
 
 const JournalStack = createStackNavigator(
   {
@@ -32,6 +33,9 @@ const JournalStack = createStackNavigator(
     },
     JournalPublish: {
       screen: JournalPublish
+    },
+    JournalShare: {
+      screen: JournalShare
     }
   },
   {

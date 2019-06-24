@@ -10,19 +10,114 @@ import CustomScrollView from "../../CommonComponents/CustomScrollView/CustomScro
 import EditJournal from "./Components/EditJournal/EditJournal";
 import JournalTitleDropDown from "../JournalSetupScreen/Components/JournalTitleDropDown/JournalTitleDropDown";
 import DebouncedAlert from "../../CommonComponents/DebouncedAlert/DebouncedAlert";
+import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
+import HamburgerButton from "../../CommonComponents/HamburgerButton/HamburgerButton";
+import storeService from "../../Services/storeService/storeService";
+import HomeTitle from "../../CommonComponents/HomeTitle/HomeTitle";
+import { recordEvent } from "../../Services/analytics/analyticsService";
+import TripToggle from "../../CommonComponents/TripToggle/TripToggle";
+import SimpleButton from "../../CommonComponents/SimpleButton/SimpleButton";
+
+let _publishJournal;
+let _shareJournal;
+
+const RightButton = inject("journalStore")(
+  observer(({ journalStore }) => {
+    const { journalDetails, activeStories } = journalStore;
+    if (_.isEmpty(journalDetails)) {
+      return (
+        <View
+          style={{
+            height: 24,
+            width: 62
+          }}
+        />
+      );
+    }
+    const { journal } = journalDetails;
+    if (!journal.published) {
+      if (activeStories.length) {
+        return (
+          <SimpleButton
+            text={"Publish"}
+            textColor={constants.firstColor}
+            color={"transparent"}
+            containerStyle={{
+              height: 24,
+              width: 62,
+              marginRight: 16
+            }}
+            action={_publishJournal}
+          />
+        );
+      } else {
+        return (
+          <View
+            style={{
+              height: 24,
+              width: 62
+            }}
+          />
+        );
+      }
+    } else {
+      return (
+        <SimpleButton
+          text={"Share"}
+          textColor={constants.firstColor}
+          color={"transparent"}
+          containerStyle={{
+            height: 24,
+            width: 62,
+            marginRight: 16
+          }}
+          action={_shareJournal}
+        />
+      );
+    }
+  })
+);
 
 @ErrorBoundary({ isRoot: true })
 @inject("journalStore")
 @inject("itineraries")
 @observer
 class Journal extends Component {
-  static navigationOptions = HomeHeader;
+  static navigationOptions = ({ navigation }) => {
+    return {
+      header: (
+        <CommonHeader
+          LeftButton={
+            <HamburgerButton
+              action={() => {
+                storeService.appState.onDrawerOpen();
+                navigation.openDrawer();
+              }}
+            />
+          }
+          TitleComponent={
+            <HomeTitle
+              action={() => {
+                recordEvent(constants.selectBookingHeaderClick);
+                navigation.navigate("YourBookingsUniversal");
+              }}
+            />
+          }
+          title={""}
+          RightButton={<RightButton />}
+          navigation={navigation}
+        />
+      )
+    };
+  };
 
   _didFocusSubscription;
 
   constructor(props) {
     super(props);
 
+    _publishJournal = this.publishJournal;
+    _shareJournal = this.shareJournal;
     this._didFocusSubscription = props.navigation.addListener(
       "didFocus",
       () => {
@@ -97,6 +192,14 @@ class Journal extends Component {
         cancelable: false
       }
     );
+  };
+
+  publishJournal = () => {
+    this.props.navigation.navigate("JournalPublish");
+  };
+
+  shareJournal = () => {
+    this.props.navigation.navigate("JournalShare");
   };
 
   render() {
