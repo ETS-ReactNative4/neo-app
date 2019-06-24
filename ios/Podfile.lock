@@ -86,6 +86,8 @@ PODS:
     - React
   - react-native-webview (5.7.0):
     - React
+  - React/ART (0.57.1):
+    - React/Core
   - React/Core (0.57.1):
     - yoga (= 0.57.1.React)
   - React/CxxBridge (0.57.1):
@@ -170,6 +172,7 @@ DEPENDENCIES:
   - react-native-fast-image (from `../node_modules/react-native-fast-image`)
   - react-native-photo-view (from `../node_modules/react-native-photo-view`)
   - react-native-webview (from `../node_modules/react-native-webview`)
+  - React/ART (from `../node_modules/react-native`)
   - React/Core (from `../node_modules/react-native`)
   - React/CxxBridge (from `../node_modules/react-native`)
   - React/cxxreact (from `../node_modules/react-native`)
@@ -291,6 +294,6 @@ SPEC CHECKSUMS:
   TextToSpeech: 4e2fc50c7495416c6da5a1662ad3f750c58d3c85
   yoga: 5e2e4bcf11188977f799b64625dc5913c2aea8fd
 
-PODFILE CHECKSUM: f77ddf37ce5fb78df42c26c28a05af00523b47d4
+PODFILE CHECKSUM: 69aad62bcb9674bb803b953a60b3610cd02e6366
 
 COCOAPODS: 1.6.1
