@@ -114,19 +114,27 @@ class JournalShare extends Component {
             onPress={this.shareFacebook}
             style={[styles.iconContainer, styles.fbBackground]}
           >
-            <Icon name={constants.facebookIcon} size={12} color={"white"} />
+            <Icon
+              name={constants.facebookFilledIcon}
+              size={12}
+              color={"white"}
+            />
           </TouchableOpacity>
           <TouchableOpacity
             onPress={this.shareTwitter}
             style={[styles.iconContainer, styles.twitterBackground]}
           >
-            <Icon name={constants.twitterIcon} size={12} color={"white"} />
+            <Icon
+              name={constants.twitterFilledIcon}
+              size={12}
+              color={"white"}
+            />
           </TouchableOpacity>
           <TouchableOpacity
             onPress={this.share}
             style={[styles.iconContainer, styles.shareBackground]}
           >
-            <Icon name={constants.shareIcon} size={12} color={"white"} />
+            <Icon name={constants.shareFilledIcon} size={12} color={"white"} />
           </TouchableOpacity>
         </View>
       </FastImage>
@@ -172,9 +180,15 @@ const styles = StyleSheet.create({
     marginHorizontal: 8,
     borderRadius: 12
   },
-  fbBackground: {},
-  twitterBackground: {},
-  shareBackground: {}
+  fbBackground: {
+    backgroundColor: constants.facebookThemeColor
+  },
+  twitterBackground: {
+    backgroundColor: constants.twitterThemeColor
+  },
+  shareBackground: {
+    backgroundColor: constants.seventhColor
+  }
 });
 
 export default JournalShare;
