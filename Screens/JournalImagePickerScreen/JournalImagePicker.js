@@ -25,6 +25,7 @@ import getWriteFilePermissionAndroid from "../../Services/getWriteFilePermission
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import { inject, observer } from "mobx-react/custom";
 import { observable, toJS } from "mobx";
+import DebouncedAlert from "../../CommonComponents/DebouncedAlert/DebouncedAlert";
 
 let _headerData = observable({
   selectedImagesCount: 0
@@ -76,7 +77,8 @@ class JournalImagePicker extends Component {
     imageMap: new Map(),
     selectedImagesList: [],
     hasNextPage: false,
-    selectedFolder: "all"
+    selectedFolder: "all",
+    preSelectedImages: []
   };
 
   constructor(props) {
@@ -144,6 +146,14 @@ class JournalImagePicker extends Component {
     } else {
       this.fetchImages();
     }
+    const storyId = this.props.navigation.getParam("activeStory", "");
+    const pageId = this.props.navigation.getParam("activePage", "");
+
+    const { getImagesById } = this.props.journalStore;
+    const preSelectedImages = getImagesById({ storyId, pageId });
+    this.setState({
+      preSelectedImages
+    });
   }
 
   cropImage = (selectedImageIndex, uri) => {
@@ -217,6 +227,46 @@ class JournalImagePicker extends Component {
         }
       }, 300);
     });
+  };
+
+  deleteImage = imageIndex => {
+    const storyId = this.props.navigation.getParam("activeStory", "");
+    const pageId = this.props.navigation.getParam("activePage", "");
+    const { deleteImage, getImagesById } = this.props.journalStore;
+    const preSelectedImages = getImagesById({ storyId, pageId });
+    const requiredImage = preSelectedImages[imageIndex];
+    DebouncedAlert(
+      constants.journalAlertMessages.removeImage.header,
+      constants.journalAlertMessages.removeImage.message,
+      [
+        {
+          text: constants.journalAlertMessages.removeImage.cancel,
+          onPress: () => {
+            return null;
+          }
+        },
+        {
+          text: constants.journalAlertMessages.removeImage.confirm,
+          onPress: () => {
+            deleteImage(storyId, requiredImage.imageId)
+              .then(() => {
+                const preSelectedImages = getImagesById({ storyId, pageId });
+                this.setState({
+                  preSelectedImages
+                });
+              })
+              .catch(() => {
+                DebouncedAlert(
+                  "",
+                  constants.journalFailureMessages.failedToSubmitJournalStory
+                );
+              });
+          },
+          style: "destructive"
+        }
+      ],
+      { cancelable: false }
+    );
   };
 
   clearSelection = () => {
@@ -312,13 +362,12 @@ class JournalImagePicker extends Component {
   };
 
   render() {
-    const storyId = this.props.navigation.getParam("activeStory", "");
-    const pageId = this.props.navigation.getParam("activePage", "");
-
-    const { selectedImagesList, imagesList, selectedFolder } = this.state;
-    const { getImagesById } = this.props.journalStore;
-    const preSelectedImages = getImagesById({ storyId, pageId });
-
+    const {
+      selectedImagesList,
+      imagesList,
+      selectedFolder,
+      preSelectedImages
+    } = this.state;
     const folders = _.uniq(_.map(imagesList, "node.group_name"));
 
     const folderDropDownValue = [
@@ -370,6 +419,7 @@ class JournalImagePicker extends Component {
                     index={preSelectedImageIndex}
                     isContain={preSelectedImage.contained}
                     isPreselected={true}
+                    removeImage={this.deleteImage}
                   />
                 );
               }

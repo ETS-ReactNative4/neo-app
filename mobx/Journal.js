@@ -520,6 +520,35 @@ class Journal {
   }
 
   @action
+  deleteImage = (storyId, imageId) => {
+    return new Promise((resolve, reject) => {
+      const itineraryId = storeService.itineraries.selectedItineraryId;
+      const requestObject = {
+        id: storyId,
+        image: {
+          imageId
+        },
+        imageType: journalImageTypes.otherImage,
+        itineraryId,
+        type: journalLevels.story
+      };
+      apiCall(constants.journalImageDetails, requestObject, "DELETE")
+        .then(response => {
+          if (response.status === constants.responseSuccessStatus) {
+            this.refreshJournalInformation()
+              .then(resolve)
+              .catch(reject);
+          } else {
+            reject();
+          }
+        })
+        .catch(() => {
+          reject();
+        });
+    });
+  };
+
+  @action
   addImagesToQueue = (storyId, imagesList = []) => {
     try {
       this._imageUploadQueue.push({

@@ -80,7 +80,18 @@ const appText = {
     failedToCreateNewStory:
       "Unable to create a new story. Please check your internet connection and try again after some time.",
     failedToPublishJournal:
-      "Unable to publish this story. Please check your internet connection and try again after some time."
+      "Unable to publish this story. Please check your internet connection and try again after some time.",
+    failedToDeleteImage:
+      "Unable to delete the image. Please check your internet connection and try again after some time."
+  },
+  journalAlertMessages: {
+    removeImage: {
+      header: "Delete this image?",
+      message:
+        "Are you sure you want to delete this beautiful photograph? We won’t be able to undo this action.",
+      confirm: "Confirm Deletion",
+      cancel: "Keep"
+    }
   },
   bookingFailedText: "No Voucher available",
   bookingProcessText: {

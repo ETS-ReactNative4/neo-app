@@ -15,6 +15,7 @@ const ImagePreviewCard = ({
   isContain = false,
   toggleImageContain = () => null,
   cropImage = () => null,
+  removeImage = () => null,
   isPreselected = false
 }) => {
   return (
@@ -44,7 +45,16 @@ const ImagePreviewCard = ({
             text={index + 1}
           />
         </Fragment>
-      ) : null}
+      ) : (
+        <Fragment>
+          <PreviewControlButton
+            icon={constants.trashCanIcon}
+            containerStyle={styles.removeButton}
+            onClick={() => removeImage(index)}
+            isSelected={isContain}
+          />
+        </Fragment>
+      )}
     </View>
   );
 };
@@ -89,6 +99,11 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: -16,
     right: 80
+  },
+  removeButton: {
+    position: "absolute",
+    bottom: -16,
+    right: 24
   },
   selectionPositionWrapper: {
     position: "absolute",
