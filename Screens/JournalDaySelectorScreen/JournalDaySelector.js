@@ -15,8 +15,8 @@ let _publishJournal = () => null;
 
 const RightButton = inject("journalStore")(
   observer(({ journalStore }) => {
-    const { activeStories } = journalStore;
-    if (activeStories.length) {
+    const { activeStories, isJournalPublished } = journalStore;
+    if (activeStories.length && !isJournalPublished) {
       return (
         <SimpleButton
           text={"Publish"}
