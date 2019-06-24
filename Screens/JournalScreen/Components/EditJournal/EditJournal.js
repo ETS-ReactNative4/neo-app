@@ -37,7 +37,7 @@ const EditJournal = ({ addNewStory, editAction, pages, deleteAction }) => {
               return (
                 <JournalDayCard
                   key={storyIndex}
-                  action={() => null}
+                  action={() => editAction(page.pageId, story.storyId)}
                   isActivated={story.initialized}
                   info={story.title}
                   image={imageUrl ? { uri: imageUrl } : null}
