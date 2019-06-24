@@ -120,11 +120,19 @@ class JournalPublish extends Component {
           });
         })
         .catch(() => {
-          // DebouncedAlert(constants.journalFailureMessages);
-          LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-          this.setState({
-            isPublished: true
-          });
+          DebouncedAlert(
+            "",
+            constants.journalFailureMessages,
+            [
+              {
+                text: "Okay",
+                onPress: this.props.navigation.goBack()
+              }
+            ],
+            {
+              cancelable: false
+            }
+          );
         });
     }, 5000);
   }
