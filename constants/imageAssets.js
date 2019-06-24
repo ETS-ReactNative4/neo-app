@@ -59,6 +59,9 @@ const imageAssets = {
   shareIcon: "share",
   facebookIcon: "facebook",
   twitterIcon: "twitter",
+  shareFilledIcon: "share-fill",
+  facebookFilledIcon: "facebook-fill",
+  twitterFilledIcon: "twitter-fill",
 
   semiCircleShape: require("../assets/images/shapes/hiring_topic.png"),
   headerBackgroundShape: require("../assets/images/shapes/banner_white.png"),

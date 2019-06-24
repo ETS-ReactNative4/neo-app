@@ -71,12 +71,18 @@ const chatColorPallete = {
   chatLightColor: "rgba(249,249,249,1)"
 };
 
+const thirdPartyColors = {
+  facebookThemeColor: "rgb(59,89,152)",
+  twitterThemeColor: "rgb(8, 160, 233)"
+};
+
 const colorPallete = {
   ...pallete2,
   ...greyPallete,
   ...gradientPallete,
   ...chatColorPallete,
   ...whitePallete,
+  ...thirdPartyColors,
   appBackgroundColor: "white",
   drawerBackgroundColor: "rgba(46, 124, 239, 1)"
 };
