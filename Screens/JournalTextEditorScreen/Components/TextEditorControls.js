@@ -65,7 +65,7 @@ const TextEditorControls = ({
         action={() => onStyleKeyPress(constants.textEditorControlUnderline)}
       />
       <ControlIcon
-        iconName={constants.closeIcon}
+        iconName={constants.keyboardDismissIcon}
         isSelected={false}
         action={Keyboard.dismiss}
       />
