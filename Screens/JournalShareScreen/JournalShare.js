@@ -78,10 +78,9 @@ class JournalShare extends Component {
   };
 
   render() {
-    const { journalShareImage } = this.props.journalStore;
-    const { journalUrl } = this.props.journalStore;
+    const { journalUrl, shareIllustration } = this.props.journalStore;
 
-    const imageSource = { uri: journalShareImage };
+    const imageSource = { uri: shareIllustration };
 
     return (
       <FastImage

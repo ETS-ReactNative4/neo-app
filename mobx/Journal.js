@@ -59,6 +59,12 @@ class Journal {
     return this._homeScreenError;
   }
 
+  @computed
+  get shareIllustration() {
+    if (_.isEmpty(this.homeScreenDetails)) return "";
+    return _.get(this.homeScreenDetails, "shareImage.imageUrl");
+  }
+
   /**
    *
    */
@@ -188,14 +194,6 @@ class Journal {
 
   @computed
   get journalCoverImage() {
-    if (_.isEmpty(this.journalDetails)) {
-      return "";
-    }
-    return _.get(this.journalDetails, "journal.coverImage.imageUrl");
-  }
-
-  @computed
-  get journalShareImage() {
     if (_.isEmpty(this.journalDetails)) {
       return "";
     }
