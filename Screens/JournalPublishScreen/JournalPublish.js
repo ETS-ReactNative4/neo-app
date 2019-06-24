@@ -22,6 +22,9 @@ import DebouncedAlert from "../../CommonComponents/DebouncedAlert/DebouncedAlert
 import Journal from "../JournalScreen/Journal";
 import JournalSummary from "./Components/JournalSummary";
 import { StackActions, NavigationActions } from "react-navigation";
+import Share from "react-native-share";
+import { share, singleShare } from "../../Services/shareService/share";
+import openCustomTab from "../../Services/openCustomTab/openCustomTab";
 
 const resetAction = StackActions.reset({
   index: 0,
@@ -141,6 +144,40 @@ class JournalPublish extends Component {
     clearInterval(this._waitForImageQueue);
   }
 
+  shareFacebook = () => {
+    const { journalTitle, journalUrl } = this.props.journalStore;
+    const shareOptions = {
+      message: journalTitle,
+      url: journalUrl,
+      social: Share.Social.FACEBOOK
+    };
+    singleShare(shareOptions);
+  };
+
+  shareTwitter = () => {
+    const { journalTitle, journalUrl } = this.props.journalStore;
+    const shareOptions = {
+      message: journalTitle,
+      url: journalUrl,
+      social: Share.Social.TWITTER
+    };
+    singleShare(shareOptions);
+  };
+
+  share = () => {
+    const { journalTitle, journalUrl } = this.props.journalStore;
+    const shareOptions = {
+      message: `${journalTitle} ${journalUrl}`,
+      url: journalUrl
+    };
+    share(shareOptions);
+  };
+
+  viewJournal = () => {
+    const { journalUrl } = this.props.journalStore;
+    openCustomTab(journalUrl);
+  };
+
   render() {
     const {
       publishingAnimationTiming,
@@ -200,9 +237,9 @@ class JournalPublish extends Component {
             title={journalTitle}
             image={{ uri: journalCoverImage }}
             isPublished={isPublished}
-            shareAction={() => null}
-            facebookAction={() => null}
-            twitterAction={() => null}
+            shareAction={this.share}
+            facebookAction={this.shareFacebook}
+            twitterAction={this.shareTwitter}
           />
         </View>
         {isPublished ? (
@@ -218,7 +255,7 @@ class JournalPublish extends Component {
               }}
               textStyle={{ marginRight: 8 }}
               underlayColor={constants.firstColorAlpha(0.8)}
-              action={() => null}
+              action={this.viewJournal}
               text={"See My Journal"}
               icon={constants.arrowRight}
               iconSize={12}
