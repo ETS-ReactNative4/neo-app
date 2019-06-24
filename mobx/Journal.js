@@ -219,6 +219,14 @@ class Journal {
   }
 
   @computed
+  get isJournalPublished() {
+    if (_.isEmpty(this.journalDetails)) {
+      return "";
+    }
+    return _.get(this.journalDetails, "journal.published");
+  }
+
+  @computed
   get journalDetails() {
     return toJS(this._journalDetails);
   }
@@ -278,9 +286,8 @@ class Journal {
       return [];
     }
     try {
-      return (
-        _.get(this.journalDetails, "journal.pages") ||
-        [].flatMap(page => {
+      return (_.get(this.journalDetails, "journal.pages") || []).flatMap(
+        page => {
           return _.compact(
             page.stories.map(story => {
               if (story.initialized) {
@@ -290,7 +297,7 @@ class Journal {
               return null;
             })
           );
-        })
+        }
       );
     } catch (e) {
       logError(e);

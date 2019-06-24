@@ -10,7 +10,15 @@ import forbidExtraProps from "../../../../Services/PropTypeValidation/forbidExtr
 import PropTypes from "prop-types";
 import JournalDaySelectorTitle from "../../../JournalDaySelectorScreen/Components/JournalDaySelectorTitle";
 
-const EditJournal = ({ addNewStory, editAction, pages, deleteAction }) => {
+const EditJournal = ({
+  addNewStory,
+  editAction,
+  pages,
+  deleteAction,
+  shareFacebook,
+  shareTwitter,
+  isJournalPublished
+}) => {
   return (
     <CustomScrollView
       containerStyle={styles.scrollContainer}
@@ -43,6 +51,9 @@ const EditJournal = ({ addNewStory, editAction, pages, deleteAction }) => {
                   image={imageUrl ? { uri: imageUrl } : null}
                   editAction={() => editAction(page.pageId, story.storyId)}
                   deleteAction={() => deleteAction(story.storyId)}
+                  isJournalPublished={isJournalPublished}
+                  shareFacebook={() => shareFacebook(story.title, story.url)}
+                  shareTwitter={() => shareTwitter(story.title, story.url)}
                 />
               );
             })}
@@ -57,7 +68,10 @@ EditJournal.propTypes = forbidExtraProps({
   addNewStory: PropTypes.func.isRequired,
   editAction: PropTypes.func.isRequired,
   deleteAction: PropTypes.func.isRequired,
-  pages: PropTypes.array.isRequired
+  pages: PropTypes.array.isRequired,
+  shareFacebook: PropTypes.func.isRequired,
+  shareTwitter: PropTypes.func.isRequired,
+  isJournalPublished: PropTypes.bool.isRequired
 });
 
 const styles = StyleSheet.create({

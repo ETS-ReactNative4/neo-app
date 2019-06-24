@@ -2,7 +2,6 @@ import React, { Component, Fragment } from "react";
 import { View, Text, Image, StyleSheet } from "react-native";
 import constants from "../../constants/constants";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
-import HomeHeader from "../../CommonComponents/HomeHeader/HomeHeader";
 import NewJournal from "./Components/NewJounal/NewJournal";
 import { inject, observer } from "mobx-react/custom";
 import _ from "lodash";
@@ -15,15 +14,16 @@ import HamburgerButton from "../../CommonComponents/HamburgerButton/HamburgerBut
 import storeService from "../../Services/storeService/storeService";
 import HomeTitle from "../../CommonComponents/HomeTitle/HomeTitle";
 import { recordEvent } from "../../Services/analytics/analyticsService";
-import TripToggle from "../../CommonComponents/TripToggle/TripToggle";
 import SimpleButton from "../../CommonComponents/SimpleButton/SimpleButton";
+import Share from "react-native-share";
+import { singleShare } from "../../Services/shareService/share";
 
 let _publishJournal;
 let _shareJournal;
 
 const RightButton = inject("journalStore")(
   observer(({ journalStore }) => {
-    const { journalDetails, activeStories } = journalStore;
+    const { journalDetails, activeStories, isJournalPublished } = journalStore;
     if (_.isEmpty(journalDetails)) {
       return (
         <View
@@ -34,8 +34,7 @@ const RightButton = inject("journalStore")(
         />
       );
     }
-    const { journal = {} } = journalDetails;
-    if (!journal.published) {
+    if (!isJournalPublished) {
       if (activeStories.length) {
         return (
           <SimpleButton
@@ -202,6 +201,26 @@ class Journal extends Component {
     this.props.navigation.navigate("JournalShare");
   };
 
+  shareFacebook = (title, url) => {
+    const { journalUrl } = this.props.journalStore;
+    const shareOptions = {
+      message: title,
+      url: journalUrl + url,
+      social: Share.Social.FACEBOOK
+    };
+    singleShare(shareOptions);
+  };
+
+  shareTwitter = (title, url) => {
+    const { journalUrl } = this.props.journalStore;
+    const shareOptions = {
+      message: title,
+      url: journalUrl + url,
+      social: Share.Social.TWITTER
+    };
+    singleShare(shareOptions);
+  };
+
   render() {
     const {
       isHomeScreenLoading,
@@ -212,7 +231,8 @@ class Journal extends Component {
       journalDesc,
       journalCoverImage,
       journalOwner,
-      journalPublishedTime
+      journalPublishedTime,
+      isJournalPublished
     } = this.props.journalStore;
 
     const editJournal = () =>
@@ -244,6 +264,9 @@ class Journal extends Component {
               addNewStory={this.addNewStory}
               editAction={this.editStory}
               deleteAction={this.deleteStory}
+              shareFacebook={this.shareFacebook}
+              shareTwitter={this.shareTwitter}
+              isJournalPublished={isJournalPublished}
               pages={pages}
             />
           </Fragment>

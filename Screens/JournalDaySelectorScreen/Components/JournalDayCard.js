@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import {
   View,
   Text,
@@ -15,11 +15,14 @@ import SimpleButton from "../../../CommonComponents/SimpleButton/SimpleButton";
 
 const JournalDayCard = ({
   image,
-  info,
-  action,
+  info = "",
+  action = () => null,
   isActivated,
-  editAction,
-  deleteAction
+  editAction = () => null,
+  deleteAction = () => null,
+  isJournalPublished,
+  shareFacebook = () => null,
+  shareTwitter = () => null
 }) => {
   return (
     <TouchableOpacity
@@ -46,26 +49,54 @@ const JournalDayCard = ({
       </Text>
       {isActivated ? (
         <View style={styles.actionBar}>
-          <SimpleButton
-            color={"transparent"}
-            iconSize={16}
-            textStyle={{ fontSize: 15 }}
-            text={"Edit"}
-            action={editAction}
-            containerStyle={{ width: null, marginHorizontal: 16 }}
-            textColor={constants.firstColor}
-            icon={constants.editIcon}
-          />
-          <SimpleButton
-            color={"transparent"}
-            iconSize={16}
-            textStyle={{ fontSize: 15 }}
-            text={"Delete"}
-            action={deleteAction}
-            containerStyle={{ width: null, marginLeft: 8 }}
-            textColor={constants.firstColor}
-            icon={constants.trashCanIcon}
-          />
+          <View style={styles.actionContainer}>
+            <SimpleButton
+              color={"transparent"}
+              iconSize={16}
+              textStyle={{ fontSize: 15 }}
+              text={"Edit"}
+              action={editAction}
+              containerStyle={{ width: null, marginHorizontal: 16 }}
+              textColor={constants.seventhColor}
+              icon={constants.editIcon}
+            />
+            <SimpleButton
+              color={"transparent"}
+              iconSize={16}
+              textStyle={{ fontSize: 15 }}
+              text={"Delete"}
+              action={deleteAction}
+              containerStyle={{ width: null, marginLeft: 8 }}
+              textColor={constants.seventhColor}
+              icon={constants.trashCanIcon}
+            />
+          </View>
+          <View style={styles.actionContainer}>
+            {isJournalPublished ? (
+              <Fragment>
+                <TouchableOpacity
+                  onPress={shareFacebook}
+                  style={styles.shareContainer}
+                >
+                  <Icon
+                    color={constants.seventhColor}
+                    name={constants.facebookIcon}
+                    size={16}
+                  />
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={shareTwitter}
+                  style={[styles.shareContainer, { paddingRight: 16 }]}
+                >
+                  <Icon
+                    color={constants.seventhColor}
+                    name={constants.twitterIcon}
+                    size={16}
+                  />
+                </TouchableOpacity>
+              </Fragment>
+            ) : null}
+          </View>
         </View>
       ) : null}
     </TouchableOpacity>
@@ -78,7 +109,10 @@ JournalDayCard.propTypes = forbidExtraProps({
   action: PropTypes.func.isRequired,
   isActivated: PropTypes.bool,
   editAction: PropTypes.func,
-  deleteAction: PropTypes.func
+  deleteAction: PropTypes.func,
+  isJournalPublished: PropTypes.bool,
+  shareFacebook: PropTypes.func,
+  shareTwitter: PropTypes.func
 });
 
 const styles = StyleSheet.create({
@@ -106,7 +140,15 @@ const styles = StyleSheet.create({
     color: constants.black1
   },
   actionBar: {
+    flexDirection: "row",
+    justifyContent: "space-between"
+  },
+  actionContainer: {
     flexDirection: "row"
+  },
+  shareContainer: {
+    alignSelf: "center",
+    paddingHorizontal: 8
   }
 });
 
