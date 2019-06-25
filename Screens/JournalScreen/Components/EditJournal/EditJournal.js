@@ -28,7 +28,7 @@ const EditJournal = ({
     >
       <AddStoryButton action={addNewStory} />
       <Dash dashColor={constants.shade4} dashGap={2} dashLength={1} />
-      {pages.map((page, pageIndex) => {
+      {pages.reverse().map((page, pageIndex) => {
         const activeStories = page.stories.filter(story => story.initialized);
         return (
           <Fragment key={pageIndex}>
@@ -40,7 +40,7 @@ const EditJournal = ({
                 description={page.info}
               />
             ) : null}
-            {activeStories.map((story, storyIndex) => {
+            {activeStories.reverse().map((story, storyIndex) => {
               const imageUrl = _.get(story, "coverImage.imageUrl");
               return (
                 <JournalDayCard
