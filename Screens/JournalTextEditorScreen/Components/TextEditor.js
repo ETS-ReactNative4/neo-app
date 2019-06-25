@@ -11,37 +11,76 @@ import { responsiveWidth } from "react-native-responsive-dimensions";
 import KeyboardAvoidingActionBar from "../../../CommonComponents/KeyboardAvoidingActionBar/KeyboardAvoidingActionBar";
 import TextEditorControls from "./TextEditorControls";
 
-const defaultStyles = getDefaultStyles();
-
-const customEditorStyles = Object.keys(defaultStyles).reduce(
-  (accumulator, key) => {
-    const currentStyle = { ...defaultStyles[key] };
-    currentStyle.fontFamily = constants.primaryRegular;
-    // currentStyle.fontSize = 15;
-    // currentStyle.lineHeight = 26;
-    currentStyle.color = constants.black1;
-    // switch(key) {
-    //   case 'bold':
-    //     currentStyle.fontFamily = constants.primarySemiBold;
-    //     currentStyle.fontSize = 18;
-    //     currentStyle.lineHeight = 28;
-    //     break;
-    //   case 'title':
-    //     currentStyle.fontFamily = constants.primarySemiBold;
-    //     currentStyle.fontSize = 24;
-    //     currentStyle.lineHeight = 28;
-    //     break;
-    //   case 'ul':
-    //     currentStyle.lineHeight = 32;
-    //     break;
-    //   default:
-    //     break;
-    // }
-    accumulator[key] = currentStyle;
-    return accumulator;
+const customEditorStyles = StyleSheet.create({
+  bold: {
+    fontWeight: "bold",
+    ...constants.fontCustom(constants.primarySemiBold, 18, 28),
+    color: constants.black1
   },
-  {}
-);
+  italic: {
+    fontStyle: "italic"
+  },
+  underline: {
+    textDecorationLine: "underline",
+    ...constants.fontCustom(constants.primaryRegular, 15, 26),
+    color: constants.black1
+  },
+  lineThrough: {
+    textDecorationLine: "line-through",
+    ...constants.fontCustom(constants.primaryRegular, 15, 26),
+    color: constants.black1
+  },
+  heading: {
+    ...constants.fontCustom(constants.primarySemiBold, 24, 28),
+    color: constants.black1
+  },
+  body: {
+    ...constants.fontCustom(constants.primaryRegular, 15, 26),
+    color: constants.black1
+  },
+  title: {
+    ...constants.fontCustom(constants.primarySemiBold, 24, 28),
+    color: constants.black1
+  },
+  ul: {
+    ...constants.fontCustom(constants.primaryRegular, 15, 32),
+    color: constants.black1
+  },
+  ol: {
+    ...constants.fontCustom(constants.primaryRegular, 15, 32),
+    color: constants.black1
+  },
+  red: {
+    color: "#d23431"
+  },
+  green: {
+    color: "#4a924d"
+  },
+  blue: {
+    color: "#0560ab"
+  },
+  black: {
+    color: "#33363d"
+  },
+  blue_hl: {
+    backgroundColor: "#34f3f4"
+  },
+  green_hl: {
+    backgroundColor: "#2df149"
+  },
+  pink_hl: {
+    backgroundColor: "#f53ba7"
+  },
+  yellow_hl: {
+    backgroundColor: "#f6e408"
+  },
+  orange_hl: {
+    backgroundColor: "#f07725"
+  },
+  purple_hl: {
+    backgroundColor: "#c925f2"
+  }
+});
 
 class TextEditor extends Component {
   state = {
