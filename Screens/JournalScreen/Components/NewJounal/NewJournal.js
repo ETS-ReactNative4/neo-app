@@ -28,7 +28,7 @@ const NewJournal = ({
             borderRadius: 2,
             height: 45,
             width: 186,
-            marginTop: 32
+            marginVertical: 32
           }}
           textStyle={{ marginRight: 8 }}
           icon={constants.arrowRight}
