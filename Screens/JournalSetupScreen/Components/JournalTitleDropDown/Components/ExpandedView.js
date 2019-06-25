@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
     width: responsiveWidth(100)
   },
   textContainer: {
-    marginLeft: 24
+    marginHorizontal: 24
   },
   titleText: {
     ...constants.fontCustom(constants.primarySemiBold, 24, 28),
