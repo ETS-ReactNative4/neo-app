@@ -29,12 +29,20 @@ class Journal {
     hydrate("_journalDetails", storeInstance)
       .then(() => null)
       .catch(err => logError(err));
+    hydrate("_imageUploadQueue", storeInstance)
+      .then(() => null)
+      .catch(err => logError(err));
+    hydrate("_imageUploadQueueError", storeInstance)
+      .then(() => null)
+      .catch(err => logError(err));
   };
 
   @action
   reset = () => {
     this._homeScreenDetails = {};
     this._journalDetails = {};
+    this._imageUploadQueue = [];
+    this._imageUploadQueueError = false;
   };
 
   @persist("object")
@@ -548,10 +556,6 @@ class Journal {
   _imageUploadQueueError = false;
 
   @observable _isImageUploadQueueRunning = false;
-
-  @persist("object")
-  @observable
-  _failedImageUploads = {};
 
   @computed
   get imageUploadQueue() {
