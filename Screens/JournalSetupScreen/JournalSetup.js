@@ -67,6 +67,7 @@ class JournalSetup extends Component {
                     day={page.pageDate}
                     dayString={page.pageDateStr}
                     action={() => this.navigateToDaySelector(page)}
+                    isLast={pageIndex === categorizedPages.completed.length - 1}
                   />
                 );
               })}
@@ -87,6 +88,7 @@ class JournalSetup extends Component {
                     day={page.pageDate}
                     dayString={page.pageDateStr}
                     action={() => this.navigateToDaySelector(page)}
+                    isLast={pageIndex === categorizedPages.upcoming.length - 1}
                   />
                 );
               })}
