@@ -4,6 +4,7 @@ import constants from "../../constants/constants";
 import navigationService from "../navigationService/navigationService";
 import { NavigationActions } from "react-navigation";
 import { logError } from "../errorLogger/errorLogger";
+import storeService from "../storeService/storeService";
 
 /**
  * Resets the current navigation stack to the BookedItineraryTabs
@@ -35,6 +36,12 @@ const AppLauncher = () => {
      */
     isUserLoggedInCallback(
       () => {
+        /**
+         * Start the journal image upload queue
+         * To resume image uploads from the previous session
+         */
+        storeService.journalStore.startImageUploadQueue();
+
         /**
          * Check if trip toggle button is enabled
          */
