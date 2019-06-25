@@ -31,6 +31,12 @@ class Journal {
       .catch(err => logError(err));
   };
 
+  @action
+  reset = () => {
+    this._homeScreenDetails = {};
+    this._journalDetails = {};
+  };
+
   @persist("object")
   @observable
   _homeScreenDetails = {};

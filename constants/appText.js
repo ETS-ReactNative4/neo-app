@@ -91,6 +91,11 @@ const appText = {
         "Are you sure you want to delete this beautiful photograph? We won’t be able to undo this action.",
       confirm: "Confirm Deletion",
       cancel: "Keep"
+    },
+    logout: {
+      header: "Your images are being uploaded.",
+      message:
+        "You cannot logout during an active image upload. Please wait till all the images are uploaded."
     }
   },
   bookingFailedText: "No Voucher available",
