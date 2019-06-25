@@ -110,7 +110,7 @@ class JournalStart extends Component {
               borderRadius: 2,
               height: 45,
               width: 170,
-              marginTop: 32,
+              marginTop: 26,
               alignSelf: "center"
             }}
             textStyle={{ marginRight: 8 }}
@@ -144,7 +144,8 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     borderWidth: StyleSheet.hairlineWidth,
     borderColor: "transparent",
-    ...constants.elevationFive
+    ...constants.elevationFive,
+    marginBottom: 8
   },
   titleInputContainer: {
     borderBottomColor: constants.shade5,
