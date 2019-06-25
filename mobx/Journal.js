@@ -31,11 +31,6 @@ class Journal {
       .catch(err => logError(err));
   };
 
-  /**
-   * Journal Home Screen API
-   * --------------------------------------------------------------
-   */
-
   @persist("object")
   @observable
   _homeScreenDetails = {};
@@ -66,7 +61,8 @@ class Journal {
   }
 
   /**
-   *
+   * This will fetch details to show in the home screen which will prompt
+   * user to create a journal.
    */
   @action
   getHomeScreenDetails = () => {
@@ -123,6 +119,10 @@ class Journal {
     return this._journalRefreshError;
   }
 
+  /**
+   * This function Refresh the journal data
+   * Usually called after every journal operation.
+   */
   @action
   refreshJournalInformation = () => {
     return new Promise((resolve, reject) => {
@@ -152,10 +152,6 @@ class Journal {
     });
   };
 
-  /**
-   * Journal Start - Initialization API
-   * --------------------------------------------------------------
-   */
   @persist("object")
   @observable
   _journalDetails = {};
@@ -278,6 +274,9 @@ class Journal {
     return this._isJournalTitleError;
   }
 
+  /**
+   * Returns an array of all the active stories in a journal
+   */
   @computed
   get activeStories() {
     if (_.isEmpty(this.journalDetails)) {
@@ -316,6 +315,9 @@ class Journal {
     }
   }
 
+  /**
+   * Initialize a journal instance for the user
+   */
   @action
   initializeJournalDetails = () => {
     this._isJournalDetailsLoading = true;
@@ -336,6 +338,9 @@ class Journal {
       });
   };
 
+  /**
+   * Used for editing the journal title & description
+   */
   @action
   updateJournalTitle = ({ title, desc }) => {
     return new Promise((resolve, reject) => {
@@ -379,8 +384,9 @@ class Journal {
   };
 
   /**
-   * Retrieve Information from journal Details
-   * --------------------------------------------------------------
+   * Returns an object with
+   * - array of upcoming day's pages
+   * - array of completed day's pages
    */
   @computed
   get categorizedPages() {
@@ -406,6 +412,9 @@ class Journal {
     }
   }
 
+  /**
+   * Returns an array of all the stories associated with a page
+   */
   getStoriesByPageId = createTransformer(pageId => {
     if (_.isEmpty(this.journalDetails)) {
       return [];
@@ -422,7 +431,9 @@ class Journal {
   });
 
   /**
-   * Writing Stories
+   * Submit a created story to the journal
+   * Only needs title and richText
+   * Images will be uploaded through the image queue
    */
   @action
   submitStory = (storyId, title, richText) => {
@@ -489,6 +500,9 @@ class Journal {
     });
   };
 
+  /**
+   * Deletes a story using the `storyId`
+   */
   @action
   deleteStory = storyId => {
     return new Promise((resolve, reject) => {
@@ -572,6 +586,9 @@ class Journal {
     });
   };
 
+  /**
+   * Adds another story with images list to the image upload queue
+   */
   @action
   addImagesToQueue = (storyId, imagesList = []) => {
     try {
@@ -582,7 +599,12 @@ class Journal {
           failureCount: 0
         }))
       });
-      this.startImageUploadQueue();
+      /**
+       * If the queue is not already running, start the queue
+       */
+      if (!this.isImageUploadQueueRunning) {
+        this.startImageUploadQueue();
+      }
     } catch (error) {
       logError("Failed to create image upload queue", { error });
     }
@@ -620,6 +642,9 @@ class Journal {
           type: journalLevels.story
         };
 
+        /**
+         * Get the signed url with which the image must be uploaded.
+         */
         apiCall(constants.getStoryImageSignedUrl, requestObject)
           .then(signedUrlResponse => {
             if (signedUrlResponse.status === constants.responseSuccessStatus) {
@@ -643,6 +668,9 @@ class Journal {
                     };
                   }
 
+                  /**
+                   * Image upload is successful. A confirmation API call is needed to confirm the image details with backend
+                   */
                   apiCall(
                     constants.journalImageDetails,
                     confirmationRequestObject,
@@ -725,11 +753,27 @@ class Journal {
 
           uploadImage(imageQueue.storyId, imageToUpload)
             .then(() => {
+              /**
+               * Successful image upload. Remove that image from the queue
+               */
               console.log("Image uploaded! ------------------------------ ");
               this._imageUploadQueue[0].imagesList.splice(imageIndex, 1);
               this.startImageUploadQueue();
             })
             .catch(() => {
+              /**
+               * If user is not connected to internet just restart the queue
+               * image upload will resume if he gets connected back.
+               */
+              const isConnectedToInternet = storeService.appState.isConnected;
+              if (!isConnectedToInternet) {
+                this.startImageUploadQueue();
+                return;
+              }
+
+              /**
+               * In case of some other failures...
+               */
               imageToUpload.failureCount++;
               if (imageToUpload.failureCount < 3) {
                 this._imageUploadQueue[0].imagesList[
@@ -757,6 +801,9 @@ class Journal {
     }
   };
 
+  /**
+   * returns an array of images using a pageId and storyId
+   */
   getImagesById = createTransformer(({ pageId, storyId }) => {
     try {
       const requiredPage = this.journalDetails.journal.pages.find(
@@ -775,6 +822,9 @@ class Journal {
     }
   });
 
+  /**
+   * Get a story based on the pageId and storyId
+   */
   getStoryById = createTransformer(({ pageId, storyId }) => {
     try {
       const requiredPage = this.journalDetails.journal.pages.find(
