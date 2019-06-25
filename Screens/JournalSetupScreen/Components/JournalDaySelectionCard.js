@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
     padding: 24
   },
   dateSection: {
-    width: 56
+    width: 72
   },
   contentSection: {
     flex: 1,
