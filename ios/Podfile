@@ -7,7 +7,6 @@ target 'Pickyourtrail' do
 
   # Pods for Pickyourtrail
   pod 'React', path: '../node_modules/react-native', :subspecs => [
-    'ART',
     'Core',
     'jschelpers',
     'cxxreact',
