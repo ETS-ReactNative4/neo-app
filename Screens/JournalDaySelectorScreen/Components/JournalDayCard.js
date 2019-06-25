@@ -122,7 +122,8 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     marginVertical: 16,
     borderRadius: 2,
-    overflow: "hidden"
+    overflow: "hidden",
+    ...constants.elevationTwo
   },
   dayCardImage: {
     backgroundColor: "white",
