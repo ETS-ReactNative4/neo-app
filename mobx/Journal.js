@@ -227,6 +227,14 @@ class Journal {
   }
 
   @computed
+  get journalCreatedTime() {
+    if (_.isEmpty(this.journalDetails)) {
+      return "";
+    }
+    return _.get(this.journalDetails, "journal.creationTimeStr");
+  }
+
+  @computed
   get isJournalPublished() {
     if (_.isEmpty(this.journalDetails)) {
       return "";

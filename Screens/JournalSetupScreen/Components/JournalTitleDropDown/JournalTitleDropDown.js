@@ -31,7 +31,9 @@ class JournalTitleDropDown extends Component {
       .isRequired,
     journalOwner: PropTypes.string.isRequired,
     journalPublishedTime: PropTypes.string,
-    editAction: PropTypes.func.isRequired
+    journalCreatedTime: PropTypes.string,
+    editAction: PropTypes.func.isRequired,
+    isJournalPublished: PropTypes.bool
   });
 
   constructor(props) {
@@ -85,7 +87,9 @@ class JournalTitleDropDown extends Component {
       coverImage,
       journalOwner,
       journalPublishedTime,
-      editAction
+      editAction,
+      journalCreatedTime,
+      isJournalPublished
     } = this.props;
 
     const spin = this.state.spinAnimationTiming.interpolate({
@@ -107,9 +111,19 @@ class JournalTitleDropDown extends Component {
           coverImage={coverImage}
           title={title}
           desc={desc}
+          journalCreatedTime={journalCreatedTime}
+          isJournalPublished={isJournalPublished}
         />
 
-        <MinimizedView isHidden={isExpanded} title={title} desc={desc} />
+        <MinimizedView
+          isHidden={isExpanded}
+          title={title}
+          desc={`By ${journalOwner}${
+            isJournalPublished
+              ? `, ${journalPublishedTime}`
+              : `, ${journalCreatedTime}`
+          }`}
+        />
 
         <TouchableOpacity
           style={styles.arrowContainer}

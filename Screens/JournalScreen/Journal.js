@@ -232,6 +232,7 @@ class Journal extends Component {
       journalCoverImage,
       journalOwner,
       journalPublishedTime,
+      journalCreatedTime,
       isJournalPublished,
       storyImageQueueStatus
     } = this.props.journalStore;
@@ -257,6 +258,8 @@ class Journal extends Component {
               editAction={editJournal}
               journalOwner={journalOwner}
               journalPublishedTime={journalPublishedTime}
+              journalCreatedTime={journalCreatedTime}
+              isJournalPublished={isJournalPublished}
               coverImage={{ uri: journalCoverImage }}
               title={journalTitle}
               desc={journalDesc}

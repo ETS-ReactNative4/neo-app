@@ -25,7 +25,9 @@ const ExpandedView = ({
   isHidden,
   journalOwner,
   journalPublishedTime,
-  editAction
+  editAction,
+  journalCreatedTime,
+  isJournalPublished
 }) => {
   return (
     <FastImage
@@ -45,7 +47,9 @@ const ExpandedView = ({
       <View style={styles.textContainer}>
         <Text style={styles.titleText}>{title}</Text>
         <Text style={styles.authorInfo}>{`By ${journalOwner}${
-          journalPublishedTime ? `, ${journalPublishedTime}` : ""
+          isJournalPublished
+            ? `, ${journalPublishedTime}`
+            : `, ${journalCreatedTime}`
         }`}</Text>
         <Text style={styles.descText}>{desc}</Text>
       </View>
@@ -60,7 +64,9 @@ ExpandedView.propTypes = forbidExtraProps({
   isHidden: PropTypes.bool.isRequired,
   journalOwner: PropTypes.string.isRequired,
   journalPublishedTime: PropTypes.string,
-  editAction: PropTypes.func.isRequired
+  editAction: PropTypes.func.isRequired,
+  journalCreatedTime: PropTypes.string.isRequired,
+  isJournalPublished: PropTypes.bool.isRequired
 });
 
 const headerHeight = constants.headerHeight;
