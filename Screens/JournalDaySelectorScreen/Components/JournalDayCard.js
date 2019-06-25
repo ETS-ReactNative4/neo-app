@@ -12,6 +12,7 @@ import constants from "../../../constants/constants";
 import Icon from "../../../CommonComponents/Icon/Icon";
 import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraProps";
 import SimpleButton from "../../../CommonComponents/SimpleButton/SimpleButton";
+import * as Progress from "react-native-progress";
 
 const JournalDayCard = ({
   image,
@@ -22,11 +23,15 @@ const JournalDayCard = ({
   deleteAction = () => null,
   isJournalPublished,
   shareFacebook = () => null,
-  shareTwitter = () => null
+  shareTwitter = () => null,
+  isImageUploading,
+  totalImages,
+  pendingImages
 }) => {
+  const percentage = (100 - pendingImages / totalImages * 100) / 100;
   return (
     <TouchableOpacity
-      onPress={action}
+      onPress={isImageUploading ? () => null : action}
       activeOpacity={0.8}
       style={styles.journalDayCardContainer}
     >
@@ -49,54 +54,68 @@ const JournalDayCard = ({
       </Text>
       {isActivated ? (
         <View style={styles.actionBar}>
-          <View style={styles.actionContainer}>
-            <SimpleButton
-              color={"transparent"}
-              iconSize={16}
-              textStyle={{ fontSize: 15 }}
-              text={"Edit"}
-              action={editAction}
-              containerStyle={{ width: null, marginHorizontal: 16 }}
-              textColor={constants.seventhColor}
-              icon={constants.editIcon}
-            />
-            <SimpleButton
-              color={"transparent"}
-              iconSize={16}
-              textStyle={{ fontSize: 15 }}
-              text={"Delete"}
-              action={deleteAction}
-              containerStyle={{ width: null, marginLeft: 8 }}
-              textColor={constants.seventhColor}
-              icon={constants.trashCanIcon}
-            />
-          </View>
-          <View style={styles.actionContainer}>
-            {isJournalPublished ? (
-              <Fragment>
-                <TouchableOpacity
-                  onPress={shareFacebook}
-                  style={styles.shareContainer}
-                >
-                  <Icon
-                    color={constants.seventhColor}
-                    name={constants.facebookIcon}
-                    size={16}
-                  />
-                </TouchableOpacity>
-                <TouchableOpacity
-                  onPress={shareTwitter}
-                  style={[styles.shareContainer, { paddingRight: 16 }]}
-                >
-                  <Icon
-                    color={constants.seventhColor}
-                    name={constants.twitterIcon}
-                    size={16}
-                  />
-                </TouchableOpacity>
-              </Fragment>
-            ) : null}
-          </View>
+          {isImageUploading ? (
+            <View style={styles.progressContainer}>
+              <Progress.Circle
+                progress={percentage}
+                color={constants.themeDarkBlue}
+                size={20}
+              />
+              <Text style={styles.progressText}>{`${totalImages -
+                pendingImages} of ${totalImages} images uploaded...`}</Text>
+            </View>
+          ) : (
+            <Fragment>
+              <View style={styles.actionContainer}>
+                <SimpleButton
+                  color={"transparent"}
+                  iconSize={16}
+                  textStyle={{ fontSize: 15 }}
+                  text={"Edit"}
+                  action={editAction}
+                  containerStyle={{ width: null, marginHorizontal: 16 }}
+                  textColor={constants.seventhColor}
+                  icon={constants.editIcon}
+                />
+                <SimpleButton
+                  color={"transparent"}
+                  iconSize={16}
+                  textStyle={{ fontSize: 15 }}
+                  text={"Delete"}
+                  action={deleteAction}
+                  containerStyle={{ width: null, marginLeft: 8 }}
+                  textColor={constants.seventhColor}
+                  icon={constants.trashCanIcon}
+                />
+              </View>
+              <View style={styles.actionContainer}>
+                {isJournalPublished ? (
+                  <Fragment>
+                    <TouchableOpacity
+                      onPress={shareFacebook}
+                      style={styles.shareContainer}
+                    >
+                      <Icon
+                        color={constants.seventhColor}
+                        name={constants.facebookIcon}
+                        size={16}
+                      />
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      onPress={shareTwitter}
+                      style={[styles.shareContainer, { paddingRight: 16 }]}
+                    >
+                      <Icon
+                        color={constants.seventhColor}
+                        name={constants.twitterIcon}
+                        size={16}
+                      />
+                    </TouchableOpacity>
+                  </Fragment>
+                ) : null}
+              </View>
+            </Fragment>
+          )}
         </View>
       ) : null}
     </TouchableOpacity>
@@ -146,6 +165,17 @@ const styles = StyleSheet.create({
   },
   actionContainer: {
     flexDirection: "row"
+  },
+  progressContainer: {
+    marginHorizontal: 16,
+    marginBottom: 16,
+    flexDirection: "row"
+  },
+  progressText: {
+    color: constants.themeDarkBlue,
+    ...constants.fontCustom(constants.primarySemiBold, 15, 24),
+    marginLeft: 8,
+    marginTop: -3
   },
   shareContainer: {
     alignSelf: "center",

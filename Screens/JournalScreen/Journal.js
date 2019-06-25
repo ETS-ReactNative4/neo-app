@@ -232,7 +232,8 @@ class Journal extends Component {
       journalCoverImage,
       journalOwner,
       journalPublishedTime,
-      isJournalPublished
+      isJournalPublished,
+      storyImageQueueStatus
     } = this.props.journalStore;
 
     const editJournal = () =>
@@ -267,6 +268,7 @@ class Journal extends Component {
               shareFacebook={this.shareFacebook}
               shareTwitter={this.shareTwitter}
               isJournalPublished={isJournalPublished}
+              storyImageQueueStatus={storyImageQueueStatus}
               pages={pages}
             />
           </Fragment>

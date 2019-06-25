@@ -800,6 +800,7 @@ class Journal {
     };
 
     if (this._imageUploadQueue.length) {
+      this.refreshJournalInformation();
       this._isImageUploadQueueRunning = true;
       getImageToUpload();
     } else {

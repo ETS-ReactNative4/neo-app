@@ -117,7 +117,10 @@ class JournalDaySelector extends Component {
     const title = this.props.navigation.getParam("title", "");
     const info = this.props.navigation.getParam("info", "");
     const activePage = this.props.navigation.getParam("activePage", "");
-    const { getStoriesByPageId } = this.props.journalStore;
+    const {
+      getStoriesByPageId,
+      storyImageQueueStatus
+    } = this.props.journalStore;
     const stories = getStoriesByPageId(activePage);
     return (
       <ScrollView style={styles.journalDaySelectorContainer}>
@@ -125,6 +128,9 @@ class JournalDaySelector extends Component {
         {stories.map((story, storyIndex) => {
           if (story.initialized) {
             const imageUrl = _.get(story, "coverImage.imageUrl");
+            const imageUploadStatus = storyImageQueueStatus(story.storyId);
+            const pendingImages = imageUploadStatus.pendingImages;
+            const uploadedImages = Object.keys(story.images || {}).length;
             return (
               <JournalDayCard
                 key={storyIndex}
@@ -138,6 +144,9 @@ class JournalDaySelector extends Component {
                   this.navigateToImagePicker(activePage, story.storyId)
                 }
                 deleteAction={() => this.deleteStory(story.storyId)}
+                isImageUploading={!!pendingImages}
+                pendingImages={pendingImages}
+                totalImages={pendingImages + uploadedImages}
               />
             );
           }

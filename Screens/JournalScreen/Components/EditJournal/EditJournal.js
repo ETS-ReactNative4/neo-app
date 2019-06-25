@@ -17,7 +17,8 @@ const EditJournal = ({
   deleteAction,
   shareFacebook,
   shareTwitter,
-  isJournalPublished
+  isJournalPublished,
+  storyImageQueueStatus
 }) => {
   return (
     <CustomScrollView
@@ -42,6 +43,9 @@ const EditJournal = ({
             ) : null}
             {activeStories.reverse().map((story, storyIndex) => {
               const imageUrl = _.get(story, "coverImage.imageUrl");
+              const imageUploadStatus = storyImageQueueStatus(story.storyId);
+              const pendingImages = imageUploadStatus.pendingImages;
+              const uploadedImages = Object.keys(story.images || {}).length;
               return (
                 <JournalDayCard
                   key={storyIndex}
@@ -54,6 +58,9 @@ const EditJournal = ({
                   isJournalPublished={isJournalPublished}
                   shareFacebook={() => shareFacebook(story.title, story.url)}
                   shareTwitter={() => shareTwitter(story.title, story.url)}
+                  isImageUploading={!!pendingImages}
+                  pendingImages={pendingImages}
+                  totalImages={pendingImages + uploadedImages}
                 />
               );
             })}
@@ -71,7 +78,8 @@ EditJournal.propTypes = forbidExtraProps({
   pages: PropTypes.array.isRequired,
   shareFacebook: PropTypes.func.isRequired,
   shareTwitter: PropTypes.func.isRequired,
-  isJournalPublished: PropTypes.bool.isRequired
+  isJournalPublished: PropTypes.bool.isRequired,
+  storyImageQueueStatus: PropTypes.func.isRequired
 });
 
 const styles = StyleSheet.create({

@@ -16,6 +16,7 @@ const pallete2 = {
   eighthColor: `rgba(74,144,226,1)`,
   ninthColor: `rgba(91,110,234,1)`, // theme purple
   tenthColor: `rgba(239, 174, 97, 1)`, //theme orange
+  themeDarkBlue: `rgba(80, 138, 232, 1)`,
 
   firstColorAlpha: alpha => `rgba(0, 198, 132, ${alpha})`,
   secondColorAlpha: alpha => `rgba(255, 201, 51, ${alpha})`,
@@ -25,7 +26,8 @@ const pallete2 = {
   sixthColorAlpha: alpha => `rgba(120,5,114,${alpha})`,
   seventhColorAlpha: alpha => `rgba(35,123,226,${alpha})`,
   eighthColorAlpha: alpha => `rgba(74,144,226,${alpha})`,
-  ninthColorAlpha: alpha => `rgba(91,110,234,${alpha})`
+  ninthColorAlpha: alpha => `rgba(91,110,234,${alpha})`,
+  themeDarkBlueAlpha: alpha => `rgba(80, 138, 232, ${alpha})`
 };
 
 const pallete3 = {};
