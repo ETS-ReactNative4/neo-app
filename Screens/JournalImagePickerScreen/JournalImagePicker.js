@@ -215,13 +215,7 @@ class JournalImagePicker extends Component {
           const selectedImagesList = [...this.state.selectedImagesList];
           selectedImagesList[selectedImageIndex].croppedImage = croppedImage;
           selectedImagesList[selectedImageIndex].isContain = false;
-          this.setState({ selectedImagesList }, () => {
-            NativeImagePicker.clean()
-              .then(() => {})
-              .catch(e => {
-                logError(e);
-              });
-          });
+          this.setState({ selectedImagesList });
           /**
            * Used to update the original image map if needed
            * This code is not needed in the current selection implementation
@@ -303,8 +297,8 @@ class JournalImagePicker extends Component {
               })
               .catch(() => {
                 DebouncedAlert(
-                  "",
-                  constants.journalFailureMessages.failedToSubmitJournalStory
+                  constants.journalFailureMessages.title,
+                  constants.journalFailureMessages.failedToDeleteImage
                 );
               });
           },
@@ -341,6 +335,11 @@ class JournalImagePicker extends Component {
   componentWillUnmount() {
     _headerData.selectedImagesCount = 0;
     AppState.removeEventListener("change", this._handleAppStateChange);
+    NativeImagePicker.clean()
+      .then(() => {})
+      .catch(e => {
+        logError(e);
+      });
   }
 
   _onPressImage = imageId => {

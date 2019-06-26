@@ -124,7 +124,7 @@ class JournalPublish extends Component {
         })
         .catch(() => {
           DebouncedAlert(
-            "",
+            constants.journalFailureMessages.title,
             constants.journalFailureMessages.failedToPublishJournal,
             [
               {

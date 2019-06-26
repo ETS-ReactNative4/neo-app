@@ -88,6 +88,7 @@ class JournalTextEditor extends Component {
       })
       .catch(() => {
         DebouncedAlert(
+          constants.journalFailureMessages.title,
           constants.journalFailureMessages.failedToSubmitJournalStory
         );
       });

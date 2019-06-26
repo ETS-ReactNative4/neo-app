@@ -52,6 +52,7 @@ class JournalStart extends Component {
       })
       .catch(() => {
         DebouncedAlert(
+          constants.journalFailureMessages.title,
           constants.journalFailureMessages.failedToSubmitJournalTitle
         );
       });

@@ -76,6 +76,7 @@ const appText = {
     message: "Become a travel blogger on the go!"
   },
   journalFailureMessages: {
+    title: "Bad Connection :(",
     failedToSubmitJournalTitle:
       "Unable to create journal. Please check your internet connection and try again after some time.",
     failedToSubmitJournalStory:

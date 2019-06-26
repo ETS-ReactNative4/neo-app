@@ -81,7 +81,10 @@ class JournalDaySelector extends Component {
         this.navigateToImagePicker(activePage, storyId);
       })
       .catch(() => {
-        DebouncedAlert(constants.journalFailureMessages.failedToCreateNewStory);
+        DebouncedAlert(
+          constants.journalFailureMessages.title,
+          constants.journalFailureMessages.failedToCreateNewStory
+        );
       });
   };
 
