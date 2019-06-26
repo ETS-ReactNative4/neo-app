@@ -24,7 +24,7 @@ const ImageTile = ({
     <TouchableOpacity
       activeOpacity={0.8}
       onPress={() => {
-        if (!selected) onPressItem(item.node.image.uri);
+        onPressItem(item.node.image.uri);
         previewImage(item.node.image.uri);
       }}
       style={styles.imageTileContainer}
