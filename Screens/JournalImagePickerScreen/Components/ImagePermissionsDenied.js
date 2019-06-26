@@ -9,7 +9,7 @@ const ImagePermissionDenied = ({ action = () => null }) => {
   return (
     <View style={styles.imagePermissionDeniedContainer}>
       <Text style={styles.infoText}>
-        {constants.journalFailureMessages.userDeniedImagePermission}
+        {constants.journalFailureMessages.userDeniedImagePermission()}
       </Text>
       <SimpleButton
         text={"Go To Settings"}

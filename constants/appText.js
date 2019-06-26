@@ -1,3 +1,6 @@
+import { Platform } from "react-native";
+import constants from "./constants";
+
 const appText = {
   starterScreenText: {
     mainButton: "Find your booking",
@@ -83,8 +86,10 @@ const appText = {
       "Unable to publish this story. Please check your internet connection and try again after some time.",
     failedToDeleteImage:
       "Unable to delete the image. Please check your internet connection and try again after some time.",
-    userDeniedImagePermission:
-      "To select and upload your images, please grant access to your photos."
+    userDeniedImagePermission: () =>
+      `To select and upload your images, please grant access to your ${
+        Platform.OS === constants.platformIos ? "photos" : "storage"
+      }.`
   },
   journalAlertMessages: {
     removeImage: {

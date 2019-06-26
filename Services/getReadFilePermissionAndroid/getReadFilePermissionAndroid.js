@@ -42,6 +42,7 @@ const getReadFilePermissionAndroid = async (success, failure, settings) => {
     if (granted === PermissionsAndroid.RESULTS.GRANTED) {
       success();
     } else {
+      failure();
       permissionFailed();
     }
   } catch (androidPermissionErr) {

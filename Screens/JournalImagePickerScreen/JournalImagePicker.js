@@ -6,7 +6,8 @@ import {
   Image,
   StyleSheet,
   Platform,
-  PermissionsAndroid
+  PermissionsAndroid,
+  AppState
 } from "react-native";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import SimpleButton from "../../CommonComponents/SimpleButton/SimpleButton";
@@ -79,10 +80,26 @@ class JournalImagePicker extends Component {
     imagesList: [],
     imageMap: new Map(),
     selectedImagesList: [],
+    lastCursor: null,
+    noMorePhotos: false,
+    areImagesLoading: false,
     hasNextPage: false,
     selectedFolder: "all",
     preSelectedImages: [],
-    isPermissionDenied: false
+    isPermissionDenied: false,
+    appState: AppState.currentState
+  };
+
+  _handleAppStateChange = nextAppState => {
+    if (
+      this.state.appState.match(/inactive|background/) &&
+      nextAppState === "active"
+    ) {
+      if (this.state.isPermissionDenied) {
+        this.props.navigation.goBack();
+      }
+    }
+    this.setState({ appState: nextAppState });
   };
 
   constructor(props) {
@@ -98,11 +115,20 @@ class JournalImagePicker extends Component {
     });
   };
 
+  listEndReached = () => {
+    if (!this.state.areImagesLoading) {
+      this.setState({ areImagesLoading: true }, () => this.fetchImages());
+    }
+  };
+
   fetchImages = () => {
     const galleryConfig = {
-      first: 1000,
+      first: 100,
       assetType: "Photos"
     };
+    if (this.state.lastCursor) {
+      galleryConfig.after = this.state.lastCursor;
+    }
     if (Platform.OS === constants.platformIos) galleryConfig.groupTypes = "All";
     CameraRoll.getPhotos(galleryConfig)
       .then(imageData => {
@@ -120,9 +146,10 @@ class JournalImagePicker extends Component {
         }, new Map());
         this.setState(
           {
-            imageMap,
-            imagesList: images,
-            hasNextPage: imageData.page_info.has_next_page
+            imageMap: new Map([...this.state.imageMap, ...imageMap]),
+            imagesList: [...this.state.imagesList, ...images],
+            lastCursor: imageData.page_info.end_cursor,
+            areImagesLoading: false
           },
           () => {
             const firstImage = this.state.imagesList[0];
@@ -137,7 +164,10 @@ class JournalImagePicker extends Component {
         this.setState({
           isPermissionDenied: true
         });
-        if (err.message !== "Access to photo library was denied") {
+        if (
+          err.message !== "Access to photo library was denied" &&
+          !err.message.includes("READ_EXTERNAL_STORAGE")
+        ) {
           logError(err);
         }
       });
@@ -150,11 +180,12 @@ class JournalImagePicker extends Component {
      * Timeout needed to let the screen complete it's transition
      */
     setTimeout(() => {
+      AppState.addEventListener("change", this._handleAppStateChange);
       if (Platform.OS === constants.platformAndroid) {
         getReadFilePermissionAndroid(
           () => this.fetchImages(),
-          () => null,
-          () => null
+          () => this.fetchImages(),
+          () => this.fetchImages()
         );
       } else {
         this.fetchImages();
@@ -306,6 +337,7 @@ class JournalImagePicker extends Component {
 
   componentWillUnmount() {
     _headerData.selectedImagesCount = 0;
+    AppState.removeEventListener("change", this._handleAppStateChange);
   }
 
   _onPressImage = imageId => {
@@ -503,6 +535,9 @@ class JournalImagePicker extends Component {
           numColumns={4}
           extraData={this.state}
           keyExtractor={this._keyExtractor}
+          onEndReached={this.listEndReached}
+          initialNumToRender={5}
+          maxToRenderPerBatch={10}
         />
         {selectedImagesList.length ? (
           <SimpleButton
