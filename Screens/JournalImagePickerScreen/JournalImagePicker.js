@@ -116,8 +116,10 @@ class JournalImagePicker extends Component {
   };
 
   listEndReached = () => {
-    if (!this.state.areImagesLoading) {
-      this.setState({ areImagesLoading: true }, () => this.fetchImages());
+    if (!this.state.noMorePhotos) {
+      if (!this.state.areImagesLoading) {
+        this.setState({ areImagesLoading: true }, () => this.fetchImages());
+      }
     }
   };
 
@@ -149,7 +151,8 @@ class JournalImagePicker extends Component {
             imageMap: new Map([...this.state.imageMap, ...imageMap]),
             imagesList: [...this.state.imagesList, ...images],
             lastCursor: imageData.page_info.end_cursor,
-            areImagesLoading: false
+            areImagesLoading: false,
+            noMorePhotos: !imageData.page_info.has_next_page
           },
           () => {
             const firstImage = this.state.imagesList[0];
