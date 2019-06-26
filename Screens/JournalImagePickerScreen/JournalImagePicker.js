@@ -309,26 +309,28 @@ class JournalImagePicker extends Component {
   }
 
   _onPressImage = imageId => {
-    const selectedImages = [...this.state.selectedImagesList];
-    const storyId = this.props.navigation.getParam("activeStory", "");
-    const pageId = this.props.navigation.getParam("activePage", "");
-    const { getImagesById } = this.props.journalStore;
-    const preSelectedImages = getImagesById({ storyId, pageId });
-    if (preSelectedImages.length + selectedImages.length >= 10) {
-      toastBottom("You can only select upto 10 images");
-    } else {
-      this.setState(state => {
-        const imageMap = new Map(state.imageMap);
-        const imageDetails = imageMap.get(imageId);
-        if (imageDetails.isSelected) {
-          imageDetails.croppedImage = "";
+    this.setState(state => {
+      const imageMap = new Map(state.imageMap);
+      const imageDetails = imageMap.get(imageId);
+      if (!imageDetails.isSelected) {
+        const selectedImages = [...this.state.selectedImagesList];
+        const storyId = this.props.navigation.getParam("activeStory", "");
+        const pageId = this.props.navigation.getParam("activePage", "");
+        const { getImagesById } = this.props.journalStore;
+        const preSelectedImages = getImagesById({ storyId, pageId });
+        if (preSelectedImages.length + selectedImages.length >= 10) {
+          toastBottom("You can only select upto 10 images");
+          return { imageMap };
         }
-        imageDetails.isSelected = !imageDetails.isSelected;
-        imageMap.set(imageId, imageDetails);
-        this.selectImage(imageDetails);
-        return { imageMap };
-      });
-    }
+      }
+      if (imageDetails.isSelected) {
+        imageDetails.croppedImage = "";
+      }
+      imageDetails.isSelected = !imageDetails.isSelected;
+      imageMap.set(imageId, imageDetails);
+      this.selectImage(imageDetails);
+      return { imageMap };
+    });
   };
 
   _renderGrid = ({ item }) => {
