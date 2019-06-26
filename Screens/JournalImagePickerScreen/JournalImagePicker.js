@@ -134,7 +134,7 @@ class JournalImagePicker extends Component {
       });
   };
 
-  onChangeFolder = () => {};
+  onChangeFolder = selectedFolder => this.setState({ selectedFolder });
 
   componentDidMount() {
     if (Platform.OS === constants.platformAndroid) {
