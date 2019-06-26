@@ -69,12 +69,15 @@ const styles = StyleSheet.create({
   titleText: {
     ...constants.font24(constants.primarySemiBold),
     marginTop: 24,
+    textAlign: "center",
+    marginHorizontal: 8,
     marginBottom: 16,
     color: constants.black1
   },
   descText: {
     ...constants.fontCustom(constants.primaryLight, 15, 26),
     textAlign: "center",
+    marginHorizontal: 8,
     color: constants.black1
   }
 });

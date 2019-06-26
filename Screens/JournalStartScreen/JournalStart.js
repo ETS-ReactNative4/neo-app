@@ -136,6 +136,7 @@ const styles = StyleSheet.create({
   startTitle: {
     ...constants.font24(constants.primarySemiBold),
     color: constants.black1,
+    marginHorizontal: 32,
     textAlign: "center",
     marginVertical: 32
   },

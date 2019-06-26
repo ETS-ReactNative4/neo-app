@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
     color: constants.black1,
     marginTop: 32,
     textAlign: "center",
-    marginHorizontal: 24
+    marginHorizontal: 32
   }
 });
 
