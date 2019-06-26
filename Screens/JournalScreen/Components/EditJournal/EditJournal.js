@@ -45,6 +45,7 @@ const EditJournal = ({
               const imageUrl = _.get(story, "coverImage.imageUrl");
               const imageUploadStatus = storyImageQueueStatus(story.storyId);
               const pendingImages = imageUploadStatus.pendingImages;
+              const completedImages = imageUploadStatus.completedImages;
               const uploadedImages = Object.keys(story.images || {}).length;
               return (
                 <JournalDayCard
@@ -60,7 +61,7 @@ const EditJournal = ({
                   shareTwitter={() => shareTwitter(story.title, story.url)}
                   isImageUploading={!!pendingImages}
                   pendingImages={pendingImages}
-                  totalImages={pendingImages + uploadedImages}
+                  totalImages={pendingImages + completedImages + uploadedImages}
                   isImageContained={_.get(story, "coverImage.contained")}
                 />
               );

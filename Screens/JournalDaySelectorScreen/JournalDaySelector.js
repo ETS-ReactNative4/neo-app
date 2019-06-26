@@ -130,6 +130,7 @@ class JournalDaySelector extends Component {
             const imageUrl = _.get(story, "coverImage.imageUrl");
             const imageUploadStatus = storyImageQueueStatus(story.storyId);
             const pendingImages = imageUploadStatus.pendingImages;
+            const completedImages = imageUploadStatus.completedImages;
             const uploadedImages = Object.keys(story.images || {}).length;
             return (
               <JournalDayCard
@@ -146,7 +147,7 @@ class JournalDaySelector extends Component {
                 deleteAction={() => this.deleteStory(story.storyId)}
                 isImageUploading={!!pendingImages}
                 pendingImages={pendingImages}
-                totalImages={pendingImages + uploadedImages}
+                totalImages={pendingImages + completedImages + uploadedImages}
                 isImageContained={_.get(story, "coverImage.contained")}
               />
             );

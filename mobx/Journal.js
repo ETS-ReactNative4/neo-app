@@ -615,7 +615,8 @@ class Journal {
         imagesList: imagesList.map(image => ({
           image,
           failureCount: 0
-        }))
+        })),
+        completedImages: []
       });
       /**
        * If the queue is not already running, start the queue
@@ -775,7 +776,11 @@ class Journal {
                * Successful image upload. Remove that image from the queue
                */
               console.log("Image uploaded! ------------------------------ ");
-              this._imageUploadQueue[0].imagesList.splice(imageIndex, 1);
+              const completedImage = this._imageUploadQueue[0].imagesList.splice(
+                imageIndex,
+                1
+              );
+              this._imageUploadQueue[0].completedImages.push(completedImage);
               this.startImageUploadQueue();
             })
             .catch(() => {
@@ -860,17 +865,32 @@ class Journal {
   });
 
   storyImageQueueStatus = createTransformer(storyId => {
-    if (this.imageUploadQueue.length) {
-      const story = this._imageUploadQueue.find(
-        storyDetails => storyId === storyDetails.storyId
-      );
-      if (story)
+    try {
+      if (this.imageUploadQueue.length) {
+        const story = this._imageUploadQueue.find(
+          storyDetails => storyId === storyDetails.storyId
+        );
+        if (story)
+          return {
+            pendingImages: story.imagesList.length,
+            completedImages: story.completedImages.length
+          };
         return {
-          pendingImages: story.imagesList.length
+          pendingImages: 0,
+          completedImages: 0
         };
-      return {};
-    } else {
-      return {};
+      } else {
+        return {
+          pendingImages: 0,
+          completedImages: 0
+        };
+      }
+    } catch (e) {
+      logError(e);
+      return {
+        pendingImages: 0,
+        completedImages: 0
+      };
     }
   });
 
