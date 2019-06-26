@@ -755,6 +755,11 @@ class Journal {
         const queueIndex = 0;
         const imageQueue = this._imageUploadQueue[queueIndex];
 
+        /**
+         * Reset completedImages array
+         */
+        this._imageUploadQueue[queueIndex].completedImages = [];
+
         console.log("------------------------------");
         console.log(toJS(imageQueue));
         console.log("------------------------------");
@@ -776,11 +781,19 @@ class Journal {
                * Successful image upload. Remove that image from the queue
                */
               console.log("Image uploaded! ------------------------------ ");
-              const completedImage = this._imageUploadQueue[0].imagesList.splice(
-                imageIndex,
-                1
+
+              /**
+               * Push the uploaded image to completed images array,
+               * Should be reset every time queue starts since the refresh call will update
+               * the data in the journal object
+               */
+              const completedImage = this._imageUploadQueue[
+                queueIndex
+              ].imagesList.splice(imageIndex, 1);
+              this._imageUploadQueue[queueIndex].completedImages.push(
+                completedImage
               );
-              this._imageUploadQueue[0].completedImages.push(completedImage);
+
               this.startImageUploadQueue();
             })
             .catch(() => {
