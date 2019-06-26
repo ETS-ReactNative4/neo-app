@@ -51,7 +51,7 @@ const ImagePreviewCard = ({
             icon={constants.trashCanIcon}
             containerStyle={styles.removeButton}
             onClick={() => removeImage(index)}
-            isSelected={isContain}
+            isSelected={false}
           />
         </Fragment>
       )}

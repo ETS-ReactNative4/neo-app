@@ -147,6 +147,7 @@ class JournalDaySelector extends Component {
                 isImageUploading={!!pendingImages}
                 pendingImages={pendingImages}
                 totalImages={pendingImages + uploadedImages}
+                isImageContained={_.get(story, "coverImage.contained")}
               />
             );
           }

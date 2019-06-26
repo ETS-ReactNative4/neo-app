@@ -26,7 +26,8 @@ const JournalDayCard = ({
   shareTwitter = () => null,
   isImageUploading,
   totalImages,
-  pendingImages
+  pendingImages,
+  isImageContained = false
 }) => {
   const percentage = (100 - pendingImages / totalImages * 100) / 100;
   return (
@@ -39,7 +40,7 @@ const JournalDayCard = ({
         <ImageBackground
           blurRadius={isActivated ? 0 : 5}
           source={image}
-          resizeMode={"cover"}
+          resizeMode={isImageContained ? "contain" : "cover"}
           style={styles.dayCardImage}
         >
           {isActivated ? null : (
@@ -131,7 +132,11 @@ JournalDayCard.propTypes = forbidExtraProps({
   deleteAction: PropTypes.func,
   isJournalPublished: PropTypes.bool,
   shareFacebook: PropTypes.func,
-  shareTwitter: PropTypes.func
+  shareTwitter: PropTypes.func,
+  isImageUploading: PropTypes.bool,
+  totalImages: PropTypes.number,
+  pendingImages: PropTypes.number,
+  isImageContained: PropTypes.bool
 });
 
 const styles = StyleSheet.create({
@@ -145,7 +150,7 @@ const styles = StyleSheet.create({
     ...constants.elevationTwo
   },
   dayCardImage: {
-    backgroundColor: "white",
+    backgroundColor: constants.shade5,
     height: 164
   },
   imageOverlay: {
