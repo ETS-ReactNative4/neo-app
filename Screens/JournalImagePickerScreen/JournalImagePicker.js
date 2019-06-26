@@ -183,9 +183,7 @@ class JournalImagePicker extends Component {
           selectedImagesList[selectedImageIndex].isContain = false;
           this.setState({ selectedImagesList }, () => {
             NativeImagePicker.clean()
-              .then(() => {
-                console.log("removed all tmp images from tmp directory");
-              })
+              .then(() => {})
               .catch(e => {
                 logError(e);
               });
