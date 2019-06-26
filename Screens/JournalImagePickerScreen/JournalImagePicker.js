@@ -27,6 +27,8 @@ import { inject, observer } from "mobx-react/custom";
 import { observable, toJS } from "mobx";
 import DebouncedAlert from "../../CommonComponents/DebouncedAlert/DebouncedAlert";
 import { toastBottom } from "../../Services/toast/toast";
+import ImagePermissionDenied from "./Components/ImagePermissionsDenied";
+import openAppSettings from "../../Services/openAppSettings/openAppSettings";
 
 let _headerData = observable({
   selectedImagesCount: 0
@@ -79,7 +81,8 @@ class JournalImagePicker extends Component {
     selectedImagesList: [],
     hasNextPage: false,
     selectedFolder: "all",
-    preSelectedImages: []
+    preSelectedImages: [],
+    isPermissionDenied: false
   };
 
   constructor(props) {
@@ -131,30 +134,40 @@ class JournalImagePicker extends Component {
         );
       })
       .catch(err => {
-        logError(err);
+        this.setState({
+          isPermissionDenied: true
+        });
+        if (err.message !== "Access to photo library was denied") {
+          logError(err);
+        }
       });
   };
 
   onChangeFolder = selectedFolder => this.setState({ selectedFolder });
 
   componentDidMount() {
-    if (Platform.OS === constants.platformAndroid) {
-      getReadFilePermissionAndroid(
-        () => this.fetchImages(),
-        () => null,
-        () => null
-      );
-    } else {
-      this.fetchImages();
-    }
-    const storyId = this.props.navigation.getParam("activeStory", "");
-    const pageId = this.props.navigation.getParam("activePage", "");
+    /**
+     * Timeout needed to let the screen complete it's transition
+     */
+    setTimeout(() => {
+      if (Platform.OS === constants.platformAndroid) {
+        getReadFilePermissionAndroid(
+          () => this.fetchImages(),
+          () => null,
+          () => null
+        );
+      } else {
+        this.fetchImages();
+      }
+      const storyId = this.props.navigation.getParam("activeStory", "");
+      const pageId = this.props.navigation.getParam("activePage", "");
 
-    const { getImagesById } = this.props.journalStore;
-    const preSelectedImages = getImagesById({ storyId, pageId });
-    this.setState({
-      preSelectedImages
-    });
+      const { getImagesById } = this.props.journalStore;
+      const preSelectedImages = getImagesById({ storyId, pageId });
+      this.setState({
+        preSelectedImages
+      });
+    }, 600);
   }
 
   cropImage = (selectedImageIndex, uri) => {
@@ -371,7 +384,15 @@ class JournalImagePicker extends Component {
     this.clearSelection();
   };
 
+  openAppSettings = () => {
+    openAppSettings();
+  };
+
   render() {
+    if (this.state.isPermissionDenied) {
+      return <ImagePermissionDenied action={this.openAppSettings} />;
+    }
+
     const {
       selectedImagesList,
       imagesList,

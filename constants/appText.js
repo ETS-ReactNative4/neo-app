@@ -82,7 +82,9 @@ const appText = {
     failedToPublishJournal:
       "Unable to publish this story. Please check your internet connection and try again after some time.",
     failedToDeleteImage:
-      "Unable to delete the image. Please check your internet connection and try again after some time."
+      "Unable to delete the image. Please check your internet connection and try again after some time.",
+    userDeniedImagePermission:
+      "To select and upload your images, please grant access to your photos."
   },
   journalAlertMessages: {
     removeImage: {
