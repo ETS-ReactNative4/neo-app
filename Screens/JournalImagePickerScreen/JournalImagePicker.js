@@ -182,13 +182,13 @@ class JournalImagePicker extends Component {
           selectedImagesList[selectedImageIndex].croppedImage = croppedImage;
           selectedImagesList[selectedImageIndex].isContain = false;
           this.setState({ selectedImagesList }, () => {
-            // NativeImagePicker.clean()
-            //   .then(() => {
-            //     console.log("removed all tmp images from tmp directory");
-            //   })
-            //   .catch(e => {
-            //     alert(e);
-            //   });
+            NativeImagePicker.clean()
+              .then(() => {
+                console.log("removed all tmp images from tmp directory");
+              })
+              .catch(e => {
+                logError(e);
+              });
           });
           /**
            * Used to update the original image map if needed
