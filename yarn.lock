@@ -10489,16 +10489,15 @@ react-native-card-stack-swiper@^1.1.0:
   dependencies:
     prop-types "15.5.10"
 
-react-native-cn-richtext-editor@^1.0.37:
-  version "1.0.37"
-  resolved "https://registry.yarnpkg.com/react-native-cn-richtext-editor/-/react-native-cn-richtext-editor-1.0.37.tgz#dc1fe33b2a36e82aed3782a9523ef79c45f3bbcb"
-  integrity sha512-qdetqUf+9rhi2HRyd6881U57FUdMCRyNYIfuiIY98OhKVuu4F+JyUO2d55YAv7iCqBJ/vFLGOXg8Eo5x6WlzxA==
+"react-native-cn-richtext-editor@git://github.com/DaniAkash/react-native-cn-richtext-editor.git#075caee0db9483172161301cfba32cc3cbf208da":
+  version "1.0.31"
+  resolved "git://github.com/DaniAkash/react-native-cn-richtext-editor.git#075caee0db9483172161301cfba32cc3cbf208da"
   dependencies:
     diff-match-patch "^1.0.4"
     immutability-helper "^2.8.1"
     lodash "^4.17.11"
     shortid "^2.2.14"
-    xmldom "^0.1.27"
+    xmldoc "^1.1.2"
 
 react-native-collapsible@^1.2.1:
   version "1.2.1"
@@ -11707,7 +11706,7 @@ sane@^2.0.0:
   optionalDependencies:
     fsevents "^1.1.1"
 
-sax@>=0.6.0, sax@^1.2.4:
+sax@>=0.6.0, sax@^1.2.1, sax@^1.2.4:
   version "1.2.4"
   resolved "https://registry.yarnpkg.com/sax/-/sax-1.2.4.tgz#2816234e2378bddc4e5354fab5caa895df7100d9"
   integrity sha512-NqVDv9TpANUjFm0N8uM5GxL36UgKi9/atZw+x7YFnQ8ckwFGKrl4xX4yWtrey3UJm5nP1kUbnYgLopqWNSRhWw==
@@ -13382,7 +13381,14 @@ xmldoc@^0.4.0:
   dependencies:
     sax "~1.1.1"
 
-xmldom@0.1.x, xmldom@^0.1.27:
+xmldoc@^1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/xmldoc/-/xmldoc-1.1.2.tgz#6666e029fe25470d599cd30e23ff0d1ed50466d7"
+  integrity sha512-ruPC/fyPNck2BD1dpz0AZZyrEwMOrWTO5lDdIXS91rs3wtm4j+T8Rp2o+zoOYkkAxJTZRPOSnOGei1egoRmKMQ==
+  dependencies:
+    sax "^1.2.1"
+
+xmldom@0.1.x:
   version "0.1.27"
   resolved "https://registry.yarnpkg.com/xmldom/-/xmldom-0.1.27.tgz#d501f97b3bdb403af8ef9ecc20573187aadac0e9"
   integrity sha1-1QH5ezvbQDr4757MIFcxh6rawOk=
