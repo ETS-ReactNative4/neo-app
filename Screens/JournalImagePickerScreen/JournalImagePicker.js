@@ -539,8 +539,9 @@ class JournalImagePicker extends Component {
           extraData={this.state}
           keyExtractor={this._keyExtractor}
           onEndReached={this.listEndReached}
-          initialNumToRender={5}
-          maxToRenderPerBatch={10}
+          // initialNumToRender={5}
+          // maxToRenderPerBatch={10}
+          removeClippedSubviews={Platform.OS !== constants.platformIos}
         />
         {selectedImagesList.length ? (
           <SimpleButton
