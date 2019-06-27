@@ -148,12 +148,16 @@ class JournalTextEditor extends Component {
   }
 
   imageThumbnailClick = () => {
-    this.backHandler({
-      backToImagePicker: true
+    const isEditMode = this.props.navigation.getParam("isEditMode", false);
+    const activeStory = this.props.navigation.getParam("activeStory", "");
+    const activePage = this.props.navigation.getParam("activePage", "");
+    this.props.navigation.navigate("JournalImagePicker", {
+      activeStory,
+      activePage
     });
   };
 
-  backHandler = ({ backToImagePicker = false } = {}) => {
+  backHandler = () => {
     DebouncedAlert(
       constants.journalBackConfirmation.textEditor.title,
       constants.journalBackConfirmation.textEditor.message,
@@ -162,12 +166,10 @@ class JournalTextEditor extends Component {
           text: constants.journalBackConfirmation.textEditor.negative,
           onPress: () => {
             const isEditMode = this.props.navigation.getParam(
-              "activeStory",
+              "isEditMode",
               false
             );
-            if (backToImagePicker) {
-              this.props.navigation.goBack();
-            } else if (isEditMode) {
+            if (isEditMode) {
               this.props.navigation.pop(2);
             } else {
               this.props.navigation.goBack();

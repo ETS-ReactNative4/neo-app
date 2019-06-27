@@ -164,14 +164,14 @@ class Journal extends Component {
   };
 
   editStory = (activePage, activeStory) => {
-    const pushAction = StackActions.push({
-      routeName: "JournalImagePicker",
-      params: {
-        activePage,
-        activeStory
-      }
-    });
-    const secondPushAction = StackActions.push({
+    // const pushAction = StackActions.push({
+    //   routeName: "JournalImagePicker",
+    //   params: {
+    //     activePage,
+    //     activeStory
+    //   }
+    // });
+    const pushToTextEditor = StackActions.push({
       routeName: "JournalTextEditor",
       params: {
         selectedImagesList: [],
@@ -180,8 +180,8 @@ class Journal extends Component {
         isEditMode: true
       }
     });
-    this.props.navigation.dispatch(pushAction);
-    this.props.navigation.dispatch(secondPushAction);
+    // this.props.navigation.dispatch(pushAction);
+    this.props.navigation.dispatch(pushToTextEditor);
   };
 
   deleteStory = storyId => {
