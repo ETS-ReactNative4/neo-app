@@ -17,6 +17,7 @@ import { recordEvent } from "../../Services/analytics/analyticsService";
 import SimpleButton from "../../CommonComponents/SimpleButton/SimpleButton";
 import Share from "react-native-share";
 import { singleShare } from "../../Services/shareService/share";
+import { StackActions } from "react-navigation";
 
 let _publishJournal;
 let _shareJournal;
@@ -163,10 +164,24 @@ class Journal extends Component {
   };
 
   editStory = (activePage, activeStory) => {
-    this.props.navigation.navigate("JournalImagePicker", {
-      activePage,
-      activeStory
+    const pushAction = StackActions.push({
+      routeName: "JournalImagePicker",
+      params: {
+        activePage,
+        activeStory
+      }
     });
+    const secondPushAction = StackActions.push({
+      routeName: "JournalTextEditor",
+      params: {
+        selectedImagesList: [],
+        activeStory,
+        activePage,
+        isEditMode: true
+      }
+    });
+    this.props.navigation.dispatch(pushAction);
+    this.props.navigation.dispatch(secondPushAction);
   };
 
   deleteStory = storyId => {

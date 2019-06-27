@@ -147,7 +147,13 @@ class JournalTextEditor extends Component {
     });
   }
 
-  backHandler = () => {
+  imageThumbnailClick = () => {
+    this.backHandler({
+      backToImagePicker: true
+    });
+  };
+
+  backHandler = ({ backToImagePicker = false } = {}) => {
     DebouncedAlert(
       constants.journalBackConfirmation.textEditor.title,
       constants.journalBackConfirmation.textEditor.message,
@@ -155,7 +161,17 @@ class JournalTextEditor extends Component {
         {
           text: constants.journalBackConfirmation.textEditor.negative,
           onPress: () => {
-            this.props.navigation.goBack();
+            const isEditMode = this.props.navigation.getParam(
+              "activeStory",
+              false
+            );
+            if (backToImagePicker) {
+              this.props.navigation.goBack();
+            } else if (isEditMode) {
+              this.props.navigation.pop(2);
+            } else {
+              this.props.navigation.goBack();
+            }
           },
           style: "destructive"
         },
@@ -192,6 +208,7 @@ class JournalTextEditor extends Component {
                 (preSelectedImage, preSelectedImageIndex) => {
                   return (
                     <ImagePreviewThumbnail
+                      action={this.imageThumbnailClick}
                       key={preSelectedImageIndex}
                       imageStyle={styles.thumbnailImage}
                       imageSource={{
@@ -205,6 +222,7 @@ class JournalTextEditor extends Component {
                 return (
                   <ImagePreviewThumbnail
                     key={imageIndex}
+                    action={this.imageThumbnailClick}
                     imageStyle={styles.thumbnailImage}
                     imageSource={{
                       uri:
