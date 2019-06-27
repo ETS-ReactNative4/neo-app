@@ -30,11 +30,13 @@ import DebouncedAlert from "../../CommonComponents/DebouncedAlert/DebouncedAlert
 import { toastBottom } from "../../Services/toast/toast";
 import ImagePermissionDenied from "./Components/ImagePermissionsDenied";
 import openAppSettings from "../../Services/openAppSettings/openAppSettings";
+import BackHandlerHoc from "../../CommonComponents/BackHandlerHoc/BackHandlerHoc";
 
 let _headerData = observable({
   selectedImagesCount: 0
 });
 let _confirmSelection = () => null;
+let _backHandler = () => null;
 
 const HeaderRightButton = observer(({ headerData }) => {
   return (
@@ -57,6 +59,7 @@ const HeaderRightButton = observer(({ headerData }) => {
 });
 
 @ErrorBoundary()
+@BackHandlerHoc(() => _backHandler())
 @inject("journalStore")
 @observer
 class JournalImagePicker extends Component {
@@ -66,6 +69,7 @@ class JournalImagePicker extends Component {
         <CommonHeader
           title={"Select Media"}
           navigation={navigation}
+          leftAction={() => _backHandler()}
           RightButton={<HeaderRightButton headerData={_headerData} />}
         />
       )
@@ -106,6 +110,7 @@ class JournalImagePicker extends Component {
     super(props);
 
     _confirmSelection = this.confirmSelection;
+    _backHandler = this.backHandler;
   }
 
   previewImage = uri => {
@@ -280,12 +285,6 @@ class JournalImagePicker extends Component {
       constants.journalAlertMessages.removeImage.message,
       [
         {
-          text: constants.journalAlertMessages.removeImage.cancel,
-          onPress: () => {
-            return null;
-          }
-        },
-        {
           text: constants.journalAlertMessages.removeImage.confirm,
           onPress: () => {
             deleteImage(storyId, requiredImage.imageId)
@@ -303,6 +302,12 @@ class JournalImagePicker extends Component {
               });
           },
           style: "destructive"
+        },
+        {
+          text: constants.journalAlertMessages.removeImage.cancel,
+          onPress: () => {
+            return null;
+          }
         }
       ],
       { cancelable: false }
@@ -420,6 +425,34 @@ class JournalImagePicker extends Component {
 
   openAppSettings = () => {
     openAppSettings();
+  };
+
+  backHandler = () => {
+    if (!this.state.selectedImagesList.length) {
+      this.props.navigation.goBack();
+      return true;
+    }
+    DebouncedAlert(
+      constants.journalBackConfirmation.imagePicker.title,
+      constants.journalBackConfirmation.imagePicker.message,
+      [
+        {
+          text: constants.journalBackConfirmation.imagePicker.negative,
+          onPress: () => {
+            this.props.navigation.goBack();
+          },
+          style: "destructive"
+        },
+        {
+          text: constants.journalBackConfirmation.imagePicker.positive,
+          onPress: () => null
+        }
+      ],
+      {
+        cancelable: false
+      }
+    );
+    return true;
   };
 
   render() {

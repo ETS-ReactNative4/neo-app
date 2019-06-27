@@ -10,10 +10,13 @@ import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import _ from "lodash";
 import { inject, observer } from "mobx-react/custom";
 import DebouncedAlert from "../../CommonComponents/DebouncedAlert/DebouncedAlert";
+import BackHandlerHoc from "../../CommonComponents/BackHandlerHoc/BackHandlerHoc";
 
 let _submitStory = () => null;
+let _backHandler = () => null;
 
 @ErrorBoundary()
+@BackHandlerHoc(() => _backHandler())
 @inject("journalStore")
 @observer
 class JournalTextEditor extends Component {
@@ -23,6 +26,7 @@ class JournalTextEditor extends Component {
         <CommonHeader
           title={"Write Story"}
           navigation={navigation}
+          leftAction={() => _backHandler()}
           RightButton={
             <SimpleButton
               action={() => {
@@ -59,6 +63,7 @@ class JournalTextEditor extends Component {
     super(props);
 
     _submitStory = this.submitStory;
+    _backHandler = this.backHandler;
   }
 
   getRichText = richText => {
@@ -77,21 +82,28 @@ class JournalTextEditor extends Component {
   };
 
   submitStory = () => {
-    const richText =
-      this._textEditorRef.current &&
-      this._textEditorRef.current.retrieveRichText();
-    const { submitStory } = this.props.journalStore;
-    const activeStory = this.props.navigation.getParam("activeStory", "");
-    submitStory(activeStory, this.state.title, richText)
-      .then(() => {
-        this.props.navigation.pop(2);
-      })
-      .catch(() => {
-        DebouncedAlert(
-          constants.journalFailureMessages.title,
-          constants.journalFailureMessages.failedToSubmitJournalStory
-        );
-      });
+    if (!this.state.title) {
+      DebouncedAlert(
+        constants.journalAlertMessages.noTitleForStory.header,
+        constants.journalAlertMessages.noTitleForStory.message
+      );
+    } else {
+      const richText =
+        this._textEditorRef.current &&
+        this._textEditorRef.current.retrieveRichText();
+      const { submitStory } = this.props.journalStore;
+      const activeStory = this.props.navigation.getParam("activeStory", "");
+      submitStory(activeStory, this.state.title, richText)
+        .then(() => {
+          this.props.navigation.pop(2);
+        })
+        .catch(() => {
+          DebouncedAlert(
+            constants.journalFailureMessages.title,
+            constants.journalFailureMessages.failedToSubmitJournalStory
+          );
+        });
+    }
   };
 
   editTitle = title => this.setState({ title });
@@ -134,6 +146,30 @@ class JournalTextEditor extends Component {
       selectedImagesList
     });
   }
+
+  backHandler = () => {
+    DebouncedAlert(
+      constants.journalBackConfirmation.textEditor.title,
+      constants.journalBackConfirmation.textEditor.message,
+      [
+        {
+          text: constants.journalBackConfirmation.textEditor.negative,
+          onPress: () => {
+            this.props.navigation.goBack();
+          },
+          style: "destructive"
+        },
+        {
+          text: constants.journalBackConfirmation.textEditor.positive,
+          onPress: () => null
+        }
+      ],
+      {
+        cancelable: false
+      }
+    );
+    return true;
+  };
 
   render() {
     const isTextEditorActive =

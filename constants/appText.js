@@ -76,11 +76,11 @@ const appText = {
     message: "Become a travel blogger on the go!"
   },
   journalFailureMessages: {
-    title: "Bad Connection :(",
+    title: "Your connection :(",
     failedToSubmitJournalTitle:
       "Unable to create journal. Please check your internet connection and try again after some time.",
     failedToSubmitJournalStory:
-      "Unable to submit your story.  Please check your internet connection and try again after some time.",
+      "We’re unable to publish your post right now. Could you please try again in some time?",
     failedToCreateNewStory:
       "Unable to create a new story. Please check your internet connection and try again after some time.",
     failedToPublishJournal:
@@ -91,6 +91,36 @@ const appText = {
       `To select and upload your images, please grant access to your ${
         Platform.OS === constants.platformIos ? "photos" : "storage"
       }.`
+  },
+  journalBackConfirmation: {
+    imagePicker: {
+      title: "Sure you want to go back?",
+      message:
+        "You’ll lose your selection if you choose to go back. Would you still like to proceed?",
+      positive: "Stay here",
+      negative: "Proceed anyway"
+    },
+    textEditor: {
+      title: "Sure you want to go back?",
+      message:
+        "We haven’t saved your thoughts yet and we’d hate to have to delete them. Still want to go back?",
+      positive: "Stay here",
+      negative: "Proceed anyway"
+    },
+    journalTitleCreation: {
+      title: "Sure you want to go back?",
+      message:
+        "We won’t be able to save your data if you choose to go back. Are you sure you want to proceed?",
+      positive: "Stay here",
+      negative: "Proceed anyway"
+    },
+    journalEditingTitle: {
+      title: "Sure you want to go back?",
+      message:
+        "We won’t be able to save your data if you choose to go back. Are you sure you want to proceed?",
+      positive: "Stay here",
+      negative: "Proceed anyway"
+    }
   },
   journalAlertMessages: {
     removeImage: {
@@ -104,6 +134,10 @@ const appText = {
       header: "Your images are being uploaded.",
       message:
         "You cannot logout during an active image upload. Please wait till all the images are uploaded."
+    },
+    noTitleForStory: {
+      header: "Please add a story title",
+      message: "You cannot create a story without title"
     }
   },
   bookingFailedText: "No Voucher available",

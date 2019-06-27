@@ -8,8 +8,12 @@ import SimpleButton from "../../CommonComponents/SimpleButton/SimpleButton";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import { inject, observer } from "mobx-react/custom";
 import DebouncedAlert from "../../CommonComponents/DebouncedAlert/DebouncedAlert";
+import BackHandlerHoc from "../../CommonComponents/BackHandlerHoc/BackHandlerHoc";
+
+let _backHandler = () => null;
 
 @ErrorBoundary()
+@BackHandlerHoc(() => _backHandler())
 @inject("journalStore")
 @observer
 class JournalStart extends Component {
@@ -18,6 +22,7 @@ class JournalStart extends Component {
     return {
       header: (
         <CommonHeader
+          leftAction={() => _backHandler()}
           title={isEditing ? "Journal Setup" : "Journal Start"}
           navigation={navigation}
         />
@@ -31,6 +36,12 @@ class JournalStart extends Component {
     title: "",
     description: ""
   };
+
+  constructor(props) {
+    super(props);
+
+    _backHandler = this.backHandler;
+  }
 
   editTitle = title => this.setState({ title });
 
@@ -70,6 +81,67 @@ class JournalStart extends Component {
   }
 
   submitTitle = () => this._descRef.current && this._descRef.current.focus();
+
+  backHandler = () => {
+    const isEditing = this.props.navigation.getParam("isEditing", false);
+    const { journalTitle, journalDesc } = this.props.journalStore;
+    /**
+     * Editing mode, user made some changes
+     */
+    if (
+      isEditing &&
+      (this.state.title !== journalTitle ||
+        this.state.description !== journalDesc)
+    ) {
+      DebouncedAlert(
+        constants.journalBackConfirmation.journalEditingTitle.title,
+        constants.journalBackConfirmation.journalEditingTitle.message,
+        [
+          {
+            text:
+              constants.journalBackConfirmation.journalEditingTitle.negative,
+            onPress: () => {
+              this.props.navigation.goBack();
+            },
+            style: "destructive"
+          },
+          {
+            text:
+              constants.journalBackConfirmation.journalEditingTitle.positive,
+            onPress: () => null
+          }
+        ],
+        { cancelable: false }
+      );
+    } else if (!isEditing && (this.state.title || this.state.description)) {
+      /**
+       * Fresh creation mode, user made some changes
+       */
+      DebouncedAlert(
+        constants.journalBackConfirmation.journalTitleCreation.title,
+        constants.journalBackConfirmation.journalTitleCreation.message,
+        [
+          {
+            text:
+              constants.journalBackConfirmation.journalTitleCreation.negative,
+            onPress: () => {
+              this.props.navigation.goBack();
+            },
+            style: "destructive"
+          },
+          {
+            text:
+              constants.journalBackConfirmation.journalTitleCreation.positive,
+            onPress: () => null
+          }
+        ],
+        { cancelable: false }
+      );
+    } else {
+      this.props.navigation.goBack();
+    }
+    return true;
+  };
 
   render() {
     const { journalStartData } = this.props.journalStore;
