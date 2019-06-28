@@ -860,6 +860,21 @@ class Journal {
   });
 
   /**
+   * Get a page based on pageId
+   */
+  getPageById = createTransformer(({ pageId }) => {
+    try {
+      const requiredPage = this.journalDetails.journal.pages.find(
+        page => page.pageId === pageId
+      );
+      return requiredPage || {};
+    } catch (e) {
+      logError(e);
+      return {};
+    }
+  });
+
+  /**
    * Get a story based on the pageId and storyId
    */
   getStoryById = createTransformer(({ pageId, storyId }) => {

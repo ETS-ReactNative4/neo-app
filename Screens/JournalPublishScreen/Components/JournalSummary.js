@@ -1,16 +1,10 @@
-import React, { Fragment } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  ImageBackground,
-  TouchableOpacity
-} from "react-native";
+import React from "react";
+import { View, Text, StyleSheet, ImageBackground } from "react-native";
 import constants from "../../../constants/constants";
-import LinearGradient from "react-native-linear-gradient";
-import Icon from "../../../CommonComponents/Icon/Icon";
 import JournalShareIconContainer from "./JournalShareIconContainer";
 import JournalCardGradientWrapper from "./JournalCardGradientWrapper";
+import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraProps";
+import PropTypes from "prop-types";
 
 const JournalSummary = ({
   isPublished,
@@ -43,6 +37,15 @@ const JournalSummary = ({
     </ImageBackground>
   );
 };
+
+JournalSummary.propTypes = forbidExtraProps({
+  isPublished: PropTypes.bool.isRequired,
+  title: PropTypes.string.isRequired,
+  shareAction: PropTypes.func.isRequired,
+  facebookAction: PropTypes.func.isRequired,
+  twitterAction: PropTypes.func.isRequired,
+  image: PropTypes.oneOfType([PropTypes.object, PropTypes.number]).isRequired
+});
 
 const styles = StyleSheet.create({
   journalSummaryContainer: {
