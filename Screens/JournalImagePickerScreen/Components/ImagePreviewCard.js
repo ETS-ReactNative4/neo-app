@@ -19,14 +19,30 @@ const ImagePreviewCard = ({
   removeImage = () => null,
   isPreselected = false
 }) => {
+  let ImageWrapper, imageProps;
+  if (
+    previewImage.uri &&
+    (previewImage.uri.startsWith(constants.httpPrefix) ||
+      previewImage.uri.startsWith(constants.httpsPrefix))
+  ) {
+    ImageWrapper = FastImage;
+    imageProps = {
+      resizeMode: isContain
+        ? FastImage.resizeMode.contain
+        : FastImage.resizeMode.cover
+    };
+  } else {
+    ImageWrapper = Image;
+    imageProps = {
+      resizeMode: isContain ? "contain" : "cover"
+    };
+  }
   return (
     <View style={styles.imagePreviewCardContainer}>
-      <FastImage
+      <ImageWrapper
         style={styles.previewImage}
         source={isContain ? { uri: imageUri } : previewImage}
-        resizeMode={
-          isContain ? FastImage.resizeMode.contain : FastImage.resizeMode.cover
-        }
+        {...imageProps}
       />
       {!isPreselected ? (
         <Fragment>
