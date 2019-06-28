@@ -20,12 +20,19 @@ class JournalSetup extends Component {
   };
 
   navigateToDaySelector = page => {
-    this.props.navigation.navigate("JournalDaySelector", {
-      activePage: page.pageId,
-      pageTitle: page.pageDateStr,
-      title: page.title,
-      info: page.info
-    });
+    if (page.stories.length) {
+      this.props.navigation.navigate("JournalDaySelector", {
+        activePage: page.pageId,
+        pageTitle: page.pageDateStr,
+        title: page.title,
+        info: page.info
+      });
+    } else {
+      this.props.navigation.navigate("JournalImagePicker", {
+        activePage: page.pageId,
+        activeStory: ""
+      });
+    }
   };
 
   render() {
