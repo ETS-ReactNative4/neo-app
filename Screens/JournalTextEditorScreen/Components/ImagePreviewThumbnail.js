@@ -2,6 +2,7 @@ import React from "react";
 import { Image, TouchableOpacity } from "react-native";
 import PropTypes from "prop-types";
 import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraProps";
+import FastImage from "react-native-fast-image";
 
 const ImagePreviewThumbnail = ({
   imageStyle = {},
@@ -10,7 +11,7 @@ const ImagePreviewThumbnail = ({
 }) => {
   return (
     <TouchableOpacity onPress={action}>
-      <Image style={imageStyle} source={imageSource} />
+      <FastImage style={imageStyle} source={imageSource} />
     </TouchableOpacity>
   );
 };

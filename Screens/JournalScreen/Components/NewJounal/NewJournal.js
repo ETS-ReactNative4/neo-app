@@ -5,6 +5,7 @@ import forbidExtraProps from "../../../../Services/PropTypeValidation/forbidExtr
 import SimpleButton from "../../../../CommonComponents/SimpleButton/SimpleButton";
 import { responsiveWidth } from "react-native-responsive-dimensions";
 import constants from "../../../../constants/constants";
+import FastImage from "react-native-fast-image";
 
 const NewJournal = ({
   title,
@@ -15,8 +16,8 @@ const NewJournal = ({
 }) => {
   return (
     <View style={styles.newJournalContainer}>
-      <Image
-        resizeMode={"cover"}
+      <FastImage
+        resizeMode={FastImage.resizeMode.cover}
         style={styles.newJournalIllustration}
         source={image}
       />

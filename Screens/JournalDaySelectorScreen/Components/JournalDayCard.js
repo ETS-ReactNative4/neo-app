@@ -13,6 +13,7 @@ import Icon from "../../../CommonComponents/Icon/Icon";
 import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraProps";
 import SimpleButton from "../../../CommonComponents/SimpleButton/SimpleButton";
 import * as Progress from "react-native-progress";
+import FastImage from "react-native-fast-image";
 
 const JournalDayCard = ({
   image,
@@ -37,10 +38,14 @@ const JournalDayCard = ({
       style={styles.journalDayCardContainer}
     >
       {image ? (
-        <ImageBackground
+        <FastImage
           blurRadius={isActivated ? 0 : 5}
           source={image}
-          resizeMode={isImageContained ? "contain" : "cover"}
+          resizeMode={
+            isImageContained
+              ? FastImage.resizeMode.contain
+              : FastImage.resizeMode.cover
+          }
           style={styles.dayCardImage}
         >
           {isActivated ? null : (
@@ -48,7 +53,7 @@ const JournalDayCard = ({
               <Icon name={constants.addImageIcon} color={"white"} size={24} />
             </View>
           )}
-        </ImageBackground>
+        </FastImage>
       ) : null}
       <Text numberOfLines={2} ellipsizeMode={"tail"} style={styles.infoText}>
         {info}

@@ -6,6 +6,7 @@ import PropTypes from "prop-types";
 import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraProps";
 import PreviewControlButton from "./PreviewControlButtons";
 import ImagePositionIndicator from "./ImagePositionIndicator";
+import FastImage from "react-native-fast-image";
 
 const ImagePreviewCard = ({
   index,
@@ -20,10 +21,12 @@ const ImagePreviewCard = ({
 }) => {
   return (
     <View style={styles.imagePreviewCardContainer}>
-      <Image
+      <FastImage
         style={styles.previewImage}
         source={isContain ? { uri: imageUri } : previewImage}
-        resizeMode={isContain ? "contain" : "cover"}
+        resizeMode={
+          isContain ? FastImage.resizeMode.contain : FastImage.resizeMode.cover
+        }
       />
       {!isPreselected ? (
         <Fragment>
