@@ -1,6 +1,14 @@
 import React, { Component } from "react";
 import { BackHandler } from "react-native";
 
+/**
+ * Handles the default android back button action
+ * and the native swipe back gesture of the screens
+ *
+ * => BackHandler will be binded to the event listeners so make sure the actual
+ * handler is not a direct function but is executed inside another function.
+ * `handler = () => yourFunction()`
+ */
 const BackHandlerHoc = (backHandler = () => false) => WrappedComponent => {
   WrappedComponent.navigationOptions.gesturesEnabled = false;
 
