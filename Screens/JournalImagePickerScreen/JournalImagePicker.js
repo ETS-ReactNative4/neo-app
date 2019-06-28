@@ -575,27 +575,29 @@ class JournalImagePicker extends Component {
           // maxToRenderPerBatch={10}
           removeClippedSubviews={Platform.OS !== constants.platformIos}
         />
-        {selectedImagesList.length ? (
-          <SimpleButton
-            containerStyle={{
-              position: "absolute",
-              right: 40,
-              bottom: 40,
-              borderRadius: 2,
-              height: 45,
-              width: 170,
-              marginTop: 32
-            }}
-            textStyle={{ marginRight: 8 }}
-            icon={constants.arrowRight}
-            iconSize={12}
-            rightIcon={true}
-            underlayColor={constants.firstColorAlpha(0.8)}
-            action={this.confirmSelection}
-            text={"Continue"}
-            textColor={"white"}
-          />
-        ) : null}
+        {/*
+          selectedImagesList.length ? (
+            <SimpleButton
+              containerStyle={{
+                position: "absolute",
+                right: 40,
+                bottom: 40,
+                borderRadius: 2,
+                height: 45,
+                width: 170,
+                marginTop: 32
+              }}
+              textStyle={{ marginRight: 8 }}
+              icon={constants.arrowRight}
+              iconSize={12}
+              rightIcon={true}
+              underlayColor={constants.firstColorAlpha(0.8)}
+              action={this.confirmSelection}
+              text={"Continue"}
+              textColor={"white"}
+            />
+          ) : null
+        */}
       </View>
     );
   }
