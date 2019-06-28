@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { BackHandler } from "react-native";
 
 const BackHandlerHoc = (backHandler = () => false) => WrappedComponent => {
+  WrappedComponent.navigationOptions.gesturesEnabled = false;
+
   return class extends Component {
     static navigationOptions = WrappedComponent.navigationOptions;
 
