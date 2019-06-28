@@ -187,18 +187,22 @@ class Journal extends Component {
   deleteStory = storyId => {
     const { deleteStory } = this.props.journalStore;
     DebouncedAlert(
-      "Are you sure?",
-      "Deleting a story is an irreversible action",
+      constants.journalAlertMessages.removeStory.header,
+      constants.journalAlertMessages.removeStory.message,
       [
         {
-          text: "Yes",
+          text: constants.journalAlertMessages.removeStory.confirm,
           onPress: () =>
             deleteStory(storyId).catch(() =>
-              DebouncedAlert("Error!", "Failed to delete the story!")
-            )
+              DebouncedAlert(
+                constants.journalFailureMessages.title,
+                constants.journalFailureMessages.failedToDeleteStory
+              )
+            ),
+          style: "destructive"
         },
         {
-          text: "No",
+          text: constants.journalAlertMessages.removeStory.cancel,
           onPress: () => null
         }
       ],
