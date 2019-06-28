@@ -25,13 +25,26 @@ import { StackActions, NavigationActions } from "react-navigation";
 import Share from "react-native-share";
 import { share, singleShare } from "../../Services/shareService/share";
 import openCustomTab from "../../Services/openCustomTab/openCustomTab";
+import BackHandlerHoc from "../../CommonComponents/BackHandlerHoc/BackHandlerHoc";
+import StorySummary from "./Components/StorySummary";
+import _ from "lodash";
 
 const resetAction = StackActions.reset({
   index: 0,
   actions: [NavigationActions.navigate({ routeName: "JournalHome" })]
 });
 
+/**
+ * Has two modes handled by `isStoryMode` flag
+ * - Story mode will show publish card for a specific story
+ * - Normal mode will show publish card for the entire journal
+ *
+ * Submit functionality will wait for image upload queue to finish running
+ * before submitting the journal. So make sure the image upload queue is started
+ * and is active before you navigate user to this screen.
+ */
 @ErrorBoundary()
+@BackHandlerHoc()
 @inject("journalStore")
 @observer
 class JournalPublish extends Component {
@@ -48,6 +61,9 @@ class JournalPublish extends Component {
   };
   _waitForImageQueue;
 
+  /**
+   * This will loop the background spinning animation
+   */
   loopLoading() {
     Animated.loop(
       Animated.sequence([
@@ -85,6 +101,10 @@ class JournalPublish extends Component {
     });
   }
 
+  /**
+   * Last sequence of the background animation that will
+   * hide it behind the card.
+   */
   loopEnd = () => {
     Animated.timing(this.state.publishEndAnimationTiming, {
       toValue: 1,
@@ -94,6 +114,10 @@ class JournalPublish extends Component {
     }).start();
   };
 
+  /**
+   * Animates the tick option once the journal is
+   * successfully submitted.
+   */
   animateSuccess = () => {
     Animated.timing(this.state.publishSuccessAnimationTiming, {
       toValue: 1,
@@ -106,6 +130,13 @@ class JournalPublish extends Component {
   componentDidMount() {
     this.loopLoading();
 
+    /**
+     * Publish action
+     * - Will check if image upload queue is running
+     * every 5 seconds.
+     * - Will perform publish journal once it is complete
+     * - In story mode, it will simply display success once it is complete
+     */
     this._waitForImageQueue = setInterval(() => {
       const {
         isImageUploadQueueRunning,
@@ -115,28 +146,38 @@ class JournalPublish extends Component {
         return;
       }
       clearInterval(this._waitForImageQueue);
-      publishJournal()
-        .then(() => {
-          LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-          this.setState({
-            isPublished: true
-          });
-        })
-        .catch(() => {
-          DebouncedAlert(
-            constants.journalFailureMessages.title,
-            constants.journalFailureMessages.failedToPublishJournal,
-            [
-              {
-                text: "Okay",
-                onPress: this.props.navigation.goBack()
-              }
-            ],
-            {
-              cancelable: false
-            }
-          );
+      const isStoryMode = this.props.navigation.getParam("isStoryMode", false);
+      if (isStoryMode) {
+        LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+        this.setState({
+          isPublished: true
         });
+      } else {
+        publishJournal()
+          .then(() => {
+            LayoutAnimation.configureNext(
+              LayoutAnimation.Presets.easeInEaseOut
+            );
+            this.setState({
+              isPublished: true
+            });
+          })
+          .catch(() => {
+            DebouncedAlert(
+              constants.journalFailureMessages.title,
+              constants.journalFailureMessages.failedToPublishJournal,
+              [
+                {
+                  text: "Okay",
+                  onPress: this.props.navigation.goBack()
+                }
+              ],
+              {
+                cancelable: false
+              }
+            );
+          });
+      }
     }, 5000);
   }
 
@@ -144,31 +185,62 @@ class JournalPublish extends Component {
     clearInterval(this._waitForImageQueue);
   }
 
+  /**
+   * Returns the share url and message
+   * Contains logic to fetch url for journal or story
+   * based on the `isStoryMode` flag
+   */
+  getShareUrlWithMessage() {
+    const { journalTitle, journalUrl, getStoryById } = this.props.journalStore;
+
+    let message = journalTitle,
+      url = journalUrl;
+
+    const storyId = this.props.navigation.getParam("activeStory", "");
+    const pageId = this.props.navigation.getParam("activePage", "");
+    const isStoryMode = this.props.navigation.getParam("isStoryMode", false);
+
+    let story = {},
+      storyTitle = "",
+      storyUrl = "";
+    if (isStoryMode) {
+      story = getStoryById({
+        pageId,
+        storyId
+      });
+      storyTitle = _.get(story, "title");
+      storyUrl = _.get(story, "url");
+      message = storyTitle;
+      url = journalUrl + storyUrl;
+    }
+    return { message, url };
+  }
+
   shareFacebook = () => {
-    const { journalTitle, journalUrl } = this.props.journalStore;
+    const { message, url } = this.getShareUrlWithMessage();
     const shareOptions = {
-      message: journalTitle,
-      url: journalUrl,
+      message,
+      url,
       social: Share.Social.FACEBOOK
     };
     singleShare(shareOptions);
   };
 
   shareTwitter = () => {
-    const { journalTitle, journalUrl } = this.props.journalStore;
+    const { message, url } = this.getShareUrlWithMessage();
     const shareOptions = {
-      message: journalTitle,
-      url: journalUrl,
+      message,
+      url,
       social: Share.Social.TWITTER
     };
     singleShare(shareOptions);
   };
 
   share = () => {
-    const { journalTitle, journalUrl } = this.props.journalStore;
+    const { message, url } = this.getShareUrlWithMessage();
     const shareOptions = {
-      message: `${journalTitle} ${journalUrl}`,
-      url: journalUrl
+      message: `${message} ${url}`,
+      url
     };
     share(shareOptions);
   };
@@ -186,7 +258,32 @@ class JournalPublish extends Component {
       isPublished,
       isLoopEnded
     } = this.state;
-    const { journalTitle, journalCoverImage } = this.props.journalStore;
+    const {
+      journalTitle,
+      journalCoverImage,
+      getStoryById,
+      getPageById
+    } = this.props.journalStore;
+    const storyId = this.props.navigation.getParam("activeStory", "");
+    const pageId = this.props.navigation.getParam("activePage", "");
+    const isStoryMode = this.props.navigation.getParam("isStoryMode", false);
+
+    let story = {},
+      page = {},
+      coverImage = "",
+      storyTitle = "",
+      imagesList = [];
+
+    if (isStoryMode) {
+      story = getStoryById({
+        pageId,
+        storyId
+      });
+      page = getPageById({ pageId });
+      coverImage = _.get(story, "coverImage.imageUrl") || "";
+      storyTitle = _.get(story, "title");
+      imagesList = Object.values(_.get(story, "images") || {});
+    }
 
     return (
       <SafeAreaView style={styles.journalPublishContainer}>
@@ -233,14 +330,29 @@ class JournalPublish extends Component {
           )}
         </View>
         <View style={styles.cardContainer}>
-          <JournalSummary
-            title={journalTitle}
-            image={{ uri: journalCoverImage }}
-            isPublished={isPublished}
-            shareAction={this.share}
-            facebookAction={this.shareFacebook}
-            twitterAction={this.shareTwitter}
-          />
+          {isStoryMode ? (
+            <StorySummary
+              title={_.get(page, "title")}
+              image={{ uri: coverImage }}
+              isPublished={isPublished}
+              shareAction={this.share}
+              facebookAction={this.shareFacebook}
+              twitterAction={this.shareTwitter}
+              description={_.get(page, "info")}
+              day={_.get(page, "pageDate")}
+              imagesList={imagesList}
+              dayString={_.get(page, "pageDateStr")}
+            />
+          ) : (
+            <JournalSummary
+              title={journalTitle}
+              image={{ uri: journalCoverImage }}
+              isPublished={isPublished}
+              shareAction={this.share}
+              facebookAction={this.shareFacebook}
+              twitterAction={this.shareTwitter}
+            />
+          )}
         </View>
         {isPublished ? (
           <Fragment>

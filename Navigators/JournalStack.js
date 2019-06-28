@@ -51,7 +51,14 @@ JournalStack.navigationOptions = ({ navigation }) => {
   const routeName = getActiveRouteName(navigation.state);
   let tabBarVisible = true;
 
-  if (routeName === "JournalTextEditor") {
+  /**
+   * Hide the tab bar in the following screens
+   */
+  if (
+    ["JournalTextEditor", "JournalImagePicker", "JournalDaySelector"].indexOf(
+      routeName
+    ) > -1
+  ) {
     tabBarVisible = false;
   }
 

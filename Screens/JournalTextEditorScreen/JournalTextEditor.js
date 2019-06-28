@@ -15,6 +15,13 @@ import BackHandlerHoc from "../../CommonComponents/BackHandlerHoc/BackHandlerHoc
 let _submitStory = () => null;
 let _backHandler = () => null;
 
+/**
+ * Set journal publish mode,
+ * If journal is already published, the story should also get a publish screen
+ */
+let _isJournalPublished = false;
+let _publishStory = () => null;
+
 @ErrorBoundary()
 @BackHandlerHoc(() => _backHandler())
 @inject("journalStore")
@@ -30,7 +37,11 @@ class JournalTextEditor extends Component {
           RightButton={
             <SimpleButton
               action={() => {
-                _submitStory();
+                if (_isJournalPublished) {
+                  _publishStory();
+                } else {
+                  _submitStory();
+                }
               }}
               text={"Done"}
               textColor={constants.firstColor}
@@ -64,6 +75,7 @@ class JournalTextEditor extends Component {
 
     _submitStory = this.submitStory;
     _backHandler = this.backHandler;
+    _publishStory = this.publishStory;
   }
 
   getRichText = richText => {
@@ -81,6 +93,10 @@ class JournalTextEditor extends Component {
     }, 500);
   };
 
+  /**
+   * If Journal is not already published, this will simply submit the story
+   * and return the user to the journal home screen
+   */
   submitStory = () => {
     if (!this.state.title) {
       DebouncedAlert(
@@ -96,6 +112,40 @@ class JournalTextEditor extends Component {
       submitStory(activeStory, this.state.title, richText)
         .then(() => {
           this.props.navigation.pop(2);
+        })
+        .catch(() => {
+          DebouncedAlert(
+            constants.journalFailureMessages.title,
+            constants.journalFailureMessages.failedToSubmitJournalStory
+          );
+        });
+    }
+  };
+
+  /**
+   * Journal is already published. This will submit the story and will
+   * display the publish screen for the user in story mode.
+   */
+  publishStory = () => {
+    if (!this.state.title) {
+      DebouncedAlert(
+        constants.journalAlertMessages.noTitleForStory.header,
+        constants.journalAlertMessages.noTitleForStory.message
+      );
+    } else {
+      const richText =
+        this._textEditorRef.current &&
+        this._textEditorRef.current.retrieveRichText();
+      const { submitStory } = this.props.journalStore;
+      const activeStory = this.props.navigation.getParam("activeStory", "");
+      const activePage = this.props.navigation.getParam("activePage", "");
+      submitStory(activeStory, this.state.title, richText)
+        .then(() => {
+          this.props.navigation.navigate("JournalPublish", {
+            isStoryMode: true,
+            activeStory,
+            activePage
+          });
         })
         .catch(() => {
           DebouncedAlert(
@@ -128,14 +178,33 @@ class JournalTextEditor extends Component {
       this._titleInputRef.current && this._titleInputRef.current.focus();
     }, 1000);
 
+    /**
+     * Set a default value for the journal Title text input
+     */
     const storyId = this.props.navigation.getParam("activeStory", "");
     const pageId = this.props.navigation.getParam("activePage", "");
-
-    const { getStoryById, getImagesById } = this.props.journalStore;
+    const { getStoryById } = this.props.journalStore;
     const storyDetails = getStoryById({ pageId, storyId });
     this.setState({
       title: storyDetails.title
     });
+
+    this.initalizeTextEditor();
+  }
+
+  initalizeTextEditor = () => {
+    const storyId = this.props.navigation.getParam("activeStory", "");
+    const pageId = this.props.navigation.getParam("activePage", "");
+
+    const { getImagesById, isJournalPublished } = this.props.journalStore;
+    /**
+     * Enable flag to define the submit action
+     */
+    _isJournalPublished = isJournalPublished;
+
+    /**
+     * Load image details to display the thumbnails
+     */
     const preSelectedImages = getImagesById({ storyId, pageId });
     const selectedImagesList = this.props.navigation.getParam(
       "selectedImagesList",
@@ -145,10 +214,9 @@ class JournalTextEditor extends Component {
       preSelectedImages,
       selectedImagesList
     });
-  }
+  };
 
   imageThumbnailClick = () => {
-    const isEditMode = this.props.navigation.getParam("isEditMode", false);
     const activeStory = this.props.navigation.getParam("activeStory", "");
     const activePage = this.props.navigation.getParam("activePage", "");
     this.props.navigation.navigate("JournalImagePicker", {
@@ -165,15 +233,7 @@ class JournalTextEditor extends Component {
         {
           text: constants.journalBackConfirmation.textEditor.negative,
           onPress: () => {
-            const isEditMode = this.props.navigation.getParam(
-              "isEditMode",
-              false
-            );
-            if (isEditMode) {
-              this.props.navigation.pop(2);
-            } else {
-              this.props.navigation.goBack();
-            }
+            this.props.navigation.goBack();
           },
           style: "destructive"
         },
