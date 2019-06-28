@@ -849,7 +849,7 @@ class Journal {
       const requiredStory = requiredPage.stories.find(
         story => story.storyId === storyId
       );
-      if (requiredStory.images) {
+      if (requiredStory && requiredStory.images) {
         return Object.values(requiredStory.images);
       }
       return [];

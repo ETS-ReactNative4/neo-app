@@ -74,18 +74,8 @@ class JournalDaySelector extends Component {
   };
 
   addNewStory = () => {
-    const { createNewStory } = this.props.journalStore;
     const activePage = this.props.navigation.getParam("activePage", "");
-    createNewStory(activePage)
-      .then(storyId => {
-        this.navigateToImagePicker(activePage, storyId);
-      })
-      .catch(() => {
-        DebouncedAlert(
-          constants.journalFailureMessages.title,
-          constants.journalFailureMessages.failedToCreateNewStory
-        );
-      });
+    this.navigateToImagePicker(activePage, "");
   };
 
   deleteStory = storyId => {

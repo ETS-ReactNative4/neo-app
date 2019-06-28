@@ -409,17 +409,36 @@ class JournalImagePicker extends Component {
   _keyExtractor = (item, index) => index;
 
   confirmSelection = () => {
-    const { selectedImagesList } = this.state;
-    const { navigation } = this.props;
-    const { addImagesToQueue } = this.props.journalStore;
     const activeStory = this.props.navigation.getParam("activeStory", "");
     const activePage = this.props.navigation.getParam("activePage", "");
-    addImagesToQueue(activeStory, selectedImagesList);
-    navigation.navigate("JournalTextEditor", {
-      selectedImagesList,
-      activeStory,
-      activePage
-    });
+    const { selectedImagesList } = this.state;
+    const { navigation } = this.props;
+    const { addImagesToQueue, createNewStory } = this.props.journalStore;
+    if (activeStory) {
+      addImagesToQueue(activeStory, selectedImagesList);
+      navigation.navigate("JournalTextEditor", {
+        selectedImagesList,
+        activeStory,
+        activePage
+      });
+    } else {
+      createNewStory(activePage)
+        .then(storyId => {
+          addImagesToQueue(storyId, selectedImagesList);
+          this.props.navigation.setParams({ activeStory: storyId });
+          navigation.navigate("JournalTextEditor", {
+            selectedImagesList,
+            activeStory: storyId,
+            activePage
+          });
+        })
+        .catch(() => {
+          DebouncedAlert(
+            constants.journalFailureMessages.title,
+            constants.journalFailureMessages.failedToCreateNewStory
+          );
+        });
+    }
     this.clearSelection();
   };
 
