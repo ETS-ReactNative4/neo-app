@@ -87,6 +87,8 @@ const appText = {
       "Unable to publish this story. Please check your internet connection and try again after some time.",
     failedToDeleteImage:
       "Unable to delete the image. Please check your internet connection and try again after some time.",
+    failedToDeleteStory:
+      "Unable to delete the story. Please check your internet connection and try again after some time.",
     userDeniedImagePermission: () =>
       `To select and upload your images, please grant access to your ${
         Platform.OS === constants.platformIos ? "photos" : "storage"
@@ -138,6 +140,13 @@ const appText = {
     noTitleForStory: {
       header: "Please add a story title",
       message: "You cannot create a story without title"
+    },
+    removeStory: {
+      header: "Delete this journal entry?",
+      message:
+        "Are you sure you want to delete this entry? It’s a great memory :( We won’t be able to undo this action.",
+      confirm: "Confirm Deletion",
+      cancel: "Keep"
     }
   },
   bookingFailedText: "No Voucher available",
