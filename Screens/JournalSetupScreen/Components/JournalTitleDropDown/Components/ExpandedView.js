@@ -17,6 +17,7 @@ import { isIphoneX } from "react-native-iphone-x-helper";
 import Icon from "../../../../../CommonComponents/Icon/Icon";
 import PropTypes from "prop-types";
 import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidExtraProps";
+import LinearGradient from "react-native-linear-gradient";
 
 const ExpandedView = ({
   coverImage,
@@ -35,24 +36,35 @@ const ExpandedView = ({
       resizeMode={FastImage.resizeMode.cover}
       style={isHidden ? styles.hidden : styles.expandedViewContainer}
     >
-      <TouchableOpacity
-        activeOpacity={0.8}
-        style={styles.editTouchableContainer}
-        onPress={editAction}
+      <LinearGradient
+        locations={[0.1, 0.2, 0.8, 1]}
+        colors={[
+          constants.darkGradientAlpha(0.6),
+          constants.darkGradientAlpha(0),
+          constants.darkGradientAlpha(0),
+          constants.darkGradientAlpha(0.6)
+        ]}
+        style={styles.gradientView}
       >
-        <View style={styles.editIconContainer}>
-          <Icon name={constants.editIcon} size={16} color={"white"} />
+        <TouchableOpacity
+          activeOpacity={0.8}
+          style={styles.editTouchableContainer}
+          onPress={editAction}
+        >
+          <View style={styles.editIconContainer}>
+            <Icon name={constants.editIcon} size={16} color={"white"} />
+          </View>
+        </TouchableOpacity>
+        <View style={styles.textContainer}>
+          <Text style={styles.titleText}>{title}</Text>
+          <Text style={styles.authorInfo}>{`By ${journalOwner}${
+            isJournalPublished
+              ? `, ${journalPublishedTime}`
+              : `, ${journalCreatedTime}`
+          }`}</Text>
+          <Text style={styles.descText}>{desc}</Text>
         </View>
-      </TouchableOpacity>
-      <View style={styles.textContainer}>
-        <Text style={styles.titleText}>{title}</Text>
-        <Text style={styles.authorInfo}>{`By ${journalOwner}${
-          isJournalPublished
-            ? `, ${journalPublishedTime}`
-            : `, ${journalCreatedTime}`
-        }`}</Text>
-        <Text style={styles.descText}>{desc}</Text>
-      </View>
+      </LinearGradient>
     </FastImage>
   );
 };
@@ -95,6 +107,10 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     height: availableAreaHeight,
     width: responsiveWidth(100)
+  },
+  gradientView: {
+    flex: 1,
+    justifyContent: "space-between"
   },
   textContainer: {
     marginHorizontal: 24
