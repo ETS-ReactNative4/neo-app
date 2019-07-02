@@ -18,65 +18,7 @@ import SimpleButton from "../../CommonComponents/SimpleButton/SimpleButton";
 import Share from "react-native-share";
 import { singleShare } from "../../Services/shareService/share";
 import { StackActions } from "react-navigation";
-
-let _publishJournal;
-let _shareJournal;
-
-const RightButton = inject("journalStore")(
-  observer(({ journalStore }) => {
-    const { journalDetails, activeStories, isJournalPublished } = journalStore;
-    if (_.isEmpty(journalDetails)) {
-      return (
-        <View
-          style={{
-            height: 24,
-            width: 62
-          }}
-        />
-      );
-    }
-    if (!isJournalPublished) {
-      if (activeStories.length) {
-        return (
-          <SimpleButton
-            text={"Publish"}
-            textColor={constants.firstColor}
-            color={"transparent"}
-            containerStyle={{
-              height: 24,
-              width: 62,
-              marginRight: 16
-            }}
-            action={_publishJournal}
-          />
-        );
-      } else {
-        return (
-          <View
-            style={{
-              height: 24,
-              width: 62
-            }}
-          />
-        );
-      }
-    } else {
-      return (
-        <SimpleButton
-          text={"Share"}
-          textColor={constants.firstColor}
-          color={"transparent"}
-          containerStyle={{
-            height: 24,
-            width: 62,
-            marginRight: 16
-          }}
-          action={_shareJournal}
-        />
-      );
-    }
-  })
-);
+import openCustomTab from "../../Services/openCustomTab/openCustomTab";
 
 @ErrorBoundary({ isRoot: true })
 @inject("journalStore")
@@ -104,7 +46,6 @@ class Journal extends Component {
             />
           }
           title={""}
-          RightButton={<RightButton />}
           navigation={navigation}
         />
       )
@@ -116,8 +57,6 @@ class Journal extends Component {
   constructor(props) {
     super(props);
 
-    _publishJournal = this.publishJournal;
-    _shareJournal = this.shareJournal;
     this._didFocusSubscription = props.navigation.addListener(
       "didFocus",
       () => {
@@ -220,6 +159,11 @@ class Journal extends Component {
     this.props.navigation.navigate("JournalShare");
   };
 
+  viewJournal = () => {
+    const { journalUrl } = this.props.journalStore;
+    openCustomTab(journalUrl);
+  };
+
   shareFacebook = (title, url) => {
     const { journalUrl } = this.props.journalStore;
     const shareOptions = {
@@ -292,6 +236,9 @@ class Journal extends Component {
               isJournalPublished={isJournalPublished}
               storyImageQueueStatus={storyImageQueueStatus}
               pages={pages}
+              publishJournal={this.publishJournal}
+              shareJournal={this.shareJournal}
+              viewJournal={this.viewJournal}
             />
           </Fragment>
         ) : (

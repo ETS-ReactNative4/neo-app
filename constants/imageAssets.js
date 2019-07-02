@@ -63,6 +63,8 @@ const imageAssets = {
   facebookFilledIcon: "facebook-fill",
   twitterFilledIcon: "twitter-fill",
   keyboardDismissIcon: "collapse-keyboard",
+  eyeIcon: "visibility",
+  uploadIcon: "typical-social-share",
 
   semiCircleShape: require("../assets/images/shapes/hiring_topic.png"),
   headerBackgroundShape: require("../assets/images/shapes/banner_white.png"),

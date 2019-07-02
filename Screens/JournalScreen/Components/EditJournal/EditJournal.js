@@ -9,6 +9,7 @@ import _ from "lodash";
 import forbidExtraProps from "../../../../Services/PropTypeValidation/forbidExtraProps";
 import PropTypes from "prop-types";
 import JournalDaySelectorTitle from "../../../JournalDaySelectorScreen/Components/JournalDaySelectorTitle";
+import JournalActionRow from "./Components/JournalActionRow";
 
 const EditJournal = ({
   addNewStory,
@@ -18,7 +19,10 @@ const EditJournal = ({
   shareFacebook,
   shareTwitter,
   isJournalPublished,
-  storyImageQueueStatus
+  storyImageQueueStatus,
+  publishJournal,
+  shareJournal,
+  viewJournal
 }) => {
   return (
     <CustomScrollView
@@ -27,7 +31,13 @@ const EditJournal = ({
       onRefresh={() => null}
       refreshing={false}
     >
-      <AddStoryButton action={addNewStory} />
+      <JournalActionRow
+        publishJournal={publishJournal}
+        shareJournal={shareJournal}
+        viewJournal={viewJournal}
+        isJournalPublished={isJournalPublished}
+        addStory={addNewStory}
+      />
       <Dash dashColor={constants.shade4} dashGap={2} dashLength={1} />
       {pages.reverse().map((page, pageIndex) => {
         const activeStories = page.stories.filter(story => story.initialized);
