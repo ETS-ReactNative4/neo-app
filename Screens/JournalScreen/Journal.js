@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from "react";
-import { View, Text, Image, StyleSheet } from "react-native";
+import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 import constants from "../../constants/constants";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import NewJournal from "./Components/NewJounal/NewJournal";
@@ -14,6 +14,8 @@ import { singleShare } from "../../Services/shareService/share";
 import HomeHeader from "../../CommonComponents/HomeHeader/HomeHeader";
 import { StackActions } from "react-navigation";
 import openCustomTab from "../../Services/openCustomTab/openCustomTab";
+import * as Animatable from "react-native-animatable";
+import Icon from "../../CommonComponents/Icon/Icon";
 
 @ErrorBoundary({ isRoot: true })
 @inject("journalStore")
@@ -23,6 +25,10 @@ class Journal extends Component {
   static navigationOptions = HomeHeader;
 
   _didFocusSubscription;
+
+  state = {
+    isFabButtonActive: false
+  };
 
   constructor(props) {
     super(props);
@@ -154,6 +160,26 @@ class Journal extends Component {
     singleShare(shareOptions);
   };
 
+  onItemScroll = ({
+    nativeEvent: {
+      contentOffset: { y, x }
+    }
+  }) => {
+    /**
+     * Content height of the add story button is calculated to be 135
+     * Should be changed if the UI is updated.
+     */
+    if (y < 135) {
+      this.setState({
+        isFabButtonActive: false
+      });
+    } else {
+      this.setState({
+        isFabButtonActive: true
+      });
+    }
+  };
+
   render() {
     const {
       isHomeScreenLoading,
@@ -167,60 +193,81 @@ class Journal extends Component {
       journalPublishedTime,
       journalCreatedTime,
       isJournalPublished,
-      storyImageQueueStatus
+      storyImageQueueStatus,
+      reversedPagesAndStories
     } = this.props.journalStore;
 
     const editJournal = () =>
       this.props.navigation.navigate("JournalStart", { isEditing: true });
 
     return (
-      <CustomScrollView
-        style={[
-          styles.journalContainer,
-          {
-            backgroundColor: isJournalInitialized ? constants.white1 : "white"
-          }
-        ]}
-        showsVerticalScrollIndicator={true}
-        refreshing={isHomeScreenLoading}
-        onRefresh={this.loadJournalDetails}
-      >
-        {isJournalInitialized ? (
-          <Fragment>
-            <JournalTitleDropDown
-              editAction={editJournal}
-              journalOwner={journalOwner}
-              journalPublishedTime={journalPublishedTime}
-              journalCreatedTime={journalCreatedTime}
-              isJournalPublished={isJournalPublished}
-              coverImage={{ uri: journalCoverImage }}
-              title={journalTitle}
-              desc={journalDesc}
+      <Fragment>
+        <CustomScrollView
+          onScroll={this.onItemScroll}
+          scrollEventThrottle={8}
+          style={[
+            styles.journalContainer,
+            {
+              backgroundColor: isJournalInitialized ? constants.white1 : "white"
+            }
+          ]}
+          showsVerticalScrollIndicator={true}
+          refreshing={isHomeScreenLoading}
+          onRefresh={this.loadJournalDetails}
+        >
+          {isJournalInitialized ? (
+            <Fragment>
+              <JournalTitleDropDown
+                editAction={editJournal}
+                journalOwner={journalOwner}
+                journalPublishedTime={journalPublishedTime}
+                journalCreatedTime={journalCreatedTime}
+                isJournalPublished={isJournalPublished}
+                coverImage={{ uri: journalCoverImage }}
+                title={journalTitle}
+                desc={journalDesc}
+              />
+              <EditJournal
+                addNewStory={this.addNewStory}
+                editAction={this.editStory}
+                deleteAction={this.deleteStory}
+                shareFacebook={this.shareFacebook}
+                shareTwitter={this.shareTwitter}
+                isJournalPublished={isJournalPublished}
+                storyImageQueueStatus={storyImageQueueStatus}
+                pages={reversedPagesAndStories}
+                onItemScroll={this.onItemScroll}
+                isFabButtonActive={this.state.isFabButtonActive}
+                publishJournal={this.publishJournal}
+                shareJournal={this.shareJournal}
+                viewJournal={this.viewJournal}
+              />
+            </Fragment>
+          ) : (
+            <NewJournal
+              title={homeScreenDetails.title}
+              desc={homeScreenDetails.desc}
+              buttonText={"Start Your Journal"}
+              image={{ uri: _.get(homeScreenDetails, "coverImage.imageUrl") }}
+              action={this.startNewJournal}
             />
-            <EditJournal
-              addNewStory={this.addNewStory}
-              editAction={this.editStory}
-              deleteAction={this.deleteStory}
-              shareFacebook={this.shareFacebook}
-              shareTwitter={this.shareTwitter}
-              isJournalPublished={isJournalPublished}
-              storyImageQueueStatus={storyImageQueueStatus}
-              pages={pages}
-              publishJournal={this.publishJournal}
-              shareJournal={this.shareJournal}
-              viewJournal={this.viewJournal}
-            />
-          </Fragment>
-        ) : (
-          <NewJournal
-            title={homeScreenDetails.title}
-            desc={homeScreenDetails.desc}
-            buttonText={"Start Your Journal"}
-            image={{ uri: _.get(homeScreenDetails, "coverImage.imageUrl") }}
-            action={this.startNewJournal}
-          />
-        )}
-      </CustomScrollView>
+          )}
+        </CustomScrollView>
+        {isJournalInitialized && this.state.isFabButtonActive ? (
+          <Animatable.View
+            style={styles.fabContainer}
+            animation={"fadeIn"}
+            duration={200}
+          >
+            <TouchableOpacity
+              style={styles.fabTouchable}
+              onPress={this.addNewStory}
+            >
+              <Icon name={constants.addIcon} size={24} color={"white"} />
+            </TouchableOpacity>
+          </Animatable.View>
+        ) : null}
+      </Fragment>
     );
   }
 }
@@ -228,6 +275,24 @@ class Journal extends Component {
 const styles = StyleSheet.create({
   journalContainer: {
     flex: 1
+  },
+  fabContainer: {
+    backgroundColor: constants.firstColor,
+    overflow: "hidden",
+    height: 54,
+    width: 54,
+    borderRadius: 27,
+    position: "absolute",
+    bottom: 24,
+    right: 16,
+    borderWidth: 1,
+    borderColor: "transparent",
+    ...constants.elevationTwo
+  },
+  fabTouchable: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center"
   }
 });
 
