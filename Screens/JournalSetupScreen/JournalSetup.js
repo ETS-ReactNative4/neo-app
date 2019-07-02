@@ -42,7 +42,9 @@ class JournalSetup extends Component {
       journalDesc,
       journalCoverImage,
       journalOwner,
-      journalPublishedTime
+      journalPublishedTime,
+      isJournalPublished,
+      journalCreatedTime
     } = this.props.journalStore;
 
     const editJournal = () =>
@@ -54,6 +56,8 @@ class JournalSetup extends Component {
           editAction={editJournal}
           journalOwner={journalOwner}
           journalPublishedTime={journalPublishedTime}
+          journalCreatedTime={journalCreatedTime}
+          isJournalPublished={isJournalPublished}
           coverImage={{ uri: journalCoverImage }}
           title={journalTitle}
           desc={journalDesc}
