@@ -52,7 +52,7 @@
       "git://github.com/DaniAkash/react-native-custom-tabs.git#a92bfcc1fda8c42a2710249656ae99ee1968ab96",
     "react-native-dash": "^0.0.9",
     "react-native-device-info": "2.1.2",
-    "react-native-fast-image": "^5.0.3",
+    "react-native-fast-image": "5.1.4",
     "react-native-firebase": "^5.0.0",
     "react-native-flip-view-next": "^1.0.0",
     "react-native-htmlview": "0.13.0",
