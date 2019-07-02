@@ -62,6 +62,30 @@ PODS:
     - GoogleUtilities/Logger
   - GoogleUtilities/UserDefaults (5.3.4):
     - GoogleUtilities/Logger
+  - libwebp (0.6.1):
+    - libwebp/core (= 0.6.1)
+    - libwebp/dec (= 0.6.1)
+    - libwebp/demux (= 0.6.1)
+    - libwebp/dsp (= 0.6.1)
+    - libwebp/enc (= 0.6.1)
+    - libwebp/mux (= 0.6.1)
+    - libwebp/utils (= 0.6.1)
+    - libwebp/webp (= 0.6.1)
+  - libwebp/core (0.6.1):
+    - libwebp/webp
+  - libwebp/dec (0.6.1):
+    - libwebp/core
+  - libwebp/demux (0.6.1):
+    - libwebp/core
+  - libwebp/dsp (0.6.1):
+    - libwebp/core
+  - libwebp/enc (0.6.1):
+    - libwebp/core
+  - libwebp/mux (0.6.1):
+    - libwebp/core
+  - libwebp/utils (0.6.1):
+    - libwebp/core
+  - libwebp/webp (0.6.1)
   - lottie-ios (2.5.3)
   - lottie-react-native (2.6.1):
     - lottie-ios (~> 2.5.0)
@@ -77,11 +101,12 @@ PODS:
     - React/Core (= 0.57.1)
   - react-native-cameraroll (1.0.5):
     - React
-  - react-native-fast-image (5.0.3):
+  - react-native-fast-image (5.1.4):
     - FLAnimatedImage
     - React
     - SDWebImage/Core
     - SDWebImage/GIF
+    - SDWebImage/WebP
   - react-native-photo-view (1.5.2):
     - React
   - react-native-webview (5.7.0):
@@ -149,6 +174,9 @@ PODS:
   - SDWebImage/GIF (4.4.2):
     - FLAnimatedImage (~> 1.0)
     - SDWebImage/Core
+  - SDWebImage/WebP (4.4.2):
+    - libwebp (~> 0.5)
+    - SDWebImage/Core
   - Sentry (4.0.1):
     - Sentry/Core (= 4.0.1)
   - Sentry/Core (4.0.1)
@@ -205,6 +233,7 @@ SPEC REPOS:
     - FLAnimatedImage
     - GoogleAppMeasurement
     - GoogleUtilities
+    - libwebp
     - lottie-ios
     - nanopb
     - Protobuf
@@ -267,6 +296,7 @@ SPEC CHECKSUMS:
   glog: e8acf0ebbf99759d3ff18c86c292a5898282dcde
   GoogleAppMeasurement: 5029d78f2b438bd30ffb44e6c558b57c21622727
   GoogleUtilities: abb092d2c12e817fa3e0e7b274987dd72fb86ec3
+  libwebp: 0f01098c6c17175391af621b2f14150f3ca16e16
   lottie-ios: a50d5c0160425cd4b01b852bb9578963e6d92d31
   lottie-react-native: 3d8181d43619b1fe804c828bd5a09d20fe8bdea7
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
@@ -274,7 +304,7 @@ SPEC CHECKSUMS:
   QBImagePickerController: d54cf93db6decf26baf6ed3472f336ef35cae022
   React: b4e0982b0ed6a7de90e96cf6fe5cf036aeadd1ec
   react-native-cameraroll: b1faef9f2ea27b07bdf818b8043909a93f797eca
-  react-native-fast-image: f33fef29062258f1f4c39cfc19dc25662eb1de40
+  react-native-fast-image: 50418ec26a3ca015769b6112e49052e57ad6a50d
   react-native-photo-view: 63e9e61da873531f931008b545d8d10c5373ddf8
   react-native-webview: 69ca34f590814ae44260d30e293ab4b7b3eea793
   RNDeviceInfo: 75dac2d7cd6b638b512cc9266ce48a39661fed0e
