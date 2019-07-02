@@ -14,37 +14,48 @@ const JournalActionRow = ({
 }) => {
   return (
     <View style={styles.journalActionRowContainer}>
-      {/*<View style={styles.leftSection}>*/}
       <TouchableOpacity
         onPress={addStory}
         activeOpacity={0.8}
-        style={styles.iconWrapper}
+        style={styles.actionWrapper}
       >
-        <Icon name={constants.addIcon} size={12} color={"white"} />
+        <View style={styles.iconWrapper}>
+          <Icon name={constants.addIcon} size={12} color={"white"} />
+        </View>
+        <Text style={styles.actionText}>{"Add new story"}</Text>
       </TouchableOpacity>
-      {/*</View>*/}
-      {/*<View style={styles.rightSection}>*/}
       {isJournalPublished ? (
         <TouchableOpacity
           onPress={viewJournal}
           activeOpacity={0.8}
-          style={[styles.iconWrapper, styles.secondIconWrapper]}
+          style={styles.actionWrapper}
         >
-          <Icon name={constants.eyeIcon} size={12} color={"white"} />
+          <View style={styles.iconWrapper}>
+            <Icon name={constants.eyeIcon} size={12} color={"white"} />
+          </View>
+          <Text style={styles.actionText}>{"View Journal"}</Text>
         </TouchableOpacity>
-      ) : null}
+      ) : (
+        <View />
+      )}
       <TouchableOpacity
         onPress={isJournalPublished ? shareJournal : publishJournal}
         activeOpacity={0.8}
-        style={styles.iconWrapper}
+        style={styles.actionWrapper}
       >
-        <Icon
-          name={isJournalPublished ? constants.shareIcon : constants.uploadIcon}
-          size={12}
-          color={"white"}
-        />
+        <View style={styles.iconWrapper}>
+          <Icon
+            name={
+              isJournalPublished ? constants.shareIcon : constants.uploadIcon
+            }
+            size={12}
+            color={"white"}
+          />
+        </View>
+        <Text style={styles.actionText}>
+          {isJournalPublished ? "Share" : "Publish"}
+        </Text>
       </TouchableOpacity>
-      {/*</View>*/}
     </View>
   );
 };
@@ -76,6 +87,16 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "flex-end"
   },
+  actionWrapper: {
+    alignItems: "center",
+    justifyContent: "center",
+    width: 80
+  },
+  actionText: {
+    paddingTop: 8,
+    ...constants.fontCustom(constants.primaryRegular, 12, 12),
+    color: constants.shade1
+  },
   iconWrapper: {
     height: 24,
     width: 24,
@@ -83,9 +104,6 @@ const styles = StyleSheet.create({
     backgroundColor: constants.black1,
     alignItems: "center",
     justifyContent: "center"
-  },
-  secondIconWrapper: {
-    marginRight: 24
   }
 });
 
