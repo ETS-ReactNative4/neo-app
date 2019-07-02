@@ -39,7 +39,7 @@ const EditJournal = ({
         addStory={addNewStory}
       />
       <Dash dashColor={constants.shade4} dashGap={2} dashLength={1} />
-      {pages.reverse().map((page, pageIndex) => {
+      {pages.map((page, pageIndex) => {
         const activeStories = page.stories.filter(story => story.initialized);
         return (
           <Fragment key={pageIndex}>
@@ -51,7 +51,7 @@ const EditJournal = ({
                 description={page.info}
               />
             ) : null}
-            {activeStories.reverse().map((story, storyIndex) => {
+            {activeStories.map((story, storyIndex) => {
               const imageUrl = _.get(story, "coverImage.imageUrl");
               const imageUploadStatus = storyImageQueueStatus(story.storyId);
               const pendingImages = imageUploadStatus.pendingImages;

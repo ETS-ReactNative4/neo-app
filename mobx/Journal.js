@@ -337,6 +337,20 @@ class Journal {
     }
   }
 
+  @computed
+  get reversedPagesAndStories() {
+    try {
+      const reversedPages = toJS(this.pages.reverse());
+      for (let i = 0; i < reversedPages.length; i++) {
+        reversedPages[i].stories = reversedPages[i].stories.reverse();
+      }
+      return reversedPages;
+    } catch (e) {
+      logError(e);
+      return [];
+    }
+  }
+
   /**
    * Initialize a journal instance for the user
    */
