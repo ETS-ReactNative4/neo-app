@@ -9,14 +9,9 @@ import CustomScrollView from "../../CommonComponents/CustomScrollView/CustomScro
 import EditJournal from "./Components/EditJournal/EditJournal";
 import JournalTitleDropDown from "../JournalSetupScreen/Components/JournalTitleDropDown/JournalTitleDropDown";
 import DebouncedAlert from "../../CommonComponents/DebouncedAlert/DebouncedAlert";
-import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
-import HamburgerButton from "../../CommonComponents/HamburgerButton/HamburgerButton";
-import storeService from "../../Services/storeService/storeService";
-import HomeTitle from "../../CommonComponents/HomeTitle/HomeTitle";
-import { recordEvent } from "../../Services/analytics/analyticsService";
-import SimpleButton from "../../CommonComponents/SimpleButton/SimpleButton";
 import Share from "react-native-share";
 import { singleShare } from "../../Services/shareService/share";
+import HomeHeader from "../../CommonComponents/HomeHeader/HomeHeader";
 import { StackActions } from "react-navigation";
 import openCustomTab from "../../Services/openCustomTab/openCustomTab";
 
@@ -25,32 +20,7 @@ import openCustomTab from "../../Services/openCustomTab/openCustomTab";
 @inject("itineraries")
 @observer
 class Journal extends Component {
-  static navigationOptions = ({ navigation }) => {
-    return {
-      header: (
-        <CommonHeader
-          LeftButton={
-            <HamburgerButton
-              action={() => {
-                storeService.appState.onDrawerOpen();
-                navigation.openDrawer();
-              }}
-            />
-          }
-          TitleComponent={
-            <HomeTitle
-              action={() => {
-                recordEvent(constants.selectBookingHeaderClick);
-                navigation.navigate("YourBookingsUniversal");
-              }}
-            />
-          }
-          title={""}
-          navigation={navigation}
-        />
-      )
-    };
-  };
+  static navigationOptions = HomeHeader;
 
   _didFocusSubscription;
 
