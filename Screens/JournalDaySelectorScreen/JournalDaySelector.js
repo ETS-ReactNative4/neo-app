@@ -103,6 +103,17 @@ class JournalDaySelector extends Component {
   };
 
   publishJournal = () => {
+    const { activeStories } = this.props.journalStore;
+    for (let i = 0; i < activeStories.length; i++) {
+      const story = activeStories[i];
+      if (!story.title) {
+        DebouncedAlert(
+          constants.journalAlertMessages.oneStoryMissingTitle.header,
+          constants.journalAlertMessages.oneStoryMissingTitle.message
+        );
+        return;
+      }
+    }
     this.props.navigation.navigate("JournalPublish");
   };
 

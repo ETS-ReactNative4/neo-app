@@ -141,6 +141,10 @@ const appText = {
       header: "Please add a story title",
       message: "You cannot create a story without title"
     },
+    oneStoryMissingTitle: {
+      header: "One of your stories is missing a title",
+      message: "Make sure you have added title to all your stories"
+    },
     removeStory: {
       header: "Delete this journal entry?",
       message:
