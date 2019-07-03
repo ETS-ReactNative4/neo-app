@@ -31,6 +31,23 @@ const JournalDayCard = ({
   isImageContained = false
 }) => {
   const percentage = (100 - pendingImages / totalImages * 100) / 100;
+  const ImageWrapper = isActivated ? FastImage : ImageBackground;
+  const imageProps = isActivated
+    ? {
+        source: image,
+        resizeMode: isImageContained
+          ? FastImage.resizeMode.contain
+          : FastImage.resizeMode.cover,
+        style: styles.dayCardImage
+      }
+    : {
+        blurRadius: 5,
+        source: image,
+        resizeMode: isImageContained
+          ? FastImage.resizeMode.contain
+          : FastImage.resizeMode.cover,
+        style: styles.dayCardImage
+      };
   return (
     <TouchableOpacity
       onPress={isImageUploading ? () => null : action}
@@ -38,22 +55,13 @@ const JournalDayCard = ({
       style={styles.journalDayCardContainer}
     >
       {image ? (
-        <FastImage
-          blurRadius={isActivated ? 0 : 5}
-          source={image}
-          resizeMode={
-            isImageContained
-              ? FastImage.resizeMode.contain
-              : FastImage.resizeMode.cover
-          }
-          style={styles.dayCardImage}
-        >
+        <ImageWrapper {...imageProps}>
           {isActivated ? null : (
             <View style={styles.imageOverlay}>
               <Icon name={constants.addImageIcon} color={"white"} size={24} />
             </View>
           )}
-        </FastImage>
+        </ImageWrapper>
       ) : null}
       <Text numberOfLines={2} ellipsizeMode={"tail"} style={styles.infoText}>
         {info}
