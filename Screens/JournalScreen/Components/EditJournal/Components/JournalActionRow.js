@@ -36,9 +36,7 @@ const JournalActionRow = ({
           </View>
           <Text style={styles.actionText}>{"View Journal"}</Text>
         </TouchableOpacity>
-      ) : (
-        <View />
-      )}
+      ) : null}
       {activeStories.length ? (
         <TouchableOpacity
           onPress={isJournalPublished ? shareJournal : publishJournal}
@@ -58,9 +56,7 @@ const JournalActionRow = ({
             {isJournalPublished ? "Share" : "Publish"}
           </Text>
         </TouchableOpacity>
-      ) : (
-        <View />
-      )}
+      ) : null}
     </View>
   );
 };
