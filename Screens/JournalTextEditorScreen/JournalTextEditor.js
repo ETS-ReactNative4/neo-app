@@ -11,6 +11,7 @@ import _ from "lodash";
 import { inject, observer } from "mobx-react/custom";
 import DebouncedAlert from "../../CommonComponents/DebouncedAlert/DebouncedAlert";
 import BackHandlerHoc from "../../CommonComponents/BackHandlerHoc/BackHandlerHoc";
+import AddImageThumbnail from "./Components/AddImageThumbnail";
 
 let _submitStory = () => null;
 let _backHandler = () => null;
@@ -295,6 +296,9 @@ class JournalTextEditor extends Component {
         {!isTextEditorActive ? (
           <Fragment>
             <Carousel firstMargin={24}>
+              {preSelectedImages.length + selectedImagesList.length ? null : (
+                <AddImageThumbnail action={this.imageThumbnailClick} />
+              )}
               {preSelectedImages.map(
                 (preSelectedImage, preSelectedImageIndex) => {
                   return (
