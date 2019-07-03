@@ -10,7 +10,8 @@ const JournalActionRow = ({
   shareJournal = () => {},
   viewJournal = () => {},
   addStory = () => {},
-  isJournalPublished = false
+  isJournalPublished = false,
+  activeStories = []
 }) => {
   return (
     <View style={styles.journalActionRowContainer}>
@@ -38,24 +39,28 @@ const JournalActionRow = ({
       ) : (
         <View />
       )}
-      <TouchableOpacity
-        onPress={isJournalPublished ? shareJournal : publishJournal}
-        activeOpacity={0.8}
-        style={styles.actionWrapper}
-      >
-        <View style={styles.iconWrapper}>
-          <Icon
-            name={
-              isJournalPublished ? constants.shareIcon : constants.uploadIcon
-            }
-            size={12}
-            color={"white"}
-          />
-        </View>
-        <Text style={styles.actionText}>
-          {isJournalPublished ? "Share" : "Publish"}
-        </Text>
-      </TouchableOpacity>
+      {activeStories.length ? (
+        <TouchableOpacity
+          onPress={isJournalPublished ? shareJournal : publishJournal}
+          activeOpacity={0.8}
+          style={styles.actionWrapper}
+        >
+          <View style={styles.iconWrapper}>
+            <Icon
+              name={
+                isJournalPublished ? constants.shareIcon : constants.uploadIcon
+              }
+              size={12}
+              color={"white"}
+            />
+          </View>
+          <Text style={styles.actionText}>
+            {isJournalPublished ? "Share" : "Publish"}
+          </Text>
+        </TouchableOpacity>
+      ) : (
+        <View />
+      )}
     </View>
   );
 };
@@ -65,7 +70,8 @@ JournalActionRow.propTypes = forbidExtraProps({
   shareJournal: PropTypes.func.isRequired,
   viewJournal: PropTypes.func.isRequired,
   addStory: PropTypes.func.isRequired,
-  isJournalPublished: PropTypes.bool.isRequired
+  isJournalPublished: PropTypes.bool.isRequired,
+  activeStories: PropTypes.array.isRequired
 });
 
 const styles = StyleSheet.create({

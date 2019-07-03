@@ -17,6 +17,12 @@ import openCustomTab from "../../Services/openCustomTab/openCustomTab";
 import * as Animatable from "react-native-animatable";
 import Icon from "../../CommonComponents/Icon/Icon";
 
+/**
+ * Contains two different screens
+ * - New journal flow
+ * - Edit journal flow
+ * The screens are switched based on the `isJournalInitialized` flag
+ */
 @ErrorBoundary({ isRoot: true })
 @inject("journalStore")
 @inject("itineraries")
@@ -26,6 +32,10 @@ class Journal extends Component {
 
   _didFocusSubscription;
 
+  /**
+   * Fab button should only appear when user scrolls down
+   * and also only on the edit journal flow
+   */
   state = {
     isFabButtonActive: false
   };
@@ -78,14 +88,11 @@ class Journal extends Component {
     this.props.navigation.navigate("JournalSetup");
   };
 
+  /**
+   * Editing a story will take the user directly to the
+   * Text editor screen of that story
+   */
   editStory = (activePage, activeStory) => {
-    // const pushAction = StackActions.push({
-    //   routeName: "JournalImagePicker",
-    //   params: {
-    //     activePage,
-    //     activeStory
-    //   }
-    // });
     const pushToTextEditor = StackActions.push({
       routeName: "JournalTextEditor",
       params: {
@@ -95,10 +102,12 @@ class Journal extends Component {
         isEditMode: true
       }
     });
-    // this.props.navigation.dispatch(pushAction);
     this.props.navigation.dispatch(pushToTextEditor);
   };
 
+  /**
+   * Deleting a story will throw a confirmation alert
+   */
   deleteStory = storyId => {
     const { deleteStory } = this.props.journalStore;
     DebouncedAlert(
@@ -185,7 +194,7 @@ class Journal extends Component {
       isHomeScreenLoading,
       homeScreenDetails,
       isJournalInitialized,
-      pages,
+      activeStories,
       journalTitle,
       journalDesc,
       journalCoverImage,
@@ -240,6 +249,7 @@ class Journal extends Component {
                 isFabButtonActive={this.state.isFabButtonActive}
                 publishJournal={this.publishJournal}
                 shareJournal={this.shareJournal}
+                activeStories={activeStories}
                 viewJournal={this.viewJournal}
               />
             </Fragment>

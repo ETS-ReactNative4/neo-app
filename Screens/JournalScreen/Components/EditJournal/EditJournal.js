@@ -22,7 +22,8 @@ const EditJournal = ({
   storyImageQueueStatus,
   publishJournal,
   shareJournal,
-  viewJournal
+  viewJournal,
+  activeStories
 }) => {
   return (
     <CustomScrollView
@@ -37,6 +38,7 @@ const EditJournal = ({
         viewJournal={viewJournal}
         isJournalPublished={isJournalPublished}
         addStory={addNewStory}
+        activeStories={activeStories}
       />
       <Dash dashColor={constants.shade4} dashGap={2} dashLength={1} />
       {pages.map((page, pageIndex) => {
@@ -91,7 +93,8 @@ EditJournal.propTypes = forbidExtraProps({
   shareFacebook: PropTypes.func.isRequired,
   shareTwitter: PropTypes.func.isRequired,
   isJournalPublished: PropTypes.bool.isRequired,
-  storyImageQueueStatus: PropTypes.func.isRequired
+  storyImageQueueStatus: PropTypes.func.isRequired,
+  activeStories: PropTypes.array.isRequired
 });
 
 const styles = StyleSheet.create({
