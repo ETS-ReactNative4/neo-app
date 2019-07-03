@@ -148,7 +148,10 @@ class JournalStart extends Component {
     const isEditing = this.props.navigation.getParam("isEditing", false);
 
     return (
-      <KeyboardAwareScrollView style={styles.journalStartContainer}>
+      <KeyboardAwareScrollView
+        keyboardShouldPersistTaps="handled"
+        style={styles.journalStartContainer}
+      >
         <Text
           style={styles.startTitle}
         >{`Greet your readers with a captivating title.`}</Text>

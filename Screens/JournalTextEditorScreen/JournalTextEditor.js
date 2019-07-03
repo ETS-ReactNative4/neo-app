@@ -69,6 +69,7 @@ class JournalTextEditor extends Component {
   _titleInputRef = React.createRef();
   _richTextInputRef = React.createRef();
   _textEditorRef = React.createRef();
+  _didFocusSubscription;
 
   constructor(props) {
     super(props);
@@ -76,6 +77,12 @@ class JournalTextEditor extends Component {
     _submitStory = this.submitStory;
     _backHandler = this.backHandler;
     _publishStory = this.publishStory;
+    this._didFocusSubscription = props.navigation.addListener(
+      "didFocus",
+      () => {
+        this.textEditorRefocused();
+      }
+    );
   }
 
   getRichText = richText => {
@@ -216,6 +223,24 @@ class JournalTextEditor extends Component {
     });
   };
 
+  textEditorRefocused = () => {
+    const storyId = this.props.navigation.getParam("activeStory", "");
+    const pageId = this.props.navigation.getParam("activePage", "");
+    const { getImagesById } = this.props.journalStore;
+    /**
+     * Load image details to display the thumbnails
+     */
+    const preSelectedImages = getImagesById({ storyId, pageId });
+    const selectedImagesList = this.props.navigation.getParam(
+      "selectedImagesList",
+      []
+    );
+    this.setState({
+      preSelectedImages,
+      selectedImagesList
+    });
+  };
+
   imageThumbnailClick = () => {
     const activeStory = this.props.navigation.getParam("activeStory", "");
     const activePage = this.props.navigation.getParam("activePage", "");
@@ -248,6 +273,10 @@ class JournalTextEditor extends Component {
     );
     return true;
   };
+
+  componentWillUnmount() {
+    this._didFocusSubscription && this._didFocusSubscription.remove();
+  }
 
   render() {
     const isTextEditorActive =
