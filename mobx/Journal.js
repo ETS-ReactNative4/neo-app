@@ -340,7 +340,7 @@ class Journal {
   @computed
   get reversedPagesAndStories() {
     try {
-      const reversedPages = toJS(this.pages.reverse());
+      const reversedPages = _.cloneDeep(this.pages).reverse();
       for (let i = 0; i < reversedPages.length; i++) {
         reversedPages[i].stories = reversedPages[i].stories.reverse();
       }
