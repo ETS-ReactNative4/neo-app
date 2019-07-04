@@ -4,13 +4,16 @@ import LinearGradient from "react-native-linear-gradient";
 import PropTypes from "prop-types";
 import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraProps";
 
-const JournalCardGradientWrapper = ({ enableGradient, children }) => {
-  const Wrapper = enableGradient ? LinearGradient : Fragment;
+const JournalCardGradientWrapper = ({
+  enableGradient,
+  children,
+  noGradient
+}) => {
   const wrapperProps = enableGradient
     ? {
         locations: [0.15, 0.35, 0.5, 1],
         colors: [
-          "rgba(255,255,255,0)",
+          noGradient ? "rgba(255,255,255,0)" : "rgba(0,0,0,0.6)",
           "rgba(255,255,255,0.6)",
           "rgba(255,255,255,0.8)",
           "rgba(255,255,255,1)"
@@ -18,9 +21,9 @@ const JournalCardGradientWrapper = ({ enableGradient, children }) => {
         style: styles.gradientView
       }
     : {
-        locations: [0, 0, 0, 0],
+        locations: [0.15, 0.35, 0.5, 1],
         colors: [
-          "rgba(0,0,0,0)",
+          noGradient ? "rgba(0,0,0,0)" : "rgba(0,0,0,0.6)",
           "rgba(0,0,0,0)",
           "rgba(0,0,0,0)",
           "rgba(0,0,0,0)"

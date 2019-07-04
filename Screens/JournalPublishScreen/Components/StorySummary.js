@@ -27,7 +27,10 @@ const StorySummary = ({
 }) => {
   return (
     <View style={styles.storySummaryContainer}>
-      <JournalCardGradientWrapper enableGradient={isPublished}>
+      <JournalCardGradientWrapper
+        noGradient={true}
+        enableGradient={isPublished}
+      >
         <View style={styles.storyInfoRow}>
           <View style={styles.dateSection}>
             <Text
