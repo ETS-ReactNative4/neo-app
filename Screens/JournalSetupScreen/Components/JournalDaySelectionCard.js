@@ -56,7 +56,7 @@ const JournalDaySelectionCard = ({
         </Text>
       </View>
 
-      <View>
+      <View style={styles.actionSection}>
         <Icon name={constants.arrowRight} color={constants.black1} size={10} />
       </View>
     </TouchableOpacity>
@@ -79,25 +79,32 @@ const styles = StyleSheet.create({
     padding: 24
   },
   dateSection: {
-    width: 72
+    width: 72,
+    alignItems: "flex-start",
+    justifyContent: "center"
   },
   contentSection: {
     flex: 1,
-    marginLeft: 8
+    marginLeft: 8,
+    alignItems: "flex-start",
+    justifyContent: "center"
+  },
+  actionSection: {
+    alignItems: "center",
+    justifyContent: "center"
   },
   lineSeparator: {
     borderBottomWidth: 1,
     borderBottomColor: constants.shade5
   },
   titleString: {
-    ...constants.fontCustom(constants.primaryRegular, 16, 32),
+    ...constants.fontCustom(constants.primaryRegular, 16, 16),
     color: constants.black1,
-    height: 32
+    height: 24
   },
   infoString: {
-    ...constants.fontCustom(constants.primarySemiBold, 12, 32),
-    color: constants.shade1,
-    height: 32
+    ...constants.fontCustom(constants.primarySemiBold, 12, 12),
+    color: constants.shade1
   }
 });
 
