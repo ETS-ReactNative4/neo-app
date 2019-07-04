@@ -12,9 +12,15 @@ import { inject, observer } from "mobx-react/custom";
 import DebouncedAlert from "../../CommonComponents/DebouncedAlert/DebouncedAlert";
 import BackHandlerHoc from "../../CommonComponents/BackHandlerHoc/BackHandlerHoc";
 import AddImageThumbnail from "./Components/AddImageThumbnail";
+import { StackActions, NavigationActions } from "react-navigation";
 
 let _submitStory = () => null;
 let _backHandler = () => null;
+
+const resetAction = StackActions.reset({
+  index: 0,
+  actions: [NavigationActions.navigate({ routeName: "JournalHome" })]
+});
 
 /**
  * Set journal publish mode,
@@ -119,7 +125,7 @@ class JournalTextEditor extends Component {
       const activeStory = this.props.navigation.getParam("activeStory", "");
       submitStory(activeStory, this.state.title, richText)
         .then(() => {
-          this.props.navigation.pop(2);
+          this.props.navigation.dispatch(resetAction);
         })
         .catch(() => {
           DebouncedAlert(
