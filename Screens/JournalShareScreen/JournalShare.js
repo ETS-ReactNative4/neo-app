@@ -71,7 +71,7 @@ class JournalShare extends Component {
   share = () => {
     const { journalTitle, journalUrl } = this.props.journalStore;
     const shareOptions = {
-      message: `${journalTitle} ${journalUrl}`,
+      message: journalTitle,
       url: journalUrl
     };
     share(shareOptions);
