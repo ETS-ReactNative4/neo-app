@@ -41,6 +41,7 @@ const BackHandlerHoc = (backHandler = () => false) => WrappedComponent => {
     componentWillUnmount() {
       this._didFocusSubscription && this._didFocusSubscription.remove();
       this._willBlurSubscription && this._willBlurSubscription.remove();
+      BackHandler.removeEventListener("hardwareBackPress", backHandler);
     }
 
     render() {
