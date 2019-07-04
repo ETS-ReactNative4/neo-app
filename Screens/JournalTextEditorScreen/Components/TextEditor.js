@@ -120,6 +120,9 @@ class TextEditor extends Component {
         value: convertToObject(this.props.initialValue)
       });
     }
+    setTimeout(() => {
+      this.onStyleKeyPress(constants.textEditorControlBody);
+    }, 500);
   }
 
   render() {
