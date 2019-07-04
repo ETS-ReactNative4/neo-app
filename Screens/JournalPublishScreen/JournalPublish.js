@@ -34,6 +34,8 @@ const resetAction = StackActions.reset({
   actions: [NavigationActions.navigate({ routeName: "JournalHome" })]
 });
 
+let _backHandler = () => null;
+
 /**
  * Has two modes handled by `isStoryMode` flag
  * - Story mode will show publish card for a specific story
@@ -44,7 +46,7 @@ const resetAction = StackActions.reset({
  * and is active before you navigate user to this screen.
  */
 @ErrorBoundary()
-@BackHandlerHoc()
+@BackHandlerHoc(() => _backHandler())
 @inject("journalStore")
 @observer
 class JournalPublish extends Component {
@@ -60,6 +62,12 @@ class JournalPublish extends Component {
     isLoopEnded: false
   };
   _waitForImageQueue;
+
+  constructor(props) {
+    super(props);
+
+    _backHandler = this.backHandler;
+  }
 
   /**
    * This will loop the background spinning animation
@@ -249,6 +257,8 @@ class JournalPublish extends Component {
     const { journalUrl } = this.props.journalStore;
     openCustomTab(journalUrl);
   };
+
+  backHandler = () => true;
 
   render() {
     const {
