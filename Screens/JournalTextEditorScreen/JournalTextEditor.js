@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from "react";
-import { View, StyleSheet, TextInput, Platform } from "react-native";
+import { View, StyleSheet, TextInput, Platform, Keyboard } from "react-native";
 import TextEditor from "./Components/TextEditor";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import SimpleButton from "../../CommonComponents/SimpleButton/SimpleButton";
@@ -252,26 +252,30 @@ class JournalTextEditor extends Component {
   };
 
   backHandler = () => {
-    DebouncedAlert(
-      constants.journalBackConfirmation.textEditor.title,
-      constants.journalBackConfirmation.textEditor.message,
-      [
-        {
-          text: constants.journalBackConfirmation.textEditor.negative,
-          onPress: () => {
-            this.props.navigation.goBack();
+    if (this.state.isKeyboardVisible) {
+      Keyboard.dismiss();
+    } else {
+      DebouncedAlert(
+        constants.journalBackConfirmation.textEditor.title,
+        constants.journalBackConfirmation.textEditor.message,
+        [
+          {
+            text: constants.journalBackConfirmation.textEditor.negative,
+            onPress: () => {
+              this.props.navigation.goBack();
+            },
+            style: "destructive"
           },
-          style: "destructive"
-        },
+          {
+            text: constants.journalBackConfirmation.textEditor.positive,
+            onPress: () => null
+          }
+        ],
         {
-          text: constants.journalBackConfirmation.textEditor.positive,
-          onPress: () => null
+          cancelable: false
         }
-      ],
-      {
-        cancelable: false
-      }
-    );
+      );
+    }
     return true;
   };
 
