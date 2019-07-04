@@ -169,7 +169,7 @@ class JournalPublish extends Component {
               [
                 {
                   text: "Okay",
-                  onPress: this.props.navigation.goBack()
+                  onPress: this.props.navigation.goBack
                 }
               ],
               {
