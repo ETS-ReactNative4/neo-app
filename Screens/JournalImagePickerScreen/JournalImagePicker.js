@@ -214,7 +214,8 @@ class JournalImagePicker extends Component {
       NativeImagePicker.openCropper({
         path: uri,
         width: constants.journalImagePicker.selectedImageWidth,
-        height: constants.journalImagePicker.selectedImageHeight
+        height: constants.journalImagePicker.selectedImageHeight,
+        hideBottomControls: true
       })
         .then(croppedImage => {
           const selectedImagesList = [...this.state.selectedImagesList];
