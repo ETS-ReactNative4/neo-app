@@ -16,7 +16,7 @@ const ImagePermissionDenied = ({ action = () => null }) => {
         textColor={constants.themeDarkBlue}
         color={"transparent"}
         underlayColor={"transparent"}
-        icon={constants.editIcon}
+        icon={constants.gearIcon}
         iconSize={14}
         action={action}
       />

@@ -33,14 +33,14 @@ const getWriteFilePermissionAndroid = async (success, failure, settings) => {
 
   try {
     const granted = await PermissionsAndroid.request(
-      PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
-      {
-        title: "Pickyourtrail needs to crop and save images in your device",
-        message: `This will help you crop images before you add them to your journal`,
-        buttonNeutral: "Ask Me Later",
-        buttonNegative: "Cancel",
-        buttonPositive: "OK"
-      }
+      PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE
+      // {
+      //   title: "Pickyourtrail needs to crop and save images in your device",
+      //   message: `This will help you crop images before you add them to your journal`,
+      //   buttonNeutral: "Ask Me Later",
+      //   buttonNegative: "Cancel",
+      //   buttonPositive: "OK"
+      // }
     );
     if (granted === PermissionsAndroid.RESULTS.GRANTED) {
       success();

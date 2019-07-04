@@ -56,6 +56,7 @@ const imageAssets = {
   addIcon: "plus",
   addImageIcon: "image-upload",
   editIcon: "edit",
+  gearIcon: "setting",
   shareIcon: "share",
   facebookIcon: "facebook",
   twitterIcon: "twitter",

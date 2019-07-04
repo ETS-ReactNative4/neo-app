@@ -33,14 +33,14 @@ const getReadFilePermissionAndroid = async (success, failure, settings) => {
 
   try {
     const granted = await PermissionsAndroid.request(
-      PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
-      {
-        title: "Pickyourtrail needs to access your images",
-        message: `We need your permission to add images from your device to the journal`,
-        buttonNeutral: "Ask Me Later",
-        buttonNegative: "Cancel",
-        buttonPositive: "OK"
-      }
+      PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE
+      // {
+      //   title: "Pickyourtrail needs to access your images",
+      //   message: `We need your permission to add images from your device to the journal`,
+      //   buttonNeutral: "Ask Me Later",
+      //   buttonNegative: "Cancel",
+      //   buttonPositive: "OK"
+      // }
     );
     if (granted === PermissionsAndroid.RESULTS.GRANTED) {
       success();

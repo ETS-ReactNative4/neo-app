@@ -192,8 +192,12 @@ class JournalImagePicker extends Component {
       if (Platform.OS === constants.platformAndroid) {
         getReadFilePermissionAndroid(
           () => this.fetchImages(),
-          () => this.fetchImages(),
-          () => this.fetchImages()
+          () => {
+            this.setState({
+              isPermissionDenied: true
+            });
+          },
+          () => null
         );
       } else {
         this.fetchImages();
