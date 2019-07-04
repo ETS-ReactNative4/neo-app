@@ -229,7 +229,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1
   },
   titleInput: {
-    minHeight: 64,
+    minHeight: 48,
     ...constants.fontCustom(constants.primarySemiBold, 18, 24),
     color: constants.black1
   },
