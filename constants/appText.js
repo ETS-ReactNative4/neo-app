@@ -77,6 +77,8 @@ const appText = {
   },
   journalFailureMessages: {
     title: "Oops! Something went wrong :(",
+    failedToStartJournal:
+      "Unable to create your journal. Please check your internet connection and try again after some time.",
     failedToSubmitJournalTitle:
       "Unable to create journal. Please check your internet connection and try again after some time.",
     failedToSubmitJournalStory:
