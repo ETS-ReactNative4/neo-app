@@ -56,8 +56,16 @@ class Journal extends Component {
 
   startNewJournal = () => {
     const { initializeJournalDetails } = this.props.journalStore;
-    initializeJournalDetails();
-    this.props.navigation.navigate("JournalStart");
+    initializeJournalDetails()
+      .then(() => {
+        this.props.navigation.navigate("JournalStart");
+      })
+      .catch(() => {
+        DebouncedAlert(
+          constants.journalFailureMessages.title,
+          constants.journalFailureMessages.failedToStartJournal
+        );
+      });
   };
 
   loadJournalDetails = () => {
