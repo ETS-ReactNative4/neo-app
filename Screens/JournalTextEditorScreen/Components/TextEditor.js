@@ -43,11 +43,11 @@ const customEditorStyles = StyleSheet.create({
     color: constants.black1
   },
   ul: {
-    ...constants.fontCustom(constants.primaryRegular, 15, 32),
+    ...constants.fontCustom(constants.primaryRegular, 15, 26),
     color: constants.black1
   },
   ol: {
-    ...constants.fontCustom(constants.primaryRegular, 15, 32),
+    ...constants.fontCustom(constants.primaryRegular, 15, 26),
     color: constants.black1
   },
   red: {
@@ -85,8 +85,7 @@ const customEditorStyles = StyleSheet.create({
 class TextEditor extends Component {
   state = {
     selectedTag: "body",
-    selectedStyles: [],
-    value: [getInitialObject()]
+    selectedStyles: []
   };
 
   onStyleKeyPress = toolType => {
@@ -119,10 +118,14 @@ class TextEditor extends Component {
       this.setState({
         value: convertToObject(this.props.initialValue)
       });
+    } else {
+      this.setState({
+        value: [getInitialObject()]
+      });
+      setTimeout(() => {
+        this.onStyleKeyPress(constants.textEditorControlBody);
+      }, 500);
     }
-    setTimeout(() => {
-      this.onStyleKeyPress(constants.textEditorControlBody);
-    }, 500);
   }
 
   render() {
