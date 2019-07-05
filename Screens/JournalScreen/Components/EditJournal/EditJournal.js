@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet, View } from "react-native";
 import AddStoryButton from "../../../JournalDaySelectorScreen/Components/AddStoryButton";
 import CustomScrollView from "../../../../CommonComponents/CustomScrollView/CustomScrollView";
 import constants from "../../../../constants/constants";
@@ -10,6 +10,7 @@ import forbidExtraProps from "../../../../Services/PropTypeValidation/forbidExtr
 import PropTypes from "prop-types";
 import JournalDaySelectorTitle from "../../../JournalDaySelectorScreen/Components/JournalDaySelectorTitle";
 import JournalActionRow from "./Components/JournalActionRow";
+import { responsiveWidth } from "react-native-responsive-dimensions";
 
 const EditJournal = ({
   addNewStory,
@@ -81,6 +82,7 @@ const EditJournal = ({
           </Fragment>
         );
       })}
+      <View style={styles.fabIconPlaceholder} />
     </CustomScrollView>
   );
 };
@@ -104,6 +106,10 @@ const styles = StyleSheet.create({
   },
   scrollContainer: {
     backgroundColor: "transparent"
+  },
+  fabIconPlaceholder: {
+    height: 54,
+    width: responsiveWidth(100)
   }
 });
 
