@@ -52,11 +52,11 @@ const TextEditorControls = ({
         }
         action={() => onStyleKeyPress(constants.textEditorControlBold)}
       />
-      <ControlIcon
+      {/* <ControlIcon
         iconName={constants.listIcon}
         isSelected={selectedTag === constants.textEditorControlUnordered}
         action={() => onStyleKeyPress(constants.textEditorControlUnordered)}
-      />
+      /> */}
       <ControlIcon
         iconName={constants.underLineIcon}
         isSelected={
