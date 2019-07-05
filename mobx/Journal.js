@@ -330,7 +330,7 @@ class Journal {
       return [];
     }
     try {
-      return _.get(this.journalDetails, "journal.pages");
+      return _.get(this.journalDetails, "journal.pages") || [];
     } catch (e) {
       logError(e);
       return [];
@@ -340,7 +340,7 @@ class Journal {
   @computed
   get reversedPagesAndStories() {
     try {
-      const reversedPages = _.cloneDeep(this.pages).reverse();
+      const reversedPages = (_.cloneDeep(this.pages) || []).reverse();
       for (let i = 0; i < reversedPages.length; i++) {
         reversedPages[i].stories = reversedPages[i].stories.reverse();
       }
@@ -356,22 +356,27 @@ class Journal {
    */
   @action
   initializeJournalDetails = () => {
-    this._isJournalDetailsLoading = true;
-    const itineraryId = storeService.itineraries.selectedItineraryId;
-    apiCall(`${constants.initializeJournal}?itineraryId=${itineraryId}`)
-      .then(response => {
-        this._isJournalDetailsLoading = false;
-        if (response.status === constants.responseSuccessStatus) {
-          this._journalDetailsError = false;
-          this._journalDetails = response.data;
-        } else {
+    return new Promise((resolve, reject) => {
+      this._isJournalDetailsLoading = true;
+      const itineraryId = storeService.itineraries.selectedItineraryId;
+      apiCall(`${constants.initializeJournal}?itineraryId=${itineraryId}`)
+        .then(response => {
+          this._isJournalDetailsLoading = false;
+          if (response.status === constants.responseSuccessStatus) {
+            this._journalDetailsError = false;
+            this._journalDetails = response.data;
+            resolve();
+          } else {
+            this._journalDetailsError = true;
+            reject();
+          }
+        })
+        .catch(() => {
+          this._isJournalDetailsLoading = false;
           this._journalDetailsError = true;
-        }
-      })
-      .catch(() => {
-        this._isJournalDetailsLoading = false;
-        this._journalDetailsError = true;
-      });
+          reject();
+        });
+    });
   };
 
   /**
