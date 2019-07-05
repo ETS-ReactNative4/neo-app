@@ -247,7 +247,7 @@ class JournalPublish extends Component {
   share = () => {
     const { message, url } = this.getShareUrlWithMessage();
     const shareOptions = {
-      message: `${message} ${url}`,
+      message: message,
       url
     };
     share(shareOptions);
