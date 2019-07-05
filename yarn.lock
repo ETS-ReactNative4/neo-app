@@ -10489,10 +10489,9 @@ react-native-card-stack-swiper@^1.1.0:
   dependencies:
     prop-types "15.5.10"
 
-react-native-cn-richtext-editor@1.0.39:
+"react-native-cn-richtext-editor@git://github.com/DaniAkash/react-native-cn-richtext-editor.git#e49667c9fd7498556a0fc311787bd6bdbe060fe1":
   version "1.0.39"
-  resolved "https://registry.yarnpkg.com/react-native-cn-richtext-editor/-/react-native-cn-richtext-editor-1.0.39.tgz#3bc098f7334996c8d01d6d10b430cea9a87b69ae"
-  integrity sha512-5Xd1DvexChOgCEzIX8pGzNHaFJCTKsi+PXHT7xZPzjA7EFIzDVf6hrgNM3mDPzYZv1P3cPWqp9wBERf7Uv67dw==
+  resolved "git://github.com/DaniAkash/react-native-cn-richtext-editor.git#e49667c9fd7498556a0fc311787bd6bdbe060fe1"
   dependencies:
     diff-match-patch "^1.0.4"
     immutability-helper "^2.8.1"

@@ -45,7 +45,8 @@
     "react-native-app-settings":
       "git://github.com/DaniAkash/react-native-app-settings.git#e1fe1e8358e4d1e907fbb0923bec0fdc72be237a",
     "react-native-card-stack-swiper": "^1.1.0",
-    "react-native-cn-richtext-editor": "1.0.39",
+    "react-native-cn-richtext-editor":
+      "git://github.com/DaniAkash/react-native-cn-richtext-editor.git#e49667c9fd7498556a0fc311787bd6bdbe060fe1",
     "react-native-collapsible": "^1.2.1",
     "react-native-custom-tabs":
       "git://github.com/DaniAkash/react-native-custom-tabs.git#a92bfcc1fda8c42a2710249656ae99ee1968ab96",
