@@ -426,6 +426,11 @@ class JournalImagePicker extends Component {
         activeStory,
         activePage
       });
+    } else if (!activeStory && !selectedImagesList.length) {
+      navigation.navigate("JournalTextEditor", {
+        selectedImagesList,
+        activePage
+      });
     } else {
       createNewStory(activePage)
         .then(storyId => {
