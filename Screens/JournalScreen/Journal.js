@@ -16,6 +16,10 @@ import { StackActions } from "react-navigation";
 import openCustomTab from "../../Services/openCustomTab/openCustomTab";
 import * as Animatable from "react-native-animatable";
 import Icon from "../../CommonComponents/Icon/Icon";
+import {
+  responsiveHeight,
+  responsiveWidth
+} from "react-native-responsive-dimensions";
 
 /**
  * Contains two different screens
@@ -255,22 +259,51 @@ class Journal extends Component {
                 title={journalTitle}
                 desc={journalDesc}
               />
-              <EditJournal
-                addNewStory={this.addNewStory}
-                editAction={this.editStory}
-                deleteAction={this.deleteStory}
-                shareFacebook={this.shareFacebook}
-                shareTwitter={this.shareTwitter}
-                isJournalPublished={isJournalPublished}
-                storyImageQueueStatus={storyImageQueueStatus}
-                pages={reversedPagesAndStories}
-                onItemScroll={this.onItemScroll}
-                isFabButtonActive={this.state.isFabButtonActive}
-                publishJournal={this.publishJournal}
-                shareJournal={this.shareJournal}
-                activeStories={activeStories}
-                viewJournal={this.viewJournal}
-              />
+              {activeStories.length ? (
+                <EditJournal
+                  addNewStory={this.addNewStory}
+                  editAction={this.editStory}
+                  deleteAction={this.deleteStory}
+                  shareFacebook={this.shareFacebook}
+                  shareTwitter={this.shareTwitter}
+                  isJournalPublished={isJournalPublished}
+                  storyImageQueueStatus={storyImageQueueStatus}
+                  pages={reversedPagesAndStories}
+                  onItemScroll={this.onItemScroll}
+                  isFabButtonActive={this.state.isFabButtonActive}
+                  publishJournal={this.publishJournal}
+                  shareJournal={this.shareJournal}
+                  activeStories={activeStories}
+                  viewJournal={this.viewJournal}
+                />
+              ) : (
+                <View>
+                  <Image
+                    style={styles.noStoriesIllustration}
+                    source={constants.noStoriesIllus}
+                  />
+                  <View style={styles.textAreaContainer}>
+                    <Text style={styles.noStoriesTitle}>
+                      {constants.journalText.noStoriesTitle}
+                    </Text>
+                    <Text style={styles.noStoriesMessage}>
+                      {constants.journalText.noStoriesMessage}
+                    </Text>
+                    <View style={styles.fabFixed}>
+                      <TouchableOpacity
+                        style={styles.fabTouchable}
+                        onPress={this.addNewStory}
+                      >
+                        <Icon
+                          name={constants.addIcon}
+                          size={24}
+                          color={"white"}
+                        />
+                      </TouchableOpacity>
+                    </View>
+                  </View>
+                </View>
+              )}
             </Fragment>
           ) : (
             <NewJournal
@@ -282,7 +315,9 @@ class Journal extends Component {
             />
           )}
         </CustomScrollView>
-        {isJournalInitialized && this.state.isFabButtonActive ? (
+        {isJournalInitialized &&
+        this.state.isFabButtonActive &&
+        activeStories.length ? (
           <Animatable.View
             style={styles.fabContainer}
             animation={"fadeIn"}
@@ -322,6 +357,41 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center"
+  },
+  noStoriesIllustration: {
+    height: responsiveWidth(100),
+    width: responsiveWidth(100)
+  },
+  textAreaContainer: {
+    height: responsiveHeight(80) - responsiveWidth(100),
+    width: responsiveWidth(100),
+    backgroundColor: "white",
+    alignItems: "center",
+    justifyContent: "flex-start"
+  },
+  fabFixed: {
+    backgroundColor: constants.firstColor,
+    overflow: "hidden",
+    height: 54,
+    width: 54,
+    borderRadius: 27,
+    borderWidth: 1,
+    borderColor: "transparent",
+    ...constants.elevationTwo
+  },
+  noStoriesTitle: {
+    ...constants.fontCustom(constants.primarySemiBold, 24),
+    color: constants.black1,
+    marginHorizontal: 24,
+    textAlign: "center",
+    marginTop: 16
+  },
+  noStoriesMessage: {
+    ...constants.fontCustom(constants.primaryRegular, 16, 24),
+    color: constants.black1,
+    marginHorizontal: 24,
+    textAlign: "center",
+    marginVertical: 16
   }
 });
 

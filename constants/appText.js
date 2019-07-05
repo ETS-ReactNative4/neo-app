@@ -75,6 +75,11 @@ const appText = {
     title: "Sit Tight",
     message: "Become a travel blogger on the go!"
   },
+  journalText: {
+    noStoriesTitle: "Post your first story",
+    noStoriesMessage:
+      "Add inspiring photo-stories from your travels and share them with your friends."
+  },
   journalFailureMessages: {
     title: "Oops! Something went wrong :(",
     failedToStartJournal:

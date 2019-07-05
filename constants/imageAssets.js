@@ -146,6 +146,7 @@ const imageAssets = {
   noBookingsIllus: require("../assets/images/illustrations/no-bookings-image.png"),
   leisureIllus: require("../assets/images/illustrations/leisure-illustration.png"),
   preChatSupportIllus: require("../assets/images/illustrations/pre-chat-support.png"),
+  noStoriesIllus: require("../assets/images/illustrations/no-stories-illustration.jpg"),
   onChatNoInternetIllus: require("../assets/images/illustrations/on-chat-no-internet.png"),
   helpSupportIllus: require("../assets/images/illustrations/help-and-support-image.png"),
   paymentCompleteIllus: require("../assets/images/illustrations/payment-complete.png"),
