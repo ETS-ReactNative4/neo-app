@@ -449,7 +449,16 @@ class JournalImagePicker extends Component {
           );
         });
     }
-    this.clearSelection();
+    /**
+     * Clearing selection immediately causes the user to see the skip button
+     * Hence a timeout is added here,
+     */
+    setTimeout(() => {
+      /**
+       * For handling failures if the component un mounts before clearing selection
+       */
+      this && this.clearSelection && this.clearSelection();
+    }, 1000);
   };
 
   openAppSettings = () => {
