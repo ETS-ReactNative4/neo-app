@@ -87,7 +87,7 @@ const appText = {
     failedToSubmitJournalTitle:
       "Unable to create journal. Please check your internet connection and try again after some time.",
     failedToSubmitJournalStory:
-      "We’re unable to publish your post right now. Could you please try again in some time?",
+      "We’re unable to publish your post right now. Please check your internet connection and try again after some time",
     failedToCreateNewStory:
       "Unable to create a new story. Please check your internet connection and try again after some time.",
     failedToPublishJournal:
