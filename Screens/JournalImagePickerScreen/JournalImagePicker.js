@@ -506,18 +506,30 @@ class JournalImagePicker extends Component {
     } = this.state;
     const folders = _.uniq(_.map(imagesList, "node.group_name"));
 
-    const folderDropDownValue = [
-      {
-        label: "All Photos",
-        value: "all"
-      },
-      ...folders.map(folder => {
-        return {
-          label: folder,
-          value: folder
-        };
-      })
-    ];
+    /**
+     * iOS does not have folders for photos hence it
+     * only has one option
+     */
+    const folderDropDownValue =
+      Platform.OS === constants.platformAndroid
+        ? [
+            {
+              label: "All Photos",
+              value: "all"
+            },
+            ...folders.map(folder => {
+              return {
+                label: folder,
+                value: folder
+              };
+            })
+          ]
+        : [
+            {
+              label: "All Photos",
+              value: "all"
+            }
+          ];
 
     const imagesToDisplay =
       selectedFolder === "all"
