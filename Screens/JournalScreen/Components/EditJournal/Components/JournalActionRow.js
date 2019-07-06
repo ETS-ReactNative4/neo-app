@@ -4,6 +4,7 @@ import Icon from "../../../../../CommonComponents/Icon/Icon";
 import constants from "../../../../../constants/constants";
 import PropTypes from "prop-types";
 import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidExtraProps";
+import { recordEvent } from "../../../../../Services/analytics/analyticsService";
 
 const JournalActionRow = ({
   publishJournal = () => {},
@@ -16,7 +17,10 @@ const JournalActionRow = ({
   return (
     <View style={styles.journalActionRowContainer}>
       <TouchableOpacity
-        onPress={addStory}
+        onPress={() => {
+          recordEvent(constants.journalHomeAddNewStory);
+          addStory();
+        }}
         activeOpacity={0.8}
         style={styles.actionWrapper}
       >
@@ -27,7 +31,10 @@ const JournalActionRow = ({
       </TouchableOpacity>
       {isJournalPublished ? (
         <TouchableOpacity
-          onPress={viewJournal}
+          onPress={() => {
+            recordEvent(constants.journalHomeViewJournal);
+            viewJournal();
+          }}
           activeOpacity={0.8}
           style={styles.actionWrapper}
         >
@@ -39,7 +46,15 @@ const JournalActionRow = ({
       ) : null}
       {activeStories.length ? (
         <TouchableOpacity
-          onPress={isJournalPublished ? shareJournal : publishJournal}
+          onPress={() => {
+            if (isJournalPublished) {
+              recordEvent(constants.journalHomeShareJournal);
+              shareJournal();
+            } else {
+              recordEvent(constants.journalHomePublishJournal);
+              publishJournal();
+            }
+          }}
           activeOpacity={0.8}
           style={styles.actionWrapper}
         >

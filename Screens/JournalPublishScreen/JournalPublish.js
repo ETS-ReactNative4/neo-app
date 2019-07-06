@@ -28,6 +28,7 @@ import openCustomTab from "../../Services/openCustomTab/openCustomTab";
 import BackHandlerHoc from "../../CommonComponents/BackHandlerHoc/BackHandlerHoc";
 import StorySummary from "./Components/StorySummary";
 import _ from "lodash";
+import { recordEvent } from "../../Services/analytics/analyticsService";
 
 const resetAction = StackActions.reset({
   index: 0,
@@ -231,6 +232,7 @@ class JournalPublish extends Component {
       url,
       social: Share.Social.FACEBOOK
     };
+    recordEvent(constants.journalPublishShareFacebook);
     singleShare(shareOptions);
   };
 
@@ -241,6 +243,7 @@ class JournalPublish extends Component {
       url,
       social: Share.Social.TWITTER
     };
+    recordEvent(constants.journalPublishShareTwitter);
     singleShare(shareOptions);
   };
 
@@ -250,6 +253,7 @@ class JournalPublish extends Component {
       message: message,
       url
     };
+    recordEvent(constants.journalPublishShareCommon);
     share(shareOptions);
   };
 

@@ -18,6 +18,7 @@ import { logError } from "../../Services/errorLogger/errorLogger";
 import { toastCenter } from "../../Services/toast/toast";
 import Share from "react-native-share";
 import { share, singleShare } from "../../Services/shareService/share";
+import { recordEvent } from "../../Services/analytics/analyticsService";
 
 @ErrorBoundary()
 @inject("journalStore")
@@ -55,6 +56,7 @@ class JournalShare extends Component {
       url: journalUrl,
       social: Share.Social.FACEBOOK
     };
+    recordEvent(constants.journalShareScreenShareFacebook);
     singleShare(shareOptions);
   };
 
@@ -65,6 +67,7 @@ class JournalShare extends Component {
       url: journalUrl,
       social: Share.Social.TWITTER
     };
+    recordEvent(constants.journalPublishShareTwitter);
     singleShare(shareOptions);
   };
 
@@ -74,6 +77,7 @@ class JournalShare extends Component {
       message: journalTitle,
       url: journalUrl
     };
+    recordEvent(constants.journalShareScreenShareCommon);
     share(shareOptions);
   };
 

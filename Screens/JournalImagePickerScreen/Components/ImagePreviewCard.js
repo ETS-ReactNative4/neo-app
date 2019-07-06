@@ -7,6 +7,7 @@ import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraPr
 import PreviewControlButton from "./PreviewControlButtons";
 import ImagePositionIndicator from "./ImagePositionIndicator";
 import FastImage from "react-native-fast-image";
+import { recordEvent } from "../../../Services/analytics/analyticsService";
 
 const ImagePreviewCard = ({
   index,
@@ -49,13 +50,19 @@ const ImagePreviewCard = ({
           <PreviewControlButton
             icon={constants.cropIcon}
             containerStyle={styles.cropButton}
-            onClick={() => cropImage(actionIndex, imageUri)}
+            onClick={() => {
+              recordEvent(constants.journalImagePickerCrop);
+              cropImage(actionIndex, imageUri);
+            }}
             isSelected={!isContain && imageUri !== previewImage.uri}
           />
           <PreviewControlButton
             icon={constants.containIcon}
             containerStyle={styles.containButton}
-            onClick={() => toggleImageContain(actionIndex)}
+            onClick={() => {
+              recordEvent(constants.journalImagePickerContain);
+              toggleImageContain(actionIndex);
+            }}
             isSelected={isContain}
           />
           <ImagePositionIndicator
@@ -69,7 +76,10 @@ const ImagePreviewCard = ({
           <PreviewControlButton
             icon={constants.trashCanIcon}
             containerStyle={styles.removeButton}
-            onClick={() => removeImage(index)}
+            onClick={() => {
+              recordEvent(constants.journalImagePickerDelete);
+              removeImage(index);
+            }}
             isSelected={false}
           />
         </Fragment>

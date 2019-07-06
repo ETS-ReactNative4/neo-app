@@ -20,6 +20,7 @@ import {
   responsiveHeight,
   responsiveWidth
 } from "react-native-responsive-dimensions";
+import { recordEvent } from "../../Services/analytics/analyticsService";
 
 /**
  * Contains two different screens
@@ -325,7 +326,10 @@ class Journal extends Component {
           >
             <TouchableOpacity
               style={styles.fabTouchable}
-              onPress={this.addNewStory}
+              onPress={() => {
+                recordEvent(constants.journalHomeAddNewStoryFab);
+                this.addNewStory();
+              }}
             >
               <Icon name={constants.addIcon} size={24} color={"white"} />
             </TouchableOpacity>

@@ -14,6 +14,7 @@ import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraPr
 import SimpleButton from "../../../CommonComponents/SimpleButton/SimpleButton";
 import * as Progress from "react-native-progress";
 import FastImage from "react-native-fast-image";
+import { recordEvent } from "../../../Services/analytics/analyticsService";
 
 const JournalDayCard = ({
   image,
@@ -86,7 +87,10 @@ const JournalDayCard = ({
                   iconSize={16}
                   textStyle={{ fontSize: 15 }}
                   text={"Edit"}
-                  action={editAction}
+                  action={() => {
+                    recordEvent(constants.journalHomeEditStory);
+                    editAction();
+                  }}
                   containerStyle={{ width: null, marginHorizontal: 16 }}
                   textColor={constants.seventhColor}
                   icon={constants.editIcon}
@@ -96,7 +100,10 @@ const JournalDayCard = ({
                   iconSize={16}
                   textStyle={{ fontSize: 15 }}
                   text={"Delete"}
-                  action={deleteAction}
+                  action={() => {
+                    recordEvent(constants.journalHomeDeleteStory);
+                    deleteAction();
+                  }}
                   containerStyle={{ width: null, marginLeft: 8 }}
                   textColor={constants.seventhColor}
                   icon={constants.trashCanIcon}
@@ -106,7 +113,10 @@ const JournalDayCard = ({
                 {isJournalPublished ? (
                   <Fragment>
                     <TouchableOpacity
-                      onPress={shareFacebook}
+                      onPress={() => {
+                        recordEvent(constants.journalHomeStoryShareFacebook);
+                        shareFacebook();
+                      }}
                       style={styles.shareContainer}
                     >
                       <Icon
@@ -116,7 +126,10 @@ const JournalDayCard = ({
                       />
                     </TouchableOpacity>
                     <TouchableOpacity
-                      onPress={shareTwitter}
+                      onPress={() => {
+                        recordEvent(constants.journalHomeStoryShareTwitter);
+                        shareTwitter();
+                      }}
                       style={[styles.shareContainer, { paddingRight: 16 }]}
                     >
                       <Icon
