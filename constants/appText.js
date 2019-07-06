@@ -80,6 +80,12 @@ const appText = {
     noStoriesMessage:
       "Add inspiring photo-stories from your travels and share them with your friends."
   },
+  journalShareMessages: {
+    twitterMessage: title =>
+      `Check out my journal - "${title ||
+        ""}" @pickyourtrail #travelstories #pickyourtrail #unwraptheworld`,
+    commonMessage: title => `Check out my journal - "${title || ""}"`
+  },
   journalFailureMessages: {
     title: "Oops! Something went wrong :(",
     failedToStartJournal:

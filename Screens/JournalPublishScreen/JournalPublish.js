@@ -228,7 +228,7 @@ class JournalPublish extends Component {
   shareFacebook = () => {
     const { message, url } = this.getShareUrlWithMessage();
     const shareOptions = {
-      message,
+      message: constants.journalShareMessages.commonMessage(message),
       url,
       social: Share.Social.FACEBOOK
     };
@@ -239,7 +239,7 @@ class JournalPublish extends Component {
   shareTwitter = () => {
     const { message, url } = this.getShareUrlWithMessage();
     const shareOptions = {
-      message,
+      message: constants.journalShareMessages.twitterMessage(message),
       url,
       social: Share.Social.TWITTER
     };
@@ -250,7 +250,7 @@ class JournalPublish extends Component {
   share = () => {
     const { message, url } = this.getShareUrlWithMessage();
     const shareOptions = {
-      message: message,
+      message: constants.journalShareMessages.commonMessage(message),
       url
     };
     recordEvent(constants.journalPublishShareCommon);

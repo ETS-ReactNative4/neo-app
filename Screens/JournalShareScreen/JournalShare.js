@@ -52,7 +52,7 @@ class JournalShare extends Component {
   shareFacebook = () => {
     const { journalTitle, journalUrl } = this.props.journalStore;
     const shareOptions = {
-      message: journalTitle,
+      message: constants.journalShareMessages.commonMessage(journalTitle),
       url: journalUrl,
       social: Share.Social.FACEBOOK
     };
@@ -63,7 +63,7 @@ class JournalShare extends Component {
   shareTwitter = () => {
     const { journalTitle, journalUrl } = this.props.journalStore;
     const shareOptions = {
-      message: journalTitle,
+      message: constants.journalShareMessages.twitterMessage(journalTitle),
       url: journalUrl,
       social: Share.Social.TWITTER
     };
@@ -74,7 +74,7 @@ class JournalShare extends Component {
   share = () => {
     const { journalTitle, journalUrl } = this.props.journalStore;
     const shareOptions = {
-      message: journalTitle,
+      message: constants.journalShareMessages.commonMessage(journalTitle),
       url: journalUrl
     };
     recordEvent(constants.journalShareScreenShareCommon);

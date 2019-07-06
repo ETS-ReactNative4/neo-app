@@ -176,7 +176,7 @@ class Journal extends Component {
   shareFacebook = (title, url) => {
     const { journalUrl } = this.props.journalStore;
     const shareOptions = {
-      message: title,
+      message: constants.journalShareMessages.commonMessage(title),
       url: journalUrl + url,
       social: Share.Social.FACEBOOK
     };
@@ -186,7 +186,7 @@ class Journal extends Component {
   shareTwitter = (title, url) => {
     const { journalUrl } = this.props.journalStore;
     const shareOptions = {
-      message: title,
+      message: constants.journalShareMessages.twitterMessage(title),
       url: journalUrl + url,
       social: Share.Social.TWITTER
     };
