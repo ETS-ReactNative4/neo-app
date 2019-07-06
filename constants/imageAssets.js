@@ -51,6 +51,21 @@ const imageAssets = {
   thumbsUpIcon: "like",
   thumbsDownIcon: "unlike",
   locationIcon: "location",
+  cropIcon: "crop",
+  containIcon: "minimize",
+  addIcon: "plus",
+  addImageIcon: "image-upload",
+  editIcon: "edit",
+  gearIcon: "setting",
+  shareIcon: "share",
+  facebookIcon: "facebook",
+  twitterIcon: "twitter",
+  shareFilledIcon: "share-fill",
+  facebookFilledIcon: "facebook-fill",
+  twitterFilledIcon: "twitter-fill",
+  keyboardDismissIcon: "collapse-keyboard",
+  eyeIcon: "visibility",
+  uploadIcon: "typical-social-share",
 
   semiCircleShape: require("../assets/images/shapes/hiring_topic.png"),
   headerBackgroundShape: require("../assets/images/shapes/banner_white.png"),
@@ -101,6 +116,13 @@ const imageAssets = {
   trashCanIcon: "trash-can",
   noInternetIcon: "no-internet",
   translateIcon: "translate",
+  boldIcon: "bold",
+  headingIcon: "heading",
+  lineBreakIcon: "line-break",
+  underLineIcon: "underline",
+  linkIcon: "link",
+  listIcon: "list",
+  textIcon: "text",
 
   weatherGraphInactive: require("../assets/images/weatherPlaceholders/weather-graph-disabled.png"),
   weatherCardPlaceholder: require("../assets/images/weatherPlaceholders/weather-placeholder.png"),
@@ -124,6 +146,7 @@ const imageAssets = {
   noBookingsIllus: require("../assets/images/illustrations/no-bookings-image.png"),
   leisureIllus: require("../assets/images/illustrations/leisure-illustration.png"),
   preChatSupportIllus: require("../assets/images/illustrations/pre-chat-support.png"),
+  noStoriesIllus: require("../assets/images/illustrations/no-stories-illustration.jpg"),
   onChatNoInternetIllus: require("../assets/images/illustrations/on-chat-no-internet.png"),
   helpSupportIllus: require("../assets/images/illustrations/help-and-support-image.png"),
   paymentCompleteIllus: require("../assets/images/illustrations/payment-complete.png"),
@@ -177,7 +200,14 @@ const imageAssets = {
   roomsSmallPlaceHolder: prefix + "HotelRooms-120x90.png",
   roomsLargePlaceHolder: prefix + "HotelRooms-240x180.png",
 
-  defaultPlaceImage: "https://pyt-images.imgix.net/images/place-holder.png"
+  defaultPlaceImage: "https://pyt-images.imgix.net/images/place-holder.png",
+
+  /**
+   * Animation files
+   */
+  journalPublishingLoop: require("../assets/animations/publishloop"),
+  journalPublishEnd: require("../assets/animations/publishend"),
+  journalPublishSuccess: require("../assets/animations/publishSuccess")
 };
 
 export default imageAssets;

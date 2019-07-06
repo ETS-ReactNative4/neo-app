@@ -42,6 +42,17 @@ const apiUrls = {
   initiateChat: "mobile/chat/initiate",
   setChatRestoreId: "mobile/chat/restoreid",
   getDaywiseFeedbackOptions: "mobile/footers",
+  journalImageDetails: "mobile/journal/image",
+  journalStoryOperations: "mobile/journal/story",
+  journalDeleteStory: "mobile/journal/story/:storyId",
+
+  getJournalScreenDetails: "mobile/journal/screen/info/home",
+  getJournalStartScreenDetails: "mobile/journal/screen/info/setup",
+  initializeJournal: "mobile/journal/initialize",
+  refreshJournalData: "mobile/journal",
+  updateJournalDetails: "mobile/journal/update",
+  getStoryImageSignedUrl: "mobile/journal/image/signedurl",
+  publishJournal: "mobile/journal/publish",
 
   googleDrivePdfViewer: "https://drive.google.com/viewerng/viewer?url="
 };

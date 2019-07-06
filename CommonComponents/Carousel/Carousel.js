@@ -9,7 +9,8 @@ const Carousel = ({
   data,
   firstMargin,
   children,
-  onScroll
+  onScroll,
+  scrollRef
 }) => {
   let scrollProps = {};
   const gradients = [
@@ -22,6 +23,7 @@ const Carousel = ({
   ];
 
   if (onScroll) scrollProps["onScroll"] = () => onScroll();
+  if (scrollRef) scrollProps["ref"] = scrollRef;
   return (
     <View style={[styles.scrollContainer, containerStyle]}>
       <ScrollView
@@ -69,7 +71,8 @@ Carousel.propTypes = {
   ),
   firstMargin: PropTypes.number,
   children: PropTypes.arrayOf(PropTypes.element),
-  onScroll: PropTypes.func
+  onScroll: PropTypes.func,
+  scrollRef: PropTypes.object
 };
 
 const styles = StyleSheet.create({

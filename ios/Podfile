@@ -56,6 +56,14 @@ target 'Pickyourtrail' do
 
   pod 'RNDeviceInfo', :path => '../node_modules/react-native-device-info'
 
+  pod 'react-native-cameraroll', :path => '../node_modules/@react-native-community/cameraroll'
+
+  pod 'RNImageCropPicker', :path => '../node_modules/react-native-image-crop-picker'
+
+  pod 'lottie-react-native', :path => '../node_modules/lottie-react-native'
+
+  pod 'RNShare', :path => '../node_modules/react-native-share'
+
   # target 'PickyourtrailTests' do
   #   inherit! :search_paths
   #   # Pods for testing

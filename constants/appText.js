@@ -1,3 +1,6 @@
+import { Platform } from "react-native";
+import constants from "./constants";
+
 const appText = {
   starterScreenText: {
     mainButton: "Find your booking",
@@ -71,6 +74,91 @@ const appText = {
   journalComingSoonText: {
     title: "Sit Tight",
     message: "Become a travel blogger on the go!"
+  },
+  journalText: {
+    noStoriesTitle: "Post your first story",
+    noStoriesMessage:
+      "Add inspiring photo-stories from your travels and share them with your friends."
+  },
+  journalFailureMessages: {
+    title: "Oops! Something went wrong :(",
+    failedToStartJournal:
+      "Unable to create your journal. Please check your internet connection and try again after some time.",
+    failedToSubmitJournalTitle:
+      "Unable to create journal. Please check your internet connection and try again after some time.",
+    failedToSubmitJournalStory:
+      "We’re unable to publish your post right now. Please check your internet connection and try again after some time",
+    failedToCreateNewStory:
+      "Unable to create a new story. Please check your internet connection and try again after some time.",
+    failedToPublishJournal:
+      "Unable to publish this story. Please check your internet connection and try again after some time.",
+    failedToDeleteImage:
+      "Unable to delete the image. Please check your internet connection and try again after some time.",
+    failedToDeleteStory:
+      "Unable to delete the story. Please check your internet connection and try again after some time.",
+    userDeniedImagePermission: () =>
+      `To select and upload your images, please grant access to your ${
+        Platform.OS === constants.platformIos ? "photos" : "storage"
+      }.`
+  },
+  journalBackConfirmation: {
+    imagePicker: {
+      title: "Sure you want to go back?",
+      message:
+        "You’ll lose your selection if you choose to go back. Would you still like to proceed?",
+      positive: "Stay here",
+      negative: "Proceed anyway"
+    },
+    textEditor: {
+      title: "Sure you want to go back?",
+      message:
+        "We haven’t saved your thoughts yet and we’d hate to have to delete them. Still want to go back?",
+      positive: "Stay here",
+      negative: "Proceed anyway"
+    },
+    journalTitleCreation: {
+      title: "Sure you want to go back?",
+      message:
+        "We won’t be able to save your data if you choose to go back. Are you sure you want to proceed?",
+      positive: "Stay here",
+      negative: "Proceed anyway"
+    },
+    journalEditingTitle: {
+      title: "Sure you want to go back?",
+      message:
+        "We won’t be able to save your data if you choose to go back. Are you sure you want to proceed?",
+      positive: "Stay here",
+      negative: "Proceed anyway"
+    }
+  },
+  journalAlertMessages: {
+    removeImage: {
+      header: "Delete this image?",
+      message:
+        "Are you sure you want to delete this beautiful photograph? We won’t be able to undo this action.",
+      confirm: "Confirm Deletion",
+      cancel: "Keep"
+    },
+    logout: {
+      header: "Your images are being uploaded.",
+      message:
+        "You cannot logout during an active image upload. Please wait till all the images are uploaded."
+    },
+    noTitleForStory: {
+      header: "Please add a story title",
+      message: "You cannot create a story without title"
+    },
+    oneStoryMissingTitle: {
+      header: "One of your stories is missing a title",
+      message: "Make sure you have added title to all your stories"
+    },
+    removeStory: {
+      header: "Delete this journal entry?",
+      message:
+        "Are you sure you want to delete this entry? It’s a great memory :( We won’t be able to undo this action.",
+      confirm: "Confirm Deletion",
+      cancel: "Keep"
+    }
   },
   bookingFailedText: "No Voucher available",
   bookingProcessText: {

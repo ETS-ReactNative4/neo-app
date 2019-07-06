@@ -16,6 +16,7 @@ const pallete2 = {
   eighthColor: `rgba(74,144,226,1)`,
   ninthColor: `rgba(91,110,234,1)`, // theme purple
   tenthColor: `rgba(239, 174, 97, 1)`, //theme orange
+  themeDarkBlue: `rgba(80, 138, 232, 1)`,
 
   firstColorAlpha: alpha => `rgba(0, 198, 132, ${alpha})`,
   secondColorAlpha: alpha => `rgba(255, 201, 51, ${alpha})`,
@@ -25,7 +26,8 @@ const pallete2 = {
   sixthColorAlpha: alpha => `rgba(120,5,114,${alpha})`,
   seventhColorAlpha: alpha => `rgba(35,123,226,${alpha})`,
   eighthColorAlpha: alpha => `rgba(74,144,226,${alpha})`,
-  ninthColorAlpha: alpha => `rgba(91,110,234,${alpha})`
+  ninthColorAlpha: alpha => `rgba(91,110,234,${alpha})`,
+  themeDarkBlueAlpha: alpha => `rgba(80, 138, 232, ${alpha})`
 };
 
 const pallete3 = {};
@@ -62,9 +64,18 @@ const gradientPallete = {
   seventhGradientAlpha: alpha => `rgba(77,159,197,${alpha})`
 };
 
+const whitePallete = {
+  white1: `rgb(247, 247, 247)`
+};
+
 const chatColorPallete = {
   chatMainColor: "rgba(0,198,132,1)",
   chatLightColor: "rgba(249,249,249,1)"
+};
+
+const thirdPartyColors = {
+  facebookThemeColor: "rgb(59,89,152)",
+  twitterThemeColor: "rgb(8, 160, 233)"
 };
 
 const colorPallete = {
@@ -72,6 +83,8 @@ const colorPallete = {
   ...greyPallete,
   ...gradientPallete,
   ...chatColorPallete,
+  ...whitePallete,
+  ...thirdPartyColors,
   appBackgroundColor: "white",
   drawerBackgroundColor: "rgba(46, 124, 239, 1)"
 };

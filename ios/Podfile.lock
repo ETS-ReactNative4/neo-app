@@ -62,19 +62,51 @@ PODS:
     - GoogleUtilities/Logger
   - GoogleUtilities/UserDefaults (5.3.4):
     - GoogleUtilities/Logger
+  - libwebp (0.6.1):
+    - libwebp/core (= 0.6.1)
+    - libwebp/dec (= 0.6.1)
+    - libwebp/demux (= 0.6.1)
+    - libwebp/dsp (= 0.6.1)
+    - libwebp/enc (= 0.6.1)
+    - libwebp/mux (= 0.6.1)
+    - libwebp/utils (= 0.6.1)
+    - libwebp/webp (= 0.6.1)
+  - libwebp/core (0.6.1):
+    - libwebp/webp
+  - libwebp/dec (0.6.1):
+    - libwebp/core
+  - libwebp/demux (0.6.1):
+    - libwebp/core
+  - libwebp/dsp (0.6.1):
+    - libwebp/core
+  - libwebp/enc (0.6.1):
+    - libwebp/core
+  - libwebp/mux (0.6.1):
+    - libwebp/core
+  - libwebp/utils (0.6.1):
+    - libwebp/core
+  - libwebp/webp (0.6.1)
+  - lottie-ios (2.5.3)
+  - lottie-react-native (2.6.1):
+    - lottie-ios (~> 2.5.0)
+    - React
   - nanopb (0.3.901):
     - nanopb/decode (= 0.3.901)
     - nanopb/encode (= 0.3.901)
   - nanopb/decode (0.3.901)
   - nanopb/encode (0.3.901)
   - Protobuf (3.6.1)
+  - QBImagePickerController (3.4.0)
   - React (0.57.1):
     - React/Core (= 0.57.1)
-  - react-native-fast-image (5.0.3):
+  - react-native-cameraroll (1.0.5):
+    - React
+  - react-native-fast-image (5.1.4):
     - FLAnimatedImage
     - React
     - SDWebImage/Core
     - SDWebImage/GIF
+    - SDWebImage/WebP
   - react-native-photo-view (1.5.2):
     - React
   - react-native-webview (5.7.0):
@@ -118,9 +150,15 @@ PODS:
     - React/Core
     - React/fishhook
     - React/RCTBlob
-  - RNDeviceInfo (1.0.1):
+  - RNDeviceInfo (2.1.2):
     - React
+  - RNImageCropPicker (0.24.1):
+    - QBImagePickerController
+    - React/Core
+    - RSKImageCropper
   - RNKeychain (3.0.0):
+    - React
+  - RNShare (1.2.1):
     - React
   - RNSound (0.10.9):
     - React/Core
@@ -131,9 +169,13 @@ PODS:
     - React
   - RNVectorIcons (5.0.0):
     - React
+  - RSKImageCropper (2.2.1)
   - SDWebImage/Core (4.4.2)
   - SDWebImage/GIF (4.4.2):
     - FLAnimatedImage (~> 1.0)
+    - SDWebImage/Core
+  - SDWebImage/WebP (4.4.2):
+    - libwebp (~> 0.5)
     - SDWebImage/Core
   - Sentry (4.0.1):
     - Sentry/Core (= 4.0.1)
@@ -151,6 +193,8 @@ DEPENDENCIES:
   - Firebase/Messaging (~> 5.11.0)
   - Folly (from `../node_modules/react-native/third-party-podspecs/Folly.podspec`)
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
+  - lottie-react-native (from `../node_modules/lottie-react-native`)
+  - "react-native-cameraroll (from `../node_modules/@react-native-community/cameraroll`)"
   - react-native-fast-image (from `../node_modules/react-native-fast-image`)
   - react-native-photo-view (from `../node_modules/react-native-photo-view`)
   - react-native-webview (from `../node_modules/react-native-webview`)
@@ -167,7 +211,9 @@ DEPENDENCIES:
   - React/RCTText (from `../node_modules/react-native`)
   - React/RCTWebSocket (from `../node_modules/react-native`)
   - RNDeviceInfo (from `../node_modules/react-native-device-info`)
+  - RNImageCropPicker (from `../node_modules/react-native-image-crop-picker`)
   - RNKeychain (from `../node_modules/react-native-keychain`)
+  - RNShare (from `../node_modules/react-native-share`)
   - RNSound (from `../node_modules/react-native-sound`)
   - RNSVG (from `../node_modules/react-native-svg`)
   - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
@@ -187,8 +233,12 @@ SPEC REPOS:
     - FLAnimatedImage
     - GoogleAppMeasurement
     - GoogleUtilities
+    - libwebp
+    - lottie-ios
     - nanopb
     - Protobuf
+    - QBImagePickerController
+    - RSKImageCropper
     - SDWebImage
     - Sentry
 
@@ -199,8 +249,12 @@ EXTERNAL SOURCES:
     :podspec: "../node_modules/react-native/third-party-podspecs/Folly.podspec"
   glog:
     :podspec: "../node_modules/react-native/third-party-podspecs/glog.podspec"
+  lottie-react-native:
+    :path: "../node_modules/lottie-react-native"
   React:
     :path: "../node_modules/react-native"
+  react-native-cameraroll:
+    :path: "../node_modules/@react-native-community/cameraroll"
   react-native-fast-image:
     :path: "../node_modules/react-native-fast-image"
   react-native-photo-view:
@@ -209,8 +263,12 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-webview"
   RNDeviceInfo:
     :path: "../node_modules/react-native-device-info"
+  RNImageCropPicker:
+    :path: "../node_modules/react-native-image-crop-picker"
   RNKeychain:
     :path: "../node_modules/react-native-keychain"
+  RNShare:
+    :path: "../node_modules/react-native-share"
   RNSound:
     :path: "../node_modules/react-native-sound"
   RNSVG:
@@ -238,23 +296,31 @@ SPEC CHECKSUMS:
   glog: e8acf0ebbf99759d3ff18c86c292a5898282dcde
   GoogleAppMeasurement: 5029d78f2b438bd30ffb44e6c558b57c21622727
   GoogleUtilities: abb092d2c12e817fa3e0e7b274987dd72fb86ec3
+  libwebp: 0f01098c6c17175391af621b2f14150f3ca16e16
+  lottie-ios: a50d5c0160425cd4b01b852bb9578963e6d92d31
+  lottie-react-native: 3d8181d43619b1fe804c828bd5a09d20fe8bdea7
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
   Protobuf: 1eb9700044745f00181c136ef21b8ff3ad5a0fd5
+  QBImagePickerController: d54cf93db6decf26baf6ed3472f336ef35cae022
   React: b4e0982b0ed6a7de90e96cf6fe5cf036aeadd1ec
-  react-native-fast-image: f33fef29062258f1f4c39cfc19dc25662eb1de40
+  react-native-cameraroll: b1faef9f2ea27b07bdf818b8043909a93f797eca
+  react-native-fast-image: 50418ec26a3ca015769b6112e49052e57ad6a50d
   react-native-photo-view: 63e9e61da873531f931008b545d8d10c5373ddf8
   react-native-webview: 69ca34f590814ae44260d30e293ab4b7b3eea793
-  RNDeviceInfo: ec0ee4e9ce33c1c400f143680634ae71e7c64bc5
+  RNDeviceInfo: 75dac2d7cd6b638b512cc9266ce48a39661fed0e
+  RNImageCropPicker: 6134b66a3d5bc13e2895a97c630a4254006902b4
   RNKeychain: 3aa3cf891a09a0d18d306862ab2bb9e106079b24
+  RNShare: 48cf88cadf9ca2143cdaa557c1ec7f8808040ffc
   RNSound: 24fa73ccfa6236a0b493e3f4bf3c952028dc3ce2
   RNSVG: 3c037ade1c42014de732e27e3879bf2b77ea78ea
   RNVectorIcons: f066f73bf4f25564d7ee7b1bb150e3b431f3a194
+  RSKImageCropper: 98296ad26b41753f796b6898d015509598f13d97
   SDWebImage: 624d6e296c69b244bcede364c72ae0430ac14681
   Sentry: a38f7879924c02239e121b19d993d23bdd1684db
   SentryReactNative: 0dc14d9821b62658796882a954dc67dd2f175d29
   TextToSpeech: 4e2fc50c7495416c6da5a1662ad3f750c58d3c85
   yoga: 5e2e4bcf11188977f799b64625dc5913c2aea8fd
 
-PODFILE CHECKSUM: f48a45f6e5b53ae8145ade3ac29141d3d6624924
+PODFILE CHECKSUM: f77ddf37ce5fb78df42c26c28a05af00523b47d4
 
 COCOAPODS: 1.6.1

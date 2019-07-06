@@ -119,6 +119,15 @@ const stringConstants = {
   hotelDefaultCheckOutTime: "11:00 am",
   hotelDefaultCheckInTime: "02:00 pm",
 
+  /**
+   * Text Editor Controls
+   */
+  textEditorControlBold: "bold",
+  textEditorControlHeading: "heading",
+  textEditorControlUnordered: "ul",
+  textEditorControlUnderline: "underline",
+  textEditorControlBody: "body",
+
   tripToggleStatusStorageKey: "@Pickyourtrail/tripToggleStatus"
 };
 

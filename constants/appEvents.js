@@ -153,7 +153,25 @@ const appEvents = {
   paymentFailureSupportClick: "payment_failure_support_click",
   tripFeedbackPositiveClick: "trip_feedback_positive_click",
   tripFeedbackNegativeClick: "trip_feedback_negative_click",
-  tripFeedbackSubmitClick: "trip_feedback_submit_click"
+  tripFeedbackSubmitClick: "trip_feedback_submit_click",
+  journalHomeAddNewStory: "journal_home_add_new_story_click",
+  journalHomeAddNewStoryFab: "journal_home_add_new_story_fab_click",
+  journalHomeViewJournal: "journal_home_view_journal_click",
+  journalHomePublishJournal: "journal_home_publish_journal_click",
+  journalHomeShareJournal: "journal_home_share_journal_click",
+  journalHomeStoryShareFacebook: "journal_home_story_share_facebook_click",
+  journalHomeStoryShareTwitter: "journal_home_story_share_twitter_click",
+  journalHomeEditStory: "journal_home_edit_story_click",
+  journalHomeDeleteStory: "journal_home_delete_story_click",
+  journalImagePickerCrop: "journal_image_picker_crop_click",
+  journalImagePickerContain: "journal_image_picker_contain_click",
+  journalImagePickerDelete: "journal_image_picker_delete_click",
+  journalPublishShareFacebook: "journal_publish_share_facebook_click",
+  journalPublishShareTwitter: "journal_publish_share_twitter_click",
+  journalPublishShareCommon: "journal_publish_share_common_click",
+  journalShareScreenShareFacebook: "journal_share_screen_share_facebook",
+  journalShareScreenShareTwitter: "journal_share_screen_share_twitter",
+  journalShareScreenShareCommon: "journal_share_screen_share_common"
 };
 
 // console.log('-----------------------------------');

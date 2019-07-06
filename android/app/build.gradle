@@ -98,12 +98,22 @@ android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
 
+    /**
+     * Workaround for Lottie Airbnb issue with JAVA 8 code https://github.com/airbnb/lottie-android/issues/822#issuecomment-401776909
+     */
+    configurations.all {
+    resolutionStrategy {
+        force "com.airbnb.android:lottie:2.5.5"
+      }
+    }
+
     defaultConfig {
         applicationId "com.pickyourtrail"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
+        multiDexEnabled true
         versionCode Integer.parseInt(VERSION_CODE)
-        versionName "1.2.0"
+        versionName "1.2.1"
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
@@ -149,6 +159,11 @@ android {
 }
 
 dependencies {
+    implementation project(':react-native-share')
+    implementation 'com.android.support:multidex:1.0.3'
+    implementation project(':lottie-react-native')
+    implementation project(':react-native-image-crop-picker')
+    implementation project(':@react-native-community_cameraroll')
     implementation(project(':react-native-device-info')) {
       exclude group: 'com.google.android.gms'
     }

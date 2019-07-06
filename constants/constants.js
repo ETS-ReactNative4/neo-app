@@ -19,7 +19,8 @@ if (__DEV__) {
     Object.keys(serverUrls),
     Object.keys(styles),
     Object.keys(appText),
-    Object.keys(errorTexts)
+    Object.keys(errorTexts),
+    Object.keys(stringConstants)
   ];
 
   const duplicate = keys.reduce((dup, item) => {

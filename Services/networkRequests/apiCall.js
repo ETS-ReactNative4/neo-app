@@ -131,9 +131,9 @@ const apiCall = async (
           category: constants.errorLoggerEvents.categories.networkRequest,
           data: {
             requestURL,
-            requestBody: requestDetails.body,
+            requestBody: JSON.stringify(requestDetails.body),
             ...headerObject,
-            response: data
+            response: JSON.stringify(data)
           },
           level: constants.errorLoggerEvents.levels.info
         });

@@ -21,6 +21,7 @@ import Forex from "./Forex";
 import DeviceDetails from "./DeviceDetails";
 import FeedbackPrompt from "./FeedbackPrompt";
 import ChatDetails from "./ChatDetails";
+import Journal from "./Journal";
 
 export const hydrate = create({
   storage: AsyncStorage,
@@ -48,7 +49,8 @@ const createStore = () => {
     forexStore: new Forex(),
     deviceDetailsStore: new DeviceDetails(),
     feedbackPrompt: new FeedbackPrompt(),
-    chatDetailsStore: new ChatDetails()
+    chatDetailsStore: new ChatDetails(),
+    journalStore: new Journal()
   };
 
   hydrate("_upcomingItineraries", appStore.yourBookingsStore)
@@ -201,6 +203,7 @@ const createStore = () => {
   DeviceDetails.hydrator(appStore.deviceDetailsStore);
   FeedbackPrompt.hydrator(appStore.feedbackPrompt);
   ChatDetails.hydrator(appStore.chatDetailsStore);
+  Journal.hydrator(appStore.journalStore);
   return appStore;
 };
 

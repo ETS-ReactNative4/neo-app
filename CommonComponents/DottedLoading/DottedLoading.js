@@ -7,7 +7,8 @@ class DottedLoading extends Component {
   static propTypes = forbidExtraProps({
     text: PropTypes.string.isRequired,
     numOfDots: PropTypes.number.isRequired,
-    textStyle: PropTypes.oneOfType([PropTypes.number, PropTypes.object])
+    textStyle: PropTypes.oneOfType([PropTypes.number, PropTypes.object]),
+    animationSpeed: PropTypes.number
   });
 
   state = {
@@ -16,6 +17,7 @@ class DottedLoading extends Component {
   _interval = {};
 
   componentDidMount() {
+    const { animationSpeed = 100 } = this.props;
     this._interval = setInterval(() => {
       if (this.state.dots.length < this.props.numOfDots) {
         this.setState({
@@ -24,7 +26,7 @@ class DottedLoading extends Component {
       } else {
         this.setState({ dots: "" });
       }
-    }, 100);
+    }, animationSpeed);
   }
 
   componentWillUnmount() {

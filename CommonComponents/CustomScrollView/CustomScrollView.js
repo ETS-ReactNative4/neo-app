@@ -20,7 +20,8 @@ class CustomScrollView extends Component {
     onRefresh: PropTypes.func.isRequired,
     refreshing: PropTypes.bool.isRequired,
     horizontalPadding: PropTypes.number,
-    scrollComponent: PropTypes.string
+    scrollComponent: PropTypes.string,
+    containerStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.number])
   };
   _refreshControlRef = React.createRef();
 
@@ -30,6 +31,7 @@ class CustomScrollView extends Component {
       refreshing,
       horizontalPadding,
       scrollComponent,
+      containerStyle = {},
       ...otherProps
     } = this.props;
     otherProps.refreshControl = (
@@ -58,7 +60,8 @@ class CustomScrollView extends Component {
       <View
         style={[
           styles.customScrollContainer,
-          horizontalPadding ? { paddingHorizontal: horizontalPadding } : null
+          horizontalPadding ? { paddingHorizontal: horizontalPadding } : null,
+          containerStyle
         ]}
       >
         <LineProgressBar
