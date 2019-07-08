@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import { View, StyleSheet, Image } from "react-native";
+import { View, StyleSheet, Image, Platform } from "react-native";
 import constants from "../../../constants/constants";
 import { responsiveWidth } from "react-native-responsive-dimensions";
 import PropTypes from "prop-types";
@@ -47,15 +47,22 @@ const ImagePreviewCard = ({
       />
       {!isPreselected ? (
         <Fragment>
-          <PreviewControlButton
-            icon={constants.cropIcon}
-            containerStyle={styles.cropButton}
-            onClick={() => {
-              recordEvent(constants.journalImagePickerCrop);
-              cropImage(actionIndex, imageUri);
-            }}
-            isSelected={!isContain && imageUri !== previewImage.uri}
-          />
+          {/**
+           * TODO: Awaiting fix for the cropping issue in iOS
+           * https://github.com/ivpusic/react-native-image-crop-picker/issues/1051
+           * Crop will be enabled on iOS once this issue is resolved
+           */
+          Platform.OS === constants.platformAndroid ? (
+            <PreviewControlButton
+              icon={constants.cropIcon}
+              containerStyle={styles.cropButton}
+              onClick={() => {
+                recordEvent(constants.journalImagePickerCrop);
+                cropImage(actionIndex, imageUri);
+              }}
+              isSelected={!isContain && imageUri !== previewImage.uri}
+            />
+          ) : null}
           <PreviewControlButton
             icon={constants.containIcon}
             containerStyle={styles.containButton}
@@ -127,7 +134,7 @@ const styles = StyleSheet.create({
   containButton: {
     position: "absolute",
     bottom: -16,
-    right: 80
+    right: Platform.OS === constants.platformAndroid ? 80 : 24 // Style changed on iOS since crop button is disabled
   },
   removeButton: {
     position: "absolute",
