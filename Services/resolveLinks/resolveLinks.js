@@ -28,6 +28,18 @@ const isVoucherBooked = voucher =>
 const isVoucherAvailable = voucher =>
   voucher && voucher.status !== constants.voucherErrorStatus;
 
+const isDataSkipped = voucher => _.get(voucher, "voucher.skipData");
+
+/**
+ * Voucher has skipped data,
+ * Open the voucher directly in custom tab using voucher url
+ */
+const skipData = voucher => {
+  const url = _.get(voucher, "voucher.voucherUrl");
+  if (url) openCustomTab(url);
+  else toastBottom(constants.voucherText.voucherUnavailable);
+};
+
 const resolveLinks = (link = "", screenProps = {}, deepLink = {}) => {
   try {
     const { _navigation: navigation } = navigationService.navigation;
@@ -83,6 +95,13 @@ const resolveLinks = (link = "", screenProps = {}, deepLink = {}) => {
        * If `voucherType` and `costingIdentifier` are present in the deeplink,
        * open the respective voucher
        */
+      /**
+       * Voucher conditions
+       * - If voucher has `skipData` set to true, should directly open the voucher url in custom tab
+       * - If voucher is free or booked just open the voucher screen
+       * - If the voucher is not yet booked, open the voucher screen with incomplete data but also show
+       * a toast message saying it's under processing
+       */
       if (voucherType && costingIdentifier) {
         switch (voucherType) {
           case constants.flightVoucherType:
@@ -90,9 +109,13 @@ const resolveLinks = (link = "", screenProps = {}, deepLink = {}) => {
               costingIdentifier
             );
             if (isVoucherAvailable(flight)) {
-              navigation.navigate("FlightVoucher", { flight });
-              if (!isVoucherBooked(flight))
-                toastBottom(constants.bookingProcessText.message);
+              if (isDataSkipped(flight)) {
+                skipData(flight);
+              } else {
+                navigation.navigate("FlightVoucher", { flight });
+                if (!isVoucherBooked(flight))
+                  toastBottom(constants.bookingProcessText.message);
+              }
             } else {
               toastBottom(constants.bookingFailedText);
             }
@@ -102,9 +125,13 @@ const resolveLinks = (link = "", screenProps = {}, deepLink = {}) => {
               costingIdentifier
             );
             if (isVoucherAvailable(hotel)) {
-              navigation.navigate("HotelVoucher", { hotel });
-              if (!isVoucherBooked(hotel))
-                toastBottom(constants.bookingProcessText.message);
+              if (isDataSkipped(hotel)) {
+                skipData(hotel);
+              } else {
+                navigation.navigate("HotelVoucher", { hotel });
+                if (!isVoucherBooked(hotel))
+                  toastBottom(constants.bookingProcessText.message);
+              }
             } else {
               toastBottom(constants.bookingFailedText);
             }
@@ -114,9 +141,13 @@ const resolveLinks = (link = "", screenProps = {}, deepLink = {}) => {
               costingIdentifier
             );
             if (isVoucherAvailable(activity)) {
-              navigation.navigate("ActivityVoucher", { activity });
-              if (!isVoucherBooked(activity))
-                toastBottom(constants.bookingProcessText.message);
+              if (isDataSkipped(activity)) {
+                skipData(activity);
+              } else {
+                navigation.navigate("ActivityVoucher", { activity });
+                if (!isVoucherBooked(activity))
+                  toastBottom(constants.bookingProcessText.message);
+              }
             } else {
               toastBottom(constants.bookingFailedText);
             }
@@ -126,9 +157,13 @@ const resolveLinks = (link = "", screenProps = {}, deepLink = {}) => {
               costingIdentifier
             );
             if (isVoucherAvailable(transfer)) {
-              navigation.navigate("TransferVoucher", { transfer });
-              if (!isVoucherBooked(transfer))
-                toastBottom(constants.bookingProcessText.message);
+              if (isDataSkipped(transfer)) {
+                skipData(transfer);
+              } else {
+                navigation.navigate("TransferVoucher", { transfer });
+                if (!isVoucherBooked(transfer))
+                  toastBottom(constants.bookingProcessText.message);
+              }
             } else {
               toastBottom(constants.bookingFailedText);
             }
@@ -138,9 +173,13 @@ const resolveLinks = (link = "", screenProps = {}, deepLink = {}) => {
               costingIdentifier
             );
             if (isVoucherAvailable(rentalCar)) {
-              navigation.navigate("RentalCarVoucher", { rentalCar });
-              if (!isVoucherBooked(rentalCar))
-                toastBottom(constants.bookingProcessText.message);
+              if (isDataSkipped(rentalCar)) {
+                skipData(rentalCar);
+              } else {
+                navigation.navigate("RentalCarVoucher", { rentalCar });
+                if (!isVoucherBooked(rentalCar))
+                  toastBottom(constants.bookingProcessText.message);
+              }
             } else {
               toastBottom(constants.bookingFailedText);
             }
@@ -150,11 +189,15 @@ const resolveLinks = (link = "", screenProps = {}, deepLink = {}) => {
               costingIdentifier
             );
             if (isVoucherAvailable(ferry)) {
-              navigation.navigate("TransferVoucher", {
-                transfer: { ...ferry, vehicle: voucherType }
-              });
-              if (!isVoucherBooked(ferry))
-                toastBottom(constants.bookingProcessText.message);
+              if (isDataSkipped(ferry)) {
+                skipData(ferry);
+              } else {
+                navigation.navigate("TransferVoucher", {
+                  transfer: { ...ferry, vehicle: voucherType }
+                });
+                if (!isVoucherBooked(ferry))
+                  toastBottom(constants.bookingProcessText.message);
+              }
             } else {
               toastBottom(constants.bookingFailedText);
             }
@@ -164,11 +207,15 @@ const resolveLinks = (link = "", screenProps = {}, deepLink = {}) => {
               costingIdentifier
             );
             if (isVoucherAvailable(train)) {
-              navigation.navigate("TransferVoucher", {
-                transfer: { ...train, vehicle: voucherType }
-              });
-              if (!isVoucherBooked(train))
-                toastBottom(constants.bookingProcessText.message);
+              if (isDataSkipped(train)) {
+                skipData(train);
+              } else {
+                navigation.navigate("TransferVoucher", {
+                  transfer: { ...train, vehicle: voucherType }
+                });
+                if (!isVoucherBooked(train))
+                  toastBottom(constants.bookingProcessText.message);
+              }
             } else {
               toastBottom(constants.bookingFailedText);
             }
