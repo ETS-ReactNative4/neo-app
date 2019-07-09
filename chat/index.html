@@ -102,6 +102,7 @@
            * Clear timeout if the user is created successfully
            */
           clearTimeout(refreshTimer);
+          localStorage.setItem(localStorageKey, 0);
           var userState = userStateDetails.data.userState;
           console.log('Initial UserState', userState);
           if (userState === "not_loaded" || userState === "not_created" || userState === "identified") {
@@ -112,8 +113,27 @@
               email: queryParams.email,
               phone: queryParams.mob_num,
               phoneCountryCode: queryParams.ccode,
+            }).then(function(response) {
+              if(response.status === 200 && response.success) {
+                var actorId = response.data.alias;
+                var restoreId = response.data.restoreId;
+                console.log('Actor details', {
+                  userState: userStateDetails,
+                  userDetails: response
+                });
+                window.ReactNativeWebView && window.ReactNativeWebView.postMessage(JSON.stringify({
+                  restoreId: restoreId,
+                  actorId: actorId
+                }));
+              }
+            }, function(err) {
+              window.ReactNativeWebView && window.ReactNativeWebView.postMessage(JSON.stringify({
+                error: "Failed to create user",
+                userState: userStateDetails,
+                userDetailsResponse: err,
+              }));
             });
-          } else if (userState === "created") {
+          } else if (userState === "loaded") {
             window.fcWidget.user.get(function (userDetails) {
               if (userDetails.status === 200 && userDetails.success && userDetails.data) {
                 var actorId = userDetails.data.alias;
