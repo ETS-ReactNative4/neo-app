@@ -1,4 +1,7 @@
-import { getEnvironmentName } from "../Services/getEnvironmentDetails/getEnvironmentDetails";
+import {
+  getEnvironmentName,
+  isProduction
+} from "../Services/getEnvironmentDetails/getEnvironmentDetails";
 
 const apiServers = {
   localServer: "http://192.168.0.5:8080/api/",
@@ -66,7 +69,11 @@ const serverUrls = {
   airlineCdn: "https://d3lf10b5gahyby.cloudfront.net/airline_logos/",
   chatServerUrl: chatQueryParam =>
     chatQueryParam
-      ? encodeURI(`https://chat.pickyourtrail.com/${chatQueryParam}`)
+      ? encodeURI(
+          `https://chat.pickyourtrail.com/${
+            isProduction() ? "" : "index-staging.html"
+          }${chatQueryParam}`
+        )
       : "",
   offlineContact: "+91 8939891682",
 

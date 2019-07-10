@@ -15,6 +15,7 @@ import isUserLoggedInCallback from "../../Services/isUserLoggedInCallback/isUser
 import objectToQueryParam from "../../Services/objectToQueryParam/objectToQueryParam";
 import { logError } from "../../Services/errorLogger/errorLogger";
 import DeviceInfo from "react-native-device-info";
+import storeService from "../../Services/storeService/storeService";
 
 @ErrorBoundary({ isRoot: true })
 @inject("itineraries")
@@ -152,7 +153,14 @@ class ChatScreen extends Component {
         );
       });
     } else {
-      logError(error, { data });
+      /**
+       * Prevent logging the error if the chat fails
+       * due to no internet connection
+       */
+      const isConnectedToInternet = storeService.appState.isConnected;
+      if (isConnectedToInternet) {
+        logError(error, { data });
+      }
     }
   };
 

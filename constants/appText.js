@@ -36,7 +36,8 @@ const appText = {
       "Web checkin may not be available for flights with airline code share",
     conditionsApplyText: "Cancellation terms & conditions apply",
     hotelTimingConditionText:
-      "Check in and check out time are provisionally mentioned and can be changed at the discretion of the hotel"
+      "Check in and check out time are provisionally mentioned and can be changed at the discretion of the hotel",
+    voucherUnavailable: "Voucher currently unavailable"
   },
   downloadVoucherText: {
     error: {
