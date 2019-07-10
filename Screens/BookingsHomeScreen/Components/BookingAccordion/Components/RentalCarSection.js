@@ -1,5 +1,6 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { View } from "react-native";
+import _ from "lodash";
 import moment from "moment";
 import constants from "../../../../../constants/constants";
 import PropTypes from "prop-types";
@@ -85,6 +86,8 @@ const RentalCar = ({ rentalCar, isLast, navigation, spinValue }) => {
               ).format(constants.commonDateFormat)
       }`}
       isImageContain={true}
+      isDataSkipped={_.get(rentalCar, "voucher.skipData")}
+      voucherTitle={_.get(rentalCar, "voucher.title")}
     />
   );
 };

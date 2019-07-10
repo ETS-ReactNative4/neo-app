@@ -1,5 +1,6 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { View } from "react-native";
+import _ from "lodash";
 import moment from "moment";
 import constants from "../../../../../constants/constants";
 import PropTypes from "prop-types";
@@ -7,7 +8,6 @@ import { recordEvent } from "../../../../../Services/analytics/analyticsService"
 import getTitleCase from "../../../../../Services/getTitleCase/getTitleCase";
 import BookingSectionComponent from "../../../../../CommonComponents/BookingSectionComponent/BookingSectionComponent";
 import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidExtraProps";
-import { toastBottom } from "../../../../../Services/toast/toast";
 import resolveLinks from "../../../../../Services/resolveLinks/resolveLinks";
 
 const HotelSection = ({ section, navigation, spinValue }) => {
@@ -73,6 +73,8 @@ const Hotel = ({ hotel, isLast, navigation, spinValue }) => {
       isImageContain={false}
       defaultSource={constants.hotelThumbPlaceholderIllus}
       sectionImage={{ uri: hotel.imageURL }}
+      isDataSkipped={_.get(hotel, "voucher.skipData")}
+      voucherTitle={_.get(hotel, "voucher.title")}
     />
   );
 };

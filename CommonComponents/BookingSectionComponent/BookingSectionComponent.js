@@ -114,7 +114,7 @@ BookingSectionComponent.propTypes = {
   isProcessing: PropTypes.bool.isRequired,
   hideTitle: PropTypes.bool,
   spinValue: PropTypes.object,
-  isDataSkipped: PropTypes.bool.isRequired,
+  isDataSkipped: PropTypes.bool,
   voucherTitle: PropTypes.string
 };
 

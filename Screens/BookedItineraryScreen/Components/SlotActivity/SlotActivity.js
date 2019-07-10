@@ -133,6 +133,8 @@ const SlotActivity = inject("itineraries")(
                 defaultSource={constants.flightLogoPlaceholderIllus}
                 isProcessing={!(flight.voucher && flight.voucher.booked)}
                 spinValue={spinValue}
+                isDataSkipped={_.get(flight, "voucher.skipData")}
+                voucherTitle={_.get(flight, "voucher.title")}
               />
             );
 
@@ -188,6 +190,8 @@ const SlotActivity = inject("itineraries")(
                   )
                 }
                 spinValue={spinValue}
+                isDataSkipped={_.get(activityInfo, "voucher.skipData")}
+                voucherTitle={_.get(activityInfo, "voucher.title")}
               />
             );
 
@@ -263,6 +267,8 @@ const SlotActivity = inject("itineraries")(
                 }
                 isProcessing={!(transfer.voucher && transfer.voucher.booked)}
                 spinValue={spinValue}
+                isDataSkipped={_.get(transfer, "voucher.skipData")}
+                voucherTitle={_.get(transfer, "voucher.title")}
               />
             );
 
@@ -300,6 +306,8 @@ const SlotActivity = inject("itineraries")(
                   !(departureFlight.voucher && departureFlight.voucher.booked)
                 }
                 spinValue={spinValue}
+                isDataSkipped={_.get(departureFlight, "voucher.skipData")}
+                voucherTitle={_.get(departureFlight, "voucher.title")}
               />
             );
 
@@ -361,6 +369,8 @@ const SlotActivity = inject("itineraries")(
                 isImageContain={false}
                 defaultSource={constants.activityThumbPlaceholderIllus}
                 spinValue={spinValue}
+                isDataSkipped={_.get(activityTransferInfo, "voucher.skipData")}
+                voucherTitle={_.get(activityTransferInfo, "voucher.title")}
               />
             );
 

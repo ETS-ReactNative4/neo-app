@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { View } from "react-native";
 import moment from "moment";
 import constants from "../../../../../constants/constants";
 import PropTypes from "prop-types";
@@ -76,6 +76,8 @@ const Transfer = ({ transfer, isLast, navigation, spinValue }) => {
           ? true
           : false
       }
+      isDataSkipped={_.get(transfer, "voucher.skipData")}
+      voucherTitle={_.get(transfer, "voucher.title")}
     />
   );
 };
