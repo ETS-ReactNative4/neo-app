@@ -25,7 +25,9 @@ const BookingSectionComponent = ({
   contentNumberOfLines = 1,
   isProcessing,
   hideTitle,
-  spinValue
+  spinValue,
+  isDataSkipped,
+  voucherTitle
 }) => {
   let processingSpin = null;
 
@@ -48,9 +50,12 @@ const BookingSectionComponent = ({
     >
       <View style={styles.iconWrapper}>
         <View style={styles.contentIcon}>
+          {/**
+           * Do not load icon if the data is skipped for the voucher
+           */}
           <Image
             resizeMode={isImageContain ? "contain" : "cover"}
-            source={sectionImage}
+            source={isDataSkipped ? { uri: "" } : sectionImage}
             {...imageProps}
             style={styles.contentIcon}
           />
@@ -78,7 +83,7 @@ const BookingSectionComponent = ({
             numberOfLines={titleNumberOfLines}
             ellipsizeMode={"tail"}
           >
-            {_.toUpper(title)}
+            {_.toUpper(isDataSkipped ? voucherTitle : title)}
           </Text>
         ) : null}
         <View style={styles.contentTextWrapper}>
@@ -101,14 +106,16 @@ BookingSectionComponent.propTypes = {
   sectionImage: PropTypes.oneOfType([PropTypes.object, PropTypes.number])
     .isRequired,
   isImageContain: PropTypes.bool.isRequired,
-  defaultImageUri: PropTypes.string.isRequired,
+  defaultSource: PropTypes.oneOfType([PropTypes.object, PropTypes.number]),
   title: PropTypes.string.isRequired,
   content: PropTypes.string.isRequired,
   titleNumberOfLines: PropTypes.number,
   contentNumberOfLines: PropTypes.number,
   isProcessing: PropTypes.bool.isRequired,
   hideTitle: PropTypes.bool,
-  spinValue: PropTypes.object
+  spinValue: PropTypes.object,
+  isDataSkipped: PropTypes.bool.isRequired,
+  voucherTitle: PropTypes.string
 };
 
 const maxTextAreaWidth = responsiveWidth(100) - 48 - 8 - 40 - 16;
