@@ -22,6 +22,7 @@ import {
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import { recordEvent } from "../../Services/analytics/analyticsService";
 import DebouncedAlert from "../../CommonComponents/DebouncedAlert/DebouncedAlert";
+import { logError } from "../../Services/errorLogger/errorLogger";
 
 @ErrorBoundary()
 @inject("feedbackPrompt")
@@ -163,9 +164,54 @@ class FeedbackPrompt extends Component {
   keyboardWillHide = () => {
     this.blurOption();
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-    this.setState({
-      isKeyboardVisible: false,
-      keyboardSpace: 0
+    this.setState(
+      {
+        isKeyboardVisible: false,
+        keyboardSpace: 0
+      },
+      () => {
+        this.cleanFeedback()
+          .then(() => null)
+          .catch(() => null);
+      }
+    );
+  };
+
+  /**
+   * Will remove all the empty feedback values
+   * which will automatically unselect feedback without reviews
+   * used to make all the feedback inputs mandatory
+   */
+  cleanFeedback = () => {
+    return new Promise((resolve, reject) => {
+      try {
+        const clean = feedbackObject => {
+          for (let propName in feedbackObject) {
+            if (feedbackObject.hasOwnProperty(propName)) {
+              if (!feedbackObject[propName]) {
+                delete feedbackObject[propName];
+              }
+            }
+          }
+          return feedbackObject;
+        };
+
+        const positiveUserFeedback = { ...this.state.positiveUserFeedback };
+        const negativeUserFeedback = { ...this.state.negativeUserFeedback };
+
+        this.setState(
+          {
+            positiveUserFeedback: clean(positiveUserFeedback),
+            negativeUserFeedback: clean(negativeUserFeedback)
+          },
+          () => {
+            resolve();
+          }
+        );
+      } catch (e) {
+        logError(e);
+        reject();
+      }
     });
   };
 
@@ -190,44 +236,56 @@ class FeedbackPrompt extends Component {
   };
 
   submitFeedback = () => {
-    /**
-     * Check if the form is already submitted.
-     * Prevents multiple submissions of the same feedback
-     */
-    if (!this.state.isSubmitted) {
-      this.setState({
-        isSubmitted: true
-      });
-      const {
-        feedbackOptions,
-        submitFeedback,
-        isFeedbackPositive
-      } = this.props.feedbackPrompt;
-      /**
-       * Check if feedback has proper identifier
-       */
-      if (feedbackOptions.identifier === this.state.identifier) {
-        const positiveItems = feedbackOptions.items.length
-          ? feedbackOptions.items[0]
-          : {};
-        const negativeItems = feedbackOptions.items.length
-          ? feedbackOptions.items[1]
-          : {};
+    this.cleanFeedback()
+      .then(() => {
+        /**
+         * Check if the form is already submitted.
+         * Prevents multiple submissions of the same feedback
+         */
+        const {
+          feedbackOptions,
+          submitFeedback,
+          isFeedbackPositive
+        } = this.props.feedbackPrompt;
+        const userFeedback = isFeedbackPositive
+          ? this.state.positiveUserFeedback
+          : this.state.negativeUserFeedback;
+        /**
+         * Check if user feedback is empty and prevent submission
+         * if the feedback is empty
+         */
+        if (_.isEmpty(userFeedback)) {
+          return null;
+        }
+        if (!this.state.isSubmitted) {
+          this.setState({
+            isSubmitted: true
+          });
+          /**
+           * Check if feedback has proper identifier
+           */
+          if (feedbackOptions.identifier === this.state.identifier) {
+            const positiveItems = feedbackOptions.items.length
+              ? feedbackOptions.items[0]
+              : {};
+            const negativeItems = feedbackOptions.items.length
+              ? feedbackOptions.items[1]
+              : {};
 
-        const requestObject = {
-          itineraryId: feedbackOptions.itineraryId,
-          identifier: feedbackOptions.identifier,
-          reviews: isFeedbackPositive
-            ? this.state.positiveUserFeedback
-            : this.state.negativeUserFeedback,
-          responseType: isFeedbackPositive
-            ? positiveItems.title
-            : negativeItems.title
-        };
-        const submitApiURL = feedbackOptions.url;
-        submitFeedback(requestObject, submitApiURL);
-      }
-    }
+            const requestObject = {
+              itineraryId: feedbackOptions.itineraryId,
+              identifier: feedbackOptions.identifier,
+              reviews: userFeedback,
+              responseType: isFeedbackPositive
+                ? positiveItems.title
+                : negativeItems.title
+            };
+            const submitApiURL = feedbackOptions.url;
+            submitFeedback(requestObject, submitApiURL);
+          }
+        }
+      })
+      .catch(() => null);
   };
 
   goBack = () => {
