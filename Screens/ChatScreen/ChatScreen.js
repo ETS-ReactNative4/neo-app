@@ -207,7 +207,6 @@ class ChatScreen extends Component {
                   marginTop: isIphoneX() ? constants.xNotchHeight : 0
                 }}
                 webviewRef={e => (this._webView = e)}
-                useWebKit={false}
                 onShouldStartLoadWithRequest={event => {
                   /**
                    * Prevent user from navigating away from chat window by opening
