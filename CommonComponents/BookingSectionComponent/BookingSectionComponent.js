@@ -83,7 +83,7 @@ const BookingSectionComponent = ({
             numberOfLines={titleNumberOfLines}
             ellipsizeMode={"tail"}
           >
-            {_.toUpper(isDataSkipped ? voucherTitle : title)}
+            {_.toUpper(title)}
           </Text>
         ) : null}
         <View style={styles.contentTextWrapper}>
@@ -92,7 +92,7 @@ const BookingSectionComponent = ({
             numberOfLines={contentNumberOfLines}
             ellipsizeMode={"tail"}
           >
-            {content}
+            {isDataSkipped ? voucherTitle : content}
           </Text>
         </View>
       </View>
