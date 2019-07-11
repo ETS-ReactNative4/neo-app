@@ -23,6 +23,7 @@ import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import { recordEvent } from "../../Services/analytics/analyticsService";
 import DebouncedAlert from "../../CommonComponents/DebouncedAlert/DebouncedAlert";
 import { logError } from "../../Services/errorLogger/errorLogger";
+import { toastBottom } from "../../Services/toast/toast";
 
 @ErrorBoundary()
 @inject("feedbackPrompt")
@@ -420,6 +421,26 @@ class FeedbackPrompt extends Component {
                       action={() => {
                         recordEvent(constants.tripFeedbackSubmitClick);
                         this.clickSubmit();
+                      }}
+                      textStyle={{
+                        ...constants.fontCustom(constants.primarySemiBold, 17)
+                      }}
+                      containerStyle={{
+                        backgroundColor: "transparent",
+                        marginTop: 16,
+                        width: responsiveWidth(80)
+                      }}
+                    />
+                  ) : feedbackOptions.isAnimationComplete &&
+                  !isKeyboardVisible &&
+                  !focusedOption ? (
+                    <SimpleButton
+                      text={"SUBMIT"}
+                      textColor={constants.shade1}
+                      action={() => {
+                        toastBottom(
+                          constants.feedbackPromptText.requestFeedback
+                        );
                       }}
                       textStyle={{
                         ...constants.fontCustom(constants.primarySemiBold, 17)

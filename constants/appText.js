@@ -241,6 +241,7 @@ const appText = {
   feedbackPromptText: {
     returnConfirmationTitle: "Thanks for your feedback!",
     returnConfirmationPostiveInfo: "We're glad you had a good time",
+    requestFeedback: "Please add your feedback before submitting",
     returnConfirmationNegativeInfo:
       "We're sorry your experience wasn't up to the mark",
     returnCta: "Okay, got it",
