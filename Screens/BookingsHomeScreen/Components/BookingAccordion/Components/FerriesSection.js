@@ -76,7 +76,7 @@ const Ferry = ({ ferry, isLast, navigation, spinValue }) => {
               ).format(constants.commonDateFormat)
       }`}
       isImageContain={false}
-      isDataSkipped={_.get(ferry, "voucher.skipData")}
+      isDataSkipped={_.get(ferry, "voucher.skipVoucher")}
       voucherTitle={_.get(ferry, "voucher.title")}
     />
   );

@@ -28,7 +28,7 @@ const isVoucherBooked = voucher =>
 const isVoucherAvailable = voucher =>
   voucher && voucher.status !== constants.voucherErrorStatus;
 
-const isDataSkipped = voucher => _.get(voucher, "voucher.skipData");
+const isDataSkipped = voucher => _.get(voucher, "voucher.skipVoucher");
 
 /**
  * Voucher has skipped data,
@@ -97,7 +97,7 @@ const resolveLinks = (link = "", screenProps = {}, deepLink = {}) => {
        */
       /**
        * Voucher conditions
-       * - If voucher has `skipData` set to true, should directly open the voucher url in custom tab
+       * - If voucher has `skipVoucher` set to true, should directly open the voucher url in custom tab
        * - If voucher is free or booked just open the voucher screen
        * - If the voucher is not yet booked, open the voucher screen with incomplete data but also show
        * a toast message saying it's under processing

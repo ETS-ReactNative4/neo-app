@@ -86,7 +86,7 @@ const RentalCar = ({ rentalCar, isLast, navigation, spinValue }) => {
               ).format(constants.commonDateFormat)
       }`}
       isImageContain={true}
-      isDataSkipped={_.get(rentalCar, "voucher.skipData")}
+      isDataSkipped={_.get(rentalCar, "voucher.skipVoucher")}
       voucherTitle={_.get(rentalCar, "voucher.title")}
     />
   );

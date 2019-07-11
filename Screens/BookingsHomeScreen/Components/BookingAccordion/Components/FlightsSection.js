@@ -90,7 +90,7 @@ const Flight = ({ flight, isLast, navigation, spinValue }) => {
       }`}
       isImageContain={true}
       defaultSource={constants.flightLogoPlaceholderIllus}
-      isDataSkipped={_.get(flight, "voucher.skipData")}
+      isDataSkipped={_.get(flight, "voucher.skipVoucher")}
       voucherTitle={_.get(flight, "voucher.title")}
     />
   );

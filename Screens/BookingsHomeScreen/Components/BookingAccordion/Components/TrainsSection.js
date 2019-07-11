@@ -75,7 +75,7 @@ const Train = ({ train, isLast, navigation, spinValue }) => {
               ).format(constants.commonDateFormat)
       }`}
       isImageContain={false}
-      isDataSkipped={_.get(train, "voucher.skipData")}
+      isDataSkipped={_.get(train, "voucher.skipVoucher")}
       voucherTitle={_.get(train, "voucher.title")}
     />
   );

@@ -82,7 +82,7 @@ const Activities = ({ activity, isLast, navigation, spinValue }) => {
       }`}
       isImageContain={false}
       defaultSource={constants.activityThumbPlaceholderIllus}
-      isDataSkipped={_.get(activity, "voucher.skipData")}
+      isDataSkipped={_.get(activity, "voucher.skipVoucher")}
       voucherTitle={_.get(activity, "voucher.title")}
     />
   );

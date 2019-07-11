@@ -76,7 +76,7 @@ const Transfer = ({ transfer, isLast, navigation, spinValue }) => {
           ? true
           : false
       }
-      isDataSkipped={_.get(transfer, "voucher.skipData")}
+      isDataSkipped={_.get(transfer, "voucher.skipVoucher")}
       voucherTitle={_.get(transfer, "voucher.title")}
     />
   );

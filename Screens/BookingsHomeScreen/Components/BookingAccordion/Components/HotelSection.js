@@ -73,7 +73,7 @@ const Hotel = ({ hotel, isLast, navigation, spinValue }) => {
       isImageContain={false}
       defaultSource={constants.hotelThumbPlaceholderIllus}
       sectionImage={{ uri: hotel.imageURL }}
-      isDataSkipped={_.get(hotel, "voucher.skipData")}
+      isDataSkipped={_.get(hotel, "voucher.skipVoucher")}
       voucherTitle={_.get(hotel, "voucher.title")}
     />
   );
