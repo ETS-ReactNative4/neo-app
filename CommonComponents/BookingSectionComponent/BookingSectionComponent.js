@@ -51,11 +51,11 @@ const BookingSectionComponent = ({
       <View style={styles.iconWrapper}>
         <View style={styles.contentIcon}>
           {/**
-           * Do not load icon if the data is skipped for the voucher
+           * Do not load actual thumbnail if the data is skipped for the voucher
            */}
           <Image
             resizeMode={isImageContain ? "contain" : "cover"}
-            source={isDataSkipped ? { uri: "" } : sectionImage}
+            source={isDataSkipped ? defaultSource : sectionImage}
             {...imageProps}
             style={styles.contentIcon}
           />
