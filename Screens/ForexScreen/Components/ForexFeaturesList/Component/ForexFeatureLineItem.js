@@ -46,7 +46,8 @@ const ForexFeatureLineItem = ({
 ForexFeatureLineItem.propTypes = forbidExtraProps({
   containerStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.number]),
   item: PropTypes.string.isRequired,
-  hideIcon: PropTypes.bool
+  hideIcon: PropTypes.bool,
+  lineWidth: PropTypes.number
 });
 
 const styles = StyleSheet.create({

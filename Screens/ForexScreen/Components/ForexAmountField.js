@@ -19,7 +19,7 @@ class ForexAmountField extends Component {
     containerStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.number]),
     selectedCurrency: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired,
-    amount: PropTypes.number.isRequired,
+    amount: PropTypes.string.isRequired,
     currencies: PropTypes.array.isRequired,
     onSelectCurrency: PropTypes.func.isRequired,
     onEdit: PropTypes.func.isRequired,
