@@ -27,6 +27,8 @@ const appText = {
   voucherText: {
     freeTransferInfo:
       "This is a self exploration activity. You will need to manage your transport to and from this location. Reach the meeting point 30 minutes prior to avoid last minute hassle.",
+    hotelAmenitiesDisclaimer:
+      "Hotel amenities are subject to availability and providing it is at the discretion of the hotel",
     sharedTransferInfo:
       "As the transfer is on shared basis, the arrival time of transfer could vary plus or minus 15 - 30 minutes depending on traffic.",
     webCheckinUnavailableHeader: "Web checkin not yet available",

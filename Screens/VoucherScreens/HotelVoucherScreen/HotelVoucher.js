@@ -22,6 +22,7 @@ import FooterStickyActionBar from "../../../CommonComponents/FooterStickyActionB
 import ConditionsApplyText from "../Components/ConditionsApplyText";
 import CheckInCheckOut from "../Components/CheckInCheckOut";
 import _ from "lodash";
+import TransferInfoBox from "../ActivityVoucherScreen/Components/TransferInfoBox";
 
 const xHeight = isIphoneX()
   ? constants.xNotchHeight
@@ -94,13 +95,10 @@ class HotelVoucher extends Component {
     const amenitiesSection = [
       {
         name: "Hotel Amenities",
-        component: amenityDisplayList
-          ? amenityDisplayList.map((amenity, amenityIndex) => {
-              const customStyle = {
-                borderBottomWidth: StyleSheet.hairlineWidth,
-                borderBottomColor: constants.shade4,
-                paddingBottom: 8
-              };
+        component: amenityDisplayList ? (
+          <Fragment>
+            {amenityDisplayList.map((amenity, amenityIndex) => {
+              const customStyle = {};
               return (
                 <View
                   key={amenityIndex}
@@ -121,8 +119,15 @@ class HotelVoucher extends Component {
                   </Text>
                 </View>
               );
-            })
-          : null
+            })}
+            <TransferInfoBox
+              containerStyle={{
+                marginVertical: 8
+              }}
+              text={constants.voucherText.hotelAmenitiesDisclaimer}
+            />
+          </Fragment>
+        ) : null
       }
     ];
 
