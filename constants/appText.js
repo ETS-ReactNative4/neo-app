@@ -207,7 +207,8 @@ const appText = {
     providerTitle: "Bang for your Buck!",
     requestExistsText: "A request already exits with the given mobile number",
     unableToSubmitRequest: "Unable to process your request",
-    providerInfo: "In partnership with Thomas Cook"
+    providerInfo: "In partnership with Thomas Cook",
+    failedToFetchCurrency: "Unable to retrieve currency details"
   },
   visaScreenText: {
     visaDetailsUnavilable: "Visa details are unavailable for this country"

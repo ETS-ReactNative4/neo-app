@@ -149,13 +149,13 @@ class Forex extends Component {
     const {
       getForexStatus,
       getForexDataFromGuides,
+      loadForexCurrencyByItineraryId,
       opportunityId
     } = this.props.forexStore;
+    const { getUserDetails } = this.props.userStore;
     getForexStatus();
     if (!opportunityId) {
-      const { loadCurrencies } = this.props.appState;
-      const { getUserDetails } = this.props.userStore;
-      loadCurrencies();
+      loadForexCurrencyByItineraryId();
       getUserDetails();
       getForexDataFromGuides();
     }
@@ -167,11 +167,13 @@ class Forex extends Component {
       opportunityId,
       forexGuidesDetails,
       isSubmitAPILoading,
-      submittedData
+      submittedData,
+      getCurrencyListByItineraryId
     } = this.props.forexStore;
-    const { currencies } = this.props.appState;
+    const { selectedItineraryId } = this.props.itineraries;
     const { userDetails } = this.props.userStore;
     const { hasFormSubmitAttempted } = this.state;
+    const currencies = getCurrencyListByItineraryId(selectedItineraryId);
 
     const name = this.state.name === false ? userDetails.name : this.state.name;
     const mobileNumber =

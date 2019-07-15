@@ -6,6 +6,8 @@ import constants from "../constants/constants";
 import { logError } from "../Services/errorLogger/errorLogger";
 import { hydrate } from "./Store";
 import { toastBottom } from "../Services/toast/toast";
+import _ from "lodash";
+import { createTransformer } from "mobx-utils";
 
 class Forex {
   static hydrator = storeInstance => {
@@ -19,6 +21,9 @@ class Forex {
       .then(() => {})
       .catch(err => logError(err));
     hydrate("_submittedData", storeInstance)
+      .then(() => {})
+      .catch(err => logError(err));
+    hydrate("_forexCurrencies", storeInstance)
       .then(() => {})
       .catch(err => logError(err));
   };
@@ -47,6 +52,10 @@ class Forex {
   @persist("object")
   @observable
   _submittedData = {};
+
+  @persist("object")
+  @observable
+  _forexCurrencies = {};
 
   @action
   reset = () => {
@@ -90,6 +99,40 @@ class Forex {
   get submittedData() {
     return toJS(this._submittedData);
   }
+
+  getCurrencyListByItineraryId = createTransformer(itineraryId => {
+    try {
+      return toJS(this._forexCurrencies[itineraryId] || []);
+    } catch (e) {
+      logError(e);
+      return [];
+    }
+  });
+
+  @action
+  loadForexCurrencyByItineraryId = () => {
+    const itineraryId = storeService.itineraries.selectedItineraryId;
+    apiCall(
+      `${constants.getCurrencyByItinerary.replace(
+        ":itineraryId",
+        itineraryId
+      )}?tcAllowedCurrencies=true`,
+      {},
+      "GET"
+    )
+      .then(response => {
+        if (response.status === "SUCCESS") {
+          const currencies = toJS(this._forexCurrencies);
+          currencies[itineraryId] = _.compact(response.data);
+          this._forexCurrencies = currencies;
+        } else {
+          toastBottom(constants.forexText.failedToFetchCurrency);
+        }
+      })
+      .catch(() => {
+        toastBottom(constants.forexText.failedToFetchCurrency);
+      });
+  };
 
   /**
    * Check if the user has already submitted a quote request

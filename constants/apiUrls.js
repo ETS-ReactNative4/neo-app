@@ -10,6 +10,7 @@ const apiUrls = {
   voucherDetails: "mobile/voucher",
   getCurrencyRates: "mobile/getCurrencyConverterRates",
   getCurrencyList: "mobile/getCurrency",
+  getCurrencyByItinerary: "mobile/:itineraryId/currencies",
   googleTextSearch: "mobile/places/search/:keyword",
   googleNearBySearch: "mobile/places/nearby",
   getCityPlaceCategory: "mobile/places/categories",
