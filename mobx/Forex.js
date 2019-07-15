@@ -63,6 +63,7 @@ class Forex {
     this._userDetails = {};
     this._forexGuidesDetails = {};
     this._submittedData = {};
+    this._forexCurrencies = {};
   };
 
   @computed
