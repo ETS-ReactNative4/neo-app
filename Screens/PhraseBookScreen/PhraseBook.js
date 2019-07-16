@@ -2,10 +2,10 @@ import React, { Component } from "react";
 import {
   View,
   StyleSheet,
-  NetInfo,
   Keyboard,
   TouchableWithoutFeedback
 } from "react-native";
+import NetInfo from "@react-native-community/netinfo";
 import ScrollableTabView from "react-native-scrollable-tab-view";
 import ScrollableTabBar from "../../CommonComponents/ScrollableTabBar/ScrollableTabBar";
 import constants from "../../constants/constants";

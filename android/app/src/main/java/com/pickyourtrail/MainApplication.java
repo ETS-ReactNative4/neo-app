@@ -21,8 +21,8 @@ import com.facebook.react.ReactApplication;
 //import com.avishayil.rnrestart.ReactNativeRestartPackage;
 //import com.github.droibit.android.reactnative.customtabs.CustomTabsPackage;
 //import io.invertase.firebase.RNFirebasePackage;
-//import io.invertase.firebase.messaging.RNFirebaseMessagingPackage;
-//import io.invertase.firebase.notifications.RNFirebaseNotificationsPackage;
+import io.invertase.firebase.messaging.RNFirebaseMessagingPackage;
+import io.invertase.firebase.notifications.RNFirebaseNotificationsPackage;
 import io.invertase.firebase.analytics.RNFirebaseAnalyticsPackage;
 //import com.zmxv.RNSound.RNSoundPackage;
 //import com.dylanvann.fastimage.FastImageViewPackage;
@@ -78,8 +78,8 @@ public class MainApplication extends Application implements ReactApplication {
       // Packages that cannot be autolinked yet can be added manually here, for example:
       // packages.add(new MyReactNativePackage());
       // packages.add(new RNFirebasePackage());
-      // packages.add(new RNFirebaseMessagingPackage());
-      // packages.add(new RNFirebaseNotificationsPackage());
+      packages.add(new RNFirebaseMessagingPackage());
+      packages.add(new RNFirebaseNotificationsPackage());
       packages.add(new RNFirebaseAnalyticsPackage());
       return packages;
     }

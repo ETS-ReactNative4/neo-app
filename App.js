@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from "react";
-import { UIManager, NetInfo } from "react-native";
+import { UIManager } from "react-native";
+import NetInfo from "@react-native-community/netinfo";
 import { Provider } from "mobx-react";
 import store from "./mobx/Store";
 import { setNavigationService } from "./Services/navigationService/navigationService";
