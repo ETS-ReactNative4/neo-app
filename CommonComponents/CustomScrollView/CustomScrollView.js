@@ -29,7 +29,7 @@ class CustomScrollView extends Component {
     const {
       onRefresh,
       refreshing,
-      horizontalPadding,
+      horizontalPadding = 0,
       scrollComponent,
       containerStyle = {},
       ...otherProps
