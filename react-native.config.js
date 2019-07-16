@@ -21,7 +21,8 @@ module.exports = {
     },
     "@matt-block/react-native-in-app-browser": {
       platforms: {
-        ios: null
+        ios: null,
+        android: null
       }
     }
   }
