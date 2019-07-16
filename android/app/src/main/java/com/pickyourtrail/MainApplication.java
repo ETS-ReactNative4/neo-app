@@ -2,6 +2,10 @@ package com.pickyourtrail;
 
 import android.app.Application;
 import android.content.Context;
+import android.util.Log;
+import com.facebook.react.PackageList;
+import com.facebook.hermes.reactexecutor.HermesExecutorFactory;
+import com.facebook.react.bridge.JavaScriptExecutorFactory;
 import android.support.multidex.MultiDex;
 
 import com.facebook.react.ReactApplication;
@@ -30,10 +34,8 @@ import com.oblador.keychain.KeychainPackage;
 import com.BV.LinearGradient.LinearGradientPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
-import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class MainApplication extends Application implements ReactApplication {
@@ -46,32 +48,40 @@ public class MainApplication extends Application implements ReactApplication {
 
     @Override
     protected List<ReactPackage> getPackages() {
-      return Arrays.<ReactPackage>asList(
-          new MainReactPackage(),
-            new RNSharePackage(),
-            new LottiePackage(),
-            new PickerPackage(),
-            new CameraRollPackage(),
-            new RNDeviceInfo(),
-            new RNFetchBlobPackage(),
-            new RCTPdfView(),
-            new PhotoViewPackage(),
-            new RNCWebViewPackage(),
-            new ReactNativeRestartPackage(),
-            new CustomTabsPackage(),
-            new RNFirebasePackage(),
-            new RNFirebaseMessagingPackage(),
-            new RNFirebaseNotificationsPackage(),
-            new RNFirebaseAnalyticsPackage(),
-            new RNSoundPackage(),
-            new FastImageViewPackage(),
-            new OpenAppSettingsPackage(),
-            new TextToSpeechPackage(),
-            new RNSentryPackage(),
-            new SvgPackage(),
-            new KeychainPackage(),
-            new LinearGradientPackage()
-      );
+      /**
+       * Old package linking code
+       */
+      // return Arrays.<ReactPackage>asList(
+      //     new MainReactPackage(),
+      //       new RNSharePackage(),
+      //       new LottiePackage(),
+      //       new PickerPackage(),
+      //       new CameraRollPackage(),
+      //       new RNDeviceInfo(),
+      //       new RNFetchBlobPackage(),
+      //       new RCTPdfView(),
+      //       new PhotoViewPackage(),
+      //       new RNCWebViewPackage(),
+      //       new ReactNativeRestartPackage(),
+      //       new CustomTabsPackage(),
+      //       new RNFirebasePackage(),
+      //       new RNFirebaseMessagingPackage(),
+      //       new RNFirebaseNotificationsPackage(),
+      //       new RNFirebaseAnalyticsPackage(),
+      //       new RNSoundPackage(),
+      //       new FastImageViewPackage(),
+      //       new OpenAppSettingsPackage(),
+      //       new TextToSpeechPackage(),
+      //       new RNSentryPackage(),
+      //       new SvgPackage(),
+      //       new KeychainPackage(),
+      //       new LinearGradientPackage()
+      // );
+      @SuppressWarnings("UnnecessaryLocalVariable")
+      List<ReactPackage> packages = new PackageList(this).getPackages();
+      // Packages that cannot be autolinked yet can be added manually here, for example:
+      // packages.add(new MyReactNativePackage());
+      return packages;
     }
 
     @Override
