@@ -46,23 +46,23 @@ target 'Pickyourtrail' do
   pod 'Firebase/Core', '~> 5.11.0'
   pod 'Firebase/Messaging', '~> 5.11.0'
 
-  target 'PickyourtrailTests' do
-    inherit! :search_paths
-    # Pods for testing
-  end
+  # target 'PickyourtrailTests' do
+  #   inherit! :search_paths
+  #   # Pods for testing
+  # end
 
   use_native_modules!
 end
 
-target 'Pickyourtrail-tvOS' do
-  # Pods for Pickyourtrail-tvOS
+# target 'Pickyourtrail-tvOS' do
+#   # Pods for Pickyourtrail-tvOS
 
-  target 'Pickyourtrail-tvOSTests' do
-    inherit! :search_paths
-    # Pods for testing
-  end
+#   target 'Pickyourtrail-tvOSTests' do
+#     inherit! :search_paths
+#     # Pods for testing
+#   end
 
-end
+# end
 
 # Post install cleanup used in older React Native versions:
 

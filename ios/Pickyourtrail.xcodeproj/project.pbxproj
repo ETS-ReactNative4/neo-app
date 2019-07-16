@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
 		00E356F31AD99517003FC87E /* PickyourtrailTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* PickyourtrailTests.m */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
@@ -29,25 +28,15 @@
 		40E47B9851874B6AB70F0F9A /* libBVLinearGradient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 02CCFEE483F84B87B0232005 /* libBVLinearGradient.a */; };
 		4A009EDD17694E3FA9391D1E /* libLRDRCTSimpleToast.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 04676279FD50460EB59D388B /* libLRDRCTSimpleToast.a */; };
 		4C0A011F106C4A9FB5192721 /* SourceSansPro-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E93C340415F3418593E4BBF5 /* SourceSansPro-Regular.ttf */; };
-		6E20DFD179AF426AEA9EB841 /* libPods-Pickyourtrail-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BB591CA38BC305E3C4C1C57D /* libPods-Pickyourtrail-tvOSTests.a */; };
 		726B5F8C89384E979D21DDAA /* SourceSansPro-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 13A347042FE9411391406D32 /* SourceSansPro-SemiBold.ttf */; };
 		7FD6861292BF4577A8A4A5DC /* SourceSansPro-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E9BDBDC10DF241B6B427577C /* SourceSansPro-Light.ttf */; };
 		9442CBB72DE84D8B963A5F9E /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0269ECCE4C394948AF780156 /* libz.tbd */; };
 		C8A5477AC00848B1B2971C96 /* libRNInAppBrowser.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EDBD12E989F546B9B16654FD /* libRNInAppBrowser.a */; };
-		D5C7F52C2710EEF60C20B9BC /* libPods-PickyourtrailTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D50225F41117C3C7AE89C069 /* libPods-PickyourtrailTests.a */; };
 		DCFDAB3BA6D140FEBFA5E460 /* libRCTRestart.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C42E03626FC34A04B1171170 /* libRCTRestart.a */; };
 		EB6B9EDEF4AF1D1506B6BD7D /* libPods-Pickyourtrail.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E7AD8A2F9AA6EC8B4478E82 /* libPods-Pickyourtrail.a */; };
-		F0B3E0A860B7AA67D3D3B943 /* libPods-Pickyourtrail-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E3B0B9149A31FECF15FA990E /* libPods-Pickyourtrail-tvOS.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		00C302B91ABCB90400DB3ED1 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 00C302B51ABCB90400DB3ED1 /* RCTGeolocation.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 134814201AA4EA6300B7C361;
-			remoteInfo = RCTGeolocation;
-		};
 		00E356F41AD99517003FC87E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
@@ -136,14 +125,12 @@
 
 /* Begin PBXFileReference section */
 		008F07F21AC5B25A0029DE68 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
-		00C302B51ABCB90400DB3ED1 /* RCTGeolocation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTGeolocation.xcodeproj; path = "../node_modules/react-native/Libraries/Geolocation/RCTGeolocation.xcodeproj"; sourceTree = "<group>"; };
 		00E356EE1AD99517003FC87E /* PickyourtrailTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PickyourtrailTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* PickyourtrailTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PickyourtrailTests.m; sourceTree = "<group>"; };
 		0269ECCE4C394948AF780156 /* libz.tbd */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		02CCFEE483F84B87B0232005 /* libBVLinearGradient.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libBVLinearGradient.a; sourceTree = "<group>"; };
 		04676279FD50460EB59D388B /* libLRDRCTSimpleToast.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libLRDRCTSimpleToast.a; sourceTree = "<group>"; };
-		06ED0A356DAC64D6BAF82C71 /* Pods-Pickyourtrail-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pickyourtrail-tvOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Pickyourtrail-tvOS/Pods-Pickyourtrail-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
 		13A347042FE9411391406D32 /* SourceSansPro-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SourceSansPro-SemiBold.ttf"; path = "../assets/fonts/SourceSansPro-SemiBold.ttf"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* Pickyourtrail.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pickyourtrail.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Pickyourtrail/AppDelegate.h; sourceTree = "<group>"; };
@@ -153,7 +140,6 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Pickyourtrail/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Pickyourtrail/main.m; sourceTree = "<group>"; };
 		182030C522C244CB00381751 /* ART.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ART.xcodeproj; path = "../node_modules/react-native/Libraries/ART/ART.xcodeproj"; sourceTree = "<group>"; };
-		289CD6E17650B7D15A82F7BB /* Pods-PickyourtrailTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PickyourtrailTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PickyourtrailTests/Pods-PickyourtrailTests.debug.xcconfig"; sourceTree = "<group>"; };
 		2D02E47B1E0B4A5D006451C7 /* Pickyourtrail-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Pickyourtrail-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* Pickyourtrail-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Pickyourtrail-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D16E6891FA4F8E400B85C8A /* libReact.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libReact.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -168,13 +154,11 @@
 		5F55DB1B3EB54A6AB34CCDCF /* RNInAppBrowser.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNInAppBrowser.xcodeproj; path = "../node_modules/@matt-block/react-native-in-app-browser/ios/RNInAppBrowser.xcodeproj"; sourceTree = "<group>"; };
 		79524E68D69547BE84F55AA9 /* LRDRCTSimpleToast.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = LRDRCTSimpleToast.xcodeproj; path = "../node_modules/react-native-simple-toast/ios/LRDRCTSimpleToast.xcodeproj"; sourceTree = "<group>"; };
 		807E2A9D7CE14288A79F78C7 /* BVLinearGradient.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = BVLinearGradient.xcodeproj; path = "../node_modules/react-native-linear-gradient/BVLinearGradient.xcodeproj"; sourceTree = "<group>"; };
-		8F3597D3E6B572AC8200D54B /* Pods-PickyourtrailTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PickyourtrailTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PickyourtrailTests/Pods-PickyourtrailTests.release.xcconfig"; sourceTree = "<group>"; };
 		9CA2E4600782BB91149A03FF /* Pods-Pickyourtrail.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pickyourtrail.release.xcconfig"; path = "Pods/Target Support Files/Pods-Pickyourtrail/Pods-Pickyourtrail.release.xcconfig"; sourceTree = "<group>"; };
 		9E7AD8A2F9AA6EC8B4478E82 /* libPods-Pickyourtrail.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Pickyourtrail.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B054342012024D2E85FE4A9A /* voyager.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = voyager.ttf; path = ../assets/fonts/voyager.ttf; sourceTree = "<group>"; };
 		BB591CA38BC305E3C4C1C57D /* libPods-Pickyourtrail-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Pickyourtrail-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C42E03626FC34A04B1171170 /* libRCTRestart.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTRestart.a; sourceTree = "<group>"; };
-		D3C74A472D6989AE51988CEE /* Pods-Pickyourtrail-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pickyourtrail-tvOSTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Pickyourtrail-tvOSTests/Pods-Pickyourtrail-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
 		D50225F41117C3C7AE89C069 /* libPods-PickyourtrailTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-PickyourtrailTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DF424B7191534684A590D559 /* RCTRestart.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTRestart.xcodeproj; path = "../node_modules/react-native-restart/ios/RCTRestart.xcodeproj"; sourceTree = "<group>"; };
 		E02EB0B49CB74BE2A2D9E2A4 /* RNFirebase.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNFirebase.xcodeproj; path = "../node_modules/react-native-firebase/ios/RNFirebase.xcodeproj"; sourceTree = "<group>"; };
@@ -183,9 +167,7 @@
 		E93C340415F3418593E4BBF5 /* SourceSansPro-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SourceSansPro-Regular.ttf"; path = "../assets/fonts/SourceSansPro-Regular.ttf"; sourceTree = "<group>"; };
 		E9BDBDC10DF241B6B427577C /* SourceSansPro-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SourceSansPro-Light.ttf"; path = "../assets/fonts/SourceSansPro-Light.ttf"; sourceTree = "<group>"; };
 		EDBD12E989F546B9B16654FD /* libRNInAppBrowser.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNInAppBrowser.a; sourceTree = "<group>"; };
-		EFB3E8416B5C3454FFE342F0 /* Pods-Pickyourtrail-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pickyourtrail-tvOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-Pickyourtrail-tvOS/Pods-Pickyourtrail-tvOS.release.xcconfig"; sourceTree = "<group>"; };
 		F6370F0DF5019E8F43169028 /* Pods-Pickyourtrail.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pickyourtrail.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Pickyourtrail/Pods-Pickyourtrail.debug.xcconfig"; sourceTree = "<group>"; };
-		F687EA5CED555E3098DCCA6C /* Pods-Pickyourtrail-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pickyourtrail-tvOSTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Pickyourtrail-tvOSTests/Pods-Pickyourtrail-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
 		F9DC3CE20F8045D4ACED9C38 /* libRNFirebase.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNFirebase.a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -194,7 +176,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D5C7F52C2710EEF60C20B9BC /* libPods-PickyourtrailTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -205,7 +186,6 @@
 				1820311422C2458900381751 /* libART.a in Frameworks */,
 				339078D321F1178B00F4F83A /* libReactNativeWebp.a in Frameworks */,
 				339078CC21F115F100F4F83A /* WebP.framework in Frameworks */,
-				00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */,
 				339078CB21F115F100F4F83A /* WebPDemux.framework in Frameworks */,
 				40E47B9851874B6AB70F0F9A /* libBVLinearGradient.a in Frameworks */,
 				9442CBB72DE84D8B963A5F9E /* libz.tbd in Frameworks */,
@@ -222,7 +202,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F0B3E0A860B7AA67D3D3B943 /* libPods-Pickyourtrail-tvOS.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -230,21 +209,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6E20DFD179AF426AEA9EB841 /* libPods-Pickyourtrail-tvOSTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		00C302B61ABCB90400DB3ED1 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		00E356EF1AD99517003FC87E /* PickyourtrailTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -376,7 +346,6 @@
 			isa = PBXGroup;
 			children = (
 				182030C522C244CB00381751 /* ART.xcodeproj */,
-				00C302B51ABCB90400DB3ED1 /* RCTGeolocation.xcodeproj */,
 				807E2A9D7CE14288A79F78C7 /* BVLinearGradient.xcodeproj */,
 				E02EB0B49CB74BE2A2D9E2A4 /* RNFirebase.xcodeproj */,
 				E2DCC74654284E74AC0BA849 /* ReactNativeCustomTabs.xcodeproj */,
@@ -434,12 +403,6 @@
 			children = (
 				F6370F0DF5019E8F43169028 /* Pods-Pickyourtrail.debug.xcconfig */,
 				9CA2E4600782BB91149A03FF /* Pods-Pickyourtrail.release.xcconfig */,
-				06ED0A356DAC64D6BAF82C71 /* Pods-Pickyourtrail-tvOS.debug.xcconfig */,
-				EFB3E8416B5C3454FFE342F0 /* Pods-Pickyourtrail-tvOS.release.xcconfig */,
-				D3C74A472D6989AE51988CEE /* Pods-Pickyourtrail-tvOSTests.debug.xcconfig */,
-				F687EA5CED555E3098DCCA6C /* Pods-Pickyourtrail-tvOSTests.release.xcconfig */,
-				289CD6E17650B7D15A82F7BB /* Pods-PickyourtrailTests.debug.xcconfig */,
-				8F3597D3E6B572AC8200D54B /* Pods-PickyourtrailTests.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -451,7 +414,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "PickyourtrailTests" */;
 			buildPhases = (
-				A475B59B8E1DDE140FB4F1F0 /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
@@ -491,7 +453,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2D02E4BA1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "Pickyourtrail-tvOS" */;
 			buildPhases = (
-				50975A814D7C4E10F5DDE640 /* [CP] Check Pods Manifest.lock */,
 				2D02E4771E0B4A5D006451C7 /* Sources */,
 				2D02E4781E0B4A5D006451C7 /* Frameworks */,
 				2D02E4791E0B4A5D006451C7 /* Resources */,
@@ -510,7 +471,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2D02E4BB1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "Pickyourtrail-tvOSTests" */;
 			buildPhases = (
-				7456DC4852EFF62345E9527B /* [CP] Check Pods Manifest.lock */,
 				2D02E48C1E0B4A5D006451C7 /* Sources */,
 				2D02E48D1E0B4A5D006451C7 /* Frameworks */,
 				2D02E48E1E0B4A5D006451C7 /* Resources */,
@@ -590,10 +550,6 @@
 					ProjectRef = 79524E68D69547BE84F55AA9 /* LRDRCTSimpleToast.xcodeproj */;
 				},
 				{
-					ProductGroup = 00C302B61ABCB90400DB3ED1 /* Products */;
-					ProjectRef = 00C302B51ABCB90400DB3ED1 /* RCTGeolocation.xcodeproj */;
-				},
-				{
 					ProductGroup = 3373DE1021A68C940028A1DD /* Products */;
 					ProjectRef = DF424B7191534684A590D559 /* RCTRestart.xcodeproj */;
 				},
@@ -625,13 +581,6 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libRCTGeolocation.a;
-			remoteRef = 00C302B91ABCB90400DB3ED1 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		182030CB22C244CB00381751 /* libART.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -772,50 +721,6 @@
 			shellPath = /bin/sh;
 			shellScript = "export SENTRY_PROPERTIES=sentry.properties\nexport NODE_BINARY=node\n../node_modules/@sentry/cli/bin/sentry-cli react-native xcode ../node_modules/react-native/scripts/react-native-xcode.sh";
 		};
-		50975A814D7C4E10F5DDE640 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Pickyourtrail-tvOS-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		7456DC4852EFF62345E9527B /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Pickyourtrail-tvOSTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
 		79501804D497F89259E9FC87 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -847,28 +752,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "export SENTRY_PROPERTIES=sentry.properties\n../node_modules/@sentry/cli/bin/sentry-cli upload-dsym";
-		};
-		A475B59B8E1DDE140FB4F1F0 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-PickyourtrailTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
 		};
 		AB5DC2571F661D4A5906D51B /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -990,7 +873,6 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 289CD6E17650B7D15A82F7BB /* Pods-PickyourtrailTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -1033,7 +915,6 @@
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8F3597D3E6B572AC8200D54B /* Pods-PickyourtrailTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -1165,7 +1046,6 @@
 		};
 		2D02E4971E0B4A5E006451C7 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 06ED0A356DAC64D6BAF82C71 /* Pods-Pickyourtrail-tvOS.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -1212,7 +1092,6 @@
 		};
 		2D02E4981E0B4A5E006451C7 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = EFB3E8416B5C3454FFE342F0 /* Pods-Pickyourtrail-tvOS.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -1259,7 +1138,6 @@
 		};
 		2D02E4991E0B4A5E006451C7 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D3C74A472D6989AE51988CEE /* Pods-Pickyourtrail-tvOSTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;
@@ -1305,7 +1183,6 @@
 		};
 		2D02E49A1E0B4A5E006451C7 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F687EA5CED555E3098DCCA6C /* Pods-Pickyourtrail-tvOSTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;
