@@ -65,6 +65,7 @@ const Transfer = ({ transfer, isLast, navigation, spinValue }) => {
       spinValue={spinValue}
       containerStyle={customStyle}
       sectionImage={{ uri: getTransferImage(vehicle, transferType) }}
+      defaultSource={{ uri: getTransferImage(vehicle, transferType) }}
       isProcessing={!transfer.voucher.booked}
       onClick={openVoucher}
       content={transfer.text}
