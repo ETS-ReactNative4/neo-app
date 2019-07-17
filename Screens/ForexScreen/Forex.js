@@ -34,7 +34,6 @@ const forexFeatures = [
 
 @ErrorBoundary()
 @inject("forexStore")
-@inject("appState")
 @inject("itineraries")
 @inject("userStore")
 @observer
@@ -102,8 +101,11 @@ class Forex extends Component {
     });
     const { selectedItineraryId } = this.props.itineraries;
     const { userDetails } = this.props.userStore;
-    const { currencies } = this.props.appState;
-    const { submitForexData } = this.props.forexStore;
+    const {
+      submitForexData,
+      getCurrencyListByItineraryId
+    } = this.props.forexStore;
+    const currencies = getCurrencyListByItineraryId(selectedItineraryId);
     const name = this.state.name === false ? userDetails.name : this.state.name;
     const mobileNumber =
       this.state.mobileNumber === false
