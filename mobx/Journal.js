@@ -142,6 +142,10 @@ class Journal {
     return new Promise((resolve, reject) => {
       const itineraryId = storeService.itineraries.selectedItineraryId;
       this._isJournalRefreshing = true;
+      if (!itineraryId) {
+        reject();
+        return;
+      }
       apiCall(
         `${constants.refreshJournalData}?itineraryId=${itineraryId}`,
         {},
@@ -844,16 +848,19 @@ class Journal {
       }
     };
 
-    if (this._imageUploadQueue.length) {
-      this.refreshJournalInformation();
-      this._isImageUploadQueueRunning = true;
-      getImageToUpload();
-    } else {
-      this._isImageUploadQueueRunning = false;
-      this.refreshJournalInformation();
-      console.log("------------------------------ ");
-      console.log("Queue Complete!");
-      console.log("------------------------------ ");
+    const itineraryId = storeService.itineraries.selectedItineraryId;
+    if (itineraryId) {
+      if (this._imageUploadQueue.length) {
+        this.refreshJournalInformation();
+        this._isImageUploadQueueRunning = true;
+        getImageToUpload();
+      } else {
+        this._isImageUploadQueueRunning = false;
+        this.refreshJournalInformation();
+        console.log("------------------------------ ");
+        console.log("Queue Complete!");
+        console.log("------------------------------ ");
+      }
     }
   };
 
