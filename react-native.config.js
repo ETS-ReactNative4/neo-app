@@ -13,12 +13,12 @@ module.exports = {
       platforms: {
         ios: null
       }
-    },
-    "@matt-block/react-native-in-app-browser": {
-      platforms: {
-        ios: null,
-        android: null
-      }
     }
+    // "@matt-block/react-native-in-app-browser": {
+    //   platforms: {
+    //     ios: null,
+    //     android: null
+    //   }
+    // }
   }
 };

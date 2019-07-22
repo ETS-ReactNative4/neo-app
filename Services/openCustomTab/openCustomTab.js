@@ -1,6 +1,6 @@
-import { CustomTabs } from "react-native-custom-tabs";
+// import { CustomTabs } from "react-native-custom-tabs";
 import { Platform, Linking } from "react-native";
-import openInApp from "@matt-block/react-native-in-app-browser";
+// import openInApp from "@matt-block/react-native-in-app-browser";
 import { logError } from "../errorLogger/errorLogger";
 import constants from "../../constants/constants";
 import navigationService from "../navigationService/navigationService";

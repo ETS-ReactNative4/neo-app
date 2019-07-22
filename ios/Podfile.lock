@@ -1,6 +1,6 @@
 PODS:
   - boost-for-react-native (1.63.0)
-  - BVLinearGradient (2.4.0):
+  - BVLinearGradient (2.5.4):
     - React
   - Crashlytics (3.13.2):
     - Fabric (~> 1.10.2)
@@ -109,7 +109,7 @@ PODS:
   - nanopb/encode (0.3.901)
   - Protobuf (3.8.0)
   - QBImagePickerController (3.4.0)
-  - RCTRestart (0.0.7):
+  - RCTRestart (0.0.12):
     - React
   - React (0.60.4):
     - React-Core (= 0.60.4)
@@ -159,8 +159,6 @@ PODS:
   - React-jsinspector (0.60.4)
   - react-native-cameraroll (1.0.5):
     - React
-  - react-native-custom-tabs (0.1.7):
-    - React
   - react-native-geolocation (1.4.2):
     - React
   - react-native-netinfo (4.1.1):
@@ -168,8 +166,6 @@ PODS:
   - react-native-pdf (5.0.11):
     - React
   - react-native-photo-view (1.5.2):
-    - React
-  - react-native-simple-toast (0.1.1):
     - React
   - react-native-webview (5.7.0):
     - React
@@ -268,12 +264,10 @@ DEPENDENCIES:
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - "react-native-cameraroll (from `../node_modules/@react-native-community/cameraroll`)"
-  - react-native-custom-tabs (from `../node_modules/react-native-custom-tabs/ios`)
   - "react-native-geolocation (from `../node_modules/@react-native-community/geolocation`)"
   - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
   - react-native-pdf (from `../node_modules/react-native-pdf`)
   - react-native-photo-view (from `../node_modules/react-native-photo-view`)
-  - react-native-simple-toast (from `../node_modules/react-native-simple-toast`)
   - react-native-webview (from `../node_modules/react-native-webview`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
   - React-RCTAnimation (from `../node_modules/react-native/Libraries/NativeAnimation`)
@@ -354,8 +348,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
   react-native-cameraroll:
     :path: "../node_modules/@react-native-community/cameraroll"
-  react-native-custom-tabs:
-    :path: "../node_modules/react-native-custom-tabs/ios"
   react-native-geolocation:
     :path: "../node_modules/@react-native-community/geolocation"
   react-native-netinfo:
@@ -364,8 +356,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-pdf"
   react-native-photo-view:
     :path: "../node_modules/react-native-photo-view"
-  react-native-simple-toast:
-    :path: "../node_modules/react-native-simple-toast"
   react-native-webview:
     :path: "../node_modules/react-native-webview"
   React-RCTActionSheet:
@@ -417,7 +407,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
-  BVLinearGradient: 8913bd8fdc47b85abc801ae8bae007bbfb6b4ce5
+  BVLinearGradient: 8cbc5155c978f2e43098818c91d206d07aae6d30
   Crashlytics: 611738c7847f8291a1a51084e35987b86ba6b3ee
   DoubleConversion: 5805e889d232975c086db112ece9ed034df7a0b2
   Fabric: 706c8b8098fff96c33c0db69cbf81f9c551d0d74
@@ -437,7 +427,7 @@ SPEC CHECKSUMS:
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
   Protobuf: 3f617b9a6e73605565086864c9bc26b2bf2dd5a3
   QBImagePickerController: d54cf93db6decf26baf6ed3472f336ef35cae022
-  RCTRestart: 6d49edbb1998a06ec5fe8e9eb9cc0dd6a484a237
+  RCTRestart: 3abdd55016c31254b996e0a55cc14cc2544fa3c1
   React: ff7ee2ae5ee1c1d9ae2183b4111045b25294bb01
   React-Core: 8e0ea421cae5609d2562850f98421b15030476fa
   React-cxxreact: 326880209990151a7182a813311054e9772ba510
@@ -447,12 +437,10 @@ SPEC CHECKSUMS:
   React-jsiexecutor: 7549641e48bafae7bfee3f3ea19bf4901639c5de
   React-jsinspector: 73f24a02fa684ed6a2b828ba116874a2191ded88
   react-native-cameraroll: b1faef9f2ea27b07bdf818b8043909a93f797eca
-  react-native-custom-tabs: e2847b68f7988fd8b209a5f69683955e45e965c2
   react-native-geolocation: a7b94614afbd5fd8350e0233a2025c8228fc8041
   react-native-netinfo: 74a82ca28882d543658ddb63617c2e7cf9b78aa7
   react-native-pdf: aa2e3f51c3834cedbdafa743d122ce2974eab3f3
   react-native-photo-view: 63e9e61da873531f931008b545d8d10c5373ddf8
-  react-native-simple-toast: 1fc69d83c24279ed4f9624352551a5a3406678a2
   react-native-webview: 69ca34f590814ae44260d30e293ab4b7b3eea793
   React-RCTActionSheet: 9f71d7ae3e8fb10e08d162cbf14c621349dbfab3
   React-RCTAnimation: 981d8c95b0e30918a9832ccac32af83562a27fae
