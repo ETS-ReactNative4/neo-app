@@ -19,6 +19,7 @@
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2DCD954D1E0B4F2C00145EB5 /* PickyourtrailTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* PickyourtrailTests.m */; };
 		3077EDBF5A5944C3B9497A41 /* libDBCustomTabs.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D9BAF9D53C84531B20C4E4D /* libDBCustomTabs.a */; };
+		31FEE56CF874CC34560E78CC /* libPods-Pickyourtrail.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832BA0F4524C92A41DC86DB9 /* libPods-Pickyourtrail.a */; };
 		33831E2C21E8DA0A00FFBF00 /* EmptySwiftFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33831E2B21E8DA0A00FFBF00 /* EmptySwiftFile.swift */; };
 		339078CB21F115F100F4F83A /* WebPDemux.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3390789D21F115F000F4F83A /* WebPDemux.framework */; };
 		339078CC21F115F100F4F83A /* WebP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 339078CA21F115F100F4F83A /* WebP.framework */; };
@@ -33,7 +34,6 @@
 		9442CBB72DE84D8B963A5F9E /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0269ECCE4C394948AF780156 /* libz.tbd */; };
 		C8A5477AC00848B1B2971C96 /* libRNInAppBrowser.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EDBD12E989F546B9B16654FD /* libRNInAppBrowser.a */; };
 		DCFDAB3BA6D140FEBFA5E460 /* libRCTRestart.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C42E03626FC34A04B1171170 /* libRCTRestart.a */; };
-		EB6B9EDEF4AF1D1506B6BD7D /* libPods-Pickyourtrail.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E7AD8A2F9AA6EC8B4478E82 /* libPods-Pickyourtrail.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -152,22 +152,19 @@
 		33A79BA921564F4E00A5A7EF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		33A79BD22156500800A5A7EF /* Pickyourtrail.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = Pickyourtrail.entitlements; path = Pickyourtrail/Pickyourtrail.entitlements; sourceTree = "<group>"; };
 		5F55DB1B3EB54A6AB34CCDCF /* RNInAppBrowser.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNInAppBrowser.xcodeproj; path = "../node_modules/@matt-block/react-native-in-app-browser/ios/RNInAppBrowser.xcodeproj"; sourceTree = "<group>"; };
+		77AF3A4FA01F16DABA732EE5 /* Pods-Pickyourtrail.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pickyourtrail.release.xcconfig"; path = "Target Support Files/Pods-Pickyourtrail/Pods-Pickyourtrail.release.xcconfig"; sourceTree = "<group>"; };
 		79524E68D69547BE84F55AA9 /* LRDRCTSimpleToast.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = LRDRCTSimpleToast.xcodeproj; path = "../node_modules/react-native-simple-toast/ios/LRDRCTSimpleToast.xcodeproj"; sourceTree = "<group>"; };
+		7B13B6F90B8BB2CA0C412D02 /* Pods-Pickyourtrail.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pickyourtrail.debug.xcconfig"; path = "Target Support Files/Pods-Pickyourtrail/Pods-Pickyourtrail.debug.xcconfig"; sourceTree = "<group>"; };
 		807E2A9D7CE14288A79F78C7 /* BVLinearGradient.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = BVLinearGradient.xcodeproj; path = "../node_modules/react-native-linear-gradient/BVLinearGradient.xcodeproj"; sourceTree = "<group>"; };
-		9CA2E4600782BB91149A03FF /* Pods-Pickyourtrail.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pickyourtrail.release.xcconfig"; path = "Pods/Target Support Files/Pods-Pickyourtrail/Pods-Pickyourtrail.release.xcconfig"; sourceTree = "<group>"; };
-		9E7AD8A2F9AA6EC8B4478E82 /* libPods-Pickyourtrail.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Pickyourtrail.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		832BA0F4524C92A41DC86DB9 /* libPods-Pickyourtrail.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Pickyourtrail.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B054342012024D2E85FE4A9A /* voyager.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = voyager.ttf; path = ../assets/fonts/voyager.ttf; sourceTree = "<group>"; };
-		BB591CA38BC305E3C4C1C57D /* libPods-Pickyourtrail-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Pickyourtrail-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C42E03626FC34A04B1171170 /* libRCTRestart.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTRestart.a; sourceTree = "<group>"; };
-		D50225F41117C3C7AE89C069 /* libPods-PickyourtrailTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-PickyourtrailTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DF424B7191534684A590D559 /* RCTRestart.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTRestart.xcodeproj; path = "../node_modules/react-native-restart/ios/RCTRestart.xcodeproj"; sourceTree = "<group>"; };
 		E02EB0B49CB74BE2A2D9E2A4 /* RNFirebase.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNFirebase.xcodeproj; path = "../node_modules/react-native-firebase/ios/RNFirebase.xcodeproj"; sourceTree = "<group>"; };
 		E2DCC74654284E74AC0BA849 /* ReactNativeCustomTabs.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = ReactNativeCustomTabs.xcodeproj; path = "../node_modules/react-native-custom-tabs/ios/ReactNativeCustomTabs.xcodeproj"; sourceTree = "<group>"; };
-		E3B0B9149A31FECF15FA990E /* libPods-Pickyourtrail-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Pickyourtrail-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E93C340415F3418593E4BBF5 /* SourceSansPro-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SourceSansPro-Regular.ttf"; path = "../assets/fonts/SourceSansPro-Regular.ttf"; sourceTree = "<group>"; };
 		E9BDBDC10DF241B6B427577C /* SourceSansPro-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SourceSansPro-Light.ttf"; path = "../assets/fonts/SourceSansPro-Light.ttf"; sourceTree = "<group>"; };
 		EDBD12E989F546B9B16654FD /* libRNInAppBrowser.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNInAppBrowser.a; sourceTree = "<group>"; };
-		F6370F0DF5019E8F43169028 /* Pods-Pickyourtrail.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pickyourtrail.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Pickyourtrail/Pods-Pickyourtrail.debug.xcconfig"; sourceTree = "<group>"; };
 		F9DC3CE20F8045D4ACED9C38 /* libRNFirebase.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNFirebase.a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -189,12 +186,12 @@
 				339078CB21F115F100F4F83A /* WebPDemux.framework in Frameworks */,
 				40E47B9851874B6AB70F0F9A /* libBVLinearGradient.a in Frameworks */,
 				9442CBB72DE84D8B963A5F9E /* libz.tbd in Frameworks */,
-				EB6B9EDEF4AF1D1506B6BD7D /* libPods-Pickyourtrail.a in Frameworks */,
 				402568E343224C5EA50109AC /* libRNFirebase.a in Frameworks */,
 				3077EDBF5A5944C3B9497A41 /* libDBCustomTabs.a in Frameworks */,
 				DCFDAB3BA6D140FEBFA5E460 /* libRCTRestart.a in Frameworks */,
 				4A009EDD17694E3FA9391D1E /* libLRDRCTSimpleToast.a in Frameworks */,
 				C8A5477AC00848B1B2971C96 /* libRNInAppBrowser.a in Frameworks */,
+				31FEE56CF874CC34560E78CC /* libPods-Pickyourtrail.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -264,10 +261,7 @@
 			children = (
 				2D16E6891FA4F8E400B85C8A /* libReact.a */,
 				0269ECCE4C394948AF780156 /* libz.tbd */,
-				9E7AD8A2F9AA6EC8B4478E82 /* libPods-Pickyourtrail.a */,
-				E3B0B9149A31FECF15FA990E /* libPods-Pickyourtrail-tvOS.a */,
-				BB591CA38BC305E3C4C1C57D /* libPods-Pickyourtrail-tvOSTests.a */,
-				D50225F41117C3C7AE89C069 /* libPods-PickyourtrailTests.a */,
+				832BA0F4524C92A41DC86DB9 /* libPods-Pickyourtrail.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -369,7 +363,7 @@
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				8CE2C08E08384851B55D61AB /* Resources */,
 				339BE5B72085FDC9007A6A19 /* Recovered References */,
-				960E6703E55FF89E60130CFB /* Pods */,
+				C1C014436AB25E6A5D4D92EE /* Pods */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -398,13 +392,14 @@
 			name = Resources;
 			sourceTree = "<group>";
 		};
-		960E6703E55FF89E60130CFB /* Pods */ = {
+		C1C014436AB25E6A5D4D92EE /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				F6370F0DF5019E8F43169028 /* Pods-Pickyourtrail.debug.xcconfig */,
-				9CA2E4600782BB91149A03FF /* Pods-Pickyourtrail.release.xcconfig */,
+				7B13B6F90B8BB2CA0C412D02 /* Pods-Pickyourtrail.debug.xcconfig */,
+				77AF3A4FA01F16DABA732EE5 /* Pods-Pickyourtrail.release.xcconfig */,
 			);
 			name = Pods;
+			path = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -432,13 +427,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "Pickyourtrail" */;
 			buildPhases = (
-				79501804D497F89259E9FC87 /* [CP] Check Pods Manifest.lock */,
+				6ADF1D6009F2B79A3D0242D6 /* [CP] Check Pods Manifest.lock */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				817B90D4010C4E64835A12B8 /* Upload Debug Symbols to Sentry */,
-				AB5DC2571F661D4A5906D51B /* [CP] Copy Pods Resources */,
+				C79D2854DF2A1A846CE37C79 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -721,16 +716,20 @@
 			shellPath = /bin/sh;
 			shellScript = "export SENTRY_PROPERTIES=sentry.properties\nexport NODE_BINARY=node\n../node_modules/@sentry/cli/bin/sentry-cli react-native xcode ../node_modules/react-native/scripts/react-native-xcode.sh";
 		};
-		79501804D497F89259E9FC87 /* [CP] Check Pods Manifest.lock */ = {
+		6ADF1D6009F2B79A3D0242D6 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			inputFileListPaths = (
 			);
 			inputPaths = (
 				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
 				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
 			outputPaths = (
 				"$(DERIVED_FILE_DIR)/Pods-Pickyourtrail-checkManifestLockResult.txt",
 			);
@@ -753,7 +752,7 @@
 			shellPath = /bin/sh;
 			shellScript = "export SENTRY_PROPERTIES=sentry.properties\n../node_modules/@sentry/cli/bin/sentry-cli upload-dsym";
 		};
-		AB5DC2571F661D4A5906D51B /* [CP] Copy Pods Resources */ = {
+		C79D2854DF2A1A846CE37C79 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -954,7 +953,7 @@
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F6370F0DF5019E8F43169028 /* Pods-Pickyourtrail.debug.xcconfig */;
+			baseConfigurationReference = 7B13B6F90B8BB2CA0C412D02 /* Pods-Pickyourtrail.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -1001,7 +1000,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9CA2E4600782BB91149A03FF /* Pods-Pickyourtrail.release.xcconfig */;
+			baseConfigurationReference = 77AF3A4FA01F16DABA732EE5 /* Pods-Pickyourtrail.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;

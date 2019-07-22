@@ -11224,14 +11224,15 @@ react-native-simple-radio-button@^2.7.3:
   resolved "https://registry.yarnpkg.com/react-native-simple-radio-button/-/react-native-simple-radio-button-2.7.3.tgz#c7227c0f963d6bbcfa245255d18a5a8b98fde41f"
   integrity sha512-kiYRarFj7PXzV9fbQwMBiYwS4YnhrR4NZGT68atlFIoNFxZLrt5OMCDqXZqu6R6bUWKLndzPpO/nhXc6/OU1Mg==
 
-react-native-simple-toast@^0.0.8:
-  version "0.0.8"
-  resolved "https://registry.yarnpkg.com/react-native-simple-toast/-/react-native-simple-toast-0.0.8.tgz#513f4add8d30e4c5109e536bfc6ea5825fea5d83"
-  integrity sha512-qfhHsAtZuMV7llF74WjAHCjAQhfyDDRVrE9nmczCZSHZ5JRZ3XkqnZ8IyNnNUQMsGQodyV+0QEf5uPiWBICnUA==
+react-native-simple-toast@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/react-native-simple-toast/-/react-native-simple-toast-0.1.1.tgz#675755e7293438c77e7d1f40989b902fd0c0d943"
+  integrity sha512-6fZrZdPM0EcB3cnOlvzjq5/urfIA0XK4SAwW15UVI4wK7xerpA06kITELYCyOfho0OlpiYW4981R0QEpPaQBRg==
 
-"react-native-sound@git://github.com/DaniAkash/react-native-sound.git#7c8dea53a051b6a1b2b79ba41871d01cc24c1544":
-  version "0.10.9"
-  resolved "git://github.com/DaniAkash/react-native-sound.git#7c8dea53a051b6a1b2b79ba41871d01cc24c1544"
+react-native-sound@0.11.0:
+  version "0.11.0"
+  resolved "https://registry.yarnpkg.com/react-native-sound/-/react-native-sound-0.11.0.tgz#ad60b55ba8c6dc89917f381ad3713f2738de530f"
+  integrity sha512-4bGAZfni6E2L695NQjOZwNLBQGXgBGYC4Sy+h99K5h0HqNZjCqR0+aLel+ezASxEJDpaH83gylNObXpiqJgdwg==
 
 react-native-svg-charts@^5.0.0:
   version "5.0.0"

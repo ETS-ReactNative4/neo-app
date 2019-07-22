@@ -4,11 +4,6 @@
 
 module.exports = {
   dependencies: {
-    "react-native-simple-toast": {
-      platforms: {
-        ios: null // disable ios platform, other platforms will still autolink if provided
-      }
-    },
     "react-native-webp-support": {
       platforms: {
         ios: null
