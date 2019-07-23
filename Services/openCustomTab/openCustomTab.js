@@ -1,14 +1,9 @@
-// import { CustomTabs } from "react-native-custom-tabs";
 import { Platform, Linking } from "react-native";
-// import openInApp from "@matt-block/react-native-in-app-browser";
+import InAppBrowser from "react-native-inappbrowser-reborn";
 import { logError } from "../errorLogger/errorLogger";
 import constants from "../../constants/constants";
 import navigationService from "../navigationService/navigationService";
 import getUrlParams from "../getUrlParams/getUrlParams";
-
-/**
- * TODO: in-app-browser android library is having an issue & CustomTabs iOS library is not working. Need to document this
- */
 
 const openCustomTab = (
   url,
@@ -37,6 +32,17 @@ const openCustomTab = (
         failure();
       });
   };
+
+  /**
+   * Function that will launch the custom tab after
+   * the conditions are satisfied
+   */
+  const launchTab = () => {
+    InAppBrowser.open(url)
+      .then(success)
+      .catch(failure);
+  };
+
   /**
    * Call fallback if the url is not a web link
    * Since custom tab cannot handle mailto or telephone links
@@ -56,10 +62,7 @@ const openCustomTab = (
       if (parseFloat(Platform.Version) < constants.customTabSupportIos) {
         fallback();
       } else {
-        openInApp(url).catch(error => {
-          logError(error);
-          failure(error);
-        });
+        launchTab();
       }
     } else {
       /**
@@ -73,19 +76,7 @@ const openCustomTab = (
           pdfUri: url
         });
       } else {
-        CustomTabs.openURL(url, {
-          showPageTitle: true
-        })
-          .then(launched => {
-            if (!launched) {
-              failure();
-            }
-            success();
-          })
-          .catch(err => {
-            logError(err);
-            failure(err);
-          });
+        launchTab();
       }
     }
   }

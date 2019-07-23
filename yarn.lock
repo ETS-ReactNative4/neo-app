@@ -11032,6 +11032,13 @@ react-native-image-crop-picker@0.25.0:
   resolved "https://registry.yarnpkg.com/react-native-image-crop-picker/-/react-native-image-crop-picker-0.25.0.tgz#858fa6fdc857255fe5250252a38d58db347f9067"
   integrity sha512-SpT8/zRUW+d/girR78Rc9FzqCOwuARRTJX91hENKJ8LPzVos1fthNOJO0LGGvVFYggbtLsLugrPRDRP2MiuGlQ==
 
+react-native-inappbrowser-reborn@^2.0.4:
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/react-native-inappbrowser-reborn/-/react-native-inappbrowser-reborn-2.0.4.tgz#c71293eb217213c162b6f668fc8c045762c13149"
+  integrity sha512-mmPYw2XFOzSFN3Yx1azkXvA0dPGfFH+L6W0Sg5ztyv9nIG63w/vxHkOgtDWwSV4nIKU62l9wTbpApfgj7UrK7w==
+  dependencies:
+    invariant "^2.2.4"
+
 react-native-iphone-x-helper@1.2.0, react-native-iphone-x-helper@^1.0.3:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/react-native-iphone-x-helper/-/react-native-iphone-x-helper-1.2.0.tgz#9f8a376eb00bc712115abff4420318a0063fa796"
@@ -11212,6 +11219,11 @@ react-native-simple-radio-button@^2.7.3:
   version "2.7.3"
   resolved "https://registry.yarnpkg.com/react-native-simple-radio-button/-/react-native-simple-radio-button-2.7.3.tgz#c7227c0f963d6bbcfa245255d18a5a8b98fde41f"
   integrity sha512-kiYRarFj7PXzV9fbQwMBiYwS4YnhrR4NZGT68atlFIoNFxZLrt5OMCDqXZqu6R6bUWKLndzPpO/nhXc6/OU1Mg==
+
+react-native-simple-toast@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/react-native-simple-toast/-/react-native-simple-toast-0.1.1.tgz#675755e7293438c77e7d1f40989b902fd0c0d943"
+  integrity sha512-6fZrZdPM0EcB3cnOlvzjq5/urfIA0XK4SAwW15UVI4wK7xerpA06kITELYCyOfho0OlpiYW4981R0QEpPaQBRg==
 
 react-native-sound@0.11.0:
   version "0.11.0"

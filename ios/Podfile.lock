@@ -167,6 +167,8 @@ PODS:
     - React
   - react-native-photo-view (1.5.2):
     - React
+  - react-native-simple-toast (0.1.1):
+    - React
   - react-native-webview (5.7.0):
     - React
   - React-RCTActionSheet (0.60.4):
@@ -215,6 +217,8 @@ PODS:
     - React-Core
     - React-RCTImage
     - RSKImageCropper
+  - RNInAppBrowser (2.0.4):
+    - React
   - RNKeychain (3.0.0):
     - React
   - RNShare (1.2.1):
@@ -268,6 +272,7 @@ DEPENDENCIES:
   - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
   - react-native-pdf (from `../node_modules/react-native-pdf`)
   - react-native-photo-view (from `../node_modules/react-native-photo-view`)
+  - react-native-simple-toast (from `../node_modules/react-native-simple-toast`)
   - react-native-webview (from `../node_modules/react-native-webview`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
   - React-RCTAnimation (from `../node_modules/react-native/Libraries/NativeAnimation`)
@@ -284,6 +289,7 @@ DEPENDENCIES:
   - RNFastImage (from `../node_modules/react-native-fast-image`)
   - RNFirebase (from `../node_modules/react-native-firebase/ios`)
   - RNImageCropPicker (from `../node_modules/react-native-image-crop-picker`)
+  - RNInAppBrowser (from `../node_modules/react-native-inappbrowser-reborn`)
   - RNKeychain (from `../node_modules/react-native-keychain`)
   - RNShare (from `../node_modules/react-native-share`)
   - RNSound (from `../node_modules/react-native-sound`)
@@ -356,6 +362,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-pdf"
   react-native-photo-view:
     :path: "../node_modules/react-native-photo-view"
+  react-native-simple-toast:
+    :path: "../node_modules/react-native-simple-toast"
   react-native-webview:
     :path: "../node_modules/react-native-webview"
   React-RCTActionSheet:
@@ -388,6 +396,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-firebase/ios"
   RNImageCropPicker:
     :path: "../node_modules/react-native-image-crop-picker"
+  RNInAppBrowser:
+    :path: "../node_modules/react-native-inappbrowser-reborn"
   RNKeychain:
     :path: "../node_modules/react-native-keychain"
   RNShare:
@@ -441,6 +451,7 @@ SPEC CHECKSUMS:
   react-native-netinfo: 74a82ca28882d543658ddb63617c2e7cf9b78aa7
   react-native-pdf: aa2e3f51c3834cedbdafa743d122ce2974eab3f3
   react-native-photo-view: 63e9e61da873531f931008b545d8d10c5373ddf8
+  react-native-simple-toast: 1fc69d83c24279ed4f9624352551a5a3406678a2
   react-native-webview: 69ca34f590814ae44260d30e293ab4b7b3eea793
   React-RCTActionSheet: 9f71d7ae3e8fb10e08d162cbf14c621349dbfab3
   React-RCTAnimation: 981d8c95b0e30918a9832ccac32af83562a27fae
@@ -457,6 +468,7 @@ SPEC CHECKSUMS:
   RNFastImage: 4e3cd0485ffce7304537e3efc05f99cdc9808107
   RNFirebase: b627e5991bb10bf34cea84806819f98f95f39f8b
   RNImageCropPicker: 0a731d984e64ee4c28bddaa7ce52262e4b80979f
+  RNInAppBrowser: 6a4b1c006d41d76eac14d758145335c83e1ab1cf
   RNKeychain: 3aa3cf891a09a0d18d306862ab2bb9e106079b24
   RNShare: 48cf88cadf9ca2143cdaa557c1ec7f8808040ffc
   RNSound: da030221e6ac7e8290c6b43f2b5f2133a8e225b0
