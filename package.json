@@ -9,7 +9,7 @@
     "start": "yarn set-staging-environment && react-native start --reset-cache",
     "test": "jest",
     "lint": "eslint .",
-    "build-android": "cd android && ./gradlew assembleRelease && cd ..",
+    "build-android": "cd android && ./gradlew bundleRelease && cd ..",
     "build-android-alpha": "yarn set-staging-environment && yarn build-android",
     "build-android-prod": "yarn set-prod-environment && yarn build-android",
     "build-ios": "fastlane ios uploadToTestflight",
