@@ -17,10 +17,8 @@
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2DCD954D1E0B4F2C00145EB5 /* PickyourtrailTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* PickyourtrailTests.m */; };
-		31FEE56CF874CC34560E78CC /* libPods-Pickyourtrail.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832BA0F4524C92A41DC86DB9 /* libPods-Pickyourtrail.a */; };
 		33831E2C21E8DA0A00FFBF00 /* EmptySwiftFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33831E2B21E8DA0A00FFBF00 /* EmptySwiftFile.swift */; };
 		33A79BD121564F4F00A5A7EF /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 33A79BA921564F4E00A5A7EF /* GoogleService-Info.plist */; };
-		402568E343224C5EA50109AC /* libRNFirebase.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F9DC3CE20F8045D4ACED9C38 /* libRNFirebase.a */; };
 		4C0A011F106C4A9FB5192721 /* SourceSansPro-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E93C340415F3418593E4BBF5 /* SourceSansPro-Regular.ttf */; };
 		726B5F8C89384E979D21DDAA /* SourceSansPro-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 13A347042FE9411391406D32 /* SourceSansPro-SemiBold.ttf */; };
 		7FD6861292BF4577A8A4A5DC /* SourceSansPro-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E9BDBDC10DF241B6B427577C /* SourceSansPro-Light.ttf */; };
@@ -42,13 +40,6 @@
 			remoteGlobalIDString = 2D02E47A1E0B4A5D006451C7;
 			remoteInfo = "Pickyourtrail-tvOS";
 		};
-		33B1A5B72183648900B905E7 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = E02EB0B49CB74BE2A2D9E2A4 /* RNFirebase.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 134814201AA4EA6300B7C361;
-			remoteInfo = RNFirebase;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -57,8 +48,6 @@
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* PickyourtrailTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PickyourtrailTests.m; sourceTree = "<group>"; };
 		0269ECCE4C394948AF780156 /* libz.tbd */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
-		02CCFEE483F84B87B0232005 /* libBVLinearGradient.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libBVLinearGradient.a; sourceTree = "<group>"; };
-		04676279FD50460EB59D388B /* libLRDRCTSimpleToast.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libLRDRCTSimpleToast.a; sourceTree = "<group>"; };
 		13A347042FE9411391406D32 /* SourceSansPro-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SourceSansPro-SemiBold.ttf"; path = "../assets/fonts/SourceSansPro-SemiBold.ttf"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* Pickyourtrail.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pickyourtrail.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Pickyourtrail/AppDelegate.h; sourceTree = "<group>"; };
@@ -69,22 +58,15 @@
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Pickyourtrail/main.m; sourceTree = "<group>"; };
 		2D02E47B1E0B4A5D006451C7 /* Pickyourtrail-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Pickyourtrail-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* Pickyourtrail-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Pickyourtrail-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		2D16E6891FA4F8E400B85C8A /* libReact.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libReact.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		2D9BAF9D53C84531B20C4E4D /* libDBCustomTabs.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libDBCustomTabs.a; sourceTree = "<group>"; };
 		33831E2A21E8DA0A00FFBF00 /* Pickyourtrail-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Pickyourtrail-Bridging-Header.h"; sourceTree = "<group>"; };
 		33831E2B21E8DA0A00FFBF00 /* EmptySwiftFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptySwiftFile.swift; sourceTree = "<group>"; };
 		33A79BA921564F4E00A5A7EF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		33A79BD22156500800A5A7EF /* Pickyourtrail.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = Pickyourtrail.entitlements; path = Pickyourtrail/Pickyourtrail.entitlements; sourceTree = "<group>"; };
 		77AF3A4FA01F16DABA732EE5 /* Pods-Pickyourtrail.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pickyourtrail.release.xcconfig"; path = "Target Support Files/Pods-Pickyourtrail/Pods-Pickyourtrail.release.xcconfig"; sourceTree = "<group>"; };
 		7B13B6F90B8BB2CA0C412D02 /* Pods-Pickyourtrail.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pickyourtrail.debug.xcconfig"; path = "Target Support Files/Pods-Pickyourtrail/Pods-Pickyourtrail.debug.xcconfig"; sourceTree = "<group>"; };
-		832BA0F4524C92A41DC86DB9 /* libPods-Pickyourtrail.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Pickyourtrail.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B054342012024D2E85FE4A9A /* voyager.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = voyager.ttf; path = ../assets/fonts/voyager.ttf; sourceTree = "<group>"; };
-		C42E03626FC34A04B1171170 /* libRCTRestart.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTRestart.a; sourceTree = "<group>"; };
-		E02EB0B49CB74BE2A2D9E2A4 /* RNFirebase.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNFirebase.xcodeproj; path = "../node_modules/react-native-firebase/ios/RNFirebase.xcodeproj"; sourceTree = "<group>"; };
 		E93C340415F3418593E4BBF5 /* SourceSansPro-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SourceSansPro-Regular.ttf"; path = "../assets/fonts/SourceSansPro-Regular.ttf"; sourceTree = "<group>"; };
 		E9BDBDC10DF241B6B427577C /* SourceSansPro-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SourceSansPro-Light.ttf"; path = "../assets/fonts/SourceSansPro-Light.ttf"; sourceTree = "<group>"; };
-		EDBD12E989F546B9B16654FD /* libRNInAppBrowser.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNInAppBrowser.a; sourceTree = "<group>"; };
-		F9DC3CE20F8045D4ACED9C38 /* libRNFirebase.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNFirebase.a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,8 +82,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				9442CBB72DE84D8B963A5F9E /* libz.tbd in Frameworks */,
-				402568E343224C5EA50109AC /* libRNFirebase.a in Frameworks */,
-				31FEE56CF874CC34560E78CC /* libPods-Pickyourtrail.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -160,9 +140,7 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				2D16E6891FA4F8E400B85C8A /* libReact.a */,
 				0269ECCE4C394948AF780156 /* libz.tbd */,
-				832BA0F4524C92A41DC86DB9 /* libPods-Pickyourtrail.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -170,28 +148,13 @@
 		339BE5B72085FDC9007A6A19 /* Recovered References */ = {
 			isa = PBXGroup;
 			children = (
-				02CCFEE483F84B87B0232005 /* libBVLinearGradient.a */,
-				F9DC3CE20F8045D4ACED9C38 /* libRNFirebase.a */,
-				2D9BAF9D53C84531B20C4E4D /* libDBCustomTabs.a */,
-				C42E03626FC34A04B1171170 /* libRCTRestart.a */,
-				04676279FD50460EB59D388B /* libLRDRCTSimpleToast.a */,
-				EDBD12E989F546B9B16654FD /* libRNInAppBrowser.a */,
 			);
 			name = "Recovered References";
-			sourceTree = "<group>";
-		};
-		33B1A5B42183648800B905E7 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				33B1A5B82183648900B905E7 /* libRNFirebase.a */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				E02EB0B49CB74BE2A2D9E2A4 /* RNFirebase.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -373,12 +336,6 @@
 			mainGroup = 83CBB9F61A601CBA00E9B192;
 			productRefGroup = 83CBBA001A601CBA00E9B192 /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = 33B1A5B42183648800B905E7 /* Products */;
-					ProjectRef = E02EB0B49CB74BE2A2D9E2A4 /* RNFirebase.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				13B07F861A680F5B00A75B9A /* Pickyourtrail */,
@@ -388,16 +345,6 @@
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		33B1A5B82183648900B905E7 /* libRNFirebase.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libRNFirebase.a;
-			remoteRef = 33B1A5B72183648900B905E7 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		00E356EC1AD99517003FC87E /* Resources */ = {
