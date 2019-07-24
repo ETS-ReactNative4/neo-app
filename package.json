@@ -24,6 +24,8 @@
     "debug": "react-devtools"
   },
   "dependencies": {
+    "@react-native-community/art":
+      "git://github.com/DaniAkash/art.git#481f09b1247606e354211af458b967c497573d23",
     "@react-native-community/async-storage": "^1.5.1",
     "@react-native-community/cameraroll": "^1.0.5",
     "@react-native-community/geolocation": "^1.4.2",
@@ -70,7 +72,8 @@
     "react-native-pdf": "^5.0.11",
     "react-native-photo-view":
       "git://github.com/DaniAkash/react-native-photo-view.git#22e4ff8847dc2c800d216011f981b769edf1daa0",
-    "react-native-progress": "^3.5.0",
+    "react-native-progress":
+      "git://github.com/DaniAkash/react-native-progress.git#393452c9c62a442e48854cff07a3411ed022239c",
     "react-native-ratings": "^6.0.0",
     "react-native-responsive-dimensions": "2.0.1",
     "react-native-restart": "0.0.12",

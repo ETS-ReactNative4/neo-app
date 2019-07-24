@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* PickyourtrailTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* PickyourtrailTests.m */; };
+		03B6AAF28C57025252ADB659 /* libPods-Pickyourtrail.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A2F8D2CA4AE0F88D952F6EA /* libPods-Pickyourtrail.a */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
@@ -56,6 +57,7 @@
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Pickyourtrail/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Pickyourtrail/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Pickyourtrail/main.m; sourceTree = "<group>"; };
+		18E020A022E84361006F664C /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
 		2D02E47B1E0B4A5D006451C7 /* Pickyourtrail-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Pickyourtrail-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* Pickyourtrail-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Pickyourtrail-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		33831E2A21E8DA0A00FFBF00 /* Pickyourtrail-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Pickyourtrail-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -64,6 +66,7 @@
 		33A79BD22156500800A5A7EF /* Pickyourtrail.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = Pickyourtrail.entitlements; path = Pickyourtrail/Pickyourtrail.entitlements; sourceTree = "<group>"; };
 		77AF3A4FA01F16DABA732EE5 /* Pods-Pickyourtrail.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pickyourtrail.release.xcconfig"; path = "Target Support Files/Pods-Pickyourtrail/Pods-Pickyourtrail.release.xcconfig"; sourceTree = "<group>"; };
 		7B13B6F90B8BB2CA0C412D02 /* Pods-Pickyourtrail.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pickyourtrail.debug.xcconfig"; path = "Target Support Files/Pods-Pickyourtrail/Pods-Pickyourtrail.debug.xcconfig"; sourceTree = "<group>"; };
+		9A2F8D2CA4AE0F88D952F6EA /* libPods-Pickyourtrail.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Pickyourtrail.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B054342012024D2E85FE4A9A /* voyager.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = voyager.ttf; path = ../assets/fonts/voyager.ttf; sourceTree = "<group>"; };
 		E93C340415F3418593E4BBF5 /* SourceSansPro-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SourceSansPro-Regular.ttf"; path = "../assets/fonts/SourceSansPro-Regular.ttf"; sourceTree = "<group>"; };
 		E9BDBDC10DF241B6B427577C /* SourceSansPro-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SourceSansPro-Light.ttf"; path = "../assets/fonts/SourceSansPro-Light.ttf"; sourceTree = "<group>"; };
@@ -82,6 +85,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9442CBB72DE84D8B963A5F9E /* libz.tbd in Frameworks */,
+				03B6AAF28C57025252ADB659 /* libPods-Pickyourtrail.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -140,7 +144,9 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				18E020A022E84361006F664C /* JavaScriptCore.framework */,
 				0269ECCE4C394948AF780156 /* libz.tbd */,
+				9A2F8D2CA4AE0F88D952F6EA /* libPods-Pickyourtrail.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -667,11 +673,7 @@
 					"\"${PODS_ROOT}/FirebaseInstanceID/Frameworks\"",
 					"\"${PODS_ROOT}/GoogleAppMeasurement/Frameworks\"",
 				);
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
-					"$(SRCROOT)/../node_modules/react-native-simple-toast/ios/LRDRCTSimpleToast",
-				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = Pickyourtrail/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
@@ -707,11 +709,7 @@
 					"\"${PODS_ROOT}/FirebaseInstanceID/Frameworks\"",
 					"\"${PODS_ROOT}/GoogleAppMeasurement/Frameworks\"",
 				);
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
-					"$(SRCROOT)/../node_modules/react-native-simple-toast/ios/LRDRCTSimpleToast",
-				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = Pickyourtrail/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
