@@ -1,5 +1,6 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { View } from "react-native";
+import _ from "lodash";
 import moment from "moment";
 import constants from "../../../../../constants/constants";
 import PropTypes from "prop-types";
@@ -60,6 +61,9 @@ const Train = ({ train, isLast, navigation, spinValue }) => {
       spinValue={spinValue}
       containerStyle={customStyle}
       sectionImage={{ uri: constants.miscImageBaseUrl + "transfers-train.jpg" }}
+      defaultSource={{
+        uri: constants.miscImageBaseUrl + "transfers-train.jpg"
+      }}
       isProcessing={!train.voucher.booked}
       onClick={openVoucher}
       content={train.text}
@@ -74,6 +78,8 @@ const Train = ({ train, isLast, navigation, spinValue }) => {
               ).format(constants.commonDateFormat)
       }`}
       isImageContain={false}
+      isDataSkipped={_.get(train, "voucher.skipVoucher")}
+      voucherTitle={_.get(train, "voucher.title")}
     />
   );
 };

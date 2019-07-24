@@ -34,7 +34,6 @@ const forexFeatures = [
 
 @ErrorBoundary()
 @inject("forexStore")
-@inject("appState")
 @inject("itineraries")
 @inject("userStore")
 @observer
@@ -102,8 +101,11 @@ class Forex extends Component {
     });
     const { selectedItineraryId } = this.props.itineraries;
     const { userDetails } = this.props.userStore;
-    const { currencies } = this.props.appState;
-    const { submitForexData } = this.props.forexStore;
+    const {
+      submitForexData,
+      getCurrencyListByItineraryId
+    } = this.props.forexStore;
+    const currencies = getCurrencyListByItineraryId(selectedItineraryId);
     const name = this.state.name === false ? userDetails.name : this.state.name;
     const mobileNumber =
       this.state.mobileNumber === false
@@ -149,13 +151,13 @@ class Forex extends Component {
     const {
       getForexStatus,
       getForexDataFromGuides,
+      loadForexCurrencyByItineraryId,
       opportunityId
     } = this.props.forexStore;
+    const { getUserDetails } = this.props.userStore;
     getForexStatus();
     if (!opportunityId) {
-      const { loadCurrencies } = this.props.appState;
-      const { getUserDetails } = this.props.userStore;
-      loadCurrencies();
+      loadForexCurrencyByItineraryId();
       getUserDetails();
       getForexDataFromGuides();
     }
@@ -167,11 +169,13 @@ class Forex extends Component {
       opportunityId,
       forexGuidesDetails,
       isSubmitAPILoading,
-      submittedData
+      submittedData,
+      getCurrencyListByItineraryId
     } = this.props.forexStore;
-    const { currencies } = this.props.appState;
+    const { selectedItineraryId } = this.props.itineraries;
     const { userDetails } = this.props.userStore;
     const { hasFormSubmitAttempted } = this.state;
+    const currencies = getCurrencyListByItineraryId(selectedItineraryId);
 
     const name = this.state.name === false ? userDetails.name : this.state.name;
     const mobileNumber =

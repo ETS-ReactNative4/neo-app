@@ -1,5 +1,6 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { View } from "react-native";
+import _ from "lodash";
 import moment from "moment";
 import constants from "../../../../../constants/constants";
 import PropTypes from "prop-types";
@@ -64,6 +65,9 @@ const RentalCar = ({ rentalCar, isLast, navigation, spinValue }) => {
       sectionImage={{
         uri: getTransferImage(rentalCar.vehicle, rentalCar.type)
       }}
+      defaultSource={{
+        uri: getTransferImage(rentalCar.vehicle, rentalCar.type)
+      }}
       containerStyle={customStyle}
       isProcessing={!rentalCar.voucher.booked}
       onClick={openVoucher}
@@ -85,6 +89,8 @@ const RentalCar = ({ rentalCar, isLast, navigation, spinValue }) => {
               ).format(constants.commonDateFormat)
       }`}
       isImageContain={true}
+      isDataSkipped={_.get(rentalCar, "voucher.skipVoucher")}
+      voucherTitle={_.get(rentalCar, "voucher.title")}
     />
   );
 };

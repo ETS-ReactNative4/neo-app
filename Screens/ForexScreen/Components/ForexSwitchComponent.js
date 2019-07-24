@@ -55,7 +55,10 @@ ForexSwitchComponent.propTypes = forbidExtraProps({
       value: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
         .isRequired
     })
-  ).isRequired
+  ).isRequired,
+  selectedValue: PropTypes.string,
+  onSelect: PropTypes.func,
+  label: PropTypes.string
 });
 
 const styles = StyleSheet.create({

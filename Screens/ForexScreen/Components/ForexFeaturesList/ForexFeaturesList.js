@@ -35,7 +35,9 @@ const ForexFeaturesList = ({
 ForexFeaturesList.propTypes = forbidExtraProps({
   containerStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.number]),
   features: PropTypes.arrayOf(PropTypes.string).isRequired,
-  hideIcon: PropTypes.bool
+  hideIcon: PropTypes.bool,
+  highlight: PropTypes.bool,
+  lineWidth: PropTypes.number
 });
 
 const styles = StyleSheet.create({

@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { View } from "react-native";
 import moment from "moment";
 import constants from "../../../../../constants/constants";
 import PropTypes from "prop-types";
@@ -65,6 +65,7 @@ const Transfer = ({ transfer, isLast, navigation, spinValue }) => {
       spinValue={spinValue}
       containerStyle={customStyle}
       sectionImage={{ uri: getTransferImage(vehicle, transferType) }}
+      defaultSource={{ uri: getTransferImage(vehicle, transferType) }}
       isProcessing={!transfer.voucher.booked}
       onClick={openVoucher}
       content={transfer.text}
@@ -76,6 +77,8 @@ const Transfer = ({ transfer, isLast, navigation, spinValue }) => {
           ? true
           : false
       }
+      isDataSkipped={_.get(transfer, "voucher.skipVoucher")}
+      voucherTitle={_.get(transfer, "voucher.title")}
     />
   );
 };

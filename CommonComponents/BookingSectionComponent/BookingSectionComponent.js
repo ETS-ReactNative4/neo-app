@@ -25,7 +25,9 @@ const BookingSectionComponent = ({
   contentNumberOfLines = 1,
   isProcessing,
   hideTitle,
-  spinValue
+  spinValue,
+  isDataSkipped,
+  voucherTitle
 }) => {
   let processingSpin = null;
 
@@ -48,14 +50,17 @@ const BookingSectionComponent = ({
     >
       <View style={styles.iconWrapper}>
         <View style={styles.contentIcon}>
+          {/**
+           * Do not load actual thumbnail if the data is skipped for the voucher
+           */}
           <Image
             resizeMode={isImageContain ? "contain" : "cover"}
-            source={sectionImage}
+            source={isDataSkipped ? defaultSource : sectionImage}
             {...imageProps}
             style={styles.contentIcon}
           />
         </View>
-        {isProcessing ? (
+        {isProcessing && !isDataSkipped ? (
           <Animated.View
             style={[
               styles.bookingProcessIconWrapper,
@@ -87,7 +92,7 @@ const BookingSectionComponent = ({
             numberOfLines={contentNumberOfLines}
             ellipsizeMode={"tail"}
           >
-            {content}
+            {isDataSkipped ? voucherTitle || content : content}
           </Text>
         </View>
       </View>
@@ -101,14 +106,16 @@ BookingSectionComponent.propTypes = {
   sectionImage: PropTypes.oneOfType([PropTypes.object, PropTypes.number])
     .isRequired,
   isImageContain: PropTypes.bool.isRequired,
-  defaultImageUri: PropTypes.string.isRequired,
+  defaultSource: PropTypes.oneOfType([PropTypes.object, PropTypes.number]),
   title: PropTypes.string.isRequired,
   content: PropTypes.string.isRequired,
   titleNumberOfLines: PropTypes.number,
   contentNumberOfLines: PropTypes.number,
   isProcessing: PropTypes.bool.isRequired,
   hideTitle: PropTypes.bool,
-  spinValue: PropTypes.object
+  spinValue: PropTypes.object,
+  isDataSkipped: PropTypes.bool,
+  voucherTitle: PropTypes.string
 };
 
 const maxTextAreaWidth = responsiveWidth(100) - 48 - 8 - 40 - 16;

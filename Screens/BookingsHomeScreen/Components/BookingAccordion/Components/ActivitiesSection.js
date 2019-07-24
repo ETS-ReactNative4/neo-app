@@ -1,15 +1,13 @@
 import React from "react";
-import { View, StyleSheet, Platform } from "react-native";
+import { View } from "react-native";
+import _ from "lodash";
 import moment from "moment";
 import constants from "../../../../../constants/constants";
 import PropTypes from "prop-types";
 import { recordEvent } from "../../../../../Services/analytics/analyticsService";
 import getTitleCase from "../../../../../Services/getTitleCase/getTitleCase";
-import { logError } from "../../../../../Services/errorLogger/errorLogger";
 import BookingSectionComponent from "../../../../../CommonComponents/BookingSectionComponent/BookingSectionComponent";
 import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidExtraProps";
-import { toastBottom } from "../../../../../Services/toast/toast";
-import openCustomTab from "../../../../../Services/openCustomTab/openCustomTab";
 import resolveLinks from "../../../../../Services/resolveLinks/resolveLinks";
 
 const ActivitiesSection = ({ section, navigation, spinValue }) => {
@@ -84,6 +82,8 @@ const Activities = ({ activity, isLast, navigation, spinValue }) => {
       }`}
       isImageContain={false}
       defaultSource={constants.activityThumbPlaceholderIllus}
+      isDataSkipped={_.get(activity, "voucher.skipVoucher")}
+      voucherTitle={_.get(activity, "voucher.title")}
     />
   );
 };

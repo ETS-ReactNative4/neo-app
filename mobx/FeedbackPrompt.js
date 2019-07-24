@@ -1,4 +1,4 @@
-import { observable, computed, action, toJS } from "mobx";
+import { observable, computed, action, toJS, set } from "mobx";
 import apiCall from "../Services/networkRequests/apiCall";
 import constants from "../constants/constants";
 import storeService from "../Services/storeService/storeService";
@@ -212,9 +212,14 @@ class FeedbackPrompt {
           newFeedBackOptions.items[0].options[index] = item;
           LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
           this._animatedFeedbackOptions = newFeedBackOptions;
-          if (positiveCounter >= totalPositiveOptions)
+          if (positiveCounter >= totalPositiveOptions) {
             clearInterval(positiveAnimationInterval);
-          else positiveCounter++;
+            /**
+             * create isAnimationComplete property as
+             * indicator that animation is completed
+             */
+            set(this._animatedFeedbackOptions, "isAnimationComplete", true);
+          } else positiveCounter++;
         } catch (e) {
           logError("Failed to animate feedback options", { e });
         }
@@ -231,9 +236,14 @@ class FeedbackPrompt {
           newFeedBackOptions.items[1].options[index] = item;
           LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
           this._animatedFeedbackOptions = newFeedBackOptions;
-          if (negativeCounter >= totalNegativeOptions)
+          if (negativeCounter >= totalNegativeOptions) {
             clearInterval(negativeAnimationInterval);
-          else negativeCounter++;
+            /**
+             * create isAnimationComplete property as
+             * indicator that animation is completed
+             */
+            set(this._animatedFeedbackOptions, "isAnimationComplete", true);
+          } else negativeCounter++;
         } catch (e) {
           logError("Failed to animate feedback options", { e });
         }

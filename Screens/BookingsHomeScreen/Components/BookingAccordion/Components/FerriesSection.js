@@ -1,5 +1,6 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { View } from "react-native";
+import _ from "lodash";
 import moment from "moment";
 import constants from "../../../../../constants/constants";
 import PropTypes from "prop-types";
@@ -60,6 +61,7 @@ const Ferry = ({ ferry, isLast, navigation, spinValue }) => {
     <BookingSectionComponent
       spinValue={spinValue}
       sectionImage={{ uri: getTransferImage("FERRY") }}
+      defaultSource={{ uri: getTransferImage("FERRY") }}
       containerStyle={customStyle}
       isProcessing={!ferry.voucher.booked}
       onClick={openVoucher}
@@ -75,6 +77,8 @@ const Ferry = ({ ferry, isLast, navigation, spinValue }) => {
               ).format(constants.commonDateFormat)
       }`}
       isImageContain={false}
+      isDataSkipped={_.get(ferry, "voucher.skipVoucher")}
+      voucherTitle={_.get(ferry, "voucher.title")}
     />
   );
 };

@@ -27,6 +27,8 @@ const appText = {
   voucherText: {
     freeTransferInfo:
       "This is a self exploration activity. You will need to manage your transport to and from this location. Reach the meeting point 30 minutes prior to avoid last minute hassle.",
+    hotelAmenitiesDisclaimer:
+      "Hotel amenities are subject to availability and providing it is at the discretion of the hotel",
     sharedTransferInfo:
       "As the transfer is on shared basis, the arrival time of transfer could vary plus or minus 15 - 30 minutes depending on traffic.",
     webCheckinUnavailableHeader: "Web checkin not yet available",
@@ -36,7 +38,8 @@ const appText = {
       "Web checkin may not be available for flights with airline code share",
     conditionsApplyText: "Cancellation terms & conditions apply",
     hotelTimingConditionText:
-      "Check in and check out time are provisionally mentioned and can be changed at the discretion of the hotel"
+      "Check in and check out time are provisionally mentioned and can be changed at the discretion of the hotel",
+    voucherUnavailable: "Voucher currently unavailable"
   },
   downloadVoucherText: {
     error: {
@@ -206,7 +209,8 @@ const appText = {
     providerTitle: "Bang for your Buck!",
     requestExistsText: "A request already exits with the given mobile number",
     unableToSubmitRequest: "Unable to process your request",
-    providerInfo: "In partnership with Thomas Cook"
+    providerInfo: "In partnership with Thomas Cook",
+    failedToFetchCurrency: "Unable to retrieve currency details"
   },
   visaScreenText: {
     visaDetailsUnavilable: "Visa details are unavailable for this country"
@@ -240,6 +244,7 @@ const appText = {
   feedbackPromptText: {
     returnConfirmationTitle: "Thanks for your feedback!",
     returnConfirmationPostiveInfo: "We're glad you had a good time",
+    requestFeedback: "Please add your feedback before submitting",
     returnConfirmationNegativeInfo:
       "We're sorry your experience wasn't up to the mark",
     returnCta: "Okay, got it",

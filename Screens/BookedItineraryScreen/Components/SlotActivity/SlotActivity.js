@@ -11,6 +11,7 @@ import _ from "lodash";
 import { recordEvent } from "../../../../Services/analytics/analyticsService";
 import BookingSectionComponent from "../../../../CommonComponents/BookingSectionComponent/BookingSectionComponent";
 import resolveLinks from "../../../../Services/resolveLinks/resolveLinks";
+import getTransferImage from "../../../../Services/getImageService/getTransferImage";
 
 let internationalFlightKey, city;
 const SlotActivity = inject("itineraries")(
@@ -133,6 +134,8 @@ const SlotActivity = inject("itineraries")(
                 defaultSource={constants.flightLogoPlaceholderIllus}
                 isProcessing={!(flight.voucher && flight.voucher.booked)}
                 spinValue={spinValue}
+                isDataSkipped={_.get(flight, "voucher.skipVoucher")}
+                voucherTitle={_.get(flight, "voucher.title")}
               />
             );
 
@@ -188,6 +191,8 @@ const SlotActivity = inject("itineraries")(
                   )
                 }
                 spinValue={spinValue}
+                isDataSkipped={_.get(activityInfo, "voucher.skipVoucher")}
+                voucherTitle={_.get(activityInfo, "voucher.title")}
               />
             );
 
@@ -259,10 +264,12 @@ const SlotActivity = inject("itineraries")(
                 defaultSource={
                   transferMode === "FLIGHT"
                     ? constants.flightLogoPlaceholderIllus
-                    : constants.transferPlaceHolder
+                    : { uri: getTransferImage(transferMode) }
                 }
                 isProcessing={!(transfer.voucher && transfer.voucher.booked)}
                 spinValue={spinValue}
+                isDataSkipped={_.get(transfer, "voucher.skipVoucher")}
+                voucherTitle={_.get(transfer, "voucher.title")}
               />
             );
 
@@ -300,6 +307,8 @@ const SlotActivity = inject("itineraries")(
                   !(departureFlight.voucher && departureFlight.voucher.booked)
                 }
                 spinValue={spinValue}
+                isDataSkipped={_.get(departureFlight, "voucher.skipVoucher")}
+                voucherTitle={_.get(departureFlight, "voucher.title")}
               />
             );
 
@@ -361,6 +370,11 @@ const SlotActivity = inject("itineraries")(
                 isImageContain={false}
                 defaultSource={constants.activityThumbPlaceholderIllus}
                 spinValue={spinValue}
+                isDataSkipped={_.get(
+                  activityTransferInfo,
+                  "voucher.skipVoucher"
+                )}
+                voucherTitle={_.get(activityTransferInfo, "voucher.title")}
               />
             );
 

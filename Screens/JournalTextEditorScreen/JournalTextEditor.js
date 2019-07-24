@@ -174,23 +174,50 @@ class JournalTextEditor extends Component {
       const richText =
         this._textEditorRef.current &&
         this._textEditorRef.current.retrieveRichText();
-      const { submitStory } = this.props.journalStore;
+      const { submitStory, createNewStory } = this.props.journalStore;
       const activeStory = this.props.navigation.getParam("activeStory", "");
       const activePage = this.props.navigation.getParam("activePage", "");
-      submitStory(activeStory, this.state.title, richText)
-        .then(() => {
-          this.props.navigation.navigate("JournalPublish", {
-            isStoryMode: true,
-            activeStory,
-            activePage
+      if (activeStory) {
+        submitStory(activeStory, this.state.title, richText)
+          .then(() => {
+            this.props.navigation.navigate("JournalPublish", {
+              isStoryMode: true,
+              activeStory,
+              activePage
+            });
+          })
+          .catch(() => {
+            DebouncedAlert(
+              constants.journalFailureMessages.title,
+              constants.journalFailureMessages.failedToSubmitJournalStory
+            );
           });
-        })
-        .catch(() => {
-          DebouncedAlert(
-            constants.journalFailureMessages.title,
-            constants.journalFailureMessages.failedToSubmitJournalStory
-          );
-        });
+      } else {
+        createNewStory(activePage)
+          .then(storyId => {
+            this.props.navigation.setParams({ activeStory: storyId });
+            submitStory(storyId, this.state.title, richText)
+              .then(() => {
+                this.props.navigation.navigate("JournalPublish", {
+                  isStoryMode: true,
+                  activeStory: storyId,
+                  activePage
+                });
+              })
+              .catch(() => {
+                DebouncedAlert(
+                  constants.journalFailureMessages.title,
+                  constants.journalFailureMessages.failedToSubmitJournalStory
+                );
+              });
+          })
+          .catch(() => {
+            DebouncedAlert(
+              constants.journalFailureMessages.title,
+              constants.journalFailureMessages.failedToSubmitJournalStory
+            );
+          });
+      }
     }
   };
 

@@ -113,7 +113,7 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         multiDexEnabled true
         versionCode Integer.parseInt(VERSION_CODE)
-        versionName "1.2.1"
+        versionName "1.2.2"
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }

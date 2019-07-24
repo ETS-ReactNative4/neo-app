@@ -1,12 +1,12 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { View } from "react-native";
+import _ from "lodash";
 import moment from "moment";
 import constants from "../../../../../constants/constants";
 import PropTypes from "prop-types";
 import { recordEvent } from "../../../../../Services/analytics/analyticsService";
 import BookingSectionComponent from "../../../../../CommonComponents/BookingSectionComponent/BookingSectionComponent";
 import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidExtraProps";
-import { toastBottom } from "../../../../../Services/toast/toast";
 import resolveLinks from "../../../../../Services/resolveLinks/resolveLinks";
 
 const FlightsSection = ({ section, navigation, spinValue }) => {
@@ -90,6 +90,8 @@ const Flight = ({ flight, isLast, navigation, spinValue }) => {
       }`}
       isImageContain={true}
       defaultSource={constants.flightLogoPlaceholderIllus}
+      isDataSkipped={_.get(flight, "voucher.skipVoucher")}
+      voucherTitle={_.get(flight, "voucher.title")}
     />
   );
 };
