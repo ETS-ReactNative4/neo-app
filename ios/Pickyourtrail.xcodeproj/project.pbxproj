@@ -23,7 +23,6 @@
 		4C0A011F106C4A9FB5192721 /* SourceSansPro-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E93C340415F3418593E4BBF5 /* SourceSansPro-Regular.ttf */; };
 		726B5F8C89384E979D21DDAA /* SourceSansPro-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 13A347042FE9411391406D32 /* SourceSansPro-SemiBold.ttf */; };
 		7FD6861292BF4577A8A4A5DC /* SourceSansPro-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E9BDBDC10DF241B6B427577C /* SourceSansPro-Light.ttf */; };
-		9442CBB72DE84D8B963A5F9E /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0269ECCE4C394948AF780156 /* libz.tbd */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,7 +47,6 @@
 		00E356EE1AD99517003FC87E /* PickyourtrailTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PickyourtrailTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* PickyourtrailTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PickyourtrailTests.m; sourceTree = "<group>"; };
-		0269ECCE4C394948AF780156 /* libz.tbd */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		13A347042FE9411391406D32 /* SourceSansPro-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SourceSansPro-SemiBold.ttf"; path = "../assets/fonts/SourceSansPro-SemiBold.ttf"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* Pickyourtrail.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pickyourtrail.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Pickyourtrail/AppDelegate.h; sourceTree = "<group>"; };
@@ -84,7 +82,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9442CBB72DE84D8B963A5F9E /* libz.tbd in Frameworks */,
 				03B6AAF28C57025252ADB659 /* libPods-Pickyourtrail.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -145,7 +142,6 @@
 			isa = PBXGroup;
 			children = (
 				18E020A022E84361006F664C /* JavaScriptCore.framework */,
-				0269ECCE4C394948AF780156 /* libz.tbd */,
 				9A2F8D2CA4AE0F88D952F6EA /* libPods-Pickyourtrail.a */,
 			);
 			name = Frameworks;
@@ -239,6 +235,7 @@
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "Pickyourtrail" */;
 			buildPhases = (
 				6ADF1D6009F2B79A3D0242D6 /* [CP] Check Pods Manifest.lock */,
+				18E020A122E84424006F664C /* Start Packager */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
@@ -405,6 +402,25 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "export SENTRY_PROPERTIES=sentry.properties\nexport NODE_BINARY=node\n../node_modules/@sentry/cli/bin/sentry-cli react-native xcode ../node_modules/react-native/scripts/react-native-xcode.sh";
+		};
+		18E020A122E84424006F664C /* Start Packager */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Start Packager";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "export RCT_METRO_PORT=\"${RCT_METRO_PORT:=8081}\"\necho \"export RCT_METRO_PORT=${RCT_METRO_PORT}\" > \"${SRCROOT}/../node_modules/react-native/scripts/.packager.env\"\nif [ -z \"${RCT_NO_LAUNCH_PACKAGER+xxx}\" ] ; then\nif nc -w 5 -z localhost ${RCT_METRO_PORT} ; then\nif ! curl -s \"http://localhost:${RCT_METRO_PORT}/status\" | grep -q \"packager-status:running\" ; then\necho \"Port ${RCT_METRO_PORT} already in use, packager is either not running or not running correctly\"\nexit 2\nfi\nelse\nopen \"$SRCROOT/../node_modules/react-native/scripts/launchPackager.command\" || echo \"Can't start packager automatically\"\nfi\nfi\n";
+			showEnvVarsInLog = 0;
 		};
 		2D02E4CB1E0B4B27006451C7 /* Bundle React Native Code And Images */ = {
 			isa = PBXShellScriptBuildPhase;
