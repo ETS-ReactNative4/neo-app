@@ -44,7 +44,7 @@ export const recordEvent = (event, params = undefined) => {
 };
 
 export const enableAnalytics = async () => {
-  await analytics.setup(constants.segmentWriteKeyStaging, {
+  await analytics.setup(constants.segmentWriteKey, {
     recordScreenViews: false,
     trackAppLifecycleEvents: true,
     using: [FirebaseSegment, AmplitudeSegment]
