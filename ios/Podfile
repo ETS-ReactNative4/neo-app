@@ -43,8 +43,8 @@ target 'Pickyourtrail' do
   # pod 'lottie-react-native', :path => '../node_modules/lottie-react-native'
   # pod 'RNShare', :path => '../node_modules/react-native-share'
 
-  pod 'Firebase/Core', '~> 6.3.0'
-  pod 'Firebase/Messaging', '~> 6.3.0'
+  pod 'Firebase/Core'
+  pod 'Firebase/Messaging'
 
   # target 'PickyourtrailTests' do
   #   inherit! :search_paths

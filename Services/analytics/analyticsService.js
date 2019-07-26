@@ -1,5 +1,7 @@
-import { analytics } from "react-native-firebase";
+import analytics from "@segment/analytics-react-native";
 import { logBreadCrumb, logError } from "../errorLogger/errorLogger";
+import FirebaseSegment from "@segment/analytics-react-native-firebase";
+// import AmplitudeSegment from "@segment/analytics-react-native-amplitude";
 import getActiveRouteName from "../getActiveRouteName/getActiveRouteName";
 import constants from "../../constants/constants";
 
@@ -31,21 +33,35 @@ const reserved = [
 
 export const recordEvent = (event, params = undefined) => {
   if (!reserved.includes(event)) {
-    analytics().logEvent(event, params);
+    if (!params) {
+      analytics.track(event);
+    } else {
+      analytics.track(event, params);
+    }
   } else {
     logError(`Invalid analytics event ${event}`, { params });
   }
 };
 
-export const enableAnalytics = () =>
-  analytics().setAnalyticsCollectionEnabled(true);
+export const enableAnalytics = async () => {
+  await analytics.setup(constants.segmentWriteKeyStaging, {
+    recordScreenViews: false,
+    trackAppLifecycleEvents: true,
+    using: [
+      FirebaseSegment
+      // , AmplitudeSegment
+    ]
+  });
+};
 
-export const disableAnalytics = () =>
-  analytics().setAnalyticsCollectionEnabled(false);
+export const disableAnalytics = () => {};
 
-export const setUserDetails = ({ id, name, email, phoneNumber }) => {
-  analytics().setUserId(id);
-  analytics().setUserProperty({ name, email, phoneNumber });
+export const setUserDetails = ({ id, name, email, phone }) => {
+  analytics.identify(id, {
+    name,
+    email,
+    phone
+  });
 };
 
 export const screenTracker = (prevState, currentState) => {
@@ -62,6 +78,6 @@ export const screenTracker = (prevState, currentState) => {
       data: {},
       level: constants.errorLoggerEvents.levels.info
     });
-    analytics().setCurrentScreen(currentScreen);
+    analytics.screen(currentScreen);
   }
 };
