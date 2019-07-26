@@ -2002,6 +2002,11 @@
   resolved "https://registry.yarnpkg.com/@react-native-community/netinfo/-/netinfo-4.1.1.tgz#b4793b26662df42eeb9b4d20ec49129e75fa9773"
   integrity sha512-E5AQ2D0qR/uQ7heGSCT8LdDIqGM2Gle7bH8WoQO4zExn4pqz9ZJT1UyysjLnpJthejOU//owbydWqIZE+JNpSA==
 
+"@segment/analytics-react-native@^1.1.0-beta.1":
+  version "1.1.0-beta.1"
+  resolved "https://registry.yarnpkg.com/@segment/analytics-react-native/-/analytics-react-native-1.1.0-beta.1.tgz#37c76996f96289807d318607616450df948aae4c"
+  integrity sha512-anx+qRgDpiBIfcWUu7cbgyV+uacWwdH0ObmLKxAiZPwQH796M7om9QzgO7k6GTnre9uVwaT99T5nW7FuiBZjBg==
+
 "@sentry/cli@^1.43.0":
   version "1.47.0"
   resolved "https://registry.yarnpkg.com/@sentry/cli/-/cli-1.47.0.tgz#7e29b06400511f2948429f7da89f7744216c5ecb"

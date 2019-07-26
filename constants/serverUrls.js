@@ -78,6 +78,13 @@ const serverUrls = {
   offlineContact: "+91 8939891682",
 
   /**
+   * Segment Write Key
+   */
+  segmentWriteKey: isProduction()
+    ? "BjQSStvje7tKYGY64LhjPxBv2Dk24cB5"
+    : "BjQSStvje7tKYGY64LhjPxBv2Dk24cB5", //"Mop3l6qAjzoyzFcZnFe2s1yYcwL8kBuK",
+
+  /**
    * Freshchat iFrame url
    */
   freshChatIframe: "https://wchat.freshchat.com/widget",

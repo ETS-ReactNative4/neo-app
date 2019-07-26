@@ -1,4 +1,5 @@
 PODS:
+  - Analytics (3.6.10)
   - boost-for-react-native (1.63.0)
   - BVLinearGradient (2.5.4):
     - React
@@ -197,6 +198,9 @@ PODS:
     - React-fishhook (= 0.60.4)
   - ReactNativeART (1.0.0):
     - React
+  - RNAnalytics (1.1.0-beta.1):
+    - Analytics
+    - React
   - RNCAsyncStorage (1.5.1):
     - React
   - RNDeviceInfo (2.1.2):
@@ -287,6 +291,7 @@ DEPENDENCIES:
   - React-RCTVibration (from `../node_modules/react-native/Libraries/Vibration`)
   - React-RCTWebSocket (from `../node_modules/react-native/Libraries/WebSocket`)
   - "ReactNativeART (from `../node_modules/@react-native-community/art`)"
+  - "RNAnalytics (from `../node_modules/@segment/analytics-react-native`)"
   - "RNCAsyncStorage (from `../node_modules/@react-native-community/async-storage`)"
   - RNDeviceInfo (from `../node_modules/react-native-device-info`)
   - RNFastImage (from `../node_modules/react-native-fast-image`)
@@ -304,6 +309,7 @@ DEPENDENCIES:
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
+    - Analytics
     - boost-for-react-native
     - Crashlytics
     - Fabric
@@ -391,6 +397,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/Libraries/WebSocket"
   ReactNativeART:
     :path: "../node_modules/@react-native-community/art"
+  RNAnalytics:
+    :path: "../node_modules/@segment/analytics-react-native"
   RNCAsyncStorage:
     :path: "../node_modules/@react-native-community/async-storage"
   RNDeviceInfo:
@@ -421,6 +429,7 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
 SPEC CHECKSUMS:
+  Analytics: 63744ad4afa65c3bcdcdb7a94b62515bde5b3900
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
   BVLinearGradient: 8cbc5155c978f2e43098818c91d206d07aae6d30
   Crashlytics: 611738c7847f8291a1a51084e35987b86ba6b3ee
@@ -469,6 +478,7 @@ SPEC CHECKSUMS:
   React-RCTVibration: 0bea40cd51bd089bd591a8f74c86e91fdf2666c5
   React-RCTWebSocket: 163873f4cdd5f1058a9483443404fc3801581cb6
   ReactNativeART: 7c8f45da3a519da139f886bac2116f1cd81b6d7b
+  RNAnalytics: 05243c1fa17186f07be3eae30514b43aeb2e0578
   RNCAsyncStorage: b63d6e83fc629b01df6b624688f17944cea5637f
   RNDeviceInfo: 75dac2d7cd6b638b512cc9266ce48a39661fed0e
   RNFastImage: 4e3cd0485ffce7304537e3efc05f99cdc9808107
