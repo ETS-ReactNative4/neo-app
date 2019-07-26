@@ -1,7 +1,7 @@
 import analytics from "@segment/analytics-react-native";
 import { logBreadCrumb, logError } from "../errorLogger/errorLogger";
 import FirebaseSegment from "@segment/analytics-react-native-firebase";
-// import AmplitudeSegment from "@segment/analytics-react-native-amplitude";
+import AmplitudeSegment from "@segment/analytics-react-native-amplitude";
 import getActiveRouteName from "../getActiveRouteName/getActiveRouteName";
 import constants from "../../constants/constants";
 
@@ -47,10 +47,7 @@ export const enableAnalytics = async () => {
   await analytics.setup(constants.segmentWriteKeyStaging, {
     recordScreenViews: false,
     trackAppLifecycleEvents: true,
-    using: [
-      FirebaseSegment
-      // , AmplitudeSegment
-    ]
+    using: [FirebaseSegment, AmplitudeSegment]
   });
 };
 

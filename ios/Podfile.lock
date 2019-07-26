@@ -1,4 +1,5 @@
 PODS:
+  - Amplitude-iOS (4.6.0)
   - Analytics (3.6.10)
   - boost-for-react-native (1.63.0)
   - BVLinearGradient (2.5.4):
@@ -200,6 +201,10 @@ PODS:
   - RNAnalytics (1.1.0-beta.1):
     - Analytics
     - React
+  - RNAnalyticsIntegration-Amplitude (1.1.0-beta.1):
+    - Analytics
+    - React
+    - Segment-Amplitude
   - RNAnalyticsIntegration-Firebase (1.1.0-beta.1):
     - Analytics
     - React
@@ -248,6 +253,9 @@ PODS:
   - SDWebImageWebPCoder (0.2.3):
     - libwebp (~> 1.0)
     - SDWebImage/Core (~> 5.0)
+  - Segment-Amplitude (2.0.0):
+    - Amplitude-iOS (~> 4.0)
+    - Analytics (~> 3.6)
   - Segment-Firebase (2.4.0):
     - Analytics (~> 3.2)
     - Firebase/Core (~> 5.0)
@@ -302,6 +310,7 @@ DEPENDENCIES:
   - React-RCTWebSocket (from `../node_modules/react-native/Libraries/WebSocket`)
   - "ReactNativeART (from `../node_modules/@react-native-community/art`)"
   - "RNAnalytics (from `../node_modules/@segment/analytics-react-native`)"
+  - "RNAnalyticsIntegration-Amplitude (from `../node_modules/@segment/analytics-react-native-amplitude`)"
   - "RNAnalyticsIntegration-Firebase (from `../node_modules/@segment/analytics-react-native-firebase`)"
   - "RNCAsyncStorage (from `../node_modules/@react-native-community/async-storage`)"
   - RNDeviceInfo (from `../node_modules/react-native-device-info`)
@@ -320,6 +329,7 @@ DEPENDENCIES:
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
+    - Amplitude-iOS
     - Analytics
     - boost-for-react-native
     - Crashlytics
@@ -339,6 +349,7 @@ SPEC REPOS:
     - RSKImageCropper
     - SDWebImage
     - SDWebImageWebPCoder
+    - Segment-Amplitude
     - Segment-Firebase
     - Sentry
 
@@ -411,6 +422,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-community/art"
   RNAnalytics:
     :path: "../node_modules/@segment/analytics-react-native"
+  RNAnalyticsIntegration-Amplitude:
+    :path: "../node_modules/@segment/analytics-react-native-amplitude"
   RNAnalyticsIntegration-Firebase:
     :path: "../node_modules/@segment/analytics-react-native-firebase"
   RNCAsyncStorage:
@@ -443,6 +456,7 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
 SPEC CHECKSUMS:
+  Amplitude-iOS: ac1715ae68104b7a51723209ad574f60ab22ae5f
   Analytics: 63744ad4afa65c3bcdcdb7a94b62515bde5b3900
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
   BVLinearGradient: 8cbc5155c978f2e43098818c91d206d07aae6d30
@@ -493,6 +507,7 @@ SPEC CHECKSUMS:
   React-RCTWebSocket: 163873f4cdd5f1058a9483443404fc3801581cb6
   ReactNativeART: 7c8f45da3a519da139f886bac2116f1cd81b6d7b
   RNAnalytics: 05243c1fa17186f07be3eae30514b43aeb2e0578
+  RNAnalyticsIntegration-Amplitude: f6c74d13f18b246fefb035fd60c6b95fe0afbd04
   RNAnalyticsIntegration-Firebase: 130536e5a2cd30e62a77c5f5df1ba7e318da6ed2
   RNCAsyncStorage: b63d6e83fc629b01df6b624688f17944cea5637f
   RNDeviceInfo: 75dac2d7cd6b638b512cc9266ce48a39661fed0e
@@ -508,6 +523,7 @@ SPEC CHECKSUMS:
   RSKImageCropper: 05e3b82a18da83ea3c2b7bffa7f2199a621d6802
   SDWebImage: 920f1a2ff1ca8296ad34f6e0510a1ef1d70ac965
   SDWebImageWebPCoder: 7568737603c50f6237850afedd7e9e28e5917e6b
+  Segment-Amplitude: bef43d0ec5c2986fe50c1e534e3d4db0171867f4
   Segment-Firebase: cac4b742228ef74d50ed886f3fc731e4bc8b7d29
   Sentry: 4e8a17b61ddd116f89536cc81d567fdee1ebca96
   SentryReactNative: 07237139c00366ea2e75ae3e5c566e7a71c27a90

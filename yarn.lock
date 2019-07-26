@@ -2002,6 +2002,11 @@
   resolved "https://registry.yarnpkg.com/@react-native-community/netinfo/-/netinfo-4.1.1.tgz#b4793b26662df42eeb9b4d20ec49129e75fa9773"
   integrity sha512-E5AQ2D0qR/uQ7heGSCT8LdDIqGM2Gle7bH8WoQO4zExn4pqz9ZJT1UyysjLnpJthejOU//owbydWqIZE+JNpSA==
 
+"@segment/analytics-react-native-amplitude@^1.1.0-beta.1":
+  version "1.1.0-beta.1"
+  resolved "https://registry.yarnpkg.com/@segment/analytics-react-native-amplitude/-/analytics-react-native-amplitude-1.1.0-beta.1.tgz#39f75c403152312d12410d1af3910ac67c368c70"
+  integrity sha512-UU/BEwTDwWUlwU0ZOA88ReUEd82OOa82u94gZBsxY2kBMAt6duqOsL8MT6zymvz6fSExudHhGpG8HhsJuFe9/g==
+
 "@segment/analytics-react-native-firebase@^1.1.0-beta.1":
   version "1.1.0-beta.1"
   resolved "https://registry.yarnpkg.com/@segment/analytics-react-native-firebase/-/analytics-react-native-firebase-1.1.0-beta.1.tgz#3871a502776c83ff9e853808c5f4bc27a1d3b428"
