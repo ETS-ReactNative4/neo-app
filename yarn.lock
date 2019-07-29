@@ -1886,14 +1886,14 @@
   resolved "https://registry.yarnpkg.com/@nodelib/fs.stat/-/fs.stat-1.1.3.tgz#2b5a3ab3f918cca48a8c754c08168e3f03eba61b"
   integrity sha512-shAmDyaQC4H92APFoIaVDHCx5bStIocgvbwQyxPRrbUY20V1EYTbSDchWbuwlMG3V17cprZhA6+78JfB+3DTPw==
 
-"@react-native-community/art@git://github.com/DaniAkash/art.git#481f09b1247606e354211af458b967c497573d23":
-  version "1.0.0"
-  resolved "git://github.com/DaniAkash/art.git#481f09b1247606e354211af458b967c497573d23"
+"@react-native-community/art@1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@react-native-community/art/-/art-1.0.1.tgz#3066b3177c06453547b7199d532309b91d090c3b"
+  integrity sha512-1pVkvCsZQf7pf9BMXm+oD0LoQHJ8FRHo6VvOOJ8jRn5rpcOFThn8S5AO1qKL5JIjlxiM4e7umnR8+MsMy+pdKA==
   dependencies:
     art "^0.10.3"
     invariant "^2.2.4"
     prop-types "^15.7.2"
-    react "16.8.3"
 
 "@react-native-community/async-storage@^1.5.1":
   version "1.5.1"
@@ -2001,16 +2001,6 @@
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/@react-native-community/netinfo/-/netinfo-4.1.1.tgz#b4793b26662df42eeb9b4d20ec49129e75fa9773"
   integrity sha512-E5AQ2D0qR/uQ7heGSCT8LdDIqGM2Gle7bH8WoQO4zExn4pqz9ZJT1UyysjLnpJthejOU//owbydWqIZE+JNpSA==
-
-"@segment/analytics-react-native-amplitude@^1.1.0-beta.1":
-  version "1.1.0-beta.1"
-  resolved "https://registry.yarnpkg.com/@segment/analytics-react-native-amplitude/-/analytics-react-native-amplitude-1.1.0-beta.1.tgz#39f75c403152312d12410d1af3910ac67c368c70"
-  integrity sha512-UU/BEwTDwWUlwU0ZOA88ReUEd82OOa82u94gZBsxY2kBMAt6duqOsL8MT6zymvz6fSExudHhGpG8HhsJuFe9/g==
-
-"@segment/analytics-react-native-firebase@^1.1.0-beta.1":
-  version "1.1.0-beta.1"
-  resolved "https://registry.yarnpkg.com/@segment/analytics-react-native-firebase/-/analytics-react-native-firebase-1.1.0-beta.1.tgz#3871a502776c83ff9e853808c5f4bc27a1d3b428"
-  integrity sha512-o1IrUR4BlwWaQYLU17jFqEgx1YNjNdUeDDJql3ojj03YfxpUbB7baVtgzJ6osArLH7hfHVmEPLBjsj71iM/uMw==
 
 "@segment/analytics-react-native@^1.1.0-beta.1":
   version "1.1.0-beta.1"
@@ -11443,16 +11433,6 @@ react-treebeard@^3.1.0:
     shallowequal "^1.1.0"
     velocity-react "^1.4.1"
 
-react@16.8.3:
-  version "16.8.3"
-  resolved "https://registry.yarnpkg.com/react/-/react-16.8.3.tgz#c6f988a2ce895375de216edcfaedd6b9a76451d9"
-  integrity sha512-3UoSIsEq8yTJuSu0luO1QQWYbgGEILm+eJl2QN/VLDi7hL+EN18M3q3oVZwmVzzBJ3DkM7RMdRwBmZZ+b4IzSA==
-  dependencies:
-    loose-envify "^1.1.0"
-    object-assign "^4.1.1"
-    prop-types "^15.6.2"
-    scheduler "^0.13.3"
-
 react@16.8.6:
   version "16.8.6"
   resolved "https://registry.yarnpkg.com/react/-/react-16.8.6.tgz#ad6c3a9614fd3a4e9ef51117f54d888da01f2bbe"
@@ -12174,7 +12154,7 @@ scheduler@^0.12.0:
     loose-envify "^1.1.0"
     object-assign "^4.1.1"
 
-scheduler@^0.13.3, scheduler@^0.13.6:
+scheduler@^0.13.6:
   version "0.13.6"
   resolved "https://registry.yarnpkg.com/scheduler/-/scheduler-0.13.6.tgz#466a4ec332467b31a91b9bf74e5347072e4cd889"
   integrity sha512-IWnObHt413ucAYKsD9J1QShUKkbKLQQHdxRyw73sw4FN26iWr3DY/H34xGPe4nmL1DwXyWmSWmMrA9TfQbE/XQ==
