@@ -82,7 +82,7 @@ const serverUrls = {
    */
   segmentWriteKey: isProduction()
     ? "BjQSStvje7tKYGY64LhjPxBv2Dk24cB5"
-    : "BjQSStvje7tKYGY64LhjPxBv2Dk24cB5", //"Mop3l6qAjzoyzFcZnFe2s1yYcwL8kBuK",
+    : "Mop3l6qAjzoyzFcZnFe2s1yYcwL8kBuK",
 
   /**
    * Freshchat iFrame url
