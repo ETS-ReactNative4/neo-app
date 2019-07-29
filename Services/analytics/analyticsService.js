@@ -1,6 +1,7 @@
 import analytics from "@segment/analytics-react-native";
 import { logBreadCrumb, logError } from "../errorLogger/errorLogger";
 import getActiveRouteName from "../getActiveRouteName/getActiveRouteName";
+import { analytics as firebaseAnalytics } from "react-native-firebase";
 import constants from "../../constants/constants";
 
 const reserved = [
@@ -31,6 +32,7 @@ const reserved = [
 
 export const recordEvent = (event, params = undefined) => {
   if (!reserved.includes(event)) {
+    firebaseAnalytics().logEvent(event, params);
     if (!params) {
       analytics.track(event);
     } else {
@@ -47,12 +49,15 @@ export const enableAnalytics = async () => {
       recordScreenViews: false,
       trackAppLifecycleEvents: true
     });
+    firebaseAnalytics().setAnalyticsCollectionEnabled(true);
   } catch (e) {
     logError(e);
   }
 };
 
-export const disableAnalytics = () => {};
+export const disableAnalytics = () => {
+  firebaseAnalytics().setAnalyticsCollectionEnabled(false);
+};
 
 export const setUserDetails = ({ id, name, email, phone }) => {
   analytics.identify(id, {
@@ -60,6 +65,8 @@ export const setUserDetails = ({ id, name, email, phone }) => {
     email,
     phone
   });
+  firebaseAnalytics().setUserId(id);
+  firebaseAnalytics().setUserProperty({ name, email, phoneNumber });
 };
 
 export const screenTracker = (prevState, currentState) => {
@@ -77,5 +84,6 @@ export const screenTracker = (prevState, currentState) => {
       level: constants.errorLoggerEvents.levels.info
     });
     analytics.screen(currentScreen);
+    firebaseAnalytics().setCurrentScreen(currentScreen);
   }
 };
