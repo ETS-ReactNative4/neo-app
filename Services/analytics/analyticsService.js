@@ -44,11 +44,15 @@ export const recordEvent = (event, params = undefined) => {
 };
 
 export const enableAnalytics = async () => {
-  await analytics.setup(constants.segmentWriteKey, {
-    recordScreenViews: false,
-    trackAppLifecycleEvents: true,
-    using: [FirebaseSegment, AmplitudeSegment]
-  });
+  try {
+    await analytics.setup(constants.segmentWriteKey, {
+      recordScreenViews: false,
+      trackAppLifecycleEvents: true,
+      using: [FirebaseSegment, AmplitudeSegment]
+    });
+  } catch (e) {
+    logError(e);
+  }
 };
 
 export const disableAnalytics = () => {};
