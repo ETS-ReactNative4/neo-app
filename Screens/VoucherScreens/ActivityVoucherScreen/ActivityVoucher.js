@@ -267,19 +267,19 @@ class ActivityVoucher extends Component {
             </View>
           )
         },
-        notes
-          ? {
-              name: "Instructions & notes",
-              component: (
-                <View style={styles.accordionTextWrapper}>
-                  <HTMLView
-                    value={`<div>${notes}</div>`}
-                    stylesheet={constants.htmlStyleSheet}
-                  />
-                </View>
-              )
-            }
-          : null,
+        // notes
+        //   ? {
+        //       name: "Instructions & notes",
+        //       component: (
+        //         <View style={styles.accordionTextWrapper}>
+        //           <HTMLView
+        //             value={`<div>${notes}</div>`}
+        //             stylesheet={constants.htmlStyleSheet}
+        //           />
+        //         </View>
+        //       )
+        //     }
+        //   : null,
         {
           name: "About",
           component: (
