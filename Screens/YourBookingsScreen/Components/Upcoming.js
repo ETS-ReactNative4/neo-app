@@ -37,7 +37,9 @@ class Upcoming extends Component {
   };
 
   selectItinerary = itineraryId => {
-    recordEvent(constants.yourBookingsSelectItineraryClick);
+    recordEvent(constants.YourBookings.event, {
+      click: constants.YourBookings.click.selectItinerary
+    });
     const { selectItinerary } = this.props.itineraries;
     selectItinerary(itineraryId, () => {
       const routeName = this.props.navigation.state.routeName;

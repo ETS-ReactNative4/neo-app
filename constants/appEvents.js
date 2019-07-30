@@ -23,6 +23,18 @@ const appEvents = {
       otpFailed: "otp_failed"
     }
   },
+  userLoggedInEvent: "user_logged_in",
+  userLoggedOutEvent: "user_logged_out",
+  tripToggleClickEvent: "trip_toggle_click",
+  YourBookings: {
+    event: "YourBookings",
+    click: {
+      closeButton: "close_button",
+      selectItinerary: "select_itinerary"
+    }
+  },
+  // yourBookingsCloseButtonClick: "your_bookings_close_button_click",
+  // yourBookingsSelectItineraryClick: "your_bookings_select_itinerary_click",
   // starterFindBooking: "starter_find_booking_click",
   // starterPlanVacation: "starter_plan_vacation_click",
   // mobileNumberOpenCountryCode: "mobile_number_open_country_code_click",
@@ -34,9 +46,6 @@ const appEvents = {
   // mobileNumberVerifyOtp: "mobile_number_verify_otp_click",
   // mobileNumberOtpAutoFill: "mobile_number_otp_autofill", //-> no longer used
   // mobileNumberOtpFailed: "mobile_number_otp_failed",
-  userLoggedInEvent: "user_logged_in",
-  userLoggedOutEvent: "user_logged_out",
-  tripToggleClickEvent: "trip_toggle_click",
   tripViewScroll: "trip_view_scroll",
   tripViewLiteScroll: "trip_view_lite_scroll",
   tripHighlightsScroll: "trip_highlights_scroll",
@@ -106,8 +115,6 @@ const appEvents = {
   bookedItineraryHeaderClick: "booked_itinerary_header_click",
   bookedItineraryHeaderCityNameClick: "booked_itinerary_header_city_name_click",
   voucherHeaderViewVoucherClick: "voucher_header_view_voucher_click",
-  yourBookingsCloseButtonClick: "your_bookings_close_button_click",
-  yourBookingsSelectItineraryClick: "your_bookings_select_itinerary_click",
   chatOpenSupportCenterClick: "chat_open_support_center_click",
   chatCallSupportClick: "chat_call_support_click",
   toolsPlacesTileClick: "tools_places_tile_click",
