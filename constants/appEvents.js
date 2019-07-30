@@ -1,6 +1,15 @@
 const appEvents = {
-  starterFindBooking: "starter_find_booking_click",
-  starterPlanVacation: "starter_plan_vacation_click",
+  StarterScreen: {
+    event: "Starter",
+    click: {
+      findBooking: "find_booking",
+      planVacation: "plan_vacation",
+      termsAndConditions: "terms_and_conditions",
+      privacyPolicy: "privacy_policy"
+    }
+  },
+  // starterFindBooking: "starter_find_booking_click",
+  // starterPlanVacation: "starter_plan_vacation_click",
   mobileNumberOpenCountryCode: "mobile_number_open_country_code_click",
   mobileNumberCloseCountryCode: "mobile_number_close_country_code_click",
   mobileNumberSelectCountryCode: "mobile_number_select_country_code_click",
