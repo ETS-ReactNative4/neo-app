@@ -48,7 +48,11 @@ class TripFeedCarousel extends Component {
       return {
         ...item,
         action: () => {
-          if (widgetName) recordEvent(widgetName);
+          if (widgetName) {
+            recordEvent(constants.TripFeed.event, {
+              widget: widgetName
+            });
+          }
           resolveLinks(item.link, item.modalData, {});
         }
       };

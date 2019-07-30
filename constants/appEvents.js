@@ -33,6 +33,12 @@ const appEvents = {
       selectItinerary: "select_itinerary"
     }
   },
+  TripFeed: {
+    event: "TripFeed",
+    widget: {
+      // Widget Names go here from backend
+    }
+  },
   // yourBookingsCloseButtonClick: "your_bookings_close_button_click",
   // yourBookingsSelectItineraryClick: "your_bookings_select_itinerary_click",
   // starterFindBooking: "starter_find_booking_click",

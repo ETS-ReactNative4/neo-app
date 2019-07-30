@@ -78,7 +78,11 @@ class FeedBackSwiper extends Component {
 
   openFeedBackModal = ({ isNegative = false }) => {
     const { widgetName } = this.props;
-    if (widgetName) recordEvent(widgetName);
+    if (widgetName) {
+      recordEvent(constants.TripFeed.event, {
+        widget: widgetName
+      });
+    }
     this.setState({
       isModalVisible: true,
       activeModalIndex: this.state.activeCardIndex,
@@ -88,7 +92,11 @@ class FeedBackSwiper extends Component {
 
   swipedCard = nextCardIndex => {
     const { widgetName } = this.props;
-    if (widgetName) recordEvent(`${widgetName}_DISMISSED`);
+    if (widgetName) {
+      recordEvent(constants.TripFeed.event, {
+        widget: `${widgetName}_DISMISSED`
+      });
+    }
     if (!this.state.disableDissmissApi) {
       const activeElement = this.props.elements[this.state.activeCardIndex];
       const requestObject = {

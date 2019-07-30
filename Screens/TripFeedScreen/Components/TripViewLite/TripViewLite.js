@@ -60,13 +60,21 @@ class TripViewLite extends Component {
         >
           {data.map((item, itemIndex) => {
             const action = () => {
-              if (widgetName) recordEvent(widgetName);
+              if (widgetName) {
+                recordEvent(constants.TripFeed.event, {
+                  widget: widgetName
+                });
+              }
               resolveLinks(item.link, {
                 selectedDate: JSON.stringify(item.date)
               });
             };
             const circleAction = () => {
-              if (widgetName) recordEvent(`${widgetName}_CIRCLE`);
+              if (widgetName) {
+                recordEvent(constants.TripFeed.event, {
+                  widget: `${widgetName}_CIRCLE`
+                });
+              }
               resolveLinks(false, false, item.deepLink);
             };
             const rotate = item.icon === "flight" ? "90deg" : "0deg";
