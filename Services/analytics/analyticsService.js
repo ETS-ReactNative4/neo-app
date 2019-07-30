@@ -3,6 +3,9 @@ import { logBreadCrumb, logError } from "../errorLogger/errorLogger";
 import getActiveRouteName from "../getActiveRouteName/getActiveRouteName";
 // import { analytics as firebaseAnalytics } from "react-native-firebase";
 import constants from "../../constants/constants";
+import WebEngage from "react-native-webengage";
+
+const webEngage = new WebEngage();
 
 const reserved = [
   "app_clear_data",
@@ -65,6 +68,7 @@ export const setUserDetails = ({ id, name, email, phone }) => {
     email,
     phone
   });
+  webEngage.user.login(id);
   // firebaseAnalytics().setUserId(id);
   // firebaseAnalytics().setUserProperty({ name, email, phoneNumber });
 };
