@@ -65,6 +65,9 @@ const RentalCar = ({ rentalCar, isLast, navigation, spinValue }) => {
       sectionImage={{
         uri: getTransferImage(rentalCar.vehicle, rentalCar.type)
       }}
+      defaultSource={{
+        uri: getTransferImage(rentalCar.vehicle, rentalCar.type)
+      }}
       containerStyle={customStyle}
       isProcessing={!rentalCar.voucher.booked}
       onClick={openVoucher}

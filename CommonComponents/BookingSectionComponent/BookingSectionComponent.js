@@ -60,7 +60,7 @@ const BookingSectionComponent = ({
             style={styles.contentIcon}
           />
         </View>
-        {isProcessing ? (
+        {isProcessing && !isDataSkipped ? (
           <Animated.View
             style={[
               styles.bookingProcessIconWrapper,
