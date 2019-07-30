@@ -72,7 +72,9 @@ class MobileNumber extends Component {
   }
 
   selectCountryCode = countryCode => {
-    recordEvent(constants.mobileNumberSelectCountryCode);
+    recordEvent(constants.MobileNumber.event, {
+      click: constants.MobileNumber.click.selectCountryCode
+    });
     this.setState({ countryCode });
   };
 
@@ -167,7 +169,9 @@ class MobileNumber extends Component {
               this.setState({
                 isLoading: false
               });
-              recordEvent(constants.mobileNumberOtpFailed);
+              recordEvent(constants.MobileNumber.event, {
+                type: constants.MobileNumber.type.otpFailed
+              });
               toastTop(response.message || "OTP Verification Failed!");
               this.setState({
                 otpNumber: ""
@@ -274,14 +278,18 @@ class MobileNumber extends Component {
   // };
 
   showCountryCodeModal = () => {
-    recordEvent(constants.mobileNumberOpenCountryCode);
+    recordEvent(constants.MobileNumber.event, {
+      click: constants.MobileNumber.click.openCountryCode
+    });
     this.setState({
       isCountryCodeModalVisible: true
     });
   };
 
   hideCountryCodeModal = () => {
-    recordEvent(constants.mobileNumberCloseCountryCode);
+    recordEvent(constants.MobileNumber.event, {
+      click: constants.MobileNumber.click.closeCountryCode
+    });
     this.setState({
       isCountryCodeModalVisible: false
     });

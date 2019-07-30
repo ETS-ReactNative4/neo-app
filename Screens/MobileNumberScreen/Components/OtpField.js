@@ -36,7 +36,15 @@ const OtpField = ({
         containerStyle={{ width: null }}
         textStyle={isWaiting ? { width: 110, textAlign: "left" } : {}}
         text={isWaiting ? `Resend (${waitTime}s)` : "Resend?"}
-        action={() => (isWaiting ? null : resendOtp())}
+        action={() => {
+          if (isWaiting) {
+            return null;
+          }
+          recordEvent(constants.MobileNumber.event, {
+            click: constants.MobileNumber.click.resendOtp
+          });
+          resendOtp();
+        }}
         textColor={isWaiting ? constants.shade3 : constants.firstColor}
         color={"white"}
         underlayColor={"transparent"}
