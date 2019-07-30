@@ -57,7 +57,9 @@ const ImagePreviewCard = ({
               icon={constants.cropIcon}
               containerStyle={styles.cropButton}
               onClick={() => {
-                recordEvent(constants.journalImagePickerCrop);
+                recordEvent(constants.Journal.event, {
+                  click: constants.Journal.click.imagePickerCrop
+                });
                 cropImage(actionIndex, imageUri);
               }}
               isSelected={!isContain && imageUri !== previewImage.uri}
@@ -67,7 +69,9 @@ const ImagePreviewCard = ({
             icon={constants.containIcon}
             containerStyle={styles.containButton}
             onClick={() => {
-              recordEvent(constants.journalImagePickerContain);
+              recordEvent(constants.Journal.event, {
+                click: constants.Journal.click.imagePickerContain
+              });
               toggleImageContain(actionIndex);
             }}
             isSelected={isContain}
@@ -84,7 +88,9 @@ const ImagePreviewCard = ({
             icon={constants.trashCanIcon}
             containerStyle={styles.removeButton}
             onClick={() => {
-              recordEvent(constants.journalImagePickerDelete);
+              recordEvent(constants.Journal.event, {
+                click: constants.Journal.click.imagePickerDelete
+              });
               removeImage(index);
             }}
             isSelected={false}

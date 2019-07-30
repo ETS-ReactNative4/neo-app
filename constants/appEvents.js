@@ -39,6 +39,48 @@ const appEvents = {
       // Widget Names go here from backend
     }
   },
+  hamburgerButtonClick: "hamburger_click",
+  Journal: {
+    event: "Journal",
+    click: {
+      addNewStory: "add_new_story",
+      addNewStoryFab: "add_new_story_fab",
+      viewJournal: "view_journal",
+      publishJournal: "publish_journal",
+      openShareScreen: "open_share_journal_screen",
+      shareStory: "story_share",
+      editStory: "edit_story",
+      deleteStory: "delete_story",
+      imagePickerCrop: "image_picker_crop",
+      imagePickerContain: "image_picker_contain",
+      imagePickerDelete: "image_picker_delete",
+      publishScreenShare: "publish_screen_share",
+      shareScreenShare: "share_screen_share"
+    },
+    share: {
+      facebook: "facebook",
+      twitter: "twitter",
+      common: "common"
+    }
+  },
+  // journalHomeAddNewStory: "journal_home_add_new_story_click",
+  // journalHomeAddNewStoryFab: "journal_home_add_new_story_fab_click",
+  // journalHomeViewJournal: "journal_home_view_journal_click",
+  // journalHomePublishJournal: "journal_home_publish_journal_click",
+  // journalHomeShareJournal: "journal_home_share_journal_click", // -> becomes open share journal screen
+  // journalHomeStoryShareFacebook: "journal_home_story_share_facebook_click",
+  // journalHomeStoryShareTwitter: "journal_home_story_share_twitter_click",
+  // journalHomeEditStory: "journal_home_edit_story_click",
+  // journalHomeDeleteStory: "journal_home_delete_story_click",
+  // journalImagePickerCrop: "journal_image_picker_crop_click",
+  // journalImagePickerContain: "journal_image_picker_contain_click",
+  // journalImagePickerDelete: "journal_image_picker_delete_click",
+  // journalPublishShareFacebook: "journal_publish_share_facebook_click",
+  // journalPublishShareTwitter: "journal_publish_share_twitter_click",
+  // journalPublishShareCommon: "journal_publish_share_common_click",
+  // journalShareScreenShareFacebook: "journal_share_screen_share_facebook",
+  // journalShareScreenShareTwitter: "journal_share_screen_share_twitter",
+  // journalShareScreenShareCommon: "journal_share_screen_share_common",
   // yourBookingsCloseButtonClick: "your_bookings_close_button_click",
   // yourBookingsSelectItineraryClick: "your_bookings_select_itinerary_click",
   // starterFindBooking: "starter_find_booking_click",
@@ -55,7 +97,6 @@ const appEvents = {
   tripViewScroll: "trip_view_scroll",
   tripViewLiteScroll: "trip_view_lite_scroll",
   tripHighlightsScroll: "trip_highlights_scroll",
-  hamburgerButtonClick: "hamburger_click",
   homePackageCardClick: "home_package_card_click",
   homeStartPlanningNowClick: "home_start_planning_click",
   homeFindBookingClick: "home_find_booking_click",
@@ -190,25 +231,7 @@ const appEvents = {
   paymentFailureSupportClick: "payment_failure_support_click",
   tripFeedbackPositiveClick: "trip_feedback_positive_click",
   tripFeedbackNegativeClick: "trip_feedback_negative_click",
-  tripFeedbackSubmitClick: "trip_feedback_submit_click",
-  journalHomeAddNewStory: "journal_home_add_new_story_click",
-  journalHomeAddNewStoryFab: "journal_home_add_new_story_fab_click",
-  journalHomeViewJournal: "journal_home_view_journal_click",
-  journalHomePublishJournal: "journal_home_publish_journal_click",
-  journalHomeShareJournal: "journal_home_share_journal_click",
-  journalHomeStoryShareFacebook: "journal_home_story_share_facebook_click",
-  journalHomeStoryShareTwitter: "journal_home_story_share_twitter_click",
-  journalHomeEditStory: "journal_home_edit_story_click",
-  journalHomeDeleteStory: "journal_home_delete_story_click",
-  journalImagePickerCrop: "journal_image_picker_crop_click",
-  journalImagePickerContain: "journal_image_picker_contain_click",
-  journalImagePickerDelete: "journal_image_picker_delete_click",
-  journalPublishShareFacebook: "journal_publish_share_facebook_click",
-  journalPublishShareTwitter: "journal_publish_share_twitter_click",
-  journalPublishShareCommon: "journal_publish_share_common_click",
-  journalShareScreenShareFacebook: "journal_share_screen_share_facebook",
-  journalShareScreenShareTwitter: "journal_share_screen_share_twitter",
-  journalShareScreenShareCommon: "journal_share_screen_share_common"
+  tripFeedbackSubmitClick: "trip_feedback_submit_click"
 };
 
 // console.log('-----------------------------------');
