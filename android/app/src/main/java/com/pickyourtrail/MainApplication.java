@@ -9,6 +9,9 @@ import com.facebook.react.PackageList;
 // import android.support.multidex.MultiDex;
 
 import com.facebook.react.ReactApplication;
+import com.webengage.WebengagePackage;
+import com.webengage.sdk.android.WebEngageConfig;
+import com.webengage.sdk.android.WebEngageActivityLifeCycleCallbacks;
 //import cl.json.RNSharePackage;
 //import com.airbnb.android.react.lottie.LottiePackage;
 //import com.reactnative.ivpusic.imagepicker.PickerPackage;
@@ -37,6 +40,13 @@ import com.facebook.react.ReactPackage;
 import com.facebook.soloader.SoLoader;
 
 import java.util.List;
+
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
+import com.webengage.sdk.android.WebEngage;
+
+import com.google.firebase.messaging.FirebaseMessagingService;
 
 public class MainApplication extends Application implements ReactApplication {
 
@@ -98,6 +108,22 @@ public class MainApplication extends Application implements ReactApplication {
   @Override
   public void onCreate() {
     super.onCreate();
+    WebEngageConfig webEngageConfig = new WebEngageConfig.Builder()
+      .setWebEngageKey("~2024b387")
+      .setDebugMode(true) // only in development mode
+      .build();
+    registerActivityLifecycleCallbacks(new WebEngageActivityLifeCycleCallbacks(this, webEngageConfig));
+    try {
+      FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(new OnSuccessListener<InstanceIdResult>() {
+        @Override
+        public void onSuccess(InstanceIdResult instanceIdResult) {
+          String token = instanceIdResult.getToken();
+          WebEngage.get().setRegistrationID(token);
+        }
+      });
+    } catch (Exception e) {
+      // Handle exception
+    }
     SoLoader.init(this, /* native exopackage */ false);
   }
 

@@ -13,6 +13,11 @@ module.exports = {
       platforms: {
         ios: null
       }
+    },
+    "react-native-webengage": {
+      platforms: {
+        ios: null
+      }
     }
   }
 };

@@ -11259,6 +11259,11 @@ react-native-vector-icons@5.0.0:
     prop-types "^15.5.10"
     yargs "^8.0.2"
 
+react-native-webengage@^1.0.8:
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/react-native-webengage/-/react-native-webengage-1.0.8.tgz#e452f333b8e9e6b10ff43a44c401cb7e3693427f"
+  integrity sha512-YfsVkv48+nC8AnoZ/CN/ZoY0EU6v1yXxyeIQN+bX6qmoaNExch7Q1jSQp2HKV36RkXjGAdEMvzh1Dh/0l6cAow==
+
 react-native-webview@5.7.0:
   version "5.7.0"
   resolved "https://registry.yarnpkg.com/react-native-webview/-/react-native-webview-5.7.0.tgz#a0417e23ff65053be0ba248de3f98938db4688cf"
