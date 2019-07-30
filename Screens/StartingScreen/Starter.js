@@ -13,7 +13,10 @@ import { inject, observer } from "mobx-react/custom";
 import { recordEvent } from "../../Services/analytics/analyticsService";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import openCustomTab from "../../Services/openCustomTab/openCustomTab";
-import { responsiveHeight } from "react-native-responsive-dimensions";
+import {
+  responsiveHeight,
+  responsiveWidth
+} from "react-native-responsive-dimensions";
 
 @ErrorBoundary({ isRoot: true })
 @inject("appState")
@@ -124,9 +127,9 @@ const styles = StyleSheet.create({
     width: 200
   },
   buttonRow: {
+    width: responsiveWidth(100),
     alignItems: "center",
-    justifyContent: "center",
-    flexWrap: "wrap"
+    justifyContent: "center"
   },
   hyperlink: {
     textDecorationLine: "underline"

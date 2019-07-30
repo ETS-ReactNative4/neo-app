@@ -4,20 +4,14 @@
 
 module.exports = {
   dependencies: {
-    "react-native-webp-support": {
-      platforms: {
-        ios: null
-      }
-    },
     "rn-fetch-blob": {
       platforms: {
         ios: null
       }
     },
-    "@matt-block/react-native-in-app-browser": {
+    "react-native-app-settings": {
       platforms: {
-        ios: null,
-        android: null
+        ios: null
       }
     }
   }
