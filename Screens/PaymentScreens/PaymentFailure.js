@@ -25,7 +25,9 @@ const PaymentFailure = ({ navigation }) => {
         containerStyle={{ marginTop: 8 }}
         text={constants.paymentText.contactHelpdesk}
         action={() => {
-          recordEvent(constants.paymentFailureSupportClick);
+          recordEvent(constants.Payment.event, {
+            click: constants.Payment.click.paymentFailureHelpDesk
+          });
           navigation.navigate("SupportCenter");
         }}
         textColor={constants.black2}

@@ -32,7 +32,9 @@ const PaymentInfoCard = ({
   return (
     <TouchableOpacity
       onPress={() => {
-        recordEvent(constants.paymentScreenItineraryCardClick);
+        recordEvent(constants.Payment.event, {
+          click: constants.Payment.click.selectItinerary
+        });
         selectItinerary(itineraryId);
       }}
       style={[styles.upcomingCardContainer, isLast ? { marginBottom: 16 } : {}]}

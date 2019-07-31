@@ -153,7 +153,9 @@ const ProductPayments = ({
           <PayNowCard
             {...currentPaymentData}
             action={() => {
-              recordEvent(constants.paymentScreenStartPayment);
+              recordEvent(constants.Payment.event, {
+                click: constants.Payment.click.startPayment
+              });
               currentPaymentData.action();
             }}
           />
@@ -190,7 +192,9 @@ const ProductPayments = ({
             containerStyle={styles.clearPaymentCard}
             textColor={constants.shade1}
             action={() => {
-              recordEvent(constants.paymentScreenClearPayment);
+              recordEvent(constants.Payment.event, {
+                click: constants.Payment.click.clearPayment
+              });
               lastPaymentData.action();
             }}
           />

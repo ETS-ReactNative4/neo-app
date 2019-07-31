@@ -64,18 +64,24 @@ class PaymentScreen extends Component {
     const { navigation } = this.props;
     if (url.indexOf("404") === -1) {
       if (url.indexOf(constants.paymentComplete) > -1) {
-        recordEvent(constants.paymentScreenPaymentSuccess);
+        recordEvent(constants.Payment.event, {
+          click: constants.Payment.click.paymentSuccess
+        });
         navigation.replace("PaymentSuccess", { transactionId });
       }
       if (url.indexOf(constants.paymentInComplete) > -1) {
-        recordEvent(constants.paymentScreenPaymentFailure);
+        recordEvent(constants.Payment.event, {
+          click: constants.Payment.click.paymentFailure
+        });
         navigation.replace("PaymentFailure");
       }
       if (url.indexOf(constants.paymentCancel) > -1) {
         navigation.goBack();
       }
     } else {
-      recordEvent(constants.paymentScreenPaymentFailure);
+      recordEvent(constants.Payment.event, {
+        click: constants.Payment.click.paymentFailure
+      });
       navigation.replace("PaymentFailure");
     }
   };

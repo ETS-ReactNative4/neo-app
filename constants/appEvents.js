@@ -128,6 +128,23 @@ const appEvents = {
       forex: "forex"
     }
   },
+  Payment: {
+    event: "payment",
+    click: {
+      selectItinerary: "select_itinerary",
+      startPayment: "start_payment",
+      clearPayment: "clear_payment",
+      paymentSuccess: "payment_success",
+      paymentFailure: "payment_failure",
+      paymentFailureHelpDesk: "payment_failure_help_desk"
+    }
+  },
+  // paymentScreenItineraryCardClick: "payment_screen_itinerary_card_click",
+  // paymentScreenStartPayment: "payment_screen_start_payment",
+  // paymentScreenClearPayment: "payment_screen_clear_payment",
+  // paymentScreenPaymentSuccess: "payment_screen_payment_success",
+  // paymentScreenPaymentFailure: "payment_screen_payment_failure",
+  // paymentFailureSupportClick: "payment_failure_support_click",
   // toolsPlacesTileClick: "tools_places_tile_click",
   // toolsCommonPhrasesTileClick: "tools_common_phrases_tile_click",
   // toolsEmergencyContactsTileClick: "tools_emergency_contacts_tile_click",
@@ -287,12 +304,6 @@ const appEvents = {
   visaDocumentsContactHelpdeskClick: "visa_documents_contact_helpdesk_click",
   visaDocumentsGetChecklistClick: "visa_documents_get_checklist_click",
   visaDocumentsEmailChecklistClick: "visa_documents_email_checklist_click",
-  paymentScreenItineraryCardClick: "payment_screen_itinerary_card_click",
-  paymentScreenStartPayment: "payment_screen_start_payment",
-  paymentScreenClearPayment: "payment_screen_clear_payment",
-  paymentScreenPaymentSuccess: "payment_screen_payment_success",
-  paymentScreenPaymentFailure: "payment_screen_payment_failure",
-  paymentFailureSupportClick: "payment_failure_support_click",
   tripFeedbackPositiveClick: "trip_feedback_positive_click",
   tripFeedbackNegativeClick: "trip_feedback_negative_click",
   tripFeedbackSubmitClick: "trip_feedback_submit_click"
