@@ -201,6 +201,22 @@ const appEvents = {
       removeItem: "remove_item"
     }
   },
+  CurrencyConverter: {
+    event: "CurrencyConverter",
+    click: {
+      swap: "swap",
+      changeNative: "change_native",
+      changeForeign: "change_foreign",
+      selectCurrency: "select_currency"
+    }
+  },
+  // currencyConverterSwapCurrencyClick: "currency_converter_swap_currency_click",
+  // currencyConverterChangeCurrencyNativeClick:
+  //   "currency_converter_change_currency_native_click",
+  // currencyConverterChangeCurrencyForeignClick:
+  //   "currency_converter_change_currency_foreign_click",
+  // currencyConverterSelectCurrencyClick:
+  //   "currency_converter_select_currency_click",
   // packingChecklistSelectItemClick: "packing_checklist_select_item_click",
   // packingChecklistUnselectItemClick: "packing_checklist_unselect_item_click",
   // packingChecklistAddItemClick: "packing_checklist_add_item_click",
@@ -355,13 +371,6 @@ const appEvents = {
   voucherHeaderViewVoucherClick: "voucher_header_view_voucher_click",
   chatOpenSupportCenterClick: "chat_open_support_center_click",
   chatCallSupportClick: "chat_call_support_click",
-  currencyConverterSwapCurrencyClick: "currency_converter_swap_currency_click",
-  currencyConverterChangeCurrencyNativeClick:
-    "currency_converter_change_currency_native_click",
-  currencyConverterChangeCurrencyForeignClick:
-    "currency_converter_change_currency_foreign_click",
-  currencyConverterSelectCurrencyClick:
-    "currency_converter_select_currency_click",
   visaDocumentsContactHelpdeskClick: "visa_documents_contact_helpdesk_click",
   visaDocumentsGetChecklistClick: "visa_documents_get_checklist_click",
   visaDocumentsEmailChecklistClick: "visa_documents_email_checklist_click",

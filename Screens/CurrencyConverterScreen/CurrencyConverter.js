@@ -136,9 +136,13 @@ class CurrencyConverter extends Component {
 
   openSelector = type => {
     if (type === "foreign") {
-      recordEvent(constants.currencyConverterChangeCurrencyForeignClick);
+      recordEvent(constants.CurrencyConverter.event, {
+        click: constants.CurrencyConverter.click.changeForeign
+      });
     } else if (type === "native") {
-      recordEvent(constants.currencyConverterChangeCurrencyNativeClick);
+      recordEvent(constants.CurrencyConverter.event, {
+        click: constants.CurrencyConverter.click.changeNative
+      });
     }
     this.setState({
       isSelectorActive: type
@@ -152,7 +156,9 @@ class CurrencyConverter extends Component {
   };
 
   swapCurrencies = () => {
-    recordEvent(constants.currencyConverterSwapCurrencyClick);
+    recordEvent(constants.CurrencyConverter.event, {
+      click: constants.CurrencyConverter.click.swap
+    });
     this.setState({
       nativeCurrency: this.state.foreignCurrency,
       foreignCurrency: this.state.nativeCurrency
@@ -160,14 +166,18 @@ class CurrencyConverter extends Component {
   };
 
   selectForeignCurrency = currency => {
-    recordEvent(constants.currencyConverterSelectCurrencyClick);
+    recordEvent(constants.CurrencyConverter.event, {
+      click: constants.CurrencyConverter.click.selectCurrency
+    });
     this.setState({
       foreignCurrency: currency
     });
   };
 
   selectNativeCurrency = currency => {
-    recordEvent(constants.currencyConverterSelectCurrencyClick);
+    recordEvent(constants.CurrencyConverter.event, {
+      click: constants.CurrencyConverter.click.selectCurrency
+    });
     this.setState({
       nativeCurrency: currency
     });
