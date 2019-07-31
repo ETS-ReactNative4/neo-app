@@ -113,6 +113,28 @@ const appEvents = {
       flight: "flight"
     }
   },
+  Tools: {
+    event: "Tools",
+    click: {
+      currencyConverter: "currency_converter",
+      placesTile: "places_tile",
+      commonPhrases: "common_phrases",
+      emergencyContacts: "emergency_contacts",
+      weatherForecast: "weather_forecast",
+      helpDesk: "help_desk",
+      passport: "passport",
+      documentsVisa: "documents_visa",
+      packingChecklist: "packing_checklist",
+      forex: "forex"
+    }
+  },
+  // toolsPlacesTileClick: "tools_places_tile_click",
+  // toolsCommonPhrasesTileClick: "tools_common_phrases_tile_click",
+  // toolsEmergencyContactsTileClick: "tools_emergency_contacts_tile_click",
+  // toolsWeatherForecastTileClick: "tools_weather_forecast_tile_click",
+  // toolsSupportCenterTileClick: "tools_support_center_tile_click",
+  // toolsPassportTileClick: "tools_passport_tile_click",
+  // toolsDocumentsVisaTileClick: "tools_documents_visa_tile_click",
   // bookedItineraryContentScroll: "booked_itinerary_content_scroll",
   // bookedItineraryExploreGuideClick: "booked_itinerary_explore_guide_click",
   // bookedItineraryFlightVoucherClick: "booked_itinerary_flight_voucher_click",
@@ -213,13 +235,6 @@ const appEvents = {
   voucherHeaderViewVoucherClick: "voucher_header_view_voucher_click",
   chatOpenSupportCenterClick: "chat_open_support_center_click",
   chatCallSupportClick: "chat_call_support_click",
-  toolsPlacesTileClick: "tools_places_tile_click",
-  toolsCommonPhrasesTileClick: "tools_common_phrases_tile_click",
-  toolsEmergencyContactsTileClick: "tools_emergency_contacts_tile_click",
-  toolsWeatherForecastTileClick: "tools_weather_forecast_tile_click",
-  toolsSupportCenterTileClick: "tools_support_center_tile_click",
-  toolsPassportTileClick: "tools_passport_tile_click",
-  toolsDocumentsVisaTileClick: "tools_documents_visa_tile_click",
   placesHeaderClick: "places_header_click",
   placesHeaderCityNameClick: "places_header_city_name_click",
   placesCarouselScroll: "places_carousel_scroll",

@@ -25,7 +25,9 @@ class Tools extends Component {
         title: city.city,
         image: { uri: city.cityObject.image },
         action: () => {
-          recordEvent(constants.toolsPlacesTileClick);
+          recordEvent(constants.Tools.event, {
+            click: constants.Tools.click.placesTile
+          });
           this.props.navigation.navigate("ToolPlaces", {
             city: cityId,
             target: "ToolNearBy"
@@ -38,14 +40,21 @@ class Tools extends Component {
     const essentialTools = [
       {
         text: `Currency Calculator`,
-        action: () => this.props.navigation.navigate("CurrencyConverter"),
+        action: () => {
+          recordEvent(constants.Tools.event, {
+            click: constants.Tools.click.currencyConverter
+          });
+          this.props.navigation.navigate("CurrencyConverter");
+        },
         icon: constants.currencyCalculatorIcon
       },
       {
         icon: constants.commonPhrasesIcon,
         text: `Common Phrases`,
         action: () => {
-          recordEvent(constants.toolsCommonPhrasesTileClick);
+          recordEvent(constants.Tools.event, {
+            click: constants.Tools.click.commonPhrases
+          });
           this.props.navigation.navigate("PhraseBook");
         }
       },
@@ -53,7 +62,9 @@ class Tools extends Component {
         icon: constants.emergencyContactsIcon,
         text: `Emergency Contacts`,
         action: () => {
-          recordEvent(constants.toolsEmergencyContactsTileClick);
+          recordEvent(constants.Tools.event, {
+            click: constants.Tools.click.emergencyContacts
+          });
           this.props.navigation.navigate("EmergencyContacts");
         }
       },
@@ -61,7 +72,9 @@ class Tools extends Component {
         icon: constants.weatherForecastIcon,
         text: `Weather Forecast`,
         action: () => {
-          recordEvent(constants.toolsWeatherForecastTileClick);
+          recordEvent(constants.Tools.event, {
+            click: constants.Tools.click.weatherForecast
+          });
           this.props.navigation.navigate("Weather");
         }
       },
@@ -69,7 +82,9 @@ class Tools extends Component {
         icon: constants.faqIcon,
         text: `Help Desk`,
         action: () => {
-          recordEvent(constants.toolsSupportCenterTileClick);
+          recordEvent(constants.Tools.event, {
+            click: constants.Tools.click.helpDesk
+          });
           this.props.navigation.navigate("SupportCenter");
         }
       }
@@ -78,19 +93,31 @@ class Tools extends Component {
     const beforePacking = [
       {
         text: `Packing Checklist`,
-        action: () => this.props.navigation.navigate("PackingChecklist"),
+        action: () => {
+          recordEvent(constants.Tools.event, {
+            click: constants.Tools.click.packingChecklist
+          });
+          this.props.navigation.navigate("PackingChecklist");
+        },
         icon: constants.packageChecklistIcon
       },
       {
         text: `Buy Forex`,
-        action: () => this.props.navigation.navigate("Forex"),
+        action: () => {
+          recordEvent(constants.Tools.event, {
+            click: constants.Tools.click.forex
+          });
+          this.props.navigation.navigate("Forex");
+        },
         icon: constants.forexIcon
       },
       {
         icon: constants.passportDetailsIcon,
         text: `Passport Details`,
         action: () => {
-          recordEvent(constants.toolsPassportTileClick);
+          recordEvent(constants.Tools.event, {
+            click: constants.Tools.click.passport
+          });
           this.props.navigation.navigate("PassportDetails");
         }
       },
@@ -98,7 +125,9 @@ class Tools extends Component {
         icon: constants.documentVisaIcon,
         text: `Documents & Visa`,
         action: () => {
-          recordEvent(constants.toolsDocumentsVisaTileClick);
+          recordEvent(constants.Tools.event, {
+            click: constants.Tools.click.documentsVisa
+          });
           this.props.navigation.navigate("Visa");
         }
       },
