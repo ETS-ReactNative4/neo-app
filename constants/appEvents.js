@@ -63,6 +63,76 @@ const appEvents = {
       common: "common"
     }
   },
+  Bookings: {
+    event: "Bookings",
+    click: {
+      accordionHeader: "accordion_header",
+      accordionVoucher: "accordion_voucher",
+      downloadAllVouchers: "download_all_vouchers",
+      calendarEventDate: "calendar_event_date",
+      calendarNoEventDate: "calendar_no_event_date"
+    },
+    type: {
+      flights: "flights",
+      hotels: "hotels",
+      transfers: "transfers",
+      passes: "passes",
+      activities: "activities",
+      trains: "trains",
+      ferries: "ferries",
+      rentalCars: "rental_cars",
+      visa: "visa",
+      insurance: "insurance"
+    }
+  },
+  // bookingsHomeCalendarDateClick: "bookings_home_calendar_date_click",
+  // bookingsHomeCalendarNoEventClick: "bookings_home_calendar_no_event_click",
+  // bookingsHomeAccordionFlightsHeaderClick:
+  //   "bookings_home_accordion_flights_header_click",
+  // bookingsHomeAccordionHotelsHeaderClick:
+  //   "bookings_home_accordion_hotels_header_click",
+  // bookingsHomeAccordionTransfersHeaderClick:
+  //   "bookings_home_accordion_transfers_header_click",
+  // bookingsHomeAccordionPassesHeaderClick:
+  //   "bookings_home_accordion_passes_header_click",
+  // bookingsHomeAccordionActivitiesHeaderClick:
+  //   "bookings_home_accordion_activities_header_click",
+  // bookingsHomeAccordionTrainsHeaderClick:
+  //   "bookings_home_accordion_trains_header_click",
+  // bookingsHomeAccordionFerriesHeaderClick:
+  //   "bookings_home_accordion_ferries_header_click",
+  // bookingsHomeAccordionRentalCarsHeaderClick:
+  //   "bookings_home_accordion_rental_cars_header_click",
+  // bookingsHomeAccordionVisaHeaderClick:
+  //   "bookings_home_accordion_visa_header_click",
+  // bookingsHomeAccordionInsuranceHeaderClick:
+  //   "bookings_home_accordion_insurance_header_click",
+  // bookingsHomeAccordionFlightsVoucherClick:
+  //   "bookings_home_accordion_flights_voucher_click",
+  // bookingsHomeAccordionHotelsVoucherClick:
+  //   "bookings_home_accordion_hotels_voucher_click",
+  // bookingsHomeAccordionTransfersVoucherClick:
+  //   "bookings_home_accordion_transfers_voucher_click",
+  // bookingsHomeAccordionPassesVoucherClick:
+  //   "bookings_home_accordion_passes_voucher_click",
+  // bookingsHomeAccordionActivitiesVoucherClick:
+  //   "bookings_home_accordion_activities_voucher_click",
+  // bookingsHomeAccordionViatorActivitiesVoucherClick:
+  //   "bookings_home_accordion_viator_activities_voucher_click",
+  // bookingsHomeAccordionProcessingActivitiesVoucherClick:
+  //   "bookings_home_accordion_processing_activities_voucher_click",
+  // bookingsHomeAccordionTrainsVoucherClick:
+  //   "bookings_home_accordion_trains_voucher_click",
+  // bookingsHomeAccordionFerriesVoucherClick:
+  //   "bookings_home_accordion_ferries_voucher_click",
+  // bookingsHomeAccordionRentalCarsVoucherClick:
+  //   "bookings_home_accordion_rental_cars_voucher_click",
+  // bookingsHomeAccordionVisaVoucherClick:
+  //   "bookings_home_accordion_visa_voucher_click",
+  // bookingsHomeAccordionInsuranceVoucherClick:
+  //   "bookings_home_accordion_insurance_voucher_click",
+  // bookingsHomeDownloadAllVouchersClick:
+  //   "bookings_home_download_all_vouchers_click",
   // journalHomeAddNewStory: "journal_home_add_new_story_click",
   // journalHomeAddNewStoryFab: "journal_home_add_new_story_fab_click",
   // journalHomeViewJournal: "journal_home_view_journal_click",
@@ -102,54 +172,6 @@ const appEvents = {
   homeFindBookingClick: "home_find_booking_click",
   homeOpenProductClick: "home_open_product_click",
   selectBookingHeaderClick: "select_booking_header_button_click",
-  bookingsHomeCalendarDateClick: "bookings_home_calendar_date_click",
-  bookingsHomeCalendarNoEventClick: "bookings_home_calendar_no_event_click",
-  bookingsHomeAccordionFlightsHeaderClick:
-    "bookings_home_accordion_flights_header_click",
-  bookingsHomeAccordionHotelsHeaderClick:
-    "bookings_home_accordion_hotels_header_click",
-  bookingsHomeAccordionTransfersHeaderClick:
-    "bookings_home_accordion_transfers_header_click",
-  bookingsHomeAccordionPassesHeaderClick:
-    "bookings_home_accordion_passes_header_click",
-  bookingsHomeAccordionActivitiesHeaderClick:
-    "bookings_home_accordion_activities_header_click",
-  bookingsHomeAccordionTrainsHeaderClick:
-    "bookings_home_accordion_trains_header_click",
-  bookingsHomeAccordionFerriesHeaderClick:
-    "bookings_home_accordion_ferries_header_click",
-  bookingsHomeAccordionRentalCarsHeaderClick:
-    "bookings_home_accordion_rental_cars_header_click",
-  bookingsHomeAccordionVisaHeaderClick:
-    "bookings_home_accordion_visa_header_click",
-  bookingsHomeAccordionInsuranceHeaderClick:
-    "bookings_home_accordion_insurance_header_click",
-  bookingsHomeAccordionFlightsVoucherClick:
-    "bookings_home_accordion_flights_voucher_click",
-  bookingsHomeAccordionHotelsVoucherClick:
-    "bookings_home_accordion_hotels_voucher_click",
-  bookingsHomeAccordionTransfersVoucherClick:
-    "bookings_home_accordion_transfers_voucher_click",
-  bookingsHomeAccordionPassesVoucherClick:
-    "bookings_home_accordion_passes_voucher_click",
-  bookingsHomeAccordionActivitiesVoucherClick:
-    "bookings_home_accordion_activities_voucher_click",
-  bookingsHomeAccordionViatorActivitiesVoucherClick:
-    "bookings_home_accordion_viator_activities_voucher_click",
-  bookingsHomeAccordionProcessingActivitiesVoucherClick:
-    "bookings_home_accordion_processing_activities_voucher_click",
-  bookingsHomeAccordionTrainsVoucherClick:
-    "bookings_home_accordion_trains_voucher_click",
-  bookingsHomeAccordionFerriesVoucherClick:
-    "bookings_home_accordion_ferries_voucher_click",
-  bookingsHomeAccordionRentalCarsVoucherClick:
-    "bookings_home_accordion_rental_cars_voucher_click",
-  bookingsHomeAccordionVisaVoucherClick:
-    "bookings_home_accordion_visa_voucher_click",
-  bookingsHomeAccordionInsuranceVoucherClick:
-    "bookings_home_accordion_insurance_voucher_click",
-  bookingsHomeDownloadAllVouchersClick:
-    "bookings_home_download_all_vouchers_click",
   bookedItineraryContentScroll: "booked_itinerary_content_scroll",
   bookedItineraryExploreGuideClick: "booked_itinerary_explore_guide_click",
   bookedItineraryFlightVoucherClick: "booked_itinerary_flight_voucher_click",

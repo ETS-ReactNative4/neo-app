@@ -48,7 +48,10 @@ const RentalCar = ({ rentalCar, isLast, navigation, spinValue }) => {
   rentalCar.vehicle = "Rental Car";
 
   const openVoucher = () => {
-    recordEvent(constants.bookingsHomeAccordionRentalCarsVoucherClick);
+    recordEvent(constants.Bookings.event, {
+      click: constants.Bookings.click.accordionVoucher,
+      type: constants.Bookings.type.rentalCars
+    });
     resolveLinks(false, false, {
       voucherType: constants.rentalCarVoucherType,
       costingIdentifier: rentalCar.key

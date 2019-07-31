@@ -59,7 +59,10 @@ const Insurance = inject("passportDetailsStore")(
         }
 
         const openVoucher = () => {
-          recordEvent(constants.bookingsHomeAccordionInsuranceVoucherClick);
+          recordEvent(constants.Bookings.event, {
+            click: constants.Bookings.click.accordionVoucher,
+            type: constants.Bookings.type.insurance
+          });
           storeService.infoStore.setInfo(
             insuranceComingSoonText.title,
             insuranceComingSoonText.message,

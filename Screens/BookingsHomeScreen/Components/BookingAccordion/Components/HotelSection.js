@@ -47,7 +47,10 @@ const Hotel = ({ hotel, isLast, navigation, spinValue }) => {
   }
 
   const openVoucher = () => {
-    recordEvent(constants.bookingsHomeAccordionHotelsVoucherClick);
+    recordEvent(constants.Bookings.event, {
+      click: constants.Bookings.click.accordionVoucher,
+      type: constants.Bookings.type.hotels
+    });
     resolveLinks(false, false, {
       voucherType: constants.hotelVoucherType,
       costingIdentifier: hotel.costingKey
