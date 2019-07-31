@@ -191,6 +191,22 @@ const appEvents = {
       embassy: "embassy"
     }
   },
+  PackingChecklist: {
+    event: "PackingChecklist",
+    click: {
+      selectItem: "select_item",
+      unselectItem: "unselect_item",
+      addItem: "add_item",
+      addItemKeyboard: "add_item_keyboard",
+      removeItem: "remove_item"
+    }
+  },
+  // packingChecklistSelectItemClick: "packing_checklist_select_item_click",
+  // packingChecklistUnselectItemClick: "packing_checklist_unselect_item_click",
+  // packingChecklistAddItemClick: "packing_checklist_add_item_click",
+  // packingChecklistAddItemClickKeyboard:
+  //   "packing_checklist_add_item_click_keyboard",
+  // packingChecklistRemoveItemClick: "packing_checklist_remove_item_click",
   // emergencyContactsPoliceNumberClick: "emergency_contacts_police_number_click",
   // emergencyContactsAmbulanceNumberClick:
   //   "emergency_contacts_ambulance_number_click",
@@ -346,12 +362,6 @@ const appEvents = {
     "currency_converter_change_currency_foreign_click",
   currencyConverterSelectCurrencyClick:
     "currency_converter_select_currency_click",
-  packingChecklistSelectItemClick: "packing_checklist_select_item_click",
-  packingChecklistUnselectItemClick: "packing_checklist_unselect_item_click",
-  packingChecklistAddItemClick: "packing_checklist_add_item_click",
-  packingChecklistAddItemClickKeyboard:
-    "packing_checklist_add_item_click_keyboard",
-  packingChecklistRemoveItemClick: "packing_checklist_remove_item_click",
   visaDocumentsContactHelpdeskClick: "visa_documents_contact_helpdesk_click",
   visaDocumentsGetChecklistClick: "visa_documents_get_checklist_click",
   visaDocumentsEmailChecklistClick: "visa_documents_email_checklist_click",

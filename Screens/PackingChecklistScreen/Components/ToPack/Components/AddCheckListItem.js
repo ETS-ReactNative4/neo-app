@@ -58,7 +58,9 @@ class AddCheckListItem extends Component {
           onChangeText={this.onEditText}
           returnKeyType={"done"}
           onSubmitEditing={() => {
-            recordEvent(constants.packingChecklistAddItemClickKeyboard);
+            recordEvent(constants.PackingChecklist.event, {
+              click: constants.PackingChecklist.click.addItemKeyboard
+            });
             this.done();
           }}
           underlineColorAndroid={"transparent"}
@@ -69,7 +71,9 @@ class AddCheckListItem extends Component {
           <TouchableOpacity
             style={styles.closeButton}
             onPress={() => {
-              recordEvent(constants.packingChecklistAddItemClick);
+              recordEvent(constants.PackingChecklist.event, {
+                click: constants.PackingChecklist.click.addItem
+              });
               this.done();
             }}
           >
