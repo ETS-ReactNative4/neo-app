@@ -53,9 +53,9 @@ const LanguageSelector = ({ languages, selectLanguage, cancel, isVisible }) => {
                   disableImage={true}
                   text={`${language.languageName} (${language.languageCode})`}
                   action={() => {
-                    recordEvent(
-                      constants.commonPhrasesSelectDifferentLanguageClick
-                    );
+                    recordEvent(constants.CommonPhrases.event, {
+                      click: constants.CommonPhrases.click.selectLanguage
+                    });
                     selectLanguage(language);
                     cancel();
                   }}

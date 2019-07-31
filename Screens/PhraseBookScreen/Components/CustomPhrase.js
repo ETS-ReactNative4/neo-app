@@ -77,7 +77,9 @@ class CustomPhrase extends Component {
           <SimpleButton
             text={""}
             action={() => {
-              recordEvent(constants.commonPhrasesTranslateButtonClick);
+              recordEvent(constants.CommonPhrases.event, {
+                click: constants.CommonPhrases.click.translate
+              });
               translateAction();
             }}
             icon={constants.translateIcon}
@@ -99,7 +101,9 @@ class CustomPhrase extends Component {
             rightIcon={true}
             text={displayLanguage}
             action={() => {
-              recordEvent(constants.commonPhrasesChangeLanguageButtonClick);
+              recordEvent(constants.CommonPhrases.event, {
+                click: constants.CommonPhrases.click.changeLanguage
+              });
               this.props.openLanguageSelector();
             }}
             containerStyle={{

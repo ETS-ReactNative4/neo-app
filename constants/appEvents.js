@@ -164,6 +164,29 @@ const appEvents = {
       hotel: "hotel"
     }
   },
+  weatherTileClick: "weather_tile_click",
+  CommonPhrases: {
+    event: "CommonPhrases",
+    click: {
+      playAudio: "play_audio",
+      book: "book",
+      pin: "pin",
+      unPin: "un_pin",
+      translate: "translate",
+      changeLanguage: "change_language",
+      selectLanguage: "select_language"
+    }
+  },
+  // commonPhrasesPlayAudioClick: "common_phrases_play_audio_click",
+  // commonPhrasesTranslateFromBookClick:
+  //   "common_phrases_translate_from_book_click",
+  // commonPhrasesPinClick: "common_phrases_pin_click",
+  // commonPhrasesUnPinClick: "common_phrases_unpin_click",
+  // commonPhrasesTranslateButtonClick: "common_phrases_translate_button_click",
+  // commonPhrasesChangeLanguageButtonClick:
+  //   "common_phrases_change_language_button_click",
+  // commonPhrasesSelectDifferentLanguageClick:
+  //   "common_phrases_select_different_language_click",
   // placesHeaderClick: "places_header_click",
   // placesHeaderCityNameClick: "places_header_city_name_click",
   // placesCarouselScroll: "places_carousel_scroll",
@@ -298,16 +321,6 @@ const appEvents = {
     "currency_converter_change_currency_foreign_click",
   currencyConverterSelectCurrencyClick:
     "currency_converter_select_currency_click",
-  commonPhrasesPlayAudioClick: "common_phrases_play_audio_click",
-  commonPhrasesTranslateFromBookClick:
-    "common_phrases_translate_from_book_click",
-  commonPhrasesPinClick: "common_phrases_pin_click",
-  commonPhrasesUnPinClick: "common_phrases_unpin_click",
-  commonPhrasesTranslateButtonClick: "common_phrases_translate_button_click",
-  commonPhrasesChangeLanguageButtonClick:
-    "common_phrases_change_language_button_click",
-  commonPhrasesSelectDifferentLanguageClick:
-    "common_phrases_select_different_language_click",
   emergencyContactsPoliceNumberClick: "emergency_contacts_police_number_click",
   emergencyContactsAmbulanceNumberClick:
     "emergency_contacts_ambulance_number_click",
@@ -319,7 +332,6 @@ const appEvents = {
     "emergency_contacts_embassy_directions_click",
   emergencyContactsEmbassyContactsClick:
     "emergency_contacts_embassy_contact_click",
-  weatherTileClick: "weather_tile_click",
   packingChecklistSelectItemClick: "packing_checklist_select_item_click",
   packingChecklistUnselectItemClick: "packing_checklist_unselect_item_click",
   packingChecklistAddItemClick: "packing_checklist_add_item_click",

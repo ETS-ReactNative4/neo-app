@@ -77,7 +77,9 @@ const PhraseInfo = ({
           <TouchableHighlight
             underlayColor={constants.shade1}
             onPress={() => {
-              recordEvent(constants.commonPhrasesPlayAudioClick);
+              recordEvent(constants.CommonPhrases.event, {
+                click: constants.CommonPhrases.click.playAudio
+              });
               speak();
             }}
             style={styles.buttonContainer}
@@ -100,7 +102,9 @@ const PhraseInfo = ({
             <TouchableHighlight
               underlayColor={constants.shade1}
               onPress={() => {
-                recordEvent(constants.commonPhrasesPinClick);
+                recordEvent(constants.CommonPhrases.event, {
+                  click: constants.CommonPhrases.click.pin
+                });
                 pinPhrase(selectedPhrase);
               }}
               style={styles.buttonContainer}
@@ -115,7 +119,9 @@ const PhraseInfo = ({
             <TouchableHighlight
               underlayColor={constants.shade1}
               onPress={() => {
-                recordEvent(constants.commonPhrasesUnPinClick);
+                recordEvent(constants.CommonPhrases.event, {
+                  click: constants.CommonPhrases.click.unPin
+                });
                 unPinPhrase(selectedPhrase);
               }}
               style={[styles.buttonContainer, styles.buttonContainerPinned]}
