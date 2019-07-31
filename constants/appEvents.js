@@ -85,6 +85,19 @@ const appEvents = {
       insurance: "insurance"
     }
   },
+  Home: {
+    event: "Home",
+    click: {
+      packageCard: "package_card",
+      startPlanningNow: "start_planning",
+      findBooking: "find_booking",
+      openProduct: "open_product"
+    }
+  },
+  // homePackageCardClick: "home_package_card_click",
+  // homeStartPlanningNowClick: "home_start_planning_click",
+  // homeFindBookingClick: "home_find_booking_click",
+  // homeOpenProductClick: "home_open_product_click",
   // bookingsHomeCalendarDateClick: "bookings_home_calendar_date_click",
   // bookingsHomeCalendarNoEventClick: "bookings_home_calendar_no_event_click",
   // bookingsHomeAccordionFlightsHeaderClick:
@@ -167,10 +180,6 @@ const appEvents = {
   tripViewScroll: "trip_view_scroll",
   tripViewLiteScroll: "trip_view_lite_scroll",
   tripHighlightsScroll: "trip_highlights_scroll",
-  homePackageCardClick: "home_package_card_click",
-  homeStartPlanningNowClick: "home_start_planning_click",
-  homeFindBookingClick: "home_find_booking_click",
-  homeOpenProductClick: "home_open_product_click",
   selectBookingHeaderClick: "select_booking_header_button_click",
   bookedItineraryContentScroll: "booked_itinerary_content_scroll",
   bookedItineraryExploreGuideClick: "booked_itinerary_explore_guide_click",
