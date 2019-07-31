@@ -129,7 +129,7 @@ const appEvents = {
     }
   },
   Payment: {
-    event: "payment",
+    event: "Payment",
     click: {
       selectItinerary: "select_itinerary",
       startPayment: "start_payment",
@@ -139,6 +139,45 @@ const appEvents = {
       paymentFailureHelpDesk: "payment_failure_help_desk"
     }
   },
+  Places: {
+    event: "Places",
+    click: {
+      header: "header",
+      headerCity: "header_city",
+      category: "category",
+      filter: "filter",
+      sort: "sort",
+      placeDetails: "place_details",
+      placeContact: "place_contact",
+      placeDirections: "place_directions"
+    },
+    scroll: {
+      placesCarousel: "places_carousel"
+    },
+    type: {
+      allStar: "all_star",
+      threeStar: "three_star",
+      fourStar: "four_star",
+      fiveStar: "five_star",
+      ratings: "ratings",
+      location: "location",
+      hotel: "hotel"
+    }
+  },
+  // placesHeaderClick: "places_header_click",
+  // placesHeaderCityNameClick: "places_header_city_name_click",
+  // placesCarouselScroll: "places_carousel_scroll",
+  // placesCategoryTileClick: "places_category_tile_click",
+  // nearByAllStarClick: "near_by_filter_all_star_click",
+  // nearByThreeStarClick: "near_by_filter_three_star_click",
+  // nearByFourStarClick: "near_by_filter_four_star_click",
+  // nearByFiveStarClick: "near_by_filter_five_star_click",
+  // nearByRatingsClick: "near_by_sort_ratings_click",
+  // nearByLocationClick: "near_by_sort_location_click",
+  // nearByHotelClick: "near_by_sort_hotel_click",
+  // nearByPlaceDetailsClick: "near_by_place_details_click",
+  // nearByPlaceDirectionsClick: "near_by_place_directions_click",
+  // nearByContactPlaceClick: "near_by_place_contact_click",
   // paymentScreenItineraryCardClick: "payment_screen_itinerary_card_click",
   // paymentScreenStartPayment: "payment_screen_start_payment",
   // paymentScreenClearPayment: "payment_screen_clear_payment",
@@ -252,20 +291,6 @@ const appEvents = {
   voucherHeaderViewVoucherClick: "voucher_header_view_voucher_click",
   chatOpenSupportCenterClick: "chat_open_support_center_click",
   chatCallSupportClick: "chat_call_support_click",
-  placesHeaderClick: "places_header_click",
-  placesHeaderCityNameClick: "places_header_city_name_click",
-  placesCarouselScroll: "places_carousel_scroll",
-  placesCategoryTileClick: "places_category_tile_click",
-  nearByAllStarClick: "near_by_filter_all_star_click",
-  nearByThreeStarClick: "near_by_filter_three_star_click",
-  nearByFourStarClick: "near_by_filter_four_star_click",
-  nearByFiveStarClick: "near_by_filter_five_star_click",
-  nearByRatingsClick: "near_by_sort_ratings_click",
-  nearByLocationClick: "near_by_sort_location_click",
-  nearByHotelClick: "near_by_sort_hotel_click",
-  nearByPlaceDetailsClick: "near_by_place_details_click",
-  nearByPlaceDirectionsClick: "near_by_place_directions_click",
-  nearByContactPlaceClick: "near_by_place_contact_click",
   currencyConverterSwapCurrencyClick: "currency_converter_swap_currency_click",
   currencyConverterChangeCurrencyNativeClick:
     "currency_converter_change_currency_native_click",

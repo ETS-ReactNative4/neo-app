@@ -12,7 +12,9 @@ const PlacesPageTitle = inject("itineraries")(
         const { toggleItinerarySelection, selectedDate } = appState;
         const { getCityById } = itineraries;
         const openMenu = () => {
-          recordEvent(constants.placesHeaderClick);
+          recordEvent(constants.Places.event, {
+            click: constants.Places.click.header
+          });
           toggleItinerarySelection(true);
         };
         const selectedCity = placesStore.selectedCity;

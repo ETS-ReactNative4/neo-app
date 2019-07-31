@@ -57,7 +57,9 @@ class Places extends Component {
 
   changeCity = city => {
     const cityId = city.cityObject.cityId;
-    recordEvent(constants.placesHeaderCityNameClick);
+    recordEvent(constants.Places.event, {
+      click: constants.Places.click.headerCity
+    });
     this.setState({
       selectedCity: cityId
     });
@@ -71,7 +73,9 @@ class Places extends Component {
 
   scrollAction = () => {
     if (!this.state.isScrollRecorded) {
-      recordEvent(constants.placesCarouselScroll);
+      recordEvent(constants.Places.event, {
+        scroll: constants.Places.scroll.placesCarousel
+      });
       this.setState({
         isScrollRecorded: true
       });
@@ -119,7 +123,9 @@ class Places extends Component {
                       key={itemIndex}
                       image={{ uri: item.image }}
                       action={() => {
-                        recordEvent(constants.placesCategoryTileClick);
+                        recordEvent(constants.Places.event, {
+                          click: constants.Places.click.category
+                        });
                         this.props.navigation.navigate("ToolNearBy", {
                           title: item.category,
                           city,

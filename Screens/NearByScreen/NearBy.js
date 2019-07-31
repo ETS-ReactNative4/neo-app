@@ -179,16 +179,28 @@ class NearBy extends Component {
     const selectedFilter = filterOptions.find(item => item.isSelected);
     switch (selectedFilter.text) {
       case "All Ratings":
-        recordEvent(constants.nearByAllStarClick);
+        recordEvent(constants.Places.event, {
+          click: constants.Places.click.filter,
+          type: constants.Places.type.allStar
+        });
         break;
       case "Rated 3 stars and above":
-        recordEvent(constants.nearByThreeStarClick);
+        recordEvent(constants.Places.event, {
+          click: constants.Places.click.filter,
+          type: constants.Places.type.threeStar
+        });
         break;
       case "Rated 4 stars and above":
-        recordEvent(constants.nearByFourStarClick);
+        recordEvent(constants.Places.event, {
+          click: constants.Places.click.filter,
+          type: constants.Places.type.fourStar
+        });
         break;
       case "Rated 5 stars":
-        recordEvent(constants.nearByFiveStarClick);
+        recordEvent(constants.Places.event, {
+          click: constants.Places.click.filter,
+          type: constants.Places.type.fiveStar
+        });
         break;
     }
     this.setState({
@@ -204,13 +216,22 @@ class NearBy extends Component {
     const selectedSort = sortOptions.find(item => item.isSelected);
     switch (selectedSort.type) {
       case "nearHotel":
-        recordEvent(constants.nearByHotelClick);
+        recordEvent(constants.Places.event, {
+          click: constants.Places.click.sort,
+          type: constants.Places.type.hotel
+        });
         break;
       case "nearby":
-        recordEvent(constants.nearByLocationClick);
+        recordEvent(constants.Places.event, {
+          click: constants.Places.click.sort,
+          type: constants.Places.type.location
+        });
         break;
       case "text":
-        recordEvent(constants.nearByRatingsClick);
+        recordEvent(constants.Places.event, {
+          click: constants.Places.click.sort,
+          type: constants.Places.type.ratings
+        });
         break;
     }
     if (selectedSort.type === "nearby") {
@@ -311,7 +332,9 @@ class NearBy extends Component {
   };
 
   loadPlaceDetail = place => {
-    recordEvent(constants.nearByPlaceDetailsClick);
+    recordEvent(constants.Places.event, {
+      click: constants.Places.click.placeDetails
+    });
     const { selectPlace } = this.props.placesStore;
     selectPlace(place);
   };
