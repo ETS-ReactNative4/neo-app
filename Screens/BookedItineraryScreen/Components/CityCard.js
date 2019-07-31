@@ -48,7 +48,9 @@ const CityCard = ({
         </View>
         <TouchableOpacity
           onPress={() => {
-            recordEvent(constants.bookedItineraryExploreGuideClick);
+            recordEvent(constants.BookedItinerary.event, {
+              click: constants.BookedItinerary.click.exploreGuide
+            });
             action();
           }}
           style={styles.actionView}

@@ -102,7 +102,9 @@ class BookedItinerary extends Component {
     }
   }) => {
     if (!this.state.isScrollRecorded) {
-      recordEvent(constants.bookedItineraryContentScroll);
+      recordEvent(constants.BookedItinerary.event, {
+        scroll: constants.BookedItinerary.scroll.contentScroll
+      });
       this.setState({
         isScrollRecorded: true
       });
@@ -125,7 +127,9 @@ class BookedItinerary extends Component {
   };
 
   dateSelectedFromModal = date => {
-    recordEvent(constants.bookedItineraryHeaderCityNameClick);
+    recordEvent(constants.BookedItinerary.event, {
+      click: constants.BookedItinerary.click.headerCity
+    });
     this.selectDay(date);
   };
 

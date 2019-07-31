@@ -22,7 +22,9 @@ const BookedItineraryTitle = inject("itineraries")(
     observer(({ appState, itineraries }) => {
       const { toggleItinerarySelection, selectedDate } = appState;
       const openMenu = () => {
-        recordEvent(constants.bookedItineraryHeaderClick);
+        recordEvent(constants.BookedItinerary.event, {
+          click: constants.BookedItinerary.click.header
+        });
         toggleItinerarySelection(true);
       };
       const { cities } = itineraries;

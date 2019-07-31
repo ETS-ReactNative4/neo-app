@@ -26,6 +26,7 @@ const appEvents = {
   userLoggedInEvent: "user_logged_in",
   userLoggedOutEvent: "user_logged_out",
   tripToggleClickEvent: "trip_toggle_click",
+  selectBookingHeaderClick: "select_booking_header_button_click",
   YourBookings: {
     event: "YourBookings",
     click: {
@@ -94,6 +95,35 @@ const appEvents = {
       openProduct: "open_product"
     }
   },
+  BookedItinerary: {
+    event: "BookedItinerary",
+    scroll: {
+      contentScroll: "content_scroll"
+    },
+    click: {
+      voucher: "voucher",
+      header: "header",
+      headerCity: "header_city",
+      exploreGuide: "explore_guide"
+    },
+    type: {
+      activity: "activity",
+      transfer: "transfer",
+      activityWithTransfer: "activity_with_transfer",
+      flight: "flight"
+    }
+  },
+  // bookedItineraryContentScroll: "booked_itinerary_content_scroll",
+  // bookedItineraryExploreGuideClick: "booked_itinerary_explore_guide_click",
+  // bookedItineraryFlightVoucherClick: "booked_itinerary_flight_voucher_click",
+  // bookedItineraryActivityVoucherClick:
+  //   "booked_itinerary_activity_voucher_click",
+  // bookedItineraryTransferVoucherClick:
+  //   "booked_itinerary_transfer_voucher_click",
+  // bookedItineraryActivityWithTransferVoucherClick:
+  //   "booked_itinerary_activity_transfer_voucher_click",
+  // bookedItineraryHeaderClick: "booked_itinerary_header_click",
+  // bookedItineraryHeaderCityNameClick: "booked_itinerary_header_city_name_click",
   // homePackageCardClick: "home_package_card_click",
   // homeStartPlanningNowClick: "home_start_planning_click",
   // homeFindBookingClick: "home_find_booking_click",
@@ -180,18 +210,6 @@ const appEvents = {
   tripViewScroll: "trip_view_scroll",
   tripViewLiteScroll: "trip_view_lite_scroll",
   tripHighlightsScroll: "trip_highlights_scroll",
-  selectBookingHeaderClick: "select_booking_header_button_click",
-  bookedItineraryContentScroll: "booked_itinerary_content_scroll",
-  bookedItineraryExploreGuideClick: "booked_itinerary_explore_guide_click",
-  bookedItineraryFlightVoucherClick: "booked_itinerary_flight_voucher_click",
-  bookedItineraryActivityVoucherClick:
-    "booked_itinerary_activity_voucher_click",
-  bookedItineraryTransferVoucherClick:
-    "booked_itinerary_transfer_voucher_click",
-  bookedItineraryActivityWithTransferVoucherClick:
-    "booked_itinerary_activity_transfer_voucher_click",
-  bookedItineraryHeaderClick: "booked_itinerary_header_click",
-  bookedItineraryHeaderCityNameClick: "booked_itinerary_header_city_name_click",
   voucherHeaderViewVoucherClick: "voucher_header_view_voucher_click",
   chatOpenSupportCenterClick: "chat_open_support_center_click",
   chatCallSupportClick: "chat_call_support_click",
