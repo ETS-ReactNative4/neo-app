@@ -177,6 +177,31 @@ const appEvents = {
       selectLanguage: "select_language"
     }
   },
+  EmergencyContacts: {
+    event: "EmergencyContacts",
+    click: {
+      phoneNumber: "phone_number",
+      directions: "directions"
+    },
+    type: {
+      police: "police",
+      ambulance: "ambulance",
+      fire: "fire",
+      missingChildren: "missing_children",
+      embassy: "embassy"
+    }
+  },
+  // emergencyContactsPoliceNumberClick: "emergency_contacts_police_number_click",
+  // emergencyContactsAmbulanceNumberClick:
+  //   "emergency_contacts_ambulance_number_click",
+  // emergencyContactsFireDeptNumberClick:
+  //   "emergency_contacts_fire_dept_number_click",
+  // emergencyContactsChildrenMissingNumberClick:
+  //   "emergency_contacts_children_missing_number_click",
+  // emergencyContactsEmbassyDirectionsClick:
+  //   "emergency_contacts_embassy_directions_click",
+  // emergencyContactsEmbassyContactsClick:
+  //   "emergency_contacts_embassy_contact_click",
   // commonPhrasesPlayAudioClick: "common_phrases_play_audio_click",
   // commonPhrasesTranslateFromBookClick:
   //   "common_phrases_translate_from_book_click",
@@ -321,17 +346,6 @@ const appEvents = {
     "currency_converter_change_currency_foreign_click",
   currencyConverterSelectCurrencyClick:
     "currency_converter_select_currency_click",
-  emergencyContactsPoliceNumberClick: "emergency_contacts_police_number_click",
-  emergencyContactsAmbulanceNumberClick:
-    "emergency_contacts_ambulance_number_click",
-  emergencyContactsFireDeptNumberClick:
-    "emergency_contacts_fire_dept_number_click",
-  emergencyContactsChildrenMissingNumberClick:
-    "emergency_contacts_children_missing_number_click",
-  emergencyContactsEmbassyDirectionsClick:
-    "emergency_contacts_embassy_directions_click",
-  emergencyContactsEmbassyContactsClick:
-    "emergency_contacts_embassy_contact_click",
   packingChecklistSelectItemClick: "packing_checklist_select_item_click",
   packingChecklistUnselectItemClick: "packing_checklist_unselect_item_click",
   packingChecklistAddItemClick: "packing_checklist_add_item_click",

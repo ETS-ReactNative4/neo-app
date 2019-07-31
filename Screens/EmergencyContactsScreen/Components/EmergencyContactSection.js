@@ -45,32 +45,48 @@ class EmergencyContactSection extends Component {
         ? {
             title: "Police",
             number: policeNumber,
-            recordEvent: () =>
-              recordEvent(constants.emergencyContactsPoliceNumberClick)
+            recordEvent: () => {
+              recordEvent(constants.EmergencyContacts.event, {
+                click: constants.EmergencyContacts.click.phoneNumber,
+                type: constants.EmergencyContacts.type.police
+              });
+            }
           }
         : null,
       ambulanceNumber
         ? {
             title: "Ambulance",
             number: ambulanceNumber,
-            recordEvent: () =>
-              recordEvent(constants.emergencyContactsAmbulanceNumberClick)
+            recordEvent: () => {
+              recordEvent(constants.EmergencyContacts.event, {
+                click: constants.EmergencyContacts.click.phoneNumber,
+                type: constants.EmergencyContacts.type.ambulance
+              });
+            }
           }
         : null,
       fireNumber
         ? {
             title: "Fire Department",
             number: fireNumber,
-            recordEvent: () =>
-              recordEvent(constants.emergencyContactsFireDeptNumberClick)
+            recordEvent: () => {
+              recordEvent(constants.EmergencyContacts.event, {
+                click: constants.EmergencyContacts.click.phoneNumber,
+                type: constants.EmergencyContacts.type.fire
+              });
+            }
           }
         : null,
       missingChildrenNumber
         ? {
             title: "In case of missing children",
             number: missingChildrenNumber,
-            recordEvent: () =>
-              recordEvent(constants.emergencyContactsChildrenMissingNumberClick)
+            recordEvent: () => {
+              recordEvent(constants.EmergencyContacts.event, {
+                click: constants.EmergencyContacts.click.phoneNumber,
+                type: constants.EmergencyContacts.type.missingChildren
+              });
+            }
           }
         : null
     ];
@@ -147,7 +163,10 @@ class EmergencyContactSection extends Component {
             icon={constants.compassIcon}
             text={"Directions"}
             action={() => {
-              recordEvent(constants.emergencyContactsEmbassyDirectionsClick);
+              recordEvent(constants.EmergencyContacts.event, {
+                click: constants.EmergencyContacts.click.directions,
+                type: constants.EmergencyContacts.type.embassy
+              });
               directions({
                 latitude: embassyLatitude,
                 longitude: embassyLongitude
@@ -166,7 +185,10 @@ class EmergencyContactSection extends Component {
             icon={constants.callIcon}
             text={"Contact"}
             action={() => {
-              recordEvent(constants.emergencyContactsEmbassyContactsClick);
+              recordEvent(constants.EmergencyContacts.event, {
+                click: constants.EmergencyContacts.click.phoneNumber,
+                type: constants.EmergencyContacts.type.embassy
+              });
               dialer(embassyContactNumber);
             }}
             textColor={constants.black2}
