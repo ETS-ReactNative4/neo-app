@@ -64,6 +64,7 @@ const Ferry = ({ ferry, isLast, navigation, spinValue }) => {
     <BookingSectionComponent
       spinValue={spinValue}
       sectionImage={{ uri: getTransferImage("FERRY") }}
+      defaultSource={{ uri: getTransferImage("FERRY") }}
       containerStyle={customStyle}
       isProcessing={!ferry.voucher.booked}
       onClick={openVoucher}

@@ -267,6 +267,9 @@ class ActivityVoucher extends Component {
             </View>
           )
         },
+        /**
+         * Temporarily disabled since notes have all the info
+         */
         // notes
         //   ? {
         //       name: "Instructions & notes",

@@ -64,6 +64,9 @@ const Train = ({ train, isLast, navigation, spinValue }) => {
       spinValue={spinValue}
       containerStyle={customStyle}
       sectionImage={{ uri: constants.miscImageBaseUrl + "transfers-train.jpg" }}
+      defaultSource={{
+        uri: constants.miscImageBaseUrl + "transfers-train.jpg"
+      }}
       isProcessing={!train.voucher.booked}
       onClick={openVoucher}
       content={train.text}
