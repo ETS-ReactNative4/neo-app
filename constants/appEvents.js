@@ -223,6 +223,12 @@ const appEvents = {
       emailChecklist: "email_checklist"
     }
   },
+  tripViewScroll: "trip_view_scroll",
+  tripViewLiteScroll: "trip_view_lite_scroll",
+  tripHighlightsScroll: "trip_highlights_scroll",
+  voucherHeaderViewVoucherClick: "voucher_header_view_voucher_click",
+  chatOpenSupportCenterClick: "chat_open_support_center_click",
+  chatCallSupportClick: "chat_call_support_click"
   // visaDocumentsContactHelpdeskClick: "visa_documents_contact_helpdesk_click",
   // visaDocumentsGetChecklistClick: "visa_documents_get_checklist_click",
   // visaDocumentsEmailChecklistClick: "visa_documents_email_checklist_click",
@@ -381,12 +387,6 @@ const appEvents = {
   // mobileNumberVerifyOtp: "mobile_number_verify_otp_click",
   // mobileNumberOtpAutoFill: "mobile_number_otp_autofill", //-> no longer used
   // mobileNumberOtpFailed: "mobile_number_otp_failed",
-  tripViewScroll: "trip_view_scroll",
-  tripViewLiteScroll: "trip_view_lite_scroll",
-  tripHighlightsScroll: "trip_highlights_scroll",
-  voucherHeaderViewVoucherClick: "voucher_header_view_voucher_click",
-  chatOpenSupportCenterClick: "chat_open_support_center_click",
-  chatCallSupportClick: "chat_call_support_click"
 };
 
 // console.log('-----------------------------------');
