@@ -38,6 +38,11 @@ const appEvents = {
     event: "TripFeed",
     widget: {
       // Widget Names go here from backend
+    },
+    click: {
+      positiveClick: "positive_click",
+      negativeClick: "negative_click",
+      submitFeedback: "submit_feedback"
     }
   },
   hamburgerButtonClick: "hamburger_click",
@@ -373,10 +378,7 @@ const appEvents = {
   chatCallSupportClick: "chat_call_support_click",
   visaDocumentsContactHelpdeskClick: "visa_documents_contact_helpdesk_click",
   visaDocumentsGetChecklistClick: "visa_documents_get_checklist_click",
-  visaDocumentsEmailChecklistClick: "visa_documents_email_checklist_click",
-  tripFeedbackPositiveClick: "trip_feedback_positive_click",
-  tripFeedbackNegativeClick: "trip_feedback_negative_click",
-  tripFeedbackSubmitClick: "trip_feedback_submit_click"
+  visaDocumentsEmailChecklistClick: "visa_documents_email_checklist_click"
 };
 
 // console.log('-----------------------------------');
