@@ -215,6 +215,17 @@ const appEvents = {
       selectCurrency: "select_currency"
     }
   },
+  Visa: {
+    event: "Visa",
+    click: {
+      contactHelpdesk: "contact_helpdesk",
+      getChecklist: "get_checklist",
+      emailChecklist: "email_checklist"
+    }
+  },
+  // visaDocumentsContactHelpdeskClick: "visa_documents_contact_helpdesk_click",
+  // visaDocumentsGetChecklistClick: "visa_documents_get_checklist_click",
+  // visaDocumentsEmailChecklistClick: "visa_documents_email_checklist_click",
   // currencyConverterSwapCurrencyClick: "currency_converter_swap_currency_click",
   // currencyConverterChangeCurrencyNativeClick:
   //   "currency_converter_change_currency_native_click",
@@ -375,10 +386,7 @@ const appEvents = {
   tripHighlightsScroll: "trip_highlights_scroll",
   voucherHeaderViewVoucherClick: "voucher_header_view_voucher_click",
   chatOpenSupportCenterClick: "chat_open_support_center_click",
-  chatCallSupportClick: "chat_call_support_click",
-  visaDocumentsContactHelpdeskClick: "visa_documents_contact_helpdesk_click",
-  visaDocumentsGetChecklistClick: "visa_documents_get_checklist_click",
-  visaDocumentsEmailChecklistClick: "visa_documents_email_checklist_click"
+  chatCallSupportClick: "chat_call_support_click"
 };
 
 // console.log('-----------------------------------');
