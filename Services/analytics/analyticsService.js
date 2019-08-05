@@ -88,6 +88,7 @@ export const screenTracker = (prevState, currentState) => {
       level: constants.errorLoggerEvents.levels.info
     });
     analytics.screen(currentScreen);
+    webengage.screen(currentScreen);
     // firebaseAnalytics().setCurrentScreen(currentScreen);
   }
 };
