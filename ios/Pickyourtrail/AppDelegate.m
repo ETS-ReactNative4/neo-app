@@ -16,20 +16,28 @@
 #else
 #import "RNSentry.h" // This is used for versions of react < 0.40
 #endif
+#import <WebEngage/WebEngage.h>
+#import <UserNotifications/UserNotifications.h>
+
+
+@interface AppDelegate () < UNUserNotificationCenterDelegate >
+
+@end
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+  [[WebEngage sharedInstance] application:application didFinishLaunchingWithOptions:launchOptions];
   [FIRApp configure];
   [RNFirebaseNotifications configure];
 
-RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
+  RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
   RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge
                                                    moduleName:@"Pickyourtrail"
                                             initialProperties:nil];
 
-[RNSentry installWithRootView:rootView];
+  [RNSentry installWithRootView:rootView];
 
 
   rootView.backgroundColor = [[UIColor alloc] initWithRed:1.0f green:1.0f blue:1.0f alpha:1];
@@ -47,7 +55,7 @@ RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launc
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(nonnull NSDictionary *)userInfo
-                                                       fetchCompletionHandler:(nonnull void (^)(UIBackgroundFetchResult))completionHandler{
+fetchCompletionHandler:(nonnull void (^)(UIBackgroundFetchResult))completionHandler{
   [[RNFirebaseNotifications instance] didReceiveRemoteNotification:userInfo fetchCompletionHandler:completionHandler];
 }
 
@@ -62,6 +70,23 @@ RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launc
 #else
   return [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
 #endif
+}
+
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center
+       willPresentNotification:(UNNotification *)notification
+         withCompletionHandler:(void (^)(UNNotificationPresentationOptions))completionHandler {
+
+  [WEGManualIntegration userNotificationCenter:center willPresentNotification:notification];
+
+  completionHandler(UNNotificationPresentationOptionBadge | UNNotificationPresentationOptionAlert | UNNotificationPresentationOptionSound);
+}
+
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center
+didReceiveNotificationResponse:(UNNotificationResponse *)response
+         withCompletionHandler:(void (^)(void))completionHandler {
+
+  [WEGManualIntegration userNotificationCenter:center didReceiveNotificationResponse:response];
+  completionHandler();
 }
 
 @end

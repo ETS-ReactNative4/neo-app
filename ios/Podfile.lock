@@ -170,6 +170,9 @@ PODS:
     - React
   - react-native-simple-toast (0.1.1):
     - React
+  - react-native-webengage (1.1.0):
+    - React
+    - WebEngage
   - react-native-webview (5.7.0):
     - React
   - React-RCTActionSheet (0.60.4):
@@ -253,6 +256,9 @@ PODS:
     - Sentry (~> 4.1.3)
   - TextToSpeech (2.0.0):
     - React
+  - WebEngage (4.9.2):
+    - WebEngage/Xcode10 (= 4.9.2)
+  - WebEngage/Xcode10 (4.9.2)
   - yoga (0.60.4.React)
 
 DEPENDENCIES:
@@ -279,6 +285,7 @@ DEPENDENCIES:
   - react-native-pdf (from `../node_modules/react-native-pdf`)
   - react-native-photo-view (from `../node_modules/react-native-photo-view`)
   - react-native-simple-toast (from `../node_modules/react-native-simple-toast`)
+  - react-native-webengage (from `../node_modules/react-native-webengage`)
   - react-native-webview (from `../node_modules/react-native-webview`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
   - React-RCTAnimation (from `../node_modules/react-native/Libraries/NativeAnimation`)
@@ -329,6 +336,7 @@ SPEC REPOS:
     - SDWebImage
     - SDWebImageWebPCoder
     - Sentry
+    - WebEngage
 
 EXTERNAL SOURCES:
   BVLinearGradient:
@@ -373,6 +381,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-photo-view"
   react-native-simple-toast:
     :path: "../node_modules/react-native-simple-toast"
+  react-native-webengage:
+    :path: "../node_modules/react-native-webengage"
   react-native-webview:
     :path: "../node_modules/react-native-webview"
   React-RCTActionSheet:
@@ -466,6 +476,7 @@ SPEC CHECKSUMS:
   react-native-pdf: aa2e3f51c3834cedbdafa743d122ce2974eab3f3
   react-native-photo-view: 63e9e61da873531f931008b545d8d10c5373ddf8
   react-native-simple-toast: 1fc69d83c24279ed4f9624352551a5a3406678a2
+  react-native-webengage: 96faaa9232f7d80efe34b591888b1f982f9fbb67
   react-native-webview: 69ca34f590814ae44260d30e293ab4b7b3eea793
   React-RCTActionSheet: 9f71d7ae3e8fb10e08d162cbf14c621349dbfab3
   React-RCTAnimation: 981d8c95b0e30918a9832ccac32af83562a27fae
@@ -496,6 +507,7 @@ SPEC CHECKSUMS:
   Sentry: 4e8a17b61ddd116f89536cc81d567fdee1ebca96
   SentryReactNative: 07237139c00366ea2e75ae3e5c566e7a71c27a90
   TextToSpeech: 4e2fc50c7495416c6da5a1662ad3f750c58d3c85
+  WebEngage: 8222ebce909ea6d4890d727034da84571eb7a8b0
   yoga: c2c050f6ae6e222534760cc82f559b89214b67e2
 
 PODFILE CHECKSUM: 64fee6744d871de1f615dda8775ab8cfddda0088
