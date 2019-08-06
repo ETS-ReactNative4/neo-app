@@ -5880,6 +5880,13 @@ escodegen@^1.9.0:
   optionalDependencies:
     source-map "~0.6.1"
 
+eslint-detailed-reporter@^0.8.0:
+  version "0.8.0"
+  resolved "https://registry.yarnpkg.com/eslint-detailed-reporter/-/eslint-detailed-reporter-0.8.0.tgz#bc935f8f82224e5df022c08dd0a4e96e410d1c0a"
+  integrity sha512-u/LAPwSQ8udUiWXJ2aYZfvV4gd7uhS77ZctOv8FZ8SDxzEG5aV18dgOTMilT8uEHBJyv3MpGHoQH7A3tXOfm/Q==
+  dependencies:
+    lodash "^4.17.11"
+
 eslint-plugin-eslint-comments@^3.1.1:
   version "3.1.2"
   resolved "https://registry.yarnpkg.com/eslint-plugin-eslint-comments/-/eslint-plugin-eslint-comments-3.1.2.tgz#4ef6c488dbe06aa1627fea107b3e5d059fc8a395"

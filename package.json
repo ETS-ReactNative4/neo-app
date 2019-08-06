@@ -21,7 +21,8 @@
     "pod-install": "cd ios && pod install && cd ..",
     "precommit": "pretty-quick --staged",
     "bump-version": "node bumpVersion.js",
-    "debug": "react-devtools"
+    "debug": "react-devtools",
+    "lint:report": "eslint \"./**\" -c .eslintrc.js --ext js,jsx -f node_modules/eslint-detailed-reporter/lib/detailed.js -o report/lint-report.html"
   },
   "dependencies": {
     "@react-native-community/art": "git://github.com/DaniAkash/art.git#481f09b1247606e354211af458b967c497573d23",
@@ -103,6 +104,7 @@
     "babel-plugin-transform-remove-console": "^6.9.4",
     "babel-preset-react-native": "^5.0.1",
     "eslint": "^6.1.0",
+    "eslint-detailed-reporter": "^0.8.0",
     "eslint-plugin-prettier": "^3.1.0",
     "husky": "^0.14.3",
     "jest": "^24.8.0",
