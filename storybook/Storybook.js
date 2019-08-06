@@ -30,6 +30,7 @@ configure(() => {
   require("./stories/VouchersStory");
   require("./stories/ForexStory");
   require("./stories/PaymentsStory");
+  require("./stories/HelpDeskStory");
 }, module);
 
 const StorybookUIRoot = getStorybookUI({});
