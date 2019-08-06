@@ -3,6 +3,7 @@ import { storiesOf } from "@storybook/react-native";
 import HelpSectionTile from "../../Screens/SupportCenterScreen/Components/HelpSectionTile";
 import constants from "../../constants/constants";
 import HelpDeskCategories from "../../Screens/SupportCenterScreen/Components/HelpDeskCategories";
+import FaqAccordionTile from "../../Screens/SupportCenterScreen/Components/FaqAccordionTile";
 
 const helpDeskSectionTitle = "Categories";
 
@@ -29,6 +30,29 @@ const helpDeskOptions = [
   }
 ];
 
+const faqAccordionData = [
+  {
+    title: "What’s my payment schedule?",
+    content: `<p>Get in touch with our Finance team on <a href="mailto:financeteam@pickyourtrail.com?Subject=Hello%20again">PYT</a>. They‘ll be able to help you out on how to make the payment.</p>`
+  },
+  {
+    title: "What’s my payment schedule?",
+    content: `<p>Get in touch with our Finance team on <a href="mailto:financeteam@pickyourtrail.com?Subject=Hello%20again">PYT</a>. They‘ll be able to help you out on how to make the payment.</p>`
+  },
+  {
+    title: "What’s my payment schedule?",
+    content: `<p>Get in touch with our Finance team on <a href="mailto:financeteam@pickyourtrail.com?Subject=Hello%20again">PYT</a>. They‘ll be able to help you out on how to make the payment.</p>`
+  },
+  {
+    title: "What’s my payment schedule?",
+    content: `<p>Get in touch with our Finance team on <a href="mailto:financeteam@pickyourtrail.com?Subject=Hello%20again">PYT</a>. They‘ll be able to help you out on how to make the payment.</p>`
+  },
+  {
+    title: "What’s my payment schedule?",
+    content: `<p>Get in touch with our Finance team on <a href="mailto:financeteam@pickyourtrail.com?Subject=Hello%20again">PYT</a>. They‘ll be able to help you out on how to make the payment.</p>`
+  }
+];
+
 storiesOf("Help Desk Story", module)
   .add("Help Section Tile", () => {
     const props = helpDeskOptions[0];
@@ -47,4 +71,10 @@ storiesOf("Help Desk Story", module)
       categories: helpDeskOptions
     };
     return <HelpDeskCategories {...props} />;
+  })
+  .add("Faq Accordion Tile", () => {
+    const props = {
+      ...faqAccordionData[0]
+    };
+    return <FaqAccordionTile {...props} />;
   });
