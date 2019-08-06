@@ -29,7 +29,7 @@ const HelpSectionTile = ({
         <Text style={styles.titleText}>{title}</Text>
       </View>
       <View style={styles.rightIconContainer}>
-        <Icon size={16} name={constants.busIcon} />
+        <Icon size={10} name={constants.arrowRight} />
       </View>
     </TouchableOpacity>
   );
@@ -44,17 +44,12 @@ HelpSectionTile.propTypes = {
 
 const styles = StyleSheet.create({
   helpSectionTileContainer: {
-    alignSelf: "center",
     height: 56,
-    width: responsiveWidth(100) - 32,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    borderColor: "transparent",
-    borderWidth: StyleSheet.hairlineWidth,
-    backgroundColor: "white",
-    ...constants.elevationFive,
-    borderRadius: 2
+    borderRadius: 2,
+    backgroundColor: "white"
   },
   leftIconContainer: {
     height: 16,
@@ -70,8 +65,8 @@ const styles = StyleSheet.create({
     marginTop: 4
   },
   rightIconContainer: {
-    height: 16,
-    width: 16,
+    height: 10,
+    width: 10,
     marginHorizontal: 24
   }
 });

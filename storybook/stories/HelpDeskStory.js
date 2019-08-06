@@ -2,8 +2,9 @@ import React from "react";
 import { storiesOf } from "@storybook/react-native";
 import HelpSectionTile from "../../Screens/SupportCenterScreen/Components/HelpSectionTile";
 import constants from "../../constants/constants";
+import HelpDeskCategories from "../../Screens/SupportCenterScreen/Components/HelpDeskCategories";
 
-const helpDeskSectionTitle = "";
+const helpDeskSectionTitle = "Categories";
 
 const helpDeskOptions = [
   {
@@ -34,4 +35,16 @@ storiesOf("Help Desk Story", module)
     console.log(props);
     return <HelpSectionTile {...props} />;
   })
-  .add("Help Section Group", () => {});
+  .add("Help Section Group", () => {
+    const props = {
+      categories: helpDeskOptions,
+      categoryTitle: helpDeskSectionTitle
+    };
+    return <HelpDeskCategories {...props} />;
+  })
+  .add("Help Section Group without title", () => {
+    const props = {
+      categories: helpDeskOptions
+    };
+    return <HelpDeskCategories {...props} />;
+  });
