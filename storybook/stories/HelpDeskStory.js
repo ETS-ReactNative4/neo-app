@@ -4,6 +4,7 @@ import HelpSectionTile from "../../Screens/SupportCenterScreen/Components/HelpSe
 import constants from "../../constants/constants";
 import HelpDeskCategories from "../../Screens/SupportCenterScreen/Components/HelpDeskCategories";
 import FaqAccordionTile from "../../Screens/SupportCenterScreen/Components/FaqAccordionTile";
+import FaqAccordionList from "../../Screens/SupportCenterScreen/Components/FaqAccordionList";
 
 const helpDeskSectionTitle = "Categories";
 
@@ -77,4 +78,11 @@ storiesOf("Help Desk Story", module)
       ...faqAccordionData[0]
     };
     return <FaqAccordionTile {...props} />;
+  })
+  .add("Faq Accordion List", () => {
+    const props = {
+      faqSections: faqAccordionData
+    };
+    console.log(props);
+    return <FaqAccordionList {...props} />;
   });

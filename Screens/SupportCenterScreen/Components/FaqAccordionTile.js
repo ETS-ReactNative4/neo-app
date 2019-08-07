@@ -7,12 +7,14 @@ import {
   TouchableOpacity,
   Animated,
   Easing,
-  Platform
+  Platform,
+  ViewPropTypes
 } from "react-native";
 import CustomHtmlView from "../../../CommonComponents/CustomHtmlView/CustomHtmlView";
 import Icon from "../../../CommonComponents/Icon/Icon";
 import constants from "../../../constants/constants";
 import fonts from "../../../constants/fonts";
+import PropTypes from "prop-types";
 
 const faqStyleSheet = {
   p: {
@@ -28,7 +30,11 @@ const faqStyleSheet = {
   }
 };
 
-const FaqAccordionTile = ({ title, content }) => {
+const FaqAccordionTile = ({
+  title,
+  content,
+  containerStyle = StyleSheet.create({})
+}) => {
   const [isExpanded, toggleExpansion] = useState(false);
 
   const handleClick = () => {
@@ -51,7 +57,8 @@ const FaqAccordionTile = ({ title, content }) => {
         styles.faqAccordionTileContainer,
         !isExpanded
           ? styles.compressedContainerStyle
-          : styles.expandedContainerStyle
+          : styles.expandedContainerStyle,
+        containerStyle
       ]}
     >
       <View style={styles.titleWrapper}>
@@ -69,7 +76,11 @@ const FaqAccordionTile = ({ title, content }) => {
   );
 };
 
-FaqAccordionTile.propTypes = {};
+FaqAccordionTile.propTypes = {
+  title: PropTypes.string.isRequired,
+  content: PropTypes.string.isRequired,
+  containerStyle: ViewPropTypes.style
+};
 
 const styles = StyleSheet.create({
   faqAccordionTileContainer: {
@@ -96,7 +107,7 @@ const styles = StyleSheet.create({
     color: constants.black1
   },
   iconWrapper: {
-    marginTop: Platform.OS === constants.platformIos ? -5 : -4
+    marginTop: Platform.OS === constants.platformIos ? -4 : -3
   }
 });
 
