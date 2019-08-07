@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { storiesOf } from "@storybook/react-native";
 import HelpSectionTile from "../../Screens/SupportCenterScreen/Components/HelpSectionTile";
 import constants from "../../constants/constants";
 import HelpDeskCategories from "../../Screens/SupportCenterScreen/Components/HelpDeskCategories";
 import FaqAccordionTile from "../../Screens/SupportCenterScreen/Components/FaqAccordionTile";
 import FaqAccordionList from "../../Screens/SupportCenterScreen/Components/FaqAccordionList";
+import MessageInput from "../../Screens/SupportCenterScreen/Components/MessageInput";
 
 const helpDeskSectionTitle = "Categories";
 
@@ -54,6 +55,60 @@ const faqAccordionData = [
   }
 ];
 
+const HandleMessageInput = ({ selectionInputMode = false }) => {
+  const label = selectionInputMode ? "Select Category" : "Message Us",
+    textPlaceholder = "Type here...";
+  const [inputText, setInputText] = useState("");
+  const [selectedOption, setSelectedOption] = useState("Select an option...");
+  const [isSelectionMode, setSelectionMode] = useState(selectionInputMode);
+
+  const options = [
+    {
+      label: "Payment Related",
+      value: "Payment Related"
+    },
+    {
+      label: "Booking Related",
+      value: "Booking Related"
+    },
+    {
+      label: "Voucher Related",
+      value: "Voucher Related"
+    },
+    {
+      label: "Sales Related",
+      value: "Sales Related"
+    },
+    {
+      label: "Others",
+      value: "Others"
+    }
+  ];
+
+  const onChangeText = text => setInputText(text);
+
+  const onOptionsChange = option => {
+    if (option === "Others") {
+      setSelectionMode(false);
+    }
+    setSelectedOption(option);
+  };
+
+  const props = {
+    label,
+    textPlaceholder,
+    text: inputText,
+    onChangeText,
+    isSelectionMode,
+    options,
+    selectedOption,
+    onOptionsChange
+  };
+  console.log(props);
+
+  return <MessageInput {...props} />;
+};
+
 storiesOf("Help Desk Story", module)
   .add("Help Section Tile", () => {
     const props = helpDeskOptions[0];
@@ -94,4 +149,14 @@ storiesOf("Help Desk Story", module)
     };
     console.log(props);
     return <FaqAccordionList {...props} />;
+  })
+  .add("Message Input", () => {
+    const props = {};
+    return <HandleMessageInput {...props} />;
+  })
+  .add("Message Input", () => {
+    const props = {
+      selectionInputMode: true
+    };
+    return <HandleMessageInput {...props} />;
   });
