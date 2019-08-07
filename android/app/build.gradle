@@ -265,3 +265,7 @@ apply from: file("../../node_modules/@react-native-community/cli-platform-androi
 apply plugin: 'com.google.gms.google-services'
 com.google.gms.googleservices.GoogleServicesPlugin.config.disableVersionCheck = true
 
+project.afterEvaluate {
+    apply from: '../../node_modules/react-native-draftjs-editor/copyHtml.gradle';
+    copyEditorHtmlToAppAssets(file('../../node_modules/react-native-draftjs-editor'))
+}
