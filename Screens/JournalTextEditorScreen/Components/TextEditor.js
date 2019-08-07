@@ -1,15 +1,10 @@
 import React, { Component } from "react";
 import { View, StyleSheet, Text, ScrollView, Platform } from "react-native";
-import CNRichTextEditor, {
-  getInitialObject,
-  getDefaultStyles,
-  convertToHtmlString,
-  convertToObject
-} from "react-native-cn-richtext-editor";
 import constants from "../../../constants/constants";
 import { responsiveWidth } from "react-native-responsive-dimensions";
 import KeyboardAvoidingActionBar from "../../../CommonComponents/KeyboardAvoidingActionBar/KeyboardAvoidingActionBar";
 import TextEditorControls from "./TextEditorControls";
+import RNDraftView from "react-native-draftjs-editor";
 
 const customEditorStyles = StyleSheet.create({
   bold: {
@@ -84,13 +79,18 @@ const customEditorStyles = StyleSheet.create({
 
 class TextEditor extends Component {
   state = {
-    selectedTag: "body",
+    selectedTag: "",
     selectedStyles: []
   };
 
   onStyleKeyPress = toolType => {
     const { richTextInputRef } = this.props;
-    richTextInputRef.current && richTextInputRef.current.applyToolbar(toolType);
+    richTextInputRef.current && richTextInputRef.current.setStyle(toolType);
+  };
+
+  onTagKeyPress = toolType => {
+    const { richTextInputRef } = this.props;
+    richTextInputRef.current && richTextInputRef.current.setBlockType(toolType);
   };
 
   onSelectedTagChanged = tag => {
@@ -105,28 +105,11 @@ class TextEditor extends Component {
     });
   };
 
-  onValueChanged = value => {
-    this.setState({
-      value: value
-    });
-  };
+  retrieveRichText = () =>
+    this.props.richTextInputRef.current &&
+    this.props.richTextInputRef.current.getEditorState();
 
-  retrieveRichText = () => convertToHtmlString(this.state.value);
-
-  componentDidMount() {
-    if (this.props.initialValue) {
-      this.setState({
-        value: convertToObject(this.props.initialValue)
-      });
-    } else {
-      this.setState({
-        value: [getInitialObject()]
-      });
-      setTimeout(() => {
-        this.onStyleKeyPress(constants.textEditorControlBody);
-      }, 500);
-    }
-  }
+  componentDidMount() {}
 
   render() {
     const {
@@ -134,26 +117,28 @@ class TextEditor extends Component {
       navigation,
       getRichText,
       isTextEditorActive,
-      richTextInputRef
+      richTextInputRef,
+      initialValue
     } = this.props;
     return (
       <View style={styles.textEditorContainer}>
         <View style={styles.textEditorWrapper}>
-          <CNRichTextEditor
+          <RNDraftView
             ref={richTextInputRef}
-            onSelectedTagChanged={this.onSelectedTagChanged}
-            onSelectedStyleChanged={this.onSelectedStyleChanged}
-            value={this.state.value}
-            style={{ backgroundColor: "#fff", margin: 0, padding: 0 }}
-            styleList={customEditorStyles}
-            onValueChanged={this.onValueChanged}
+            defaultValue={initialValue}
             placeholder={"Write a captivating story..."}
+            style={{ backgroundColor: "#fff", margin: 0, padding: 0 }}
+            onStyleChanged={this.onSelectedStyleChanged}
+            onBlockTypeChanged={this.onSelectedTagChanged}
           />
         </View>
         <KeyboardAvoidingActionBar
           onKeyBoardStateChange={keyboardVisibility => {
             if (keyboardVisibility === "hidden") {
-              getRichText(convertToHtmlString(this.state.value));
+              getRichText(
+                richTextInputRef.current &&
+                  richTextInputRef.current.getEditorState()
+              );
             }
             onKeyBoardStateChange(keyboardVisibility);
           }}
@@ -170,6 +155,8 @@ class TextEditor extends Component {
                     selectedTag={this.state.selectedTag}
                     selectedStyles={this.state.selectedStyles}
                     onStyleKeyPress={this.onStyleKeyPress}
+                    onTagKeyPress={this.onTagKeyPress}
+                    richTextInputRef={richTextInputRef}
                   />
                 </View>
               </View>

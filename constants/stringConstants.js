@@ -122,11 +122,10 @@ const stringConstants = {
   /**
    * Text Editor Controls
    */
-  textEditorControlBold: "bold",
-  textEditorControlHeading: "heading",
-  textEditorControlUnordered: "ul",
-  textEditorControlUnderline: "underline",
-  textEditorControlBody: "body",
+  textEditorControlBold: "BOLD",
+  textEditorControlHeading: "header-two",
+  textEditorControlUnordered: "unordered-list-item",
+  textEditorControlUnderline: "UNDERLINE",
 
   tripToggleStatusStorageKey: "@Pickyourtrail/tripToggleStatus"
 };
