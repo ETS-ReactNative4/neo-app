@@ -163,9 +163,9 @@ class Home extends Component {
                 click: constants.Home.click.startPlanningNow
               });
               openCustomTab(
-                `${constants.productUrl}${
-                  constants.productCustomizePage
-                }?cpid=${constants.productAnalyticsCPID}`
+                `${constants.productUrl}${constants.productCustomizePage}${
+                  constants.leadSourceMappingQueryParams
+                }`
               );
             }}
             textColor={"white"}

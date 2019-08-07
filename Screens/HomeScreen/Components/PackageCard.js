@@ -34,8 +34,8 @@ const PackageCard = ({
           click: constants.Home.click.packageCard
         });
         openCustomTab(
-          `${constants.productUrl}${slug}?cpid=${
-            constants.productAnalyticsCPID
+          `${constants.productUrl}${slug}${
+            constants.leadSourceMappingQueryParams
           }`
         );
       }}

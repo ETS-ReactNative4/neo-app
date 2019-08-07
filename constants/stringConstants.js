@@ -1,3 +1,5 @@
+import { Platform } from "react-native";
+
 const stringConstants = {
   customCheckListName: "Your list",
   defaultSupportType: "GENERAL",
@@ -11,7 +13,7 @@ const stringConstants = {
    */
   getPackagesListFromProduct: "api/packages/itineraries",
   productCustomizePage: "customize",
-  productAnalyticsCPID: "mobile-app",
+  leadSourceMappingQueryParams: `?cpid=mobile-app&platform=${Platform.OS}-app`,
 
   /**
    * Static Page Urls

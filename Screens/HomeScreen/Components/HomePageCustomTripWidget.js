@@ -38,7 +38,9 @@ const HomePageCustomTripWidget = ({ navigation }) => {
             recordEvent(constants.Home.event, {
               click: constants.Home.click.openProduct
             });
-            openCustomTab(constants.productUrl);
+            openCustomTab(
+              `${constants.productUrl}${constants.leadSourceMappingQueryParams}`
+            );
           }}
           containerStyle={{ width: 208, height: 40 }}
         />
