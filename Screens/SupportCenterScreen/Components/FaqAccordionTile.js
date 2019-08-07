@@ -6,7 +6,8 @@ import {
   LayoutAnimation,
   TouchableOpacity,
   Animated,
-  Easing
+  Easing,
+  Platform
 } from "react-native";
 import CustomHtmlView from "../../../CommonComponents/CustomHtmlView/CustomHtmlView";
 import Icon from "../../../CommonComponents/Icon/Icon";
@@ -22,7 +23,8 @@ const faqStyleSheet = {
   },
   a: {
     color: constants.firstColor,
-    fontFamily: fonts.primarySemiBold
+    fontFamily: fonts.primarySemiBold,
+    textDecorationLine: "underline"
   }
 };
 
@@ -47,15 +49,19 @@ const FaqAccordionTile = ({ title, content }) => {
       onPress={handleClick}
       style={[
         styles.faqAccordionTileContainer,
-        !isExpanded ? styles.compressedContainerStyle : null
+        !isExpanded
+          ? styles.compressedContainerStyle
+          : styles.expandedContainerStyle
       ]}
     >
       <View style={styles.titleWrapper}>
         <Text style={styles.titleText}>{title}</Text>
-        <Icon name={constants.arrowRight} size={10} />
+        <View style={styles.iconWrapper}>
+          <Icon name={constants.arrowRight} size={10} />
+        </View>
       </View>
       {isExpanded ? (
-        <View>
+        <View style={styles.contentWrapper}>
           <CustomHtmlView styleSheet={faqStyleSheet} html={content} />
         </View>
       ) : null}
@@ -72,6 +78,12 @@ const styles = StyleSheet.create({
   compressedContainerStyle: {
     height: 70
   },
+  expandedContainerStyle: {
+    backgroundColor: constants.firstColorBackground
+  },
+  contentWrapper: {
+    marginBottom: 24
+  },
   titleWrapper: {
     flexDirection: "row",
     alignItems: "center",
@@ -82,6 +94,9 @@ const styles = StyleSheet.create({
   titleText: {
     ...constants.fontCustom(constants.primaryRegular, 14),
     color: constants.black1
+  },
+  iconWrapper: {
+    marginTop: Platform.OS === constants.platformIos ? -5 : -4
   }
 });
 
