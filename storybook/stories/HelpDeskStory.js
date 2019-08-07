@@ -85,4 +85,13 @@ storiesOf("Help Desk Story", module)
     };
     console.log(props);
     return <FaqAccordionList {...props} />;
+  })
+  .add("Faq Accordion List with action cta", () => {
+    const props = {
+      supportCta: "VIEW STATUS",
+      supportAction: () => null,
+      faqSections: faqAccordionData
+    };
+    console.log(props);
+    return <FaqAccordionList {...props} />;
   });
