@@ -1,81 +1,31 @@
 import React, { Component } from "react";
-import { View, StyleSheet, Text, ScrollView, Platform } from "react-native";
+import { View, StyleSheet } from "react-native";
 import constants from "../../../constants/constants";
 import { responsiveWidth } from "react-native-responsive-dimensions";
 import KeyboardAvoidingActionBar from "../../../CommonComponents/KeyboardAvoidingActionBar/KeyboardAvoidingActionBar";
 import TextEditorControls from "./TextEditorControls";
 import RNDraftView from "react-native-draftjs-editor";
 
-const customEditorStyles = StyleSheet.create({
-  bold: {
-    fontWeight: "bold",
-    ...constants.fontCustom(constants.primarySemiBold, 18, 28),
-    color: constants.black1
-  },
-  italic: {
-    fontStyle: "italic"
-  },
-  underline: {
-    textDecorationLine: "underline",
-    ...constants.fontCustom(constants.primaryRegular, 15, 26),
-    color: constants.black1
-  },
-  lineThrough: {
-    textDecorationLine: "line-through",
-    ...constants.fontCustom(constants.primaryRegular, 15, 26),
-    color: constants.black1
-  },
-  heading: {
-    ...constants.fontCustom(constants.primarySemiBold, 24, 28),
-    color: constants.black1
-  },
-  body: {
-    ...constants.fontCustom(constants.primaryRegular, 15, 26),
-    color: constants.black1
-  },
-  title: {
-    ...constants.fontCustom(constants.primarySemiBold, 24, 28),
-    color: constants.black1
-  },
-  ul: {
-    ...constants.fontCustom(constants.primaryRegular, 15, 26),
-    color: constants.black1
-  },
-  ol: {
-    ...constants.fontCustom(constants.primaryRegular, 15, 26),
-    color: constants.black1
-  },
-  red: {
-    color: "#d23431"
-  },
-  green: {
-    color: "#4a924d"
-  },
-  blue: {
-    color: "#0560ab"
-  },
-  black: {
-    color: "#33363d"
-  },
-  blue_hl: {
-    backgroundColor: "#34f3f4"
-  },
-  green_hl: {
-    backgroundColor: "#2df149"
-  },
-  pink_hl: {
-    backgroundColor: "#f53ba7"
-  },
-  yellow_hl: {
-    backgroundColor: "#f6e408"
-  },
-  orange_hl: {
-    backgroundColor: "#f07725"
-  },
-  purple_hl: {
-    backgroundColor: "#c925f2"
+const styleSheet = `
+  h2 {
+    font-family: ${constants.primarySemiBold};
+    font-size: 18px;
+    line-height: 28px;
+    color: ${constants.black1};
   }
-});
+  li > div > span > span {
+    font-family: ${constants.primaryRegular};
+    font-size: 15px;
+    line-height: 32px;
+    color: ${constants.black1};
+  }
+  span {
+    font-family: ${constants.primaryRegular};
+    font-size: 15px;
+    line-height: 26px;
+    color: ${constants.black1};
+  }
+`;
 
 class TextEditor extends Component {
   state = {
@@ -130,6 +80,7 @@ class TextEditor extends Component {
             style={{ backgroundColor: "#fff", margin: 0, padding: 0 }}
             onStyleChanged={this.onSelectedStyleChanged}
             onBlockTypeChanged={this.onSelectedTagChanged}
+            styleSheet={styleSheet}
           />
         </View>
         <KeyboardAvoidingActionBar
