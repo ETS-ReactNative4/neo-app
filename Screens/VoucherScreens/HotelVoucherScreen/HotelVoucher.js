@@ -354,6 +354,13 @@ class HotelVoucher extends Component {
 
             <VoucherContactActionBar contact={mobile} location={{ lat, lon }} />
 
+            {lat && lon ? (
+              <TransferInfoBox
+                text={constants.voucherText.directionsDisclaimerText}
+                containerStyle={{ marginVertical: 8 }}
+              />
+            ) : null}
+
             <VoucherAccordion sections={amenitiesSection} />
 
             <View style={styles.bookingSection}>

@@ -30,8 +30,8 @@ import CustomHtmlView from "../../../CommonComponents/CustomHtmlView/CustomHtmlV
 const xHeight = isIphoneX()
   ? constants.xNotchHeight
   : Platform.OS === "ios"
-    ? 20
-    : 0;
+  ? 20
+  : 0;
 
 @ErrorBoundary()
 @inject("passportDetailsStore")
@@ -199,18 +199,18 @@ class ActivityVoucher extends Component {
           value: transferType
             ? getTitleCase(transferType)
             : selectedTourGrade
-              ? getTitleCase(selectedTourGrade.transferType)
-              : "NA"
+            ? getTitleCase(selectedTourGrade.transferType)
+            : "NA"
         });
         transferDetails.push({
           name: "Pick up time",
           value: pickupTime
             ? pickupTime
             : selectedTourGrade && selectedTourGrade.departureTime
-              ? moment(selectedTourGrade.departureTime, "HHmm").format(
-                  constants.shortTimeFormat
-                )
-              : "NA"
+            ? moment(selectedTourGrade.departureTime, "HHmm").format(
+                constants.shortTimeFormat
+              )
+            : "NA"
         });
       }
       passengerDetails = [
@@ -415,8 +415,8 @@ class ActivityVoucher extends Component {
                 pickupAddress
                   ? pickupAddress
                   : !transferIncluded
-                    ? activityAddress
-                    : null
+                  ? activityAddress
+                  : null
               }
             />
 
@@ -424,6 +424,13 @@ class ActivityVoucher extends Component {
               contact={contactNumber}
               location={{ lat, lon }}
             />
+
+            {lat && lon ? (
+              <TransferInfoBox
+                text={constants.voucherText.directionsDisclaimerText}
+                containerStyle={{ marginVertical: 8 }}
+              />
+            ) : null}
           </View>
           <View style={styles.bookingDetailsSection}>
             <VoucherAccordion
