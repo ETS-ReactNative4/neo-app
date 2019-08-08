@@ -1,10 +1,12 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { responsiveWidth } from "react-native-responsive-dimensions";
 import constants from "../../../../../constants/constants";
 import PaymentInfoText from "../../PaymentInfoText";
 import PropTypes from "prop-types";
 import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidExtraProps";
+import Icon from "../../../../../CommonComponents/Icon/Icon";
+import openCustomTab from "../../../../../Services/openCustomTab/openCustomTab";
 
 /**
  * This card will print a list of upcoming plato payments
@@ -19,36 +21,56 @@ const PlatoPaymentsCard = ({ payments, containerStyle }) => {
           ? { onPress: payment.action, activeOpacity: 1 }
           : {};
         return (
-          <Wrapper
-            key={paymentIndex}
-            style={[
-              styles.paymentWrapper,
-              paymentIndex === 0 ? { marginTop: 24 } : null,
-              paymentIndex === payments.length - 1 ? { marginBottom: 24 } : null
-            ]}
-            {...WrapperProps}
-          >
-            <PaymentInfoText
-              title={payment.installmentText}
-              text={payment.amount}
-              textColor={constants.black1}
-              titleStyle={[
-                styles.titleTextStyle,
-                isExpired ? styles.expiredTitle : null
+          <Fragment>
+            <Wrapper
+              key={paymentIndex}
+              style={[
+                styles.paymentWrapper,
+                paymentIndex === 0 ? { marginTop: 24 } : null,
+                paymentIndex === payments.length - 1
+                  ? { marginBottom: 24 }
+                  : null
               ]}
-            />
-            <PaymentInfoText
-              containerStyle={styles.paymentDueContainer}
-              title={isExpired ? "Expired" : "Due"}
-              text={isExpired ? "Call Support" : payment.dueBy}
-              textColor={constants.black1}
-              titleStyle={[
-                styles.titleTextStyle,
-                isExpired ? styles.expiredTitle : null
-              ]}
-              textStyle={isExpired ? styles.expiredText : null}
-            />
-          </Wrapper>
+              {...WrapperProps}
+            >
+              <PaymentInfoText
+                title={payment.installmentText}
+                text={payment.amount}
+                textColor={constants.black1}
+                titleStyle={[
+                  styles.titleTextStyle,
+                  isExpired ? styles.expiredTitle : null
+                ]}
+              />
+              <PaymentInfoText
+                containerStyle={styles.paymentDueContainer}
+                title={isExpired ? "Expired" : "Due"}
+                text={isExpired ? "Call Support" : payment.dueBy}
+                textColor={constants.black1}
+                titleStyle={[
+                  styles.titleTextStyle,
+                  isExpired ? styles.expiredTitle : null
+                ]}
+                textStyle={isExpired ? styles.expiredText : null}
+              />
+            </Wrapper>
+            {payment.paymentUrl ? (
+              <TouchableOpacity
+                activeOpacity={0.8}
+                onPress={() => openCustomTab(payment.paymentUrl)}
+                style={styles.actionTextArea}
+              >
+                <Text style={[styles.actionText]}>{"Pay Now"}</Text>
+                <View style={styles.actionIcon}>
+                  <Icon
+                    name={constants.backIcon}
+                    color={constants.ninthColor}
+                    size={24}
+                  />
+                </View>
+              </TouchableOpacity>
+            ) : null}
+          </Fragment>
         );
       })}
     </View>
@@ -88,6 +110,24 @@ const styles = StyleSheet.create({
   },
   paymentDueContainer: {
     width: 104
+  },
+  actionTextArea: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    alignSelf: "flex-end",
+    paddingHorizontal: 24,
+    paddingTop: 8,
+    paddingBottom: 16
+  },
+  actionText: {
+    ...constants.fontCustom(constants.primaryRegular, 16),
+    marginTop: 5,
+    marginRight: 4,
+    color: constants.ninthColor
+  },
+  actionIcon: {
+    transform: [{ rotateY: "180deg" }]
   }
 });
 

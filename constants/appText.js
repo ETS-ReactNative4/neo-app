@@ -221,6 +221,8 @@ const appText = {
   explorePlacesText: "Explore Places",
   paymentText: {
     failureTitle: "We are sorry!",
+    paymentUpdateConditions:
+      "Please note that your payment will take atleast 48 hours to get updated in our system",
     failureMessage:
       "We are unable to process your payment. Please try again or contact our helpdesk for further assistance.",
     contactHelpdesk: "Contact helpdesk",
