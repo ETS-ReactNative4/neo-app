@@ -16,19 +16,20 @@ import VoucherAddressSection from "../Components/VoucherAddressSection";
 import moment from "moment";
 import VoucherContactActionBar from "../Components/VoucherContactActionBar";
 import ErrorBoundary from "../../../CommonComponents/ErrorBoundary/ErrorBoundary";
-import Icon from "../../../CommonComponents/Icon/Icon";
 import ViewVoucherButton from "../Components/ViewVoucherButton";
 import FooterStickyActionBar from "../../../CommonComponents/FooterStickyActionBar/FooterStickyActionBar";
 import ConditionsApplyText from "../Components/ConditionsApplyText";
 import CheckInCheckOut from "../Components/CheckInCheckOut";
 import _ from "lodash";
 import TransferInfoBox from "../ActivityVoucherScreen/Components/TransferInfoBox";
+import { createIconSetFromIcoMoon } from "react-native-vector-icons";
+import icoMoonConfig from "../../../assets/fontMap/hotel-amenities.json";
 
 const xHeight = isIphoneX()
   ? constants.xNotchHeight
   : Platform.OS === "ios"
-    ? 20
-    : 0;
+  ? 20
+  : 0;
 
 @ErrorBoundary()
 class HotelVoucher extends Component {
@@ -55,6 +56,7 @@ class HotelVoucher extends Component {
 
   render() {
     const hotel = this.props.navigation.getParam("hotel", {});
+    const Icon = createIconSetFromIcoMoon(icoMoonConfig);
 
     const {
       checkInDateDisplay,
@@ -110,7 +112,7 @@ class HotelVoucher extends Component {
                   ]}
                 >
                   <Icon
-                    name={amenity.iconUrl.replace("vehoicon-", "")}
+                    name={amenity.iconUrl}
                     size={18}
                     color={constants.black2}
                   />
@@ -280,8 +282,8 @@ class HotelVoucher extends Component {
                       typeof freeBreakfast === "undefined"
                         ? ""
                         : freeBreakfast
-                          ? "Included"
-                          : "Not Included"
+                        ? "Included"
+                        : "Not Included"
                   },
                   {
                     name: "Free Wifi",
@@ -289,8 +291,8 @@ class HotelVoucher extends Component {
                       typeof freeWireless === "undefined"
                         ? ""
                         : freeWireless
-                          ? "Included"
-                          : "Not Included"
+                        ? "Included"
+                        : "Not Included"
                   }
                   // {
                   //   name: "Booking Type",
@@ -323,9 +325,7 @@ class HotelVoucher extends Component {
 
                     {!_.isEmpty(leadPassenger) ? (
                       <PassengerName
-                        name={`${leadPassenger.salutation}. ${
-                          leadPassenger.firstName
-                        } ${leadPassenger.lastName}`}
+                        name={`${leadPassenger.salutation}. ${leadPassenger.firstName} ${leadPassenger.lastName}`}
                       />
                     ) : null}
                     {otherPassengers &&
@@ -333,9 +333,7 @@ class HotelVoucher extends Component {
                         return (
                           <PassengerName
                             key={passengerIndex}
-                            name={`${passenger.salutation}. ${
-                              passenger.firstName
-                            } ${passenger.lastName}`}
+                            name={`${passenger.salutation}. ${passenger.firstName} ${passenger.lastName}`}
                           />
                         );
                       })}
