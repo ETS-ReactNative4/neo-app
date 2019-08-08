@@ -7,20 +7,22 @@ import TextEditorControls from "./TextEditorControls";
 import RNDraftView from "react-native-draftjs-editor";
 
 const styleSheet = `
-  h2 {
-    font-family: ${constants.primarySemiBold};
+  @import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600&display=swap);
+  h2 > div > span > span {
+    font-family: "Source Sans Pro", sans-serif;
+    font-weight: 600;
     font-size: 18px;
     line-height: 28px;
     color: ${constants.black1};
   }
   li > div > span > span {
-    font-family: ${constants.primaryRegular};
+    font-family: "Source Sans Pro", sans-serif;
     font-size: 15px;
     line-height: 32px;
     color: ${constants.black1};
   }
   span {
-    font-family: ${constants.primaryRegular};
+    font-family: "Source Sans Pro", sans-serif;
     font-size: 15px;
     line-height: 26px;
     color: ${constants.black1};
@@ -80,7 +82,7 @@ class TextEditor extends Component {
             style={{ backgroundColor: "#fff", margin: 0, padding: 0 }}
             onStyleChanged={this.onSelectedStyleChanged}
             onBlockTypeChanged={this.onSelectedTagChanged}
-            styleSheet={styleSheet}
+            styleSheet={styleSheet.replace(/(\r\n|\n|\r)/gm, "")}
           />
         </View>
         <KeyboardAvoidingActionBar
