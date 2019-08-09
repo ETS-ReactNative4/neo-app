@@ -22,29 +22,31 @@ const ControlIcon = ({ isSelected, iconName, action = () => null }) => {
   );
 };
 
-ControlIcon.propTypes = forbidExtraProps({
+ControlIcon.propTypes = {
   isSelected: PropTypes.bool.isRequired,
   iconName: PropTypes.string.isRequired,
   action: PropTypes.func.isRequired
-});
+};
 
 const TextEditorControls = ({
   selectedTag = "",
   selectedStyles = [],
-  onStyleKeyPress = () => null
+  onStyleKeyPress = () => null,
+  onTagKeyPress = () => null,
+  richTextInputRef
 }) => {
   return (
     <View style={styles.textEditorControlsContainer}>
       <ControlIcon
         iconName={constants.headingIcon}
         isSelected={selectedTag === constants.textEditorControlHeading}
-        action={() => onStyleKeyPress(constants.textEditorControlHeading)}
+        action={() => onTagKeyPress(constants.textEditorControlHeading)}
       />
-      <ControlIcon
-        iconName={constants.textIcon}
-        isSelected={selectedTag === constants.textEditorControlBody}
-        action={() => onStyleKeyPress(constants.textEditorControlBody)}
-      />
+      {/*<ControlIcon*/}
+      {/*  iconName={constants.textIcon}*/}
+      {/*  isSelected={selectedTag === constants.textEditorControlBody}*/}
+      {/*  action={() => onStyleKeyPress(constants.textEditorControlBody)}*/}
+      {/*/>*/}
       <ControlIcon
         iconName={constants.boldIcon}
         isSelected={
@@ -52,11 +54,11 @@ const TextEditorControls = ({
         }
         action={() => onStyleKeyPress(constants.textEditorControlBold)}
       />
-      {/* <ControlIcon
+      <ControlIcon
         iconName={constants.listIcon}
         isSelected={selectedTag === constants.textEditorControlUnordered}
-        action={() => onStyleKeyPress(constants.textEditorControlUnordered)}
-      /> */}
+        action={() => onTagKeyPress(constants.textEditorControlUnordered)}
+      />
       <ControlIcon
         iconName={constants.underLineIcon}
         isSelected={
@@ -67,17 +69,21 @@ const TextEditorControls = ({
       <ControlIcon
         iconName={constants.keyboardDismissIcon}
         isSelected={false}
-        action={Keyboard.dismiss}
+        action={() =>
+          richTextInputRef.current && richTextInputRef.current.blur()
+        }
       />
     </View>
   );
 };
 
-TextEditorControls.propTypes = forbidExtraProps({
+TextEditorControls.propTypes = {
   selectedTag: PropTypes.string,
   selectedStyles: PropTypes.array.isRequired,
-  onStyleKeyPress: PropTypes.func.isRequired
-});
+  onStyleKeyPress: PropTypes.func.isRequired,
+  onTagKeyPress: PropTypes.func.isRequired,
+  richTextInputRef: PropTypes.object.isRequired
+};
 
 const styles = StyleSheet.create({
   textEditorControlsContainer: {

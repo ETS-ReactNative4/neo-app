@@ -5443,11 +5443,6 @@ detect-port@^1.2.3:
     address "^1.0.1"
     debug "^2.6.0"
 
-diff-match-patch@^1.0.4:
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/diff-match-patch/-/diff-match-patch-1.0.4.tgz#6ac4b55237463761c4daf0dc603eb869124744b1"
-  integrity sha512-Uv3SW8bmH9nAtHKaKSanOQmj2DnlH65fUpcrMdfdaOxUG02QQ4YGZ8AE7kKOMisF7UqvOlGKVYWRvezdncW9lg==
-
 diff-sequences@^24.3.0:
   version "24.3.0"
   resolved "https://registry.yarnpkg.com/diff-sequences/-/diff-sequences-24.3.0.tgz#0f20e8a1df1abddaf4d9c226680952e64118b975"
@@ -7474,13 +7469,6 @@ immer@1.7.2:
   version "1.7.2"
   resolved "https://registry.yarnpkg.com/immer/-/immer-1.7.2.tgz#a51e9723c50b27e132f6566facbec1c85fc69547"
   integrity sha512-4Urocwu9+XLDJw4Tc6ZCg7APVjjLInCFvO4TwGsAYV5zT6YYSor14dsZR0+0tHlDIN92cFUOq+i7fC00G5vTxA==
-
-immutability-helper@^2.8.1:
-  version "2.9.1"
-  resolved "https://registry.yarnpkg.com/immutability-helper/-/immutability-helper-2.9.1.tgz#71c423ba387e67b6c6ceba0650572f2a2a6727df"
-  integrity sha512-r/RmRG8xO06s/k+PIaif2r5rGc3j4Yhc01jSBfwPCXDLYZwp/yxralI37Df1mwmuzcCsen/E/ITKcTEvc1PQmQ==
-  dependencies:
-    invariant "^2.2.0"
 
 immutable@^3.8.1:
   version "3.8.2"
@@ -9624,11 +9612,6 @@ nan@^2.9.2:
   resolved "https://registry.yarnpkg.com/nan/-/nan-2.12.1.tgz#7b1aa193e9aa86057e3c7bbd0ac448e770925552"
   integrity sha512-JY7V6lRkStKcKTvHO5NVSQRv+RV+FIL5pvDoLiAtSL9pKlC5x9PKQcZDsq7m4FO4d57mkhC6Z+QhAh3Jdk5JFw==
 
-nanoid@^2.0.0:
-  version "2.0.3"
-  resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-2.0.3.tgz#dde999e173bc9d7bd2ee2746b89909ade98e075e"
-  integrity sha512-NbaoqdhIYmY6FXDRB4eYtDVC9Z9eCbn8TyaiC16LNKtpPv/aqa0tOPD8y6gNE4yUNnaZ7LLhYtXOev/6+cBtfw==
-
 nanomatch@^1.2.9:
   version "1.2.9"
   resolved "https://registry.yarnpkg.com/nanomatch/-/nanomatch-1.2.9.tgz#879f7150cb2dab7a471259066c104eee6e0fa7c2"
@@ -11145,16 +11128,6 @@ react-native-card-stack-swiper@^1.1.0:
   dependencies:
     prop-types "15.5.10"
 
-"react-native-cn-richtext-editor@git://github.com/DaniAkash/react-native-cn-richtext-editor.git#e49667c9fd7498556a0fc311787bd6bdbe060fe1":
-  version "1.0.39"
-  resolved "git://github.com/DaniAkash/react-native-cn-richtext-editor.git#e49667c9fd7498556a0fc311787bd6bdbe060fe1"
-  dependencies:
-    diff-match-patch "^1.0.4"
-    immutability-helper "^2.8.1"
-    lodash "^4.17.11"
-    shortid "^2.2.14"
-    xmldom "^0.1.27"
-
 react-native-collapsible@^1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/react-native-collapsible/-/react-native-collapsible-1.2.1.tgz#d7cecf66dd7c0578e1021826eac913f7434594eb"
@@ -11186,6 +11159,11 @@ react-native-dotenv@^0.2.0:
   integrity sha1-MRVRy2o1o9z+3mSL3tVcDj7OV50=
   dependencies:
     babel-plugin-dotenv "0.1.1"
+
+react-native-draftjs-editor@0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/react-native-draftjs-editor/-/react-native-draftjs-editor-0.0.2.tgz#83a3d83feaefb5fb27d0ee75e47999a0cd18ec00"
+  integrity sha512-L0WASWxd9xU/o83Fhompmxzff+I9q3/yyPVU/6NVRD+TmPcyVqLZdYDGambIrbNfducVo66KKcwtqXMvDTF0CA==
 
 react-native-drawer-layout-polyfill@^1.3.2:
   version "1.3.2"
@@ -11489,10 +11467,10 @@ react-native-webengage@1.1.0:
   resolved "https://registry.yarnpkg.com/react-native-webengage/-/react-native-webengage-1.1.0.tgz#9659d85b3e01eb563de29d4ec0f92e12be6349b3"
   integrity sha512-8N5HLrlvs0cNvAGOSOlkYIPRdSgJy6ZREgwfeSf6fvfnw9R6rsjUQBNvz8aFOplWllewjurI9PMiacug6QUHuQ==
 
-react-native-webview@5.7.0:
-  version "5.7.0"
-  resolved "https://registry.yarnpkg.com/react-native-webview/-/react-native-webview-5.7.0.tgz#a0417e23ff65053be0ba248de3f98938db4688cf"
-  integrity sha512-0QFhZoKer8jV+avXJJALAC9J/T9PkX4uhCxeprDKLBXO6y2tQUIaVv+uPo2k07tGoeaSU1rKgoh3D8fYGaOwLQ==
+react-native-webview@5.12.1:
+  version "5.12.1"
+  resolved "https://registry.yarnpkg.com/react-native-webview/-/react-native-webview-5.12.1.tgz#5e2b124e9087d64fc40040d911c10ee5744b5d4d"
+  integrity sha512-pFYzyNUG+k7Jk2a0Z3S1+OL9qtp0VQxVP08d1ume/O6l1Xibi0K0hRZms7zPUHqQc2uWEfjZ0FOa17MIN7vruw==
   dependencies:
     escape-string-regexp "1.0.5"
     invariant "2.2.4"
@@ -12594,13 +12572,6 @@ shellwords@^0.1.1:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/shellwords/-/shellwords-0.1.1.tgz#d6b9181c1a48d397324c84871efbcfc73fc0654b"
   integrity sha512-vFwSUfQvqybiICwZY5+DAWIPLKsWO31Q91JSKl3UYv+K5c2QRPzn0qzec6QPu1Qc9eHYItiP3NdJqNVqetYAww==
-
-shortid@^2.2.14:
-  version "2.2.14"
-  resolved "https://registry.yarnpkg.com/shortid/-/shortid-2.2.14.tgz#80db6aafcbc3e3a46850b3c88d39e051b84c8d18"
-  integrity sha512-4UnZgr9gDdA1kaKj/38IiudfC3KHKhDc1zi/HSxd9FQDR0VLwH3/y79tZJLsVYPsJgIjeHjqIWaWVRJUj9qZOQ==
-  dependencies:
-    nanoid "^2.0.0"
 
 signal-exit@^3.0.0, signal-exit@^3.0.2:
   version "3.0.2"
@@ -14057,7 +14028,7 @@ xmldoc@^0.4.0:
   dependencies:
     sax "~1.1.1"
 
-xmldom@0.1.x, xmldom@^0.1.27:
+xmldom@0.1.x:
   version "0.1.27"
   resolved "https://registry.yarnpkg.com/xmldom/-/xmldom-0.1.27.tgz#d501f97b3bdb403af8ef9ecc20573187aadac0e9"
   integrity sha1-1QH5ezvbQDr4757MIFcxh6rawOk=
