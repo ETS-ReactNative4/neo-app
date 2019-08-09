@@ -491,7 +491,7 @@ class Journal {
             value: title
           },
           {
-            key: "storyRichText",
+            key: "richText",
             value: richText
           }
         ],

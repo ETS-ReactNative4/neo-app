@@ -412,7 +412,7 @@ class JournalTextEditor extends Component {
           onKeyBoardStateChange={this.onKeyBoardStateChange}
           navigation={this.props.navigation}
           richTextInputRef={this._richTextInputRef}
-          initialValue={storyDetails.storyRichText || ""}
+          initialValue={storyDetails.richText || ""}
         />
       </View>
     );
@@ -430,14 +430,14 @@ const styles = StyleSheet.create({
   inputStyle: {
     ...Platform.select({
       ios: {
-        height: 32
+        height: 38
       },
       android: {
-        height: 40
+        height: 46
       }
     }),
     marginHorizontal: 24,
-    ...constants.fontCustom(constants.primarySemiBold, 18),
+    ...constants.fontCustom(constants.primarySemiBold, 24),
     marginTop: 24,
     marginBottom: 16
   }
