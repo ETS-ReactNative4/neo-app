@@ -13,15 +13,15 @@ const getTransferImage = (vehicle, type = "SHARED") => {
     case "BUS":
       return `${constants.miscImageBaseUrl}transfers-bus.jpg`;
     case "SHUTTLE":
-      return `${constants.miscImageBaseUrl}transfers-shuttle.jpg`;
+      return `${constants.miscImageBaseUrl}transfers-shuttle-2.jpg`;
     case "CAR":
       if (type === "PRIVATE") {
-        return `${constants.miscImageBaseUrl}honda_accord.jpg`;
+        return `${constants.miscImageBaseUrl}honda_accord-2.jpg`;
       } else {
         return `${constants.miscImageBaseUrl}transfers-shuttle.jpg`;
       }
     default:
-      return `${constants.miscImageBaseUrl}honda_accord.jpg`;
+      return `${constants.miscImageBaseUrl}honda_accord-2.jpg`;
   }
 };
 

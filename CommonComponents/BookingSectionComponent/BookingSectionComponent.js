@@ -54,7 +54,9 @@ const BookingSectionComponent = ({
            * Do not load actual thumbnail if the data is skipped for the voucher
            */}
           <Image
-            resizeMode={isImageContain ? "contain" : "cover"}
+            resizeMode={
+              isDataSkipped ? "cover" : isImageContain ? "contain" : "cover"
+            }
             source={isDataSkipped ? defaultSource : sectionImage}
             {...imageProps}
             style={styles.contentIcon}

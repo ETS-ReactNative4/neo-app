@@ -57,6 +57,7 @@
 	<string>This will let you select photos from your library and send it to Pickyourtrail.</string>
 	<key>UIAppFonts</key>
 	<array>
+		<string>hotel-amenities.ttf</string>
 		<string>Sofia Pro.ttf</string>
 		<string>Sofia Pro Light.ttf</string>
 		<string>Sofia Pro Semi Bold.ttf</string>
