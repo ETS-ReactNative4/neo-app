@@ -1,7 +1,7 @@
 {
   "name": "pickyourtrail",
   "version": "1.2.3",
-  "build": 155,
+  "build": 156,
   "private": true,
   "scripts": {
     "set-staging-environment": "cp .env.staging .env",
@@ -22,8 +22,7 @@
     "precommit": "pretty-quick --staged",
     "bump-version": "node bumpVersion.js",
     "debug": "react-devtools",
-    "lint:report":
-      "eslint \"./**\" -c .eslintrc.js --ext js,jsx -f node_modules/eslint-detailed-reporter/lib/detailed.js -o report/lint-report.html"
+    "lint:report": "eslint \"./**\" -c .eslintrc.js --ext js,jsx -f node_modules/eslint-detailed-reporter/lib/detailed.js -o report/lint-report.html"
   },
   "dependencies": {
     "@react-native-community/art": "1.0.1",
@@ -71,10 +70,8 @@
     "react-native-parallax-scroll-view": "^0.21.0",
     "react-native-particles": "^0.0.7",
     "react-native-pdf": "^5.0.11",
-    "react-native-photo-view":
-      "git://github.com/DaniAkash/react-native-photo-view.git#22e4ff8847dc2c800d216011f981b769edf1daa0",
-    "react-native-progress":
-      "git://github.com/DaniAkash/react-native-progress.git#393452c9c62a442e48854cff07a3411ed022239c",
+    "react-native-photo-view": "git://github.com/DaniAkash/react-native-photo-view.git#22e4ff8847dc2c800d216011f981b769edf1daa0",
+    "react-native-progress": "git://github.com/DaniAkash/react-native-progress.git#393452c9c62a442e48854cff07a3411ed022239c",
     "react-native-ratings": "^6.0.0",
     "react-native-responsive-dimensions": "2.0.1",
     "react-native-restart": "0.0.12",
@@ -127,6 +124,8 @@
     "preset": "react-native"
   },
   "rnpm": {
-    "assets": ["./assets/fonts/"]
+    "assets": [
+      "./assets/fonts/"
+    ]
   }
 }
