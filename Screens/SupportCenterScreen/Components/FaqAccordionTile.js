@@ -56,11 +56,11 @@ const FaqAccordionTile = ({
       });
       setIconContainer({ transform: [{ rotate: spin }] });
     } else {
-      const reverseSpin = spinValue.interpolate({
+      spin = spinValue.interpolate({
         inputRange: [0, 1],
         outputRange: ["0deg", "90deg"]
       });
-      setIconContainer({ transform: [{ rotate: reverseSpin }] });
+      setIconContainer({ transform: [{ rotate: spin }] });
     }
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     toggleExpansion(!isExpanded);
