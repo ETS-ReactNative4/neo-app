@@ -6,6 +6,7 @@ import HelpDeskCategories from "../../Screens/SupportCenterScreen/Components/Hel
 import FaqAccordionTile from "../../Screens/SupportCenterScreen/Components/FaqAccordionTile";
 import FaqAccordionList from "../../Screens/SupportCenterScreen/Components/FaqAccordionList";
 import MessageInput from "../../Screens/SupportCenterScreen/Components/MessageInput";
+import SupportTopBar from "../../Screens/SupportCenterScreen/Components/SupportTopBar";
 
 const helpDeskSectionTitle = "Categories";
 
@@ -159,4 +160,14 @@ storiesOf("Help Desk Story", module)
       selectionInputMode: true
     };
     return <HandleMessageInput {...props} />;
+  })
+  .add("Top Info Bar", () => {
+    const props = {
+      text:
+        "Live chat will be enabled 3 days prior to your trip. Till then you can always message us. ",
+      ctaText: "Message Us",
+      ctaAction: () => null,
+      nextAction: () => null
+    };
+    return <SupportTopBar {...props} />;
   });
