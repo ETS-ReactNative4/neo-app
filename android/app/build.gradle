@@ -127,6 +127,11 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
+    dexOptions {
+      incremental true
+      javaMaxHeapSize "4g"
+    }
+
     /**
      * Workaround for Lottie Airbnb issue with JAVA 8 code https://github.com/airbnb/lottie-android/issues/822#issuecomment-401776909
      */
