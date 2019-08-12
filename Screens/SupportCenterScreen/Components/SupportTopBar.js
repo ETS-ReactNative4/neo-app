@@ -1,5 +1,11 @@
 import React from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  ViewPropTypes
+} from "react-native";
 import PropTypes from "prop-types";
 import Icon from "../../../CommonComponents/Icon/Icon";
 import constants from "../../../constants/constants";
@@ -7,13 +13,14 @@ import SimpleButton from "../../../CommonComponents/SimpleButton/SimpleButton";
 import { responsiveWidth } from "react-native-responsive-dimensions";
 
 const SupportTopBar = ({
+  containerStyle = StyleSheet.create({}),
   text = "",
   ctaText = "",
   ctaAction = () => null,
   nextAction = () => null
 }) => {
   return (
-    <View style={styles.supportTopBarContainer}>
+    <View style={[styles.supportTopBarContainer, containerStyle]}>
       <View style={styles.textArea}>
         <Text
           numberOfLines={2}
@@ -45,6 +52,7 @@ const SupportTopBar = ({
 };
 
 SupportTopBar.propTypes = {
+  containerStyle: ViewPropTypes.style,
   text: PropTypes.string.isRequired,
   ctaText: PropTypes.string.isRequired,
   ctaAction: PropTypes.func.isRequired,

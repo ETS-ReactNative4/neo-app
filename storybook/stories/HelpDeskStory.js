@@ -7,6 +7,7 @@ import FaqAccordionTile from "../../Screens/SupportCenterScreen/Components/FaqAc
 import FaqAccordionList from "../../Screens/SupportCenterScreen/Components/FaqAccordionList";
 import MessageInput from "../../Screens/SupportCenterScreen/Components/MessageInput";
 import SupportTopBar from "../../Screens/SupportCenterScreen/Components/SupportTopBar";
+import MessageBlob from "../../Screens/SupportCenterScreen/Components/MessageBlob";
 
 const helpDeskSectionTitle = "Categories";
 
@@ -55,6 +56,13 @@ const faqAccordionData = [
     content: `<p>Get in touch with our Finance team on <a href="mailto:financeteam@pickyourtrail.com?Subject=Hello%20again">PYT</a>. They‘ll be able to help you out on how to make the payment.</p>`
   }
 ];
+
+const messageData = {
+  name: "Adam",
+  message:
+    "I transferred the money but it’s not updated in the profile. Can you please check and help me out with this?",
+  time: "5:00 PM - Jul 12"
+};
 
 const HandleMessageInput = ({ selectionInputMode = false }) => {
   const label = selectionInputMode ? "Select Category" : "Message Us",
@@ -170,4 +178,18 @@ storiesOf("Help Desk Story", module)
       nextAction: () => null
     };
     return <SupportTopBar {...props} />;
+  })
+  .add("User Message Blob", () => {
+    const props = {
+      ...messageData,
+      isAdmin: false
+    };
+    return <MessageBlob {...props} />;
+  })
+  .add("Admin Message Blob", () => {
+    const props = {
+      ...messageData,
+      isAdmin: true
+    };
+    return <MessageBlob {...props} />;
   });
