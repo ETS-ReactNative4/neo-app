@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import { ScrollView, StyleSheet, Text } from "react-native";
+import { View, ScrollView, StyleSheet, Text } from "react-native";
 import PropTypes from "prop-types";
 import CommonHeader from "../../../CommonComponents/CommonHeader/CommonHeader";
 import HelpDeskCategories from "../../SupportCenterScreen/Components/HelpDeskCategories";
@@ -18,7 +18,7 @@ const HelpDeskView = ({
   };
 
   return (
-    <Fragment>
+    <View style={styles.helpDeskViewContainer}>
       <CommonHeader title={"Help Desk"} navigation={navigation} />
       <SupportTopBar
         ctaText={"New Message"}
@@ -34,11 +34,15 @@ const HelpDeskView = ({
         />
         <Text style={styles.infoText}>{chatActivationMessage}</Text>
       </ScrollView>
-    </Fragment>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
+  helpDeskViewContainer: {
+    backgroundColor: constants.white1,
+    flex: 1
+  },
   helpDeskCategoriesContainer: {
     marginTop: 16
   },

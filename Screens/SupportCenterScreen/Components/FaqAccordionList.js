@@ -1,16 +1,17 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, ViewPropTypes } from "react-native";
 import FaqAccordionTile from "./FaqAccordionTile";
 import PropTypes from "prop-types";
 import constants from "../../../constants/constants";
 
 const FaqAccordionList = ({
+  containerStyle = StyleSheet.create({}),
   faqSections = [],
   supportCta = "",
   supportAction = () => null
 }) => {
   return (
-    <View>
+    <View style={containerStyle}>
       <View style={styles.titleWrapper}>
         <Text style={styles.title}>{`Frequently Asked Questions`}</Text>
         {supportCta ? (
@@ -36,6 +37,7 @@ const FaqAccordionList = ({
 };
 
 FaqAccordionList.propTypes = {
+  containerStyle: ViewPropTypes.style,
   faqSections: PropTypes.arrayOf(
     PropTypes.shape({
       title: PropTypes.string.isRequired,

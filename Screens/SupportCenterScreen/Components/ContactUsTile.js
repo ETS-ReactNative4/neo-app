@@ -4,18 +4,21 @@ import XSensorPlaceholder from "../../../CommonComponents/XSensorPlaceholder/XSe
 import constants from "../../../constants/constants";
 import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraProps";
 import PropTypes from "prop-types";
+import SimpleButton from "../../../CommonComponents/SimpleButton/SimpleButton";
 
 const ContactUsTile = ({ contactAction }) => {
   return [
     <View key={0} style={styles.contactUsTileContainer}>
       <Text style={styles.contactText}>
-        Not found what you are looking for?{" "}
-        <Text onPress={contactAction} style={styles.contactLink}>
-          Ask Us
-        </Text>
+        {constants.helpDeskText.faqNotFoundText}
       </Text>
+      <SimpleButton
+        text={"Message Us"}
+        textColor={"white"}
+        containerStyle={{ marginBottom: 8, borderRadius: 2 }}
+      />
     </View>,
-    <XSensorPlaceholder key={1} />
+    <XSensorPlaceholder key={1} containerStyle={styles.xsensorPlaceholder} />
   ];
 };
 
@@ -25,20 +28,19 @@ ContactUsTile.propTypes = forbidExtraProps({
 
 const styles = StyleSheet.create({
   contactUsTileContainer: {
-    height: 56,
+    backgroundColor: "white",
     borderTopWidth: StyleSheet.hairlineWidth,
     borderTopColor: "rgba(0, 0, 0, .3)",
     alignItems: "center",
     justifyContent: "center"
   },
+  xsensorPlaceholder: {
+    backgroundColor: "white"
+  },
   contactText: {
-    ...constants.fontCustom(constants.primarySemiBold, 17),
-    color: constants.black2,
-    ...Platform.select({
-      ios: {
-        marginTop: 8
-      }
-    })
+    ...constants.fontCustom(constants.primaryRegular, 14),
+    color: constants.black1,
+    marginVertical: 16
   },
   contactLink: {
     textDecorationLine: "underline",

@@ -8,10 +8,10 @@ import {
 } from "react-native";
 import CommonHeader from "../../../CommonComponents/CommonHeader/CommonHeader";
 import constants from "../../../constants/constants";
-import Icon from "../../../CommonComponents/Icon/Icon";
 import ContactUsTile from "../../SupportCenterScreen/Components/ContactUsTile";
 import { inject, observer } from "mobx-react/custom";
 import ErrorBoundary from "../../../CommonComponents/ErrorBoundary/ErrorBoundary";
+import FaqAccordionList from "../../SupportCenterScreen/Components/FaqAccordionList";
 
 @ErrorBoundary()
 @inject("supportStore")
@@ -35,35 +35,17 @@ class FAQ extends Component {
   render() {
     const { getFaqByType } = this.props.supportStore;
     const title = this.props.navigation.getParam("title", "FAQ");
-    const faq = getFaqByType(title);
+    const faq = (getFaqByType(title) || []).map(faqObject => {
+      return {
+        title: faqObject.question,
+        content: faqObject.answer
+      };
+    });
 
     return (
       <View style={styles.faqQuestionsContainer}>
         <ScrollView style={styles.faqScrollView}>
-          {faq.map((qa, qaIndex) => {
-            return (
-              <TouchableOpacity
-                onPress={() => {
-                  this.props.navigation.navigate("FAQAnswers", {
-                    data: {
-                      title,
-                      question: qa.question,
-                      answer: qa.answer
-                    }
-                  });
-                }}
-                key={qaIndex}
-                style={styles.questionContainer}
-              >
-                <Icon
-                  name={constants.helpIcon}
-                  color={constants.black2}
-                  size={18}
-                />
-                <Text style={styles.questionText}>{qa.question}</Text>
-              </TouchableOpacity>
-            );
-          })}
+          <FaqAccordionList faqSections={faq} />
         </ScrollView>
         <ContactUsTile contactAction={this.contactSupport} />
       </View>
@@ -74,10 +56,9 @@ class FAQ extends Component {
 const styles = StyleSheet.create({
   faqQuestionsContainer: {
     flex: 1,
-    backgroundColor: "white"
+    backgroundColor: constants.white1
   },
   faqScrollView: {
-    paddingHorizontal: 24,
     paddingTop: 8,
     borderTopWidth: StyleSheet.hairlineWidth,
     borderTopColor: constants.shade4

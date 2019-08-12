@@ -219,6 +219,9 @@ const appText = {
   },
   leisureText: "Got more time?",
   explorePlacesText: "Explore Places",
+  helpDeskText: {
+    faqNotFoundText: "Couldn’t find what you are looking for?"
+  },
   paymentText: {
     failureTitle: "We are sorry!",
     paymentUpdateConditions:

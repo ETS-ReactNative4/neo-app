@@ -101,7 +101,8 @@ FaqAccordionTile.propTypes = {
 
 const styles = StyleSheet.create({
   faqAccordionTileContainer: {
-    paddingHorizontal: 24
+    paddingHorizontal: 24,
+    backgroundColor: "white"
   },
   compressedContainerStyle: {
     height: 70
