@@ -36,11 +36,9 @@ const FaqAccordionTile = ({
   containerStyle = StyleSheet.create({})
 }) => {
   const [isExpanded, toggleExpansion] = useState(false);
-
-  const handleClick = () => {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-    toggleExpansion(!isExpanded);
-  };
+  const [iconContainer, setIconContainer] = useState({
+    transform: [{ rotate: "0deg" }]
+  });
 
   const spinValue = new Animated.Value(0);
   Animated.timing(spinValue, {
@@ -48,6 +46,25 @@ const FaqAccordionTile = ({
     duration: 300,
     easing: Easing.linear
   }).start();
+  let spin;
+
+  const handleClick = () => {
+    if (isExpanded) {
+      spin = spinValue.interpolate({
+        inputRange: [0, 1],
+        outputRange: ["90deg", "0deg"]
+      });
+      setIconContainer({ transform: [{ rotate: spin }] });
+    } else {
+      const reverseSpin = spinValue.interpolate({
+        inputRange: [0, 1],
+        outputRange: ["0deg", "90deg"]
+      });
+      setIconContainer({ transform: [{ rotate: reverseSpin }] });
+    }
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    toggleExpansion(!isExpanded);
+  };
 
   return (
     <TouchableOpacity
@@ -63,9 +80,9 @@ const FaqAccordionTile = ({
     >
       <View style={styles.titleWrapper}>
         <Text style={styles.titleText}>{title}</Text>
-        <View style={styles.iconWrapper}>
+        <Animated.View style={[styles.iconWrapper, iconContainer]}>
           <Icon name={constants.arrowRight} size={10} />
-        </View>
+        </Animated.View>
       </View>
       {isExpanded ? (
         <View style={styles.contentWrapper}>
