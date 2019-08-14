@@ -8,6 +8,8 @@ import FaqAccordionList from "../../Screens/SupportCenterScreen/Components/FaqAc
 import MessageInput from "../../Screens/SupportCenterScreen/Components/MessageInput";
 import SupportTopBar from "../../Screens/SupportCenterScreen/Components/SupportTopBar";
 import MessageBlob from "../../Screens/SupportCenterScreen/Components/MessageBlob";
+import HelpDeskSectionTitle from "../../Screens/SupportCenterScreen/Components/HelpDeskSectionTitle";
+import TicketMessageSummary from "../../Screens/YourTicketsScreen/Components/TicketMessageSummary";
 
 const helpDeskSectionTitle = "Categories";
 
@@ -61,7 +63,9 @@ const messageData = {
   name: "Adam",
   message:
     "I transferred the money but it’s not updated in the profile. Can you please check and help me out with this?",
-  time: "5:00 PM - Jul 12"
+  time: "5:00 PM - Jul 12",
+  subject: "Payment related",
+  unReadCount: 2
 };
 
 const HandleMessageInput = ({ selectionInputMode = false }) => {
@@ -192,4 +196,43 @@ storiesOf("Help Desk Story", module)
       isAdmin: true
     };
     return <MessageBlob {...props} />;
+  })
+  .add("Section Title", () => {
+    const props = {
+      title: "Frequently asked questions",
+      info: "resolved",
+      infoColor: constants.firstColor,
+      infoBackgroundColor: constants.secondColor
+    };
+    console.log(props);
+    return <HelpDeskSectionTitle {...props} />;
+  })
+  .add("Ticket Message Summary", () => {
+    const props = {
+      subject: messageData.subject,
+      message: messageData.message,
+      time: messageData.time
+    };
+    console.log(props);
+    return <TicketMessageSummary {...props} />;
+  })
+  .add("Ticket Message Summary - closed ticket", () => {
+    const props = {
+      subject: messageData.subject,
+      message: messageData.message,
+      time: messageData.time,
+      isClosed: true
+    };
+    console.log(props);
+    return <TicketMessageSummary {...props} />;
+  })
+  .add("Ticket Message Summary - unread messages", () => {
+    const props = {
+      subject: messageData.subject,
+      message: messageData.message,
+      time: messageData.time,
+      unReadCount: messageData.unReadCount
+    };
+    console.log(props);
+    return <TicketMessageSummary {...props} />;
   });
