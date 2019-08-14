@@ -17,6 +17,11 @@ import AppOverlays from "./Screens/AppOverlays/AppOverlays";
 
 updateStoreService(store);
 
+/**
+ * During app development uncomment the following lines
+ */
+// console.disableYellowBox = true;
+
 @ErrorBoundary({ isRoot: true })
 class App extends Component {
   componentDidMount() {

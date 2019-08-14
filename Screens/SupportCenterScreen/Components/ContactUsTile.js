@@ -16,6 +16,11 @@ const ContactUsTile = ({ contactAction }) => {
         text={"Message Us"}
         textColor={"white"}
         containerStyle={{ marginBottom: 8, borderRadius: 2 }}
+        icon={constants.arrowRight}
+        iconSize={12}
+        rightIcon={true}
+        underlayColor={constants.firstColorAlpha(0.8)}
+        action={contactAction}
       />
     </View>,
     <XSensorPlaceholder key={1} containerStyle={styles.xsensorPlaceholder} />
