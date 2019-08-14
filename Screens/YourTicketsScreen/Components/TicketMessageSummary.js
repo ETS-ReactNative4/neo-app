@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
     width: responsiveWidth(60)
   },
   timeRow: {
-    marginTop: 8,
+    marginTop: 16,
     marginBottom: 16
   },
   timeText: {
