@@ -13,6 +13,7 @@ import DebouncedAlert from "../../CommonComponents/DebouncedAlert/DebouncedAlert
 import apiCall from "../../Services/networkRequests/apiCall";
 import { inject, observer } from "mobx-react/custom";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
+import MessageInput from "../SupportCenterScreen/Components/MessageInput";
 
 let subjectText, messageText;
 
@@ -58,7 +59,9 @@ class ContactUs extends Component {
   state = {
     subject: "",
     message: "",
-    isSubmitAttempted: false
+    isSubmitAttempted: false,
+    subjectType: "",
+    isSubjectTextMode: false
   };
   _containerScroll = React.createRef();
 
@@ -83,17 +86,18 @@ class ContactUs extends Component {
     this.setState({
       isSubmitAttempted: true
     });
-    if (this.state.message && this.state.subject) {
+    const subject = this.getSubjectValue();
+    const { setSuccess, setError } = this.props.infoStore;
+    if (this.state.message && subject) {
       const ticketType = this.props.navigation.getParam("type", "");
       const { selectedItineraryId } = this.props.itineraries;
-      const { setSuccess, setError } = this.props.infoStore;
       const { loadConversation } = this.props.supportStore;
       const requestObject = {
         itineraryId: selectedItineraryId,
         msg: this.state.message,
         ticketId: "",
         ticketType,
-        title: this.state.subject
+        title: subject
       };
       apiCall(constants.sendTicketMessage, requestObject)
         .then(response => {
@@ -118,12 +122,32 @@ class ContactUs extends Component {
             "Looks like something went wrong, please try again after sometime..."
           );
         });
+    } else {
+      if (!this.state.message) {
+        setError(
+          "Your ticket does not have a message",
+          "Please add your message to our admin..."
+        );
+      } else if (!subject) {
+        setError(
+          "Your ticket is missing the subject",
+          "Please add a valid subject..."
+        );
+      }
+    }
+  };
+
+  getSubjectValue = () => {
+    if (this.state.isSubjectTextMode) {
+      return this.state.subject;
+    } else {
+      return this.state.subjectType;
     }
   };
 
   cancelMessage = () => {
     Keyboard.dismiss();
-    if (this.state.subject || this.state.message) {
+    if (this.getSubjectValue() || this.state.message) {
       DebouncedAlert(
         "You have a draft message...",
         "If you go back now, your message will be lost!",
@@ -148,8 +172,38 @@ class ContactUs extends Component {
     messageText = null;
   }
 
+  changeSubjectOption = subjectType => {
+    this.setState({
+      subjectType
+    });
+    if (subjectType === constants.defaultSupportType) {
+      this.setState({
+        isSubjectTextMode: true
+      });
+    }
+  };
+
+  componentDidMount() {
+    const ticketType = this.props.navigation.getParam("type", "");
+    this.changeSubjectOption(ticketType);
+  }
+
   render() {
-    const { subject, message, isSubmitAttempted } = this.state;
+    const { subject, message } = this.state;
+    const { faqDetails } = this.props.supportStore;
+    let subjectTypes = (Object.keys(faqDetails) || []).map(faq => {
+      return {
+        label: faq,
+        value: faq
+      };
+    });
+    subjectTypes = [
+      ...subjectTypes,
+      {
+        label: "Others",
+        value: constants.defaultSupportType
+      }
+    ];
 
     return (
       <View style={styles.contactUsContainer}>
@@ -157,31 +211,22 @@ class ContactUs extends Component {
           ref={e => (this._containerScroll = e)}
           style={styles.contactUsInputArea}
         >
-          <TextInput
-            multiline={true}
-            style={[
-              styles.subjectTextBox,
-              isSubmitAttempted && !subject ? styles.error : null
-            ]}
+          <MessageInput
+            label={"SUBJECT"}
+            textPlaceholder={"Enter message title here..."}
+            text={subject}
             onChangeText={this.setSubject}
-            value={subject}
-            underlineColorAndroid={"transparent"}
-            placeholder={"Subject"}
-            placeholderTextColor={constants.shade3}
+            isSelectionMode={!this.state.isSubjectTextMode}
+            options={subjectTypes}
+            selectedOption={this.state.subjectType}
+            onOptionsChange={this.changeSubjectOption}
           />
-          <TextInput
-            multiline={true}
-            style={[
-              styles.messageTextBox,
-              isSubmitAttempted && !message ? styles.error : null
-            ]}
+          <MessageInput
+            label={"MESSAGE"}
+            textPlaceholder={"Type your message here..."}
+            text={message}
             onChangeText={this.setMessage}
-            value={message}
-            underlineColorAndroid={"transparent"}
-            placeholder={"Message"}
-            placeholderTextColor={constants.shade2}
-            textAlignVertical={"top"}
-            numberOfLines={10}
+            isSelectionMode={false}
           />
         </ScrollView>
         <ContactActionBar
@@ -201,8 +246,7 @@ const styles = StyleSheet.create({
   },
   contactUsInputArea: {
     flex: 1,
-    backgroundColor: "white",
-    paddingHorizontal: 24
+    backgroundColor: "white"
   },
   subjectTextBox: {
     marginTop: 32,
