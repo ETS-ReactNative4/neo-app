@@ -187,19 +187,18 @@ class ContactUs extends Component {
   render() {
     const { subject, message } = this.state;
     const { faqDetails } = this.props.supportStore;
-    let subjectTypes = (Object.keys(faqDetails) || []).map(faq => {
+    const subjectTypes = (Object.keys(faqDetails) || []).map(faq => {
+      if (faq === "Others") {
+        return {
+          label: faq,
+          value: constants.defaultSupportType
+        };
+      }
       return {
         label: faq,
         value: faq
       };
     });
-    subjectTypes = [
-      ...subjectTypes,
-      {
-        label: "Others",
-        value: constants.defaultSupportType
-      }
-    ];
 
     return (
       <View style={styles.contactUsContainer}>
