@@ -45,7 +45,6 @@ const MessageInput = ({
             placeholder={textPlaceholder}
             placeholderTextColor={constants.shade2}
             textAlignVertical={"top"}
-            numberOfLines={10}
           />
         ) : (
           <Dropdown
