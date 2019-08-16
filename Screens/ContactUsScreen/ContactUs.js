@@ -1,11 +1,6 @@
 import React, { Component } from "react";
-import {
-  View,
-  ScrollView,
-  StyleSheet,
-  TextInput,
-  Keyboard
-} from "react-native";
+import { View, ScrollView, StyleSheet, Keyboard } from "react-native";
+import _ from "lodash";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import constants from "../../constants/constants";
 import ContactActionBar from "./Components/ContactActionBar";
@@ -91,13 +86,14 @@ class ContactUs extends Component {
     if (this.state.message && subject) {
       const ticketType = this.props.navigation.getParam("type", "");
       const { selectedItineraryId } = this.props.itineraries;
-      const { loadConversation } = this.props.supportStore;
+      const { loadConversation, getFaqDetailsByName } = this.props.supportStore;
+      const faqDetails = getFaqDetailsByName(subject);
       const requestObject = {
         itineraryId: selectedItineraryId,
         msg: this.state.message,
         ticketId: "",
         ticketType,
-        title: subject
+        title: _.isEmpty(faqDetails) ? subject : faqDetails.category
       };
       apiCall(constants.sendTicketMessage, requestObject)
         .then(response => {

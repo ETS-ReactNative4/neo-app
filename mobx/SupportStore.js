@@ -78,6 +78,42 @@ class SupportStore {
     return toJS(this._conversations);
   }
 
+  get faqData() {
+    return toJS(this._faqData);
+  }
+
+  getFaqDetailsByName = createTransformer(faqSectionName => {
+    try {
+      for (let key in this.faqData) {
+        if (this.faqData.hasOwnProperty(key)) {
+          if (this.faqData[key].categoryDisplayStr === faqSectionName) {
+            return this.faqData[key];
+          }
+        }
+      }
+      return {};
+    } catch (e) {
+      logError(e);
+      return {};
+    }
+  });
+
+  getFaqDetailsByCategory = createTransformer(faqCategoryName => {
+    try {
+      for (let key in this.faqData) {
+        if (this.faqData.hasOwnProperty(key)) {
+          if (this.faqData[key].category === faqCategoryName) {
+            return this.faqData[key];
+          }
+        }
+      }
+      return {};
+    } catch (e) {
+      logError(e);
+      return {};
+    }
+  });
+
   getConversationsByItineraryId = createTransformer(itineraryId => {
     try {
       const conversations = toJS(this._conversations[itineraryId]);
@@ -200,6 +236,7 @@ class SupportStore {
         this._isLoading = false;
         if (response.status === "SUCCESS") {
           this._hasError = false;
+          this._faqData = response.data;
           const faqData = response.data;
           const faqDetails = {};
           for (let key in faqData) {
@@ -218,18 +255,10 @@ class SupportStore {
           }
           this._faqDetails = faqDetails;
         } else {
-          storeService.infoStore.setError(
-            "Unable to Load FAQ!",
-            "Please try again after sometime..."
-          );
           this._hasError = true;
         }
       })
       .catch(err => {
-        storeService.infoStore.setError(
-          "Unable to Load FAQ!",
-          "Please try again after sometime..."
-        );
         this._isLoading = false;
         this._hasError = true;
       });

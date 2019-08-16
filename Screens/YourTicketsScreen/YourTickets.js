@@ -3,6 +3,7 @@ import { FlatList, View, StyleSheet } from "react-native";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import TicketPreview from "./Components/TicketPreview";
 import constants from "../../constants/constants";
+import _ from "lodash";
 import { inject, observer } from "mobx-react/custom";
 import moment from "moment";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
@@ -33,9 +34,14 @@ class YourTickets extends Component {
   };
 
   _renderItem = ({ item: ticket, index }) => {
+    const { getFaqDetailsByCategory } = this.props.supportStore;
+    const faqDetails = getFaqDetailsByCategory(ticket.title);
+    const title = _.isEmpty(faqDetails)
+      ? ticket.title
+      : faqDetails.categoryDisplayStr;
     const navigateToConversation = () =>
       this.props.navigation.navigate("TicketsConversation", {
-        title: ticket.title,
+        title,
         status: ticket.closed ? "Closed" : "Open",
         ticketId: ticket.ticketId
       });
@@ -46,7 +52,7 @@ class YourTickets extends Component {
         )}
         containerStyle={styles.messageSectionWrapper}
         isClosed={ticket.closed}
-        subject={ticket.title}
+        subject={title}
         message={ticket.lastMsg}
         unReadCount={ticket.lastSeenMsgId < ticket.maxMsgId ? 1 : 0}
         action={navigateToConversation}
