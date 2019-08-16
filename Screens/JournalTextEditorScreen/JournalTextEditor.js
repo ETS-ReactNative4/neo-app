@@ -311,6 +311,7 @@ class JournalTextEditor extends Component {
   backHandler = () => {
     if (this.state.isKeyboardVisible) {
       this._richTextInputRef.current && this._richTextInputRef.current.blur();
+      Keyboard.dismiss();
     } else {
       DebouncedAlert(
         constants.journalBackConfirmation.textEditor.title,
