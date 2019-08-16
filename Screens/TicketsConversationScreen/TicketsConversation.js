@@ -196,9 +196,9 @@ class TicketsConversation extends Component {
               ? constants.helpDeskText.queryClosedText
               : constants.helpDeskText.queryOpenText
           }
-          infoColor={isClosed ? constants.black1 : constants.eleventhColor}
+          infoColor={isClosed ? constants.black1 : constants.firstColor}
           infoBackgroundColor={
-            isClosed ? constants.shade5 : constants.twelfthColor
+            isClosed ? constants.shade5 : constants.firstColorBackground
           }
           info={isClosed ? "CLOSED" : "OPEN"}
           containerStyle={styles.sectionTitleWrapper}
