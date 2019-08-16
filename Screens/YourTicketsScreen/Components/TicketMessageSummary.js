@@ -1,11 +1,18 @@
 import React from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  ViewPropTypes
+} from "react-native";
 import PropTypes from "prop-types";
 import InfoPill from "../../../CommonComponents/InfoPill/InfoPill";
 import constants from "../../../constants/constants";
 import { responsiveWidth } from "react-native-responsive-dimensions";
 
 const TicketMessageSummary = ({
+  containerStyle = StyleSheet.create({}),
   subject = "",
   message = "",
   time = "",
@@ -17,7 +24,7 @@ const TicketMessageSummary = ({
     <TouchableOpacity
       onPress={action}
       activeOpacity={0.8}
-      style={styles.ticketMessageSummaryContainer}
+      style={[styles.ticketMessageSummaryContainer, containerStyle]}
     >
       <View style={styles.subjectRow}>
         <View style={styles.subjectTextWrapper}>
@@ -53,6 +60,7 @@ const TicketMessageSummary = ({
 };
 
 TicketMessageSummary.propTypes = {
+  containerStyle: ViewPropTypes.style,
   subject: PropTypes.string.isRequired,
   message: PropTypes.string.isRequired,
   time: PropTypes.string.isRequired,

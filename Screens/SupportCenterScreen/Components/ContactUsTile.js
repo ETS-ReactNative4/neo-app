@@ -6,12 +6,13 @@ import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraPr
 import PropTypes from "prop-types";
 import SimpleButton from "../../../CommonComponents/SimpleButton/SimpleButton";
 
-const ContactUsTile = ({ contactAction }) => {
+const ContactUsTile = ({
+  contactText = constants.helpDeskText.faqNotFoundText,
+  contactAction
+}) => {
   return [
     <View key={0} style={styles.contactUsTileContainer}>
-      <Text style={styles.contactText}>
-        {constants.helpDeskText.faqNotFoundText}
-      </Text>
+      <Text style={styles.contactText}>{contactText}</Text>
       <SimpleButton
         text={"Message Us"}
         textColor={"white"}
