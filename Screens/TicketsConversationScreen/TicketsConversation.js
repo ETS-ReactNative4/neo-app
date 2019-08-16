@@ -5,25 +5,23 @@ import {
   StyleSheet,
   TextInput,
   Keyboard,
-  Platform,
-  ScrollView
+  Platform
 } from "react-native";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
-import ConversationCard from "./Components/ConversationCard";
 import constants from "../../constants/constants";
 import KeyboardAvoidingActionBar from "../../CommonComponents/KeyboardAvoidingActionBar/KeyboardAvoidingActionBar";
 import SimpleButton from "../../CommonComponents/SimpleButton/SimpleButton";
-import MultiLineHeader from "../../CommonComponents/MultilineHeader/MultiLineHeader";
 import { inject, observer } from "mobx-react/custom";
 import moment from "moment";
 import apiCall from "../../Services/networkRequests/apiCall";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import CustomScrollView from "../../CommonComponents/CustomScrollView/CustomScrollView";
 import MessageBlob from "../SupportCenterScreen/Components/MessageBlob";
 import HelpDeskSectionTitle from "../SupportCenterScreen/Components/HelpDeskSectionTitle";
 import MessageInput from "../SupportCenterScreen/Components/MessageInput";
 import { responsiveWidth } from "react-native-responsive-dimensions";
+import ContactActionBar from "../ContactUsScreen/Components/ContactActionBar";
+import DebouncedAlert from "../../CommonComponents/DebouncedAlert/DebouncedAlert";
 
 @ErrorBoundary()
 @inject("userStore")
@@ -43,6 +41,7 @@ class TicketsConversation extends Component {
     messageText: "",
     isSending: false
   };
+  _scrollView = React.createRef();
 
   _renderItem = (conversation, index) => {
     const { userDetails } = this.props.userStore;
@@ -79,9 +78,16 @@ class TicketsConversation extends Component {
     const ticketId = this.props.navigation.getParam("ticketId", "");
     const { loadTickets } = this.props.supportStore;
     loadTickets(ticketId);
+    setTimeout(() => {
+      this._scrollView.current && this._scrollView.current.scrollToEnd();
+    }, 300);
   }
 
-  _keyExtractor = (item, index) => index;
+  keyBoardStateChange = visibility => {
+    if (visibility === "visible") {
+      this._scrollView.current && this._scrollView.current.scrollToEnd();
+    }
+  };
 
   onEditText = messageText => this.setState({ messageText });
 
@@ -145,6 +151,32 @@ class TicketsConversation extends Component {
     }
   };
 
+  cancelMessage = () => {
+    const goBack = () => this.props.navigation.goBack();
+    if (this.state.messageText) {
+      DebouncedAlert(
+        "Are you sure?",
+        "Your current message will be discarded",
+        [
+          {
+            text: "Stay here",
+            style: "cancel",
+            onPress: () => null
+          },
+          {
+            text: "Go Back",
+            onPress: () => {
+              Keyboard.dismiss();
+              goBack();
+            }
+          }
+        ]
+      );
+    } else {
+      goBack();
+    }
+  };
+
   render() {
     const ticketId = this.props.navigation.getParam("ticketId", "");
     const {
@@ -172,7 +204,7 @@ class TicketsConversation extends Component {
           containerStyle={styles.sectionTitleWrapper}
         />
         <CustomScrollView
-          scrollComponent={"KeyboardAvoidingScroll"}
+          scrollRef={this._scrollView}
           onRefresh={() => loadTickets(ticketId)}
           refreshing={isMessagesLoading}
           style={styles.ticketsConversationContainer}
@@ -187,67 +219,15 @@ class TicketsConversation extends Component {
           />
           <View style={styles.blobPlaceholder} />
         </CustomScrollView>
+        <ContactActionBar
+          containerStyle={styles.inputActionBar}
+          navigation={this.props.navigation}
+          keyBoardStateChange={this.keyBoardStateChange}
+          sendAction={this.sendMessage}
+          cancelAction={this.cancelMessage}
+        />
       </Fragment>
     );
-    return [
-      <View style={styles.ticketsConversationContainer} key={0}>
-        <FlatList
-          data={data}
-          keyExtractor={this._keyExtractor}
-          onRefresh={() => loadTickets(ticketId)}
-          refreshing={isMessagesLoading}
-          renderItem={this._renderItem}
-          inverted={true}
-          ItemSeparatorComponent={() => (
-            <View
-              style={{
-                borderTopWidth: StyleSheet.hairlineWidth,
-                borderTopColor: constants.shade4,
-                marginHorizontal: 24
-              }}
-            />
-          )}
-        />
-        <KeyboardAvoidingActionBar
-          navigation={this.props.navigation}
-          containerStyle={styles.actionBar}
-          key={1}
-        >
-          <TextInput
-            style={styles.supportTextInput}
-            onChangeText={this.onEditText}
-            returnKeyType={"next"}
-            underlineColorAndroid={"transparent"}
-            value={this.state.messageText}
-            multiline={true}
-            onSubmitEditing={() => null}
-            placeholderTextColor={constants.shade2}
-            placeholder={"Type your message..."}
-          />
-          <SimpleButton
-            text={""}
-            containerStyle={{
-              width: 24,
-              marginRight: 16,
-              marginLeft: 8,
-              ...Platform.select({
-                android: {
-                  marginTop: 12,
-                  marginLeft: 16
-                }
-              })
-            }}
-            color={"transparent"}
-            action={
-              this.state.isSending ? () => null : () => this.sendMessage()
-            }
-            icon={constants.arrowRight}
-            iconSize={Platform.OS === "ios" ? 24 : 28}
-            textColor={constants.shade3}
-          />
-        </KeyboardAvoidingActionBar>
-      </View>
-    ];
   }
 }
 
@@ -287,6 +267,9 @@ const styles = StyleSheet.create({
   blobPlaceholder: {
     height: 36,
     width: responsiveWidth(100)
+  },
+  inputActionBar: {
+    backgroundColor: "white"
   }
 });
 

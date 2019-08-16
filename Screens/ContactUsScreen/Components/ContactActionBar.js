@@ -18,12 +18,16 @@ const ContactActionBar = ({
   containerStyle,
   cancelAction,
   sendAction,
-  navigation
+  navigation,
+  keyBoardStateChange = () => null
 }) => {
   if (!containerStyle) containerStyle = {};
   return (
-    <KeyboardAvoidingActionBar navigation={navigation}>
-      <View style={styles.contactActionSection}>
+    <KeyboardAvoidingActionBar
+      onKeyBoardStateChange={keyBoardStateChange}
+      navigation={navigation}
+    >
+      <View style={[styles.contactActionSection, containerStyle]}>
         <SimpleButton
           text={"Cancel"}
           action={cancelAction}
@@ -47,12 +51,13 @@ const ContactActionBar = ({
   );
 };
 
-ContactActionBar.propTypes = forbidExtraProps({
+ContactActionBar.propTypes = {
   containerStyle: PropTypes.object,
-  sectionName: PropTypes.string.isRequired,
-  onClick: PropTypes.func.isRequired,
-  navigation: PropTypes.object.isRequired
-});
+  navigation: PropTypes.object.isRequired,
+  keyBoardStateChange: PropTypes.func,
+  cancelAction: PropTypes.func,
+  sendAction: PropTypes.func
+};
 
 const styles = StyleSheet.create({
   contactActionContainer: {
