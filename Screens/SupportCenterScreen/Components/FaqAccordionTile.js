@@ -15,6 +15,7 @@ import Icon from "../../../CommonComponents/Icon/Icon";
 import constants from "../../../constants/constants";
 import fonts from "../../../constants/fonts";
 import PropTypes from "prop-types";
+import { responsiveWidth } from "react-native-responsive-dimensions";
 
 const faqStyleSheet = {
   p: {
@@ -79,7 +80,13 @@ const FaqAccordionTile = ({
       ]}
     >
       <View style={styles.titleWrapper}>
-        <Text style={styles.titleText}>{title}</Text>
+        <Text
+          numberOfLines={isExpanded ? 5 : 1}
+          ellipsizeMode={"tail"}
+          style={styles.titleText}
+        >
+          {title}
+        </Text>
         <Animated.View style={[styles.iconWrapper, iconContainer]}>
           <Icon name={constants.arrowRight} size={10} />
         </Animated.View>
@@ -122,7 +129,8 @@ const styles = StyleSheet.create({
   },
   titleText: {
     ...constants.fontCustom(constants.primaryRegular, 14),
-    color: constants.black1
+    color: constants.black1,
+    width: responsiveWidth(75)
   },
   iconWrapper: {
     marginTop: Platform.OS === constants.platformIos ? -4 : -3
