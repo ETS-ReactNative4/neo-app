@@ -10,6 +10,7 @@ import {
 import PropTypes from "prop-types";
 import constants from "../../constants/constants";
 import LineProgressBar from "../LineProgressBar/LineProgressBar";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 class CustomScrollView extends Component {
   static propTypes = {
@@ -51,6 +52,9 @@ class CustomScrollView extends Component {
         break;
       case "FlatList":
         ScrollComponent = <FlatList {...otherProps} />;
+        break;
+      case "KeyboardAvoidingScroll":
+        ScrollComponent = <KeyboardAwareScrollView {...otherProps} />;
         break;
       default:
         ScrollComponent = <ScrollView {...otherProps} />;

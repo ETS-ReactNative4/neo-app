@@ -220,7 +220,9 @@ const appText = {
   leisureText: "Got more time?",
   explorePlacesText: "Explore Places",
   helpDeskText: {
-    faqNotFoundText: "Couldn’t find what you are looking for?"
+    faqNotFoundText: "Couldn’t find what you are looking for?",
+    queryOpenText: "This query is open now",
+    queryClosedText: "You can reopen this anytime"
   },
   paymentText: {
     failureTitle: "We are sorry!",

@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
     color: constants.firstColor
   },
   messageText: {
-    ...constants.fontCustom(constants.primarySemiBold, 14, 18),
+    ...constants.fontCustom(constants.primaryRegular, 14, 18),
     color: constants.black1,
     marginBottom: 8
   },
