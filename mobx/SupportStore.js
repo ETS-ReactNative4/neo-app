@@ -6,8 +6,30 @@ import constants from "../constants/constants";
 import storeService from "../Services/storeService/storeService";
 import { logError } from "../Services/errorLogger/errorLogger";
 import _ from "lodash";
+import { hydrate } from "./Store";
 
 class SupportStore {
+  static hydrator = storeInstance => {
+    hydrate("_faqDetails", storeInstance)
+      .then(() => {})
+      .catch(err => {
+        logError(err);
+      });
+    hydrate("_conversations", storeInstance)
+      .then(() => {})
+      .catch(err => {
+        logError(err);
+      });
+    hydrate("_messages", storeInstance)
+      .then(() => {})
+      .catch(err => {
+        logError(err);
+      });
+    hydrate("_faqData", storeInstance)
+      .then(() => null)
+      .catch(logError);
+  };
+
   @observable _isLoading = false;
   @observable _hasError = false;
   @persist("object")
@@ -19,6 +41,9 @@ class SupportStore {
   @persist("object")
   @observable
   _messages = {};
+  @persist("object")
+  @observable
+  _faqData = {};
   @observable _isConversationLoading = false;
   @observable _isMessagesLoading = false;
 
@@ -175,7 +200,23 @@ class SupportStore {
         this._isLoading = false;
         if (response.status === "SUCCESS") {
           this._hasError = false;
-          this._faqDetails = response.data.faqs;
+          const faqData = response.data;
+          const faqDetails = {};
+          for (let key in faqData) {
+            if (faqData.hasOwnProperty(key)) {
+              const categoryDisplayStr = faqData[key].categoryDisplayStr;
+              faqDetails[categoryDisplayStr] = (
+                faqData[key].questions || []
+              ).reduce((qaMap, qa) => {
+                qaMap[qa.id] = {
+                  question: qa.q,
+                  answer: qa.a
+                };
+                return qaMap;
+              }, {});
+            }
+          }
+          this._faqDetails = faqDetails;
         } else {
           storeService.infoStore.setError(
             "Unable to Load FAQ!",

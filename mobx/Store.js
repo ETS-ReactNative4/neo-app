@@ -174,21 +174,6 @@ const createStore = () => {
   //   .catch(err => {
   //     logError(err);
   //   });
-  hydrate("_faqDetails", appStore.supportStore)
-    .then(() => {})
-    .catch(err => {
-      logError(err);
-    });
-  hydrate("_conversations", appStore.supportStore)
-    .then(() => {})
-    .catch(err => {
-      logError(err);
-    });
-  hydrate("_messages", appStore.supportStore)
-    .then(() => {})
-    .catch(err => {
-      logError(err);
-    });
   hydrate("_widgets", appStore.tripFeedStore)
     .then(() => {})
     .catch(err => {
@@ -199,6 +184,7 @@ const createStore = () => {
     .catch(err => {
       logError(err);
     });
+  SupportStore.hydrator(appStore.supportStore);
   Forex.hydrator(appStore.forexStore);
   DeviceDetails.hydrator(appStore.deviceDetailsStore);
   FeedbackPrompt.hydrator(appStore.feedbackPrompt);
