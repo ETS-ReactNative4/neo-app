@@ -19,6 +19,7 @@ import { inject, observer } from "mobx-react/custom";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import CustomScrollView from "../../CommonComponents/CustomScrollView/CustomScrollView";
 import DeepLinkHandler from "../../CommonComponents/DeepLinkHandler/DeepLinkHandler";
+import HelpDeskView from "../ChatScreen/Components/HelpDeskView";
 
 @ErrorBoundary()
 @DeepLinkHandler
@@ -36,6 +37,10 @@ class SupportCenter extends Component {
     this.props.navigation.navigate("ContactUs", {
       type: constants.defaultSupportType
     });
+  };
+
+  viewTickets = () => {
+    this.props.navigation.navigate("YourTickets");
   };
 
   componentDidMount() {
@@ -61,42 +66,31 @@ class SupportCenter extends Component {
 
     const faqSections = Object.keys(faqDetails).map(faqSection => {
       return {
-        sectionName: faqSection,
-        onClick: () => navigation.navigate("FAQ", { title: faqSection })
+        title: faqSection,
+        icon: faqSection,
+        action: () =>
+          this.props.navigation.navigate("FAQ", { title: faqSection })
       };
     });
 
+    const ctaText = conversations.length
+      ? `${conversations.length} Message${conversations.length > 1 ? "s" : ""}`
+      : "Message us";
+    const ctaAction = conversations.length
+      ? this.viewTickets
+      : this.contactSupport;
+
     return (
-      <View style={styles.supportCenterContainer}>
-        <CustomScrollView
-          refreshing={isConversationLoading}
-          onRefresh={() => loadConversation()}
-          style={styles.supportScroll}
-        >
-          <Image
-            source={constants.helpSupportIllus}
-            resizeMode={"contain"}
-            style={styles.supportIllustration}
-          />
-          {conversations.length ? (
-            <TicketTile
-              containerStyle={{ marginHorizontal: 24 }}
-              action={() => navigation.navigate("YourTickets")}
-            />
-          ) : null}
-          {faqSections.map((faqSection, faqIndex) => {
-            return (
-              <FaqSectionTile
-                containerStyle={{ marginHorizontal: 24 }}
-                onClick={faqSection.onClick}
-                key={faqIndex}
-                sectionName={faqSection.sectionName}
-              />
-            );
-          })}
-        </CustomScrollView>
-        <ContactUsTile contactAction={this.contactSupport} />
-      </View>
+      <HelpDeskView
+        faqSections={faqSections}
+        navigation={this.props.navigation}
+        disableHeader={true}
+        topBarText={"Your Conversations"}
+        topBarCta={ctaText}
+        topBarCtaAction={ctaAction}
+        refreshing={isConversationLoading}
+        onRefresh={loadConversation}
+      />
     );
   }
 }

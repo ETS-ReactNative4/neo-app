@@ -5,11 +5,19 @@ import CommonHeader from "../../../CommonComponents/CommonHeader/CommonHeader";
 import HelpDeskCategories from "../../SupportCenterScreen/Components/HelpDeskCategories";
 import constants from "../../../constants/constants";
 import SupportTopBar from "../../SupportCenterScreen/Components/SupportTopBar";
+import CustomScrollView from "../../../CommonComponents/CustomScrollView/CustomScrollView";
+import HomeHeader from "../../../CommonComponents/HomeHeader/HomeHeader";
 
 const HelpDeskView = ({
   chatActivationMessage = "",
   navigation,
-  faqSections
+  faqSections,
+  disableHeader = false,
+  topBarText = "",
+  topBarCta = "",
+  topBarCtaAction = () => null,
+  refreshing = false,
+  onRefresh = () => null
 }) => {
   const writeMessage = () => {
     navigation.navigate("ContactUs", {
@@ -17,23 +25,24 @@ const HelpDeskView = ({
     });
   };
 
+  const Header = HomeHeader({ navigation }).header;
   return (
     <View style={styles.helpDeskViewContainer}>
-      <CommonHeader title={"Help Desk"} navigation={navigation} />
-      <SupportTopBar
-        ctaText={"New Message"}
-        ctaAction={() => writeMessage()}
-        text={chatActivationMessage}
-        nextAction={() => writeMessage()}
-      />
-      <ScrollView>
+      {disableHeader ? null : Header}
+      <CustomScrollView refreshing={refreshing} onRefresh={onRefresh}>
+        <SupportTopBar
+          ctaText={topBarCta}
+          ctaAction={topBarCtaAction}
+          text={topBarText}
+          nextAction={writeMessage}
+        />
         <HelpDeskCategories
           containerStyle={styles.helpDeskCategoriesContainer}
           categories={faqSections}
           categoryTitle={"Categories"}
         />
         <Text style={styles.infoText}>{chatActivationMessage}</Text>
-      </ScrollView>
+      </CustomScrollView>
     </View>
   );
 };
@@ -56,7 +65,15 @@ const styles = StyleSheet.create({
 });
 
 HelpDeskView.propTypes = {
-  chatActivationMessage: PropTypes.string
+  chatActivationMessage: PropTypes.string,
+  navigation: PropTypes.object,
+  faqSections: PropTypes.array,
+  disableHeader: PropTypes.bool,
+  topBarText: PropTypes.string,
+  topBarCta: PropTypes.string,
+  topBarCtaAction: PropTypes.func,
+  refreshing: PropTypes.bool,
+  onRefresh: PropTypes.func
 };
 
 export default HelpDeskView;

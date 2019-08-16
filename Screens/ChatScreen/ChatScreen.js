@@ -169,10 +169,19 @@ class ChatScreen extends Component {
     }
   };
 
+  contactSupport = () => {
+    this.props.navigation.navigate("ContactUs", {
+      type: constants.defaultSupportType
+    });
+  };
+
+  viewTickets = () => {
+    this.props.navigation.navigate("YourTickets");
+  };
+
   render() {
     const { isChatKilled } = this.state;
     const { isConnected } = this.props.appState;
-    const { faqDetails } = this.props.supportStore;
     const {
       chatDetails,
       initializationError,
@@ -181,6 +190,14 @@ class ChatScreen extends Component {
       chatActivationMessage,
       offlineContact
     } = this.props.chatDetailsStore;
+    const {
+      faqDetails,
+      getConversationsByItineraryId,
+      loadConversation,
+      isConversationLoading
+    } = this.props.supportStore;
+    const { selectedItineraryId } = this.props.itineraries;
+    const conversations = getConversationsByItineraryId(selectedItineraryId);
 
     const faqSections = Object.keys(faqDetails).map(faqSection => {
       return {
@@ -290,11 +307,26 @@ class ChatScreen extends Component {
         />
       );
     } else {
+      const ctaText = conversations.length
+        ? `${conversations.length} Message${
+            conversations.length > 1 ? "s" : ""
+          }`
+        : "New Message";
+      const ctaAction = conversations.length
+        ? this.viewTickets
+        : this.contactSupport;
       return (
         <HelpDeskView
           faqSections={faqSections}
-          chatActivationMessage={chatActivationMessage}
+          chatActivationMessage={
+            conversations.length ? chatActivationMessage : ""
+          }
           navigation={this.props.navigation}
+          topBarCta={ctaText}
+          topBarCtaAction={ctaAction}
+          topBarText={
+            conversations.length ? "Your conversations" : chatActivationMessage
+          }
         />
       );
     }
