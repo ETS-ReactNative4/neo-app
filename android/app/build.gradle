@@ -213,31 +213,6 @@ android {
 }
 
 dependencies {
-    // implementation project(':react-native-share')
-    // implementation 'com.android.support:multidex:1.0.3'
-    // implementation project(':lottie-react-native')
-    // implementation project(':react-native-image-crop-picker')
-    // implementation project(':@react-native-community_cameraroll')
-    // implementation(project(':react-native-device-info')) {
-    //   exclude group: 'com.google.android.gms'
-    // }
-    // implementation project(':rn-fetch-blob')
-    // implementation project(':react-native-pdf')
-    // implementation project(':react-native-photo-view')
-    // implementation project(':react-native-webview')
-    // implementation project(':react-native-restart')
-    // implementation project(':react-native-custom-tabs')
-    // implementation project(':react-native-firebase')
-    // implementation project(':react-native-sound')
-    // implementation project(':react-native-fast-image')
-    // implementation project(':react-native-app-settings')
-    // implementation project(':react-native-tts')
-    // implementation project(':react-native-sentry')
-    // implementation project(':react-native-vector-icons')
-    // implementation project(':react-native-svg')
-    // implementation project(':react-native-keychain')
-    // implementation project(':react-native-linear-gradient')
-
     implementation "com.facebook.fresco:animated-gif:1.12.0"
     implementation "com.facebook.fresco:animated-webp:1.10.0"
     implementation "com.facebook.fresco:webpsupport:1.10.0"
