@@ -14,6 +14,7 @@ import BackHandlerHoc from "../../CommonComponents/BackHandlerHoc/BackHandlerHoc
 import AddImageThumbnail from "./Components/AddImageThumbnail";
 import { StackActions, NavigationActions } from "react-navigation";
 import extractTextFromHtml from "../../Services/extractTextFromHtml/extractTextFromHtml";
+import { readDeviceInfo } from "../../Services/deviceInfo/deviceInfo";
 
 let _submitStory = () => null;
 let _backHandler = () => null;
@@ -281,7 +282,16 @@ class JournalTextEditor extends Component {
     });
 
     this.initalizeTextEditor();
+    this.checkDeviceCompatibility();
   }
+
+  checkDeviceCompatibility = () => {
+    readDeviceInfo(deviceInfo => {
+      if (deviceInfo.getManufacturer() === constants.samsungManufacturer) {
+        this.setState({ isRichTextSupported: false });
+      }
+    });
+  };
 
   initalizeTextEditor = () => {
     const storyId = this.props.navigation.getParam("activeStory", "");
