@@ -90,6 +90,7 @@ class SupportCenter extends Component {
         topBarCtaAction={ctaAction}
         refreshing={isConversationLoading}
         onRefresh={loadConversation}
+        isTitleBold={true}
       />
     );
   }

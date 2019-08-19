@@ -17,7 +17,8 @@ const HelpDeskView = ({
   topBarCta = "",
   topBarCtaAction = () => null,
   refreshing = false,
-  onRefresh = () => null
+  onRefresh = () => null,
+  isTitleBold = false
 }) => {
   const writeMessage = () => {
     navigation.navigate("ContactUs", {
@@ -39,6 +40,7 @@ const HelpDeskView = ({
           ctaAction={topBarCtaAction}
           text={topBarText}
           nextAction={writeMessage}
+          isTitleBold={isTitleBold}
         />
         <HelpDeskCategories
           containerStyle={styles.helpDeskCategoriesContainer}
@@ -78,7 +80,8 @@ HelpDeskView.propTypes = {
   topBarCta: PropTypes.string,
   topBarCtaAction: PropTypes.func,
   refreshing: PropTypes.bool,
-  onRefresh: PropTypes.func
+  onRefresh: PropTypes.func,
+  isTitleBold: PropTypes.bool
 };
 
 export default HelpDeskView;

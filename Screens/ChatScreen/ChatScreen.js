@@ -327,6 +327,7 @@ class ChatScreen extends Component {
           topBarText={
             conversations.length ? "Your conversations" : chatActivationMessage
           }
+          isTitleBold={conversations.length}
         />
       );
     }

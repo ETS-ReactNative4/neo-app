@@ -17,7 +17,8 @@ const SupportTopBar = ({
   text = "",
   ctaText = "",
   ctaAction = () => null,
-  nextAction = () => null
+  nextAction = () => null,
+  isTitleBold = false
 }) => {
   return (
     <View style={[styles.supportTopBarContainer, containerStyle]}>
@@ -25,7 +26,7 @@ const SupportTopBar = ({
         <Text
           numberOfLines={2}
           ellipsizeMode={"tail"}
-          style={styles.supportInfoText}
+          style={[styles.supportInfoText, isTitleBold ? styles.boldText : {}]}
         >
           {text}
         </Text>
@@ -56,7 +57,8 @@ SupportTopBar.propTypes = {
   text: PropTypes.string.isRequired,
   ctaText: PropTypes.string.isRequired,
   ctaAction: PropTypes.func.isRequired,
-  nextAction: PropTypes.func.isRequired
+  nextAction: PropTypes.func.isRequired,
+  isTitleBold: PropTypes.bool
 };
 
 const styles = StyleSheet.create({
@@ -81,6 +83,9 @@ const styles = StyleSheet.create({
   buttonArea: {},
   arrowArea: {
     paddingHorizontal: 16
+  },
+  boldText: {
+    fontFamily: constants.primarySemiBold
   }
 });
 
