@@ -14,7 +14,6 @@ import BackHandlerHoc from "../../CommonComponents/BackHandlerHoc/BackHandlerHoc
 import AddImageThumbnail from "./Components/AddImageThumbnail";
 import { StackActions, NavigationActions } from "react-navigation";
 import extractTextFromHtml from "../../Services/extractTextFromHtml/extractTextFromHtml";
-import { readDeviceInfo } from "../../Services/deviceInfo/deviceInfo";
 
 let _submitStory = () => null;
 let _backHandler = () => null;
@@ -118,6 +117,7 @@ class JournalTextEditor extends Component {
    * and return the user to the journal home screen
    */
   submitStory = () => {
+    this.blurRichTextEditor();
     if (!this.state.title) {
       DebouncedAlert(
         constants.journalAlertMessages.noTitleForStory.header,
@@ -181,6 +181,7 @@ class JournalTextEditor extends Component {
    * display the publish screen for the user in story mode.
    */
   publishStory = () => {
+    this.blurRichTextEditor();
     if (!this.state.title) {
       DebouncedAlert(
         constants.journalAlertMessages.noTitleForStory.header,
@@ -286,11 +287,9 @@ class JournalTextEditor extends Component {
   }
 
   checkDeviceCompatibility = () => {
-    readDeviceInfo(deviceInfo => {
-      if (deviceInfo.getManufacturer() === constants.samsungManufacturer) {
-        this.setState({ isRichTextSupported: false });
-      }
-    });
+    if (Platform.OS === constants.platformAndroid) {
+      this.setState({ isRichTextSupported: false });
+    }
   };
 
   initalizeTextEditor = () => {
@@ -344,9 +343,13 @@ class JournalTextEditor extends Component {
     });
   };
 
+  blurRichTextEditor = () => {
+    this._richTextInputRef.current && this._richTextInputRef.current.blur();
+  };
+
   backHandler = () => {
     if (this.state.isKeyboardVisible) {
-      this._richTextInputRef.current && this._richTextInputRef.current.blur();
+      this.blurRichTextEditor();
       Keyboard.dismiss();
     } else {
       DebouncedAlert(
