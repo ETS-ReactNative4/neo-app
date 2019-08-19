@@ -92,8 +92,10 @@ class ContactUs extends Component {
         itineraryId: selectedItineraryId,
         msg: this.state.message,
         ticketId: "",
-        ticketType,
-        title: _.isEmpty(faqDetails) ? subject : faqDetails.category
+        ticketType: _.isEmpty(faqDetails)
+          ? constants.defaultSupportType
+          : faqDetails.category,
+        title: _.isEmpty(faqDetails) ? subject : faqDetails.categoryDisplayStr
       };
       apiCall(constants.sendTicketMessage, requestObject)
         .then(response => {
