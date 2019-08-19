@@ -21,7 +21,11 @@ const SupportTopBar = ({
   isTitleBold = false
 }) => {
   return (
-    <View style={[styles.supportTopBarContainer, containerStyle]}>
+    <TouchableOpacity
+      activeOpacity={0.8}
+      onPress={ctaAction}
+      style={[styles.supportTopBarContainer, containerStyle]}
+    >
       <View style={styles.textArea}>
         <Text
           numberOfLines={2}
@@ -31,24 +35,26 @@ const SupportTopBar = ({
           {text}
         </Text>
       </View>
-      <View style={styles.buttonArea}>
-        <SimpleButton
-          containerStyle={{ width: 80, height: 24, borderRadius: 50 }}
-          text={ctaText}
-          color={"white"}
-          textColor={constants.firstColor}
-          action={ctaAction}
-          textStyle={styles.ctaTextStyle}
-        />
-      </View>
+      {!isTitleBold ? (
+        <View style={styles.buttonArea}>
+          <SimpleButton
+            containerStyle={{ width: 80, height: 24, borderRadius: 50 }}
+            text={ctaText}
+            color={"white"}
+            textColor={constants.firstColor}
+            action={ctaAction}
+            textStyle={styles.ctaTextStyle}
+          />
+        </View>
+      ) : null}
       <TouchableOpacity
         activeOpacity={0.8}
-        onPress={nextAction}
+        onPress={ctaAction}
         style={styles.arrowArea}
       >
-        <Icon name={constants.arrowRight} size={10} color={"white"} />
+        <Icon name={constants.arrowRight} size={16} color={"white"} />
       </TouchableOpacity>
-    </View>
+    </TouchableOpacity>
   );
 };
 
@@ -80,12 +86,15 @@ const styles = StyleSheet.create({
   ctaTextStyle: {
     ...constants.fontCustom(constants.primarySemiBold, 12)
   },
-  buttonArea: {},
+  buttonArea: {
+    paddingLeft: 8
+  },
   arrowArea: {
-    paddingHorizontal: 16
+    paddingLeft: 8,
+    paddingRight: 16
   },
   boldText: {
-    fontFamily: constants.primarySemiBold
+    ...constants.fontCustom(constants.primarySemiBold, 16, 19)
   }
 });
 
