@@ -29,7 +29,11 @@ const HelpDeskView = ({
   return (
     <View style={styles.helpDeskViewContainer}>
       {disableHeader ? null : Header}
-      <CustomScrollView refreshing={refreshing} onRefresh={onRefresh}>
+      <CustomScrollView
+        containerStyle={styles.scrollBackground}
+        refreshing={refreshing}
+        onRefresh={onRefresh}
+      >
         <SupportTopBar
           ctaText={topBarCta}
           ctaAction={topBarCtaAction}
@@ -61,7 +65,8 @@ const styles = StyleSheet.create({
     ...constants.fontCustom(constants.primaryRegular, 13, 19),
     color: constants.black1,
     textAlign: "center"
-  }
+  },
+  scrollBackground: { backgroundColor: constants.white1 }
 });
 
 HelpDeskView.propTypes = {
