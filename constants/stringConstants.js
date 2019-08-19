@@ -129,7 +129,12 @@ const stringConstants = {
   textEditorControlUnordered: "unordered-list-item",
   textEditorControlUnderline: "UNDERLINE",
 
-  tripToggleStatusStorageKey: "@Pickyourtrail/tripToggleStatus"
+  tripToggleStatusStorageKey: "@Pickyourtrail/tripToggleStatus",
+
+  /**
+   * Samsung Device manufacturer
+   */
+  samsungManufacturer: "samsung"
 };
 
 export default stringConstants;

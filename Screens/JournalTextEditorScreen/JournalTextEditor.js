@@ -13,6 +13,7 @@ import DebouncedAlert from "../../CommonComponents/DebouncedAlert/DebouncedAlert
 import BackHandlerHoc from "../../CommonComponents/BackHandlerHoc/BackHandlerHoc";
 import AddImageThumbnail from "./Components/AddImageThumbnail";
 import { StackActions, NavigationActions } from "react-navigation";
+import extractTextFromHtml from "../../Services/extractTextFromHtml/extractTextFromHtml";
 
 let _submitStory = () => null;
 let _backHandler = () => null;
@@ -70,6 +71,8 @@ class JournalTextEditor extends Component {
     isTitleFocused: false,
     isKeyboardVisible: false,
     richText: "",
+    plainText: "",
+    isRichTextSupported: true,
     preSelectedImages: [],
     selectedImagesList: []
   };
@@ -98,6 +101,8 @@ class JournalTextEditor extends Component {
     });
   };
 
+  onPlainTextChange = plainText => this.setState({ plainText });
+
   submitTitle = () => {
     /**
      * Timeout needed for the editor controls to load and enable the event listeners
@@ -118,9 +123,19 @@ class JournalTextEditor extends Component {
         constants.journalAlertMessages.noTitleForStory.message
       );
     } else {
-      const richText =
-        this._textEditorRef.current &&
-        this._textEditorRef.current.retrieveRichText();
+      /**
+       * Will check if rich text editor is supported and will select
+       * plain text or the rich text to be displayed
+       */
+      let richText = "";
+      if (this.state.isRichTextSupported) {
+        richText =
+          this._textEditorRef.current &&
+          this._textEditorRef.current.retrieveRichText &&
+          this._textEditorRef.current.retrieveRichText();
+      } else {
+        richText = this.state.plainText;
+      }
       const { submitStory, createNewStory } = this.props.journalStore;
       const activeStory = this.props.navigation.getParam("activeStory", "");
       const activePage = this.props.navigation.getParam("activePage", "");
@@ -171,9 +186,19 @@ class JournalTextEditor extends Component {
         constants.journalAlertMessages.noTitleForStory.message
       );
     } else {
-      const richText =
-        this._textEditorRef.current &&
-        this._textEditorRef.current.retrieveRichText();
+      /**
+       * Will check if rich text editor is supported and will select
+       * plain text or the rich text to be displayed
+       */
+      let richText = "";
+      if (this.state.isRichTextSupported) {
+        richText =
+          this._textEditorRef.current &&
+          this._textEditorRef.current.retrieveRichText &&
+          this._textEditorRef.current.retrieveRichText();
+      } else {
+        richText = this.state.plainText;
+      }
       const { submitStory, createNewStory } = this.props.journalStore;
       const activeStory = this.props.navigation.getParam("activeStory", "");
       const activePage = this.props.navigation.getParam("activePage", "");
@@ -251,7 +276,8 @@ class JournalTextEditor extends Component {
     const { getStoryById } = this.props.journalStore;
     const storyDetails = getStoryById({ pageId, storyId });
     this.setState({
-      title: storyDetails.title
+      title: storyDetails.title,
+      plainText: extractTextFromHtml(storyDetails.richText || "")
     });
 
     this.initalizeTextEditor();
@@ -414,6 +440,9 @@ class JournalTextEditor extends Component {
           navigation={this.props.navigation}
           richTextInputRef={this._richTextInputRef}
           initialValue={storyDetails.richText || ""}
+          plainText={this.state.plainText}
+          onPlainTextChange={this.onPlainTextChange}
+          isRichTextSupported={this.state.isRichTextSupported}
         />
       </View>
     );

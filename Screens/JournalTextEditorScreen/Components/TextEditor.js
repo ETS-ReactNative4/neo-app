@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, TextInput } from "react-native";
 import constants from "../../../constants/constants";
 import { responsiveWidth } from "react-native-responsive-dimensions";
 import KeyboardAvoidingActionBar from "../../../CommonComponents/KeyboardAvoidingActionBar/KeyboardAvoidingActionBar";
@@ -29,6 +29,10 @@ const styleSheet = `
   }
 `;
 
+/**
+ * Component for the Rich Text editor
+ * Will display normal text editor when rich text editor is not supported
+ */
 class TextEditor extends Component {
   state = {
     selectedTag: "",
@@ -70,28 +74,51 @@ class TextEditor extends Component {
       getRichText,
       isTextEditorActive,
       richTextInputRef,
-      initialValue
+      initialValue,
+      isRichTextSupported,
+      plainText,
+      onPlainTextChange
     } = this.props;
     return (
       <View style={styles.textEditorContainer}>
         <View style={styles.textEditorWrapper}>
-          <RNDraftView
-            ref={richTextInputRef}
-            defaultValue={initialValue}
-            placeholder={"Write a captivating story..."}
-            style={{ backgroundColor: "#fff", margin: 0, padding: 0 }}
-            onStyleChanged={this.onSelectedStyleChanged}
-            onBlockTypeChanged={this.onSelectedTagChanged}
-            styleSheet={styleSheet.replace(/(\r\n|\n|\r)/gm, "")}
-          />
+          {isRichTextSupported ? (
+            <RNDraftView
+              ref={richTextInputRef}
+              defaultValue={initialValue}
+              placeholder={"Write a captivating story..."}
+              style={{ backgroundColor: "#fff", margin: 0, padding: 0 }}
+              onStyleChanged={this.onSelectedStyleChanged}
+              onBlockTypeChanged={this.onSelectedTagChanged}
+              styleSheet={styleSheet.replace(/(\r\n|\n|\r)/gm, "")}
+            />
+          ) : (
+            <TextInput
+              ref={richTextInputRef}
+              multiline={true}
+              style={[
+                styles.textInput,
+                !plainText ? styles.placeholderStyle : null
+              ]}
+              onChangeText={onPlainTextChange}
+              value={plainText}
+              underlineColorAndroid={"transparent"}
+              placeholder={"Write a captivating story..."}
+              placeholderTextColor={constants.shade2}
+              textAlignVertical={"top"}
+            />
+          )}
         </View>
         <KeyboardAvoidingActionBar
           onKeyBoardStateChange={keyboardVisibility => {
             if (keyboardVisibility === "hidden") {
-              getRichText(
+              if (
+                isRichTextSupported &&
                 richTextInputRef.current &&
-                  richTextInputRef.current.getEditorState()
-              );
+                richTextInputRef.current.getEditorState
+              ) {
+                getRichText(richTextInputRef.current.getEditorState());
+              }
             }
             onKeyBoardStateChange(keyboardVisibility);
           }}
@@ -100,7 +127,7 @@ class TextEditor extends Component {
           }
           navigation={navigation}
         >
-          {isTextEditorActive ? (
+          {isRichTextSupported && isTextEditorActive ? (
             <View style={styles.toolbarContainer}>
               <View style={styles.toolbarSection}>
                 <View style={styles.toolBarWrapper}>
@@ -172,6 +199,13 @@ const styles = StyleSheet.create({
   },
   lineThroughButton: {
     textDecorationLine: "line-through"
+  },
+  textInput: {
+    ...constants.fontCustom(constants.primaryRegular, 16, 20),
+    color: constants.black1
+  },
+  placeholderStyle: {
+    fontFamily: constants.primarySemiBold
   }
 });
 
