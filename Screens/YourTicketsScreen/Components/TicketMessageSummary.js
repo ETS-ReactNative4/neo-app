@@ -38,9 +38,17 @@ const TicketMessageSummary = ({
           <View />
         )}
         {isClosed ? (
-          <InfoPill info={"Closed"} infoBackgroundColor={constants.shade5} />
+          <InfoPill
+            info={"Closed"}
+            infoColor={constants.shade1dot5}
+            infoBackgroundColor={constants.shade5}
+          />
         ) : (
-          <View />
+          <InfoPill
+            info={"Open"}
+            infoColor={constants.firstColor}
+            infoBackgroundColor={constants.firstColorBackground}
+          />
         )}
       </View>
       <View style={styles.messageRow}>

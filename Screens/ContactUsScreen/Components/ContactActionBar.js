@@ -31,12 +31,13 @@ const ContactActionBar = ({
         <SimpleButton
           text={"Cancel"}
           action={cancelAction}
-          textColor={constants.black2}
+          textColor={constants.firstColor}
           hasBorder={true}
           containerStyle={{
             backgroundColor: "white",
             width: responsiveWidth(40),
-            marginHorizontal: 4
+            marginHorizontal: 4,
+            borderRadius: 2
           }}
         />
         <SimpleButton
@@ -44,7 +45,11 @@ const ContactActionBar = ({
           action={sendAction}
           textColor={"white"}
           underlayColor={constants.firstColorAlpha(0.4)}
-          containerStyle={{ width: responsiveWidth(40), marginHorizontal: 4 }}
+          containerStyle={{
+            width: responsiveWidth(40),
+            marginHorizontal: 4,
+            borderRadius: 2
+          }}
         />
       </View>
     </KeyboardAvoidingActionBar>
@@ -62,7 +67,7 @@ ContactActionBar.propTypes = {
 const styles = StyleSheet.create({
   contactActionContainer: {
     borderTopWidth: StyleSheet.hairlineWidth,
-    borderTopColor: "rgba(0, 0, 0, .3)"
+    borderTopColor: constants.white1
   },
   contactActionSection: {
     flexDirection: "row",

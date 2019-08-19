@@ -48,6 +48,7 @@ const MessageInput = ({
           />
         ) : (
           <Dropdown
+            style={styles.dropDownWrapper}
             onChangeText={onOptionsChange}
             data={options}
             value={selectedOption}
@@ -112,6 +113,9 @@ const styles = StyleSheet.create({
   },
   placeholderStyle: {
     fontFamily: constants.primarySemiBold
+  },
+  dropDownWrapper: {
+    marginLeft: 4
   },
   dropDownTextWrapper: {
     flexDirection: "row",

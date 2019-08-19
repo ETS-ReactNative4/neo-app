@@ -118,17 +118,17 @@ const styles = StyleSheet.create({
     backgroundColor: constants.firstColorBackground
   },
   contentWrapper: {
+    marginTop: 8,
     marginBottom: 24
   },
   titleWrapper: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    marginTop: 35,
-    marginBottom: 16
+    marginTop: 26
   },
   titleText: {
-    ...constants.fontCustom(constants.primaryRegular, 14),
+    ...constants.fontCustom(constants.primaryRegular, 14, 19),
     color: constants.black1,
     width: responsiveWidth(75)
   },

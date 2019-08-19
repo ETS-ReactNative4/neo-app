@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
   contactUsTileContainer: {
     backgroundColor: "white",
     borderTopWidth: StyleSheet.hairlineWidth,
-    borderTopColor: "rgba(0, 0, 0, .3)",
+    borderTopColor: constants.white1,
     alignItems: "center",
     justifyContent: "center"
   },

@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
     marginVertical: 16
   },
   messageSectionWrapper: {
-    marginVertical: 0.5
+    marginVertical: 1
   },
   firstLine: {
     height: 1,

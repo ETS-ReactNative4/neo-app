@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import {
   View,
   FlatList,
@@ -189,18 +189,18 @@ class TicketsConversation extends Component {
     const status = this.props.navigation.getParam("status", "");
     const isClosed = status === "Closed";
     return (
-      <Fragment>
+      <View style={styles.ticketsConversationContainer}>
         <HelpDeskSectionTitle
           title={
             isClosed
               ? constants.helpDeskText.queryClosedText
               : constants.helpDeskText.queryOpenText
           }
-          infoColor={isClosed ? constants.black1 : constants.firstColor}
+          infoColor={isClosed ? constants.shade1 : constants.firstColor}
           infoBackgroundColor={
-            isClosed ? constants.shade5 : constants.firstColorBackground
+            isClosed ? constants.shade4 : constants.firstColorBackground
           }
-          info={isClosed ? "CLOSED" : "OPEN"}
+          info={isClosed ? "Closed" : "Open"}
           containerStyle={styles.sectionTitleWrapper}
         />
         <CustomScrollView
@@ -208,6 +208,7 @@ class TicketsConversation extends Component {
           onRefresh={() => loadTickets(ticketId)}
           refreshing={isMessagesLoading}
           style={styles.ticketsConversationContainer}
+          containerStyle={styles.ticketsConversationContainer}
         >
           {reversedData.map(this._renderItem)}
           <MessageInput
@@ -226,7 +227,7 @@ class TicketsConversation extends Component {
           sendAction={this.sendMessage}
           cancelAction={this.cancelMessage}
         />
-      </Fragment>
+      </View>
     );
   }
 }
@@ -258,7 +259,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     backgroundColor: "white",
     paddingVertical: 16,
-    marginVertical: 0.5
+    marginVertical: 1
   },
   sectionTitleWrapper: {
     marginHorizontal: 24,
