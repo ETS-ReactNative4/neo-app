@@ -28,7 +28,11 @@ const HelpSectionTile = inject("supportStore")(
           style={[styles.helpSectionTileContainer, containerStyle]}
         >
           <View style={styles.leftIconContainer}>
-            <Icon size={16} name={faqIconMap[faqDetails.categoryId]} />
+            <Icon
+              size={20}
+              color={constants.shade2}
+              name={faqIconMap[faqDetails.categoryId]}
+            />
           </View>
           <View style={styles.textSectionContainer}>
             <Text style={styles.titleText}>{title}</Text>
@@ -59,8 +63,8 @@ const styles = StyleSheet.create({
     backgroundColor: "white"
   },
   leftIconContainer: {
-    height: 16,
-    width: 16,
+    height: 20,
+    width: 20,
     marginHorizontal: 24
   },
   textSectionContainer: {
