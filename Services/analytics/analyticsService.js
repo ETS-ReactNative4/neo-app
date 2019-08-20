@@ -1,7 +1,7 @@
 import analytics from "@segment/analytics-react-native";
 import { logBreadCrumb, logError } from "../errorLogger/errorLogger";
 import getActiveRouteName from "../getActiveRouteName/getActiveRouteName";
-// import { analytics as firebaseAnalytics } from "react-native-firebase";
+import { analytics as firebaseAnalytics } from "react-native-firebase";
 import constants from "../../constants/constants";
 // import WebEngage from "react-native-webengage";
 
@@ -35,7 +35,7 @@ const reserved = [
 
 export const recordEvent = (event, params = undefined) => {
   if (!reserved.includes(event)) {
-    // firebaseAnalytics().logEvent(event, params);
+    firebaseAnalytics().logEvent(event, params);
     if (!params) {
       analytics.track(event);
     } else {
@@ -52,25 +52,25 @@ export const enableAnalytics = async () => {
       recordScreenViews: false,
       trackAppLifecycleEvents: true
     });
-    // firebaseAnalytics().setAnalyticsCollectionEnabled(true);
+    firebaseAnalytics().setAnalyticsCollectionEnabled(true);
   } catch (e) {
     logError(e);
   }
 };
 
 export const disableAnalytics = () => {
-  // firebaseAnalytics().setAnalyticsCollectionEnabled(false);
+  firebaseAnalytics().setAnalyticsCollectionEnabled(false);
 };
 
-export const setUserDetails = ({ id, name, email, phone }) => {
+export const setUserDetails = ({ id, name, email, phoneNumber }) => {
   analytics.identify(id, {
     name,
     email,
-    phone
+    phone: phoneNumber
   });
   // webEngage.user.login(id);
-  // firebaseAnalytics().setUserId(id);
-  // firebaseAnalytics().setUserProperty({ name, email, phoneNumber });
+  firebaseAnalytics().setUserId(id);
+  firebaseAnalytics().setUserProperty({ name, email, phoneNumber });
 };
 
 export const screenTracker = (prevState, currentState) => {
@@ -89,6 +89,6 @@ export const screenTracker = (prevState, currentState) => {
     });
     analytics.screen(currentScreen);
     // webEngage.screen(currentScreen);
-    // firebaseAnalytics().setCurrentScreen(currentScreen);
+    firebaseAnalytics().setCurrentScreen(currentScreen);
   }
 };
