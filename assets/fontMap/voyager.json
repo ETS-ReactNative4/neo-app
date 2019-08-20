@@ -177,7 +177,7 @@
       },
       "attrs": [{}],
       "properties": {
-        "order": 1144,
+        "order": 1148,
         "id": 2,
         "name": "visa-related",
         "prevSize": 24,
@@ -408,9 +408,9 @@
       },
       "attrs": [{}],
       "properties": {
-        "order": 1134,
+        "order": 1147,
         "id": 30,
-        "name": "visa1",
+        "name": "visa",
         "prevSize": 24,
         "code": 59734
       },
