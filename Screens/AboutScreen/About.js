@@ -5,10 +5,11 @@ import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import Icon from "../../CommonComponents/Icon/Icon";
 import HamburgerButton from "../../CommonComponents/HamburgerButton/HamburgerButton";
-import { version } from "../../package.json";
+import DeviceInfo from "react-native-device-info";
 import openCustomTab from "../../Services/openCustomTab/openCustomTab";
 
-const appVersionText = constants.aboutUsText.versionText + version;
+const appVersionText =
+  constants.aboutUsText.versionText + DeviceInfo.getVersion();
 const data = [
   {
     icon: constants.rocketIcon,

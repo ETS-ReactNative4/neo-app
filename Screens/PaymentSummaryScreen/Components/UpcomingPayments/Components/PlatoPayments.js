@@ -9,6 +9,7 @@ import PlatoPaymentsCard from "./PlatoPaymentsCard";
 import VoucherSplitSection from "../../../../VoucherScreens/Components/VoucherSplitSection";
 import ordinalConverter from "number-to-words";
 import getTitleCase from "../../../../../Services/getTitleCase/getTitleCase";
+import ConditionsApplyText from "../../../../VoucherScreens/Components/ConditionsApplyText";
 
 /**
  * Will render all the upcoming payments from PLATO
@@ -36,6 +37,7 @@ const PlatoPayments = ({
 
       return {
         amount: getLocaleString(payment.amount),
+        paymentUrl: payment.paymentUrl,
         dueBy:
           dueDateDifference > 7
             ? paymentDue.format(constants.commonDateFormat)
@@ -59,6 +61,10 @@ const PlatoPayments = ({
       <VoucherSplitSection
         containerStyle={{ marginHorizontal: 24 }}
         sections={platoBankDetails}
+      />
+      <ConditionsApplyText
+        text={constants.paymentText.paymentUpdateConditions}
+        containerStyle={styles.conditionsWrapper}
       />
     </View>
   );
@@ -84,6 +90,10 @@ const styles = StyleSheet.create({
     marginTop: 32,
     ...constants.fontCustom(constants.primarySemiBold, 14),
     color: constants.black1
+  },
+  conditionsWrapper: {
+    marginVertical: 16,
+    marginHorizontal: 24
   }
 });
 

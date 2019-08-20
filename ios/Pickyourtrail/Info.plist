@@ -2,6 +2,12 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>WEGLogLevel</key>
+	<string>VERBOSE</string>
+	<key>WEGManualIntegration</key>
+	<true/>
+  <key>WEGLicenseCode</key>
+	<string>~2024b387</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
@@ -17,11 +23,11 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.2.2</string>
+	<string>1.2.3</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>148</string>
+	<string>159</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 	<key>LSRequiresIPhoneOS</key>
@@ -51,6 +57,7 @@
 	<string>This will let you select photos from your library and send it to Pickyourtrail.</string>
 	<key>UIAppFonts</key>
 	<array>
+		<string>hotel-amenities.ttf</string>
 		<string>Sofia Pro.ttf</string>
 		<string>Sofia Pro Light.ttf</string>
 		<string>Sofia Pro Semi Bold.ttf</string>

@@ -13,7 +13,10 @@ import { inject, observer } from "mobx-react/custom";
 import { recordEvent } from "../../Services/analytics/analyticsService";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import openCustomTab from "../../Services/openCustomTab/openCustomTab";
-import { responsiveHeight } from "react-native-responsive-dimensions";
+import {
+  responsiveHeight,
+  responsiveWidth
+} from "react-native-responsive-dimensions";
 
 @ErrorBoundary({ isRoot: true })
 @inject("appState")
@@ -56,7 +59,9 @@ class Starter extends Component {
               underlayColor={constants.firstColorAlpha(0.7)}
               action={() => {
                 this.clickedBooking();
-                recordEvent(constants.starterFindBooking);
+                recordEvent(constants.StarterScreen.event, {
+                  click: constants.StarterScreen.click.findBooking
+                });
               }}
               containerStyle={{ width: 220, height: 48 }}
             />
@@ -70,7 +75,9 @@ class Starter extends Component {
               hasBorder={true}
               action={() => {
                 this.clickedPlan();
-                recordEvent(constants.starterPlanVacation);
+                recordEvent(constants.StarterScreen.event, {
+                  click: constants.StarterScreen.click.planVacation
+                });
               }}
               containerStyle={{ width: 220, height: 48, marginVertical: 16 }}
             />
@@ -84,6 +91,9 @@ class Starter extends Component {
                   openCustomTab(
                     `${constants.productUrl}${constants.termsAndConditions}`
                   );
+                  recordEvent(constants.StarterScreen.event, {
+                    click: constants.StarterScreen.click.termsAndConditions
+                  });
                 }}
               >
                 Terms and Conditions
@@ -95,6 +105,9 @@ class Starter extends Component {
                   openCustomTab(
                     `${constants.productUrl}${constants.privacyPolicy}`
                   );
+                  recordEvent(constants.StarterScreen.event, {
+                    click: constants.StarterScreen.click.privacyPolicy
+                  });
                 }}
               >
                 Privacy Policy
@@ -124,9 +137,9 @@ const styles = StyleSheet.create({
     width: 200
   },
   buttonRow: {
+    width: responsiveWidth(100),
     alignItems: "center",
-    justifyContent: "center",
-    flexWrap: "wrap"
+    justifyContent: "center"
   },
   hyperlink: {
     textDecorationLine: "underline"

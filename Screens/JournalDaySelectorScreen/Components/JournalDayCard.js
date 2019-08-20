@@ -88,7 +88,9 @@ const JournalDayCard = ({
                   textStyle={{ fontSize: 15 }}
                   text={"Edit"}
                   action={() => {
-                    recordEvent(constants.journalHomeEditStory);
+                    recordEvent(constants.Journal.event, {
+                      click: constants.Journal.click.editStory
+                    });
                     editAction();
                   }}
                   containerStyle={{ width: null, marginHorizontal: 16 }}
@@ -101,7 +103,9 @@ const JournalDayCard = ({
                   textStyle={{ fontSize: 15 }}
                   text={"Delete"}
                   action={() => {
-                    recordEvent(constants.journalHomeDeleteStory);
+                    recordEvent(constants.Journal.event, {
+                      click: constants.Journal.click.deleteStory
+                    });
                     deleteAction();
                   }}
                   containerStyle={{ width: null, marginLeft: 8 }}
@@ -114,7 +118,10 @@ const JournalDayCard = ({
                   <Fragment>
                     <TouchableOpacity
                       onPress={() => {
-                        recordEvent(constants.journalHomeStoryShareFacebook);
+                        recordEvent(constants.Journal.event, {
+                          click: constants.Journal.click.shareStory,
+                          share: constants.Journal.share.facebook
+                        });
                         shareFacebook();
                       }}
                       style={styles.shareContainer}
@@ -127,7 +134,10 @@ const JournalDayCard = ({
                     </TouchableOpacity>
                     <TouchableOpacity
                       onPress={() => {
-                        recordEvent(constants.journalHomeStoryShareTwitter);
+                        recordEvent(constants.Journal.event, {
+                          click: constants.Journal.click.shareStory,
+                          share: constants.Journal.share.twitter
+                        });
                         shareTwitter();
                       }}
                       style={[styles.shareContainer, { paddingRight: 16 }]}

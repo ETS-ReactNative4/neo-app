@@ -327,7 +327,9 @@ class Journal extends Component {
             <TouchableOpacity
               style={styles.fabTouchable}
               onPress={() => {
-                recordEvent(constants.journalHomeAddNewStoryFab);
+                recordEvent(constants.Journal.event, {
+                  click: constants.Journal.click.addNewStoryFab
+                });
                 this.addNewStory();
               }}
             >

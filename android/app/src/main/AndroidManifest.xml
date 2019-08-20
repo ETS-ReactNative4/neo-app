@@ -19,10 +19,19 @@
       android:theme="@style/AppTheme"
       tools:replace="android:allowBackup">
 
+      <!-- <meta-data android:name="com.webengage.sdk.android.environment" android:value="us" /> -->
       <meta-data android:name="com.google.firebase.messaging.default_notification_icon" android:resource="@mipmap/ic_notif"/>
       <meta-data android:name="com.google.firebase.messaging.default_notification_channel_id" android:value="my_default_channel"/>
 
-      <service android:name="io.invertase.firebase.messaging.RNFirebaseMessagingService">
+      <!-- <receiver
+        android:name="com.webengage.sdk.android.InstallTracker"
+        android:exported="true">
+        <intent-filter>
+          <action android:name="com.android.vending.INSTALL_REFERRER" />
+        </intent-filter>
+      </receiver> -->
+
+      <service android:name=".MyFirebaseMessagingService">
         <intent-filter>
           <action android:name="com.google.firebase.MESSAGING_EVENT"/>
         </intent-filter>

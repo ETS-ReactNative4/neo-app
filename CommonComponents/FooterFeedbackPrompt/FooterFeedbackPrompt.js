@@ -14,7 +14,9 @@ import { recordEvent } from "../../Services/analytics/analyticsService";
 @observer
 class FooterFeedbackPrompt extends Component {
   positiveAction = () => {
-    recordEvent(constants.tripFeedbackPositiveClick);
+    recordEvent(constants.TripFeed.event, {
+      click: constants.TripFeed.click.positiveClick
+    });
     const {
       setPositiveFeedbackMode,
       animateFeedbackOptions,
@@ -30,7 +32,9 @@ class FooterFeedbackPrompt extends Component {
   };
 
   negativeAction = () => {
-    recordEvent(constants.tripFeedbackNegativeClick);
+    recordEvent(constants.TripFeed.event, {
+      click: constants.TripFeed.click.negativeClick
+    });
     const {
       setNegativeFeedbackMode,
       animateFeedbackOptions,

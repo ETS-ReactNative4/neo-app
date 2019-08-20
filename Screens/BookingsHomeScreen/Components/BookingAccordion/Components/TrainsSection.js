@@ -46,7 +46,10 @@ const Train = ({ train, isLast, navigation, spinValue }) => {
   }
 
   const openVoucher = () => {
-    recordEvent(constants.bookingsHomeAccordionTrainsVoucherClick);
+    recordEvent(constants.Bookings.event, {
+      click: constants.Bookings.click.accordionVoucher,
+      type: constants.Bookings.type.trains
+    });
     resolveLinks(false, false, {
       voucherType: constants.trainVoucherType,
       costingIdentifier: train.key

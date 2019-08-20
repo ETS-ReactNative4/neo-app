@@ -424,6 +424,13 @@ class ActivityVoucher extends Component {
               contact={contactNumber}
               location={{ lat, lon }}
             />
+
+            {lat && lon ? (
+              <TransferInfoBox
+                text={constants.voucherText.directionsDisclaimerText}
+                containerStyle={{ marginVertical: 8 }}
+              />
+            ) : null}
           </View>
           <View style={styles.bookingDetailsSection}>
             <VoucherAccordion

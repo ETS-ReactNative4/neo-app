@@ -25,9 +25,13 @@ const CheckListText = ({
     <TouchableHighlight
       onPress={() => {
         if (isComplete) {
-          recordEvent(constants.packingChecklistUnselectItemClick);
+          recordEvent(constants.PackingChecklist.event, {
+            click: constants.PackingChecklist.click.unselectItem
+          });
         } else {
-          recordEvent(constants.packingChecklistSelectItemClick);
+          recordEvent(constants.PackingChecklist.event, {
+            click: constants.PackingChecklist.click.selectItem
+          });
         }
         toggleCheckListStatus({ id, item, isComplete, type });
       }}

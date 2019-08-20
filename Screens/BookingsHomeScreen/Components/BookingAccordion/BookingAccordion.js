@@ -290,43 +290,73 @@ class BookingAccordion extends Component {
           const selectedSection = sections[sectionIndex];
           switch (selectedSection.type) {
             case "Hotels":
-              recordEvent(constants.bookingsHomeAccordionHotelsHeaderClick);
+              recordEvent(constants.Bookings.event, {
+                click: constants.Bookings.click.accordionHeader,
+                type: constants.Bookings.type.hotels
+              });
               break;
 
             case "Activities":
-              recordEvent(constants.bookingsHomeAccordionActivitiesHeaderClick);
+              recordEvent(constants.Bookings.event, {
+                click: constants.Bookings.click.accordionHeader,
+                type: constants.Bookings.type.activities
+              });
               break;
 
             case "Transfers":
-              recordEvent(constants.bookingsHomeAccordionTransfersHeaderClick);
+              recordEvent(constants.Bookings.event, {
+                click: constants.Bookings.click.accordionHeader,
+                type: constants.Bookings.type.transfers
+              });
               break;
 
             case "Ferries":
-              recordEvent(constants.bookingsHomeAccordionFerriesHeaderClick);
+              recordEvent(constants.Bookings.event, {
+                click: constants.Bookings.click.accordionHeader,
+                type: constants.Bookings.type.ferries
+              });
               break;
 
             case "Trains":
-              recordEvent(constants.bookingsHomeAccordionTrainsHeaderClick);
+              recordEvent(constants.Bookings.event, {
+                click: constants.Bookings.click.accordionHeader,
+                type: constants.Bookings.type.trains
+              });
               break;
 
             case "Flights":
-              recordEvent(constants.bookingsHomeAccordionFlightsHeaderClick);
+              recordEvent(constants.Bookings.event, {
+                click: constants.Bookings.click.accordionHeader,
+                type: constants.Bookings.type.flights
+              });
               break;
 
             case "Passes":
-              recordEvent(constants.bookingsHomeAccordionPassesHeaderClick);
+              recordEvent(constants.Bookings.event, {
+                click: constants.Bookings.click.accordionHeader,
+                type: constants.Bookings.type.passes
+              });
               break;
 
             case "Rental Cars":
-              recordEvent(constants.bookingsHomeAccordionRentalCarsHeaderClick);
+              recordEvent(constants.Bookings.event, {
+                click: constants.Bookings.click.accordionHeader,
+                type: constants.Bookings.type.rentalCars
+              });
               break;
 
             case "Visa":
-              recordEvent(constants.bookingsHomeAccordionVisaHeaderClick);
+              recordEvent(constants.Bookings.event, {
+                click: constants.Bookings.click.accordionHeader,
+                type: constants.Bookings.type.visa
+              });
               break;
 
             case "Insurance":
-              recordEvent(constants.bookingsHomeAccordionInsuranceHeaderClick);
+              recordEvent(constants.Bookings.event, {
+                click: constants.Bookings.click.accordionHeader,
+                type: constants.Bookings.type.insurance
+              });
               break;
 
             default:

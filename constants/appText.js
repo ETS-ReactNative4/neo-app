@@ -27,6 +27,8 @@ const appText = {
   voucherText: {
     freeTransferInfo:
       "This is a self exploration activity. You will need to manage your transport to and from this location. Reach the meeting point 30 minutes prior to avoid last minute hassle.",
+    directionsDisclaimerText:
+      "The exact meeting point can be a few meters away from the actual location. If you need more assistance, reach out to the number given or leave a message in the support group.",
     hotelAmenitiesDisclaimer:
       "Hotel amenities are subject to availability and providing it is at the discretion of the hotel",
     sharedTransferInfo:
@@ -217,8 +219,15 @@ const appText = {
   },
   leisureText: "Got more time?",
   explorePlacesText: "Explore Places",
+  helpDeskText: {
+    faqNotFoundText: "Couldn’t find what you are looking for?",
+    queryOpenText: "This query is open now",
+    queryClosedText: "You can reopen this anytime"
+  },
   paymentText: {
     failureTitle: "We are sorry!",
+    paymentUpdateConditions:
+      "Please note that your payment will take atleast 48 hours to get updated in our system",
     failureMessage:
       "We are unable to process your payment. Please try again or contact our helpdesk for further assistance.",
     contactHelpdesk: "Contact helpdesk",

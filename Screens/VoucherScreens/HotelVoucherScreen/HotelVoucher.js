@@ -16,13 +16,14 @@ import VoucherAddressSection from "../Components/VoucherAddressSection";
 import moment from "moment";
 import VoucherContactActionBar from "../Components/VoucherContactActionBar";
 import ErrorBoundary from "../../../CommonComponents/ErrorBoundary/ErrorBoundary";
-import Icon from "../../../CommonComponents/Icon/Icon";
 import ViewVoucherButton from "../Components/ViewVoucherButton";
 import FooterStickyActionBar from "../../../CommonComponents/FooterStickyActionBar/FooterStickyActionBar";
 import ConditionsApplyText from "../Components/ConditionsApplyText";
 import CheckInCheckOut from "../Components/CheckInCheckOut";
 import _ from "lodash";
 import TransferInfoBox from "../ActivityVoucherScreen/Components/TransferInfoBox";
+import { createIconSetFromIcoMoon } from "react-native-vector-icons";
+import icoMoonConfig from "../../../assets/fontMap/hotel-amenities.json";
 
 const xHeight = isIphoneX()
   ? constants.xNotchHeight
@@ -55,6 +56,7 @@ class HotelVoucher extends Component {
 
   render() {
     const hotel = this.props.navigation.getParam("hotel", {});
+    const Icon = createIconSetFromIcoMoon(icoMoonConfig);
 
     const {
       checkInDateDisplay,
@@ -110,7 +112,7 @@ class HotelVoucher extends Component {
                   ]}
                 >
                   <Icon
-                    name={amenity.iconUrl.replace("vehoicon-", "")}
+                    name={amenity.iconUrl}
                     size={18}
                     color={constants.black2}
                   />
@@ -355,6 +357,13 @@ class HotelVoucher extends Component {
             ) : null}
 
             <VoucherContactActionBar contact={mobile} location={{ lat, lon }} />
+
+            {lat && lon ? (
+              <TransferInfoBox
+                text={constants.voucherText.directionsDisclaimerText}
+                containerStyle={{ marginVertical: 8 }}
+              />
+            ) : null}
 
             <VoucherAccordion sections={amenitiesSection} />
 

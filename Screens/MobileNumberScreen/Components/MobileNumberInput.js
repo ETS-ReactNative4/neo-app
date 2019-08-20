@@ -60,7 +60,9 @@ const MobileNumberInput = ({
           returnKeyType={"next"}
           editable={!isMobileVerified}
           onSubmitEditing={() => {
-            recordEvent(constants.mobileNumberKeyboardClick);
+            recordEvent(constants.MobileNumber.event, {
+              click: constants.MobileNumber.click.requestOtpKeyboard
+            });
             submitMobileNumber();
           }}
           keyboardAppearance={"dark"}

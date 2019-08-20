@@ -16,21 +16,28 @@
 #else
 #import "RNSentry.h" // This is used for versions of react < 0.40
 #endif
+// #import <WebEngage/WebEngage.h>
+#import <UserNotifications/UserNotifications.h>
+
+
+// @interface AppDelegate () < UNUserNotificationCenterDelegate >
+
+// @end
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+  // [[WebEngage sharedInstance] application:application didFinishLaunchingWithOptions:launchOptions];
   [FIRApp configure];
   [RNFirebaseNotifications configure];
-  NSURL *jsCodeLocation;
 
-  jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];
-RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
-                                                      moduleName:@"Pickyourtrail"
-                                               initialProperties:nil
-                                                   launchOptions:launchOptions];
-[RNSentry installWithRootView:rootView];
+  RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
+  RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge
+                                                   moduleName:@"Pickyourtrail"
+                                            initialProperties:nil];
+
+  [RNSentry installWithRootView:rootView];
 
 
   rootView.backgroundColor = [[UIColor alloc] initWithRed:1.0f green:1.0f blue:1.0f alpha:1];
@@ -48,12 +55,38 @@ RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(nonnull NSDictionary *)userInfo
-                                                       fetchCompletionHandler:(nonnull void (^)(UIBackgroundFetchResult))completionHandler{
+fetchCompletionHandler:(nonnull void (^)(UIBackgroundFetchResult))completionHandler{
   [[RNFirebaseNotifications instance] didReceiveRemoteNotification:userInfo fetchCompletionHandler:completionHandler];
 }
 
 - (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings {
   [[RNFirebaseMessaging instance] didRegisterUserNotificationSettings:notificationSettings];
 }
+
+- (NSURL *)sourceURLForBridge:(RCTBridge *)bridge
+{
+#if DEBUG
+  return [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];
+#else
+  return [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
+#endif
+}
+
+// - (void)userNotificationCenter:(UNUserNotificationCenter *)center
+//        willPresentNotification:(UNNotification *)notification
+//          withCompletionHandler:(void (^)(UNNotificationPresentationOptions))completionHandler {
+
+//   [WEGManualIntegration userNotificationCenter:center willPresentNotification:notification];
+
+//   completionHandler(UNNotificationPresentationOptionBadge | UNNotificationPresentationOptionAlert | UNNotificationPresentationOptionSound);
+// }
+
+// - (void)userNotificationCenter:(UNUserNotificationCenter *)center
+// didReceiveNotificationResponse:(UNNotificationResponse *)response
+//          withCompletionHandler:(void (^)(void))completionHandler {
+
+//   [WEGManualIntegration userNotificationCenter:center didReceiveNotificationResponse:response];
+//   completionHandler();
+// }
 
 @end

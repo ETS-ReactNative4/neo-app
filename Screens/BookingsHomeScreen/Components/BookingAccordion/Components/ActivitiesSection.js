@@ -47,7 +47,10 @@ const Activities = ({ activity, isLast, navigation, spinValue }) => {
   }
 
   const openVoucher = () => {
-    recordEvent(constants.bookingsHomeAccordionActivitiesVoucherClick);
+    recordEvent(constants.Bookings.event, {
+      click: constants.Bookings.click.accordionVoucher,
+      type: constants.Bookings.type.activities
+    });
     resolveLinks(false, false, {
       voucherType: constants.activityVoucherType,
       costingIdentifier: activity.costing.key

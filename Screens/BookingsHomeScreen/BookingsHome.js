@@ -87,7 +87,9 @@ class BookingsHome extends Component {
   openSearch = () => {};
 
   downloadAllVouchers = () => {
-    recordEvent(constants.bookingsHomeDownloadAllVouchersClick);
+    recordEvent(constants.Bookings.event, {
+      click: constants.Bookings.click.downloadAllVouchers
+    });
     const { selectedItineraryId } = this.props.itineraries;
     const { setError, setInfo } = this.props.infoStore;
     this.setState(

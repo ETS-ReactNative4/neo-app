@@ -166,6 +166,19 @@ const imageAssets = {
   customTripIllus: require("../assets/images/illustrations/logo-custom-trip-illus.png"),
 
   /**
+   * FAQ Icons
+   */
+  appRelatedFaqIcon: "app-related",
+  cancellationRelatedFaqIcon: "cancellation--rescheduling",
+  itineraryRelatedFaqIcon: "itinerary-changes",
+  otherFaqIcon: "others",
+  paymentRelatedFaqIcon: "payment-related",
+  onVactionFaqIcon: "on-vacation",
+  preVacationFaqIcon: "pre-vacation",
+  visaRelatedFaqIcon: "visa-related",
+  voucherRelatedFaqIcon: "voucher-related",
+
+  /**
    * TODO: Airline logo placeholder && transfer placeholder
    * @param airlineCode
    * @returns {string}

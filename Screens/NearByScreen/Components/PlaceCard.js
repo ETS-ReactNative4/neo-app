@@ -68,7 +68,9 @@ const PlaceCard = ({ selectedPlace, isVisible, onClose, fromLocation }) => {
               text={"Directions"}
               containerStyle={{ width: (responsiveWidth(100) - 48) / 2 - 12 }}
               action={() => {
-                recordEvent(constants.nearByPlaceDirectionsClick);
+                recordEvent(constants.Places.event, {
+                  click: constants.Places.click.placeDirections
+                });
                 directions({
                   latitude: selectedPlace.geometry.location.lat,
                   longitude: selectedPlace.geometry.location.lng
@@ -84,7 +86,9 @@ const PlaceCard = ({ selectedPlace, isVisible, onClose, fromLocation }) => {
               text={"Contact"}
               containerStyle={{ width: (responsiveWidth(100) - 48) / 2 - 12 }}
               action={() => {
-                recordEvent(constants.nearByContactPlaceClick);
+                recordEvent(constants.Places.event, {
+                  click: constants.Places.click.placeContact
+                });
                 dialer(selectedPlace.internationalPhoneNumber);
               }}
               color={"transparent"}

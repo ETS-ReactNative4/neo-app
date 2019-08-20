@@ -8,15 +8,20 @@ import {
   Platform
 } from "react-native";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
-import ConversationCard from "./Components/ConversationCard";
 import constants from "../../constants/constants";
 import KeyboardAvoidingActionBar from "../../CommonComponents/KeyboardAvoidingActionBar/KeyboardAvoidingActionBar";
 import SimpleButton from "../../CommonComponents/SimpleButton/SimpleButton";
-import MultiLineHeader from "../../CommonComponents/MultilineHeader/MultiLineHeader";
 import { inject, observer } from "mobx-react/custom";
 import moment from "moment";
 import apiCall from "../../Services/networkRequests/apiCall";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
+import CustomScrollView from "../../CommonComponents/CustomScrollView/CustomScrollView";
+import MessageBlob from "../SupportCenterScreen/Components/MessageBlob";
+import HelpDeskSectionTitle from "../SupportCenterScreen/Components/HelpDeskSectionTitle";
+import MessageInput from "../SupportCenterScreen/Components/MessageInput";
+import { responsiveWidth } from "react-native-responsive-dimensions";
+import ContactActionBar from "../ContactUsScreen/Components/ContactActionBar";
+import DebouncedAlert from "../../CommonComponents/DebouncedAlert/DebouncedAlert";
 
 @ErrorBoundary()
 @inject("userStore")
@@ -27,21 +32,8 @@ import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 class TicketsConversation extends Component {
   static navigationOptions = ({ navigation }) => {
     const title = navigation.getParam("title", "");
-    const status = navigation.getParam("status", "");
     return {
-      header: (
-        <CommonHeader
-          title={""}
-          TitleComponent={
-            <MultiLineHeader
-              duration={status}
-              title={title}
-              disableDropDown={true}
-            />
-          }
-          navigation={navigation}
-        />
-      )
+      header: <CommonHeader title={title} navigation={navigation} />
     };
   };
 
@@ -49,32 +41,53 @@ class TicketsConversation extends Component {
     messageText: "",
     isSending: false
   };
+  _scrollView = React.createRef();
 
-  _renderItem = ({ item: conversation, index }) => {
+  _renderItem = (conversation, index) => {
     const { userDetails } = this.props.userStore;
     const user =
       userDetails.email === conversation.userEmail
         ? "You"
         : conversation.userName || "Admin";
+    const isAdmin = userDetails.email !== conversation.userEmail;
+    const name = isAdmin
+      ? `Reply from ${conversation.userName || "Admin"}`.toUpperCase()
+      : "YOU";
     return (
-      <ConversationCard
+      <MessageBlob
+        containerStyle={styles.blobContainer}
+        isAdmin={isAdmin}
+        name={name}
         message={conversation.msg}
-        time={`${moment(conversation.msgTime).fromNow()}, ${moment(
-          conversation.msgTime
-        ).format("hh:mma")}`}
-        user={user}
-        containerStyle={{ marginHorizontal: 24 }}
+        time={moment(conversation.msgTime).format(
+          `${constants.shortTimeFormat} - ${constants.shortCommonDateFormat}`
+        )}
       />
     );
+    //  <ConversationCard
+    //    message={conversation.msg}
+    //    time={`${moment(conversation.msgTime).fromNow()}, ${moment(
+    //      conversation.msgTime
+    //    ).format("hh:mma")}`}
+    //    user={user}
+    //    containerStyle={{ marginHorizontal: 24 }}
+    //  />
   };
 
   componentDidMount() {
     const ticketId = this.props.navigation.getParam("ticketId", "");
     const { loadTickets } = this.props.supportStore;
     loadTickets(ticketId);
+    setTimeout(() => {
+      this._scrollView.current && this._scrollView.current.scrollToEnd();
+    }, 300);
   }
 
-  _keyExtractor = (item, index) => index;
+  keyBoardStateChange = visibility => {
+    if (visibility === "visible") {
+      this._scrollView.current && this._scrollView.current.scrollToEnd();
+    }
+  };
 
   onEditText = messageText => this.setState({ messageText });
 
@@ -138,6 +151,32 @@ class TicketsConversation extends Component {
     }
   };
 
+  cancelMessage = () => {
+    const goBack = () => this.props.navigation.goBack();
+    if (this.state.messageText) {
+      DebouncedAlert(
+        "Are you sure?",
+        "Your current message will be discarded",
+        [
+          {
+            text: "Stay here",
+            style: "cancel",
+            onPress: () => null
+          },
+          {
+            text: "Go Back",
+            onPress: () => {
+              Keyboard.dismiss();
+              goBack();
+            }
+          }
+        ]
+      );
+    } else {
+      goBack();
+    }
+  };
+
   render() {
     const ticketId = this.props.navigation.getParam("ticketId", "");
     const {
@@ -145,73 +184,58 @@ class TicketsConversation extends Component {
       isMessagesLoading,
       getMessagesByTicket
     } = this.props.supportStore;
-    const data = getMessagesByTicket(ticketId);
-    return [
-      <View style={styles.ticketsConversationContainer} key={0}>
-        <FlatList
-          data={data}
-          keyExtractor={this._keyExtractor}
+    const data = getMessagesByTicket(ticketId) || [];
+    const reversedData = [...data].reverse();
+    const status = this.props.navigation.getParam("status", "");
+    const isClosed = status === "Closed";
+    return (
+      <View style={styles.ticketsConversationContainer}>
+        <HelpDeskSectionTitle
+          title={
+            isClosed
+              ? constants.helpDeskText.queryClosedText
+              : constants.helpDeskText.queryOpenText
+          }
+          infoColor={isClosed ? constants.shade1 : constants.firstColor}
+          infoBackgroundColor={
+            isClosed ? constants.shade4 : constants.firstColorBackground
+          }
+          info={isClosed ? "Closed" : "Open"}
+          containerStyle={styles.sectionTitleWrapper}
+        />
+        <CustomScrollView
+          scrollRef={this._scrollView}
           onRefresh={() => loadTickets(ticketId)}
           refreshing={isMessagesLoading}
-          renderItem={this._renderItem}
-          inverted={true}
-          ItemSeparatorComponent={() => (
-            <View
-              style={{
-                borderTopWidth: StyleSheet.hairlineWidth,
-                borderTopColor: constants.shade4,
-                marginHorizontal: 24
-              }}
-            />
-          )}
-        />
-        <KeyboardAvoidingActionBar
-          navigation={this.props.navigation}
-          containerStyle={styles.actionBar}
-          key={1}
+          style={styles.ticketsConversationContainer}
+          containerStyle={styles.ticketsConversationContainer}
         >
-          <TextInput
-            style={styles.supportTextInput}
+          {reversedData.map(this._renderItem)}
+          <MessageInput
+            text={this.state.messageText}
             onChangeText={this.onEditText}
-            returnKeyType={"next"}
-            underlineColorAndroid={"transparent"}
-            value={this.state.messageText}
-            multiline={true}
-            onSubmitEditing={() => null}
-            placeholderTextColor={constants.shade2}
-            placeholder={"Type your message..."}
+            label={"YOU"}
+            textPlaceholder={"Type your message here..."}
+            containerStyle={styles.blobContainer}
           />
-          <SimpleButton
-            text={""}
-            containerStyle={{
-              width: 24,
-              marginRight: 16,
-              marginLeft: 8,
-              ...Platform.select({
-                android: {
-                  marginTop: 12,
-                  marginLeft: 16
-                }
-              })
-            }}
-            color={"transparent"}
-            action={
-              this.state.isSending ? () => null : () => this.sendMessage()
-            }
-            icon={constants.arrowRight}
-            iconSize={Platform.OS === "ios" ? 24 : 28}
-            textColor={constants.shade3}
-          />
-        </KeyboardAvoidingActionBar>
+          <View style={styles.blobPlaceholder} />
+        </CustomScrollView>
+        <ContactActionBar
+          containerStyle={styles.inputActionBar}
+          navigation={this.props.navigation}
+          keyBoardStateChange={this.keyBoardStateChange}
+          sendAction={this.sendMessage}
+          cancelAction={this.cancelMessage}
+        />
       </View>
-    ];
+    );
   }
 }
 
 const styles = StyleSheet.create({
   ticketsConversationContainer: {
     flex: 1,
-    backgroundColor: "white"
+    backgroundColor: constants.white1
   },
   actionBar: {
     flexDirection: "row"
@@ -230,6 +254,23 @@ const styles = StyleSheet.create({
     marginLeft: 24,
     marginTop: 8,
     ...constants.fontCustom(constants.primaryLight, 15)
+  },
+  blobContainer: {
+    paddingHorizontal: 24,
+    backgroundColor: "white",
+    paddingVertical: 16,
+    marginVertical: 1
+  },
+  sectionTitleWrapper: {
+    marginHorizontal: 24,
+    marginVertical: 12
+  },
+  blobPlaceholder: {
+    height: 36,
+    width: responsiveWidth(100)
+  },
+  inputActionBar: {
+    backgroundColor: "white"
   }
 });
 

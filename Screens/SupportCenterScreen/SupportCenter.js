@@ -1,24 +1,12 @@
 import React, { Component } from "react";
-import {
-  View,
-  StyleSheet,
-  ScrollView,
-  Image,
-  RefreshControl
-} from "react-native";
+import { View, StyleSheet } from "react-native";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
-import FaqSectionTile from "./Components/FaqSectionTile";
-import ContactUsTile from "./Components/ContactUsTile";
-import TicketTile from "./Components/TicketTile";
 import constants from "../../constants/constants";
-import {
-  responsiveHeight,
-  responsiveWidth
-} from "react-native-responsive-dimensions";
 import { inject, observer } from "mobx-react/custom";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
-import CustomScrollView from "../../CommonComponents/CustomScrollView/CustomScrollView";
 import DeepLinkHandler from "../../CommonComponents/DeepLinkHandler/DeepLinkHandler";
+import HelpDeskView from "../ChatScreen/Components/HelpDeskView";
+import ContactUsTile from "./Components/ContactUsTile";
 
 @ErrorBoundary()
 @DeepLinkHandler
@@ -38,6 +26,10 @@ class SupportCenter extends Component {
     });
   };
 
+  viewTickets = () => {
+    this.props.navigation.navigate("YourTickets");
+  };
+
   componentDidMount() {
     const { loadConversation, loadFaqDetails } = this.props.supportStore;
     setTimeout(() => {
@@ -46,8 +38,12 @@ class SupportCenter extends Component {
     }, 1000);
   }
 
+  contactSupport = () => {
+    const title = constants.defaultSupportType;
+    this.props.navigation.navigate("ContactUs", { type: title });
+  };
+
   render() {
-    const { navigation } = this.props;
     const {
       faqDetails,
       getConversationsByItineraryId,
@@ -61,40 +57,35 @@ class SupportCenter extends Component {
 
     const faqSections = Object.keys(faqDetails).map(faqSection => {
       return {
-        sectionName: faqSection,
-        onClick: () => navigation.navigate("FAQ", { title: faqSection })
+        title: faqSection,
+        icon: faqSection,
+        action: () =>
+          this.props.navigation.navigate("FAQ", { title: faqSection })
       };
     });
 
+    const ctaText = conversations.length
+      ? `${conversations.length} Message${conversations.length > 1 ? "s" : ""}`
+      : "Message us";
+    const ctaAction = conversations.length
+      ? this.viewTickets
+      : this.contactSupport;
+
     return (
       <View style={styles.supportCenterContainer}>
-        <CustomScrollView
+        <HelpDeskView
+          faqSections={faqSections}
+          navigation={this.props.navigation}
+          disableHeader={true}
+          topBarText={"Your Conversations"}
+          topBarCta={ctaText}
+          topBarCtaAction={ctaAction}
           refreshing={isConversationLoading}
-          onRefresh={() => loadConversation()}
-          style={styles.supportScroll}
-        >
-          <Image
-            source={constants.helpSupportIllus}
-            resizeMode={"contain"}
-            style={styles.supportIllustration}
-          />
-          {conversations.length ? (
-            <TicketTile
-              containerStyle={{ marginHorizontal: 24 }}
-              action={() => navigation.navigate("YourTickets")}
-            />
-          ) : null}
-          {faqSections.map((faqSection, faqIndex) => {
-            return (
-              <FaqSectionTile
-                containerStyle={{ marginHorizontal: 24 }}
-                onClick={faqSection.onClick}
-                key={faqIndex}
-                sectionName={faqSection.sectionName}
-              />
-            );
-          })}
-        </CustomScrollView>
+          onRefresh={loadConversation}
+          isTitleBold={true}
+          disableTopBar={!conversations.length}
+          chatActivationMessage={""}
+        />
         <ContactUsTile contactAction={this.contactSupport} />
       </View>
     );
@@ -104,13 +95,7 @@ class SupportCenter extends Component {
 const styles = StyleSheet.create({
   supportCenterContainer: {
     flex: 1,
-    backgroundColor: "white"
-  },
-  supportScroll: {},
-  supportIllustration: {
-    height: responsiveHeight(40),
-    width: responsiveWidth(100) - 48,
-    marginHorizontal: 24
+    backgroundColor: constants.white1
   }
 });
 

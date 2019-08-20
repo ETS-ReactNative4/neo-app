@@ -18,7 +18,9 @@ const JournalActionRow = ({
     <View style={styles.journalActionRowContainer}>
       <TouchableOpacity
         onPress={() => {
-          recordEvent(constants.journalHomeAddNewStory);
+          recordEvent(constants.Journal.event, {
+            click: constants.Journal.click.addNewStory
+          });
           addStory();
         }}
         activeOpacity={0.8}
@@ -32,7 +34,9 @@ const JournalActionRow = ({
       {isJournalPublished ? (
         <TouchableOpacity
           onPress={() => {
-            recordEvent(constants.journalHomeViewJournal);
+            recordEvent(constants.Journal.event, {
+              click: constants.Journal.click.viewJournal
+            });
             viewJournal();
           }}
           activeOpacity={0.8}
@@ -48,10 +52,14 @@ const JournalActionRow = ({
         <TouchableOpacity
           onPress={() => {
             if (isJournalPublished) {
-              recordEvent(constants.journalHomeShareJournal);
+              recordEvent(constants.Journal.event, {
+                click: constants.Journal.click.openShareScreen
+              });
               shareJournal();
             } else {
-              recordEvent(constants.journalHomePublishJournal);
+              recordEvent(constants.Journal.event, {
+                click: constants.Journal.click.publishJournal
+              });
               publishJournal();
             }
           }}

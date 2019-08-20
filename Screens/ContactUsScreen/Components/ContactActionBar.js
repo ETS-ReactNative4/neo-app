@@ -18,21 +18,26 @@ const ContactActionBar = ({
   containerStyle,
   cancelAction,
   sendAction,
-  navigation
+  navigation,
+  keyBoardStateChange = () => null
 }) => {
   if (!containerStyle) containerStyle = {};
   return (
-    <KeyboardAvoidingActionBar navigation={navigation}>
-      <View style={styles.contactActionSection}>
+    <KeyboardAvoidingActionBar
+      onKeyBoardStateChange={keyBoardStateChange}
+      navigation={navigation}
+    >
+      <View style={[styles.contactActionSection, containerStyle]}>
         <SimpleButton
           text={"Cancel"}
           action={cancelAction}
-          textColor={constants.black2}
+          textColor={constants.firstColor}
           hasBorder={true}
           containerStyle={{
             backgroundColor: "white",
             width: responsiveWidth(40),
-            marginHorizontal: 4
+            marginHorizontal: 4,
+            borderRadius: 2
           }}
         />
         <SimpleButton
@@ -40,24 +45,29 @@ const ContactActionBar = ({
           action={sendAction}
           textColor={"white"}
           underlayColor={constants.firstColorAlpha(0.4)}
-          containerStyle={{ width: responsiveWidth(40), marginHorizontal: 4 }}
+          containerStyle={{
+            width: responsiveWidth(40),
+            marginHorizontal: 4,
+            borderRadius: 2
+          }}
         />
       </View>
     </KeyboardAvoidingActionBar>
   );
 };
 
-ContactActionBar.propTypes = forbidExtraProps({
+ContactActionBar.propTypes = {
   containerStyle: PropTypes.object,
-  sectionName: PropTypes.string.isRequired,
-  onClick: PropTypes.func.isRequired,
-  navigation: PropTypes.object.isRequired
-});
+  navigation: PropTypes.object.isRequired,
+  keyBoardStateChange: PropTypes.func,
+  cancelAction: PropTypes.func,
+  sendAction: PropTypes.func
+};
 
 const styles = StyleSheet.create({
   contactActionContainer: {
-    borderTopWidth: StyleSheet.hairlineWidth,
-    borderTopColor: "rgba(0, 0, 0, .3)"
+    borderTopWidth: 2,
+    borderTopColor: constants.white1
   },
   contactActionSection: {
     flexDirection: "row",

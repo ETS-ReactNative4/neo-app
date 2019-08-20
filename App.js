@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from "react";
-import { UIManager, NetInfo } from "react-native";
+import { UIManager } from "react-native";
+import NetInfo from "@react-native-community/netinfo";
 import { Provider } from "mobx-react";
 import store from "./mobx/Store";
 import { setNavigationService } from "./Services/navigationService/navigationService";
@@ -16,17 +17,22 @@ import AppOverlays from "./Screens/AppOverlays/AppOverlays";
 
 updateStoreService(store);
 
+/**
+ * During app development uncomment the following lines
+ */
+// console.disableYellowBox = true;
+
 @ErrorBoundary({ isRoot: true })
 class App extends Component {
   componentDidMount() {
     UIManager.setLayoutAnimationEnabledExperimental &&
       UIManager.setLayoutAnimationEnabledExperimental(true);
 
-    if (!__DEV__ && isProduction()) {
-      enableAnalytics();
-    } else {
-      disableAnalytics();
-    }
+    // if (!__DEV__) {
+    enableAnalytics();
+    // } else {
+    //   disableAnalytics();
+    // }
 
     NetInfo.isConnected.fetch().then(isConnected => {
       this.handleFirstConnectivityChange(isConnected);

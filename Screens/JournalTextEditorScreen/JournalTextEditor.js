@@ -13,6 +13,7 @@ import DebouncedAlert from "../../CommonComponents/DebouncedAlert/DebouncedAlert
 import BackHandlerHoc from "../../CommonComponents/BackHandlerHoc/BackHandlerHoc";
 import AddImageThumbnail from "./Components/AddImageThumbnail";
 import { StackActions, NavigationActions } from "react-navigation";
+import extractTextFromHtml from "../../Services/extractTextFromHtml/extractTextFromHtml";
 
 let _submitStory = () => null;
 let _backHandler = () => null;
@@ -70,6 +71,8 @@ class JournalTextEditor extends Component {
     isTitleFocused: false,
     isKeyboardVisible: false,
     richText: "",
+    plainText: "",
+    isRichTextSupported: true,
     preSelectedImages: [],
     selectedImagesList: []
   };
@@ -98,6 +101,8 @@ class JournalTextEditor extends Component {
     });
   };
 
+  onPlainTextChange = plainText => this.setState({ plainText });
+
   submitTitle = () => {
     /**
      * Timeout needed for the editor controls to load and enable the event listeners
@@ -112,15 +117,26 @@ class JournalTextEditor extends Component {
    * and return the user to the journal home screen
    */
   submitStory = () => {
+    this.blurRichTextEditor();
     if (!this.state.title) {
       DebouncedAlert(
         constants.journalAlertMessages.noTitleForStory.header,
         constants.journalAlertMessages.noTitleForStory.message
       );
     } else {
-      const richText =
-        this._textEditorRef.current &&
-        this._textEditorRef.current.retrieveRichText();
+      /**
+       * Will check if rich text editor is supported and will select
+       * plain text or the rich text to be displayed
+       */
+      let richText = "";
+      if (this.state.isRichTextSupported) {
+        richText =
+          this._textEditorRef.current &&
+          this._textEditorRef.current.retrieveRichText &&
+          this._textEditorRef.current.retrieveRichText();
+      } else {
+        richText = this.state.plainText;
+      }
       const { submitStory, createNewStory } = this.props.journalStore;
       const activeStory = this.props.navigation.getParam("activeStory", "");
       const activePage = this.props.navigation.getParam("activePage", "");
@@ -165,15 +181,26 @@ class JournalTextEditor extends Component {
    * display the publish screen for the user in story mode.
    */
   publishStory = () => {
+    this.blurRichTextEditor();
     if (!this.state.title) {
       DebouncedAlert(
         constants.journalAlertMessages.noTitleForStory.header,
         constants.journalAlertMessages.noTitleForStory.message
       );
     } else {
-      const richText =
-        this._textEditorRef.current &&
-        this._textEditorRef.current.retrieveRichText();
+      /**
+       * Will check if rich text editor is supported and will select
+       * plain text or the rich text to be displayed
+       */
+      let richText = "";
+      if (this.state.isRichTextSupported) {
+        richText =
+          this._textEditorRef.current &&
+          this._textEditorRef.current.retrieveRichText &&
+          this._textEditorRef.current.retrieveRichText();
+      } else {
+        richText = this.state.plainText;
+      }
       const { submitStory, createNewStory } = this.props.journalStore;
       const activeStory = this.props.navigation.getParam("activeStory", "");
       const activePage = this.props.navigation.getParam("activePage", "");
@@ -251,11 +278,19 @@ class JournalTextEditor extends Component {
     const { getStoryById } = this.props.journalStore;
     const storyDetails = getStoryById({ pageId, storyId });
     this.setState({
-      title: storyDetails.title
+      title: storyDetails.title,
+      plainText: extractTextFromHtml(storyDetails.richText || "")
     });
 
     this.initalizeTextEditor();
+    this.checkDeviceCompatibility();
   }
+
+  checkDeviceCompatibility = () => {
+    if (Platform.OS === constants.platformAndroid) {
+      this.setState({ isRichTextSupported: false });
+    }
+  };
 
   initalizeTextEditor = () => {
     const storyId = this.props.navigation.getParam("activeStory", "");
@@ -308,8 +343,13 @@ class JournalTextEditor extends Component {
     });
   };
 
+  blurRichTextEditor = () => {
+    this._richTextInputRef.current && this._richTextInputRef.current.blur();
+  };
+
   backHandler = () => {
     if (this.state.isKeyboardVisible) {
+      this.blurRichTextEditor();
       Keyboard.dismiss();
     } else {
       DebouncedAlert(
@@ -412,7 +452,10 @@ class JournalTextEditor extends Component {
           onKeyBoardStateChange={this.onKeyBoardStateChange}
           navigation={this.props.navigation}
           richTextInputRef={this._richTextInputRef}
-          initialValue={storyDetails.storyRichText || ""}
+          initialValue={storyDetails.richText || ""}
+          plainText={this.state.plainText}
+          onPlainTextChange={this.onPlainTextChange}
+          isRichTextSupported={this.state.isRichTextSupported}
         />
       </View>
     );
@@ -430,14 +473,14 @@ const styles = StyleSheet.create({
   inputStyle: {
     ...Platform.select({
       ios: {
-        height: 32
+        height: 38
       },
       android: {
-        height: 40
+        height: 46
       }
     }),
     marginHorizontal: 24,
-    ...constants.fontCustom(constants.primarySemiBold, 18),
+    ...constants.fontCustom(constants.primarySemiBold, 24),
     marginTop: 24,
     marginBottom: 16
   }

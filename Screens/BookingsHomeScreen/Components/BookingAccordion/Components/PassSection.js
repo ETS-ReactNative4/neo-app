@@ -44,7 +44,10 @@ const Pass = ({ pass, isLast, navigation, spinValue }) => {
   }
 
   const openVoucher = () => {
-    recordEvent(constants.bookingsHomeAccordionPassesVoucherClick);
+    recordEvent(constants.Bookings.event, {
+      click: constants.Bookings.click.accordionVoucher,
+      type: constants.Bookings.type.passes
+    });
     navigation.navigate("PassVoucher", { pass });
   };
 

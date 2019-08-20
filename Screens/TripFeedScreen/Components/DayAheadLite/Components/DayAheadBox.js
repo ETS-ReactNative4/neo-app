@@ -22,7 +22,11 @@ const DayAheadBox = ({
     <TouchableOpacity
       style={styles.dayAheadBoxTouchable}
       onPress={() => {
-        recordEvent(widgetName);
+        if (widgetName) {
+          recordEvent(constants.TripFeed.event, {
+            widget: widgetName
+          });
+        }
         resolveLinks(
           link,
           modalData,

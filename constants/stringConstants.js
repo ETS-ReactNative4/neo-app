@@ -1,3 +1,5 @@
+import { Platform } from "react-native";
+
 const stringConstants = {
   customCheckListName: "Your list",
   defaultSupportType: "GENERAL",
@@ -11,7 +13,7 @@ const stringConstants = {
    */
   getPackagesListFromProduct: "api/packages/itineraries",
   productCustomizePage: "customize",
-  productAnalyticsCPID: "mobile-app",
+  leadSourceMappingQueryParams: `?cpid=mobile-app&platform=${Platform.OS}-app`,
 
   /**
    * Static Page Urls
@@ -122,13 +124,17 @@ const stringConstants = {
   /**
    * Text Editor Controls
    */
-  textEditorControlBold: "bold",
-  textEditorControlHeading: "heading",
-  textEditorControlUnordered: "ul",
-  textEditorControlUnderline: "underline",
-  textEditorControlBody: "body",
+  textEditorControlBold: "BOLD",
+  textEditorControlHeading: "header-two",
+  textEditorControlUnordered: "unordered-list-item",
+  textEditorControlUnderline: "UNDERLINE",
 
-  tripToggleStatusStorageKey: "@Pickyourtrail/tripToggleStatus"
+  tripToggleStatusStorageKey: "@Pickyourtrail/tripToggleStatus",
+
+  /**
+   * Samsung Device manufacturer
+   */
+  samsungManufacturer: "samsung"
 };
 
 export default stringConstants;

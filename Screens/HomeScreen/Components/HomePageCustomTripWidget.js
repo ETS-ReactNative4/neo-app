@@ -35,8 +35,12 @@ const HomePageCustomTripWidget = ({ navigation }) => {
           color={constants.firstColor}
           underlayColor={constants.firstColorAlpha(0.7)}
           action={() => {
-            recordEvent(constants.homeOpenProductClick);
-            openCustomTab(constants.productUrl);
+            recordEvent(constants.Home.event, {
+              click: constants.Home.click.openProduct
+            });
+            openCustomTab(
+              `${constants.productUrl}${constants.leadSourceMappingQueryParams}`
+            );
           }}
           containerStyle={{ width: 208, height: 40 }}
         />
@@ -49,7 +53,9 @@ const HomePageCustomTripWidget = ({ navigation }) => {
           color={`white`}
           hasBorder={true}
           action={() => {
-            recordEvent(constants.homeFindBookingClick);
+            recordEvent(constants.Home.event, {
+              click: constants.Home.click.findBooking
+            });
             toggleHomeScreen(navigation);
           }}
           containerStyle={{ width: 208, height: 40, marginVertical: 16 }}

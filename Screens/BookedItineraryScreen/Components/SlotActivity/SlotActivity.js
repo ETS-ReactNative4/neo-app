@@ -116,7 +116,10 @@ const SlotActivity = inject("itineraries")(
               return null;
             }
             onClick = () => {
-              recordEvent(constants.bookedItineraryFlightVoucherClick);
+              recordEvent(constants.BookedItinerary.event, {
+                click: constants.BookedItinerary.click.voucher,
+                type: constants.BookedItinerary.type.flight
+              });
               resolveLinks(false, false, {
                 voucherType: constants.flightVoucherType,
                 costingIdentifier: flight.key
@@ -168,7 +171,10 @@ const SlotActivity = inject("itineraries")(
               activity.activitySlotDetail.activityCostingIdentifier
             );
             onClick = () => {
-              recordEvent(constants.bookedItineraryActivityVoucherClick);
+              recordEvent(constants.BookedItinerary.event, {
+                click: constants.BookedItinerary.click.voucher,
+                type: constants.BookedItinerary.type.activity
+              });
               resolveLinks(false, false, {
                 voucherType: constants.activityVoucherType,
                 costingIdentifier: activityInfo.costing.key
@@ -218,7 +224,10 @@ const SlotActivity = inject("itineraries")(
               }
             }
             onClick = () => {
-              recordEvent(constants.bookedItineraryTransferVoucherClick);
+              recordEvent(constants.BookedItinerary.event, {
+                click: constants.BookedItinerary.click.voucher,
+                type: constants.BookedItinerary.type.transfer
+              });
               if (transferMode === constants.flightTransferMode) {
                 resolveLinks(false, false, {
                   voucherType: constants.flightVoucherType,
@@ -281,7 +290,10 @@ const SlotActivity = inject("itineraries")(
               return null;
             }
             onClick = () => {
-              recordEvent(constants.bookedItineraryFlightVoucherClick);
+              recordEvent(constants.BookedItinerary.event, {
+                click: constants.BookedItinerary.click.voucher,
+                type: constants.BookedItinerary.type.flight
+              });
               resolveLinks(false, false, {
                 voucherType: constants.flightVoucherType,
                 costingIdentifier: departureFlight.key
@@ -344,9 +356,10 @@ const SlotActivity = inject("itineraries")(
             );
             const { mainPhoto } = activityTransferInfo;
             onClick = () => {
-              recordEvent(
-                constants.bookedItineraryActivityWithTransferVoucherClick
-              );
+              recordEvent(constants.BookedItinerary.event, {
+                click: constants.BookedItinerary.click.voucher,
+                type: constants.BookedItinerary.type.activityWithTransfer
+              });
               resolveLinks(false, false, {
                 voucherType: constants.activityVoucherType,
                 costingIdentifier: activityTransferInfo.costing.key

@@ -14,6 +14,7 @@ import MultilineButton from "./Components/MultilineButton";
 import forbidExtraProps from "../../../../Services/PropTypeValidation/forbidExtraProps";
 import resolveLinks from "../../../../Services/resolveLinks/resolveLinks";
 import { recordEvent } from "../../../../Services/analytics/analyticsService";
+import constants from "../../../../constants/constants";
 
 class ToolTip extends Component {
   static propTypes = forbidExtraProps({
@@ -84,7 +85,11 @@ class ToolTip extends Component {
                 title={button.title}
                 text={button.text}
                 action={() => {
-                  if (widgetName) recordEvent(widgetName);
+                  if (widgetName) {
+                    recordEvent(constants.TripFeed.event, {
+                      widget: widgetName
+                    });
+                  }
                   resolveLinks(button.link, button.modalData, button.deepLink);
                 }}
               />

@@ -66,9 +66,13 @@ const Date = ({
       activeOpacity={1}
       onPress={() => {
         if (dateIndex !== -1) {
-          recordEvent(constants.bookingsHomeCalendarDateClick);
+          recordEvent(constants.Bookings.event, {
+            click: constants.Bookings.click.calendarEventDate
+          });
         } else {
-          recordEvent(constants.bookingsHomeCalendarNoEventClick);
+          recordEvent(constants.Bookings.event, {
+            click: constants.Bookings.click.calendarNoEventDate
+          });
         }
         navigation.navigate("BookedItinerary", {
           selectedDate: dateIndex !== -1 ? date : 0

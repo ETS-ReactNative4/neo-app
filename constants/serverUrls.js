@@ -19,7 +19,7 @@ const platoServers = {
 const productUrls = {
   localProductUrl: "http://192.168.0.5:8080/",
   devProductUrl: "https://dev.pickyourtrail.com/",
-  stagingProductUrl: "https://staging.pickyourtrail.com/",
+  stagingProductUrl: "https://mobile.pickyourtrail.com/",
   uatProductUrl: "https://uat.pickyourtrail.com/",
   prodProductUrl: "https://pickyourtrail.com/"
 };
@@ -76,6 +76,13 @@ const serverUrls = {
         )
       : "",
   offlineContact: "+91 8939891682",
+
+  /**
+   * Segment Write Key
+   */
+  segmentWriteKey: isProduction()
+    ? "BjQSStvje7tKYGY64LhjPxBv2Dk24cB5"
+    : "Mop3l6qAjzoyzFcZnFe2s1yYcwL8kBuK",
 
   /**
    * Freshchat iFrame url

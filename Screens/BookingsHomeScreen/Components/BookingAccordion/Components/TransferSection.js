@@ -47,7 +47,10 @@ const Transfer = ({ transfer, isLast, navigation, spinValue }) => {
   }
 
   const openVoucher = () => {
-    recordEvent(constants.bookingsHomeAccordionTransfersVoucherClick);
+    recordEvent(constants.Bookings.event, {
+      click: constants.Bookings.click.accordionVoucher,
+      type: constants.Bookings.type.transfers
+    });
     resolveLinks(false, false, {
       voucherType: constants.transferVoucherType,
       costingIdentifier: transfer.key

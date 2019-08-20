@@ -1,7 +1,11 @@
-import { analytics } from "react-native-firebase";
+import analytics from "@segment/analytics-react-native";
 import { logBreadCrumb, logError } from "../errorLogger/errorLogger";
 import getActiveRouteName from "../getActiveRouteName/getActiveRouteName";
+import { analytics as firebaseAnalytics } from "react-native-firebase";
 import constants from "../../constants/constants";
+// import WebEngage from "react-native-webengage";
+
+// const webEngage = new WebEngage();
 
 const reserved = [
   "app_clear_data",
@@ -31,21 +35,42 @@ const reserved = [
 
 export const recordEvent = (event, params = undefined) => {
   if (!reserved.includes(event)) {
-    analytics().logEvent(event, params);
+    firebaseAnalytics().logEvent(event, params);
+    if (!params) {
+      analytics.track(event);
+    } else {
+      analytics.track(event, params);
+    }
   } else {
     logError(`Invalid analytics event ${event}`, { params });
   }
 };
 
-export const enableAnalytics = () =>
-  analytics().setAnalyticsCollectionEnabled(true);
+export const enableAnalytics = async () => {
+  try {
+    await analytics.setup(constants.segmentWriteKey, {
+      recordScreenViews: false,
+      trackAppLifecycleEvents: true
+    });
+    firebaseAnalytics().setAnalyticsCollectionEnabled(true);
+  } catch (e) {
+    logError(e);
+  }
+};
 
-export const disableAnalytics = () =>
-  analytics().setAnalyticsCollectionEnabled(false);
+export const disableAnalytics = () => {
+  firebaseAnalytics().setAnalyticsCollectionEnabled(false);
+};
 
 export const setUserDetails = ({ id, name, email, phoneNumber }) => {
-  analytics().setUserId(id);
-  analytics().setUserProperty({ name, email, phoneNumber });
+  analytics.identify(id, {
+    name,
+    email,
+    phone: phoneNumber
+  });
+  // webEngage.user.login(id);
+  firebaseAnalytics().setUserId(id);
+  firebaseAnalytics().setUserProperty({ name, email, phoneNumber });
 };
 
 export const screenTracker = (prevState, currentState) => {
@@ -62,6 +87,8 @@ export const screenTracker = (prevState, currentState) => {
       data: {},
       level: constants.errorLoggerEvents.levels.info
     });
-    analytics().setCurrentScreen(currentScreen);
+    analytics.screen(currentScreen);
+    // webEngage.screen(currentScreen);
+    firebaseAnalytics().setCurrentScreen(currentScreen);
   }
 };

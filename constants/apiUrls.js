@@ -30,7 +30,7 @@ const apiUrls = {
   sendVisaDocs: "mobile/sendVisaDocs",
   getPaymentMeta: "mobile/booked/itinerary/paymentMetaInfo",
   getPaymentInfo: "mobile/:itineraryId/paymentInfo",
-  getFaq: "mobile/getFAQ",
+  getFaq: "mobile/v2/faq",
   getTripFeed: "mobile/feeds",
   initiatePayment: "api/payment/initiatepayment",
   sendTicketMessage: "mobile/ticket/msg",

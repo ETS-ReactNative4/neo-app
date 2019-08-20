@@ -419,7 +419,9 @@ class FeedbackPrompt extends Component {
                       text={"SUBMIT"}
                       textColor={constants.seventhColor}
                       action={() => {
-                        recordEvent(constants.tripFeedbackSubmitClick);
+                        recordEvent(constants.TripFeed.event, {
+                          click: constants.TripFeed.click.submitFeedback
+                        });
                         this.clickSubmit();
                       }}
                       textStyle={{

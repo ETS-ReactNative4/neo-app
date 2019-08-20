@@ -181,7 +181,9 @@ class VisaChecklist extends Component {
             underlayColor={constants.firstColorAlpha(0.7)}
             text={"Email Checklist"}
             action={() => {
-              recordEvent(constants.visaDocumentsEmailChecklistClick);
+              recordEvent(constants.Visa.event, {
+                click: constants.Visa.click.emailChecklist
+              });
               this.emailChecklist();
             }}
             textColor={"white"}

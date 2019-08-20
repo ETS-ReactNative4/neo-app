@@ -1,4 +1,4 @@
-import { AsyncStorage } from "react-native";
+import AsyncStorage from "@react-native-community/async-storage";
 import isUserLoggedInCallback from "../isUserLoggedInCallback/isUserLoggedInCallback";
 import constants from "../../constants/constants";
 import navigationService from "../navigationService/navigationService";

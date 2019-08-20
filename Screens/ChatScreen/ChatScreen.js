@@ -16,11 +16,13 @@ import objectToQueryParam from "../../Services/objectToQueryParam/objectToQueryP
 import { logError } from "../../Services/errorLogger/errorLogger";
 import DeviceInfo from "react-native-device-info";
 import storeService from "../../Services/storeService/storeService";
+import HelpDeskView from "./Components/HelpDeskView";
 
 @ErrorBoundary({ isRoot: true })
 @inject("itineraries")
 @inject("appState")
 @inject("chatDetailsStore")
+@inject("supportStore")
 @observer
 class ChatScreen extends Component {
   state = {
@@ -57,11 +59,7 @@ class ChatScreen extends Component {
     this._didFocusSubscription = props.navigation.addListener(
       "didFocus",
       () => {
-        const { isChatActive } = props.chatDetailsStore;
-        const { selectedItineraryId } = props.itineraries;
-        if (!isChatActive && selectedItineraryId) {
-          this.initializeChat();
-        }
+        this.refreshChatInitializationStatus();
         clearChatNotification();
         this._keyboardDidShowListener = Keyboard.addListener(
           Platform.OS === "ios" ? "keyboardWillChangeFrame" : "keyboardDidShow",
@@ -100,6 +98,9 @@ class ChatScreen extends Component {
   initializeChat = () => {
     isUserLoggedInCallback(() => {
       const { getUserDetails } = this.props.chatDetailsStore;
+      const { loadConversation, loadFaqDetails } = this.props.supportStore;
+      loadConversation();
+      loadFaqDetails();
       getUserDetails();
     });
   };
@@ -113,12 +114,16 @@ class ChatScreen extends Component {
         BackHandler.removeEventListener("hardwareBackPress", this.goBack);
       }
     );
+    this.refreshChatInitializationStatus();
+  }
+
+  refreshChatInitializationStatus = () => {
     const { isChatActive } = this.props.chatDetailsStore;
     const { selectedItineraryId } = this.props.itineraries;
     if (!isChatActive && selectedItineraryId) {
       this.initializeChat();
     }
-  }
+  };
 
   componentWillUnmount() {
     this._didFocusSubscription && this._didFocusSubscription.remove();
@@ -164,14 +169,19 @@ class ChatScreen extends Component {
     }
   };
 
+  contactSupport = () => {
+    this.props.navigation.navigate("ContactUs", {
+      type: constants.defaultSupportType
+    });
+  };
+
+  viewTickets = () => {
+    this.props.navigation.navigate("YourTickets");
+  };
+
   render() {
     const { isChatKilled } = this.state;
     const { isConnected } = this.props.appState;
-    const openSupportCenter = () => {
-      recordEvent(constants.chatOpenSupportCenterClick);
-      this.props.navigation.navigate("SupportCenter");
-    };
-
     const {
       chatDetails,
       initializationError,
@@ -180,6 +190,28 @@ class ChatScreen extends Component {
       chatActivationMessage,
       offlineContact
     } = this.props.chatDetailsStore;
+    const {
+      faqDetails,
+      getConversationsByItineraryId,
+      loadConversation,
+      isConversationLoading
+    } = this.props.supportStore;
+    const { selectedItineraryId } = this.props.itineraries;
+    const conversations = getConversationsByItineraryId(selectedItineraryId);
+
+    const faqSections = Object.keys(faqDetails).map(faqSection => {
+      return {
+        title: faqSection,
+        icon: faqSection,
+        action: () =>
+          this.props.navigation.navigate("FAQ", { title: faqSection })
+      };
+    });
+
+    const openSupportCenter = () => {
+      recordEvent(constants.chatOpenSupportCenterClick);
+      this.props.navigation.navigate("SupportCenter");
+    };
     const isChatFailed = initializationError || metaDataError;
     const chatQueryParam = objectToQueryParam({
       // create query parameter for loading webview from the chat details object
@@ -190,82 +222,115 @@ class ChatScreen extends Component {
     });
     const uri = constants.chatServerUrl(chatQueryParam);
 
-    return isConnected ? ( // Is Chat Connected to Internet
-      isChatActive ? ( // Is User active on the chat
-        !isChatFailed ? ( // Chat initialization failed
-          <View
-            style={[
-              { flex: 1 },
-              Platform.OS === "ios" && isIphoneX()
-                ? {
-                    backgroundColor:
-                      this.state.keyboardVisible || this.state.canGoBack
-                        ? constants.chatLightColor
-                        : constants.chatMainColor
-                  }
-                : null
-            ]}
-          >
-            {chatDetails.feid && !isChatKilled ? (
-              <ControlledWebView
-                source={{ uri }}
-                onNavigationStateChange={this.onNavigationStateChange}
-                style={{
-                  flex: 1,
-                  marginTop: isIphoneX() ? constants.xNotchHeight : 0
-                }}
-                webviewRef={e => (this._webView = e)}
-                onShouldStartLoadWithRequest={event => {
-                  /**
-                   * Prevent user from navigating away from chat window by opening
-                   * external links in custom tab (helps with file downloads)
-                   */
-                  if (event.url) {
-                    const isFreshChatIframe = event.url.startsWith(
-                      constants.freshChatIframe
-                    );
-                    const isBlankPageIframe =
-                      event.url === constants.freshChatIframeBlankPage;
-                    if (isFreshChatIframe || isBlankPageIframe) return true; // the action happened inside iframe let it proceed
-                    const params = getUrlParams(event.url); // get query params of the page
-                    if (params.webview !== "true") {
-                      // check if the page is permitted to render inside webview
-                      if (event.url !== uri) {
-                        openCustomTab(event.url);
-                        return false;
-                      }
+    const shouldDisplayChat = isConnected && isChatActive && !isChatFailed;
+    const chatScreenError = isChatActive && isChatFailed;
+    const chatScreenNoInternet = isChatActive && !isConnected;
+
+    /**
+     * Chat can be displayed, Otherwise show helpdesk /error message
+     */
+    if (shouldDisplayChat) {
+      return (
+        <View
+          style={[
+            { flex: 1 },
+            Platform.OS === "ios" && isIphoneX()
+              ? {
+                  backgroundColor:
+                    this.state.keyboardVisible || this.state.canGoBack
+                      ? constants.chatLightColor
+                      : constants.chatMainColor
+                }
+              : null
+          ]}
+        >
+          {chatDetails.feid && !isChatKilled ? (
+            <ControlledWebView
+              source={{ uri }}
+              onNavigationStateChange={this.onNavigationStateChange}
+              style={{
+                flex: 1,
+                marginTop: isIphoneX() ? constants.xNotchHeight : 0
+              }}
+              webviewRef={e => (this._webView = e)}
+              onShouldStartLoadWithRequest={event => {
+                /**
+                 * Prevent user from navigating away from chat window by opening
+                 * external links in custom tab (helps with file downloads)
+                 */
+                if (event.url) {
+                  const isFreshChatIframe = event.url.startsWith(
+                    constants.freshChatIframe
+                  );
+                  const isBlankPageIframe =
+                    event.url === constants.freshChatIframeBlankPage;
+                  if (isFreshChatIframe || isBlankPageIframe) return true; // the action happened inside iframe let it proceed
+                  const params = getUrlParams(event.url); // get query params of the page
+                  if (params.webview !== "true") {
+                    // check if the page is permitted to render inside webview
+                    if (event.url !== uri) {
+                      openCustomTab(event.url);
+                      return false;
                     }
-                    // the page can load inside the webview
-                    return true;
-                  } else {
-                    return false;
                   }
-                }}
-                onMessage={this.webViewMessageCallback}
-              />
-            ) : null}
-            {Platform.OS === "ios" ? (
-              <BackButtonIos
-                backAction={this.goBack}
-                isVisible={this.state.canGoBack}
-              />
-            ) : null}
-          </View>
-        ) : (
-          <UnableToUseChat
-            contactNumber={offlineContact}
-            text={constants.onChatFailedToInitialize}
-          />
-        )
-      ) : (
-        <PreTrip
-          action={openSupportCenter}
-          chatActivationMessage={chatActivationMessage}
+                  // the page can load inside the webview
+                  return true;
+                } else {
+                  return false;
+                }
+              }}
+              onMessage={this.webViewMessageCallback}
+            />
+          ) : null}
+          {Platform.OS === "ios" ? (
+            <BackButtonIos
+              backAction={this.goBack}
+              isVisible={this.state.canGoBack}
+            />
+          ) : null}
+        </View>
+      );
+    } else if (chatScreenError) {
+      return (
+        <UnableToUseChat
+          contactNumber={offlineContact}
+          text={constants.onChatFailedToInitialize}
         />
-      )
-    ) : (
-      <UnableToUseChat contactNumber={offlineContact} />
-    );
+      );
+    } else if (chatScreenNoInternet) {
+      return <UnableToUseChat contactNumber={offlineContact} />;
+    } else if (isChatFailed) {
+      return (
+        <UnableToUseChat
+          contactNumber={offlineContact}
+          text={constants.onChatFailedToInitialize}
+        />
+      );
+    } else {
+      const ctaText = conversations.length
+        ? `${conversations.length} Message${
+            conversations.length > 1 ? "s" : ""
+          }`
+        : "New Message";
+      const ctaAction = conversations.length
+        ? this.viewTickets
+        : this.contactSupport;
+      return (
+        <HelpDeskView
+          disableTopBar={!conversations.length}
+          onRefresh={this.refreshChatInitializationStatus}
+          faqSections={faqSections}
+          chatActivationMessage={chatActivationMessage}
+          navigation={this.props.navigation}
+          topBarCta={ctaText}
+          topBarCtaAction={ctaAction}
+          topBarText={
+            conversations.length ? "Your conversations" : chatActivationMessage
+          }
+          isTitleBold={conversations.length}
+        />
+      );
+    }
   }
 }
 

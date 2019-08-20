@@ -10,6 +10,7 @@ import {
 import PropTypes from "prop-types";
 import constants from "../../constants/constants";
 import LineProgressBar from "../LineProgressBar/LineProgressBar";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 class CustomScrollView extends Component {
   static propTypes = {
@@ -21,7 +22,8 @@ class CustomScrollView extends Component {
     refreshing: PropTypes.bool.isRequired,
     horizontalPadding: PropTypes.number,
     scrollComponent: PropTypes.string,
-    containerStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.number])
+    containerStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.number]),
+    scrollRef: PropTypes.object
   };
   _refreshControlRef = React.createRef();
 
@@ -29,9 +31,10 @@ class CustomScrollView extends Component {
     const {
       onRefresh,
       refreshing,
-      horizontalPadding,
+      horizontalPadding = 0,
       scrollComponent,
       containerStyle = {},
+      scrollRef = React.createRef(),
       ...otherProps
     } = this.props;
     otherProps.refreshControl = (
@@ -47,13 +50,18 @@ class CustomScrollView extends Component {
     let ScrollComponent = null;
     switch (scrollComponent) {
       case "ScrollView":
-        ScrollComponent = <ScrollView {...otherProps} />;
+        ScrollComponent = <ScrollView ref={scrollRef} {...otherProps} />;
         break;
       case "FlatList":
-        ScrollComponent = <FlatList {...otherProps} />;
+        ScrollComponent = <FlatList ref={scrollRef} {...otherProps} />;
+        break;
+      case "KeyboardAvoidingScroll":
+        ScrollComponent = (
+          <KeyboardAwareScrollView ref={scrollRef} {...otherProps} />
+        );
         break;
       default:
-        ScrollComponent = <ScrollView {...otherProps} />;
+        ScrollComponent = <ScrollView ref={scrollRef} {...otherProps} />;
         break;
     }
     return (

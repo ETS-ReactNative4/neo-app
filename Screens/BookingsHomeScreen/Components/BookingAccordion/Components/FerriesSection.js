@@ -47,7 +47,10 @@ const Ferry = ({ ferry, isLast, navigation, spinValue }) => {
   }
 
   const openVoucher = () => {
-    recordEvent(constants.bookingsHomeAccordionFerriesVoucherClick);
+    recordEvent(constants.Bookings.event, {
+      click: constants.Bookings.click.accordionVoucher,
+      type: constants.Bookings.type.ferries
+    });
     resolveLinks(false, false, {
       voucherType: constants.ferryVoucherType,
       costingIdentifier: ferry.key

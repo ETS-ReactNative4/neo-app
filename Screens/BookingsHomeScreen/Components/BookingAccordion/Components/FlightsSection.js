@@ -46,7 +46,10 @@ const Flight = ({ flight, isLast, navigation, spinValue }) => {
   }
 
   const openVoucher = () => {
-    recordEvent(constants.bookingsHomeAccordionFlightsVoucherClick);
+    recordEvent(constants.Bookings.event, {
+      click: constants.Bookings.click.accordionVoucher,
+      type: constants.Bookings.type.flights
+    });
     resolveLinks(false, false, {
       voucherType: constants.flightVoucherType,
       costingIdentifier: flight.key

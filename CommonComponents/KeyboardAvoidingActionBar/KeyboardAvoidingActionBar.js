@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, StyleSheet, Keyboard } from "react-native";
+import { View, StyleSheet, Keyboard, ViewPropTypes } from "react-native";
 import forbidExtraProps from "../../Services/PropTypeValidation/forbidExtraProps";
 import XSensorPlaceholder from "../XSensorPlaceholder/XSensorPlaceholder";
 import PropTypes from "prop-types";
@@ -7,14 +7,13 @@ import { isIphoneX } from "react-native-iphone-x-helper";
 import constants from "../../constants/constants";
 
 class KeyboardAvoidingActionBar extends Component {
-  static propTypes = forbidExtraProps({
-    containerStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.number])
-      .isRequired,
+  static propTypes = {
+    containerStyle: ViewPropTypes.style,
     navigation: PropTypes.object.isRequired,
     children: PropTypes.element.isRequired,
     xSensorPlaceholderColor: PropTypes.string,
     onKeyBoardStateChange: PropTypes.func
-  });
+  };
 
   state = {
     keyboardSpace: 0,

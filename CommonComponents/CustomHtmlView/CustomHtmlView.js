@@ -5,15 +5,15 @@ import forbidExtraProps from "../../Services/PropTypeValidation/forbidExtraProps
 import PropTypes from "prop-types";
 import { logError } from "../../Services/errorLogger/errorLogger";
 import { Text } from "../../Screens/VoucherScreens/TransferVoucherScreen/TransferVoucher";
+import { ViewPropTypes } from "react-native";
 
 class CustomHtmlView extends Component {
-  static propTypes = forbidExtraProps({
+  static propTypes = {
     html: PropTypes.string.isRequired,
     styleSheet: PropTypes.object,
     addLineBreaks: PropTypes.bool,
-    containerStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.number])
-      .isRequired
-  });
+    containerStyle: ViewPropTypes.style.isRequired
+  };
 
   state = {
     hasError: false
@@ -36,7 +36,9 @@ class CustomHtmlView extends Component {
   }
 
   render() {
-    if (this.state.hasError) return null;
+    if (this.state.hasError) {
+      return null;
+    }
     const {
       html,
       styleSheet = constants.htmlStyleSheet,

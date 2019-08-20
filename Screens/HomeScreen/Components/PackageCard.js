@@ -30,10 +30,12 @@ const PackageCard = ({
     <TouchableOpacity
       style={styles.packagesCardContainer}
       onPress={() => {
-        recordEvent(constants.homePackageCardClick);
+        recordEvent(constants.Home.event, {
+          click: constants.Home.click.packageCard
+        });
         openCustomTab(
-          `${constants.productUrl}${slug}?cpid=${
-            constants.productAnalyticsCPID
+          `${constants.productUrl}${slug}${
+            constants.leadSourceMappingQueryParams
           }`
         );
       }}

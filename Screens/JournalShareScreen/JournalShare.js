@@ -56,7 +56,10 @@ class JournalShare extends Component {
       url: journalUrl,
       social: Share.Social.FACEBOOK
     };
-    recordEvent(constants.journalShareScreenShareFacebook);
+    recordEvent(constants.Journal.event, {
+      click: constants.Journal.click.shareScreenShare,
+      share: constants.Journal.share.facebook
+    });
     singleShare(shareOptions);
   };
 
@@ -67,7 +70,10 @@ class JournalShare extends Component {
       url: journalUrl,
       social: Share.Social.TWITTER
     };
-    recordEvent(constants.journalPublishShareTwitter);
+    recordEvent(constants.Journal.event, {
+      click: constants.Journal.click.shareScreenShare,
+      share: constants.Journal.share.twitter
+    });
     singleShare(shareOptions);
   };
 
@@ -77,7 +83,10 @@ class JournalShare extends Component {
       message: constants.journalShareMessages.commonMessage(journalTitle),
       url: journalUrl
     };
-    recordEvent(constants.journalShareScreenShareCommon);
+    recordEvent(constants.Journal.event, {
+      click: constants.Journal.click.shareScreenShare,
+      share: constants.Journal.share.common
+    });
     share(shareOptions);
   };
 

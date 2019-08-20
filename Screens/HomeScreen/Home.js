@@ -159,11 +159,13 @@ class Home extends Component {
             underlayColor={constants.firstColorAlpha(0.7)}
             text={"Start planning now"}
             action={() => {
-              recordEvent(constants.homeStartPlanningNowClick);
+              recordEvent(constants.Home.event, {
+                click: constants.Home.click.startPlanningNow
+              });
               openCustomTab(
-                `${constants.productUrl}${
-                  constants.productCustomizePage
-                }?cpid=${constants.productAnalyticsCPID}`
+                `${constants.productUrl}${constants.productCustomizePage}${
+                  constants.leadSourceMappingQueryParams
+                }`
               );
             }}
             textColor={"white"}

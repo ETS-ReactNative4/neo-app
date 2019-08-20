@@ -1,96 +1,52 @@
 import React, { Component } from "react";
-import { View, StyleSheet, Text, ScrollView, Platform } from "react-native";
-import CNRichTextEditor, {
-  getInitialObject,
-  getDefaultStyles,
-  convertToHtmlString,
-  convertToObject
-} from "react-native-cn-richtext-editor";
+import { View, StyleSheet, TextInput } from "react-native";
 import constants from "../../../constants/constants";
 import { responsiveWidth } from "react-native-responsive-dimensions";
 import KeyboardAvoidingActionBar from "../../../CommonComponents/KeyboardAvoidingActionBar/KeyboardAvoidingActionBar";
 import TextEditorControls from "./TextEditorControls";
+import RNDraftView from "react-native-draftjs-editor";
 
-const customEditorStyles = StyleSheet.create({
-  bold: {
-    fontWeight: "bold",
-    ...constants.fontCustom(constants.primarySemiBold, 18, 28),
-    color: constants.black1
-  },
-  italic: {
-    fontStyle: "italic"
-  },
-  underline: {
-    textDecorationLine: "underline",
-    ...constants.fontCustom(constants.primaryRegular, 15, 26),
-    color: constants.black1
-  },
-  lineThrough: {
-    textDecorationLine: "line-through",
-    ...constants.fontCustom(constants.primaryRegular, 15, 26),
-    color: constants.black1
-  },
-  heading: {
-    ...constants.fontCustom(constants.primarySemiBold, 24, 28),
-    color: constants.black1
-  },
-  body: {
-    ...constants.fontCustom(constants.primaryRegular, 15, 26),
-    color: constants.black1
-  },
-  title: {
-    ...constants.fontCustom(constants.primarySemiBold, 24, 28),
-    color: constants.black1
-  },
-  ul: {
-    ...constants.fontCustom(constants.primaryRegular, 15, 26),
-    color: constants.black1
-  },
-  ol: {
-    ...constants.fontCustom(constants.primaryRegular, 15, 26),
-    color: constants.black1
-  },
-  red: {
-    color: "#d23431"
-  },
-  green: {
-    color: "#4a924d"
-  },
-  blue: {
-    color: "#0560ab"
-  },
-  black: {
-    color: "#33363d"
-  },
-  blue_hl: {
-    backgroundColor: "#34f3f4"
-  },
-  green_hl: {
-    backgroundColor: "#2df149"
-  },
-  pink_hl: {
-    backgroundColor: "#f53ba7"
-  },
-  yellow_hl: {
-    backgroundColor: "#f6e408"
-  },
-  orange_hl: {
-    backgroundColor: "#f07725"
-  },
-  purple_hl: {
-    backgroundColor: "#c925f2"
+const styleSheet = `
+  @import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600&display=swap);
+  h2 > div > span > span {
+    font-family: "Source Sans Pro", sans-serif;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 28px;
+    color: ${constants.black1};
   }
-});
+  li > div > span > span {
+    font-family: "Source Sans Pro", sans-serif;
+    font-size: 15px;
+    line-height: 32px;
+    color: ${constants.black1};
+  }
+  span {
+    font-family: "Source Sans Pro", sans-serif;
+    font-size: 15px;
+    line-height: 26px;
+    color: ${constants.black1};
+  }
+`;
 
+/**
+ * Component for the Rich Text editor
+ * Will display normal text editor when rich text editor is not supported
+ */
 class TextEditor extends Component {
   state = {
-    selectedTag: "body",
+    selectedTag: "",
     selectedStyles: []
   };
 
   onStyleKeyPress = toolType => {
     const { richTextInputRef } = this.props;
-    richTextInputRef.current && richTextInputRef.current.applyToolbar(toolType);
+    richTextInputRef.current && richTextInputRef.current.setStyle(toolType);
+  };
+
+  onTagKeyPress = toolType => {
+    const { richTextInputRef } = this.props;
+    richTextInputRef.current && richTextInputRef.current.setBlockType(toolType);
   };
 
   onSelectedTagChanged = tag => {
@@ -105,28 +61,11 @@ class TextEditor extends Component {
     });
   };
 
-  onValueChanged = value => {
-    this.setState({
-      value: value
-    });
-  };
+  retrieveRichText = () =>
+    this.props.richTextInputRef.current &&
+    this.props.richTextInputRef.current.getEditorState();
 
-  retrieveRichText = () => convertToHtmlString(this.state.value);
-
-  componentDidMount() {
-    if (this.props.initialValue) {
-      this.setState({
-        value: convertToObject(this.props.initialValue)
-      });
-    } else {
-      this.setState({
-        value: [getInitialObject()]
-      });
-      setTimeout(() => {
-        this.onStyleKeyPress(constants.textEditorControlBody);
-      }, 500);
-    }
-  }
+  componentDidMount() {}
 
   render() {
     const {
@@ -134,26 +73,52 @@ class TextEditor extends Component {
       navigation,
       getRichText,
       isTextEditorActive,
-      richTextInputRef
+      richTextInputRef,
+      initialValue,
+      isRichTextSupported,
+      plainText,
+      onPlainTextChange
     } = this.props;
     return (
       <View style={styles.textEditorContainer}>
         <View style={styles.textEditorWrapper}>
-          <CNRichTextEditor
-            ref={richTextInputRef}
-            onSelectedTagChanged={this.onSelectedTagChanged}
-            onSelectedStyleChanged={this.onSelectedStyleChanged}
-            value={this.state.value}
-            style={{ backgroundColor: "#fff", margin: 0, padding: 0 }}
-            styleList={customEditorStyles}
-            onValueChanged={this.onValueChanged}
-            placeholder={"Write a captivating story..."}
-          />
+          {isRichTextSupported ? (
+            <RNDraftView
+              ref={richTextInputRef}
+              defaultValue={initialValue}
+              placeholder={"Write a captivating story..."}
+              style={{ backgroundColor: "#fff", margin: 0, padding: 0 }}
+              onStyleChanged={this.onSelectedStyleChanged}
+              onBlockTypeChanged={this.onSelectedTagChanged}
+              styleSheet={styleSheet.replace(/(\r\n|\n|\r)/gm, "")}
+            />
+          ) : (
+            <TextInput
+              ref={richTextInputRef}
+              multiline={true}
+              style={[
+                styles.textInput,
+                !plainText ? styles.placeholderStyle : null
+              ]}
+              onChangeText={onPlainTextChange}
+              value={plainText}
+              underlineColorAndroid={"transparent"}
+              placeholder={"Write a captivating story..."}
+              placeholderTextColor={constants.shade2}
+              textAlignVertical={"top"}
+            />
+          )}
         </View>
         <KeyboardAvoidingActionBar
           onKeyBoardStateChange={keyboardVisibility => {
             if (keyboardVisibility === "hidden") {
-              getRichText(convertToHtmlString(this.state.value));
+              if (
+                isRichTextSupported &&
+                richTextInputRef.current &&
+                richTextInputRef.current.getEditorState
+              ) {
+                getRichText(richTextInputRef.current.getEditorState());
+              }
             }
             onKeyBoardStateChange(keyboardVisibility);
           }}
@@ -162,7 +127,7 @@ class TextEditor extends Component {
           }
           navigation={navigation}
         >
-          {isTextEditorActive ? (
+          {isRichTextSupported && isTextEditorActive ? (
             <View style={styles.toolbarContainer}>
               <View style={styles.toolbarSection}>
                 <View style={styles.toolBarWrapper}>
@@ -170,6 +135,8 @@ class TextEditor extends Component {
                     selectedTag={this.state.selectedTag}
                     selectedStyles={this.state.selectedStyles}
                     onStyleKeyPress={this.onStyleKeyPress}
+                    onTagKeyPress={this.onTagKeyPress}
+                    richTextInputRef={richTextInputRef}
                   />
                 </View>
               </View>
@@ -232,6 +199,13 @@ const styles = StyleSheet.create({
   },
   lineThroughButton: {
     textDecorationLine: "line-through"
+  },
+  textInput: {
+    ...constants.fontCustom(constants.primaryRegular, 16, 20),
+    color: constants.black1
+  },
+  placeholderStyle: {
+    fontFamily: constants.primarySemiBold
   }
 });
 

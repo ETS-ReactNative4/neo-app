@@ -14,7 +14,9 @@ const VisaActionBar = ({ isVisaOnArrival, navigation }) => {
         <SimpleButton
           text={"Get checklist"}
           action={() => {
-            recordEvent(constants.visaDocumentsGetChecklistClick);
+            recordEvent(constants.Visa.event, {
+              click: constants.Visa.click.getChecklist
+            });
             navigation.navigate("VisaChecklist");
           }}
           textColor={"white"}
@@ -28,7 +30,9 @@ const VisaActionBar = ({ isVisaOnArrival, navigation }) => {
       <SimpleButton
         text={"Contact helpdesk"}
         action={() => {
-          recordEvent(constants.visaDocumentsContactHelpdeskClick);
+          recordEvent(constants.Visa.event, {
+            click: constants.Visa.click.contactHelpdesk
+          });
           navigation.navigate("FAQ", { title: "Visa Related" });
         }}
         textColor={constants.black2}

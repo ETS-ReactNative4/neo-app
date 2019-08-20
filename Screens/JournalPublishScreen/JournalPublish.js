@@ -232,7 +232,10 @@ class JournalPublish extends Component {
       url,
       social: Share.Social.FACEBOOK
     };
-    recordEvent(constants.journalPublishShareFacebook);
+    recordEvent(constants.Journal.event, {
+      click: constants.Journal.click.publishScreenShare,
+      share: constants.Journal.share.facebook
+    });
     singleShare(shareOptions);
   };
 
@@ -243,7 +246,10 @@ class JournalPublish extends Component {
       url,
       social: Share.Social.TWITTER
     };
-    recordEvent(constants.journalPublishShareTwitter);
+    recordEvent(constants.Journal.event, {
+      click: constants.Journal.click.publishScreenShare,
+      share: constants.Journal.share.twitter
+    });
     singleShare(shareOptions);
   };
 
@@ -253,7 +259,10 @@ class JournalPublish extends Component {
       message: constants.journalShareMessages.commonMessage(message),
       url
     };
-    recordEvent(constants.journalPublishShareCommon);
+    recordEvent(constants.Journal.event, {
+      click: constants.Journal.click.publishScreenShare,
+      share: constants.Journal.share.common
+    });
     share(shareOptions);
   };
 

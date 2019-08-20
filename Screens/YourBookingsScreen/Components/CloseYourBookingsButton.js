@@ -10,7 +10,9 @@ const CloseYourBookingsButton = ({ goBack }) => {
     <TouchableHighlight
       style={{ paddingHorizontal: 16 }}
       onPress={() => {
-        recordEvent(constants.yourBookingsCloseButtonClick);
+        recordEvent(constants.YourBookings.event, {
+          click: constants.YourBookings.click.closeButton
+        });
         goBack();
       }}
       underlayColor={"transparent"}
