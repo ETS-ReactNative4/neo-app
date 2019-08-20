@@ -66,7 +66,7 @@ ContactActionBar.propTypes = {
 
 const styles = StyleSheet.create({
   contactActionContainer: {
-    borderTopWidth: StyleSheet.hairlineWidth,
+    borderTopWidth: 2,
     borderTopColor: constants.white1
   },
   contactActionSection: {

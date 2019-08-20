@@ -27,12 +27,12 @@ class ContactUs extends Component {
           "If you go back now, your message will be lost!",
           [
             {
-              text: "Delete Message!",
+              text: "Go ahead",
               onPress: () => {
                 navigation.goBack();
               }
             },
-            { text: "Cancel", onPress: () => null }
+            { text: "Stay here", onPress: () => null }
           ],
           { cancelable: false }
         );
@@ -151,12 +151,12 @@ class ContactUs extends Component {
         "If you go back now, your message will be lost!",
         [
           {
-            text: "Delete Message!",
+            text: "Go ahead",
             onPress: () => {
               this.props.navigation.goBack();
             }
           },
-          { text: "Cancel", onPress: () => null }
+          { text: "Stay here", onPress: () => null }
         ],
         { cancelable: false }
       );

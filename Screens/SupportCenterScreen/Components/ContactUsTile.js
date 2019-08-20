@@ -35,7 +35,7 @@ ContactUsTile.propTypes = forbidExtraProps({
 const styles = StyleSheet.create({
   contactUsTileContainer: {
     backgroundColor: "white",
-    borderTopWidth: StyleSheet.hairlineWidth,
+    borderTopWidth: 2,
     borderTopColor: constants.white1,
     alignItems: "center",
     justifyContent: "center"

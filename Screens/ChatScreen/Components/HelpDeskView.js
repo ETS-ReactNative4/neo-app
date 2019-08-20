@@ -53,7 +53,7 @@ const HelpDeskView = ({
           <SimpleButton
             text={"Send message"}
             textColor={constants.firstColor}
-            textStyle={{ textDecorationLine: "underline", marginTop: -1 }}
+            textStyle={{ marginTop: -0.5, marginRight: 4 }}
             containerStyle={{
               alignSelf: "center",
               marginBottom: 24,

@@ -20,7 +20,7 @@ import { responsiveWidth } from "react-native-responsive-dimensions";
 const faqStyleSheet = {
   p: {
     fontFamily: fonts.primaryLight,
-    color: constants.black2,
+    color: constants.shade1,
     fontSize: 14,
     lineHeight: 19
   },
@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white"
   },
   compressedContainerStyle: {
-    height: 70
+    height: 64
   },
   expandedContainerStyle: {
     backgroundColor: constants.firstColorBackground
@@ -125,7 +125,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    marginTop: 26
+    marginTop: 22
   },
   titleText: {
     ...constants.fontCustom(constants.primaryRegular, 14, 19),
