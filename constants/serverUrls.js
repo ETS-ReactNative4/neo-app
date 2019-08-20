@@ -19,7 +19,7 @@ const platoServers = {
 const productUrls = {
   localProductUrl: "http://192.168.0.5:8080/",
   devProductUrl: "https://dev.pickyourtrail.com/",
-  stagingProductUrl: "https://staging.pickyourtrail.com/",
+  stagingProductUrl: "https://mobile.pickyourtrail.com/",
   uatProductUrl: "https://uat.pickyourtrail.com/",
   prodProductUrl: "https://pickyourtrail.com/"
 };
