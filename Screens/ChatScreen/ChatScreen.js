@@ -59,11 +59,7 @@ class ChatScreen extends Component {
     this._didFocusSubscription = props.navigation.addListener(
       "didFocus",
       () => {
-        const { isChatActive } = props.chatDetailsStore;
-        const { selectedItineraryId } = props.itineraries;
-        if (!isChatActive && selectedItineraryId) {
-          this.initializeChat();
-        }
+        this.refreshChatInitializationStatus();
         clearChatNotification();
         this._keyboardDidShowListener = Keyboard.addListener(
           Platform.OS === "ios" ? "keyboardWillChangeFrame" : "keyboardDidShow",
@@ -118,12 +114,16 @@ class ChatScreen extends Component {
         BackHandler.removeEventListener("hardwareBackPress", this.goBack);
       }
     );
+    this.refreshChatInitializationStatus();
+  }
+
+  refreshChatInitializationStatus = () => {
     const { isChatActive } = this.props.chatDetailsStore;
     const { selectedItineraryId } = this.props.itineraries;
     if (!isChatActive && selectedItineraryId) {
       this.initializeChat();
     }
-  }
+  };
 
   componentWillUnmount() {
     this._didFocusSubscription && this._didFocusSubscription.remove();
@@ -317,6 +317,7 @@ class ChatScreen extends Component {
         : this.contactSupport;
       return (
         <HelpDeskView
+          onRefresh={this.refreshChatInitializationStatus}
           faqSections={faqSections}
           chatActivationMessage={
             conversations.length ? chatActivationMessage : ""
