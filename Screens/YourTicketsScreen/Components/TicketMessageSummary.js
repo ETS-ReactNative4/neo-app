@@ -24,19 +24,23 @@ const TicketMessageSummary = ({
     <TouchableOpacity
       onPress={action}
       activeOpacity={0.8}
-      style={[styles.ticketMessageSummaryContainer, containerStyle]}
+      style={[
+        styles.ticketMessageSummaryContainer,
+        unReadCount ? styles.unreadContainer : {},
+        containerStyle
+      ]}
     >
       <View style={styles.subjectRow}>
         <View style={styles.subjectTextWrapper}>
           <Text style={styles.subjectText}>{subject}</Text>
         </View>
-        {unReadCount ? (
+        {/* {unReadCount ? (
           <View style={styles.unReadCountWrapper}>
             <Text style={styles.unReadCountText}>{unReadCount}</Text>
           </View>
         ) : (
           <View />
-        )}
+        )} */}
         {isClosed ? (
           <InfoPill
             info={"Closed"}
@@ -81,6 +85,9 @@ const styles = StyleSheet.create({
   ticketMessageSummaryContainer: {
     backgroundColor: "white",
     paddingHorizontal: 24
+  },
+  unreadContainer: {
+    backgroundColor: constants.firstColorBackground
   },
   subjectRow: {
     flexDirection: "row",
