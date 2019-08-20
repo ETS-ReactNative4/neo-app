@@ -14,6 +14,7 @@ const HelpDeskView = ({
   navigation,
   faqSections,
   disableHeader = false,
+  disableTopBar = true,
   topBarText = "",
   topBarCta = "",
   topBarCtaAction = () => null,
@@ -36,13 +37,15 @@ const HelpDeskView = ({
         refreshing={refreshing}
         onRefresh={onRefresh}
       >
-        <SupportTopBar
-          ctaText={topBarCta}
-          ctaAction={topBarCtaAction}
-          text={topBarText}
-          nextAction={writeMessage}
-          isTitleBold={isTitleBold}
-        />
+        {disableTopBar ? null : (
+          <SupportTopBar
+            ctaText={topBarCta}
+            ctaAction={topBarCtaAction}
+            text={topBarText}
+            nextAction={writeMessage}
+            isTitleBold={isTitleBold}
+          />
+        )}
         <HelpDeskCategories
           containerStyle={styles.helpDeskCategoriesContainer}
           categories={faqSections}
@@ -105,7 +108,8 @@ HelpDeskView.propTypes = {
   topBarCtaAction: PropTypes.func,
   refreshing: PropTypes.bool,
   onRefresh: PropTypes.func,
-  isTitleBold: PropTypes.bool
+  isTitleBold: PropTypes.bool,
+  disableTopBar: PropTypes.bool
 };
 
 export default HelpDeskView;

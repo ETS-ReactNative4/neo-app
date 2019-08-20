@@ -1,25 +1,12 @@
 import React, { Component } from "react";
-import {
-  View,
-  StyleSheet,
-  ScrollView,
-  Image,
-  RefreshControl
-} from "react-native";
+import { View, StyleSheet } from "react-native";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
-import FaqSectionTile from "./Components/FaqSectionTile";
-import ContactUsTile from "./Components/ContactUsTile";
-import TicketTile from "./Components/TicketTile";
 import constants from "../../constants/constants";
-import {
-  responsiveHeight,
-  responsiveWidth
-} from "react-native-responsive-dimensions";
 import { inject, observer } from "mobx-react/custom";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
-import CustomScrollView from "../../CommonComponents/CustomScrollView/CustomScrollView";
 import DeepLinkHandler from "../../CommonComponents/DeepLinkHandler/DeepLinkHandler";
 import HelpDeskView from "../ChatScreen/Components/HelpDeskView";
+import ContactUsTile from "./Components/ContactUsTile";
 
 @ErrorBoundary()
 @DeepLinkHandler
@@ -51,8 +38,12 @@ class SupportCenter extends Component {
     }, 1000);
   }
 
+  contactSupport = () => {
+    const title = constants.defaultSupportType;
+    this.props.navigation.navigate("ContactUs", { type: title });
+  };
+
   render() {
-    const { navigation } = this.props;
     const {
       faqDetails,
       getConversationsByItineraryId,
@@ -81,17 +72,22 @@ class SupportCenter extends Component {
       : this.contactSupport;
 
     return (
-      <HelpDeskView
-        faqSections={faqSections}
-        navigation={this.props.navigation}
-        disableHeader={true}
-        topBarText={"Your Conversations"}
-        topBarCta={ctaText}
-        topBarCtaAction={ctaAction}
-        refreshing={isConversationLoading}
-        onRefresh={loadConversation}
-        isTitleBold={true}
-      />
+      <View style={styles.supportCenterContainer}>
+        <HelpDeskView
+          faqSections={faqSections}
+          navigation={this.props.navigation}
+          disableHeader={true}
+          topBarText={"Your Conversations"}
+          topBarCta={ctaText}
+          topBarCtaAction={ctaAction}
+          refreshing={isConversationLoading}
+          onRefresh={loadConversation}
+          isTitleBold={true}
+          disableTopBar={!conversations.length}
+          chatActivationMessage={""}
+        />
+        <ContactUsTile contactAction={this.contactSupport} />
+      </View>
     );
   }
 }
@@ -99,13 +95,7 @@ class SupportCenter extends Component {
 const styles = StyleSheet.create({
   supportCenterContainer: {
     flex: 1,
-    backgroundColor: "white"
-  },
-  supportScroll: {},
-  supportIllustration: {
-    height: responsiveHeight(40),
-    width: responsiveWidth(100) - 48,
-    marginHorizontal: 24
+    backgroundColor: constants.white1
   }
 });
 

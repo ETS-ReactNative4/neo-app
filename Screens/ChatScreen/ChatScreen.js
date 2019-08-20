@@ -317,11 +317,10 @@ class ChatScreen extends Component {
         : this.contactSupport;
       return (
         <HelpDeskView
+          disableTopBar={!conversations.length}
           onRefresh={this.refreshChatInitializationStatus}
           faqSections={faqSections}
-          chatActivationMessage={
-            conversations.length ? chatActivationMessage : ""
-          }
+          chatActivationMessage={chatActivationMessage}
           navigation={this.props.navigation}
           topBarCta={ctaText}
           topBarCtaAction={ctaAction}
