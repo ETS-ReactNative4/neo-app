@@ -7,6 +7,7 @@ import constants from "../../../constants/constants";
 import SupportTopBar from "../../SupportCenterScreen/Components/SupportTopBar";
 import CustomScrollView from "../../../CommonComponents/CustomScrollView/CustomScrollView";
 import HomeHeader from "../../../CommonComponents/HomeHeader/HomeHeader";
+import SimpleButton from "../../../CommonComponents/SimpleButton/SimpleButton";
 
 const HelpDeskView = ({
   chatActivationMessage = "",
@@ -48,6 +49,29 @@ const HelpDeskView = ({
           categoryTitle={"Categories"}
         />
         <Text style={styles.infoText}>{chatActivationMessage}</Text>
+        {chatActivationMessage ? (
+          <SimpleButton
+            text={"Send message"}
+            textColor={constants.firstColor}
+            textStyle={{ textDecorationLine: "underline", marginTop: -1 }}
+            containerStyle={{
+              alignSelf: "center",
+              marginBottom: 24,
+              marginTop: 0,
+              borderRadius: 2
+            }}
+            icon={constants.arrowRight}
+            color={"transparent"}
+            iconSize={12}
+            rightIcon={true}
+            underlayColor={"transparent"}
+            action={() =>
+              navigation.navigate("ContactUs", {
+                type: constants.defaultSupportType
+              })
+            }
+          />
+        ) : null}
       </CustomScrollView>
     </View>
   );
@@ -62,7 +86,7 @@ const styles = StyleSheet.create({
     marginTop: 16
   },
   infoText: {
-    marginVertical: 24,
+    marginTop: 24,
     marginHorizontal: 24,
     ...constants.fontCustom(constants.primaryRegular, 13, 19),
     color: constants.black1,
