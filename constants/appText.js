@@ -261,6 +261,12 @@ const appText = {
     defaultPositiveFeedbackDesc: "Pick your favourite moments of the day",
     defaultNegativeFeedbackDesc: "Where did it go wrong?"
   },
+  permissionsInfoText: {
+    readFile:
+      "This permission is needed to add images from your device to the journal",
+    writeFile:
+      "This permission is needed to crop images before you add them to your journal"
+  },
   serverResponseErrorText: "Something went wrong with the server"
 };
 

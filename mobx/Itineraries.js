@@ -22,6 +22,11 @@ class Itineraries {
       .catch(err => {
         logError(err);
       });
+    hydrate("_voucherDownloadMap", storeInstance)
+      .then(() => {})
+      .catch(err => {
+        logError(err);
+      });
   };
 
   @observable _isLoading = false;
@@ -35,6 +40,10 @@ class Itineraries {
   @persist("object")
   @observable
   _selectedItinerary = {};
+
+  @persist("object")
+  @observable
+  _voucherDownloadMap = {};
 
   @action
   reset = () => {
@@ -146,6 +155,17 @@ class Itineraries {
         this._loadingError = true;
       });
   };
+
+  @action
+  updateVoucherDownloadMap = (url, fileName) => {
+    const voucherDownloadMap = toJS(this._voucherDownloadMap);
+    voucherDownloadMap[url] = fileName;
+    this._voucherDownloadMap = voucherDownloadMap;
+  };
+
+  getDownloadedVoucherByUrl = createTransformer(url => {
+    return this._voucherDownloadMap[url];
+  });
 
   @computed
   get isLoading() {
@@ -672,17 +692,13 @@ class Itineraries {
         const startDay = startDayObject.dayTs
           ? moment(startDayObject.dayTs).toDate()
           : moment(
-              `${startDayObject.day}-${startDayObject.mon}-${
-                constants.currentYear
-              }`,
+              `${startDayObject.day}-${startDayObject.mon}-${constants.currentYear}`,
               "DD-MMM-YYYY"
             ).toDate();
         const endDay = endDayObject.dayTs
           ? moment(endDayObject.dayTs).toDate()
           : moment(
-              `${endDayObject.day}-${endDayObject.mon}-${
-                constants.currentYear
-              }`,
+              `${endDayObject.day}-${endDayObject.mon}-${constants.currentYear}`,
               "DD-MMM-YYYY"
             ).toDate();
 
