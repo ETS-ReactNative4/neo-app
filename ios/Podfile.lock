@@ -225,7 +225,7 @@ PODS:
     - React
   - RNKeychain (3.0.0):
     - React
-  - RNShare (1.2.1):
+  - RNShare (2.0.0):
     - React
   - RNSound (0.11.0):
     - React
@@ -480,7 +480,7 @@ SPEC CHECKSUMS:
   RNImageCropPicker: 0a731d984e64ee4c28bddaa7ce52262e4b80979f
   RNInAppBrowser: 6a4b1c006d41d76eac14d758145335c83e1ab1cf
   RNKeychain: 3aa3cf891a09a0d18d306862ab2bb9e106079b24
-  RNShare: 48cf88cadf9ca2143cdaa557c1ec7f8808040ffc
+  RNShare: 8b171d4b43c1d886917fdd303bf7a4b87167b05c
   RNSound: da030221e6ac7e8290c6b43f2b5f2133a8e225b0
   RNSVG: 0eb087cfb5d7937be93c45b163b26352a647e681
   RNVectorIcons: f066f73bf4f25564d7ee7b1bb150e3b431f3a194

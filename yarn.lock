@@ -11216,6 +11216,11 @@ react-native-fast-image@7.0.0:
   resolved "https://registry.yarnpkg.com/react-native-fast-image/-/react-native-fast-image-7.0.0.tgz#f8d763cabc72bbe1f73a78db34214885e62f6137"
   integrity sha512-GrlAb4/EvXaT9YbSZFA81xesqa/djksKXE6ChYoVTzFCI9D934PANw/cuE6etdWTZJhSUTywjNtUkrjBO6gUQA==
 
+react-native-file-viewer@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/react-native-file-viewer/-/react-native-file-viewer-2.0.0.tgz#f8991e3872da1137e3b269661aab62844be3778e"
+  integrity sha512-ld495zlnI9IIMbSh2X7tE/N0l1tJEtyETFrF+KHl2IeTgekbA+3BhaaNAkQI545pXzToK2MN2QGYkkyUqL5OFw==
+
 react-native-firebase@5.5.5:
   version "5.5.5"
   resolved "https://registry.yarnpkg.com/react-native-firebase/-/react-native-firebase-5.5.5.tgz#d5c7e02eb6ea5650f9ebbb23c2cd796f83e7ca45"
@@ -11419,10 +11424,10 @@ react-native-sentry@0.43.2:
     "@sentry/wizard" "^0.13.0"
     raven-js "^3.27.1"
 
-react-native-share@^1.2.1:
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/react-native-share/-/react-native-share-1.2.1.tgz#3756a3cf383c1489a6a0edf2b529ec025ee8f8f7"
-  integrity sha512-V9q1FM+LuYJ65qN3k6BLWs17mIbJCzGyMOhF3rb4MIQXdJfCUbtkDX9aaV86PzcsL1EudCA53HVTJBmWPDed0Q==
+react-native-share@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/react-native-share/-/react-native-share-2.0.0.tgz#4543a746013e0d8fa9f765fb8937007cfbcffcf7"
+  integrity sha512-J8Xl3mq0L9KDFtSYtKsQDAnZWw/niZIpAD1PRiNfZFHo44Rc+oS2bEIhskNnoQXKEgBNdPzCl/DenMXYAHXRYg==
 
 react-native-simple-radio-button@^2.7.3:
   version "2.7.3"
