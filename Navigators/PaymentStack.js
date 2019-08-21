@@ -33,23 +33,22 @@ const PaymentStack = createStackNavigator(
   },
   {
     initialRouteName: "PaymentHome",
-    navigationOptions: {
+    defaultNavigationOptions: {
       gesturesEnabled: true
     },
-    transitionConfig
+    transitionConfig,
+    navigationOptions: ({ navigation }) => {
+      let drawerLockMode = "locked-closed";
+      const route = navigation.state.routes[navigation.state.routes.length - 1];
+      const routeName = route.routeName;
+      if (routeName === "PaymentHome") {
+        drawerLockMode = "unlocked";
+      }
+      return {
+        drawerLockMode
+      };
+    }
   }
 );
-
-PaymentStack.navigationOptions = ({ navigation }) => {
-  let drawerLockMode = "locked-closed";
-  const route = navigation.state.routes[navigation.state.routes.length - 1];
-  const routeName = route.routeName;
-  if (routeName === "PaymentHome") {
-    drawerLockMode = "unlocked";
-  }
-  return {
-    drawerLockMode
-  };
-};
 
 export default PaymentStack;

@@ -56,7 +56,7 @@ const UniversalStack = createStackNavigator(
       backgroundColor: "rgba(0, 0, 0, 0)",
       opacity: 1
     },
-    navigationOptions: {
+    defaultNavigationOptions: {
       gesturesEnabled: true,
       drawerLockMode: "locked-closed"
     },

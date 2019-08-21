@@ -40,31 +40,32 @@ const JournalStack = createStackNavigator(
   },
   {
     initialRouteName: "JournalHome",
-    navigationOptions: {
+    defaultNavigationOptions: {
       gesturesEnabled: true
+    },
+    navigationOptions: ({ navigation }) => {
+      const routeName = getActiveRouteName(navigation.state);
+      let tabBarVisible = true;
+
+      /**
+       * Hide the tab bar in the following screens
+       */
+      if (
+        [
+          "JournalTextEditor",
+          "JournalImagePicker",
+          "JournalDaySelector"
+        ].indexOf(routeName) > -1
+      ) {
+        tabBarVisible = false;
+      }
+
+      return {
+        tabBarVisible
+      };
     },
     transitionConfig
   }
 );
-
-JournalStack.navigationOptions = ({ navigation }) => {
-  const routeName = getActiveRouteName(navigation.state);
-  let tabBarVisible = true;
-
-  /**
-   * Hide the tab bar in the following screens
-   */
-  if (
-    ["JournalTextEditor", "JournalImagePicker", "JournalDaySelector"].indexOf(
-      routeName
-    ) > -1
-  ) {
-    tabBarVisible = false;
-  }
-
-  return {
-    tabBarVisible
-  };
-};
 
 export default JournalStack;

@@ -1,4 +1,8 @@
-import { createDrawerNavigator, createStackNavigator } from "react-navigation";
+import {
+  createAppContainer,
+  createDrawerNavigator,
+  createStackNavigator
+} from "react-navigation";
 import HomeSwitch from "./HomeSwitch";
 import Notifications from "../Screens/NotificationsScreen/Notifications";
 import Home from "../Screens/HomeScreen/Home";
@@ -48,4 +52,4 @@ const AppNavigator = createDrawerNavigator(navigators, {
   contentComponent: Drawer
 });
 
-export default AppNavigator;
+export default createAppContainer(AppNavigator);
