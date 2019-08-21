@@ -207,6 +207,8 @@ PODS:
     - React
     - SDWebImage (~> 5.0)
     - SDWebImageWebPCoder (~> 0.2.3)
+  - RNFileViewer (1.0.1):
+    - React
   - RNFirebase (5.5.5):
     - Firebase/Core
     - React
@@ -292,6 +294,7 @@ DEPENDENCIES:
   - "RNCAsyncStorage (from `../node_modules/@react-native-community/async-storage`)"
   - RNDeviceInfo (from `../node_modules/react-native-device-info`)
   - RNFastImage (from `../node_modules/react-native-fast-image`)
+  - RNFileViewer (from `../node_modules/react-native-file-viewer/ios`)
   - RNFirebase (from `../node_modules/react-native-firebase/ios`)
   - RNImageCropPicker (from `../node_modules/react-native-image-crop-picker`)
   - RNInAppBrowser (from `../node_modules/react-native-inappbrowser-reborn`)
@@ -400,6 +403,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-device-info"
   RNFastImage:
     :path: "../node_modules/react-native-fast-image"
+  RNFileViewer:
+    :path: "../node_modules/react-native-file-viewer/ios"
   RNFirebase:
     :path: "../node_modules/react-native-firebase/ios"
   RNImageCropPicker:
@@ -476,6 +481,7 @@ SPEC CHECKSUMS:
   RNCAsyncStorage: b63d6e83fc629b01df6b624688f17944cea5637f
   RNDeviceInfo: 75dac2d7cd6b638b512cc9266ce48a39661fed0e
   RNFastImage: 4e3cd0485ffce7304537e3efc05f99cdc9808107
+  RNFileViewer: 5047ecf40477339723cc08abd55b5ebcefcef4b5
   RNFirebase: b627e5991bb10bf34cea84806819f98f95f39f8b
   RNImageCropPicker: 0a731d984e64ee4c28bddaa7ce52262e4b80979f
   RNInAppBrowser: 6a4b1c006d41d76eac14d758145335c83e1ab1cf
