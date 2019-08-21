@@ -11160,10 +11160,10 @@ react-native-card-stack-swiper@^1.1.0:
   dependencies:
     prop-types "15.5.10"
 
-react-native-collapsible@^1.2.1:
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/react-native-collapsible/-/react-native-collapsible-1.2.1.tgz#d7cecf66dd7c0578e1021826eac913f7434594eb"
-  integrity sha512-l1NfPyHDnRMEmdCaQG6eRNvaFNfzqQ6Jg3NBz7x7BAv9Plid2zC6Yow2/0q9TO0zuaZLl4Hles/1kS2nWYGisw==
+react-native-collapsible@1.5.1:
+  version "1.5.1"
+  resolved "https://registry.yarnpkg.com/react-native-collapsible/-/react-native-collapsible-1.5.1.tgz#da2937b509921b28bf1b0f9eb8e50ad61c3ffb5d"
+  integrity sha512-uQQ2s6l+7+L/pzJroisWsDsyVYVF5bQ+jGbLATNioRh/03SpEL8pcQEVKqVWswcNNR0B9GENixHaLzmuZIwpQg==
   dependencies:
     prop-types "^15.6.2"
 
@@ -11345,10 +11345,10 @@ react-native-particles@^0.0.7:
   dependencies:
     lodash.debounce "^4.0.8"
 
-react-native-pdf@^5.0.11:
-  version "5.0.11"
-  resolved "https://registry.yarnpkg.com/react-native-pdf/-/react-native-pdf-5.0.11.tgz#ed5de9de8cc5291451fa18ef4d40ab0f29cc4040"
-  integrity sha512-QkJh0I2cTKXv5Oz0X2ENbU+pyMmGSxEdrLXU14bqOqKwOQxPF6chR8vCmrTtU2rInrB3WHYO2hh80cgo1L5V/w==
+react-native-pdf@5.1.4:
+  version "5.1.4"
+  resolved "https://registry.yarnpkg.com/react-native-pdf/-/react-native-pdf-5.1.4.tgz#896b428c626170a6c61900f6fd124c745816905f"
+  integrity sha512-rJNCZsMke1Rh1juxhU1pRZvjcAfba2EskL4iQEsirris4abXFxaKF0AFovB94CbTBKCOLvP3oPOuYelWiXkROA==
   dependencies:
     crypto-js "^3.1.9-1"
     prop-types "^15.5.10"
@@ -12271,10 +12271,10 @@ ripemd160@^2.0.0, ripemd160@^2.0.1:
     hash-base "^3.0.0"
     inherits "^2.0.1"
 
-rn-fetch-blob@^0.10.15:
-  version "0.10.15"
-  resolved "https://registry.yarnpkg.com/rn-fetch-blob/-/rn-fetch-blob-0.10.15.tgz#3526860c1c57e0bf4c09bdbe409c919264afffba"
-  integrity sha512-/m/gurTaPAvR3J843uehHhznj5k89x7XClyO5ejmbspNLNQ4ByF+kZs80wiiKGWntj+Wqo0jJu1goArXEfc0kA==
+rn-fetch-blob@0.10.16:
+  version "0.10.16"
+  resolved "https://registry.yarnpkg.com/rn-fetch-blob/-/rn-fetch-blob-0.10.16.tgz#bd54f66c94f7a8e06c213077483646478ae8d230"
+  integrity sha512-hZV+nF0HK4CWmspXGMw7/G8Q8qugpS/wbKiNLsFpdBZR8XYzjFZNvBWgGyC0F5JWQn3sjmK2w/FJjBlwdQWNQg==
   dependencies:
     base-64 "0.1.0"
     glob "7.0.6"

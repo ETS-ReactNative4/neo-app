@@ -4,12 +4,12 @@
 
 module.exports = {
   dependencies: {
-    "rn-fetch-blob": {
+    "react-native-app-settings": {
       platforms: {
         ios: null
       }
     },
-    "react-native-app-settings": {
+    "react-native-pdf": {
       platforms: {
         ios: null
       }
