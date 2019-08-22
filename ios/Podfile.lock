@@ -167,7 +167,7 @@ PODS:
     - React
   - react-native-simple-toast (0.1.1):
     - React
-  - react-native-webengage (1.1.0):
+  - react-native-webengage (1.1.1):
     - React
     - WebEngage
   - react-native-webview (5.12.1):
@@ -475,7 +475,7 @@ SPEC CHECKSUMS:
   react-native-netinfo: 74a82ca28882d543658ddb63617c2e7cf9b78aa7
   react-native-photo-view: 63e9e61da873531f931008b545d8d10c5373ddf8
   react-native-simple-toast: 1fc69d83c24279ed4f9624352551a5a3406678a2
-  react-native-webengage: 96faaa9232f7d80efe34b591888b1f982f9fbb67
+  react-native-webengage: ce9d42fac6385108b0245ef06e0a926697a38db4
   react-native-webview: 5036ed4a973ad1deeeff118262d2df7b60b3419d
   React-RCTActionSheet: b0f1ea83f4bf75fb966eae9bfc47b78c8d3efd90
   React-RCTAnimation: 359ba1b5690b1e87cc173558a78e82d35919333e
