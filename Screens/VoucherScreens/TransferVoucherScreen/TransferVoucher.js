@@ -22,12 +22,13 @@ import VoucherAddressSection from "../Components/VoucherAddressSection";
 import _ from "lodash";
 import FooterStickyActionBar from "../../../CommonComponents/FooterStickyActionBar/FooterStickyActionBar";
 import CollapsibleTextSection from "../../../CommonComponents/CollapsibleTextSection/CollapsibleTextSection";
+import TransferInfoBox from "../ActivityVoucherScreen/Components/TransferInfoBox";
 
 const xHeight = isIphoneX()
   ? constants.xNotchHeight
   : Platform.OS === "ios"
-    ? 20
-    : 0;
+  ? 20
+  : 0;
 
 @ErrorBoundary()
 @inject("passportDetailsStore")
@@ -95,7 +96,11 @@ class TransferVoucher extends Component {
       departureDateStr, //TODO: Departure time to be used from string
       arrivalDateStr,
       departureTimeStr,
-      arrivalTimeStr
+      arrivalTimeStr,
+      trainName,
+      ticketType,
+      seatNo,
+      trainInfo
     } = transfer.voucher;
 
     const transferPassengerDetails = () => [
@@ -137,8 +142,8 @@ class TransferVoucher extends Component {
         value: departureTimeStr
           ? departureTimeStr
           : departureTime
-            ? moment(departureTime, "HH:mm").format(constants.shortTimeFormat)
-            : "NA"
+          ? moment(departureTime, "HH:mm").format(constants.shortTimeFormat)
+          : "NA"
       },
       {
         name: "Departure Station",
@@ -170,8 +175,8 @@ class TransferVoucher extends Component {
         value: pickupTimeStr
           ? pickupTimeStr
           : pickupTime && pickupTime > 0
-            ? moment(pickupTime).format(constants.shortTimeFormat)
-            : "NA"
+          ? moment(pickupTime).format(constants.shortTimeFormat)
+          : "NA"
       },
       {
         name: "Drop off point",
@@ -192,10 +197,10 @@ class TransferVoucher extends Component {
         value: arrivalTimeStr
           ? arrivalTimeStr
           : costingArrivalTime
-            ? moment(costingArrivalTime, "HH:mm").format(
-                constants.shortTimeFormat
-              )
-            : "NA"
+          ? moment(costingArrivalTime, "HH:mm").format(
+              constants.shortTimeFormat
+            )
+          : "NA"
       }
     ];
 
@@ -215,6 +220,32 @@ class TransferVoucher extends Component {
       //   value: "Pickyourtrail"
       // }
     ];
+
+    let trainDetails = [];
+
+    if (
+      _.toUpper(vehicle) === constants.vehicleTypes.train &&
+      _.toUpper(ticketType) === _.toUpper(constants.reservedTrainTicketType)
+    ) {
+      trainDetails = [
+        {
+          name: "Train name",
+          value: trainName
+        },
+        {
+          name: "Train number",
+          value: trainInfo
+        },
+        {
+          name: "Seat number",
+          value: seatNo
+        },
+        {
+          name: "Ticket format",
+          value: ticketType
+        }
+      ];
+    }
 
     const voucherName = text;
 
@@ -262,6 +293,24 @@ class TransferVoucher extends Component {
           </View>
 
           <View style={styles.arrivalSection}>
+            {trainDetails.length ? (
+              <Fragment>
+                <SectionHeader
+                  sectionName={"TRAIN DETAILS"}
+                  containerStyle={{ marginBottom: 0 }}
+                />
+
+                <VoucherSplitSection sections={trainDetails} />
+              </Fragment>
+            ) : null}
+
+            {_.toUpper(ticketType) ===
+            _.toUpper(constants.openTrainTicketType) ? (
+              <TransferInfoBox
+                text={constants.voucherText.openTrainTicketInfo}
+              />
+            ) : null}
+
             <SectionHeader
               sectionName={"ARRIVAL DETAILS"}
               containerStyle={{ marginBottom: 0 }}

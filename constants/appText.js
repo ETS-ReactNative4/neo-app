@@ -27,6 +27,8 @@ const appText = {
   voucherText: {
     freeTransferInfo:
       "This is a self exploration activity. You will need to manage your transport to and from this location. Reach the meeting point 30 minutes prior to avoid last minute hassle.",
+    openTrainTicketInfo:
+      "You have an open train ticket as part of your journey. Kindly arrive at the station 30 minutes prior to departure to reserve seats for a small fee.",
     directionsDisclaimerText:
       "The exact meeting point can be a few meters away from the actual location. If you need more assistance, reach out to the number given or leave a message in the support group.",
     hotelAmenitiesDisclaimer:

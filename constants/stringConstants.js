@@ -95,6 +95,9 @@ const stringConstants = {
     flight: "FLIGHT"
   },
 
+  reservedTrainTicketType: "Reservation",
+  openTrainTicketType: "Open",
+
   /**
    * Transfer Modes
    * used to detect `transferMode` in `intercityTransferSlotDetailVO`
