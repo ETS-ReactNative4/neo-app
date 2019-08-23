@@ -58,8 +58,14 @@ class App extends Component {
   }
 
   _navigationStateChange = (prevState, currentState) => {
-    store.feedbackPrompt.trackScreen(prevState, currentState);
-    screenTracker(prevState, currentState);
+    /**
+     * Making this call asynchronous to prevent it
+     * from blocking the APP Screen transitions
+     */
+    setTimeout(() => {
+      store.feedbackPrompt.trackScreen(prevState, currentState);
+      screenTracker(prevState, currentState);
+    }, 0);
   };
 
   render() {
