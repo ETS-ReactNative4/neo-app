@@ -304,8 +304,9 @@ class TransferVoucher extends Component {
               </Fragment>
             ) : null}
 
-            {_.toUpper(ticketType) ===
-            _.toUpper(constants.openTrainTicketType) ? (
+            {_.toUpper(vehicle) === constants.vehicleTypes.train &&
+            _.toUpper(ticketType) ===
+              _.toUpper(constants.openTrainTicketType) ? (
               <TransferInfoBox
                 text={constants.voucherText.openTrainTicketInfo}
               />
