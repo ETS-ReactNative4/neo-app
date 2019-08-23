@@ -97,16 +97,15 @@ const MainStack = createStackNavigator(
     }
   },
   {
-    transitionConfig
+    transitionConfig,
+    navigationOptions: () => {
+      let drawerLockMode = "locked-closed";
+
+      return {
+        drawerLockMode
+      };
+    }
   }
 );
-
-MainStack.navigationOptions = () => {
-  let drawerLockMode = "locked-closed";
-
-  return {
-    drawerLockMode
-  };
-};
 
 export default MainStack;
