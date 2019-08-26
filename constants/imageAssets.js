@@ -34,6 +34,7 @@ const imageAssets = {
   paymentIcon: "payment",
   aeroplaneIcon: "flight",
   flightVoucherBanner: require("../assets/images/backgrounds/flightVoucherHeader.jpg"),
+  drawerBackgroundImage: require("../assets/images/backgrounds/side-menu-bg.png"),
   busIcon: "bus",
   ferryIcon: "ferry",
   visaIcon: "visa",

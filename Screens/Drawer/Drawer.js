@@ -27,6 +27,10 @@ import {
   onNotificationReceived
 } from "../../Services/fcmService/fcm";
 import { logError } from "../../Services/errorLogger/errorLogger";
+import {
+  responsiveHeight,
+  responsiveWidth
+} from "react-native-responsive-dimensions";
 
 let _onNotificationReceived, _onNotificationDisplayed, _onNotificationOpened;
 
@@ -193,7 +197,12 @@ class Drawer extends Component {
     }
 
     return (
-      <Fragment>
+      <View style={{ flex: 1 }} overflow="hidden">
+        <Image
+          resizeMode={"cover"}
+          source={constants.drawerBackgroundImage}
+          style={styles.drawerBackgroundImage}
+        />
         <View
           // Following gradient config might be needed in the future
           // useAngle={true}
@@ -201,12 +210,13 @@ class Drawer extends Component {
           // angleCenter={{ x: 0.5, y: 0.5 }}
           // locations={[0, 0.5, 0.75]}
           // colors={constants.drawerBackgroundColor}
-          style={{ flex: 1, backgroundColor: constants.drawerBackgroundColor }}
+          style={{ flex: 1 }}
         >
           <ScrollView style={styles.drawerContainer}>
             <StatusBar backgroundColor="white" barStyle="dark-content" />
             <View style={styles.profileImageContainer}>
               <Image
+                resizeMode={"contain"}
                 style={styles.profileImage}
                 source={{
                   uri:
@@ -229,7 +239,7 @@ class Drawer extends Component {
                 action={() => navigation.navigate("MobileNumber")}
                 textColor={"white"}
                 hasBorder={true}
-                color={"transparent"}
+                color={constants.firstColor}
                 containerStyle={{
                   alignSelf: "center",
                   width: 64,
@@ -241,7 +251,6 @@ class Drawer extends Component {
                 textStyle={{
                   fontFamily: constants.primaryRegular,
                   fontWeight: "600",
-                  color: constants.shade1,
                   fontSize: 10,
                   marginTop: -2,
                   marginLeft: 0
@@ -251,21 +260,23 @@ class Drawer extends Component {
               <View style={{ height: 24 }} />
             )}
 
-            {menuItems.map((item, index) => {
-              const defaultAction = () =>
-                this.clickDrawerItem(index, item.text);
+            <View style={styles.buttonsContainer}>
+              {menuItems.map((item, index) => {
+                const defaultAction = () =>
+                  this.clickDrawerItem(index, item.text);
 
-              return (
-                <DrawerButton
-                  key={index}
-                  icon={item.icon}
-                  text={item.text}
-                  action={item.action || defaultAction}
-                  isActive={item.text === this.props.activeItemKey}
-                  info={item.info || null}
-                />
-              );
-            })}
+                return (
+                  <DrawerButton
+                    key={index}
+                    icon={item.icon}
+                    text={item.text}
+                    action={item.action || defaultAction}
+                    isActive={item.text === this.props.activeItemKey}
+                    info={item.info || null}
+                  />
+                );
+              })}
+            </View>
           </ScrollView>
         </View>
         <DialogBox
@@ -289,7 +300,7 @@ class Drawer extends Component {
             infoStore.resetSuccess();
           }}
         />
-      </Fragment>
+      </View>
     );
   }
 }
@@ -297,28 +308,40 @@ class Drawer extends Component {
 const styles = StyleSheet.create({
   profileImageContainer: {
     overflow: "hidden",
-    marginTop: isIphoneX ? 70 : 35,
+    marginTop: 75,
     marginBottom: 5,
     alignSelf: "center",
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "white",
-    borderRadius: 32,
-    height: 64,
-    width: 64
+    borderRadius: 28,
+    height: 56,
+    width: 56,
+    borderWidth: 5,
+    borderColor: constants.firstColor
   },
   profileImage: {
-    borderRadius: 32,
-    height: 64,
-    width: 64
+    borderRadius: 28,
+    height: 56,
+    width: 56
   },
   userName: {
     alignSelf: "center",
-    fontFamily: constants.primaryRegular,
-    fontWeight: "600",
-    lineHeight: 32,
-    fontSize: 20,
-    color: "white"
+    ...constants.fontCustom(constants.primaryRegular, 17),
+    color: constants.black1,
+    marginTop: 16
+  },
+  drawerBackgroundImage: {
+    position: "absolute",
+    left: 0,
+    top: 0,
+    height: responsiveHeight(100),
+    width: (75 * responsiveHeight(100)) / 128 // The background width is calculated to match the aspect ratio of the image used
+  },
+  buttonsContainer: {
+    marginTop: 56,
+    borderTopWidth: 2,
+    borderTopColor: constants.shade5
   }
 });
 
