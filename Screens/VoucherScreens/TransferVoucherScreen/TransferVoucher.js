@@ -99,6 +99,7 @@ class TransferVoucher extends Component {
       arrivalTimeStr,
       trainName,
       ticketType,
+      ticketFormat,
       seatNo,
       trainInfo
     } = transfer.voucher;
@@ -230,19 +231,23 @@ class TransferVoucher extends Component {
       trainDetails = [
         {
           name: "Train name",
-          value: trainName
+          value: trainName || ""
         },
         {
-          name: "Train number",
-          value: trainInfo
+          name: "Train information",
+          value: trainInfo || ""
         },
         {
           name: "Seat number",
-          value: seatNo
+          value: seatNo || ""
         },
         {
-          name: "Ticket format",
-          value: ticketType
+          name: "Ticket Type",
+          value: ticketType || ""
+        },
+        {
+          name: "Ticket Format",
+          value: ticketFormat || ""
         }
       ];
     }
