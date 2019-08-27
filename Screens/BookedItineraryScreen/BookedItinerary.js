@@ -25,8 +25,6 @@ import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import DeepLinkHandler from "../../CommonComponents/DeepLinkHandler/DeepLinkHandler";
 import WebEngage from "react-native-webengage";
 
-const webEngage = new WebEngage();
-
 @ErrorBoundary()
 @DeepLinkHandler
 @inject("appState")
@@ -138,8 +136,6 @@ class BookedItinerary extends Component {
 
   componentDidMount() {
     const selectedDay = this.props.navigation.getParam("selectedDate", 0);
-    webEngage.screen("BookedItinerary");
-    webEngage.track("BookedItinerary", { type: "viewed" });
     if (selectedDay) {
       setTimeout(() => {
         this.selectDay(selectedDay);
