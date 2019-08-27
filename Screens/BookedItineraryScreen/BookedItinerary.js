@@ -23,6 +23,7 @@ import { recordEvent } from "../../Services/analytics/analyticsService";
 import constants from "../../constants/constants";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import DeepLinkHandler from "../../CommonComponents/DeepLinkHandler/DeepLinkHandler";
+import WebEngage from "react-native-webengage";
 
 @ErrorBoundary()
 @DeepLinkHandler

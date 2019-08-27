@@ -245,6 +245,7 @@
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				817B90D4010C4E64835A12B8 /* Upload Debug Symbols to Sentry */,
 				C79D2854DF2A1A846CE37C79 /* [CP] Copy Pods Resources */,
+				CCAF199D7BC29AD73020CA5E /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -528,6 +529,30 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Pickyourtrail/Pods-Pickyourtrail-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		CCAF199D7BC29AD73020CA5E /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Pickyourtrail/Pods-Pickyourtrail-frameworks.sh",
+				"${PODS_ROOT}/WebEngage/xc10/WebEngage.framework",
+				"${PODS_ROOT}/WebEngage/xc10/WebEngage.framework.dSYM",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/WebEngage.framework",
+				"${DWARF_DSYM_FOLDER_PATH}/WebEngage.framework.dSYM",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Pickyourtrail/Pods-Pickyourtrail-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -684,7 +709,7 @@
 				CODE_SIGN_ENTITLEMENTS = Pickyourtrail/Pickyourtrail.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 162;
+				CURRENT_PROJECT_VERSION = 164;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = KCHL242759;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -721,7 +746,7 @@
 				CODE_SIGN_ENTITLEMENTS = Pickyourtrail/Pickyourtrail.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 162;
+				CURRENT_PROJECT_VERSION = 164;
 				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",

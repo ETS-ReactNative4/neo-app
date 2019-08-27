@@ -167,6 +167,9 @@ PODS:
     - React
   - react-native-simple-toast (0.1.1):
     - React
+  - react-native-webengage (1.1.1):
+    - React
+    - WebEngage
   - react-native-webview (5.12.1):
     - React
   - React-RCTActionSheet (0.60.5):
@@ -259,6 +262,9 @@ PODS:
     - Sentry (~> 4.1.3)
   - TextToSpeech (2.0.0):
     - React
+  - WebEngage (4.9.5):
+    - WebEngage/Xcode10 (= 4.9.5)
+  - WebEngage/Xcode10 (4.9.5)
   - yoga (0.60.5.React)
 
 DEPENDENCIES:
@@ -283,6 +289,7 @@ DEPENDENCIES:
   - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
   - react-native-photo-view (from `../node_modules/react-native-photo-view`)
   - react-native-simple-toast (from `../node_modules/react-native-simple-toast`)
+  - react-native-webengage (from `../node_modules/react-native-webengage`)
   - react-native-webview (from `../node_modules/react-native-webview`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
   - React-RCTAnimation (from `../node_modules/react-native/Libraries/NativeAnimation`)
@@ -314,6 +321,7 @@ DEPENDENCIES:
   - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
   - SentryReactNative (from `../node_modules/react-native-sentry`)
   - TextToSpeech (from `../node_modules/react-native-tts`)
+  - WebEngage (~> 4.9.5)
   - yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
@@ -338,6 +346,7 @@ SPEC REPOS:
     - SDWebImage
     - SDWebImageWebPCoder
     - Sentry
+    - WebEngage
 
 EXTERNAL SOURCES:
   BVLinearGradient:
@@ -378,6 +387,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-photo-view"
   react-native-simple-toast:
     :path: "../node_modules/react-native-simple-toast"
+  react-native-webengage:
+    :path: "../node_modules/react-native-webengage"
   react-native-webview:
     :path: "../node_modules/react-native-webview"
   React-RCTActionSheet:
@@ -479,6 +490,7 @@ SPEC CHECKSUMS:
   react-native-netinfo: 74a82ca28882d543658ddb63617c2e7cf9b78aa7
   react-native-photo-view: 63e9e61da873531f931008b545d8d10c5373ddf8
   react-native-simple-toast: 1fc69d83c24279ed4f9624352551a5a3406678a2
+  react-native-webengage: ce9d42fac6385108b0245ef06e0a926697a38db4
   react-native-webview: 5036ed4a973ad1deeeff118262d2df7b60b3419d
   React-RCTActionSheet: b0f1ea83f4bf75fb966eae9bfc47b78c8d3efd90
   React-RCTAnimation: 359ba1b5690b1e87cc173558a78e82d35919333e
@@ -514,8 +526,9 @@ SPEC CHECKSUMS:
   Sentry: 4e8a17b61ddd116f89536cc81d567fdee1ebca96
   SentryReactNative: 07237139c00366ea2e75ae3e5c566e7a71c27a90
   TextToSpeech: 4e2fc50c7495416c6da5a1662ad3f750c58d3c85
+  WebEngage: bfd178de2072ef0d0c740feaafa37289fc451197
   yoga: 312528f5bbbba37b4dcea5ef00e8b4033fdd9411
 
-PODFILE CHECKSUM: 8bda9dc09c7df24b34d793f6d1e0126c4668d74f
+PODFILE CHECKSUM: e8bd4569a1f7e5d6a33e7213017a8d3f23d6e777
 
 COCOAPODS: 1.6.1

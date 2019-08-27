@@ -4,9 +4,9 @@ import getActiveRouteName from "../getActiveRouteName/getActiveRouteName";
 import { analytics as firebaseAnalytics } from "react-native-firebase";
 import constants from "../../constants/constants";
 import debouncer from "../debouncer/debouncer";
-// import WebEngage from "react-native-webengage";
+import WebEngage from "react-native-webengage";
 
-// const webEngage = new WebEngage();
+const webEngage = new WebEngage();
 
 const reserved = [
   "app_clear_data",
@@ -72,7 +72,7 @@ export const setUserDetails = ({ id, name, email, phoneNumber }) => {
       email,
       phone: phoneNumber
     });
-    // webEngage.user.login(id);
+    webEngage.user.login(id);
     firebaseAnalytics().setUserId(id);
     firebaseAnalytics().setUserProperty({ name, email, phoneNumber });
   });
@@ -94,7 +94,7 @@ export const screenTracker = (prevState, currentState) => {
         level: constants.errorLoggerEvents.levels.info
       });
       analytics.screen(currentScreen);
-      // webEngage.screen(currentScreen);
+      webEngage.screen(currentScreen);
       firebaseAnalytics().setCurrentScreen(currentScreen);
     }
   });
