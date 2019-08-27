@@ -135,9 +135,11 @@ const stringConstants = {
   tripToggleStatusStorageKey: "@Pickyourtrail/tripToggleStatus",
 
   /**
-   * Samsung Device manufacturer
+   * App Deeplinking URI prefix
    */
-  samsungManufacturer: "samsung"
+  deepLinkPrefix: "pyt://",
+  screenLinkType: "screen",
+  voucherLinkType: "voucher"
 };
 
 export default stringConstants;

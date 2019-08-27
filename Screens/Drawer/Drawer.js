@@ -5,7 +5,7 @@ import {
   StyleSheet,
   Image,
   Text,
-  Platform,
+  Linking,
   StatusBar
 } from "react-native";
 import { isIphoneX } from "react-native-iphone-x-helper";
@@ -31,6 +31,8 @@ import {
   responsiveHeight,
   responsiveWidth
 } from "react-native-responsive-dimensions";
+import getUrlParams from "../../Services/getUrlParams/getUrlParams";
+import resolveLinks from "../../Services/resolveLinks/resolveLinks";
 
 let _onNotificationReceived, _onNotificationDisplayed, _onNotificationOpened;
 
@@ -71,17 +73,55 @@ class Drawer extends Component {
   componentDidMount() {
     this.checkLogin();
     Drawer.launchApp();
+    Linking.getInitialURL()
+      .then(url => {
+        if (url) {
+          this._handleOpenURL({ url });
+        }
+      })
+      .catch(err => logError("An error occurred with deep linking", { err }));
+    Linking.addEventListener("url", this._handleOpenURL);
   }
 
   componentWillUnmount() {
     _onNotificationReceived && _onNotificationReceived();
     _onNotificationDisplayed && _onNotificationDisplayed();
     _onNotificationOpened && _onNotificationOpened();
+    Linking.removeEventListener("url", this._handleOpenURL);
   }
 
   componentDidUpdate() {
     this.checkLogin();
   }
+
+  /**
+   * Handles the deep linking URLs that opens the app
+   * - Currently supported prefix pyt://
+   */
+  _handleOpenURL = event => {
+    /**
+     * Only DeepLink if the user is logged into the app
+     */
+    isUserLoggedInCallback(() => {
+      try {
+        const { url } = event;
+        const params = getUrlParams(url);
+        const link = url.split(/["://","?"]+/)[1];
+        console.log(url);
+        console.log(params);
+        if (params.type === constants.voucherLinkType) {
+          resolveLinks(false, false, {
+            voucherType: link,
+            costingIdentifier: params.costingIdentifier
+          });
+        } else {
+          resolveLinks(link, params);
+        }
+      } catch (e) {
+        logError("Invalid Deeplink url", { event, e });
+      }
+    });
+  };
 
   checkLogin = () => {
     isUserLoggedInCallback(

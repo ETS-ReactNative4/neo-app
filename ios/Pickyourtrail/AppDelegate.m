@@ -18,6 +18,7 @@
 #endif
 // #import <WebEngage/WebEngage.h>
 #import <UserNotifications/UserNotifications.h>
+#import <React/RCTLinkingManager.h>
 
 
 // @interface AppDelegate () < UNUserNotificationCenterDelegate >
@@ -88,5 +89,12 @@ fetchCompletionHandler:(nonnull void (^)(UIBackgroundFetchResult))completionHand
 //   [WEGManualIntegration userNotificationCenter:center didReceiveNotificationResponse:response];
 //   completionHandler();
 // }
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url
+  sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
+{
+  return [RCTLinkingManager application:application openURL:url
+                      sourceApplication:sourceApplication annotation:annotation];
+}
 
 @end
