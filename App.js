@@ -16,6 +16,7 @@ import { isProduction } from "./Services/getEnvironmentDetails/getEnvironmentDet
 import AppOverlays from "./Screens/AppOverlays/AppOverlays";
 import { useScreens } from "react-native-screens";
 import constants from "./constants/constants";
+import debouncer from "./Services/debouncer/debouncer";
 
 useScreens();
 updateStoreService(store);
@@ -63,10 +64,10 @@ class App extends Component {
      * Making this call asynchronous to prevent it
      * from blocking the APP Screen transitions
      */
-    setTimeout(() => {
+    debouncer(() => {
       store.feedbackPrompt.trackScreen(prevState, currentState);
       screenTracker(prevState, currentState);
-    }, 0);
+    });
   };
 
   render() {

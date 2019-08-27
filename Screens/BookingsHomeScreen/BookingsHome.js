@@ -32,6 +32,7 @@ import {
   openFile
 } from "../../Services/fileManager/fileManager";
 import storeService from "../../Services/storeService/storeService";
+import debouncer from "../../Services/debouncer/debouncer";
 
 const generateVoucherFileName = () => {
   const itineraryId = storeService.itineraries.selectedItineraryId;
@@ -70,13 +71,15 @@ class BookingsHome extends Component {
     this._didFocusSubscription = this.props.navigation.addListener(
       "didFocus",
       () => {
-        const { selectedItineraryId } = this.props.itineraries;
-        if (selectedItineraryId) {
-          pullToRefresh({
-            itinerary: true,
-            voucher: true
-          });
-        }
+        debouncer(() => {
+          const { selectedItineraryId } = this.props.itineraries;
+          if (selectedItineraryId) {
+            pullToRefresh({
+              itinerary: true,
+              voucher: true
+            });
+          }
+        });
       }
     );
   }

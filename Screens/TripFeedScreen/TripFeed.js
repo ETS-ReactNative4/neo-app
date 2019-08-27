@@ -19,6 +19,7 @@ import DayAhead from "./Components/DayAhead/DayAhead";
 import DayAheadLite from "./Components/DayAheadLite/DayAheadLite";
 import FeedbackPanelOverlay from "./Components/FeedbackPanelOverlay";
 import pullToRefresh from "../../Services/refresh/pullToRefresh";
+import debouncer from "../../Services/debouncer/debouncer";
 
 @ErrorBoundary({ isRoot: true })
 @inject("tripFeedStore")
@@ -44,14 +45,16 @@ class TripFeed extends Component {
     this._didFocusSubscription = props.navigation.addListener(
       "didFocus",
       () => {
-        const { selectedItineraryId } = props.itineraries;
-        if (selectedItineraryId) {
-          this.loadTripFeedData();
-        }
-        BackHandler.addEventListener(
-          "hardwareBackPress",
-          this.onBackButtonPressAndroid
-        );
+        debouncer(() => {
+          const { selectedItineraryId } = props.itineraries;
+          if (selectedItineraryId) {
+            this.loadTripFeedData();
+          }
+          BackHandler.addEventListener(
+            "hardwareBackPress",
+            this.onBackButtonPressAndroid
+          );
+        });
       }
     );
   }

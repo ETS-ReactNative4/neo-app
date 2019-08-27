@@ -3,6 +3,7 @@ import { logBreadCrumb, logError } from "../errorLogger/errorLogger";
 import getActiveRouteName from "../getActiveRouteName/getActiveRouteName";
 import { analytics as firebaseAnalytics } from "react-native-firebase";
 import constants from "../../constants/constants";
+import debouncer from "../debouncer/debouncer";
 // import WebEngage from "react-native-webengage";
 
 // const webEngage = new WebEngage();
@@ -34,16 +35,18 @@ const reserved = [
 ];
 
 export const recordEvent = (event, params = undefined) => {
-  if (!reserved.includes(event)) {
-    firebaseAnalytics().logEvent(event, params);
-    if (!params) {
-      analytics.track(event);
+  debouncer(() => {
+    if (!reserved.includes(event)) {
+      firebaseAnalytics().logEvent(event, params);
+      if (!params) {
+        analytics.track(event);
+      } else {
+        analytics.track(event, params);
+      }
     } else {
-      analytics.track(event, params);
+      logError(`Invalid analytics event ${event}`, { params });
     }
-  } else {
-    logError(`Invalid analytics event ${event}`, { params });
-  }
+  });
 };
 
 export const enableAnalytics = async () => {
@@ -63,32 +66,36 @@ export const disableAnalytics = () => {
 };
 
 export const setUserDetails = ({ id, name, email, phoneNumber }) => {
-  analytics.identify(id, {
-    name,
-    email,
-    phone: phoneNumber
+  debouncer(() => {
+    analytics.identify(id, {
+      name,
+      email,
+      phone: phoneNumber
+    });
+    // webEngage.user.login(id);
+    firebaseAnalytics().setUserId(id);
+    firebaseAnalytics().setUserProperty({ name, email, phoneNumber });
   });
-  // webEngage.user.login(id);
-  firebaseAnalytics().setUserId(id);
-  firebaseAnalytics().setUserProperty({ name, email, phoneNumber });
 };
 
 export const screenTracker = (prevState, currentState) => {
-  const currentScreen = getActiveRouteName(currentState);
-  const prevScreen = getActiveRouteName(prevState);
+  debouncer(() => {
+    const currentScreen = getActiveRouteName(currentState);
+    const prevScreen = getActiveRouteName(prevState);
 
-  /**
-   * TODO: Check if any data can be added here...
-   */
-  if (prevScreen !== currentScreen) {
-    logBreadCrumb({
-      message: `${prevScreen} to ${currentScreen}`,
-      category: constants.errorLoggerEvents.categories.navigation,
-      data: {},
-      level: constants.errorLoggerEvents.levels.info
-    });
-    analytics.screen(currentScreen);
-    // webEngage.screen(currentScreen);
-    firebaseAnalytics().setCurrentScreen(currentScreen);
-  }
+    /**
+     * TODO: Check if any data can be added here...
+     */
+    if (prevScreen !== currentScreen) {
+      logBreadCrumb({
+        message: `${prevScreen} to ${currentScreen}`,
+        category: constants.errorLoggerEvents.categories.navigation,
+        data: {},
+        level: constants.errorLoggerEvents.levels.info
+      });
+      analytics.screen(currentScreen);
+      // webEngage.screen(currentScreen);
+      firebaseAnalytics().setCurrentScreen(currentScreen);
+    }
+  });
 };
