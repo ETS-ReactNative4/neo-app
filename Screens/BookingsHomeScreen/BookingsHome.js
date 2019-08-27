@@ -308,7 +308,7 @@ class BookingsHome extends Component {
                 color={"white"}
                 hasBorder={true}
                 text={"View voucher"}
-                icon={constants.downloadIcon}
+                icon={constants.openFileIcon}
                 action={this.openVoucher}
                 iconSize={20}
                 textColor={constants.firstColor}

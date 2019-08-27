@@ -210,7 +210,7 @@ class Drawer extends Component {
 
     if (shouldIncludeStoryBook()) {
       menuItems.push({
-        icon: constants.activityIcon,
+        icon: constants.storybookIcon,
         text: "StoryBook"
       });
     }
