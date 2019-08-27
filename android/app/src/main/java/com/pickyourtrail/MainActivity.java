@@ -1,7 +1,9 @@
 package com.pickyourtrail;
 
+import android.os.Bundle;
 import com.facebook.react.ReactActivity;
 import android.content.Intent;
+import com.zoontek.rnbootsplash.RNBootSplash;
 
 /**
  * Imports for react navigation gesture handler
@@ -11,6 +13,12 @@ import com.facebook.react.ReactRootView;
 import com.swmansion.gesturehandler.react.RNGestureHandlerEnabledRootView;
 
 public class MainActivity extends ReactActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+      super.onCreate(savedInstanceState);
+      RNBootSplash.show(R.drawable.bootsplash, MainActivity.this); // <- display the "bootsplash" xml view over our MainActivity
+    }
 
     @Override
     public void onNewIntent(Intent intent) {

@@ -219,9 +219,11 @@ const imageAssets = {
   /**
    * Animation files
    */
-  journalPublishingLoop: require("../assets/animations/publishloop"),
-  journalPublishEnd: require("../assets/animations/publishend"),
-  journalPublishSuccess: require("../assets/animations/publishSuccess")
+  journalPublishingLoop: () => require("../assets/animations/publishloop.json"),
+  journalPublishEnd: () => require("../assets/animations/publishend.json"),
+  journalPublishSuccess: () =>
+    require("../assets/animations/publishSuccess.json"),
+  splashAnimation: () => require("../assets/animations/splashScreen.json")
 };
 
 export default imageAssets;

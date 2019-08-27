@@ -315,7 +315,7 @@ class JournalPublish extends Component {
             <View style={styles.loadingAnimationContainer}>
               <LottieView
                 style={styles.loadingAnimation}
-                source={constants.journalPublishingLoop}
+                source={constants.journalPublishingLoop()}
                 progress={publishingAnimationTiming}
               />
             </View>
@@ -324,7 +324,7 @@ class JournalPublish extends Component {
             <View style={styles.loadingAnimationContainer}>
               <LottieView
                 style={styles.loadingAnimation}
-                source={constants.journalPublishEnd}
+                source={constants.journalPublishEnd()}
                 progress={publishEndAnimationTiming}
               />
             </View>
@@ -336,7 +336,7 @@ class JournalPublish extends Component {
             {isPublished || true ? (
               <LottieView
                 style={styles.successAnimation}
-                source={constants.journalPublishSuccess}
+                source={constants.journalPublishSuccess()}
                 progress={publishSuccessAnimationTiming}
               />
             ) : null}
