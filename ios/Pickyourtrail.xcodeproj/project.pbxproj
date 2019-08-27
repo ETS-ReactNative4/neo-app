@@ -13,7 +13,7 @@
 		13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		186466A32306BB9A00DFA2A6 /* voyager.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 186466A22306BB9A00DFA2A6 /* voyager.ttf */; };
+		1867D6BC23155E9200BC9B92 /* voyager.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1867D6BB23155E9200BC9B92 /* voyager.ttf */; };
 		18BD4E1F22FC550D00B82F1A /* hotel-amenities.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 18BD4E1E22FC550D00B82F1A /* hotel-amenities.ttf */; };
 		2D02E4BC1E0B4A80006451C7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
@@ -56,7 +56,7 @@
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Pickyourtrail/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Pickyourtrail/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Pickyourtrail/main.m; sourceTree = "<group>"; };
-		186466A22306BB9A00DFA2A6 /* voyager.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = voyager.ttf; path = ../assets/fonts/voyager.ttf; sourceTree = "<group>"; };
+		1867D6BB23155E9200BC9B92 /* voyager.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = voyager.ttf; path = ../assets/fonts/voyager.ttf; sourceTree = "<group>"; };
 		18BD4E1E22FC550D00B82F1A /* hotel-amenities.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "hotel-amenities.ttf"; path = "../assets/fonts/hotel-amenities.ttf"; sourceTree = "<group>"; };
 		18E020A022E84361006F664C /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
 		2D02E47B1E0B4A5D006451C7 /* Pickyourtrail-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Pickyourtrail-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -194,7 +194,7 @@
 		8CE2C08E08384851B55D61AB /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				186466A22306BB9A00DFA2A6 /* voyager.ttf */,
+				1867D6BB23155E9200BC9B92 /* voyager.ttf */,
 				18BD4E1E22FC550D00B82F1A /* hotel-amenities.ttf */,
 				E9BDBDC10DF241B6B427577C /* SourceSansPro-Light.ttf */,
 				E93C340415F3418593E4BBF5 /* SourceSansPro-Regular.ttf */,
@@ -369,7 +369,7 @@
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 				33A79BD121564F4F00A5A7EF /* GoogleService-Info.plist in Resources */,
 				7FD6861292BF4577A8A4A5DC /* SourceSansPro-Light.ttf in Resources */,
-				186466A32306BB9A00DFA2A6 /* voyager.ttf in Resources */,
+				1867D6BC23155E9200BC9B92 /* voyager.ttf in Resources */,
 				4C0A011F106C4A9FB5192721 /* SourceSansPro-Regular.ttf in Resources */,
 				726B5F8C89384E979D21DDAA /* SourceSansPro-SemiBold.ttf in Resources */,
 				18BD4E1F22FC550D00B82F1A /* hotel-amenities.ttf in Resources */,
