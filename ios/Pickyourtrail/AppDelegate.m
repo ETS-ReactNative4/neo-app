@@ -19,7 +19,7 @@
 #import <WebEngage/WebEngage.h>
 #import <UserNotifications/UserNotifications.h>
 #import <React/RCTLinkingManager.h>
-
+#import "RNBootSplash.h"
 
 @interface AppDelegate () < UNUserNotificationCenterDelegate >
 
@@ -48,6 +48,7 @@
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
+  [RNBootSplash show:@"LaunchScreen" inView:rootView];
   return YES;
 }
 

@@ -202,6 +202,8 @@ PODS:
   - RNAnalytics (1.1.0-beta.1):
     - Analytics
     - React
+  - RNBootSplash (1.0.0):
+    - React
   - RNCAsyncStorage (1.5.1):
     - React
   - RNDeviceInfo (2.1.2):
@@ -304,6 +306,7 @@ DEPENDENCIES:
   - "ReactNativeART (from `../node_modules/@react-native-community/art`)"
   - rn-fetch-blob (from `../node_modules/rn-fetch-blob`)
   - "RNAnalytics (from `../node_modules/@segment/analytics-react-native`)"
+  - RNBootSplash (from `../node_modules/react-native-bootsplash`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-community/async-storage`)"
   - RNDeviceInfo (from `../node_modules/react-native-device-info`)
   - RNFastImage (from `../node_modules/react-native-fast-image`)
@@ -417,6 +420,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/rn-fetch-blob"
   RNAnalytics:
     :path: "../node_modules/@segment/analytics-react-native"
+  RNBootSplash:
+    :path: "../node_modules/react-native-bootsplash"
   RNCAsyncStorage:
     :path: "../node_modules/@react-native-community/async-storage"
   RNDeviceInfo:
@@ -505,6 +510,7 @@ SPEC CHECKSUMS:
   ReactNativeART: d230fdaf9a6d15d5ec842355ada1edbe326c49d0
   rn-fetch-blob: 651b8d076b43d0d7aa294a3d9ec16c00aab8bef9
   RNAnalytics: 05243c1fa17186f07be3eae30514b43aeb2e0578
+  RNBootSplash: 67b98f49c7a2fbd3d9ee24a196ddf052feb22c33
   RNCAsyncStorage: b63d6e83fc629b01df6b624688f17944cea5637f
   RNDeviceInfo: 75dac2d7cd6b638b512cc9266ce48a39661fed0e
   RNFastImage: 4e3cd0485ffce7304537e3efc05f99cdc9808107

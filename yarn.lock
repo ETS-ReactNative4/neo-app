@@ -11167,6 +11167,11 @@ react-native-app-settings@^2.0.1:
   resolved "https://registry.yarnpkg.com/react-native-app-settings/-/react-native-app-settings-2.0.1.tgz#97befc92813952750fa9efffc2692cbc39300960"
   integrity sha512-MmYtXQbPBJ0tlAmn4MeeOOjrSR9Cup4PI4HFSsETDGUMrOGmb7WETrQ/9bZ06BeisNnqf8/Qj+efgH+OmFYDjQ==
 
+react-native-bootsplash@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/react-native-bootsplash/-/react-native-bootsplash-1.0.0.tgz#4d7a8e1e41e23b2154085f49b19c1414cd4b4a95"
+  integrity sha512-rThv1X09utHBVp/e7Mn8UwRj5X6Y8bhgHWEBnBWEoizQPKyl3MljLtSgHXLcHGGgwGR/OXagMwE/9MSnZptlJg==
+
 react-native-card-stack-swiper@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/react-native-card-stack-swiper/-/react-native-card-stack-swiper-1.1.0.tgz#5713afc3f4506f68cd90fe6102287aab7766e4ad"
