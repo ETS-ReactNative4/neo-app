@@ -6,7 +6,7 @@ import {
 const apiServers = {
   localServer: "http://192.168.0.5:8080/api/",
   devServer: "https://dev.pickyourtrail.com/api/",
-  stagingSever: "https://mobile.pickyourtrail.com/api/",
+  stagingSever: "https://delta.longweekend.co.in/api/",
   uatServer: "https://uat.pickyourtrail.com/api/",
   prodServer: "https://mobile-prod.pickyourtrail.com/api/"
 };
@@ -19,7 +19,7 @@ const platoServers = {
 const productUrls = {
   localProductUrl: "http://192.168.0.5:8080/",
   devProductUrl: "https://dev.pickyourtrail.com/",
-  stagingProductUrl: "https://mobile.pickyourtrail.com/",
+  stagingProductUrl: "https://delta.longweekend.co.in/",
   uatProductUrl: "https://uat.pickyourtrail.com/",
   prodProductUrl: "https://pickyourtrail.com/"
 };

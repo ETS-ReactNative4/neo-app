@@ -33,6 +33,7 @@ import {
 } from "react-native-responsive-dimensions";
 import getUrlParams from "../../Services/getUrlParams/getUrlParams";
 import resolveLinks from "../../Services/resolveLinks/resolveLinks";
+import ratioCalculator from "../../Services/ratioCalculator/ratioCalculator";
 
 let _onNotificationReceived, _onNotificationDisplayed, _onNotificationOpened;
 
@@ -376,7 +377,7 @@ const styles = StyleSheet.create({
     left: 0,
     top: 0,
     height: responsiveHeight(100),
-    width: (75 * responsiveHeight(100)) / 128 // The background width is calculated to match the aspect ratio of the image used
+    width: ratioCalculator(75, 128, responsiveHeight(100)) // (75 * responsiveHeight(100)) / 128 The background width is calculated to match the aspect ratio of the image used
   },
   buttonsContainer: {
     marginTop: 56,

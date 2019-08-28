@@ -11,6 +11,8 @@ const imageAssets = {
   starterScreenBackground: isIphoneX()
     ? require("../assets/images/backgrounds/starterScreenBackground.jpg")
     : require("../assets/images/backgrounds/starterScreenBackgroundAndroid.jpg"),
+  starterTopImage: require("../assets/images/backgrounds/starter_screen_top.jpg"),
+  starterBottomImage: require("../assets/images/backgrounds/starter_screen_bottom.jpg"),
   starterBackground: require("../assets/images/backgrounds/starterImage.jpg"),
   pytLogo: isProduction()
     ? require("../assets/images/icons/logo_new.png")
