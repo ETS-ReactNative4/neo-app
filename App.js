@@ -14,11 +14,9 @@ import {
 import ErrorBoundary from "./CommonComponents/ErrorBoundary/ErrorBoundary";
 import { isProduction } from "./Services/getEnvironmentDetails/getEnvironmentDetails";
 import AppOverlays from "./Screens/AppOverlays/AppOverlays";
-import { useScreens } from "react-native-screens";
 import constants from "./constants/constants";
 import debouncer from "./Services/debouncer/debouncer";
 
-useScreens();
 updateStoreService(store);
 
 /**

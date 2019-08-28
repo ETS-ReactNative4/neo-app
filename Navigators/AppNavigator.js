@@ -10,6 +10,9 @@ import Drawer from "../Screens/Drawer/Drawer";
 import PaymentStack from "./PaymentStack";
 import About from "../Screens/AboutScreen/About";
 import { shouldIncludeStoryBook } from "../storybook/Storybook";
+import { useScreens } from "react-native-screens";
+
+useScreens();
 
 const navigators = {
   Home: {
