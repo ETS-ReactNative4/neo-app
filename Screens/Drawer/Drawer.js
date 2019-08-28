@@ -34,6 +34,7 @@ import {
 import getUrlParams from "../../Services/getUrlParams/getUrlParams";
 import resolveLinks from "../../Services/resolveLinks/resolveLinks";
 import ratioCalculator from "../../Services/ratioCalculator/ratioCalculator";
+import debouncer from "../../Services/debouncer/debouncer";
 
 let _onNotificationReceived, _onNotificationDisplayed, _onNotificationOpened;
 
@@ -48,8 +49,7 @@ class Drawer extends Component {
     _onNotificationDisplayed && _onNotificationDisplayed();
     _onNotificationOpened && _onNotificationOpened();
 
-    setTimeout(() => {
-      // This will make sure the splash screen is visible for 1 second
+    debouncer(() => {
       appLauncher()
         .then(() => {
           /**
@@ -61,7 +61,7 @@ class Drawer extends Component {
           _onNotificationOpened = onNotificationOpened();
         })
         .catch(logError);
-    }, 0);
+    });
   };
 
   clickDrawerItem = (index, screen) => {
