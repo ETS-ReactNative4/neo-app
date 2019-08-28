@@ -13,6 +13,9 @@ class Splash extends Component {
   _splashAnimationRef = createRef();
 
   componentDidMount() {
+    /**
+     * Hide the native app-boot splash screen
+     */
     RNBootSplash.hide();
   }
 

@@ -99,6 +99,12 @@ class BookingsHome extends Component {
       selectedItineraryId,
       getDownloadedVoucherByUrl
     } = this.props.itineraries;
+    /**
+     * - Will check if the downloaded voucher's file exists in the
+     * filesytem.
+     * - It will also check if the voucher downloaded is latest using
+     * the last downloaded pdf url.
+     */
     checkIfFileExists(fileName)
       .then(isExist => {
         if (isExist) {
@@ -171,6 +177,10 @@ class BookingsHome extends Component {
         isDownloadLoading: true
       },
       () => {
+        /**
+         * This will first make a request to check
+         * if the final voucher is ready to be downloaded...
+         */
         apiCall(
           constants.getFinalVoucherDownloadUrl.replace(
             ":itineraryId",
@@ -181,6 +191,10 @@ class BookingsHome extends Component {
         )
           .then(response => {
             if (response.status === "SUCCESS" && response.data) {
+              /**
+               * The final voucher url is available in the response
+               * this will now be downloaded and saved to the filesystem.
+               */
               downloadFile(response.data, fileName)
                 .then(downloadData => {
                   updateVoucherDownloadMap(response.data, downloadData.data);

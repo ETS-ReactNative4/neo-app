@@ -156,6 +156,11 @@ class Itineraries {
       });
   };
 
+  /**
+   * _voucherDownloadMap is a json object that is used to keep
+   * track of all the vouchers downloaded along with the
+   * url from which they are downloaded.
+   */
   @action
   updateVoucherDownloadMap = (url, fileName) => {
     const voucherDownloadMap = toJS(this._voucherDownloadMap);
@@ -163,6 +168,10 @@ class Itineraries {
     this._voucherDownloadMap = voucherDownloadMap;
   };
 
+  /**
+   * This will retrieve a voucher which is already downloaded
+   * using the downloaded source url
+   */
   getDownloadedVoucherByUrl = createTransformer(url => {
     return this._voucherDownloadMap[url];
   });

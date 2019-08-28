@@ -25,6 +25,10 @@ export const downloadFile = (url, fileName) => {
           reject(error);
         });
     };
+    /**
+     * Only android requires requesting permissions
+     * from the user.
+     */
     if (Platform.OS === constants.platformAndroid) {
       getWriteFilePermissionAndroid(downloadAction, reject, () => null);
     } else {

@@ -224,6 +224,10 @@ class TransferVoucher extends Component {
 
     let trainDetails = [];
 
+    /**
+     * The following info is used to display the
+     * train details for the user
+     */
     if (
       _.toUpper(vehicle) === constants.vehicleTypes.train &&
       _.toUpper(ticketType) === _.toUpper(constants.reservedTrainTicketType)
