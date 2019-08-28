@@ -27,12 +27,12 @@ const StarterAnimation = () => {
   }, [isAnimated]);
 
   const animateViews = () => {
-    const firstAnimationDuration = 800;
+    const firstAnimationDuration = 1200;
     debouncer(() => {
       LayoutAnimation.configureNext({
         duration: firstAnimationDuration,
         update: {
-          type: LayoutAnimation.Types.easeIn
+          type: LayoutAnimation.Types.easeOut
         }
       });
       setStage(1);
