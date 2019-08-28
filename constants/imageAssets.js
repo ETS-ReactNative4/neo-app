@@ -11,6 +11,8 @@ const imageAssets = {
   starterScreenBackground: isIphoneX()
     ? require("../assets/images/backgrounds/starterScreenBackground.jpg")
     : require("../assets/images/backgrounds/starterScreenBackgroundAndroid.jpg"),
+  starterTopImage: require("../assets/images/backgrounds/starter_screen_top.jpg"),
+  starterBottomImage: require("../assets/images/backgrounds/starter_screen_bottom.jpg"),
   starterBackground: require("../assets/images/backgrounds/starterImage.jpg"),
   pytLogo: isProduction()
     ? require("../assets/images/icons/logo_new.png")
@@ -48,6 +50,7 @@ const imageAssets = {
   hotelIcon: "hotel",
   clockIcon: "clock",
   infoIcon: "about",
+  storybookIcon: "storybook",
   warningIcon: "warning",
   thumbsUpIcon: "like",
   thumbsDownIcon: "unlike",
@@ -136,6 +139,7 @@ const imageAssets = {
   forexIcon: require("../assets/images/toolIcons/forex.png"),
   documentVisaIcon: require("../assets/images/toolIcons/document-visa.png"),
   downloadIcon: "download",
+  openFileIcon: "pdf-view",
   emergencyContactsIcon: require("../assets/images/toolIcons/emergency-contacts.png"),
   faqIcon: require("../assets/images/toolIcons/faq.png"),
   invitePassengersIcon: require("../assets/images/toolIcons/invite-co-passanger-240px.png"),
