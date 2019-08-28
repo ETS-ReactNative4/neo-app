@@ -5,11 +5,11 @@
   <item android:drawable="@android:color/white" />
 
   <!-- the app logo, centered horizontally and vertically -->
-  <!-- <item>
+  <item>
     <bitmap
       android:width="358dp"
       android:height="258dp"
       android:src="@mipmap/splash_icon"
       android:gravity="center" />
-  </item> -->
+  </item>
 </layer-list>

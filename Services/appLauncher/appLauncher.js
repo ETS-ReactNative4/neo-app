@@ -68,6 +68,8 @@ const AppLauncher = () => {
         /**
          * Exception -> take him to starter
          */
+        console.log(e);
+        debugger;
         logError("Error while launching the app", { errorInfo: e });
         navigation._navigation.navigate("Starter");
         resolve();

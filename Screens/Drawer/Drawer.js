@@ -60,7 +60,7 @@ class Drawer extends Component {
           _onNotificationOpened = onNotificationOpened();
         })
         .catch(logError);
-    }, 1000);
+    }, 0);
   };
 
   clickDrawerItem = (index, screen) => {

@@ -1,19 +1,16 @@
-import React, { Component } from "react";
+import React, { Component, createRef } from "react";
 import { StyleSheet } from "react-native";
 import constants from "../../constants/constants";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import RNBootSplash from "react-native-bootsplash";
 import LottieView from "lottie-react-native";
-import {
-  responsiveHeight,
-  responsiveWidth
-} from "react-native-responsive-dimensions";
 
 @ErrorBoundary({ isRoot: true })
 class Splash extends Component {
   static navigationOptions = {
     header: null
   };
+  _splashAnimationRef = createRef();
 
   componentDidMount() {
     RNBootSplash.hide();
@@ -22,10 +19,12 @@ class Splash extends Component {
   render() {
     return (
       <LottieView
+        ref={this._splashAnimationRef}
         source={constants.splashAnimation()}
         style={styles.lottieViewContainer}
-        autoPlay={true}
         resizeMode={"cover"}
+        autoPlay={true}
+        loop={false}
       />
     );
   }
