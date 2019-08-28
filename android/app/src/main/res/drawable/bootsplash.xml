@@ -8,7 +8,7 @@
   <item>
     <bitmap
       android:width="358dp"
-      android:height="258dp"
+      android:height="358dp"
       android:src="@mipmap/splash_icon"
       android:gravity="center" />
   </item>
