@@ -24,7 +24,7 @@ updateStoreService(store);
 /**
  * During app development uncomment the following lines
  */
-console.disableYellowBox = true;
+// console.disableYellowBox = true;
 
 @ErrorBoundary({ isRoot: true })
 class App extends Component {
