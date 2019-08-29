@@ -1,13 +1,5 @@
 import React, { Component } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  LayoutAnimation,
-  Animated,
-  Easing
-} from "react-native";
+import { View, StyleSheet, ScrollView, Animated, Easing } from "react-native";
 import {
   responsiveHeight,
   responsiveWidth

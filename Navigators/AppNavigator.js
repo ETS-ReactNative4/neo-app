@@ -1,4 +1,8 @@
-import { createDrawerNavigator, createStackNavigator } from "react-navigation";
+import {
+  createAppContainer,
+  createDrawerNavigator,
+  createStackNavigator
+} from "react-navigation";
 import HomeSwitch from "./HomeSwitch";
 import Notifications from "../Screens/NotificationsScreen/Notifications";
 import Home from "../Screens/HomeScreen/Home";
@@ -6,6 +10,9 @@ import Drawer from "../Screens/Drawer/Drawer";
 import PaymentStack from "./PaymentStack";
 import About from "../Screens/AboutScreen/About";
 import { shouldIncludeStoryBook } from "../storybook/Storybook";
+import { useScreens } from "react-native-screens";
+
+useScreens();
 
 const navigators = {
   Home: {
@@ -48,4 +55,4 @@ const AppNavigator = createDrawerNavigator(navigators, {
   contentComponent: Drawer
 });
 
-export default AppNavigator;
+export default createAppContainer(AppNavigator);

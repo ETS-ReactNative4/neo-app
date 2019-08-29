@@ -21,6 +21,7 @@ import {
   responsiveWidth
 } from "react-native-responsive-dimensions";
 import { recordEvent } from "../../Services/analytics/analyticsService";
+import debouncer from "../../Services/debouncer/debouncer";
 
 /**
  * Contains two different screens
@@ -51,10 +52,12 @@ class Journal extends Component {
     this._didFocusSubscription = props.navigation.addListener(
       "didFocus",
       () => {
-        const { selectedItineraryId } = props.itineraries;
-        if (selectedItineraryId) {
-          this.loadJournalDetails();
-        }
+        debouncer(() => {
+          const { selectedItineraryId } = props.itineraries;
+          if (selectedItineraryId) {
+            this.loadJournalDetails();
+          }
+        });
       }
     );
   }

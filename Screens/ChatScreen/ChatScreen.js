@@ -17,6 +17,7 @@ import { logError } from "../../Services/errorLogger/errorLogger";
 import DeviceInfo from "react-native-device-info";
 import storeService from "../../Services/storeService/storeService";
 import HelpDeskView from "./Components/HelpDeskView";
+import debouncer from "../../Services/debouncer/debouncer";
 
 @ErrorBoundary({ isRoot: true })
 @inject("itineraries")
@@ -59,17 +60,21 @@ class ChatScreen extends Component {
     this._didFocusSubscription = props.navigation.addListener(
       "didFocus",
       () => {
-        this.refreshChatInitializationStatus();
-        clearChatNotification();
-        this._keyboardDidShowListener = Keyboard.addListener(
-          Platform.OS === "ios" ? "keyboardWillChangeFrame" : "keyboardDidShow",
-          this.keyboardDidShow
-        );
-        this._keyboardDidHideListener = Keyboard.addListener(
-          Platform.OS === "ios" ? "keyboardWillHide" : "keyboardDidHide",
-          this.keyboardDidHide
-        );
-        BackHandler.addEventListener("hardwareBackPress", this.goBack);
+        debouncer(() => {
+          this.refreshChatInitializationStatus();
+          clearChatNotification();
+          this._keyboardDidShowListener = Keyboard.addListener(
+            Platform.OS === "ios"
+              ? "keyboardWillChangeFrame"
+              : "keyboardDidShow",
+            this.keyboardDidShow
+          );
+          this._keyboardDidHideListener = Keyboard.addListener(
+            Platform.OS === "ios" ? "keyboardWillHide" : "keyboardDidHide",
+            this.keyboardDidHide
+          );
+          BackHandler.addEventListener("hardwareBackPress", this.goBack);
+        });
       }
     );
   }

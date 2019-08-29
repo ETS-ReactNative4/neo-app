@@ -14,6 +14,8 @@ import {
 import ErrorBoundary from "./CommonComponents/ErrorBoundary/ErrorBoundary";
 import { isProduction } from "./Services/getEnvironmentDetails/getEnvironmentDetails";
 import AppOverlays from "./Screens/AppOverlays/AppOverlays";
+import constants from "./constants/constants";
+import debouncer from "./Services/debouncer/debouncer";
 
 updateStoreService(store);
 
@@ -28,11 +30,11 @@ class App extends Component {
     UIManager.setLayoutAnimationEnabledExperimental &&
       UIManager.setLayoutAnimationEnabledExperimental(true);
 
-    // if (!__DEV__) {
-    enableAnalytics();
-    // } else {
-    //   disableAnalytics();
-    // }
+    if (!__DEV__) {
+      enableAnalytics();
+    } else {
+      disableAnalytics();
+    }
 
     NetInfo.isConnected.fetch().then(isConnected => {
       this.handleFirstConnectivityChange(isConnected);
@@ -56,8 +58,14 @@ class App extends Component {
   }
 
   _navigationStateChange = (prevState, currentState) => {
-    store.feedbackPrompt.trackScreen(prevState, currentState);
-    screenTracker(prevState, currentState);
+    /**
+     * Making this call asynchronous to prevent it
+     * from blocking the APP Screen transitions
+     */
+    debouncer(() => {
+      store.feedbackPrompt.trackScreen(prevState, currentState);
+      screenTracker(prevState, currentState);
+    });
   };
 
   render() {
@@ -66,6 +74,8 @@ class App extends Component {
         <Fragment>
           <AppNavigator
             ref={setNavigationService}
+            uriPrefix={constants.deepLinkPrefix}
+            enableURLHandling={false}
             onNavigationStateChange={this._navigationStateChange}
           />
           <AppOverlays />

@@ -1,8 +1,12 @@
 import React, { Component } from "react";
-import { ImageBackground } from "react-native";
-import constants from "../../constants/constants";
+import { View } from "react-native";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 
+/**
+ * Splash screen is now only an entry point to the app
+ * It doesn't display anything and will be hidden by the bootsplash
+ * The actual app launcher is called from the `Drawer` screen
+ */
 @ErrorBoundary({ isRoot: true })
 class Splash extends Component {
   static navigationOptions = {
@@ -10,12 +14,7 @@ class Splash extends Component {
   };
 
   render() {
-    return (
-      <ImageBackground
-        source={constants.splashBackground}
-        style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
-      />
-    );
+    return <View />;
   }
 }
 

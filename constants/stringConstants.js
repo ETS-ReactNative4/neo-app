@@ -95,6 +95,9 @@ const stringConstants = {
     flight: "FLIGHT"
   },
 
+  reservedTrainTicketType: "Reservation",
+  openTrainTicketType: "Open",
+
   /**
    * Transfer Modes
    * used to detect `transferMode` in `intercityTransferSlotDetailVO`
@@ -132,9 +135,11 @@ const stringConstants = {
   tripToggleStatusStorageKey: "@Pickyourtrail/tripToggleStatus",
 
   /**
-   * Samsung Device manufacturer
+   * App Deeplinking URI prefix
    */
-  samsungManufacturer: "samsung"
+  deepLinkPrefix: "pyt://",
+  screenLinkType: "screen",
+  voucherLinkType: "voucher"
 };
 
 export default stringConstants;

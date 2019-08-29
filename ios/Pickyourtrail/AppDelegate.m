@@ -16,19 +16,20 @@
 #else
 #import "RNSentry.h" // This is used for versions of react < 0.40
 #endif
-// #import <WebEngage/WebEngage.h>
+#import <WebEngage/WebEngage.h>
 #import <UserNotifications/UserNotifications.h>
+#import <React/RCTLinkingManager.h>
+#import "RNBootSplash.h"
 
+@interface AppDelegate () < UNUserNotificationCenterDelegate >
 
-// @interface AppDelegate () < UNUserNotificationCenterDelegate >
-
-// @end
+@end
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-  // [[WebEngage sharedInstance] application:application didFinishLaunchingWithOptions:launchOptions];
+  [[WebEngage sharedInstance] application:application didFinishLaunchingWithOptions:launchOptions];
   [FIRApp configure];
   [RNFirebaseNotifications configure];
 
@@ -47,6 +48,7 @@
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
+  [RNBootSplash show:@"LaunchScreen" inView:rootView];
   return YES;
 }
 
@@ -72,21 +74,28 @@ fetchCompletionHandler:(nonnull void (^)(UIBackgroundFetchResult))completionHand
 #endif
 }
 
-// - (void)userNotificationCenter:(UNUserNotificationCenter *)center
-//        willPresentNotification:(UNNotification *)notification
-//          withCompletionHandler:(void (^)(UNNotificationPresentationOptions))completionHandler {
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center
+       willPresentNotification:(UNNotification *)notification
+         withCompletionHandler:(void (^)(UNNotificationPresentationOptions))completionHandler {
 
-//   [WEGManualIntegration userNotificationCenter:center willPresentNotification:notification];
+  [WEGManualIntegration userNotificationCenter:center willPresentNotification:notification];
 
-//   completionHandler(UNNotificationPresentationOptionBadge | UNNotificationPresentationOptionAlert | UNNotificationPresentationOptionSound);
-// }
+  completionHandler(UNNotificationPresentationOptionBadge | UNNotificationPresentationOptionAlert | UNNotificationPresentationOptionSound);
+}
 
-// - (void)userNotificationCenter:(UNUserNotificationCenter *)center
-// didReceiveNotificationResponse:(UNNotificationResponse *)response
-//          withCompletionHandler:(void (^)(void))completionHandler {
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center
+didReceiveNotificationResponse:(UNNotificationResponse *)response
+         withCompletionHandler:(void (^)(void))completionHandler {
 
-//   [WEGManualIntegration userNotificationCenter:center didReceiveNotificationResponse:response];
-//   completionHandler();
-// }
+  [WEGManualIntegration userNotificationCenter:center didReceiveNotificationResponse:response];
+  completionHandler();
+}
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url
+  sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
+{
+  return [RCTLinkingManager application:application openURL:url
+                      sourceApplication:sourceApplication annotation:annotation];
+}
 
 @end

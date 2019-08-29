@@ -5,7 +5,7 @@ import {
   StyleSheet,
   Image,
   Text,
-  Platform,
+  Linking,
   StatusBar
 } from "react-native";
 import { isIphoneX } from "react-native-iphone-x-helper";
@@ -27,6 +27,15 @@ import {
   onNotificationReceived
 } from "../../Services/fcmService/fcm";
 import { logError } from "../../Services/errorLogger/errorLogger";
+import {
+  responsiveHeight,
+  responsiveWidth
+} from "react-native-responsive-dimensions";
+import getUrlParams from "../../Services/getUrlParams/getUrlParams";
+import resolveLinks from "../../Services/resolveLinks/resolveLinks";
+import ratioCalculator from "../../Services/ratioCalculator/ratioCalculator";
+import debouncer from "../../Services/debouncer/debouncer";
+import RNBootSplash from "react-native-bootsplash";
 
 let _onNotificationReceived, _onNotificationDisplayed, _onNotificationOpened;
 
@@ -41,10 +50,13 @@ class Drawer extends Component {
     _onNotificationDisplayed && _onNotificationDisplayed();
     _onNotificationOpened && _onNotificationOpened();
 
-    setTimeout(() => {
-      // This will make sure the splash screen is visible for 1 second
+    debouncer(() => {
       appLauncher()
         .then(() => {
+          /**
+           * App launch complete so hide the bootsplash
+           */
+          RNBootSplash.hide();
           /**
            * Subscribe to push notification events once app is launched
            */
@@ -53,8 +65,14 @@ class Drawer extends Component {
           _onNotificationReceived = onNotificationReceived();
           _onNotificationOpened = onNotificationOpened();
         })
-        .catch(logError);
-    }, 1000);
+        .catch(error => {
+          /**
+           * App launch failed but hide the bootsplash to move to fallback screen
+           */
+          RNBootSplash.hide();
+          logError(error);
+        });
+    });
   };
 
   clickDrawerItem = (index, screen) => {
@@ -67,17 +85,55 @@ class Drawer extends Component {
   componentDidMount() {
     this.checkLogin();
     Drawer.launchApp();
+    Linking.getInitialURL()
+      .then(url => {
+        if (url) {
+          this._handleOpenURL({ url });
+        }
+      })
+      .catch(err => logError("An error occurred with deep linking", { err }));
+    Linking.addEventListener("url", this._handleOpenURL);
   }
 
   componentWillUnmount() {
     _onNotificationReceived && _onNotificationReceived();
     _onNotificationDisplayed && _onNotificationDisplayed();
     _onNotificationOpened && _onNotificationOpened();
+    Linking.removeEventListener("url", this._handleOpenURL);
   }
 
   componentDidUpdate() {
     this.checkLogin();
   }
+
+  /**
+   * Handles the deep linking URLs that opens the app
+   * - Currently supported prefix pyt://
+   */
+  _handleOpenURL = event => {
+    /**
+     * Only DeepLink if the user is logged into the app
+     */
+    isUserLoggedInCallback(() => {
+      try {
+        const { url } = event;
+        const params = getUrlParams(url);
+        const link = url.split(/["://","?"]+/)[1];
+        console.log(url);
+        console.log(params);
+        if (params.type === constants.voucherLinkType) {
+          resolveLinks(false, false, {
+            voucherType: link,
+            costingIdentifier: params.costingIdentifier
+          });
+        } else {
+          resolveLinks(link, params);
+        }
+      } catch (e) {
+        logError("Invalid Deeplink url", { event, e });
+      }
+    });
+  };
 
   checkLogin = () => {
     isUserLoggedInCallback(
@@ -166,7 +222,7 @@ class Drawer extends Component {
 
     if (shouldIncludeStoryBook()) {
       menuItems.push({
-        icon: constants.activityIcon,
+        icon: constants.storybookIcon,
         text: "StoryBook"
       });
     }
@@ -193,7 +249,12 @@ class Drawer extends Component {
     }
 
     return (
-      <Fragment>
+      <View style={{ flex: 1 }} overflow="hidden">
+        <Image
+          resizeMode={"cover"}
+          source={constants.drawerBackgroundImage}
+          style={styles.drawerBackgroundImage}
+        />
         <View
           // Following gradient config might be needed in the future
           // useAngle={true}
@@ -201,12 +262,13 @@ class Drawer extends Component {
           // angleCenter={{ x: 0.5, y: 0.5 }}
           // locations={[0, 0.5, 0.75]}
           // colors={constants.drawerBackgroundColor}
-          style={{ flex: 1, backgroundColor: constants.drawerBackgroundColor }}
+          style={{ flex: 1 }}
         >
           <ScrollView style={styles.drawerContainer}>
             <StatusBar backgroundColor="white" barStyle="dark-content" />
             <View style={styles.profileImageContainer}>
               <Image
+                resizeMode={"contain"}
                 style={styles.profileImage}
                 source={{
                   uri:
@@ -229,7 +291,7 @@ class Drawer extends Component {
                 action={() => navigation.navigate("MobileNumber")}
                 textColor={"white"}
                 hasBorder={true}
-                color={"transparent"}
+                color={constants.firstColor}
                 containerStyle={{
                   alignSelf: "center",
                   width: 64,
@@ -241,7 +303,6 @@ class Drawer extends Component {
                 textStyle={{
                   fontFamily: constants.primaryRegular,
                   fontWeight: "600",
-                  color: constants.shade1,
                   fontSize: 10,
                   marginTop: -2,
                   marginLeft: 0
@@ -251,21 +312,23 @@ class Drawer extends Component {
               <View style={{ height: 24 }} />
             )}
 
-            {menuItems.map((item, index) => {
-              const defaultAction = () =>
-                this.clickDrawerItem(index, item.text);
+            <View style={styles.buttonsContainer}>
+              {menuItems.map((item, index) => {
+                const defaultAction = () =>
+                  this.clickDrawerItem(index, item.text);
 
-              return (
-                <DrawerButton
-                  key={index}
-                  icon={item.icon}
-                  text={item.text}
-                  action={item.action || defaultAction}
-                  isActive={item.text === this.props.activeItemKey}
-                  info={item.info || null}
-                />
-              );
-            })}
+                return (
+                  <DrawerButton
+                    key={index}
+                    icon={item.icon}
+                    text={item.text}
+                    action={item.action || defaultAction}
+                    isActive={item.text === this.props.activeItemKey}
+                    info={item.info || null}
+                  />
+                );
+              })}
+            </View>
           </ScrollView>
         </View>
         <DialogBox
@@ -289,7 +352,7 @@ class Drawer extends Component {
             infoStore.resetSuccess();
           }}
         />
-      </Fragment>
+      </View>
     );
   }
 }
@@ -297,28 +360,40 @@ class Drawer extends Component {
 const styles = StyleSheet.create({
   profileImageContainer: {
     overflow: "hidden",
-    marginTop: isIphoneX ? 70 : 35,
+    marginTop: 75,
     marginBottom: 5,
     alignSelf: "center",
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "white",
-    borderRadius: 32,
-    height: 64,
-    width: 64
+    borderRadius: 28,
+    height: 56,
+    width: 56,
+    borderWidth: 5,
+    borderColor: constants.firstColor
   },
   profileImage: {
-    borderRadius: 32,
-    height: 64,
-    width: 64
+    borderRadius: 28,
+    height: 56,
+    width: 56
   },
   userName: {
     alignSelf: "center",
-    fontFamily: constants.primaryRegular,
-    fontWeight: "600",
-    lineHeight: 32,
-    fontSize: 20,
-    color: "white"
+    ...constants.fontCustom(constants.primaryRegular, 17),
+    color: constants.black1,
+    marginTop: 16
+  },
+  drawerBackgroundImage: {
+    position: "absolute",
+    left: 0,
+    top: 0,
+    height: responsiveHeight(100),
+    width: ratioCalculator(75, 128, responsiveHeight(100)) // (75 * responsiveHeight(100)) / 128 The background width is calculated to match the aspect ratio of the image used
+  },
+  buttonsContainer: {
+    marginTop: 56,
+    borderTopWidth: 2,
+    borderTopColor: constants.shade5
   }
 });
 
