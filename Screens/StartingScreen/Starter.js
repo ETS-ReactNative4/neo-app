@@ -45,14 +45,10 @@ class Starter extends Component {
   componentDidMount() {
     setTimeout(() => {
       this.setState({
-        displayStarterAnimation: true
-      });
-    }, 200);
-    setTimeout(() => {
-      this.setState({
+        displayStarterAnimation: true,
         displayStarterOptions: true
       });
-    }, 100);
+    }, 220);
   }
 
   render() {
@@ -176,7 +172,7 @@ const styles = StyleSheet.create({
   tncWrapper: {
     marginHorizontal: 48,
     marginTop: 16,
-    marginBottom: responsiveHeight(20)
+    marginBottom: responsiveHeight(25)
   },
   tncText: {
     ...constants.fontCustom(constants.primaryLight, 10, 16),
