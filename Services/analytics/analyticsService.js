@@ -74,7 +74,7 @@ export const setUserDetails = ({ id, name, email, phoneNumber }) => {
     });
     webEngage.user.login(id);
     firebaseAnalytics().setUserId(id);
-    firebaseAnalytics().setUserProperty({ name, email, phoneNumber });
+    firebaseAnalytics().setUserProperties({ name, email, phoneNumber });
   });
 };
 
