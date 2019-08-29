@@ -119,8 +119,6 @@ class Drawer extends Component {
         const { url } = event;
         const params = getUrlParams(url);
         const link = url.split(/["://","?"]+/)[1];
-        console.log(url);
-        console.log(params);
         if (params.type === constants.voucherLinkType) {
           resolveLinks(false, false, {
             voucherType: link,
@@ -270,10 +268,7 @@ class Drawer extends Component {
               <Image
                 resizeMode={"contain"}
                 style={styles.profileImage}
-                source={{
-                  uri:
-                    "https://www.weact.org/wp-content/uploads/2016/10/Blank-profile.png"
-                }}
+                source={constants.defaultUserIcon}
               />
             </View>
             {!_.isEmpty(userDetails) ? (
