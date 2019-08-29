@@ -35,6 +35,7 @@ import getUrlParams from "../../Services/getUrlParams/getUrlParams";
 import resolveLinks from "../../Services/resolveLinks/resolveLinks";
 import ratioCalculator from "../../Services/ratioCalculator/ratioCalculator";
 import debouncer from "../../Services/debouncer/debouncer";
+import RNBootSplash from "react-native-bootsplash";
 
 let _onNotificationReceived, _onNotificationDisplayed, _onNotificationOpened;
 
@@ -53,6 +54,10 @@ class Drawer extends Component {
       appLauncher()
         .then(() => {
           /**
+           * App launch complete so hide the bootsplash
+           */
+          RNBootSplash.hide();
+          /**
            * Subscribe to push notification events once app is launched
            */
           getInitialNotification();
@@ -60,7 +65,13 @@ class Drawer extends Component {
           _onNotificationReceived = onNotificationReceived();
           _onNotificationOpened = onNotificationOpened();
         })
-        .catch(logError);
+        .catch(error => {
+          /**
+           * App launch failed but hide the bootsplash to move to fallback screen
+           */
+          RNBootSplash.hide();
+          logError(error);
+        });
     });
   };
 

@@ -18,6 +18,7 @@ import {
   responsiveWidth
 } from "react-native-responsive-dimensions";
 import StarterAnimation from "./Components/StarterAnimation";
+import BootAnimation from "./Components/BootAnimation";
 
 @ErrorBoundary({ isRoot: true })
 @inject("appState")
@@ -25,6 +26,12 @@ import StarterAnimation from "./Components/StarterAnimation";
 class Starter extends Component {
   static navigationOptions = {
     header: null
+  };
+  _splashAnimationRef = React.createRef();
+
+  state = {
+    displayStarterAnimation: false,
+    displayStarterOptions: false
   };
 
   clickedBooking = () => {
@@ -35,87 +42,108 @@ class Starter extends Component {
     this.props.navigation.navigate("NewItineraryStack");
   };
 
+  componentDidMount() {
+    setTimeout(() => {
+      this.setState({
+        displayStarterAnimation: true
+      });
+    }, 200);
+    setTimeout(() => {
+      this.setState({
+        displayStarterOptions: true
+      });
+    }, 100);
+  }
+
   render() {
+    const { displayStarterAnimation, displayStarterOptions } = this.state;
     return (
       <Fragment>
-        <StarterAnimation />
-        <View style={styles.container}>
-          <SafeAreaView>
-            <View style={styles.logoRow}>
-              <Image
-                source={constants.pytLogoBlack}
-                style={styles.logo}
-                resizeMode={"contain"}
-              />
-            </View>
-            <View style={styles.buttonRow}>
-              <SimpleButton
-                text={constants.starterScreenText.mainButton}
-                textColor={`white`}
-                textStyle={{
-                  ...constants.fontCustom(constants.primarySemiBold, 18)
-                }}
-                color={constants.firstColor}
-                underlayColor={constants.firstColorAlpha(0.7)}
-                action={() => {
-                  this.clickedBooking();
-                  recordEvent(constants.StarterScreen.event, {
-                    click: constants.StarterScreen.click.findBooking
-                  });
-                }}
-                containerStyle={{ width: 220, height: 48 }}
-              />
-              <SimpleButton
-                text={constants.starterScreenText.exploreButton}
-                textColor={constants.shade2}
-                textStyle={{
-                  ...constants.fontCustom(constants.primarySemiBold, 18)
-                }}
-                color={`white`}
-                hasBorder={true}
-                action={() => {
-                  this.clickedPlan();
-                  recordEvent(constants.StarterScreen.event, {
-                    click: constants.StarterScreen.click.planVacation
-                  });
-                }}
-                containerStyle={{ width: 220, height: 48, marginVertical: 16 }}
-              />
-            </View>
-            <View style={styles.tncWrapper}>
-              <Text style={styles.tncText}>
-                By using pickyourtrail app you agree to our{" "}
-                <Text
-                  style={styles.tncLink}
-                  onPress={() => {
-                    openCustomTab(
-                      `${constants.productUrl}${constants.termsAndConditions}`
-                    );
+        {displayStarterAnimation ? <StarterAnimation /> : null}
+        <BootAnimation splashAnimationRef={this._splashAnimationRef} />
+        {displayStarterOptions ? (
+          <View style={styles.container}>
+            <SafeAreaView>
+              <View style={styles.logoRow}>
+                <Image
+                  source={constants.pytLogoBlack}
+                  style={styles.logo}
+                  resizeMode={"contain"}
+                />
+              </View>
+              <View style={styles.buttonRow}>
+                <SimpleButton
+                  text={constants.starterScreenText.mainButton}
+                  textColor={`white`}
+                  textStyle={{
+                    ...constants.fontCustom(constants.primarySemiBold, 18)
+                  }}
+                  color={constants.firstColor}
+                  underlayColor={constants.firstColorAlpha(0.7)}
+                  action={() => {
+                    this.clickedBooking();
                     recordEvent(constants.StarterScreen.event, {
-                      click: constants.StarterScreen.click.termsAndConditions
+                      click: constants.StarterScreen.click.findBooking
                     });
                   }}
-                >
-                  Terms and Conditions
-                </Text>{" "}
-                and all your data will be protected by our{" "}
-                <Text
-                  style={styles.tncLink}
-                  onPress={() => {
-                    openCustomTab(
-                      `${constants.productUrl}${constants.privacyPolicy}`
-                    );
+                  containerStyle={{ width: 220, height: 48 }}
+                />
+                <SimpleButton
+                  text={constants.starterScreenText.exploreButton}
+                  textColor={constants.shade2}
+                  textStyle={{
+                    ...constants.fontCustom(constants.primarySemiBold, 18)
+                  }}
+                  color={`white`}
+                  hasBorder={true}
+                  action={() => {
+                    this.clickedPlan();
                     recordEvent(constants.StarterScreen.event, {
-                      click: constants.StarterScreen.click.privacyPolicy
+                      click: constants.StarterScreen.click.planVacation
                     });
                   }}
-                >
-                  Privacy Policy
+                  containerStyle={{
+                    width: 220,
+                    height: 48,
+                    marginVertical: 16
+                  }}
+                />
+              </View>
+              <View style={styles.tncWrapper}>
+                <Text style={styles.tncText}>
+                  By using pickyourtrail app you agree to our{" "}
+                  <Text
+                    style={styles.tncLink}
+                    onPress={() => {
+                      openCustomTab(
+                        `${constants.productUrl}${constants.termsAndConditions}`
+                      );
+                      recordEvent(constants.StarterScreen.event, {
+                        click: constants.StarterScreen.click.termsAndConditions
+                      });
+                    }}
+                  >
+                    Terms and Conditions
+                  </Text>{" "}
+                  and all your data will be protected by our{" "}
+                  <Text
+                    style={styles.tncLink}
+                    onPress={() => {
+                      openCustomTab(
+                        `${constants.productUrl}${constants.privacyPolicy}`
+                      );
+                      recordEvent(constants.StarterScreen.event, {
+                        click: constants.StarterScreen.click.privacyPolicy
+                      });
+                    }}
+                  >
+                    Privacy Policy
+                  </Text>
                 </Text>
-              </Text>
-            </View>
-          </SafeAreaView>
-        </View>
+              </View>
+            </SafeAreaView>
+          </View>
+        ) : null}
       </Fragment>
     );
   }
