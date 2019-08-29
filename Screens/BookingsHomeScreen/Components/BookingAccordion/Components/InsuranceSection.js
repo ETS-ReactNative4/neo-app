@@ -68,7 +68,16 @@ const Insurance = inject("passportDetailsStore")(
           if (insurance.voucher && insurance.voucher.voucherUrl) {
             openCustomTab(insurance.voucher.voucherUrl);
           } else {
-            toastBottom(constants.bookingProcessText.message);
+            /**
+             * TODO: Use toast bottom instead of this info modal after insurance is implemented in plato
+             */
+            storeService.infoStore.setInfo(
+              insuranceComingSoonText.title,
+              insuranceComingSoonText.message,
+              constants.infoBoxIllus,
+              insuranceComingSoonText.actionText
+            );
+            // toastBottom(constants.bookingProcessText.message);
           }
         };
 
