@@ -1,13 +1,5 @@
 import React, { Component } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  LayoutAnimation,
-  Animated,
-  Easing
-} from "react-native";
+import { View, StyleSheet, ScrollView, Animated, Easing } from "react-native";
 import {
   responsiveHeight,
   responsiveWidth
@@ -23,7 +15,6 @@ import { recordEvent } from "../../Services/analytics/analyticsService";
 import constants from "../../constants/constants";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import DeepLinkHandler from "../../CommonComponents/DeepLinkHandler/DeepLinkHandler";
-import WebEngage from "react-native-webengage";
 
 @ErrorBoundary()
 @DeepLinkHandler
