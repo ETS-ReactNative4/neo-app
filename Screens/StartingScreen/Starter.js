@@ -5,7 +5,8 @@ import {
   Text,
   Image,
   StyleSheet,
-  SafeAreaView
+  SafeAreaView,
+  Platform
 } from "react-native";
 import constants from "../../constants/constants";
 import SimpleButton from "../../CommonComponents/SimpleButton/SimpleButton";
@@ -43,12 +44,17 @@ class Starter extends Component {
   };
 
   componentDidMount() {
+    /**
+     * TODO: The animation time in iOS is high to wait for the boot animation to complete.
+     * Lottie animation and layout animation are having a lag when they both happen simultaneously...
+     */
+    const animationTime = Platform.OS === constants.platformAndroid ? 220 : 300;
     setTimeout(() => {
       this.setState({
         displayStarterAnimation: true,
         displayStarterOptions: true
       });
-    }, 220);
+    }, animationTime);
   }
 
   render() {
