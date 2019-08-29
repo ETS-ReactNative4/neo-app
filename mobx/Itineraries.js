@@ -530,9 +530,13 @@ class Itineraries {
 
     try {
       const insuranceCosting = this._selectedItinerary.insuranceCosting
-        ? this._selectedItinerary.insuranceCosting.insuranceCostingById
+        ? toJS(this._selectedItinerary.insuranceCosting.insuranceCostingById)
         : {};
       if (insuranceCosting && insuranceCosting.plan) {
+        insuranceCosting.voucher =
+          storeService.voucherStore.getInsuranceVoucherById(
+            insuranceCosting.costingId
+          ) || {};
         return insuranceCosting;
       } else {
         return {};
