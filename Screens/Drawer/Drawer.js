@@ -365,7 +365,7 @@ const styles = StyleSheet.create({
     height: 56,
     width: 56,
     borderWidth: 5,
-    borderColor: constants.firstColor
+    borderColor: constants.thirteenthColor
   },
   profileImage: {
     borderRadius: 28,
@@ -388,7 +388,7 @@ const styles = StyleSheet.create({
   buttonsContainer: {
     marginTop: 56,
     borderTopWidth: 2,
-    borderTopColor: constants.shade5
+    borderTopColor: constants.shade6
   }
 });
 
