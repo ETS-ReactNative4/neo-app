@@ -101,7 +101,8 @@ class TransferVoucher extends Component {
       ticketType,
       ticketFormat,
       seatNo,
-      trainInfo
+      trainInfo,
+      instruction
     } = transfer.voucher;
 
     const transferPassengerDetails = () => [
@@ -339,6 +340,13 @@ class TransferVoucher extends Component {
               <CollapsibleTextSection
                 title={"Pickup Instructions"}
                 content={pickupInstructions}
+              />
+            ) : null}
+
+            {instruction ? (
+              <CollapsibleTextSection
+                title={"Instructions"}
+                content={instruction}
               />
             ) : null}
 

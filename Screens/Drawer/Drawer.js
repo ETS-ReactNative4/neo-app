@@ -119,8 +119,6 @@ class Drawer extends Component {
         const { url } = event;
         const params = getUrlParams(url);
         const link = url.split(/["://","?"]+/)[1];
-        console.log(url);
-        console.log(params);
         if (params.type === constants.voucherLinkType) {
           resolveLinks(false, false, {
             voucherType: link,
@@ -270,10 +268,7 @@ class Drawer extends Component {
               <Image
                 resizeMode={"contain"}
                 style={styles.profileImage}
-                source={{
-                  uri:
-                    "https://www.weact.org/wp-content/uploads/2016/10/Blank-profile.png"
-                }}
+                source={constants.defaultUserIcon}
               />
             </View>
             {!_.isEmpty(userDetails) ? (
@@ -370,7 +365,7 @@ const styles = StyleSheet.create({
     height: 56,
     width: 56,
     borderWidth: 5,
-    borderColor: constants.firstColor
+    borderColor: constants.thirteenthColor
   },
   profileImage: {
     borderRadius: 28,
@@ -393,7 +388,7 @@ const styles = StyleSheet.create({
   buttonsContainer: {
     marginTop: 56,
     borderTopWidth: 2,
-    borderTopColor: constants.shade5
+    borderTopColor: constants.shade6
   }
 });
 

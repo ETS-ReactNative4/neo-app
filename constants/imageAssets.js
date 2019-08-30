@@ -22,6 +22,7 @@ const imageAssets = {
   pytLogoWhite: require("../assets/images/icons/pickyourtrail-white-logo.png"),
   pytLogoBlack: require("../assets/images/icons/pickyourtrail-black-logo.png"),
   notificationIcon: require("../assets/images/icons/notification.png"),
+  defaultUserIcon: require("../assets/images/icons/default-user.png"),
   backArrow: require("../assets/images/icons/left-arrow.png"),
   backIcon: "nav-left",
   dropDownArrow: require("../assets/images/icons/drop-down-arrow.png"),

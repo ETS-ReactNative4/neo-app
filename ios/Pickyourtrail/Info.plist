@@ -34,7 +34,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>167</string>
+	<string>173</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 	<key>LSRequiresIPhoneOS</key>
@@ -93,9 +93,9 @@
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 	<key>WEGLicenseCode</key>
-	<string>~2024b387</string>
-	<key>WEGLogLevel</key>
-	<string>VERBOSE</string>
+	<string>~47b65848</string>
+	<!-- <key>WEGLogLevel</key>
+	<string>VERBOSE</string> -->
 	<key>WEGManualIntegration</key>
 	<true/>
 </dict>

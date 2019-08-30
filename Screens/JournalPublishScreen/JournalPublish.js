@@ -30,11 +30,6 @@ import StorySummary from "./Components/StorySummary";
 import _ from "lodash";
 import { recordEvent } from "../../Services/analytics/analyticsService";
 
-const resetAction = StackActions.reset({
-  index: 0,
-  actions: [NavigationActions.navigate({ routeName: "JournalHome" })]
-});
-
 let _backHandler = () => null;
 
 /**
@@ -402,7 +397,7 @@ class JournalPublish extends Component {
               textColor={constants.seventhColor}
               icon={constants.backIcon}
               iconSize={12}
-              action={() => this.props.navigation.dispatch(resetAction)}
+              action={() => this.props.navigation.navigate("JournalHome")}
               color={"transparent"}
               underlayColor={"rgba(255, 255, 255, 0.8)"}
               containerStyle={{

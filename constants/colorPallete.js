@@ -18,6 +18,7 @@ const pallete2 = {
   tenthColor: `rgba(239, 174, 97, 1)`, //theme orange
   eleventhColor: `rgba(153, 121, 31, 1)`,
   twelfthColor: `rgba(255, 239, 194, 1)`,
+  thirteenthColor: `rgba(128, 227, 194, 1)`, // Drawer BG Color
   themeDarkBlue: `rgba(80, 138, 232, 1)`,
 
   firstColorAlpha: alpha => `rgba(0, 198, 132, ${alpha})`,
@@ -43,7 +44,8 @@ const greyPallete = {
   shade2: `rgba(170, 170, 170, 1)`,
   shade3: `rgba(204, 204, 204, 1)`,
   shade4: `rgba(221, 221, 221, 1)`,
-  shade5: `rgba(239, 239, 239, 1)`
+  shade5: `rgba(239, 239, 239, 1)`,
+  shade6: `rgba(250, 250, 250, 1)`
 };
 
 const gradientPallete = {

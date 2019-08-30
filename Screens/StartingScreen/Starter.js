@@ -5,7 +5,10 @@ import {
   Text,
   Image,
   StyleSheet,
-  SafeAreaView
+  SafeAreaView,
+  Platform,
+  Animated,
+  Easing
 } from "react-native";
 import constants from "../../constants/constants";
 import SimpleButton from "../../CommonComponents/SimpleButton/SimpleButton";
@@ -20,6 +23,8 @@ import {
 import StarterAnimation from "./Components/StarterAnimation";
 import BootAnimation from "./Components/BootAnimation";
 
+const bootAnimationTiming = 350;
+
 @ErrorBoundary({ isRoot: true })
 @inject("appState")
 @observer
@@ -31,7 +36,9 @@ class Starter extends Component {
 
   state = {
     displayStarterAnimation: false,
-    displayStarterOptions: false
+    displayStarterOptions: false,
+    bootAnimationOpacity: 0,
+    bootSplashAnimationProgress: new Animated.Value(0)
   };
 
   clickedBooking = () => {
@@ -43,20 +50,88 @@ class Starter extends Component {
   };
 
   componentDidMount() {
-    setTimeout(() => {
-      this.setState({
-        displayStarterAnimation: true,
-        displayStarterOptions: true
-      });
-    }, 220);
+    /**
+     * TODO: The animation time in iOS is high to wait for the boot animation to complete.
+     * Lottie animation and layout animation are having a lag when they both happen simultaneously...
+     */
+    if (Platform.OS === constants.platformIos) {
+      this.animateiOS();
+    } else {
+      this.animateAndroid();
+    }
   }
 
+  animateAndroid = () => {
+    this.setState(
+      {
+        bootAnimationOpacity: 1
+      },
+      () => {
+        Animated.timing(this.state.bootSplashAnimationProgress, {
+          toValue: 1,
+          duration: bootAnimationTiming,
+          easing: Easing.linear,
+          useNativeDriver: true
+        }).start(() => {
+          this.setState({
+            bootAnimationOpacity: 0
+          });
+        });
+        const animationTime = 220;
+        setTimeout(() => {
+          this.setState({
+            displayStarterAnimation: true,
+            displayStarterOptions: true
+          });
+        }, animationTime);
+      }
+    );
+  };
+
+  animateiOS = () => {
+    this.setState(
+      {
+        bootAnimationOpacity: 1
+      },
+      () => {
+        Animated.timing(this.state.bootSplashAnimationProgress, {
+          toValue: 0.9,
+          duration: bootAnimationTiming,
+          easing: Easing.linear,
+          useNativeDriver: true
+        }).start(() => {
+          this.setState(
+            {
+              bootAnimationOpacity: 0
+            },
+            () => {
+              setTimeout(() => {
+                this.setState({
+                  displayStarterAnimation: true,
+                  displayStarterOptions: true
+                });
+              }, 100);
+            }
+          );
+        });
+      }
+    );
+  };
+
   render() {
-    const { displayStarterAnimation, displayStarterOptions } = this.state;
+    const {
+      displayStarterAnimation,
+      displayStarterOptions,
+      bootAnimationOpacity
+    } = this.state;
     return (
       <Fragment>
         {displayStarterAnimation ? <StarterAnimation /> : null}
-        <BootAnimation splashAnimationRef={this._splashAnimationRef} />
+        <BootAnimation
+          animationProgress={this.state.bootSplashAnimationProgress}
+          splashAnimationRef={this._splashAnimationRef}
+          opacity={bootAnimationOpacity}
+        />
         {displayStarterOptions ? (
           <View style={styles.container}>
             <SafeAreaView>

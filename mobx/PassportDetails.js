@@ -6,6 +6,7 @@ import constants from "../constants/constants";
 import storeService from "../Services/storeService/storeService";
 import { logError } from "../Services/errorLogger/errorLogger";
 import getTitleCase from "../Services/getTitleCase/getTitleCase";
+import _ from "lodash";
 
 class PassportDetails {
   @observable _isLoading = false;
@@ -35,8 +36,9 @@ class PassportDetails {
   get leadPassengerName() {
     try {
       const itineraryId = storeService.itineraries.selectedItineraryId;
-      const { leadPassengerDetail } = this._passportDetails[itineraryId];
-      const { firstName, lastName } = leadPassengerDetail;
+      const { leadPassengerDetail = {} } =
+        _.get(this._passportDetails, itineraryId) || {};
+      const { firstName = "", lastName = "" } = leadPassengerDetail || {};
       return getTitleCase(`${firstName} ${lastName}`);
     } catch (e) {
       logError(e);
