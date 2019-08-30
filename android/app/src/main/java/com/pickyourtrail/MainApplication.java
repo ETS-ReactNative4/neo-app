@@ -57,7 +57,7 @@ public class MainApplication extends Application implements ReactApplication {
   public void onCreate() {
     super.onCreate();
     WebEngageConfig webEngageConfig = new WebEngageConfig.Builder()
-      .setWebEngageKey("~2024b387")
+      .setWebEngageKey("~15ba1d810")
       .setDebugMode(false) // true - only in development mode
       .build();
     registerActivityLifecycleCallbacks(new WebEngageActivityLifeCycleCallbacks(this, webEngageConfig));
