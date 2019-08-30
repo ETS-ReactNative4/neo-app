@@ -37,6 +37,7 @@ class Starter extends Component {
   state = {
     displayStarterAnimation: false,
     displayStarterOptions: false,
+    bootAnimationOpacity: 0,
     bootSplashAnimationProgress: new Animated.Value(0)
   };
 
@@ -61,43 +62,75 @@ class Starter extends Component {
   }
 
   animateAndroid = () => {
-    Animated.timing(this.state.bootSplashAnimationProgress, {
-      toValue: 1,
-      duration: bootAnimationTiming,
-      easing: Easing.linear,
-      useNativeDriver: true
-    }).start();
-    const animationTime = 220;
-    setTimeout(() => {
-      this.setState({
-        displayStarterAnimation: true,
-        displayStarterOptions: true
-      });
-    }, animationTime);
+    this.setState(
+      {
+        bootAnimationOpacity: 1
+      },
+      () => {
+        Animated.timing(this.state.bootSplashAnimationProgress, {
+          toValue: 1,
+          duration: bootAnimationTiming,
+          easing: Easing.linear,
+          useNativeDriver: true
+        }).start(() => {
+          this.setState({
+            bootAnimationOpacity: 0
+          });
+        });
+        const animationTime = 220;
+        setTimeout(() => {
+          this.setState({
+            displayStarterAnimation: true,
+            displayStarterOptions: true
+          });
+        }, animationTime);
+      }
+    );
   };
 
   animateiOS = () => {
-    Animated.timing(this.state.bootSplashAnimationProgress, {
-      toValue: 1,
-      duration: bootAnimationTiming,
-      easing: Easing.linear,
-      useNativeDriver: true
-    }).start(() => {
-      this.setState({
-        displayStarterAnimation: true,
-        displayStarterOptions: true
-      });
-    });
+    this.setState(
+      {
+        bootAnimationOpacity: 1
+      },
+      () => {
+        Animated.timing(this.state.bootSplashAnimationProgress, {
+          toValue: 0.9,
+          duration: bootAnimationTiming,
+          easing: Easing.linear,
+          useNativeDriver: true
+        }).start(() => {
+          this.setState(
+            {
+              bootAnimationOpacity: 0
+            },
+            () => {
+              setTimeout(() => {
+                this.setState({
+                  displayStarterAnimation: true,
+                  displayStarterOptions: true
+                });
+              }, 100);
+            }
+          );
+        });
+      }
+    );
   };
 
   render() {
-    const { displayStarterAnimation, displayStarterOptions } = this.state;
+    const {
+      displayStarterAnimation,
+      displayStarterOptions,
+      bootAnimationOpacity
+    } = this.state;
     return (
       <Fragment>
         {displayStarterAnimation ? <StarterAnimation /> : null}
         <BootAnimation
           animationProgress={this.state.bootSplashAnimationProgress}
           splashAnimationRef={this._splashAnimationRef}
+          opacity={bootAnimationOpacity}
         />
         {displayStarterOptions ? (
           <View style={styles.container}>
