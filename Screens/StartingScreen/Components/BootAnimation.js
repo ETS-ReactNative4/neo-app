@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import LottieView from "lottie-react-native";
 import constants from "../../../constants/constants";
 import { StyleSheet } from "react-native";
@@ -8,21 +8,21 @@ import {
 } from "react-native-responsive-dimensions";
 import PropTypes from "prop-types";
 
-const BootAnimation = ({ splashAnimationRef }) => {
+const BootAnimation = ({ splashAnimationRef, animationProgress }) => {
   return (
     <LottieView
       ref={splashAnimationRef}
       source={constants.splashAnimation()}
       style={styles.lottieViewContainer}
       resizeMode={"cover"}
-      autoPlay={true}
-      loop={false}
+      progress={animationProgress}
     />
   );
 };
 
 BootAnimation.propTypes = {
-  splashAnimationRef: PropTypes.object.isRequired
+  splashAnimationRef: PropTypes.object.isRequired,
+  animationProgress: PropTypes.object.isRequired
 };
 
 const styles = StyleSheet.create({

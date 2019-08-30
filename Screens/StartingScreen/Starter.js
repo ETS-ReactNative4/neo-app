@@ -6,7 +6,9 @@ import {
   Image,
   StyleSheet,
   SafeAreaView,
-  Platform
+  Platform,
+  Animated,
+  Easing
 } from "react-native";
 import constants from "../../constants/constants";
 import SimpleButton from "../../CommonComponents/SimpleButton/SimpleButton";
@@ -21,6 +23,8 @@ import {
 import StarterAnimation from "./Components/StarterAnimation";
 import BootAnimation from "./Components/BootAnimation";
 
+const bootAnimationTiming = 350;
+
 @ErrorBoundary({ isRoot: true })
 @inject("appState")
 @observer
@@ -32,7 +36,8 @@ class Starter extends Component {
 
   state = {
     displayStarterAnimation: false,
-    displayStarterOptions: false
+    displayStarterOptions: false,
+    bootSplashAnimationProgress: new Animated.Value(0)
   };
 
   clickedBooking = () => {
@@ -48,21 +53,52 @@ class Starter extends Component {
      * TODO: The animation time in iOS is high to wait for the boot animation to complete.
      * Lottie animation and layout animation are having a lag when they both happen simultaneously...
      */
-    const animationTime = Platform.OS === constants.platformAndroid ? 220 : 300;
+    if (Platform.OS === constants.platformIos) {
+      this.animateiOS();
+    } else {
+      this.animateAndroid();
+    }
+  }
+
+  animateAndroid = () => {
+    Animated.timing(this.state.bootSplashAnimationProgress, {
+      toValue: 1,
+      duration: bootAnimationTiming,
+      easing: Easing.linear,
+      useNativeDriver: true
+    }).start();
+    const animationTime = 220;
     setTimeout(() => {
       this.setState({
         displayStarterAnimation: true,
         displayStarterOptions: true
       });
     }, animationTime);
-  }
+  };
+
+  animateiOS = () => {
+    Animated.timing(this.state.bootSplashAnimationProgress, {
+      toValue: 1,
+      duration: bootAnimationTiming,
+      easing: Easing.linear,
+      useNativeDriver: true
+    }).start(() => {
+      this.setState({
+        displayStarterAnimation: true,
+        displayStarterOptions: true
+      });
+    });
+  };
 
   render() {
     const { displayStarterAnimation, displayStarterOptions } = this.state;
     return (
       <Fragment>
         {displayStarterAnimation ? <StarterAnimation /> : null}
-        <BootAnimation splashAnimationRef={this._splashAnimationRef} />
+        <BootAnimation
+          animationProgress={this.state.bootSplashAnimationProgress}
+          splashAnimationRef={this._splashAnimationRef}
+        />
         {displayStarterOptions ? (
           <View style={styles.container}>
             <SafeAreaView>
