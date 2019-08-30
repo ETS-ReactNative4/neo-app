@@ -49,20 +49,30 @@ export const recordEvent = (event, params = undefined) => {
   });
 };
 
-export const enableAnalytics = async () => {
-  try {
-    await analytics.setup(constants.segmentWriteKey, {
-      recordScreenViews: false,
-      trackAppLifecycleEvents: true
-    });
-    firebaseAnalytics().setAnalyticsCollectionEnabled(true);
-  } catch (e) {
-    logError(e);
-  }
+export const enableAnalytics = () => {
+  debouncer(async () => {
+    try {
+      await analytics.setup(constants.segmentWriteKey, {
+        recordScreenViews: false,
+        trackAppLifecycleEvents: true
+      });
+      await analytics.enable();
+      firebaseAnalytics().setAnalyticsCollectionEnabled(true);
+    } catch (error) {
+      logError("Failed to enable analytics", { error });
+    }
+  });
 };
 
 export const disableAnalytics = () => {
-  firebaseAnalytics().setAnalyticsCollectionEnabled(false);
+  debouncer(async () => {
+    try {
+      firebaseAnalytics().setAnalyticsCollectionEnabled(false);
+      await analytics.disable();
+    } catch (error) {
+      logError("Failed to disable analytics", { error });
+    }
+  });
 };
 
 export const setUserDetails = ({ id, name, email, phoneNumber }) => {
