@@ -100,7 +100,10 @@ class TripFeedCarousel extends Component {
 
 const styles = StyleSheet.create({
   wrapperContainer: {
-    marginVertical: 8
+    marginVertical: 8,
+    paddingVertical: 8,
+    borderColor: constants.shade5,
+    backgroundColor: "white"
   },
   header: {
     marginHorizontal: 24

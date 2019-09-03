@@ -15,7 +15,7 @@ addDecorator(story => (
   <View
     style={{
       flex: 1,
-      backgroundColor: "white",
+      backgroundColor: constants.white1,
       borderColor: constants.shade3,
       borderWidth: StyleSheet.hairlineWidth
     }}
