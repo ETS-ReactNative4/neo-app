@@ -31,6 +31,7 @@ configure(() => {
   require("./stories/ForexStory");
   require("./stories/PaymentsStory");
   require("./stories/HelpDeskStory");
+  require("./stories/VisaStory");
 }, module);
 
 const StorybookUIRoot = getStorybookUI({});
