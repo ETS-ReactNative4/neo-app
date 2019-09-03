@@ -13,7 +13,7 @@ const HomeTabs = createBottomTabNavigator(
     }
   },
   {
-    navigationOptions: ({ navigation }) => {
+    defaultNavigationOptions: ({ navigation }) => {
       const { routeName } = navigation.state;
       if (navigation.isFocused()) {
         if (routeName === "NewItineraryStack") {

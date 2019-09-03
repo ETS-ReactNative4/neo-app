@@ -7,6 +7,8 @@ import { recordEvent } from "../../../../../Services/analytics/analyticsService"
 import storeService from "../../../../../Services/storeService/storeService";
 import { inject, observer } from "mobx-react/custom";
 import BookingSectionComponent from "../../../../../CommonComponents/BookingSectionComponent/BookingSectionComponent";
+import openCustomTab from "../../../../../Services/openCustomTab/openCustomTab";
+import { toastBottom } from "../../../../../Services/toast/toast";
 
 const { insuranceComingSoonText } = constants;
 
@@ -63,12 +65,20 @@ const Insurance = inject("passportDetailsStore")(
             click: constants.Bookings.click.accordionVoucher,
             type: constants.Bookings.type.insurance
           });
-          storeService.infoStore.setInfo(
-            insuranceComingSoonText.title,
-            insuranceComingSoonText.message,
-            constants.infoBoxIllus,
-            insuranceComingSoonText.actionText
-          );
+          if (insurance.voucher && insurance.voucher.voucherUrl) {
+            openCustomTab(insurance.voucher.voucherUrl);
+          } else {
+            /**
+             * TODO: Use toast bottom instead of this info modal after insurance is implemented in plato
+             */
+            storeService.infoStore.setInfo(
+              insuranceComingSoonText.title,
+              insuranceComingSoonText.message,
+              constants.infoBoxIllus,
+              insuranceComingSoonText.actionText
+            );
+            // toastBottom(constants.bookingProcessText.message);
+          }
         };
 
         return (
@@ -76,7 +86,7 @@ const Insurance = inject("passportDetailsStore")(
             spinValue={spinValue}
             containerStyle={customStyle}
             sectionImage={constants.insuranceThumbnailIllus}
-            isProcessing={false}
+            isProcessing={!(insurance.voucher && insurance.voucher.voucherUrl)}
             onClick={openVoucher}
             content={`${insurance.plan} for ${passengerCount} person${
               passengerCount > 1 ? "s" : ""

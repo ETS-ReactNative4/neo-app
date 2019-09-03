@@ -216,6 +216,24 @@ class Voucher {
     }
   });
 
+  /**
+   * This will retrieve the voucher url details of the insurance
+   * Requires costing id of the voucher and costing to match.
+   */
+  getInsuranceVoucherById = createTransformer(id => {
+    if (_.isEmpty(this._selectedVoucher)) return {};
+    try {
+      return this._selectedVoucher.insuranceVoucher
+        ? this._selectedVoucher.insuranceVoucher.costingId === id
+          ? toJS(this._selectedVoucher.insuranceVoucher)
+          : {}
+        : {};
+    } catch (e) {
+      logError(e);
+      return {};
+    }
+  });
+
   @computed
   get isLoading() {
     return this._isLoading;

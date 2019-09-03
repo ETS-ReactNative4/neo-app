@@ -44,7 +44,7 @@ const BookedTabs = createBottomTabNavigator(
     }
   },
   {
-    navigationOptions: ({ navigation }) => ({
+    defaultNavigationOptions: ({ navigation }) => ({
       tabBarIcon: ({ focused }) => {
         const { routeName } = navigation.state;
         let icon;
@@ -54,49 +54,54 @@ const BookedTabs = createBottomTabNavigator(
         switch (routeName) {
           case "TripFeed":
             icon = {
-              text: "TRIP FEED",
+              text: "Trip Feed",
               icon: focused
                 ? constants.tripFeedSelectedIcon
                 : constants.tripFeedIcon,
-              color
+              color,
+              focused
             };
             break;
 
           case "Bookings":
             icon = {
-              text: "BOOKINGS",
+              text: "Bookings",
               icon: focused
                 ? constants.bookingSelectedIcon
                 : constants.bookingIcon,
-              color
+              color,
+              focused
             };
             break;
 
           case "Support":
             icon = {
-              text: "SUPPORT",
+              text: "Support",
               icon: focused
                 ? constants.supportSelectedIcon
                 : constants.supportIconLight,
-              color
+              color,
+              focused
             };
             break;
 
           case "Tools":
             icon = {
-              text: "TOOLS",
+              text: "Tools",
               icon: focused ? constants.toolSelectedIcon : constants.toolIcon,
-              color
+              color,
+              focused
             };
             break;
 
           case "Journal":
             icon = {
-              text: "JOURNAL",
+              text: "Journal",
               icon: focused
                 ? constants.journalSelectedIcon
                 : constants.journalIcon,
-              color
+              color,
+              focused
             };
             break;
         }
@@ -104,6 +109,13 @@ const BookedTabs = createBottomTabNavigator(
         return <TabBarIcon {...icon} />;
       }
     }),
+    navigationOptions: () => {
+      const tabBarVisible = false;
+
+      return {
+        tabBarVisible
+      };
+    },
     ...TabBarComponent,
     tabBarOptions: {
       showLabel: false,
@@ -117,13 +129,5 @@ const BookedTabs = createBottomTabNavigator(
     lazy: false
   }
 );
-
-BookedTabs.navigationOptions = () => {
-  const tabBarVisible = false;
-
-  return {
-    tabBarVisible
-  };
-};
 
 export default BookedTabs;

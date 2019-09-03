@@ -3,9 +3,10 @@ import { logBreadCrumb, logError } from "../errorLogger/errorLogger";
 import getActiveRouteName from "../getActiveRouteName/getActiveRouteName";
 import { analytics as firebaseAnalytics } from "react-native-firebase";
 import constants from "../../constants/constants";
-// import WebEngage from "react-native-webengage";
+import debouncer from "../debouncer/debouncer";
+import WebEngage from "react-native-webengage";
 
-// const webEngage = new WebEngage();
+const webEngage = new WebEngage();
 
 const reserved = [
   "app_clear_data",
@@ -34,61 +35,77 @@ const reserved = [
 ];
 
 export const recordEvent = (event, params = undefined) => {
-  if (!reserved.includes(event)) {
-    firebaseAnalytics().logEvent(event, params);
-    if (!params) {
-      analytics.track(event);
+  debouncer(() => {
+    if (!reserved.includes(event)) {
+      firebaseAnalytics().logEvent(event, params);
+      if (!params) {
+        analytics.track(event);
+      } else {
+        analytics.track(event, params);
+      }
     } else {
-      analytics.track(event, params);
+      logError(`Invalid analytics event ${event}`, { params });
     }
-  } else {
-    logError(`Invalid analytics event ${event}`, { params });
-  }
+  });
 };
 
-export const enableAnalytics = async () => {
-  try {
-    await analytics.setup(constants.segmentWriteKey, {
-      recordScreenViews: false,
-      trackAppLifecycleEvents: true
-    });
-    firebaseAnalytics().setAnalyticsCollectionEnabled(true);
-  } catch (e) {
-    logError(e);
-  }
+export const enableAnalytics = () => {
+  debouncer(async () => {
+    try {
+      await analytics.setup(constants.segmentWriteKey, {
+        recordScreenViews: false,
+        trackAppLifecycleEvents: true
+      });
+      await analytics.enable();
+      firebaseAnalytics().setAnalyticsCollectionEnabled(true);
+    } catch (error) {
+      logError("Failed to enable analytics", { error });
+    }
+  });
 };
 
 export const disableAnalytics = () => {
-  firebaseAnalytics().setAnalyticsCollectionEnabled(false);
+  debouncer(async () => {
+    try {
+      firebaseAnalytics().setAnalyticsCollectionEnabled(false);
+      await analytics.disable();
+    } catch (error) {
+      logError("Failed to disable analytics", { error });
+    }
+  });
 };
 
 export const setUserDetails = ({ id, name, email, phoneNumber }) => {
-  analytics.identify(id, {
-    name,
-    email,
-    phone: phoneNumber
+  debouncer(() => {
+    analytics.identify(id, {
+      name,
+      email,
+      phone: phoneNumber
+    });
+    webEngage.user.login(id);
+    firebaseAnalytics().setUserId(id);
+    firebaseAnalytics().setUserProperties({ name, email, phoneNumber });
   });
-  // webEngage.user.login(id);
-  firebaseAnalytics().setUserId(id);
-  firebaseAnalytics().setUserProperty({ name, email, phoneNumber });
 };
 
 export const screenTracker = (prevState, currentState) => {
-  const currentScreen = getActiveRouteName(currentState);
-  const prevScreen = getActiveRouteName(prevState);
+  debouncer(() => {
+    const currentScreen = getActiveRouteName(currentState);
+    const prevScreen = getActiveRouteName(prevState);
 
-  /**
-   * TODO: Check if any data can be added here...
-   */
-  if (prevScreen !== currentScreen) {
-    logBreadCrumb({
-      message: `${prevScreen} to ${currentScreen}`,
-      category: constants.errorLoggerEvents.categories.navigation,
-      data: {},
-      level: constants.errorLoggerEvents.levels.info
-    });
-    analytics.screen(currentScreen);
-    // webEngage.screen(currentScreen);
-    firebaseAnalytics().setCurrentScreen(currentScreen);
-  }
+    /**
+     * TODO: Check if any data can be added here...
+     */
+    if (prevScreen !== currentScreen) {
+      logBreadCrumb({
+        message: `${prevScreen} to ${currentScreen}`,
+        category: constants.errorLoggerEvents.categories.navigation,
+        data: {},
+        level: constants.errorLoggerEvents.levels.info
+      });
+      analytics.screen(currentScreen);
+      webEngage.screen(currentScreen);
+      firebaseAnalytics().setCurrentScreen(currentScreen);
+    }
+  });
 };

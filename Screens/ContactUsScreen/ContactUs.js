@@ -56,7 +56,8 @@ class ContactUs extends Component {
     message: "",
     isSubmitAttempted: false,
     subjectType: "",
-    isSubjectTextMode: false
+    isSubjectTextMode: false,
+    isSubmitting: false
   };
   _containerScroll = React.createRef();
 
@@ -97,8 +98,14 @@ class ContactUs extends Component {
           : faqDetails.category,
         title: _.isEmpty(faqDetails) ? subject : faqDetails.categoryDisplayStr
       };
+      this.setState({
+        isSubmitting: true
+      });
       apiCall(constants.sendTicketMessage, requestObject)
         .then(response => {
+          this.setState({
+            isSubmitting: false
+          });
           if (response.status === "SUCCESS") {
             loadConversation();
             Keyboard.dismiss();
@@ -115,6 +122,9 @@ class ContactUs extends Component {
           }
         })
         .catch(error => {
+          this.setState({
+            isSubmitting: false
+          });
           setError(
             "Unable to Create Ticket!",
             "Looks like something went wrong, please try again after sometime..."
@@ -227,9 +237,18 @@ class ContactUs extends Component {
           />
         </ScrollView>
         <ContactActionBar
+          sendText={this.state.isSubmitting ? "Creating Ticket..." : "Send"}
           cancelAction={this.cancelMessage}
-          sendAction={this.sendMessage}
+          sendAction={this.state.isSubmitting ? () => null : this.sendMessage}
           navigation={this.props.navigation}
+          sendContainerStyle={
+            this.state.isSubmitting
+              ? { backgroundColor: "transparent", borderWidth: 0 }
+              : {}
+          }
+          sendTextColor={
+            this.state.isSubmitting ? constants.firstColor : "white"
+          }
         />
       </View>
     );

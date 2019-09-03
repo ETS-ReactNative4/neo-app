@@ -19,6 +19,10 @@ const ContactActionBar = ({
   cancelAction,
   sendAction,
   navigation,
+  cancelText = "Cancel",
+  sendText = "Send",
+  sendContainerStyle = {},
+  sendTextColor = "white",
   keyBoardStateChange = () => null
 }) => {
   if (!containerStyle) containerStyle = {};
@@ -29,7 +33,7 @@ const ContactActionBar = ({
     >
       <View style={[styles.contactActionSection, containerStyle]}>
         <SimpleButton
-          text={"Cancel"}
+          text={cancelText}
           action={cancelAction}
           textColor={constants.firstColor}
           hasBorder={true}
@@ -41,14 +45,15 @@ const ContactActionBar = ({
           }}
         />
         <SimpleButton
-          text={"Send"}
+          text={sendText}
           action={sendAction}
-          textColor={"white"}
+          textColor={sendTextColor}
           underlayColor={constants.firstColorAlpha(0.4)}
           containerStyle={{
             width: responsiveWidth(40),
             marginHorizontal: 4,
-            borderRadius: 2
+            borderRadius: 2,
+            ...sendContainerStyle
           }}
         />
       </View>
@@ -61,7 +66,11 @@ ContactActionBar.propTypes = {
   navigation: PropTypes.object.isRequired,
   keyBoardStateChange: PropTypes.func,
   cancelAction: PropTypes.func,
-  sendAction: PropTypes.func
+  sendAction: PropTypes.func,
+  cancelText: PropTypes.string,
+  sendText: PropTypes.string,
+  sendContainerStyle: PropTypes.object,
+  sendTextColor: PropTypes.string
 };
 
 const styles = StyleSheet.create({

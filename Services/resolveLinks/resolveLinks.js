@@ -103,7 +103,9 @@ const resolveLinks = (link = "", screenProps = {}, deepLink = {}) => {
        * a toast message saying it's under processing
        */
       if (voucherType && costingIdentifier) {
-        switch (voucherType) {
+        switch (
+          _.toUpper(voucherType) // make sure voucher type is case insensitive
+        ) {
           case constants.flightVoucherType:
             const flight = storeService.itineraries.getFlightById(
               costingIdentifier

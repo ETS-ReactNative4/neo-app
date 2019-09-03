@@ -18,11 +18,6 @@ import extractTextFromHtml from "../../Services/extractTextFromHtml/extractTextF
 let _submitStory = () => null;
 let _backHandler = () => null;
 
-const resetAction = StackActions.reset({
-  index: 0,
-  actions: [NavigationActions.navigate({ routeName: "JournalHome" })]
-});
-
 /**
  * Set journal publish mode,
  * If journal is already published, the story should also get a publish screen
@@ -143,7 +138,7 @@ class JournalTextEditor extends Component {
       if (activeStory) {
         submitStory(activeStory, this.state.title, richText)
           .then(() => {
-            this.props.navigation.dispatch(resetAction);
+            this.props.navigation.navigate("JournalHome");
           })
           .catch(() => {
             DebouncedAlert(
@@ -157,7 +152,7 @@ class JournalTextEditor extends Component {
             this.props.navigation.setParams({ activeStory: storyId });
             submitStory(storyId, this.state.title, richText)
               .then(() => {
-                this.props.navigation.dispatch(resetAction);
+                this.props.navigation.navigate("JournalHome");
               })
               .catch(() => {
                 DebouncedAlert(

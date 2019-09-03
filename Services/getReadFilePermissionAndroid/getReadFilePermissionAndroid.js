@@ -2,33 +2,38 @@ import { logError } from "../errorLogger/errorLogger";
 import { PermissionsAndroid } from "react-native";
 import DebouncedAlert from "../../CommonComponents/DebouncedAlert/DebouncedAlert";
 import OpenAppSettingsAndroid from "react-native-app-settings";
+import constants from "../../constants/constants";
 
-const getReadFilePermissionAndroid = async (success, failure, settings) => {
+/**
+ * Used to get read files permission of system directory in Android
+ */
+const getReadFilePermissionAndroid = async (
+  success,
+  failure,
+  settings,
+  permissionInfo = constants.permissionsInfoText.readFile
+) => {
   const permissionFailed = () => {
     openAppSettings();
   };
 
   const openAppSettings = fileAccessError => {
-    DebouncedAlert(
-      "Unable to access device files",
-      "This permission is needed to add images from your device to the journal",
-      [
-        {
-          text: "Open Settings",
-          style: "cancel",
-          onPress: () => {
-            settings();
-            OpenAppSettingsAndroid.open();
-          }
-        },
-        {
-          text: "Cancel",
-          onPress: () => {
-            failure(fileAccessError);
-          }
+    DebouncedAlert("Unable to access device files", permissionInfo, [
+      {
+        text: "Open Settings",
+        style: "cancel",
+        onPress: () => {
+          settings();
+          OpenAppSettingsAndroid.open();
         }
-      ]
-    );
+      },
+      {
+        text: "Cancel",
+        onPress: () => {
+          failure(fileAccessError);
+        }
+      }
+    ]);
   };
 
   try {

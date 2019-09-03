@@ -11,6 +11,8 @@ const imageAssets = {
   starterScreenBackground: isIphoneX()
     ? require("../assets/images/backgrounds/starterScreenBackground.jpg")
     : require("../assets/images/backgrounds/starterScreenBackgroundAndroid.jpg"),
+  starterTopImage: require("../assets/images/backgrounds/starter_screen_top.jpg"),
+  starterBottomImage: require("../assets/images/backgrounds/starter_screen_bottom.jpg"),
   starterBackground: require("../assets/images/backgrounds/starterImage.jpg"),
   pytLogo: isProduction()
     ? require("../assets/images/icons/logo_new.png")
@@ -20,6 +22,7 @@ const imageAssets = {
   pytLogoWhite: require("../assets/images/icons/pickyourtrail-white-logo.png"),
   pytLogoBlack: require("../assets/images/icons/pickyourtrail-black-logo.png"),
   notificationIcon: require("../assets/images/icons/notification.png"),
+  defaultUserIcon: require("../assets/images/icons/default-user.png"),
   backArrow: require("../assets/images/icons/left-arrow.png"),
   backIcon: "nav-left",
   dropDownArrow: require("../assets/images/icons/drop-down-arrow.png"),
@@ -34,6 +37,7 @@ const imageAssets = {
   paymentIcon: "payment",
   aeroplaneIcon: "flight",
   flightVoucherBanner: require("../assets/images/backgrounds/flightVoucherHeader.jpg"),
+  drawerBackgroundImage: require("../assets/images/backgrounds/side-menu-bg.png"),
   busIcon: "bus",
   ferryIcon: "ferry",
   visaIcon: "visa",
@@ -47,6 +51,7 @@ const imageAssets = {
   hotelIcon: "hotel",
   clockIcon: "clock",
   infoIcon: "about",
+  storybookIcon: "storybook",
   warningIcon: "warning",
   thumbsUpIcon: "like",
   thumbsDownIcon: "unlike",
@@ -135,6 +140,7 @@ const imageAssets = {
   forexIcon: require("../assets/images/toolIcons/forex.png"),
   documentVisaIcon: require("../assets/images/toolIcons/document-visa.png"),
   downloadIcon: "download",
+  openFileIcon: "pdf-view",
   emergencyContactsIcon: require("../assets/images/toolIcons/emergency-contacts.png"),
   faqIcon: require("../assets/images/toolIcons/faq.png"),
   invitePassengersIcon: require("../assets/images/toolIcons/invite-co-passanger-240px.png"),
@@ -218,9 +224,11 @@ const imageAssets = {
   /**
    * Animation files
    */
-  journalPublishingLoop: require("../assets/animations/publishloop"),
-  journalPublishEnd: require("../assets/animations/publishend"),
-  journalPublishSuccess: require("../assets/animations/publishSuccess")
+  journalPublishingLoop: () => require("../assets/animations/publishloop.json"),
+  journalPublishEnd: () => require("../assets/animations/publishend.json"),
+  journalPublishSuccess: () =>
+    require("../assets/animations/publishSuccess.json"),
+  splashAnimation: () => require("../assets/animations/splashScreen.json")
 };
 
 export default imageAssets;

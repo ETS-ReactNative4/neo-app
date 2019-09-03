@@ -7,7 +7,7 @@ export const singleShare = shareOptions => {
       .then(resolve)
       .catch(error => {
         if (error.message.indexOf("Not installed") < 0) {
-          logError("Failed to Share", { error });
+          logError("Failed to Share", { error, shareOptions });
           reject();
         }
         resolve();
@@ -20,8 +20,10 @@ export const share = shareOptions => {
     Share.open(shareOptions)
       .then(resolve)
       .catch(error => {
-        logError("Failed to Share", { error });
-        reject();
+        if (error.message !== "User did not share") {
+          logError("Failed to Share", { error, shareOptions });
+          reject();
+        }
       });
   });
 };

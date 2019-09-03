@@ -7,7 +7,7 @@ import { inject, observer } from "mobx-react/custom";
 import InfoDot from "../InfoDot/InfoDot";
 
 const TabBarIcon = inject("appState")(
-  observer(({ appState, text, icon, color }) => {
+  observer(({ appState, text, icon, color, focused }) => {
     const { isChatNotificationActive } = appState;
     return (
       <View style={styles.iconWrapper}>
@@ -17,7 +17,11 @@ const TabBarIcon = inject("appState")(
         <Text
           numberOfLines={1}
           ellipsizeMode={"tail"}
-          style={[styles.label, { color }]}
+          style={[
+            styles.label,
+            focused ? styles.labelSelected : null,
+            { color }
+          ]}
         >
           {text}
         </Text>
@@ -32,7 +36,8 @@ const TabBarIcon = inject("appState")(
 TabBarIcon.propTypes = {
   text: PropTypes.string.isRequired,
   icon: PropTypes.string.isRequired,
-  color: PropTypes.string.isRequired
+  color: PropTypes.string.isRequired,
+  focused: PropTypes.bool.isRequired
 };
 
 const styles = StyleSheet.create({
@@ -42,7 +47,7 @@ const styles = StyleSheet.create({
         marginTop: -4
       },
       ios: {
-        width: 45
+        width: 52
       }
     }),
     alignItems: "center",
@@ -56,8 +61,11 @@ const styles = StyleSheet.create({
   },
   label: {
     fontFamily: constants.primaryLight,
-    fontSize: 8,
+    fontSize: 11,
     marginBottom: 8
+  },
+  labelSelected: {
+    fontFamily: constants.primarySemiBold
   },
   dotStyle: {
     position: "absolute",

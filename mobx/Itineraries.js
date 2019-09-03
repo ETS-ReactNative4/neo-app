@@ -22,6 +22,11 @@ class Itineraries {
       .catch(err => {
         logError(err);
       });
+    hydrate("_voucherDownloadMap", storeInstance)
+      .then(() => {})
+      .catch(err => {
+        logError(err);
+      });
   };
 
   @observable _isLoading = false;
@@ -35,6 +40,10 @@ class Itineraries {
   @persist("object")
   @observable
   _selectedItinerary = {};
+
+  @persist("object")
+  @observable
+  _voucherDownloadMap = {};
 
   @action
   reset = () => {
@@ -146,6 +155,26 @@ class Itineraries {
         this._loadingError = true;
       });
   };
+
+  /**
+   * _voucherDownloadMap is a json object that is used to keep
+   * track of all the vouchers downloaded along with the
+   * url from which they are downloaded.
+   */
+  @action
+  updateVoucherDownloadMap = (url, fileName) => {
+    const voucherDownloadMap = toJS(this._voucherDownloadMap);
+    voucherDownloadMap[url] = fileName;
+    this._voucherDownloadMap = voucherDownloadMap;
+  };
+
+  /**
+   * This will retrieve a voucher which is already downloaded
+   * using the downloaded source url
+   */
+  getDownloadedVoucherByUrl = createTransformer(url => {
+    return this._voucherDownloadMap[url];
+  });
 
   @computed
   get isLoading() {
@@ -501,9 +530,13 @@ class Itineraries {
 
     try {
       const insuranceCosting = this._selectedItinerary.insuranceCosting
-        ? this._selectedItinerary.insuranceCosting.insuranceCostingById
+        ? toJS(this._selectedItinerary.insuranceCosting.insuranceCostingById)
         : {};
       if (insuranceCosting && insuranceCosting.plan) {
+        insuranceCosting.voucher =
+          storeService.voucherStore.getInsuranceVoucherById(
+            insuranceCosting.costingId
+          ) || {};
         return insuranceCosting;
       } else {
         return {};
@@ -672,17 +705,13 @@ class Itineraries {
         const startDay = startDayObject.dayTs
           ? moment(startDayObject.dayTs).toDate()
           : moment(
-              `${startDayObject.day}-${startDayObject.mon}-${
-                constants.currentYear
-              }`,
+              `${startDayObject.day}-${startDayObject.mon}-${constants.currentYear}`,
               "DD-MMM-YYYY"
             ).toDate();
         const endDay = endDayObject.dayTs
           ? moment(endDayObject.dayTs).toDate()
           : moment(
-              `${endDayObject.day}-${endDayObject.mon}-${
-                constants.currentYear
-              }`,
+              `${endDayObject.day}-${endDayObject.mon}-${constants.currentYear}`,
               "DD-MMM-YYYY"
             ).toDate();
 
