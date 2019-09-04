@@ -5,6 +5,7 @@ import VisaClickableTile from "../../Screens/VisaScreen/Components/VisaClickable
 import constants from "../../constants/constants";
 import VisaWindowStatusWidget from "../../Screens/VisaScreen/Components/VisaWindowStatusWidget";
 import VisaOnArrivalWidget from "../../Screens/VisaScreen/Components/VisaOnArrivalWidget";
+import VisaCompanionInfo from "../../Screens/VisaScreen/Components/VisaCompanionInfo";
 
 const userDetails = {
   name: "John",
@@ -33,6 +34,15 @@ const visaWelcomeData = {
 const visaOnArrivalData = {
   title: "Get visa at Ngurah Rai Internation Airport",
   info: "You don’t have to apply for visa now. This is visa on-arrival."
+};
+
+const visaCompanionData = {
+  profilePicUrl:
+    "http://keenthemes.com/preview/metronic/theme/assets/pages/media/profile/people19.png",
+  title: "Your Visa Companion",
+  name: "Sunil Dhandapani",
+  tag: "VISA PRO",
+  phoneNumber: "1999999999"
 };
 
 storiesOf("Visa Story", module)
@@ -81,4 +91,9 @@ storiesOf("Visa Story", module)
     const props = { ...visaOnArrivalData };
     console.log(props);
     return <VisaOnArrivalWidget {...props} />;
+  })
+  .add("Visa Companion Info", () => {
+    const props = { ...visaCompanionData };
+    console.log(props);
+    return <VisaCompanionInfo {...props} />;
   });
