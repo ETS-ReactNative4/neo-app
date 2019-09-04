@@ -1,6 +1,8 @@
 import React from "react";
 import { storiesOf } from "@storybook/react-native";
 import VisaWelcomeMessage from "../../Screens/VisaScreen/Components/VisaWelcomeMessage";
+import VisaClickableTile from "../../Screens/VisaScreen/Components/VisaClickableTile";
+import constants from "../../constants/constants";
 
 const userDetails = {
   name: "John",
@@ -9,8 +11,49 @@ const userDetails = {
   date: "12 July, 2019"
 };
 
-storiesOf("Visa Story", module).add("Welcome message", () => {
-  const props = userDetails;
-  console.log(props);
-  return <VisaWelcomeMessage {...props} />;
-});
+const countrySelectorData = {
+  title: "Switzerland, Germany",
+  subTitle: "& 2 more",
+  infoText: "Schengen Visa - Initial call stage",
+  longInfoText:
+    "Passport, Visa application form, Round-trip air ticket, Proof of financial means, 4x6cm photograph",
+  hasUnread: false
+};
+
+storiesOf("Visa Story", module)
+  .add("Welcome message", () => {
+    const props = userDetails;
+    console.log(props);
+    return <VisaWelcomeMessage {...props} />;
+  })
+  .add("Visa Clickable Tile", () => {
+    const props = { ...countrySelectorData };
+    console.log(props);
+    return <VisaClickableTile {...props} />;
+  })
+  .add("Visa Clickable Tile with notifications", () => {
+    const props = { ...countrySelectorData, hasUnread: true };
+    console.log(props);
+    return <VisaClickableTile {...props} />;
+  })
+  .add("Visa Clickable Tile with icon", () => {
+    const props = {
+      ...countrySelectorData,
+      tileIcon: constants.activityIcon,
+      titleColor: constants.firstColor
+    };
+    delete props.subTitle;
+    console.log(props);
+    return <VisaClickableTile {...props} />;
+  })
+  .add("Visa Clickable Tile with icon & long text", () => {
+    const props = {
+      ...countrySelectorData,
+      infoText: countrySelectorData.longInfoText,
+      tileIcon: constants.activityIcon,
+      titleColor: constants.firstColor
+    };
+    delete props.subTitle;
+    console.log(props);
+    return <VisaClickableTile {...props} />;
+  });
