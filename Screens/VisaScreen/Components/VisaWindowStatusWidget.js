@@ -101,7 +101,8 @@ const styles = StyleSheet.create({
     height: 48,
     width: 1,
     backgroundColor: "white",
-    right: 0
+    right: 0,
+    opacity: 0.2
   },
   chartSection: {
     flex: 1,
