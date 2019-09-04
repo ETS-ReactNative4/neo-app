@@ -383,7 +383,7 @@ const styles = StyleSheet.create({
     left: 0,
     top: 0,
     height: responsiveHeight(100),
-    width: ratioCalculator(75, 128, responsiveHeight(100)) // (75 * responsiveHeight(100)) / 128 The background width is calculated to match the aspect ratio of the image used
+    width: ratioCalculator(128, 75, responsiveHeight(100)) // The background width is calculated to match the aspect ratio of the image used
   },
   buttonsContainer: {
     marginTop: 56,
