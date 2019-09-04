@@ -4,6 +4,7 @@ import VisaWelcomeMessage from "../../Screens/VisaScreen/Components/VisaWelcomeM
 import VisaClickableTile from "../../Screens/VisaScreen/Components/VisaClickableTile";
 import constants from "../../constants/constants";
 import VisaWindowStatusWidget from "../../Screens/VisaScreen/Components/VisaWindowStatusWidget";
+import VisaOnArrivalWidget from "../../Screens/VisaScreen/Components/VisaOnArrivalWidget";
 
 const userDetails = {
   name: "John",
@@ -27,6 +28,11 @@ const visaWelcomeData = {
   count: 24,
   countText: "days left",
   fillPercentage: 75
+};
+
+const visaOnArrivalData = {
+  title: "Get visa at Ngurah Rai Internation Airport",
+  info: "You don’t have to apply for visa now. This is visa on-arrival."
 };
 
 storiesOf("Visa Story", module)
@@ -70,4 +76,9 @@ storiesOf("Visa Story", module)
     const props = { ...visaWelcomeData };
     console.log(props);
     return <VisaWindowStatusWidget {...props} />;
+  })
+  .add("Visa On Arrival Widget", () => {
+    const props = { ...visaOnArrivalData };
+    console.log(props);
+    return <VisaOnArrivalWidget {...props} />;
   });
