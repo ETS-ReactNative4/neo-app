@@ -170,6 +170,8 @@ const imageAssets = {
   insuranceThumbnailIllus: require("../assets/images/placeholder-images/insurance.png"),
   journalComingSoonIllus: require("../assets/images/illustrations/coming-soon/travel-memories-coming-soon.png"),
   customTripIllus: require("../assets/images/illustrations/logo-custom-trip-illus.png"),
+  waveLeftIllus: require("../assets/images/illustrations/wave-left.png"),
+  waveRightIllus: require("../assets/images/illustrations/wave-right.png"),
 
   /**
    * FAQ Icons
