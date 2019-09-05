@@ -31,8 +31,6 @@ const VisaChecklistTile = ({
     transform: [{ rotate: isExpanded ? "180deg" : "0deg" }]
   });
   const [isTileExpanded, toggleTileStatus] = useState(false);
-  console.log(isExpanded);
-  console.log(isChecked);
 
   useEffect(() => {
     if (isTileExpanded !== isExpanded) {
