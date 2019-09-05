@@ -41,9 +41,8 @@ const FaqAccordionTile = ({
     transform: [{ rotate: "0deg" }]
   });
 
-  let spin;
-
   const handleClick = () => {
+    let spin;
     const spinValue = new Animated.Value(0);
     Animated.timing(spinValue, {
       toValue: 1,
