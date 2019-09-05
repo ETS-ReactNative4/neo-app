@@ -41,15 +41,15 @@ const FaqAccordionTile = ({
     transform: [{ rotate: "0deg" }]
   });
 
-  const spinValue = new Animated.Value(0);
-  Animated.timing(spinValue, {
-    toValue: 1,
-    duration: 300,
-    easing: Easing.linear
-  }).start();
   let spin;
 
   const handleClick = () => {
+    const spinValue = new Animated.Value(0);
+    Animated.timing(spinValue, {
+      toValue: 1,
+      duration: 300,
+      easing: Easing.linear
+    }).start();
     if (isExpanded) {
       spin = spinValue.interpolate({
         inputRange: [0, 1],
