@@ -7,8 +7,9 @@ import VisaWindowStatusWidget from "../../Screens/VisaScreen/Components/VisaWind
 import VisaOnArrivalWidget from "../../Screens/VisaScreen/Components/VisaOnArrivalWidget";
 import VisaCompanionInfo from "../../Screens/VisaScreen/Components/VisaCompanionInfo";
 import VisaChecklistTile from "../../Screens/VisaScreen/Components/VisaChecklistTile";
-import { StyleSheet } from "react-native";
+import { LayoutAnimation, StyleSheet } from "react-native";
 import VisaStagesCard from "../../Screens/VisaScreen/Components/VisaStagesCard";
+import PropTypes from "prop-types";
 
 const userDetails = {
   name: "John",
@@ -49,11 +50,11 @@ const visaCompanionData = {
 };
 
 const visaChecklistData = {
-  containerStyle: StyleSheet.create({}),
-  title: "",
-  isChecked: false,
-  desc: "",
-  downloadUrl: ""
+  title: "Aadhar Card",
+  desc:
+    "Aadhaar is a 12-digit unique identity number that can be obtained voluntarily by residents of India, based on their biometric",
+  ctaText: "Download Sample",
+  downloadUrl: "http://www.africau.edu/images/default/sample.pdf"
 };
 
 const visaStagesCardData = {
@@ -73,6 +74,46 @@ const visaStagesCardData = {
     }
   ]
 };
+
+class ChecklistComponent extends React.Component {
+  static propTypes = {
+    hideLink: PropTypes.bool
+  };
+
+  state = {
+    isChecked: false,
+    isExpanded: true
+  };
+
+  toggleSelection = () => {
+    this.setState({
+      isChecked: !this.state.isChecked
+    });
+  };
+
+  toggleExpansion = () => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    this.setState({
+      isExpanded: !this.state.isExpanded
+    });
+  };
+
+  render() {
+    const props = { ...visaChecklistData };
+    if (this.props.hideLink) {
+      delete props["ctaText"];
+    }
+    return (
+      <VisaChecklistTile
+        {...props}
+        onToggleExpand={this.toggleExpansion}
+        onToggleSelection={this.toggleSelection}
+        isChecked={this.state.isChecked}
+        isExpanded={this.state.isExpanded}
+      />
+    );
+  }
+}
 
 storiesOf("Visa Story", module)
   .add("Welcome message", () => {
@@ -127,9 +168,10 @@ storiesOf("Visa Story", module)
     return <VisaCompanionInfo {...props} />;
   })
   .add("Visa Checklist Tile", () => {
-    const props = { ...visaChecklistData };
-    console.log(props);
-    return <VisaChecklistTile {...props} />;
+    return <ChecklistComponent hideLink={true} />;
+  })
+  .add("Visa Checklist Tile with link", () => {
+    return <ChecklistComponent />;
   })
   .add("Visa Stages Card", () => {
     const props = { ...visaStagesCardData };
