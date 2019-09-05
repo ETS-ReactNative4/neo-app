@@ -6,6 +6,9 @@ import constants from "../../constants/constants";
 import VisaWindowStatusWidget from "../../Screens/VisaScreen/Components/VisaWindowStatusWidget";
 import VisaOnArrivalWidget from "../../Screens/VisaScreen/Components/VisaOnArrivalWidget";
 import VisaCompanionInfo from "../../Screens/VisaScreen/Components/VisaCompanionInfo";
+import VisaChecklistTile from "../../Screens/VisaScreen/Components/VisaChecklistTile";
+import { StyleSheet } from "react-native";
+import VisaStagesCard from "../../Screens/VisaScreen/Components/VisaStagesCard";
 
 const userDetails = {
   name: "John",
@@ -43,6 +46,32 @@ const visaCompanionData = {
   name: "Sunil Dhandapani",
   tag: "VISA PRO",
   phoneNumber: "1999999999"
+};
+
+const visaChecklistData = {
+  containerStyle: StyleSheet.create({}),
+  title: "",
+  isChecked: false,
+  desc: "",
+  downloadUrl: ""
+};
+
+const visaStagesCardData = {
+  title: "Visa Application Stages",
+  stages: [
+    {
+      stageText: "Initial Call",
+      dateText: "Jul 30, 2019"
+    },
+    {
+      stageText: "Documentation",
+      dateText: "Aug 04, 2019"
+    },
+    {
+      stageText: "Final Status",
+      dateText: "Aug 29, 2019"
+    }
+  ]
 };
 
 storiesOf("Visa Story", module)
@@ -96,4 +125,14 @@ storiesOf("Visa Story", module)
     const props = { ...visaCompanionData };
     console.log(props);
     return <VisaCompanionInfo {...props} />;
+  })
+  .add("Visa Checklist Tile", () => {
+    const props = { ...visaChecklistData };
+    console.log(props);
+    return <VisaChecklistTile {...props} />;
+  })
+  .add("Visa Stages Card", () => {
+    const props = { ...visaStagesCardData };
+    console.log(props);
+    return <VisaStagesCard {...props} />;
   });
