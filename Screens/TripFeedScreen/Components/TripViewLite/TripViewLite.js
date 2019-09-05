@@ -104,7 +104,7 @@ class TripViewLite extends Component {
 
 const styles = StyleSheet.create({
   listWrapper: {
-    marginVertical: 16,
+    marginTop: 8,
     paddingVertical: 8,
     borderColor: constants.shade5,
     backgroundColor: "white"

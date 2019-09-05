@@ -81,7 +81,7 @@ DayAheadBox.propTypes = forbidExtraProps({
 const styles = StyleSheet.create({
   dayAheadBoxTouchable: {
     backgroundColor: "white",
-    ...constants.elevationFive,
+    ...constants.elevationTwo,
     height: 64,
     width: 200,
     borderRadius: 32.5,

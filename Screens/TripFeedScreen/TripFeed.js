@@ -20,6 +20,7 @@ import DayAheadLite from "./Components/DayAheadLite/DayAheadLite";
 import FeedbackPanelOverlay from "./Components/FeedbackPanelOverlay";
 import pullToRefresh from "../../Services/refresh/pullToRefresh";
 import debouncer from "../../Services/debouncer/debouncer";
+import constants from "../../constants/constants";
 
 @ErrorBoundary({ isRoot: true })
 @inject("tripFeedStore")
@@ -262,11 +263,11 @@ class TripFeed extends Component {
 const styles = StyleSheet.create({
   tripFeedContainer: {
     flex: 1,
-    backgroundColor: "white"
+    backgroundColor: constants.white1
   },
   tripFeedScrollView: {
     flex: 1,
-    backgroundColor: "white"
+    backgroundColor: constants.white1
   },
   wrapper: {
     marginHorizontal: 24

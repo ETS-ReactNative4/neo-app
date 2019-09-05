@@ -134,7 +134,7 @@ class TripView extends Component {
 
 const styles = StyleSheet.create({
   listWrapper: {
-    marginVertical: 8,
+    marginTop: 8,
     paddingVertical: 8,
     borderColor: constants.shade5,
     backgroundColor: "white"
