@@ -32,7 +32,7 @@ class DayAhead extends Component {
     return (
       <View style={styles.dayAheadContainer}>
         {title ? <DayAheadTitle title={title} /> : null}
-        <View>
+        <View style={styles.rowWrapper}>
           <View style={styles.rowContainer}>
             {elements.map((day, dayIndex) => {
               const isLast = elements.length === dayIndex + 1;
@@ -62,7 +62,8 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     marginBottom: 8,
     ...constants.elevationFive
-  }
+  },
+  rowWrapper: {}
 });
 
 export default DayAhead;

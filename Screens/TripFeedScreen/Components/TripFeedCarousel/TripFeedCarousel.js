@@ -100,13 +100,14 @@ class TripFeedCarousel extends Component {
 
 const styles = StyleSheet.create({
   wrapperContainer: {
-    marginVertical: 8,
-    paddingVertical: 8,
+    marginTop: 8,
+    paddingVertical: 16,
     borderColor: constants.shade5,
     backgroundColor: "white"
   },
   header: {
-    marginHorizontal: 24
+    marginHorizontal: 24,
+    marginTop: 0
   },
   title: {
     ...constants.fontCustom(constants.primaryRegular, 13),
