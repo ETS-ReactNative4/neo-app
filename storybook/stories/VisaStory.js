@@ -11,6 +11,7 @@ import { LayoutAnimation } from "react-native";
 import VisaStagesCard from "../../Screens/VisaScreen/Components/VisaStagesCard";
 import PropTypes from "prop-types";
 import VisaInfoCard from "../../Screens/VisaScreen/Components/VisaInfoCard";
+import DropDown from "../../CommonComponents/DropDown/DropDown";
 
 const userDetails = {
   name: "John",
@@ -123,6 +124,36 @@ class ChecklistComponent extends React.Component {
   }
 }
 
+class DropDownComponent extends React.Component {
+  state = {
+    selectedValue: "option1",
+    options: [
+      {
+        label: "option1",
+        value: "option1"
+      },
+      {
+        label: "option2",
+        value: "option2"
+      },
+      {
+        label: "option3",
+        value: "option3"
+      }
+    ]
+  };
+
+  render() {
+    return (
+      <DropDown
+        containerStyle={{ alignSelf: "center", paddingVertical: 16 }}
+        dropDownOptions={this.state.options}
+        selectedValue={this.state.selectedValue}
+      />
+    );
+  }
+}
+
 storiesOf("Visa Story", module)
   .add("Welcome message", () => {
     const props = userDetails;
@@ -190,4 +221,7 @@ storiesOf("Visa Story", module)
     const props = { ...visaInfoCardData };
     console.log(props);
     return <VisaInfoCard {...props} />;
+  })
+  .add("Visa Drop Down Options", () => {
+    return <DropDownComponent />;
   });
