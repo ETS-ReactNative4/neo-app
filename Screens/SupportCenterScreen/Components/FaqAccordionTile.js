@@ -38,7 +38,7 @@ const FaqAccordionTile = ({
 }) => {
   const [isExpanded, toggleExpansion] = useState(false);
   const [iconContainer, setIconContainer] = useState({
-    transform: [{ rotate: "0deg" }]
+    transform: [{ rotate: "90deg" }]
   });
 
   const handleClick = () => {
@@ -52,13 +52,13 @@ const FaqAccordionTile = ({
     if (isExpanded) {
       spin = spinValue.interpolate({
         inputRange: [0, 1],
-        outputRange: ["90deg", "0deg"]
+        outputRange: ["270deg", "90deg"]
       });
       setIconContainer({ transform: [{ rotate: spin }] });
     } else {
       spin = spinValue.interpolate({
         inputRange: [0, 1],
-        outputRange: ["0deg", "90deg"]
+        outputRange: ["90deg", "270deg"]
       });
       setIconContainer({ transform: [{ rotate: spin }] });
     }
