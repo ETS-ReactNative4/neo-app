@@ -7,9 +7,10 @@ import VisaWindowStatusWidget from "../../Screens/VisaScreen/Components/VisaWind
 import VisaOnArrivalWidget from "../../Screens/VisaScreen/Components/VisaOnArrivalWidget";
 import VisaCompanionInfo from "../../Screens/VisaScreen/Components/VisaCompanionInfo";
 import VisaChecklistTile from "../../Screens/VisaScreen/Components/VisaChecklistTile";
-import { LayoutAnimation, StyleSheet } from "react-native";
+import { LayoutAnimation } from "react-native";
 import VisaStagesCard from "../../Screens/VisaScreen/Components/VisaStagesCard";
 import PropTypes from "prop-types";
+import VisaInfoCard from "../../Screens/VisaScreen/Components/VisaInfoCard";
 
 const userDetails = {
   name: "John",
@@ -73,6 +74,13 @@ const visaStagesCardData = {
       dateText: "Aug 29, 2019"
     }
   ]
+};
+
+const visaInfoCardData = {
+  label: "Visa Type",
+  visaType: "Visa on arrival",
+  shortText:
+    "The Indonesian visa can be obtained on arrival. All you have to do is send in scanned copies of your documents and we’ll do the rest."
 };
 
 class ChecklistComponent extends React.Component {
@@ -177,4 +185,9 @@ storiesOf("Visa Story", module)
     const props = { ...visaStagesCardData };
     console.log(props);
     return <VisaStagesCard {...props} />;
+  })
+  .add("Visa Info Card", () => {
+    const props = { ...visaInfoCardData };
+    console.log(props);
+    return <VisaInfoCard {...props} />;
   });
