@@ -44,6 +44,7 @@ target 'Pickyourtrail' do
 
   pod 'Firebase/Core', '~> 6.3.0'
   pod 'Firebase/Messaging', '~> 6.3.0'
+  pod 'Firebase/Performance', '~> 6.3.0'
   pod 'WebEngage', '~> 4.9.5'
 
   # target 'PickyourtrailTests' do
