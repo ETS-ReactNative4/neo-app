@@ -7,6 +7,7 @@ import { logError } from "../Services/errorLogger/errorLogger";
 import { hydrate } from "./Store";
 import storeService from "../Services/storeService/storeService";
 import _ from "lodash";
+import { toastBottom } from "../Services/toast/toast";
 
 class Visa {
   static hydrator = storeInstance => {
@@ -61,7 +62,7 @@ class Visa {
   }
 
   @computed
-  get isVisaDataAvailable() {
+  get isVisaInitialized() {
     return this._visaList.length > 0;
   }
 
@@ -84,6 +85,25 @@ class Visa {
      */
     // if (!this._visaDetails[itineraryId])
     this._getVisaDetailsFromAPI(itineraryId);
+  };
+
+  @action
+  initiateVisa = () => {
+    return new Promise((resolve, reject) => {
+      const itineraryId = storeService.itineraries.selectedItineraryId;
+      const requestBody = {
+        itineraryId
+      };
+      apiCall(constants.initiateVisaProcess, requestBody, "POST")
+        .then(response => {
+          if (response.status === constants.responseSuccessStatus) {
+            resolve();
+          } else {
+            reject();
+          }
+        })
+        .catch(() => reject());
+    });
   };
 
   @action
@@ -129,9 +149,10 @@ class Visa {
             this._homeScreenDetails = response.data;
           }
         } else {
+          toastBottom(constants.visaScreenText.failedToLoadVisaData);
         }
       })
-      .catch(() => {});
+      .catch(() => null);
   };
 
   constructor() {

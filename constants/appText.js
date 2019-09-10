@@ -217,7 +217,8 @@ const appText = {
     failedToFetchCurrency: "Unable to retrieve currency details"
   },
   visaScreenText: {
-    visaDetailsUnavilable: "Visa details are unavailable for this country"
+    visaDetailsUnavilable: "Visa details are unavailable for this country",
+    failedToLoadVisaData: "Unable to fetch visa details"
   },
   leisureText: "Got more time?",
   explorePlacesText: "Explore Places",

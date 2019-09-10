@@ -9,7 +9,7 @@ const itineraryConstructor = ({ itineraryId, cities }) => {
   storeService.voucherStore.selectVoucher(itineraryId);
   storeService.emergencyContactsStore.getEmergencyContacts(cities);
   storeService.passportDetailsStore.updatePassportDetails(itineraryId);
-  storeService.visaStore.getVisaDetails(itineraryId);
+  storeService.visaStore.getVisaHomeScreenDetails();
   storeService.supportStore.loadFaqDetails();
   storeService.tripFeedStore.generateTripFeed();
   storeService.weatherStore.reset();
