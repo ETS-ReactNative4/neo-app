@@ -3,20 +3,67 @@ import { createTransformer } from "mobx-utils";
 import { persist } from "mobx-persist";
 import apiCall from "../Services/networkRequests/apiCall";
 import constants from "../constants/constants";
+import { logError } from "../Services/errorLogger/errorLogger";
+import { hydrate } from "./Store";
+import storeService from "../Services/storeService/storeService";
+import _ from "lodash";
 
 class Visa {
+  static hydrator = storeInstance => {
+    hydrate("_visaDetails", storeInstance)
+      .then(() => {})
+      .catch(err => {
+        logError(err);
+      });
+    hydrate("_homeScreenDetails", storeInstance)
+      .then(() => {})
+      .catch(err => {
+        logError(err);
+      });
+  };
+
   @observable _isLoading = false;
   @observable _hasError = false;
   @persist("object")
   @observable
   _visaDetails = {};
 
+  @persist("object")
+  @observable
+  _homeScreenDetails = {};
+
+  @persist("list")
+  @observable
+  _visaList = [];
+
   @action
   reset = () => {
     this._isLoading = false;
     this._hasError = false;
     this._visaDetails = {};
+    this._homeScreenDetails = {};
+    this._visaList = [];
   };
+
+  @computed
+  get homeScreenDetails() {
+    return toJS(this._homeScreenDetails);
+  }
+
+  @computed
+  get visaList() {
+    return toJS(this._visaList);
+  }
+
+  @computed
+  get isSingleVisa() {
+    return this._visaList.length === 1;
+  }
+
+  @computed
+  get isVisaDataAvailable() {
+    return this._visaList.length > 0;
+  }
 
   /**
    * This method will retrieve the visa details of an itinerary stored in the local mobx store
@@ -65,6 +112,77 @@ class Visa {
         console.error(err);
       });
   };
+
+  @action
+  getVisaHomeScreenDetails = () => {
+    const itineraryId = storeService.itineraries.selectedItineraryId;
+    apiCall(
+      `${constants.getVisaHomeInfo}?itineraryId=${itineraryId}`,
+      {},
+      "GET"
+    )
+      .then(response => {
+        if ((response.status = constants.responseSuccessStatus)) {
+          if (_.get(response, "data.visaList")) {
+            this._visaList = _.get(response, "data.visaList");
+          } else {
+            this._homeScreenDetails = response.data;
+          }
+        } else {
+        }
+      })
+      .catch(() => {});
+  };
+
+  constructor() {
+    setTimeout(() => {
+      this._homeScreenDetails = {
+        title: "",
+        body: "",
+        departureDate: "",
+        totalPax: 2,
+        image: {
+          uri:
+            "https://img.jakpost.net/c/2019/03/19/2019_03_19_67991_1552969698._large.jpg"
+        }
+      };
+      this._visaList = [
+        {
+          visaId: 122,
+          visaType: "E-VISA",
+          visaStage: "INITIAL_CALL",
+          visaStageStr:
+            "Initial call stage(This data will be added from product side)",
+          visaTitleStr:
+            "Australia & HongKong (This data will be added from product side)",
+          countries: ["planningToolId1", "planningToolId2"],
+          updatesAvailable: false
+        },
+        {
+          visaId: 122,
+          visaType: "E-VISA",
+          visaStage: "INITIAL_CALL",
+          visaStageStr:
+            "Initial call stage(This data will be added from product side)",
+          visaTitleStr:
+            "Australia & HongKong (This data will be added from product side)",
+          countries: ["planningToolId1", "planningToolId2"],
+          updatesAvailable: false
+        },
+        {
+          visaId: 122,
+          visaType: "E-VISA",
+          visaStage: "INITIAL_CALL",
+          visaStageStr:
+            "Initial call stage(This data will be added from product side)",
+          visaTitleStr:
+            "Australia & HongKong (This data will be added from product side)",
+          countries: ["planningToolId1", "planningToolId2"],
+          updatesAvailable: false
+        }
+      ];
+    }, 5000);
+  }
 }
 
 export default Visa;

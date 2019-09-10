@@ -14,7 +14,7 @@ const VisaWelcomeMessage = ({
   return (
     <View style={[styles.visaWelcomeMessageContainer, containerStyle]}>
       <View>
-        <Text style={styles.userName}>{`Hi, ${name || ""}!`}</Text>
+        <Text style={styles.userName}>{name}</Text>
       </View>
       <View>
         <Text style={styles.welcomeMessage}>{message || ""}</Text>

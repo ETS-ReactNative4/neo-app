@@ -154,11 +154,6 @@ const createStore = () => {
     .catch(err => {
       logError(err);
     });
-  hydrate("_visaDetails", appStore.visaStore)
-    .then(() => {})
-    .catch(err => {
-      logError(err);
-    });
   hydrate("_cityCategories", appStore.placesStore)
     .then(() => {})
     .catch(err => {
@@ -184,6 +179,7 @@ const createStore = () => {
     .catch(err => {
       logError(err);
     });
+  Visa.hydrator(appStore.visaStore);
   SupportStore.hydrator(appStore.supportStore);
   Forex.hydrator(appStore.forexStore);
   DeviceDetails.hydrator(appStore.deviceDetailsStore);
