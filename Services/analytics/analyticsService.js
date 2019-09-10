@@ -88,6 +88,14 @@ export const setUserDetails = ({ id, name, email, phoneNumber }) => {
   });
 };
 
+export const setUserAttributes = (key, value) => {
+  debouncer(() => {
+    if (key && value) {
+      webEngage.user.setAttribute(key, value);
+    }
+  });
+};
+
 export const screenTracker = (prevState, currentState) => {
   debouncer(() => {
     const currentScreen = getActiveRouteName(currentState);
