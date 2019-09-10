@@ -9,6 +9,8 @@ import storeService from "../Services/storeService/storeService";
 import { logError } from "../Services/errorLogger/errorLogger";
 import { LayoutAnimation, Platform } from "react-native";
 import { hydrate } from "./Store";
+import itineraryConstructor from "../Services/appLauncher/itineraryConstructor";
+import debouncer from "../Services/debouncer/debouncer";
 
 class Itineraries {
   static hydrator = storeInstance => {
@@ -63,18 +65,14 @@ class Itineraries {
         LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
       }
       this._selectedItinerary = selectedItinerary;
-      if (this.selectedItineraryId) {
-        storeService.voucherStore.selectVoucher(this.selectedItineraryId);
-        storeService.emergencyContactsStore.getEmergencyContacts(this.cities);
-        storeService.passportDetailsStore.updatePassportDetails(
-          this.selectedItineraryId
-        );
-        storeService.visaStore.getVisaDetails(this.selectedItineraryId);
-        storeService.supportStore.loadFaqDetails();
-        storeService.tripFeedStore.generateTripFeed();
-        storeService.weatherStore.reset();
-        storeService.chatDetailsStore.getUserDetails();
-      }
+      debouncer(() => {
+        if (this.selectedItineraryId) {
+          itineraryConstructor({
+            itineraryId: this.selectedItineraryId,
+            cities: this.cities
+          });
+        }
+      });
       callback();
     } else {
       this.getItineraryDetails(itineraryId, callback);
@@ -100,20 +98,14 @@ class Itineraries {
             );
           }
           this._selectedItinerary = response.data;
-          if (this.selectedItineraryId) {
-            storeService.voucherStore.selectVoucher(this.selectedItineraryId);
-            storeService.emergencyContactsStore.getEmergencyContacts(
-              this.cities
-            );
-            storeService.passportDetailsStore.updatePassportDetails(
-              this.selectedItineraryId
-            );
-            storeService.visaStore.getVisaDetails(this.selectedItineraryId);
-            storeService.supportStore.loadFaqDetails();
-            storeService.tripFeedStore.generateTripFeed();
-            storeService.weatherStore.reset();
-            storeService.chatDetailsStore.getUserDetails();
-          }
+          debouncer(() => {
+            if (this.selectedItineraryId) {
+              itineraryConstructor({
+                itineraryId: this.selectedItineraryId,
+                cities: this.cities
+              });
+            }
+          });
           callback();
         } else {
           this._loadingError = true;
