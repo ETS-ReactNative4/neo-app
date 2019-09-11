@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { storiesOf } from "@storybook/react-native";
 import VisaWelcomeMessage from "../../Screens/VisaScreen/Components/VisaWelcomeMessage";
 import VisaClickableTile from "../../Screens/VisaScreen/Components/VisaClickableTile";
@@ -10,8 +10,9 @@ import VisaChecklistTile from "../../Screens/VisaScreen/Components/VisaChecklist
 import { LayoutAnimation } from "react-native";
 import VisaStagesCard from "../../Screens/VisaScreen/Components/VisaStagesCard";
 import PropTypes from "prop-types";
-import VisaInfoCard from "../../Screens/VisaScreen/Components/VisaInfoCard";
+import VisaInfoCard from "../../Screens/VisaScreen/Components/VisaInfoCard/VisaInfoCard";
 import DropDown from "../../CommonComponents/DropDown/DropDown";
+import VisaStageHeader from "../../Screens/VisaScreen/Components/VisaInfoCard/Components/VisaStageHeader";
 
 const userDetails = {
   name: "John",
@@ -224,4 +225,40 @@ storiesOf("Visa Story", module)
   })
   .add("Visa Drop Down Options", () => {
     return <DropDownComponent />;
+  })
+  .add("Visa Card", () => {
+    const props = {
+      isCardExpanded: true,
+      isCardDisabled: false,
+      title: "Initial Call",
+      body: "Completed on Jul 30, 2019  |  1 Remark",
+      color: constants.firstColor,
+      stages: [
+        {
+          title: "Unassigned",
+          body: "Visa appointment date",
+          color: constants.secondColor,
+          icon: constants.activityIcon
+        },
+        {
+          title: "Unassigned",
+          body: "Visa appointment date",
+          color: constants.secondColor,
+          icon: constants.activityIcon
+        }
+      ]
+    };
+    console.log(props);
+    return <VisaInfoCard {...props} />;
+  })
+  .add("Visa Card disabled", () => {
+    const props = {
+      isCardExpanded: true,
+      isCardDisabled: true,
+      title: "Initial Call",
+      body: "Completed on Jul 30, 2019  |  1 Remark",
+      color: constants.firstColor
+    };
+    console.log(props);
+    return <VisaInfoCard {...props} />;
   });
