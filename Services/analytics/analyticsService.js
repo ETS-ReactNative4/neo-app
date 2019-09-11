@@ -1,7 +1,7 @@
 import analytics from "@segment/analytics-react-native";
 import { logBreadCrumb, logError } from "../errorLogger/errorLogger";
 import getActiveRouteName from "../getActiveRouteName/getActiveRouteName";
-import { analytics as firebaseAnalytics } from "react-native-firebase";
+import { analytics as firebaseAnalytics, perf } from "react-native-firebase";
 import constants from "../../constants/constants";
 import debouncer from "../debouncer/debouncer";
 import WebEngage from "react-native-webengage";
@@ -58,6 +58,7 @@ export const enableAnalytics = () => {
       });
       await analytics.enable();
       firebaseAnalytics().setAnalyticsCollectionEnabled(true);
+      perf().setPerformanceCollectionEnabled(true);
     } catch (error) {
       logError("Failed to enable analytics", { error });
     }
@@ -68,6 +69,7 @@ export const disableAnalytics = () => {
   debouncer(async () => {
     try {
       firebaseAnalytics().setAnalyticsCollectionEnabled(false);
+      perf().setPerformanceCollectionEnabled(false);
       await analytics.disable();
     } catch (error) {
       logError("Failed to disable analytics", { error });
