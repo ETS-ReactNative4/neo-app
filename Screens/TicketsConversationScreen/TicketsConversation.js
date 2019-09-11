@@ -133,6 +133,9 @@ class TicketsConversation extends Component {
               }
             );
           } else {
+            this.setState({
+              isSending: false
+            });
             setError(
               "Unable to send message!",
               "Looks like something went wrong, please try again after sometime..."
@@ -224,7 +227,7 @@ class TicketsConversation extends Component {
           containerStyle={styles.inputActionBar}
           navigation={this.props.navigation}
           keyBoardStateChange={this.keyBoardStateChange}
-          sendAction={this.sendMessage}
+          sendAction={this.state.isSending ? () => null : this.sendMessage}
           cancelAction={this.cancelMessage}
         />
       </View>
