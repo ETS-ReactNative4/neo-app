@@ -4,13 +4,16 @@ import PropTypes from "prop-types";
 import InfoDot from "../../../../../CommonComponents/InfoDot/InfoDot";
 import constants from "../../../../../constants/constants";
 import Icon from "../../../../../CommonComponents/Icon/Icon";
+import VisaStageBullets from "./VisaStageBullets";
 
 const VisaStageHeader = ({
   containerStyle = StyleSheet.create({}),
   title = "",
   body = "",
   color = "",
-  icon = ""
+  icon = "",
+  listCheckBox = [],
+  notes = ""
 }) => {
   return (
     <View style={[styles.visaStageHeaderContainer, containerStyle]}>
@@ -26,6 +29,14 @@ const VisaStageHeader = ({
         <View style={styles.bodyTextWrapper}>
           <Text style={[styles.bodyText]}>{body}</Text>
         </View>
+        {listCheckBox && listCheckBox.length ? (
+          <VisaStageBullets list={listCheckBox} />
+        ) : null}
+        {notes ? (
+          <View style={styles.notesContainer}>
+            <Text style={styles.notesText}>{notes}</Text>
+          </View>
+        ) : null}
       </View>
     </View>
   );
@@ -54,7 +65,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center"
   },
-  textSection: {},
+  textSection: {
+    flex: 1
+  },
   visaStageTitleWrapper: {
     flexDirection: "row",
     alignItems: "center"
@@ -74,6 +87,14 @@ const styles = StyleSheet.create({
   bodyText: {
     ...constants.fontCustom(constants.primaryRegular, 16),
     color: constants.black1
+  },
+  notesContainer: {
+    marginTop: 8,
+    marginBottom: 16
+  },
+  notesText: {
+    ...constants.fontCustom(constants.primaryRegular, 15, 21),
+    color: constants.black2
   }
 });
 

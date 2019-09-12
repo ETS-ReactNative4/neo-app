@@ -7,7 +7,7 @@ import VisaWindowStatusWidget from "../../Screens/VisaScreen/Components/VisaWind
 import VisaOnArrivalWidget from "../../Screens/VisaScreen/Components/VisaOnArrivalWidget";
 import VisaCompanionInfo from "../../Screens/VisaScreen/Components/VisaCompanionInfo";
 import VisaChecklistTile from "../../Screens/VisaScreen/Components/VisaChecklistTile";
-import { LayoutAnimation } from "react-native";
+import { LayoutAnimation, ScrollView } from "react-native";
 import VisaStagesCard from "../../Screens/VisaScreen/Components/VisaStagesCard";
 import PropTypes from "prop-types";
 import VisaInfoCard from "../../Screens/VisaScreen/Components/VisaInfoCard/VisaInfoCard";
@@ -238,18 +238,57 @@ storiesOf("Visa Story", module)
           title: "Unassigned",
           body: "Visa appointment date",
           color: constants.secondColor,
-          icon: constants.activityIcon
+          icon: constants.activityIcon,
+          listCheckBox: [
+            {
+              text: "Cover Letter",
+              color: constants.firstColor,
+              icon: constants.activityIcon,
+              notes: {
+                title: "Courier the pending documents to",
+                text:
+                  "No:59, Ground Floor, Vijaya Raghava Rd, Near Andhra Club, Parthasarathi Puram, T. Nagar, Chennai"
+              }
+            },
+            {
+              text: "Identification Proof",
+              color: constants.secondColor,
+              icon: constants.activityIcon,
+              notes: {}
+            },
+            {
+              text: "Financial Proofs",
+              color: constants.thirdColor,
+              notes: {}
+            },
+            {
+              text: "Boarding Proofs",
+              color: constants.thirdColor,
+              icon: constants.busIcon,
+              notes: {
+                title: "Courier the pending documents to",
+                text:
+                  "No:59, Ground Floor, Vijaya Raghava Rd, Near Andhra Club, Parthasarathi Puram, T. Nagar, Chennai"
+              }
+            }
+          ]
         },
         {
           title: "Unassigned",
           body: "Visa appointment date",
           color: constants.secondColor,
-          icon: constants.activityIcon
+          icon: constants.activityIcon,
+          stageNotes:
+            "No:59, Ground Floor, Vijaya Raghava Rd, Near Andhra Club, Parthasarathi Puram, T. Nagar, Chennai"
         }
       ]
     };
     console.log(props);
-    return <VisaInfoCard {...props} />;
+    return (
+      <ScrollView>
+        <VisaInfoCard {...props} />
+      </ScrollView>
+    );
   })
   .add("Visa Card disabled", () => {
     const props = {
@@ -260,5 +299,9 @@ storiesOf("Visa Story", module)
       color: constants.firstColor
     };
     console.log(props);
-    return <VisaInfoCard {...props} />;
+    return (
+      <ScrollView>
+        <VisaInfoCard {...props} />
+      </ScrollView>
+    );
   });

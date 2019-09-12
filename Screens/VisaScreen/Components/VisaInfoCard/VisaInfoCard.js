@@ -11,6 +11,7 @@ import PropTypes from "prop-types";
 import VisaStageHeader from "./Components/VisaStageHeader";
 import constants from "../../../../constants/constants";
 import VisaInfoCardHeader from "./Components/VisaInfoCardHeader";
+import VisaStageBullets from "./Components/VisaStageBullets";
 
 const VisaInfoCard = ({
   containerStyle = StyleSheet.create({}),
@@ -54,13 +55,17 @@ const VisaInfoCard = ({
         <Fragment>
           {stages.map((stage, stageIndex) => {
             return (
-              <VisaStageHeader
-                key={stageIndex}
-                title={stage.title}
-                body={stage.body}
-                color={stage.color}
-                icon={stage.icon}
-              />
+              <Fragment>
+                <VisaStageHeader
+                  key={stageIndex}
+                  title={stage.title}
+                  body={stage.body}
+                  color={stage.color}
+                  icon={stage.icon}
+                  listCheckBox={stage.listCheckBox}
+                  notes={stage.stageNotes}
+                />
+              </Fragment>
             );
           })}
         </Fragment>
