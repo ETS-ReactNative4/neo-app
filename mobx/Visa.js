@@ -21,6 +21,16 @@ class Visa {
       .catch(err => {
         logError(err);
       });
+    hydrate("_visaList", storeInstance)
+      .then(() => {})
+      .catch(err => {
+        logError(err);
+      });
+    hydrate("_isVisaInitialized", storeInstance)
+      .then(() => {})
+      .catch(err => {
+        logError(err);
+      });
   };
 
   @observable _isLoading = false;
@@ -37,6 +47,10 @@ class Visa {
   @observable
   _visaList = [];
 
+  @persist
+  @observable
+  _isVisaInitialized = false;
+
   @action
   reset = () => {
     this._isLoading = false;
@@ -44,6 +58,7 @@ class Visa {
     this._visaDetails = {};
     this._homeScreenDetails = {};
     this._visaList = [];
+    this._isVisaInitialized = false;
   };
 
   @computed
@@ -63,7 +78,7 @@ class Visa {
 
   @computed
   get isVisaInitialized() {
-    return this._visaList.length > 0;
+    return this._isVisaInitialized;
   }
 
   /**
@@ -142,8 +157,9 @@ class Visa {
       "GET"
     )
       .then(response => {
-        if ((response.status = constants.responseSuccessStatus)) {
-          if (_.get(response, "data.visaList")) {
+        if (response.status === constants.responseSuccessStatus) {
+          this._isVisaInitialized = _.get(response, "data.initiated");
+          if (this._isVisaInitialized) {
             this._visaList = _.get(response, "data.visaList");
           } else {
             this._homeScreenDetails = response.data;
@@ -204,6 +220,21 @@ class Visa {
       ];
     }, 5000);
   }
+
+  /**
+   * A utility function that will open visa home screen
+   * depending on the various parameters that are obtained from
+   * the visa store. But the values should be supplied as parameters.
+   */
+  static visaOpener = ({ navigation, isVisaInitialized, isSingleVisa }) => {
+    if (isVisaInitialized && isSingleVisa) {
+      navigation.navigate("VisaSelector");
+    } else if (isVisaInitialized) {
+      navigation.navigate("VisaSelector");
+    } else {
+      navigation.navigate("Visa");
+    }
+  };
 }
 
 export default Visa;
