@@ -23,6 +23,7 @@ import transitionConfig from "../Services/navigationAnimations/transitionConfig"
 import PDFViewerAndroid from "../Screens/PDFViewerScreen/PDFViewerAndroid";
 import Forex from "../Screens/ForexScreen/Forex";
 import VisaSelector from "../Screens/VisaSelectorScreen/VisaSelector";
+import VisaStatus from "../Screens/VisaStatusScreen/VisaStatus";
 
 const MainStack = createStackNavigator(
   {
@@ -77,6 +78,9 @@ const MainStack = createStackNavigator(
     },
     VisaChecklist: {
       screen: VisaChecklist
+    },
+    VisaStatus: {
+      screen: VisaStatus
     },
     SupportCenter: {
       screen: SupportCenter

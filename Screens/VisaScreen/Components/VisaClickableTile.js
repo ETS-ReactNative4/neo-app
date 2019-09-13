@@ -77,6 +77,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     padding: 24,
     borderWidth: 1,
+    backgroundColor: "white",
     borderColor: constants.shade5,
     borderRadius: 4
   },
@@ -123,7 +124,7 @@ const styles = StyleSheet.create({
     marginTop: 8
   },
   infoText: {
-    ...constants.fontCustom(constants.primaryRegular, 16, 26),
+    ...constants.fontCustom(constants.primaryRegular, 16, 16),
     color: constants.black1,
     width: responsiveWidth(70)
   }

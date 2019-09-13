@@ -171,56 +171,6 @@ class Visa {
       .catch(() => null);
   };
 
-  constructor() {
-    setTimeout(() => {
-      this._homeScreenDetails = {
-        title: "",
-        body: "",
-        departureDate: "",
-        totalPax: 2,
-        image: {
-          uri:
-            "https://img.jakpost.net/c/2019/03/19/2019_03_19_67991_1552969698._large.jpg"
-        }
-      };
-      this._visaList = [
-        {
-          visaId: 122,
-          visaType: "E-VISA",
-          visaStage: "INITIAL_CALL",
-          visaStageStr:
-            "Initial call stage(This data will be added from product side)",
-          visaTitleStr:
-            "Australia & HongKong (This data will be added from product side)",
-          countries: ["planningToolId1", "planningToolId2"],
-          updatesAvailable: false
-        },
-        {
-          visaId: 122,
-          visaType: "E-VISA",
-          visaStage: "INITIAL_CALL",
-          visaStageStr:
-            "Initial call stage(This data will be added from product side)",
-          visaTitleStr:
-            "Australia & HongKong (This data will be added from product side)",
-          countries: ["planningToolId1", "planningToolId2"],
-          updatesAvailable: false
-        },
-        {
-          visaId: 122,
-          visaType: "E-VISA",
-          visaStage: "INITIAL_CALL",
-          visaStageStr:
-            "Initial call stage(This data will be added from product side)",
-          visaTitleStr:
-            "Australia & HongKong (This data will be added from product side)",
-          countries: ["planningToolId1", "planningToolId2"],
-          updatesAvailable: false
-        }
-      ];
-    }, 5000);
-  }
-
   /**
    * A utility function that will open visa home screen
    * depending on the various parameters that are obtained from
@@ -228,7 +178,7 @@ class Visa {
    */
   static visaOpener = ({ navigation, isVisaInitialized, isSingleVisa }) => {
     if (isVisaInitialized && isSingleVisa) {
-      navigation.navigate("VisaSelector");
+      navigation.navigate("VisaStatus");
     } else if (isVisaInitialized) {
       navigation.navigate("VisaSelector");
     } else {
