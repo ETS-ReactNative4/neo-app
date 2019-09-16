@@ -37,6 +37,14 @@ class PackingChecklist {
     this.getPackingChecklist(itinerary_id);
   };
 
+  /**
+   * This is a separate call to fetch the status of
+   * each item in the user's packing checklist.
+   *
+   * The items are pre-filled using `loadChecklistItems`
+   *
+   * This data is unique to each user.
+   */
   @action
   getPackingChecklist = itinerary_id => {
     if (_.isEmpty(this._checkListItems)) {
@@ -72,6 +80,10 @@ class PackingChecklist {
       });
   };
 
+  /**
+   * Will load a list of all the packing checklist items
+   * needed by the user based on his itinerary id
+   */
   @action
   loadChecklistItems = () => {
     this._isLoading = true;
