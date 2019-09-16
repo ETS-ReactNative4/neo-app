@@ -114,7 +114,6 @@ class Itineraries {
             storeService.tripFeedStore.generateTripFeed();
             storeService.weatherStore.reset();
             storeService.chatDetailsStore.getUserDetails();
-            setUserAttributes("region", storeService.itineraries.regionName);
           }
           callback();
         } else {

@@ -5,6 +5,7 @@ import navigationService from "../navigationService/navigationService";
 import { NavigationActions } from "react-navigation";
 import { logError } from "../errorLogger/errorLogger";
 import storeService from "../storeService/storeService";
+import setUserSegment from "../setUserSegment/setUserSegment";
 
 /**
  * Resets the current navigation stack to the BookedItineraryTabs
@@ -29,6 +30,12 @@ const resetToPlan = NavigationActions.navigate({
  * Will be executed in the Drawer screen
  */
 const AppLauncher = () => {
+  /**
+   * categorize the user into his segment
+   * in the analytics service
+   */
+  setUserSegment();
+
   return new Promise(resolve => {
     const { navigation } = navigationService;
     /**
