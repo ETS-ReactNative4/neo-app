@@ -133,8 +133,11 @@ class ToolTip extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    marginVertical: 16,
-    marginHorizontal: 24
+    marginTop: 8,
+    padding: 16,
+    borderColor: constants.shade5,
+    backgroundColor: "white",
+    borderRadius: 3
   },
   mainContainer: {
     flexDirection: "row",

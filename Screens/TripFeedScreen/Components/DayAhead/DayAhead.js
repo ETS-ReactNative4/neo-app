@@ -54,18 +54,16 @@ class DayAhead extends Component {
 
 const styles = StyleSheet.create({
   dayAheadContainer: {
-    marginVertical: 16
+    marginTop: 8,
+    paddingTop: 16,
+    backgroundColor: "white"
   },
   rowContainer: {
-    backgroundColor: "white",
     borderRadius: 5,
-    marginTop: 8,
-    marginBottom: 16,
+    marginBottom: 8,
     ...constants.elevationFive
   },
-  rowWrapper: {
-    marginHorizontal: 24
-  }
+  rowWrapper: {}
 });
 
 export default DayAhead;
