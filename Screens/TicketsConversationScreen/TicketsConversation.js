@@ -92,66 +92,74 @@ class TicketsConversation extends Component {
   onEditText = messageText => this.setState({ messageText });
 
   sendMessage = () => {
-    this.setState({
-      isSending: true
-    });
-    if (this.state.messageText) {
-      const ticketId = this.props.navigation.getParam("ticketId", "");
-      const { setError } = this.props.infoStore;
-      const {
-        addMessageToConversation,
-        getLastMessageByTicket
-      } = this.props.supportStore;
-      const { selectedItineraryId } = this.props.itineraries;
-      const { userDetails } = this.props.userStore;
-      const lastTicketDetails = getLastMessageByTicket(ticketId);
-      const requestObject = {
-        itineraryId: selectedItineraryId,
-        msg: this.state.messageText,
-        ticketId
-      };
-      apiCall(constants.sendTicketMessage, requestObject)
-        .then(response => {
-          if (response.status === "SUCCESS") {
-            Keyboard.dismiss();
-            const messageObject = {
-              userEmail: userDetails.email,
-              msg: this.state.messageText,
-              msgId: lastTicketDetails.msgId + 1,
-              msgTime: moment().valueOf()
-            };
-            addMessageToConversation(ticketId, messageObject);
-            this.setState(
-              {
-                messageText: ""
-              },
-              () => {
-                // Allow sending another ticket only after the message field is reset
+    this.setState(
+      {
+        isSending: true
+      },
+      () => {
+        if (this.state.messageText) {
+          const ticketId = this.props.navigation.getParam("ticketId", "");
+          const { setError } = this.props.infoStore;
+          const {
+            addMessageToConversation,
+            getLastMessageByTicket
+          } = this.props.supportStore;
+          const { selectedItineraryId } = this.props.itineraries;
+          const { userDetails } = this.props.userStore;
+          const lastTicketDetails = getLastMessageByTicket(ticketId);
+          const requestObject = {
+            itineraryId: selectedItineraryId,
+            msg: this.state.messageText,
+            ticketId
+          };
+          apiCall(constants.sendTicketMessage, requestObject)
+            .then(response => {
+              if (response.status === "SUCCESS") {
+                Keyboard.dismiss();
+                const messageObject = {
+                  userEmail: userDetails.email,
+                  msg: this.state.messageText,
+                  msgId: lastTicketDetails.msgId + 1,
+                  msgTime: moment().valueOf()
+                };
+                addMessageToConversation(ticketId, messageObject);
+                this.setState(
+                  {
+                    messageText: ""
+                  },
+                  () => {
+                    // Allow sending another ticket only after the message field is reset
+                    this.setState({
+                      isSending: false
+                    });
+                  }
+                );
+              } else {
                 this.setState({
                   isSending: false
                 });
+                setError(
+                  "Unable to send message!",
+                  "Looks like something went wrong, please try again after sometime..."
+                );
               }
-            );
-          } else {
-            this.setState({
-              isSending: false
+            })
+            .catch(error => {
+              this.setState({
+                isSending: false
+              });
+              setError(
+                "Unable to send message!",
+                "Looks like something went wrong, please try again after sometime..."
+              );
             });
-            setError(
-              "Unable to send message!",
-              "Looks like something went wrong, please try again after sometime..."
-            );
-          }
-        })
-        .catch(error => {
+        } else {
           this.setState({
             isSending: false
           });
-          setError(
-            "Unable to send message!",
-            "Looks like something went wrong, please try again after sometime..."
-          );
-        });
-    }
+        }
+      }
+    );
   };
 
   cancelMessage = () => {
