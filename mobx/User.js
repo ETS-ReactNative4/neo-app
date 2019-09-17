@@ -41,7 +41,7 @@ class User {
             email,
             phoneNumber: mob_num
           });
-          setUserContext({ email, userID: mob_num });
+          setUserContext({ email, id: mob_num, name });
         } else {
           this._hasError = true;
         }
