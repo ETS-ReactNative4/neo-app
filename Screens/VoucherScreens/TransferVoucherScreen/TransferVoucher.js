@@ -101,6 +101,7 @@ class TransferVoucher extends Component {
       ticketType,
       ticketFormat,
       seatNo,
+      coachNumber,
       trainInfo,
       instruction
     } = transfer.voucher;
@@ -241,6 +242,10 @@ class TransferVoucher extends Component {
         {
           name: "Train information",
           value: trainInfo || ""
+        },
+        {
+          name: "Coach number",
+          value: coachNumber || ""
         },
         {
           name: "Seat number",
