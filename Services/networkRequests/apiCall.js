@@ -66,7 +66,7 @@ const apiCall = async (
   if (!_.isEmpty(body)) {
     for (let key in body) {
       if (body.hasOwnProperty(key)) {
-        await metric.putAttribute(key, body[key]);
+        await metric.putAttribute(key, JSON.stringify(body[key]));
       }
     }
   }

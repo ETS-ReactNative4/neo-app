@@ -2,7 +2,7 @@ import { setUserAttributes } from "../analytics/analyticsService";
 import Moment from "moment";
 import { extendMoment } from "moment-range";
 import storeService from "../storeService/storeService";
-import { logError } from "../errorLogger/errorLogger";
+import { logError, setUserContext } from "../errorLogger/errorLogger";
 
 const moment = extendMoment(Moment);
 
@@ -25,6 +25,13 @@ const setUserSegment = () => {
        * Check if user has selected any itineraries
        */
       if (storeService.itineraries.selectedItineraryId) {
+        /**
+         * Fetch the user details and set the context in sentry
+         */
+        const userDetails = storeService.userStore.userDetails;
+        const { mob_num: id = "", name = "", email = "" } = userDetails;
+        setUserContext({ email, id, name });
+
         /**
          * Set the region on which the user's itinerary is present
          */
