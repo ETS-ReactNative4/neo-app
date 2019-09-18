@@ -40,7 +40,7 @@ class ActivityVoucher extends Component {
   static navigationOptions = {
     header: null,
     gestureResponseDistance: {
-      vertical: 214 + xHeight
+      vertical: 1
     }
   };
 
@@ -106,8 +106,10 @@ class ActivityVoucher extends Component {
       latitude: costingLatitude,
       longitude: costingLongitude,
       free,
-      selectedTourGrade
+      selectedTourGrade,
+      startingPointDetails = {}
     } = activity;
+    const { image: startingPointImage = "" } = startingPointDetails || {};
     const {
       ourSourceProvider,
       day,
@@ -127,7 +129,11 @@ class ActivityVoucher extends Component {
       constants.shortTimeFormat
     );
 
-    const transferIncluded = _.toUpper(transferType) !== "NOTRANSFER";
+    const transferIncluded = transferType
+      ? _.toUpper(transferType) !== constants.noTransferStatus
+      : selectedTourGrade
+      ? _.toUpper(selectedTourGrade.transferType) !== constants.noTransferStatus
+      : false;
     const pickupDetail =
       pickupDetails && pickupDetails.length ? pickupDetails[0] : {};
     const { pickupTime, location = {}, address: pickupAddress } = pickupDetail;
@@ -418,6 +424,7 @@ class ActivityVoucher extends Component {
                   ? activityAddress
                   : null
               }
+              startingPointImage={!transferIncluded ? startingPointImage : ""}
             />
 
             <VoucherContactActionBar

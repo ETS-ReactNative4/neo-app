@@ -69,21 +69,22 @@ class InfoCard extends Component {
 const styles = StyleSheet.create({
   box: {
     borderRadius: 5,
-    marginHorizontal: 24,
-    marginVertical: 16,
+    marginTop: 8,
     borderWidth: StyleSheet.hairlineWidth,
     borderColor: constants.shade5,
-    backgroundColor: "white",
-    ...constants.elevationFive
+    backgroundColor: "white"
   },
   imageBackground: {
     height: 160,
     overflow: "hidden",
     borderTopRightRadius: 5,
-    borderTopLeftRadius: 5
+    borderTopLeftRadius: 5,
+    marginHorizontal: 24,
+    marginTop: 16
   },
   contentView: {
-    padding: 16
+    paddingVertical: 16,
+    paddingHorizontal: 24
   },
   header: {},
   body: {
@@ -94,8 +95,7 @@ const styles = StyleSheet.create({
     color: constants.black1
   },
   boxTitle: {
-    marginVertical: 8,
-    marginTop: 0,
+    marginBottom: 8,
     ...constants.fontCustom(constants.primaryRegular, 20, 24),
     color: constants.black1
   }

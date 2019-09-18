@@ -41,7 +41,9 @@ DayAheadLite.propTypes = forbidExtraProps({
 
 const styles = StyleSheet.create({
   dayAheadContainer: {
-    marginVertical: 16
+    marginTop: 8,
+    paddingTop: 16,
+    backgroundColor: "white"
   }
 });
 

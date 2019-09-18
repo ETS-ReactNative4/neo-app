@@ -139,10 +139,10 @@ class AlertCard extends Component {
 const styles = StyleSheet.create({
   cardsContainer: {
     marginVertical: 8,
-    marginHorizontal: 24,
     alignItems: "center",
     justifyContent: "center",
-    minHeight: 110
+    backgroundColor: "white",
+    minHeight: 118
   },
   cardWrapper: {
     width: responsiveWidth(100) - 48,

@@ -95,16 +95,17 @@ const BigImageCard = ({
 
 const styles = StyleSheet.create({
   box: {
-    overflow: "hidden",
     borderRadius: 5,
-    marginRight: 8,
+    backgroundColor: "white",
+    marginTop: 8
+  },
+  imageBackground: {
+    overflow: "hidden",
     height: 320,
     marginHorizontal: 24,
     marginVertical: 16,
-    width: responsiveWidth(100) - 48
-  },
-  imageBackground: {
-    flex: 1
+    borderRadius: 5
+    // width: responsiveWidth(100) - 48
   },
   gradientView: {
     flex: 1,

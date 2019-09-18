@@ -9,6 +9,7 @@ import storeService from "../Services/storeService/storeService";
 import { logError } from "../Services/errorLogger/errorLogger";
 import { LayoutAnimation, Platform } from "react-native";
 import { hydrate } from "./Store";
+import { setUserAttributes } from "../Services/analytics/analyticsService";
 
 class Itineraries {
   static hydrator = storeInstance => {
@@ -192,6 +193,18 @@ class Itineraries {
 
     try {
       return this._selectedItinerary.itinerary.itineraryId;
+    } catch (e) {
+      logError(e);
+      return "";
+    }
+  }
+
+  @computed
+  get regionName() {
+    if (_.isEmpty(this._selectedItinerary)) return "";
+
+    try {
+      return this._selectedItinerary.itinerary.regionName;
     } catch (e) {
       logError(e);
       return "";

@@ -2,37 +2,79 @@ import React from "react";
 import { Text, View, StyleSheet } from "react-native";
 import Icon from "../../../CommonComponents/Icon/Icon";
 import constants from "../../../constants/constants";
-import { responsiveWidth } from "react-native-responsive-dimensions";
+import {
+  responsiveHeight,
+  responsiveWidth
+} from "react-native-responsive-dimensions";
 import PropTypes from "prop-types";
-import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraProps";
+import LightBoxButton from "../../../CommonComponents/LightBoxButton/LightBoxButton";
+import PhotoView from "react-native-photo-view";
 
-const VoucherAddressSection = ({ address, containerStyle }) => {
+const VoucherAddressSection = ({
+  address = "",
+  containerStyle = StyleSheet.create({}),
+  startingPointImage = ""
+}) => {
   if (!containerStyle) containerStyle = {};
-  if (!address) return null;
   return (
-    <View style={[styles.addressContainer, containerStyle]}>
-      <View style={styles.addressSection}>
-        <Text style={styles.hotelAddress} ellipsizeMode={"tail"}>
-          {address}
-        </Text>
-      </View>
-      <View style={styles.addressMarkerSection}>
-        <Icon
-          size={24}
-          color={constants.black1}
-          name={constants.locationIcon}
+    <View style={[styles.voucherAddressSectionContainer, containerStyle]}>
+      {address ? (
+        <View style={styles.addressContainer}>
+          <View style={styles.addressSection}>
+            <Text style={styles.hotelAddress} ellipsizeMode={"tail"}>
+              {address}
+            </Text>
+          </View>
+          <View style={styles.addressMarkerSection}>
+            <Icon
+              size={24}
+              color={constants.black1}
+              name={constants.locationIcon}
+            />
+          </View>
+        </View>
+      ) : null}
+      {startingPointImage ? (
+        <LightBoxButton
+          LightBoxComponent={() => {
+            return (
+              <PhotoView
+                minimumZoomScale={1}
+                maximumZoomScale={3}
+                source={{ uri: startingPointImage }}
+                style={{
+                  height: responsiveHeight(100),
+                  width: responsiveWidth(100)
+                }}
+                resizeMode={"contain"}
+              />
+            );
+          }}
+          containerStyle={{
+            width: responsiveWidth(60),
+            alignItems: "flex-start"
+          }}
+          textStyle={{
+            textDecorationLine: "underline",
+            fontFamily: constants.primaryRegular
+          }}
+          text={"STARTING POINT PHOTO"}
+          color={"transparent"}
+          textColor={constants.firstColor}
         />
-      </View>
+      ) : null}
     </View>
   );
 };
 
-VoucherAddressSection.propTypes = forbidExtraProps({
+VoucherAddressSection.propTypes = {
   address: PropTypes.string.isRequired,
-  containerStyle: PropTypes.object.isRequired
-});
+  containerStyle: PropTypes.object.isRequired,
+  startingPointImage: PropTypes.string.isRequired
+};
 
 const styles = StyleSheet.create({
+  voucherAddressSectionContainer: {},
   addressContainer: {
     flexDirection: "row"
   },
