@@ -129,7 +129,11 @@ class ActivityVoucher extends Component {
       constants.shortTimeFormat
     );
 
-    const transferIncluded = _.toUpper(transferType) !== "NOTRANSFER";
+    const transferIncluded = transferType
+      ? _.toUpper(transferType) !== constants.noTransferStatus
+      : selectedTourGrade
+      ? _.toUpper(selectedTourGrade.transferType) !== constants.noTransferStatus
+      : false;
     const pickupDetail =
       pickupDetails && pickupDetails.length ? pickupDetails[0] : {};
     const { pickupTime, location = {}, address: pickupAddress } = pickupDetail;

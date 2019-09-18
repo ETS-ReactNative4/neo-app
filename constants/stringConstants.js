@@ -8,6 +8,8 @@ const stringConstants = {
   activityVoucher: "activity",
   transferVoucher: "transfer",
 
+  noTransferStatus: "NOTRANSFER",
+
   /**
    * Product APIs
    */
