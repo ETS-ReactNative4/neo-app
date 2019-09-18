@@ -12,6 +12,7 @@ import MainStack from "./MainStack";
 import RentalCarVoucher from "../Screens/VoucherScreens/RentalCarVoucherScreen/RentalCarVoucher";
 import PDFViewerAndroid from "../Screens/PDFViewerScreen/PDFViewerAndroid";
 import FeedbackPrompt from "../Screens/FeedbackPromptScreen/FeedbackPrompt";
+import ActionSheet from "../Screens/ActionSheetScreen/ActionSheet";
 
 const UniversalStack = createStackNavigator(
   {
@@ -48,6 +49,9 @@ const UniversalStack = createStackNavigator(
     },
     FeedbackPrompt: {
       screen: FeedbackPrompt
+    },
+    ActionSheet: {
+      screen: ActionSheet
     }
   },
   {
