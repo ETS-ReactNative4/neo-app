@@ -134,7 +134,8 @@ class ToolTip extends Component {
 const styles = StyleSheet.create({
   container: {
     marginTop: 8,
-    padding: 16,
+    paddingVertical: 16,
+    paddingHorizontal: 24,
     borderColor: constants.shade5,
     backgroundColor: "white",
     borderRadius: 3

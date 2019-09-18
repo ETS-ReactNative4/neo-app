@@ -69,7 +69,6 @@ class InfoCard extends Component {
 const styles = StyleSheet.create({
   box: {
     borderRadius: 5,
-
     marginTop: 8,
     borderWidth: StyleSheet.hairlineWidth,
     borderColor: constants.shade5,
@@ -80,11 +79,12 @@ const styles = StyleSheet.create({
     overflow: "hidden",
     borderTopRightRadius: 5,
     borderTopLeftRadius: 5,
-    marginHorizontal: 16,
+    marginHorizontal: 24,
     marginTop: 16
   },
   contentView: {
-    padding: 16
+    paddingVertical: 16,
+    paddingHorizontal: 24
   },
   header: {},
   body: {
