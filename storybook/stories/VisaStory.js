@@ -13,6 +13,7 @@ import PropTypes from "prop-types";
 import VisaInfoCard from "../../Screens/VisaScreen/Components/VisaInfoCard/VisaInfoCard";
 import DropDown from "../../CommonComponents/DropDown/DropDown";
 import VisaStageHeader from "../../Screens/VisaScreen/Components/VisaInfoCard/Components/VisaStageHeader";
+import VisaInfoSheet from "../../Screens/VisaScreen/Components/VisaInfoSheet";
 
 const userDetails = {
   name: "John",
@@ -304,4 +305,12 @@ storiesOf("Visa Story", module)
         <VisaInfoCard {...props} />
       </ScrollView>
     );
+  })
+  .add("Visa Info Sheet", () => {
+    const props = {
+      title: "Documents must-knows",
+      content: `<p><ul><li>Supporting documents for all applications should be scanned in high resolution and in color</li><li>No notarization (either self, agent or through a notary) required for any supporting document, including the passport</li><li>Scanned soft copy of documents are only required - Maximum size of each file/ attachment should not exceed 5 MB</li></ul></p>`
+    };
+    console.log(props);
+    return <VisaInfoSheet {...props} />;
   });
