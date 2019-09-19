@@ -13,7 +13,7 @@ const infoDotRadius = 7.5;
 
 const VisaStagesCard = ({
   containerStyle = StyleSheet.create({}),
-  title = "",
+  title = "Visa Application Stages",
   stages = []
 }) => {
   return (
@@ -54,7 +54,7 @@ const VisaStagesCard = ({
 
 VisaStagesCard.propTypes = {
   containerStyle: ViewPropTypes.style,
-  title: PropTypes.string.isRequired,
+  title: PropTypes.string,
   stages: PropTypes.arrayOf(
     PropTypes.shape({
       stageText: PropTypes.string.isRequired,

@@ -8,7 +8,7 @@ import ratioCalculator from "../../../Services/ratioCalculator/ratioCalculator";
 
 const VisaWindowStatusWidget = ({
   containerStyle = StyleSheet.create({}),
-  welcomeText = "",
+  welcomeText = "Your visa application window opens on",
   dateText = "",
   count,
   fillPercentage,

@@ -8,6 +8,8 @@ import VisaCompanionInfo from "../VisaScreen/Components/VisaCompanionInfo";
 import { isIphoneX } from "react-native-iphone-x-helper";
 import constants from "../../constants/constants";
 import XSensorPlaceholder from "../../CommonComponents/XSensorPlaceholder/XSensorPlaceholder";
+import VisaWindowNotOpen from "./Component/VisaWindowNotOpen";
+import VisaWindowOpen from "./Component/VisaWindowOpen";
 
 @ErrorBoundary()
 @inject("itineraries")
@@ -40,9 +42,17 @@ class VisaStatus extends Component {
 
     const { accountOwnerDetails = {} } = visaDetails;
 
+    console.log(visaDetails);
+
     return (
       <Fragment>
-        <ScrollView style={styles.visaStatusContainer}></ScrollView>
+        <ScrollView style={styles.visaStatusContainer}>
+          {visaDetails.visaStage === "WINDOW_NOT_OPENED" ? (
+            <VisaWindowNotOpen visaDetails={visaDetails} />
+          ) : (
+            <VisaWindowOpen visaDetails={visaDetails} />
+          )}
+        </ScrollView>
         <XSensorPlaceholder containerStyle={constants.sensorAreaContainer} />
         <VisaCompanionInfo
           containerStyle={styles.companionWrapper}
@@ -58,10 +68,11 @@ class VisaStatus extends Component {
 
 const styles = StyleSheet.create({
   visaStatusContainer: {
-    flex: 1
+    backgroundColor: constants.white1
   },
   companionWrapper: {
     position: "absolute",
+    backgroundColor: "white",
     bottom: isIphoneX() ? constants.xSensorAreaHeight : 0,
     left: 0
   },
