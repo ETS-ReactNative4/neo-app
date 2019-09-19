@@ -94,13 +94,26 @@ class Visa {
    * This will fetch visa details of an itinerary from the api
    */
   @action
-  getVisaDetails = itineraryId => {
-    /**
-     * Condition used to fetch visa details only when the visa information is not available in mobx
-     */
-    // if (!this._visaDetails[itineraryId])
-    this._getVisaDetailsFromAPI(itineraryId);
+  loadVisaDetails = visaId => {
+    apiCall(constants.getVisaDetails.replace(":visaId", visaId))
+      .then(response => {
+        if (response.status === constants.responseSuccessStatus) {
+          const visaDetails = toJS(this._visaDetails);
+          visaDetails[visaId] = response.data;
+          this._visaDetails = visaDetails;
+        }
+      })
+      .catch(() => {});
   };
+
+  getVisaDetails = createTransformer(visaId => {
+    try {
+      return toJS(this._visaDetails[visaId] || {});
+    } catch (e) {
+      logError(e);
+      return {};
+    }
+  });
 
   @action
   initiateVisa = () => {
@@ -112,7 +125,8 @@ class Visa {
       apiCall(constants.initiateVisaProcess, requestBody, "POST")
         .then(response => {
           if (response.status === constants.responseSuccessStatus) {
-            resolve();
+            this._visaList = _.get(response, "data.visaList") || [];
+            resolve(this.visaList);
           } else {
             reject();
           }
@@ -121,32 +135,32 @@ class Visa {
     });
   };
 
-  @action
-  _getVisaDetailsFromAPI = itineraryId => {
-    this._isLoading = true;
-    apiCall(
-      constants.getVisaDetails.replace(":itineraryId", itineraryId),
-      {},
-      "GET"
-    )
-      .then(response => {
-        this._isLoading = false;
-        if (response.status === "SUCCESS") {
-          this._hasError = false;
-          const visaDetails = toJS(this._visaDetails);
-          visaDetails[itineraryId] = response.data;
-          this._visaDetails = visaDetails;
-          // set(this._visaDetails, itineraryId, response.data);
-        } else {
-          this._hasError = true;
-        }
-      })
-      .catch(err => {
-        this._isLoading = false;
-        this._hasError = true;
-        console.error(err);
-      });
-  };
+  // @action
+  // _getVisaDetailsFromAPI = itineraryId => {
+  //   this._isLoading = true;
+  //   apiCall(
+  //     constants.getVisaDetails.replace(":itineraryId", itineraryId),
+  //     {},
+  //     "GET"
+  //   )
+  //     .then(response => {
+  //       this._isLoading = false;
+  //       if (response.status === "SUCCESS") {
+  //         this._hasError = false;
+  //         const visaDetails = toJS(this._visaDetails);
+  //         visaDetails[itineraryId] = response.data;
+  //         this._visaDetails = visaDetails;
+  //         // set(this._visaDetails, itineraryId, response.data);
+  //       } else {
+  //         this._hasError = true;
+  //       }
+  //     })
+  //     .catch(err => {
+  //       this._isLoading = false;
+  //       this._hasError = true;
+  //       console.error(err);
+  //     });
+  // };
 
   @action
   getVisaHomeScreenDetails = () => {
@@ -158,7 +172,7 @@ class Visa {
     )
       .then(response => {
         if (response.status === constants.responseSuccessStatus) {
-          this._isVisaInitialized = _.get(response, "data.initiated");
+          this._isVisaInitialized = _.get(response, "data.initialized");
           if (this._isVisaInitialized) {
             this._visaList = _.get(response, "data.visaList");
           } else {
@@ -171,14 +185,29 @@ class Visa {
       .catch(() => null);
   };
 
+  getVisaDetailsById = createTransformer(visaId => {
+    try {
+      return this.visaList.find(visa => visa.visaId === visaId) || {};
+    } catch (e) {
+      logError(e);
+      return {};
+    }
+  });
+
   /**
    * A utility function that will open visa home screen
    * depending on the various parameters that are obtained from
    * the visa store. But the values should be supplied as parameters.
    */
-  static visaOpener = ({ navigation, isVisaInitialized, isSingleVisa }) => {
+  static visaOpener = ({
+    navigation,
+    isVisaInitialized,
+    isSingleVisa,
+    visaList
+  }) => {
     if (isVisaInitialized && isSingleVisa) {
-      navigation.navigate("VisaStatus");
+      const firstVisa = visaList[0];
+      navigation.navigate("VisaStatus", { visaId: firstVisa.visaId });
     } else if (isVisaInitialized) {
       navigation.navigate("VisaSelector");
     } else {

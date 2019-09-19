@@ -32,8 +32,16 @@ class Visa extends Component {
   startVisa = () => {
     const { initiateVisa } = this.props.visaStore;
     initiateVisa()
-      .then(() => {
-        this.props.navigation.navigate("VisaSelector");
+      .then(visaList => {
+        if (visaList && visaList.length) {
+          if (visaList.length === 1) {
+            // navigate straight to visa details
+          } else {
+            this.props.navigation.navigate("VisaSelector");
+          }
+        } else {
+          toastBottom(constants.visaScreenText.failedToLoadVisaData);
+        }
       })
       .catch(() => {
         toastBottom(constants.visaScreenText.failedToLoadVisaData);

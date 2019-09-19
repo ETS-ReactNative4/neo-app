@@ -26,7 +26,7 @@ const apiUrls = {
   registerDeviceToken: "mobile/devicetoken",
   getEmergencyContacts: "mobile/city/contacts/emergency",
   getPassportDetails: "mobile/:itineraryId/passport/details",
-  getVisaDetails: "mobile/:itineraryId/visa/details",
+  getVisaDetails: "mobile/visa/:visaId",
   sendVisaDocs: "mobile/sendVisaDocs",
   getPaymentMeta: "mobile/booked/itinerary/paymentMetaInfo",
   getPaymentInfo: "mobile/:itineraryId/paymentInfo",

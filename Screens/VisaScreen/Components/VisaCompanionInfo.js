@@ -7,8 +7,8 @@ import dialer from "../../../Services/dialer/dialer";
 
 const VisaCompanionInfo = ({
   containerStyle = StyleSheet.create({}),
-  profilePicUrl = "",
-  title = "",
+  profilePic = {},
+  title = "Your Visa Companion",
   name = "",
   tag = "",
   phoneNumber = ""
@@ -18,7 +18,7 @@ const VisaCompanionInfo = ({
   return (
     <View style={[styles.visaCompanionInfoContainer, containerStyle]}>
       <View style={styles.imageSection}>
-        <Image style={styles.profilePic} source={{ uri: profilePicUrl }} />
+        <Image style={styles.profilePic} source={profilePic} />
       </View>
       <View style={styles.textSection}>
         <Text style={styles.titleText}>{title}</Text>
@@ -42,7 +42,8 @@ const VisaCompanionInfo = ({
 
 VisaCompanionInfo.propTypes = {
   containerStyle: ViewPropTypes.style,
-  profilePicUrl: PropTypes.string.isRequired,
+  profilePic: PropTypes.oneOfType([PropTypes.object, PropTypes.number])
+    .isRequired,
   title: PropTypes.string,
   name: PropTypes.string,
   tag: PropTypes.string,
@@ -53,7 +54,9 @@ const styles = StyleSheet.create({
   visaCompanionInfoContainer: {
     flexDirection: "row",
     padding: 24,
-    justifyContent: "center"
+    justifyContent: "center",
+    borderTopWidth: 1,
+    borderTopColor: constants.shade5
   },
   imageSection: {
     alignItems: "center",

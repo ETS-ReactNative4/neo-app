@@ -20,9 +20,14 @@ import Visa from "../../mobx/Visa";
 class Tools extends Component {
   static navigationOptions = HomeHeader;
 
+  componentDidMount() {
+    const { getVisaHomeScreenDetails } = this.props.visaStore;
+    getVisaHomeScreenDetails();
+  }
+
   render() {
     const { cities } = this.props.itineraries;
-    const { isVisaInitialized, isSingleVisa } = this.props.visaStore;
+    const { isVisaInitialized, isSingleVisa, visaList } = this.props.visaStore;
     const { navigation } = this.props;
     const cityList = cities.map(city => {
       const cityId = city.cityObject ? city.cityObject.cityId : "";
@@ -133,7 +138,12 @@ class Tools extends Component {
           recordEvent(constants.Tools.event, {
             click: constants.Tools.click.documentsVisa
           });
-          Visa.visaOpener({ navigation, isVisaInitialized, isSingleVisa });
+          Visa.visaOpener({
+            navigation,
+            isVisaInitialized,
+            isSingleVisa,
+            visaList
+          });
         }
       },
       {
