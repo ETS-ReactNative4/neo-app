@@ -73,7 +73,7 @@ class Visa {
 
   @computed
   get isSingleVisa() {
-    return this._visaList.length === 1;
+    return this._visaList && this._visaList.length === 1;
   }
 
   @computed

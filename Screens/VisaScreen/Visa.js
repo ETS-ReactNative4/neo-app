@@ -35,9 +35,12 @@ class Visa extends Component {
       .then(visaList => {
         if (visaList && visaList.length) {
           if (visaList.length === 1) {
-            // navigate straight to visa details
+            const firstVisa = visaList[0];
+            this.props.navigation.replace("VisaStatus", {
+              visaId: firstVisa.visaId
+            });
           } else {
-            this.props.navigation.navigate("VisaSelector");
+            this.props.navigation.replace("VisaSelector");
           }
         } else {
           toastBottom(constants.visaScreenText.failedToLoadVisaData);
