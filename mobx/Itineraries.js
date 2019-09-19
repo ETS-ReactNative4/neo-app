@@ -191,6 +191,18 @@ class Itineraries {
   }
 
   @computed
+  get regionName() {
+    if (_.isEmpty(this._selectedItinerary)) return "";
+
+    try {
+      return this._selectedItinerary.itinerary.regionName;
+    } catch (e) {
+      logError(e);
+      return "";
+    }
+  }
+
+  @computed
   get selectedItinerary() {
     if (_.isEmpty(this._selectedItinerary)) return {};
 

@@ -5,6 +5,7 @@ import logOut from "../logOut/logOut";
 import DebouncedAlert from "../../CommonComponents/DebouncedAlert/DebouncedAlert";
 import DeviceInfo from "react-native-device-info";
 import _ from "lodash";
+import { perf } from "react-native-firebase";
 
 const timeoutDuration = 60000;
 const apiServer = constants.apiServerUrl;
@@ -34,12 +35,13 @@ const apiCall = async (
     };
   }
 
-  if (credentials && credentials.username && credentials.password) {
-    headerObject.Authorization = credentials.password;
-  } else if (customToken) {
+  if (customToken) {
     headerObject.Authorization = customToken;
+  } else if (credentials && credentials.username && credentials.password) {
+    headerObject.Authorization = credentials.password;
   }
 
+  // eslint-disable-next-line no-undef
   const headers = new Headers(headerObject);
 
   const requestDetails = {
@@ -48,11 +50,26 @@ const apiCall = async (
     headers
   };
 
-  if (method !== "GET") requestDetails.body = JSON.stringify(body);
+  if (method !== "GET") {
+    requestDetails.body = JSON.stringify(body);
+  }
 
   const serverURL = customDomain ? customDomain : apiServer;
 
   const requestURL = `${serverURL}${route}`;
+
+  /**
+   * Start Performance monitoring for the current request
+   */
+  const metric = perf().newHttpMetric(requestURL, method);
+  await metric.start();
+  if (!_.isEmpty(body)) {
+    for (let key in body) {
+      if (body.hasOwnProperty(key)) {
+        await metric.putAttribute(key, JSON.stringify(body[key]));
+      }
+    }
+  }
 
   /**
    * This promise will start the network request and will return the data from the server
@@ -66,6 +83,22 @@ const apiCall = async (
     console.log(headers);
 
     function handleResponse(response) {
+      /**
+       * Tracking the response performance
+       */
+      metric
+        .setHttpResponseCode(response.status)
+        .then(() => {
+          metric.setResponseContentType(response.headers.get("Content-Type"));
+        })
+        .then(() => {
+          // metric
+          //   .setResponsePayloadSize(response.headers.get("Content-Length"))
+          //   .then(() => {
+          metric.stop();
+          //  });
+        });
+
       console.log(response.status);
       console.log(response.statusText);
 

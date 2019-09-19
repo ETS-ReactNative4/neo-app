@@ -22,6 +22,7 @@ import com.google.firebase.iid.InstanceIdResult;
 import com.webengage.sdk.android.WebEngage;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
+import io.invertase.firebase.perf.RNFirebasePerformancePackage;
 
 public class MainApplication extends Application implements ReactApplication {
 
@@ -39,6 +40,7 @@ public class MainApplication extends Application implements ReactApplication {
       packages.add(new RNFirebaseMessagingPackage());
       packages.add(new RNFirebaseNotificationsPackage());
       packages.add(new RNFirebaseAnalyticsPackage());
+      packages.add(new RNFirebasePerformancePackage());
       return packages;
     }
 
