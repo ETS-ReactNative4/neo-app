@@ -174,7 +174,7 @@ class Visa {
         if (response.status === constants.responseSuccessStatus) {
           this._isVisaInitialized = _.get(response, "data.initialized");
           if (this._isVisaInitialized) {
-            this._visaList = _.get(response, "data.visaList");
+            this._visaList = _.get(response, "data.visaList") || [];
           } else {
             this._homeScreenDetails = response.data;
           }
