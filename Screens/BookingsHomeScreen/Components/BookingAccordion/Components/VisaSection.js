@@ -5,6 +5,8 @@ import PropTypes from "prop-types";
 import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidExtraProps";
 import { recordEvent } from "../../../../../Services/analytics/analyticsService";
 import BookingSectionComponent from "../../../../../CommonComponents/BookingSectionComponent/BookingSectionComponent";
+import * as VisaMobX from "../../../../../mobx/Visa";
+import { observer, inject } from "mobx-react/custom";
 
 const VisaSection = ({ section, navigation, spinValue }) => {
   return (
@@ -33,41 +35,47 @@ VisaSection.propTypes = forbidExtraProps({
     .isRequired
 });
 
-const Visa = ({ visa, isLast, navigation, spinValue }) => {
-  let customStyle = {};
-  if (isLast) {
-    customStyle = {
-      // borderBottomWidth: StyleSheet.hairlineWidth,
-      paddingBottom: 16
+const Visa = inject("visaStore")(
+  observer(({ visaStore, visa, isLast, navigation, spinValue }) => {
+    let customStyle = {};
+    if (isLast) {
+      customStyle = {
+        // borderBottomWidth: StyleSheet.hairlineWidth,
+        paddingBottom: 16
+      };
+    }
+
+    const openVoucher = () => {
+      recordEvent(constants.Bookings.event, {
+        click: constants.Bookings.click.accordionVoucher,
+        type: constants.Bookings.type.visa
+      });
+      const { isVisaInitialized, isSingleVisa, visaList } = visaStore;
+      VisaMobX.default.visaOpener({
+        navigation,
+        isVisaInitialized,
+        isSingleVisa,
+        visaList
+      });
     };
-  }
 
-  const openVoucher = () => {
-    recordEvent(constants.Bookings.event, {
-      click: constants.Bookings.click.accordionVoucher,
-      type: constants.Bookings.type.visa
-    });
-    navigation.navigate("VisaBooked", {
-      country: visa.country
-    });
-  };
+    const isSchengen = visa.schengen;
 
-  const isSchengen = visa.schengen;
-
-  return (
-    <BookingSectionComponent
-      spinValue={spinValue}
-      containerStyle={customStyle}
-      sectionImage={constants.visaThumbnailIllus}
-      isProcessing={false}
-      onClick={openVoucher}
-      content={visa.country}
-      title={isSchengen ? "Schengen" : ""}
-      isImageContain={false}
-      hideTitle={!isSchengen}
-    />
-  );
-};
+    return (
+      <BookingSectionComponent
+        spinValue={spinValue}
+        containerStyle={customStyle}
+        sectionImage={constants.visaThumbnailIllus}
+        isProcessing={false}
+        onClick={openVoucher}
+        content={visa.country}
+        title={isSchengen ? "Schengen" : ""}
+        isImageContain={false}
+        hideTitle={!isSchengen}
+      />
+    );
+  })
+);
 
 Visa.propTypes = forbidExtraProps({
   visa: PropTypes.object.isRequired,
