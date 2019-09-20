@@ -12,6 +12,8 @@ import VisaStageHeader from "./Components/VisaStageHeader";
 import constants from "../../../../constants/constants";
 import VisaInfoCardHeader from "./Components/VisaInfoCardHeader";
 import VisaStageBullets from "./Components/VisaStageBullets";
+import VisaInfoCardFooter from "./Components/VisaInfoCardFooter";
+import _ from "lodash";
 
 const VisaInfoCard = ({
   containerStyle = StyleSheet.create({}),
@@ -20,7 +22,8 @@ const VisaInfoCard = ({
   title = "",
   body = "",
   color = constants.shade3,
-  stages = []
+  stages = [],
+  footer = {}
 }) => {
   const [localExpansionStatus, toggleLocalExpansion] = useState(false);
   const [isMounted, setMountStatus] = useState(false);
@@ -40,37 +43,51 @@ const VisaInfoCard = ({
   };
 
   return (
-    <TouchableOpacity
-      onPress={isCardDisabled ? () => null : toggleCardExpansion}
-      activeOpacity={0.8}
-      style={[styles.visaInfoCardContainer, containerStyle]}
-    >
-      <VisaInfoCardHeader
-        title={title}
-        body={body}
-        isDisabled={isCardDisabled}
-        color={isCardDisabled ? constants.shade3 : color}
-      />
-      {localExpansionStatus ? (
-        <Fragment>
-          {stages.map((stage, stageIndex) => {
-            return (
-              <Fragment>
-                <VisaStageHeader
-                  key={stageIndex}
-                  title={stage.title}
-                  body={stage.body}
-                  color={stage.color}
-                  icon={stage.icon}
-                  listCheckBox={stage.listCheckBox}
-                  notes={stage.stageNotes}
-                />
-              </Fragment>
-            );
-          })}
-        </Fragment>
+    <Fragment>
+      <TouchableOpacity
+        onPress={isCardDisabled ? () => null : toggleCardExpansion}
+        activeOpacity={0.8}
+        style={[
+          styles.visaInfoCardContainer,
+          localExpansionStatus ? styles.expandedInfoCard : {},
+          containerStyle
+        ]}
+      >
+        <VisaInfoCardHeader
+          title={title}
+          body={body}
+          isDisabled={isCardDisabled}
+          color={isCardDisabled ? constants.shade3 : color}
+        />
+        {localExpansionStatus ? (
+          <Fragment>
+            {stages.map((stage, stageIndex) => {
+              return (
+                <Fragment>
+                  <VisaStageHeader
+                    key={stageIndex}
+                    title={stage.title}
+                    body={stage.body}
+                    color={stage.color || color}
+                    icon={stage.icon}
+                    listCheckBox={stage.listCheckBox}
+                    notes={stage.stageNotes}
+                  />
+                </Fragment>
+              );
+            })}
+          </Fragment>
+        ) : null}
+      </TouchableOpacity>
+      {localExpansionStatus && !_.isEmpty(footer) && !isCardDisabled ? (
+        <VisaInfoCardFooter
+          containerStyle={!localExpansionStatus ? styles.compressedFooter : {}}
+          icon={footer.icon}
+          text={footer.text}
+          color={footer.color}
+        />
       ) : null}
-    </TouchableOpacity>
+    </Fragment>
   );
 };
 
@@ -80,13 +97,23 @@ VisaInfoCard.propTypes = {
   isCardDisabled: PropTypes.bool.isRequired,
   title: PropTypes.string.isRequired,
   body: PropTypes.string,
-  color: PropTypes.string.isRequired
+  color: PropTypes.string.isRequired,
+  stages: PropTypes.array,
+  footer: PropTypes.object
 };
 
 const styles = StyleSheet.create({
   visaInfoCardContainer: {
     backgroundColor: "white",
-    padding: 24
+    padding: 24,
+    borderRadius: 4
+  },
+  expandedInfoCard: {
+    borderBottomLeftRadius: 0,
+    borderBottomRightRadius: 0
+  },
+  compressedFooter: {
+    height: 0
   }
 });
 

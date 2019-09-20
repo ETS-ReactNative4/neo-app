@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   infoDotWrapper: {
-    marginRight: 4
+    marginRight: 8
   },
   infoDot: {},
   titleText: {
