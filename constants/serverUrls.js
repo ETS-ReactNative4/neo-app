@@ -75,7 +75,6 @@ const serverUrls = {
           }${chatQueryParam}`
         )
       : "",
-  offlineContact: "+91 8939891682",
 
   /**
    * Segment Write Key
