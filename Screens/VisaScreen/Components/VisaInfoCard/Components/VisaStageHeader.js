@@ -5,6 +5,7 @@ import InfoDot from "../../../../../CommonComponents/InfoDot/InfoDot";
 import constants from "../../../../../constants/constants";
 import Icon from "../../../../../CommonComponents/Icon/Icon";
 import VisaStageBullets from "./VisaStageBullets";
+import changeColorAlpha from "../../../../../Services/changeColorAlpha/changeColorAlpha";
 
 const VisaStageHeader = ({
   containerStyle = StyleSheet.create({}),
@@ -18,7 +19,12 @@ const VisaStageHeader = ({
   return (
     <View style={[styles.visaStageHeaderContainer, containerStyle]}>
       <View style={styles.iconSection}>
-        <View style={[styles.iconWrapper, { backgroundColor: color }]}>
+        <View
+          style={[
+            styles.iconWrapper,
+            { backgroundColor: changeColorAlpha(color, 0.2) }
+          ]}
+        >
           <Icon name={icon} size={13} color={constants.black1} />
         </View>
       </View>
