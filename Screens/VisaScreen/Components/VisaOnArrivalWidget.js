@@ -35,7 +35,6 @@ VisaOnArrivalWidget.propTypes = {
 const illustrationImageWidth = 72;
 const styles = StyleSheet.create({
   visaOnArrivalWidget: {
-    height: 134,
     flexDirection: "row",
     backgroundColor: constants.themeDarkBlue,
     borderRadius: 4,
@@ -58,19 +57,17 @@ const styles = StyleSheet.create({
   iconSection: {
     marginRight: 16
   },
-  textSection: {
-    marginTop: 8
-  },
+  textSection: {},
   titleText: {
-    ...constants.fontCustom(constants.primarySemiBold, 16),
+    ...constants.fontCustom(constants.primarySemiBold, 16, 24),
     color: "white",
-    width: responsiveWidth(75)
+    width: responsiveWidth(60)
   },
   infoText: {
     ...constants.fontCustom(constants.primaryRegular, 16, 24),
     color: "white",
     marginTop: 4,
-    width: responsiveWidth(75)
+    width: responsiveWidth(60)
   }
 });
 

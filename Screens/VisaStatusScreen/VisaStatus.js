@@ -48,7 +48,8 @@ class VisaStatus extends Component {
     return (
       <Fragment>
         <ScrollView style={styles.visaStatusContainer}>
-          {visaDetails.visaStage === "WINDOW_NOT_OPENED" ? (
+          {visaDetails.visaStage === constants.visaWindowNotOpenedStatus ||
+          visaDetails.visaType === constants.onArrivalVisaType ? (
             <VisaWindowNotOpen visaDetails={visaDetails} />
           ) : (
             <VisaWindowOpen visaDetails={visaDetails} />

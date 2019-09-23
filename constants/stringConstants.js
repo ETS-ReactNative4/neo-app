@@ -9,6 +9,8 @@ const stringConstants = {
   transferVoucher: "transfer",
 
   noTransferStatus: "NOTRANSFER",
+  onArrivalVisaType: "ON_ARRIVAL",
+  visaWindowNotOpenedStatus: "WINDOW_NOT_OPENED",
 
   /**
    * Product APIs

@@ -6,12 +6,17 @@ import VisaWindowStatusWidget from "../../VisaScreen/Components/VisaWindowStatus
 import moment from "moment";
 import constants from "../../../constants/constants";
 import VisaStagesCard from "../../VisaScreen/Components/VisaStagesCard";
+import VisaOnArrivalWidget from "../../VisaScreen/Components/VisaOnArrivalWidget";
 
 const VisaWindowNotOpen = ({
   containerStyle = StyleSheet.create({}),
   visaDetails = {}
 }) => {
-  const { visaWindowDetails = {}, visaStageDetails = [] } = visaDetails;
+  const {
+    visaWindowDetails = {},
+    visaStageDetails = [],
+    visaType = ""
+  } = visaDetails;
   const {
     windowOpenTime = 0,
     currentTime = 0,
@@ -40,13 +45,21 @@ const VisaWindowNotOpen = ({
     <View style={[containerStyle]}>
       <Fragment>
         {!_.isEmpty(visaWindowDetails) ? (
-          <VisaWindowStatusWidget
-            containerStyle={styles.widgetWrapper}
-            countText={"days"}
-            dateText={windowOpenTimeObject.format(constants.commonDateFormat)}
-            count={numberOfDaysToOpen}
-            fillPercentage={timePercentage}
-          />
+          visaType === constants.onArrivalVisaType ? (
+            <VisaOnArrivalWidget
+              containerStyle={styles.widgetWrapper}
+              title={visaWindowDetails.title}
+              info={visaWindowDetails.body}
+            />
+          ) : (
+            <VisaWindowStatusWidget
+              containerStyle={styles.widgetWrapper}
+              countText={"days"}
+              dateText={windowOpenTimeObject.format(constants.commonDateFormat)}
+              count={numberOfDaysToOpen}
+              fillPercentage={timePercentage}
+            />
+          )
         ) : null}
         {visaStageDetails.length ? (
           <VisaStagesCard
