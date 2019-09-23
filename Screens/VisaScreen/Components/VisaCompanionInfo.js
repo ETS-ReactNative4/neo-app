@@ -65,7 +65,6 @@ const styles = StyleSheet.create({
   profilePic: {
     height: 66,
     width: 66,
-    borderRadius: 33,
     backgroundColor: constants.shade5
   },
   textSection: {

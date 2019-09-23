@@ -6,6 +6,16 @@ import { responsiveWidth } from "react-native-responsive-dimensions";
 import SimpleButton from "../../../CommonComponents/SimpleButton/SimpleButton";
 import CustomHtmlView from "../../../CommonComponents/CustomHtmlView/CustomHtmlView";
 
+const infoWidgetStyleSheet = {
+  ...constants.htmlStyleSheet,
+  p: {
+    fontFamily: constants.primaryRegular,
+    fontSize: 16,
+    lineHeight: 24,
+    color: constants.black2
+  }
+};
+
 const VisaInfoWidget = ({
   containerStyle = StyleSheet.create({}),
   label = "",
@@ -22,7 +32,11 @@ const VisaInfoWidget = ({
         <Text style={styles.visaTypeText}>{visaType}</Text>
       </View>
       <View style={styles.shortTextWrapper}>
-        <CustomHtmlView html={shortText} containerStyle={styles.shortText} />
+        <CustomHtmlView
+          html={shortText}
+          containerStyle={styles.shortText}
+          styleSheet={infoWidgetStyleSheet}
+        />
       </View>
       <SimpleButton
         text={"Read More"}
