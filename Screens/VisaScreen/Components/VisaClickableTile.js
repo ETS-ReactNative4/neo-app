@@ -124,7 +124,7 @@ const styles = StyleSheet.create({
     marginTop: 8
   },
   infoText: {
-    ...constants.fontCustom(constants.primaryRegular, 16, 16),
+    ...constants.fontCustom(constants.primaryRegular, 16, 26),
     color: constants.black1,
     width: responsiveWidth(70)
   }
