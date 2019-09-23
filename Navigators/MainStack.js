@@ -24,6 +24,7 @@ import PDFViewerAndroid from "../Screens/PDFViewerScreen/PDFViewerAndroid";
 import Forex from "../Screens/ForexScreen/Forex";
 import VisaSelector from "../Screens/VisaSelectorScreen/VisaSelector";
 import VisaStatus from "../Screens/VisaStatusScreen/VisaStatus";
+import VisaHelp from "../Screens/VisaHelpScreen/VisaHelp";
 
 const MainStack = createStackNavigator(
   {
@@ -81,6 +82,9 @@ const MainStack = createStackNavigator(
     },
     VisaStatus: {
       screen: VisaStatus
+    },
+    VisaHelp: {
+      screen: VisaHelp
     },
     SupportCenter: {
       screen: SupportCenter

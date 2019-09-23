@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import constants from "../../../constants/constants";
 import { responsiveWidth } from "react-native-responsive-dimensions";
 import SimpleButton from "../../../CommonComponents/SimpleButton/SimpleButton";
+import CustomHtmlView from "../../../CommonComponents/CustomHtmlView/CustomHtmlView";
 
 const VisaInfoWidget = ({
   containerStyle = StyleSheet.create({}),
@@ -21,9 +22,7 @@ const VisaInfoWidget = ({
         <Text style={styles.visaTypeText}>{visaType}</Text>
       </View>
       <View style={styles.shortTextWrapper}>
-        <Text style={styles.shortText} numberOfLines={3} ellipsizeMode={"tail"}>
-          {shortText}
-        </Text>
+        <CustomHtmlView html={shortText} containerStyle={styles.shortText} />
       </View>
       <SimpleButton
         text={"Read More"}
@@ -75,9 +74,7 @@ const styles = StyleSheet.create({
     marginTop: 16
   },
   shortText: {
-    width: responsiveWidth(80),
-    ...constants.fontCustom(constants.primaryRegular, 16),
-    color: constants.black2
+    width: responsiveWidth(100) - 96
   }
 });
 

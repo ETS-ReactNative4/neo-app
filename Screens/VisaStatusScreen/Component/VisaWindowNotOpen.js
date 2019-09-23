@@ -7,15 +7,19 @@ import moment from "moment";
 import constants from "../../../constants/constants";
 import VisaStagesCard from "../../VisaScreen/Components/VisaStagesCard";
 import VisaOnArrivalWidget from "../../VisaScreen/Components/VisaOnArrivalWidget";
+import VisaInfoWidget from "../../VisaScreen/Components/VisaInfoWidget";
 
 const VisaWindowNotOpen = ({
   containerStyle = StyleSheet.create({}),
-  visaDetails = {}
+  visaDetails = {},
+  openHelp = () => null
 }) => {
   const {
     visaWindowDetails = {},
     visaStageDetails = [],
-    visaType = ""
+    visaType = "",
+    visaStr = "",
+    visaIntroStr = ""
   } = visaDetails;
   const {
     windowOpenTime = 0,
@@ -67,6 +71,13 @@ const VisaWindowNotOpen = ({
             stages={visaStages}
           />
         ) : null}
+        <VisaInfoWidget
+          containerStyle={styles.widgetWrapper}
+          label={"Visa Type"}
+          visaType={visaStr}
+          shortText={visaIntroStr}
+          action={openHelp}
+        />
       </Fragment>
     </View>
   );
@@ -74,7 +85,8 @@ const VisaWindowNotOpen = ({
 
 VisaWindowNotOpen.propTypes = {
   containerStyle: ViewPropTypes.style,
-  visaDetails: PropTypes.object
+  visaDetails: PropTypes.object,
+  openHelp: PropTypes.func.isRequired
 };
 
 const styles = StyleSheet.create({

@@ -44,14 +44,16 @@ class VisaStatus extends Component {
 
     const { accountOwnerDetails = {} } = visaDetails;
 
-    console.log(visaDetails);
+    const openHelp = () => {
+      navigation.navigate("VisaHelp", { visaId: visaDetails.visaId });
+    };
 
     return (
       <Fragment>
         <ScrollView style={styles.visaStatusContainer}>
           {visaDetails.visaStage === constants.visaWindowNotOpenedStatus ||
           visaDetails.visaType === constants.onArrivalVisaType ? (
-            <VisaWindowNotOpen visaDetails={visaDetails} />
+            <VisaWindowNotOpen visaDetails={visaDetails} openHelp={openHelp} />
           ) : (
             <VisaWindowOpen visaDetails={visaDetails} />
           )}
