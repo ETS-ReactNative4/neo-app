@@ -14,6 +14,7 @@ import VisaInfoCard from "../../Screens/VisaScreen/Components/VisaInfoCard/VisaI
 import DropDown from "../../CommonComponents/DropDown/DropDown";
 import VisaStageHeader from "../../Screens/VisaScreen/Components/VisaInfoCard/Components/VisaStageHeader";
 import VisaInfoSheet from "../../Screens/VisaScreen/Components/VisaInfoSheet";
+import StickyActionBar from "../../Screens/VisaStatusScreen/Component/StickyActionBar";
 
 const userDetails = {
   name: "John",
@@ -84,6 +85,13 @@ const visaInfoCardData = {
   visaType: "Visa on arrival",
   shortText:
     "The Indonesian visa can be obtained on arrival. All you have to do is send in scanned copies of your documents and we’ll do the rest."
+};
+
+const stickyActionBarData = {
+  title: "Document Checklist",
+  icon: constants.activityIcon,
+  action: () => null,
+  backgroundColor: constants.firstColor
 };
 
 class ChecklistComponent extends React.Component {
@@ -313,4 +321,11 @@ storiesOf("Visa Story", module)
     };
     console.log(props);
     return <VisaInfoSheet {...props} />;
+  })
+  .add("Sticky Action Bar", () => {
+    const props = {
+      ...stickyActionBarData
+    };
+    console.log(props);
+    return <StickyActionBar />;
   });
