@@ -5,7 +5,7 @@ import constants from "../../../constants/constants";
 import { responsiveWidth } from "react-native-responsive-dimensions";
 import SimpleButton from "../../../CommonComponents/SimpleButton/SimpleButton";
 
-const VisaInfoCard = ({
+const VisaInfoWidget = ({
   containerStyle = StyleSheet.create({}),
   label = "",
   visaType = "",
@@ -45,7 +45,7 @@ const VisaInfoCard = ({
   );
 };
 
-VisaInfoCard.propTypes = {
+VisaInfoWidget.propTypes = {
   containerStyle: ViewPropTypes.style,
   label: PropTypes.string.isRequired,
   visaType: PropTypes.string.isRequired,
@@ -81,4 +81,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default VisaInfoCard;
+export default VisaInfoWidget;

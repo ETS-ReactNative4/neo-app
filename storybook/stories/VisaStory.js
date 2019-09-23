@@ -16,6 +16,7 @@ import VisaStageHeader from "../../Screens/VisaScreen/Components/VisaInfoCard/Co
 import VisaInfoSheet from "../../Screens/VisaScreen/Components/VisaInfoSheet";
 import StickyActionBar from "../../Screens/VisaStatusScreen/Component/StickyActionBar";
 import FabButton from "../../CommonComponents/FabButton/FabButton";
+import VisaInfoWidget from "../../Screens/VisaScreen/Components/VisaInfoWidget";
 
 const userDetails = {
   name: "John",
@@ -238,7 +239,7 @@ storiesOf("Visa Story", module)
   .add("Visa Info Card", () => {
     const props = { ...visaInfoCardData };
     console.log(props);
-    return <VisaInfoCard {...props} />;
+    return <VisaInfoWidget {...props} />;
   })
   .add("Visa Drop Down Options", () => {
     return <DropDownComponent />;
