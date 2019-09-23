@@ -15,6 +15,7 @@ import DropDown from "../../CommonComponents/DropDown/DropDown";
 import VisaStageHeader from "../../Screens/VisaScreen/Components/VisaInfoCard/Components/VisaStageHeader";
 import VisaInfoSheet from "../../Screens/VisaScreen/Components/VisaInfoSheet";
 import StickyActionBar from "../../Screens/VisaStatusScreen/Component/StickyActionBar";
+import FabButton from "../../CommonComponents/FabButton/FabButton";
 
 const userDetails = {
   name: "John",
@@ -92,6 +93,13 @@ const stickyActionBarData = {
   icon: constants.activityIcon,
   action: () => null,
   backgroundColor: constants.firstColor
+};
+
+const fabButtonData = {
+  action: () => null,
+  iconSize: 20,
+  icon: constants.activityIcon,
+  radius: 32
 };
 
 class ChecklistComponent extends React.Component {
@@ -328,4 +336,11 @@ storiesOf("Visa Story", module)
     };
     console.log(props);
     return <StickyActionBar />;
+  })
+  .add("Fab Call Button", () => {
+    const props = {
+      ...fabButtonData
+    };
+    console.log(props);
+    return <FabButton {...props} />;
   });
