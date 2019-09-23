@@ -95,7 +95,13 @@ class Visa {
    */
   @action
   loadVisaDetails = visaId => {
-    apiCall(constants.getVisaDetails.replace(":visaId", visaId))
+    const requiredVisa =
+      this.visaList.find(visa => visa.visaId === visaId) || {};
+    apiCall(
+      `${constants.getVisaDetails.replace(":visaId", visaId)}?visaType=${
+        requiredVisa.visaType
+      }`
+    )
       .then(response => {
         if (response.status === constants.responseSuccessStatus) {
           const visaDetails = toJS(this._visaDetails);
@@ -187,7 +193,7 @@ class Visa {
 
   getVisaDetailsById = createTransformer(visaId => {
     try {
-      return this.visaList.find(visa => visa.visaId === visaId) || {};
+      return toJS(this._visaDetails[visaId]) || {};
     } catch (e) {
       logError(e);
       return {};

@@ -30,7 +30,8 @@ class VisaStatus extends Component {
     loadVisaDetails(visaId);
     const visaDetails = getVisaDetailsById(visaId);
     navigation.setParams({
-      screenTitle: `${visaDetails.title} - ${visaDetails.visaType}`
+      screenTitle: `${visaDetails.countryStr || ""} - ${visaDetails.visaStr ||
+        ""}`
     });
   }
 

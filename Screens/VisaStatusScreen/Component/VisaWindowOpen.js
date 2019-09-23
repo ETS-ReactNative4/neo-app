@@ -9,7 +9,7 @@ const VisaWindowOpen = ({
   containerStyle = StyleSheet.create({}),
   visaDetails
 }) => {
-  const { visaStageDetails } = visaDetails;
+  const { visaStageDetails = [] } = visaDetails;
 
   return (
     <View style={[containerStyle]}>

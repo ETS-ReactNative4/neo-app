@@ -30,6 +30,7 @@ import InsuranceSection from "./Components/InsuranceSection";
 
 let sections = [];
 @inject("itineraries")
+@inject("visaStore")
 @observer
 class BookingAccordion extends Component {
   static propTypes = {
@@ -384,6 +385,7 @@ class BookingAccordion extends Component {
       rentals,
       insurance
     } = this.props.itineraries;
+    const { isVisaInitialized } = this.props.visaStore;
 
     if (flights.length) {
       const flightSection = {
@@ -459,14 +461,16 @@ class BookingAccordion extends Component {
 
     if (visa.length) {
       /**
-       * TODO: Need Visa icon
+       * Check if visa is initialized before rendering the visa section
        */
-      const visaSection = {
-        type: "Visa",
-        icon: constants.visaIcon,
-        items: visa
-      };
-      sections.push(visaSection);
+      if (isVisaInitialized) {
+        const visaSection = {
+          type: "Visa",
+          icon: constants.visaIcon,
+          items: visa
+        };
+        sections.push(visaSection);
+      }
     }
 
     if (!_.isEmpty(insurance)) {

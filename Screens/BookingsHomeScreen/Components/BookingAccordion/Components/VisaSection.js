@@ -8,34 +8,78 @@ import BookingSectionComponent from "../../../../../CommonComponents/BookingSect
 import * as VisaMobX from "../../../../../mobx/Visa";
 import { observer, inject } from "mobx-react/custom";
 
-const VisaSection = ({ section, navigation, spinValue }) => {
-  return (
-    <View>
-      {section.items.map((visa, index) => {
-        let isLast = index === section.items.length - 1;
+const VisaSection = inject("visaStore")(
+  observer(({ visaStore, section, navigation, spinValue }) => {
+    const customStyle = {
+      paddingBottom: 16
+    };
 
-        return (
-          <Visa
-            key={index}
-            navigation={navigation}
-            visa={visa}
-            isLast={isLast}
-            spinValue={spinValue}
-          />
-        );
-      })}
-    </View>
-  );
-};
+    const { visaList, isSingleVisa, isVisaInitialized } = visaStore;
 
-VisaSection.propTypes = forbidExtraProps({
+    const openVoucher = () => {
+      recordEvent(constants.Bookings.event, {
+        click: constants.Bookings.click.accordionVoucher,
+        type: constants.Bookings.type.visa
+      });
+      VisaMobX.default.visaOpener({
+        navigation,
+        isVisaInitialized,
+        isSingleVisa,
+        visaList
+      });
+    };
+
+    let content = "",
+      title = "";
+
+    if (visaList.length === 1) {
+      title = visaList[0].visaType;
+      content = visaList[0].title;
+    } else if (visaList.length > 1) {
+      title = "MULTIPLE VISAS";
+      content = `${visaList[0].title} & ${visaList.length - 1} more`;
+    }
+
+    return (
+      <View>
+        <BookingSectionComponent
+          spinValue={spinValue}
+          containerStyle={customStyle}
+          sectionImage={constants.visaThumbnailIllus}
+          isProcessing={false}
+          onClick={openVoucher}
+          content={content}
+          title={title}
+          isImageContain={false}
+        />
+
+        {/* Old Visa Section data */}
+        {/*{section.items.map((visa, index) => {*/}
+        {/*  let isLast = index === section.items.length - 1;*/}
+
+        {/*  return (*/}
+        {/*    <Visa*/}
+        {/*      key={index}*/}
+        {/*      navigation={navigation}*/}
+        {/*      visa={visa}*/}
+        {/*      isLast={isLast}*/}
+        {/*      spinValue={spinValue}*/}
+        {/*    />*/}
+        {/*  );*/}
+        {/*})}*/}
+      </View>
+    );
+  })
+);
+
+VisaSection.propTypes = {
   section: PropTypes.object.isRequired,
   navigation: PropTypes.object.isRequired,
   spinValue: PropTypes.oneOfType([PropTypes.object, PropTypes.number])
     .isRequired
-});
+};
 
-const Visa = inject("visaStore")(
+const VisaComponent = inject("visaStore")(
   observer(({ visaStore, visa, isLast, navigation, spinValue }) => {
     let customStyle = {};
     if (isLast) {
@@ -77,7 +121,7 @@ const Visa = inject("visaStore")(
   })
 );
 
-Visa.propTypes = forbidExtraProps({
+VisaComponent.propTypes = forbidExtraProps({
   visa: PropTypes.object.isRequired,
   isLast: PropTypes.bool.isRequired,
   navigation: PropTypes.object.isRequired,
