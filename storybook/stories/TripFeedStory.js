@@ -16,6 +16,7 @@ import SimpleButton from "../../CommonComponents/SimpleButton/SimpleButton";
 import InfoCardModal from "../../Screens/TripFeedScreen/Components/InfoCardModal/InfoCardModal";
 import { inject, observer } from "mobx-react/custom";
 import DayAheadLite from "../../Screens/TripFeedScreen/Components/DayAheadLite/DayAheadLite";
+import AlertCardV2 from "../../Screens/TripFeedScreen/Components/AlertCardV2/AlertCardV2";
 
 const tripData = [
   {
@@ -157,6 +158,16 @@ const alertData = [
     modalData: {}
   }
 ];
+
+const alertDataV2 = {
+  tag: "Notification",
+  title: "Heads up!",
+  message: "Your pick up is scheduled at 8:30am from your hotel lobby.",
+  link: "",
+  type: "info",
+  cta: "Check now",
+  modalData: {}
+};
 
 const bigImageData = {
   title: "Memories from Samantha’s family vacation in July '18",
@@ -511,6 +522,13 @@ storiesOf("Trip Feed Widgets", module)
     };
     console.log(props);
     return <InfoCard {...props} />;
+  })
+  .add("Alert Card V2", () => {
+    const props = {
+      ...alertDataV2
+    };
+    console.log(props);
+    return <AlertCardV2 {...props} />;
   })
   .add("Alert Card Info default", () => {
     const props = {
