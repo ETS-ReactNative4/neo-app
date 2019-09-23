@@ -10,6 +10,7 @@ import constants from "../../constants/constants";
 import XSensorPlaceholder from "../../CommonComponents/XSensorPlaceholder/XSensorPlaceholder";
 import VisaWindowNotOpen from "./Component/VisaWindowNotOpen";
 import VisaWindowOpen from "./Component/VisaWindowOpen";
+import _ from "lodash";
 
 @ErrorBoundary()
 @inject("itineraries")
@@ -56,13 +57,15 @@ class VisaStatus extends Component {
           )}
         </ScrollView>
         <XSensorPlaceholder containerStyle={constants.sensorAreaContainer} />
-        <VisaCompanionInfo
-          containerStyle={styles.companionWrapper}
-          profilePic={accountOwnerDetails.image}
-          name={accountOwnerDetails.name}
-          tag={accountOwnerDetails.tag}
-          phoneNumber={accountOwnerDetails.mobileNumber}
-        />
+        {!_.isEmpty(accountOwnerDetails) ? (
+          <VisaCompanionInfo
+            containerStyle={styles.companionWrapper}
+            profilePic={accountOwnerDetails.image}
+            name={accountOwnerDetails.name}
+            tag={accountOwnerDetails.tag}
+            phoneNumber={accountOwnerDetails.mobileNumber}
+          />
+        ) : null}
       </Fragment>
     );
   }
