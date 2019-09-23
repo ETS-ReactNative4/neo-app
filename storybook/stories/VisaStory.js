@@ -17,6 +17,7 @@ import VisaInfoSheet from "../../Screens/VisaScreen/Components/VisaInfoSheet";
 import StickyActionBar from "../../Screens/VisaStatusScreen/Component/StickyActionBar";
 import FabButton from "../../CommonComponents/FabButton/FabButton";
 import VisaInfoWidget from "../../Screens/VisaScreen/Components/VisaInfoWidget";
+import HelpDetailsBlock from "../../Screens/VisaHelpScreen/Components/HelpDetailsBlock";
 
 const userDetails = {
   name: "John",
@@ -101,6 +102,12 @@ const fabButtonData = {
   iconSize: 20,
   icon: constants.activityIcon,
   radius: 32
+};
+
+const helpQaData = {
+  question: "<p>What is the visa process for Bali?</p>",
+  answer:
+    "<p>Bali provides Visa on arrival for all Indian citizens.Here are a few pointers to keep in mind for Bali’s visa process</p>"
 };
 
 class ChecklistComponent extends React.Component {
@@ -344,4 +351,11 @@ storiesOf("Visa Story", module)
     };
     console.log(props);
     return <FabButton {...props} />;
+  })
+  .add("Help QA Block", () => {
+    const props = {
+      ...helpQaData
+    };
+    console.log(props);
+    return <HelpDetailsBlock {...props} />;
   });

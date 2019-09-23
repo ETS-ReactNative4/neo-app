@@ -121,6 +121,15 @@ class Visa {
     }
   });
 
+  getHelpSectionsByVisaId = createTransformer(visaId => {
+    try {
+      return toJS((this._visaDetails[visaId] || {}).visaHelpData || []);
+    } catch (e) {
+      logError(e);
+      return [];
+    }
+  });
+
   @action
   initiateVisa = () => {
     return new Promise((resolve, reject) => {
