@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import constants from "../../../constants/constants";
 import { responsiveWidth } from "react-native-responsive-dimensions";
 import { AnimatedCircularProgress } from "react-native-circular-progress";
-import ratioCalculator from "../../../Services/ratioCalculator/ratioCalculator";
+import AlertWavePattern from "../../../CommonComponents/AlertWidgetPatterns/AlertWavePattern";
 
 const VisaWindowStatusWidget = ({
   containerStyle = StyleSheet.create({}),
@@ -16,8 +16,7 @@ const VisaWindowStatusWidget = ({
 }) => {
   return (
     <View style={[styles.visaWindowStatusWidgetContainer, containerStyle]}>
-      <Image source={constants.waveLeftIllus} style={styles.leftWaveImage} />
-      <Image source={constants.waveRightIllus} style={styles.rightWaveImage} />
+      <AlertWavePattern />
       <View style={styles.textSection}>
         <Text style={styles.welcomeText}>{welcomeText}</Text>
         <Text style={styles.dateText}>{dateText}</Text>
@@ -55,7 +54,6 @@ VisaWindowStatusWidget.propTypes = {
   countText: PropTypes.string
 };
 
-const illustrationImageWidth = 72;
 const styles = StyleSheet.create({
   visaWindowStatusWidgetContainer: {
     height: 134,
@@ -63,20 +61,6 @@ const styles = StyleSheet.create({
     backgroundColor: constants.themeDarkBlue,
     borderRadius: 4,
     paddingVertical: 24
-  },
-  leftWaveImage: {
-    height: ratioCalculator(720, 518, illustrationImageWidth),
-    width: illustrationImageWidth,
-    position: "absolute",
-    left: 0,
-    bottom: 0
-  },
-  rightWaveImage: {
-    height: ratioCalculator(720, 458, illustrationImageWidth),
-    width: illustrationImageWidth,
-    position: "absolute",
-    right: 0,
-    top: 0
   },
   textSection: {
     flex: 1,

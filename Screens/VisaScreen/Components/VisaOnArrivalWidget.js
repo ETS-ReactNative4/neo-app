@@ -2,9 +2,9 @@ import React from "react";
 import { View, StyleSheet, ViewPropTypes, Image, Text } from "react-native";
 import PropTypes from "prop-types";
 import constants from "../../../constants/constants";
-import ratioCalculator from "../../../Services/ratioCalculator/ratioCalculator";
 import Icon from "../../../CommonComponents/Icon/Icon";
 import { responsiveWidth } from "react-native-responsive-dimensions";
+import AlertWavePattern from "../../../CommonComponents/AlertWidgetPatterns/AlertWavePattern";
 
 const VisaOnArrivalWidget = ({
   containerStyle = StyleSheet.create({}),
@@ -13,8 +13,7 @@ const VisaOnArrivalWidget = ({
 }) => {
   return (
     <View style={[styles.visaOnArrivalWidget, containerStyle]}>
-      <Image source={constants.waveLeftIllus} style={styles.leftWaveImage} />
-      <Image source={constants.waveRightIllus} style={styles.rightWaveImage} />
+      <AlertWavePattern />
       <View style={styles.iconSection}>
         <Icon name={constants.visaIcon} size={30} color={"white"} />
       </View>
@@ -32,27 +31,12 @@ VisaOnArrivalWidget.propTypes = {
   info: PropTypes.string
 };
 
-const illustrationImageWidth = 72;
 const styles = StyleSheet.create({
   visaOnArrivalWidget: {
     flexDirection: "row",
     backgroundColor: constants.themeDarkBlue,
     borderRadius: 4,
     padding: 24
-  },
-  leftWaveImage: {
-    height: ratioCalculator(720, 518, illustrationImageWidth),
-    width: illustrationImageWidth,
-    position: "absolute",
-    left: 0,
-    bottom: 0
-  },
-  rightWaveImage: {
-    height: ratioCalculator(720, 458, illustrationImageWidth),
-    width: illustrationImageWidth,
-    position: "absolute",
-    right: 0,
-    top: 0
   },
   iconSection: {
     marginRight: 16
