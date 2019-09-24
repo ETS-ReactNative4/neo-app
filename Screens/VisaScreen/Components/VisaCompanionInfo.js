@@ -87,13 +87,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
     paddingVertical: 4,
     borderRadius: 40,
-    backgroundColor: constants.sixthColor,
+    backgroundColor: constants.sixteenthColor,
     alignItems: "center",
     justifyContent: "center"
   },
   tagText: {
     ...constants.fontCustom(constants.primarySemiBold, 9),
-    color: "white"
+    color: "white",
+    marginTop: 2
   },
   ctaSection: {
     alignItems: "center",
