@@ -139,6 +139,7 @@ const imageAssets = {
   currencyCalculatorIcon: require("../assets/images/toolIcons/currency-calculator.png"),
   forexIcon: require("../assets/images/toolIcons/forex.png"),
   documentVisaIcon: require("../assets/images/toolIcons/document-visa.png"),
+  documentIcon: "document",
   downloadIcon: "download",
   openFileIcon: "pdf-view",
   emergencyContactsIcon: require("../assets/images/toolIcons/emergency-contacts.png"),

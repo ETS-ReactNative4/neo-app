@@ -8,18 +8,21 @@ import constants from "../../../constants/constants";
 import VisaStagesCard from "../../VisaScreen/Components/VisaStagesCard";
 import VisaOnArrivalWidget from "../../VisaScreen/Components/VisaOnArrivalWidget";
 import VisaInfoWidget from "../../VisaScreen/Components/VisaInfoWidget";
+import VisaClickableTile from "../../VisaScreen/Components/VisaClickableTile";
 
 const VisaWindowNotOpen = ({
   containerStyle = StyleSheet.create({}),
   visaDetails = {},
-  openHelp = () => null
+  openHelp = () => null,
+  openDocsChecklist = () => null
 }) => {
   const {
     visaWindowDetails = {},
     visaStageDetails = [],
     visaType = "",
     visaStr = "",
-    visaIntroStr = ""
+    visaIntroStr = "",
+    visaDocsMetaDetails = {}
   } = visaDetails;
   const {
     windowOpenTime = 0,
@@ -71,6 +74,16 @@ const VisaWindowNotOpen = ({
             stages={visaStages}
           />
         ) : null}
+        {!_.isEmpty(visaDocsMetaDetails) ? (
+          <VisaClickableTile
+            containerStyle={styles.widgetWrapper}
+            tileIcon={constants.documentIcon}
+            title={visaDocsMetaDetails.title}
+            action={openDocsChecklist}
+            titleColor={constants.fifteenthColor}
+            infoText={visaDocsMetaDetails.body}
+          />
+        ) : null}
         <VisaInfoWidget
           containerStyle={styles.widgetWrapper}
           label={"Visa Type"}
@@ -86,7 +99,8 @@ const VisaWindowNotOpen = ({
 VisaWindowNotOpen.propTypes = {
   containerStyle: ViewPropTypes.style,
   visaDetails: PropTypes.object,
-  openHelp: PropTypes.func.isRequired
+  openHelp: PropTypes.func.isRequired,
+  openDocsChecklist: PropTypes.func
 };
 
 const styles = StyleSheet.create({

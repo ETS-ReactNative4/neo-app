@@ -1,6 +1,5 @@
 import React, { Component, Fragment } from "react";
-import { View, StyleSheet, ViewPropTypes, ScrollView } from "react-native";
-import PropTypes from "prop-types";
+import { StyleSheet, ScrollView } from "react-native";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import { inject, observer } from "mobx-react/custom";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
@@ -65,12 +64,20 @@ class VisaStatus extends Component {
       navigation.navigate("VisaHelp", { visaId: visaDetails.visaId });
     };
 
+    const openDocsChecklist = () => {
+      navigation.navigate("VisaDocsChecklist", { visaId: visaDetails.visaId });
+    };
+
     return (
       <Fragment>
         <ScrollView style={styles.visaStatusContainer}>
           {visaDetails.visaStage === constants.visaWindowNotOpenedStatus ||
           visaDetails.visaType === constants.onArrivalVisaType ? (
-            <VisaWindowNotOpen visaDetails={visaDetails} openHelp={openHelp} />
+            <VisaWindowNotOpen
+              openDocsChecklist={openDocsChecklist}
+              visaDetails={visaDetails}
+              openHelp={openHelp}
+            />
           ) : (
             <VisaWindowOpen visaDetails={visaDetails} />
           )}
