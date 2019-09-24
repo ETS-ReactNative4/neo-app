@@ -173,6 +173,8 @@ const imageAssets = {
   waveLeftIllus: require("../assets/images/illustrations/wave-left.png"),
   waveRightIllus: require("../assets/images/illustrations/wave-right.png"),
   visaWidgetWaveIllus: require("../assets/images/illustrations/visa-widget-wave.png"),
+  thumbsUpIllus: require("../assets/images/illustrations/thumbs-up.png"),
+  thumbsDownIllus: require("../assets/images/illustrations/thumbs-down.png"),
 
   /**
    * FAQ Icons
