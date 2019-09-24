@@ -95,21 +95,26 @@ class Visa {
    */
   @action
   loadVisaDetails = visaId => {
-    const requiredVisa =
-      this.visaList.find(visa => visa.visaId === visaId) || {};
-    apiCall(
-      `${constants.getVisaDetails.replace(":visaId", visaId)}?visaType=${
-        requiredVisa.visaType
-      }`
-    )
-      .then(response => {
-        if (response.status === constants.responseSuccessStatus) {
-          const visaDetails = toJS(this._visaDetails);
-          visaDetails[visaId] = response.data;
-          this._visaDetails = visaDetails;
-        }
-      })
-      .catch(() => {});
+    return new Promise((resolve, reject) => {
+      const requiredVisa =
+        this.visaList.find(visa => visa.visaId === visaId) || {};
+      apiCall(
+        `${constants.getVisaDetails.replace(":visaId", visaId)}?visaType=${
+          requiredVisa.visaType
+        }`
+      )
+        .then(response => {
+          if (response.status === constants.responseSuccessStatus) {
+            const visaDetails = toJS(this._visaDetails);
+            visaDetails[visaId] = response.data;
+            this._visaDetails = visaDetails;
+            resolve(response.data);
+          }
+        })
+        .catch(() => {
+          reject();
+        });
+    });
   };
 
   getVisaDetails = createTransformer(visaId => {

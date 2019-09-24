@@ -13,6 +13,8 @@ import VisaWindowOpen from "./Component/VisaWindowOpen";
 import _ from "lodash";
 import BlankSpacer from "../../CommonComponents/BlankSpacer/BlankSpacer";
 import { responsiveHeight } from "react-native-responsive-dimensions";
+import { toastBottom } from "../../Services/toast/toast";
+import debouncer from "../../Services/debouncer/debouncer";
 
 @ErrorBoundary()
 @inject("itineraries")
@@ -30,11 +32,24 @@ class VisaStatus extends Component {
     const { getVisaDetailsById, loadVisaDetails } = this.props.visaStore;
     const { navigation } = this.props;
     const visaId = navigation.getParam("visaId", "");
-    loadVisaDetails(visaId);
+    loadVisaDetails(visaId)
+      .then(visaDetails => {
+        debouncer(() => {
+          navigation.setParams({
+            screenTitle: `${visaDetails.countryStr ||
+              ""} - ${visaDetails.visaStr || ""}`
+          });
+        });
+      })
+      .catch(() => {
+        toastBottom(constants.visaScreenText.failedToLoadLatestData);
+      });
     const visaDetails = getVisaDetailsById(visaId);
-    navigation.setParams({
-      screenTitle: `${visaDetails.countryStr || ""} - ${visaDetails.visaStr ||
-        ""}`
+    debouncer(() => {
+      navigation.setParams({
+        screenTitle: `${visaDetails.countryStr || ""} - ${visaDetails.visaStr ||
+          ""}`
+      });
     });
   }
 
