@@ -338,6 +338,22 @@ storiesOf("Visa Story", module)
     console.log(props);
     return <VisaInfoSheet {...props} />;
   })
+  .add("Visa Info Sheet with Paragraphs", () => {
+    const props = {
+      title: "Documents must-knows",
+      content: `<p>Supporting documents for all applications should be scanned in high resolution and in color</p><p>No notarization (either self, agent or through a notary) required for any supporting document, including the passport</p><p>Scanned soft copy of documents are only required - Maximum size of each file/ attachment should not exceed 5 MB</p>`
+    };
+    console.log(props);
+    return <VisaInfoSheet {...props} />;
+  })
+  .add("Visa Info Sheet with line breaks", () => {
+    const props = {
+      title: "Documents must-knows",
+      content: `<p>Supporting documents for all applications should be scanned in high resolution and in color<br><br> No notarization (either self, agent or through a notary) is required for any supporting document, including the passport<br><br> Only scanned soft copy of documents are required,<br><br>The maximum size of each file/ attachment should not exceed 5 MB</p>`
+    };
+    console.log(props);
+    return <VisaInfoSheet {...props} />;
+  })
   .add("Sticky Action Bar", () => {
     const props = {
       ...stickyActionBarData

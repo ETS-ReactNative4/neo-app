@@ -4,19 +4,24 @@ import PropTypes from "prop-types";
 import fonts from "../../../constants/fonts";
 import constants from "../../../constants/constants";
 import CustomHtmlView from "../../../CommonComponents/CustomHtmlView/CustomHtmlView";
+import SimpleButton from "../../../CommonComponents/SimpleButton/SimpleButton";
+import { responsiveWidth } from "react-native-responsive-dimensions";
 
 const visaActionSheetText = {
+  ...constants.htmlStyleSheet,
   p: {
     fontFamily: fonts.primaryLight,
-    color: constants.shade1,
-    fontSize: 14,
-    lineHeight: 19
+    color: constants.black1,
+    fontSize: 16,
+    lineHeight: 22,
+    marginBottom: 16
   },
   li: {
     fontFamily: fonts.primaryRegular,
     color: constants.black1,
     fontSize: 16,
-    lineHeight: 22
+    lineHeight: 22,
+    marginBottom: 21
   },
   a: {
     color: constants.firstColor,
@@ -35,25 +40,36 @@ const VisaInfoSheet = ({
 }) => {
   return (
     <View style={[styles.visaInfoSheetContainer, containerStyle]}>
-      <View style={styles.contentContainer}>
-        <Text>{title}</Text>
-        <CustomHtmlView styleSheet={visaActionSheetText} html={content} />
-      </View>
+      <Text style={styles.titleText}>{title}</Text>
+      <CustomHtmlView styleSheet={visaActionSheetText} html={content} />
+      <SimpleButton
+        text={"Close"}
+        textColor={"white"}
+        containerStyle={{ marginTop: 8, width: responsiveWidth(100) - 48 }}
+      />
     </View>
   );
 };
 
 VisaInfoSheet.propTypes = {
-  containerStyle: ViewPropTypes.style
+  containerStyle: ViewPropTypes.style,
+  content: PropTypes.string,
+  title: PropTypes.string
 };
 
 const styles = StyleSheet.create({
   visaInfoSheetContainer: {
-    flex: 1,
-    backgroundColor: "transparent",
-    justifyContent: "flex-end"
+    backgroundColor: "white",
+    justifyContent: "flex-end",
+    padding: 24,
+    borderTopLeftRadius: 4,
+    borderTopRightRadius: 4
   },
-  contentContainer: {}
+  titleText: {
+    ...constants.fontCustom(constants.primarySemiBold, 18),
+    color: constants.black1,
+    marginBottom: 16
+  }
 });
 
 export default VisaInfoSheet;
