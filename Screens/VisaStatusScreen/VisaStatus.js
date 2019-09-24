@@ -11,6 +11,8 @@ import XSensorPlaceholder from "../../CommonComponents/XSensorPlaceholder/XSenso
 import VisaWindowNotOpen from "./Component/VisaWindowNotOpen";
 import VisaWindowOpen from "./Component/VisaWindowOpen";
 import _ from "lodash";
+import BlankSpacer from "../../CommonComponents/BlankSpacer/BlankSpacer";
+import { responsiveHeight } from "react-native-responsive-dimensions";
 
 @ErrorBoundary()
 @inject("itineraries")
@@ -57,6 +59,7 @@ class VisaStatus extends Component {
           ) : (
             <VisaWindowOpen visaDetails={visaDetails} />
           )}
+          <BlankSpacer height={responsiveHeight(30)} />
         </ScrollView>
         <XSensorPlaceholder containerStyle={constants.sensorAreaContainer} />
         {!_.isEmpty(accountOwnerDetails) ? (
