@@ -160,13 +160,13 @@ const alertData = [
 ];
 
 const alertDataV2 = {
-  tag: "Notification",
-  title: "Heads up!",
-  message: "Your pick up is scheduled at 8:30am from your hotel lobby.",
+  tag: "TURKEY VISA",
+  title: "Your visa is taking time",
+  message: "Go through the list of required docs.",
+  modalData: {},
   link: "",
-  type: "info",
-  cta: "Check now",
-  modalData: {}
+  cta: "SEE UPDATES",
+  icon: constants.visaIcon
 };
 
 const bigImageData = {

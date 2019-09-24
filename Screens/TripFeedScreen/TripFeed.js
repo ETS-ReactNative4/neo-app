@@ -21,6 +21,7 @@ import FeedbackPanelOverlay from "./Components/FeedbackPanelOverlay";
 import pullToRefresh from "../../Services/refresh/pullToRefresh";
 import debouncer from "../../Services/debouncer/debouncer";
 import constants from "../../constants/constants";
+import AlertCardV2 from "./Components/AlertCardV2/AlertCardV2";
 
 @ErrorBoundary({ isRoot: true })
 @inject("tripFeedStore")
@@ -207,6 +208,14 @@ class TripFeed extends Component {
                       key={widgetIndex}
                       {...widget.data}
                       toggleScrollLock={this.toggleScrollLock}
+                      widgetName={widget.widgetName}
+                    />
+                  );
+                case "ALERT_CARD_2":
+                  return (
+                    <AlertCardV2
+                      key={widgetIndex}
+                      {...widget.data}
                       widgetName={widget.widgetName}
                     />
                   );
