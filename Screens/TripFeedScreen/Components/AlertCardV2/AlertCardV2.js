@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import {
   View,
   StyleSheet,
@@ -13,6 +13,7 @@ import SimpleButton from "../../../../CommonComponents/SimpleButton/SimpleButton
 import { responsiveWidth } from "react-native-responsive-dimensions";
 import { recordEvent } from "../../../../Services/analytics/analyticsService";
 import resolveLinks from "../../../../Services/resolveLinks/resolveLinks";
+import VisaWidgetWavePattern from "../../../../CommonComponents/AlertWidgetPatterns/VisaWidgetWavePattern";
 
 /**
  * Will be used to show alerts in the tripfeed
@@ -47,9 +48,11 @@ const AlertCardV2 = ({
   let PatternComponent = null;
   switch (pattern) {
     case "VISA_ALERT":
+      PatternComponent = VisaWidgetWavePattern;
+      break;
 
     default:
-      PatternComponent = null;
+      PatternComponent = Fragment;
       break;
   }
   return (
@@ -58,6 +61,7 @@ const AlertCardV2 = ({
       activeOpacity={0.8}
       style={[styles.alertCardV2Container, { backgroundColor }, containerStyle]}
     >
+      <PatternComponent />
       {icon ? (
         <View
           style={[

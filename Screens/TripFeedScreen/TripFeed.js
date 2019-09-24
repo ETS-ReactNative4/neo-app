@@ -214,6 +214,7 @@ class TripFeed extends Component {
                 case "ALERT_CARD_2":
                   return (
                     <AlertCardV2
+                      containerStyle={styles.tripFeedWidgetWrapper}
                       key={widgetIndex}
                       {...widget.data}
                       widgetName={widget.widgetName}
@@ -279,6 +280,10 @@ const styles = StyleSheet.create({
     backgroundColor: constants.white1
   },
   wrapper: {
+    marginHorizontal: 24
+  },
+  tripFeedWidgetWrapper: {
+    marginTop: 8,
     marginHorizontal: 24
   }
 });

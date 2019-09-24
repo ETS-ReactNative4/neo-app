@@ -172,6 +172,7 @@ const imageAssets = {
   customTripIllus: require("../assets/images/illustrations/logo-custom-trip-illus.png"),
   waveLeftIllus: require("../assets/images/illustrations/wave-left.png"),
   waveRightIllus: require("../assets/images/illustrations/wave-right.png"),
+  visaWidgetWaveIllus: require("../assets/images/illustrations/visa-widget-wave.png"),
 
   /**
    * FAQ Icons
