@@ -12,6 +12,7 @@ import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import NoInternetIndicator from "../../CommonComponents/NoInternetIndicator/NoInternetIndicator";
 import VisaSelector from "../VisaSelectorScreen/VisaSelector";
 import Visa from "../../mobx/Visa";
+import debouncer from "../../Services/debouncer/debouncer";
 
 @ErrorBoundary({ isRoot: true })
 @inject("itineraries")
@@ -20,9 +21,33 @@ import Visa from "../../mobx/Visa";
 class Tools extends Component {
   static navigationOptions = HomeHeader;
 
+  constructor(props) {
+    super(props);
+
+    this._didFocusSubscription = props.navigation.addListener(
+      "didFocus",
+      () => {
+        debouncer(() => {
+          this.loadVisaDetails();
+        });
+      }
+    );
+  }
+
+  loadVisaDetails = () => {
+    const { selectedItineraryId } = this.props.itineraries;
+    if (selectedItineraryId) {
+      const { getVisaHomeScreenDetails } = this.props.visaStore;
+      getVisaHomeScreenDetails();
+    }
+  };
+
   componentDidMount() {
-    const { getVisaHomeScreenDetails } = this.props.visaStore;
-    getVisaHomeScreenDetails();
+    this.loadVisaDetails();
+  }
+
+  componentWillUnmount() {
+    this._didFocusSubscription && this._didFocusSubscription.remove();
   }
 
   render() {
