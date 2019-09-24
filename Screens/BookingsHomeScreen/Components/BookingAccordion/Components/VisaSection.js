@@ -33,7 +33,7 @@ const VisaSection = inject("visaStore")(
       title = "";
 
     if (visaList.length === 1) {
-      title = visaList[0].visaType;
+      title = visaList[0].visaStr;
       content = visaList[0].title;
     } else if (visaList.length > 1) {
       title = "MULTIPLE VISAS";

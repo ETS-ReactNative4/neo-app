@@ -135,6 +135,10 @@ class Visa {
     }
   });
 
+  /**
+   * Used to initiate a visa process
+   * Visa details will not be available unless this method is called
+   */
   @action
   initiateVisa = () => {
     return new Promise((resolve, reject) => {
@@ -182,6 +186,13 @@ class Visa {
   //     });
   // };
 
+  /**
+   * Fetch the home screen details of the visa
+   * The home screen details are shown only until the visa is initiated.
+   *
+   * The `_visaList` must be resetted to empty array if visa is not initiated.
+   * Otherwise, it will cause problems with visa opener
+   */
   @action
   getVisaHomeScreenDetails = () => {
     const itineraryId = storeService.itineraries.selectedItineraryId;
@@ -197,6 +208,7 @@ class Visa {
             this._visaList = _.get(response, "data.visaList") || [];
           } else {
             this._homeScreenDetails = response.data;
+            this._visaList = [];
           }
         } else {
           toastBottom(constants.visaScreenText.failedToLoadVisaData);
