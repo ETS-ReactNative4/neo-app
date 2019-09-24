@@ -48,6 +48,7 @@ const apiUrls = {
   journalDeleteStory: "mobile/journal/story/:storyId",
   getVisaHomeInfo: "mobile/visa/screen/info/home",
   initiateVisaProcess: "mobile/visa/initialize",
+  visaChecklistDetails: "mobile/visa/checklist",
 
   getJournalScreenDetails: "mobile/journal/screen/info/home",
   getJournalStartScreenDetails: "mobile/journal/screen/info/setup",

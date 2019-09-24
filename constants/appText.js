@@ -219,7 +219,8 @@ const appText = {
   visaScreenText: {
     visaDetailsUnavilable: "Visa details are unavailable for this country",
     failedToLoadVisaData: "Unable to fetch visa details",
-    failedToLoadLatestData: "Unable to fetch latest visa details"
+    failedToLoadLatestData: "Unable to fetch latest visa details",
+    failedToLoadChecklistData: "Unable to fetch latest checklist data"
   },
   leisureText: "Got more time?",
   explorePlacesText: "Explore Places",

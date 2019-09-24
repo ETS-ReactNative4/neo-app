@@ -25,6 +25,7 @@ import Forex from "../Screens/ForexScreen/Forex";
 import VisaSelector from "../Screens/VisaSelectorScreen/VisaSelector";
 import VisaStatus from "../Screens/VisaStatusScreen/VisaStatus";
 import VisaHelp from "../Screens/VisaHelpScreen/VisaHelp";
+import VisaDocsChecklist from "../Screens/VisaDocsChecklistScreen/VisaDocsChecklist";
 
 const MainStack = createStackNavigator(
   {
@@ -79,6 +80,9 @@ const MainStack = createStackNavigator(
     },
     VisaChecklist: {
       screen: VisaChecklist
+    },
+    VisaDocsChecklist: {
+      screen: VisaDocsChecklist
     },
     VisaStatus: {
       screen: VisaStatus

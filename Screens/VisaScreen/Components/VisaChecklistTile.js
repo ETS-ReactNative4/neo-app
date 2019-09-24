@@ -15,6 +15,7 @@ import constants from "../../../constants/constants";
 import SimpleButton from "../../../CommonComponents/SimpleButton/SimpleButton";
 import CheckBox from "../../../CommonComponents/CheckBox/CheckBox";
 import openCustomTab from "../../../Services/openCustomTab/openCustomTab";
+import CustomHtmlView from "../../../CommonComponents/CustomHtmlView/CustomHtmlView";
 
 const VisaChecklistTile = ({
   containerStyle = StyleSheet.create({}),
@@ -90,7 +91,8 @@ const VisaChecklistTile = ({
       >
         {desc ? (
           <View>
-            <Text style={styles.descText}>{desc}</Text>
+            <CustomHtmlView html={desc} />
+            {/*<Text style={styles.descText}>{desc}</Text>*/}
           </View>
         ) : null}
         <View style={styles.buttonWrapper}>

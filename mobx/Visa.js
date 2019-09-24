@@ -31,10 +31,16 @@ class Visa {
       .catch(err => {
         logError(err);
       });
+    hydrate("_selectedVisaChecklistItems", storeInstance)
+      .then(() => {})
+      .catch(err => {
+        logError(err);
+      });
   };
 
   @observable _isLoading = false;
   @observable _hasError = false;
+
   @persist("object")
   @observable
   _visaDetails = {};
@@ -46,6 +52,10 @@ class Visa {
   @persist("list")
   @observable
   _visaList = [];
+
+  @persist("list")
+  @observable
+  _selectedVisaChecklistItems = [];
 
   @persist
   @observable
@@ -59,6 +69,7 @@ class Visa {
     this._homeScreenDetails = {};
     this._visaList = [];
     this._isVisaInitialized = false;
+    this._selectedVisaChecklistItems = [];
   };
 
   @computed
@@ -79,6 +90,11 @@ class Visa {
   @computed
   get isVisaInitialized() {
     return this._isVisaInitialized;
+  }
+
+  @computed
+  get selectedVisaChecklistItems() {
+    return toJS(this._selectedVisaChecklistItems);
   }
 
   /**
@@ -135,6 +151,46 @@ class Visa {
     }
   });
 
+  getMaritalStatusesByVisaId = createTransformer(visaId => {
+    try {
+      const visaDetails = this._visaDetails[visaId];
+      const { visaDocsMetaDetails = {} } = visaDetails;
+      const { maritialStatusMap = [] } = visaDocsMetaDetails;
+      return toJS(maritialStatusMap);
+    } catch (e) {
+      logError(e);
+      return [];
+    }
+  });
+
+  getEmploymentTypesByVisaId = createTransformer(visaId => {
+    try {
+      const visaDetails = this._visaDetails[visaId];
+      const { visaDocsMetaDetails = {} } = visaDetails;
+      const { employmentTypeMap = [] } = visaDocsMetaDetails;
+      return toJS(employmentTypeMap);
+    } catch (e) {
+      logError(e);
+      return [];
+    }
+  });
+
+  getChecklistItemsBySelectedOptions = createTransformer(
+    ({ visaId, maritalStatus, employmentType }) => {
+      try {
+        const visaDetails = this._visaDetails[visaId];
+        const { visaDocsMetaDetails = {} } = visaDetails;
+        const { docsCheckList = {} } = visaDocsMetaDetails;
+        return toJS(
+          docsCheckList[`${employmentType}###${maritalStatus}`] || {}
+        );
+      } catch (e) {
+        logError(e);
+        return {};
+      }
+    }
+  );
+
   /**
    * Used to initiate a visa process
    * Visa details will not be available unless this method is called
@@ -156,6 +212,41 @@ class Visa {
           }
         })
         .catch(() => reject());
+    });
+  };
+
+  @action
+  loadVisaChecklistStatus = visaId => {
+    return new Promise((resolve, reject) => {
+      apiCall(`${constants.visaChecklistDetails}?visaId=${visaId}`, {}, "GET")
+        .then(response => {
+          if ((response.status = constants.responseSuccessStatus)) {
+            const selectedItems = _.get(response, "response.data.selected");
+            if (selectedItems) {
+              this._selectedVisaChecklistItems = selectedItems;
+            }
+            resolve();
+          } else {
+            // toastBottom(constants.visaScreenText.failedToLoadChecklistData);
+            reject();
+          }
+        })
+        .catch(error => {
+          reject();
+          // toastBottom(constants.visaScreenText.failedToLoadChecklistData)
+        });
+    });
+  };
+
+  @action
+  toggleVisaChecklistItem = (visaId, mstatus, empType, selected) => {
+    return new Promise((resolve, reject) => {
+      const requestBody = {
+        visaId,
+        mstatus,
+        empType,
+        selected
+      };
     });
   };
 

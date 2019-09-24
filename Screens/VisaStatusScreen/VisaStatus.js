@@ -28,9 +28,14 @@ class VisaStatus extends Component {
   };
 
   componentDidMount() {
-    const { getVisaDetailsById, loadVisaDetails } = this.props.visaStore;
+    const {
+      getVisaDetailsById,
+      loadVisaDetails,
+      loadVisaChecklistStatus
+    } = this.props.visaStore;
     const { navigation } = this.props;
     const visaId = navigation.getParam("visaId", "");
+    loadVisaChecklistStatus(visaId);
     loadVisaDetails(visaId)
       .then(visaDetails => {
         debouncer(() => {
