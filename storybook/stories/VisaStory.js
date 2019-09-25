@@ -18,6 +18,7 @@ import StickyActionBar from "../../Screens/VisaStatusScreen/Component/StickyActi
 import FabButton from "../../CommonComponents/FabButton/FabButton";
 import VisaInfoWidget from "../../Screens/VisaScreen/Components/VisaInfoWidget";
 import HelpDetailsBlock from "../../Screens/VisaHelpScreen/Components/HelpDetailsBlock";
+import VisaRejectedActionBar from "../../Screens/VisaStatusScreen/Component/VisaRejectedActionBar";
 
 const userDetails = {
   name: "John",
@@ -374,4 +375,11 @@ storiesOf("Visa Story", module)
     };
     console.log(props);
     return <HelpDetailsBlock {...props} />;
+  })
+  .add("Visa Rejected Action Bar", () => {
+    const props = {
+      action: () => null
+    };
+    console.log(props);
+    return <VisaRejectedActionBar {...props} />;
   });
