@@ -39,8 +39,8 @@ const VisaSection = inject("visaStore")(
       title = "MULTIPLE VISAS";
       content = `${visaList[0].title} & ${visaList.length - 1} more`;
     } else {
-      title = "";
-      content = "";
+      title = "Visa Processing";
+      content = "Let’s initiate your visa!";
     }
 
     return (
