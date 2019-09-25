@@ -4,26 +4,49 @@ import constants from "../../constants/constants";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import { inject, observer } from "mobx-react/custom";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
-import CheckBox from "../../CommonComponents/CheckBox/CheckBox";
 import DropDown from "../../CommonComponents/DropDown/DropDown";
 import debouncer from "../../Services/debouncer/debouncer";
 import VisaChecklistTile from "../VisaScreen/Components/VisaChecklistTile";
+import PropTypes from "prop-types";
+import _ from "lodash";
+import { toastBottom } from "../../Services/toast/toast";
 
-const CheckListItem = ({ item }) => {
+const CheckListItem = ({
+  item,
+  visaId,
+  maritalStatus,
+  employmentType,
+  toggleChecklist,
+  selectedVisaChecklistItems
+}) => {
   const [isExpanded, toggleExpansion] = useState(false);
 
   const onToggleExpand = () => toggleExpansion(!isExpanded);
 
+  const isChecked = !!selectedVisaChecklistItems.find(id => id === item.id);
+
+  const onToggleSelection = () =>
+    toggleChecklist(visaId, maritalStatus, employmentType, item.id, isChecked);
+
   return (
     <VisaChecklistTile
-      isChecked={false}
+      isChecked={isChecked}
       onToggleExpand={onToggleExpand}
       isExpanded={isExpanded}
       title={item.name}
       desc={item.details}
-      onToggleSelection={() => null}
+      onToggleSelection={onToggleSelection}
     />
   );
+};
+
+CheckListItem.propTypes = {
+  item: PropTypes.object,
+  visaId: PropTypes.string.isRequired,
+  maritalStatus: PropTypes.string.isRequired,
+  employmentType: PropTypes.string.isRequired,
+  toggleChecklist: PropTypes.func.isRequired,
+  selectedVisaChecklistItems: PropTypes.array.isRequired
 };
 
 @ErrorBoundary()
@@ -76,16 +99,24 @@ class VisaDocsChecklist extends Component {
 
   changeEmploymentType = employmentType => this.setState({ employmentType });
 
+  toggleChecklist = (visaId, mstatus, empType, selected, isDeleteMode) => {
+    const { toggleVisaChecklistItem } = this.props.visaStore;
+    toggleVisaChecklistItem(visaId, mstatus, empType, selected, isDeleteMode)
+      .then(() => null)
+      .catch(() => toastBottom(constants.visaScreenText));
+  };
+
   render() {
-    const { navigation, visaStore } = this.props;
+    const { navigation } = this.props;
     const { maritalStatus, employmentType } = this.state;
 
     const visaId = navigation.getParam("visaId", "");
     const {
       getMaritalStatusesByVisaId,
       getEmploymentTypesByVisaId,
-      getChecklistItemsBySelectedOptions
-    } = visaStore;
+      getChecklistItemsBySelectedOptions,
+      selectedVisaChecklistItems
+    } = this.props.visaStore;
     const maritalStatuses = getMaritalStatusesByVisaId(visaId);
     const employmentTypes = getEmploymentTypesByVisaId(visaId);
 
@@ -135,7 +166,17 @@ class VisaDocsChecklist extends Component {
                 </View>
                 <View>
                   {checklistData.items.map((item, itemIndex) => {
-                    return <CheckListItem item={item} key={itemIndex} />;
+                    return (
+                      <CheckListItem
+                        item={item}
+                        key={itemIndex}
+                        visaId={visaId}
+                        maritalStatus={maritalStatus}
+                        employmentType={employmentType}
+                        toggleChecklist={this.toggleChecklist}
+                        selectedVisaChecklistItems={selectedVisaChecklistItems}
+                      />
+                    );
                   })}
                 </View>
               </View>

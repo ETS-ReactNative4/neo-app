@@ -94,7 +94,7 @@ class Visa {
 
   @computed
   get selectedVisaChecklistItems() {
-    return toJS(this._selectedVisaChecklistItems);
+    return toJS(this._selectedVisaChecklistItems) || [];
   }
 
   /**
@@ -221,7 +221,7 @@ class Visa {
       apiCall(`${constants.visaChecklistDetails}?visaId=${visaId}`, {}, "GET")
         .then(response => {
           if ((response.status = constants.responseSuccessStatus)) {
-            const selectedItems = _.get(response, "response.data.selected");
+            const selectedItems = _.get(response, "data.selected");
             if (selectedItems) {
               this._selectedVisaChecklistItems = selectedItems;
             }
@@ -239,14 +239,36 @@ class Visa {
   };
 
   @action
-  toggleVisaChecklistItem = (visaId, mstatus, empType, selected) => {
+  toggleVisaChecklistItem = (
+    visaId,
+    mstatus,
+    empType,
+    selected,
+    isDeleteMode
+  ) => {
     return new Promise((resolve, reject) => {
       const requestBody = {
         visaId,
         mstatus,
         empType,
-        selected
+        selected: [selected]
       };
+      const requestMethod = isDeleteMode ? "DELETE" : "POST";
+      apiCall(constants.visaChecklistDetails, requestBody, requestMethod)
+        .then(response => {
+          if (response.status === constants.responseSuccessStatus) {
+            this.loadVisaChecklistStatus(visaId)
+              .then(() => {
+                resolve();
+              })
+              .catch(() => reject());
+          } else {
+            reject();
+          }
+        })
+        .catch(error => {
+          reject();
+        });
     });
   };
 
