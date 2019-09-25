@@ -1,5 +1,6 @@
 import React, { Component, useState, Fragment } from "react";
 import { ScrollView, View, StyleSheet, Text } from "react-native";
+import { withNavigationFocus } from "react-navigation";
 import constants from "../../constants/constants";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import { inject, observer } from "mobx-react/custom";
@@ -9,7 +10,10 @@ import debouncer from "../../Services/debouncer/debouncer";
 import VisaChecklistTile from "../VisaScreen/Components/VisaChecklistTile";
 import PropTypes from "prop-types";
 import { toastBottom } from "../../Services/toast/toast";
-import { responsiveWidth } from "react-native-responsive-dimensions";
+import {
+  responsiveHeight,
+  responsiveWidth
+} from "react-native-responsive-dimensions";
 import StickyActionBar from "../VisaStatusScreen/Component/StickyActionBar";
 import XSensorPlaceholder from "../../CommonComponents/XSensorPlaceholder/XSensorPlaceholder";
 import BlankSpacer from "../../CommonComponents/BlankSpacer/BlankSpacer";
@@ -53,24 +57,18 @@ CheckListItem.propTypes = {
 };
 
 @ErrorBoundary()
+@withNavigationFocus
 @inject("visaStore")
 @observer
 class VisaDocsChecklist extends Component {
-  static navigationOptions = ({ navigation }) => {
-    const title = navigation.getParam("screenTitle");
-    return {
-      header: (
-        <CommonHeader
-          title={`Document Checklist${title ? ` - ${title}` : ""}`}
-          navigation={navigation}
-        />
-      )
-    };
+  static navigationOptions = {
+    header: null
   };
 
   state = {
     maritalStatus: "",
-    employmentType: ""
+    employmentType: "",
+    isBackPressed: false
   };
 
   componentDidMount() {
@@ -109,11 +107,23 @@ class VisaDocsChecklist extends Component {
       .catch(() => toastBottom(constants.visaScreenText));
   };
 
+  pressBackButton = () => {
+    this.setState(
+      {
+        isBackPressed: true
+      },
+      () => {
+        this.props.navigation.goBack();
+      }
+    );
+  };
+
   render() {
-    const { navigation } = this.props;
-    const { maritalStatus, employmentType } = this.state;
+    const { navigation, isFocused } = this.props;
+    const { maritalStatus, employmentType, isBackPressed } = this.state;
 
     const visaId = navigation.getParam("visaId", "");
+    const title = navigation.getParam("screenTitle");
     const {
       getMaritalStatusesByVisaId,
       getEmploymentTypesByVisaId,
@@ -131,8 +141,17 @@ class VisaDocsChecklist extends Component {
 
     const checklistSections = Object.keys(checklistToDisplay);
 
+    const openDocumentMustKnows = () => {
+      navigation.navigate("VisaDocumentActionSheet", { visaId });
+    };
+
     return (
       <Fragment>
+        <CommonHeader
+          title={`Document Checklist${title ? ` - ${title}` : ""}`}
+          navigation={navigation}
+          leftAction={this.pressBackButton}
+        />
         <ScrollView style={styles.visaDocsChecklistContainer}>
           <View style={styles.dropDownOptionsContainer}>
             <View style={styles.leftOptionsWrapper}>
@@ -202,16 +221,27 @@ class VisaDocsChecklist extends Component {
         </ScrollView>
         <StickyActionBar
           containerStyle={styles.stickyActionBar}
-          action={() => null}
+          action={openDocumentMustKnows}
           title={"Document Must Knows"}
         />
         <XSensorPlaceholder containerStyle={styles.sensorPlaceHolder} />
+        {!isBackPressed && !isFocused ? (
+          <View style={styles.screenOverlay} />
+        ) : null}
       </Fragment>
     );
   }
 }
 
 const styles = StyleSheet.create({
+  screenOverlay: {
+    backgroundColor: "rgba(0,0,0,0.5)",
+    height: responsiveHeight(100),
+    width: responsiveWidth(100),
+    position: "absolute",
+    top: 0,
+    left: 0
+  },
   visaDocsChecklistContainer: {
     backgroundColor: constants.white1
   },

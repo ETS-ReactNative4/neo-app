@@ -36,7 +36,8 @@ const visaActionSheetText = {
 const VisaInfoSheet = ({
   containerStyle = StyleSheet.create({}),
   content,
-  title
+  title,
+  action = () => null
 }) => {
   return (
     <View style={[styles.visaInfoSheetContainer, containerStyle]}>
@@ -44,6 +45,7 @@ const VisaInfoSheet = ({
       <CustomHtmlView styleSheet={visaActionSheetText} html={content} />
       <SimpleButton
         text={"Close"}
+        action={action}
         textColor={"white"}
         containerStyle={{ marginTop: 8, width: responsiveWidth(100) - 48 }}
       />
@@ -54,7 +56,8 @@ const VisaInfoSheet = ({
 VisaInfoSheet.propTypes = {
   containerStyle: ViewPropTypes.style,
   content: PropTypes.string,
-  title: PropTypes.string
+  title: PropTypes.string,
+  action: PropTypes.func.isRequired
 };
 
 const styles = StyleSheet.create({
