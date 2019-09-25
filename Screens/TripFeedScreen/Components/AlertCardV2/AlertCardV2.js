@@ -169,12 +169,11 @@ const styles = StyleSheet.create({
   titleText: {
     ...constants.fontCustom(constants.primarySemiBold, 15),
     color: "white",
-    width: responsiveWidth(70),
-    marginBottom: 4
+    width: responsiveWidth(70)
   },
   messageWrapper: {},
   messageText: {
-    ...constants.fontCustom(constants.primaryRegular, 14),
+    ...constants.fontCustom(constants.primaryRegular, 14, 18),
     color: "white",
     width: responsiveWidth(70),
     marginBottom: 4
