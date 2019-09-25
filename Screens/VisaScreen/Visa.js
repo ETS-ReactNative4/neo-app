@@ -30,32 +30,37 @@ class Visa extends Component {
   }
 
   startVisa = () => {
-    const { initiateVisa } = this.props.visaStore;
-    initiateVisa()
-      .then(visaList => {
-        if (visaList && visaList.length) {
-          if (visaList.length === 1) {
-            const firstVisa = visaList[0];
-            this.props.navigation.replace("VisaStatus", {
-              visaId: firstVisa.visaId
-            });
+    const { initiateVisa, isVisaAvailable } = this.props.visaStore;
+    if (!isVisaAvailable) {
+      this.props.navigation.navigate("SupportCenter");
+    } else {
+      initiateVisa()
+        .then(visaList => {
+          if (visaList && visaList.length) {
+            if (visaList.length === 1) {
+              const firstVisa = visaList[0];
+              this.props.navigation.replace("VisaStatus", {
+                visaId: firstVisa.visaId
+              });
+            } else {
+              this.props.navigation.replace("VisaSelector");
+            }
           } else {
-            this.props.navigation.replace("VisaSelector");
+            toastBottom(constants.visaScreenText.failedToLoadVisaData);
           }
-        } else {
+        })
+        .catch(() => {
           toastBottom(constants.visaScreenText.failedToLoadVisaData);
-        }
-      })
-      .catch(() => {
-        toastBottom(constants.visaScreenText.failedToLoadVisaData);
-      });
+        });
+    }
   };
 
   render() {
     const { selectedItineraryId } = this.props.itineraries;
     const {
       getVisaDetailsByItineraryId,
-      homeScreenDetails
+      homeScreenDetails,
+      isVisaAvailable
     } = this.props.visaStore;
 
     const visaDetails = getVisaDetailsByItineraryId(selectedItineraryId);
@@ -88,7 +93,7 @@ class Visa extends Component {
           numOfPax={homeScreenDetails.totalPax}
         />
         <SimpleButton
-          text={"Let's get started"}
+          text={isVisaAvailable ? "Let's get started" : "Visit Help Desk"}
           textColor={"white"}
           underlayColor={constants.firstColorAlpha(0.8)}
           containerStyle={{

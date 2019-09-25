@@ -36,6 +36,11 @@ class Visa {
       .catch(err => {
         logError(err);
       });
+    hydrate("_isVisaAvailable", storeInstance)
+      .then(() => {})
+      .catch(err => {
+        logError(err);
+      });
   };
 
   @observable _isLoading = false;
@@ -61,6 +66,10 @@ class Visa {
   @observable
   _isVisaInitialized = false;
 
+  @persist
+  @observable
+  _isVisaAvailable = false;
+
   @action
   reset = () => {
     this._isLoading = false;
@@ -69,6 +78,7 @@ class Visa {
     this._homeScreenDetails = {};
     this._visaList = [];
     this._isVisaInitialized = false;
+    this._isVisaAvailable = false;
     this._selectedVisaChecklistItems = [];
   };
 
@@ -95,6 +105,11 @@ class Visa {
   @computed
   get selectedVisaChecklistItems() {
     return toJS(this._selectedVisaChecklistItems) || [];
+  }
+
+  @computed
+  get isVisaAvailable() {
+    return this._isVisaAvailable;
   }
 
   /**
@@ -329,6 +344,7 @@ class Visa {
       .then(response => {
         if (response.status === constants.responseSuccessStatus) {
           this._isVisaInitialized = _.get(response, "data.initialized");
+          this._isVisaAvailable = _.get(response, "data.visaAvailable");
           if (this._isVisaInitialized) {
             this._visaList = _.get(response, "data.visaList") || [];
           } else {
