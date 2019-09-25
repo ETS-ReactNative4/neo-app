@@ -9,7 +9,9 @@ const DropDown = ({
   containerStyle = StyleSheet.create({}),
   dropDownOptions = [],
   selectedValue = "",
-  onChange = () => null
+  onChange = () => null,
+  color = constants.black1,
+  textStyle = StyleSheet.create({})
 }) => {
   return (
     <RNDropDown
@@ -24,13 +26,11 @@ const DropDown = ({
       renderBase={({ title }) => {
         return (
           <View style={styles.dropDownTextWrapper}>
-            <Text style={styles.dropDownText}>{title}</Text>
+            <Text style={[styles.dropDownText, { color }, { textStyle }]}>
+              {title}
+            </Text>
             <View style={styles.iconWrapper}>
-              <Icon
-                name={constants.dropDownArrowIcon}
-                color={constants.black1}
-                size={8}
-              />
+              <Icon name={constants.dropDownArrowIcon} color={color} size={8} />
             </View>
           </View>
         );
@@ -48,7 +48,9 @@ DropDown.propTypes = {
     })
   ).isRequired,
   selectedValue: PropTypes.string.isRequired,
-  onChange: PropTypes.func
+  onChange: PropTypes.func,
+  color: PropTypes.string,
+  textStyle: ViewPropTypes.style
 };
 
 const styles = StyleSheet.create({
@@ -57,8 +59,7 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   dropDownText: {
-    ...constants.fontCustom(constants.primarySemiBold, 15),
-    color: constants.black1
+    ...constants.fontCustom(constants.primarySemiBold, 15)
   },
   iconWrapper: {
     marginLeft: 8

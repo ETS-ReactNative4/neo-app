@@ -1,4 +1,4 @@
-import React, { Component, useState } from "react";
+import React, { Component, useState, Fragment } from "react";
 import { ScrollView, View, StyleSheet, Text } from "react-native";
 import constants from "../../constants/constants";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
@@ -8,8 +8,11 @@ import DropDown from "../../CommonComponents/DropDown/DropDown";
 import debouncer from "../../Services/debouncer/debouncer";
 import VisaChecklistTile from "../VisaScreen/Components/VisaChecklistTile";
 import PropTypes from "prop-types";
-import _ from "lodash";
 import { toastBottom } from "../../Services/toast/toast";
+import { responsiveWidth } from "react-native-responsive-dimensions";
+import StickyActionBar from "../VisaStatusScreen/Component/StickyActionBar";
+import XSensorPlaceholder from "../../CommonComponents/XSensorPlaceholder/XSensorPlaceholder";
+import BlankSpacer from "../../CommonComponents/BlankSpacer/BlankSpacer";
 
 const CheckListItem = ({
   item,
@@ -129,61 +132,81 @@ class VisaDocsChecklist extends Component {
     const checklistSections = Object.keys(checklistToDisplay);
 
     return (
-      <ScrollView style={styles.visaDocsChecklistContainer}>
-        <View>
-          <View>
-            <View>
-              <Text>Marital Status</Text>
-            </View>
-            <View>
-              <DropDown
-                selectedValue={maritalStatus}
-                dropDownOptions={maritalStatuses}
-                onChange={this.changeMaritalStatus}
-              />
-            </View>
-          </View>
-          <View>
-            <View>
-              <Text>Employment</Text>
-            </View>
-            <View>
-              <DropDown
-                selectedValue={employmentType}
-                dropDownOptions={employmentTypes}
-                onChange={this.changeEmploymentType}
-              />
-            </View>
-          </View>
-        </View>
-        <View>
-          {checklistSections.map((section, sectionIndex) => {
-            const checklistData = checklistToDisplay[section];
-            return (
-              <View key={sectionIndex}>
-                <View>
-                  <Text>{checklistData.categoryText}</Text>
-                </View>
-                <View>
-                  {checklistData.items.map((item, itemIndex) => {
-                    return (
-                      <CheckListItem
-                        item={item}
-                        key={itemIndex}
-                        visaId={visaId}
-                        maritalStatus={maritalStatus}
-                        employmentType={employmentType}
-                        toggleChecklist={this.toggleChecklist}
-                        selectedVisaChecklistItems={selectedVisaChecklistItems}
-                      />
-                    );
-                  })}
-                </View>
+      <Fragment>
+        <ScrollView style={styles.visaDocsChecklistContainer}>
+          <View style={styles.dropDownOptionsContainer}>
+            <View style={styles.leftOptionsWrapper}>
+              <View style={styles.optionLabelWrapper}>
+                <Text style={styles.optionLabelText}>Marital Status</Text>
               </View>
-            );
-          })}
-        </View>
-      </ScrollView>
+              <View style={styles.dropDownWrapper}>
+                <DropDown
+                  color={constants.fifteenthColor}
+                  containerStyle={styles.dropDown}
+                  selectedValue={maritalStatus}
+                  dropDownOptions={maritalStatuses}
+                  onChange={this.changeMaritalStatus}
+                  textStyle={styles.dropDownTextStyle}
+                />
+              </View>
+            </View>
+            <View style={styles.rightOptionsWrapper}>
+              <View style={styles.optionLabelWrapper}>
+                <Text style={styles.optionLabelText}>Employment</Text>
+              </View>
+              <View style={styles.dropDownWrapper}>
+                <DropDown
+                  color={constants.fifteenthColor}
+                  containerStyle={styles.dropDown}
+                  selectedValue={employmentType}
+                  dropDownOptions={employmentTypes}
+                  onChange={this.changeEmploymentType}
+                  textStyle={styles.dropDownTextStyle}
+                />
+              </View>
+            </View>
+            <View style={styles.optionsDividerLine} />
+          </View>
+          <View>
+            {checklistSections.map((section, sectionIndex) => {
+              const checklistData = checklistToDisplay[section];
+              return (
+                <View key={sectionIndex}>
+                  <View>
+                    <Text style={styles.categoryTitle}>
+                      {checklistData.categoryText}
+                    </Text>
+                  </View>
+                  <View>
+                    {checklistData.items.map((item, itemIndex) => {
+                      return (
+                        <CheckListItem
+                          item={item}
+                          key={itemIndex}
+                          visaId={visaId}
+                          maritalStatus={maritalStatus}
+                          employmentType={employmentType}
+                          toggleChecklist={this.toggleChecklist}
+                          selectedVisaChecklistItems={
+                            selectedVisaChecklistItems
+                          }
+                        />
+                      );
+                    })}
+                  </View>
+                </View>
+              );
+            })}
+          </View>
+          <BlankSpacer height={responsiveWidth(30)} />
+        </ScrollView>
+        <StickyActionBar
+          containerStyle={styles.stickyActionBar}
+          action={() => null}
+          title={"Document Must Knows"}
+        />
+        <XSensorPlaceholder containerStyle={styles.sensorPlaceHolder} />
+      </Fragment>
     );
   }
 }
@@ -191,6 +214,58 @@ class VisaDocsChecklist extends Component {
 const styles = StyleSheet.create({
   visaDocsChecklistContainer: {
     backgroundColor: constants.white1
+  },
+  dropDownOptionsContainer: {
+    flexDirection: "row",
+    backgroundColor: "white",
+    alignItems: "center",
+    justifyContent: "space-around",
+    paddingHorizontal: 24,
+    height: 88,
+    marginTop: 4
+  },
+  optionsDividerLine: {
+    width: 1,
+    height: 88,
+    position: "absolute",
+    backgroundColor: constants.white1,
+    top: 0,
+    left: responsiveWidth(47)
+  },
+  dropDownTextStyle: {
+    ...constants.fontCustom(constants.primaryRegular, 16)
+  },
+  leftOptionsWrapper: {
+    width: responsiveWidth(50) - 0.5,
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  rightOptionsWrapper: {
+    width: responsiveWidth(50) - 0.5,
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  optionLabelWrapper: {
+    width: 112
+  },
+  optionLabelText: {
+    ...constants.fontCustom(constants.primaryRegular, 14, 16),
+    color: constants.shade1
+  },
+  dropDownWrapper: {
+    width: 112,
+    marginTop: 8
+  },
+  dropDown: {},
+  categoryTitle: {
+    ...constants.fontCustom(constants.primarySemiBold, 14),
+    color: constants.shade1,
+    paddingVertical: 12,
+    paddingHorizontal: 24
+  },
+  stickyActionBar: {},
+  sensorPlaceHolder: {
+    backgroundColor: constants.fourteenthColor
   }
 });
 
