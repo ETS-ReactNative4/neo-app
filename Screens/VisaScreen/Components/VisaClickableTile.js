@@ -21,7 +21,8 @@ const VisaClickableTile = ({
   infoText = "",
   tileIcon = "",
   titleColor = constants.black1,
-  hasUnread = false
+  hasUnread = false,
+  hideAction = false
 }) => {
   return (
     <TouchableOpacity
@@ -43,9 +44,17 @@ const VisaClickableTile = ({
               {title}
             </Text>
             <Text style={styles.subTitleText}>{subTitle}</Text>
-            <View style={styles.titleIconWrapper}>
-              <Icon name={constants.arrowRight} color={titleColor} size={10} />
-            </View>
+            {!hideAction ? (
+              <View style={styles.titleIconWrapper}>
+                <Icon
+                  name={constants.arrowRight}
+                  color={titleColor}
+                  size={10}
+                />
+              </View>
+            ) : (
+              <View />
+            )}
           </View>
           {hasUnread ? (
             <View style={styles.notifSection}>

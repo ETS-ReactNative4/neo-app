@@ -48,6 +48,10 @@ const VisaWindowNotOpen = ({
     };
   });
 
+  const isDocsChecklistUnavailable =
+    !_.isEmpty(visaDocsMetaDetails) &&
+    _.isEmpty(visaDocsMetaDetails.docsCheckList);
+
   return (
     <View style={[containerStyle]}>
       <Fragment>
@@ -79,9 +83,10 @@ const VisaWindowNotOpen = ({
             containerStyle={styles.widgetWrapper}
             tileIcon={constants.documentIcon}
             title={visaDocsMetaDetails.title}
-            action={openDocsChecklist}
+            action={isDocsChecklistUnavailable ? () => null : openDocsChecklist}
             titleColor={constants.fifteenthColor}
             infoText={visaDocsMetaDetails.body}
+            hideAction={isDocsChecklistUnavailable}
           />
         ) : null}
         <VisaInfoWidget
