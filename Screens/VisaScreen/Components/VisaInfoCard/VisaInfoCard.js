@@ -57,6 +57,7 @@ const VisaInfoCard = ({
           title={title}
           body={body}
           isDisabled={isCardDisabled}
+          localExpansionStatus={localExpansionStatus}
           color={isCardDisabled ? constants.shade3 : color}
         />
         {localExpansionStatus ? (

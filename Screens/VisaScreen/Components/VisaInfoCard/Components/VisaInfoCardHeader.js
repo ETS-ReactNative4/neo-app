@@ -3,13 +3,15 @@ import { View, Text, StyleSheet, ViewPropTypes } from "react-native";
 import PropTypes from "prop-types";
 import InfoDot from "../../../../../CommonComponents/InfoDot/InfoDot";
 import constants from "../../../../../constants/constants";
+import Icon from "../../../../../CommonComponents/Icon/Icon";
 
 const VisaInfoCardHeader = ({
   containerStyle = StyleSheet.create({}),
   title = "",
   body = "",
   color = "",
-  isDisabled = false
+  isDisabled = false,
+  localExpansionStatus = false
 }) => {
   return (
     <View style={[styles.visaInfoCardHeaderContainer, containerStyle]}>
@@ -39,6 +41,17 @@ const VisaInfoCardHeader = ({
         >
           {body}
         </Text>
+        {!isDisabled && !localExpansionStatus ? (
+          <View>
+            <Icon
+              name={constants.arrowDown}
+              color={constants.black1}
+              size={8}
+            />
+          </View>
+        ) : (
+          <View />
+        )}
       </View>
     </View>
   );
@@ -49,7 +62,8 @@ VisaInfoCardHeader.propTypes = {
   title: PropTypes.string,
   body: PropTypes.string,
   color: PropTypes.string,
-  isDisabled: PropTypes.bool
+  isDisabled: PropTypes.bool,
+  localExpansionStatus: PropTypes.bool
 };
 
 const styles = StyleSheet.create({
@@ -68,7 +82,10 @@ const styles = StyleSheet.create({
     marginTop: 2
   },
   bodyTextWrapper: {
-    marginTop: 8
+    marginTop: 8,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between"
   },
   bodyText: {
     ...constants.fontCustom(constants.primaryRegular, 16),
