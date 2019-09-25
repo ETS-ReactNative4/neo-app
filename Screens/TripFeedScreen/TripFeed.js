@@ -284,7 +284,9 @@ const styles = StyleSheet.create({
   },
   tripFeedWidgetWrapper: {
     marginTop: 8,
-    marginHorizontal: 24
+    backgroundColor: "white",
+    paddingHorizontal: 24,
+    paddingVertical: 8
   }
 });
 
