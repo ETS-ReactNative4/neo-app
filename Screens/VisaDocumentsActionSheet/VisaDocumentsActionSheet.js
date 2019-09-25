@@ -34,7 +34,7 @@ class VisaDocumentsActionSheet extends Component {
           onPress={goBack}
           activeOpacity={0.8}
           style={styles.blankPlaceholder}
-        ></TouchableOpacity>
+        />
         <VisaInfoSheet action={goBack} content={body} title={title} />
         <XSensorPlaceholder containerStyle={styles.sensorPlaceholder} />
       </View>

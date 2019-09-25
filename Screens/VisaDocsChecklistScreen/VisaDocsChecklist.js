@@ -128,10 +128,12 @@ class VisaDocsChecklist extends Component {
       getMaritalStatusesByVisaId,
       getEmploymentTypesByVisaId,
       getChecklistItemsBySelectedOptions,
-      selectedVisaChecklistItems
+      selectedVisaChecklistItems,
+      getDocumentMustKnowsByVisaId
     } = this.props.visaStore;
     const maritalStatuses = getMaritalStatusesByVisaId(visaId);
     const employmentTypes = getEmploymentTypesByVisaId(visaId);
+    const { title: mustKnowTitle, body } = getDocumentMustKnowsByVisaId(visaId);
 
     const checklistToDisplay = getChecklistItemsBySelectedOptions({
       visaId,
@@ -219,11 +221,13 @@ class VisaDocsChecklist extends Component {
           </View>
           <BlankSpacer height={responsiveWidth(30)} />
         </ScrollView>
-        <StickyActionBar
-          containerStyle={styles.stickyActionBar}
-          action={openDocumentMustKnows}
-          title={"Document Must Knows"}
-        />
+        {mustKnowTitle && body ? (
+          <StickyActionBar
+            containerStyle={styles.stickyActionBar}
+            action={openDocumentMustKnows}
+            title={"Document Must Knows"}
+          />
+        ) : null}
         <XSensorPlaceholder containerStyle={styles.sensorPlaceHolder} />
         {!isBackPressed && !isFocused ? (
           <View style={styles.screenOverlay} />
