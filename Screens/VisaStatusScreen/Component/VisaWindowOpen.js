@@ -41,7 +41,7 @@ const VisaWindowOpen = ({
             <VisaInfoCard
               key={stageIndex}
               containerStyle={styles.cardWrapper}
-              isCardExpanded={false}
+              isCardExpanded={stage.active}
               isCardDisabled={isCardDisabled}
               color={stage.color}
               title={stage.title}
