@@ -225,7 +225,7 @@ class VisaDocsChecklist extends Component {
           <StickyActionBar
             containerStyle={styles.stickyActionBar}
             action={openDocumentMustKnows}
-            title={"Document Must Knows"}
+            title={mustKnowTitle}
           />
         ) : null}
         <XSensorPlaceholder containerStyle={styles.sensorPlaceHolder} />
