@@ -213,12 +213,13 @@ class TripFeed extends Component {
                   );
                 case "ALERT_CARD_2":
                   return (
-                    <AlertCardV2
-                      containerStyle={styles.tripFeedWidgetWrapper}
-                      key={widgetIndex}
-                      {...widget.data}
-                      widgetName={widget.widgetName}
-                    />
+                    <View style={styles.tripFeedWidgetWrapper}>
+                      <AlertCardV2
+                        key={widgetIndex}
+                        {...widget.data}
+                        widgetName={widget.widgetName}
+                      />
+                    </View>
                   );
                 case "FEEDBACK_SWIPER":
                   return (
