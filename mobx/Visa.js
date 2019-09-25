@@ -182,7 +182,8 @@ class Visa {
     try {
       const visaDetails = this._visaDetails[visaId];
       const { visaDocsMetaDetails = {} } = visaDetails;
-      const { title = "", body = "" } = visaDocsMetaDetails;
+      const { visaDocsFooter = {} } = visaDocsMetaDetails;
+      const { title = "", body = "" } = visaDocsFooter;
       return { title, body };
     } catch (e) {
       logError(e);
