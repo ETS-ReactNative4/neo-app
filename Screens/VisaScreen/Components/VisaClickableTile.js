@@ -126,7 +126,7 @@ const styles = StyleSheet.create({
   infoText: {
     ...constants.fontCustom(constants.primaryRegular, 16, 26),
     color: constants.black1,
-    width: responsiveWidth(70)
+    width: responsiveWidth(60)
   }
 });
 
