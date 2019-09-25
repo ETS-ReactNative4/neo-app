@@ -21,11 +21,19 @@ const VisaWelcomeMessage = ({
       </View>
       <View style={styles.detailsRow}>
         <View style={styles.rowSection}>
-          <Icon name={constants.userIcon} size={16} color={constants.black1} />
+          <Icon
+            name={constants.peopleIcon}
+            size={16}
+            color={constants.black1}
+          />
           <Text style={styles.infoText}>{`${numOfPax || ""} Pax`}</Text>
         </View>
         <View style={styles.rowSection}>
-          <Icon name={constants.userIcon} size={16} color={constants.black1} />
+          <Icon
+            name={constants.aeroplaneTakeOffIcon}
+            size={16}
+            color={constants.black1}
+          />
           <Text style={styles.infoText}>{date || ""}</Text>
         </View>
       </View>
