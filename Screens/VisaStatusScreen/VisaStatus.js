@@ -14,6 +14,9 @@ import BlankSpacer from "../../CommonComponents/BlankSpacer/BlankSpacer";
 import { responsiveHeight } from "react-native-responsive-dimensions";
 import { toastBottom } from "../../Services/toast/toast";
 import debouncer from "../../Services/debouncer/debouncer";
+import FabButton from "../../CommonComponents/FabButton/FabButton";
+import dialer from "../../Services/dialer/dialer";
+import SimpleButton from "../../CommonComponents/SimpleButton/SimpleButton";
 
 @ErrorBoundary()
 @inject("itineraries")
@@ -22,8 +25,32 @@ import debouncer from "../../Services/debouncer/debouncer";
 class VisaStatus extends Component {
   static navigationOptions = ({ navigation }) => {
     const title = navigation.getParam("screenTitle", "");
+    const enableRightButton = navigation.getParam("enableRightButton", false);
+    const rightButtonAction = navigation.getParam(
+      "rightButtonAction",
+      () => null
+    );
     return {
-      header: <CommonHeader title={title} navigation={navigation} />
+      header: (
+        <CommonHeader
+          title={title}
+          navigation={navigation}
+          RightButton={
+            enableRightButton ? (
+              <SimpleButton
+                text={"Help"}
+                textColor={constants.fifteenthColor}
+                containerStyle={{ width: 46, marginRight: 24 }}
+                iconSize={10}
+                icon={constants.arrowRight}
+                rightIcon={true}
+                color={"transparent"}
+                action={rightButtonAction}
+              />
+            ) : null
+          }
+        />
+      )
     };
   };
 
@@ -44,11 +71,13 @@ class VisaStatus extends Component {
               ""} - ${visaDetails.visaStr || ""}`
           });
         });
+        this.setNavigationHeaders(visaDetails);
       })
       .catch(() => {
         toastBottom(constants.visaScreenText.failedToLoadLatestData);
       });
     const visaDetails = getVisaDetailsById(visaId);
+    this.setNavigationHeaders(visaDetails);
     debouncer(() => {
       navigation.setParams({
         screenTitle: `${visaDetails.countryStr || ""} - ${visaDetails.visaStr ||
@@ -56,6 +85,27 @@ class VisaStatus extends Component {
       });
     });
   }
+
+  setNavigationHeaders = visaDetails => {
+    debouncer(() => {
+      const isVisaWindowNotOpen =
+        visaDetails.visaStage === constants.visaWindowNotOpenedStatus ||
+        visaDetails.visaType === constants.onArrivalVisaType;
+
+      const openHelp = () => {
+        this.props.navigation.navigate("VisaHelp", {
+          visaId: visaDetails.visaId
+        });
+      };
+
+      if (!isVisaWindowNotOpen) {
+        this.props.navigation.setParams({
+          enableRightButton: true,
+          rightButtonAction: openHelp
+        });
+      }
+    });
+  };
 
   render() {
     const { getVisaDetails } = this.props.visaStore;
@@ -73,11 +123,16 @@ class VisaStatus extends Component {
       navigation.navigate("VisaDocsChecklist", { visaId: visaDetails.visaId });
     };
 
+    const contactAccountOwner = phoneNumber => dialer(phoneNumber);
+
+    const isVisaWindowNotOpen =
+      visaDetails.visaStage === constants.visaWindowNotOpenedStatus ||
+      visaDetails.visaType === constants.onArrivalVisaType;
+
     return (
       <Fragment>
         <ScrollView style={styles.visaStatusContainer}>
-          {visaDetails.visaStage === constants.visaWindowNotOpenedStatus ||
-          visaDetails.visaType === constants.onArrivalVisaType ? (
+          {isVisaWindowNotOpen ? (
             <VisaWindowNotOpen
               openDocsChecklist={openDocsChecklist}
               visaDetails={visaDetails}
@@ -90,13 +145,25 @@ class VisaStatus extends Component {
         </ScrollView>
         <XSensorPlaceholder containerStyle={constants.sensorAreaContainer} />
         {!_.isEmpty(accountOwnerDetails) ? (
-          <VisaCompanionInfo
-            containerStyle={styles.companionWrapper}
-            profilePic={accountOwnerDetails.image}
-            name={accountOwnerDetails.name}
-            tag={accountOwnerDetails.tag}
-            phoneNumber={accountOwnerDetails.mobileNumber}
-          />
+          isVisaWindowNotOpen ? (
+            <VisaCompanionInfo
+              containerStyle={styles.companionWrapper}
+              profilePic={accountOwnerDetails.image}
+              name={accountOwnerDetails.name}
+              tag={accountOwnerDetails.tag}
+              phoneNumber={accountOwnerDetails.mobileNumber}
+            />
+          ) : (
+            <FabButton
+              action={() =>
+                contactAccountOwner(accountOwnerDetails.mobileNumber)
+              }
+              iconSize={20}
+              radius={32}
+              containerStyle={styles.fabButton}
+              icon={constants.callIcon}
+            />
+          )
         ) : null}
       </Fragment>
     );
@@ -118,6 +185,11 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: 0,
     left: 0
+  },
+  fabButton: {
+    position: "absolute",
+    bottom: 24 + (isIphoneX() ? constants.xSensorAreaHeight : 0),
+    right: 24
   }
 });
 
