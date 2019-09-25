@@ -385,7 +385,7 @@ class BookingAccordion extends Component {
       rentals,
       insurance
     } = this.props.itineraries;
-    const { isVisaInitialized } = this.props.visaStore;
+    const { isVisaAvailable } = this.props.visaStore;
 
     if (flights.length) {
       const flightSection = {
@@ -463,7 +463,7 @@ class BookingAccordion extends Component {
       /**
        * Check if visa is initialized before rendering the visa section
        */
-      if (isVisaInitialized) {
+      if (isVisaAvailable) {
         const visaSection = {
           type: "Visa",
           icon: constants.visaIcon,
