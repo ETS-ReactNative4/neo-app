@@ -25,6 +25,9 @@ class VisaDocumentsActionSheet extends Component {
 
   render() {
     const goBack = () => this.props.navigation.goBack();
+    const visaId = this.props.navigation.getParam("visaId", "");
+    const { getDocumentMustKnowsByVisaId = {} } = this.props.visaStore;
+    const { title, body } = getDocumentMustKnowsByVisaId(visaId);
     return (
       <View style={styles.visaDocumentActionSheetContainer}>
         <TouchableOpacity
@@ -32,7 +35,7 @@ class VisaDocumentsActionSheet extends Component {
           activeOpacity={0.8}
           style={styles.blankPlaceholder}
         ></TouchableOpacity>
-        <VisaInfoSheet action={goBack} content={"<p></p>"} />
+        <VisaInfoSheet action={goBack} content={body} title={title} />
         <XSensorPlaceholder containerStyle={styles.sensorPlaceholder} />
       </View>
     );

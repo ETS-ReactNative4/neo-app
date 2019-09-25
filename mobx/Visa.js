@@ -163,6 +163,18 @@ class Visa {
     }
   });
 
+  getDocumentMustKnowsByVisaId = createTransformer(visaId => {
+    try {
+      const visaDetails = this._visaDetails[visaId];
+      const { visaDocsMetaDetails = {} } = visaDetails;
+      const { title = "", body = "" } = visaDocsMetaDetails;
+      return { title, body };
+    } catch (e) {
+      logError(e);
+      return {};
+    }
+  });
+
   getEmploymentTypesByVisaId = createTransformer(visaId => {
     try {
       const visaDetails = this._visaDetails[visaId];
