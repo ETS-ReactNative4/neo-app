@@ -4,15 +4,25 @@ import PropTypes from "prop-types";
 import VisaInfoCard from "../../VisaScreen/Components/VisaInfoCard/VisaInfoCard";
 import Dash from "react-native-dash";
 import constants from "../../../constants/constants";
+import _ from "lodash";
+import StickyActionBar from "./StickyActionBar";
 
 const VisaWindowOpen = ({
   containerStyle = StyleSheet.create({}),
+  openDocsChecklist = () => null,
   visaDetails
 }) => {
-  const { visaStageDetails = [] } = visaDetails;
+  const { visaStageDetails = [], visaDocsMetaDetails = {} } = visaDetails;
 
   return (
     <View style={[containerStyle]}>
+      {!_.isEmpty(visaDocsMetaDetails) ? (
+        <StickyActionBar
+          action={openDocsChecklist}
+          title={visaDocsMetaDetails.title}
+          icon={constants.documentIcon}
+        />
+      ) : null}
       {visaStageDetails.map((stage, stageIndex) => {
         let isCardDisabled = false;
         if (stage.stage === "NOT_STARTED") {
@@ -48,7 +58,8 @@ const VisaWindowOpen = ({
 
 VisaWindowOpen.propTypes = {
   containerStyle: ViewPropTypes.style,
-  visaDetails: PropTypes.object
+  visaDetails: PropTypes.object,
+  openDocsChecklist: PropTypes.func
 };
 
 const styles = StyleSheet.create({

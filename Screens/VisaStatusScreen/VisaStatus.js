@@ -139,7 +139,10 @@ class VisaStatus extends Component {
               openHelp={openHelp}
             />
           ) : (
-            <VisaWindowOpen visaDetails={visaDetails} />
+            <VisaWindowOpen
+              openDocsChecklist={openDocsChecklist}
+              visaDetails={visaDetails}
+            />
           )}
           <BlankSpacer height={responsiveHeight(30)} />
         </ScrollView>

@@ -14,7 +14,7 @@ import Icon from "../../../CommonComponents/Icon/Icon";
 const StickyActionBar = ({
   containerStyle = StyleSheet.create({}),
   title = "Document Checklist",
-  icon = constants.activityIcon,
+  icon,
   action = () => null,
   backgroundColor = constants.fourteenthColor,
   color = constants.fifteenthColor
