@@ -24,7 +24,8 @@ const CheckListItem = ({
   maritalStatus,
   employmentType,
   toggleChecklist,
-  selectedVisaChecklistItems
+  selectedVisaChecklistItems,
+  url
 }) => {
   const [isExpanded, toggleExpansion] = useState(false);
 
@@ -43,6 +44,8 @@ const CheckListItem = ({
       title={item.name}
       desc={item.details}
       onToggleSelection={onToggleSelection}
+      downloadUrl={url}
+      ctaText={url ? "Download Sample" : ""}
     />
   );
 };
@@ -53,7 +56,8 @@ CheckListItem.propTypes = {
   maritalStatus: PropTypes.string.isRequired,
   employmentType: PropTypes.string.isRequired,
   toggleChecklist: PropTypes.func.isRequired,
-  selectedVisaChecklistItems: PropTypes.array.isRequired
+  selectedVisaChecklistItems: PropTypes.array.isRequired,
+  url: PropTypes.string.isRequired
 };
 
 @ErrorBoundary()
@@ -211,6 +215,7 @@ class VisaDocsChecklist extends Component {
                           selectedVisaChecklistItems={
                             selectedVisaChecklistItems
                           }
+                          url={item.url}
                         />
                       );
                     })}

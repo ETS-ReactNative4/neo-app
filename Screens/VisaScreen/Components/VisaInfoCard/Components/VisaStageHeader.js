@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
     marginTop: 8
   },
   bodyText: {
-    ...constants.fontCustom(constants.primaryRegular, 16),
+    ...constants.fontCustom(constants.primaryRegular, 16, 22),
     color: constants.black1
   },
   notesContainer: {
