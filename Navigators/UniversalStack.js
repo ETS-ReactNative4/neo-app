@@ -69,7 +69,8 @@ const UniversalStack = createStackNavigator(
       drawerLockMode: "locked-closed"
     },
     mode: "modal",
-    transitionConfig
+    transitionConfig,
+    transparentCard: true
   }
 );
 
