@@ -70,6 +70,9 @@ class Visa {
   @observable
   _isVisaAvailable = false;
 
+  @observable
+  _isVisaDetailsLoading = false;
+
   @action
   reset = () => {
     this._isLoading = false;
@@ -80,6 +83,7 @@ class Visa {
     this._isVisaInitialized = false;
     this._isVisaAvailable = false;
     this._selectedVisaChecklistItems = [];
+    this._isVisaDetailsLoading = false;
   };
 
   @computed
@@ -112,6 +116,11 @@ class Visa {
     return this._isVisaAvailable;
   }
 
+  @computed
+  get isVisaDetailsLoading() {
+    return this._isVisaDetailsLoading;
+  }
+
   /**
    * This method will retrieve the visa details of an itinerary stored in the local mobx store
    */
@@ -126,6 +135,7 @@ class Visa {
    */
   @action
   loadVisaDetails = visaId => {
+    this._isVisaDetailsLoading = true;
     return new Promise((resolve, reject) => {
       const requiredVisa =
         this.visaList.find(visa => visa.visaId === visaId) || {};
@@ -135,6 +145,7 @@ class Visa {
         }`
       )
         .then(response => {
+          this._isVisaDetailsLoading = false;
           if (response.status === constants.responseSuccessStatus) {
             const visaDetails = toJS(this._visaDetails);
             visaDetails[visaId] = response.data;
@@ -143,6 +154,7 @@ class Visa {
           }
         })
         .catch(() => {
+          this._isVisaDetailsLoading = false;
           reject();
         });
     });

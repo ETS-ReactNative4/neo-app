@@ -17,6 +17,7 @@ import debouncer from "../../Services/debouncer/debouncer";
 import FabButton from "../../CommonComponents/FabButton/FabButton";
 import dialer from "../../Services/dialer/dialer";
 import SimpleButton from "../../CommonComponents/SimpleButton/SimpleButton";
+import CustomScrollView from "../../CommonComponents/CustomScrollView/CustomScrollView";
 
 @ErrorBoundary()
 @inject("itineraries")
@@ -54,7 +55,7 @@ class VisaStatus extends Component {
     };
   };
 
-  componentDidMount() {
+  initializeVisa = () => {
     const {
       getVisaDetailsById,
       loadVisaDetails,
@@ -84,6 +85,12 @@ class VisaStatus extends Component {
           ""}`
       });
     });
+  };
+
+  componentDidMount() {
+    debouncer(() => {
+      this.initializeVisa();
+    });
   }
 
   setNavigationHeaders = visaDetails => {
@@ -108,7 +115,7 @@ class VisaStatus extends Component {
   };
 
   render() {
-    const { getVisaDetails } = this.props.visaStore;
+    const { getVisaDetails, isVisaDetailsLoading } = this.props.visaStore;
     const { navigation } = this.props;
     const visaId = navigation.getParam("visaId", "");
     const visaDetails = getVisaDetails(visaId);
@@ -131,7 +138,11 @@ class VisaStatus extends Component {
 
     return (
       <Fragment>
-        <ScrollView style={styles.visaStatusContainer}>
+        <CustomScrollView
+          onRefresh={this.initializeVisa}
+          refreshing={isVisaDetailsLoading}
+          style={styles.visaStatusContainer}
+        >
           {isVisaWindowNotOpen ? (
             <VisaWindowNotOpen
               openDocsChecklist={openDocsChecklist}
@@ -145,7 +156,7 @@ class VisaStatus extends Component {
             />
           )}
           <BlankSpacer height={responsiveHeight(30)} />
-        </ScrollView>
+        </CustomScrollView>
         <XSensorPlaceholder containerStyle={constants.sensorAreaContainer} />
         {!_.isEmpty(accountOwnerDetails) ? (
           isVisaWindowNotOpen ? (
