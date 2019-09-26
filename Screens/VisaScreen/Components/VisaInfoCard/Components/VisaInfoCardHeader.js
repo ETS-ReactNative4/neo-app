@@ -32,27 +32,29 @@ const VisaInfoCardHeader = ({
           {title}
         </Text>
       </View>
-      <View style={styles.bodyTextWrapper}>
-        <Text
-          style={[
-            styles.bodyText,
-            isDisabled ? { color: constants.shade3 } : {}
-          ]}
-        >
-          {body}
-        </Text>
-        {!isDisabled && !localExpansionStatus ? (
-          <View>
-            <Icon
-              name={constants.arrowDown}
-              color={constants.black1}
-              size={8}
-            />
-          </View>
-        ) : (
-          <View />
-        )}
-      </View>
+      {body ? (
+        <View style={styles.bodyTextWrapper}>
+          <Text
+            style={[
+              styles.bodyText,
+              isDisabled ? { color: constants.shade3 } : {}
+            ]}
+          >
+            {body}
+          </Text>
+          {!isDisabled && !localExpansionStatus ? (
+            <View>
+              <Icon
+                name={constants.arrowDown}
+                color={constants.black1}
+                size={8}
+              />
+            </View>
+          ) : (
+            <View />
+          )}
+        </View>
+      ) : null}
     </View>
   );
 };
