@@ -24,7 +24,7 @@ const VisaWindowStatusWidget = ({
       </View>
       <View style={styles.chartSection}>
         <AnimatedCircularProgress
-          duration={2000}
+          duration={0}
           size={86}
           width={5}
           fill={fillPercentage}
