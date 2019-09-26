@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from "react";
-import { ScrollView, StyleSheet } from "react-native";
+import { ScrollView, StyleSheet, View } from "react-native";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import { inject, observer } from "mobx-react/custom";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
@@ -42,7 +42,14 @@ class VisaHelp extends Component {
               />
             );
           })}
-          <BlankSpacer />
+          <BlankSpacer
+            height={100 + (isIphoneX() ? constants.xSensorAreaHeight : 0) + 8}
+          />
+          {/**
+           * 100 - approx height of the visa companion bar
+           * sensor area padding of iPhone X
+           * 8 - additional padding
+           */}
         </ScrollView>
         <XSensorPlaceholder containerStyle={constants.sensorAreaContainer} />
         {!_.isEmpty(accountOwnerDetails) ? (

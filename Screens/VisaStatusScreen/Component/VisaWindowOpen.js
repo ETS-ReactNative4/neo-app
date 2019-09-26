@@ -6,6 +6,8 @@ import Dash from "react-native-dash";
 import constants from "../../../constants/constants";
 import _ from "lodash";
 import StickyActionBar from "./StickyActionBar";
+import BlankSpacer from "../../../CommonComponents/BlankSpacer/BlankSpacer";
+import { isIphoneX } from "react-native-iphone-x-helper";
 
 const VisaWindowOpen = ({
   containerStyle = StyleSheet.create({}),
@@ -52,6 +54,15 @@ const VisaWindowOpen = ({
           </View>
         );
       })}
+      <BlankSpacer
+        height={64 + 24 + (isIphoneX() ? constants.xSensorAreaHeight : 0) + 8}
+      />
+      {/**
+       * 64 - height of the fab button
+       * 24 - bottom spacing of the button
+       * sensor area padding of iPhone X
+       * 8 - additional padding
+       */}
     </View>
   );
 };

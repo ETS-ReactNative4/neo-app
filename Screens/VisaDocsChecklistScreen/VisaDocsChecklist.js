@@ -17,6 +17,7 @@ import {
 import StickyActionBar from "../VisaStatusScreen/Component/StickyActionBar";
 import XSensorPlaceholder from "../../CommonComponents/XSensorPlaceholder/XSensorPlaceholder";
 import BlankSpacer from "../../CommonComponents/BlankSpacer/BlankSpacer";
+import { isIphoneX } from "react-native-iphone-x-helper";
 
 const CheckListItem = ({
   item,
@@ -224,7 +225,10 @@ class VisaDocsChecklist extends Component {
               );
             })}
           </View>
-          <BlankSpacer height={responsiveWidth(30)} />
+          <BlankSpacer height={16} />
+          {/**
+           * 16 - additional padding
+           */}
         </ScrollView>
         {mustKnowTitle && body ? (
           <StickyActionBar

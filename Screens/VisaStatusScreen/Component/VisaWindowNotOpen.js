@@ -9,6 +9,8 @@ import VisaStagesCard from "../../VisaScreen/Components/VisaStagesCard";
 import VisaOnArrivalWidget from "../../VisaScreen/Components/VisaOnArrivalWidget";
 import VisaInfoWidget from "../../VisaScreen/Components/VisaInfoWidget";
 import VisaClickableTile from "../../VisaScreen/Components/VisaClickableTile";
+import BlankSpacer from "../../../CommonComponents/BlankSpacer/BlankSpacer";
+import { isIphoneX } from "react-native-iphone-x-helper";
 
 const VisaWindowNotOpen = ({
   containerStyle = StyleSheet.create({}),
@@ -100,6 +102,14 @@ const VisaWindowNotOpen = ({
           />
         ) : null}
       </Fragment>
+      <BlankSpacer
+        height={100 + (isIphoneX() ? constants.xSensorAreaHeight : 0) + 8}
+      />
+      {/**
+       * 100 - approx height of the visa companion bar
+       * sensor area padding of iPhone X
+       * 8 - additional padding
+       */}
     </View>
   );
 };

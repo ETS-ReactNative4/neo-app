@@ -169,7 +169,6 @@ class VisaStatus extends Component {
               visaDetails={visaDetails}
             />
           )}
-          <BlankSpacer height={responsiveHeight(30)} />
         </CustomScrollView>
         <XSensorPlaceholder containerStyle={constants.sensorAreaContainer} />
         {!_.isEmpty(accountOwnerDetails) ? (
