@@ -14,7 +14,12 @@ const VisaSection = inject("visaStore")(
       paddingBottom: 16
     };
 
-    const { visaList, isSingleVisa, isVisaInitialized } = visaStore;
+    const {
+      visaList,
+      isSingleVisa,
+      isVisaInitialized,
+      isVisaAvailable
+    } = visaStore;
 
     const openVoucher = () => {
       recordEvent(constants.Bookings.event, {
@@ -25,7 +30,8 @@ const VisaSection = inject("visaStore")(
         navigation,
         isVisaInitialized,
         isSingleVisa,
-        visaList
+        visaList,
+        isVisaAvailable
       });
     };
 
@@ -97,12 +103,18 @@ const VisaComponent = inject("visaStore")(
         click: constants.Bookings.click.accordionVoucher,
         type: constants.Bookings.type.visa
       });
-      const { isVisaInitialized, isSingleVisa, visaList } = visaStore;
+      const {
+        isVisaInitialized,
+        isSingleVisa,
+        visaList,
+        isVisaAvailable
+      } = visaStore;
       VisaMobX.default.visaOpener({
         navigation,
         isVisaInitialized,
         isSingleVisa,
-        visaList
+        visaList,
+        isVisaAvailable
       });
     };
 

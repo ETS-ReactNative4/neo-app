@@ -398,9 +398,12 @@ class Visa {
     navigation,
     isVisaInitialized,
     isSingleVisa,
-    visaList
+    visaList,
+    isVisaAvailable
   }) => {
-    if (isVisaInitialized && isSingleVisa) {
+    if (!isVisaAvailable) {
+      navigation.navigate("Visa");
+    } else if (isVisaInitialized && isSingleVisa) {
       const firstVisa = visaList[0];
       navigation.navigate("VisaStatus", { visaId: firstVisa.visaId });
     } else if (isVisaInitialized) {

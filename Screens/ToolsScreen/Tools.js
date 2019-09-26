@@ -52,7 +52,12 @@ class Tools extends Component {
 
   render() {
     const { cities } = this.props.itineraries;
-    const { isVisaInitialized, isSingleVisa, visaList } = this.props.visaStore;
+    const {
+      isVisaInitialized,
+      isSingleVisa,
+      visaList,
+      isVisaAvailable
+    } = this.props.visaStore;
     const { navigation } = this.props;
     const cityList = cities.map(city => {
       const cityId = city.cityObject ? city.cityObject.cityId : "";
@@ -167,7 +172,8 @@ class Tools extends Component {
             navigation,
             isVisaInitialized,
             isSingleVisa,
-            visaList
+            visaList,
+            isVisaAvailable
           });
         }
       },
