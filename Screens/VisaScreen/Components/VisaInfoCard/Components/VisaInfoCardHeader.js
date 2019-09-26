@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between"
   },
   bodyText: {
-    ...constants.fontCustom(constants.primaryRegular, 16),
+    ...constants.fontCustom(constants.primaryRegular, 16, 22),
     color: constants.black1
   }
 });
