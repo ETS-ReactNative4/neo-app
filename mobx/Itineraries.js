@@ -515,7 +515,14 @@ class Itineraries {
               const visaObject = toJS(
                 this._selectedItinerary.visaCostings.visaCostingById[ref]
               );
-              if (visaObject && !visaObject.onArrival) {
+              /**
+               * On arrival visa usually wouldn't be shown in the
+               * bookings accordion,
+               * However, Since visa is following visa assistance flow, we need
+               * the on arrival visa's to be displayed
+               * `visaObject.onArrival`
+               */
+              if (visaObject) {
                 visaArray.push(visaObject);
               }
               return visaArray;
