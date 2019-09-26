@@ -94,20 +94,25 @@ class VisaStatus extends Component {
   }
 
   setNavigationHeaders = visaDetails => {
+    const { isVisaHelpDataAvailable } = this.props.visaStore;
     debouncer(() => {
       const isVisaWindowNotOpen =
         visaDetails.visaStage === constants.visaWindowNotOpenedStatus ||
         visaDetails.visaType === constants.onArrivalVisaType;
 
       const openHelp = () => {
-        this.props.navigation.navigate("VisaHelp", {
-          visaId: visaDetails.visaId
-        });
+        if (isVisaHelpDataAvailable(visaDetails.visaId)) {
+          this.props.navigation.navigate("VisaHelp", {
+            visaId: visaDetails.visaId
+          });
+        } else {
+          return null;
+        }
       };
 
       if (!isVisaWindowNotOpen) {
         this.props.navigation.setParams({
-          enableRightButton: true,
+          enableRightButton: !!isVisaHelpDataAvailable(visaDetails.visaId),
           rightButtonAction: openHelp
         });
       }
@@ -115,7 +120,11 @@ class VisaStatus extends Component {
   };
 
   render() {
-    const { getVisaDetails, isVisaDetailsLoading } = this.props.visaStore;
+    const {
+      getVisaDetails,
+      isVisaDetailsLoading,
+      isVisaHelpDataAvailable
+    } = this.props.visaStore;
     const { navigation } = this.props;
     const visaId = navigation.getParam("visaId", "");
     const visaDetails = getVisaDetails(visaId);
@@ -123,7 +132,11 @@ class VisaStatus extends Component {
     const { accountOwnerDetails = {} } = visaDetails;
 
     const openHelp = () => {
-      navigation.navigate("VisaHelp", { visaId: visaDetails.visaId });
+      if (isVisaHelpDataAvailable(visaId)) {
+        navigation.navigate("VisaHelp", { visaId: visaDetails.visaId });
+      } else {
+        return null;
+      }
     };
 
     const openDocsChecklist = () => {
@@ -148,6 +161,7 @@ class VisaStatus extends Component {
               openDocsChecklist={openDocsChecklist}
               visaDetails={visaDetails}
               openHelp={openHelp}
+              isHelpDataAvailable={isVisaHelpDataAvailable(visaId)}
             />
           ) : (
             <VisaWindowOpen

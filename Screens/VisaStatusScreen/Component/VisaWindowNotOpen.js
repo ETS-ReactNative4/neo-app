@@ -14,7 +14,8 @@ const VisaWindowNotOpen = ({
   containerStyle = StyleSheet.create({}),
   visaDetails = {},
   openHelp = () => null,
-  openDocsChecklist = () => null
+  openDocsChecklist = () => null,
+  isHelpDataAvailable
 }) => {
   const {
     visaWindowDetails = {},
@@ -89,13 +90,15 @@ const VisaWindowNotOpen = ({
             hideAction={isDocsChecklistUnavailable}
           />
         ) : null}
-        <VisaInfoWidget
-          containerStyle={styles.widgetWrapper}
-          label={"Visa Type"}
-          visaType={visaStr}
-          shortText={visaIntroStr}
-          action={openHelp}
-        />
+        {isHelpDataAvailable ? (
+          <VisaInfoWidget
+            containerStyle={styles.widgetWrapper}
+            label={"Visa Type"}
+            visaType={visaStr}
+            shortText={visaIntroStr}
+            action={openHelp}
+          />
+        ) : null}
       </Fragment>
     </View>
   );
@@ -105,7 +108,8 @@ VisaWindowNotOpen.propTypes = {
   containerStyle: ViewPropTypes.style,
   visaDetails: PropTypes.object,
   openHelp: PropTypes.func.isRequired,
-  openDocsChecklist: PropTypes.func
+  openDocsChecklist: PropTypes.func,
+  isHelpDataAvailable: PropTypes.bool.isRequired
 };
 
 const styles = StyleSheet.create({

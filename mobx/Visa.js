@@ -121,6 +121,10 @@ class Visa {
     return this._isVisaDetailsLoading;
   }
 
+  isVisaHelpDataAvailable = createTransformer(visaId => {
+    return !!(_.get(this._visaDetails[visaId], "visaHelpData") || []).length;
+  });
+
   /**
    * This method will retrieve the visa details of an itinerary stored in the local mobx store
    */
