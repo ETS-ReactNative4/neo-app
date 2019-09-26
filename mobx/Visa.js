@@ -235,6 +235,11 @@ class Visa {
           if (response.status === constants.responseSuccessStatus) {
             this._visaList = _.get(response, "data.visaList") || [];
             resolve(this.visaList);
+            /**
+             * Home screen details should be fetched to prevent
+             * user from going back to the visa welcome screen
+             */
+            this.getVisaHomeScreenDetails();
           } else {
             reject();
           }
