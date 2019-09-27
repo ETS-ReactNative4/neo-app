@@ -61,11 +61,14 @@ const VisaChecklistTile = ({
   }, [iconContainer, isExpanded, isTileExpanded]);
 
   const downloadAction = () => openCustomTab(downloadUrl);
+  const ChecklistWrapper = desc ? TouchableOpacity : View;
+  const checklistProps = desc
+    ? { activeOpacity: 0.8, onPress: onToggleExpand }
+    : {};
   return (
-    <TouchableOpacity
-      activeOpacity={0.8}
-      onPress={onToggleExpand}
+    <ChecklistWrapper
       style={[styles.visaChecklistTileContainer, containerStyle]}
+      {...checklistProps}
     >
       <TouchableOpacity
         activeOpacity={0.8}
@@ -82,38 +85,45 @@ const VisaChecklistTile = ({
         <View style={styles.titleWrapper}>
           <Text style={styles.titleText}>{title}</Text>
         </View>
-        <Animated.View style={[styles.arrowIconWrapper, iconContainer]}>
-          <Icon name={constants.arrowDown} size={16} color={constants.shade3} />
-        </Animated.View>
-      </TouchableOpacity>
-      <View
-        style={[styles.bodyContainer, !isExpanded ? styles.foldedBody : null]}
-      >
         {desc ? (
+          <Animated.View style={[styles.arrowIconWrapper, iconContainer]}>
+            <Icon
+              name={constants.arrowDown}
+              size={16}
+              color={constants.shade3}
+            />
+          </Animated.View>
+        ) : null}
+      </TouchableOpacity>
+      {desc ? (
+        <View
+          style={[styles.bodyContainer, !isExpanded ? styles.foldedBody : null]}
+        >
           <View>
             <CustomHtmlView html={desc} />
+            {/* In-case plain text is needed in the future... */}
             {/*<Text style={styles.descText}>{desc}</Text>*/}
           </View>
-        ) : null}
-        <View style={styles.buttonWrapper}>
-          {ctaText ? (
-            <SimpleButton
-              text={ctaText}
-              textStyle={{
-                ...constants.fontCustom(constants.primarySemiBold, 14)
-              }}
-              textColor={constants.seventhColor}
-              color={"transparent"}
-              action={downloadAction}
-              iconSize={16}
-              containerStyle={{ width: null }}
-              underlayColor={"transparent"}
-              icon={constants.downloadIcon}
-            />
-          ) : null}
+          <View style={styles.buttonWrapper}>
+            {ctaText ? (
+              <SimpleButton
+                text={ctaText}
+                textStyle={{
+                  ...constants.fontCustom(constants.primarySemiBold, 14)
+                }}
+                textColor={constants.fifteenthColor}
+                color={"transparent"}
+                action={downloadAction}
+                iconSize={16}
+                containerStyle={{ width: null }}
+                underlayColor={"transparent"}
+                icon={constants.downloadIcon}
+              />
+            ) : null}
+          </View>
         </View>
-      </View>
-    </TouchableOpacity>
+      ) : null}
+    </ChecklistWrapper>
   );
 };
 

@@ -113,7 +113,8 @@ const helpQaData = {
 
 class ChecklistComponent extends React.Component {
   static propTypes = {
-    hideLink: PropTypes.bool
+    hideLink: PropTypes.bool,
+    noBody: PropTypes.bool
   };
 
   state = {
@@ -138,6 +139,9 @@ class ChecklistComponent extends React.Component {
     const props = { ...visaChecklistData };
     if (this.props.hideLink) {
       delete props["ctaText"];
+    }
+    if (this.props.noBody) {
+      delete props["desc"];
     }
     return (
       <VisaChecklistTile
@@ -238,6 +242,9 @@ storiesOf("Visa Story", module)
   })
   .add("Visa Checklist Tile with link", () => {
     return <ChecklistComponent />;
+  })
+  .add("Visa Checklist Tile without body", () => {
+    return <ChecklistComponent noBody={true} />;
   })
   .add("Visa Stages Card", () => {
     const props = { ...visaStagesCardData };
