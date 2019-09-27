@@ -83,7 +83,9 @@ const VisaChecklistTile = ({
           <CheckBox isChecked={isChecked} action={onToggleSelection} />
         </TouchableOpacity>
         <View style={styles.titleWrapper}>
-          <Text style={styles.titleText}>{title}</Text>
+          <Text style={styles.titleText} onPress={onToggleSelection}>
+            {title}
+          </Text>
         </View>
         {desc ? (
           <Animated.View style={[styles.arrowIconWrapper, iconContainer]}>
@@ -97,7 +99,10 @@ const VisaChecklistTile = ({
       </TouchableOpacity>
       {desc ? (
         <View
-          style={[styles.bodyContainer, !isExpanded ? styles.foldedBody : null]}
+          style={[
+            styles.bodyContainer,
+            !isTileExpanded ? styles.foldedBody : null
+          ]}
         >
           <View>
             <CustomHtmlView html={desc} />
@@ -140,8 +145,14 @@ VisaChecklistTile.propTypes = {
 };
 
 const styles = StyleSheet.create({
+  /**
+   * Usually containes have padding around them
+   * but the padding here is given to child elements
+   * to increase the clickable area around them
+   */
   visaChecklistTileContainer: {
-    padding: 24,
+    paddingBottom: 24,
+    paddingRight: 24,
     backgroundColor: "white"
   },
   headerContainer: {
@@ -149,24 +160,30 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   checkBoxWrapper: {
-    paddingRight: 8
+    paddingRight: 8,
+    paddingLeft: 24,
+    paddingTop: 24
   },
   titleWrapper: {
-    flex: 1
+    flex: 1,
+    alignItems: "flex-start"
   },
   titleText: {
     ...constants.fontCustom(constants.primarySemiBold, 16),
     color: constants.black1,
-    marginTop: 2
+    marginTop: 2,
+    paddingTop: 24
   },
-  arrowIconWrapper: {},
+  arrowIconWrapper: {
+    marginTop: 24
+  },
   descText: {
     ...constants.fontCustom(constants.primaryRegular, 15, 22),
     color: constants.black2
   },
   bodyContainer: {
     marginTop: 16,
-    paddingLeft: 24
+    paddingLeft: 24 + 24 // one for checkbox, one for the container
   },
   foldedBody: {
     marginTop: 0,
