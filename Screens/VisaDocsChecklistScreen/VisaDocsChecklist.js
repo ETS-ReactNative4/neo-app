@@ -306,7 +306,7 @@ const styles = StyleSheet.create({
     left: responsiveWidth(47)
   },
   dropDownTextStyle: {
-    ...constants.fontCustom(constants.primaryRegular, 16)
+    ...constants.fontCustom(constants.primaryRegular, 17)
   },
   leftOptionsWrapper: {
     width: responsiveWidth(50) - 0.5,

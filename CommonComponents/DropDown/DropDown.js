@@ -30,7 +30,7 @@ const DropDown = ({
               {title}
             </Text>
             <View style={styles.iconWrapper}>
-              <Icon name={constants.dropDownArrowIcon} color={color} size={8} />
+              <Icon name={constants.arrowDown} color={color} size={12} />
             </View>
           </View>
         );
