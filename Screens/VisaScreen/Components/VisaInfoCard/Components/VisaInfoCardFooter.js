@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 4,
     borderBottomLeftRadius: 4,
     padding: 24,
-    alignItems: "center"
+    alignItems: "flex-start"
   },
   iconWrapper: {
     height: 24,
@@ -50,7 +50,8 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     marginRight: 16,
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
+    marginTop: 8
   },
   footerText: {
     ...constants.fontCustom(constants.primaryRegular, 14, 22),

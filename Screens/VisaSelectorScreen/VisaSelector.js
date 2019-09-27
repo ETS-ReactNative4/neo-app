@@ -41,7 +41,9 @@ class VisaSelector extends Component {
                   visaId: visaInfo.visaId
                 })
               }
+              titleColor={constants.firstColor}
               hasUnread={visaInfo.updatesAvailable}
+              infoTextStyle={styles.infoTextStyle}
               key={visaIndex}
             />
           );
@@ -57,10 +59,14 @@ const styles = StyleSheet.create({
   },
   tileContainer: {
     marginHorizontal: 24,
-    marginVertical: 8
+    marginVertical: 4,
+    paddingVertical: 21
   },
   firstContainer: {
     marginTop: 24
+  },
+  infoTextStyle: {
+    color: constants.shade2
   }
 });
 

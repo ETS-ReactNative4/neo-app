@@ -22,7 +22,8 @@ const VisaClickableTile = ({
   tileIcon = "",
   titleColor = constants.black1,
   hasUnread = false,
-  hideAction = false
+  hideAction = false,
+  infoTextStyle = StyleSheet.create({})
 }) => {
   return (
     <TouchableOpacity
@@ -43,7 +44,9 @@ const VisaClickableTile = ({
             <Text style={[styles.titleText, { color: titleColor }]}>
               {title}
             </Text>
-            <Text style={styles.subTitleText}>{subTitle}</Text>
+            {subTitle ? (
+              <Text style={styles.subTitleText}>{subTitle}</Text>
+            ) : null}
             {!hideAction ? (
               <View style={styles.titleIconWrapper}>
                 <Icon
@@ -63,7 +66,7 @@ const VisaClickableTile = ({
           ) : null}
         </View>
         <View style={styles.infoTextWrapper}>
-          <Text style={styles.infoText}>{infoText}</Text>
+          <Text style={[styles.infoText, infoTextStyle]}>{infoText}</Text>
         </View>
       </View>
     </TouchableOpacity>
@@ -72,13 +75,15 @@ const VisaClickableTile = ({
 
 VisaClickableTile.propTypes = {
   containerStyle: ViewPropTypes.style,
+  infoTextStyle: ViewPropTypes.style,
   action: PropTypes.func.isRequired,
   title: PropTypes.string,
   infoText: PropTypes.string,
   subTitle: PropTypes.string,
   hasUnread: PropTypes.bool,
   titleColor: PropTypes.string,
-  tileIcon: PropTypes.string
+  tileIcon: PropTypes.string,
+  hideAction: PropTypes.bool
 };
 
 const styles = StyleSheet.create({

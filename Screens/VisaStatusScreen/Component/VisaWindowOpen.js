@@ -79,7 +79,8 @@ const styles = StyleSheet.create({
     marginTop: 24
   },
   dashContainer: {
-    width: StyleSheet.hairlineWidth,
+    overflow: "hidden",
+    width: 1,
     height: 24,
     alignItems: "center",
     justifyContent: "center",

@@ -13,6 +13,8 @@ const VisaInfoCardHeader = ({
   isDisabled = false,
   localExpansionStatus = false
 }) => {
+  const isArrowIconVisible = !isDisabled && !localExpansionStatus;
+
   return (
     <View style={[styles.visaInfoCardHeaderContainer, containerStyle]}>
       <View style={styles.visaStageTitleWrapper}>
@@ -42,17 +44,13 @@ const VisaInfoCardHeader = ({
           >
             {body}
           </Text>
-          {!isDisabled && !localExpansionStatus ? (
-            <View>
-              <Icon
-                name={constants.arrowDown}
-                color={constants.black1}
-                size={8}
-              />
-            </View>
-          ) : (
-            <View />
-          )}
+          <View style={!isArrowIconVisible ? styles.hideArrowIcon : null}>
+            <Icon
+              name={constants.arrowDown}
+              color={constants.black1}
+              size={8}
+            />
+          </View>
         </View>
       ) : null}
     </View>
@@ -92,6 +90,9 @@ const styles = StyleSheet.create({
   bodyText: {
     ...constants.fontCustom(constants.primaryRegular, 16, 22),
     color: constants.black1
+  },
+  hideArrowIcon: {
+    opacity: 0
   }
 });
 
