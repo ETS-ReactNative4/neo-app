@@ -7,7 +7,6 @@ import {
   ViewPropTypes,
   LayoutAnimation
 } from "react-native";
-import { withNavigationFocus } from "react-navigation";
 import constants from "../../constants/constants";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import { inject, observer } from "mobx-react/custom";
@@ -24,7 +23,6 @@ import {
 import StickyActionBar from "../VisaStatusScreen/Component/StickyActionBar";
 import XSensorPlaceholder from "../../CommonComponents/XSensorPlaceholder/XSensorPlaceholder";
 import BlankSpacer from "../../CommonComponents/BlankSpacer/BlankSpacer";
-import { isIphoneX } from "react-native-iphone-x-helper";
 
 const CheckListItem = ({
   item,
@@ -72,7 +70,6 @@ CheckListItem.propTypes = {
 };
 
 @ErrorBoundary()
-@withNavigationFocus
 @inject("visaStore")
 @observer
 class VisaDocsChecklist extends Component {

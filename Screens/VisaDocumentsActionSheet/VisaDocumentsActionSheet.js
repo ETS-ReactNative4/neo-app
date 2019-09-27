@@ -3,7 +3,8 @@ import {
   View,
   StyleSheet,
   ViewPropTypes,
-  TouchableOpacity
+  TouchableOpacity,
+  BackHandler
 } from "react-native";
 import PropTypes from "prop-types";
 import { responsiveHeight } from "react-native-responsive-dimensions";
@@ -23,26 +24,36 @@ class VisaDocumentsActionSheet extends Component {
     }
   };
 
-  render() {
-    const visaId = this.props.navigation.getParam("visaId", "");
+  componentDidMount() {
+    BackHandler.addEventListener("hardwareBackPress", this.goBack);
+  }
+
+  componentWillUnmount() {
+    BackHandler.removeEventListener("hardwareBackPress", this.goBack);
+  }
+
+  goBack = () => {
     const toggleOverlay = this.props.navigation.getParam(
       "toggleOverlay",
       () => null
     );
-    const goBack = () => {
-      this.props.navigation.goBack();
-      toggleOverlay();
-    };
+    toggleOverlay();
+    this.props.navigation.goBack();
+    return true;
+  };
+
+  render() {
+    const visaId = this.props.navigation.getParam("visaId", "");
     const { getDocumentMustKnowsByVisaId = {} } = this.props.visaStore;
     const { title, body } = getDocumentMustKnowsByVisaId(visaId);
     return (
       <View style={styles.visaDocumentActionSheetContainer}>
         <TouchableOpacity
-          onPress={goBack}
+          onPress={this.goBack}
           activeOpacity={0.8}
           style={styles.blankPlaceholder}
         />
-        <VisaInfoSheet action={goBack} content={body} title={title} />
+        <VisaInfoSheet action={this.goBack} content={body} title={title} />
         <XSensorPlaceholder containerStyle={styles.sensorPlaceholder} />
       </View>
     );
