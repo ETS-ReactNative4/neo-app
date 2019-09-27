@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
   questionWrapper: {},
   questionText: {},
   answerWrapper: {
-    marginTop: 16
+    marginTop: 8
   }
 });
 
