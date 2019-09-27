@@ -18,9 +18,13 @@ const answerStyleSheet = {
   ...constants.htmlStyleSheet,
   p: {
     fontFamily: constants.primaryRegular,
-    fontSize: 18,
-    lineHeight: 22,
+    fontSize: 17,
+    lineHeight: 24,
     color: constants.black2
+  },
+  a: {
+    ...constants.htmlStyleSheet.a,
+    fontFamily: constants.primaryRegular
   }
 };
 

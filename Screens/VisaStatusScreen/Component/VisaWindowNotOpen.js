@@ -103,12 +103,12 @@ const VisaWindowNotOpen = ({
         ) : null}
       </Fragment>
       <BlankSpacer
-        height={100 + (isIphoneX() ? constants.xSensorAreaHeight : 0) + 8}
+        height={100 + (isIphoneX() ? constants.xSensorAreaHeight : 0) + 16}
       />
       {/**
        * 100 - approx height of the visa companion bar
        * sensor area padding of iPhone X
-       * 8 - additional padding
+       * 16 - additional padding
        */}
     </View>
   );
