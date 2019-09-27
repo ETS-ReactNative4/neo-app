@@ -38,7 +38,7 @@ const StickyActionBar = ({
         <Text style={[styles.titleText, { color }]}>{title}</Text>
       </View>
       <View style={styles.actionIconWrapper}>
-        <Icon name={constants.arrowRight} color={color} size={8} />
+        <Icon name={constants.arrowRight} color={color} size={10} />
       </View>
     </TouchableOpacity>
   );
@@ -57,13 +57,14 @@ const styles = StyleSheet.create({
   stickyActionBarContainer: {
     flexDirection: "row",
     alignItems: "center",
-    padding: 24
+    paddingHorizontal: 24,
+    paddingVertical: 16
   },
   iconWrapper: {
     paddingRight: 8
   },
   textWrapper: {
-    paddingRight: 8
+    paddingRight: 4
   },
   titleText: {
     ...constants.fontCustom(constants.primarySemiBold, 16),
