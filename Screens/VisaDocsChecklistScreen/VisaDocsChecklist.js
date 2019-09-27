@@ -4,7 +4,8 @@ import {
   View,
   StyleSheet,
   Text,
-  ViewPropTypes
+  ViewPropTypes,
+  LayoutAnimation
 } from "react-native";
 import { withNavigationFocus } from "react-navigation";
 import constants from "../../constants/constants";
@@ -82,7 +83,8 @@ class VisaDocsChecklist extends Component {
   state = {
     maritalStatus: "",
     employmentType: "",
-    isBackPressed: false
+    isBackPressed: false,
+    isOverlayHidden: true
   };
 
   componentDidMount() {
@@ -121,6 +123,15 @@ class VisaDocsChecklist extends Component {
       .catch(() => toastBottom(constants.visaScreenText));
   };
 
+  toggleOverlay = () => {
+    this.setState(state => {
+      LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+      return {
+        isOverlayHidden: !state.isOverlayHidden
+      };
+    });
+  };
+
   pressBackButton = () => {
     this.setState(
       {
@@ -134,7 +145,12 @@ class VisaDocsChecklist extends Component {
 
   render() {
     const { navigation, isFocused } = this.props;
-    const { maritalStatus, employmentType, isBackPressed } = this.state;
+    const {
+      maritalStatus,
+      employmentType,
+      isBackPressed,
+      isOverlayHidden
+    } = this.state;
 
     const visaId = navigation.getParam("visaId", "");
     const title = navigation.getParam("screenTitle");
@@ -158,7 +174,11 @@ class VisaDocsChecklist extends Component {
     const checklistSections = Object.keys(checklistToDisplay);
 
     const openDocumentMustKnows = () => {
-      navigation.navigate("VisaDocumentActionSheet", { visaId });
+      this.toggleOverlay();
+      navigation.navigate("VisaDocumentActionSheet", {
+        visaId,
+        toggleOverlay: this.toggleOverlay
+      });
     };
 
     return (
@@ -248,7 +268,7 @@ class VisaDocsChecklist extends Component {
           />
         ) : null}
         <XSensorPlaceholder containerStyle={styles.sensorPlaceHolder} />
-        {!isBackPressed && !isFocused ? (
+        {!isBackPressed && !isOverlayHidden ? (
           <View style={styles.screenOverlay} />
         ) : null}
       </Fragment>
