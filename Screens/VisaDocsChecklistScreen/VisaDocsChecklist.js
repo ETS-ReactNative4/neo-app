@@ -1,5 +1,11 @@
 import React, { Component, useState, Fragment } from "react";
-import { ScrollView, View, StyleSheet, Text } from "react-native";
+import {
+  ScrollView,
+  View,
+  StyleSheet,
+  Text,
+  ViewPropTypes
+} from "react-native";
 import { withNavigationFocus } from "react-navigation";
 import constants from "../../constants/constants";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
@@ -26,7 +32,8 @@ const CheckListItem = ({
   employmentType,
   toggleChecklist,
   selectedVisaChecklistItems,
-  url
+  url,
+  containerStyle = StyleSheet.create({})
 }) => {
   const [isExpanded, toggleExpansion] = useState(false);
 
@@ -47,6 +54,7 @@ const CheckListItem = ({
       onToggleSelection={onToggleSelection}
       downloadUrl={url}
       ctaText={url ? "Download Sample" : ""}
+      containerStyle={containerStyle}
     />
   );
 };
@@ -58,7 +66,8 @@ CheckListItem.propTypes = {
   employmentType: PropTypes.string.isRequired,
   toggleChecklist: PropTypes.func.isRequired,
   selectedVisaChecklistItems: PropTypes.array.isRequired,
-  url: PropTypes.string.isRequired
+  url: PropTypes.string.isRequired,
+  containerStyle: ViewPropTypes.style
 };
 
 @ErrorBoundary()
@@ -217,6 +226,7 @@ class VisaDocsChecklist extends Component {
                             selectedVisaChecklistItems
                           }
                           url={item.url}
+                          containerStyle={styles.checklistWrapper}
                         />
                       );
                     })}
@@ -303,10 +313,14 @@ const styles = StyleSheet.create({
   categoryTitle: {
     ...constants.fontCustom(constants.primarySemiBold, 14),
     color: constants.shade1,
-    paddingVertical: 12,
+    paddingTop: 10,
+    paddingBottom: 7,
     paddingHorizontal: 24
   },
   stickyActionBar: {},
+  checklistWrapper: {
+    marginBottom: 2
+  },
   sensorPlaceHolder: {
     backgroundColor: constants.fourteenthColor
   }
