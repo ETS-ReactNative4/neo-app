@@ -18,6 +18,7 @@ import FabButton from "../../CommonComponents/FabButton/FabButton";
 import dialer from "../../Services/dialer/dialer";
 import SimpleButton from "../../CommonComponents/SimpleButton/SimpleButton";
 import CustomScrollView from "../../CommonComponents/CustomScrollView/CustomScrollView";
+import VisaRejectedActionBar from "./Component/VisaRejectedActionBar";
 
 @ErrorBoundary()
 @inject("itineraries")
@@ -129,7 +130,7 @@ class VisaStatus extends Component {
     const visaId = navigation.getParam("visaId", "");
     const visaDetails = getVisaDetails(visaId);
 
-    const { accountOwnerDetails = {} } = visaDetails;
+    const { accountOwnerDetails = {}, visaInfoFooter = "" } = visaDetails;
 
     const openHelp = () => {
       if (isVisaHelpDataAvailable(visaId)) {
@@ -179,6 +180,11 @@ class VisaStatus extends Component {
               name={accountOwnerDetails.name}
               tag={accountOwnerDetails.tag}
               phoneNumber={accountOwnerDetails.mobileNumber}
+            />
+          ) : visaInfoFooter ? (
+            <VisaRejectedActionBar
+              action={() => dialer(accountOwnerDetails.mobileNumber)}
+              title={visaInfoFooter}
             />
           ) : (
             <FabButton
