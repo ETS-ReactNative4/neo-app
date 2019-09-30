@@ -1,9 +1,7 @@
 import React, { Fragment, useEffect, useState } from "react";
 import {
-  View,
   StyleSheet,
   ViewPropTypes,
-  Text,
   TouchableOpacity,
   LayoutAnimation
 } from "react-native";
@@ -11,7 +9,6 @@ import PropTypes from "prop-types";
 import VisaStageHeader from "./Components/VisaStageHeader";
 import constants from "../../../../constants/constants";
 import VisaInfoCardHeader from "./Components/VisaInfoCardHeader";
-import VisaStageBullets from "./Components/VisaStageBullets";
 import VisaInfoCardFooter from "./Components/VisaInfoCardFooter";
 import _ from "lodash";
 import BlankSpacer from "../../../../CommonComponents/BlankSpacer/BlankSpacer";

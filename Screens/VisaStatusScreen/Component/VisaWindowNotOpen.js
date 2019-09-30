@@ -69,7 +69,7 @@ const VisaWindowNotOpen = ({
             <VisaWindowStatusWidget
               containerStyle={styles.widgetWrapper}
               countText={"days"}
-              dateText={windowOpenTimeObject.format(constants.commonDateFormat)}
+              dateText={windowOpenTimeObject.format(constants.visaDateFormat)}
               count={numberOfDaysToOpen}
               fillPercentage={timePercentage}
             />
