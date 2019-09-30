@@ -380,6 +380,48 @@ class Visa {
       .catch(() => null);
   };
 
+  @action
+  visaGranted = (visaId, requestUrl) => {
+    return new Promise((resolve, reject) => {
+      const requestBody = {
+        visaStatus: "APPROVED",
+        visaId
+      };
+      apiCall(requestUrl, requestBody)
+        .then(response => {
+          if (response.status === constants.responseSuccessStatus) {
+            this.loadVisaDetails()
+              .then(resolve)
+              .catch(reject);
+          } else {
+            reject();
+          }
+        })
+        .catch(reject);
+    });
+  };
+
+  @action
+  visaRejected = (visaId, requestUrl) => {
+    return new Promise((resolve, reject) => {
+      const requestBody = {
+        visaStatus: "REJECTED",
+        visaId
+      };
+      apiCall(requestUrl, requestBody)
+        .then(response => {
+          if (response.status === constants.responseSuccessStatus) {
+            this.loadVisaDetails()
+              .then(resolve)
+              .catch(reject);
+          } else {
+            reject();
+          }
+        })
+        .catch(reject);
+    });
+  };
+
   getVisaDetailsById = createTransformer((visaId = "") => {
     try {
       return toJS(this._visaDetails[visaId]) || {};

@@ -12,7 +12,9 @@ import { isIphoneX } from "react-native-iphone-x-helper";
 const VisaWindowOpen = ({
   containerStyle = StyleSheet.create({}),
   openDocsChecklist = () => null,
-  visaDetails
+  visaDetails,
+  grantedAction = () => null,
+  rejectedAction = () => null
 }) => {
   const { visaStageDetails = [], visaDocsMetaDetails = {} } = visaDetails;
 
@@ -50,6 +52,8 @@ const VisaWindowOpen = ({
               body={stage.body}
               stages={stage.substages}
               footer={stage.footer}
+              grantedAction={grantedAction}
+              rejectedAction={rejectedAction}
             />
           </View>
         );
@@ -70,7 +74,9 @@ const VisaWindowOpen = ({
 VisaWindowOpen.propTypes = {
   containerStyle: ViewPropTypes.style,
   visaDetails: PropTypes.object,
-  openDocsChecklist: PropTypes.func
+  openDocsChecklist: PropTypes.func,
+  grantedAction: PropTypes.func,
+  rejectedAction: PropTypes.func
 };
 
 const styles = StyleSheet.create({

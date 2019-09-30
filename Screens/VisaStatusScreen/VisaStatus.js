@@ -124,7 +124,9 @@ class VisaStatus extends Component {
     const {
       getVisaDetails,
       isVisaDetailsLoading,
-      isVisaHelpDataAvailable
+      isVisaHelpDataAvailable,
+      visaGranted,
+      visaRejected
     } = this.props.visaStore;
     const { navigation } = this.props;
     const visaId = navigation.getParam("visaId", "");
@@ -150,6 +152,10 @@ class VisaStatus extends Component {
       visaDetails.visaStage === constants.visaWindowNotOpenedStatus ||
       visaDetails.visaType === constants.onArrivalVisaType;
 
+    const grantedAction = requestUrl => visaGranted(visaId, requestUrl);
+
+    const rejectedAction = requestUrl => visaRejected(visaId, requestUrl);
+
     return (
       <Fragment>
         <CustomScrollView
@@ -168,6 +174,8 @@ class VisaStatus extends Component {
             <VisaWindowOpen
               openDocsChecklist={openDocsChecklist}
               visaDetails={visaDetails}
+              grantedAction={grantedAction}
+              rejectedAction={rejectedAction}
             />
           )}
         </CustomScrollView>

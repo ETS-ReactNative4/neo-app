@@ -14,7 +14,6 @@ import changeColorAlpha from "../../../../../Services/changeColorAlpha/changeCol
 import VisaInfoActionButton from "./VisaInfoActionButton";
 import _ from "lodash";
 import VisaInfoExpediateButton from "./VisaInfoExpediateButton";
-import resolveLinks from "../../../../../Services/resolveLinks/resolveLinks";
 import openCustomTab from "../../../../../Services/openCustomTab/openCustomTab";
 
 const VisaStageHeader = ({
@@ -26,9 +25,13 @@ const VisaStageHeader = ({
   listCheckBox = [],
   notes = "",
   action = {},
-  email = ""
+  email = "",
+  grantedAction = () => null,
+  rejectedAction = () => null
 }) => {
   const openEmailLink = () => openCustomTab(`mailto:${email}`);
+
+  const sendExpediteMail = () => openCustomTab(_.get(action, "expedite.link"));
 
   return (
     <View style={[styles.visaStageHeaderContainer, containerStyle]}>
@@ -77,7 +80,7 @@ const VisaStageHeader = ({
             {!_.isEmpty(action.granted) ? (
               <VisaInfoActionButton
                 cta={"Granted"}
-                action={() => null}
+                action={() => grantedAction(action.url)}
                 image={constants.thumbsUpIllus}
                 containerStyle={styles.grantedButton}
               />
@@ -85,12 +88,15 @@ const VisaStageHeader = ({
             {!_.isEmpty(action.rejected) ? (
               <VisaInfoActionButton
                 cta={"Rejected"}
-                action={() => null}
+                action={() => rejectedAction(action.url)}
                 image={constants.thumbsDownIllus}
               />
             ) : null}
             {!_.isEmpty(action.expedite) ? (
-              <VisaInfoExpediateButton cta={"Expedite"} action={() => null} />
+              <VisaInfoExpediateButton
+                cta={"Expedite"}
+                action={sendExpediteMail}
+              />
             ) : null}
           </View>
         ) : null}
@@ -105,7 +111,13 @@ VisaStageHeader.propTypes = {
   body: PropTypes.string,
   color: PropTypes.string,
   isDisabled: PropTypes.bool,
-  email: PropTypes.string
+  email: PropTypes.string,
+  icon: PropTypes.string,
+  listCheckBox: PropTypes.array,
+  notes: PropTypes.string,
+  action: PropTypes.func,
+  grantedAction: PropTypes.func,
+  rejectedAction: PropTypes.func
 };
 
 const styles = StyleSheet.create({

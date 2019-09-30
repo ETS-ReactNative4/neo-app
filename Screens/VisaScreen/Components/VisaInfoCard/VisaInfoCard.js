@@ -24,8 +24,7 @@ const VisaInfoCard = ({
   stages = [],
   footer = {},
   grantedAction = () => null,
-  rejectedAction = () => null,
-  expedite = () => null
+  rejectedAction = () => null
 }) => {
   const [localExpansionStatus, toggleLocalExpansion] = useState(false);
   const [isMounted, setMountStatus] = useState(false);
@@ -81,6 +80,8 @@ const VisaInfoCard = ({
                     notes={stage.stageNotes}
                     action={stage.action}
                     email={stage.email}
+                    grantedAction={grantedAction}
+                    rejectedAction={rejectedAction}
                   />
                 </Fragment>
               );
