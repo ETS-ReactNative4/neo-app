@@ -121,14 +121,14 @@ class Visa {
     return this._isVisaDetailsLoading;
   }
 
-  isVisaHelpDataAvailable = createTransformer(visaId => {
+  isVisaHelpDataAvailable = createTransformer((visaId = "") => {
     return !!(_.get(this._visaDetails[visaId], "visaHelpData") || []).length;
   });
 
   /**
    * This method will retrieve the visa details of an itinerary stored in the local mobx store
    */
-  getVisaDetailsByItineraryId = createTransformer(itineraryId => {
+  getVisaDetailsByItineraryId = createTransformer((itineraryId = "") => {
     if (this._visaDetails[itineraryId])
       return toJS(this._visaDetails[itineraryId]);
     else return [];
@@ -164,7 +164,7 @@ class Visa {
     });
   };
 
-  getVisaDetails = createTransformer(visaId => {
+  getVisaDetails = createTransformer((visaId = "") => {
     try {
       return toJS(this._visaDetails[visaId] || {});
     } catch (e) {
@@ -173,7 +173,7 @@ class Visa {
     }
   });
 
-  getHelpSectionsByVisaId = createTransformer(visaId => {
+  getHelpSectionsByVisaId = createTransformer((visaId = "") => {
     try {
       return toJS((this._visaDetails[visaId] || {}).visaHelpData || []);
     } catch (e) {
@@ -182,7 +182,7 @@ class Visa {
     }
   });
 
-  getMaritalStatusesByVisaId = createTransformer(visaId => {
+  getMaritalStatusesByVisaId = createTransformer((visaId = "") => {
     try {
       const visaDetails = this._visaDetails[visaId];
       const { visaDocsMetaDetails = {} } = visaDetails;
@@ -194,7 +194,7 @@ class Visa {
     }
   });
 
-  getDocumentMustKnowsByVisaId = createTransformer(visaId => {
+  getDocumentMustKnowsByVisaId = createTransformer((visaId = "") => {
     try {
       const visaDetails = this._visaDetails[visaId];
       const { visaDocsMetaDetails = {} } = visaDetails;
@@ -207,7 +207,7 @@ class Visa {
     }
   });
 
-  getEmploymentTypesByVisaId = createTransformer(visaId => {
+  getEmploymentTypesByVisaId = createTransformer((visaId = "") => {
     try {
       const visaDetails = this._visaDetails[visaId];
       const { visaDocsMetaDetails = {} } = visaDetails;
@@ -220,7 +220,7 @@ class Visa {
   });
 
   getChecklistItemsBySelectedOptions = createTransformer(
-    ({ visaId, maritalStatus, employmentType }) => {
+    ({ visaId, maritalStatus, employmentType } = {}) => {
       try {
         const visaDetails = this._visaDetails[visaId];
         const { visaDocsMetaDetails = {} } = visaDetails;
@@ -380,7 +380,7 @@ class Visa {
       .catch(() => null);
   };
 
-  getVisaDetailsById = createTransformer(visaId => {
+  getVisaDetailsById = createTransformer((visaId = "") => {
     try {
       return toJS(this._visaDetails[visaId]) || {};
     } catch (e) {
