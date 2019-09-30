@@ -199,10 +199,10 @@ class VisaStatus extends Component {
               action={() =>
                 contactAccountOwner(accountOwnerDetails.mobileNumber)
               }
-              iconSize={20}
+              iconSize={30}
               radius={32}
               containerStyle={styles.fabButton}
-              icon={constants.callIcon}
+              icon={constants.callStartIcon}
             />
           )
         ) : null}
