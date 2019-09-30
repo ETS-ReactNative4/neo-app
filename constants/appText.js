@@ -223,7 +223,8 @@ const appText = {
     failedToLoadChecklistData: "Unable to fetch latest checklist data",
     failedToUpdateData: "Unable to communicate with the server",
     visaRejected:
-      "It’s unfortunate that your visa got rejected. But we have got your back."
+      "It’s unfortunate that your visa got rejected. But we have got your back.",
+    visaTimeDisclaimerText: "The dates might change based on processing time"
   },
   leisureText: "Got more time?",
   explorePlacesText: "Explore Places",
