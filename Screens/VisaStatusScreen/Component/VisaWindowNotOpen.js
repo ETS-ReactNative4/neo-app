@@ -35,14 +35,10 @@ const VisaWindowNotOpen = ({
   const windowOpenTimeObject = moment(windowOpenTime);
   const currentTimeObject = moment(currentTime);
   const convertedTimeObject = moment(convertedTime);
-  const numberOfDaysToOpen = windowOpenTimeObject.diff(
-    currentTimeObject,
-    "days"
-  );
-  const numberOfDaysAvailable = windowOpenTimeObject.diff(
-    convertedTimeObject,
-    "days"
-  );
+  const numberOfDaysToOpen =
+    windowOpenTimeObject.diff(currentTimeObject, "days") + 1;
+  const numberOfDaysAvailable =
+    windowOpenTimeObject.diff(convertedTimeObject, "days") + 1;
   const timePercentage = (numberOfDaysToOpen / numberOfDaysAvailable) * 100;
   const visaStages = visaStageDetails.map(visaStage => {
     return {

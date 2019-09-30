@@ -35,7 +35,7 @@ const VisaWindowStatusWidget = ({
         >
           {() => (
             <View style={styles.chartTextContainer}>
-              <Text style={styles.countNumber}>{count || 1}</Text>
+              <Text style={styles.countNumber}>{count}</Text>
               <Text style={styles.countText}>{countText}</Text>
             </View>
           )}
