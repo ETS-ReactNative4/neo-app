@@ -26,7 +26,6 @@ const VisaInfoCard = ({
   color = constants.shade3,
   stages = [],
   footer = {},
-  action = {},
   grantedAction = () => null,
   rejectedAction = () => null,
   expedite = () => null
@@ -83,6 +82,7 @@ const VisaInfoCard = ({
                     icon={stage.icon}
                     listCheckBox={stage.listCheckBox}
                     notes={stage.stageNotes}
+                    action={stage.action}
                   />
                 </Fragment>
               );
@@ -116,7 +116,10 @@ VisaInfoCard.propTypes = {
   body: PropTypes.string,
   color: PropTypes.string.isRequired,
   stages: PropTypes.array,
-  footer: PropTypes.object
+  footer: PropTypes.object,
+  grantedAction: PropTypes.func,
+  rejectedAction: PropTypes.func,
+  expedite: PropTypes.func
 };
 
 const styles = StyleSheet.create({

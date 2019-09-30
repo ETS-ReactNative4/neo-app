@@ -1,11 +1,13 @@
 import React from "react";
 import { View, Text, StyleSheet, ViewPropTypes } from "react-native";
 import PropTypes from "prop-types";
-import InfoDot from "../../../../../CommonComponents/InfoDot/InfoDot";
 import constants from "../../../../../constants/constants";
 import Icon from "../../../../../CommonComponents/Icon/Icon";
 import VisaStageBullets from "./VisaStageBullets";
 import changeColorAlpha from "../../../../../Services/changeColorAlpha/changeColorAlpha";
+import VisaInfoActionButton from "./VisaInfoActionButton";
+import _ from "lodash";
+import VisaInfoExpediateButton from "./VisaInfoExpediateButton";
 
 const VisaStageHeader = ({
   containerStyle = StyleSheet.create({}),
@@ -14,7 +16,8 @@ const VisaStageHeader = ({
   color = "",
   icon = "",
   listCheckBox = [],
-  notes = ""
+  notes = "",
+  action = {}
 }) => {
   return (
     <View style={[styles.visaStageHeaderContainer, containerStyle]}>
@@ -41,6 +44,28 @@ const VisaStageHeader = ({
         {notes ? (
           <View style={styles.notesContainer}>
             <Text style={styles.notesText}>{notes}</Text>
+          </View>
+        ) : null}
+        {!_.isEmpty(action) ? (
+          <View style={styles.actionBar}>
+            {!_.isEmpty(action.granted) ? (
+              <VisaInfoActionButton
+                cta={"Granted"}
+                action={() => null}
+                image={constants.thumbsUpIllus}
+                containerStyle={styles.grantedButton}
+              />
+            ) : null}
+            {!_.isEmpty(action.rejected) ? (
+              <VisaInfoActionButton
+                cta={"Rejected"}
+                action={() => null}
+                image={constants.thumbsDownIllus}
+              />
+            ) : null}
+            {!_.isEmpty(action.expedite) ? (
+              <VisaInfoExpediateButton cta={"Expedite"} action={() => null} />
+            ) : null}
           </View>
         ) : null}
       </View>
@@ -101,6 +126,13 @@ const styles = StyleSheet.create({
   notesText: {
     ...constants.fontCustom(constants.primaryRegular, 15, 21),
     color: constants.black2
+  },
+  actionBar: {
+    marginTop: 16,
+    flexDirection: "row"
+  },
+  grantedButton: {
+    marginRight: 16
   }
 });
 

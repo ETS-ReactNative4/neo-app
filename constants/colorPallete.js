@@ -22,6 +22,7 @@ const pallete2 = {
   fourteenthColor: `rgba(224, 237, 255, 1)`, // Sticky action bars color
   fifteenthColor: `rgba(38, 119, 240, 1)`, // Sticky action text color
   sixteenthColor: `rgba(119, 68, 228, 1)`,
+  seventeenthColor: `rgba(236, 71, 71, 1)`, // theme dark red
   themeDarkBlue: `rgba(80, 138, 232, 1)`,
 
   firstColorAlpha: alpha => `rgba(0, 198, 132, ${alpha})`,
