@@ -52,6 +52,7 @@ const imageAssets = {
   hotelIcon: "hotel",
   clockIcon: "clock",
   infoIcon: "about",
+  aboutInfoIcon: "about-info",
   storybookIcon: "storybook",
   warningIcon: "warning",
   thumbsUpIcon: "like",

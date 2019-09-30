@@ -53,7 +53,11 @@ const VisaStagesCard = ({
       </View>
       <View style={styles.disclaimerTextContainer}>
         <View style={styles.iconContainer}>
-          <Icon name={constants.infoIcon} size={14} color={constants.shade1} />
+          <Icon
+            name={constants.aboutInfoIcon}
+            size={14}
+            color={constants.shade1}
+          />
         </View>
         <Text style={styles.disclaimerText}>
           {constants.visaScreenText.visaTimeDisclaimerText}
