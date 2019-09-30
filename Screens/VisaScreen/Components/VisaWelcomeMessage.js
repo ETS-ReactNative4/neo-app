@@ -60,16 +60,18 @@ const styles = StyleSheet.create({
   },
   userName: {
     ...constants.fontCustom(constants.primarySemiBold, 24),
-    color: constants.black1
+    color: constants.black1,
+    textAlign: "center"
   },
   welcomeMessage: {
     ...constants.fontCustom(constants.primaryRegular, 16),
     color: constants.black1,
-    marginTop: 16
+    marginTop: 16,
+    textAlign: "center"
   },
   detailsRow: {
     flexDirection: "row",
-    marginTop: 32
+    marginTop: 24
   },
   rowSection: {
     flexDirection: "row",
