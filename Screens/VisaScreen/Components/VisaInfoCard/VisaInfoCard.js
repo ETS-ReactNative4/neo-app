@@ -14,6 +14,8 @@ import VisaInfoCardHeader from "./Components/VisaInfoCardHeader";
 import VisaStageBullets from "./Components/VisaStageBullets";
 import VisaInfoCardFooter from "./Components/VisaInfoCardFooter";
 import _ from "lodash";
+import BlankSpacer from "../../../../CommonComponents/BlankSpacer/BlankSpacer";
+import { responsiveWidth } from "react-native-responsive-dimensions";
 
 const VisaInfoCard = ({
   containerStyle = StyleSheet.create({}),
@@ -23,7 +25,11 @@ const VisaInfoCard = ({
   body = "",
   color = constants.shade3,
   stages = [],
-  footer = {}
+  footer = {},
+  action = {},
+  grantedAction = () => null,
+  rejectedAction = () => null,
+  expedite = () => null
 }) => {
   const [localExpansionStatus, toggleLocalExpansion] = useState(false);
   const [isMounted, setMountStatus] = useState(false);
@@ -49,7 +55,9 @@ const VisaInfoCard = ({
         activeOpacity={0.8}
         style={[
           styles.visaInfoCardContainer,
-          localExpansionStatus ? styles.expandedInfoCard : {},
+          localExpansionStatus
+            ? styles.expandedInfoCard
+            : styles.compressedInfoCard,
           containerStyle
         ]}
       >
@@ -59,6 +67,7 @@ const VisaInfoCard = ({
           isDisabled={isCardDisabled}
           localExpansionStatus={localExpansionStatus}
           color={isCardDisabled ? constants.shade3 : color}
+          containerStyle={styles.cardHeader}
         />
         {localExpansionStatus ? (
           <Fragment>
@@ -66,6 +75,7 @@ const VisaInfoCard = ({
               return (
                 <Fragment>
                   <VisaStageHeader
+                    containerStyle={styles.stageHeader}
                     key={stageIndex}
                     title={stage.title}
                     body={stage.body}
@@ -79,15 +89,21 @@ const VisaInfoCard = ({
             })}
           </Fragment>
         ) : null}
+        {localExpansionStatus && !_.isEmpty(footer) && !isCardDisabled ? (
+          <VisaInfoCardFooter
+            containerStyle={
+              !localExpansionStatus
+                ? styles.compressedFooter
+                : styles.expandedFooter
+            }
+            icon={footer.icon}
+            text={footer.text}
+            color={footer.color}
+          />
+        ) : localExpansionStatus ? (
+          <BlankSpacer containerStyle={styles.footerSpacer} height={24} />
+        ) : null}
       </TouchableOpacity>
-      {localExpansionStatus && !_.isEmpty(footer) && !isCardDisabled ? (
-        <VisaInfoCardFooter
-          containerStyle={!localExpansionStatus ? styles.compressedFooter : {}}
-          icon={footer.icon}
-          text={footer.text}
-          color={footer.color}
-        />
-      ) : null}
     </Fragment>
   );
 };
@@ -106,15 +122,37 @@ VisaInfoCard.propTypes = {
 const styles = StyleSheet.create({
   visaInfoCardContainer: {
     backgroundColor: "white",
-    padding: 24,
-    borderRadius: 4
+    paddingTop: 24,
+    borderTopRightRadius: 4,
+    borderTopLeftRadius: 4
+  },
+  footerSpacer: {
+    backgroundColor: "white",
+    borderBottomLeftRadius: 4,
+    borderBottomRightRadius: 4,
+    marginHorizontal: 24,
+    width: responsiveWidth(100) - 48
+  },
+  cardHeader: {
+    paddingHorizontal: 24
+  },
+  stageHeader: {
+    paddingHorizontal: 24
   },
   expandedInfoCard: {
     borderBottomLeftRadius: 0,
     borderBottomRightRadius: 0
   },
+  compressedInfoCard: {
+    borderBottomLeftRadius: 4,
+    borderBottomRightRadius: 4,
+    paddingBottom: 24
+  },
   compressedFooter: {
     height: 0
+  },
+  expandedFooter: {
+    marginTop: 24
   }
 });
 

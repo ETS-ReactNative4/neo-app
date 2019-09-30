@@ -111,6 +111,79 @@ const helpQaData = {
     "<p>Bali provides Visa on arrival for all Indian citizens.Here are a few pointers to keep in mind for Bali’s visa process</p>"
 };
 
+const visaCardData = {
+  isCardExpanded: true,
+  isCardDisabled: false,
+  title: "Initial Call",
+  body: "Completed on Jul 30, 2019  |  1 Remark",
+  color: constants.firstColor,
+  stages: [
+    {
+      title: "Unassigned",
+      body: "Visa appointment date",
+      color: constants.secondColor,
+      icon: constants.activityIcon,
+      listCheckBox: [
+        {
+          text: "Cover Letter",
+          color: constants.firstColor,
+          icon: constants.activityIcon,
+          notes: {
+            title: "Courier the pending documents to",
+            text:
+              "No:59, Ground Floor, Vijaya Raghava Rd, Near Andhra Club, Parthasarathi Puram, T. Nagar, Chennai"
+          }
+        },
+        {
+          text: "Identification Proof",
+          color: constants.secondColor,
+          icon: constants.activityIcon,
+          notes: {}
+        },
+        {
+          text: "Financial Proofs",
+          color: constants.thirdColor,
+          notes: {}
+        },
+        {
+          text: "Boarding Proofs",
+          color: constants.thirdColor,
+          icon: constants.busIcon,
+          notes: {
+            title: "Courier the pending documents to",
+            text:
+              "No:59, Ground Floor, Vijaya Raghava Rd, Near Andhra Club, Parthasarathi Puram, T. Nagar, Chennai"
+          }
+        }
+      ]
+    },
+    {
+      title: "Unassigned",
+      body: "Visa appointment date",
+      color: constants.secondColor,
+      icon: constants.activityIcon,
+      stageNotes:
+        "No:59, Ground Floor, Vijaya Raghava Rd, Near Andhra Club, Parthasarathi Puram, T. Nagar, Chennai"
+    }
+  ],
+  granted: {
+    url: "mobile/visa/status",
+    cta: "Granted",
+    link: null
+  },
+  rejected: {
+    url: "mobile/visa/status",
+    cta: "Rejected",
+    link: null
+  },
+  expedite: {
+    url: null,
+    cta: "Expedite",
+    link:
+      "mailto:les@ventureguitars.com?subject=Music%20Lessons&body=%2ADISCLAIMER%3A%20THIS%20IS%20JUST%20A%20TEMPLATE%2A%0A%0ATo%2C%0A%0AThe%20Visa%20officer%2C%0AEmbassy%20of%20%3CDestination%20name%3E%2C%0A%3CEmbassy%20location%3E%0A%0ADate%3A%3Cdate%3E%0A%0ASub%3A%20Request%20to%20expedite%20the%20visa%20process%20for%20%3Cdestination%20name%3E%0A%0ADear%20Sir%2FMadam%2C%0A%0AI%2FMy%20family%20and%20I%20had%20applied%20for%20%3Cdestination%20name%3E%20visa%20on%20%3Cdate%3E%20filed%20with%20VFS%20%3Coffice%20location%3E.%20Here%20are%20our%20application%20reference%20numbers%3A%0A%0APlease%20find%20below%20the%20passport%20numbers%20for%20all%2C%0A%28Name%20and%20Passport%20Number%29%0A%0AI%27ve%20been%20checking%20the%20status%20of%20the%20visa%20application%20on%20the%20VFS%20website%20and%20it%27s%20still%20in%20the%20%27Under%20Process%27%20stage.%20I%20also%20got%20in%20touch%20with%20officials%20in%20VFS%20%3COffice%20location%3E%20and%20was%20informed%20the%20same.%0A%0AIn%20this%20regard%2C%20I%20want%20to%20highlight%20that%20we%20are%20scheduled%20to%20travel%20to%20Italy%20on%2014%20March%202018.%20Further%2C%20the%20flight%20tickets%20from%20Delhi%20to%20Rome%2C%20Italy%20flight%20tickets%2C%20and%20hotel%20bookings%20have%20already%20been%20made.%20We%20are%20attaching%20the%20copy%20of%20the%20same%20for%20your%20reference.%20Having%20said%20that%2C%20if%20we%20are%20not%20able%20to%20travel%20to%20Italy%20%28as%20scheduled%29%2C%20it%20will%20result%20in%20a%20huge%20financial%20loss.%20Further%2C%20we%20will%20not%20be%20able%20to%20visit%20Italy%20for%20at%20least%20one%20year%20given%20the%20work%20schedule%2Fcommitments.%20Also%2C%20it%E2%80%99s%20our%20honeymoon%20trip%2C%20which%20also%20happens%20to%20be%20the%20first%20international%20trip%20for%20the%20two%20of%20us.%20We%20are%20very%20excited%20about%20the%20trip%20and%20we%27ve%20been%20planning%20it%20since%20our%20marriage.%20It%20would%20be%20very%20disappointing%20if%20the%20trip%20has%20to%20be%20cancelled%20on%20account%20of%20delay%20in%20the%20visa.%20May%20I%20request%20your%20immediate%20attention%20in%20the%20matter%2C%20so%20that%20the%20visa%20can%20be%20issued%20by%20the%20end%20of%20the%20day%2C%20basis%20which%20our%20further%20course%20of%20action%20can%20be%20planned.%20I%20would%20be%20obliged%20for%20your%20kind%20indulgence.%20Appreciate%20your%20good%20support.%0A%0A%0AMany%20Thanks%2C"
+  }
+};
+
 class ChecklistComponent extends React.Component {
   static propTypes = {
     hideLink: PropTypes.bool,
@@ -261,60 +334,7 @@ storiesOf("Visa Story", module)
   })
   .add("Visa Card", () => {
     const props = {
-      isCardExpanded: true,
-      isCardDisabled: false,
-      title: "Initial Call",
-      body: "Completed on Jul 30, 2019  |  1 Remark",
-      color: constants.firstColor,
-      stages: [
-        {
-          title: "Unassigned",
-          body: "Visa appointment date",
-          color: constants.secondColor,
-          icon: constants.activityIcon,
-          listCheckBox: [
-            {
-              text: "Cover Letter",
-              color: constants.firstColor,
-              icon: constants.activityIcon,
-              notes: {
-                title: "Courier the pending documents to",
-                text:
-                  "No:59, Ground Floor, Vijaya Raghava Rd, Near Andhra Club, Parthasarathi Puram, T. Nagar, Chennai"
-              }
-            },
-            {
-              text: "Identification Proof",
-              color: constants.secondColor,
-              icon: constants.activityIcon,
-              notes: {}
-            },
-            {
-              text: "Financial Proofs",
-              color: constants.thirdColor,
-              notes: {}
-            },
-            {
-              text: "Boarding Proofs",
-              color: constants.thirdColor,
-              icon: constants.busIcon,
-              notes: {
-                title: "Courier the pending documents to",
-                text:
-                  "No:59, Ground Floor, Vijaya Raghava Rd, Near Andhra Club, Parthasarathi Puram, T. Nagar, Chennai"
-              }
-            }
-          ]
-        },
-        {
-          title: "Unassigned",
-          body: "Visa appointment date",
-          color: constants.secondColor,
-          icon: constants.activityIcon,
-          stageNotes:
-            "No:59, Ground Floor, Vijaya Raghava Rd, Near Andhra Club, Parthasarathi Puram, T. Nagar, Chennai"
-        }
-      ]
+      ...visaCardData
     };
     console.log(props);
     return (

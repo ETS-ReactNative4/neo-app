@@ -38,7 +38,6 @@ VisaInfoCardFooter.propTypes = {
 const styles = StyleSheet.create({
   visaInfoCardFooterContainer: {
     flexDirection: "row",
-    marginHorizontal: 24,
     borderBottomRightRadius: 4,
     borderBottomLeftRadius: 4,
     padding: 24,
