@@ -160,6 +160,7 @@ const visaCardData = {
     {
       title: "Unassigned",
       body: "Visa appointment date",
+      email: "test-user@gmail.com",
       color: constants.secondColor,
       icon: constants.activityIcon,
       stageNotes:

@@ -1,5 +1,11 @@
 import React from "react";
-import { View, Text, StyleSheet, ViewPropTypes } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  ViewPropTypes,
+  TouchableOpacity
+} from "react-native";
 import PropTypes from "prop-types";
 import constants from "../../../../../constants/constants";
 import Icon from "../../../../../CommonComponents/Icon/Icon";
@@ -8,6 +14,8 @@ import changeColorAlpha from "../../../../../Services/changeColorAlpha/changeCol
 import VisaInfoActionButton from "./VisaInfoActionButton";
 import _ from "lodash";
 import VisaInfoExpediateButton from "./VisaInfoExpediateButton";
+import resolveLinks from "../../../../../Services/resolveLinks/resolveLinks";
+import openCustomTab from "../../../../../Services/openCustomTab/openCustomTab";
 
 const VisaStageHeader = ({
   containerStyle = StyleSheet.create({}),
@@ -17,8 +25,11 @@ const VisaStageHeader = ({
   icon = "",
   listCheckBox = [],
   notes = "",
-  action = {}
+  action = {},
+  email = ""
 }) => {
+  const openEmailLink = () => openCustomTab(`mailto:${email}`);
+
   return (
     <View style={[styles.visaStageHeaderContainer, containerStyle]}>
       <View style={styles.iconSection}>
@@ -32,12 +43,27 @@ const VisaStageHeader = ({
         </View>
       </View>
       <View style={styles.textSection}>
-        <View style={styles.visaStageTitleWrapper}>
-          <Text style={[styles.titleText]}>{title}</Text>
-        </View>
-        <View style={styles.bodyTextWrapper}>
-          <Text style={[styles.bodyText]}>{body}</Text>
-        </View>
+        {title ? (
+          <View style={styles.visaStageTitleWrapper}>
+            <Text style={[styles.titleText]}>{title}</Text>
+          </View>
+        ) : null}
+        {body ? (
+          <View style={styles.bodyTextWrapper}>
+            <Text style={[styles.bodyText]}>{body}</Text>
+          </View>
+        ) : null}
+        {email ? (
+          <TouchableOpacity
+            onPress={openEmailLink}
+            activeOpacity={0.8}
+            style={styles.bodyTextWrapper}
+          >
+            <Text style={[styles.bodyText, styles.emailDecoration]}>
+              {email}
+            </Text>
+          </TouchableOpacity>
+        ) : null}
         {listCheckBox && listCheckBox.length ? (
           <VisaStageBullets list={listCheckBox} />
         ) : null}
@@ -78,7 +104,8 @@ VisaStageHeader.propTypes = {
   title: PropTypes.string,
   body: PropTypes.string,
   color: PropTypes.string,
-  isDisabled: PropTypes.bool
+  isDisabled: PropTypes.bool,
+  email: PropTypes.string
 };
 
 const styles = StyleSheet.create({
@@ -118,6 +145,10 @@ const styles = StyleSheet.create({
   bodyText: {
     ...constants.fontCustom(constants.primaryRegular, 16, 22),
     color: constants.black1
+  },
+  emailDecoration: {
+    color: constants.firstColor,
+    textDecorationLine: "underline"
   },
   notesContainer: {
     marginTop: 8,

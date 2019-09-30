@@ -80,6 +80,7 @@ const VisaInfoCard = ({
                     listCheckBox={stage.listCheckBox}
                     notes={stage.stageNotes}
                     action={stage.action}
+                    email={stage.email}
                   />
                 </Fragment>
               );
