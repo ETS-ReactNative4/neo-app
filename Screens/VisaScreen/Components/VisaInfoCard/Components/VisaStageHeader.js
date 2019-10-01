@@ -91,7 +91,7 @@ const VisaStageHeader = ({
             {!_.isEmpty(action.granted) ? (
               <VisaInfoActionButton
                 cta={"Granted"}
-                action={() => grantedAction(action.url)}
+                action={() => grantedAction(action.granted.url)}
                 image={constants.thumbsUpIllus}
                 containerStyle={styles.grantedButton}
               />
@@ -99,7 +99,7 @@ const VisaStageHeader = ({
             {!_.isEmpty(action.rejected) ? (
               <VisaInfoActionButton
                 cta={"Rejected"}
-                action={() => rejectedAction(action.url)}
+                action={() => rejectedAction(action.rejected.url)}
                 image={constants.thumbsDownIllus}
               />
             ) : null}

@@ -153,14 +153,14 @@ class VisaStatus extends Component {
       visaDetails.visaStage === constants.visaWindowNotOpenedStatus ||
       visaDetails.visaType === constants.onArrivalVisaType;
 
-    const grantedAction = requestUrl => () => {
+    const grantedAction = requestUrl => {
       recordEvent(constants.Visa.event, {
         click: constants.Visa.click.visaGranted
       });
       visaGranted(visaId, requestUrl);
     };
 
-    const rejectedAction = requestUrl => () => {
+    const rejectedAction = requestUrl => {
       recordEvent(constants.Visa.event, {
         click: constants.Visa.click.visaRejected
       });

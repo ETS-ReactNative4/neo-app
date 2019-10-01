@@ -383,9 +383,11 @@ class Visa {
   @action
   visaGranted = (visaId, requestUrl) => {
     return new Promise((resolve, reject) => {
+      const itineraryId = storeService.itineraries.selectedItineraryId;
       const requestBody = {
         visaStatus: "APPROVED",
-        visaId
+        visaId,
+        itineraryId
       };
       apiCall(requestUrl, requestBody)
         .then(response => {
@@ -404,9 +406,11 @@ class Visa {
   @action
   visaRejected = (visaId, requestUrl) => {
     return new Promise((resolve, reject) => {
+      const itineraryId = storeService.itineraries.selectedItineraryId;
       const requestBody = {
         visaStatus: "REJECTED",
-        visaId
+        visaId,
+        itineraryId
       };
       apiCall(requestUrl, requestBody)
         .then(response => {
