@@ -220,7 +220,24 @@ const appEvents = {
     click: {
       contactHelpdesk: "contact_helpdesk",
       getChecklist: "get_checklist",
-      emailChecklist: "email_checklist"
+      emailChecklist: "email_checklist",
+      initializeVisa: "visa_initialize",
+      docsChecklistHeader: "docs_checklist_header",
+      visaSelectorList: "visa_selector_list",
+      docsChecklistWidget: "docs_checklist_widget",
+      visaHelpWidget: "visa_help_widget",
+      callAccountOwnerBar: "call_account_owner_bar",
+      callAccountOwnerFab: "call_account_owner_fab",
+      callAccountOwnerRejectedBar: "call_account_owner_rejected_bar",
+      maritalDropDownOption: "marital_drop_down_option",
+      employmentDropDownOption: "employment_drop_down_option",
+      toggleDocsCheckbox: "toggle_docs_check_box",
+      toggleDocsAccordion: "toggle_docs_accordion",
+      toggleVisaCard: "toggle_visa_card",
+      visaGranted: "visa_granted",
+      visaRejected: "visa_rejected",
+      visaExpedite: "visa_expedite",
+      emailAoFromCard: "email_ao_from_card"
     }
   },
   tripViewScroll: "trip_view_scroll",

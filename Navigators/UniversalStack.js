@@ -12,6 +12,8 @@ import MainStack from "./MainStack";
 import RentalCarVoucher from "../Screens/VoucherScreens/RentalCarVoucherScreen/RentalCarVoucher";
 import PDFViewerAndroid from "../Screens/PDFViewerScreen/PDFViewerAndroid";
 import FeedbackPrompt from "../Screens/FeedbackPromptScreen/FeedbackPrompt";
+import ActionSheet from "../Screens/ActionSheetScreen/ActionSheet";
+import VisaDocumentsActionSheet from "../Screens/VisaDocumentsActionSheet/VisaDocumentsActionSheet";
 
 const UniversalStack = createStackNavigator(
   {
@@ -48,6 +50,12 @@ const UniversalStack = createStackNavigator(
     },
     FeedbackPrompt: {
       screen: FeedbackPrompt
+    },
+    VisaDocumentActionSheet: {
+      screen: VisaDocumentsActionSheet
+    },
+    ActionSheet: {
+      screen: ActionSheet
     }
   },
   {
@@ -61,7 +69,8 @@ const UniversalStack = createStackNavigator(
       drawerLockMode: "locked-closed"
     },
     mode: "modal",
-    transitionConfig
+    transitionConfig,
+    transparentCard: true
   }
 );
 

@@ -12,7 +12,7 @@ class CustomHtmlView extends Component {
     html: PropTypes.string.isRequired,
     styleSheet: PropTypes.object,
     addLineBreaks: PropTypes.bool,
-    containerStyle: ViewPropTypes.style.isRequired
+    containerStyle: ViewPropTypes.style
   };
 
   state = {

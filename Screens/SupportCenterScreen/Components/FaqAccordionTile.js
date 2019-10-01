@@ -38,28 +38,27 @@ const FaqAccordionTile = ({
 }) => {
   const [isExpanded, toggleExpansion] = useState(false);
   const [iconContainer, setIconContainer] = useState({
-    transform: [{ rotate: "0deg" }]
+    transform: [{ rotate: "90deg" }]
   });
 
-  const spinValue = new Animated.Value(0);
-  Animated.timing(spinValue, {
-    toValue: 1,
-    duration: 300,
-    easing: Easing.linear
-  }).start();
-  let spin;
-
   const handleClick = () => {
+    let spin;
+    const spinValue = new Animated.Value(0);
+    Animated.timing(spinValue, {
+      toValue: 1,
+      duration: 300,
+      easing: Easing.linear
+    }).start();
     if (isExpanded) {
       spin = spinValue.interpolate({
         inputRange: [0, 1],
-        outputRange: ["90deg", "0deg"]
+        outputRange: ["270deg", "90deg"]
       });
       setIconContainer({ transform: [{ rotate: spin }] });
     } else {
       spin = spinValue.interpolate({
         inputRange: [0, 1],
-        outputRange: ["0deg", "90deg"]
+        outputRange: ["90deg", "270deg"]
       });
       setIconContainer({ transform: [{ rotate: spin }] });
     }

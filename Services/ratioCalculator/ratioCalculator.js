@@ -5,7 +5,7 @@
  *  - xValue should be calculated using responsive dimensions.
  */
 const ratioCalculator = (x, y, xValue) => {
-  return (x * xValue) / y;
+  return (y * xValue) / x;
 };
 
 export default ratioCalculator;

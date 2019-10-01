@@ -85,6 +85,9 @@ const transitionConfig = () => {
         case "FeedbackPrompt":
           return slideFromBottom;
 
+        case "VisaDocumentActionSheet":
+          return slideFromBottom;
+
         default:
           return slideFromRight;
       }

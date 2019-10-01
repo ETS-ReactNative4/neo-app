@@ -217,7 +217,14 @@ const appText = {
     failedToFetchCurrency: "Unable to retrieve currency details"
   },
   visaScreenText: {
-    visaDetailsUnavilable: "Visa details are unavailable for this country"
+    visaDetailsUnavilable: "Visa details are unavailable for this country",
+    failedToLoadVisaData: "Unable to fetch visa details",
+    failedToLoadLatestData: "Unable to fetch latest visa details",
+    failedToLoadChecklistData: "Unable to fetch latest checklist data",
+    failedToUpdateData: "Unable to communicate with the server",
+    visaRejected:
+      "It’s unfortunate that your visa got rejected. But we have got your back.",
+    visaTimeDisclaimerText: "The dates might change based on processing time"
   },
   leisureText: "Got more time?",
   explorePlacesText: "Explore Places",

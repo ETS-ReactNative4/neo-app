@@ -22,6 +22,10 @@ import TicketsConversation from "../Screens/TicketsConversationScreen/TicketsCon
 import transitionConfig from "../Services/navigationAnimations/transitionConfig";
 import PDFViewerAndroid from "../Screens/PDFViewerScreen/PDFViewerAndroid";
 import Forex from "../Screens/ForexScreen/Forex";
+import VisaSelector from "../Screens/VisaSelectorScreen/VisaSelector";
+import VisaStatus from "../Screens/VisaStatusScreen/VisaStatus";
+import VisaHelp from "../Screens/VisaHelpScreen/VisaHelp";
+import VisaDocsChecklist from "../Screens/VisaDocsChecklistScreen/VisaDocsChecklist";
 
 const MainStack = createStackNavigator(
   {
@@ -71,8 +75,20 @@ const MainStack = createStackNavigator(
     Visa: {
       screen: Visa
     },
+    VisaSelector: {
+      screen: VisaSelector
+    },
     VisaChecklist: {
       screen: VisaChecklist
+    },
+    VisaDocsChecklist: {
+      screen: VisaDocsChecklist
+    },
+    VisaStatus: {
+      screen: VisaStatus
+    },
+    VisaHelp: {
+      screen: VisaHelp
     },
     SupportCenter: {
       screen: SupportCenter

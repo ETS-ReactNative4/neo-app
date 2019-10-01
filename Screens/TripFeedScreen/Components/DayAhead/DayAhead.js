@@ -60,8 +60,7 @@ const styles = StyleSheet.create({
   },
   rowContainer: {
     borderRadius: 5,
-    marginBottom: 8,
-    ...constants.elevationFive
+    marginBottom: 8
   },
   rowWrapper: {}
 });

@@ -26,7 +26,7 @@ const apiUrls = {
   registerDeviceToken: "mobile/devicetoken",
   getEmergencyContacts: "mobile/city/contacts/emergency",
   getPassportDetails: "mobile/:itineraryId/passport/details",
-  getVisaDetails: "mobile/:itineraryId/visa/details",
+  getVisaDetails: "mobile/visa/:visaId",
   sendVisaDocs: "mobile/sendVisaDocs",
   getPaymentMeta: "mobile/booked/itinerary/paymentMetaInfo",
   getPaymentInfo: "mobile/:itineraryId/paymentInfo",
@@ -46,6 +46,9 @@ const apiUrls = {
   journalImageDetails: "mobile/journal/image",
   journalStoryOperations: "mobile/journal/story",
   journalDeleteStory: "mobile/journal/story/:storyId",
+  getVisaHomeInfo: "mobile/visa/screen/info/home",
+  initiateVisaProcess: "mobile/visa/initialize",
+  visaChecklistDetails: "mobile/visa/checklist",
 
   getJournalScreenDetails: "mobile/journal/screen/info/home",
   getJournalStartScreenDetails: "mobile/journal/screen/info/setup",

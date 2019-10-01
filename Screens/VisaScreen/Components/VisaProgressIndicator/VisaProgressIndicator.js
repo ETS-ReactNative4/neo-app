@@ -6,7 +6,7 @@ import Connector from "./Components/Connector";
 
 const VisaProgressIndicator = ({ totalSteps, completed }) => {
   const stepArray = Array.from(Array(totalSteps).keys());
-  console.log(stepArray);
+
   return (
     <View style={styles.progressIndicatorContainer}>
       {stepArray.map((step, stepIndex) => {

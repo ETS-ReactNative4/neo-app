@@ -10,6 +10,7 @@ import { View, Platform } from "react-native";
 import "./rn-addons";
 import constants from "../constants/constants";
 import { isProduction } from "../Services/getEnvironmentDetails/getEnvironmentDetails";
+import { isIphoneX } from "react-native-iphone-x-helper";
 
 addDecorator(story => (
   <View
@@ -17,7 +18,8 @@ addDecorator(story => (
       flex: 1,
       backgroundColor: constants.white1,
       borderColor: constants.shade3,
-      borderWidth: StyleSheet.hairlineWidth
+      borderWidth: StyleSheet.hairlineWidth,
+      marginTop: isIphoneX() ? constants.xNotchHeight : 0
     }}
   >
     {story()}
@@ -31,6 +33,7 @@ configure(() => {
   require("./stories/ForexStory");
   require("./stories/PaymentsStory");
   require("./stories/HelpDeskStory");
+  require("./stories/VisaStory");
 }, module);
 
 const StorybookUIRoot = getStorybookUI({});

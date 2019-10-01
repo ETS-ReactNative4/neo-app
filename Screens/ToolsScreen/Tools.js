@@ -10,15 +10,55 @@ import { inject, observer } from "mobx-react/custom";
 import { recordEvent } from "../../Services/analytics/analyticsService";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import NoInternetIndicator from "../../CommonComponents/NoInternetIndicator/NoInternetIndicator";
+import VisaSelector from "../VisaSelectorScreen/VisaSelector";
+import Visa from "../../mobx/Visa";
+import debouncer from "../../Services/debouncer/debouncer";
 
 @ErrorBoundary({ isRoot: true })
 @inject("itineraries")
+@inject("visaStore")
 @observer
 class Tools extends Component {
   static navigationOptions = HomeHeader;
 
+  constructor(props) {
+    super(props);
+
+    this._didFocusSubscription = props.navigation.addListener(
+      "didFocus",
+      () => {
+        debouncer(() => {
+          this.loadVisaDetails();
+        });
+      }
+    );
+  }
+
+  loadVisaDetails = () => {
+    const { selectedItineraryId } = this.props.itineraries;
+    if (selectedItineraryId) {
+      const { getVisaHomeScreenDetails } = this.props.visaStore;
+      getVisaHomeScreenDetails();
+    }
+  };
+
+  componentDidMount() {
+    this.loadVisaDetails();
+  }
+
+  componentWillUnmount() {
+    this._didFocusSubscription && this._didFocusSubscription.remove();
+  }
+
   render() {
     const { cities } = this.props.itineraries;
+    const {
+      isVisaInitialized,
+      isSingleVisa,
+      visaList,
+      isVisaAvailable
+    } = this.props.visaStore;
+    const { navigation } = this.props;
     const cityList = cities.map(city => {
       const cityId = city.cityObject ? city.cityObject.cityId : "";
       return {
@@ -28,7 +68,7 @@ class Tools extends Component {
           recordEvent(constants.Tools.event, {
             click: constants.Tools.click.placesTile
           });
-          this.props.navigation.navigate("ToolPlaces", {
+          navigation.navigate("ToolPlaces", {
             city: cityId,
             target: "ToolNearBy"
           });
@@ -44,7 +84,7 @@ class Tools extends Component {
           recordEvent(constants.Tools.event, {
             click: constants.Tools.click.currencyConverter
           });
-          this.props.navigation.navigate("CurrencyConverter");
+          navigation.navigate("CurrencyConverter");
         },
         icon: constants.currencyCalculatorIcon
       },
@@ -55,7 +95,7 @@ class Tools extends Component {
           recordEvent(constants.Tools.event, {
             click: constants.Tools.click.commonPhrases
           });
-          this.props.navigation.navigate("PhraseBook");
+          navigation.navigate("PhraseBook");
         }
       },
       {
@@ -65,7 +105,7 @@ class Tools extends Component {
           recordEvent(constants.Tools.event, {
             click: constants.Tools.click.emergencyContacts
           });
-          this.props.navigation.navigate("EmergencyContacts");
+          navigation.navigate("EmergencyContacts");
         }
       },
       {
@@ -75,7 +115,7 @@ class Tools extends Component {
           recordEvent(constants.Tools.event, {
             click: constants.Tools.click.weatherForecast
           });
-          this.props.navigation.navigate("Weather");
+          navigation.navigate("Weather");
         }
       },
       {
@@ -85,7 +125,7 @@ class Tools extends Component {
           recordEvent(constants.Tools.event, {
             click: constants.Tools.click.helpDesk
           });
-          this.props.navigation.navigate("SupportCenter");
+          navigation.navigate("SupportCenter");
         }
       }
     ];
@@ -97,7 +137,7 @@ class Tools extends Component {
           recordEvent(constants.Tools.event, {
             click: constants.Tools.click.packingChecklist
           });
-          this.props.navigation.navigate("PackingChecklist");
+          navigation.navigate("PackingChecklist");
         },
         icon: constants.packageChecklistIcon
       },
@@ -107,7 +147,7 @@ class Tools extends Component {
           recordEvent(constants.Tools.event, {
             click: constants.Tools.click.forex
           });
-          this.props.navigation.navigate("Forex");
+          navigation.navigate("Forex");
         },
         icon: constants.forexIcon
       },
@@ -118,7 +158,7 @@ class Tools extends Component {
           recordEvent(constants.Tools.event, {
             click: constants.Tools.click.passport
           });
-          this.props.navigation.navigate("PassportDetails");
+          navigation.navigate("PassportDetails");
         }
       },
       {
@@ -128,7 +168,13 @@ class Tools extends Component {
           recordEvent(constants.Tools.event, {
             click: constants.Tools.click.documentsVisa
           });
-          this.props.navigation.navigate("Visa");
+          Visa.visaOpener({
+            navigation,
+            isVisaInitialized,
+            isSingleVisa,
+            visaList,
+            isVisaAvailable
+          });
         }
       },
       {

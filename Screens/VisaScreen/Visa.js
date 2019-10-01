@@ -1,36 +1,68 @@
 import React, { Component } from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Image } from "react-native";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import { inject, observer } from "mobx-react/custom";
 import constants from "../../constants/constants";
-import ScrollableTabBar from "../../CommonComponents/ScrollableTabBar/ScrollableTabBar";
-import ScrollableTabView from "react-native-scrollable-tab-view";
-import VisaTabContainer from "./Components/VisaTabContainer";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
-import DeepLinkHandler from "../../CommonComponents/DeepLinkHandler/DeepLinkHandler";
+import VisaWelcomeMessage from "./Components/VisaWelcomeMessage";
+import {
+  responsiveHeight,
+  responsiveWidth
+} from "react-native-responsive-dimensions";
+import SimpleButton from "../../CommonComponents/SimpleButton/SimpleButton";
+import { toastBottom } from "../../Services/toast/toast";
+import { recordEvent } from "../../Services/analytics/analyticsService";
 
 @ErrorBoundary()
-@DeepLinkHandler
 @inject("itineraries")
 @inject("visaStore")
 @observer
 class Visa extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
-      header: <CommonHeader title={"Visa Documents"} navigation={navigation} />
+      header: <CommonHeader title={"Visa"} navigation={navigation} />
     };
   };
 
   componentDidMount() {
-    const { selectedItineraryId } = this.props.itineraries;
-    const { getVisaDetails } = this.props.visaStore;
+    const { getVisaHomeScreenDetails } = this.props.visaStore;
 
-    getVisaDetails(selectedItineraryId);
+    getVisaHomeScreenDetails();
   }
+
+  startVisa = () => {
+    const { initiateVisa, isVisaAvailable } = this.props.visaStore;
+    if (!isVisaAvailable) {
+      this.props.navigation.navigate("SupportCenter");
+    } else {
+      initiateVisa()
+        .then(visaList => {
+          if (visaList && visaList.length) {
+            if (visaList.length === 1) {
+              const firstVisa = visaList[0];
+              this.props.navigation.replace("VisaStatus", {
+                visaId: firstVisa.visaId
+              });
+            } else {
+              this.props.navigation.replace("VisaSelector");
+            }
+          } else {
+            toastBottom(constants.visaScreenText.failedToLoadVisaData);
+          }
+        })
+        .catch(() => {
+          toastBottom(constants.visaScreenText.failedToLoadVisaData);
+        });
+    }
+  };
 
   render() {
     const { selectedItineraryId } = this.props.itineraries;
-    const { getVisaDetailsByItineraryId } = this.props.visaStore;
+    const {
+      getVisaDetailsByItineraryId,
+      homeScreenDetails,
+      isVisaAvailable
+    } = this.props.visaStore;
 
     const visaDetails = getVisaDetailsByItineraryId(selectedItineraryId);
 
@@ -48,6 +80,44 @@ class Visa extends Component {
       }
     }
 
+    return (
+      <View style={styles.visaContainer}>
+        <Image
+          source={homeScreenDetails.coverImage}
+          style={styles.visaWelcomeIllustration}
+        />
+        <VisaWelcomeMessage
+          containerStyle={styles.welcomeMessageContainer}
+          date={homeScreenDetails.departureDate}
+          message={homeScreenDetails.body}
+          name={homeScreenDetails.title}
+          numOfPax={homeScreenDetails.totalPax}
+        />
+        <SimpleButton
+          text={isVisaAvailable ? "Let's get started" : "Visit Help Desk"}
+          textColor={"white"}
+          underlayColor={constants.firstColorAlpha(0.8)}
+          containerStyle={{
+            marginTop: 40,
+            height: 56,
+            width: 200,
+            alignSelf: "center",
+            borderRadius: 4
+          }}
+          action={() => {
+            recordEvent(constants.Visa.event, {
+              click: constants.Visa.click.initializeVisa
+            });
+            this.startVisa();
+          }}
+          textStyle={{
+            fontSize: 16
+          }}
+        />
+      </View>
+    );
+
+    /*
     return (
       <View style={styles.visaContainer}>
         <ScrollableTabView
@@ -94,6 +164,7 @@ class Visa extends Component {
         </ScrollableTabView>
       </View>
     );
+    */
   }
 }
 
@@ -101,6 +172,16 @@ const styles = StyleSheet.create({
   visaContainer: {
     flex: 1,
     backgroundColor: "white"
+  },
+  welcomeMessageContainer: {
+    marginTop: 48
+  },
+  visaWelcomeIllustration: {
+    position: "absolute",
+    height: responsiveHeight(50),
+    width: responsiveWidth(100),
+    bottom: 0,
+    left: 0
   }
 });
 

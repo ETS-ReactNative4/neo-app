@@ -9,13 +9,13 @@ import TripViewLite from "../../Screens/TripFeedScreen/Components/TripViewLite/T
 import TripFeedCarousel from "../../Screens/TripFeedScreen/Components/TripFeedCarousel/TripFeedCarousel";
 import InfoCard from "../../Screens/TripFeedScreen/Components/InfoCard/InfoCard";
 import AlertCard from "../../Screens/TripFeedScreen/Components/AlertCard/AlertCard";
-import FeedBackSwiper from "../../Screens/TripFeedScreen/Components/FeedBackSwiper/FeedBackSwiper";
 import BigImageCard from "../../Screens/TripFeedScreen/Components/BigImageCard/BigImageCard";
 import DayAhead from "../../Screens/TripFeedScreen/Components/DayAhead/DayAhead";
 import SimpleButton from "../../CommonComponents/SimpleButton/SimpleButton";
 import InfoCardModal from "../../Screens/TripFeedScreen/Components/InfoCardModal/InfoCardModal";
 import { inject, observer } from "mobx-react/custom";
 import DayAheadLite from "../../Screens/TripFeedScreen/Components/DayAheadLite/DayAheadLite";
+import AlertCardV2 from "../../Screens/TripFeedScreen/Components/AlertCardV2/AlertCardV2";
 
 const tripData = [
   {
@@ -157,6 +157,16 @@ const alertData = [
     modalData: {}
   }
 ];
+
+const alertDataV2 = {
+  tag: "TURKEY VISA",
+  title: "Your visa is taking time",
+  message: "Go through the list of required docs.",
+  modalData: {},
+  link: "",
+  cta: "SEE UPDATES",
+  icon: constants.visaIcon
+};
 
 const bigImageData = {
   title: "Memories from Samantha’s family vacation in July '18",
@@ -511,6 +521,78 @@ storiesOf("Trip Feed Widgets", module)
     };
     console.log(props);
     return <InfoCard {...props} />;
+  })
+  .add("Alert Card V2", () => {
+    const props = {
+      ...alertDataV2
+    };
+    console.log(props);
+    return <AlertCardV2 {...props} />;
+  })
+  .add("Alert Card V2 without tag", () => {
+    const props = {
+      ...alertDataV2
+    };
+    delete props["tag"];
+    console.log(props);
+    return <AlertCardV2 {...props} />;
+  })
+  .add("Alert Card V2 without title", () => {
+    const props = {
+      ...alertDataV2
+    };
+    delete props["title"];
+    console.log(props);
+    return <AlertCardV2 {...props} />;
+  })
+  .add("Alert Card V2 without tag and title", () => {
+    const props = {
+      ...alertDataV2
+    };
+    delete props["title"];
+    delete props["tag"];
+    console.log(props);
+    return <AlertCardV2 {...props} />;
+  })
+  .add("Alert Card V2 without icon", () => {
+    const props = {
+      ...alertDataV2
+    };
+    delete props["icon"];
+    console.log(props);
+    return <AlertCardV2 {...props} />;
+  })
+  .add("Alert Card V2 without highlighting icon", () => {
+    const props = {
+      ...alertDataV2
+    };
+    props.highlightIcon = false;
+    console.log(props);
+    return <AlertCardV2 {...props} />;
+  })
+  .add("Alert Card V2 without CTA", () => {
+    const props = {
+      ...alertDataV2
+    };
+    delete props["cta"];
+    console.log(props);
+    return <AlertCardV2 {...props} />;
+  })
+  .add("Alert Card V2 with Visa Pattern", () => {
+    const props = {
+      ...alertDataV2
+    };
+    props.pattern = "VISA_ALERT";
+    console.log(props);
+    return <AlertCardV2 {...props} />;
+  })
+  .add("Alert Card V2 with custom background color", () => {
+    const props = {
+      ...alertDataV2
+    };
+    props.backgroundColor = constants.firstColor;
+    console.log(props);
+    return <AlertCardV2 {...props} />;
   })
   .add("Alert Card Info default", () => {
     const props = {

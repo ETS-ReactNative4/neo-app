@@ -25,7 +25,7 @@ const UnableToUseChat = ({
       <Text style={styles.message}>{text}</Text>
       <SimpleButton
         containerStyle={{ marginTop: 8 }}
-        text={constants.offlineContact}
+        text={contactNumber}
         action={() => {
           recordEvent(constants.chatCallSupportClick);
           dialer(contactNumber);
