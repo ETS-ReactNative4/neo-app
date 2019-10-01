@@ -35,7 +35,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     paddingHorizontal: 24,
     paddingVertical: 16,
-    backgroundColor: "white"
+    backgroundColor: "white",
+    borderTopWidth: 1,
+    borderTopColor: constants.shade5
   },
   titleText: {
     ...constants.fontCustom(constants.primaryRegular, 15, 19),
