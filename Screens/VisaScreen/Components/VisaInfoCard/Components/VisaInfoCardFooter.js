@@ -21,7 +21,7 @@ const VisaInfoCardFooter = ({
       ]}
     >
       <View style={[styles.iconWrapper, { backgroundColor: color }]}>
-        <Icon name={icon} size={13} color={"white"} />
+        <Icon name={icon} size={16} color={"white"} />
       </View>
       <Text style={[styles.footerText, { color }]}>{text}</Text>
     </View>
