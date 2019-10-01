@@ -126,14 +126,15 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     paddingTop: 24,
     borderTopRightRadius: 4,
-    borderTopLeftRadius: 4
+    borderTopLeftRadius: 4,
+    overflow: "hidden"
   },
   footerSpacer: {
     backgroundColor: "white",
     borderBottomLeftRadius: 4,
     borderBottomRightRadius: 4,
-    marginHorizontal: 24,
-    width: responsiveWidth(100) - 48 - 24 // 48 - card padding, 24 - stage padding
+    paddingHorizontal: 24,
+    width: responsiveWidth(100) - 48 // 48 - card padding
   },
   cardHeader: {
     paddingHorizontal: 24
@@ -142,8 +143,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24
   },
   expandedInfoCard: {
-    borderBottomLeftRadius: 0,
-    borderBottomRightRadius: 0
+    borderBottomLeftRadius: 4,
+    borderBottomRightRadius: 4
   },
   compressedInfoCard: {
     borderBottomLeftRadius: 4,
