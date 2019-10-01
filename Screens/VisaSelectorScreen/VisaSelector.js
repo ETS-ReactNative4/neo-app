@@ -5,6 +5,7 @@ import { inject, observer } from "mobx-react/custom";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import constants from "../../constants/constants";
 import VisaClickableTile from "../VisaScreen/Components/VisaClickableTile";
+import { recordEvent } from "../../Services/analytics/analyticsService";
 
 @ErrorBoundary()
 @inject("itineraries")
@@ -36,11 +37,14 @@ class VisaSelector extends Component {
               ]}
               title={visaInfo.title}
               infoText={visaInfo.body}
-              action={() =>
+              action={() => {
+                recordEvent(constants.Visa.event, {
+                  click: constants.Visa.click.visaSelectorList
+                });
                 navigation.navigate("VisaStatus", {
                   visaId: visaInfo.visaId
-                })
-              }
+                });
+              }}
               titleColor={constants.firstColor}
               hasUnread={visaInfo.updatesAvailable}
               infoTextStyle={styles.infoTextStyle}

@@ -11,6 +11,7 @@ import VisaInfoWidget from "../../VisaScreen/Components/VisaInfoWidget";
 import VisaClickableTile from "../../VisaScreen/Components/VisaClickableTile";
 import BlankSpacer from "../../../CommonComponents/BlankSpacer/BlankSpacer";
 import { isIphoneX } from "react-native-iphone-x-helper";
+import { recordEvent } from "../../../Services/analytics/analyticsService";
 
 const VisaWindowNotOpen = ({
   containerStyle = StyleSheet.create({}),
@@ -82,7 +83,16 @@ const VisaWindowNotOpen = ({
             containerStyle={styles.widgetWrapper}
             tileIcon={constants.documentIcon}
             title={visaDocsMetaDetails.title}
-            action={isDocsChecklistUnavailable ? () => null : openDocsChecklist}
+            action={() => {
+              recordEvent(constants.Visa.event, {
+                click: constants.Visa.click.docsChecklistWidget
+              });
+              if (isDocsChecklistUnavailable) {
+                return null;
+              } else {
+                openDocsChecklist();
+              }
+            }}
             titleColor={constants.fifteenthColor}
             infoText={visaDocsMetaDetails.body}
             hideAction={isDocsChecklistUnavailable}
@@ -94,7 +104,12 @@ const VisaWindowNotOpen = ({
             label={"Visa Type"}
             visaType={visaStr}
             shortText={visaIntroStr}
-            action={openHelp}
+            action={() => {
+              recordEvent(constants.Visa.event, {
+                click: constants.Visa.click.visaHelpWidget
+              });
+              openHelp();
+            }}
           />
         ) : null}
       </Fragment>

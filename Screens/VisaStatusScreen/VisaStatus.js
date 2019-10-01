@@ -19,6 +19,7 @@ import dialer from "../../Services/dialer/dialer";
 import SimpleButton from "../../CommonComponents/SimpleButton/SimpleButton";
 import CustomScrollView from "../../CommonComponents/CustomScrollView/CustomScrollView";
 import VisaRejectedActionBar from "./Component/VisaRejectedActionBar";
+import { recordEvent } from "../../Services/analytics/analyticsService";
 
 @ErrorBoundary()
 @inject("itineraries")
@@ -152,9 +153,19 @@ class VisaStatus extends Component {
       visaDetails.visaStage === constants.visaWindowNotOpenedStatus ||
       visaDetails.visaType === constants.onArrivalVisaType;
 
-    const grantedAction = requestUrl => visaGranted(visaId, requestUrl);
+    const grantedAction = requestUrl => () => {
+      recordEvent(constants.Visa.event, {
+        click: constants.Visa.click.visaGranted
+      });
+      visaGranted(visaId, requestUrl);
+    };
 
-    const rejectedAction = requestUrl => visaRejected(visaId, requestUrl);
+    const rejectedAction = requestUrl => () => {
+      recordEvent(constants.Visa.event, {
+        click: constants.Visa.click.visaRejected
+      });
+      visaRejected(visaId, requestUrl);
+    };
 
     return (
       <Fragment>
@@ -191,14 +202,22 @@ class VisaStatus extends Component {
             />
           ) : visaInfoFooter ? (
             <VisaRejectedActionBar
-              action={() => dialer(accountOwnerDetails.mobileNumber)}
+              action={() => {
+                recordEvent(constants.Visa.event, {
+                  click: constants.Visa.click.callAccountOwnerRejectedBar
+                });
+                contactAccountOwner(accountOwnerDetails.mobileNumber);
+              }}
               title={visaInfoFooter}
             />
           ) : (
             <FabButton
-              action={() =>
-                contactAccountOwner(accountOwnerDetails.mobileNumber)
-              }
+              action={() => {
+                recordEvent(constants.Visa.event, {
+                  click: constants.Visa.click.callAccountOwnerFab
+                });
+                contactAccountOwner(accountOwnerDetails.mobileNumber);
+              }}
               iconSize={30}
               radius={32}
               containerStyle={styles.fabButton}

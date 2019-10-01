@@ -8,6 +8,7 @@ import _ from "lodash";
 import StickyActionBar from "./StickyActionBar";
 import BlankSpacer from "../../../CommonComponents/BlankSpacer/BlankSpacer";
 import { isIphoneX } from "react-native-iphone-x-helper";
+import { recordEvent } from "../../../Services/analytics/analyticsService";
 
 const VisaWindowOpen = ({
   containerStyle = StyleSheet.create({}),
@@ -22,7 +23,12 @@ const VisaWindowOpen = ({
     <View style={[containerStyle]}>
       {!_.isEmpty(visaDocsMetaDetails) ? (
         <StickyActionBar
-          action={openDocsChecklist}
+          action={() => {
+            recordEvent(constants.Visa.event, {
+              click: constants.Visa.click.docsChecklistHeader
+            });
+            openDocsChecklist();
+          }}
           title={visaDocsMetaDetails.title}
           icon={constants.documentIcon}
         />

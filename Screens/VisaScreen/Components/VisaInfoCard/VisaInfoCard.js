@@ -13,6 +13,7 @@ import VisaInfoCardFooter from "./Components/VisaInfoCardFooter";
 import _ from "lodash";
 import BlankSpacer from "../../../../CommonComponents/BlankSpacer/BlankSpacer";
 import { responsiveWidth } from "react-native-responsive-dimensions";
+import { recordEvent } from "../../../../Services/analytics/analyticsService";
 
 const VisaInfoCard = ({
   containerStyle = StyleSheet.create({}),
@@ -46,7 +47,16 @@ const VisaInfoCard = ({
   return (
     <Fragment>
       <TouchableOpacity
-        onPress={isCardDisabled ? () => null : toggleCardExpansion}
+        onPress={() => {
+          recordEvent(constants.Visa.event, {
+            click: constants.Visa.click.toggleVisaCard
+          });
+          if (isCardDisabled) {
+            return null;
+          } else {
+            toggleCardExpansion();
+          }
+        }}
         activeOpacity={0.8}
         style={[
           styles.visaInfoCardContainer,

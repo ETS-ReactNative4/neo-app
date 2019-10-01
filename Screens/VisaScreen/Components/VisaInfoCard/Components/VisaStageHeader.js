@@ -15,6 +15,7 @@ import VisaInfoActionButton from "./VisaInfoActionButton";
 import _ from "lodash";
 import VisaInfoExpediateButton from "./VisaInfoExpediateButton";
 import openCustomTab from "../../../../../Services/openCustomTab/openCustomTab";
+import { recordEvent } from "../../../../../Services/analytics/analyticsService";
 
 const VisaStageHeader = ({
   containerStyle = StyleSheet.create({}),
@@ -29,9 +30,19 @@ const VisaStageHeader = ({
   grantedAction = () => null,
   rejectedAction = () => null
 }) => {
-  const openEmailLink = () => openCustomTab(`mailto:${email}`);
+  const openEmailLink = () => {
+    recordEvent(constants.Visa.event, {
+      click: constants.Visa.click.emailAoFromCard
+    });
+    openCustomTab(`mailto:${email}`);
+  };
 
-  const sendExpediteMail = () => openCustomTab(_.get(action, "expedite.link"));
+  const sendExpediteMail = () => {
+    recordEvent(constants.Visa.event, {
+      click: constants.Visa.click.visaExpedite
+    });
+    openCustomTab(_.get(action, "expedite.link"));
+  };
 
   return (
     <View style={[styles.visaStageHeaderContainer, containerStyle]}>

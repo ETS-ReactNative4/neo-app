@@ -13,6 +13,7 @@ const VisaRejectedActionBar = ({
     <View style={[styles.visaRejectedActionBarContainer, containerStyle]}>
       <Text style={styles.titleText}>{title}</Text>
       <SimpleButton
+        action={action}
         text={"Call us"}
         textColor={"white"}
         containerStyle={{ width: 86 }}

@@ -11,6 +11,7 @@ import {
 } from "react-native-responsive-dimensions";
 import SimpleButton from "../../CommonComponents/SimpleButton/SimpleButton";
 import { toastBottom } from "../../Services/toast/toast";
+import { recordEvent } from "../../Services/analytics/analyticsService";
 
 @ErrorBoundary()
 @inject("itineraries")
@@ -103,7 +104,12 @@ class Visa extends Component {
             alignSelf: "center",
             borderRadius: 4
           }}
-          action={this.startVisa}
+          action={() => {
+            recordEvent(constants.Visa.event, {
+              click: constants.Visa.click.initializeVisa
+            });
+            this.startVisa();
+          }}
           textStyle={{
             fontSize: 16
           }}

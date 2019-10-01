@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import SimpleButton from "../../../CommonComponents/SimpleButton/SimpleButton";
 import constants from "../../../constants/constants";
 import dialer from "../../../Services/dialer/dialer";
+import { recordEvent } from "../../../Services/analytics/analyticsService";
 
 const VisaCompanionInfo = ({
   containerStyle = StyleSheet.create({}),
@@ -29,7 +30,12 @@ const VisaCompanionInfo = ({
       </View>
       <View style={styles.ctaSection}>
         <SimpleButton
-          action={callSupport}
+          action={() => {
+            recordEvent(constants.Visa.event, {
+              click: constants.Visa.click.callAccountOwnerBar
+            });
+            callSupport();
+          }}
           text={"Call now"}
           textColor={"white"}
           containerStyle={{ width: 94, height: 36 }}

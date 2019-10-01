@@ -23,6 +23,7 @@ import {
 import StickyActionBar from "../VisaStatusScreen/Component/StickyActionBar";
 import XSensorPlaceholder from "../../CommonComponents/XSensorPlaceholder/XSensorPlaceholder";
 import BlankSpacer from "../../CommonComponents/BlankSpacer/BlankSpacer";
+import { recordEvent } from "../../Services/analytics/analyticsService";
 
 const CheckListItem = ({
   item,
@@ -46,7 +47,12 @@ const CheckListItem = ({
   return (
     <VisaChecklistTile
       isChecked={isChecked}
-      onToggleExpand={onToggleExpand}
+      onToggleExpand={() => {
+        recordEvent(constants.Visa.event, {
+          click: constants.Visa.click.toggleDocsAccordion
+        });
+        onToggleExpand();
+      }}
       isExpanded={isExpanded}
       title={item.name}
       desc={item.details}
@@ -197,7 +203,12 @@ class VisaDocsChecklist extends Component {
                   containerStyle={styles.dropDown}
                   selectedValue={maritalStatus}
                   dropDownOptions={maritalStatuses}
-                  onChange={this.changeMaritalStatus}
+                  onChange={() => {
+                    recordEvent(constants.Visa.event, {
+                      click: constants.Visa.click.maritalDropDownOption
+                    });
+                    this.changeMaritalStatus();
+                  }}
                   textStyle={styles.dropDownTextStyle}
                 />
               </View>
@@ -212,7 +223,12 @@ class VisaDocsChecklist extends Component {
                   containerStyle={styles.dropDown}
                   selectedValue={employmentType}
                   dropDownOptions={employmentTypes}
-                  onChange={this.changeEmploymentType}
+                  onChange={() => {
+                    recordEvent(constants.Visa.event, {
+                      click: constants.Visa.click.employmentDropDownOption
+                    });
+                    this.changeEmploymentType();
+                  }}
                   textStyle={styles.dropDownTextStyle}
                 />
               </View>
@@ -238,7 +254,12 @@ class VisaDocsChecklist extends Component {
                           visaId={visaId}
                           maritalStatus={maritalStatus}
                           employmentType={employmentType}
-                          toggleChecklist={this.toggleChecklist}
+                          toggleChecklist={() => {
+                            recordEvent(constants.Visa.event, {
+                              click: constants.Visa.click.toggleDocsCheckbox
+                            });
+                            this.toggleChecklist();
+                          }}
                           selectedVisaChecklistItems={
                             selectedVisaChecklistItems
                           }
