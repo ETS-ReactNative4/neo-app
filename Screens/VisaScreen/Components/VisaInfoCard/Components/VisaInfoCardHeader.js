@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import InfoDot from "../../../../../CommonComponents/InfoDot/InfoDot";
 import constants from "../../../../../constants/constants";
 import Icon from "../../../../../CommonComponents/Icon/Icon";
+import { responsiveWidth } from "react-native-responsive-dimensions";
 
 const VisaInfoCardHeader = ({
   containerStyle = StyleSheet.create({}),
@@ -89,7 +90,8 @@ const styles = StyleSheet.create({
   },
   bodyText: {
     ...constants.fontCustom(constants.primaryRegular, 16, 22),
-    color: constants.black1
+    color: constants.black1,
+    width: responsiveWidth(65)
   },
   hideArrowIcon: {
     opacity: 0
