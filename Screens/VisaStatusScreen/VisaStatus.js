@@ -190,7 +190,6 @@ class VisaStatus extends Component {
             />
           )}
         </CustomScrollView>
-        <XSensorPlaceholder containerStyle={constants.sensorAreaContainer} />
         {!_.isEmpty(accountOwnerDetails) ? (
           isVisaWindowNotOpen ? (
             <VisaCompanionInfo
@@ -225,6 +224,7 @@ class VisaStatus extends Component {
             />
           )
         ) : null}
+        <XSensorPlaceholder containerStyle={constants.sensorAreaContainer} />
       </Fragment>
     );
   }
