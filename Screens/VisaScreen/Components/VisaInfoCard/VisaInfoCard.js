@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 4,
     borderBottomRightRadius: 4,
     marginHorizontal: 24,
-    width: responsiveWidth(100) - 48
+    width: responsiveWidth(100) - 48 - 24 // 48 - card padding, 24 - stage padding
   },
   cardHeader: {
     paddingHorizontal: 24
