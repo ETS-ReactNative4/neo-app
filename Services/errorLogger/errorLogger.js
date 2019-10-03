@@ -1,5 +1,6 @@
 import * as sentry from "@sentry/react-native";
 import { getEnvironmentName } from "../getEnvironmentDetails/getEnvironmentDetails";
+import constants from "../../constants/constants";
 
 if (!__DEV__) {
   sentry.init({
@@ -16,7 +17,13 @@ export const logError = (error, extraInfo = {}) => {
     console.error(error);
     console.log(extraInfo);
   } else {
-    sentry.captureException(error, { extra: extraInfo });
+    logBreadCrumb({
+      message: constants.errorLoggerEvents.messages.errorDetails,
+      category: constants.errorLoggerEvents.categories.errorData,
+      data: extraInfo,
+      level: constants.errorLoggerEvents.levels.info
+    });
+    sentry.captureException(error);
   }
 };
 
