@@ -37,6 +37,12 @@ const reserved = [
 export const recordEvent = (event, params = undefined) => {
   debouncer(() => {
     if (!reserved.includes(event)) {
+      logBreadCrumb({
+        message: constants.errorLoggerEvents.messages.analyticsEvent,
+        category: constants.errorLoggerEvents.categories.analytics,
+        data: event,
+        level: constants.errorLoggerEvents.levels.info
+      });
       firebaseAnalytics().logEvent(event, params);
       if (!params) {
         analytics.track(event);
