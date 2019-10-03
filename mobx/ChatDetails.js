@@ -96,9 +96,7 @@ class ChatDetails {
   @action
   getUserDetails = () => {
     this._isLoading = true;
-    const initializationUrl = `${constants.initiateChat}?itineraryId=${
-      storeService.itineraries.selectedItineraryId
-    }`;
+    const initializationUrl = `${constants.initiateChat}?itineraryId=${storeService.itineraries.selectedItineraryId}`;
     apiCall(initializationUrl)
       .then(response => {
         this._isLoading = false;
@@ -122,8 +120,7 @@ class ChatDetails {
           this._initializationError = true;
         }
       })
-      .catch(err => {
-        logError("Chat failed to Initialize", { err, initializationUrl });
+      .catch(() => {
         this._initializationError = true;
         this._isLoading = false;
       });
