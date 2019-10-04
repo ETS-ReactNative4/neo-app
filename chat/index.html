@@ -1,190 +1,283 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>pickyourtrail Live Chat</title>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>pickyourtrail Live Chat</title>
+    <script src="https://wchat.freshchat.com/js/widget.js"></script>
+    <style>
+      .chat-close-placeholder {
+        height: 25px;
+        width: 25px;
+        border-radius: 100%;
+        background-color: #00c684;
+        position: absolute;
+        top: 6px;
+        right: 16px;
+        z-index: 1000000000000000000000;
+      }
 
-  <script src="https://wchat.freshchat.com/js/widget.js"></script>
-  <style>
-    .chat-close-placeholder {
-      height: 25px;
-      width: 25px;
-      border-radius: 100%;
-      background-color: #00C684;
-      position: absolute;
-      top: 6px;
-      right: 16px;
-      z-index: 1000000000000000000000;
-    }
+      .hidden {
+        display: none;
+      }
+    </style>
+  </head>
 
-    .hidden {
-      display: none;
-    }
-  </style>
-</head>
-
-<body>
-  <img src="/pyt-white.png" class="chat-close-placeholder hidden" />
-  <script>
-    var getUrlParams = function (url) {
-      var result = {};
-      var params = (url.split("?")[1] || "").split("&");
-      for (var param in params) {
-        if (params.hasOwnProperty(param)) {
-          var paramParts = params[param].split("=");
-          result[paramParts[0]] = decodeURIComponent(paramParts[1] || "");
+  <body>
+    <img src="/pyt-white.png" class="chat-close-placeholder hidden" />
+    <script>
+      var getUrlParams = function(url) {
+        var result = {};
+        var params = (url.split("?")[1] || "").split("&");
+        for (var param in params) {
+          if (params.hasOwnProperty(param)) {
+            var paramParts = params[param].split("=");
+            result[paramParts[0]] = decodeURIComponent(paramParts[1] || "");
+          }
         }
-      }
-      return result;
-    };
+        return result;
+      };
 
-    var queryParams = getUrlParams(window.location.href);
+      var queryParams = getUrlParams(window.location.href);
 
-    if (queryParams.host && queryParams.token) {
-
-      /**
-       * If a previous session of fcWidget is initialized, destroy it
-       */
-      if (window.fcWidget.isInitialized() === true) {
-        window.fcWidget.destroy();
-      }
-
-      /**
-       * Initialize the widget with the required IDs & tags
-       */
-      window.fcWidget.init({
-        token: queryParams.token,
-        host: queryParams.host,
-        externalId: queryParams.feid,
-        restoreId: queryParams.frid ? queryParams.frid : null,
-        tags: queryParams.region ? decodeURI(queryParams.region).split(',') : []
-      });
-
-      /**
-       * Open up the widget in the UI
-       */
-      window.fcWidget.open();
-
-      /**
-       * If a restore id is not present, the user is new and must be created.
-       */
-      if (!queryParams.frid) {
+      if (queryParams.host && queryParams.token) {
         /**
-         * Temporary refresh logic to refresh the page upto 2 times if the user is not
-         * created on the first load
+         * If a previous session of fcWidget is initialized, destroy it
          */
-        var localStorageKey = "@pyt/fc-refresh-count";
-        var refreshTimer = setTimeout(function () {
-          var refreshcount = parseInt(localStorage.getItem(localStorageKey));
-          console.log('Refresh logic start...');
-          if(!refreshcount) {
-            refreshcount = 1;
-            console.log('Refresh count', "No refresh count");
-          }
-          if(refreshcount < 3) {
-            console.log('Refresh count', refreshcount);
-            localStorage.setItem(localStorageKey, refreshcount+1);
-            location.reload();
-          } else {
-            console.log("Failed to create user on page refresh");
-            window.ReactNativeWebView && window.ReactNativeWebView.postMessage(JSON.stringify({
-              error: "Failed to create user on page refresh",
-            }));
-            localStorage.setItem(localStorageKey, 0);
-            clearTimeout(refreshTimer);
-          }
-        }, 5000);
-        window.fcWidget.on("user:statechange", function (userStateDetails) {
+        if (window.fcWidget.isInitialized() === true) {
+          window.fcWidget.destroy();
+        }
+
+        /**
+         * Initialize the widget with the required IDs & tags
+         */
+        window.fcWidget.init({
+          token: queryParams.token,
+          host: queryParams.host,
+          externalId: queryParams.feid,
+          restoreId: queryParams.frid ? queryParams.frid : null,
+          tags: queryParams.region
+            ? decodeURI(queryParams.region).split(",")
+            : []
+        });
+
+        /**
+         * Open up the widget in the UI
+         */
+        window.fcWidget.open();
+
+        /**
+         * If a restore id is not present, the user is new and must be created.
+         */
+        if (!queryParams.frid) {
           /**
-           * Clear timeout & localstorage if the user is created successfully
+           * If user can
            */
-          clearTimeout(refreshTimer);
-          localStorage.setItem(localStorageKey, 0);
-          var userState = userStateDetails.data.userState;
-          console.log('Initial UserState', userState);
-          if (userState === "not_loaded" || userState === "not_created" || userState === "identified") {
-            /**
-             * User hasn't been created. Creating the user now...
-             */
-            window.fcWidget.user.create({
-              externalId: queryParams.feid,
-              firstName: queryParams.trailId,
-              lastName: queryParams.name,
-              email: queryParams.email,
-              phone: queryParams.mob_num,
-              phoneCountryCode: queryParams.ccode,
-            }).then(function(response) {
-              if(response.status === 200 && response.success) {
-                var actorId = response.data.alias;
-                var restoreId = response.data.restoreId;
-                console.log('Actor details', {
-                  userState: userStateDetails,
-                  userDetails: response
+          window.fcWidget.user.get(function(userStatus) {
+            var status = userStatus && userStatus.status,
+              data = userStatus && userStatus.data;
+            if (status !== 200) {
+              window.fcWidget.user
+                .create({
+                  externalId: queryParams.feid,
+                  firstName: queryParams.trailId,
+                  lastName: queryParams.name,
+                  email: queryParams.email,
+                  phone: queryParams.mob_num,
+                  phoneCountryCode: queryParams.ccode
+                })
+                .then(function(response) {
+                  if (response.status === 200 && response.success) {
+                    var actorId = response.data.alias;
+                    var restoreId = response.data.restoreId;
+                    /**
+                     * Sending the actor id & restore id of the user to the webview
+                     */
+                    window.ReactNativeWebView &&
+                      window.ReactNativeWebView.postMessage(
+                        JSON.stringify({
+                          restoreId: restoreId,
+                          actorId: actorId
+                        })
+                      );
+                  } else {
+                    window.ReactNativeWebView &&
+                      window.ReactNativeWebView.postMessage(
+                        JSON.stringify({
+                          error:
+                            "Failed to create user on freshchat - invalid server response",
+                          userStatus,
+                          queryParams,
+                          response
+                        })
+                      );
+                  }
+                })
+                .catch(errorResponse => {
+                  window.ReactNativeWebView &&
+                    window.ReactNativeWebView.postMessage(
+                      JSON.stringify({
+                        error: "Failed to create user on freshchat",
+                        userStatus,
+                        queryParams,
+                        errorResponse
+                      })
+                    );
                 });
-                /**
-                 * Sending the actor id & restore id of the user to the webview
-                 */
-                window.ReactNativeWebView && window.ReactNativeWebView.postMessage(JSON.stringify({
-                  restoreId: restoreId,
-                  actorId: actorId
-                }));
-              }
-            }, function(err) {
-              window.ReactNativeWebView && window.ReactNativeWebView.postMessage(JSON.stringify({
-                error: "Failed to create user",
-                userState: userStateDetails,
-                userDetailsResponse: err,
-              }));
-            });
-          }
+            } else {
+              window.ReactNativeWebView &&
+                window.ReactNativeWebView.postMessage(
+                  JSON.stringify({
+                    error:
+                      "User already created in freshchat - restore id missing",
+                    userStatus,
+                    queryParams
+                  })
+                );
+            }
+          });
+
           /**
-           * Fall back for scenario when:
-           * -> User has been created. However, the restore id hasn't
-           * been stored with the server side.
+           * Temporary refresh logic to refresh the page upto 2 times if the user is not
+           * created on the first load
            */
-          else if (userState === "loaded") {
-            window.fcWidget.user.get(function (userDetails) {
-              if (userDetails.status === 200 && userDetails.success && userDetails.data) {
-                var actorId = userDetails.data.alias;
-                var restoreId = userDetails.data.restoreId;
-                console.log('Actor details', {
-                  userState: userStateDetails,
-                  userDetails: userDetails
-                });
-                window.ReactNativeWebView && window.ReactNativeWebView.postMessage(JSON.stringify({
-                  restoreId: restoreId,
-                  actorId: actorId
-                }));
-              } else {
-                console.log("Failed to get actor id", {
-                  userState: userStateDetails,
-                  userDetails: userDetails
-                });
-                window.ReactNativeWebView && window.ReactNativeWebView.postMessage(JSON.stringify({
-                  error: "Failed to get actor id",
-                  userState: userStateDetails,
-                  actorIdResponse: userDetails
-                }));
-              }
-            });
-          }
+          // var localStorageKey = "@pyt/fc-refresh-count";
+          // var refreshTimer = setTimeout(function () {
+          //   var refreshcount = parseInt(localStorage.getItem(localStorageKey));
+          //   console.log('Refresh logic start...');
+          //   if(!refreshcount) {
+          //     refreshcount = 1;
+          //     console.log('Refresh count', "No refresh count");
+          //   }
+          //   if(refreshcount < 3) {
+          //     console.log('Refresh count', refreshcount);
+          //     localStorage.setItem(localStorageKey, refreshcount+1);
+          //     location.reload();
+          //   } else {
+          //     console.log("Failed to create user on page refresh");
+          //     window.ReactNativeWebView && window.ReactNativeWebView.postMessage(JSON.stringify({
+          //       error: "Failed to create user on page refresh",
+          //     }));
+          //     localStorage.setItem(localStorageKey, 0);
+          //     clearTimeout(refreshTimer);
+          //   }
+          // }, 5000);
+
+          // window.fcWidget.on("user:statechange", function(userStateDetails) {
+          //   /**
+          //    * Clear timeout & localstorage if the user is created successfully
+          //    */
+          //   clearTimeout(refreshTimer);
+          //   localStorage.setItem(localStorageKey, 0);
+          //   var userState = userStateDetails.data.userState;
+          //   console.log("Initial UserState", userState);
+          //   if (
+          //     userState === "not_loaded" ||
+          //     userState === "not_created" ||
+          //     userState === "identified"
+          //   ) {
+          //     /**
+          //      * User hasn't been created. Creating the user now...
+          //      */
+          //     window.fcWidget.user
+          //       .create({
+          //         externalId: queryParams.feid,
+          //         firstName: queryParams.trailId,
+          //         lastName: queryParams.name,
+          //         email: queryParams.email,
+          //         phone: queryParams.mob_num,
+          //         phoneCountryCode: queryParams.ccode
+          //       })
+          //       .then(
+          //         function(response) {
+          //           if (response.status === 200 && response.success) {
+          //             var actorId = response.data.alias;
+          //             var restoreId = response.data.restoreId;
+          //             console.log("Actor details", {
+          //               userState: userStateDetails,
+          //               userDetails: response
+          //             });
+          //             /**
+          //              * Sending the actor id & restore id of the user to the webview
+          //              */
+          //             window.ReactNativeWebView &&
+          //               window.ReactNativeWebView.postMessage(
+          //                 JSON.stringify({
+          //                   restoreId: restoreId,
+          //                   actorId: actorId
+          //                 })
+          //               );
+          //           }
+          //         },
+          //         function(err) {
+          //           window.ReactNativeWebView &&
+          //             window.ReactNativeWebView.postMessage(
+          //               JSON.stringify({
+          //                 error: "Failed to create user",
+          //                 userState: userStateDetails,
+          //                 userDetailsResponse: err
+          //               })
+          //             );
+          //         }
+          //       );
+          //   } else if (userState === "loaded") {
+          //     /**
+          //      * Fall back for scenario when:
+          //      * -> User has been created. However, the restore id hasn't
+          //      * been stored with the server side.
+          //      */
+          //     window.fcWidget.user.get(function(userDetails) {
+          //       if (
+          //         userDetails.status === 200 &&
+          //         userDetails.success &&
+          //         userDetails.data
+          //       ) {
+          //         var actorId = userDetails.data.alias;
+          //         var restoreId = userDetails.data.restoreId;
+          //         console.log("Actor details", {
+          //           userState: userStateDetails,
+          //           userDetails: userDetails
+          //         });
+          //         window.ReactNativeWebView &&
+          //           window.ReactNativeWebView.postMessage(
+          //             JSON.stringify({
+          //               restoreId: restoreId,
+          //               actorId: actorId
+          //             })
+          //           );
+          //       } else {
+          //         console.log("Failed to get actor id", {
+          //           userState: userStateDetails,
+          //           userDetails: userDetails
+          //         });
+          //         window.ReactNativeWebView &&
+          //           window.ReactNativeWebView.postMessage(
+          //             JSON.stringify({
+          //               error: "Failed to get actor id",
+          //               userState: userStateDetails,
+          //               actorIdResponse: userDetails
+          //             })
+          //           );
+          //       }
+          //     });
+          //   }
+          // });
+        }
+
+        window.fcWidget.on("widget:opened", function(resp) {
+          var $placeHolder = document.querySelector(".chat-close-placeholder");
+          $placeHolder.classList.remove("hidden");
+        });
+
+        window.fcWidget.on("widget:closed", function(resp) {
+          window.fcWidget.open();
         });
       }
-
-      window.fcWidget.on("widget:opened", function (resp) {
-        var $placeHolder = document.querySelector('.chat-close-placeholder');
-        $placeHolder.classList.remove('hidden');
-      });
-
-      window.fcWidget.on("widget:closed", function (resp) {
-        window.fcWidget.open();
-      });
-
-    }
-  </script>
-</body>
-
+    </script>
+  </body>
 </html>
