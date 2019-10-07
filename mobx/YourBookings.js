@@ -50,7 +50,10 @@ class YourBookings {
   @computed
   get upcomingItineraries() {
     /**
-     * TODO: Until the trip completed flow is created
+     * TODO: Until the trip completed flow is created we need to show
+     * the completed itineraries in the upcoming section.
+     *
+     * - Also requires a change in payment screen.
      */
     return toJS([...this._upcomingItineraries, this._completedItineraries]);
   }
