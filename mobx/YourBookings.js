@@ -55,7 +55,10 @@ class YourBookings {
      *
      * - Also requires a change in payment screen.
      */
-    return toJS([...this._upcomingItineraries, this._completedItineraries]);
+    return [
+      ...toJS(this._upcomingItineraries || []),
+      ...toJS(this._completedItineraries || [])
+    ];
   }
 
   @computed
