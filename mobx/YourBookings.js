@@ -49,7 +49,10 @@ class YourBookings {
 
   @computed
   get upcomingItineraries() {
-    return toJS(this._upcomingItineraries);
+    /**
+     * TODO: Until the trip completed flow is created
+     */
+    return toJS([...this._upcomingItineraries, this._completedItineraries]);
   }
 
   @computed
