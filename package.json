@@ -1,7 +1,7 @@
 {
   "name": "pickyourtrail",
   "version": "1.2.8",
-  "build": 187,
+  "build": 188,
   "private": true,
   "scripts": {
     "set-staging-environment": "cp .env.staging .env",
