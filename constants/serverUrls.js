@@ -86,7 +86,7 @@ const serverUrls = {
   /**
    * Freshchat iFrame url
    */
-  freshChatIframe: "https://wchat.freshchat.com/widget",
+  freshChatIframe: "https://wchat.freshchat.com",
   freshChatIframeBlankPage: "about:blank",
 
   /**
