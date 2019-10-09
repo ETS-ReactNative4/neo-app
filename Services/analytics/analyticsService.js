@@ -40,7 +40,10 @@ export const recordEvent = (event, params = undefined) => {
       logBreadCrumb({
         message: constants.errorLoggerEvents.messages.analyticsEvent,
         category: constants.errorLoggerEvents.categories.analytics,
-        data: event,
+        data: {
+          event: event || "",
+          params: params || ""
+        },
         level: constants.errorLoggerEvents.levels.info
       });
       firebaseAnalytics().logEvent(event, params);

@@ -83,7 +83,7 @@ const stringConstants = {
       networkRequest: `network-request`,
       navigation: `navigation`,
       errorData: "error-data",
-      analytics: "analytics"
+      analytics: "analytics-data"
     },
     messages: {
       notifReceived: "notification-received",
