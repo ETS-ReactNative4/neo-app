@@ -99,12 +99,12 @@ class PaymentHome extends Component {
   render() {
     const {
       upcomingItineraries,
-      completedItineraries,
+      // completedItineraries,
       isLoading,
       getUpcomingItineraries
     } = this.props.yourBookingsStore;
 
-    const itinerariesList = [...upcomingItineraries, ...completedItineraries];
+    const itinerariesList = upcomingItineraries;
 
     return (
       <View style={styles.paymentContainer}>

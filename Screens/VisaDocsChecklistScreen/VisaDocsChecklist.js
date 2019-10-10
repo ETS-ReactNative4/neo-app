@@ -203,12 +203,7 @@ class VisaDocsChecklist extends Component {
                   containerStyle={styles.dropDown}
                   selectedValue={maritalStatus}
                   dropDownOptions={maritalStatuses}
-                  onChange={() => {
-                    recordEvent(constants.Visa.event, {
-                      click: constants.Visa.click.maritalDropDownOption
-                    });
-                    this.changeMaritalStatus();
-                  }}
+                  onChange={this.changeMaritalStatus}
                   textStyle={styles.dropDownTextStyle}
                 />
               </View>
@@ -223,12 +218,7 @@ class VisaDocsChecklist extends Component {
                   containerStyle={styles.dropDown}
                   selectedValue={employmentType}
                   dropDownOptions={employmentTypes}
-                  onChange={() => {
-                    recordEvent(constants.Visa.event, {
-                      click: constants.Visa.click.employmentDropDownOption
-                    });
-                    this.changeEmploymentType();
-                  }}
+                  onChange={this.changeEmploymentType}
                   textStyle={styles.dropDownTextStyle}
                 />
               </View>
@@ -254,12 +244,7 @@ class VisaDocsChecklist extends Component {
                           visaId={visaId}
                           maritalStatus={maritalStatus}
                           employmentType={employmentType}
-                          toggleChecklist={() => {
-                            recordEvent(constants.Visa.event, {
-                              click: constants.Visa.click.toggleDocsCheckbox
-                            });
-                            this.toggleChecklist();
-                          }}
+                          toggleChecklist={this.toggleChecklist}
                           selectedVisaChecklistItems={
                             selectedVisaChecklistItems
                           }

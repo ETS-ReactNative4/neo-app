@@ -126,7 +126,7 @@ PODS:
   - nanopb/encode (0.3.901)
   - Protobuf (3.9.0)
   - QBImagePickerController (3.4.0)
-  - RCTRestart (0.0.12):
+  - RCTRestart (0.0.13):
     - React
   - React (0.60.5):
     - React-Core (= 0.60.5)
@@ -509,7 +509,7 @@ SPEC CHECKSUMS:
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
   Protobuf: 1097ca58584c8d9be81bfbf2c5ff5975648dd87a
   QBImagePickerController: d54cf93db6decf26baf6ed3472f336ef35cae022
-  RCTRestart: 3abdd55016c31254b996e0a55cc14cc2544fa3c1
+  RCTRestart: dd19aab87fc1118e05b6b5b91b959105647f56b4
   React: 53c53c4d99097af47cf60594b8706b4e3321e722
   React-Core: ba421f6b4f4cbe2fb17c0b6fc675f87622e78a64
   React-cxxreact: 8384287780c4999351ad9b6e7a149d9ed10a2395

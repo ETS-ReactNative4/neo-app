@@ -42,9 +42,11 @@ const UpcomingCard = ({
           source={constants.starterBackground}
           style={styles.imageBackground}
         >
-          <Text style={styles.bookingID}>{`PYT${itineraryId
-            .substr(itineraryId.length - 7)
-            .toUpperCase()}`}</Text>
+          <Text style={styles.bookingID}>
+            {itineraryId
+              ? `PYT${itineraryId.substr(itineraryId.length - 7).toUpperCase()}`
+              : ""}
+          </Text>
           {/**
            * TODO: make join button conditional
            */}

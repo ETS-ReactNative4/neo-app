@@ -81,11 +81,15 @@ const stringConstants = {
     categories: {
       pushNotif: "push-notification",
       networkRequest: `network-request`,
-      navigation: `navigation`
+      navigation: `navigation`,
+      errorData: "error-data",
+      analytics: "analytics-data"
     },
     messages: {
       notifReceived: "notification-received",
-      notifClicked: "notification-clicked"
+      notifClicked: "notification-clicked",
+      analyticsEvent: "analytics-event",
+      errorDetails: "error-details"
     }
   },
 
