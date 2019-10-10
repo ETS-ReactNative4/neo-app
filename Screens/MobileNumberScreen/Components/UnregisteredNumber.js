@@ -3,6 +3,7 @@ import { View, StyleSheet, Text, Image } from "react-native";
 import constants from "../../../constants/constants";
 import Icon from "../../../CommonComponents/Icon/Icon";
 import PropTypes from "prop-types";
+import { responsiveWidth } from "react-native-responsive-dimensions";
 
 const UnregisteredNumber = ({ onClick }) => {
   return (
@@ -32,7 +33,8 @@ const styles = StyleSheet.create({
   },
   errorText: {
     ...constants.fontCustom(constants.primaryLight, 15, 20),
-    color: constants.shade1
+    color: constants.shade1,
+    width: responsiveWidth(100) - 48
   },
   exploreText: {
     fontSize: 17,
