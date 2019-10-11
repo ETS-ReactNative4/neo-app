@@ -20,6 +20,7 @@ const priorityMap = {
 const SmartImage = ({
   useFastImage = false,
   priority = priorityMap.normal,
+  headers = {},
   resizeMode,
   source,
   fallbackSource = { uri: constants.defaultPlaceImage },
@@ -43,6 +44,15 @@ const SmartImage = ({
   if (useFastImage) {
     resizeModeProp = resizeModeMap[resizeMode];
     priorityProp = priorityMap[priority];
+
+    if (typeof source === "object") {
+      if (priority) {
+        source.priority = priorityProp;
+      }
+      if (headers) {
+        source.headers = headers;
+      }
+    }
   }
 
   const imageLoadError = () => {
@@ -58,7 +68,6 @@ const SmartImage = ({
       source={imageSource}
       onError={imageLoadError}
       resizeMode={resizeModeProp}
-      priority={priorityProp}
     />
   );
 };
@@ -67,7 +76,19 @@ SmartImage.propTypes = {
   useFastImage: PropTypes.bool,
   priority: PropTypes.oneOf(["low", "normal", "high"]),
   resizeMode: PropTypes.oneOf(["center", "stretch", "cover", "contain"]),
-  source: Image.propTypes.source.isRequired,
+  source: PropTypes.oneOfType([
+    Image.propTypes.source.isRequired,
+    PropTypes.shape({
+      uri: PropTypes.string,
+      headers: PropTypes.object,
+      priority: PropTypes.oneOf([
+        FastImage.priority.normal,
+        FastImage.priority.high,
+        FastImage.priority.low
+      ])
+    })
+  ]),
+  headers: PropTypes.object,
   fallbackSource: Image.propTypes.source.isRequired
 };
 
