@@ -193,6 +193,8 @@ const appText = {
   preTripChatText: `Chat will be activated three days before your departure. Meanwhile, please visit our help desk if you have questions or clarifications.`,
   onChatNoInternetText:
     "We are unable to connect to the live chat currently. Please check for a proper internet connection and try again. Alternatively, you can contact us on the number below.",
+  chatAlternativeText: "Alternatively, you can also ",
+  chatAlternativeLink: "restart the app",
   onChatFailedToInitialize:
     "We are unable to initialize live chat for your trip. Please contact support if problem persists.",
   noBookingsTitle: "No active bookings",
