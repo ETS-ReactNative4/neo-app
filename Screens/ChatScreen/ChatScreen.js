@@ -300,6 +300,7 @@ class ChatScreen extends Component {
         <UnableToUseChat
           contactNumber={offlineContact}
           text={constants.onChatFailedToInitialize}
+          showAlternatives={true}
         />
       );
     } else if (chatScreenNoInternet) {
@@ -309,6 +310,7 @@ class ChatScreen extends Component {
         <UnableToUseChat
           contactNumber={offlineContact}
           text={constants.onChatFailedToInitialize}
+          showAlternatives={true}
         />
       );
     } else {
