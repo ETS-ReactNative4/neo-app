@@ -11,6 +11,7 @@ import storeService from "../Services/storeService/storeService";
 import AsyncStorage from "@react-native-community/async-storage";
 import logOut from "../Services/logOut/logOut";
 import isUserLoggedInCallback from "../Services/isUserLoggedInCallback/isUserLoggedInCallback";
+import { toastBottom } from "../Services/toast/toast";
 
 const {
   conversionRateError,
@@ -123,24 +124,12 @@ class AppState {
         if (response.status === "SUCCESS") {
           this._conversionRates = response.data;
         } else {
-          storeService.infoStore.setError(
-            conversionRateError.title,
-            conversionRateError.message,
-            constants.errorBoxIllus,
-            conversionRateError.actionText,
-            () => navigationService.navigation._navigation.goBack()
-          );
+          toastBottom(conversionRateError.message);
         }
       })
       .catch(e => {
         this._isConversionLoading = false;
-        storeService.infoStore.setError(
-          conversionRateError.title,
-          conversionRateError.message,
-          constants.errorBoxIllus,
-          conversionRateError.actionText,
-          () => navigationService.navigation._navigation.goBack()
-        );
+        toastBottom(conversionRateError.message);
       });
   };
 
