@@ -16,16 +16,24 @@ const getDeviceLocation = async (
     });
   };
 
-  requestPermission({
-    permissionType:
-      Platform.OS === constants.platformIos
-        ? PERMISSIONS.IOS.LOCATION_WHEN_IN_USE
-        : PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION,
-    requestError: failure,
-    featureUnavailable: failure,
-    permissionBlocked: failure,
-    permissionGranted: getGeoLocation
-  });
+  if (Platform.OS === constants.platformAndroid) {
+    requestPermission({
+      permissionType:
+        Platform.OS === constants.platformIos
+          ? PERMISSIONS.IOS.LOCATION_WHEN_IN_USE
+          : PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION,
+      requestError: failure,
+      featureUnavailable: failure,
+      permissionBlocked: failure,
+      permissionGranted: getGeoLocation
+    });
+  } else {
+    /**
+     * TODO: Requesting location permission on iOS currently causes issues in React native
+     * https://github.com/react-native-community/react-native-permissions/issues/346
+     */
+    getGeoLocation();
+  }
 };
 
 export default getDeviceLocation;
