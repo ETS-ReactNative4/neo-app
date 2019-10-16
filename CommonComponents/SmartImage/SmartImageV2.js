@@ -39,13 +39,26 @@ const SmartImageV2 = ({
   ...otherProps
 }) => {
   /**
+   * TODO: Remove this `isValidImageUrl` condition check once FastImage issue is fixed
+   * https://github.com/DylanVann/react-native-fast-image/issues/407
+   *
+   * Flag to check if the image can be rendered using FastImage since invalid urls
+   * will cause crash in Android
+   */
+  const isValidImageUrl =
+    typeof source === "object" &&
+    (source.uri.startsWith(constants.httpPrefix) ||
+      source.uri.startsWith(constants.httpsPrefix));
+
+  /**
    * Set Image component
    */
-  const ImageComponent = useFastImage
-    ? FastImage
-    : children
-    ? ImageBackground
-    : Image;
+  const ImageComponent =
+    isValidImageUrl && useFastImage
+      ? FastImage
+      : children
+      ? ImageBackground
+      : Image;
 
   /**
    * Set default source as the imageSource hook. This hook will be used
@@ -82,7 +95,7 @@ const SmartImageV2 = ({
   let resizeModeProp = resizeMode;
   let priorityProp = null;
   let fastImageSource = { ...imageSource };
-  if (useFastImage && imageSource.isFastImageSet) {
+  if (useFastImage && isValidImageUrl && imageSource.isFastImageSet) {
     resizeModeProp = resizeModeMap[resizeMode];
     priorityProp = priorityMap[priority];
 

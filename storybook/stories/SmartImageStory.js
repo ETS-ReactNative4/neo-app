@@ -14,6 +14,9 @@ const imageSources = {
   brokenFile: {
     uri:
       "https://images.unsplash.com/photo-1540946485063?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80"
+  },
+  invalidUrl: {
+    uri: "invalid image url"
   }
 };
 
@@ -131,6 +134,17 @@ storiesOf("Smart Image", module)
   .add("Smart image - all resize modes", () => {
     return <MultipleResizeModes />;
   })
+  .add("Smart + Fast image - local image file", () => {
+    return (
+      <View style={styles.container}>
+        <SmartImageV2
+          style={styles.imageContainer}
+          source={imageSources.localFile}
+          useFastImage={true}
+        />
+      </View>
+    );
+  })
   .add("Smart + Fast image - network image file", () => {
     return (
       <View style={styles.container}>
@@ -199,6 +213,17 @@ storiesOf("Smart Image", module)
         >
           <Text>{"Low"}</Text>
         </SmartImageV2>
+      </View>
+    );
+  })
+  .add("Smart + Fast image - Android crash scenario", () => {
+    return (
+      <View style={styles.container}>
+        <SmartImageV2
+          style={styles.imageContainer}
+          source={imageSources.invalidUrl}
+          useFastImage={true}
+        />
       </View>
     );
   });
