@@ -7,7 +7,6 @@ import {
   StyleSheet,
   TouchableOpacity
 } from "react-native";
-import FastImage from "react-native-fast-image";
 import {
   responsiveHeight,
   responsiveWidth
@@ -18,6 +17,7 @@ import Icon from "../../../../../CommonComponents/Icon/Icon";
 import PropTypes from "prop-types";
 import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidExtraProps";
 import LinearGradient from "react-native-linear-gradient";
+import SmartImageV2 from "../../../../../CommonComponents/SmartImage/SmartImageV2";
 
 const ExpandedView = ({
   coverImage,
@@ -31,10 +31,11 @@ const ExpandedView = ({
   isJournalPublished
 }) => {
   return (
-    <FastImage
+    <SmartImageV2
       source={coverImage}
-      resizeMode={FastImage.resizeMode.cover}
+      resizeMode={"cover"}
       style={isHidden ? styles.hidden : styles.expandedViewContainer}
+      useFastImage={true}
     >
       <LinearGradient
         locations={[0.1, 0.2, 0.8, 1]}
@@ -65,7 +66,7 @@ const ExpandedView = ({
           <Text style={styles.descText}>{desc}</Text>
         </View>
       </LinearGradient>
-    </FastImage>
+    </SmartImageV2>
   );
 };
 

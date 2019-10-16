@@ -9,7 +9,6 @@ import {
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import { inject, observer } from "mobx-react/custom";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
-import FastImage from "react-native-fast-image";
 import { responsiveWidth } from "react-native-responsive-dimensions";
 import constants from "../../constants/constants";
 import SimpleButton from "../../CommonComponents/SimpleButton/SimpleButton";
@@ -19,6 +18,7 @@ import { toastCenter } from "../../Services/toast/toast";
 import Share from "react-native-share";
 import { share, singleShare } from "../../Services/shareService/share";
 import { recordEvent } from "../../Services/analytics/analyticsService";
+import SmartImageV2 from "../../CommonComponents/SmartImage/SmartImageV2";
 
 @ErrorBoundary()
 @inject("journalStore")
@@ -96,10 +96,11 @@ class JournalShare extends Component {
     const imageSource = { uri: shareIllustration };
 
     return (
-      <FastImage
+      <SmartImageV2
         style={styles.journalShareContainer}
-        resizeMode={FastImage.resizeMode.cover}
+        resizeMode={"cover"}
         source={imageSource}
+        useFastImage={true}
       >
         <Text style={styles.shareScreenTitle}>
           {"The gateway to your world"}
@@ -150,7 +151,7 @@ class JournalShare extends Component {
             <Icon name={constants.shareFilledIcon} size={12} color={"white"} />
           </TouchableOpacity>
         </View>
-      </FastImage>
+      </SmartImageV2>
     );
   }
 }

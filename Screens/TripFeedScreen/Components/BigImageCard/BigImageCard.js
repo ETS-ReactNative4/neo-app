@@ -1,15 +1,14 @@
 import React from "react";
 import { Text, TouchableOpacity, View, StyleSheet } from "react-native";
-import FastImage from "react-native-fast-image";
 import LinearGradient from "react-native-linear-gradient";
 import PropTypes from "prop-types";
 import forbidExtraProps from "../../../../Services/PropTypeValidation/forbidExtraProps";
 import constants from "../../../../constants/constants";
 import Icon from "../../../../CommonComponents/Icon/Icon";
-import { responsiveWidth } from "react-native-responsive-dimensions";
 import changeColorAlpha from "../../../../Services/changeColorAlpha/changeColorAlpha";
 import resolveLinks from "../../../../Services/resolveLinks/resolveLinks";
 import { recordEvent } from "../../../../Services/analytics/analyticsService";
+import SmartImageV2 from "../../../../CommonComponents/SmartImage/SmartImageV2";
 
 const BigImageCard = ({
   title,
@@ -63,10 +62,11 @@ const BigImageCard = ({
       onPress={action}
       style={[styles.box, containerStyle]}
     >
-      <FastImage
+      <SmartImageV2
         style={styles.imageBackground}
-        resizeMode={FastImage.resizeMode.cover}
+        resizeMode={"cover"}
         source={image}
+        useFastImage={true}
       >
         <LinearGradient {...gradientOptions} style={styles.gradientView}>
           {type ? (
@@ -88,7 +88,7 @@ const BigImageCard = ({
             ) : null}
           </View>
         </LinearGradient>
-      </FastImage>
+      </SmartImageV2>
     </TouchableOpacity>
   );
 };

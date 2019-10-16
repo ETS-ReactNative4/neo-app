@@ -13,7 +13,7 @@ import openCustomTab from "../../../Services/openCustomTab/openCustomTab";
 import PropTypes from "prop-types";
 import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraProps";
 import { recordEvent } from "../../../Services/analytics/analyticsService";
-import FastImage from "react-native-fast-image";
+import SmartImageV2 from "../../../CommonComponents/SmartImage/SmartImageV2";
 
 const PackageCard = ({
   title,
@@ -34,9 +34,7 @@ const PackageCard = ({
           click: constants.Home.click.packageCard
         });
         openCustomTab(
-          `${constants.productUrl}${slug}${
-            constants.leadSourceMappingQueryParams
-          }`
+          `${constants.productUrl}${slug}${constants.leadSourceMappingQueryParams}`
         );
       }}
       activeOpacity={0.8}
@@ -45,16 +43,12 @@ const PackageCard = ({
         {/**
          * First four visible images to the user must be loaded with high priority
          */}
-        <FastImage
-          source={{
-            ...image,
-            priority:
-              rowIndex < 2 && colIndex < 2
-                ? FastImage.priority.high
-                : FastImage.priority.low
-          }}
+        <SmartImageV2
+          priority={rowIndex < 2 && colIndex < 2 ? "high" : "low"}
           style={styles.packageImage}
-          resizeMode={FastImage.resizeMode.cover}
+          resizeMode={"cover"}
+          useFastImage={true}
+          source={image}
         />
       </View>
       <View style={styles.textViewWrapper}>

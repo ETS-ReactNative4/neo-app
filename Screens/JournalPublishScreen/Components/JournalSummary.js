@@ -5,7 +5,7 @@ import JournalShareIconContainer from "./JournalShareIconContainer";
 import JournalCardGradientWrapper from "./JournalCardGradientWrapper";
 import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraProps";
 import PropTypes from "prop-types";
-import FastImage from "react-native-fast-image";
+import SmartImageV2 from "../../../CommonComponents/SmartImage/SmartImageV2";
 
 const JournalSummary = ({
   isPublished,
@@ -16,7 +16,11 @@ const JournalSummary = ({
   image
 }) => {
   return (
-    <FastImage source={image} style={styles.journalSummaryContainer}>
+    <SmartImageV2
+      useFastImage={true}
+      source={image}
+      style={styles.journalSummaryContainer}
+    >
       <JournalCardGradientWrapper enableGradient={isPublished}>
         <Text
           numberOfLines={2}
@@ -35,7 +39,7 @@ const JournalSummary = ({
           <View />
         )}
       </JournalCardGradientWrapper>
-    </FastImage>
+    </SmartImageV2>
   );
 };
 
