@@ -30,7 +30,7 @@ const priorityMap = {
  */
 const SmartImageV2 = ({
   useFastImage = false,
-  priority = priorityMap.normal,
+  priority = "normal",
   headers = {},
   resizeMode,
   source,
