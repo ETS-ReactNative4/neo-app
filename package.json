@@ -20,6 +20,7 @@
     "run-ios": "react-native run-ios --simulator=\"iPhone XS\"",
     "pod-install": "cd ios && pod install && cd ..",
     "precommit": "pretty-quick --staged",
+    "postinstall": "yarn pod-install",
     "bump-version": "node bumpVersion.js",
     "debug": "react-devtools",
     "lint:report": "eslint \"./**\" -c .eslintrc.js --ext js,jsx -f node_modules/eslint-detailed-reporter/lib/detailed.js -o report/lint-report.html"
