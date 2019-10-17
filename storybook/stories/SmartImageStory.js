@@ -135,7 +135,7 @@ storiesOf("Smart Image", module)
       <View style={styles.container}>
         <SmartImageV2
           style={styles.imageContainer}
-          source={{ uri: "" }}
+          source={{ uri: undefined }}
           fallbackSource={imageSources.localFile}
         />
       </View>

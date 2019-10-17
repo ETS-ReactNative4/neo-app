@@ -129,6 +129,10 @@ const SmartImageV2 = ({
     }
   };
 
+  if (!isUsingDefaultImage && typeof source === "object" && !source.uri) {
+    imageLoadError();
+  }
+
   return (
     <ImageComponent
       {...otherProps}
