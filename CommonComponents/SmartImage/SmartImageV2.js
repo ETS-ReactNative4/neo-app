@@ -47,6 +47,7 @@ const SmartImageV2 = ({
    */
   const isValidImageUrl =
     typeof source === "object" &&
+    source.uri &&
     (source.uri.startsWith(constants.httpPrefix) ||
       source.uri.startsWith(constants.httpsPrefix));
 
@@ -94,7 +95,8 @@ const SmartImageV2 = ({
    */
   let resizeModeProp = resizeMode;
   let priorityProp = null;
-  let fastImageSource = { ...imageSource };
+  let fastImageSource =
+    typeof imageSource === "object" ? { ...imageSource } : imageSource;
   if (useFastImage && isValidImageUrl && imageSource.isFastImageSet) {
     resizeModeProp = resizeModeMap[resizeMode];
     priorityProp = priorityMap[priority];

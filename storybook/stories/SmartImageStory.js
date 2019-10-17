@@ -119,6 +119,28 @@ storiesOf("Smart Image", module)
   .add("Smart image - all three scenarios", () => {
     return <MultipleScenarios />;
   })
+  .add("Smart image - broken image file with local file as placeholder", () => {
+    return (
+      <View style={styles.container}>
+        <SmartImageV2
+          style={styles.imageContainer}
+          source={imageSources.brokenFile}
+          fallbackSource={imageSources.localFile}
+        />
+      </View>
+    );
+  })
+  .add("Smart image - empty image uri with local file as placeholder", () => {
+    return (
+      <View style={styles.container}>
+        <SmartImageV2
+          style={styles.imageContainer}
+          source={{ uri: "" }}
+          fallbackSource={imageSources.localFile}
+        />
+      </View>
+    );
+  })
   .add("Smart image - with child text element", () => {
     return (
       <View style={styles.container}>
