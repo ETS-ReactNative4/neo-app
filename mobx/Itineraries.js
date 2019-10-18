@@ -12,6 +12,33 @@ import { hydrate } from "./Store";
 import itineraryConstructor from "../Services/appLauncher/itineraryConstructor";
 import debouncer from "../Services/debouncer/debouncer";
 
+/**
+ * Itinerary date object does not have a year hence this function
+ * will use the milliseconds data from `dayTs` to calculate
+ * the year string in `YYYY` format
+ */
+const getYearFromItineraryDateObject = dateObject => {
+  if (dateObject.dayTs) {
+    return moment(dateObject.dayTs).format("YYYY");
+  } else {
+    return constants.currentYear;
+  }
+};
+
+/**
+ * This function will use the itinerary date object from the
+ * `iterDayByKey` of the costing object and returns the
+ * corresponding Javascript Date object
+ */
+const getJsDateFromItineraryDateObject = dateObject => {
+  return moment(
+    `${dateObject.day}-${dateObject.mon}-${getYearFromItineraryDateObject(
+      dateObject
+    )}`,
+    "DD-MMM-YYYY"
+  ).toDate();
+};
+
 class Itineraries {
   static hydrator = storeInstance => {
     hydrate("_itineraries", storeInstance)
@@ -214,6 +241,10 @@ class Itineraries {
     }
   }
 
+  /**
+   * Returns the itinerary date objects obtained from `iterDayByKey`
+   * as a day wise sorted array
+   */
   @computed
   get sortedDays() {
     try {
@@ -226,6 +257,16 @@ class Itineraries {
     }
   }
 
+  /**
+   * Method for the calendar component on the booking screen
+   * This method will return the start date and the end date of the itinerary
+   * along with the number of days and the calendar start & end dates
+   *
+   * The calendar start and end dates are used to render the calendar rows on which
+   * the itinerary dates are highlighted for the user
+   *
+   * @returns {{}|{calendarStartDate: *, numberOfDays: *, calendarLastDate: *, startDate: *, lastDate: *}}
+   */
   @computed
   get startEndDates() {
     if (_.isEmpty(this._selectedItinerary)) return {};
@@ -235,18 +276,9 @@ class Itineraries {
 
       const startDay = sortedDays[0];
       const lastDay = sortedDays[sortedDays.length - 1];
-      const startDate = startDay.dayTs
-        ? moment(startDay.dayTs).toDate()
-        : moment(
-            `${startDay.day}-${startDay.mon}-${constants.currentYear}`,
-            "DD-MMM-YYYY"
-          ).toDate();
-      const lastDate = lastDay.dayTs
-        ? moment(lastDay.dayTs).toDate()
-        : moment(
-            `${lastDay.day}-${lastDay.mon}-${constants.currentYear}`,
-            "DD-MMM-YYYY"
-          ).toDate();
+
+      const startDate = getJsDateFromItineraryDateObject(startDay);
+      const lastDate = getJsDateFromItineraryDateObject(lastDay);
 
       const startWeek = moment(startDate).day();
       const endWeek = moment(lastDate).day();
@@ -642,18 +674,20 @@ class Itineraries {
     }
   });
 
+  /**
+   * From the sorted itinerary date object array created using
+   * `sortedDays` method, this will return the corresponding moment object array
+   * in the same sorted order
+   *
+   * @returns {Date[]|Array}
+   */
   @computed
   get days() {
     if (_.isEmpty(this._selectedItinerary)) return [];
 
     try {
       return this.sortedDays.map(day => {
-        return day.dayTs
-          ? moment(day.dayTs).toDate()
-          : moment(
-              `${day.day}-${day.mon}-${constants.currentYear}`,
-              "DD-MMM-YYYY"
-            ).toDate();
+        return getJsDateFromItineraryDateObject(day);
       });
     } catch (e) {
       logError(e);
@@ -710,21 +744,8 @@ class Itineraries {
         const endDayObject = this._selectedItinerary.iterDayByKey[endDayId];
 
         const city = cityObject.cityName;
-        /**
-         * TODO: Need date in milliseconds
-         */
-        const startDay = startDayObject.dayTs
-          ? moment(startDayObject.dayTs).toDate()
-          : moment(
-              `${startDayObject.day}-${startDayObject.mon}-${constants.currentYear}`,
-              "DD-MMM-YYYY"
-            ).toDate();
-        const endDay = endDayObject.dayTs
-          ? moment(endDayObject.dayTs).toDate()
-          : moment(
-              `${endDayObject.day}-${endDayObject.mon}-${constants.currentYear}`,
-              "DD-MMM-YYYY"
-            ).toDate();
+        const startDay = getJsDateFromItineraryDateObject(startDayObject);
+        const endDay = getJsDateFromItineraryDateObject(endDayObject);
 
         return { city, startDay, endDay, cityObject };
       });
@@ -752,6 +773,9 @@ class Itineraries {
     return "INR";
   }
 
+  /**
+   * Returns the first day of the itinerary as a JS Date object
+   */
   @computed
   get firstDay() {
     if (_.isEmpty(this._selectedItinerary)) return moment();
@@ -762,7 +786,7 @@ class Itineraries {
         if (iterDayByKey.hasOwnProperty(key)) {
           const dayObject = iterDayByKey[key];
           if (dayObject.dayNum === 1) {
-            return moment(dayObject.dayTs);
+            return moment(getJsDateFromItineraryDateObject(dayObject));
           }
         }
       }
@@ -977,6 +1001,27 @@ class Itineraries {
     }
   });
 
+  /**
+   * Method for the calendar component on the booking screen
+   * This method is used to decide what kind of highlight should be made on
+   * each date component in the calendar's row.
+   *
+   * This will return an array of 3 rows in the form [0, 0, 0]
+   *
+   * In a 3 day trip,
+   *
+   * For the first day it will return array of form [0, 1, 1]
+   * which means there are no dates on the left side of the current date
+   * (also means the date is a left corner)
+   *
+   * For the second day it will return array of form [1, 1, 1]
+   * which means there are dates on both left and right side of the current date
+   * (also means the date is in between two trip dates)
+   *
+   * For the third day it will return array of form [1, 1, 0]
+   * which means there are no dates on the right side of the current date
+   * (also means the date is a right corner)
+   */
   getDateSelectionMatrixSingle = createTransformer(index => {
     try {
       let dayKey;

@@ -135,7 +135,7 @@ PODS:
   - Protobuf (3.9.0)
   - QBImagePickerController (3.4.0)
   - RCTRequired (0.61.2)
-  - RCTRestart (0.0.12):
+  - RCTRestart (0.0.13):
     - React
   - RCTTypeSafety (0.61.2):
     - FBLazyVector (= 0.61.2)
@@ -388,6 +388,8 @@ PODS:
     - React
   - RNKeychain (3.0.0):
     - React
+  - RNPermissions (2.0.2):
+    - React
   - RNReanimated (1.2.0):
     - React
   - RNScreens (1.0.0-alpha.23):
@@ -478,6 +480,7 @@ DEPENDENCIES:
   - RNImageCropPicker (from `../node_modules/react-native-image-crop-picker`)
   - RNInAppBrowser (from `../node_modules/react-native-inappbrowser-reborn`)
   - RNKeychain (from `../node_modules/react-native-keychain`)
+  - RNPermissions (from `../node_modules/react-native-permissions`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
   - "RNSentry (from `../node_modules/@sentry/react-native`)"
@@ -615,6 +618,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-inappbrowser-reborn"
   RNKeychain:
     :path: "../node_modules/react-native-keychain"
+  RNPermissions:
+    :path: "../node_modules/react-native-permissions"
   RNReanimated:
     :path: "../node_modules/react-native-reanimated"
   RNScreens:
@@ -665,7 +670,7 @@ SPEC CHECKSUMS:
   Protobuf: 1097ca58584c8d9be81bfbf2c5ff5975648dd87a
   QBImagePickerController: d54cf93db6decf26baf6ed3472f336ef35cae022
   RCTRequired: c639d59ed389cfb1f1203f65c2ea946d8ec586e2
-  RCTRestart: 3abdd55016c31254b996e0a55cc14cc2544fa3c1
+  RCTRestart: dd19aab87fc1118e05b6b5b91b959105647f56b4
   RCTTypeSafety: dc23fb655d6c77667c78e327bf661bc11e3b8aec
   React: 7e586e5d7bec12b91c1a096826b0fc9ab1da7865
   React-Core: 8ddb9770b4a30a6ab4a754e6ed5ec76454e3d699
@@ -704,6 +709,7 @@ SPEC CHECKSUMS:
   RNImageCropPicker: 0a731d984e64ee4c28bddaa7ce52262e4b80979f
   RNInAppBrowser: 6a4b1c006d41d76eac14d758145335c83e1ab1cf
   RNKeychain: 3aa3cf891a09a0d18d306862ab2bb9e106079b24
+  RNPermissions: 9525b0f4d209fdf9a373d52d1492ae2943e691e5
   RNReanimated: 1b52415c4302f198cb581282a0166690bad62c43
   RNScreens: f28b48b8345f2f5f39ed6195518291515032a788
   RNSentry: 95f0a3c8644d797a93f87e7b440dc0df246a3dd2
@@ -719,6 +725,6 @@ SPEC CHECKSUMS:
   WebEngage: bfd178de2072ef0d0c740feaafa37289fc451197
   Yoga: 14927e37bd25376d216b150ab2a561773d57911f
 
-PODFILE CHECKSUM: d04e5ef4294dbcd8e3e26d44c20ab7706a1075a3
+PODFILE CHECKSUM: c9a1c88427dbc1f4dfb55c96d22feea57674ab91
 
 COCOAPODS: 1.6.1

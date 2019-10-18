@@ -12,6 +12,7 @@ import { responsiveWidth } from "react-native-responsive-dimensions";
 import PropTypes from "prop-types";
 import Icon from "../Icon/Icon";
 import _ from "lodash";
+import SmartImageV2 from "../SmartImage/SmartImageV2";
 
 const BookingSectionComponent = ({
   onClick,
@@ -40,8 +41,6 @@ const BookingSectionComponent = ({
       : null;
   }
 
-  const imageProps = defaultSource ? { defaultSource } : {};
-
   return (
     <TouchableOpacity
       onPress={onClick}
@@ -53,12 +52,12 @@ const BookingSectionComponent = ({
           {/**
            * Do not load actual thumbnail if the data is skipped for the voucher
            */}
-          <Image
+          <SmartImageV2
             resizeMode={
               isDataSkipped ? "cover" : isImageContain ? "contain" : "cover"
             }
             source={isDataSkipped ? defaultSource : sectionImage}
-            {...imageProps}
+            fallbackSource={defaultSource}
             style={styles.contentIcon}
           />
         </View>
