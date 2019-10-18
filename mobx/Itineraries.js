@@ -676,7 +676,7 @@ class Itineraries {
 
   /**
    * From the sorted itinerary date object array created using
-   * `sortedDays` method, this will return the corresponding JS date object array
+   * `sortedDays` method, this will return the corresponding moment object array
    * in the same sorted order
    *
    * @returns {Date[]|Array}
@@ -786,7 +786,7 @@ class Itineraries {
         if (iterDayByKey.hasOwnProperty(key)) {
           const dayObject = iterDayByKey[key];
           if (dayObject.dayNum === 1) {
-            return getJsDateFromItineraryDateObject(dayObject);
+            return moment(getJsDateFromItineraryDateObject(dayObject));
           }
         }
       }
