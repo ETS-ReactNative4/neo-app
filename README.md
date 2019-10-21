@@ -19,9 +19,16 @@ Home for Pickyourtrail's mobile app.
       JAVA_HOME=/Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/Home ~/Library/Android/sdk/tools/bin/sdkmanager --licenses
       ```
 
-   2. Once Xcode is installed, make sure you open Xcode at least once and download & install the iOS 12.4 simulator.
+   2. Generate a dummy debugging keystore file —
 
-   3. Run —
+      ```
+      cd android/app/
+      keytool -genkey -v -keystore debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000
+      ```
+
+   3. Once Xcode is installed, make sure you open Xcode at least once and download & install the iOS 12.4 simulator.
+
+   4. Run —
 
       ```
       brew install cocoapods
