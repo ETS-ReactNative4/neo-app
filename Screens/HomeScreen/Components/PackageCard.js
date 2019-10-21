@@ -47,7 +47,7 @@ const PackageCard = ({
           priority={rowIndex < 2 && colIndex < 2 ? "high" : "low"}
           style={styles.packageImage}
           resizeMode={"cover"}
-          useFastImage={true}
+          useFastImage={false} // TODO: Temporarily disabled fast image due to load failures of many images
           source={image}
         />
       </View>
