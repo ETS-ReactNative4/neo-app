@@ -1,4 +1,4 @@
-import { createStackNavigator } from "react-navigation";
+import { createStackNavigator } from "react-navigation-stack";
 import transitionConfig from "../Services/navigationAnimations/transitionConfig";
 import PaymentHome from "../Screens/PaymentHomeScreen/PaymentHome";
 import PaymentSummary from "../Screens/PaymentSummaryScreen/PaymentSummary";

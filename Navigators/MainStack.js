@@ -1,4 +1,4 @@
-import { createStackNavigator } from "react-navigation";
+import { createStackNavigator } from "react-navigation-stack";
 import Starter from "../Screens/StartingScreen/Starter";
 import HomeTabs from "./HomeTabs";
 import MobileNumber from "../Screens/MobileNumberScreen/MobileNumber";

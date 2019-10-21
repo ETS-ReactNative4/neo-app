@@ -1,4 +1,5 @@
-import { createStackNavigator, createSwitchNavigator } from "react-navigation";
+import { createSwitchNavigator } from "react-navigation";
+import { createStackNavigator } from "react-navigation-stack";
 import Splash from "../Screens/SplashScreen/Splash";
 import YourBookings from "../Screens/YourBookingsScreen/YourBookings";
 import UniversalStack from "./UniversalStack";

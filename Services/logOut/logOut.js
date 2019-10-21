@@ -1,5 +1,5 @@
 import * as Keychain from "react-native-keychain";
-import { DrawerActions } from "react-navigation";
+import { DrawerActions } from "react-navigation-drawer";
 import navigationService from "../navigationService/navigationService";
 import storeService from "../storeService/storeService";
 import Drawer from "../../Screens/Drawer/Drawer";

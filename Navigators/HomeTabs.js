@@ -1,4 +1,4 @@
-import { createBottomTabNavigator } from "react-navigation";
+import { createBottomTabNavigator } from "react-navigation-tabs";
 import BookedTabs from "./BookedTabs";
 import NewItineraryStack from "./NewItineraryStack";
 import storeService from "../Services/storeService/storeService";

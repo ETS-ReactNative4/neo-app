@@ -1,4 +1,4 @@
-import { createStackNavigator } from "react-navigation";
+import { createStackNavigator } from "react-navigation-stack";
 import TransferVoucher from "../Screens/VoucherScreens/TransferVoucherScreen/TransferVoucher";
 import ActivityVoucher from "../Screens/VoucherScreens/ActivityVoucherScreen/ActivityVoucher";
 import HotelVoucher from "../Screens/VoucherScreens/HotelVoucherScreen/HotelVoucher";
