@@ -3,8 +3,8 @@ import { View, StyleSheet, ViewPropTypes, Image, Text } from "react-native";
 import PropTypes from "prop-types";
 import SimpleButton from "../../../CommonComponents/SimpleButton/SimpleButton";
 import constants from "../../../constants/constants";
-import dialer from "../../../Services/dialer/dialer";
 import { recordEvent } from "../../../Services/analytics/analyticsService";
+import navigationService from "../../../Services/navigationService/navigationService";
 
 const VisaCompanionInfo = ({
   containerStyle = StyleSheet.create({}),
@@ -14,7 +14,8 @@ const VisaCompanionInfo = ({
   tag = "",
   phoneNumber = ""
 }) => {
-  const callSupport = () => dialer(phoneNumber);
+  const { navigation } = navigationService;
+  const messageAction = () => navigation._navigation.navigate("SupportCenter");
 
   return (
     <View style={[styles.visaCompanionInfoContainer, containerStyle]}>
@@ -34,11 +35,11 @@ const VisaCompanionInfo = ({
             recordEvent(constants.Visa.event, {
               click: constants.Visa.click.callAccountOwnerBar
             });
-            callSupport();
+            messageAction();
           }}
-          text={"Call now"}
+          text={"Message us"}
           textColor={"white"}
-          containerStyle={{ width: 94, height: 36 }}
+          containerStyle={{ width: 102, height: 36 }}
           underlayColor={constants.firstColorAlpha(0.2)}
         />
       </View>
