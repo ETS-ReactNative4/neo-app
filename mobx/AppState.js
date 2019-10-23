@@ -116,7 +116,7 @@ class AppState {
   }
 
   @action
-  getConversionRates = () => {
+  getConversionRates = ({ silent = false } = {}) => {
     this._isConversionLoading = true;
     apiCall(constants.getCurrencyRates, {}, "GET")
       .then(response => {
@@ -124,12 +124,16 @@ class AppState {
         if (response.status === "SUCCESS") {
           this._conversionRates = response.data;
         } else {
-          toastBottom(conversionRateError.message);
+          if (!silent) {
+            toastBottom(conversionRateError.message);
+          }
         }
       })
       .catch(e => {
         this._isConversionLoading = false;
-        toastBottom(conversionRateError.message);
+        if (!silent) {
+          toastBottom(conversionRateError.message);
+        }
       });
   };
 
@@ -167,14 +171,14 @@ class AppState {
   }
 
   @action
-  loadCurrencies = () => {
+  loadCurrencies = ({ silent = false } = {}) => {
     const itineraryId = storeService.itineraries.selectedItineraryId;
     if (!this._currencies[itineraryId])
-      this._getCurrencyByItineraryId(itineraryId);
+      this._getCurrencyByItineraryId({ itineraryId, silent });
   };
 
   @action
-  _getCurrencyByItineraryId = itineraryId => {
+  _getCurrencyByItineraryId = ({ itineraryId, silent }) => {
     apiCall(
       `${constants.getCurrencyList}?itineraryId=${itineraryId}`,
       {},
@@ -202,6 +206,19 @@ class AppState {
           currencies[itineraryId] = _.compact(currencyArray);
           this._currencies = currencies;
         } else {
+          if (!silent) {
+            storeService.infoStore.setError(
+              currencyDetailsError.title,
+              currencyDetailsError.message,
+              constants.errorBoxIllus,
+              currencyDetailsError.actionText,
+              () => navigationService.navigation._navigation.goBack()
+            );
+          }
+        }
+      })
+      .catch(err => {
+        if (!silent) {
           storeService.infoStore.setError(
             currencyDetailsError.title,
             currencyDetailsError.message,
@@ -210,15 +227,6 @@ class AppState {
             () => navigationService.navigation._navigation.goBack()
           );
         }
-      })
-      .catch(err => {
-        storeService.infoStore.setError(
-          currencyDetailsError.title,
-          currencyDetailsError.message,
-          constants.errorBoxIllus,
-          currencyDetailsError.actionText,
-          () => navigationService.navigation._navigation.goBack()
-        );
       });
   };
 

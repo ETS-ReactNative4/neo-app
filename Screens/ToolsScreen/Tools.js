@@ -17,6 +17,7 @@ import debouncer from "../../Services/debouncer/debouncer";
 @ErrorBoundary({ isRoot: true })
 @inject("itineraries")
 @inject("visaStore")
+@inject("appState")
 @observer
 class Tools extends Component {
   static navigationOptions = HomeHeader;
@@ -28,22 +29,25 @@ class Tools extends Component {
       "didFocus",
       () => {
         debouncer(() => {
-          this.loadVisaDetails();
+          this.loadToolsInfo();
         });
       }
     );
   }
 
-  loadVisaDetails = () => {
+  loadToolsInfo = () => {
     const { selectedItineraryId } = this.props.itineraries;
     if (selectedItineraryId) {
       const { getVisaHomeScreenDetails } = this.props.visaStore;
+      const { getConversionRates, loadCurrencies } = this.props.appState;
+      getConversionRates({ silent: true });
+      loadCurrencies({ silent: true });
       getVisaHomeScreenDetails();
     }
   };
 
   componentDidMount() {
-    this.loadVisaDetails();
+    this.loadToolsInfo();
   }
 
   componentWillUnmount() {
@@ -141,16 +145,20 @@ class Tools extends Component {
         },
         icon: constants.packageChecklistIcon
       },
-      {
-        text: `Buy Forex`,
-        action: () => {
-          recordEvent(constants.Tools.event, {
-            click: constants.Tools.click.forex
-          });
-          navigation.navigate("Forex");
-        },
-        icon: constants.forexIcon
-      },
+      /**
+       * Forex disabled in the tools screen
+       * and will be accessible only through trip feed widget
+       */
+      // {
+      //   text: `Buy Forex`,
+      //   action: () => {
+      //     recordEvent(constants.Tools.event, {
+      //       click: constants.Tools.click.forex
+      //     });
+      //     navigation.navigate("Forex");
+      //   },
+      //   icon: constants.forexIcon
+      // },
       {
         icon: constants.passportDetailsIcon,
         text: `Passport Details`,

@@ -8179,10 +8179,10 @@ react-native-draftjs-editor@0.0.2:
   resolved "https://registry.yarnpkg.com/react-native-draftjs-editor/-/react-native-draftjs-editor-0.0.2.tgz#83a3d83feaefb5fb27d0ee75e47999a0cd18ec00"
   integrity sha512-L0WASWxd9xU/o83Fhompmxzff+I9q3/yyPVU/6NVRD+TmPcyVqLZdYDGambIrbNfducVo66KKcwtqXMvDTF0CA==
 
-react-native-fast-image@7.0.0:
-  version "7.0.0"
-  resolved "https://registry.yarnpkg.com/react-native-fast-image/-/react-native-fast-image-7.0.0.tgz#f8d763cabc72bbe1f73a78db34214885e62f6137"
-  integrity sha512-GrlAb4/EvXaT9YbSZFA81xesqa/djksKXE6ChYoVTzFCI9D934PANw/cuE6etdWTZJhSUTywjNtUkrjBO6gUQA==
+react-native-fast-image@7.0.2:
+  version "7.0.2"
+  resolved "https://registry.yarnpkg.com/react-native-fast-image/-/react-native-fast-image-7.0.2.tgz#e06b21f42f4a9786eaa86f3db35d919070fb8403"
+  integrity sha512-MfuzJbC0RjYobR2gFCdqe1I7jvNOCfDkjQ7VGOHXniqjohhULMkcWNBE9Umovi9Dx93lJ6t5utcE2wf/09zvlg==
 
 react-native-file-viewer@^2.0.0:
   version "2.0.0"

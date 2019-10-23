@@ -13,28 +13,42 @@ import Icon from "../../../../CommonComponents/Icon/Icon";
 
 const FlightDivider = ({ onClick, layoverText }) => {
   /**
-   * TODO: Actual Arrow Icon needed
+   * TODO: Flight Divider causes a crash on android when it is folded back
+   * This will disable the clickable property of the divider on android and it should
+   * be re-enabled when the crash is fixed
+   *
+   * TODO: No active issues on Github, needs to be created.
    */
+  const Wrapper =
+    Platform.OS === constants.platformIos ? TouchableOpacity : View;
+  const wrapperProps =
+    Platform.OS === constants.platformIos
+      ? {
+          onPress: onClick,
+          activeOpacity: 0.2
+        }
+      : {};
+
   return (
-    <TouchableOpacity
-      onPress={onClick}
-      activeOpacity={0.2}
-      style={styles.flightDividerContainer}
-    >
+    <Wrapper {...wrapperProps} style={styles.flightDividerContainer}>
       <View style={styles.arrowBox}>
         <View style={styles.topArrow}>
-          <Icon
-            size={12}
-            name={constants.arrowRight}
-            color={constants.shade4}
-          />
+          {Platform.OS === constants.platformIos ? (
+            <Icon
+              size={12}
+              name={constants.arrowRight}
+              color={constants.shade4}
+            />
+          ) : null}
         </View>
         <View style={styles.bottomArrow}>
-          <Icon
-            size={12}
-            name={constants.arrowRight}
-            color={constants.shade4}
-          />
+          {Platform.OS === constants.platformIos ? (
+            <Icon
+              size={12}
+              name={constants.arrowRight}
+              color={constants.shade4}
+            />
+          ) : null}
         </View>
       </View>
 
@@ -52,21 +66,25 @@ const FlightDivider = ({ onClick, layoverText }) => {
 
       <View style={[styles.arrowBox, { alignItems: "flex-end" }]}>
         <View style={styles.topArrow}>
-          <Icon
-            size={12}
-            name={constants.arrowRight}
-            color={constants.shade4}
-          />
+          {Platform.OS === constants.platformIos ? (
+            <Icon
+              size={12}
+              name={constants.arrowRight}
+              color={constants.shade4}
+            />
+          ) : null}
         </View>
         <View style={styles.bottomArrow}>
-          <Icon
-            size={12}
-            name={constants.arrowRight}
-            color={constants.shade4}
-          />
+          {Platform.OS === constants.platformIos ? (
+            <Icon
+              size={12}
+              name={constants.arrowRight}
+              color={constants.shade4}
+            />
+          ) : null}
         </View>
       </View>
-    </TouchableOpacity>
+    </Wrapper>
   );
 };
 
