@@ -149,6 +149,8 @@ class VisaStatus extends Component {
 
     const contactAccountOwner = phoneNumber => dialer(phoneNumber);
 
+    const openHelpDesk = () => navigation.navigate("SupportCenter");
+
     const isVisaWindowNotOpen =
       visaDetails.visaStage === constants.visaWindowNotOpenedStatus ||
       visaDetails.visaType === constants.onArrivalVisaType;
@@ -215,7 +217,7 @@ class VisaStatus extends Component {
                 recordEvent(constants.Visa.event, {
                   click: constants.Visa.click.callAccountOwnerFab
                 });
-                contactAccountOwner(accountOwnerDetails.mobileNumber);
+                openHelpDesk();
               }}
               iconSize={30}
               radius={32}

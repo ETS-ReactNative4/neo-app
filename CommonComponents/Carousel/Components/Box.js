@@ -1,10 +1,10 @@
 import constants from "../../../constants/constants";
 import { Text, TouchableHighlight, View, StyleSheet } from "react-native";
-import FastImage from "react-native-fast-image";
 import LinearGradient from "react-native-linear-gradient";
 import PropTypes from "prop-types";
 import React from "react";
 import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraProps";
+import SmartImageV2 from "../../SmartImage/SmartImageV2";
 
 const Box = ({ data, index }) => {
   const gradients = [
@@ -30,10 +30,11 @@ const Box = ({ data, index }) => {
         underlayColor={"transparent"}
         style={styles.touchable}
       >
-        <FastImage
+        <SmartImageV2
           style={styles.imageBackground}
-          resizeMode={FastImage.resizeMode.cover}
+          resizeMode={"cover"}
           source={data.image}
+          useFastImage={true}
         >
           <LinearGradient
             locations={[0.25, 0.5, 0.7, 1]}
@@ -47,7 +48,7 @@ const Box = ({ data, index }) => {
           >
             <Text style={styles.boxTitle}>{data.title}</Text>
           </LinearGradient>
-        </FastImage>
+        </SmartImageV2>
       </TouchableHighlight>
     </View>
   );

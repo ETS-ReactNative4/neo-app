@@ -15,7 +15,7 @@ const appText = {
   currencyConverterText: {
     conversionRateError: {
       title: "Oh no!",
-      message: "We are currently unable to fetch the conversion rates...",
+      message: "Unable to fetch the latest conversion rates...",
       actionText: "Go Back"
     },
     currencyDetailsError: {

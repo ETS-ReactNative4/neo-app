@@ -19,6 +19,7 @@ import FastImage from "react-native-fast-image";
 import forbidExtraProps from "../../../../Services/PropTypeValidation/forbidExtraProps";
 import Icon from "../../../../CommonComponents/Icon/Icon";
 import resolveLinks from "../../../../Services/resolveLinks/resolveLinks";
+import SmartImageV2 from "../../../../CommonComponents/SmartImage/SmartImageV2";
 
 const singleButtonWidth = responsiveWidth(100) - 48 - 48;
 
@@ -62,10 +63,11 @@ class InfoCardModal extends Component {
       >
         <View style={styles.modalView}>
           {image ? (
-            <FastImage
+            <SmartImageV2
               style={styles.imageBackground}
-              resizeMode={FastImage.resizeMode.cover}
+              resizeMode={"cover"}
               source={image}
+              useFastImage={true}
             />
           ) : null}
           <View style={styles.contentView}>

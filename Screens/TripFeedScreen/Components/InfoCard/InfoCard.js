@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import { Text, TouchableOpacity, View, StyleSheet } from "react-native";
-import FastImage from "react-native-fast-image";
 import PropTypes from "prop-types";
 import forbidExtraProps from "../../../../Services/PropTypeValidation/forbidExtraProps";
 import constants from "../../../../constants/constants";
 import resolveLinks from "../../../../Services/resolveLinks/resolveLinks";
 import { recordEvent } from "../../../../Services/analytics/analyticsService";
+import SmartImageV2 from "../../../../CommonComponents/SmartImage/SmartImageV2";
 
 class InfoCard extends Component {
   static propTypes = forbidExtraProps({
@@ -45,10 +45,11 @@ class InfoCard extends Component {
         style={[styles.box, boxStyle]}
       >
         {image ? (
-          <FastImage
+          <SmartImageV2
             style={styles.imageBackground}
-            resizeMode={FastImage.resizeMode.cover}
+            resizeMode={"cover"}
             source={image}
+            useFastImage={true}
           />
         ) : null}
         <View style={styles.contentView}>
