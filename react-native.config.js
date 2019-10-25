@@ -13,6 +13,11 @@ module.exports = {
       platforms: {
         ios: null
       }
+    },
+    "react-native-permissions": {
+      platforms: {
+        ios: null
+      }
     }
   }
 };
