@@ -1,5 +1,12 @@
-import { check, RESULTS, request } from "react-native-permissions";
+import { Platform } from "react-native";
 import { logError } from "../errorLogger/errorLogger";
+
+const { check, RESULTS, request } = Platform.select({
+  android: () => require("react-native-permissions"),
+  ios: () => {
+    return {};
+  }
+})();
 
 const requestPermission = ({
   permissionType = "",
