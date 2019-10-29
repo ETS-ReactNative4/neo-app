@@ -299,11 +299,11 @@ PODS:
     - React-cxxreact (= 0.61.2)
     - React-jsi (= 0.61.2)
   - React-jsinspector (0.61.2)
-  - react-native-cameraroll (1.0.5):
+  - react-native-cameraroll (1.2.1):
     - React
-  - react-native-geolocation (1.4.2):
+  - react-native-geolocation (2.0.2):
     - React
-  - react-native-netinfo (4.1.1):
+  - react-native-netinfo (4.4.0):
     - React
   - react-native-photo-view (1.5.2):
     - React
@@ -355,12 +355,12 @@ PODS:
     - React
   - rn-fetch-blob (0.10.16):
     - React-Core
-  - RNAnalytics (1.1.0-beta.1):
+  - RNAnalytics (1.1.0):
     - Analytics
     - React
-  - RNBootSplash (1.0.0):
+  - RNBootSplash (1.0.3):
     - React
-  - RNCAsyncStorage (1.5.1):
+  - RNCAsyncStorage (1.6.2):
     - React
   - RNDeviceInfo (2.1.2):
     - React
@@ -394,7 +394,7 @@ PODS:
     - React
   - RNScreens (1.0.0-alpha.23):
     - React
-  - RNSentry (1.0.5):
+  - RNSentry (1.0.9):
     - React
     - Sentry (~> 4.4.0)
   - RNShare (2.0.0):
@@ -679,9 +679,9 @@ SPEC CHECKSUMS:
   React-jsi: 32285a21b1b24c36060493ed3057a34677d58d09
   React-jsiexecutor: 8909917ff7d8f21a57e443a866fd8d4560e50c65
   React-jsinspector: 111d7d342b07a904c400592e02a2b958f1098b60
-  react-native-cameraroll: b1faef9f2ea27b07bdf818b8043909a93f797eca
-  react-native-geolocation: a7b94614afbd5fd8350e0233a2025c8228fc8041
-  react-native-netinfo: 74a82ca28882d543658ddb63617c2e7cf9b78aa7
+  react-native-cameraroll: 3e5e34d36d93548ae7770ee8ab7b2ae9e778f571
+  react-native-geolocation: c956aeb136625c23e0dce0467664af2c437888c9
+  react-native-netinfo: 6bb847e64f45a2d69c6173741111cfd95c669301
   react-native-photo-view: 63e9e61da873531f931008b545d8d10c5373ddf8
   react-native-simple-toast: 1fc69d83c24279ed4f9624352551a5a3406678a2
   react-native-viewpager: f41b42bba71407e916654d64e87ff2680edecc92
@@ -699,9 +699,9 @@ SPEC CHECKSUMS:
   ReactCommon: 5848032ed2f274fcb40f6b9ec24067787c42d479
   ReactNativeART: d230fdaf9a6d15d5ec842355ada1edbe326c49d0
   rn-fetch-blob: 651b8d076b43d0d7aa294a3d9ec16c00aab8bef9
-  RNAnalytics: 05243c1fa17186f07be3eae30514b43aeb2e0578
-  RNBootSplash: 67b98f49c7a2fbd3d9ee24a196ddf052feb22c33
-  RNCAsyncStorage: b63d6e83fc629b01df6b624688f17944cea5637f
+  RNAnalytics: 35a54cb740c472a0a6a3de765176b82cccc2d1ef
+  RNBootSplash: 161de9d2b5dc2af37c2777063b8e6d844ab2a6ff
+  RNCAsyncStorage: 60a80e72d95bf02a01cace55d3697d9724f0d77f
   RNDeviceInfo: 75dac2d7cd6b638b512cc9266ce48a39661fed0e
   RNFastImage: 9b0c22643872bb7494c8d87bbbb66cc4c0d9e7a2
   RNFileViewer: 5047ecf40477339723cc08abd55b5ebcefcef4b5
@@ -712,7 +712,7 @@ SPEC CHECKSUMS:
   RNKeychain: 3aa3cf891a09a0d18d306862ab2bb9e106079b24
   RNReanimated: 6abbbae2e5e72609d85aabd92a982a94566885f1
   RNScreens: f28b48b8345f2f5f39ed6195518291515032a788
-  RNSentry: 95f0a3c8644d797a93f87e7b440dc0df246a3dd2
+  RNSentry: 2803ba8c8129dcf26b79e9b4d8c80168be6e4390
   RNShare: 8b171d4b43c1d886917fdd303bf7a4b87167b05c
   RNSound: da030221e6ac7e8290c6b43f2b5f2133a8e225b0
   RNSVG: 0eb087cfb5d7937be93c45b163b26352a647e681
