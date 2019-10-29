@@ -10,8 +10,6 @@ import XSensorPlaceholder from "../../CommonComponents/XSensorPlaceholder/XSenso
 import VisaWindowNotOpen from "./Component/VisaWindowNotOpen";
 import VisaWindowOpen from "./Component/VisaWindowOpen";
 import _ from "lodash";
-import BlankSpacer from "../../CommonComponents/BlankSpacer/BlankSpacer";
-import { responsiveHeight } from "react-native-responsive-dimensions";
 import { toastBottom } from "../../Services/toast/toast";
 import debouncer from "../../Services/debouncer/debouncer";
 import FabButton from "../../CommonComponents/FabButton/FabButton";
@@ -20,6 +18,7 @@ import SimpleButton from "../../CommonComponents/SimpleButton/SimpleButton";
 import CustomScrollView from "../../CommonComponents/CustomScrollView/CustomScrollView";
 import VisaRejectedActionBar from "./Component/VisaRejectedActionBar";
 import { recordEvent } from "../../Services/analytics/analyticsService";
+import { CONSTANT_mailIcon } from "../../constants/imageAssets";
 
 @ErrorBoundary()
 @inject("itineraries")
@@ -222,7 +221,7 @@ class VisaStatus extends Component {
               iconSize={30}
               radius={32}
               containerStyle={styles.fabButton}
-              icon={constants.callStartIcon}
+              icon={CONSTANT_mailIcon}
             />
           )
         ) : null}
