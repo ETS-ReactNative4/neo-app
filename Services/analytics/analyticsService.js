@@ -5,9 +5,13 @@ import { analytics as firebaseAnalytics, perf } from "react-native-firebase";
 import constants from "../../constants/constants";
 import debouncer from "../debouncer/debouncer";
 import WebEngage from "react-native-webengage";
+import uuidv4 from "uuid/v4";
 
 const webEngage = new WebEngage();
 
+/**
+ * Firebase reserved events list. These events should not be tracked
+ */
 const reserved = [
   "app_clear_data",
   "app_uninstall",
@@ -34,9 +38,25 @@ const reserved = [
   "ad_activeiew"
 ];
 
+/**
+ * Unique session id which will be created every time the app is launched.
+ */
+const sessionId = uuidv4();
+
 export const recordEvent = (event, params = undefined) => {
   debouncer(() => {
     if (!reserved.includes(event)) {
+      if (!params) {
+        params = { sessionId };
+      } else if (typeof params === "object") {
+        params = { ...params, sessionId };
+      } else {
+        logError(`Invalid analytics parameter ${typeof param}`, {
+          event,
+          params
+        });
+        return;
+      }
       logBreadCrumb({
         message: constants.errorLoggerEvents.messages.analyticsEvent,
         category: constants.errorLoggerEvents.categories.analytics,
@@ -47,11 +67,7 @@ export const recordEvent = (event, params = undefined) => {
         level: constants.errorLoggerEvents.levels.info
       });
       firebaseAnalytics().logEvent(event, params);
-      if (!params) {
-        analytics.track(event);
-      } else {
-        analytics.track(event, params);
-      }
+      analytics.track(event, params);
     } else {
       logError(`Invalid analytics event ${event}`, { params });
     }
@@ -122,9 +138,9 @@ export const screenTracker = (prevState, currentState) => {
         data: {},
         level: constants.errorLoggerEvents.levels.info
       });
-      analytics.screen(currentScreen);
-      webEngage.screen(currentScreen);
-      firebaseAnalytics().setCurrentScreen(currentScreen);
+      analytics.screen(currentScreen, { sessionId });
+      webEngage.screen(currentScreen, { sessionId });
+      firebaseAnalytics().setCurrentScreen(currentScreen, currentScreen);
     }
   });
 };
