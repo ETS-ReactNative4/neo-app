@@ -101,7 +101,7 @@
     "react-native-webengage": "1.1.1",
     "react-native-webview": "5.12.1",
     "react-navigation": "4.0.10",
-    "react-navigation-drawer": "^2.3.1",
+    "react-navigation-drawer": "2.3.3",
     "react-navigation-stack": "^1.10.2",
     "react-navigation-tabs": "^2.5.6",
     "rn-fetch-blob": "0.10.16",
