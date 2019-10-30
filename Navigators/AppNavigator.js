@@ -9,7 +9,7 @@ import Drawer from "../Screens/Drawer/Drawer";
 import PaymentStack from "./PaymentStack";
 import About from "../Screens/AboutScreen/About";
 import { shouldIncludeStoryBook } from "../storybook/Storybook";
-// import { useScreens } from "react-native-screens";
+import { useScreens } from "react-native-screens";
 import constants from "../constants/constants";
 
 /**
@@ -18,9 +18,9 @@ import constants from "../constants/constants";
  *
  * Needs this issue to be closed - https://github.com/kmagiera/react-native-screens/issues/159
  */
-// if (Platform.OS === constants.platformIos) {
-//   useScreens();
-// }
+if (Platform.OS === constants.platformIos) {
+  useScreens();
+}
 
 const navigators = {
   Home: {
