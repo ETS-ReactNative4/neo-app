@@ -17,7 +17,7 @@
     "build-ios-prod": "yarn set-prod-environment && yarn build-ios",
     "alpha-android": "fastlane android alpha",
     "run-android": "react-native run-android",
-    "run-ios": "react-native run-ios --simulator=\"iPhone XS\"",
+    "run-ios": "react-native run-ios --simulator=\"iPhone 11 Pro\"",
     "pod-install": "cd ios && pod install && cd ..",
     "precommit": "pretty-quick --staged",
     "bump-version": "node bumpVersion.js",
