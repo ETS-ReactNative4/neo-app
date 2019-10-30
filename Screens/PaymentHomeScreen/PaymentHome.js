@@ -1,11 +1,5 @@
 import React, { Component } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  RefreshControl,
-  ScrollView
-} from "react-native";
+import { View, StyleSheet } from "react-native";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import HamburgerButton from "../../CommonComponents/HamburgerButton/HamburgerButton";
 import { inject, observer } from "mobx-react/custom";
