@@ -30,7 +30,7 @@ target 'Pickyourtrail' do
   pod 'Firebase/Core', '~> 6.3.0'
   pod 'Firebase/Messaging', '~> 6.3.0'
   pod 'Firebase/Performance', '~> 6.3.0'
-  pod 'WebEngage', '~> 4.9.5'
+  pod 'WebEngage', '~> 5.0.0'
 
   # target 'PickyourtrailTests' do
   #   inherit! :search_paths

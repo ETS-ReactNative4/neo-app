@@ -282,9 +282,9 @@ PODS:
   - Sentry/Core (4.4.0)
   - TextToSpeech (2.0.0):
     - React
-  - WebEngage (4.9.5):
-    - WebEngage/Xcode10 (= 4.9.5)
-  - WebEngage/Xcode10 (4.9.5)
+  - WebEngage (5.0.0):
+    - WebEngage/Xcode11 (= 5.0.0)
+  - WebEngage/Xcode11 (5.0.0)
   - yoga (0.60.5.React)
 
 DEPENDENCIES:
@@ -344,7 +344,7 @@ DEPENDENCIES:
   - RNSVG (from `../node_modules/react-native-svg`)
   - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
   - TextToSpeech (from `../node_modules/react-native-tts`)
-  - WebEngage (~> 4.9.5)
+  - WebEngage (~> 5.0.0)
   - yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
@@ -374,6 +374,7 @@ SPEC REPOS:
     - SDWebImage
     - SDWebImageWebPCoder
     - Sentry
+  trunk:
     - WebEngage
 
 EXTERNAL SOURCES:
@@ -565,9 +566,9 @@ SPEC CHECKSUMS:
   SDWebImageWebPCoder: 7568737603c50f6237850afedd7e9e28e5917e6b
   Sentry: 26650184fe71eb7476dfd2737acb5ea6cc64b4b1
   TextToSpeech: 4e2fc50c7495416c6da5a1662ad3f750c58d3c85
-  WebEngage: bfd178de2072ef0d0c740feaafa37289fc451197
+  WebEngage: a58c302918d98443329ec3b937a770fa51a21b6a
   yoga: 312528f5bbbba37b4dcea5ef00e8b4033fdd9411
 
-PODFILE CHECKSUM: 4a8592889f3ff2725e67d770c5f88a4cb5e4738f
+PODFILE CHECKSUM: bfb48e16ede3dc0fb33c96add333e3fd5cd0ce8d
 
 COCOAPODS: 1.8.4
