@@ -27,6 +27,7 @@ addDecorator(story => (
 ));
 
 configure(() => {
+  require("./stories/CommonComponentsStory");
   require("./stories/TripFeedStory");
   require("./stories/PackagesPageStory");
   require("./stories/VouchersStory");
