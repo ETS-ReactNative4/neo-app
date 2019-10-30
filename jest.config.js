@@ -47,7 +47,8 @@ const ignoredNativeModules = [
   "react-native-lightbox",
   "react-native-photo-view",
   "react-native-swipe-gestures",
-  "@storybook/react-native"
+  "@storybook/react-native",
+  "@sentry/react-native"
 ];
 
 module.exports = {
