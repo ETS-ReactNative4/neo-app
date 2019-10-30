@@ -348,7 +348,7 @@ DEPENDENCIES:
   - yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
+  https://github.com/CocoaPods/Specs.git:
     - Analytics
     - boost-for-react-native
     - Crashlytics
@@ -509,8 +509,8 @@ SPEC CHECKSUMS:
   GoogleUtilities: e7dc37039b19df7fe543479d3e4a02ac8d11bb69
   GTMSessionFetcher: 61bb0f61a4cb560030f1222021178008a5727a23
   libwebp: 057912d6d0abfb6357d8bb05c0ea470301f5d61e
-  lottie-ios: 06e0b54aab85ba128e332687d7f4ac4861a7a7ae
-  lottie-react-native: c911f78e11d4b22e74989cd8a4987a392bd1ac70
+  lottie-ios: 6037add6441183d4ffd100d2ac78724aa8d919d4
+  lottie-react-native: 86aeee2caa9250e4c8027ac75711a59c6679e532
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
   Protobuf: 1097ca58584c8d9be81bfbf2c5ff5975648dd87a
   QBImagePickerController: d54cf93db6decf26baf6ed3472f336ef35cae022
@@ -570,4 +570,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 4a8592889f3ff2725e67d770c5f88a4cb5e4738f
 
-COCOAPODS: 1.6.1
+COCOAPODS: 1.8.4
