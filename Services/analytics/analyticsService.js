@@ -74,7 +74,7 @@ export const recordEvent = (event, params = undefined) => {
   });
 };
 
-export const enableAnalytics = () => {
+export const enableAnalytics = async () => {
   debouncer(async () => {
     try {
       await analytics.setup(constants.segmentWriteKey, {
@@ -84,8 +84,10 @@ export const enableAnalytics = () => {
       await analytics.enable();
       firebaseAnalytics().setAnalyticsCollectionEnabled(true);
       perf().setPerformanceCollectionEnabled(true);
+      return true;
     } catch (error) {
       logError("Failed to enable analytics", { error });
+      return false;
     }
   });
 };
