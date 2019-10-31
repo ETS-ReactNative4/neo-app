@@ -30,7 +30,7 @@ class App extends Component {
     UIManager.setLayoutAnimationEnabledExperimental &&
       UIManager.setLayoutAnimationEnabledExperimental(true);
 
-    if (!__DEV__ && isProduction()) {
+    if (!__DEV__) {
       enableAnalytics();
     } else {
       disableAnalytics();
