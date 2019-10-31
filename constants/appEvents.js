@@ -160,7 +160,8 @@ const appEvents = {
       clearPayment: "clear_payment",
       paymentSuccess: "payment_success",
       paymentFailure: "payment_failure",
-      paymentFailureHelpDesk: "payment_failure_help_desk"
+      paymentFailureHelpDesk: "payment_failure_help_desk",
+      offlinePaymentLink: "offline_payment_link"
     }
   },
   Places: {

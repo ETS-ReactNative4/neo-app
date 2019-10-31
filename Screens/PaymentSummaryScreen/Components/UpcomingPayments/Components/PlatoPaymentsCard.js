@@ -7,6 +7,7 @@ import PropTypes from "prop-types";
 import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidExtraProps";
 import Icon from "../../../../../CommonComponents/Icon/Icon";
 import openCustomTab from "../../../../../Services/openCustomTab/openCustomTab";
+import { recordEvent } from "../../../../../Services/analytics/analyticsService";
 
 /**
  * This card will print a list of upcoming plato payments
@@ -57,7 +58,12 @@ const PlatoPaymentsCard = ({ payments, containerStyle }) => {
             {payment.paymentUrl ? (
               <TouchableOpacity
                 activeOpacity={0.8}
-                onPress={() => openCustomTab(payment.paymentUrl)}
+                onPress={() => {
+                  recordEvent(constants.Payment.event, {
+                    click: constants.Payment.click.offlinePaymentLink
+                  });
+                  openCustomTab(payment.paymentUrl);
+                }}
                 style={styles.actionTextArea}
               >
                 <Text style={[styles.actionText]}>{"Pay Now"}</Text>
