@@ -1,3 +1,15 @@
+export const CONSTANT_drawerEvents = {
+  event: "Drawer",
+  click: {
+    login: "login",
+    home: "home",
+    payments: "payments",
+    about: "about",
+    storyBook: "storyBook",
+    logout: "logout"
+  }
+};
+
 const appEvents = {
   StarterScreen: {
     event: "Starter",

@@ -36,6 +36,7 @@ import resolveLinks from "../../Services/resolveLinks/resolveLinks";
 import ratioCalculator from "../../Services/ratioCalculator/ratioCalculator";
 import debouncer from "../../Services/debouncer/debouncer";
 import RNBootSplash from "react-native-bootsplash";
+import { CONSTANT_drawerEvents } from "../../constants/appEvents";
 
 let _onNotificationReceived, _onNotificationDisplayed, _onNotificationOpened;
 
@@ -170,7 +171,13 @@ class Drawer extends Component {
     const menuItems = [
       {
         icon: constants.homeIcon,
-        text: "Home"
+        text: "Home",
+        action: index => {
+          recordEvent(CONSTANT_drawerEvents.event, {
+            click: CONSTANT_drawerEvents.click.home
+          });
+          this.clickDrawerItem(index, "Home");
+        }
       },
       // {
       //   icon: constants.notificationIcon,
@@ -214,14 +221,26 @@ class Drawer extends Component {
       // },
       {
         icon: constants.infoIcon,
-        text: "About"
+        text: "About",
+        action: index => {
+          recordEvent(CONSTANT_drawerEvents.event, {
+            click: CONSTANT_drawerEvents.click.about
+          });
+          this.clickDrawerItem(index, "About");
+        }
       }
     ];
 
     if (shouldIncludeStoryBook()) {
       menuItems.push({
         icon: constants.storybookIcon,
-        text: "StoryBook"
+        text: "StoryBook",
+        action: index => {
+          recordEvent(CONSTANT_drawerEvents.event, {
+            click: CONSTANT_drawerEvents.click.storyBook
+          });
+          this.clickDrawerItem(index, "StoryBook");
+        }
       });
     }
 
@@ -240,6 +259,9 @@ class Drawer extends Component {
         icon: constants.logoutIcon,
         text: "Log Out",
         action: () => {
+          recordEvent(CONSTANT_drawerEvents.event, {
+            click: CONSTANT_drawerEvents.click.logout
+          });
           recordEvent(constants.userLoggedOutEvent);
           logOut();
         }
@@ -283,7 +305,12 @@ class Drawer extends Component {
             {!this.state.isLoggedIn ? (
               <SimpleButton
                 text={"Login"}
-                action={() => navigation.navigate("MobileNumber")}
+                action={() => {
+                  recordEvent(CONSTANT_drawerEvents.event, {
+                    click: CONSTANT_drawerEvents.click.login
+                  });
+                  navigation.navigate("MobileNumber");
+                }}
                 textColor={"white"}
                 hasBorder={true}
                 color={constants.firstColor}
@@ -317,7 +344,9 @@ class Drawer extends Component {
                     key={index}
                     icon={item.icon}
                     text={item.text}
-                    action={item.action || defaultAction}
+                    action={
+                      item.action ? () => item.action(index) : defaultAction
+                    }
                     isActive={item.text === this.props.activeItemKey}
                     info={item.info || null}
                   />
