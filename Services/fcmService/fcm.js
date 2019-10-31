@@ -110,11 +110,17 @@ const notificationClickHandler = data => {
     level: constants.errorLoggerEvents.levels.info
   });
   isUserLoggedInCallback(() => {
-    const { screen, link, modalData, widgetName = "", widgetProps = {} } = data;
-    if (widgetName) {
+    const {
+      screen,
+      link,
+      modalData,
+      notificationType = "",
+      notificationProps = {}
+    } = data;
+    if (notificationType) {
       recordEvent(CONSTANT_notificationEvents.event, {
-        widgetName,
-        widgetProps
+        notificationType,
+        notificationProps
       });
     }
     const { navigation } = navigationService;
