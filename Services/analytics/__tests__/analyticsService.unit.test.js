@@ -1,4 +1,9 @@
-import { enableAnalytics } from "../analyticsService";
+import {
+  enableAnalytics,
+  disableAnalytics,
+  webEngageLogin,
+  setUserDetails
+} from "../analyticsService";
 import analytics from "@segment/analytics-react-native";
 import { analytics as firebaseAnalytics, perf } from "react-native-firebase";
 
@@ -10,7 +15,8 @@ test("loads analytics, sets it up and enables it", () => {
     "setAnalyticsCollectionEnabled"
   );
   const spyOnPerf = jest.spyOn(perf(), "setPerformanceCollectionEnabled");
-  enableAnalytics().then(() => {
+  enableAnalytics().then(result => {
+    expect(result).toBe(true);
     expect(spyOnSetup).toHaveBeenCalled(expect.any(string), {
       recordScreenViews: false,
       trackAppLifecycleEvents: true
@@ -21,6 +27,53 @@ test("loads analytics, sets it up and enables it", () => {
     spyOnSetup.mockRestore();
     spyOnFirebase.mockRestore();
     spyOnPerf.mockRestore();
+  });
+});
+
+test("disables analytics", () => {
+  const spyOnDisable = jest.spyOn(analytics, "disable");
+  const spyOnFirebase = jest.spyOn(
+    firebaseAnalytics(),
+    "setAnalyticsCollectionEnabled"
+  );
+  const spyOnPerf = jest.spyOn(perf(), "setPerformanceCollectionEnabled");
+  disableAnalytics().then(result => {
+    expect(result).toBe(true);
+    expect(spyOnDisable).toHaveBeenCalled();
+    expect(spyOnFirebase).toHaveBeenCalledWith(false);
+    expect(spyOnPerf).toHaveBeenCalled(false);
+    spyOnDisable.mockRestore();
+    spyOnFirebase.mockRestore();
+    spyOnPerf.mockRestore();
+  });
+});
+
+test("user details are correctly set", () => {
+  const userDetails = {
+    id: 123,
+    name: "Uncle",
+    email: "uncle1@uncles.com",
+    phoneNumber: 1010101010
+  };
+  const spyOnIdentify = jest.spyOn(analytics, "identify");
+  const spyOnSetUserId = jest.spyOn(firebaseAnalytics(), "setUserId");
+  const spyOnSetUserProps = jest.spyOn(
+    firebaseAnalytics(),
+    "setUserProperties"
+  );
+
+  setUserDetails(userDetails).then(result => {
+    expect(result).toBe(true);
+    expect(spyOnIdentify).toHaveBeenCalledWith(userDetails);
+    expect(spyOnSetUserId).toHaveBeenCalledWith(userDetails.id);
+    expect(spyOnSetUserProps).toHaveBeenCalledWith({
+      name: userDetails.name,
+      email: userDetails.email,
+      phoneNumber: userDetails.phoneNumber
+    });
+    spyOnIdentify.mockRestore();
+    spyOnSetUserId.mockRestore();
+    spyOnSetUserProps.mockRestore();
   });
 });
 
