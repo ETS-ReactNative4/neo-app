@@ -53,7 +53,12 @@ const ignoredNativeModules = [
 
 module.exports = {
   preset: "react-native",
-  setupFiles: ["<rootDir>/jest.setup.js"],
+  setupFilesAfterEnv: [
+    "./__mocks__/mockRNCNetInfo.js",
+    "./__mocks__/mockFirebase.js",
+    "./__mocks__/mockSegmentAnalytics.js",
+    "./__mocks__/mockNativeEventEmitter.js"
+  ],
   transformIgnorePatterns: [
     `node_modules/(?!(${ignoredNativeModules.join("|")}))`
   ]

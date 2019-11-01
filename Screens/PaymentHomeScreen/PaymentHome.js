@@ -12,6 +12,8 @@ import apiCall from "../../Services/networkRequests/apiCall";
 import { recordEvent } from "../../Services/analytics/analyticsService";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import CustomScrollView from "../../CommonComponents/CustomScrollView/CustomScrollView";
+import storeService from "../../Services/storeService/storeService";
+import { CONSTANT_drawerEvents } from "../../constants/appEvents";
 
 @ErrorBoundary({ isRoot: true })
 @inject("yourBookingsStore")
@@ -24,7 +26,10 @@ class PaymentHome extends Component {
           LeftButton={
             <HamburgerButton
               action={() => {
-                recordEvent(constants.hamburgerButtonClick);
+                storeService.appState.onDrawerOpen();
+                recordEvent(CONSTANT_drawerEvents.event, {
+                  click: CONSTANT_drawerEvents.click.openDrawer
+                });
                 navigation.openDrawer();
               }}
             />

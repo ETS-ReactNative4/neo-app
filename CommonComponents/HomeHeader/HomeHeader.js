@@ -6,6 +6,7 @@ import TripToggle from "../TripToggle/TripToggle";
 import { recordEvent } from "../../Services/analytics/analyticsService";
 import constants from "../../constants/constants";
 import storeService from "../../Services/storeService/storeService";
+import { CONSTANT_drawerEvents } from "../../constants/appEvents";
 
 const HomeHeader = ({ navigation }) => {
   return {
@@ -15,6 +16,9 @@ const HomeHeader = ({ navigation }) => {
           <HamburgerButton
             action={() => {
               storeService.appState.onDrawerOpen();
+              recordEvent(CONSTANT_drawerEvents.event, {
+                click: CONSTANT_drawerEvents.click.openDrawer
+              });
               navigation.openDrawer();
             }}
           />

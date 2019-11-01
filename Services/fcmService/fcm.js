@@ -5,6 +5,8 @@ import navigationService from "../navigationService/navigationService";
 import resolveLinks from "../resolveLinks/resolveLinks";
 import isUserLoggedInCallback from "../isUserLoggedInCallback/isUserLoggedInCallback";
 import constants from "../../constants/constants";
+import { recordEvent } from "../analytics/analyticsService";
+import { CONSTANT_notificationEvents } from "../../constants/appEvents";
 
 export const getDeviceToken = async (
   success = () => null,
@@ -108,7 +110,19 @@ const notificationClickHandler = data => {
     level: constants.errorLoggerEvents.levels.info
   });
   isUserLoggedInCallback(() => {
-    const { screen, link, modalData } = data;
+    const {
+      screen,
+      link,
+      modalData,
+      notificationType = "",
+      notificationProps = {}
+    } = data;
+    if (notificationType) {
+      recordEvent(CONSTANT_notificationEvents.event, {
+        notificationType,
+        notificationProps
+      });
+    }
     const { navigation } = navigationService;
     if (link) {
       resolveLinks(link, modalData ? JSON.parse(modalData) : {});
