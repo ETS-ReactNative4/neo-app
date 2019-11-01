@@ -6,7 +6,8 @@ export const CONSTANT_drawerEvents = {
     payments: "payments",
     about: "about",
     storyBook: "storyBook",
-    logout: "logout"
+    logout: "logout",
+    openDrawer: "open_drawer"
   }
 };
 

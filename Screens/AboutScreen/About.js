@@ -7,6 +7,9 @@ import Icon from "../../CommonComponents/Icon/Icon";
 import HamburgerButton from "../../CommonComponents/HamburgerButton/HamburgerButton";
 import DeviceInfo from "react-native-device-info";
 import openCustomTab from "../../Services/openCustomTab/openCustomTab";
+import storeService from "../../Services/storeService/storeService";
+import { recordEvent } from "../../Services/analytics/analyticsService";
+import { CONSTANT_drawerEvents } from "../../constants/appEvents";
 
 const appVersionText =
   constants.aboutUsText.versionText + DeviceInfo.getVersion();
@@ -80,7 +83,15 @@ class About extends Component {
       header: (
         <CommonHeader
           LeftButton={
-            <HamburgerButton action={() => navigation.openDrawer()} />
+            <HamburgerButton
+              action={() => {
+                storeService.appState.onDrawerOpen();
+                recordEvent(CONSTANT_drawerEvents.event, {
+                  click: CONSTANT_drawerEvents.click.openDrawer
+                });
+                navigation.openDrawer();
+              }}
+            />
           }
           title={constants.aboutUsText.title}
           navigation={navigation}
@@ -103,7 +114,9 @@ class About extends Component {
         <View style={styles.appVersionContainer}>
           <Text style={styles.appVersionText}>{appVersionText}</Text>
         </View>
-        {data.map((item, i) => <Row key={item.text} i={i} data={item} />)}
+        {data.map((item, i) => (
+          <Row key={item.text} i={i} data={item} />
+        ))}
       </View>
     );
   }
