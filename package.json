@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "android": "react-native run-android",
-    "ios": "react-native run-ios --simulator=\"iPhone XS\"",
+    "ios": "react-native run-ios --simulator=\"iPhone 11 Pro\"",
     "set-staging-environment": "cp .env.staging .env",
     "set-prod-environment": "cp .env.prod .env",
     "start": "yarn set-staging-environment && react-native start --reset-cache",
