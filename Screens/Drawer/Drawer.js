@@ -252,7 +252,13 @@ class Drawer extends Component {
     if (this.state.isLoggedIn) {
       menuItems.splice(1, 0, {
         icon: constants.paymentIcon,
-        text: "Payments"
+        text: "Payments",
+        action: index => {
+          recordEvent(CONSTANT_drawerEvents.event, {
+            click: CONSTANT_drawerEvents.click.payments
+          });
+          this.clickDrawerItem(index, "Payments");
+        }
       });
 
       menuItems.push({
