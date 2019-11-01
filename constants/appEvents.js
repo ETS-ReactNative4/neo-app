@@ -12,8 +12,11 @@ export const CONSTANT_drawerEvents = {
 
 export const CONSTANT_notificationEvents = {
   event: "PushNotification",
-  widget: {
-    // Widget names will be served from backend
+  notificationType: {
+    // This property is served from backend
+  },
+  notificationProps: {
+    // This property is served from backend
   }
 };
 
