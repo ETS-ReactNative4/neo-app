@@ -125,7 +125,8 @@ const notificationClickHandler = data => {
         });
       } catch (e) {
         logError(e, {
-          type: "Failed to capture push notification details in analytics"
+          type: "Failed to capture push notification details in analytics",
+          data
         });
       }
     }
