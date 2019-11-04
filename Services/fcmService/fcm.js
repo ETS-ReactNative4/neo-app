@@ -120,7 +120,7 @@ const notificationClickHandler = data => {
     if (notificationType) {
       recordEvent(CONSTANT_notificationEvents.event, {
         notificationType,
-        notificationProps
+        ...notificationProps
       });
     }
     const { navigation } = navigationService;
