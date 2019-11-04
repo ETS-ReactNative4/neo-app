@@ -115,13 +115,19 @@ const notificationClickHandler = data => {
       link,
       modalData,
       notificationType = "",
-      notificationProps = {}
+      notificationProps = ""
     } = data;
     if (notificationType) {
-      recordEvent(CONSTANT_notificationEvents.event, {
-        notificationType,
-        ...notificationProps
-      });
+      try {
+        recordEvent(CONSTANT_notificationEvents.event, {
+          notificationType,
+          ...JSON.parse(notificationProps || "{}")
+        });
+      } catch (e) {
+        logError(e, {
+          type: "Failed to capture push notification details in analytics"
+        });
+      }
     }
     const { navigation } = navigationService;
     if (link) {
