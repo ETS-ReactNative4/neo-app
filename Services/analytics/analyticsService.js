@@ -92,28 +92,41 @@ export const enableAnalytics = async () => {
   });
 };
 
-export const disableAnalytics = () => {
+export const disableAnalytics = async () => {
   debouncer(async () => {
     try {
       firebaseAnalytics().setAnalyticsCollectionEnabled(false);
       perf().setPerformanceCollectionEnabled(false);
       await analytics.disable();
+      return true;
     } catch (error) {
       logError("Failed to disable analytics", { error });
+      return false;
     }
   });
 };
 
-export const setUserDetails = ({ id, name, email, phoneNumber }) => {
+export const webEngageLogin = userId => {
+  webEngage.user.login(userId);
+  return userId;
+};
+
+export const setUserDetails = async ({ id, name, email, phoneNumber }) => {
   debouncer(() => {
-    analytics.identify(id, {
-      name,
-      email,
-      phone: phoneNumber
-    });
-    webEngage.user.login(id);
-    firebaseAnalytics().setUserId(id);
-    firebaseAnalytics().setUserProperties({ name, email, phoneNumber });
+    try {
+      analytics.identify(id, {
+        name,
+        email,
+        phone: phoneNumber
+      });
+      webEngageLogin(id);
+      firebaseAnalytics().setUserId(id);
+      firebaseAnalytics().setUserProperties({ name, email, phoneNumber });
+      return true;
+    } catch (error) {
+      logError("Failed to set WebEngage user details", { error });
+      return false;
+    }
   });
 };
 
