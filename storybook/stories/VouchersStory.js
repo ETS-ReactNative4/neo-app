@@ -3,6 +3,8 @@ import { View, ScrollView, Text } from "react-native";
 import { storiesOf } from "@storybook/react-native";
 import CheckInCheckOut from "../../Screens/VoucherScreens/Components/CheckInCheckOut";
 import CollapsibleTextSection from "../../CommonComponents/CollapsibleTextSection/CollapsibleTextSection";
+import VoucherListItemTestCases from "../../Screens/VoucherScreens/Components/VoucherListItem/VoucherListItemTestCases";
+import VoucherButtonTestCases from "../../Screens/VoucherScreens/Components/VoucherButton/VoucherButtonTestCases";
 
 const checkInCheckOutData = {
   checkInTitle: "PICK UP",
@@ -23,17 +25,21 @@ const htmlData = `<div>
   </ul>
 </div>`;
 
-storiesOf("Vouchers", module)
-  .add("Check-in Check-out", () => {
-    const props = {
-      checkInDate: checkInCheckOutData.checkInDate,
-      checkInTime: checkInCheckOutData.checkInTime,
-      checkOutDate: checkInCheckOutData.checkOutDate,
-      checkOutTime: checkInCheckOutData.checkOutTime
-    };
-    console.log(props);
-    return <CheckInCheckOut {...props} />;
-  })
+const VoucherStories = storiesOf("Vouchers", module);
+
+const renderTestCase = testCase =>
+  VoucherStories.add(testCase.title, () => testCase.Component);
+
+VoucherStories.add("Check-in Check-out", () => {
+  const props = {
+    checkInDate: checkInCheckOutData.checkInDate,
+    checkInTime: checkInCheckOutData.checkInTime,
+    checkOutDate: checkInCheckOutData.checkOutDate,
+    checkOutTime: checkInCheckOutData.checkOutTime
+  };
+  console.log(props);
+  return <CheckInCheckOut {...props} />;
+})
   .add("Check-in Check-out with custom titles", () => {
     const props = { ...checkInCheckOutData };
     console.log(props);
@@ -86,3 +92,6 @@ storiesOf("Vouchers", module)
       </ScrollView>
     );
   });
+
+VoucherListItemTestCases.forEach(renderTestCase);
+VoucherButtonTestCases.forEach(renderTestCase);
