@@ -9,11 +9,14 @@ import constants from "../../../constants/constants";
 
 const SupportOfflineMessage = ({
   containerStyle = StyleSheet.create({}),
-  ctaAction = () => null
+  ctaAction = () => null,
+  time = ""
 }) => {
   return (
     <View style={[styles.offlineMessageContainer, containerStyle]}>
-      <Text style={styles.infoText}>{CONSTANT_chatOfflineMessage}</Text>
+      <Text style={styles.infoText}>
+        {CONSTANT_chatOfflineMessage.replace(":time", time)}
+      </Text>
       <Text style={styles.infoText}>
         <Text style={styles.ctaText} onPress={ctaAction}>
           {"Call us"}
@@ -26,7 +29,8 @@ const SupportOfflineMessage = ({
 
 SupportOfflineMessage.propTypes = {
   containerStyle: ViewPropTypes.style,
-  ctaAction: PropTypes.func
+  ctaAction: PropTypes.func,
+  time: PropTypes.string.isRequired
 };
 
 const styles = StyleSheet.create({

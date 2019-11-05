@@ -2,7 +2,7 @@ import { Platform } from "react-native";
 import constants from "./constants";
 
 export const CONSTANT_chatOfflineMessage =
-  "It’s 10:45PM Indian time. We’re currently offline!";
+  "It’s :time Indian time. We’re currently offline!";
 export const CONSTANT_chatOfflineAction = " in case of emergency";
 
 const appText = {
