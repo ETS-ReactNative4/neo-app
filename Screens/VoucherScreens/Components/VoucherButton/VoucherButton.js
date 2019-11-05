@@ -23,6 +23,7 @@ const VoucherButton = ({
         !isLast ? styles.buttonBorder : {},
         containerStyle
       ]}
+      activeOpacity={0.8}
     >
       <Text style={styles.ctaText}>{cta}</Text>
       <Icon

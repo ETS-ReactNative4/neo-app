@@ -8073,10 +8073,10 @@ react-native-gesture-handler@^1.4.1:
     invariant "^2.2.4"
     prop-types "^15.7.2"
 
-react-native-htmlview@0.13.0:
-  version "0.13.0"
-  resolved "https://registry.yarnpkg.com/react-native-htmlview/-/react-native-htmlview-0.13.0.tgz#2c34646c35bbe94386db9aaebbb3930ec58c8bcf"
-  integrity sha512-gVEggLcAi5Gfi88LX9uaACiAGIcEuzg9i/gs8ymIQuV/xQ0IpeKpVMpBZwiAOSHBrJJhGUCoCihV2bgz5TruVw==
+react-native-htmlview@0.15.0:
+  version "0.15.0"
+  resolved "https://registry.yarnpkg.com/react-native-htmlview/-/react-native-htmlview-0.15.0.tgz#82a64df776452aee0a149a1e4858787f01f33855"
+  integrity sha512-7PtmM5bIHB22Dv1Nv02YDxhBcngU5ulJznJmjW8rPGGYcF+2721TNPAVw7u44/p4kTKH/IGtyf//vCo2SAFYqA==
   dependencies:
     entities "^1.1.1"
     htmlparser2-without-node-native "^3.9.2"

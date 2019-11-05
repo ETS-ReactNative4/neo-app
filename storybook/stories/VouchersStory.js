@@ -5,6 +5,7 @@ import CheckInCheckOut from "../../Screens/VoucherScreens/Components/CheckInChec
 import CollapsibleTextSection from "../../CommonComponents/CollapsibleTextSection/CollapsibleTextSection";
 import VoucherListItemTestCases from "../../Screens/VoucherScreens/Components/VoucherListItem/VoucherListItemTestCases";
 import VoucherButtonTestCases from "../../Screens/VoucherScreens/Components/VoucherButton/VoucherButtonTestCases";
+import VoucherHTMLNotesTestCases from "../../Screens/VoucherScreens/Components/VoucherHTMLNotes/VoucherHTMLNotesTestCases";
 
 const checkInCheckOutData = {
   checkInTitle: "PICK UP",
@@ -95,3 +96,4 @@ VoucherStories.add("Check-in Check-out", () => {
 
 VoucherListItemTestCases.forEach(renderTestCase);
 VoucherButtonTestCases.forEach(renderTestCase);
+VoucherHTMLNotesTestCases.forEach(renderTestCase);
