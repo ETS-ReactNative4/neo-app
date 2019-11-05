@@ -27,6 +27,7 @@ addDecorator(story => (
 ));
 
 configure(() => {
+  require("./stories/ChatScreenStory");
   require("./stories/CommonComponentsStory");
   require("./stories/TripFeedStory");
   require("./stories/PackagesPageStory");
