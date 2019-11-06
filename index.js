@@ -1,4 +1,12 @@
 /**
+ * TODO: Temporary fix for Android gesture crash
+ *
+ * Based on solution: https://github.com/kmagiera/react-native-gesture-handler/issues/320#issuecomment-443815828
+ * Must be removed once the issue is fixed
+ */
+import "react-native-gesture-handler";
+
+/**
  * Core-JS polyfill for android
  * addresses https://github.com/facebook/immutable-js/issues/1305 that only happens in dev mode of Android
  * added resolutions in package.json based on https://github.com/zloirock/core-js/issues/368#issuecomment-376586585

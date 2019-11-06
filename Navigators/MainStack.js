@@ -26,6 +26,7 @@ import VisaSelector from "../Screens/VisaSelectorScreen/VisaSelector";
 import VisaStatus from "../Screens/VisaStatusScreen/VisaStatus";
 import VisaHelp from "../Screens/VisaHelpScreen/VisaHelp";
 import VisaDocsChecklist from "../Screens/VisaDocsChecklistScreen/VisaDocsChecklist";
+import getActiveRouteName from "../Services/getActiveRouteName/getActiveRouteName";
 
 const MainStack = createStackNavigator(
   {
@@ -114,7 +115,9 @@ const MainStack = createStackNavigator(
   },
   {
     transitionConfig,
-    navigationOptions: () => {
+    navigationOptions: ({ navigation }) => {
+      const routeName = getActiveRouteName(navigation.state);
+
       let drawerLockMode = "locked-closed";
 
       return {
