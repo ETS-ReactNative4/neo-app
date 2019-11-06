@@ -64,5 +64,6 @@ module.exports = {
   ],
   transformIgnorePatterns: [
     `node_modules/(?!(${ignoredNativeModules.join("|")}))`
-  ]
+  ],
+  moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"]
 };
