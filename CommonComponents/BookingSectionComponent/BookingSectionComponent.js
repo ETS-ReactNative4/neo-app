@@ -114,7 +114,7 @@ BookingSectionComponent.propTypes = {
   contentNumberOfLines: PropTypes.number,
   isProcessing: PropTypes.bool.isRequired,
   hideTitle: PropTypes.bool,
-  spinValue: PropTypes.object,
+  spinValue: PropTypes.oneOfType([PropTypes.object, PropTypes.number]),
   isDataSkipped: PropTypes.bool,
   voucherTitle: PropTypes.string
 };

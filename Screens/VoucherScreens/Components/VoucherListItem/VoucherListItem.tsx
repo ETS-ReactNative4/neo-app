@@ -26,7 +26,7 @@ const VoucherListItem = ({
   value = "",
   info = "",
   isLast = false
-}: VoucherListItemProps): React.ReactNode => {
+}: VoucherListItemProps) => {
   return (
     <View
       style={[

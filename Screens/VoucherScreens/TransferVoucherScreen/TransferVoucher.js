@@ -150,7 +150,7 @@ class TransferVoucher extends Component {
       },
       {
         name: "Departure Station",
-        value: pickup || "NA"
+        value: fromLocation || pickup || "NA"
       },
       type
         ? {
@@ -160,10 +160,11 @@ class TransferVoucher extends Component {
         : null
     ];
 
-    const passengerDetails =
-      _.toUpper(vehicle) === constants.vehicleTypes.train
-        ? trainPassengerDetails()
-        : transferPassengerDetails();
+    const isTrainVoucher = _.toUpper(vehicle) === constants.vehicleTypes.train;
+
+    const passengerDetails = isTrainVoucher
+      ? trainPassengerDetails()
+      : transferPassengerDetails();
 
     const transferArrivalDetails = () => [
       {
@@ -193,7 +194,7 @@ class TransferVoucher extends Component {
     const trainArrivalDetails = () => [
       {
         name: "Arrival at",
-        value: drop || "NA"
+        value: toLocation || drop || "NA"
       },
       {
         name: "Arrival Time",
@@ -207,10 +208,9 @@ class TransferVoucher extends Component {
       }
     ];
 
-    const arrivalDetails =
-      _.toUpper(vehicle) === constants.vehicleTypes.train
-        ? trainArrivalDetails()
-        : transferArrivalDetails();
+    const arrivalDetails = isTrainVoucher
+      ? trainArrivalDetails()
+      : transferArrivalDetails();
 
     const bookingDetails = [
       // Removed Temporarily since data is not accurate
@@ -231,7 +231,7 @@ class TransferVoucher extends Component {
      * train details for the user
      */
     if (
-      _.toUpper(vehicle) === constants.vehicleTypes.train &&
+      isTrainVoucher &&
       _.toUpper(ticketType) === _.toUpper(constants.reservedTrainTicketType)
     ) {
       trainDetails = [
@@ -262,7 +262,11 @@ class TransferVoucher extends Component {
       ];
     }
 
-    const voucherName = text;
+    const voucherName = isTrainVoucher
+      ? fromLocation && toLocation
+        ? `${fromLocation} to ${toLocation}`
+        : text
+      : text;
 
     let voucherDate = dateMillis;
     if (pickupTime && pickupTime > 0) {
@@ -319,7 +323,7 @@ class TransferVoucher extends Component {
               </Fragment>
             ) : null}
 
-            {_.toUpper(vehicle) === constants.vehicleTypes.train &&
+            {isTrainVoucher &&
             _.toUpper(ticketType) ===
               _.toUpper(constants.openTrainTicketType) ? (
               <TransferInfoBox

@@ -3,16 +3,40 @@ import { View } from "react-native";
 import _ from "lodash";
 import moment from "moment";
 import constants from "../../../../../constants/constants";
-import PropTypes from "prop-types";
-import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidExtraProps";
 import { recordEvent } from "../../../../../Services/analytics/analyticsService";
 import BookingSectionComponent from "../../../../../CommonComponents/BookingSectionComponent/BookingSectionComponent";
 import resolveLinks from "../../../../../Services/resolveLinks/resolveLinks";
 
-const TrainsSection = ({ section, navigation, spinValue }) => {
+export interface TrainDataProps {
+  voucher: {
+    pickupTime: number;
+    booked: boolean;
+    from: string;
+    to: string;
+  };
+  dateMillis: number;
+  key: string;
+  text: string;
+  day: string;
+  mon: string;
+}
+
+export interface TrainsSectionProps {
+  section: {
+    items: TrainDataProps[];
+  };
+  navigation: object;
+  spinValue: {} | number;
+}
+
+const TrainsSection = ({
+  section,
+  navigation,
+  spinValue
+}: TrainsSectionProps) => {
   return (
     <View>
-      {section.items.map((train, index) => {
+      {section.items.map((train: TrainDataProps, index: number) => {
         let isLast = index === section.items.length - 1;
 
         return (
@@ -29,14 +53,16 @@ const TrainsSection = ({ section, navigation, spinValue }) => {
   );
 };
 
-TrainsSection.propTypes = forbidExtraProps({
-  section: PropTypes.object.isRequired,
-  navigation: PropTypes.object.isRequired,
-  spinValue: PropTypes.oneOfType([PropTypes.object, PropTypes.number])
-    .isRequired
-});
+export interface TrainProps {
+  train: TrainDataProps;
+  isLast: boolean;
+  navigation?: {};
+  spinValue: {} | number;
+}
 
-const Train = ({ train, isLast, navigation, spinValue }) => {
+const Train = ({ train, isLast, spinValue }: TrainProps) => {
+  console.log(train);
+
   let customStyle = {};
   if (isLast) {
     customStyle = {
@@ -50,14 +76,16 @@ const Train = ({ train, isLast, navigation, spinValue }) => {
       click: constants.Bookings.click.accordionVoucher,
       type: constants.Bookings.type.trains
     });
-    resolveLinks(false, false, {
+    resolveLinks("", false, {
       voucherType: constants.trainVoucherType,
       costingIdentifier: train.key
     });
   };
 
-  const { pickupTime } = train.voucher;
+  const { pickupTime, from = "", to = "" } = train.voucher;
   const { dateMillis } = train;
+
+  const title: string = from && to ? `${from} to ${to}` : train.text;
 
   return (
     <BookingSectionComponent
@@ -69,16 +97,16 @@ const Train = ({ train, isLast, navigation, spinValue }) => {
       }}
       isProcessing={!train.voucher.booked}
       onClick={openVoucher}
-      content={train.text}
+      content={title}
       title={`${
         pickupTime && pickupTime > 1
           ? moment(pickupTime).format(constants.commonDateFormat)
           : dateMillis
-            ? moment(dateMillis).format(constants.commonDateFormat)
-            : moment(
-                `${train.day}/${train.mon}/${constants.currentYear}`,
-                "DD/MMM/YYYY"
-              ).format(constants.commonDateFormat)
+          ? moment(dateMillis).format(constants.commonDateFormat)
+          : moment(
+              `${train.day}/${train.mon}/${constants.currentYear}`,
+              "DD/MMM/YYYY"
+            ).format(constants.commonDateFormat)
       }`}
       isImageContain={false}
       isDataSkipped={_.get(train, "voucher.skipVoucher")}
@@ -86,13 +114,5 @@ const Train = ({ train, isLast, navigation, spinValue }) => {
     />
   );
 };
-
-Train.propTypes = forbidExtraProps({
-  train: PropTypes.object.isRequired,
-  isLast: PropTypes.bool.isRequired,
-  navigation: PropTypes.object.isRequired,
-  spinValue: PropTypes.oneOfType([PropTypes.object, PropTypes.number])
-    .isRequired
-});
 
 export default TrainsSection;
