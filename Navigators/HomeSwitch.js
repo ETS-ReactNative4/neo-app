@@ -36,7 +36,8 @@ const HomeSwitch = createSwitchNavigator(
         routeName === "TripFeedHome" ||
         routeName === "Bookings" ||
         routeName === "Tools" ||
-        routeName === "JournalHome"
+        routeName === "JournalHome" ||
+        routeName === "Support"
       ) {
         drawerLockMode = "unlocked";
       }
