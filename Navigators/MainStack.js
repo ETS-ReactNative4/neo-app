@@ -120,14 +120,6 @@ const MainStack = createStackNavigator(
 
       let drawerLockMode = "locked-closed";
 
-      /**
-       * TODO: Temporarily unlocking new itinerary home due to react navigation drawer issue
-       * https://github.com/react-navigation/react-navigation/issues/6429
-       */
-      if (routeName === "NewItineraryHome") {
-        drawerLockMode = "unlocked";
-      }
-
       return {
         drawerLockMode
       };

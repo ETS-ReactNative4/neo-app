@@ -24,7 +24,7 @@ const HomeSwitch = createSwitchNavigator(
        * TODO: drawerLockMode has issues which prevents it from opening completely
        * when it is set to locked-closed.
        *
-       * Drawer cannot be opened from chat screen due to this issue.
+       * Drawer cannot be opened from chat screen and new itinerary home due to this issue.
        * Currently being tracked at - https://github.com/react-navigation/react-navigation/issues/6429
        */
       /**
@@ -37,7 +37,8 @@ const HomeSwitch = createSwitchNavigator(
         routeName === "Bookings" ||
         routeName === "Tools" ||
         routeName === "JournalHome" ||
-        routeName === "Support"
+        routeName === "Support" ||
+        routeName === "NewItineraryHome"
       ) {
         drawerLockMode = "unlocked";
       }
