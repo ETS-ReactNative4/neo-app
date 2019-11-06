@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { BackHandler, Keyboard, View, Platform } from "react-native";
+import { BackHandler, Keyboard, Platform, SafeAreaView } from "react-native";
 import { isIphoneX } from "react-native-iphone-x-helper";
 import constants from "../../constants/constants";
 import { inject, observer } from "mobx-react/custom";
@@ -18,6 +18,8 @@ import DeviceInfo from "react-native-device-info";
 import storeService from "../../Services/storeService/storeService";
 import HelpDeskView from "./Components/HelpDeskView";
 import debouncer from "../../Services/debouncer/debouncer";
+import SupportOfflineMessage from "./Components/SupportOfflineMessage";
+import dialer from "../../Services/dialer/dialer";
 
 @ErrorBoundary({ isRoot: true })
 @inject("itineraries")
@@ -193,7 +195,9 @@ class ChatScreen extends Component {
       metaDataError,
       isChatActive,
       chatActivationMessage,
-      offlineContact
+      offlineContact,
+      currentTime,
+      isOffHours
     } = this.props.chatDetailsStore;
     const {
       faqDetails,
@@ -227,6 +231,8 @@ class ChatScreen extends Component {
     });
     const uri = constants.chatServerUrl(chatQueryParam);
 
+    const openDialer = () => dialer(offlineContact);
+
     const shouldDisplayChat = isConnected && isChatActive && !isChatFailed;
     const chatScreenError = isChatActive && isChatFailed;
     const chatScreenNoInternet = isChatActive && !isConnected;
@@ -236,7 +242,7 @@ class ChatScreen extends Component {
      */
     if (shouldDisplayChat) {
       return (
-        <View
+        <SafeAreaView
           style={[
             { flex: 1 },
             Platform.OS === "ios" && isIphoneX()
@@ -244,18 +250,22 @@ class ChatScreen extends Component {
                   backgroundColor:
                     this.state.keyboardVisible || this.state.canGoBack
                       ? constants.chatLightColor
+                      : isOffHours
+                      ? constants.black1
                       : constants.chatMainColor
                 }
               : null
           ]}
         >
+          {isOffHours ? (
+            <SupportOfflineMessage time={currentTime} ctaAction={openDialer} />
+          ) : null}
           {chatDetails.feid && !isChatKilled ? (
             <ControlledWebView
               source={{ uri }}
               onNavigationStateChange={this.onNavigationStateChange}
               style={{
-                flex: 1,
-                marginTop: isIphoneX() ? constants.xNotchHeight : 0
+                flex: 1
               }}
               webviewRef={e => (this._webView = e)}
               onShouldStartLoadWithRequest={event => {
@@ -293,7 +303,7 @@ class ChatScreen extends Component {
               isVisible={this.state.canGoBack}
             />
           ) : null}
-        </View>
+        </SafeAreaView>
       );
     } else if (chatScreenError) {
       return (

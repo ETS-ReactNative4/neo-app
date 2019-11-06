@@ -5,6 +5,7 @@ import { hydrate } from "./Store";
 import apiCall from "../Services/networkRequests/apiCall";
 import storeService from "../Services/storeService/storeService";
 import { logError } from "../Services/errorLogger/errorLogger";
+import _ from "lodash";
 
 class ChatDetails {
   static hydrator = storeInstance => {
@@ -87,6 +88,24 @@ class ChatDetails {
   @computed
   get chatActivationTime() {
     return this._chatActivationTime;
+  }
+
+  @computed
+  get currentTime() {
+    if (_.isEmpty(this._chatDetails)) {
+      return "";
+    } else {
+      return this._chatDetails.currentTime;
+    }
+  }
+
+  @computed
+  get isOffHours() {
+    if (_.isEmpty(this._chatDetails)) {
+      return false;
+    } else {
+      return this._chatDetails.isOffHours;
+    }
   }
 
   /**
