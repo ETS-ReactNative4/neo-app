@@ -21,7 +21,7 @@ const FabButton = ({
   action = () => null,
   icon,
   iconSize
-}: FabButtonProps) => {
+}: FabButtonProps): React.ReactNode => {
   const buttonContainer = {
     height: radius * 2,
     width: radius * 2,
