@@ -1,7 +1,19 @@
 import React from "react";
-import { View, StyleSheet, ViewPropTypes, Text } from "react-native";
-import PropTypes from "prop-types";
+import { View, StyleSheet, Text, ViewStyle, TextStyle } from "react-native";
 import constants from "../../../../constants/constants";
+
+export interface VoucherListItemProps {
+  containerStyle: ViewStyle;
+  leftContainerStyle: ViewStyle;
+  leftTextStyle: ViewStyle;
+  rightContainerStyle: ViewStyle;
+  rightTextStyle: ViewStyle;
+  infoTextStyle: ViewStyle;
+  name: string;
+  value: string;
+  info: string;
+  isLast: boolean;
+}
 
 const VoucherListItem = ({
   containerStyle = StyleSheet.create({}),
@@ -14,7 +26,7 @@ const VoucherListItem = ({
   value = "",
   info = "",
   isLast = false
-}) => {
+}: VoucherListItemProps): React.ReactNode => {
   return (
     <View
       style={[
@@ -36,20 +48,17 @@ const VoucherListItem = ({
   );
 };
 
-VoucherListItem.propTypes = {
-  containerStyle: ViewPropTypes.style,
-  leftContainerStyle: ViewPropTypes.style,
-  leftTextStyle: ViewPropTypes.style,
-  rightContainerStyle: ViewPropTypes.style,
-  rightTextStyle: ViewPropTypes.style,
-  infoTextStyle: ViewPropTypes.style,
-  name: PropTypes.string.isRequired,
-  value: PropTypes.string.isRequired,
-  info: PropTypes.string,
-  isLast: PropTypes.bool
-};
+export interface VoucherListItemStyles {
+  voucherListItemStyle: ViewStyle;
+  lastItem: ViewStyle;
+  leftContainer: ViewStyle;
+  leftText: TextStyle;
+  rightContainer: ViewStyle;
+  rightText: TextStyle;
+  infoText: TextStyle;
+}
 
-const styles = StyleSheet.create({
+const styles = StyleSheet.create<VoucherListItemStyles>({
   voucherListItemStyle: {
     flexDirection: "row",
     alignItems: "center",
