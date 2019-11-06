@@ -20,6 +20,7 @@ import SimpleButton from "../../CommonComponents/SimpleButton/SimpleButton";
 import CustomScrollView from "../../CommonComponents/CustomScrollView/CustomScrollView";
 import VisaRejectedActionBar from "./Component/VisaRejectedActionBar";
 import { recordEvent } from "../../Services/analytics/analyticsService";
+import { CONSTANT_mailIcon } from "../../constants/imageAssets";
 
 @ErrorBoundary()
 @inject("itineraries")
@@ -222,7 +223,7 @@ class VisaStatus extends Component {
               iconSize={30}
               radius={32}
               containerStyle={styles.fabButton}
-              icon={constants.callStartIcon}
+              icon={CONSTANT_mailIcon}
             />
           )
         ) : null}

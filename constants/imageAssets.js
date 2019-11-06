@@ -4,6 +4,8 @@ import { isProduction } from "../Services/getEnvironmentDetails/getEnvironmentDe
 
 const prefix = serverUrls.miscImageBaseUrl + "placeholders/";
 
+export const CONSTANT_mailIcon = "email";
+
 const imageAssets = {
   splashBackground: isIphoneX()
     ? require("../assets/images/backgrounds/splashImage.webp")

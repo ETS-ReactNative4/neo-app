@@ -47,12 +47,21 @@ const ignoredNativeModules = [
   "react-native-lightbox",
   "react-native-photo-view",
   "react-native-swipe-gestures",
-  "@storybook/react-native"
+  "@storybook/react-native",
+  "@sentry/react-native",
+  "react-native-webengage"
 ];
 
 module.exports = {
   preset: "react-native",
-  setupFiles: ["<rootDir>/jest.setup.js"],
+  setupFilesAfterEnv: [
+    "./__mocks__/mockDotEnv.js",
+    "./__mocks__/mockRNCNetInfo.js",
+    "./__mocks__/mockFirebase.js",
+    "./__mocks__/mockSegmentAnalytics.js",
+    "./__mocks__/mockNativeEventEmitter.js",
+    "./__mocks__/mockWebEngage.js"
+  ],
   transformIgnorePatterns: [
     `node_modules/(?!(${ignoredNativeModules.join("|")}))`
   ]
