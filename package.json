@@ -1,7 +1,7 @@
 {
   "name": "pickyourtrail",
   "version": "1.3.1",
-  "build": 200,
+  "build": 201,
   "private": true,
   "scripts": {
     "android": "react-native run-android",
