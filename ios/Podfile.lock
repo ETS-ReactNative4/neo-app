@@ -379,7 +379,7 @@ PODS:
     - Fabric
     - Firebase/Core
     - React
-  - RNGestureHandler (1.4.1):
+  - RNGestureHandler (1.5.0):
     - React
   - RNImageCropPicker (0.25.0):
     - QBImagePickerController
@@ -390,7 +390,7 @@ PODS:
     - React
   - RNKeychain (3.0.0):
     - React
-  - RNReanimated (1.3.0):
+  - RNReanimated (1.4.0):
     - React
   - RNScreens (1.0.0-alpha.23):
     - React
@@ -707,11 +707,11 @@ SPEC CHECKSUMS:
   RNFastImage: 9b0c22643872bb7494c8d87bbbb66cc4c0d9e7a2
   RNFileViewer: 5047ecf40477339723cc08abd55b5ebcefcef4b5
   RNFirebase: b627e5991bb10bf34cea84806819f98f95f39f8b
-  RNGestureHandler: 4cb47a93019c1a201df2644413a0a1569a51c8aa
+  RNGestureHandler: a4ddde1ffc6e590c8127b8b7eabfdade45475c74
   RNImageCropPicker: 0a731d984e64ee4c28bddaa7ce52262e4b80979f
   RNInAppBrowser: 6a4b1c006d41d76eac14d758145335c83e1ab1cf
   RNKeychain: 3aa3cf891a09a0d18d306862ab2bb9e106079b24
-  RNReanimated: 6abbbae2e5e72609d85aabd92a982a94566885f1
+  RNReanimated: b2ab0b693dddd2339bd2f300e770f6302d2e960c
   RNScreens: f28b48b8345f2f5f39ed6195518291515032a788
   RNSentry: 2803ba8c8129dcf26b79e9b4d8c80168be6e4390
   RNShare: 8b171d4b43c1d886917fdd303bf7a4b87167b05c
