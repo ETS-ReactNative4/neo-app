@@ -1,5 +1,4 @@
 import { createStackNavigator } from "react-navigation-stack";
-import transitionConfig from "../Services/navigationAnimations/transitionConfig";
 import Journal from "../Screens/JournalScreen/Journal";
 import JournalStart from "../Screens/JournalStartScreen/JournalStart";
 import JournalSetup from "../Screens/JournalSetupScreen/JournalSetup";
@@ -63,8 +62,7 @@ const JournalStack = createStackNavigator(
       return {
         tabBarVisible
       };
-    },
-    transitionConfig
+    }
   }
 );
 

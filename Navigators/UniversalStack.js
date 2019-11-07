@@ -7,7 +7,6 @@ import PassVoucher from "../Screens/VoucherScreens/PassVoucherScreen/PassVoucher
 import FlightStatus from "../Screens/FlightStatusScreen/FlightStatus";
 import LeisureScreen from "../Screens/VoucherScreens/LeisureScreen/LeisureScreen";
 import YourBookings from "../Screens/YourBookingsScreen/YourBookings";
-import transitionConfig from "../Services/navigationAnimations/transitionConfig";
 import MainStack from "./MainStack";
 import RentalCarVoucher from "../Screens/VoucherScreens/RentalCarVoucherScreen/RentalCarVoucher";
 import PDFViewerAndroid from "../Screens/PDFViewerScreen/PDFViewerAndroid";
@@ -69,7 +68,6 @@ const UniversalStack = createStackNavigator(
       drawerLockMode: "locked-closed"
     },
     mode: "modal",
-    transitionConfig,
     transparentCard: true
   }
 );
