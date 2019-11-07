@@ -3,16 +3,16 @@ import { View, StyleSheet, Text, ViewStyle, TextStyle } from "react-native";
 import constants from "../../../../constants/constants";
 
 export interface VoucherListItemProps {
-  containerStyle: ViewStyle;
-  leftContainerStyle: ViewStyle;
-  leftTextStyle: ViewStyle;
-  rightContainerStyle: ViewStyle;
-  rightTextStyle: ViewStyle;
-  infoTextStyle: ViewStyle;
+  containerStyle?: ViewStyle;
+  leftContainerStyle?: ViewStyle;
+  leftTextStyle?: ViewStyle;
+  rightContainerStyle?: ViewStyle;
+  rightTextStyle?: ViewStyle;
+  infoTextStyle?: ViewStyle;
   name: string;
   value: string;
-  info: string;
-  isLast: boolean;
+  info?: string;
+  isLast?: boolean;
 }
 
 const VoucherListItem = ({
