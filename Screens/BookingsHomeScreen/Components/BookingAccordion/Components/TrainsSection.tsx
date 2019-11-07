@@ -61,8 +61,6 @@ export interface TrainProps {
 }
 
 const Train = ({ train, isLast, spinValue }: TrainProps) => {
-  console.log(train);
-
   let customStyle = {};
   if (isLast) {
     customStyle = {
