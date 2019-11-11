@@ -77,7 +77,8 @@ const styles = StyleSheet.create<VoucherListItemStyles>({
   },
   leftText: {
     ...constants.fontCustom(constants.primaryRegular, 14, 17),
-    color: constants.shade1
+    color: constants.shade1,
+    textAlign: "left"
   },
   rightContainer: {
     flex: 1,
@@ -87,7 +88,8 @@ const styles = StyleSheet.create<VoucherListItemStyles>({
   },
   rightText: {
     ...constants.fontCustom(constants.primaryRegular, 14, 17),
-    color: constants.black1
+    color: constants.black1,
+    textAlign: "right"
   },
   infoText: {
     ...constants.fontCustom(constants.primaryRegular, 14, 17),

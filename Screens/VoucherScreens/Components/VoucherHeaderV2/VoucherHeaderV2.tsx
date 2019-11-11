@@ -15,10 +15,13 @@ import { responsiveWidth } from "react-native-responsive-dimensions";
 import SmartImageV2 from "../../../../CommonComponents/SmartImage/SmartImageV2";
 import constants from "../../../../constants/constants";
 import Icon from "../../../../CommonComponents/Icon/Icon";
+import { isIphoneX } from "react-native-iphone-x-helper";
+
+const xHeight: number = isIphoneX() ? constants.xNotchHeight : 0;
 
 export interface VoucherHeaderV2Props {
   containerStyle?: ViewStyle;
-  icon: string;
+  icon?: string;
   title: string;
   backAction: () => void;
   coverImage: ImageProps;
@@ -42,9 +45,9 @@ const VoucherHeaderV2 = ({
           onPress={backAction}
           style={styles.backArrowContainer}
         >
-          <Icon name={constants.backIcon} size={20} color={"white"} />
+          <Icon name={constants.closeIcon} size={20} color={"white"} />
         </TouchableOpacity>
-        <Icon name={icon} size={20} color={"white"} />
+        {icon ? <Icon name={icon} size={20} color={"white"} /> : null}
         <Text style={styles.titleText}>{title}</Text>
         <Image
           style={styles.circleSpace}
@@ -71,7 +74,7 @@ export interface VoucherHeaderV2Styles {
 const styles = StyleSheet.create<VoucherHeaderV2Styles>({
   voucherHeaderV2Container: {
     width: responsiveWidth(100),
-    height: 154
+    height: 214 + xHeight
   },
   imageBackdrop: {
     flex: 1,
@@ -81,14 +84,16 @@ const styles = StyleSheet.create<VoucherHeaderV2Styles>({
   },
   backArrowContainer: {
     position: "absolute",
-    top: 0,
+    top: xHeight,
     left: 0,
     padding: 20
   },
   titleText: {
-    ...constants.fontCustom(constants.primarySemiBold, 18),
+    ...constants.fontCustom(constants.primarySemiBold, 18, 25),
     color: "white",
-    paddingTop: 12
+    paddingTop: 12,
+    marginHorizontal: 24,
+    textAlign: "center"
   },
   circleSpace: {
     position: "absolute",
