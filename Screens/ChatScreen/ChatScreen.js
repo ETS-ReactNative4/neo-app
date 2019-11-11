@@ -127,7 +127,7 @@ class ChatScreen extends Component {
   refreshChatInitializationStatus = () => {
     const { isChatActive } = this.props.chatDetailsStore;
     const { selectedItineraryId } = this.props.itineraries;
-    if (!isChatActive && selectedItineraryId) {
+    if (selectedItineraryId) {
       this.initializeChat();
     }
   };
@@ -222,9 +222,18 @@ class ChatScreen extends Component {
       this.props.navigation.navigate("SupportCenter");
     };
     const isChatFailed = initializationError || metaDataError;
+
+    /**
+     * Some keys that change often should be removed from chat details
+     * to prevent he webview from refreshing when the values change.
+     */
+    const chatQueryParams = { ...chatDetails };
+    delete chatQueryParams["isOffHours"];
+    delete chatQueryParams["currentTime"];
+    delete chatQueryParams["offlineContact"];
     const chatQueryParam = objectToQueryParam({
       // create query parameter for loading webview from the chat details object
-      ...chatDetails,
+      ...chatQueryParams,
       region: encodeURI(chatDetails.region), // region is an Array and needs to be encoded
       appVersion: DeviceInfo.getVersion(),
       webview: true
