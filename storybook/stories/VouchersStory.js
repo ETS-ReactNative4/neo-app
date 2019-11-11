@@ -9,6 +9,7 @@ import VoucherHTMLNotesTestCases from "../../Screens/VoucherScreens/Components/V
 import VoucherHeaderV2TestCases from "../../Screens/VoucherScreens/Components/VoucherHeaderV2/VoucherHeaderTestCases";
 import VoucherAlertBoxTestCases from "../../Screens/VoucherScreens/Components/VoucherAlertBox/VoucherAlertBoxTestCases";
 import VoucherInfoBoxTestCases from "../../Screens/VoucherScreens/Components/VoucherInfoBox/VoucherInfoBoxTestCases";
+import VoucherSectionTitleTestCases from "../../Screens/VoucherScreens/Components/VoucherSectionTitle/VoucherSectionTitleTestCases";
 
 const checkInCheckOutData = {
   checkInTitle: "PICK UP",
@@ -103,3 +104,4 @@ VoucherHTMLNotesTestCases.forEach(renderTestCase);
 VoucherHeaderV2TestCases.forEach(renderTestCase);
 VoucherAlertBoxTestCases.forEach(renderTestCase);
 VoucherInfoBoxTestCases.forEach(renderTestCase);
+VoucherSectionTitleTestCases.forEach(renderTestCase);
