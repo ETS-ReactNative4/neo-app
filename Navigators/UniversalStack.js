@@ -1,7 +1,6 @@
 import { createStackNavigator } from "react-navigation-stack";
 import TransferVoucher from "../Screens/VoucherScreens/TransferVoucherScreen/TransferVoucher";
 import ActivityVoucher from "../Screens/VoucherScreens/ActivityVoucherScreen/ActivityVoucher";
-import HotelVoucher from "../Screens/VoucherScreens/HotelVoucherScreen/HotelVoucher";
 import FlightVoucher from "../Screens/VoucherScreens/FlightVoucherScreen/FlightVoucher";
 import PassVoucher from "../Screens/VoucherScreens/PassVoucherScreen/PassVoucher";
 import FlightStatus from "../Screens/FlightStatusScreen/FlightStatus";
@@ -13,6 +12,7 @@ import PDFViewerAndroid from "../Screens/PDFViewerScreen/PDFViewerAndroid";
 import FeedbackPrompt from "../Screens/FeedbackPromptScreen/FeedbackPrompt";
 import ActionSheet from "../Screens/ActionSheetScreen/ActionSheet";
 import VisaDocumentsActionSheet from "../Screens/VisaDocumentsActionSheet/VisaDocumentsActionSheet";
+import HotelVoucherV2 from "../Screens/VoucherScreens/HotelVoucherScreen/HotelVoucherV2";
 
 const UniversalStack = createStackNavigator(
   {
@@ -24,7 +24,7 @@ const UniversalStack = createStackNavigator(
       screen: ActivityVoucher
     },
     HotelVoucher: {
-      screen: HotelVoucher
+      screen: HotelVoucherV2
     },
     FlightVoucher: {
       screen: FlightVoucher
