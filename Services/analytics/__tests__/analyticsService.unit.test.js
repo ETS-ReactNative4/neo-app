@@ -4,6 +4,13 @@ import { analytics as firebaseAnalytics, perf } from "react-native-firebase";
 import * as activeRoute from "../../getActiveRouteName/getActiveRouteName";
 import * as logger from "../../errorLogger/errorLogger";
 
+/**
+ * Jest techniques used -
+ *
+ * 1. Mocking default unnamed exports.
+ * 2. Mocking different return values for same mocked method.
+ */
+
 test("loads analytics, sets it up and enables it", () => {
   const spyOnSetup = jest.spyOn(analytics, "setup");
   const spyOnEnable = jest.spyOn(analytics, "enable");
@@ -18,9 +25,9 @@ test("loads analytics, sets it up and enables it", () => {
       recordScreenViews: false,
       trackAppLifecycleEvents: true
     });
-    expect(spyOnEnable).toHaveBeenCalled();
+    expect(spyOnEnable).toHaveBeenCalledTimes(1);
     expect(spyOnFirebase).toHaveBeenCalledWith(true);
-    expect(spyOnPerf).toHaveBeenCalled(true);
+    expect(spyOnPerf).toHaveBeenCalledWith(true);
     spyOnSetup.mockRestore();
     spyOnFirebase.mockRestore();
     spyOnPerf.mockRestore();
@@ -36,9 +43,9 @@ test("disables analytics", () => {
   const spyOnPerf = jest.spyOn(perf(), "setPerformanceCollectionEnabled");
   analyticsService.disableAnalytics().then(result => {
     expect(result).toBe(true);
-    expect(spyOnDisable).toHaveBeenCalled();
+    expect(spyOnDisable).toHaveBeenCalledTimes(1);
     expect(spyOnFirebase).toHaveBeenCalledWith(false);
-    expect(spyOnPerf).toHaveBeenCalled(false);
+    expect(spyOnPerf).toHaveBeenCalledWith(false);
     spyOnDisable.mockRestore();
     spyOnFirebase.mockRestore();
     spyOnPerf.mockRestore();
@@ -78,29 +85,27 @@ test("user details are correctly set", () => {
 });
 
 test("screen tracking is done correctly", () => {
-  const spyOnActiveRoute = jest.spyOn(activeRoute, "default");
-  spyOnActiveRoute.mockReturnValueOnce("example1");
+  const spyOnActiveRoute = jest.spyOn(activeRoute, "default"); // Notice the use of "default" for unnamed default exports.
+  spyOnActiveRoute.mockReturnValueOnce("example1"); // Mock different return values for each call.
   spyOnActiveRoute.mockReturnValueOnce("example2");
 
   const spyOnBreadCrumbLogger = jest.spyOn(logger, "logBreadCrumb");
   const spyOnAnalyticsScreen = jest.spyOn(analytics, "screen");
   analyticsService.screenTracker({}, {});
   setTimeout(() => {
-    expect(spyOnActiveRoute).toHaveBeenCalled();
-    expect(spyOnBreadCrumbLogger).toHaveBeenCalled();
-    expect(spyOnAnalyticsScreen).toHaveBeenCalled();
+    expect(spyOnActiveRoute).toHaveBeenCalledTimes(2);
+    expect(spyOnBreadCrumbLogger).toHaveBeenCalledTimes(1);
+    expect(spyOnAnalyticsScreen).toHaveBeenCalledTimes(1);
     spyOnBreadCrumbLogger.mockRestore();
     spyOnAnalyticsScreen.mockRestore();
   }, 0);
 });
 
 test("user attributes are correctly set", async () => {
-  const spyOnSetAttr = jest.spyOn(analyticsService, "setUserAttributes");
-  await analyticsService.setUserAttributes("name", "Uncle");
-  setTimeout(() => {
-    expect(spyOnSetAttr).toHaveBeenCalledWith("name", "Uncle");
-    spyOnSetAttr.mockRestore();
-  }, 0);
+  const spyOnWebEngage = jest.spyOn(analyticsService, "setWebEngageAttribute");
+  analyticsService.setUserAttributes("name", "Uncle");
+  expect(spyOnWebEngage).toHaveBeenCalledWith("name", "Uncle");
+  spyOnWebEngage.mockRestore();
 });
 
 afterEach(() => {

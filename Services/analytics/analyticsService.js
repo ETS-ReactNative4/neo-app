@@ -161,6 +161,8 @@ export const screenTracker = (prevState, currentState) => {
       analytics.screen(currentScreen, { sessionId });
       webEngage.screen(currentScreen, { sessionId });
       firebaseAnalytics().setCurrentScreen(currentScreen, currentScreen);
+      return true;
     }
+    return false;
   });
 };
