@@ -1,13 +1,11 @@
 import analytics from "@segment/analytics-react-native";
 import { logBreadCrumb, logError } from "../errorLogger/errorLogger";
 import getActiveRouteName from "../getActiveRouteName/getActiveRouteName";
+import WebEngage from "react-native-webengage";
 import { analytics as firebaseAnalytics, perf } from "react-native-firebase";
 import constants from "../../constants/constants";
 import debouncer from "../debouncer/debouncer";
-import WebEngage from "react-native-webengage";
 import uuidv4 from "uuid/v4";
-
-const webEngage = new WebEngage();
 
 /**
  * Firebase reserved events list. These events should not be tracked
@@ -37,6 +35,12 @@ const reserved = [
   "adunit_exposure",
   "ad_activeiew"
 ];
+
+export const login = userId => {
+  const webEngage = new WebEngage();
+  webEngage.user.login(userId);
+  return userId;
+};
 
 /**
  * Unique session id which will be created every time the app is launched.
@@ -106,11 +110,6 @@ export const disableAnalytics = async () => {
   });
 };
 
-export const webEngageLogin = userId => {
-  webEngage.user.login(userId);
-  return userId;
-};
-
 export const setUserDetails = async ({ id, name, email, phoneNumber }) => {
   debouncer(() => {
     try {
@@ -119,7 +118,7 @@ export const setUserDetails = async ({ id, name, email, phoneNumber }) => {
         email,
         phone: phoneNumber
       });
-      webEngageLogin(id);
+      login(id);
       firebaseAnalytics().setUserId(id);
       firebaseAnalytics().setUserProperties({ name, email, phoneNumber });
       return true;
