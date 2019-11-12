@@ -1,9 +1,4 @@
-import {
-  enableAnalytics,
-  disableAnalytics,
-  webEngageLogin,
-  setUserDetails
-} from "../analyticsService";
+import * as analyticsService from "../analyticsService";
 import analytics from "@segment/analytics-react-native";
 import { analytics as firebaseAnalytics, perf } from "react-native-firebase";
 
@@ -15,7 +10,7 @@ test("loads analytics, sets it up and enables it", () => {
     "setAnalyticsCollectionEnabled"
   );
   const spyOnPerf = jest.spyOn(perf(), "setPerformanceCollectionEnabled");
-  enableAnalytics().then(result => {
+  analyticsService.enableAnalytics().then(result => {
     expect(result).toBe(true);
     expect(spyOnSetup).toHaveBeenCalled(expect.any(string), {
       recordScreenViews: false,
@@ -37,7 +32,7 @@ test("disables analytics", () => {
     "setAnalyticsCollectionEnabled"
   );
   const spyOnPerf = jest.spyOn(perf(), "setPerformanceCollectionEnabled");
-  disableAnalytics().then(result => {
+  analyticsService.disableAnalytics().then(result => {
     expect(result).toBe(true);
     expect(spyOnDisable).toHaveBeenCalled();
     expect(spyOnFirebase).toHaveBeenCalledWith(false);
@@ -55,6 +50,7 @@ test("user details are correctly set", () => {
     email: "uncle1@uncles.com",
     phoneNumber: 1010101010
   };
+  const spyOnLogin = jest.spyOn(analyticsService, "login");
   const spyOnIdentify = jest.spyOn(analytics, "identify");
   const spyOnSetUserId = jest.spyOn(firebaseAnalytics(), "setUserId");
   const spyOnSetUserProps = jest.spyOn(
@@ -62,8 +58,9 @@ test("user details are correctly set", () => {
     "setUserProperties"
   );
 
-  setUserDetails(userDetails).then(result => {
+  analyticsService.setUserDetails(userDetails).then(result => {
     expect(result).toBe(true);
+    expect(spyOnLogin).toHaveBeenCalledWith(userDetails.id);
     expect(spyOnIdentify).toHaveBeenCalledWith(userDetails);
     expect(spyOnSetUserId).toHaveBeenCalledWith(userDetails.id);
     expect(spyOnSetUserProps).toHaveBeenCalledWith({
@@ -71,10 +68,19 @@ test("user details are correctly set", () => {
       email: userDetails.email,
       phoneNumber: userDetails.phoneNumber
     });
+    spyOnLogin.mockRestore();
     spyOnIdentify.mockRestore();
     spyOnSetUserId.mockRestore();
     spyOnSetUserProps.mockRestore();
   });
+});
+
+test("user attributes are correctly set", async () => {
+  const spyOnSetAttr = jest.spyOn(analyticsService, "setUserAttributes");
+  const result = await analyticsService.setUserAttributes("name", "Uncle");
+  expect(result).toBe(true);
+  expect(spyOnSetAttr).toHaveBeenCalledWith("name", "Uncle");
+  spyOnSetAttr.mockRestore();
 });
 
 afterEach(() => {
