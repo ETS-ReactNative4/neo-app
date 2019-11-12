@@ -12,6 +12,7 @@ const VoucherAddressSectionV2 = ({
   containerStyle = StyleSheet.create({}),
   address = ""
 }: VoucherAddressSectionV2Props) => {
+  if (!address) return null;
   return (
     <View style={[styles.voucherAddressSectionContainer, containerStyle]}>
       <View style={styles.titleContainer}>
