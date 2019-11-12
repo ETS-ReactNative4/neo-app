@@ -3,7 +3,7 @@
 exports[`Voucher Button 1`] = `
 <View
   accessible={true}
-  clickable={true}
+  focusable={true}
   isTVSelectable={true}
   onClick={[Function]}
   onResponderGrant={[Function]}
@@ -62,7 +62,7 @@ exports[`Voucher Button 1`] = `
 exports[`Voucher Button Last 1`] = `
 <View
   accessible={true}
-  clickable={true}
+  focusable={true}
   isTVSelectable={true}
   onClick={[Function]}
   onResponderGrant={[Function]}

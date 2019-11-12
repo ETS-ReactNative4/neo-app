@@ -49,7 +49,7 @@ exports[`Voucher Header 1`] = `
   >
     <View
       accessible={true}
-      clickable={false}
+      focusable={false}
       isTVSelectable={true}
       onClick={[Function]}
       onResponderGrant={[Function]}
