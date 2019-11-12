@@ -1,0 +1,79 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Voucher Address Section 1`] = `
+<View
+  style={
+    Array [
+      Object {
+        "padding": 24,
+      },
+      Object {},
+    ]
+  }
+>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "justifyContent": "flex-start",
+      }
+    }
+  >
+    <Text
+      allowFontScaling={false}
+      style={
+        Array [
+          Object {
+            "color": undefined,
+            "fontSize": 14,
+          },
+          undefined,
+          Object {
+            "fontFamily": "Voyager",
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+          },
+          Object {},
+        ]
+      }
+    >
+      
+    </Text>
+    <Text
+      style={
+        Object {
+          "color": "rgba(44, 47, 66, 1)",
+          "fontFamily": "SourceSansPro-SemiBold",
+          "fontSize": 14,
+          "lineHeight": 14,
+          "marginLeft": 8,
+          "marginTop": 2,
+        }
+      }
+    >
+      ADDRESS
+    </Text>
+  </View>
+  <View
+    style={
+      Object {
+        "marginTop": 16,
+      }
+    }
+  >
+    <Text
+      style={
+        Object {
+          "color": "rgba(83, 87, 109, 1)",
+          "fontFamily": "SourceSansPro-Regular",
+          "fontSize": 14,
+          "lineHeight": 14,
+        }
+      }
+    >
+      Jl. Benesari No.2, Kuta, Kabupaten Badung, Bali 80361, Indonesia
+    </Text>
+  </View>
+</View>
+`;
