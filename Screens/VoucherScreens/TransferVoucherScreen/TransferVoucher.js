@@ -102,7 +102,8 @@ class TransferVoucher extends Component {
       seatNo,
       coachNumber,
       trainInfo,
-      instruction
+      instruction,
+      transferType
     } = transfer.voucher;
 
     const transferPassengerDetails = () => [
@@ -118,10 +119,14 @@ class TransferVoucher extends Component {
         name: "Vehicle type",
         value: getTitleCase(vehicle) || "NA"
       },
-      type
+      transferType || type
         ? {
             name: "Type",
-            value: type ? getTitleCase(type) : "NA"
+            value: transferType
+              ? getTitleCase(transferType)
+              : type
+              ? getTitleCase(type)
+              : "NA"
           }
         : null
     ];
