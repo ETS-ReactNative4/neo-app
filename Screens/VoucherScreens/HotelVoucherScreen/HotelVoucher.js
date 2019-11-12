@@ -21,10 +21,10 @@ import FooterStickyActionBar from "../../../CommonComponents/FooterStickyActionB
 import ConditionsApplyText from "../Components/ConditionsApplyText";
 import CheckInCheckOut from "../Components/CheckInCheckOut";
 import _ from "lodash";
-import TransferInfoBox from "../ActivityVoucherScreen/Components/TransferInfoBox";
 import { createIconSetFromIcoMoon } from "react-native-vector-icons";
 import icoMoonConfig from "../../../assets/fontMap/hotel-amenities.json";
 import VoucherAlertBox from "../Components/VoucherAlertBox/VoucherAlertBox";
+import VoucherAddressSectionV2 from "../Components/VoucherAddressSectionV2/VoucherAddressSectionV2";
 
 const xHeight = isIphoneX()
   ? constants.xNotchHeight
@@ -346,8 +346,8 @@ class HotelVoucher extends Component {
               })}
 
             {hotelAddress1 || hotelAddress2 ? (
-              <VoucherAddressSection
-                containerStyle={{ marginTop: 16 }}
+              <VoucherAddressSectionV2
+                containerStyle={{ marginTop: 16, padding: 0 }}
                 address={hotelAddress1 || hotelAddress2}
               />
             ) : null}

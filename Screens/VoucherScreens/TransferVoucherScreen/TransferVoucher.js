@@ -18,11 +18,10 @@ import ErrorBoundary from "../../../CommonComponents/ErrorBoundary/ErrorBoundary
 import getTitleCase from "../../../Services/getTitleCase/getTitleCase";
 import VoucherContactActionBar from "../Components/VoucherContactActionBar";
 import ViewVoucherButton from "../Components/ViewVoucherButton";
-import VoucherAddressSection from "../Components/VoucherAddressSection";
 import _ from "lodash";
-import FooterStickyActionBar from "../../../CommonComponents/FooterStickyActionBar/FooterStickyActionBar";
 import CollapsibleTextSection from "../../../CommonComponents/CollapsibleTextSection/CollapsibleTextSection";
-import TransferInfoBox from "../ActivityVoucherScreen/Components/TransferInfoBox";
+import VoucherAlertBox from "../Components/VoucherAlertBox/VoucherAlertBox";
+import VoucherAddressSectionV2 from "../Components/VoucherAddressSectionV2/VoucherAddressSectionV2";
 
 const xHeight = isIphoneX()
   ? constants.xNotchHeight
@@ -326,8 +325,9 @@ class TransferVoucher extends Component {
             {isTrainVoucher &&
             _.toUpper(ticketType) ===
               _.toUpper(constants.openTrainTicketType) ? (
-              <TransferInfoBox
-                text={constants.voucherText.openTrainTicketInfo}
+              <VoucherAlertBox
+                mode={"alert"}
+                alertText={constants.voucherText.openTrainTicketInfo}
               />
             ) : null}
 
@@ -338,8 +338,8 @@ class TransferVoucher extends Component {
 
             <VoucherSplitSection sections={arrivalDetails} />
 
-            <VoucherAddressSection
-              containerStyle={{ marginTop: 16 }}
+            <VoucherAddressSectionV2
+              containerStyle={{ marginTop: 16, padding: 0 }}
               address={meetingPoint}
             />
 
