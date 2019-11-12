@@ -1,6 +1,8 @@
 import * as analyticsService from "../analyticsService";
 import analytics from "@segment/analytics-react-native";
 import { analytics as firebaseAnalytics, perf } from "react-native-firebase";
+import * as activeRoute from "../../getActiveRouteName/getActiveRouteName";
+import * as logger from "../../errorLogger/errorLogger";
 
 test("loads analytics, sets it up and enables it", () => {
   const spyOnSetup = jest.spyOn(analytics, "setup");
@@ -75,12 +77,30 @@ test("user details are correctly set", () => {
   });
 });
 
+test("screen tracking is done correctly", () => {
+  const spyOnActiveRoute = jest.spyOn(activeRoute, "default");
+  spyOnActiveRoute.mockReturnValueOnce("example1");
+  spyOnActiveRoute.mockReturnValueOnce("example2");
+
+  const spyOnBreadCrumbLogger = jest.spyOn(logger, "logBreadCrumb");
+  const spyOnAnalyticsScreen = jest.spyOn(analytics, "screen");
+  analyticsService.screenTracker({}, {});
+  setTimeout(() => {
+    expect(spyOnActiveRoute).toHaveBeenCalled();
+    expect(spyOnBreadCrumbLogger).toHaveBeenCalled();
+    expect(spyOnAnalyticsScreen).toHaveBeenCalled();
+    spyOnBreadCrumbLogger.mockRestore();
+    spyOnAnalyticsScreen.mockRestore();
+  }, 0);
+});
+
 test("user attributes are correctly set", async () => {
   const spyOnSetAttr = jest.spyOn(analyticsService, "setUserAttributes");
-  const result = await analyticsService.setUserAttributes("name", "Uncle");
-  expect(result).toBe(true);
-  expect(spyOnSetAttr).toHaveBeenCalledWith("name", "Uncle");
-  spyOnSetAttr.mockRestore();
+  await analyticsService.setUserAttributes("name", "Uncle");
+  setTimeout(() => {
+    expect(spyOnSetAttr).toHaveBeenCalledWith("name", "Uncle");
+    spyOnSetAttr.mockRestore();
+  }, 0);
 });
 
 afterEach(() => {

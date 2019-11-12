@@ -139,7 +139,7 @@ export const setUserDetails = async ({ id, name, email, phoneNumber }) => {
 };
 
 export const setUserAttributes = (key, value) => {
-  return debouncer(() => {
+  debouncer(() => {
     return setWebEngageAttribute(key, value);
   });
 };
@@ -148,7 +148,6 @@ export const screenTracker = (prevState, currentState) => {
   debouncer(() => {
     const currentScreen = getActiveRouteName(currentState);
     const prevScreen = getActiveRouteName(prevState);
-
     /**
      * TODO: Check if any data can be added here...
      */
