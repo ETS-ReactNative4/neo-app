@@ -14,7 +14,8 @@ jest.mock("react-native-firebase", () => ({
     logEvent: jest.fn(),
     setAnalyticsCollectionEnabled: jest.fn(),
     setUserId: jest.fn(),
-    setUserProperties: jest.fn()
+    setUserProperties: jest.fn(),
+    setCurrentScreen: jest.fn()
   })),
   perf: jest.fn(() => ({
     setPerformanceCollectionEnabled: jest.fn()
