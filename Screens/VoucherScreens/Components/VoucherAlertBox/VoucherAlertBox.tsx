@@ -60,7 +60,8 @@ const styles = StyleSheet.create<VoucherAlertBoxStyles>({
     flexDirection: "row",
     alignItems: "flex-start",
     justifyContent: "flex-start",
-    padding: 24
+    padding: 24,
+    borderRadius: 4
   },
   iconContainer: {
     marginTop: 4
