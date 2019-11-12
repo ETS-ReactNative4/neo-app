@@ -15,7 +15,8 @@ jest.mock("react-native-webengage", () => {
       track: jest.fn(),
       screen: jest.fn(),
       user: {
-        login: jest.fn()
+        login: jest.fn(),
+        setAttribute: jest.fn()
       }
     };
   };
