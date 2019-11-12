@@ -24,12 +24,13 @@ import _ from "lodash";
 import TransferInfoBox from "../ActivityVoucherScreen/Components/TransferInfoBox";
 import { createIconSetFromIcoMoon } from "react-native-vector-icons";
 import icoMoonConfig from "../../../assets/fontMap/hotel-amenities.json";
+import VoucherAlertBox from "../Components/VoucherAlertBox/VoucherAlertBox";
 
 const xHeight = isIphoneX()
   ? constants.xNotchHeight
   : Platform.OS === "ios"
-    ? 20
-    : 0;
+  ? 20
+  : 0;
 
 @ErrorBoundary()
 class HotelVoucher extends Component {
@@ -122,11 +123,10 @@ class HotelVoucher extends Component {
                 </View>
               );
             })}
-            <TransferInfoBox
-              containerStyle={{
-                marginVertical: 8
-              }}
-              text={constants.voucherText.hotelAmenitiesDisclaimer}
+            <VoucherAlertBox
+              alertText={constants.voucherText.hotelAmenitiesDisclaimer}
+              mode={"alert"}
+              containerStyle={styles.alertContainer}
             />
           </Fragment>
         ) : null
@@ -282,8 +282,8 @@ class HotelVoucher extends Component {
                       typeof freeBreakfast === "undefined"
                         ? ""
                         : freeBreakfast
-                          ? "Included"
-                          : "Not Included"
+                        ? "Included"
+                        : "Not Included"
                   },
                   {
                     name: "Free Wifi",
@@ -291,8 +291,8 @@ class HotelVoucher extends Component {
                       typeof freeWireless === "undefined"
                         ? ""
                         : freeWireless
-                          ? "Included"
-                          : "Not Included"
+                        ? "Included"
+                        : "Not Included"
                   }
                   // {
                   //   name: "Booking Type",
@@ -325,9 +325,7 @@ class HotelVoucher extends Component {
 
                     {!_.isEmpty(leadPassenger) ? (
                       <PassengerName
-                        name={`${leadPassenger.salutation}. ${
-                          leadPassenger.firstName
-                        } ${leadPassenger.lastName}`}
+                        name={`${leadPassenger.salutation}. ${leadPassenger.firstName} ${leadPassenger.lastName}`}
                       />
                     ) : null}
                     {otherPassengers &&
@@ -335,9 +333,7 @@ class HotelVoucher extends Component {
                         return (
                           <PassengerName
                             key={passengerIndex}
-                            name={`${passenger.salutation}. ${
-                              passenger.firstName
-                            } ${passenger.lastName}`}
+                            name={`${passenger.salutation}. ${passenger.firstName} ${passenger.lastName}`}
                           />
                         );
                       })}
@@ -359,9 +355,10 @@ class HotelVoucher extends Component {
             <VoucherContactActionBar contact={mobile} location={{ lat, lon }} />
 
             {lat && lon ? (
-              <TransferInfoBox
-                text={constants.voucherText.directionsDisclaimerText}
-                containerStyle={{ marginVertical: 8 }}
+              <VoucherAlertBox
+                alertText={constants.voucherText.directionsDisclaimerText}
+                mode={"alert"}
+                containerStyle={styles.alertContainer}
               />
             ) : null}
 
@@ -440,6 +437,11 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: constants.shade4
+  },
+
+  alertContainer: {
+    marginVertical: 8,
+    borderRadius: 4
   },
 
   amenitiesTextWrapper: {
