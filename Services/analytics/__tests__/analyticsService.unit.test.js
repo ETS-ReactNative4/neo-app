@@ -75,14 +75,6 @@ test("user details are correctly set", () => {
   });
 });
 
-test("user attributes are correctly set", async () => {
-  const spyOnSetAttr = jest.spyOn(analyticsService, "setUserAttributes");
-  const result = await analyticsService.setUserAttributes("name", "Uncle");
-  expect(result).toBe(true);
-  expect(spyOnSetAttr).toHaveBeenCalledWith("name", "Uncle");
-  spyOnSetAttr.mockRestore();
-});
-
 afterEach(() => {
   jest.clearAllMocks();
 });

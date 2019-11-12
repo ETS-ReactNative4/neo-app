@@ -6,15 +6,13 @@ import { logError } from "../errorLogger/errorLogger";
  * Used to prevent tasks from blocking system UI.
  */
 const debouncer = (callback = () => null) => {
-  return new Promise((resolve, reject) => {
+  setTimeout(() => {
     try {
-      const result = callback();
-      return resolve(result);
+      callback();
     } catch (error) {
       logError("Process crashed in the debouncer", { error });
-      return reject(error);
     }
-  });
+  }, 0);
 };
 
 export default debouncer;

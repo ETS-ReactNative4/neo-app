@@ -36,19 +36,10 @@ const reserved = [
   "ad_activeiew"
 ];
 
-const webEngage = new WebEngage();
-
 export const login = userId => {
+  const webEngage = new WebEngage();
   webEngage.user.login(userId);
   return userId;
-};
-
-export const setWebEngageAttribute = (key, value) => {
-  if (key && value) {
-    webEngage.user.setAttribute(key, value);
-    return true;
-  }
-  return false;
 };
 
 /**
@@ -139,8 +130,10 @@ export const setUserDetails = async ({ id, name, email, phoneNumber }) => {
 };
 
 export const setUserAttributes = (key, value) => {
-  return debouncer(() => {
-    return setWebEngageAttribute(key, value);
+  debouncer(() => {
+    if (key && value) {
+      webEngage.user.setAttribute(key, value);
+    }
   });
 };
 
