@@ -10,7 +10,7 @@ export interface FabButtonProps {
   iconColor: string;
   action: () => void;
   icon: string;
-  iconSize: string;
+  iconSize: number;
 }
 
 const FabButton = ({

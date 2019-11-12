@@ -1,0 +1,147 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Voucher Alert Box - info mode 1`] = `
+<View
+  style={
+    Array [
+      Object {
+        "alignItems": "flex-start",
+        "borderRadius": 4,
+        "flexDirection": "row",
+        "justifyContent": "flex-start",
+        "padding": 24,
+      },
+      Object {
+        "backgroundColor": "rgba(38, 119, 240, 0.3)",
+      },
+      Object {},
+    ]
+  }
+>
+  <View
+    style={
+      Object {
+        "marginTop": 4,
+      }
+    }
+  >
+    <Text
+      allowFontScaling={false}
+      style={
+        Array [
+          Object {
+            "color": "rgba(38, 119, 240, 1)",
+            "fontSize": 14,
+          },
+          undefined,
+          Object {
+            "fontFamily": "Voyager",
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+          },
+          Object {},
+        ]
+      }
+    >
+      
+    </Text>
+  </View>
+  <View
+    style={
+      Object {
+        "marginLeft": 8,
+      }
+    }
+  >
+    <Text
+      style={
+        Array [
+          Object {
+            "fontFamily": "SourceSansPro-Regular",
+            "fontSize": 14,
+            "lineHeight": 20,
+          },
+          Object {
+            "color": "rgba(38, 119, 240, 1)",
+          },
+        ]
+      }
+    >
+      As the transfer is on shared basis, the arrival time of transfer could vary plus or minus 15-30minutes depending on traffic
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`Voucher Alert Box 1`] = `
+<View
+  style={
+    Array [
+      Object {
+        "alignItems": "flex-start",
+        "borderRadius": 4,
+        "flexDirection": "row",
+        "justifyContent": "flex-start",
+        "padding": 24,
+      },
+      Object {
+        "backgroundColor": "rgba(236, 71, 71, 0.3)",
+      },
+      Object {},
+    ]
+  }
+>
+  <View
+    style={
+      Object {
+        "marginTop": 4,
+      }
+    }
+  >
+    <Text
+      allowFontScaling={false}
+      style={
+        Array [
+          Object {
+            "color": "rgba(236, 71, 71, 1)",
+            "fontSize": 14,
+          },
+          undefined,
+          Object {
+            "fontFamily": "Voyager",
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+          },
+          Object {},
+        ]
+      }
+    >
+      
+    </Text>
+  </View>
+  <View
+    style={
+      Object {
+        "marginLeft": 8,
+      }
+    }
+  >
+    <Text
+      style={
+        Array [
+          Object {
+            "fontFamily": "SourceSansPro-Regular",
+            "fontSize": 14,
+            "lineHeight": 20,
+          },
+          Object {
+            "color": "rgba(236, 71, 71, 1)",
+          },
+        ]
+      }
+    >
+      As the transfer is on shared basis, the arrival time of transfer could vary plus or minus 15-30minutes depending on traffic
+    </Text>
+  </View>
+</View>
+`;

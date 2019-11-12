@@ -11,6 +11,7 @@ import { isIphoneX } from "react-native-iphone-x-helper";
 import XSensorPlaceholder from "../../../CommonComponents/XSensorPlaceholder/XSensorPlaceholder";
 import Icon from "../../../CommonComponents/Icon/Icon";
 import constants from "../../../constants/constants";
+import { responsiveWidth } from "react-native-responsive-dimensions";
 
 const VoucherStickyHeader = ({ text, action }) => {
   return (
@@ -22,7 +23,7 @@ const VoucherStickyHeader = ({ text, action }) => {
       ) : null}
       <View style={styles.headerContainer}>
         <TouchableOpacity onPress={action} style={styles.closeButton}>
-          <Icon name={constants.closeIcon} size={24} />
+          <Icon name={constants.closeIcon} size={20} />
         </TouchableOpacity>
         <Text numberOfLines={1} ellipsizeMode={"tail"} style={styles.title}>
           {text}
@@ -51,7 +52,8 @@ const styles = StyleSheet.create({
   },
   title: {
     ...constants.font17(constants.primarySemiBold),
-    color: constants.black1
+    color: constants.black1,
+    width: responsiveWidth(100) - 72 // 72 is space occupied by close icon and some margins
   }
 });
 

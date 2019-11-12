@@ -6,6 +6,7 @@ import constants from "../../../../../constants/constants";
 import { recordEvent } from "../../../../../Services/analytics/analyticsService";
 import BookingSectionComponent from "../../../../../CommonComponents/BookingSectionComponent/BookingSectionComponent";
 import resolveLinks from "../../../../../Services/resolveLinks/resolveLinks";
+import { NavigationTabProp } from "react-navigation-tabs";
 
 export interface TrainDataProps {
   voucher: {
@@ -25,7 +26,7 @@ export interface TrainsSectionProps {
   section: {
     items: TrainDataProps[];
   };
-  navigation: object;
+  navigation: NavigationTabProp;
   spinValue: {} | number;
 }
 
@@ -56,13 +57,11 @@ const TrainsSection = ({
 export interface TrainProps {
   train: TrainDataProps;
   isLast: boolean;
-  navigation?: {};
+  navigation?: NavigationTabProp;
   spinValue: {} | number;
 }
 
 const Train = ({ train, isLast, spinValue }: TrainProps) => {
-  console.log(train);
-
   let customStyle = {};
   if (isLast) {
     customStyle = {

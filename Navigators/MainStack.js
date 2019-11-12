@@ -19,7 +19,6 @@ import FAQAnswers from "../Screens/FAQScreens/FAQAnswersScreen/FAQAnswers";
 import ContactUs from "../Screens/ContactUsScreen/ContactUs";
 import YourTickets from "../Screens/YourTicketsScreen/YourTickets";
 import TicketsConversation from "../Screens/TicketsConversationScreen/TicketsConversation";
-import transitionConfig from "../Services/navigationAnimations/transitionConfig";
 import PDFViewerAndroid from "../Screens/PDFViewerScreen/PDFViewerAndroid";
 import Forex from "../Screens/ForexScreen/Forex";
 import VisaSelector from "../Screens/VisaSelectorScreen/VisaSelector";
@@ -114,7 +113,6 @@ const MainStack = createStackNavigator(
     }
   },
   {
-    transitionConfig,
     navigationOptions: ({ navigation }) => {
       const routeName = getActiveRouteName(navigation.state);
 

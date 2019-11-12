@@ -1,0 +1,274 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Voucher List Item 1`] = `
+<View
+  style={
+    Array [
+      Object {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "justifyContent": "space-between",
+        "paddingVertical": 24,
+      },
+      Object {
+        "borderBottomColor": "rgba(239, 239, 239, 1)",
+        "borderBottomWidth": 1,
+      },
+      Object {},
+    ]
+  }
+>
+  <View
+    style={
+      Array [
+        Object {
+          "flex": 1,
+          "flexDirection": "row",
+          "flexWrap": "wrap",
+          "justifyContent": "flex-start",
+        },
+        Object {},
+      ]
+    }
+  >
+    <Text
+      style={
+        Array [
+          Object {
+            "color": "rgba(119, 119, 119, 1)",
+            "fontFamily": "SourceSansPro-Regular",
+            "fontSize": 14,
+            "lineHeight": 17,
+            "textAlign": "left",
+          },
+          Object {},
+        ]
+      }
+    >
+      Confirmation number
+    </Text>
+  </View>
+  <View
+    style={
+      Array [
+        Object {
+          "flex": 1,
+          "flexDirection": "row",
+          "flexWrap": "wrap",
+          "justifyContent": "flex-end",
+        },
+        Object {},
+      ]
+    }
+  >
+    <Text
+      style={
+        Array [
+          Object {
+            "color": "rgba(44, 47, 66, 1)",
+            "fontFamily": "SourceSansPro-Regular",
+            "fontSize": 14,
+            "lineHeight": 17,
+            "textAlign": "right",
+          },
+          Object {},
+        ]
+      }
+    >
+      SX236283624
+       
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`Voucher List Item with info 1`] = `
+<View
+  style={
+    Array [
+      Object {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "justifyContent": "space-between",
+        "paddingVertical": 24,
+      },
+      Object {
+        "borderBottomColor": "rgba(239, 239, 239, 1)",
+        "borderBottomWidth": 1,
+      },
+      Object {},
+    ]
+  }
+>
+  <View
+    style={
+      Array [
+        Object {
+          "flex": 1,
+          "flexDirection": "row",
+          "flexWrap": "wrap",
+          "justifyContent": "flex-start",
+        },
+        Object {},
+      ]
+    }
+  >
+    <Text
+      style={
+        Array [
+          Object {
+            "color": "rgba(119, 119, 119, 1)",
+            "fontFamily": "SourceSansPro-Regular",
+            "fontSize": 14,
+            "lineHeight": 17,
+            "textAlign": "left",
+          },
+          Object {},
+        ]
+      }
+    >
+      Confirmation number
+    </Text>
+  </View>
+  <View
+    style={
+      Array [
+        Object {
+          "flex": 1,
+          "flexDirection": "row",
+          "flexWrap": "wrap",
+          "justifyContent": "flex-end",
+        },
+        Object {},
+      ]
+    }
+  >
+    <Text
+      style={
+        Array [
+          Object {
+            "color": "rgba(44, 47, 66, 1)",
+            "fontFamily": "SourceSansPro-Regular",
+            "fontSize": 14,
+            "lineHeight": 17,
+            "textAlign": "right",
+          },
+          Object {},
+        ]
+      }
+    >
+      SX236283624
+       
+    </Text>
+    <Text
+      style={
+        Array [
+          Object {
+            "color": "rgba(170, 170, 170, 1)",
+            "fontFamily": "SourceSansPro-Regular",
+            "fontSize": 14,
+            "lineHeight": 17,
+          },
+          Object {},
+        ]
+      }
+    >
+      (19 Jun 2019 - 19 Jul 2019)
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`Voucher List Item with info Last 1`] = `
+<View
+  style={
+    Array [
+      Object {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "justifyContent": "space-between",
+        "paddingVertical": 24,
+      },
+      Object {},
+      Object {},
+    ]
+  }
+>
+  <View
+    style={
+      Array [
+        Object {
+          "flex": 1,
+          "flexDirection": "row",
+          "flexWrap": "wrap",
+          "justifyContent": "flex-start",
+        },
+        Object {},
+      ]
+    }
+  >
+    <Text
+      style={
+        Array [
+          Object {
+            "color": "rgba(119, 119, 119, 1)",
+            "fontFamily": "SourceSansPro-Regular",
+            "fontSize": 14,
+            "lineHeight": 17,
+            "textAlign": "left",
+          },
+          Object {},
+        ]
+      }
+    >
+      Confirmation number
+    </Text>
+  </View>
+  <View
+    style={
+      Array [
+        Object {
+          "flex": 1,
+          "flexDirection": "row",
+          "flexWrap": "wrap",
+          "justifyContent": "flex-end",
+        },
+        Object {},
+      ]
+    }
+  >
+    <Text
+      style={
+        Array [
+          Object {
+            "color": "rgba(44, 47, 66, 1)",
+            "fontFamily": "SourceSansPro-Regular",
+            "fontSize": 14,
+            "lineHeight": 17,
+            "textAlign": "right",
+          },
+          Object {},
+        ]
+      }
+    >
+      SX236283624
+       
+    </Text>
+    <Text
+      style={
+        Array [
+          Object {
+            "color": "rgba(170, 170, 170, 1)",
+            "fontFamily": "SourceSansPro-Regular",
+            "fontSize": 14,
+            "lineHeight": 17,
+          },
+          Object {},
+        ]
+      }
+    >
+      (19 Jun 2019 - 19 Jul 2019)
+    </Text>
+  </View>
+</View>
+`;

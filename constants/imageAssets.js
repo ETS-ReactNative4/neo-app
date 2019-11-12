@@ -5,6 +5,7 @@ import { isProduction } from "../Services/getEnvironmentDetails/getEnvironmentDe
 const prefix = serverUrls.miscImageBaseUrl + "placeholders/";
 
 export const CONSTANT_mailIcon = "email";
+export const CONSTANT_alertFilledIcon = "alert-fill";
 
 const imageAssets = {
   splashBackground: isIphoneX()
