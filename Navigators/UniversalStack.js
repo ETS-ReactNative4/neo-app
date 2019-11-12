@@ -12,7 +12,7 @@ import PDFViewerAndroid from "../Screens/PDFViewerScreen/PDFViewerAndroid";
 import FeedbackPrompt from "../Screens/FeedbackPromptScreen/FeedbackPrompt";
 import ActionSheet from "../Screens/ActionSheetScreen/ActionSheet";
 import VisaDocumentsActionSheet from "../Screens/VisaDocumentsActionSheet/VisaDocumentsActionSheet";
-import HotelVoucherV2 from "../Screens/VoucherScreens/HotelVoucherScreen/HotelVoucherV2";
+import HotelVoucher from "../Screens/VoucherScreens/HotelVoucherScreen/HotelVoucher";
 
 const UniversalStack = createStackNavigator(
   {
@@ -24,7 +24,7 @@ const UniversalStack = createStackNavigator(
       screen: ActivityVoucher
     },
     HotelVoucher: {
-      screen: HotelVoucherV2
+      screen: HotelVoucher
     },
     FlightVoucher: {
       screen: FlightVoucher
