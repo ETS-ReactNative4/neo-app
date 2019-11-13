@@ -11,6 +11,56 @@ import * as logger from "../../errorLogger/errorLogger";
  * 2. Mocking different return values for same mocked method.
  */
 
+test("recordEvent - records given event all of our analytics stores", () => {
+  const testEvent = "example_event";
+  const testParams = {
+    hi: "hello"
+  };
+  const spyOnBreadCrumbLogger = jest.spyOn(logger, "logBreadCrumb");
+  const spyOnFirebase = jest.spyOn(firebaseAnalytics(), "logEvent");
+  const spyOnAnalyticsTrack = jest.spyOn(analytics, "track");
+  analyticsService.recordEvent(testEvent, testParams);
+  setTimeout(() => {
+    expect(spyOnBreadCrumbLogger).toHaveBeenCalledWith(
+      expect.objectContaining({
+        message: "analytics-event",
+        category: "analytics-data",
+        data: {
+          event: testEvent,
+          params: {
+            ...testParams,
+            sessionId: expect.any(String)
+          }
+        },
+        level: "info"
+      })
+    );
+    expect(spyOnFirebase).toHaveBeenLastCalledWith(testEvent, testParams);
+    expect(spyOnAnalyticsTrack).toHaveBeenCalledWith(testEvent, {
+      ...testParams,
+      sessionId: expect.any(String)
+    });
+    spyOnBreadCrumbLogger.mockRestore();
+    spyOnFirebase.mockRestore();
+    spyOnAnalyticsTrack.mockRestore();
+  }, 0);
+});
+
+test("recordEvent - returns when an invalid analytics param is given", () => {
+  const testEvent = "example_event";
+  const testParams = null; // `null` isn't a valid analytics parameter type!
+  const spyOnErrorLogger = jest.spyOn(logger, "logError");
+  analyticsService.recordEvent(testEvent, testParams);
+  setTimeout(() => {
+    expect(spyOnErrorLogger).toHaveBeenCalledWith(
+      "Invalid analytics parameter null",
+      testEvent,
+      testParams
+    );
+    spyOnErrorLogger.mockRestore();
+  }, 0);
+});
+
 test("enableAnalytics - loads analytics, sets it up and enables it", () => {
   const spyOnSetup = jest.spyOn(analytics, "setup");
   const spyOnEnable = jest.spyOn(analytics, "enable");

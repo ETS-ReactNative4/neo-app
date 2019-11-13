@@ -61,13 +61,18 @@ export const recordEvent = (event, params = undefined) => {
     if (!reserved.includes(event)) {
       if (!params) {
         params = { sessionId };
-      } else if (typeof params === "object") {
+      } else if (typeof params === "object" && params !== null) {
         params = { ...params, sessionId };
       } else {
-        logError(`Invalid analytics parameter ${typeof param}`, {
-          event,
-          params
-        });
+        logError(
+          `Invalid analytics parameter ${
+            params === null ? "null" : typeof param
+          }`,
+          {
+            event,
+            params
+          }
+        );
         return;
       }
       logBreadCrumb({
