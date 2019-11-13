@@ -5,6 +5,11 @@ export const CONSTANT_chatOfflineMessage =
   "It’s :time Indian time. We’re currently offline!";
 export const CONSTANT_chatOfflineAction = " in case of an emergency";
 
+export const CONSTANT_visaSuccessTitleFn = (name, isSingleVisa) =>
+  `Woohoo ${name}! Your ${
+    isSingleVisa ? "Visa has" : "Visas have"
+  } been granted!\n#vacaymodeon`;
+
 const appText = {
   starterScreenText: {
     mainButton: "Find your booking",
