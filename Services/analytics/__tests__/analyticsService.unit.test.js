@@ -11,7 +11,7 @@ import * as logger from "../../errorLogger/errorLogger";
  * 2. Mocking different return values for same mocked method.
  */
 
-test("loads analytics, sets it up and enables it", () => {
+test("enableAnalytics - loads analytics, sets it up and enables it", () => {
   const spyOnSetup = jest.spyOn(analytics, "setup");
   const spyOnEnable = jest.spyOn(analytics, "enable");
   const spyOnFirebase = jest.spyOn(
@@ -21,7 +21,7 @@ test("loads analytics, sets it up and enables it", () => {
   const spyOnPerf = jest.spyOn(perf(), "setPerformanceCollectionEnabled");
   analyticsService.enableAnalytics().then(result => {
     expect(result).toBe(true);
-    expect(spyOnSetup).toHaveBeenCalled(expect.any(string), {
+    expect(spyOnSetup).toHaveBeenCalled(expect.any(String), {
       recordScreenViews: false,
       trackAppLifecycleEvents: true
     });
@@ -34,7 +34,7 @@ test("loads analytics, sets it up and enables it", () => {
   });
 });
 
-test("disables analytics", () => {
+test("disableAnalytics - disables analytics", () => {
   const spyOnDisable = jest.spyOn(analytics, "disable");
   const spyOnFirebase = jest.spyOn(
     firebaseAnalytics(),
@@ -52,7 +52,7 @@ test("disables analytics", () => {
   });
 });
 
-test("user details are correctly set", () => {
+test("setUserDetails - user details are correctly set", () => {
   const userDetails = {
     id: 123,
     name: "Uncle",
@@ -84,7 +84,7 @@ test("user details are correctly set", () => {
   });
 });
 
-test("screen tracking is done correctly", () => {
+test("screenTracker - screen tracking is done correctly", () => {
   const spyOnActiveRoute = jest.spyOn(activeRoute, "default"); // Notice the use of "default" for unnamed default exports.
   spyOnActiveRoute.mockReturnValueOnce("example1"); // Mock different return values for each call.
   spyOnActiveRoute.mockReturnValueOnce("example2");
@@ -101,7 +101,7 @@ test("screen tracking is done correctly", () => {
   }, 0);
 });
 
-test("user attributes are correctly set", async () => {
+test("setUserAttributes - user attributes are correctly set", async () => {
   const spyOnWebEngage = jest.spyOn(analyticsService, "setWebEngageAttribute");
   analyticsService.setUserAttributes("name", "Uncle");
   expect(spyOnWebEngage).toHaveBeenCalledWith("name", "Uncle");
