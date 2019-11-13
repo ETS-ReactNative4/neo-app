@@ -8104,6 +8104,11 @@ react-native-flip-view-next@^1.0.0:
   resolved "https://registry.yarnpkg.com/react-native-flip-view-next/-/react-native-flip-view-next-1.0.0.tgz#da0f1c1c9242e3637944e4d7e9cd09ec9d947fd3"
   integrity sha512-d5lbxodaC8dxNjHAKQfG+mFTan9bdo8YrpZAnpekDmQ35h3oDhH4sgee/q2LmWUhze0DM00iOn1/fFQRYwK80g==
 
+react-native-freshchat-sdk@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/react-native-freshchat-sdk/-/react-native-freshchat-sdk-2.1.1.tgz#c700accd0be76f847aa897dcbb1a3f1815b92fd3"
+  integrity sha512-mDcPsVzYaXUx9OepF0v9PILJSu2lrdnLwTGPNPY0a7hOaxriBjV8ApXRF8d+rdClLjF/wxZ1lNZHTQqwXCD7Ew==
+
 react-native-geolocation-service@^3.1.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/react-native-geolocation-service/-/react-native-geolocation-service-3.1.0.tgz#62e112374f1cd284ea00ced0ef6826af820f50e2"
