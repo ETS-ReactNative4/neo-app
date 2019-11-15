@@ -322,6 +322,7 @@ class MobileNumber extends Component {
 
   componentDidMount() {
     BackHandler.addEventListener("hardwareBackPress", this.onBackButtonPress);
+    this.props.navigation.navigate("VisaSuccess");
   }
 
   moveToExplore = () => {

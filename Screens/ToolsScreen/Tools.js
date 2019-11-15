@@ -3,14 +3,12 @@ import { View, StyleSheet, ScrollView } from "react-native";
 import constants from "../../constants/constants";
 import SectionHeader from "../../CommonComponents/SectionHeader/SectionHeader";
 import Carousel from "../../CommonComponents/Carousel/Carousel";
-import PrimaryTool from "./Components/PrimaryTool";
 import ToolListItem from "./Components/ToolListItem";
 import HomeHeader from "../../CommonComponents/HomeHeader/HomeHeader";
 import { inject, observer } from "mobx-react/custom";
 import { recordEvent } from "../../Services/analytics/analyticsService";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import NoInternetIndicator from "../../CommonComponents/NoInternetIndicator/NoInternetIndicator";
-import VisaSelector from "../VisaSelectorScreen/VisaSelector";
 import Visa from "../../mobx/Visa";
 import debouncer from "../../Services/debouncer/debouncer";
 

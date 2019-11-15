@@ -27,6 +27,7 @@ import AlertCardV2 from "./Components/AlertCardV2/AlertCardV2";
 @inject("tripFeedStore")
 @inject("feedbackPrompt")
 @inject("itineraries")
+@inject("visaStore")
 @observer
 class TripFeed extends Component {
   static navigationOptions = {
@@ -87,6 +88,15 @@ class TripFeed extends Component {
     const { selectedItineraryId } = this.props.itineraries;
     if (selectedItineraryId) {
       this.loadTripFeedData();
+      const {
+        isVisaInitialized,
+        shouldDisplaySuccessAnimation
+      } = this.props.visaStore;
+      if (isVisaInitialized) {
+        if (shouldDisplaySuccessAnimation) {
+          this.props.navigation.navigate("VisaSuccess");
+        }
+      }
     }
 
     /**

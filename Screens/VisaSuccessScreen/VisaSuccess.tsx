@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   StyleSheet,
   ViewStyle,
@@ -39,6 +39,11 @@ const VisaSuccess = ({
   const goBack = () => {
     navigation.goBack();
   };
+  useEffect(() => {
+    return () => {
+      visaStore.updateUserHasSeenSuccessAnimation();
+    };
+  });
   const { userDetails = {} } = userStore;
   // @ts-ignore TODO: Write types for User interface.
   const { name = "" } = userDetails;

@@ -46,6 +46,9 @@ class Visa {
   @observable _isLoading = false;
   @observable _hasError = false;
 
+  /**
+   * VisaDetails includes all details of visas for all itineraries in the "Your bookings" screen.
+   */
   @persist("object")
   @observable
   _visaDetails = {};
@@ -54,6 +57,9 @@ class Visa {
   @observable
   _homeScreenDetails = {};
 
+  /**
+   * VisaList is independent of itineraries. It always only contains all visas INSIDE the current itinerary.
+   */
   @persist("list")
   @observable
   _visaList = [];
@@ -121,6 +127,24 @@ class Visa {
     return this._isVisaDetailsLoading;
   }
 
+  /**
+   * This method looks at 2 flags from the backend to see if we should display the VisaSuccess animated screen.
+   * 1. `isGranted` tells us if the Visa has been granted or not.
+   * 2. `userHasSeenCongrats` tells us if the user has already seen the VisaSuccess screen.
+   *
+   * We loop over all the visas the user has, and returns `true` only when EVERY visa has been granted.
+   */
+  @computed
+  get shouldDisplaySuccessAnimation() {
+    return this._visaList.reduce((prevVisaStatus, thisVisa) => {
+      const visaInfo = _.get(this._visaDetails, `${thisVisa.visaId}`, {});
+      return (
+        prevVisaStatus &&
+        _.get(visaInfo, "isGranted") && !_.get(visaInfo, "userHasSeenCongrats")
+      );
+    }, true);
+  }
+
   isVisaHelpDataAvailable = createTransformer((visaId = "") => {
     return !!(_.get(this._visaDetails[visaId], "visaHelpData") || []).length;
   });
@@ -133,6 +157,19 @@ class Visa {
       return toJS(this._visaDetails[itineraryId]);
     else return [];
   });
+
+  @action
+  updateUserHasSeenSuccessAnimation = () => {
+    return new Promise((resolve, reject) => {
+      apiCall(CONSTANT_updateVisaSuccessAnimationSeen, {}, "GET")
+        .then(response => {
+          resolve(response.data);
+        })
+        .catch(() => {
+          reject();
+        });
+    });
+  };
 
   /**
    * This will fetch visa details of an itinerary from the api
@@ -320,33 +357,6 @@ class Visa {
         });
     });
   };
-
-  // @action
-  // _getVisaDetailsFromAPI = itineraryId => {
-  //   this._isLoading = true;
-  //   apiCall(
-  //     constants.getVisaDetails.replace(":itineraryId", itineraryId),
-  //     {},
-  //     "GET"
-  //   )
-  //     .then(response => {
-  //       this._isLoading = false;
-  //       if (response.status === "SUCCESS") {
-  //         this._hasError = false;
-  //         const visaDetails = toJS(this._visaDetails);
-  //         visaDetails[itineraryId] = response.data;
-  //         this._visaDetails = visaDetails;
-  //         // set(this._visaDetails, itineraryId, response.data);
-  //       } else {
-  //         this._hasError = true;
-  //       }
-  //     })
-  //     .catch(err => {
-  //       this._isLoading = false;
-  //       this._hasError = true;
-  //       console.error(err);
-  //     });
-  // };
 
   /**
    * Fetch the home screen details of the visa

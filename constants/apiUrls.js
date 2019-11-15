@@ -61,4 +61,7 @@ const apiUrls = {
   googleDrivePdfViewer: "https://drive.google.com/viewerng/viewer?url="
 };
 
+export const CONSTANT_updateVisaSuccessAnimationSeen =
+  "mobile/visa/congrats-status";
+
 export default apiUrls;
