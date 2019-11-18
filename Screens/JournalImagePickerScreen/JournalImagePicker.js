@@ -24,7 +24,7 @@ import Carousel from "../../CommonComponents/Carousel/Carousel";
 import getReadFilePermissionAndroid from "../../Services/getReadFilePermissionAndroid/getReadFilePermissionAndroid";
 import getWriteFilePermissionAndroid from "../../Services/getWriteFilePermissionAndroid/getWriteFilePermissionAndroid";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
-import { inject, observer } from "mobx-react/custom";
+import { inject, observer } from "mobx-react";
 import { observable, toJS } from "mobx";
 import DebouncedAlert from "../../CommonComponents/DebouncedAlert/DebouncedAlert";
 import { toastBottom } from "../../Services/toast/toast";

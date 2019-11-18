@@ -6,7 +6,7 @@ import constants from "../../constants/constants";
 import TitleInput from "./Components/TitleInput";
 import SimpleButton from "../../CommonComponents/SimpleButton/SimpleButton";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
-import { inject, observer } from "mobx-react/custom";
+import { inject, observer } from "mobx-react";
 import DebouncedAlert from "../../CommonComponents/DebouncedAlert/DebouncedAlert";
 import BackHandlerHoc from "../../CommonComponents/BackHandlerHoc/BackHandlerHoc";
 

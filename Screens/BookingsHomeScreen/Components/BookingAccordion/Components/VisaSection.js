@@ -6,7 +6,7 @@ import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidE
 import { recordEvent } from "../../../../../Services/analytics/analyticsService";
 import BookingSectionComponent from "../../../../../CommonComponents/BookingSectionComponent/BookingSectionComponent";
 import * as VisaMobX from "../../../../../mobx/Visa";
-import { observer, inject } from "mobx-react/custom";
+import { observer, inject } from "mobx-react";
 
 const VisaSection = inject("visaStore")(
   observer(({ visaStore, section, navigation, spinValue }) => {

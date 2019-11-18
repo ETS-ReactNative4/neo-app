@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import constants from "../../constants/constants";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
-import { inject, observer } from "mobx-react/custom";
+import { inject, observer } from "mobx-react";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import DropDown from "../../CommonComponents/DropDown/DropDown";
 import debouncer from "../../Services/debouncer/debouncer";

@@ -17,7 +17,7 @@ import {
 import DottedLoading from "../../CommonComponents/DottedLoading/DottedLoading";
 import SimpleButton from "../../CommonComponents/SimpleButton/SimpleButton";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
-import { inject, observer } from "mobx-react/custom";
+import { inject, observer } from "mobx-react";
 import DebouncedAlert from "../../CommonComponents/DebouncedAlert/DebouncedAlert";
 import Journal from "../JournalScreen/Journal";
 import JournalSummary from "./Components/JournalSummary";

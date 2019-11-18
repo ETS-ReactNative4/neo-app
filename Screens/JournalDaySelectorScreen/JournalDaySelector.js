@@ -7,7 +7,7 @@ import JournalDaySelectorTitle from "./Components/JournalDaySelectorTitle";
 import JournalDayCard from "./Components/JournalDayCard";
 import AddStoryButton from "./Components/AddStoryButton";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
-import { inject, observer } from "mobx-react/custom";
+import { inject, observer } from "mobx-react";
 import DebouncedAlert from "../../CommonComponents/DebouncedAlert/DebouncedAlert";
 import _ from "lodash";
 

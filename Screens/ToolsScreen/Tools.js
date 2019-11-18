@@ -5,7 +5,7 @@ import SectionHeader from "../../CommonComponents/SectionHeader/SectionHeader";
 import Carousel from "../../CommonComponents/Carousel/Carousel";
 import ToolListItem from "./Components/ToolListItem";
 import HomeHeader from "../../CommonComponents/HomeHeader/HomeHeader";
-import { inject, observer } from "mobx-react/custom";
+import { inject, observer } from "mobx-react";
 import { recordEvent } from "../../Services/analytics/analyticsService";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import NoInternetIndicator from "../../CommonComponents/NoInternetIndicator/NoInternetIndicator";

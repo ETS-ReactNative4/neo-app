@@ -11,7 +11,7 @@ import { responsiveHeight } from "react-native-responsive-dimensions";
 import VisaInfoSheet from "../VisaScreen/Components/VisaInfoSheet";
 import XSensorPlaceholder from "../../CommonComponents/XSensorPlaceholder/XSensorPlaceholder";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
-import { inject, observer } from "mobx-react/custom";
+import { inject, observer } from "mobx-react";
 
 @ErrorBoundary()
 @inject("visaStore")

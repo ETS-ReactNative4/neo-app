@@ -9,7 +9,7 @@ import {
 import CommonHeader from "../../../CommonComponents/CommonHeader/CommonHeader";
 import constants from "../../../constants/constants";
 import ContactUsTile from "../../SupportCenterScreen/Components/ContactUsTile";
-import { inject, observer } from "mobx-react/custom";
+import { inject, observer } from "mobx-react";
 import ErrorBoundary from "../../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import FaqAccordionList from "../../SupportCenterScreen/Components/FaqAccordionList";
 

@@ -15,7 +15,7 @@ import CommonRate from "./Components/CommonRate";
 import constants from "../../constants/constants";
 import CurrencySelector from "./Components/CurrencySelector";
 import XSensorPlaceholder from "../../CommonComponents/XSensorPlaceholder/XSensorPlaceholder";
-import { inject, observer } from "mobx-react/custom";
+import { inject, observer } from "mobx-react";
 import Icon from "../../CommonComponents/Icon/Icon";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import { recordEvent } from "../../Services/analytics/analyticsService";

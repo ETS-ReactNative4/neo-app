@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
-import { inject, observer } from "mobx-react/custom";
+import { inject, observer } from "mobx-react";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import HelpDetailsBlock from "./Components/HelpDetailsBlock";
 import _ from "lodash";
