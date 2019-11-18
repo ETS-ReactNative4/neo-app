@@ -109,40 +109,49 @@ class ChatDetails {
   }
 
   /**
-   * Retrieve the details needed for initializing chat
-   * This also includes the chat token and the host urls
+   * Retrieves the details needed for initializing chat.
+   * This also includes the chat token and the host urls.
+   *
+   * The promise returned by this method will resolve only if the chat is
+   * initialized for the user. All other scenarios will lead to promise rejection.
    */
   @action
   getUserDetails = () => {
-    this._isLoading = true;
-    const initializationUrl = `${constants.initiateChat}?itineraryId=${storeService.itineraries.selectedItineraryId}`;
-    apiCall(initializationUrl)
-      .then(response => {
-        this._isLoading = false;
-        if (response.status === constants.responseSuccessStatus) {
-          this._isChatActive = true;
-          this._chatDetails = response.data;
-          this._initializationError = false;
-          this._offlineContact = response.data.offlineContact;
-        } else if (response.status === "NOT_INITIATED") {
-          this._isChatActive = false;
-          this._initializationError = false; // Chat not initiated but initialization call is success
-          this._chatActivationTime = response.data.departureDateMillis;
-          this._chatActivationMessage =
-            response.data.displayMsg || constants.preTripChatText;
-          this._offlineContact = response.data.offlineContact;
-        } else {
-          logError("Chat failed to Initialize", {
-            response,
-            initializationUrl
-          });
+    return new Promise((resolve, reject) => {
+      this._isLoading = true;
+      const initializationUrl = `${constants.initiateChat}?itineraryId=${storeService.itineraries.selectedItineraryId}`;
+      apiCall(initializationUrl)
+        .then(response => {
+          this._isLoading = false;
+          if (response.status === constants.responseSuccessStatus) {
+            this._isChatActive = true;
+            this._chatDetails = response.data;
+            this._initializationError = false;
+            this._offlineContact = response.data.offlineContact;
+            resolve(response.data);
+          } else if (response.status === "NOT_INITIATED") {
+            this._isChatActive = false;
+            this._initializationError = false; // Chat not initiated but initialization call is success
+            this._chatActivationTime = response.data.departureDateMillis;
+            this._chatActivationMessage =
+              response.data.displayMsg || constants.preTripChatText;
+            this._offlineContact = response.data.offlineContact;
+            reject();
+          } else {
+            logError("Chat failed to Initialize", {
+              response,
+              initializationUrl
+            });
+            this._initializationError = true;
+            reject();
+          }
+        })
+        .catch(() => {
           this._initializationError = true;
-        }
-      })
-      .catch(() => {
-        this._initializationError = true;
-        this._isLoading = false;
-      });
+          this._isLoading = false;
+          reject();
+        });
+    });
   };
 
   /**

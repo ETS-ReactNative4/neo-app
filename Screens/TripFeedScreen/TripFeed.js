@@ -22,11 +22,22 @@ import pullToRefresh from "../../Services/refresh/pullToRefresh";
 import debouncer from "../../Services/debouncer/debouncer";
 import constants from "../../constants/constants";
 import AlertCardV2 from "./Components/AlertCardV2/AlertCardV2";
+import isUserLoggedInCallback from "../../Services/isUserLoggedInCallback/isUserLoggedInCallback";
+import {
+  identifyChatUser,
+  initializeChat,
+  setChatUserDetails
+} from "../../Services/freshchatService/freshchatService";
+import {
+  CONSTANT_freshChatAppId,
+  CONSTANT_freshChatAppKey
+} from "../../constants/stringConstants";
 
 @ErrorBoundary({ isRoot: true })
 @inject("tripFeedStore")
 @inject("feedbackPrompt")
 @inject("itineraries")
+@inject("chatDetailsStore")
 @observer
 class TripFeed extends Component {
   static navigationOptions = {
@@ -51,6 +62,7 @@ class TripFeed extends Component {
           const { selectedItineraryId } = props.itineraries;
           if (selectedItineraryId) {
             this.loadTripFeedData();
+            this.loadChatData();
           }
           BackHandler.addEventListener(
             "hardwareBackPress",
@@ -119,6 +131,36 @@ class TripFeed extends Component {
     setTimeout(() => {
       fetchFeedBackData();
     }, 2000);
+  };
+
+  /**
+   * Used to initialize fresh chat native sdk
+   * This method will be executed every time the tab focus changes.
+   *
+   * First user details will be retrieved from an API call.
+   * If chat is initialized, chat details will be available. Using the chat details,
+   * corresponding fresh-chat functions will be called to perform initialization operations
+   */
+  loadChatData = () => {
+    isUserLoggedInCallback(() => {
+      const { getUserDetails } = this.props.chatDetailsStore;
+      getUserDetails().then(chatDetails => {
+        initializeChat(
+          chatDetails.appId || CONSTANT_freshChatAppId,
+          chatDetails.appKey || CONSTANT_freshChatAppKey
+        );
+        setChatUserDetails({
+          firstName: chatDetails.trailId,
+          lastName: chatDetails.name,
+          email: chatDetails.email,
+          phoneCountryCode: chatDetails.ccode,
+          phone: chatDetails.mobile_num
+        }).catch(() => null);
+        identifyChatUser(chatDetails.feid, chatDetails.restoreId).catch(
+          () => null
+        );
+      });
+    });
   };
 
   componentWillUnmount() {

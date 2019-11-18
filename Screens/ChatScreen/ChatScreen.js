@@ -225,7 +225,7 @@ class ChatScreen extends Component {
 
     /**
      * Some keys that change often should be removed from chat details
-     * to prevent he webview from refreshing when the values change.
+     * to prevent the webview from refreshing when the values change.
      */
     const chatQueryParams = { ...chatDetails };
     delete chatQueryParams["isOffHours"];

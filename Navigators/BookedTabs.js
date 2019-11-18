@@ -10,11 +10,14 @@ import Tools from "../Screens/ToolsScreen/Tools";
 import BookingsHome from "../Screens/BookingsHomeScreen/BookingsHome";
 import KeyboardFriendlyBottomTabBar from "../CommonComponents/KeyboardFriendlyBottomTabBar/KeyboardFriendlyBottomTabBar";
 import JournalStack from "./JournalStack";
+import CustomBottomTabBar from "../CommonComponents/CustomBottomTabBar/CustomBottomTabBar";
 
-const TabBarComponent =
-  Platform.OS === "android"
-    ? { tabBarComponent: KeyboardFriendlyBottomTabBar }
-    : {};
+const TabBarComponent = {
+  tabBarComponent: Platform.select({
+    android: KeyboardFriendlyBottomTabBar,
+    ios: props => <CustomBottomTabBar bottomTabBarProps={props} />
+  })
+};
 
 const BookedTabs = createBottomTabNavigator(
   {
