@@ -1,8 +1,9 @@
-import { observable, computed, action, set, toJS } from "mobx";
+import { observable, computed, action, toJS } from "mobx";
 import { createTransformer } from "mobx-utils";
 import { persist } from "mobx-persist";
 import apiCall from "../Services/networkRequests/apiCall";
 import constants from "../constants/constants";
+import { CONSTANT_updateVisaSuccessAnimationSeen } from "../constants/apiUrls";
 import { logError } from "../Services/errorLogger/errorLogger";
 import { hydrate } from "./Store";
 import storeService from "../Services/storeService/storeService";
@@ -136,11 +137,16 @@ class Visa {
    */
   @computed
   get shouldDisplaySuccessAnimation() {
-    return this._visaList.reduce((prevVisaStatus, thisVisa) => {
+    const shouldDisplay = this._visaList.reduce((prevVisaStatus, thisVisa) => {
       const visaInfo = _.get(this._visaDetails, `${thisVisa.visaId}`, {});
-      return prevVisaStatus && (_.get(visaInfo, "isGranted") && !_.get(visaInfo, "userHasSeenCongrats"));
+      return (
+        prevVisaStatus &&
+        _.get(visaInfo, "isGranted", false) &&
+        !_.get(visaInfo, "userHasSeenCongrats", false)
+      );
     }, true);
-  };
+    return shouldDisplay;
+  }
 
   isVisaHelpDataAvailable = createTransformer((visaId = "") => {
     return !!(_.get(this._visaDetails[visaId], "visaHelpData") || []).length;
@@ -158,13 +164,15 @@ class Visa {
   @action
   updateUserHasSeenSuccessAnimation = () => {
     return new Promise((resolve, reject) => {
-      apiCall(CONSTANT_updateVisaSuccessAnimationSeen, {}, 'GET').then(response => {
-        resolve(response.data);
-      }).catch(() => {
-        reject();
-      })
+      apiCall(CONSTANT_updateVisaSuccessAnimationSeen, {}, "GET")
+        .then(response => {
+          resolve(response.data);
+        })
+        .catch(() => {
+          reject();
+        });
     });
-  }
+  };
 
   /**
    * This will fetch visa details of an itinerary from the api
