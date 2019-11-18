@@ -1,5 +1,5 @@
 import React from "react";
-import { inject, observer } from "mobx-react/custom";
+import { inject, observer } from "mobx-react";
 import { Image, View } from "react-native";
 import constants from "../../constants/constants";
 import BookingHomeTitle from "../BookingHomeTitle/BookingHomeTitle";
