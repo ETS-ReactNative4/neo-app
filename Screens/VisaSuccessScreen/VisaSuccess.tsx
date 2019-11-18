@@ -38,6 +38,7 @@ const VisaSuccess = ({
 }: VisaSuccessProps) => {
   const goBack = () => {
     navigation.goBack();
+    return null;
   };
   useEffect(() => {
     return () => {
