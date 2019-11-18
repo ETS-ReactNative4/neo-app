@@ -6,7 +6,7 @@ import constants from "../../constants/constants";
 import ContactActionBar from "./Components/ContactActionBar";
 import DebouncedAlert from "../../CommonComponents/DebouncedAlert/DebouncedAlert";
 import apiCall from "../../Services/networkRequests/apiCall";
-import { inject, observer } from "mobx-react/custom";
+import { inject, observer } from "mobx-react";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import MessageInput from "../SupportCenterScreen/Components/MessageInput";
 

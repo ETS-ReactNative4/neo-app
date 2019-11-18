@@ -12,7 +12,7 @@ import SectionHeader from "../../../CommonComponents/SectionHeader/SectionHeader
 import IosCloseButton from "../Components/IosCloseButton";
 import moment from "moment";
 import getTransferImage from "../../../Services/getImageService/getTransferImage";
-import { inject, observer } from "mobx-react/custom";
+import { inject, observer } from "mobx-react";
 import TitleDate from "../Components/TitleDate";
 import ErrorBoundary from "../../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import getTitleCase from "../../../Services/getTitleCase/getTitleCase";

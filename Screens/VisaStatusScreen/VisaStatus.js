@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from "react";
 import { StyleSheet, ScrollView } from "react-native";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
-import { inject, observer } from "mobx-react/custom";
+import { inject, observer } from "mobx-react";
 import { toJS } from "mobx";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import VisaCompanionInfo from "../VisaScreen/Components/VisaCompanionInfo";

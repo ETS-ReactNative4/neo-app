@@ -138,12 +138,9 @@ class Visa {
   get shouldDisplaySuccessAnimation() {
     return this._visaList.reduce((prevVisaStatus, thisVisa) => {
       const visaInfo = _.get(this._visaDetails, `${thisVisa.visaId}`, {});
-      return (
-        prevVisaStatus &&
-        _.get(visaInfo, "isGranted") && !_.get(visaInfo, "userHasSeenCongrats")
-      );
+      return prevVisaStatus && (_.get(visaInfo, "isGranted") && !_.get(visaInfo, "userHasSeenCongrats"));
     }, true);
-  }
+  };
 
   isVisaHelpDataAvailable = createTransformer((visaId = "") => {
     return !!(_.get(this._visaDetails[visaId], "visaHelpData") || []).length;
@@ -161,15 +158,13 @@ class Visa {
   @action
   updateUserHasSeenSuccessAnimation = () => {
     return new Promise((resolve, reject) => {
-      apiCall(CONSTANT_updateVisaSuccessAnimationSeen, {}, "GET")
-        .then(response => {
-          resolve(response.data);
-        })
-        .catch(() => {
-          reject();
-        });
+      apiCall(CONSTANT_updateVisaSuccessAnimationSeen, {}, 'GET').then(response => {
+        resolve(response.data);
+      }).catch(() => {
+        reject();
+      })
     });
-  };
+  }
 
   /**
    * This will fetch visa details of an itinerary from the api

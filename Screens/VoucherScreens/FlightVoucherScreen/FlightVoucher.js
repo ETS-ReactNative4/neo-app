@@ -10,7 +10,7 @@ import SectionHeader from "../../../CommonComponents/SectionHeader/SectionHeader
 import PassengerName from "../HotelVoucherScreen/Components/PassengerName";
 import VoucherSplitSection from "../Components/VoucherSplitSection";
 import IosCloseButton from "../Components/IosCloseButton";
-import { inject, observer } from "mobx-react/custom";
+import { inject, observer } from "mobx-react";
 import moment from "moment";
 import FlightActionSection from "./Components/FlightActionSection";
 import getTitleCase from "../../../Services/getTitleCase/getTitleCase";
@@ -22,8 +22,8 @@ import ConditionsApplyText from "../Components/ConditionsApplyText";
 const xHeight = isIphoneX()
   ? constants.xNotchHeight
   : Platform.OS === "ios"
-    ? 20
-    : 0;
+  ? 20
+  : 0;
 
 @ErrorBoundary()
 @inject("passportDetailsStore")
@@ -176,9 +176,7 @@ class FlightVoucher extends Component {
                 return (
                   <PassengerName
                     key={passengerIndex}
-                    name={`${passenger.salutation}. ${passenger.firstName} ${
-                      passenger.lastName
-                    }`}
+                    name={`${passenger.salutation}. ${passenger.firstName} ${passenger.lastName}`}
                   />
                 );
               })}

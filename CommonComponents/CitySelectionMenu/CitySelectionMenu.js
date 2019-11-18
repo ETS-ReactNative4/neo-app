@@ -8,7 +8,7 @@ import {
   TouchableHighlight,
   StyleSheet
 } from "react-native";
-import { observer, inject } from "mobx-react/custom";
+import { observer, inject } from "mobx-react";
 import Modal from "react-native-modal";
 import CommonHeader from "../CommonHeader/CommonHeader";
 import SearchButton from "../SearchButton/SearchButton";

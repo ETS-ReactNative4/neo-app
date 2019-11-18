@@ -16,7 +16,7 @@ import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import ForexSwitchComponent from "./Components/ForexSwitchComponent";
 import ForexAmountField from "./Components/ForexAmountField";
 import ForexFeaturesList from "./Components/ForexFeaturesList/ForexFeaturesList";
-import { inject, observer } from "mobx-react/custom";
+import { inject, observer } from "mobx-react";
 import SimpleButton from "../../CommonComponents/SimpleButton/SimpleButton";
 import { responsiveWidth } from "react-native-responsive-dimensions";
 import ForexGuidesInfo from "./Components/ForexGuidesInfo/ForexGuidesInfo";

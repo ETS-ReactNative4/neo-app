@@ -18,7 +18,7 @@ import UnregisteredNumber from "./Components/UnregisteredNumber";
 import apiCall from "../../Services/networkRequests/apiCall";
 import registerToken from "../../Services/registerToken/registerToken";
 import MobileNumberInput from "./Components/MobileNumberInput";
-import { inject, observer } from "mobx-react/custom";
+import { inject, observer } from "mobx-react";
 import KeyboardAvoidingActionBar from "../../CommonComponents/KeyboardAvoidingActionBar/KeyboardAvoidingActionBar";
 import { recordEvent } from "../../Services/analytics/analyticsService";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";

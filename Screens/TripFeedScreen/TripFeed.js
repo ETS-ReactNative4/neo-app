@@ -9,7 +9,7 @@ import TripFeedCarousel from "./Components/TripFeedCarousel/TripFeedCarousel";
 import BigImageCard from "./Components/BigImageCard/BigImageCard";
 import AlertCard from "./Components/AlertCard/AlertCard";
 import InfoCard from "./Components/InfoCard/InfoCard";
-import { inject, observer } from "mobx-react/custom";
+import { inject, observer } from "mobx-react";
 import CustomScrollView from "../../CommonComponents/CustomScrollView/CustomScrollView";
 import InfoCardModal from "./Components/InfoCardModal/InfoCardModal";
 import NoInternetIndicator from "../../CommonComponents/NoInternetIndicator/NoInternetIndicator";

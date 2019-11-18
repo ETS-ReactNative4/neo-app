@@ -11,7 +11,7 @@ import {
   responsiveHeight,
   responsiveWidth
 } from "react-native-responsive-dimensions";
-import { inject, observer } from "mobx-react/custom";
+import { inject, observer } from "mobx-react";
 import getTitleCase from "../../../../Services/getTitleCase/getTitleCase";
 import XSensorPlaceholder from "../../../../CommonComponents/XSensorPlaceholder/XSensorPlaceholder";
 import EmptyListPlaceholder from "../../../../CommonComponents/EmptyListPlaceholder/EmptyListPlaceholder";

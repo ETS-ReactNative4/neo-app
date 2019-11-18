@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidExtraProps";
 import { recordEvent } from "../../../../../Services/analytics/analyticsService";
 import storeService from "../../../../../Services/storeService/storeService";
-import { inject, observer } from "mobx-react/custom";
+import { inject, observer } from "mobx-react";
 import BookingSectionComponent from "../../../../../CommonComponents/BookingSectionComponent/BookingSectionComponent";
 import openCustomTab from "../../../../../Services/openCustomTab/openCustomTab";
 import { toastBottom } from "../../../../../Services/toast/toast";

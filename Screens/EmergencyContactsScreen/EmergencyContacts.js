@@ -6,7 +6,7 @@ import ScrollableTabView from "react-native-scrollable-tab-view";
 import ScrollableTabBar from "../../CommonComponents/ScrollableTabBar/ScrollableTabBar";
 import EmergencyContactSection from "./Components/EmergencyContactSection";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
-import { inject, observer } from "mobx-react/custom";
+import { inject, observer } from "mobx-react";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import DeepLinkHandler from "../../CommonComponents/DeepLinkHandler/DeepLinkHandler";
 import _ from "lodash";
@@ -51,15 +51,14 @@ class EmergencyContacts extends Component {
           prerenderingSiblingsNumber={Infinity}
           renderTabBar={() => <ScrollableTabBar />}
         >
-          {cityDetails.map(
-            (cityContactDetails, cityDetailIndex) =>
-              cityContactDetails ? (
-                <EmergencyContactSection
-                  key={cityDetailIndex}
-                  cityContactDetails={cityContactDetails}
-                  tabLabel={cityContactDetails.name.toUpperCase()}
-                />
-              ) : null
+          {cityDetails.map((cityContactDetails, cityDetailIndex) =>
+            cityContactDetails ? (
+              <EmergencyContactSection
+                key={cityDetailIndex}
+                cityContactDetails={cityContactDetails}
+                tabLabel={cityContactDetails.name.toUpperCase()}
+              />
+            ) : null
           )}
         </ScrollableTabView>
       </View>

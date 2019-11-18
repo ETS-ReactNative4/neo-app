@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { BackHandler, Keyboard, Platform, SafeAreaView } from "react-native";
 import { isIphoneX } from "react-native-iphone-x-helper";
 import constants from "../../constants/constants";
-import { inject, observer } from "mobx-react/custom";
+import { inject, observer } from "mobx-react";
 import BackButtonIos from "../../CommonComponents/BackButtonIos/BackButtonIos";
 import ControlledWebView from "../../CommonComponents/ControlledWebView/ControlledWebView";
 import UnableToUseChat from "./Components/UnableToUseChat";

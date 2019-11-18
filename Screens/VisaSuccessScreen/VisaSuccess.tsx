@@ -12,7 +12,7 @@ import LottieView from "lottie-react-native";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import { CONSTANT_visaSuccessAnimation } from "../../constants/imageAssets";
 import { CONSTANT_visaSuccessTitleFn } from "../../constants/appText";
-import { observer, inject } from "mobx-react/custom";
+import { observer, inject } from "mobx-react";
 import SimpleButton from "../../CommonComponents/SimpleButton/SimpleButton";
 import {
   CONSTANT_fontCustom,

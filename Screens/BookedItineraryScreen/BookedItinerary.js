@@ -6,7 +6,7 @@ import {
 } from "react-native-responsive-dimensions";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import BookedItineraryTopBar from "./Components/BookedItineraryTopBar/BookedItineraryTopBar";
-import { inject, observer } from "mobx-react/custom";
+import { inject, observer } from "mobx-react";
 import Slot from "./Components/Slot";
 import moment from "moment/moment";
 import BookedItineraryTitle from "./Components/BookedItineraryTitle";

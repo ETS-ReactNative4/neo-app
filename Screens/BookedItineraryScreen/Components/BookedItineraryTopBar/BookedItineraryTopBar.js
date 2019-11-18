@@ -3,7 +3,7 @@ import { View, ScrollView, StyleSheet } from "react-native";
 import { responsiveWidth } from "react-native-responsive-dimensions";
 import DateItem from "./Components/DateItem";
 import PropTypes from "prop-types";
-import { inject, observer } from "mobx-react/custom";
+import { inject, observer } from "mobx-react";
 
 @inject("itineraries")
 @observer

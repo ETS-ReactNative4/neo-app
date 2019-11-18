@@ -1,6 +1,6 @@
 import React from "react";
 import { View, StyleSheet, TouchableHighlight } from "react-native";
-import { inject, observer } from "mobx-react/custom";
+import { inject, observer } from "mobx-react";
 import MultiLineHeader from "../../../CommonComponents/MultilineHeader/MultiLineHeader";
 import { recordEvent } from "../../../Services/analytics/analyticsService";
 import constants from "../../../constants/constants";

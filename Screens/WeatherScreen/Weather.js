@@ -4,7 +4,7 @@ import WeatherCard from "./Components/WeatherCard";
 import WeatherChart from "./Components/WeatherChart";
 import WeatherTiles from "./Components/WeatherTiles";
 import WeatherInactivePlaceholder from "./Components/WeatherInactivePlaceholder";
-import { inject, observer } from "mobx-react/custom";
+import { inject, observer } from "mobx-react";
 import _ from "lodash";
 import Moment from "moment";
 import { extendMoment } from "moment-range";
