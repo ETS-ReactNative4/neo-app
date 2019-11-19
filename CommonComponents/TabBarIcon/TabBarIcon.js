@@ -6,9 +6,9 @@ import Icon from "../Icon/Icon";
 import { inject, observer } from "mobx-react/custom";
 import InfoDot from "../InfoDot/InfoDot";
 
-const TabBarIcon = inject("appState")(
-  observer(({ appState, text, icon, color, focused }) => {
-    const { isChatNotificationActive } = appState;
+const TabBarIcon = inject("chatDetailsStore")(
+  observer(({ chatDetailsStore, text, icon, color, focused }) => {
+    const { unreadMessageCount } = chatDetailsStore;
     return (
       <View style={styles.iconWrapper}>
         <View style={styles.icon}>
@@ -25,7 +25,7 @@ const TabBarIcon = inject("appState")(
         >
           {text}
         </Text>
-        {text === "SUPPORT" && isChatNotificationActive ? (
+        {text === "SUPPORT" && unreadMessageCount ? (
           <InfoDot containerStyle={styles.dotStyle} />
         ) : null}
       </View>

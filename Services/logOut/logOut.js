@@ -5,6 +5,7 @@ import storeService from "../storeService/storeService";
 import Drawer from "../../Screens/Drawer/Drawer";
 import DebouncedAlert from "../../CommonComponents/DebouncedAlert/DebouncedAlert";
 import constants from "../../constants/constants";
+import { logoutUserFromChat } from "../freshchatService/freshchatService";
 
 const closeDrawer = DrawerActions.closeDrawer();
 
@@ -48,6 +49,7 @@ const logOut = (isForced = false) => {
         storeService.deviceDetailsStore.reset();
         storeService.chatDetailsStore.reset();
         storeService.journalStore.reset();
+        logoutUserFromChat();
       }, 100);
     });
   };

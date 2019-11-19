@@ -24,6 +24,7 @@ import constants from "../../constants/constants";
 import AlertCardV2 from "./Components/AlertCardV2/AlertCardV2";
 import isUserLoggedInCallback from "../../Services/isUserLoggedInCallback/isUserLoggedInCallback";
 import {
+  getUnreadMessagesCount,
   identifyChatUser,
   initializeChat,
   setChatUserDetails
@@ -32,6 +33,7 @@ import {
   CONSTANT_freshChatAppId,
   CONSTANT_freshChatAppKey
 } from "../../constants/stringConstants";
+import { Freshchat } from "react-native-freshchat-sdk";
 
 @ErrorBoundary({ isRoot: true })
 @inject("tripFeedStore")
@@ -99,6 +101,7 @@ class TripFeed extends Component {
     const { selectedItineraryId } = this.props.itineraries;
     if (selectedItineraryId) {
       this.loadTripFeedData();
+      this.loadChatData();
     }
 
     /**
@@ -143,7 +146,10 @@ class TripFeed extends Component {
    */
   loadChatData = () => {
     isUserLoggedInCallback(() => {
-      const { getUserDetails } = this.props.chatDetailsStore;
+      const {
+        getUserDetails,
+        setUnreadMessageCount
+      } = this.props.chatDetailsStore;
       getUserDetails().then(chatDetails => {
         initializeChat(
           chatDetails.appId || CONSTANT_freshChatAppId,
@@ -160,6 +166,11 @@ class TripFeed extends Component {
           () => null
         );
       });
+      getUnreadMessagesCount()
+        .then(count => {
+          setUnreadMessageCount(count);
+        })
+        .catch(() => null);
     });
   };
 

@@ -21,6 +21,12 @@ class ChatDetails {
     hydrate("_offlineContact", storeInstance)
       .then(() => {})
       .catch(err => logError(err));
+    hydrate("_unreadMessageCount", storeInstance)
+      .then(() => {})
+      .catch(err => logError(err));
+    hydrate("_isChatActive", storeInstance)
+      .then(() => {})
+      .catch(err => logError(err));
   };
 
   @action
@@ -45,7 +51,9 @@ class ChatDetails {
 
   @observable _metaDataError = false;
 
-  @observable _isChatActive = false;
+  @persist
+  @observable
+  _isChatActive = false;
 
   @persist
   @observable
@@ -53,7 +61,16 @@ class ChatDetails {
 
   @persist
   @observable
+  _unreadMessageCount = 0;
+
+  @persist
+  @observable
   _chatActivationMessage = constants.preTripChatText;
+
+  @computed
+  get unreadMessageCount() {
+    return this._unreadMessageCount;
+  }
 
   @computed
   get chatActivationMessage() {
@@ -184,6 +201,17 @@ class ChatDetails {
         this._metaDataError = true;
         this._isLoading = false;
       });
+  };
+
+  @action
+  setUnreadMessageCount = count => {
+    if (typeof count === "number") {
+      this._unreadMessageCount = count;
+    } else {
+      logError("Invalid message count", {
+        count
+      });
+    }
   };
 }
 

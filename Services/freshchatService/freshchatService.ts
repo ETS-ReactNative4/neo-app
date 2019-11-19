@@ -1,8 +1,9 @@
 import {
   Freshchat,
   FreshchatConfig,
-  FreshchatUser
-  //@ts-ignore
+  FreshchatUser,
+  ConversationOptions
+  // @ts-ignore
 } from "react-native-freshchat-sdk";
 import { logError } from "../errorLogger/errorLogger";
 
@@ -20,9 +21,11 @@ Freshchat.addEventListener(Freshchat.EVENT_USER_RESTORE_ID_GENERATED, () => {
 /**
  * Opens the chat screen
  */
-export const openChat = (): boolean => {
+export const openChat = (tags: string[] = []): boolean => {
   try {
-    Freshchat.showConversations();
+    const conversationOptions = new ConversationOptions();
+    conversationOptions.tags = tags;
+    Freshchat.showConversations(conversationOptions);
     return true;
   } catch (e) {
     logError(e, {
@@ -101,6 +104,71 @@ export const identifyChatUser = (
         type: "unable to identify user in chat"
       });
       reject(error);
+    });
+  });
+};
+
+/**
+ * Get fresh-chat unread message count
+ */
+export const getUnreadMessagesCount = () => {
+  return new Promise((resolve, reject) => {
+    Freshchat.getUnreadCountAsync(
+      (data: { status: boolean; count: number }) => {
+        if (data.status) {
+          resolve(data.count);
+        } else {
+          logError(data, {
+            type: "Failed to get unread message count"
+          });
+          reject();
+        }
+      }
+    );
+  });
+};
+
+/**
+ * Logout freshchat user. Called from the logout service.
+ */
+export const logoutUserFromChat = () => {
+  Freshchat.resetUser();
+};
+
+/**
+ * Used to retrieve the restore id of the user created by freshchat SDK
+ */
+export const getRestoreId = (): Promise<string | void> => {
+  return new Promise((resolve, reject) => {
+    Freshchat.getUser((user: { restoreId: string; externalId: string }) => {
+      const { restoreId } = user;
+      if (restoreId) {
+        resolve(restoreId);
+      } else {
+        logError("Unable to retrieve restore id of the user", {
+          user
+        });
+        reject();
+      }
+    });
+  });
+};
+
+/**
+ * Used to retrieve the actor id of the user created by fresh chat SDK
+ * which is being used to generate automated messages.
+ */
+export const getActorId = (): Promise<string | void> => {
+  return new Promise((resolve, reject) => {
+    Freshchat.getFreshchatUserId((data: string) => {
+      if (data) {
+        resolve(data);
+      } else {
+        logError("Unable to retrieve actor id of the user", {
+          data
+        });
+        reject();
+      }
     });
   });
 };
