@@ -6,6 +6,7 @@ import {
   // @ts-ignore
 } from "react-native-freshchat-sdk";
 import { logError } from "../errorLogger/errorLogger";
+import storeService from "../storeService/storeService";
 
 /**
  * Event listener for retrieving restore id. This restore id must be stored on the
@@ -15,6 +16,20 @@ Freshchat.addEventListener(Freshchat.EVENT_USER_RESTORE_ID_GENERATED, () => {
   Freshchat.getUser((user: { restoreId: string; externalId: string }) => {
     const restoreId = user.restoreId;
     const externalId = user.externalId;
+  });
+});
+
+Freshchat.addEventListener(Freshchat.EVENT_UNREAD_MESSAGE_COUNT_CHANGED, () => {
+  Freshchat.getUnreadCountAsync((data: { status: boolean; count: number }) => {
+    const { count, status } = data;
+    if (status) {
+      const { setUnreadMessageCount } = storeService.chatDetailsStore;
+      setUnreadMessageCount(count);
+    } else {
+      logError(data, {
+        type: "Failed to get unread message count from event listener"
+      });
+    }
   });
 });
 
@@ -83,7 +98,8 @@ export const setChatUserDetails = ({
     freshchatUser.phone = phone;
     Freshchat.setUser(freshchatUser, (error: Error): void => {
       logError(error, {
-        type: "failed to set user details in chat"
+        type: "failed to set user details in chat",
+        freshchatUser
       });
       reject(error);
     });
@@ -115,8 +131,9 @@ export const getUnreadMessagesCount = () => {
   return new Promise((resolve, reject) => {
     Freshchat.getUnreadCountAsync(
       (data: { status: boolean; count: number }) => {
-        if (data.status) {
-          resolve(data.count);
+        const { count, status } = data;
+        if (status) {
+          resolve(count);
         } else {
           logError(data, {
             type: "Failed to get unread message count"
@@ -171,4 +188,20 @@ export const getActorId = (): Promise<string | void> => {
       }
     });
   });
+};
+
+/**
+ * Send device token to fresh chat so that fresh chat can
+ * start sending push notifications to the users
+ */
+export const setChatPushToken = (token: string): boolean => {
+  try {
+    Freshchat.setPushRegistrationToken(token);
+    return true;
+  } catch (e) {
+    logError(e, {
+      type: "Failed to set push notification token for freshchat"
+    });
+    return false;
+  }
 };

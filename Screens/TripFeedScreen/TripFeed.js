@@ -160,7 +160,7 @@ class TripFeed extends Component {
           lastName: chatDetails.name,
           email: chatDetails.email,
           phoneCountryCode: chatDetails.ccode,
-          phone: chatDetails.mobile_num
+          phone: chatDetails.mob_num
         }).catch(() => null);
         identifyChatUser(chatDetails.feid, chatDetails.restoreId).catch(
           () => null

@@ -12,6 +12,8 @@ import AsyncStorage from "@react-native-community/async-storage";
 import logOut from "../Services/logOut/logOut";
 import isUserLoggedInCallback from "../Services/isUserLoggedInCallback/isUserLoggedInCallback";
 import { toastBottom } from "../Services/toast/toast";
+import { setChatPushToken } from "../Services/freshchatService/freshchatService";
+import { hydrate } from "./Store";
 
 const {
   conversionRateError,
@@ -20,6 +22,34 @@ const {
 const { logOutError } = constants.logOutText;
 
 class AppState {
+  static hydrator = storeInstance => {
+    hydrate("_tripMode", storeInstance)
+      .then(() => {})
+      .catch(err => {
+        logError(err);
+      });
+    hydrate("_currencies", storeInstance)
+      .then(() => {})
+      .catch(err => {
+        logError(err);
+      });
+    hydrate("_conversionRates", storeInstance)
+      .then(() => {})
+      .catch(err => {
+        logError(err);
+      });
+    hydrate("_pushTokens", storeInstance)
+      .then(() => {})
+      .catch(err => {
+        logError(err);
+      });
+    hydrate("_isChatPushNotificationSet", storeInstance)
+      .then(() => {})
+      .catch(err => {
+        logError(err);
+      });
+  };
+
   @action
   reset = () => {
     this._tripMode = {
@@ -224,6 +254,10 @@ class AppState {
     deviceToken: ""
   };
 
+  @persist
+  @observable
+  _isChatPushNotificationSet = false;
+
   @computed
   get pushTokens() {
     return toJS(this._pushTokens);
@@ -231,8 +265,21 @@ class AppState {
 
   @action
   setPushTokens = deviceToken => {
+    /**
+     * For users upgrading from older version
+     * this will send the push token to fresh chat
+     */
+    if (!this._isChatNotificationActive) {
+      setChatPushToken(deviceToken);
+      this._isChatNotificationActive = true;
+    }
     if (deviceToken && this._pushTokens.deviceToken !== deviceToken) {
       this._updatePushToken(deviceToken);
+      /**
+       * For new users, this will be fired to send push tokens to
+       * fresh chat servers.
+       */
+      setChatPushToken(deviceToken);
     }
   };
 

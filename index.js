@@ -38,4 +38,18 @@ if (Platform.OS === "android") {
   require("intl/locale-data/jsonp/en-IN");
 }
 
+/**
+ * This config with set up push notifications for freshchat react native sdk on Android
+ */
+import {
+  FreshchatNotificationConfig,
+  Freshchat
+} from "react-native-freshchat-sdk";
+
+const freshchatNotificationConfig = new FreshchatNotificationConfig();
+freshchatNotificationConfig.priority =
+  FreshchatNotificationConfig.NotificationPriority.PRIORITY_HIGH;
+freshchatNotificationConfig.notificationSoundEnabled = true;
+Freshchat.setNotificationConfig(freshchatNotificationConfig);
+
 require("./app-index");
