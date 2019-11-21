@@ -24,6 +24,8 @@ import constants from "../../constants/constants";
 import AlertCardV2 from "./Components/AlertCardV2/AlertCardV2";
 import isUserLoggedInCallback from "../../Services/isUserLoggedInCallback/isUserLoggedInCallback";
 import {
+  getActorId,
+  getRestoreId,
   getUnreadMessagesCount,
   identifyChatUser,
   initializeChat,
@@ -148,23 +150,35 @@ class TripFeed extends Component {
     isUserLoggedInCallback(() => {
       const {
         getUserDetails,
-        setUnreadMessageCount
+        setUnreadMessageCount,
+        setChatMetaInfo
       } = this.props.chatDetailsStore;
       getUserDetails().then(chatDetails => {
         initializeChat(
           chatDetails.appId || CONSTANT_freshChatAppId,
           chatDetails.appKey || CONSTANT_freshChatAppKey
         );
-        setChatUserDetails({
-          firstName: chatDetails.trailId,
-          lastName: chatDetails.name,
-          email: chatDetails.email,
-          phoneCountryCode: chatDetails.ccode,
-          phone: chatDetails.mob_num
-        }).catch(() => null);
-        identifyChatUser(chatDetails.feid, chatDetails.restoreId).catch(
+        identifyChatUser(chatDetails.feid, chatDetails.frid || null).catch(
           () => null
         );
+        if (!chatDetails.frid) {
+          setChatUserDetails({
+            firstName: chatDetails.trailId,
+            lastName: chatDetails.name,
+            email: chatDetails.email,
+            phoneCountryCode: chatDetails.ccode,
+            phone: chatDetails.mob_num
+          }).catch(() => null);
+          getRestoreId()
+            .then(restoreId => {
+              getActorId()
+                .then(actorId => {
+                  setChatMetaInfo({ restoreId, actorId });
+                })
+                .catch(() => null);
+            })
+            .catch(() => null);
+        }
       });
       getUnreadMessagesCount()
         .then(count => {

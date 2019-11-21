@@ -176,7 +176,7 @@ class ChatDetails {
    * Also sends meta data such as `actorId` for use in Plato to send push notifications
    */
   @action
-  setChatMetaInfo = (requestBody, successCallback) => {
+  setChatMetaInfo = (requestBody, successCallback = () => null) => {
     this._isLoading = true;
     apiCall(`${constants.setChatRestoreId}`, requestBody, "PUT")
       .then(response => {
