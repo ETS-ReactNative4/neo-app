@@ -68,21 +68,6 @@ class AppState {
   }
 
   /**
-   * Active Scenes in the navigation stack
-   */
-  @observable _activeScenes = [];
-
-  @action
-  setActiveScenes = activeScenes => {
-    this._activeScenes = activeScenes;
-  };
-
-  @computed
-  get activeScenes() {
-    return toJS(this._activeScenes);
-  }
-
-  /**
    * Booked Itinerary screen scrolling date selection
    */
   @observable _selectedDate = "";

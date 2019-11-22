@@ -10,8 +10,6 @@ import XSensorPlaceholder from "../../CommonComponents/XSensorPlaceholder/XSenso
 import VisaWindowNotOpen from "./Component/VisaWindowNotOpen";
 import VisaWindowOpen from "./Component/VisaWindowOpen";
 import _ from "lodash";
-import BlankSpacer from "../../CommonComponents/BlankSpacer/BlankSpacer";
-import { responsiveHeight } from "react-native-responsive-dimensions";
 import { toastBottom } from "../../Services/toast/toast";
 import debouncer from "../../Services/debouncer/debouncer";
 import FabButton from "../../CommonComponents/FabButton/FabButton";

@@ -1,0 +1,117 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Voucher Button 1`] = `
+<View
+  accessible={true}
+  focusable={true}
+  isTVSelectable={true}
+  onClick={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Object {
+      "alignItems": "center",
+      "borderBottomColor": "rgba(239, 239, 239, 1)",
+      "borderBottomWidth": 1,
+      "flexDirection": "row",
+      "justifyContent": "space-between",
+      "opacity": 1,
+      "paddingVertical": 24,
+    }
+  }
+>
+  <Text
+    style={
+      Object {
+        "color": "rgba(0,198,132,1)",
+        "fontFamily": "SourceSansPro-SemiBold",
+        "fontSize": 14,
+        "lineHeight": 14,
+      }
+    }
+  >
+    View Voucher
+  </Text>
+  <Text
+    allowFontScaling={false}
+    style={
+      Array [
+        Object {
+          "color": "rgba(0,198,132,1)",
+          "fontSize": 12,
+        },
+        undefined,
+        Object {
+          "fontFamily": "Voyager",
+          "fontStyle": "normal",
+          "fontWeight": "normal",
+        },
+        Object {},
+      ]
+    }
+  >
+    
+  </Text>
+</View>
+`;
+
+exports[`Voucher Button Last 1`] = `
+<View
+  accessible={true}
+  focusable={true}
+  isTVSelectable={true}
+  onClick={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Object {
+      "alignItems": "center",
+      "flexDirection": "row",
+      "justifyContent": "space-between",
+      "opacity": 1,
+      "paddingVertical": 24,
+    }
+  }
+>
+  <Text
+    style={
+      Object {
+        "color": "rgba(0,198,132,1)",
+        "fontFamily": "SourceSansPro-SemiBold",
+        "fontSize": 14,
+        "lineHeight": 14,
+      }
+    }
+  >
+    View Voucher
+  </Text>
+  <Text
+    allowFontScaling={false}
+    style={
+      Array [
+        Object {
+          "color": "rgba(0,198,132,1)",
+          "fontSize": 12,
+        },
+        undefined,
+        Object {
+          "fontFamily": "Voyager",
+          "fontStyle": "normal",
+          "fontWeight": "normal",
+        },
+        Object {},
+      ]
+    }
+  >
+    
+  </Text>
+</View>
+`;

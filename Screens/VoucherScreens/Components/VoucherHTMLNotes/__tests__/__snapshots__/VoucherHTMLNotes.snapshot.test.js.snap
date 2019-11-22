@@ -1,0 +1,87 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Voucher HTML notes data 1`] = `
+<View
+  style={
+    Array [
+      Object {
+        "backgroundColor": "silver",
+        "flex": 1,
+        "marginTop": 48,
+      },
+      Object {},
+    ]
+  }
+>
+  <View>
+    <Text
+      onLongPress={null}
+      onPress={null}
+    >
+      <Text
+        style={
+          Array [
+            null,
+            Object {},
+          ]
+        }
+      >
+          
+      </Text>
+      <View
+        style={
+          Object {
+            "alignItems": "flex-start",
+            "flexDirection": "row",
+            "justifyContent": "flex-start",
+          }
+        }
+      >
+        <View
+          style={
+            Object {
+              "marginTop": 4,
+            }
+          }
+        >
+          <Text
+            allowFontScaling={false}
+            style={
+              Array [
+                Object {
+                  "color": "rgba(255, 201, 51, 1)",
+                  "fontSize": 15,
+                },
+                undefined,
+                Object {
+                  "fontFamily": "Voyager",
+                  "fontStyle": "normal",
+                  "fontWeight": "normal",
+                },
+                Object {},
+              ]
+            }
+          >
+            
+          </Text>
+        </View>
+        <View>
+          <Text
+            style={
+              Object {
+                "color": "rgba(44, 47, 66, 1)",
+                "fontFamily": "SourceSansPro-Regular",
+                "fontSize": 14,
+                "lineHeight": 22,
+                "marginLeft": 4,
+              }
+            }
+          >
+            Some Text Goes here
+          </Text>
+        </View>
+      </View>
+    </Text>
+  </View>
+</View>
+`;

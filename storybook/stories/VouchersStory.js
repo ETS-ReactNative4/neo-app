@@ -3,6 +3,13 @@ import { View, ScrollView, Text } from "react-native";
 import { storiesOf } from "@storybook/react-native";
 import CheckInCheckOut from "../../Screens/VoucherScreens/Components/CheckInCheckOut";
 import CollapsibleTextSection from "../../CommonComponents/CollapsibleTextSection/CollapsibleTextSection";
+import VoucherListItemTestCases from "../../Screens/VoucherScreens/Components/VoucherListItem/VoucherListItemTestCases";
+import VoucherButtonTestCases from "../../Screens/VoucherScreens/Components/VoucherButton/VoucherButtonTestCases";
+import VoucherHTMLNotesTestCases from "../../Screens/VoucherScreens/Components/VoucherHTMLNotes/VoucherHTMLNotesTestCases";
+import VoucherHeaderV2TestCases from "../../Screens/VoucherScreens/Components/VoucherHeaderV2/VoucherHeaderTestCases";
+import VoucherAlertBoxTestCases from "../../Screens/VoucherScreens/Components/VoucherAlertBox/VoucherAlertBoxTestCases";
+import VoucherSectionTitleTestCases from "../../Screens/VoucherScreens/Components/VoucherSectionTitle/VoucherSectionTitleTestCases";
+import VoucherAddressSectionV2TestCases from "../../Screens/VoucherScreens/Components/VoucherAddressSectionV2/VoucherAddressSectionV2TestCases";
 
 const checkInCheckOutData = {
   checkInTitle: "PICK UP",
@@ -23,17 +30,21 @@ const htmlData = `<div>
   </ul>
 </div>`;
 
-storiesOf("Vouchers", module)
-  .add("Check-in Check-out", () => {
-    const props = {
-      checkInDate: checkInCheckOutData.checkInDate,
-      checkInTime: checkInCheckOutData.checkInTime,
-      checkOutDate: checkInCheckOutData.checkOutDate,
-      checkOutTime: checkInCheckOutData.checkOutTime
-    };
-    console.log(props);
-    return <CheckInCheckOut {...props} />;
-  })
+const VoucherStories = storiesOf("Vouchers", module);
+
+const renderTestCase = testCase =>
+  VoucherStories.add(testCase.title, () => testCase.Component);
+
+VoucherStories.add("Check-in Check-out", () => {
+  const props = {
+    checkInDate: checkInCheckOutData.checkInDate,
+    checkInTime: checkInCheckOutData.checkInTime,
+    checkOutDate: checkInCheckOutData.checkOutDate,
+    checkOutTime: checkInCheckOutData.checkOutTime
+  };
+  console.log(props);
+  return <CheckInCheckOut {...props} />;
+})
   .add("Check-in Check-out with custom titles", () => {
     const props = { ...checkInCheckOutData };
     console.log(props);
@@ -86,3 +97,11 @@ storiesOf("Vouchers", module)
       </ScrollView>
     );
   });
+
+VoucherListItemTestCases.forEach(renderTestCase);
+VoucherButtonTestCases.forEach(renderTestCase);
+VoucherHTMLNotesTestCases.forEach(renderTestCase);
+VoucherHeaderV2TestCases.forEach(renderTestCase);
+VoucherAlertBoxTestCases.forEach(renderTestCase);
+VoucherAddressSectionV2TestCases.forEach(renderTestCase);
+VoucherSectionTitleTestCases.forEach(renderTestCase);

@@ -16,7 +16,6 @@ import moment from "moment";
 import TitleDate from "../Components/TitleDate";
 import VoucherAddressSection from "../Components/VoucherAddressSection";
 import PickupInfoBox from "./Components/PickupInfoBox";
-import TransferInfoBox from "./Components/TransferInfoBox";
 import VoucherContactActionBar from "../Components/VoucherContactActionBar";
 import getTitleCase from "../../../Services/getTitleCase/getTitleCase";
 import ErrorBoundary from "../../../CommonComponents/ErrorBoundary/ErrorBoundary";
@@ -26,6 +25,7 @@ import ViewVoucherButton from "../Components/ViewVoucherButton";
 import FooterStickyActionBar from "../../../CommonComponents/FooterStickyActionBar/FooterStickyActionBar";
 import containsHtml from "../../../Services/containsHtml/containsHtml";
 import CustomHtmlView from "../../../CommonComponents/CustomHtmlView/CustomHtmlView";
+import VoucherAlertBox from "../Components/VoucherAlertBox/VoucherAlertBox";
 
 const xHeight = isIphoneX()
   ? constants.xNotchHeight
@@ -404,17 +404,26 @@ class ActivityVoucher extends Component {
             <VoucherSplitSection sections={transferDetails} />
 
             {_.toUpper(transferType) === "SHARED" ? (
-              <TransferInfoBox
-                text={constants.voucherText.sharedTransferInfo}
+              <VoucherAlertBox
+                alertText={constants.voucherText.sharedTransferInfo}
                 containerStyle={{ marginVertical: 8 }}
+                mode={"alert"}
               />
             ) : null}
 
             {free ? (
-              <TransferInfoBox text={constants.voucherText.freeTransferInfo} />
+              <VoucherAlertBox
+                alertText={constants.voucherText.freeTransferInfo}
+                containerStyle={{ marginTop: 8 }}
+                mode={"info"}
+              />
             ) : transferIncluded && pickupAddress ? (
               <PickupInfoBox />
             ) : null}
+            {/**
+             * TODO: The Voucher Address Section V2 cannot handle starting point images
+             * Waiting for new designs to migrate this component to new UI
+             */}
             <VoucherAddressSection
               containerStyle={{ marginTop: 8 }}
               address={
@@ -433,9 +442,10 @@ class ActivityVoucher extends Component {
             />
 
             {lat && lon ? (
-              <TransferInfoBox
-                text={constants.voucherText.directionsDisclaimerText}
+              <VoucherAlertBox
+                alertText={constants.voucherText.directionsDisclaimerText}
                 containerStyle={{ marginVertical: 8 }}
+                mode={"alert"}
               />
             ) : null}
           </View>

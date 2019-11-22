@@ -18,11 +18,10 @@ import ErrorBoundary from "../../../CommonComponents/ErrorBoundary/ErrorBoundary
 import getTitleCase from "../../../Services/getTitleCase/getTitleCase";
 import VoucherContactActionBar from "../Components/VoucherContactActionBar";
 import ViewVoucherButton from "../Components/ViewVoucherButton";
-import VoucherAddressSection from "../Components/VoucherAddressSection";
 import _ from "lodash";
-import FooterStickyActionBar from "../../../CommonComponents/FooterStickyActionBar/FooterStickyActionBar";
 import CollapsibleTextSection from "../../../CommonComponents/CollapsibleTextSection/CollapsibleTextSection";
-import TransferInfoBox from "../ActivityVoucherScreen/Components/TransferInfoBox";
+import VoucherAlertBox from "../Components/VoucherAlertBox/VoucherAlertBox";
+import VoucherAddressSectionV2 from "../Components/VoucherAddressSectionV2/VoucherAddressSectionV2";
 
 const xHeight = isIphoneX()
   ? constants.xNotchHeight
@@ -103,7 +102,8 @@ class TransferVoucher extends Component {
       seatNo,
       coachNumber,
       trainInfo,
-      instruction
+      instruction,
+      transferType
     } = transfer.voucher;
 
     const transferPassengerDetails = () => [
@@ -119,10 +119,14 @@ class TransferVoucher extends Component {
         name: "Vehicle type",
         value: getTitleCase(vehicle) || "NA"
       },
-      type
+      transferType || type
         ? {
             name: "Type",
-            value: type ? getTitleCase(type) : "NA"
+            value: transferType
+              ? getTitleCase(transferType)
+              : type
+              ? getTitleCase(type)
+              : "NA"
           }
         : null
     ];
@@ -150,7 +154,7 @@ class TransferVoucher extends Component {
       },
       {
         name: "Departure Station",
-        value: pickup || "NA"
+        value: fromLocation || pickup || "NA"
       },
       type
         ? {
@@ -160,10 +164,11 @@ class TransferVoucher extends Component {
         : null
     ];
 
-    const passengerDetails =
-      _.toUpper(vehicle) === constants.vehicleTypes.train
-        ? trainPassengerDetails()
-        : transferPassengerDetails();
+    const isTrainVoucher = _.toUpper(vehicle) === constants.vehicleTypes.train;
+
+    const passengerDetails = isTrainVoucher
+      ? trainPassengerDetails()
+      : transferPassengerDetails();
 
     const transferArrivalDetails = () => [
       {
@@ -193,7 +198,7 @@ class TransferVoucher extends Component {
     const trainArrivalDetails = () => [
       {
         name: "Arrival at",
-        value: drop || "NA"
+        value: toLocation || drop || "NA"
       },
       {
         name: "Arrival Time",
@@ -207,10 +212,9 @@ class TransferVoucher extends Component {
       }
     ];
 
-    const arrivalDetails =
-      _.toUpper(vehicle) === constants.vehicleTypes.train
-        ? trainArrivalDetails()
-        : transferArrivalDetails();
+    const arrivalDetails = isTrainVoucher
+      ? trainArrivalDetails()
+      : transferArrivalDetails();
 
     const bookingDetails = [
       // Removed Temporarily since data is not accurate
@@ -231,7 +235,7 @@ class TransferVoucher extends Component {
      * train details for the user
      */
     if (
-      _.toUpper(vehicle) === constants.vehicleTypes.train &&
+      isTrainVoucher &&
       _.toUpper(ticketType) === _.toUpper(constants.reservedTrainTicketType)
     ) {
       trainDetails = [
@@ -262,7 +266,11 @@ class TransferVoucher extends Component {
       ];
     }
 
-    const voucherName = text;
+    const voucherName = isTrainVoucher
+      ? fromLocation && toLocation
+        ? `${fromLocation} to ${toLocation}`
+        : text
+      : text;
 
     let voucherDate = dateMillis;
     if (pickupTime && pickupTime > 0) {
@@ -319,11 +327,12 @@ class TransferVoucher extends Component {
               </Fragment>
             ) : null}
 
-            {_.toUpper(vehicle) === constants.vehicleTypes.train &&
+            {isTrainVoucher &&
             _.toUpper(ticketType) ===
               _.toUpper(constants.openTrainTicketType) ? (
-              <TransferInfoBox
-                text={constants.voucherText.openTrainTicketInfo}
+              <VoucherAlertBox
+                mode={"alert"}
+                alertText={constants.voucherText.openTrainTicketInfo}
               />
             ) : null}
 
@@ -334,8 +343,8 @@ class TransferVoucher extends Component {
 
             <VoucherSplitSection sections={arrivalDetails} />
 
-            <VoucherAddressSection
-              containerStyle={{ marginTop: 16 }}
+            <VoucherAddressSectionV2
+              containerStyle={{ marginTop: 16, padding: 0 }}
               address={meetingPoint}
             />
 

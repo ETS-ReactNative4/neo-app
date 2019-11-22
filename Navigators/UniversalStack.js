@@ -1,19 +1,18 @@
-import { createStackNavigator } from "react-navigation";
+import { createStackNavigator } from "react-navigation-stack";
 import TransferVoucher from "../Screens/VoucherScreens/TransferVoucherScreen/TransferVoucher";
 import ActivityVoucher from "../Screens/VoucherScreens/ActivityVoucherScreen/ActivityVoucher";
-import HotelVoucher from "../Screens/VoucherScreens/HotelVoucherScreen/HotelVoucher";
 import FlightVoucher from "../Screens/VoucherScreens/FlightVoucherScreen/FlightVoucher";
 import PassVoucher from "../Screens/VoucherScreens/PassVoucherScreen/PassVoucher";
 import FlightStatus from "../Screens/FlightStatusScreen/FlightStatus";
 import LeisureScreen from "../Screens/VoucherScreens/LeisureScreen/LeisureScreen";
 import YourBookings from "../Screens/YourBookingsScreen/YourBookings";
-import transitionConfig from "../Services/navigationAnimations/transitionConfig";
 import MainStack from "./MainStack";
 import RentalCarVoucher from "../Screens/VoucherScreens/RentalCarVoucherScreen/RentalCarVoucher";
 import PDFViewerAndroid from "../Screens/PDFViewerScreen/PDFViewerAndroid";
 import FeedbackPrompt from "../Screens/FeedbackPromptScreen/FeedbackPrompt";
 import ActionSheet from "../Screens/ActionSheetScreen/ActionSheet";
 import VisaDocumentsActionSheet from "../Screens/VisaDocumentsActionSheet/VisaDocumentsActionSheet";
+import HotelVoucher from "../Screens/VoucherScreens/HotelVoucherScreen/HotelVoucher";
 
 const UniversalStack = createStackNavigator(
   {
@@ -69,7 +68,6 @@ const UniversalStack = createStackNavigator(
       drawerLockMode: "locked-closed"
     },
     mode: "modal",
-    transitionConfig,
     transparentCard: true
   }
 );

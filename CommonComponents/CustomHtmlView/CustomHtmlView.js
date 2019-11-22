@@ -43,7 +43,8 @@ class CustomHtmlView extends Component {
       html,
       styleSheet = constants.htmlStyleSheet,
       addLineBreaks = true,
-      containerStyle = {}
+      containerStyle = {},
+      ...otherProps
     } = this.props;
     let htmlMin = html.replace(/(\r\n|\n|\r)/gm, ""); // remove unnecessary line breaks
     if (
@@ -59,6 +60,7 @@ class CustomHtmlView extends Component {
         addLineBreaks={addLineBreaks}
         value={htmlMin}
         stylesheet={styleSheet}
+        {...otherProps}
       />
     );
   }

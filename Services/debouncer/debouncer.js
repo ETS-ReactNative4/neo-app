@@ -8,11 +8,12 @@ import { logError } from "../errorLogger/errorLogger";
 const debouncer = (callback = () => null) => {
   setTimeout(() => {
     try {
-      callback();
+      return callback();
     } catch (error) {
       logError("Process crashed in the debouncer", { error });
+      return false;
     }
-  }, 0);
+  });
 };
 
 export default debouncer;

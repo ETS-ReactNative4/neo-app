@@ -1,8 +1,6 @@
-import {
-  createAppContainer,
-  createDrawerNavigator,
-  createStackNavigator
-} from "react-navigation";
+import { createDrawerNavigator } from "react-navigation-drawer";
+import { createAppContainer } from "react-navigation";
+import { createStackNavigator } from "react-navigation-stack";
 import { Platform } from "react-native";
 import HomeSwitch from "./HomeSwitch";
 import Notifications from "../Screens/NotificationsScreen/Notifications";

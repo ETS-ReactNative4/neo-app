@@ -1,4 +1,4 @@
-import { createStackNavigator } from "react-navigation";
+import { createStackNavigator } from "react-navigation-stack";
 import Starter from "../Screens/StartingScreen/Starter";
 import HomeTabs from "./HomeTabs";
 import MobileNumber from "../Screens/MobileNumberScreen/MobileNumber";
@@ -19,13 +19,13 @@ import FAQAnswers from "../Screens/FAQScreens/FAQAnswersScreen/FAQAnswers";
 import ContactUs from "../Screens/ContactUsScreen/ContactUs";
 import YourTickets from "../Screens/YourTicketsScreen/YourTickets";
 import TicketsConversation from "../Screens/TicketsConversationScreen/TicketsConversation";
-import transitionConfig from "../Services/navigationAnimations/transitionConfig";
 import PDFViewerAndroid from "../Screens/PDFViewerScreen/PDFViewerAndroid";
 import Forex from "../Screens/ForexScreen/Forex";
 import VisaSelector from "../Screens/VisaSelectorScreen/VisaSelector";
 import VisaStatus from "../Screens/VisaStatusScreen/VisaStatus";
 import VisaHelp from "../Screens/VisaHelpScreen/VisaHelp";
 import VisaDocsChecklist from "../Screens/VisaDocsChecklistScreen/VisaDocsChecklist";
+import getActiveRouteName from "../Services/getActiveRouteName/getActiveRouteName";
 
 const MainStack = createStackNavigator(
   {
@@ -113,8 +113,9 @@ const MainStack = createStackNavigator(
     }
   },
   {
-    transitionConfig,
-    navigationOptions: () => {
+    navigationOptions: ({ navigation }) => {
+      const routeName = getActiveRouteName(navigation.state);
+
       let drawerLockMode = "locked-closed";
 
       return {

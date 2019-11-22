@@ -1,6 +1,10 @@
 import { Platform } from "react-native";
 import constants from "./constants";
 
+export const CONSTANT_chatOfflineMessage =
+  "It’s :time Indian time. We’re currently offline!";
+export const CONSTANT_chatOfflineAction = " in case of an emergency";
+
 const appText = {
   starterScreenText: {
     mainButton: "Find your booking",

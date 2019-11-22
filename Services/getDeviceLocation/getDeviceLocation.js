@@ -1,8 +1,14 @@
 import { Platform } from "react-native";
 import Geolocation from "react-native-geolocation-service";
 import requestPermission from "../requestPermission/requestPermission";
-import { PERMISSIONS } from "react-native-permissions";
 import constants from "../../constants/constants";
+
+const { PERMISSIONS } = Platform.select({
+  android: () => require("react-native-permissions"),
+  ios: () => {
+    return {};
+  }
+})();
 
 const getDeviceLocation = async (
   success = () => null,

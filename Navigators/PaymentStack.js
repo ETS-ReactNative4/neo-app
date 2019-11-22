@@ -1,5 +1,4 @@
-import { createStackNavigator } from "react-navigation";
-import transitionConfig from "../Services/navigationAnimations/transitionConfig";
+import { createStackNavigator } from "react-navigation-stack";
 import PaymentHome from "../Screens/PaymentHomeScreen/PaymentHome";
 import PaymentSummary from "../Screens/PaymentSummaryScreen/PaymentSummary";
 import PaymentScreen from "../Screens/PaymentScreens/PaymentScreen";
@@ -36,7 +35,6 @@ const PaymentStack = createStackNavigator(
     defaultNavigationOptions: {
       gesturesEnabled: true
     },
-    transitionConfig,
     navigationOptions: ({ navigation }) => {
       let drawerLockMode = "locked-closed";
       const route = navigation.state.routes[navigation.state.routes.length - 1];

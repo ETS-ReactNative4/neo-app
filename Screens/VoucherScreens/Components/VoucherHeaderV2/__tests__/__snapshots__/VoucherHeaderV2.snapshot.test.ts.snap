@@ -1,0 +1,168 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Voucher Header 1`] = `
+<View
+  accessibilityIgnoresInvertColors={true}
+  style={
+    Array [
+      Object {
+        "height": 214,
+        "width": 750,
+      },
+      Object {},
+    ]
+  }
+>
+  <Image
+    onError={[Function]}
+    source={
+      Object {
+        "uri": "https://pyt-images.imgix.net/images/place-holder.png",
+      }
+    }
+    style={
+      Array [
+        Object {
+          "bottom": 0,
+          "left": 0,
+          "position": "absolute",
+          "right": 0,
+          "top": 0,
+        },
+        Object {
+          "height": undefined,
+          "width": undefined,
+        },
+        undefined,
+      ]
+    }
+  />
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "backgroundColor": "rgba(0,0,0,0.6)",
+        "flex": 1,
+        "justifyContent": "center",
+      }
+    }
+  >
+    <View
+      accessible={true}
+      focusable={false}
+      isTVSelectable={true}
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Object {
+          "left": 0,
+          "opacity": 1,
+          "padding": 20,
+          "position": "absolute",
+          "top": 0,
+        }
+      }
+    >
+      <Text
+        allowFontScaling={false}
+        style={
+          Array [
+            Object {
+              "color": "white",
+              "fontSize": 20,
+            },
+            undefined,
+            Object {
+              "fontFamily": "Voyager",
+              "fontStyle": "normal",
+              "fontWeight": "normal",
+            },
+            Object {},
+          ]
+        }
+      >
+        
+      </Text>
+    </View>
+    <Text
+      allowFontScaling={false}
+      style={
+        Array [
+          Object {
+            "color": "white",
+            "fontSize": 20,
+          },
+          undefined,
+          Object {
+            "fontFamily": "Voyager",
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+          },
+          Object {},
+        ]
+      }
+    >
+      
+    </Text>
+    <Text
+      style={
+        Object {
+          "color": "white",
+          "fontFamily": "SourceSansPro-SemiBold",
+          "fontSize": 18,
+          "lineHeight": 25,
+          "marginHorizontal": 24,
+          "paddingTop": 12,
+          "textAlign": "center",
+        }
+      }
+    >
+      Insurance Voucher
+    </Text>
+    <Image
+      resizeMode="contain"
+      source={
+        Object {
+          "testUri": "../../../assets/images/shapes/hiring_topic.png",
+        }
+      }
+      style={
+        Object {
+          "bottom": 0,
+          "left": 355,
+          "position": "absolute",
+        }
+      }
+    />
+    <View
+      style={
+        Object {
+          "backgroundColor": "white",
+          "bottom": 0,
+          "height": 16,
+          "left": 0,
+          "position": "absolute",
+          "width": 356.7,
+        }
+      }
+    />
+    <View
+      style={
+        Object {
+          "backgroundColor": "white",
+          "bottom": 0,
+          "height": 16,
+          "position": "absolute",
+          "right": 0,
+          "width": 355,
+        }
+      }
+    />
+  </View>
+</View>
+`;
