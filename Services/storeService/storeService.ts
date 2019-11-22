@@ -21,29 +21,30 @@ import ChatDetails from "../../mobx/ChatDetails";
 import Journal from "../../mobx/Journal";
 
 export interface IStoreService {
-  userStore?: User;
-  yourBookingsStore?: YourBookings;
-  appState?: AppState;
-  itineraries?: Itineraries;
-  weatherStore?: Weather;
-  packingChecklistStore?: PackingChecklist;
-  voucherStore?: Voucher;
-  phrasesStore?: Phrases;
-  infoStore?: Info;
-  emergencyContactsStore?: EmergencyContacts;
-  passportDetailsStore?: PassportDetails;
-  visaStore?: Visa;
-  placesStore?: Places;
-  supportStore?: SupportStore;
-  tripFeedStore?: TripFeed;
-  packagesStore?: Packages;
-  forexStore?: Forex;
-  deviceDetailsStore?: DeviceDetails;
-  feedbackPrompt?: FeedbackPrompt;
-  chatDetailsStore?: ChatDetails;
-  journalStore?: Journal;
+  userStore: User;
+  yourBookingsStore: YourBookings;
+  appState: AppState;
+  itineraries: Itineraries;
+  weatherStore: Weather;
+  packingChecklistStore: PackingChecklist;
+  voucherStore: Voucher;
+  phrasesStore: Phrases;
+  infoStore: Info;
+  emergencyContactsStore: EmergencyContacts;
+  passportDetailsStore: PassportDetails;
+  visaStore: Visa;
+  placesStore: Places;
+  supportStore: SupportStore;
+  tripFeedStore: TripFeed;
+  packagesStore: Packages;
+  forexStore: Forex;
+  deviceDetailsStore: DeviceDetails;
+  feedbackPrompt: FeedbackPrompt;
+  chatDetailsStore: ChatDetails;
+  journalStore: Journal;
 }
 
+// @ts-ignore
 const storeService: IStoreService = {};
 
 export const updateStoreService = (store: IStoreService): void => {

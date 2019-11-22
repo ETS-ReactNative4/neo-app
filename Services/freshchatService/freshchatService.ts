@@ -13,10 +13,16 @@ import storeService from "../storeService/storeService";
  * server side to retrieve user's chat history.
  */
 Freshchat.addEventListener(Freshchat.EVENT_USER_RESTORE_ID_GENERATED, () => {
-  Freshchat.getUser((user: { restoreId: string; externalId: string }) => {
-    const restoreId = user.restoreId;
-    const externalId = user.externalId;
-  });
+  getRestoreId()
+    .then(restoreId => {
+      getActorId()
+        .then(actorId => {
+          const { setChatMetaInfo } = storeService.chatDetailsStore;
+          setChatMetaInfo({ restoreId, actorId });
+        })
+        .catch(() => null);
+    })
+    .catch(() => null);
 });
 
 Freshchat.addEventListener(Freshchat.EVENT_UNREAD_MESSAGE_COUNT_CHANGED, () => {

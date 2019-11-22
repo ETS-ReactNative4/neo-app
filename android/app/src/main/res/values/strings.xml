@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Pickyourtrail</string>
+    <string name="freshchat_file_provider_authority">com.pickyourtrail.provider</string>
 </resources>

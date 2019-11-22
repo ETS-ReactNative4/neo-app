@@ -223,6 +223,7 @@ dependencies {
     implementation "com.google.firebase:firebase-messaging:18.0.0"
     implementation "com.google.firebase:firebase-perf:17.0.2"
     implementation "com.webengage:android-sdk:3.13.1"
+    implementation "com.github.freshdesk:freshchat-android:3.0.0"
 
     /**
      * For React native screens

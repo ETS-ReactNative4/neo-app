@@ -161,14 +161,14 @@ class TripFeed extends Component {
         identifyChatUser(chatDetails.feid, chatDetails.frid || null).catch(
           () => null
         );
+        setChatUserDetails({
+          firstName: chatDetails.trailId,
+          lastName: chatDetails.name,
+          email: chatDetails.email,
+          phoneCountryCode: chatDetails.ccode,
+          phone: chatDetails.mob_num
+        }).catch(() => null);
         if (!chatDetails.frid) {
-          setChatUserDetails({
-            firstName: chatDetails.trailId,
-            lastName: chatDetails.name,
-            email: chatDetails.email,
-            phoneCountryCode: chatDetails.ccode,
-            phone: chatDetails.mob_num
-          }).catch(() => null);
           getRestoreId()
             .then(restoreId => {
               getActorId()
