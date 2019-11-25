@@ -7,6 +7,7 @@ import {
 } from "react-native-freshchat-sdk";
 import { logError } from "../errorLogger/errorLogger";
 import storeService from "../storeService/storeService";
+import openCustomTab from "../openCustomTab/openCustomTab";
 
 /**
  * Event listener for retrieving restore id. This restore id must be stored on the
@@ -39,6 +40,14 @@ Freshchat.addEventListener(Freshchat.EVENT_UNREAD_MESSAGE_COUNT_CHANGED, () => {
   });
 });
 
+Freshchat.addEventListener(
+  Freshchat.EVENT_EXTERNAL_LINK_CLICKED,
+  (data: { url: string }): void => {
+    const { url = "" } = data;
+    openCustomTab(url);
+  }
+);
+
 /**
  * Opens the chat screen
  */
@@ -54,6 +63,13 @@ export const openChat = (tags: string[] = []): boolean => {
     });
     return false;
   }
+};
+
+/**
+ * Closes the chat screen
+ */
+export const closeChat = () => {
+  Freshchat.dismissFreshchatViews();
 };
 
 /**

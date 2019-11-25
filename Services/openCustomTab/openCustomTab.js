@@ -4,6 +4,7 @@ import { logError } from "../errorLogger/errorLogger";
 import constants from "../../constants/constants";
 import navigationService from "../navigationService/navigationService";
 import getUrlParams from "../getUrlParams/getUrlParams";
+import { closeChat } from "../freshchatService/freshchatService";
 
 const openCustomTab = (
   url,
@@ -70,6 +71,10 @@ const openCustomTab = (
        * use `?customTab=false` query parameter to bypass
        */
       if (url.includes(".pdf") && params.customTab !== "false") {
+        /**
+         * Close chat view since android chat view appears over the app
+         */
+        closeChat();
         // Opens PDF in Native PDF Viewer
         const { navigation } = navigationService;
         navigation._navigation.navigate(pdfViewerComponent, {

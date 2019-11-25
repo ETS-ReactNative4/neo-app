@@ -65,8 +65,8 @@ const CustomBottomTabBar = ({
          * Check if user is on support screen & chat is active
          */
         if (getLabelText({ route }) === "Support" && isChatActive) {
-          // @ts-ignore
           const { chatDetails = {} } = storeService.chatDetailsStore;
+          // @ts-ignore
           const { region = [] } = chatDetails;
           tabPressAction = () => {
             recordEvent(constants.Chat.event, {
