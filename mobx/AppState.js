@@ -48,6 +48,11 @@ class AppState {
       .catch(err => {
         logError(err);
       });
+    hydrate("_apnsToken", storeInstance)
+      .then(() => {})
+      .catch(err => {
+        logError(err);
+      });
   };
 
   @action
@@ -255,12 +260,20 @@ class AppState {
   };
 
   @persist
+  _apnsToken = "";
+
+  @persist
   @observable
   _isChatPushNotificationSet = false;
 
   @computed
   get pushTokens() {
     return toJS(this._pushTokens);
+  }
+
+  @computed
+  get apnsToken() {
+    return this._apnsToken;
   }
 
   @action
@@ -270,7 +283,10 @@ class AppState {
      * this will send the push token to fresh chat
      */
     if (!this._isChatNotificationActive) {
-      setChatPushToken(deviceToken);
+      if (Platform.OS === constants.platformAndroid) {
+        // Only android chat instances should get this token
+        setChatPushToken(deviceToken);
+      }
       this._isChatNotificationActive = true;
     }
     if (deviceToken && this._pushTokens.deviceToken !== deviceToken) {
@@ -279,8 +295,27 @@ class AppState {
        * For new users, this will be fired to send push tokens to
        * fresh chat servers.
        */
-      setChatPushToken(deviceToken);
+      if (Platform.OS === constants.platformAndroid) {
+        // Only android chat instances should get this token
+        setChatPushToken(deviceToken);
+      }
     }
+  };
+
+  @action
+  setApnsToken = apnsDeviceToken => {
+    if (apnsDeviceToken && this._apnsToken !== apnsDeviceToken) {
+      this._apnsToken = apnsDeviceToken;
+      if (Platform.OS === constants.platformIos) {
+        // Only iOS chat instances should get this token
+        setChatPushToken(apnsDeviceToken);
+      }
+    }
+  };
+
+  @action
+  removeApnsToken = () => {
+    this._apnsToken = "";
   };
 
   _updatePushToken = deviceToken => {

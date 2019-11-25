@@ -1,4 +1,5 @@
 import { messaging, notifications } from "react-native-firebase";
+import { Platform } from "react-native";
 import { logBreadCrumb, logError } from "../errorLogger/errorLogger";
 import storeService from "../storeService/storeService";
 import navigationService from "../navigationService/navigationService";
@@ -13,7 +14,7 @@ export const getDeviceToken = async (
   rejected = () => null,
   failure = () => null
 ) => {
-  let token;
+  let token, apnsToken;
   try {
     const enabled = await messaging().hasPermission();
     if (enabled) {
@@ -21,7 +22,15 @@ export const getDeviceToken = async (
        * Push notifications already enabled!
        */
       token = await messaging().getToken();
+      apnsToken =
+        Platform.OS === constants.platformIos
+          ? await messaging().ios.getAPNSToken()
+          : "";
+
       storeService.appState.setPushTokens(token);
+      if (Platform.OS === constants.platformIos) {
+        storeService.appState.setApnsToken(apnsToken);
+      }
       success(token);
     } else {
       isUserLoggedInCallback(async () => {
@@ -35,12 +44,18 @@ export const getDeviceToken = async (
            * Got push notifications permission and can update the device token
            */
           storeService.appState.setPushTokens(token);
+          if (Platform.OS === constants.platformIos) {
+            storeService.appState.setApnsToken(apnsToken);
+          }
           success(token);
         } catch (e) {
           /**
            * Unable to retrieve Push notifications - Push notifications are disabled
            */
           storeService.appState.removePushToken();
+          if (Platform.OS === constants.platformIos) {
+            storeService.appState.removeApnsToken();
+          }
           rejected(e);
         }
       });

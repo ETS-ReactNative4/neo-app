@@ -199,6 +199,9 @@ export const getActorId = (): Promise<string | void> => {
 /**
  * Send device token to fresh chat so that fresh chat can
  * start sending push notifications to the users
+ *
+ * IMPORTANT! The token should be FCM Token for Android devices and
+ * APNS token for iOS Devices.
  */
 export const setChatPushToken = (token: string): boolean => {
   try {
