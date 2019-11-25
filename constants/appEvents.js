@@ -264,11 +264,16 @@ const appEvents = {
       emailAoFromCard: "email_ao_from_card"
     }
   },
+  Chat: {
+    event: "Chat",
+    click: {
+      openChat: "open_chat"
+    }
+  },
   tripViewScroll: "trip_view_scroll",
   tripViewLiteScroll: "trip_view_lite_scroll",
   tripHighlightsScroll: "trip_highlights_scroll",
   voucherHeaderViewVoucherClick: "voucher_header_view_voucher_click",
-  chatOpenSupportCenterClick: "chat_open_support_center_click",
   chatCallSupportClick: "chat_call_support_click"
 };
 

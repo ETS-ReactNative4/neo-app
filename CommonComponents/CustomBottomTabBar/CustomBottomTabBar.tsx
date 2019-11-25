@@ -13,6 +13,7 @@ import { inject, observer } from "mobx-react/custom";
 import ChatDetails from "../../mobx/ChatDetails";
 import { openChat } from "../../Services/freshchatService/freshchatService";
 import storeService from "../../Services/storeService/storeService";
+import { recordEvent } from "../../Services/analytics/analyticsService";
 
 export interface CustomBottomTabBarProps {
   containerStyle?: ViewStyle;
@@ -67,8 +68,18 @@ const CustomBottomTabBar = ({
           // @ts-ignore
           const { chatDetails = {} } = storeService.chatDetailsStore;
           const { region = [] } = chatDetails;
-          tabPressAction = () => openChat(region);
-          tabLongPressAction = () => openChat(region);
+          tabPressAction = () => {
+            recordEvent(constants.Chat.event, {
+              click: constants.Chat.click.openChat
+            });
+            openChat(region);
+          };
+          tabLongPressAction = () => {
+            recordEvent(constants.Chat.event, {
+              click: constants.Chat.click.openChat
+            });
+            openChat(region);
+          };
         }
 
         return (
