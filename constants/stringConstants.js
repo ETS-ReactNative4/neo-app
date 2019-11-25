@@ -1,9 +1,5 @@
 import { Platform } from "react-native";
 
-export const CONSTANT_freshChatAppId = "ad957839-0016-4182-9048-520e521688eb";
-
-export const CONSTANT_freshChatAppKey = "90d830d9-8e8d-47f2-a44f-e996ae42d21a";
-
 const stringConstants = {
   customCheckListName: "Your list",
   defaultSupportType: "GENERAL",

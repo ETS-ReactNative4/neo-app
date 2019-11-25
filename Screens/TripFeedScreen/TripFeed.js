@@ -31,10 +31,6 @@ import {
   initializeChat,
   setChatUserDetails
 } from "../../Services/freshchatService/freshchatService";
-import {
-  CONSTANT_freshChatAppId,
-  CONSTANT_freshChatAppKey
-} from "../../constants/stringConstants";
 import { Freshchat } from "react-native-freshchat-sdk";
 
 @ErrorBoundary({ isRoot: true })
@@ -154,10 +150,7 @@ class TripFeed extends Component {
         setChatMetaInfo
       } = this.props.chatDetailsStore;
       getUserDetails().then(chatDetails => {
-        initializeChat(
-          chatDetails.appId || CONSTANT_freshChatAppId,
-          chatDetails.appKey || CONSTANT_freshChatAppKey
-        );
+        initializeChat(chatDetails.appId, chatDetails.appKey);
         identifyChatUser(chatDetails.feid, chatDetails.frid || null).catch(
           () => null
         );
