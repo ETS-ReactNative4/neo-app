@@ -31,7 +31,6 @@ import {
   initializeChat,
   setChatUserDetails
 } from "../../Services/freshchatService/freshchatService";
-import { Freshchat } from "react-native-freshchat-sdk";
 
 @ErrorBoundary({ isRoot: true })
 @inject("tripFeedStore")

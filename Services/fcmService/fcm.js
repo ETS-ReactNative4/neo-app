@@ -85,7 +85,7 @@ export const registerFcmRefreshListener = () => {
  */
 export const onNotificationReceived = () =>
   notifications().onNotification(notification => {
-    notificationReceivedHandler(notification.data);
+    notificationReceivedHandler(notification);
   });
 
 /**
@@ -93,7 +93,7 @@ export const onNotificationReceived = () =>
  */
 export const onNotificationDisplayed = () =>
   notifications().onNotificationDisplayed(notification => {
-    notificationReceivedHandler(notification.data);
+    notificationReceivedHandler(notification);
   });
 
 const inAppNotifHandler = notificationOpen => {
@@ -198,7 +198,8 @@ const notificationClickHandler = data => {
   });
 };
 
-const notificationReceivedHandler = data => {
+const notificationReceivedHandler = notification => {
+  const { data } = notification;
   logBreadCrumb({
     message: constants.errorLoggerEvents.messages.notifReceived,
     category: constants.errorLoggerEvents.categories.pushNotif,
@@ -206,6 +207,12 @@ const notificationReceivedHandler = data => {
     level: constants.errorLoggerEvents.levels.info
   });
   const inAppNotifHandler = () => {
+    if (
+      !notification.data ||
+      (notification.data && !notification.data.isLocal)
+    ) {
+      showForegroundNotification(notification);
+    }
     const screen = data.screen;
     const { appState } = storeService;
     switch (screen) {
@@ -234,4 +241,33 @@ const notificationReceivedHandler = data => {
   } catch (e) {
     logError(e);
   }
+};
+
+const foregroundChannelId = "foreground-notification";
+const foregroundIcon = "ic_notif";
+
+/**
+ * This method will display notification even when the app is in foreground.
+ * Notification can be obtained from the notification received handler.
+ */
+const showForegroundNotification = notification => {
+  const channel = new notifications.Android.Channel(
+    foregroundChannelId,
+    "Foreground Notification",
+    notifications.Android.Importance.Max
+  ).setDescription("Foreground app notification channel");
+  notifications().android.createChannel(channel);
+  const notificationData = notification.data
+    ? { ...notification.data, isLocal: true }
+    : { isLocal: true };
+  const notificationObject = new notifications.Notification()
+    .setNotificationId(notification.notificationId)
+    .setTitle(notification.title)
+    .setBody(notification.body)
+    .setData(notificationData)
+    .setSound(notification.sound);
+  notificationObject.android
+    .setChannelId(foregroundChannelId)
+    .android.setSmallIcon(foregroundIcon);
+  notifications().displayNotification(notificationObject);
 };
