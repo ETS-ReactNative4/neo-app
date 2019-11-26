@@ -8,6 +8,7 @@ import {
 import { logError } from "../errorLogger/errorLogger";
 import storeService from "../storeService/storeService";
 import openCustomTab from "../openCustomTab/openCustomTab";
+import isUserLoggedInCallback from "../isUserLoggedInCallback/isUserLoggedInCallback";
 
 /**
  * Event listener for retrieving restore id. This restore id must be stored on the
@@ -18,8 +19,10 @@ Freshchat.addEventListener(Freshchat.EVENT_USER_RESTORE_ID_GENERATED, () => {
     .then(restoreId => {
       getActorId()
         .then(actorId => {
-          const { setChatMetaInfo } = storeService.chatDetailsStore;
-          setChatMetaInfo({ restoreId, actorId });
+          if (restoreId && actorId) {
+            const { setChatMetaInfo } = storeService.chatDetailsStore;
+            setChatMetaInfo({ restoreId, actorId });
+          }
         })
         .catch(() => null);
     })
@@ -189,11 +192,16 @@ export const logoutUserFromChat = () => {
 export const getRestoreId = (): Promise<string | void> => {
   return new Promise((resolve, reject) => {
     Freshchat.getUser((user: { restoreId: string; externalId: string }) => {
-      const { restoreId } = user;
-      if (restoreId) {
-        resolve(restoreId);
-      } else {
-        logError("Unable to retrieve restore id of the user", {
+      try {
+        const { restoreId } = user;
+        if (restoreId) {
+          resolve(restoreId);
+        } else {
+          reject();
+        }
+      } catch (e) {
+        logError(e, {
+          type: "Unable to retrieve restore id of the user",
           user
         });
         reject();
@@ -285,15 +293,17 @@ export const chatPushNotificationHandler = (notification: any) => {
 };
 
 export const chatLauncher = () => {
-  const { chatDetails = {} } = storeService.chatDetailsStore;
-  try {
-    // @ts-ignore
-    const { region = [] } = chatDetails;
-    openChat(region);
-  } catch (e) {
-    logError(e, {
-      type: "Failed to launch chat screen",
-      chatDetails
-    });
-  }
+  isUserLoggedInCallback(() => {
+    const { chatDetails = {} } = storeService.chatDetailsStore;
+    try {
+      // @ts-ignore
+      const { region = [] } = chatDetails;
+      openChat(region);
+    } catch (e) {
+      logError(e, {
+        type: "Failed to launch chat screen",
+        chatDetails
+      });
+    }
+  });
 };
