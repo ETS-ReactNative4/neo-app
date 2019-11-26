@@ -8,6 +8,11 @@ import isUserLoggedInCallback from "../isUserLoggedInCallback/isUserLoggedInCall
 import constants from "../../constants/constants";
 import { recordEvent } from "../analytics/analyticsService";
 import { CONSTANT_notificationEvents } from "../../constants/appEvents";
+import {
+  chatLauncher,
+  chatPushNotificationHandler,
+  checkIfChatPushNotification
+} from "../freshchatService/freshchatService";
 
 export const getDeviceToken = async (
   success = () => null,
@@ -91,27 +96,59 @@ export const onNotificationDisplayed = () =>
     notificationReceivedHandler(notification.data);
   });
 
+const inAppNotifHandler = notificationOpen => {
+  const action = notificationOpen.action;
+  const notification = notificationOpen.notification;
+  notificationClickHandler(notification.data);
+};
+
 /**
  * Called when a notification is clicked when the app is active
+ *
+ * - Chat notifications should be handled separately
  */
 export const onNotificationOpened = () =>
   notifications().onNotificationOpened(notificationOpen => {
-    const action = notificationOpen.action;
-    const notification = notificationOpen.notification;
-    notificationClickHandler(notification.data);
+    checkIfChatPushNotification(notificationOpen.notification.data)
+      .then(isChatNotification => {
+        if (isChatNotification) {
+          recordEvent(constants.Chat.event, {
+            click: constants.Chat.click.notifAppForeGround
+          });
+          chatLauncher();
+        } else {
+          inAppNotifHandler(notificationOpen);
+        }
+      })
+      .catch(() => {
+        inAppNotifHandler(notificationOpen);
+      });
   });
 
 /**
  * Called when the app is launched by clicking on a notification
+ *
+ * - Chat notifications should be handled separately
  */
 export const getInitialNotification = () =>
   notifications()
     .getInitialNotification()
     .then(notificationOpen => {
       if (notificationOpen) {
-        const action = notificationOpen.action;
-        const notification = notificationOpen.notification;
-        notificationClickHandler(notification.data);
+        checkIfChatPushNotification(notificationOpen.notification.data)
+          .then(isChatNotification => {
+            if (isChatNotification) {
+              recordEvent(constants.Chat.event, {
+                click: constants.Chat.click.notifAppStart
+              });
+              chatLauncher();
+            } else {
+              inAppNotifHandler(notificationOpen);
+            }
+          })
+          .catch(() => {
+            inAppNotifHandler(notificationOpen);
+          });
       }
     });
 
@@ -168,18 +205,31 @@ const notificationReceivedHandler = data => {
     data,
     level: constants.errorLoggerEvents.levels.info
   });
+  const inAppNotifHandler = () => {
+    const screen = data.screen;
+    const { appState } = storeService;
+    switch (screen) {
+      case CHATSCREEN:
+        appState.setChatNotification();
+        break;
+
+      default:
+        break;
+    }
+  };
   try {
     isUserLoggedInCallback(() => {
-      const screen = data.screen;
-      const { appState } = storeService;
-      switch (screen) {
-        case CHATSCREEN:
-          appState.setChatNotification();
-          break;
-
-        default:
-          break;
-      }
+      checkIfChatPushNotification(data)
+        .then(isChatNotification => {
+          if (isChatNotification) {
+            chatPushNotificationHandler(data);
+          } else {
+            inAppNotifHandler();
+          }
+        })
+        .catch(() => {
+          inAppNotifHandler();
+        });
     });
   } catch (e) {
     logError(e);

@@ -267,7 +267,9 @@ const appEvents = {
   Chat: {
     event: "Chat",
     click: {
-      openChat: "open_chat"
+      openChat: "open_chat",
+      notifAppStart: "notif_app_start",
+      notifAppForeGround: "notif_app_foreground"
     }
   },
   tripViewScroll: "trip_view_scroll",

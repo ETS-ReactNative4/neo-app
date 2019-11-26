@@ -11,8 +11,7 @@ import constants from "../../constants/constants";
 import { isIphoneX } from "react-native-iphone-x-helper";
 import { inject, observer } from "mobx-react/custom";
 import ChatDetails from "../../mobx/ChatDetails";
-import { openChat } from "../../Services/freshchatService/freshchatService";
-import storeService from "../../Services/storeService/storeService";
+import { chatLauncher } from "../../Services/freshchatService/freshchatService";
 import { recordEvent } from "../../Services/analytics/analyticsService";
 
 export interface CustomBottomTabBarProps {
@@ -65,20 +64,17 @@ const CustomBottomTabBar = ({
          * Check if user is on support screen & chat is active
          */
         if (getLabelText({ route }) === "Support" && isChatActive) {
-          const { chatDetails = {} } = storeService.chatDetailsStore;
-          // @ts-ignore
-          const { region = [] } = chatDetails;
           tabPressAction = () => {
             recordEvent(constants.Chat.event, {
               click: constants.Chat.click.openChat
             });
-            openChat(region);
+            chatLauncher();
           };
           tabLongPressAction = () => {
             recordEvent(constants.Chat.event, {
               click: constants.Chat.click.openChat
             });
-            openChat(region);
+            chatLauncher();
           };
         }
 

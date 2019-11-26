@@ -26,6 +26,9 @@ Freshchat.addEventListener(Freshchat.EVENT_USER_RESTORE_ID_GENERATED, () => {
     .catch(() => null);
 });
 
+/**
+ * Event listener to detect unread message count in freshchat
+ */
 Freshchat.addEventListener(Freshchat.EVENT_UNREAD_MESSAGE_COUNT_CHANGED, () => {
   Freshchat.getUnreadCountAsync((data: { status: boolean; count: number }) => {
     const { count, status } = data;
@@ -40,6 +43,12 @@ Freshchat.addEventListener(Freshchat.EVENT_UNREAD_MESSAGE_COUNT_CHANGED, () => {
   });
 });
 
+/**
+ * Event listener for handling clicks happening inside the chat
+ * All the clicks will be handled through App's own openCustomTab method.
+ *
+ * TODO: Only Works on iOS, on Android Freshchat view blocks execution of JS Code
+ */
 Freshchat.addEventListener(
   Freshchat.EVENT_EXTERNAL_LINK_CLICKED,
   (data: { url: string }): void => {
@@ -228,5 +237,63 @@ export const setChatPushToken = (token: string): boolean => {
       type: "Failed to set push notification token for freshchat"
     });
     return false;
+  }
+};
+
+/**
+ *
+ */
+export const checkIfChatPushNotification = (
+  notification: any
+): Promise<boolean | Error> => {
+  return new Promise((resolve, reject) => {
+    try {
+      Freshchat.isFreshchatNotification(
+        notification,
+        (freshchatNotification: boolean) => {
+          try {
+            if (freshchatNotification) {
+              resolve(true);
+            } else {
+              resolve(false);
+            }
+          } catch (e) {
+            logError(e, {
+              type: "Failed to check push notification type"
+            });
+            reject(e);
+          }
+        }
+      );
+    } catch (e) {
+      logError(e, {
+        type: "Failed to check push notification type"
+      });
+      reject(e);
+    }
+  });
+};
+
+export const chatPushNotificationHandler = (notification: any) => {
+  try {
+    Freshchat.handlePushNotification(notification);
+  } catch (e) {
+    logError(e, {
+      type: "Failed to open chat push notification"
+    });
+  }
+};
+
+export const chatLauncher = () => {
+  const { chatDetails = {} } = storeService.chatDetailsStore;
+  try {
+    // @ts-ignore
+    const { region = [] } = chatDetails;
+    openChat(region);
+  } catch (e) {
+    logError(e, {
+      type: "Failed to launch chat screen",
+      chatDetails
+    });
   }
 };
