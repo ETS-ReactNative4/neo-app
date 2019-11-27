@@ -284,12 +284,12 @@ class AppState {
      * For users upgrading from older version
      * this will send the push token to fresh chat
      */
-    if (!this._isChatNotificationActive) {
+    if (!this._isChatPushNotificationSet) {
       if (Platform.OS === constants.platformAndroid) {
         // Only android chat instances should get this token
         // setChatPushToken(deviceToken); // currently disabled since freshchat doesn't support multiple push notifications
       }
-      this._isChatNotificationActive = true;
+      this._isChatPushNotificationSet = true;
     }
     if (deviceToken && this._pushTokens.deviceToken !== deviceToken) {
       this._updatePushToken(deviceToken);

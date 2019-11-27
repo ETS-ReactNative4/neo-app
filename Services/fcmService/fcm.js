@@ -97,7 +97,8 @@ export const onNotificationDisplayed = () =>
 
 const inAppNotifHandler = notificationOpen => {
   // const action = notificationOpen.action;
-  const notification = notificationOpen.notification;
+  const { notification } = notificationOpen;
+  notifications().removeDeliveredNotification(notification.notificationId); // Will remove foreground push notifications on click
   notificationClickHandler(notification.data);
 };
 
@@ -151,7 +152,7 @@ export const getInitialNotification = () =>
       }
     });
 
-const CHATSCREEN = "CHAT_SCREEN";
+const CHATSCREEN = "Support";
 
 const notificationClickHandler = data => {
   logBreadCrumb({
@@ -242,9 +243,13 @@ const showForegroundNotification = notification => {
     notifications.Android.Importance.Max
   ).setDescription("Foreground app notification channel");
   notifications().android.createChannel(channel);
+  const localNotifData = {
+    isLocal: true,
+    notificationId: notification.notificationId
+  };
   const notificationData = notification.data
-    ? { ...notification.data, isLocal: true }
-    : { isLocal: true };
+    ? { ...notification.data, ...localNotifData }
+    : localNotifData;
   const notificationObject = new notifications.Notification()
     .setNotificationId(notification.notificationId)
     .setTitle(notification.title)
