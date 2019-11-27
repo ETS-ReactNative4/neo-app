@@ -10,8 +10,6 @@ import storeService from "../storeService/storeService";
 import openCustomTab from "../openCustomTab/openCustomTab";
 import isUserLoggedInCallback from "../isUserLoggedInCallback/isUserLoggedInCallback";
 
-let test;
-
 /**
  * Event listener for retrieving restore id. This restore id must be stored on the
  * server side to retrieve user's chat history.
@@ -307,6 +305,5 @@ export const chatLauncher = () => {
         chatDetails
       });
     }
-    // return null;
   });
 };
