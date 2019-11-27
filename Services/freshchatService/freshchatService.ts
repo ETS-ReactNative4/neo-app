@@ -90,6 +90,9 @@ export const closeChat = () => {
  */
 export const initializeChat = (appId: string, appKey: string): boolean => {
   try {
+    if (!appId || !appKey) {
+      throw new Error("Invalid freshchat app credentials!");
+    }
     const freshchatConfig = new FreshchatConfig(appId, appKey);
     Freshchat.init(freshchatConfig);
     return true;
@@ -249,7 +252,7 @@ export const setChatPushToken = (token: string): boolean => {
 };
 
 /**
- *
+ * Checks if the push notification belongs to freshchat. Resolves to a boolean value
  */
 export const checkIfChatPushNotification = (
   notification: any
@@ -282,6 +285,10 @@ export const checkIfChatPushNotification = (
   });
 };
 
+/**
+ * Default push notification handler for freshchat push notifications.
+ * Use `checkIfChatPushNotification` for checking push notification type.
+ */
 export const chatPushNotificationHandler = (notification: any) => {
   try {
     Freshchat.handlePushNotification(notification);
@@ -292,12 +299,17 @@ export const chatPushNotificationHandler = (notification: any) => {
   }
 };
 
+/**
+ * Will launch the chat window based on the type of itinerary chosen by the user
+ */
 export const chatLauncher = () => {
   isUserLoggedInCallback(() => {
     const { chatDetails = {} } = storeService.chatDetailsStore;
+    const { clearChatNotification } = storeService.appState;
     try {
       // @ts-ignore
       const { region = [] } = chatDetails;
+      clearChatNotification();
       openChat(region);
     } catch (e) {
       logError(e, {
@@ -305,5 +317,6 @@ export const chatLauncher = () => {
         chatDetails
       });
     }
+    return null;
   });
 };

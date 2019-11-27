@@ -2,7 +2,6 @@ import { messaging, notifications } from "react-native-firebase";
 import { Platform } from "react-native";
 import { logBreadCrumb, logError } from "../errorLogger/errorLogger";
 import storeService from "../storeService/storeService";
-import navigationService from "../navigationService/navigationService";
 import resolveLinks from "../resolveLinks/resolveLinks";
 import isUserLoggedInCallback from "../isUserLoggedInCallback/isUserLoggedInCallback";
 import constants from "../../constants/constants";
@@ -97,7 +96,7 @@ export const onNotificationDisplayed = () =>
   });
 
 const inAppNotifHandler = notificationOpen => {
-  const action = notificationOpen.action;
+  // const action = notificationOpen.action;
   const notification = notificationOpen.notification;
   notificationClickHandler(notification.data);
 };
@@ -163,7 +162,6 @@ const notificationClickHandler = data => {
   });
   isUserLoggedInCallback(() => {
     const {
-      screen,
       link,
       modalData,
       notificationType = "",
@@ -182,18 +180,10 @@ const notificationClickHandler = data => {
         });
       }
     }
-    const { navigation } = navigationService;
-    if (link) {
+    if (link === CHATSCREEN) {
+      chatLauncher();
+    } else if (link) {
       resolveLinks(link, modalData ? JSON.parse(modalData) : {});
-    } else {
-      switch (screen) {
-        case CHATSCREEN:
-          navigation._navigation.navigate("Support");
-          break;
-
-        default:
-          break;
-      }
     }
   });
 };
@@ -206,22 +196,17 @@ const notificationReceivedHandler = notification => {
     data,
     level: constants.errorLoggerEvents.levels.info
   });
-  const inAppNotifHandler = () => {
+  const inAppNotifReceivedHandler = () => {
     if (
       !notification.data ||
       (notification.data && !notification.data.isLocal)
     ) {
       showForegroundNotification(notification);
     }
-    const screen = data.screen;
+    const { link } = data;
     const { appState } = storeService;
-    switch (screen) {
-      case CHATSCREEN:
-        appState.setChatNotification();
-        break;
-
-      default:
-        break;
+    if (link === CHATSCREEN) {
+      appState.setChatNotification();
     }
   };
   try {
@@ -231,11 +216,11 @@ const notificationReceivedHandler = notification => {
           if (isChatNotification) {
             chatPushNotificationHandler(data);
           } else {
-            inAppNotifHandler();
+            inAppNotifReceivedHandler();
           }
         })
         .catch(() => {
-          inAppNotifHandler();
+          inAppNotifReceivedHandler();
         });
     });
   } catch (e) {

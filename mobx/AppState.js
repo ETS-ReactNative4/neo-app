@@ -1,4 +1,4 @@
-import { observable, computed, action, set, toJS } from "mobx";
+import { observable, computed, action, toJS } from "mobx";
 import { persist } from "mobx-persist";
 import { createTransformer } from "mobx-utils";
 import { LayoutAnimation, Platform } from "react-native";
@@ -12,7 +12,6 @@ import AsyncStorage from "@react-native-community/async-storage";
 import logOut from "../Services/logOut/logOut";
 import isUserLoggedInCallback from "../Services/isUserLoggedInCallback/isUserLoggedInCallback";
 import { toastBottom } from "../Services/toast/toast";
-import { setChatPushToken } from "../Services/freshchatService/freshchatService";
 import { hydrate } from "./Store";
 
 const {
@@ -149,7 +148,7 @@ class AppState {
           }
         }
       })
-      .catch(e => {
+      .catch(() => {
         this._isConversionLoading = false;
         if (!silent) {
           toastBottom(conversionRateError.message);
@@ -185,16 +184,19 @@ class AppState {
   @computed
   get currencies() {
     const itineraryId = storeService.itineraries.selectedItineraryId;
-    if (this._currencies[itineraryId])
+    if (this._currencies[itineraryId]) {
       return _.uniq(toJS(this._currencies[itineraryId]));
-    else return [];
+    } else {
+      return [];
+    }
   }
 
   @action
   loadCurrencies = ({ silent = false } = {}) => {
     const itineraryId = storeService.itineraries.selectedItineraryId;
-    if (!this._currencies[itineraryId])
+    if (!this._currencies[itineraryId]) {
       this._getCurrencyByItineraryId({ itineraryId, silent });
+    }
   };
 
   @action
@@ -237,7 +239,7 @@ class AppState {
           }
         }
       })
-      .catch(err => {
+      .catch(() => {
         if (!silent) {
           storeService.infoStore.setError(
             currencyDetailsError.title,
@@ -285,7 +287,7 @@ class AppState {
     if (!this._isChatNotificationActive) {
       if (Platform.OS === constants.platformAndroid) {
         // Only android chat instances should get this token
-        setChatPushToken(deviceToken);
+        // setChatPushToken(deviceToken); // currently disabled since freshchat doesn't support multiple push notifications
       }
       this._isChatNotificationActive = true;
     }
@@ -297,7 +299,7 @@ class AppState {
        */
       if (Platform.OS === constants.platformAndroid) {
         // Only android chat instances should get this token
-        setChatPushToken(deviceToken);
+        // setChatPushToken(deviceToken); // currently disabled since freshchat doesn't support multiple push notifications
       }
     }
   };
@@ -308,7 +310,7 @@ class AppState {
       this._apnsToken = apnsDeviceToken;
       if (Platform.OS === constants.platformIos) {
         // Only iOS chat instances should get this token
-        setChatPushToken(apnsDeviceToken);
+        // setChatPushToken(apnsDeviceToken); // currently disabled since freshchat doesn't support multiple push notifications
       }
     }
   };

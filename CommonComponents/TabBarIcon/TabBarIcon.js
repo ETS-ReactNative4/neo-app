@@ -1,36 +1,40 @@
 import React from "react";
-import { View, Image, Text, StyleSheet, Platform } from "react-native";
+import { View, Text, StyleSheet, Platform } from "react-native";
 import PropTypes from "prop-types";
 import constants from "../../constants/constants";
 import Icon from "../Icon/Icon";
 import { inject, observer } from "mobx-react/custom";
 import InfoDot from "../InfoDot/InfoDot";
 
-const TabBarIcon = inject("chatDetailsStore")(
-  observer(({ chatDetailsStore, text, icon, color, focused }) => {
-    const { unreadMessageCount } = chatDetailsStore;
-    return (
-      <View style={styles.iconWrapper}>
-        <View style={styles.icon}>
-          <Icon color={color} name={icon} size={24} />
+const TabBarIcon = inject("appState")(
+  inject("chatDetailsStore")(
+    observer(({ chatDetailsStore, text, icon, color, focused, appState }) => {
+      const { unreadMessageCount } = chatDetailsStore;
+      const { isChatNotificationActive } = appState;
+      return (
+        <View style={styles.iconWrapper}>
+          <View style={styles.icon}>
+            <Icon color={color} name={icon} size={24} />
+          </View>
+          <Text
+            numberOfLines={1}
+            ellipsizeMode={"tail"}
+            style={[
+              styles.label,
+              focused ? styles.labelSelected : null,
+              { color }
+            ]}
+          >
+            {text}
+          </Text>
+          {text === "Support" &&
+          (isChatNotificationActive || unreadMessageCount) ? (
+            <InfoDot containerStyle={styles.dotStyle} />
+          ) : null}
         </View>
-        <Text
-          numberOfLines={1}
-          ellipsizeMode={"tail"}
-          style={[
-            styles.label,
-            focused ? styles.labelSelected : null,
-            { color }
-          ]}
-        >
-          {text}
-        </Text>
-        {text === "SUPPORT" && unreadMessageCount ? (
-          <InfoDot containerStyle={styles.dotStyle} />
-        ) : null}
-      </View>
-    );
-  })
+      );
+    })
+  )
 );
 
 TabBarIcon.propTypes = {

@@ -39,17 +39,19 @@ if (Platform.OS === "android") {
 }
 
 /**
- * This config with set up push notifications for freshchat react native sdk on Android
+ * This config with enable push notifications for freshchat react native sdk on Android
+ *
+ * Currently disabled since freshchat only supports one device for push notifications at a time
  */
-import {
-  FreshchatNotificationConfig,
-  Freshchat
-} from "react-native-freshchat-sdk";
+// import {
+//   FreshchatNotificationConfig,
+//   Freshchat
+// } from "react-native-freshchat-sdk";
 
-const freshchatNotificationConfig = new FreshchatNotificationConfig();
-freshchatNotificationConfig.priority =
-  FreshchatNotificationConfig.NotificationPriority.PRIORITY_HIGH;
-freshchatNotificationConfig.notificationSoundEnabled = true;
-Freshchat.setNotificationConfig(freshchatNotificationConfig);
+// const freshchatNotificationConfig = new FreshchatNotificationConfig();
+// freshchatNotificationConfig.priority =
+//   FreshchatNotificationConfig.NotificationPriority.PRIORITY_HIGH;
+// freshchatNotificationConfig.notificationSoundEnabled = true;
+// Freshchat.setNotificationConfig(freshchatNotificationConfig);
 
 require("./app-index");
