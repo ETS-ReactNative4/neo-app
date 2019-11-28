@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Text, ScrollView, StyleSheet, BackHandler } from "react-native";
+import { View, StyleSheet, BackHandler } from "react-native";
 import HomeHeader from "../../CommonComponents/HomeHeader/HomeHeader";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import ToolTip from "./Components/ToolTip/ToolTip";
@@ -31,6 +31,10 @@ import {
   initializeChat,
   setChatUserDetails
 } from "../../Services/freshchatService/freshchatService";
+import SupportOfflineMessage from "../ChatScreen/Components/SupportOfflineMessage";
+import dialer from "../../Services/dialer/dialer";
+import { recordEvent } from "../../Services/analytics/analyticsService";
+import PropTypes from "prop-types";
 
 @ErrorBoundary({ isRoot: true })
 @inject("tripFeedStore")
@@ -39,20 +43,33 @@ import {
 @inject("chatDetailsStore")
 @observer
 class TripFeed extends Component {
+  static propTypes = {
+    tripFeedStore: PropTypes.object,
+    feedbackPrompt: PropTypes.object,
+    itineraries: PropTypes.object,
+    chatDetailsStore: PropTypes.object,
+    navigation: PropTypes.object
+  };
+
   static navigationOptions = {
     header: null
   };
 
-  state = {
-    scrollEnabled: true,
-    tripFeedHeader: null
-  };
   _didFocusSubscription;
   _willBlurSubscription;
   _emitterComponent = React.createRef();
 
   constructor(props) {
     super(props);
+
+    /**
+     * Loading Header into the view instead of react navigation
+     * To hide it when the feedback overlay shows up
+     */
+    this.state = {
+      scrollEnabled: true,
+      tripFeedHeader: HomeHeader({ navigation: props.navigation }).header
+    };
 
     this._didFocusSubscription = props.navigation.addListener(
       "didFocus",
@@ -101,14 +118,6 @@ class TripFeed extends Component {
       this.loadChatData();
     }
 
-    /**
-     * Loading Header into the view instead of react navigation
-     * To hide it when the feedback overlay shows up
-     */
-    this.setState({
-      tripFeedHeader: HomeHeader({ navigation: this.props.navigation }).header
-    });
-
     this._willBlurSubscription = this.props.navigation.addListener(
       "willBlur",
       () => {
@@ -148,30 +157,32 @@ class TripFeed extends Component {
         setUnreadMessageCount,
         setChatMetaInfo
       } = this.props.chatDetailsStore;
-      getUserDetails().then(chatDetails => {
-        initializeChat(chatDetails.appId, chatDetails.appKey);
-        identifyChatUser(chatDetails.feid, chatDetails.frid || null).catch(
-          () => null
-        );
-        setChatUserDetails({
-          firstName: chatDetails.trailId,
-          lastName: chatDetails.name,
-          email: chatDetails.email,
-          phoneCountryCode: chatDetails.ccode,
-          phone: chatDetails.mob_num
-        }).catch(() => null);
-        if (!chatDetails.frid) {
-          getRestoreId()
-            .then(restoreId => {
-              getActorId()
-                .then(actorId => {
-                  setChatMetaInfo({ restoreId, actorId });
-                })
-                .catch(() => null);
-            })
-            .catch(() => null);
-        }
-      });
+      getUserDetails()
+        .then(chatDetails => {
+          initializeChat(chatDetails.appId, chatDetails.appKey);
+          identifyChatUser(chatDetails.feid, chatDetails.frid || null).catch(
+            () => null
+          );
+          setChatUserDetails({
+            firstName: chatDetails.trailId,
+            lastName: chatDetails.name,
+            email: chatDetails.email,
+            phoneCountryCode: chatDetails.ccode,
+            phone: chatDetails.mob_num
+          }).catch(() => null);
+          if (!chatDetails.frid) {
+            getRestoreId()
+              .then(restoreId => {
+                getActorId()
+                  .then(actorId => {
+                    setChatMetaInfo({ restoreId, actorId });
+                  })
+                  .catch(() => null);
+              })
+              .catch(() => null);
+          }
+        })
+        .catch(() => null);
       getUnreadMessagesCount()
         .then(count => {
           setUnreadMessageCount(count);
@@ -193,14 +204,25 @@ class TripFeed extends Component {
       isLoading,
       widgets,
       infoCardModal,
-      closeInfoCardModal
+      closeInfoCardModal,
+      offlineContact
     } = this.props.tripFeedStore;
     const { isFeedbackPanelVisible } = this.props.feedbackPrompt;
+    const { isOffHours, currentTime } = this.props.chatDetailsStore;
+    const openDialer = () => {
+      recordEvent(constants.TripFeed.event, {
+        click: constants.TripFeed.click.chatOfflineContact
+      });
+      dialer(offlineContact);
+    };
     let isImageFirst = false;
     return (
       <View style={styles.tripFeedContainer}>
         {this.state.tripFeedHeader}
         <NoInternetIndicator />
+        {isOffHours ? (
+          <SupportOfflineMessage time={currentTime} ctaAction={openDialer} />
+        ) : null}
         <CustomScrollView
           onRefresh={this.loadTripFeedData}
           refreshing={isLoading}

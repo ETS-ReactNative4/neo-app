@@ -65,7 +65,8 @@ const appEvents = {
     click: {
       positiveClick: "positive_click",
       negativeClick: "negative_click",
-      submitFeedback: "submit_feedback"
+      submitFeedback: "submit_feedback",
+      chatOfflineContact: "chat_offline_contact"
     }
   },
   hamburgerButtonClick: "hamburger_click",

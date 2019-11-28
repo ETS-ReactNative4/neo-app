@@ -125,6 +125,8 @@ export const setChatUserDetails = ({
 }: chatUserDetails): Promise<Error> => {
   /**
    * TODO: No way to resolve this promise...
+   * Freshchat SDK handles errors as callbacks but the callbacks won't fire if there are no errors.
+   * Which makes it impossible to resolve the promise.
    */
   return new Promise((resolve, reject): void => {
     const freshchatUser = new FreshchatUser();
@@ -175,7 +177,7 @@ export const getUnreadMessagesCount = () => {
           logError(data, {
             type: "Failed to get unread message count"
           });
-          reject();
+          reject(data);
         }
       }
     );
