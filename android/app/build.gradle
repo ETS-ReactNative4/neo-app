@@ -148,7 +148,7 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         multiDexEnabled true
         versionCode Integer.parseInt(VERSION_CODE)
-        versionName "1.3.2"
+        versionName "1.3.3"
     }
 
     splits {
