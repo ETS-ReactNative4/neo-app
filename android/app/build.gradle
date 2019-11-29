@@ -258,3 +258,5 @@ project.afterEvaluate {
     apply from: '../../node_modules/react-native-draftjs-editor/copyHtml.gradle';
     copyEditorHtmlToAppAssets(file('../../node_modules/react-native-draftjs-editor'))
 }
+
+apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"

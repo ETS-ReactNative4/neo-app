@@ -23,12 +23,6 @@ module.exports = {
       platforms: {
         ios: null
       }
-    },
-    "react-native-config": {
-      platforms: {
-        android: null,
-        ios: null
-      }
     }
   }
 };
