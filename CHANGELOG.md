@@ -37,11 +37,3 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Tripfeed Screen Component has been refactored as per ESLint rules
 - Hotel Voucher Component has been refactored as per ESLint rules
-
-### Security
-
--
-
-### Deprecated
-
--

@@ -215,11 +215,14 @@ class TripFeed extends Component {
       isLoading,
       widgets,
       infoCardModal,
-      closeInfoCardModal,
-      offlineContact
+      closeInfoCardModal
     } = this.props.tripFeedStore;
     const { isFeedbackPanelVisible } = this.props.feedbackPrompt;
-    const { isOffHours, currentTime } = this.props.chatDetailsStore;
+    const {
+      isOffHours,
+      currentTime,
+      offlineContact
+    } = this.props.chatDetailsStore;
     const openDialer = () => {
       recordEvent(constants.TripFeed.event, {
         click: constants.TripFeed.click.chatOfflineContact
