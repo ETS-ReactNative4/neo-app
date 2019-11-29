@@ -13,7 +13,7 @@ import PropTypes from "prop-types";
 import Accordion from "react-native-collapsible/Accordion";
 import constants from "../../../../constants/constants";
 import NotificationCount from "../../../../CommonComponents/NotificationCount/NotificationCount";
-import { inject, observer } from "mobx-react/custom";
+import { inject, observer } from "mobx-react";
 import HotelSection from "./Components/HotelSection";
 import ActivitiesSection from "./Components/ActivitiesSection";
 import TransferSection from "./Components/TransferSection";

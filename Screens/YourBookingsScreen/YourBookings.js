@@ -8,7 +8,7 @@ import Completed from "./Components/Completed";
 import { responsiveWidth } from "react-native-responsive-dimensions";
 import CloseYourBookingsButton from "./Components/CloseYourBookingsButton";
 import YourBookingsTabBar from "./Components/YourBookingsTabBar";
-import { inject, observer } from "mobx-react/custom";
+import { inject, observer } from "mobx-react";
 import SearchButton from "../../CommonComponents/SearchButton/SearchButton";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import { NavigationActions } from "react-navigation";

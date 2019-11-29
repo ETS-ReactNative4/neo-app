@@ -4,7 +4,7 @@ import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import TicketPreview from "./Components/TicketPreview";
 import constants from "../../constants/constants";
 import _ from "lodash";
-import { inject, observer } from "mobx-react/custom";
+import { inject, observer } from "mobx-react";
 import moment from "moment";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import TicketMessageSummary from "./Components/TicketMessageSummary";

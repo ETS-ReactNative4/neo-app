@@ -13,7 +13,7 @@ import constants from "../../constants/constants";
 import DrawerButton from "./Components/DrawerButton";
 import logOut from "../../Services/logOut/logOut";
 import SimpleButton from "../../CommonComponents/SimpleButton/SimpleButton";
-import { inject, observer } from "mobx-react/custom";
+import { inject, observer } from "mobx-react";
 import _ from "lodash";
 import DialogBox from "../../CommonComponents/DialogBox/DialogBox";
 import { shouldIncludeStoryBook } from "../../storybook/Storybook";

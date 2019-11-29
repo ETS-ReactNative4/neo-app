@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import constants from "../../constants/constants";
 import Icon from "../Icon/Icon";
-import { inject, observer } from "mobx-react/custom";
+import { inject, observer } from "mobx-react";
 
 const NoInternetIndicator = inject("appState")(
   observer(({ appState }) => {

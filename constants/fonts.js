@@ -1,5 +1,3 @@
-import { Platform } from "react-native";
-
 /**
  * Font name of android is the font file's name,
  * Font name of iOS is the font's name in its meta data
@@ -9,6 +7,10 @@ const primaryFont = {
   primaryLight: "SourceSansPro-Regular",
   primarySemiBold: "SourceSansPro-SemiBold"
 };
+
+export const CONSTANT_fontPrimaryRegular = primaryFont.primaryRegular;
+export const CONSTANT_fontPrimaryLight = primaryFont.primaryLight;
+export const CONSTANT_fontPrimarySemiBold = primaryFont.primarySemiBold;
 
 const font10 = fontFamily => {
   return {
@@ -67,6 +69,18 @@ const font30 = fontFamily => {
 };
 
 const fontCustom = (fontFamily, fontSize, lineHeight = null) => {
+  return {
+    fontFamily,
+    fontSize,
+    lineHeight: lineHeight || fontSize
+  };
+};
+
+export const CONSTANT_fontCustom = (
+  fontFamily,
+  fontSize,
+  lineHeight = null
+) => {
   return {
     fontFamily,
     fontSize,

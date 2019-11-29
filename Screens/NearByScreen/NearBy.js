@@ -19,7 +19,7 @@ import constants from "../../constants/constants";
 import PlaceCard from "./Components/PlaceCard";
 import FilterOptions from "./Components/FilterOptions";
 import MultiLineHeader from "../../CommonComponents/MultilineHeader/MultiLineHeader";
-import { inject, observer } from "mobx-react/custom";
+import { inject, observer } from "mobx-react";
 import SmartImage from "../../CommonComponents/SmartImage/SmartImage";
 import FastImage from "react-native-fast-image";
 import {

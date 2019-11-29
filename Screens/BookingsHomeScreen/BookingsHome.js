@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import BookingCalendar from "./Components/BookingCalendar/BookingCalendar";
 import BookingAccordion from "./Components/BookingAccordion/BookingAccordion";
-import { inject, observer } from "mobx-react/custom";
+import { inject, observer } from "mobx-react";
 import HomeHeader from "../../CommonComponents/HomeHeader/HomeHeader";
 import { getDeviceToken } from "../../Services/fcmService/fcm";
 import pullToRefresh from "../../Services/refresh/pullToRefresh";

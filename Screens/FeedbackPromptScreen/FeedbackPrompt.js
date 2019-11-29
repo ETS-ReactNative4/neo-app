@@ -9,7 +9,7 @@ import {
   LayoutAnimation,
   BackHandler
 } from "react-native";
-import { inject, observer } from "mobx-react/custom";
+import { inject, observer } from "mobx-react";
 import _ from "lodash";
 import PanelLogoContainer from "./Components/PanelLogoContainer";
 import FeedbackOption from "./Components/FeedbackOption";
@@ -434,8 +434,8 @@ class FeedbackPrompt extends Component {
                       }}
                     />
                   ) : feedbackOptions.isAnimationComplete &&
-                  !isKeyboardVisible &&
-                  !focusedOption ? (
+                    !isKeyboardVisible &&
+                    !focusedOption ? (
                     <SimpleButton
                       text={"SUBMIT"}
                       textColor={constants.shade1}

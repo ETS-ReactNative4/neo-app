@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import constants from "../../constants/constants";
 import PropTypes from "prop-types";
-import { inject, observer } from "mobx-react/custom";
+import { inject, observer } from "mobx-react";
 import { recordEvent } from "../../Services/analytics/analyticsService";
 import toggleHomeScreen from "../../Services/toggleHomeScreen/toggleHomeScreen";
 

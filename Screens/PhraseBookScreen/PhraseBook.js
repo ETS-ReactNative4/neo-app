@@ -14,7 +14,7 @@ import CustomPhrase from "./Components/CustomPhrase";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import Tts from "react-native-tts";
 import Sound from "react-native-sound";
-import { inject, observer } from "mobx-react/custom";
+import { inject, observer } from "mobx-react";
 import PhraseInfo from "./Components/PhraseInfo";
 import LanguageSelector from "./Components/LanguageSelector";
 import Loader from "../../CommonComponents/Loader/Loader";

@@ -12,7 +12,7 @@ import UpcomingCard from "./UpcomingCard";
 import PropTypes from "prop-types";
 import EmptyListPlaceholder from "../../../CommonComponents/EmptyListPlaceholder/EmptyListPlaceholder";
 import constants from "../../../constants/constants";
-import { inject, observer } from "mobx-react/custom";
+import { inject, observer } from "mobx-react";
 import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraProps";
 import { NavigationActions, StackActions } from "react-navigation";
 import { recordEvent } from "../../../Services/analytics/analyticsService";

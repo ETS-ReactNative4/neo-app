@@ -8,7 +8,7 @@ import VoucherStickyHeader from "../Components/VoucherStickyHeader";
 import VoucherName from "../Components/VoucherName";
 import VoucherSplitSection from "../Components/VoucherSplitSection";
 import SectionHeader from "../../../CommonComponents/SectionHeader/SectionHeader";
-import { inject, observer } from "mobx-react/custom";
+import { inject, observer } from "mobx-react";
 import IosCloseButton from "../Components/IosCloseButton";
 import VoucherAccordion from "../Components/VoucherAccordion";
 import HTMLView from "react-native-htmlview";

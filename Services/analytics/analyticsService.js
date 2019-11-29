@@ -61,13 +61,18 @@ export const recordEvent = (event, params = undefined) => {
     if (!reserved.includes(event)) {
       if (!params) {
         params = { sessionId };
-      } else if (typeof params === "object") {
+      } else if (typeof params === "object" && params !== null) {
         params = { ...params, sessionId };
       } else {
-        logError(`Invalid analytics parameter ${typeof param}`, {
-          event,
-          params
-        });
+        logError(
+          `Invalid analytics parameter ${
+            params === null ? "null" : typeof param
+          }`,
+          {
+            event,
+            params
+          }
+        );
         return;
       }
       logBreadCrumb({
@@ -139,7 +144,7 @@ export const setUserDetails = async ({ id, name, email, phoneNumber }) => {
 };
 
 export const setUserAttributes = (key, value) => {
-  return debouncer(() => {
+  debouncer(() => {
     return setWebEngageAttribute(key, value);
   });
 };
@@ -148,7 +153,6 @@ export const screenTracker = (prevState, currentState) => {
   debouncer(() => {
     const currentScreen = getActiveRouteName(currentState);
     const prevScreen = getActiveRouteName(prevState);
-
     /**
      * TODO: Check if any data can be added here...
      */
@@ -162,6 +166,8 @@ export const screenTracker = (prevState, currentState) => {
       analytics.screen(currentScreen, { sessionId });
       webEngage.screen(currentScreen, { sessionId });
       firebaseAnalytics().setCurrentScreen(currentScreen, currentScreen);
+      return true;
     }
+    return false;
   });
 };

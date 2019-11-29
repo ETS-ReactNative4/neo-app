@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import PropTypes from "prop-types";
 import MultiLineHeader from "../MultilineHeader/MultiLineHeader";
-import { inject, observer } from "mobx-react/custom";
+import { inject, observer } from "mobx-react";
 import moment from "moment";
 
 const BookingHomeTitle = inject("itineraries")(

@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, Platform } from "react-native";
 import PropTypes from "prop-types";
 import constants from "../../constants/constants";
 import Icon from "../Icon/Icon";
-import { inject, observer } from "mobx-react/custom";
+import { inject, observer } from "mobx-react";
 import InfoDot from "../InfoDot/InfoDot";
 
 const TabBarIcon = inject("appState")(

@@ -6,7 +6,7 @@ import DefaultTabBar from "../../CommonComponents/DefaultTabBar/DefaultTabBar";
 import ToPack from "./Components/ToPack/ToPack";
 import { responsiveWidth } from "react-native-responsive-dimensions";
 import _ from "lodash";
-import { inject, observer } from "mobx-react/custom";
+import { inject, observer } from "mobx-react";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import DeepLinkHandler from "../../CommonComponents/DeepLinkHandler/DeepLinkHandler";

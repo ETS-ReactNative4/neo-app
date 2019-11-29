@@ -55,7 +55,6 @@ const ignoredNativeModules = [
 module.exports = {
   preset: "react-native",
   setupFilesAfterEnv: [
-    "./__mocks__/mockDotEnv.js",
     "./__mocks__/mockRNCNetInfo.js",
     "./__mocks__/mockFirebase.js",
     "./__mocks__/mockSegmentAnalytics.js",
@@ -66,5 +65,6 @@ module.exports = {
   transformIgnorePatterns: [
     `node_modules/(?!(${ignoredNativeModules.join("|")}))`
   ],
-  moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"]
+  moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
+  coveragePathIgnorePatterns: ["/node_modules/", "constants/", "assets/"]
 };

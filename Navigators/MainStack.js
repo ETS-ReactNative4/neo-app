@@ -19,12 +19,12 @@ import FAQAnswers from "../Screens/FAQScreens/FAQAnswersScreen/FAQAnswers";
 import ContactUs from "../Screens/ContactUsScreen/ContactUs";
 import YourTickets from "../Screens/YourTicketsScreen/YourTickets";
 import TicketsConversation from "../Screens/TicketsConversationScreen/TicketsConversation";
-import PDFViewerAndroid from "../Screens/PDFViewerScreen/PDFViewerAndroid";
 import Forex from "../Screens/ForexScreen/Forex";
 import VisaSelector from "../Screens/VisaSelectorScreen/VisaSelector";
 import VisaStatus from "../Screens/VisaStatusScreen/VisaStatus";
 import VisaHelp from "../Screens/VisaHelpScreen/VisaHelp";
 import VisaDocsChecklist from "../Screens/VisaDocsChecklistScreen/VisaDocsChecklist";
+import VisaSuccess from "../Screens/VisaSuccessScreen/VisaSuccess";
 import getActiveRouteName from "../Services/getActiveRouteName/getActiveRouteName";
 
 const MainStack = createStackNavigator(
@@ -86,6 +86,9 @@ const MainStack = createStackNavigator(
     },
     VisaStatus: {
       screen: VisaStatus
+    },
+    VisaSuccess: {
+      screen: VisaSuccess
     },
     VisaHelp: {
       screen: VisaHelp
