@@ -4,7 +4,7 @@
   "build": 211,
   "private": true,
   "scripts": {
-    "android": "react-native run-android",
+    "android": "ENVFILE=.env.staging react-native run-android",
     "ios": "ENVFILE=.env.staging react-native run-ios --simulator=\"iPhone 11 Pro\"",
     "start": "ENVFILE=.env.staging react-native start --reset-cache",
     "test": "ENVFILE=.env.test && jest",
@@ -74,7 +74,7 @@
     "react-native-lightbox": "^0.8.0",
     "react-native-linear-gradient": "2.5.4",
     "react-native-material-dropdown": "^0.11.1",
-    "react-native-modal": "6.5.0",
+    "react-native-modal": "11.5.3",
     "react-native-parallax-scroll-view": "0.21.3",
     "react-native-particles": "^0.0.7",
     "react-native-pdf": "5.1.4",
