@@ -82,6 +82,7 @@ PODS:
     - boost-for-react-native
     - DoubleConversion
     - glog
+  - FreshchatSDK (2.9.0)
   - glog (0.3.5)
   - GoogleAppMeasurement (6.0.2):
     - GoogleUtilities/AppDelegateSwizzler (~> 6.0)
@@ -379,6 +380,9 @@ PODS:
     - Fabric
     - Firebase/Core
     - React
+  - RNFreshchatSDK (2.2.0):
+    - FreshchatSDK (= 2.9.0)
+    - React
   - RNGestureHandler (1.5.0):
     - React
   - RNImageCropPicker (0.25.0):
@@ -477,6 +481,7 @@ DEPENDENCIES:
   - RNFastImage (from `../node_modules/react-native-fast-image`)
   - RNFileViewer (from `../node_modules/react-native-file-viewer/ios`)
   - RNFirebase (from `../node_modules/react-native-firebase/ios`)
+  - RNFreshchatSDK (from `../node_modules/react-native-freshchat-sdk`)
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNImageCropPicker (from `../node_modules/react-native-image-crop-picker`)
   - RNInAppBrowser (from `../node_modules/react-native-inappbrowser-reborn`)
@@ -520,6 +525,7 @@ SPEC REPOS:
     - SDWebImageWebPCoder
     - Sentry
   trunk:
+    - FreshchatSDK
     - WebEngage
 
 EXTERNAL SOURCES:
@@ -613,6 +619,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-file-viewer/ios"
   RNFirebase:
     :path: "../node_modules/react-native-firebase/ios"
+  RNFreshchatSDK:
+    :path: "../node_modules/react-native-freshchat-sdk"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
   RNImageCropPicker:
@@ -659,6 +667,7 @@ SPEC CHECKSUMS:
   FirebasePerformance: bd3666700af4d43caf2a13b93718f3b532b8a5ff
   FirebaseRemoteConfig: 7f6a0899f51953999667cb34a13b2e479c17d840
   Folly: 30e7936e1c45c08d884aa59369ed951a8e68cf51
+  FreshchatSDK: d14be2f5cabc2ce243b839e9ce9d4f2aa9bf25f5
   glog: 1f3da668190260b06b429bb211bfbee5cd790c28
   GoogleAppMeasurement: a35a645835bae31b6bdc0576396bc23908f12a22
   GoogleToolboxForMac: b3553629623a3b1bff17f555e736cd5a6d95ad55
@@ -707,6 +716,7 @@ SPEC CHECKSUMS:
   RNFastImage: 9b0c22643872bb7494c8d87bbbb66cc4c0d9e7a2
   RNFileViewer: 5047ecf40477339723cc08abd55b5ebcefcef4b5
   RNFirebase: b627e5991bb10bf34cea84806819f98f95f39f8b
+  RNFreshchatSDK: 072c81999396064c3b5c25435c17def4ba3a97c2
   RNGestureHandler: a4ddde1ffc6e590c8127b8b7eabfdade45475c74
   RNImageCropPicker: 0a731d984e64ee4c28bddaa7ce52262e4b80979f
   RNInAppBrowser: 6a4b1c006d41d76eac14d758145335c83e1ab1cf

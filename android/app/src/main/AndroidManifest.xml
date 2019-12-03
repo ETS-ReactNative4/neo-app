@@ -19,6 +19,25 @@
       android:theme="@style/AppTheme"
       tools:replace="android:allowBackup">
 
+      <!--
+        This line was added based on fresh chat documentation
+        https://support.freshchat.com/support/solutions/articles/50000000207-freshchat-android-sdk-integration-steps
+        However, since we are using AndroidX, the provider package is changed as per the SO answer
+        https://stackoverflow.com/a/56932980/5597641
+        Finally, the provider had conflict with rn-image-crop-picker provider. Hence another key tools:replace line was added as per SO answer
+        https://stackoverflow.com/a/48807833/5597641
+       -->
+      <provider
+          android:name="androidx.core.content.FileProvider"
+          android:authorities="com.pickyourtrail.provider"
+          android:exported="false"
+          android:grantUriPermissions="true">
+          <meta-data
+              android:name="android.support.FILE_PROVIDER_PATHS"
+              android:resource="@xml/freshchat_file_provider_paths"
+              tools:replace="android:resource"/>
+      </provider>
+
       <meta-data android:name="com.webengage.sdk.android.environment" android:value="us" />
       <meta-data android:name="com.google.firebase.messaging.default_notification_icon" android:resource="@mipmap/ic_notif"/>
       <meta-data android:name="com.google.firebase.messaging.default_notification_channel_id" android:value="my_default_channel"/>

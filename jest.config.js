@@ -60,7 +60,8 @@ module.exports = {
     "./__mocks__/mockFirebase.js",
     "./__mocks__/mockSegmentAnalytics.js",
     "./__mocks__/mockNativeEventEmitter.js",
-    "./__mocks__/mockWebEngage.js"
+    "./__mocks__/mockWebEngage.js",
+    "./__mocks__/mockFreshchat.js"
   ],
   transformIgnorePatterns: [
     `node_modules/(?!(${ignoredNativeModules.join("|")}))`

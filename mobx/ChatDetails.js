@@ -21,6 +21,12 @@ class ChatDetails {
     hydrate("_offlineContact", storeInstance)
       .then(() => {})
       .catch(err => logError(err));
+    hydrate("_unreadMessageCount", storeInstance)
+      .then(() => {})
+      .catch(err => logError(err));
+    hydrate("_isChatActive", storeInstance)
+      .then(() => {})
+      .catch(err => logError(err));
   };
 
   @action
@@ -45,7 +51,9 @@ class ChatDetails {
 
   @observable _metaDataError = false;
 
-  @observable _isChatActive = false;
+  @persist
+  @observable
+  _isChatActive = false;
 
   @persist
   @observable
@@ -53,7 +61,16 @@ class ChatDetails {
 
   @persist
   @observable
+  _unreadMessageCount = 0;
+
+  @persist
+  @observable
   _chatActivationMessage = constants.preTripChatText;
+
+  @computed
+  get unreadMessageCount() {
+    return this._unreadMessageCount;
+  }
 
   @computed
   get chatActivationMessage() {
@@ -109,40 +126,49 @@ class ChatDetails {
   }
 
   /**
-   * Retrieve the details needed for initializing chat
-   * This also includes the chat token and the host urls
+   * Retrieves the details needed for initializing chat.
+   * This also includes the chat token and the host urls.
+   *
+   * The promise returned by this method will resolve only if the chat is
+   * initialized for the user. All other scenarios will lead to promise rejection.
    */
   @action
   getUserDetails = () => {
-    this._isLoading = true;
-    const initializationUrl = `${constants.initiateChat}?itineraryId=${storeService.itineraries.selectedItineraryId}`;
-    apiCall(initializationUrl)
-      .then(response => {
-        this._isLoading = false;
-        if (response.status === constants.responseSuccessStatus) {
-          this._isChatActive = true;
-          this._chatDetails = response.data;
-          this._initializationError = false;
-          this._offlineContact = response.data.offlineContact;
-        } else if (response.status === "NOT_INITIATED") {
-          this._isChatActive = false;
-          this._initializationError = false; // Chat not initiated but initialization call is success
-          this._chatActivationTime = response.data.departureDateMillis;
-          this._chatActivationMessage =
-            response.data.displayMsg || constants.preTripChatText;
-          this._offlineContact = response.data.offlineContact;
-        } else {
-          logError("Chat failed to Initialize", {
-            response,
-            initializationUrl
-          });
+    return new Promise((resolve, reject) => {
+      this._isLoading = true;
+      const initializationUrl = `${constants.initiateChat}?itineraryId=${storeService.itineraries.selectedItineraryId}`;
+      apiCall(initializationUrl)
+        .then(response => {
+          this._isLoading = false;
+          if (response.status === constants.responseSuccessStatus) {
+            this._isChatActive = true;
+            this._chatDetails = response.data;
+            this._initializationError = false;
+            this._offlineContact = response.data.offlineContact;
+            resolve(response.data);
+          } else if (response.status === "NOT_INITIATED") {
+            this._isChatActive = false;
+            this._initializationError = false; // Chat not initiated but initialization call is success
+            this._chatActivationTime = response.data.departureDateMillis;
+            this._chatActivationMessage =
+              response.data.displayMsg || constants.preTripChatText;
+            this._offlineContact = response.data.offlineContact;
+            reject();
+          } else {
+            logError("Chat failed to Initialize", {
+              response,
+              initializationUrl
+            });
+            this._initializationError = true;
+            reject();
+          }
+        })
+        .catch(() => {
           this._initializationError = true;
-        }
-      })
-      .catch(() => {
-        this._initializationError = true;
-        this._isLoading = false;
-      });
+          this._isLoading = false;
+          reject();
+        });
+    });
   };
 
   /**
@@ -150,7 +176,7 @@ class ChatDetails {
    * Also sends meta data such as `actorId` for use in Plato to send push notifications
    */
   @action
-  setChatMetaInfo = (requestBody, successCallback) => {
+  setChatMetaInfo = (requestBody, successCallback = () => null) => {
     this._isLoading = true;
     apiCall(`${constants.setChatRestoreId}`, requestBody, "PUT")
       .then(response => {
@@ -175,6 +201,17 @@ class ChatDetails {
         this._metaDataError = true;
         this._isLoading = false;
       });
+  };
+
+  @action
+  setUnreadMessageCount = count => {
+    if (typeof count === "number") {
+      this._unreadMessageCount = count;
+    } else {
+      logError("Invalid message count", {
+        count
+      });
+    }
   };
 }
 

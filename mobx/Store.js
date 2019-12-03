@@ -64,6 +64,7 @@ const createStore = () => {
       logError(err);
     });
   Itineraries.hydrator(appStore.itineraries);
+  AppState.hydrator(appStore.appState);
   hydrate("_vouchers", appStore.voucherStore)
     .then(() => {})
     .catch(err => {
@@ -74,32 +75,12 @@ const createStore = () => {
     .catch(err => {
       logError(err);
     });
-  hydrate("_tripMode", appStore.appState)
-    .then(() => {})
-    .catch(err => {
-      logError(err);
-    });
-  hydrate("_currencies", appStore.appState)
-    .then(() => {})
-    .catch(err => {
-      logError(err);
-    });
   hydrate("_weather", appStore.weatherStore)
     .then(() => {})
     .catch(err => {
       logError(err);
     });
   hydrate("_lastUpdated", appStore.weatherStore)
-    .then(() => {})
-    .catch(err => {
-      logError(err);
-    });
-  hydrate("_conversionRates", appStore.appState)
-    .then(() => {})
-    .catch(err => {
-      logError(err);
-    });
-  hydrate("_pushTokens", appStore.appState)
     .then(() => {})
     .catch(err => {
       logError(err);

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Text, ScrollView, StyleSheet, BackHandler } from "react-native";
+import { View, StyleSheet, BackHandler } from "react-native";
 import HomeHeader from "../../CommonComponents/HomeHeader/HomeHeader";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import ToolTip from "./Components/ToolTip/ToolTip";
@@ -22,27 +22,54 @@ import pullToRefresh from "../../Services/refresh/pullToRefresh";
 import debouncer from "../../Services/debouncer/debouncer";
 import constants from "../../constants/constants";
 import AlertCardV2 from "./Components/AlertCardV2/AlertCardV2";
+import isUserLoggedInCallback from "../../Services/isUserLoggedInCallback/isUserLoggedInCallback";
+import {
+  getActorId,
+  getRestoreId,
+  getUnreadMessagesCount,
+  identifyChatUser,
+  initializeChat,
+  setChatUserDetails
+} from "../../Services/freshchatService/freshchatService";
+import SupportOfflineMessage from "../ChatScreen/Components/SupportOfflineMessage";
+import dialer from "../../Services/dialer/dialer";
+import { recordEvent } from "../../Services/analytics/analyticsService";
+import PropTypes from "prop-types";
 
 @ErrorBoundary({ isRoot: true })
 @inject("tripFeedStore")
 @inject("feedbackPrompt")
 @inject("itineraries")
+@inject("chatDetailsStore")
 @observer
 class TripFeed extends Component {
+  static propTypes = {
+    tripFeedStore: PropTypes.object,
+    feedbackPrompt: PropTypes.object,
+    itineraries: PropTypes.object,
+    chatDetailsStore: PropTypes.object,
+    navigation: PropTypes.object
+  };
+
   static navigationOptions = {
     header: null
   };
 
-  state = {
-    scrollEnabled: true,
-    tripFeedHeader: null
-  };
   _didFocusSubscription;
   _willBlurSubscription;
   _emitterComponent = React.createRef();
 
   constructor(props) {
     super(props);
+
+    /**
+     * Loading Header into the view instead of react navigation
+     * To hide it when the feedback overlay shows up
+     */
+    this.state = {
+      scrollEnabled: true,
+      tripFeedHeader: HomeHeader({ navigation: props.navigation }).header
+    };
 
     this._didFocusSubscription = props.navigation.addListener(
       "didFocus",
@@ -51,6 +78,7 @@ class TripFeed extends Component {
           const { selectedItineraryId } = props.itineraries;
           if (selectedItineraryId) {
             this.loadTripFeedData();
+            this.loadChatData();
           }
           BackHandler.addEventListener(
             "hardwareBackPress",
@@ -87,15 +115,8 @@ class TripFeed extends Component {
     const { selectedItineraryId } = this.props.itineraries;
     if (selectedItineraryId) {
       this.loadTripFeedData();
+      this.loadChatData();
     }
-
-    /**
-     * Loading Header into the view instead of react navigation
-     * To hide it when the feedback overlay shows up
-     */
-    this.setState({
-      tripFeedHeader: HomeHeader({ navigation: this.props.navigation }).header
-    });
 
     this._willBlurSubscription = this.props.navigation.addListener(
       "willBlur",
@@ -121,6 +142,55 @@ class TripFeed extends Component {
     }, 2000);
   };
 
+  /**
+   * Used to initialize fresh chat native sdk
+   * This method will be executed every time the tab focus changes.
+   *
+   * First user details will be retrieved from an API call.
+   * If chat is initialized, chat details will be available. Using the chat details,
+   * corresponding fresh-chat functions will be called to perform initialization operations
+   */
+  loadChatData = () => {
+    isUserLoggedInCallback(() => {
+      const {
+        getUserDetails,
+        setUnreadMessageCount,
+        setChatMetaInfo
+      } = this.props.chatDetailsStore;
+      getUserDetails()
+        .then(chatDetails => {
+          initializeChat(chatDetails.appId, chatDetails.appKey);
+          identifyChatUser(chatDetails.feid, chatDetails.frid || null).catch(
+            () => null
+          );
+          setChatUserDetails({
+            firstName: chatDetails.trailId,
+            lastName: chatDetails.name,
+            email: chatDetails.email,
+            phoneCountryCode: chatDetails.ccode,
+            phone: chatDetails.mob_num
+          }).catch(() => null);
+          if (!chatDetails.frid) {
+            getRestoreId()
+              .then(restoreId => {
+                getActorId()
+                  .then(actorId => {
+                    setChatMetaInfo({ restoreId, actorId });
+                  })
+                  .catch(() => null);
+              })
+              .catch(() => null);
+          }
+        })
+        .catch(() => null);
+      getUnreadMessagesCount()
+        .then(count => {
+          setUnreadMessageCount(count);
+        })
+        .catch(() => null);
+    });
+  };
+
   componentWillUnmount() {
     this._didFocusSubscription && this._didFocusSubscription.remove();
     this._willBlurSubscription && this._willBlurSubscription.remove();
@@ -137,11 +207,25 @@ class TripFeed extends Component {
       closeInfoCardModal
     } = this.props.tripFeedStore;
     const { isFeedbackPanelVisible } = this.props.feedbackPrompt;
+    const {
+      isOffHours,
+      currentTime,
+      offlineContact
+    } = this.props.chatDetailsStore;
+    const openDialer = () => {
+      recordEvent(constants.TripFeed.event, {
+        click: constants.TripFeed.click.chatOfflineContact
+      });
+      dialer(offlineContact);
+    };
     let isImageFirst = false;
     return (
       <View style={styles.tripFeedContainer}>
         {this.state.tripFeedHeader}
         <NoInternetIndicator />
+        {isOffHours ? (
+          <SupportOfflineMessage time={currentTime} ctaAction={openDialer} />
+        ) : null}
         <CustomScrollView
           onRefresh={this.loadTripFeedData}
           refreshing={isLoading}

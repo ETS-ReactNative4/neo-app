@@ -12,12 +12,10 @@ import PassengerName from "./Components/PassengerName";
 import VoucherAccordion from "../Components/VoucherAccordion";
 import IosCloseButton from "../Components/IosCloseButton";
 import VoucherSplitSection from "../Components/VoucherSplitSection";
-import VoucherAddressSection from "../Components/VoucherAddressSection";
 import moment from "moment";
 import VoucherContactActionBar from "../Components/VoucherContactActionBar";
 import ErrorBoundary from "../../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import ViewVoucherButton from "../Components/ViewVoucherButton";
-import FooterStickyActionBar from "../../../CommonComponents/FooterStickyActionBar/FooterStickyActionBar";
 import ConditionsApplyText from "../Components/ConditionsApplyText";
 import CheckInCheckOut from "../Components/CheckInCheckOut";
 import _ from "lodash";
@@ -25,6 +23,7 @@ import { createIconSetFromIcoMoon } from "react-native-vector-icons";
 import icoMoonConfig from "../../../assets/fontMap/hotel-amenities.json";
 import VoucherAlertBox from "../Components/VoucherAlertBox/VoucherAlertBox";
 import VoucherAddressSectionV2 from "../Components/VoucherAddressSectionV2/VoucherAddressSectionV2";
+import PropTypes from "prop-types";
 
 const xHeight = isIphoneX()
   ? constants.xNotchHeight
@@ -34,6 +33,10 @@ const xHeight = isIphoneX()
 
 @ErrorBoundary()
 class HotelVoucher extends Component {
+  static propTypes = {
+    navigation: PropTypes.object
+  };
+
   static navigationOptions = {
     header: null,
     gestureResponseDistance: {
@@ -60,21 +63,12 @@ class HotelVoucher extends Component {
     const Icon = createIconSetFromIcoMoon(icoMoonConfig);
 
     const {
-      checkInDateDisplay,
-      checkInMonthDisplay,
-      checkInDayOfWeek,
-      checkOutDateDisplay,
-      checkOutMonthDisplay,
-      checkOutDayOfWeek,
       checkInDate,
       checkOutDate,
       name,
       roomsInHotel,
-      amenitiesList,
       amenityDisplayList,
-      bookingSource,
       imageURL,
-      finalPrice,
       mobile,
       lat,
       lon
@@ -82,12 +76,8 @@ class HotelVoucher extends Component {
 
     const {
       rooms,
-      voucherId,
-      checkInDateTs,
-      checkOutDateTs,
       hotelAddress1,
       hotelAddress2,
-      bookedTime,
       checkInDate: checkInDateVoucher,
       checkInTime: checkInTimeVoucher,
       checkOutDate: checkOutDateVoucher,
@@ -156,8 +146,6 @@ class HotelVoucher extends Component {
         }, "")
       : "";
 
-    let isRoomRefundable = false;
-
     return (
       <Fragment>
         <ParallaxScrollView
@@ -212,32 +200,31 @@ class HotelVoucher extends Component {
               constants.hotelDefaultCheckOutTime}*`}
           />
 
-          <VoucherName name={name} textStyle={{ marginHorizontal: 24 }} />
+          <VoucherName name={name} textStyle={styles.voucherNameWrapper} />
 
           <View style={styles.bookingDetailsRow}>
             <SectionHeader
               sectionName={`BOOKING DETAILS`}
-              containerStyle={{ marginBottom: 0 }}
+              containerStyle={styles.bookingDetailsHeader}
             />
             {roomsInHotel &&
               roomsInHotel.map((room, roomIndex) => {
                 let {
-                  // leadPassenger, // Gender Needed?
-                  name,
+                  name: roomName,
                   roomImages,
-                  roomPaxInfo,
                   freeBreakfast,
                   freeWireless,
-                  refundable,
                   roomConfiguration,
                   roomTypeId,
-                  shortCancellationPolicy
+                  mealOptions = []
                 } = room;
 
                 const { adultCount, childAges } = roomConfiguration;
 
                 const roomVoucherDetails = rooms
-                  ? rooms.find(room => room.roomTypeId === roomTypeId)
+                  ? rooms.find(
+                      roomDetail => roomDetail.roomTypeId === roomTypeId
+                    )
                   : {};
                 let {
                   leadPassenger,
@@ -247,6 +234,17 @@ class HotelVoucher extends Component {
                 leadPassenger = leadPassenger || {};
                 otherPassengers = otherPassengers || [];
 
+                /**
+                 * Find the user's meal option if mealoptions are available.
+                 * This will replace breakfast if present.
+                 *
+                 * - User "might" have selected a mealoption in a list of meal options.
+                 */
+                const mealOption = mealOptions.length
+                  ? (mealOptions.find(option => option.selected) || {})
+                      .mealCodeDisplayText
+                  : "";
+
                 const roomImage = roomImages
                   ? roomImages.length
                     ? { uri: roomImages[0] }
@@ -255,10 +253,6 @@ class HotelVoucher extends Component {
 
                 const { checkIn, checkOut } = roomVoucherDetails;
                 if (checkIn > 1 && checkOut > 1) {
-                  refundable =
-                    typeof roomVoucherDetails.refundable === "boolean"
-                      ? roomVoucherDetails.refundable
-                      : refundable;
                   freeWireless =
                     typeof roomVoucherDetails.freeWireless === "boolean"
                       ? roomVoucherDetails.freeWireless
@@ -269,22 +263,25 @@ class HotelVoucher extends Component {
                       : freeBreakfast;
                 }
 
-                if (refundable) isRoomRefundable = true;
-
                 const hotelAmenitySummary = [
                   {
                     name: "Booking Reference ID",
                     value: bookingReferenceId || ""
                   },
-                  {
-                    name: "Breakfast",
-                    value:
-                      typeof freeBreakfast === "undefined"
-                        ? ""
-                        : freeBreakfast
-                        ? "Included"
-                        : "Not Included"
-                  },
+                  mealOption
+                    ? {
+                        name: "Meal Option",
+                        value: mealOption
+                      }
+                    : {
+                        name: "Breakfast",
+                        value:
+                          typeof freeBreakfast === "undefined"
+                            ? ""
+                            : freeBreakfast
+                            ? "Included"
+                            : "Not Included"
+                      },
                   {
                     name: "Free Wifi",
                     value:
@@ -294,10 +291,6 @@ class HotelVoucher extends Component {
                         ? "Included"
                         : "Not Included"
                   }
-                  // {
-                  //   name: "Booking Type",
-                  //   value: refundable ? "Refundable*" : "Non-Refundable"
-                  // }
                 ];
 
                 return (
@@ -308,7 +301,7 @@ class HotelVoucher extends Component {
                         image={roomImage}
                       />
                       <View style={styles.bookedSuitDetails}>
-                        <Text style={styles.bookedSuitType}>{name}</Text>
+                        <Text style={styles.bookedSuitType}>{roomName}</Text>
                         <Text
                           style={styles.suitBookingDetails}
                         >{`Booked for ${adultCount} adult${
@@ -347,7 +340,7 @@ class HotelVoucher extends Component {
 
             {hotelAddress1 || hotelAddress2 ? (
               <VoucherAddressSectionV2
-                containerStyle={{ marginTop: 16, padding: 0 }}
+                containerStyle={styles.voucherAddressSectionWrapper}
                 address={hotelAddress1 || hotelAddress2}
               />
             ) : null}
@@ -370,7 +363,6 @@ class HotelVoucher extends Component {
 
             <ViewVoucherButton voucherUrl={voucherUrl} />
 
-            {/* isRoomRefundable ? <ConditionsApplyText /> : null */}
             <ConditionsApplyText
               text={constants.voucherText.hotelTimingConditionText}
             />
@@ -457,6 +449,16 @@ const styles = StyleSheet.create({
 
   bookingSection: {
     marginVertical: 32
+  },
+  voucherNameWrapper: {
+    marginHorizontal: 24
+  },
+  bookingDetailsHeader: {
+    marginBottom: 0
+  },
+  voucherAddressSectionWrapper: {
+    marginTop: 16,
+    padding: 0
   }
 });
 
