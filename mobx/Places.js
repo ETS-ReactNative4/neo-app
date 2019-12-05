@@ -1,4 +1,4 @@
-import { observable, computed, action, toJS, set, get } from "mobx";
+import { observable, computed, action, toJS } from "mobx";
 import { createTransformer } from "mobx-utils";
 import { persist } from "mobx-persist";
 import apiCall from "../Services/networkRequests/apiCall";
@@ -71,17 +71,21 @@ class Places {
     return this._isPlaceLoading;
   }
 
-  /**
-   * TODO: Better way to use empty objects instead of try-catch (creates sentry entry)
-   */
   @computed
   get categories() {
     try {
-      const category = get(this._cityCategories, this._selectedCity);
-      if (category) return toJS(category);
-      else return {};
+      const category = _.get(
+        toJS(this._cityCategories),
+        this._selectedCity,
+        false
+      );
+      if (category) {
+        return toJS(category);
+      } else {
+        return {};
+      }
     } catch (e) {
-      // logError(e);
+      logError(e);
       return {};
     }
   }
@@ -121,7 +125,7 @@ class Places {
             this._hasError = true;
           }
         })
-        .catch(err => {
+        .catch(() => {
           this._isPlaceLoading = false;
           this._hasError = true;
         });
@@ -159,7 +163,7 @@ class Places {
           this._hasError = true;
         }
       })
-      .catch(err => {
+      .catch(() => {
         this._isLoading = false;
         this._hasError = true;
       });
@@ -195,7 +199,7 @@ class Places {
             this._hasError = true;
           }
         })
-        .catch(err => {
+        .catch(() => {
           this._isNextPageLoading = false;
           this._hasError = true;
         });
@@ -235,7 +239,9 @@ class Places {
       keyword,
       rankBy: true
     };
-    if (token) requestObject.token = token;
+    if (token) {
+      requestObject.token = token;
+    }
     apiCall(constants.googleNearBySearch, requestObject)
       .then(response => {
         if (response.status === "SUCCESS") {
@@ -253,7 +259,7 @@ class Places {
           this._hasError = true;
         }
       })
-      .catch(err => {
+      .catch(() => {
         this._isLoading = false;
         this._hasError = true;
       });
@@ -292,7 +298,7 @@ class Places {
             this._hasError = true;
           }
         })
-        .catch(err => {
+        .catch(() => {
           this._isNextPageLoading = false;
           this._hasError = true;
         });
@@ -324,7 +330,9 @@ class Places {
 
   @action
   loadCityCategory = cityId => {
-    if (!this._cityCategories[cityId]) this._loadCityCategoryFromAPI(cityId);
+    if (!this._cityCategories[cityId]) {
+      this._loadCityCategoryFromAPI(cityId);
+    }
   };
 
   @action
@@ -348,7 +356,7 @@ class Places {
           this._hasError = true;
         }
       })
-      .catch(err => {
+      .catch(() => {
         this._hasError = true;
         this._isLoading = false;
       });
