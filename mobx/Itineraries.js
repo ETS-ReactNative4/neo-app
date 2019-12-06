@@ -1,4 +1,4 @@
-import { observable, computed, action, toJS } from "mobx";
+import { action, computed, observable, toJS } from "mobx";
 import { createTransformer } from "mobx-utils";
 import { persist } from "mobx-persist";
 import _ from "lodash";
@@ -670,6 +670,22 @@ class Itineraries {
     return rentals;
   }
 
+  @computed
+  get customCostings() {
+    if (_.isEmpty(this._selectedItinerary)) {
+      return [];
+    }
+
+    let customCostingsArray = [];
+    try {
+      const { customCostings = [] } = this._selectedItinerary;
+      customCostingsArray = toJS(customCostings);
+    } catch (e) {
+      logError(e);
+    }
+    return customCostingsArray;
+  }
+
   getRentalCarByCityOrder = createTransformer(
     ({ fromCityOrder, toCityOrder }) => {
       if (_.isEmpty(this._selectedItinerary)) {
@@ -1063,6 +1079,19 @@ class Itineraries {
       hotel.voucher =
         storeService.voucherStore.getHotelVoucherById(hotel.costingId) || {};
       return hotel;
+    } catch (e) {
+      logError(e);
+      return {};
+    }
+  });
+
+  getCustomCostingsById = createTransformer(id => {
+    if (_.isEmpty(this._selectedItinerary)) {
+      return {};
+    }
+
+    try {
+      return this.customCostings.find(costing => id === costing._id) || {};
     } catch (e) {
       logError(e);
       return {};

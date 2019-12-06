@@ -112,7 +112,8 @@ const appEvents = {
       ferries: "ferries",
       rentalCars: "rental_cars",
       visa: "visa",
-      insurance: "insurance"
+      insurance: "insurance",
+      customVouchers: "customVouchers"
     }
   },
   Home: {

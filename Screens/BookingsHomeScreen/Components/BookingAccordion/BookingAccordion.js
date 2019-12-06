@@ -3,7 +3,6 @@ import {
   View,
   Text,
   StyleSheet,
-  ScrollView,
   Image,
   Platform,
   Animated,
@@ -27,6 +26,7 @@ import { recordEvent } from "../../../../Services/analytics/analyticsService";
 import _ from "lodash";
 import VisaSection from "./Components/VisaSection";
 import InsuranceSection from "./Components/InsuranceSection";
+import OthersSection from "./Components/OthersSection";
 
 let sections = [];
 @inject("itineraries")
@@ -34,7 +34,9 @@ let sections = [];
 @observer
 class BookingAccordion extends Component {
   static propTypes = {
-    navigation: PropTypes.object.isRequired
+    navigation: PropTypes.object.isRequired,
+    itineraries: PropTypes.object.isRequired,
+    visaStore: PropTypes.object.isRequired
   };
 
   state = {
@@ -54,7 +56,7 @@ class BookingAccordion extends Component {
     ).start();
   }
 
-  _renderHeader = (section, index, isActive, sections) => {
+  _renderHeader = (section, index, isActive) => {
     const { wasActiveIndex } = this.state;
     const customStyle = {};
 
@@ -126,18 +128,8 @@ class BookingAccordion extends Component {
         <View style={styles.notificationWrapper}>
           <NotificationCount
             count={section.items.length || 1}
-            containerStyle={{
-              backgroundColor: constants.secondColor,
-              height: 26,
-              width: 26,
-              borderRadius: 13,
-              marginRight: 2
-            }}
-            textStyle={{
-              ...constants.fontCustom(constants.primarySemiBold, 13),
-              color: constants.black2,
-              marginTop: 3
-            }}
+            containerStyle={styles.notificationCountContainer}
+            textStyle={styles.notificationCountTextStyle}
           />
 
           <Animated.View style={iconContainer}>
@@ -152,7 +144,7 @@ class BookingAccordion extends Component {
     );
   };
 
-  _renderContent = (section, index, isActive, sections) => {
+  _renderContent = section => {
     const { navigation } = this.props;
     const customStyle = {};
 
@@ -252,6 +244,15 @@ class BookingAccordion extends Component {
           />
         );
 
+      case "Others":
+        return (
+          <OthersSection
+            navigation={navigation}
+            section={section}
+            spinValue={spinValue}
+          />
+        );
+
       default:
         return (
           <View style={[styles.contentContainer, customStyle]}>
@@ -263,17 +264,11 @@ class BookingAccordion extends Component {
               />
             </View>
             <View style={styles.contentTextContainer}>
-              <View style={styles.contentHeaderWrapper}>
-                <Text style={styles.contentHeader}>{`17 May - 21 May`}</Text>
-              </View>
               <View style={styles.contentTextWrapper}>
                 <Text numberOfLines={1} style={styles.contentText}>
                   {section.type}
                 </Text>
               </View>
-            </View>
-            <View style={styles.rightPlaceholder}>
-              <Text style={styles.rightPlaceholderText}>Stayed</Text>
             </View>
           </View>
         );
@@ -360,6 +355,13 @@ class BookingAccordion extends Component {
               });
               break;
 
+            case "Others":
+              recordEvent(constants.Bookings.event, {
+                click: constants.Bookings.click.accordionHeader,
+                type: constants.Bookings.type.customVouchers
+              });
+              break;
+
             default:
               break;
           }
@@ -383,7 +385,8 @@ class BookingAccordion extends Component {
       visa,
       passes,
       rentals,
-      insurance
+      insurance,
+      customCostings
     } = this.props.itineraries;
     const { isVisaAvailable } = this.props.visaStore;
 
@@ -482,8 +485,17 @@ class BookingAccordion extends Component {
       sections.push(insuranceSection);
     }
 
+    if (customCostings.length) {
+      const othersSection = {
+        type: "Others",
+        icon: constants.insuranceIcon,
+        items: customCostings
+      };
+      sections.push(othersSection);
+    }
+
     return (
-      <View style={{ marginBottom: 24 }}>
+      <View style={styles.bookingAccordionContainer}>
         <Accordion
           activeSections={this.state.activeSections}
           onChange={this._updateActiveSections}
@@ -499,6 +511,9 @@ class BookingAccordion extends Component {
 }
 
 const styles = StyleSheet.create({
+  bookingAccordionContainer: {
+    marginBottom: 24
+  },
   headerContainer: {
     height: 48,
     flexDirection: "row",
@@ -611,6 +626,18 @@ const styles = StyleSheet.create({
     fontFamily: constants.primaryLight,
     fontSize: 10,
     color: constants.black2
+  },
+  notificationCountContainer: {
+    backgroundColor: constants.secondColor,
+    height: 26,
+    width: 26,
+    borderRadius: 13,
+    marginRight: 2
+  },
+  notificationCountTextStyle: {
+    ...constants.fontCustom(constants.primarySemiBold, 13),
+    color: constants.black2,
+    marginTop: 3
   }
 });
 
