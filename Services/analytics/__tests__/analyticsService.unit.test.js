@@ -154,8 +154,10 @@ test("screenTracker - screen tracking is done correctly", () => {
 test("setUserAttributes - user attributes are correctly set", async () => {
   const spyOnWebEngage = jest.spyOn(analyticsService, "setWebEngageAttribute");
   analyticsService.setUserAttributes("name", "Uncle");
-  expect(spyOnWebEngage).toHaveBeenCalledWith("name", "Uncle");
-  spyOnWebEngage.mockRestore();
+  setTimeout(() => {
+    expect(spyOnWebEngage).toHaveBeenCalledWith("name", "Uncle");
+    spyOnWebEngage.mockRestore();
+  }, 0);
 });
 
 afterEach(() => {
