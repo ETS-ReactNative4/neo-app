@@ -26,8 +26,7 @@ import { toastTop } from "../../Services/toast/toast";
 import OtpField from "./Components/OtpField";
 import { getDeviceToken } from "../../Services/fcmService/fcm";
 import { validateLoginMobileNumber } from "../../Services/validateMobileNumber/validateMobileNumber";
-
-let MobileNumberComponentInstance;
+import PropTypes from "prop-types";
 
 @ErrorBoundary()
 @inject("yourBookingsStore")
@@ -35,12 +34,20 @@ let MobileNumberComponentInstance;
 @inject("infoStore")
 @observer
 class MobileNumber extends Component {
+  static propTypes = {
+    yourBookingsStore: PropTypes.object,
+    userStore: PropTypes.object,
+    infoStore: PropTypes.object,
+    navigation: PropTypes.object
+  };
+
   static navigationOptions = ({ navigation }) => {
+    const leftAction = navigation.getParam("backButtonPress", () => null);
     return {
       header: (
         <CommonHeader
           title={""}
-          leftAction={() => MobileNumberComponentInstance.onBackButtonPress()}
+          leftAction={leftAction}
           navigation={navigation}
         />
       )
@@ -66,9 +73,10 @@ class MobileNumber extends Component {
   _mobileInputRef = React.createRef();
   _otpInputRef = React.createRef();
 
-  constructor() {
-    super();
-    MobileNumberComponentInstance = this;
+  constructor(props) {
+    super(props);
+
+    props.navigation.setParams({ backButtonPress: this.onBackButtonPress });
   }
 
   selectCountryCode = countryCode => {
@@ -179,7 +187,7 @@ class MobileNumber extends Component {
             }
           }, 1500);
         })
-        .catch(error => {
+        .catch(() => {
           Keyboard.dismiss();
           this.setState({
             isLoading: false
@@ -203,7 +211,7 @@ class MobileNumber extends Component {
     this.setState({
       isLoading: true
     });
-    const { setInfo, setError } = this.props.infoStore;
+    const { setError } = this.props.infoStore;
     apiCall(constants.verifyMobileNumber, requestBody)
       .then(response => {
         this.setState({
@@ -229,7 +237,7 @@ class MobileNumber extends Component {
           });
         }
       })
-      .catch(error => {
+      .catch(() => {
         this.setState(
           {
             isLoading: false
@@ -256,26 +264,6 @@ class MobileNumber extends Component {
       clearInterval(this.waitListener);
     }
   };
-
-  /**
-   * SMS listener for android is Removed hence otp prefiller won't work
-   */
-  // otpPrefiller = message => {
-  //   if (message.originatingAddress.indexOf("PYTBRK") > -1) {
-  //     const otp = message.body.substr(0, 6).split("");
-  //     recordEvent(constants.mobileNumberOtpAutoFill);
-  //     this.setState(
-  //       {
-  //         otp
-  //       },
-  //       () => {
-  //         setTimeout(() => {
-  //           this.verifyOtp();
-  //         }, 1000);
-  //       }
-  //     );
-  //   }
-  // };
 
   showCountryCodeModal = () => {
     recordEvent(constants.MobileNumber.event, {
@@ -322,7 +310,6 @@ class MobileNumber extends Component {
 
   componentDidMount() {
     BackHandler.addEventListener("hardwareBackPress", this.onBackButtonPress);
-    this.props.navigation.navigate("VisaSuccess");
   }
 
   moveToExplore = () => {
@@ -389,14 +376,6 @@ class MobileNumber extends Component {
             <ActivityIndicator size="large" color={constants.firstColor} />
           </View>
         ) : null}
-
-        {/*{this.state.isMobileVerified ? (*/}
-        {/*<OtpInput*/}
-        {/*otp={this.state.otp}*/}
-        {/*onEdit={this.editOtp}*/}
-        {/*onComplete={this.verifyOtp}*/}
-        {/*/>*/}
-        {/*) : null}*/}
       </View>,
 
       <KeyboardAvoidingActionBar
@@ -417,8 +396,6 @@ class MobileNumber extends Component {
           <NextBar onClickNext={this.submitMobileNumber} />
         )}
       </KeyboardAvoidingActionBar>
-
-      //<Loader isVisible={this.state.isLoading} key={3} />
     ];
   }
 }
