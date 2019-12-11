@@ -105,9 +105,4 @@ public class MainApplication extends Application implements ReactApplication {
     }
   }
 
-  // @Override
-  // protected void attachBaseContext(Context base) {
-  //   super.attachBaseContext(base);
-  //   MultiDex.install(this);
-  // }
 }

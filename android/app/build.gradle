@@ -146,7 +146,6 @@ android {
         applicationId "com.pickyourtrail"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        multiDexEnabled true
         versionCode Integer.parseInt(VERSION_CODE)
         versionName "1.3.3"
     }
