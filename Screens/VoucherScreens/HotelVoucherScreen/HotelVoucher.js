@@ -293,6 +293,8 @@ class HotelVoucher extends Component {
                   }
                 ];
 
+                const hasMealBeenPaid = mealOption || freeBreakfast;
+
                 return (
                   <View key={roomIndex} style={styles.bookedSuit}>
                     <View style={styles.bookedSuitInfo}>
@@ -334,6 +336,13 @@ class HotelVoucher extends Component {
                     <View style={styles.hotelDetailsSection}>
                       <VoucherSplitSection sections={hotelAmenitySummary} />
                     </View>
+
+                    {hasMealBeenPaid ? (
+                      <VoucherAlertBox
+                        alertText={constants.voucherText.freeBreakfastInfoText}
+                        mode={"info"}
+                      />
+                    ) : null}
                   </View>
                 );
               })}
@@ -347,13 +356,15 @@ class HotelVoucher extends Component {
 
             <VoucherContactActionBar contact={mobile} location={{ lat, lon }} />
 
-            {lat && lon ? (
-              <VoucherAlertBox
-                alertText={constants.voucherText.directionsDisclaimerText}
-                mode={"alert"}
-                containerStyle={styles.alertContainer}
-              />
-            ) : null}
+            <VoucherAlertBox
+              alertText={`${
+                lat && lon
+                  ? constants.voucherText.directionsDisclaimerText + "\n\n"
+                  : ""
+              }${constants.voucherText.securityDepositText}`}
+              mode={"alert"}
+              containerStyle={styles.alertContainer}
+            />
 
             <VoucherAccordion sections={amenitiesSection} />
 
