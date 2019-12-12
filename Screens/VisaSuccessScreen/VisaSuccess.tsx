@@ -42,13 +42,33 @@ const VisaSuccess = ({
   };
   useEffect(() => {
     return () => {
-      visaStore.updateUserHasSeenSuccessAnimation();
+      const {
+        isVisaInitialized,
+        isSingleVisa,
+        visaList,
+        isVisaAvailable,
+        updateUserHasSeenSuccessAnimation
+      } = visaStore;
+      Visa.visaOpener({
+        navigation,
+        isVisaInitialized,
+        isSingleVisa,
+        visaList,
+        isVisaAvailable
+      });
+      updateUserHasSeenSuccessAnimation();
     };
   });
   const { userDetails = {} } = userStore;
   // @ts-ignore TODO: Write types for User interface.
   const { name = "" } = userDetails;
   const { isSingleVisa = true } = visaStore;
+  const buttonStyle = {
+    width: null,
+    marginHorizontal: 24,
+    borderRadius: 4,
+    marginBottom: isIphoneX() ? 0 : 24
+  };
   return (
     <SafeAreaView style={[styles.visaSuccessContainer, containerStyle]}>
       <View style={styles.animationContainer}>
@@ -69,12 +89,7 @@ const VisaSuccess = ({
         <SimpleButton
           text="View details"
           textColor="white"
-          containerStyle={{
-            width: null,
-            marginHorizontal: 24,
-            borderRadius: 4,
-            marginBottom: isIphoneX() ? 0 : 24
-          }}
+          containerStyle={buttonStyle}
           action={goBack}
         />
       </View>
@@ -114,6 +129,7 @@ const styles = StyleSheet.create<VisaSuccessStyles>({
   successText: {
     textAlign: "center",
     marginTop: 72,
+    marginHorizontal: 24,
     ...CONSTANT_fontCustom(CONSTANT_fontPrimarySemiBold, 24, 29),
     color: constants.black2
   }

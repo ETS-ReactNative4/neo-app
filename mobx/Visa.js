@@ -1,4 +1,4 @@
-import { observable, computed, action, toJS } from "mobx";
+import { action, computed, observable, toJS } from "mobx";
 import { createTransformer } from "mobx-utils";
 import { persist } from "mobx-persist";
 import apiCall from "../Services/networkRequests/apiCall";
@@ -131,21 +131,29 @@ class Visa {
   /**
    * This method looks at 2 flags from the backend to see if we should display the VisaSuccess animated screen.
    * 1. `isGranted` tells us if the Visa has been granted or not.
-   * 2. `userHasSeenCongrats` tells us if the user has already seen the VisaSuccess screen.
+   * 2. `showVisaAnimation` tells us if the user has already seen the VisaSuccess screen.
    *
    * We loop over all the visas the user has, and returns `true` only when EVERY visa has been granted.
    */
   @computed
   get shouldDisplaySuccessAnimation() {
-    const shouldDisplay = this._visaList.reduce((prevVisaStatus, thisVisa) => {
-      const visaInfo = _.get(this._visaDetails, `${thisVisa.visaId}`, {});
-      return (
-        prevVisaStatus &&
-        _.get(visaInfo, "isGranted", false) &&
-        !_.get(visaInfo, "userHasSeenCongrats", false)
-      );
-    }, true);
-    return shouldDisplay;
+    try {
+      return this._visaList.reduce((prevVisaStatus, thisVisa) => {
+        const visaInfo = _.get(this._visaDetails, `${thisVisa.visaId}`, {});
+        return (
+          prevVisaStatus &&
+          _.get(visaInfo, "isGranted", false) &&
+          _.get(visaInfo, "showVisaAnimation", false)
+        );
+      }, true);
+    } catch (e) {
+      logError(e, {
+        type: "Failed to get status of the visa success animation",
+        visaList: toJS(this._visaList),
+        visaDetails: toJS(this._visaDetails)
+      });
+      return false;
+    }
   }
 
   isVisaHelpDataAvailable = createTransformer((visaId = "") => {
@@ -156,15 +164,23 @@ class Visa {
    * This method will retrieve the visa details of an itinerary stored in the local mobx store
    */
   getVisaDetailsByItineraryId = createTransformer((itineraryId = "") => {
-    if (this._visaDetails[itineraryId])
+    if (this._visaDetails[itineraryId]) {
       return toJS(this._visaDetails[itineraryId]);
-    else return [];
+    } else {
+      return [];
+    }
   });
 
   @action
   updateUserHasSeenSuccessAnimation = () => {
     return new Promise((resolve, reject) => {
-      apiCall(CONSTANT_updateVisaSuccessAnimationSeen, {}, "GET")
+      apiCall(
+        CONSTANT_updateVisaSuccessAnimationSeen,
+        {
+          showAnimation: false
+        },
+        "PATCH"
+      )
         .then(response => {
           resolve(response.data);
         })
@@ -175,7 +191,8 @@ class Visa {
   };
 
   /**
-   * This will fetch visa details of an itinerary from the api
+   * This will fetch visa details of an itinerary from the api based on the
+   * required visaId
    */
   @action
   loadVisaDetails = visaId => {
@@ -202,6 +219,22 @@ class Visa {
           reject();
         });
     });
+  };
+
+  /**
+   * This will fetch all the visa details associated with an itinerary without
+   * the need for visaId
+   */
+  @action
+  loadAllVisaDetails = () => {
+    try {
+      this.visaList.forEach(visa => this.loadVisaDetails(visa.visaId));
+    } catch (e) {
+      logError(e, {
+        type: "failed to fetch visa details from the API",
+        visaList: toJS(this._visaList)
+      });
+    }
   };
 
   getVisaDetails = createTransformer((visaId = "") => {
@@ -320,7 +353,7 @@ class Visa {
             reject();
           }
         })
-        .catch(error => {
+        .catch(() => {
           reject();
           // toastBottom(constants.visaScreenText.failedToLoadChecklistData)
         });
@@ -355,7 +388,7 @@ class Visa {
             reject();
           }
         })
-        .catch(error => {
+        .catch(() => {
           reject();
         });
     });

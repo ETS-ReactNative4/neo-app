@@ -120,9 +120,11 @@ class TripFeed extends Component {
       this.loadChatData();
       const {
         isVisaInitialized,
-        shouldDisplaySuccessAnimation
+        shouldDisplaySuccessAnimation,
+        loadAllVisaDetails
       } = this.props.visaStore;
       if (isVisaInitialized) {
+        loadAllVisaDetails();
         if (shouldDisplaySuccessAnimation) {
           this.props.navigation.navigate("VisaSuccess");
         }
