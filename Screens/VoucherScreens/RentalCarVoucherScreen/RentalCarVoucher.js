@@ -277,6 +277,7 @@ class RentalCarVoucher extends Component {
           <VoucherAlertBox
             alertText={constants.voucherText.rentalCarMinBalanceText}
             mode={"alert"}
+            containerStyle={styles.voucherAlertWrapper}
           />
 
           <VoucherContactActionBar contact={contactNumber} />
@@ -319,7 +320,10 @@ const styles = StyleSheet.create({
   },
   viewVoucherStyle: { alignSelf: "center", marginTop: 16 },
   instructionsWrapper: { marginTop: 16 },
-  passengerFont: { width: responsiveWidth(50) - 24 }
+  passengerFont: { width: responsiveWidth(50) - 24 },
+  voucherAlertWrapper: {
+    marginHorizontal: 24
+  }
 });
 
 export default RentalCarVoucher;

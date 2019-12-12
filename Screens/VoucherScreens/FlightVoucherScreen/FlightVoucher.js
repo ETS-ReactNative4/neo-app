@@ -16,8 +16,13 @@ import FlightActionSection from "./Components/FlightActionSection";
 import getTitleCase from "../../../Services/getTitleCase/getTitleCase";
 import ErrorBoundary from "../../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import ViewVoucherButton from "../Components/ViewVoucherButton";
-import FooterStickyActionBar from "../../../CommonComponents/FooterStickyActionBar/FooterStickyActionBar";
-import ConditionsApplyText from "../Components/ConditionsApplyText";
+import PropTypes from "prop-types";
+import LightBoxButton from "../../../CommonComponents/LightBoxButton/LightBoxButton";
+import PhotoView from "react-native-photo-view";
+import {
+  responsiveHeight,
+  responsiveWidth
+} from "react-native-responsive-dimensions";
 
 const xHeight = isIphoneX()
   ? constants.xNotchHeight
@@ -30,6 +35,12 @@ const xHeight = isIphoneX()
 @inject("itineraries")
 @observer
 class FlightVoucher extends Component {
+  static propTypes = {
+    passportDetailsStore: PropTypes.object,
+    itineraries: PropTypes.object,
+    navigation: PropTypes.object
+  };
+
   static navigationOptions = {
     header: null,
     gestureResponseDistance: {
@@ -61,16 +72,10 @@ class FlightVoucher extends Component {
      */
     const {
       flyCityText,
-      dateOfIssue,
-      cancellationPolicy,
       pnr,
-      sourceProvider,
-      totalCost,
-      invoiceNumber,
-      bookingReferenceId,
       webCheckInUrl,
       voucherUrl,
-      refundable
+      meetingPointImage
     } = flight.voucher;
     const {
       trips,
@@ -108,6 +113,11 @@ class FlightVoucher extends Component {
       //   value: refundable ? "Refundable*" : "Non-Refundable"
       // }
     ];
+
+    const lightBoxButtonStyle = {
+      marginVertical: 16,
+      width: responsiveWidth(100) - 48
+    };
 
     return (
       <Fragment>
@@ -182,15 +192,30 @@ class FlightVoucher extends Component {
               })}
             <VoucherSplitSection
               sections={flightInvoiceInfo}
-              containerStyle={{
-                borderTopWidth: StyleSheet.hairlineWidth,
-                borderColor: constants.shade4,
-                marginTop: 16,
-                paddingTop: 16,
-                marginBottom: 24
-              }}
+              containerStyle={styles.invoiceInfo}
             />
             <ViewVoucherButton voucherUrl={voucherUrl} />
+
+            {meetingPointImage ? (
+              <LightBoxButton
+                LightBoxComponent={() => {
+                  return (
+                    <PhotoView
+                      minimumZoomScale={1}
+                      maximumZoomScale={3}
+                      source={{ uri: meetingPointImage }}
+                      style={styles.photoViewContainer}
+                      resizeMode={"contain"}
+                    />
+                  );
+                }}
+                containerStyle={lightBoxButtonStyle}
+                text={"Visual Directions"}
+                hasBorder={true}
+                color={"transparent"}
+                textColor={constants.firstColor}
+              />
+            ) : null}
 
             {/* refundable ? <ConditionsApplyText /> : null */}
           </View>
@@ -240,6 +265,17 @@ const styles = StyleSheet.create({
   },
   flightVoucherContainer: {
     marginHorizontal: 24
+  },
+  invoiceInfo: {
+    borderTopWidth: StyleSheet.hairlineWidth,
+    borderColor: constants.shade4,
+    marginTop: 16,
+    paddingTop: 16,
+    marginBottom: 24
+  },
+  photoViewContainer: {
+    height: responsiveHeight(100),
+    width: responsiveWidth(100)
   }
 });
 

@@ -49,7 +49,7 @@ const appText = {
     securityDepositText:
       "Kindly note that a security deposit might be collected at the reception during check-in and refunded back during your check-out.",
     rentalCarMinBalanceText:
-      "Please note that the lead driver must have a minimum credit card balance of 1.5 lakh INR.",
+      "Please note that the lead driver must have a minimum credit card balance of Rs 1.5 lakhs in INR.",
     webCheckinUnavailableHeader: "Web checkin not yet available",
     webCheckinUnavailableText:
       "Web checkin will be available only 48 hrs prior to the trip.",
