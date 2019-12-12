@@ -670,20 +670,24 @@ class Itineraries {
     return rentals;
   }
 
+  /**
+   * TODO: Will be used to display custom block card costings in the others section of bookings - Currently disabled
+   */
   @computed
   get customCostings() {
-    if (_.isEmpty(this._selectedItinerary)) {
-      return [];
-    }
-
-    let customCostingsArray = [];
-    try {
-      const { customCostings = [] } = this._selectedItinerary;
-      customCostingsArray = toJS(customCostings);
-    } catch (e) {
-      logError(e);
-    }
-    return customCostingsArray;
+    return [];
+    // if (_.isEmpty(this._selectedItinerary)) {
+    //   return [];
+    // }
+    //
+    // let customCostingsArray = [];
+    // try {
+    //   const { customCostings = [] } = this._selectedItinerary;
+    //   customCostingsArray = toJS(customCostings);
+    // } catch (e) {
+    //   logError(e);
+    // }
+    // return customCostingsArray;
   }
 
   getRentalCarByCityOrder = createTransformer(

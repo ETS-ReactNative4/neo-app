@@ -10,13 +10,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Typescript Interfaces for itinerary costing objects.
 - Freshchat in-built react native push notifications - currently disabled since freshchat only supports sending notification to single device.
 - [**Android**] - Custom link handling not working since Freshchat view blocks JS thread from running. Issue needs to be fixed by freshchat.
+- Others section in the Booking voucher accordion for items added through custom block cards
 
 ## [1.3.3] - 2019-12-DD
 
 ### Added
 
 - Visa Success Animation Screen
-- Others section in the Booking voucher accordion for items added through custom block cards
+- Alerts & Information on the vouchers based on CH Request ([VOY-818](https://pickyourtrail.atlassian.net/browse/VOY-818))
 
 ### Changed
 
