@@ -13,16 +13,6 @@ module.exports = {
       platforms: {
         ios: null
       }
-    },
-    /**
-     * TODO: React Native Permissions is disabled on iOS due to the issues faced in the module
-     * - Requesting location is not working
-     * - Bluetooth module is detected by app-store review after installing this package
-     */
-    "react-native-permissions": {
-      platforms: {
-        ios: null
-      }
     }
   }
 };

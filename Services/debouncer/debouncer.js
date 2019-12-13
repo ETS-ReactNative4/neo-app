@@ -13,7 +13,7 @@ const debouncer = (callback = () => null) => {
       logError("Process crashed in the debouncer", { error });
       return false;
     }
-  });
+  }, 0);
 };
 
 export default debouncer;

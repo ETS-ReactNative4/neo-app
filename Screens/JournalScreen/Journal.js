@@ -3,7 +3,7 @@ import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 import constants from "../../constants/constants";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import NewJournal from "./Components/NewJounal/NewJournal";
-import { inject, observer } from "mobx-react/custom";
+import { inject, observer } from "mobx-react";
 import _ from "lodash";
 import CustomScrollView from "../../CommonComponents/CustomScrollView/CustomScrollView";
 import EditJournal from "./Components/EditJournal/EditJournal";

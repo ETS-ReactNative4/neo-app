@@ -133,6 +133,8 @@ PODS:
     - nanopb/encode (= 0.3.901)
   - nanopb/decode (0.3.901)
   - nanopb/encode (0.3.901)
+  - Permission-LocationWhenInUse (2.0.3):
+    - RNPermissions
   - Protobuf (3.9.0)
   - QBImagePickerController (3.4.0)
   - RCTRequired (0.61.2)
@@ -300,17 +302,19 @@ PODS:
     - React-cxxreact (= 0.61.2)
     - React-jsi (= 0.61.2)
   - React-jsinspector (0.61.2)
-  - react-native-cameraroll (1.2.1):
+  - react-native-cameraroll (1.3.0):
+    - React
+  - react-native-config (0.12.0):
     - React
   - react-native-geolocation (2.0.2):
     - React
-  - react-native-netinfo (4.4.0):
+  - react-native-netinfo (4.6.0):
     - React
   - react-native-photo-view (1.5.2):
     - React
   - react-native-simple-toast (0.1.1):
     - React
-  - react-native-viewpager (2.0.1):
+  - react-native-viewpager (2.0.2):
     - React
   - react-native-webengage (1.1.1):
     - React
@@ -361,7 +365,7 @@ PODS:
     - React
   - RNBootSplash (1.0.3):
     - React
-  - RNCAsyncStorage (1.6.2):
+  - RNCAsyncStorage (1.6.3):
     - React
   - RNDeviceInfo (2.1.2):
     - React
@@ -394,11 +398,13 @@ PODS:
     - React
   - RNKeychain (3.0.0):
     - React
+  - RNPermissions (2.0.3):
+    - React
   - RNReanimated (1.4.0):
     - React
   - RNScreens (1.0.0-alpha.23):
     - React
-  - RNSentry (1.0.9):
+  - RNSentry (1.1.0):
     - React
     - Sentry (~> 4.4.0)
   - RNShare (2.0.0):
@@ -441,6 +447,7 @@ DEPENDENCIES:
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
   - lottie-ios (from `../node_modules/lottie-ios`)
   - lottie-react-native (from `../node_modules/lottie-react-native`)
+  - Permission-LocationWhenInUse (from `../node_modules/react-native-permissions/ios/LocationWhenInUse.podspec`)
   - RCTRequired (from `../node_modules/react-native/Libraries/RCTRequired`)
   - RCTRestart (from `../node_modules/react-native-restart/ios`)
   - RCTTypeSafety (from `../node_modules/react-native/Libraries/TypeSafety`)
@@ -454,6 +461,7 @@ DEPENDENCIES:
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - "react-native-cameraroll (from `../node_modules/@react-native-community/cameraroll`)"
+  - react-native-config (from `../node_modules/react-native-config`)
   - "react-native-geolocation (from `../node_modules/@react-native-community/geolocation`)"
   - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
   - react-native-photo-view (from `../node_modules/react-native-photo-view`)
@@ -486,6 +494,7 @@ DEPENDENCIES:
   - RNImageCropPicker (from `../node_modules/react-native-image-crop-picker`)
   - RNInAppBrowser (from `../node_modules/react-native-inappbrowser-reborn`)
   - RNKeychain (from `../node_modules/react-native-keychain`)
+  - RNPermissions (from `../node_modules/react-native-permissions`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
   - "RNSentry (from `../node_modules/@sentry/react-native`)"
@@ -545,6 +554,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/lottie-ios"
   lottie-react-native:
     :path: "../node_modules/lottie-react-native"
+  Permission-LocationWhenInUse:
+    :path: "../node_modules/react-native-permissions/ios/LocationWhenInUse.podspec"
   RCTRequired:
     :path: "../node_modules/react-native/Libraries/RCTRequired"
   RCTRestart:
@@ -567,6 +578,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
   react-native-cameraroll:
     :path: "../node_modules/@react-native-community/cameraroll"
+  react-native-config:
+    :path: "../node_modules/react-native-config"
   react-native-geolocation:
     :path: "../node_modules/@react-native-community/geolocation"
   react-native-netinfo:
@@ -629,6 +642,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-inappbrowser-reborn"
   RNKeychain:
     :path: "../node_modules/react-native-keychain"
+  RNPermissions:
+    :path: "../node_modules/react-native-permissions"
   RNReanimated:
     :path: "../node_modules/react-native-reanimated"
   RNScreens:
@@ -677,6 +692,7 @@ SPEC CHECKSUMS:
   lottie-ios: 6037add6441183d4ffd100d2ac78724aa8d919d4
   lottie-react-native: 86aeee2caa9250e4c8027ac75711a59c6679e532
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
+  Permission-LocationWhenInUse: 5cb8e0df1463dfab567d2a3d2589ab557fda68cb
   Protobuf: 1097ca58584c8d9be81bfbf2c5ff5975648dd87a
   QBImagePickerController: d54cf93db6decf26baf6ed3472f336ef35cae022
   RCTRequired: c639d59ed389cfb1f1203f65c2ea946d8ec586e2
@@ -689,12 +705,13 @@ SPEC CHECKSUMS:
   React-jsi: 32285a21b1b24c36060493ed3057a34677d58d09
   React-jsiexecutor: 8909917ff7d8f21a57e443a866fd8d4560e50c65
   React-jsinspector: 111d7d342b07a904c400592e02a2b958f1098b60
-  react-native-cameraroll: 3e5e34d36d93548ae7770ee8ab7b2ae9e778f571
+  react-native-cameraroll: 463aff54e37cff27ea76eb792e6f1fa43b876320
+  react-native-config: f2c2ae45625a068c35681a16b9bfb1ca58b0adc7
   react-native-geolocation: c956aeb136625c23e0dce0467664af2c437888c9
-  react-native-netinfo: 6bb847e64f45a2d69c6173741111cfd95c669301
+  react-native-netinfo: fa32a5bb986924e9be82a261c262039042dde81e
   react-native-photo-view: 63e9e61da873531f931008b545d8d10c5373ddf8
   react-native-simple-toast: 1fc69d83c24279ed4f9624352551a5a3406678a2
-  react-native-viewpager: f41b42bba71407e916654d64e87ff2680edecc92
+  react-native-viewpager: 88f4269c19d626d2ccd5f7c7f5f7f76422ddb9e3
   react-native-webengage: ce9d42fac6385108b0245ef06e0a926697a38db4
   react-native-webview: 5036ed4a973ad1deeeff118262d2df7b60b3419d
   React-RCTActionSheet: 89b037c0fb7d2671607cb645760164e7e0c013f6
@@ -711,7 +728,7 @@ SPEC CHECKSUMS:
   rn-fetch-blob: 651b8d076b43d0d7aa294a3d9ec16c00aab8bef9
   RNAnalytics: 35a54cb740c472a0a6a3de765176b82cccc2d1ef
   RNBootSplash: 161de9d2b5dc2af37c2777063b8e6d844ab2a6ff
-  RNCAsyncStorage: 60a80e72d95bf02a01cace55d3697d9724f0d77f
+  RNCAsyncStorage: 3c304d1adfaea02ec732ac218801cb13897aa8c0
   RNDeviceInfo: 75dac2d7cd6b638b512cc9266ce48a39661fed0e
   RNFastImage: 9b0c22643872bb7494c8d87bbbb66cc4c0d9e7a2
   RNFileViewer: 5047ecf40477339723cc08abd55b5ebcefcef4b5
@@ -721,9 +738,10 @@ SPEC CHECKSUMS:
   RNImageCropPicker: 0a731d984e64ee4c28bddaa7ce52262e4b80979f
   RNInAppBrowser: 6a4b1c006d41d76eac14d758145335c83e1ab1cf
   RNKeychain: 3aa3cf891a09a0d18d306862ab2bb9e106079b24
+  RNPermissions: 9e437a90de84a5402ff689d4da233730b81556c2
   RNReanimated: b2ab0b693dddd2339bd2f300e770f6302d2e960c
   RNScreens: f28b48b8345f2f5f39ed6195518291515032a788
-  RNSentry: 2803ba8c8129dcf26b79e9b4d8c80168be6e4390
+  RNSentry: 932ac1c8b2f581b1c8be5812f88ff556c99e7fb7
   RNShare: 8b171d4b43c1d886917fdd303bf7a4b87167b05c
   RNSound: da030221e6ac7e8290c6b43f2b5f2133a8e225b0
   RNSVG: 0eb087cfb5d7937be93c45b163b26352a647e681
@@ -736,6 +754,6 @@ SPEC CHECKSUMS:
   WebEngage: a58c302918d98443329ec3b937a770fa51a21b6a
   Yoga: 14927e37bd25376d216b150ab2a561773d57911f
 
-PODFILE CHECKSUM: ea3a23853bd30b73c53bd90d6d6b5d4925489571
+PODFILE CHECKSUM: 61467804125c50de5a8d18bf7ea69768d35f9164
 
 COCOAPODS: 1.8.4

@@ -13,7 +13,7 @@ import BigImageCard from "../../Screens/TripFeedScreen/Components/BigImageCard/B
 import DayAhead from "../../Screens/TripFeedScreen/Components/DayAhead/DayAhead";
 import SimpleButton from "../../CommonComponents/SimpleButton/SimpleButton";
 import InfoCardModal from "../../Screens/TripFeedScreen/Components/InfoCardModal/InfoCardModal";
-import { inject, observer } from "mobx-react/custom";
+import { inject, observer } from "mobx-react";
 import DayAheadLite from "../../Screens/TripFeedScreen/Components/DayAheadLite/DayAheadLite";
 import AlertCardV2 from "../../Screens/TripFeedScreen/Components/AlertCardV2/AlertCardV2";
 

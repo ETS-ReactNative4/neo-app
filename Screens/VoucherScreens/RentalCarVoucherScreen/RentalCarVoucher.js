@@ -1,43 +1,43 @@
 import React, { Component, Fragment } from "react";
-import { View, StyleSheet, Platform, Text, Image } from "react-native";
+import { View, StyleSheet, Platform } from "react-native";
 import { isIphoneX } from "react-native-iphone-x-helper";
 import ParallaxScrollView from "react-native-parallax-scroll-view";
-import {
-  responsiveHeight,
-  responsiveWidth
-} from "react-native-responsive-dimensions";
+import { responsiveWidth } from "react-native-responsive-dimensions";
 import VoucherHeader from "../Components/VoucherHeader";
 import constants from "../../../constants/constants";
 import VoucherStickyHeader from "../Components/VoucherStickyHeader";
 import VoucherName from "../Components/VoucherName";
 import VoucherSplitSection from "../Components/VoucherSplitSection";
-import SectionHeader from "../../../CommonComponents/SectionHeader/SectionHeader";
 import IosCloseButton from "../Components/IosCloseButton";
 import moment from "moment";
 import getTransferImage from "../../../Services/getImageService/getTransferImage";
-import { inject, observer } from "mobx-react/custom";
-import TitleDate from "../Components/TitleDate";
+import { inject, observer } from "mobx-react";
 import ErrorBoundary from "../../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import getTitleCase from "../../../Services/getTitleCase/getTitleCase";
 import VoucherContactActionBar from "../Components/VoucherContactActionBar";
 import ViewVoucherButton from "../Components/ViewVoucherButton";
-import VoucherAddressSection from "../Components/VoucherAddressSection";
-import FooterStickyActionBar from "../../../CommonComponents/FooterStickyActionBar/FooterStickyActionBar";
 import CollapsibleTextSection from "../../../CommonComponents/CollapsibleTextSection/CollapsibleTextSection";
 import CheckInCheckOut from "../Components/CheckInCheckOut";
 import VoucherAccordion from "../Components/VoucherAccordion";
 import RentalCarActionBar from "../Components/RentalCarActionBar";
+import VoucherAlertBox from "../Components/VoucherAlertBox/VoucherAlertBox";
+import PropTypes from "prop-types";
 
 const xHeight = isIphoneX()
   ? constants.xNotchHeight
   : Platform.OS === constants.platformIos
-    ? 20
-    : 0;
+  ? 20
+  : 0;
 
 @ErrorBoundary()
 @inject("passportDetailsStore")
 @observer
 class RentalCarVoucher extends Component {
+  static propTypes = {
+    passportDetailsStore: PropTypes.object,
+    navigation: PropTypes.object
+  };
+
   static navigationOptions = {
     header: null,
     gestureResponseDistance: {
@@ -67,40 +67,18 @@ class RentalCarVoucher extends Component {
       passengerCount
     } = this.props.passportDetailsStore;
 
-    const {
-      passengers,
-      vehicle,
-      type,
-      pickup,
-      drop,
-      text,
-      dateMillis,
-      totalCost,
-      publishedCost,
-      departureTime,
-      arrivalTime: costingArrivalTime,
-      pDateMillis,
-      day,
-      duration,
-      mon
-    } = rentalCar;
+    const { vehicle, type, pickup, drop, duration } = rentalCar;
 
     const {
-      arrivalTime,
       pickupTime,
       pickupTimeStr,
-      dropTime,
       dropTimeStr,
       pickupDateStr,
       dropDateStr,
-      bookedTime,
       bookingId,
       contactNumber,
-      from,
-      to,
       vehicleName,
       voucherUrl,
-      meetingPoint,
       gpsIncluded,
       pickupLocation,
       dropLocation,
@@ -206,7 +184,7 @@ class RentalCarVoucher extends Component {
             <VoucherSplitSection sections={pickingUpDetails} />
             <CollapsibleTextSection
               title={"Instructions"}
-              containerStyle={{ marginTop: 16 }}
+              containerStyle={styles.instructionsWrapper}
               content={pickupInstructions}
             />
             <RentalCarActionBar
@@ -223,7 +201,7 @@ class RentalCarVoucher extends Component {
             <VoucherSplitSection sections={droppingOffDetails} />
             <CollapsibleTextSection
               title={"Instructions"}
-              containerStyle={{ marginTop: 16 }}
+              containerStyle={styles.instructionWrapper}
               content={dropInstructions}
             />
             <RentalCarActionBar
@@ -285,7 +263,7 @@ class RentalCarVoucher extends Component {
 
             <VoucherSplitSection
               sections={passengerDetails}
-              rightFontStyle={{ width: responsiveWidth(50) - 24 }}
+              rightFontStyle={styles.passengerFont}
             />
 
             <VoucherAccordion
@@ -296,10 +274,16 @@ class RentalCarVoucher extends Component {
             <VoucherSplitSection sections={bookingDetails} />
           </View>
 
+          <VoucherAlertBox
+            alertText={constants.voucherText.rentalCarMinBalanceText}
+            mode={"alert"}
+            containerStyle={styles.voucherAlertWrapper}
+          />
+
           <VoucherContactActionBar contact={contactNumber} />
 
           <ViewVoucherButton
-            containerStyle={{ alignSelf: "center", marginTop: 16 }}
+            containerStyle={styles.viewVoucherStyle}
             voucherUrl={voucherUrl}
           />
         </ParallaxScrollView>
@@ -333,6 +317,12 @@ const styles = StyleSheet.create({
     width: responsiveWidth(100) - 48,
     ...constants.fontCustom(constants.primaryLight, 17),
     color: constants.black2
+  },
+  viewVoucherStyle: { alignSelf: "center", marginTop: 16 },
+  instructionsWrapper: { marginTop: 16 },
+  passengerFont: { width: responsiveWidth(50) - 24 },
+  voucherAlertWrapper: {
+    marginHorizontal: 24
   }
 });
 

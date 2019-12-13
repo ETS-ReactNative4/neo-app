@@ -47,13 +47,14 @@ export interface IStoreService {
 // @ts-ignore
 const storeService: IStoreService = {};
 
-export const updateStoreService = (store: IStoreService): void => {
+export const updateStoreService = (store: IStoreService): IStoreService => {
   for (const key in store) {
     if (store.hasOwnProperty(key)) {
       // @ts-ignore
       storeService[key] = store[key];
     }
   }
+  return storeService;
 };
 
 export default storeService;

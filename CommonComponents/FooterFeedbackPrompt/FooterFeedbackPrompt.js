@@ -5,7 +5,7 @@ import constants from "../../constants/constants";
 import { isIphoneX } from "react-native-iphone-x-helper";
 import SimpleButton from "../SimpleButton/SimpleButton";
 import * as Animatable from "react-native-animatable";
-import { inject, observer } from "mobx-react/custom";
+import { inject, observer } from "mobx-react";
 import _ from "lodash";
 import navigationService from "../../Services/navigationService/navigationService";
 import { recordEvent } from "../../Services/analytics/analyticsService";

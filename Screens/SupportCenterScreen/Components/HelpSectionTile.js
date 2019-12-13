@@ -9,7 +9,7 @@ import {
 import Icon from "../../../CommonComponents/Icon/Icon";
 import constants from "../../../constants/constants";
 import PropTypes from "prop-types";
-import { inject, observer } from "mobx-react/custom";
+import { inject, observer } from "mobx-react";
 import faqIconMap from "../../../Services/faqIconMap/faqIconMap";
 
 const HelpSectionTile = inject("supportStore")(

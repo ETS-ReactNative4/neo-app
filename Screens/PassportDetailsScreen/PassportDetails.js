@@ -3,7 +3,7 @@ import VoucherAccordion from "../VoucherScreens/Components/VoucherAccordion";
 import VoucherSplitSection from "../VoucherScreens/Components/VoucherSplitSection";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import { ScrollView } from "react-native";
-import { inject, observer } from "mobx-react/custom";
+import { inject, observer } from "mobx-react";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import DeepLinkHandler from "../../CommonComponents/DeepLinkHandler/DeepLinkHandler";
 

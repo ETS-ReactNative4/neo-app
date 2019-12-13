@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import constants from "../../../../constants/constants";
-import { inject, observer } from "mobx-react/custom";
+import { inject, observer } from "mobx-react";
 import forbidExtraProps from "../../../../Services/PropTypeValidation/forbidExtraProps";
 import getSlotImage from "../../../../Services/getImageService/getSlotImage";
 import CityCard from "../CityCard";

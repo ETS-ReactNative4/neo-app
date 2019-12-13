@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import constants from "../../constants/constants";
-import { inject, observer } from "mobx-react/custom";
+import { inject, observer } from "mobx-react";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import isUserLoggedInCallback from "../../Services/isUserLoggedInCallback/isUserLoggedInCallback";
 import HelpDeskView from "./Components/HelpDeskView";

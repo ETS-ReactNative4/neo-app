@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { View, StyleSheet, Image } from "react-native";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
-import { inject, observer } from "mobx-react/custom";
+import { inject, observer } from "mobx-react";
 import constants from "../../constants/constants";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import VisaWelcomeMessage from "./Components/VisaWelcomeMessage";

@@ -9,7 +9,7 @@ import {
 import { BottomTabBarProps } from "react-navigation-tabs/lib/typescript/src/types";
 import constants from "../../constants/constants";
 import { isIphoneX } from "react-native-iphone-x-helper";
-import { inject, observer } from "mobx-react/custom";
+import { inject, observer } from "mobx-react";
 import ChatDetails from "../../mobx/ChatDetails";
 import { chatLauncher } from "../../Services/freshchatService/freshchatService";
 import { recordEvent } from "../../Services/analytics/analyticsService";

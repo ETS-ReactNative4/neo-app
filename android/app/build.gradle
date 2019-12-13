@@ -146,9 +146,8 @@ android {
         applicationId "com.pickyourtrail"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        multiDexEnabled true
         versionCode Integer.parseInt(VERSION_CODE)
-        versionName "1.3.2"
+        versionName "1.3.3"
     }
 
     splits {
@@ -258,3 +257,5 @@ project.afterEvaluate {
     apply from: '../../node_modules/react-native-draftjs-editor/copyHtml.gradle';
     copyEditorHtmlToAppAssets(file('../../node_modules/react-native-draftjs-editor'))
 }
+
+apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"

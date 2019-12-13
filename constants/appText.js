@@ -5,6 +5,11 @@ export const CONSTANT_chatOfflineMessage =
   "It’s :time Indian time. We’re currently offline!";
 export const CONSTANT_chatOfflineAction = " in case of an emergency";
 
+export const CONSTANT_visaSuccessTitleFn = (name, isSingleVisa) =>
+  `Woohoo ${name}! Your ${
+    isSingleVisa ? "Visa has" : "Visas have"
+  } been granted!\n#vacaymodeon`;
+
 const appText = {
   starterScreenText: {
     mainButton: "Find your booking",
@@ -39,6 +44,12 @@ const appText = {
       "Hotel amenities are subject to availability and providing it is at the discretion of the hotel",
     sharedTransferInfo:
       "As the transfer is on shared basis, the arrival time of transfer could vary plus or minus 15 - 30 minutes depending on traffic.",
+    freeBreakfastInfoText:
+      "Please note that you’ve already prebooked and paid for breakfast. Kindly reach out to our support team for further assistance",
+    securityDepositText:
+      "Kindly note that a security deposit might be collected at the reception during check-in and refunded back during your check-out.",
+    rentalCarMinBalanceText:
+      "Please note that the lead driver must have a minimum credit card balance of Rs 1.5 lakhs in INR.",
     webCheckinUnavailableHeader: "Web checkin not yet available",
     webCheckinUnavailableText:
       "Web checkin will be available only 48 hrs prior to the trip.",
@@ -46,7 +57,7 @@ const appText = {
       "Web checkin may not be available for flights with airline code share",
     conditionsApplyText: "Cancellation terms & conditions apply",
     hotelTimingConditionText:
-      "Check in and check out time are provisionally mentioned and can be changed at the discretion of the hotel",
+      "Check in and check out time are provisionally mentioned and can be changed at the discretion of the hotel. For early check-in, confirmation is based on the room availability.",
     voucherUnavailable: "Voucher currently unavailable"
   },
   downloadVoucherText: {

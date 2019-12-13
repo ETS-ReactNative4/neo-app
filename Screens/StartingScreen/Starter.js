@@ -12,7 +12,7 @@ import {
 } from "react-native";
 import constants from "../../constants/constants";
 import SimpleButton from "../../CommonComponents/SimpleButton/SimpleButton";
-import { inject, observer } from "mobx-react/custom";
+import { inject, observer } from "mobx-react";
 import { recordEvent } from "../../Services/analytics/analyticsService";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import openCustomTab from "../../Services/openCustomTab/openCustomTab";

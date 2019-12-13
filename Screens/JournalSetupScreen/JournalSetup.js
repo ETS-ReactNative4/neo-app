@@ -7,7 +7,7 @@ import JournalDaySelectionCard from "./Components/JournalDaySelectionCard";
 import constants from "../../constants/constants";
 import JournalTitleDropDown from "./Components/JournalTitleDropDown/JournalTitleDropDown";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
-import { inject, observer } from "mobx-react/custom";
+import { inject, observer } from "mobx-react";
 
 @ErrorBoundary()
 @inject("journalStore")

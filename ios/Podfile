@@ -37,6 +37,10 @@ target 'Pickyourtrail' do
   pod 'Firebase/Performance', '~> 6.3.0'
   pod 'WebEngage', '~> 5.0.0'
 
+  # used by react-native-permissions for requesting location permission
+  permissions_path = '../node_modules/react-native-permissions/ios'
+  pod 'Permission-LocationWhenInUse', :path => "#{permissions_path}/LocationWhenInUse.podspec"
+
   # target 'PickyourtrailTests' do
   #   inherit! :search_paths
   #   # Pods for testing

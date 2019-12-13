@@ -13,7 +13,7 @@ import Carousel from "../../CommonComponents/Carousel/Carousel";
 import PlaceSectionTitle from "./Components/PlaceSectionTitle";
 import XSensorPlaceholder from "../../CommonComponents/XSensorPlaceholder/XSensorPlaceholder";
 import { isIphoneX } from "react-native-iphone-x-helper";
-import { inject, observer } from "mobx-react/custom";
+import { inject, observer } from "mobx-react";
 import CitySelectionMenu from "../../CommonComponents/CitySelectionMenu/CitySelectionMenu";
 import PlacesPageTitle from "./Components/PlacesPageTitle";
 import { recordEvent } from "../../Services/analytics/analyticsService";

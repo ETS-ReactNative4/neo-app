@@ -8,7 +8,7 @@ import {
   Image
 } from "react-native";
 import PropTypes from "prop-types";
-import { observer, inject } from "mobx-react/custom";
+import { observer, inject } from "mobx-react";
 import MultiLineHeader from "../../../CommonComponents/MultilineHeader/MultiLineHeader";
 import Moment from "moment";
 import { extendMoment } from "moment-range";

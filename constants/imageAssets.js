@@ -6,6 +6,8 @@ const prefix = serverUrls.miscImageBaseUrl + "placeholders/";
 
 export const CONSTANT_mailIcon = "email";
 export const CONSTANT_alertFilledIcon = "alert-fill";
+export const CONSTANT_visaSuccessAnimation = () =>
+  require("../assets/animations/visaSuccess.json");
 
 const imageAssets = {
   splashBackground: isIphoneX()

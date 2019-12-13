@@ -11,7 +11,7 @@ import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import constants from "../../constants/constants";
 import KeyboardAvoidingActionBar from "../../CommonComponents/KeyboardAvoidingActionBar/KeyboardAvoidingActionBar";
 import SimpleButton from "../../CommonComponents/SimpleButton/SimpleButton";
-import { inject, observer } from "mobx-react/custom";
+import { inject, observer } from "mobx-react";
 import moment from "moment";
 import apiCall from "../../Services/networkRequests/apiCall";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";

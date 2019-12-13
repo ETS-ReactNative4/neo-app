@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Easing } from "react-native";
 import HomeHeader from "../../CommonComponents/HomeHeader/HomeHeader";
 import FlipView from "react-native-flip-view-next";
-import { inject, observer } from "mobx-react/custom";
+import { inject, observer } from "mobx-react";
 import Home from "../HomeScreen/Home";
 import BookingsHome from "../BookingsHomeScreen/BookingsHome";
 

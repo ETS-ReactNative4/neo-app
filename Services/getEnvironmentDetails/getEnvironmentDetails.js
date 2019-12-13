@@ -1,5 +1,5 @@
-import { ENVIRONMENT } from "react-native-dotenv";
+import Config from "react-native-config";
 
-export const isProduction = () => ENVIRONMENT === "production";
+export const isProduction = () => Config.ENVIRONMENT === "production";
 
-export const getEnvironmentName = () => ENVIRONMENT;
+export const getEnvironmentName = () => Config.ENVIRONMENT;

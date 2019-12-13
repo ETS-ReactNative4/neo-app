@@ -11,5 +11,7 @@ jest.mock("@segment/analytics-react-native", () => ({
   identify: () => jest.fn(),
   reset: () => jest.fn(),
   enable: () => jest.fn(),
-  disable: () => jest.fn()
+  disable: () => jest.fn(),
+  screen: () => jest.fn(),
+  track: () => jest.fn()
 }));

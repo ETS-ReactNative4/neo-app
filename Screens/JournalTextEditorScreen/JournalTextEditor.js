@@ -8,7 +8,7 @@ import Carousel from "../../CommonComponents/Carousel/Carousel";
 import ImagePreviewThumbnail from "./Components/ImagePreviewThumbnail";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import _ from "lodash";
-import { inject, observer } from "mobx-react/custom";
+import { inject, observer } from "mobx-react";
 import DebouncedAlert from "../../CommonComponents/DebouncedAlert/DebouncedAlert";
 import BackHandlerHoc from "../../CommonComponents/BackHandlerHoc/BackHandlerHoc";
 import AddImageThumbnail from "./Components/AddImageThumbnail";

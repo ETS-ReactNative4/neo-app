@@ -9,7 +9,7 @@ import {
 import PropTypes from "prop-types";
 import moment from "moment";
 import constants from "../../../../../constants/constants";
-import { observer, inject } from "mobx-react/custom";
+import { observer, inject } from "mobx-react";
 import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidExtraProps";
 
 const DateItem = inject("itineraries")(

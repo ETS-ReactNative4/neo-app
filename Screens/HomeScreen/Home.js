@@ -6,7 +6,7 @@ import { isIphoneX } from "react-native-iphone-x-helper";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import NoInternetIndicator from "../../CommonComponents/NoInternetIndicator/NoInternetIndicator";
 import CustomScrollView from "../../CommonComponents/CustomScrollView/CustomScrollView";
-import { inject, observer } from "mobx-react/custom";
+import { inject, observer } from "mobx-react";
 import PackageCarousel from "./Components/PackageCarousel";
 import SimpleButton from "../../CommonComponents/SimpleButton/SimpleButton";
 import { responsiveWidth } from "react-native-responsive-dimensions";
@@ -163,9 +163,7 @@ class Home extends Component {
                 click: constants.Home.click.startPlanningNow
               });
               openCustomTab(
-                `${constants.productUrl}${constants.productCustomizePage}${
-                  constants.leadSourceMappingQueryParams
-                }`
+                `${constants.productUrl}${constants.productCustomizePage}${constants.leadSourceMappingQueryParams}`
               );
             }}
             textColor={"white"}

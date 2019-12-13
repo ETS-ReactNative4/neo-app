@@ -1,4 +1,4 @@
-import { observable, computed, action, toJS } from "mobx";
+import { action, computed, observable, toJS } from "mobx";
 import { createTransformer } from "mobx-utils";
 import { persist } from "mobx-persist";
 import _ from "lodash";
@@ -138,7 +138,7 @@ class Itineraries {
           this._loadingError = true;
         }
       })
-      .catch(error => {
+      .catch(() => {
         this._isLoading = false;
         this._loadingError = true;
       });
@@ -169,7 +169,7 @@ class Itineraries {
           this._loadingError = true;
         }
       })
-      .catch(error => {
+      .catch(() => {
         this._isLoading = false;
         this._loadingError = true;
       });
@@ -207,7 +207,9 @@ class Itineraries {
 
   @computed
   get selectedItineraryId() {
-    if (_.isEmpty(this._selectedItinerary)) return "";
+    if (_.isEmpty(this._selectedItinerary)) {
+      return "";
+    }
 
     try {
       return this._selectedItinerary.itinerary.itineraryId;
@@ -219,7 +221,9 @@ class Itineraries {
 
   @computed
   get regionName() {
-    if (_.isEmpty(this._selectedItinerary)) return "";
+    if (_.isEmpty(this._selectedItinerary)) {
+      return "";
+    }
 
     try {
       return this._selectedItinerary.itinerary.regionName;
@@ -231,7 +235,9 @@ class Itineraries {
 
   @computed
   get selectedItinerary() {
-    if (_.isEmpty(this._selectedItinerary)) return {};
+    if (_.isEmpty(this._selectedItinerary)) {
+      return {};
+    }
 
     try {
       return toJS(this._selectedItinerary);
@@ -269,7 +275,9 @@ class Itineraries {
    */
   @computed
   get startEndDates() {
-    if (_.isEmpty(this._selectedItinerary)) return {};
+    if (_.isEmpty(this._selectedItinerary)) {
+      return {};
+    }
 
     try {
       const sortedDays = this.sortedDays;
@@ -311,7 +319,9 @@ class Itineraries {
 
   @computed
   get hotels() {
-    if (_.isEmpty(this._selectedItinerary)) return [];
+    if (_.isEmpty(this._selectedItinerary)) {
+      return [];
+    }
 
     try {
       let hotels;
@@ -352,7 +362,9 @@ class Itineraries {
    */
   @computed
   get activities() {
-    if (_.isEmpty(this._selectedItinerary)) return [];
+    if (_.isEmpty(this._selectedItinerary)) {
+      return [];
+    }
 
     try {
       let activities;
@@ -376,7 +388,7 @@ class Itineraries {
             : [];
         activities = activitiesCosting.map(costing => {
           const activity = _.find(activitiesList, {
-            planningToolId: parseInt(costing.activityId)
+            planningToolId: parseInt(costing.activityId, 10)
           });
           return {
             ...activity,
@@ -404,7 +416,9 @@ class Itineraries {
 
   @computed
   get flights() {
-    if (_.isEmpty(this._selectedItinerary)) return [];
+    if (_.isEmpty(this._selectedItinerary)) {
+      return [];
+    }
 
     let flights;
     try {
@@ -436,7 +450,9 @@ class Itineraries {
 
   @computed
   get transfers() {
-    if (_.isEmpty(this._selectedItinerary)) return [];
+    if (_.isEmpty(this._selectedItinerary)) {
+      return [];
+    }
 
     let transfers;
     try {
@@ -473,7 +489,9 @@ class Itineraries {
 
   @computed
   get trains() {
-    if (_.isEmpty(this._selectedItinerary)) return [];
+    if (_.isEmpty(this._selectedItinerary)) {
+      return [];
+    }
 
     let trains;
     try {
@@ -506,7 +524,9 @@ class Itineraries {
 
   @computed
   get ferries() {
-    if (_.isEmpty(this._selectedItinerary)) return [];
+    if (_.isEmpty(this._selectedItinerary)) {
+      return [];
+    }
 
     let ferries;
     try {
@@ -536,7 +556,9 @@ class Itineraries {
 
   @computed
   get visa() {
-    if (_.isEmpty(this._selectedItinerary)) return [];
+    if (_.isEmpty(this._selectedItinerary)) {
+      return [];
+    }
 
     let visa;
     try {
@@ -569,7 +591,9 @@ class Itineraries {
 
   @computed
   get insurance() {
-    if (_.isEmpty(this._selectedItinerary)) return {};
+    if (_.isEmpty(this._selectedItinerary)) {
+      return {};
+    }
 
     try {
       const insuranceCosting = this._selectedItinerary.insuranceCosting
@@ -592,7 +616,9 @@ class Itineraries {
 
   @computed
   get passes() {
-    if (_.isEmpty(this._selectedItinerary)) return [];
+    if (_.isEmpty(this._selectedItinerary)) {
+      return [];
+    }
 
     let passes;
     try {
@@ -614,7 +640,9 @@ class Itineraries {
 
   @computed
   get rentals() {
-    if (_.isEmpty(this._selectedItinerary)) return [];
+    if (_.isEmpty(this._selectedItinerary)) {
+      return [];
+    }
 
     let rentals;
     try {
@@ -642,21 +670,46 @@ class Itineraries {
     return rentals;
   }
 
+  /**
+   * TODO: Will be used to display custom block card costings in the others section of bookings - Currently disabled
+   */
+  @computed
+  get customCostings() {
+    return [];
+    // if (_.isEmpty(this._selectedItinerary)) {
+    //   return [];
+    // }
+    //
+    // let customCostingsArray = [];
+    // try {
+    //   const { customCostings = [] } = this._selectedItinerary;
+    //   customCostingsArray = toJS(customCostings);
+    // } catch (e) {
+    //   logError(e);
+    // }
+    // return customCostingsArray;
+  }
+
   getRentalCarByCityOrder = createTransformer(
     ({ fromCityOrder, toCityOrder }) => {
-      if (_.isEmpty(this._selectedItinerary)) return {};
+      if (_.isEmpty(this._selectedItinerary)) {
+        return {};
+      }
       try {
-        const rental = this.rentals.find(rental => {
-          const { key } = rental;
+        const rental = this.rentals.find(rentalCar => {
+          const { key } = rentalCar;
           const rentalKeyArray = key.split(/#|_/);
-          const pickUpCityOrder = parseInt(rentalKeyArray[1]);
-          const dropCityOrder = parseInt(rentalKeyArray[3]);
+          const pickUpCityOrder = parseInt(rentalKeyArray[1], 10);
+          const dropCityOrder = parseInt(rentalKeyArray[3], 10);
           return (
             pickUpCityOrder <= fromCityOrder && dropCityOrder <= toCityOrder
           );
         });
-        if (rental) return rental;
-        else return {};
+        if (rental) {
+          return rental;
+        } else {
+          return {};
+        }
       } catch (e) {
         logError(e);
         return {};
@@ -665,7 +718,9 @@ class Itineraries {
   );
 
   getCityOrderById = createTransformer(cityId => {
-    if (_.isEmpty(this._selectedItinerary)) return "";
+    if (_.isEmpty(this._selectedItinerary)) {
+      return "";
+    }
     try {
       return this._selectedItinerary.itinerary.cityWiseOrderMap[cityId];
     } catch (e) {
@@ -683,7 +738,9 @@ class Itineraries {
    */
   @computed
   get days() {
-    if (_.isEmpty(this._selectedItinerary)) return [];
+    if (_.isEmpty(this._selectedItinerary)) {
+      return [];
+    }
 
     try {
       return this.sortedDays.map(day => {
@@ -697,7 +754,9 @@ class Itineraries {
 
   @computed
   get slots() {
-    if (_.isEmpty(this._selectedItinerary)) return [];
+    if (_.isEmpty(this._selectedItinerary)) {
+      return [];
+    }
 
     try {
       return this.sortedDays.reduce((slots, day) => {
@@ -729,7 +788,9 @@ class Itineraries {
    */
   @computed
   get cities() {
-    if (_.isEmpty(this._selectedItinerary)) return [];
+    if (_.isEmpty(this._selectedItinerary)) {
+      return [];
+    }
     try {
       const cityKeys = this._selectedItinerary.itinerary.allCityKeys;
       return cityKeys.map(key => {
@@ -757,7 +818,9 @@ class Itineraries {
 
   @computed
   get countries() {
-    if (_.isEmpty(this._selectedItinerary)) return [];
+    if (_.isEmpty(this._selectedItinerary)) {
+      return [];
+    }
 
     try {
       const countries = this._selectedItinerary.itinerary.countries;
@@ -778,7 +841,9 @@ class Itineraries {
    */
   @computed
   get firstDay() {
-    if (_.isEmpty(this._selectedItinerary)) return moment();
+    if (_.isEmpty(this._selectedItinerary)) {
+      return moment();
+    }
 
     try {
       const iterDayByKey = toJS(this._selectedItinerary.iterDayByKey);
@@ -807,11 +872,16 @@ class Itineraries {
    * NearBy screen
    */
   getCityById = createTransformer(id => {
-    if (_.isEmpty(this._selectedItinerary)) return {};
-    if (!id) return {};
+    if (_.isEmpty(this._selectedItinerary)) {
+      return {};
+    }
+    if (!id) {
+      return {};
+    }
 
     try {
-      const cityObject = this._selectedItinerary.cityById[id];
+      // City Object needs to be modified hence the observable should be converted to plain JS
+      const cityObject = toJS(this._selectedItinerary.cityById[id]);
       const cityList = this.cities;
       const requiredCity = cityList.find(city => {
         return city.cityObject.cityId === id;
@@ -826,7 +896,9 @@ class Itineraries {
   });
 
   getHotelByDate = createTransformer(date => {
-    if (_.isEmpty(this._selectedItinerary)) return {};
+    if (_.isEmpty(this._selectedItinerary)) {
+      return {};
+    }
 
     try {
       const hotelCostings = toJS(
@@ -836,7 +908,9 @@ class Itineraries {
         if (hotelCostings.hasOwnProperty(key)) {
           const hotel = hotelCostings[key];
           const hotelDate = moment(hotel.checkInTs).format("DDMMYYYY");
-          if (hotelDate === date) return hotel;
+          if (hotelDate === date) {
+            return hotel;
+          }
         }
       }
       logError("No Hotel found for the given date...");
@@ -848,7 +922,9 @@ class Itineraries {
   });
 
   getActivityById = createTransformer(id => {
-    if (_.isEmpty(this._selectedItinerary)) return {};
+    if (_.isEmpty(this._selectedItinerary)) {
+      return {};
+    }
 
     try {
       return this.activities.find(
@@ -863,7 +939,9 @@ class Itineraries {
   });
 
   getFlightById = createTransformer(id => {
-    if (_.isEmpty(this._selectedItinerary)) return {};
+    if (_.isEmpty(this._selectedItinerary)) {
+      return {};
+    }
 
     try {
       const flight = toJS(
@@ -905,7 +983,9 @@ class Itineraries {
   });
 
   getTransferById = createTransformer(id => {
-    if (_.isEmpty(this._selectedItinerary)) return {};
+    if (_.isEmpty(this._selectedItinerary)) {
+      return {};
+    }
 
     try {
       const transfer = toJS(
@@ -925,7 +1005,9 @@ class Itineraries {
   });
 
   getFerryById = createTransformer(id => {
-    if (_.isEmpty(this._selectedItinerary)) return {};
+    if (_.isEmpty(this._selectedItinerary)) {
+      return {};
+    }
 
     try {
       const ferry = toJS(
@@ -945,7 +1027,9 @@ class Itineraries {
   });
 
   getRentalCarById = createTransformer(id => {
-    if (_.isEmpty(this._selectedItinerary)) return {};
+    if (_.isEmpty(this._selectedItinerary)) {
+      return {};
+    }
 
     try {
       const rentalCar = toJS(
@@ -967,7 +1051,9 @@ class Itineraries {
   });
 
   getTrainById = createTransformer(id => {
-    if (_.isEmpty(this._selectedItinerary)) return {};
+    if (_.isEmpty(this._selectedItinerary)) {
+      return {};
+    }
 
     try {
       const train = toJS(
@@ -987,7 +1073,9 @@ class Itineraries {
   });
 
   getHotelById = createTransformer(id => {
-    if (_.isEmpty(this._selectedItinerary)) return {};
+    if (_.isEmpty(this._selectedItinerary)) {
+      return {};
+    }
 
     try {
       const hotel =
@@ -995,6 +1083,19 @@ class Itineraries {
       hotel.voucher =
         storeService.voucherStore.getHotelVoucherById(hotel.costingId) || {};
       return hotel;
+    } catch (e) {
+      logError(e);
+      return {};
+    }
+  });
+
+  getCustomCostingsById = createTransformer(id => {
+    if (_.isEmpty(this._selectedItinerary)) {
+      return {};
+    }
+
+    try {
+      return this.customCostings.find(costing => id === costing._id) || {};
     } catch (e) {
       logError(e);
       return {};

@@ -9,7 +9,7 @@ import TripFeedCarousel from "./Components/TripFeedCarousel/TripFeedCarousel";
 import BigImageCard from "./Components/BigImageCard/BigImageCard";
 import AlertCard from "./Components/AlertCard/AlertCard";
 import InfoCard from "./Components/InfoCard/InfoCard";
-import { inject, observer } from "mobx-react/custom";
+import { inject, observer } from "mobx-react";
 import CustomScrollView from "../../CommonComponents/CustomScrollView/CustomScrollView";
 import InfoCardModal from "./Components/InfoCardModal/InfoCardModal";
 import NoInternetIndicator from "../../CommonComponents/NoInternetIndicator/NoInternetIndicator";
@@ -41,6 +41,7 @@ import PropTypes from "prop-types";
 @inject("feedbackPrompt")
 @inject("itineraries")
 @inject("chatDetailsStore")
+@inject("visaStore")
 @observer
 class TripFeed extends Component {
   static propTypes = {
@@ -48,7 +49,8 @@ class TripFeed extends Component {
     feedbackPrompt: PropTypes.object,
     itineraries: PropTypes.object,
     chatDetailsStore: PropTypes.object,
-    navigation: PropTypes.object
+    navigation: PropTypes.object,
+    visaStore: PropTypes.object
   };
 
   static navigationOptions = {
@@ -116,6 +118,17 @@ class TripFeed extends Component {
     if (selectedItineraryId) {
       this.loadTripFeedData();
       this.loadChatData();
+      const {
+        isVisaInitialized,
+        shouldDisplaySuccessAnimation,
+        loadAllVisaDetails
+      } = this.props.visaStore;
+      if (isVisaInitialized) {
+        loadAllVisaDetails();
+        if (shouldDisplaySuccessAnimation) {
+          this.props.navigation.navigate("VisaSuccess");
+        }
+      }
     }
 
     this._willBlurSubscription = this.props.navigation.addListener(

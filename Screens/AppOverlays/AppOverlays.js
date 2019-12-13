@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from "react";
-import { inject, observer } from "mobx-react/custom";
+import { inject, observer } from "mobx-react";
 import FooterFeedbackPrompt from "../../CommonComponents/FooterFeedbackPrompt/FooterFeedbackPrompt";
 import OverlayErrorBoundary from "./Components/OverlayErrorBoundary";
 
