@@ -276,7 +276,7 @@ class RentalCarVoucher extends Component {
 
           <VoucherAlertBox
             alertText={constants.voucherText.rentalCarMinBalanceText}
-            mode={"alert"}
+            mode={"info"}
             containerStyle={styles.voucherAlertWrapper}
           />
 

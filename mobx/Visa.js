@@ -142,7 +142,7 @@ class Visa {
         const visaInfo = _.get(this._visaDetails, `${thisVisa.visaId}`, {});
         return (
           prevVisaStatus &&
-          _.get(visaInfo, "isGranted", false) &&
+          _.toUpper(_.get(visaInfo, "visaStage", "")) === "GRANTED" &&
           _.get(visaInfo, "showVisaAnimation", false)
         );
       }, true);
