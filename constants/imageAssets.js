@@ -9,6 +9,8 @@ export const CONSTANT_alertFilledIcon = "alert-fill";
 export const CONSTANT_visaSuccessAnimation = () =>
   require("../assets/animations/visaSuccess.json");
 export const CONSTANT_customBlockCardIcon = "other";
+export const CONSTANT_customBlockCardBanner = () =>
+  require("../assets/images/illustrations/banner-block-cards.png");
 
 const imageAssets = {
   splashBackground: isIphoneX()

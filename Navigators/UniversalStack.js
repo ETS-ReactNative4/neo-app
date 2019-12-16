@@ -13,6 +13,7 @@ import FeedbackPrompt from "../Screens/FeedbackPromptScreen/FeedbackPrompt";
 import ActionSheet from "../Screens/ActionSheetScreen/ActionSheet";
 import VisaDocumentsActionSheet from "../Screens/VisaDocumentsActionSheet/VisaDocumentsActionSheet";
 import HotelVoucher from "../Screens/VoucherScreens/HotelVoucherScreen/HotelVoucher";
+import CustomBlockCardVoucher from "../Screens/VoucherScreens/CustomBlockCardVoucherScreen/CustomBlockCardVoucher";
 
 const UniversalStack = createStackNavigator(
   {
@@ -31,6 +32,9 @@ const UniversalStack = createStackNavigator(
     },
     PassVoucher: {
       screen: PassVoucher
+    },
+    CustomBlockCardVoucher: {
+      screen: CustomBlockCardVoucher
     },
     FlightStatus: {
       screen: FlightStatus
