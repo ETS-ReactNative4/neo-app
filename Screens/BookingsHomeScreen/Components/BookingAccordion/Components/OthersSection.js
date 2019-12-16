@@ -69,8 +69,8 @@ const CustomVoucher = ({
       hideTitle={true}
       title={""}
       isImageContain={false}
-      defaultSource={constants.hotelThumbPlaceholderIllus}
-      sectionImage={constants.insuranceThumbnailIllus}
+      defaultSource={constants.passThumbPlaceholderIllus}
+      sectionImage={constants.passThumbPlaceholderIllus}
       isDataSkipped={false}
     />
   );

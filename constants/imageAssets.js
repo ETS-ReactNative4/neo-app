@@ -8,6 +8,7 @@ export const CONSTANT_mailIcon = "email";
 export const CONSTANT_alertFilledIcon = "alert-fill";
 export const CONSTANT_visaSuccessAnimation = () =>
   require("../assets/animations/visaSuccess.json");
+export const CONSTANT_customBlockCardIcon = "other";
 
 const imageAssets = {
   splashBackground: isIphoneX()

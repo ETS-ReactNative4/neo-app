@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Visa Success Animation Screen
 - Alerts & Information on the vouchers based on CH Request ([VOY-818](https://pickyourtrail.atlassian.net/browse/VOY-818))
+- Meeting point images for flight vouchers
 
 ### Changed
 
