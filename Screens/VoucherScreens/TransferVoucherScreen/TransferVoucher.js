@@ -2,7 +2,7 @@ import React, { Component, Fragment } from "react";
 import { View, StyleSheet, Platform, Text } from "react-native";
 import { isIphoneX } from "react-native-iphone-x-helper";
 import ParallaxScrollView from "react-native-parallax-scroll-view";
-import { responsiveWidth } from "react-native-responsive-dimensions";
+import { responsiveHeight, responsiveWidth } from "react-native-responsive-dimensions";
 import VoucherHeader from "../Components/VoucherHeader";
 import constants from "../../../constants/constants";
 import VoucherStickyHeader from "../Components/VoucherStickyHeader";
@@ -22,6 +22,8 @@ import _ from "lodash";
 import CollapsibleTextSection from "../../../CommonComponents/CollapsibleTextSection/CollapsibleTextSection";
 import VoucherAlertBox from "../Components/VoucherAlertBox/VoucherAlertBox";
 import VoucherAddressSectionV2 from "../Components/VoucherAddressSectionV2/VoucherAddressSectionV2";
+import LightBoxButton from "../../../CommonComponents/LightBoxButton/LightBoxButton";
+import PhotoView from "react-native-photo-view";
 
 const xHeight = isIphoneX()
   ? constants.xNotchHeight
@@ -103,7 +105,8 @@ class TransferVoucher extends Component {
       coachNumber,
       trainInfo,
       instruction,
-      transferType
+      transferType,
+      meetingPointImage
     } = transfer.voucher;
 
     const transferPassengerDetails = () => [
@@ -277,6 +280,11 @@ class TransferVoucher extends Component {
       voucherDate = moment(pickupTime).valueOf();
     }
 
+    const lightBoxButtonStyle = {
+      marginVertical: 16,
+      width: responsiveWidth(100) - 48
+    };
+
     return (
       <Fragment>
         <ParallaxScrollView
@@ -348,6 +356,27 @@ class TransferVoucher extends Component {
               address={meetingPoint}
             />
 
+            {meetingPointImage ? (
+              <LightBoxButton
+                LightBoxComponent={() => {
+                  return (
+                    <PhotoView
+                      minimumZoomScale={1}
+                      maximumZoomScale={3}
+                      source={{ uri: meetingPointImage }}
+                      style={styles.photoViewContainer}
+                      resizeMode={"contain"}
+                    />
+                  );
+                }}
+                containerStyle={lightBoxButtonStyle}
+                text={"Visual Directions"}
+                hasBorder={true}
+                color={"transparent"}
+                textColor={constants.firstColor}
+              />
+            ) : null}
+
             <VoucherContactActionBar contact={contactNumber} />
 
             {pickupInstructions ? (
@@ -402,6 +431,10 @@ const styles = StyleSheet.create({
     width: responsiveWidth(100) - 48,
     ...constants.fontCustom(constants.primaryLight, 17),
     color: constants.black2
+  },
+  photoViewContainer: {
+    height: responsiveHeight(100),
+    width: responsiveWidth(100)
   }
 });
 

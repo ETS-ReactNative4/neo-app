@@ -18,13 +18,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Visa Success Animation Screen
 - Alerts & Information on the vouchers based on CH Request ([VOY-818](https://pickyourtrail.atlassian.net/browse/VOY-818))
-- Meeting point images for flight vouchers
+- Meeting point images for transfer vouchers
 
 ### Changed
 
 - MobX updated from `4.2.0` to `5.15.0` for Hooks support
 - react-native-modal updated from `6.5.0` to `11.5.3` for smoother animations
 - [**Android**] ﹣ Multidexing disabled and the `minSdkVersion` is increased from 16->21. (Affects 1 user who is on Android 4.4)
+- Updated React native lottie from `3.1.3` to `3.3.2`
 
 ### Removed
 
