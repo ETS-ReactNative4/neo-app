@@ -1,12 +1,10 @@
-import React, { Component, useEffect } from "react";
+import React, { useEffect } from "react";
 import {
   StyleSheet,
   ViewStyle,
   SafeAreaView,
   View,
   Text,
-  Animated,
-  Easing,
   TextStyle
 } from "react-native";
 import { NavigationStackProp } from "react-navigation-stack";
@@ -30,55 +28,6 @@ export interface VisaSuccessProps {
   navigation: NavigationStackProp;
   userStore: User;
   visaStore: Visa;
-}
-
-/**
- * TODO: Lottie was unable to play animation in iOS when autoplay & loop props were set
- * Had to create a class component & set progress as a workaround to make it play.
- */
-class LottiePlayer extends Component {
-  state = {
-    animationTiming: new Animated.Value(0)
-  };
-
-  loopAnimation = () => {
-    Animated.loop(
-      Animated.sequence([
-        Animated.timing(this.state.animationTiming, {
-          toValue: 1,
-          duration: 2000,
-          easing: Easing.linear,
-          useNativeDriver: true
-        })
-      ]),
-      {
-        iterations: 1
-      }
-    ).start(() => {
-      this.setState(
-        {
-          animationTiming: new Animated.Value(0)
-        },
-        () => {
-          this.loopAnimation();
-        }
-      );
-    });
-  };
-
-  componentDidMount() {
-    this.loopAnimation();
-  }
-
-  render() {
-    return (
-      <LottieView
-        style={styles.successAnimation}
-        source={CONSTANT_visaSuccessAnimation()}
-        progress={this.state.animationTiming}
-      />
-    );
-  }
 }
 
 const VisaSuccess = ({
@@ -128,7 +77,7 @@ const VisaSuccess = ({
         </Text>
         <View style={styles.animationWrapper}>
           {/* Wrapper to make sure Lottie doesn't overflow into other flex-ful components. */}
-          <LottiePlayer />
+          <LottieView source={CONSTANT_visaSuccessAnimation()} autoPlay loop />
         </View>
       </View>
       <View>
