@@ -56,6 +56,8 @@
 	<string>This will let you take photos using your camera and send it to Pickyourtrail.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Your current location is needed to find places around you</string>
+  <key>NSLocationAlwaysUsageDescription</key>
+	<string>Your current location is needed to find places around you</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>This will let you record audio for your videos using your camera and send it to Pickyourtrail.</string>
 	<key>NSPhotoLibraryUsageDescription</key>

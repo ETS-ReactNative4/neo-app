@@ -27,10 +27,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [**Android**] ﹣ Multidexing disabled and the `minSdkVersion` is increased from 16->21. (Affects 1 user who is on Android 4.4)
 - Updated React native lottie from `3.1.3` to `3.3.2`
 
-### Removed
-
-- `NSLocationAlwaysUsageDescription` key is removed from iOS since we are not using the location when app is inactive
-
 ### Fixed
 
 - Device location permission request for nearby places in iOS is fixed
