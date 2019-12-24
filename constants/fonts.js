@@ -76,18 +76,6 @@ const fontCustom = (fontFamily, fontSize, lineHeight = null) => {
   };
 };
 
-export const CONSTANT_fontCustom = (
-  fontFamily,
-  fontSize,
-  lineHeight = null
-) => {
-  return {
-    fontFamily,
-    fontSize,
-    lineHeight: lineHeight || fontSize
-  };
-};
-
 const font = {
   ...primaryFont,
   font10,
@@ -108,5 +96,20 @@ const font = {
     letterSpacing: -1
   }
 };
+
+export const CONSTANT_primaryRegular = "SourceSansPro-Regular";
+export const CONSTANT_primaryLight = "SourceSansPro-Regular";
+export const CONSTANT_primarySemiBold = "SourceSansPro-SemiBold";
+export const CONSTANT_font10 = font10;
+export const CONSTANT_font11 = font11;
+export const CONSTANT_font13 = font13;
+export const CONSTANT_font17 = font17;
+export const CONSTANT_font20 = font20;
+export const CONSTANT_font24 = font24;
+export const CONSTANT_font30 = font30;
+export const CONSTANT_fontCustom = fontCustom;
+export const CONSTANT_kern1 = { letterSpacing: -0.2 };
+export const CONSTANT_kern2 = { letterSpacing: -0.5 };
+export const CONSTANT_kern3 = { letterSpacing: -1 };
 
 export default font;

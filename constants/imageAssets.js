@@ -250,4 +250,236 @@ const imageAssets = {
   splashAnimation: () => require("../assets/animations/splashScreen.json")
 };
 
+export const CONSTANT_splashBackground = isIphoneX()
+  ? require("../assets/images/backgrounds/splashImage.webp")
+  : require("../assets/images/backgrounds/splashImageAndroid.webp");
+export const CONSTANT_starterScreenBackground = isIphoneX()
+  ? require("../assets/images/backgrounds/starterScreenBackground.jpg")
+  : require("../assets/images/backgrounds/starterScreenBackgroundAndroid.jpg");
+export const CONSTANT_starterTopImage = require("../assets/images/backgrounds/starter_screen_top.jpg");
+export const CONSTANT_starterBottomImage = require("../assets/images/backgrounds/starter_screen_bottom.jpg");
+export const CONSTANT_starterBackground = require("../assets/images/backgrounds/starterImage.jpg");
+export const CONSTANT_pytLogo = isProduction()
+  ? require("../assets/images/icons/logo_new.png")
+  : require("../assets/images/icons/logo-dev.png");
+export const CONSTANT_forexPartnerLogo = require("../assets/images/icons/forex-partner.png");
+export const CONSTANT_pytLogoNew = require("../assets/images/icons/logo_new.png");
+export const CONSTANT_pytLogoWhite = require("../assets/images/icons/pickyourtrail-white-logo.png");
+export const CONSTANT_pytLogoBlack = require("../assets/images/icons/pickyourtrail-black-logo.png");
+export const CONSTANT_notificationIcon = require("../assets/images/icons/notification.png");
+export const CONSTANT_defaultUserIcon = require("../assets/images/icons/default-user.png");
+export const CONSTANT_backArrow = require("../assets/images/icons/left-arrow.png");
+export const CONSTANT_backIcon = "nav-left";
+export const CONSTANT_dropDownArrow = require("../assets/images/icons/drop-down-arrow.png");
+export const CONSTANT_dropDownArrowIcon = "arrow";
+export const CONSTANT_dropDownArrowDarkIcon = "chevron-down-small";
+export const CONSTANT_closeIcon = "close";
+export const CONSTANT_userIcon = "account";
+export const CONSTANT_loadingIcon = require("../assets/images/loaders/loader.gif");
+export const CONSTANT_bookingProcessingIcon = "refresh";
+export const CONSTANT_hamburgerIcon = "nav-menu";
+export const CONSTANT_homeIcon = "home";
+export const CONSTANT_logoutIcon = "logout";
+export const CONSTANT_paymentIcon = "payment";
+export const CONSTANT_aeroplaneIcon = "flight";
+export const CONSTANT_aeroplaneTakeOffIcon = "flight-right";
+export const CONSTANT_flightVoucherBanner = require("../assets/images/backgrounds/flightVoucherHeader.jpg");
+export const CONSTANT_drawerBackgroundImage = require("../assets/images/backgrounds/side-menu-bg.png");
+export const CONSTANT_busIcon = "bus";
+export const CONSTANT_ferryIcon = "ferry";
+export const CONSTANT_visaIcon = "visa";
+export const CONSTANT_insuranceIcon = "insurance";
+export const CONSTANT_transferIcon = "transfer";
+export const CONSTANT_trainIcon = "train";
+export const CONSTANT_passIcon = "pass";
+export const CONSTANT_carIcon = "car";
+export const CONSTANT_activityIcon = "activity";
+export const CONSTANT_leisureIcon = require("../assets/images/icons/leisure.png");
+export const CONSTANT_hotelIcon = "hotel";
+export const CONSTANT_clockIcon = "clock";
+export const CONSTANT_infoIcon = "about";
+export const CONSTANT_aboutInfoIcon = "about-info";
+export const CONSTANT_storybookIcon = "storybook";
+export const CONSTANT_warningIcon = "warning";
+export const CONSTANT_thumbsUpIcon = "like";
+export const CONSTANT_thumbsDownIcon = "unlike";
+export const CONSTANT_locationIcon = "location";
+export const CONSTANT_cropIcon = "crop";
+export const CONSTANT_containIcon = "minimize";
+export const CONSTANT_addIcon = "plus";
+export const CONSTANT_addImageIcon = "image-upload";
+export const CONSTANT_editIcon = "edit";
+export const CONSTANT_gearIcon = "setting";
+export const CONSTANT_shareIcon = "share";
+export const CONSTANT_facebookIcon = "facebook";
+export const CONSTANT_twitterIcon = "twitter";
+export const CONSTANT_shareFilledIcon = "share-fill";
+export const CONSTANT_facebookFilledIcon = "facebook-fill";
+export const CONSTANT_twitterFilledIcon = "twitter-fill";
+export const CONSTANT_keyboardDismissIcon = "collapse-keyboard";
+export const CONSTANT_eyeIcon = "visibility";
+export const CONSTANT_uploadIcon = "typical-social-share";
+export const CONSTANT_semiCircleShape = require("../assets/images/shapes/hiring_topic.png");
+export const CONSTANT_headerBackgroundShape = require("../assets/images/shapes/banner_white.png");
+export const CONSTANT_comingSoonShape = require("../assets/images/shapes/coming-soon.png");
+export const CONSTANT_packageTrianglePink = require("../assets/images/shapes/package-shape-pink.png");
+export const CONSTANT_packageTriangleBlue = require("../assets/images/shapes/package-shape-blue.png");
+export const CONSTANT_packageTriangleGold = require("../assets/images/shapes/package-shape-gold.png");
+export const CONSTANT_quotationMarkImage = require("../assets/images/shapes/quotation-mark.png");
+export const CONSTANT_positiveBackgroundShape = require("../assets/images/shapes/positive-background.png");
+export const CONSTANT_negativeBackgroundShape = require("../assets/images/shapes/negative-background.png");
+export const CONSTANT_tripFeedIcon = "trip-feed";
+export const CONSTANT_tripFeedSelectedIcon = "trip-feed-active";
+export const CONSTANT_bookingIcon = "booking";
+export const CONSTANT_bookingSelectedIcon = "booking-active";
+export const CONSTANT_supportIcon = "support";
+export const CONSTANT_supportIconLight = "support-01";
+export const CONSTANT_rocketIcon = "rocket";
+export const CONSTANT_exceptionIcon = "exception";
+export const CONSTANT_privacyIcon = "key";
+export const CONSTANT_cancellationIcon = "close-circle-o";
+export const CONSTANT_careersIcon = "idcard";
+export const CONSTANT_supportSelectedIcon = "support-active";
+export const CONSTANT_toolIcon = "tools";
+export const CONSTANT_toolSelectedIcon = "tools-active";
+export const CONSTANT_journalIcon = "journal";
+export const CONSTANT_journalSelectedIcon = "journal-active";
+export const CONSTANT_moreOptionsHorizIcon = "more-options-horiz";
+export const CONSTANT_arrowRight = "arrow-right";
+export const CONSTANT_arrowDown = "arrow-down";
+export const CONSTANT_starActive = "star-active";
+export const CONSTANT_searchIcon = "search";
+export const CONSTANT_swapVertIcon = "swap_vert";
+export const CONSTANT_speakerIcon = "speaker";
+export const CONSTANT_speakerAnimatedIcon = require("../assets/images/loaders/voice.gif");
+export const CONSTANT_speakerInactiveIcon = require("../assets/images/loaders/voice-inactive.png");
+export const CONSTANT_pinIcon = "pin";
+export const CONSTANT_changeIcon = "change";
+export const CONSTANT_checkBoxIcon = "checkbox-unchecked";
+export const CONSTANT_checkBoxCheckedIcon = "checkbox-checked";
+export const CONSTANT_checkMarkCircle = "checkmark1";
+export const CONSTANT_checkIcon = "check";
+export const CONSTANT_syncIcon = "sync";
+export const CONSTANT_callIcon = "call-end";
+export const CONSTANT_callStartIcon = "contact-fill";
+export const CONSTANT_telephoneIcon = "telephone";
+export const CONSTANT_helpIcon = "help";
+export const CONSTANT_compassIcon = "compass";
+export const CONSTANT_peopleIcon = "People";
+export const CONSTANT_trashCanIcon = "trash-can";
+export const CONSTANT_noInternetIcon = "no-internet";
+export const CONSTANT_translateIcon = "translate";
+export const CONSTANT_boldIcon = "bold";
+export const CONSTANT_headingIcon = "heading";
+export const CONSTANT_lineBreakIcon = "line-break";
+export const CONSTANT_underLineIcon = "underline";
+export const CONSTANT_linkIcon = "link";
+export const CONSTANT_listIcon = "list";
+export const CONSTANT_textIcon = "text";
+export const CONSTANT_weatherGraphInactive = require("../assets/images/weatherPlaceholders/weather-graph-disabled.png");
+export const CONSTANT_weatherCardPlaceholder = require("../assets/images/weatherPlaceholders/weather-placeholder.png");
+export const CONSTANT_weatherForecastIcon = require("../assets/images/toolIcons/weather-forcast.png");
+export const CONSTANT_cancelTripIcon = require("../assets/images/toolIcons/cancel-trip.png");
+export const CONSTANT_commonPhrasesIcon = require("../assets/images/toolIcons/common-phrases.png");
+export const CONSTANT_completePaymentIcon = require("../assets/images/toolIcons/complete-payment.png");
+export const CONSTANT_currencyCalculatorIcon = require("../assets/images/toolIcons/currency-calculator.png");
+export const CONSTANT_forexIcon = require("../assets/images/toolIcons/forex.png");
+export const CONSTANT_documentVisaIcon = require("../assets/images/toolIcons/document-visa.png");
+export const CONSTANT_documentIcon = "document";
+export const CONSTANT_downloadIcon = "download";
+export const CONSTANT_openFileIcon = "pdf-view";
+export const CONSTANT_emergencyContactsIcon = require("../assets/images/toolIcons/emergency-contacts.png");
+export const CONSTANT_faqIcon = require("../assets/images/toolIcons/faq.png");
+export const CONSTANT_invitePassengersIcon = require("../assets/images/toolIcons/invite-co-passanger-240px.png");
+export const CONSTANT_medicalCareIcon = require("../assets/images/toolIcons/medical-care.png");
+export const CONSTANT_packageChecklistIcon = require("../assets/images/toolIcons/packing-checklist-480.png");
+export const CONSTANT_passportDetailsIcon = require("../assets/images/toolIcons/passport-details.png");
+export const CONSTANT_yourPickIcon = require("../assets/images/toolIcons/your-picks.png");
+export const CONSTANT_noBookingsIllus = require("../assets/images/illustrations/no-bookings-image.png");
+export const CONSTANT_leisureIllus = require("../assets/images/illustrations/leisure-illustration.png");
+export const CONSTANT_preChatSupportIllus = require("../assets/images/illustrations/pre-chat-support.png");
+export const CONSTANT_noStoriesIllus = require("../assets/images/illustrations/no-stories-illustration.jpg");
+export const CONSTANT_onChatNoInternetIllus = require("../assets/images/illustrations/on-chat-no-internet.png");
+export const CONSTANT_helpSupportIllus = require("../assets/images/illustrations/help-and-support-image.png");
+export const CONSTANT_paymentCompleteIllus = require("../assets/images/illustrations/payment-complete.png");
+export const CONSTANT_paymentSuccessIllus = require("../assets/images/illustrations/payment-success.png");
+export const CONSTANT_paymentFailureIllus = require("../assets/images/illustrations/payment-failure.png");
+export const CONSTANT_successBoxIllus = require("../assets/images/illustrations/Alert-icons-success.png");
+export const CONSTANT_errorBoxIllus = require("../assets/images/illustrations/Alert-icons-failure.png");
+export const CONSTANT_infoBoxIllus = require("../assets/images/illustrations/Alert-icons-info.png");
+export const CONSTANT_alertBoxIllus = require("../assets/images/illustrations/Alert-icons.png");
+export const CONSTANT_flightLogoPlaceholderIllus = require("../assets/images/placeholder-images/flight.png");
+export const CONSTANT_activityThumbPlaceholderIllus = require("../assets/images/placeholder-images/activity.png");
+export const CONSTANT_hotelThumbPlaceholderIllus = require("../assets/images/placeholder-images/hotel.png");
+export const CONSTANT_passThumbPlaceholderIllus = require("../assets/images/placeholder-images/pass.png");
+export const CONSTANT_visaThumbnailIllus = require("../assets/images/placeholder-images/visa.png");
+export const CONSTANT_insuranceThumbnailIllus = require("../assets/images/placeholder-images/insurance.png");
+export const CONSTANT_journalComingSoonIllus = require("../assets/images/illustrations/coming-soon/travel-memories-coming-soon.png");
+export const CONSTANT_customTripIllus = require("../assets/images/illustrations/logo-custom-trip-illus.png");
+export const CONSTANT_waveLeftIllus = require("../assets/images/illustrations/wave-left.png");
+export const CONSTANT_waveRightIllus = require("../assets/images/illustrations/wave-right.png");
+export const CONSTANT_visaWidgetWaveIllus = require("../assets/images/illustrations/visa-widget-wave.png");
+export const CONSTANT_thumbsUpIllus = require("../assets/images/illustrations/thumbs-up.png");
+export const CONSTANT_thumbsDownIllus = require("../assets/images/illustrations/thumbs-down.png");
+export const CONSTANT_appRelatedFaqIcon = "app-related";
+export const CONSTANT_cancellationRelatedFaqIcon = "cancellation--rescheduling";
+export const CONSTANT_itineraryRelatedFaqIcon = "itinerary-changes";
+export const CONSTANT_otherFaqIcon = "others";
+export const CONSTANT_paymentRelatedFaqIcon = "payment-related";
+export const CONSTANT_onVactionFaqIcon = "on-vacation";
+export const CONSTANT_preVacationFaqIcon = "pre-vacation";
+export const CONSTANT_visaRelatedFaqIcon = "visa-related";
+export const CONSTANT_voucherRelatedFaqIcon = "voucher-related";
+export const CONSTANT_getAirlineIcon = airlineCode =>
+  airlineCode
+    ? `${serverUrls.airlineCdn}${airlineCode.trim()}.png`
+    : `${serverUrls.airlineCdn}${"placeholder"}.png`;
+export const CONSTANT_airLineLogoPlaceHolder = prefix + "Airline-logo.png";
+export const CONSTANT_transferPlaceHolder = "placeholder";
+export const CONSTANT_activitySmallPlaceHolder = prefix + "Activity1-50x50.png";
+export const CONSTANT_activityMediumPlaceHolder =
+  prefix + "Activity1-125x125.png";
+export const CONSTANT_activityLargePlaceHolder =
+  prefix + "Activity1-640x360.png";
+export const CONSTANT_activity2SmallPlaceHolder =
+  prefix + "Activity2-50x50.png";
+export const CONSTANT_activity2MediumPlaceHolder =
+  prefix + "Activity2-125x125.png";
+export const CONSTANT_activity2LargePlaceHolder =
+  prefix + "Activity2-640x360.png";
+export const CONSTANT_activity3SmallPlaceHolder =
+  prefix + "Activity3-50x50.png";
+export const CONSTANT_activity3MediumPlaceHolder =
+  prefix + "Activity3-125x125.png";
+export const CONSTANT_activity3LargePlaceHolder =
+  prefix + "Activity3-640x360.png";
+export const CONSTANT_citySmallPlaceHolder = prefix + "Guides-City-395x360.png";
+export const CONSTANT_cityLargePlaceHolder = prefix + "Guides-City-790x720.png";
+export const CONSTANT_foodSmallPlaceHolder = prefix + "Guides-Food-120x120.png";
+export const CONSTANT_foodLargePlaceHolder = prefix + "Guides-Food-240x240.png";
+export const CONSTANT_innerAreasSmallPlaceHolder =
+  prefix + "Guides-InnerAreas-230x140.png";
+export const CONSTANT_innerAreasLargePlaceHolder =
+  prefix + "Guides-InnerAreas-460x280.png";
+export const CONSTANT_shoppingSmallPlaceHolder =
+  prefix + "Guides-Shopping-150x105.png";
+export const CONSTANT_shoppingLargePlaceHolder =
+  prefix + "Guides-Shopping-300x210.png";
+export const CONSTANT_hotelSmallPlaceHolder = prefix + "Hotel-50x50.png";
+export const CONSTANT_hotelMediumPlaceHolder = prefix + "Hotel-125x125.png";
+export const CONSTANT_hotelBigPlaceHolder = prefix + "Hotel-200x150.png";
+export const CONSTANT_hotelLargePlaceHolder = prefix + "Hotel-640x360.png";
+export const CONSTANT_roomsSmallPlaceHolder = prefix + "HotelRooms-120x90.png";
+export const CONSTANT_roomsLargePlaceHolder = prefix + "HotelRooms-240x180.png";
+export const CONSTANT_defaultPlaceImage =
+  "https://pyt-images.imgix.net/images/place-holder.png";
+export const CONSTANT_journalPublishingLoop = () =>
+  require("../assets/animations/publishloop.json");
+export const CONSTANT_journalPublishEnd = () =>
+  require("../assets/animations/publishend.json");
+export const CONSTANT_journalPublishSuccess = () =>
+  require("../assets/animations/publishSuccess.json");
+export const CONSTANT_splashAnimation = () =>
+  require("../assets/animations/splashScreen.json");
+
 export default imageAssets;
