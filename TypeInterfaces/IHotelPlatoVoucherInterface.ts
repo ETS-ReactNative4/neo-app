@@ -1,4 +1,4 @@
-export interface HotelPlatoVoucherInterface {
+export interface IHotelPlatoVoucherInterface {
   // private String
   title: string;
   // private String
@@ -47,4 +47,5 @@ export interface HotelPlatoVoucherInterface {
   rooms: any[];
   // private Map<String, String>
   valueAddsMap: any;
+  voucherUrl: string;
 }

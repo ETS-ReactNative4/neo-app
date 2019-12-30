@@ -3,12 +3,12 @@ import {
   View,
   StyleSheet,
   ViewStyle,
-  ImageProps,
   ImageStyle,
   Image,
   Text,
   TextStyle,
-  TouchableOpacity
+  TouchableOpacity,
+  ImageSourcePropType
 } from "react-native";
 //@ts-ignore
 import { responsiveWidth } from "react-native-responsive-dimensions";
@@ -16,15 +16,16 @@ import SmartImageV2 from "../../../../CommonComponents/SmartImage/SmartImageV2";
 import constants from "../../../../constants/constants";
 import Icon from "../../../../CommonComponents/Icon/Icon";
 import { isIphoneX } from "react-native-iphone-x-helper";
+import { CONSTANT_defaultPlaceImage } from "../../../../constants/imageAssets";
 
 const xHeight: number = isIphoneX() ? constants.xNotchHeight : 0;
 
 export interface VoucherHeaderV2Props {
-  containerStyle?: ViewStyle;
+  containerStyle?: ImageStyle;
   icon?: string;
   title: string;
   backAction: () => void;
-  coverImage: ImageProps;
+  coverImage: ImageSourcePropType;
 }
 
 const VoucherHeaderV2 = ({
@@ -38,6 +39,7 @@ const VoucherHeaderV2 = ({
     <SmartImageV2
       source={coverImage}
       style={[styles.voucherHeaderV2Container, containerStyle]}
+      fallbackSource={{ uri: CONSTANT_defaultPlaceImage }}
     >
       <View style={styles.imageBackdrop}>
         <TouchableOpacity

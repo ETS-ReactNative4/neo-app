@@ -10,7 +10,7 @@ import constants from "../../../constants/constants";
 import ParallaxScrollView from "react-native-parallax-scroll-view";
 import { isIphoneX } from "react-native-iphone-x-helper";
 import IosCloseButton from "../Components/IosCloseButton";
-import ICustomCostings from "../../../TypeInterfaces/CustomCostings";
+import { ICustomCostings } from "../../../TypeInterfaces/ICustomCostings";
 import { CONSTANT_customBlockCardBanner } from "../../../constants/imageAssets";
 
 export interface CustomBlockCardVoucherProps {

@@ -1,9 +1,9 @@
-import { GeneralCostingStatusEnum } from "./GeneralCostingStatusEnum";
-import { HotelPlatoVoucherInterface } from "./HotelPlatoVoucherInterface";
+import { IGeneralCostingStatusEnum } from "./IGeneralCostingStatusEnum";
+import { IHotelPlatoVoucherInterface } from "./IHotelPlatoVoucherInterface";
 
-export interface HotelCostingInterface {
+export interface IHotelCostingInterface {
   // private GeneralCostingStatus
-  status: GeneralCostingStatusEnum;
+  status: IGeneralCostingStatusEnum;
   // private String
   costingId: string;
   // private String
@@ -94,5 +94,9 @@ export interface HotelCostingInterface {
   // private boolean
   allowedToSplit: boolean;
 
-  voucher: HotelPlatoVoucherInterface;
+  voucher: IHotelPlatoVoucherInterface;
+
+  name: string;
+
+  imageURL: string;
 }

@@ -1,4 +1,4 @@
-export enum GeneralCostingStatusEnum {
+export enum IGeneralCostingStatusEnum {
   SUCCESS = "SUCCESS",
   USER_REMOVED = "USER_REMOVED",
   NOT_COSTED = "NOT_COSTED",

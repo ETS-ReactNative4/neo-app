@@ -1,4 +1,4 @@
-export default interface ICustomCostings {
+export interface ICustomCostings {
   _id: string;
   itineraryId: string;
   title: string;
