@@ -27,6 +27,7 @@ import _ from "lodash";
 import VisaSection from "./Components/VisaSection";
 import InsuranceSection from "./Components/InsuranceSection";
 import OthersSection from "./Components/OthersSection";
+import { CONSTANT_customBlockCardIcon } from "../../../../constants/imageAssets";
 
 let sections = [];
 @inject("itineraries")
@@ -488,7 +489,7 @@ class BookingAccordion extends Component {
     if (customCostings.length) {
       const othersSection = {
         type: "Others",
-        icon: constants.insuranceIcon,
+        icon: CONSTANT_customBlockCardIcon,
         items: customCostings
       };
       sections.push(othersSection);

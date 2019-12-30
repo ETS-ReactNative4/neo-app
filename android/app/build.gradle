@@ -133,15 +133,6 @@ android {
       javaMaxHeapSize "4g"
     }
 
-    /**
-     * Workaround for Lottie Airbnb issue with JAVA 8 code https://github.com/airbnb/lottie-android/issues/822#issuecomment-401776909
-     */
-    // configurations.all {
-    // resolutionStrategy {
-    //     force "com.airbnb.android:lottie:2.5.5"
-    //   }
-    // }
-
     defaultConfig {
         applicationId "com.pickyourtrail"
         minSdkVersion rootProject.ext.minSdkVersion

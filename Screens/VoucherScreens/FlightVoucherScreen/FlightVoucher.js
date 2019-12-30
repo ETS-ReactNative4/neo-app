@@ -17,8 +17,6 @@ import getTitleCase from "../../../Services/getTitleCase/getTitleCase";
 import ErrorBoundary from "../../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import ViewVoucherButton from "../Components/ViewVoucherButton";
 import PropTypes from "prop-types";
-import LightBoxButton from "../../../CommonComponents/LightBoxButton/LightBoxButton";
-import PhotoView from "react-native-photo-view";
 import {
   responsiveHeight,
   responsiveWidth
@@ -74,8 +72,7 @@ class FlightVoucher extends Component {
       flyCityText,
       pnr,
       webCheckInUrl,
-      voucherUrl,
-      meetingPointImage
+      voucherUrl
     } = flight.voucher;
     const {
       trips,
@@ -113,11 +110,6 @@ class FlightVoucher extends Component {
       //   value: refundable ? "Refundable*" : "Non-Refundable"
       // }
     ];
-
-    const lightBoxButtonStyle = {
-      marginVertical: 16,
-      width: responsiveWidth(100) - 48
-    };
 
     return (
       <Fragment>
@@ -196,27 +188,6 @@ class FlightVoucher extends Component {
             />
             <ViewVoucherButton voucherUrl={voucherUrl} />
 
-            {meetingPointImage ? (
-              <LightBoxButton
-                LightBoxComponent={() => {
-                  return (
-                    <PhotoView
-                      minimumZoomScale={1}
-                      maximumZoomScale={3}
-                      source={{ uri: meetingPointImage }}
-                      style={styles.photoViewContainer}
-                      resizeMode={"contain"}
-                    />
-                  );
-                }}
-                containerStyle={lightBoxButtonStyle}
-                text={"Visual Directions"}
-                hasBorder={true}
-                color={"transparent"}
-                textColor={constants.firstColor}
-              />
-            ) : null}
-
             {/* refundable ? <ConditionsApplyText /> : null */}
           </View>
         </ParallaxScrollView>
@@ -272,10 +243,6 @@ const styles = StyleSheet.create({
     marginTop: 16,
     paddingTop: 16,
     marginBottom: 24
-  },
-  photoViewContainer: {
-    height: responsiveHeight(100),
-    width: responsiveWidth(100)
   }
 });
 

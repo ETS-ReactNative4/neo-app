@@ -77,12 +77,7 @@ const VisaSuccess = ({
         </Text>
         <View style={styles.animationWrapper}>
           {/* Wrapper to make sure Lottie doesn't overflow into other flex-ful components. */}
-          <LottieView
-            style={styles.successAnimation}
-            source={CONSTANT_visaSuccessAnimation()}
-            autoPlay
-            loop
-          />
+          <LottieView source={CONSTANT_visaSuccessAnimation()} autoPlay loop />
         </View>
       </View>
       <View>

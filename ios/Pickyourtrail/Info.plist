@@ -34,7 +34,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>214</string>
+	<string>221</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 	<key>LSRequiresIPhoneOS</key>
@@ -55,6 +55,8 @@
 	<key>NSCameraUsageDescription</key>
 	<string>This will let you take photos using your camera and send it to Pickyourtrail.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Your current location is needed to find places around you</string>
+  <key>NSLocationAlwaysUsageDescription</key>
 	<string>Your current location is needed to find places around you</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>This will let you record audio for your videos using your camera and send it to Pickyourtrail.</string>

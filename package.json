@@ -1,7 +1,7 @@
 {
   "name": "pickyourtrail",
   "version": "1.3.3",
-  "build": 214,
+  "build": 221,
   "private": true,
   "scripts": {
     "android": "ENVFILE=.env.staging react-native run-android",
@@ -36,8 +36,8 @@
     "intl": "^1.2.5",
     "libphonenumber-js": "1.7.9",
     "lodash": "^4.17.5",
-    "lottie-ios": "3.0.3",
-    "lottie-react-native": "3.1.0",
+    "lottie-ios": "3.1.3",
+    "lottie-react-native": "3.3.2",
     "mobx": "5.15.0",
     "mobx-persist": "^0.4.1",
     "mobx-react": "6.1.4",
