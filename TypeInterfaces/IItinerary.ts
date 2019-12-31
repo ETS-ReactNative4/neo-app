@@ -1,0 +1,326 @@
+import { IItineraryDetails, IMonth } from "./IItineraryDetails";
+import { ICustomCostings } from "./ICustomCostings";
+
+export enum IItineraryVersion {
+  SPEEDBOAT = "SPEEDBOAT",
+  SANDUNE = "SANDUNE",
+  WORLDCUP_T20_WOMEN = "WORLDCUP_T20_WOMEN",
+  WORLDCUP_T20_MEN = "WORLDCUP_T20_MEN"
+}
+
+export enum IDiffChangeType {
+  PRICEINCREASE = "PRICEINCREASE",
+  PRICEDECREASE = "PRICEDECREASE",
+  ELEMENTCHANGE = "ELEMENTCHANGE",
+  NOTAPPLICABLE = "NOTAPPLICABLE",
+  NONE = "NONE"
+}
+
+export interface ICostDiff {
+  percentage: number;
+  diffCost: number;
+  diffChangeType: IDiffChangeType;
+}
+
+export enum IGeneralCostingStatus {
+  SUCCESS = "SUCCESS",
+  USER_REMOVED = "USER_REMOVED",
+  NOT_COSTED = "NOT_COSTED",
+  ERROR = "ERROR",
+  UNAVAILABLE = "UNAVAILABLE",
+  BLOCKED = "BLOCKED",
+  SOLD_OUT = "SOLD_OUT",
+  ROOM_SOLD_OUT = "ROOM_SOLD_OUT"
+}
+
+export interface IRateMatchInfo {
+  appliedBy: string;
+  discount: number;
+  source: string;
+  reason: string;
+  approvedBy: string;
+  timestampMillis: number;
+  retainCancellationPolicy: boolean;
+}
+
+export interface IAbstractCosting {
+  configKey: string;
+
+  status: IGeneralCostingStatus;
+
+  ourCost: string;
+
+  publishedCost: string;
+
+  itineraryId: string;
+
+  identifier: string;
+
+  diff: ICostDiff;
+
+  refundable: boolean;
+
+  rateMatches: IRateMatchInfo[];
+
+  costingId: string;
+}
+
+export enum ICommuteMode {
+  CAR = "Car",
+  FLIGHT = "Flight",
+  TRAIN = "Train",
+  FERRY = "Ferry",
+  BUS = "Bus",
+  RENTALCAR = "Rental Car",
+  SHUTTLE = "Shuttle",
+  MINIVAN = "Mini van",
+  MINIBUS = "Mini bus",
+  SELF = "Self",
+  UNKNOWN = "Unknown",
+  BOAT = "Boat"
+}
+
+export interface ICityValue {
+  nights: number;
+  cityId: number;
+  transferSlot: string;
+  hotelRefKey: string[];
+  allDayKeys: string[];
+  showRcTag: boolean;
+  rcText: string;
+  passId: number;
+  mode: ICommuteMode;
+  travelTime: number;
+}
+
+export enum ITimeOfDay {
+  MORNING = 1,
+  NOON = 2,
+  EVENING = 3,
+  NIGHT = 4
+}
+
+export enum ISlotActionType {
+  ACTIVITY = "ACTIVITY",
+  ACTIVITY_WITH_TRANSFER = "ACTIVITY_WITH_TRANSFER",
+  LEISURE = "LEISURE",
+  INTERCITY_TRANSFER = "INTERCITY_TRANSFER",
+  INTERNATIONAL_ARRIVE = "INTERNATIONAL_ARRIVE",
+  INTERNATIONAL_DEPART = "INTERNATIONAL_DEPART"
+}
+
+export interface IActivitySlotDetail {
+  activityId: number;
+
+  intercityTransferIncluded: boolean;
+
+  activityCostingIdentifier: string;
+}
+
+export interface IItinerarySlot {
+  slotIdentifier: string;
+
+  slotName: ITimeOfDay;
+
+  slotSpan: number;
+
+  slotNameDisplay: string;
+
+  slotType: ISlotActionType;
+
+  slotText: string;
+
+  rcPickup: boolean;
+
+  rcDrop: boolean;
+
+  activitySlotDetail: IActivitySlotDetail;
+
+  happensInPreviousCity: boolean;
+}
+
+export interface IItineraryDay {
+  dayIdentifer: string;
+
+  dayNum: number;
+
+  date: string;
+
+  hasRC: boolean;
+
+  slots: IItinerarySlot[];
+}
+
+export interface ICity {
+  cityId: number;
+
+  cityName: string;
+
+  airportCode: string;
+
+  numberOfNights: number;
+
+  alternateCitiesString: string;
+
+  image: string;
+
+  internationalAirportRank: number;
+
+  europeAirportRank: number;
+
+  latitude: number;
+
+  longitude: number;
+
+  cityImages: string[];
+}
+
+export interface IMiscellaneousCosting {
+  type: string; // TODO: Replace with proper enum
+  cost: string;
+  description: string;
+}
+
+export interface IMiscellaneousCostingValue {
+  totalMiscellaneousCost: string;
+  miscellaneousCostings: IMiscellaneousCosting[];
+}
+
+export interface ISummary {
+  inclusions: string[];
+  exclusions: string[];
+  complimentaryServices: string[];
+  discounts: string;
+  agentDiscounts: string;
+  savings: string;
+  totalCost: string;
+  recommendedPayment: any; // TODO: Add Proper Interface
+}
+
+export enum ICouponPartner {
+  CRED = "CRED"
+}
+
+export interface ICoupon {
+  couponPartner: ICouponPartner;
+  couponCode: string;
+  isCouponApplied: boolean;
+  validationMessage: string;
+}
+
+export enum ITripType {
+  Honeymoon = "Honeymoon",
+  Family = "Family",
+  Friends = "Friends",
+  Solo = "Solo",
+  Couple = "Couple",
+  Group = "Group",
+  Unknown = "Unknown",
+  ANNIVERSARY = "ANNIVERSARY",
+  HONEYMOON = "HONEYMOON",
+  BIRTHDAY = "BIRTHDAY",
+  SUMMER_VACATION = "SUMMER_VACATION",
+  SOLO = "SOLO",
+  FRIENDS = "FRIENDS",
+  CO_WORKERS = "CO_WORKERS",
+  FAMILY = "FAMILY",
+  COUPLE = "COUPLE"
+}
+
+export interface IHotelGuestRoomConfiguration {
+  adultCount: number;
+  childAges: number[];
+}
+
+export interface ITravellerInfo {
+  type: string;
+  travelPurpose: string;
+  details: string;
+}
+
+export interface ICostingConfiguration {
+  departureAirport: string;
+
+  arrivalAirport: string;
+
+  departureDate: string;
+
+  departureDateMillis: number;
+
+  returnDateMillis: number;
+
+  hotelGuestRoomConfigurations: IHotelGuestRoomConfiguration[];
+
+  preferredMonth: IMonth;
+
+  tripType: ITripType;
+}
+
+export interface ITotalDiff {
+  changeType: IDiffChangeType;
+
+  totalDiff: number;
+}
+
+export interface IMiscellaneousText {
+  transitVisaText: string;
+}
+
+export interface IPaymentOption {
+  paymentCode: any; // TODO: Replace with proper enum
+  fee: number;
+}
+
+export interface IPaymentScheduleDetail {
+  paymentOptions: IPaymentOption[];
+  itineraryId: string;
+  itineraryTotalCost: string;
+  totalPaid: string;
+  totalPending: string;
+  paymentEnvironmentType: string;
+}
+
+export interface IItinerary {
+  version: IItineraryVersion;
+  itinerary: IItineraryDetails;
+
+  iterCityByKey: { [index: string]: ICityValue };
+  iterDayByKey: { [index: string]: IItineraryDay };
+  iterSlotByKey: { [index: string]: any }; // TODO: Add Proper Interface
+  cityById: { [index: number]: ICity };
+  activityById: { [index: number]: any }; // TODO: Add Proper Interface
+
+  flightCostings: IAbstractCosting;
+  activityCostings: IAbstractCosting;
+  transferCostings: IAbstractCosting;
+  trainCostings: IAbstractCosting;
+  ferryCostings: IAbstractCosting;
+  rentalCarCostings: IAbstractCosting;
+  hotelCostings: IAbstractCosting;
+  visaCostings: IAbstractCosting;
+  insuranceCosting: IAbstractCosting;
+  passCostings: IAbstractCosting;
+  miscellaneousCostings: IMiscellaneousCostingValue;
+  summary: ISummary;
+  couponVO: ICoupon;
+  allFlightCostingRefs: string[];
+  allHotelCostingRefs: string[];
+  allTransferCostingRefs: string[];
+  allTrainCostingRefs: string[];
+  allFerryCostingRefs: string[];
+  allVisaCostingRefs: string[];
+  allInsuranceCostingRefs: string[];
+  allActivityCostingRefs: string[];
+  allPassCostingRefs: string[];
+  allRentalCostingRefs: string[];
+  costingConfiguration: ICostingConfiguration;
+  totalDiff: ITotalDiff;
+  otherTexts: IMiscellaneousText;
+  allAlerts: any; // TODO: Add Proper Interface
+  paymentSchedule: IPaymentScheduleDetail;
+  currency: string[];
+  travellerInfo: ITravellerInfo;
+  itineraryInclusions: string[];
+  festivals: { [index: string]: string }[];
+  customCostings: ICustomCostings[];
+}
