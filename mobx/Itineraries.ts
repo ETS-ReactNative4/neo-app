@@ -11,13 +11,31 @@ import { LayoutAnimation, Platform } from "react-native";
 import { hydrate } from "./Store";
 import itineraryConstructor from "../Services/appLauncher/itineraryConstructor";
 import debouncer from "../Services/debouncer/debouncer";
+import {
+  IActivityCosting,
+  IActivityDetail,
+  ICity,
+  IFerryCosting,
+  IFlightCosting,
+  IHotelCosting,
+  IInsuranceCosting,
+  IIterSlotByKey,
+  IItinerary,
+  IItineraryDay,
+  IPassCosting,
+  IRentalCarCosting,
+  ITrainCosting,
+  ITransferCosting,
+  IVisaCosting
+} from "../TypeInterfaces/IItinerary";
+import { ICustomCostings } from "../TypeInterfaces/ICustomCostings";
 
 /**
  * Itinerary date object does not have a year hence this function
  * will use the milliseconds data from `dayTs` to calculate
  * the year string in `YYYY` format
  */
-const getYearFromItineraryDateObject = dateObject => {
+const getYearFromItineraryDateObject = (dateObject: IItineraryDay): string => {
   if (dateObject.dayTs) {
     return moment(dateObject.dayTs).format("YYYY");
   } else {
@@ -30,7 +48,7 @@ const getYearFromItineraryDateObject = dateObject => {
  * `iterDayByKey` of the costing object and returns the
  * corresponding Javascript Date object
  */
-const getJsDateFromItineraryDateObject = dateObject => {
+const getJsDateFromItineraryDateObject = (dateObject: IItineraryDay): Date => {
   return moment(
     `${dateObject.day}-${dateObject.mon}-${getYearFromItineraryDateObject(
       dateObject
@@ -39,8 +57,27 @@ const getJsDateFromItineraryDateObject = dateObject => {
   ).toDate();
 };
 
+/**
+ * Type guard to check if insurance costing has the plan details
+ */
+export const insuranceCostingTypeGuard = (
+  insuranceCosting: IInsuranceCosting | {}
+): insuranceCosting is IInsuranceCosting => {
+  // @ts-ignore
+  return insuranceCosting && insuranceCosting.plan;
+};
+
+export interface IActivityCombinedInfo extends IActivityDetail {
+  costing: IActivityCosting;
+  voucher: any;
+}
+
+export interface IIterSlotWithActivity
+  extends IIterSlotByKey,
+    IActivityCombinedInfo {}
+
 class Itineraries {
-  static hydrator = storeInstance => {
+  static hydrator = (storeInstance: Itineraries) => {
     hydrate("_itineraries", storeInstance)
       .then(() => {})
       .catch(err => {
@@ -64,26 +101,26 @@ class Itineraries {
 
   @persist("list")
   @observable
-  _itineraries = [];
+  _itineraries: IItinerary[] = [];
 
   @persist("object")
   @observable
-  _selectedItinerary = {};
+  _selectedItinerary: IItinerary = <IItinerary>{};
 
   @persist("object")
   @observable
-  _voucherDownloadMap = {};
+  _voucherDownloadMap: { [index: string]: string } = {};
 
   @action
   reset = () => {
     this._isLoading = false;
     this._loadingError = false;
     this._itineraries = [];
-    this._selectedItinerary = {};
+    this._selectedItinerary = <IItinerary>{};
   };
 
   @action
-  selectItinerary = (itineraryId, callback = () => null) => {
+  selectItinerary = (itineraryId: string, callback: () => any = () => null) => {
     const selectedItinerary = this._itineraries.find(itineraryDetail => {
       return itineraryDetail.itinerary.itineraryId === itineraryId;
     });
@@ -107,7 +144,10 @@ class Itineraries {
   };
 
   @action
-  getItineraryDetails = (itineraryId, callback = () => null) => {
+  getItineraryDetails = (
+    itineraryId: string,
+    callback: () => any = () => null
+  ) => {
     this._isLoading = true;
     const requestBody = {};
     apiCall(
@@ -145,7 +185,7 @@ class Itineraries {
   };
 
   @action
-  updateItineraryDetails = itineraryId => {
+  updateItineraryDetails = (itineraryId: string) => {
     this._isLoading = true;
     const requestBody = {};
     apiCall(
@@ -181,7 +221,7 @@ class Itineraries {
    * url from which they are downloaded.
    */
   @action
-  updateVoucherDownloadMap = (url, fileName) => {
+  updateVoucherDownloadMap = (url: string, fileName: string) => {
     const voucherDownloadMap = toJS(this._voucherDownloadMap);
     voucherDownloadMap[url] = fileName;
     this._voucherDownloadMap = voucherDownloadMap;
@@ -191,7 +231,7 @@ class Itineraries {
    * This will retrieve a voucher which is already downloaded
    * using the downloaded source url
    */
-  getDownloadedVoucherByUrl = createTransformer(url => {
+  getDownloadedVoucherByUrl = createTransformer((url: string): string => {
     return this._voucherDownloadMap[url];
   });
 
@@ -252,7 +292,7 @@ class Itineraries {
    * as a day wise sorted array
    */
   @computed
-  get sortedDays() {
+  get sortedDays(): IItineraryDay[] {
     try {
       const itineraryDayByKey = toJS(this._selectedItinerary.iterDayByKey);
       const days = Object.values(itineraryDayByKey);
@@ -282,8 +322,8 @@ class Itineraries {
     try {
       const sortedDays = this.sortedDays;
 
-      const startDay = sortedDays[0];
-      const lastDay = sortedDays[sortedDays.length - 1];
+      const startDay: IItineraryDay = sortedDays[0];
+      const lastDay: IItineraryDay = sortedDays[sortedDays.length - 1];
 
       const startDate = getJsDateFromItineraryDateObject(startDay);
       const lastDate = getJsDateFromItineraryDateObject(lastDay);
@@ -318,32 +358,38 @@ class Itineraries {
   }
 
   @computed
-  get hotels() {
+  get hotels(): IHotelCosting[] {
     if (_.isEmpty(this._selectedItinerary)) {
       return [];
     }
 
     try {
-      let hotels;
+      let hotels: IHotelCosting[];
       try {
         const hotelRefs = this._selectedItinerary.allHotelCostingRefs;
         hotels =
           hotelRefs && hotelRefs.length
-            ? hotelRefs.reduce((hotelArray, ref) => {
-                const hotel = toJS(
-                  this._selectedItinerary.hotelCostings.hotelCostingById[ref]
-                );
+            ? hotelRefs.reduce(
+                (hotelArray: IHotelCosting[], ref): IHotelCosting[] => {
+                  const hotel: IHotelCosting = toJS(
+                    this._selectedItinerary.hotelCostings.costingById[ref]
+                  );
 
-                if (hotel && hotel.status === constants.voucherSuccessStatus) {
-                  hotel.voucher =
-                    storeService.voucherStore.getHotelVoucherById(
-                      hotel.costingId
-                    ) || {};
-                  hotelArray.push(hotel);
-                }
+                  if (
+                    hotel &&
+                    hotel.status === constants.voucherSuccessStatus
+                  ) {
+                    hotel.voucher =
+                      storeService.voucherStore.getHotelVoucherById(
+                        hotel.costingId
+                      ) || {};
+                    hotelArray.push(hotel);
+                  }
 
-                return hotelArray;
-              }, [])
+                  return hotelArray;
+                },
+                []
+              )
             : [];
       } catch (e) {
         logError(e);
@@ -361,28 +407,27 @@ class Itineraries {
    * along with the costing information and voucher information
    */
   @computed
-  get activities() {
+  get activities(): IActivityCombinedInfo[] {
     if (_.isEmpty(this._selectedItinerary)) {
       return [];
     }
 
     try {
-      let activities;
+      let activities: IActivityCombinedInfo[];
       try {
-        const activitiesList = this._selectedItinerary.activityById
+        const activitiesList: IActivityDetail[] = this._selectedItinerary
+          .activityById
           ? toJS(Object.values(this._selectedItinerary.activityById))
           : [];
         const activityRefs = this._selectedItinerary.allActivityCostingRefs;
         /**
          * TODO: Multiple maps (needs optimization)
          */
-        const activitiesCosting =
+        const activitiesCosting: IActivityCosting[] =
           activityRefs && activityRefs.length
             ? activityRefs.map(ref => {
                 return toJS(
-                  this._selectedItinerary.activityCostings.activityCostingById[
-                    ref
-                  ]
+                  this._selectedItinerary.activityCostings.costingById[ref]
                 );
               })
             : [];
@@ -415,31 +460,37 @@ class Itineraries {
   }
 
   @computed
-  get flights() {
+  get flights(): IFlightCosting[] {
     if (_.isEmpty(this._selectedItinerary)) {
       return [];
     }
 
-    let flights;
+    let flights: IFlightCosting[];
     try {
       const flightRefs = this._selectedItinerary.allFlightCostingRefs;
       flights =
         flightRefs && flightRefs.length
-          ? flightRefs.reduce((flightArray, ref) => {
-              const flight = toJS(
-                this._selectedItinerary.flightCostings.flightCostingById[ref]
-              );
+          ? flightRefs.reduce(
+              (flightArray: IFlightCosting[], ref): IFlightCosting[] => {
+                const flight: IFlightCosting = toJS(
+                  this._selectedItinerary.flightCostings.costingById[ref]
+                );
 
-              if (flight && flight.status === constants.voucherSuccessStatus) {
-                flight.voucher =
-                  storeService.voucherStore.getFlightVoucherById(
-                    flight.dbFlightId
-                  ) || {};
-                flightArray.push(flight);
-              }
+                if (
+                  flight &&
+                  flight.status === constants.voucherSuccessStatus
+                ) {
+                  flight.voucher =
+                    storeService.voucherStore.getFlightVoucherById(
+                      flight.dbFlightId
+                    ) || {};
+                  flightArray.push(flight);
+                }
 
-              return flightArray;
-            }, [])
+                return flightArray;
+              },
+              []
+            )
           : [];
     } catch (e) {
       logError(e);
@@ -449,36 +500,37 @@ class Itineraries {
   }
 
   @computed
-  get transfers() {
+  get transfers(): ITransferCosting[] {
     if (_.isEmpty(this._selectedItinerary)) {
       return [];
     }
 
-    let transfers;
+    let transfers: ITransferCosting[];
     try {
       const transferRefs = this._selectedItinerary.allTransferCostingRefs;
       transfers =
         transferRefs && transferRefs.length
-          ? transferRefs.reduce((transferArray, ref) => {
-              const transfer = toJS(
-                this._selectedItinerary.transferCostings.transferCostingById[
-                  ref
-                ]
-              );
+          ? transferRefs.reduce(
+              (transferArray: ITransferCosting[], ref): ITransferCosting[] => {
+                const transfer: ITransferCosting = toJS(
+                  this._selectedItinerary.transferCostings.costingById[ref]
+                );
 
-              if (
-                transfer &&
-                transfer.status === constants.voucherSuccessStatus
-              ) {
-                transfer.voucher =
-                  storeService.voucherStore.getTransferVoucherById(
-                    transfer.transferCostingId
-                  ) || {};
-                transferArray.push(transfer);
-              }
+                if (
+                  transfer &&
+                  transfer.status === constants.voucherSuccessStatus
+                ) {
+                  transfer.voucher =
+                    storeService.voucherStore.getTransferVoucherById(
+                      transfer.transferCostingId
+                    ) || {};
+                  transferArray.push(transfer);
+                }
 
-              return transferArray;
-            }, [])
+                return transferArray;
+              },
+              []
+            )
           : [];
     } catch (e) {
       logError(e);
@@ -488,32 +540,35 @@ class Itineraries {
   }
 
   @computed
-  get trains() {
+  get trains(): ITrainCosting[] {
     if (_.isEmpty(this._selectedItinerary)) {
       return [];
     }
 
-    let trains;
+    let trains: ITrainCosting[];
     try {
       const trainRefs = this._selectedItinerary.allTrainCostingRefs;
       trains =
         trainRefs && trainRefs.length
-          ? trainRefs.reduce((trainsArray, ref) => {
-              const trainCosting = toJS(
-                this._selectedItinerary.trainCostings.trainCostingById[ref]
-              );
-              if (
-                trainCosting &&
-                trainCosting.status === constants.voucherSuccessStatus
-              ) {
-                trainCosting.voucher =
-                  storeService.voucherStore.getTrainVoucherById(
-                    trainCosting.costingId
-                  ) || {};
-                trainsArray.push(trainCosting);
-              }
-              return trainsArray;
-            }, [])
+          ? trainRefs.reduce(
+              (trainsArray: ITrainCosting[], ref): ITrainCosting[] => {
+                const trainCosting: ITrainCosting = toJS(
+                  this._selectedItinerary.trainCostings.costingById[ref]
+                );
+                if (
+                  trainCosting &&
+                  trainCosting.status === constants.voucherSuccessStatus
+                ) {
+                  trainCosting.voucher =
+                    storeService.voucherStore.getTrainVoucherById(
+                      trainCosting.costingId
+                    ) || {};
+                  trainsArray.push(trainCosting);
+                }
+                return trainsArray;
+              },
+              []
+            )
           : [];
     } catch (e) {
       logError(e);
@@ -523,29 +578,32 @@ class Itineraries {
   }
 
   @computed
-  get ferries() {
+  get ferries(): IFerryCosting[] {
     if (_.isEmpty(this._selectedItinerary)) {
       return [];
     }
 
-    let ferries;
+    let ferries: IFerryCosting[];
     try {
       const ferryRefs = this._selectedItinerary.allFerryCostingRefs;
       ferries =
         ferryRefs && ferryRefs.length
-          ? ferryRefs.reduce((ferriesArray, ref) => {
-              const ferry = toJS(
-                this._selectedItinerary.ferryCostings.ferryCostingById[ref]
-              );
-              if (ferry && ferry.status === constants.voucherSuccessStatus) {
-                ferry.voucher =
-                  storeService.voucherStore.getFerryVoucherById(
-                    ferry.costingId
-                  ) || {};
-                ferriesArray.push(ferry);
-              }
-              return ferriesArray;
-            }, [])
+          ? ferryRefs.reduce(
+              (ferriesArray: IFerryCosting[], ref): IFerryCosting[] => {
+                const ferry: IFerryCosting = toJS(
+                  this._selectedItinerary.ferryCostings.costingById[ref]
+                );
+                if (ferry && ferry.status === constants.voucherSuccessStatus) {
+                  ferry.voucher =
+                    storeService.voucherStore.getFerryVoucherById(
+                      ferry.costingId
+                    ) || {};
+                  ferriesArray.push(ferry);
+                }
+                return ferriesArray;
+              },
+              []
+            )
           : [];
     } catch (e) {
       logError(e);
@@ -555,32 +613,35 @@ class Itineraries {
   }
 
   @computed
-  get visa() {
+  get visa(): IVisaCosting[] {
     if (_.isEmpty(this._selectedItinerary)) {
       return [];
     }
 
-    let visa;
+    let visa: IVisaCosting[];
     try {
       const visaRefs = this._selectedItinerary.allVisaCostingRefs;
       visa =
         visaRefs && visaRefs.length
-          ? visaRefs.reduce((visaArray, ref) => {
-              const visaObject = toJS(
-                this._selectedItinerary.visaCostings.visaCostingById[ref]
-              );
-              /**
-               * On arrival visa usually wouldn't be shown in the
-               * bookings accordion,
-               * However, Since visa is following visa assistance flow, we need
-               * the on arrival visa's to be displayed
-               * `visaObject.onArrival`
-               */
-              if (visaObject) {
-                visaArray.push(visaObject);
-              }
-              return visaArray;
-            }, [])
+          ? visaRefs.reduce(
+              (visaArray: IVisaCosting[], ref): IVisaCosting[] => {
+                const visaObject = toJS(
+                  this._selectedItinerary.visaCostings.costingById[ref]
+                );
+                /**
+                 * On arrival visa usually wouldn't be shown in the
+                 * bookings accordion,
+                 * However, Since visa is following visa assistance flow, we need
+                 * the on arrival visa's to be displayed
+                 * `visaObject.onArrival`
+                 */
+                if (visaObject) {
+                  visaArray.push(visaObject);
+                }
+                return visaArray;
+              },
+              []
+            )
           : [];
     } catch (e) {
       logError(e);
@@ -590,16 +651,17 @@ class Itineraries {
   }
 
   @computed
-  get insurance() {
+  get insurance(): IInsuranceCosting | {} {
     if (_.isEmpty(this._selectedItinerary)) {
       return {};
     }
 
     try {
-      const insuranceCosting = this._selectedItinerary.insuranceCosting
-        ? toJS(this._selectedItinerary.insuranceCosting.insuranceCostingById)
+      const insuranceCosting: IInsuranceCosting | {} = this._selectedItinerary
+        .insuranceCosting
+        ? toJS(this._selectedItinerary.insuranceCosting.costingById)
         : {};
-      if (insuranceCosting && insuranceCosting.plan) {
+      if (insuranceCostingTypeGuard(insuranceCosting)) {
         insuranceCosting.voucher =
           storeService.voucherStore.getInsuranceVoucherById(
             insuranceCosting.costingId
@@ -615,21 +677,23 @@ class Itineraries {
   }
 
   @computed
-  get passes() {
+  get passes(): IPassCosting[] {
     if (_.isEmpty(this._selectedItinerary)) {
       return [];
     }
 
-    let passes;
+    let passes: IPassCosting[];
     try {
       const passRefs = this._selectedItinerary.allPassCostingRefs;
       passes =
         passRefs && passRefs.length
-          ? passRefs.map(ref => {
-              return toJS(
-                this._selectedItinerary.passCostings.passCostingById[ref]
-              );
-            })
+          ? passRefs.map(
+              (ref: string): IPassCosting => {
+                return toJS(
+                  this._selectedItinerary.passCostings.costingById[ref]
+                );
+              }
+            )
           : [];
     } catch (e) {
       logError(e);
@@ -639,29 +703,35 @@ class Itineraries {
   }
 
   @computed
-  get rentals() {
+  get rentals(): IRentalCarCosting[] {
     if (_.isEmpty(this._selectedItinerary)) {
       return [];
     }
 
-    let rentals;
+    let rentals: IRentalCarCosting[];
     try {
       const rentalRefs = this._selectedItinerary.allRentalCostingRefs;
       rentals =
         rentalRefs && rentalRefs.length
-          ? rentalRefs.reduce((rentalsArray, ref) => {
-              const rental = toJS(
-                this._selectedItinerary.rentalCarCostings.rentalCostingById[ref]
-              );
-              if (rental && rental.status === constants.voucherSuccessStatus) {
-                rental.voucher =
-                  storeService.voucherStore.getRentalCarVoucherById(
-                    rental.rcCostingId || rental.dbRef
-                  ) || {};
-                rentalsArray.push(rental);
-              }
-              return rentalsArray;
-            }, [])
+          ? rentalRefs.reduce(
+              (rentalsArray: IRentalCarCosting[], ref): IRentalCarCosting[] => {
+                const rental: IRentalCarCosting = toJS(
+                  this._selectedItinerary.rentalCarCostings.costingById[ref]
+                );
+                if (
+                  rental &&
+                  rental.status === constants.voucherSuccessStatus
+                ) {
+                  rental.voucher =
+                    storeService.voucherStore.getRentalCarVoucherById(
+                      rental.rcCostingId || rental.dbRef
+                    ) || {};
+                  rentalsArray.push(rental);
+                }
+                return rentalsArray;
+              },
+              []
+            )
           : [];
     } catch (e) {
       logError(e);
@@ -671,12 +741,12 @@ class Itineraries {
   }
 
   @computed
-  get customCostings() {
+  get customCostings(): ICustomCostings[] {
     if (_.isEmpty(this._selectedItinerary)) {
       return [];
     }
 
-    let customCostingsArray = [];
+    let customCostingsArray: ICustomCostings[] = [];
     try {
       const { customCostings = [] } = this._selectedItinerary;
       customCostingsArray = toJS(customCostings);
@@ -687,7 +757,13 @@ class Itineraries {
   }
 
   getRentalCarByCityOrder = createTransformer(
-    ({ fromCityOrder, toCityOrder }) => {
+    ({
+      fromCityOrder,
+      toCityOrder
+    }: {
+      fromCityOrder: number;
+      toCityOrder: number;
+    }): IRentalCarCosting | {} => {
       if (_.isEmpty(this._selectedItinerary)) {
         return {};
       }
@@ -713,7 +789,7 @@ class Itineraries {
     }
   );
 
-  getCityOrderById = createTransformer(cityId => {
+  getCityOrderById = createTransformer((cityId: number) => {
     if (_.isEmpty(this._selectedItinerary)) {
       return "";
     }
@@ -749,7 +825,7 @@ class Itineraries {
   }
 
   @computed
-  get slots() {
+  get slots(): (IIterSlotWithActivity | IIterSlotByKey)[] {
     if (_.isEmpty(this._selectedItinerary)) {
       return [];
     }
@@ -757,16 +833,22 @@ class Itineraries {
     try {
       return this.sortedDays.reduce((slots, day) => {
         return slots.concat([
-          day.allSlotKeys.map(slotKey => {
-            const slot = toJS(this._selectedItinerary.iterSlotByKey[slotKey]);
-            if (slot.type === "ACTIVITY") {
-              slot.activitySlotDetail = {
-                ...slot.activitySlotDetail,
-                ...this.getActivityById(slot.activitySlotDetail.activityId)
-              };
+          // @ts-ignore
+          day.allSlotKeys.map(
+            (slotKey): IIterSlotByKey => {
+              const slot: IIterSlotByKey = toJS(
+                this._selectedItinerary.iterSlotByKey[slotKey]
+              );
+              if (slot.type === "ACTIVITY") {
+                slot.activitySlotDetail = Object.assign(
+                  {},
+                  slot.activitySlotDetail,
+                  this.getActivityById(slot.activitySlotDetail.activityId)
+                );
+              }
+              return slot;
             }
-            return slot;
-          })
+          )
         ]);
       }, []);
     } catch (e) {
@@ -867,7 +949,7 @@ class Itineraries {
    * This is needed for checking if the user is currently in that city in the
    * NearBy screen
    */
-  getCityById = createTransformer(id => {
+  getCityById = createTransformer((id: number) => {
     if (_.isEmpty(this._selectedItinerary)) {
       return {};
     }
@@ -877,12 +959,14 @@ class Itineraries {
 
     try {
       // City Object needs to be modified hence the observable should be converted to plain JS
-      const cityObject = toJS(this._selectedItinerary.cityById[id]);
+      const cityObject: ICity = toJS(this._selectedItinerary.cityById[id]);
       const cityList = this.cities;
       const requiredCity = cityList.find(city => {
         return city.cityObject.cityId === id;
       });
+      // @ts-ignore - cityObject must be a new type that extends `ICity` and will be used in this class
       cityObject.startDay = requiredCity.startDay;
+      // @ts-ignore
       cityObject.endDay = requiredCity.endDay;
       return toJS(cityObject);
     } catch (e) {
@@ -891,14 +975,14 @@ class Itineraries {
     }
   });
 
-  getHotelByDate = createTransformer(date => {
+  getHotelByDate = createTransformer((date: string): IHotelCosting | {} => {
     if (_.isEmpty(this._selectedItinerary)) {
       return {};
     }
 
     try {
       const hotelCostings = toJS(
-        this._selectedItinerary.hotelCostings.hotelCostingById
+        this._selectedItinerary.hotelCostings.costingById
       );
       for (const key in hotelCostings) {
         if (hotelCostings.hasOwnProperty(key)) {
@@ -917,16 +1001,20 @@ class Itineraries {
     }
   });
 
-  getActivityById = createTransformer(id => {
+  getActivityById = createTransformer((id: string):
+    | IActivityCombinedInfo
+    | {} => {
     if (_.isEmpty(this._selectedItinerary)) {
       return {};
     }
 
     try {
-      return this.activities.find(
-        activity =>
-          id === activity.costing.key ||
-          id === activity.costing.activityCostingId
+      return (
+        this.activities.find(
+          activity =>
+            id === activity.costing.key ||
+            id === activity.costing.activityCostingId
+        ) || {}
       );
     } catch (e) {
       logError(e);
@@ -934,14 +1022,14 @@ class Itineraries {
     }
   });
 
-  getFlightById = createTransformer(id => {
+  getFlightById = createTransformer((id: string): IFlightCosting | {} => {
     if (_.isEmpty(this._selectedItinerary)) {
       return {};
     }
 
     try {
       const flight = toJS(
-        this._selectedItinerary.flightCostings.flightCostingById[id]
+        this._selectedItinerary.flightCostings.costingById[id]
       );
       if (flight && flight.key) {
         flight.voucher =
@@ -956,7 +1044,13 @@ class Itineraries {
     }
   });
 
-  getTransferFromAllById = createTransformer(id => {
+  getTransferFromAllById = createTransformer((id: string):
+    | ITransferCosting
+    | IFerryCosting
+    | IFlightCosting
+    | ITrainCosting
+    | IRentalCarCosting
+    | {} => {
     try {
       let transfer = this.getTransferById(id);
       if (_.isEmpty(transfer)) {
@@ -978,14 +1072,14 @@ class Itineraries {
     }
   });
 
-  getTransferById = createTransformer(id => {
+  getTransferById = createTransformer((id: string): ITransferCosting | {} => {
     if (_.isEmpty(this._selectedItinerary)) {
       return {};
     }
 
     try {
       const transfer = toJS(
-        this._selectedItinerary.transferCostings.transferCostingById[id]
+        this._selectedItinerary.transferCostings.costingById[id]
       );
       if (transfer) {
         transfer.voucher =
@@ -1000,15 +1094,13 @@ class Itineraries {
     }
   });
 
-  getFerryById = createTransformer(id => {
+  getFerryById = createTransformer((id: string): IFerryCosting | {} => {
     if (_.isEmpty(this._selectedItinerary)) {
       return {};
     }
 
     try {
-      const ferry = toJS(
-        this._selectedItinerary.ferryCostings.ferryCostingById[id]
-      );
+      const ferry = toJS(this._selectedItinerary.ferryCostings.costingById[id]);
       if (ferry) {
         ferry.voucher =
           storeService.voucherStore.getFerryVoucherById(ferry.key) || {};
@@ -1022,14 +1114,14 @@ class Itineraries {
     }
   });
 
-  getRentalCarById = createTransformer(id => {
+  getRentalCarById = createTransformer((id: string): IRentalCarCosting | {} => {
     if (_.isEmpty(this._selectedItinerary)) {
       return {};
     }
 
     try {
       const rentalCar = toJS(
-        this._selectedItinerary.rentalCarCostings.rentalCostingById[id]
+        this._selectedItinerary.rentalCarCostings.costingById[id]
       );
       if (rentalCar) {
         rentalCar.voucher =
@@ -1046,15 +1138,13 @@ class Itineraries {
     }
   });
 
-  getTrainById = createTransformer(id => {
+  getTrainById = createTransformer((id: string): ITrainCosting | {} => {
     if (_.isEmpty(this._selectedItinerary)) {
       return {};
     }
 
     try {
-      const train = toJS(
-        this._selectedItinerary.trainCostings.trainCostingById[id]
-      );
+      const train = toJS(this._selectedItinerary.trainCostings.costingById[id]);
       if (train) {
         train.voucher =
           storeService.voucherStore.getTrainVoucherById(train.key) || {};
@@ -1068,14 +1158,13 @@ class Itineraries {
     }
   });
 
-  getHotelById = createTransformer(id => {
+  getHotelById = createTransformer((id: string): IHotelCosting | {} => {
     if (_.isEmpty(this._selectedItinerary)) {
       return {};
     }
 
     try {
-      const hotel =
-        this._selectedItinerary.hotelCostings.hotelCostingById[id] || {};
+      const hotel = this._selectedItinerary.hotelCostings.costingById[id] || {};
       hotel.voucher =
         storeService.voucherStore.getHotelVoucherById(hotel.costingId) || {};
       return hotel;
@@ -1085,7 +1174,9 @@ class Itineraries {
     }
   });
 
-  getCustomCostingsById = createTransformer(id => {
+  getCustomCostingsById = createTransformer((id: string):
+    | ICustomCostings
+    | {} => {
     if (_.isEmpty(this._selectedItinerary)) {
       return {};
     }
@@ -1119,7 +1210,7 @@ class Itineraries {
    * which means there are no dates on the right side of the current date
    * (also means the date is a right corner)
    */
-  getDateSelectionMatrixSingle = createTransformer(index => {
+  getDateSelectionMatrixSingle = createTransformer((index: number) => {
     try {
       let dayKey;
 
@@ -1157,7 +1248,7 @@ class Itineraries {
     }
   });
 
-  numOfActivitiesByDay = createTransformer(index => {
+  numOfActivitiesByDay = createTransformer((index: number) => {
     try {
       for (let key in this._selectedItinerary.iterDayByKey) {
         if (this._selectedItinerary.iterDayByKey[key].dayNum === index + 1) {
@@ -1181,7 +1272,7 @@ class Itineraries {
     }
   });
 
-  getTransferTypeByDay = createTransformer(index => {
+  getTransferTypeByDay = createTransformer((index: number) => {
     try {
       for (let key in this._selectedItinerary.iterDayByKey) {
         if (this._selectedItinerary.iterDayByKey[key].dayNum === index + 1) {

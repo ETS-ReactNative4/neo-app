@@ -63,6 +63,96 @@ export interface IAbstractCosting {
   rateMatches: IRateMatchInfo[];
 
   costingId: string;
+
+  voucher: any; // TODO: Define proper voucher types
+}
+
+export interface IAbstractCostingValue {
+  totalPublishedCost: string;
+  totalOurCost: string;
+  totalDiff: string;
+}
+
+export interface IFlightCosting extends IAbstractCosting {
+  dbFlightId: string;
+  key: string;
+}
+
+export interface IFlightCostingValue extends IAbstractCostingValue {
+  costingById: { [index: string]: IFlightCosting };
+}
+
+export interface IActivityCosting extends IAbstractCosting {
+  activityId: string;
+  activityCostingId: string;
+  key: string;
+}
+
+export interface IActivityCostingValue extends IAbstractCostingValue {
+  costingById: { [index: string]: IActivityCosting };
+}
+
+export interface ITransferCosting extends IAbstractCosting {
+  transferCostingId: string;
+  key: string;
+}
+
+export interface ITransferCostingValue extends IAbstractCostingValue {
+  costingById: { [index: string]: ITransferCosting };
+}
+
+export interface ITrainCosting extends IAbstractCosting {
+  key: string;
+}
+
+export interface ITrainCostingValue extends IAbstractCostingValue {
+  costingById: { [index: string]: ITrainCosting };
+}
+
+export interface IFerryCosting extends IAbstractCosting {
+  key: string;
+}
+
+export interface IFerryCostingValue extends IAbstractCostingValue {
+  costingById: { [index: string]: IFerryCosting };
+}
+
+export interface IRentalCarCosting extends IAbstractCosting {
+  rcCostingId: string;
+  dbRef: string;
+  key: string;
+}
+
+export interface IRentalCarCostingValue extends IAbstractCostingValue {
+  costingById: { [index: string]: IRentalCarCosting };
+}
+
+export interface IHotelCosting extends IAbstractCosting {
+  checkInTs: number;
+}
+
+export interface IHotelCostingValue extends IAbstractCostingValue {
+  costingById: { [index: string]: IHotelCosting };
+}
+
+export interface IVisaCosting extends IAbstractCosting {}
+
+export interface IVisaCostingValue extends IAbstractCostingValue {
+  costingById: { [index: string]: IVisaCosting };
+}
+
+export interface IInsuranceCosting extends IAbstractCosting {
+  plan: string;
+}
+
+export interface IInsuranceCostingValue extends IAbstractCostingValue {
+  costingById: { [index: string]: IInsuranceCosting };
+}
+
+export interface IPassCosting extends IAbstractCosting {}
+
+export interface IPassCostingValue extends IAbstractCostingValue {
+  costingById: { [index: string]: IPassCosting };
 }
 
 export enum ICommuteMode {
@@ -139,6 +229,23 @@ export interface IItinerarySlot {
   happensInPreviousCity: boolean;
 }
 
+export interface IIterSlotByKey {
+  // TODO: Requires detailed type definition
+  type: string;
+  activitySlotDetail: any;
+  intercityTransferSlotDetailVO: {
+    directTransferDetail: {
+      transferMode: string;
+    };
+    transferType: string;
+    transitTransferDetail: {
+      arriveTransit: {
+        transitMode: string;
+      };
+    };
+  };
+}
+
 export interface IItineraryDay {
   dayIdentifer: string;
 
@@ -149,6 +256,12 @@ export interface IItineraryDay {
   hasRC: boolean;
 
   slots: IItinerarySlot[];
+
+  // TODO: Verify the type definition for items below
+  allSlotKeys: string[];
+  dayTs: number;
+  day: string;
+  mon: string;
 }
 
 export interface ICity {
@@ -173,6 +286,10 @@ export interface ICity {
   longitude: number;
 
   cityImages: string[];
+}
+
+export interface IActivityDetail {
+  // TODO: Requires detailed type definition
 }
 
 export interface IMiscellaneousCosting {
@@ -286,20 +403,20 @@ export interface IItinerary {
 
   iterCityByKey: { [index: string]: ICityValue };
   iterDayByKey: { [index: string]: IItineraryDay };
-  iterSlotByKey: { [index: string]: any }; // TODO: Add Proper Interface
+  iterSlotByKey: { [index: string]: IIterSlotByKey }; // TODO: Add Proper Interface
   cityById: { [index: number]: ICity };
-  activityById: { [index: number]: any }; // TODO: Add Proper Interface
+  activityById: { [index: number]: IActivityDetail };
 
-  flightCostings: IAbstractCosting;
-  activityCostings: IAbstractCosting;
-  transferCostings: IAbstractCosting;
-  trainCostings: IAbstractCosting;
-  ferryCostings: IAbstractCosting;
-  rentalCarCostings: IAbstractCosting;
-  hotelCostings: IAbstractCosting;
-  visaCostings: IAbstractCosting;
-  insuranceCosting: IAbstractCosting;
-  passCostings: IAbstractCosting;
+  flightCostings: IFlightCostingValue;
+  activityCostings: IActivityCostingValue;
+  transferCostings: ITransferCostingValue;
+  trainCostings: ITrainCostingValue;
+  ferryCostings: IFerryCostingValue;
+  rentalCarCostings: IRentalCarCostingValue;
+  hotelCostings: IHotelCostingValue;
+  visaCostings: IVisaCostingValue;
+  insuranceCosting: IInsuranceCostingValue;
+  passCostings: IPassCostingValue;
   miscellaneousCostings: IMiscellaneousCostingValue;
   summary: ISummary;
   couponVO: ICoupon;

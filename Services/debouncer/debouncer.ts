@@ -5,7 +5,7 @@ import { logError } from "../errorLogger/errorLogger";
  * by wrapping it inside setTimeout
  * Used to prevent tasks from blocking system UI.
  */
-const debouncer = (callback = () => null) => {
+const debouncer = (callback: () => any = () => null) => {
   setTimeout(() => {
     try {
       return callback();
