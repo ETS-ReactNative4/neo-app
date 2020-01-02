@@ -127,8 +127,38 @@ export interface IRentalCarCostingValue extends IAbstractCostingValue {
   costingById: { [index: string]: IRentalCarCosting };
 }
 
+export interface IRoomMealOptions {
+  selected: boolean;
+  mealCodeDisplayText: string;
+}
+
+export interface IRoomsInHotel {
+  name: string;
+  roomImages: string[];
+  freeBreakfast: boolean;
+  freeWireless: boolean;
+  roomConfiguration: IHotelGuestRoomConfiguration;
+  roomTypeId: string;
+  mealOptions: IRoomMealOptions[];
+}
+
+export interface IAmenityDisplayList {
+  iconUrl: string;
+  amenityName: string;
+}
+
 export interface IHotelCosting extends IAbstractCosting {
+  // TODO: Add detailed type definitions
   checkInTs: number;
+  checkInDate: string;
+  checkOutDate: string;
+  name: string;
+  roomsInHotel: IRoomsInHotel[];
+  amenityDisplayList: IAmenityDisplayList[];
+  imageURL: string;
+  mobile: string;
+  lat: number;
+  lon: number;
 }
 
 export interface IHotelCostingValue extends IAbstractCostingValue {
