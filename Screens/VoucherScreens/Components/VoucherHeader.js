@@ -124,7 +124,6 @@ VoucherHeader.propTypes = {
   title: PropTypes.string.isRequired,
   onClickClose: PropTypes.func.isRequired,
   image: PropTypes.oneOfType([PropTypes.object, PropTypes.number]).isRequired,
-  placeHolderHeight: PropTypes.number.isRequired,
   children: PropTypes.element,
   voucherUrl: PropTypes.string.isRequired,
   enableGradient: PropTypes.bool

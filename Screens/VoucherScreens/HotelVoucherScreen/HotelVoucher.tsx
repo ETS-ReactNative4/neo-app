@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from "react";
 import { View, Text, StyleSheet, Platform } from "react-native";
 import { isIphoneX } from "react-native-iphone-x-helper";
+// @ts-ignore
 import ParallaxScrollView from "react-native-parallax-scroll-view";
 import VoucherHeader from "../Components/VoucherHeader";
 import constants from "../../../constants/constants";
@@ -23,7 +24,15 @@ import { createIconSetFromIcoMoon } from "react-native-vector-icons";
 import icoMoonConfig from "../../../assets/fontMap/hotel-amenities.json";
 import VoucherAlertBox from "../Components/VoucherAlertBox/VoucherAlertBox";
 import VoucherAddressSectionV2 from "../Components/VoucherAddressSectionV2/VoucherAddressSectionV2";
-import PropTypes from "prop-types";
+import { NavigationStackProp } from "react-navigation-stack";
+import {
+  IAmenityDisplayList,
+  IHotelCosting
+} from "../../../TypeInterfaces/IItinerary";
+import {
+  IPassengerDetail,
+  IVoucherSplitSectionData
+} from "../types/voucherScreenTypes";
 
 const xHeight = isIphoneX()
   ? constants.xNotchHeight
@@ -31,13 +40,17 @@ const xHeight = isIphoneX()
   ? 20
   : 0;
 
-@ErrorBoundary()
-class HotelVoucher extends Component {
-  static propTypes = {
-    navigation: PropTypes.object
-  };
+export interface HotelVoucherProps {
+  navigation: NavigationStackProp<{ hotel: IHotelCosting }>;
+}
 
-  static navigationOptions = {
+export interface HotelVoucherState {
+  isCloseVisible: boolean;
+}
+
+@ErrorBoundary()
+class HotelVoucher extends Component<HotelVoucherProps, HotelVoucherState> {
+  public static navigationOptions = {
     header: null,
     gestureResponseDistance: {
       vertical: 214 + xHeight
@@ -48,7 +61,7 @@ class HotelVoucher extends Component {
     isCloseVisible: true
   };
 
-  headerToggle = status => {
+  headerToggle = (status: boolean) => {
     this.setState({
       isCloseVisible: status
     });
@@ -59,7 +72,7 @@ class HotelVoucher extends Component {
   };
 
   render() {
-    const hotel = this.props.navigation.getParam("hotel", {});
+    const hotel: IHotelCosting = this.props.navigation.getParam("hotel", {});
     const Icon = createIconSetFromIcoMoon(icoMoonConfig);
 
     const {
@@ -85,34 +98,36 @@ class HotelVoucher extends Component {
       voucherUrl
     } = hotel.voucher;
 
-    const amenitiesSection = [
+    const amenitiesSection: IVoucherSplitSectionData[] = [
       {
         name: "Hotel Amenities",
         component: amenityDisplayList ? (
           <Fragment>
-            {amenityDisplayList.map((amenity, amenityIndex) => {
-              const customStyle = {};
-              return (
-                <View
-                  key={amenityIndex}
-                  style={[
-                    styles.amenitiesTextWrapper,
-                    amenityIndex === amenityDisplayList.length - 1
-                      ? customStyle
-                      : {}
-                  ]}
-                >
-                  <Icon
-                    name={amenity.iconUrl}
-                    size={18}
-                    color={constants.black2}
-                  />
-                  <Text style={styles.amenitiesText} key={amenityIndex}>
-                    {amenity.amenityName}
-                  </Text>
-                </View>
-              );
-            })}
+            {amenityDisplayList.map(
+              (amenity: IAmenityDisplayList, amenityIndex: number) => {
+                const customStyle = {};
+                return (
+                  <View
+                    key={amenityIndex}
+                    style={[
+                      styles.amenitiesTextWrapper,
+                      amenityIndex === amenityDisplayList.length - 1
+                        ? customStyle
+                        : {}
+                    ]}
+                  >
+                    <Icon
+                      name={amenity.iconUrl}
+                      size={18}
+                      color={constants.black2}
+                    />
+                    <Text style={styles.amenitiesText} key={amenityIndex}>
+                      {amenity.amenityName}
+                    </Text>
+                  </View>
+                );
+              }
+            )}
             <VoucherAlertBox
               alertText={constants.voucherText.hotelAmenitiesDisclaimer}
               mode={"alert"}
@@ -123,7 +138,7 @@ class HotelVoucher extends Component {
       }
     ];
 
-    const bookingDetailSection = [
+    const bookingDetailSection: IVoucherSplitSectionData[] = [
       // Removed Temporarily since data is not accurate
       // {
       //   name: "Booked on",
@@ -136,14 +151,17 @@ class HotelVoucher extends Component {
     ];
 
     const bookingPNR = rooms
-      ? rooms.reduce((pnrString, room) => {
-          if (pnrString) {
-            pnrString += `${"\n"}, ${room.bookingReferenceId}`;
-          } else {
-            pnrString = room.bookingReferenceId;
-          }
-          return pnrString;
-        }, "")
+      ? rooms.reduce(
+          (pnrString: string, room: { bookingReferenceId: string }) => {
+            if (pnrString) {
+              pnrString += `${"\n"}, ${room.bookingReferenceId}`;
+            } else {
+              pnrString = room.bookingReferenceId;
+            }
+            return pnrString;
+          },
+          ""
+        )
       : "";
 
     return (
@@ -166,7 +184,6 @@ class HotelVoucher extends Component {
             <VoucherHeader
               infoText={`BOOKING ID`}
               title={bookingPNR}
-              menu={() => {}}
               onClickClose={this.close}
               image={{ uri: imageURL }}
               voucherUrl={voucherUrl}
@@ -208,7 +225,7 @@ class HotelVoucher extends Component {
               containerStyle={styles.bookingDetailsHeader}
             />
             {roomsInHotel &&
-              roomsInHotel.map((room, roomIndex) => {
+              roomsInHotel.map((room, roomIndex: number) => {
                 let {
                   name: roomName,
                   roomImages,
@@ -223,7 +240,8 @@ class HotelVoucher extends Component {
 
                 const roomVoucherDetails = rooms
                   ? rooms.find(
-                      roomDetail => roomDetail.roomTypeId === roomTypeId
+                      (roomDetail: { roomTypeId: string }) =>
+                        roomDetail.roomTypeId === roomTypeId
                     )
                   : {};
                 let {
@@ -248,8 +266,8 @@ class HotelVoucher extends Component {
                 const roomImage = roomImages
                   ? roomImages.length
                     ? { uri: roomImages[0] }
-                    : constants.hotelSmallPlaceHolder
-                  : constants.hotelSmallPlaceHolder;
+                    : { uri: constants.hotelSmallPlaceHolder }
+                  : { uri: constants.hotelSmallPlaceHolder };
 
                 const { checkIn, checkOut } = roomVoucherDetails;
                 if (checkIn > 1 && checkOut > 1) {
@@ -263,7 +281,7 @@ class HotelVoucher extends Component {
                       : freeBreakfast;
                 }
 
-                const hotelAmenitySummary = [
+                const hotelAmenitySummary: IVoucherSplitSectionData[] = [
                   {
                     name: "Booking Reference ID",
                     value: bookingReferenceId || ""
@@ -324,14 +342,19 @@ class HotelVoucher extends Component {
                       />
                     ) : null}
                     {otherPassengers &&
-                      otherPassengers.map((passenger, passengerIndex) => {
-                        return (
-                          <PassengerName
-                            key={passengerIndex}
-                            name={`${passenger.salutation}. ${passenger.firstName} ${passenger.lastName}`}
-                          />
-                        );
-                      })}
+                      otherPassengers.map(
+                        (
+                          passenger: IPassengerDetail,
+                          passengerIndex: number
+                        ) => {
+                          return (
+                            <PassengerName
+                              key={passengerIndex}
+                              name={`${passenger.salutation}. ${passenger.firstName} ${passenger.lastName}`}
+                            />
+                          );
+                        }
+                      )}
 
                     <View style={styles.hotelDetailsSection}>
                       <VoucherSplitSection sections={hotelAmenitySummary} />
