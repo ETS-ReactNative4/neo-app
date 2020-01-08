@@ -73,8 +73,25 @@ export interface IAbstractCostingValue {
   totalDiff: string;
 }
 
+export interface IFlightRoute {
+  depMonth: string;
+  depDateOfMonth: string;
+  departureTime: string;
+  arrMonth: string;
+  arrDateOfMonth: string;
+  arrivalTime: string;
+}
+
+export interface IFlightRouteConfig {
+  routes: IFlightRoute[];
+}
+
 export interface IFlightCosting extends IAbstractCosting {
   dbFlightId: string;
+  airlineCode: string;
+  text: string;
+  allTrips: string[];
+  trips: { [index: string]: IFlightRouteConfig };
 }
 
 export interface IFlightCostingValue extends IAbstractCostingValue {
@@ -85,6 +102,8 @@ export interface IActivityCosting extends IAbstractCosting {
   activityId: string;
   activityCostingId: string;
   dateMillis: number;
+  day: string;
+  mon: string;
 }
 
 export interface IActivityCostingValue extends IAbstractCostingValue {
@@ -112,7 +131,12 @@ export interface ITrainCostingValue extends IAbstractCostingValue {
   costingById: { [index: string]: ITrainCosting };
 }
 
-export interface IFerryCosting extends IAbstractCosting {}
+export interface IFerryCosting extends IAbstractCosting {
+  dateMillis: number;
+  day: string;
+  mon: string;
+  text: string;
+}
 
 export interface IFerryCostingValue extends IAbstractCostingValue {
   costingById: { [index: string]: IFerryCosting };

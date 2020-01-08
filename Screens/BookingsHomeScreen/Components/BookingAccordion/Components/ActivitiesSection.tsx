@@ -3,13 +3,31 @@ import { View } from "react-native";
 import _ from "lodash";
 import moment from "moment";
 import constants from "../../../../../constants/constants";
-import PropTypes from "prop-types";
 import { recordEvent } from "../../../../../Services/analytics/analyticsService";
 import getTitleCase from "../../../../../Services/getTitleCase/getTitleCase";
 import BookingSectionComponent from "../../../../../CommonComponents/BookingSectionComponent/BookingSectionComponent";
 import resolveLinks from "../../../../../Services/resolveLinks/resolveLinks";
+import { IActivityCombinedInfo } from "../../../../../mobx/Itineraries";
+import { NavigationStackProp } from "react-navigation-stack";
 
-const ActivitiesSection = ({ section, navigation, spinValue }) => {
+export interface ActivitiesSectionProps {
+  section: { items: IActivityCombinedInfo[] };
+  navigation: NavigationStackProp;
+  spinValue: object;
+}
+
+export interface IActivitySectionProps {
+  activity: IActivityCombinedInfo;
+  isLast: boolean;
+  navigation: NavigationStackProp;
+  spinValue: object;
+}
+
+const ActivitiesSection = ({
+  section,
+  navigation,
+  spinValue
+}: ActivitiesSectionProps) => {
   return (
     <View>
       {section.items.map((activity, index) => {
@@ -29,14 +47,7 @@ const ActivitiesSection = ({ section, navigation, spinValue }) => {
   );
 };
 
-ActivitiesSection.propTypes = {
-  section: PropTypes.object.isRequired,
-  navigation: PropTypes.object.isRequired,
-  spinValue: PropTypes.oneOfType([PropTypes.object, PropTypes.number])
-    .isRequired
-};
-
-const Activities = ({ activity, isLast, spinValue }) => {
+const Activities = ({ activity, isLast, spinValue }: IActivitySectionProps) => {
   let customStyle = {};
   if (isLast) {
     customStyle = {
@@ -50,6 +61,7 @@ const Activities = ({ activity, isLast, spinValue }) => {
       click: constants.Bookings.click.accordionVoucher,
       type: constants.Bookings.type.activities
     });
+    // @ts-ignore
     resolveLinks(false, false, {
       voucherType: constants.activityVoucherType,
       costingIdentifier: activity.costing.configKey
@@ -86,14 +98,6 @@ const Activities = ({ activity, isLast, spinValue }) => {
       voucherTitle={_.get(activity, "voucher.title")}
     />
   );
-};
-
-Activities.propTypes = {
-  activity: PropTypes.object.isRequired,
-  isLast: PropTypes.bool.isRequired,
-  navigation: PropTypes.object.isRequired,
-  spinValue: PropTypes.oneOfType([PropTypes.object, PropTypes.number])
-    .isRequired
 };
 
 export default ActivitiesSection;

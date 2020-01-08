@@ -2,15 +2,32 @@ import React from "react";
 import { View } from "react-native";
 import moment from "moment";
 import constants from "../../../../../constants/constants";
-import PropTypes from "prop-types";
 import _ from "lodash";
 import getTransferImage from "../../../../../Services/getImageService/getTransferImage";
-import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidExtraProps";
 import { recordEvent } from "../../../../../Services/analytics/analyticsService";
 import BookingSectionComponent from "../../../../../CommonComponents/BookingSectionComponent/BookingSectionComponent";
 import resolveLinks from "../../../../../Services/resolveLinks/resolveLinks";
+import { ITransferCosting } from "../../../../../TypeInterfaces/IItinerary";
+import { NavigationStackProp } from "react-navigation-stack";
 
-const TransferSection = ({ section, navigation, spinValue }) => {
+export interface TransferSectionProps {
+  section: { items: ITransferCosting[] };
+  navigation: NavigationStackProp;
+  spinValue: object;
+}
+
+export interface ITransferSectionProps {
+  transfer: ITransferCosting;
+  isLast: boolean;
+  navigation: NavigationStackProp;
+  spinValue: object;
+}
+
+const TransferSection = ({
+  section,
+  navigation,
+  spinValue
+}: TransferSectionProps) => {
   return (
     <View>
       {section.items.map((transfer, index) => {
@@ -30,14 +47,7 @@ const TransferSection = ({ section, navigation, spinValue }) => {
   );
 };
 
-TransferSection.propTypes = forbidExtraProps({
-  section: PropTypes.object.isRequired,
-  navigation: PropTypes.object.isRequired,
-  spinValue: PropTypes.oneOfType([PropTypes.object, PropTypes.number])
-    .isRequired
-});
-
-const Transfer = ({ transfer, isLast, navigation, spinValue }) => {
+const Transfer = ({ transfer, isLast, spinValue }: ITransferSectionProps) => {
   let customStyle = {};
   if (isLast) {
     customStyle = {
@@ -51,9 +61,10 @@ const Transfer = ({ transfer, isLast, navigation, spinValue }) => {
       click: constants.Bookings.click.accordionVoucher,
       type: constants.Bookings.type.transfers
     });
+    // @ts-ignore
     resolveLinks(false, false, {
       voucherType: constants.transferVoucherType,
-      costingIdentifier: transfer.key
+      costingIdentifier: transfer.configKey
     });
   };
 
@@ -85,13 +96,5 @@ const Transfer = ({ transfer, isLast, navigation, spinValue }) => {
     />
   );
 };
-
-Transfer.propTypes = forbidExtraProps({
-  transfer: PropTypes.object.isRequired,
-  isLast: PropTypes.bool.isRequired,
-  navigation: PropTypes.object.isRequired,
-  spinValue: PropTypes.oneOfType([PropTypes.object, PropTypes.number])
-    .isRequired
-});
 
 export default TransferSection;

@@ -3,14 +3,31 @@ import { View } from "react-native";
 import _ from "lodash";
 import moment from "moment";
 import constants from "../../../../../constants/constants";
-import PropTypes from "prop-types";
 import getTransferImage from "../../../../../Services/getImageService/getTransferImage";
-import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidExtraProps";
 import { recordEvent } from "../../../../../Services/analytics/analyticsService";
 import BookingSectionComponent from "../../../../../CommonComponents/BookingSectionComponent/BookingSectionComponent";
 import resolveLinks from "../../../../../Services/resolveLinks/resolveLinks";
+import { IFerryCosting } from "../../../../../TypeInterfaces/IItinerary";
+import { NavigationStackProp } from "react-navigation-stack";
 
-const FerriesSection = ({ section, navigation, spinValue }) => {
+export interface FerriesSectionProps {
+  section: { items: IFerryCosting[] };
+  navigation: NavigationStackProp;
+  spinValue: object;
+}
+
+export interface IFerrySectionProps {
+  ferry: IFerryCosting;
+  isLast: boolean;
+  navigation: NavigationStackProp;
+  spinValue: object;
+}
+
+const FerriesSection = ({
+  section,
+  navigation,
+  spinValue
+}: FerriesSectionProps) => {
   return (
     <View>
       {section.items.map((ferry, index) => {
@@ -30,14 +47,7 @@ const FerriesSection = ({ section, navigation, spinValue }) => {
   );
 };
 
-FerriesSection.propTypes = forbidExtraProps({
-  section: PropTypes.object.isRequired,
-  navigation: PropTypes.object.isRequired,
-  spinValue: PropTypes.oneOfType([PropTypes.object, PropTypes.number])
-    .isRequired
-});
-
-const Ferry = ({ ferry, isLast, navigation, spinValue }) => {
+const Ferry = ({ ferry, isLast, spinValue }: IFerrySectionProps) => {
   let customStyle = {};
   if (isLast) {
     customStyle = {
@@ -51,9 +61,10 @@ const Ferry = ({ ferry, isLast, navigation, spinValue }) => {
       click: constants.Bookings.click.accordionVoucher,
       type: constants.Bookings.type.ferries
     });
+    // @ts-ignore
     resolveLinks(false, false, {
       voucherType: constants.ferryVoucherType,
-      costingIdentifier: ferry.key
+      costingIdentifier: ferry.configKey
     });
   };
 
@@ -73,11 +84,11 @@ const Ferry = ({ ferry, isLast, navigation, spinValue }) => {
         pickupTime && pickupTime > 1
           ? moment(pickupTime).format(constants.commonDateFormat)
           : dateMillis
-            ? moment(dateMillis).format(constants.commonDateFormat)
-            : moment(
-                `${ferry.day}/${ferry.mon}/${constants.currentYear}`,
-                "DD/MMM/YYYY"
-              ).format(constants.commonDateFormat)
+          ? moment(dateMillis).format(constants.commonDateFormat)
+          : moment(
+              `${ferry.day}/${ferry.mon}/${constants.currentYear}`,
+              "DD/MMM/YYYY"
+            ).format(constants.commonDateFormat)
       }`}
       isImageContain={false}
       isDataSkipped={_.get(ferry, "voucher.skipVoucher")}
@@ -85,13 +96,5 @@ const Ferry = ({ ferry, isLast, navigation, spinValue }) => {
     />
   );
 };
-
-Ferry.propTypes = forbidExtraProps({
-  ferry: PropTypes.object.isRequired,
-  isLast: PropTypes.bool.isRequired,
-  navigation: PropTypes.object.isRequired,
-  spinValue: PropTypes.oneOfType([PropTypes.object, PropTypes.number])
-    .isRequired
-});
 
 export default FerriesSection;
