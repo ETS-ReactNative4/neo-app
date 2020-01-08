@@ -1,7 +1,9 @@
 import React, { Component, Fragment } from "react";
 import { View, StyleSheet, Platform } from "react-native";
 import { isIphoneX } from "react-native-iphone-x-helper";
+// @ts-ignore
 import ParallaxScrollView from "react-native-parallax-scroll-view";
+// @ts-ignore
 import { responsiveWidth } from "react-native-responsive-dimensions";
 import VoucherHeader from "../Components/VoucherHeader";
 import constants from "../../../constants/constants";
@@ -21,7 +23,10 @@ import CheckInCheckOut from "../Components/CheckInCheckOut";
 import VoucherAccordion from "../Components/VoucherAccordion";
 import RentalCarActionBar from "../Components/RentalCarActionBar";
 import VoucherAlertBox from "../Components/VoucherAlertBox/VoucherAlertBox";
-import PropTypes from "prop-types";
+import { IRentalCarCosting } from "../../../TypeInterfaces/IItinerary";
+import { NavigationStackProp } from "react-navigation-stack";
+import PassportDetails from "../../../mobx/PassportDetails";
+import { IVoucherSplitSectionData } from "../types/voucherScreenTypes";
 
 const xHeight = isIphoneX()
   ? constants.xNotchHeight
@@ -29,15 +34,22 @@ const xHeight = isIphoneX()
   ? 20
   : 0;
 
+export interface RentalCarVoucherProps {
+  navigation: NavigationStackProp<{ rentalCar: IRentalCarCosting }>;
+  passportDetailsStore: PassportDetails;
+}
+
+export interface RentalCarVoucherState {
+  isCloseVisible: boolean;
+}
+
 @ErrorBoundary()
 @inject("passportDetailsStore")
 @observer
-class RentalCarVoucher extends Component {
-  static propTypes = {
-    passportDetailsStore: PropTypes.object,
-    navigation: PropTypes.object
-  };
-
+class RentalCarVoucher extends Component<
+  RentalCarVoucherProps,
+  RentalCarVoucherState
+> {
   static navigationOptions = {
     header: null,
     gestureResponseDistance: {
@@ -49,7 +61,7 @@ class RentalCarVoucher extends Component {
     isCloseVisible: true
   };
 
-  headerToggle = status => {
+  headerToggle = (status: boolean) => {
     this.setState({
       isCloseVisible: status
     });
@@ -101,7 +113,7 @@ class RentalCarVoucher extends Component {
         )
       : "";
 
-    const passengerDetails = [
+    const passengerDetails: IVoucherSplitSectionData[] = [
       {
         name: "Lead passenger",
         value: leadPassengerName || "NA"
@@ -131,7 +143,7 @@ class RentalCarVoucher extends Component {
         value: insuranceType || "NA"
       }
     ];
-    const pickingUpDetails = [
+    const pickingUpDetails: IVoucherSplitSectionData[] = [
       {
         name: "Pickup Location",
         value: pickupLocation || "NA"
@@ -145,7 +157,7 @@ class RentalCarVoucher extends Component {
         value: pickupTimeStr || "NA"
       }
     ];
-    const droppingOffDetails = [
+    const droppingOffDetails: IVoucherSplitSectionData[] = [
       {
         name: "Drop Location",
         value: dropLocation || "NA"
@@ -159,7 +171,7 @@ class RentalCarVoucher extends Component {
         value: dropTimeStr || "NA"
       }
     ];
-    const bookingDetails = [
+    const bookingDetails: IVoucherSplitSectionData[] = [
       // Removed Temporarily since data is not accurate
       // {
       //   name: "Booked On",
@@ -176,7 +188,7 @@ class RentalCarVoucher extends Component {
         ? `${pickupLocation} to ${dropLocation}`
         : `${pickup} to ${drop}`;
 
-    const rentalCarAccordion = [
+    const rentalCarAccordion: IVoucherSplitSectionData[] = [
       {
         name: "Picking up",
         component: (
@@ -201,7 +213,7 @@ class RentalCarVoucher extends Component {
             <VoucherSplitSection sections={droppingOffDetails} />
             <CollapsibleTextSection
               title={"Instructions"}
-              containerStyle={styles.instructionWrapper}
+              containerStyle={styles.instructionsWrapper}
               content={dropInstructions}
             />
             <RentalCarActionBar
@@ -243,7 +255,6 @@ class RentalCarVoucher extends Component {
             <VoucherHeader
               infoText={`BOOKING REFERENCE`}
               title={bookingId}
-              menu={() => {}}
               image={{ uri: getTransferImage(vehicle, type) }}
               onClickClose={this.close}
               voucherUrl={voucherUrl}
