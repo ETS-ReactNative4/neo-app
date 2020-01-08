@@ -2,7 +2,7 @@ import { ReactNode } from "react";
 
 export interface IVoucherSplitSectionData {
   name: string;
-  value?: string;
+  value?: string | number;
   component?: ReactNode;
 }
 

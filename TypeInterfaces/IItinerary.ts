@@ -75,7 +75,6 @@ export interface IAbstractCostingValue {
 
 export interface IFlightCosting extends IAbstractCosting {
   dbFlightId: string;
-  key: string;
 }
 
 export interface IFlightCostingValue extends IAbstractCostingValue {
@@ -85,7 +84,7 @@ export interface IFlightCostingValue extends IAbstractCostingValue {
 export interface IActivityCosting extends IAbstractCosting {
   activityId: string;
   activityCostingId: string;
-  key: string;
+  dateMillis: number;
 }
 
 export interface IActivityCostingValue extends IAbstractCostingValue {
@@ -93,25 +92,27 @@ export interface IActivityCostingValue extends IAbstractCostingValue {
 }
 
 export interface ITransferCosting extends IAbstractCosting {
-  transferCostingId: string;
-  key: string;
+  vehicle: string;
+  type: string;
+  pickup: string;
+  drop: string;
+  text: string;
+  dateMillis: number;
+  departureTime: string;
+  arrivalTime: string;
 }
 
 export interface ITransferCostingValue extends IAbstractCostingValue {
   costingById: { [index: string]: ITransferCosting };
 }
 
-export interface ITrainCosting extends IAbstractCosting {
-  key: string;
-}
+export interface ITrainCosting extends IAbstractCosting {}
 
 export interface ITrainCostingValue extends IAbstractCostingValue {
   costingById: { [index: string]: ITrainCosting };
 }
 
-export interface IFerryCosting extends IAbstractCosting {
-  key: string;
-}
+export interface IFerryCosting extends IAbstractCosting {}
 
 export interface IFerryCostingValue extends IAbstractCostingValue {
   costingById: { [index: string]: IFerryCosting };
@@ -120,7 +121,6 @@ export interface IFerryCostingValue extends IAbstractCostingValue {
 export interface IRentalCarCosting extends IAbstractCosting {
   rcCostingId: string;
   dbRef: string;
-  key: string;
 }
 
 export interface IRentalCarCostingValue extends IAbstractCostingValue {
@@ -261,18 +261,37 @@ export interface IItinerarySlot {
 
 export interface IIterSlotByKey {
   // TODO: Requires detailed type definition
+  name: string;
   type: string;
   activitySlotDetail: any;
   intercityTransferSlotDetailVO: {
     directTransferDetail: {
       transferMode: string;
+      transferCostingIdenfier: string;
+      transferIndicatorText: string;
+      slotText: string;
     };
+    fromCity: number;
+    toCity: number;
     transferType: string;
     transitTransferDetail: {
       arriveTransit: {
         transitMode: string;
+        transferCostingIdenfier: string;
       };
+      transferIndicatorText: string;
     };
+  };
+  arrivalSlotDetail: {
+    transferIndicatorText: string;
+    flightCostingKey: string;
+    slotText: string;
+  };
+  leisureSlotDetail: {
+    text: string;
+  };
+  departureSlotDetail: {
+    slotText: string;
   };
 }
 
@@ -318,8 +337,26 @@ export interface ICity {
   cityImages: string[];
 }
 
+export interface ISelectedTourGrade {
+  inclusion: string;
+  exclusion: string;
+  departureTime: string;
+  transferType: string;
+}
+
+export interface IStartingPointDetails {
+  image: string;
+}
+
 export interface IActivityDetail {
-  // TODO: Requires detailed type definition
+  mainPhoto: string;
+  title: string;
+  longDesc: string;
+  latitude: number;
+  longitude: number;
+  free: boolean;
+  selectedTourGrade: ISelectedTourGrade;
+  startingPointDetails: IStartingPointDetails;
 }
 
 export interface IMiscellaneousCosting {

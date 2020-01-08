@@ -1,8 +1,14 @@
 import React, { Component, Fragment } from "react";
-import { View, StyleSheet, Platform, Text } from "react-native";
+import { View, StyleSheet, Platform } from "react-native";
 import { isIphoneX } from "react-native-iphone-x-helper";
+// @ts-ignore
 import ParallaxScrollView from "react-native-parallax-scroll-view";
-import { responsiveHeight, responsiveWidth } from "react-native-responsive-dimensions";
+
+import {
+  responsiveHeight,
+  responsiveWidth
+  // @ts-ignore
+} from "react-native-responsive-dimensions";
 import VoucherHeader from "../Components/VoucherHeader";
 import constants from "../../../constants/constants";
 import VoucherStickyHeader from "../Components/VoucherStickyHeader";
@@ -23,7 +29,12 @@ import CollapsibleTextSection from "../../../CommonComponents/CollapsibleTextSec
 import VoucherAlertBox from "../Components/VoucherAlertBox/VoucherAlertBox";
 import VoucherAddressSectionV2 from "../Components/VoucherAddressSectionV2/VoucherAddressSectionV2";
 import LightBoxButton from "../../../CommonComponents/LightBoxButton/LightBoxButton";
+// @ts-ignore
 import PhotoView from "react-native-photo-view";
+import { NavigationStackProp } from "react-navigation-stack";
+import { ITransferCosting } from "../../../TypeInterfaces/IItinerary";
+import PassportDetails from "../../../mobx/PassportDetails";
+import { IVoucherSplitSectionData } from "../types/voucherScreenTypes";
 
 const xHeight = isIphoneX()
   ? constants.xNotchHeight
@@ -31,10 +42,22 @@ const xHeight = isIphoneX()
   ? 20
   : 0;
 
+export interface TransferVoucherProps {
+  navigation: NavigationStackProp<{ hotel: ITransferCosting }>;
+  passportDetailsStore: PassportDetails;
+}
+
+export interface TransferVoucherState {
+  isCloseVisible: boolean;
+}
+
 @ErrorBoundary()
 @inject("passportDetailsStore")
 @observer
-class TransferVoucher extends Component {
+class TransferVoucher extends Component<
+  TransferVoucherProps,
+  TransferVoucherState
+> {
   static navigationOptions = {
     header: null,
     gestureResponseDistance: {
@@ -46,7 +69,7 @@ class TransferVoucher extends Component {
     isCloseVisible: true
   };
 
-  headerToggle = status => {
+  headerToggle = (status: boolean) => {
     this.setState({
       isCloseVisible: status
     });
@@ -57,7 +80,10 @@ class TransferVoucher extends Component {
   };
 
   render() {
-    const transfer = this.props.navigation.getParam("transfer", {});
+    const transfer: ITransferCosting = this.props.navigation.getParam(
+      "transfer",
+      {}
+    );
 
     const {
       leadPassengerName,
@@ -65,28 +91,19 @@ class TransferVoucher extends Component {
     } = this.props.passportDetailsStore;
 
     const {
-      passengers,
       vehicle,
       type,
       pickup,
       drop,
       text,
       dateMillis,
-      totalCost,
-      publishedCost,
       departureTime,
-      arrivalTime: costingArrivalTime,
-      pDateMillis,
-      day,
-      duration,
-      mon
+      arrivalTime: costingArrivalTime
     } = transfer;
 
     const {
-      arrivalTime,
       pickupTime,
       pickupTimeStr,
-      bookedTime,
       bookingId,
       contactNumber,
       from: fromLocation,
@@ -94,8 +111,6 @@ class TransferVoucher extends Component {
       voucherUrl,
       meetingPoint,
       pickupInstructions,
-      departureDateStr, //TODO: Departure time to be used from string
-      arrivalDateStr,
       departureTimeStr,
       arrivalTimeStr,
       trainName,
@@ -134,38 +149,39 @@ class TransferVoucher extends Component {
         : null
     ];
 
-    const trainPassengerDetails = () => [
-      {
-        name: "Lead passenger",
-        value: leadPassengerName || "NA"
-      },
-      {
-        name: "No of Passengers",
-        value: passengerCount || "NA"
-      },
-      {
-        name: "Vehicle type",
-        value: getTitleCase(vehicle) || "NA"
-      },
-      {
-        name: "Departure Time",
-        value: departureTimeStr
-          ? departureTimeStr
-          : departureTime
-          ? moment(departureTime, "HH:mm").format(constants.shortTimeFormat)
-          : "NA"
-      },
-      {
-        name: "Departure Station",
-        value: fromLocation || pickup || "NA"
-      },
-      type
-        ? {
-            name: "Type",
-            value: type ? getTitleCase(type) : "NA"
-          }
-        : null
-    ];
+    const trainPassengerDetails = (): IVoucherSplitSectionData[] =>
+      _.compact([
+        {
+          name: "Lead passenger",
+          value: leadPassengerName || "NA"
+        },
+        {
+          name: "No of Passengers",
+          value: passengerCount || "NA"
+        },
+        {
+          name: "Vehicle type",
+          value: getTitleCase(vehicle) || "NA"
+        },
+        {
+          name: "Departure Time",
+          value: departureTimeStr
+            ? departureTimeStr
+            : departureTime
+            ? moment(departureTime, "HH:mm").format(constants.shortTimeFormat)
+            : "NA"
+        },
+        {
+          name: "Departure Station",
+          value: fromLocation || pickup || "NA"
+        },
+        type
+          ? {
+              name: "Type",
+              value: type ? getTitleCase(type) : "NA"
+            }
+          : null
+      ]);
 
     const isTrainVoucher = _.toUpper(vehicle) === constants.vehicleTypes.train;
 
@@ -219,7 +235,7 @@ class TransferVoucher extends Component {
       ? trainArrivalDetails()
       : transferArrivalDetails();
 
-    const bookingDetails = [
+    const bookingDetails: IVoucherSplitSectionData[] = [
       // Removed Temporarily since data is not accurate
       // {
       //   name: "Booked On",
@@ -231,7 +247,7 @@ class TransferVoucher extends Component {
       // }
     ];
 
-    let trainDetails = [];
+    let trainDetails: IVoucherSplitSectionData[] = [];
 
     /**
      * The following info is used to display the
@@ -305,7 +321,6 @@ class TransferVoucher extends Component {
             <VoucherHeader
               infoText={`BOOKING REFERENCE`}
               title={bookingId}
-              menu={() => {}}
               image={{ uri: getTransferImage(vehicle, type) }}
               onClickClose={this.close}
               voucherUrl={voucherUrl}
@@ -328,7 +343,7 @@ class TransferVoucher extends Component {
               <Fragment>
                 <SectionHeader
                   sectionName={"TRAIN DETAILS"}
-                  containerStyle={{ marginBottom: 0 }}
+                  containerStyle={styles.sectionHeaderWrapper}
                 />
 
                 <VoucherSplitSection sections={trainDetails} />
@@ -346,13 +361,13 @@ class TransferVoucher extends Component {
 
             <SectionHeader
               sectionName={"ARRIVAL DETAILS"}
-              containerStyle={{ marginBottom: 0 }}
+              containerStyle={styles.sectionHeaderWrapper}
             />
 
             <VoucherSplitSection sections={arrivalDetails} />
 
             <VoucherAddressSectionV2
-              containerStyle={{ marginTop: 16, padding: 0 }}
+              containerStyle={styles.voucherAddressSection}
               address={meetingPoint}
             />
 
@@ -397,7 +412,7 @@ class TransferVoucher extends Component {
           </View>
 
           <ViewVoucherButton
-            containerStyle={{ alignSelf: "center", marginTop: 16 }}
+            containerStyle={styles.viewVoucherButton}
             voucherUrl={voucherUrl}
           />
         </ParallaxScrollView>
@@ -435,7 +450,10 @@ const styles = StyleSheet.create({
   photoViewContainer: {
     height: responsiveHeight(100),
     width: responsiveWidth(100)
-  }
+  },
+  viewVoucherButton: { alignSelf: "center", marginTop: 16 },
+  voucherAddressSection: { marginTop: 16, padding: 0 },
+  sectionHeaderWrapper: { marginBottom: 0 }
 });
 
 export default TransferVoucher;

@@ -76,6 +76,15 @@ export interface IIterSlotWithActivity
   extends IIterSlotByKey,
     IActivityCombinedInfo {}
 
+export interface IItineraryCityDetail {
+  city: string;
+  cityName: string;
+  startDay: Date;
+  endDay: Date;
+  cityObject: ICity;
+  image: string;
+}
+
 class Itineraries {
   static hydrator = (storeInstance: Itineraries) => {
     hydrate("_itineraries", storeInstance)
@@ -434,15 +443,14 @@ class Itineraries {
         activities = activitiesCosting.map(costing => {
           const activity = _.find(activitiesList, {
             planningToolId: parseInt(costing.activityId, 10)
-          });
-          return {
-            ...activity,
+          }) as IActivityDetail;
+          return Object.assign({}, activity, {
             costing,
             voucher:
               storeService.voucherStore.getActivityVoucherById(
                 costing.activityCostingId
               ) || {}
-          };
+          });
         });
         activities = activities.filter(
           activity => activity.costing.status === constants.voucherSuccessStatus
@@ -522,11 +530,10 @@ class Itineraries {
                 ) {
                   transfer.voucher =
                     storeService.voucherStore.getTransferVoucherById(
-                      transfer.transferCostingId
+                      transfer.costingId
                     ) || {};
                   transferArray.push(transfer);
                 }
-
                 return transferArray;
               },
               []
@@ -769,8 +776,8 @@ class Itineraries {
       }
       try {
         const rental = this.rentals.find(rentalCar => {
-          const { key } = rentalCar;
-          const rentalKeyArray = key.split(/#|_/);
+          const { configKey } = rentalCar;
+          const rentalKeyArray = configKey.split(/#|_/);
           const pickUpCityOrder = parseInt(rentalKeyArray[1], 10);
           const dropCityOrder = parseInt(rentalKeyArray[3], 10);
           return (
@@ -789,15 +796,15 @@ class Itineraries {
     }
   );
 
-  getCityOrderById = createTransformer((cityId: number) => {
+  getCityOrderById = createTransformer((cityId: number): number => {
     if (_.isEmpty(this._selectedItinerary)) {
-      return "";
+      return 0;
     }
     try {
       return this._selectedItinerary.itinerary.cityWiseOrderMap[cityId];
     } catch (e) {
       logError(e);
-      return "";
+      return 0;
     }
   });
 
@@ -809,7 +816,7 @@ class Itineraries {
    * @returns {Date[]|Array}
    */
   @computed
-  get days() {
+  get days(): Date[] {
     if (_.isEmpty(this._selectedItinerary)) {
       return [];
     }
@@ -865,7 +872,7 @@ class Itineraries {
    * city details - cityObject
    */
   @computed
-  get cities() {
+  get cities(): IItineraryCityDetail[] {
     if (_.isEmpty(this._selectedItinerary)) {
       return [];
     }
@@ -885,8 +892,10 @@ class Itineraries {
         const city = cityObject.cityName;
         const startDay = getJsDateFromItineraryDateObject(startDayObject);
         const endDay = getJsDateFromItineraryDateObject(endDayObject);
+        const image = cityObject.image;
+        const cityName = cityObject.cityName;
 
-        return { city, startDay, endDay, cityObject };
+        return { city, startDay, endDay, cityObject, image, cityName };
       });
     } catch (e) {
       logError(e);
@@ -949,31 +958,33 @@ class Itineraries {
    * This is needed for checking if the user is currently in that city in the
    * NearBy screen
    */
-  getCityById = createTransformer((id: number) => {
-    if (_.isEmpty(this._selectedItinerary)) {
-      return {};
-    }
-    if (!id) {
-      return {};
-    }
+  getCityById = createTransformer(
+    (id: number): ICity => {
+      if (_.isEmpty(this._selectedItinerary)) {
+        return {} as ICity;
+      }
+      if (!id) {
+        return {} as ICity;
+      }
 
-    try {
-      // City Object needs to be modified hence the observable should be converted to plain JS
-      const cityObject: ICity = toJS(this._selectedItinerary.cityById[id]);
-      const cityList = this.cities;
-      const requiredCity = cityList.find(city => {
-        return city.cityObject.cityId === id;
-      });
-      // @ts-ignore - cityObject must be a new type that extends `ICity` and will be used in this class
-      cityObject.startDay = requiredCity.startDay;
-      // @ts-ignore
-      cityObject.endDay = requiredCity.endDay;
-      return toJS(cityObject);
-    } catch (e) {
-      logError(e);
-      return {};
+      try {
+        // City Object needs to be modified hence the observable should be converted to plain JS
+        const cityObject: ICity = toJS(this._selectedItinerary.cityById[id]);
+        const cityList = this.cities;
+        const requiredCity = cityList.find(city => {
+          return city.cityObject.cityId === id;
+        });
+        // @ts-ignore - cityObject must be a new type that extends `ICity` and will be used in this class
+        cityObject.startDay = requiredCity.startDay;
+        // @ts-ignore
+        cityObject.endDay = requiredCity.endDay;
+        return toJS(cityObject);
+      } catch (e) {
+        logError(e);
+        return {} as ICity;
+      }
     }
-  });
+  );
 
   getHotelByDate = createTransformer((date: string): IHotelCosting | {} => {
     if (_.isEmpty(this._selectedItinerary)) {
@@ -1012,7 +1023,7 @@ class Itineraries {
       return (
         this.activities.find(
           activity =>
-            id === activity.costing.key ||
+            id === activity.costing.configKey ||
             id === activity.costing.activityCostingId
         ) || {}
       );
@@ -1031,9 +1042,10 @@ class Itineraries {
       const flight = toJS(
         this._selectedItinerary.flightCostings.costingById[id]
       );
-      if (flight && flight.key) {
+      if (flight && flight.configKey) {
         flight.voucher =
-          storeService.voucherStore.getFlightVoucherById(flight.key) || {};
+          storeService.voucherStore.getFlightVoucherById(flight.configKey) ||
+          {};
         return flight;
       } else {
         return {};
@@ -1083,7 +1095,9 @@ class Itineraries {
       );
       if (transfer) {
         transfer.voucher =
-          storeService.voucherStore.getTransferVoucherById(transfer.key) || {};
+          storeService.voucherStore.getTransferVoucherById(
+            transfer.configKey
+          ) || {};
         return transfer;
       } else {
         return {};
@@ -1103,7 +1117,7 @@ class Itineraries {
       const ferry = toJS(this._selectedItinerary.ferryCostings.costingById[id]);
       if (ferry) {
         ferry.voucher =
-          storeService.voucherStore.getFerryVoucherById(ferry.key) || {};
+          storeService.voucherStore.getFerryVoucherById(ferry.configKey) || {};
         return ferry;
       } else {
         return {};
@@ -1147,7 +1161,7 @@ class Itineraries {
       const train = toJS(this._selectedItinerary.trainCostings.costingById[id]);
       if (train) {
         train.voucher =
-          storeService.voucherStore.getTrainVoucherById(train.key) || {};
+          storeService.voucherStore.getTrainVoucherById(train.configKey) || {};
         return train;
       } else {
         return {};

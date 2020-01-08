@@ -7,7 +7,6 @@ import PropTypes from "prop-types";
 import { recordEvent } from "../../../../../Services/analytics/analyticsService";
 import getTitleCase from "../../../../../Services/getTitleCase/getTitleCase";
 import BookingSectionComponent from "../../../../../CommonComponents/BookingSectionComponent/BookingSectionComponent";
-import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidExtraProps";
 import resolveLinks from "../../../../../Services/resolveLinks/resolveLinks";
 
 const ActivitiesSection = ({ section, navigation, spinValue }) => {
@@ -30,14 +29,14 @@ const ActivitiesSection = ({ section, navigation, spinValue }) => {
   );
 };
 
-ActivitiesSection.propTypes = forbidExtraProps({
+ActivitiesSection.propTypes = {
   section: PropTypes.object.isRequired,
   navigation: PropTypes.object.isRequired,
   spinValue: PropTypes.oneOfType([PropTypes.object, PropTypes.number])
     .isRequired
-});
+};
 
-const Activities = ({ activity, isLast, navigation, spinValue }) => {
+const Activities = ({ activity, isLast, spinValue }) => {
   let customStyle = {};
   if (isLast) {
     customStyle = {
@@ -53,7 +52,7 @@ const Activities = ({ activity, isLast, navigation, spinValue }) => {
     });
     resolveLinks(false, false, {
       voucherType: constants.activityVoucherType,
-      costingIdentifier: activity.costing.key
+      costingIdentifier: activity.costing.configKey
     });
   };
 
@@ -73,15 +72,13 @@ const Activities = ({ activity, isLast, navigation, spinValue }) => {
               constants.commonDateFormat
             )
           : activity.costing.dateMillis
-            ? moment(activity.costing.dateMillis).format(
-                constants.commonDateFormat
-              )
-            : moment(
-                `${activity.costing.day}/${activity.costing.mon}/${
-                  constants.currentYear
-                }`,
-                "DD/MMM/YYYY"
-              ).format(constants.commonDateFormat)
+          ? moment(activity.costing.dateMillis).format(
+              constants.commonDateFormat
+            )
+          : moment(
+              `${activity.costing.day}/${activity.costing.mon}/${constants.currentYear}`,
+              "DD/MMM/YYYY"
+            ).format(constants.commonDateFormat)
       }`}
       isImageContain={false}
       defaultSource={constants.activityThumbPlaceholderIllus}
@@ -91,12 +88,12 @@ const Activities = ({ activity, isLast, navigation, spinValue }) => {
   );
 };
 
-Activities.propTypes = forbidExtraProps({
+Activities.propTypes = {
   activity: PropTypes.object.isRequired,
   isLast: PropTypes.bool.isRequired,
   navigation: PropTypes.object.isRequired,
   spinValue: PropTypes.oneOfType([PropTypes.object, PropTypes.number])
     .isRequired
-});
+};
 
 export default ActivitiesSection;

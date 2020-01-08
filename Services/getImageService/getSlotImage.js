@@ -15,7 +15,7 @@ const getSlotImage = (identifier, type) => {
         };
       }
       const flight = storeService.itineraries.flights.find(
-        flight => flight.key === identifier
+        flightDetail => flightDetail.configKey === identifier
       );
       if (flight) {
         return {
@@ -28,7 +28,6 @@ const getSlotImage = (identifier, type) => {
           icon: constants.aeroplaneIcon
         };
       }
-      break;
 
     case "RENTALCAR":
       return {
