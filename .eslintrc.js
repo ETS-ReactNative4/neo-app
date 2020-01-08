@@ -3,7 +3,7 @@ module.exports = {
   parserOptions: {
     project: "./tsconfig.json"
   },
-  plugins: ["@typescript-eslint", "tsc", "jest"],
+  plugins: ["tsc", "jest"],
   root: true,
   extends: "@react-native-community",
   rules: {
