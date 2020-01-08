@@ -3,14 +3,31 @@ import { View } from "react-native";
 import _ from "lodash";
 import moment from "moment";
 import constants from "../../../../../constants/constants";
-import PropTypes from "prop-types";
 import getTransferImage from "../../../../../Services/getImageService/getTransferImage";
-import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidExtraProps";
 import BookingSectionComponent from "../../../../../CommonComponents/BookingSectionComponent/BookingSectionComponent";
 import resolveLinks from "../../../../../Services/resolveLinks/resolveLinks";
 import { recordEvent } from "../../../../../Services/analytics/analyticsService";
+import { IRentalCarCosting } from "../../../../../TypeInterfaces/IItinerary";
+import { NavigationStackProp } from "react-navigation-stack";
 
-const RentalCarSection = ({ section, navigation, spinValue }) => {
+export interface RentalCarSectionProps {
+  section: { items: IRentalCarCosting[] };
+  navigation: NavigationStackProp;
+  spinValue: object;
+}
+
+export interface IRentalCarSectionProps {
+  rentalCar: IRentalCarCosting;
+  isLast: boolean;
+  navigation: NavigationStackProp;
+  spinValue: object;
+}
+
+const RentalCarSection = ({
+  section,
+  navigation,
+  spinValue
+}: RentalCarSectionProps) => {
   return (
     <View>
       {section.items.map((rentalCar, index) => {
@@ -30,14 +47,11 @@ const RentalCarSection = ({ section, navigation, spinValue }) => {
   );
 };
 
-RentalCarSection.propTypes = forbidExtraProps({
-  section: PropTypes.object.isRequired,
-  navigation: PropTypes.object.isRequired,
-  spinValue: PropTypes.oneOfType([PropTypes.object, PropTypes.number])
-    .isRequired
-});
-
-const RentalCar = ({ rentalCar, isLast, navigation, spinValue }) => {
+const RentalCar = ({
+  rentalCar,
+  isLast,
+  spinValue
+}: IRentalCarSectionProps) => {
   let customStyle = {};
   if (isLast) {
     customStyle = {
@@ -52,9 +66,10 @@ const RentalCar = ({ rentalCar, isLast, navigation, spinValue }) => {
       click: constants.Bookings.click.accordionVoucher,
       type: constants.Bookings.type.rentalCars
     });
+    // @ts-ignore
     resolveLinks(false, false, {
       voucherType: constants.rentalCarVoucherType,
-      costingIdentifier: rentalCar.key
+      costingIdentifier: rentalCar.configKey
     });
   };
 
@@ -85,11 +100,11 @@ const RentalCar = ({ rentalCar, isLast, navigation, spinValue }) => {
               constants.commonDateFormat
             )
           : rentalCar.pDateMillis && rentalCar.pDateMillis > 0
-            ? moment(rentalCar.pDateMillis).format(constants.commonDateFormat)
-            : moment(
-                `${rentalCar.day}/${rentalCar.mon}/${constants.currentYear}`,
-                "DD/MMM/YYYY"
-              ).format(constants.commonDateFormat)
+          ? moment(rentalCar.pDateMillis).format(constants.commonDateFormat)
+          : moment(
+              `${rentalCar.day}/${rentalCar.mon}/${constants.currentYear}`,
+              "DD/MMM/YYYY"
+            ).format(constants.commonDateFormat)
       }`}
       isImageContain={true}
       isDataSkipped={_.get(rentalCar, "voucher.skipVoucher")}
@@ -97,13 +112,5 @@ const RentalCar = ({ rentalCar, isLast, navigation, spinValue }) => {
     />
   );
 };
-
-RentalCar.propTypes = forbidExtraProps({
-  transfer: PropTypes.object.isRequired,
-  isLast: PropTypes.bool.isRequired,
-  navigation: PropTypes.object.isRequired,
-  spinValue: PropTypes.oneOfType([PropTypes.object, PropTypes.number])
-    .isRequired
-});
 
 export default RentalCarSection;

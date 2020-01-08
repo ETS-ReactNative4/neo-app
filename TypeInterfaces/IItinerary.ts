@@ -145,6 +145,13 @@ export interface IFerryCostingValue extends IAbstractCostingValue {
 export interface IRentalCarCosting extends IAbstractCosting {
   rcCostingId: string;
   dbRef: string;
+  drop: string;
+  pDateMillis: number;
+  day: string;
+  mon: string;
+  vehicle: string;
+  type: string;
+  pickup: string;
 }
 
 export interface IRentalCarCostingValue extends IAbstractCostingValue {
