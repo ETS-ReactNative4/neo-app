@@ -41,7 +41,8 @@ const CustomVoucher = ({
   containerStyle = StyleSheet.create({}),
   customVoucher = {},
   isLast,
-  spinValue
+  spinValue,
+  navigation
 }) => {
   let customStyle = {};
   if (isLast) {
@@ -55,6 +56,7 @@ const CustomVoucher = ({
       click: constants.Bookings.click.accordionVoucher,
       type: constants.Bookings.type.customVouchers
     });
+    navigation.navigate("CustomBlockCardVoucher", { customVoucher });
   };
 
   const { title } = customVoucher;
@@ -69,8 +71,8 @@ const CustomVoucher = ({
       hideTitle={true}
       title={""}
       isImageContain={false}
-      defaultSource={constants.hotelThumbPlaceholderIllus}
-      sectionImage={constants.insuranceThumbnailIllus}
+      defaultSource={constants.passThumbPlaceholderIllus}
+      sectionImage={constants.passThumbPlaceholderIllus}
       isDataSkipped={false}
     />
   );

@@ -3,20 +3,11 @@ import { Image, StyleSheet, View } from "react-native";
 import constants from "../../constants/constants";
 import PropTypes from "prop-types";
 import Icon from "../Icon/Icon";
-import forbidExtraProps from "../../Services/PropTypeValidation/forbidExtraProps";
 import SmartImage from "../SmartImage/SmartImage";
 import FastImage from "react-native-fast-image";
 
 /**
  * TODO: Only works with 40px circles... needs more generic design
- * @param image
- * @param icon
- * @param containerStyle
- * @param iconStyle
- * @param isContain
- * @param defaultImageUri
- * @returns {*}
- * @constructor
  */
 const CircleThumbnail = ({
   image,
@@ -26,11 +17,17 @@ const CircleThumbnail = ({
   isContain,
   defaultImageUri
 }) => {
-  if (!containerStyle) containerStyle = {};
-  if (!iconStyle) iconStyle = {};
+  if (!containerStyle) {
+    containerStyle = {};
+  }
+  if (!iconStyle) {
+    iconStyle = {};
+  }
 
   const customStyle = {};
-  if (icon === constants.aeroplaneIcon) customStyle.paddingLeft = 1;
+  if (icon === constants.aeroplaneIcon) {
+    customStyle.paddingLeft = 1;
+  }
 
   const styleArray = [
     styles.image,
@@ -67,14 +64,14 @@ const CircleThumbnail = ({
   );
 };
 
-CircleThumbnail.propTypes = forbidExtraProps({
+CircleThumbnail.propTypes = {
   image: PropTypes.oneOfType([PropTypes.object, PropTypes.number]).isRequired,
   icon: PropTypes.string,
   containerStyle: PropTypes.object,
   iconStyle: PropTypes.object,
   isContain: PropTypes.bool,
   defaultImageUri: PropTypes.string
-});
+};
 
 const styles = StyleSheet.create({
   thumbnailContainer: {

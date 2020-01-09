@@ -3,13 +3,23 @@ import { View } from "react-native";
 import _ from "lodash";
 import moment from "moment";
 import constants from "../../../../../constants/constants";
-import PropTypes from "prop-types";
 import { recordEvent } from "../../../../../Services/analytics/analyticsService";
 import BookingSectionComponent from "../../../../../CommonComponents/BookingSectionComponent/BookingSectionComponent";
-import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidExtraProps";
 import resolveLinks from "../../../../../Services/resolveLinks/resolveLinks";
+import { IFlightCosting } from "../../../../../TypeInterfaces/IItinerary";
+import { NavigationStackProp } from "react-navigation-stack";
 
-const FlightsSection = ({ section, navigation, spinValue }) => {
+export interface FlightsSectionProps {
+  section: { items: IFlightCosting[] };
+  navigation: NavigationStackProp;
+  spinValue: object;
+}
+
+const FlightsSection = ({
+  section,
+  navigation,
+  spinValue
+}: FlightsSectionProps) => {
   return (
     <View>
       {section.items.map((flight, index) => {
@@ -29,14 +39,14 @@ const FlightsSection = ({ section, navigation, spinValue }) => {
   );
 };
 
-FlightsSection.propTypes = forbidExtraProps({
-  section: PropTypes.object.isRequired,
-  navigation: PropTypes.object.isRequired,
-  spinValue: PropTypes.oneOfType([PropTypes.object, PropTypes.number])
-    .isRequired
-});
+export interface IFlightSectionProps {
+  flight: IFlightCosting;
+  isLast: boolean;
+  navigation: NavigationStackProp;
+  spinValue: object;
+}
 
-const Flight = ({ flight, isLast, navigation, spinValue }) => {
+const Flight = ({ flight, isLast, spinValue }: IFlightSectionProps) => {
   let customStyle = {};
   if (isLast) {
     customStyle = {
@@ -50,9 +60,10 @@ const Flight = ({ flight, isLast, navigation, spinValue }) => {
       click: constants.Bookings.click.accordionVoucher,
       type: constants.Bookings.type.flights
     });
+    // @ts-ignore
     resolveLinks(false, false, {
       voucherType: constants.flightVoucherType,
-      costingIdentifier: flight.key
+      costingIdentifier: flight.configKey
     });
   };
 
@@ -98,12 +109,5 @@ const Flight = ({ flight, isLast, navigation, spinValue }) => {
     />
   );
 };
-
-Flight.propTypes = forbidExtraProps({
-  flight: PropTypes.object.isRequired,
-  isLast: PropTypes.bool.isRequired,
-  spinValue: PropTypes.oneOfType([PropTypes.object, PropTypes.number])
-    .isRequired
-});
 
 export default FlightsSection;

@@ -3,14 +3,31 @@ import { View } from "react-native";
 import _ from "lodash";
 import moment from "moment";
 import constants from "../../../../../constants/constants";
-import PropTypes from "prop-types";
 import { recordEvent } from "../../../../../Services/analytics/analyticsService";
 import getTitleCase from "../../../../../Services/getTitleCase/getTitleCase";
 import BookingSectionComponent from "../../../../../CommonComponents/BookingSectionComponent/BookingSectionComponent";
-import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidExtraProps";
 import resolveLinks from "../../../../../Services/resolveLinks/resolveLinks";
+import { IActivityCombinedInfo } from "../../../../../mobx/Itineraries";
+import { NavigationStackProp } from "react-navigation-stack";
 
-const ActivitiesSection = ({ section, navigation, spinValue }) => {
+export interface ActivitiesSectionProps {
+  section: { items: IActivityCombinedInfo[] };
+  navigation: NavigationStackProp;
+  spinValue: object;
+}
+
+export interface IActivitySectionProps {
+  activity: IActivityCombinedInfo;
+  isLast: boolean;
+  navigation: NavigationStackProp;
+  spinValue: object;
+}
+
+const ActivitiesSection = ({
+  section,
+  navigation,
+  spinValue
+}: ActivitiesSectionProps) => {
   return (
     <View>
       {section.items.map((activity, index) => {
@@ -30,14 +47,7 @@ const ActivitiesSection = ({ section, navigation, spinValue }) => {
   );
 };
 
-ActivitiesSection.propTypes = forbidExtraProps({
-  section: PropTypes.object.isRequired,
-  navigation: PropTypes.object.isRequired,
-  spinValue: PropTypes.oneOfType([PropTypes.object, PropTypes.number])
-    .isRequired
-});
-
-const Activities = ({ activity, isLast, navigation, spinValue }) => {
+const Activities = ({ activity, isLast, spinValue }: IActivitySectionProps) => {
   let customStyle = {};
   if (isLast) {
     customStyle = {
@@ -51,9 +61,10 @@ const Activities = ({ activity, isLast, navigation, spinValue }) => {
       click: constants.Bookings.click.accordionVoucher,
       type: constants.Bookings.type.activities
     });
+    // @ts-ignore
     resolveLinks(false, false, {
       voucherType: constants.activityVoucherType,
-      costingIdentifier: activity.costing.key
+      costingIdentifier: activity.costing.configKey
     });
   };
 
@@ -73,15 +84,13 @@ const Activities = ({ activity, isLast, navigation, spinValue }) => {
               constants.commonDateFormat
             )
           : activity.costing.dateMillis
-            ? moment(activity.costing.dateMillis).format(
-                constants.commonDateFormat
-              )
-            : moment(
-                `${activity.costing.day}/${activity.costing.mon}/${
-                  constants.currentYear
-                }`,
-                "DD/MMM/YYYY"
-              ).format(constants.commonDateFormat)
+          ? moment(activity.costing.dateMillis).format(
+              constants.commonDateFormat
+            )
+          : moment(
+              `${activity.costing.day}/${activity.costing.mon}/${constants.currentYear}`,
+              "DD/MMM/YYYY"
+            ).format(constants.commonDateFormat)
       }`}
       isImageContain={false}
       defaultSource={constants.activityThumbPlaceholderIllus}
@@ -90,13 +99,5 @@ const Activities = ({ activity, isLast, navigation, spinValue }) => {
     />
   );
 };
-
-Activities.propTypes = forbidExtraProps({
-  activity: PropTypes.object.isRequired,
-  isLast: PropTypes.bool.isRequired,
-  navigation: PropTypes.object.isRequired,
-  spinValue: PropTypes.oneOfType([PropTypes.object, PropTypes.number])
-    .isRequired
-});
 
 export default ActivitiesSection;

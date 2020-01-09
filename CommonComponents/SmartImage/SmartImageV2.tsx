@@ -1,6 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { Image, ImageBackground } from "react-native";
-import PropTypes from "prop-types";
+import React, { useEffect, useState, ComponentType } from "react";
+import {
+  Image,
+  ImageBackground,
+  ImageSourcePropType,
+  ImageURISource,
+  ImageProps
+} from "react-native";
 import FastImage from "react-native-fast-image";
 import constants from "../../constants/constants";
 
@@ -16,6 +21,53 @@ const priorityMap = {
   low: FastImage.priority.low,
   normal: FastImage.priority.normal
 };
+
+export interface ISmartImageSource {
+  uri: string;
+  headers?: any;
+  priority?:
+    | FastImage.priority.normal
+    | FastImage.priority.high
+    | FastImage.priority.low;
+  isFastImageSet?: boolean;
+}
+
+export interface SmartImageV2Props extends ImageProps {
+  useFastImage?: boolean;
+  priority?: "low" | "normal" | "high";
+  resizeMode?: "center" | "stretch" | "cover" | "contain";
+  headers?: object;
+  fallbackSource: ImageSourcePropType;
+  children?: React.ReactNode;
+  source: ImageSourcePropType | ISmartImageSource;
+}
+
+function isImageSourceObject(
+  requiredImageSource: ImageSourcePropType | ISmartImageSource
+): requiredImageSource is ImageURISource | ISmartImageSource {
+  return (
+    typeof requiredImageSource === "object" &&
+    !Array.isArray(requiredImageSource)
+  );
+}
+
+function isSmartImageSource(
+  requiredImageSource: ImageSourcePropType | ISmartImageSource
+): requiredImageSource is ISmartImageSource {
+  return (
+    typeof requiredImageSource === "object" &&
+    !Array.isArray(requiredImageSource)
+  );
+}
+
+function isResizeModeSet(
+  givenResizeMode: "center" | "stretch" | "cover" | "contain" | undefined
+): givenResizeMode is "center" | "stretch" | "cover" | "contain" {
+  return (
+    ["center", "stretch", "cover", "contain"].indexOf(givenResizeMode || "") >
+    -1
+  );
+}
 
 /**
  * TODO: Priority once set cannot be changed dynamically since it is attached to the
@@ -37,7 +89,7 @@ const SmartImageV2 = ({
   fallbackSource = { uri: constants.defaultPlaceImage },
   children,
   ...otherProps
-}) => {
+}: SmartImageV2Props) => {
   /**
    * TODO: Remove this `isValidImageUrl` condition check once FastImage issue is fixed
    * https://github.com/DylanVann/react-native-fast-image/issues/407
@@ -45,16 +97,16 @@ const SmartImageV2 = ({
    * Flag to check if the image can be rendered using FastImage since invalid urls
    * will cause crash in Android
    */
-  const isValidImageUrl =
-    typeof source === "object" &&
-    source.uri &&
-    (source.uri.startsWith(constants.httpPrefix) ||
-      source.uri.startsWith(constants.httpsPrefix));
+  const isValidImageUrl = isImageSourceObject(source)
+    ? source.uri &&
+      (source.uri.startsWith(constants.httpPrefix) ||
+        source.uri.startsWith(constants.httpsPrefix))
+    : false;
 
   /**
    * Set Image component
    */
-  const ImageComponent =
+  const ImageComponent: ComponentType<any> =
     isValidImageUrl && useFastImage
       ? FastImage
       : children
@@ -65,20 +117,24 @@ const SmartImageV2 = ({
    * Set default source as the imageSource hook. This hook will be used
    * for rendering the image and will be modified in case of errors.
    */
-  const [imageSource, setImageSource] = useState(source);
+  const [imageSource, setImageSource] = useState<
+    ImageSourcePropType | ISmartImageSource
+  >(source);
 
   /**
    * Flag to check if the component has already falled back to using the default image
    * Prevents infinite loop if the default fallback image has any issue.
    */
-  const [isUsingDefaultImage, setUsingDefaultImage] = useState(false);
+  const [isUsingDefaultImage, setUsingDefaultImage] = useState<boolean>(false);
 
   /**
    * In case the image source is changed dynamically, we need to compare the actualImageSource
    * with the new image source. This will reset all flags with new image url.
    * Works in the place of `componentWillReceiveProps`
    */
-  const [actualImageSource, setActualImageSource] = useState(source);
+  const [actualImageSource, setActualImageSource] = useState<
+    ImageSourcePropType | ISmartImageSource
+  >(source);
   useEffect(() => {
     if (actualImageSource !== source) {
       setImageSource(source);
@@ -95,30 +151,32 @@ const SmartImageV2 = ({
    */
   let resizeModeProp = resizeMode;
   let priorityProp = null;
-  let fastImageSource =
+  let fastImageSource: ImageSourcePropType | ISmartImageSource =
     typeof imageSource === "object" ? { ...imageSource } : imageSource;
-  if (useFastImage && isValidImageUrl && imageSource.isFastImageSet) {
-    resizeModeProp = resizeModeMap[resizeMode];
-    priorityProp = priorityMap[priority];
 
-    if (typeof imageSource === "object") {
-      if (priority) {
-        fastImageSource = {
-          ...fastImageSource,
-          priority: priorityProp
-        };
+  if (isSmartImageSource(imageSource)) {
+    if (useFastImage && isValidImageUrl && imageSource.isFastImageSet) {
+      if (isResizeModeSet(resizeMode)) {
+        resizeModeProp = resizeModeMap[resizeMode];
       }
-      if (headers) {
-        fastImageSource = {
-          ...fastImageSource,
-          headers
-        };
+      priorityProp = priorityMap[priority];
+
+      if (typeof imageSource === "object") {
+        if (priority) {
+          fastImageSource = Object.assign({}, fastImageSource, {
+            priority: priorityProp
+          });
+        }
+        if (headers) {
+          fastImageSource = Object.assign({}, fastImageSource, {
+            headers
+          });
+        }
+        fastImageSource = Object.assign({}, fastImageSource, {
+          isFastImageSet: true
+        });
+        setImageSource(fastImageSource);
       }
-      fastImageSource = {
-        ...fastImageSource,
-        isFastImageSet: true
-      };
-      setImageSource(fastImageSource);
     }
   }
 
@@ -129,8 +187,10 @@ const SmartImageV2 = ({
     }
   };
 
-  if (!isUsingDefaultImage && typeof source === "object" && !source.uri) {
-    imageLoadError();
+  if (isImageSourceObject(source)) {
+    if (!isUsingDefaultImage && typeof source === "object" && !source.uri) {
+      imageLoadError();
+    }
   }
 
   return (
@@ -142,28 +202,6 @@ const SmartImageV2 = ({
       resizeMode={resizeModeProp}
     />
   );
-};
-
-SmartImageV2.propTypes = {
-  ...Image.propTypes,
-  useFastImage: PropTypes.bool,
-  priority: PropTypes.oneOf(["low", "normal", "high"]),
-  resizeMode: PropTypes.oneOf(["center", "stretch", "cover", "contain"]),
-  source: PropTypes.oneOfType([
-    Image.propTypes.source.isRequired,
-    PropTypes.shape({
-      uri: PropTypes.string,
-      headers: PropTypes.object,
-      priority: PropTypes.oneOf([
-        FastImage.priority.normal,
-        FastImage.priority.high,
-        FastImage.priority.low
-      ])
-    })
-  ]),
-  headers: PropTypes.object,
-  fallbackSource: Image.propTypes.source.isRequired,
-  children: PropTypes.element
 };
 
 export default SmartImageV2;

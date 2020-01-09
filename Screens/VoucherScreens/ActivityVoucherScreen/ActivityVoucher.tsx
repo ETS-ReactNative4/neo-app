@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from "react";
 import { View, StyleSheet, Platform, Text } from "react-native";
 import { isIphoneX } from "react-native-iphone-x-helper";
+// @ts-ignore
 import ParallaxScrollView from "react-native-parallax-scroll-view";
 import VoucherHeader from "../Components/VoucherHeader";
 import constants from "../../../constants/constants";
@@ -11,6 +12,7 @@ import SectionHeader from "../../../CommonComponents/SectionHeader/SectionHeader
 import { inject, observer } from "mobx-react";
 import IosCloseButton from "../Components/IosCloseButton";
 import VoucherAccordion from "../Components/VoucherAccordion";
+// @ts-ignore
 import HTMLView from "react-native-htmlview";
 import moment from "moment";
 import TitleDate from "../Components/TitleDate";
@@ -19,13 +21,17 @@ import PickupInfoBox from "./Components/PickupInfoBox";
 import VoucherContactActionBar from "../Components/VoucherContactActionBar";
 import getTitleCase from "../../../Services/getTitleCase/getTitleCase";
 import ErrorBoundary from "../../../CommonComponents/ErrorBoundary/ErrorBoundary";
+// @ts-ignore
 import { responsiveWidth } from "react-native-responsive-dimensions";
 import _ from "lodash";
 import ViewVoucherButton from "../Components/ViewVoucherButton";
-import FooterStickyActionBar from "../../../CommonComponents/FooterStickyActionBar/FooterStickyActionBar";
 import containsHtml from "../../../Services/containsHtml/containsHtml";
 import CustomHtmlView from "../../../CommonComponents/CustomHtmlView/CustomHtmlView";
 import VoucherAlertBox from "../Components/VoucherAlertBox/VoucherAlertBox";
+import { IActivityCombinedInfo } from "../../../mobx/Itineraries";
+import { NavigationStackProp } from "react-navigation-stack";
+import PassportDetails from "../../../mobx/PassportDetails";
+import { IVoucherSplitSectionData } from "../types/voucherScreenTypes";
 
 const xHeight = isIphoneX()
   ? constants.xNotchHeight
@@ -33,10 +39,22 @@ const xHeight = isIphoneX()
   ? 20
   : 0;
 
+export interface ActivityVoucherProps {
+  navigation: NavigationStackProp<{ hotel: IActivityCombinedInfo }>;
+  passportDetailsStore: PassportDetails;
+}
+
+export interface ActivityVoucherState {
+  isCloseVisible: boolean;
+}
+
 @ErrorBoundary()
 @inject("passportDetailsStore")
 @observer
-class ActivityVoucher extends Component {
+class ActivityVoucher extends Component<
+  ActivityVoucherProps,
+  ActivityVoucherState
+> {
   static navigationOptions = {
     header: null,
     gestureResponseDistance: {
@@ -48,7 +66,7 @@ class ActivityVoucher extends Component {
     isCloseVisible: true
   };
 
-  headerToggle = status => {
+  headerToggle = (status: boolean) => {
     this.setState({
       isCloseVisible: status
     });
@@ -59,31 +77,17 @@ class ActivityVoucher extends Component {
   };
 
   render() {
-    const activity = this.props.navigation.getParam("activity", {});
+    const activity: IActivityCombinedInfo = this.props.navigation.getParam(
+      "activity",
+      {}
+    );
 
-    // Booking Source
-    // Starts at time missing
-    // numof passenger is 0
-    // Booked by detail missing
-    // Slot needs proper formatting
-    // mode of transfer is missing
-    // pickup time not available
-    // exact address for pickup
-    // Lat-long for opening google maps
-    // contact number
-    // booked date
-    // amount paid
-    // refundability status
     const {
       bookingId,
-      availabilitySlot,
       duration,
-      adults,
-      children,
       inclusions,
       exclusions,
       contactNumber,
-      bookedTime,
       activityTime,
       transferType,
       departureTimeStr,
@@ -91,7 +95,6 @@ class ActivityVoucher extends Component {
       pickupDetail: pickupDetails, // contains array of pickup details
       activityLocation = {},
       activityAddress,
-      self,
       voucherUrl
     } = activity.voucher;
     const {
@@ -101,24 +104,15 @@ class ActivityVoucher extends Component {
     const {
       mainPhoto,
       title,
-      notes,
       longDesc,
       latitude: costingLatitude,
       longitude: costingLongitude,
       free,
       selectedTourGrade,
-      startingPointDetails = {}
+      startingPointDetails = { image: "" }
     } = activity;
-    const { image: startingPointImage = "" } = startingPointDetails || {};
-    const {
-      ourSourceProvider,
-      day,
-      dayOfWeek,
-      mon,
-      totalCost,
-      publishedCost,
-      dateMillis
-    } = activity.costing;
+    const { image: startingPointImage = "" } = startingPointDetails;
+    const { dateMillis } = activity.costing;
     const {
       inclusion: costingInclusions,
       exclusion: costingExclusions,
@@ -145,10 +139,10 @@ class ActivityVoucher extends Component {
       passengerCount
     } = this.props.passportDetailsStore;
 
-    let passengerDetails = [];
-    let transferDetails = [];
-    let bookingDetails = [];
-    let bookingDetailSections = [];
+    let passengerDetails: IVoucherSplitSectionData[] = [];
+    let transferDetails: IVoucherSplitSectionData[] = [];
+    let bookingDetails: IVoucherSplitSectionData[] = [];
+    let bookingDetailSections: IVoucherSplitSectionData[] = [];
 
     let voucherTitle = {
       header: "",
@@ -219,7 +213,7 @@ class ActivityVoucher extends Component {
             : "NA"
         });
       }
-      passengerDetails = [
+      passengerDetails = _.compact([
         {
           name: "Booked by",
           value: leadPassengerName || "NA"
@@ -245,7 +239,7 @@ class ActivityVoucher extends Component {
         //   name: "Slot",
         //   value: getTitleCase(availabilitySlot)
         // }
-      ];
+      ]);
       bookingDetailSections = [
         {
           name: "Inclusions",
@@ -377,7 +371,6 @@ class ActivityVoucher extends Component {
             <VoucherHeader
               infoText={voucherTitle.header}
               title={voucherTitle.text}
-              menu={() => {}}
               onClickClose={this.close}
               image={{ uri: mainPhoto }}
               voucherUrl={voucherUrl}
@@ -391,14 +384,14 @@ class ActivityVoucher extends Component {
 
             <VoucherSplitSection
               sections={passengerDetails}
-              rightFontStyle={{ width: responsiveWidth(50) - 24 }}
+              rightFontStyle={styles.passengerDetailsText}
             />
           </View>
 
           <View style={styles.arrivalSection}>
             <SectionHeader
               sectionName={transferIncluded ? "TRANSFER INFO" : "LOCATION INFO"}
-              containerStyle={{ marginBottom: 0 }}
+              containerStyle={styles.transferSectionHeader}
             />
 
             <VoucherSplitSection sections={transferDetails} />
@@ -406,7 +399,7 @@ class ActivityVoucher extends Component {
             {_.toUpper(transferType) === "SHARED" ? (
               <VoucherAlertBox
                 alertText={constants.voucherText.sharedTransferInfo}
-                containerStyle={{ marginVertical: 8 }}
+                containerStyle={styles.verticalMarginSpacing}
                 mode={"alert"}
               />
             ) : null}
@@ -414,7 +407,7 @@ class ActivityVoucher extends Component {
             {free ? (
               <VoucherAlertBox
                 alertText={constants.voucherText.freeTransferInfo}
-                containerStyle={{ marginTop: 8 }}
+                containerStyle={styles.topMarginSpacing}
                 mode={"info"}
               />
             ) : transferIncluded && pickupAddress ? (
@@ -425,7 +418,7 @@ class ActivityVoucher extends Component {
              * Waiting for new designs to migrate this component to new UI
              */}
             <VoucherAddressSection
-              containerStyle={{ marginTop: 8 }}
+              containerStyle={styles.topMarginSpacing}
               address={
                 pickupAddress
                   ? pickupAddress
@@ -444,7 +437,7 @@ class ActivityVoucher extends Component {
             {lat && lon ? (
               <VoucherAlertBox
                 alertText={constants.voucherText.directionsDisclaimerText}
-                containerStyle={{ marginVertical: 8 }}
+                containerStyle={styles.directionsAlertBox}
                 mode={"alert"}
               />
             ) : null}
@@ -457,7 +450,7 @@ class ActivityVoucher extends Component {
             <VoucherSplitSection sections={bookingDetails} />
           </View>
           <ViewVoucherButton
-            containerStyle={{ alignSelf: "center" }}
+            containerStyle={styles.viewVoucherButton}
             voucherUrl={voucherUrl}
           />
         </ParallaxScrollView>
@@ -500,7 +493,15 @@ const styles = StyleSheet.create({
     width: responsiveWidth(100) - 48,
     ...constants.fontCustom(constants.primaryLight, 17),
     color: constants.black2
-  }
+  },
+  viewVoucherButton: {
+    alignSelf: "center"
+  },
+  directionsAlertBox: { marginVertical: 8 },
+  topMarginSpacing: { marginTop: 8 },
+  verticalMarginSpacing: { marginVertical: 8 },
+  transferSectionHeader: { marginBottom: 0 },
+  passengerDetailsText: { width: responsiveWidth(50) - 24 }
 });
 
 export default ActivityVoucher;

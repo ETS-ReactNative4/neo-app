@@ -3,14 +3,31 @@ import { View } from "react-native";
 import _ from "lodash";
 import moment from "moment";
 import constants from "../../../../../constants/constants";
-import PropTypes from "prop-types";
 import { recordEvent } from "../../../../../Services/analytics/analyticsService";
 import getTitleCase from "../../../../../Services/getTitleCase/getTitleCase";
 import BookingSectionComponent from "../../../../../CommonComponents/BookingSectionComponent/BookingSectionComponent";
-import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidExtraProps";
 import resolveLinks from "../../../../../Services/resolveLinks/resolveLinks";
+import { IHotelCosting } from "../../../../../TypeInterfaces/IItinerary";
+import { NavigationStackProp } from "react-navigation-stack";
 
-const HotelSection = ({ section, navigation, spinValue }) => {
+export interface HotelSectionProps {
+  section: { items: IHotelCosting[] };
+  navigation: NavigationStackProp;
+  spinValue: object;
+}
+
+export interface IHotelSectionProps {
+  hotel: IHotelCosting;
+  isLast: boolean;
+  navigation: NavigationStackProp;
+  spinValue: object;
+}
+
+const HotelSection = ({
+  section,
+  navigation,
+  spinValue
+}: HotelSectionProps) => {
   return (
     <View>
       {section.items.map((hotel, index) => {
@@ -30,14 +47,7 @@ const HotelSection = ({ section, navigation, spinValue }) => {
   );
 };
 
-HotelSection.propTypes = forbidExtraProps({
-  section: PropTypes.object.isRequired,
-  navigation: PropTypes.object.isRequired,
-  spinValue: PropTypes.oneOfType([PropTypes.object, PropTypes.number])
-    .isRequired
-});
-
-const Hotel = ({ hotel, isLast, navigation, spinValue }) => {
+const Hotel = ({ hotel, isLast, spinValue }: IHotelSectionProps) => {
   let customStyle = {};
   if (isLast) {
     customStyle = {
@@ -51,9 +61,10 @@ const Hotel = ({ hotel, isLast, navigation, spinValue }) => {
       click: constants.Bookings.click.accordionVoucher,
       type: constants.Bookings.type.hotels
     });
+    // @ts-ignore
     resolveLinks(false, false, {
       voucherType: constants.hotelVoucherType,
-      costingIdentifier: hotel.costingKey
+      costingIdentifier: hotel.configKey
     });
   };
 
@@ -81,13 +92,5 @@ const Hotel = ({ hotel, isLast, navigation, spinValue }) => {
     />
   );
 };
-
-Hotel.propTypes = forbidExtraProps({
-  hotel: PropTypes.object.isRequired,
-  isLast: PropTypes.bool.isRequired,
-  navigation: PropTypes.object.isRequired,
-  spinValue: PropTypes.oneOfType([PropTypes.object, PropTypes.number])
-    .isRequired
-});
 
 export default HotelSection;

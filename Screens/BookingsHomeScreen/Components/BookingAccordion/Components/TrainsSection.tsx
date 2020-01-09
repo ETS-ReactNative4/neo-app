@@ -6,28 +6,20 @@ import constants from "../../../../../constants/constants";
 import { recordEvent } from "../../../../../Services/analytics/analyticsService";
 import BookingSectionComponent from "../../../../../CommonComponents/BookingSectionComponent/BookingSectionComponent";
 import resolveLinks from "../../../../../Services/resolveLinks/resolveLinks";
-import { NavigationTabProp } from "react-navigation-tabs";
-
-export interface TrainDataProps {
-  voucher: {
-    pickupTime: number;
-    booked: boolean;
-    from: string;
-    to: string;
-  };
-  dateMillis: number;
-  key: string;
-  text: string;
-  day: string;
-  mon: string;
-}
+import { ITrainCosting } from "../../../../../TypeInterfaces/IItinerary";
+import { NavigationStackProp } from "react-navigation-stack";
 
 export interface TrainsSectionProps {
-  section: {
-    items: TrainDataProps[];
-  };
-  navigation: NavigationTabProp;
-  spinValue: {} | number;
+  section: { items: ITrainCosting[] };
+  navigation: NavigationStackProp;
+  spinValue: object;
+}
+
+export interface ITrainsSectionProps {
+  train: ITrainCosting;
+  isLast: boolean;
+  navigation: NavigationStackProp;
+  spinValue: object;
 }
 
 const TrainsSection = ({
@@ -37,9 +29,8 @@ const TrainsSection = ({
 }: TrainsSectionProps) => {
   return (
     <View>
-      {section.items.map((train: TrainDataProps, index: number) => {
+      {section.items.map((train, index: number) => {
         let isLast = index === section.items.length - 1;
-
         return (
           <Train
             key={index}
@@ -54,14 +45,7 @@ const TrainsSection = ({
   );
 };
 
-export interface TrainProps {
-  train: TrainDataProps;
-  isLast: boolean;
-  navigation?: NavigationTabProp;
-  spinValue: {} | number;
-}
-
-const Train = ({ train, isLast, spinValue }: TrainProps) => {
+const Train = ({ train, isLast, spinValue }: ITrainsSectionProps) => {
   let customStyle = {};
   if (isLast) {
     customStyle = {
@@ -77,7 +61,7 @@ const Train = ({ train, isLast, spinValue }: TrainProps) => {
     });
     resolveLinks("", false, {
       voucherType: constants.trainVoucherType,
-      costingIdentifier: train.key
+      costingIdentifier: train.configKey
     });
   };
 
