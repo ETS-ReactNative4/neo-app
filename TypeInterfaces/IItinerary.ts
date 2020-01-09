@@ -125,7 +125,12 @@ export interface ITransferCostingValue extends IAbstractCostingValue {
   costingById: { [index: string]: ITransferCosting };
 }
 
-export interface ITrainCosting extends IAbstractCosting {}
+export interface ITrainCosting extends IAbstractCosting {
+  dateMillis: number;
+  text: string;
+  day: string;
+  mon: string;
+}
 
 export interface ITrainCostingValue extends IAbstractCostingValue {
   costingById: { [index: string]: ITrainCosting };

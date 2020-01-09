@@ -26,7 +26,8 @@ import {
   IRentalCarCosting,
   ITrainCosting,
   ITransferCosting,
-  IVisaCosting
+  IVisaCosting,
+  IInsuranceCostingValue
 } from "../TypeInterfaces/IItinerary";
 import { ICustomCostings } from "../TypeInterfaces/ICustomCostings";
 
@@ -61,10 +62,10 @@ const getJsDateFromItineraryDateObject = (dateObject: IItineraryDay): Date => {
  * Type guard to check if insurance costing has the plan details
  */
 export const insuranceCostingTypeGuard = (
-  insuranceCosting: IInsuranceCosting | {}
-): insuranceCosting is IInsuranceCosting => {
+  insuranceCosting: IInsuranceCostingValue | {}
+): insuranceCosting is IInsuranceCostingValue => {
   // @ts-ignore
-  return insuranceCosting && insuranceCosting.plan;
+  return !_.isEmpty(insuranceCosting);
 };
 
 export interface IActivityCombinedInfo extends IActivityDetail {
@@ -664,16 +665,21 @@ class Itineraries {
     }
 
     try {
-      const insuranceCosting: IInsuranceCosting | {} = this._selectedItinerary
-        .insuranceCosting
-        ? toJS(this._selectedItinerary.insuranceCosting.costingById)
+      const insuranceCosting: IInsuranceCostingValue | {} = this
+        ._selectedItinerary.insuranceCosting
+        ? toJS(this._selectedItinerary.insuranceCosting)
         : {};
       if (insuranceCostingTypeGuard(insuranceCosting)) {
-        insuranceCosting.voucher =
+        // TODO: Only displaying first insurance voucher - Should display all when insurance voucher feature is completed
+        const firstInsurance: IInsuranceCosting =
+          insuranceCosting.costingById[
+            Object.keys(insuranceCosting.costingById)[0]
+          ];
+        firstInsurance.voucher =
           storeService.voucherStore.getInsuranceVoucherById(
-            insuranceCosting.costingId
+            firstInsurance.costingId
           ) || {};
-        return insuranceCosting;
+        return firstInsurance;
       } else {
         return {};
       }
