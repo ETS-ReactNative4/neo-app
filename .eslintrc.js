@@ -1,8 +1,5 @@
 module.exports = {
   parser: "@typescript-eslint/parser",
-  parserOptions: {
-    project: "./tsconfig.json"
-  },
   plugins: ["tsc", "jest"],
   root: true,
   extends: "@react-native-community",
@@ -19,7 +16,7 @@ module.exports = {
     "prettier/prettier": 1,
     "@typescript-eslint/no-unused-vars": 1
   },
-  "env": {
+  env: {
     "jest/globals": true
   }
 };
