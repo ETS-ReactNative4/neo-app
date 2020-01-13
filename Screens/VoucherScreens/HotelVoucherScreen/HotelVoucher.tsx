@@ -88,7 +88,7 @@ class HotelVoucher extends Component<HotelVoucherProps, HotelVoucherState> {
     } = hotel;
 
     const {
-      rooms,
+      rooms = [],
       hotelAddress1,
       hotelAddress2,
       checkInDate: checkInDateVoucher,
@@ -164,6 +164,23 @@ class HotelVoucher extends Component<HotelVoucherProps, HotelVoucherState> {
         )
       : "";
 
+    const stickyHeader = () => (
+      <VoucherStickyHeader
+        action={this.close}
+        text={bookingPNR ? `Booking ID - ${bookingPNR}` : ""}
+      />
+    );
+
+    const foreground = () => (
+      <VoucherHeader
+        infoText={`BOOKING ID`}
+        title={bookingPNR}
+        onClickClose={this.close}
+        image={{ uri: imageURL }}
+        voucherUrl={voucherUrl}
+      />
+    );
+
     return (
       <Fragment>
         <ParallaxScrollView
@@ -172,23 +189,10 @@ class HotelVoucher extends Component<HotelVoucherProps, HotelVoucherState> {
           contentBackgroundColor="white"
           parallaxHeaderHeight={214 + xHeight}
           stickyHeaderHeight={this.state.isCloseVisible ? 0 : 48 + xHeight}
-          renderStickyHeader={() => (
-            <VoucherStickyHeader
-              action={this.close}
-              text={bookingPNR ? `Booking ID - ${bookingPNR}` : ""}
-            />
-          )}
+          renderStickyHeader={stickyHeader}
           fadeOutForeground={Platform.OS !== "android"}
           onChangeHeaderVisibility={this.headerToggle}
-          renderForeground={() => (
-            <VoucherHeader
-              infoText={`BOOKING ID`}
-              title={bookingPNR}
-              onClickClose={this.close}
-              image={{ uri: imageURL }}
-              voucherUrl={voucherUrl}
-            />
-          )}
+          renderForeground={foreground}
         >
           <CheckInCheckOut
             checkInDate={
@@ -242,15 +246,13 @@ class HotelVoucher extends Component<HotelVoucherProps, HotelVoucherState> {
                   ? rooms.find(
                       (roomDetail: { roomTypeId: string }) =>
                         roomDetail.roomTypeId === roomTypeId
-                    )
+                    ) || {}
                   : {};
                 let {
-                  leadPassenger,
-                  otherPassengers,
+                  leadPassenger = {},
+                  otherPassengers = [],
                   bookingReferenceId
                 } = roomVoucherDetails;
-                leadPassenger = leadPassenger || {};
-                otherPassengers = otherPassengers || [];
 
                 /**
                  * Find the user's meal option if mealoptions are available.
