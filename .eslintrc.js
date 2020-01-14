@@ -14,8 +14,7 @@ module.exports = {
     "comma-dangle": 0,
     "react/prop-types": 1,
     "prettier/prettier": 1,
-    "@typescript-eslint/no-unused-vars": 1,
-    "react/jsx-no-bind": 1
+    "@typescript-eslint/no-unused-vars": 1
   },
   env: {
     "jest/globals": true
