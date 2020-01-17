@@ -3,51 +3,28 @@ import {
   isProduction
 } from "../Services/getEnvironmentDetails/getEnvironmentDetails";
 
-const apiServers = {
-  localServer: "http://192.168.0.5:8080/api/",
-  devServer: "https://dev.pickyourtrail.com/api/",
-  stagingSever: "https://uat.longweekend.co.in/api/",
-  uatServer: "https://uat.pickyourtrail.com/api/",
-  prodServer: "https://mobile-prod.pickyourtrail.com/api/"
-};
-
-const platoServers = {
-  platoDevServer: "https://plato-uat.pickyourtrail.com/",
-  platoProdServer: "https://plato.pickyourtrail.com/"
-};
-
 const productUrls = {
   localProductUrl: "http://192.168.0.5:8080/",
-  devProductUrl: "https://dev.pickyourtrail.com/",
   stagingProductUrl: "https://uat.longweekend.co.in/",
-  uatProductUrl: "https://uat.pickyourtrail.com/",
   prodProductUrl: "https://pickyourtrail.com/"
 };
 
-let apiServerUrl, productUrl, platoServerUrl;
+const apiServers = {
+  localServer: productUrls.localProductUrl + "api/",
+  stagingSever: productUrls.stagingProductUrl + "api/",
+  prodServer: productUrls.prodProductUrl + "api/"
+};
+
+let apiServerUrl, productUrl;
 switch (getEnvironmentName()) {
   case "production":
     apiServerUrl = apiServers.prodServer;
     productUrl = productUrls.prodProductUrl;
-    platoServerUrl = platoServers.platoProdServer;
-    break;
-
-  case "uat":
-    apiServerUrl = apiServers.uatServer;
-    productUrl = productUrls.uatProductUrl;
-    platoServerUrl = platoServers.platoDevServer;
     break;
 
   case "staging":
     apiServerUrl = apiServers.stagingSever;
     productUrl = productUrls.stagingProductUrl;
-    platoServerUrl = platoServers.platoDevServer;
-    break;
-
-  case "dev":
-    apiServerUrl = apiServers.devServer;
-    productUrl = productUrls.devProductUrl;
-    platoServerUrl = platoServers.platoDevServer;
     break;
 
   default:
@@ -61,7 +38,6 @@ const serverUrls = {
   apiServerUrl,
   productUrl,
   chatCustomUrl,
-  platoServerUrl,
   cityImageBaseUrl: "https://d2pkrotgd5anq5.cloudfront.net/city/1820xh/",
   miscImageBaseUrl: "https://d3lf10b5gahyby.cloudfront.net/misc/",
   googleTranslateTts: (phrase, language) =>
@@ -107,7 +83,6 @@ const serverUrls = {
 export const CONSTANT_productUrl = productUrl;
 export const CONSTANT_apiServerUrl = apiServerUrl;
 export const CONSTANT_chatCustomUrl = chatCustomUrl;
-export const CONSTANT_platoServerUrl = platoServerUrl;
 export const CONSTANT_cityImageBaseUrl =
   "https://d2pkrotgd5anq5.cloudfront.net/city/1820xh/";
 export const CONSTANT_miscImageBaseUrl =
