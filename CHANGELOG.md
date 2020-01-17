@@ -29,6 +29,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - ESLint config which was showing duplicate warnings has been fixed.
 
+## Removed
+
+- Unnecessary server urls have been removed from the config
+
 ## [1.3.3] - 2019-12-18
 
 ### Added
