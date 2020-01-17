@@ -11,7 +11,7 @@
     "coverage": "ENVFILE=.env.test jest --coverage",
     "test:update": "ENVFILE=.env.test && jest --updateSnapshot",
     "lint": "eslint .",
-    "build-android": "jetify && cd android && ./gradlew bundleRelease && cd ..",
+    "build-android": "yarn jetify && cd android && ./gradlew bundleRelease && cd ..",
     "build-android-alpha": "ENVFILE=.env.staging yarn build-android",
     "build-android-prod": "ENVFILE=.env.prod yarn build-android",
     "build-ios": "fastlane ios uploadToTestflight",
