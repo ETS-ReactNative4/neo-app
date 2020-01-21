@@ -4,15 +4,11 @@ import UpcomingCard from "./UpcomingCard";
 import PropTypes from "prop-types";
 import constants from "../../../constants/constants";
 import { inject, observer } from "mobx-react";
-import { NavigationActions } from "react-navigation";
 import { recordEvent } from "../../../Services/analytics/analyticsService";
 import CustomScrollView from "../../../CommonComponents/CustomScrollView/CustomScrollView";
 import EmptyScreenPlaceholder from "../../../CommonComponents/EmptyScreenPlaceholder/EmptyScreenPlaceholder";
 import DebouncedAlert from "../../../CommonComponents/DebouncedAlert/DebouncedAlert";
-const resetAction = NavigationActions.navigate({
-  routeName: "AppHome",
-  action: NavigationActions.navigate({ routeName: "BookedItineraryTabs" })
-});
+import launchPostBooking from "../../../Services/launchPostBooking/launchPostBooking";
 
 @inject("appState")
 @inject("itineraries")
@@ -37,13 +33,7 @@ class Upcoming extends Component {
     selectItinerary(itineraryId)
       .then(() => {
         const routeName = this.props.navigation.state.routeName;
-        if (routeName === "YourBookings") {
-          this.props.appState.setTripMode(true);
-          this.props.navigation.dispatch(resetAction);
-        } else if (routeName === "YourBookingsUniversal") {
-          this.props.appState.setTripMode(true);
-          this.props.navigation.navigate("BookedItineraryTabs");
-        }
+        launchPostBooking(routeName, this.props.navigation);
       })
       .catch(() => {
         DebouncedAlert("Error!", "Unable to fetch Itinerary Details...");

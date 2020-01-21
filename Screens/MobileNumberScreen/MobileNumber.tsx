@@ -7,7 +7,8 @@ import {
   ActivityIndicator,
   BackHandler,
   LayoutAnimation,
-  Platform
+  Platform,
+  TextInput
 } from "react-native";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import constants from "../../constants/constants";
@@ -26,22 +27,49 @@ import { toastTop } from "../../Services/toast/toast";
 import OtpField from "./Components/OtpField";
 import { getDeviceToken } from "../../Services/fcmService/fcm";
 import { validateLoginMobileNumber } from "../../Services/validateMobileNumber/validateMobileNumber";
-import PropTypes from "prop-types";
+import launchPostBooking from "../../Services/launchPostBooking/launchPostBooking";
+import YourBookings from "../../mobx/YourBookings";
+import User from "../../mobx/User";
+import Info from "../../mobx/Info";
+import { NavigationStackProp } from "react-navigation-stack";
+import Itineraries from "../../mobx/Itineraries";
+
+export interface MobileNumberProps {
+  yourBookingsStore: YourBookings;
+  userStore: User;
+  infoStore: Info;
+  navigation: NavigationStackProp<{ backButtonPress: () => any }>;
+  itineraries: Itineraries;
+}
+
+export interface MobileNumberState {
+  cca2: string;
+  countryCode: string;
+  mobileNumber: string;
+  otp: string[];
+  otpNumber: string;
+  otpId: string;
+  isCountryCodeModalVisible: boolean;
+  isMobileVerified: boolean;
+  isUnregisteredNumber: boolean;
+  hasError: boolean;
+  isLoading: boolean;
+  waitTime: number;
+  isWaiting: boolean;
+}
 
 @ErrorBoundary()
 @inject("yourBookingsStore")
 @inject("userStore")
 @inject("infoStore")
+@inject("itineraries")
 @observer
-class MobileNumber extends Component {
-  static propTypes = {
-    yourBookingsStore: PropTypes.object,
-    userStore: PropTypes.object,
-    infoStore: PropTypes.object,
-    navigation: PropTypes.object
-  };
-
-  static navigationOptions = ({ navigation }) => {
+class MobileNumber extends Component<MobileNumberProps, MobileNumberState> {
+  static navigationOptions = ({
+    navigation
+  }: {
+    navigation: NavigationStackProp;
+  }) => {
     const leftAction = navigation.getParam("backButtonPress", () => null);
     return {
       header: (
@@ -69,28 +97,29 @@ class MobileNumber extends Component {
     waitTime: 30,
     isWaiting: false
   };
-  waitListener = {};
-  _mobileInputRef = React.createRef();
-  _otpInputRef = React.createRef();
+  waitListener: NodeJS.Timeout | null = null;
+  _mobileInputRef: React.RefObject<TextInput> = React.createRef();
+  _otpInputRef: React.RefObject<TextInput> = React.createRef();
 
-  constructor(props) {
+  constructor(props: Readonly<MobileNumberProps>) {
     super(props);
 
     props.navigation.setParams({ backButtonPress: this.onBackButtonPress });
   }
 
-  selectCountryCode = countryCode => {
+  selectCountryCode = (countryCode: string) => {
     recordEvent(constants.MobileNumber.event, {
       click: constants.MobileNumber.click.selectCountryCode
     });
     this.setState({ countryCode });
   };
 
-  setMobileInputRef = e => (this._mobileInputRef = e);
+  // setMobileInputRef = (e: React.RefObject<unknown>) =>
+  //   (this._mobileInputRef = e);
+  //
+  // setOtpInputRef = (e: React.RefObject<unknown>) => (this._otpInputRef = e);
 
-  setOtpInputRef = e => (this._otpInputRef = e);
-
-  editMobileNumber = mobileNumber => {
+  editMobileNumber = (mobileNumber: string) => {
     this.setState({ mobileNumber });
     if (validateLoginMobileNumber(`${this.state.countryCode}${mobileNumber}`)) {
       this.setState({
@@ -99,7 +128,7 @@ class MobileNumber extends Component {
     }
   };
 
-  editOtpNumber = otpNumber => {
+  editOtpNumber = (otpNumber: string) => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     this.setState({ otpNumber }, () => {
       if (this.state.otpNumber.length === 6) {
@@ -111,7 +140,9 @@ class MobileNumber extends Component {
   onBackButtonPress = () => {
     if (this.props.navigation.isFocused()) {
       if (this.state.isMobileVerified) {
-        clearInterval(this.waitListener);
+        if (this.waitListener) {
+          clearInterval(this.waitListener);
+        }
         this.setState(
           {
             isMobileVerified: false,
@@ -119,7 +150,9 @@ class MobileNumber extends Component {
             waitTime: 45
           },
           () => {
-            this._mobileInputRef.focus && this._mobileInputRef.focus();
+            this._mobileInputRef.current &&
+              this._mobileInputRef.current.focus &&
+              this._mobileInputRef.current.focus();
           }
         );
       } else {
@@ -132,12 +165,6 @@ class MobileNumber extends Component {
     } else {
       return false;
     }
-  };
-
-  editOtp = (value, index) => {
-    const otp = [...this.state.otp];
-    otp[index] = value;
-    this.setState({ otp });
   };
 
   verifyOtp = () => {
@@ -156,23 +183,37 @@ class MobileNumber extends Component {
         yourBookingsStore,
         navigation,
         userStore,
-        infoStore
+        infoStore,
+        itineraries
       } = this.props;
       const { getUpcomingItineraries } = yourBookingsStore;
       const { getUserDetails } = userStore;
       const { setError } = infoStore;
+      const { selectItinerary } = itineraries;
       apiCall(constants.verifyOtp, requestBody)
         .then(response => {
           setTimeout(async () => {
             if (response.status === "VERIFIED") {
               Keyboard.dismiss();
-              clearInterval(this.waitListener);
+              if (this.waitListener) {
+                clearInterval(this.waitListener);
+              }
               await registerToken(response.data.authtoken);
               recordEvent(constants.userLoggedInEvent);
-              getUpcomingItineraries();
+              // @ts-ignore
+              const routeName = this.props.navigation.state.routeName;
               getUserDetails();
               getDeviceToken();
-              navigation.navigate("YourBookings");
+              getUpcomingItineraries().then(itinerariesArray => {
+                if (itinerariesArray.length > 1) {
+                  navigation.navigate("YourBookings");
+                } else {
+                  const itineraryId: string = itinerariesArray[0].itineraryId;
+                  selectItinerary(itineraryId).then(() => {
+                    launchPostBooking(routeName, navigation);
+                  });
+                }
+              });
             } else {
               this.setState({
                 isLoading: false
@@ -228,7 +269,9 @@ class MobileNumber extends Component {
             () => {
               toastTop(response.message || "OTP Sent");
               this.waitListener = setInterval(this.waitCounter, 1000);
-              this._otpInputRef.focus && this._otpInputRef.focus();
+              this._otpInputRef.current &&
+                this._otpInputRef.current.focus &&
+                this._otpInputRef.current.focus();
             }
           );
         } else {
@@ -261,7 +304,9 @@ class MobileNumber extends Component {
         isWaiting: false,
         waitTime: 45
       });
-      clearInterval(this.waitListener);
+      if (this.waitListener) {
+        clearInterval(this.waitListener);
+      }
     }
   };
 
@@ -288,7 +333,9 @@ class MobileNumber extends Component {
       "hardwareBackPress",
       this.onBackButtonPress
     );
-    clearInterval(this.waitListener);
+    if (this.waitListener) {
+      clearInterval(this.waitListener);
+    }
   }
 
   submitMobileNumber = () => {
@@ -349,7 +396,7 @@ class MobileNumber extends Component {
             isWaiting={this.state.isWaiting}
             waitTime={this.state.waitTime}
             resendOtp={this.resendOtp}
-            setOtpInputRef={this.setOtpInputRef}
+            setOtpInputRef={this._otpInputRef}
             otp={this.state.otpNumber}
             editOtp={this.editOtpNumber}
             submitOtp={this.verifyOtp}
@@ -363,7 +410,7 @@ class MobileNumber extends Component {
             mobileNumber={this.state.mobileNumber}
             showCountryCodeModal={this.showCountryCodeModal}
             submitMobileNumber={this.submitMobileNumber}
-            mobileInputRef={this.setMobileInputRef}
+            mobileInputRef={this._mobileInputRef}
           />
         )}
 
