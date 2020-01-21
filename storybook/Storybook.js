@@ -1,30 +1,16 @@
 import React from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet, View } from "react-native";
 import {
   getStorybookUI,
   addDecorator,
   configure
 } from "@storybook/react-native";
-import { View, Platform } from "react-native";
 
 import "./rn-addons";
-import constants from "../constants/constants";
 import { isProduction } from "../Services/getEnvironmentDetails/getEnvironmentDetails";
-import { isIphoneX } from "react-native-iphone-x-helper";
+import { CONSTANT_white1, CONSTANT_shade3 } from "../constants/colorPallete";
 
-addDecorator(story => (
-  <View
-    style={{
-      flex: 1,
-      backgroundColor: constants.white1,
-      borderColor: constants.shade3,
-      borderWidth: StyleSheet.hairlineWidth,
-      marginTop: isIphoneX() ? constants.xNotchHeight : 0
-    }}
-  >
-    {story()}
-  </View>
-));
+addDecorator(story => <View style={styles.storyWrapper}>{story()}</View>);
 
 configure(() => {
   require("./stories/ChatScreenStory");
@@ -39,7 +25,21 @@ configure(() => {
   require("./stories/SmartImageStory");
 }, module);
 
-const StorybookUIRoot = getStorybookUI({});
+const StorybookUIRoot = getStorybookUI({
+  asyncStorage:
+    require("@react-native-community/async-storage").AsyncStorage ||
+    require("react-native").AsyncStorage ||
+    null
+});
+
+const styles = StyleSheet.create({
+  storyWrapper: {
+    flex: 1,
+    backgroundColor: CONSTANT_white1,
+    borderColor: CONSTANT_shade3,
+    borderWidth: StyleSheet.hairlineWidth
+  }
+});
 
 export const shouldIncludeStoryBook = () => __DEV__ || !isProduction();
 
