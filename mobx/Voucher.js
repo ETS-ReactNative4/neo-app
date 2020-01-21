@@ -29,41 +29,53 @@ class Voucher {
 
   @action
   getVouchers = itineraryId => {
-    const requestBody = {
-      itineraryId
-    };
-    this._isLoading = true;
-    apiCall(constants.voucherDetails, requestBody)
-      .then(response => {
-        this._isLoading = false;
-        if (response.status === "SUCCESS") {
-          this._loadingError = false;
-          const newVoucher = {
-            itineraryId,
-            ...response.data
-          };
-          this._vouchers.push(newVoucher);
-          this._selectedVoucher = newVoucher;
-        } else {
+    return new Promise((resolve, reject) => {
+      const requestBody = {
+        itineraryId
+      };
+      this._isLoading = true;
+      apiCall(constants.voucherDetails, requestBody)
+        .then(response => {
+          this._isLoading = false;
+          if (response.status === "SUCCESS") {
+            this._loadingError = false;
+            const newVoucher = {
+              itineraryId,
+              ...response.data
+            };
+            this._vouchers.push(newVoucher);
+            this._selectedVoucher = newVoucher;
+            resolve(newVoucher);
+          } else {
+            this._loadingError = true;
+            reject();
+          }
+        })
+        .catch(error => {
+          this._isLoading = false;
           this._loadingError = true;
-        }
-      })
-      .catch(error => {
-        this._isLoading = false;
-        this._loadingError = true;
-      });
+          reject(error);
+        });
+    });
   };
 
   @action
   selectVoucher = itineraryId => {
-    const selectedVoucher = this._vouchers.find(
-      voucher => voucher.itineraryId === itineraryId
-    );
-    if (selectedVoucher) {
-      this._selectedVoucher = selectedVoucher;
-    } else {
-      this.getVouchers(itineraryId);
-    }
+    return new Promise((resolve, reject) => {
+      const selectedVoucher = this._vouchers.find(
+        voucher => voucher.itineraryId === itineraryId
+      );
+      if (selectedVoucher) {
+        this._selectedVoucher = selectedVoucher;
+        resolve(selectedVoucher);
+      } else {
+        this.getVouchers(itineraryId)
+          .then(newVoucher => {
+            resolve(newVoucher);
+          })
+          .catch(reject);
+      }
+    });
   };
 
   @action
@@ -94,14 +106,16 @@ class Voucher {
           this._loadingError = true;
         }
       })
-      .catch(error => {
+      .catch(() => {
         this._isLoading = false;
         this._loadingError = true;
       });
   };
 
   getHotelVoucherById = createTransformer(id => {
-    if (_.isEmpty(this._selectedVoucher)) return {};
+    if (_.isEmpty(this._selectedVoucher)) {
+      return {};
+    }
     try {
       return this._selectedVoucher.hotelVouchers
         ? toJS(
@@ -117,7 +131,9 @@ class Voucher {
   });
 
   getFlightVoucherById = createTransformer(id => {
-    if (_.isEmpty(this._selectedVoucher)) return {};
+    if (_.isEmpty(this._selectedVoucher)) {
+      return {};
+    }
     try {
       return this._selectedVoucher.flightVouchers
         ? toJS(
@@ -134,7 +150,9 @@ class Voucher {
   });
 
   getActivityVoucherById = createTransformer(id => {
-    if (_.isEmpty(this._selectedVoucher)) return {};
+    if (_.isEmpty(this._selectedVoucher)) {
+      return {};
+    }
     try {
       return this._selectedVoucher.activityVouchers
         ? toJS(
@@ -151,7 +169,9 @@ class Voucher {
   });
 
   getTransferVoucherById = createTransformer(id => {
-    if (_.isEmpty(this._selectedVoucher)) return {};
+    if (_.isEmpty(this._selectedVoucher)) {
+      return {};
+    }
     try {
       return this._selectedVoucher.transferVouchers
         ? toJS(
@@ -168,7 +188,9 @@ class Voucher {
   });
 
   getRentalCarVoucherById = createTransformer(id => {
-    if (_.isEmpty(this._selectedVoucher)) return {};
+    if (_.isEmpty(this._selectedVoucher)) {
+      return {};
+    }
     try {
       return this._selectedVoucher.rentalCarVouchers
         ? toJS(
@@ -185,7 +207,9 @@ class Voucher {
   });
 
   getFerryVoucherById = createTransformer(id => {
-    if (_.isEmpty(this._selectedVoucher)) return {};
+    if (_.isEmpty(this._selectedVoucher)) {
+      return {};
+    }
     try {
       return this._selectedVoucher.ferryVouchers
         ? toJS(
@@ -201,7 +225,9 @@ class Voucher {
   });
 
   getTrainVoucherById = createTransformer(id => {
-    if (_.isEmpty(this._selectedVoucher)) return {};
+    if (_.isEmpty(this._selectedVoucher)) {
+      return {};
+    }
     try {
       return this._selectedVoucher.trainVouchers
         ? toJS(
@@ -221,7 +247,9 @@ class Voucher {
    * Requires costing id of the voucher and costing to match.
    */
   getInsuranceVoucherById = createTransformer(id => {
-    if (_.isEmpty(this._selectedVoucher)) return {};
+    if (_.isEmpty(this._selectedVoucher)) {
+      return {};
+    }
     try {
       return this._selectedVoucher.insuranceVoucher
         ? this._selectedVoucher.insuranceVoucher.costingId === id

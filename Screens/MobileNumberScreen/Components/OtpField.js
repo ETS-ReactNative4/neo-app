@@ -3,6 +3,7 @@ import { TextInput, View, StyleSheet, Platform } from "react-native";
 import constants from "../../../constants/constants";
 import { recordEvent } from "../../../Services/analytics/analyticsService";
 import SimpleButton from "../../../CommonComponents/SimpleButton/SimpleButton";
+import PropTypes from "prop-types";
 
 const OtpField = ({
   setOtpInputRef,
@@ -13,10 +14,13 @@ const OtpField = ({
   isWaiting,
   waitTime
 }) => {
+  const buttonStyle = { width: null };
+  const buttonTextStyle = { width: 110, textAlign: "left" };
+
   return (
     <View style={styles.otpNumberBox}>
       <TextInput
-        ref={e => setOtpInputRef(e)}
+        ref={setOtpInputRef}
         onChangeText={editOtp}
         placeholder={""}
         value={otp}
@@ -33,8 +37,8 @@ const OtpField = ({
         keyboardAppearance={"dark"}
       />
       <SimpleButton
-        containerStyle={{ width: null }}
-        textStyle={isWaiting ? { width: 110, textAlign: "left" } : {}}
+        containerStyle={buttonStyle}
+        textStyle={isWaiting ? buttonTextStyle : {}}
         text={isWaiting ? `Resend (${waitTime}s)` : "Resend?"}
         action={() => {
           if (isWaiting) {
@@ -51,6 +55,16 @@ const OtpField = ({
       />
     </View>
   );
+};
+
+OtpField.propTypes = {
+  setOtpInputRef: PropTypes.object.isRequired,
+  otp: PropTypes.string.isRequired,
+  editOtp: PropTypes.func.isRequired,
+  submitOtp: PropTypes.func.isRequired,
+  resendOtp: PropTypes.func.isRequired,
+  isWaiting: PropTypes.bool.isRequired,
+  waitTime: PropTypes.number.isRequired
 };
 
 const styles = StyleSheet.create({
