@@ -1,17 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Simple button button with left icon 1`] = `
-<View
-  accessible={true}
-  focusable={true}
-  isTVSelectable={true}
-  onClick={[Function]}
-  onResponderGrant={[Function]}
-  onResponderMove={[Function]}
-  onResponderRelease={[Function]}
-  onResponderTerminate={[Function]}
-  onResponderTerminationRequest={[Function]}
-  onStartShouldSetResponder={[Function]}
+<TouchableHighlight
+  activeOpacity={0.85}
+  delayPressOut={100}
+  onPress={[Function]}
   style={
     Array [
       Object {
@@ -23,6 +16,7 @@ exports[`Simple button button with left icon 1`] = `
       Object {},
     ]
   }
+  underlayColor="white"
 >
   <View
     style={
@@ -47,7 +41,7 @@ exports[`Simple button button with left icon 1`] = `
           },
           undefined,
           Object {
-            "fontFamily": "Voyager",
+            "fontFamily": "voyager",
             "fontStyle": "normal",
             "fontWeight": "normal",
           },
@@ -78,21 +72,14 @@ exports[`Simple button button with left icon 1`] = `
       Click me
     </Text>
   </View>
-</View>
+</TouchableHighlight>
 `;
 
 exports[`Simple button button with right icon 1`] = `
-<View
-  accessible={true}
-  focusable={true}
-  isTVSelectable={true}
-  onClick={[Function]}
-  onResponderGrant={[Function]}
-  onResponderMove={[Function]}
-  onResponderRelease={[Function]}
-  onResponderTerminate={[Function]}
-  onResponderTerminationRequest={[Function]}
-  onStartShouldSetResponder={[Function]}
+<TouchableHighlight
+  activeOpacity={0.85}
+  delayPressOut={100}
+  onPress={[Function]}
   style={
     Array [
       Object {
@@ -104,6 +91,7 @@ exports[`Simple button button with right icon 1`] = `
       Object {},
     ]
   }
+  underlayColor="white"
 >
   <View
     style={
@@ -130,7 +118,7 @@ exports[`Simple button button with right icon 1`] = `
           },
           undefined,
           Object {
-            "fontFamily": "Voyager",
+            "fontFamily": "voyager",
             "fontStyle": "normal",
             "fontWeight": "normal",
           },
@@ -161,21 +149,14 @@ exports[`Simple button button with right icon 1`] = `
       Click me
     </Text>
   </View>
-</View>
+</TouchableHighlight>
 `;
 
 exports[`Simple button renders correctly 1`] = `
-<View
-  accessible={true}
-  focusable={true}
-  isTVSelectable={true}
-  onClick={[Function]}
-  onResponderGrant={[Function]}
-  onResponderMove={[Function]}
-  onResponderRelease={[Function]}
-  onResponderTerminate={[Function]}
-  onResponderTerminationRequest={[Function]}
-  onStartShouldSetResponder={[Function]}
+<TouchableHighlight
+  activeOpacity={0.85}
+  delayPressOut={100}
+  onPress={[Function]}
   style={
     Array [
       Object {
@@ -187,6 +168,7 @@ exports[`Simple button renders correctly 1`] = `
       Object {},
     ]
   }
+  underlayColor="white"
 >
   <View
     style={
@@ -220,21 +202,14 @@ exports[`Simple button renders correctly 1`] = `
       Click me
     </Text>
   </View>
-</View>
+</TouchableHighlight>
 `;
 
 exports[`Simple button transparent background with border 1`] = `
-<View
-  accessible={true}
-  focusable={true}
-  isTVSelectable={true}
-  onClick={[Function]}
-  onResponderGrant={[Function]}
-  onResponderMove={[Function]}
-  onResponderRelease={[Function]}
-  onResponderTerminate={[Function]}
-  onResponderTerminationRequest={[Function]}
-  onStartShouldSetResponder={[Function]}
+<TouchableHighlight
+  activeOpacity={0.85}
+  delayPressOut={100}
+  onPress={[Function]}
   style={
     Array [
       Object {
@@ -250,6 +225,7 @@ exports[`Simple button transparent background with border 1`] = `
       },
     ]
   }
+  underlayColor="white"
 >
   <View
     style={
@@ -283,21 +259,14 @@ exports[`Simple button transparent background with border 1`] = `
       Click me
     </Text>
   </View>
-</View>
+</TouchableHighlight>
 `;
 
 exports[`Simple button with click action 1`] = `
-<View
-  accessible={true}
-  focusable={true}
-  isTVSelectable={true}
-  onClick={[Function]}
-  onResponderGrant={[Function]}
-  onResponderMove={[Function]}
-  onResponderRelease={[Function]}
-  onResponderTerminate={[Function]}
-  onResponderTerminationRequest={[Function]}
-  onStartShouldSetResponder={[Function]}
+<TouchableHighlight
+  activeOpacity={0.85}
+  delayPressOut={100}
+  onPress={[Function]}
   style={
     Array [
       Object {
@@ -309,6 +278,7 @@ exports[`Simple button with click action 1`] = `
       Object {},
     ]
   }
+  underlayColor="white"
 >
   <View
     style={
@@ -342,21 +312,14 @@ exports[`Simple button with click action 1`] = `
       Click me
     </Text>
   </View>
-</View>
+</TouchableHighlight>
 `;
 
 exports[`Simple button with underlay color 1`] = `
-<View
-  accessible={true}
-  focusable={true}
-  isTVSelectable={true}
-  onClick={[Function]}
-  onResponderGrant={[Function]}
-  onResponderMove={[Function]}
-  onResponderRelease={[Function]}
-  onResponderTerminate={[Function]}
-  onResponderTerminationRequest={[Function]}
-  onStartShouldSetResponder={[Function]}
+<TouchableHighlight
+  activeOpacity={0.85}
+  delayPressOut={100}
+  onPress={[Function]}
   style={
     Array [
       Object {
@@ -368,6 +331,7 @@ exports[`Simple button with underlay color 1`] = `
       Object {},
     ]
   }
+  underlayColor="rgba(255, 201, 51, 1)"
 >
   <View
     style={
@@ -401,5 +365,5 @@ exports[`Simple button with underlay color 1`] = `
       Click me
     </Text>
   </View>
-</View>
+</TouchableHighlight>
 `;

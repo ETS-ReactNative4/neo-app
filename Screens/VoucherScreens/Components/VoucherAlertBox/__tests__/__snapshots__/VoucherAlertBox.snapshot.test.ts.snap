@@ -35,7 +35,7 @@ exports[`Voucher Alert Box - info mode 1`] = `
           },
           undefined,
           Object {
-            "fontFamily": "Voyager",
+            "fontFamily": "voyager",
             "fontStyle": "normal",
             "fontWeight": "normal",
           },
@@ -108,7 +108,7 @@ exports[`Voucher Alert Box 1`] = `
           },
           undefined,
           Object {
-            "fontFamily": "Voyager",
+            "fontFamily": "voyager",
             "fontStyle": "normal",
             "fontWeight": "normal",
           },

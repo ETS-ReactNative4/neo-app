@@ -53,7 +53,7 @@ const ignoredNativeModules = [
 ];
 
 module.exports = {
-  preset: "react-native",
+  preset: "@testing-library/react-native",
   setupFilesAfterEnv: [
     "./__mocks__/mockRNCNetInfo.js",
     "./__mocks__/mockFirebase.js",
@@ -66,5 +66,8 @@ module.exports = {
     `node_modules/(?!(${ignoredNativeModules.join("|")}))`
   ],
   moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
-  coveragePathIgnorePatterns: ["/node_modules/", "constants/", "assets/"]
+  coveragePathIgnorePatterns: ["/node_modules/", "constants/", "assets/"],
+  collectCoverage: true,
+  coverageReporters: ["json", "html"],
+  testResultsProcessor: "./node_modules/jest-html-reporter"
 };
