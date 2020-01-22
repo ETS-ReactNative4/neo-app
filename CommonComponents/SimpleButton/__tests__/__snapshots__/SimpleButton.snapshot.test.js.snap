@@ -47,7 +47,7 @@ exports[`Simple button button with left icon 1`] = `
           },
           undefined,
           Object {
-            "fontFamily": "Voyager",
+            "fontFamily": "voyager",
             "fontStyle": "normal",
             "fontWeight": "normal",
           },
@@ -130,7 +130,7 @@ exports[`Simple button button with right icon 1`] = `
           },
           undefined,
           Object {
-            "fontFamily": "Voyager",
+            "fontFamily": "voyager",
             "fontStyle": "normal",
             "fontWeight": "normal",
           },

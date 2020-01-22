@@ -46,7 +46,7 @@ exports[`Voucher Button 1`] = `
         },
         undefined,
         Object {
-          "fontFamily": "Voyager",
+          "fontFamily": "voyager",
           "fontStyle": "normal",
           "fontWeight": "normal",
         },
@@ -103,7 +103,7 @@ exports[`Voucher Button Last 1`] = `
         },
         undefined,
         Object {
-          "fontFamily": "Voyager",
+          "fontFamily": "voyager",
           "fontStyle": "normal",
           "fontWeight": "normal",
         },
