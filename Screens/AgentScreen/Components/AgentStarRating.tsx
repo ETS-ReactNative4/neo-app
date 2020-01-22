@@ -13,16 +13,9 @@ interface AgentStarRatingProps {
 }
 
 const AgentStarRating = ({ rating, containerStyle }: AgentStarRatingProps) => {
-  let temp = rating;
-  const stars = [];
-  for (let i = 1; i <= rating; i++) {
-    temp--;
-    stars.push(temp);
-  }
-
   return (
     <View style={[styles.agentStarRatingContainer, containerStyle]}>
-      <RatingIcon rating={rating} isActive={true} />
+      <RatingIcon rating={rating} />
     </View>
   );
 };
