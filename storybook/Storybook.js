@@ -23,6 +23,7 @@ configure(() => {
   require("./stories/HelpDeskStory");
   require("./stories/VisaStory");
   require("./stories/SmartImageStory");
+  require("./stories/AppIntroStory");
 }, module);
 
 const StorybookUIRoot = getStorybookUI({

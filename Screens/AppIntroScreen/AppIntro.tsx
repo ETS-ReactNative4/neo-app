@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, Alert } from "react-native";
 import Animated from "react-native-reanimated";
 import {
   responsiveWidth,
@@ -30,12 +30,15 @@ const AppIntro = ({ appIntroData }: AppIntroProps) => {
 
   return (
     <View style={styles.appIntroContainer}>
+      {/* Cover image component starts */}
       <IntroCoverImage
         containerStyle={styles.coverImageContainer}
         appIntroData={appIntroData}
         scrollX={scrollX}
       />
+      {/* Cover image component ends */}
 
+      {/* Text section component starts */}
       <Animated.ScrollView
         pagingEnabled
         horizontal
@@ -62,18 +65,25 @@ const AppIntro = ({ appIntroData }: AppIntroProps) => {
           );
         })}
       </Animated.ScrollView>
+      {/* Text section component ends */}
 
+      {/* Carousel Action Bar component starts */}
       <IntroCarouselActionBar
         containerStyle={styles.introCarouselContainer}
         hideBackButton={true}
         appIntroData={appIntroData}
         scrollX={scrollX}
+        clickBackButton={() => Alert.alert("Click Back")}
+        clickNextButton={() => Alert.alert("Click Next")}
       />
+      {/* Carousel Action Bar component ends */}
     </View>
   );
 };
 
+/* ACTIONBAR BASE SPACER */
 const ACTIONBAR_SPACING = 32;
+
 const ACTIONBAR_BOTTOM_SPACING = ACTIONBAR_SPACING;
 const ACTIONBAR_LEFT_SPACING = ACTIONBAR_SPACING;
 const ACTIONBAR_RIGHT_SPACING = ACTIONBAR_SPACING;
@@ -92,6 +102,7 @@ const styles = StyleSheet.create({
     width: responsiveWidth(100),
     height: responsiveHeight(60)
   },
+
   introCarouselContainer: {
     position: "absolute",
     left: ACTIONBAR_LEFT_SPACING,

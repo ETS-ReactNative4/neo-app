@@ -7,12 +7,13 @@ import {
   ViewStyle,
   StyleProp,
   Text,
-  TouchableOpacity,
-  Alert
+  TouchableOpacity
 } from "react-native";
 
-// @ts-ignore
-import { responsiveWidth } from "react-native-responsive-dimensions";
+import {
+  responsiveWidth
+  // @ts-ignore
+} from "react-native-responsive-dimensions";
 
 import Icon from "../../../CommonComponents/Icon/Icon";
 
@@ -35,22 +36,27 @@ interface IntroCarouselActionBarProps {
   hideBackButton?: boolean;
   scrollX?: Animated.Value<number>;
   appIntroData: IAppIntroData[];
+  clickNextButton: () => void;
+  clickBackButton?: () => void;
 }
 
 const IntroCarouselActionBar = ({
   containerStyle,
   hideBackButton = false,
   appIntroData = [],
-  scrollX
+  scrollX,
+  clickNextButton = () => null,
+  clickBackButton = () => null
 }: IntroCarouselActionBarProps) => {
   return (
     <View style={[styles.actionBarContainer, containerStyle]}>
+      {/* back arrow button starts */}
       <View style={styles.buttonViewStyle}>
         {hideBackButton ? (
           <TouchableOpacity
             style={styles.button}
             activeOpacity={0.8}
-            onPress={() => Alert.alert("Click Back")}
+            onPress={clickBackButton}
           >
             <View style={styles.backArrowIconStyle}>
               <Icon
@@ -63,7 +69,9 @@ const IntroCarouselActionBar = ({
           </TouchableOpacity>
         ) : null}
       </View>
+      {/* back arrow button ends */}
 
+      {/* dot carousel starts */}
       <View style={styles.dotContainer}>
         {appIntroData.map((appIntroObj, index) => {
           let width: number | Animated.Node<number> = 8,
@@ -94,12 +102,14 @@ const IntroCarouselActionBar = ({
           );
         })}
       </View>
+      {/* dot carousel ends */}
 
+      {/* next arrow button starts */}
       <View style={styles.buttonViewStyle}>
         <TouchableOpacity
           style={styles.button}
           activeOpacity={0.8}
-          onPress={() => Alert.alert("Click Next")}
+          onPress={clickNextButton}
         >
           <Text style={styles.buttonText}>Next</Text>
           <View style={styles.nextArrowIconStyle}>
@@ -111,6 +121,7 @@ const IntroCarouselActionBar = ({
           </View>
         </TouchableOpacity>
       </View>
+      {/* next arrow button ends */}
     </View>
   );
 };
@@ -124,6 +135,7 @@ const styles = StyleSheet.create({
     height: 56,
     backgroundColor: CONSTANT_firstColor
   },
+
   buttonViewStyle: {
     width: 88
   },
@@ -138,15 +150,18 @@ const styles = StyleSheet.create({
     color: CONSTANT_shade6,
     ...CONSTANT_fontCustom(CONSTANT_primarySemiBold, 17)
   },
+
   backArrowIconStyle: {
     marginRight: 4,
     marginBottom: 4,
     transform: [{ scaleX: -1 }]
   },
+
   nextArrowIconStyle: {
     marginLeft: 4,
     marginBottom: 2
   },
+
   dotContainer: {
     flexDirection: "row"
   },

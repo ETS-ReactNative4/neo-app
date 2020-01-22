@@ -2,7 +2,7 @@ import React from "react";
 import { ITestCase } from "../../../TypeInterfaces/TestCases/ITestCases";
 import IntroTextSection from "./IntroTextSection";
 import IntroCoverImage from "./IntroCoverImage";
-import { StyleSheet } from "react-native";
+import { StyleSheet, Alert } from "react-native";
 import {
   responsiveWidth,
   responsiveHeight
@@ -61,7 +61,7 @@ const AppIntroComponentTestCases: ITestCase[] = [
     )
   },
   {
-    title: "Intro Text Section with longer text",
+    title: "Intro Text Section with longer description",
     Component: (
       <IntroTextSection
         title={"Visa assistance"}
@@ -72,7 +72,7 @@ const AppIntroComponentTestCases: ITestCase[] = [
     )
   },
   {
-    title: "Render Intro cover image",
+    title: "Intro cover image",
     Component: (
       <IntroCoverImage
         containerStyle={styles.coverImageStyle}
@@ -81,21 +81,24 @@ const AppIntroComponentTestCases: ITestCase[] = [
     )
   },
   {
-    title: "Render Intro Carousel action bar with back button",
+    title: "Intro Carousel action bar with back button",
     Component: (
       <IntroCarouselActionBar
         containerStyle={styles.carouselContainerStyle}
         hideBackButton
         appIntroData={appIntroData}
+        clickNextButton={() => Alert.alert("Click Next")}
       />
     )
   },
   {
-    title: "Render Intro Carousel action bar without back button",
+    title: "Intro Carousel action bar without back button",
     Component: (
       <IntroCarouselActionBar
         appIntroData={appIntroData}
         containerStyle={styles.carouselContainerStyle}
+        clickBackButton={() => Alert.alert("Click Back")}
+        clickNextButton={() => Alert.alert("Click Next")}
       />
     )
   },

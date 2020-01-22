@@ -2,8 +2,11 @@ import React, { Fragment } from "react";
 import Animated from "react-native-reanimated";
 
 import { StyleSheet, StyleProp, ImageStyle } from "react-native";
-// @ts-ignore
-import { responsiveWidth } from "react-native-responsive-dimensions";
+
+import {
+  responsiveWidth
+  // @ts-ignore
+} from "react-native-responsive-dimensions";
 import { IAppIntroData } from "../AppIntro";
 
 const { Image: AnimatedImage, Extrapolate, interpolate } = Animated;
