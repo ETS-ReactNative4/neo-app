@@ -66,5 +66,8 @@ module.exports = {
     `node_modules/(?!(${ignoredNativeModules.join("|")}))`
   ],
   moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
-  coveragePathIgnorePatterns: ["/node_modules/", "constants/", "assets/"]
+  coveragePathIgnorePatterns: ["/node_modules/", "constants/", "assets/"],
+  collectCoverage: true,
+  coverageReporters: ["json", "html"],
+  testResultsProcessor: "./node_modules/jest-html-reporter"
 };
