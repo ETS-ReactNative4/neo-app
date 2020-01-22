@@ -10,6 +10,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Freshchat in-built react native push notifications - currently disabled since freshchat only supports sending notification to single device.
 - [**Android**] - Custom link handling not working since Freshchat view blocks JS thread from running. Issue needs to be fixed by freshchat.
 
+## [1.3.5] - 2020-01-DD
+
+## Added
+
+- New scripts in `package.json` to generate reports
+  - `test:report` - Report for test cases
+  - `coverage:report` - Report for code coverage
+  - `lint:report` - Report for ESLint status
+- Added React Testing Library support for writing unit tests
+
+## Changed
+
+- Storybook is updated from `5.2.5` to `5.3.7` to support React Native 0.61 Fast Refresh
+- Itinerary & Voucher loading methods have been refactored to use Promise instead of regular functions
+
 ## [1.3.4] - 2020-01-17
 
 ## Added
