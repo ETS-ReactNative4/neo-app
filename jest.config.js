@@ -53,7 +53,7 @@ const ignoredNativeModules = [
 ];
 
 module.exports = {
-  preset: "react-native",
+  preset: "@testing-library/react-native",
   setupFilesAfterEnv: [
     "./__mocks__/mockRNCNetInfo.js",
     "./__mocks__/mockFirebase.js",
