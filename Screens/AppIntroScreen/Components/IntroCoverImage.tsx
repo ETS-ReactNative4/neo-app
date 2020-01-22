@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 import Animated from "react-native-reanimated";
 
-import { StyleSheet, StyleProp, ImageStyle } from "react-native";
+import { StyleSheet, StyleProp, ImageStyle, Image } from "react-native";
 
 import {
   responsiveWidth
@@ -9,7 +9,9 @@ import {
 } from "react-native-responsive-dimensions";
 import { IAppIntroData } from "../AppIntro";
 
-const { Image: AnimatedImage, Extrapolate, interpolate } = Animated;
+const { Extrapolate, interpolate, createAnimatedComponent } = Animated;
+
+const AnimatedImage = createAnimatedComponent(Image);
 
 interface IntroCoverImageProps {
   containerStyle?: StyleProp<ImageStyle>;

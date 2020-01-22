@@ -29,15 +29,17 @@ import {
 import { CONSTANT_arrowRight } from "../../../constants/imageAssets";
 import { IAppIntroData } from "../AppIntro";
 
-const { View: AnimatedView, Extrapolate, interpolate } = Animated;
+const { Extrapolate, interpolate, createAnimatedComponent } = Animated;
+
+const AnimatedView = createAnimatedComponent(View);
 
 interface IntroCarouselActionBarProps {
   containerStyle?: StyleProp<ViewStyle>;
   hideBackButton?: boolean;
   scrollX?: Animated.Value<number>;
   appIntroData: IAppIntroData[];
-  clickNextButton: () => void;
-  clickBackButton?: () => void;
+  clickNextButton: () => any;
+  clickBackButton?: () => any;
 }
 
 const IntroCarouselActionBar = ({
@@ -48,10 +50,20 @@ const IntroCarouselActionBar = ({
   clickNextButton = () => null,
   clickBackButton = () => null
 }: IntroCarouselActionBarProps) => {
+  let backButtonOpacity: number | Animated.Node<number> = 0;
+  if (scrollX) {
+    backButtonOpacity = interpolate(scrollX, {
+      inputRange: [0, responsiveWidth(100)],
+      outputRange: [0, 1],
+      extrapolateRight: Extrapolate.CLAMP
+    });
+  }
+  const backButtonOpacityStyle = { opacity: backButtonOpacity };
+
   return (
     <View style={[styles.actionBarContainer, containerStyle]}>
       {/* back arrow button starts */}
-      <View style={styles.buttonViewStyle}>
+      <AnimatedView style={[styles.buttonViewStyle, backButtonOpacityStyle]}>
         {hideBackButton ? (
           <TouchableOpacity
             style={styles.button}
@@ -68,7 +80,7 @@ const IntroCarouselActionBar = ({
             <Text style={styles.buttonText}>Back</Text>
           </TouchableOpacity>
         ) : null}
-      </View>
+      </AnimatedView>
       {/* back arrow button ends */}
 
       {/* dot carousel starts */}

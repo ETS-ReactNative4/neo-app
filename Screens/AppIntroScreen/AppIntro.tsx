@@ -1,5 +1,11 @@
-import React from "react";
-import { StyleSheet, View, Alert } from "react-native";
+import React, { useRef } from "react";
+import {
+  StyleSheet,
+  View,
+  ScrollView,
+  NativeSyntheticEvent,
+  NativeScrollEvent
+} from "react-native";
 import Animated from "react-native-reanimated";
 import {
   responsiveWidth,
@@ -12,6 +18,7 @@ import IntroTextSection from "./Components/IntroTextSection";
 import IntroCarouselActionBar from "./Components/IntroCarouselActionBar";
 
 import { CONSTANT_white1 } from "../../constants/colorPallete";
+import { IAnimatedScrollViewRef } from "../../TypeInterfaces/RNComponents/IAnimatedScrollViewRef";
 
 export interface IAppIntroData {
   title: string;
@@ -23,10 +30,37 @@ export interface AppIntroProps {
   appIntroData: IAppIntroData[];
 }
 
-const { Value, event } = Animated;
+const { Value, event, createAnimatedComponent } = Animated;
+
+const AnimatedScrollView = createAnimatedComponent(ScrollView);
 
 const AppIntro = ({ appIntroData }: AppIntroProps) => {
   const scrollX = new Value(0);
+  let activeIndex = 0;
+  const animatedScrollView: IAnimatedScrollViewRef = useRef<any>(null);
+
+  const onMomentumScrollEnd = (
+    scrollEvent: NativeSyntheticEvent<NativeScrollEvent>
+  ) => {
+    const activeOffset = scrollEvent.nativeEvent.contentOffset.x;
+    activeIndex = Math.ceil(activeOffset / responsiveWidth(100));
+  };
+
+  const moveForward = () => {
+    if (animatedScrollView.current) {
+      animatedScrollView.current.getNode().scrollTo({
+        x: (activeIndex + 1) * responsiveWidth(100)
+      });
+    }
+  };
+
+  const moveBack = () => {
+    if (animatedScrollView.current) {
+      animatedScrollView.current.getNode().scrollTo({
+        x: Math.max(0, activeIndex - 1) * responsiveWidth(100)
+      });
+    }
+  };
 
   return (
     <View style={styles.appIntroContainer}>
@@ -39,11 +73,13 @@ const AppIntro = ({ appIntroData }: AppIntroProps) => {
       {/* Cover image component ends */}
 
       {/* Text section component starts */}
-      <Animated.ScrollView
+      <AnimatedScrollView
+        ref={animatedScrollView}
         pagingEnabled
         horizontal
         showsHorizontalScrollIndicator={false}
         scrollEventThrottle={1}
+        onMomentumScrollEnd={onMomentumScrollEnd}
         onScroll={event([
           {
             nativeEvent: {
@@ -64,7 +100,7 @@ const AppIntro = ({ appIntroData }: AppIntroProps) => {
             />
           );
         })}
-      </Animated.ScrollView>
+      </AnimatedScrollView>
       {/* Text section component ends */}
 
       {/* Carousel Action Bar component starts */}
@@ -73,8 +109,8 @@ const AppIntro = ({ appIntroData }: AppIntroProps) => {
         hideBackButton={true}
         appIntroData={appIntroData}
         scrollX={scrollX}
-        clickBackButton={() => Alert.alert("Click Back")}
-        clickNextButton={() => Alert.alert("Click Next")}
+        clickBackButton={moveBack}
+        clickNextButton={moveForward}
       />
       {/* Carousel Action Bar component ends */}
     </View>
