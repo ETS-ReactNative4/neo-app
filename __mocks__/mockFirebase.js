@@ -18,6 +18,11 @@ jest.mock("react-native-firebase", () => ({
     setCurrentScreen: jest.fn()
   })),
   perf: jest.fn(() => ({
-    setPerformanceCollectionEnabled: jest.fn()
+    setPerformanceCollectionEnabled: jest.fn(),
+    newHttpMetric: jest.fn(() => ({
+      start: jest.fn(),
+      putAttribute: jest.fn(),
+      setHttpResponseCode: jest.fn(() => Promise.resolve(true))
+    }))
   }))
 }));

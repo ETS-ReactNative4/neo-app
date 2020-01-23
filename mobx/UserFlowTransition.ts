@@ -97,11 +97,16 @@ class UserFlowTransition {
         .then(response => {
           if (response.status === CONSTANT_responseSuccessStatus) {
             this._seenPostBookingIntro = true;
+            resolve(true);
           } else {
+            this._seenPostBookingIntro = false;
             reject();
           }
         })
-        .catch(reject);
+        .catch(() => {
+          this._seenPostBookingIntro = false;
+          reject();
+        });
     });
   };
 
@@ -118,10 +123,14 @@ class UserFlowTransition {
             this._seenOPSIntro = true;
             resolve(true);
           } else {
+            this._seenOPSIntro = false;
             reject();
           }
         })
-        .catch(reject);
+        .catch(() => {
+          this._seenOPSIntro = false;
+          reject();
+        });
     });
   };
 }

@@ -66,7 +66,9 @@ module.exports = Object.assign(jestPreset, {
     "./__mocks__/mockReanimated.js",
     "./__mocks__/mockSimpleToast.js",
     "./__mocks__/mockStoryBookWebSocket.js",
-    "./__mocks__/mockDeviceInfo.js"
+    "./__mocks__/mockDeviceInfo.js",
+    "./__mocks__/mockReactNativeKeychain.js",
+    "./__mocks__/mockRequestHeader.js"
   ],
   setupFiles: [
     ...jestPreset.setupFiles,

@@ -6,13 +6,15 @@ import {
 const productUrls = {
   localProductUrl: "http://192.168.0.5:8080/",
   stagingProductUrl: "https://uat.longweekend.co.in/",
-  prodProductUrl: "https://pickyourtrail.com/"
+  prodProductUrl: "https://pickyourtrail.com/",
+  testingProdUrl: "https://dummy-testing-server.com/"
 };
 
 const apiServers = {
   localServer: productUrls.localProductUrl + "api/",
   stagingSever: productUrls.stagingProductUrl + "api/",
-  prodServer: productUrls.prodProductUrl + "api/"
+  prodServer: productUrls.prodProductUrl + "api/",
+  testingServer: productUrls.testingProdUrl + "api/"
 };
 
 let apiServerUrl, productUrl;
@@ -25,6 +27,11 @@ switch (getEnvironmentName()) {
   case "staging":
     apiServerUrl = apiServers.stagingSever;
     productUrl = productUrls.stagingProductUrl;
+    break;
+
+  case "test":
+    apiServerUrl = apiServers.testingServer;
+    productUrl = productUrls.testingProdUrl;
     break;
 
   default:
