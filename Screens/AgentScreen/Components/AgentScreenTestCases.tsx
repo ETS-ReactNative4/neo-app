@@ -11,6 +11,7 @@ import {
   CONSTANT_visaRelatedFaqIcon,
   CONSTANT_paymentIcon
 } from "../../../constants/imageAssets";
+import Agent from "../Agent";
 
 const agentOptionData: IAgentOptionData[] = [
   {
@@ -34,17 +35,17 @@ const agentOptionData: IAgentOptionData[] = [
 const pocCardData: IPocCardPropsData[] = [
   {
     title: "Superstar support",
-    description: "https://i.imgur.com/YtdsUbs.png",
+    description: "The travel vouchers you need for your trip",
     iconName: `${CONSTANT_passIcon}`
   },
   {
     title: "Visa assistance",
-    description: "https://i.imgur.com/YtdsUbs.png",
+    description: "The travel vouchers you need for your trip",
     iconName: `${CONSTANT_visaRelatedFaqIcon}`
   },
   {
     title: "Payments",
-    description: "https://i.imgur.com/YtdsUbs.png",
+    description: "The travel vouchers you need for your trip",
     iconName: `${CONSTANT_paymentIcon}`
   }
 ];
@@ -58,7 +59,7 @@ const AgentScreenTestCases: ITestCase[] = [
   },
   {
     title: "Agent Star Rating",
-    Component: <AgentStarRating rating={5} />
+    Component: <AgentStarRating count={5} />
   },
   {
     title: "Agent Feedback",
@@ -67,6 +68,10 @@ const AgentScreenTestCases: ITestCase[] = [
   {
     title: "Agent Poc Card",
     Component: <AgentPocCard pocCardData={pocCardData} />
+  },
+  {
+    title: "Agent Screen",
+    Component: <Agent />
   }
 ];
 

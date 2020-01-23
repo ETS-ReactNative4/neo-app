@@ -4,7 +4,7 @@ import {
   responsiveWidth
   // @ts-ignore
 } from "react-native-responsive-dimensions";
-import { CONSTANT_black1 } from "../../../../../constants/colorPallete";
+import { CONSTANT_shade1 } from "../../../../../constants/colorPallete";
 import { CONSTANT_fontCustom } from "../../../../../constants/fonts";
 import SmartImageV2 from "../../../../../CommonComponents/SmartImage/SmartImageV2";
 import { TouchableOpacity } from "react-native-gesture-handler";
@@ -20,17 +20,15 @@ const AgentOption = ({ agentOptionData = [] }: AgentOptionProps) => {
     <Fragment>
       {agentOptionData.map((optionData, index) => {
         return (
-          <TouchableOpacity key={index}>
+          <TouchableOpacity key={index} activeOpacity={0.8}>
             <View style={styles.feedbackOptionContainer}>
               <SmartImageV2
                 source={{ uri: optionData.image }}
                 fallbackSource={{ uri: optionData.image }}
-                style={[styles.feedbackImage, styles.activeOpacity]}
+                style={[styles.feedbackImage]}
               />
 
-              <Text style={[styles.feedbackText, styles.activeOpacity]}>
-                {optionData.text}
-              </Text>
+              <Text style={[styles.feedbackText]}>{optionData.text}</Text>
             </View>
           </TouchableOpacity>
         );
@@ -50,19 +48,14 @@ const styles = StyleSheet.create({
     width: 56,
     height: 56,
     borderRadius: 25,
-    opacity: 0.6,
     marginBottom: 8
   },
 
   feedbackText: {
-    color: CONSTANT_black1,
-    ...CONSTANT_fontCustom(CONSTANT_primaryRegular, 15),
-    opacity: 0.3,
-    textAlign: "center"
-  },
-
-  activeOpacity: {
-    opacity: 1
+    color: CONSTANT_shade1,
+    ...CONSTANT_fontCustom(CONSTANT_primaryRegular, 13, 15),
+    textAlign: "center",
+    paddingHorizontal: 8
   }
 });
 

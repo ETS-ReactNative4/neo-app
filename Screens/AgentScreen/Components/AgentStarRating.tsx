@@ -8,14 +8,14 @@ import {
 import RatingIcon from "../../../CommonComponents/RatingIcon/RatingIcon";
 
 interface AgentStarRatingProps {
-  rating: number;
+  count: number;
   containerStyle?: StyleProp<ViewStyle>;
 }
 
-const AgentStarRating = ({ rating, containerStyle }: AgentStarRatingProps) => {
+const AgentStarRating = ({ count, containerStyle }: AgentStarRatingProps) => {
   return (
     <View style={[styles.agentStarRatingContainer, containerStyle]}>
-      <RatingIcon rating={rating} />
+      <RatingIcon rating={count} />
     </View>
   );
 };

@@ -13,12 +13,11 @@ import {
 } from "react-native-responsive-dimensions";
 import {
   CONSTANT_black1,
-  CONSTANT_black2
+  CONSTANT_shade5
 } from "../../../../constants/colorPallete";
 import {
   CONSTANT_fontCustom,
-  CONSTANT_primarySemiBold,
-  CONSTANT_primaryRegular
+  CONSTANT_primarySemiBold
 } from "../../../../constants/fonts";
 import AgentOption from "./Components/AgentOption";
 
@@ -54,9 +53,8 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
-    marginVertical: 120,
     width: responsiveWidth(100),
-    borderColor: CONSTANT_black2,
+    borderColor: CONSTANT_shade5,
     borderTopWidth: 1,
     borderBottomWidth: 1,
     paddingVertical: 24
@@ -64,37 +62,12 @@ const styles = StyleSheet.create({
 
   titleText: {
     color: CONSTANT_black1,
-    ...CONSTANT_fontCustom(CONSTANT_primarySemiBold, 15),
+    ...CONSTANT_fontCustom(CONSTANT_primarySemiBold, 13),
     marginBottom: 20
   },
 
   feedbackScrollContainer: {
     width: responsiveWidth(100)
-  },
-
-  feedbackOptionContainer: {
-    width: responsiveWidth(100) / 4,
-    flexDirection: "column",
-    alignItems: "center"
-  },
-
-  feedbackImage: {
-    width: 56,
-    height: 56,
-    borderRadius: 25,
-    opacity: 0.6,
-    marginBottom: 8
-  },
-
-  feedbackText: {
-    color: CONSTANT_black1,
-    ...CONSTANT_fontCustom(CONSTANT_primaryRegular, 15),
-    opacity: 0.3,
-    textAlign: "center"
-  },
-
-  activeOpacity: {
-    opacity: 1
   }
 });
 

@@ -31,7 +31,7 @@ const AgentPocCard = ({ containerStyle, pocCardData }: AgentPocCardProps) => {
         return (
           <View style={styles.pocCard} key={index}>
             <View style={styles.passIconStyle}>
-              <Icon name={data.iconName} size={16} color={CONSTANT_black1} />
+              <Icon name={data.iconName} size={14} color={CONSTANT_black1} />
             </View>
             <View style={styles.contentContainer}>
               <Text style={styles.title}>{data.title}</Text>
@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
 
   title: {
     color: CONSTANT_black1,
-    ...CONSTANT_fontCustom(CONSTANT_primarySemiBold, 16),
+    ...CONSTANT_fontCustom(CONSTANT_primarySemiBold, 14),
     marginBottom: 6,
     marginTop: 2
   },

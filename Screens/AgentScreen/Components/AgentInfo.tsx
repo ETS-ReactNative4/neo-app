@@ -8,7 +8,8 @@ import {
 } from "../../../constants/fonts";
 import {
   CONSTANT_black1,
-  CONSTANT_black2
+  CONSTANT_black2,
+  CONSTANT_shade5
 } from "../../../constants/colorPallete";
 
 interface AgentInfoProps {
@@ -56,8 +57,7 @@ const styles = StyleSheet.create({
   dashedLine: {
     width: 54,
     height: 1,
-    backgroundColor: CONSTANT_black2,
-    opacity: 0.2,
+    backgroundColor: CONSTANT_shade5,
     marginBottom: 32
   }
 });

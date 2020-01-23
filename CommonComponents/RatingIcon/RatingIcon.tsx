@@ -1,5 +1,12 @@
 import React from "react";
-import { StyleSheet, View, StyleProp, ViewStyle } from "react-native";
+import {
+  StyleSheet,
+  View,
+  StyleProp,
+  ViewStyle,
+  TouchableOpacity,
+  Alert
+} from "react-native";
 
 import Icon from "../Icon/Icon";
 
@@ -35,25 +42,29 @@ const RatingIcon = ({
     <View style={[styles.ratingIconContainer, containerStyle]}>
       {stars.map((star, starIndex) => {
         return (
-          <View
-            style={[
-              styles.ratingIcon,
-              isActive ? styles.activeOpacity : styles.defaultOpacity
-            ]}
+          <TouchableOpacity
             key={starIndex}
+            onPress={() => Alert.alert(`Select Star ${starIndex}`)}
           >
-            <Icon
-              name={CONSTANT_starActive}
-              size={starSize}
-              color={
-                customStarColor
-                  ? customStarColor
-                  : isActive
-                  ? CONSTANT_secondColor
-                  : CONSTANT_black1
-              }
-            />
-          </View>
+            <View
+              style={[
+                styles.ratingIcon,
+                isActive ? styles.activeOpacity : styles.defaultOpacity
+              ]}
+            >
+              <Icon
+                name={CONSTANT_starActive}
+                size={starSize}
+                color={
+                  customStarColor
+                    ? customStarColor
+                    : isActive
+                    ? CONSTANT_secondColor
+                    : CONSTANT_black1
+                }
+              />
+            </View>
+          </TouchableOpacity>
         );
       })}
     </View>
