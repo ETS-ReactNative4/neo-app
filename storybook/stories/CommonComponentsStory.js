@@ -1,6 +1,7 @@
 import { storiesOf } from "@storybook/react-native";
 import SimpleButtonTestCases from "../../CommonComponents/SimpleButton/SimpleButtonTestCases";
 import RatingIconTestCases from "../../CommonComponents/RatingIcon/RatingIconTestCases";
+import PrimaryButtonTestCases from "../../CommonComponents/PrimaryButton/PrimaryButtonTestCases";
 
 const CommonComponentStories = storiesOf("Common Components", module);
 
@@ -9,3 +10,4 @@ const renderTestCase = testCase =>
 
 SimpleButtonTestCases.forEach(renderTestCase);
 RatingIconTestCases.forEach(renderTestCase);
+PrimaryButtonTestCases.forEach(renderTestCase);
