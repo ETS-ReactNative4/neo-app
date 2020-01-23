@@ -5,6 +5,12 @@ import { ITestCase } from "../../../TypeInterfaces/TestCases/ITestCases";
 import AgentInfo from "./AgentInfo";
 import AgentStarRating from "./AgentStarRating";
 import AgentFeedback, { IAgentOptionData } from "./AgentFeedback/AgentFeedback";
+import AgentPocCard, { IPocCardPropsData } from "./AgentPocCard";
+import {
+  CONSTANT_passIcon,
+  CONSTANT_visaRelatedFaqIcon,
+  CONSTANT_paymentIcon
+} from "../../../constants/imageAssets";
 
 const agentOptionData: IAgentOptionData[] = [
   {
@@ -25,6 +31,24 @@ const agentOptionData: IAgentOptionData[] = [
   }
 ];
 
+const pocCardData: IPocCardPropsData[] = [
+  {
+    title: "Superstar support",
+    description: "https://i.imgur.com/YtdsUbs.png",
+    iconName: `${CONSTANT_passIcon}`
+  },
+  {
+    title: "Visa assistance",
+    description: "https://i.imgur.com/YtdsUbs.png",
+    iconName: `${CONSTANT_visaRelatedFaqIcon}`
+  },
+  {
+    title: "Payments",
+    description: "https://i.imgur.com/YtdsUbs.png",
+    iconName: `${CONSTANT_paymentIcon}`
+  }
+];
+
 // const styles = StyleSheet.create({});
 
 const AgentScreenTestCases: ITestCase[] = [
@@ -39,6 +63,10 @@ const AgentScreenTestCases: ITestCase[] = [
   {
     title: "Agent Feedback",
     Component: <AgentFeedback agentOptionData={agentOptionData} />
+  },
+  {
+    title: "Agent Poc Card",
+    Component: <AgentPocCard pocCardData={pocCardData} />
   }
 ];
 
