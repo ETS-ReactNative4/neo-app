@@ -27,7 +27,7 @@ const agentOptionData: IAgentOptionData[] = [
   }
 ];
 
-const AgentScreenTestCases: ITestCase[] = [
+const AgentFeedbackComponentTestCases: ITestCase[] = [
   {
     title: "Agent Info Text Section",
     Component: <AgentInfoText />
@@ -42,4 +42,4 @@ const AgentScreenTestCases: ITestCase[] = [
   }
 ];
 
-export default AgentScreenTestCases;
+export default AgentFeedbackComponentTestCases;

@@ -1,9 +1,9 @@
 import { storiesOf } from "@storybook/react-native";
-import AgentScreenTestCases from "../../Screens/AgentFeedbackScreen/Components/AgentScreenTestCases";
+import AgentFeedbackComponentTestCases from "../../Screens/AgentFeedbackScreen/Components/AgentFeedbackComponentTestCases";
 
-const AgentScreenStory = storiesOf("Agent Screen Components", module);
+const AgentScreenStory = storiesOf("Agent Feedback Screen Components", module);
 
 const renderTestCase = testCase =>
   AgentScreenStory.add(testCase.title, () => testCase.Component);
 
-AgentScreenTestCases.forEach(renderTestCase);
+AgentFeedbackComponentTestCases.forEach(renderTestCase);
