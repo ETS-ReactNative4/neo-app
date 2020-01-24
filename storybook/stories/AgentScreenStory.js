@@ -1,5 +1,5 @@
 import { storiesOf } from "@storybook/react-native";
-import AgentScreenTestCases from "../../Screens/AgentScreen/Components/AgentScreenTestCases";
+import AgentScreenTestCases from "../../Screens/AgentFeedbackScreen/Components/AgentScreenTestCases";
 
 const AgentScreenStory = storiesOf("Agent Screen Components", module);
 

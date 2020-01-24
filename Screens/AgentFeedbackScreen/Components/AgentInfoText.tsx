@@ -12,11 +12,11 @@ import {
   CONSTANT_shade5
 } from "../../../constants/colorPallete";
 
-interface AgentInfoProps {
+interface AgentInfoTextProps {
   containerStyle?: StyleProp<ViewStyle>;
 }
 
-const AgentInfo = ({ containerStyle }: AgentInfoProps) => {
+const AgentInfoText = ({ containerStyle }: AgentInfoTextProps) => {
   return (
     <View style={[styles.infoContainer, containerStyle]}>
       <SmartImageV2
@@ -62,4 +62,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default AgentInfo;
+export default AgentInfoText;

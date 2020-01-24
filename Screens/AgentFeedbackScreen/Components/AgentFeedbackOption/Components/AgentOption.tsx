@@ -9,7 +9,7 @@ import { CONSTANT_fontCustom } from "../../../../../constants/fonts";
 import SmartImageV2 from "../../../../../CommonComponents/SmartImage/SmartImageV2";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { CONSTANT_primaryRegular } from "../../../../../constants/fonts";
-import { IAgentOptionData } from "../AgentFeedback";
+import { IAgentOptionData } from "../AgentFeedbackOption";
 
 interface AgentOptionProps {
   agentOptionData: IAgentOptionData[];

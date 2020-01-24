@@ -26,17 +26,17 @@ export interface IAgentOptionData {
   image: string;
 }
 
-interface AgentFeedbackProps {
+interface AgentFeedbackOptionProps {
   containerStyle?: StyleProp<ViewStyle>;
   agentOptionData: IAgentOptionData[];
 }
 
-const AgentFeedback = ({
+const AgentFeedbackOption = ({
   containerStyle,
   agentOptionData
-}: AgentFeedbackProps) => {
+}: AgentFeedbackOptionProps) => {
   return (
-    <View style={[styles.agentFeedbackContainer, containerStyle]}>
+    <View style={[styles.agentFeedbackOptionContainer, containerStyle]}>
       <Text style={styles.titleText}>What did you like the most?</Text>
 
       <View style={styles.feedbackScrollContainer}>
@@ -49,7 +49,7 @@ const AgentFeedback = ({
 };
 
 const styles = StyleSheet.create({
-  agentFeedbackContainer: {
+  agentFeedbackOptionContainer: {
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
@@ -71,4 +71,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default AgentFeedback;
+export default AgentFeedbackOption;
