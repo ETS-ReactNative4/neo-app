@@ -5,6 +5,15 @@ import { hydrate } from "./Store";
 import apiCall from "../Services/networkRequests/apiCall";
 import { CONSTANT_feedbackUserState } from "../constants/apiUrls";
 import { CONSTANT_responseSuccessStatus } from "../constants/stringConstants";
+import { IMobileServerResponse } from "../TypeInterfaces/INetworkResponse";
+
+export interface IUserTransitionStatusResponse extends IMobileServerResponse {
+  data: {
+    seenPostBookingIntro: boolean;
+    completedSOFeedback: boolean;
+    seenOPSIntro: boolean;
+  };
+}
 
 class UserFlowTransition {
   static hydrator = (storeInstance: UserFlowTransition) => {
@@ -67,7 +76,7 @@ class UserFlowTransition {
         {},
         "GET"
       )
-        .then(response => {
+        .then((response: IUserTransitionStatusResponse) => {
           if (response.status === CONSTANT_responseSuccessStatus) {
             const {
               seenPostBookingIntro = false,
@@ -94,7 +103,7 @@ class UserFlowTransition {
         { seenPostBookingIntro: true },
         "PATCH"
       )
-        .then(response => {
+        .then((response: IMobileServerResponse) => {
           if (response.status === CONSTANT_responseSuccessStatus) {
             this._seenPostBookingIntro = true;
             resolve(true);
@@ -118,7 +127,7 @@ class UserFlowTransition {
         { seenOPSIntro: true },
         "PATCH"
       )
-        .then(response => {
+        .then((response: IMobileServerResponse) => {
           if (response.status === CONSTANT_responseSuccessStatus) {
             this._seenOPSIntro = true;
             resolve(true);
