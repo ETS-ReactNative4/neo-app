@@ -24,6 +24,7 @@ configure(() => {
   require("./stories/VisaStory");
   require("./stories/SmartImageStory");
   require("./stories/AppIntroStory");
+  require("./stories/AgentScreenStory");
 }, module);
 
 const StorybookUIRoot = getStorybookUI({
