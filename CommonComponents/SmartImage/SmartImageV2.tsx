@@ -4,7 +4,9 @@ import {
   ImageBackground,
   ImageSourcePropType,
   ImageURISource,
-  ImageProps
+  ImageProps,
+  StyleProp,
+  ImageStyle
 } from "react-native";
 import FastImage from "react-native-fast-image";
 import constants from "../../constants/constants";
@@ -40,6 +42,7 @@ export interface SmartImageV2Props extends ImageProps {
   fallbackSource: ImageSourcePropType;
   children?: React.ReactNode;
   source: ImageSourcePropType | ISmartImageSource;
+  imageStyle?: StyleProp<ImageStyle>;
 }
 
 function isImageSourceObject(
