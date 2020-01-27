@@ -1,5 +1,12 @@
 import React from "react";
-import { StyleSheet, View, Text, StyleProp, ViewStyle } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Text,
+  StyleProp,
+  ViewStyle,
+  ImageStyle
+} from "react-native";
 import SmartImageV2 from "../../../CommonComponents/SmartImage/SmartImageV2";
 import {
   CONSTANT_fontCustom,
@@ -14,19 +21,30 @@ import {
 
 interface AgentInfoTextProps {
   containerStyle?: StyleProp<ViewStyle>;
+  agentImageContainerStyle?: StyleProp<ImageStyle>;
+  agentImage: string;
+  agentName: string;
+  agentDescription: string;
 }
 
-const AgentInfoText = ({ containerStyle }: AgentInfoTextProps) => {
+const AgentInfoText = ({
+  containerStyle,
+  agentImageContainerStyle,
+  agentImage = "https://i.imgur.com/Uq2zUZA.png",
+  agentName = "Mahesh Raja",
+  agentDescription = "Your travel consultant"
+}: AgentInfoTextProps) => {
   return (
     <View style={[styles.infoContainer, containerStyle]}>
       <SmartImageV2
         resizeMode={"cover"}
-        source={{ uri: "https://i.imgur.com/Uq2zUZA.png" }}
+        source={{ uri: agentImage }}
+        fallbackSource={{ uri: agentImage }}
         style={styles.agentImage}
-        fallbackSource={{ uri: "https://i.imgur.com/Uq2zUZA.png" }}
+        imageStyle={agentImageContainerStyle}
       />
-      <Text style={styles.agentName}>Mahesh Raja</Text>
-      <Text style={styles.agentDescription}>Your travel consultant</Text>
+      <Text style={styles.agentName}>{agentName}</Text>
+      <Text style={styles.agentDescription}>{agentDescription}</Text>
 
       <View style={styles.dashedLine} />
     </View>
