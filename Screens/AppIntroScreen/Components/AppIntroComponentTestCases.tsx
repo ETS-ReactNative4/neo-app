@@ -1,6 +1,5 @@
 import React from "react";
 import { ITestCase } from "../../../TypeInterfaces/TestCases/ITestCases";
-import IntroTextSection from "./IntroTextSection";
 import IntroCoverImage from "./IntroCoverImage";
 import { StyleSheet, Alert } from "react-native";
 import {
@@ -49,28 +48,6 @@ const styles = StyleSheet.create({
 });
 
 const AppIntroComponentTestCases: ITestCase[] = [
-  {
-    title: "Intro Text Section",
-    Component: (
-      <IntroTextSection
-        title={"Hello Prabu,"}
-        description={
-          "We’ll use your preference info to make better and more relevant recommendations."
-        }
-      />
-    )
-  },
-  {
-    title: "Intro Text Section with longer description",
-    Component: (
-      <IntroTextSection
-        title={"Visa assistance"}
-        description={
-          "We’ll use your preference info to make better and more relevant recommendations. We’ll use your preference info to make better and more relevant recommendations."
-        }
-      />
-    )
-  },
   {
     title: "Intro cover image",
     Component: (

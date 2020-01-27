@@ -5,45 +5,49 @@ import {
   CONSTANT_fontCustom,
   CONSTANT_primaryRegular,
   CONSTANT_primarySemiBold
-} from "../../../constants/fonts";
-import {
-  CONSTANT_black1,
-  CONSTANT_black2
-} from "../../../constants/colorPallete";
+} from "../../constants/fonts";
 
-interface IntroTextSectionProps {
+import { CONSTANT_black1, CONSTANT_black2 } from "../../constants/colorPallete";
+
+interface SectionTitleProps {
   title: string;
-  description: string;
+  description?: string;
   containerStyle?: StyleProp<ViewStyle>;
 }
 
-const IntroTextSection = ({
+const SectionTitle = ({
   title = "",
   description = "",
   containerStyle
-}: IntroTextSectionProps) => {
+}: SectionTitleProps) => {
   return (
     <View style={[containerStyle]}>
-      <Text style={styles.titleText} numberOfLines={1} ellipsizeMode={"tail"}>
+      <Text style={styles.titleStyle} numberOfLines={1} ellipsizeMode={"tail"}>
         {title}
       </Text>
-      <Text style={styles.descText} numberOfLines={2} ellipsizeMode={"tail"}>
-        {description}
-      </Text>
+      {description ? (
+        <Text
+          style={styles.descriptionStyle}
+          numberOfLines={2}
+          ellipsizeMode={"tail"}
+        >
+          {description}
+        </Text>
+      ) : null}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  titleText: {
+  titleStyle: {
     marginBottom: 8,
     color: CONSTANT_black1,
     ...CONSTANT_fontCustom(CONSTANT_primarySemiBold, 20)
   },
-  descText: {
+  descriptionStyle: {
     ...CONSTANT_fontCustom(CONSTANT_primaryRegular, 14, 20),
     color: CONSTANT_black2
   }
 });
 
-export default IntroTextSection;
+export default SectionTitle;
