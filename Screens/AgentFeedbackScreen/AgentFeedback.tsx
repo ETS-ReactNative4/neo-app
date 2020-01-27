@@ -158,7 +158,11 @@ const AgentFeedback = () => {
       </AnimatedView>
 
       <AnimatedView style={agentInfoWrapperStyle}>
-        <AgentInfoText />
+        <AgentInfoText
+          agentImage={"https://i.imgur.com/Uq2zUZA.png"}
+          agentName={"Mahesh Raja"}
+          agentDescription={"Your travel consultant"}
+        />
       </AnimatedView>
 
       <AnimatedView style={starRatingWrapperStyle}>

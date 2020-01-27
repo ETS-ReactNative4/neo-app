@@ -30,7 +30,13 @@ const agentOptionData: IAgentOptionData[] = [
 const AgentFeedbackComponentTestCases: ITestCase[] = [
   {
     title: "Agent Info Text Section",
-    Component: <AgentInfoText />
+    Component: (
+      <AgentInfoText
+        agentImage={"https://i.imgur.com/Uq2zUZA.png"}
+        agentName={"Mahesh Raja"}
+        agentDescription={"Your travel consultant"}
+      />
+    )
   },
   {
     title: "Agent Feedback Section",
