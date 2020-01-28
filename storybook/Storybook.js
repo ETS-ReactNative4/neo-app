@@ -23,7 +23,7 @@ configure(() => {
   require("./stories/HelpDeskStory");
   require("./stories/VisaStory");
   require("./stories/SmartImageStory");
-  require("./stories/AppIntroStory");
+  require("./stories/PostBookingIntroStory");
   require("./stories/AgentFeedbackScreenStory");
   require("./stories/AgentInfoScreenScreenStory");
 }, module);

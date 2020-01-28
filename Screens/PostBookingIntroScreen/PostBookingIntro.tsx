@@ -20,21 +20,21 @@ import IntroCarouselActionBar from "./Components/IntroCarouselActionBar";
 import { CONSTANT_white1 } from "../../constants/colorPallete";
 import { IAnimatedScrollViewRef } from "../../TypeInterfaces/RNComponents/IAnimatedScrollViewRef";
 
-export interface IAppIntroData {
+export interface PostBookingIntroData {
   title: string;
   description: string;
   image: string;
 }
 
-export interface AppIntroProps {
-  appIntroData: IAppIntroData[];
+export interface PostBookingIntroProps {
+  appIntroData: PostBookingIntroData[];
 }
 
 const { Value, event, createAnimatedComponent } = Animated;
 
 const AnimatedScrollView = createAnimatedComponent(ScrollView);
 
-const AppIntro = ({ appIntroData }: AppIntroProps) => {
+const PostBookingIntro = ({ appIntroData }: PostBookingIntroProps) => {
   const scrollX = new Value(0);
   let activeIndex = 0;
   const animatedScrollView: IAnimatedScrollViewRef = useRef<any>(null);
@@ -156,4 +156,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default AppIntro;
+export default PostBookingIntro;
