@@ -26,6 +26,7 @@ configure(() => {
   require("./stories/AppIntroStory");
   require("./stories/AgentFeedbackScreenStory");
   require("./stories/AgentInfoScreenScreenStory");
+  require("./stories/TravelProfileScreenStory");
 }, module);
 
 const StorybookUIRoot = getStorybookUI({
