@@ -3,6 +3,8 @@ import SimpleButtonTestCases from "../../CommonComponents/SimpleButton/SimpleBut
 import RatingIconTestCases from "../../CommonComponents/RatingIcon/RatingIconTestCases";
 import PrimaryButtonTestCases from "../../CommonComponents/PrimaryButton/PrimaryButtonTestCases";
 import SectionTitleTestCases from "../../CommonComponents/SectionTitle/SectionTitleTestCases";
+import PortraitImageTestCases from "../../CommonComponents/PortraitImage/PortraitImageTestCases";
+import SelectablePortraitImageTestCases from "../../CommonComponents/SelectablePortraitImage/SelectablePortraitImageTestCases";
 
 const CommonComponentStories = storiesOf("Common Components", module);
 
@@ -13,3 +15,5 @@ SimpleButtonTestCases.forEach(renderTestCase);
 RatingIconTestCases.forEach(renderTestCase);
 PrimaryButtonTestCases.forEach(renderTestCase);
 SectionTitleTestCases.forEach(renderTestCase);
+PortraitImageTestCases.forEach(renderTestCase);
+SelectablePortraitImageTestCases.forEach(renderTestCase);
