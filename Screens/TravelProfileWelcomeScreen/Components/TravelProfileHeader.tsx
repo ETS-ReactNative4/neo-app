@@ -27,7 +27,7 @@ import {
 import Icon from "../../../CommonComponents/Icon/Icon";
 import { CONSTANT_arrowRight } from "../../../constants/imageAssets";
 
-interface ProfileHeaderProps {
+interface TravelProfileHeaderProps {
   leftLinkText?: string;
   rightLinkText: string;
   containerStyle?: StyleProp<ViewStyle>;
@@ -37,7 +37,7 @@ interface ProfileHeaderProps {
   enableLeftLink?: boolean;
 }
 
-const ProfileHeader = ({
+const TravelProfileHeader = ({
   containerStyle,
   leftLinkText = "",
   rightLinkText = "",
@@ -45,7 +45,7 @@ const ProfileHeader = ({
   clickRightLink = () => null,
   rightTextColorStyle,
   enableLeftLink = false
-}: ProfileHeaderProps) => {
+}: TravelProfileHeaderProps) => {
   return (
     <View style={[styles.headerContainerStyle, containerStyle]}>
       <View>
@@ -128,4 +128,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default ProfileHeader;
+export default TravelProfileHeader;

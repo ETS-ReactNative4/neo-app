@@ -1,10 +1,13 @@
 import React from "react";
-
-import { ITestCase } from "../../../TypeInterfaces/TestCases/ITestCases";
-import ProfileHeader from "./ProfileHeader";
 import { Alert, StyleSheet } from "react-native";
 
+import { ITestCase } from "../../../TypeInterfaces/TestCases/ITestCases";
+
+import TravelProfileHeader from "./TravelProfileHeader";
+import TravelProfileIntro from "./TravelProfileIntro";
+
 import { CONSTANT_firstColor } from "../../../constants/colorPallete";
+import TravelProfileWelcome from "../TravelProfileWelcome";
 
 const styles = StyleSheet.create({
   greenColor: {
@@ -12,11 +15,11 @@ const styles = StyleSheet.create({
   }
 });
 
-const TravelProfileComponentTestCases: ITestCase[] = [
+const TravelProfileWelcomeComponentTestCases: ITestCase[] = [
   {
     title: "Profile Header",
     Component: (
-      <ProfileHeader
+      <TravelProfileHeader
         rightLinkText={"Skip Question"}
         clickRightLink={() => Alert.alert("Click Right Link")}
       />
@@ -25,7 +28,7 @@ const TravelProfileComponentTestCases: ITestCase[] = [
   {
     title: "Profile Header With LeftSide Link",
     Component: (
-      <ProfileHeader
+      <TravelProfileHeader
         leftLinkText={"PART 1 OF 5"}
         clickLeftLink={() => Alert.alert("Click Left Link")}
         rightLinkText={"Skip Question"}
@@ -37,7 +40,7 @@ const TravelProfileComponentTestCases: ITestCase[] = [
   {
     title: "Profile Header With Different Right Text Color",
     Component: (
-      <ProfileHeader
+      <TravelProfileHeader
         leftLinkText={"PART 1 OF 5"}
         clickLeftLink={() => Alert.alert("Click Left Link")}
         rightLinkText={"Skip Question"}
@@ -46,7 +49,15 @@ const TravelProfileComponentTestCases: ITestCase[] = [
         rightTextColorStyle={styles.greenColor}
       />
     )
+  },
+  {
+    title: "Profile Intro Component",
+    Component: <TravelProfileIntro />
+  },
+  {
+    title: "Travel Profile Welcome Screen",
+    Component: <TravelProfileWelcome />
   }
 ];
 
-export default TravelProfileComponentTestCases;
+export default TravelProfileWelcomeComponentTestCases;

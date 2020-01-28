@@ -1,5 +1,5 @@
 import { storiesOf } from "@storybook/react-native";
-import TravelProfileComponentTestCases from "../../Screens/TravelProfileScreen/Components/TravelProfileComponentTestCases";
+import TravelProfileWelcomeComponentTestCases from "../../Screens/TravelProfileWelcomeScreen/Components/TravelProfileComponentTestCases";
 
 const TravelProfileScreenStory = storiesOf(
   "Travel Profile Screen Components",
@@ -9,4 +9,4 @@ const TravelProfileScreenStory = storiesOf(
 const renderTestCase = testCase =>
   TravelProfileScreenStory.add(testCase.title, () => testCase.Component);
 
-TravelProfileComponentTestCases.forEach(renderTestCase);
+TravelProfileWelcomeComponentTestCases.forEach(renderTestCase);
