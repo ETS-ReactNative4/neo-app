@@ -209,8 +209,12 @@ class MobileNumber extends Component<MobileNumberProps, MobileNumberState> {
                   navigation.navigate("YourBookings");
                 } else {
                   const itineraryId: string = itinerariesArray[0].itineraryId;
-                  selectItinerary(itineraryId).then(() => {
-                    launchPostBooking(routeName, navigation);
+                  selectItinerary(itineraryId).then(selectedItineraryid => {
+                    launchPostBooking(
+                      routeName,
+                      navigation,
+                      selectedItineraryid
+                    );
                   });
                 }
               });

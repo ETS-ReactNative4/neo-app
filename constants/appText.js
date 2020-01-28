@@ -582,4 +582,11 @@ export const CONSTANT_permissionsInfoText = {
 export const CONSTANT_serverResponseErrorText =
   "Something went wrong with the server";
 
+export const CONSTANT_postBookingLoadFailureText = {
+  header: "Something went wrong",
+  message:
+    "Unable to load data from the server. Please check your internet connection or try again later",
+  invalidRoute: "The action could not be completed"
+};
+
 export default appText;

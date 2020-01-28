@@ -7,7 +7,7 @@ import {
   responsiveWidth
   // @ts-ignore
 } from "react-native-responsive-dimensions";
-import { PostBookingIntroData } from "../PostBookingIntro";
+import { IPostBookingIntroData } from "../PostBookingIntro";
 
 const { Extrapolate, interpolate, createAnimatedComponent } = Animated;
 
@@ -16,7 +16,7 @@ const AnimatedImage = createAnimatedComponent(Image);
 interface IntroCoverImageProps {
   containerStyle?: StyleProp<ImageStyle>;
   scrollX?: Animated.Value<number>;
-  appIntroData: PostBookingIntroData[];
+  appIntroData: IPostBookingIntroData[];
 }
 
 const IntroCoverImage = ({

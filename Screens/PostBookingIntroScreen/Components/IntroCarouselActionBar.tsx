@@ -27,7 +27,7 @@ import {
   CONSTANT_primarySemiBold
 } from "../../../constants/fonts";
 import { CONSTANT_arrowRight } from "../../../constants/imageAssets";
-import { PostBookingIntroData } from "../PostBookingIntro";
+import { IPostBookingIntroData } from "../PostBookingIntro";
 
 const { Extrapolate, interpolate, createAnimatedComponent } = Animated;
 
@@ -37,7 +37,7 @@ interface IntroCarouselActionBarProps {
   containerStyle?: StyleProp<ViewStyle>;
   hideBackButton?: boolean;
   scrollX?: Animated.Value<number>;
-  appIntroData: PostBookingIntroData[];
+  appIntroData: IPostBookingIntroData[];
   clickNextButton: () => any;
   clickBackButton?: () => any;
 }

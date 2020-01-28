@@ -9,9 +9,9 @@ import {
   // @ts-ignore
 } from "react-native-responsive-dimensions";
 import IntroCarouselActionBar from "./IntroCarouselActionBar";
-import PostBookingIntro, { PostBookingIntroData } from "../PostBookingIntro";
+import { IPostBookingIntroData } from "../PostBookingIntro";
 
-const appIntroData: PostBookingIntroData[] = [
+const appIntroData: IPostBookingIntroData[] = [
   {
     title: "Hello Prabu,",
     description:
@@ -101,10 +101,6 @@ const PostBookingIntroComponentTestCases: ITestCase[] = [
         clickNextButton={() => Alert.alert("Click Next")}
       />
     )
-  },
-  {
-    title: "App Intro Screen",
-    Component: <PostBookingIntro appIntroData={appIntroData} />
   }
 ];
 

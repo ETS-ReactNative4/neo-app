@@ -19,6 +19,7 @@ import DeviceDetails from "../../mobx/DeviceDetails";
 import FeedbackPrompt from "../../mobx/FeedbackPrompt";
 import ChatDetails from "../../mobx/ChatDetails";
 import Journal from "../../mobx/Journal";
+import UserFlowTransition from "../../mobx/UserFlowTransition";
 
 export interface IStoreService {
   userStore: User;
@@ -42,6 +43,7 @@ export interface IStoreService {
   feedbackPrompt: FeedbackPrompt;
   chatDetailsStore: ChatDetails;
   journalStore: Journal;
+  userFlowTransitionStore: UserFlowTransition;
 }
 
 // @ts-ignore

@@ -19,22 +19,27 @@ import IntroCarouselActionBar from "./Components/IntroCarouselActionBar";
 
 import { CONSTANT_white1 } from "../../constants/colorPallete";
 import { IAnimatedScrollViewRef } from "../../TypeInterfaces/RNComponents/IAnimatedScrollViewRef";
+import { NavigationStackProp } from "react-navigation-stack";
 
-export interface PostBookingIntroData {
+export interface IPostBookingIntroData {
   title: string;
   description: string;
   image: string;
 }
 
 export interface PostBookingIntroProps {
-  appIntroData: PostBookingIntroData[];
+  navigation: NavigationStackProp<{ introData: IPostBookingIntroData[] }>;
 }
 
 const { Value, event, createAnimatedComponent } = Animated;
 
 const AnimatedScrollView = createAnimatedComponent(ScrollView);
 
-const PostBookingIntro = ({ appIntroData }: PostBookingIntroProps) => {
+const PostBookingIntro = ({ navigation }: PostBookingIntroProps) => {
+  const introData: IPostBookingIntroData[] = navigation.getParam(
+    "introData",
+    []
+  );
   const scrollX = new Value(0);
   let activeIndex = 0;
   const animatedScrollView: IAnimatedScrollViewRef = useRef<any>(null);
@@ -67,7 +72,7 @@ const PostBookingIntro = ({ appIntroData }: PostBookingIntroProps) => {
       {/* Cover image component starts */}
       <IntroCoverImage
         containerStyle={styles.coverImageContainer}
-        appIntroData={appIntroData}
+        appIntroData={introData}
         scrollX={scrollX}
       />
       {/* Cover image component ends */}
@@ -90,7 +95,7 @@ const PostBookingIntro = ({ appIntroData }: PostBookingIntroProps) => {
           }
         ])}
       >
-        {appIntroData.map((appIntroObj, index) => {
+        {introData.map((appIntroObj, index) => {
           return (
             <IntroTextSection
               key={index}
@@ -107,7 +112,7 @@ const PostBookingIntro = ({ appIntroData }: PostBookingIntroProps) => {
       <IntroCarouselActionBar
         containerStyle={styles.introCarouselContainer}
         hideBackButton={true}
-        appIntroData={appIntroData}
+        appIntroData={introData}
         scrollX={scrollX}
         clickBackButton={moveBack}
         clickNextButton={moveForward}

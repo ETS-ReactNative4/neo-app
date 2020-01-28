@@ -94,7 +94,12 @@ it("User Flow Transition can be initialized", () => {
 it("Transition status data loaded successfully", async () => {
   loadUserTransitionStatusSuccess();
   const userFlowTransition = new UserFlowTransition();
-  await userFlowTransition.loadUserTransitionStatus(itineraryId);
+  const transitionStatus = await userFlowTransition.loadUserTransitionStatus(
+    itineraryId
+  );
+  expect(transitionStatus.seenPostBookingIntro).toBe(true);
+  expect(transitionStatus.seenOPSIntro).toBe(true);
+  expect(transitionStatus.completedSOFeedback).toBe(true);
   expect(userFlowTransition.seenPostBookingIntro).toBe(true);
   expect(userFlowTransition.seenOPSIntro).toBe(true);
   expect(userFlowTransition.completedSOFeedback).toBe(true);
