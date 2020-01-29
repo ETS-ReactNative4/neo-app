@@ -1,13 +1,14 @@
 import React from "react";
 import { StyleSheet, View, Text, Alert } from "react-native";
-import Animated from "react-native-reanimated";
 
 import AgentPocCard, { IPocCardPropsData } from "./Components/AgentPocCard";
 
 import {
   CONSTANT_passIcon,
   CONSTANT_visaRelatedFaqIcon,
-  CONSTANT_paymentIcon
+  CONSTANT_paymentIcon,
+  CONSTANT_defaultPlaceImage,
+  CONSTANT_agentIntroBgPattern
 } from "../../constants/imageAssets";
 
 import {
@@ -22,6 +23,9 @@ import {
 import PrimaryButton from "../../CommonComponents/PrimaryButton/PrimaryButton";
 import SmartImageV2 from "../../CommonComponents/SmartImage/SmartImageV2";
 import AgentInfoText from "../AgentFeedbackScreen/Components/AgentInfoText";
+import { isIphoneX } from "react-native-iphone-x-helper";
+import { CONSTANT_xSensorAreaHeight } from "../../constants/styles";
+import * as Animatable from "react-native-animatable";
 
 const pocCardData: IPocCardPropsData[] = [
   {
@@ -41,9 +45,9 @@ const pocCardData: IPocCardPropsData[] = [
   }
 ];
 
-const { createAnimatedComponent } = Animated;
+const { createAnimatableComponent } = Animatable;
 
-const AnimatedView = createAnimatedComponent(View);
+const AnimatableView = createAnimatableComponent(View);
 
 /* GUTTER SPACER */
 const GUTTER_SPACING = 32;
@@ -56,37 +60,51 @@ const AgentInfo = () => {
   return (
     <View style={styles.agentInfoContainer}>
       <SmartImageV2
-        source={{ uri: "https://i.imgur.com/zW6Eip0.png" }}
-        fallbackSource={{ uri: "https://i.imgur.com/zW6Eip0.png" }}
+        source={CONSTANT_agentIntroBgPattern}
+        fallbackSource={{ uri: CONSTANT_defaultPlaceImage }}
         style={styles.imageStyle}
       />
 
-      <AnimatedView>
+      <AnimatableView animation="fadeInUp" delay={1000} duration={2500}>
         <AgentInfoText
           agentImage={"https://i.imgur.com/yfA9V3g.png"}
           agentName={"Sunil Sathyaraj"}
           agentDescription={"Your onboarding expert"}
         />
-      </AnimatedView>
+      </AnimatableView>
 
-      <AnimatedView>
+      <AnimatableView animation="fadeInUp" delay={3500} duration={2000}>
         <Text style={styles.agentHelloText}>
           Hello, I’ll be helping you with all of these
         </Text>
-      </AnimatedView>
+      </AnimatableView>
 
-      <AnimatedView style={styles.agentPocCardStyle}>
-        <AgentPocCard pocCardData={pocCardData} />
-      </AnimatedView>
+      <AgentPocCard
+        containerStyle={styles.agentPocCardStyle}
+        animation="slideInRight"
+        pocCardData={pocCardData}
+        delay={5900}
+        duration={2000}
+        successiveDelay={2000}
+      />
 
-      <AnimatedView style={styles.buttonWrapperStyle}>
+      <AnimatableView
+        animation="fadeInUp"
+        delay={7900 + 2000 * pocCardData.length}
+        duration={2000}
+        style={styles.buttonWrapperStyle}
+      >
         <PrimaryButton
           text={"Submit"}
           clickAction={() => Alert.alert("Click Submit Button")}
         />
-      </AnimatedView>
+      </AnimatableView>
     </View>
   );
+};
+
+AgentInfo.navigationOptions = {
+  header: null
 };
 
 const styles = StyleSheet.create({
@@ -97,8 +115,8 @@ const styles = StyleSheet.create({
   },
 
   imageStyle: {
-    width: 240,
-    height: 240,
+    width: 205,
+    height: 108,
     resizeMode: "cover",
     position: "absolute",
     top: 0,
@@ -120,7 +138,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     left: LEFT_SPACING,
     right: RIGHT_SPACING,
-    bottom: BOTTOM_SPACING,
+    bottom: BOTTOM_SPACING + (isIphoneX() ? CONSTANT_xSensorAreaHeight : 0),
     width: responsiveWidth(100) - LEFT_SPACING - RIGHT_SPACING
   }
 });

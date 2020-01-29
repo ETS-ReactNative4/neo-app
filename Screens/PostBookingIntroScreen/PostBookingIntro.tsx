@@ -122,6 +122,10 @@ const PostBookingIntro = ({ navigation }: PostBookingIntroProps) => {
   );
 };
 
+PostBookingIntro.navigationOptions = {
+  header: null
+};
+
 /* ACTIONBAR BASE SPACER */
 const ACTIONBAR_SPACING = 32;
 
