@@ -1,5 +1,12 @@
 import React from "react";
-import { StyleSheet, View, Text, ViewStyle, StyleProp } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Text,
+  ViewStyle,
+  StyleProp,
+  TextStyle
+} from "react-native";
 
 import {
   CONSTANT_fontCustom,
@@ -15,6 +22,9 @@ interface SectionTitleProps {
   description?: string;
   containerStyle?: StyleProp<ViewStyle>;
   titleNumberOfLines?: number;
+  smallTitleTextStyle?: StyleProp<TextStyle>;
+  titleTextStyle?: StyleProp<TextStyle>;
+  descriptionTextStyle?: StyleProp<TextStyle>;
 }
 
 const SectionTitle = ({
@@ -22,15 +32,20 @@ const SectionTitle = ({
   title = "",
   description = "",
   containerStyle,
-  titleNumberOfLines = 1
+  titleNumberOfLines = 1,
+  smallTitleTextStyle,
+  titleTextStyle,
+  descriptionTextStyle
 }: SectionTitleProps) => {
   return (
     <View style={[containerStyle]}>
       {smallTitle ? (
-        <Text style={styles.smallTitleStyle}>{smallTitle}</Text>
+        <Text style={[styles.smallTitleStyle, smallTitleTextStyle]}>
+          {smallTitle}
+        </Text>
       ) : null}
       <Text
-        style={styles.titleStyle}
+        style={[styles.titleStyle, titleTextStyle]}
         numberOfLines={titleNumberOfLines}
         ellipsizeMode={"tail"}
       >
@@ -38,7 +53,7 @@ const SectionTitle = ({
       </Text>
       {description ? (
         <Text
-          style={styles.descriptionStyle}
+          style={[styles.descriptionStyle, descriptionTextStyle]}
           numberOfLines={2}
           ellipsizeMode={"tail"}
         >
