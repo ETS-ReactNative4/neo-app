@@ -10,19 +10,30 @@ import {
 import { CONSTANT_black1, CONSTANT_black2 } from "../../constants/colorPallete";
 
 interface SectionTitleProps {
+  smallTitle?: string;
   title: string;
   description?: string;
   containerStyle?: StyleProp<ViewStyle>;
+  titleNumberOfLines?: number;
 }
 
 const SectionTitle = ({
+  smallTitle,
   title = "",
   description = "",
-  containerStyle
+  containerStyle,
+  titleNumberOfLines = 1
 }: SectionTitleProps) => {
   return (
     <View style={[containerStyle]}>
-      <Text style={styles.titleStyle} numberOfLines={1} ellipsizeMode={"tail"}>
+      {smallTitle ? (
+        <Text style={styles.smallTitleStyle}>{smallTitle}</Text>
+      ) : null}
+      <Text
+        style={styles.titleStyle}
+        numberOfLines={titleNumberOfLines}
+        ellipsizeMode={"tail"}
+      >
         {title}
       </Text>
       {description ? (
@@ -39,6 +50,12 @@ const SectionTitle = ({
 };
 
 const styles = StyleSheet.create({
+  smallTitleStyle: {
+    color: CONSTANT_black1,
+    ...CONSTANT_fontCustom(CONSTANT_primarySemiBold, 10),
+    textTransform: "uppercase",
+    marginBottom: 8
+  },
   titleStyle: {
     marginBottom: 8,
     color: CONSTANT_black1,
