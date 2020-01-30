@@ -1,25 +1,11 @@
 import React from "react";
-import {
-  View,
-  StyleSheet,
-  Text,
-  ViewStyle,
-  StyleProp,
-  Alert
-} from "react-native";
+import { View, StyleSheet, ViewStyle, StyleProp, Alert } from "react-native";
 import {
   responsiveWidth
   // @ts-ignore
 } from "react-native-responsive-dimensions";
 
-import {
-  CONSTANT_shade4,
-  CONSTANT_black1
-} from "../../../constants/colorPallete";
-import {
-  CONSTANT_fontCustom,
-  CONSTANT_primarySemiBold
-} from "../../../constants/fonts";
+import { CONSTANT_shade4 } from "../../../constants/colorPallete";
 
 import SmartImageV2 from "../../../CommonComponents/SmartImage/SmartImageV2";
 import SectionTitle from "../../../CommonComponents/SectionTitle/SectionTitle";
@@ -42,9 +28,8 @@ const TravelProfileIntro = ({ containerStyle }: TravelProfileIntroProps) => {
         }}
         style={styles.introImageStyle}
       />
-      <Text style={styles.nameTextStyle}>WELCOME KOUSHIK,</Text>
-
       <SectionTitle
+        smallTitle={"WELCOME KOUSHIK,"}
         title={"Travel styles vary and we’d like to get to know yours."}
         description={
           "We’ll use your preference info to make better and more relevant recommendations."
@@ -81,13 +66,6 @@ const styles = StyleSheet.create({
     marginBottom: 40,
     borderRadius: 4,
     backgroundColor: CONSTANT_shade4
-  },
-
-  nameTextStyle: {
-    color: CONSTANT_black1,
-    ...CONSTANT_fontCustom(CONSTANT_primarySemiBold, 10),
-    textTransform: "uppercase",
-    marginBottom: 8
   },
 
   buttonWrapperStyle: {
