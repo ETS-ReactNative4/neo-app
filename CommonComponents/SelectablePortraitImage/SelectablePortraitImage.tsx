@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { StyleSheet, View, ViewStyle, StyleProp } from "react-native";
+import {
+  StyleSheet,
+  View,
+  ViewStyle,
+  StyleProp,
+  ImageStyle
+} from "react-native";
 
 import PortraitImage from "../PortraitImage/PortraitImage";
 import { TouchableOpacity } from "react-native-gesture-handler";
@@ -11,6 +17,9 @@ interface SelectablePortraitImageProps {
   containerStyle?: StyleProp<ViewStyle>;
   onPress: () => any;
   isSelected: boolean;
+  imageSource: string;
+  portraitImageContainerStyle?: StyleProp<ViewStyle>;
+  portraitImageStyle?: StyleProp<ImageStyle>;
 }
 
 const { createAnimatableComponent } = Animatable;
@@ -20,7 +29,10 @@ const AnimatableView = createAnimatableComponent(View);
 const SelectablePortraitImage = ({
   containerStyle,
   onPress = () => null,
-  isSelected
+  isSelected,
+  imageSource,
+  portraitImageContainerStyle,
+  portraitImageStyle
 }: SelectablePortraitImageProps) => {
   const [firstInteraction, setFirstInteraction] = useState<boolean>(false);
 
@@ -30,14 +42,12 @@ const SelectablePortraitImage = ({
   };
 
   return (
-    <View style={[styles.selectablePortraitImageContainer, containerStyle]}>
-      <TouchableOpacity
-        style={styles.selectPortraitImageStyle}
-        activeOpacity={0.8}
-        onPress={selectedAction}
-      >
+    <View style={containerStyle}>
+      <TouchableOpacity activeOpacity={0.8} onPress={selectedAction}>
         <PortraitImage
-          imageSource={"https://d3lf10b5gahyby.cloudfront.net/city/paris.jpg"}
+          imageSource={imageSource}
+          containerStyle={portraitImageContainerStyle}
+          portraitImageStyle={[styles.imageStyle, portraitImageStyle]}
         />
 
         {firstInteraction ? (
@@ -60,13 +70,6 @@ const SelectablePortraitImage = ({
 };
 
 const styles = StyleSheet.create({
-  selectablePortraitImageContainer: {
-    flex: 1,
-    marginBottom: 16
-  },
-
-  selectPortraitImageStyle: {},
-
   selectedCardStyle: {
     backgroundColor: CONSTANT_darkOverlayAlpha(0.7),
     position: "absolute",
@@ -77,6 +80,10 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     justifyContent: "center",
     alignItems: "center"
+  },
+  imageStyle: {
+    height: 200,
+    borderRadius: 4
   },
   happyImageStyle: {
     width: 36,
