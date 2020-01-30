@@ -13,8 +13,8 @@ import {
   // @ts-ignore
 } from "react-native-responsive-dimensions";
 
+import SectionTitle from "../../CommonComponents/SectionTitle/SectionTitle";
 import IntroCoverImage from "./Components/IntroCoverImage";
-import IntroTextSection from "./Components/IntroTextSection";
 import IntroCarouselActionBar from "./Components/IntroCarouselActionBar";
 
 import { CONSTANT_white1 } from "../../constants/colorPallete";
@@ -97,7 +97,7 @@ const PostBookingIntro = ({ navigation }: PostBookingIntroProps) => {
       >
         {introData.map((appIntroObj, index) => {
           return (
-            <IntroTextSection
+            <SectionTitle
               key={index}
               title={appIntroObj.title}
               description={appIntroObj.description}

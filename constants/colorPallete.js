@@ -172,6 +172,8 @@ export const CONSTANT_ninthColorAlpha = alpha => `rgba(91,110,234,${alpha})`;
 export const CONSTANT_themeDarkBlueAlpha = alpha =>
   `rgba(80, 138, 232, ${alpha})`;
 
+export const CONSTANT_darkOverlayAlpha = alpha => `rgba(0,0,0,${alpha})`;
+
 export const CONSTANT_appBackgroundColor = "white";
 export const CONSTANT_drawerBackgroundColor = "rgba(46, 124, 239, 1)";
 
