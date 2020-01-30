@@ -59,12 +59,28 @@ const resetToPostBookingIntro = StackActions.reset({
   ]
 });
 
-const resetToAgentInfo = NavigationActions.navigate({
-  routeName: "AgentInfo"
+const resetToAgentInfo = StackActions.reset({
+  index: 0,
+  actions: [
+    NavigationActions.navigate({
+      routeName: "MainStack",
+      action: NavigationActions.navigate({
+        routeName: "AgentInfo"
+      })
+    })
+  ]
 });
 
-const resetToAgentFeedback = NavigationActions.navigate({
-  routeName: "AgentFeedback"
+const resetToAgentFeedback = StackActions.reset({
+  index: 0,
+  actions: [
+    NavigationActions.navigate({
+      routeName: "MainStack",
+      action: NavigationActions.navigate({
+        routeName: "AgentFeedback"
+      })
+    })
+  ]
 });
 
 /**
