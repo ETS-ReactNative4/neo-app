@@ -7,9 +7,31 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-- Typescript Interfaces for itinerary costing objects.
 - Freshchat in-built react native push notifications - currently disabled since freshchat only supports sending notification to single device.
 - [**Android**] - Custom link handling not working since Freshchat view blocks JS thread from running. Issue needs to be fixed by freshchat.
+
+## [1.3.4] - 2020-01-17
+
+## Added
+
+- VSCode React Native debugger config has been added to enable debugging directly within the editor.
+
+### Changed
+
+- Costing Time Optimization changes to the itinerary object based on the [requested format](https://wwmib.slack.com/archives/GNZ7X85A6/p1576733138001200)
+- Following items have been refactored to Typescript
+  - MobX itinerary store
+  - Voucher screens
+  - Smart Image Component
+- Typescript interfaces for Itinerary costing object which was previously unreleased is now complete.
+
+## Fixed
+
+- ESLint config which was showing duplicate warnings has been fixed.
+
+## Removed
+
+- Unnecessary server urls have been removed from the config
 
 ## [1.3.3] - 2019-12-18
 
