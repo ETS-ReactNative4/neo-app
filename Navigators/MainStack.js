@@ -28,6 +28,7 @@ import VisaSuccess from "../Screens/VisaSuccessScreen/VisaSuccess";
 import PostBookingIntro from "../Screens/PostBookingIntroScreen/PostBookingIntro";
 import AgentInfo from "../Screens/AgentInfoScreen/AgentInfo";
 import AgentFeedback from "../Screens/AgentFeedbackScreen/AgentFeedback";
+import AppLogin from "../Screens/AppLoginScreen/AppLogin";
 
 const MainStack = createStackNavigator(
   {
@@ -124,6 +125,9 @@ const MainStack = createStackNavigator(
     },
     AgentFeedback: {
       screen: AgentFeedback
+    },
+    AppLogin: {
+      screen: AppLogin
     }
   },
   {

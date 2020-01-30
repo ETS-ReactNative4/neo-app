@@ -16,6 +16,7 @@ import { isProduction } from "./Services/getEnvironmentDetails/getEnvironmentDet
 import AppOverlays from "./Screens/AppOverlays/AppOverlays";
 import constants from "./constants/constants";
 import debouncer from "./Services/debouncer/debouncer";
+import navigationServiceV2 from "./Services/navigationService/navigationServiceV2";
 
 updateStoreService(store);
 
@@ -68,12 +69,17 @@ class App extends Component {
     });
   };
 
+  _exportNavigationReference = navigatorRef => {
+    navigationServiceV2.setTopLevelNavigator(navigatorRef);
+    setNavigationService(navigatorRef);
+  };
+
   render() {
     return (
       <Provider {...store}>
         <Fragment>
           <AppNavigator
-            ref={setNavigationService}
+            ref={this._exportNavigationReference}
             uriPrefix={constants.deepLinkPrefix}
             enableURLHandling={false}
             onNavigationStateChange={this._navigationStateChange}

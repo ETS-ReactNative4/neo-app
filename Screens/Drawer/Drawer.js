@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import {
   View,
   ScrollView,
@@ -8,7 +8,6 @@ import {
   Linking,
   StatusBar
 } from "react-native";
-import { isIphoneX } from "react-native-iphone-x-helper";
 import constants from "../../constants/constants";
 import DrawerButton from "./Components/DrawerButton";
 import logOut from "../../Services/logOut/logOut";
@@ -19,7 +18,6 @@ import DialogBox from "../../CommonComponents/DialogBox/DialogBox";
 import { shouldIncludeStoryBook } from "../../storybook/Storybook";
 import { recordEvent } from "../../Services/analytics/analyticsService";
 import isUserLoggedInCallback from "../../Services/isUserLoggedInCallback/isUserLoggedInCallback";
-import appLauncher from "../../Services/appLauncher/appLauncher";
 import {
   getInitialNotification,
   onNotificationDisplayed,
@@ -27,16 +25,15 @@ import {
   onNotificationReceived
 } from "../../Services/fcmService/fcm";
 import { logError } from "../../Services/errorLogger/errorLogger";
-import {
-  responsiveHeight,
-  responsiveWidth
-} from "react-native-responsive-dimensions";
+import { responsiveHeight } from "react-native-responsive-dimensions";
 import getUrlParams from "../../Services/getUrlParams/getUrlParams";
 import resolveLinks from "../../Services/resolveLinks/resolveLinks";
 import ratioCalculator from "../../Services/ratioCalculator/ratioCalculator";
 import debouncer from "../../Services/debouncer/debouncer";
 import RNBootSplash from "react-native-bootsplash";
 import { CONSTANT_drawerEvents } from "../../constants/appEvents";
+import appLauncherV2 from "../../Services/appLauncher/appLauncherV2";
+import PropTypes from "prop-types";
 
 let _onNotificationReceived, _onNotificationDisplayed, _onNotificationOpened;
 
@@ -45,6 +42,14 @@ let _onNotificationReceived, _onNotificationDisplayed, _onNotificationOpened;
 @inject("appState")
 @observer
 class Drawer extends Component {
+  static propTypes = {
+    navigation: PropTypes.object.isRequired,
+    appState: PropTypes.object.isRequired,
+    infoStore: PropTypes.object.isRequired,
+    userStore: PropTypes.object.isRequired,
+    activeItemKey: PropTypes.string.isRequired
+  };
+
   static launchApp = () => {
     // clear notification listeners if active
     _onNotificationReceived && _onNotificationReceived();
@@ -52,7 +57,7 @@ class Drawer extends Component {
     _onNotificationOpened && _onNotificationOpened();
 
     debouncer(() => {
-      appLauncher()
+      appLauncherV2()
         .then(() => {
           /**
            * App launch complete so hide the bootsplash
@@ -274,8 +279,25 @@ class Drawer extends Component {
       });
     }
 
+    const buttonContainerStyle = {
+      alignSelf: "center",
+      width: 64,
+      height: 24,
+      borderRadius: 17,
+      marginBottom: 19,
+      marginTop: 16
+    };
+
+    const buttonTextStyle = {
+      fontFamily: constants.primaryRegular,
+      fontWeight: "600",
+      fontSize: 10,
+      marginTop: -2,
+      marginLeft: 0
+    };
+
     return (
-      <View style={{ flex: 1 }} overflow="hidden">
+      <View style={styles.drawerContainer} overflow="hidden">
         <Image
           resizeMode={"cover"}
           source={constants.drawerBackgroundImage}
@@ -288,7 +310,7 @@ class Drawer extends Component {
           // angleCenter={{ x: 0.5, y: 0.5 }}
           // locations={[0, 0.5, 0.75]}
           // colors={constants.drawerBackgroundColor}
-          style={{ flex: 1 }}
+          style={styles.drawerContainer}
         >
           <ScrollView style={styles.drawerContainer}>
             <StatusBar backgroundColor="white" barStyle="dark-content" />
@@ -320,24 +342,11 @@ class Drawer extends Component {
                 textColor={"white"}
                 hasBorder={true}
                 color={constants.firstColor}
-                containerStyle={{
-                  alignSelf: "center",
-                  width: 64,
-                  height: 24,
-                  borderRadius: 17,
-                  marginBottom: 19,
-                  marginTop: 16
-                }}
-                textStyle={{
-                  fontFamily: constants.primaryRegular,
-                  fontWeight: "600",
-                  fontSize: 10,
-                  marginTop: -2,
-                  marginLeft: 0
-                }}
+                containerStyle={buttonContainerStyle}
+                textStyle={buttonTextStyle}
               />
             ) : (
-              <View style={{ height: 24 }} />
+              <View style={styles.buttonPlaceholder} />
             )}
 
             <View style={styles.buttonsContainer}>
@@ -388,6 +397,9 @@ class Drawer extends Component {
 }
 
 const styles = StyleSheet.create({
+  drawerContainer: {
+    flex: 1
+  },
   profileImageContainer: {
     overflow: "hidden",
     marginTop: 75,
@@ -424,7 +436,8 @@ const styles = StyleSheet.create({
     marginTop: 56,
     borderTopWidth: 2,
     borderTopColor: constants.shade6
-  }
+  },
+  buttonPlaceholder: { height: 24 }
 });
 
 export default Drawer;
