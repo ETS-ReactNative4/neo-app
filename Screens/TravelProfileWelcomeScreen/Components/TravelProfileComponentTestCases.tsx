@@ -7,7 +7,6 @@ import TravelProfileHeader from "./TravelProfileHeader";
 import TravelProfileIntro from "./TravelProfileIntro";
 
 import { CONSTANT_firstColor } from "../../../constants/colorPallete";
-import TravelProfileWelcome from "../TravelProfileWelcome";
 
 const styles = StyleSheet.create({
   greenColor: {
@@ -53,10 +52,6 @@ const TravelProfileWelcomeComponentTestCases: ITestCase[] = [
   {
     title: "Profile Intro Component",
     Component: <TravelProfileIntro />
-  },
-  {
-    title: "Travel Profile Welcome Screen",
-    Component: <TravelProfileWelcome />
   }
 ];
 
