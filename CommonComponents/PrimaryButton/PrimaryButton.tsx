@@ -20,12 +20,14 @@ interface PrimaryButtonProps {
   containerStyle?: StyleProp<ViewStyle>;
   text: string;
   clickAction?: () => void;
+  buttonStyle?: StyleProp<ViewStyle>;
 }
 
 const PrimaryButton = ({
   containerStyle,
   text,
-  clickAction = () => null
+  clickAction = () => null,
+  buttonStyle
 }: PrimaryButtonProps) => {
   return (
     <View style={containerStyle}>
@@ -34,7 +36,7 @@ const PrimaryButton = ({
         activeOpacity={0.8}
         onPress={clickAction}
       >
-        <View style={[styles.buttonWrapper, styles.button]}>
+        <View style={[styles.buttonWrapper, styles.button, buttonStyle]}>
           <Text style={[styles.textStyle]}>{text}</Text>
         </View>
       </TouchableOpacity>
