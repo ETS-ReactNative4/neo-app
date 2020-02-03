@@ -25,7 +25,7 @@ const SectionTitle = ({
   titleNumberOfLines = 1
 }: SectionTitleProps) => {
   return (
-    <View style={[containerStyle]}>
+    <View style={containerStyle}>
       {smallTitle ? (
         <Text style={styles.smallTitleStyle}>{smallTitle}</Text>
       ) : null}
