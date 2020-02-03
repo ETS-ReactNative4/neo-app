@@ -1,9 +1,10 @@
 import React, { useRef, useState, Fragment } from "react";
 import { View, Text } from "react-native";
 import { ITestCase } from "../../TypeInterfaces/TestCases/ITestCases";
-import ActionSheet, { ISnapDetails } from "./ActionSheet";
+import ActionSheet from "./ActionSheet";
 import { StyleSheet } from "react-native";
 import { CONSTANT_white1 } from "../../constants/colorPallete";
+import Interactable from "react-native-interactable";
 // @ts-ignore
 import { responsiveHeight } from "react-native-responsive-dimensions";
 import SimpleButton from "../SimpleButton/SimpleButton";
@@ -19,7 +20,7 @@ const ActionSheetHandler = () => {
     return null;
   };
 
-  const sheetSnapped = (snappedInfo: ISnapDetails) => {
+  const sheetSnapped = (snappedInfo: Interactable.ISnapEvent) => {
     setSnappedIndex(snappedInfo.nativeEvent.index);
   };
 

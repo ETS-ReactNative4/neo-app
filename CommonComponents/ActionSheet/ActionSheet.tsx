@@ -1,30 +1,22 @@
 import React, { Fragment, ReactElement, memo } from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Animated } from "react-native";
 import {
   responsiveHeight,
   responsiveWidth
   // @ts-ignore
 } from "react-native-responsive-dimensions";
-import Animated from "react-native-reanimated";
-import Interactable from "../Interactable/Interactable";
+import Interactable from "react-native-interactable";
 import { CONSTANT_shade4 } from "../../constants/colorPallete";
 
-const { createAnimatedComponent, Value, interpolate, Extrapolate } = Animated;
+const { createAnimatedComponent, Value } = Animated;
 const AnimatedView = createAnimatedComponent(View);
 const { View: InteractableView } = Interactable;
-
-export interface ISnapDetails {
-  nativeEvent: {
-    y: number;
-    index: number;
-  };
-}
 
 export interface ActionSheetProps {
   interactableRef?: any;
   children?: ReactElement;
   panelStartingPosition?: number;
-  onSnap?: (snapDetails: ISnapDetails) => any;
+  onSnap?: (snapDetails: Interactable.ISnapEvent) => any;
 }
 
 const ActionSheet = ({
@@ -36,10 +28,10 @@ const ActionSheet = ({
   const _deltaY = new Value(panelStartingPosition);
 
   const shadowOpacity = {
-    opacity: interpolate(_deltaY, {
+    opacity: _deltaY.interpolate({
       inputRange: [0, panelStartingPosition, responsiveHeight(100)],
       outputRange: [0.9, 0.3, 0],
-      extrapolate: Extrapolate.CLAMP
+      extrapolate: "clamp"
     })
   };
 
@@ -61,6 +53,7 @@ const ActionSheet = ({
         animatedValueY={_deltaY}
         style={styles.actionSheetContainer}
         onSnap={onSnap}
+        animatedNativeDriver={true}
       >
         <Fragment>
           <View style={styles.dragHandle} />
