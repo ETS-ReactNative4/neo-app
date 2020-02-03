@@ -16,6 +16,7 @@ const resetToLogin = NavigationActions.navigate({
 });
 
 const openLogin = () => {
+  // navigationServiceV2.navigate("StoryBook");
   navigationServiceV2.dispatcher(resetToLogin);
 };
 
