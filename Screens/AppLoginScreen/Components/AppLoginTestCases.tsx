@@ -3,6 +3,7 @@ import { ITestCase } from "../../../TypeInterfaces/TestCases/ITestCases";
 import AgentLoginTitle from "./AppLoginTitle";
 import { Alert, StyleSheet } from "react-native";
 import PhoneNumberInput from "./PhoneNumberInput";
+import OtpInput from "./OtpInput";
 
 const PhoneNumberWrapper = () => {
   const [phoneNumber, setPhoneNumber] = useState<string>("");
@@ -30,6 +31,22 @@ const PhoneNumberWrapper = () => {
   );
 };
 
+const OtpInputWrapper = () => {
+  const [code, setCode] = useState<string>("");
+
+  const updateCode = (newCode: string) => {
+    setCode(newCode);
+  };
+
+  return (
+    <OtpInput
+      code={code}
+      onInputChange={updateCode}
+      onCodeFilled={updateCode}
+    />
+  );
+};
+
 const AppLoginTestCases: ITestCase[] = [
   {
     title: "Agent Login Screen Title",
@@ -38,6 +55,10 @@ const AppLoginTestCases: ITestCase[] = [
   {
     title: "Phone Number Input",
     Component: <PhoneNumberWrapper />
+  },
+  {
+    title: "OTP Input",
+    Component: <OtpInputWrapper />
   }
 ];
 
