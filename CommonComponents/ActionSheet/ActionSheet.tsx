@@ -1,5 +1,11 @@
-import React, { Fragment, ReactElement, useState } from "react";
-import { View, StyleSheet, Animated } from "react-native";
+import React, { Fragment, ReactElement, useState, useEffect } from "react";
+import {
+  View,
+  StyleSheet,
+  Animated,
+  Keyboard,
+  KeyboardEventListener
+} from "react-native";
 import {
   responsiveHeight,
   responsiveWidth
@@ -34,6 +40,39 @@ const ActionSheet = ({
       extrapolate: "clamp"
     })
   };
+
+  useEffect(() => {
+    const keyboardAppeared: KeyboardEventListener = () => {
+      interactableRef.current && interactableRef.current.snapTo({ index: 0 });
+    };
+
+    const keyboardHidden: KeyboardEventListener = () => {
+      interactableRef.current && interactableRef.current.snapTo({ index: 1 });
+    };
+
+    const keyboardWillShowListener = Keyboard.addListener(
+      "keyboardWillShow",
+      keyboardAppeared
+    );
+    const keyboardDidShowListener = Keyboard.addListener(
+      "keyboardDidShow",
+      keyboardAppeared
+    );
+    const keyboardWillHideListener = Keyboard.addListener(
+      "keyboardWillHide",
+      keyboardHidden
+    );
+    const keyboardDidHideListener = Keyboard.addListener(
+      "keyboardDidHide",
+      keyboardHidden
+    );
+    return () => {
+      keyboardWillShowListener.remove();
+      keyboardDidShowListener.remove();
+      keyboardWillHideListener.remove();
+      keyboardDidHideListener.remove();
+    };
+  }, [interactableRef]);
 
   return (
     <Fragment>

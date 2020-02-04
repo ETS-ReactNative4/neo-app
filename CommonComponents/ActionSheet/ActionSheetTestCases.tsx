@@ -8,6 +8,25 @@ import Interactable from "react-native-interactable";
 // @ts-ignore
 import { responsiveHeight } from "react-native-responsive-dimensions";
 import SimpleButton from "../SimpleButton/SimpleButton";
+import { TextInput } from "react-native-gesture-handler";
+
+const styles = StyleSheet.create({
+  actionSheetHandler: {
+    flex: 1,
+    backgroundColor: CONSTANT_white1,
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  infoText: {
+    textAlign: "center",
+    margin: 16,
+    fontWeight: "bold"
+  },
+  textInput: {
+    alignSelf: "center",
+    marginTop: 16
+  }
+});
 
 const ActionSheetHandler = () => {
   const actionSheetRef = useRef(null);
@@ -62,20 +81,6 @@ const ActionSheetHandler = () => {
   );
 };
 
-const styles = StyleSheet.create({
-  actionSheetHandler: {
-    flex: 1,
-    backgroundColor: CONSTANT_white1,
-    alignItems: "center",
-    justifyContent: "center"
-  },
-  infoText: {
-    textAlign: "center",
-    margin: 16,
-    fontWeight: "bold"
-  }
-});
-
 const ActionSheetTestCases: ITestCase[] = [
   {
     title: "Action Sheet",
@@ -84,6 +89,17 @@ const ActionSheetTestCases: ITestCase[] = [
   {
     title: "Action Sheet Props",
     Component: <ActionSheetHandler />
+  },
+  {
+    title: "Action Sheet with Text Input",
+    Component: (
+      <ActionSheet>
+        <TextInput
+          style={styles.textInput}
+          placeholder={"Tap here to show keyboard!"}
+        />
+      </ActionSheet>
+    )
   }
 ];
 
