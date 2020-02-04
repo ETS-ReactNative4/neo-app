@@ -223,6 +223,12 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.facebook.react:react-native:+"  // From node_modules
 
+    /**
+     * For React Native Interactable
+     * Based on - https://github.com/wix/react-native-interactable/issues/289#issuecomment-536464364
+     */
+    implementation project(path: ":react-native-interactable")
+
     if (enableHermes) {
       def hermesPath = "../../node_modules/hermes-engine/android/";
       debugImplementation files(hermesPath + "hermes-debug.aar")
