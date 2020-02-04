@@ -30,8 +30,8 @@ const styles = StyleSheet.create({
 
 const ActionSheetHandler = () => {
   const actionSheetRef = useRef(null);
-  const actionSheetStartingPosition = responsiveHeight(75);
-  const [snappedIndex, setSnappedIndex] = useState(1);
+  const actionSheetViewablePosition = responsiveHeight(75);
+  const [snappedIndex, setSnappedIndex] = useState(2);
 
   const openActionSheet = () => {
     // @ts-ignore
@@ -63,7 +63,7 @@ const ActionSheetHandler = () => {
       <ActionSheet
         onSnap={sheetSnapped}
         interactableRef={actionSheetRef}
-        panelViewablePosition={actionSheetStartingPosition}
+        panelViewablePosition={actionSheetViewablePosition}
       >
         <Fragment>
           <Text style={styles.infoText}>This is the Action sheet!</Text>
@@ -93,7 +93,7 @@ const ActionSheetTestCases: ITestCase[] = [
   {
     title: "Action Sheet with Text Input",
     Component: (
-      <ActionSheet>
+      <ActionSheet panelStartingPosition={responsiveHeight(25)}>
         <TextInput
           style={styles.textInput}
           placeholder={"Tap here to show keyboard!"}

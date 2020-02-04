@@ -1,4 +1,4 @@
-import React, { useState, Fragment, useRef, useEffect } from "react";
+import React, { useState, Fragment, useRef } from "react";
 import { View, StyleSheet, LayoutAnimation, Platform } from "react-native";
 import SmartImageV2 from "../../CommonComponents/SmartImage/SmartImageV2";
 import {
@@ -19,6 +19,7 @@ import XSensorPlaceholder from "../../CommonComponents/XSensorPlaceholder/XSenso
 import ActionSheet from "../../CommonComponents/ActionSheet/ActionSheet";
 import Interactable from "react-native-interactable";
 import OtpPanel from "./Components/OtpPanel";
+import { CONSTANT_platformIos } from "../../constants/stringConstants";
 
 const AppLogin = () => {
   const [phoneNumber, setPhoneNumber] = useState<string>("");
@@ -40,6 +41,8 @@ const AppLogin = () => {
   const submitPhoneNumber = () => {
     setTimeout(() => {
       setPhoneNumberSubmitStatus(true);
+      // @ts-ignore
+      otpPanelRef.current && otpPanelRef.current.snapTo({ index: 1 });
     }, 300);
   };
 
@@ -66,18 +69,15 @@ const AppLogin = () => {
     ];
   }
 
-  LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+  if (Platform.OS === CONSTANT_platformIos) {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+  }
 
   const onOtpPanelSnap = (snapEvent: Interactable.ISnapEvent) => {
     if (snapEvent.nativeEvent.index === 2) {
       otpPanelClosed();
     }
   };
-
-  useEffect(() => {
-    // @ts-ignore
-    otpPanelRef.current && otpPanelRef.current.snapTo({ index: 2 });
-  }, []);
 
   return (
     <Fragment>

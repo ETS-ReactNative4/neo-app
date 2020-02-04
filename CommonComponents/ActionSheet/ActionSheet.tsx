@@ -96,10 +96,12 @@ const ActionSheet = ({
         onSnap={onSnap}
         animatedNativeDriver={true}
       >
-        <Fragment>
-          <View style={styles.dragHandle} />
-          {children}
-        </Fragment>
+        <View style={styles.actionSheetContentWrapper}>
+          <Fragment>
+            <View style={styles.dragHandle} />
+            {children}
+          </Fragment>
+        </View>
       </InteractableView>
     </Fragment>
   );
@@ -117,8 +119,18 @@ const styles = StyleSheet.create({
   },
   actionSheetContainer: {
     position: "absolute",
+    backgroundColor: "transparent",
     height: responsiveHeight(200),
     width: responsiveWidth(100),
+    borderRadius: 30,
+    overflow: "hidden"
+  },
+  /**
+   * Content Wrapper needed due to an issue with interactable
+   * https://github.com/wix/react-native-interactable/issues/138
+   */
+  actionSheetContentWrapper: {
+    flex: 1,
     backgroundColor: "white",
     borderRadius: 30
   },
