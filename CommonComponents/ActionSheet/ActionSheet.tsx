@@ -1,4 +1,4 @@
-import React, { Fragment, ReactElement, memo } from "react";
+import React, { Fragment, ReactElement, useState } from "react";
 import { View, StyleSheet, Animated } from "react-native";
 import {
   responsiveHeight,
@@ -25,7 +25,7 @@ const ActionSheet = ({
   panelStartingPosition = responsiveHeight(25),
   onSnap = () => null
 }: ActionSheetProps) => {
-  const _deltaY = new Value(panelStartingPosition);
+  const [_deltaY] = useState(new Value(panelStartingPosition));
 
   const shadowOpacity = {
     opacity: _deltaY.interpolate({
@@ -91,4 +91,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default memo(ActionSheet, () => true);
+export default ActionSheet;

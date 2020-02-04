@@ -46,7 +46,17 @@ const ActionSheetHandler = () => {
         interactableRef={actionSheetRef}
         panelStartingPosition={actionSheetStartingPosition}
       >
-        <Text style={styles.infoText}>This is the Action sheet!</Text>
+        <Fragment>
+          <Text style={styles.infoText}>This is the Action sheet!</Text>
+          <Text style={styles.infoText}>{`Action sheet is
+  ${
+    snappedIndex === 2
+      ? "Hidden"
+      : snappedIndex === 1
+      ? "Visible"
+      : "Full Screen"
+  }`}</Text>
+        </Fragment>
       </ActionSheet>
     </Fragment>
   );
