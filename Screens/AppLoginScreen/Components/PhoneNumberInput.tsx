@@ -7,7 +7,8 @@ import {
   ViewStyle,
   StyleSheet,
   Platform,
-  TouchableOpacity
+  TouchableOpacity,
+  TextInputProps
 } from "react-native";
 import {
   CONSTANT_fontCustom,
@@ -18,7 +19,7 @@ import LottieView from "lottie-react-native";
 import { CONSTANT_visaSuccessAnimation } from "../../../constants/imageAssets";
 import CountryCodePicker from "../../MobileNumberScreen/Components/CountryCodePicker";
 
-export interface PhoneNumberInputProps {
+export interface PhoneNumberInputProps extends TextInputProps {
   placeholder: string;
   phoneNumber: string;
   countryCode: string;
@@ -48,7 +49,8 @@ const PhoneNumberInput = ({
   emoji = "🇮🇳",
   onChangeText,
   isLoading = false,
-  onCountryCodeChange
+  onCountryCodeChange,
+  ...otherProps
 }: PhoneNumberInputProps) => {
   const [isPickerActive, setPickerActiveStatus] = useState<boolean>(false);
 
@@ -84,6 +86,7 @@ const PhoneNumberInput = ({
             value={phoneNumber}
             onChangeText={onChangeText}
             returnKeyType="done"
+            {...otherProps}
           />
         </View>
         <View style={styles.animationSection}>

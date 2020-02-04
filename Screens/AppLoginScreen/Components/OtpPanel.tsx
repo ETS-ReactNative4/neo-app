@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet, Text, StyleProp, ViewStyle } from "react-native";
 import OtpInput from "./OtpInput";
 import {
   CONSTANT_fontCustom,
@@ -11,7 +11,11 @@ import {
   CONSTANT_fifteenthColor
 } from "../../../constants/colorPallete";
 
-const OtpPanel = ({}) => {
+export interface OtpPanelProps {
+  containerStyle?: StyleProp<ViewStyle>;
+}
+
+const OtpPanel = ({ containerStyle }: OtpPanelProps) => {
   const [code, setCode] = useState<string>("");
   const updateCode = (newCode: string) => {
     setCode(newCode);
@@ -19,7 +23,7 @@ const OtpPanel = ({}) => {
   const onResendClick = () => null;
 
   return (
-    <View style={styles.otpPanelContainer}>
+    <View style={[styles.otpPanelContainer, containerStyle]}>
       <Text style={styles.infoHeaderText}>{"AUTHENTICATE"}</Text>
       <Text style={styles.infoText}>
         {"We’ve sent you a 6 digit one time password for security."}

@@ -4,6 +4,7 @@ import AgentLoginTitle from "./AppLoginTitle";
 import { Alert, StyleSheet } from "react-native";
 import PhoneNumberInput from "./PhoneNumberInput";
 import OtpInput from "./OtpInput";
+import OtpPanel from "./OtpPanel";
 
 const PhoneNumberWrapper = () => {
   const [phoneNumber, setPhoneNumber] = useState<string>("");
@@ -59,6 +60,10 @@ const AppLoginTestCases: ITestCase[] = [
   {
     title: "OTP Input",
     Component: <OtpInputWrapper />
+  },
+  {
+    title: "OTP Section",
+    Component: <OtpPanel />
   }
 ];
 

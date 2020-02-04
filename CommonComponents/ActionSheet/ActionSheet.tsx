@@ -21,6 +21,7 @@ const { View: InteractableView } = Interactable;
 export interface ActionSheetProps {
   interactableRef?: any;
   children?: ReactElement;
+  panelViewablePosition?: number;
   panelStartingPosition?: number;
   onSnap?: (snapDetails: Interactable.ISnapEvent) => any;
 }
@@ -28,14 +29,15 @@ export interface ActionSheetProps {
 const ActionSheet = ({
   interactableRef = React.createRef(),
   children,
-  panelStartingPosition = responsiveHeight(25),
-  onSnap = () => null
+  panelViewablePosition = responsiveHeight(25),
+  onSnap = () => null,
+  panelStartingPosition = responsiveHeight(100)
 }: ActionSheetProps) => {
   const [_deltaY] = useState(new Value(panelStartingPosition));
 
   const shadowOpacity = {
     opacity: _deltaY.interpolate({
-      inputRange: [0, panelStartingPosition, responsiveHeight(100)],
+      inputRange: [0, panelViewablePosition, responsiveHeight(100)],
       outputRange: [0.9, 0.3, 0],
       extrapolate: "clamp"
     })
@@ -85,8 +87,8 @@ const ActionSheet = ({
         verticalOnly={true}
         snapPoints={[
           { y: 0 },
-          { y: panelStartingPosition },
-          { y: responsiveHeight(100) }
+          { y: panelViewablePosition },
+          { y: responsiveHeight(100) + 100 }
         ]}
         initialPosition={{ y: panelStartingPosition }}
         animatedValueY={_deltaY}

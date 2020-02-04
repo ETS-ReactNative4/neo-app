@@ -47,6 +47,8 @@ const OtpInput = ({
           codeInputHighlightStyle={styles.underlineStyleHighLighted}
           onCodeFilled={onCodeFilled}
           placeholderCharacter={"-"}
+          placeholderTextColor={CONSTANT_shade1}
+          autoFocusOnLoad={false}
         />
       </View>
     </View>

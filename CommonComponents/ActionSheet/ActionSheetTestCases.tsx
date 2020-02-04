@@ -63,7 +63,7 @@ const ActionSheetHandler = () => {
       <ActionSheet
         onSnap={sheetSnapped}
         interactableRef={actionSheetRef}
-        panelStartingPosition={actionSheetStartingPosition}
+        panelViewablePosition={actionSheetStartingPosition}
       >
         <Fragment>
           <Text style={styles.infoText}>This is the Action sheet!</Text>
@@ -84,7 +84,7 @@ const ActionSheetHandler = () => {
 const ActionSheetTestCases: ITestCase[] = [
   {
     title: "Action Sheet",
-    Component: <ActionSheet />
+    Component: <ActionSheet panelStartingPosition={responsiveHeight(25)} />
   },
   {
     title: "Action Sheet Props",
