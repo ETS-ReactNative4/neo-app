@@ -3,7 +3,7 @@ import { View, StyleSheet, Platform } from "react-native";
 // @ts-ignore
 import OTPInputView from "@twotalltotems/react-native-otp-input";
 import Icon from "../../../CommonComponents/Icon/Icon";
-import { CONSTANT_changeIcon } from "../../../constants/imageAssets";
+import { CONSTANT_compassIcon } from "../../../constants/imageAssets";
 import {
   CONSTANT_shade1,
   CONSTANT_shade4
@@ -24,7 +24,7 @@ const OtpInput = ({
   code = "",
   onInputChange = () => null,
   onCodeFilled = () => null,
-  pinCount = 6
+  pinCount = 4
 }: OtpInputProps) => {
   const onCodeChange = (changedCode: string) => {
     onInputChange(changedCode);
@@ -33,17 +33,14 @@ const OtpInput = ({
   return (
     <View style={styles.otpInputContainer}>
       <View style={styles.iconWrapper}>
-        <Icon name={CONSTANT_changeIcon} size={30} color={CONSTANT_shade1} />
+        <Icon name={CONSTANT_compassIcon} size={30} color={CONSTANT_shade1} />
       </View>
       <View style={styles.otpWrapper}>
         <OTPInputView
           pinCount={pinCount}
           code={code}
           onCodeChanged={onCodeChange}
-          codeInputFieldStyle={[
-            styles.underlineStyleBase,
-            styles.otpInputField
-          ]}
+          codeInputFieldStyle={styles.otpInputField}
           codeInputHighlightStyle={styles.underlineStyleHighLighted}
           onCodeFilled={onCodeFilled}
           placeholderCharacter={"-"}
@@ -87,9 +84,7 @@ const styles = StyleSheet.create({
         marginTop: 8,
         height: 62
       }
-    })
-  },
-  underlineStyleBase: {
+    }),
     borderWidth: 0
   },
   underlineStyleHighLighted: {

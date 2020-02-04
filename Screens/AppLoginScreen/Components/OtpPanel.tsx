@@ -26,7 +26,7 @@ const OtpPanel = ({ containerStyle }: OtpPanelProps) => {
     <View style={[styles.otpPanelContainer, containerStyle]}>
       <Text style={styles.infoHeaderText}>{"AUTHENTICATE"}</Text>
       <Text style={styles.infoText}>
-        {"We’ve sent you a 6 digit one time password for security."}
+        {"We’ve sent you a 4 digit one time password for security."}
       </Text>
       <OtpInput
         code={code}
