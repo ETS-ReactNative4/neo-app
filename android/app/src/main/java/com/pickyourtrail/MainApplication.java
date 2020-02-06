@@ -25,6 +25,8 @@ import com.webengage.sdk.android.WebEngage;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import io.invertase.firebase.perf.RNFirebasePerformancePackage;
 
+import com.wix.interactable.Interactable;
+
 public class MainApplication extends Application implements ReactApplication {
 
   private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
@@ -42,6 +44,7 @@ public class MainApplication extends Application implements ReactApplication {
       packages.add(new RNFirebaseNotificationsPackage());
       packages.add(new RNFirebaseAnalyticsPackage());
       packages.add(new RNFirebasePerformancePackage());
+      packages.add(new Interactable());
       return packages;
     }
 

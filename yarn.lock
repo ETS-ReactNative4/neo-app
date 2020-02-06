@@ -2010,6 +2010,10 @@
     pretty-format "^24.9.0"
     wait-for-expect "^3.0.0"
 
+"@twotalltotems/react-native-otp-input@git://github.com/DaniAkash/react-native-otp-input.git#2be475f3fbb53a66a8466bd0f0ce5997ec1c65ad":
+  version "1.1.4"
+  resolved "git://github.com/DaniAkash/react-native-otp-input.git#2be475f3fbb53a66a8466bd0f0ce5997ec1c65ad"
+
 "@types/agent-base@^4.2.0":
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/@types/agent-base/-/agent-base-4.2.0.tgz#00644e8b395b40e1bf50aaf1d22cabc1200d5051"
@@ -8559,6 +8563,11 @@ react-native-inappbrowser-reborn@^2.0.4:
   integrity sha512-mmPYw2XFOzSFN3Yx1azkXvA0dPGfFH+L6W0Sg5ztyv9nIG63w/vxHkOgtDWwSV4nIKU62l9wTbpApfgj7UrK7w==
   dependencies:
     invariant "^2.2.4"
+
+react-native-interactable@2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/react-native-interactable/-/react-native-interactable-2.0.1.tgz#80a4608c4b6f19489b629926306afd980c73a309"
+  integrity sha512-b5Mej8JnW9+q/hf+6bxWsKIX4E1rjILBgPnyYFIaEhJZGrZeu5jxENvw3+Q7t43ARp1wJIZZGfilVoFmwtgOdw==
 
 react-native-iphone-x-helper@1.2.0:
   version "1.2.0"

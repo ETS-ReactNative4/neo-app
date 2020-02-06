@@ -28,6 +28,7 @@ configure(() => {
   require("./stories/AgentInfoScreenScreenStory");
   require("./stories/TravelProfileScreenStory");
   require("./stories/MaritalStatusScreenStory");
+  require("./stories/AppLoginScreenStory");
 }, module);
 
 const StorybookUIRoot = getStorybookUI({
