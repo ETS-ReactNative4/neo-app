@@ -14,7 +14,10 @@ import {
   CONSTANT_fontCustom,
   CONSTANT_primaryRegular
 } from "../../../constants/fonts";
-import { CONSTANT_shade1 } from "../../../constants/colorPallete";
+import {
+  CONSTANT_shade1,
+  CONSTANT_seventeenthColor
+} from "../../../constants/colorPallete";
 import LottieView from "lottie-react-native";
 import { CONSTANT_visaSuccessAnimation } from "../../../constants/imageAssets";
 import CountryCodePicker from "../../MobileNumberScreen/Components/CountryCodePicker";
@@ -28,6 +31,7 @@ export interface PhoneNumberInputProps extends TextInputProps {
   onChangeText: (text: string) => any;
   isLoading: boolean;
   onCountryCodeChange: (ccode: string, emoji: string) => any;
+  hasError: boolean;
 }
 
 export interface ICountryCodeData {
@@ -50,6 +54,7 @@ const PhoneNumberInput = ({
   onChangeText,
   isLoading = false,
   onCountryCodeChange,
+  hasError = false,
   ...otherProps
 }: PhoneNumberInputProps) => {
   const [isPickerActive, setPickerActiveStatus] = useState<boolean>(false);
@@ -70,7 +75,12 @@ const PhoneNumberInput = ({
         onClose={closePicker}
         selectCountryCode={onSelectCountryCode}
       />
-      <View style={styles.phoneNumberContainer}>
+      <View
+        style={[
+          styles.phoneNumberContainer,
+          hasError ? styles.phoneNumberHasError : null
+        ]}
+      >
         <TouchableOpacity
           onPress={openPicker}
           style={styles.countryCodeWrapper}
@@ -115,6 +125,9 @@ const styles = StyleSheet.create({
         height: 36
       }
     })
+  },
+  phoneNumberHasError: {
+    borderBottomColor: CONSTANT_seventeenthColor
   },
   countryCodeWrapper: {
     flexDirection: "row",

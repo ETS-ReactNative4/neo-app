@@ -20,6 +20,11 @@ import ActionSheet from "../../CommonComponents/ActionSheet/ActionSheet";
 import Interactable from "react-native-interactable";
 import OtpPanel from "./Components/OtpPanel";
 import { CONSTANT_platformIos } from "../../constants/stringConstants";
+import useMobileNumberApi from "../MobileNumberScreen/hooks/useMobileNumberApi";
+import { validateLoginMobileNumber } from "../../Services/validateMobileNumber/validateMobileNumber";
+import DismissKeyboardView from "../../CommonComponents/DismissKeyboardView/DismissKeyboardView";
+import { toastCenter } from "../../Services/toast/toast";
+import moment from "moment";
 
 const AppLogin = () => {
   const [phoneNumber, setPhoneNumber] = useState<string>("");
@@ -30,6 +35,14 @@ const AppLogin = () => {
   >(false);
   const { keyboardHeight } = useKeyboard();
   const otpPanelRef = useRef(null);
+  const [mobileNumberApiDetails, mobileNumberSubmitCall] = useMobileNumberApi();
+  const [isPhoneSubmitAttempted, setPhoneSubmitAttempt] = useState<boolean>(
+    false
+  );
+  const [code, setCode] = useState<string>("");
+  const [isTimedOut, setIsTimedOut] = useState<boolean>(false);
+
+  const mobileNumber = `${countryCode}${phoneNumber}`;
 
   const updatePhoneNumber = (newNumber: string) => setPhoneNumber(newNumber);
 
@@ -38,12 +51,33 @@ const AppLogin = () => {
     setCountryFlag(flagEmoji);
   };
 
-  const submitPhoneNumber = () => {
-    setTimeout(() => {
-      setPhoneNumberSubmitStatus(true);
-      // @ts-ignore
-      otpPanelRef.current && otpPanelRef.current.snapTo({ index: 1 });
-    }, 300);
+  const updateCode = (newCode: string) => {
+    setCode(newCode);
+  };
+
+  const onResend = () => {};
+
+  const codeFilled = () => {};
+
+  const onTimeout = () => {
+    setIsTimedOut(true);
+  };
+
+  const submitPhoneNumber = async () => {
+    setPhoneSubmitAttempt(true);
+    if (validateLoginMobileNumber(mobileNumber)) {
+      const result = await mobileNumberSubmitCall({
+        mob_num: phoneNumber,
+        ccode: countryCode
+      });
+      if (result) {
+        setPhoneNumberSubmitStatus(true);
+        // @ts-ignore
+        otpPanelRef.current && otpPanelRef.current.snapTo({ index: 1 });
+      }
+    } else {
+      toastCenter("Invalid Phone Number");
+    }
   };
 
   const otpPanelClosed = () => {
@@ -79,53 +113,73 @@ const AppLogin = () => {
     }
   };
 
+  const highlightPhoneField =
+    !validateLoginMobileNumber(mobileNumber) && isPhoneSubmitAttempted;
+
   return (
     <Fragment>
-      <SmartImageV2
-        useFastImage={true}
-        style={styles.container}
-        source={{ uri: CONSTANT_loginBackground }}
-        fallbackSource={{ uri: CONSTANT_defaultPlaceImage }}
-        resizeMode="cover"
-      >
-        <LinearGradient {...gradientOptions} style={styles.backgroundGradient}>
-          <AppLoginTitle
-            skipAction={() => null}
-            containerStyle={styles.loginTitleContainer}
-          />
-          <View
-            style={[
-              styles.loginInputContainer,
-              {
-                marginBottom: (Platform.OS === "ios" ? keyboardHeight : 0) + 50
-              }
-            ]}
+      <DismissKeyboardView style={styles.keyboardAvoider}>
+        <SmartImageV2
+          useFastImage={true}
+          style={styles.container}
+          source={{ uri: CONSTANT_loginBackground }}
+          fallbackSource={{ uri: CONSTANT_defaultPlaceImage }}
+          resizeMode="cover"
+        >
+          <LinearGradient
+            {...gradientOptions}
+            style={styles.backgroundGradient}
           >
-            <SectionTitle
-              smallTitleTextStyle={styles.smallWelcomeTitle}
-              titleTextStyle={styles.welcomeTitle}
-              titleNumberOfLines={2}
-              title="Let’s find you your next dream holiday :)"
-              smallTitle="Welcome"
+            <AppLoginTitle
+              skipAction={() => null}
+              containerStyle={styles.loginTitleContainer}
             />
-            <PhoneNumberInput
-              isLoading={true}
-              placeholder="Phone Number"
-              phoneNumber={phoneNumber}
-              countryCode={countryCode}
-              emoji={countryFlag}
-              onChangeText={updatePhoneNumber}
-              onCountryCodeChange={onCountryCodeChange}
-              onSubmitEditing={submitPhoneNumber}
-              editable={!isPhoneNumberSubmitted}
-            />
-            <XSensorPlaceholder />
-          </View>
-        </LinearGradient>
-      </SmartImageV2>
+            <View
+              style={[
+                styles.loginInputContainer,
+                {
+                  marginBottom:
+                    (Platform.OS === "ios" ? keyboardHeight : 0) + 50
+                }
+              ]}
+            >
+              <SectionTitle
+                smallTitleTextStyle={styles.smallWelcomeTitle}
+                titleTextStyle={styles.welcomeTitle}
+                titleNumberOfLines={2}
+                title="Let’s find you your next dream holiday :)"
+                smallTitle="Welcome"
+              />
+              <PhoneNumberInput
+                isLoading={mobileNumberApiDetails.isLoading}
+                placeholder="Phone Number"
+                phoneNumber={phoneNumber}
+                countryCode={countryCode}
+                emoji={countryFlag}
+                onChangeText={updatePhoneNumber}
+                onCountryCodeChange={onCountryCodeChange}
+                onSubmitEditing={submitPhoneNumber}
+                editable={!isPhoneNumberSubmitted}
+                hasError={highlightPhoneField}
+              />
+              <XSensorPlaceholder />
+            </View>
+          </LinearGradient>
+        </SmartImageV2>
+      </DismissKeyboardView>
       {isPhoneNumberSubmitted ? (
         <ActionSheet interactableRef={otpPanelRef} onSnap={onOtpPanelSnap}>
-          <OtpPanel containerStyle={styles.otpContainer} />
+          <OtpPanel
+            code={code}
+            updateCode={updateCode}
+            requestTime={moment(1580987401597)}
+            expiryTime={moment(1580987441416)}
+            containerStyle={styles.otpContainer}
+            onResend={onResend}
+            onCodeFilled={codeFilled}
+            isTimedOut={isTimedOut}
+            onTimedOut={onTimeout}
+          />
         </ActionSheet>
       ) : null}
     </Fragment>
@@ -137,6 +191,9 @@ AppLogin.navigationOptions = {
 };
 
 const styles = StyleSheet.create({
+  keyboardAvoider: {
+    flex: 1
+  },
   container: {
     flex: 1
   },
@@ -160,8 +217,8 @@ const styles = StyleSheet.create({
     marginBottom: 80
   },
   otpContainer: {
-    marginHorizontal: 24,
-    marginTop: 24
+    marginHorizontal: 56,
+    marginTop: 56
   }
 });
 
