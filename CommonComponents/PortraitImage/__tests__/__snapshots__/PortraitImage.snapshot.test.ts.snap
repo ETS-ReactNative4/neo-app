@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Portrait Image 1`] = `
+<View>
+  <Image
+    onError={[Function]}
+    resizeMode="cover"
+    source={
+      Object {
+        "uri": "https://d3lf10b5gahyby.cloudfront.net/city/paris.jpg",
+      }
+    }
+    style={
+      Object {
+        "borderRadius": 4,
+        "height": 200,
+        "width": 146,
+      }
+    }
+  />
+</View>
+`;
