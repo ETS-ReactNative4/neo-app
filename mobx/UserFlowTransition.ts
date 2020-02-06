@@ -7,12 +7,14 @@ import { CONSTANT_feedbackUserState } from "../constants/apiUrls";
 import { CONSTANT_responseSuccessStatus } from "../constants/stringConstants";
 import { IMobileServerResponse } from "../TypeInterfaces/INetworkResponse";
 
+export interface ITransitionStatus {
+  seenPostBookingIntro: boolean;
+  completedSOFeedback: boolean;
+  seenOPSIntro: boolean;
+}
+
 export interface IUserTransitionStatusResponse extends IMobileServerResponse {
-  data: {
-    seenPostBookingIntro: boolean;
-    completedSOFeedback: boolean;
-    seenOPSIntro: boolean;
-  };
+  data: ITransitionStatus;
 }
 
 class UserFlowTransition {
@@ -70,7 +72,7 @@ class UserFlowTransition {
 
   @action
   loadUserTransitionStatus = (itineraryId: string) => {
-    return new Promise<boolean>((resolve, reject) => {
+    return new Promise<ITransitionStatus>((resolve, reject) => {
       apiCall(
         `${CONSTANT_feedbackUserState}?itineraryId=${itineraryId}`,
         {},
@@ -86,7 +88,11 @@ class UserFlowTransition {
             this._seenPostBookingIntro = seenPostBookingIntro;
             this._completedSOFeedback = completedSOFeedback;
             this._seenOPSIntro = seenOPSIntro;
-            resolve(true);
+            resolve({
+              seenPostBookingIntro,
+              completedSOFeedback,
+              seenOPSIntro
+            });
           } else {
             reject();
           }

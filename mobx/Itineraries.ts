@@ -131,7 +131,7 @@ class Itineraries {
 
   @action
   selectItinerary = (itineraryId: string, callback: () => any = () => null) => {
-    return new Promise<boolean>((resolve, reject): void => {
+    return new Promise<string>((resolve, reject): void => {
       const selectedItinerary = this._itineraries.find(itineraryDetail => {
         return itineraryDetail.itinerary.itineraryId === itineraryId;
       });
@@ -147,7 +147,7 @@ class Itineraries {
               cities: this.cities
             })
               .then(() => {
-                resolve(true);
+                resolve(this.selectedItineraryId);
               })
               .catch(() => {
                 reject();
@@ -157,8 +157,8 @@ class Itineraries {
         callback();
       } else {
         this.getItineraryDetails(itineraryId, callback)
-          .then(() => {
-            resolve(true);
+          .then(selectedItineraryId => {
+            resolve(selectedItineraryId);
           })
           .catch(reject);
       }
@@ -170,7 +170,7 @@ class Itineraries {
     itineraryId: string,
     callback: () => any = () => null
   ) => {
-    return new Promise<boolean>((resolve, reject): void => {
+    return new Promise<string>((resolve, reject): void => {
       this._isLoading = true;
       const requestBody = {};
       apiCall(
@@ -195,7 +195,7 @@ class Itineraries {
                   cities: this.cities
                 })
                   .then(() => {
-                    resolve(true);
+                    resolve(this.selectedItineraryId);
                   })
                   .catch(reject);
               }

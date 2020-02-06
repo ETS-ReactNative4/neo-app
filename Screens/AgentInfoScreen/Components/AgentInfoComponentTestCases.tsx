@@ -28,7 +28,7 @@ const pocCardData: IPocCardPropsData[] = [
   }
 ];
 
-const AgentFeedbackComponentTestCases: ITestCase[] = [
+const AgentInfoComponentTestCases: ITestCase[] = [
   {
     title: "Agent Info Text Section",
     Component: (
@@ -49,4 +49,4 @@ const AgentFeedbackComponentTestCases: ITestCase[] = [
   }
 ];
 
-export default AgentFeedbackComponentTestCases;
+export default AgentInfoComponentTestCases;

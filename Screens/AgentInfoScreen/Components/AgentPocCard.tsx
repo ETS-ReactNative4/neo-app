@@ -1,12 +1,13 @@
 import React from "react";
 import { StyleSheet, View, StyleProp, ViewStyle, Text } from "react-native";
+import * as Animatable from "react-native-animatable";
 
 import Icon from "../../../CommonComponents/Icon/Icon";
 
 import {
   CONSTANT_black1,
   CONSTANT_black2,
-  CONSTANT_shade5
+  CONSTANT_shade6
 } from "../../../constants/colorPallete";
 import {
   CONSTANT_fontCustom,
@@ -19,17 +20,38 @@ export interface IPocCardPropsData {
   iconName: string;
 }
 
+const { createAnimatableComponent } = Animatable;
+
 interface AgentPocCardProps {
   containerStyle?: StyleProp<ViewStyle>;
   pocCardData: IPocCardPropsData[];
+  delay: number;
+  duration: number;
+  successiveDelay: number;
+  animation: Animatable.Animation;
 }
 
-const AgentPocCard = ({ containerStyle, pocCardData }: AgentPocCardProps) => {
+const AnimatableView = createAnimatableComponent(View);
+
+const AgentPocCard = ({
+  containerStyle,
+  pocCardData,
+  delay,
+  duration,
+  animation,
+  successiveDelay
+}: AgentPocCardProps) => {
   return (
     <View style={containerStyle}>
       {pocCardData.map((data, index) => {
         return (
-          <View style={styles.pocCard} key={index}>
+          <AnimatableView
+            animation={animation}
+            duration={duration}
+            delay={delay + index * successiveDelay}
+            style={styles.pocCard}
+            key={index}
+          >
             <View style={styles.passIconStyle}>
               <Icon name={data.iconName} size={14} color={CONSTANT_black1} />
             </View>
@@ -37,7 +59,7 @@ const AgentPocCard = ({ containerStyle, pocCardData }: AgentPocCardProps) => {
               <Text style={styles.title}>{data.title}</Text>
               <Text style={styles.description}>{data.description}</Text>
             </View>
-          </View>
+          </AnimatableView>
         );
       })}
     </View>
@@ -49,7 +71,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "flex-start",
     alignItems: "flex-start",
-    backgroundColor: CONSTANT_shade5,
+    backgroundColor: CONSTANT_shade6,
     borderRadius: 8,
     padding: 12,
     marginBottom: 8

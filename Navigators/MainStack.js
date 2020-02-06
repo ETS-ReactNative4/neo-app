@@ -25,7 +25,10 @@ import VisaStatus from "../Screens/VisaStatusScreen/VisaStatus";
 import VisaHelp from "../Screens/VisaHelpScreen/VisaHelp";
 import VisaDocsChecklist from "../Screens/VisaDocsChecklistScreen/VisaDocsChecklist";
 import VisaSuccess from "../Screens/VisaSuccessScreen/VisaSuccess";
-import getActiveRouteName from "../Services/getActiveRouteName/getActiveRouteName";
+import PostBookingIntro from "../Screens/PostBookingIntroScreen/PostBookingIntro";
+import AgentInfo from "../Screens/AgentInfoScreen/AgentInfo";
+import AgentFeedback from "../Screens/AgentFeedbackScreen/AgentFeedback";
+import AppLogin from "../Screens/AppLoginScreen/AppLogin";
 
 const MainStack = createStackNavigator(
   {
@@ -113,11 +116,27 @@ const MainStack = createStackNavigator(
     },
     TicketsConversation: {
       screen: TicketsConversation
+    },
+    PostBookingIntro: {
+      screen: PostBookingIntro
+    },
+    AgentInfo: {
+      screen: AgentInfo
+    },
+    AgentFeedback: {
+      screen: AgentFeedback
+    },
+    AppLogin: {
+      screen: AppLogin
     }
   },
   {
-    navigationOptions: ({ navigation }) => {
-      const routeName = getActiveRouteName(navigation.state);
+    navigationOptions: (
+      {
+        // navigation
+      }
+    ) => {
+      // const routeName = getActiveRouteName(navigation.state);
 
       let drawerLockMode = "locked-closed";
 

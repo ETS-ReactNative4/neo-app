@@ -158,7 +158,7 @@ const apiCall = async (
       .then(handleResponse) // will return the data or handles any errors in the network request
       .then(data => {
         console.log(data);
-        console.log(JSON.stringify(data));
+        console.log(requestURL, JSON.stringify(data));
         logBreadCrumb({
           message: requestURL,
           category: constants.errorLoggerEvents.categories.networkRequest,
