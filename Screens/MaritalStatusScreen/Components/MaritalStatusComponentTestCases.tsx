@@ -1,33 +1,29 @@
 import React from "react";
 
 import { ITestCase } from "../../../TypeInterfaces/TestCases/ITestCases";
-import MaritalStatus, { IMaritalStatusData } from "../MaritalStatus";
 import MaritalStatusCard from "./MaritalStatusCard";
+import ActionSheetContent from "../../MaritalStatusScreen/Components/ActionSheetContent";
+import { ICheckBoxData } from "../../../CommonComponents/CustomCheckBox/CustomCheckBox";
 
-const data: IMaritalStatusData[] = [
+const data: ICheckBoxData[] = [
   {
-    text: "Single",
-    image: "https://i.imgur.com/ZKpwBvn.png"
+    text: "Senior Citizens"
   },
   {
-    text: "To be married",
-    image: "https://i.imgur.com/ZKpwBvn.png"
+    text: "Adults"
   },
   {
-    text: "Married",
-    image: "https://i.imgur.com/ZKpwBvn.png"
+    text: "Teenagers"
   },
   {
-    text: "Other",
-    image: "https://i.imgur.com/ZKpwBvn.png"
+    text: "Kids below 7"
+  },
+  {
+    text: "Infants"
   }
 ];
 
 const MaritalStatusComponentTestCases: ITestCase[] = [
-  {
-    title: "Marital Status",
-    Component: <MaritalStatus maritalStatusData={data} />
-  },
   {
     title: "Marital Status Card",
     Component: (
@@ -37,6 +33,10 @@ const MaritalStatusComponentTestCases: ITestCase[] = [
         onPress={() => {}}
       />
     )
+  },
+  {
+    title: "Action Sheet Content",
+    Component: <ActionSheetContent checkboxData={data} />
   }
 ];
 

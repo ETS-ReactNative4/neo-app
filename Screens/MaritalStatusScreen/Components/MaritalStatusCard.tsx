@@ -39,7 +39,11 @@ const MaritalStatusCard = ({
 
   return (
     <View style={[styles.cardContainerStyle, containerStyle]}>
-      <TouchableOpacity activeOpacity={0.8} onPress={selectedAction}>
+      <TouchableOpacity
+        activeOpacity={0.8}
+        onPress={selectedAction}
+        style={styles.touchableOpacityStyle}
+      >
         <SmartImageV2
           resizeMode={"cover"}
           source={{ uri: imageSource }}
@@ -57,12 +61,12 @@ const styles = StyleSheet.create({
     backgroundColor: CONSTANT_shade5,
     borderRadius: 4,
     height: 186,
-    flexDirection: "column",
-    alignItems: "center",
     justifyContent: "center",
     marginBottom: 8
   },
-
+  touchableOpacityStyle: {
+    alignItems: "center"
+  },
   textStyle: {
     color: CONSTANT_black1,
     ...CONSTANT_fontCustom(CONSTANT_primaryRegular, 16)
