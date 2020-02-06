@@ -9,11 +9,13 @@ import CustomCheckBox, {
 import PrimaryButton from "../../../CommonComponents/PrimaryButton/PrimaryButton";
 import XSensorPlaceholder from "../../../CommonComponents/XSensorPlaceholder/XSensorPlaceholder";
 
-interface ActionSheetContentProps {
+interface MaritalStatusActionSheetProps {
   checkboxData: ICheckBoxData[];
 }
 
-const ActionSheetContent = ({ checkboxData }: ActionSheetContentProps) => {
+const MaritalStatusActionSheet = ({
+  checkboxData
+}: MaritalStatusActionSheetProps) => {
   const [suggestedDetails, setSuggestedDetails] = useState<ISuggestedDetails[]>(
     []
   );
@@ -37,7 +39,7 @@ const ActionSheetContent = ({ checkboxData }: ActionSheetContentProps) => {
   };
 
   return (
-    <View style={styles.actionSheetContentStyle}>
+    <View style={styles.actionSheetContainerStyle}>
       <SectionTitle
         smallTitle={"TRAVELLERS’ DETAILS"}
         title={"Care to tell us who you normally travel with?"}
@@ -73,7 +75,7 @@ const ActionSheetContent = ({ checkboxData }: ActionSheetContentProps) => {
 };
 
 const styles = StyleSheet.create({
-  actionSheetContentStyle: {
+  actionSheetContainerStyle: {
     flex: 1
   },
   sectionTitleContainerStyle: {
@@ -87,4 +89,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default ActionSheetContent;
+export default MaritalStatusActionSheet;

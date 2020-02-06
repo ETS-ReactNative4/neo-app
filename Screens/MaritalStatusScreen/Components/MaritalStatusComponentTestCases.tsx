@@ -2,7 +2,7 @@ import React from "react";
 
 import { ITestCase } from "../../../TypeInterfaces/TestCases/ITestCases";
 import MaritalStatusCard from "./MaritalStatusCard";
-import ActionSheetContent from "../../MaritalStatusScreen/Components/ActionSheetContent";
+import MaritalStatusActionSheet from "./MaritalStatusActionSheet";
 import { ICheckBoxData } from "../../../CommonComponents/CustomCheckBox/CustomCheckBox";
 
 const data: ICheckBoxData[] = [
@@ -35,8 +35,8 @@ const MaritalStatusComponentTestCases: ITestCase[] = [
     )
   },
   {
-    title: "Action Sheet Content",
-    Component: <ActionSheetContent checkboxData={data} />
+    title: "Marital Status Action Sheet",
+    Component: <MaritalStatusActionSheet checkboxData={data} />
   }
 ];
 
