@@ -5,9 +5,9 @@ import SectionTitle from "../../../CommonComponents/SectionTitle/SectionTitle";
 import PrimaryButton from "../../../CommonComponents/PrimaryButton/PrimaryButton";
 import { CONSTANT_fifteenthColor } from "../../../constants/colorPallete";
 
-const DrawerContent = () => {
+const TravelProfileActionSheet = () => {
   return (
-    <View style={styles.drawerContentStyle}>
+    <View>
       <SectionTitle
         smallTitle={"BEFORE WE START"}
         title={"Is this your first time travelling out of India?"}
@@ -33,11 +33,6 @@ const DrawerContent = () => {
 };
 
 const styles = StyleSheet.create({
-  drawerContentStyle: {
-    // FYI: Once you created drawer common component remove this padding style
-    padding: 64
-  },
-
   buttonWrapperContainer: {
     flexDirection: "row",
     justifyContent: "space-between"
@@ -56,4 +51,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default DrawerContent;
+export default TravelProfileActionSheet;
