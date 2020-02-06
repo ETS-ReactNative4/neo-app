@@ -121,24 +121,26 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   emojiText: {
-    ...CONSTANT_fontCustom(CONSTANT_primaryRegular, 16),
+    ...CONSTANT_fontCustom(CONSTANT_primaryRegular, 18),
     color: CONSTANT_shade1,
     ...Platform.select({
       ios: {
-        lineHeight: undefined
+        lineHeight: undefined,
+        marginBottom: 1
       }
     })
   },
   countryCodeText: {
-    ...CONSTANT_fontCustom(CONSTANT_primaryRegular, 16),
+    ...CONSTANT_fontCustom(CONSTANT_primaryRegular, 18),
     color: CONSTANT_shade1,
-    marginHorizontal: 8
+    marginHorizontal: 8,
+    marginTop: 2
   },
   textInputWrapper: {
     flex: 1
   },
   textInput: {
-    ...CONSTANT_fontCustom(CONSTANT_primaryRegular, 16),
+    ...CONSTANT_fontCustom(CONSTANT_primaryRegular, 18),
     color: CONSTANT_shade1,
     ...Platform.select({
       ios: {
