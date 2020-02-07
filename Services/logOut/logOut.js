@@ -49,6 +49,7 @@ const logOut = (isForced = false) => {
         storeService.deviceDetailsStore.reset();
         storeService.chatDetailsStore.reset();
         storeService.journalStore.reset();
+        storeService.userFlowTransitionStore.reset();
         logoutUserFromChat();
       }, 100);
     });

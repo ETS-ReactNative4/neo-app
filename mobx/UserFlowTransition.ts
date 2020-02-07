@@ -1,7 +1,7 @@
 import { action, computed, observable } from "mobx";
 import { persist } from "mobx-persist";
 import { logError } from "../Services/errorLogger/errorLogger";
-import { hydrate } from "./Store";
+import hydrate from "../Services/hydrate/hydrate";
 import apiCall from "../Services/networkRequests/apiCall";
 import { CONSTANT_feedbackUserState } from "../constants/apiUrls";
 import { CONSTANT_responseSuccessStatus } from "../constants/stringConstants";
@@ -115,6 +115,9 @@ class UserFlowTransition {
             resolve(true);
           } else {
             this._seenPostBookingIntro = false;
+            /**
+             * TODO: Resolve this to false instead of reject
+             */
             reject();
           }
         })
