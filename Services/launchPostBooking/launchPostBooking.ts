@@ -3,7 +3,10 @@ import { NavigationStackProp } from "react-navigation-stack";
 import { NavigationActions, StackActions } from "react-navigation";
 import { logError } from "../errorLogger/errorLogger";
 import DebouncedAlert from "../../CommonComponents/DebouncedAlert/DebouncedAlert";
-import { CONSTANT_postBookingLoadFailureText } from "../../constants/appText";
+import {
+  CONSTANT_postBookingLoadFailureText,
+  CONSTANT_openSOFeedbackLoadFailureText
+} from "../../constants/appText";
 import { IPostBookingIntroData } from "../../Screens/PostBookingIntroScreen/PostBookingIntro";
 
 enum routeNameType {
@@ -44,20 +47,28 @@ const resetToBookedItineraryTabs = NavigationActions.navigate({
   action: NavigationActions.navigate({ routeName: "BookedItineraryTabs" })
 });
 
-const resetToPostBookingIntro = StackActions.reset({
-  index: 0,
-  actions: [
-    NavigationActions.navigate({
-      routeName: "MainStack",
-      action: NavigationActions.navigate({
-        routeName: "PostBookingIntro",
-        params: {
-          introData: appIntroData
-        }
-      })
+const resetToPostBookingIntro = (navigation: NavigationStackProp<any>) => {
+  /**
+   * TODO: Load Post Booking Intro here from API before
+   * transitioning screen.
+   */
+  navigation.dispatch(
+    StackActions.reset({
+      index: 0,
+      actions: [
+        NavigationActions.navigate({
+          routeName: "MainStack",
+          action: NavigationActions.navigate({
+            routeName: "PostBookingIntro",
+            params: {
+              introData: appIntroData
+            }
+          })
+        })
+      ]
     })
-  ]
-});
+  );
+};
 
 const resetToAgentInfo = StackActions.reset({
   index: 0,
@@ -71,17 +82,21 @@ const resetToAgentInfo = StackActions.reset({
   ]
 });
 
-const resetToAgentFeedback = StackActions.reset({
-  index: 0,
-  actions: [
-    NavigationActions.navigate({
-      routeName: "MainStack",
-      action: NavigationActions.navigate({
-        routeName: "AgentFeedback"
-      })
+const resetToAgentFeedback = (navigation: NavigationStackProp<any>) => {
+  navigation.dispatch(
+    StackActions.reset({
+      index: 0,
+      actions: [
+        NavigationActions.navigate({
+          routeName: "MainStack",
+          action: NavigationActions.navigate({
+            routeName: "AgentFeedback"
+          })
+        })
+      ]
     })
-  ]
-});
+  );
+};
 
 /**
  * Will Launch the post booking flow for the user
@@ -98,7 +113,7 @@ const launchPostBooking = (
       .then(transitionStatus => {
         storeService.appState.setTripMode(true);
         if (!transitionStatus.seenPostBookingIntro) {
-          navigation.dispatch(resetToPostBookingIntro);
+          resetToPostBookingIntro(navigation);
         } else if (!transitionStatus.seenOPSIntro) {
           navigation.dispatch(resetToAgentInfo);
         } else if (!transitionStatus.completedSOFeedback) {
@@ -126,6 +141,34 @@ const launchPostBooking = (
         reject();
       });
   });
+};
+
+/**
+ * From the Post Booking intro screen, this will help
+ * transitioning user to the SO Feedback screen.
+ */
+export const openSOFeedback = (
+  navigation: NavigationStackProp<any>,
+  selectedItineraryId: string
+) => {
+  storeService.userFlowTransitionStore
+    .userSeenPostBookingIntro(selectedItineraryId)
+    .then(result => {
+      if (result) {
+        resetToAgentFeedback(navigation);
+      } else {
+        DebouncedAlert(
+          CONSTANT_openSOFeedbackLoadFailureText.header,
+          CONSTANT_openSOFeedbackLoadFailureText.message
+        );
+      }
+    })
+    .catch(() => {
+      DebouncedAlert(
+        CONSTANT_openSOFeedbackLoadFailureText.header,
+        CONSTANT_openSOFeedbackLoadFailureText.message
+      );
+    });
 };
 
 export default launchPostBooking;

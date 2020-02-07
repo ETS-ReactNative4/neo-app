@@ -20,6 +20,8 @@ import IntroCarouselActionBar from "./Components/IntroCarouselActionBar";
 import { CONSTANT_white1 } from "../../constants/colorPallete";
 import { IAnimatedScrollViewRef } from "../../TypeInterfaces/RNComponents/IAnimatedScrollViewRef";
 import { NavigationStackProp } from "react-navigation-stack";
+import { openSOFeedback } from "../../Services/launchPostBooking/launchPostBooking";
+import storeService from "../../Services/storeService/storeService";
 
 export interface IPostBookingIntroData {
   title: string;
@@ -56,6 +58,9 @@ const PostBookingIntro = ({ navigation }: PostBookingIntroProps) => {
       animatedScrollView.current.getNode().scrollTo({
         x: (activeIndex + 1) * responsiveWidth(100)
       });
+    }
+    if (activeIndex === introData.length - 1) {
+      openSOFeedback(navigation, storeService.itineraries.selectedItineraryId);
     }
   };
 

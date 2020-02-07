@@ -50,6 +50,7 @@ const logOut = (isForced = false) => {
         storeService.chatDetailsStore.reset();
         storeService.journalStore.reset();
         storeService.userFlowTransitionStore.reset();
+        storeService.soFeedbackStore.reset();
         logoutUserFromChat();
       }, 100);
     });

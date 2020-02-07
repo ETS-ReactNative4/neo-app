@@ -16,15 +16,21 @@ export interface ISODetails {
   ownerName: string;
   ownerId: string;
   imageUrl: string;
+  ownerDescription: string;
   ownerQualities: ISOQualities;
 }
 
 export interface ISOQualities {
-  "1star": string[];
-  "2star": string[];
-  "3star": string[];
-  "4star": string[];
-  "5star": string[];
+  "1star": IQuality[];
+  "2star": IQuality[];
+  "3star": IQuality[];
+  "4star": IQuality[];
+  "5star": IQuality[];
+}
+
+export interface IQuality {
+  qualityText: string;
+  qualityImage: string;
 }
 
 export interface ISOFeedbackInfo {
@@ -57,6 +63,11 @@ class SOFeedback {
       .catch(err => {
         logError(err);
       });
+    hydrate("_ownerDescription", storeInstance)
+      .then(() => {})
+      .catch(err => {
+        logError(err);
+      });
   };
 
   reset = () => {
@@ -78,6 +89,10 @@ class SOFeedback {
   @observable
   _ownerImage: string = "";
 
+  @persist
+  @observable
+  _ownerDescription: string = "";
+
   @persist("object")
   @observable
   _ownerQualities: ISOQualities | null = null;
@@ -98,6 +113,10 @@ class SOFeedback {
     return this._ownerQualities;
   }
 
+  @computed get ownerDescription() {
+    return this._ownerDescription;
+  }
+
   @action loadSODetails = (itineraryId: string) => {
     return new Promise<boolean>((resolve, reject) => {
       apiCall(
@@ -111,12 +130,60 @@ class SOFeedback {
               imageUrl,
               ownerId,
               ownerName,
-              ownerQualities
+              ownerQualities,
+              ownerDescription
             } = response.data;
             this._ownerId = ownerId;
             this._ownerImage = imageUrl;
             this._ownerImage = ownerName;
-            this._ownerQualities = ownerQualities;
+            this._ownerQualities =
+              {
+                "1star": [],
+                "2star": [],
+                "3star": [
+                  {
+                    qualityImage: "",
+                    qualityText: "Text"
+                  },
+                  {
+                    qualityImage: "",
+                    qualityText: "Text"
+                  },
+                  {
+                    qualityImage: "",
+                    qualityText: "Text"
+                  }
+                ],
+                "4star": [
+                  {
+                    qualityImage: "",
+                    qualityText: "Text"
+                  },
+                  {
+                    qualityImage: "",
+                    qualityText: "Text"
+                  },
+                  {
+                    qualityImage: "",
+                    qualityText: "Text"
+                  }
+                ],
+                "5star": [
+                  {
+                    qualityImage: "",
+                    qualityText: "Text"
+                  },
+                  {
+                    qualityImage: "",
+                    qualityText: "Text"
+                  },
+                  {
+                    qualityImage: "",
+                    qualityText: "Text"
+                  }
+                ]
+              } || ownerQualities;
+            this._ownerDescription = ownerDescription;
             resolve(true);
           } else {
             resolve(false);
