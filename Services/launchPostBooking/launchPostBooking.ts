@@ -114,10 +114,10 @@ const launchPostBooking = (
         storeService.appState.setTripMode(true);
         if (!transitionStatus.seenPostBookingIntro) {
           resetToPostBookingIntro(navigation);
+        } else if (!transitionStatus.completedSOFeedback) {
+          resetToAgentFeedback(navigation);
         } else if (!transitionStatus.seenOPSIntro) {
           navigation.dispatch(resetToAgentInfo);
-        } else if (!transitionStatus.completedSOFeedback) {
-          navigation.dispatch(resetToAgentFeedback);
         } else {
           if (["YourBookings", "MobileNumber"].indexOf(routeName) > -1) {
             navigation.dispatch(resetToBookedItineraryTabs);
