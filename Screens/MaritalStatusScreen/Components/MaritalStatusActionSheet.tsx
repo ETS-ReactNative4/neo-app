@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { View, StyleSheet, ScrollView } from "react-native";
+import {
+  responsiveHeight
+  // @ts-ignore
+} from "react-native-responsive-dimensions";
 
 import SectionTitle from "../../../CommonComponents/SectionTitle/SectionTitle";
 import CustomCheckBox, {
@@ -8,6 +12,7 @@ import CustomCheckBox, {
 } from "../../../CommonComponents/CustomCheckBox/CustomCheckBox";
 import PrimaryButton from "../../../CommonComponents/PrimaryButton/PrimaryButton";
 import XSensorPlaceholder from "../../../CommonComponents/XSensorPlaceholder/XSensorPlaceholder";
+import ActionSheet from "../../../CommonComponents/ActionSheet/ActionSheet";
 
 interface MaritalStatusActionSheetProps {
   checkboxData: ICheckBoxData[];
@@ -39,50 +44,53 @@ const MaritalStatusActionSheet = ({
   };
 
   return (
-    <View style={styles.actionSheetContainerStyle}>
-      <SectionTitle
-        smallTitle={"TRAVELLERS’ DETAILS"}
-        title={"Care to tell us who you normally travel with?"}
-        titleNumberOfLines={2}
-        containerStyle={styles.sectionTitleContainerStyle}
-      />
+    <ActionSheet panelStartingPosition={responsiveHeight(20)}>
+      <View style={styles.actionSheetContainer}>
+        <SectionTitle
+          smallTitle={"TRAVELLERS’ DETAILS"}
+          title={"Care to tell us who you normally travel with?"}
+          titleNumberOfLines={2}
+          containerStyle={styles.sectionTitleContainerStyle}
+        />
 
-      <View style={styles.bodyContainerStyle}>
-        <ScrollView showsVerticalScrollIndicator={false}>
-          {suggestedDetails.map((dataObj, index) => {
-            const onSelect = () => {
-              selectSuggestedDetails(dataObj.index);
-            };
+        <View style={styles.bodyContainerStyle}>
+          <ScrollView showsVerticalScrollIndicator={false}>
+            {suggestedDetails.map((dataObj, index) => {
+              const onSelect = () => {
+                selectSuggestedDetails(dataObj.index);
+              };
 
-            return (
-              <CustomCheckBox
-                key={index}
-                isChecked={dataObj.isChecked}
-                action={onSelect}
-                text={dataObj.text}
-              />
-            );
-          })}
-        </ScrollView>
+              return (
+                <CustomCheckBox
+                  key={index}
+                  isChecked={dataObj.isChecked}
+                  action={onSelect}
+                  text={dataObj.text}
+                />
+              );
+            })}
+          </ScrollView>
+        </View>
+
+        <View style={styles.footerContainerStyle}>
+          <PrimaryButton text={"Done"} clickAction={() => {}} />
+          <XSensorPlaceholder />
+        </View>
       </View>
-
-      <View style={styles.footerContainerStyle}>
-        <PrimaryButton text={"Done"} clickAction={() => {}} />
-        <XSensorPlaceholder />
-      </View>
-    </View>
+    </ActionSheet>
   );
 };
 
 const styles = StyleSheet.create({
-  actionSheetContainerStyle: {
-    flex: 1
+  actionSheetContainer: {
+    flex: 1,
+    padding: 56
   },
   sectionTitleContainerStyle: {
     marginBottom: 24
   },
   bodyContainerStyle: {
-    flex: 1
+    height: 280
   },
   footerContainerStyle: {
     marginTop: 24
