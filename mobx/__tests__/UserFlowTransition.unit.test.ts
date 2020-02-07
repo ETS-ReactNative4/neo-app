@@ -2,13 +2,16 @@ import UserFlowTransition from "../UserFlowTransition";
 import fetchMock from "fetch-mock";
 import { CONSTANT_apiServerUrl } from "../../constants/serverUrls";
 import { CONSTANT_responseSuccessStatus } from "../../constants/stringConstants";
-import { CONSTANT_feedbackUserState } from "../../constants/apiUrls";
+import {
+  CONSTANT_feedbackUserState,
+  CONSTANT_feedbackInfo
+} from "../../constants/apiUrls";
 
 const itineraryId = "testItineraryId";
 
-const userHasSeenFeedbackUrl = `${CONSTANT_apiServerUrl}${CONSTANT_feedbackUserState}?itineraryId=${itineraryId}`;
+const userHasSeenFeedbackUrl = `${CONSTANT_apiServerUrl}${CONSTANT_feedbackInfo}?itineraryId=${itineraryId}`;
 const userTransitionStatusUrl = `${CONSTANT_apiServerUrl}${CONSTANT_feedbackUserState}?itineraryId=${itineraryId}`;
-const userHasSeenOPSIntroUrl = `${CONSTANT_apiServerUrl}${CONSTANT_feedbackUserState}?itineraryId=${itineraryId}`;
+const userHasSeenOPSIntroUrl = `${CONSTANT_apiServerUrl}${CONSTANT_feedbackInfo}?itineraryId=${itineraryId}`;
 
 const userHasSeenFeedbackSuccess = () => {
   fetchMock.patch(userHasSeenFeedbackUrl, {

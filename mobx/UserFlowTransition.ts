@@ -3,7 +3,10 @@ import { persist } from "mobx-persist";
 import { logError } from "../Services/errorLogger/errorLogger";
 import hydrate from "../Services/hydrate/hydrate";
 import apiCall from "../Services/networkRequests/apiCall";
-import { CONSTANT_feedbackUserState } from "../constants/apiUrls";
+import {
+  CONSTANT_feedbackUserState,
+  CONSTANT_feedbackInfo
+} from "../constants/apiUrls";
 import { CONSTANT_responseSuccessStatus } from "../constants/stringConstants";
 import { IMobileServerResponse } from "../TypeInterfaces/INetworkResponse";
 
@@ -105,7 +108,7 @@ class UserFlowTransition {
   userSeenPostBookingIntro = (itineraryId: string) => {
     return new Promise<boolean>((resolve, reject) => {
       apiCall(
-        `${CONSTANT_feedbackUserState}?itineraryId=${itineraryId}`,
+        `${CONSTANT_feedbackInfo}?itineraryId=${itineraryId}`,
         { seenPostBookingIntro: true },
         "PATCH"
       )
@@ -132,7 +135,7 @@ class UserFlowTransition {
   userSeenOPSIntro = (itineraryId: string) => {
     return new Promise<boolean>((resolve, reject) => {
       apiCall(
-        `${CONSTANT_feedbackUserState}?itineraryId=${itineraryId}`,
+        `${CONSTANT_feedbackInfo}?itineraryId=${itineraryId}`,
         { seenOPSIntro: true },
         "PATCH"
       )
