@@ -6,33 +6,27 @@ import { CONSTANT_thirdColor } from "../../constants/colorPallete";
 const RatingIconTestCases: ITestCase[] = [
   {
     title: "Rating Icon",
-    Component: <RatingIcon rating={1} />
+    Component: <RatingIcon numOfStars={1} rating={0} />
   },
   {
     title: "Rating Icon Active State",
-    Component: <RatingIcon rating={1} isActive={true} />
+    Component: <RatingIcon numOfStars={1} rating={1} />
   },
   {
     title: "Rating Icon Custom Color",
-    Component: <RatingIcon rating={1} customStarColor={CONSTANT_thirdColor} />
-  },
-  {
-    title: "Rating Icon Custom Color With Active State",
     Component: (
-      <RatingIcon
-        rating={1}
-        isActive={true}
-        customStarColor={CONSTANT_thirdColor}
-      />
+      <RatingIcon numOfStars={1} rating={1} activeColor={CONSTANT_thirdColor} />
     )
   },
   {
     title: "Multiple Rating Icon",
-    Component: <RatingIcon rating={5} />
+    Component: <RatingIcon rating={4} numOfStars={5} />
   },
   {
-    title: "Multiple Rating Icon With Active State",
-    Component: <RatingIcon rating={5} isActive={true} />
+    title: "Rating Icon Custom Color With Active State",
+    Component: (
+      <RatingIcon rating={3} numOfStars={5} activeColor={CONSTANT_thirdColor} />
+    )
   }
 ];
 
