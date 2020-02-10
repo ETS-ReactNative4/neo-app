@@ -1,4 +1,4 @@
-import { action, computed, observable } from "mobx";
+import { action, computed, observable, toJS } from "mobx";
 import { persist } from "mobx-persist";
 import hydrate from "../Services/hydrate/hydrate";
 import apiCall from "../Services/networkRequests/apiCall";
@@ -16,7 +16,7 @@ export interface ISODetails {
   ownerName: string;
   ownerId: string;
   imageUrl: string;
-  ownerDescription: string;
+  ownerText: string;
   ownerQualities: ISOQualities;
 }
 
@@ -35,7 +35,7 @@ export interface IQuality {
 
 export interface ISOFeedbackInfo {
   ownerId: string;
-  ownerQuality: string;
+  ownerQuality: string[];
   ownerNotes: string;
   ownerRating: number;
   ownerType: "SALES_OWNER" | "ACCOUNT_OWNER";
@@ -110,7 +110,7 @@ class SOFeedback {
   }
 
   @computed get ownerQualities() {
-    return this._ownerQualities;
+    return toJS(this._ownerQualities);
   }
 
   @computed get ownerDescription() {
@@ -131,7 +131,7 @@ class SOFeedback {
               ownerId,
               ownerName,
               ownerQualities,
-              ownerDescription
+              ownerText
             } = response.data;
             this._ownerId = ownerId;
             this._ownerImage = imageUrl;
@@ -142,48 +142,48 @@ class SOFeedback {
                 "2star": [],
                 "3star": [
                   {
-                    qualityImage: "",
-                    qualityText: "Text"
+                    qualityImage: "https://i.imgur.com/hm0u6k6.png",
+                    qualityText: "Text1"
                   },
                   {
-                    qualityImage: "",
-                    qualityText: "Text"
+                    qualityImage: "https://i.imgur.com/hm0u6k6.png",
+                    qualityText: "Text2"
                   },
                   {
-                    qualityImage: "",
-                    qualityText: "Text"
+                    qualityImage: "https://i.imgur.com/hm0u6k6.png",
+                    qualityText: "Text3"
                   }
                 ],
                 "4star": [
                   {
-                    qualityImage: "",
-                    qualityText: "Text"
+                    qualityImage: "https://i.imgur.com/hm0u6k6.png",
+                    qualityText: "Text1"
                   },
                   {
-                    qualityImage: "",
-                    qualityText: "Text"
+                    qualityImage: "https://i.imgur.com/hm0u6k6.png",
+                    qualityText: "Text2"
                   },
                   {
-                    qualityImage: "",
-                    qualityText: "Text"
+                    qualityImage: "https://i.imgur.com/hm0u6k6.png",
+                    qualityText: "Text3"
                   }
                 ],
                 "5star": [
                   {
-                    qualityImage: "",
-                    qualityText: "Text"
+                    qualityImage: "https://i.imgur.com/hm0u6k6.png",
+                    qualityText: "Text1"
                   },
                   {
-                    qualityImage: "",
-                    qualityText: "Text"
+                    qualityImage: "https://i.imgur.com/hm0u6k6.png",
+                    qualityText: "Text2"
                   },
                   {
-                    qualityImage: "",
-                    qualityText: "Text"
+                    qualityImage: "https://i.imgur.com/hm0u6k6.png",
+                    qualityText: "Text3"
                   }
                 ]
               } || ownerQualities;
-            this._ownerDescription = ownerDescription;
+            this._ownerDescription = ownerText;
             resolve(true);
           } else {
             resolve(false);
