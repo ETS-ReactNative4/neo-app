@@ -26,7 +26,8 @@ import useKeyboard from "../../CommonComponents/useKeyboard/useKeyboard";
 import { CONSTANT_platformIos } from "../../constants/stringConstants";
 import Itineraries from "../../mobx/Itineraries";
 import DebouncedAlert from "../../CommonComponents/DebouncedAlert/DebouncedAlert";
-import UserFlowTransition from "../../mobx/UserFlowTransition";
+import { openOPSIntro } from "../../Services/launchPostBooking/launchPostBooking";
+import { CONSTANT_agentIntroBgPattern } from "../../constants/imageAssets";
 
 const { createAnimatedComponent, Value, interpolate, Extrapolate } = Animated;
 
@@ -41,17 +42,15 @@ const RIGHT_SPACING = GUTTER_SPACING;
 
 export interface AgentFeedbackComponentProps {
   soFeedbackStore: SOFeedback;
-  navigation: NavigationStackProp;
+  navigation: NavigationStackProp<any>;
   itineraries: Itineraries;
-  userFlowTransitionStore: UserFlowTransition;
 }
 
 const AgentFeedbackComponent = ({
   soFeedbackStore,
-  // navigation,
+  navigation,
   itineraries
-}: // userFlowTransitionStore
-AgentFeedbackComponentProps) => {
+}: AgentFeedbackComponentProps) => {
   const [rating, setRating] = useState<number>(0);
   const [comment, setComment] = useState<string>("");
   const [qualities, setQualities] = useState<string[]>([]);
@@ -243,17 +242,27 @@ AgentFeedbackComponentProps) => {
       ownerRating: rating,
       ownerType: "SALES_OWNER"
     })
-      .then(result => {
+      .then((result: boolean) => {
         if (result) {
+          openOPSIntro(navigation, itineraries.selectedItineraryId)
+            .then(() => {
+              setIsSubmitting(false);
+            })
+            .catch(() => {
+              submitErrorHandler();
+            });
         } else {
-          setIsSubmitting(false);
-          DebouncedAlert("Error", "Unable to submit feedback!");
+          submitErrorHandler();
         }
       })
       .catch(() => {
-        setIsSubmitting(false);
-        DebouncedAlert("Error", "Unable to submit feedback!");
+        submitErrorHandler();
       });
+  };
+
+  const submitErrorHandler = () => {
+    setIsSubmitting(false);
+    DebouncedAlert("Error", "Unable to submit feedback!");
   };
 
   return (
@@ -262,8 +271,9 @@ AgentFeedbackComponentProps) => {
        * TODO: Add actual image to asset
        */}
       <SmartImageV2
-        source={{ uri: "https://i.imgur.com/zW6Eip0.png" }}
-        fallbackSource={{ uri: "https://i.imgur.com/zW6Eip0.png" }}
+        resizeMode="contain"
+        source={CONSTANT_agentIntroBgPattern()}
+        fallbackSource={CONSTANT_agentIntroBgPattern()}
         style={styles.imageStyle}
       />
 
@@ -335,9 +345,8 @@ const styles = StyleSheet.create({
   },
 
   imageStyle: {
-    width: 240,
-    height: 240,
-    resizeMode: "cover",
+    width: 205,
+    height: 108,
     position: "absolute",
     top: 0,
     left: 0
@@ -377,10 +386,8 @@ const styles = StyleSheet.create({
   }
 });
 
-const AgentFeedback = inject("userFlowTransitionStore")(
-  inject("itineraries")(
-    inject("soFeedbackStore")(observer(AgentFeedbackComponent))
-  )
+const AgentFeedback = inject("itineraries")(
+  inject("soFeedbackStore")(observer(AgentFeedbackComponent))
 );
 
 export default AgentFeedback;

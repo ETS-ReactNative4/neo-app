@@ -1,0 +1,603 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Intro Carousel action bar with back button 1`] = `
+<View
+  style={
+    Array [
+      Object {
+        "alignItems": "center",
+        "backgroundColor": "rgba(0,198,132,1)",
+        "borderRadius": 4,
+        "flexDirection": "row",
+        "height": 56,
+        "justifyContent": "space-between",
+      },
+      Object {
+        "marginVertical": 40,
+      },
+    ]
+  }
+>
+  <View
+    style={
+      Array [
+        Object {
+          "width": 88,
+        },
+        Object {
+          "opacity": 0,
+        },
+      ]
+    }
+  >
+    <TouchableOpacity
+      activeOpacity={0.8}
+      onPress={[Function]}
+      style={
+        Object {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "height": 56,
+          "justifyContent": "center",
+          "width": 88,
+        }
+      }
+    >
+      <View
+        style={
+          Object {
+            "marginBottom": 4,
+            "marginRight": 4,
+            "transform": Array [
+              Object {
+                "scaleX": -1,
+              },
+            ],
+          }
+        }
+      >
+        <Text
+          allowFontScaling={false}
+          style={
+            Array [
+              Object {
+                "color": "rgb(247, 247, 247)",
+                "fontSize": 16,
+              },
+              undefined,
+              Object {
+                "fontFamily": "voyager",
+                "fontStyle": "normal",
+                "fontWeight": "normal",
+              },
+              Object {},
+            ]
+          }
+        >
+          
+        </Text>
+      </View>
+      <Text
+        style={
+          Object {
+            "color": "rgba(250, 250, 250, 1)",
+            "fontFamily": "SourceSansPro-SemiBold",
+            "fontSize": 17,
+            "lineHeight": 17,
+          }
+        }
+      >
+        Back
+      </Text>
+    </TouchableOpacity>
+  </View>
+  <View
+    style={
+      Object {
+        "flexDirection": "row",
+      }
+    }
+  >
+    <View
+      style={
+        Array [
+          Object {
+            "backgroundColor": "white",
+            "borderRadius": 10,
+            "height": 8,
+            "marginHorizontal": 4,
+            "opacity": 0.5,
+            "width": 8,
+          },
+          Object {
+            "opacity": 0.5,
+            "width": 8,
+          },
+        ]
+      }
+    />
+    <View
+      style={
+        Array [
+          Object {
+            "backgroundColor": "white",
+            "borderRadius": 10,
+            "height": 8,
+            "marginHorizontal": 4,
+            "opacity": 0.5,
+            "width": 8,
+          },
+          Object {
+            "opacity": 0.5,
+            "width": 8,
+          },
+        ]
+      }
+    />
+    <View
+      style={
+        Array [
+          Object {
+            "backgroundColor": "white",
+            "borderRadius": 10,
+            "height": 8,
+            "marginHorizontal": 4,
+            "opacity": 0.5,
+            "width": 8,
+          },
+          Object {
+            "opacity": 0.5,
+            "width": 8,
+          },
+        ]
+      }
+    />
+    <View
+      style={
+        Array [
+          Object {
+            "backgroundColor": "white",
+            "borderRadius": 10,
+            "height": 8,
+            "marginHorizontal": 4,
+            "opacity": 0.5,
+            "width": 8,
+          },
+          Object {
+            "opacity": 0.5,
+            "width": 8,
+          },
+        ]
+      }
+    />
+  </View>
+  <View
+    style={
+      Object {
+        "width": 88,
+      }
+    }
+  >
+    <TouchableOpacity
+      activeOpacity={0.8}
+      onPress={[Function]}
+      style={
+        Object {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "height": 56,
+          "justifyContent": "center",
+          "width": 88,
+        }
+      }
+    >
+      <Text
+        style={
+          Object {
+            "color": "rgba(250, 250, 250, 1)",
+            "fontFamily": "SourceSansPro-SemiBold",
+            "fontSize": 17,
+            "lineHeight": 17,
+          }
+        }
+      >
+        Next
+      </Text>
+      <View
+        style={
+          Object {
+            "marginBottom": 2,
+            "marginLeft": 4,
+          }
+        }
+      >
+        <Text
+          allowFontScaling={false}
+          style={
+            Array [
+              Object {
+                "color": "rgb(247, 247, 247)",
+                "fontSize": 16,
+              },
+              undefined,
+              Object {
+                "fontFamily": "voyager",
+                "fontStyle": "normal",
+                "fontWeight": "normal",
+              },
+              Object {},
+            ]
+          }
+        >
+          
+        </Text>
+      </View>
+    </TouchableOpacity>
+  </View>
+</View>
+`;
+
+exports[`Intro Carousel action bar without back button 1`] = `
+<View
+  style={
+    Array [
+      Object {
+        "alignItems": "center",
+        "backgroundColor": "rgba(0,198,132,1)",
+        "borderRadius": 4,
+        "flexDirection": "row",
+        "height": 56,
+        "justifyContent": "space-between",
+      },
+      Object {
+        "marginVertical": 40,
+      },
+    ]
+  }
+>
+  <View
+    style={
+      Array [
+        Object {
+          "width": 88,
+        },
+        Object {
+          "opacity": 0,
+        },
+      ]
+    }
+  />
+  <View
+    style={
+      Object {
+        "flexDirection": "row",
+      }
+    }
+  >
+    <View
+      style={
+        Array [
+          Object {
+            "backgroundColor": "white",
+            "borderRadius": 10,
+            "height": 8,
+            "marginHorizontal": 4,
+            "opacity": 0.5,
+            "width": 8,
+          },
+          Object {
+            "opacity": 0.5,
+            "width": 8,
+          },
+        ]
+      }
+    />
+    <View
+      style={
+        Array [
+          Object {
+            "backgroundColor": "white",
+            "borderRadius": 10,
+            "height": 8,
+            "marginHorizontal": 4,
+            "opacity": 0.5,
+            "width": 8,
+          },
+          Object {
+            "opacity": 0.5,
+            "width": 8,
+          },
+        ]
+      }
+    />
+    <View
+      style={
+        Array [
+          Object {
+            "backgroundColor": "white",
+            "borderRadius": 10,
+            "height": 8,
+            "marginHorizontal": 4,
+            "opacity": 0.5,
+            "width": 8,
+          },
+          Object {
+            "opacity": 0.5,
+            "width": 8,
+          },
+        ]
+      }
+    />
+    <View
+      style={
+        Array [
+          Object {
+            "backgroundColor": "white",
+            "borderRadius": 10,
+            "height": 8,
+            "marginHorizontal": 4,
+            "opacity": 0.5,
+            "width": 8,
+          },
+          Object {
+            "opacity": 0.5,
+            "width": 8,
+          },
+        ]
+      }
+    />
+  </View>
+  <View
+    style={
+      Object {
+        "width": 88,
+      }
+    }
+  >
+    <TouchableOpacity
+      activeOpacity={0.8}
+      onPress={[Function]}
+      style={
+        Object {
+          "alignItems": "center",
+          "flexDirection": "row",
+          "height": 56,
+          "justifyContent": "center",
+          "width": 88,
+        }
+      }
+    >
+      <Text
+        style={
+          Object {
+            "color": "rgba(250, 250, 250, 1)",
+            "fontFamily": "SourceSansPro-SemiBold",
+            "fontSize": 17,
+            "lineHeight": 17,
+          }
+        }
+      >
+        Next
+      </Text>
+      <View
+        style={
+          Object {
+            "marginBottom": 2,
+            "marginLeft": 4,
+          }
+        }
+      >
+        <Text
+          allowFontScaling={false}
+          style={
+            Array [
+              Object {
+                "color": "rgb(247, 247, 247)",
+                "fontSize": 16,
+              },
+              undefined,
+              Object {
+                "fontFamily": "voyager",
+                "fontStyle": "normal",
+                "fontWeight": "normal",
+              },
+              Object {},
+            ]
+          }
+        >
+          
+        </Text>
+      </View>
+    </TouchableOpacity>
+  </View>
+</View>
+`;
+
+exports[`Intro Text Section 1`] = `
+<View
+  style={
+    Array [
+      undefined,
+    ]
+  }
+>
+  <Text
+    ellipsizeMode="tail"
+    numberOfLines={1}
+    style={
+      Object {
+        "color": "rgba(44, 47, 66, 1)",
+        "fontFamily": "SourceSansPro-SemiBold",
+        "fontSize": 20,
+        "lineHeight": 20,
+        "marginBottom": 8,
+      }
+    }
+  >
+    Hello Prabu,
+  </Text>
+  <Text
+    ellipsizeMode="tail"
+    numberOfLines={2}
+    style={
+      Object {
+        "color": "rgba(83, 87, 109, 1)",
+        "fontFamily": "SourceSansPro-Regular",
+        "fontSize": 14,
+        "lineHeight": 20,
+      }
+    }
+  >
+    We’ll use your preference info to make better and more relevant recommendations.
+  </Text>
+</View>
+`;
+
+exports[`Intro Text Section with longer description 1`] = `
+<View
+  style={
+    Array [
+      undefined,
+    ]
+  }
+>
+  <Text
+    ellipsizeMode="tail"
+    numberOfLines={1}
+    style={
+      Object {
+        "color": "rgba(44, 47, 66, 1)",
+        "fontFamily": "SourceSansPro-SemiBold",
+        "fontSize": 20,
+        "lineHeight": 20,
+        "marginBottom": 8,
+      }
+    }
+  >
+    Visa assistance
+  </Text>
+  <Text
+    ellipsizeMode="tail"
+    numberOfLines={2}
+    style={
+      Object {
+        "color": "rgba(83, 87, 109, 1)",
+        "fontFamily": "SourceSansPro-Regular",
+        "fontSize": 14,
+        "lineHeight": 20,
+      }
+    }
+  >
+    We’ll use your preference info to make better and more relevant recommendations. We’ll use your preference info to make better and more relevant recommendations.
+  </Text>
+</View>
+`;
+
+exports[`Intro cover image 1`] = `
+Array [
+  <Image
+    source={
+      Object {
+        "uri": "https://i.imgur.com/YtdsUbs.png",
+      }
+    }
+    style={
+      Array [
+        Object {
+          "resizeMode": "cover",
+        },
+        Object {
+          "height": 667,
+          "width": 750,
+        },
+        Object {
+          "opacity": 1,
+          "transform": Array [
+            Object {
+              "scale": 1,
+            },
+          ],
+        },
+      ]
+    }
+  />,
+  <Image
+    source={
+      Object {
+        "uri": "https://i.imgur.com/sYzOl65.png",
+      }
+    }
+    style={
+      Array [
+        Object {
+          "resizeMode": "cover",
+        },
+        Object {
+          "height": 667,
+          "width": 750,
+        },
+        Object {
+          "opacity": 1,
+          "transform": Array [
+            Object {
+              "scale": 1,
+            },
+          ],
+        },
+      ]
+    }
+  />,
+  <Image
+    source={
+      Object {
+        "uri": "https://i.imgur.com/hm0u6k6.png",
+      }
+    }
+    style={
+      Array [
+        Object {
+          "resizeMode": "cover",
+        },
+        Object {
+          "height": 667,
+          "width": 750,
+        },
+        Object {
+          "opacity": 1,
+          "transform": Array [
+            Object {
+              "scale": 1,
+            },
+          ],
+        },
+      ]
+    }
+  />,
+  <Image
+    source={
+      Object {
+        "uri": "https://i.imgur.com/cd7irIa.png",
+      }
+    }
+    style={
+      Array [
+        Object {
+          "resizeMode": "cover",
+        },
+        Object {
+          "height": 667,
+          "width": 750,
+        },
+        Object {
+          "opacity": 1,
+          "transform": Array [
+            Object {
+              "scale": 1,
+            },
+          ],
+        },
+      ]
+    }
+  />,
+]
+`;

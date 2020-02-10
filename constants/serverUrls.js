@@ -5,7 +5,7 @@ import {
 
 const productUrls = {
   localProductUrl: "http://192.168.0.5:8080/",
-  stagingProductUrl: "https://uat.longweekend.co.in/",
+  stagingProductUrl: "https://delta.longweekend.co.in/",
   prodProductUrl: "https://pickyourtrail.com/",
   testingProdUrl: "https://dummy-testing-server.com/"
 };

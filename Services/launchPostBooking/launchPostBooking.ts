@@ -5,14 +5,53 @@ import { logError } from "../errorLogger/errorLogger";
 import DebouncedAlert from "../../CommonComponents/DebouncedAlert/DebouncedAlert";
 import {
   CONSTANT_postBookingLoadFailureText,
-  CONSTANT_openSOFeedbackLoadFailureText
+  CONSTANT_openSOFeedbackLoadFailureText,
+  CONSTANT_openOPSIntroLoadFailureText
 } from "../../constants/appText";
 import { IPostBookingIntroData } from "../../Screens/PostBookingIntroScreen/PostBookingIntro";
+import apiCall from "../networkRequests/apiCall";
+import { CONSTANT_feedbackInfo } from "../../constants/apiUrls";
+import { CONSTANT_responseSuccessStatus } from "../../constants/stringConstants";
+import { IMobileServerResponse } from "../../TypeInterfaces/INetworkResponse";
+import {
+  CONSTANT_passIcon,
+  CONSTANT_visaRelatedFaqIcon,
+  CONSTANT_paymentIcon
+} from "../../constants/imageAssets";
+import { IPocCardPropsData } from "../../Screens/AgentInfoScreen/Components/AgentPocCard";
 
 enum routeNameType {
   YourBookings = "YourBookings",
   YourBookingsUniversal = "YourBookingsUniversal",
   MobileNumber = "MobileNumber"
+}
+
+export interface ISOInfo {
+  itineraryId: string;
+  ownerName: string;
+  imageUrl: string;
+}
+
+const pocCardData: IPocCardPropsData[] = [
+  {
+    title: "Superstar support",
+    description: "The travel vouchers you need for your trip",
+    iconName: CONSTANT_passIcon
+  },
+  {
+    title: "Visa assistance",
+    description: "The travel vouchers you need for your trip",
+    iconName: CONSTANT_visaRelatedFaqIcon
+  },
+  {
+    title: "Payments",
+    description: "The travel vouchers you need for your trip",
+    iconName: CONSTANT_paymentIcon
+  }
+];
+
+export interface ISOInfoResponse extends IMobileServerResponse {
+  data: ISOInfo;
 }
 
 const appIntroData: IPostBookingIntroData[] = [
@@ -42,10 +81,27 @@ const appIntroData: IPostBookingIntroData[] = [
   }
 ];
 
-const resetToBookedItineraryTabs = NavigationActions.navigate({
-  routeName: "AppHome",
-  action: NavigationActions.navigate({ routeName: "BookedItineraryTabs" })
-});
+const openPostBookingScreen = (
+  routeName: routeNameType,
+  navigation: NavigationStackProp<any>
+) => {
+  if (["YourBookings", "MobileNumber"].indexOf(routeName) > -1) {
+    navigation.dispatch(
+      NavigationActions.navigate({
+        routeName: "AppHome",
+        action: NavigationActions.navigate({ routeName: "BookedItineraryTabs" })
+      })
+    );
+  } else if (routeName === "YourBookingsUniversal") {
+    navigation.navigate("BookedItineraryTabs");
+  } else {
+    logError("Unexpected route to launch Post Booking flow");
+    DebouncedAlert(
+      CONSTANT_postBookingLoadFailureText.header,
+      CONSTANT_postBookingLoadFailureText.invalidRoute
+    );
+  }
+};
 
 const resetToPostBookingIntro = (navigation: NavigationStackProp<any>) => {
   /**
@@ -70,17 +126,45 @@ const resetToPostBookingIntro = (navigation: NavigationStackProp<any>) => {
   );
 };
 
-const resetToAgentInfo = StackActions.reset({
-  index: 0,
-  actions: [
-    NavigationActions.navigate({
-      routeName: "MainStack",
-      action: NavigationActions.navigate({
-        routeName: "AgentInfo"
-      })
+const resetToAgentInfo = (
+  navigation: NavigationStackProp<any>,
+  itineraryId: string
+) => {
+  apiCall(
+    `${CONSTANT_feedbackInfo}?itineraryId=${itineraryId}&type=ACCOUNT_OWNER`,
+    {},
+    "GET"
+  )
+    .then((response: ISOInfoResponse) => {
+      if (response.status === CONSTANT_responseSuccessStatus) {
+        const { ownerName, imageUrl } = response.data;
+        navigation.dispatch(
+          StackActions.reset({
+            index: 0,
+            actions: [
+              NavigationActions.navigate({
+                routeName: "MainStack",
+                action: NavigationActions.navigate({
+                  routeName: "AgentInfo",
+                  params: {
+                    itineraryId,
+                    ownerName,
+                    ownerImage: imageUrl,
+                    pocCardData
+                  }
+                })
+              })
+            ]
+          })
+        );
+      } else {
+        DebouncedAlert("Error!", "Unable to load data from the server");
+      }
     })
-  ]
-});
+    .catch(() => {
+      DebouncedAlert("Error!", "Unable to load data from the server");
+    });
+};
 
 const resetToAgentFeedback = (navigation: NavigationStackProp<any>) => {
   navigation.dispatch(
@@ -91,6 +175,25 @@ const resetToAgentFeedback = (navigation: NavigationStackProp<any>) => {
           routeName: "MainStack",
           action: NavigationActions.navigate({
             routeName: "AgentFeedback"
+          })
+        })
+      ]
+    })
+  );
+};
+
+const resetToPostBookingScreen = (navigation: NavigationStackProp<any>) => {
+  navigation.dispatch(
+    StackActions.reset({
+      index: 0,
+      actions: [
+        NavigationActions.navigate({
+          routeName: "MainStack",
+          action: NavigationActions.navigate({
+            routeName: "AppHome",
+            action: NavigationActions.navigate({
+              routeName: "BookedItineraryTabs"
+            })
           })
         })
       ]
@@ -117,19 +220,9 @@ const launchPostBooking = (
         } else if (!transitionStatus.completedSOFeedback) {
           resetToAgentFeedback(navigation);
         } else if (!transitionStatus.seenOPSIntro) {
-          navigation.dispatch(resetToAgentInfo);
+          resetToAgentInfo(navigation, selectedItineraryId);
         } else {
-          if (["YourBookings", "MobileNumber"].indexOf(routeName) > -1) {
-            navigation.dispatch(resetToBookedItineraryTabs);
-          } else if (routeName === "YourBookingsUniversal") {
-            navigation.navigate("BookedItineraryTabs");
-          } else {
-            logError("Unexpected route to launch Post Booking flow");
-            DebouncedAlert(
-              CONSTANT_postBookingLoadFailureText.header,
-              CONSTANT_postBookingLoadFailureText.invalidRoute
-            );
-          }
+          openPostBookingScreen(routeName, navigation);
         }
       })
       .catch(err => {
@@ -151,24 +244,65 @@ export const openSOFeedback = (
   navigation: NavigationStackProp<any>,
   selectedItineraryId: string
 ) => {
-  storeService.userFlowTransitionStore
-    .userSeenPostBookingIntro(selectedItineraryId)
-    .then(result => {
-      if (result) {
-        resetToAgentFeedback(navigation);
-      } else {
+  return new Promise<boolean>((resolve, reject) => {
+    storeService.userFlowTransitionStore
+      .userSeenPostBookingIntro(selectedItineraryId)
+      .then(result => {
+        if (result) {
+          resetToAgentFeedback(navigation);
+          resolve(true);
+        } else {
+          DebouncedAlert(
+            CONSTANT_openSOFeedbackLoadFailureText.header,
+            CONSTANT_openSOFeedbackLoadFailureText.message
+          );
+          reject();
+        }
+      })
+      .catch(() => {
         DebouncedAlert(
           CONSTANT_openSOFeedbackLoadFailureText.header,
           CONSTANT_openSOFeedbackLoadFailureText.message
         );
-      }
-    })
-    .catch(() => {
-      DebouncedAlert(
-        CONSTANT_openSOFeedbackLoadFailureText.header,
-        CONSTANT_openSOFeedbackLoadFailureText.message
-      );
-    });
+        reject();
+      });
+  });
+};
+
+/**
+ * From feedback screen this will open the OPS intro screen
+ */
+export const openOPSIntro = (
+  navigation: NavigationStackProp<any>,
+  selectedItineraryId: string
+) => {
+  return new Promise<boolean>((resolve, reject) => {
+    storeService.userFlowTransitionStore
+      .userCompletedFeedback(selectedItineraryId)
+      .then(userFlowResult => {
+        if (userFlowResult) {
+          resetToAgentInfo(navigation, selectedItineraryId);
+          resolve(true);
+        } else {
+          DebouncedAlert(
+            CONSTANT_openOPSIntroLoadFailureText.header,
+            CONSTANT_openOPSIntroLoadFailureText.message
+          );
+          reject();
+        }
+      })
+      .catch(() => {
+        DebouncedAlert(
+          CONSTANT_openOPSIntroLoadFailureText.header,
+          CONSTANT_openOPSIntroLoadFailureText.message
+        );
+        reject();
+      });
+  });
+};
+
+export const openPostBookingHome = (navigation: NavigationStackProp<any>) => {
+  resetToPostBookingScreen(navigation);
 };
 
 export default launchPostBooking;

@@ -193,7 +193,10 @@ class SOFeedback {
     });
   };
 
-  static saveSODetail = (itineraryId: string, requestBody: ISOFeedbackInfo) => {
+  static saveSODetail = (
+    itineraryId: string,
+    requestBody: ISOFeedbackInfo
+  ): Promise<boolean> => {
     return new Promise<boolean>((resolve, reject) => {
       apiCall(
         `${CONSTANT_feedbackInfo}?itineraryId=${itineraryId}`,

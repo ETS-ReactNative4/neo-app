@@ -1,15 +1,9 @@
 import React from "react";
-import { StyleSheet, View, Text, Alert } from "react-native";
+import { StyleSheet, View, Text } from "react-native";
 
 import AgentPocCard, { IPocCardPropsData } from "./Components/AgentPocCard";
 
-import {
-  CONSTANT_passIcon,
-  CONSTANT_visaRelatedFaqIcon,
-  CONSTANT_paymentIcon,
-  CONSTANT_defaultPlaceImage,
-  CONSTANT_agentIntroBgPattern
-} from "../../constants/imageAssets";
+import { CONSTANT_agentIntroBgPattern } from "../../constants/imageAssets";
 
 import {
   responsiveWidth
@@ -26,24 +20,12 @@ import AgentInfoText from "../AgentFeedbackScreen/Components/AgentInfoText";
 import { isIphoneX } from "react-native-iphone-x-helper";
 import { CONSTANT_xSensorAreaHeight } from "../../constants/styles";
 import * as Animatable from "react-native-animatable";
-
-const pocCardData: IPocCardPropsData[] = [
-  {
-    title: "Superstar support",
-    description: "The travel vouchers you need for your trip",
-    iconName: `${CONSTANT_passIcon}`
-  },
-  {
-    title: "Visa assistance",
-    description: "The travel vouchers you need for your trip",
-    iconName: `${CONSTANT_visaRelatedFaqIcon}`
-  },
-  {
-    title: "Payments",
-    description: "The travel vouchers you need for your trip",
-    iconName: `${CONSTANT_paymentIcon}`
-  }
-];
+import { observer, inject } from "mobx-react";
+import UserFlowTransition from "../../mobx/UserFlowTransition";
+import Itineraries from "../../mobx/Itineraries";
+import { NavigationStackProp } from "react-navigation-stack";
+import DebouncedAlert from "../../CommonComponents/DebouncedAlert/DebouncedAlert";
+import { openPostBookingHome } from "../../Services/launchPostBooking/launchPostBooking";
 
 const { createAnimatableComponent } = Animatable;
 
@@ -56,19 +38,57 @@ const BOTTOM_SPACING = GUTTER_SPACING - 8;
 const LEFT_SPACING = GUTTER_SPACING;
 const RIGHT_SPACING = GUTTER_SPACING;
 
-const AgentInfo = () => {
+export interface AgentInfoProps {
+  userFlowTransitionStore: UserFlowTransition;
+  itineraries: Itineraries;
+  navigation: NavigationStackProp<{
+    itineraryId: string;
+    ownerName: string;
+    ownerImage: string;
+    pocCardData: IPocCardPropsData[];
+  }>;
+}
+
+const AgentInfo = ({
+  userFlowTransitionStore,
+  itineraries,
+  navigation
+}: AgentInfoProps) => {
+  const ownerName: string = navigation.getParam("ownerName", "");
+  const ownerImage: string = navigation.getParam("ownerImage", "");
+  const pocCardData: IPocCardPropsData[] = navigation.getParam(
+    "pocCardData",
+    []
+  );
+
+  const onSubmit = () => {
+    userFlowTransitionStore
+      .userSeenOPSIntro(itineraries.selectedItineraryId)
+      .then(result => {
+        if (result) {
+          openPostBookingHome(navigation);
+        } else {
+          DebouncedAlert("Error!", "Unable to load data from our server");
+        }
+      })
+      .catch(() => {
+        DebouncedAlert("Error!", "Unable to load data from our server");
+      });
+  };
+
   return (
     <View style={styles.agentInfoContainer}>
       <SmartImageV2
-        source={CONSTANT_agentIntroBgPattern}
-        fallbackSource={{ uri: CONSTANT_defaultPlaceImage }}
+        source={CONSTANT_agentIntroBgPattern()}
+        fallbackSource={CONSTANT_agentIntroBgPattern()}
         style={styles.imageStyle}
+        resizeMode={"contain"}
       />
 
       <AnimatableView animation="fadeInUp" delay={1000} duration={2500}>
         <AgentInfoText
-          agentImage={"https://i.imgur.com/yfA9V3g.png"}
-          agentName={"Sunil Sathyaraj"}
+          agentImage={ownerImage}
+          agentName={ownerName}
           agentDescription={"Your onboarding expert"}
         />
       </AnimatableView>
@@ -94,10 +114,7 @@ const AgentInfo = () => {
         duration={2000}
         style={styles.buttonWrapperStyle}
       >
-        <PrimaryButton
-          text={"Submit"}
-          clickAction={() => Alert.alert("Click Submit Button")}
-        />
+        <PrimaryButton text={"Submit"} clickAction={onSubmit} />
       </AnimatableView>
     </View>
   );
@@ -117,7 +134,6 @@ const styles = StyleSheet.create({
   imageStyle: {
     width: 205,
     height: 108,
-    resizeMode: "cover",
     position: "absolute",
     top: 0,
     left: 0
@@ -143,4 +159,6 @@ const styles = StyleSheet.create({
   }
 });
 
-export default AgentInfo;
+export default inject("itineraries")(
+  inject("userFlowTransitionStore")(observer(AgentInfo))
+);

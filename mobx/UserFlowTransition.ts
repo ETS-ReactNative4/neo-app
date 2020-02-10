@@ -154,6 +154,30 @@ class UserFlowTransition {
         });
     });
   };
+
+  @action
+  userCompletedFeedback = (itineraryId: string) => {
+    return new Promise<boolean>((resolve, reject) => {
+      apiCall(
+        `${CONSTANT_feedbackInfo}?itineraryId=${itineraryId}`,
+        { completedSOFeedback: true },
+        "PATCH"
+      )
+        .then((response: IMobileServerResponse) => {
+          if (response.status === CONSTANT_responseSuccessStatus) {
+            this._completedSOFeedback = true;
+            resolve(true);
+          } else {
+            this._completedSOFeedback = false;
+            reject();
+          }
+        })
+        .catch(() => {
+          this._completedSOFeedback = false;
+          reject();
+        });
+    });
+  };
 }
 
 export default UserFlowTransition;
