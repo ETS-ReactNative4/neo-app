@@ -8,6 +8,7 @@ import SelectablePortraitImageTestCases from "../../CommonComponents/SelectableP
 import MasonryViewTestCases from "../../CommonComponents/MasonryView/MasonryViewTestCases";
 import CustomCheckBoxTestCases from "../../CommonComponents/CustomCheckBox/CustomCheckBoxTestCases";
 import ActionSheetTestCases from "../../CommonComponents/ActionSheet/ActionSheetTestCases";
+import BlogCardTestCases from "../../CommonComponents/BlogCard/BlogCardTestCases";
 
 const CommonComponentStories = storiesOf("Common Components", module);
 
@@ -23,3 +24,4 @@ SelectablePortraitImageTestCases.forEach(renderTestCase);
 MasonryViewTestCases.forEach(renderTestCase);
 CustomCheckBoxTestCases.forEach(renderTestCase);
 ActionSheetTestCases.forEach(renderTestCase);
+BlogCardTestCases.forEach(renderTestCase);
