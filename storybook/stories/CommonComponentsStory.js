@@ -9,6 +9,7 @@ import MasonryViewTestCases from "../../CommonComponents/MasonryView/MasonryView
 import CustomCheckBoxTestCases from "../../CommonComponents/CustomCheckBox/CustomCheckBoxTestCases";
 import ActionSheetTestCases from "../../CommonComponents/ActionSheet/ActionSheetTestCases";
 import BlogCardTestCases from "../../CommonComponents/BlogCard/BlogCardTestCases";
+import TestimonialCardTestCases from "../../CommonComponents/TestimonialCard/TestimonialCardTestCases";
 
 const CommonComponentStories = storiesOf("Common Components", module);
 
@@ -25,3 +26,4 @@ MasonryViewTestCases.forEach(renderTestCase);
 CustomCheckBoxTestCases.forEach(renderTestCase);
 ActionSheetTestCases.forEach(renderTestCase);
 BlogCardTestCases.forEach(renderTestCase);
+TestimonialCardTestCases.forEach(renderTestCase);
