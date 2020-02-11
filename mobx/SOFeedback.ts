@@ -21,11 +21,11 @@ export interface ISODetails {
 }
 
 export interface ISOQualities {
-  "1star": IQuality[];
-  "2star": IQuality[];
-  "3star": IQuality[];
-  "4star": IQuality[];
-  "5star": IQuality[];
+  "1Star": IQuality[];
+  "2Star": IQuality[];
+  "3Star": IQuality[];
+  "4Star": IQuality[];
+  "5Star": IQuality[];
 }
 
 export interface IQuality {
@@ -136,53 +136,7 @@ class SOFeedback {
             this._ownerId = ownerId;
             this._ownerImage = imageUrl;
             this._ownerImage = ownerName;
-            this._ownerQualities =
-              {
-                "1star": [],
-                "2star": [],
-                "3star": [
-                  {
-                    qualityImage: "https://i.imgur.com/hm0u6k6.png",
-                    qualityText: "Text1"
-                  },
-                  {
-                    qualityImage: "https://i.imgur.com/hm0u6k6.png",
-                    qualityText: "Text2"
-                  },
-                  {
-                    qualityImage: "https://i.imgur.com/hm0u6k6.png",
-                    qualityText: "Text3"
-                  }
-                ],
-                "4star": [
-                  {
-                    qualityImage: "https://i.imgur.com/hm0u6k6.png",
-                    qualityText: "Text1"
-                  },
-                  {
-                    qualityImage: "https://i.imgur.com/hm0u6k6.png",
-                    qualityText: "Text2"
-                  },
-                  {
-                    qualityImage: "https://i.imgur.com/hm0u6k6.png",
-                    qualityText: "Text3"
-                  }
-                ],
-                "5star": [
-                  {
-                    qualityImage: "https://i.imgur.com/hm0u6k6.png",
-                    qualityText: "Text1"
-                  },
-                  {
-                    qualityImage: "https://i.imgur.com/hm0u6k6.png",
-                    qualityText: "Text2"
-                  },
-                  {
-                    qualityImage: "https://i.imgur.com/hm0u6k6.png",
-                    qualityText: "Text3"
-                  }
-                ]
-              } || ownerQualities;
+            this._ownerQualities = ownerQualities;
             this._ownerDescription = ownerText;
             resolve(true);
           } else {

@@ -265,7 +265,7 @@ const AgentFeedbackComponent = ({
   let selectedQualities = [];
   if (ownerQualities) {
     // @ts-ignore
-    selectedQualities = ownerQualities[`${rating}star`];
+    selectedQualities = ownerQualities[`${rating}Star`];
   }
 
   const onFeedbackSubmit = () => {
