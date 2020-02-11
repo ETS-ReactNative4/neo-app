@@ -76,6 +76,18 @@ const AgentInfo = ({
       });
   };
 
+  const FIRST_ANIMATION_DELAY = 50;
+  const FIRST_ANIMATION_DURATION = 400;
+  const SECOND_ANIMATION_DELAY =
+    1000 + FIRST_ANIMATION_DELAY + FIRST_ANIMATION_DURATION;
+  const SECOND_ANIMATION_DURATION = 400;
+  const THIRD_ANIMATION_DELAY =
+    50 + SECOND_ANIMATION_DELAY + SECOND_ANIMATION_DURATION;
+  const THIRD_ANIMATION_DURATION = 400;
+  const FOURTH_ANIMATION_DELAY =
+    THIRD_ANIMATION_DELAY + pocCardData.length * THIRD_ANIMATION_DURATION;
+  const FOURTH_ANIMATION_DURATION = 400;
+
   return (
     <View style={styles.agentInfoContainer}>
       <SmartImageV2
@@ -85,7 +97,11 @@ const AgentInfo = ({
         resizeMode={"contain"}
       />
 
-      <AnimatableView animation="fadeInUp" delay={1000} duration={2500}>
+      <AnimatableView
+        animation="fadeInUp"
+        delay={FIRST_ANIMATION_DELAY}
+        duration={FIRST_ANIMATION_DURATION}
+      >
         <AgentInfoText
           agentImage={ownerImage}
           agentName={ownerName}
@@ -93,7 +109,11 @@ const AgentInfo = ({
         />
       </AnimatableView>
 
-      <AnimatableView animation="fadeInUp" delay={3500} duration={2000}>
+      <AnimatableView
+        animation="fadeInUp"
+        delay={SECOND_ANIMATION_DELAY}
+        duration={SECOND_ANIMATION_DURATION}
+      >
         <Text style={styles.agentHelloText}>
           Hello, I’ll be helping you with all of these
         </Text>
@@ -101,17 +121,17 @@ const AgentInfo = ({
 
       <AgentPocCard
         containerStyle={styles.agentPocCardStyle}
-        animation="slideInRight"
+        animation="fadeInRight"
         pocCardData={pocCardData}
-        delay={5900}
-        duration={2000}
-        successiveDelay={2000}
+        delay={THIRD_ANIMATION_DELAY}
+        duration={THIRD_ANIMATION_DURATION}
+        successiveDelay={THIRD_ANIMATION_DURATION}
       />
 
       <AnimatableView
         animation="fadeInUp"
-        delay={5900 + 2000 * pocCardData.length}
-        duration={2000}
+        delay={FOURTH_ANIMATION_DELAY}
+        duration={FOURTH_ANIMATION_DURATION}
         style={styles.buttonWrapperStyle}
       >
         <PrimaryButton text={"View your trip details"} clickAction={onSubmit} />

@@ -5,7 +5,8 @@ import {
   Text,
   Platform,
   StyleProp,
-  ViewStyle
+  ViewStyle,
+  LayoutAnimation
 } from "react-native";
 import AgentInfoText from "./Components/AgentInfoText";
 import AgentFeedbackOption from "./Components/AgentFeedbackOption/AgentFeedbackOption";
@@ -14,7 +15,7 @@ import {
   responsiveWidth
   // @ts-ignore
 } from "react-native-responsive-dimensions";
-import { CONSTANT_black1 } from "../../constants/colorPallete";
+import { CONSTANT_black1, CONSTANT_shade5 } from "../../constants/colorPallete";
 import {
   CONSTANT_fontCustom,
   CONSTANT_primarySemiBold
@@ -234,23 +235,30 @@ const AgentFeedbackComponent = ({
   };
 
   let evadeKeyboard: StyleProp<ViewStyle> | undefined;
+  let showButton = true;
 
-  if (keyboardHeight) {
+  if (keyboardShown) {
     if (Platform.OS === CONSTANT_platformIos) {
+      LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
       evadeKeyboard = {
         position: "absolute",
         bottom: keyboardHeight,
         width: responsiveWidth(100),
-        paddingHorizontal: 24
+        borderTopWidth: 1,
+        borderTopColor: CONSTANT_shade5
       };
     } else if (Platform.OS === CONSTANT_platformAndroid) {
       /**
        * On Android margin needs to be moved above the
        * keyboard view port hence it has a margin top of -100
        */
+      LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
       evadeKeyboard = {
-        marginTop: -100
+        marginTop: -100,
+        borderTopWidth: 1,
+        borderTopColor: CONSTANT_shade5
       };
+      showButton = false;
     }
   }
 
@@ -355,7 +363,7 @@ const AgentFeedbackComponent = ({
           isSelectionMode={false}
         />
       </AnimatedView>
-      {!keyboardShown ? (
+      {showButton ? (
         <AnimatedView
           style={[styles.buttonWrapperStyle, buttonWrapperAnimationStyle]}
         >

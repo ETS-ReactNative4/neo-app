@@ -31,14 +31,17 @@ const MessageInput = ({
 }) => {
   return (
     <View style={[styles.messageInputContainer, containerStyle]}>
-      <View style={styles.labelWrapper}>
-        <Text style={styles.labelText}>{label}</Text>
-      </View>
+      {label ? (
+        <View style={styles.labelWrapper}>
+          <Text style={styles.labelText}>{label}</Text>
+        </View>
+      ) : null}
       <View style={styles.textInputWrapper}>
         {!isSelectionMode ? (
           <TextInput
             ref={inputRef}
             blurOnSubmit={blurOnSubmit}
+            multiline={true}
             style={[styles.textInput, !text ? styles.placeholderStyle : null]}
             onChangeText={onChangeText}
             value={text}
