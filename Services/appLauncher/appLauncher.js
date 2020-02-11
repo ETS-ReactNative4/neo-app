@@ -111,6 +111,7 @@ const AppLauncher = () => {
                 navigationService.navigation,
                 storeService.itineraries.selectedItineraryId
               );
+              resolve();
             }
           })
           .catch(() => {

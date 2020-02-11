@@ -14,18 +14,19 @@ import {
 
 const pocCardData: IPocCardPropsData[] = [
   {
-    title: "Superstar support",
-    description: "The travel vouchers you need for your trip",
+    title: "Vouchers",
+    description: "All the travel documents you’ll need for your trip",
     iconName: CONSTANT_passIcon
   },
   {
     title: "Visa assistance",
-    description: "The travel vouchers you need for your trip",
+    description:
+      "Step-by-step assistance to ensure your visa application is perfect",
     iconName: CONSTANT_visaRelatedFaqIcon
   },
   {
-    title: "Payments",
-    description: "The travel vouchers you need for your trip",
+    title: "Itinerary changes",
+    description: "Any last-minute changes you want to make to your itinerary",
     iconName: CONSTANT_paymentIcon
   }
 ];

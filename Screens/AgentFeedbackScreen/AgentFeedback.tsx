@@ -345,7 +345,9 @@ const AgentFeedbackComponent = ({
           containerStyle={styles.commentInput}
           label={""}
           textPlaceholder={
-            isGoodRating ? "Write a thank you note..." : "What went wrong?"
+            isGoodRating
+              ? "Write a thank you note..."
+              : "We're sorry to hear that! How can we do better?"
           }
           text={comment}
           blurOnSubmit={true}

@@ -66,7 +66,6 @@ const launchPostBooking = (
       .loadUserTransitionStatus(selectedItineraryId)
       .then(transitionStatus => {
         storeService.appState.setTripMode(true);
-
         if (!transitionStatus.seenPostBookingIntro) {
           resetToPostBookingIntro(navigation);
         } else if (!transitionStatus.completedSOFeedback) {
