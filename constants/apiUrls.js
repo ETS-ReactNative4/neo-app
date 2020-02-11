@@ -130,5 +130,6 @@ export const CONSTANT_feedbackUserState = "feedback/userState";
 export const CONSTANT_feedbackInfo = "feedback";
 export const CONSTANT_postBookingIntroData =
   "so-feedback/json/postBookingIntro.json";
+export const CONSTANT_pocCardData = "so-feedback/json/pocCardData.json";
 
 export default apiUrls;

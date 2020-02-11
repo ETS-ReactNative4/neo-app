@@ -74,7 +74,6 @@ const resetToPostBookingIntro = (navigation: NavigationStackProp<any>) => {
     );
   };
 
-  // @ts-ignore
   fetch(`${CONSTANT_awsJsonServer}${CONSTANT_postBookingIntroData}`)
     .then(response => response.json())
     .then((appIntroData: IPostBookingIntroData[]) => {

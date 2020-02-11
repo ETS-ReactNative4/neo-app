@@ -1,5 +1,8 @@
 import { NavigationStackProp } from "react-navigation-stack";
-import { CONSTANT_feedbackInfo } from "../../../constants/apiUrls";
+import {
+  CONSTANT_feedbackInfo,
+  CONSTANT_pocCardData
+} from "../../../constants/apiUrls";
 import apiCall from "../../networkRequests/apiCall";
 import { ISOInfoResponse } from "../launchPostBooking";
 import { CONSTANT_responseSuccessStatus } from "../../../constants/stringConstants";
@@ -11,8 +14,11 @@ import {
   CONSTANT_visaRelatedFaqIcon,
   CONSTANT_paymentIcon
 } from "../../../constants/imageAssets";
+import { CONSTANT_openOPSIntroLoadFailureText } from "../../../constants/appText";
+import { logError } from "../../errorLogger/errorLogger";
+import { CONSTANT_awsJsonServer } from "../../../constants/serverUrls";
 
-const pocCardData: IPocCardPropsData[] = [
+const pocCardDefaultData: IPocCardPropsData[] = [
   {
     title: "Vouchers",
     description: "All the travel documents you’ll need for your trip",
@@ -35,39 +41,61 @@ const resetToAgentInfo = (
   navigation: NavigationStackProp<any>,
   itineraryId: string
 ) => {
-  apiCall(
-    `${CONSTANT_feedbackInfo}?itineraryId=${itineraryId}&type=ACCOUNT_OWNER`,
-    {},
-    "GET"
-  )
-    .then((response: ISOInfoResponse) => {
-      if (response.status === CONSTANT_responseSuccessStatus) {
-        const { ownerName, imageUrl } = response.data;
-        navigation.dispatch(
-          StackActions.reset({
-            index: 0,
-            actions: [
-              NavigationActions.navigate({
-                routeName: "MainStack",
-                action: NavigationActions.navigate({
-                  routeName: "AgentInfo",
-                  params: {
-                    itineraryId,
-                    ownerName,
-                    ownerImage: imageUrl,
-                    pocCardData
-                  }
+  const resettingScreen = (pocCardData: IPocCardPropsData[]) => {
+    apiCall(
+      `${CONSTANT_feedbackInfo}?itineraryId=${itineraryId}&type=ACCOUNT_OWNER`,
+      {},
+      "GET"
+    )
+      .then((response: ISOInfoResponse) => {
+        if (response.status === CONSTANT_responseSuccessStatus) {
+          const { ownerName, imageUrl } = response.data;
+          navigation.dispatch(
+            StackActions.reset({
+              index: 0,
+              actions: [
+                NavigationActions.navigate({
+                  routeName: "MainStack",
+                  action: NavigationActions.navigate({
+                    routeName: "AgentInfo",
+                    params: {
+                      itineraryId,
+                      ownerName,
+                      ownerImage: imageUrl,
+                      pocCardData
+                    }
+                  })
                 })
-              })
-            ]
-          })
+              ]
+            })
+          );
+        } else {
+          DebouncedAlert(
+            CONSTANT_openOPSIntroLoadFailureText.header,
+            CONSTANT_openOPSIntroLoadFailureText.message
+          );
+        }
+      })
+      .catch(() => {
+        DebouncedAlert(
+          CONSTANT_openOPSIntroLoadFailureText.header,
+          CONSTANT_openOPSIntroLoadFailureText.message
         );
-      } else {
-        DebouncedAlert("Error!", "Unable to load data from the server");
-      }
+      });
+  };
+
+  fetch(`${CONSTANT_awsJsonServer}${CONSTANT_pocCardData}`)
+    .then(response => response.json())
+    .then((pocCardData: IPocCardPropsData[]) => {
+      resettingScreen(pocCardData);
     })
-    .catch(() => {
-      DebouncedAlert("Error!", "Unable to load data from the server");
+    .catch(error => {
+      resettingScreen(pocCardDefaultData);
+      logError(error);
+      DebouncedAlert(
+        CONSTANT_openOPSIntroLoadFailureText.header,
+        CONSTANT_openOPSIntroLoadFailureText.message
+      );
     });
 };
 
