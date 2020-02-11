@@ -110,11 +110,11 @@ const AgentInfo = ({
 
       <AnimatableView
         animation="fadeInUp"
-        delay={7900 + 2000 * pocCardData.length}
+        delay={5900 + 2000 * pocCardData.length}
         duration={2000}
         style={styles.buttonWrapperStyle}
       >
-        <PrimaryButton text={"Submit"} clickAction={onSubmit} />
+        <PrimaryButton text={"View your trip details"} clickAction={onSubmit} />
       </AnimatableView>
     </View>
   );
