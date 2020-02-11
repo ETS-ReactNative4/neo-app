@@ -12,6 +12,7 @@ import BlogCardTestCases from "../../CommonComponents/BlogCard/BlogCardTestCases
 import TestimonialCardTestCases from "../../CommonComponents/TestimonialCard/TestimonialCardTestCases";
 import PromoCardTestCases from "../../CommonComponents/PromoCard/PromoCardTestCases";
 import PartnersSectionTestCases from "../../CommonComponents/PartnersSection/PartnersSectionTestCases";
+import SecurePartnerTestCases from "../../CommonComponents/SecurePartner/SecurePartnerTestCases";
 
 const CommonComponentStories = storiesOf("Common Components", module);
 
@@ -31,3 +32,4 @@ BlogCardTestCases.forEach(renderTestCase);
 TestimonialCardTestCases.forEach(renderTestCase);
 PromoCardTestCases.forEach(renderTestCase);
 PartnersSectionTestCases.forEach(renderTestCase);
+SecurePartnerTestCases.forEach(renderTestCase);
