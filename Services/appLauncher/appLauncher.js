@@ -6,6 +6,40 @@ import { NavigationActions } from "react-navigation";
 import { logError } from "../errorLogger/errorLogger";
 import storeService from "../storeService/storeService";
 import setUserSegment from "../setUserSegment/setUserSegment";
+import hydrate from "../hydrate/hydrate";
+import launchPostBooking from "../launchPostBooking/launchPostBooking";
+
+/**
+ * This promise will check if user has completed the welcome flow
+ * before he moves into the post booking flow.
+ *
+ * Involves hydrating the state from past session hence it is asynchronous
+ */
+const isPostBookingWelcomePending = () => {
+  return new Promise((resolve, reject) => {
+    Promise.all([
+      hydrate("_seenOPSIntro", storeService.userFlowTransitionStore),
+      hydrate("_completedSOFeedback", storeService.userFlowTransitionStore),
+      hydrate("_seenPostBookingIntro", storeService.userFlowTransitionStore)
+    ])
+      .then(() => {
+        const {
+          completedSOFeedback,
+          seenOPSIntro,
+          seenPostBookingIntro
+        } = storeService.userFlowTransitionStore;
+        if (completedSOFeedback && seenOPSIntro && seenPostBookingIntro) {
+          resolve(true);
+        } else {
+          resolve(false);
+        }
+      })
+      .catch(error => {
+        logError(error);
+        reject();
+      });
+  });
+};
 
 /**
  * Resets the current navigation stack to the BookedItineraryTabs
@@ -49,20 +83,34 @@ const AppLauncher = () => {
          */
         storeService.journalStore.startImageUploadQueue();
 
-        /**
-         * Check if trip toggle button is enabled
-         */
-        AsyncStorage.getItem(constants.tripToggleStatusStorageKey).then(
-          isTripModeOn => {
-            if (JSON.parse(isTripModeOn)) {
-              navigation.dispatch(resetToBooked);
-              resolve();
-            } else {
-              navigation.dispatch(resetToPlan);
-              resolve();
+        const openPostBookingHome = () => {
+          /**
+           * Check if trip toggle button is enabled
+           */
+          AsyncStorage.getItem(constants.tripToggleStatusStorageKey).then(
+            isTripModeOn => {
+              if (JSON.parse(isTripModeOn)) {
+                navigation.dispatch(resetToBooked);
+                resolve();
+              } else {
+                navigation.dispatch(resetToPlan);
+                resolve();
+              }
             }
-          }
-        );
+          );
+        };
+
+        isPostBookingWelcomePending()
+          .then(result => {
+            if (result) {
+              openPostBookingHome();
+            } else {
+              launchPostBooking("SplashScreen", navigationService.navigation);
+            }
+          })
+          .catch(() => {
+            openPostBookingHome();
+          });
       },
       () => {
         /**

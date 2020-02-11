@@ -224,6 +224,7 @@ const launchPostBooking = (
         } else {
           openPostBookingScreen(routeName, navigation);
         }
+        resolve(true);
       })
       .catch(err => {
         logError("Unable to load user transition status", { err });
