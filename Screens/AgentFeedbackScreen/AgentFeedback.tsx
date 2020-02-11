@@ -1,10 +1,16 @@
 import React, { useState } from "react";
-import { StyleSheet, View, Text, Platform } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Text,
+  Platform,
+  StyleProp,
+  ViewStyle
+} from "react-native";
 import AgentInfoText from "./Components/AgentInfoText";
 import AgentFeedbackOption from "./Components/AgentFeedbackOption/AgentFeedbackOption";
 import Animated, { Easing } from "react-native-reanimated";
 import {
-  responsiveHeight,
   responsiveWidth
   // @ts-ignore
 } from "react-native-responsive-dimensions";
@@ -23,11 +29,16 @@ import _ from "lodash";
 import MessageInput from "../SupportCenterScreen/Components/MessageInput";
 import DismissKeyboardView from "../../CommonComponents/DismissKeyboardView/DismissKeyboardView";
 import useKeyboard from "../../CommonComponents/useKeyboard/useKeyboard";
-import { CONSTANT_platformIos } from "../../constants/stringConstants";
+import {
+  CONSTANT_platformIos,
+  CONSTANT_platformAndroid
+} from "../../constants/stringConstants";
 import Itineraries from "../../mobx/Itineraries";
 import DebouncedAlert from "../../CommonComponents/DebouncedAlert/DebouncedAlert";
 import { openOPSIntro } from "../../Services/launchPostBooking/launchPostBooking";
 import { CONSTANT_agentIntroBgPattern } from "../../constants/imageAssets";
+import { isIphoneX } from "react-native-iphone-x-helper";
+import { CONSTANT_xNotchHeight } from "../../constants/styles";
 
 const { createAnimatedComponent, Value, interpolate, Extrapolate } = Animated;
 
@@ -56,7 +67,7 @@ const AgentFeedbackComponent = ({
   const [qualities, setQualities] = useState<string[]>([]);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
-  const { keyboardHeight } = useKeyboard();
+  const { keyboardHeight, keyboardShown } = useKeyboard();
 
   const {
     ownerId,
@@ -111,9 +122,11 @@ const AgentFeedbackComponent = ({
     extrapolate: Extrapolate.CLAMP
   });
 
+  const TOP_MARGIN = 110 + (isIphoneX() ? CONSTANT_xNotchHeight : 0);
+
   const rateInfoTextMargin = interpolate(goodRatingAnimationState, {
     inputRange: [0, 1],
-    outputRange: [140, -10],
+    outputRange: [TOP_MARGIN, -10],
     extrapolate: Extrapolate.CLAMP
   });
 
@@ -153,9 +166,9 @@ const AgentFeedbackComponent = ({
     extrapolate: Extrapolate.CLAMP
   });
 
-  const textInputWrapperBottom = interpolate(animationState, {
+  const textInputWrapperMargin = interpolate(animationState, {
     inputRange: [0, 1],
-    outputRange: [-160, responsiveHeight(10)],
+    outputRange: [160, 0],
     extrapolate: Extrapolate.CLAMP
   });
 
@@ -216,15 +229,29 @@ const AgentFeedbackComponent = ({
   };
 
   const textInputStyle = {
-    bottom: textInputWrapperBottom,
+    marginTop: textInputWrapperMargin,
     opacity: textInputWrapperOpacity
   };
 
-  const evadeKeyboard: { bottom: number } | {} = {};
+  let evadeKeyboard: StyleProp<ViewStyle> | undefined;
 
-  if (keyboardHeight && Platform.OS === CONSTANT_platformIos) {
-    // @ts-ignore
-    evadeKeyboard.bottom = keyboardHeight;
+  if (keyboardHeight) {
+    if (Platform.OS === CONSTANT_platformIos) {
+      evadeKeyboard = {
+        position: "absolute",
+        bottom: keyboardHeight,
+        width: responsiveWidth(100),
+        paddingHorizontal: 24
+      };
+    } else if (Platform.OS === CONSTANT_platformAndroid) {
+      /**
+       * On Android margin needs to be moved above the
+       * keyboard view port hence it has a margin top of -100
+       */
+      evadeKeyboard = {
+        marginTop: -100
+      };
+    }
   }
 
   let selectedQualities = [];
@@ -265,6 +292,8 @@ const AgentFeedbackComponent = ({
     DebouncedAlert("Error", "Unable to submit feedback!");
   };
 
+  const isGoodRating = rating > 3;
+
   return (
     <DismissKeyboardView style={styles.agentContainer}>
       {/**
@@ -298,14 +327,16 @@ const AgentFeedbackComponent = ({
         />
       </AnimatedView>
 
-      <AnimatedView style={agentOptionWrapperStyle}>
-        <AgentFeedbackOption
-          selectedQualities={qualities}
-          agentOptionData={selectedQualities}
-          selectQuality={selectQuality}
-          unselectQuality={unselectQuality}
-        />
-      </AnimatedView>
+      {isGoodRating ? (
+        <AnimatedView style={agentOptionWrapperStyle}>
+          <AgentFeedbackOption
+            selectedQualities={qualities}
+            agentOptionData={selectedQualities}
+            selectQuality={selectQuality}
+            unselectQuality={unselectQuality}
+          />
+        </AnimatedView>
+      ) : null}
 
       <AnimatedView
         style={[styles.textInputWrapperStyle, textInputStyle, evadeKeyboard]}
@@ -314,21 +345,24 @@ const AgentFeedbackComponent = ({
           containerStyle={styles.commentInput}
           label={""}
           textPlaceholder={
-            rating > 3 ? "Write a thank you note..." : "What went wrong?"
+            isGoodRating ? "Write a thank you note..." : "What went wrong?"
           }
           text={comment}
+          blurOnSubmit={true}
           onChangeText={setComment}
           isSelectionMode={false}
         />
       </AnimatedView>
-      <AnimatedView
-        style={[styles.buttonWrapperStyle, buttonWrapperAnimationStyle]}
-      >
-        <PrimaryButton
-          text={"Submit"}
-          clickAction={isSubmitting ? () => null : onFeedbackSubmit}
-        />
-      </AnimatedView>
+      {!keyboardShown ? (
+        <AnimatedView
+          style={[styles.buttonWrapperStyle, buttonWrapperAnimationStyle]}
+        >
+          <PrimaryButton
+            text={"Submit"}
+            clickAction={isSubmitting ? () => null : onFeedbackSubmit}
+          />
+        </AnimatedView>
+      ) : null}
     </DismissKeyboardView>
   );
 };
@@ -375,10 +409,8 @@ const styles = StyleSheet.create({
   },
 
   textInputWrapperStyle: {
-    position: "absolute",
-    width: responsiveWidth(100),
-    paddingHorizontal: 24,
-    backgroundColor: "white"
+    backgroundColor: "white",
+    backfaceVisibility: "hidden"
   },
 
   commentInput: {
