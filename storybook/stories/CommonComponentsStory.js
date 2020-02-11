@@ -10,6 +10,7 @@ import CustomCheckBoxTestCases from "../../CommonComponents/CustomCheckBox/Custo
 import ActionSheetTestCases from "../../CommonComponents/ActionSheet/ActionSheetTestCases";
 import BlogCardTestCases from "../../CommonComponents/BlogCard/BlogCardTestCases";
 import TestimonialCardTestCases from "../../CommonComponents/TestimonialCard/TestimonialCardTestCases";
+import PromoCardTestCases from "../../CommonComponents/PromoCard/PromoCardTestCases";
 
 const CommonComponentStories = storiesOf("Common Components", module);
 
@@ -27,3 +28,4 @@ CustomCheckBoxTestCases.forEach(renderTestCase);
 ActionSheetTestCases.forEach(renderTestCase);
 BlogCardTestCases.forEach(renderTestCase);
 TestimonialCardTestCases.forEach(renderTestCase);
+PromoCardTestCases.forEach(renderTestCase);
