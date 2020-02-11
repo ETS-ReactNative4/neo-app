@@ -37,6 +37,16 @@ const pocCardDefaultData: IPocCardPropsData[] = [
   }
 ];
 
+/**
+ * Resets the application stack to agent info screen
+ *
+ * While resetting, it will make two api calls
+ * - Fetching static text content stored as JSON in AWS
+ * - Fetching the agent details from API
+ *
+ * The data fetching part is moved out of the component to ensure animations
+ * are seamless for the user...
+ */
 const resetToAgentInfo = (
   navigation: NavigationStackProp<any>,
   itineraryId: string

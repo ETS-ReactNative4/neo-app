@@ -54,6 +54,15 @@ const setDynamicValuesToString = (
   });
 };
 
+/**
+ * Resets the application stack to post booking intro
+ *
+ * While resetting, it will make the following api call
+ * - Fetching static text content stored as JSON in AWS
+ *
+ * The data fetching part is moved out of the component to ensure animations
+ * are seamless for the user...
+ */
 const resetToPostBookingIntro = (navigation: NavigationStackProp<any>) => {
   const resettingScreen = (introData: IPostBookingIntroData[]) => {
     navigation.dispatch(

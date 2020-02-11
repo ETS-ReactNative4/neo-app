@@ -1,6 +1,11 @@
 import { NavigationStackProp } from "react-navigation-stack";
 import { StackActions, NavigationActions } from "react-navigation";
 
+/**
+ * Resets the navigation stack to the post booking homepage
+ *
+ * This will take the user to the tripfeed.
+ */
 const resetToPostBookingScreen = (navigation: NavigationStackProp<any>) => {
   navigation.dispatch(
     StackActions.reset({
