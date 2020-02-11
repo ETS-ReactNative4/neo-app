@@ -20,7 +20,8 @@ const isPostBookingWelcomePending = () => {
     Promise.all([
       hydrate("_seenOPSIntro", storeService.userFlowTransitionStore),
       hydrate("_completedSOFeedback", storeService.userFlowTransitionStore),
-      hydrate("_seenPostBookingIntro", storeService.userFlowTransitionStore)
+      hydrate("_seenPostBookingIntro", storeService.userFlowTransitionStore),
+      hydrate("_selectedItinerary", storeService.itineraries)
     ])
       .then(() => {
         const {
@@ -105,7 +106,11 @@ const AppLauncher = () => {
             if (result) {
               openPostBookingHome();
             } else {
-              launchPostBooking("SplashScreen", navigationService.navigation);
+              launchPostBooking(
+                "SplashScreen",
+                navigationService.navigation,
+                storeService.itineraries.selectedItineraryId
+              );
             }
           })
           .catch(() => {

@@ -13,7 +13,7 @@ import { IMobileServerResponse } from "../TypeInterfaces/INetworkResponse";
 export interface ITransitionStatus {
   seenPostBookingIntro: boolean;
   completedSOFeedback: boolean;
-  seenOPSIntro: boolean;
+  seenOpsIntro: boolean;
 }
 
 export interface IUserTransitionStatusResponse extends IMobileServerResponse {
@@ -86,15 +86,15 @@ class UserFlowTransition {
             const {
               seenPostBookingIntro = false,
               completedSOFeedback = false,
-              seenOPSIntro = false
-            } = response.data || {};
+              seenOpsIntro = false
+            } = response.data;
             this._seenPostBookingIntro = seenPostBookingIntro;
             this._completedSOFeedback = completedSOFeedback;
-            this._seenOPSIntro = seenOPSIntro;
+            this._seenOPSIntro = seenOpsIntro;
             resolve({
               seenPostBookingIntro,
               completedSOFeedback,
-              seenOPSIntro
+              seenOpsIntro
             });
           } else {
             reject();
@@ -136,7 +136,7 @@ class UserFlowTransition {
     return new Promise<boolean>((resolve, reject) => {
       apiCall(
         `${CONSTANT_feedbackInfo}?itineraryId=${itineraryId}`,
-        { seenOPSIntro: true },
+        { seenOpsIntro: true },
         "PATCH"
       )
         .then((response: IMobileServerResponse) => {

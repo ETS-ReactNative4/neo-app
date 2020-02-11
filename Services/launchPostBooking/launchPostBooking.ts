@@ -215,11 +215,12 @@ const launchPostBooking = (
       .loadUserTransitionStatus(selectedItineraryId)
       .then(transitionStatus => {
         storeService.appState.setTripMode(true);
+
         if (!transitionStatus.seenPostBookingIntro) {
           resetToPostBookingIntro(navigation);
         } else if (!transitionStatus.completedSOFeedback) {
           resetToAgentFeedback(navigation);
-        } else if (!transitionStatus.seenOPSIntro) {
+        } else if (!transitionStatus.seenOpsIntro) {
           resetToAgentInfo(navigation, selectedItineraryId);
         } else {
           openPostBookingScreen(routeName, navigation);
