@@ -1,6 +1,6 @@
 import storeService from "../storeService/storeService";
 import { NavigationStackProp } from "react-navigation-stack";
-import { NavigationActions, StackActions } from "react-navigation";
+import { NavigationActions } from "react-navigation";
 import { logError } from "../errorLogger/errorLogger";
 import DebouncedAlert from "../../CommonComponents/DebouncedAlert/DebouncedAlert";
 import {
@@ -8,17 +8,11 @@ import {
   CONSTANT_openSOFeedbackLoadFailureText,
   CONSTANT_openOPSIntroLoadFailureText
 } from "../../constants/appText";
-import { IPostBookingIntroData } from "../../Screens/PostBookingIntroScreen/PostBookingIntro";
-import apiCall from "../networkRequests/apiCall";
-import { CONSTANT_feedbackInfo } from "../../constants/apiUrls";
-import { CONSTANT_responseSuccessStatus } from "../../constants/stringConstants";
 import { IMobileServerResponse } from "../../TypeInterfaces/INetworkResponse";
-import {
-  CONSTANT_passIcon,
-  CONSTANT_visaRelatedFaqIcon,
-  CONSTANT_paymentIcon
-} from "../../constants/imageAssets";
-import { IPocCardPropsData } from "../../Screens/AgentInfoScreen/Components/AgentPocCard";
+import resetToPostBookingIntro from "./screenResets/resetToPostBookingIntro";
+import resetToAgentInfo from "./screenResets/resetToAgentInfo";
+import resetToAgentFeedback from "./screenResets/resetToAgentFeedback";
+import resetToPostBookingScreen from "./screenResets/resetToPostBookingScreen";
 
 enum routeNameType {
   YourBookings = "YourBookings",
@@ -32,54 +26,9 @@ export interface ISOInfo {
   imageUrl: string;
 }
 
-const pocCardData: IPocCardPropsData[] = [
-  {
-    title: "Superstar support",
-    description: "The travel vouchers you need for your trip",
-    iconName: CONSTANT_passIcon
-  },
-  {
-    title: "Visa assistance",
-    description: "The travel vouchers you need for your trip",
-    iconName: CONSTANT_visaRelatedFaqIcon
-  },
-  {
-    title: "Payments",
-    description: "The travel vouchers you need for your trip",
-    iconName: CONSTANT_paymentIcon
-  }
-];
-
 export interface ISOInfoResponse extends IMobileServerResponse {
   data: ISOInfo;
 }
-
-const appIntroData: IPostBookingIntroData[] = [
-  {
-    title: "Hello Prabu,",
-    description:
-      "We’ll use your preference info to make better and more relevant recommendations.",
-    image: "https://i.imgur.com/YtdsUbs.png"
-  },
-  {
-    title: "Live on-trip support",
-    description:
-      "We’ll use your preference info to make better and more relevant recommendations.",
-    image: "https://i.imgur.com/sYzOl65.png"
-  },
-  {
-    title: "Visa assistance",
-    description:
-      "We’ll use your preference info to make better and more relevant recommendations.",
-    image: "https://i.imgur.com/hm0u6k6.png"
-  },
-  {
-    title: "Access to travel vouchers",
-    description:
-      "We’ll use your preference info to make better and more relevant recommendations.",
-    image: "https://i.imgur.com/cd7irIa.png"
-  }
-];
 
 const openPostBookingScreen = (
   routeName: routeNameType,
@@ -101,104 +50,6 @@ const openPostBookingScreen = (
       CONSTANT_postBookingLoadFailureText.invalidRoute
     );
   }
-};
-
-const resetToPostBookingIntro = (navigation: NavigationStackProp<any>) => {
-  /**
-   * TODO: Load Post Booking Intro here from API before
-   * transitioning screen.
-   */
-  navigation.dispatch(
-    StackActions.reset({
-      index: 0,
-      actions: [
-        NavigationActions.navigate({
-          routeName: "MainStack",
-          action: NavigationActions.navigate({
-            routeName: "PostBookingIntro",
-            params: {
-              introData: appIntroData
-            }
-          })
-        })
-      ]
-    })
-  );
-};
-
-const resetToAgentInfo = (
-  navigation: NavigationStackProp<any>,
-  itineraryId: string
-) => {
-  apiCall(
-    `${CONSTANT_feedbackInfo}?itineraryId=${itineraryId}&type=ACCOUNT_OWNER`,
-    {},
-    "GET"
-  )
-    .then((response: ISOInfoResponse) => {
-      if (response.status === CONSTANT_responseSuccessStatus) {
-        const { ownerName, imageUrl } = response.data;
-        navigation.dispatch(
-          StackActions.reset({
-            index: 0,
-            actions: [
-              NavigationActions.navigate({
-                routeName: "MainStack",
-                action: NavigationActions.navigate({
-                  routeName: "AgentInfo",
-                  params: {
-                    itineraryId,
-                    ownerName,
-                    ownerImage: imageUrl,
-                    pocCardData
-                  }
-                })
-              })
-            ]
-          })
-        );
-      } else {
-        DebouncedAlert("Error!", "Unable to load data from the server");
-      }
-    })
-    .catch(() => {
-      DebouncedAlert("Error!", "Unable to load data from the server");
-    });
-};
-
-const resetToAgentFeedback = (navigation: NavigationStackProp<any>) => {
-  navigation.dispatch(
-    StackActions.reset({
-      index: 0,
-      actions: [
-        NavigationActions.navigate({
-          routeName: "MainStack",
-          action: NavigationActions.navigate({
-            routeName: "AgentFeedback"
-          })
-        })
-      ]
-    })
-  );
-};
-
-const resetToPostBookingScreen = (navigation: NavigationStackProp<any>) => {
-  navigation.dispatch(
-    StackActions.reset({
-      index: 0,
-      actions: [
-        NavigationActions.navigate({
-          routeName: "MainStack",
-          action: NavigationActions.navigate({
-            routeName: "AppHome",
-            action: NavigationActions.navigate({
-              routeName: "BookedItineraryTabs"
-            })
-          })
-        })
-      ]
-    })
-  );
 };
 
 /**
