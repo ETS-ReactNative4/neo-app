@@ -29,7 +29,7 @@ interface IPartnerData {
 }
 
 interface PartnersSectionWrapperProps {
-  partnetData: IPartnerData[];
+  partnerData: IPartnerData[];
 }
 
 const styles = StyleSheet.create({
@@ -42,11 +42,11 @@ const styles = StyleSheet.create({
 });
 
 const PartnersSectionWrapper = ({
-  partnetData
+  partnerData
 }: PartnersSectionWrapperProps) => {
   return (
     <View style={styles.wrapper}>
-      {partnetData.map((dataObj, index) => {
+      {partnerData.map((dataObj, index) => {
         return (
           <PartnersSection
             key={index}
@@ -73,7 +73,7 @@ const PartnersSectionTestCases: ITestCase[] = [
   },
   {
     title: "Multiple Partner Section",
-    Component: <PartnersSectionWrapper partnetData={data} />
+    Component: <PartnersSectionWrapper partnerData={data} />
   }
 ];
 
