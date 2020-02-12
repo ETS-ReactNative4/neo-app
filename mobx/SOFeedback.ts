@@ -135,7 +135,7 @@ class SOFeedback {
             } = response.data;
             this._ownerId = ownerId;
             this._ownerImage = imageUrl;
-            this._ownerImage = ownerName;
+            this._ownerName = ownerName;
             this._ownerQualities = ownerQualities;
             this._ownerDescription = ownerText;
             resolve(true);
