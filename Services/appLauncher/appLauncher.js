@@ -84,6 +84,10 @@ const AppLauncher = () => {
          */
         storeService.journalStore.startImageUploadQueue();
 
+        /**
+         * Actual logic which will open the
+         * PostBooking home / tripfeed
+         */
         const openPostBookingHome = () => {
           /**
            * Check if trip toggle button is enabled
@@ -101,11 +105,22 @@ const AppLauncher = () => {
           );
         };
 
+        /**
+         * Verify if post booking welcome screen
+         * is seen by the user
+         */
         isPostBookingWelcomePending()
           .then(result => {
             if (result) {
+              /**
+               * User has seen the post booking welcome flow
+               * Open tripfeed
+               */
               openPostBookingHome();
             } else {
+              /**
+               * Welcome flow is pending resume it
+               */
               launchPostBooking(
                 "SplashScreen",
                 navigationService.navigation,
@@ -115,6 +130,10 @@ const AppLauncher = () => {
             }
           })
           .catch(() => {
+            /**
+             * Something went wrong while checking the post booking flow status
+             * Opens the tripfeed as fallback
+             */
             openPostBookingHome();
           });
       },
