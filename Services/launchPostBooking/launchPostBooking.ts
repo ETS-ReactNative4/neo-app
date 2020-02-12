@@ -44,11 +44,7 @@ const openPostBookingScreen = (
   } else if (routeName === "YourBookingsUniversal") {
     navigation.navigate("BookedItineraryTabs");
   } else {
-    logError("Unexpected route to launch Post Booking flow");
-    DebouncedAlert(
-      CONSTANT_postBookingLoadFailureText.header,
-      CONSTANT_postBookingLoadFailureText.invalidRoute
-    );
+    openPostBookingHome(navigation);
   }
 };
 
@@ -100,6 +96,7 @@ const launchPostBooking = (
         resolve(true);
       })
       .catch(err => {
+        openPostBookingScreen(routeName, navigation);
         logError("Unable to load user transition status", { err });
         DebouncedAlert(
           CONSTANT_postBookingLoadFailureText.header,

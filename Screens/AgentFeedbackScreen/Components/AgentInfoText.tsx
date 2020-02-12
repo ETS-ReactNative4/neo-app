@@ -41,7 +41,6 @@ const AgentImage = memo(
   ({ agentImage, agentImageContainerStyle }: AgentImageProps) => {
     return (
       <SmartImageV2
-        useFastImage={true}
         resizeMode={"cover"}
         source={{ uri: agentImage }}
         fallbackSource={CONSTANT_defaultAgentImage()}

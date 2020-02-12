@@ -4,7 +4,7 @@ import {
   CONSTANT_pocCardData
 } from "../../../constants/apiUrls";
 import apiCall from "../../networkRequests/apiCall";
-import { ISOInfoResponse } from "../launchPostBooking";
+import { ISOInfoResponse, openPostBookingHome } from "../launchPostBooking";
 import { CONSTANT_responseSuccessStatus } from "../../../constants/stringConstants";
 import { StackActions, NavigationActions } from "react-navigation";
 import DebouncedAlert from "../../../CommonComponents/DebouncedAlert/DebouncedAlert";
@@ -80,6 +80,7 @@ const resetToAgentInfo = (
             })
           );
         } else {
+          openPostBookingHome(navigation);
           DebouncedAlert(
             CONSTANT_openOPSIntroLoadFailureText.header,
             CONSTANT_openOPSIntroLoadFailureText.message
@@ -87,6 +88,7 @@ const resetToAgentInfo = (
         }
       })
       .catch(() => {
+        openPostBookingHome(navigation);
         DebouncedAlert(
           CONSTANT_openOPSIntroLoadFailureText.header,
           CONSTANT_openOPSIntroLoadFailureText.message
