@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import {
   StyleSheet,
   View,
@@ -42,17 +42,23 @@ const PostBookingIntro = ({ navigation }: PostBookingIntroProps) => {
     "introData",
     []
   );
-  const scrollX = new Value(0);
-  let activeIndex = 0;
+  const [scrollX] = useState(new Value(0));
+  const [activeIndex, setActiveIndex] = useState(0);
   const animatedScrollView: IAnimatedScrollViewRef = useRef<any>(null);
 
+  /**
+   * Updates active index when user manually scrolls through the screens
+   */
   const onMomentumScrollEnd = (
     scrollEvent: NativeSyntheticEvent<NativeScrollEvent>
   ) => {
     const activeOffset = scrollEvent.nativeEvent.contentOffset.x;
-    activeIndex = Math.ceil(activeOffset / responsiveWidth(100));
+    setActiveIndex(Math.ceil(activeOffset / responsiveWidth(100)));
   };
 
+  /**
+   * Update active index when the back button is clicked
+   */
   const moveForward = () => {
     if (animatedScrollView.current) {
       animatedScrollView.current.getNode().scrollTo({
@@ -62,13 +68,22 @@ const PostBookingIntro = ({ navigation }: PostBookingIntroProps) => {
     if (activeIndex === introData.length - 1) {
       openSOFeedback(navigation, storeService.itineraries.selectedItineraryId);
     }
+    if (activeIndex < introData.length) {
+      setActiveIndex(activeIndex + 1);
+    }
   };
 
+  /**
+   * Update active index when the next button is clicked
+   */
   const moveBack = () => {
     if (animatedScrollView.current) {
       animatedScrollView.current.getNode().scrollTo({
         x: Math.max(0, activeIndex - 1) * responsiveWidth(100)
       });
+    }
+    if (activeIndex > 0) {
+      setActiveIndex(activeIndex - 1);
     }
   };
 
