@@ -43,8 +43,9 @@ const AgentFeedbackOption = ({
       <View style={styles.feedbackScrollContainer}>
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
           {agentOptionData.map((agentQuality, qualityIndex) => {
-            const isSelected =
-              selectedQualities.indexOf(agentQuality.qualityText) > -1;
+            const isSelected = selectedQualities.includes(
+              agentQuality.qualityText
+            );
 
             const selectOption = () => {
               selectQuality(agentQuality.qualityText);

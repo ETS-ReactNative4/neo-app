@@ -127,13 +127,7 @@ const MainStack = createStackNavigator(
     }
   },
   {
-    navigationOptions: (
-      {
-        // navigation
-      }
-    ) => {
-      // const routeName = getActiveRouteName(navigation.state);
-
+    navigationOptions: () => {
       let drawerLockMode = "locked-closed";
 
       return {
