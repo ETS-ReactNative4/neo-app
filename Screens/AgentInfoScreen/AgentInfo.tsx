@@ -1,12 +1,13 @@
 import React from "react";
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, Text, ScrollView } from "react-native";
 
 import AgentPocCard, { IPocCardPropsData } from "./Components/AgentPocCard";
 
 import { CONSTANT_agentIntroBgPattern } from "../../constants/imageAssets";
 
 import {
-  responsiveWidth
+  responsiveWidth,
+  responsiveHeight
   // @ts-ignore
 } from "react-native-responsive-dimensions";
 import { CONSTANT_black1 } from "../../constants/colorPallete";
@@ -119,14 +120,19 @@ const AgentInfo = ({
         </Text>
       </AnimatableView>
 
-      <AgentPocCard
-        containerStyle={styles.agentPocCardStyle}
-        animation="fadeInRight"
-        pocCardData={pocCardData}
-        delay={THIRD_ANIMATION_DELAY}
-        duration={THIRD_ANIMATION_DURATION}
-        successiveDelay={THIRD_ANIMATION_DURATION}
-      />
+      <View style={styles.pocCardWrapper}>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <AgentPocCard
+            containerStyle={styles.agentPocCardStyle}
+            animation="fadeInRight"
+            pocCardData={pocCardData}
+            delay={THIRD_ANIMATION_DELAY}
+            duration={THIRD_ANIMATION_DURATION}
+            successiveDelay={THIRD_ANIMATION_DURATION}
+          />
+          <View style={styles.scrollSpacer} />
+        </ScrollView>
+      </View>
 
       <AnimatableView
         animation="fadeInUp"
@@ -176,6 +182,12 @@ const styles = StyleSheet.create({
     right: RIGHT_SPACING,
     bottom: BOTTOM_SPACING + (isIphoneX() ? CONSTANT_xSensorAreaHeight : 0),
     width: responsiveWidth(100) - LEFT_SPACING - RIGHT_SPACING
+  },
+  pocCardWrapper: {
+    height: responsiveHeight(40)
+  },
+  scrollSpacer: {
+    height: 120
   }
 });
 
