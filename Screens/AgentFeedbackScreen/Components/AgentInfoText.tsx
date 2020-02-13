@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React from "react";
 import {
   StyleSheet,
   View,
@@ -37,20 +37,21 @@ export interface AgentImageProps {
  * Component Memoized to prevent image re-rending
  * while animation.
  */
-const AgentImage = memo(
-  ({ agentImage, agentImageContainerStyle }: AgentImageProps) => {
-    return (
-      <SmartImageV2
-        resizeMode={"cover"}
-        source={{ uri: agentImage }}
-        fallbackSource={CONSTANT_defaultAgentImage()}
-        style={styles.agentImage}
-        imageStyle={agentImageContainerStyle}
-      />
-    );
-  },
-  () => true
-);
+const AgentImage = ({
+  agentImage,
+  agentImageContainerStyle
+}: AgentImageProps) => {
+  return (
+    <SmartImageV2
+      useFastImage={true}
+      resizeMode={"cover"}
+      source={{ uri: agentImage }}
+      fallbackSource={CONSTANT_defaultAgentImage()}
+      style={styles.agentImage}
+      imageStyle={agentImageContainerStyle}
+    />
+  );
+};
 
 const AgentInfoText = ({
   containerStyle,
