@@ -68,7 +68,10 @@ buck-out/
 changeLog.txt
 
 # Eslint Report
-report/
+lint-report/
+
+# Jest HTML Report
+jest-report/
 
 # Freshchat FCTheme patch - this file is required to remove "Powered by Freshchat" text in iOS
 !ios/Pods/FreshchatSDK/FreshchatSDK/FCResources.bundle/Themes/FCTheme.plist

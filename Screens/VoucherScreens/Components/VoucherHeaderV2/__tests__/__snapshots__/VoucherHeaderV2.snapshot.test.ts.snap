@@ -47,21 +47,11 @@ exports[`Voucher Header 1`] = `
       }
     }
   >
-    <View
-      accessible={true}
-      focusable={false}
-      isTVSelectable={true}
-      onClick={[Function]}
-      onResponderGrant={[Function]}
-      onResponderMove={[Function]}
-      onResponderRelease={[Function]}
-      onResponderTerminate={[Function]}
-      onResponderTerminationRequest={[Function]}
-      onStartShouldSetResponder={[Function]}
+    <TouchableOpacity
+      activeOpacity={0.8}
       style={
         Object {
           "left": 0,
-          "opacity": 1,
           "padding": 20,
           "position": "absolute",
           "top": 0,
@@ -78,7 +68,7 @@ exports[`Voucher Header 1`] = `
             },
             undefined,
             Object {
-              "fontFamily": "Voyager",
+              "fontFamily": "voyager",
               "fontStyle": "normal",
               "fontWeight": "normal",
             },
@@ -88,7 +78,7 @@ exports[`Voucher Header 1`] = `
       >
         
       </Text>
-    </View>
+    </TouchableOpacity>
     <Text
       allowFontScaling={false}
       style={
@@ -99,7 +89,7 @@ exports[`Voucher Header 1`] = `
           },
           undefined,
           Object {
-            "fontFamily": "Voyager",
+            "fontFamily": "voyager",
             "fontStyle": "normal",
             "fontWeight": "normal",
           },

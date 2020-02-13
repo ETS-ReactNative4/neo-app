@@ -54,7 +54,7 @@ exports[`Voucher HTML notes data 1`] = `
                 },
                 undefined,
                 Object {
-                  "fontFamily": "Voyager",
+                  "fontFamily": "voyager",
                   "fontStyle": "normal",
                   "fontWeight": "normal",
                 },

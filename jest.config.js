@@ -1,3 +1,5 @@
+const jestPreset = require("@testing-library/react-native/jest-preset");
+
 const ignoredNativeModules = [
   "react-native",
   "react-native-keychain",
@@ -52,19 +54,32 @@ const ignoredNativeModules = [
   "react-native-webengage"
 ];
 
-module.exports = {
-  preset: "react-native",
+module.exports = Object.assign(jestPreset, {
   setupFilesAfterEnv: [
     "./__mocks__/mockRNCNetInfo.js",
     "./__mocks__/mockFirebase.js",
     "./__mocks__/mockSegmentAnalytics.js",
     "./__mocks__/mockNativeEventEmitter.js",
     "./__mocks__/mockWebEngage.js",
-    "./__mocks__/mockFreshchat.js"
+    "./__mocks__/mockFreshchat.js",
+    "./__mocks__/mockAsyncStorage.js",
+    "./__mocks__/mockReanimated.js",
+    "./__mocks__/mockSimpleToast.js",
+    "./__mocks__/mockStoryBookWebSocket.js",
+    "./__mocks__/mockDeviceInfo.js",
+    "./__mocks__/mockReactNativeKeychain.js",
+    "./__mocks__/mockRequestHeader.js"
+  ],
+  setupFiles: [
+    ...jestPreset.setupFiles,
+    "./node_modules/react-native-gesture-handler/jestSetup.js"
   ],
   transformIgnorePatterns: [
     `node_modules/(?!(${ignoredNativeModules.join("|")}))`
   ],
   moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
-  coveragePathIgnorePatterns: ["/node_modules/", "constants/", "assets/"]
-};
+  coveragePathIgnorePatterns: ["/node_modules/", "constants/", "assets/"],
+  collectCoverage: true,
+  coverageReporters: ["json", "html"],
+  testResultsProcessor: "./node_modules/jest-html-reporter"
+});

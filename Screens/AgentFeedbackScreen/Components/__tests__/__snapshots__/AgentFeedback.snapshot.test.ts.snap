@@ -1,0 +1,562 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Agent Feedback Quality Section 1`] = `
+<View
+  style={
+    Array [
+      Object {
+        "alignItems": "center",
+        "borderBottomWidth": 1,
+        "borderColor": "rgba(239, 239, 239, 1)",
+        "borderTopWidth": 1,
+        "flexDirection": "column",
+        "justifyContent": "center",
+        "paddingVertical": 24,
+        "width": 750,
+      },
+      undefined,
+    ]
+  }
+>
+  <Text
+    style={
+      Object {
+        "color": "rgba(44, 47, 66, 1)",
+        "fontFamily": "SourceSansPro-SemiBold",
+        "fontSize": 13,
+        "lineHeight": 13,
+        "marginBottom": 20,
+      }
+    }
+  >
+    What did you like the most?
+  </Text>
+  <View
+    style={
+      Object {
+        "width": 750,
+      }
+    }
+  >
+    <ScrollView
+      horizontal={true}
+      showsHorizontalScrollIndicator={false}
+    >
+      <RNGestureHandlerButton
+        collapsable={false}
+        onGestureEvent={[Function]}
+        onGestureHandlerEvent={[Function]}
+        onGestureHandlerStateChange={[Function]}
+        onHandlerStateChange={[Function]}
+        rippleColor={0}
+        style={
+          Array [
+            Object {
+              "overflow": "hidden",
+            },
+            undefined,
+          ]
+        }
+      >
+        <View
+          accessible={true}
+          style={
+            Object {
+              "opacity": 1,
+            }
+          }
+        >
+          <View
+            style={
+              Object {
+                "alignItems": "center",
+                "flexDirection": "column",
+                "width": 187.5,
+              }
+            }
+          >
+            <Image
+              onError={[Function]}
+              source={
+                Object {
+                  "uri": "https://i.imgur.com/YtdsUbs.png",
+                }
+              }
+              style={
+                Array [
+                  Object {
+                    "backgroundColor": "rgba(239, 239, 239, 1)",
+                    "borderRadius": 25,
+                    "height": 56,
+                    "marginBottom": 8,
+                    "opacity": 0.2,
+                    "width": 56,
+                  },
+                  null,
+                ]
+              }
+            />
+            <Text
+              style={
+                Array [
+                  Object {
+                    "color": "rgba(119, 119, 119, 1)",
+                    "fontFamily": "SourceSansPro-Regular",
+                    "fontSize": 13,
+                    "lineHeight": 15,
+                    "paddingHorizontal": 8,
+                    "textAlign": "center",
+                  },
+                ]
+              }
+            >
+              Superstar support
+            </Text>
+          </View>
+        </View>
+      </RNGestureHandlerButton>
+      <RNGestureHandlerButton
+        collapsable={false}
+        onGestureEvent={[Function]}
+        onGestureHandlerEvent={[Function]}
+        onGestureHandlerStateChange={[Function]}
+        onHandlerStateChange={[Function]}
+        rippleColor={0}
+        style={
+          Array [
+            Object {
+              "overflow": "hidden",
+            },
+            undefined,
+          ]
+        }
+      >
+        <View
+          accessible={true}
+          style={
+            Object {
+              "opacity": 1,
+            }
+          }
+        >
+          <View
+            style={
+              Object {
+                "alignItems": "center",
+                "flexDirection": "column",
+                "width": 187.5,
+              }
+            }
+          >
+            <Image
+              onError={[Function]}
+              source={
+                Object {
+                  "uri": "https://i.imgur.com/sYzOl65.png",
+                }
+              }
+              style={
+                Array [
+                  Object {
+                    "backgroundColor": "rgba(239, 239, 239, 1)",
+                    "borderRadius": 25,
+                    "height": 56,
+                    "marginBottom": 8,
+                    "opacity": 0.2,
+                    "width": 56,
+                  },
+                  null,
+                ]
+              }
+            />
+            <Text
+              style={
+                Array [
+                  Object {
+                    "color": "rgba(119, 119, 119, 1)",
+                    "fontFamily": "SourceSansPro-Regular",
+                    "fontSize": 13,
+                    "lineHeight": 15,
+                    "paddingHorizontal": 8,
+                    "textAlign": "center",
+                  },
+                ]
+              }
+            >
+              Timely response
+            </Text>
+          </View>
+        </View>
+      </RNGestureHandlerButton>
+      <RNGestureHandlerButton
+        collapsable={false}
+        onGestureEvent={[Function]}
+        onGestureHandlerEvent={[Function]}
+        onGestureHandlerStateChange={[Function]}
+        onHandlerStateChange={[Function]}
+        rippleColor={0}
+        style={
+          Array [
+            Object {
+              "overflow": "hidden",
+            },
+            undefined,
+          ]
+        }
+      >
+        <View
+          accessible={true}
+          style={
+            Object {
+              "opacity": 1,
+            }
+          }
+        >
+          <View
+            style={
+              Object {
+                "alignItems": "center",
+                "flexDirection": "column",
+                "width": 187.5,
+              }
+            }
+          >
+            <Image
+              onError={[Function]}
+              source={
+                Object {
+                  "uri": "https://i.imgur.com/hm0u6k6.png",
+                }
+              }
+              style={
+                Array [
+                  Object {
+                    "backgroundColor": "rgba(239, 239, 239, 1)",
+                    "borderRadius": 25,
+                    "height": 56,
+                    "marginBottom": 8,
+                    "opacity": 0.2,
+                    "width": 56,
+                  },
+                  Object {
+                    "opacity": 1,
+                  },
+                ]
+              }
+            />
+            <Text
+              style={
+                Array [
+                  Object {
+                    "color": "rgba(119, 119, 119, 1)",
+                    "fontFamily": "SourceSansPro-Regular",
+                    "fontSize": 13,
+                    "lineHeight": 15,
+                    "paddingHorizontal": 8,
+                    "textAlign": "center",
+                  },
+                ]
+              }
+            >
+              Empathy
+            </Text>
+          </View>
+        </View>
+      </RNGestureHandlerButton>
+      <RNGestureHandlerButton
+        collapsable={false}
+        onGestureEvent={[Function]}
+        onGestureHandlerEvent={[Function]}
+        onGestureHandlerStateChange={[Function]}
+        onHandlerStateChange={[Function]}
+        rippleColor={0}
+        style={
+          Array [
+            Object {
+              "overflow": "hidden",
+            },
+            undefined,
+          ]
+        }
+      >
+        <View
+          accessible={true}
+          style={
+            Object {
+              "opacity": 1,
+            }
+          }
+        >
+          <View
+            style={
+              Object {
+                "alignItems": "center",
+                "flexDirection": "column",
+                "width": 187.5,
+              }
+            }
+          >
+            <Image
+              onError={[Function]}
+              source={
+                Object {
+                  "uri": "https://i.imgur.com/cd7irIa.png",
+                }
+              }
+              style={
+                Array [
+                  Object {
+                    "backgroundColor": "rgba(239, 239, 239, 1)",
+                    "borderRadius": 25,
+                    "height": 56,
+                    "marginBottom": 8,
+                    "opacity": 0.2,
+                    "width": 56,
+                  },
+                  null,
+                ]
+              }
+            />
+            <Text
+              style={
+                Array [
+                  Object {
+                    "color": "rgba(119, 119, 119, 1)",
+                    "fontFamily": "SourceSansPro-Regular",
+                    "fontSize": 13,
+                    "lineHeight": 15,
+                    "paddingHorizontal": 8,
+                    "textAlign": "center",
+                  },
+                ]
+              }
+            >
+              Destination knowledge
+            </Text>
+          </View>
+        </View>
+      </RNGestureHandlerButton>
+    </ScrollView>
+  </View>
+</View>
+`;
+
+exports[`Agent Info Text Section 1`] = `
+<View
+  style={
+    Array [
+      Object {
+        "alignItems": "center",
+      },
+      undefined,
+    ]
+  }
+>
+  <Image
+    onError={[Function]}
+    resizeMode="cover"
+    source={
+      Object {
+        "uri": "https://i.imgur.com/Uq2zUZA.png",
+      }
+    }
+    style={
+      Object {
+        "height": 124,
+        "marginBottom": 16,
+        "width": 124,
+      }
+    }
+  />
+  <Text
+    style={
+      Object {
+        "color": "rgba(44, 47, 66, 1)",
+        "fontFamily": "SourceSansPro-SemiBold",
+        "fontSize": 16,
+        "lineHeight": 16,
+        "marginBottom": 4,
+      }
+    }
+  >
+    Mahesh Raja
+  </Text>
+  <Text
+    style={
+      Object {
+        "color": "rgba(83, 87, 109, 1)",
+        "fontFamily": "SourceSansPro-Regular",
+        "fontSize": 15,
+        "lineHeight": 15,
+        "marginBottom": 32,
+      }
+    }
+  >
+    Your travel consultant
+  </Text>
+  <View
+    style={
+      Object {
+        "backgroundColor": "rgba(239, 239, 239, 1)",
+        "height": 1,
+        "marginBottom": 32,
+        "width": 54,
+      }
+    }
+  />
+</View>
+`;
+
+exports[`Feedback quality selected 1`] = `
+<RNGestureHandlerButton
+  collapsable={false}
+  onGestureEvent={[Function]}
+  onGestureHandlerEvent={[Function]}
+  onGestureHandlerStateChange={[Function]}
+  onHandlerStateChange={[Function]}
+  rippleColor={0}
+  style={
+    Array [
+      Object {
+        "overflow": "hidden",
+      },
+      undefined,
+    ]
+  }
+>
+  <View
+    accessible={true}
+    style={
+      Object {
+        "opacity": 1,
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "alignItems": "center",
+          "flexDirection": "column",
+          "width": 187.5,
+        }
+      }
+    >
+      <Image
+        onError={[Function]}
+        source={
+          Object {
+            "uri": "https://i.imgur.com/YtdsUbs.png",
+          }
+        }
+        style={
+          Array [
+            Object {
+              "backgroundColor": "rgba(239, 239, 239, 1)",
+              "borderRadius": 25,
+              "height": 56,
+              "marginBottom": 8,
+              "opacity": 0.2,
+              "width": 56,
+            },
+            Object {
+              "opacity": 1,
+            },
+          ]
+        }
+      />
+      <Text
+        style={
+          Array [
+            Object {
+              "color": "rgba(119, 119, 119, 1)",
+              "fontFamily": "SourceSansPro-Regular",
+              "fontSize": 13,
+              "lineHeight": 15,
+              "paddingHorizontal": 8,
+              "textAlign": "center",
+            },
+          ]
+        }
+      >
+        Superstar support
+      </Text>
+    </View>
+  </View>
+</RNGestureHandlerButton>
+`;
+
+exports[`Feedback quality unselected 1`] = `
+<RNGestureHandlerButton
+  collapsable={false}
+  onGestureEvent={[Function]}
+  onGestureHandlerEvent={[Function]}
+  onGestureHandlerStateChange={[Function]}
+  onHandlerStateChange={[Function]}
+  rippleColor={0}
+  style={
+    Array [
+      Object {
+        "overflow": "hidden",
+      },
+      undefined,
+    ]
+  }
+>
+  <View
+    accessible={true}
+    style={
+      Object {
+        "opacity": 1,
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "alignItems": "center",
+          "flexDirection": "column",
+          "width": 187.5,
+        }
+      }
+    >
+      <Image
+        onError={[Function]}
+        source={
+          Object {
+            "uri": "https://i.imgur.com/YtdsUbs.png",
+          }
+        }
+        style={
+          Array [
+            Object {
+              "backgroundColor": "rgba(239, 239, 239, 1)",
+              "borderRadius": 25,
+              "height": 56,
+              "marginBottom": 8,
+              "opacity": 0.2,
+              "width": 56,
+            },
+            null,
+          ]
+        }
+      />
+      <Text
+        style={
+          Array [
+            Object {
+              "color": "rgba(119, 119, 119, 1)",
+              "fontFamily": "SourceSansPro-Regular",
+              "fontSize": 13,
+              "lineHeight": 15,
+              "paddingHorizontal": 8,
+              "textAlign": "center",
+            },
+          ]
+        }
+      >
+        Superstar support
+      </Text>
+    </View>
+  </View>
+</RNGestureHandlerButton>
+`;

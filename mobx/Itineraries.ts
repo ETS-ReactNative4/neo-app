@@ -131,26 +131,38 @@ class Itineraries {
 
   @action
   selectItinerary = (itineraryId: string, callback: () => any = () => null) => {
-    const selectedItinerary = this._itineraries.find(itineraryDetail => {
-      return itineraryDetail.itinerary.itineraryId === itineraryId;
-    });
-    if (selectedItinerary) {
-      if (Platform.OS === "ios") {
-        LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-      }
-      this._selectedItinerary = selectedItinerary;
-      debouncer(() => {
-        if (this.selectedItineraryId) {
-          itineraryConstructor({
-            itineraryId: this.selectedItineraryId,
-            cities: this.cities
-          });
-        }
+    return new Promise<string>((resolve, reject): void => {
+      const selectedItinerary = this._itineraries.find(itineraryDetail => {
+        return itineraryDetail.itinerary.itineraryId === itineraryId;
       });
-      callback();
-    } else {
-      this.getItineraryDetails(itineraryId, callback);
-    }
+      if (selectedItinerary) {
+        if (Platform.OS === "ios") {
+          LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+        }
+        this._selectedItinerary = selectedItinerary;
+        debouncer(() => {
+          if (this.selectedItineraryId) {
+            itineraryConstructor({
+              itineraryId: this.selectedItineraryId,
+              cities: this.cities
+            })
+              .then(() => {
+                resolve(this.selectedItineraryId);
+              })
+              .catch(() => {
+                reject();
+              });
+          }
+        });
+        callback();
+      } else {
+        this.getItineraryDetails(itineraryId, callback)
+          .then(selectedItineraryId => {
+            resolve(selectedItineraryId);
+          })
+          .catch(reject);
+      }
+    });
   };
 
   @action
@@ -158,40 +170,48 @@ class Itineraries {
     itineraryId: string,
     callback: () => any = () => null
   ) => {
-    this._isLoading = true;
-    const requestBody = {};
-    apiCall(
-      `${constants.getItineraryDetails}?itineraryId=${itineraryId}`,
-      requestBody
-    )
-      .then(response => {
-        this._isLoading = false;
-        if (response.status === constants.responseSuccessStatus) {
-          this._loadingError = false;
-          this._itineraries.push(response.data);
-          if (Platform.OS === "ios") {
-            LayoutAnimation.configureNext(
-              LayoutAnimation.Presets.easeInEaseOut
-            );
-          }
-          this._selectedItinerary = response.data;
-          debouncer(() => {
-            if (this.selectedItineraryId) {
-              itineraryConstructor({
-                itineraryId: this.selectedItineraryId,
-                cities: this.cities
-              });
+    return new Promise<string>((resolve, reject): void => {
+      this._isLoading = true;
+      const requestBody = {};
+      apiCall(
+        `${constants.getItineraryDetails}?itineraryId=${itineraryId}`,
+        requestBody
+      )
+        .then(response => {
+          this._isLoading = false;
+          if (response.status === constants.responseSuccessStatus) {
+            this._loadingError = false;
+            this._itineraries.push(response.data);
+            if (Platform.OS === "ios") {
+              LayoutAnimation.configureNext(
+                LayoutAnimation.Presets.easeInEaseOut
+              );
             }
-          });
-          callback();
-        } else {
+            this._selectedItinerary = response.data;
+            debouncer(() => {
+              if (this.selectedItineraryId) {
+                itineraryConstructor({
+                  itineraryId: this.selectedItineraryId,
+                  cities: this.cities
+                })
+                  .then(() => {
+                    resolve(this.selectedItineraryId);
+                  })
+                  .catch(reject);
+              }
+            });
+            callback();
+          } else {
+            this._loadingError = true;
+            reject();
+          }
+        })
+        .catch(() => {
+          this._isLoading = false;
           this._loadingError = true;
-        }
-      })
-      .catch(() => {
-        this._isLoading = false;
-        this._loadingError = true;
-      });
+          reject();
+        });
+    });
   };
 
   @action

@@ -126,5 +126,11 @@ export const CONSTANT_getStoryImageSignedUrl = "mobile/journal/image/signedurl";
 export const CONSTANT_publishJournal = "mobile/journal/publish";
 export const CONSTANT_googleDrivePdfViewer =
   "https://drive.google.com/viewerng/viewer?url=";
+export const CONSTANT_feedbackUserState = "feedback/userState";
+export const CONSTANT_feedbackInfo = "feedback";
+export const CONSTANT_postBookingIntroData =
+  "so-feedback/json/postBookingIntro.json";
+export const CONSTANT_pocCardData = "so-feedback/json/pocCardData.json";
+export const CONSTANT_appVersionCheck = "mobile/appversion";
 
 export default apiUrls;

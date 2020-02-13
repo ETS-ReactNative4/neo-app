@@ -3,6 +3,7 @@ import { persist } from "mobx-persist";
 import apiCall from "../Services/networkRequests/apiCall";
 import constants from "../constants/constants";
 import DebouncedAlert from "../CommonComponents/DebouncedAlert/DebouncedAlert";
+import _ from "lodash";
 
 class YourBookings {
   @persist("list")
@@ -26,25 +27,33 @@ class YourBookings {
 
   @action
   getUpcomingItineraries = () => {
-    this._isLoading = true;
-    const requestBody = {};
-    apiCall(constants.getYourTrips, requestBody)
-      .then(response => {
-        this._isLoading = false;
-        if (response.status === "SUCCESS") {
-          this._upcomingItineraries = response.data.UNCOMPLETED;
-          this._completedItineraries = response.data.COMPLETED;
-          this._loadingError = false;
-        } else {
+    return new Promise((resolve, reject) => {
+      this._isLoading = true;
+      const requestBody = {};
+      apiCall(constants.getYourTrips, requestBody)
+        .then(response => {
+          this._isLoading = false;
+          if (response.status === "SUCCESS") {
+            this._upcomingItineraries = response.data.UNCOMPLETED;
+            this._completedItineraries = response.data.COMPLETED;
+            this._loadingError = false;
+            resolve([
+              ..._.get(response, "data.UNCOMPLETED", []),
+              ..._.get(response, "data.COMPLETED", [])
+            ]);
+          } else {
+            this._loadingError = true;
+            DebouncedAlert("Error!", "Unable to get Itinerary Details...");
+            reject();
+          }
+        })
+        .catch(() => {
+          this._isLoading = false;
           this._loadingError = true;
-          DebouncedAlert("Error!", "Unable to get Itinerary Details...");
-        }
-      })
-      .catch(error => {
-        this._isLoading = false;
-        this._loadingError = true;
-        DebouncedAlert("Error!", "Internal Server Error...");
-      });
+          DebouncedAlert("Error!", "Internal Server Error...");
+          reject();
+        });
+    });
   };
 
   @computed

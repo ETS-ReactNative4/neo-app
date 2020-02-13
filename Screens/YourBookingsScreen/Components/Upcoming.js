@@ -1,27 +1,14 @@
 import React, { Component } from "react";
-import {
-  ScrollView,
-  View,
-  Text,
-  ImageBackground,
-  Platform,
-  StyleSheet,
-  RefreshControl
-} from "react-native";
+import { StyleSheet } from "react-native";
 import UpcomingCard from "./UpcomingCard";
 import PropTypes from "prop-types";
-import EmptyListPlaceholder from "../../../CommonComponents/EmptyListPlaceholder/EmptyListPlaceholder";
 import constants from "../../../constants/constants";
 import { inject, observer } from "mobx-react";
-import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraProps";
-import { NavigationActions, StackActions } from "react-navigation";
 import { recordEvent } from "../../../Services/analytics/analyticsService";
 import CustomScrollView from "../../../CommonComponents/CustomScrollView/CustomScrollView";
 import EmptyScreenPlaceholder from "../../../CommonComponents/EmptyScreenPlaceholder/EmptyScreenPlaceholder";
-const resetAction = NavigationActions.navigate({
-  routeName: "AppHome",
-  action: NavigationActions.navigate({ routeName: "BookedItineraryTabs" })
-});
+import DebouncedAlert from "../../../CommonComponents/DebouncedAlert/DebouncedAlert";
+import launchPostBooking from "../../../Services/launchPostBooking/launchPostBooking";
 
 @inject("appState")
 @inject("itineraries")
@@ -33,7 +20,9 @@ class Upcoming extends Component {
     isLoading: PropTypes.bool.isRequired,
     navigation: PropTypes.object.isRequired,
     getUpcomingItineraries: PropTypes.func.isRequired,
-    goBack: PropTypes.func.isRequired
+    goBack: PropTypes.func.isRequired,
+    itineraries: PropTypes.object,
+    appState: PropTypes.object
   };
 
   selectItinerary = itineraryId => {
@@ -41,16 +30,18 @@ class Upcoming extends Component {
       click: constants.YourBookings.click.selectItinerary
     });
     const { selectItinerary } = this.props.itineraries;
-    selectItinerary(itineraryId, () => {
-      const routeName = this.props.navigation.state.routeName;
-      if (routeName === "YourBookings") {
-        this.props.appState.setTripMode(true);
-        this.props.navigation.dispatch(resetAction);
-      } else if (routeName === "YourBookingsUniversal") {
-        this.props.appState.setTripMode(true);
-        this.props.navigation.navigate("BookedItineraryTabs");
-      }
-    });
+    selectItinerary(itineraryId)
+      .then(selectedItineraryId => {
+        const routeName = this.props.navigation.state.routeName;
+        launchPostBooking(
+          routeName,
+          this.props.navigation,
+          selectedItineraryId
+        );
+      })
+      .catch(() => {
+        DebouncedAlert("Error!", "Unable to fetch Itinerary Details...");
+      });
   };
 
   render() {
@@ -73,10 +64,7 @@ class Upcoming extends Component {
             title={constants.noBookingsTitle}
             buttonText={constants.exploreItinerariesText}
             buttonAction={goBack}
-            buttonTextStyle={{
-              ...constants.fontCustom(constants.primarySemiBold, 17),
-              color: "white"
-            }}
+            buttonTextStyle={styles.buttonTextStyle}
             buttonContainerStyle={{ backgroundColor: constants.firstColor }}
             buttonProps={{
               color: constants.firstColor,
@@ -87,7 +75,9 @@ class Upcoming extends Component {
         ) : null}
         {itinerariesList.map((itinerary, index) => {
           let isLast = false;
-          if (index === itinerariesList.length - 1) isLast = true;
+          if (index === itinerariesList.length - 1) {
+            isLast = true;
+          }
           return (
             <UpcomingCard
               key={index}
@@ -102,6 +92,11 @@ class Upcoming extends Component {
   }
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  buttonTextStyle: {
+    color: "white",
+    ...constants.fontCustom(constants.primarySemiBold, 17)
+  }
+});
 
 export default Upcoming;

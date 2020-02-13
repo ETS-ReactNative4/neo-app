@@ -22,6 +22,8 @@ import DeviceDetails from "./DeviceDetails";
 import FeedbackPrompt from "./FeedbackPrompt";
 import ChatDetails from "./ChatDetails";
 import Journal from "./Journal";
+import UserFlowTransition from "./UserFlowTransition";
+import SOFeedback from "./SOFeedback";
 
 export const hydrate = create({
   storage: AsyncStorage,
@@ -50,7 +52,9 @@ const createStore = () => {
     deviceDetailsStore: new DeviceDetails(),
     feedbackPrompt: new FeedbackPrompt(),
     chatDetailsStore: new ChatDetails(),
-    journalStore: new Journal()
+    journalStore: new Journal(),
+    userFlowTransitionStore: new UserFlowTransition(),
+    soFeedbackStore: new SOFeedback()
   };
 
   hydrate("_upcomingItineraries", appStore.yourBookingsStore)
@@ -167,6 +171,8 @@ const createStore = () => {
   FeedbackPrompt.hydrator(appStore.feedbackPrompt);
   ChatDetails.hydrator(appStore.chatDetailsStore);
   Journal.hydrator(appStore.journalStore);
+  UserFlowTransition.hydrator(appStore.userFlowTransitionStore);
+  SOFeedback.hydrator(appStore.soFeedbackStore);
   return appStore;
 };
 

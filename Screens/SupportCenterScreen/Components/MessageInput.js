@@ -24,19 +24,23 @@ const MessageInput = ({
   isSelectionMode,
   text,
   textPlaceholder,
+  blurOnSubmit = false,
   onChangeText,
   containerStyle = StyleSheet.create({}),
   inputRef = React.createRef()
 }) => {
   return (
     <View style={[styles.messageInputContainer, containerStyle]}>
-      <View style={styles.labelWrapper}>
-        <Text style={styles.labelText}>{label}</Text>
-      </View>
+      {label ? (
+        <View style={styles.labelWrapper}>
+          <Text style={styles.labelText}>{label}</Text>
+        </View>
+      ) : null}
       <View style={styles.textInputWrapper}>
         {!isSelectionMode ? (
           <TextInput
             ref={inputRef}
+            blurOnSubmit={blurOnSubmit}
             multiline={true}
             style={[styles.textInput, !text ? styles.placeholderStyle : null]}
             onChangeText={onChangeText}
@@ -89,6 +93,7 @@ MessageInput.propTypes = {
   textPlaceholder: PropTypes.string,
   onChangeText: PropTypes.func,
   containerStyle: ViewPropTypes.style,
+  blurOnSubmit: PropTypes.bool,
   inputRef: PropTypes.instanceOf(() => null)
 };
 

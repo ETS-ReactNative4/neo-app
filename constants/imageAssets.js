@@ -285,6 +285,8 @@ export const CONSTANT_aeroplaneIcon = "flight";
 export const CONSTANT_aeroplaneTakeOffIcon = "flight-right";
 export const CONSTANT_flightVoucherBanner = require("../assets/images/backgrounds/flightVoucherHeader.jpg");
 export const CONSTANT_drawerBackgroundImage = require("../assets/images/backgrounds/side-menu-bg.png");
+export const CONSTANT_agentIntroBgPattern = () =>
+  require("../assets/images/backgrounds/agent-into-bg-pattern.png");
 export const CONSTANT_busIcon = "bus";
 export const CONSTANT_ferryIcon = "ferry";
 export const CONSTANT_visaIcon = "visa";
@@ -481,5 +483,7 @@ export const CONSTANT_journalPublishSuccess = () =>
   require("../assets/animations/publishSuccess.json");
 export const CONSTANT_splashAnimation = () =>
   require("../assets/animations/splashScreen.json");
+export const CONSTANT_defaultAgentImage = () =>
+  require("../assets/images/illustrations/default-agent-image.png");
 
 export default imageAssets;

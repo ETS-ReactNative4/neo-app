@@ -1,9 +1,8 @@
-import React from "react";
 import { storiesOf } from "@storybook/react-native";
 import SimpleButtonTestCases from "../../CommonComponents/SimpleButton/SimpleButtonTestCases";
-// import SplitSectionTestCases from "../../CommonComponents/SplitSection/SplitSectionTestCases";
-// import CarouselTestCases from "../../CommonComponents/Carousel/CarouselTestCases";
-// import CustomScrollViewTestCases from "../../CommonComponents/CustomScrollView/CustomScrollViewTestCases";
+import RatingIconTestCases from "../../CommonComponents/RatingIcon/RatingIconTestCases";
+import PrimaryButtonTestCases from "../../CommonComponents/PrimaryButton/PrimaryButtonTestCases";
+import ModalContentTestCases from "../../Screens/AppOverlays/Components/ForceUpdateModal/Components/ModalContentTestCases";
 
 const CommonComponentStories = storiesOf("Common Components", module);
 
@@ -11,9 +10,6 @@ const renderTestCase = testCase =>
   CommonComponentStories.add(testCase.title, () => testCase.Component);
 
 SimpleButtonTestCases.forEach(renderTestCase);
-
-// SplitSectionTestCases.forEach(renderTestCase);
-
-// CarouselTestCases.forEach(renderTestCase);
-
-// CustomScrollViewTestCases.forEach(renderTestCase);
+RatingIconTestCases.forEach(renderTestCase);
+PrimaryButtonTestCases.forEach(renderTestCase);
+ModalContentTestCases.forEach(renderTestCase);
