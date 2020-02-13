@@ -14,6 +14,7 @@ import PromoCardTestCases from "../../CommonComponents/PromoCard/PromoCardTestCa
 import PartnersSectionTestCases from "../../CommonComponents/PartnersSection/PartnersSectionTestCases";
 import SecurePartnerTestCases from "../../CommonComponents/SecurePartner/SecurePartnerTestCases";
 import FeaturedCardTestCases from "../../CommonComponents/FeaturedCard/FeaturedCardTestCases";
+import ItineraryCardTestCases from "../../CommonComponents/ItineraryCard/ItineraryCardTestCases";
 
 const CommonComponentStories = storiesOf("Common Components", module);
 
@@ -35,3 +36,4 @@ PromoCardTestCases.forEach(renderTestCase);
 PartnersSectionTestCases.forEach(renderTestCase);
 SecurePartnerTestCases.forEach(renderTestCase);
 FeaturedCardTestCases.forEach(renderTestCase);
+ItineraryCardTestCases.forEach(renderTestCase);
