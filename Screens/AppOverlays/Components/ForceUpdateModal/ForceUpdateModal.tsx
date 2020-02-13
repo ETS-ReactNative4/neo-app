@@ -6,10 +6,11 @@ import ModalContent from "./Components/ModalContent";
 import useForceUpdateCheck from "./Components/hooks/useForceUpdateCheck";
 import DeviceInfo from "react-native-device-info";
 import { CONSTANT_platformIos } from "../../../../constants/stringConstants";
+import { CONSTANT_emergencyAppSupportNumber } from "../../../../constants/serverUrls";
 import openCustomTab from "../../../../Services/openCustomTab/openCustomTab";
 import { observer, inject } from "mobx-react";
 import ChatDetails from "../../../../mobx/ChatDetails";
-import { chatLauncher } from "../../../../Services/freshchatService/freshchatService";
+import dialer from "../../../../Services/dialer/dialer";
 
 export interface ForceUpdateModalComponentProps {
   chatDetailsStore: ChatDetails;
@@ -25,16 +26,19 @@ const ForceUpdateModalComponent = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const requiresForceUpdate = successResponseData
-    ? compareVersion(
-        DeviceInfo.getVersion(),
-        Platform.OS === CONSTANT_platformIos
-          ? successResponseData.iosVersion
-          : successResponseData.androidVersion
-      ) > -1
-      ? false
-      : true
-    : false;
+  let requiresForceUpdate = false;
+
+  if (successResponseData) {
+    const supportedVersionNumber =
+      Platform.OS === CONSTANT_platformIos
+        ? successResponseData?.iosVersion
+        : successResponseData?.androidVersion;
+
+    requiresForceUpdate =
+      compareVersion(DeviceInfo.getVersion(), supportedVersionNumber) > -1
+        ? false
+        : true;
+  }
 
   const openAppStore = () => {
     openCustomTab(
@@ -45,7 +49,7 @@ const ForceUpdateModalComponent = ({
   };
 
   const openSupport = () => {
-    chatLauncher();
+    dialer(CONSTANT_emergencyAppSupportNumber);
   };
 
   const { isChatActive } = chatDetailsStore;
@@ -53,15 +57,15 @@ const ForceUpdateModalComponent = ({
   return (
     <Modal style={styles.modalWrapperStyle} isVisible={requiresForceUpdate}>
       <ModalContent
-        title={"Your App is Outdated"}
+        title={"Your app is outdated"}
         description={
           "We’ve made some changes to enhance your app experience. Please update to continue using the app."
         }
         buttonText={"Update now"}
         buttonClickAction={openAppStore}
         enableSupport={isChatActive}
-        bottomText={"Having problem in updating the app?"}
-        linkText={"Message us"}
+        bottomText={"Having problems in updating the app?"}
+        linkText={"Call us"}
         linkClickAction={openSupport}
       />
     </Modal>

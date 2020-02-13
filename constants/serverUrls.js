@@ -117,5 +117,6 @@ export const CONSTANT_darkSkyKey = "1f95e4bd24b4377d484d0cfceae84a74";
 export const CONSTANT_darkSkyDomain = "https://api.darksky.net/";
 export const CONSTANT_awsJsonServer =
   "https://pyt-voyager.s3.ap-south-1.amazonaws.com/";
+export const CONSTANT_emergencyAppSupportNumber = "+919003222085";
 
 export default serverUrls;
