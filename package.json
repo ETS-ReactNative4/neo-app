@@ -34,6 +34,7 @@
     "@react-native-community/viewpager": "^2.0.1",
     "@segment/analytics-react-native": "1.1.0",
     "@sentry/react-native": "^1.0.5",
+    "compare-versions": "3.5.1",
     "country-data": "^0.0.31",
     "d3-shape": "^1.2.0",
     "intl": "^1.2.5",

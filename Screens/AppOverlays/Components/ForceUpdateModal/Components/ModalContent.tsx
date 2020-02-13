@@ -23,6 +23,7 @@ interface ForceUpdateModalProps {
   bottomText: string;
   linkText: string;
   linkClickAction: () => any;
+  enableSupport?: boolean;
 }
 
 const ModalContent = ({
@@ -33,7 +34,8 @@ const ModalContent = ({
   buttonClickAction = () => {},
   bottomText = "",
   linkText = "",
-  linkClickAction = () => {}
+  linkClickAction = () => {},
+  enableSupport
 }: ForceUpdateModalProps) => {
   return (
     <View style={[styles.forceUpdateModalContainer, containerStyle]}>
@@ -50,14 +52,16 @@ const ModalContent = ({
         clickAction={buttonClickAction}
       />
 
-      <Text style={styles.bottomTextStyle}>
-        {bottomText}{" "}
-        {linkText ? (
-          <Text onPress={linkClickAction} style={styles.linkTextStyle}>
-            {linkText}
-          </Text>
-        ) : null}
-      </Text>
+      {enableSupport ? (
+        <Text style={styles.bottomTextStyle}>
+          {bottomText}{" "}
+          {linkText ? (
+            <Text onPress={linkClickAction} style={styles.linkTextStyle}>
+              {linkText}
+            </Text>
+          ) : null}
+        </Text>
+      ) : null}
     </View>
   );
 };

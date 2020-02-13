@@ -2,6 +2,8 @@ import React, { Component, Fragment } from "react";
 import { inject, observer } from "mobx-react";
 import FooterFeedbackPrompt from "../../CommonComponents/FooterFeedbackPrompt/FooterFeedbackPrompt";
 import OverlayErrorBoundary from "./Components/OverlayErrorBoundary";
+import ForceUpdateModal from "./Components/ForceUpdateModal/ForceUpdateModal";
+import PropTypes from "prop-types";
 
 /**
  * This component has zIndex greater than the rest of the app and is
@@ -11,6 +13,11 @@ import OverlayErrorBoundary from "./Components/OverlayErrorBoundary";
 @inject("appState")
 @observer
 class AppOverlays extends Component {
+  static propTypes = {
+    feedbackPrompt: PropTypes.object,
+    appState: PropTypes.object
+  };
+
   render() {
     const { isFeedbackFooterActive } = this.props.feedbackPrompt;
     const { isDrawerOpen } = this.props.appState;
@@ -22,6 +29,7 @@ class AppOverlays extends Component {
           ) : (
             <Fragment />
           )}
+          <ForceUpdateModal />
         </OverlayErrorBoundary>
       </Fragment>
     );
