@@ -1,156 +1,97 @@
 import React from "react";
+
 // @ts-ignore
 import Dash from "react-native-dash";
+import {
+  responsiveWidth
+  // @ts-ignore
+} from "react-native-responsive-dimensions";
+
+import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 
 import {
-  StyleSheet,
-  ImageSourcePropType,
-  View,
-  Text,
-  TouchableOpacity
-} from "react-native";
-import Icon from "../Icon/Icon";
-import SmartImageV2 from "../SmartImage/SmartImageV2";
-
-import {
+  CONSTANT_white,
   CONSTANT_white1,
   CONSTANT_black1,
   CONSTANT_shade1,
   CONSTANT_shade2,
-  CONSTANT_shade3,
-  CONSTANT_firstColor
+  CONSTANT_shade3
 } from "../../constants/colorPallete";
 import {
   CONSTANT_fontCustom,
   CONSTANT_primarySemiBold,
   CONSTANT_primaryRegular
 } from "../../constants/fonts";
-import {
-  CONSTANT_checkIcon,
-  CONSTANT_documentIcon,
-  CONSTANT_arrowRight
-} from "../../constants/imageAssets";
+
 import PrimaryButton from "../PrimaryButton/PrimaryButton";
 
+import getLocaleString from "../../Services/getLocaleString/getLocaleString";
+import RouteList, { ICitiesDetails } from "./Components/RouteList";
+import ActivityList from "./Components/ActivityList";
+import ItineraryCardImage from "./Components/ItineraryCardImage";
+
 interface ItineraryCardProps {
-  image: ImageSourcePropType;
-  fallbackImage: ImageSourcePropType;
+  images: string[];
+  tripType: string;
   action: () => any;
+  title: string;
+  activities: string[];
+  itineraryCost: number;
+  cities: ICitiesDetails[];
 }
 
 const ItineraryCard = ({
-  image = { uri: "" },
-  fallbackImage = { uri: "" },
+  images = [],
+  tripType = "",
+  title = "",
+  activities,
+  itineraryCost,
+  cities = [],
   action = () => null
 }: ItineraryCardProps) => {
   return (
-    <TouchableOpacity activeOpacity={0.8} onPress={action}>
-      <View style={styles.itineraryCardContainer}>
-        <SmartImageV2
-          source={image}
-          fallbackSource={fallbackImage}
-          resizeMode="cover"
-          style={styles.itineraryImage}
-        />
+    <View style={styles.itineraryCardContainer}>
+      <ItineraryCardImage
+        images={images}
+        tripType={tripType}
+        imageStyle={styles.imageStyle}
+      />
 
+      <TouchableOpacity activeOpacity={0.8} onPress={action}>
         <View style={styles.contentWrapper}>
           <Text
             style={styles.descriptionStyle}
             numberOfLines={2}
             ellipsizeMode={"tail"}
           >
-            An epic 16 night Europe itinerary to rekindle the wonder in your
-            eyes.
+            {title}
           </Text>
 
-          <View style={styles.routeListWrapper}>
-            <Icon
-              name={CONSTANT_documentIcon}
-              size={16}
-              color={CONSTANT_shade2}
-              style={styles.routeIconStyle}
-            />
+          <RouteList cities={cities} />
 
-            <View style={styles.routeList}>
-              <Text style={styles.routeListText}>Interlaken</Text>
-
-              <Icon
-                name={CONSTANT_arrowRight}
-                size={12}
-                color={CONSTANT_shade1}
-              />
-            </View>
-
-            <View style={styles.routeList}>
-              <Text style={styles.routeListText}>Zerma</Text>
-
-              <Icon
-                name={CONSTANT_arrowRight}
-                size={12}
-                color={CONSTANT_shade1}
-              />
-            </View>
-
-            <View style={styles.routeList}>
-              <Text style={styles.routeListText}>Lucerne</Text>
-              <Text style={[styles.routeListText, styles.routeCityText]}>
-                +2 cities
-              </Text>
-            </View>
-          </View>
-
-          <View style={styles.listWrapper}>
-            <View style={styles.listInner}>
-              <View>
-                <Icon
-                  name={CONSTANT_checkIcon}
-                  size={14}
-                  color={CONSTANT_firstColor}
-                />
-              </View>
-              <Text style={styles.listText}>3 star accomodations</Text>
-            </View>
-            <View style={styles.listInner}>
-              <View>
-                <Icon
-                  name={CONSTANT_checkIcon}
-                  size={14}
-                  color={CONSTANT_firstColor}
-                />
-              </View>
-              <Text style={styles.listText}>Airport Transfers</Text>
-            </View>
-            <View style={styles.listInner}>
-              <View>
-                <Icon
-                  name={CONSTANT_checkIcon}
-                  size={14}
-                  color={CONSTANT_firstColor}
-                />
-              </View>
-              <Text style={styles.listText}>5 activities</Text>
-            </View>
-          </View>
+          <ActivityList activities={activities} />
 
           <Dash dashColor={CONSTANT_shade2} dashGap={2} dashLength={1} />
 
           <View style={styles.bottomWrapper}>
             <View style={styles.priceSection}>
               <Text style={styles.rupeeText}>₹</Text>
-              <Text style={styles.priceText}>10,02,214</Text>
+              <Text style={styles.priceText}>
+                {getLocaleString(itineraryCost)}
+              </Text>
               <Text style={styles.personText}>/person</Text>
             </View>
 
             <PrimaryButton
-              text={"Customise"}
+              text={"Customize"}
               buttonStyle={styles.buttonStyle}
               buttonTextStyle={styles.buttonTextStyle}
               clickAction={action}
             />
           </View>
         </View>
-      </View>
-    </TouchableOpacity>
+      </TouchableOpacity>
+    </View>
   );
 };
 
@@ -158,12 +99,15 @@ const styles = StyleSheet.create({
   itineraryCardContainer: {
     borderTopLeftRadius: 8,
     borderTopRightRadius: 8,
-    marginHorizontal: 16
+    marginHorizontal: 16,
+    marginVertical: 16,
+    overflow: "hidden",
+    backgroundColor: CONSTANT_white,
+    width: responsiveWidth(100) - 32
   },
-  itineraryImage: {
-    borderTopLeftRadius: 8,
-    borderTopRightRadius: 8,
-    height: 200
+
+  imageStyle: {
+    width: responsiveWidth(100) - 32
   },
 
   contentWrapper: {
@@ -171,6 +115,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     backgroundColor: CONSTANT_white1,
     borderWidth: 1,
+    borderTopWidth: 0,
     borderColor: CONSTANT_shade3,
     borderBottomLeftRadius: 8,
     borderBottomRightRadius: 8
@@ -181,40 +126,6 @@ const styles = StyleSheet.create({
     marginBottom: 8
   },
 
-  routeListWrapper: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 16
-  },
-  routeList: {
-    flexDirection: "row",
-    alignItems: "center"
-  },
-  routeIconStyle: {
-    marginRight: 6
-  },
-  routeListText: {
-    color: CONSTANT_shade1,
-    ...CONSTANT_fontCustom(CONSTANT_primaryRegular, 14, 15),
-    marginRight: 8
-  },
-  routeCityText: {
-    color: CONSTANT_shade2
-  },
-
-  listWrapper: {
-    marginBottom: 8
-  },
-  listInner: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 8
-  },
-  listText: {
-    color: CONSTANT_shade1,
-    ...CONSTANT_fontCustom(CONSTANT_primaryRegular, 14, 18),
-    marginLeft: 8
-  },
   bottomWrapper: {
     flexDirection: "row",
     alignItems: "center",
