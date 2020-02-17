@@ -32,12 +32,14 @@ import {
   responsiveWidth
   // @ts-ignore
 } from "react-native-responsive-dimensions";
+import useLoginForm from "./hooks/useLoginForm";
 
 const AppLogin = () => {
   const [isVideoReady, setVideoStatus] = useState(false);
-  const [phoneNumber, setPhoneNumber] = useState<string>("");
-  const [countryCode, setCountryCode] = useState<string>("+91");
-  const [countryFlag, setCountryFlag] = useState<string>("🇮🇳");
+  const [
+    { phoneNumber, countryCode, countryFlag, code },
+    { updatePhoneNumber, updateCountryCode, updateCountryFlag, updateCode }
+  ] = useLoginForm();
   const [isPhoneNumberSubmitted, setPhoneNumberSubmitStatus] = useState<
     boolean
   >(false);
@@ -47,29 +49,20 @@ const AppLogin = () => {
   const [isPhoneSubmitAttempted, setPhoneSubmitAttempt] = useState<boolean>(
     false
   );
-  const [code, setCode] = useState<string>("");
   const [isTimedOut, setIsTimedOut] = useState<boolean>(false);
 
   const mobileNumber = `${countryCode}${phoneNumber}`;
 
-  const updatePhoneNumber = (newNumber: string) => setPhoneNumber(newNumber);
-
   const onCountryCodeChange = (ccode: string, flagEmoji: string) => {
-    setCountryCode(ccode);
-    setCountryFlag(flagEmoji);
-  };
-
-  const updateCode = (newCode: string) => {
-    setCode(newCode);
+    updateCountryCode(ccode);
+    updateCountryFlag(flagEmoji);
   };
 
   const onResend = () => {};
 
   const codeFilled = () => {};
 
-  const onTimeout = () => {
-    setIsTimedOut(true);
-  };
+  const onTimeout = () => setIsTimedOut(true);
 
   const submitPhoneNumber = async () => {
     setPhoneSubmitAttempt(true);
