@@ -10,11 +10,13 @@ import CustomCheckBoxTestCases from "../../CommonComponents/CustomCheckBox/Custo
 import ActionSheetTestCases from "../../CommonComponents/ActionSheet/ActionSheetTestCases";
 import BlogCardTestCases from "../../CommonComponents/BlogCard/BlogCardTestCases";
 import TestimonialCardTestCases from "../../CommonComponents/TestimonialCard/TestimonialCardTestCases";
+import PromoCarousalTestCases from "../../CommonComponents/PromoCarousal/PromoCarousalTestCases";
 import PromoCardTestCases from "../../CommonComponents/PromoCard/PromoCardTestCases";
 import PartnersSectionTestCases from "../../CommonComponents/PartnersSection/PartnersSectionTestCases";
 import SecurePartnerTestCases from "../../CommonComponents/SecurePartner/SecurePartnerTestCases";
 import FeaturedCardTestCases from "../../CommonComponents/FeaturedCard/FeaturedCardTestCases";
 import ItineraryCardTestCases from "../../CommonComponents/ItineraryCard/ItineraryCardTestCases";
+import DealCardTestCases from "../../CommonComponents/DealCard/DealCardTestCases";
 
 const CommonComponentStories = storiesOf("Common Components", module);
 
@@ -32,8 +34,10 @@ CustomCheckBoxTestCases.forEach(renderTestCase);
 ActionSheetTestCases.forEach(renderTestCase);
 BlogCardTestCases.forEach(renderTestCase);
 TestimonialCardTestCases.forEach(renderTestCase);
+PromoCarousalTestCases.forEach(renderTestCase);
 PromoCardTestCases.forEach(renderTestCase);
 PartnersSectionTestCases.forEach(renderTestCase);
 SecurePartnerTestCases.forEach(renderTestCase);
 FeaturedCardTestCases.forEach(renderTestCase);
 ItineraryCardTestCases.forEach(renderTestCase);
+DealCardTestCases.forEach(renderTestCase);
