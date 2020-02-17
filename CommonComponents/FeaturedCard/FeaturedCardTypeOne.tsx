@@ -1,5 +1,13 @@
 import React from "react";
-import { StyleSheet, ImageSourcePropType, View, Text } from "react-native";
+import {
+  StyleSheet,
+  ImageSourcePropType,
+  View,
+  Text,
+  StyleProp,
+  TouchableOpacity,
+  ImageStyle
+} from "react-native";
 import {
   responsiveWidth
   // @ts-ignore
@@ -13,9 +21,9 @@ import {
   CONSTANT_primaryRegular,
   CONSTANT_primarySemiBold
 } from "../../constants/fonts";
-import { TouchableOpacity } from "react-native-gesture-handler";
 
 interface FeaturedCardTypeOneProps {
+  containerStyle?: StyleProp<ImageStyle>;
   image: ImageSourcePropType;
   fallbackImage: ImageSourcePropType;
   blurRadius?: number;
@@ -24,6 +32,7 @@ interface FeaturedCardTypeOneProps {
 }
 
 const FeaturedCardTypeOne = ({
+  containerStyle,
   image = { uri: "" },
   fallbackImage = { uri: "" },
   blurRadius,
@@ -36,7 +45,7 @@ const FeaturedCardTypeOne = ({
         source={image}
         fallbackSource={fallbackImage}
         resizeMode="cover"
-        style={styles.bgImageStyle}
+        style={[styles.bgImageStyle, containerStyle]}
         blurRadius={blurRadius}
         imageStyle={styles.imageStyle}
       >
@@ -70,7 +79,7 @@ const FeaturedCardTypeOne = ({
 
 const styles = StyleSheet.create({
   bgImageStyle: {
-    width: responsiveWidth(100) - 32,
+    width: responsiveWidth(100),
     marginBottom: 32
   },
   imageStyle: {
@@ -85,7 +94,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between"
   },
   fgImageStyle: {
-    height: 328,
+    height: 336,
     borderRadius: 8,
     marginBottom: 24
   },

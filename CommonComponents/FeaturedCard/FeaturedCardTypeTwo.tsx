@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
   fgImageStyle: {
     height: 248,
     borderRadius: 8,
-    marginBottom: 24
+    marginBottom: 16
   },
   nameText: {
     textTransform: "uppercase",
@@ -110,8 +110,8 @@ const styles = StyleSheet.create({
   },
   subText: {
     color: CONSTANT_white1,
-    ...CONSTANT_fontCustom(CONSTANT_primarySemiBold, 10),
-    marginBottom: 16
+    ...CONSTANT_fontCustom(CONSTANT_primaryRegular, 16),
+    marginBottom: 8
   },
   descriptionStyle: {
     width: 216,

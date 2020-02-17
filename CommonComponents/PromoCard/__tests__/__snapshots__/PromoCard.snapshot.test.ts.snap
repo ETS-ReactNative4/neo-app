@@ -1,0 +1,552 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Multiple Promo cards 1`] = `
+<View
+  style={
+    Object {
+      "minHeight": 344,
+    }
+  }
+>
+  <ScrollView
+    horizontal={true}
+    showsHorizontalScrollIndicator={false}
+  >
+    <TouchableOpacity
+      activeOpacity={0.8}
+      onPress={[Function]}
+    >
+      <View
+        style={
+          Array [
+            Object {
+              "marginBottom": 24,
+              "marginRight": 16,
+              "width": 678,
+            },
+            undefined,
+          ]
+        }
+      >
+        <Image
+          onError={[Function]}
+          resizeMode="cover"
+          source={
+            Object {
+              "uri": "https://pyt-images.imgix.net/images/product_blog/itinerary-box/australia-small.jpeg",
+            }
+          }
+          style={
+            Object {
+              "borderTopLeftRadius": 8,
+              "borderTopRightRadius": 8,
+              "height": 272,
+              "width": 678,
+            }
+          }
+        />
+        <View
+          style={
+            Object {
+              "alignItems": "center",
+              "borderBottomLeftRadius": 8,
+              "borderBottomRightRadius": 8,
+              "borderColor": "rgba(204, 204, 204, 1)",
+              "borderWidth": 1,
+              "flexDirection": "row",
+              "justifyContent": "space-between",
+              "padding": 16,
+            }
+          }
+        >
+          <View
+            style={
+              Object {
+                "paddingRight": 16,
+                "width": 248,
+              }
+            }
+          >
+            <Text
+              ellipsizeMode="tail"
+              numberOfLines={1}
+              style={
+                Object {
+                  "color": "rgba(44, 47, 66, 1)",
+                  "fontFamily": "SourceSansPro-Regular",
+                  "fontSize": 16,
+                  "lineHeight": 16,
+                  "marginBottom": 4,
+                }
+              }
+            >
+              All inclusive offers starting from
+            </Text>
+            <Text
+              style={
+                Object {
+                  "color": "rgba(44, 47, 66, 1)",
+                  "fontFamily": "SourceSansPro-SemiBold",
+                  "fontSize": 18,
+                  "lineHeight": 20,
+                }
+              }
+            >
+              <Text
+                style={
+                  Object {
+                    "fontFamily": "SourceSansPro-SemiBold",
+                    "fontSize": 14,
+                    "lineHeight": 20,
+                  }
+                }
+              >
+                ₹
+              </Text>
+               
+              75,500
+               
+              <Text
+                style={
+                  Object {
+                    "color": "rgba(170, 170, 170, 1)",
+                    "fontFamily": "SourceSansPro-Regular",
+                    "fontSize": 13,
+                    "lineHeight": 20,
+                  }
+                }
+              >
+                /person
+              </Text>
+            </Text>
+          </View>
+          <View>
+            <Text
+              allowFontScaling={false}
+              style={
+                Array [
+                  Object {
+                    "color": "rgba(119, 119, 119, 1)",
+                    "fontSize": 16,
+                  },
+                  undefined,
+                  Object {
+                    "fontFamily": "voyager",
+                    "fontStyle": "normal",
+                    "fontWeight": "normal",
+                  },
+                  Object {},
+                ]
+              }
+            >
+              
+            </Text>
+          </View>
+        </View>
+      </View>
+    </TouchableOpacity>
+    <TouchableOpacity
+      activeOpacity={0.8}
+      onPress={[Function]}
+    >
+      <View
+        style={
+          Array [
+            Object {
+              "marginBottom": 24,
+              "marginRight": 16,
+              "width": 678,
+            },
+            undefined,
+          ]
+        }
+      >
+        <Image
+          onError={[Function]}
+          resizeMode="cover"
+          source={
+            Object {
+              "uri": "https://pyt-images.imgix.net/images/product_blog/itinerary-box/bali-small.jpeg",
+            }
+          }
+          style={
+            Object {
+              "borderTopLeftRadius": 8,
+              "borderTopRightRadius": 8,
+              "height": 272,
+              "width": 678,
+            }
+          }
+        />
+        <View
+          style={
+            Object {
+              "alignItems": "center",
+              "borderBottomLeftRadius": 8,
+              "borderBottomRightRadius": 8,
+              "borderColor": "rgba(204, 204, 204, 1)",
+              "borderWidth": 1,
+              "flexDirection": "row",
+              "justifyContent": "space-between",
+              "padding": 16,
+            }
+          }
+        >
+          <View
+            style={
+              Object {
+                "paddingRight": 16,
+                "width": 248,
+              }
+            }
+          >
+            <Text
+              ellipsizeMode="tail"
+              numberOfLines={1}
+              style={
+                Object {
+                  "color": "rgba(44, 47, 66, 1)",
+                  "fontFamily": "SourceSansPro-Regular",
+                  "fontSize": 16,
+                  "lineHeight": 16,
+                  "marginBottom": 4,
+                }
+              }
+            >
+              The best trips #DownUnder
+            </Text>
+            <Text
+              style={
+                Object {
+                  "color": "rgba(44, 47, 66, 1)",
+                  "fontFamily": "SourceSansPro-SemiBold",
+                  "fontSize": 18,
+                  "lineHeight": 20,
+                }
+              }
+            >
+              <Text
+                style={
+                  Object {
+                    "fontFamily": "SourceSansPro-SemiBold",
+                    "fontSize": 14,
+                    "lineHeight": 20,
+                  }
+                }
+              >
+                ₹
+              </Text>
+               
+              1,45,500
+               
+              <Text
+                style={
+                  Object {
+                    "color": "rgba(170, 170, 170, 1)",
+                    "fontFamily": "SourceSansPro-Regular",
+                    "fontSize": 13,
+                    "lineHeight": 20,
+                  }
+                }
+              >
+                /person
+              </Text>
+            </Text>
+          </View>
+          <View>
+            <Text
+              allowFontScaling={false}
+              style={
+                Array [
+                  Object {
+                    "color": "rgba(119, 119, 119, 1)",
+                    "fontSize": 16,
+                  },
+                  undefined,
+                  Object {
+                    "fontFamily": "voyager",
+                    "fontStyle": "normal",
+                    "fontWeight": "normal",
+                  },
+                  Object {},
+                ]
+              }
+            >
+              
+            </Text>
+          </View>
+        </View>
+      </View>
+    </TouchableOpacity>
+    <TouchableOpacity
+      activeOpacity={0.8}
+      onPress={[Function]}
+    >
+      <View
+        style={
+          Array [
+            Object {
+              "marginBottom": 24,
+              "marginRight": 16,
+              "width": 678,
+            },
+            undefined,
+          ]
+        }
+      >
+        <Image
+          onError={[Function]}
+          resizeMode="cover"
+          source={
+            Object {
+              "uri": "https://pyt-images.imgix.net/images/product_blog/itinerary-box/europe-small.jpeg",
+            }
+          }
+          style={
+            Object {
+              "borderTopLeftRadius": 8,
+              "borderTopRightRadius": 8,
+              "height": 272,
+              "width": 678,
+            }
+          }
+        />
+        <View
+          style={
+            Object {
+              "alignItems": "center",
+              "borderBottomLeftRadius": 8,
+              "borderBottomRightRadius": 8,
+              "borderColor": "rgba(204, 204, 204, 1)",
+              "borderWidth": 1,
+              "flexDirection": "row",
+              "justifyContent": "space-between",
+              "padding": 16,
+            }
+          }
+        >
+          <View
+            style={
+              Object {
+                "paddingRight": 16,
+                "width": 248,
+              }
+            }
+          >
+            <Text
+              ellipsizeMode="tail"
+              numberOfLines={1}
+              style={
+                Object {
+                  "color": "rgba(44, 47, 66, 1)",
+                  "fontFamily": "SourceSansPro-Regular",
+                  "fontSize": 16,
+                  "lineHeight": 16,
+                  "marginBottom": 4,
+                }
+              }
+            >
+              Exclusive for Beach Bums
+            </Text>
+            <Text
+              style={
+                Object {
+                  "color": "rgba(44, 47, 66, 1)",
+                  "fontFamily": "SourceSansPro-SemiBold",
+                  "fontSize": 18,
+                  "lineHeight": 20,
+                }
+              }
+            >
+              <Text
+                style={
+                  Object {
+                    "fontFamily": "SourceSansPro-SemiBold",
+                    "fontSize": 14,
+                    "lineHeight": 20,
+                  }
+                }
+              >
+                ₹
+              </Text>
+               
+              45,500
+               
+              <Text
+                style={
+                  Object {
+                    "color": "rgba(170, 170, 170, 1)",
+                    "fontFamily": "SourceSansPro-Regular",
+                    "fontSize": 13,
+                    "lineHeight": 20,
+                  }
+                }
+              >
+                /person
+              </Text>
+            </Text>
+          </View>
+          <View>
+            <Text
+              allowFontScaling={false}
+              style={
+                Array [
+                  Object {
+                    "color": "rgba(119, 119, 119, 1)",
+                    "fontSize": 16,
+                  },
+                  undefined,
+                  Object {
+                    "fontFamily": "voyager",
+                    "fontStyle": "normal",
+                    "fontWeight": "normal",
+                  },
+                  Object {},
+                ]
+              }
+            >
+              
+            </Text>
+          </View>
+        </View>
+      </View>
+    </TouchableOpacity>
+  </ScrollView>
+</View>
+`;
+
+exports[`Promo card 1`] = `
+<TouchableOpacity
+  activeOpacity={0.8}
+  onPress={[Function]}
+>
+  <View
+    style={
+      Array [
+        Object {
+          "marginBottom": 24,
+          "marginRight": 16,
+          "width": 678,
+        },
+        undefined,
+      ]
+    }
+  >
+    <Image
+      onError={[Function]}
+      resizeMode="cover"
+      source={
+        Object {
+          "uri": "https://pyt-images.imgix.net/images/city/2400xh/prague.jpg",
+        }
+      }
+      style={
+        Object {
+          "borderTopLeftRadius": 8,
+          "borderTopRightRadius": 8,
+          "height": 272,
+          "width": 678,
+        }
+      }
+    />
+    <View
+      style={
+        Object {
+          "alignItems": "center",
+          "borderBottomLeftRadius": 8,
+          "borderBottomRightRadius": 8,
+          "borderColor": "rgba(204, 204, 204, 1)",
+          "borderWidth": 1,
+          "flexDirection": "row",
+          "justifyContent": "space-between",
+          "padding": 16,
+        }
+      }
+    >
+      <View
+        style={
+          Object {
+            "paddingRight": 16,
+            "width": 248,
+          }
+        }
+      >
+        <Text
+          ellipsizeMode="tail"
+          numberOfLines={1}
+          style={
+            Object {
+              "color": "rgba(44, 47, 66, 1)",
+              "fontFamily": "SourceSansPro-Regular",
+              "fontSize": 16,
+              "lineHeight": 16,
+              "marginBottom": 4,
+            }
+          }
+        >
+          All inclusive offers starting from
+        </Text>
+        <Text
+          style={
+            Object {
+              "color": "rgba(44, 47, 66, 1)",
+              "fontFamily": "SourceSansPro-SemiBold",
+              "fontSize": 18,
+              "lineHeight": 20,
+            }
+          }
+        >
+          <Text
+            style={
+              Object {
+                "fontFamily": "SourceSansPro-SemiBold",
+                "fontSize": 14,
+                "lineHeight": 20,
+              }
+            }
+          >
+            ₹
+          </Text>
+           
+          75,500
+           
+          <Text
+            style={
+              Object {
+                "color": "rgba(170, 170, 170, 1)",
+                "fontFamily": "SourceSansPro-Regular",
+                "fontSize": 13,
+                "lineHeight": 20,
+              }
+            }
+          >
+            /person
+          </Text>
+        </Text>
+      </View>
+      <View>
+        <Text
+          allowFontScaling={false}
+          style={
+            Array [
+              Object {
+                "color": "rgba(119, 119, 119, 1)",
+                "fontSize": 16,
+              },
+              undefined,
+              Object {
+                "fontFamily": "voyager",
+                "fontStyle": "normal",
+                "fontWeight": "normal",
+              },
+              Object {},
+            ]
+          }
+        >
+          
+        </Text>
+      </View>
+    </View>
+  </View>
+</TouchableOpacity>
+`;

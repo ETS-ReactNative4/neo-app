@@ -1,0 +1,182 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Multiple Partner Section 1`] = `
+<View
+  style={
+    Object {
+      "flexDirection": "row",
+      "justifyContent": "space-between",
+      "marginVertical": 24,
+      "paddingHorizontal": 24,
+    }
+  }
+>
+  <View
+    style={
+      Array [
+        Object {
+          "alignItems": "center",
+          "width": 80,
+        },
+        undefined,
+      ]
+    }
+  >
+    <Image
+      onError={[Function]}
+      resizeMode="contain"
+      source={
+        Object {
+          "uri": "https://i.imgur.com/TNnGL9a.png",
+        }
+      }
+      style={
+        Object {
+          "height": 30,
+          "marginBottom": 12,
+          "width": 46,
+        }
+      }
+    />
+    <Text
+      style={
+        Object {
+          "color": "rgba(119, 119, 119, 1)",
+          "fontFamily": "SourceSansPro-Regular",
+          "fontSize": 12,
+          "lineHeight": 16,
+          "textAlign": "center",
+        }
+      }
+    >
+      4.8/5 Based on 1200+ ratings
+    </Text>
+  </View>
+  <View
+    style={
+      Array [
+        Object {
+          "alignItems": "center",
+          "width": 80,
+        },
+        undefined,
+      ]
+    }
+  >
+    <Image
+      onError={[Function]}
+      resizeMode="contain"
+      source={
+        Object {
+          "uri": "https://i.imgur.com/iRK9LRd.png",
+        }
+      }
+      style={
+        Object {
+          "height": 30,
+          "marginBottom": 12,
+          "width": 46,
+        }
+      }
+    />
+    <Text
+      style={
+        Object {
+          "color": "rgba(119, 119, 119, 1)",
+          "fontFamily": "SourceSansPro-Regular",
+          "fontSize": 12,
+          "lineHeight": 16,
+          "textAlign": "center",
+        }
+      }
+    >
+      4.5/5 Based on 300+ ratings
+    </Text>
+  </View>
+  <View
+    style={
+      Array [
+        Object {
+          "alignItems": "center",
+          "width": 80,
+        },
+        undefined,
+      ]
+    }
+  >
+    <Image
+      onError={[Function]}
+      resizeMode="contain"
+      source={
+        Object {
+          "uri": "https://i.imgur.com/jWlTJvq.png",
+        }
+      }
+      style={
+        Object {
+          "height": 30,
+          "marginBottom": 12,
+          "width": 46,
+        }
+      }
+    />
+    <Text
+      style={
+        Object {
+          "color": "rgba(119, 119, 119, 1)",
+          "fontFamily": "SourceSansPro-Regular",
+          "fontSize": 12,
+          "lineHeight": 16,
+          "textAlign": "center",
+        }
+      }
+    >
+      Accredited Agent
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`Partner Section 1`] = `
+<View
+  style={
+    Array [
+      Object {
+        "alignItems": "center",
+        "width": 80,
+      },
+      undefined,
+    ]
+  }
+>
+  <Image
+    onError={[Function]}
+    resizeMode="contain"
+    source={
+      Object {
+        "uri": "https://i.imgur.com/TNnGL9a.png",
+      }
+    }
+    style={
+      Object {
+        "height": 30,
+        "marginBottom": 12,
+        "width": 46,
+      }
+    }
+  />
+  <Text
+    style={
+      Object {
+        "color": "rgba(119, 119, 119, 1)",
+        "fontFamily": "SourceSansPro-Regular",
+        "fontSize": 12,
+        "lineHeight": 16,
+        "textAlign": "center",
+      }
+    }
+  >
+    4.8/5 Based on 1200+ ratings
+  </Text>
+</View>
+`;
