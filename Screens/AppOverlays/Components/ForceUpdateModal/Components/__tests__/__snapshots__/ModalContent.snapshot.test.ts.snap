@@ -105,29 +105,5 @@ exports[`Force update modal content 1`] = `
       </View>
     </TouchableOpacity>
   </View>
-  <Text
-    style={
-      Object {
-        "color": "rgba(119, 119, 119, 1)",
-        "fontFamily": "SourceSansPro-Regular",
-        "fontSize": 13,
-        "lineHeight": 20,
-      }
-    }
-  >
-    Having probelm in updating the app?
-     
-    <Text
-      onPress={[Function]}
-      style={
-        Object {
-          "color": "rgba(0,198,132,1)",
-          "textDecorationLine": "underline",
-        }
-      }
-    >
-      Message us
-    </Text>
-  </Text>
 </View>
 `;

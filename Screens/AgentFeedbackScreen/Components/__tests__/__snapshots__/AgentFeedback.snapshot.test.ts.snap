@@ -75,39 +75,52 @@ exports[`Agent Feedback Quality Section 1`] = `
               }
             }
           >
-            <Image
-              onError={[Function]}
-              source={
-                Object {
-                  "uri": "https://i.imgur.com/YtdsUbs.png",
-                }
-              }
+            <View
               style={
                 Array [
                   Object {
+                    "alignItems": "center",
                     "backgroundColor": "rgba(239, 239, 239, 1)",
-                    "borderRadius": 25,
+                    "borderRadius": 28,
                     "height": 56,
+                    "justifyContent": "center",
                     "marginBottom": 8,
-                    "opacity": 0.2,
+                    "overflow": "hidden",
                     "width": 56,
                   },
                   null,
                 ]
               }
-            />
+            >
+              <Image
+                onError={[Function]}
+                resizeMode="contain"
+                source={
+                  Object {
+                    "uri": "https://i.imgur.com/YtdsUbs.png",
+                  }
+                }
+                style={
+                  Array [
+                    Object {
+                      "height": 24,
+                      "width": 24,
+                    },
+                    null,
+                  ]
+                }
+              />
+            </View>
             <Text
               style={
-                Array [
-                  Object {
-                    "color": "rgba(119, 119, 119, 1)",
-                    "fontFamily": "SourceSansPro-Regular",
-                    "fontSize": 13,
-                    "lineHeight": 15,
-                    "paddingHorizontal": 8,
-                    "textAlign": "center",
-                  },
-                ]
+                Object {
+                  "color": "rgba(119, 119, 119, 1)",
+                  "fontFamily": "SourceSansPro-Regular",
+                  "fontSize": 13,
+                  "lineHeight": 15,
+                  "paddingHorizontal": 8,
+                  "textAlign": "center",
+                }
               }
             >
               Superstar support
@@ -148,39 +161,52 @@ exports[`Agent Feedback Quality Section 1`] = `
               }
             }
           >
-            <Image
-              onError={[Function]}
-              source={
-                Object {
-                  "uri": "https://i.imgur.com/sYzOl65.png",
-                }
-              }
+            <View
               style={
                 Array [
                   Object {
+                    "alignItems": "center",
                     "backgroundColor": "rgba(239, 239, 239, 1)",
-                    "borderRadius": 25,
+                    "borderRadius": 28,
                     "height": 56,
+                    "justifyContent": "center",
                     "marginBottom": 8,
-                    "opacity": 0.2,
+                    "overflow": "hidden",
                     "width": 56,
                   },
                   null,
                 ]
               }
-            />
+            >
+              <Image
+                onError={[Function]}
+                resizeMode="contain"
+                source={
+                  Object {
+                    "uri": "https://i.imgur.com/sYzOl65.png",
+                  }
+                }
+                style={
+                  Array [
+                    Object {
+                      "height": 24,
+                      "width": 24,
+                    },
+                    null,
+                  ]
+                }
+              />
+            </View>
             <Text
               style={
-                Array [
-                  Object {
-                    "color": "rgba(119, 119, 119, 1)",
-                    "fontFamily": "SourceSansPro-Regular",
-                    "fontSize": 13,
-                    "lineHeight": 15,
-                    "paddingHorizontal": 8,
-                    "textAlign": "center",
-                  },
-                ]
+                Object {
+                  "color": "rgba(119, 119, 119, 1)",
+                  "fontFamily": "SourceSansPro-Regular",
+                  "fontSize": 13,
+                  "lineHeight": 15,
+                  "paddingHorizontal": 8,
+                  "textAlign": "center",
+                }
               }
             >
               Timely response
@@ -221,41 +247,56 @@ exports[`Agent Feedback Quality Section 1`] = `
               }
             }
           >
-            <Image
-              onError={[Function]}
-              source={
-                Object {
-                  "uri": "https://i.imgur.com/hm0u6k6.png",
-                }
-              }
+            <View
               style={
                 Array [
                   Object {
+                    "alignItems": "center",
                     "backgroundColor": "rgba(239, 239, 239, 1)",
-                    "borderRadius": 25,
+                    "borderRadius": 28,
                     "height": 56,
+                    "justifyContent": "center",
                     "marginBottom": 8,
-                    "opacity": 0.2,
+                    "overflow": "hidden",
                     "width": 56,
                   },
                   Object {
-                    "opacity": 1,
+                    "backgroundColor": "rgba(239, 249, 242,1)",
                   },
                 ]
               }
-            />
+            >
+              <Image
+                onError={[Function]}
+                resizeMode="contain"
+                source={
+                  Object {
+                    "uri": "https://i.imgur.com/hm0u6k6.png",
+                  }
+                }
+                style={
+                  Array [
+                    Object {
+                      "height": 24,
+                      "width": 24,
+                    },
+                    Object {
+                      "tintColor": "rgba(0,198,132,1)",
+                    },
+                  ]
+                }
+              />
+            </View>
             <Text
               style={
-                Array [
-                  Object {
-                    "color": "rgba(119, 119, 119, 1)",
-                    "fontFamily": "SourceSansPro-Regular",
-                    "fontSize": 13,
-                    "lineHeight": 15,
-                    "paddingHorizontal": 8,
-                    "textAlign": "center",
-                  },
-                ]
+                Object {
+                  "color": "rgba(119, 119, 119, 1)",
+                  "fontFamily": "SourceSansPro-Regular",
+                  "fontSize": 13,
+                  "lineHeight": 15,
+                  "paddingHorizontal": 8,
+                  "textAlign": "center",
+                }
               }
             >
               Empathy
@@ -296,39 +337,52 @@ exports[`Agent Feedback Quality Section 1`] = `
               }
             }
           >
-            <Image
-              onError={[Function]}
-              source={
-                Object {
-                  "uri": "https://i.imgur.com/cd7irIa.png",
-                }
-              }
+            <View
               style={
                 Array [
                   Object {
+                    "alignItems": "center",
                     "backgroundColor": "rgba(239, 239, 239, 1)",
-                    "borderRadius": 25,
+                    "borderRadius": 28,
                     "height": 56,
+                    "justifyContent": "center",
                     "marginBottom": 8,
-                    "opacity": 0.2,
+                    "overflow": "hidden",
                     "width": 56,
                   },
                   null,
                 ]
               }
-            />
+            >
+              <Image
+                onError={[Function]}
+                resizeMode="contain"
+                source={
+                  Object {
+                    "uri": "https://i.imgur.com/cd7irIa.png",
+                  }
+                }
+                style={
+                  Array [
+                    Object {
+                      "height": 24,
+                      "width": 24,
+                    },
+                    null,
+                  ]
+                }
+              />
+            </View>
             <Text
               style={
-                Array [
-                  Object {
-                    "color": "rgba(119, 119, 119, 1)",
-                    "fontFamily": "SourceSansPro-Regular",
-                    "fontSize": 13,
-                    "lineHeight": 15,
-                    "paddingHorizontal": 8,
-                    "textAlign": "center",
-                  },
-                ]
+                Object {
+                  "color": "rgba(119, 119, 119, 1)",
+                  "fontFamily": "SourceSansPro-Regular",
+                  "fontSize": 13,
+                  "lineHeight": 15,
+                  "paddingHorizontal": 8,
+                  "textAlign": "center",
+                }
               }
             >
               Destination knowledge
@@ -352,22 +406,39 @@ exports[`Agent Info Text Section 1`] = `
     ]
   }
 >
-  <Image
-    onError={[Function]}
-    resizeMode="cover"
-    source={
-      Object {
-        "uri": "https://i.imgur.com/Uq2zUZA.png",
-      }
-    }
+  <View
     style={
-      Object {
-        "height": 124,
-        "marginBottom": 16,
-        "width": 124,
-      }
+      Array [
+        Object {
+          "overflow": "hidden",
+        },
+        Object {
+          "height": 124,
+          "marginBottom": 16,
+          "width": 124,
+        },
+      ]
     }
-  />
+  >
+    <FastImageView
+      onFastImageError={[Function]}
+      resizeMode="cover"
+      source={
+        Object {
+          "uri": "https://i.imgur.com/Uq2zUZA.png",
+        }
+      }
+      style={
+        Object {
+          "bottom": 0,
+          "left": 0,
+          "position": "absolute",
+          "right": 0,
+          "top": 0,
+        }
+      }
+    />
+  </View>
   <Text
     style={
       Object {
@@ -441,41 +512,56 @@ exports[`Feedback quality selected 1`] = `
         }
       }
     >
-      <Image
-        onError={[Function]}
-        source={
-          Object {
-            "uri": "https://i.imgur.com/YtdsUbs.png",
-          }
-        }
+      <View
         style={
           Array [
             Object {
+              "alignItems": "center",
               "backgroundColor": "rgba(239, 239, 239, 1)",
-              "borderRadius": 25,
+              "borderRadius": 28,
               "height": 56,
+              "justifyContent": "center",
               "marginBottom": 8,
-              "opacity": 0.2,
+              "overflow": "hidden",
               "width": 56,
             },
             Object {
-              "opacity": 1,
+              "backgroundColor": "rgba(239, 249, 242,1)",
             },
           ]
         }
-      />
+      >
+        <Image
+          onError={[Function]}
+          resizeMode="contain"
+          source={
+            Object {
+              "uri": "https://i.imgur.com/YtdsUbs.png",
+            }
+          }
+          style={
+            Array [
+              Object {
+                "height": 24,
+                "width": 24,
+              },
+              Object {
+                "tintColor": "rgba(0,198,132,1)",
+              },
+            ]
+          }
+        />
+      </View>
       <Text
         style={
-          Array [
-            Object {
-              "color": "rgba(119, 119, 119, 1)",
-              "fontFamily": "SourceSansPro-Regular",
-              "fontSize": 13,
-              "lineHeight": 15,
-              "paddingHorizontal": 8,
-              "textAlign": "center",
-            },
-          ]
+          Object {
+            "color": "rgba(119, 119, 119, 1)",
+            "fontFamily": "SourceSansPro-Regular",
+            "fontSize": 13,
+            "lineHeight": 15,
+            "paddingHorizontal": 8,
+            "textAlign": "center",
+          }
         }
       >
         Superstar support
@@ -519,39 +605,52 @@ exports[`Feedback quality unselected 1`] = `
         }
       }
     >
-      <Image
-        onError={[Function]}
-        source={
-          Object {
-            "uri": "https://i.imgur.com/YtdsUbs.png",
-          }
-        }
+      <View
         style={
           Array [
             Object {
+              "alignItems": "center",
               "backgroundColor": "rgba(239, 239, 239, 1)",
-              "borderRadius": 25,
+              "borderRadius": 28,
               "height": 56,
+              "justifyContent": "center",
               "marginBottom": 8,
-              "opacity": 0.2,
+              "overflow": "hidden",
               "width": 56,
             },
             null,
           ]
         }
-      />
+      >
+        <Image
+          onError={[Function]}
+          resizeMode="contain"
+          source={
+            Object {
+              "uri": "https://i.imgur.com/YtdsUbs.png",
+            }
+          }
+          style={
+            Array [
+              Object {
+                "height": 24,
+                "width": 24,
+              },
+              null,
+            ]
+          }
+        />
+      </View>
       <Text
         style={
-          Array [
-            Object {
-              "color": "rgba(119, 119, 119, 1)",
-              "fontFamily": "SourceSansPro-Regular",
-              "fontSize": 13,
-              "lineHeight": 15,
-              "paddingHorizontal": 8,
-              "textAlign": "center",
-            },
-          ]
+          Object {
+            "color": "rgba(119, 119, 119, 1)",
+            "fontFamily": "SourceSansPro-Regular",
+            "fontSize": 13,
+            "lineHeight": 15,
+            "paddingHorizontal": 8,
+            "textAlign": "center",
+          }
         }
       >
         Superstar support
