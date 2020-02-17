@@ -7,6 +7,7 @@ import {
 } from "../../constants/imageAssets";
 import LinearGradient from "react-native-linear-gradient";
 import { CONSTANT_darkGradientAlpha } from "../../constants/colorPallete";
+import { CONSTANT_splashBackgroundVideo } from "../../constants/imageAssets";
 import SectionTitle from "../../CommonComponents/SectionTitle/SectionTitle";
 import { CONSTANT_fontCustom } from "../../constants/fonts";
 import constants from "../../constants/constants";
@@ -25,8 +26,15 @@ import { validateLoginMobileNumber } from "../../Services/validateMobileNumber/v
 import DismissKeyboardView from "../../CommonComponents/DismissKeyboardView/DismissKeyboardView";
 import { toastCenter } from "../../Services/toast/toast";
 import moment from "moment";
+import Video from "react-native-video";
+import {
+  responsiveHeight,
+  responsiveWidth
+  // @ts-ignore
+} from "react-native-responsive-dimensions";
 
 const AppLogin = () => {
+  const [isVideoReady, setVideoStatus] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState<string>("");
   const [countryCode, setCountryCode] = useState<string>("+91");
   const [countryFlag, setCountryFlag] = useState<string>("🇮🇳");
@@ -116,56 +124,62 @@ const AppLogin = () => {
   const highlightPhoneField =
     !validateLoginMobileNumber(mobileNumber) && isPhoneSubmitAttempted;
 
+  const onVideoLoaded = () => setVideoStatus(true);
+
   return (
     <Fragment>
       <DismissKeyboardView style={styles.keyboardAvoider}>
-        <SmartImageV2
-          useFastImage={true}
-          style={styles.container}
-          source={{ uri: CONSTANT_loginBackground }}
-          fallbackSource={{ uri: CONSTANT_defaultPlaceImage }}
+        <Video
+          onLoad={onVideoLoaded}
+          repeat={true}
+          style={styles.videoView}
+          source={CONSTANT_splashBackgroundVideo()}
           resizeMode="cover"
-        >
-          <LinearGradient
-            {...gradientOptions}
-            style={styles.backgroundGradient}
+        />
+        {!isVideoReady ? (
+          <SmartImageV2
+            useFastImage={true}
+            style={styles.imageContainer}
+            source={CONSTANT_loginBackground()}
+            fallbackSource={{ uri: CONSTANT_defaultPlaceImage }}
+            resizeMode="cover"
+          />
+        ) : null}
+        <LinearGradient {...gradientOptions} style={styles.backgroundGradient}>
+          <AppLoginTitle
+            skipAction={() => null}
+            containerStyle={styles.loginTitleContainer}
+          />
+          <View
+            style={[
+              styles.loginInputContainer,
+              {
+                marginBottom: (Platform.OS === "ios" ? keyboardHeight : 0) + 50
+              }
+            ]}
           >
-            <AppLoginTitle
-              skipAction={() => null}
-              containerStyle={styles.loginTitleContainer}
+            <SectionTitle
+              smallTitleTextStyle={styles.smallWelcomeTitle}
+              titleTextStyle={styles.welcomeTitle}
+              titleNumberOfLines={2}
+              title="Let’s find you your next dream holiday :)"
+              smallTitle="Welcome"
             />
-            <View
-              style={[
-                styles.loginInputContainer,
-                {
-                  marginBottom:
-                    (Platform.OS === "ios" ? keyboardHeight : 0) + 50
-                }
-              ]}
-            >
-              <SectionTitle
-                smallTitleTextStyle={styles.smallWelcomeTitle}
-                titleTextStyle={styles.welcomeTitle}
-                titleNumberOfLines={2}
-                title="Let’s find you your next dream holiday :)"
-                smallTitle="Welcome"
-              />
-              <PhoneNumberInput
-                isLoading={mobileNumberApiDetails.isLoading}
-                placeholder="Phone Number"
-                phoneNumber={phoneNumber}
-                countryCode={countryCode}
-                emoji={countryFlag}
-                onChangeText={updatePhoneNumber}
-                onCountryCodeChange={onCountryCodeChange}
-                onSubmitEditing={submitPhoneNumber}
-                editable={!isPhoneNumberSubmitted}
-                hasError={highlightPhoneField}
-              />
-              <XSensorPlaceholder />
-            </View>
-          </LinearGradient>
-        </SmartImageV2>
+            <PhoneNumberInput
+              isLoading={mobileNumberApiDetails.isLoading}
+              placeholder="Phone Number"
+              phoneNumber={phoneNumber}
+              countryCode={countryCode}
+              emoji={countryFlag}
+              onChangeText={updatePhoneNumber}
+              onCountryCodeChange={onCountryCodeChange}
+              onSubmitEditing={submitPhoneNumber}
+              editable={!isPhoneNumberSubmitted}
+              hasError={highlightPhoneField}
+            />
+            <XSensorPlaceholder />
+          </View>
+        </LinearGradient>
       </DismissKeyboardView>
       {isPhoneNumberSubmitted ? (
         <ActionSheet interactableRef={otpPanelRef} onSnap={onOtpPanelSnap}>
@@ -194,8 +208,15 @@ const styles = StyleSheet.create({
   keyboardAvoider: {
     flex: 1
   },
-  container: {
-    flex: 1
+  imageContainer: {
+    height: responsiveHeight(100),
+    width: responsiveWidth(100),
+    position: "absolute"
+  },
+  videoView: {
+    height: responsiveHeight(100),
+    width: responsiveWidth(100),
+    position: "absolute"
   },
   backgroundGradient: {
     flex: 1,
