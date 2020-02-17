@@ -6,6 +6,41 @@ import { NavigationActions } from "react-navigation";
 import { logError } from "../errorLogger/errorLogger";
 import storeService from "../storeService/storeService";
 import setUserSegment from "../setUserSegment/setUserSegment";
+import hydrate from "../hydrate/hydrate";
+import launchPostBooking from "../launchPostBooking/launchPostBooking";
+
+/**
+ * This promise will check if user has completed the welcome flow
+ * before he moves into the post booking flow.
+ *
+ * Involves hydrating the state from past session hence it is asynchronous
+ */
+const isPostBookingWelcomePending = () => {
+  return new Promise((resolve, reject) => {
+    Promise.all([
+      hydrate("_seenOPSIntro", storeService.userFlowTransitionStore),
+      hydrate("_completedSOFeedback", storeService.userFlowTransitionStore),
+      hydrate("_seenPostBookingIntro", storeService.userFlowTransitionStore),
+      hydrate("_selectedItinerary", storeService.itineraries)
+    ])
+      .then(() => {
+        const {
+          completedSOFeedback,
+          seenOPSIntro,
+          seenPostBookingIntro
+        } = storeService.userFlowTransitionStore;
+        if (completedSOFeedback && seenOPSIntro && seenPostBookingIntro) {
+          resolve(true);
+        } else {
+          resolve(false);
+        }
+      })
+      .catch(error => {
+        logError(error);
+        reject();
+      });
+  });
+};
 
 /**
  * Resets the current navigation stack to the BookedItineraryTabs
@@ -50,19 +85,57 @@ const AppLauncher = () => {
         storeService.journalStore.startImageUploadQueue();
 
         /**
-         * Check if trip toggle button is enabled
+         * Actual logic which will open the
+         * PostBooking home / tripfeed
          */
-        AsyncStorage.getItem(constants.tripToggleStatusStorageKey).then(
-          isTripModeOn => {
-            if (JSON.parse(isTripModeOn)) {
-              navigation.dispatch(resetToBooked);
-              resolve();
+        const openPostBookingHome = () => {
+          /**
+           * Check if trip toggle button is enabled
+           */
+          AsyncStorage.getItem(constants.tripToggleStatusStorageKey).then(
+            isTripModeOn => {
+              if (JSON.parse(isTripModeOn)) {
+                navigation.dispatch(resetToBooked);
+                resolve();
+              } else {
+                navigation.dispatch(resetToPlan);
+                resolve();
+              }
+            }
+          );
+        };
+
+        /**
+         * Verify if post booking welcome screen
+         * is seen by the user
+         */
+        isPostBookingWelcomePending()
+          .then(result => {
+            if (result) {
+              /**
+               * User has seen the post booking welcome flow
+               * Open tripfeed
+               */
+              openPostBookingHome();
             } else {
-              navigation.dispatch(resetToPlan);
+              /**
+               * Welcome flow is pending resume it
+               */
+              launchPostBooking(
+                "SplashScreen",
+                navigationService.navigation,
+                storeService.itineraries.selectedItineraryId
+              );
               resolve();
             }
-          }
-        );
+          })
+          .catch(() => {
+            /**
+             * Something went wrong while checking the post booking flow status
+             * Opens the tripfeed as fallback
+             */
+            openPostBookingHome();
+          });
       },
       () => {
         /**

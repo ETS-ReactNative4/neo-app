@@ -1,7 +1,7 @@
 {
   "name": "pickyourtrail",
-  "version": "1.3.4",
-  "build": 229,
+  "version": "1.3.5",
+  "build": 233,
   "private": true,
   "scripts": {
     "pod-install": "cd ios && pod install && cd ..",
@@ -35,6 +35,7 @@
     "@segment/analytics-react-native": "1.1.0",
     "@sentry/react-native": "^1.0.5",
     "@twotalltotems/react-native-otp-input": "git://github.com/DaniAkash/react-native-otp-input.git#2be475f3fbb53a66a8466bd0f0ce5997ec1c65ad",
+    "compare-versions": "3.5.1",
     "country-data": "^0.0.31",
     "d3-shape": "^1.2.0",
     "intl": "^1.2.5",

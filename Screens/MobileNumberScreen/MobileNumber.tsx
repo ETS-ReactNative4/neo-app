@@ -114,11 +114,6 @@ class MobileNumber extends Component<MobileNumberProps, MobileNumberState> {
     this.setState({ countryCode });
   };
 
-  // setMobileInputRef = (e: React.RefObject<unknown>) =>
-  //   (this._mobileInputRef = e);
-  //
-  // setOtpInputRef = (e: React.RefObject<unknown>) => (this._otpInputRef = e);
-
   editMobileNumber = (mobileNumber: string) => {
     this.setState({ mobileNumber });
     if (validateLoginMobileNumber(`${this.state.countryCode}${mobileNumber}`)) {
@@ -200,7 +195,7 @@ class MobileNumber extends Component<MobileNumberProps, MobileNumberState> {
               }
               await registerToken(response.data.authtoken);
               recordEvent(constants.userLoggedInEvent);
-              // @ts-ignore
+              // @ts-ignore - Navigation state doesn't have type yet in v4 requires update
               const routeName = this.props.navigation.state.routeName;
               getUserDetails();
               getDeviceToken();

@@ -7,11 +7,13 @@ import Icon from "../../../CommonComponents/Icon/Icon";
 import {
   CONSTANT_black1,
   CONSTANT_black2,
-  CONSTANT_shade6
+  CONSTANT_shade6,
+  CONSTANT_shade2
 } from "../../../constants/colorPallete";
 import {
   CONSTANT_fontCustom,
-  CONSTANT_primarySemiBold
+  CONSTANT_primarySemiBold,
+  CONSTANT_primaryRegular
 } from "../../../constants/fonts";
 
 export interface IPocCardPropsData {
@@ -53,7 +55,7 @@ const AgentPocCard = ({
             key={index}
           >
             <View style={styles.passIconStyle}>
-              <Icon name={data.iconName} size={14} color={CONSTANT_black1} />
+              <Icon name={data.iconName} size={14} color={CONSTANT_shade2} />
             </View>
             <View style={styles.contentContainer}>
               <Text style={styles.title}>{data.title}</Text>
@@ -93,7 +95,7 @@ const styles = StyleSheet.create({
   },
   description: {
     color: CONSTANT_black2,
-    ...CONSTANT_fontCustom(CONSTANT_primarySemiBold, 13)
+    ...CONSTANT_fontCustom(CONSTANT_primaryRegular, 13, 18)
   }
 });
 

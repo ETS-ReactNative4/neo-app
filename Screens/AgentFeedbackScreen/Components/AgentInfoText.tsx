@@ -18,8 +18,9 @@ import {
   CONSTANT_black2,
   CONSTANT_shade5
 } from "../../../constants/colorPallete";
+import { CONSTANT_defaultAgentImage } from "../../../constants/imageAssets";
 
-interface AgentInfoTextProps {
+export interface AgentInfoTextProps {
   containerStyle?: StyleProp<ViewStyle>;
   agentImageContainerStyle?: StyleProp<ImageStyle>;
   agentImage: string;
@@ -27,21 +28,43 @@ interface AgentInfoTextProps {
   agentDescription: string;
 }
 
+export interface AgentImageProps {
+  agentImage: string;
+  agentImageContainerStyle: StyleProp<ImageStyle>;
+}
+
+/**
+ * Component Memoized to prevent image re-rending
+ * while animation.
+ */
+const AgentImage = ({
+  agentImage,
+  agentImageContainerStyle
+}: AgentImageProps) => {
+  return (
+    <SmartImageV2
+      useFastImage={true}
+      resizeMode={"cover"}
+      source={{ uri: agentImage }}
+      fallbackSource={CONSTANT_defaultAgentImage()}
+      style={styles.agentImage}
+      imageStyle={agentImageContainerStyle}
+    />
+  );
+};
+
 const AgentInfoText = ({
   containerStyle,
   agentImageContainerStyle,
-  agentImage = "https://i.imgur.com/Uq2zUZA.png",
-  agentName = "Mahesh Raja",
+  agentImage,
+  agentName,
   agentDescription = "Your travel consultant"
 }: AgentInfoTextProps) => {
   return (
     <View style={[styles.infoContainer, containerStyle]}>
-      <SmartImageV2
-        resizeMode={"cover"}
-        source={{ uri: agentImage }}
-        fallbackSource={{ uri: agentImage }}
-        style={styles.agentImage}
-        imageStyle={agentImageContainerStyle}
+      <AgentImage
+        agentImage={agentImage}
+        agentImageContainerStyle={agentImageContainerStyle}
       />
       <Text style={styles.agentName}>{agentName}</Text>
       <Text style={styles.agentDescription}>{agentDescription}</Text>

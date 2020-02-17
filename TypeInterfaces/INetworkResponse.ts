@@ -1,3 +1,5 @@
+export type MobileServerResponseType = any;
+
 export interface IMobileServerResponse {
   status:
     | "VERIFIED"
@@ -16,5 +18,5 @@ export interface IMobileServerResponse {
     | "PLATO_FAILURE"
     | "MOBILE_EXISTS"
     | "EMAIL_EXISTS";
-  data?: any;
+  data?: MobileServerResponseType;
 }

@@ -1,7 +1,10 @@
 import { useState } from "react";
 import apiCall from "../../../Services/networkRequests/apiCall";
 import { CONSTANT_responseSuccessStatus } from "../../../constants/stringConstants";
-import { IMobileServerResponse } from "../../../TypeInterfaces/INetworkResponse";
+import {
+  IMobileServerResponse,
+  MobileServerResponseType
+} from "../../../TypeInterfaces/INetworkResponse";
 
 export interface IApiCallConfig {
   route: string;
@@ -22,13 +25,13 @@ export interface IApiCallConfig {
 }
 
 export interface IApiCallResponse {
-  successResponseData: object | undefined;
-  failureResponseData: object | undefined;
+  successResponseData: MobileServerResponseType | undefined;
+  failureResponseData: MobileServerResponseType | undefined;
 }
 
 export interface IApiCallHookData {
-  successResponseData: object | undefined;
-  failureResponseData: object | undefined;
+  successResponseData: MobileServerResponseType | undefined;
+  failureResponseData: MobileServerResponseType | undefined;
   isLoading: boolean;
   isError: boolean;
   isSuccess: boolean;

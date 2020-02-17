@@ -1,4 +1,5 @@
 import storeService from "../storeService/storeService";
+import debouncer from "../debouncer/debouncer";
 
 /**
  * Must be called every-time user selects an itineraries
@@ -14,13 +15,16 @@ const itineraryConstructor = ({ itineraryId, cities }) => {
          * Following tasks are asynchronous & optional
          * They don't disturb itinerary constructor if they fail
          */
-        storeService.emergencyContactsStore.getEmergencyContacts(cities);
-        storeService.passportDetailsStore.updatePassportDetails(itineraryId);
-        storeService.visaStore.getVisaHomeScreenDetails();
-        storeService.supportStore.loadFaqDetails();
-        storeService.tripFeedStore.generateTripFeed();
-        storeService.weatherStore.reset();
-        storeService.chatDetailsStore.getUserDetails();
+        debouncer(() => {
+          storeService.emergencyContactsStore.getEmergencyContacts(cities);
+          storeService.passportDetailsStore.updatePassportDetails(itineraryId);
+          storeService.visaStore.getVisaHomeScreenDetails();
+          storeService.supportStore.loadFaqDetails();
+          storeService.tripFeedStore.generateTripFeed();
+          storeService.weatherStore.reset();
+          storeService.chatDetailsStore.getUserDetails();
+          storeService.soFeedbackStore.loadSODetails(itineraryId);
+        });
         resolve();
       })
       .catch(error => {

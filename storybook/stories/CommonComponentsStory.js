@@ -8,6 +8,7 @@ import SelectablePortraitImageTestCases from "../../CommonComponents/SelectableP
 import MasonryViewTestCases from "../../CommonComponents/MasonryView/MasonryViewTestCases";
 import ActionSheetTestCases from "../../CommonComponents/ActionSheet/ActionSheetTestCases";
 import DismissKeyboardViewTestCases from "../../CommonComponents/DismissKeyboardView/DismissKeyboardViewTestCases";
+import ModalContentTestCases from "../../Screens/AppOverlays/Components/ForceUpdateModal/Components/ModalContentTestCases";
 
 const CommonComponentStories = storiesOf("Common Components", module);
 
@@ -23,3 +24,4 @@ SelectablePortraitImageTestCases.forEach(renderTestCase);
 MasonryViewTestCases.forEach(renderTestCase);
 ActionSheetTestCases.forEach(renderTestCase);
 DismissKeyboardViewTestCases.forEach(renderTestCase);
+ModalContentTestCases.forEach(renderTestCase);

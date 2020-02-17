@@ -20,28 +20,50 @@ import {
   CONSTANT_primarySemiBold
 } from "../../../../constants/fonts";
 import AgentOption from "./Components/AgentOption";
-
-export interface IAgentOptionData {
-  text: string;
-  image: string;
-}
+import { IQuality } from "../../../../mobx/SOFeedback";
 
 interface AgentFeedbackOptionProps {
   containerStyle?: StyleProp<ViewStyle>;
-  agentOptionData: IAgentOptionData[];
+  agentOptionData: IQuality[];
+  selectedQualities: string[];
+  selectQuality: (quality: string) => any;
+  unselectQuality: (quality: string) => any;
 }
 
 const AgentFeedbackOption = ({
   containerStyle,
-  agentOptionData
+  agentOptionData = [],
+  selectedQualities = [],
+  selectQuality = () => null,
+  unselectQuality = () => null
 }: AgentFeedbackOptionProps) => {
   return (
     <View style={[styles.agentFeedbackOptionContainer, containerStyle]}>
       <Text style={styles.titleText}>What did you like the most?</Text>
-
       <View style={styles.feedbackScrollContainer}>
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-          <AgentOption agentOptionData={agentOptionData} />
+          {agentOptionData.map((agentQuality, qualityIndex) => {
+            const isSelected = selectedQualities.includes(
+              agentQuality.qualityText
+            );
+
+            const selectOption = () => {
+              selectQuality(agentQuality.qualityText);
+            };
+
+            const unselectOption = () => {
+              unselectQuality(agentQuality.qualityText);
+            };
+
+            return (
+              <AgentOption
+                key={qualityIndex}
+                agentQuality={agentQuality}
+                isSelected={isSelected}
+                onPress={isSelected ? unselectOption : selectOption}
+              />
+            );
+          })}
         </ScrollView>
       </View>
     </View>

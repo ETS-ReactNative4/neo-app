@@ -4,40 +4,23 @@ import {
 } from "../Services/getEnvironmentDetails/getEnvironmentDetails";
 
 const productUrls = {
-  localProductUrl: "http://192.168.0.5:8080/",
-  stagingProductUrl: "https://uat.longweekend.co.in/",
-  prodProductUrl: "https://pickyourtrail.com/",
-  testingProdUrl: "https://dummy-testing-server.com/"
+  local: "http://192.168.0.5:8080/",
+  staging: "https://delta.longweekend.co.in/",
+  production: "https://pickyourtrail.com/",
+  test: "https://dummy-testing-server.com/"
 };
 
 const apiServers = {
-  localServer: productUrls.localProductUrl + "api/",
-  stagingSever: productUrls.stagingProductUrl + "api/",
-  prodServer: productUrls.prodProductUrl + "api/",
-  testingServer: productUrls.testingProdUrl + "api/"
+  local: productUrls.local + "api/",
+  staging: productUrls.staging + "api/",
+  production: productUrls.production + "api/",
+  test: productUrls.test + "api/"
 };
 
-let apiServerUrl, productUrl;
-switch (getEnvironmentName()) {
-  case "production":
-    apiServerUrl = apiServers.prodServer;
-    productUrl = productUrls.prodProductUrl;
-    break;
+const ENVIRONMENT = getEnvironmentName();
 
-  case "staging":
-    apiServerUrl = apiServers.stagingSever;
-    productUrl = productUrls.stagingProductUrl;
-    break;
-
-  case "test":
-    apiServerUrl = apiServers.testingServer;
-    productUrl = productUrls.testingProdUrl;
-    break;
-
-  default:
-    apiServerUrl = apiServers.localServer;
-    productUrl = productUrls.localProductUrl;
-}
+const apiServerUrl = apiServers[ENVIRONMENT] || apiServers.local;
+const productUrl = productUrls[ENVIRONMENT] || productUrls.local;
 
 const chatCustomUrl = `https://pickyourtrail.com/app-chat/`;
 
@@ -132,5 +115,8 @@ export const CONSTANT_paymentInComplete = `payment/failure`;
 export const CONSTANT_paymentCancel = `inclusions`;
 export const CONSTANT_darkSkyKey = "1f95e4bd24b4377d484d0cfceae84a74";
 export const CONSTANT_darkSkyDomain = "https://api.darksky.net/";
+export const CONSTANT_awsJsonServer =
+  "https://pyt-voyager.s3.ap-south-1.amazonaws.com/";
+export const CONSTANT_emergencyAppSupportNumber = "+919003222085";
 
 export default serverUrls;
