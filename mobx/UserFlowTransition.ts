@@ -3,14 +3,17 @@ import { persist } from "mobx-persist";
 import { logError } from "../Services/errorLogger/errorLogger";
 import hydrate from "../Services/hydrate/hydrate";
 import apiCall from "../Services/networkRequests/apiCall";
-import { CONSTANT_feedbackUserState } from "../constants/apiUrls";
+import {
+  CONSTANT_feedbackUserState,
+  CONSTANT_feedbackInfo
+} from "../constants/apiUrls";
 import { CONSTANT_responseSuccessStatus } from "../constants/stringConstants";
 import { IMobileServerResponse } from "../TypeInterfaces/INetworkResponse";
 
 export interface ITransitionStatus {
   seenPostBookingIntro: boolean;
   completedSOFeedback: boolean;
-  seenOPSIntro: boolean;
+  seenOpsIntro: boolean;
 }
 
 export interface IUserTransitionStatusResponse extends IMobileServerResponse {
@@ -83,15 +86,15 @@ class UserFlowTransition {
             const {
               seenPostBookingIntro = false,
               completedSOFeedback = false,
-              seenOPSIntro = false
-            } = response.data || {};
+              seenOpsIntro = false
+            } = response.data;
             this._seenPostBookingIntro = seenPostBookingIntro;
             this._completedSOFeedback = completedSOFeedback;
-            this._seenOPSIntro = seenOPSIntro;
+            this._seenOPSIntro = seenOpsIntro;
             resolve({
               seenPostBookingIntro,
               completedSOFeedback,
-              seenOPSIntro
+              seenOpsIntro
             });
           } else {
             reject();
@@ -105,7 +108,7 @@ class UserFlowTransition {
   userSeenPostBookingIntro = (itineraryId: string) => {
     return new Promise<boolean>((resolve, reject) => {
       apiCall(
-        `${CONSTANT_feedbackUserState}?itineraryId=${itineraryId}`,
+        `${CONSTANT_feedbackInfo}?itineraryId=${itineraryId}`,
         { seenPostBookingIntro: true },
         "PATCH"
       )
@@ -115,6 +118,9 @@ class UserFlowTransition {
             resolve(true);
           } else {
             this._seenPostBookingIntro = false;
+            /**
+             * TODO: Resolve this to false instead of reject
+             */
             reject();
           }
         })
@@ -129,8 +135,8 @@ class UserFlowTransition {
   userSeenOPSIntro = (itineraryId: string) => {
     return new Promise<boolean>((resolve, reject) => {
       apiCall(
-        `${CONSTANT_feedbackUserState}?itineraryId=${itineraryId}`,
-        { seenOPSIntro: true },
+        `${CONSTANT_feedbackInfo}?itineraryId=${itineraryId}`,
+        { seenOpsIntro: true },
         "PATCH"
       )
         .then((response: IMobileServerResponse) => {
@@ -144,6 +150,30 @@ class UserFlowTransition {
         })
         .catch(() => {
           this._seenOPSIntro = false;
+          reject();
+        });
+    });
+  };
+
+  @action
+  userCompletedFeedback = (itineraryId: string) => {
+    return new Promise<boolean>((resolve, reject) => {
+      apiCall(
+        `${CONSTANT_feedbackInfo}?itineraryId=${itineraryId}`,
+        { completedSOFeedback: true },
+        "PATCH"
+      )
+        .then((response: IMobileServerResponse) => {
+          if (response.status === CONSTANT_responseSuccessStatus) {
+            this._completedSOFeedback = true;
+            resolve(true);
+          } else {
+            this._completedSOFeedback = false;
+            reject();
+          }
+        })
+        .catch(() => {
+          this._completedSOFeedback = false;
           reject();
         });
     });

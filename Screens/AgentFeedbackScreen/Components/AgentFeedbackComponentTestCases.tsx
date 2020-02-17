@@ -2,28 +2,27 @@ import React from "react";
 
 import { ITestCase } from "../../../TypeInterfaces/TestCases/ITestCases";
 import AgentInfoText from "./AgentInfoText";
-import AgentFeedbackOption, {
-  IAgentOptionData
-} from "./AgentFeedbackOption/AgentFeedbackOption";
+import AgentFeedbackOption from "./AgentFeedbackOption/AgentFeedbackOption";
 
-import AgentFeedback from "../AgentFeedback";
+import { IQuality } from "../../../mobx/SOFeedback";
+import AgentOption from "./AgentFeedbackOption/Components/AgentOption";
 
-const agentOptionData: IAgentOptionData[] = [
+const agentOptionData: IQuality[] = [
   {
-    text: "Superstar support",
-    image: "https://i.imgur.com/YtdsUbs.png"
+    qualityText: "Superstar support",
+    qualityImage: "https://i.imgur.com/YtdsUbs.png"
   },
   {
-    text: "Timely response",
-    image: "https://i.imgur.com/sYzOl65.png"
+    qualityText: "Timely response",
+    qualityImage: "https://i.imgur.com/sYzOl65.png"
   },
   {
-    text: "Empathy",
-    image: "https://i.imgur.com/hm0u6k6.png"
+    qualityText: "Empathy",
+    qualityImage: "https://i.imgur.com/hm0u6k6.png"
   },
   {
-    text: "Destination knowledge",
-    image: "https://i.imgur.com/cd7irIa.png"
+    qualityText: "Destination knowledge",
+    qualityImage: "https://i.imgur.com/cd7irIa.png"
   }
 ];
 
@@ -39,12 +38,35 @@ const AgentFeedbackComponentTestCases: ITestCase[] = [
     )
   },
   {
-    title: "Agent Feedback Section",
-    Component: <AgentFeedbackOption agentOptionData={agentOptionData} />
+    title: "Agent Feedback Quality Section",
+    Component: (
+      <AgentFeedbackOption
+        selectedQualities={["Empathy"]}
+        agentOptionData={agentOptionData}
+        selectQuality={() => null}
+        unselectQuality={() => null}
+      />
+    )
   },
   {
-    title: "Agent Feedback Screen",
-    Component: <AgentFeedback />
+    title: "Feedback quality selected",
+    Component: (
+      <AgentOption
+        onPress={() => null}
+        agentQuality={agentOptionData[0]}
+        isSelected={true}
+      />
+    )
+  },
+  {
+    title: "Feedback quality unselected",
+    Component: (
+      <AgentOption
+        onPress={() => null}
+        agentQuality={agentOptionData[0]}
+        isSelected={false}
+      />
+    )
   }
 ];
 

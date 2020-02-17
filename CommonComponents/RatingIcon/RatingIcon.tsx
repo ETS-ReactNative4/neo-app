@@ -6,60 +6,51 @@ import {
   ViewStyle,
   TouchableOpacity
 } from "react-native";
-
 import Icon from "../Icon/Icon";
-
 import { CONSTANT_starActive } from "../../constants/imageAssets";
 import {
   CONSTANT_secondColor,
-  CONSTANT_black1
+  CONSTANT_shade4
 } from "../../constants/colorPallete";
 
 interface RatingIconProps {
+  numOfStars: number;
   rating: number;
   starSize?: number;
   containerStyle?: StyleProp<ViewStyle>;
-  isActive?: boolean;
-  customStarColor?: string;
-  clickAction?: () => void;
+  activeColor?: string;
+  clickAction?: (rating: number) => any;
 }
 
 const RatingIcon = ({
   rating = 1,
+  numOfStars = 5,
   starSize = 32,
-  isActive = false,
   containerStyle,
-  customStarColor = "",
+  activeColor = CONSTANT_secondColor,
   clickAction = () => null
 }: RatingIconProps) => {
-  let temp = rating;
-  const stars = [];
-  for (let i = 1; i <= rating; i++) {
-    temp--;
+  let temp: number = 1;
+  const stars: number[] = [];
+  for (let i = 1; i <= numOfStars; i++) {
     stars.push(temp);
+    temp++;
   }
 
   return (
     <View style={[styles.ratingIconContainer, containerStyle]}>
       {stars.map((star, starIndex) => {
+        const onStarClicked = () => {
+          clickAction(star);
+        };
+        const isActive = star <= rating;
         return (
-          <TouchableOpacity key={starIndex} onPress={clickAction}>
-            <View
-              style={[
-                styles.ratingIcon,
-                isActive ? styles.activeOpacity : styles.defaultOpacity
-              ]}
-            >
+          <TouchableOpacity key={starIndex} onPress={onStarClicked}>
+            <View style={styles.ratingIcon}>
               <Icon
                 name={CONSTANT_starActive}
                 size={starSize}
-                color={
-                  customStarColor
-                    ? customStarColor
-                    : isActive
-                    ? CONSTANT_secondColor
-                    : CONSTANT_black1
-                }
+                color={isActive ? activeColor : CONSTANT_shade4}
               />
             </View>
           </TouchableOpacity>
@@ -75,16 +66,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "flex-start"
   },
-
   ratingIcon: {
     marginHorizontal: 10
-  },
-
-  activeOpacity: {
-    opacity: 1
-  },
-  defaultOpacity: {
-    opacity: 0.1
   }
 });
 

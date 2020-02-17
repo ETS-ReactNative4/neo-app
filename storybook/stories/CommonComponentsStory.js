@@ -17,6 +17,8 @@ import SecurePartnerTestCases from "../../CommonComponents/SecurePartner/SecureP
 import FeaturedCardTestCases from "../../CommonComponents/FeaturedCard/FeaturedCardTestCases";
 import ItineraryCardTestCases from "../../CommonComponents/ItineraryCard/ItineraryCardTestCases";
 import DealCardTestCases from "../../CommonComponents/DealCard/DealCardTestCases";
+import DismissKeyboardViewTestCases from "../../CommonComponents/DismissKeyboardView/DismissKeyboardViewTestCases";
+import ModalContentTestCases from "../../Screens/AppOverlays/Components/ForceUpdateModal/Components/ModalContentTestCases";
 
 const CommonComponentStories = storiesOf("Common Components", module);
 
@@ -41,3 +43,5 @@ SecurePartnerTestCases.forEach(renderTestCase);
 FeaturedCardTestCases.forEach(renderTestCase);
 ItineraryCardTestCases.forEach(renderTestCase);
 DealCardTestCases.forEach(renderTestCase);
+DismissKeyboardViewTestCases.forEach(renderTestCase);
+ModalContentTestCases.forEach(renderTestCase);

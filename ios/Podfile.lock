@@ -316,6 +316,11 @@ PODS:
     - React
   - react-native-simple-toast (0.1.1):
     - React
+  - react-native-video (5.0.2):
+    - React
+    - react-native-video/Video (= 5.0.2)
+  - react-native-video/Video (5.0.2):
+    - React
   - react-native-viewpager (2.0.2):
     - React
   - react-native-webengage (1.1.1):
@@ -469,6 +474,7 @@ DEPENDENCIES:
   - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
   - react-native-photo-view (from `../node_modules/react-native-photo-view`)
   - react-native-simple-toast (from `../node_modules/react-native-simple-toast`)
+  - react-native-video (from `../node_modules/react-native-video`)
   - "react-native-viewpager (from `../node_modules/@react-native-community/viewpager`)"
   - react-native-webengage (from `../node_modules/react-native-webengage`)
   - react-native-webview (from `../node_modules/react-native-webview`)
@@ -593,6 +599,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-photo-view"
   react-native-simple-toast:
     :path: "../node_modules/react-native-simple-toast"
+  react-native-video:
+    :path: "../node_modules/react-native-video"
   react-native-viewpager:
     :path: "../node_modules/@react-native-community/viewpager"
   react-native-webengage:
@@ -717,6 +725,7 @@ SPEC CHECKSUMS:
   react-native-netinfo: fa32a5bb986924e9be82a261c262039042dde81e
   react-native-photo-view: 63e9e61da873531f931008b545d8d10c5373ddf8
   react-native-simple-toast: 1fc69d83c24279ed4f9624352551a5a3406678a2
+  react-native-video: d01ed7ff1e38fa7dcc6c15c94cf505e661b7bfd0
   react-native-viewpager: 88f4269c19d626d2ccd5f7c7f5f7f76422ddb9e3
   react-native-webengage: ce9d42fac6385108b0245ef06e0a926697a38db4
   react-native-webview: 5036ed4a973ad1deeeff118262d2df7b60b3419d

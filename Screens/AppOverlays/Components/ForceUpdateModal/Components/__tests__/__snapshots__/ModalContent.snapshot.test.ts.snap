@@ -1,0 +1,109 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Force update modal content 1`] = `
+<View
+  style={
+    Array [
+      Object {
+        "alignItems": "center",
+        "backgroundColor": "rgb(247, 247, 247)",
+        "borderRadius": 8,
+        "flexDirection": "column",
+        "paddingHorizontal": 32,
+        "paddingVertical": 24,
+      },
+      Object {
+        "backgroundColor": "rgba(221, 221, 221, 1)",
+      },
+    ]
+  }
+>
+  <Text
+    style={
+      Object {
+        "color": "rgba(44, 47, 66, 1)",
+        "fontFamily": "SourceSansPro-SemiBold",
+        "fontSize": 16,
+        "lineHeight": 16,
+        "marginBottom": 16,
+      }
+    }
+  >
+    Your app is outdated
+  </Text>
+  <Text
+    ellipsizeMode="tail"
+    numberOfLines={3}
+    style={
+      Object {
+        "color": "rgba(83, 87, 109, 1)",
+        "fontFamily": "SourceSansPro-Regular",
+        "fontSize": 15,
+        "lineHeight": 20,
+        "marginBottom": 16,
+        "textAlign": "center",
+      }
+    }
+  >
+    You are using an old version of the app. We have added new features to enhance the app experience.
+  </Text>
+  <View>
+    <TouchableOpacity
+      activeOpacity={0.8}
+      onPress={[Function]}
+      style={
+        Array [
+          Object {
+            "height": 56,
+          },
+          Object {
+            "height": 44,
+            "marginBottom": 16,
+          },
+        ]
+      }
+    >
+      <View
+        style={
+          Array [
+            Object {
+              "height": 56,
+            },
+            Object {
+              "backgroundColor": "rgba(0,198,132,1)",
+              "borderRadius": 4,
+              "justifyContent": "center",
+              "paddingHorizontal": 24,
+            },
+            Object {
+              "height": 44,
+              "marginBottom": 16,
+            },
+          ]
+        }
+      >
+        <Text
+          style={
+            Array [
+              Object {
+                "color": "rgb(247, 247, 247)",
+                "fontFamily": "SourceSansPro-SemiBold",
+                "fontSize": 17,
+                "lineHeight": 17,
+                "textAlign": "center",
+              },
+              Object {
+                "fontFamily": "SourceSansPro-SemiBold",
+                "fontSize": 15,
+                "lineHeight": 15,
+              },
+            ]
+          }
+        >
+          Update now
+        </Text>
+      </View>
+    </TouchableOpacity>
+  </View>
+</View>
+`;

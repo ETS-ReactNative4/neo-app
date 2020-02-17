@@ -1,0 +1,510 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Multiple Rating Icon 1`] = `
+<View
+  style={
+    Array [
+      Object {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "justifyContent": "flex-start",
+      },
+      undefined,
+    ]
+  }
+>
+  <TouchableOpacity
+    activeOpacity={0.2}
+    onPress={[Function]}
+  >
+    <View
+      style={
+        Object {
+          "marginHorizontal": 10,
+        }
+      }
+    >
+      <Text
+        allowFontScaling={false}
+        style={
+          Array [
+            Object {
+              "color": "rgba(255, 201, 51, 1)",
+              "fontSize": 32,
+            },
+            undefined,
+            Object {
+              "fontFamily": "voyager",
+              "fontStyle": "normal",
+              "fontWeight": "normal",
+            },
+            Object {},
+          ]
+        }
+      >
+        
+      </Text>
+    </View>
+  </TouchableOpacity>
+  <TouchableOpacity
+    activeOpacity={0.2}
+    onPress={[Function]}
+  >
+    <View
+      style={
+        Object {
+          "marginHorizontal": 10,
+        }
+      }
+    >
+      <Text
+        allowFontScaling={false}
+        style={
+          Array [
+            Object {
+              "color": "rgba(255, 201, 51, 1)",
+              "fontSize": 32,
+            },
+            undefined,
+            Object {
+              "fontFamily": "voyager",
+              "fontStyle": "normal",
+              "fontWeight": "normal",
+            },
+            Object {},
+          ]
+        }
+      >
+        
+      </Text>
+    </View>
+  </TouchableOpacity>
+  <TouchableOpacity
+    activeOpacity={0.2}
+    onPress={[Function]}
+  >
+    <View
+      style={
+        Object {
+          "marginHorizontal": 10,
+        }
+      }
+    >
+      <Text
+        allowFontScaling={false}
+        style={
+          Array [
+            Object {
+              "color": "rgba(255, 201, 51, 1)",
+              "fontSize": 32,
+            },
+            undefined,
+            Object {
+              "fontFamily": "voyager",
+              "fontStyle": "normal",
+              "fontWeight": "normal",
+            },
+            Object {},
+          ]
+        }
+      >
+        
+      </Text>
+    </View>
+  </TouchableOpacity>
+  <TouchableOpacity
+    activeOpacity={0.2}
+    onPress={[Function]}
+  >
+    <View
+      style={
+        Object {
+          "marginHorizontal": 10,
+        }
+      }
+    >
+      <Text
+        allowFontScaling={false}
+        style={
+          Array [
+            Object {
+              "color": "rgba(255, 201, 51, 1)",
+              "fontSize": 32,
+            },
+            undefined,
+            Object {
+              "fontFamily": "voyager",
+              "fontStyle": "normal",
+              "fontWeight": "normal",
+            },
+            Object {},
+          ]
+        }
+      >
+        
+      </Text>
+    </View>
+  </TouchableOpacity>
+  <TouchableOpacity
+    activeOpacity={0.2}
+    onPress={[Function]}
+  >
+    <View
+      style={
+        Object {
+          "marginHorizontal": 10,
+        }
+      }
+    >
+      <Text
+        allowFontScaling={false}
+        style={
+          Array [
+            Object {
+              "color": "rgba(221, 221, 221, 1)",
+              "fontSize": 32,
+            },
+            undefined,
+            Object {
+              "fontFamily": "voyager",
+              "fontStyle": "normal",
+              "fontWeight": "normal",
+            },
+            Object {},
+          ]
+        }
+      >
+        
+      </Text>
+    </View>
+  </TouchableOpacity>
+</View>
+`;
+
+exports[`Rating Icon 1`] = `
+<View
+  style={
+    Array [
+      Object {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "justifyContent": "flex-start",
+      },
+      undefined,
+    ]
+  }
+>
+  <TouchableOpacity
+    activeOpacity={0.2}
+    onPress={[Function]}
+  >
+    <View
+      style={
+        Object {
+          "marginHorizontal": 10,
+        }
+      }
+    >
+      <Text
+        allowFontScaling={false}
+        style={
+          Array [
+            Object {
+              "color": "rgba(221, 221, 221, 1)",
+              "fontSize": 32,
+            },
+            undefined,
+            Object {
+              "fontFamily": "voyager",
+              "fontStyle": "normal",
+              "fontWeight": "normal",
+            },
+            Object {},
+          ]
+        }
+      >
+        
+      </Text>
+    </View>
+  </TouchableOpacity>
+</View>
+`;
+
+exports[`Rating Icon Active State 1`] = `
+<View
+  style={
+    Array [
+      Object {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "justifyContent": "flex-start",
+      },
+      undefined,
+    ]
+  }
+>
+  <TouchableOpacity
+    activeOpacity={0.2}
+    onPress={[Function]}
+  >
+    <View
+      style={
+        Object {
+          "marginHorizontal": 10,
+        }
+      }
+    >
+      <Text
+        allowFontScaling={false}
+        style={
+          Array [
+            Object {
+              "color": "rgba(255, 201, 51, 1)",
+              "fontSize": 32,
+            },
+            undefined,
+            Object {
+              "fontFamily": "voyager",
+              "fontStyle": "normal",
+              "fontWeight": "normal",
+            },
+            Object {},
+          ]
+        }
+      >
+        
+      </Text>
+    </View>
+  </TouchableOpacity>
+</View>
+`;
+
+exports[`Rating Icon Custom Color 1`] = `
+<View
+  style={
+    Array [
+      Object {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "justifyContent": "flex-start",
+      },
+      undefined,
+    ]
+  }
+>
+  <TouchableOpacity
+    activeOpacity={0.2}
+    onPress={[Function]}
+  >
+    <View
+      style={
+        Object {
+          "marginHorizontal": 10,
+        }
+      }
+    >
+      <Text
+        allowFontScaling={false}
+        style={
+          Array [
+            Object {
+              "color": "rgba(255,40,114,1)",
+              "fontSize": 32,
+            },
+            undefined,
+            Object {
+              "fontFamily": "voyager",
+              "fontStyle": "normal",
+              "fontWeight": "normal",
+            },
+            Object {},
+          ]
+        }
+      >
+        
+      </Text>
+    </View>
+  </TouchableOpacity>
+</View>
+`;
+
+exports[`Rating Icon Custom Color With Active State 1`] = `
+<View
+  style={
+    Array [
+      Object {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "justifyContent": "flex-start",
+      },
+      undefined,
+    ]
+  }
+>
+  <TouchableOpacity
+    activeOpacity={0.2}
+    onPress={[Function]}
+  >
+    <View
+      style={
+        Object {
+          "marginHorizontal": 10,
+        }
+      }
+    >
+      <Text
+        allowFontScaling={false}
+        style={
+          Array [
+            Object {
+              "color": "rgba(255,40,114,1)",
+              "fontSize": 32,
+            },
+            undefined,
+            Object {
+              "fontFamily": "voyager",
+              "fontStyle": "normal",
+              "fontWeight": "normal",
+            },
+            Object {},
+          ]
+        }
+      >
+        
+      </Text>
+    </View>
+  </TouchableOpacity>
+  <TouchableOpacity
+    activeOpacity={0.2}
+    onPress={[Function]}
+  >
+    <View
+      style={
+        Object {
+          "marginHorizontal": 10,
+        }
+      }
+    >
+      <Text
+        allowFontScaling={false}
+        style={
+          Array [
+            Object {
+              "color": "rgba(255,40,114,1)",
+              "fontSize": 32,
+            },
+            undefined,
+            Object {
+              "fontFamily": "voyager",
+              "fontStyle": "normal",
+              "fontWeight": "normal",
+            },
+            Object {},
+          ]
+        }
+      >
+        
+      </Text>
+    </View>
+  </TouchableOpacity>
+  <TouchableOpacity
+    activeOpacity={0.2}
+    onPress={[Function]}
+  >
+    <View
+      style={
+        Object {
+          "marginHorizontal": 10,
+        }
+      }
+    >
+      <Text
+        allowFontScaling={false}
+        style={
+          Array [
+            Object {
+              "color": "rgba(255,40,114,1)",
+              "fontSize": 32,
+            },
+            undefined,
+            Object {
+              "fontFamily": "voyager",
+              "fontStyle": "normal",
+              "fontWeight": "normal",
+            },
+            Object {},
+          ]
+        }
+      >
+        
+      </Text>
+    </View>
+  </TouchableOpacity>
+  <TouchableOpacity
+    activeOpacity={0.2}
+    onPress={[Function]}
+  >
+    <View
+      style={
+        Object {
+          "marginHorizontal": 10,
+        }
+      }
+    >
+      <Text
+        allowFontScaling={false}
+        style={
+          Array [
+            Object {
+              "color": "rgba(221, 221, 221, 1)",
+              "fontSize": 32,
+            },
+            undefined,
+            Object {
+              "fontFamily": "voyager",
+              "fontStyle": "normal",
+              "fontWeight": "normal",
+            },
+            Object {},
+          ]
+        }
+      >
+        
+      </Text>
+    </View>
+  </TouchableOpacity>
+  <TouchableOpacity
+    activeOpacity={0.2}
+    onPress={[Function]}
+  >
+    <View
+      style={
+        Object {
+          "marginHorizontal": 10,
+        }
+      }
+    >
+      <Text
+        allowFontScaling={false}
+        style={
+          Array [
+            Object {
+              "color": "rgba(221, 221, 221, 1)",
+              "fontSize": 32,
+            },
+            undefined,
+            Object {
+              "fontFamily": "voyager",
+              "fontStyle": "normal",
+              "fontWeight": "normal",
+            },
+            Object {},
+          ]
+        }
+      >
+        
+      </Text>
+    </View>
+  </TouchableOpacity>
+</View>
+`;

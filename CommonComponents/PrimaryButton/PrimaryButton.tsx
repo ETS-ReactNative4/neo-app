@@ -22,7 +22,7 @@ interface PrimaryButtonProps {
   text: string;
   clickAction?: () => void;
   buttonStyle?: StyleProp<ViewStyle>;
-  buttonTextStyle: StyleProp<TextStyle>;
+  buttonTextStyle?: StyleProp<TextStyle>;
 }
 
 const PrimaryButton = ({

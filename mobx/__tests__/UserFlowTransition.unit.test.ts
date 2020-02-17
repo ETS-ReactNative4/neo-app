@@ -2,13 +2,16 @@ import UserFlowTransition from "../UserFlowTransition";
 import fetchMock from "fetch-mock";
 import { CONSTANT_apiServerUrl } from "../../constants/serverUrls";
 import { CONSTANT_responseSuccessStatus } from "../../constants/stringConstants";
-import { CONSTANT_feedbackUserState } from "../../constants/apiUrls";
+import {
+  CONSTANT_feedbackUserState,
+  CONSTANT_feedbackInfo
+} from "../../constants/apiUrls";
 
 const itineraryId = "testItineraryId";
 
-const userHasSeenFeedbackUrl = `${CONSTANT_apiServerUrl}${CONSTANT_feedbackUserState}?itineraryId=${itineraryId}`;
+const userHasSeenFeedbackUrl = `${CONSTANT_apiServerUrl}${CONSTANT_feedbackInfo}?itineraryId=${itineraryId}`;
 const userTransitionStatusUrl = `${CONSTANT_apiServerUrl}${CONSTANT_feedbackUserState}?itineraryId=${itineraryId}`;
-const userHasSeenOPSIntroUrl = `${CONSTANT_apiServerUrl}${CONSTANT_feedbackUserState}?itineraryId=${itineraryId}`;
+const userHasSeenOPSIntroUrl = `${CONSTANT_apiServerUrl}${CONSTANT_feedbackInfo}?itineraryId=${itineraryId}`;
 
 const userHasSeenFeedbackSuccess = () => {
   fetchMock.patch(userHasSeenFeedbackUrl, {
@@ -102,7 +105,7 @@ it("Transition status data loaded successfully", async () => {
     itineraryId
   );
   expect(transitionStatus.seenPostBookingIntro).toBe(true);
-  expect(transitionStatus.seenOPSIntro).toBe(true);
+  expect(transitionStatus.seenOpsIntro).toBe(true);
   expect(transitionStatus.completedSOFeedback).toBe(true);
   expect(userFlowTransition.seenPostBookingIntro).toBe(true);
   expect(userFlowTransition.seenOPSIntro).toBe(true);

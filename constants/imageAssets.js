@@ -285,7 +285,8 @@ export const CONSTANT_aeroplaneIcon = "flight";
 export const CONSTANT_aeroplaneTakeOffIcon = "flight-right";
 export const CONSTANT_flightVoucherBanner = require("../assets/images/backgrounds/flightVoucherHeader.jpg");
 export const CONSTANT_drawerBackgroundImage = require("../assets/images/backgrounds/side-menu-bg.png");
-export const CONSTANT_agentIntroBgPattern = require("../assets/images/backgrounds/agent-into-bg-pattern.png");
+export const CONSTANT_agentIntroBgPattern = () =>
+  require("../assets/images/backgrounds/agent-into-bg-pattern.png");
 export const CONSTANT_busIcon = "bus";
 export const CONSTANT_ferryIcon = "ferry";
 export const CONSTANT_visaIcon = "visa";
@@ -474,8 +475,8 @@ export const CONSTANT_roomsSmallPlaceHolder = prefix + "HotelRooms-120x90.png";
 export const CONSTANT_roomsLargePlaceHolder = prefix + "HotelRooms-240x180.png";
 export const CONSTANT_defaultPlaceImage =
   "https://pyt-images.imgix.net/images/place-holder.png";
-export const CONSTANT_loginBackground =
-  "https://images.unsplash.com/photo-1545705754-c312e4836414";
+export const CONSTANT_loginBackground = () =>
+  require("../assets/images/backgrounds/loginBackground.jpg");
 export const CONSTANT_journalPublishingLoop = () =>
   require("../assets/animations/publishloop.json");
 export const CONSTANT_journalPublishEnd = () =>
@@ -484,5 +485,9 @@ export const CONSTANT_journalPublishSuccess = () =>
   require("../assets/animations/publishSuccess.json");
 export const CONSTANT_splashAnimation = () =>
   require("../assets/animations/splashScreen.json");
+export const CONSTANT_defaultAgentImage = () =>
+  require("../assets/images/illustrations/default-agent-image.png");
+export const CONSTANT_splashBackgroundVideo = () =>
+  require("../assets/videos/splashscreen.mp4");
 
 export default imageAssets;

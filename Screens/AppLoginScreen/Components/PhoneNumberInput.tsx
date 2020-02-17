@@ -14,7 +14,10 @@ import {
   CONSTANT_fontCustom,
   CONSTANT_primaryRegular
 } from "../../../constants/fonts";
-import { CONSTANT_shade1 } from "../../../constants/colorPallete";
+import {
+  CONSTANT_shade1,
+  CONSTANT_seventeenthColor
+} from "../../../constants/colorPallete";
 import LottieView from "lottie-react-native";
 import { CONSTANT_visaSuccessAnimation } from "../../../constants/imageAssets";
 import CountryCodePicker from "../../MobileNumberScreen/Components/CountryCodePicker";
@@ -28,6 +31,7 @@ export interface PhoneNumberInputProps extends TextInputProps {
   onChangeText: (text: string) => any;
   isLoading: boolean;
   onCountryCodeChange: (ccode: string, emoji: string) => any;
+  hasError: boolean;
 }
 
 export interface ICountryCodeData {
@@ -50,6 +54,7 @@ const PhoneNumberInput = ({
   onChangeText,
   isLoading = false,
   onCountryCodeChange,
+  hasError = false,
   ...otherProps
 }: PhoneNumberInputProps) => {
   const [isPickerActive, setPickerActiveStatus] = useState<boolean>(false);
@@ -70,7 +75,12 @@ const PhoneNumberInput = ({
         onClose={closePicker}
         selectCountryCode={onSelectCountryCode}
       />
-      <View style={styles.phoneNumberContainer}>
+      <View
+        style={[
+          styles.phoneNumberContainer,
+          hasError ? styles.phoneNumberHasError : null
+        ]}
+      >
         <TouchableOpacity
           onPress={openPicker}
           style={styles.countryCodeWrapper}
@@ -116,29 +126,34 @@ const styles = StyleSheet.create({
       }
     })
   },
+  phoneNumberHasError: {
+    borderBottomColor: CONSTANT_seventeenthColor
+  },
   countryCodeWrapper: {
     flexDirection: "row",
     alignItems: "center"
   },
   emojiText: {
-    ...CONSTANT_fontCustom(CONSTANT_primaryRegular, 16),
+    ...CONSTANT_fontCustom(CONSTANT_primaryRegular, 18),
     color: CONSTANT_shade1,
     ...Platform.select({
       ios: {
-        lineHeight: undefined
+        lineHeight: undefined,
+        marginBottom: 1
       }
     })
   },
   countryCodeText: {
-    ...CONSTANT_fontCustom(CONSTANT_primaryRegular, 16),
+    ...CONSTANT_fontCustom(CONSTANT_primaryRegular, 18),
     color: CONSTANT_shade1,
-    marginHorizontal: 8
+    marginHorizontal: 8,
+    marginTop: 2
   },
   textInputWrapper: {
     flex: 1
   },
   textInput: {
-    ...CONSTANT_fontCustom(CONSTANT_primaryRegular, 16),
+    ...CONSTANT_fontCustom(CONSTANT_primaryRegular, 18),
     color: CONSTANT_shade1,
     ...Platform.select({
       ios: {

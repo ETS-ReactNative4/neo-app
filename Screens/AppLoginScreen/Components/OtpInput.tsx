@@ -24,7 +24,7 @@ const OtpInput = ({
   code = "",
   onInputChange = () => null,
   onCodeFilled = () => null,
-  pinCount = 4
+  pinCount = 6
 }: OtpInputProps) => {
   const onCodeChange = (changedCode: string) => {
     onInputChange(changedCode);

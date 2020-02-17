@@ -1,18 +1,13 @@
 import React from "react";
-import { StyleSheet, View, Text, Alert } from "react-native";
+import { StyleSheet, View, Text, ScrollView } from "react-native";
 
 import AgentPocCard, { IPocCardPropsData } from "./Components/AgentPocCard";
 
-import {
-  CONSTANT_passIcon,
-  CONSTANT_visaRelatedFaqIcon,
-  CONSTANT_paymentIcon,
-  CONSTANT_defaultPlaceImage,
-  CONSTANT_agentIntroBgPattern
-} from "../../constants/imageAssets";
+import { CONSTANT_agentIntroBgPattern } from "../../constants/imageAssets";
 
 import {
-  responsiveWidth
+  responsiveWidth,
+  responsiveHeight
   // @ts-ignore
 } from "react-native-responsive-dimensions";
 import { CONSTANT_black1 } from "../../constants/colorPallete";
@@ -26,24 +21,12 @@ import AgentInfoText from "../AgentFeedbackScreen/Components/AgentInfoText";
 import { isIphoneX } from "react-native-iphone-x-helper";
 import { CONSTANT_xSensorAreaHeight } from "../../constants/styles";
 import * as Animatable from "react-native-animatable";
-
-const pocCardData: IPocCardPropsData[] = [
-  {
-    title: "Superstar support",
-    description: "The travel vouchers you need for your trip",
-    iconName: `${CONSTANT_passIcon}`
-  },
-  {
-    title: "Visa assistance",
-    description: "The travel vouchers you need for your trip",
-    iconName: `${CONSTANT_visaRelatedFaqIcon}`
-  },
-  {
-    title: "Payments",
-    description: "The travel vouchers you need for your trip",
-    iconName: `${CONSTANT_paymentIcon}`
-  }
-];
+import { observer, inject } from "mobx-react";
+import UserFlowTransition from "../../mobx/UserFlowTransition";
+import Itineraries from "../../mobx/Itineraries";
+import { NavigationStackProp } from "react-navigation-stack";
+import DebouncedAlert from "../../CommonComponents/DebouncedAlert/DebouncedAlert";
+import { openPostBookingHome } from "../../Services/launchPostBooking/launchPostBooking";
 
 const { createAnimatableComponent } = Animatable;
 
@@ -56,48 +39,108 @@ const BOTTOM_SPACING = GUTTER_SPACING - 8;
 const LEFT_SPACING = GUTTER_SPACING;
 const RIGHT_SPACING = GUTTER_SPACING;
 
-const AgentInfo = () => {
+export interface AgentInfoProps {
+  userFlowTransitionStore: UserFlowTransition;
+  itineraries: Itineraries;
+  navigation: NavigationStackProp<{
+    itineraryId: string;
+    ownerName: string;
+    ownerImage: string;
+    pocCardData: IPocCardPropsData[];
+  }>;
+}
+
+const AgentInfo = ({
+  userFlowTransitionStore,
+  itineraries,
+  navigation
+}: AgentInfoProps) => {
+  const ownerName: string = navigation.getParam("ownerName", "");
+  const ownerImage: string = navigation.getParam("ownerImage", "");
+  const pocCardData: IPocCardPropsData[] = navigation.getParam(
+    "pocCardData",
+    []
+  );
+
+  const onSubmit = () => {
+    userFlowTransitionStore
+      .userSeenOPSIntro(itineraries.selectedItineraryId)
+      .then(result => {
+        if (result) {
+          openPostBookingHome(navigation);
+        } else {
+          DebouncedAlert("Error!", "Unable to load data from our server");
+        }
+      })
+      .catch(() => {
+        DebouncedAlert("Error!", "Unable to load data from our server");
+      });
+  };
+
+  const FIRST_ANIMATION_DELAY = 50;
+  const FIRST_ANIMATION_DURATION = 400;
+  const SECOND_ANIMATION_DELAY =
+    1000 + FIRST_ANIMATION_DELAY + FIRST_ANIMATION_DURATION;
+  const SECOND_ANIMATION_DURATION = 400;
+  const THIRD_ANIMATION_DELAY =
+    50 + SECOND_ANIMATION_DELAY + SECOND_ANIMATION_DURATION;
+  const THIRD_ANIMATION_DURATION = 400;
+  const FOURTH_ANIMATION_DELAY =
+    THIRD_ANIMATION_DELAY + pocCardData.length * THIRD_ANIMATION_DURATION;
+  const FOURTH_ANIMATION_DURATION = 400;
+
   return (
     <View style={styles.agentInfoContainer}>
       <SmartImageV2
-        source={CONSTANT_agentIntroBgPattern}
-        fallbackSource={{ uri: CONSTANT_defaultPlaceImage }}
+        source={CONSTANT_agentIntroBgPattern()}
+        fallbackSource={CONSTANT_agentIntroBgPattern()}
         style={styles.imageStyle}
+        resizeMode={"contain"}
       />
 
-      <AnimatableView animation="fadeInUp" delay={1000} duration={2500}>
+      <AnimatableView
+        animation="fadeInUp"
+        delay={FIRST_ANIMATION_DELAY}
+        duration={FIRST_ANIMATION_DURATION}
+      >
         <AgentInfoText
-          agentImage={"https://i.imgur.com/yfA9V3g.png"}
-          agentName={"Sunil Sathyaraj"}
+          agentImage={ownerImage}
+          agentName={ownerName}
           agentDescription={"Your onboarding expert"}
         />
       </AnimatableView>
 
-      <AnimatableView animation="fadeInUp" delay={3500} duration={2000}>
+      <AnimatableView
+        animation="fadeInUp"
+        delay={SECOND_ANIMATION_DELAY}
+        duration={SECOND_ANIMATION_DURATION}
+      >
         <Text style={styles.agentHelloText}>
           Hello, I’ll be helping you with all of these
         </Text>
       </AnimatableView>
 
-      <AgentPocCard
-        containerStyle={styles.agentPocCardStyle}
-        animation="slideInRight"
-        pocCardData={pocCardData}
-        delay={5900}
-        duration={2000}
-        successiveDelay={2000}
-      />
+      <View style={styles.pocCardWrapper}>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <AgentPocCard
+            containerStyle={styles.agentPocCardStyle}
+            animation="fadeInRight"
+            pocCardData={pocCardData}
+            delay={THIRD_ANIMATION_DELAY}
+            duration={THIRD_ANIMATION_DURATION}
+            successiveDelay={THIRD_ANIMATION_DURATION}
+          />
+          <View style={styles.scrollSpacer} />
+        </ScrollView>
+      </View>
 
       <AnimatableView
         animation="fadeInUp"
-        delay={7900 + 2000 * pocCardData.length}
-        duration={2000}
+        delay={FOURTH_ANIMATION_DELAY}
+        duration={FOURTH_ANIMATION_DURATION}
         style={styles.buttonWrapperStyle}
       >
-        <PrimaryButton
-          text={"Submit"}
-          clickAction={() => Alert.alert("Click Submit Button")}
-        />
+        <PrimaryButton text={"View your trip details"} clickAction={onSubmit} />
       </AnimatableView>
     </View>
   );
@@ -117,7 +160,6 @@ const styles = StyleSheet.create({
   imageStyle: {
     width: 205,
     height: 108,
-    resizeMode: "cover",
     position: "absolute",
     top: 0,
     left: 0
@@ -140,7 +182,15 @@ const styles = StyleSheet.create({
     right: RIGHT_SPACING,
     bottom: BOTTOM_SPACING + (isIphoneX() ? CONSTANT_xSensorAreaHeight : 0),
     width: responsiveWidth(100) - LEFT_SPACING - RIGHT_SPACING
+  },
+  pocCardWrapper: {
+    height: responsiveHeight(40)
+  },
+  scrollSpacer: {
+    height: 120
   }
 });
 
-export default AgentInfo;
+export default inject("itineraries")(
+  inject("userFlowTransitionStore")(observer(AgentInfo))
+);

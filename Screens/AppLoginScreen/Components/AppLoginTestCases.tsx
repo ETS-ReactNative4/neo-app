@@ -5,6 +5,7 @@ import { Alert, StyleSheet } from "react-native";
 import PhoneNumberInput from "./PhoneNumberInput";
 import OtpInput from "./OtpInput";
 import OtpPanel from "./OtpPanel";
+import moment from "moment";
 
 const PhoneNumberWrapper = () => {
   const [phoneNumber, setPhoneNumber] = useState<string>("");
@@ -28,6 +29,7 @@ const PhoneNumberWrapper = () => {
       emoji={countryFlag}
       containerStyle={styles.phoneNumberWrapper}
       onCountryCodeChange={onCountryCodeChange}
+      hasError={false}
     />
   );
 };
@@ -48,6 +50,37 @@ const OtpInputWrapper = () => {
   );
 };
 
+const OtpPanelWrapper = () => {
+  const [code, setCode] = useState<string>("");
+  const [isTimedOut, setIsTimedOut] = useState<boolean>(false);
+
+  const updateCode = (newCode: string) => {
+    setCode(newCode);
+  };
+
+  const onResend = () => Alert.alert("Resend Clicked!");
+
+  const codeFilled = () => Alert.alert("Code Filled!");
+
+  const onTimeout = () => {
+    setIsTimedOut(true);
+    Alert.alert("OTP Timed out!");
+  };
+
+  return (
+    <OtpPanel
+      code={code}
+      onResend={onResend}
+      onCodeFilled={codeFilled}
+      updateCode={updateCode}
+      requestTime={moment(1580987401597)}
+      expiryTime={moment(1580987441416)}
+      isTimedOut={isTimedOut}
+      onTimedOut={onTimeout}
+    />
+  );
+};
+
 const AppLoginTestCases: ITestCase[] = [
   {
     title: "Agent Login Screen Title",
@@ -63,7 +96,7 @@ const AppLoginTestCases: ITestCase[] = [
   },
   {
     title: "OTP Section",
-    Component: <OtpPanel />
+    Component: <OtpPanelWrapper />
   }
 ];
 

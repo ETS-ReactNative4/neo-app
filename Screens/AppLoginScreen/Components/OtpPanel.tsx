@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, StyleSheet, Text, StyleProp, ViewStyle } from "react-native";
 import OtpInput from "./OtpInput";
 import {
@@ -8,38 +8,81 @@ import {
 import {
   CONSTANT_black1,
   CONSTANT_shade1,
-  CONSTANT_fifteenthColor
+  CONSTANT_fifteenthColor,
+  CONSTANT_seventeenthColor
 } from "../../../constants/colorPallete";
+import DismissKeyboardView from "../../../CommonComponents/DismissKeyboardView/DismissKeyboardView";
+import moment from "moment";
 
 export interface OtpPanelProps {
   containerStyle?: StyleProp<ViewStyle>;
+  onResend: () => any;
+  onCodeFilled: (code: string) => any;
+  updateCode: (code: string) => any;
+  code: string;
+  expiryTime: moment.Moment;
+  requestTime: moment.Moment;
+  onTimedOut: () => any;
+  isTimedOut: boolean;
 }
 
-const OtpPanel = ({ containerStyle }: OtpPanelProps) => {
-  const [code, setCode] = useState<string>("");
-  const updateCode = (newCode: string) => {
-    setCode(newCode);
+const OtpPanel = ({
+  containerStyle,
+  code,
+  updateCode,
+  onCodeFilled,
+  onResend,
+  expiryTime,
+  requestTime,
+  onTimedOut,
+  isTimedOut
+}: OtpPanelProps) => {
+  const calculateTimeLeft = (nextTime: moment.Moment = requestTime) => {
+    const difference = expiryTime.diff(nextTime);
+    if (difference <= 0) {
+      onTimedOut();
+    }
+    return `${Math.floor(moment.duration(difference).asMinutes())}:${Math.trunc(
+      moment.duration(difference).asSeconds()
+    )}`;
   };
-  const onResendClick = () => null;
+
+  const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
+  const [trackingTime, setTrackingTime] = useState<moment.Moment>(requestTime);
+
+  useEffect(() => {
+    if (!isTimedOut) {
+      setTimeout(() => {
+        setTrackingTime(requestTime.add(1, "second"));
+        setTimeLeft(calculateTimeLeft(trackingTime));
+      }, 1000);
+    }
+  });
 
   return (
-    <View style={[styles.otpPanelContainer, containerStyle]}>
+    <DismissKeyboardView style={[styles.otpPanelContainer, containerStyle]}>
       <Text style={styles.infoHeaderText}>{"AUTHENTICATE"}</Text>
       <Text style={styles.infoText}>
-        {"We’ve sent you a 4 digit one time password for security."}
+        {"We’ve sent you a 6 digit one time password for security."}
       </Text>
       <OtpInput
         code={code}
         onInputChange={updateCode}
-        onCodeFilled={updateCode}
+        onCodeFilled={onCodeFilled}
       />
       <View style={styles.optionsSection}>
         <View>
           <Text style={[styles.optionText, styles.leftText]}>
-            {"TIMING OUT IN"}
+            {isTimedOut ? "" : "TIMING OUT IN"}
           </Text>
-          <Text style={[styles.optionText, styles.leftText]}>
-            {"1:00 MINS"}
+          <Text
+            style={[
+              styles.optionText,
+              styles.leftText,
+              isTimedOut ? styles.expiredText : null
+            ]}
+          >
+            {isTimedOut ? "OTP TIMED OUT" : `${timeLeft} MINS`}
           </Text>
         </View>
         <View>
@@ -47,14 +90,14 @@ const OtpPanel = ({ containerStyle }: OtpPanelProps) => {
             {"DIDN’T RECEIVE IT?"}
           </Text>
           <Text
-            onPress={onResendClick}
+            onPress={onResend}
             style={[styles.optionText, styles.rightText, styles.textLink]}
           >
             {"RESEND OTP"}
           </Text>
         </View>
       </View>
-    </View>
+    </DismissKeyboardView>
   );
 };
 
@@ -85,6 +128,9 @@ const styles = StyleSheet.create({
   },
   leftText: {
     textAlign: "left"
+  },
+  expiredText: {
+    color: CONSTANT_seventeenthColor
   },
   textLink: {
     color: CONSTANT_fifteenthColor

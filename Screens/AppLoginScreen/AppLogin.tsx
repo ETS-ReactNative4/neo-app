@@ -7,6 +7,7 @@ import {
 } from "../../constants/imageAssets";
 import LinearGradient from "react-native-linear-gradient";
 import { CONSTANT_darkGradientAlpha } from "../../constants/colorPallete";
+import { CONSTANT_splashBackgroundVideo } from "../../constants/imageAssets";
 import SectionTitle from "../../CommonComponents/SectionTitle/SectionTitle";
 import { CONSTANT_fontCustom } from "../../constants/fonts";
 import constants from "../../constants/constants";
@@ -20,30 +21,64 @@ import ActionSheet from "../../CommonComponents/ActionSheet/ActionSheet";
 import Interactable from "react-native-interactable";
 import OtpPanel from "./Components/OtpPanel";
 import { CONSTANT_platformIos } from "../../constants/stringConstants";
+import useMobileNumberApi from "../MobileNumberScreen/hooks/useMobileNumberApi";
+import { validateLoginMobileNumber } from "../../Services/validateMobileNumber/validateMobileNumber";
+import DismissKeyboardView from "../../CommonComponents/DismissKeyboardView/DismissKeyboardView";
+import { toastCenter } from "../../Services/toast/toast";
+import moment from "moment";
+import Video from "react-native-video";
+import {
+  responsiveHeight,
+  responsiveWidth
+  // @ts-ignore
+} from "react-native-responsive-dimensions";
+import useLoginForm from "./hooks/useLoginForm";
 
 const AppLogin = () => {
-  const [phoneNumber, setPhoneNumber] = useState<string>("");
-  const [countryCode, setCountryCode] = useState<string>("+91");
-  const [countryFlag, setCountryFlag] = useState<string>("🇮🇳");
+  const [isVideoReady, setVideoStatus] = useState(false);
+  const [
+    { phoneNumber, countryCode, countryFlag, code },
+    { updatePhoneNumber, updateCountryCode, updateCountryFlag, updateCode }
+  ] = useLoginForm();
   const [isPhoneNumberSubmitted, setPhoneNumberSubmitStatus] = useState<
     boolean
   >(false);
   const { keyboardHeight } = useKeyboard();
   const otpPanelRef = useRef(null);
+  const [mobileNumberApiDetails, mobileNumberSubmitCall] = useMobileNumberApi();
+  const [isPhoneSubmitAttempted, setPhoneSubmitAttempt] = useState<boolean>(
+    false
+  );
+  const [isTimedOut, setIsTimedOut] = useState<boolean>(false);
 
-  const updatePhoneNumber = (newNumber: string) => setPhoneNumber(newNumber);
+  const mobileNumber = `${countryCode}${phoneNumber}`;
 
   const onCountryCodeChange = (ccode: string, flagEmoji: string) => {
-    setCountryCode(ccode);
-    setCountryFlag(flagEmoji);
+    updateCountryCode(ccode);
+    updateCountryFlag(flagEmoji);
   };
 
-  const submitPhoneNumber = () => {
-    setTimeout(() => {
-      setPhoneNumberSubmitStatus(true);
-      // @ts-ignore
-      otpPanelRef.current && otpPanelRef.current.snapTo({ index: 1 });
-    }, 300);
+  const onResend = () => {};
+
+  const codeFilled = () => {};
+
+  const onTimeout = () => setIsTimedOut(true);
+
+  const submitPhoneNumber = async () => {
+    setPhoneSubmitAttempt(true);
+    if (validateLoginMobileNumber(mobileNumber)) {
+      const result = await mobileNumberSubmitCall({
+        mob_num: phoneNumber,
+        ccode: countryCode
+      });
+      if (result) {
+        setPhoneNumberSubmitStatus(true);
+        // @ts-ignore
+        otpPanelRef.current && otpPanelRef.current.snapTo({ index: 1 });
+      }
+    } else {
+      toastCenter("Invalid Phone Number");
+    }
   };
 
   const otpPanelClosed = () => {
@@ -79,15 +114,30 @@ const AppLogin = () => {
     }
   };
 
+  const highlightPhoneField =
+    !validateLoginMobileNumber(mobileNumber) && isPhoneSubmitAttempted;
+
+  const onVideoLoaded = () => setVideoStatus(true);
+
   return (
     <Fragment>
-      <SmartImageV2
-        useFastImage={true}
-        style={styles.container}
-        source={{ uri: CONSTANT_loginBackground }}
-        fallbackSource={{ uri: CONSTANT_defaultPlaceImage }}
-        resizeMode="cover"
-      >
+      <DismissKeyboardView style={styles.keyboardAvoider}>
+        <Video
+          onLoad={onVideoLoaded}
+          repeat={true}
+          style={styles.videoView}
+          source={CONSTANT_splashBackgroundVideo()}
+          resizeMode="cover"
+        />
+        {!isVideoReady ? (
+          <SmartImageV2
+            useFastImage={true}
+            style={styles.imageContainer}
+            source={CONSTANT_loginBackground()}
+            fallbackSource={{ uri: CONSTANT_defaultPlaceImage }}
+            resizeMode="cover"
+          />
+        ) : null}
         <LinearGradient {...gradientOptions} style={styles.backgroundGradient}>
           <AppLoginTitle
             skipAction={() => null}
@@ -109,7 +159,7 @@ const AppLogin = () => {
               smallTitle="Welcome"
             />
             <PhoneNumberInput
-              isLoading={true}
+              isLoading={mobileNumberApiDetails.isLoading}
               placeholder="Phone Number"
               phoneNumber={phoneNumber}
               countryCode={countryCode}
@@ -118,14 +168,25 @@ const AppLogin = () => {
               onCountryCodeChange={onCountryCodeChange}
               onSubmitEditing={submitPhoneNumber}
               editable={!isPhoneNumberSubmitted}
+              hasError={highlightPhoneField}
             />
             <XSensorPlaceholder />
           </View>
         </LinearGradient>
-      </SmartImageV2>
+      </DismissKeyboardView>
       {isPhoneNumberSubmitted ? (
         <ActionSheet interactableRef={otpPanelRef} onSnap={onOtpPanelSnap}>
-          <OtpPanel containerStyle={styles.otpContainer} />
+          <OtpPanel
+            code={code}
+            updateCode={updateCode}
+            requestTime={moment(1580987401597)}
+            expiryTime={moment(1580987441416)}
+            containerStyle={styles.otpContainer}
+            onResend={onResend}
+            onCodeFilled={codeFilled}
+            isTimedOut={isTimedOut}
+            onTimedOut={onTimeout}
+          />
         </ActionSheet>
       ) : null}
     </Fragment>
@@ -137,8 +198,18 @@ AppLogin.navigationOptions = {
 };
 
 const styles = StyleSheet.create({
-  container: {
+  keyboardAvoider: {
     flex: 1
+  },
+  imageContainer: {
+    height: responsiveHeight(100),
+    width: responsiveWidth(100),
+    position: "absolute"
+  },
+  videoView: {
+    height: responsiveHeight(100),
+    width: responsiveWidth(100),
+    position: "absolute"
   },
   backgroundGradient: {
     flex: 1,
@@ -160,8 +231,8 @@ const styles = StyleSheet.create({
     marginBottom: 80
   },
   otpContainer: {
-    marginHorizontal: 24,
-    marginTop: 24
+    marginHorizontal: 56,
+    marginTop: 56
   }
 });
 
