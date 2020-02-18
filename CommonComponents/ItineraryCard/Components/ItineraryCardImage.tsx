@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   StyleSheet,
   View,
@@ -45,7 +45,7 @@ const ItineraryCardImage = ({
   tripType = "",
   imageStyle
 }: ItineraryCardImageProps) => {
-  const scrollX = new Value(0);
+  const [scrollX] = useState(new Value(0));
 
   return (
     <View style={styles.scrollImageContainer}>

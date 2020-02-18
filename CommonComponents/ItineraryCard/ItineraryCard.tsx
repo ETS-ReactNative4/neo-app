@@ -7,7 +7,14 @@ import {
   // @ts-ignore
 } from "react-native-responsive-dimensions";
 
-import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Text,
+  ViewStyle,
+  StyleProp,
+  ImageStyle
+} from "react-native";
 
 import {
   CONSTANT_white,
@@ -33,6 +40,8 @@ import ActivityList from "./Components/ActivityList";
 import ItineraryCardImage from "./Components/ItineraryCardImage";
 
 interface ItineraryCardProps {
+  containerStyle?: ViewStyle;
+  imageStyle?: StyleProp<ImageStyle>;
   images: string[];
   tripType: string;
   action: () => any;
@@ -43,6 +52,8 @@ interface ItineraryCardProps {
 }
 
 const ItineraryCard = ({
+  containerStyle,
+  imageStyle,
   images = [],
   tripType = "",
   title = "",
@@ -52,47 +63,45 @@ const ItineraryCard = ({
   action = () => null
 }: ItineraryCardProps) => {
   return (
-    <View style={styles.itineraryCardContainer}>
+    <View style={[styles.itineraryCardContainer, containerStyle]}>
       <ItineraryCardImage
         images={images}
         tripType={tripType}
-        imageStyle={styles.imageStyle}
+        imageStyle={[styles.itineraryImageStyle, imageStyle]}
       />
 
-      <TouchableOpacity activeOpacity={0.8} onPress={action}>
-        <View style={styles.contentWrapper}>
-          <Text
-            style={styles.descriptionStyle}
-            numberOfLines={2}
-            ellipsizeMode={"tail"}
-          >
-            {title}
-          </Text>
+      <View style={styles.contentWrapper}>
+        <Text
+          style={styles.descriptionStyle}
+          numberOfLines={2}
+          ellipsizeMode={"tail"}
+        >
+          {title}
+        </Text>
 
-          <RouteList cities={cities} />
+        <RouteList cities={cities} />
 
-          <ActivityList activities={activities} />
+        <ActivityList activities={activities} />
 
-          <Dash dashColor={CONSTANT_shade2} dashGap={2} dashLength={1} />
+        <Dash dashColor={CONSTANT_shade2} dashGap={2} dashLength={1} />
 
-          <View style={styles.bottomWrapper}>
-            <View style={styles.priceSection}>
-              <Text style={styles.rupeeText}>₹</Text>
-              <Text style={styles.priceText}>
-                {getLocaleString(itineraryCost)}
-              </Text>
-              <Text style={styles.personText}>/person</Text>
-            </View>
-
-            <PrimaryButton
-              text={"Customize"}
-              buttonStyle={styles.buttonStyle}
-              buttonTextStyle={styles.buttonTextStyle}
-              clickAction={action}
-            />
+        <View style={styles.bottomWrapper}>
+          <View style={styles.priceSection}>
+            <Text style={styles.rupeeText}>₹</Text>
+            <Text style={styles.priceText}>
+              {getLocaleString(itineraryCost)}
+            </Text>
+            <Text style={styles.personText}>/person</Text>
           </View>
+
+          <PrimaryButton
+            text={"Customize"}
+            buttonStyle={styles.buttonStyle}
+            buttonTextStyle={styles.buttonTextStyle}
+            clickAction={action}
+          />
         </View>
-      </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -108,7 +117,7 @@ const styles = StyleSheet.create({
     width: responsiveWidth(100) - 32
   },
 
-  imageStyle: {
+  itineraryImageStyle: {
     width: responsiveWidth(100) - 32
   },
 
