@@ -1,5 +1,4 @@
 import * as Keychain from "react-native-keychain";
-import { DrawerActions } from "react-navigation-drawer";
 import navigationService from "../navigationService/navigationService";
 import storeService from "../storeService/storeService";
 import Drawer from "../../Screens/Drawer/Drawer";
@@ -7,7 +6,10 @@ import DebouncedAlert from "../../CommonComponents/DebouncedAlert/DebouncedAlert
 import constants from "../../constants/constants";
 import { logoutUserFromChat } from "../freshchatService/freshchatService";
 
-const closeDrawer = DrawerActions.closeDrawer();
+/**
+ * No more Drawer navigators! 🎉
+ */
+const closeDrawer = () => null;
 
 const logOut = (isForced = false) => {
   const { navigation } = navigationService;

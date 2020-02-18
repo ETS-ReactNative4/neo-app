@@ -1,3 +1,11 @@
+import { Platform } from "react-native";
+
+/**
+ * This is a fix for issue in storybook which removes finally from promises
+ * based on - https://github.com/storybookjs/react-native/issues/20#issuecomment-542283774
+ */
+global.promiseFinallyFn = Promise.prototype.finally;
+
 /**
  * TODO: Temporary fix for Android gesture crash
  *
@@ -14,20 +22,6 @@ import "react-native-gesture-handler";
 if (Platform.OS === "android" && __DEV__) {
   require("core-js");
 }
-
-/**
- * For MobX Support
- * fix based on https://github.com/facebook/react-native/issues/20150#issue-340235017
- * For permanent fix need RN 0.57.4 upgrade https://github.com/facebook/react-native/issues/20150#issuecomment-436320490
- */
-// import applyDecoratedDescriptor from "@babel/runtime/helpers/esm/applyDecoratedDescriptor";
-// import initializerDefineProperty from "@babel/runtime/helpers/esm/initializerDefineProperty";
-import { Platform } from "react-native";
-
-// Object.assign(babelHelpers, {
-//   applyDecoratedDescriptor,
-//   initializerDefineProperty
-// });
 
 /**
  * Intl Polyfill for Android

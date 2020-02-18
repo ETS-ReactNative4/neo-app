@@ -171,3 +171,23 @@ export const screenTracker = (prevState, currentState) => {
     return false;
   });
 };
+
+/**
+ * New screen tracker compatible with React Navigation 5
+ * accepts prev screen & current screen as strings
+ */
+export const screenTrackerV2 = (prevScreen, currentScreen) => {
+  if (prevScreen !== currentScreen) {
+    logBreadCrumb({
+      message: `${prevScreen} to ${currentScreen}`,
+      category: constants.errorLoggerEvents.categories.navigation,
+      data: {},
+      level: constants.errorLoggerEvents.levels.info
+    });
+    analytics.screen(currentScreen, { sessionId });
+    webEngage.screen(currentScreen, { sessionId });
+    firebaseAnalytics().setCurrentScreen(currentScreen, currentScreen);
+    return true;
+  }
+  return false;
+};

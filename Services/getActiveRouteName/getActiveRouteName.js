@@ -3,8 +3,9 @@ const getActiveRouteName = navigationState => {
     return null;
   }
   const route = navigationState.routes[navigationState.index];
-  if (route.routes) {
-    return getActiveRouteName(route);
+  if (route.state) {
+    // Dive into nested navigators
+    return getActiveRouteName(route.state);
   }
   return route.routeName;
 };
