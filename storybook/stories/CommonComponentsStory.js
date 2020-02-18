@@ -19,6 +19,7 @@ import ItineraryCardTestCases from "../../CommonComponents/ItineraryCard/Itinera
 import DealCardTestCases from "../../CommonComponents/DealCard/DealCardTestCases";
 import DismissKeyboardViewTestCases from "../../CommonComponents/DismissKeyboardView/DismissKeyboardViewTestCases";
 import ModalContentTestCases from "../../Screens/AppOverlays/Components/ForceUpdateModal/Components/ModalContentTestCases";
+import RouteListTestCases from "../../CommonComponents/RouteList/RouteListTestCases";
 
 const CommonComponentStories = storiesOf("Common Components", module);
 
@@ -45,3 +46,4 @@ ItineraryCardTestCases.forEach(renderTestCase);
 DealCardTestCases.forEach(renderTestCase);
 DismissKeyboardViewTestCases.forEach(renderTestCase);
 ModalContentTestCases.forEach(renderTestCase);
+RouteListTestCases.forEach(renderTestCase);
