@@ -4,11 +4,10 @@ import { ITestCase } from "../../TypeInterfaces/TestCases/ITestCases";
 import { Alert } from "react-native";
 
 import ItineraryCard from "../ItineraryCard/ItineraryCard";
-import RouteList, {
-  ICitiesDetails
-} from "../ItineraryCard/Components/RouteList";
+
 import ItineraryCardImage from "./Components/ItineraryCardImage";
 import ActivityList from "./Components/ActivityList";
+import { IRouteCitiesDetails } from "../../CommonComponents/RouteList/RouteList";
 
 const data: ICardData[] = [
   {
@@ -51,7 +50,7 @@ interface ICardData {
   title: string;
   activities: string[];
   itineraryCost: number;
-  cityHotelStay: ICitiesDetails[];
+  cityHotelStay: IRouteCitiesDetails[];
   tripType: string;
 }
 
@@ -90,18 +89,6 @@ const FeaturedCardTestCases: ITestCase[] = [
           "https://pyt-images.imgix.net/images/product_blog/itinerary-box/europe-small.jpeg"
         ]}
         tripType={`❤️ Romance`}
-      />
-    )
-  },
-  {
-    title: "Itinerary Card Route List",
-    Component: (
-      <RouteList
-        cities={[
-          { cityName: "Interlaken" },
-          { cityName: "Zerma" },
-          { cityName: "Lucerne" }
-        ]}
       />
     )
   },

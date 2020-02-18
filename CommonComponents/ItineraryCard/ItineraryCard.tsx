@@ -26,7 +26,9 @@ import {
 import PrimaryButton from "../PrimaryButton/PrimaryButton";
 
 import getLocaleString from "../../Services/getLocaleString/getLocaleString";
-import RouteList, { ICitiesDetails } from "./Components/RouteList";
+import RouteList, {
+  IRouteCitiesDetails
+} from "../../CommonComponents/RouteList/RouteList";
 import ActivityList from "./Components/ActivityList";
 import ItineraryCardImage from "./Components/ItineraryCardImage";
 
@@ -37,7 +39,7 @@ interface ItineraryCardProps {
   title: string;
   activities: string[];
   itineraryCost: number;
-  cities: ICitiesDetails[];
+  cities: IRouteCitiesDetails[];
 }
 
 const ItineraryCard = ({
