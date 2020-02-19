@@ -27,6 +27,7 @@ import {
 } from "../../constants/fonts";
 import Icon from "../Icon/Icon";
 import { CONSTANT_arrowRight } from "../../constants/imageAssets";
+import ratioCalculator from "../../Services/ratioCalculator/ratioCalculator";
 
 interface TestimonialCardProps {
   containerStyle?: StyleProp<ViewStyle>;
@@ -36,6 +37,9 @@ interface TestimonialCardProps {
   price: string;
   action: () => any;
 }
+
+const PROMO_CARD_IMAGE_WIDTH = responsiveWidth(100);
+const PROMO_CARD_IMAGE_HEIGHT = ratioCalculator(1, 1, PROMO_CARD_IMAGE_WIDTH);
 
 const PromoCard = ({
   containerStyle,
@@ -87,13 +91,12 @@ const PromoCard = ({
 
 const styles = StyleSheet.create({
   promoCardContainer: {
-    width: responsiveWidth(100) - 72,
-    marginRight: 16,
+    marginHorizontal: 16,
     marginBottom: 24
   },
   imageStyle: {
-    width: responsiveWidth(100) - 72,
-    height: 272,
+    width: PROMO_CARD_IMAGE_WIDTH - 32,
+    height: PROMO_CARD_IMAGE_HEIGHT,
     borderTopLeftRadius: 8,
     borderTopRightRadius: 8
   },

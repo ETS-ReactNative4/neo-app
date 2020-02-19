@@ -51,7 +51,11 @@ const styles = StyleSheet.create({
 const PromoCardWrapper = ({ cardData }: PromoCardWrapperProps) => {
   return (
     <View style={styles.wrapper}>
-      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+      <ScrollView
+        pagingEnabled
+        horizontal
+        showsHorizontalScrollIndicator={false}
+      >
         {cardData.map((dataObj, index) => {
           return (
             <PromoCard
