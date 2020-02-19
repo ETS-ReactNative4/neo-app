@@ -2,12 +2,12 @@ import React from "react";
 
 import { ITestCase } from "../../../TypeInterfaces/TestCases/ITestCases";
 
-import DrawerContent from "../../TravelProfileCityScreen/Components/DrawerContent";
+import TravelProfileActionSheet from "./TravelProfileActionSheet";
 
 const TravelProfileWelcomeComponentTestCases: ITestCase[] = [
   {
-    title: "Drawer Content",
-    Component: <DrawerContent />
+    title: "Travel Profile Action Sheet",
+    Component: <TravelProfileActionSheet />
   }
 ];
 

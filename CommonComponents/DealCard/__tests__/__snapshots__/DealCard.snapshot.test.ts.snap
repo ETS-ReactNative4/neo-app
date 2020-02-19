@@ -1,0 +1,363 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Deal Card 1`] = `
+<TouchableOpacity
+  activeOpacity={0.8}
+  onPress={[Function]}
+>
+  <View
+    style={
+      Array [
+        Object {
+          "backgroundColor": "rgb(255, 255, 255)",
+          "borderTopLeftRadius": 8,
+          "borderTopRightRadius": 8,
+          "marginHorizontal": 16,
+          "marginVertical": 16,
+          "overflow": "hidden",
+          "width": 718,
+        },
+        undefined,
+      ]
+    }
+  >
+    <View
+      accessibilityIgnoresInvertColors={true}
+      style={
+        Array [
+          Object {
+            "height": 178,
+            "width": 750,
+          },
+          Object {
+            "justifyContent": "space-between",
+            "padding": 8,
+            "width": 718,
+          },
+        ]
+      }
+    >
+      <Image
+        onError={[Function]}
+        resizeMode="cover"
+        source={
+          Object {
+            "uri": "https://pyt-images.imgix.net/images/city/2400xh/rome.jpg",
+          }
+        }
+        style={
+          Array [
+            Object {
+              "bottom": 0,
+              "left": 0,
+              "position": "absolute",
+              "right": 0,
+              "top": 0,
+            },
+            Object {
+              "height": undefined,
+              "width": undefined,
+            },
+            undefined,
+          ]
+        }
+      />
+      <View
+        style={
+          Object {
+            "alignItems": "center",
+            "backgroundColor": "rgba(119, 68, 228, 1)",
+            "borderRadius": 100,
+            "flexDirection": "column",
+            "height": 54,
+            "justifyContent": "center",
+            "marginLeft": "auto",
+            "width": 54,
+          }
+        }
+      >
+        <Text
+          style={
+            Object {
+              "color": "rgb(255, 255, 255)",
+              "fontFamily": "SourceSansPro-SemiBold",
+              "fontSize": 18,
+              "lineHeight": 18,
+            }
+          }
+        >
+          30
+          <Text
+            style={
+              Object {
+                "fontFamily": "SourceSansPro-SemiBold",
+                "fontSize": 12,
+                "lineHeight": 15,
+              }
+            }
+          >
+            %
+          </Text>
+        </Text>
+        <Text
+          style={
+            Object {
+              "color": "rgba(204, 204, 204, 1)",
+              "fontFamily": "SourceSansPro-SemiBold",
+              "fontSize": 12,
+              "lineHeight": 12,
+            }
+          }
+        >
+          OFF
+        </Text>
+      </View>
+      <View
+        style={
+          Object {
+            "flexDirection": "row",
+            "flexWrap": "wrap",
+          }
+        }
+      >
+        <View
+          style={
+            Object {
+              "backgroundColor": "#FFFFFF",
+              "borderRadius": 25,
+              "height": 22,
+              "justifyContent": "center",
+              "marginBottom": 4,
+              "marginRight": 4,
+              "paddingHorizontal": 16,
+            }
+          }
+        >
+          <Text
+            style={
+              Array [
+                Object {
+                  "color": "rgba(119, 119, 119, 1)",
+                  "fontFamily": "SourceSansPro-SemiBold",
+                  "fontSize": 11,
+                  "lineHeight": 14,
+                  "textTransform": "uppercase",
+                },
+              ]
+            }
+          >
+            New zealand
+          </Text>
+        </View>
+        <View
+          style={
+            Object {
+              "backgroundColor": "#FFFFFF",
+              "borderRadius": 25,
+              "height": 22,
+              "justifyContent": "center",
+              "marginBottom": 4,
+              "marginRight": 4,
+              "paddingHorizontal": 16,
+            }
+          }
+        >
+          <Text
+            style={
+              Array [
+                Object {
+                  "color": "rgba(119, 119, 119, 1)",
+                  "fontFamily": "SourceSansPro-SemiBold",
+                  "fontSize": 11,
+                  "lineHeight": 14,
+                  "textTransform": "uppercase",
+                },
+              ]
+            }
+          >
+            Car rental
+          </Text>
+        </View>
+        <View
+          style={
+            Array [
+              Object {
+                "backgroundColor": "#FFFFFF",
+                "borderRadius": 25,
+                "height": 22,
+                "justifyContent": "center",
+                "marginBottom": 4,
+                "marginRight": 4,
+                "paddingHorizontal": 16,
+              },
+              Object {
+                "backgroundColor": "#1FC0E5",
+              },
+            ]
+          }
+        >
+          <Text
+            style={
+              Array [
+                Object {
+                  "color": "rgba(119, 119, 119, 1)",
+                  "fontFamily": "SourceSansPro-SemiBold",
+                  "fontSize": 11,
+                  "lineHeight": 14,
+                  "textTransform": "uppercase",
+                },
+                Object {
+                  "color": "#FFFFFF",
+                },
+              ]
+            }
+          >
+            early bird offer
+          </Text>
+        </View>
+      </View>
+    </View>
+    <View
+      style={
+        Object {
+          "backgroundColor": "rgb(247, 247, 247)",
+          "borderBottomLeftRadius": 8,
+          "borderBottomRightRadius": 8,
+          "borderColor": "rgba(204, 204, 204, 1)",
+          "borderTopWidth": 0,
+          "borderWidth": 1,
+          "paddingHorizontal": 16,
+          "paddingVertical": 16,
+        }
+      }
+    >
+      <Text
+        style={
+          Object {
+            "color": "rgba(44, 47, 66, 1)",
+            "fontFamily": "SourceSansPro-Regular",
+            "fontSize": 16,
+            "lineHeight": 20,
+            "marginBottom": 6,
+          }
+        }
+      >
+        Early Booker Special 2020/21
+      </Text>
+      <View
+        style={
+          Object {
+            "flexDirection": "row",
+          }
+        }
+      >
+        <View>
+          <Text
+            allowFontScaling={false}
+            style={
+              Array [
+                Object {
+                  "color": "rgba(170, 170, 170, 1)",
+                  "fontSize": 14,
+                },
+                undefined,
+                Object {
+                  "fontFamily": "voyager",
+                  "fontStyle": "normal",
+                  "fontWeight": "normal",
+                },
+                Object {},
+              ]
+            }
+          >
+            
+          </Text>
+        </View>
+        <Text
+          style={
+            Object {
+              "color": "rgba(83, 87, 109, 1)",
+              "fontFamily": "SourceSansPro-Regular",
+              "fontSize": 13,
+              "lineHeight": 16,
+              "marginBottom": 48,
+              "marginLeft": 6,
+            }
+          }
+        >
+          Travel Period: 
+          <Text>
+            01 Apr 20 - 31 Mar 21
+          </Text>
+        </Text>
+      </View>
+      <View
+        style={
+          Object {
+            "alignItems": "center",
+            "flexDirection": "row",
+            "justifyContent": "space-between",
+          }
+        }
+      >
+        <Text
+          ellipsizeMode="tail"
+          numberOfLines={2}
+          style={
+            Object {
+              "color": "rgba(83, 87, 109, 1)",
+              "fontFamily": "SourceSansPro-Regular",
+              "fontSize": 13,
+              "lineHeight": 18,
+              "width": 152,
+            }
+          }
+        >
+          For bookings made 120 days prior to pick up date.
+        </Text>
+        <View
+          style={Object {}}
+        >
+          <View
+            style={
+              Object {
+                "backgroundColor": "rgba(204, 204, 204, 1)",
+                "borderRadius": 3,
+                "height": 6,
+                "marginBottom": 8,
+                "width": 88,
+              }
+            }
+          >
+            <View
+              style={
+                Object {
+                  "backgroundColor": "red",
+                  "borderRadius": 3,
+                  "height": 6,
+                  "width": 64,
+                }
+              }
+            />
+          </View>
+          <Text
+            style={
+              Array [
+                Object {
+                  "color": "rgba(83, 87, 109, 1)",
+                  "fontFamily": "SourceSansPro-Regular",
+                  "fontSize": 12,
+                  "lineHeight": 15,
+                  "textAlign": "right",
+                },
+              ]
+            }
+          >
+            64% claimed
+          </Text>
+        </View>
+      </View>
+    </View>
+  </View>
+</TouchableOpacity>
+`;

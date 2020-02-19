@@ -50,7 +50,6 @@ const MasonryView = ({
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.scrollContentContainer}
-        style={styles.scrollContainer}
       >
         {masonryChildren.map((masonryColumn, masonryColumnIndex) => {
           return (
@@ -79,8 +78,7 @@ const styles = StyleSheet.create({
   scrollContentContainer: {
     flexDirection: "row",
     justifyContent: "center"
-  },
-  scrollContainer: {}
+  }
 });
 
 export default MasonryView;
