@@ -1,7 +1,6 @@
-import React, { useEffect, useState, Component } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
-  Text,
   Image,
   StyleSheet,
   LayoutAnimation,
@@ -67,7 +66,8 @@ const styles = StyleSheet.create({
     top: 0,
     left: 0,
     height: responsiveHeight(100),
-    width: responsiveWidth(100)
+    width: responsiveWidth(100),
+    backgroundColor: "white"
   },
   topImage: {
     position: "absolute",

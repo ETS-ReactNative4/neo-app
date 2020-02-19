@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from "react";
 import {
   View,
-  ImageBackground,
   Text,
   Image,
   StyleSheet,
@@ -19,16 +18,43 @@ import openCustomTab from "../../Services/openCustomTab/openCustomTab";
 import {
   responsiveHeight,
   responsiveWidth
+  // @ts-ignore
 } from "react-native-responsive-dimensions";
 import StarterAnimation from "./Components/StarterAnimation";
 import BootAnimation from "./Components/BootAnimation";
+import AppState from "../../mobx/AppState";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { AppNavigatorParamsType } from "../../NavigatorsV2/AppNavigator";
+import {
+  SCREEN_STARTER,
+  SCREEN_APP_LOGIN
+} from "../../NavigatorsV2/ScreenNames";
 
 const bootAnimationTiming = 350;
+
+type screenName = typeof SCREEN_STARTER;
+
+export type StarterScreenNavigationProp = StackNavigationProp<
+  AppNavigatorParamsType,
+  screenName
+>;
+
+export interface StarterState {
+  displayStarterAnimation: boolean;
+  displayStarterOptions: boolean;
+  bootAnimationOpacity: number;
+  bootSplashAnimationProgress: Animated.Value;
+}
+
+export interface StarterProps {
+  appState: AppState;
+  navigation: StarterScreenNavigationProp;
+}
 
 @ErrorBoundary({ isRoot: true })
 @inject("appState")
 @observer
-class Starter extends Component {
+class Starter extends Component<StarterProps, StarterState> {
   static navigationOptions = {
     header: null
   };
@@ -42,11 +68,11 @@ class Starter extends Component {
   };
 
   clickedBooking = () => {
-    this.props.navigation.navigate("MobileNumber");
+    this.props.navigation.navigate(SCREEN_APP_LOGIN);
   };
 
   clickedPlan = () => {
-    this.props.navigation.navigate("NewItineraryStack");
+    this.props.navigation.navigate(SCREEN_APP_LOGIN);
   };
 
   componentDidMount() {
@@ -124,6 +150,15 @@ class Starter extends Component {
       displayStarterOptions,
       bootAnimationOpacity
     } = this.state;
+
+    const findBookingButtonStyle = { width: 220, height: 48 };
+
+    const exploreButtonStyle = {
+      width: 220,
+      height: 48,
+      marginVertical: 16
+    };
+
     return (
       <Fragment>
         {displayStarterAnimation ? <StarterAnimation /> : null}
@@ -156,8 +191,9 @@ class Starter extends Component {
                     recordEvent(constants.StarterScreen.event, {
                       click: constants.StarterScreen.click.findBooking
                     });
+                    return null;
                   }}
-                  containerStyle={{ width: 220, height: 48 }}
+                  containerStyle={findBookingButtonStyle}
                 />
                 <SimpleButton
                   text={constants.starterScreenText.exploreButton}
@@ -172,12 +208,9 @@ class Starter extends Component {
                     recordEvent(constants.StarterScreen.event, {
                       click: constants.StarterScreen.click.planVacation
                     });
+                    return null;
                   }}
-                  containerStyle={{
-                    width: 220,
-                    height: 48,
-                    marginVertical: 16
-                  }}
+                  containerStyle={exploreButtonStyle}
                 />
               </View>
               <View style={styles.tncWrapper}>
