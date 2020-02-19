@@ -1,0 +1,1300 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Itinerary Card 1`] = `
+<View
+  style={
+    Object {
+      "backgroundColor": "rgb(255, 255, 255)",
+      "borderTopLeftRadius": 8,
+      "borderTopRightRadius": 8,
+      "marginHorizontal": 16,
+      "marginVertical": 16,
+      "overflow": "hidden",
+      "width": 718,
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "backgroundColor": "rgba(250, 250, 250, 1)",
+          "borderRadius": 4,
+          "left": 12,
+          "padding": 8,
+          "position": "absolute",
+          "top": 12,
+          "zIndex": 1,
+        }
+      }
+    >
+      <Text
+        style={
+          Object {
+            "color": "rgba(44, 47, 66, 1)",
+            "fontFamily": "SourceSansPro-Regular",
+            "fontSize": 13,
+            "lineHeight": 18,
+          }
+        }
+      >
+        ❤️ Honeymoon
+      </Text>
+    </View>
+    <ScrollView
+      horizontal={true}
+      pagingEnabled={true}
+      scrollEventThrottle={1}
+      showsHorizontalScrollIndicator={false}
+    >
+      <Image
+        onError={[Function]}
+        resizeMode="cover"
+        source={
+          Object {
+            "uri": "https://pyt-images.imgix.net/images/product_blog/itinerary-box/australia-small.jpeg",
+          }
+        }
+        style={
+          Array [
+            Object {
+              "height": 200,
+              "width": 750,
+            },
+            Object {
+              "width": 718,
+            },
+          ]
+        }
+      />
+      <Image
+        onError={[Function]}
+        resizeMode="cover"
+        source={
+          Object {
+            "uri": "https://pyt-images.imgix.net/images/product_blog/itinerary-box/bali-small.jpeg",
+          }
+        }
+        style={
+          Array [
+            Object {
+              "height": 200,
+              "width": 750,
+            },
+            Object {
+              "width": 718,
+            },
+          ]
+        }
+      />
+      <Image
+        onError={[Function]}
+        resizeMode="cover"
+        source={
+          Object {
+            "uri": "https://pyt-images.imgix.net/images/product_blog/itinerary-box/europe-small.jpeg",
+          }
+        }
+        style={
+          Array [
+            Object {
+              "height": 200,
+              "width": 750,
+            },
+            Object {
+              "width": 718,
+            },
+          ]
+        }
+      />
+      <Image
+        onError={[Function]}
+        resizeMode="cover"
+        source={
+          Object {
+            "uri": "https://pyt-images.imgix.net/images/product_blog/seychelles.jpeg",
+          }
+        }
+        style={
+          Array [
+            Object {
+              "height": 200,
+              "width": 750,
+            },
+            Object {
+              "width": 718,
+            },
+          ]
+        }
+      />
+      <Image
+        onError={[Function]}
+        resizeMode="cover"
+        source={
+          Object {
+            "uri": "https://pyt-images.imgix.net/images/product_blog/south-africa.jpeg",
+          }
+        }
+        style={
+          Array [
+            Object {
+              "height": 200,
+              "width": 750,
+            },
+            Object {
+              "width": 718,
+            },
+          ]
+        }
+      />
+    </ScrollView>
+    <View
+      style={
+        Object {
+          "bottom": 12,
+          "flexDirection": "row",
+          "position": "absolute",
+          "zIndex": 1,
+        }
+      }
+    >
+      <View
+        style={
+          Array [
+            Object {
+              "backgroundColor": "white",
+              "borderRadius": 10,
+              "height": 8,
+              "marginHorizontal": 4,
+              "opacity": 0.5,
+              "width": 8,
+            },
+            Object {
+              "opacity": undefined,
+              "width": undefined,
+            },
+          ]
+        }
+      />
+      <View
+        style={
+          Array [
+            Object {
+              "backgroundColor": "white",
+              "borderRadius": 10,
+              "height": 8,
+              "marginHorizontal": 4,
+              "opacity": 0.5,
+              "width": 8,
+            },
+            Object {
+              "opacity": undefined,
+              "width": undefined,
+            },
+          ]
+        }
+      />
+      <View
+        style={
+          Array [
+            Object {
+              "backgroundColor": "white",
+              "borderRadius": 10,
+              "height": 8,
+              "marginHorizontal": 4,
+              "opacity": 0.5,
+              "width": 8,
+            },
+            Object {
+              "opacity": undefined,
+              "width": undefined,
+            },
+          ]
+        }
+      />
+      <View
+        style={
+          Array [
+            Object {
+              "backgroundColor": "white",
+              "borderRadius": 10,
+              "height": 8,
+              "marginHorizontal": 4,
+              "opacity": 0.5,
+              "width": 8,
+            },
+            Object {
+              "opacity": undefined,
+              "width": undefined,
+            },
+          ]
+        }
+      />
+      <View
+        style={
+          Array [
+            Object {
+              "backgroundColor": "white",
+              "borderRadius": 10,
+              "height": 8,
+              "marginHorizontal": 4,
+              "opacity": 0.5,
+              "width": 8,
+            },
+            Object {
+              "opacity": undefined,
+              "width": undefined,
+            },
+          ]
+        }
+      />
+    </View>
+  </View>
+  <TouchableOpacity
+    activeOpacity={0.8}
+    onPress={[Function]}
+  >
+    <View
+      style={
+        Object {
+          "backgroundColor": "rgb(247, 247, 247)",
+          "borderBottomLeftRadius": 8,
+          "borderBottomRightRadius": 8,
+          "borderColor": "rgba(204, 204, 204, 1)",
+          "borderTopWidth": 0,
+          "borderWidth": 1,
+          "paddingHorizontal": 16,
+          "paddingVertical": 12,
+        }
+      }
+    >
+      <Text
+        ellipsizeMode="tail"
+        numberOfLines={2}
+        style={
+          Object {
+            "color": "rgba(44, 47, 66, 1)",
+            "fontFamily": "SourceSansPro-SemiBold",
+            "fontSize": 16,
+            "lineHeight": 20,
+            "marginBottom": 8,
+          }
+        }
+      >
+        The 7 night Hungary vacation itinerary for fun lovers
+      </Text>
+      <View
+        style={
+          Object {
+            "alignItems": "center",
+            "flexDirection": "row",
+            "marginBottom": 16,
+          }
+        }
+      >
+        <Text
+          allowFontScaling={false}
+          style={
+            Array [
+              Object {
+                "color": "rgba(170, 170, 170, 1)",
+                "fontSize": 16,
+              },
+              Object {
+                "marginRight": 6,
+              },
+              Object {
+                "fontFamily": "voyager",
+                "fontStyle": "normal",
+                "fontWeight": "normal",
+              },
+              Object {},
+            ]
+          }
+        >
+          
+        </Text>
+        <View
+          style={
+            Object {
+              "alignItems": "center",
+              "flexDirection": "row",
+            }
+          }
+        >
+          <Text
+            style={
+              Object {
+                "color": "rgba(119, 119, 119, 1)",
+                "fontFamily": "SourceSansPro-Regular",
+                "fontSize": 14,
+                "lineHeight": 15,
+              }
+            }
+          >
+            Budapest
+          </Text>
+          <View
+            style={
+              Object {
+                "marginHorizontal": 8,
+              }
+            }
+          >
+            <Text
+              allowFontScaling={false}
+              style={
+                Array [
+                  Object {
+                    "color": "rgba(119, 119, 119, 1)",
+                    "fontSize": 12,
+                  },
+                  undefined,
+                  Object {
+                    "fontFamily": "voyager",
+                    "fontStyle": "normal",
+                    "fontWeight": "normal",
+                  },
+                  Object {},
+                ]
+              }
+            >
+              
+            </Text>
+          </View>
+        </View>
+        <View
+          style={
+            Object {
+              "alignItems": "center",
+              "flexDirection": "row",
+            }
+          }
+        >
+          <Text
+            style={
+              Object {
+                "color": "rgba(119, 119, 119, 1)",
+                "fontFamily": "SourceSansPro-Regular",
+                "fontSize": 14,
+                "lineHeight": 15,
+              }
+            }
+          >
+            Miskolc
+          </Text>
+          <View
+            style={
+              Object {
+                "marginHorizontal": 8,
+              }
+            }
+          >
+            <Text
+              allowFontScaling={false}
+              style={
+                Array [
+                  Object {
+                    "color": "rgba(119, 119, 119, 1)",
+                    "fontSize": 12,
+                  },
+                  undefined,
+                  Object {
+                    "fontFamily": "voyager",
+                    "fontStyle": "normal",
+                    "fontWeight": "normal",
+                  },
+                  Object {},
+                ]
+              }
+            >
+              
+            </Text>
+          </View>
+        </View>
+        <View
+          style={
+            Object {
+              "alignItems": "center",
+              "flexDirection": "row",
+            }
+          }
+        >
+          <Text
+            style={
+              Object {
+                "color": "rgba(119, 119, 119, 1)",
+                "fontFamily": "SourceSansPro-Regular",
+                "fontSize": 14,
+                "lineHeight": 15,
+              }
+            }
+          >
+            Pecs
+          </Text>
+        </View>
+        <View
+          style={
+            Object {
+              "alignItems": "center",
+              "flexDirection": "row",
+            }
+          }
+        >
+          <Text
+            style={
+              Array [
+                Object {
+                  "color": "rgba(119, 119, 119, 1)",
+                  "fontFamily": "SourceSansPro-Regular",
+                  "fontSize": 14,
+                  "lineHeight": 15,
+                },
+                Object {
+                  "color": "rgba(170, 170, 170, 1)",
+                  "marginLeft": 8,
+                },
+              ]
+            }
+          >
+            +
+            1
+             
+            city
+          </Text>
+        </View>
+      </View>
+      <View
+        style={
+          Object {
+            "marginBottom": 8,
+          }
+        }
+      >
+        <View
+          style={
+            Object {
+              "alignItems": "flex-start",
+              "flexDirection": "row",
+              "marginBottom": 8,
+            }
+          }
+        >
+          <View
+            style={
+              Object {
+                "marginTop": 2,
+              }
+            }
+          >
+            <Text
+              allowFontScaling={false}
+              style={
+                Array [
+                  Object {
+                    "color": "rgba(0,198,132,1)",
+                    "fontSize": 14,
+                  },
+                  undefined,
+                  Object {
+                    "fontFamily": "voyager",
+                    "fontStyle": "normal",
+                    "fontWeight": "normal",
+                  },
+                  Object {},
+                ]
+              }
+            >
+              
+            </Text>
+          </View>
+          <Text
+            style={
+              Object {
+                "color": "rgba(119, 119, 119, 1)",
+                "fontFamily": "SourceSansPro-Regular",
+                "fontSize": 14,
+                "lineHeight": 18,
+                "marginLeft": 8,
+              }
+            }
+          >
+            Chain Bridge
+          </Text>
+        </View>
+        <View
+          style={
+            Object {
+              "alignItems": "flex-start",
+              "flexDirection": "row",
+              "marginBottom": 8,
+            }
+          }
+        >
+          <View
+            style={
+              Object {
+                "marginTop": 2,
+              }
+            }
+          >
+            <Text
+              allowFontScaling={false}
+              style={
+                Array [
+                  Object {
+                    "color": "rgba(0,198,132,1)",
+                    "fontSize": 14,
+                  },
+                  undefined,
+                  Object {
+                    "fontFamily": "voyager",
+                    "fontStyle": "normal",
+                    "fontWeight": "normal",
+                  },
+                  Object {},
+                ]
+              }
+            >
+              
+            </Text>
+          </View>
+          <Text
+            style={
+              Object {
+                "color": "rgba(119, 119, 119, 1)",
+                "fontFamily": "SourceSansPro-Regular",
+                "fontSize": 14,
+                "lineHeight": 18,
+                "marginLeft": 8,
+              }
+            }
+          >
+            Miskolc City Pass
+          </Text>
+        </View>
+        <View
+          style={
+            Object {
+              "alignItems": "flex-start",
+              "flexDirection": "row",
+              "marginBottom": 8,
+            }
+          }
+        >
+          <View
+            style={
+              Object {
+                "marginTop": 2,
+              }
+            }
+          >
+            <Text
+              allowFontScaling={false}
+              style={
+                Array [
+                  Object {
+                    "color": "rgba(0,198,132,1)",
+                    "fontSize": 14,
+                  },
+                  undefined,
+                  Object {
+                    "fontFamily": "voyager",
+                    "fontStyle": "normal",
+                    "fontWeight": "normal",
+                  },
+                  Object {},
+                ]
+              }
+            >
+              
+            </Text>
+          </View>
+          <Text
+            style={
+              Object {
+                "color": "rgba(119, 119, 119, 1)",
+                "fontFamily": "SourceSansPro-Regular",
+                "fontSize": 14,
+                "lineHeight": 18,
+                "marginLeft": 8,
+              }
+            }
+          >
+            Budapest Retro Design Centre Museum
+          </Text>
+        </View>
+        <View
+          style={
+            Object {
+              "alignItems": "flex-start",
+              "flexDirection": "row",
+              "marginBottom": 8,
+            }
+          }
+        >
+          <View
+            style={
+              Object {
+                "marginTop": 2,
+              }
+            }
+          >
+            <Text
+              allowFontScaling={false}
+              style={
+                Array [
+                  Object {
+                    "color": "rgba(0,198,132,1)",
+                    "fontSize": 14,
+                  },
+                  undefined,
+                  Object {
+                    "fontFamily": "voyager",
+                    "fontStyle": "normal",
+                    "fontWeight": "normal",
+                  },
+                  Object {},
+                ]
+              }
+            >
+              
+            </Text>
+          </View>
+          <Text
+            style={
+              Object {
+                "color": "rgba(119, 119, 119, 1)",
+                "fontFamily": "SourceSansPro-Regular",
+                "fontSize": 14,
+                "lineHeight": 18,
+                "marginLeft": 8,
+              }
+            }
+          >
+            Sunshine Booze Cruise
+          </Text>
+        </View>
+        <View
+          style={
+            Object {
+              "alignItems": "flex-start",
+              "flexDirection": "row",
+              "marginBottom": 8,
+            }
+          }
+        >
+          <View
+            style={
+              Object {
+                "marginTop": 2,
+              }
+            }
+          >
+            <Text
+              allowFontScaling={false}
+              style={
+                Array [
+                  Object {
+                    "color": "rgba(0,198,132,1)",
+                    "fontSize": 14,
+                  },
+                  undefined,
+                  Object {
+                    "fontFamily": "voyager",
+                    "fontStyle": "normal",
+                    "fontWeight": "normal",
+                  },
+                  Object {},
+                ]
+              }
+            >
+              
+            </Text>
+          </View>
+          <Text
+            style={
+              Object {
+                "color": "rgba(119, 119, 119, 1)",
+                "fontFamily": "SourceSansPro-Regular",
+                "fontSize": 14,
+                "lineHeight": 18,
+                "marginLeft": 8,
+              }
+            }
+          >
+            Ruin Pub Crawl - Your Keys to the nightlife of Budapest
+          </Text>
+        </View>
+      </View>
+      <View
+        onLayout={[Function]}
+      />
+      <View
+        style={
+          Object {
+            "alignItems": "center",
+            "flexDirection": "row",
+            "justifyContent": "space-between",
+            "marginTop": 16,
+          }
+        }
+      >
+        <View
+          style={
+            Object {
+              "alignItems": "flex-start",
+              "flexDirection": "row",
+            }
+          }
+        >
+          <Text
+            style={
+              Object {
+                "fontFamily": "SourceSansPro-Regular",
+                "fontSize": 12,
+                "lineHeight": 22,
+                "marginRight": 4,
+              }
+            }
+          >
+            ₹
+          </Text>
+          <Text
+            style={
+              Object {
+                "color": "rgba(44, 47, 66, 1)",
+                "fontFamily": "SourceSansPro-SemiBold",
+                "fontSize": 20,
+                "lineHeight": 25,
+              }
+            }
+          >
+            ₹88,832.00
+          </Text>
+          <Text
+            style={
+              Object {
+                "color": "rgba(119, 119, 119, 1)",
+                "fontFamily": "SourceSansPro-Regular",
+                "fontSize": 12,
+                "lineHeight": 28,
+                "marginLeft": 2,
+              }
+            }
+          >
+            /person
+          </Text>
+        </View>
+        <View>
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={[Function]}
+            style={
+              Array [
+                Object {
+                  "height": 56,
+                },
+                Object {
+                  "height": 40,
+                },
+              ]
+            }
+          >
+            <View
+              style={
+                Array [
+                  Object {
+                    "height": 56,
+                  },
+                  Object {
+                    "backgroundColor": "rgba(0,198,132,1)",
+                    "borderRadius": 4,
+                    "justifyContent": "center",
+                    "paddingHorizontal": 24,
+                  },
+                  Object {
+                    "height": 40,
+                  },
+                ]
+              }
+            >
+              <Text
+                style={
+                  Array [
+                    Object {
+                      "color": "rgb(247, 247, 247)",
+                      "fontFamily": "SourceSansPro-SemiBold",
+                      "fontSize": 17,
+                      "lineHeight": 17,
+                      "textAlign": "center",
+                    },
+                    Object {
+                      "fontFamily": "SourceSansPro-SemiBold",
+                      "fontSize": 14,
+                      "lineHeight": 18,
+                    },
+                  ]
+                }
+              >
+                Customize
+              </Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+      </View>
+    </View>
+  </TouchableOpacity>
+</View>
+`;
+
+exports[`Itinerary Card Activity List 1`] = `
+<View
+  style={
+    Object {
+      "marginBottom": 8,
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "alignItems": "flex-start",
+        "flexDirection": "row",
+        "marginBottom": 8,
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "marginTop": 2,
+        }
+      }
+    >
+      <Text
+        allowFontScaling={false}
+        style={
+          Array [
+            Object {
+              "color": "rgba(0,198,132,1)",
+              "fontSize": 14,
+            },
+            undefined,
+            Object {
+              "fontFamily": "voyager",
+              "fontStyle": "normal",
+              "fontWeight": "normal",
+            },
+            Object {},
+          ]
+        }
+      >
+        
+      </Text>
+    </View>
+    <Text
+      style={
+        Object {
+          "color": "rgba(119, 119, 119, 1)",
+          "fontFamily": "SourceSansPro-Regular",
+          "fontSize": 14,
+          "lineHeight": 18,
+          "marginLeft": 8,
+        }
+      }
+    >
+      3 star accomodations
+    </Text>
+  </View>
+  <View
+    style={
+      Object {
+        "alignItems": "flex-start",
+        "flexDirection": "row",
+        "marginBottom": 8,
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "marginTop": 2,
+        }
+      }
+    >
+      <Text
+        allowFontScaling={false}
+        style={
+          Array [
+            Object {
+              "color": "rgba(0,198,132,1)",
+              "fontSize": 14,
+            },
+            undefined,
+            Object {
+              "fontFamily": "voyager",
+              "fontStyle": "normal",
+              "fontWeight": "normal",
+            },
+            Object {},
+          ]
+        }
+      >
+        
+      </Text>
+    </View>
+    <Text
+      style={
+        Object {
+          "color": "rgba(119, 119, 119, 1)",
+          "fontFamily": "SourceSansPro-Regular",
+          "fontSize": 14,
+          "lineHeight": 18,
+          "marginLeft": 8,
+        }
+      }
+    >
+      Airport Transfers
+    </Text>
+  </View>
+  <View
+    style={
+      Object {
+        "alignItems": "flex-start",
+        "flexDirection": "row",
+        "marginBottom": 8,
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "marginTop": 2,
+        }
+      }
+    >
+      <Text
+        allowFontScaling={false}
+        style={
+          Array [
+            Object {
+              "color": "rgba(0,198,132,1)",
+              "fontSize": 14,
+            },
+            undefined,
+            Object {
+              "fontFamily": "voyager",
+              "fontStyle": "normal",
+              "fontWeight": "normal",
+            },
+            Object {},
+          ]
+        }
+      >
+        
+      </Text>
+    </View>
+    <Text
+      style={
+        Object {
+          "color": "rgba(119, 119, 119, 1)",
+          "fontFamily": "SourceSansPro-Regular",
+          "fontSize": 14,
+          "lineHeight": 18,
+          "marginLeft": 8,
+        }
+      }
+    >
+      5 activities
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`Itinerary Card Image 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "backgroundColor": "rgba(250, 250, 250, 1)",
+        "borderRadius": 4,
+        "left": 12,
+        "padding": 8,
+        "position": "absolute",
+        "top": 12,
+        "zIndex": 1,
+      }
+    }
+  >
+    <Text
+      style={
+        Object {
+          "color": "rgba(44, 47, 66, 1)",
+          "fontFamily": "SourceSansPro-Regular",
+          "fontSize": 13,
+          "lineHeight": 18,
+        }
+      }
+    >
+      ❤️ Romance
+    </Text>
+  </View>
+  <ScrollView
+    horizontal={true}
+    pagingEnabled={true}
+    scrollEventThrottle={1}
+    showsHorizontalScrollIndicator={false}
+  >
+    <Image
+      onError={[Function]}
+      resizeMode="cover"
+      source={
+        Object {
+          "uri": "https://pyt-images.imgix.net/images/product_blog/itinerary-box/australia-small.jpeg",
+        }
+      }
+      style={
+        Array [
+          Object {
+            "height": 200,
+            "width": 750,
+          },
+          undefined,
+        ]
+      }
+    />
+    <Image
+      onError={[Function]}
+      resizeMode="cover"
+      source={
+        Object {
+          "uri": "https://pyt-images.imgix.net/images/product_blog/itinerary-box/europe-small.jpeg",
+        }
+      }
+      style={
+        Array [
+          Object {
+            "height": 200,
+            "width": 750,
+          },
+          undefined,
+        ]
+      }
+    />
+  </ScrollView>
+  <View
+    style={
+      Object {
+        "bottom": 12,
+        "flexDirection": "row",
+        "position": "absolute",
+        "zIndex": 1,
+      }
+    }
+  >
+    <View
+      style={
+        Array [
+          Object {
+            "backgroundColor": "white",
+            "borderRadius": 10,
+            "height": 8,
+            "marginHorizontal": 4,
+            "opacity": 0.5,
+            "width": 8,
+          },
+          Object {
+            "opacity": undefined,
+            "width": undefined,
+          },
+        ]
+      }
+    />
+    <View
+      style={
+        Array [
+          Object {
+            "backgroundColor": "white",
+            "borderRadius": 10,
+            "height": 8,
+            "marginHorizontal": 4,
+            "opacity": 0.5,
+            "width": 8,
+          },
+          Object {
+            "opacity": undefined,
+            "width": undefined,
+          },
+        ]
+      }
+    />
+  </View>
+</View>
+`;
+
+exports[`Itinerary Card Route List 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+      "flexDirection": "row",
+      "marginBottom": 16,
+    }
+  }
+>
+  <Text
+    allowFontScaling={false}
+    style={
+      Array [
+        Object {
+          "color": "rgba(170, 170, 170, 1)",
+          "fontSize": 16,
+        },
+        Object {
+          "marginRight": 6,
+        },
+        Object {
+          "fontFamily": "voyager",
+          "fontStyle": "normal",
+          "fontWeight": "normal",
+        },
+        Object {},
+      ]
+    }
+  >
+    
+  </Text>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "flexDirection": "row",
+      }
+    }
+  >
+    <Text
+      style={
+        Object {
+          "color": "rgba(119, 119, 119, 1)",
+          "fontFamily": "SourceSansPro-Regular",
+          "fontSize": 14,
+          "lineHeight": 15,
+        }
+      }
+    >
+      Interlaken
+    </Text>
+    <View
+      style={
+        Object {
+          "marginHorizontal": 8,
+        }
+      }
+    >
+      <Text
+        allowFontScaling={false}
+        style={
+          Array [
+            Object {
+              "color": "rgba(119, 119, 119, 1)",
+              "fontSize": 12,
+            },
+            undefined,
+            Object {
+              "fontFamily": "voyager",
+              "fontStyle": "normal",
+              "fontWeight": "normal",
+            },
+            Object {},
+          ]
+        }
+      >
+        
+      </Text>
+    </View>
+  </View>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "flexDirection": "row",
+      }
+    }
+  >
+    <Text
+      style={
+        Object {
+          "color": "rgba(119, 119, 119, 1)",
+          "fontFamily": "SourceSansPro-Regular",
+          "fontSize": 14,
+          "lineHeight": 15,
+        }
+      }
+    >
+      Zerma
+    </Text>
+    <View
+      style={
+        Object {
+          "marginHorizontal": 8,
+        }
+      }
+    >
+      <Text
+        allowFontScaling={false}
+        style={
+          Array [
+            Object {
+              "color": "rgba(119, 119, 119, 1)",
+              "fontSize": 12,
+            },
+            undefined,
+            Object {
+              "fontFamily": "voyager",
+              "fontStyle": "normal",
+              "fontWeight": "normal",
+            },
+            Object {},
+          ]
+        }
+      >
+        
+      </Text>
+    </View>
+  </View>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "flexDirection": "row",
+      }
+    }
+  >
+    <Text
+      style={
+        Object {
+          "color": "rgba(119, 119, 119, 1)",
+          "fontFamily": "SourceSansPro-Regular",
+          "fontSize": 14,
+          "lineHeight": 15,
+        }
+      }
+    >
+      Lucerne
+    </Text>
+  </View>
+</View>
+`;

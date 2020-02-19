@@ -38,7 +38,7 @@ const SectionTitle = ({
   descriptionTextStyle
 }: SectionTitleProps) => {
   return (
-    <View style={[containerStyle]}>
+    <View style={containerStyle}>
       {smallTitle ? (
         <Text style={[styles.smallTitleStyle, smallTitleTextStyle]}>
           {smallTitle}
@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
   titleStyle: {
     marginBottom: 8,
     color: CONSTANT_black1,
-    ...CONSTANT_fontCustom(CONSTANT_primarySemiBold, 20)
+    ...CONSTANT_fontCustom(CONSTANT_primarySemiBold, 20, 24)
   },
   descriptionStyle: {
     ...CONSTANT_fontCustom(CONSTANT_primaryRegular, 14, 20),

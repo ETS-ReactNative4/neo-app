@@ -1,0 +1,358 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Featured Card Type One 1`] = `
+<View
+  style={
+    Object {
+      "marginBottom": 80,
+    }
+  }
+>
+  <RNGestureHandlerButton
+    collapsable={false}
+    onGestureEvent={[Function]}
+    onGestureHandlerEvent={[Function]}
+    onGestureHandlerStateChange={[Function]}
+    onHandlerStateChange={[Function]}
+    rippleColor={0}
+    style={
+      Array [
+        Object {
+          "overflow": "hidden",
+        },
+        undefined,
+      ]
+    }
+  >
+    <View
+      accessible={true}
+      style={
+        Object {
+          "opacity": 1,
+        }
+      }
+    >
+      <View
+        accessibilityIgnoresInvertColors={true}
+        style={
+          Array [
+            Object {
+              "marginBottom": 32,
+              "width": 750,
+            },
+            undefined,
+          ]
+        }
+      >
+        <Image
+          blurRadius={50}
+          onError={[Function]}
+          resizeMode="cover"
+          source={
+            Object {
+              "uri": "https://pyt-images.imgix.net/images/product_blog/operahouse.jpeg",
+            }
+          }
+          style={
+            Array [
+              Object {
+                "bottom": 0,
+                "left": 0,
+                "position": "absolute",
+                "right": 0,
+                "top": 0,
+              },
+              Object {
+                "height": undefined,
+                "width": undefined,
+              },
+              Object {
+                "borderRadius": 4,
+              },
+            ]
+          }
+        />
+        <View
+          style={
+            Object {
+              "padding": 24,
+            }
+          }
+        >
+          <Image
+            onError={[Function]}
+            resizeMode="cover"
+            source={
+              Object {
+                "uri": "https://pyt-images.imgix.net/images/product_blog/operahouse.jpeg",
+              }
+            }
+            style={
+              Object {
+                "borderRadius": 8,
+                "height": 336,
+                "marginBottom": 24,
+              }
+            }
+          />
+          <View
+            style={
+              Object {
+                "alignItems": "center",
+                "flexDirection": "row",
+                "justifyContent": "space-between",
+              }
+            }
+          >
+            <Text
+              style={
+                Object {
+                  "color": "rgb(247, 247, 247)",
+                  "fontFamily": "SourceSansPro-Regular",
+                  "fontSize": 16,
+                  "lineHeight": 16,
+                }
+              }
+            >
+               
+              From 
+              <Text
+                style={
+                  Object {
+                    "color": "rgb(247, 247, 247)",
+                    "fontFamily": "SourceSansPro-SemiBold",
+                    "fontSize": 16,
+                    "lineHeight": 16,
+                  }
+                }
+              >
+                ₹45,450
+              </Text>
+               / person
+            </Text>
+            <View
+              style={
+                Object {
+                  "transform": Array [
+                    Object {
+                      "scaleX": -1,
+                    },
+                  ],
+                }
+              }
+            >
+              <Text
+                allowFontScaling={false}
+                style={
+                  Array [
+                    Object {
+                      "color": "rgb(247, 247, 247)",
+                      "fontSize": 18,
+                    },
+                    undefined,
+                    Object {
+                      "fontFamily": "voyager",
+                      "fontStyle": "normal",
+                      "fontWeight": "normal",
+                    },
+                    Object {},
+                  ]
+                }
+              >
+                
+              </Text>
+            </View>
+          </View>
+        </View>
+      </View>
+    </View>
+  </RNGestureHandlerButton>
+</View>
+`;
+
+exports[`Featured Card Type Two 1`] = `
+<View
+  style={
+    Object {
+      "marginBottom": 80,
+    }
+  }
+>
+  <RNGestureHandlerButton
+    collapsable={false}
+    onGestureEvent={[Function]}
+    onGestureHandlerEvent={[Function]}
+    onGestureHandlerStateChange={[Function]}
+    onHandlerStateChange={[Function]}
+    rippleColor={0}
+    style={
+      Array [
+        Object {
+          "overflow": "hidden",
+        },
+        undefined,
+      ]
+    }
+  >
+    <View
+      accessible={true}
+      style={
+        Object {
+          "opacity": 1,
+        }
+      }
+    >
+      <View
+        accessibilityIgnoresInvertColors={true}
+        style={
+          Object {
+            "marginBottom": 32,
+            "width": 718,
+          }
+        }
+      >
+        <Image
+          blurRadius={50}
+          onError={[Function]}
+          resizeMode="cover"
+          source={
+            Object {
+              "uri": "https://d3lf10b5gahyby.cloudfront.net/web_app/dawn/testimonials/mobile/harshal_manvatkar.jpg",
+            }
+          }
+          style={
+            Array [
+              Object {
+                "bottom": 0,
+                "left": 0,
+                "position": "absolute",
+                "right": 0,
+                "top": 0,
+              },
+              Object {
+                "height": undefined,
+                "width": 718,
+              },
+              Object {
+                "borderRadius": 4,
+              },
+            ]
+          }
+        />
+        <View
+          style={
+            Object {
+              "padding": 24,
+            }
+          }
+        >
+          <Image
+            onError={[Function]}
+            resizeMode="cover"
+            source={
+              Object {
+                "uri": "https://d3lf10b5gahyby.cloudfront.net/web_app/dawn/testimonials/mobile/harshal_manvatkar.jpg",
+              }
+            }
+            style={
+              Object {
+                "borderRadius": 8,
+                "height": 248,
+                "marginBottom": 16,
+              }
+            }
+          />
+          <Text
+            style={
+              Object {
+                "color": "rgb(247, 247, 247)",
+                "fontFamily": "SourceSansPro-SemiBold",
+                "fontSize": 10,
+                "lineHeight": 10,
+                "marginBottom": 8,
+                "textTransform": "uppercase",
+              }
+            }
+          >
+            Harshal Manvatkar
+          </Text>
+          <Text
+            style={
+              Object {
+                "color": "rgb(247, 247, 247)",
+                "fontFamily": "SourceSansPro-Regular",
+                "fontSize": 16,
+                "lineHeight": 16,
+                "marginBottom": 8,
+              }
+            }
+          >
+            7 nights
+             to 
+            Greece
+          </Text>
+          <View
+            style={
+              Object {
+                "alignItems": "flex-end",
+                "flexDirection": "row",
+                "justifyContent": "space-between",
+              }
+            }
+          >
+            <Text
+              ellipsizeMode="tail"
+              numberOfLines={3}
+              style={
+                Object {
+                  "color": "rgb(247, 247, 247)",
+                  "fontFamily": "SourceSansPro-Regular",
+                  "fontSize": 12,
+                  "lineHeight": 24,
+                  "width": 216,
+                }
+              }
+            >
+              “
+              Our honeymoon trip to Greece was awesome! Customisation and real time costing is the biggest advantage of planning your trip Pickyourtrail.
+              ”
+            </Text>
+            <View
+              style={
+                Object {
+                  "transform": Array [
+                    Object {
+                      "scaleX": -1,
+                    },
+                  ],
+                }
+              }
+            >
+              <Text
+                allowFontScaling={false}
+                style={
+                  Array [
+                    Object {
+                      "color": "rgb(247, 247, 247)",
+                      "fontSize": 18,
+                    },
+                    undefined,
+                    Object {
+                      "fontFamily": "voyager",
+                      "fontStyle": "normal",
+                      "fontWeight": "normal",
+                    },
+                    Object {},
+                  ]
+                }
+              >
+                
+              </Text>
+            </View>
+          </View>
+        </View>
+      </View>
+    </View>
+  </RNGestureHandlerButton>
+</View>
+`;

@@ -6,9 +6,20 @@ import SectionTitleTestCases from "../../CommonComponents/SectionTitle/SectionTi
 import PortraitImageTestCases from "../../CommonComponents/PortraitImage/PortraitImageTestCases";
 import SelectablePortraitImageTestCases from "../../CommonComponents/SelectablePortraitImage/SelectablePortraitImageTestCases";
 import MasonryViewTestCases from "../../CommonComponents/MasonryView/MasonryViewTestCases";
+import CustomCheckBoxTestCases from "../../CommonComponents/CustomCheckBox/CustomCheckBoxTestCases";
 import ActionSheetTestCases from "../../CommonComponents/ActionSheet/ActionSheetTestCases";
+import BlogCardTestCases from "../../CommonComponents/BlogCard/BlogCardTestCases";
+import TestimonialCardTestCases from "../../CommonComponents/TestimonialCard/TestimonialCardTestCases";
+import PromoCarousalTestCases from "../../CommonComponents/PromoCarousal/PromoCarousalTestCases";
+import PromoCardTestCases from "../../CommonComponents/PromoCard/PromoCardTestCases";
+import PartnersSectionTestCases from "../../CommonComponents/PartnersSection/PartnersSectionTestCases";
+import SecurePartnerTestCases from "../../CommonComponents/SecurePartner/SecurePartnerTestCases";
+import FeaturedCardTestCases from "../../CommonComponents/FeaturedCard/FeaturedCardTestCases";
+import ItineraryCardTestCases from "../../CommonComponents/ItineraryCard/ItineraryCardTestCases";
+import DealCardTestCases from "../../CommonComponents/DealCard/DealCardTestCases";
 import DismissKeyboardViewTestCases from "../../CommonComponents/DismissKeyboardView/DismissKeyboardViewTestCases";
 import ModalContentTestCases from "../../Screens/AppOverlays/Components/ForceUpdateModal/Components/ModalContentTestCases";
+import RouteListTestCases from "../../CommonComponents/RouteList/RouteListTestCases";
 
 const CommonComponentStories = storiesOf("Common Components", module);
 
@@ -22,6 +33,17 @@ SectionTitleTestCases.forEach(renderTestCase);
 PortraitImageTestCases.forEach(renderTestCase);
 SelectablePortraitImageTestCases.forEach(renderTestCase);
 MasonryViewTestCases.forEach(renderTestCase);
+CustomCheckBoxTestCases.forEach(renderTestCase);
 ActionSheetTestCases.forEach(renderTestCase);
+BlogCardTestCases.forEach(renderTestCase);
+TestimonialCardTestCases.forEach(renderTestCase);
+PromoCarousalTestCases.forEach(renderTestCase);
+PromoCardTestCases.forEach(renderTestCase);
+PartnersSectionTestCases.forEach(renderTestCase);
+SecurePartnerTestCases.forEach(renderTestCase);
+FeaturedCardTestCases.forEach(renderTestCase);
+ItineraryCardTestCases.forEach(renderTestCase);
+DealCardTestCases.forEach(renderTestCase);
 DismissKeyboardViewTestCases.forEach(renderTestCase);
 ModalContentTestCases.forEach(renderTestCase);
+RouteListTestCases.forEach(renderTestCase);

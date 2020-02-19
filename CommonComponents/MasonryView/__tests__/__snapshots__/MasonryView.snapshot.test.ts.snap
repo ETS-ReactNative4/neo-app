@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Masonry View 1`] = `
+<View
+  style={
+    Array [
+      Object {
+        "flex": 1,
+      },
+      undefined,
+    ]
+  }
+>
+  <ScrollView
+    contentContainerStyle={
+      Object {
+        "flexDirection": "row",
+        "justifyContent": "center",
+      }
+    }
+    showsVerticalScrollIndicator={false}
+  >
+    <View />
+  </ScrollView>
+</View>
+`;

@@ -1,0 +1,425 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Multiple Testimonial Card 1`] = `
+<View
+  style={
+    Object {
+      "height": 184,
+      "width": 750,
+    }
+  }
+>
+  <ScrollView
+    horizontal={true}
+    showsHorizontalScrollIndicator={false}
+  >
+    <TouchableOpacity
+      activeOpacity={0.8}
+      onPress={[Function]}
+    >
+      <View
+        style={
+          Array [
+            Object {
+              "alignItems": "flex-end",
+              "backgroundColor": "rgb(247, 247, 247)",
+              "borderColor": "rgba(204, 204, 204, 1)",
+              "borderRadius": 8,
+              "borderWidth": 1,
+              "height": 184,
+              "justifyContent": "flex-end",
+              "marginBottom": 24,
+              "marginRight": 12,
+              "paddingLeft": 24,
+              "paddingRight": 40,
+              "paddingVertical": 32,
+              "width": 718,
+            },
+            undefined,
+          ]
+        }
+      >
+        <Image
+          onError={[Function]}
+          resizeMode="cover"
+          source={
+            Object {
+              "uri": "https://pyt-images.imgix.net/images/testimonials/731/fbProfile/800xh/profile.jpg",
+            }
+          }
+          style={
+            Object {
+              "borderBottomRightRadius": 125,
+              "borderTopLeftRadius": 8,
+              "height": 128,
+              "left": 0,
+              "position": "absolute",
+              "top": 0,
+              "width": 120,
+            }
+          }
+        />
+        <View>
+          <Text
+            ellipsizeMode="tail"
+            numberOfLines={3}
+            style={
+              Object {
+                "color": "rgba(119, 68, 228, 1)",
+                "fontFamily": "SourceSansPro-SemiBold",
+                "fontSize": 18,
+                "lineHeight": 24,
+                "marginBottom": 12,
+                "textShadowColor": "rgb(247, 247, 247)",
+                "textShadowOffset": Object {
+                  "height": 1,
+                  "width": 1,
+                },
+                "textShadowRadius": 1,
+                "width": 210,
+              }
+            }
+          >
+            PYT are experts in customer satisfaction. they leave no stone unturned.
+          </Text>
+          <Text
+            style={
+              Object {
+                "color": "rgba(44, 47, 66, 1)",
+                "fontFamily": "SourceSansPro-SemiBold",
+                "fontSize": 13,
+                "lineHeight": 13,
+                "marginBottom": 4,
+              }
+            }
+          >
+            Mihir 
+          </Text>
+          <Text
+            style={
+              Object {
+                "color": "rgba(83, 87, 109, 1)",
+                "fontFamily": "SourceSansPro-SemiBold",
+                "fontSize": 13,
+                "lineHeight": 13,
+              }
+            }
+          >
+            Honeymoon
+             trip to 
+            Thailand
+             in 
+            Mar 2019
+          </Text>
+        </View>
+      </View>
+    </TouchableOpacity>
+    <TouchableOpacity
+      activeOpacity={0.8}
+      onPress={[Function]}
+    >
+      <View
+        style={
+          Array [
+            Object {
+              "alignItems": "flex-end",
+              "backgroundColor": "rgb(247, 247, 247)",
+              "borderColor": "rgba(204, 204, 204, 1)",
+              "borderRadius": 8,
+              "borderWidth": 1,
+              "height": 184,
+              "justifyContent": "flex-end",
+              "marginBottom": 24,
+              "marginRight": 12,
+              "paddingLeft": 24,
+              "paddingRight": 40,
+              "paddingVertical": 32,
+              "width": 718,
+            },
+            undefined,
+          ]
+        }
+      >
+        <Image
+          onError={[Function]}
+          resizeMode="cover"
+          source={
+            Object {
+              "uri": "https://pyt-images.imgix.net/images/testimonials/1022/fbProfile/800xh/profile.jpg",
+            }
+          }
+          style={
+            Object {
+              "borderBottomRightRadius": 125,
+              "borderTopLeftRadius": 8,
+              "height": 128,
+              "left": 0,
+              "position": "absolute",
+              "top": 0,
+              "width": 120,
+            }
+          }
+        />
+        <View>
+          <Text
+            ellipsizeMode="tail"
+            numberOfLines={3}
+            style={
+              Object {
+                "color": "rgba(119, 68, 228, 1)",
+                "fontFamily": "SourceSansPro-SemiBold",
+                "fontSize": 18,
+                "lineHeight": 24,
+                "marginBottom": 12,
+                "textShadowColor": "rgb(247, 247, 247)",
+                "textShadowOffset": Object {
+                  "height": 1,
+                  "width": 1,
+                },
+                "textShadowRadius": 1,
+                "width": 210,
+              }
+            }
+          >
+            Tried PYT for the first time and got a well-planned vacation!
+          </Text>
+          <Text
+            style={
+              Object {
+                "color": "rgba(44, 47, 66, 1)",
+                "fontFamily": "SourceSansPro-SemiBold",
+                "fontSize": 13,
+                "lineHeight": 13,
+                "marginBottom": 4,
+              }
+            }
+          >
+            Aarthi
+          </Text>
+          <Text
+            style={
+              Object {
+                "color": "rgba(83, 87, 109, 1)",
+                "fontFamily": "SourceSansPro-SemiBold",
+                "fontSize": 13,
+                "lineHeight": 13,
+              }
+            }
+          >
+            Honeymoon
+             trip to 
+            Thailand
+             in 
+            May 2019
+          </Text>
+        </View>
+      </View>
+    </TouchableOpacity>
+    <TouchableOpacity
+      activeOpacity={0.8}
+      onPress={[Function]}
+    >
+      <View
+        style={
+          Array [
+            Object {
+              "alignItems": "flex-end",
+              "backgroundColor": "rgb(247, 247, 247)",
+              "borderColor": "rgba(204, 204, 204, 1)",
+              "borderRadius": 8,
+              "borderWidth": 1,
+              "height": 184,
+              "justifyContent": "flex-end",
+              "marginBottom": 24,
+              "marginRight": 12,
+              "paddingLeft": 24,
+              "paddingRight": 40,
+              "paddingVertical": 32,
+              "width": 718,
+            },
+            undefined,
+          ]
+        }
+      >
+        <Image
+          onError={[Function]}
+          resizeMode="cover"
+          source={
+            Object {
+              "uri": "https://pyt-images.imgix.net/images/testimonials/1073/fbProfile/800xh/profile.jpg",
+            }
+          }
+          style={
+            Object {
+              "borderBottomRightRadius": 125,
+              "borderTopLeftRadius": 8,
+              "height": 128,
+              "left": 0,
+              "position": "absolute",
+              "top": 0,
+              "width": 120,
+            }
+          }
+        />
+        <View>
+          <Text
+            ellipsizeMode="tail"
+            numberOfLines={3}
+            style={
+              Object {
+                "color": "rgba(119, 68, 228, 1)",
+                "fontFamily": "SourceSansPro-SemiBold",
+                "fontSize": 18,
+                "lineHeight": 24,
+                "marginBottom": 12,
+                "textShadowColor": "rgb(247, 247, 247)",
+                "textShadowOffset": Object {
+                  "height": 1,
+                  "width": 1,
+                },
+                "textShadowRadius": 1,
+                "width": 210,
+              }
+            }
+          >
+            A happy bunch of people who create long-lasting memories with their support
+          </Text>
+          <Text
+            style={
+              Object {
+                "color": "rgba(44, 47, 66, 1)",
+                "fontFamily": "SourceSansPro-SemiBold",
+                "fontSize": 13,
+                "lineHeight": 13,
+                "marginBottom": 4,
+              }
+            }
+          >
+            Barani
+          </Text>
+          <Text
+            style={
+              Object {
+                "color": "rgba(83, 87, 109, 1)",
+                "fontFamily": "SourceSansPro-SemiBold",
+                "fontSize": 13,
+                "lineHeight": 13,
+              }
+            }
+          >
+            Honeymoon
+             trip to 
+            Thailand
+             in 
+            Apr 2019
+          </Text>
+        </View>
+      </View>
+    </TouchableOpacity>
+  </ScrollView>
+</View>
+`;
+
+exports[`Testimonial Card 1`] = `
+<TouchableOpacity
+  activeOpacity={0.8}
+  onPress={[Function]}
+>
+  <View
+    style={
+      Array [
+        Object {
+          "alignItems": "flex-end",
+          "backgroundColor": "rgb(247, 247, 247)",
+          "borderColor": "rgba(204, 204, 204, 1)",
+          "borderRadius": 8,
+          "borderWidth": 1,
+          "height": 184,
+          "justifyContent": "flex-end",
+          "marginBottom": 24,
+          "marginRight": 12,
+          "paddingLeft": 24,
+          "paddingRight": 40,
+          "paddingVertical": 32,
+          "width": 718,
+        },
+        undefined,
+      ]
+    }
+  >
+    <Image
+      onError={[Function]}
+      resizeMode="cover"
+      source={
+        Object {
+          "uri": "https://pyt-images.imgix.net/images/misc/t21.jpg",
+        }
+      }
+      style={
+        Object {
+          "borderBottomRightRadius": 125,
+          "borderTopLeftRadius": 8,
+          "height": 128,
+          "left": 0,
+          "position": "absolute",
+          "top": 0,
+          "width": 120,
+        }
+      }
+    />
+    <View>
+      <Text
+        ellipsizeMode="tail"
+        numberOfLines={3}
+        style={
+          Object {
+            "color": "rgba(119, 68, 228, 1)",
+            "fontFamily": "SourceSansPro-SemiBold",
+            "fontSize": 18,
+            "lineHeight": 24,
+            "marginBottom": 12,
+            "textShadowColor": "rgb(247, 247, 247)",
+            "textShadowOffset": Object {
+              "height": 1,
+              "width": 1,
+            },
+            "textShadowRadius": 1,
+            "width": 210,
+          }
+        }
+      >
+        These guys sure know how to make their customers happy!
+      </Text>
+      <Text
+        style={
+          Object {
+            "color": "rgba(44, 47, 66, 1)",
+            "fontFamily": "SourceSansPro-SemiBold",
+            "fontSize": 13,
+            "lineHeight": 13,
+            "marginBottom": 4,
+          }
+        }
+      >
+        Niranjan Roy
+      </Text>
+      <Text
+        style={
+          Object {
+            "color": "rgba(83, 87, 109, 1)",
+            "fontFamily": "SourceSansPro-SemiBold",
+            "fontSize": 13,
+            "lineHeight": 13,
+          }
+        }
+      >
+        Family
+         trip to 
+        Vietnam
+         in 
+        Apr 2018
+      </Text>
+    </View>
+  </View>
+</TouchableOpacity>
+`;
