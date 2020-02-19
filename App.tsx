@@ -16,6 +16,7 @@ import { screenTrackerV2 } from "./Services/analytics/analyticsService";
 import ErrorBoundary from "./CommonComponents/ErrorBoundary/ErrorBoundary";
 import { updateNavigationService } from "./Services/navigationService/navigationServiceV2";
 import NetInfo from "@react-native-community/netinfo";
+import { Provider } from "mobx-react";
 
 updateStoreService(store);
 
@@ -92,9 +93,14 @@ const App = () => {
   };
 
   return (
-    <NavigationContainer ref={navigationRef} onStateChange={screenStateChange}>
-      <AppNavigator />
-    </NavigationContainer>
+    <Provider {...store}>
+      <NavigationContainer
+        ref={navigationRef}
+        onStateChange={screenStateChange}
+      >
+        <AppNavigator />
+      </NavigationContainer>
+    </Provider>
   );
 };
 
