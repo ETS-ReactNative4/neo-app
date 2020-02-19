@@ -15,6 +15,7 @@ import getActiveRouteName from "./Services/getActiveRouteName/getActiveRouteName
 import { screenTrackerV2 } from "./Services/analytics/analyticsService";
 import ErrorBoundary from "./CommonComponents/ErrorBoundary/ErrorBoundary";
 import { updateNavigationService } from "./Services/navigationService/navigationServiceV2";
+import NetInfo from "@react-native-community/netinfo";
 
 updateStoreService(store);
 
@@ -27,18 +28,51 @@ const App = () => {
   const routeNameRef = React.useRef();
   const navigationRef = React.useRef<NavigationContainerRef>();
 
+  /**
+   * TODO: Netinfo uses finally however due to
+   * https://github.com/storybookjs/react-native/issues/20
+   * We are unable to use finally directly
+   *
+   * See index.js for the implementation to this workaround
+   */
+  // @ts-ignore
+  // eslint-disable-next-line no-extend-native
+  Promise.prototype.finally = global.promiseFinallyFn;
+  /**
+   * Used to record connectivity changes and record it in mobx
+   * To be used across the whole app
+   */
+  const handleConnectivityChange = (isConnected: boolean) => {
+    store.appState.setConnectionStatus(isConnected);
+  };
+  const unsubscribeNetListener = NetInfo.addEventListener(state =>
+    handleConnectivityChange(state.isConnected)
+  );
+
   useEffect(() => {
     appLauncherV2()
       .then(() => {
         RNBootSplash.hide();
       })
-      .catch();
+      .catch(() => {
+        RNBootSplash.hide();
+      });
 
     debouncer(() => {
       appStartupTasks();
     });
 
     updateNavigationService(navigationRef);
+
+    /**
+     * Get the first network connection state when app is launched
+     */
+    NetInfo.fetch().then(state => handleConnectivityChange(state.isConnected));
+
+    return () => {
+      unsubscribeNetListener();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   /**
@@ -53,7 +87,7 @@ const App = () => {
       screenTrackerV2(previousRouteName, currentRouteName);
     }
 
-    // Save the current route name for later comparision
+    // Save the current route name for later comparison
     routeNameRef.current = currentRouteName;
   };
 

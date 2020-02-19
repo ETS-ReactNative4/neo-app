@@ -1,9 +1,10 @@
-import { UIManager } from "react-native";
+import { UIManager, Platform } from "react-native";
 import { isProduction } from "../getEnvironmentDetails/getEnvironmentDetails";
 import {
   enableAnalytics,
   disableAnalytics
 } from "../analytics/analyticsService";
+import { CONSTANT_platformAndroid } from "../../constants/stringConstants";
 
 /**
  * When the App Launches there's a bunch of things that needs to happen,
@@ -13,8 +14,9 @@ import {
  */
 
 const appStartupTasks = () => {
-  UIManager.setLayoutAnimationEnabledExperimental &&
-    UIManager.setLayoutAnimationEnabledExperimental(true);
+  if (Platform.OS === CONSTANT_platformAndroid) {
+    UIManager?.setLayoutAnimationEnabledExperimental(true);
+  }
 
   if (!__DEV__ && isProduction()) {
     enableAnalytics();

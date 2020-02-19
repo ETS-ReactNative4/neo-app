@@ -5,11 +5,19 @@ import AppLogin from "../Screens/AppLoginScreen/AppLogin";
 
 const Stack = createStackNavigator();
 
+const { Navigator, Screen } = Stack;
+
 const AppNavigator = () => {
   return (
-    <Stack.Navigator>
-      <Stack.Screen name={SCREEN_APP_LOGIN} component={AppLogin} />
-    </Stack.Navigator>
+    <Navigator headerMode="float">
+      <Screen
+        options={{
+          headerShown: false
+        }}
+        name={SCREEN_APP_LOGIN}
+        component={AppLogin}
+      />
+    </Navigator>
   );
 };
 
