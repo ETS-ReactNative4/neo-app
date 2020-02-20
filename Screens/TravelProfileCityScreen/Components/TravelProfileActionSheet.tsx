@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, Alert } from "react-native";
+import { View, StyleSheet } from "react-native";
 import {
   responsiveHeight
   // @ts-ignore
@@ -9,10 +9,24 @@ import SectionTitle from "../../../CommonComponents/SectionTitle/SectionTitle";
 import PrimaryButton from "../../../CommonComponents/PrimaryButton/PrimaryButton";
 import { CONSTANT_fifteenthColor } from "../../../constants/colorPallete";
 import ActionSheet from "../../../CommonComponents/ActionSheet/ActionSheet";
+import { IInteractable } from "react-native-interactable";
 
-const TravelProfileActionSheet = () => {
+export interface ITravelProfileActionSheet {
+  actionSheetRef: React.MutableRefObject<IInteractable | undefined>;
+  positiveAction: () => any;
+  negativeAction: () => any;
+}
+
+const TravelProfileActionSheet = ({
+  actionSheetRef,
+  positiveAction,
+  negativeAction
+}: ITravelProfileActionSheet) => {
   return (
-    <ActionSheet panelStartingPosition={responsiveHeight(50)}>
+    <ActionSheet
+      interactableRef={actionSheetRef}
+      panelViewablePosition={responsiveHeight(50)}
+    >
       <View style={styles.actionSheetContainer}>
         <SectionTitle
           smallTitle={"BEFORE WE START"}
@@ -26,12 +40,12 @@ const TravelProfileActionSheet = () => {
             text={"No"}
             containerStyle={styles.buttonContainerStyle}
             buttonStyle={styles.buttonStyle}
-            clickAction={() => Alert.alert("Click No Button")}
+            clickAction={negativeAction}
           />
           <PrimaryButton
             text={"Yes :)"}
             containerStyle={styles.buttonContainerStyle}
-            clickAction={() => Alert.alert("Click Yes Button")}
+            clickAction={positiveAction}
           />
         </View>
       </View>

@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, ViewStyle, StyleProp, Alert } from "react-native";
+import { View, StyleSheet, ViewStyle, StyleProp } from "react-native";
 import {
   responsiveWidth
   // @ts-ignore
@@ -11,11 +11,15 @@ import SmartImageV2 from "../../../CommonComponents/SmartImage/SmartImageV2";
 import SectionTitle from "../../../CommonComponents/SectionTitle/SectionTitle";
 import PrimaryButton from "../../../CommonComponents/PrimaryButton/PrimaryButton";
 
-interface TravelProfileIntroProps {
+export interface TravelProfileIntroProps {
   containerStyle?: StyleProp<ViewStyle>;
+  onClickContinue: () => any;
 }
 
-const TravelProfileIntro = ({ containerStyle }: TravelProfileIntroProps) => {
+const TravelProfileIntro = ({
+  containerStyle,
+  onClickContinue
+}: TravelProfileIntroProps) => {
   return (
     <View style={[styles.profileIntroContainer, containerStyle]}>
       <SmartImageV2
@@ -29,7 +33,7 @@ const TravelProfileIntro = ({ containerStyle }: TravelProfileIntroProps) => {
         style={styles.introImageStyle}
       />
       <SectionTitle
-        smallTitle={"WELCOME KOUSHIK,"}
+        smallTitle={"WELCOME,"}
         title={"Travel styles vary and we’d like to get to know yours."}
         description={
           "We’ll use your preference info to make better and more relevant recommendations."
@@ -40,7 +44,7 @@ const TravelProfileIntro = ({ containerStyle }: TravelProfileIntroProps) => {
       <View style={styles.buttonWrapperStyle}>
         <PrimaryButton
           text={"Sure, let’s do this"}
-          clickAction={() => Alert.alert("Click Button")}
+          clickAction={onClickContinue}
         />
       </View>
     </View>

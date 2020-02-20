@@ -27,7 +27,8 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import { AppNavigatorParamsType } from "../../NavigatorsV2/AppNavigator";
 import {
   SCREEN_STARTER,
-  SCREEN_APP_LOGIN
+  SCREEN_APP_LOGIN,
+  SCREEN_TRAVEL_PROFILE_WELCOME
 } from "../../NavigatorsV2/ScreenNames";
 
 const bootAnimationTiming = 350;
@@ -72,7 +73,7 @@ class Starter extends Component<StarterProps, StarterState> {
   };
 
   clickedPlan = () => {
-    this.props.navigation.navigate(SCREEN_APP_LOGIN);
+    this.props.navigation.navigate(SCREEN_TRAVEL_PROFILE_WELCOME);
   };
 
   componentDidMount() {

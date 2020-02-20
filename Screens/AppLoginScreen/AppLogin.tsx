@@ -1,4 +1,4 @@
-import React, { useState, Fragment, useRef } from "react";
+import React, { useState, Fragment, useRef, useEffect } from "react";
 import { View, StyleSheet, LayoutAnimation, Platform } from "react-native";
 import SmartImageV2 from "../../CommonComponents/SmartImage/SmartImageV2";
 import {
@@ -33,8 +33,22 @@ import {
   // @ts-ignore
 } from "react-native-responsive-dimensions";
 import useLoginForm from "./hooks/useLoginForm";
+import { SCREEN_APP_LOGIN } from "../../NavigatorsV2/ScreenNames";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { AppNavigatorParamsType } from "../../NavigatorsV2/AppNavigator";
 
-const AppLogin = () => {
+type screenName = typeof SCREEN_APP_LOGIN;
+
+export type StarterScreenNavigationProp = StackNavigationProp<
+  AppNavigatorParamsType,
+  screenName
+>;
+
+export interface IAppLoginProps {
+  navigation: StarterScreenNavigationProp;
+}
+
+const AppLogin = ({ navigation }: IAppLoginProps) => {
   const [isVideoReady, setVideoStatus] = useState(false);
   const [
     { phoneNumber, countryCode, countryFlag, code },
@@ -118,6 +132,13 @@ const AppLogin = () => {
     !validateLoginMobileNumber(mobileNumber) && isPhoneSubmitAttempted;
 
   const onVideoLoaded = () => setVideoStatus(true);
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerShown: false
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <Fragment>
