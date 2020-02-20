@@ -43,7 +43,7 @@ const SelectablePortraitImage = ({
 
   return (
     <View style={containerStyle}>
-      <TouchableOpacity activeOpacity={0.8} onPress={selectedAction}>
+      <TouchableOpacity activeOpacity={1} onPress={selectedAction}>
         <PortraitImage
           imageSource={imageSource}
           containerStyle={portraitImageContainerStyle}
@@ -54,6 +54,7 @@ const SelectablePortraitImage = ({
           <AnimatableView
             animation={isSelected ? "fadeIn" : "fadeOut"}
             style={styles.selectedCardStyle}
+            useNativeDriver={true}
             duration={300}
           >
             <SmartImageV2

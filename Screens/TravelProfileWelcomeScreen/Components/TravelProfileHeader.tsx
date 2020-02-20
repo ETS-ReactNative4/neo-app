@@ -34,7 +34,6 @@ interface TravelProfileHeaderProps {
   clickLeftLink?: () => any;
   clickRightLink?: () => any;
   rightTextColorStyle?: StyleProp<TextStyle>;
-  enableLeftLink?: boolean;
 }
 
 const TravelProfileHeader = ({
@@ -43,13 +42,12 @@ const TravelProfileHeader = ({
   rightLinkText = "",
   clickLeftLink = () => null,
   clickRightLink = () => null,
-  rightTextColorStyle,
-  enableLeftLink = false
+  rightTextColorStyle
 }: TravelProfileHeaderProps) => {
   return (
     <View style={[styles.headerContainerStyle, containerStyle]}>
       <View>
-        {enableLeftLink ? (
+        {leftLinkText ? (
           <TouchableOpacity
             activeOpacity={0.8}
             style={[styles.linkTouchableStyle, styles.linkRightTouchableStyle]}

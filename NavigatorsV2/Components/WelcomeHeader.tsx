@@ -12,11 +12,18 @@ import { CONSTANT_white1 } from "../../constants/colorPallete";
 export interface IWelcomeHeaderConfig {
   rightLinkText: string;
   onRightLinkClick?: () => any;
+  leftLinkText?: string;
+  onLeftLinkClick?: () => any;
 }
 
 const WelcomeHeader = (
   options: StackHeaderProps,
-  { rightLinkText = "", onRightLinkClick = () => null }: IWelcomeHeaderConfig
+  {
+    rightLinkText = "",
+    onRightLinkClick = () => null,
+    leftLinkText = "",
+    onLeftLinkClick = () => null
+  }: IWelcomeHeaderConfig
 ) => {
   const heightStyle = {
     height: CONSTANT_headerHeight + (isIphoneX() ? CONSTANT_xNotchHeight : 0)
@@ -26,6 +33,8 @@ const WelcomeHeader = (
       <TravelProfileHeader
         rightLinkText={rightLinkText}
         clickRightLink={onRightLinkClick}
+        leftLinkText={leftLinkText}
+        clickLeftLink={onLeftLinkClick}
       />
     </View>
   );

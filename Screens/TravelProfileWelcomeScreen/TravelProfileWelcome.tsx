@@ -1,7 +1,10 @@
 import React, { useEffect, useRef } from "react";
 import { View, StyleSheet } from "react-native";
 import TravelProfileIntro from "./Components/TravelProfileIntro";
-import { SCREEN_TRAVEL_PROFILE_WELCOME } from "../../NavigatorsV2/ScreenNames";
+import {
+  SCREEN_TRAVEL_PROFILE_WELCOME,
+  SCREEN_TRAVEL_COUNTRY_PICKER
+} from "../../NavigatorsV2/ScreenNames";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { AppNavigatorParamsType } from "../../NavigatorsV2/AppNavigator";
 import WelcomeHeader from "../../NavigatorsV2/Components/WelcomeHeader";
@@ -25,13 +28,21 @@ const TravelProfileWelcome = ({ navigation }: TravelProfileWelcomeProps) => {
   const skipScreen = () => {};
 
   const continueFlow = () => {
-    // @ts-ignore
+    // @ts-ignore - Lack of typescript support in actionsheet's ref
     actionSheetRef?.current?.snapTo({ index: 1 });
   };
 
-  const flowPositive = () => {};
+  const flowPositive = () => {
+    navigation.navigate(SCREEN_TRAVEL_COUNTRY_PICKER, {
+      isPositive: true
+    });
+  };
 
-  const flowNegative = () => {};
+  const flowNegative = () => {
+    navigation.navigate(SCREEN_TRAVEL_COUNTRY_PICKER, {
+      isPositive: false
+    });
+  };
 
   useEffect(() => {
     navigation.setOptions({

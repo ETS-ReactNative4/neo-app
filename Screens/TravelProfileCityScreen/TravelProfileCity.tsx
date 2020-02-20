@@ -23,13 +23,33 @@ import {
   // @ts-ignore
 } from "react-native-responsive-dimensions";
 import SectionTitle from "../../CommonComponents/SectionTitle/SectionTitle";
-import MasonryView from "../../CommonComponents/MasonryView/MasonryView";
+import MasonryView from "react-native-masonry-scrollview";
+import { SCREEN_TRAVEL_COUNTRY_PICKER } from "../../NavigatorsV2/ScreenNames";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { AppNavigatorParamsType } from "../../NavigatorsV2/AppNavigator";
+import WelcomeHeader from "../../NavigatorsV2/Components/WelcomeHeader";
+import { RouteProp } from "@react-navigation/native";
+import * as Animatable from "react-native-animatable";
+
+const { createAnimatableComponent } = Animatable;
+
+const AnimatableView = createAnimatableComponent(View);
+
+type screenName = typeof SCREEN_TRAVEL_COUNTRY_PICKER;
+
+export type StarterScreenNavigationProp = StackNavigationProp<
+  AppNavigatorParamsType,
+  screenName
+>;
+
+type StarterScreenRouteProp = RouteProp<AppNavigatorParamsType, screenName>;
 
 export interface IMasonryViewData {
   image: string;
 }
 export interface TravelProfileCityProps {
-  cityData: IMasonryViewData[];
+  navigation: StarterScreenNavigationProp;
+  route: StarterScreenRouteProp;
 }
 
 export interface ISuggestedCity {
@@ -38,10 +58,118 @@ export interface ISuggestedCity {
   isSelected: boolean;
 }
 
-const TravelProfileCity = ({ cityData }: TravelProfileCityProps) => {
+const TravelProfileCity = ({ navigation, route }: TravelProfileCityProps) => {
   const [suggestedCities, setSuggestedCities] = useState<ISuggestedCity[]>([]);
+  const [cityData] = useState<IMasonryViewData[]>([
+    {
+      image:
+        "https://pyt-images.imgix.net/images/city/paris.jpg?w=146&h=200&fit=crop&dpr=2&auto=format,compress,enhance&q=20"
+    },
+    {
+      image:
+        "https://pyt-images.imgix.net/images/city/london.jpg?w=146&h=200&fit=crop&dpr=2&auto=format,compress,enhance&q=20"
+    },
+    {
+      image:
+        "https://pyt-images.imgix.net/images/city/zagreb.jpg?w=146&h=200&fit=crop&dpr=2&auto=format,compress,enhance&q=20"
+    },
+    {
+      image:
+        "https://pyt-images.imgix.net/images/misc/germany.jpeg?w=146&h=200&fit=crop&dpr=2&auto=format,compress,enhance&q=20"
+    },
+    {
+      image:
+        "https://pyt-images.imgix.net/images/city/paris.jpg?w=146&h=200&fit=crop&dpr=2&auto=format,compress,enhance&q=20"
+    },
+    {
+      image:
+        "https://pyt-images.imgix.net/images/city/london.jpg?w=146&h=200&fit=crop&dpr=2&auto=format,compress,enhance&q=20"
+    },
+    {
+      image:
+        "https://pyt-images.imgix.net/images/city/zagreb.jpg?w=146&h=200&fit=crop&dpr=2&auto=format,compress,enhance&q=20"
+    },
+    {
+      image:
+        "https://pyt-images.imgix.net/images/misc/germany.jpeg?w=146&h=200&fit=crop&dpr=2&auto=format,compress,enhance&q=20"
+    },
+    {
+      image:
+        "https://pyt-images.imgix.net/images/city/paris.jpg?w=146&h=200&fit=crop&dpr=2&auto=format,compress,enhance&q=20"
+    },
+    {
+      image:
+        "https://pyt-images.imgix.net/images/city/london.jpg?w=146&h=200&fit=crop&dpr=2&auto=format,compress,enhance&q=20"
+    },
+    {
+      image:
+        "https://pyt-images.imgix.net/images/city/zagreb.jpg?w=146&h=200&fit=crop&dpr=2&auto=format,compress,enhance&q=20"
+    },
+    {
+      image:
+        "https://pyt-images.imgix.net/images/misc/germany.jpeg?w=146&h=200&fit=crop&dpr=2&auto=format,compress,enhance&q=20"
+    },
+    {
+      image:
+        "https://pyt-images.imgix.net/images/city/paris.jpg?w=146&h=200&fit=crop&dpr=2&auto=format,compress,enhance&q=20"
+    },
+    {
+      image:
+        "https://pyt-images.imgix.net/images/city/london.jpg?w=146&h=200&fit=crop&dpr=2&auto=format,compress,enhance&q=20"
+    },
+    {
+      image:
+        "https://pyt-images.imgix.net/images/city/zagreb.jpg?w=146&h=200&fit=crop&dpr=2&auto=format,compress,enhance&q=20"
+    },
+    {
+      image:
+        "https://pyt-images.imgix.net/images/misc/germany.jpeg?w=146&h=200&fit=crop&dpr=2&auto=format,compress,enhance&q=20"
+    },
+    {
+      image:
+        "https://pyt-images.imgix.net/images/city/paris.jpg?w=146&h=200&fit=crop&dpr=2&auto=format,compress,enhance&q=20"
+    },
+    {
+      image:
+        "https://pyt-images.imgix.net/images/city/london.jpg?w=146&h=200&fit=crop&dpr=2&auto=format,compress,enhance&q=20"
+    },
+    {
+      image:
+        "https://pyt-images.imgix.net/images/city/zagreb.jpg?w=146&h=200&fit=crop&dpr=2&auto=format,compress,enhance&q=20"
+    },
+    {
+      image:
+        "https://pyt-images.imgix.net/images/misc/germany.jpeg?w=146&h=200&fit=crop&dpr=2&auto=format,compress,enhance&q=20"
+    },
+    {
+      image:
+        "https://pyt-images.imgix.net/images/city/paris.jpg?w=146&h=200&fit=crop&dpr=2&auto=format,compress,enhance&q=20"
+    },
+    {
+      image:
+        "https://pyt-images.imgix.net/images/city/london.jpg?w=146&h=200&fit=crop&dpr=2&auto=format,compress,enhance&q=20"
+    },
+    {
+      image:
+        "https://pyt-images.imgix.net/images/city/zagreb.jpg?w=146&h=200&fit=crop&dpr=2&auto=format,compress,enhance&q=20"
+    },
+    {
+      image:
+        "https://pyt-images.imgix.net/images/misc/germany.jpeg?w=146&h=200&fit=crop&dpr=2&auto=format,compress,enhance&q=20"
+    }
+  ]);
 
   useEffect(() => {
+    navigation.setOptions({
+      header: options =>
+        WelcomeHeader(options, {
+          rightLinkText: "Skip question",
+          onRightLinkClick: () => null,
+          leftLinkText: "Part 1 of 5",
+          onLeftLinkClick: () => null
+        })
+    });
+
     setSuggestedCities(
       cityData.map((city, cityIndex) => {
         return {
@@ -51,7 +179,8 @@ const TravelProfileCity = ({ cityData }: TravelProfileCityProps) => {
         };
       })
     );
-  }, [cityData]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const selectSuggestedCity = (cityIndex: number) => {
     const citiesList = [...suggestedCities];
@@ -59,16 +188,26 @@ const TravelProfileCity = ({ cityData }: TravelProfileCityProps) => {
     setSuggestedCities(citiesList);
   };
 
+  const { isPositive } = route.params;
+  const sectionTitle = isPositive
+    ? "Tell us where you’ve been"
+    : "Tell us where you wish to go";
+  const sectionDescription = isPositive
+    ? "So we can recommend where you can go next."
+    : "So we can recommend where you can go next.";
+
   return (
     <View style={styles.travelProfileCityContainer}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <SectionTitle
-          title={"Tell us where you’ve been"}
-          description={"So we can recommend where you can go next."}
+          title={sectionTitle}
+          description={sectionDescription}
           containerStyle={styles.sectionTitleContainerStyle}
         />
 
         <MasonryView
+          removeClippedSubviews={true}
+          style={styles.scrollContainer}
           columns={2}
           columnStyle={styles.scrollColumn}
           oddColumnStyle={styles.oddColumnStyle}
@@ -80,13 +219,20 @@ const TravelProfileCity = ({ cityData }: TravelProfileCityProps) => {
             };
 
             return (
-              <SelectablePortraitImage
+              <AnimatableView
                 key={suggestedCityIndex}
-                onPress={onSelect}
-                isSelected={suggestedCity.isSelected}
-                imageSource={suggestedCity.imageUrl}
-                containerStyle={styles.selectablePortraitImageStyle}
-              />
+                animation={"fadeInUp"}
+                delay={300 * (suggestedCityIndex + 1)}
+                style={styles.selectablePortraitImageStyle}
+                useNativeDriver={true}
+              >
+                <SelectablePortraitImage
+                  onPress={onSelect}
+                  isSelected={suggestedCity.isSelected}
+                  imageSource={suggestedCity.imageUrl}
+                  containerStyle={styles.selectablePortraitImageStyle}
+                />
+              </AnimatableView>
             );
           })}
         </MasonryView>
@@ -113,7 +259,8 @@ const RIGHT_SPACING = GUTTER_SPACING + 8;
 
 const styles = StyleSheet.create({
   travelProfileCityContainer: {
-    flex: 1
+    flex: 1,
+    backgroundColor: CONSTANT_white1
   },
 
   sectionTitleContainerStyle: {
@@ -148,11 +295,17 @@ const styles = StyleSheet.create({
     color: CONSTANT_white1,
     ...CONSTANT_fontCustom(CONSTANT_primarySemiBold, 16)
   },
+
+  scrollContainer: {
+    paddingHorizontal: 24
+  },
+
   scrollColumn: {
     width: responsiveWidth(50) - 24
   },
 
   oddColumnStyle: {
+    marginTop: 32,
     paddingLeft: 8
   },
 
