@@ -5,7 +5,6 @@ import PrimaryButtonTestCases from "../../CommonComponents/PrimaryButton/Primary
 import SectionTitleTestCases from "../../CommonComponents/SectionTitle/SectionTitleTestCases";
 import PortraitImageTestCases from "../../CommonComponents/PortraitImage/PortraitImageTestCases";
 import SelectablePortraitImageTestCases from "../../CommonComponents/SelectablePortraitImage/SelectablePortraitImageTestCases";
-import MasonryViewTestCases from "../../CommonComponents/MasonryView/MasonryViewTestCases";
 import CustomCheckBoxTestCases from "../../CommonComponents/CustomCheckBox/CustomCheckBoxTestCases";
 import ActionSheetTestCases from "../../CommonComponents/ActionSheet/ActionSheetTestCases";
 import BlogCardTestCases from "../../CommonComponents/BlogCard/BlogCardTestCases";
@@ -32,7 +31,6 @@ PrimaryButtonTestCases.forEach(renderTestCase);
 SectionTitleTestCases.forEach(renderTestCase);
 PortraitImageTestCases.forEach(renderTestCase);
 SelectablePortraitImageTestCases.forEach(renderTestCase);
-MasonryViewTestCases.forEach(renderTestCase);
 CustomCheckBoxTestCases.forEach(renderTestCase);
 ActionSheetTestCases.forEach(renderTestCase);
 BlogCardTestCases.forEach(renderTestCase);

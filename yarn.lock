@@ -8683,6 +8683,11 @@ react-native-linear-gradient@2.5.4:
   resolved "https://registry.yarnpkg.com/react-native-linear-gradient/-/react-native-linear-gradient-2.5.4.tgz#dce133526f5a5510a639af94544f1ed0c984bd1e"
   integrity sha512-FF1NhlerA4uBiS0gFIHa4FBp8/aftv4vPj14Y47lGNkYjSI94tnI6oYO3EfUxXjEyCUPiOVNKZOB9kScyjc5Ew==
 
+react-native-masonry-scrollview@0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/react-native-masonry-scrollview/-/react-native-masonry-scrollview-0.0.2.tgz#c5b16dcadb976725bdd42ff0a67eab7874e462d0"
+  integrity sha512-mAW8mOwnZlVCOEGjHkFhk3pGT10aALEk8MHJfuppXqpQLYMhDYuHGMRDKG8tTWcq7stiHR8wpQJJY0PN7SHLKg==
+
 react-native-material-buttons@^0.5.0:
   version "0.5.0"
   resolved "https://registry.yarnpkg.com/react-native-material-buttons/-/react-native-material-buttons-0.5.0.tgz#ab2b3e3fc3f500ca713f51e9d75978aff602152a"
