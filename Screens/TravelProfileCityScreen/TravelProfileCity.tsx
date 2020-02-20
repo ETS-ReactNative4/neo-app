@@ -196,6 +196,10 @@ const TravelProfileCity = ({ navigation, route }: TravelProfileCityProps) => {
     ? "So we can recommend where you can go next."
     : "So we can recommend where you can go next.";
 
+  const selectedCities = suggestedCities.filter(
+    suggestedCity => suggestedCity.isSelected
+  );
+
   return (
     <View style={styles.travelProfileCityContainer}>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -238,14 +242,21 @@ const TravelProfileCity = ({ navigation, route }: TravelProfileCityProps) => {
         </MasonryView>
       </ScrollView>
 
-      <View style={styles.buttonWrapperStyle}>
+      <AnimatableView
+        animation={selectedCities.length ? "fadeInUp" : "fadeOutDown"}
+        useNativeDriver={true}
+        duration={150}
+        style={styles.buttonWrapperStyle}
+      >
         <TouchableOpacity activeOpacity={0.8}>
           <View style={styles.buttonTextWrapperStyle}>
-            <Text style={styles.selectedTextStyle}>1 Selected</Text>
+            <Text
+              style={styles.selectedTextStyle}
+            >{`${selectedCities.length} Selected`}</Text>
             <Text style={styles.textStyle}>Next - Marital Status</Text>
           </View>
         </TouchableOpacity>
-      </View>
+      </AnimatableView>
     </View>
   );
 };
