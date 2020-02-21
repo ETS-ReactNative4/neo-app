@@ -6,6 +6,8 @@ import PhoneNumberInput from "./PhoneNumberInput";
 import OtpInput from "./OtpInput";
 import OtpPanel from "./OtpPanel";
 import moment from "moment";
+import LoginInputField from "./LoginInputField";
+import { CONSTANT_passIcon } from "../../../constants/imageAssets";
 
 const PhoneNumberWrapper = () => {
   const [phoneNumber, setPhoneNumber] = useState<string>("");
@@ -46,6 +48,20 @@ const OtpInputWrapper = () => {
       code={code}
       onInputChange={updateCode}
       onCodeFilled={updateCode}
+    />
+  );
+};
+
+const LoginInputWrapper = () => {
+  const [text, setText] = useState("");
+
+  return (
+    <LoginInputField
+      value={text}
+      onChangeText={setText}
+      placeholder={"Input Field"}
+      icon={CONSTANT_passIcon}
+      hasError={false}
     />
   );
 };
@@ -97,6 +113,10 @@ const AppLoginTestCases: ITestCase[] = [
   {
     title: "OTP Section",
     Component: <OtpPanelWrapper />
+  },
+  {
+    title: "Login Screen Input",
+    Component: <LoginInputWrapper />
   }
 ];
 

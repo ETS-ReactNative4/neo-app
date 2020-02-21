@@ -1,12 +1,13 @@
 import useApiCall, {
   IApiCallHookData
 } from "../../../Services/networkRequests/hooks/useApiCall";
-import { CONSTANT_verifyMobileNumber } from "../../../constants/apiUrls";
+import { CONSTANT_verifyMobileNumberV2 } from "../../../constants/apiUrls";
 import DebouncedAlert from "../../../CommonComponents/DebouncedAlert/DebouncedAlert";
+import generateUrlParams from "../../../Services/generateUrlParams/generateUrlParams";
 
 export interface IMobileNumberRequestBody {
-  mob_num: string;
-  ccode: string;
+  mobileNumber: string;
+  countryPhoneCode: string;
 }
 
 const useMobileNumberApi = (): [
@@ -24,9 +25,10 @@ const useMobileNumberApi = (): [
     return new Promise<boolean>(async (resolve, reject) => {
       try {
         const result = await makeApiCall({
-          requestBody,
-          route: CONSTANT_verifyMobileNumber,
-          method: "POST"
+          route: `${CONSTANT_verifyMobileNumberV2}${generateUrlParams(
+            requestBody
+          )}`,
+          method: "GET"
         });
         resolve(result);
       } catch (e) {

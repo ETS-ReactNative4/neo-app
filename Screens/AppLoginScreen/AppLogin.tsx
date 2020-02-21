@@ -3,10 +3,15 @@ import { View, StyleSheet, LayoutAnimation, Platform } from "react-native";
 import SmartImageV2 from "../../CommonComponents/SmartImage/SmartImageV2";
 import {
   CONSTANT_defaultPlaceImage,
-  CONSTANT_loginBackground
+  CONSTANT_loginBackground,
+  CONSTANT_userIcon,
+  CONSTANT_mailIcon
 } from "../../constants/imageAssets";
 import LinearGradient from "react-native-linear-gradient";
-import { CONSTANT_darkGradientAlpha } from "../../constants/colorPallete";
+import {
+  CONSTANT_darkGradientAlpha,
+  CONSTANT_shade1
+} from "../../constants/colorPallete";
 import { CONSTANT_splashBackgroundVideo } from "../../constants/imageAssets";
 import SectionTitle from "../../CommonComponents/SectionTitle/SectionTitle";
 import { CONSTANT_fontCustom } from "../../constants/fonts";
@@ -36,6 +41,7 @@ import useLoginForm from "./hooks/useLoginForm";
 import { SCREEN_APP_LOGIN } from "../../NavigatorsV2/ScreenNames";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { AppNavigatorParamsType } from "../../NavigatorsV2/AppNavigator";
+import LoginInputField from "./Components/LoginInputField";
 
 type screenName = typeof SCREEN_APP_LOGIN;
 
@@ -51,8 +57,15 @@ export interface IAppLoginProps {
 const AppLogin = ({ navigation }: IAppLoginProps) => {
   const [isVideoReady, setVideoStatus] = useState(false);
   const [
-    { phoneNumber, countryCode, countryFlag, code },
-    { updatePhoneNumber, updateCountryCode, updateCountryFlag, updateCode }
+    { phoneNumber, countryCode, countryFlag, code, name, email },
+    {
+      updatePhoneNumber,
+      updateCountryCode,
+      updateCountryFlag,
+      updateCode,
+      updateName,
+      updateEmail
+    }
   ] = useLoginForm();
   const [isPhoneNumberSubmitted, setPhoneNumberSubmitStatus] = useState<
     boolean
@@ -82,8 +95,8 @@ const AppLogin = ({ navigation }: IAppLoginProps) => {
     setPhoneSubmitAttempt(true);
     if (validateLoginMobileNumber(mobileNumber)) {
       const result = await mobileNumberSubmitCall({
-        mob_num: phoneNumber,
-        ccode: countryCode
+        mobileNumber: phoneNumber,
+        countryPhoneCode: countryCode
       });
       if (result) {
         setPhoneNumberSubmitStatus(true);
@@ -130,6 +143,9 @@ const AppLogin = ({ navigation }: IAppLoginProps) => {
 
   const highlightPhoneField =
     !validateLoginMobileNumber(mobileNumber) && isPhoneSubmitAttempted;
+
+  const highlightNameField = false;
+  const highlightEmailField = false;
 
   const onVideoLoaded = () => setVideoStatus(true);
 
@@ -190,6 +206,25 @@ const AppLogin = ({ navigation }: IAppLoginProps) => {
               onSubmitEditing={submitPhoneNumber}
               editable={!isPhoneNumberSubmitted}
               hasError={highlightPhoneField}
+              placeholderTextColor={CONSTANT_shade1}
+            />
+            <LoginInputField
+              icon={CONSTANT_userIcon}
+              placeholder={"Name"}
+              hasError={highlightNameField}
+              value={name}
+              onChangeText={updateName}
+              containerStyle={styles.inputField}
+              placeholderTextColor={CONSTANT_shade1}
+            />
+            <LoginInputField
+              icon={CONSTANT_mailIcon}
+              placeholder={"Email"}
+              hasError={highlightEmailField}
+              value={email}
+              onChangeText={updateEmail}
+              containerStyle={styles.inputField}
+              placeholderTextColor={CONSTANT_shade1}
             />
             <XSensorPlaceholder />
           </View>
@@ -254,6 +289,9 @@ const styles = StyleSheet.create({
   otpContainer: {
     marginHorizontal: 56,
     marginTop: 56
+  },
+  inputField: {
+    marginTop: 24
   }
 });
 

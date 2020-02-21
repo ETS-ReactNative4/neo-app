@@ -4,12 +4,16 @@ import {
   SCREEN_APP_LOGIN,
   SCREEN_STARTER,
   SCREEN_TRAVEL_PROFILE_WELCOME,
-  SCREEN_TRAVEL_COUNTRY_PICKER
+  SCREEN_TRAVEL_COUNTRY_PICKER,
+  SCREEN_TRAVEL_MARITAL_STATUS,
+  SCREEN_STORY_BOOK
 } from "./ScreenNames";
 import AppLogin from "../Screens/AppLoginScreen/AppLogin";
 import Starter from "../Screens/StartingScreen/Starter";
 import TravelProfileWelcome from "../Screens/TravelProfileWelcomeScreen/TravelProfileWelcome";
 import TravelProfileCity from "../Screens/TravelProfileCityScreen/TravelProfileCity";
+import MaritalStatus from "../Screens/MaritalStatusScreen/MaritalStatus";
+import StorybookUIRoot from "../storybook/Storybook";
 
 export type AppNavigatorParamsType = {
   [SCREEN_APP_LOGIN]: undefined;
@@ -18,6 +22,8 @@ export type AppNavigatorParamsType = {
   [SCREEN_TRAVEL_COUNTRY_PICKER]: {
     isPositive: boolean;
   };
+  [SCREEN_TRAVEL_MARITAL_STATUS]: undefined;
+  [SCREEN_STORY_BOOK]: undefined;
 };
 
 const Stack = createStackNavigator<AppNavigatorParamsType>();
@@ -34,6 +40,7 @@ const AppNavigator = () => {
         name={SCREEN_STARTER}
         component={Starter}
       />
+      <Screen name={SCREEN_STORY_BOOK} component={StorybookUIRoot} />
       <Screen name={SCREEN_APP_LOGIN} component={AppLogin} />
       <Screen
         name={SCREEN_TRAVEL_PROFILE_WELCOME}
@@ -43,6 +50,7 @@ const AppNavigator = () => {
         name={SCREEN_TRAVEL_COUNTRY_PICKER}
         component={TravelProfileCity}
       />
+      <Screen name={SCREEN_TRAVEL_MARITAL_STATUS} component={MaritalStatus} />
     </Navigator>
   );
 };

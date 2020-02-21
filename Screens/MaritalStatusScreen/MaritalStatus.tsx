@@ -5,7 +5,7 @@ import MaritalStatusCard from "./Components/MaritalStatusCard";
 import PrimaryButton from "../../CommonComponents/PrimaryButton/PrimaryButton";
 import { isIphoneX } from "react-native-iphone-x-helper";
 import { CONSTANT_xSensorAreaHeight } from "../../constants/styles";
-import MasonryView from "../../CommonComponents/MasonryView/MasonryView";
+import MasonryView from "react-native-masonry-scrollview";
 
 import {
   responsiveWidth

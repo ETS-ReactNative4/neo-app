@@ -24,7 +24,10 @@ import {
 } from "react-native-responsive-dimensions";
 import SectionTitle from "../../CommonComponents/SectionTitle/SectionTitle";
 import MasonryView from "react-native-masonry-scrollview";
-import { SCREEN_TRAVEL_COUNTRY_PICKER } from "../../NavigatorsV2/ScreenNames";
+import {
+  SCREEN_TRAVEL_COUNTRY_PICKER,
+  SCREEN_TRAVEL_MARITAL_STATUS
+} from "../../NavigatorsV2/ScreenNames";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { AppNavigatorParamsType } from "../../NavigatorsV2/AppNavigator";
 import WelcomeHeader from "../../NavigatorsV2/Components/WelcomeHeader";
@@ -200,6 +203,10 @@ const TravelProfileCity = ({ navigation, route }: TravelProfileCityProps) => {
     suggestedCity => suggestedCity.isSelected
   );
 
+  const continueFlow = () => {
+    navigation.navigate(SCREEN_TRAVEL_MARITAL_STATUS);
+  };
+
   return (
     <View style={styles.travelProfileCityContainer}>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -248,7 +255,7 @@ const TravelProfileCity = ({ navigation, route }: TravelProfileCityProps) => {
         duration={150}
         style={styles.buttonWrapperStyle}
       >
-        <TouchableOpacity activeOpacity={0.8}>
+        <TouchableOpacity onPress={continueFlow} activeOpacity={0.8}>
           <View style={styles.buttonTextWrapperStyle}>
             <Text
               style={styles.selectedTextStyle}

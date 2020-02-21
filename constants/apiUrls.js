@@ -63,6 +63,7 @@ const apiUrls = {
 
 export const CONSTANT_updateVisaSuccessAnimationSeen = "mobile/visa";
 export const CONSTANT_verifyMobileNumber = "mobile/user/verify/sendotp";
+export const CONSTANT_verifyMobileNumberV2 = "authentication/user";
 export const CONSTANT_verifyOtp = "mobile/login";
 export const CONSTANT_getYourTrips = "mobile/yourtrips";
 export const CONSTANT_getItineraryDetails = "mobile/itineraryDetails";
