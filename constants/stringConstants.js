@@ -172,6 +172,7 @@ export const CONSTANT_platformAndroid = "android";
 export const CONSTANT_httpPrefix = "http://";
 export const CONSTANT_httpsPrefix = "https://";
 export const CONSTANT_responseSuccessStatus = "SUCCESS";
+export const CONSTANT_responseUserUnavailable = "USER_UNAVAILABLE";
 export const CONSTANT_customTabSupportIos = 11.5;
 export const CONSTANT_forexProduct = {
   cash: "CASH",

@@ -1,10 +1,7 @@
 import { useState } from "react";
 import apiCall from "../../../Services/networkRequests/apiCall";
 import { CONSTANT_responseSuccessStatus } from "../../../constants/stringConstants";
-import {
-  IMobileServerResponse,
-  MobileServerResponseType
-} from "../../../TypeInterfaces/INetworkResponse";
+import { IMobileServerResponse } from "../../../TypeInterfaces/INetworkResponse";
 
 export interface IApiCallConfig {
   route: string;
@@ -25,13 +22,13 @@ export interface IApiCallConfig {
 }
 
 export interface IApiCallResponse {
-  successResponseData: MobileServerResponseType | undefined;
-  failureResponseData: MobileServerResponseType | undefined;
+  successResponseData: IMobileServerResponse | undefined;
+  failureResponseData: IMobileServerResponse | undefined;
 }
 
 export interface IApiCallHookData {
-  successResponseData: MobileServerResponseType | undefined;
-  failureResponseData: MobileServerResponseType | undefined;
+  successResponseData: IMobileServerResponse | undefined;
+  failureResponseData: IMobileServerResponse | undefined;
   isLoading: boolean;
   isError: boolean;
   isSuccess: boolean;
@@ -42,10 +39,10 @@ const useApiCall = (): [
   (requestObject: IApiCallConfig) => Promise<boolean>
 ] => {
   const [successResponseData, setSuccessResponseData] = useState<
-    object | undefined
+    IMobileServerResponse | undefined
   >();
   const [failureResponseData, setFailureResponseData] = useState<
-    object | undefined
+    IMobileServerResponse | undefined
   >();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isError, setIsError] = useState<boolean>(false);
@@ -71,10 +68,10 @@ const useApiCall = (): [
           customHeader
         );
         if (response.status === CONSTANT_responseSuccessStatus) {
-          setSuccessResponseData(response.data);
+          setSuccessResponseData(response);
           resolve(true);
         } else {
-          setFailureResponseData(response.data);
+          setFailureResponseData(response);
           resolve(false);
         }
         setIsLoading(false);

@@ -25,7 +25,10 @@ import XSensorPlaceholder from "../../CommonComponents/XSensorPlaceholder/XSenso
 import ActionSheet from "../../CommonComponents/ActionSheet/ActionSheet";
 import Interactable from "react-native-interactable";
 import OtpPanel from "./Components/OtpPanel";
-import { CONSTANT_platformIos } from "../../constants/stringConstants";
+import {
+  CONSTANT_platformIos,
+  CONSTANT_responseUserUnavailable
+} from "../../constants/stringConstants";
 import useMobileNumberApi from "../MobileNumberScreen/hooks/useMobileNumberApi";
 import { validateLoginMobileNumber } from "../../Services/validateMobileNumber/validateMobileNumber";
 import DismissKeyboardView from "../../CommonComponents/DismissKeyboardView/DismissKeyboardView";
@@ -70,7 +73,7 @@ const AppLogin = ({ navigation }: IAppLoginProps) => {
   const [isPhoneNumberSubmitted, setPhoneNumberSubmitStatus] = useState<
     boolean
   >(false);
-  const { keyboardHeight } = useKeyboard();
+  const { keyboardHeight, keyboardShown } = useKeyboard();
   const otpPanelRef = useRef(null);
   const [mobileNumberApiDetails, mobileNumberSubmitCall] = useMobileNumberApi();
   const [isPhoneSubmitAttempted, setPhoneSubmitAttempt] = useState<boolean>(
@@ -176,10 +179,14 @@ const AppLogin = ({ navigation }: IAppLoginProps) => {
           />
         ) : null}
         <LinearGradient {...gradientOptions} style={styles.backgroundGradient}>
-          <AppLoginTitle
-            skipAction={() => null}
-            containerStyle={styles.loginTitleContainer}
-          />
+          {!keyboardShown ? (
+            <AppLoginTitle
+              skipAction={() => null}
+              containerStyle={styles.loginTitleContainer}
+            />
+          ) : (
+            <View />
+          )}
           <View
             style={[
               styles.loginInputContainer,
@@ -208,24 +215,33 @@ const AppLogin = ({ navigation }: IAppLoginProps) => {
               hasError={highlightPhoneField}
               placeholderTextColor={CONSTANT_shade1}
             />
-            <LoginInputField
-              icon={CONSTANT_userIcon}
-              placeholder={"Name"}
-              hasError={highlightNameField}
-              value={name}
-              onChangeText={updateName}
-              containerStyle={styles.inputField}
-              placeholderTextColor={CONSTANT_shade1}
-            />
-            <LoginInputField
-              icon={CONSTANT_mailIcon}
-              placeholder={"Email"}
-              hasError={highlightEmailField}
-              value={email}
-              onChangeText={updateEmail}
-              containerStyle={styles.inputField}
-              placeholderTextColor={CONSTANT_shade1}
-            />
+            {mobileNumberApiDetails.failureResponseData?.status ===
+            CONSTANT_responseUserUnavailable ? (
+              <Fragment>
+                <LoginInputField
+                  icon={CONSTANT_userIcon}
+                  placeholder={"Name"}
+                  hasError={highlightNameField}
+                  value={name}
+                  onChangeText={updateName}
+                  containerStyle={styles.inputField}
+                  placeholderTextColor={CONSTANT_shade1}
+                  keyboardType={"default"}
+                  returnKeyType={"next"}
+                />
+                <LoginInputField
+                  icon={CONSTANT_mailIcon}
+                  placeholder={"Email"}
+                  hasError={highlightEmailField}
+                  value={email}
+                  onChangeText={updateEmail}
+                  containerStyle={styles.inputField}
+                  placeholderTextColor={CONSTANT_shade1}
+                  keyboardType={"email-address"}
+                  returnKeyType={"done"}
+                />
+              </Fragment>
+            ) : null}
             <XSensorPlaceholder />
           </View>
         </LinearGradient>
