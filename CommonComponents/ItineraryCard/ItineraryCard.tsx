@@ -95,7 +95,7 @@ const ItineraryCard = ({
           </View>
 
           <PrimaryButton
-            text={"Customize"}
+            text={"View"}
             buttonStyle={styles.buttonStyle}
             buttonTextStyle={styles.buttonTextStyle}
             clickAction={action}
@@ -161,7 +161,9 @@ const styles = StyleSheet.create({
     marginLeft: 2
   },
   buttonStyle: {
-    height: 40
+    width: 120,
+    height: 40,
+    borderRadius: 8
   },
   buttonTextStyle: {
     ...CONSTANT_fontCustom(CONSTANT_primarySemiBold, 14, 18)

@@ -34,12 +34,8 @@ const PrimaryButton = ({
 }: PrimaryButtonProps) => {
   return (
     <View style={containerStyle}>
-      <TouchableOpacity
-        activeOpacity={0.8}
-        onPress={clickAction}
-        style={[styles.buttonHeightStyle, buttonStyle]}
-      >
-        <View style={[styles.buttonHeightStyle, styles.button, buttonStyle]}>
+      <TouchableOpacity activeOpacity={0.8} onPress={clickAction}>
+        <View style={[styles.button, buttonStyle]}>
           <Text style={[styles.textStyle, buttonTextStyle]}>{text}</Text>
         </View>
       </TouchableOpacity>
@@ -48,15 +44,12 @@ const PrimaryButton = ({
 };
 
 const styles = StyleSheet.create({
-  buttonHeightStyle: {
-    height: 56
-  },
-
   button: {
     justifyContent: "center",
     backgroundColor: CONSTANT_firstColor,
     borderRadius: 4,
-    paddingHorizontal: 24
+    paddingHorizontal: 24,
+    height: 56
   },
 
   textStyle: {

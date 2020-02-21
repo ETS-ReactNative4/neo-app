@@ -5,7 +5,8 @@ import {
   StyleProp,
   ViewStyle,
   TouchableOpacity,
-  Text
+  Text,
+  TextStyle
 } from "react-native";
 
 import Icon from "../Icon/Icon";
@@ -35,22 +36,26 @@ interface CustomCheckBoxProps {
   text: string;
   isChecked: boolean;
   action: () => void;
+  checkboxStyle?: StyleProp<ViewStyle>;
+  checkboxTextStyle?: StyleProp<TextStyle>;
 }
 
 const CustomCheckBox = ({
   containerStyle,
   text,
   action = () => null,
-  isChecked = false
+  isChecked = false,
+  checkboxStyle,
+  checkboxTextStyle
 }: CustomCheckBoxProps) => {
   return (
     <View style={[styles.checkboxContainerStyle, containerStyle]}>
       <TouchableOpacity
         activeOpacity={0.8}
         onPress={action}
-        style={styles.checkboxStyle}
+        style={styles.checkboxTouchableStyle}
       >
-        <View style={styles.checkbox}>
+        <View style={[styles.checkbox, checkboxStyle]}>
           {isChecked ? (
             <Icon
               name={CONSTANT_checkIcon}
@@ -60,7 +65,7 @@ const CustomCheckBox = ({
           ) : null}
         </View>
 
-        <Text style={styles.textStyle}>{text}</Text>
+        <Text style={[styles.textStyle, checkboxTextStyle]}>{text}</Text>
       </TouchableOpacity>
     </View>
   );
@@ -70,7 +75,7 @@ const styles = StyleSheet.create({
   checkboxContainerStyle: {
     marginBottom: 24
   },
-  checkboxStyle: {
+  checkboxTouchableStyle: {
     flexDirection: "row",
     alignItems: "center"
   },

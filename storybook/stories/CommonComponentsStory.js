@@ -20,6 +20,7 @@ import DealCardTestCases from "../../CommonComponents/DealCard/DealCardTestCases
 import DismissKeyboardViewTestCases from "../../CommonComponents/DismissKeyboardView/DismissKeyboardViewTestCases";
 import ModalContentTestCases from "../../Screens/AppOverlays/Components/ForceUpdateModal/Components/ModalContentTestCases";
 import RouteListTestCases from "../../CommonComponents/RouteList/RouteListTestCases";
+import ParallaxScrollViewTestCases from "../../CommonComponents/ParallaxScrollView/ParallaxScrollViewTestCases";
 
 const CommonComponentStories = storiesOf("Common Components", module);
 
@@ -47,3 +48,4 @@ DealCardTestCases.forEach(renderTestCase);
 DismissKeyboardViewTestCases.forEach(renderTestCase);
 ModalContentTestCases.forEach(renderTestCase);
 RouteListTestCases.forEach(renderTestCase);
+ParallaxScrollViewTestCases.forEach(renderTestCase);
