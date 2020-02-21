@@ -32,6 +32,8 @@ import { RouteProp } from "@react-navigation/native";
 import * as Animatable from "react-native-animatable";
 import ratioCalculator from "../../Services/ratioCalculator/ratioCalculator";
 
+import SearchBox from "../../CommonComponents/SearchBox/SearchBox";
+
 const { createAnimatableComponent } = Animatable;
 
 const AnimatableView = createAnimatableComponent(View);
@@ -204,8 +206,16 @@ const TravelProfileCity = ({ navigation, route }: TravelProfileCityProps) => {
     suggestedCity => suggestedCity.isSelected
   );
 
+  const [search, setSearch] = useState<string>("");
+
   return (
     <View style={styles.travelProfileCityContainer}>
+      <SearchBox
+        textPlaceholder={"Find a country"}
+        text={search}
+        onChangeText={setSearch}
+      />
+
       <ScrollView showsVerticalScrollIndicator={false}>
         <SectionTitle
           title={sectionTitle}

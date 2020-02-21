@@ -70,6 +70,7 @@ const styles = StyleSheet.create({
   },
 
   introImageStyle: {
+    width: INTRO_IMAGE_WIDTH,
     height: INTRO_IMAGE_HEIGHT,
     marginBottom: 40,
     borderRadius: 4,
