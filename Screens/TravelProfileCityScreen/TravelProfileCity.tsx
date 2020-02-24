@@ -33,6 +33,7 @@ import { AppNavigatorParamsType } from "../../NavigatorsV2/AppNavigator";
 import WelcomeHeader from "../../NavigatorsV2/Components/WelcomeHeader";
 import { RouteProp } from "@react-navigation/native";
 import * as Animatable from "react-native-animatable";
+import ratioCalculator from "../../Services/ratioCalculator/ratioCalculator";
 
 const { createAnimatableComponent } = Animatable;
 
@@ -60,6 +61,9 @@ export interface ISuggestedCity {
   imageUrl: string;
   isSelected: boolean;
 }
+
+const PORTRAIT_IMAGE_WIDTH = responsiveWidth(40);
+const PORTRAIT_IMAGE_HEIGHT = ratioCalculator(39, 53, PORTRAIT_IMAGE_WIDTH);
 
 const TravelProfileCity = ({ navigation, route }: TravelProfileCityProps) => {
   const [suggestedCities, setSuggestedCities] = useState<ISuggestedCity[]>([]);
@@ -241,6 +245,7 @@ const TravelProfileCity = ({ navigation, route }: TravelProfileCityProps) => {
                   onPress={onSelect}
                   isSelected={suggestedCity.isSelected}
                   imageSource={suggestedCity.imageUrl}
+                  portraitImageHeight={PORTRAIT_IMAGE_HEIGHT}
                   containerStyle={styles.selectablePortraitImageStyle}
                 />
               </AnimatableView>

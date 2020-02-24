@@ -20,6 +20,7 @@ interface SelectablePortraitImageProps {
   imageSource: string;
   portraitImageContainerStyle?: StyleProp<ViewStyle>;
   portraitImageStyle?: StyleProp<ImageStyle>;
+  portraitImageHeight: number;
 }
 
 const { createAnimatableComponent } = Animatable;
@@ -32,7 +33,8 @@ const SelectablePortraitImage = ({
   isSelected,
   imageSource,
   portraitImageContainerStyle,
-  portraitImageStyle
+  portraitImageStyle,
+  portraitImageHeight
 }: SelectablePortraitImageProps) => {
   const [firstInteraction, setFirstInteraction] = useState<boolean>(false);
 
@@ -41,13 +43,21 @@ const SelectablePortraitImage = ({
     setFirstInteraction(true);
   };
 
+  const imageHeight = {
+    height: portraitImageHeight
+  };
+
   return (
     <View style={containerStyle}>
       <TouchableOpacity activeOpacity={1} onPress={selectedAction}>
         <PortraitImage
           imageSource={imageSource}
           containerStyle={portraitImageContainerStyle}
-          portraitImageStyle={[styles.imageStyle, portraitImageStyle]}
+          portraitImageStyle={[
+            styles.imageStyle,
+            imageHeight,
+            portraitImageStyle
+          ]}
         />
 
         {firstInteraction ? (
@@ -83,7 +93,6 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   imageStyle: {
-    height: 200,
     borderRadius: 4
   },
   happyImageStyle: {

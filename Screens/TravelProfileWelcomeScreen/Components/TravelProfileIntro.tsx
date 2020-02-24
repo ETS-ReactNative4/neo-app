@@ -10,11 +10,15 @@ import { CONSTANT_shade4 } from "../../../constants/colorPallete";
 import SmartImageV2 from "../../../CommonComponents/SmartImage/SmartImageV2";
 import SectionTitle from "../../../CommonComponents/SectionTitle/SectionTitle";
 import PrimaryButton from "../../../CommonComponents/PrimaryButton/PrimaryButton";
+import ratioCalculator from "../../../Services/ratioCalculator/ratioCalculator";
 
 export interface TravelProfileIntroProps {
   containerStyle?: StyleProp<ViewStyle>;
   onClickContinue: () => any;
 }
+
+const INTRO_IMAGE_WIDTH = responsiveWidth(80);
+const INTRO_IMAGE_HEIGHT = ratioCalculator(592, 626, INTRO_IMAGE_WIDTH);
 
 const TravelProfileIntro = ({
   containerStyle,
@@ -66,7 +70,7 @@ const styles = StyleSheet.create({
   },
 
   introImageStyle: {
-    height: 314,
+    height: INTRO_IMAGE_HEIGHT,
     marginBottom: 40,
     borderRadius: 4,
     backgroundColor: CONSTANT_shade4

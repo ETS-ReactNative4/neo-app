@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     width: responsiveWidth(100),
-    paddingHorizontal: 32
+    paddingHorizontal: 24
   },
 
   linkTouchableStyle: {
@@ -104,20 +104,20 @@ const styles = StyleSheet.create({
   linkRightTouchableStyle: { paddingRight: 8 },
 
   backArrowIconStyle: {
-    marginTop: -4,
+    marginTop: -1,
     marginRight: 8,
     transform: [{ scaleX: -1 }]
   },
 
   leftTextStyle: {
     color: CONSTANT_black1,
-    ...CONSTANT_fontCustom(CONSTANT_primarySemiBold, 10),
+    ...CONSTANT_fontCustom(CONSTANT_primarySemiBold, 14, 18),
     textTransform: "uppercase"
   },
 
   rightTextStyle: {
     color: CONSTANT_shade1,
-    ...CONSTANT_fontCustom(CONSTANT_primarySemiBold, 10),
+    ...CONSTANT_fontCustom(CONSTANT_primarySemiBold, 12, 15),
     textTransform: "uppercase",
     textDecorationLine: "underline"
   }
