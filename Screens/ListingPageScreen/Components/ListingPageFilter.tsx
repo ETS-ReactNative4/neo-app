@@ -1,6 +1,13 @@
 import React, { useState, useEffect } from "react";
 
-import { StyleSheet, View, ViewStyle, Text, ScrollView } from "react-native";
+import {
+  StyleSheet,
+  View,
+  ViewStyle,
+  Text,
+  ScrollView,
+  Alert
+} from "react-native";
 import {
   CONSTANT_shade6,
   CONSTANT_white,
@@ -53,6 +60,11 @@ const ListingPageFilter = ({
       <View style={styles.listingFilterContent}>
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.fiterList}>
+            <Text style={styles.filterListHeading}>Destination</Text>
+            {/* Here added <CustomRadioButton /> Component */}
+          </View>
+
+          <View style={styles.fiterList}>
             <Text style={styles.filterListHeading}>Interests</Text>
 
             {filterDetails.map((dataObj, index) => {
@@ -66,6 +78,8 @@ const ListingPageFilter = ({
                   isChecked={dataObj.isChecked}
                   action={onSelect}
                   text={dataObj.text}
+                  checkIconSize={15}
+                  containerStyle={styles.checkBoxContainerStyle}
                   checkboxStyle={styles.checkboxStyle}
                   checkboxTextStyle={styles.checkboxTextStyle}
                 />
@@ -81,11 +95,13 @@ const ListingPageFilter = ({
           containerStyle={[styles.filterAction, styles.resetBtnAction]}
           buttonStyle={[styles.buttonStyle, styles.resetButtonStyle]}
           buttonTextStyle={styles.resetButtonTextStyle}
+          clickAction={() => Alert.alert("Click Reset Button")}
         />
         <PrimaryButton
           text={"Apply"}
           containerStyle={[styles.filterAction, styles.applyBtnAction]}
           buttonStyle={styles.buttonStyle}
+          clickAction={() => Alert.alert("Click Apply Button")}
         />
       </View>
     </View>
@@ -110,7 +126,13 @@ const styles = StyleSheet.create({
     ...CONSTANT_fontCustom(CONSTANT_primarySemiBold, 18, 23),
     marginBottom: 12
   },
+
+  checkBoxContainerStyle: {
+    marginBottom: 20
+  },
   checkboxStyle: {
+    width: 20,
+    height: 20,
     borderWidth: 2
   },
   checkboxTextStyle: {
