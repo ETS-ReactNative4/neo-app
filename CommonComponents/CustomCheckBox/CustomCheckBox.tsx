@@ -38,6 +38,7 @@ interface CustomCheckBoxProps {
   action: () => void;
   checkboxStyle?: StyleProp<ViewStyle>;
   checkboxTextStyle?: StyleProp<TextStyle>;
+  checkIconSize?: number;
 }
 
 const CustomCheckBox = ({
@@ -46,38 +47,35 @@ const CustomCheckBox = ({
   action = () => null,
   isChecked = false,
   checkboxStyle,
-  checkboxTextStyle
+  checkboxTextStyle,
+  checkIconSize = 18
 }: CustomCheckBoxProps) => {
   return (
-    <View style={[styles.checkboxContainerStyle, containerStyle]}>
-      <TouchableOpacity
-        activeOpacity={0.8}
-        onPress={action}
-        style={styles.checkboxTouchableStyle}
-      >
-        <View style={[styles.checkbox, checkboxStyle]}>
-          {isChecked ? (
-            <Icon
-              name={CONSTANT_checkIcon}
-              size={18}
-              color={CONSTANT_firstColor}
-            />
-          ) : null}
-        </View>
+    <TouchableOpacity
+      activeOpacity={0.8}
+      onPress={action}
+      style={[styles.checkboxContainerStyle, containerStyle]}
+    >
+      <View style={[styles.checkbox, checkboxStyle]}>
+        {isChecked ? (
+          <Icon
+            name={CONSTANT_checkIcon}
+            size={checkIconSize}
+            color={CONSTANT_firstColor}
+          />
+        ) : null}
+      </View>
 
-        <Text style={[styles.textStyle, checkboxTextStyle]}>{text}</Text>
-      </TouchableOpacity>
-    </View>
+      <Text style={[styles.textStyle, checkboxTextStyle]}>{text}</Text>
+    </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
   checkboxContainerStyle: {
-    marginBottom: 24
-  },
-  checkboxTouchableStyle: {
     flexDirection: "row",
-    alignItems: "center"
+    alignItems: "center",
+    marginBottom: 24
   },
 
   checkbox: {
