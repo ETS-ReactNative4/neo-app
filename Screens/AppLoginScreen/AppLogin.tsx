@@ -54,6 +54,7 @@ import LoginInputField from "./Components/LoginInputField";
 import PrimaryButton from "../../CommonComponents/PrimaryButton/PrimaryButton";
 import useRegisterUserApi from "./hooks/useRegisterUserApi";
 import validateEmail from "../../Services/validateEmail/validateEmail";
+import useRequestOtpApi from "./hooks/useRequestOtpApi";
 
 type screenName = typeof SCREEN_APP_LOGIN;
 
@@ -90,6 +91,7 @@ const AppLogin = ({ navigation }: IAppLoginProps) => {
   const otpPanelRef = useRef(null);
   const [mobileNumberApiDetails, mobileNumberSubmitCall] = useMobileNumberApi();
   const [registrationApiDetails, registerNewUser] = useRegisterUserApi();
+  const [otpApiDetails, makeOtpRequestCall] = useRequestOtpApi();
   const [isPhoneSubmitAttempted, setPhoneSubmitAttempt] = useState<boolean>(
     false
   );
@@ -121,7 +123,7 @@ const AppLogin = ({ navigation }: IAppLoginProps) => {
        * otherwise no action needed...
        */
       if (result) {
-        openOtpPanel();
+        requestOtp();
       }
     } else {
       toastCenter("Invalid Phone Number");
@@ -198,7 +200,20 @@ const AppLogin = ({ navigation }: IAppLoginProps) => {
       userName: name
     });
     if (result) {
+      requestOtp();
+    }
+  };
+
+  const requestOtp = async () => {
+    const result = await makeOtpRequestCall({
+      countryPhoneCode: countryCode,
+      mobileNumber: phoneNumber,
+      factors: ["SMS", "EMAIL"]
+    });
+    if (result) {
       openOtpPanel();
+    } else {
+      toastCenter("Unable to send OTP!");
     }
   };
 
@@ -311,7 +326,8 @@ const AppLogin = ({ navigation }: IAppLoginProps) => {
             code={code}
             updateCode={updateCode}
             requestTime={moment(1580987401597)}
-            expiryTime={moment(1580987441416)}
+            // @ts-ignore - temp disabled until otp panel is complete
+            expiryTime={otpApiDetails.successResponseData?.data?.otpExpiresIn}
             containerStyle={styles.otpContainer}
             onResend={onResend}
             onCodeFilled={codeFilled}

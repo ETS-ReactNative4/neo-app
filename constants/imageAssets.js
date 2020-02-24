@@ -485,6 +485,10 @@ export const CONSTANT_journalPublishSuccess = () =>
   require("../assets/animations/publishSuccess.json");
 export const CONSTANT_splashAnimation = () =>
   require("../assets/animations/splashScreen.json");
+export const CONSTANT_pytAnimatedLoop = () =>
+  require("../assets/animations/pyt-loadingloop.json");
+export const CONSTANT_pytAnimatedTick = () =>
+  require("../assets/animations/pyt-loadingtick.json");
 export const CONSTANT_defaultAgentImage = () =>
   require("../assets/images/illustrations/default-agent-image.png");
 export const CONSTANT_splashBackgroundVideo = () =>
