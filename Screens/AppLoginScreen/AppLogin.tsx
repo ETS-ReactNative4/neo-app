@@ -1,5 +1,11 @@
 import React, { useState, Fragment, useRef, useEffect } from "react";
-import { View, StyleSheet, LayoutAnimation, Platform } from "react-native";
+import {
+  View,
+  StyleSheet,
+  LayoutAnimation,
+  Platform,
+  TextInput
+} from "react-native";
 import SmartImageV2 from "../../CommonComponents/SmartImage/SmartImageV2";
 import {
   CONSTANT_defaultPlaceImage,
@@ -29,7 +35,7 @@ import {
   CONSTANT_platformIos,
   CONSTANT_responseUserUnavailable
 } from "../../constants/stringConstants";
-import useMobileNumberApi from "../MobileNumberScreen/hooks/useMobileNumberApi";
+import useMobileNumberApi from "./hooks/useMobileNumberApi";
 import { validateLoginMobileNumber } from "../../Services/validateMobileNumber/validateMobileNumber";
 import DismissKeyboardView from "../../CommonComponents/DismissKeyboardView/DismissKeyboardView";
 import { toastCenter } from "../../Services/toast/toast";
@@ -45,6 +51,9 @@ import { SCREEN_APP_LOGIN } from "../../NavigatorsV2/ScreenNames";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { AppNavigatorParamsType } from "../../NavigatorsV2/AppNavigator";
 import LoginInputField from "./Components/LoginInputField";
+import PrimaryButton from "../../CommonComponents/PrimaryButton/PrimaryButton";
+import useRegisterUserApi from "./hooks/useRegisterUserApi";
+import validateEmail from "../../Services/validateEmail/validateEmail";
 
 type screenName = typeof SCREEN_APP_LOGIN;
 
@@ -73,9 +82,14 @@ const AppLogin = ({ navigation }: IAppLoginProps) => {
   const [isPhoneNumberSubmitted, setPhoneNumberSubmitStatus] = useState<
     boolean
   >(false);
+  const [isRegistrationAttempted, setRegisterationAttemptStatus] = useState<
+    boolean
+  >(false);
   const { keyboardHeight, keyboardShown } = useKeyboard();
+  const emailRef = useRef<TextInput>(null);
   const otpPanelRef = useRef(null);
   const [mobileNumberApiDetails, mobileNumberSubmitCall] = useMobileNumberApi();
+  const [registrationApiDetails, registerNewUser] = useRegisterUserApi();
   const [isPhoneSubmitAttempted, setPhoneSubmitAttempt] = useState<boolean>(
     false
   );
@@ -101,19 +115,32 @@ const AppLogin = ({ navigation }: IAppLoginProps) => {
         mobileNumber: phoneNumber,
         countryPhoneCode: countryCode
       });
+      /**
+       * If phone number exists then he/she is a registered user
+       * & result will be true
+       * otherwise no action needed...
+       */
       if (result) {
-        setPhoneNumberSubmitStatus(true);
-        // @ts-ignore
-        otpPanelRef.current && otpPanelRef.current.snapTo({ index: 1 });
+        openOtpPanel();
       }
     } else {
       toastCenter("Invalid Phone Number");
     }
   };
 
-  const otpPanelClosed = () => {
-    setPhoneNumberSubmitStatus(false);
+  /**
+   * Opening the OTP panel should make the input fields non-editable
+   */
+  const openOtpPanel = () => {
+    setPhoneNumberSubmitStatus(true);
+    // @ts-ignore
+    otpPanelRef.current && otpPanelRef.current.snapTo({ index: 1 });
   };
+
+  /**
+   * Input fields become editable on closing the otp panel
+   */
+  const otpPanelClosed = () => setPhoneNumberSubmitStatus(false);
 
   const gradientOptions = {
     locations: [0.25, 0.5, 0.7, 1],
@@ -147,10 +174,13 @@ const AppLogin = ({ navigation }: IAppLoginProps) => {
   const highlightPhoneField =
     !validateLoginMobileNumber(mobileNumber) && isPhoneSubmitAttempted;
 
-  const highlightNameField = false;
-  const highlightEmailField = false;
+  const highlightNameField = !name && isRegistrationAttempted;
+
+  const highlightEmailField = !validateEmail(email) && isRegistrationAttempted;
 
   const onVideoLoaded = () => setVideoStatus(true);
+
+  const focusOnEmailField = () => emailRef?.current?.focus();
 
   useEffect(() => {
     navigation.setOptions({
@@ -158,6 +188,19 @@ const AppLogin = ({ navigation }: IAppLoginProps) => {
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const registerUser = async () => {
+    setRegisterationAttemptStatus(true);
+    const result = await registerNewUser({
+      countryPhoneCode: countryCode,
+      mobileNumber: phoneNumber,
+      email,
+      userName: name
+    });
+    if (result) {
+      openOtpPanel();
+    }
+  };
 
   return (
     <Fragment>
@@ -228,8 +271,10 @@ const AppLogin = ({ navigation }: IAppLoginProps) => {
                   placeholderTextColor={CONSTANT_shade1}
                   keyboardType={"default"}
                   returnKeyType={"next"}
+                  onSubmitEditing={focusOnEmailField}
                 />
                 <LoginInputField
+                  textInputRef={emailRef}
                   icon={CONSTANT_mailIcon}
                   placeholder={"Email"}
                   hasError={highlightEmailField}
@@ -239,7 +284,21 @@ const AppLogin = ({ navigation }: IAppLoginProps) => {
                   placeholderTextColor={CONSTANT_shade1}
                   keyboardType={"email-address"}
                   returnKeyType={"done"}
+                  onSubmitEditing={registerUser}
                 />
+                {!registrationApiDetails.isLoading ? (
+                  <PrimaryButton
+                    text="Verify & Sign in"
+                    clickAction={registerUser}
+                    buttonStyle={styles.registrationButton}
+                  />
+                ) : (
+                  <PrimaryButton
+                    text="Verifying..."
+                    clickAction={() => null}
+                    buttonStyle={styles.registrationButton}
+                  />
+                )}
               </Fragment>
             ) : null}
             <XSensorPlaceholder />
@@ -307,6 +366,9 @@ const styles = StyleSheet.create({
     marginTop: 56
   },
   inputField: {
+    marginTop: 24
+  },
+  registrationButton: {
     marginTop: 24
   }
 });
