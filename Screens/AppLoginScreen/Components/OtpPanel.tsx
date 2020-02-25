@@ -36,13 +36,20 @@ const OtpPanel = ({
   isTimedOut
 }: OtpPanelProps) => {
   const calculateTimeLeft = () => {
-    const difference = moment(expiryTime).diff(moment());
-    if (difference <= 0) {
-      onTimedOut();
+    if (expiryTime) {
+      const difference = moment(expiryTime).diff(moment());
+      if (difference <= 0) {
+        onTimedOut();
+      }
+      return `${Math.floor(moment.duration(difference).asMinutes())
+        .toString()
+        .padStart(2, "0")}:${Math.trunc(
+        moment.duration(difference).asSeconds() % 60
+      )
+        .toString()
+        .padStart(2, "0")}`;
     }
-    return `${Math.floor(moment.duration(difference).asMinutes())}:${Math.trunc(
-      moment.duration(difference).asSeconds()
-    )}`;
+    return "";
   };
 
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
