@@ -20,8 +20,7 @@ export interface OtpPanelProps {
   onCodeFilled: (code: string) => any;
   updateCode: (code: string) => any;
   code: string;
-  expiryTime: moment.Moment;
-  requestTime: moment.Moment;
+  expiryTime: number;
   onTimedOut: () => any;
   isTimedOut: boolean;
 }
@@ -33,12 +32,11 @@ const OtpPanel = ({
   onCodeFilled,
   onResend,
   expiryTime,
-  requestTime,
   onTimedOut,
   isTimedOut
 }: OtpPanelProps) => {
-  const calculateTimeLeft = (nextTime: moment.Moment = requestTime) => {
-    const difference = expiryTime.diff(nextTime);
+  const calculateTimeLeft = () => {
+    const difference = moment(expiryTime).diff(moment());
     if (difference <= 0) {
       onTimedOut();
     }
@@ -48,16 +46,17 @@ const OtpPanel = ({
   };
 
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
-  const [trackingTime, setTrackingTime] = useState<moment.Moment>(requestTime);
 
   useEffect(() => {
+    let timer: NodeJS.Timeout;
     if (!isTimedOut) {
-      setTimeout(() => {
-        setTrackingTime(requestTime.add(1, "second"));
-        setTimeLeft(calculateTimeLeft(trackingTime));
+      timer = setTimeout(() => {
+        setTimeLeft(calculateTimeLeft());
       }, 1000);
     }
-  });
+    return () => clearTimeout(timer);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [timeLeft, isTimedOut]);
 
   return (
     <DismissKeyboardView style={[styles.otpPanelContainer, containerStyle]}>

@@ -55,6 +55,7 @@ import PrimaryButton from "../../CommonComponents/PrimaryButton/PrimaryButton";
 import useRegisterUserApi from "./hooks/useRegisterUserApi";
 import validateEmail from "../../Services/validateEmail/validateEmail";
 import useRequestOtpApi from "./hooks/useRequestOtpApi";
+import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 
 type screenName = typeof SCREEN_APP_LOGIN;
 
@@ -80,9 +81,6 @@ const AppLogin = ({ navigation }: IAppLoginProps) => {
       updateEmail
     }
   ] = useLoginForm();
-  const [isPhoneNumberSubmitted, setPhoneNumberSubmitStatus] = useState<
-    boolean
-  >(false);
   const [isRegistrationAttempted, setRegisterationAttemptStatus] = useState<
     boolean
   >(false);
@@ -130,19 +128,15 @@ const AppLogin = ({ navigation }: IAppLoginProps) => {
     }
   };
 
-  /**
-   * Opening the OTP panel should make the input fields non-editable
-   */
   const openOtpPanel = () => {
-    setPhoneNumberSubmitStatus(true);
     // @ts-ignore
     otpPanelRef.current && otpPanelRef.current.snapTo({ index: 1 });
   };
 
   /**
-   * Input fields become editable on closing the otp panel
+   * event handler whne otp panel is closed...
    */
-  const otpPanelClosed = () => setPhoneNumberSubmitStatus(false);
+  const otpPanelClosed = () => {};
 
   const gradientOptions = {
     locations: [0.25, 0.5, 0.7, 1],
@@ -269,7 +263,6 @@ const AppLogin = ({ navigation }: IAppLoginProps) => {
               onChangeText={updatePhoneNumber}
               onCountryCodeChange={onCountryCodeChange}
               onSubmitEditing={submitPhoneNumber}
-              editable={!isPhoneNumberSubmitted}
               hasError={highlightPhoneField}
               placeholderTextColor={CONSTANT_shade1}
             />
@@ -320,22 +313,20 @@ const AppLogin = ({ navigation }: IAppLoginProps) => {
           </View>
         </LinearGradient>
       </DismissKeyboardView>
-      {isPhoneNumberSubmitted ? (
-        <ActionSheet interactableRef={otpPanelRef} onSnap={onOtpPanelSnap}>
-          <OtpPanel
-            code={code}
-            updateCode={updateCode}
-            requestTime={moment(1580987401597)}
-            // @ts-ignore - temp disabled until otp panel is complete
-            expiryTime={otpApiDetails.successResponseData?.data?.otpExpiresIn}
-            containerStyle={styles.otpContainer}
-            onResend={onResend}
-            onCodeFilled={codeFilled}
-            isTimedOut={isTimedOut}
-            onTimedOut={onTimeout}
-          />
-        </ActionSheet>
-      ) : null}
+      <ActionSheet interactableRef={otpPanelRef} onSnap={onOtpPanelSnap}>
+        <OtpPanel
+          code={code}
+          updateCode={updateCode}
+          requestTime={moment(1580987401597)}
+          // @ts-ignore - temp disabled until otp panel is complete
+          expiryTime={otpApiDetails.successResponseData?.data?.otpExpiresIn}
+          containerStyle={styles.otpContainer}
+          onResend={onResend}
+          onCodeFilled={codeFilled}
+          isTimedOut={isTimedOut}
+          onTimedOut={onTimeout}
+        />
+      </ActionSheet>
     </Fragment>
   );
 };
@@ -378,7 +369,7 @@ const styles = StyleSheet.create({
     marginBottom: 80
   },
   otpContainer: {
-    marginHorizontal: 56,
+    marginHorizontal: 24,
     marginTop: 56
   },
   inputField: {
@@ -389,4 +380,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default AppLogin;
+export default ErrorBoundary()(AppLogin);
