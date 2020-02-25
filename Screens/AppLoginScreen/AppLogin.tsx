@@ -56,6 +56,7 @@ import useRegisterUserApi from "./hooks/useRegisterUserApi";
 import validateEmail from "../../Services/validateEmail/validateEmail";
 import useRequestOtpApi from "./hooks/useRequestOtpApi";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
+import useLoginUserApi from "./hooks/useLoginUserApi";
 
 type screenName = typeof SCREEN_APP_LOGIN;
 
@@ -90,6 +91,7 @@ const AppLogin = ({ navigation }: IAppLoginProps) => {
   const [mobileNumberApiDetails, mobileNumberSubmitCall] = useMobileNumberApi();
   const [registrationApiDetails, registerNewUser] = useRegisterUserApi();
   const [otpApiDetails, makeOtpRequestCall] = useRequestOtpApi();
+  const [loginApiDetails, loginUser] = useLoginUserApi();
   const [isPhoneSubmitAttempted, setPhoneSubmitAttempt] = useState<boolean>(
     false
   );
@@ -103,8 +105,6 @@ const AppLogin = ({ navigation }: IAppLoginProps) => {
   };
 
   const onResend = () => {};
-
-  const codeFilled = () => {};
 
   const onTimeout = () => setIsTimedOut(true);
 
@@ -208,6 +208,20 @@ const AppLogin = ({ navigation }: IAppLoginProps) => {
       openOtpPanel();
     } else {
       toastCenter("Unable to send OTP!");
+    }
+  };
+
+  const codeFilled = async (otp: string) => {
+    const result = await loginUser({
+      countryPhoneCode: countryCode,
+      mobileNumber: phoneNumber,
+      otp,
+      otpDetailsId: otpApiDetails.successResponseData?.data?.otpDetailsId || ""
+    });
+    if (result) {
+      toastCenter("Login Successful");
+    } else {
+      toastCenter("Invalid OTP");
     }
   };
 
