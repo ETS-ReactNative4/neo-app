@@ -59,11 +59,17 @@ const SearchBox = ({
           />
         </View>
 
-        <TouchableOpacity activeOpacity={0.8} onPress={onClear}>
-          <View style={styles.closeIconStyle}>
-            <Icon name={CONSTANT_closeIcon} size={12} color={CONSTANT_white} />
-          </View>
-        </TouchableOpacity>
+        {text ? (
+          <TouchableOpacity activeOpacity={0.8} onPress={onClear}>
+            <View style={styles.closeIconStyle}>
+              <Icon
+                name={CONSTANT_closeIcon}
+                size={12}
+                color={CONSTANT_white}
+              />
+            </View>
+          </TouchableOpacity>
+        ) : null}
       </View>
     </View>
   );
@@ -97,16 +103,16 @@ const styles = StyleSheet.create({
   searchInputStyle: {
     color: CONSTANT_black1,
     backgroundColor: "transparent",
-    ...CONSTANT_fontCustom(CONSTANT_primaryRegular, 16),
-    lineHeight: undefined, // Please Don't add line-height for this field
     ...Platform.select({
       ios: {
-        marginTop: 2
+        marginTop: 2,
+        ...CONSTANT_fontCustom(CONSTANT_primaryRegular, 16)
       },
       android: {
-        marginTop: 4
+        ...CONSTANT_fontCustom(CONSTANT_primaryRegular, 14)
       }
-    })
+    }),
+    lineHeight: undefined // Please Don't add line-height for this field
   }
 });
 
