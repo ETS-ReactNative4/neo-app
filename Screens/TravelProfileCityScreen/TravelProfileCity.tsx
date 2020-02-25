@@ -217,6 +217,13 @@ const TravelProfileCity = ({ navigation, route }: TravelProfileCityProps) => {
 
   const clearSearch = () => setSearch("");
 
+  /**
+   * TODO: requires real data for search
+   */
+  const citiesToDisplay = !search
+    ? suggestedCities
+    : suggestedCities.filter(() => true);
+
   return (
     <View style={styles.travelProfileCityContainer}>
       <SearchBox
@@ -241,7 +248,7 @@ const TravelProfileCity = ({ navigation, route }: TravelProfileCityProps) => {
           oddColumnStyle={styles.oddColumnStyle}
           evenColumnStyle={styles.evenColumnStyle}
         >
-          {suggestedCities.map((suggestedCity, suggestedCityIndex) => {
+          {citiesToDisplay.map((suggestedCity, suggestedCityIndex) => {
             const onSelect = () => {
               selectSuggestedCity(suggestedCity.index);
             };
