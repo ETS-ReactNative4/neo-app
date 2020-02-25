@@ -13,17 +13,19 @@ import {
   // @ts-ignore
 } from "react-native-responsive-dimensions";
 import {
-  CONSTANT_shade3,
-  CONSTANT_white1,
+  CONSTANT_shade4,
+  CONSTANT_white,
   CONSTANT_black1,
-  CONSTANT_black2,
-  CONSTANT_sixteenthColor
+  CONSTANT_sixteenthColor,
+  CONSTANT_shade1
 } from "../../constants/colorPallete";
 import {
   CONSTANT_fontCustom,
-  CONSTANT_primarySemiBold
+  CONSTANT_primarySemiBold,
+  CONSTANT_primaryRegular
 } from "../../constants/fonts";
 import SmartImageV2 from "../SmartImage/SmartImageV2";
+import ratioCalculator from "../../Services/ratioCalculator/ratioCalculator";
 
 interface TestimonialCardProps {
   containerStyle?: StyleProp<ViewStyle>;
@@ -37,6 +39,13 @@ interface TestimonialCardProps {
   action: () => any;
 }
 
+const TESTIMONIAL_USER_IMAGE_WIDTH = responsiveWidth(33);
+const TESTIMONIAL_USER_IMAGE_HEIGHT = ratioCalculator(
+  24,
+  25,
+  TESTIMONIAL_USER_IMAGE_WIDTH
+);
+
 const TestimonialCard = ({
   containerStyle,
   image = { uri: "" },
@@ -49,27 +58,39 @@ const TestimonialCard = ({
   action = () => null
 }: TestimonialCardProps) => {
   return (
-    <TouchableOpacity activeOpacity={0.8} onPress={action}>
-      <View style={[styles.testimonialCard, containerStyle]}>
-        <SmartImageV2
-          resizeMode={"cover"}
-          source={image}
-          fallbackSource={fallbackImage}
-          style={styles.imageStyle}
-        />
-        <View>
-          <Text
-            style={styles.reviewTextStyle}
-            numberOfLines={3}
-            ellipsizeMode={"tail"}
-          >
-            {reviewText}
-          </Text>
-          <Text style={styles.nameTextStyle}>{name}</Text>
-          <Text style={styles.tripTypeTextStyle}>
-            {tripType} trip to {region} in {date}
-          </Text>
-        </View>
+    <TouchableOpacity
+      activeOpacity={0.8}
+      onPress={action}
+      style={[styles.testimonialCard, containerStyle]}
+    >
+      <SmartImageV2
+        resizeMode={"cover"}
+        source={image}
+        fallbackSource={fallbackImage}
+        style={styles.imageStyle}
+      />
+      <View style={styles.reviewContent}>
+        <Text
+          style={styles.reviewTextStyle}
+          numberOfLines={3}
+          ellipsizeMode={"tail"}
+        >
+          {reviewText}
+        </Text>
+        <Text
+          style={styles.nameTextStyle}
+          numberOfLines={1}
+          ellipsizeMode={"tail"}
+        >
+          {name}
+        </Text>
+        <Text
+          style={styles.tripTypeTextStyle}
+          numberOfLines={2}
+          ellipsizeMode={"tail"}
+        >
+          {tripType} trip to {region} in {date}
+        </Text>
       </View>
     </TouchableOpacity>
   );
@@ -79,32 +100,31 @@ const styles = StyleSheet.create({
   testimonialCard: {
     borderWidth: 1,
     borderRadius: 8,
-    borderColor: CONSTANT_shade3,
-    backgroundColor: CONSTANT_white1,
-    width: responsiveWidth(100) - 32,
+    borderColor: CONSTANT_shade4,
+    backgroundColor: CONSTANT_white,
+    width: responsiveWidth(100),
     height: 184,
-    paddingLeft: 24,
-    paddingRight: 40,
-    paddingVertical: 32,
+    paddingRight: 32,
     alignItems: "flex-end",
-    justifyContent: "flex-end",
-    marginRight: 12,
+    justifyContent: "center",
     marginBottom: 24
   },
   imageStyle: {
-    width: 120,
-    height: 128,
+    width: TESTIMONIAL_USER_IMAGE_WIDTH,
+    height: TESTIMONIAL_USER_IMAGE_HEIGHT,
     position: "absolute",
     top: 0,
     left: 0,
     borderTopLeftRadius: 8,
     borderBottomRightRadius: 125
   },
+  reviewContent: {
+    width: 210
+  },
   reviewTextStyle: {
-    width: 210,
     color: CONSTANT_sixteenthColor,
     ...CONSTANT_fontCustom(CONSTANT_primarySemiBold, 18, 24),
-    textShadowColor: CONSTANT_white1,
+    textShadowColor: CONSTANT_white,
     marginBottom: 12,
     textShadowOffset: { width: 1, height: 1 },
     textShadowRadius: 1
@@ -115,8 +135,8 @@ const styles = StyleSheet.create({
     marginBottom: 4
   },
   tripTypeTextStyle: {
-    color: CONSTANT_black2,
-    ...CONSTANT_fontCustom(CONSTANT_primarySemiBold, 13)
+    color: CONSTANT_shade1,
+    ...CONSTANT_fontCustom(CONSTANT_primaryRegular, 13)
   }
 });
 

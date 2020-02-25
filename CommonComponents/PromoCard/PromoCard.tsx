@@ -50,39 +50,42 @@ const PromoCard = ({
   action = () => null
 }: TestimonialCardProps) => {
   return (
-    <TouchableOpacity activeOpacity={0.8} onPress={action}>
-      <View style={[styles.promoCardContainer, containerStyle]}>
-        <SmartImageV2
-          resizeMode={"cover"}
-          source={image}
-          fallbackSource={fallbackImage}
-          style={styles.imageStyle}
-        />
+    <TouchableOpacity
+      activeOpacity={0.8}
+      onPress={action}
+      style={[styles.promoCardContainer, containerStyle]}
+    >
+      <SmartImageV2
+        resizeMode={"cover"}
+        source={image}
+        fallbackSource={fallbackImage}
+        style={styles.imageStyle}
+      />
 
-        <View style={styles.contentContainer}>
-          <View style={styles.contentInner}>
-            <Text
-              numberOfLines={1}
-              ellipsizeMode={"tail"}
-              style={styles.textStyle}
-            >
-              {text}
-            </Text>
+      <View style={styles.contentContainer}>
+        <View style={styles.contentInner}>
+          <Text
+            numberOfLines={1}
+            ellipsizeMode={"tail"}
+            style={styles.textStyle}
+          >
+            {text}
+          </Text>
 
-            <Text style={styles.priceTextStyle}>
-              <Text style={styles.rupeeStyle}>₹</Text> {price}{" "}
-              <Text style={styles.personTextStyle}>/person</Text>
-            </Text>
+          <View style={styles.priceTextStyle}>
+            <Text style={styles.rupeeStyle}>₹</Text>
+            <Text style={styles.priceText}>{price}</Text>
+            <Text style={styles.personTextStyle}>/person</Text>
           </View>
+        </View>
 
-          <View>
-            <Icon
-              name={CONSTANT_arrowRight}
-              key={1}
-              size={16}
-              color={CONSTANT_shade1}
-            />
-          </View>
+        <View>
+          <Icon
+            name={CONSTANT_arrowRight}
+            key={1}
+            size={16}
+            color={CONSTANT_shade1}
+          />
         </View>
       </View>
     </TouchableOpacity>
@@ -120,15 +123,24 @@ const styles = StyleSheet.create({
     marginBottom: 4
   },
   priceTextStyle: {
-    color: CONSTANT_black1,
-    ...CONSTANT_fontCustom(CONSTANT_primarySemiBold, 18, 20)
+    flexDirection: "row",
+    alignItems: "flex-start"
   },
   rupeeStyle: {
-    ...CONSTANT_fontCustom(CONSTANT_primarySemiBold, 14, 20)
+    color: CONSTANT_black1,
+    ...CONSTANT_fontCustom(CONSTANT_primarySemiBold, 14),
+    marginTop: 1,
+    marginRight: 2
+  },
+  priceText: {
+    color: CONSTANT_black1,
+    ...CONSTANT_fontCustom(CONSTANT_primarySemiBold, 18)
   },
   personTextStyle: {
-    ...CONSTANT_fontCustom(CONSTANT_primaryRegular, 13, 20),
-    color: CONSTANT_shade2
+    color: CONSTANT_shade2,
+    ...CONSTANT_fontCustom(CONSTANT_primaryRegular, 13),
+    marginTop: 2,
+    marginLeft: 2
   }
 });
 
