@@ -19,11 +19,17 @@ const AnimatedView = createAnimatedComponent(View);
 const { View: InteractableView } = Interactable;
 
 export interface ActionSheetProps {
-  interactableRef?: any;
+  interactableRef: any;
   children?: ReactElement;
   panelViewablePosition?: number;
   panelStartingPosition?: number;
   onSnap?: (snapDetails: Interactable.ISnapEvent) => any;
+}
+
+export enum ISnapPointsEnum {
+  "maximized",
+  "open",
+  "minimized"
 }
 
 const ActionSheet = ({
@@ -34,6 +40,7 @@ const ActionSheet = ({
   panelStartingPosition = responsiveHeight(100)
 }: ActionSheetProps) => {
   const [_deltaY] = useState(new Value(panelStartingPosition));
+  const [snapPosition, setSnapPosition] = useState<ISnapPointsEnum>(2);
 
   const shadowOpacity = {
     opacity: _deltaY.interpolate({
@@ -43,13 +50,26 @@ const ActionSheet = ({
     })
   };
 
+  const onSnapView = (snapDetails: Interactable.ISnapEvent) => {
+    setSnapPosition(snapDetails.nativeEvent.index);
+    onSnap(snapDetails);
+  };
+
   useEffect(() => {
+    /**
+     * Snap Position checked to ensure no autosnapping to screen when
+     * the sheet is minimized!
+     */
     const keyboardAppeared: KeyboardEventListener = () => {
-      interactableRef.current && interactableRef.current.snapTo({ index: 0 });
+      if (snapPosition < 2) {
+        interactableRef?.current?.snapTo({ index: 0 });
+      }
     };
 
     const keyboardHidden: KeyboardEventListener = () => {
-      interactableRef.current && interactableRef.current.snapTo({ index: 1 });
+      if (snapPosition < 2) {
+        interactableRef?.current?.snapTo({ index: 1 });
+      }
     };
 
     const keyboardWillShowListener = Keyboard.addListener(
@@ -74,7 +94,8 @@ const ActionSheet = ({
       keyboardWillHideListener.remove();
       keyboardDidHideListener.remove();
     };
-  }, [interactableRef]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [snapPosition]);
 
   return (
     <Fragment>
@@ -93,7 +114,7 @@ const ActionSheet = ({
         initialPosition={{ y: panelStartingPosition }}
         animatedValueY={_deltaY}
         style={styles.actionSheetContainer}
-        onSnap={onSnap}
+        onSnap={onSnapView}
         animatedNativeDriver={true}
       >
         <View style={styles.actionSheetContentWrapper}>
