@@ -215,12 +215,15 @@ const TravelProfileCity = ({ navigation, route }: TravelProfileCityProps) => {
 
   const [search, setSearch] = useState<string>("");
 
+  const clearSearch = () => setSearch("");
+
   return (
     <View style={styles.travelProfileCityContainer}>
       <SearchBox
         textPlaceholder={"Find a country"}
         text={search}
         onChangeText={setSearch}
+        onClear={clearSearch}
       />
 
       <ScrollView showsVerticalScrollIndicator={false}>

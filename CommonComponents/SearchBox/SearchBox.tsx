@@ -18,7 +18,8 @@ import {
   CONSTANT_white,
   CONSTANT_shade2,
   CONSTANT_shade3,
-  CONSTANT_black1
+  CONSTANT_black1,
+  CONSTANT_shade5
 } from "../../constants/colorPallete";
 import Icon from "../../CommonComponents/Icon/Icon";
 import {
@@ -31,13 +32,15 @@ interface SearchBoxProps {
   onChangeText: (text: string) => any;
   text: string;
   textPlaceholder: string;
+  onClear: () => any;
 }
 
 const SearchBox = ({
   containerStyle,
   onChangeText,
   text,
-  textPlaceholder
+  textPlaceholder,
+  onClear
 }: SearchBoxProps) => {
   return (
     <View style={[styles.searchBoxContainer, containerStyle]}>
@@ -56,7 +59,7 @@ const SearchBox = ({
           />
         </View>
 
-        <TouchableOpacity activeOpacity={0.8} onPress={() => {}}>
+        <TouchableOpacity activeOpacity={0.8} onPress={onClear}>
           <View style={styles.closeIconStyle}>
             <Icon name={CONSTANT_closeIcon} size={12} color={CONSTANT_white} />
           </View>
@@ -68,14 +71,14 @@ const SearchBox = ({
 
 const styles = StyleSheet.create({
   searchBoxContainer: {
-    backgroundColor: CONSTANT_white,
+    backgroundColor: CONSTANT_white1,
     padding: 16
   },
   searchBoxInner: {
     flexDirection: "row",
     alignItems: "center",
     borderRadius: 8,
-    backgroundColor: CONSTANT_white1,
+    backgroundColor: CONSTANT_shade5,
     paddingHorizontal: 12,
     height: 40
   },
