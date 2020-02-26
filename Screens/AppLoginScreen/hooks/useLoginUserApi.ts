@@ -43,7 +43,8 @@ const useLoginUserApi = (): [
         const result = makeApiCall({
           route: CONSTANT_verifyOtpV2,
           requestBody,
-          method: "POST"
+          method: "POST",
+          requireSuccessResponseData: true
         });
         resolve(result);
       } catch (e) {

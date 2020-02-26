@@ -36,6 +36,7 @@ import * as Animatable from "react-native-animatable";
 import ratioCalculator from "../../Services/ratioCalculator/ratioCalculator";
 
 import SearchBox from "../../CommonComponents/SearchBox/SearchBox";
+import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 
 const { createAnimatableComponent } = Animatable;
 
@@ -62,6 +63,12 @@ export interface ISuggestedCity {
   index: number;
   imageUrl: string;
   isSelected: boolean;
+}
+
+export interface ICountryDetail {
+  name: string;
+  countryId: number;
+  imageUrl: string;
 }
 
 const PORTRAIT_IMAGE_WIDTH = responsiveWidth(40);
@@ -173,9 +180,9 @@ const TravelProfileCity = ({ navigation, route }: TravelProfileCityProps) => {
       header: options =>
         WelcomeHeader(options, {
           rightLinkText: "Skip question",
-          onRightLinkClick: () => null,
-          leftLinkText: "Part 1 of 5",
-          onLeftLinkClick: () => null
+          onRightLinkClick: skipFlow,
+          leftLinkText: "Part 1 of 3",
+          onLeftLinkClick: prevScreen
         })
     });
 
@@ -190,6 +197,10 @@ const TravelProfileCity = ({ navigation, route }: TravelProfileCityProps) => {
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const prevScreen = () => {};
+
+  const skipFlow = () => {};
 
   const selectSuggestedCity = (cityIndex: number) => {
     const citiesList = [...suggestedCities];
@@ -360,4 +371,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default TravelProfileCity;
+export default ErrorBoundary()(TravelProfileCity);

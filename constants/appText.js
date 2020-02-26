@@ -601,4 +601,10 @@ export const CONSTANT_openOPSIntroLoadFailureText = {
     "Unable to load data from the server. Please check your internet connection or try again later"
 };
 
+export const CONSTANT_travelProfileFailureText = {
+  header: "Something went wrong",
+  message:
+    "Unable to load data from the server. Please check your internet connection or try again later"
+};
+
 export default appText;

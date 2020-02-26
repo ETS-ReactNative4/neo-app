@@ -10,6 +10,11 @@ import { AppNavigatorParamsType } from "../../NavigatorsV2/AppNavigator";
 import WelcomeHeader from "../../NavigatorsV2/Components/WelcomeHeader";
 import TravelProfileActionSheet from "../TravelProfileCityScreen/Components/TravelProfileActionSheet";
 import { IInteractable } from "react-native-interactable";
+import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
+import { observer, inject } from "mobx-react";
+import TravelProfile from "../../mobx/TravelProfile";
+import DebouncedAlert from "../../CommonComponents/DebouncedAlert/DebouncedAlert";
+import { CONSTANT_travelProfileFailureText } from "../../constants/appText";
 
 type screenName = typeof SCREEN_TRAVEL_PROFILE_WELCOME;
 
@@ -20,12 +25,18 @@ export type StarterScreenNavigationProp = StackNavigationProp<
 
 export interface TravelProfileWelcomeProps {
   navigation: StarterScreenNavigationProp;
+  travelProfileStore: TravelProfile;
 }
 
-const TravelProfileWelcome = ({ navigation }: TravelProfileWelcomeProps) => {
+const TravelProfileWelcomeComponent = ({
+  travelProfileStore,
+  navigation
+}: TravelProfileWelcomeProps) => {
   const actionSheetRef = useRef<IInteractable>();
 
-  const skipScreen = () => {};
+  const skipFlow = () => {
+    // TODO: Screen skipper logic goes here...
+  };
 
   const continueFlow = () => {
     // @ts-ignore - Lack of typescript support in actionsheet's ref
@@ -49,9 +60,26 @@ const TravelProfileWelcome = ({ navigation }: TravelProfileWelcomeProps) => {
       header: options =>
         WelcomeHeader(options, {
           rightLinkText: "Do this later",
-          onRightLinkClick: skipScreen
+          onRightLinkClick: skipFlow
         })
     });
+
+    travelProfileStore
+      .loadTravelProfile()
+      .then(result => {
+        if (!result) {
+          DebouncedAlert(
+            CONSTANT_travelProfileFailureText.header,
+            CONSTANT_travelProfileFailureText.message
+          );
+        }
+      })
+      .catch(() => {
+        DebouncedAlert(
+          CONSTANT_travelProfileFailureText.header,
+          CONSTANT_travelProfileFailureText.message
+        );
+      });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -75,4 +103,8 @@ const styles = StyleSheet.create({
   }
 });
 
-export default TravelProfileWelcome;
+const TravelProfileWelcome = inject("travelProfileStore")(
+  observer(TravelProfileWelcomeComponent)
+);
+
+export default ErrorBoundary()(TravelProfileWelcome);

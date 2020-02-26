@@ -93,7 +93,7 @@ const AppLogin = ({ navigation }: IAppLoginProps) => {
   const [mobileNumberApiDetails, mobileNumberSubmitCall] = useMobileNumberApi();
   const [registrationApiDetails, registerNewUser] = useRegisterUserApi();
   const [otpApiDetails, makeOtpRequestCall] = useRequestOtpApi();
-  const [loginApiDetails, loginUser] = useLoginUserApi();
+  const [, loginUser] = useLoginUserApi();
   const [isPhoneSubmitAttempted, setPhoneSubmitAttempt] = useState<boolean>(
     false
   );
@@ -222,9 +222,8 @@ const AppLogin = ({ navigation }: IAppLoginProps) => {
     });
     if (result) {
       try {
-        const isTokenStored = await registerTokenV2(
-          loginApiDetails.successResponseData?.data?.authToken || ""
-        );
+        // @ts-ignore - TODO: need to fix the types for useAPICall hook
+        const isTokenStored = await registerTokenV2(result?.authToken || "");
         if (isTokenStored) {
           //TODO: Do login transition here...
         } else {

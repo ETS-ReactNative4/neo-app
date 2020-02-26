@@ -21,6 +21,7 @@ import ChatDetails from "../../mobx/ChatDetails";
 import Journal from "../../mobx/Journal";
 import UserFlowTransition from "../../mobx/UserFlowTransition";
 import SOFeedback from "../../mobx/SOFeedback";
+import TravelProfile from "../../mobx/TravelProfile";
 
 export interface IStoreService {
   userStore: User;
@@ -46,6 +47,7 @@ export interface IStoreService {
   journalStore: Journal;
   userFlowTransitionStore: UserFlowTransition;
   soFeedbackStore: SOFeedback;
+  travelProfileStore: TravelProfile;
 }
 
 // @ts-ignore

@@ -17,7 +17,14 @@ export interface TravelProfileIntroProps {
   onClickContinue: () => any;
 }
 
-const INTRO_IMAGE_WIDTH = responsiveWidth(80);
+/* GUTTER SPACER */
+const GUTTER_SPACING = 32;
+
+const BOTTOM_SPACING = GUTTER_SPACING - 8;
+const LEFT_SPACING = GUTTER_SPACING;
+const RIGHT_SPACING = GUTTER_SPACING;
+
+const INTRO_IMAGE_WIDTH = responsiveWidth(100) - GUTTER_SPACING * 2;
 const INTRO_IMAGE_HEIGHT = ratioCalculator(592, 626, INTRO_IMAGE_WIDTH);
 
 const TravelProfileIntro = ({
@@ -54,13 +61,6 @@ const TravelProfileIntro = ({
     </View>
   );
 };
-
-/* GUTTER SPACER */
-const GUTTER_SPACING = 32;
-
-const BOTTOM_SPACING = GUTTER_SPACING - 8;
-const LEFT_SPACING = GUTTER_SPACING;
-const RIGHT_SPACING = GUTTER_SPACING;
 
 const styles = StyleSheet.create({
   profileIntroContainer: {

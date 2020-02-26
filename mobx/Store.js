@@ -24,6 +24,7 @@ import ChatDetails from "./ChatDetails";
 import Journal from "./Journal";
 import UserFlowTransition from "./UserFlowTransition";
 import SOFeedback from "./SOFeedback";
+import TravelProfile from "./TravelProfile";
 
 export const hydrate = create({
   storage: AsyncStorage,
@@ -54,7 +55,8 @@ const createStore = () => {
     chatDetailsStore: new ChatDetails(),
     journalStore: new Journal(),
     userFlowTransitionStore: new UserFlowTransition(),
-    soFeedbackStore: new SOFeedback()
+    soFeedbackStore: new SOFeedback(),
+    travelProfileStore: new TravelProfile()
   };
 
   hydrate("_upcomingItineraries", appStore.yourBookingsStore)
@@ -173,6 +175,7 @@ const createStore = () => {
   Journal.hydrator(appStore.journalStore);
   UserFlowTransition.hydrator(appStore.userFlowTransitionStore);
   SOFeedback.hydrator(appStore.soFeedbackStore);
+  TravelProfile.hydrator(appStore.travelProfileStore);
   return appStore;
 };
 

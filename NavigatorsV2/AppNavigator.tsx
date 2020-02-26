@@ -22,7 +22,9 @@ export type AppNavigatorParamsType = {
   [SCREEN_TRAVEL_COUNTRY_PICKER]: {
     isPositive: boolean;
   };
-  [SCREEN_TRAVEL_MARITAL_STATUS]: undefined;
+  [SCREEN_TRAVEL_MARITAL_STATUS]: {
+    isPositive: boolean;
+  };
   [SCREEN_STORY_BOOK]: undefined;
 };
 
