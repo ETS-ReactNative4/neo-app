@@ -1,12 +1,12 @@
 import React from "react";
-import { ITestCase } from "../../../TypeInterfaces/TestCases/ITestCases";
 
-import CategorySection from "./CategorySection";
+import { ITestCase } from "../../../TypeInterfaces/TestCases/ITestCases";
+import NotificationsActionSheet from "./NotificationsActionSheet";
 
 const NotificationsTestCases: ITestCase[] = [
   {
-    title: "Category Section",
-    Component: <CategorySection />
+    title: "Notification Action Sheet",
+    Component: <NotificationsActionSheet />
   }
 ];
 
