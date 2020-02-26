@@ -1,7 +1,6 @@
 import React from "react";
 import {
   StyleSheet,
-  View,
   StyleProp,
   ViewStyle,
   Text,
@@ -10,7 +9,7 @@ import {
 } from "react-native";
 import {
   CONSTANT_firstColor,
-  CONSTANT_white1
+  CONSTANT_white
 } from "../../constants/colorPallete";
 import {
   CONSTANT_fontCustom,
@@ -33,13 +32,13 @@ const PrimaryButton = ({
   buttonTextStyle
 }: PrimaryButtonProps) => {
   return (
-    <View style={containerStyle}>
-      <TouchableOpacity activeOpacity={0.8} onPress={clickAction}>
-        <View style={[styles.button, buttonStyle]}>
-          <Text style={[styles.textStyle, buttonTextStyle]}>{text}</Text>
-        </View>
-      </TouchableOpacity>
-    </View>
+    <TouchableOpacity
+      activeOpacity={0.8}
+      onPress={clickAction}
+      style={[styles.button, buttonStyle, containerStyle]}
+    >
+      <Text style={[styles.textStyle, buttonTextStyle]}>{text}</Text>
+    </TouchableOpacity>
   );
 };
 
@@ -47,13 +46,13 @@ const styles = StyleSheet.create({
   button: {
     justifyContent: "center",
     backgroundColor: CONSTANT_firstColor,
-    borderRadius: 4,
+    borderRadius: 8,
     paddingHorizontal: 24,
     height: 56
   },
 
   textStyle: {
-    color: CONSTANT_white1,
+    color: CONSTANT_white,
     ...CONSTANT_fontCustom(CONSTANT_primarySemiBold, 17),
     textAlign: "center"
   }
