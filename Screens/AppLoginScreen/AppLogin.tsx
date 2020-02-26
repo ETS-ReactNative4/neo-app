@@ -57,6 +57,8 @@ import validateEmail from "../../Services/validateEmail/validateEmail";
 import useRequestOtpApi from "./hooks/useRequestOtpApi";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import useLoginUserApi from "./hooks/useLoginUserApi";
+import { registerTokenV2 } from "../../Services/registerToken/registerToken";
+import { logError } from "../../Services/errorLogger/errorLogger";
 
 type screenName = typeof SCREEN_APP_LOGIN;
 
@@ -219,7 +221,19 @@ const AppLogin = ({ navigation }: IAppLoginProps) => {
       otpDetailsId: otpApiDetails.successResponseData?.data?.otpDetailsId || ""
     });
     if (result) {
-      toastCenter("Login Successful");
+      try {
+        const isTokenStored = await registerTokenV2(
+          loginApiDetails.successResponseData?.data?.authToken || ""
+        );
+        if (isTokenStored) {
+          //TODO: Do login transition here...
+        } else {
+          toastCenter("Login Failed");
+        }
+      } catch (e) {
+        logError(e);
+        toastCenter("Login Failed");
+      }
     } else {
       toastCenter("Invalid OTP");
     }

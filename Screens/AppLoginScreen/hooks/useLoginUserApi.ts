@@ -1,7 +1,9 @@
 import useApiCall, {
-  IApiCallHookData
+  IApiCallHookData,
+  IApiCallConfig
 } from "../../../Services/networkRequests/hooks/useApiCall";
 import { CONSTANT_verifyOtpV2 } from "../../../constants/apiUrls";
+import { CONSTANT_responseSuccessStatus } from "../../../constants/stringConstants";
 
 export interface ILoginRequestBody {
   otpDetailsId: string;
@@ -10,15 +12,31 @@ export interface ILoginRequestBody {
   otp: string;
 }
 
+export interface ILoginSuccessData {
+  status: typeof CONSTANT_responseSuccessStatus;
+  data?: {
+    authToken?: string;
+    otpStatus?: "VERIFIED" | "EXPIRED";
+  };
+}
+
+export interface ILoginApiHookData extends IApiCallHookData {
+  successResponseData: ILoginSuccessData;
+}
+
+export type loginApiHook = [
+  ILoginApiHookData,
+  (requestObject: IApiCallConfig) => Promise<boolean>
+];
+
 const useLoginUserApi = (): [
-  IApiCallHookData,
+  ILoginApiHookData,
   (requestBody: ILoginRequestBody) => Promise<boolean>
 ] => {
   const [
     { successResponseData, failureResponseData, isError, isLoading, isSuccess },
     makeApiCall
-  ] = useApiCall();
-
+  ] = useApiCall() as loginApiHook;
   const loginUser = (requestBody: ILoginRequestBody): Promise<boolean> => {
     return new Promise<boolean>((resolve, reject) => {
       try {
