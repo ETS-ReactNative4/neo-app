@@ -1,12 +1,6 @@
 import React from "react";
 
-import {
-  StyleSheet,
-  View,
-  ViewStyle,
-  Alert,
-  TouchableOpacity
-} from "react-native";
+import { StyleSheet, View, TouchableOpacity, Alert } from "react-native";
 
 import Icon from "../../CommonComponents/Icon/Icon";
 import { CONSTANT_listIcon } from "../../constants/imageAssets";
@@ -17,19 +11,16 @@ import {
 import ItineraryCard from "../../CommonComponents/ItineraryCard/ItineraryCard";
 import ParallaxScrollView from "../../CommonComponents/ParallaxScrollView/ParallaxScrollView";
 
-interface ListingPageProps {
-  containerStyle?: ViewStyle;
-}
-
-const ListingPage = ({ containerStyle }: ListingPageProps) => {
+const ListingPage = () => {
   return (
-    <View style={containerStyle}>
+    <View style={styles.listingPageContainer}>
       <ParallaxScrollView
         bannerImage={
           "https://pyt-images.imgix.net/images/product_blog/itinerary-box/australia-small.jpeg"
         }
         smallText={"18 CUSTOMIZABLE OPTIONS"}
         titleText={"Romantic holidays for you and your better half."}
+        backAction={() => {}}
       >
         <ItineraryCard
           images={[
@@ -55,21 +46,21 @@ const ListingPage = ({ containerStyle }: ListingPageProps) => {
         />
       </ParallaxScrollView>
 
-      <View>
-        <TouchableOpacity
-          activeOpacity={0.8}
-          onPress={() => Alert.alert("Click filter")}
-        >
-          <View style={styles.filterIcon}>
-            <Icon name={CONSTANT_listIcon} size={20} color={CONSTANT_white} />
-          </View>
-        </TouchableOpacity>
-      </View>
+      <TouchableOpacity
+        activeOpacity={0.8}
+        onPress={() => Alert.alert("Click filter")}
+        style={styles.filterIcon}
+      >
+        <Icon name={CONSTANT_listIcon} size={20} color={CONSTANT_white} />
+      </TouchableOpacity>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  listingPageContainer: {
+    flex: 1
+  },
   filterIcon: {
     alignItems: "center",
     justifyContent: "center",

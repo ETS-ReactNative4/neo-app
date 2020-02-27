@@ -9,13 +9,9 @@ import {
   Alert
 } from "react-native";
 import {
-  CONSTANT_shade6,
-  CONSTANT_white,
-  CONSTANT_firstColor,
   CONSTANT_black1,
   CONSTANT_shade1
 } from "../../../constants/colorPallete";
-import PrimaryButton from "../../../CommonComponents/PrimaryButton/PrimaryButton";
 import {
   CONSTANT_primarySemiBold,
   CONSTANT_fontCustom,
@@ -25,6 +21,7 @@ import CustomCheckBox, {
   ISuggestedDetails,
   ICheckBoxData
 } from "../../../CommonComponents/CustomCheckBox/CustomCheckBox";
+import BottomButtonBar from "../../../CommonComponents/BottomButtonBar.js/BottomButtonBar";
 
 interface ListingPageFilterProps {
   containerStyle?: ViewStyle;
@@ -89,21 +86,12 @@ const ListingPageFilter = ({
         </ScrollView>
       </View>
 
-      <View style={styles.filterActionWrapper}>
-        <PrimaryButton
-          text={"Reset"}
-          containerStyle={[styles.filterAction, styles.resetBtnAction]}
-          buttonStyle={[styles.buttonStyle, styles.resetButtonStyle]}
-          buttonTextStyle={styles.resetButtonTextStyle}
-          clickAction={() => Alert.alert("Click Reset Button")}
-        />
-        <PrimaryButton
-          text={"Apply"}
-          containerStyle={[styles.filterAction, styles.applyBtnAction]}
-          buttonStyle={styles.buttonStyle}
-          clickAction={() => Alert.alert("Click Apply Button")}
-        />
-      </View>
+      <BottomButtonBar
+        leftButtonName={"Reset"}
+        leftButtonAction={() => Alert.alert("Click Reset")}
+        rightButtonName={"Apply"}
+        rightButtonAction={() => Alert.alert("Click Apply")}
+      />
     </View>
   );
 };
@@ -139,34 +127,6 @@ const styles = StyleSheet.create({
     color: CONSTANT_shade1,
     ...CONSTANT_fontCustom(CONSTANT_primaryRegular, 18, 23),
     paddingLeft: 10
-  },
-
-  filterActionWrapper: {
-    flexDirection: "row",
-    backgroundColor: CONSTANT_shade6,
-    paddingHorizontal: 24,
-    paddingVertical: 16
-  },
-  filterAction: {
-    flex: 1
-  },
-  resetBtnAction: {
-    marginRight: 4
-  },
-  applyBtnAction: {
-    marginLeft: 4
-  },
-  buttonStyle: {
-    height: 44,
-    borderRadius: 8
-  },
-  resetButtonStyle: {
-    backgroundColor: CONSTANT_white,
-    borderColor: CONSTANT_firstColor,
-    borderWidth: 2
-  },
-  resetButtonTextStyle: {
-    color: CONSTANT_firstColor
   }
 });
 
