@@ -56,7 +56,10 @@ import useRegisterUserApi from "./hooks/useRegisterUserApi";
 import validateEmail from "../../Services/validateEmail/validateEmail";
 import useRequestOtpApi from "./hooks/useRequestOtpApi";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
-import useLoginUserApi from "./hooks/useLoginUserApi";
+import useLoginUserApi, {
+  ILoginSuccessData,
+  ILoginFailureData
+} from "./hooks/useLoginUserApi";
 import { registerTokenV2 } from "../../Services/registerToken/registerToken";
 import { logError } from "../../Services/errorLogger/errorLogger";
 import useDeepCompareEffect from "use-deep-compare-effect";
@@ -97,8 +100,8 @@ const AppLogin = ({ navigation }: IAppLoginProps) => {
   const [otpApiDetails, makeOtpRequestCall] = useRequestOtpApi();
   const [loginApiDetails, loginUser] = useLoginUserApi();
   const {
-    successResponseData: loginSuccessData,
-    failureResponseData: loginFailureData
+    successResponseData: loginSuccessData = {} as ILoginSuccessData | undefined,
+    failureResponseData: loginFailureData = {} as ILoginFailureData | undefined
   } = loginApiDetails;
   const [isPhoneSubmitAttempted, setPhoneSubmitAttempt] = useState<boolean>(
     false
@@ -243,7 +246,7 @@ const AppLogin = ({ navigation }: IAppLoginProps) => {
    * Solution: https://github.com/kentcdodds/use-deep-compare-effect#this-solution
    */
   useDeepCompareEffect(() => {
-    if (loginSuccessData) {
+    if (loginSuccessData?.data?.otpStatus === "VERIFIED") {
       registerTokenV2(loginSuccessData.data?.authToken || "")
         .then(isTokenStored => {
           if (isTokenStored) {
@@ -256,7 +259,7 @@ const AppLogin = ({ navigation }: IAppLoginProps) => {
           logError(e);
           toastCenter("Login Failed");
         });
-    } else if (loginFailureData?.data) {
+    } else if (loginFailureData?.data?.otpStatus === "VERIFICATIONFAILED") {
       DebouncedAlert("Invalid OTP", "Please try again ☹️");
     }
   }, [loginSuccessData, loginFailureData]);

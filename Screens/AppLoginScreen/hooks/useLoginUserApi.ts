@@ -23,7 +23,7 @@ export interface ILoginSuccessData {
 export interface ILoginFailureData {
   status: "FAILURE";
   data?: {
-    otpStatus?: "EXPIRED";
+    otpStatus?: "VERIFICATIONFAILED";
   };
 }
 
