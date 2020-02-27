@@ -1,51 +1,71 @@
 import React from "react";
-import { View, StyleSheet, Text } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Text,
+  ViewStyle,
+  TouchableOpacity
+} from "react-native";
 import SmartImageV2 from "../../CommonComponents/SmartImage/SmartImageV2";
-import RouteList from "../../CommonComponents/RouteList/RouteList";
+import RouteList, {
+  IRouteCitiesDetails
+} from "../../CommonComponents/RouteList/RouteList";
 import {
   CONSTANT_shade5,
   CONSTANT_shade1,
-  CONSTANT_black1
+  CONSTANT_black1,
+  CONSTANT_white
 } from "../../constants/colorPallete";
 import {
   CONSTANT_primarySemiBold,
   CONSTANT_fontCustom,
   CONSTANT_primaryRegular
 } from "../../constants/fonts";
+interface SavedItineraryProps {
+  containerStyle?: ViewStyle;
+  image: string;
+  lastEdited: string;
+  title: string;
+  cities: IRouteCitiesDetails[];
+  action: () => any;
+}
 
-const SavedItinerary = () => {
+const SavedItinerary = ({
+  containerStyle,
+  image = "",
+  lastEdited,
+  title = "",
+  cities = [],
+  action = () => {}
+}: SavedItineraryProps) => {
   return (
-    <View>
-      <View style={styles.savedItineraryCard}>
-        <SmartImageV2
-          source={{
-            uri: "https://pyt-images.imgix.net/images/city/2400xh/rome.jpg"
-          }}
-          fallbackSource={{
-            uri: "https://pyt-images.imgix.net/images/city/2400xh/rome.jpg"
-          }}
-          style={[styles.savedItineraryImage]}
-          resizeMode="cover"
+    <TouchableOpacity
+      style={[styles.savedItineraryCard, containerStyle]}
+      activeOpacity={0.8}
+      onPress={action}
+    >
+      <SmartImageV2
+        source={{
+          uri: image
+        }}
+        fallbackSource={{
+          uri: "https://pyt-images.imgix.net/images/city/2400xh/rome.jpg"
+        }}
+        style={[styles.savedItineraryImage]}
+        resizeMode="cover"
+      />
+
+      <View style={styles.rightColumn}>
+        <Text style={styles.createdText}>{lastEdited}</Text>
+        <Text style={styles.titleText}>{title}</Text>
+
+        <RouteList
+          containerStyle={styles.routeListContainerStyle}
+          routeListTextStyle={styles.routeListTextStyle}
+          cities={cities}
         />
-
-        <View style={styles.rightColumn}>
-          <Text style={styles.createdText}>CREATED ON 22 JULY 2019</Text>
-          <Text style={styles.titleText}>12 nights to Swizerland</Text>
-
-          <RouteList
-            containerStyle={styles.routeListContainerStyle}
-            routeListTextStyle={styles.routeListTextStyle}
-            cities={[
-              { cityName: "Interlaken" },
-              { cityName: "Zerma" },
-              { cityName: "Lucerne" },
-              { cityName: "Lorem Ipsum" },
-              { cityName: "Lorem Ipsum" }
-            ]}
-          />
-        </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
@@ -55,7 +75,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 16,
     borderBottomWidth: 1,
-    borderBottomColor: CONSTANT_shade5
+    borderBottomColor: CONSTANT_shade5,
+    backgroundColor: CONSTANT_white
   },
   savedItineraryImage: {
     width: 70,
