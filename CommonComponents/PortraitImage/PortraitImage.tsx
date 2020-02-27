@@ -1,6 +1,7 @@
 import React from "react";
 import { View, ViewStyle, StyleProp, ImageStyle } from "react-native";
 import SmartImageV2 from "../SmartImage/SmartImageV2";
+import { CONSTANT_defaultPlaceImage } from "../../constants/imageAssets";
 
 interface PortraitImageProps {
   containerStyle?: StyleProp<ViewStyle>;
@@ -18,7 +19,7 @@ const PortraitImage = ({
       <SmartImageV2
         resizeMode={"cover"}
         source={{ uri: imageSource }}
-        fallbackSource={{ uri: imageSource }}
+        fallbackSource={{ uri: CONSTANT_defaultPlaceImage }}
         style={portraitImageStyle}
       />
     </View>

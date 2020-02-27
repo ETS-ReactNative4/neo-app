@@ -37,6 +37,9 @@ import ratioCalculator from "../../Services/ratioCalculator/ratioCalculator";
 
 import SearchBox from "../../CommonComponents/SearchBox/SearchBox";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
+import { observer, inject } from "mobx-react";
+import TravelProfile from "../../mobx/TravelProfile";
+import matchQueryWithText from "../../Services/matchQueryWithText/matchQueryWIthText";
 
 const { createAnimatableComponent } = Animatable;
 
@@ -57,11 +60,13 @@ export interface IMasonryViewData {
 export interface TravelProfileCityProps {
   navigation: StarterScreenNavigationProp;
   route: StarterScreenRouteProp;
+  travelProfileStore: TravelProfile;
 }
 
-export interface ISuggestedCity {
-  index: number;
+export interface ISuggestedCountry {
+  id: number;
   imageUrl: string;
+  name: string;
   isSelected: boolean;
 }
 
@@ -74,106 +79,16 @@ export interface ICountryDetail {
 const PORTRAIT_IMAGE_WIDTH = responsiveWidth(40);
 const PORTRAIT_IMAGE_HEIGHT = ratioCalculator(39, 53, PORTRAIT_IMAGE_WIDTH);
 
-const TravelProfileCity = ({ navigation, route }: TravelProfileCityProps) => {
-  const [suggestedCities, setSuggestedCities] = useState<ISuggestedCity[]>([]);
-  const [cityData] = useState<IMasonryViewData[]>([
-    {
-      image:
-        "https://pyt-images.imgix.net/images/city/paris.jpg?w=146&h=200&fit=crop&dpr=2&auto=format,compress,enhance&q=20"
-    },
-    {
-      image:
-        "https://pyt-images.imgix.net/images/city/london.jpg?w=146&h=200&fit=crop&dpr=2&auto=format,compress,enhance&q=20"
-    },
-    {
-      image:
-        "https://pyt-images.imgix.net/images/city/zagreb.jpg?w=146&h=200&fit=crop&dpr=2&auto=format,compress,enhance&q=20"
-    },
-    {
-      image:
-        "https://pyt-images.imgix.net/images/misc/germany.jpeg?w=146&h=200&fit=crop&dpr=2&auto=format,compress,enhance&q=20"
-    },
-    {
-      image:
-        "https://pyt-images.imgix.net/images/city/paris.jpg?w=146&h=200&fit=crop&dpr=2&auto=format,compress,enhance&q=20"
-    },
-    {
-      image:
-        "https://pyt-images.imgix.net/images/city/london.jpg?w=146&h=200&fit=crop&dpr=2&auto=format,compress,enhance&q=20"
-    },
-    {
-      image:
-        "https://pyt-images.imgix.net/images/city/zagreb.jpg?w=146&h=200&fit=crop&dpr=2&auto=format,compress,enhance&q=20"
-    },
-    {
-      image:
-        "https://pyt-images.imgix.net/images/misc/germany.jpeg?w=146&h=200&fit=crop&dpr=2&auto=format,compress,enhance&q=20"
-    },
-    {
-      image:
-        "https://pyt-images.imgix.net/images/city/paris.jpg?w=146&h=200&fit=crop&dpr=2&auto=format,compress,enhance&q=20"
-    },
-    {
-      image:
-        "https://pyt-images.imgix.net/images/city/london.jpg?w=146&h=200&fit=crop&dpr=2&auto=format,compress,enhance&q=20"
-    },
-    {
-      image:
-        "https://pyt-images.imgix.net/images/city/zagreb.jpg?w=146&h=200&fit=crop&dpr=2&auto=format,compress,enhance&q=20"
-    },
-    {
-      image:
-        "https://pyt-images.imgix.net/images/misc/germany.jpeg?w=146&h=200&fit=crop&dpr=2&auto=format,compress,enhance&q=20"
-    },
-    {
-      image:
-        "https://pyt-images.imgix.net/images/city/paris.jpg?w=146&h=200&fit=crop&dpr=2&auto=format,compress,enhance&q=20"
-    },
-    {
-      image:
-        "https://pyt-images.imgix.net/images/city/london.jpg?w=146&h=200&fit=crop&dpr=2&auto=format,compress,enhance&q=20"
-    },
-    {
-      image:
-        "https://pyt-images.imgix.net/images/city/zagreb.jpg?w=146&h=200&fit=crop&dpr=2&auto=format,compress,enhance&q=20"
-    },
-    {
-      image:
-        "https://pyt-images.imgix.net/images/misc/germany.jpeg?w=146&h=200&fit=crop&dpr=2&auto=format,compress,enhance&q=20"
-    },
-    {
-      image:
-        "https://pyt-images.imgix.net/images/city/paris.jpg?w=146&h=200&fit=crop&dpr=2&auto=format,compress,enhance&q=20"
-    },
-    {
-      image:
-        "https://pyt-images.imgix.net/images/city/london.jpg?w=146&h=200&fit=crop&dpr=2&auto=format,compress,enhance&q=20"
-    },
-    {
-      image:
-        "https://pyt-images.imgix.net/images/city/zagreb.jpg?w=146&h=200&fit=crop&dpr=2&auto=format,compress,enhance&q=20"
-    },
-    {
-      image:
-        "https://pyt-images.imgix.net/images/misc/germany.jpeg?w=146&h=200&fit=crop&dpr=2&auto=format,compress,enhance&q=20"
-    },
-    {
-      image:
-        "https://pyt-images.imgix.net/images/city/paris.jpg?w=146&h=200&fit=crop&dpr=2&auto=format,compress,enhance&q=20"
-    },
-    {
-      image:
-        "https://pyt-images.imgix.net/images/city/london.jpg?w=146&h=200&fit=crop&dpr=2&auto=format,compress,enhance&q=20"
-    },
-    {
-      image:
-        "https://pyt-images.imgix.net/images/city/zagreb.jpg?w=146&h=200&fit=crop&dpr=2&auto=format,compress,enhance&q=20"
-    },
-    {
-      image:
-        "https://pyt-images.imgix.net/images/misc/germany.jpeg?w=146&h=200&fit=crop&dpr=2&auto=format,compress,enhance&q=20"
-    }
-  ]);
+const TravelProfileCityComponent = ({
+  navigation,
+  route,
+  travelProfileStore
+}: TravelProfileCityProps) => {
+  const { countriesList } = travelProfileStore;
+
+  const [suggestedCountries, setSuggestedCountries] = useState<
+    ISuggestedCountry[]
+  >([]);
 
   useEffect(() => {
     navigation.setOptions({
@@ -186,11 +101,12 @@ const TravelProfileCity = ({ navigation, route }: TravelProfileCityProps) => {
         })
     });
 
-    setSuggestedCities(
-      cityData.map((city, cityIndex) => {
+    setSuggestedCountries(
+      countriesList.map(country => {
         return {
-          index: cityIndex,
-          imageUrl: city.image,
+          id: country.countryId,
+          name: country.name,
+          imageUrl: country.imageUrl,
           isSelected: false
         };
       })
@@ -202,10 +118,17 @@ const TravelProfileCity = ({ navigation, route }: TravelProfileCityProps) => {
 
   const skipFlow = () => {};
 
-  const selectSuggestedCity = (cityIndex: number) => {
-    const citiesList = [...suggestedCities];
-    citiesList[cityIndex].isSelected = !citiesList[cityIndex].isSelected;
-    setSuggestedCities(citiesList);
+  const selectSuggestedCountry = (countryId: number) => {
+    const updatedCountriesList = suggestedCountries.map(country => {
+      if (country.id === countryId) {
+        return {
+          ...country,
+          isSelected: !country.isSelected
+        };
+      }
+      return country;
+    });
+    setSuggestedCountries(updatedCountriesList);
   };
 
   const { isPositive } = route.params;
@@ -216,7 +139,7 @@ const TravelProfileCity = ({ navigation, route }: TravelProfileCityProps) => {
     ? "So we can recommend where you can go next."
     : "So we can recommend where you can go next.";
 
-  const selectedCities = suggestedCities.filter(
+  const selectedCities = suggestedCountries.filter(
     suggestedCity => suggestedCity.isSelected
   );
 
@@ -228,12 +151,11 @@ const TravelProfileCity = ({ navigation, route }: TravelProfileCityProps) => {
 
   const clearSearch = () => setSearch("");
 
-  /**
-   * TODO: requires real data for search
-   */
   const citiesToDisplay = !search
-    ? suggestedCities
-    : suggestedCities.filter(() => true);
+    ? suggestedCountries
+    : suggestedCountries.filter(country => {
+        return matchQueryWithText(search, country.name);
+      });
 
   return (
     <View style={styles.travelProfileCityContainer}>
@@ -261,7 +183,7 @@ const TravelProfileCity = ({ navigation, route }: TravelProfileCityProps) => {
         >
           {citiesToDisplay.map((suggestedCity, suggestedCityIndex) => {
             const onSelect = () => {
-              selectSuggestedCity(suggestedCity.index);
+              selectSuggestedCountry(suggestedCity.id);
             };
 
             return (
@@ -303,6 +225,10 @@ const TravelProfileCity = ({ navigation, route }: TravelProfileCityProps) => {
     </View>
   );
 };
+
+const TravelProfileCity = ErrorBoundary()(
+  inject("travelProfileStore")(observer(TravelProfileCityComponent))
+);
 
 /* GUTTER SPACER */
 const GUTTER_SPACING = 24;
@@ -371,4 +297,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default ErrorBoundary()(TravelProfileCity);
+export default TravelProfileCity;

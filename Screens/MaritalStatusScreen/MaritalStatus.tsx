@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, StyleSheet, Alert } from "react-native";
+import { View, StyleSheet } from "react-native";
 import SectionTitle from "../../CommonComponents/SectionTitle/SectionTitle";
 import MaritalStatusCard from "./Components/MaritalStatusCard";
 import PrimaryButton from "../../CommonComponents/PrimaryButton/PrimaryButton";
@@ -11,45 +11,83 @@ import {
   responsiveWidth
   // @ts-ignore
 } from "react-native-responsive-dimensions";
+import { SCREEN_TRAVEL_MARITAL_STATUS } from "../../NavigatorsV2/ScreenNames";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { AppNavigatorParamsType } from "../../NavigatorsV2/AppNavigator";
+import WelcomeHeader from "../../NavigatorsV2/Components/WelcomeHeader";
+import { CONSTANT_white1 } from "../../constants/colorPallete";
+import { observer, inject } from "mobx-react";
+import TravelProfile from "../../mobx/TravelProfile";
+import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
+
+type screenName = typeof SCREEN_TRAVEL_MARITAL_STATUS;
+
+export type MaritalStatusScreenNavigationProp = StackNavigationProp<
+  AppNavigatorParamsType,
+  screenName
+>;
 
 export interface IMaritalStatusData {
   text: string;
   image: string;
 }
 
-interface MaritalStatusProps {
-  maritalStatusData: IMaritalStatusData[];
+export interface MaritalStatusProps {
+  navigation: MaritalStatusScreenNavigationProp;
+  travelProfileStore: TravelProfile;
 }
 
-interface ISuggestedCity {
-  index: number;
+export interface IMaritalStatusOptions {
+  id: number;
   imageUrl: string;
   text: string;
   isSelected: boolean;
 }
 
-const MaritalStatus = ({ maritalStatusData }: MaritalStatusProps) => {
-  const [suggestedMaritalStatusData, setSuggestedMaritalStatusData] = useState<
-    ISuggestedCity[]
+const MaritalStatusComponent = ({
+  navigation,
+  travelProfileStore
+}: MaritalStatusProps) => {
+  const { maritalStatusOptions } = travelProfileStore;
+
+  const [maritalStatusOptionsData, setMaritalStatusOptionsData] = useState<
+    IMaritalStatusOptions[]
   >([]);
 
   useEffect(() => {
-    setSuggestedMaritalStatusData(
-      maritalStatusData.map((maritalStatus, index) => {
+    setMaritalStatusOptionsData(
+      maritalStatusOptions.map((maritalStatus, index) => {
         return {
-          index: index,
-          imageUrl: maritalStatus.image,
-          text: maritalStatus.text,
+          id: index,
+          imageUrl: "",
+          text: maritalStatus,
           isSelected: false
         };
       })
     );
-  }, [maritalStatusData]);
+
+    navigation.setOptions({
+      header: options =>
+        WelcomeHeader(options, {
+          rightLinkText: "Skip question",
+          onRightLinkClick: skipFlow,
+          leftLinkText: "Part 2 of 3",
+          onLeftLinkClick: prevScreen
+        })
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const skipFlow = () => {};
+
+  const prevScreen = () => {};
+
+  const continueFlow = () => {};
 
   const selectSuggestedMaritalStatusData = (statusIndex: number) => {
-    const statusList = [...suggestedMaritalStatusData];
+    const statusList = [...maritalStatusOptionsData];
     statusList[statusIndex].isSelected = !statusList[statusIndex].isSelected;
-    setSuggestedMaritalStatusData(statusList);
+    setMaritalStatusOptionsData(statusList);
   };
 
   return (
@@ -71,9 +109,9 @@ const MaritalStatus = ({ maritalStatusData }: MaritalStatusProps) => {
           oddColumnStyle={styles.oddColumnStyle}
           evenColumnStyle={styles.evenColumnStyle}
         >
-          {suggestedMaritalStatusData.map((suggestedMaritalData, index) => {
+          {maritalStatusOptionsData.map((suggestedMaritalData, index) => {
             const onSelect = () => {
-              selectSuggestedMaritalStatusData(suggestedMaritalData.index);
+              selectSuggestedMaritalStatusData(suggestedMaritalData.id);
             };
 
             return (
@@ -91,12 +129,16 @@ const MaritalStatus = ({ maritalStatusData }: MaritalStatusProps) => {
       <View style={styles.footerContainer}>
         <PrimaryButton
           text={"Up Next - Holiday Style"}
-          clickAction={() => Alert.alert("Click Button")}
+          clickAction={continueFlow}
         />
       </View>
     </View>
   );
 };
+
+const MaritalStatus = ErrorBoundary()(
+  inject("travelProfileStore")(observer(MaritalStatusComponent))
+);
 
 /* SPACER */
 const SPACING = 24;
@@ -107,7 +149,8 @@ const styles = StyleSheet.create({
   maritalStatusContainer: {
     flex: 1,
     justifyContent: "center",
-    paddingHorizontal: SPACING + 8
+    paddingHorizontal: SPACING + 8,
+    backgroundColor: CONSTANT_white1
   },
   headerContainer: {},
   bodyContainer: {

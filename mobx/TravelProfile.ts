@@ -10,8 +10,13 @@ import {
 } from "../constants/apiUrls";
 import { CONSTANT_responseSuccessStatus } from "../constants/stringConstants";
 import { IMobileServerResponse } from "../TypeInterfaces/INetworkResponse";
+import _ from "lodash";
 
-export type maritalStatusType = "Couple" | "Family" | "Friends" | "Solo";
+export type maritalStatusType = "COUPLE" | "FAMILY" | "FRIENDS" | "SOLO";
+
+export type maritalStatusOptionImagesType = {
+  [key in maritalStatusType]: string;
+};
 
 export type travellingWithType =
   | "Senior Citizens"
@@ -47,6 +52,16 @@ export interface ILoadTravelProfileResponse extends IMobileServerResponse {
   data: ITravelProfileInfo;
 }
 
+export interface ICountryDetailsListResponse extends IMobileServerResponse {
+  data: ICountryDetail[];
+}
+
+export const travelProfileOptionsTypeGuard = (
+  profileOptions: ITravelProfileOptions | {}
+): profileOptions is ITravelProfileOptions => {
+  return !_.isEmpty(profileOptions);
+};
+
 class TravelProfile {
   static hydrator = (storeInstance: TravelProfile) => {
     Promise.all([
@@ -70,6 +85,10 @@ class TravelProfile {
   @observable
   _firstTimeTraveller: boolean = false;
 
+  @persist("object")
+  @observable
+  _maritalStatusOptionImages: maritalStatusOptionImagesType | {} = {};
+
   @action
   reset = () => {
     this._countriesList = [];
@@ -83,28 +102,68 @@ class TravelProfile {
   }
 
   @computed
-  get maritalStatusOptions() {
-    return;
+  get maritalStatusOptions(): maritalStatusType[] {
+    try {
+      if (travelProfileOptionsTypeGuard(this._travelProfileOptions)) {
+        return toJS(this._travelProfileOptions.maritalStatus.values);
+      } else {
+        return [];
+      }
+    } catch (e) {
+      logError(e);
+      return [];
+    }
   }
 
   @computed
-  get travellingWith() {
-    return;
+  get travellingWith(): travellingWithType[] {
+    try {
+      if (travelProfileOptionsTypeGuard(this._travelProfileOptions)) {
+        return toJS(this._travelProfileOptions.maritalStatus.travellingWith);
+      } else {
+        return [];
+      }
+    } catch (e) {
+      logError(e);
+      return [];
+    }
   }
 
   @computed
-  get firstTimeTraveller() {
+  get firstTimeTraveller(): boolean {
     return this._firstTimeTraveller;
   }
+
+  @action
+  setFirstTimeTraveller = (status: boolean) => {
+    this._firstTimeTraveller = status;
+  };
 
   @action
   loadCountriesList = () => {
     return new Promise<boolean>((resolve, reject) => {
       apiCall(CONSTANT_getCountriesList, {}, "GET")
-        .then(response => {
+        .then((response: ICountryDetailsListResponse) => {
           if (response.status === CONSTANT_responseSuccessStatus) {
-            // TODO: Need response in JSON Format
+            this._countriesList = response.data;
+          } else {
+            resolve(false);
           }
+        })
+        .catch(reject);
+    });
+  };
+
+  @action
+  loadMaritalStatusOptionImages = () => {
+    return new Promise<boolean>((resolve, reject) => {
+      fetch(
+        `https://pyt-voyager.s3.ap-south-1.amazonaws.com/pretrip/json/maritalStatusData.json`
+      )
+        .then(response => response.json())
+        .then((data: maritalStatusOptionImagesType) => {
+          this._maritalStatusOptionImages = data;
+          resolve(true);
         })
         .catch(reject);
     });

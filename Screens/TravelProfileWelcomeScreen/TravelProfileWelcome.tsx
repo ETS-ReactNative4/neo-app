@@ -64,10 +64,14 @@ const TravelProfileWelcomeComponent = ({
         })
     });
 
-    travelProfileStore
-      .loadTravelProfile()
+    Promise.all([
+      travelProfileStore.loadCountriesList(),
+      travelProfileStore.loadMaritalStatusOptionImages(),
+      travelProfileStore.loadTravelProfile()
+    ])
       .then(result => {
-        if (!result) {
+        const hasfailed = result.some(each => !each);
+        if (hasfailed) {
           DebouncedAlert(
             CONSTANT_travelProfileFailureText.header,
             CONSTANT_travelProfileFailureText.message
@@ -103,8 +107,8 @@ const styles = StyleSheet.create({
   }
 });
 
-const TravelProfileWelcome = inject("travelProfileStore")(
-  observer(TravelProfileWelcomeComponent)
+const TravelProfileWelcome = ErrorBoundary()(
+  inject("travelProfileStore")(observer(TravelProfileWelcomeComponent))
 );
 
-export default ErrorBoundary()(TravelProfileWelcome);
+export default TravelProfileWelcome;
