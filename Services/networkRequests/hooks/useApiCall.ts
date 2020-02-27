@@ -19,7 +19,6 @@ export interface IApiCallConfig {
   customDomain?: boolean;
   customToken?: string;
   customHeader?: object;
-  requireSuccessResponseData?: boolean;
 }
 
 export interface IApiCallResponse {
@@ -55,10 +54,9 @@ const useApiCall = (): [
     requestBody = {},
     customDomain = false,
     customToken = "",
-    customHeader = {},
-    requireSuccessResponseData = false
-  }: IApiCallConfig): Promise<boolean | object> => {
-    return new Promise<boolean | object>(async (resolve, reject) => {
+    customHeader = {}
+  }: IApiCallConfig): Promise<boolean> => {
+    return new Promise<boolean>(async (resolve, reject) => {
       setIsLoading(true);
       try {
         const response: IMobileServerResponse = await apiCall(
@@ -71,12 +69,10 @@ const useApiCall = (): [
         );
         if (response.status === CONSTANT_responseSuccessStatus) {
           setSuccessResponseData(response);
-          if (requireSuccessResponseData) {
-            resolve(response.data);
-          } else {
-            resolve(true);
-          }
+          setFailureResponseData(undefined);
+          resolve(true);
         } else {
+          setSuccessResponseData(undefined);
           setFailureResponseData(response);
           resolve(false);
         }
@@ -94,7 +90,6 @@ const useApiCall = (): [
 
   return [
     { successResponseData, failureResponseData, isLoading, isError, isSuccess },
-    // @ts-ignore - TODO: fix this type issue
     makeApiCall
   ];
 };

@@ -16,12 +16,20 @@ export interface ILoginSuccessData {
   status: typeof CONSTANT_responseSuccessStatus;
   data?: {
     authToken?: string;
-    otpStatus?: "VERIFIED" | "EXPIRED";
+    otpStatus?: "VERIFIED";
+  };
+}
+
+export interface ILoginFailureData {
+  status: "FAILURE";
+  data?: {
+    otpStatus?: "EXPIRED";
   };
 }
 
 export interface ILoginApiHookData extends IApiCallHookData {
-  successResponseData: ILoginSuccessData;
+  successResponseData: ILoginSuccessData | undefined;
+  failureResponseData: ILoginFailureData | undefined;
 }
 
 export type loginApiHook = [
@@ -43,8 +51,7 @@ const useLoginUserApi = (): [
         const result = makeApiCall({
           route: CONSTANT_verifyOtpV2,
           requestBody,
-          method: "POST",
-          requireSuccessResponseData: true
+          method: "POST"
         });
         resolve(result);
       } catch (e) {

@@ -59,6 +59,8 @@ import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import useLoginUserApi from "./hooks/useLoginUserApi";
 import { registerTokenV2 } from "../../Services/registerToken/registerToken";
 import { logError } from "../../Services/errorLogger/errorLogger";
+import useDeepCompareEffect from "use-deep-compare-effect";
+import DebouncedAlert from "../../CommonComponents/DebouncedAlert/DebouncedAlert";
 
 type screenName = typeof SCREEN_APP_LOGIN;
 
@@ -93,7 +95,11 @@ const AppLogin = ({ navigation }: IAppLoginProps) => {
   const [mobileNumberApiDetails, mobileNumberSubmitCall] = useMobileNumberApi();
   const [registrationApiDetails, registerNewUser] = useRegisterUserApi();
   const [otpApiDetails, makeOtpRequestCall] = useRequestOtpApi();
-  const [, loginUser] = useLoginUserApi();
+  const [loginApiDetails, loginUser] = useLoginUserApi();
+  const {
+    successResponseData: loginSuccessData,
+    failureResponseData: loginFailureData
+  } = loginApiDetails;
   const [isPhoneSubmitAttempted, setPhoneSubmitAttempt] = useState<boolean>(
     false
   );
@@ -214,29 +220,46 @@ const AppLogin = ({ navigation }: IAppLoginProps) => {
   };
 
   const codeFilled = async (otp: string) => {
-    const result = await loginUser({
-      countryPhoneCode: countryCode,
-      mobileNumber: phoneNumber,
-      otp,
-      otpDetailsId: otpApiDetails.successResponseData?.data?.otpDetailsId || ""
-    });
-    if (result) {
-      try {
-        // @ts-ignore - TODO: need to fix the types for useAPICall hook
-        const isTokenStored = await registerTokenV2(result?.authToken || "");
-        if (isTokenStored) {
-          //TODO: Do login transition here...
-        } else {
-          toastCenter("Login Failed");
-        }
-      } catch (e) {
-        logError(e);
-        toastCenter("Login Failed");
-      }
-    } else {
-      toastCenter("Invalid OTP");
+    try {
+      await loginUser({
+        countryPhoneCode: countryCode,
+        mobileNumber: phoneNumber,
+        otp,
+        otpDetailsId:
+          otpApiDetails.successResponseData?.data?.otpDetailsId || ""
+      });
+    } catch (e) {
+      toastCenter("Login Failed");
     }
   };
+
+  /**
+   * Effect hook that will be fired once Login Details are received.
+   * This requires a ref hook to store the previous values
+   * and a deep equality check on the ref & the store value
+   * so that it will not unnecessarily fire the login actions
+   *
+   * Problem: https://github.com/kentcdodds/use-deep-compare-effect#the-problem
+   * Solution: https://github.com/kentcdodds/use-deep-compare-effect#this-solution
+   */
+  useDeepCompareEffect(() => {
+    if (loginSuccessData) {
+      registerTokenV2(loginSuccessData.data?.authToken || "")
+        .then(isTokenStored => {
+          if (isTokenStored) {
+            // TODO - Do Login transition here...
+          } else {
+            toastCenter("Login Failed");
+          }
+        })
+        .catch(e => {
+          logError(e);
+          toastCenter("Login Failed");
+        });
+    } else if (loginFailureData?.data) {
+      DebouncedAlert("Invalid OTP", "Please try again ☹️");
+    }
+  }, [loginSuccessData, loginFailureData]);
 
   return (
     <Fragment>
