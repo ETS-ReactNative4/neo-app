@@ -10,20 +10,23 @@ import {
 } from "react-native";
 import {
   CONSTANT_black1,
-  CONSTANT_shade5
+  CONSTANT_shade5,
+  CONSTANT_shade1
 } from "../../../constants/colorPallete";
 import {
   CONSTANT_primaryRegular,
   CONSTANT_fontCustom
 } from "../../../constants/fonts";
 import SmartImageV2 from "../../../CommonComponents/SmartImage/SmartImageV2";
+import { CONSTANT_defaultPlaceImage } from "../../../constants/imageAssets";
 
-interface MaritalStatusCardProps {
+export interface MaritalStatusCardProps {
   imageSource: string;
   text: string;
   containerStyle?: StyleProp<ViewStyle>;
   imageStyle?: StyleProp<ImageStyle>;
   onPress: () => any;
+  isSelected: boolean;
 }
 
 const MaritalStatusCard = ({
@@ -31,7 +34,8 @@ const MaritalStatusCard = ({
   imageSource = "",
   text = "",
   imageStyle,
-  onPress = () => null
+  onPress = () => null,
+  isSelected
 }: MaritalStatusCardProps) => {
   const selectedAction = () => {
     onPress();
@@ -47,8 +51,12 @@ const MaritalStatusCard = ({
         <SmartImageV2
           resizeMode={"cover"}
           source={{ uri: imageSource }}
-          fallbackSource={{ uri: imageSource }}
-          style={[styles.image, imageStyle]}
+          fallbackSource={{ uri: CONSTANT_defaultPlaceImage }}
+          style={[
+            styles.image,
+            !isSelected ? styles.unselectedImage : null,
+            imageStyle
+          ]}
         />
         <Text style={styles.textStyle}>{text}</Text>
       </TouchableOpacity>
@@ -75,6 +83,9 @@ const styles = StyleSheet.create({
     width: 68,
     height: 50,
     marginBottom: 32
+  },
+  unselectedImage: {
+    tintColor: CONSTANT_shade1
   }
 });
 

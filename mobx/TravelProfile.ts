@@ -116,6 +116,11 @@ class TravelProfile {
   }
 
   @computed
+  get maritalStatusOptionImages(): maritalStatusOptionImagesType | {} {
+    return toJS(this._maritalStatusOptionImages);
+  }
+
+  @computed
   get travellingWith(): travellingWithType[] {
     try {
       if (travelProfileOptionsTypeGuard(this._travelProfileOptions)) {

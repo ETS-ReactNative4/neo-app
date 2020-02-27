@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, LayoutAnimation } from "react-native";
 import SectionTitle from "../../CommonComponents/SectionTitle/SectionTitle";
 import MaritalStatusCard from "./Components/MaritalStatusCard";
 import PrimaryButton from "../../CommonComponents/PrimaryButton/PrimaryButton";
@@ -19,6 +19,11 @@ import { CONSTANT_white1 } from "../../constants/colorPallete";
 import { observer, inject } from "mobx-react";
 import TravelProfile from "../../mobx/TravelProfile";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
+import * as Animatable from "react-native-animatable";
+
+const { createAnimatableComponent } = Animatable;
+
+const AnimatableView = createAnimatableComponent(View);
 
 type screenName = typeof SCREEN_TRAVEL_MARITAL_STATUS;
 
@@ -48,7 +53,10 @@ const MaritalStatusComponent = ({
   navigation,
   travelProfileStore
 }: MaritalStatusProps) => {
-  const { maritalStatusOptions } = travelProfileStore;
+  const {
+    maritalStatusOptions,
+    maritalStatusOptionImages
+  } = travelProfileStore;
 
   const [maritalStatusOptionsData, setMaritalStatusOptionsData] = useState<
     IMaritalStatusOptions[]
@@ -59,7 +67,8 @@ const MaritalStatusComponent = ({
       maritalStatusOptions.map((maritalStatus, index) => {
         return {
           id: index,
-          imageUrl: "",
+          // @ts-ignore - unable to fix this type
+          imageUrl: maritalStatusOptionImages[maritalStatus],
           text: maritalStatus,
           isSelected: false
         };
@@ -87,8 +96,13 @@ const MaritalStatusComponent = ({
   const selectSuggestedMaritalStatusData = (statusIndex: number) => {
     const statusList = [...maritalStatusOptionsData];
     statusList[statusIndex].isSelected = !statusList[statusIndex].isSelected;
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     setMaritalStatusOptionsData(statusList);
   };
+
+  const selecteMaritalOptions = maritalStatusOptionsData.filter(
+    maritalOption => maritalOption.isSelected
+  );
 
   return (
     <View style={styles.maritalStatusContainer}>
@@ -120,18 +134,24 @@ const MaritalStatusComponent = ({
                 onPress={onSelect}
                 imageSource={suggestedMaritalData.imageUrl}
                 text={suggestedMaritalData.text}
+                isSelected={suggestedMaritalData.isSelected}
               />
             );
           })}
         </MasonryView>
       </View>
 
-      <View style={styles.footerContainer}>
+      <AnimatableView
+        animation={selecteMaritalOptions.length ? "fadeInUp" : "fadeOutDown"}
+        style={styles.footerContainer}
+        useNativeDriver={true}
+        duration={150}
+      >
         <PrimaryButton
           text={"Up Next - Holiday Style"}
           clickAction={continueFlow}
         />
-      </View>
+      </AnimatableView>
     </View>
   );
 };
