@@ -9,7 +9,8 @@ import {
   Text
 } from "react-native";
 import {
-  responsiveWidth
+  responsiveWidth,
+  responsiveHeight
   // @ts-ignore
 } from "react-native-responsive-dimensions";
 
@@ -26,6 +27,7 @@ interface ParallaxScrollViewProps {
   containerStyle?: ViewStyle;
   children?: ReactNode;
   bannerImage: string;
+  backAction: () => any;
   smallText: string;
   titleText: string;
   titleNumberOfLines?: number;
@@ -37,9 +39,10 @@ const BANNER_HEIGHT = ratioCalculator(3, 2, BANNER_WIDTH);
 const ParallaxScrollView = ({
   containerStyle,
   bannerImage,
+  backAction = () => {},
   smallText,
   titleText,
-  titleNumberOfLines,
+  titleNumberOfLines = 2,
   children
 }: ParallaxScrollViewProps) => {
   return (
@@ -50,18 +53,20 @@ const ParallaxScrollView = ({
           resizeMode={"cover"}
           style={styles.bannerImageStyle}
         >
-          <TouchableOpacity activeOpacity={0.8} onPress={() => {}}>
-            <View style={styles.backArrowWrapper}>
-              <View style={styles.backArrowIconStyle}>
-                <Icon
-                  name={CONSTANT_arrowRight}
-                  size={14}
-                  color={CONSTANT_white}
-                />
-              </View>
-
-              <Text style={styles.backTextStyle}>BACK</Text>
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={backAction}
+            style={styles.backArrowWrapper}
+          >
+            <View style={styles.backArrowIconStyle}>
+              <Icon
+                name={CONSTANT_arrowRight}
+                size={14}
+                color={CONSTANT_white}
+              />
             </View>
+
+            <Text style={styles.backTextStyle}>BACK</Text>
           </TouchableOpacity>
 
           <View>
@@ -81,6 +86,7 @@ const ParallaxScrollView = ({
         showsVerticalScrollIndicator={false}
         contentOffset={{ x: 0, y: -BANNER_HEIGHT + 20 }}
         contentInset={{ top: BANNER_HEIGHT - 20 }}
+        contentContainerStyle={styles.scrollViewBodyContainer}
       >
         {children}
       </ScrollView>
@@ -92,7 +98,6 @@ const styles = StyleSheet.create({
   parallaxScrollViewContainer: {
     flex: 1
   },
-
   parallaxBannerImageContainer: {
     position: "absolute",
     left: 0,
@@ -106,6 +111,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between"
   },
   backArrowWrapper: {
+    width: 64,
     flexDirection: "row",
     alignItems: "center"
   },
@@ -120,7 +126,7 @@ const styles = StyleSheet.create({
   },
   smallTextStyle: {
     color: CONSTANT_white,
-    ...CONSTANT_fontCustom(CONSTANT_primarySemiBold, 12, 15),
+    ...CONSTANT_fontCustom(CONSTANT_primarySemiBold, 12),
     textTransform: "uppercase",
     marginBottom: 8
   },
@@ -130,13 +136,10 @@ const styles = StyleSheet.create({
   },
 
   scrollViewBodyContainer: {
-    flexDirection: "column",
-    alignItems: "center",
+    height: responsiveHeight(100),
     backgroundColor: CONSTANT_white,
     borderTopLeftRadius: 14,
-    borderTopRightRadius: 14,
-    paddingHorizontal: 16,
-    paddingVertical: 20
+    borderTopRightRadius: 14
   }
 });
 
