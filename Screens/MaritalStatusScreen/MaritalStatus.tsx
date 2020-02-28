@@ -16,7 +16,7 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import { AppNavigatorParamsType } from "../../NavigatorsV2/AppNavigator";
 import WelcomeHeader from "../../NavigatorsV2/Components/WelcomeHeader";
 import { observer, inject } from "mobx-react";
-import TravelProfile from "../../mobx/TravelProfile";
+import TravelProfile, { travellingWithType } from "../../mobx/TravelProfile";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import * as Animatable from "react-native-animatable";
 import MaritalStatusActionSheet from "./Components/MaritalStatusActionSheet";
@@ -51,6 +51,12 @@ export interface IMaritalStatusOptions {
   isSelected: boolean;
 }
 
+export interface ITravellingWithOptions {
+  id: number;
+  text: travellingWithType;
+  isSelected: boolean;
+}
+
 /* SPACER */
 const SPACING = 24;
 const BOTTOM_SPACING = SPACING;
@@ -68,13 +74,17 @@ const MaritalStatusComponent = ({
 }: MaritalStatusProps) => {
   const {
     maritalStatusOptions,
-    maritalStatusOptionImages
+    maritalStatusOptionImages,
+    travellingWith
   } = travelProfileStore;
 
   const maritalStatusRef = useRef(null);
 
   const [maritalStatusOptionsData, setMaritalStatusOptionsData] = useState<
     IMaritalStatusOptions[]
+  >([]);
+  const [travellingWithOptionsData, setTravellingWithOptionsData] = useState<
+    ITravellingWithOptions[]
   >([]);
 
   useEffect(() => {
@@ -85,6 +95,16 @@ const MaritalStatusComponent = ({
           // @ts-ignore - unable to fix this type
           imageUrl: maritalStatusOptionImages[maritalStatus],
           text: maritalStatus,
+          isSelected: false
+        };
+      })
+    );
+
+    setTravellingWithOptionsData(
+      travellingWith.map((item, itemIndex) => {
+        return {
+          id: itemIndex,
+          text: item,
           isSelected: false
         };
       })
@@ -128,6 +148,20 @@ const MaritalStatusComponent = ({
     });
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     setMaritalStatusOptionsData(statusList);
+  };
+
+  const selectTravellingWithOption = (id: number) => {
+    const travellingWithOptionsList = travellingWithOptionsData.map(item => {
+      if (item.id === id) {
+        return {
+          ...item,
+          isSelected: !item.isSelected
+        };
+      }
+      return item;
+    });
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    setTravellingWithOptionsData(travellingWithOptionsList);
   };
 
   const selectedMaritalOptions = maritalStatusOptionsData.filter(
@@ -186,8 +220,9 @@ const MaritalStatusComponent = ({
         </AnimatableView>
       </View>
       <MaritalStatusActionSheet
+        onChange={selectTravellingWithOption}
         onNext={continueFlow}
-        checkboxData={[]}
+        checkboxData={travellingWithOptionsData}
         actionSheetRef={maritalStatusRef}
       />
     </Fragment>

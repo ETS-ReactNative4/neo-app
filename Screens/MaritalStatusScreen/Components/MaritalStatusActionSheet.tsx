@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { View, StyleSheet, ScrollView } from "react-native";
 import {
   responsiveHeight
@@ -6,47 +6,25 @@ import {
 } from "react-native-responsive-dimensions";
 
 import SectionTitle from "../../../CommonComponents/SectionTitle/SectionTitle";
-import CustomCheckBox, {
-  ICheckBoxData,
-  ISuggestedDetails
-} from "../../../CommonComponents/CustomCheckBox/CustomCheckBox";
+import CustomCheckBox from "../../../CommonComponents/CustomCheckBox/CustomCheckBox";
 import PrimaryButton from "../../../CommonComponents/PrimaryButton/PrimaryButton";
 import XSensorPlaceholder from "../../../CommonComponents/XSensorPlaceholder/XSensorPlaceholder";
 import ActionSheet from "../../../CommonComponents/ActionSheet/ActionSheet";
+import { ITravellingWithOptions } from "../MaritalStatus";
 
-interface MaritalStatusActionSheetProps {
+export interface MaritalStatusActionSheetProps {
   actionSheetRef: React.MutableRefObject<any>;
-  checkboxData: ICheckBoxData[];
+  checkboxData: ITravellingWithOptions[];
   onNext: () => any;
+  onChange: (id: number) => any;
 }
 
 const MaritalStatusActionSheet = ({
   actionSheetRef,
   checkboxData = [],
-  onNext = () => null
+  onNext = () => null,
+  onChange = () => null
 }: MaritalStatusActionSheetProps) => {
-  const [suggestedDetails, setSuggestedDetails] = useState<ISuggestedDetails[]>(
-    []
-  );
-
-  useEffect(() => {
-    setSuggestedDetails(
-      checkboxData.map((checkboxDataObj, dataIndex) => {
-        return {
-          index: dataIndex,
-          text: checkboxDataObj.text,
-          isChecked: false
-        };
-      })
-    );
-  }, [checkboxData]);
-
-  const selectSuggestedDetails = (dataIndex: number) => {
-    const suggestedList = [...suggestedDetails];
-    suggestedList[dataIndex].isChecked = !suggestedList[dataIndex].isChecked;
-    setSuggestedDetails(suggestedList);
-  };
-
   return (
     <ActionSheet interactableRef={actionSheetRef}>
       <View style={styles.actionSheetContainer}>
@@ -59,15 +37,15 @@ const MaritalStatusActionSheet = ({
 
         <View style={styles.bodyContainerStyle}>
           <ScrollView showsVerticalScrollIndicator={false}>
-            {suggestedDetails.map((dataObj, index) => {
+            {checkboxData.map((dataObj, index) => {
               const onSelect = () => {
-                selectSuggestedDetails(dataObj.index);
+                onChange(dataObj.id);
               };
 
               return (
                 <CustomCheckBox
                   key={index}
-                  isChecked={dataObj.isChecked}
+                  isChecked={dataObj.isSelected}
                   action={onSelect}
                   text={dataObj.text}
                 />
