@@ -211,15 +211,16 @@ const TravelProfileCityComponent = ({
         animation={selectedCities.length ? "fadeInUp" : "fadeOutDown"}
         useNativeDriver={true}
         duration={150}
-        style={styles.buttonWrapperStyle}
       >
-        <TouchableOpacity onPress={continueFlow} activeOpacity={0.8}>
-          <View style={styles.buttonTextWrapperStyle}>
-            <Text
-              style={styles.selectedTextStyle}
-            >{`${selectedCities.length} Selected`}</Text>
-            <Text style={styles.textStyle}>Next - Marital Status</Text>
-          </View>
+        <TouchableOpacity
+          onPress={continueFlow}
+          activeOpacity={0.8}
+          style={styles.buttonWrapperStyle}
+        >
+          <Text
+            style={styles.selectedTextStyle}
+          >{`${selectedCities.length} Selected`}</Text>
+          <Text style={styles.textStyle}>Next - Marital Status</Text>
         </TouchableOpacity>
       </AnimatableView>
     </View>
@@ -254,18 +255,15 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     paddingVertical: 16,
     paddingHorizontal: 24,
-    justifyContent: "center",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
     position: "absolute",
     left: LEFT_SPACING,
     right: RIGHT_SPACING,
     bottom: BOTTOM_SPACING + (isIphoneX() ? CONSTANT_xSensorAreaHeight : 0)
   },
 
-  buttonTextWrapperStyle: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between"
-  },
   selectedTextStyle: {
     color: CONSTANT_white1,
     ...CONSTANT_fontCustom(CONSTANT_primarySemiBold, 12)

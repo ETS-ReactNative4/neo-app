@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment } from "react";
+import React, { useState, useEffect, Fragment, useRef } from "react";
 import { View, StyleSheet, LayoutAnimation } from "react-native";
 import SectionTitle from "../../CommonComponents/SectionTitle/SectionTitle";
 import MaritalStatusCard from "./Components/MaritalStatusCard";
@@ -15,12 +15,12 @@ import { SCREEN_TRAVEL_MARITAL_STATUS } from "../../NavigatorsV2/ScreenNames";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { AppNavigatorParamsType } from "../../NavigatorsV2/AppNavigator";
 import WelcomeHeader from "../../NavigatorsV2/Components/WelcomeHeader";
-import { CONSTANT_white1 } from "../../constants/colorPallete";
 import { observer, inject } from "mobx-react";
 import TravelProfile from "../../mobx/TravelProfile";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import * as Animatable from "react-native-animatable";
-// import MaritalStatusActionSheet from "./Components/MaritalStatusActionSheet";
+import MaritalStatusActionSheet from "./Components/MaritalStatusActionSheet";
+import ratioCalculator from "../../Services/ratioCalculator/ratioCalculator";
 
 const { createAnimatableComponent } = Animatable;
 
@@ -50,6 +50,17 @@ export interface IMaritalStatusOptions {
   isSelected: boolean;
 }
 
+/* SPACER */
+const SPACING = 24;
+const BOTTOM_SPACING = SPACING;
+
+const MARITAL_STATUS_CARD_WIDTH = responsiveWidth(50) - SPACING;
+const MARITAL_STATUS_CARD_HEIGHT = ratioCalculator(
+  24,
+  31,
+  MARITAL_STATUS_CARD_WIDTH
+);
+
 const MaritalStatusComponent = ({
   navigation,
   travelProfileStore
@@ -59,7 +70,7 @@ const MaritalStatusComponent = ({
     maritalStatusOptionImages
   } = travelProfileStore;
 
-  // const maritalStatusRef = useRef(null);
+  const maritalStatusRef = useRef(null);
 
   const [maritalStatusOptionsData, setMaritalStatusOptionsData] = useState<
     IMaritalStatusOptions[]
@@ -139,6 +150,8 @@ const MaritalStatusComponent = ({
                   imageSource={suggestedMaritalData.imageUrl}
                   text={suggestedMaritalData.text}
                   isSelected={suggestedMaritalData.isSelected}
+                  maritalStatusCardWidth={MARITAL_STATUS_CARD_WIDTH}
+                  maritalStatusCardHeight={MARITAL_STATUS_CARD_HEIGHT}
                 />
               );
             })}
@@ -157,7 +170,10 @@ const MaritalStatusComponent = ({
           />
         </AnimatableView>
       </View>
-      {/* <MaritalStatusActionSheet  actionSheetRef={maritalStatusRef} /> */}
+      <MaritalStatusActionSheet
+        checkboxData={[]}
+        actionSheetRef={maritalStatusRef}
+      />
     </Fragment>
   );
 };
@@ -166,17 +182,11 @@ const MaritalStatus = ErrorBoundary()(
   inject("travelProfileStore")(observer(MaritalStatusComponent))
 );
 
-/* SPACER */
-const SPACING = 24;
-
-const BOTTOM_SPACING = SPACING;
-
 const styles = StyleSheet.create({
   maritalStatusContainer: {
     flex: 1,
     justifyContent: "center",
-    paddingHorizontal: SPACING + 8,
-    backgroundColor: CONSTANT_white1
+    paddingHorizontal: SPACING + 8
   },
   headerContainer: {},
   bodyContainer: {
