@@ -13,6 +13,7 @@ import {
 } from "react-native-responsive-dimensions";
 import Interactable from "react-native-interactable";
 import { CONSTANT_shade4 } from "../../constants/colorPallete";
+import { useBackHandler } from "@react-native-community/hooks";
 
 const { createAnimatedComponent, Value } = Animated;
 const AnimatedView = createAnimatedComponent(View);
@@ -54,6 +55,22 @@ const ActionSheet = ({
     setSnapPosition(snapDetails.nativeEvent.index);
     onSnap(snapDetails);
   };
+
+  useBackHandler(() => {
+    /**
+     * If android back button is pressed when the action sheet is active
+     * hide the action sheet
+     */
+    if (snapPosition < 2) {
+      // @ts-ignore
+      interactableRef.current?.snapTo({ index: 2 });
+      return true;
+    }
+    /**
+     * Action sheet already hidden, default back action can continue
+     */
+    return false;
+  });
 
   useEffect(() => {
     /**
