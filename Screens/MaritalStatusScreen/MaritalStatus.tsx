@@ -20,6 +20,7 @@ import { observer, inject } from "mobx-react";
 import TravelProfile from "../../mobx/TravelProfile";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import * as Animatable from "react-native-animatable";
+import ratioCalculator from "../../Services/ratioCalculator/ratioCalculator";
 
 const { createAnimatableComponent } = Animatable;
 
@@ -48,6 +49,17 @@ export interface IMaritalStatusOptions {
   text: string;
   isSelected: boolean;
 }
+
+/* SPACER */
+const SPACING = 24;
+const BOTTOM_SPACING = SPACING;
+
+const MARITAL_STATUS_CARD_WIDTH = responsiveWidth(50) - SPACING;
+const MARITAL_STATUS_CARD_HEIGHT = ratioCalculator(
+  24,
+  31,
+  MARITAL_STATUS_CARD_WIDTH
+);
 
 const MaritalStatusComponent = ({
   navigation,
@@ -106,20 +118,17 @@ const MaritalStatusComponent = ({
 
   return (
     <View style={styles.maritalStatusContainer}>
-      <View style={styles.headerContainer}>
-        <SectionTitle
-          title={"What’s your marital status?"}
-          description={
-            "Soul searching, honeymoons, anniversary trips or full family vacations, we’ll plan them all for you :)"
-          }
-          containerStyle={styles.sectionTitleStyle}
-        />
-      </View>
+      <SectionTitle
+        title={"What’s your marital status?"}
+        description={
+          "Soul searching, honeymoons, anniversary trips or full family vacations, we’ll plan them all for you :)"
+        }
+        containerStyle={styles.sectionTitleStyle}
+      />
 
       <View style={styles.bodyContainer}>
         <MasonryView
           columns={2}
-          columnStyle={styles.scrollColumn}
           oddColumnStyle={styles.oddColumnStyle}
           evenColumnStyle={styles.evenColumnStyle}
         >
@@ -135,6 +144,8 @@ const MaritalStatusComponent = ({
                 imageSource={suggestedMaritalData.imageUrl}
                 text={suggestedMaritalData.text}
                 isSelected={suggestedMaritalData.isSelected}
+                maritalStatusCardWidth={MARITAL_STATUS_CARD_WIDTH}
+                maritalStatusCardHeight={MARITAL_STATUS_CARD_HEIGHT}
               />
             );
           })}
@@ -160,19 +171,13 @@ const MaritalStatus = ErrorBoundary()(
   inject("travelProfileStore")(observer(MaritalStatusComponent))
 );
 
-/* SPACER */
-const SPACING = 24;
-
-const BOTTOM_SPACING = SPACING;
-
 const styles = StyleSheet.create({
   maritalStatusContainer: {
     flex: 1,
     justifyContent: "center",
-    paddingHorizontal: SPACING + 8,
+    paddingHorizontal: SPACING,
     backgroundColor: CONSTANT_white1
   },
-  headerContainer: {},
   bodyContainer: {
     flex: 1
   },
@@ -183,9 +188,6 @@ const styles = StyleSheet.create({
     marginTop: 16,
     paddingBottom:
       BOTTOM_SPACING + (isIphoneX() ? CONSTANT_xSensorAreaHeight : 0)
-  },
-  scrollColumn: {
-    width: responsiveWidth(50) - 40
   },
   oddColumnStyle: {
     paddingLeft: 4
