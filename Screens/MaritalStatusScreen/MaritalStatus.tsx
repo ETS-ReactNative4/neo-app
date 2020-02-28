@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 import { View, StyleSheet, LayoutAnimation } from "react-native";
 import SectionTitle from "../../CommonComponents/SectionTitle/SectionTitle";
 import MaritalStatusCard from "./Components/MaritalStatusCard";
@@ -20,6 +20,7 @@ import { observer, inject } from "mobx-react";
 import TravelProfile from "../../mobx/TravelProfile";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import * as Animatable from "react-native-animatable";
+// import MaritalStatusActionSheet from "./Components/MaritalStatusActionSheet";
 
 const { createAnimatableComponent } = Animatable;
 
@@ -57,6 +58,8 @@ const MaritalStatusComponent = ({
     maritalStatusOptions,
     maritalStatusOptionImages
   } = travelProfileStore;
+
+  // const maritalStatusRef = useRef(null);
 
   const [maritalStatusOptionsData, setMaritalStatusOptionsData] = useState<
     IMaritalStatusOptions[]
@@ -100,59 +103,62 @@ const MaritalStatusComponent = ({
     setMaritalStatusOptionsData(statusList);
   };
 
-  const selecteMaritalOptions = maritalStatusOptionsData.filter(
+  const selectedMaritalOptions = maritalStatusOptionsData.filter(
     maritalOption => maritalOption.isSelected
   );
 
   return (
-    <View style={styles.maritalStatusContainer}>
-      <View style={styles.headerContainer}>
-        <SectionTitle
-          title={"What’s your marital status?"}
-          description={
-            "Soul searching, honeymoons, anniversary trips or full family vacations, we’ll plan them all for you :)"
-          }
-          containerStyle={styles.sectionTitleStyle}
-        />
-      </View>
+    <Fragment>
+      <View style={styles.maritalStatusContainer}>
+        <View style={styles.headerContainer}>
+          <SectionTitle
+            title={"What’s your marital status?"}
+            description={
+              "Soul searching, honeymoons, anniversary trips or full family vacations, we’ll plan them all for you :)"
+            }
+            containerStyle={styles.sectionTitleStyle}
+          />
+        </View>
 
-      <View style={styles.bodyContainer}>
-        <MasonryView
-          columns={2}
-          columnStyle={styles.scrollColumn}
-          oddColumnStyle={styles.oddColumnStyle}
-          evenColumnStyle={styles.evenColumnStyle}
+        <View style={styles.bodyContainer}>
+          <MasonryView
+            columns={2}
+            columnStyle={styles.scrollColumn}
+            oddColumnStyle={styles.oddColumnStyle}
+            evenColumnStyle={styles.evenColumnStyle}
+          >
+            {maritalStatusOptionsData.map((suggestedMaritalData, index) => {
+              const onSelect = () => {
+                selectSuggestedMaritalStatusData(suggestedMaritalData.id);
+              };
+
+              return (
+                <MaritalStatusCard
+                  key={index}
+                  onPress={onSelect}
+                  imageSource={suggestedMaritalData.imageUrl}
+                  text={suggestedMaritalData.text}
+                  isSelected={suggestedMaritalData.isSelected}
+                />
+              );
+            })}
+          </MasonryView>
+        </View>
+
+        <AnimatableView
+          animation={selectedMaritalOptions.length ? "fadeInUp" : "fadeOutDown"}
+          style={styles.footerContainer}
+          useNativeDriver={true}
+          duration={150}
         >
-          {maritalStatusOptionsData.map((suggestedMaritalData, index) => {
-            const onSelect = () => {
-              selectSuggestedMaritalStatusData(suggestedMaritalData.id);
-            };
-
-            return (
-              <MaritalStatusCard
-                key={index}
-                onPress={onSelect}
-                imageSource={suggestedMaritalData.imageUrl}
-                text={suggestedMaritalData.text}
-                isSelected={suggestedMaritalData.isSelected}
-              />
-            );
-          })}
-        </MasonryView>
+          <PrimaryButton
+            text={"Up Next - Holiday Style"}
+            clickAction={continueFlow}
+          />
+        </AnimatableView>
       </View>
-
-      <AnimatableView
-        animation={selecteMaritalOptions.length ? "fadeInUp" : "fadeOutDown"}
-        style={styles.footerContainer}
-        useNativeDriver={true}
-        duration={150}
-      >
-        <PrimaryButton
-          text={"Up Next - Holiday Style"}
-          clickAction={continueFlow}
-        />
-      </AnimatableView>
-    </View>
+      {/* <MaritalStatusActionSheet  actionSheetRef={maritalStatusRef} /> */}
+    </Fragment>
   );
 };
 

@@ -15,11 +15,13 @@ import XSensorPlaceholder from "../../../CommonComponents/XSensorPlaceholder/XSe
 import ActionSheet from "../../../CommonComponents/ActionSheet/ActionSheet";
 
 interface MaritalStatusActionSheetProps {
+  actionSheetRef: React.MutableRefObject<any>;
   checkboxData: ICheckBoxData[];
 }
 
 const MaritalStatusActionSheet = ({
-  checkboxData
+  actionSheetRef,
+  checkboxData = []
 }: MaritalStatusActionSheetProps) => {
   const [suggestedDetails, setSuggestedDetails] = useState<ISuggestedDetails[]>(
     []
@@ -44,7 +46,10 @@ const MaritalStatusActionSheet = ({
   };
 
   return (
-    <ActionSheet panelStartingPosition={responsiveHeight(20)}>
+    <ActionSheet
+      interactableRef={actionSheetRef}
+      panelStartingPosition={responsiveHeight(20)}
+    >
       <View style={styles.actionSheetContainer}>
         <SectionTitle
           smallTitle={"TRAVELLERS’ DETAILS"}
