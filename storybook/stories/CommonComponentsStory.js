@@ -22,6 +22,7 @@ import ModalContentTestCases from "../../Screens/AppOverlays/Components/ForceUpd
 import RouteListTestCases from "../../CommonComponents/RouteList/RouteListTestCases";
 import ParallaxScrollViewTestCases from "../../CommonComponents/ParallaxScrollView/ParallaxScrollViewTestCases";
 import CustomRadioButtonTestCases from "../../CommonComponents/CustomRadioButton/CustomRadioButtonTestCases";
+import SavedItineraryCardTestCases from "../../CommonComponents/SavedItineraryCard/SavedItineraryCardTestCases";
 
 const CommonComponentStories = storiesOf("Common Components", module);
 
@@ -51,3 +52,4 @@ ModalContentTestCases.forEach(renderTestCase);
 RouteListTestCases.forEach(renderTestCase);
 ParallaxScrollViewTestCases.forEach(renderTestCase);
 CustomRadioButtonTestCases.forEach(renderTestCase);
+SavedItineraryCardTestCases.forEach(renderTestCase);

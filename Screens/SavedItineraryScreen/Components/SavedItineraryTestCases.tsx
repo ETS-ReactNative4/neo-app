@@ -1,14 +1,11 @@
 import React from "react";
 
 import { ITestCase } from "../../../TypeInterfaces/TestCases/ITestCases";
-import NotificationsActionSheet from "./NotificationsActionSheet";
-import TripDetails from "./TripDetails";
-import { ScrollView, Alert, StyleSheet } from "react-native";
-import { IRouteCitiesDetails } from "../../../CommonComponents/RouteList/RouteList";
-import { CONSTANT_eighteenthColor } from "../../../constants/colorPallete";
+import { Alert, View } from "react-native";
 
-import HeadingText from "./HeadingText";
+import SavedItineraryHeader from "./SavedItineraryHeader";
 import SavedItineraryCard from "../../../CommonComponents/SavedItineraryCard/SavedItineraryCard";
+import { IRouteCitiesDetails } from "../../../CommonComponents/RouteList/RouteList";
 
 const savedItinerariesData = [
   {
@@ -66,34 +63,20 @@ interface ISavedItineraries {
   title: string;
 }
 
-interface NotificationViewProps {
+interface SavedItineraryWrapperProps {
   savedItineraries: ISavedItineraries[];
 }
 
-const NotificationsSavedItineraryView = ({
+const SavedItineraryWrapper = ({
   savedItineraries
-}: NotificationViewProps) => {
+}: SavedItineraryWrapperProps) => {
   return (
-    <ScrollView showsVerticalScrollIndicator={false}>
-      <HeadingText title={"New"} />
+    <View>
+      <SavedItineraryHeader
+        title={"Saved Itineraries"}
+        action={() => Alert.alert("Click back arrow")}
+      />
 
-      {savedItineraries.map((item, itemIndex) => {
-        return (
-          <SavedItineraryCard
-            key={itemIndex}
-            containerStyle={styles.newSavedItineraryBgColor}
-            image={item.image}
-            title={item.title}
-            lastEdited={item.lastEdited}
-            cities={item.cities}
-            action={() => Alert.alert(item.url)}
-            moreOptions
-            moreOptionsAction={() => Alert.alert("Click more options")}
-          />
-        );
-      })}
-
-      <HeadingText title={"Earlier"} />
       {savedItineraries.map((item, itemIndex) => {
         return (
           <SavedItineraryCard
@@ -103,38 +86,27 @@ const NotificationsSavedItineraryView = ({
             lastEdited={item.lastEdited}
             cities={item.cities}
             action={() => Alert.alert(item.url)}
-            moreOptions
-            moreOptionsAction={() => Alert.alert("Click more options")}
           />
         );
       })}
-    </ScrollView>
+    </View>
   );
 };
 
-const styles = StyleSheet.create({
-  newSavedItineraryBgColor: {
-    backgroundColor: CONSTANT_eighteenthColor
-  }
-});
-
-const NotificationsTestCases: ITestCase[] = [
+const SavedItineraryTestCases: ITestCase[] = [
   {
-    title: "Notification Action Sheet",
-    Component: <NotificationsActionSheet />
-  },
-  {
-    title: "Notification Itinerary Details",
-    Component: <TripDetails />
-  },
-  {
-    title: "Notifications Saved Itinerary View",
+    title: "Saved Itinerary Header",
     Component: (
-      <NotificationsSavedItineraryView
-        savedItineraries={savedItinerariesData}
+      <SavedItineraryHeader
+        title={"Saved Itineraries"}
+        action={() => Alert.alert("Click back arrow")}
       />
     )
+  },
+  {
+    title: "Saved Itinerary",
+    Component: <SavedItineraryWrapper savedItineraries={savedItinerariesData} />
   }
 ];
 
-export default NotificationsTestCases;
+export default SavedItineraryTestCases;
