@@ -17,11 +17,13 @@ import ActionSheet from "../../../CommonComponents/ActionSheet/ActionSheet";
 interface MaritalStatusActionSheetProps {
   actionSheetRef: React.MutableRefObject<any>;
   checkboxData: ICheckBoxData[];
+  onNext: () => any;
 }
 
 const MaritalStatusActionSheet = ({
   actionSheetRef,
-  checkboxData = []
+  checkboxData = [],
+  onNext = () => null
 }: MaritalStatusActionSheetProps) => {
   const [suggestedDetails, setSuggestedDetails] = useState<ISuggestedDetails[]>(
     []
@@ -46,10 +48,7 @@ const MaritalStatusActionSheet = ({
   };
 
   return (
-    <ActionSheet
-      interactableRef={actionSheetRef}
-      panelStartingPosition={responsiveHeight(20)}
-    >
+    <ActionSheet interactableRef={actionSheetRef}>
       <View style={styles.actionSheetContainer}>
         <SectionTitle
           smallTitle={"TRAVELLERS’ DETAILS"}
@@ -78,7 +77,7 @@ const MaritalStatusActionSheet = ({
         </View>
 
         <View style={styles.footerContainerStyle}>
-          <PrimaryButton text={"Done"} clickAction={() => {}} />
+          <PrimaryButton text={"Done"} clickAction={onNext} />
           <XSensorPlaceholder />
         </View>
       </View>
@@ -95,7 +94,7 @@ const styles = StyleSheet.create({
     marginBottom: 24
   },
   bodyContainerStyle: {
-    height: 280
+    height: responsiveHeight(30)
   },
   footerContainerStyle: {
     marginTop: 24

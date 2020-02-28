@@ -21,6 +21,7 @@ import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import * as Animatable from "react-native-animatable";
 import MaritalStatusActionSheet from "./Components/MaritalStatusActionSheet";
 import ratioCalculator from "../../Services/ratioCalculator/ratioCalculator";
+import { CONSTANT_white1 } from "../../constants/colorPallete";
 
 const { createAnimatableComponent } = Animatable;
 
@@ -54,7 +55,7 @@ export interface IMaritalStatusOptions {
 const SPACING = 24;
 const BOTTOM_SPACING = SPACING;
 
-const MARITAL_STATUS_CARD_WIDTH = responsiveWidth(50) - SPACING;
+const MARITAL_STATUS_CARD_WIDTH = responsiveWidth(50) - SPACING - 4;
 const MARITAL_STATUS_CARD_HEIGHT = ratioCalculator(
   24,
   31,
@@ -101,15 +102,30 @@ const MaritalStatusComponent = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const openTravellingWithModal = () => {
+    // @ts-ignore
+    maritalStatusRef.current?.snapTo({ index: 1 });
+  };
+
   const skipFlow = () => {};
 
   const prevScreen = () => {};
 
   const continueFlow = () => {};
 
-  const selectSuggestedMaritalStatusData = (statusIndex: number) => {
-    const statusList = [...maritalStatusOptionsData];
-    statusList[statusIndex].isSelected = !statusList[statusIndex].isSelected;
+  const selectSuggestedMaritalStatusData = (statusId: number) => {
+    const statusList = maritalStatusOptionsData.map(option => {
+      if (option.id === statusId) {
+        return {
+          ...option,
+          isSelected: !option.isSelected
+        };
+      }
+      return {
+        ...option,
+        isSelected: false
+      };
+    });
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     setMaritalStatusOptionsData(statusList);
   };
@@ -134,7 +150,6 @@ const MaritalStatusComponent = ({
         <View style={styles.bodyContainer}>
           <MasonryView
             columns={2}
-            columnStyle={styles.scrollColumn}
             oddColumnStyle={styles.oddColumnStyle}
             evenColumnStyle={styles.evenColumnStyle}
           >
@@ -166,11 +181,12 @@ const MaritalStatusComponent = ({
         >
           <PrimaryButton
             text={"Up Next - Holiday Style"}
-            clickAction={continueFlow}
+            clickAction={openTravellingWithModal}
           />
         </AnimatableView>
       </View>
       <MaritalStatusActionSheet
+        onNext={continueFlow}
         checkboxData={[]}
         actionSheetRef={maritalStatusRef}
       />
@@ -186,6 +202,7 @@ const styles = StyleSheet.create({
   maritalStatusContainer: {
     flex: 1,
     justifyContent: "center",
+    backgroundColor: CONSTANT_white1,
     paddingHorizontal: SPACING + 8
   },
   headerContainer: {},
@@ -199,9 +216,6 @@ const styles = StyleSheet.create({
     marginTop: 16,
     paddingBottom:
       BOTTOM_SPACING + (isIphoneX() ? CONSTANT_xSensorAreaHeight : 0)
-  },
-  scrollColumn: {
-    width: responsiveWidth(50) - 40
   },
   oddColumnStyle: {
     paddingLeft: 4

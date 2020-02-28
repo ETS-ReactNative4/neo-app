@@ -15,6 +15,7 @@ import { observer, inject } from "mobx-react";
 import TravelProfile from "../../mobx/TravelProfile";
 import DebouncedAlert from "../../CommonComponents/DebouncedAlert/DebouncedAlert";
 import { CONSTANT_travelProfileFailureText } from "../../constants/appText";
+import { CONSTANT_white1 } from "../../constants/colorPallete";
 
 type screenName = typeof SCREEN_TRAVEL_PROFILE_WELCOME;
 
@@ -103,7 +104,8 @@ const TravelProfileWelcomeComponent = ({
 
 const styles = StyleSheet.create({
   travelProfileWelcomeContainer: {
-    flex: 1
+    flex: 1,
+    backgroundColor: CONSTANT_white1
   }
 });
 

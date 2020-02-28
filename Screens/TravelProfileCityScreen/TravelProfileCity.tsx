@@ -44,6 +44,7 @@ import matchQueryWithText from "../../Services/matchQueryWithText/matchQueryWIth
 const { createAnimatableComponent } = Animatable;
 
 const AnimatableView = createAnimatableComponent(View);
+const AnimatableTouchableOpacity = createAnimatableComponent(TouchableOpacity);
 
 type screenName = typeof SCREEN_TRAVEL_COUNTRY_PICKER;
 
@@ -207,22 +208,19 @@ const TravelProfileCityComponent = ({
         </MasonryView>
       </ScrollView>
 
-      <AnimatableView
+      <AnimatableTouchableOpacity
+        onPress={continueFlow}
+        activeOpacity={0.8}
+        style={styles.buttonWrapperStyle}
         animation={selectedCities.length ? "fadeInUp" : "fadeOutDown"}
         useNativeDriver={true}
         duration={150}
       >
-        <TouchableOpacity
-          onPress={continueFlow}
-          activeOpacity={0.8}
-          style={styles.buttonWrapperStyle}
-        >
-          <Text
-            style={styles.selectedTextStyle}
-          >{`${selectedCities.length} Selected`}</Text>
-          <Text style={styles.textStyle}>Next - Marital Status</Text>
-        </TouchableOpacity>
-      </AnimatableView>
+        <Text
+          style={styles.selectedTextStyle}
+        >{`${selectedCities.length} Selected`}</Text>
+        <Text style={styles.textStyle}>Next - Marital Status</Text>
+      </AnimatableTouchableOpacity>
     </View>
   );
 };
