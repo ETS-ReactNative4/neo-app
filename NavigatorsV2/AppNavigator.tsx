@@ -6,7 +6,8 @@ import {
   SCREEN_TRAVEL_PROFILE_WELCOME,
   SCREEN_TRAVEL_COUNTRY_PICKER,
   SCREEN_TRAVEL_MARITAL_STATUS,
-  SCREEN_STORY_BOOK
+  SCREEN_STORY_BOOK,
+  SCREEN_PRETRIP_HOME_TABS
 } from "./ScreenNames";
 import AppLogin from "../Screens/AppLoginScreen/AppLogin";
 import Starter from "../Screens/StartingScreen/Starter";
@@ -14,8 +15,10 @@ import TravelProfileWelcome from "../Screens/TravelProfileWelcomeScreen/TravelPr
 import TravelProfileCity from "../Screens/TravelProfileCityScreen/TravelProfileCity";
 import MaritalStatus from "../Screens/MaritalStatusScreen/MaritalStatus";
 import StorybookUIRoot from "../storybook/Storybook";
+import PreTripHomeTabs from "./PreTripHomeTabs";
 
 export type AppNavigatorParamsType = {
+  [SCREEN_PRETRIP_HOME_TABS]: undefined;
   [SCREEN_APP_LOGIN]: undefined;
   [SCREEN_STARTER]: undefined;
   [SCREEN_TRAVEL_PROFILE_WELCOME]: undefined;
@@ -53,6 +56,11 @@ const AppNavigator = () => {
         component={TravelProfileCity}
       />
       <Screen name={SCREEN_TRAVEL_MARITAL_STATUS} component={MaritalStatus} />
+      <Screen
+        name={SCREEN_PRETRIP_HOME_TABS}
+        options={{ headerShown: false }}
+        component={PreTripHomeTabs}
+      />
     </Navigator>
   );
 };
