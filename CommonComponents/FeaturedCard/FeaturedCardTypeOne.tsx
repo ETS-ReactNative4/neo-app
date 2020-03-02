@@ -21,6 +21,7 @@ import {
   CONSTANT_primaryRegular,
   CONSTANT_primarySemiBold
 } from "../../constants/fonts";
+import ratioCalculator from "../../Services/ratioCalculator/ratioCalculator";
 
 interface FeaturedCardTypeOneProps {
   containerStyle?: StyleProp<ImageStyle>;
@@ -30,6 +31,13 @@ interface FeaturedCardTypeOneProps {
   action: () => any;
   price: string;
 }
+
+const FEATURED_CARD_IMAGE_WIDTH = responsiveWidth(65);
+const FEATURED_CARD_IMAGE_HEIGHT = ratioCalculator(
+  8,
+  11,
+  FEATURED_CARD_IMAGE_WIDTH
+);
 
 const FeaturedCardTypeOne = ({
   containerStyle,
@@ -94,7 +102,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between"
   },
   fgImageStyle: {
-    height: 336,
+    height: FEATURED_CARD_IMAGE_HEIGHT,
     borderRadius: 8,
     marginBottom: 24
   },

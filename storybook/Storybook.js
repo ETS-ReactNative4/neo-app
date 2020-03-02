@@ -30,6 +30,9 @@ configure(() => {
   require("./stories/MaritalStatusScreenStory");
   require("./stories/AppLoginScreenStory");
   require("./stories/ListingPageScreenStory");
+  require("./stories/NotificationsScreenStory");
+  require("./stories/SavedItineraryScreenStory");
+  require("./stories/UltimateMenuScreenStory");
 }, module);
 
 const StorybookUIRoot = getStorybookUI({

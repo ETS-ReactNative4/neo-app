@@ -1,12 +1,13 @@
 import React from "react";
+
 import { View, ViewStyle } from "react-native";
 
-interface SavedItineraryProps {
+interface NotificationsProps {
   containerStyle?: ViewStyle;
 }
 
-const SavedItinerary = ({ containerStyle }: SavedItineraryProps) => {
+const Notifications = ({ containerStyle }: NotificationsProps) => {
   return <View style={containerStyle} />;
 };
 
-export default SavedItinerary;
+export default Notifications;

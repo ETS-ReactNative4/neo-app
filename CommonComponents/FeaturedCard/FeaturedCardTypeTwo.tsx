@@ -14,6 +14,7 @@ import {
   CONSTANT_primarySemiBold
 } from "../../constants/fonts";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import ratioCalculator from "../../Services/ratioCalculator/ratioCalculator";
 
 interface FeaturedCardTypeTwoProps {
   image: ImageSourcePropType;
@@ -25,6 +26,12 @@ interface FeaturedCardTypeTwoProps {
   region: string;
   description: string;
 }
+const FEATURED_CARD_IMAGE_WIDTH = responsiveWidth(65);
+const FEATURED_CARD_IMAGE_HEIGHT = ratioCalculator(
+  30,
+  31,
+  FEATURED_CARD_IMAGE_WIDTH
+);
 
 const FeaturedCardTypeTwo = ({
   image = { uri: "" },
@@ -83,7 +90,7 @@ const FeaturedCardTypeTwo = ({
 
 const styles = StyleSheet.create({
   bgImageStyle: {
-    width: responsiveWidth(100) - 32,
+    width: responsiveWidth(100),
     marginBottom: 32
   },
   imageStyle: {
@@ -98,7 +105,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between"
   },
   fgImageStyle: {
-    height: 248,
+    height: FEATURED_CARD_IMAGE_HEIGHT,
     borderRadius: 8,
     marginBottom: 16
   },

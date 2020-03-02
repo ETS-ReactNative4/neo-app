@@ -10,7 +10,7 @@ import TestimonialCard from "./TestimonialCard";
 
 const data: ICardData[] = [
   {
-    name: "Mihir ",
+    name: "Mihir",
     image:
       "https://pyt-images.imgix.net/images/testimonials/731/fbProfile/800xh/profile.jpg",
     fallbackImage: "https://pyt-images.imgix.net/images/city/2400xh/phuket.jpg",
@@ -59,7 +59,6 @@ interface TestimonialCardWrapperProps {
 
 const styles = StyleSheet.create({
   wrapper: {
-    height: 184,
     width: responsiveWidth(100)
   }
 });
@@ -67,7 +66,11 @@ const styles = StyleSheet.create({
 const TestimonialCardWrapper = ({ cardData }: TestimonialCardWrapperProps) => {
   return (
     <View style={styles.wrapper}>
-      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+      <ScrollView
+        pagingEnabled
+        horizontal
+        showsHorizontalScrollIndicator={false}
+      >
         {cardData.map((dataObj, index) => {
           return (
             <TestimonialCard
