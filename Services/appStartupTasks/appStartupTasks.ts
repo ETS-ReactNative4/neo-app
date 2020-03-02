@@ -5,6 +5,8 @@ import {
   disableAnalytics
 } from "../analytics/analyticsService";
 import { CONSTANT_platformAndroid } from "../../constants/stringConstants";
+import isGuestSessionAvailable from "../isGuestSessionAvailable/isGuestSessionAvailable";
+import guestSessionLogin from "../guestSessionLogin/guestSessionLogin";
 
 /**
  * When the App Launches there's a bunch of things that needs to happen,
@@ -23,6 +25,31 @@ const appStartupTasks = () => {
   } else {
     disableAnalytics();
   }
+
+  isGuestSessionAvailable().then(result => {
+    if (!result) {
+      /**
+       * Guest session
+       */
+      guestSessionLogin()
+        .then(loginResult => {
+          if (!loginResult) {
+            /**
+             * PT TODO: Failed to create guest session. Needs to be handled
+             */
+          } else {
+            /*
+             * PT TODO: Guest account created currently no action needed
+             */
+          }
+        })
+        .catch(() => {
+          /**
+           * PT TODO: Failed to create guest session. Needs to be handled
+           */
+        });
+    }
+  });
 };
 
 export default appStartupTasks;

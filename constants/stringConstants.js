@@ -237,4 +237,7 @@ export const CONSTANT_paymentFormHtml = `
   </form>
 `;
 
+export const CONSTANT_loggedInTokenName = "jwt";
+export const CONSTANT_guestTokenName = "guest";
+
 export default stringConstants;

@@ -1,4 +1,5 @@
 import * as Keychain from "react-native-keychain";
+import { CONSTANT_loggedInTokenName } from "../../constants/stringConstants";
 
 const registerToken = async (token: string) => {
   // Store the credentials
@@ -22,10 +23,13 @@ const registerToken = async (token: string) => {
 /**
  * Stores JWT token in a secure storage location
  */
-export const registerTokenV2 = (token: string): Promise<boolean> => {
+export const registerTokenV2 = (
+  token: string,
+  key: string = CONSTANT_loggedInTokenName
+): Promise<boolean> => {
   return new Promise<boolean>(async (resolve, reject) => {
     try {
-      await Keychain.setGenericPassword("jwt", token);
+      await Keychain.setGenericPassword(key, token);
       resolve(true);
     } catch (e) {
       reject();
