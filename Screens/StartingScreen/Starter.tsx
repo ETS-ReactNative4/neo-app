@@ -16,7 +16,6 @@ import { recordEvent } from "../../Services/analytics/analyticsService";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import openCustomTab from "../../Services/openCustomTab/openCustomTab";
 import {
-  responsiveHeight,
   responsiveWidth
   // @ts-ignore
 } from "react-native-responsive-dimensions";
@@ -30,6 +29,14 @@ import {
   SCREEN_APP_LOGIN,
   SCREEN_TRAVEL_PROFILE_WELCOME
 } from "../../NavigatorsV2/ScreenNames";
+import { isIphoneX } from "react-native-iphone-x-helper";
+import { CONSTANT_xSensorAreaHeight } from "../../constants/styles";
+import {
+  CONSTANT_fontCustom,
+  CONSTANT_primarySemiBold,
+  CONSTANT_primaryLight
+} from "../../constants/fonts";
+import { CONSTANT_firstColor } from "../../constants/colorPallete";
 
 const bootAnimationTiming = 350;
 
@@ -75,6 +82,8 @@ class Starter extends Component<StarterProps, StarterState> {
   clickedPlan = () => {
     this.props.navigation.navigate(SCREEN_TRAVEL_PROFILE_WELCOME);
   };
+
+  clickedSavedItineraries = () => {};
 
   componentDidMount() {
     /**
@@ -169,8 +178,8 @@ class Starter extends Component<StarterProps, StarterState> {
           opacity={bootAnimationOpacity}
         />
         {displayStarterOptions ? (
-          <View style={styles.container}>
-            <SafeAreaView>
+          <SafeAreaView style={styles.container}>
+            <View style={styles.contentSection}>
               <View style={styles.logoRow}>
                 <Image
                   source={constants.pytLogoBlack}
@@ -214,40 +223,51 @@ class Starter extends Component<StarterProps, StarterState> {
                   containerStyle={exploreButtonStyle}
                 />
               </View>
-              <View style={styles.tncWrapper}>
-                <Text style={styles.tncText}>
-                  By using pickyourtrail app you agree to our{" "}
+              <View style={styles.linkRow}>
+                <Text style={styles.infoText}>
+                  {`or, check your  `}
                   <Text
-                    style={styles.tncLink}
-                    onPress={() => {
-                      openCustomTab(
-                        `${constants.productUrl}${constants.termsAndConditions}`
-                      );
-                      recordEvent(constants.StarterScreen.event, {
-                        click: constants.StarterScreen.click.termsAndConditions
-                      });
-                    }}
+                    style={styles.infoLink}
+                    onPress={this.clickedSavedItineraries}
                   >
-                    Terms and Conditions
-                  </Text>{" "}
-                  and all your data will be protected by our{" "}
-                  <Text
-                    style={styles.tncLink}
-                    onPress={() => {
-                      openCustomTab(
-                        `${constants.productUrl}${constants.privacyPolicy}`
-                      );
-                      recordEvent(constants.StarterScreen.event, {
-                        click: constants.StarterScreen.click.privacyPolicy
-                      });
-                    }}
-                  >
-                    Privacy Policy
+                    {`Saved Itineraries`}
                   </Text>
                 </Text>
               </View>
-            </SafeAreaView>
-          </View>
+            </View>
+            <View style={styles.tncWrapper}>
+              <Text style={styles.tncText}>
+                {`By using pickyourtrail app you agree to our `}
+                <Text
+                  style={styles.tncLink}
+                  onPress={() => {
+                    openCustomTab(
+                      `${constants.productUrl}${constants.termsAndConditions}`
+                    );
+                    recordEvent(constants.StarterScreen.event, {
+                      click: constants.StarterScreen.click.termsAndConditions
+                    });
+                  }}
+                >
+                  {`Terms and Conditions`}
+                </Text>
+                {` and all your data will be protected by our `}
+                <Text
+                  style={styles.tncLink}
+                  onPress={() => {
+                    openCustomTab(
+                      `${constants.productUrl}${constants.privacyPolicy}`
+                    );
+                    recordEvent(constants.StarterScreen.event, {
+                      click: constants.StarterScreen.click.privacyPolicy
+                    });
+                  }}
+                >
+                  {`Privacy Policy`}
+                </Text>
+              </Text>
+            </View>
+          </SafeAreaView>
         ) : null}
       </Fragment>
     );
@@ -257,8 +277,12 @@ class Starter extends Component<StarterProps, StarterState> {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "transparent",
-    justifyContent: "flex-end",
+    backgroundColor: "transparent"
+  },
+  contentSection: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
     flexWrap: "wrap"
   },
   logoRow: {
@@ -275,13 +299,26 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center"
   },
+  linkRow: {},
+  infoText: {
+    ...CONSTANT_fontCustom(CONSTANT_primaryLight, 13),
+    color: constants.shade1,
+    textAlignVertical: "center"
+  },
+  infoLink: {
+    ...CONSTANT_fontCustom(CONSTANT_primarySemiBold, 14),
+    textDecorationLine: "underline",
+    textAlignVertical: "center",
+    color: CONSTANT_firstColor
+  },
   hyperlink: {
     textDecorationLine: "underline"
   },
   tncWrapper: {
+    position: "absolute",
     marginHorizontal: 48,
     marginTop: 16,
-    marginBottom: responsiveHeight(25)
+    bottom: 24 + (isIphoneX() ? CONSTANT_xSensorAreaHeight : 0)
   },
   tncText: {
     ...constants.fontCustom(constants.primaryLight, 10, 16),
