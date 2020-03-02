@@ -69,6 +69,7 @@ const styles = StyleSheet.create({
   },
 
   textStyle: {
+    marginTop: 2,
     color: CONSTANT_black1,
     ...CONSTANT_fontCustom(CONSTANT_primarySemiBold, 16)
   }

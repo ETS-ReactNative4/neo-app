@@ -32,6 +32,7 @@ configure(() => {
   require("./stories/ListingPageScreenStory");
   require("./stories/NotificationsScreenStory");
   require("./stories/SavedItineraryScreenStory");
+  require("./stories/UltimateMenuScreenStory");
 }, module);
 
 const StorybookUIRoot = getStorybookUI({
