@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { StyleSheet, View, ScrollView, ViewStyle } from "react-native";
 import Animated from "react-native-reanimated";
 import {
@@ -26,7 +26,7 @@ interface PromoCarousalProps {
 }
 
 const PromoCarousal = ({ containerStyle, images = [] }: PromoCarousalProps) => {
-  const scrollX = new Value(0);
+  const [scrollX] = useState(new Value(0));
 
   return (
     <View style={(styles.promoCarousalContainer, containerStyle)}>

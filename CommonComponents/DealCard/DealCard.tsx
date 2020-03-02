@@ -22,7 +22,8 @@ import {
   CONSTANT_shade1,
   CONSTANT_shade2,
   CONSTANT_shade3,
-  CONSTANT_sixteenthColor
+  CONSTANT_sixteenthColor,
+  CONSTANT_tenthColor
 } from "../../constants/colorPallete";
 import { CONSTANT_transferIcon } from "../../constants/imageAssets";
 import {
@@ -30,11 +31,15 @@ import {
   CONSTANT_primaryRegular,
   CONSTANT_primarySemiBold
 } from "../../constants/fonts";
+import ratioCalculator from "../../Services/ratioCalculator/ratioCalculator";
 
 interface DealCardProps {
   containerStyle?: StyleProp<ViewStyle>;
   action: () => any;
 }
+
+const DEAL_CARD_IMAGE_WIDTH = responsiveWidth(72);
+const DEAL_CARD_IMAGE_HEIGHT = ratioCalculator(135, 89, DEAL_CARD_IMAGE_WIDTH);
 
 const DealCard = ({ containerStyle, action = () => null }: DealCardProps) => {
   return (
@@ -118,19 +123,16 @@ const styles = StyleSheet.create({
     marginHorizontal: 16,
     marginVertical: 16,
     overflow: "hidden",
-    backgroundColor: CONSTANT_white,
-    width: responsiveWidth(100) - 32
+    backgroundColor: CONSTANT_white
   },
 
   imageStyle: {
     padding: 8,
-    width: responsiveWidth(100) - 32,
     justifyContent: "space-between"
   },
 
   dealImage: {
-    height: 178,
-    width: responsiveWidth(100)
+    height: DEAL_CARD_IMAGE_HEIGHT
   },
 
   offerTextContainer: {
@@ -239,7 +241,7 @@ const styles = StyleSheet.create({
     marginBottom: 8
   },
   progressBar: {
-    backgroundColor: "red",
+    backgroundColor: CONSTANT_tenthColor,
     width: 64,
     height: 6,
     borderRadius: 3

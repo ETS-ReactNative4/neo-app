@@ -11,12 +11,16 @@ import {
 } from "react-native-responsive-dimensions";
 
 import SmartImageV2 from "../../SmartImage/SmartImageV2";
+import ratioCalculator from "../../../Services/ratioCalculator/ratioCalculator";
 
 interface PromoCarousalImageProps {
   containerStyle?: StyleProp<ImageStyle>;
   image: ImageSourcePropType;
   fallbackImage: ImageSourcePropType;
 }
+
+const CAROUSEL_IMAGE_WIDTH = responsiveWidth(91);
+const CAROUSEL_IMAGE_HEIGHT = ratioCalculator(41, 25, CAROUSEL_IMAGE_WIDTH);
 
 const PromoCarousalImage = ({
   containerStyle,
@@ -35,8 +39,8 @@ const PromoCarousalImage = ({
 
 const styles = StyleSheet.create({
   imageStyle: {
-    width: responsiveWidth(100) - 32,
-    height: 200,
+    width: CAROUSEL_IMAGE_WIDTH,
+    height: CAROUSEL_IMAGE_HEIGHT,
     borderRadius: 8,
     marginHorizontal: 16,
     marginBottom: 24

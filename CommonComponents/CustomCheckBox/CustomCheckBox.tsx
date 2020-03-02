@@ -5,7 +5,8 @@ import {
   StyleProp,
   ViewStyle,
   TouchableOpacity,
-  Text
+  Text,
+  TextStyle
 } from "react-native";
 
 import Icon from "../Icon/Icon";
@@ -35,44 +36,46 @@ interface CustomCheckBoxProps {
   text: string;
   isChecked: boolean;
   action: () => void;
+  checkboxStyle?: StyleProp<ViewStyle>;
+  checkboxTextStyle?: StyleProp<TextStyle>;
+  checkIconSize?: number;
 }
 
 const CustomCheckBox = ({
   containerStyle,
   text,
   action = () => null,
-  isChecked = false
+  isChecked = false,
+  checkboxStyle,
+  checkboxTextStyle,
+  checkIconSize = 18
 }: CustomCheckBoxProps) => {
   return (
-    <View style={[styles.checkboxContainerStyle, containerStyle]}>
-      <TouchableOpacity
-        activeOpacity={0.8}
-        onPress={action}
-        style={styles.checkboxStyle}
-      >
-        <View style={styles.checkbox}>
-          {isChecked ? (
-            <Icon
-              name={CONSTANT_checkIcon}
-              size={18}
-              color={CONSTANT_firstColor}
-            />
-          ) : null}
-        </View>
+    <TouchableOpacity
+      activeOpacity={0.8}
+      onPress={action}
+      style={[styles.checkboxContainerStyle, containerStyle]}
+    >
+      <View style={[styles.checkbox, checkboxStyle]}>
+        {isChecked ? (
+          <Icon
+            name={CONSTANT_checkIcon}
+            size={checkIconSize}
+            color={CONSTANT_firstColor}
+          />
+        ) : null}
+      </View>
 
-        <Text style={styles.textStyle}>{text}</Text>
-      </TouchableOpacity>
-    </View>
+      <Text style={[styles.textStyle, checkboxTextStyle]}>{text}</Text>
+    </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
   checkboxContainerStyle: {
-    marginBottom: 24
-  },
-  checkboxStyle: {
     flexDirection: "row",
-    alignItems: "center"
+    alignItems: "center",
+    marginBottom: 24
   },
 
   checkbox: {

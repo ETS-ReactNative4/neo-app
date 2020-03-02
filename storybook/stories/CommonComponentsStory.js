@@ -20,6 +20,9 @@ import DismissKeyboardViewTestCases from "../../CommonComponents/DismissKeyboard
 import ModalContentTestCases from "../../Screens/AppOverlays/Components/ForceUpdateModal/Components/ModalContentTestCases";
 import RouteListTestCases from "../../CommonComponents/RouteList/RouteListTestCases";
 import AnimatedLoopToEndTestCases from "../../CommonComponents/AnimatedLoopToEnd/AnimatedLoopToEndTestCases";
+import ParallaxScrollViewTestCases from "../../CommonComponents/ParallaxScrollView/ParallaxScrollViewTestCases";
+import CustomRadioButtonTestCases from "../../CommonComponents/CustomRadioButton/CustomRadioButtonTestCases";
+import SavedItineraryCardTestCases from "../../CommonComponents/SavedItineraryCard/SavedItineraryCardTestCases";
 
 const CommonComponentStories = storiesOf("Common Components", module);
 
@@ -47,3 +50,6 @@ DismissKeyboardViewTestCases.forEach(renderTestCase);
 ModalContentTestCases.forEach(renderTestCase);
 RouteListTestCases.forEach(renderTestCase);
 AnimatedLoopToEndTestCases.forEach(renderTestCase);
+ParallaxScrollViewTestCases.forEach(renderTestCase);
+CustomRadioButtonTestCases.forEach(renderTestCase);
+SavedItineraryCardTestCases.forEach(renderTestCase);
