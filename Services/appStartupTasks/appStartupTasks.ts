@@ -1,12 +1,6 @@
-import { UIManager, Platform } from "react-native";
-import { isProduction } from "../getEnvironmentDetails/getEnvironmentDetails";
-import {
-  enableAnalytics,
-  disableAnalytics
-} from "../analytics/analyticsService";
-import { CONSTANT_platformAndroid } from "../../constants/stringConstants";
-import isGuestSessionAvailable from "../isGuestSessionAvailable/isGuestSessionAvailable";
-import guestSessionLogin from "../guestSessionLogin/guestSessionLogin";
+import createGuestSession from "./tasks/createGuestSession";
+import enableAnalyticsInProd from "./tasks/enableAnalyticsInProd";
+import enableLayoutAnimationAndroid from "./tasks/enableLayoutAnimationAndroid";
 
 /**
  * When the App Launches there's a bunch of things that needs to happen,
@@ -14,42 +8,12 @@ import guestSessionLogin from "../guestSessionLogin/guestSessionLogin";
  *
  * Best keep them in a debouncer.
  */
-
 const appStartupTasks = () => {
-  if (Platform.OS === CONSTANT_platformAndroid) {
-    UIManager?.setLayoutAnimationEnabledExperimental(true);
-  }
+  enableLayoutAnimationAndroid();
 
-  if (!__DEV__ && isProduction()) {
-    enableAnalytics();
-  } else {
-    disableAnalytics();
-  }
+  enableAnalyticsInProd();
 
-  isGuestSessionAvailable().then(result => {
-    if (!result) {
-      /**
-       * Guest session
-       */
-      guestSessionLogin()
-        .then(loginResult => {
-          if (!loginResult) {
-            /**
-             * PT TODO: Failed to create guest session. Needs to be handled
-             */
-          } else {
-            /*
-             * PT TODO: Guest account created currently no action needed
-             */
-          }
-        })
-        .catch(() => {
-          /**
-           * PT TODO: Failed to create guest session. Needs to be handled
-           */
-        });
-    }
-  });
+  createGuestSession();
 };
 
 export default appStartupTasks;
