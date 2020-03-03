@@ -407,7 +407,7 @@ PODS:
     - RSKImageCropper
   - RNInAppBrowser (2.0.4):
     - React
-  - RNKeychain (3.0.0):
+  - RNKeychain (4.0.5):
     - React
   - RNPermissions (2.0.3):
     - React
@@ -764,7 +764,7 @@ SPEC CHECKSUMS:
   RNGestureHandler: dde546180bf24af0b5f737c8ad04b6f3fa51609a
   RNImageCropPicker: 0a731d984e64ee4c28bddaa7ce52262e4b80979f
   RNInAppBrowser: 6a4b1c006d41d76eac14d758145335c83e1ab1cf
-  RNKeychain: 3aa3cf891a09a0d18d306862ab2bb9e106079b24
+  RNKeychain: 840f8e6f13be0576202aefcdffd26a4f54bfe7b5
   RNPermissions: 9e437a90de84a5402ff689d4da233730b81556c2
   RNReanimated: 031fe8d9ea93c2bd689a40f05320ef9d96f74d7f
   RNScreens: c2c8bdde0146f16eb6bf092dd7485534851f2711
