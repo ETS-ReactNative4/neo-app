@@ -16,6 +16,7 @@ import TravelProfile from "../../mobx/TravelProfile";
 import DebouncedAlert from "../../CommonComponents/DebouncedAlert/DebouncedAlert";
 import { CONSTANT_travelProfileFailureText } from "../../constants/appText";
 import { CONSTANT_white1 } from "../../constants/colorPallete";
+import skipUserProfileBuilder from "../../Services/skipUserProfileBuilder/skipUserProfileBuilder";
 
 type screenName = typeof SCREEN_TRAVEL_PROFILE_WELCOME;
 
@@ -36,7 +37,7 @@ const TravelProfileWelcomeComponent = ({
   const actionSheetRef = useRef<IInteractable>();
 
   const skipFlow = () => {
-    // TODO: Screen skipper logic goes here...
+    navigation.dispatch(skipUserProfileBuilder());
   };
 
   const continueFlow = () => {

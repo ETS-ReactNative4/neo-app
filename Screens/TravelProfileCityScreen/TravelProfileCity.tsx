@@ -40,6 +40,7 @@ import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import { observer, inject } from "mobx-react";
 import TravelProfile from "../../mobx/TravelProfile";
 import matchQueryWithText from "../../Services/matchQueryWithText/matchQueryWIthText";
+import skipUserProfileBuilder from "../../Services/skipUserProfileBuilder/skipUserProfileBuilder";
 
 const { createAnimatableComponent } = Animatable;
 
@@ -115,9 +116,13 @@ const TravelProfileCityComponent = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const prevScreen = () => {};
+  const prevScreen = () => {
+    navigation.goBack();
+  };
 
-  const skipFlow = () => {};
+  const skipFlow = () => {
+    navigation.dispatch(skipUserProfileBuilder());
+  };
 
   const selectSuggestedCountry = (countryId: number) => {
     const updatedCountriesList = suggestedCountries.map(country => {

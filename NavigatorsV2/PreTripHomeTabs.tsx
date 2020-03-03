@@ -1,6 +1,9 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { createStackNavigator } from "@react-navigation/stack";
+import {
+  createStackNavigator,
+  StackNavigationProp
+} from "@react-navigation/stack";
 import { SCREEN_EXPLORE_PAGE, SCREEN_EXPLORE_TAB } from "./ScreenNames";
 import ExploreScreen from "../Screens/ExploreScreen/ExploreScreen";
 
@@ -19,7 +22,7 @@ const ExploreStackWrapper = () => {
 };
 
 export type PreTripHomeTabsType = {
-  [SCREEN_EXPLORE_TAB]: undefined;
+  [SCREEN_EXPLORE_TAB]: StackNavigationProp<ExploreTabStackType>;
 };
 
 const Tab = createBottomTabNavigator<PreTripHomeTabsType>();

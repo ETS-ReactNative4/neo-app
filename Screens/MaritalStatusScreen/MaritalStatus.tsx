@@ -22,6 +22,8 @@ import * as Animatable from "react-native-animatable";
 import MaritalStatusActionSheet from "./Components/MaritalStatusActionSheet";
 import ratioCalculator from "../../Services/ratioCalculator/ratioCalculator";
 import { CONSTANT_white1 } from "../../constants/colorPallete";
+import launchPretripHome from "../../Services/launchPretripHome/launchPretripHome";
+import skipUserProfileBuilder from "../../Services/skipUserProfileBuilder/skipUserProfileBuilder";
 
 const { createAnimatableComponent } = Animatable;
 
@@ -127,11 +129,17 @@ const MaritalStatusComponent = ({
     maritalStatusRef.current?.snapTo({ index: 1 });
   };
 
-  const skipFlow = () => {};
+  const skipFlow = () => {
+    navigation.dispatch(skipUserProfileBuilder());
+  };
 
-  const prevScreen = () => {};
+  const prevScreen = () => {
+    navigation.goBack();
+  };
 
-  const continueFlow = () => {};
+  const continueFlow = () => {
+    navigation.dispatch(launchPretripHome());
+  };
 
   const selectSuggestedMaritalStatusData = (statusId: number) => {
     const statusList = maritalStatusOptionsData.map(option => {

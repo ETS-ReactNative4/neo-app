@@ -7,7 +7,8 @@ import {
   SCREEN_TRAVEL_COUNTRY_PICKER,
   SCREEN_TRAVEL_MARITAL_STATUS,
   SCREEN_STORY_BOOK,
-  SCREEN_PRETRIP_HOME_TABS
+  SCREEN_PRETRIP_HOME_TABS,
+  SCREEN_EXPLORE_PAGE
 } from "./ScreenNames";
 import AppLogin from "../Screens/AppLoginScreen/AppLogin";
 import Starter from "../Screens/StartingScreen/Starter";
@@ -15,11 +16,15 @@ import TravelProfileWelcome from "../Screens/TravelProfileWelcomeScreen/TravelPr
 import TravelProfileCity from "../Screens/TravelProfileCityScreen/TravelProfileCity";
 import MaritalStatus from "../Screens/MaritalStatusScreen/MaritalStatus";
 import StorybookUIRoot from "../storybook/Storybook";
-import PreTripHomeTabs from "./PreTripHomeTabs";
+import PreTripHomeTabs, { PreTripHomeTabsType } from "./PreTripHomeTabs";
+import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
 
 export type AppNavigatorParamsType = {
-  [SCREEN_PRETRIP_HOME_TABS]: undefined;
-  [SCREEN_APP_LOGIN]: undefined;
+  [SCREEN_PRETRIP_HOME_TABS]: BottomTabNavigationProp<PreTripHomeTabsType>;
+  [SCREEN_APP_LOGIN]: {
+    // PT TODO: create an enum from list of screens that are allowed transition from loginScreen
+    resetTarget: typeof SCREEN_EXPLORE_PAGE;
+  };
   [SCREEN_STARTER]: undefined;
   [SCREEN_TRAVEL_PROFILE_WELCOME]: undefined;
   [SCREEN_TRAVEL_COUNTRY_PICKER]: {

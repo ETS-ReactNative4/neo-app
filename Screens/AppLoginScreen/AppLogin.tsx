@@ -47,7 +47,10 @@ import {
   // @ts-ignore
 } from "react-native-responsive-dimensions";
 import useLoginForm from "./hooks/useLoginForm";
-import { SCREEN_APP_LOGIN } from "../../NavigatorsV2/ScreenNames";
+import {
+  SCREEN_APP_LOGIN,
+  SCREEN_EXPLORE_PAGE
+} from "../../NavigatorsV2/ScreenNames";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { AppNavigatorParamsType } from "../../NavigatorsV2/AppNavigator";
 import LoginInputField from "./Components/LoginInputField";
@@ -64,8 +67,12 @@ import { registerTokenV2 } from "../../Services/registerToken/registerToken";
 import { logError } from "../../Services/errorLogger/errorLogger";
 import useDeepCompareEffect from "use-deep-compare-effect";
 import DebouncedAlert from "../../CommonComponents/DebouncedAlert/DebouncedAlert";
+import { RouteProp } from "@react-navigation/native";
+import launchPretripHome from "../../Services/launchPretripHome/launchPretripHome";
 
 type screenName = typeof SCREEN_APP_LOGIN;
+
+type StarterScreenRouteProp = RouteProp<AppNavigatorParamsType, screenName>;
 
 export type StarterScreenNavigationProp = StackNavigationProp<
   AppNavigatorParamsType,
@@ -74,9 +81,10 @@ export type StarterScreenNavigationProp = StackNavigationProp<
 
 export interface IAppLoginProps {
   navigation: StarterScreenNavigationProp;
+  route: StarterScreenRouteProp;
 }
 
-const AppLogin = ({ navigation }: IAppLoginProps) => {
+const AppLogin = ({ navigation, route }: IAppLoginProps) => {
   const [isVideoReady, setVideoStatus] = useState(false);
   const [
     { phoneNumber, countryCode, countryFlag, code, name, email },
@@ -224,15 +232,26 @@ const AppLogin = ({ navigation }: IAppLoginProps) => {
 
   const codeFilled = async (otp: string) => {
     try {
-      await loginUser({
+      const result = await loginUser({
         countryPhoneCode: countryCode,
         mobileNumber: phoneNumber,
         otp,
         otpDetailsId:
           otpApiDetails.successResponseData?.data?.otpDetailsId || ""
       });
+      if (result) {
+        continueFlow();
+      }
     } catch (e) {
       toastCenter("Login Failed");
+    }
+  };
+
+  const continueFlow = () => {
+    // PT TODO: Launch Post booking flow goes here once old screen wiring is done
+    const { resetTarget } = route.params;
+    if (resetTarget === SCREEN_EXPLORE_PAGE) {
+      navigation.dispatch(launchPretripHome());
     }
   };
 
