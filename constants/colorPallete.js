@@ -159,6 +159,7 @@ export const CONSTANT_fifteenthColor = `rgba(38, 119, 240, 1)`;
 export const CONSTANT_sixteenthColor = `rgba(119, 68, 228, 1)`;
 export const CONSTANT_seventeenthColor = `rgba(236, 71, 71, 1)`;
 export const CONSTANT_eighteenthColor = `rgba(229, 249, 243, 1)`;
+export const CONSTANT_nineteenthColor = `rgba(34, 156, 116, 1)`;
 export const CONSTANT_themeDarkBlue = `rgba(80, 138, 232, 1)`;
 
 export const CONSTANT_firstColorAlpha = alpha => `rgba(0, 198, 132, ${alpha})`;
@@ -173,6 +174,7 @@ export const CONSTANT_eighthColorAlpha = alpha => `rgba(74,144,226,${alpha})`;
 export const CONSTANT_ninthColorAlpha = alpha => `rgba(91,110,234,${alpha})`;
 export const CONSTANT_themeDarkBlueAlpha = alpha =>
   `rgba(80, 138, 232, ${alpha})`;
+export const CONSTANT_whiteAlpha = alpha => `rgba(255, 255, 255, ${alpha})`;
 
 export const CONSTANT_darkOverlayAlpha = alpha => `rgba(0,0,0,${alpha})`;
 
