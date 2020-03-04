@@ -73,6 +73,7 @@ const styles = {
 
 export const CONSTANT_tabBarBottomHeight = isIphoneX() ? 86 : 56;
 export const CONSTANT_headerHeight = 56;
+export const CONSTANT_bottomBarHeight = 60;
 export const CONSTANT_xSensorAreaHeight = 30;
 export const CONSTANT_xNotchHeight = 30;
 export const CONSTANT_commonDateFormat = "MMM DD, ddd";

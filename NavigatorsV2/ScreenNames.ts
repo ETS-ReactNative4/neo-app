@@ -5,5 +5,6 @@ export const SCREEN_TRAVEL_COUNTRY_PICKER = "TravelCountryPicker";
 export const SCREEN_TRAVEL_MARITAL_STATUS = "TravelMaritalStatus";
 export const SCREEN_PRETRIP_HOME_TABS = "PreTripHomeTabs";
 export const SCREEN_EXPLORE_TAB = "ExploreTab";
+export const SCREEN_SEARCH_TAB = "SearchTab";
 export const SCREEN_EXPLORE_PAGE = "ExplorePage";
 export const SCREEN_STORY_BOOK = "StoryBook";
