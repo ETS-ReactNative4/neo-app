@@ -1,28 +1,20 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import {
-  createStackNavigator,
-  StackNavigationProp
-} from "@react-navigation/stack";
 import { SCREEN_EXPLORE_PAGE, SCREEN_EXPLORE_TAB } from "./ScreenNames";
-import ExploreScreen from "../Screens/ExploreScreen/ExploreScreen";
+import ExploreScreen, {
+  ExploreScreenSourcesType
+} from "../Screens/ExploreScreen/ExploreScreen";
+
+export interface IExplorePageScreenData {
+  source?: ExploreScreenSourcesType;
+}
 
 export type ExploreTabStackType = {
-  [SCREEN_EXPLORE_PAGE]: undefined;
-};
-
-const Stack = createStackNavigator<ExploreTabStackType>();
-
-const ExploreStackWrapper = () => {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen name={SCREEN_EXPLORE_PAGE} component={ExploreScreen} />
-    </Stack.Navigator>
-  );
+  [SCREEN_EXPLORE_PAGE]: IExplorePageScreenData;
 };
 
 export type PreTripHomeTabsType = {
-  [SCREEN_EXPLORE_TAB]: StackNavigationProp<ExploreTabStackType>;
+  [SCREEN_EXPLORE_TAB]: IExplorePageScreenData;
 };
 
 const Tab = createBottomTabNavigator<PreTripHomeTabsType>();
@@ -30,7 +22,7 @@ const Tab = createBottomTabNavigator<PreTripHomeTabsType>();
 const PreTripHomeTabs = () => {
   return (
     <Tab.Navigator>
-      <Tab.Screen name={SCREEN_EXPLORE_TAB} component={ExploreStackWrapper} />
+      <Tab.Screen name={SCREEN_EXPLORE_TAB} component={ExploreScreen} />
     </Tab.Navigator>
   );
 };

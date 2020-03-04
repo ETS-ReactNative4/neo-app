@@ -6,7 +6,8 @@ import { logError } from "../Services/errorLogger/errorLogger";
 import apiCall from "../Services/networkRequests/apiCall";
 import {
   CONSTANT_userProfileInfo,
-  CONSTANT_getCountriesList
+  CONSTANT_getCountriesList,
+  CONSTANT_userProfileData
 } from "../constants/apiUrls";
 import { CONSTANT_responseSuccessStatus } from "../constants/stringConstants";
 import { IMobileServerResponse } from "../TypeInterfaces/INetworkResponse";
@@ -30,13 +31,13 @@ export type tripIntensityType = "LAID_BACK" | "MODERATE" | "PACKED";
 export type budgetRangeType = "DEAL_HUNTER" | "VALUE_FOR_MONEY" | "FLEXIBLE";
 
 export interface ITravelProfileInfo {
-  firstTimeTraveller: boolean;
-  travelledCountries: number[];
-  wishlistCountries: number[];
-  maritalStatus: maritalStatusType;
-  tripIntensity: tripIntensityType;
-  tripBudget: budgetRangeType;
-  travellingWith: travellingWithType[];
+  firstTimeTraveller?: boolean;
+  travelledCountries?: number[];
+  wishlistCountries?: number[];
+  maritalStatus?: maritalStatusType;
+  tripIntensity?: tripIntensityType;
+  tripBudget?: budgetRangeType;
+  travellingWith?: travellingWithType[];
 }
 
 export interface ITravelProfileOptions {
@@ -48,8 +49,12 @@ export interface ITravelProfileOptions {
   };
 }
 
-export interface ILoadTravelProfileResponse extends IMobileServerResponse {
+export interface ILoadSavedTravelProfileResponse extends IMobileServerResponse {
   data: ITravelProfileInfo;
+}
+
+export interface ILoadTravelProfileResponse extends IMobileServerResponse {
+  data: ITravelProfileOptions;
 }
 
 export interface ICountryDetailsListResponse extends IMobileServerResponse {
@@ -80,6 +85,10 @@ class TravelProfile {
   @persist("object")
   @observable
   _travelProfileOptions: ITravelProfileOptions | {} = {};
+
+  @persist("object")
+  @observable
+  _travelProfileData: ITravelProfileInfo = {};
 
   @persist
   @observable
@@ -139,6 +148,23 @@ class TravelProfile {
     return this._firstTimeTraveller;
   }
 
+  @computed
+  get travelProfileData(): ITravelProfileInfo {
+    return toJS(this._travelProfileData);
+  }
+
+  @action
+  updateTravelProfileData(newData: ITravelProfileInfo) {
+    try {
+      this._travelProfileData = {
+        ...this._travelProfileData,
+        ...newData
+      };
+    } catch (e) {
+      logError(e, { type: "Failed to save travel profile data" });
+    }
+  }
+
   @action
   setFirstTimeTraveller = (status: boolean) => {
     this._firstTimeTraveller = status;
@@ -175,12 +201,28 @@ class TravelProfile {
   };
 
   @action
-  loadTravelProfile = () => {
+  loadTravelProfileOptions = () => {
     return new Promise<boolean>((resolve, reject) => {
       apiCall(CONSTANT_userProfileInfo, {}, "GET")
         .then((response: ILoadTravelProfileResponse) => {
           if (response.status === CONSTANT_responseSuccessStatus) {
             this._travelProfileOptions = response.data;
+          } else {
+            resolve(false);
+          }
+        })
+        .catch(reject);
+    });
+  };
+
+  @action
+  loadSavedTravelProfile = () => {
+    return new Promise<boolean>((resolve, reject) => {
+      apiCall(CONSTANT_userProfileData, {}, "GET")
+        .then((response: ILoadSavedTravelProfileResponse) => {
+          if (response.status === CONSTANT_responseSuccessStatus) {
+            this._travelProfileData = response.data;
+            resolve(true);
           } else {
             resolve(false);
           }

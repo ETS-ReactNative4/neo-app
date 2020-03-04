@@ -3,12 +3,13 @@ import {
   SCREEN_PRETRIP_HOME_TABS,
   SCREEN_EXPLORE_TAB
 } from "../../NavigatorsV2/ScreenNames";
+import { IExplorePageScreenData } from "../../NavigatorsV2/PreTripHomeTabs";
 
 /**
  * Returns a navigation config that can be dispatched by react navigation.
  * Resets entire navigation stack & Opens PreTrip Home page
  */
-const launchPretripHome = () => {
+const launchPretripHome = (screenData: IExplorePageScreenData = {}) => {
   return CommonActions.reset({
     index: 0,
     routes: [
@@ -17,7 +18,8 @@ const launchPretripHome = () => {
         state: {
           routes: [
             {
-              name: SCREEN_EXPLORE_TAB
+              name: SCREEN_EXPLORE_TAB,
+              params: screenData
             }
           ]
         }

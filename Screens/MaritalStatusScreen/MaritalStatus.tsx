@@ -16,7 +16,10 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import { AppNavigatorParamsType } from "../../NavigatorsV2/AppNavigator";
 import WelcomeHeader from "../../NavigatorsV2/Components/WelcomeHeader";
 import { observer, inject } from "mobx-react";
-import TravelProfile, { travellingWithType } from "../../mobx/TravelProfile";
+import TravelProfile, {
+  travellingWithType,
+  maritalStatusType
+} from "../../mobx/TravelProfile";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import * as Animatable from "react-native-animatable";
 import MaritalStatusActionSheet from "./Components/MaritalStatusActionSheet";
@@ -49,7 +52,7 @@ export interface MaritalStatusProps {
 export interface IMaritalStatusOptions {
   id: number;
   imageUrl: string;
-  text: string;
+  text: maritalStatusType;
   isSelected: boolean;
 }
 
@@ -125,6 +128,10 @@ const MaritalStatusComponent = ({
   }, []);
 
   const openTravellingWithModal = () => {
+    travelProfileStore.updateTravelProfileData({
+      maritalStatus: maritalStatusOptionsData.find(option => option.isSelected)
+        ?.text
+    });
     // @ts-ignore
     maritalStatusRef.current?.snapTo({ index: 1 });
   };
@@ -138,7 +145,12 @@ const MaritalStatusComponent = ({
   };
 
   const continueFlow = () => {
-    navigation.dispatch(launchPretripHome());
+    travelProfileStore.updateTravelProfileData({
+      travellingWith: travellingWithOptionsData
+        .filter(option => option.isSelected)
+        .map(option => option.text)
+    });
+    navigation.dispatch(launchPretripHome({ source: "TravelProfileFlow" }));
   };
 
   const selectSuggestedMaritalStatusData = (statusId: number) => {

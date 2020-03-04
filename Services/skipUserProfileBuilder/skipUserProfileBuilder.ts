@@ -17,7 +17,8 @@ const skipUserProfileBuilder = () => {
         state: {
           routes: [
             {
-              name: SCREEN_EXPLORE_TAB
+              name: SCREEN_EXPLORE_TAB,
+              params: {}
             }
           ]
         }

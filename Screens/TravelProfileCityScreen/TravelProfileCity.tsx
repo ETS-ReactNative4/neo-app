@@ -150,6 +150,9 @@ const TravelProfileCityComponent = ({
   );
 
   const continueFlow = () => {
+    travelProfileStore.updateTravelProfileData({
+      travelledCountries: suggestedCountries.map(country => country.id)
+    });
     navigation.navigate(SCREEN_TRAVEL_MARITAL_STATUS);
   };
 

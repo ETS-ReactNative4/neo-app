@@ -3,18 +3,20 @@ import apiCall from "../../../Services/networkRequests/apiCall";
 import { CONSTANT_responseSuccessStatus } from "../../../constants/stringConstants";
 import { IMobileServerResponse } from "../../../TypeInterfaces/INetworkResponse";
 
+export type NetworkRequestMethodTypes =
+  | "CONNECT"
+  | "DELETE"
+  | "GET"
+  | "HEAD"
+  | "OPTIONS"
+  | "PATCH"
+  | "POST"
+  | "PUT"
+  | "TRACE";
+
 export interface IApiCallConfig {
   route: string;
-  method?:
-    | "CONNECT"
-    | "DELETE"
-    | "GET"
-    | "HEAD"
-    | "OPTIONS"
-    | "PATCH"
-    | "POST"
-    | "PUT"
-    | "TRACE";
+  method?: NetworkRequestMethodTypes;
   requestBody?: object;
   customDomain?: boolean;
   customToken?: string;

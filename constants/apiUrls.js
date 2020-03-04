@@ -70,6 +70,7 @@ export const CONSTANT_requestOtp = "authentication/otp";
 export const CONSTANT_verifyOtp = "mobile/login";
 export const CONSTANT_verifyOtpV2 = "authentication/login";
 export const CONSTANT_userProfileInfo = "userprofile/userprofileinfo";
+export const CONSTANT_userProfileData = "userprofile";
 export const CONSTANT_getCountriesList = "data/countries";
 export const CONSTANT_getYourTrips = "mobile/yourtrips";
 export const CONSTANT_getItineraryDetails = "mobile/itineraryDetails";

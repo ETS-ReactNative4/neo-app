@@ -40,20 +40,17 @@ const TravelProfileWelcomeComponent = ({
     navigation.dispatch(skipUserProfileBuilder());
   };
 
-  const continueFlow = () => {
+  const startFlow = () => {
     // @ts-ignore - Lack of typescript support in actionsheet's ref
     actionSheetRef?.current?.snapTo({ index: 1 });
   };
 
-  const flowPositive = () => {
-    navigation.navigate(SCREEN_TRAVEL_COUNTRY_PICKER, {
-      isPositive: true
+  const continueFlow = (isPositive: boolean) => {
+    travelProfileStore.updateTravelProfileData({
+      firstTimeTraveller: isPositive
     });
-  };
-
-  const flowNegative = () => {
     navigation.navigate(SCREEN_TRAVEL_COUNTRY_PICKER, {
-      isPositive: false
+      isPositive
     });
   };
 
@@ -69,7 +66,7 @@ const TravelProfileWelcomeComponent = ({
     Promise.all([
       travelProfileStore.loadCountriesList(),
       travelProfileStore.loadMaritalStatusOptionImages(),
-      travelProfileStore.loadTravelProfile()
+      travelProfileStore.loadTravelProfileOptions()
     ])
       .then(result => {
         const hasfailed = result.some(each => !each);
@@ -92,11 +89,11 @@ const TravelProfileWelcomeComponent = ({
   return (
     <>
       <View style={styles.travelProfileWelcomeContainer}>
-        <TravelProfileIntro onClickContinue={continueFlow} />
+        <TravelProfileIntro onClickContinue={startFlow} />
       </View>
       <TravelProfileActionSheet
-        positiveAction={flowPositive}
-        negativeAction={flowNegative}
+        positiveAction={() => continueFlow(true)}
+        negativeAction={() => continueFlow(false)}
         actionSheetRef={actionSheetRef}
       />
     </>
