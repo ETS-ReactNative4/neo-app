@@ -188,6 +188,7 @@ class TravelProfile {
   @action
   loadMaritalStatusOptionImages = () => {
     return new Promise<boolean>((resolve, reject) => {
+      // PT TODO: Get actual api url
       fetch(
         `https://pyt-voyager.s3.ap-south-1.amazonaws.com/pretrip/json/maritalStatusData.json`
       )
