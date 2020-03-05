@@ -9,6 +9,11 @@ import {
   ScrollView
 } from "react-native";
 import {
+  responsiveWidth
+  // @ts-ignore
+} from "react-native-responsive-dimensions";
+
+import {
   CONSTANT_white,
   CONSTANT_shade2,
   CONSTANT_shade5,
@@ -25,6 +30,7 @@ import {
 import { CONSTANT_arrowRight } from "../../constants/imageAssets";
 import PrimaryButton from "../../CommonComponents/PrimaryButton/PrimaryButton";
 import ProgressBar from "../../CommonComponents/ProgressBar/ProgressBar";
+import ratioCalculator from "../../Services/ratioCalculator/ratioCalculator";
 
 export interface IUltimateMenuLists {
   name: string;
@@ -42,6 +48,9 @@ interface UltimateMenuProps {
   loginAction?: () => void;
   menuList: IUltimateMenuLists[];
 }
+
+const HEADER_CONTAINER_WIDTH = responsiveWidth(100);
+const HEADER_CONTAINER_HEIGHT = ratioCalculator(5, 3, HEADER_CONTAINER_WIDTH);
 
 const UltimateMenu = ({
   containerStyle,
@@ -140,7 +149,8 @@ const styles = StyleSheet.create({
     paddingTop: 48,
     paddingLeft: 8,
     paddingRight: 24,
-    height: 216
+    width: HEADER_CONTAINER_WIDTH,
+    height: HEADER_CONTAINER_HEIGHT
   },
   headerRightColumn: {
     flex: 1
