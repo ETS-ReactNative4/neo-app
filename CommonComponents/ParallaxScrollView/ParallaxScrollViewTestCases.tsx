@@ -17,13 +17,17 @@ const ParallaxScrollViewTestCases: ITestCase[] = [
         bannerImage={
           "https://pyt-images.imgix.net/images/product_blog/itinerary-box/australia-small.jpeg"
         }
-        smallText={"18 CUSTOMIZABLE OPTIONS"}
-        titleText={"Romantic holidays for you and your better half."}
+        smallText={
+          "Discover stunning beaches and the world largest coral reef in Australia"
+        }
+        titleText={"Australia"}
         backAction={() => Alert.alert("Click Back Arrow")}
       >
-        <View style={styles.wrapper}>
-          <Text>Dummy Text</Text>
-        </View>
+        {Array.from({ length: 100 }, (v, i) => i).map((item, index) => (
+          <View key={index} style={styles.wrapper}>
+            <Text>Dummy Text</Text>
+          </View>
+        ))}
       </ParallaxScrollView>
     )
   }
