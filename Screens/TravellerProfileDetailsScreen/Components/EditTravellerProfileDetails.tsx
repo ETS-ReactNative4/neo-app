@@ -8,32 +8,33 @@ import {
 } from "../../../constants/colorPallete";
 import PrimaryButton from "../../../CommonComponents/PrimaryButton/PrimaryButton";
 import { CONSTANT_xSensorAreaHeight } from "../../../constants/styles";
-import TextInputField from "./TextInputField";
-
-interface EditTravellerProfileDetailsProps {
+import TextInputField from "../../../CommonComponents/TextInputField/TextInputField";
+export interface EditTravellerProfileDetailsProps {
   containerStyle?: ViewStyle;
 }
 
 const EditTravellerProfileDetails = ({
   containerStyle
 }: EditTravellerProfileDetailsProps) => {
-  const [value, onChangeText] = React.useState("Koushik Murali");
+  const [name, onChangeName] = React.useState("Koushik Murali");
+  const [email, onChangeEmail] = React.useState("koushikmurali@gmail.com");
+  const [city, onChangeCity] = React.useState("Chennai");
 
   return (
     <View style={[styles.editProfileDetailsContainer, containerStyle]}>
       <View style={styles.editProfileDetails}>
         <TextInputField
           label={"NAME"}
-          value={value}
-          onChangeText={text => onChangeText(text)}
+          value={name}
+          onChangeText={text => onChangeName(text)}
           placeholder="Name"
           hasError={false}
         />
 
         <TextInputField
           label={"EMAIL"}
-          value={"koushikmurali@gmail.com"}
-          onChangeText={text => onChangeText(text)}
+          value={email}
+          onChangeText={text => onChangeEmail(text)}
           placeholder="Email"
           hasError={false}
         />
@@ -41,7 +42,7 @@ const EditTravellerProfileDetails = ({
         <TextInputField
           label={"PHONE"}
           value={"+91 98843 25343"}
-          onChangeText={text => onChangeText(text)}
+          onChangeText={text => onChangeName(text)}
           placeholder="Phone"
           hasError={false}
           editable={false}
@@ -50,8 +51,8 @@ const EditTravellerProfileDetails = ({
 
         <TextInputField
           label={"CITY OF DEPARTURE"}
-          value={"Chennai"}
-          onChangeText={text => onChangeText(text)}
+          value={city}
+          onChangeText={text => onChangeCity(text)}
           placeholder="City of Departure"
           hasError={false}
           secondaryText={"GET LOCATION"}
@@ -61,7 +62,7 @@ const EditTravellerProfileDetails = ({
         <TextInputField
           label={"BIRTHDAY"}
           value={"15 Jul 1990"}
-          onChangeText={text => onChangeText(text)}
+          onChangeText={text => onChangeName(text)}
           placeholder="Birthday"
           hasError={false}
         />

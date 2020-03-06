@@ -25,13 +25,13 @@ import {
 import { CONSTANT_arrowRight } from "../../constants/imageAssets";
 
 import Icon from "../../CommonComponents/Icon/Icon";
-import TextInputField from "./Components/TextInputField";
+import TextInputField from "../../CommonComponents/TextInputField/TextInputField";
 import CustomCheckBox, {
   ICheckBoxData,
   ISuggestedDetails
 } from "../../CommonComponents/CustomCheckBox/CustomCheckBox";
 
-interface TravellerProfileDetailsProps {
+export interface TravellerProfileDetailsProps {
   ratingData: ICheckBoxData[];
 }
 

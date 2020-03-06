@@ -13,7 +13,7 @@ import {
   CONSTANT_primarySemiBold,
   CONSTANT_fontCustom,
   CONSTANT_primaryRegular
-} from "../../../constants/fonts";
+} from "../../constants/fonts";
 import {
   CONSTANT_black1,
   CONSTANT_shade2,
@@ -21,7 +21,7 @@ import {
   CONSTANT_firstColor,
   CONSTANT_seventeenthColor,
   CONSTANT_shade4
-} from "../../../constants/colorPallete";
+} from "../../constants/colorPallete";
 
 export interface TextInputFieldProps extends TextInputProps {
   containerStyle?: StyleProp<ViewStyle>;
