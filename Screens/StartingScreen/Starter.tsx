@@ -38,6 +38,7 @@ import {
   CONSTANT_primaryLight
 } from "../../constants/fonts";
 import { CONSTANT_firstColor } from "../../constants/colorPallete";
+import TranslucentStatusBar from "../../CommonComponents/TranslucentStatusBar/TranslucentStatusBar";
 
 const bootAnimationTiming = 350;
 
@@ -175,6 +176,7 @@ class Starter extends Component<StarterProps, StarterState> {
 
     return (
       <Fragment>
+        <TranslucentStatusBar />
         {displayStarterAnimation ? <StarterAnimation /> : null}
         <BootAnimation
           animationProgress={this.state.bootSplashAnimationProgress}

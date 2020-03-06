@@ -69,6 +69,7 @@ import useDeepCompareEffect from "use-deep-compare-effect";
 import DebouncedAlert from "../../CommonComponents/DebouncedAlert/DebouncedAlert";
 import { RouteProp } from "@react-navigation/native";
 import launchPretripHome from "../../Services/launchPretripHome/launchPretripHome";
+import TranslucentStatusBar from "../../CommonComponents/TranslucentStatusBar/TranslucentStatusBar";
 
 type screenName = typeof SCREEN_APP_LOGIN;
 
@@ -285,6 +286,7 @@ const AppLogin = ({ navigation, route }: IAppLoginProps) => {
 
   return (
     <Fragment>
+      <TranslucentStatusBar />
       <DismissKeyboardView style={styles.keyboardAvoider}>
         <Video
           onLoad={onVideoLoaded}
