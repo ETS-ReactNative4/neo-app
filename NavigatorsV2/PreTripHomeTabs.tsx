@@ -5,9 +5,9 @@ import {
   SCREEN_EXPLORE_TAB,
   SCREEN_SEARCH_TAB
 } from "./ScreenNames";
-import ExploreScreen, {
+import Explore, {
   ExploreScreenSourcesType
-} from "../Screens/ExploreScreen/ExploreScreen";
+} from "../Screens/ExploreScreen/Explore";
 import ExploreBottomBar from "../CommonComponents/ExploreBottomBar/ExploreBottomBar";
 import Search from "../Screens/SearchScreen/Search";
 import {
@@ -51,7 +51,7 @@ const PreTripHomeTabs = () => {
           ...tabBarColorConfig
         }}
         name={SCREEN_EXPLORE_TAB}
-        component={ExploreScreen}
+        component={Explore}
       />
       <Tab.Screen
         options={{

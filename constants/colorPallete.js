@@ -104,6 +104,7 @@ export const CONSTANT_facebookThemeColor = "rgb(59,89,152)";
 export const CONSTANT_twitterThemeColor = "rgb(8, 160, 233)";
 
 export const CONSTANT_white = `rgb(255, 255, 255)`;
+export const CONSTANT_transparent = "transparent";
 export const CONSTANT_white1 = `rgb(247, 247, 247)`;
 
 export const CONSTANT_darkGradient = `rgba(0,0,0,1)`;

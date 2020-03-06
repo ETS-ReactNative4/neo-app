@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef } from "react";
 import { StyleSheet, View, ScrollView, ViewStyle } from "react-native";
 import Animated from "react-native-reanimated";
 import {
@@ -8,6 +8,7 @@ import {
 
 import { CONSTANT_shade2 } from "../../constants/colorPallete";
 import PromoCarousalImage from "./Components/PromoCarousalImage";
+import { CONSTANT_defaultPlaceImage } from "../../constants/imageAssets";
 
 const {
   Value,
@@ -20,13 +21,18 @@ const {
 const AnimatedScrollView = createAnimatedComponent(ScrollView);
 const AnimatedView = createAnimatedComponent(View);
 
-interface PromoCarousalProps {
+export interface ICarouselImage {
+  url: string;
+  action: () => any;
+}
+
+export interface PromoCarousalProps {
   containerStyle?: ViewStyle;
-  images: string[];
+  images: ICarouselImage[];
 }
 
 const PromoCarousal = ({ containerStyle, images = [] }: PromoCarousalProps) => {
-  const [scrollX] = useState(new Value(0));
+  const scrollX = useRef(new Value(0)).current;
 
   return (
     <View style={(styles.promoCarousalContainer, containerStyle)}>
@@ -45,16 +51,16 @@ const PromoCarousal = ({ containerStyle, images = [] }: PromoCarousalProps) => {
           }
         ])}
       >
-        {images.slice(0, 5).map((imageData, index) => {
+        {images.map((imageData, index) => {
           return (
             <PromoCarousalImage
               key={index}
               image={{
-                uri: imageData
+                uri: imageData.url
               }}
+              action={imageData.action}
               fallbackImage={{
-                uri:
-                  "https://pyt-images.imgix.net/images/product_blog/operahouse.jpeg"
+                uri: CONSTANT_defaultPlaceImage
               }}
             />
           );
@@ -62,7 +68,7 @@ const PromoCarousal = ({ containerStyle, images = [] }: PromoCarousalProps) => {
       </AnimatedScrollView>
 
       <View style={styles.dotContainer}>
-        {images.slice(0, 5).map((imageData, index) => {
+        {images.map((imageData, index) => {
           let width: number | Animated.Node<number> = 8,
             opacity: number | Animated.Node<number> = 0.5;
           if (scrollX) {

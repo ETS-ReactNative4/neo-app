@@ -7,13 +7,21 @@ export type ModalNavigatorParamsType = {
   [SCREEN_LISTING_PAGE]: undefined;
 };
 
+/**
+ * Data created to check if the screen is part of modal in the
+ * resolveLinks function
+ */
+export const modalStackData: ModalNavigatorParamsType = {
+  [SCREEN_LISTING_PAGE]: undefined
+};
+
 const Stack = createStackNavigator<ModalNavigatorParamsType>();
 
 const { Navigator, Screen } = Stack;
 
 const ModalStack = () => {
   return (
-    <Navigator mode="modal" headerMode="none">
+    <Navigator headerMode="none">
       <Screen name={SCREEN_LISTING_PAGE} component={ListingPage} />
     </Navigator>
   );

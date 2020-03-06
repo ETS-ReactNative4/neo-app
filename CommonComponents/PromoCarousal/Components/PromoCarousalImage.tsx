@@ -3,7 +3,8 @@ import {
   StyleSheet,
   StyleProp,
   ImageStyle,
-  ImageSourcePropType
+  ImageSourcePropType,
+  TouchableOpacity
 } from "react-native";
 import {
   responsiveWidth
@@ -17,6 +18,7 @@ interface PromoCarousalImageProps {
   containerStyle?: StyleProp<ImageStyle>;
   image: ImageSourcePropType;
   fallbackImage: ImageSourcePropType;
+  action: () => any;
 }
 
 const CAROUSEL_IMAGE_WIDTH = responsiveWidth(91);
@@ -25,15 +27,18 @@ const CAROUSEL_IMAGE_HEIGHT = ratioCalculator(41, 25, CAROUSEL_IMAGE_WIDTH);
 const PromoCarousalImage = ({
   containerStyle,
   image = { uri: "" },
-  fallbackImage = { uri: "" }
+  fallbackImage = { uri: "" },
+  action = () => null
 }: PromoCarousalImageProps) => {
   return (
-    <SmartImageV2
-      source={image}
-      fallbackSource={fallbackImage}
-      resizeMode={"cover"}
-      style={[styles.imageStyle, containerStyle]}
-    />
+    <TouchableOpacity activeOpacity={0.8} onPress={action}>
+      <SmartImageV2
+        source={image}
+        fallbackSource={fallbackImage}
+        resizeMode={"cover"}
+        style={[styles.imageStyle, containerStyle]}
+      />
+    </TouchableOpacity>
   );
 };
 

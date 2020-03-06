@@ -46,9 +46,9 @@ const useLoginUserApi = (): [
     makeApiCall
   ] = useApiCall() as loginApiHook;
   const loginUser = (requestBody: ILoginRequestBody): Promise<boolean> => {
-    return new Promise<boolean>((resolve, reject) => {
+    return new Promise<boolean>(async (resolve, reject) => {
       try {
-        const result = makeApiCall({
+        const result = await makeApiCall({
           route: CONSTANT_verifyOtpV2,
           requestBody,
           method: "POST"

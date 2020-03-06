@@ -9,6 +9,9 @@ import dialer from "../dialer/dialer";
 import { logError } from "../errorLogger/errorLogger";
 import { Linking, Platform } from "react-native";
 import OpenAppSettingsAndroid from "react-native-app-settings";
+import navigationServiceV2 from "../navigationService/navigationServiceV2";
+import { SCREEN_MODAL_STACK } from "../../NavigatorsV2/ScreenNames";
+import { modalStackData } from "../../NavigatorsV2/ModalStack";
 
 /**
  * Voucher no longer needs validation since voucher screens should open
@@ -36,10 +39,16 @@ const isDataSkipped = voucher => _.get(voucher, "voucher.skipVoucher");
  */
 const skipData = voucher => {
   const url = _.get(voucher, "voucher.voucherUrl");
-  if (url) openCustomTab(url);
-  else toastBottom(constants.voucherText.voucherUnavailable);
+  if (url) {
+    openCustomTab(url);
+  } else {
+    toastBottom(constants.voucherText.voucherUnavailable);
+  }
 };
 
+/**
+ * PT TODO: Remove all the old navigation and replace it with new navigation service
+ */
 const resolveLinks = (link = "", screenProps = {}, deepLink = {}) => {
   try {
     const { _navigation: navigation } = navigationService.navigation;
@@ -78,10 +87,15 @@ const resolveLinks = (link = "", screenProps = {}, deepLink = {}) => {
         /**
          * Otherwise, open the app's screen defined by the link
          */
-        navigation.navigate(link, {
-          ...screenProps,
-          parentScreen: "TripFeed"
-        });
+        const isModalStack = Object.keys(modalStackData).includes(link);
+        if (isModalStack) {
+          navigationServiceV2(SCREEN_MODAL_STACK, {
+            screen: link,
+            params: screenProps
+          });
+        } else {
+          navigationServiceV2(link, screenProps);
+        }
       }
     } else if (!_.isEmpty(deepLink)) {
       const {
@@ -115,8 +129,9 @@ const resolveLinks = (link = "", screenProps = {}, deepLink = {}) => {
                 skipData(flight);
               } else {
                 navigation.navigate("FlightVoucher", { flight });
-                if (!isVoucherBooked(flight))
+                if (!isVoucherBooked(flight)) {
                   toastBottom(constants.bookingProcessText.message);
+                }
               }
             } else {
               toastBottom(constants.bookingFailedText);
@@ -131,8 +146,9 @@ const resolveLinks = (link = "", screenProps = {}, deepLink = {}) => {
                 skipData(hotel);
               } else {
                 navigation.navigate("HotelVoucher", { hotel });
-                if (!isVoucherBooked(hotel))
+                if (!isVoucherBooked(hotel)) {
                   toastBottom(constants.bookingProcessText.message);
+                }
               }
             } else {
               toastBottom(constants.bookingFailedText);
@@ -147,8 +163,9 @@ const resolveLinks = (link = "", screenProps = {}, deepLink = {}) => {
                 skipData(activity);
               } else {
                 navigation.navigate("ActivityVoucher", { activity });
-                if (!isVoucherBooked(activity))
+                if (!isVoucherBooked(activity)) {
                   toastBottom(constants.bookingProcessText.message);
+                }
               }
             } else {
               toastBottom(constants.bookingFailedText);
@@ -163,8 +180,9 @@ const resolveLinks = (link = "", screenProps = {}, deepLink = {}) => {
                 skipData(transfer);
               } else {
                 navigation.navigate("TransferVoucher", { transfer });
-                if (!isVoucherBooked(transfer))
+                if (!isVoucherBooked(transfer)) {
                   toastBottom(constants.bookingProcessText.message);
+                }
               }
             } else {
               toastBottom(constants.bookingFailedText);
@@ -179,8 +197,9 @@ const resolveLinks = (link = "", screenProps = {}, deepLink = {}) => {
                 skipData(rentalCar);
               } else {
                 navigation.navigate("RentalCarVoucher", { rentalCar });
-                if (!isVoucherBooked(rentalCar))
+                if (!isVoucherBooked(rentalCar)) {
                   toastBottom(constants.bookingProcessText.message);
+                }
               }
             } else {
               toastBottom(constants.bookingFailedText);
@@ -197,8 +216,9 @@ const resolveLinks = (link = "", screenProps = {}, deepLink = {}) => {
                 navigation.navigate("TransferVoucher", {
                   transfer: { ...ferry, vehicle: voucherType }
                 });
-                if (!isVoucherBooked(ferry))
+                if (!isVoucherBooked(ferry)) {
                   toastBottom(constants.bookingProcessText.message);
+                }
               }
             } else {
               toastBottom(constants.bookingFailedText);
@@ -215,8 +235,9 @@ const resolveLinks = (link = "", screenProps = {}, deepLink = {}) => {
                 navigation.navigate("TransferVoucher", {
                   transfer: { ...train, vehicle: voucherType }
                 });
-                if (!isVoucherBooked(train))
+                if (!isVoucherBooked(train)) {
                   toastBottom(constants.bookingProcessText.message);
+                }
               }
             } else {
               toastBottom(constants.bookingFailedText);
