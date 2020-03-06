@@ -42,7 +42,7 @@ const tabBarColorConfig = {
 
 const PreTripHomeTabs = () => {
   return (
-    // @ts-ignore
+    // @ts-ignore - type definitions unavailable
     <Tab.Navigator tabBar={props => <ExploreBottomBar {...props} />}>
       <Tab.Screen
         options={{

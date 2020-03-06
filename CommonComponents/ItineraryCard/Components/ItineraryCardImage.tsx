@@ -126,7 +126,8 @@ const styles = StyleSheet.create({
     width: responsiveWidth(100)
   },
   scrollImageContainer: {
-    alignItems: "center"
+    alignItems: "center",
+    backgroundColor: CONSTANT_shade6
   },
   tripTypeContainer: {
     position: "absolute",
