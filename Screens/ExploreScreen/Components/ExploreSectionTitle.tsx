@@ -16,7 +16,7 @@ import {
 
 import { CONSTANT_black1 } from "../../../constants/colorPallete";
 
-interface ExploreSectionTitleProps {
+export interface ExploreSectionTitleProps {
   containerStyle?: StyleProp<ViewStyle>;
   title?: string;
   description?: string;

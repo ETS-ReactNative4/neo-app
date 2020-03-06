@@ -1,0 +1,83 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Explore Section Title 1`] = `
+<View>
+  <Text
+    ellipsizeMode="tail"
+    numberOfLines={1}
+    style={
+      Array [
+        Object {
+          "fontFamily": "SourceSansPro-SemiBold",
+          "fontSize": 14,
+          "lineHeight": 14,
+          "marginBottom": 8,
+        },
+        Object {
+          "color": "rgba(44, 47, 66, 1)",
+        },
+      ]
+    }
+  >
+    HANDPICKED FOR YOU
+  </Text>
+  <Text
+    ellipsizeMode="tail"
+    numberOfLines={1}
+    style={
+      Array [
+        Object {
+          "color": "rgba(44, 47, 66, 1)",
+          "fontFamily": "SourceSansPro-Regular",
+          "fontSize": 14,
+          "lineHeight": 14,
+        },
+        undefined,
+      ]
+    }
+  >
+    Let’s tick Asia off your bucket list :)
+  </Text>
+</View>
+`;
+
+exports[`Explore Section Title With Different Color 1`] = `
+<View>
+  <Text
+    ellipsizeMode="tail"
+    numberOfLines={1}
+    style={
+      Array [
+        Object {
+          "fontFamily": "SourceSansPro-SemiBold",
+          "fontSize": 14,
+          "lineHeight": 14,
+          "marginBottom": 8,
+        },
+        Object {
+          "color": "rgba(255, 137, 51, 1)",
+        },
+      ]
+    }
+  >
+    HANDPICKED FOR YOU
+  </Text>
+  <Text
+    ellipsizeMode="tail"
+    numberOfLines={1}
+    style={
+      Array [
+        Object {
+          "color": "rgba(44, 47, 66, 1)",
+          "fontFamily": "SourceSansPro-Regular",
+          "fontSize": 14,
+          "lineHeight": 14,
+        },
+        undefined,
+      ]
+    }
+  >
+    Let’s tick Asia off your bucket list :)
+  </Text>
+</View>
+`;
