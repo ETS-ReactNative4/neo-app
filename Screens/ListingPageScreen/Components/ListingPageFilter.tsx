@@ -21,7 +21,7 @@ import CustomCheckBox, {
   ISuggestedDetails,
   ICheckBoxData
 } from "../../../CommonComponents/CustomCheckBox/CustomCheckBox";
-import BottomButtonBar from "../../../CommonComponents/BottomButtonBar.js/BottomButtonBar";
+import BottomButtonBar from "../../../CommonComponents/BottomButtonBar/BottomButtonBar";
 
 interface ListingPageFilterProps {
   containerStyle?: ViewStyle;
