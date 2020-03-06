@@ -1,5 +1,8 @@
 import React from "react";
-import { createStackNavigator } from "@react-navigation/stack";
+import {
+  createStackNavigator,
+  StackNavigationProp
+} from "@react-navigation/stack";
 import {
   SCREEN_APP_LOGIN,
   SCREEN_STARTER,
@@ -8,7 +11,8 @@ import {
   SCREEN_TRAVEL_MARITAL_STATUS,
   SCREEN_STORY_BOOK,
   SCREEN_PRETRIP_HOME_TABS,
-  SCREEN_EXPLORE_PAGE
+  SCREEN_EXPLORE_PAGE,
+  SCREEN_MODAL_STACK
 } from "./ScreenNames";
 import AppLogin from "../Screens/AppLoginScreen/AppLogin";
 import Starter from "../Screens/StartingScreen/Starter";
@@ -18,8 +22,10 @@ import MaritalStatus from "../Screens/MaritalStatusScreen/MaritalStatus";
 import StorybookUIRoot from "../storybook/Storybook";
 import PreTripHomeTabs, { PreTripHomeTabsType } from "./PreTripHomeTabs";
 import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
+import ModalStack, { ModalNavigatorParamsType } from "./ModalStack";
 
 export type AppNavigatorParamsType = {
+  [SCREEN_MODAL_STACK]: StackNavigationProp<ModalNavigatorParamsType>;
   [SCREEN_PRETRIP_HOME_TABS]: BottomTabNavigationProp<PreTripHomeTabsType>;
   [SCREEN_APP_LOGIN]: {
     // PT TODO: create an enum from list of screens that are allowed transition from loginScreen
@@ -50,7 +56,6 @@ const AppNavigator = () => {
         name={SCREEN_STARTER}
         component={Starter}
       />
-      <Screen name={SCREEN_STORY_BOOK} component={StorybookUIRoot} />
       <Screen name={SCREEN_APP_LOGIN} component={AppLogin} />
       <Screen
         name={SCREEN_TRAVEL_PROFILE_WELCOME}
@@ -66,6 +71,14 @@ const AppNavigator = () => {
         options={{ headerShown: false }}
         component={PreTripHomeTabs}
       />
+      <Screen
+        name={SCREEN_MODAL_STACK}
+        options={{
+          headerShown: false
+        }}
+        component={ModalStack}
+      />
+      <Screen name={SCREEN_STORY_BOOK} component={StorybookUIRoot} />
     </Navigator>
   );
 };

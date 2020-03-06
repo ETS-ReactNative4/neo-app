@@ -14,9 +14,9 @@ export interface ICardDataRequestBody {
 }
 
 export interface ILoadCardRequest {
-  apiUrl: string;
+  apiUrl?: string;
   requestPayload?: object;
-  requestMethod: NetworkRequestMethodTypes;
+  httpMethod?: NetworkRequestMethodTypes;
 }
 
 export interface IExploreSectionTitle {
@@ -25,22 +25,60 @@ export interface IExploreSectionTitle {
   subTitle: string;
 }
 
-export interface IHeroBanner extends IExploreFeedLinks {
+export interface IHeroBanner extends ILoadCardRequest {
   type: string;
   imageUrl: string;
+  deepLinking: IExploreFeedLinks;
 }
 
-export interface IHeroBannerSection {
+export interface IHeroBannerSection extends IExploreSectionTitle {
   type: "HERO_BANNER";
   items: IHeroBanner[];
 }
 
-export interface IHandPickedItinerarySection
+export interface IItinerarySection
   extends ILoadCardRequest,
     IExploreSectionTitle {
-  type: "HANDPICKED_ITINERARIES";
+  type: "ITINERARY_CARDS";
 }
 
-export type ExploreFeedItemType = IHeroBannerSection;
+export interface ICountriesSection
+  extends ILoadCardRequest,
+    IExploreSectionTitle {
+  type: "COUNTRY_CARDS";
+}
+
+export interface IPromotedItem {
+  type: string;
+  imageUrl: string;
+  text: string;
+  cost: string;
+  deepLinking: IExploreFeedLinks;
+}
+
+export interface IPromotedSection
+  extends IExploreSectionTitle,
+    ILoadCardRequest {
+  type: "PROMOTED_CARDS";
+  items: IPromotedItem[];
+}
+
+export interface IBlogCard {
+  blogText: string;
+  bgColor: string;
+  deepLinking: IExploreFeedLinks;
+}
+
+export interface IBlogSection extends IExploreSectionTitle {
+  type: "BLOG_CARDS";
+  items: IBlogCard[];
+}
+
+export type ExploreFeedItemType =
+  | IHeroBannerSection
+  | IItinerarySection
+  | ICountriesSection
+  | IPromotedSection
+  | IBlogSection;
 
 export type ExploreFeedType = ExploreFeedItemType[];
