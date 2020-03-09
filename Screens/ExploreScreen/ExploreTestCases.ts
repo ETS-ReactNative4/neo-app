@@ -67,9 +67,10 @@ export const exploreTestData: ExploreFeedType = [
     items: [
       {
         type: "WORLD_CUP_T20",
-        imageUrl: "",
+        imageUrl:
+          "https://pyt-images.imgix.net/images/product_blog/itinerary-box/australia-small.jpeg",
         text: "All inclusive offers starting from",
-        cost: "75000",
+        cost: 75000,
         deepLinking: {
           link: "ListingPage",
           screenData: {}
@@ -77,9 +78,10 @@ export const exploreTestData: ExploreFeedType = [
       },
       {
         type: "AUSTRALIA",
-        imageUrl: "",
+        imageUrl:
+          "https://pyt-images.imgix.net/images/product_blog/itinerary-box/australia-small.jpeg",
         text: "The best trips #DownUnder",
-        cost: "1,45,000",
+        cost: 145000,
         deepLinking: {
           link: "ListingPage",
           screenData: {}
@@ -87,9 +89,10 @@ export const exploreTestData: ExploreFeedType = [
       },
       {
         type: "BEACH",
-        imageUrl: "",
+        imageUrl:
+          "https://pyt-images.imgix.net/images/product_blog/itinerary-box/australia-small.jpeg",
         text: "Exclusive for Beach Bums",
-        cost: "45,500",
+        cost: 45500,
         deepLinking: {
           link: "ListingPage",
           screenData: {}

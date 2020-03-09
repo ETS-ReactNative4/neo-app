@@ -20,7 +20,8 @@ const BookedItineraryCardsRow = (props: IBookedItinerarySection) => {
       apiUrl={props.apiUrl}
       httpMethod={props.httpMethod}
       requestPayload={props.requestPayload}
-      children={({ data, isLoading }: IItineraryCardsData) => {
+    >
+      {({ data, isLoading }: IItineraryCardsData) => {
         return isLoading
           ? null
           : data &&
@@ -41,7 +42,7 @@ const BookedItineraryCardsRow = (props: IBookedItinerarySection) => {
                 );
               });
       }}
-    />
+    </HorizontalCardsRow>
   );
 };
 

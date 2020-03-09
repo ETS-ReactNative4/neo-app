@@ -58,7 +58,7 @@ export interface IPromotedItem {
   type: string;
   imageUrl: string;
   text: string;
-  cost: string;
+  cost: number;
   deepLinking: IExploreFeedLinks;
 }
 

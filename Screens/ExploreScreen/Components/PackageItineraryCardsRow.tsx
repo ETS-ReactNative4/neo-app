@@ -8,7 +8,7 @@ import { IPackageItinerarySection } from "../ExploreFeedType";
 import HorizontalCardsRow from "./HorizontalCardsRow";
 import ItineraryCard from "../../../CommonComponents/ItineraryCard/ItineraryCard";
 import { IPackageItinerary } from "../../../TypeInterfaces/IPackageItinerary";
-import getLocaleString from "../../../Services/getLocaleString/getLocaleString";
+import getPriceWithoutSymbol from "../services/getPriceWithoutSymbol";
 
 export interface IPackageItineraryCardsData {
   isLoading: boolean;
@@ -26,24 +26,18 @@ const PackageItineraryCardsRow = (props: IPackageItinerarySection) => {
       apiUrl={props.apiUrl}
       httpMethod={props.httpMethod}
       requestPayload={props.requestPayload}
-      children={({ data, isLoading }: IPackageItineraryCardsData) => {
+    >
+      {({ data, isLoading }: IPackageItineraryCardsData) => {
         return isLoading
           ? null
           : data &&
               data.filteredItineraries.map((card, cardIndex) => {
-                // PT TODO: Better way to display the money...
-                const amount = getLocaleString(card.itineraryCost);
-                const amountWithoutRupeeSymbol = amount.substr(2);
-                const amountWithoutFixedDecimals = amountWithoutRupeeSymbol.slice(
-                  0,
-                  -3
-                );
-
+                const amount = getPriceWithoutSymbol(card.itineraryCost);
                 return (
                   <ItineraryCard
                     key={cardIndex}
                     tripType={card.tripType}
-                    itineraryCost={amountWithoutFixedDecimals}
+                    itineraryCost={amount}
                     images={[card.image]}
                     cities={card.cityHotelStay}
                     action={() => null}
@@ -55,7 +49,7 @@ const PackageItineraryCardsRow = (props: IPackageItinerarySection) => {
                 );
               });
       }}
-    />
+    </HorizontalCardsRow>
   );
 };
 

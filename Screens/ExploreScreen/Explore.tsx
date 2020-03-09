@@ -21,6 +21,7 @@ import BlankSpacer from "../../CommonComponents/BlankSpacer/BlankSpacer";
 import BookedItineraryCardsRow from "./Components/BookedItineraryCardsRow";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import PackageItineraryCardsRow from "./Components/PackageItineraryCardsRow";
+import PromotedCardsRow from "./Components/PromotedCardsRow";
 
 export type ExploreScreenNavigationType = CompositeNavigationProp<
   StackNavigationProp<AppNavigatorParamsType, typeof SCREEN_PRETRIP_HOME_TABS>,
@@ -62,6 +63,8 @@ const Explore = ({}: ExploreScreenProps) => {
                 <BookedItineraryCardsRow {...section} />
               ) : section.type === "PACKAGE_ITINERARY_CARDS" ? (
                 <PackageItineraryCardsRow {...section} />
+              ) : section.type === "PROMOTED_CARDS" ? (
+                <PromotedCardsRow {...section} />
               ) : null}
             </Fragment>
           );

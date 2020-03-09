@@ -26,13 +26,16 @@ import {
   CONSTANT_primarySemiBold
 } from "../../constants/fonts";
 import Icon from "../Icon/Icon";
-import { CONSTANT_arrowRight } from "../../constants/imageAssets";
+import {
+  CONSTANT_arrowRight,
+  CONSTANT_defaultPlaceImage
+} from "../../constants/imageAssets";
 import ratioCalculator from "../../Services/ratioCalculator/ratioCalculator";
 
 interface TestimonialCardProps {
   containerStyle?: StyleProp<ViewStyle>;
   image: ImageSourcePropType;
-  fallbackImage: ImageSourcePropType;
+  fallbackImage?: ImageSourcePropType;
   text: string;
   price: string;
   action: () => any;
@@ -44,7 +47,7 @@ const PROMO_CARD_IMAGE_HEIGHT = ratioCalculator(1, 1, PROMO_CARD_IMAGE_WIDTH);
 const PromoCard = ({
   containerStyle,
   image = { uri: "" },
-  fallbackImage = { uri: "" },
+  fallbackImage = { uri: CONSTANT_defaultPlaceImage },
   text = "",
   price = "",
   action = () => null
