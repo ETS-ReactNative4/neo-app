@@ -1,7 +1,7 @@
 import { ILocationDetail } from "../Services/deepLink/deepLink";
 import { IExploreFeedLinks } from "../Screens/ExploreScreen/ExploreFeedType";
 
-export interface IBookedItineraryCity {
+export interface ICityWithNights {
   cityId: number;
   cityName: string;
   hotelId: number;
@@ -21,7 +21,7 @@ export interface IBookedItinerary {
   selfBooker: boolean;
   bookedBy: string;
   customizations: number;
-  cities: IBookedItineraryCity[];
+  cities: ICityWithNights[];
   type: string;
   itineraryText: string;
   location: ILocationDetail;

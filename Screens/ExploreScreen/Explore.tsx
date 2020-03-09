@@ -19,6 +19,8 @@ import { CONSTANT_white1 } from "../../constants/colorPallete";
 import ExploreSectionTitle from "./Components/ExploreSectionTitle";
 import BlankSpacer from "../../CommonComponents/BlankSpacer/BlankSpacer";
 import BookedItineraryCardsRow from "./Components/BookedItineraryCardsRow";
+import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
+import PackageItineraryCardsRow from "./Components/PackageItineraryCardsRow";
 
 export type ExploreScreenNavigationType = CompositeNavigationProp<
   StackNavigationProp<AppNavigatorParamsType, typeof SCREEN_PRETRIP_HOME_TABS>,
@@ -58,6 +60,8 @@ const Explore = ({}: ExploreScreenProps) => {
                 <HeroBannerRow {...section} />
               ) : section.type === "BOOKED_ITINERARY_CARDS" ? (
                 <BookedItineraryCardsRow {...section} />
+              ) : section.type === "PACKAGE_ITINERARY_CARDS" ? (
+                <PackageItineraryCardsRow {...section} />
               ) : null}
             </Fragment>
           );
@@ -74,4 +78,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Explore;
+export default ErrorBoundary({ isRoot: true })(Explore);

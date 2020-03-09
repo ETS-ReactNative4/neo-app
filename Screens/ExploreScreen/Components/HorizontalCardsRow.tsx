@@ -11,7 +11,7 @@ export interface HorizontalCardsRowProps
     data,
     isLoading
   }: {
-    data?: any[];
+    data?: any;
     isLoading: boolean;
   }) => ReactNode;
   items?: any;
@@ -43,7 +43,6 @@ const HorizontalCardsRow = ({
   return (
     <ScrollView
       showsHorizontalScrollIndicator={false}
-      pagingEnabled
       horizontal
       {...otherProps}
     >

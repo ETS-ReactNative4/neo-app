@@ -42,14 +42,14 @@ export const exploreTestData: ExploreFeedType = [
     color: "rgba(0,0,0,1)",
     subTitle: "Top destinations based on your travel style",
     httpMethod: "GET",
-    apiUrl: "api/userprofile/country"
+    apiUrl: "userprofile/country"
   },
   {
-    type: "ITINERARY_CARDS",
+    type: "PACKAGE_ITINERARY_CARDS",
     title: "Pocket-friendly destinations",
     color: "rgba(0,0,0,1)",
     subTitle: "Holidays that are budgeted for the best",
-    apiUrl: "api/packages",
+    apiUrl: "packages",
     httpMethod: "POST",
     requestPayload: {
       key: "packages",
@@ -98,19 +98,19 @@ export const exploreTestData: ExploreFeedType = [
     ]
   },
   {
-    type: "ITINERARY_CARDS",
+    type: "BOOKED_ITINERARY_CARDS",
     title: "On-going holidays",
     color: "rgba(0,0,0,1)",
     subTitle: "Check out where our other travellers are!",
     httpMethod: "GET",
-    apiUrl: "api/itinerary/ongoingitineraries"
+    apiUrl: "itinerary/ongoingitineraries"
   },
   {
-    type: "ITINERARY_CARDS",
+    type: "PACKAGE_ITINERARY_CARDS",
     title: "VISA-ON-ARRIVAL",
     color: "",
     subTitle: "Pick, Pack and Gooo",
-    apiUrl: "api/packages",
+    apiUrl: "packages",
     httpMethod: "POST",
     requestPayload: {
       key: "visa-on-arrival-packages",
@@ -120,11 +120,11 @@ export const exploreTestData: ExploreFeedType = [
     }
   },
   {
-    type: "ITINERARY_CARDS",
+    type: "PACKAGE_ITINERARY_CARDS",
     title: "For the love birds",
     color: "",
     subTitle: "Create memories of a lifetime.",
-    apiUrl: "/api/packages",
+    apiUrl: "packages",
     httpMethod: "POST",
     requestPayload: {
       key: "honeymoon-packages",
