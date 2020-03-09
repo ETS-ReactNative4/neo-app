@@ -23,6 +23,7 @@ import AnimatedLoopToEndTestCases from "../../CommonComponents/AnimatedLoopToEnd
 import ParallaxScrollViewTestCases from "../../CommonComponents/ParallaxScrollView/ParallaxScrollViewTestCases";
 import CustomRadioButtonTestCases from "../../CommonComponents/CustomRadioButton/CustomRadioButtonTestCases";
 import SavedItineraryCardTestCases from "../../CommonComponents/SavedItineraryCard/SavedItineraryCardTestCases";
+import ExploreSectionTitleTestCases from "../../Screens/ExploreScreen/Components/ExploreSectionTitleTestCases";
 
 const CommonComponentStories = storiesOf("Common Components", module);
 
@@ -53,3 +54,4 @@ AnimatedLoopToEndTestCases.forEach(renderTestCase);
 ParallaxScrollViewTestCases.forEach(renderTestCase);
 CustomRadioButtonTestCases.forEach(renderTestCase);
 SavedItineraryCardTestCases.forEach(renderTestCase);
+ExploreSectionTitleTestCases.forEach(renderTestCase);
