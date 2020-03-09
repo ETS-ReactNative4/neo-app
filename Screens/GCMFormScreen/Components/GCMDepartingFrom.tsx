@@ -1,10 +1,10 @@
 import React from "react";
 import {
   View,
-  ViewStyle,
   StyleSheet,
   Text,
-  TouchableOpacity
+  TouchableOpacity,
+  ScrollView
 } from "react-native";
 import { CONSTANT_black1 } from "../../../constants/colorPallete";
 import {
@@ -13,15 +13,17 @@ import {
   CONSTANT_primaryRegular
 } from "../../../constants/fonts";
 
-interface GCMSearchProps {
-  containerStyle?: ViewStyle;
-}
-
-const GCMSearch = ({ containerStyle }: GCMSearchProps) => {
+const GCMDepartingFrom = () => {
   return (
-    <View style={[styles.searchContainerStyle, containerStyle]}>
+    <ScrollView
+      showsVerticalScrollIndicator={false}
+      style={styles.searchContainerStyle}
+    >
       <Text style={styles.titleStyle}>Departing from</Text>
+
+      {/* Added search box component here starts */}
       <View style={styles.height} />
+      {/* Added search box component here ends */}
 
       <View style={styles.searchListWrapper}>
         <TouchableOpacity
@@ -48,7 +50,7 @@ const GCMSearch = ({ containerStyle }: GCMSearchProps) => {
           <Text style={styles.searchListText}>Bombay, BOM</Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
@@ -83,4 +85,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default GCMSearch;
+export default GCMDepartingFrom;
