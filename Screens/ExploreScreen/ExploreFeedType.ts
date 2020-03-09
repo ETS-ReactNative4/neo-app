@@ -73,6 +73,7 @@ export interface IBlogCard {
   blogText: string;
   bgColor: string;
   deepLinking: IExploreFeedLinks;
+  type: string;
 }
 
 export interface IBlogSection extends IExploreSectionTitle {

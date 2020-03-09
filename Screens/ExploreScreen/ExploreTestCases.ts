@@ -143,22 +143,25 @@ export const exploreTestData: ExploreFeedType = [
     color: "",
     items: [
       {
-        bgColor: "",
+        bgColor: "rgba(0,0,0,1)",
         blogText: "10 amazing things to do in Europe.",
+        type: "blog",
         deepLinking: {
           link: "https://pickyourtrail.com/blog"
         }
       },
       {
-        bgColor: "",
+        bgColor: "rgba(0,0,0,1)",
         blogText: "5 essential things to know about Dubai.",
+        type: "blog",
         deepLinking: {
           link: "https://pickyourtrail.com/blog"
         }
       },
       {
-        bgColor: "",
+        bgColor: "rgba(0,0,0,1)",
         blogText: "A local's guide to experience Turkey.",
+        type: "guide",
         deepLinking: {
           link: "https://pickyourtrail.com/blog"
         }
