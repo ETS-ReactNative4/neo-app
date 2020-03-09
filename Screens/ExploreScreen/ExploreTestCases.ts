@@ -9,7 +9,8 @@ export const exploreTestData: ExploreFeedType = [
     items: [
       {
         type: "SRI_LANKA_CARD",
-        imageUrl: "",
+        imageUrl:
+          "https://pyt-images.imgix.net/images/product_blog/itinerary-box/australia-small.jpeg",
         deepLinking: {
           link: "ListingPage",
           screenData: {}
@@ -17,7 +18,8 @@ export const exploreTestData: ExploreFeedType = [
       },
       {
         type: "MALDIVES_CARD",
-        imageUrl: "",
+        imageUrl:
+          "https://pyt-images.imgix.net/images/product_blog/itinerary-box/australia-small.jpeg",
         deepLinking: {
           link: "ListingPage",
           screenData: {}
@@ -25,7 +27,8 @@ export const exploreTestData: ExploreFeedType = [
       },
       {
         type: "ITALY_CARD",
-        imageUrl: "",
+        imageUrl:
+          "https://pyt-images.imgix.net/images/product_blog/itinerary-box/australia-small.jpeg",
         deepLinking: {
           link: "ListingPage",
           screenData: {}

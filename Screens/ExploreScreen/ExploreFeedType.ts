@@ -36,10 +36,16 @@ export interface IHeroBannerSection extends IExploreSectionTitle {
   items: IHeroBanner[];
 }
 
-export interface IItinerarySection
+export interface IBookedItinerarySection
   extends ILoadCardRequest,
     IExploreSectionTitle {
-  type: "ITINERARY_CARDS";
+  type: "BOOKED_ITINERARY_CARDS";
+}
+
+export interface IPackageItinerarySection
+  extends ILoadCardRequest,
+    IExploreSectionTitle {
+  type: "PACKAGE_ITINERARY_CARDS";
 }
 
 export interface ICountriesSection
@@ -76,7 +82,8 @@ export interface IBlogSection extends IExploreSectionTitle {
 
 export type ExploreFeedItemType =
   | IHeroBannerSection
-  | IItinerarySection
+  | IPackageItinerarySection
+  | IBookedItinerarySection
   | ICountriesSection
   | IPromotedSection
   | IBlogSection;

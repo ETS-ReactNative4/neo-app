@@ -4,6 +4,7 @@ import {
   CONSTANT_bottomBarHeight,
   CONSTANT_xSensorAreaHeight
 } from "../../constants/styles";
+import { isIphoneX } from "react-native-iphone-x-helper";
 
 const BottomBarWrapper = (BottomBar: (prop: object) => ReactElement) => (
   props: object
@@ -15,7 +16,8 @@ const BottomBarWrapper = (BottomBar: (prop: object) => ReactElement) => (
 
 const styles = StyleSheet.create({
   bottomBarWrapper: {
-    height: CONSTANT_bottomBarHeight + CONSTANT_xSensorAreaHeight,
+    height:
+      CONSTANT_bottomBarHeight + (isIphoneX() ? CONSTANT_xSensorAreaHeight : 0),
     alignItems: "flex-start",
     backgroundColor: "white"
   }

@@ -1,10 +1,6 @@
 import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import PropTypes from "prop-types";
-import {
-  CONSTANT_bottomBarHeight,
-  CONSTANT_xSensorAreaHeight
-} from "../../constants/styles";
 import BottomBarWrapper from "../BottomBarWrapper/BottomBarWrapper";
 import Icon from "../Icon/Icon";
 import {
@@ -60,6 +56,7 @@ const ExploreBottomBar = ({ state, descriptors, navigation }) => {
 
         return (
           <TouchableOpacity
+            key={index}
             activeOpacity={0.8}
             accessibilityRole="button"
             accessibilityStates={isFocused ? ["selected"] : []}
@@ -86,8 +83,8 @@ ExploreBottomBar.propTypes = {
 
 const styles = StyleSheet.create({
   bottomBarContainer: {
+    flex: 1,
     flexDirection: "row",
-    height: CONSTANT_bottomBarHeight + CONSTANT_xSensorAreaHeight,
     backgroundColor: "transparent"
   },
   buttonContainer: {

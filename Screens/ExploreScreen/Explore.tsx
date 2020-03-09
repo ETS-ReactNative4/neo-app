@@ -1,5 +1,5 @@
 import React, { useState, Fragment } from "react";
-import { ScrollView, StyleSheet } from "react-native";
+import { ScrollView, StyleSheet, View } from "react-native";
 import { CompositeNavigationProp, RouteProp } from "@react-navigation/native";
 import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
 import { StackNavigationProp } from "@react-navigation/stack";
@@ -14,10 +14,11 @@ import {
   ExploreTabStackType
 } from "../../NavigatorsV2/PreTripHomeTabs";
 import { exploreTestData } from "./ExploreTestCases";
-import ItineraryCardsRow from "./Components/ItineraryCardsRow";
 import HeroBannerRow from "./Components/HeroBannerRow";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { CONSTANT_white1 } from "../../constants/colorPallete";
+import ExploreSectionTitle from "./Components/ExploreSectionTitle";
+import BlankSpacer from "../../CommonComponents/BlankSpacer/BlankSpacer";
+import BookedItineraryCardsRow from "./Components/BookedItineraryCardsRow";
 
 export type ExploreScreenNavigationType = CompositeNavigationProp<
   StackNavigationProp<AppNavigatorParamsType, typeof SCREEN_PRETRIP_HOME_TABS>,
@@ -40,21 +41,29 @@ const Explore = ({}: ExploreScreenProps) => {
   const [exploreData] = useState(exploreTestData);
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <ScrollView>
         {exploreData.map((section, sectionIndex) => {
           return (
             <Fragment key={sectionIndex}>
+              <ExploreSectionTitle
+                title={section.title}
+                description={section.subTitle}
+                titleColor={section.color}
+              />
+              {section.title || section.subTitle ? (
+                <BlankSpacer height={16} />
+              ) : null}
               {section.type === "HERO_BANNER" ? (
                 <HeroBannerRow {...section} />
-              ) : section.type === "ITINERARY_CARDS" ? (
-                <ItineraryCardsRow {...section} />
+              ) : section.type === "BOOKED_ITINERARY_CARDS" ? (
+                <BookedItineraryCardsRow {...section} />
               ) : null}
             </Fragment>
           );
         })}
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 };
 

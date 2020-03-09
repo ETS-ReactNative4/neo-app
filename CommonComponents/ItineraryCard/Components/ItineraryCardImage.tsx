@@ -68,7 +68,7 @@ const ItineraryCardImage = ({
           }
         ])}
       >
-        {images.slice(0, 5).map((imageData, index) => {
+        {images.map((imageData, index) => {
           return (
             <SmartImageV2
               key={index}
@@ -86,36 +86,38 @@ const ItineraryCardImage = ({
         })}
       </AnimatedScrollView>
 
-      <View style={styles.dotContainer}>
-        {images.slice(0, 5).map((imageData, index) => {
-          let width: number | Animated.Node<number> = 8,
-            opacity: number | Animated.Node<number> = 0.5;
-          if (scrollX) {
-            width = interpolate(scrollX, {
-              inputRange: [
-                responsiveWidth(100) * (index - 1),
-                responsiveWidth(100) * index,
-                responsiveWidth(100) * (index + 1)
-              ],
-              outputRange: [8, 16, 8],
-              extrapolate: Extrapolate.CLAMP
-            });
-            opacity = interpolate(scrollX, {
-              inputRange: [
-                responsiveWidth(100) * (index - 1),
-                responsiveWidth(100) * index,
-                responsiveWidth(100) * (index + 1)
-              ],
-              outputRange: [0.5, 1, 0.5],
-              extrapolate: Extrapolate.CLAMP
-            });
-          }
-          const widthStyle = { width, opacity };
-          return (
-            <AnimatedView key={index} style={[styles.dotStyle, widthStyle]} />
-          );
-        })}
-      </View>
+      {images.length > 1 ? (
+        <View style={styles.dotContainer}>
+          {images.map((imageData, index) => {
+            let width: number | Animated.Node<number> = 8,
+              opacity: number | Animated.Node<number> = 0.5;
+            if (scrollX) {
+              width = interpolate(scrollX, {
+                inputRange: [
+                  responsiveWidth(100) * (index - 1),
+                  responsiveWidth(100) * index,
+                  responsiveWidth(100) * (index + 1)
+                ],
+                outputRange: [8, 16, 8],
+                extrapolate: Extrapolate.CLAMP
+              });
+              opacity = interpolate(scrollX, {
+                inputRange: [
+                  responsiveWidth(100) * (index - 1),
+                  responsiveWidth(100) * index,
+                  responsiveWidth(100) * (index + 1)
+                ],
+                outputRange: [0.5, 1, 0.5],
+                extrapolate: Extrapolate.CLAMP
+              });
+            }
+            const widthStyle = { width, opacity };
+            return (
+              <AnimatedView key={index} style={[styles.dotStyle, widthStyle]} />
+            );
+          })}
+        </View>
+      ) : null}
     </View>
   );
 };

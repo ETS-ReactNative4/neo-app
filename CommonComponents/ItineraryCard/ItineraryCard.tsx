@@ -32,7 +32,6 @@ import {
 
 import PrimaryButton from "../PrimaryButton/PrimaryButton";
 
-import getLocaleString from "../../Services/getLocaleString/getLocaleString";
 import RouteList, {
   IRouteCitiesDetails
 } from "../../CommonComponents/RouteList/RouteList";
@@ -47,7 +46,7 @@ interface ItineraryCardProps {
   action: () => any;
   title: string;
   activities: string[];
-  itineraryCost: number;
+  itineraryCost: string;
   cities: IRouteCitiesDetails[];
 }
 
@@ -88,9 +87,7 @@ const ItineraryCard = ({
         <View style={styles.bottomWrapper}>
           <View style={styles.priceSection}>
             <Text style={styles.rupeeText}>₹</Text>
-            <Text style={styles.priceText}>
-              {getLocaleString(itineraryCost)}
-            </Text>
+            <Text style={styles.priceText}>{itineraryCost}</Text>
             <Text style={styles.personText}>/person</Text>
           </View>
 
