@@ -22,6 +22,7 @@ import {
   CONSTANT_fontCustom,
   CONSTANT_primaryRegular
 } from "../../../constants/fonts";
+import { CONSTANT_defaultPlaceImage } from "../../../constants/imageAssets";
 
 const {
   Value,
@@ -76,8 +77,7 @@ const ItineraryCardImage = ({
                 uri: imageData
               }}
               fallbackSource={{
-                uri:
-                  "https://pyt-images.imgix.net/images/product_blog/operahouse.jpeg"
+                uri: CONSTANT_defaultPlaceImage
               }}
               resizeMode="cover"
               style={[styles.itineraryImage, imageStyle]}

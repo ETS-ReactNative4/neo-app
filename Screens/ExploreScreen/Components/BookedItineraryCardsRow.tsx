@@ -1,4 +1,9 @@
 import React from "react";
+import { StyleSheet } from "react-native";
+import {
+  responsiveWidth
+  // @ts-ignore
+} from "react-native-responsive-dimensions";
 import { IBookedItinerarySection } from "../ExploreFeedType";
 import HorizontalCardsRow from "./HorizontalCardsRow";
 import ItineraryCard from "../../../CommonComponents/ItineraryCard/ItineraryCard";
@@ -30,6 +35,8 @@ const BookedItineraryCardsRow = (props: IBookedItinerarySection) => {
                     action={() => null}
                     activities={[]}
                     title={card.itineraryText}
+                    containerStyle={styles.itineraryCardWrapper}
+                    imageStyle={styles.itineraryImage}
                   />
                 );
               });
@@ -37,5 +44,14 @@ const BookedItineraryCardsRow = (props: IBookedItinerarySection) => {
     />
   );
 };
+
+const styles = StyleSheet.create({
+  itineraryCardWrapper: {
+    width: responsiveWidth(80)
+  },
+  itineraryImage: {
+    width: responsiveWidth(80)
+  }
+});
 
 export default BookedItineraryCardsRow;
