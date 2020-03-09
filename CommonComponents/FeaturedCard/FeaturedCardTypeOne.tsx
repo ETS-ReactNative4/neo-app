@@ -15,7 +15,10 @@ import {
 import SmartImageV2 from "../SmartImage/SmartImageV2";
 import Icon from "../Icon/Icon";
 import { CONSTANT_white1 } from "../../constants/colorPallete";
-import { CONSTANT_backIcon } from "../../constants/imageAssets";
+import {
+  CONSTANT_backIcon,
+  CONSTANT_defaultPlaceImage
+} from "../../constants/imageAssets";
 import {
   CONSTANT_fontCustom,
   CONSTANT_primaryRegular,
@@ -26,7 +29,7 @@ import ratioCalculator from "../../Services/ratioCalculator/ratioCalculator";
 interface FeaturedCardTypeOneProps {
   containerStyle?: StyleProp<ImageStyle>;
   image: ImageSourcePropType;
-  fallbackImage: ImageSourcePropType;
+  fallbackImage?: ImageSourcePropType;
   blurRadius?: number;
   action: () => any;
   price: string;
@@ -42,8 +45,8 @@ const FEATURED_CARD_IMAGE_HEIGHT = ratioCalculator(
 const FeaturedCardTypeOne = ({
   containerStyle,
   image = { uri: "" },
-  fallbackImage = { uri: "" },
-  blurRadius,
+  fallbackImage = { uri: CONSTANT_defaultPlaceImage },
+  blurRadius = 50,
   action = () => null,
   price
 }: FeaturedCardTypeOneProps) => {

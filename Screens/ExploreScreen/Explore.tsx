@@ -23,6 +23,7 @@ import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import PackageItineraryCardsRow from "./Components/PackageItineraryCardsRow";
 import PromotedCardsRow from "./Components/PromotedCardsRow";
 import BlogCardsRow from "./Components/BlogCardsRow";
+import CountryCardsRow from "./Components/CountryCardsRow";
 
 export type ExploreScreenNavigationType = CompositeNavigationProp<
   StackNavigationProp<AppNavigatorParamsType, typeof SCREEN_PRETRIP_HOME_TABS>,
@@ -68,6 +69,8 @@ const Explore = ({}: ExploreScreenProps) => {
                 <PromotedCardsRow {...section} />
               ) : section.type === "BLOG_CARDS" ? (
                 <BlogCardsRow {...section} />
+              ) : section.type === "COUNTRY_CARDS" ? (
+                <CountryCardsRow {...section} />
               ) : null}
             </Fragment>
           );
