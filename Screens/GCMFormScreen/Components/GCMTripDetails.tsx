@@ -1,5 +1,5 @@
-import React, { Fragment } from "react";
-import { StyleSheet, Text, ScrollView, Alert } from "react-native";
+import React, { Fragment, useRef } from "react";
+import { StyleSheet, Text, ScrollView, Alert, TextInput } from "react-native";
 import { CONSTANT_black1 } from "../../../constants/colorPallete";
 import {
   CONSTANT_primarySemiBold,
@@ -9,12 +9,16 @@ import TextInputField from "../../../CommonComponents/TextInputField/TextInputFi
 import BottomButtonBar from "../../../CommonComponents/BottomButtonBar/BottomButtonBar";
 
 const GCMTripDetails = () => {
+  const departingOnRef = useRef<TextInput>(null);
+
   const [departingFrom, onChangeDepartingFrom] = React.useState("Chennai");
   const [departingOn, onChangeDepartingOn] = React.useState("15 Jul 1990");
   const [travellingAs, onChangeTravellingAs] = React.useState("Family");
   const [roomDetails, onChangeRoomDetails] = React.useState(
     "1 room - 3 adults"
   );
+
+  const focusOnTextField = () => departingOnRef?.current?.focus();
 
   return (
     <Fragment>
@@ -30,9 +34,13 @@ const GCMTripDetails = () => {
           onChangeText={text => onChangeDepartingFrom(text)}
           placeholder="Departing From"
           hasError={false}
+          keyboardType={"default"}
+          returnKeyType={"next"}
+          onSubmitEditing={focusOnTextField}
         />
 
         <TextInputField
+          textInputRef={departingOnRef}
           label={"DEPARTING ON"}
           value={departingOn}
           onChangeText={text => onChangeDepartingOn(text)}

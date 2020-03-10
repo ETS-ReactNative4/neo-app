@@ -1,4 +1,4 @@
-import React from "react";
+import React, { RefObject } from "react";
 import {
   View,
   TextInput,
@@ -33,6 +33,7 @@ export interface TextInputFieldProps extends TextInputProps {
   secondaryText?: string;
   secondaryTextAction?: () => any;
   hasError: boolean;
+  textInputRef?: RefObject<TextInput>;
 }
 
 const TextInputField = ({
@@ -45,6 +46,7 @@ const TextInputField = ({
   hasError = false,
   secondaryText = "",
   secondaryTextAction = () => {},
+  textInputRef,
   ...otherProps
 }: TextInputFieldProps) => {
   return (
@@ -55,6 +57,7 @@ const TextInputField = ({
         style={[styles.inputFieldInner, hasError ? styles.hasErrorStyle : null]}
       >
         <TextInput
+          ref={textInputRef}
           style={[styles.textInput, textInputStyle]}
           value={value}
           onChangeText={onChangeText}
