@@ -3,6 +3,7 @@ import HorizontalCardsRow from "./HorizontalCardsRow";
 import { ICountriesSection, IExploreFeedLinks } from "../ExploreFeedType";
 import FeaturedCardTypeOne from "../../../CommonComponents/FeaturedCard/FeaturedCardTypeOne";
 import getPriceWithoutSymbol from "../services/getPriceWithoutSymbol";
+import deepLink from "../../../Services/deepLink/deepLink";
 
 export interface ICountryCard {
   countryId: number;
@@ -11,6 +12,13 @@ export interface ICountryCard {
   deepLinking: IExploreFeedLinks;
   startingPrice: number;
   image: string;
+}
+
+export interface ICountryDeepLink {
+  link: string;
+  screenData?: {
+    slug?: string;
+  };
 }
 
 export interface ICountryCardData {
@@ -30,12 +38,22 @@ const CountryCardsRow = (props: ICountriesSection) => {
           ? null
           : data &&
               data.map((country, countryIndex) => {
+                const action = () => {
+                  const deepLinkingObject: ICountryDeepLink = {
+                    link: country.deepLinking.link,
+                    screenData: {
+                      ...(country.deepLinking.screenData || {}),
+                      slug: country.slug
+                    }
+                  };
+                  deepLink(deepLinkingObject);
+                };
                 return (
                   <FeaturedCardTypeOne
                     key={countryIndex}
                     image={{ uri: country.image }}
                     price={getPriceWithoutSymbol(country.startingPrice)}
-                    action={() => null}
+                    action={action}
                   />
                 );
               });
