@@ -11,30 +11,34 @@ import {
   CONSTANT_fontCustom,
   CONSTANT_primaryRegular
 } from "../../../constants/fonts";
-import { CONSTANT_checkIcon } from "../../../constants/imageAssets";
+import {
+  CONSTANT_checkIcon,
+  CONSTANT_closeIcon
+} from "../../../constants/imageAssets";
+import { IInclusion } from "../../../Screens/ExploreScreen/services/generateInclusions";
 
-interface ActivityListProps {
-  activities: string[];
+export interface InclusionListProps {
+  inclusionList: IInclusion[];
 }
 
-const ActivityList = ({ activities = [] }: ActivityListProps) => {
-  const activitiesSlice = activities.slice(0, 3);
+const InclusionList = ({ inclusionList }: InclusionListProps) => {
   return (
     <View style={styles.listWrapper}>
-      {activitiesSlice.map((activitiesData, activityIndex) => {
-        return (
-          <View style={styles.listInner} key={activityIndex}>
-            <View style={styles.checkIconStyle}>
-              <Icon
-                name={CONSTANT_checkIcon}
-                size={14}
-                color={CONSTANT_firstColor}
-              />
+      {inclusionList &&
+        inclusionList.map((item, index) => {
+          return (
+            <View style={styles.listInner} key={index}>
+              <View style={styles.checkIconStyle}>
+                <Icon
+                  name={item.type ? CONSTANT_checkIcon : CONSTANT_closeIcon}
+                  size={14}
+                  color={item.type ? CONSTANT_firstColor : "red"}
+                />
+              </View>
+              <Text style={styles.listText}>{item.text}</Text>
             </View>
-            <Text style={styles.listText}>{activitiesData}</Text>
-          </View>
-        );
-      })}
+          );
+        })}
     </View>
   );
 };
@@ -65,4 +69,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default ActivityList;
+export default InclusionList;

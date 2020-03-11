@@ -34,17 +34,18 @@ import PrimaryButton from "../PrimaryButton/PrimaryButton";
 import RouteList, {
   IRouteCitiesDetails
 } from "../../CommonComponents/RouteList/RouteList";
-import ActivityList from "./Components/ActivityList";
 import ItineraryCardImage from "./Components/ItineraryCardImage";
+import InclusionList from "./Components/InclusionList";
+import { IInclusion } from "../../Screens/ExploreScreen/services/generateInclusions";
 
-interface ItineraryCardProps {
+export interface ItineraryCardProps {
   containerStyle?: ViewStyle;
   imageStyle?: StyleProp<ImageStyle>;
   images: string[];
   tripType: string;
   action: () => any;
   title: string;
-  activities: string[];
+  inclusionList: IInclusion[];
   itineraryCost: string;
   cities: IRouteCitiesDetails[];
 }
@@ -55,7 +56,7 @@ const ItineraryCard = ({
   images = [],
   tripType = "",
   title = "",
-  activities,
+  inclusionList,
   itineraryCost,
   cities = [],
   action = () => null
@@ -81,7 +82,7 @@ const ItineraryCard = ({
 
         <RouteList cities={cities} />
 
-        <ActivityList activities={activities} />
+        <InclusionList inclusionList={inclusionList} />
 
         <Dash dashColor={CONSTANT_shade2} dashGap={2} dashLength={1} />
 

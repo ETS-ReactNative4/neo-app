@@ -15,7 +15,7 @@ import {
 } from "../../NavigatorsV2/PreTripHomeTabs";
 import { exploreTestData } from "./ExploreTestCases";
 import HeroBannerRow from "./Components/HeroBannerRow";
-import { CONSTANT_white1 } from "../../constants/colorPallete";
+import { CONSTANT_white, CONSTANT_shade5 } from "../../constants/colorPallete";
 import ExploreSectionTitle from "./Components/ExploreSectionTitle";
 import BlankSpacer from "../../CommonComponents/BlankSpacer/BlankSpacer";
 import BookedItineraryCardsRow from "./Components/BookedItineraryCardsRow";
@@ -51,6 +51,7 @@ const Explore = ({}: ExploreScreenProps) => {
         {exploreData.map((section, sectionIndex) => {
           return (
             <Fragment key={sectionIndex}>
+              <BlankSpacer height={24} />
               <ExploreSectionTitle
                 title={section.title}
                 description={section.subTitle}
@@ -60,10 +61,7 @@ const Explore = ({}: ExploreScreenProps) => {
                 <BlankSpacer height={16} />
               ) : null}
               {section.type === "HERO_BANNER" ? (
-                <Fragment>
-                  <HeroBannerRow {...section} />
-                  <BlankSpacer height={4} />
-                </Fragment>
+                <HeroBannerRow {...section} />
               ) : section.type === "BOOKED_ITINERARY_CARDS" ? (
                 <BookedItineraryCardsRow {...section} />
               ) : section.type === "PACKAGE_ITINERARY_CARDS" ? (
@@ -75,6 +73,10 @@ const Explore = ({}: ExploreScreenProps) => {
               ) : section.type === "COUNTRY_CARDS" ? (
                 <CountryCardsRow {...section} />
               ) : null}
+              <BlankSpacer
+                containerStyle={styles.spacerBackgroundStyle}
+                height={4}
+              />
             </Fragment>
           );
         })}
@@ -86,7 +88,10 @@ const Explore = ({}: ExploreScreenProps) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: CONSTANT_white1
+    backgroundColor: CONSTANT_white
+  },
+  spacerBackgroundStyle: {
+    backgroundColor: CONSTANT_shade5
   }
 });
 

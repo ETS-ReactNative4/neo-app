@@ -9,6 +9,7 @@ import HorizontalCardsRow from "./HorizontalCardsRow";
 import ItineraryCard from "../../../CommonComponents/ItineraryCard/ItineraryCard";
 import { IPackageItinerary } from "../../../TypeInterfaces/IPackageItinerary";
 import getPriceWithoutSymbol from "../services/getPriceWithoutSymbol";
+import generateInclusions from "../services/generateInclusions";
 
 export interface IPackageItineraryCardsData {
   isLoading: boolean;
@@ -33,6 +34,9 @@ const PackageItineraryCardsRow = (props: IPackageItinerarySection) => {
           : data &&
               data.filteredItineraries.map((card, cardIndex) => {
                 const amount = getPriceWithoutSymbol(card.itineraryCost);
+
+                const inclusionList = generateInclusions(card);
+
                 return (
                   <ItineraryCard
                     key={cardIndex}
@@ -41,10 +45,10 @@ const PackageItineraryCardsRow = (props: IPackageItinerarySection) => {
                     images={[card.image]}
                     cities={card.cityHotelStay}
                     action={() => null}
-                    activities={card.activities}
                     title={card.title}
                     containerStyle={styles.itineraryCardWrapper}
                     imageStyle={styles.itineraryImage}
+                    inclusionList={inclusionList}
                   />
                 );
               });
