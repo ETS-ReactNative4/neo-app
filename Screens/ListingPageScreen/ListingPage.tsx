@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect, useMemo, useRef } from "react";
 import {
   StyleSheet,
   View,
@@ -28,6 +28,10 @@ import getPriceWithoutSymbol from "../ExploreScreen/services/getPriceWithoutSymb
 import { CONSTANT_platformAndroid } from "../../constants/stringConstants";
 import BlankSpacer from "../../CommonComponents/BlankSpacer/BlankSpacer";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
+import ActionSheet from "../../CommonComponents/ActionSheet/ActionSheet";
+import FilterActionSheet from "./Components/FilterActionSheet";
+import Interactable from "react-native-interactable";
+import usePackagesFilter from "./hooks/usePackagesFilter";
 
 type screenName = typeof SCREEN_LISTING_PAGE;
 
@@ -45,6 +49,16 @@ export interface ListingPageProps {
 
 const ListingPage = ({ navigation, route }: ListingPageProps) => {
   const [packagesApiDetails, loadPackages] = usePackagesApi();
+  const listingPageRef = useRef(null);
+  const openFilterPanel = () => {
+    // @ts-ignore
+    listingPageRef.current && listingPageRef.current.snapTo({ index: 1 });
+  };
+  const onFilterPanelSnap = (snapEvent: Interactable.ISnapEvent) => {
+    if (snapEvent.nativeEvent.index === 2) {
+      // panel closed
+    }
+  };
 
   const goBack = () => navigation.goBack();
 
@@ -73,6 +87,13 @@ const ListingPage = ({ navigation, route }: ListingPageProps) => {
     name = "",
     mobileImage = ""
   } = campaignDetails as IPackagesResponseData["data"]["campaignDetails"];
+
+  const {
+    interests,
+    travelDuration,
+    estimatedBudget,
+    propertyRatings
+  } = usePackagesFilter();
 
   return (
     <View style={styles.listingPageContainer}>
@@ -108,11 +129,27 @@ const ListingPage = ({ navigation, route }: ListingPageProps) => {
 
       <TouchableOpacity
         activeOpacity={0.8}
-        onPress={() => Alert.alert("Click filter")}
+        onPress={openFilterPanel}
         style={styles.filterIcon}
       >
         <Icon name={CONSTANT_listIcon} size={20} color={CONSTANT_white} />
       </TouchableOpacity>
+      <ActionSheet
+        panelViewablePosition={0}
+        interactableRef={listingPageRef}
+        onSnap={onFilterPanelSnap}
+      >
+        <FilterActionSheet
+          interests={interests.group}
+          selectInterest={interests.action}
+          travelDuration={travelDuration.group}
+          selectTravelDuration={travelDuration.action}
+          estimatedBudget={estimatedBudget.group}
+          selectEstimatedBudget={estimatedBudget.action}
+          propertyRating={propertyRatings.group}
+          selectPropertyRating={propertyRatings.action}
+        />
+      </ActionSheet>
     </View>
   );
 };
