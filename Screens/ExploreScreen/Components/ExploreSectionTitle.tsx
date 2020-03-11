@@ -38,7 +38,7 @@ const ExploreSectionTitle = ({
   return (
     <Fragment>
       {title || description ? (
-        <View style={containerStyle}>
+        <View style={[styles.titleContainer, containerStyle]}>
           {title ? (
             <Text
               style={[styles.titleStyle, titleTextColor]}
@@ -64,6 +64,9 @@ const ExploreSectionTitle = ({
 };
 
 const styles = StyleSheet.create({
+  titleContainer: {
+    paddingHorizontal: 16
+  },
   titleStyle: {
     ...CONSTANT_fontCustom(CONSTANT_primarySemiBold, 14),
     marginBottom: 8

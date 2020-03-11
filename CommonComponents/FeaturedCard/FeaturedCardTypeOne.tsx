@@ -91,7 +91,8 @@ const FeaturedCardTypeOne = ({
 const styles = StyleSheet.create({
   bgImageStyle: {
     width: responsiveWidth(100),
-    marginBottom: 32
+    marginBottom: 32,
+    borderRadius: 4
   },
   imageStyle: {
     borderRadius: 4

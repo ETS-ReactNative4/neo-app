@@ -18,7 +18,6 @@ import {
 
 import {
   CONSTANT_white,
-  CONSTANT_white1,
   CONSTANT_black1,
   CONSTANT_shade1,
   CONSTANT_shade2,
@@ -70,13 +69,15 @@ const ItineraryCard = ({
       />
 
       <View style={styles.contentWrapper}>
-        <Text
-          style={styles.descriptionStyle}
-          numberOfLines={2}
-          ellipsizeMode={"tail"}
-        >
-          {title}
-        </Text>
+        <View style={styles.titleTextWrapper}>
+          <Text
+            style={styles.titleTextStyle}
+            numberOfLines={2}
+            ellipsizeMode={"tail"}
+          >
+            {title}
+          </Text>
+        </View>
 
         <RouteList cities={cities} />
 
@@ -121,17 +122,22 @@ const styles = StyleSheet.create({
   contentWrapper: {
     paddingVertical: 12,
     paddingHorizontal: 16,
-    backgroundColor: CONSTANT_white1,
+    backgroundColor: CONSTANT_white,
     borderWidth: 1,
     borderTopWidth: 0,
     borderColor: CONSTANT_shade3,
     borderBottomLeftRadius: 8,
     borderBottomRightRadius: 8
   },
-  descriptionStyle: {
-    color: CONSTANT_black1,
-    ...CONSTANT_fontCustom(CONSTANT_primarySemiBold, 16, 20),
+  titleTextWrapper: {
+    flexDirection: "row",
+    height: 40,
+    alignItems: "center",
     marginBottom: 8
+  },
+  titleTextStyle: {
+    color: CONSTANT_black1,
+    ...CONSTANT_fontCustom(CONSTANT_primarySemiBold, 16, 20)
   },
 
   bottomWrapper: {

@@ -60,7 +60,10 @@ const Explore = ({}: ExploreScreenProps) => {
                 <BlankSpacer height={16} />
               ) : null}
               {section.type === "HERO_BANNER" ? (
-                <HeroBannerRow {...section} />
+                <Fragment>
+                  <HeroBannerRow {...section} />
+                  <BlankSpacer height={4} />
+                </Fragment>
               ) : section.type === "BOOKED_ITINERARY_CARDS" ? (
                 <BookedItineraryCardsRow {...section} />
               ) : section.type === "PACKAGE_ITINERARY_CARDS" ? (

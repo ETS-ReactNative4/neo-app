@@ -18,9 +18,10 @@ interface ActivityListProps {
 }
 
 const ActivityList = ({ activities = [] }: ActivityListProps) => {
+  const activitiesSlice = activities.slice(0, 3);
   return (
     <View style={styles.listWrapper}>
-      {activities.map((activitiesData, activityIndex) => {
+      {activitiesSlice.map((activitiesData, activityIndex) => {
         return (
           <View style={styles.listInner} key={activityIndex}>
             <View style={styles.checkIconStyle}>
@@ -51,6 +52,7 @@ const styles = StyleSheet.create({
     marginTop: 2
   },
   listText: {
+    flex: 1,
     color: CONSTANT_shade1,
     ...CONSTANT_fontCustom(CONSTANT_primaryRegular, 14, 18),
     marginLeft: 8
