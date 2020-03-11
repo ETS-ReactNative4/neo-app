@@ -3,8 +3,12 @@ import { createStackNavigator } from "@react-navigation/stack";
 import ListingPage from "../Screens/ListingPageScreen/ListingPage";
 import { SCREEN_LISTING_PAGE } from "./ScreenNames";
 
+export type ListingPageType = {
+  slug?: string;
+};
+
 export type ModalNavigatorParamsType = {
-  [SCREEN_LISTING_PAGE]: undefined;
+  [SCREEN_LISTING_PAGE]: ListingPageType;
 };
 
 /**
@@ -12,7 +16,7 @@ export type ModalNavigatorParamsType = {
  * resolveLinks function
  */
 export const modalStackData: ModalNavigatorParamsType = {
-  [SCREEN_LISTING_PAGE]: undefined
+  [SCREEN_LISTING_PAGE]: {}
 };
 
 const Stack = createStackNavigator<ModalNavigatorParamsType>();

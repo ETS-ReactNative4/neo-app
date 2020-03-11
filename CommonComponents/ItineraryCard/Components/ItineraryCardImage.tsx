@@ -1,12 +1,5 @@
-import React, { useState } from "react";
-import {
-  StyleSheet,
-  View,
-  ScrollView,
-  ImageStyle,
-  StyleProp
-} from "react-native";
-import Animated from "react-native-reanimated";
+import React from "react";
+import { StyleSheet, View, ImageStyle, StyleProp } from "react-native";
 import {
   responsiveWidth
   // @ts-ignore
@@ -24,17 +17,6 @@ import {
 } from "../../../constants/fonts";
 import { CONSTANT_defaultPlaceImage } from "../../../constants/imageAssets";
 
-const {
-  Value,
-  event,
-  Extrapolate,
-  interpolate,
-  createAnimatedComponent
-} = Animated;
-
-const AnimatedScrollView = createAnimatedComponent(ScrollView);
-const AnimatedView = createAnimatedComponent(View);
-
 interface ItineraryCardImageProps {
   images: string[];
   imageStyle?: StyleProp<ImageStyle>;
@@ -46,78 +28,21 @@ const ItineraryCardImage = ({
   tripType = "",
   imageStyle
 }: ItineraryCardImageProps) => {
-  const [scrollX] = useState(new Value(0));
-
   return (
     <View style={styles.scrollImageContainer}>
       <View style={styles.tripTypeContainer}>
         <Text style={styles.tripTypeTextStyle}>{tripType}</Text>
       </View>
-
-      <AnimatedScrollView
-        pagingEnabled
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        scrollEventThrottle={1}
-        onScroll={event([
-          {
-            nativeEvent: {
-              contentOffset: {
-                x: scrollX
-              }
-            }
-          }
-        ])}
-      >
-        {images.map((imageData, index) => {
-          return (
-            <SmartImageV2
-              key={index}
-              source={{
-                uri: imageData
-              }}
-              fallbackSource={{
-                uri: CONSTANT_defaultPlaceImage
-              }}
-              resizeMode="cover"
-              style={[styles.itineraryImage, imageStyle]}
-            />
-          );
-        })}
-      </AnimatedScrollView>
-
-      {images.length > 1 ? (
-        <View style={styles.dotContainer}>
-          {images.map((imageData, index) => {
-            let width: number | Animated.Node<number> = 8,
-              opacity: number | Animated.Node<number> = 0.5;
-            if (scrollX) {
-              width = interpolate(scrollX, {
-                inputRange: [
-                  responsiveWidth(100) * (index - 1),
-                  responsiveWidth(100) * index,
-                  responsiveWidth(100) * (index + 1)
-                ],
-                outputRange: [8, 16, 8],
-                extrapolate: Extrapolate.CLAMP
-              });
-              opacity = interpolate(scrollX, {
-                inputRange: [
-                  responsiveWidth(100) * (index - 1),
-                  responsiveWidth(100) * index,
-                  responsiveWidth(100) * (index + 1)
-                ],
-                outputRange: [0.5, 1, 0.5],
-                extrapolate: Extrapolate.CLAMP
-              });
-            }
-            const widthStyle = { width, opacity };
-            return (
-              <AnimatedView key={index} style={[styles.dotStyle, widthStyle]} />
-            );
-          })}
-        </View>
-      ) : null}
+      <SmartImageV2
+        source={{
+          uri: images[0]
+        }}
+        fallbackSource={{
+          uri: CONSTANT_defaultPlaceImage
+        }}
+        resizeMode="cover"
+        style={[styles.itineraryImage, imageStyle]}
+      />
     </View>
   );
 };

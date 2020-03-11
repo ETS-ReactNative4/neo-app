@@ -55,7 +55,7 @@ export const exploreTestData: ExploreFeedType = [
       key: "packages",
       budgets: ["0_50000"],
       testimonials: 10,
-      limit: 50,
+      limit: 10,
       journalTestimonials: false
     }
   },
@@ -73,7 +73,9 @@ export const exploreTestData: ExploreFeedType = [
         cost: 75000,
         deepLinking: {
           link: "ListingPage",
-          screenData: {}
+          screenData: {
+            slug: "packages/maldives"
+          }
         }
       },
       {
@@ -84,7 +86,9 @@ export const exploreTestData: ExploreFeedType = [
         cost: 145000,
         deepLinking: {
           link: "ListingPage",
-          screenData: {}
+          screenData: {
+            slug: "packages/maldives"
+          }
         }
       },
       {
@@ -95,7 +99,9 @@ export const exploreTestData: ExploreFeedType = [
         cost: 45500,
         deepLinking: {
           link: "ListingPage",
-          screenData: {}
+          screenData: {
+            slug: "packages/maldives"
+          }
         }
       }
     ]
@@ -118,7 +124,7 @@ export const exploreTestData: ExploreFeedType = [
     requestPayload: {
       key: "visa-on-arrival-packages",
       testimonials: 10,
-      limit: 50,
+      limit: 10,
       journalTestimonials: false
     }
   },
@@ -132,7 +138,7 @@ export const exploreTestData: ExploreFeedType = [
     requestPayload: {
       key: "honeymoon-packages",
       testimonials: 10,
-      limit: 50,
+      limit: 10,
       journalTestimonials: false
     }
   },
