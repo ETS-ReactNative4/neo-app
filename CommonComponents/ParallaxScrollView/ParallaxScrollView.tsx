@@ -163,6 +163,7 @@ const ParallaxScrollView = ({
       </AnimatedView>
 
       <AnimatedScrollView
+        removeClippedSubviews
         showsVerticalScrollIndicator={false}
         contentOffset={{ x: 0, y: SCROLL_OFFSET }}
         contentInset={{ top: SCROLL_INSET }}

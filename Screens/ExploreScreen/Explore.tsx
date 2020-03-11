@@ -47,7 +47,7 @@ const Explore = ({}: ExploreScreenProps) => {
 
   return (
     <View style={styles.container}>
-      <ScrollView>
+      <ScrollView removeClippedSubviews>
         {exploreData.map((section, sectionIndex) => {
           return (
             <Fragment key={sectionIndex}>

@@ -37,6 +37,7 @@ const PromoCarousal = ({ containerStyle, images = [] }: PromoCarousalProps) => {
   return (
     <View style={(styles.promoCarousalContainer, containerStyle)}>
       <AnimatedScrollView
+        removeClippedSubviews
         pagingEnabled
         horizontal
         showsHorizontalScrollIndicator={false}

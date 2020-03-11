@@ -43,6 +43,7 @@ const HorizontalCardsRow = ({
   return (
     <ScrollView
       showsHorizontalScrollIndicator={false}
+      removeClippedSubviews
       horizontal
       {...otherProps}
     >
