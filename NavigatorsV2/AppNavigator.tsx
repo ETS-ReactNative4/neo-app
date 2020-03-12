@@ -25,6 +25,7 @@ import PreTripHomeTabs, { PreTripHomeTabsType } from "./PreTripHomeTabs";
 import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
 import ModalStack, { ModalNavigatorParamsType } from "./ModalStack";
 import { CONSTANT_white } from "../constants/colorPallete";
+import { RouteProp } from "@react-navigation/native";
 
 export type AppNavigatorParamsType = {
   [SCREEN_MODAL_STACK]: StackNavigationProp<ModalNavigatorParamsType>;
@@ -45,6 +46,11 @@ export type AppNavigatorParamsType = {
 };
 
 const Stack = createStackNavigator<AppNavigatorParamsType>();
+
+export type AppNavigatorProps<T extends keyof AppNavigatorParamsType> = {
+  navigation: StackNavigationProp<AppNavigatorParamsType, T>;
+  route: RouteProp<AppNavigatorParamsType, T>;
+};
 
 const { Navigator, Screen } = Stack;
 

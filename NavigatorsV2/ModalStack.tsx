@@ -1,7 +1,11 @@
 import React from "react";
-import { createStackNavigator } from "@react-navigation/stack";
+import {
+  createStackNavigator,
+  StackNavigationProp
+} from "@react-navigation/stack";
 import ListingPage from "../Screens/ListingPageScreen/ListingPage";
 import { SCREEN_LISTING_PAGE } from "./ScreenNames";
+import { RouteProp } from "@react-navigation/native";
 
 export type ListingPageType = {
   slug?: string;
@@ -9,6 +13,13 @@ export type ListingPageType = {
 
 export type ModalNavigatorParamsType = {
   [SCREEN_LISTING_PAGE]: ListingPageType;
+};
+
+export type ModalStackNavigatorProps<
+  T extends keyof ModalNavigatorParamsType
+> = {
+  navigation: StackNavigationProp<ModalNavigatorParamsType, T>;
+  route: RouteProp<ModalNavigatorParamsType, T>;
 };
 
 /**
