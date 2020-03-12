@@ -32,6 +32,7 @@ import ActionSheet from "../../CommonComponents/ActionSheet/ActionSheet";
 import FilterActionSheet from "./Components/FilterActionSheet";
 import Interactable from "react-native-interactable";
 import usePackagesFilter from "./hooks/usePackagesFilter";
+import generateInclusions from "../ExploreScreen/services/generateInclusions";
 
 type screenName = typeof SCREEN_LISTING_PAGE;
 
@@ -49,11 +50,14 @@ export interface ListingPageProps {
 
 const ListingPage = ({ navigation, route }: ListingPageProps) => {
   const [packagesApiDetails, loadPackages] = usePackagesApi();
-  const listingPageRef = useRef(null);
+
+  const filterSheetRef = useRef(null);
+
   const openFilterPanel = () => {
     // @ts-ignore
-    listingPageRef.current && listingPageRef.current.snapTo({ index: 1 });
+    filterSheetRef.current && filterSheetRef.current.snapTo({ index: 1 });
   };
+
   const onFilterPanelSnap = (snapEvent: Interactable.ISnapEvent) => {
     if (snapEvent.nativeEvent.index === 2) {
       // panel closed
@@ -106,6 +110,8 @@ const ListingPage = ({ navigation, route }: ListingPageProps) => {
       >
         {useMemo(() => {
           return filteredItineraries.map((itinerary, itineraryIndex) => {
+            const inclusionList = generateInclusions(itinerary);
+
             return (
               <ItineraryCard
                 key={itineraryIndex}
@@ -113,7 +119,7 @@ const ListingPage = ({ navigation, route }: ListingPageProps) => {
                 tripType={itinerary.tripType}
                 action={() => Alert.alert("Click Itinerary Card")}
                 title={itinerary.title}
-                activities={itinerary.activities}
+                inclusionList={inclusionList}
                 itineraryCost={getPriceWithoutSymbol(itinerary.itineraryCost)}
                 cities={itinerary.cityHotelStay}
               />
@@ -136,7 +142,7 @@ const ListingPage = ({ navigation, route }: ListingPageProps) => {
       </TouchableOpacity>
       <ActionSheet
         panelViewablePosition={0}
-        interactableRef={listingPageRef}
+        interactableRef={filterSheetRef}
         onSnap={onFilterPanelSnap}
       >
         <FilterActionSheet
