@@ -1,9 +1,14 @@
 import React from "react";
+import {
+  responsiveWidth
+  // @ts-ignore
+} from "react-native-responsive-dimensions";
 import HorizontalCardsRow from "./HorizontalCardsRow";
 import { ICountriesSection, IExploreFeedLinks } from "../ExploreFeedType";
 import FeaturedCardTypeOne from "../../../CommonComponents/FeaturedCard/FeaturedCardTypeOne";
 import getPriceWithoutSymbol from "../services/getPriceWithoutSymbol";
 import deepLink from "../../../Services/deepLink/deepLink";
+import { StyleSheet } from "react-native";
 
 export interface ICountryCard {
   countryId: number;
@@ -54,6 +59,7 @@ const CountryCardsRow = (props: ICountriesSection) => {
                     image={{ uri: country.image }}
                     price={getPriceWithoutSymbol(country.startingPrice)}
                     action={action}
+                    containerStyle={styles.featuredCardTypeOneWrapper}
                   />
                 );
               });
@@ -61,5 +67,12 @@ const CountryCardsRow = (props: ICountriesSection) => {
     </HorizontalCardsRow>
   );
 };
+
+const styles = StyleSheet.create({
+  featuredCardTypeOneWrapper: {
+    width: responsiveWidth(80),
+    marginLeft: 16
+  }
+});
 
 export default CountryCardsRow;

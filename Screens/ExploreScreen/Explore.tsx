@@ -73,6 +73,7 @@ const Explore = ({}: ExploreScreenProps) => {
               ) : section.type === "COUNTRY_CARDS" ? (
                 <CountryCardsRow {...section} />
               ) : null}
+              <BlankSpacer height={24} />
               <BlankSpacer
                 containerStyle={styles.spacerBackgroundStyle}
                 height={4}
