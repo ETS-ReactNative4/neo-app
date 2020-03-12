@@ -3,7 +3,8 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import {
   SCREEN_EXPLORE_PAGE,
   SCREEN_EXPLORE_TAB,
-  SCREEN_SEARCH_TAB
+  SCREEN_SEARCH_TAB,
+  SCREEN_NOTIFICATION_TAB
 } from "./ScreenNames";
 import Explore, {
   ExploreScreenSourcesType
@@ -29,6 +30,7 @@ export type ExploreTabStackType = {
 export type PreTripHomeTabsType = {
   [SCREEN_EXPLORE_TAB]: IExplorePageScreenData;
   [SCREEN_SEARCH_TAB]: undefined;
+  [SCREEN_NOTIFICATION_TAB]: undefined;
 };
 
 const Tab = createBottomTabNavigator<PreTripHomeTabsType>();
@@ -60,6 +62,15 @@ const PreTripHomeTabs = () => {
           ...tabBarColorConfig
         }}
         name={SCREEN_SEARCH_TAB}
+        component={Search}
+      />
+      <Tab.Screen
+        options={{
+          tabBarLabel: "Notifications",
+          icon: CONSTANT_passIcon,
+          ...tabBarColorConfig
+        }}
+        name={SCREEN_NOTIFICATION_TAB}
         component={Search}
       />
     </Tab.Navigator>

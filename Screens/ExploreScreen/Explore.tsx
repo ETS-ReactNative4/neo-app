@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from "react";
+import React, { useState, Fragment, useRef } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { CompositeNavigationProp, RouteProp } from "@react-navigation/native";
 import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
@@ -24,6 +24,8 @@ import PackageItineraryCardsRow from "./Components/PackageItineraryCardsRow";
 import PromotedCardsRow from "./Components/PromotedCardsRow";
 import BlogCardsRow from "./Components/BlogCardsRow";
 import CountryCardsRow from "./Components/CountryCardsRow";
+import PrimaryHeader from "../../NavigatorsV2/Components/PrimaryHeader";
+import { CONSTANT_hamburgerIcon } from "../../constants/imageAssets";
 
 export type ExploreScreenNavigationType = CompositeNavigationProp<
   StackNavigationProp<AppNavigatorParamsType, typeof SCREEN_PRETRIP_HOME_TABS>,
@@ -45,8 +47,18 @@ export type ExploreScreenSourcesType = "TravelProfileFlow";
 const Explore = ({}: ExploreScreenProps) => {
   const [exploreData] = useState(exploreTestData);
 
+  const openUltimateMenu = () => {};
+
+  const header = useRef(
+    PrimaryHeader({
+      leftAction: openUltimateMenu,
+      leftIcon: CONSTANT_hamburgerIcon
+    })
+  ).current;
+
   return (
     <View style={styles.container}>
+      {header}
       <ScrollView removeClippedSubviews>
         {exploreData.map((section, sectionIndex) => {
           return (

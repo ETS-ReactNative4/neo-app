@@ -4,7 +4,8 @@ import {
   StyleProp,
   ViewStyle,
   StyleSheet,
-  TouchableOpacity
+  TouchableOpacity,
+  ImageSourcePropType
 } from "react-native";
 
 import {
@@ -13,12 +14,18 @@ import {
   CONSTANT_shade5
 } from "../../../constants/colorPallete";
 import Icon from "../../../CommonComponents/Icon/Icon";
-import { CONSTANT_arrowRight } from "../../../constants/imageAssets";
+import {
+  CONSTANT_arrowRight,
+  CONSTANT_pytLogo
+} from "../../../constants/imageAssets";
 import SmartImageV2 from "../../../CommonComponents/SmartImage/SmartImageV2";
 import ratioCalculator from "../../../Services/ratioCalculator/ratioCalculator";
 
-interface ExploreHeaderProps {
+export interface ExploreHeaderProps {
   containerStyle?: StyleProp<ViewStyle>;
+  leftAction: () => any;
+  leftIcon: string;
+  headerLogo?: ImageSourcePropType;
 }
 
 const HEADER_LOGO_IMAGE_WIDTH = 112;
@@ -28,26 +35,24 @@ const HEADER_LOGO_IMAGE_HEIGHT = ratioCalculator(
   HEADER_LOGO_IMAGE_WIDTH
 );
 
-const ExploreHeader = ({ containerStyle }: ExploreHeaderProps) => {
+const ExploreHeader = ({
+  containerStyle,
+  leftAction = () => null,
+  leftIcon = CONSTANT_arrowRight,
+  headerLogo = CONSTANT_pytLogo
+}: ExploreHeaderProps) => {
   return (
     <View style={[styles.headerContainerStyle, containerStyle]}>
       <TouchableOpacity
         activeOpacity={0.8}
         style={styles.backArrowIconStyle}
-        onPress={() => {}}
+        onPress={leftAction}
       >
-        <Icon name={CONSTANT_arrowRight} size={16} color={CONSTANT_black2} />
+        <Icon name={leftIcon} size={16} color={CONSTANT_black2} />
       </TouchableOpacity>
 
       <SmartImageV2
-        source={{
-          uri:
-            "https://pyt-images.imgix.net/images/web_app/logo/pickyourtrail-logo.png"
-        }}
-        fallbackSource={{
-          uri:
-            "https://pyt-images.imgix.net/images/web_app/logo/pickyourtrail-logo.png"
-        }}
+        source={headerLogo}
         resizeMode={"cover"}
         style={styles.logoImageStyle}
       />
