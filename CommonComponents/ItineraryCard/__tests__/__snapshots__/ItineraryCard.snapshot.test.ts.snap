@@ -1018,6 +1018,134 @@ exports[`Itinerary Card Activity List 1`] = `
 </View>
 `;
 
+exports[`Itinerary Card Carousel Image 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+      "backgroundColor": "rgba(250, 250, 250, 1)",
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "backgroundColor": "rgba(250, 250, 250, 1)",
+        "borderRadius": 4,
+        "left": 12,
+        "padding": 8,
+        "position": "absolute",
+        "top": 12,
+        "zIndex": 1,
+      }
+    }
+  >
+    <Text
+      style={
+        Object {
+          "color": "rgba(44, 47, 66, 1)",
+          "fontFamily": "SourceSansPro-Regular",
+          "fontSize": 13,
+          "lineHeight": 18,
+        }
+      }
+    >
+      ❤️ Romance
+    </Text>
+  </View>
+  <ScrollView
+    horizontal={true}
+    pagingEnabled={true}
+    scrollEventThrottle={1}
+    showsHorizontalScrollIndicator={false}
+  >
+    <Image
+      onError={[Function]}
+      resizeMode="cover"
+      source={
+        Object {
+          "uri": "https://pyt-images.imgix.net/images/product_blog/itinerary-box/australia-small.jpeg",
+        }
+      }
+      style={
+        Array [
+          Object {
+            "height": 200,
+            "width": 750,
+          },
+          undefined,
+        ]
+      }
+    />
+    <Image
+      onError={[Function]}
+      resizeMode="cover"
+      source={
+        Object {
+          "uri": "https://pyt-images.imgix.net/images/product_blog/itinerary-box/europe-small.jpeg",
+        }
+      }
+      style={
+        Array [
+          Object {
+            "height": 200,
+            "width": 750,
+          },
+          undefined,
+        ]
+      }
+    />
+  </ScrollView>
+  <View
+    style={
+      Object {
+        "bottom": 12,
+        "flexDirection": "row",
+        "position": "absolute",
+        "zIndex": 1,
+      }
+    }
+  >
+    <View
+      style={
+        Array [
+          Object {
+            "backgroundColor": "white",
+            "borderRadius": 10,
+            "height": 8,
+            "marginHorizontal": 4,
+            "opacity": 0.5,
+            "width": 8,
+          },
+          Object {
+            "opacity": undefined,
+            "width": undefined,
+          },
+        ]
+      }
+    />
+    <View
+      style={
+        Array [
+          Object {
+            "backgroundColor": "white",
+            "borderRadius": 10,
+            "height": 8,
+            "marginHorizontal": 4,
+            "opacity": 0.5,
+            "width": 8,
+          },
+          Object {
+            "opacity": undefined,
+            "width": undefined,
+          },
+        ]
+      }
+    />
+  </View>
+</View>
+`;
+
 exports[`Itinerary Card Image 1`] = `
 <View
   style={

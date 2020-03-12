@@ -5,9 +5,10 @@ import { Alert } from "react-native";
 
 import ItineraryCard from "../ItineraryCard/ItineraryCard";
 
-import ActivityList from "./Components/ActivityList";
 import { IRouteCitiesDetails } from "../../CommonComponents/RouteList/RouteList";
 import ItineraryCardCarouselImage from "./Components/ItineraryCardCarouselImage";
+import generateInclusions from "../../Screens/ExploreScreen/services/generateInclusions";
+import getPriceWithoutSymbol from "../../Screens/ExploreScreen/services/getPriceWithoutSymbol";
 
 const data: ICardData[] = [
   {
@@ -21,13 +22,6 @@ const data: ICardData[] = [
     title: "The 7 night Hungary vacation itinerary for fun lovers",
     itineraryCost: 88832,
     tripType: "Honeymoon",
-    activities: [
-      "Chain Bridge",
-      "Miskolc City Pass",
-      "Budapest Retro Design Centre Museum",
-      "Sunshine Booze Cruise",
-      "Ruin Pub Crawl - Your Keys to the nightlife of Budapest"
-    ],
     cityHotelStay: [
       {
         cityName: "Budapest"
@@ -41,6 +35,18 @@ const data: ICardData[] = [
       {
         cityName: "Budapest"
       }
+    ],
+    flightsIncluded: true,
+    hotelsIncluded: true,
+    transferIncluded: true,
+    visaIncluded: false,
+    visaType: "SCHENGEN",
+    hotelStarRating: 3,
+    activities: [
+      "Jardin des Tuileries",
+      "Explore Montmartre",
+      "Mundolingua Museum Admission Ticket",
+      "Val d'Europe VIP Shopping and Gourmet Break"
     ]
   }
 ];
@@ -48,10 +54,16 @@ const data: ICardData[] = [
 interface ICardData {
   images: string[];
   title: string;
-  activities: string[];
   itineraryCost: number;
   cityHotelStay: IRouteCitiesDetails[];
   tripType: string;
+  flightsIncluded: boolean;
+  hotelsIncluded: boolean;
+  hotelStarRating: number;
+  visaType: string;
+  visaIncluded: boolean;
+  transferIncluded: boolean;
+  activities: string[];
 }
 
 interface ItineraryCardWrapperProps {
@@ -62,6 +74,9 @@ const ItineraryCardWrapper = ({ cardData }: ItineraryCardWrapperProps) => {
   return (
     <Fragment>
       {cardData.map((dataObj, index) => {
+        const amount = getPriceWithoutSymbol(dataObj.itineraryCost);
+        const inclusionList = generateInclusions(dataObj);
+
         return (
           <ItineraryCard
             key={index}
@@ -69,8 +84,8 @@ const ItineraryCardWrapper = ({ cardData }: ItineraryCardWrapperProps) => {
             tripType={`❤️ ${dataObj.tripType}`}
             action={() => Alert.alert("Click")}
             title={dataObj.title}
-            activities={dataObj.activities}
-            itineraryCost={dataObj.itineraryCost}
+            inclusionList={inclusionList}
+            itineraryCost={amount}
             cities={dataObj.cityHotelStay}
           />
         );
@@ -89,18 +104,6 @@ const FeaturedCardTestCases: ITestCase[] = [
           "https://pyt-images.imgix.net/images/product_blog/itinerary-box/europe-small.jpeg"
         ]}
         tripType={`❤️ Romance`}
-      />
-    )
-  },
-  {
-    title: "Itinerary Card Activity List",
-    Component: (
-      <ActivityList
-        activities={[
-          "3 star accomodations",
-          "Airport Transfers",
-          "5 activities"
-        ]}
       />
     )
   },
