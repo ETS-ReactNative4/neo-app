@@ -1,17 +1,33 @@
 import React from "react";
-import { ScrollView, View, StyleSheet, Alert } from "react-native";
+import {
+  ScrollView,
+  View,
+  StyleSheet,
+  Alert,
+  Text,
+  TouchableOpacity,
+  SafeAreaView
+} from "react-native";
 import { IFilters } from "../filterOptions/filterOptions";
 import {
-  responsiveHeight,
-  responsiveWidth
+  responsiveHeight
   // @ts-ignore
 } from "react-native-responsive-dimensions";
 import BottomButtonBar from "../../../CommonComponents/BottomButtonBar.js/BottomButtonBar";
-import { CONSTANT_xSensorAreaHeight } from "../../../constants/styles";
-import { isIphoneX } from "react-native-iphone-x-helper";
 import RadioBoxWrapper from "./RadioBoxWrapper";
 import CheckBoxWrapper from "./CheckBoxWrapper";
 import BlankSpacer from "../../../CommonComponents/BlankSpacer/BlankSpacer";
+import { CONSTANT_closeIcon } from "../../../constants/imageAssets";
+import {
+  CONSTANT_black1,
+  CONSTANT_white,
+  CONSTANT_shade5
+} from "../../../constants/colorPallete";
+import Icon from "../../../CommonComponents/Icon/Icon";
+import {
+  CONSTANT_fontCustom,
+  CONSTANT_primarySemiBold
+} from "../../../constants/fonts";
 
 export interface ICheckBoxGroup extends IFilters {
   type: "Checkbox";
@@ -33,6 +49,7 @@ export interface IFilterActionSheetProps {
   propertyRating: ICheckBoxGroup;
   selectPropertyRating: (val: string) => any;
   applyFilter: () => any;
+  closeFilter: () => any;
 }
 
 const FilterActionSheet = ({
@@ -44,28 +61,40 @@ const FilterActionSheet = ({
   selectEstimatedBudget,
   propertyRating,
   selectPropertyRating,
-  applyFilter
+  applyFilter,
+  closeFilter
 }: IFilterActionSheetProps) => {
   return (
-    <View style={styles.filterActionSheetContainer}>
-      <View style={styles.scrollContainer}>
-        <ScrollView>
-          <BlankSpacer height={24} />
-          <RadioBoxWrapper options={interests} action={selectInterest} />
-          <CheckBoxWrapper
-            options={travelDuration}
-            action={selectTravelDuration}
-          />
-          <CheckBoxWrapper
-            options={estimatedBudget}
-            action={selectEstimatedBudget}
-          />
-          <CheckBoxWrapper
-            options={propertyRating}
-            action={selectPropertyRating}
-          />
-        </ScrollView>
+    <SafeAreaView style={styles.filterActionSheetContainer}>
+      <View style={[styles.headerContainerStyle]}>
+        <TouchableOpacity
+          style={styles.closeIconStyle}
+          activeOpacity={0.8}
+          onPress={closeFilter}
+        >
+          <Icon name={CONSTANT_closeIcon} size={24} color={CONSTANT_black1} />
+        </TouchableOpacity>
+
+        <Text style={styles.headerTextStyle}>Filters</Text>
       </View>
+
+      <ScrollView style={styles.scrollContainer}>
+        <BlankSpacer height={24} />
+        <RadioBoxWrapper options={interests} action={selectInterest} />
+        <CheckBoxWrapper
+          options={travelDuration}
+          action={selectTravelDuration}
+        />
+        <CheckBoxWrapper
+          options={estimatedBudget}
+          action={selectEstimatedBudget}
+        />
+        <CheckBoxWrapper
+          options={propertyRating}
+          action={selectPropertyRating}
+        />
+        <BlankSpacer height={88} />
+      </ScrollView>
 
       <BottomButtonBar
         containerStyle={styles.bottomBar}
@@ -74,20 +103,43 @@ const FilterActionSheet = ({
         rightButtonName={"Apply"}
         rightButtonAction={applyFilter}
       />
-    </View>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   filterActionSheetContainer: {
-    width: responsiveWidth(100),
-    height: responsiveHeight(100)
+    flex: 1,
+    backgroundColor: CONSTANT_white
+  },
+  headerContainerStyle: {
+    backgroundColor: CONSTANT_white,
+    height: 56,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    borderBottomWidth: 1,
+    borderBottomColor: CONSTANT_shade5
+  },
+  closeIconStyle: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    alignItems: "center",
+    justifyContent: "center",
+    width: 56,
+    height: 56
+  },
+  headerTextStyle: {
+    color: CONSTANT_black1,
+    ...CONSTANT_fontCustom(CONSTANT_primarySemiBold, 18, 24)
   },
   scrollContainer: {
-    height: responsiveHeight(100)
+    height: responsiveHeight(100),
+    paddingHorizontal: 24
   },
   bottomBar: {
-    paddingBottom: 20 + (isIphoneX() ? CONSTANT_xSensorAreaHeight : 0)
+    paddingBottom: 24
   }
 });
 

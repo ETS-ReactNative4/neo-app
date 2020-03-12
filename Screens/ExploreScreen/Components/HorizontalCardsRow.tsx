@@ -39,20 +39,24 @@ const HorizontalCardsRow = ({
   }, []);
 
   const { successResponseData, isLoading } = widgetDetails;
-
-  return (
-    <ScrollView
-      showsHorizontalScrollIndicator={false}
-      removeClippedSubviews
-      horizontal
-      {...otherProps}
-    >
-      {children({
-        data: items || (successResponseData?.data as any),
-        isLoading
-      })}
-    </ScrollView>
-  );
+  try {
+    return (
+      <ScrollView
+        showsHorizontalScrollIndicator={false}
+        removeClippedSubviews
+        horizontal
+        {...otherProps}
+      >
+        {children({
+          data: items || (successResponseData?.data as any),
+          isLoading
+        })}
+      </ScrollView>
+    );
+  } catch (e) {
+    console.error(e);
+    return null;
+  }
 };
 
 export default HorizontalCardsRow;

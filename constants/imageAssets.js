@@ -493,5 +493,7 @@ export const CONSTANT_defaultAgentImage = () =>
   require("../assets/images/illustrations/default-agent-image.png");
 export const CONSTANT_splashBackgroundVideo = () =>
   require("../assets/videos/splashscreen.mp4");
+export const CONSTANT_preLoaderAnimation = () =>
+  require("../assets/animations/preLoader.json");
 
 export default imageAssets;
