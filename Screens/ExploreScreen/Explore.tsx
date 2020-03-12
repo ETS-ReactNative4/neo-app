@@ -6,13 +6,9 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import { AppNavigatorParamsType } from "../../NavigatorsV2/AppNavigator";
 import {
   SCREEN_PRETRIP_HOME_TABS,
-  SCREEN_EXPLORE_PAGE,
   SCREEN_EXPLORE_TAB
 } from "../../NavigatorsV2/ScreenNames";
-import {
-  PreTripHomeTabsType,
-  ExploreTabStackType
-} from "../../NavigatorsV2/PreTripHomeTabs";
+import { PreTripHomeTabsType } from "../../NavigatorsV2/PreTripHomeTabs";
 import { exploreTestData } from "./ExploreTestCases";
 import HeroBannerRow from "./Components/HeroBannerRow";
 import { CONSTANT_white, CONSTANT_shade5 } from "../../constants/colorPallete";
@@ -33,8 +29,8 @@ export type ExploreScreenNavigationType = CompositeNavigationProp<
 >;
 
 export type ExploreScreenRouteProp = RouteProp<
-  ExploreTabStackType,
-  typeof SCREEN_EXPLORE_PAGE
+  PreTripHomeTabsType,
+  typeof SCREEN_EXPLORE_TAB
 >;
 
 export interface ExploreScreenProps {
