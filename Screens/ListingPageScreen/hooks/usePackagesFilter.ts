@@ -10,11 +10,13 @@ import {
 export interface IRadioSet {
   group: IRadioGroup;
   action: (val: string) => any;
+  reset: () => any;
 }
 
 export interface ICheckBoxSet {
   group: ICheckBoxGroup;
   action: (val: string) => any;
+  reset: () => any;
 }
 
 export interface IPackagesFilter {
@@ -49,6 +51,12 @@ const usePackagesFilter = (): IPackagesFilter => {
     });
   };
 
+  const resetInterest = () =>
+    setInterestsRadioGroup({
+      type: "Radio",
+      ...interestsRadio
+    });
+
   const [
     travelDurationCheckBoxGroup,
     setTravelDurationCheckBoxGroup
@@ -75,6 +83,12 @@ const usePackagesFilter = (): IPackagesFilter => {
     });
   };
 
+  const resetDuration = () =>
+    setTravelDurationCheckBoxGroup({
+      type: "Checkbox",
+      ...travelDurationCheckBox
+    });
+
   const [ratingsCheckBoxGroup, setRatingsCheckBoxGroup] = useState<
     ICheckBoxGroup
   >({
@@ -97,6 +111,12 @@ const usePackagesFilter = (): IPackagesFilter => {
       options: newRatingsOptions
     });
   };
+
+  const resetRatings = () =>
+    setRatingsCheckBoxGroup({
+      type: "Checkbox",
+      ...propertyRatingCheckBox
+    });
 
   const [
     estimatedBudgetCheckBoxGroup,
@@ -124,22 +144,33 @@ const usePackagesFilter = (): IPackagesFilter => {
     });
   };
 
+  const resetBudgets = () => {
+    setEstimatedBudgetCheckBoxGroup({
+      type: "Checkbox",
+      ...estimatedBudgetCheckBox
+    });
+  };
+
   return {
     interests: {
       group: interestsRadioGroup,
-      action: selectInterest
+      action: selectInterest,
+      reset: resetInterest
     },
     travelDuration: {
       group: travelDurationCheckBoxGroup,
-      action: selectTravelDuration
+      action: selectTravelDuration,
+      reset: resetDuration
     },
     propertyRatings: {
       group: ratingsCheckBoxGroup,
-      action: selectRatings
+      action: selectRatings,
+      reset: resetRatings
     },
     estimatedBudget: {
       group: estimatedBudgetCheckBoxGroup,
-      action: selectEstimatedBudget
+      action: selectEstimatedBudget,
+      reset: resetBudgets
     }
   };
 };
