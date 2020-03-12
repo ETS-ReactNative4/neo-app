@@ -23,7 +23,7 @@ export const interestsRadio: IFilters = {
   options: [
     {
       text: "All interests",
-      value: "all",
+      value: "",
       isSelected: false
     },
     {
