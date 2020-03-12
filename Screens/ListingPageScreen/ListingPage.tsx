@@ -58,6 +58,15 @@ const ListingPage = ({ navigation, route }: ListingPageProps) => {
     filterSheetRef.current && filterSheetRef.current.snapTo({ index: 1 });
   };
 
+  const closeFilterPanel = () => {
+    // @ts-ignore
+    filterSheetRef.current && filterSheetRef.current.snapTo({ index: 2 });
+  };
+
+  const applyFilter = () => {
+    closeFilterPanel();
+  };
+
   const onFilterPanelSnap = (snapEvent: Interactable.ISnapEvent) => {
     if (snapEvent.nativeEvent.index === 2) {
       // panel closed
@@ -154,6 +163,7 @@ const ListingPage = ({ navigation, route }: ListingPageProps) => {
           selectEstimatedBudget={estimatedBudget.action}
           propertyRating={propertyRatings.group}
           selectPropertyRating={propertyRatings.action}
+          applyFilter={applyFilter}
         />
       </ActionSheet>
     </View>
