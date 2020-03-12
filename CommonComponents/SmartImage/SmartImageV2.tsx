@@ -39,7 +39,7 @@ export interface SmartImageV2Props extends ImageProps {
   priority?: "low" | "normal" | "high";
   resizeMode?: "center" | "stretch" | "cover" | "contain";
   headers?: object;
-  fallbackSource: ImageSourcePropType;
+  fallbackSource?: ImageSourcePropType;
   children?: React.ReactNode;
   source: ImageSourcePropType | ISmartImageSource;
   imageStyle?: StyleProp<ImageStyle>;
