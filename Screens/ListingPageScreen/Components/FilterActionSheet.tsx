@@ -11,6 +11,7 @@ import { CONSTANT_xSensorAreaHeight } from "../../../constants/styles";
 import { isIphoneX } from "react-native-iphone-x-helper";
 import RadioBoxWrapper from "./RadioBoxWrapper";
 import CheckBoxWrapper from "./CheckBoxWrapper";
+import BlankSpacer from "../../../CommonComponents/BlankSpacer/BlankSpacer";
 
 export interface ICheckBoxGroup extends IFilters {
   type: "Checkbox";
@@ -49,6 +50,7 @@ const FilterActionSheet = ({
     <View style={styles.filterActionSheetContainer}>
       <View style={styles.scrollContainer}>
         <ScrollView>
+          <BlankSpacer height={24} />
           <RadioBoxWrapper options={interests} action={selectInterest} />
           <CheckBoxWrapper
             options={travelDuration}
@@ -64,6 +66,7 @@ const FilterActionSheet = ({
           />
         </ScrollView>
       </View>
+
       <BottomButtonBar
         containerStyle={styles.bottomBar}
         leftButtonName={"Reset"}
@@ -81,8 +84,7 @@ const styles = StyleSheet.create({
     height: responsiveHeight(100)
   },
   scrollContainer: {
-    height: responsiveHeight(80),
-    marginTop: responsiveHeight(20)
+    height: responsiveHeight(100)
   },
   bottomBar: {
     paddingBottom: 20 + (isIphoneX() ? CONSTANT_xSensorAreaHeight : 0)

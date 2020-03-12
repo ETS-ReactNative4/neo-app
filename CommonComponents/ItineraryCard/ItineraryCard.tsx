@@ -110,8 +110,7 @@ const styles = StyleSheet.create({
     marginTop: 32,
     borderWidth: 1,
     borderColor: CONSTANT_shade3,
-    borderTopLeftRadius: 8,
-    borderTopRightRadius: 8,
+    borderRadius: 8,
     marginLeft: 16,
     overflow: "hidden",
     backgroundColor: CONSTANT_white,
@@ -125,9 +124,7 @@ const styles = StyleSheet.create({
   contentWrapper: {
     paddingVertical: 12,
     paddingHorizontal: 16,
-    backgroundColor: CONSTANT_white,
-    borderBottomLeftRadius: 8,
-    borderBottomRightRadius: 8
+    backgroundColor: CONSTANT_white
   },
   titleTextWrapper: {
     flexDirection: "row",

@@ -10,6 +10,7 @@ import {
   CONSTANT_fontCustom,
   CONSTANT_primarySemiBold
 } from "../../constants/fonts";
+import { CONSTANT_elevationFive } from "../../constants/styles";
 
 interface BottomButtonBarProps {
   containerStyle?: StyleProp<ViewStyle>;
@@ -52,11 +53,9 @@ const styles = StyleSheet.create({
     bottom: 0,
     flexDirection: "row",
     backgroundColor: CONSTANT_white,
-    shadowOffset: { width: 1, height: 1 },
-    shadowColor: "rgb(0, 0, 0)",
-    shadowOpacity: 0.1,
     paddingHorizontal: 24,
-    paddingVertical: 16
+    paddingVertical: 16,
+    ...CONSTANT_elevationFive
   },
   buttonStyle: {
     flex: 1,

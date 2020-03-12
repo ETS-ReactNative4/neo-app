@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, View, ImageStyle, StyleProp } from "react-native";
+import { StyleSheet, View, ImageStyle, StyleProp, Text } from "react-native";
 import {
   responsiveWidth
   // @ts-ignore
@@ -11,7 +11,6 @@ import {
   CONSTANT_black1,
   CONSTANT_white
 } from "../../../constants/colorPallete";
-import { Text } from "react-native-animatable";
 import {
   CONSTANT_fontCustom,
   CONSTANT_primaryRegular
@@ -53,7 +52,15 @@ const styles = StyleSheet.create({
     height: 200,
     width: responsiveWidth(100),
     borderTopLeftRadius: 8,
-    borderTopRightRadius: 8
+    borderTopRightRadius: 8,
+    transform: [
+      {
+        scaleX: 1.01
+      },
+      {
+        translateY: -1
+      }
+    ]
   },
   scrollImageContainer: {
     alignItems: "center",

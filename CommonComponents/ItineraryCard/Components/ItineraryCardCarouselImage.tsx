@@ -4,7 +4,8 @@ import {
   View,
   ScrollView,
   ImageStyle,
-  StyleProp
+  StyleProp,
+  Text
 } from "react-native";
 import Animated from "react-native-reanimated";
 import {
@@ -17,7 +18,6 @@ import {
   CONSTANT_shade6,
   CONSTANT_black1
 } from "../../../constants/colorPallete";
-import { Text } from "react-native-animatable";
 import {
   CONSTANT_fontCustom,
   CONSTANT_primaryRegular
