@@ -34,7 +34,7 @@ const BookedItineraryCardsRow = (props: IBookedItinerarySection) => {
                     images={[card.image]}
                     cities={card.cities}
                     action={() => null}
-                    activities={[]}
+                    inclusionList={[]}
                     title={card.itineraryText}
                     containerStyle={styles.itineraryCardWrapper}
                     imageStyle={styles.itineraryImage}
