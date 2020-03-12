@@ -28,8 +28,8 @@ const RouteList = ({
   routeListTextStyle,
   cities = []
 }: RouteListProps) => {
-  const cityDataSlice = cities.slice(0, 3);
-  const moreCity = cities.length - 3;
+  const cityDataSlice = cities.slice(0, 2);
+  const moreCity = cities.length - 2;
   const length = cityDataSlice.length;
   const getListOfCity = cityDataSlice.map((city, cityIndex) => (
     <View key={cityIndex} style={styles.routeList}>

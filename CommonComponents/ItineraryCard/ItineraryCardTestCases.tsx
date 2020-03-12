@@ -5,9 +5,9 @@ import { Alert } from "react-native";
 
 import ItineraryCard from "../ItineraryCard/ItineraryCard";
 
-import ItineraryCardImage from "./Components/ItineraryCardImage";
 import ActivityList from "./Components/ActivityList";
 import { IRouteCitiesDetails } from "../../CommonComponents/RouteList/RouteList";
+import ItineraryCardCarouselImage from "./Components/ItineraryCardCarouselImage";
 
 const data: ICardData[] = [
   {
@@ -81,9 +81,9 @@ const ItineraryCardWrapper = ({ cardData }: ItineraryCardWrapperProps) => {
 
 const FeaturedCardTestCases: ITestCase[] = [
   {
-    title: "Itinerary Card Image",
+    title: "Itinerary Card Carousel Image",
     Component: (
-      <ItineraryCardImage
+      <ItineraryCardCarouselImage
         images={[
           "https://pyt-images.imgix.net/images/product_blog/itinerary-box/australia-small.jpeg",
           "https://pyt-images.imgix.net/images/product_blog/itinerary-box/europe-small.jpeg"

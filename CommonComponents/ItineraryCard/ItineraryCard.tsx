@@ -18,7 +18,6 @@ import {
 
 import {
   CONSTANT_white,
-  CONSTANT_white1,
   CONSTANT_black1,
   CONSTANT_shade1,
   CONSTANT_shade2,
@@ -35,17 +34,18 @@ import PrimaryButton from "../PrimaryButton/PrimaryButton";
 import RouteList, {
   IRouteCitiesDetails
 } from "../../CommonComponents/RouteList/RouteList";
-import ActivityList from "./Components/ActivityList";
 import ItineraryCardImage from "./Components/ItineraryCardImage";
+import InclusionList from "./Components/InclusionList";
+import { IInclusion } from "../../Screens/ExploreScreen/services/generateInclusions";
 
-interface ItineraryCardProps {
+export interface ItineraryCardProps {
   containerStyle?: ViewStyle;
   imageStyle?: StyleProp<ImageStyle>;
   images: string[];
   tripType: string;
   action: () => any;
   title: string;
-  activities: string[];
+  inclusionList: IInclusion[];
   itineraryCost: string;
   cities: IRouteCitiesDetails[];
 }
@@ -56,7 +56,7 @@ const ItineraryCard = ({
   images = [],
   tripType = "",
   title = "",
-  activities,
+  inclusionList,
   itineraryCost,
   cities = [],
   action = () => null
@@ -70,17 +70,19 @@ const ItineraryCard = ({
       />
 
       <View style={styles.contentWrapper}>
-        <Text
-          style={styles.descriptionStyle}
-          numberOfLines={2}
-          ellipsizeMode={"tail"}
-        >
-          {title}
-        </Text>
+        <View style={styles.titleTextWrapper}>
+          <Text
+            style={styles.titleTextStyle}
+            numberOfLines={2}
+            ellipsizeMode={"tail"}
+          >
+            {title}
+          </Text>
+        </View>
 
         <RouteList cities={cities} />
 
-        <ActivityList activities={activities} />
+        <InclusionList inclusionList={inclusionList} />
 
         <Dash dashColor={CONSTANT_shade2} dashGap={2} dashLength={1} />
 
@@ -121,17 +123,22 @@ const styles = StyleSheet.create({
   contentWrapper: {
     paddingVertical: 12,
     paddingHorizontal: 16,
-    backgroundColor: CONSTANT_white1,
+    backgroundColor: CONSTANT_white,
     borderWidth: 1,
     borderTopWidth: 0,
     borderColor: CONSTANT_shade3,
     borderBottomLeftRadius: 8,
     borderBottomRightRadius: 8
   },
-  descriptionStyle: {
-    color: CONSTANT_black1,
-    ...CONSTANT_fontCustom(CONSTANT_primarySemiBold, 16, 20),
+  titleTextWrapper: {
+    flexDirection: "row",
+    height: 40,
+    alignItems: "center",
     marginBottom: 8
+  },
+  titleTextStyle: {
+    color: CONSTANT_black1,
+    ...CONSTANT_fontCustom(CONSTANT_primarySemiBold, 16, 20)
   },
 
   bottomWrapper: {

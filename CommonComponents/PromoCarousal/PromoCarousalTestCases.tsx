@@ -5,9 +5,18 @@ import PromoCarousal from "./PromoCarousal";
 import PromoCarousalImage from "./Components/PromoCarousalImage";
 
 const data = [
-  "https://pyt-images.imgix.net/images/product_blog/itinerary-box/australia-small.jpeg",
-  "https://pyt-images.imgix.net/images/product_blog/itinerary-box/bali-small.jpeg",
-  "https://pyt-images.imgix.net/images/product_blog/itinerary-box/europe-small.jpeg"
+  {
+    url:
+      "https://pyt-images.imgix.net/images/product_blog/itinerary-box/australia-small.jpeg"
+  },
+  {
+    url:
+      "https://pyt-images.imgix.net/images/product_blog/itinerary-box/bali-small.jpeg"
+  },
+  {
+    url:
+      "https://pyt-images.imgix.net/images/product_blog/itinerary-box/europe-small.jpeg"
+  }
 ];
 
 const PromoCarousalTestCases: ITestCase[] = [
@@ -23,12 +32,22 @@ const PromoCarousalTestCases: ITestCase[] = [
           uri:
             "https://pyt-images.imgix.net/images/product_blog/operahouse.jpeg"
         }}
+        action={() => {}}
       />
     )
   },
   {
     title: "Multiple Promo Carousal",
-    Component: <PromoCarousal images={data} />
+    Component: (
+      <PromoCarousal
+        images={data.map(item => {
+          return {
+            url: item.url,
+            action: () => {}
+          };
+        })}
+      />
+    )
   }
 ];
 

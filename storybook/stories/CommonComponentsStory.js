@@ -24,6 +24,7 @@ import ParallaxScrollViewTestCases from "../../CommonComponents/ParallaxScrollVi
 import CustomRadioButtonTestCases from "../../CommonComponents/CustomRadioButton/CustomRadioButtonTestCases";
 import SavedItineraryCardTestCases from "../../CommonComponents/SavedItineraryCard/SavedItineraryCardTestCases";
 import ExploreSectionTitleTestCases from "../../Screens/ExploreScreen/Components/ExploreSectionTitleTestCases";
+import ExploreHeaderTestCases from "../../Screens/ExploreScreen/Components/ExploreHeaderTestCases";
 
 const CommonComponentStories = storiesOf("Common Components", module);
 
@@ -55,3 +56,4 @@ ParallaxScrollViewTestCases.forEach(renderTestCase);
 CustomRadioButtonTestCases.forEach(renderTestCase);
 SavedItineraryCardTestCases.forEach(renderTestCase);
 ExploreSectionTitleTestCases.forEach(renderTestCase);
+ExploreHeaderTestCases.forEach(renderTestCase);

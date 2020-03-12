@@ -9,6 +9,7 @@ import {
 import { CONSTANT_shade2 } from "../../constants/colorPallete";
 import PromoCarousalImage from "./Components/PromoCarousalImage";
 import { CONSTANT_defaultPlaceImage } from "../../constants/imageAssets";
+import BlankSpacer from "../BlankSpacer/BlankSpacer";
 
 const {
   Value,
@@ -35,7 +36,7 @@ const PromoCarousal = ({ containerStyle, images = [] }: PromoCarousalProps) => {
   const scrollX = useRef(new Value(0)).current;
 
   return (
-    <View style={(styles.promoCarousalContainer, containerStyle)}>
+    <View style={containerStyle}>
       <AnimatedScrollView
         removeClippedSubviews
         pagingEnabled
@@ -98,13 +99,13 @@ const PromoCarousal = ({ containerStyle, images = [] }: PromoCarousalProps) => {
           );
         })}
       </View>
+
+      <BlankSpacer height={24} />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  promoCarousalContainer: {},
-
   dotContainer: {
     flexDirection: "row",
     justifyContent: "center"

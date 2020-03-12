@@ -6,7 +6,8 @@ import {
   StyleProp,
   TouchableOpacity,
   Text,
-  ImageSourcePropType
+  ImageSourcePropType,
+  ImageStyle
 } from "react-native";
 import {
   responsiveWidth
@@ -39,6 +40,7 @@ interface TestimonialCardProps {
   text: string;
   price: string;
   action: () => any;
+  promoCardImageStyle?: StyleProp<ImageStyle>;
 }
 
 const PROMO_CARD_IMAGE_WIDTH = responsiveWidth(100);
@@ -50,7 +52,8 @@ const PromoCard = ({
   fallbackImage = { uri: CONSTANT_defaultPlaceImage },
   text = "",
   price = "",
-  action = () => null
+  action = () => null,
+  promoCardImageStyle
 }: TestimonialCardProps) => {
   return (
     <TouchableOpacity
@@ -62,7 +65,7 @@ const PromoCard = ({
         resizeMode={"cover"}
         source={image}
         fallbackSource={fallbackImage}
-        style={styles.imageStyle}
+        style={[styles.imageStyle, promoCardImageStyle]}
       />
 
       <View style={styles.contentContainer}>
