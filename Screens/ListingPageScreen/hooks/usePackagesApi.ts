@@ -9,6 +9,10 @@ import { ICampaignDetails } from "../../../TypeInterfaces/ICampaignDetails";
 export interface IPackageRequestBody {
   key: string;
   limit?: number;
+  interests?: string[];
+  durations?: string[];
+  budgets?: string[];
+  hotelRatings?: string[];
 }
 
 export interface IPackageRequest {

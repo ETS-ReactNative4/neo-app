@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef } from "react";
+import React, { useMemo, useRef } from "react";
 import {
   StyleSheet,
   View,
@@ -23,7 +23,10 @@ import { SCREEN_LISTING_PAGE } from "../../NavigatorsV2/ScreenNames";
 import { RouteProp } from "@react-navigation/native";
 import { ModalNavigatorParamsType } from "../../NavigatorsV2/ModalStack";
 import { StackNavigationProp } from "@react-navigation/stack";
-import usePackagesApi, { IPackagesResponseData } from "./hooks/usePackagesApi";
+import usePackagesApi, {
+  IPackagesResponseData,
+  IPackageRequestBody
+} from "./hooks/usePackagesApi";
 import getPriceWithoutSymbol from "../ExploreScreen/services/getPriceWithoutSymbol";
 import { CONSTANT_platformAndroid } from "../../constants/stringConstants";
 import BlankSpacer from "../../CommonComponents/BlankSpacer/BlankSpacer";
@@ -33,6 +36,7 @@ import FilterActionSheet from "./Components/FilterActionSheet";
 import Interactable from "react-native-interactable";
 import usePackagesFilter from "./hooks/usePackagesFilter";
 import generateInclusions from "../ExploreScreen/services/generateInclusions";
+import useDeepCompareEffect from "use-deep-compare-effect";
 
 type screenName = typeof SCREEN_LISTING_PAGE;
 
@@ -75,20 +79,6 @@ const ListingPage = ({ navigation, route }: ListingPageProps) => {
 
   const goBack = () => navigation.goBack();
 
-  const loadPackageDetails = () => {
-    const { slug = "" } = route.params;
-    const requestBody = {
-      key: slug,
-      limit: 50
-    };
-    loadPackages({ requestBody });
-  };
-
-  useEffect(() => {
-    loadPackageDetails();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   const { data: packagesData = {} } =
     packagesApiDetails.successResponseData || {};
   const {
@@ -107,6 +97,51 @@ const ListingPage = ({ navigation, route }: ListingPageProps) => {
     estimatedBudget,
     propertyRatings
   } = usePackagesFilter();
+
+  const selectedInterests = interests.group.options
+    .filter(interest => {
+      return interest.isSelected;
+    })
+    .map(each => each.value);
+
+  const selectedDurations = travelDuration.group.options
+    .filter(duration => {
+      return duration.isSelected;
+    })
+    .map(each => each.value);
+
+  const selectedBudgets = estimatedBudget.group.options
+    .filter(budget => {
+      return budget.isSelected;
+    })
+    .map(each => each.value);
+
+  const selectedRatings = propertyRatings.group.options
+    .filter(rating => {
+      return rating.isSelected;
+    })
+    .map(each => each.value);
+
+  useDeepCompareEffect(() => {
+    const { slug = "" } = route.params;
+    const requestBody: IPackageRequestBody = {
+      key: slug,
+      limit: 50
+    };
+    if (selectedInterests.length) {
+      requestBody.interests = selectedInterests;
+    }
+    if (selectedDurations.length) {
+      requestBody.durations = selectedDurations;
+    }
+    if (selectedBudgets.length) {
+      requestBody.budgets = selectedBudgets;
+    }
+    if (selectedRatings.length) {
+      requestBody.hotelRatings = selectedRatings;
+    }
+    loadPackages({ requestBody });
+  }, [selectedInterests, selectedDurations, selectedBudgets, selectedRatings]);
 
   return (
     <View style={styles.listingPageContainer}>
