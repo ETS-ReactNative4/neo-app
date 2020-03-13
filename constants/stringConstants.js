@@ -230,6 +230,7 @@ export const CONSTANT_tripToggleStatusStorageKey =
 export const CONSTANT_deepLinkPrefix = "pyt://";
 export const CONSTANT_screenLinkType = "screen";
 export const CONSTANT_voucherLinkType = "voucher";
+export const CONSTANT_exploreFeedCardLimit = 12;
 
 export const CONSTANT_paymentFormHtml = `
   <form id="voyager-paymentForm" method="post" name="paymentForm">

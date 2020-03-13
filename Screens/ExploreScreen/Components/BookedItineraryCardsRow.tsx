@@ -9,6 +9,8 @@ import HorizontalCardsRow from "./HorizontalCardsRow";
 import ItineraryCard from "../../../CommonComponents/ItineraryCard/ItineraryCard";
 import { IBookedItinerary } from "../../../TypeInterfaces/IBookedItinerary";
 import ExploreCardLodingIndicator from "./ExploreCardLodingIndicator";
+import getImgIXUrl from "../../../Services/getImgIXUrl/getImgIXUrl";
+import { CONSTANT_exploreFeedCardLimit } from "../../../constants/stringConstants";
 
 export interface IItineraryCardsData {
   isLoading: boolean;
@@ -27,22 +29,24 @@ const BookedItineraryCardsRow = (props: IBookedItinerarySection) => {
           <ExploreCardLodingIndicator height={454} />
         ) : (
           data &&
-            data.map((card, cardIndex) => {
-              return (
-                <ItineraryCard
-                  key={cardIndex}
-                  tripType={card.type}
-                  itineraryCost={card.cost}
-                  images={[card.image]}
-                  cities={card.cities}
-                  action={() => null}
-                  inclusionList={[]}
-                  title={card.itineraryText}
-                  containerStyle={styles.itineraryCardWrapper}
-                  imageStyle={styles.itineraryImage}
-                />
-              );
-            })
+            data
+              .slice(0, CONSTANT_exploreFeedCardLimit)
+              .map((card, cardIndex) => {
+                return (
+                  <ItineraryCard
+                    key={cardIndex}
+                    tripType={card.type}
+                    itineraryCost={card.cost}
+                    images={[getImgIXUrl({ src: card.image })]}
+                    cities={card.cities}
+                    action={() => null}
+                    inclusionList={[]}
+                    title={card.itineraryText}
+                    containerStyle={styles.itineraryCardWrapper}
+                    imageStyle={styles.itineraryImage}
+                  />
+                );
+              })
         );
       }}
     </HorizontalCardsRow>

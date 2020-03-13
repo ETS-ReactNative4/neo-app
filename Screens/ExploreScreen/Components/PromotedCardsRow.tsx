@@ -10,7 +10,7 @@ import { IPromotedSection } from "../ExploreFeedType";
 import PromoCard from "../../../CommonComponents/PromoCard/PromoCard";
 import getPriceWithoutSymbol from "../services/getPriceWithoutSymbol";
 import deepLink from "../../../Services/deepLink/deepLink";
-import ExploreCardLodingIndicator from "./ExploreCardLodingIndicator";
+import getImgIXUrl from "../../../Services/getImgIXUrl/getImgIXUrl";
 
 export interface IPromoDeepLink {
   link: string;
@@ -26,27 +26,25 @@ const PromotedCardsRow = (props: IPromotedSection) => {
   return (
     <HorizontalCardsRow items={props.items}>
       {({ data }: IPromotedCardsRowData) => {
-        return data ? (
-          data.map((promo, promoIndex) => {
-            const action = () => {
-              const deepLinkingObject: IPromoDeepLink = promo.deepLinking;
-              deepLink(deepLinkingObject);
-            };
-            return (
-              <PromoCard
-                key={promoIndex}
-                action={action}
-                image={{ uri: promo.imageUrl }}
-                price={getPriceWithoutSymbol(promo.cost)}
-                text={promo.text}
-                containerStyle={styles.promoCardWrapper}
-                promoCardImageStyle={styles.promoCardImage}
-              />
-            );
-          })
-        ) : (
-          <ExploreCardLodingIndicator height={346} />
-        );
+        return data
+          ? data.map((promo, promoIndex) => {
+              const action = () => {
+                const deepLinkingObject: IPromoDeepLink = promo.deepLinking;
+                deepLink(deepLinkingObject);
+              };
+              return (
+                <PromoCard
+                  key={promoIndex}
+                  action={action}
+                  image={{ uri: getImgIXUrl({ src: promo.imageUrl }) }}
+                  price={getPriceWithoutSymbol(promo.cost)}
+                  text={promo.text}
+                  containerStyle={styles.promoCardWrapper}
+                  promoCardImageStyle={styles.promoCardImage}
+                />
+              );
+            })
+          : null;
       }}
     </HorizontalCardsRow>
   );

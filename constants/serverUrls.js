@@ -118,5 +118,8 @@ export const CONSTANT_darkSkyDomain = "https://api.darksky.net/";
 export const CONSTANT_awsJsonServer =
   "https://pyt-voyager.s3.ap-south-1.amazonaws.com/";
 export const CONSTANT_emergencyAppSupportNumber = "+919003222085";
+export const CONSTANT_imgixBaseUrl = "https://pyt-images.imgix.net";
+export const CONSTANT_imgixTestimonialBaseUrl =
+  "https://pyt-testimonial.imgix.net";
 
 export default serverUrls;

@@ -11,6 +11,8 @@ import { IPackageItinerary } from "../../../TypeInterfaces/IPackageItinerary";
 import getPriceWithoutSymbol from "../services/getPriceWithoutSymbol";
 import generateInclusions from "../services/generateInclusions";
 import ExploreCardLodingIndicator from "./ExploreCardLodingIndicator";
+import getImgIXUrl from "../../../Services/getImgIXUrl/getImgIXUrl";
+import { CONSTANT_exploreFeedCardLimit } from "../../../constants/stringConstants";
 
 export interface IPackageItineraryCardsData {
   isLoading: boolean;
@@ -34,26 +36,28 @@ const PackageItineraryCardsRow = (props: IPackageItinerarySection) => {
           <ExploreCardLodingIndicator height={454} />
         ) : (
           data &&
-            data.filteredItineraries.map((card, cardIndex) => {
-              const amount = getPriceWithoutSymbol(card.itineraryCost);
+            data.filteredItineraries
+              .slice(0, CONSTANT_exploreFeedCardLimit)
+              .map((card, cardIndex) => {
+                const amount = getPriceWithoutSymbol(card.itineraryCost);
 
-              const inclusionList = generateInclusions(card);
+                const inclusionList = generateInclusions(card);
 
-              return (
-                <ItineraryCard
-                  key={cardIndex}
-                  tripType={card.tripType}
-                  itineraryCost={amount}
-                  images={[card.image]}
-                  cities={card.cityHotelStay}
-                  action={() => null}
-                  title={card.title}
-                  containerStyle={styles.itineraryCardWrapper}
-                  imageStyle={styles.itineraryImage}
-                  inclusionList={inclusionList}
-                />
-              );
-            })
+                return (
+                  <ItineraryCard
+                    key={cardIndex}
+                    tripType={card.tripType}
+                    itineraryCost={amount}
+                    images={[getImgIXUrl({ src: card.image })]}
+                    cities={card.cityHotelStay}
+                    action={() => null}
+                    title={card.title}
+                    containerStyle={styles.itineraryCardWrapper}
+                    imageStyle={styles.itineraryImage}
+                    inclusionList={inclusionList}
+                  />
+                );
+              })
         );
       }}
     </HorizontalCardsRow>
