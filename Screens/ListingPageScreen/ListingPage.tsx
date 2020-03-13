@@ -157,6 +157,7 @@ const ListingPage = ({ navigation, route }: ListingPageProps) => {
                   inclusionList={inclusionList}
                   itineraryCost={getPriceWithoutSymbol(itinerary.itineraryCost)}
                   cities={itinerary.cityHotelStay}
+                  containerStyle={styles.itineraryCardStyle}
                 />
                 <BlankSpacer height={16} />
               </Fragment>
@@ -217,6 +218,9 @@ const styles = StyleSheet.create({
   },
   modalWrapperStyle: {
     margin: 0
+  },
+  itineraryCardStyle: {
+    marginHorizontal: 16
   }
 });
 

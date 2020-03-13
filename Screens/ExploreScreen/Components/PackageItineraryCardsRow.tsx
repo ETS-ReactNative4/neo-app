@@ -66,7 +66,8 @@ const PackageItineraryCardsRow = (props: IPackageItinerarySection) => {
 
 const styles = StyleSheet.create({
   itineraryCardWrapper: {
-    width: responsiveWidth(80)
+    width: responsiveWidth(80),
+    marginRight: 16
   },
   itineraryImage: {
     width: responsiveWidth(80)

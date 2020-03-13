@@ -115,9 +115,6 @@ const styles = StyleSheet.create({
   },
   loadingAnimation: {
     width: responsiveWidth(100)
-  },
-  test: {
-    flex: 1
   }
 });
 

@@ -110,7 +110,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: CONSTANT_shade3,
     borderRadius: 8,
-    marginRight: 16,
     overflow: "hidden",
     backgroundColor: CONSTANT_white,
     width: responsiveWidth(100) - 32
