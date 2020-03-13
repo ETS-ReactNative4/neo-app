@@ -1,7 +1,6 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import {
-  SCREEN_EXPLORE_PAGE,
   SCREEN_EXPLORE_TAB,
   SCREEN_SEARCH_TAB,
   SCREEN_NOTIFICATION_TAB
@@ -22,10 +21,6 @@ import { CONSTANT_passIcon } from "../constants/imageAssets";
 export interface IExplorePageScreenData {
   source?: ExploreScreenSourcesType;
 }
-
-export type ExploreTabStackType = {
-  [SCREEN_EXPLORE_PAGE]: IExplorePageScreenData;
-};
 
 export type PreTripHomeTabsType = {
   [SCREEN_EXPLORE_TAB]: IExplorePageScreenData;

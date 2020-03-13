@@ -6,13 +6,9 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import { AppNavigatorParamsType } from "../../NavigatorsV2/AppNavigator";
 import {
   SCREEN_PRETRIP_HOME_TABS,
-  SCREEN_EXPLORE_PAGE,
   SCREEN_EXPLORE_TAB
 } from "../../NavigatorsV2/ScreenNames";
-import {
-  PreTripHomeTabsType,
-  ExploreTabStackType
-} from "../../NavigatorsV2/PreTripHomeTabs";
+import { PreTripHomeTabsType } from "../../NavigatorsV2/PreTripHomeTabs";
 import { exploreTestData } from "./ExploreTestCases";
 import HeroBannerRow from "./Components/HeroBannerRow";
 import { CONSTANT_white, CONSTANT_shade5 } from "../../constants/colorPallete";
@@ -26,6 +22,7 @@ import BlogCardsRow from "./Components/BlogCardsRow";
 import CountryCardsRow from "./Components/CountryCardsRow";
 import PrimaryHeader from "../../NavigatorsV2/Components/PrimaryHeader";
 import { CONSTANT_hamburgerIcon } from "../../constants/imageAssets";
+import TestimonialsCardsRow from "./Components/TestimonialsCardsRow";
 
 export type ExploreScreenNavigationType = CompositeNavigationProp<
   StackNavigationProp<AppNavigatorParamsType, typeof SCREEN_PRETRIP_HOME_TABS>,
@@ -33,8 +30,8 @@ export type ExploreScreenNavigationType = CompositeNavigationProp<
 >;
 
 export type ExploreScreenRouteProp = RouteProp<
-  ExploreTabStackType,
-  typeof SCREEN_EXPLORE_PAGE
+  PreTripHomeTabsType,
+  typeof SCREEN_EXPLORE_TAB
 >;
 
 export interface ExploreScreenProps {
@@ -84,6 +81,8 @@ const Explore = ({}: ExploreScreenProps) => {
                 <BlogCardsRow {...section} />
               ) : section.type === "COUNTRY_CARDS" ? (
                 <CountryCardsRow {...section} />
+              ) : section.type === "TESTIMONIAL_CARDS" ? (
+                <TestimonialsCardsRow {...section} />
               ) : null}
               <BlankSpacer height={24} />
               <BlankSpacer

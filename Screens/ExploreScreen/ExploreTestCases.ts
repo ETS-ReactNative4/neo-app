@@ -39,7 +39,7 @@ export const exploreTestData: ExploreFeedType = [
   {
     type: "COUNTRY_CARDS",
     title: "Recommended for you",
-    color: "rgba(0,0,0,1)",
+    color: "rgba(145, 77, 156,1)",
     subTitle: "Top destinations based on your travel style",
     httpMethod: "GET",
     apiUrl: "userprofile/country"
@@ -47,7 +47,7 @@ export const exploreTestData: ExploreFeedType = [
   {
     type: "PACKAGE_ITINERARY_CARDS",
     title: "Pocket-friendly destinations",
-    color: "rgba(0,0,0,1)",
+    color: "rgba(255, 136, 51,1)",
     subTitle: "Holidays that are budgeted for the best",
     apiUrl: "packages",
     httpMethod: "POST",
@@ -62,7 +62,7 @@ export const exploreTestData: ExploreFeedType = [
   {
     type: "PROMOTED_CARDS",
     title: "Deals from our partners",
-    color: "",
+    color: "rgba(0, 198, 132, 1)",
     subTitle: "Get the best rates on your favourite destinations",
     items: [
       {
@@ -109,15 +109,23 @@ export const exploreTestData: ExploreFeedType = [
   {
     type: "BOOKED_ITINERARY_CARDS",
     title: "On-going holidays",
-    color: "rgba(0,0,0,1)",
+    color: "rgba(27, 169, 204,1)",
     subTitle: "Check out where our other travellers are!",
     httpMethod: "GET",
     apiUrl: "itinerary/ongoingitineraries"
   },
   {
+    type: "TESTIMONIAL_CARDS",
+    title: "Traveller testimonials",
+    color: "rgba(145, 77, 156,1)",
+    subTitle: "Find out why our customers love us!",
+    httpMethod: "GET",
+    apiUrl: "userprofile/country"
+  },
+  {
     type: "PACKAGE_ITINERARY_CARDS",
     title: "VISA-ON-ARRIVAL",
-    color: "",
+    color: "rgba(237, 182, 29, 1)",
     subTitle: "Pick, Pack and Gooo",
     apiUrl: "packages",
     httpMethod: "POST",
@@ -131,7 +139,7 @@ export const exploreTestData: ExploreFeedType = [
   {
     type: "PACKAGE_ITINERARY_CARDS",
     title: "For the love birds",
-    color: "",
+    color: "rgba(215, 60, 84,1)",
     subTitle: "Create memories of a lifetime.",
     apiUrl: "packages",
     httpMethod: "POST",
@@ -146,7 +154,7 @@ export const exploreTestData: ExploreFeedType = [
     type: "BLOG_CARDS",
     title: "Travel Blogs",
     subTitle: "Read more about your favourite destinations",
-    color: "",
+    color: "rgba(27, 169, 204,1)",
     items: [
       {
         bgColor: "rgba(0,0,0,1)",
