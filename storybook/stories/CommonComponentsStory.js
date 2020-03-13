@@ -11,7 +11,7 @@ import BlogCardTestCases from "../../CommonComponents/BlogCard/BlogCardTestCases
 import TestimonialCardTestCases from "../../CommonComponents/TestimonialCard/TestimonialCardTestCases";
 import PromoCarousalTestCases from "../../CommonComponents/PromoCarousal/PromoCarousalTestCases";
 import PromoCardTestCases from "../../CommonComponents/PromoCard/PromoCardTestCases";
-import PartnersSectionTestCases from "../../CommonComponents/PartnersSection/PartnersSectionTestCases";
+import TrustIconsTestCases from "../../CommonComponents/TrustIcons/TrustIconsTestCases";
 import SecurePartnerTestCases from "../../CommonComponents/SecurePartner/SecurePartnerTestCases";
 import FeaturedCardTestCases from "../../CommonComponents/FeaturedCard/FeaturedCardTestCases";
 import ItineraryCardTestCases from "../../CommonComponents/ItineraryCard/ItineraryCardTestCases";
@@ -43,7 +43,7 @@ BlogCardTestCases.forEach(renderTestCase);
 TestimonialCardTestCases.forEach(renderTestCase);
 PromoCarousalTestCases.forEach(renderTestCase);
 PromoCardTestCases.forEach(renderTestCase);
-PartnersSectionTestCases.forEach(renderTestCase);
+TrustIconsTestCases.forEach(renderTestCase);
 SecurePartnerTestCases.forEach(renderTestCase);
 FeaturedCardTestCases.forEach(renderTestCase);
 ItineraryCardTestCases.forEach(renderTestCase);

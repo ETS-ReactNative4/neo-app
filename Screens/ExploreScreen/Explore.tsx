@@ -21,8 +21,14 @@ import PromotedCardsRow from "./Components/PromotedCardsRow";
 import BlogCardsRow from "./Components/BlogCardsRow";
 import CountryCardsRow from "./Components/CountryCardsRow";
 import PrimaryHeader from "../../NavigatorsV2/Components/PrimaryHeader";
-import { CONSTANT_hamburgerIcon } from "../../constants/imageAssets";
+import {
+  CONSTANT_hamburgerIcon,
+  CONSTANT_trustIconFacebook,
+  CONSTANT_trustIconGoogle,
+  CONSTANT_trustIconIata
+} from "../../constants/imageAssets";
 import TestimonialsCardsRow from "./Components/TestimonialsCardsRow";
+import TrustIcons from "../../CommonComponents/TrustIcons/TrustIcons";
 
 export type ExploreScreenNavigationType = CompositeNavigationProp<
   StackNavigationProp<AppNavigatorParamsType, typeof SCREEN_PRETRIP_HOME_TABS>,
@@ -92,6 +98,23 @@ const Explore = ({}: ExploreScreenProps) => {
             </Fragment>
           );
         })}
+
+        <BlankSpacer height={24} />
+        <View style={styles.trustIconsWrapper}>
+          <TrustIcons
+            image={CONSTANT_trustIconFacebook()}
+            text={"4.8/5 Based on 1200+ ratings"}
+          />
+          <TrustIcons
+            image={CONSTANT_trustIconGoogle()}
+            text={"4.5/5 Based on 300+ ratings"}
+          />
+          <TrustIcons
+            image={CONSTANT_trustIconIata()}
+            text={"Accredited Agent"}
+          />
+        </View>
+        <BlankSpacer height={40} />
       </ScrollView>
     </View>
   );
@@ -104,6 +127,11 @@ const styles = StyleSheet.create({
   },
   spacerBackgroundStyle: {
     backgroundColor: CONSTANT_shade5
+  },
+  trustIconsWrapper: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginHorizontal: 24
   }
 });
 
