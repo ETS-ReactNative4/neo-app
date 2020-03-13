@@ -81,12 +81,19 @@ export interface IBlogSection extends IExploreSectionTitle {
   items: IBlogCard[];
 }
 
+export interface ITestimonialsSection
+  extends IExploreSectionTitle,
+    ILoadCardRequest {
+  type: "TESTIMONIAL_CARDS";
+}
+
 export type ExploreFeedItemType =
   | IHeroBannerSection
   | IPackageItinerarySection
   | IBookedItinerarySection
   | ICountriesSection
   | IPromotedSection
-  | IBlogSection;
+  | IBlogSection
+  | ITestimonialsSection;
 
 export type ExploreFeedType = ExploreFeedItemType[];

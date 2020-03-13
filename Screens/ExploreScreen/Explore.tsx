@@ -22,6 +22,7 @@ import BlogCardsRow from "./Components/BlogCardsRow";
 import CountryCardsRow from "./Components/CountryCardsRow";
 import PrimaryHeader from "../../NavigatorsV2/Components/PrimaryHeader";
 import { CONSTANT_hamburgerIcon } from "../../constants/imageAssets";
+import TestimonialsCardsRow from "./Components/TestimonialsCardsRow";
 
 export type ExploreScreenNavigationType = CompositeNavigationProp<
   StackNavigationProp<AppNavigatorParamsType, typeof SCREEN_PRETRIP_HOME_TABS>,
@@ -80,6 +81,8 @@ const Explore = ({}: ExploreScreenProps) => {
                 <BlogCardsRow {...section} />
               ) : section.type === "COUNTRY_CARDS" ? (
                 <CountryCardsRow {...section} />
+              ) : section.type === "TESTIMONIAL_CARDS" ? (
+                <TestimonialsCardsRow {...section} />
               ) : null}
               <BlankSpacer
                 containerStyle={styles.spacerBackgroundStyle}

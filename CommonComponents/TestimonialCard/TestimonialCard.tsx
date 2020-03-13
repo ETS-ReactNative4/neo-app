@@ -26,16 +26,19 @@ import {
 } from "../../constants/fonts";
 import SmartImageV2 from "../SmartImage/SmartImageV2";
 import ratioCalculator from "../../Services/ratioCalculator/ratioCalculator";
+import { CONSTANT_defaultPlaceImage } from "../../constants/imageAssets";
+import { CONSTANT_shortCommonDateFormat } from "../../constants/styles";
+import moment from "moment";
 
 interface TestimonialCardProps {
   containerStyle?: StyleProp<ViewStyle>;
   image: ImageSourcePropType;
-  fallbackImage: ImageSourcePropType;
+  fallbackImage?: ImageSourcePropType;
   reviewText: string;
   name: string;
   tripType: string;
   region: string;
-  date: string;
+  date: number;
   action: () => any;
 }
 
@@ -49,12 +52,12 @@ const TESTIMONIAL_USER_IMAGE_HEIGHT = ratioCalculator(
 const TestimonialCard = ({
   containerStyle,
   image = { uri: "" },
-  fallbackImage = { uri: "" },
+  fallbackImage = { uri: CONSTANT_defaultPlaceImage },
   reviewText = "",
   name = "",
   tripType = "",
   region = "",
-  date = "",
+  date,
   action = () => null
 }: TestimonialCardProps) => {
   return (
@@ -89,7 +92,11 @@ const TestimonialCard = ({
           numberOfLines={2}
           ellipsizeMode={"tail"}
         >
-          {tripType} trip to {region} in {date}
+          {tripType && region && date
+            ? `${tripType} trip to ${region} in ${moment(date).format(
+                CONSTANT_shortCommonDateFormat
+              )}`
+            : ""}
         </Text>
       </View>
     </TouchableOpacity>

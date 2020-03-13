@@ -14,6 +14,31 @@ export interface ICountryCard {
   image: string;
 }
 
+export interface ITestimonialsCard {
+  timeOfReview: number;
+  star: number;
+  region: string;
+  fName: string;
+  mName: string;
+  lName: string;
+  cityOfDeparture: string;
+  dateOfDeparture: number;
+  destination: string;
+  ttype: string;
+  review: string;
+  fbLink: string;
+  profileImage: string;
+  coverImage: string;
+  itineraryId: string;
+  journalLinks: string[];
+  testimonialId: number;
+  shortReview: string;
+  shortestReview: string;
+  numberOfNights: number;
+  type: string;
+  deepLinking: IExploreFeedLinks;
+}
+
 export interface ICountryDeepLink {
   link: string;
   screenData?: {
@@ -22,7 +47,10 @@ export interface ICountryDeepLink {
 }
 
 export interface ICountryCardData {
-  data?: ICountryCard[];
+  data?: {
+    countries: ICountryCard[];
+    testimonials: ITestimonialsCard[];
+  };
   isLoading: boolean;
 }
 
@@ -37,7 +65,7 @@ const CountryCardsRow = (props: ICountriesSection) => {
         return isLoading
           ? null
           : data &&
-              data.map((country, countryIndex) => {
+              data?.countries.map((country, countryIndex) => {
                 const action = () => {
                   const deepLinkingObject: ICountryDeepLink = {
                     link: country.deepLinking.link,
