@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, Fragment } from "react";
 import Modal from "react-native-modal";
 import {
   StyleSheet,
@@ -142,21 +142,24 @@ const ListingPage = ({ navigation, route }: ListingPageProps) => {
         titleText={name}
         backAction={goBack}
       >
+        <BlankSpacer height={20} />
         {useMemo(() => {
           return filteredItineraries.map((itinerary, itineraryIndex) => {
             const inclusionList = generateInclusions(itinerary);
 
             return (
-              <ItineraryCard
-                key={itineraryIndex}
-                images={[getImgIXUrl({ src: itinerary.image })]}
-                tripType={itinerary.tripType}
-                action={() => Alert.alert("Click Itinerary Card")}
-                title={itinerary.title}
-                inclusionList={inclusionList}
-                itineraryCost={getPriceWithoutSymbol(itinerary.itineraryCost)}
-                cities={itinerary.cityHotelStay}
-              />
+              <Fragment key={itineraryIndex}>
+                <ItineraryCard
+                  images={[getImgIXUrl({ src: itinerary.image })]}
+                  tripType={itinerary.tripType}
+                  action={() => Alert.alert("Click Itinerary Card")}
+                  title={itinerary.title}
+                  inclusionList={inclusionList}
+                  itineraryCost={getPriceWithoutSymbol(itinerary.itineraryCost)}
+                  cities={itinerary.cityHotelStay}
+                />
+                <BlankSpacer height={16} />
+              </Fragment>
             );
           });
         }, [filteredItineraries])}
@@ -175,7 +178,11 @@ const ListingPage = ({ navigation, route }: ListingPageProps) => {
         <Icon name={CONSTANT_listIcon} size={20} color={CONSTANT_white} />
       </TouchableOpacity>
 
-      <Modal style={styles.modalWrapperStyle} isVisible={openFilter}>
+      <Modal
+        onBackButtonPress={closeFilterPanel}
+        style={styles.modalWrapperStyle}
+        isVisible={openFilter}
+      >
         <FilterActionSheet
           interests={interests.group}
           selectInterest={interests.action}
