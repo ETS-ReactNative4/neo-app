@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, View, ImageStyle, StyleProp } from "react-native";
+import { StyleSheet, View, ImageStyle, StyleProp, Text } from "react-native";
 import {
   responsiveWidth
   // @ts-ignore
@@ -10,7 +10,6 @@ import {
   CONSTANT_shade6,
   CONSTANT_black1
 } from "../../../constants/colorPallete";
-import { Text } from "react-native-animatable";
 import {
   CONSTANT_fontCustom,
   CONSTANT_primaryRegular
