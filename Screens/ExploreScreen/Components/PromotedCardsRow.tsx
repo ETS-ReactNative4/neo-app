@@ -10,6 +10,7 @@ import { IPromotedSection } from "../ExploreFeedType";
 import PromoCard from "../../../CommonComponents/PromoCard/PromoCard";
 import getPriceWithoutSymbol from "../services/getPriceWithoutSymbol";
 import deepLink from "../../../Services/deepLink/deepLink";
+import getImgIXUrl from "../../../Services/getImgIXUrl/getImgIXUrl";
 
 export interface IPromoDeepLink {
   link: string;
@@ -35,7 +36,7 @@ const PromotedCardsRow = (props: IPromotedSection) => {
                 <PromoCard
                   key={promoIndex}
                   action={action}
-                  image={{ uri: promo.imageUrl }}
+                  image={{ uri: getImgIXUrl({ src: promo.imageUrl }) }}
                   price={getPriceWithoutSymbol(promo.cost)}
                   text={promo.text}
                   containerStyle={styles.promoCardWrapper}

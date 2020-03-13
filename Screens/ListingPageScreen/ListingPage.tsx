@@ -37,6 +37,7 @@ import Interactable from "react-native-interactable";
 import usePackagesFilter from "./hooks/usePackagesFilter";
 import generateInclusions from "../ExploreScreen/services/generateInclusions";
 import useDeepCompareEffect from "use-deep-compare-effect";
+import getImgIXUrl from "../../Services/getImgIXUrl/getImgIXUrl";
 
 type screenName = typeof SCREEN_LISTING_PAGE;
 
@@ -147,7 +148,7 @@ const ListingPage = ({ navigation, route }: ListingPageProps) => {
     <View style={styles.listingPageContainer}>
       <TranslucentStatusBar />
       <ParallaxScrollView
-        bannerImage={mobileImage}
+        bannerImage={getImgIXUrl({ src: mobileImage })}
         smallText={bannerText}
         titleText={name}
         backAction={goBack}
@@ -159,7 +160,7 @@ const ListingPage = ({ navigation, route }: ListingPageProps) => {
             return (
               <ItineraryCard
                 key={itineraryIndex}
-                images={[itinerary.image]}
+                images={[getImgIXUrl({ src: itinerary.image })]}
                 tripType={itinerary.tripType}
                 action={() => Alert.alert("Click Itinerary Card")}
                 title={itinerary.title}

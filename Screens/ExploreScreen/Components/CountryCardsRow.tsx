@@ -4,6 +4,7 @@ import { ICountriesSection, IExploreFeedLinks } from "../ExploreFeedType";
 import FeaturedCardTypeOne from "../../../CommonComponents/FeaturedCard/FeaturedCardTypeOne";
 import getPriceWithoutSymbol from "../services/getPriceWithoutSymbol";
 import deepLink from "../../../Services/deepLink/deepLink";
+import getImgIXUrl from "../../../Services/getImgIXUrl/getImgIXUrl";
 
 export interface ICountryCard {
   countryId: number;
@@ -79,7 +80,7 @@ const CountryCardsRow = (props: ICountriesSection) => {
                 return (
                   <FeaturedCardTypeOne
                     key={countryIndex}
-                    image={{ uri: country.image }}
+                    image={{ uri: getImgIXUrl({ src: country.image }) }}
                     price={getPriceWithoutSymbol(country.startingPrice)}
                     action={action}
                   />
