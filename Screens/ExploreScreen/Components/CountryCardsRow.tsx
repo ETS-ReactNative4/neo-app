@@ -11,6 +11,7 @@ import FeaturedCardTypeOne from "../../../CommonComponents/FeaturedCard/Featured
 import getPriceWithoutSymbol from "../services/getPriceWithoutSymbol";
 import deepLink from "../../../Services/deepLink/deepLink";
 import ExploreCardLodingIndicator from "./ExploreCardLodingIndicator";
+import ratioCalculator from "../../../Services/ratioCalculator/ratioCalculator";
 
 export interface ICountryCard {
   countryId: number;
@@ -33,6 +34,12 @@ export interface ICountryCardData {
   isLoading: boolean;
 }
 
+const LODING_INDICATOR_WIDTH = responsiveWidth(80);
+const LODING_INDICATOR_HEIGHT = ratioCalculator(
+  72,
+  109,
+  LODING_INDICATOR_WIDTH
+);
 const CountryCardsRow = (props: ICountriesSection) => {
   return (
     <HorizontalCardsRow
@@ -42,7 +49,7 @@ const CountryCardsRow = (props: ICountriesSection) => {
     >
       {({ data, isLoading }: ICountryCardData) => {
         return isLoading ? (
-          <ExploreCardLodingIndicator height={300} />
+          <ExploreCardLodingIndicator height={LODING_INDICATOR_HEIGHT} />
         ) : (
           data &&
             data.map((country, countryIndex) => {
