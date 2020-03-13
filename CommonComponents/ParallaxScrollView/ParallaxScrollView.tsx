@@ -286,7 +286,6 @@ const styles = StyleSheet.create({
   },
   scrollViewBodyContainer: {
     backgroundColor: CONSTANT_white,
-    flex: 1,
     ...Platform.select({
       android: {
         marginTop: BANNER_HEIGHT

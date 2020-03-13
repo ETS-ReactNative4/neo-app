@@ -107,11 +107,10 @@ const ItineraryCard = ({
 
 const styles = StyleSheet.create({
   itineraryCardContainer: {
-    marginTop: 32,
     borderWidth: 1,
     borderColor: CONSTANT_shade3,
     borderRadius: 8,
-    marginLeft: 16,
+    marginRight: 16,
     overflow: "hidden",
     backgroundColor: CONSTANT_white,
     width: responsiveWidth(100) - 32

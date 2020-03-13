@@ -100,7 +100,7 @@ const PromoCard = ({
 
 const styles = StyleSheet.create({
   promoCardContainer: {
-    marginLeft: 16
+    marginRight: 16
   },
   imageStyle: {
     width: PROMO_CARD_IMAGE_WIDTH - 32,
