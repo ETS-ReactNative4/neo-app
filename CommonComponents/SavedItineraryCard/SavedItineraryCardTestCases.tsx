@@ -4,7 +4,6 @@ import { ITestCase } from "../../TypeInterfaces/TestCases/ITestCases";
 import { Alert, StyleSheet, Text } from "react-native";
 import { IRouteCitiesDetails } from "../../CommonComponents/RouteList/RouteList";
 import SavedItineraryCard from "./SavedItineraryCard";
-import { CONSTANT_eighteenthColor } from "../../constants/colorPallete";
 const savedItinerariesData = [
   {
     image: "https://d3lf10b5gahyby.cloudfront.net/city/hiroshima.jpg",
@@ -64,8 +63,8 @@ const SavedItineraryCardWrapper = ({
         return (
           <SavedItineraryCard
             key={itemIndex}
-            containerStyle={styles.newSavedItineraryBgColor}
             image={item.image}
+            isUnread={true}
             title={item.title}
             lastEdited={item.lastEdited}
             cities={item.cities}
@@ -97,10 +96,6 @@ const SavedItineraryCardWrapper = ({
 };
 
 const styles = StyleSheet.create({
-  newSavedItineraryBgColor: {
-    backgroundColor: CONSTANT_eighteenthColor
-  },
-
   textStyle: {
     textAlign: "center",
     marginVertical: 16
