@@ -14,9 +14,13 @@ import {
   CONSTANT_shade5,
   CONSTANT_shade1,
   CONSTANT_black1,
-  CONSTANT_white
+  CONSTANT_white,
+  CONSTANT_eighteenthColor
 } from "../../constants/colorPallete";
-import { CONSTANT_moreOptionsHorizIcon } from "../../constants/imageAssets";
+import {
+  CONSTANT_moreOptionsHorizIcon,
+  CONSTANT_defaultPlaceImage
+} from "../../constants/imageAssets";
 import {
   CONSTANT_primarySemiBold,
   CONSTANT_fontCustom,
@@ -31,6 +35,7 @@ interface SavedItineraryCardProps {
   title: string;
   cities: IRouteCitiesDetails[];
   action: () => any;
+  isUnread?: boolean;
   moreOptions?: boolean;
   moreOptionsAction?: () => any;
 }
@@ -43,11 +48,16 @@ const SavedItineraryCard = ({
   cities = [],
   action = () => {},
   moreOptions = false,
+  isUnread = false,
   moreOptionsAction = () => {}
 }: SavedItineraryCardProps) => {
   return (
     <TouchableOpacity
-      style={[styles.savedItineraryCard, containerStyle]}
+      style={[
+        styles.savedItineraryCard,
+        isUnread ? styles.unread : null,
+        containerStyle
+      ]}
       activeOpacity={0.8}
       onPress={action}
     >
@@ -56,7 +66,7 @@ const SavedItineraryCard = ({
           uri: image
         }}
         fallbackSource={{
-          uri: "https://pyt-images.imgix.net/images/city/2400xh/rome.jpg"
+          uri: CONSTANT_defaultPlaceImage
         }}
         style={[styles.savedItineraryImage]}
         resizeMode="cover"
@@ -102,6 +112,9 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: CONSTANT_shade5,
     backgroundColor: CONSTANT_white
+  },
+  unread: {
+    backgroundColor: CONSTANT_eighteenthColor
   },
   savedItineraryImage: {
     width: 70,

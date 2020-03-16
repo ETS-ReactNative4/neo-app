@@ -75,6 +75,7 @@ export const CONSTANT_getCountriesList = "data/countries";
 export const CONSTANT_getPackagesDetails = "packages";
 export const CONSTANT_getYourTrips = "mobile/yourtrips";
 export const CONSTANT_getItineraryDetails = "mobile/itineraryDetails";
+export const CONSTANT_savedItineraryDetails = "user/savedItinerariesnew";
 export const CONSTANT_getFinalVoucherDownloadUrl =
   "mobile/:itineraryId/getFinalVoucherUrl";
 export const CONSTANT_getPackingChecklist = "mobile/displayCheckList";

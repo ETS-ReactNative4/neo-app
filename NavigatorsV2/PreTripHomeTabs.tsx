@@ -17,6 +17,7 @@ import {
   CONSTANT_twentyThirdColor
 } from "../constants/colorPallete";
 import { CONSTANT_passIcon } from "../constants/imageAssets";
+import Notifications from "../Screens/NotificationsScreen/Notifications";
 
 export interface IExplorePageScreenData {
   source?: ExploreScreenSourcesType;
@@ -66,7 +67,7 @@ const PreTripHomeTabs = () => {
           ...tabBarColorConfig
         }}
         name={SCREEN_NOTIFICATION_TAB}
-        component={Search}
+        component={Notifications}
       />
     </Tab.Navigator>
   );
