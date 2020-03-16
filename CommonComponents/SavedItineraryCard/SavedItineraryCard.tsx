@@ -17,7 +17,10 @@ import {
   CONSTANT_white,
   CONSTANT_eighteenthColor
 } from "../../constants/colorPallete";
-import { CONSTANT_moreOptionsHorizIcon } from "../../constants/imageAssets";
+import {
+  CONSTANT_moreOptionsHorizIcon,
+  CONSTANT_defaultPlaceImage
+} from "../../constants/imageAssets";
 import {
   CONSTANT_primarySemiBold,
   CONSTANT_fontCustom,
@@ -63,7 +66,7 @@ const SavedItineraryCard = ({
           uri: image
         }}
         fallbackSource={{
-          uri: "https://pyt-images.imgix.net/images/city/2400xh/rome.jpg"
+          uri: CONSTANT_defaultPlaceImage
         }}
         style={[styles.savedItineraryImage]}
         resizeMode="cover"

@@ -1,6 +1,7 @@
 import { CONSTANT_savedItineraryDetails } from "../../../constants/apiUrls";
 import useApiCall, {
-  IApiCallHookData
+  IApiCallHookData,
+  IApiCallConfig
 } from "../../../Services/networkRequests/hooks/useApiCall";
 import { IMobileServerResponse } from "../../../TypeInterfaces/INetworkResponse";
 import { IItineraryNotification } from "../Notifications";
@@ -16,17 +17,17 @@ export interface ISavedItineraryApiCallData extends IApiCallHookData {
 
 export type ISavedItineraryApiCallHook = [
   ISavedItineraryApiCallData,
-  () => Promise<boolean>
+  (req: IApiCallConfig) => Promise<boolean>
 ];
 
 const useSavedItinerariesApi = (): [
-  IApiCallHookData,
+  ISavedItineraryApiCallData,
   () => Promise<boolean>
 ] => {
   const [
     { successResponseData, failureResponseData, isError, isLoading, isSuccess },
     makeApiCall
-  ] = useApiCall();
+  ] = useApiCall() as ISavedItineraryApiCallHook;
 
   const loadItineraryDetails = (): Promise<boolean> => {
     return new Promise<boolean>(async (resolve, reject) => {
