@@ -8,7 +8,8 @@ import {
 import SmartImageV2 from "../../SmartImage/SmartImageV2";
 import {
   CONSTANT_shade6,
-  CONSTANT_black1
+  CONSTANT_black1,
+  CONSTANT_white
 } from "../../../constants/colorPallete";
 import {
   CONSTANT_fontCustom,
@@ -49,11 +50,23 @@ const ItineraryCardImage = ({
 const styles = StyleSheet.create({
   itineraryImage: {
     height: 200,
-    width: responsiveWidth(100)
+    width: responsiveWidth(100),
+    borderTopLeftRadius: 8,
+    borderTopRightRadius: 8,
+    transform: [
+      {
+        scaleX: 1.01
+      },
+      {
+        translateY: -1
+      }
+    ]
   },
   scrollImageContainer: {
     alignItems: "center",
-    backgroundColor: CONSTANT_shade6
+    backgroundColor: CONSTANT_white,
+    borderTopLeftRadius: 8,
+    borderTopRightRadius: 8
   },
   tripTypeContainer: {
     position: "absolute",

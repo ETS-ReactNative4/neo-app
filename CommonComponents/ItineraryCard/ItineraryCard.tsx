@@ -107,10 +107,9 @@ const ItineraryCard = ({
 
 const styles = StyleSheet.create({
   itineraryCardContainer: {
-    borderTopLeftRadius: 8,
-    borderTopRightRadius: 8,
-    marginHorizontal: 16,
-    marginVertical: 16,
+    borderWidth: 1,
+    borderColor: CONSTANT_shade3,
+    borderRadius: 8,
     overflow: "hidden",
     backgroundColor: CONSTANT_white,
     width: responsiveWidth(100) - 32
@@ -123,12 +122,7 @@ const styles = StyleSheet.create({
   contentWrapper: {
     paddingVertical: 12,
     paddingHorizontal: 16,
-    backgroundColor: CONSTANT_white,
-    borderWidth: 1,
-    borderTopWidth: 0,
-    borderColor: CONSTANT_shade3,
-    borderBottomLeftRadius: 8,
-    borderBottomRightRadius: 8
+    backgroundColor: CONSTANT_white
   },
   titleTextWrapper: {
     flexDirection: "row",

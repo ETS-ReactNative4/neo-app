@@ -8,6 +8,7 @@ import { IBookedItinerarySection } from "../ExploreFeedType";
 import HorizontalCardsRow from "./HorizontalCardsRow";
 import ItineraryCard from "../../../CommonComponents/ItineraryCard/ItineraryCard";
 import { IBookedItinerary } from "../../../TypeInterfaces/IBookedItinerary";
+import ExploreCardLodingIndicator from "./ExploreCardLodingIndicator";
 import getImgIXUrl from "../../../Services/getImgIXUrl/getImgIXUrl";
 import { CONSTANT_exploreFeedCardLimit } from "../../../constants/stringConstants";
 
@@ -24,27 +25,29 @@ const BookedItineraryCardsRow = (props: IBookedItinerarySection) => {
       requestPayload={props.requestPayload}
     >
       {({ data, isLoading }: IItineraryCardsData) => {
-        return isLoading
-          ? null
-          : data &&
-              data
-                .slice(0, CONSTANT_exploreFeedCardLimit)
-                .map((card, cardIndex) => {
-                  return (
-                    <ItineraryCard
-                      key={cardIndex}
-                      tripType={card.type}
-                      itineraryCost={card.cost}
-                      images={[getImgIXUrl({ src: card.image })]}
-                      cities={card.cities}
-                      action={() => null}
-                      inclusionList={[]}
-                      title={card.itineraryText}
-                      containerStyle={styles.itineraryCardWrapper}
-                      imageStyle={styles.itineraryImage}
-                    />
-                  );
-                });
+        return isLoading ? (
+          <ExploreCardLodingIndicator height={454} />
+        ) : (
+          data &&
+            data
+              .slice(0, CONSTANT_exploreFeedCardLimit)
+              .map((card, cardIndex) => {
+                return (
+                  <ItineraryCard
+                    key={cardIndex}
+                    tripType={card.type}
+                    itineraryCost={card.cost}
+                    images={[getImgIXUrl({ src: card.image })]}
+                    cities={card.cities}
+                    action={() => null}
+                    inclusionList={[]}
+                    title={card.itineraryText}
+                    containerStyle={styles.itineraryCardWrapper}
+                    imageStyle={styles.itineraryImage}
+                  />
+                );
+              })
+        );
       }}
     </HorizontalCardsRow>
   );
@@ -52,7 +55,8 @@ const BookedItineraryCardsRow = (props: IBookedItinerarySection) => {
 
 const styles = StyleSheet.create({
   itineraryCardWrapper: {
-    width: responsiveWidth(80)
+    width: responsiveWidth(80),
+    marginRight: 16
   },
   itineraryImage: {
     width: responsiveWidth(80)

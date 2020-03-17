@@ -42,6 +42,9 @@ interface TestimonialCardProps {
   action: () => any;
 }
 
+const TESTIMONIAL_CARD_WIDTH = responsiveWidth(100) - 48;
+const TESTIMONIAL_CARD_HEIGHT = ratioCalculator(40, 23, TESTIMONIAL_CARD_WIDTH);
+
 const TESTIMONIAL_USER_IMAGE_WIDTH = responsiveWidth(33);
 const TESTIMONIAL_USER_IMAGE_HEIGHT = ratioCalculator(
   24,
@@ -109,12 +112,11 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     borderColor: CONSTANT_shade4,
     backgroundColor: CONSTANT_white,
-    width: responsiveWidth(100),
-    height: 184,
-    paddingRight: 32,
+    width: TESTIMONIAL_CARD_WIDTH,
+    height: TESTIMONIAL_CARD_HEIGHT,
+    paddingRight: 16,
     alignItems: "flex-end",
-    justifyContent: "center",
-    marginBottom: 24
+    justifyContent: "center"
   },
   imageStyle: {
     width: TESTIMONIAL_USER_IMAGE_WIDTH,

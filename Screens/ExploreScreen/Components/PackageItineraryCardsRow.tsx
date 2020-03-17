@@ -10,6 +10,7 @@ import ItineraryCard from "../../../CommonComponents/ItineraryCard/ItineraryCard
 import { IPackageItinerary } from "../../../TypeInterfaces/IPackageItinerary";
 import getPriceWithoutSymbol from "../services/getPriceWithoutSymbol";
 import generateInclusions from "../services/generateInclusions";
+import ExploreCardLodingIndicator from "./ExploreCardLodingIndicator";
 import getImgIXUrl from "../../../Services/getImgIXUrl/getImgIXUrl";
 import { CONSTANT_exploreFeedCardLimit } from "../../../constants/stringConstants";
 
@@ -31,31 +32,33 @@ const PackageItineraryCardsRow = (props: IPackageItinerarySection) => {
       requestPayload={props.requestPayload}
     >
       {({ data, isLoading }: IPackageItineraryCardsData) => {
-        return isLoading
-          ? null
-          : data &&
-              data.filteredItineraries
-                .slice(0, CONSTANT_exploreFeedCardLimit)
-                .map((card, cardIndex) => {
-                  const amount = getPriceWithoutSymbol(card.itineraryCost);
+        return isLoading ? (
+          <ExploreCardLodingIndicator height={454} />
+        ) : (
+          data &&
+            data.filteredItineraries
+              .slice(0, CONSTANT_exploreFeedCardLimit)
+              .map((card, cardIndex) => {
+                const amount = getPriceWithoutSymbol(card.itineraryCost);
 
-                  const inclusionList = generateInclusions(card);
+                const inclusionList = generateInclusions(card);
 
-                  return (
-                    <ItineraryCard
-                      key={cardIndex}
-                      tripType={card.tripType}
-                      itineraryCost={amount}
-                      images={[getImgIXUrl({ src: card.image })]}
-                      cities={card.cityHotelStay}
-                      action={() => null}
-                      title={card.title}
-                      containerStyle={styles.itineraryCardWrapper}
-                      imageStyle={styles.itineraryImage}
-                      inclusionList={inclusionList}
-                    />
-                  );
-                });
+                return (
+                  <ItineraryCard
+                    key={cardIndex}
+                    tripType={card.tripType}
+                    itineraryCost={amount}
+                    images={[getImgIXUrl({ src: card.image })]}
+                    cities={card.cityHotelStay}
+                    action={() => null}
+                    title={card.title}
+                    containerStyle={styles.itineraryCardWrapper}
+                    imageStyle={styles.itineraryImage}
+                    inclusionList={inclusionList}
+                  />
+                );
+              })
+        );
       }}
     </HorizontalCardsRow>
   );
@@ -63,7 +66,8 @@ const PackageItineraryCardsRow = (props: IPackageItinerarySection) => {
 
 const styles = StyleSheet.create({
   itineraryCardWrapper: {
-    width: responsiveWidth(80)
+    width: responsiveWidth(80),
+    marginRight: 16
   },
   itineraryImage: {
     width: responsiveWidth(80)

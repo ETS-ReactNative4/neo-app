@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
   },
   labelStyle: {
     color: CONSTANT_shade1,
-    ...CONSTANT_fontCustom(CONSTANT_primaryRegular, 18),
+    ...CONSTANT_fontCustom(CONSTANT_primaryRegular, 18, 20),
     marginBottom: 20
   }
 });

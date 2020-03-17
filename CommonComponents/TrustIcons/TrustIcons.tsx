@@ -14,26 +14,27 @@ import {
   CONSTANT_primaryRegular
 } from "../../constants/fonts";
 import { CONSTANT_shade1 } from "../../constants/colorPallete";
+import { CONSTANT_defaultPlaceImage } from "../../constants/imageAssets";
 
-interface PartnersSectionProps {
+interface TrustIconsProps {
   containerStyle?: StyleProp<ViewStyle>;
-  logo: ImageSourcePropType;
-  fallbackLogo: ImageSourcePropType;
+  image: ImageSourcePropType;
+  fallbackImage?: ImageSourcePropType;
   text: string;
 }
 
-const PartnersSection = ({
+const TrustIcons = ({
   containerStyle,
-  logo = { uri: "" },
-  fallbackLogo = { uri: "" },
+  image = { uri: "" },
+  fallbackImage = { uri: CONSTANT_defaultPlaceImage },
   text = ""
-}: PartnersSectionProps) => {
+}: TrustIconsProps) => {
   return (
-    <View style={[styles.partnersSectionContainer, containerStyle]}>
+    <View style={[styles.trustIconsContainer, containerStyle]}>
       <SmartImageV2
         resizeMode={"contain"}
-        source={logo}
-        fallbackSource={fallbackLogo}
+        source={image}
+        fallbackSource={fallbackImage}
         style={styles.imageStyle}
       />
 
@@ -43,14 +44,13 @@ const PartnersSection = ({
 };
 
 const styles = StyleSheet.create({
-  partnersSectionContainer: {
+  trustIconsContainer: {
     width: 80,
     alignItems: "center"
   },
   imageStyle: {
-    width: 46,
-    height: 30,
-    marginBottom: 12
+    width: 55,
+    height: 55
   },
   textStyle: {
     color: CONSTANT_shade1,
@@ -59,4 +59,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default PartnersSection;
+export default TrustIcons;

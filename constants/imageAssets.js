@@ -493,5 +493,15 @@ export const CONSTANT_defaultAgentImage = () =>
   require("../assets/images/illustrations/default-agent-image.png");
 export const CONSTANT_splashBackgroundVideo = () =>
   require("../assets/videos/splashscreen.mp4");
+export const CONSTANT_preLoaderAnimation = () =>
+  require("../assets/animations/preLoader.json");
+
+// TRUST ICONS
+export const CONSTANT_trustIconFacebook = () =>
+  require("../assets/images/trust-icons/facebook.png");
+export const CONSTANT_trustIconGoogle = () =>
+  require("../assets/images/trust-icons/google.png");
+export const CONSTANT_trustIconIata = () =>
+  require("../assets/images/trust-icons/iata.png");
 
 export default imageAssets;

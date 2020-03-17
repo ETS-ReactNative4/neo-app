@@ -1,9 +1,17 @@
 import React from "react";
+import { StyleSheet } from "react-native";
+
+import {
+  responsiveWidth
+  // @ts-ignore
+} from "react-native-responsive-dimensions";
 import HorizontalCardsRow from "./HorizontalCardsRow";
 import { ICountriesSection, IExploreFeedLinks } from "../ExploreFeedType";
 import FeaturedCardTypeOne from "../../../CommonComponents/FeaturedCard/FeaturedCardTypeOne";
 import getPriceWithoutSymbol from "../services/getPriceWithoutSymbol";
 import deepLink from "../../../Services/deepLink/deepLink";
+import ExploreCardLodingIndicator from "./ExploreCardLodingIndicator";
+import ratioCalculator from "../../../Services/ratioCalculator/ratioCalculator";
 import getImgIXUrl from "../../../Services/getImgIXUrl/getImgIXUrl";
 
 export interface ICountryCard {
@@ -55,6 +63,12 @@ export interface ICountryCardData {
   isLoading: boolean;
 }
 
+const LODING_INDICATOR_WIDTH = responsiveWidth(80);
+const LODING_INDICATOR_HEIGHT = ratioCalculator(
+  72,
+  109,
+  LODING_INDICATOR_WIDTH
+);
 const CountryCardsRow = (props: ICountriesSection) => {
   return (
     <HorizontalCardsRow
@@ -63,32 +77,45 @@ const CountryCardsRow = (props: ICountriesSection) => {
       requestPayload={props.requestPayload}
     >
       {({ data, isLoading }: ICountryCardData) => {
-        return isLoading
-          ? null
-          : data &&
-              data?.countries.map((country, countryIndex) => {
-                const action = () => {
-                  const deepLinkingObject: ICountryDeepLink = {
-                    link: country.deepLinking.link,
-                    screenData: {
-                      ...(country.deepLinking.screenData || {}),
-                      slug: country.slug
-                    }
-                  };
-                  deepLink(deepLinkingObject);
+        return isLoading ? (
+          <ExploreCardLodingIndicator height={LODING_INDICATOR_HEIGHT} />
+        ) : (
+          data &&
+            data?.countries.map((country, countryIndex) => {
+              const action = () => {
+                const deepLinkingObject: ICountryDeepLink = {
+                  link: country.deepLinking.link,
+                  screenData: {
+                    ...(country.deepLinking.screenData || {}),
+                    slug: country.slug
+                  }
                 };
-                return (
-                  <FeaturedCardTypeOne
-                    key={countryIndex}
-                    image={{ uri: getImgIXUrl({ src: country.image }) }}
-                    price={getPriceWithoutSymbol(country.startingPrice)}
-                    action={action}
-                  />
-                );
-              });
+                deepLink(deepLinkingObject);
+              };
+              return (
+                <FeaturedCardTypeOne
+                  key={countryIndex}
+                  image={{ uri: getImgIXUrl({ src: country.image }) }}
+                  price={getPriceWithoutSymbol(country.startingPrice)}
+                  action={action}
+                  containerStyle={styles.featuredCardTypeOneWrapper}
+                />
+              );
+            })
+        );
       }}
     </HorizontalCardsRow>
   );
 };
+
+const styles = StyleSheet.create({
+  featuredCardTypeOneWrapper: {
+    width: responsiveWidth(80),
+    marginRight: 16
+  },
+  loadingAnimation: {
+    width: responsiveWidth(100)
+  }
+});
 
 export default CountryCardsRow;

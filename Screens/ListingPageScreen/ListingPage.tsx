@@ -1,4 +1,5 @@
-import React, { useMemo, useRef } from "react";
+import React, { useMemo, useState, Fragment } from "react";
+import Modal from "react-native-modal";
 import {
   StyleSheet,
   View,
@@ -31,9 +32,7 @@ import getPriceWithoutSymbol from "../ExploreScreen/services/getPriceWithoutSymb
 import { CONSTANT_platformAndroid } from "../../constants/stringConstants";
 import BlankSpacer from "../../CommonComponents/BlankSpacer/BlankSpacer";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
-import ActionSheet from "../../CommonComponents/ActionSheet/ActionSheet";
 import FilterActionSheet from "./Components/FilterActionSheet";
-import Interactable from "react-native-interactable";
 import usePackagesFilter from "./hooks/usePackagesFilter";
 import generateInclusions from "../ExploreScreen/services/generateInclusions";
 import useDeepCompareEffect from "use-deep-compare-effect";
@@ -55,27 +54,17 @@ export interface ListingPageProps {
 
 const ListingPage = ({ navigation, route }: ListingPageProps) => {
   const [packagesApiDetails, loadPackages] = usePackagesApi();
-
-  const filterSheetRef = useRef(null);
+  const [openFilter, setOpenFilter] = useState<boolean>(false);
 
   const openFilterPanel = () => {
-    // @ts-ignore
-    filterSheetRef.current && filterSheetRef.current.snapTo({ index: 1 });
+    setOpenFilter(true);
   };
-
   const closeFilterPanel = () => {
-    // @ts-ignore
-    filterSheetRef.current && filterSheetRef.current.snapTo({ index: 2 });
+    setOpenFilter(false);
   };
 
   const applyFilter = () => {
     closeFilterPanel();
-  };
-
-  const onFilterPanelSnap = (snapEvent: Interactable.ISnapEvent) => {
-    if (snapEvent.nativeEvent.index === 2) {
-      // panel closed
-    }
   };
 
   const goBack = () => navigation.goBack();
@@ -153,21 +142,25 @@ const ListingPage = ({ navigation, route }: ListingPageProps) => {
         titleText={name}
         backAction={goBack}
       >
+        <BlankSpacer height={20} />
         {useMemo(() => {
           return filteredItineraries.map((itinerary, itineraryIndex) => {
             const inclusionList = generateInclusions(itinerary);
 
             return (
-              <ItineraryCard
-                key={itineraryIndex}
-                images={[getImgIXUrl({ src: itinerary.image })]}
-                tripType={itinerary.tripType}
-                action={() => Alert.alert("Click Itinerary Card")}
-                title={itinerary.title}
-                inclusionList={inclusionList}
-                itineraryCost={getPriceWithoutSymbol(itinerary.itineraryCost)}
-                cities={itinerary.cityHotelStay}
-              />
+              <Fragment key={itineraryIndex}>
+                <ItineraryCard
+                  images={[getImgIXUrl({ src: itinerary.image })]}
+                  tripType={itinerary.tripType}
+                  action={() => Alert.alert("Click Itinerary Card")}
+                  title={itinerary.title}
+                  inclusionList={inclusionList}
+                  itineraryCost={getPriceWithoutSymbol(itinerary.itineraryCost)}
+                  cities={itinerary.cityHotelStay}
+                  containerStyle={styles.itineraryCardStyle}
+                />
+                <BlankSpacer height={16} />
+              </Fragment>
             );
           });
         }, [filteredItineraries])}
@@ -185,10 +178,11 @@ const ListingPage = ({ navigation, route }: ListingPageProps) => {
       >
         <Icon name={CONSTANT_listIcon} size={20} color={CONSTANT_white} />
       </TouchableOpacity>
-      <ActionSheet
-        panelViewablePosition={0}
-        interactableRef={filterSheetRef}
-        onSnap={onFilterPanelSnap}
+
+      <Modal
+        onBackButtonPress={closeFilterPanel}
+        style={styles.modalWrapperStyle}
+        isVisible={openFilter}
       >
         <FilterActionSheet
           interests={interests.group}
@@ -199,9 +193,10 @@ const ListingPage = ({ navigation, route }: ListingPageProps) => {
           selectEstimatedBudget={estimatedBudget.action}
           propertyRating={propertyRatings.group}
           selectPropertyRating={propertyRatings.action}
+          closeFilter={closeFilterPanel}
           applyFilter={applyFilter}
         />
-      </ActionSheet>
+      </Modal>
     </View>
   );
 };
@@ -220,6 +215,12 @@ const styles = StyleSheet.create({
     height: 62,
     borderRadius: 50,
     backgroundColor: CONSTANT_firstColor
+  },
+  modalWrapperStyle: {
+    margin: 0
+  },
+  itineraryCardStyle: {
+    marginHorizontal: 16
   }
 });
 

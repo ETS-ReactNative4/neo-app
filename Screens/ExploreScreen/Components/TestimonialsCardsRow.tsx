@@ -1,4 +1,9 @@
 import React from "react";
+import { StyleSheet } from "react-native";
+import {
+  responsiveWidth
+  // @ts-ignore
+} from "react-native-responsive-dimensions";
 import { ITestimonialsSection } from "../ExploreFeedType";
 import HorizontalCardsRow from "./HorizontalCardsRow";
 import { ICountryCardData } from "./CountryCardsRow";
@@ -32,6 +37,7 @@ const TestimonialsCardsRow = (props: ITestimonialsSection) => {
                       region={testimonial.region}
                       reviewText={testimonial.review}
                       tripType={testimonial.ttype}
+                      containerStyle={styles.testimonialCardStyle}
                     />
                   );
                 });
@@ -39,5 +45,12 @@ const TestimonialsCardsRow = (props: ITestimonialsSection) => {
     </HorizontalCardsRow>
   );
 };
+
+const styles = StyleSheet.create({
+  testimonialCardStyle: {
+    width: responsiveWidth(80),
+    marginRight: 16
+  }
+});
 
 export default TestimonialsCardsRow;

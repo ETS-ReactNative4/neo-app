@@ -1,5 +1,5 @@
 import React, { useEffect, ReactNode } from "react";
-import { ScrollView, ScrollViewProps } from "react-native";
+import { ScrollView, ScrollViewProps, StyleSheet, View } from "react-native";
 import { ILoadCardRequest } from "../ExploreFeedType";
 import useWidgetLoader from "../hooks/useWidgetLoader";
 
@@ -39,20 +39,33 @@ const HorizontalCardsRow = ({
   }, []);
 
   const { successResponseData, isLoading } = widgetDetails;
-
-  return (
-    <ScrollView
-      showsHorizontalScrollIndicator={false}
-      removeClippedSubviews
-      horizontal
-      {...otherProps}
-    >
-      {children({
-        data: items || (successResponseData?.data as any),
-        isLoading
-      })}
-    </ScrollView>
-  );
+  try {
+    return (
+      <ScrollView
+        showsHorizontalScrollIndicator={false}
+        removeClippedSubviews
+        horizontal
+        {...otherProps}
+      >
+        <View style={styles.horizontalCardsRowWrapper}>
+          {children({
+            data: items || (successResponseData?.data as any),
+            isLoading
+          })}
+        </View>
+      </ScrollView>
+    );
+  } catch (e) {
+    console.error(e);
+    return null;
+  }
 };
+
+const styles = StyleSheet.create({
+  horizontalCardsRowWrapper: {
+    flexDirection: "row",
+    marginHorizontal: 16
+  }
+});
 
 export default HorizontalCardsRow;

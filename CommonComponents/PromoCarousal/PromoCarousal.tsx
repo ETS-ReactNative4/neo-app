@@ -9,7 +9,6 @@ import {
 import { CONSTANT_shade2 } from "../../constants/colorPallete";
 import PromoCarousalImage from "./Components/PromoCarousalImage";
 import { CONSTANT_defaultPlaceImage } from "../../constants/imageAssets";
-import BlankSpacer from "../BlankSpacer/BlankSpacer";
 
 const {
   Value,
@@ -99,8 +98,6 @@ const PromoCarousal = ({ containerStyle, images = [] }: PromoCarousalProps) => {
           );
         })}
       </View>
-
-      <BlankSpacer height={24} />
     </View>
   );
 };

@@ -35,7 +35,10 @@ interface FeaturedCardTypeOneProps {
   price: string;
 }
 
-const FEATURED_CARD_IMAGE_WIDTH = responsiveWidth(65);
+/* GUTTER SPACER */
+const GUTTER_SPACING = 24;
+
+const FEATURED_CARD_IMAGE_WIDTH = responsiveWidth(80) - GUTTER_SPACING * 2;
 const FEATURED_CARD_IMAGE_HEIGHT = ratioCalculator(
   8,
   11,
@@ -90,15 +93,13 @@ const FeaturedCardTypeOne = ({
 
 const styles = StyleSheet.create({
   bgImageStyle: {
-    width: responsiveWidth(100),
-    marginBottom: 32,
     borderRadius: 4
   },
   imageStyle: {
     borderRadius: 4
   },
   innerCard: {
-    padding: 24
+    padding: GUTTER_SPACING
   },
   contentStyle: {
     flexDirection: "row",
@@ -108,7 +109,7 @@ const styles = StyleSheet.create({
   fgImageStyle: {
     height: FEATURED_CARD_IMAGE_HEIGHT,
     borderRadius: 8,
-    marginBottom: 24
+    marginBottom: GUTTER_SPACING
   },
   textStyle: {
     color: CONSTANT_white1,
