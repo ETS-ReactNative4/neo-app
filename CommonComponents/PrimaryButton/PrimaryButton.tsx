@@ -24,6 +24,11 @@ interface PrimaryButtonProps {
   buttonTextStyle?: StyleProp<TextStyle>;
 }
 
+/**
+ * TODO: Here I've added two-button style property, but we only use the `buttonStyle` property
+ To avoid the `containerStyle` property.
+*/
+
 const PrimaryButton = ({
   containerStyle,
   text,
