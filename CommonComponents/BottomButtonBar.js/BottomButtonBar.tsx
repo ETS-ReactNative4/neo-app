@@ -5,7 +5,7 @@ import {
   CONSTANT_firstColor,
   CONSTANT_white
 } from "../../constants/colorPallete";
-import PrimaryButton from "../../CommonComponents/PrimaryButton/PrimaryButton";
+import PrimaryButton from "../PrimaryButton/PrimaryButton";
 import {
   CONSTANT_fontCustom,
   CONSTANT_primarySemiBold
@@ -14,27 +14,31 @@ import { CONSTANT_elevationFive } from "../../constants/styles";
 
 interface BottomButtonBarProps {
   containerStyle?: StyleProp<ViewStyle>;
-  leftButtonName: string;
-  leftButtonAction: () => any;
+  leftButtonName?: string;
+  leftButtonAction?: () => any;
+  disableLeftButton?: boolean;
   rightButtonName: string;
   rightButtonAction: () => any;
 }
 
 const BottomButtonBar = ({
   containerStyle,
-  leftButtonName,
+  leftButtonName = "",
   leftButtonAction = () => {},
-  rightButtonName,
+  disableLeftButton = false,
+  rightButtonName = "",
   rightButtonAction = () => {}
 }: BottomButtonBarProps) => {
   return (
     <View style={[styles.bottomButtonBar, containerStyle]}>
-      <PrimaryButton
-        text={leftButtonName}
-        buttonStyle={[styles.buttonStyle, styles.leftBtn]}
-        buttonTextStyle={[styles.buttonTextStyle, styles.leftBtnTextStyle]}
-        clickAction={leftButtonAction}
-      />
+      {!disableLeftButton ? (
+        <PrimaryButton
+          text={leftButtonName}
+          buttonStyle={[styles.buttonStyle, styles.leftBtn]}
+          buttonTextStyle={[styles.buttonTextStyle, styles.leftBtnTextStyle]}
+          clickAction={leftButtonAction}
+        />
+      ) : null}
       <PrimaryButton
         text={rightButtonName}
         buttonStyle={[styles.buttonStyle, styles.rightBtn]}
