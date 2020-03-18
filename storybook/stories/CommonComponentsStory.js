@@ -25,6 +25,7 @@ import CustomRadioButtonTestCases from "../../CommonComponents/CustomRadioButton
 import SavedItineraryCardTestCases from "../../CommonComponents/SavedItineraryCard/SavedItineraryCardTestCases";
 import ExploreSectionTitleTestCases from "../../Screens/ExploreScreen/Components/ExploreSectionTitleTestCases";
 import ExploreHeaderTestCases from "../../Screens/ExploreScreen/Components/ExploreHeaderTestCases";
+import TextInputFieldTestCases from "../../CommonComponents/TextInputField/TextInputFieldTestCases";
 
 const CommonComponentStories = storiesOf("Common Components", module);
 
@@ -57,3 +58,4 @@ CustomRadioButtonTestCases.forEach(renderTestCase);
 SavedItineraryCardTestCases.forEach(renderTestCase);
 ExploreSectionTitleTestCases.forEach(renderTestCase);
 ExploreHeaderTestCases.forEach(renderTestCase);
+TextInputFieldTestCases.forEach(renderTestCase);

@@ -11,7 +11,7 @@ import {
 } from "../../../constants/colorPallete";
 import { CONSTANT_callStartIcon } from "../../../constants/imageAssets";
 import BlankSpacer from "../../../CommonComponents/BlankSpacer/BlankSpacer";
-import BottomButtonBar from "../../../CommonComponents/BottomButtonBar.js/BottomButtonBar";
+import BottomButtonBar from "../../../CommonComponents/BottomButtonBar/BottomButtonBar";
 
 const TripDetails = () => {
   return (
