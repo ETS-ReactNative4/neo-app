@@ -1,4 +1,4 @@
-import React from "react";
+import React, { MutableRefObject } from "react";
 import {
   responsiveHeight
   // @ts-ignore
@@ -17,14 +17,38 @@ import {
   CONSTANT_fontCustom,
   CONSTANT_primarySemiBold
 } from "../../../constants/fonts";
+import { IItineraryNotification } from "../Notifications";
+import dialer from "../../../Services/dialer/dialer";
 
-const NotificationsActionSheet = () => {
+export interface INotificationsActionSheet {
+  actionSheetRef: MutableRefObject<any>;
+  selectedNotification?: IItineraryNotification;
+}
+
+const NotificationsActionSheet = ({
+  actionSheetRef,
+  selectedNotification
+}: INotificationsActionSheet) => {
+  const openFaq = () => {};
+
+  const openDialer = () => {
+    if (selectedNotification) {
+      dialer(selectedNotification.travelConsultantNumber);
+    }
+  };
+
+  const openDetails = () => {};
+
   return (
-    <ActionSheet panelStartingPosition={responsiveHeight(20)}>
+    <ActionSheet
+      interactableRef={actionSheetRef}
+      panelStartingPosition={responsiveHeight(100)}
+      panelViewablePosition={responsiveHeight(50)}
+    >
       <View style={styles.actionSheetContainer}>
         <TouchableOpacity
           activeOpacity={0.8}
-          onPress={() => {}}
+          onPress={openFaq}
           style={styles.actionSheetList}
         >
           <View>
@@ -34,12 +58,12 @@ const NotificationsActionSheet = () => {
               color={CONSTANT_shade4}
             />
           </View>
-          <Text style={styles.textStyle}>Message</Text>
+          <Text style={styles.textStyle}>FAQs</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
           activeOpacity={0.8}
-          onPress={() => {}}
+          onPress={openDialer}
           style={styles.actionSheetList}
         >
           <View>
@@ -49,12 +73,12 @@ const NotificationsActionSheet = () => {
               color={CONSTANT_shade4}
             />
           </View>
-          <Text style={styles.textStyle}>Call</Text>
+          <Text style={styles.textStyle}>Call us</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
           activeOpacity={0.8}
-          onPress={() => {}}
+          onPress={openDetails}
           style={styles.actionSheetList}
         >
           <View>

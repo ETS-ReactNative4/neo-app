@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { StyleSheet, SectionList, SafeAreaView, Text } from "react-native";
 import {
   SCREEN_NOTIFICATION_TAB,
@@ -19,6 +19,7 @@ import {
 } from "../../constants/fonts";
 import { CONSTANT_shade1, CONSTANT_white1 } from "../../constants/colorPallete";
 import getImgIXUrl from "../../Services/getImgIXUrl/getImgIXUrl";
+import NotificationsActionSheet from "./Components/NotificationsActionSheet";
 
 export type NotificationsScreenNavigationType = CompositeNavigationProp<
   StackNavigationProp<AppNavigatorParamsType, typeof SCREEN_PRETRIP_HOME_TABS>,
@@ -73,6 +74,11 @@ export interface ISectionData {
 
 const Notifications = ({}: NotificationsScreenProps) => {
   const [sectionData, setSectionData] = useState<ISectionData[]>([]);
+  const [selectedNotification, setSelectedNotification] = useState<
+    IItineraryNotification | undefined
+  >();
+
+  const actionSheetRef = useRef<any>(null);
 
   const [savedItineraryApiDetails, loadItineraries] = useSavedItinerariesApi();
 
@@ -108,26 +114,43 @@ const Notifications = ({}: NotificationsScreenProps) => {
     setSectionData(newSectionData);
   }, [savedItineraries]);
 
+  const selectNotification = (item: IItineraryNotification) => {
+    setSelectedNotification(item);
+    openActionSheet();
+  };
+
+  const openActionSheet = () => {
+    actionSheetRef.current && actionSheetRef.current.snapTo({ index: 1 });
+  };
+
   return (
     <SafeAreaView style={styles.notificationContainer}>
       <SectionList
         sections={sectionData}
         keyExtractor={(item: IItineraryNotification) => item.itineraryId}
-        renderItem={({ item }: { item: IItineraryNotification }) => (
-          <SavedItineraryCard
-            isUnread={!!item.unreadMsgCount}
-            action={() => null}
-            image={getImgIXUrl({ src: item.image })}
-            cities={item.citiesArr || []}
-            lastEdited={item.lastEdited}
-            title={item.title}
-            moreOptions
-            moreOptionsAction={() => null}
-          />
-        )}
+        renderItem={({ item }: { item: IItineraryNotification }) => {
+          const onMoreOptionClick = () => selectNotification(item);
+
+          return (
+            <SavedItineraryCard
+              isUnread={!!item.unreadMsgCount}
+              action={() => null}
+              image={getImgIXUrl({ src: item.image })}
+              cities={item.citiesArr || []}
+              lastEdited={item.lastEdited}
+              title={item.title}
+              moreOptions
+              moreOptionsAction={onMoreOptionClick}
+            />
+          );
+        }}
         renderSectionHeader={({ section: { title, data } }) =>
           data.length ? <Text style={styles.textStyle}>{title}</Text> : null
         }
+      />
+      <NotificationsActionSheet
+        selectedNotification={selectedNotification}
+        actionSheetRef={actionSheetRef}
       />
     </SafeAreaView>
   );
