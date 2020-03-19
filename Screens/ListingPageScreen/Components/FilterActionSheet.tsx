@@ -13,7 +13,7 @@ import {
   responsiveHeight
   // @ts-ignore
 } from "react-native-responsive-dimensions";
-import BottomButtonBar from "../../../CommonComponents/BottomButtonBar.js/BottomButtonBar";
+import BottomButtonBar from "../../../CommonComponents/BottomButtonBar/BottomButtonBar";
 import RadioBoxWrapper from "./RadioBoxWrapper";
 import CheckBoxWrapper from "./CheckBoxWrapper";
 import BlankSpacer from "../../../CommonComponents/BlankSpacer/BlankSpacer";
