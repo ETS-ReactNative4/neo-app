@@ -7,6 +7,7 @@ export const SCREEN_PRETRIP_HOME_TABS = "PreTripHomeTabs";
 export const SCREEN_EXPLORE_TAB = "ExploreTab";
 export const SCREEN_SEARCH_TAB = "SearchTab";
 export const SCREEN_NOTIFICATION_TAB = "NotificationTab";
+export const SCREEN_NOTIFICATION_DETAILS = "NotificationDetails";
 export const SCREEN_ITINERARY = "Itinerary";
 export const SCREEN_EXPLORE_PAGE = "ExplorePage";
 export const SCREEN_PROMO_PAGE = "Promo";

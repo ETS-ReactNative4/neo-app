@@ -13,7 +13,8 @@ import {
   SCREEN_STORY_BOOK,
   SCREEN_PRETRIP_HOME_TABS,
   SCREEN_EXPLORE_PAGE,
-  SCREEN_MODAL_STACK
+  SCREEN_MODAL_STACK,
+  SCREEN_NOTIFICATION_DETAILS
 } from "./ScreenNames";
 import AppLogin from "../Screens/AppLoginScreen/AppLogin";
 import Starter from "../Screens/StartingScreen/Starter";
@@ -26,6 +27,8 @@ import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
 import ModalStack, { ModalNavigatorParamsType } from "./ModalStack";
 import { CONSTANT_white } from "../constants/colorPallete";
 import { RouteProp } from "@react-navigation/native";
+import { IItineraryNotification } from "../Screens/NotificationsScreen/Notifications";
+import NotificationDetails from "../Screens/NotificationDetailsScreen/NotificationDetails";
 
 export type AppNavigatorParamsType = {
   [SCREEN_MODAL_STACK]: StackNavigationProp<ModalNavigatorParamsType>;
@@ -43,6 +46,9 @@ export type AppNavigatorParamsType = {
     isPositive: boolean;
   };
   [SCREEN_STORY_BOOK]: undefined;
+  [SCREEN_NOTIFICATION_DETAILS]: {
+    notification: IItineraryNotification;
+  };
 };
 
 const Stack = createStackNavigator<AppNavigatorParamsType>();
@@ -94,6 +100,10 @@ const AppNavigator = () => {
             headerShown: false
           }}
           component={ModalStack}
+        />
+        <Screen
+          name={SCREEN_NOTIFICATION_DETAILS}
+          component={NotificationDetails}
         />
         <Screen name={SCREEN_STORY_BOOK} component={StorybookUIRoot} />
       </Navigator>

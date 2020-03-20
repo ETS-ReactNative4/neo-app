@@ -29,6 +29,9 @@ const NotificationsActionSheet = ({
   actionSheetRef,
   selectedNotification
 }: INotificationsActionSheet) => {
+  /**
+   * PT TODO: fill up these functions
+   */
   const openFaq = () => {};
 
   const openDialer = () => {

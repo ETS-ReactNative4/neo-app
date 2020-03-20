@@ -2,7 +2,8 @@ import React, { useState, useEffect, useRef } from "react";
 import { StyleSheet, SectionList, SafeAreaView, Text } from "react-native";
 import {
   SCREEN_NOTIFICATION_TAB,
-  SCREEN_PRETRIP_HOME_TABS
+  SCREEN_PRETRIP_HOME_TABS,
+  SCREEN_NOTIFICATION_DETAILS
 } from "../../NavigatorsV2/ScreenNames";
 import { CompositeNavigationProp, RouteProp } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
@@ -72,7 +73,7 @@ export interface ISectionData {
   data: IItineraryNotification[];
 }
 
-const Notifications = ({}: NotificationsScreenProps) => {
+const Notifications = ({ navigation }: NotificationsScreenProps) => {
   const [sectionData, setSectionData] = useState<ISectionData[]>([]);
   const [selectedNotification, setSelectedNotification] = useState<
     IItineraryNotification | undefined
@@ -123,6 +124,13 @@ const Notifications = ({}: NotificationsScreenProps) => {
     actionSheetRef.current && actionSheetRef.current.snapTo({ index: 1 });
   };
 
+  const openNotificationDetails = (item: IItineraryNotification) => {
+    setSelectedNotification(item);
+    navigation.navigate(SCREEN_NOTIFICATION_DETAILS, {
+      notification: item
+    });
+  };
+
   return (
     <SafeAreaView style={styles.notificationContainer}>
       <SectionList
@@ -130,11 +138,12 @@ const Notifications = ({}: NotificationsScreenProps) => {
         keyExtractor={(item: IItineraryNotification) => item.itineraryId}
         renderItem={({ item }: { item: IItineraryNotification }) => {
           const onMoreOptionClick = () => selectNotification(item);
+          const onNotificationClick = () => openNotificationDetails(item);
 
           return (
             <SavedItineraryCard
               isUnread={!!item.unreadMsgCount}
-              action={() => null}
+              action={onNotificationClick}
               image={getImgIXUrl({ src: item.image })}
               cities={item.citiesArr || []}
               lastEdited={item.lastEdited}
