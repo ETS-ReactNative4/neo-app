@@ -1,8 +1,9 @@
 import React, { useEffect } from "react";
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { AppNavigatorProps } from "../../NavigatorsV2/AppNavigator";
 import { SCREEN_NOTIFICATION_FAQ } from "../../NavigatorsV2/ScreenNames";
 import PrimaryHeader from "../../NavigatorsV2/Components/PrimaryHeader";
+import HelpDeskView from "../ChatScreen/Components/HelpDeskView";
 
 type NotificationFaqNavTypes = AppNavigatorProps<
   typeof SCREEN_NOTIFICATION_FAQ
@@ -24,7 +25,7 @@ const NotificationsFaq = ({ navigation }: NotificationFaqProps) => {
 
   return (
     <View style={styles.notificationFaqContainer}>
-      <Text>Notification Screen</Text>
+      <HelpDeskView disableHeader faqSections={[]} />
     </View>
   );
 };
