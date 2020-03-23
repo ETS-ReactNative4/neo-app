@@ -5,13 +5,15 @@ import {
   ViewStyle,
   StyleSheet,
   TouchableOpacity,
-  ImageSourcePropType
+  ImageSourcePropType,
+  Text
 } from "react-native";
 
 import {
   CONSTANT_black2,
   CONSTANT_white,
-  CONSTANT_shade5
+  CONSTANT_shade5,
+  CONSTANT_black1
 } from "../../../constants/colorPallete";
 import Icon from "../../../CommonComponents/Icon/Icon";
 import {
@@ -20,12 +22,17 @@ import {
 } from "../../../constants/imageAssets";
 import SmartImageV2 from "../../../CommonComponents/SmartImage/SmartImageV2";
 import ratioCalculator from "../../../Services/ratioCalculator/ratioCalculator";
+import {
+  CONSTANT_fontCustom,
+  CONSTANT_primarySemiBold
+} from "../../../constants/fonts";
 
 export interface ExploreHeaderProps {
   containerStyle?: StyleProp<ViewStyle>;
   leftAction: () => any;
-  leftIcon: string;
+  leftIcon?: string;
   headerLogo?: ImageSourcePropType;
+  headerText?: string;
 }
 
 const HEADER_LOGO_IMAGE_WIDTH = 112;
@@ -39,7 +46,8 @@ const ExploreHeader = ({
   containerStyle,
   leftAction = () => null,
   leftIcon = CONSTANT_arrowRight,
-  headerLogo = CONSTANT_pytLogo
+  headerLogo = CONSTANT_pytLogo,
+  headerText = ""
 }: ExploreHeaderProps) => {
   return (
     <View style={[styles.headerContainerStyle, containerStyle]}>
@@ -51,11 +59,15 @@ const ExploreHeader = ({
         <Icon name={leftIcon} size={16} color={CONSTANT_black2} />
       </TouchableOpacity>
 
-      <SmartImageV2
-        source={headerLogo}
-        resizeMode={"cover"}
-        style={styles.logoImageStyle}
-      />
+      {headerText ? (
+        <Text style={styles.headerText}>{headerText}</Text>
+      ) : (
+        <SmartImageV2
+          source={headerLogo}
+          resizeMode={"cover"}
+          style={styles.logoImageStyle}
+        />
+      )}
     </View>
   );
 };
@@ -79,6 +91,10 @@ const styles = StyleSheet.create({
     width: 56,
     height: 56,
     transform: [{ scaleX: -1 }]
+  },
+  headerText: {
+    ...CONSTANT_fontCustom(CONSTANT_primarySemiBold, 16),
+    color: CONSTANT_black1
   },
   logoImageStyle: {
     width: HEADER_LOGO_IMAGE_WIDTH,

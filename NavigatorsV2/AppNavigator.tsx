@@ -14,7 +14,8 @@ import {
   SCREEN_PRETRIP_HOME_TABS,
   SCREEN_EXPLORE_PAGE,
   SCREEN_MODAL_STACK,
-  SCREEN_NOTIFICATION_DETAILS
+  SCREEN_NOTIFICATION_DETAILS,
+  SCREEN_NOTIFICATION_FAQ
 } from "./ScreenNames";
 import AppLogin from "../Screens/AppLoginScreen/AppLogin";
 import Starter from "../Screens/StartingScreen/Starter";
@@ -29,6 +30,7 @@ import { CONSTANT_white } from "../constants/colorPallete";
 import { RouteProp } from "@react-navigation/native";
 import { IItineraryNotification } from "../Screens/NotificationsScreen/Notifications";
 import NotificationDetails from "../Screens/NotificationDetailsScreen/NotificationDetails";
+import NotificationsFaq from "../Screens/NotificationsFaqScreen/NotificationsFaq";
 
 export type AppNavigatorParamsType = {
   [SCREEN_MODAL_STACK]: StackNavigationProp<ModalNavigatorParamsType>;
@@ -48,6 +50,9 @@ export type AppNavigatorParamsType = {
   [SCREEN_STORY_BOOK]: undefined;
   [SCREEN_NOTIFICATION_DETAILS]: {
     notification: IItineraryNotification;
+  };
+  [SCREEN_NOTIFICATION_FAQ]: {
+    itineraryId: string;
   };
 };
 
@@ -108,6 +113,7 @@ const AppNavigator = () => {
           }}
           component={NotificationDetails}
         />
+        <Screen name={SCREEN_NOTIFICATION_FAQ} component={NotificationsFaq} />
         <Screen name={SCREEN_STORY_BOOK} component={StorybookUIRoot} />
       </Navigator>
     </Fragment>

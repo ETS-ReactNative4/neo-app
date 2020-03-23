@@ -1,7 +1,10 @@
 import React, { useEffect } from "react";
 import { View, StyleSheet, Alert, TouchableOpacity } from "react-native";
 import { AppNavigatorProps } from "../../NavigatorsV2/AppNavigator";
-import { SCREEN_NOTIFICATION_DETAILS } from "../../NavigatorsV2/ScreenNames";
+import {
+  SCREEN_NOTIFICATION_DETAILS,
+  SCREEN_NOTIFICATION_FAQ
+} from "../../NavigatorsV2/ScreenNames";
 import {
   CONSTANT_firstColor,
   CONSTANT_white
@@ -81,7 +84,11 @@ const NotificationDetails = ({
 
       <BottomButtonBar
         leftButtonName={"Support"}
-        leftButtonAction={() => Alert.alert("Click Support")}
+        leftButtonAction={() =>
+          navigation.navigate(SCREEN_NOTIFICATION_FAQ, {
+            itineraryId: notification.itineraryId
+          })
+        }
         rightButtonName={"View itinerary"}
         rightButtonAction={() => Alert.alert("View itinerary")}
       />
