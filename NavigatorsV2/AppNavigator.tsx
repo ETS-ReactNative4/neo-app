@@ -103,6 +103,9 @@ const AppNavigator = () => {
         />
         <Screen
           name={SCREEN_NOTIFICATION_DETAILS}
+          options={{
+            headerShown: false
+          }}
           component={NotificationDetails}
         />
         <Screen name={SCREEN_STORY_BOOK} component={StorybookUIRoot} />

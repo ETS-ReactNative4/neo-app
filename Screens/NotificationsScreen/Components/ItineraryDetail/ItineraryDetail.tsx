@@ -9,39 +9,71 @@ import {
   CONSTANT_shade2
 } from "../../../../constants/colorPallete";
 import PrimaryButton from "../../../../CommonComponents/PrimaryButton/PrimaryButton";
+import getLocaleString from "../../../../Services/getLocaleString/getLocaleString";
 
-const ItineraryDetail = () => {
+export interface ItineraryDetailProps {
+  departureDate: string;
+  departingFrom: string;
+  costedDate: string;
+  costedTime: string;
+  totalCost: number;
+  numOfRooms: number;
+  adults: number;
+  children: number;
+  travellingAs: string;
+}
+
+const ItineraryDetail = ({
+  departureDate,
+  departingFrom,
+  costedDate,
+  costedTime,
+  totalCost,
+  numOfRooms,
+  adults,
+  children,
+  travellingAs
+}: ItineraryDetailProps) => {
   return (
     <View style={styles.itineraryDetailContainer}>
       <Text style={styles.headingTextStyle}>Trip Details</Text>
 
       <View style={styles.detailList}>
         <Text style={styles.titleTextStyle}>DEPARTING ON</Text>
-        <Text style={styles.textStyle}>20 January 2020</Text>
+        <Text style={styles.textStyle}>{departureDate}</Text>
       </View>
 
       <View style={styles.detailList}>
         <Text style={styles.titleTextStyle}>DEPARTING FROM</Text>
-        <Text style={styles.textStyle}>Chennai (MAA)</Text>
+        <Text style={styles.textStyle}>{departingFrom}</Text>
       </View>
 
       <View style={styles.detailList}>
         <Text style={styles.titleTextStyle}>TRAVELLING AS</Text>
-        <Text style={styles.textStyle}>Family</Text>
+        <Text style={styles.textStyle}>{travellingAs}</Text>
       </View>
 
       <View style={styles.detailList}>
         <Text style={styles.titleTextStyle}>ROOM DETAILS</Text>
-        <Text style={styles.textStyle}>2 rooms - 4 adults, 2 children</Text>
+        <Text style={styles.textStyle}>{`${
+          numOfRooms ? numOfRooms + " rooms - " : ""
+        } ${adults ? adults + " adults" : ""} ${
+          children ? ", " + children + " children" : ""
+        }`}</Text>
       </View>
 
       <View style={[styles.detailList, styles.mbottomSmall]}>
         <Text style={styles.titleTextStyle}>
-          PRICE AS ON 19 DEC, 2019 | 21:32 HRS
+          {`PRICE AS ON ${costedDate || ""} | ${costedTime || ""} HRS`}
         </Text>
-        <Text style={styles.textStyle}>₹ 4,34,440</Text>
+        <Text style={styles.textStyle}>
+          {totalCost ? getLocaleString(totalCost) : "NA"}
+        </Text>
       </View>
 
+      {/**
+       * PT TODO: Costing function needed here...
+       */}
       <PrimaryButton
         text={"Get latest cost"}
         clickAction={() => {}}
