@@ -1,11 +1,15 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useRef, useCallback } from "react";
 import { StyleSheet, SectionList, SafeAreaView, Text } from "react-native";
 import {
   SCREEN_NOTIFICATION_TAB,
   SCREEN_PRETRIP_HOME_TABS,
   SCREEN_NOTIFICATION_DETAILS
 } from "../../NavigatorsV2/ScreenNames";
-import { CompositeNavigationProp, RouteProp } from "@react-navigation/native";
+import {
+  CompositeNavigationProp,
+  RouteProp,
+  useFocusEffect
+} from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { AppNavigatorParamsType } from "../../NavigatorsV2/AppNavigator";
 import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
@@ -83,13 +87,15 @@ const Notifications = ({ navigation }: NotificationsScreenProps) => {
 
   const [savedItineraryApiDetails, loadItineraries] = useSavedItinerariesApi();
 
-  useEffect(() => {
-    loadItineraries();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   const { successResponseData } = savedItineraryApiDetails;
   const { data: savedItineraries = [] } = successResponseData || {};
+
+  useFocusEffect(
+    useCallback(() => {
+      loadItineraries();
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
+  );
 
   useDeepCompareEffect(() => {
     const newSectionData: ISectionData[] = savedItineraries.reduce(
