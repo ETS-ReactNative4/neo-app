@@ -15,3 +15,13 @@ export const SCREEN_PROMO_PAGE = "Promo";
 export const SCREEN_LISTING_PAGE = "ListingPage";
 export const SCREEN_MODAL_STACK = "ModalStack";
 export const SCREEN_STORY_BOOK = "StoryBook";
+
+/**
+ * Screens from the post booking app
+ */
+export const SCREEN_POST_BOOKING_HOME = "BookedItineraryTabs";
+export const SCREEN_TRIP_FEED_TAB = "TripFeedHome";
+export const SCREEN_BOOKING_TAB = "Bookings";
+export const SCREEN_SUPPORT_TAB = "Support";
+export const SCREEN_TOOLS_TAB = "Tools";
+export const SCREEN_JOURNAL_TAB = "JournalHome";

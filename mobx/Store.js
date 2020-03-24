@@ -12,7 +12,7 @@ import Phrases from "./Phrases";
 import Info from "./Info";
 import EmergencyContacts from "./EmergencyContacts";
 import PassportDetails from "./PassportDetails";
-import Visa from "./Visa";
+// import Visa from "./Visa";
 import Places from "./Places";
 import SupportStore from "./SupportStore";
 import TripFeed from "./TripFeed";
@@ -44,7 +44,10 @@ const createStore = () => {
     infoStore: new Info(),
     emergencyContactsStore: new EmergencyContacts(),
     passportDetailsStore: new PassportDetails(),
-    visaStore: new Visa(),
+    /**
+     * PT TODO: For some reason visa is not working!
+     */
+    visaStore: new Places(),
     placesStore: new Places(),
     supportStore: new SupportStore(),
     tripFeedStore: new TripFeed(),
@@ -166,7 +169,7 @@ const createStore = () => {
     .catch(err => {
       logError(err);
     });
-  Visa.hydrator(appStore.visaStore);
+  // Visa.hydrator(appStore.visaStore);
   SupportStore.hydrator(appStore.supportStore);
   Forex.hydrator(appStore.forexStore);
   DeviceDetails.hydrator(appStore.deviceDetailsStore);
