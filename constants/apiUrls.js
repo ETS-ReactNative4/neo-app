@@ -76,6 +76,7 @@ export const CONSTANT_getPackagesDetails = "packages";
 export const CONSTANT_getYourTrips = "mobile/yourtrips";
 export const CONSTANT_getItineraryDetails = "mobile/itineraryDetails";
 export const CONSTANT_savedItineraryDetails = "user/savedItinerariesnew";
+export const CONSTANT_userStateDetails = "user/state";
 export const CONSTANT_getFinalVoucherDownloadUrl =
   "mobile/:itineraryId/getFinalVoucherUrl";
 export const CONSTANT_getNotificationDetails =
