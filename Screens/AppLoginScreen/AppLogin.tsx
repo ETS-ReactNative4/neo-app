@@ -51,6 +51,7 @@ import {
   SCREEN_EXPLORE_PAGE
 } from "../../NavigatorsV2/ScreenNames";
 import { StackNavigationProp } from "@react-navigation/stack";
+import { observer, inject } from "mobx-react";
 import { AppNavigatorParamsType } from "../../NavigatorsV2/AppNavigator";
 import LoginInputField from "./Components/LoginInputField";
 import PrimaryButton from "../../CommonComponents/PrimaryButton/PrimaryButton";
@@ -69,6 +70,10 @@ import DebouncedAlert from "../../CommonComponents/DebouncedAlert/DebouncedAlert
 import { RouteProp } from "@react-navigation/native";
 import launchPretripHome from "../../Services/launchPretripHome/launchPretripHome";
 import TranslucentStatusBar from "../../CommonComponents/TranslucentStatusBar/TranslucentStatusBar";
+import resetToWelcomeFlow from "../../Services/resetToWelcomeFlow/resetToWelcomeFlow";
+import YourBookings from "../../mobx/YourBookings";
+import launchPostBookingV2 from "../../Services/launchPostBookingV2/launchPostBookingV2";
+import storeService from "../../Services/storeService/storeService";
 
 type screenName = typeof SCREEN_APP_LOGIN;
 
@@ -82,9 +87,10 @@ export type StarterScreenNavigationProp = StackNavigationProp<
 export interface IAppLoginProps {
   navigation: StarterScreenNavigationProp;
   route: StarterScreenRouteProp;
+  yourBookingsStore: YourBookings;
 }
 
-const AppLogin = ({ navigation, route }: IAppLoginProps) => {
+const AppLogin = ({ navigation, route, yourBookingsStore }: IAppLoginProps) => {
   const [isVideoReady, setVideoStatus] = useState(false);
   const [
     { phoneNumber, countryCode, countryFlag, code, name, email },
@@ -218,6 +224,7 @@ const AppLogin = ({ navigation, route }: IAppLoginProps) => {
     navigation.setOptions({
       headerShown: false
     });
+    storeService.welcomeStateStore.loadWelcomeState();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -269,6 +276,20 @@ const AppLogin = ({ navigation, route }: IAppLoginProps) => {
     const { resetTarget } = route.params;
     if (resetTarget === SCREEN_EXPLORE_PAGE) {
       navigation.dispatch(launchPretripHome());
+    } else {
+      yourBookingsStore
+        .getUpcomingItineraries()
+        .then(() => {
+          if (yourBookingsStore.hasUpcomingItineraries) {
+            navigation.dispatch(launchPostBookingV2());
+          } else {
+            navigation.dispatch(resetToWelcomeFlow());
+          }
+        })
+        .catch(() => {
+          logError("Failed to load upcoming itineraries at login");
+          navigation.dispatch(resetToWelcomeFlow());
+        });
     }
   };
 
@@ -473,4 +494,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default ErrorBoundary()(AppLogin);
+export default ErrorBoundary()(inject("yourBookingsStore")(observer(AppLogin)));

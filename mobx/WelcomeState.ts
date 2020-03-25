@@ -89,10 +89,11 @@ class WelcomeState {
         {
           [key]: value
         },
-        "POST"
+        "PUT"
       )
         .then((response: IMobileServerResponse) => {
           resolve(response.status === CONSTANT_responseSuccessStatus);
+          this.loadWelcomeState();
         })
         .catch(reject);
     });
