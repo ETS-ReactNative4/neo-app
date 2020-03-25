@@ -8847,10 +8847,10 @@ react-native-reanimated@1.7.0:
   resolved "https://registry.yarnpkg.com/react-native-reanimated/-/react-native-reanimated-1.7.0.tgz#896db2576552ac59d288a1f6c7f00afc171f240c"
   integrity sha512-FQWSqP605eQVJumuK2HpR+7heF0ZI+qfy4jNguv3Xv8nPFHeIgZaRTXHCEQL2AcuSIj50zy8jGJf5l134QMQWQ==
 
-react-native-responsive-dimensions@2.0.1:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/react-native-responsive-dimensions/-/react-native-responsive-dimensions-2.0.1.tgz#64e2064d7e9a2506f10ab7fa7422e8aa64c41d6b"
-  integrity sha512-fVSJEfwR353IvNSLtwwv7asAU4BAqd/wXQWeiyKyasn5pqpn/X0w0u7Tc0QWwsQch8lywz3npMjMThXgXkptuQ==
+react-native-responsive-dimensions@3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/react-native-responsive-dimensions/-/react-native-responsive-dimensions-3.1.0.tgz#0865385e843103bceaa68ca547127c4bba0fc2af"
+  integrity sha512-28k5O4IrcSMqChUoeg0PLhCFUETg+BHw/DXjb5YTPMLF37tBsYKCSA8XM1lKceU99afkmnl6htKWlnEfks6PZw==
 
 react-native-restart@0.0.13:
   version "0.0.13"
