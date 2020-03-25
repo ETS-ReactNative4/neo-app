@@ -17,6 +17,7 @@ import DebouncedAlert from "../../CommonComponents/DebouncedAlert/DebouncedAlert
 import { CONSTANT_travelProfileFailureText } from "../../constants/appText";
 import { CONSTANT_white1 } from "../../constants/colorPallete";
 import skipUserProfileBuilder from "../../Services/skipUserProfileBuilder/skipUserProfileBuilder";
+import WelcomeState from "../../mobx/WelcomeState";
 
 type screenName = typeof SCREEN_TRAVEL_PROFILE_WELCOME;
 
@@ -27,16 +28,22 @@ export type StarterScreenNavigationProp = StackNavigationProp<
 
 export interface TravelProfileWelcomeProps {
   navigation: StarterScreenNavigationProp;
+  welcomeStateStore: WelcomeState;
   travelProfileStore: TravelProfile;
 }
 
 const TravelProfileWelcomeComponent = ({
   travelProfileStore,
+  welcomeStateStore,
   navigation
 }: TravelProfileWelcomeProps) => {
   const actionSheetRef = useRef<IInteractable>();
 
   const skipFlow = () => {
+    welcomeStateStore.patchWelcomeState(
+      "skippedAt",
+      SCREEN_TRAVEL_PROFILE_WELCOME
+    );
     navigation.dispatch(skipUserProfileBuilder());
   };
 
@@ -49,6 +56,7 @@ const TravelProfileWelcomeComponent = ({
     travelProfileStore.updateTravelProfileData({
       firstTimeTraveller: isPositive
     });
+    welcomeStateStore.patchWelcomeState("seenWelcomeScreen", true);
     navigation.navigate(SCREEN_TRAVEL_COUNTRY_PICKER, {
       isPositive
     });
@@ -108,7 +116,9 @@ const styles = StyleSheet.create({
 });
 
 const TravelProfileWelcome = ErrorBoundary()(
-  inject("travelProfileStore")(observer(TravelProfileWelcomeComponent))
+  inject("welcomeStateStore")(
+    inject("travelProfileStore")(observer(TravelProfileWelcomeComponent))
+  )
 );
 
 export default TravelProfileWelcome;

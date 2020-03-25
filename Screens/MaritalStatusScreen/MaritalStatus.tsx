@@ -27,6 +27,7 @@ import ratioCalculator from "../../Services/ratioCalculator/ratioCalculator";
 import { CONSTANT_white1 } from "../../constants/colorPallete";
 import launchPretripHome from "../../Services/launchPretripHome/launchPretripHome";
 import skipUserProfileBuilder from "../../Services/skipUserProfileBuilder/skipUserProfileBuilder";
+import WelcomeState from "../../mobx/WelcomeState";
 
 const { createAnimatableComponent } = Animatable;
 
@@ -47,6 +48,7 @@ export interface IMaritalStatusData {
 export interface MaritalStatusProps {
   navigation: MaritalStatusScreenNavigationProp;
   travelProfileStore: TravelProfile;
+  welcomeStateStore: WelcomeState;
 }
 
 export interface IMaritalStatusOptions {
@@ -75,7 +77,8 @@ const MARITAL_STATUS_CARD_HEIGHT = ratioCalculator(
 
 const MaritalStatusComponent = ({
   navigation,
-  travelProfileStore
+  travelProfileStore,
+  welcomeStateStore
 }: MaritalStatusProps) => {
   const {
     maritalStatusOptions,
@@ -137,6 +140,10 @@ const MaritalStatusComponent = ({
   };
 
   const skipFlow = () => {
+    welcomeStateStore.patchWelcomeState(
+      "skippedAt",
+      SCREEN_TRAVEL_MARITAL_STATUS
+    );
     navigation.dispatch(skipUserProfileBuilder());
   };
 
@@ -145,6 +152,7 @@ const MaritalStatusComponent = ({
   };
 
   const continueFlow = () => {
+    welcomeStateStore.patchWelcomeState("seenMaritalStatus", true);
     travelProfileStore.updateTravelProfileData({
       travellingWith: travellingWithOptionsData
         .filter(option => option.isSelected)
@@ -250,7 +258,9 @@ const MaritalStatusComponent = ({
 };
 
 const MaritalStatus = ErrorBoundary()(
-  inject("travelProfileStore")(observer(MaritalStatusComponent))
+  inject("welcomeStateStore")(
+    inject("travelProfileStore")(observer(MaritalStatusComponent))
+  )
 );
 
 const styles = StyleSheet.create({
