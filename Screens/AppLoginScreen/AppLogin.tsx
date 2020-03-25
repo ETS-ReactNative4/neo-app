@@ -39,7 +39,6 @@ import useMobileNumberApi from "./hooks/useMobileNumberApi";
 import { validateLoginMobileNumber } from "../../Services/validateMobileNumber/validateMobileNumber";
 import DismissKeyboardView from "../../CommonComponents/DismissKeyboardView/DismissKeyboardView";
 import { toastCenter } from "../../Services/toast/toast";
-import moment from "moment";
 import Video from "react-native-video";
 import {
   responsiveHeight,
@@ -124,9 +123,19 @@ const AppLogin = ({ navigation, route }: IAppLoginProps) => {
     updateCountryFlag(flagEmoji);
   };
 
-  const onResend = () => {};
+  const onResend = () => {
+    requestOtp();
+  };
 
-  const onTimeout = () => setIsTimedOut(true);
+  const onTimeout = () => {
+    DebouncedAlert("Oops!", "OTP Time out!", [
+      {
+        text: "Okay",
+        onPress: () => closeOtpPanel()
+      }
+    ]);
+    setIsTimedOut(true);
+  };
 
   const submitPhoneNumber = async () => {
     setPhoneSubmitAttempt(true);
@@ -153,10 +162,17 @@ const AppLogin = ({ navigation, route }: IAppLoginProps) => {
     otpPanelRef.current && otpPanelRef.current.snapTo({ index: 1 });
   };
 
+  const closeOtpPanel = () => {
+    // @ts-ignore
+    otpPanelRef.current && otpPanelRef.current.snapTo({ index: 2 });
+  };
+
   /**
    * event handler whne otp panel is closed...
    */
-  const otpPanelClosed = () => {};
+  const otpPanelClosed = () => {
+    updateCode("");
+  };
 
   const gradientOptions = {
     locations: [0.25, 0.5, 0.7, 1],
@@ -280,7 +296,12 @@ const AppLogin = ({ navigation, route }: IAppLoginProps) => {
           toastCenter("Login Failed");
         });
     } else if (loginFailureData?.data?.otpStatus === "VERIFICATIONFAILED") {
-      DebouncedAlert("Invalid OTP", "Please try again ☹️");
+      DebouncedAlert("Invalid OTP", "Please try again ☹️", [
+        {
+          text: "Okay",
+          onPress: () => closeOtpPanel()
+        }
+      ]);
     }
   }, [loginSuccessData, loginFailureData]);
 
@@ -391,8 +412,6 @@ const AppLogin = ({ navigation, route }: IAppLoginProps) => {
         <OtpPanel
           code={code}
           updateCode={updateCode}
-          requestTime={moment(1580987401597)}
-          // @ts-ignore - temp disabled until otp panel is complete
           expiryTime={otpApiDetails.successResponseData?.data?.otpExpiresIn}
           containerStyle={styles.otpContainer}
           onResend={onResend}

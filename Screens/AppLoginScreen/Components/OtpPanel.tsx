@@ -20,7 +20,7 @@ export interface OtpPanelProps {
   onCodeFilled: (code: string) => any;
   updateCode: (code: string) => any;
   code: string;
-  expiryTime: number;
+  expiryTime?: number;
   onTimedOut: () => any;
   isTimedOut: boolean;
 }
@@ -39,6 +39,9 @@ const OtpPanel = ({
     if (expiryTime) {
       const difference = moment(expiryTime).diff(moment());
       if (difference <= 0) {
+        /**
+         * PT TODO - Timeout not tested yet
+         */
         onTimedOut();
       }
       return `${Math.floor(moment.duration(difference).asMinutes())
@@ -62,8 +65,7 @@ const OtpPanel = ({
       }, 1000);
     }
     return () => clearTimeout(timer);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [timeLeft, isTimedOut]);
+  });
 
   return (
     <DismissKeyboardView style={[styles.otpPanelContainer, containerStyle]}>
