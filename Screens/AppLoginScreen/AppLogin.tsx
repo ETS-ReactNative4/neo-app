@@ -220,8 +220,8 @@ const AppLogin = ({ navigation, route }: IAppLoginProps) => {
 
   const requestOtp = async () => {
     const result = await makeOtpRequestCall({
-      countryPhoneCode: countryCode,
-      mobileNumber: phoneNumber,
+      ccode: countryCode,
+      mob_num: phoneNumber,
       factors: ["SMS", "EMAIL"]
     });
     if (result) {
