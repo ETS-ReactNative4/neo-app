@@ -62,16 +62,7 @@ const createStore = () => {
     travelProfileStore: new TravelProfile()
   };
 
-  hydrate("_upcomingItineraries", appStore.yourBookingsStore)
-    .then(() => {})
-    .catch(err => {
-      logError(err);
-    });
-  hydrate("_completedItineraries", appStore.yourBookingsStore)
-    .then(() => {})
-    .catch(err => {
-      logError(err);
-    });
+  YourBookings.hydrator(appStore.yourBookingsStore);
   Itineraries.hydrator(appStore.itineraries);
   AppState.hydrator(appStore.appState);
   hydrate("_vouchers", appStore.voucherStore)

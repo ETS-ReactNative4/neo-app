@@ -17,7 +17,7 @@ export const updateNavigationService = (
  * Official React Navigation V5 docs
  * https://reactnavigation.org/docs/en/navigating-without-navigation-prop.html
  */
-const navigationServiceV2 = (name: string, params: object) => {
+const navigationServiceV2 = (name: string, params: object = {}) => {
   const { navigator } = navigationObject;
   navigator?.current?.navigate(name, params);
 };
