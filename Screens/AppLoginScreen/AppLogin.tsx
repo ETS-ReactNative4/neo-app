@@ -256,16 +256,13 @@ const AppLogin = ({ navigation, route, yourBookingsStore }: IAppLoginProps) => {
 
   const codeFilled = async (otp: string) => {
     try {
-      const result = await loginUser({
+      await loginUser({
         countryPhoneCode: countryCode,
         mobileNumber: phoneNumber,
         otp,
         otpDetailsId:
           otpApiDetails.successResponseData?.data?.otpDetailsId || ""
       });
-      if (result) {
-        continueFlow();
-      }
     } catch (e) {
       toastCenter("Login Failed");
     }
@@ -273,7 +270,7 @@ const AppLogin = ({ navigation, route, yourBookingsStore }: IAppLoginProps) => {
 
   const continueFlow = () => {
     // PT TODO: Launch Post booking flow goes here once old screen wiring is done
-    const { resetTarget } = route.params;
+    const { resetTarget } = route.params || {};
     if (resetTarget === SCREEN_EXPLORE_PAGE) {
       navigation.dispatch(launchPretripHome());
     } else {
@@ -283,12 +280,16 @@ const AppLogin = ({ navigation, route, yourBookingsStore }: IAppLoginProps) => {
           if (yourBookingsStore.hasUpcomingItineraries) {
             navigation.dispatch(launchPostBookingV2());
           } else {
-            navigation.dispatch(resetToWelcomeFlow());
+            resetToWelcomeFlow().then(resetAction => {
+              navigation.dispatch(resetAction);
+            });
           }
         })
         .catch(() => {
           logError("Failed to load upcoming itineraries at login");
-          navigation.dispatch(resetToWelcomeFlow());
+          resetToWelcomeFlow().then(resetAction => {
+            navigation.dispatch(resetAction);
+          });
         });
     }
   };
@@ -307,7 +308,7 @@ const AppLogin = ({ navigation, route, yourBookingsStore }: IAppLoginProps) => {
       registerTokenV2(loginSuccessData.data?.authToken || "")
         .then(isTokenStored => {
           if (isTokenStored) {
-            // TODO - Do Login transition here...
+            continueFlow();
           } else {
             toastCenter("Login Failed");
           }

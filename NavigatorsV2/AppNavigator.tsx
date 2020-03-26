@@ -42,7 +42,7 @@ export type AppNavigatorParamsType = {
   [SCREEN_POST_BOOKING_HOME]: BottomTabNavigationProp<PostBookingHomeTabsType>;
   [SCREEN_APP_LOGIN]: {
     // PT TODO: create an enum from list of screens that are allowed transition from loginScreen
-    resetTarget: typeof SCREEN_EXPLORE_PAGE;
+    resetTarget?: typeof SCREEN_EXPLORE_PAGE;
   };
   [SCREEN_STARTER]: undefined;
   [SCREEN_TRAVEL_PROFILE_WELCOME]: undefined;

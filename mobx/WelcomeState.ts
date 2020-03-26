@@ -25,8 +25,14 @@ export interface IWelcomeState {
     | boolean;
 }
 
+export interface IStateData {
+  userId: string;
+  itineraryId?: string;
+  state: IWelcomeState;
+}
+
 export interface IWelcomeStateApiResponse extends IMobileServerResponse {
-  data: IWelcomeState;
+  data: IStateData[];
 }
 
 class WelcomeState {
@@ -68,8 +74,12 @@ class WelcomeState {
       apiCall(CONSTANT_userStateDetails, {}, "GET")
         .then((response: IWelcomeStateApiResponse) => {
           if (response.status === CONSTANT_responseSuccessStatus) {
-            this._welcomeState = response.data;
-            resolve(true);
+            if (response.data.length) {
+              this._welcomeState = response.data[0].state;
+              resolve(true);
+            } else {
+              resolve(false);
+            }
           } else {
             resolve(false);
           }

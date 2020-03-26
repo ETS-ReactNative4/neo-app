@@ -52,10 +52,10 @@ const App = () => {
 
   useEffect(() => {
     appLauncherV2()
-      .then(() => {
+      .catch(() => {
         RNBootSplash.hide();
       })
-      .catch(() => {
+      .finally(() => {
         RNBootSplash.hide();
       });
 
