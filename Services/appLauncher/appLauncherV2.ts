@@ -7,8 +7,10 @@ import hasUpcomingTrips from "./launchCheckpoints/hasUpcomingTrips";
 import isPreTripWelcomePending from "./launchCheckpoints/isPreTripWelcomePending";
 import resetToWelcomeFlow from "../resetToWelcomeFlow/resetToWelcomeFlow";
 import launchPretripHome from "../launchPretripHome/launchPretripHome";
+// import * as Keychain from "react-native-keychain";
 
 const appLauncherV2 = () => {
+  // Keychain.resetGenericPassword()
   return new Promise<boolean>((resolve, reject) => {
     isUserLoggedIn()
       .then(isLoggedIn => {
