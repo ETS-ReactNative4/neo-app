@@ -1,4 +1,7 @@
-import { NavigationContainerRef } from "@react-navigation/native";
+import {
+  NavigationContainerRef,
+  CommonActions
+} from "@react-navigation/native";
 
 export interface INavigationObject {
   navigator?: React.MutableRefObject<NavigationContainerRef>;
@@ -10,6 +13,11 @@ export const updateNavigationService = (
   navRef: React.MutableRefObject<NavigationContainerRef>
 ) => {
   navigationObject.navigator = navRef;
+};
+
+export const navigationDispatcher = (action: CommonActions.Action) => {
+  const { navigator } = navigationObject;
+  navigator?.current?.dispatch(action);
 };
 
 /**

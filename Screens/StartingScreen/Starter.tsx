@@ -15,10 +15,7 @@ import { inject, observer } from "mobx-react";
 import { recordEvent } from "../../Services/analytics/analyticsService";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import openCustomTab from "../../Services/openCustomTab/openCustomTab";
-import {
-  responsiveWidth
-  // @ts-ignore
-} from "react-native-responsive-dimensions";
+import { responsiveWidth } from "react-native-responsive-dimensions";
 import StarterAnimation from "./Components/StarterAnimation";
 import BootAnimation from "./Components/BootAnimation";
 import AppState from "../../mobx/AppState";

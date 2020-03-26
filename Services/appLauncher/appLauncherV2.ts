@@ -1,7 +1,12 @@
-import navigationServiceV2 from "../navigationService/navigationServiceV2";
+import navigationServiceV2, {
+  navigationDispatcher
+} from "../navigationService/navigationServiceV2";
 import isUserLoggedIn from "../isUserLoggedIn/isUserLoggedIn";
 import { SCREEN_STARTER } from "../../NavigatorsV2/ScreenNames";
 import hasUpcomingTrips from "./launchCheckpoints/hasUpcomingTrips";
+import isPreTripWelcomePending from "./launchCheckpoints/isPreTripWelcomePending";
+import resetToWelcomeFlow from "../resetToWelcomeFlow/resetToWelcomeFlow";
+import launchPretripHome from "../launchPretripHome/launchPretripHome";
 
 const appLauncherV2 = () => {
   return new Promise<boolean>((resolve, reject) => {
@@ -20,9 +25,19 @@ const appLauncherV2 = () => {
                 resolve();
               } else {
                 /**
-                 * No upcoming trips go to the state saver flow
+                 * No upcoming trips go to the state saver based welcome flow
                  */
-                resolve();
+                isPreTripWelcomePending().then(isWelcomePending => {
+                  if (isWelcomePending) {
+                    resetToWelcomeFlow().then(resetAction => {
+                      navigationDispatcher(resetAction);
+                      setTimeout(() => resolve(), 100);
+                    });
+                  } else {
+                    navigationDispatcher(launchPretripHome());
+                    setTimeout(() => resolve(), 100);
+                  }
+                });
               }
             })
             .catch(reject);
