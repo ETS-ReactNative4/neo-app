@@ -25,3 +25,4 @@ export const SCREEN_BOOKING_TAB = "Bookings";
 export const SCREEN_SUPPORT_TAB = "Support";
 export const SCREEN_TOOLS_TAB = "Tools";
 export const SCREEN_JOURNAL_TAB = "JournalHome";
+export const SCREEN_YOUR_BOOKINGS = "YourBookings";

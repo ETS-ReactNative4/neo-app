@@ -16,7 +16,8 @@ import {
   SCREEN_MODAL_STACK,
   SCREEN_NOTIFICATION_DETAILS,
   SCREEN_NOTIFICATION_FAQ,
-  SCREEN_POST_BOOKING_HOME
+  SCREEN_POST_BOOKING_HOME,
+  SCREEN_YOUR_BOOKINGS
 } from "./ScreenNames";
 import AppLogin from "../Screens/AppLoginScreen/AppLogin";
 import Starter from "../Screens/StartingScreen/Starter";
@@ -35,6 +36,7 @@ import NotificationsFaq from "../Screens/NotificationsFaqScreen/NotificationsFaq
 import PostBookingHomeTabs, {
   PostBookingHomeTabsType
 } from "./PostBookingHomeTabs";
+import YourBookings from "../Screens/YourBookingsScreen/YourBookings";
 
 export type AppNavigatorParamsType = {
   [SCREEN_MODAL_STACK]: StackNavigationProp<ModalNavigatorParamsType>;
@@ -59,6 +61,7 @@ export type AppNavigatorParamsType = {
   [SCREEN_NOTIFICATION_FAQ]: {
     itineraryId: string;
   };
+  [SCREEN_YOUR_BOOKINGS]: undefined;
 };
 
 const Stack = createStackNavigator<AppNavigatorParamsType>();
@@ -122,6 +125,13 @@ const AppNavigator = () => {
         />
         <Screen name={SCREEN_NOTIFICATION_FAQ} component={NotificationsFaq} />
         <Screen name={SCREEN_STORY_BOOK} component={StorybookUIRoot} />
+        <Screen
+          name={SCREEN_YOUR_BOOKINGS}
+          options={{
+            headerShown: false
+          }}
+          component={YourBookings}
+        />
       </Navigator>
     </Fragment>
   );

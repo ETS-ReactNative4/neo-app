@@ -75,6 +75,7 @@ import YourBookings from "../../mobx/YourBookings";
 import launchPostBookingV2 from "../../Services/launchPostBookingV2/launchPostBookingV2";
 import storeService from "../../Services/storeService/storeService";
 import Itineraries from "../../mobx/Itineraries";
+import launchItinerarySelector from "../../Services/launchItinerarySelector/launchItinerarySelector";
 
 type screenName = typeof SCREEN_APP_LOGIN;
 
@@ -306,6 +307,7 @@ const AppLogin = ({
       .getUpcomingItineraries()
       .then(itinerariesArray => {
         if (itinerariesArray.length > 1) {
+          navigation.dispatch(launchItinerarySelector());
         } else {
           const itineraryId: string = itinerariesArray[0].itineraryId;
           itineraries

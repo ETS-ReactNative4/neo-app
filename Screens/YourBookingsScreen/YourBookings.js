@@ -5,13 +5,10 @@ import Upcoming from "./Components/Upcoming";
 import CloseYourBookingsButton from "./Components/CloseYourBookingsButton";
 import { inject, observer } from "mobx-react";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
-import { NavigationActions } from "react-navigation";
+// import { NavigationActions } from "react-navigation";
 import PropTypes from "prop-types";
 
-const resetAction = NavigationActions.navigate({
-  routeName: "AppHome",
-  action: NavigationActions.navigate({ routeName: "NewItineraryStack" })
-});
+const resetAction = () => null;
 
 @ErrorBoundary({ isRoot: true })
 @inject("appState")
