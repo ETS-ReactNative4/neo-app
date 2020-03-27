@@ -8,7 +8,7 @@ import { recordEvent } from "../../../Services/analytics/analyticsService";
 import CustomScrollView from "../../../CommonComponents/CustomScrollView/CustomScrollView";
 import EmptyScreenPlaceholder from "../../../CommonComponents/EmptyScreenPlaceholder/EmptyScreenPlaceholder";
 import DebouncedAlert from "../../../CommonComponents/DebouncedAlert/DebouncedAlert";
-import launchPostBooking from "../../../Services/launchPostBooking/launchPostBooking";
+// import launchPostBooking from "../../../Services/launchPostBooking/launchPostBooking";
 
 @inject("appState")
 @inject("itineraries")
@@ -33,11 +33,12 @@ class Upcoming extends Component {
     selectItinerary(itineraryId)
       .then(selectedItineraryId => {
         const routeName = this.props.navigation.state.routeName;
-        launchPostBooking(
-          routeName,
-          this.props.navigation,
-          selectedItineraryId
-        );
+        console.log(selectedItineraryId, routeName);
+        // launchPostBooking(
+        //   routeName,
+        //   this.props.navigation,
+        //   selectedItineraryId
+        // );
       })
       .catch(() => {
         DebouncedAlert("Error!", "Unable to fetch Itinerary Details...");

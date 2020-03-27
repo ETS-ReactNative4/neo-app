@@ -74,6 +74,8 @@ import resetToWelcomeFlow from "../../Services/resetToWelcomeFlow/resetToWelcome
 import YourBookings from "../../mobx/YourBookings";
 import launchPostBookingV2 from "../../Services/launchPostBookingV2/launchPostBookingV2";
 import storeService from "../../Services/storeService/storeService";
+import Itineraries from "../../mobx/Itineraries";
+import launchItinerarySelector from "../../Services/launchItinerarySelector/launchItinerarySelector";
 
 type screenName = typeof SCREEN_APP_LOGIN;
 
@@ -88,9 +90,15 @@ export interface IAppLoginProps {
   navigation: StarterScreenNavigationProp;
   route: StarterScreenRouteProp;
   yourBookingsStore: YourBookings;
+  itineraries: Itineraries;
 }
 
-const AppLogin = ({ navigation, route, yourBookingsStore }: IAppLoginProps) => {
+const AppLogin = ({
+  navigation,
+  route,
+  yourBookingsStore,
+  itineraries
+}: IAppLoginProps) => {
   const [isVideoReady, setVideoStatus] = useState(false);
   const [
     { phoneNumber, countryCode, countryFlag, code, name, email },
@@ -278,7 +286,7 @@ const AppLogin = ({ navigation, route, yourBookingsStore }: IAppLoginProps) => {
         .getUpcomingItineraries()
         .then(() => {
           if (yourBookingsStore.hasUpcomingItineraries) {
-            navigation.dispatch(launchPostBookingV2());
+            preparePostBookingFlow();
           } else {
             resetToWelcomeFlow().then(resetAction => {
               navigation.dispatch(resetAction);
@@ -292,6 +300,25 @@ const AppLogin = ({ navigation, route, yourBookingsStore }: IAppLoginProps) => {
           });
         });
     }
+  };
+
+  const preparePostBookingFlow = () => {
+    yourBookingsStore
+      .getUpcomingItineraries()
+      .then(itinerariesArray => {
+        if (itinerariesArray.length > 1) {
+          navigation.dispatch(launchItinerarySelector());
+        } else {
+          const itineraryId: string = itinerariesArray[0].itineraryId;
+          itineraries
+            .selectItinerary(itineraryId)
+            .then(() => {
+              navigation.dispatch(launchPostBookingV2());
+            })
+            .catch(logError);
+        }
+      })
+      .catch(logError);
   };
 
   /**
@@ -495,4 +522,6 @@ const styles = StyleSheet.create({
   }
 });
 
-export default ErrorBoundary()(inject("yourBookingsStore")(observer(AppLogin)));
+export default ErrorBoundary()(
+  inject("itineraries")(inject("yourBookingsStore")(observer(AppLogin)))
+);
