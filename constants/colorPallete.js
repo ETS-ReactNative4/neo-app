@@ -166,6 +166,8 @@ export const CONSTANT_twentyFirstColor = `rgba(11, 109, 77, 1)`;
 export const CONSTANT_twentySecondColor = `rgba(60, 143, 115, 1)`;
 export const CONSTANT_twentyThirdColor = `rgba(0, 198, 132, 1)`;
 export const CONSTANT_twentyFourthColor = `rgba(40, 121, 94, 1)`;
+export const CONSTANT_twentyFifthColor = `rgba(41, 168, 149, 1)`;
+export const CONSTANT_twentySixthColor = `rgba(242, 153, 130, 1)`;
 export const CONSTANT_themeDarkBlue = `rgba(80, 138, 232, 1)`;
 
 export const CONSTANT_firstColorAlpha = alpha => `rgba(0, 198, 132, ${alpha})`;

@@ -4,7 +4,7 @@ import ParallaxScrollView from "../../CommonComponents/ParallaxScrollView/Parall
 import getImgIXUrl from "../../Services/getImgIXUrl/getImgIXUrl";
 import BlankSpacer from "../../CommonComponents/BlankSpacer/BlankSpacer";
 import PromoContent from "./Components/PromoContent";
-import BottomButtonBar from "../../CommonComponents/BottomButtonBar.js/BottomButtonBar";
+import BottomButtonBar from "../../CommonComponents/BottomButtonBar/BottomButtonBar";
 
 export interface PromoLandingProps {}
 
