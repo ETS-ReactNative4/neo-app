@@ -96,7 +96,7 @@
     "react-native-progress": "git://github.com/DaniAkash/react-native-progress.git#393452c9c62a442e48854cff07a3411ed022239c",
     "react-native-ratings": "^6.0.0",
     "react-native-reanimated": "1.7.0",
-    "react-native-responsive-dimensions": "2.0.1",
+    "react-native-responsive-dimensions": "3.1.1",
     "react-native-restart": "0.0.13",
     "react-native-safe-area-context": "0.7.3",
     "react-native-screens": "2.0.0-beta.6",

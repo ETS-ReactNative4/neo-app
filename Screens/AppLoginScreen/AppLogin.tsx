@@ -39,7 +39,6 @@ import useMobileNumberApi from "./hooks/useMobileNumberApi";
 import { validateLoginMobileNumber } from "../../Services/validateMobileNumber/validateMobileNumber";
 import DismissKeyboardView from "../../CommonComponents/DismissKeyboardView/DismissKeyboardView";
 import { toastCenter } from "../../Services/toast/toast";
-import moment from "moment";
 import Video from "react-native-video";
 import {
   responsiveHeight,
@@ -52,6 +51,7 @@ import {
   SCREEN_EXPLORE_PAGE
 } from "../../NavigatorsV2/ScreenNames";
 import { StackNavigationProp } from "@react-navigation/stack";
+import { observer, inject } from "mobx-react";
 import { AppNavigatorParamsType } from "../../NavigatorsV2/AppNavigator";
 import LoginInputField from "./Components/LoginInputField";
 import PrimaryButton from "../../CommonComponents/PrimaryButton/PrimaryButton";
@@ -70,6 +70,10 @@ import DebouncedAlert from "../../CommonComponents/DebouncedAlert/DebouncedAlert
 import { RouteProp } from "@react-navigation/native";
 import launchPretripHome from "../../Services/launchPretripHome/launchPretripHome";
 import TranslucentStatusBar from "../../CommonComponents/TranslucentStatusBar/TranslucentStatusBar";
+import resetToWelcomeFlow from "../../Services/resetToWelcomeFlow/resetToWelcomeFlow";
+import YourBookings from "../../mobx/YourBookings";
+import launchPostBookingV2 from "../../Services/launchPostBookingV2/launchPostBookingV2";
+import storeService from "../../Services/storeService/storeService";
 
 type screenName = typeof SCREEN_APP_LOGIN;
 
@@ -83,9 +87,10 @@ export type StarterScreenNavigationProp = StackNavigationProp<
 export interface IAppLoginProps {
   navigation: StarterScreenNavigationProp;
   route: StarterScreenRouteProp;
+  yourBookingsStore: YourBookings;
 }
 
-const AppLogin = ({ navigation, route }: IAppLoginProps) => {
+const AppLogin = ({ navigation, route, yourBookingsStore }: IAppLoginProps) => {
   const [isVideoReady, setVideoStatus] = useState(false);
   const [
     { phoneNumber, countryCode, countryFlag, code, name, email },
@@ -124,9 +129,19 @@ const AppLogin = ({ navigation, route }: IAppLoginProps) => {
     updateCountryFlag(flagEmoji);
   };
 
-  const onResend = () => {};
+  const onResend = () => {
+    requestOtp();
+  };
 
-  const onTimeout = () => setIsTimedOut(true);
+  const onTimeout = () => {
+    DebouncedAlert("Oops!", "OTP Time out!", [
+      {
+        text: "Okay",
+        onPress: () => closeOtpPanel()
+      }
+    ]);
+    setIsTimedOut(true);
+  };
 
   const submitPhoneNumber = async () => {
     setPhoneSubmitAttempt(true);
@@ -153,10 +168,17 @@ const AppLogin = ({ navigation, route }: IAppLoginProps) => {
     otpPanelRef.current && otpPanelRef.current.snapTo({ index: 1 });
   };
 
+  const closeOtpPanel = () => {
+    // @ts-ignore
+    otpPanelRef.current && otpPanelRef.current.snapTo({ index: 2 });
+  };
+
   /**
    * event handler whne otp panel is closed...
    */
-  const otpPanelClosed = () => {};
+  const otpPanelClosed = () => {
+    updateCode("");
+  };
 
   const gradientOptions = {
     locations: [0.25, 0.5, 0.7, 1],
@@ -202,6 +224,7 @@ const AppLogin = ({ navigation, route }: IAppLoginProps) => {
     navigation.setOptions({
       headerShown: false
     });
+    storeService.welcomeStateStore.loadWelcomeState();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -220,8 +243,8 @@ const AppLogin = ({ navigation, route }: IAppLoginProps) => {
 
   const requestOtp = async () => {
     const result = await makeOtpRequestCall({
-      countryPhoneCode: countryCode,
-      mobileNumber: phoneNumber,
+      ccode: countryCode,
+      mob_num: phoneNumber,
       factors: ["SMS", "EMAIL"]
     });
     if (result) {
@@ -233,16 +256,13 @@ const AppLogin = ({ navigation, route }: IAppLoginProps) => {
 
   const codeFilled = async (otp: string) => {
     try {
-      const result = await loginUser({
+      await loginUser({
         countryPhoneCode: countryCode,
         mobileNumber: phoneNumber,
         otp,
         otpDetailsId:
           otpApiDetails.successResponseData?.data?.otpDetailsId || ""
       });
-      if (result) {
-        continueFlow();
-      }
     } catch (e) {
       toastCenter("Login Failed");
     }
@@ -250,9 +270,27 @@ const AppLogin = ({ navigation, route }: IAppLoginProps) => {
 
   const continueFlow = () => {
     // PT TODO: Launch Post booking flow goes here once old screen wiring is done
-    const { resetTarget } = route.params;
+    const { resetTarget } = route.params || {};
     if (resetTarget === SCREEN_EXPLORE_PAGE) {
       navigation.dispatch(launchPretripHome());
+    } else {
+      yourBookingsStore
+        .getUpcomingItineraries()
+        .then(() => {
+          if (yourBookingsStore.hasUpcomingItineraries) {
+            navigation.dispatch(launchPostBookingV2());
+          } else {
+            resetToWelcomeFlow().then(resetAction => {
+              navigation.dispatch(resetAction);
+            });
+          }
+        })
+        .catch(() => {
+          logError("Failed to load upcoming itineraries at login");
+          resetToWelcomeFlow().then(resetAction => {
+            navigation.dispatch(resetAction);
+          });
+        });
     }
   };
 
@@ -270,7 +308,7 @@ const AppLogin = ({ navigation, route }: IAppLoginProps) => {
       registerTokenV2(loginSuccessData.data?.authToken || "")
         .then(isTokenStored => {
           if (isTokenStored) {
-            // TODO - Do Login transition here...
+            continueFlow();
           } else {
             toastCenter("Login Failed");
           }
@@ -280,7 +318,12 @@ const AppLogin = ({ navigation, route }: IAppLoginProps) => {
           toastCenter("Login Failed");
         });
     } else if (loginFailureData?.data?.otpStatus === "VERIFICATIONFAILED") {
-      DebouncedAlert("Invalid OTP", "Please try again ☹️");
+      DebouncedAlert("Invalid OTP", "Please try again ☹️", [
+        {
+          text: "Okay",
+          onPress: () => closeOtpPanel()
+        }
+      ]);
     }
   }, [loginSuccessData, loginFailureData]);
 
@@ -391,8 +434,6 @@ const AppLogin = ({ navigation, route }: IAppLoginProps) => {
         <OtpPanel
           code={code}
           updateCode={updateCode}
-          requestTime={moment(1580987401597)}
-          // @ts-ignore - temp disabled until otp panel is complete
           expiryTime={otpApiDetails.successResponseData?.data?.otpExpiresIn}
           containerStyle={styles.otpContainer}
           onResend={onResend}
@@ -454,4 +495,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default ErrorBoundary()(AppLogin);
+export default ErrorBoundary()(inject("yourBookingsStore")(observer(AppLogin)));

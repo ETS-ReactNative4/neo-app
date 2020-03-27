@@ -12,7 +12,7 @@ import DebouncedAlert from "../../CommonComponents/DebouncedAlert/DebouncedAlert
 import Share from "react-native-share";
 import { singleShare } from "../../Services/shareService/share";
 import HomeHeader from "../../CommonComponents/HomeHeader/HomeHeader";
-import { StackActions } from "react-navigation";
+// import { StackActions } from "react-navigation";
 import openCustomTab from "../../Services/openCustomTab/openCustomTab";
 import * as Animatable from "react-native-animatable";
 import Icon from "../../CommonComponents/Icon/Icon";
@@ -109,15 +109,15 @@ class Journal extends Component {
    * Text editor screen of that story
    */
   editStory = (activePage, activeStory) => {
-    const pushToTextEditor = StackActions.push({
-      routeName: "JournalTextEditor",
-      params: {
-        selectedImagesList: [],
-        activeStory,
-        activePage,
-        isEditMode: true
-      }
-    });
+    // const pushToTextEditor = StackActions.push({
+    //   routeName: "JournalTextEditor",
+    //   params: {
+    //     selectedImagesList: [],
+    //     activeStory,
+    //     activePage,
+    //     isEditMode: true
+    //   }
+    // });
     this.props.navigation.dispatch(pushToTextEditor);
   };
 

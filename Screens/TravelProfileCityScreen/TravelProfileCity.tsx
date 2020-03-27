@@ -41,6 +41,7 @@ import { observer, inject } from "mobx-react";
 import TravelProfile from "../../mobx/TravelProfile";
 import matchQueryWithText from "../../Services/matchQueryWithText/matchQueryWIthText";
 import skipUserProfileBuilder from "../../Services/skipUserProfileBuilder/skipUserProfileBuilder";
+import WelcomeState from "../../mobx/WelcomeState";
 
 const { createAnimatableComponent } = Animatable;
 
@@ -63,6 +64,7 @@ export interface TravelProfileCityProps {
   navigation: StarterScreenNavigationProp;
   route: StarterScreenRouteProp;
   travelProfileStore: TravelProfile;
+  welcomeStateStore: WelcomeState;
 }
 
 export interface ISuggestedCountry {
@@ -84,7 +86,8 @@ const PORTRAIT_IMAGE_HEIGHT = ratioCalculator(39, 53, PORTRAIT_IMAGE_WIDTH);
 const TravelProfileCityComponent = ({
   navigation,
   route,
-  travelProfileStore
+  travelProfileStore,
+  welcomeStateStore
 }: TravelProfileCityProps) => {
   const { countriesList } = travelProfileStore;
 
@@ -121,6 +124,10 @@ const TravelProfileCityComponent = ({
   };
 
   const skipFlow = () => {
+    welcomeStateStore.patchWelcomeState(
+      "skippedAt",
+      SCREEN_TRAVEL_COUNTRY_PICKER
+    );
     navigation.dispatch(skipUserProfileBuilder());
   };
 
@@ -153,6 +160,7 @@ const TravelProfileCityComponent = ({
     travelProfileStore.updateTravelProfileData({
       travelledCountries: suggestedCountries.map(country => country.id)
     });
+    welcomeStateStore.patchWelcomeState("seenTravelCountryPicker", true);
     navigation.navigate(SCREEN_TRAVEL_MARITAL_STATUS);
   };
 
@@ -234,7 +242,9 @@ const TravelProfileCityComponent = ({
 };
 
 const TravelProfileCity = ErrorBoundary()(
-  inject("travelProfileStore")(observer(TravelProfileCityComponent))
+  inject("welcomeStateStore")(
+    inject("travelProfileStore")(observer(TravelProfileCityComponent))
+  )
 );
 
 /* GUTTER SPACER */

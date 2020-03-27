@@ -13,7 +13,10 @@ import {
   SCREEN_STORY_BOOK,
   SCREEN_PRETRIP_HOME_TABS,
   SCREEN_EXPLORE_PAGE,
-  SCREEN_MODAL_STACK
+  SCREEN_MODAL_STACK,
+  SCREEN_NOTIFICATION_DETAILS,
+  SCREEN_NOTIFICATION_FAQ,
+  SCREEN_POST_BOOKING_HOME
 } from "./ScreenNames";
 import AppLogin from "../Screens/AppLoginScreen/AppLogin";
 import Starter from "../Screens/StartingScreen/Starter";
@@ -26,13 +29,20 @@ import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
 import ModalStack, { ModalNavigatorParamsType } from "./ModalStack";
 import { CONSTANT_white } from "../constants/colorPallete";
 import { RouteProp } from "@react-navigation/native";
+import { IItineraryNotification } from "../Screens/NotificationsScreen/Notifications";
+import NotificationDetails from "../Screens/NotificationDetailsScreen/NotificationDetails";
+import NotificationsFaq from "../Screens/NotificationsFaqScreen/NotificationsFaq";
+import PostBookingHomeTabs, {
+  PostBookingHomeTabsType
+} from "./PostBookingHomeTabs";
 
 export type AppNavigatorParamsType = {
   [SCREEN_MODAL_STACK]: StackNavigationProp<ModalNavigatorParamsType>;
   [SCREEN_PRETRIP_HOME_TABS]: BottomTabNavigationProp<PreTripHomeTabsType>;
+  [SCREEN_POST_BOOKING_HOME]: BottomTabNavigationProp<PostBookingHomeTabsType>;
   [SCREEN_APP_LOGIN]: {
     // PT TODO: create an enum from list of screens that are allowed transition from loginScreen
-    resetTarget: typeof SCREEN_EXPLORE_PAGE;
+    resetTarget?: typeof SCREEN_EXPLORE_PAGE;
   };
   [SCREEN_STARTER]: undefined;
   [SCREEN_TRAVEL_PROFILE_WELCOME]: undefined;
@@ -43,6 +53,12 @@ export type AppNavigatorParamsType = {
     isPositive: boolean;
   };
   [SCREEN_STORY_BOOK]: undefined;
+  [SCREEN_NOTIFICATION_DETAILS]: {
+    notification: IItineraryNotification;
+  };
+  [SCREEN_NOTIFICATION_FAQ]: {
+    itineraryId: string;
+  };
 };
 
 const Stack = createStackNavigator<AppNavigatorParamsType>();
@@ -62,14 +78,16 @@ const AppNavigator = () => {
         barStyle={"dark-content"}
         backgroundColor={CONSTANT_white}
       />
-      <Navigator
-        initialRouteName={SCREEN_PRETRIP_HOME_TABS}
-        headerMode="screen"
-      >
+      <Navigator initialRouteName={SCREEN_STARTER} headerMode="screen">
         <Screen
           name={SCREEN_PRETRIP_HOME_TABS}
           options={{ headerShown: false }}
           component={PreTripHomeTabs}
+        />
+        <Screen
+          name={SCREEN_POST_BOOKING_HOME}
+          options={{ headerShown: false }}
+          component={PostBookingHomeTabs}
         />
         <Screen
           options={{
@@ -95,6 +113,14 @@ const AppNavigator = () => {
           }}
           component={ModalStack}
         />
+        <Screen
+          name={SCREEN_NOTIFICATION_DETAILS}
+          options={{
+            headerShown: false
+          }}
+          component={NotificationDetails}
+        />
+        <Screen name={SCREEN_NOTIFICATION_FAQ} component={NotificationsFaq} />
         <Screen name={SCREEN_STORY_BOOK} component={StorybookUIRoot} />
       </Navigator>
     </Fragment>

@@ -7,8 +7,8 @@ import { CONSTANT_requestOtp } from "../../../constants/apiUrls";
 type otpFactor = "SMS" | "EMAIL";
 
 export interface IOtpRequestBody {
-  mobileNumber: string;
-  countryPhoneCode: string;
+  mob_num: string;
+  ccode: string;
   email?: string;
   factors: otpFactor[];
 }

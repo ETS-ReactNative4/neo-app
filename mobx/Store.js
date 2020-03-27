@@ -12,7 +12,7 @@ import Phrases from "./Phrases";
 import Info from "./Info";
 import EmergencyContacts from "./EmergencyContacts";
 import PassportDetails from "./PassportDetails";
-import Visa from "./Visa";
+// import Visa from "./Visa";
 import Places from "./Places";
 import SupportStore from "./SupportStore";
 import TripFeed from "./TripFeed";
@@ -25,6 +25,7 @@ import Journal from "./Journal";
 import UserFlowTransition from "./UserFlowTransition";
 import SOFeedback from "./SOFeedback";
 import TravelProfile from "./TravelProfile";
+import WelcomeState from "./WelcomeState";
 
 export const hydrate = create({
   storage: AsyncStorage,
@@ -44,7 +45,10 @@ const createStore = () => {
     infoStore: new Info(),
     emergencyContactsStore: new EmergencyContacts(),
     passportDetailsStore: new PassportDetails(),
-    visaStore: new Visa(),
+    /**
+     * PT TODO: For some reason visa is not working!
+     */
+    visaStore: new Places(),
     placesStore: new Places(),
     supportStore: new SupportStore(),
     tripFeedStore: new TripFeed(),
@@ -56,19 +60,11 @@ const createStore = () => {
     journalStore: new Journal(),
     userFlowTransitionStore: new UserFlowTransition(),
     soFeedbackStore: new SOFeedback(),
-    travelProfileStore: new TravelProfile()
+    travelProfileStore: new TravelProfile(),
+    welcomeStateStore: new WelcomeState()
   };
 
-  hydrate("_upcomingItineraries", appStore.yourBookingsStore)
-    .then(() => {})
-    .catch(err => {
-      logError(err);
-    });
-  hydrate("_completedItineraries", appStore.yourBookingsStore)
-    .then(() => {})
-    .catch(err => {
-      logError(err);
-    });
+  YourBookings.hydrator(appStore.yourBookingsStore);
   Itineraries.hydrator(appStore.itineraries);
   AppState.hydrator(appStore.appState);
   hydrate("_vouchers", appStore.voucherStore)
@@ -166,7 +162,7 @@ const createStore = () => {
     .catch(err => {
       logError(err);
     });
-  Visa.hydrator(appStore.visaStore);
+  // Visa.hydrator(appStore.visaStore);
   SupportStore.hydrator(appStore.supportStore);
   Forex.hydrator(appStore.forexStore);
   DeviceDetails.hydrator(appStore.deviceDetailsStore);
@@ -176,6 +172,7 @@ const createStore = () => {
   UserFlowTransition.hydrator(appStore.userFlowTransitionStore);
   SOFeedback.hydrator(appStore.soFeedbackStore);
   TravelProfile.hydrator(appStore.travelProfileStore);
+  WelcomeState.hydrator(appStore.welcomeStateStore);
   return appStore;
 };
 

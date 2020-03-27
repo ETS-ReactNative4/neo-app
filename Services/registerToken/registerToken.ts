@@ -1,5 +1,6 @@
 import * as Keychain from "react-native-keychain";
 import { CONSTANT_loggedInTokenName } from "../../constants/stringConstants";
+import { logError } from "../errorLogger/errorLogger";
 
 const registerToken = async (token: string) => {
   // Store the credentials
@@ -29,9 +30,11 @@ export const registerTokenV2 = (
 ): Promise<boolean> => {
   return new Promise<boolean>(async (resolve, reject) => {
     try {
+      await Keychain.resetGenericPassword();
       await Keychain.setGenericPassword(key, token);
       resolve(true);
     } catch (e) {
+      logError(e);
       reject();
     }
   });

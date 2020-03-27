@@ -15,10 +15,7 @@ import { inject, observer } from "mobx-react";
 import { recordEvent } from "../../Services/analytics/analyticsService";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import openCustomTab from "../../Services/openCustomTab/openCustomTab";
-import {
-  responsiveWidth
-  // @ts-ignore
-} from "react-native-responsive-dimensions";
+import { responsiveWidth } from "react-native-responsive-dimensions";
 import StarterAnimation from "./Components/StarterAnimation";
 import BootAnimation from "./Components/BootAnimation";
 import AppState from "../../mobx/AppState";
@@ -27,8 +24,7 @@ import { AppNavigatorParamsType } from "../../NavigatorsV2/AppNavigator";
 import {
   SCREEN_STARTER,
   SCREEN_APP_LOGIN,
-  SCREEN_TRAVEL_PROFILE_WELCOME,
-  SCREEN_EXPLORE_PAGE
+  SCREEN_TRAVEL_PROFILE_WELCOME
 } from "../../NavigatorsV2/ScreenNames";
 import { isIphoneX } from "react-native-iphone-x-helper";
 import { CONSTANT_xSensorAreaHeight } from "../../constants/styles";
@@ -78,10 +74,7 @@ class Starter extends Component<StarterProps, StarterState> {
   };
 
   clickedBooking = () => {
-    this.props.navigation.navigate(SCREEN_APP_LOGIN, {
-      // PT TODO: Replace it with postbooking flow once the old wiring is integrated
-      resetTarget: SCREEN_EXPLORE_PAGE
-    });
+    this.props.navigation.navigate(SCREEN_APP_LOGIN);
   };
 
   clickedPlan = () => {

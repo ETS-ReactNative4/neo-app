@@ -1,10 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useRef, useCallback } from "react";
 import { StyleSheet, SectionList, SafeAreaView, Text } from "react-native";
 import {
   SCREEN_NOTIFICATION_TAB,
-  SCREEN_PRETRIP_HOME_TABS
+  SCREEN_PRETRIP_HOME_TABS,
+  SCREEN_NOTIFICATION_DETAILS
 } from "../../NavigatorsV2/ScreenNames";
-import { CompositeNavigationProp, RouteProp } from "@react-navigation/native";
+import {
+  CompositeNavigationProp,
+  RouteProp,
+  useFocusEffect
+} from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { AppNavigatorParamsType } from "../../NavigatorsV2/AppNavigator";
 import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
@@ -19,6 +24,7 @@ import {
 } from "../../constants/fonts";
 import { CONSTANT_shade1, CONSTANT_white1 } from "../../constants/colorPallete";
 import getImgIXUrl from "../../Services/getImgIXUrl/getImgIXUrl";
+import NotificationsActionSheet from "./Components/NotificationsActionSheet";
 
 export type NotificationsScreenNavigationType = CompositeNavigationProp<
   StackNavigationProp<AppNavigatorParamsType, typeof SCREEN_PRETRIP_HOME_TABS>,
@@ -71,18 +77,25 @@ export interface ISectionData {
   data: IItineraryNotification[];
 }
 
-const Notifications = ({}: NotificationsScreenProps) => {
+const Notifications = ({ navigation }: NotificationsScreenProps) => {
   const [sectionData, setSectionData] = useState<ISectionData[]>([]);
+  const [selectedNotification, setSelectedNotification] = useState<
+    IItineraryNotification | undefined
+  >();
+
+  const actionSheetRef = useRef<any>(null);
 
   const [savedItineraryApiDetails, loadItineraries] = useSavedItinerariesApi();
 
-  useEffect(() => {
-    loadItineraries();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   const { successResponseData } = savedItineraryApiDetails;
   const { data: savedItineraries = [] } = successResponseData || {};
+
+  useFocusEffect(
+    useCallback(() => {
+      loadItineraries();
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
+  );
 
   useDeepCompareEffect(() => {
     const newSectionData: ISectionData[] = savedItineraries.reduce(
@@ -108,26 +121,51 @@ const Notifications = ({}: NotificationsScreenProps) => {
     setSectionData(newSectionData);
   }, [savedItineraries]);
 
+  const selectNotification = (item: IItineraryNotification) => {
+    setSelectedNotification(item);
+    openActionSheet();
+  };
+
+  const openActionSheet = () => {
+    actionSheetRef.current && actionSheetRef.current.snapTo({ index: 1 });
+  };
+
+  const openNotificationDetails = (item: IItineraryNotification) => {
+    setSelectedNotification(item);
+    navigation.navigate(SCREEN_NOTIFICATION_DETAILS, {
+      notification: item
+    });
+  };
+
   return (
     <SafeAreaView style={styles.notificationContainer}>
       <SectionList
         sections={sectionData}
         keyExtractor={(item: IItineraryNotification) => item.itineraryId}
-        renderItem={({ item }: { item: IItineraryNotification }) => (
-          <SavedItineraryCard
-            isUnread={!!item.unreadMsgCount}
-            action={() => null}
-            image={getImgIXUrl({ src: item.image })}
-            cities={item.citiesArr || []}
-            lastEdited={item.lastEdited}
-            title={item.title}
-            moreOptions
-            moreOptionsAction={() => null}
-          />
-        )}
+        renderItem={({ item }: { item: IItineraryNotification }) => {
+          const onMoreOptionClick = () => selectNotification(item);
+          const onNotificationClick = () => openNotificationDetails(item);
+
+          return (
+            <SavedItineraryCard
+              isUnread={!!item.unreadMsgCount}
+              action={onNotificationClick}
+              image={getImgIXUrl({ src: item.image })}
+              cities={item.citiesArr || []}
+              lastEdited={item.lastEdited}
+              title={item.title}
+              moreOptions
+              moreOptionsAction={onMoreOptionClick}
+            />
+          );
+        }}
         renderSectionHeader={({ section: { title, data } }) =>
           data.length ? <Text style={styles.textStyle}>{title}</Text> : null
         }
+      />
+      <NotificationsActionSheet
+        selectedNotification={selectedNotification}
+        actionSheetRef={actionSheetRef}
       />
     </SafeAreaView>
   );

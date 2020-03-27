@@ -34,6 +34,9 @@ configure(() => {
   require("./stories/NotificationsScreenStory");
   require("./stories/SavedItineraryScreenStory");
   require("./stories/UltimateMenuScreenStory");
+  require("./stories/TravellerProfileDetailsScreenStory");
+  require("./stories/ItineraryScreenStory");
+  require("./stories/GCMFormScreenStory");
 }, module);
 
 const StorybookUIRoot = getStorybookUI({
