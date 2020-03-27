@@ -26,3 +26,6 @@ export const SCREEN_SUPPORT_TAB = "Support";
 export const SCREEN_TOOLS_TAB = "Tools";
 export const SCREEN_JOURNAL_TAB = "JournalHome";
 export const SCREEN_YOUR_BOOKINGS = "YourBookings";
+export const SCREEN_POST_BOOKING_INTRO = "PostBookingIntro";
+export const SCREEN_AGENT_INFO = "AgentInfo";
+export const SCREEN_AGENT_FEEDBACK = "AgentFeedback";

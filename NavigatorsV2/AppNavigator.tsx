@@ -17,7 +17,10 @@ import {
   SCREEN_NOTIFICATION_DETAILS,
   SCREEN_NOTIFICATION_FAQ,
   SCREEN_POST_BOOKING_HOME,
-  SCREEN_YOUR_BOOKINGS
+  SCREEN_YOUR_BOOKINGS,
+  SCREEN_POST_BOOKING_INTRO,
+  SCREEN_AGENT_FEEDBACK,
+  SCREEN_AGENT_INFO
 } from "./ScreenNames";
 import AppLogin from "../Screens/AppLoginScreen/AppLogin";
 import Starter from "../Screens/StartingScreen/Starter";
@@ -37,6 +40,12 @@ import PostBookingHomeTabs, {
   PostBookingHomeTabsType
 } from "./PostBookingHomeTabs";
 import YourBookings from "../Screens/YourBookingsScreen/YourBookings";
+import PostBookingIntro, {
+  IPostBookingIntroData
+} from "../Screens/PostBookingIntroScreen/PostBookingIntro";
+import AgentInfo from "../Screens/AgentInfoScreen/AgentInfo";
+import { IPocCardPropsData } from "../Screens/AgentInfoScreen/Components/AgentPocCard";
+import AgentFeedback from "../Screens/AgentFeedbackScreen/AgentFeedback";
 
 export type AppNavigatorParamsType = {
   [SCREEN_MODAL_STACK]: StackNavigationProp<ModalNavigatorParamsType>;
@@ -62,6 +71,14 @@ export type AppNavigatorParamsType = {
     itineraryId: string;
   };
   [SCREEN_YOUR_BOOKINGS]: undefined;
+  [SCREEN_POST_BOOKING_INTRO]: { introData: IPostBookingIntroData[] };
+  [SCREEN_AGENT_INFO]: {
+    itineraryId: string;
+    ownerName: string;
+    ownerImage: string;
+    pocCardData: IPocCardPropsData[];
+  };
+  [SCREEN_AGENT_FEEDBACK]: undefined;
 };
 
 const Stack = createStackNavigator<AppNavigatorParamsType>();
@@ -131,6 +148,27 @@ const AppNavigator = () => {
             headerShown: false
           }}
           component={YourBookings}
+        />
+        <Screen
+          options={{
+            headerShown: false
+          }}
+          name={SCREEN_POST_BOOKING_INTRO}
+          component={PostBookingIntro}
+        />
+        <Screen
+          options={{
+            headerShown: false
+          }}
+          name={SCREEN_AGENT_INFO}
+          component={AgentInfo}
+        />
+        <Screen
+          options={{
+            headerShown: false
+          }}
+          name={SCREEN_AGENT_FEEDBACK}
+          component={AgentFeedback}
         />
       </Navigator>
     </Fragment>

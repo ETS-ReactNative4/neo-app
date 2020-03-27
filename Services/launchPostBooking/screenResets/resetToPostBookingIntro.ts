@@ -1,13 +1,12 @@
-import { NavigationStackProp } from "react-navigation-stack";
-import { NavigationActions, StackActions } from "react-navigation";
 import { IPostBookingIntroData } from "../../../Screens/PostBookingIntroScreen/PostBookingIntro";
-import DebouncedAlert from "../../../CommonComponents/DebouncedAlert/DebouncedAlert";
 import { logError } from "../../errorLogger/errorLogger";
-import { CONSTANT_postBookingLoadFailureText } from "../../../constants/appText";
 import { CONSTANT_awsJsonServer } from "../../../constants/serverUrls";
 import { CONSTANT_postBookingIntroData } from "../../../constants/apiUrls";
 import storeService from "../../storeService/storeService";
 import moment from "moment";
+import { navigationDispatcher } from "../../navigationService/navigationServiceV2";
+import { CommonActions } from "@react-navigation/native";
+import { SCREEN_POST_BOOKING_INTRO } from "../../../NavigatorsV2/ScreenNames";
 
 const postBookingIntroDefaultData: IPostBookingIntroData[] = [
   {
@@ -46,9 +45,19 @@ const setDynamicValuesToString = (
     const today = moment();
     const dateDiff = -today.diff(startDate, "days");
 
+    /**
+     * Prevent showing 1,0 or negative numbers to the users.
+     * Useful if the user state transition fails.
+     */
+    const description = item.description.includes(":pendingDays")
+      ? dateDiff < 2
+        ? "Welcome to the best holiday ever!"
+        : item.description.replace(":pendingDays", `${dateDiff}`)
+      : item.description;
+
     return {
       title: item.title.replace(":pendingDays", `${dateDiff}`),
-      description: item.description.replace(":pendingDays", `${dateDiff}`),
+      description,
       image: item.image
     };
   });
@@ -63,21 +72,16 @@ const setDynamicValuesToString = (
  * The data fetching part is moved out of the component to ensure animations
  * are seamless for the user...
  */
-const resetToPostBookingIntro = (navigation: NavigationStackProp<any>) => {
+const resetToPostBookingIntro = () => {
   const resettingScreen = (introData: IPostBookingIntroData[]) => {
-    navigation.dispatch(
-      StackActions.reset({
+    navigationDispatcher(
+      CommonActions.reset({
         index: 0,
-        actions: [
-          NavigationActions.navigate({
-            routeName: "MainStack",
-            action: NavigationActions.navigate({
-              routeName: "PostBookingIntro",
-              params: {
-                introData: setDynamicValuesToString(introData)
-              }
-            })
-          })
+        routes: [
+          {
+            name: SCREEN_POST_BOOKING_INTRO,
+            params: { introData: setDynamicValuesToString(introData) }
+          }
         ]
       })
     );
@@ -91,10 +95,6 @@ const resetToPostBookingIntro = (navigation: NavigationStackProp<any>) => {
     .catch(error => {
       resettingScreen(postBookingIntroDefaultData);
       logError(error);
-      DebouncedAlert(
-        CONSTANT_postBookingLoadFailureText.header,
-        CONSTANT_postBookingLoadFailureText.message
-      );
     });
 };
 
