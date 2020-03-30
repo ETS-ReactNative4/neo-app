@@ -1,6 +1,5 @@
 import React from "react";
 import { ITestCase } from "../../../TypeInterfaces/TestCases/ITestCases";
-import ListingPage from "../ListingPage";
 import ListingPageFilter from "../Components/ListingPageFilter";
 import { ICheckBoxData } from "../../../CommonComponents/CustomCheckBox/CustomCheckBox";
 
@@ -26,10 +25,6 @@ const dataInterest: ICheckBoxData[] = [
 ];
 
 const ListingPageTestCases: ITestCase[] = [
-  {
-    title: "Listing Page",
-    Component: <ListingPage />
-  },
   {
     title: "Listing Page Filter",
     Component: <ListingPageFilter filterCheckboxData={dataInterest} />

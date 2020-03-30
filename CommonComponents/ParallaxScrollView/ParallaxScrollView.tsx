@@ -39,8 +39,8 @@ interface ParallaxScrollViewProps {
   children?: ReactNode;
   bannerImage: string;
   backAction: () => any;
-  smallText: string;
-  titleText: string;
+  smallText?: string;
+  titleText?: string;
   titleNumberOfLines?: number;
 }
 
