@@ -20,7 +20,8 @@ import {
   SCREEN_YOUR_BOOKINGS,
   SCREEN_POST_BOOKING_INTRO,
   SCREEN_AGENT_FEEDBACK,
-  SCREEN_AGENT_INFO
+  SCREEN_AGENT_INFO,
+  SCREEN_PROMO_PAGE
 } from "./ScreenNames";
 import AppLogin from "../Screens/AppLoginScreen/AppLogin";
 import Starter from "../Screens/StartingScreen/Starter";
@@ -46,6 +47,7 @@ import PostBookingIntro, {
 import AgentInfo from "../Screens/AgentInfoScreen/AgentInfo";
 import { IPocCardPropsData } from "../Screens/AgentInfoScreen/Components/AgentPocCard";
 import AgentFeedback from "../Screens/AgentFeedbackScreen/AgentFeedback";
+import PromoLanding from "../Screens/PromoLandingScreen/PromoLanding";
 
 export type AppNavigatorParamsType = {
   [SCREEN_MODAL_STACK]: StackNavigationProp<ModalNavigatorParamsType>;
@@ -79,6 +81,9 @@ export type AppNavigatorParamsType = {
     pocCardData: IPocCardPropsData[];
   };
   [SCREEN_AGENT_FEEDBACK]: undefined;
+  [SCREEN_PROMO_PAGE]: {
+    slug: string;
+  };
 };
 
 const Stack = createStackNavigator<AppNavigatorParamsType>();
@@ -108,6 +113,11 @@ const AppNavigator = () => {
           name={SCREEN_POST_BOOKING_HOME}
           options={{ headerShown: false }}
           component={PostBookingHomeTabs}
+        />
+        <Screen
+          name={SCREEN_PROMO_PAGE}
+          options={{ headerShown: false }}
+          component={PromoLanding}
         />
         <Screen
           options={{

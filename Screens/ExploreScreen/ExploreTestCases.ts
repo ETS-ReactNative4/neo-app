@@ -13,7 +13,9 @@ export const exploreTestData: ExploreFeedType = [
           "https://pyt-images.imgix.net/images/product_blog/itinerary-box/australia-small.jpeg",
         deepLinking: {
           link: "ListingPage",
-          screenData: {}
+          screenData: {
+            slug: "packages/maldives"
+          }
         }
       },
       {
@@ -22,7 +24,9 @@ export const exploreTestData: ExploreFeedType = [
           "https://pyt-images.imgix.net/images/product_blog/itinerary-box/australia-small.jpeg",
         deepLinking: {
           link: "ListingPage",
-          screenData: {}
+          screenData: {
+            slug: "packages/maldives"
+          }
         }
       },
       {
@@ -31,7 +35,9 @@ export const exploreTestData: ExploreFeedType = [
           "https://pyt-images.imgix.net/images/product_blog/itinerary-box/australia-small.jpeg",
         deepLinking: {
           link: "ListingPage",
-          screenData: {}
+          screenData: {
+            slug: "packages/maldives"
+          }
         }
       }
     ]
@@ -72,7 +78,7 @@ export const exploreTestData: ExploreFeedType = [
         text: "All inclusive offers starting from",
         cost: 75000,
         deepLinking: {
-          link: "ListingPage",
+          link: "Promo",
           screenData: {
             slug: "packages/maldives"
           }
@@ -85,7 +91,7 @@ export const exploreTestData: ExploreFeedType = [
         text: "The best trips #DownUnder",
         cost: 145000,
         deepLinking: {
-          link: "ListingPage",
+          link: "Promo",
           screenData: {
             slug: "packages/maldives"
           }
@@ -98,7 +104,7 @@ export const exploreTestData: ExploreFeedType = [
         text: "Exclusive for Beach Bums",
         cost: 45500,
         deepLinking: {
-          link: "ListingPage",
+          link: "Promo",
           screenData: {
             slug: "packages/maldives"
           }

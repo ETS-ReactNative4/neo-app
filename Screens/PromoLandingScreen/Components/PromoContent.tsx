@@ -1,29 +1,23 @@
 import React from "react";
-import {
-  responsiveHeight
-  // @ts-ignore
-} from "react-native-responsive-dimensions";
 import { StyleSheet, View, ViewStyle } from "react-native";
 
 import CustomHtmlView from "../../../CommonComponents/CustomHtmlView/CustomHtmlView";
 
 interface PromoContentProps {
   containerStyle?: ViewStyle;
+  html: string;
 }
 
-const PromoContent = ({ containerStyle }: PromoContentProps) => {
+const PromoContent = ({ containerStyle, html = "" }: PromoContentProps) => {
   return (
     <View style={[styles.promoContentWrapper, containerStyle]}>
-      <CustomHtmlView
-        html={`<div>Key information on how to avail the promotional offer. <br /><br />Step 1<br />It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.</div>`}
-      />
+      <CustomHtmlView html={html} />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   promoContentWrapper: {
-    height: responsiveHeight(60),
     marginHorizontal: 16
   }
 });
