@@ -80,7 +80,8 @@ export const exploreTestData: ExploreFeedType = [
         deepLinking: {
           link: "Promo",
           screenData: {
-            slug: "packages/maldives"
+            slug: "packages/maldives",
+            promoData: "JSON URL FROM S3"
           }
         }
       },
@@ -93,7 +94,8 @@ export const exploreTestData: ExploreFeedType = [
         deepLinking: {
           link: "Promo",
           screenData: {
-            slug: "packages/maldives"
+            slug: "packages/maldives",
+            promoData: "JSON URL FROM S3"
           }
         }
       },
@@ -106,7 +108,8 @@ export const exploreTestData: ExploreFeedType = [
         deepLinking: {
           link: "Promo",
           screenData: {
-            slug: "packages/maldives"
+            slug: "packages/maldives",
+            promoData: "JSON URL FROM S3"
           }
         }
       }
