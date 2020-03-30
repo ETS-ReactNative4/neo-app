@@ -3,7 +3,6 @@ import {
   ScrollView,
   View,
   StyleSheet,
-  Alert,
   Text,
   TouchableOpacity,
   SafeAreaView
@@ -50,6 +49,7 @@ export interface IFilterActionSheetProps {
   selectPropertyRating: (val: string) => any;
   applyFilter: () => any;
   closeFilter: () => any;
+  resetFilter: () => any;
 }
 
 const FilterActionSheet = ({
@@ -62,7 +62,8 @@ const FilterActionSheet = ({
   propertyRating,
   selectPropertyRating,
   applyFilter,
-  closeFilter
+  closeFilter,
+  resetFilter
 }: IFilterActionSheetProps) => {
   return (
     <SafeAreaView style={styles.filterActionSheetContainer}>
@@ -99,7 +100,9 @@ const FilterActionSheet = ({
       <BottomButtonBar
         containerStyle={styles.bottomBar}
         leftButtonName={"Reset"}
-        leftButtonAction={() => Alert.alert("Click Reset")}
+        leftButtonAction={() => {
+          resetFilter();
+        }}
         rightButtonName={"Apply"}
         rightButtonAction={applyFilter}
       />

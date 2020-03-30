@@ -88,6 +88,13 @@ const ListingPage = ({ navigation, route }: ListingPageProps) => {
     propertyRatings
   } = usePackagesFilter();
 
+  const resetFilters = () => {
+    interests.reset();
+    travelDuration.reset();
+    estimatedBudget.reset();
+    propertyRatings.reset();
+  };
+
   const selectedInterests = interests.group.options
     .filter(interest => {
       return interest.isSelected;
@@ -195,6 +202,7 @@ const ListingPage = ({ navigation, route }: ListingPageProps) => {
           selectPropertyRating={propertyRatings.action}
           closeFilter={closeFilterPanel}
           applyFilter={applyFilter}
+          resetFilter={resetFilters}
         />
       </Modal>
     </View>
