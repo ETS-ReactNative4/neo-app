@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { StyleSheet, View } from "react-native";
 import ParallaxScrollView from "../../CommonComponents/ParallaxScrollView/ParallaxScrollView";
 import getImgIXUrl from "../../Services/getImgIXUrl/getImgIXUrl";
@@ -6,7 +6,6 @@ import BlankSpacer from "../../CommonComponents/BlankSpacer/BlankSpacer";
 import PromoContent from "./Components/PromoContent";
 import BottomButtonBar from "../../CommonComponents/BottomButtonBar/BottomButtonBar";
 import { CONSTANT_white } from "../../constants/colorPallete";
-import PromoData from "../ExploreScreen/PromoData";
 import { responsiveHeight } from "react-native-responsive-dimensions";
 import {
   SCREEN_PROMO_PAGE,
@@ -19,14 +18,43 @@ type PromoLandingNavTypes = AppNavigatorProps<typeof SCREEN_PROMO_PAGE>;
 
 export interface PromoLandingProps extends PromoLandingNavTypes {}
 
+export interface IPromoData {
+  html: string;
+  coverImage: string;
+  cta: string;
+}
+
 const PromoLanding = ({ navigation, route }: PromoLandingProps) => {
-  const { slug } = route.params || {};
+  const { slug, promoData: promoDataUrl } = route.params || {};
 
   const goBack = () => {
     navigation.goBack();
   };
 
-  const [promoData] = useState(PromoData);
+  const [promoData, setPromoData] = useState<IPromoData | null>(null);
+  const [promoLoadFailed, setPromoLoadFailed] = useState<boolean>(false);
+
+  useEffect(() => {
+    fetch(promoDataUrl)
+      .then(result => result.json())
+      .then((response: IPromoData) => {
+        setPromoData(response);
+      })
+      .catch(() => {
+        setPromoLoadFailed(true);
+      });
+  });
+
+  if (promoLoadFailed) {
+    /**
+     * PT TODO: Failure message needed
+     */
+    return null;
+  }
+
+  if (!promoData) {
+    return null;
+  }
 
   return (
     <View style={styles.promoLandingContainer}>

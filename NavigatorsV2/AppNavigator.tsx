@@ -83,6 +83,7 @@ export type AppNavigatorParamsType = {
   [SCREEN_AGENT_FEEDBACK]: undefined;
   [SCREEN_PROMO_PAGE]: {
     slug: string;
+    promoData: string;
   };
 };
 
