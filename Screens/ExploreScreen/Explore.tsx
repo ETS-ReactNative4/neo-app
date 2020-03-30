@@ -1,4 +1,4 @@
-import React, { useState, Fragment, useRef } from "react";
+import React, { useState, Fragment, useRef, useEffect } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { CompositeNavigationProp, RouteProp } from "@react-navigation/native";
 import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
@@ -9,7 +9,6 @@ import {
   SCREEN_EXPLORE_TAB
 } from "../../NavigatorsV2/ScreenNames";
 import { PreTripHomeTabsType } from "../../NavigatorsV2/PreTripHomeTabs";
-import { exploreTestData } from "./ExploreTestCases";
 import HeroBannerRow from "./Components/HeroBannerRow";
 import { CONSTANT_white, CONSTANT_shade5 } from "../../constants/colorPallete";
 import ExploreSectionTitle from "./Components/ExploreSectionTitle";
@@ -29,6 +28,9 @@ import {
 } from "../../constants/imageAssets";
 import TestimonialsCardsRow from "./Components/TestimonialsCardsRow";
 import TrustIcons from "../../CommonComponents/TrustIcons/TrustIcons";
+import { ExploreFeedType } from "./ExploreFeedType";
+import useExploreDataRequest from "./hooks/useExploreDataRequest";
+import useDeepCompareEffect from "use-deep-compare-effect";
 
 export type ExploreScreenNavigationType = CompositeNavigationProp<
   StackNavigationProp<AppNavigatorParamsType, typeof SCREEN_PRETRIP_HOME_TABS>,
@@ -48,7 +50,8 @@ export interface ExploreScreenProps {
 export type ExploreScreenSourcesType = "TravelProfileFlow";
 
 const Explore = ({}: ExploreScreenProps) => {
-  const [exploreData] = useState(exploreTestData);
+  const [exploreData, setExploreData] = useState<ExploreFeedType>([]);
+  const [exploreDataApi, loadExploreData] = useExploreDataRequest();
 
   const openUltimateMenu = () => {};
 
@@ -58,6 +61,19 @@ const Explore = ({}: ExploreScreenProps) => {
       leftIcon: CONSTANT_hamburgerIcon
     })
   ).current;
+
+  useEffect(() => {
+    loadExploreData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const { successResponseData } = exploreDataApi;
+
+  useDeepCompareEffect(() => {
+    if (successResponseData) {
+      setExploreData(successResponseData.data);
+    }
+  }, [successResponseData || {}]);
 
   return (
     <View style={styles.container}>
@@ -100,20 +116,22 @@ const Explore = ({}: ExploreScreenProps) => {
         })}
 
         <BlankSpacer height={24} />
-        <View style={styles.trustIconsWrapper}>
-          <TrustIcons
-            image={CONSTANT_trustIconFacebook()}
-            text={"4.8/5 Based on 1200+ ratings"}
-          />
-          <TrustIcons
-            image={CONSTANT_trustIconGoogle()}
-            text={"4.5/5 Based on 300+ ratings"}
-          />
-          <TrustIcons
-            image={CONSTANT_trustIconIata()}
-            text={"Accredited Agent"}
-          />
-        </View>
+        {exploreData.length ? (
+          <View style={styles.trustIconsWrapper}>
+            <TrustIcons
+              image={CONSTANT_trustIconFacebook()}
+              text={"4.8/5 Based on 1200+ ratings"}
+            />
+            <TrustIcons
+              image={CONSTANT_trustIconGoogle()}
+              text={"4.5/5 Based on 300+ ratings"}
+            />
+            <TrustIcons
+              image={CONSTANT_trustIconIata()}
+              text={"Accredited Agent"}
+            />
+          </View>
+        ) : null}
         <BlankSpacer height={40} />
       </ScrollView>
     </View>

@@ -69,6 +69,7 @@ export const CONSTANT_registerNewUser = "user/homePage/signup";
 export const CONSTANT_requestOtp = "authentication/otp";
 export const CONSTANT_verifyOtp = "mobile/login";
 export const CONSTANT_verifyOtpV2 = "authentication/login";
+export const CONSTANT_retrieveJson = "mobile/content";
 export const CONSTANT_userProfileInfo = "userprofile/userprofileinfo";
 export const CONSTANT_userProfileData = "userprofile";
 export const CONSTANT_getCountriesList = "data/countries";
