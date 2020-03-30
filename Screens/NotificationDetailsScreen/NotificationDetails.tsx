@@ -98,7 +98,8 @@ const NotificationDetails = ({
 
 const styles = StyleSheet.create({
   tripDetailsContainer: {
-    flex: 1
+    flex: 1,
+    backgroundColor: CONSTANT_white
   },
   detailsContainer: {
     padding: 24
