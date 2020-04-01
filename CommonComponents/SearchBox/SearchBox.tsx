@@ -6,7 +6,8 @@ import {
   StyleProp,
   ViewStyle,
   Platform,
-  TouchableOpacity
+  TouchableOpacity,
+  TextProps
 } from "react-native";
 
 import {
@@ -27,7 +28,7 @@ import {
   CONSTANT_closeIcon
 } from "../../constants/imageAssets";
 
-interface SearchBoxProps {
+interface SearchBoxProps extends TextProps {
   containerStyle?: StyleProp<ViewStyle>;
   onChangeText: (text: string) => any;
   text: string;
@@ -40,7 +41,8 @@ const SearchBox = ({
   onChangeText,
   text,
   textPlaceholder,
-  onClear
+  onClear,
+  ...otherProps
 }: SearchBoxProps) => {
   return (
     <View style={[styles.searchBoxContainer, containerStyle]}>
@@ -51,6 +53,7 @@ const SearchBox = ({
 
         <View style={styles.searchInputWrapper}>
           <TextInput
+            {...otherProps}
             onChangeText={onChangeText}
             placeholderTextColor={CONSTANT_shade2}
             value={text}
