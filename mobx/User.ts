@@ -5,10 +5,19 @@ import constants from "../constants/constants";
 import { setUserDetails } from "../Services/analytics/analyticsService";
 import { setUserContext } from "../Services/errorLogger/errorLogger";
 
+export interface IUser {
+  ccode?: string;
+  mob_num?: string;
+  name?: string;
+  crisp_token?: string;
+  analyticsDisabled?: boolean;
+  email?: string;
+}
+
 class User {
   @persist("object")
   @observable
-  _user = {};
+  _user: IUser = {};
   @observable _isLoading = false;
   @observable _hasError = false;
 
@@ -46,7 +55,7 @@ class User {
           this._hasError = true;
         }
       })
-      .catch(error => {
+      .catch(() => {
         this._isLoading = false;
         this._hasError = true;
       });

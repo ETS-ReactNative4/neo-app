@@ -6,7 +6,8 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import { AppNavigatorParamsType } from "../../NavigatorsV2/AppNavigator";
 import {
   SCREEN_PRETRIP_HOME_TABS,
-  SCREEN_EXPLORE_TAB
+  SCREEN_EXPLORE_TAB,
+  SCREEN_ULTIMATE_MENU
 } from "../../NavigatorsV2/ScreenNames";
 import { PreTripHomeTabsType } from "../../NavigatorsV2/PreTripHomeTabs";
 import HeroBannerRow from "./Components/HeroBannerRow";
@@ -49,11 +50,13 @@ export interface ExploreScreenProps {
 
 export type ExploreScreenSourcesType = "TravelProfileFlow";
 
-const Explore = ({}: ExploreScreenProps) => {
+const Explore = ({ navigation }: ExploreScreenProps) => {
   const [exploreData, setExploreData] = useState<ExploreFeedType>([]);
   const [exploreDataApi, loadExploreData] = useExploreDataRequest();
 
-  const openUltimateMenu = () => {};
+  const openUltimateMenu = () => {
+    navigation.navigate(SCREEN_ULTIMATE_MENU);
+  };
 
   const header = useRef(
     PrimaryHeader({

@@ -21,7 +21,8 @@ import {
   SCREEN_POST_BOOKING_INTRO,
   SCREEN_AGENT_FEEDBACK,
   SCREEN_AGENT_INFO,
-  SCREEN_PROMO_PAGE
+  SCREEN_PROMO_PAGE,
+  SCREEN_ULTIMATE_MENU
 } from "./ScreenNames";
 import AppLogin from "../Screens/AppLoginScreen/AppLogin";
 import Starter from "../Screens/StartingScreen/Starter";
@@ -48,6 +49,7 @@ import AgentInfo from "../Screens/AgentInfoScreen/AgentInfo";
 import { IPocCardPropsData } from "../Screens/AgentInfoScreen/Components/AgentPocCard";
 import AgentFeedback from "../Screens/AgentFeedbackScreen/AgentFeedback";
 import PromoLanding from "../Screens/PromoLandingScreen/PromoLanding";
+import UltimateMenu from "../Screens/UltimateMenuScreen/UltimateMenu";
 
 export type AppNavigatorParamsType = {
   [SCREEN_MODAL_STACK]: StackNavigationProp<ModalNavigatorParamsType>;
@@ -85,6 +87,7 @@ export type AppNavigatorParamsType = {
     slug: string;
     promoData: string;
   };
+  [SCREEN_ULTIMATE_MENU]: undefined;
 };
 
 const Stack = createStackNavigator<AppNavigatorParamsType>();
@@ -180,6 +183,13 @@ const AppNavigator = () => {
           }}
           name={SCREEN_AGENT_FEEDBACK}
           component={AgentFeedback}
+        />
+        <Screen
+          options={{
+            headerShown: false
+          }}
+          name={SCREEN_ULTIMATE_MENU}
+          component={UltimateMenu}
         />
       </Navigator>
     </Fragment>

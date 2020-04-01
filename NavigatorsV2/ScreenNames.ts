@@ -15,6 +15,7 @@ export const SCREEN_PROMO_PAGE = "Promo";
 export const SCREEN_LISTING_PAGE = "ListingPage";
 export const SCREEN_MODAL_STACK = "ModalStack";
 export const SCREEN_STORY_BOOK = "StoryBook";
+export const SCREEN_ULTIMATE_MENU = "UltimateMenu";
 
 /**
  * Screens from the post booking app

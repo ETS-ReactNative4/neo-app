@@ -1,18 +1,13 @@
-import React from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import {
   View,
   ViewStyle,
   StyleSheet,
   TouchableOpacity,
   Text,
-  Alert,
   ScrollView
 } from "react-native";
-import {
-  responsiveWidth
-  // @ts-ignore
-} from "react-native-responsive-dimensions";
-
+import { responsiveWidth } from "react-native-responsive-dimensions";
 import {
   CONSTANT_white,
   CONSTANT_shade2,
@@ -31,22 +26,29 @@ import { CONSTANT_arrowRight } from "../../constants/imageAssets";
 import PrimaryButton from "../../CommonComponents/PrimaryButton/PrimaryButton";
 import ProgressBar from "../../CommonComponents/ProgressBar/ProgressBar";
 import ratioCalculator from "../../Services/ratioCalculator/ratioCalculator";
+import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
+import { observer, inject } from "mobx-react";
+import User from "../../mobx/User";
+import { AppNavigatorProps } from "../../NavigatorsV2/AppNavigator";
+import { SCREEN_ULTIMATE_MENU } from "../../NavigatorsV2/ScreenNames";
+import { useFocusEffect } from "@react-navigation/native";
+import isUserLoggedIn from "../../Services/isUserLoggedIn/isUserLoggedIn";
 
 export interface IUltimateMenuLists {
   name: string;
   iconName: string;
   active: boolean;
+  action: () => any;
 }
 
-interface UltimateMenuProps {
+type UltimateMenuNavType = AppNavigatorProps<typeof SCREEN_ULTIMATE_MENU>;
+
+export interface UltimateMenuProps extends UltimateMenuNavType {
   containerStyle?: ViewStyle;
   buttonName: string;
   buttonAction: () => void;
-  userName: string;
-  userEmailId?: string;
   enableLogin?: boolean;
-  loginAction?: () => void;
-  menuList: IUltimateMenuLists[];
+  userStore: User;
 }
 
 const HEADER_CONTAINER_WIDTH = responsiveWidth(100);
@@ -56,32 +58,81 @@ const UltimateMenu = ({
   containerStyle,
   buttonName = "",
   buttonAction = () => {},
-  userName = "",
-  userEmailId = "",
-  enableLogin = false,
-  loginAction = () => {},
-  menuList = []
+  navigation,
+  userStore
 }: UltimateMenuProps) => {
+  const { userDetails, getUserDetails } = userStore;
+
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const menuList: IUltimateMenuLists[] = [
+    {
+      name: "Explore trips",
+      iconName: "heart1",
+      active: false,
+      action: () => null
+    },
+    {
+      name: "My Saved Itineraries",
+      iconName: "heart1",
+      active: false,
+      action: () => null
+    },
+    {
+      name: "My Traveller Profile",
+      iconName: "heart1",
+      active: false,
+      action: () => null
+    },
+    {
+      name: "About",
+      iconName: "heart1",
+      active: false,
+      action: () => null
+    }
+  ];
+
+  const goBack = () => navigation.goBack();
+
+  const login = () => {};
+
+  useEffect(() => {
+    getUserDetails();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      isUserLoggedIn()
+        .then(result => {
+          setIsLoggedIn(result);
+        })
+        .catch(() => {
+          setIsLoggedIn(false);
+        });
+    }, [setIsLoggedIn])
+  );
+
   return (
     <View style={[styles.ultimateMenuContainerStyle, containerStyle]}>
       <View style={styles.headerContainer}>
         <TouchableOpacity
           activeOpacity={0.8}
-          onPress={() => Alert.alert(`Click Back Arrow`)}
+          onPress={goBack}
           style={styles.backArrowIconStyle}
         >
           <Icon name={CONSTANT_arrowRight} size={16} color={CONSTANT_white} />
         </TouchableOpacity>
 
         <View style={styles.headerRightColumn}>
-          <Text style={styles.nameTextStyle}>{userName}</Text>
+          <Text style={styles.nameTextStyle}>{userDetails.name}</Text>
 
-          {userEmailId ? (
-            <Text style={styles.emailTextStyle}>{userEmailId}</Text>
+          {userDetails.email ? (
+            <Text style={styles.emailTextStyle}>{userDetails.email}</Text>
           ) : null}
 
-          {enableLogin ? (
-            <Text style={styles.emailTextStyle} onPress={loginAction}>
+          {!isLoggedIn ? (
+            <Text style={styles.emailTextStyle} onPress={login}>
               Log-in / Sign-up
             </Text>
           ) : null}
@@ -105,7 +156,7 @@ const UltimateMenu = ({
             return (
               <TouchableOpacity
                 activeOpacity={0.8}
-                onPress={() => Alert.alert(`Click -> ${item.name}`)}
+                onPress={item.action}
                 style={styles.menuListStyle}
                 key={itemIndex}
               >
@@ -222,4 +273,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default UltimateMenu;
+export default ErrorBoundary()(inject("userStore")(observer(UltimateMenu)));
