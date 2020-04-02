@@ -2,14 +2,14 @@ import React from "react";
 import { View, ViewStyle, StyleSheet, ScrollView } from "react-native";
 import BlankSpacer from "../../../CommonComponents/BlankSpacer/BlankSpacer";
 import CategoryPill from "./CategoryPill";
-import { ISearchCategory, searchCategoriesType } from "../Search";
+import { ISearchCategory } from "../Search";
 import createReadableText from "../../../Services/createReadableText/createReadableText";
 
 export interface SearchTabPillsProps {
   containerStyle?: ViewStyle;
   categories: ISearchCategory[];
-  selectedCategory: searchCategoriesType;
-  selectCategory: (param: searchCategoriesType) => any;
+  selectedCategory: ISearchCategory;
+  selectCategory: (param: ISearchCategory) => any;
 }
 
 const SearchTabPills = ({
@@ -23,7 +23,7 @@ const SearchTabPills = ({
       <BlankSpacer height={16} />
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
         {categories.map((category, categoryIndex) => {
-          const onClick = () => selectCategory(category.text);
+          const onClick = () => selectCategory(category);
 
           return (
             <CategoryPill
@@ -31,7 +31,7 @@ const SearchTabPills = ({
               text={createReadableText(category.text)}
               emoji={category.emoji}
               action={onClick}
-              isSelected={category.text === selectedCategory}
+              isSelected={category.text === selectedCategory.text}
             />
           );
         })}

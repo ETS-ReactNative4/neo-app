@@ -47,44 +47,54 @@ export type searchCategoriesType =
 export interface ISearchCategory {
   text: searchCategoriesType;
   emoji: string;
+  searchQuery: string;
 }
 
 const categories: ISearchCategory[] = [
   {
     text: "ALL",
-    emoji: "😄"
+    emoji: "😄",
+    searchQuery: "all-packages"
   },
   {
     text: "ADVENTURE",
-    emoji: "🐊"
+    emoji: "🐊",
+    searchQuery: "adventure-packages"
   },
   {
     text: "ATTRACTION",
-    emoji: "🎪"
+    emoji: "🎪",
+    searchQuery: "attraction-packages"
   },
   {
     text: "CULTURE",
-    emoji: "👨🏽‍💼"
+    emoji: "👨🏽‍💼",
+    searchQuery: "culture-packages"
   },
   {
     text: "LEISURE",
-    emoji: "🏍"
+    emoji: "🏍",
+    searchQuery: "leisure-packages"
   },
   {
     text: "NATURE",
-    emoji: "😄"
+    emoji: "😄",
+    searchQuery: "nature-packages"
   },
   {
     text: "KID_FRIENDLY",
-    emoji: "😄"
+    emoji: "😄",
+    searchQuery: "kid-friendly-packages"
   },
   {
     text: "BEACH",
-    emoji: "😄"
+    emoji: "😄",
+    searchQuery: "beach-packages"
   },
   {
     text: "ART_AND_CULTURE",
-    emoji: "😄"
+    emoji: "😄",
+    searchQuery: "art-and-culture-packages"
   }
 ];
 
@@ -93,9 +103,15 @@ const Search = ({}: SearchScreenProps) => {
 
   const [searchString, setSearchString] = useState("");
 
-  const [selectedCategory, setSelectedCategory] = useState<
-    searchCategoriesType
-  >("ALL");
+  const [searchResults, setSearchResults] = useState<IPackageItinerary[]>([]);
+
+  const [categoryResults, setCategoryResults] = useState<IPackageItinerary[]>(
+    []
+  );
+
+  const [selectedCategory, setSelectedCategory] = useState<ISearchCategory>(
+    categories[0]
+  );
 
   const [offset, setOffset] = useState(1);
 
@@ -105,10 +121,35 @@ const Search = ({}: SearchScreenProps) => {
 
   const [packagesApiDetails, searchPackages] = usePackagesSearchApi();
 
-  const [searchResults, setSearchResults] = useState<IPackageItinerary[]>([]);
+  const [categoryOffset, setCategoryOffset] = useState(1);
+
+  const [
+    categoryWisePackagesApiDetails,
+    loadPackagesByCategory
+  ] = usePackagesSearchApi();
+
+  useDeepCompareEffect(() => {
+    setCategoryOffset(1);
+    setCategoryResults([]);
+    loadPackagesByCategory({
+      limit,
+      offset: 1,
+      searchString: selectedCategory.searchQuery
+    });
+  }, [selectedCategory]);
+
+  useEffect(() => {
+    loadPackagesByCategory({
+      limit,
+      offset: categoryOffset,
+      searchString: selectedCategory.searchQuery
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [categoryOffset]);
 
   useEffect(() => {
     setOffset(1);
+    setSearchResults([]);
     if (searchString) {
       searchPackages({
         limit,
@@ -133,10 +174,19 @@ const Search = ({}: SearchScreenProps) => {
   }, [offset]);
 
   const { successResponseData } = packagesApiDetails;
+  const {
+    successResponseData: categorySuccessResponseData
+  } = categoryWisePackagesApiDetails;
 
   const paginate = () => {
-    if (successResponseData?.data.length) {
-      setOffset(offset + 1);
+    if (searchString) {
+      if (successResponseData?.data.length) {
+        setOffset(offset + 1);
+      }
+    } else {
+      if (categorySuccessResponseData?.data.length) {
+        setCategoryOffset(categoryOffset + 1);
+      }
     }
   };
 
@@ -144,7 +194,14 @@ const Search = ({}: SearchScreenProps) => {
     setSearchResults([...searchResults, ...(successResponseData?.data || [])]);
   }, [successResponseData || {}]);
 
-  const selectCategory = (newCategory: searchCategoriesType) => {
+  useDeepCompareEffect(() => {
+    setCategoryResults([
+      ...categoryResults,
+      ...(categorySuccessResponseData?.data || [])
+    ]);
+  }, [categorySuccessResponseData || {}]);
+
+  const selectCategory = (newCategory: ISearchCategory) => {
     setSelectedCategory(newCategory);
   };
 
@@ -172,7 +229,7 @@ const Search = ({}: SearchScreenProps) => {
       <BlankSpacer height={1} containerStyle={styles.dividerStyle} />
       <BlankSpacer height={8} />
       <FlatList
-        data={searchResults}
+        data={searchString ? searchResults : categoryResults}
         renderItem={({ item }) => {
           const onClick = () => openItinerary();
           return (
