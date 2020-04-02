@@ -4,7 +4,10 @@ import {
   CONSTANT_fontCustom,
   CONSTANT_primaryRegular
 } from "../../../constants/fonts";
-import { CONSTANT_firstColorBackground } from "../../../constants/colorPallete";
+import {
+  CONSTANT_firstColor,
+  CONSTANT_white
+} from "../../../constants/colorPallete";
 
 export interface CategoryPillProps {
   emoji?: string;
@@ -25,7 +28,7 @@ const CategoryPill = ({
       onPress={action}
       style={[styles.searchTabPills, isSelected ? styles.selectedPill : null]}
     >
-      <Text style={styles.tabText}>
+      <Text style={[styles.tabText, isSelected ? styles.selectedText : null]}>
         {emoji ? emoji + " " : ""}
         {text}
       </Text>
@@ -44,11 +47,15 @@ const styles = StyleSheet.create({
     marginRight: 8
   },
   selectedPill: {
-    backgroundColor: CONSTANT_firstColorBackground
+    backgroundColor: CONSTANT_firstColor,
+    borderColor: CONSTANT_firstColor
   },
   tabText: {
     ...CONSTANT_fontCustom(CONSTANT_primaryRegular, 14, 18),
     color: "rgba(119, 119, 119, 1)"
+  },
+  selectedText: {
+    color: CONSTANT_white
   }
 });
 
