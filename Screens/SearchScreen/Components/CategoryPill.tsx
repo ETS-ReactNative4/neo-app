@@ -4,23 +4,26 @@ import {
   CONSTANT_fontCustom,
   CONSTANT_primaryRegular
 } from "../../../constants/fonts";
+import { CONSTANT_firstColorBackground } from "../../../constants/colorPallete";
 
 export interface CategoryPillProps {
   emoji?: string;
   text: string;
   action: () => any;
+  isSelected: boolean;
 }
 
 const CategoryPill = ({
   emoji = "",
   text = "",
-  action = () => null
+  action = () => null,
+  isSelected
 }: CategoryPillProps) => {
   return (
     <TouchableOpacity
       activeOpacity={0.8}
       onPress={action}
-      style={styles.searchTabPills}
+      style={[styles.searchTabPills, isSelected ? styles.selectedPill : null]}
     >
       <Text style={styles.tabText}>
         {emoji ? emoji + " " : ""}
@@ -39,6 +42,9 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     minWidth: 50,
     marginRight: 8
+  },
+  selectedPill: {
+    backgroundColor: CONSTANT_firstColorBackground
   },
   tabText: {
     ...CONSTANT_fontCustom(CONSTANT_primaryRegular, 14, 18),

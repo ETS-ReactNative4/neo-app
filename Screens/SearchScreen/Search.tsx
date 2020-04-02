@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { SafeAreaView, StyleSheet, FlatList } from "react-native";
 import SearchTabPills from "./Components/SearchTabPills";
 import BlankSpacer from "../../CommonComponents/BlankSpacer/BlankSpacer";
@@ -33,53 +33,154 @@ export interface SearchScreenProps {
   route: SearchScreenRouteProp;
 }
 
+export type searchCategoriesType =
+  | "ALL"
+  | "ADVENTURE"
+  | "ATTRACTION"
+  | "CULTURE"
+  | "LEISURE"
+  | "NATURE"
+  | "KID_FRIENDLY"
+  | "BEACH"
+  | "ART_AND_CULTURE";
+
+export interface ISearchCategory {
+  text: searchCategoriesType;
+  emoji: string;
+}
+
+const categories: ISearchCategory[] = [
+  {
+    text: "ALL",
+    emoji: "😄"
+  },
+  {
+    text: "ADVENTURE",
+    emoji: "🐊"
+  },
+  {
+    text: "ATTRACTION",
+    emoji: "🎪"
+  },
+  {
+    text: "CULTURE",
+    emoji: "👨🏽‍💼"
+  },
+  {
+    text: "LEISURE",
+    emoji: "🏍"
+  },
+  {
+    text: "NATURE",
+    emoji: "😄"
+  },
+  {
+    text: "KID_FRIENDLY",
+    emoji: "😄"
+  },
+  {
+    text: "BEACH",
+    emoji: "😄"
+  },
+  {
+    text: "ART_AND_CULTURE",
+    emoji: "😄"
+  }
+];
+
 const Search = ({}: SearchScreenProps) => {
-  const [searchText, setSearchText] = useState("");
+  const limit = useRef(15).current;
 
-  const updateText = (newText: string) => setSearchText(newText);
+  const [searchString, setSearchString] = useState("");
 
-  const resetText = () => setSearchText("");
+  const [selectedCategory, setSelectedCategory] = useState<
+    searchCategoriesType
+  >("ALL");
+
+  const [offset, setOffset] = useState(1);
+
+  const updateText = (newText: string) => setSearchString(newText);
+
+  const resetText = () => setSearchString("");
 
   const [packagesApiDetails, searchPackages] = usePackagesSearchApi();
 
   const [searchResults, setSearchResults] = useState<IPackageItinerary[]>([]);
 
   useEffect(() => {
-    searchPackages({
-      limit: 15,
-      offset: 1,
-      searchString: searchText
-    });
+    setOffset(1);
+    if (searchString) {
+      searchPackages({
+        limit,
+        offset,
+        searchString
+      });
+    } else {
+      setSearchResults([]);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchText]);
+  }, [searchString]);
+
+  useEffect(() => {
+    if (searchString) {
+      searchPackages({
+        limit,
+        offset,
+        searchString
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [offset]);
 
   const { successResponseData } = packagesApiDetails;
 
+  const paginate = () => {
+    if (successResponseData?.data.length) {
+      setOffset(offset + 1);
+    }
+  };
+
   useDeepCompareEffect(() => {
-    setSearchResults(successResponseData?.data || []);
+    setSearchResults([...searchResults, ...(successResponseData?.data || [])]);
   }, [successResponseData || {}]);
+
+  const selectCategory = (newCategory: searchCategoriesType) => {
+    setSelectedCategory(newCategory);
+  };
+
+  /**
+   * PT TODO: finish after itinerary screen is built
+   */
+  const openItinerary = () => {};
 
   return (
     <SafeAreaView style={styles.searchScreenContainerStyle}>
       <SearchBox
-        text={searchText}
+        text={searchString}
         onChangeText={updateText}
         textPlaceholder={"Search for places"}
         onClear={resetText}
         containerStyle={styles.inputStyle}
       />
-      {!searchText ? <SearchTabPills /> : null}
+      {!searchString ? (
+        <SearchTabPills
+          selectedCategory={selectedCategory}
+          categories={categories}
+          selectCategory={selectCategory}
+        />
+      ) : null}
       <BlankSpacer height={1} containerStyle={styles.dividerStyle} />
       <BlankSpacer height={8} />
       <FlatList
         data={searchResults}
         renderItem={({ item }) => {
-          const onClick = () => null;
+          const onClick = () => openItinerary();
           return (
             <SearchItem title={item.title} emoji={"😄"} action={onClick} />
           );
         }}
-        keyExtractor={item => item.campaignItineraryId}
+        keyExtractor={(item, itemIndex) => `${itemIndex}`}
+        onEndReached={paginate}
       />
     </SafeAreaView>
   );
