@@ -22,7 +22,10 @@ import {
   SCREEN_AGENT_FEEDBACK,
   SCREEN_AGENT_INFO,
   SCREEN_PROMO_PAGE,
-  SCREEN_ULTIMATE_MENU
+  SCREEN_ULTIMATE_MENU,
+  SCREEN_TRAVELLER_PROFILE,
+  SCREEN_EDIT_TRAVELLER_PROFILE,
+  SCREEN_ABOUT_SCREEN
 } from "./ScreenNames";
 import AppLogin from "../Screens/AppLoginScreen/AppLogin";
 import Starter from "../Screens/StartingScreen/Starter";
@@ -50,6 +53,9 @@ import { IPocCardPropsData } from "../Screens/AgentInfoScreen/Components/AgentPo
 import AgentFeedback from "../Screens/AgentFeedbackScreen/AgentFeedback";
 import PromoLanding from "../Screens/PromoLandingScreen/PromoLanding";
 import UltimateMenu from "../Screens/UltimateMenuScreen/UltimateMenu";
+import TravellerProfileDetails from "../Screens/TravellerProfileDetailsScreen/TravellerProfileDetails";
+import EditTravellerProfileDetails from "../Screens/TravellerProfileDetailsScreen/Components/EditTravellerProfileDetails";
+import About from "../Screens/AboutScreen/About";
 
 export type AppNavigatorParamsType = {
   [SCREEN_MODAL_STACK]: StackNavigationProp<ModalNavigatorParamsType>;
@@ -88,6 +94,9 @@ export type AppNavigatorParamsType = {
     promoData: string;
   };
   [SCREEN_ULTIMATE_MENU]: undefined;
+  [SCREEN_TRAVELLER_PROFILE]: undefined;
+  [SCREEN_EDIT_TRAVELLER_PROFILE]: undefined;
+  [SCREEN_ABOUT_SCREEN]: undefined;
 };
 
 const Stack = createStackNavigator<AppNavigatorParamsType>();
@@ -155,7 +164,13 @@ const AppNavigator = () => {
           component={NotificationDetails}
         />
         <Screen name={SCREEN_NOTIFICATION_FAQ} component={NotificationsFaq} />
-        <Screen name={SCREEN_STORY_BOOK} component={StorybookUIRoot} />
+        <Screen
+          options={{
+            headerShown: false
+          }}
+          name={SCREEN_STORY_BOOK}
+          component={StorybookUIRoot}
+        />
         <Screen
           name={SCREEN_YOUR_BOOKINGS}
           options={{
@@ -185,12 +200,21 @@ const AppNavigator = () => {
           component={AgentFeedback}
         />
         <Screen
+          name={SCREEN_TRAVELLER_PROFILE}
+          component={TravellerProfileDetails}
+        />
+        <Screen
+          name={SCREEN_EDIT_TRAVELLER_PROFILE}
+          component={EditTravellerProfileDetails}
+        />
+        <Screen
           options={{
             headerShown: false
           }}
           name={SCREEN_ULTIMATE_MENU}
           component={UltimateMenu}
         />
+        <Screen name={SCREEN_ABOUT_SCREEN} component={About} />
       </Navigator>
     </Fragment>
   );

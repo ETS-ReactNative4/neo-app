@@ -12,16 +12,18 @@ import {
 interface ProgressBarProps {
   containerStyle?: ViewStyle;
   progressBarStyle?: ViewStyle;
+  progress: number;
 }
 
 const ProgressBar = ({
   containerStyle,
-  progressBarStyle
+  progressBarStyle,
+  progress = 0
 }: ProgressBarProps) => {
   return (
     <View style={[styles.progressBarContainer, containerStyle]}>
       <Progress.Bar
-        progress={0.4}
+        progress={progress / 100}
         height={6}
         width={82}
         color={"#EEE81E"}
@@ -33,7 +35,7 @@ const ProgressBar = ({
       />
 
       <Text style={styles.progressBarText}>
-        <Text style={styles.boldText}>40% </Text>Completed
+        <Text style={styles.boldText}>{progress}% </Text>Completed
       </Text>
     </View>
   );

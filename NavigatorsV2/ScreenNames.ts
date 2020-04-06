@@ -16,6 +16,8 @@ export const SCREEN_LISTING_PAGE = "ListingPage";
 export const SCREEN_MODAL_STACK = "ModalStack";
 export const SCREEN_STORY_BOOK = "StoryBook";
 export const SCREEN_ULTIMATE_MENU = "UltimateMenu";
+export const SCREEN_TRAVELLER_PROFILE = "TravellerProfile";
+export const SCREEN_EDIT_TRAVELLER_PROFILE = "EditTravellerProfile";
 
 /**
  * Screens from the post booking app
@@ -30,3 +32,4 @@ export const SCREEN_YOUR_BOOKINGS = "YourBookings";
 export const SCREEN_POST_BOOKING_INTRO = "PostBookingIntro";
 export const SCREEN_AGENT_INFO = "AgentInfo";
 export const SCREEN_AGENT_FEEDBACK = "AgentFeedback";
+export const SCREEN_ABOUT_SCREEN = "About";

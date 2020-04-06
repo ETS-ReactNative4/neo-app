@@ -7,9 +7,7 @@ import {
   ScrollView,
   Alert
 } from "react-native";
-
 import TravellerProfileDetailsTitle from "./Components/TravellerProfileDetailsTitle";
-
 import {
   CONSTANT_primarySemiBold,
   CONSTANT_fontCustom,
@@ -23,21 +21,45 @@ import {
   CONSTANT_white
 } from "../../constants/colorPallete";
 import { CONSTANT_arrowRight } from "../../constants/imageAssets";
-
 import Icon from "../../CommonComponents/Icon/Icon";
 import TextInputField from "../../CommonComponents/TextInputField/TextInputField";
 import CustomCheckBox, {
   ICheckBoxData,
   ISuggestedDetails
 } from "../../CommonComponents/CustomCheckBox/CustomCheckBox";
+import XSensorPlaceholder from "../../CommonComponents/XSensorPlaceholder/XSensorPlaceholder";
+import PrimaryHeader from "../../NavigatorsV2/Components/PrimaryHeader";
+import { AppNavigatorProps } from "../../NavigatorsV2/AppNavigator";
+import {
+  SCREEN_TRAVELLER_PROFILE,
+  SCREEN_EDIT_TRAVELLER_PROFILE
+} from "../../NavigatorsV2/ScreenNames";
+import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 
-export interface TravellerProfileDetailsProps {
-  ratingData: ICheckBoxData[];
-}
+type TravellerProfileDetailsNav = AppNavigatorProps<
+  typeof SCREEN_TRAVELLER_PROFILE
+>;
+
+export interface TravellerProfileDetailsProps
+  extends TravellerProfileDetailsNav {}
 
 const TravellerProfileDetails = ({
-  ratingData
+  navigation
 }: TravellerProfileDetailsProps) => {
+  const [ratingData] = useState<ICheckBoxData[]>([
+    {
+      text: "2 Star"
+    },
+    {
+      text: "3 Star"
+    },
+    {
+      text: "4 Star"
+    },
+    {
+      text: "5 Star"
+    }
+  ]);
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
 
@@ -46,6 +68,17 @@ const TravellerProfileDetails = ({
   const [suggestedRatingDetails, setSuggestedRatingDetails] = useState<
     ISuggestedDetails[]
   >([]);
+
+  useEffect(() => {
+    navigation.setOptions({
+      header: () =>
+        PrimaryHeader({
+          leftAction: () => navigation.goBack(),
+          headerText: "My Traveller Profile"
+        })
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     setSuggestedRatingDetails(
@@ -66,13 +99,15 @@ const TravellerProfileDetails = ({
     setSuggestedRatingDetails(suggestedRatingList);
   };
 
+  const editProfile = () => navigation.navigate(SCREEN_EDIT_TRAVELLER_PROFILE);
+
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <View style={styles.profileDetailsContainer}>
         <TravellerProfileDetailsTitle
           title={"Personal Details"}
           editProfile
-          editProfileAction={() => Alert.alert("Click EDIT PROFILE")}
+          editProfileAction={editProfile}
         />
 
         <Text style={styles.titleStyle}>NAME</Text>
@@ -178,6 +213,7 @@ const TravellerProfileDetails = ({
           <Icon name={CONSTANT_arrowRight} color={CONSTANT_shade2} size={12} />
         </Text>
       </View>
+      <XSensorPlaceholder />
     </ScrollView>
   );
 };
@@ -227,4 +263,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default TravellerProfileDetails;
+export default ErrorBoundary()(TravellerProfileDetails);

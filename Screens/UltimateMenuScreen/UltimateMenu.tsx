@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   ViewStyle,
@@ -22,7 +22,10 @@ import {
   CONSTANT_fontCustom,
   CONSTANT_primarySemiBold
 } from "../../constants/fonts";
-import { CONSTANT_arrowRight } from "../../constants/imageAssets";
+import {
+  CONSTANT_arrowRight,
+  CONSTANT_storybookIcon
+} from "../../constants/imageAssets";
 import PrimaryButton from "../../CommonComponents/PrimaryButton/PrimaryButton";
 import ProgressBar from "../../CommonComponents/ProgressBar/ProgressBar";
 import ratioCalculator from "../../Services/ratioCalculator/ratioCalculator";
@@ -30,9 +33,16 @@ import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import { observer, inject } from "mobx-react";
 import User from "../../mobx/User";
 import { AppNavigatorProps } from "../../NavigatorsV2/AppNavigator";
-import { SCREEN_ULTIMATE_MENU } from "../../NavigatorsV2/ScreenNames";
+import {
+  SCREEN_ULTIMATE_MENU,
+  SCREEN_STORY_BOOK,
+  SCREEN_TRAVELLER_PROFILE,
+  SCREEN_ABOUT_SCREEN
+} from "../../NavigatorsV2/ScreenNames";
 import { useFocusEffect } from "@react-navigation/native";
 import isUserLoggedIn from "../../Services/isUserLoggedIn/isUserLoggedIn";
+import { isProduction } from "../../Services/getEnvironmentDetails/getEnvironmentDetails";
+import TranslucentStatusBar from "../../CommonComponents/TranslucentStatusBar/TranslucentStatusBar";
 
 export interface IUltimateMenuLists {
   name: string;
@@ -45,7 +55,6 @@ type UltimateMenuNavType = AppNavigatorProps<typeof SCREEN_ULTIMATE_MENU>;
 
 export interface UltimateMenuProps extends UltimateMenuNavType {
   containerStyle?: ViewStyle;
-  buttonName: string;
   buttonAction: () => void;
   enableLogin?: boolean;
   userStore: User;
@@ -56,7 +65,6 @@ const HEADER_CONTAINER_HEIGHT = ratioCalculator(5, 3, HEADER_CONTAINER_WIDTH);
 
 const UltimateMenu = ({
   containerStyle,
-  buttonName = "",
   buttonAction = () => {},
   navigation,
   userStore
@@ -82,39 +90,54 @@ const UltimateMenu = ({
       name: "My Traveller Profile",
       iconName: "heart1",
       active: false,
-      action: () => null
+      action: () => navigation.navigate(SCREEN_TRAVELLER_PROFILE)
     },
     {
       name: "About",
       iconName: "heart1",
       active: false,
-      action: () => null
+      action: () => navigation.navigate(SCREEN_ABOUT_SCREEN)
     }
   ];
 
+  if (!isProduction()) {
+    menuList.push({
+      name: "StoryBook",
+      iconName: CONSTANT_storybookIcon,
+      active: false,
+      action: () => navigation.navigate(SCREEN_STORY_BOOK)
+    });
+  }
+
   const goBack = () => navigation.goBack();
 
-  const login = () => {};
+  const login = () => null;
+
+  const logout = () => null;
+
+  const checkLogin = () => {
+    isUserLoggedIn()
+      .then(result => {
+        setIsLoggedIn(result);
+      })
+      .catch(() => {
+        setIsLoggedIn(false);
+      });
+  };
 
   useEffect(() => {
     getUserDetails();
+    checkLogin();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  useFocusEffect(
-    useCallback(() => {
-      isUserLoggedIn()
-        .then(result => {
-          setIsLoggedIn(result);
-        })
-        .catch(() => {
-          setIsLoggedIn(false);
-        });
-    }, [setIsLoggedIn])
-  );
+  useFocusEffect(() => {
+    checkLogin();
+  });
 
   return (
     <View style={[styles.ultimateMenuContainerStyle, containerStyle]}>
+      <TranslucentStatusBar />
       <View style={styles.headerContainer}>
         <TouchableOpacity
           activeOpacity={0.8}
@@ -135,13 +158,17 @@ const UltimateMenu = ({
             <Text style={styles.emailTextStyle} onPress={login}>
               Log-in / Sign-up
             </Text>
-          ) : null}
+          ) : (
+            <Text style={styles.emailTextStyle} onPress={logout}>
+              Logout
+            </Text>
+          )}
 
           <View style={styles.completePreferenceWrapper}>
-            <ProgressBar />
+            <ProgressBar progress={0} />
 
             <PrimaryButton
-              text={buttonName}
+              text={"Complete Preferences"}
               clickAction={buttonAction}
               buttonStyle={styles.buttonStyle}
               buttonTextStyle={styles.buttonTextStyle}
