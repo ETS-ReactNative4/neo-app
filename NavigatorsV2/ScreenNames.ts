@@ -18,6 +18,7 @@ export const SCREEN_STORY_BOOK = "StoryBook";
 export const SCREEN_ULTIMATE_MENU = "UltimateMenu";
 export const SCREEN_TRAVELLER_PROFILE = "TravellerProfile";
 export const SCREEN_EDIT_TRAVELLER_PROFILE = "EditTravellerProfile";
+export const SCREEN_SAVED_ITINERARIES = "SavedItineraries";
 
 /**
  * Screens from the post booking app

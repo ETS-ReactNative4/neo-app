@@ -37,7 +37,8 @@ import {
   SCREEN_ULTIMATE_MENU,
   SCREEN_STORY_BOOK,
   SCREEN_TRAVELLER_PROFILE,
-  SCREEN_ABOUT_SCREEN
+  SCREEN_ABOUT_SCREEN,
+  SCREEN_SAVED_ITINERARIES
 } from "../../NavigatorsV2/ScreenNames";
 import { useFocusEffect } from "@react-navigation/native";
 import isUserLoggedIn from "../../Services/isUserLoggedIn/isUserLoggedIn";
@@ -84,7 +85,7 @@ const UltimateMenu = ({
       name: "My Saved Itineraries",
       iconName: "heart1",
       active: false,
-      action: () => null
+      action: () => navigation.navigate(SCREEN_SAVED_ITINERARIES)
     },
     {
       name: "My Traveller Profile",

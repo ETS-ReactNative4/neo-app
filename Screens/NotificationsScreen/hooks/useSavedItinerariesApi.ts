@@ -12,7 +12,7 @@ export interface ISavedItinerarySuccessData extends IMobileServerResponse {
 }
 
 export interface ISavedItineraryApiCallData extends IApiCallHookData {
-  successResponseData: ISavedItinerarySuccessData;
+  successResponseData: ISavedItinerarySuccessData | undefined;
 }
 
 export type ISavedItineraryApiCallHook = [

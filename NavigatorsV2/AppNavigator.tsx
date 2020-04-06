@@ -25,7 +25,8 @@ import {
   SCREEN_ULTIMATE_MENU,
   SCREEN_TRAVELLER_PROFILE,
   SCREEN_EDIT_TRAVELLER_PROFILE,
-  SCREEN_ABOUT_SCREEN
+  SCREEN_ABOUT_SCREEN,
+  SCREEN_SAVED_ITINERARIES
 } from "./ScreenNames";
 import AppLogin from "../Screens/AppLoginScreen/AppLogin";
 import Starter from "../Screens/StartingScreen/Starter";
@@ -56,6 +57,7 @@ import UltimateMenu from "../Screens/UltimateMenuScreen/UltimateMenu";
 import TravellerProfileDetails from "../Screens/TravellerProfileDetailsScreen/TravellerProfileDetails";
 import EditTravellerProfileDetails from "../Screens/TravellerProfileDetailsScreen/Components/EditTravellerProfileDetails";
 import About from "../Screens/AboutScreen/About";
+import SavedItinerary from "../Screens/SavedItineraryScreen/SavedItinerary";
 
 export type AppNavigatorParamsType = {
   [SCREEN_MODAL_STACK]: StackNavigationProp<ModalNavigatorParamsType>;
@@ -97,6 +99,7 @@ export type AppNavigatorParamsType = {
   [SCREEN_TRAVELLER_PROFILE]: undefined;
   [SCREEN_EDIT_TRAVELLER_PROFILE]: undefined;
   [SCREEN_ABOUT_SCREEN]: undefined;
+  [SCREEN_SAVED_ITINERARIES]: undefined;
 };
 
 const Stack = createStackNavigator<AppNavigatorParamsType>();
@@ -215,6 +218,7 @@ const AppNavigator = () => {
           component={UltimateMenu}
         />
         <Screen name={SCREEN_ABOUT_SCREEN} component={About} />
+        <Screen name={SCREEN_SAVED_ITINERARIES} component={SavedItinerary} />
       </Navigator>
     </Fragment>
   );

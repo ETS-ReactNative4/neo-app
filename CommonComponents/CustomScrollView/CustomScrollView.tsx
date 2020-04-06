@@ -1,66 +1,70 @@
-import React, { Component } from "react";
+import React, { Component, ReactNode } from "react";
 import {
   StyleSheet,
   View,
-  Text,
   ScrollView,
   RefreshControl,
-  FlatList
+  FlatList,
+  ScrollViewProps,
+  StyleProp,
+  ViewStyle
 } from "react-native";
-import PropTypes from "prop-types";
-import constants from "../../constants/constants";
 import LineProgressBar from "../LineProgressBar/LineProgressBar";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { CONSTANT_firstColor } from "../../constants/colorPallete";
 
-class CustomScrollView extends Component {
-  static propTypes = {
-    children: PropTypes.oneOfType([
-      PropTypes.element,
-      PropTypes.arrayOf(PropTypes.element)
-    ]).isRequired,
-    onRefresh: PropTypes.func.isRequired,
-    refreshing: PropTypes.bool.isRequired,
-    horizontalPadding: PropTypes.number,
-    scrollComponent: PropTypes.string,
-    containerStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.number]),
-    scrollRef: PropTypes.object
-  };
+export interface ICustomScrollViewProps extends ScrollViewProps {
+  children?: ReactNode;
+  onRefresh?: () => any;
+  refreshing?: boolean;
+  horizontalPadding?: number;
+  scrollComponent?: "ScrollView" | "FlatList" | "KeyboardAvoidingScroll";
+  containerStyle?: StyleProp<ViewStyle>;
+  scrollRef?: object;
+}
+
+class CustomScrollView extends Component<ICustomScrollViewProps> {
   _refreshControlRef = React.createRef();
 
   render() {
     const {
-      onRefresh,
-      refreshing,
+      onRefresh = () => null,
+      refreshing = false,
       horizontalPadding = 0,
-      scrollComponent,
+      scrollComponent = "ScrollView",
       containerStyle = {},
       scrollRef = React.createRef(),
       ...otherProps
     } = this.props;
     otherProps.refreshControl = (
       <RefreshControl
+        // @ts-ignore
         ref={e => (this._refreshControlRef = e)}
         refreshing={false}
-        tintColor={constants.firstColor}
+        tintColor={CONSTANT_firstColor}
         progressBackgroundColor={"white"}
-        colors={[constants.firstColor]}
+        colors={[CONSTANT_firstColor]}
         onRefresh={onRefresh}
       />
     );
     let ScrollComponent = null;
     switch (scrollComponent) {
       case "ScrollView":
+        // @ts-ignore
         ScrollComponent = <ScrollView ref={scrollRef} {...otherProps} />;
         break;
       case "FlatList":
+        // @ts-ignore
         ScrollComponent = <FlatList ref={scrollRef} {...otherProps} />;
         break;
       case "KeyboardAvoidingScroll":
         ScrollComponent = (
+          // @ts-ignore
           <KeyboardAwareScrollView ref={scrollRef} {...otherProps} />
         );
         break;
       default:
+        // @ts-ignore
         ScrollComponent = <ScrollView ref={scrollRef} {...otherProps} />;
         break;
     }
