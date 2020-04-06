@@ -128,7 +128,7 @@ const About = ({ navigation }: AboutProps) => {
       header: () =>
         PrimaryHeader({
           leftAction: () => navigation.goBack(),
-          headerText: "My Traveller Profile"
+          headerText: "About"
         })
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
