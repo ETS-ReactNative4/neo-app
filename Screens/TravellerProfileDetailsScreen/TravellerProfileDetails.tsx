@@ -39,7 +39,9 @@ import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import ProfileDetailSection from "./Components/ProfileDetailSection";
 import { observer, inject } from "mobx-react";
 import User from "../../mobx/User";
-import useRetrieveTravelProfile from "./hooks/useRetrieveTravelProfile";
+import useRetrieveTravelProfile, {
+  hotelCategoriesType
+} from "./hooks/useRetrieveTravelProfile";
 import useDeepCompareEffect from "use-deep-compare-effect";
 
 type TravellerProfileDetailsNav = AppNavigatorProps<
@@ -87,14 +89,17 @@ const TravellerProfileDetails = ({
   const [hasMedicalCondition, setHasMedicalCondition] = useState(false);
   const toggleMedicalCondition = () =>
     setHasMedicalCondition(previousState => !previousState);
+  const enableMedicalCondition = () => setHasMedicalCondition(true);
+  const [medicalCondition, onChangeMedicalConditionText] = React.useState(
+    "Diabetes"
+  );
 
   const [hasPhysicalDisablilities, setHasPhysicalDisabilities] = useState(
     false
   );
   const togglePhysicalDisabilities = () =>
     setHasPhysicalDisabilities(previousState => !previousState);
-
-  const [value, onChangeText] = React.useState("Diabetes");
+  const enablePhysicalDisabilities = () => setHasPhysicalDisabilities(true);
 
   const [suggestedRatingDetails, setSuggestedRatingDetails] = useState<
     ISuggestedDetails[]
@@ -123,18 +128,59 @@ const TravellerProfileDetails = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const selectSuggestedRatingDetails = (itemIndex: number) => {
-    const suggestedRatingList = [...suggestedRatingDetails];
-    suggestedRatingList[itemIndex].isChecked = !suggestedRatingList[itemIndex]
-      .isChecked;
-    setSuggestedRatingDetails(suggestedRatingList);
+  const toggleSuggestedRatingDetailsByIndex = (itemIndex: number) => {
+    setSuggestedRatingDetails(
+      suggestedRatingDetails.map((rating, ratingIndex) => {
+        if (itemIndex === ratingIndex) {
+          return {
+            ...rating,
+            isChecked: !rating.isChecked
+          };
+        }
+        return rating;
+      })
+    );
+  };
+
+  const selectSuggestedRatingDetailsByName = (
+    categories: hotelCategoriesType[]
+  ) => {
+    setSuggestedRatingDetails(
+      suggestedRatingDetails.map(rating => {
+        if (categories) {
+          if (categories.includes(rating.text)) {
+            return {
+              ...rating,
+              isChecked: true
+            };
+          }
+          return rating;
+        }
+        return rating;
+      })
+    );
   };
 
   const editProfile = () => navigation.navigate(SCREEN_EDIT_TRAVELLER_PROFILE);
 
-  const { successResponseData = {} } = travelProfileApiDetails;
+  const { successResponseData } = travelProfileApiDetails;
 
-  useDeepCompareEffect(() => {}, [successResponseData || {}]);
+  useDeepCompareEffect(() => {
+    if (successResponseData) {
+      const { data } = successResponseData;
+      const { hotelCategories, medicalConditions, physicalDisabilities } = data;
+      if (hotelCategories) {
+        selectSuggestedRatingDetailsByName(hotelCategories);
+      }
+      if (medicalConditions) {
+        enableMedicalCondition();
+        onChangeMedicalConditionText(medicalConditions);
+      }
+      if (physicalDisabilities) {
+        enablePhysicalDisabilities();
+      }
+    }
+  }, [successResponseData || {}]);
 
   LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
 
@@ -190,7 +236,7 @@ const TravellerProfileDetails = ({
         {preferStarCategory &&
           suggestedRatingDetails.map((item, index) => {
             const onSelect = () => {
-              selectSuggestedRatingDetails(item.index);
+              toggleSuggestedRatingDetailsByIndex(item.index);
             };
 
             return (
@@ -229,8 +275,8 @@ const TravellerProfileDetails = ({
 
         {hasMedicalCondition ? (
           <TextInputField
-            value={value}
-            onChangeText={text => onChangeText(text)}
+            value={medicalCondition}
+            onChangeText={text => onChangeMedicalConditionText(text)}
             hasError={false}
             placeholder=""
             containerStyle={styles.inputFieldStyle}

@@ -20,14 +20,15 @@ import {
   CONSTANT_shade3,
   CONSTANT_firstColor
 } from "../../constants/colorPallete";
+import { hotelCategoriesType } from "../../Screens/TravellerProfileDetailsScreen/hooks/useRetrieveTravelProfile";
 
 export interface ICheckBoxData {
-  text: string;
+  text: hotelCategoriesType;
 }
 
 export interface ISuggestedDetails {
   index: number;
-  text: string;
+  text: hotelCategoriesType;
   isChecked: boolean;
 }
 

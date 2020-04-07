@@ -4,7 +4,7 @@ import useApiCall, {
 import { CONSTANT_travelProfile } from "../../../constants/apiUrls";
 import { IMobileServerResponse } from "../../../TypeInterfaces/INetworkResponse";
 
-export type hotelCategoriesType = "2 Star" | "3 Star" | "4 Star";
+export type hotelCategoriesType = "2 Star" | "3 Star" | "4 Star" | "5 Star";
 
 export interface ITravelProfileData {
   hotelCategories: hotelCategoriesType[];
