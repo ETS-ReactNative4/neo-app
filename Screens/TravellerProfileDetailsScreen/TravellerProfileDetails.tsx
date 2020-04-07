@@ -5,7 +5,8 @@ import {
   Text,
   Switch,
   ScrollView,
-  Alert
+  Alert,
+  LayoutAnimation
 } from "react-native";
 import TravellerProfileDetailsTitle from "./Components/TravellerProfileDetailsTitle";
 import {
@@ -35,17 +36,36 @@ import {
   SCREEN_EDIT_TRAVELLER_PROFILE
 } from "../../NavigatorsV2/ScreenNames";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
+import ProfileDetailSection from "./Components/ProfileDetailSection";
+import { observer, inject } from "mobx-react";
+import User from "../../mobx/User";
+import useRetrieveTravelProfile from "./hooks/useRetrieveTravelProfile";
+import useDeepCompareEffect from "use-deep-compare-effect";
 
 type TravellerProfileDetailsNav = AppNavigatorProps<
   typeof SCREEN_TRAVELLER_PROFILE
 >;
 
 export interface TravellerProfileDetailsProps
-  extends TravellerProfileDetailsNav {}
+  extends TravellerProfileDetailsNav {
+  userStore: User;
+}
 
 const TravellerProfileDetails = ({
-  navigation
+  navigation,
+  userStore
 }: TravellerProfileDetailsProps) => {
+  const { userDisplayDetails = {}, getUserDisplayDetails } = userStore;
+  const { email, mobileNumber, name } = userDisplayDetails;
+
+  const [
+    travelProfileApiDetails,
+    loadTravelProfile
+  ] = useRetrieveTravelProfile();
+
+  const dateOfBirth = "";
+  const cityOfDeparture = "";
+
   const [ratingData] = useState<ICheckBoxData[]>([
     {
       text: "2 Star"
@@ -60,8 +80,19 @@ const TravellerProfileDetails = ({
       text: "5 Star"
     }
   ]);
-  const [isEnabled, setIsEnabled] = useState(false);
-  const toggleSwitch = () => setIsEnabled(previousState => !previousState);
+  const [preferStarCategory, setPreferStarCategory] = useState(false);
+  const toggleStarCategoryPreference = () =>
+    setPreferStarCategory(previousState => !previousState);
+
+  const [hasMedicalCondition, setHasMedicalCondition] = useState(false);
+  const toggleMedicalCondition = () =>
+    setHasMedicalCondition(previousState => !previousState);
+
+  const [hasPhysicalDisablilities, setHasPhysicalDisabilities] = useState(
+    false
+  );
+  const togglePhysicalDisabilities = () =>
+    setHasPhysicalDisabilities(previousState => !previousState);
 
   const [value, onChangeText] = React.useState("Diabetes");
 
@@ -77,10 +108,9 @@ const TravellerProfileDetails = ({
           headerText: "My Traveller Profile"
         })
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
-  useEffect(() => {
+    getUserDisplayDetails();
+    loadTravelProfile();
     setSuggestedRatingDetails(
       ratingData.map((item, itemIndex) => {
         return {
@@ -90,7 +120,8 @@ const TravellerProfileDetails = ({
         };
       })
     );
-  }, [ratingData]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const selectSuggestedRatingDetails = (itemIndex: number) => {
     const suggestedRatingList = [...suggestedRatingDetails];
@@ -101,6 +132,12 @@ const TravellerProfileDetails = ({
 
   const editProfile = () => navigation.navigate(SCREEN_EDIT_TRAVELLER_PROFILE);
 
+  const { successResponseData = {} } = travelProfileApiDetails;
+
+  useDeepCompareEffect(() => {}, [successResponseData || {}]);
+
+  LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <View style={styles.profileDetailsContainer}>
@@ -110,22 +147,28 @@ const TravellerProfileDetails = ({
           editProfileAction={editProfile}
         />
 
-        <Text style={styles.titleStyle}>NAME</Text>
-        <Text style={styles.textStyle}>Koushik Murali</Text>
+        {name ? <ProfileDetailSection title={"Name"} text={name} /> : null}
 
-        <Text style={styles.titleStyle}>EMAIL</Text>
-        <Text style={styles.textStyle}>koushikmurali@gmail.com</Text>
+        {email ? <ProfileDetailSection title={"Email"} text={email} /> : null}
 
-        <Text style={styles.titleStyle}>PHONE</Text>
-        <Text style={styles.textStyle}>+91 98843 25343</Text>
+        {mobileNumber ? (
+          <ProfileDetailSection title={"Phone"} text={mobileNumber} />
+        ) : null}
 
-        <Text style={styles.titleStyle}>CITY OF DEPARTURE</Text>
-        <Text style={styles.textStyle}>Chennai</Text>
+        {cityOfDeparture ? (
+          <ProfileDetailSection
+            title={"City of Departure"}
+            text={cityOfDeparture}
+          />
+        ) : null}
 
-        <Text style={styles.titleStyle}>BIRTHDAY</Text>
-        <Text style={[styles.textStyle, styles.noMarginBottom]}>
-          15 Jul 1990
-        </Text>
+        {dateOfBirth ? (
+          <ProfileDetailSection
+            title={"Birthday"}
+            text={dateOfBirth}
+            textStyle={styles.noMarginBottom}
+          />
+        ) : null}
       </View>
 
       <View style={styles.profileDetailsContainer}>
@@ -137,33 +180,34 @@ const TravellerProfileDetails = ({
           </Text>
           <Switch
             trackColor={{ false: "#767577", true: CONSTANT_firstColor }}
-            thumbColor={isEnabled ? CONSTANT_white : CONSTANT_shade6}
+            thumbColor={preferStarCategory ? CONSTANT_white : CONSTANT_shade6}
             ios_backgroundColor={CONSTANT_shade6}
-            onValueChange={toggleSwitch}
-            value={isEnabled}
+            onValueChange={toggleStarCategoryPreference}
+            value={preferStarCategory}
           />
         </View>
 
-        {suggestedRatingDetails.map((item, index) => {
-          const onSelect = () => {
-            selectSuggestedRatingDetails(item.index);
-          };
+        {preferStarCategory &&
+          suggestedRatingDetails.map((item, index) => {
+            const onSelect = () => {
+              selectSuggestedRatingDetails(item.index);
+            };
 
-          return (
-            <CustomCheckBox
-              key={index}
-              isChecked={item.isChecked}
-              action={onSelect}
-              text={item.text}
-              containerStyle={
-                index === suggestedRatingDetails.length - 1
-                  ? styles.noMarginBottom
-                  : null
-              }
-              checkboxTextStyle={styles.checkboxTextStyle}
-            />
-          );
-        })}
+            return (
+              <CustomCheckBox
+                key={index}
+                isChecked={item.isChecked}
+                action={onSelect}
+                text={item.text}
+                containerStyle={
+                  index === suggestedRatingDetails.length - 1
+                    ? styles.noMarginBottom
+                    : null
+                }
+                checkboxTextStyle={styles.checkboxTextStyle}
+              />
+            );
+          })}
       </View>
 
       <View style={styles.profileDetailsContainer}>
@@ -176,18 +220,22 @@ const TravellerProfileDetails = ({
           </Text>
           <Switch
             trackColor={{ false: "#767577", true: CONSTANT_firstColor }}
-            thumbColor={isEnabled ? CONSTANT_white : CONSTANT_shade6}
+            thumbColor={preferStarCategory ? CONSTANT_white : CONSTANT_shade6}
             ios_backgroundColor={CONSTANT_shade6}
+            value={hasMedicalCondition}
+            onValueChange={toggleMedicalCondition}
           />
         </View>
 
-        <TextInputField
-          value={value}
-          onChangeText={text => onChangeText(text)}
-          hasError={false}
-          placeholder=""
-          containerStyle={styles.inputFieldStyle}
-        />
+        {hasMedicalCondition ? (
+          <TextInputField
+            value={value}
+            onChangeText={text => onChangeText(text)}
+            hasError={false}
+            placeholder=""
+            containerStyle={styles.inputFieldStyle}
+          />
+        ) : null}
         {/* Do you have any medical conditions? ends */}
 
         {/* Do you have any physical disabilities? starts */}
@@ -197,8 +245,10 @@ const TravellerProfileDetails = ({
           </Text>
           <Switch
             trackColor={{ false: "#767577", true: CONSTANT_firstColor }}
-            thumbColor={isEnabled ? CONSTANT_white : CONSTANT_shade6}
+            thumbColor={preferStarCategory ? CONSTANT_white : CONSTANT_shade6}
             ios_backgroundColor={CONSTANT_shade6}
+            value={hasPhysicalDisablilities}
+            onValueChange={togglePhysicalDisabilities}
           />
         </View>
         {/* Do you have any physical disabilities? ends */}
@@ -263,4 +313,6 @@ const styles = StyleSheet.create({
   }
 });
 
-export default ErrorBoundary()(TravellerProfileDetails);
+export default ErrorBoundary()(
+  inject("userStore")(observer(TravellerProfileDetails))
+);

@@ -109,6 +109,9 @@ export const CONSTANT_getVisaDetails = "mobile/visa/:visaId";
 export const CONSTANT_sendVisaDocs = "mobile/sendVisaDocs";
 export const CONSTANT_getPaymentMeta =
   "mobile/booked/itinerary/paymentMetaInfo";
+export const CONSTANT_travelProfile = "user/travellerprofile";
+export const CONSTANT_userProfile = "user";
+export const CONSTANT_retrieveUserProfile = "user/getUserDetails";
 export const CONSTANT_getPaymentInfo = "mobile/:itineraryId/paymentInfo";
 export const CONSTANT_getFaq = "mobile/v2/faq";
 export const CONSTANT_getTripFeed = "mobile/feeds";
