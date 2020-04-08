@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   View,
   StyleSheet,
   Text,
   Switch,
-  ScrollView,
   Alert,
   LayoutAnimation
 } from "react-native";
@@ -43,6 +42,10 @@ import useRetrieveTravelProfile, {
   hotelCategoriesType
 } from "./hooks/useRetrieveTravelProfile";
 import useDeepCompareEffect from "use-deep-compare-effect";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { useKeyboard } from "@react-native-community/hooks";
+import usePatchTravelProfile from "./hooks/usePatchTravelProfile";
+import { toastBottom } from "../../Services/toast/toast";
 
 type TravellerProfileDetailsNav = AppNavigatorProps<
   typeof SCREEN_TRAVELLER_PROFILE
@@ -64,6 +67,7 @@ const TravellerProfileDetails = ({
     travelProfileApiDetails,
     loadTravelProfile
   ] = useRetrieveTravelProfile();
+  const [, patchTravelProfile] = usePatchTravelProfile();
 
   const dateOfBirth = "";
   const cityOfDeparture = "";
@@ -85,6 +89,7 @@ const TravellerProfileDetails = ({
   const [preferStarCategory, setPreferStarCategory] = useState(false);
   const toggleStarCategoryPreference = () =>
     setPreferStarCategory(previousState => !previousState);
+  const enableStarCategoryPreference = () => setPreferStarCategory(true);
 
   const [hasMedicalCondition, setHasMedicalCondition] = useState(false);
   const toggleMedicalCondition = () =>
@@ -163,13 +168,49 @@ const TravellerProfileDetails = ({
 
   const editProfile = () => navigation.navigate(SCREEN_EDIT_TRAVELLER_PROFILE);
 
-  const { successResponseData } = travelProfileApiDetails;
+  const hasDataLoaded = useRef(false);
+
+  const keyboard = useKeyboard();
+  const { keyboardShown } = keyboard;
+
+  useEffect(() => {
+    if (!keyboardShown && hasDataLoaded.current) {
+      patchTravelProfile({
+        medicalConditions: hasMedicalCondition ? medicalCondition : ""
+      })
+        .then(() => {
+          loadTravelProfile();
+        })
+        .catch(() => toastBottom("Unable to save your preferences"));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [keyboardShown]);
 
   useDeepCompareEffect(() => {
-    if (successResponseData) {
-      const { data } = successResponseData;
+    if (hasDataLoaded.current) {
+      patchTravelProfile({
+        hotelCategories: preferStarCategory
+          ? suggestedRatingDetails
+              .filter(rating => rating.isChecked)
+              .map(rating => rating.text)
+          : [],
+        physicalDisabilities: hasPhysicalDisablilities
+      })
+        .then(() => {
+          loadTravelProfile();
+        })
+        .catch(() => toastBottom("Unable to save your preferences"));
+    }
+  }, [preferStarCategory, suggestedRatingDetails, hasPhysicalDisablilities]);
+
+  const { successResponseData: travelProfileData } = travelProfileApiDetails;
+
+  useDeepCompareEffect(() => {
+    if (travelProfileData) {
+      const { data } = travelProfileData;
       const { hotelCategories, medicalConditions, physicalDisabilities } = data;
       if (hotelCategories) {
+        enableStarCategoryPreference();
         selectSuggestedRatingDetailsByName(hotelCategories);
       }
       if (medicalConditions) {
@@ -179,13 +220,14 @@ const TravellerProfileDetails = ({
       if (physicalDisabilities) {
         enablePhysicalDisabilities();
       }
+      hasDataLoaded.current = true;
     }
-  }, [successResponseData || {}]);
+  }, [travelProfileData || {}]);
 
   LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
 
   return (
-    <ScrollView showsVerticalScrollIndicator={false}>
+    <KeyboardAwareScrollView showsVerticalScrollIndicator={false}>
       <View style={styles.profileDetailsContainer}>
         <TravellerProfileDetailsTitle
           title={"Personal Details"}
@@ -278,7 +320,7 @@ const TravellerProfileDetails = ({
             value={medicalCondition}
             onChangeText={text => onChangeMedicalConditionText(text)}
             hasError={false}
-            placeholder=""
+            placeholder="Please input your medical conditions"
             containerStyle={styles.inputFieldStyle}
           />
         ) : null}
@@ -310,7 +352,7 @@ const TravellerProfileDetails = ({
         </Text>
       </View>
       <XSensorPlaceholder />
-    </ScrollView>
+    </KeyboardAwareScrollView>
   );
 };
 
