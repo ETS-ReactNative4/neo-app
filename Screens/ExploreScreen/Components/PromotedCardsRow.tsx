@@ -11,6 +11,8 @@ import PromoCard from "../../../CommonComponents/PromoCard/PromoCard";
 import getPriceWithoutSymbol from "../services/getPriceWithoutSymbol";
 import deepLink from "../../../Services/deepLink/deepLink";
 import getImgIXUrl from "../../../Services/getImgIXUrl/getImgIXUrl";
+import { recordEvent } from "../../../Services/analytics/analyticsService";
+import { CONSTANT_explore } from "../../../constants/appEvents";
 
 export interface IPromoDeepLink {
   link: string;
@@ -31,6 +33,9 @@ const PromotedCardsRow = (props: IPromotedSection) => {
               const action = () => {
                 const deepLinkingObject: IPromoDeepLink = promo.deepLinking;
                 deepLink(deepLinkingObject);
+                recordEvent(CONSTANT_explore.event, {
+                  click: CONSTANT_explore.click.dealsFromOurPartnersCard
+                });
               };
               return (
                 <PromoCard

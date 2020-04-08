@@ -10,6 +10,8 @@ import { ICountryCardData } from "./CountryCardsRow";
 import TestimonialCard from "../../../CommonComponents/TestimonialCard/TestimonialCard";
 import getImgIXUrl from "../../../Services/getImgIXUrl/getImgIXUrl";
 import { CONSTANT_exploreFeedCardLimit } from "../../../constants/stringConstants";
+import { recordEvent } from "../../../Services/analytics/analyticsService";
+import { CONSTANT_explore } from "../../../constants/appEvents";
 
 const TestimonialsCardsRow = (props: ITestimonialsSection) => {
   return (
@@ -19,6 +21,10 @@ const TestimonialsCardsRow = (props: ITestimonialsSection) => {
       requestPayload={props.requestPayload}
     >
       {({ data, isLoading }: ICountryCardData) => {
+        const action = () =>
+          recordEvent(CONSTANT_explore.event, {
+            click: CONSTANT_explore.click.travellerTestimonialscard
+          });
         return isLoading
           ? null
           : data &&
@@ -28,7 +34,7 @@ const TestimonialsCardsRow = (props: ITestimonialsSection) => {
                   return (
                     <TestimonialCard
                       key={testimonialIndex}
-                      action={() => null}
+                      action={action}
                       date={testimonial.dateOfDeparture}
                       image={{
                         uri: getImgIXUrl({ src: testimonial.profileImage })

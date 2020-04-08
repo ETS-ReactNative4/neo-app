@@ -13,6 +13,9 @@ import deepLink from "../../../Services/deepLink/deepLink";
 import ExploreCardLodingIndicator from "./ExploreCardLodingIndicator";
 import ratioCalculator from "../../../Services/ratioCalculator/ratioCalculator";
 import getImgIXUrl from "../../../Services/getImgIXUrl/getImgIXUrl";
+import { recordEvent } from "../../../Services/analytics/analyticsService";
+
+import { CONSTANT_explore } from "../../../constants/appEvents";
 
 export interface ICountryCard {
   countryId: number;
@@ -91,6 +94,9 @@ const CountryCardsRow = (props: ICountriesSection) => {
                   }
                 };
                 deepLink(deepLinkingObject);
+                recordEvent(CONSTANT_explore.event, {
+                  click: CONSTANT_explore.click.recommendedForYouCard
+                });
               };
               return (
                 <FeaturedCardTypeOne
