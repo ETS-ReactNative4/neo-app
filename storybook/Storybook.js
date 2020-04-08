@@ -38,6 +38,7 @@ configure(() => {
   require("./stories/ItineraryScreenStory");
   require("./stories/GCMFormScreenStory");
   require("./stories/SearchScreenStory");
+  require("./stories/TripIntensityScreenStory");
 }, module);
 
 const StorybookUIRoot = getStorybookUI({
