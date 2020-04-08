@@ -116,13 +116,13 @@ const styles = StyleSheet.create({
 
   leftTextStyle: {
     color: CONSTANT_black1,
-    ...CONSTANT_fontCustom(CONSTANT_primarySemiBold, 10),
+    ...CONSTANT_fontCustom(CONSTANT_primarySemiBold, 14),
     textTransform: "uppercase"
   },
 
   rightTextStyle: {
     color: CONSTANT_shade1,
-    ...CONSTANT_fontCustom(CONSTANT_primarySemiBold, 10),
+    ...CONSTANT_fontCustom(CONSTANT_primarySemiBold, 12),
     textTransform: "uppercase",
     textDecorationLine: "underline"
   }
