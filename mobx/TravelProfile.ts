@@ -190,7 +190,6 @@ class TravelProfile {
   @action
   loadMaritalStatusOptionImages = () => {
     return new Promise<boolean>((resolve, reject) => {
-      // PT TODO: Get actual api url
       fetch(`${CONSTANT_apiServerUrl}${CONSTANT_getMaritalStatusData}`)
         .then(response => response.json())
         .then((data: maritalStatusOptionImagesType) => {

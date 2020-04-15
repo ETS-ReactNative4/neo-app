@@ -26,7 +26,8 @@ import {
   SCREEN_TRAVELLER_PROFILE,
   SCREEN_EDIT_TRAVELLER_PROFILE,
   SCREEN_ABOUT_SCREEN,
-  SCREEN_SAVED_ITINERARIES
+  SCREEN_SAVED_ITINERARIES,
+  SCREEN_TRIP_INTENSITY
 } from "./ScreenNames";
 import AppLogin from "../Screens/AppLoginScreen/AppLogin";
 import Starter from "../Screens/StartingScreen/Starter";
@@ -58,6 +59,7 @@ import TravellerProfileDetails from "../Screens/TravellerProfileDetailsScreen/Tr
 import EditTravellerProfileDetails from "../Screens/TravellerProfileDetailsScreen/Components/EditTravellerProfileDetails";
 import About from "../Screens/AboutScreen/About";
 import SavedItinerary from "../Screens/SavedItineraryScreen/SavedItinerary";
+import TripIntensity from "../Screens/TripIntensityScreen/TripIntensity";
 
 export type AppNavigatorParamsType = {
   [SCREEN_MODAL_STACK]: StackNavigationProp<ModalNavigatorParamsType>;
@@ -75,6 +77,7 @@ export type AppNavigatorParamsType = {
   [SCREEN_TRAVEL_MARITAL_STATUS]: {
     isPositive: boolean;
   };
+  [SCREEN_TRIP_INTENSITY]: undefined;
   [SCREEN_STORY_BOOK]: undefined;
   [SCREEN_NOTIFICATION_DETAILS]: {
     notification: IItineraryNotification;
@@ -219,6 +222,7 @@ const AppNavigator = () => {
         />
         <Screen name={SCREEN_ABOUT_SCREEN} component={About} />
         <Screen name={SCREEN_SAVED_ITINERARIES} component={SavedItinerary} />
+        <Screen name={SCREEN_TRIP_INTENSITY} component={TripIntensity} />
       </Navigator>
     </Fragment>
   );

@@ -1,11 +1,5 @@
-import React from "react";
-import {
-  View,
-  ViewStyle,
-  StyleSheet,
-  Text,
-  TouchableOpacity
-} from "react-native";
+import React, { useEffect } from "react";
+import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import {
   responsiveWidth
   // @ts-ignore
@@ -28,22 +22,50 @@ import { CONSTANT_xSensorAreaHeight } from "../../constants/styles";
 import SmartImageV2 from "../../CommonComponents/SmartImage/SmartImageV2";
 import { CONSTANT_defaultPlaceImage } from "../../constants/imageAssets";
 import SectionTitle from "../../CommonComponents/SectionTitle/SectionTitle";
-import TravelProfileHeader from "../TravelProfileWelcomeScreen/Components/TravelProfileHeader";
+import { AppNavigatorProps } from "../../NavigatorsV2/AppNavigator";
+import { SCREEN_TRIP_INTENSITY } from "../../NavigatorsV2/ScreenNames";
+import skipUserProfileBuilder from "../../Services/skipUserProfileBuilder/skipUserProfileBuilder";
+import { observer, inject } from "mobx-react";
+import WelcomeHeader from "../../NavigatorsV2/Components/WelcomeHeader";
+import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
+import WelcomeState from "../../mobx/WelcomeState";
 
-export interface TripIntensityProps {
-  containerStyle?: ViewStyle;
+export type TripIntensityNavTypes = AppNavigatorProps<
+  typeof SCREEN_TRIP_INTENSITY
+>;
+
+export interface TripIntensityProps extends TripIntensityNavTypes {
+  welcomeStateStore: WelcomeState;
 }
 
-const TripIntensity = ({ containerStyle }: TripIntensityProps) => {
-  return (
-    <View style={[styles.tripIntensityContainerStyle, containerStyle]}>
-      <TravelProfileHeader
-        leftLinkText={"PART 3 OF 4"}
-        clickLeftLink={() => {}}
-        rightLinkText={"skip"}
-        containerStyle={styles.headerContainerStyle}
-      />
+const TripIntensity = ({
+  navigation,
+  welcomeStateStore
+}: TripIntensityProps) => {
+  const prevScreen = () => {
+    navigation.goBack();
+  };
 
+  const skipFlow = () => {
+    welcomeStateStore.patchWelcomeState("skippedAt", SCREEN_TRIP_INTENSITY);
+    navigation.dispatch(skipUserProfileBuilder());
+  };
+
+  useEffect(() => {
+    navigation.setOptions({
+      header: options =>
+        WelcomeHeader(options, {
+          rightLinkText: "Skip question",
+          onRightLinkClick: skipFlow,
+          leftLinkText: "Part 3 of 4",
+          onLeftLinkClick: prevScreen
+        })
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  return (
+    <View style={[styles.tripIntensityContainerStyle]}>
       <View style={styles.tripIntensityContent}>
         <SectionTitle
           containerStyle={styles.sectionTitleContainer}
@@ -196,4 +218,8 @@ const styles = StyleSheet.create({
   }
 });
 
-export default TripIntensity;
+export default ErrorBoundary()(
+  inject("welcomeStateStore")(
+    inject("travelProfileStore")(observer(TripIntensity))
+  )
+);
