@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import {
   View,
   StyleSheet,
@@ -46,6 +46,7 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import { useKeyboard } from "@react-native-community/hooks";
 import usePatchTravelProfile from "./hooks/usePatchTravelProfile";
 import { toastBottom } from "../../Services/toast/toast";
+import { useFocusEffect } from "@react-navigation/native";
 
 type TravellerProfileDetailsNav = AppNavigatorProps<
   typeof SCREEN_TRAVELLER_PROFILE
@@ -119,8 +120,6 @@ const TravellerProfileDetails = ({
         })
     });
 
-    getUserDisplayDetails();
-    loadTravelProfile();
     setSuggestedRatingDetails(
       ratingData.map((item, itemIndex) => {
         return {
@@ -132,6 +131,14 @@ const TravellerProfileDetails = ({
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      getUserDisplayDetails();
+      loadTravelProfile();
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
+  );
 
   const toggleSuggestedRatingDetailsByIndex = (itemIndex: number) => {
     setSuggestedRatingDetails(
@@ -173,6 +180,9 @@ const TravellerProfileDetails = ({
   const keyboard = useKeyboard();
   const { keyboardShown } = keyboard;
 
+  /**
+   * Effect to refresh medical data & input field
+   */
   useEffect(() => {
     if (!keyboardShown && hasDataLoaded.current) {
       patchTravelProfile({
@@ -183,9 +193,13 @@ const TravellerProfileDetails = ({
         })
         .catch(() => toastBottom("Unable to save your preferences"));
     }
+    hasDataLoaded.current = true;
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [keyboardShown]);
+  }, [keyboardShown, hasMedicalCondition]);
 
+  /**
+   * Effect to handle all the other options
+   */
   useDeepCompareEffect(() => {
     if (hasDataLoaded.current) {
       patchTravelProfile({
@@ -201,6 +215,7 @@ const TravellerProfileDetails = ({
         })
         .catch(() => toastBottom("Unable to save your preferences"));
     }
+    hasDataLoaded.current = true;
   }, [preferStarCategory, suggestedRatingDetails, hasPhysicalDisablilities]);
 
   const { successResponseData: travelProfileData } = travelProfileApiDetails;

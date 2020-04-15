@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { View, StyleSheet, Alert } from "react-native";
 import { isIphoneX } from "react-native-iphone-x-helper";
 import {
@@ -12,20 +12,35 @@ import { AppNavigatorProps } from "../../../NavigatorsV2/AppNavigator";
 import { SCREEN_EDIT_TRAVELLER_PROFILE } from "../../../NavigatorsV2/ScreenNames";
 import PrimaryHeader from "../../../NavigatorsV2/Components/PrimaryHeader";
 import ErrorBoundary from "../../../CommonComponents/ErrorBoundary/ErrorBoundary";
+import { observer, inject } from "mobx-react";
+import User from "../../../mobx/User";
+import { useKeyboard } from "@react-native-community/hooks";
 
 type EditTravellerProfileDetailsNavType = AppNavigatorProps<
   typeof SCREEN_EDIT_TRAVELLER_PROFILE
 >;
 
 export interface EditTravellerProfileDetailsProps
-  extends EditTravellerProfileDetailsNavType {}
+  extends EditTravellerProfileDetailsNavType {
+  userStore: User;
+}
 
 const EditTravellerProfileDetails = ({
-  navigation
+  navigation,
+  userStore
 }: EditTravellerProfileDetailsProps) => {
-  const [name, onChangeName] = React.useState("Koushik Murali");
-  const [email, onChangeEmail] = React.useState("koushikmurali@gmail.com");
-  const [city, onChangeCity] = React.useState("Chennai");
+  const { userDisplayDetails } = userStore;
+
+  const {
+    name: userName,
+    email: userEmail,
+    countryPhoneCode,
+    mobileNumber
+  } = userDisplayDetails;
+
+  const [name, onChangeName] = React.useState(userName || "");
+  const [email, onChangeEmail] = React.useState(userEmail || "");
+  const [city, onChangeCity] = React.useState("");
 
   useEffect(() => {
     navigation.setOptions({
@@ -37,6 +52,16 @@ const EditTravellerProfileDetails = ({
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const { keyboardShown } = useKeyboard();
+  const hasDataLoaded = useRef(false);
+
+  useEffect(() => {
+    if (!keyboardShown && hasDataLoaded.current) {
+      // updated user details
+    }
+    hasDataLoaded.current = true;
+  }, [keyboardShown]);
 
   return (
     <View style={styles.editProfileDetailsContainer}>
@@ -59,7 +84,7 @@ const EditTravellerProfileDetails = ({
 
         <TextInputField
           label={"PHONE"}
-          value={"+91 98843 25343"}
+          value={`${countryPhoneCode} ${mobileNumber}`}
           onChangeText={text => onChangeName(text)}
           placeholder="Phone"
           hasError={false}
@@ -112,4 +137,6 @@ const styles = StyleSheet.create({
   }
 });
 
-export default ErrorBoundary()(EditTravellerProfileDetails);
+export default ErrorBoundary()(
+  inject("userStore")(observer(EditTravellerProfileDetails))
+);

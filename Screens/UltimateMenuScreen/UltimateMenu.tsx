@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useCallback } from "react";
 import {
   View,
   ViewStyle,
@@ -70,7 +70,7 @@ const UltimateMenu = ({
   navigation,
   userStore
 }: UltimateMenuProps) => {
-  const { userDetails, getUserDetails } = userStore;
+  const { userDisplayDetails, getUserDisplayDetails } = userStore;
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
@@ -126,15 +126,13 @@ const UltimateMenu = ({
       });
   };
 
-  useEffect(() => {
-    getUserDetails();
-    checkLogin();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useFocusEffect(() => {
-    checkLogin();
-  });
+  useFocusEffect(
+    useCallback(() => {
+      getUserDisplayDetails();
+      checkLogin();
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
+  );
 
   return (
     <View style={[styles.ultimateMenuContainerStyle, containerStyle]}>
@@ -149,10 +147,12 @@ const UltimateMenu = ({
         </TouchableOpacity>
 
         <View style={styles.headerRightColumn}>
-          <Text style={styles.nameTextStyle}>{userDetails.name}</Text>
+          <Text style={styles.nameTextStyle}>{userDisplayDetails.name}</Text>
 
-          {userDetails.email ? (
-            <Text style={styles.emailTextStyle}>{userDetails.email}</Text>
+          {userDisplayDetails.email ? (
+            <Text style={styles.emailTextStyle}>
+              {userDisplayDetails.email}
+            </Text>
           ) : null}
 
           {!isLoggedIn ? (
