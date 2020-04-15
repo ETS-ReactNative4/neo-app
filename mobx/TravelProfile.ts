@@ -7,11 +7,13 @@ import apiCall from "../Services/networkRequests/apiCall";
 import {
   CONSTANT_userProfileInfo,
   CONSTANT_getCountriesList,
-  CONSTANT_userProfileData
+  CONSTANT_userProfileData,
+  CONSTANT_getMaritalStatusData
 } from "../constants/apiUrls";
 import { CONSTANT_responseSuccessStatus } from "../constants/stringConstants";
 import { IMobileServerResponse } from "../TypeInterfaces/INetworkResponse";
 import _ from "lodash";
+import { CONSTANT_apiServerUrl } from "../constants/serverUrls";
 
 export type maritalStatusType = "COUPLE" | "FAMILY" | "FRIENDS" | "SOLO";
 
@@ -189,9 +191,7 @@ class TravelProfile {
   loadMaritalStatusOptionImages = () => {
     return new Promise<boolean>((resolve, reject) => {
       // PT TODO: Get actual api url
-      fetch(
-        `https://pyt-voyager.s3.ap-south-1.amazonaws.com/pretrip/json/maritalStatusData.json`
-      )
+      fetch(`${CONSTANT_apiServerUrl}${CONSTANT_getMaritalStatusData}`)
         .then(response => response.json())
         .then((data: maritalStatusOptionImagesType) => {
           this._maritalStatusOptionImages = data;
