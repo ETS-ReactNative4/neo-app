@@ -3,119 +3,42 @@ import { createTransformer } from "mobx-utils";
 import { persist } from "mobx-persist";
 import _ from "lodash";
 import moment from "moment";
-import apiCall from "../Services/networkRequests/apiCall";
-import constants from "../constants/constants";
-import storeService from "../Services/storeService/storeService";
-import { logError } from "../Services/errorLogger/errorLogger";
-import { LayoutAnimation, Platform } from "react-native";
-import { hydrate } from "./Store";
-import itineraryConstructor from "../Services/appLauncher/itineraryConstructor";
-import debouncer from "../Services/debouncer/debouncer";
 import {
-  IActivityCosting,
-  IActivityDetail,
-  ICity,
-  IFerryCosting,
-  IFlightCosting,
-  IHotelCosting,
-  IInsuranceCosting,
-  IIterSlotByKey,
-  IItinerary,
   IItineraryDay,
-  IPassCosting,
-  IRentalCarCosting,
-  ITrainCosting,
+  IInsuranceCostingValue,
+  IActivityDetail,
+  IActivityCosting,
+  IIterSlotByKey,
+  ICity,
+  IItinerary,
+  IHotelCosting,
+  IFlightCosting,
   ITransferCosting,
+  ITrainCosting,
+  IFerryCosting,
   IVisaCosting,
-  IInsuranceCostingValue
-} from "../TypeInterfaces/IItinerary";
-import { ICustomCostings } from "../TypeInterfaces/ICustomCostings";
+  IInsuranceCosting,
+  IPassCosting,
+  IRentalCarCosting
+} from "../../../TypeInterfaces/IItinerary";
+import { logError } from "../../../Services/errorLogger/errorLogger";
+import storeService from "../../../Services/storeService/storeService";
+import { ICustomCostings } from "../../../TypeInterfaces/ICustomCostings";
+import { CONSTANT_voucherSuccessStatus } from "../../../constants/stringConstants";
+import {
+  getJsDateFromItineraryDateObject,
+  IActivityCombinedInfo,
+  insuranceCostingTypeGuard,
+  IIterSlotWithActivity,
+  IItineraryCityDetail
+} from "../../../mobx/Itineraries";
 
-/**
- * Itinerary date object does not have a year hence this function
- * will use the milliseconds data from `dayTs` to calculate
- * the year string in `YYYY` format
- */
-export const getYearFromItineraryDateObject = (
-  dateObject: IItineraryDay
-): string => {
-  if (dateObject.dayTs) {
-    return moment(dateObject.dayTs).format("YYYY");
-  } else {
-    return constants.currentYear;
-  }
-};
+export type ItineraryInitializerType = "string" | IItinerary;
 
-/**
- * This function will use the itinerary date object from the
- * `iterDayByKey` of the costing object and returns the
- * corresponding Javascript Date object
- */
-export const getJsDateFromItineraryDateObject = (
-  dateObject: IItineraryDay
-): Date => {
-  return moment(
-    `${dateObject.day}-${dateObject.mon}-${getYearFromItineraryDateObject(
-      dateObject
-    )}`,
-    "DD-MMM-YYYY"
-  ).toDate();
-};
-
-/**
- * Type guard to check if insurance costing has the plan details
- */
-export const insuranceCostingTypeGuard = (
-  insuranceCosting: IInsuranceCostingValue | {}
-): insuranceCosting is IInsuranceCostingValue => {
-  // @ts-ignore
-  return !_.isEmpty(insuranceCosting);
-};
-
-export interface IActivityCombinedInfo extends IActivityDetail {
-  costing: IActivityCosting;
-  voucher: any;
-}
-
-export interface IIterSlotWithActivity
-  extends IIterSlotByKey,
-    IActivityCombinedInfo {}
-
-export interface IItineraryCityDetail {
-  city: string;
-  cityName: string;
-  startDay: Date;
-  endDay: Date;
-  cityObject: ICity;
-  image: string;
-}
-
-class Itineraries {
-  static hydrator = (storeInstance: Itineraries) => {
-    hydrate("_itineraries", storeInstance)
-      .then(() => {})
-      .catch(err => {
-        logError(err);
-      });
-    hydrate("_selectedItinerary", storeInstance)
-      .then(() => {})
-      .catch(err => {
-        logError(err);
-      });
-    hydrate("_voucherDownloadMap", storeInstance)
-      .then(() => {})
-      .catch(err => {
-        logError(err);
-      });
-  };
-
+class UnbookedItinerary {
   @observable _isLoading = false;
 
   @observable _loadingError = false;
-
-  @persist("list")
-  @observable
-  _itineraries: IItinerary[] = [];
 
   @persist("object")
   @observable
@@ -129,145 +52,21 @@ class Itineraries {
   reset = () => {
     this._isLoading = false;
     this._loadingError = false;
-    this._itineraries = [];
     this._selectedItinerary = <IItinerary>{};
   };
 
-  @action
-  selectItinerary = (itineraryId: string, callback: () => any = () => null) => {
-    return new Promise<string>((resolve, reject): void => {
-      const selectedItinerary = this._itineraries.find(itineraryDetail => {
-        return itineraryDetail.itinerary.itineraryId === itineraryId;
-      });
-      if (selectedItinerary) {
-        if (Platform.OS === "ios") {
-          LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-        }
-        this._selectedItinerary = selectedItinerary;
-        debouncer(() => {
-          if (this.selectedItineraryId) {
-            itineraryConstructor({
-              itineraryId: this.selectedItineraryId,
-              cities: this.cities
-            })
-              .then(() => {
-                resolve(this.selectedItineraryId);
-              })
-              .catch(() => {
-                reject();
-              });
-          }
-        });
-        callback();
-      } else {
-        this.getItineraryDetails(itineraryId, callback)
-          .then(selectedItineraryId => {
-            resolve(selectedItineraryId);
-          })
-          .catch(reject);
-      }
-    });
-  };
+  constructor(params: ItineraryInitializerType) {
+    this.selectItinerary(params);
+  }
 
   @action
-  getItineraryDetails = (
-    itineraryId: string,
-    callback: () => any = () => null
-  ) => {
-    return new Promise<string>((resolve, reject): void => {
-      this._isLoading = true;
-      const requestBody = {};
-      apiCall(
-        `${constants.getItineraryDetails}?itineraryId=${itineraryId}`,
-        requestBody
-      )
-        .then(response => {
-          this._isLoading = false;
-          if (response.status === constants.responseSuccessStatus) {
-            this._loadingError = false;
-            this._itineraries.push(response.data);
-            if (Platform.OS === "ios") {
-              LayoutAnimation.configureNext(
-                LayoutAnimation.Presets.easeInEaseOut
-              );
-            }
-            this._selectedItinerary = response.data;
-            debouncer(() => {
-              if (this.selectedItineraryId) {
-                itineraryConstructor({
-                  itineraryId: this.selectedItineraryId,
-                  cities: this.cities
-                })
-                  .then(() => {
-                    resolve(this.selectedItineraryId);
-                  })
-                  .catch(reject);
-              }
-            });
-            callback();
-          } else {
-            this._loadingError = true;
-            reject();
-          }
-        })
-        .catch(() => {
-          this._isLoading = false;
-          this._loadingError = true;
-          reject();
-        });
-    });
+  selectItinerary = (params: ItineraryInitializerType) => {
+    if (typeof params === "string") {
+      // PT TODO: Handle costed itineraries
+    } else {
+      this._selectedItinerary = params;
+    }
   };
-
-  @action
-  updateItineraryDetails = (itineraryId: string) => {
-    this._isLoading = true;
-    const requestBody = {};
-    apiCall(
-      `${constants.getItineraryDetails}?itineraryId=${itineraryId}`,
-      requestBody
-    )
-      .then(response => {
-        this._isLoading = false;
-        if (response.status === constants.responseSuccessStatus) {
-          this._selectedItinerary = response.data;
-          for (let i = 0; i < this._itineraries.length; i++) {
-            const itineraryDetail = this._itineraries[i];
-            if (itineraryDetail.itinerary.itineraryId === itineraryId) {
-              this._itineraries.splice(i, 1);
-              this._itineraries.push(response.data);
-              break;
-            }
-          }
-          this._loadingError = false;
-        } else {
-          this._loadingError = true;
-        }
-      })
-      .catch(() => {
-        this._isLoading = false;
-        this._loadingError = true;
-      });
-  };
-
-  /**
-   * _voucherDownloadMap is a json object that is used to keep
-   * track of all the vouchers downloaded along with the
-   * url from which they are downloaded.
-   */
-  @action
-  updateVoucherDownloadMap = (url: string, fileName: string) => {
-    const voucherDownloadMap = toJS(this._voucherDownloadMap);
-    voucherDownloadMap[url] = fileName;
-    this._voucherDownloadMap = voucherDownloadMap;
-  };
-
-  /**
-   * This will retrieve a voucher which is already downloaded
-   * using the downloaded source url
-   */
-  getDownloadedVoucherByUrl = createTransformer((url: string): string => {
-    return this._voucherDownloadMap[url];
-  });
 
   @computed
   get isLoading() {
@@ -409,10 +208,7 @@ class Itineraries {
                     this._selectedItinerary.hotelCostings.costingById[ref]
                   );
 
-                  if (
-                    hotel &&
-                    hotel.status === constants.voucherSuccessStatus
-                  ) {
+                  if (hotel && hotel.status === CONSTANT_voucherSuccessStatus) {
                     hotel.voucher =
                       storeService.voucherStore.getHotelVoucherById(
                         hotel.costingId
@@ -478,7 +274,7 @@ class Itineraries {
           });
         });
         activities = activities.filter(
-          activity => activity.costing.status === constants.voucherSuccessStatus
+          activity => activity.costing.status === CONSTANT_voucherSuccessStatus
         );
         return activities;
       } catch (e) {
@@ -509,10 +305,7 @@ class Itineraries {
                   this._selectedItinerary.flightCostings.costingById[ref]
                 );
 
-                if (
-                  flight &&
-                  flight.status === constants.voucherSuccessStatus
-                ) {
+                if (flight && flight.status === CONSTANT_voucherSuccessStatus) {
                   flight.voucher =
                     storeService.voucherStore.getFlightVoucherById(
                       flight.dbFlightId
@@ -551,7 +344,7 @@ class Itineraries {
 
                 if (
                   transfer &&
-                  transfer.status === constants.voucherSuccessStatus
+                  transfer.status === CONSTANT_voucherSuccessStatus
                 ) {
                   transfer.voucher =
                     storeService.voucherStore.getTransferVoucherById(
@@ -589,7 +382,7 @@ class Itineraries {
                 );
                 if (
                   trainCosting &&
-                  trainCosting.status === constants.voucherSuccessStatus
+                  trainCosting.status === CONSTANT_voucherSuccessStatus
                 ) {
                   trainCosting.voucher =
                     storeService.voucherStore.getTrainVoucherById(
@@ -625,7 +418,7 @@ class Itineraries {
                 const ferry: IFerryCosting = toJS(
                   this._selectedItinerary.ferryCostings.costingById[ref]
                 );
-                if (ferry && ferry.status === constants.voucherSuccessStatus) {
+                if (ferry && ferry.status === CONSTANT_voucherSuccessStatus) {
                   ferry.voucher =
                     storeService.voucherStore.getFerryVoucherById(
                       ferry.costingId
@@ -755,10 +548,7 @@ class Itineraries {
                 const rental: IRentalCarCosting = toJS(
                   this._selectedItinerary.rentalCarCostings.costingById[ref]
                 );
-                if (
-                  rental &&
-                  rental.status === constants.voucherSuccessStatus
-                ) {
+                if (rental && rental.status === CONSTANT_voucherSuccessStatus) {
                   rental.voucher =
                     storeService.voucherStore.getRentalCarVoucherById(
                       rental.rcCostingId || rental.dbRef
@@ -907,7 +697,10 @@ class Itineraries {
       return [];
     }
     try {
-      const cityKeys = this._selectedItinerary.itinerary.allCityKeys;
+      /**
+       * PT TODO: cities order needs to be set properly
+       */
+      const cityKeys = Object.keys(this._selectedItinerary.iterCityByKey);
       return cityKeys.map(key => {
         const cityKeyObject = this._selectedItinerary.iterCityByKey[key];
         const cityId = cityKeyObject.cityId;
@@ -1373,12 +1166,6 @@ class Itineraries {
       return { mode: "NONE", type: "NONE" };
     }
   });
-
-  constructor() {
-    // setTimeout(() => {
-    //   console.log(JSON.stringify(toJS(this._selectedItinerary)));
-    // }, 3000);
-  }
 }
 
-export default Itineraries;
+export default UnbookedItinerary;
