@@ -5,19 +5,32 @@ import { CONSTANT_white } from "../../../constants/colorPallete";
 import ItineraryBanner from "./ItineraryBanner";
 
 export interface ItineraryViewProps {
+  bannerImage: string;
+  backAction: () => any;
+  infoText: string;
+  title: string;
+  cost: string;
   containerStyle?: ViewStyle;
   children?: ReactNode;
 }
 
-const ItineraryView = ({ containerStyle, children }: ItineraryViewProps) => {
+const ItineraryView = ({
+  bannerImage,
+  backAction,
+  infoText,
+  title,
+  cost,
+  containerStyle,
+  children
+}: ItineraryViewProps) => {
   return (
     <View style={[styles.itineraryViewContainer, containerStyle]}>
       <ItineraryBanner
-        bannerImage={"https://d3lf10b5gahyby.cloudfront.net/misc/hungary.jpeg"}
-        backAction={() => {}}
-        smallText={"HONEYMOON"}
-        title={"4 nights to Kuta and Ubud"}
-        itineraryCost={"10,02,214"}
+        bannerImage={bannerImage}
+        backAction={backAction}
+        smallText={infoText}
+        title={title}
+        itineraryCost={cost}
       />
 
       <View style={styles.bodyContainer}>{children}</View>

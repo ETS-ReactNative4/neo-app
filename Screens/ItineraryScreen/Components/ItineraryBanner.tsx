@@ -74,7 +74,7 @@ const ItineraryBanner = ({
           ) : null}
           <Text
             style={styles.titleTextStyle}
-            numberOfLines={1}
+            numberOfLines={2}
             ellipsizeMode={"tail"}
           >
             {title}
@@ -84,6 +84,7 @@ const ItineraryBanner = ({
             <View style={styles.priceSection}>
               <Text style={styles.rupeeText}>₹</Text>
               <Text style={styles.priceText}>{itineraryCost}</Text>
+              {/** PT TODO: Check if this line is needed */}
               <Text style={styles.personText}>/person</Text>
             </View>
           ) : null}
