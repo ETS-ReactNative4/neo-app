@@ -23,6 +23,8 @@ import {
   CONSTANT_primaryRegular
 } from "../../../constants/fonts";
 import { CONSTANT_arrowRight } from "../../../constants/imageAssets";
+import { isIphoneX } from "react-native-iphone-x-helper";
+import { CONSTANT_xNotchHeight } from "../../../constants/styles";
 
 interface ItineraryProps {
   containerStyle?: ViewStyle;
@@ -34,7 +36,9 @@ interface ItineraryProps {
 }
 
 const HEADER_CONTAINER_WIDTH = responsiveWidth(100);
-const HEADER_CONTAINER_HEIGHT = ratioCalculator(9, 5, HEADER_CONTAINER_WIDTH);
+const HEADER_CONTAINER_HEIGHT =
+  ratioCalculator(9, 5, HEADER_CONTAINER_WIDTH) +
+  (isIphoneX() ? CONSTANT_xNotchHeight : 0);
 
 const ItineraryBanner = ({
   containerStyle,

@@ -27,7 +27,8 @@ import {
   SCREEN_EDIT_TRAVELLER_PROFILE,
   SCREEN_ABOUT_SCREEN,
   SCREEN_SAVED_ITINERARIES,
-  SCREEN_TRIP_INTENSITY
+  SCREEN_TRIP_INTENSITY,
+  SCREEN_ITINERARY
 } from "./ScreenNames";
 import AppLogin from "../Screens/AppLoginScreen/AppLogin";
 import Starter from "../Screens/StartingScreen/Starter";
@@ -60,6 +61,7 @@ import EditTravellerProfileDetails from "../Screens/TravellerProfileDetailsScree
 import About from "../Screens/AboutScreen/About";
 import SavedItinerary from "../Screens/SavedItineraryScreen/SavedItinerary";
 import TripIntensity from "../Screens/TripIntensityScreen/TripIntensity";
+import Itinerary from "../Screens/ItineraryScreen/Itinerary";
 
 export type AppNavigatorParamsType = {
   [SCREEN_MODAL_STACK]: StackNavigationProp<ModalNavigatorParamsType>;
@@ -103,6 +105,9 @@ export type AppNavigatorParamsType = {
   [SCREEN_EDIT_TRAVELLER_PROFILE]: undefined;
   [SCREEN_ABOUT_SCREEN]: undefined;
   [SCREEN_SAVED_ITINERARIES]: undefined;
+  [SCREEN_ITINERARY]: {
+    slug: string;
+  };
 };
 
 const Stack = createStackNavigator<AppNavigatorParamsType>();
@@ -223,6 +228,13 @@ const AppNavigator = () => {
         <Screen name={SCREEN_ABOUT_SCREEN} component={About} />
         <Screen name={SCREEN_SAVED_ITINERARIES} component={SavedItinerary} />
         <Screen name={SCREEN_TRIP_INTENSITY} component={TripIntensity} />
+        <Screen
+          options={{
+            headerShown: false
+          }}
+          name={SCREEN_ITINERARY}
+          component={Itinerary}
+        />
       </Navigator>
     </Fragment>
   );

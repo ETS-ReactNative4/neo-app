@@ -8,7 +8,8 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import { AppNavigatorParamsType } from "../../NavigatorsV2/AppNavigator";
 import {
   SCREEN_SEARCH_TAB,
-  SCREEN_PRETRIP_HOME_TABS
+  SCREEN_PRETRIP_HOME_TABS,
+  SCREEN_ITINERARY
 } from "../../NavigatorsV2/ScreenNames";
 import SearchBox from "../../CommonComponents/SearchBox/SearchBox";
 import { PreTripHomeTabsType } from "../../NavigatorsV2/PreTripHomeTabs";
@@ -98,7 +99,7 @@ const categories: ISearchCategory[] = [
   }
 ];
 
-const Search = ({}: SearchScreenProps) => {
+const Search = ({ navigation }: SearchScreenProps) => {
   const limit = useRef(15).current;
 
   const [searchString, setSearchString] = useState("");
@@ -208,7 +209,11 @@ const Search = ({}: SearchScreenProps) => {
   /**
    * PT TODO: finish after itinerary screen is built
    */
-  const openItinerary = () => {};
+  const openItinerary = (slug: string) => {
+    navigation.navigate(SCREEN_ITINERARY, {
+      slug
+    });
+  };
 
   return (
     <SafeAreaView style={styles.searchScreenContainerStyle}>
@@ -231,7 +236,7 @@ const Search = ({}: SearchScreenProps) => {
       <FlatList
         data={searchString ? searchResults : categoryResults}
         renderItem={({ item }) => {
-          const onClick = () => openItinerary();
+          const onClick = () => openItinerary(item.slug);
           return (
             <SearchItem title={item.title} emoji={"😄"} action={onClick} />
           );
