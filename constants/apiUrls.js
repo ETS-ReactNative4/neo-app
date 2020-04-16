@@ -137,6 +137,7 @@ export const CONSTANT_initiateVisaProcess = "mobile/visa/initialize";
 export const CONSTANT_visaChecklistDetails = "mobile/visa/checklist";
 export const CONSTANT_getJournalScreenDetails =
   "mobile/journal/screen/info/home";
+export const CONSTANT_packages = "packages";
 export const CONSTANT_getJournalStartScreenDetails =
   "mobile/journal/screen/info/setup";
 export const CONSTANT_initializeJournal = "mobile/journal/initialize";

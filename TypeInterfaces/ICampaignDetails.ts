@@ -32,3 +32,8 @@ export interface ICampaignDetails {
   visaProcessingDays: string;
   template: string;
 }
+
+export interface ICampaignMetaData {
+  title: string;
+  description: string;
+}
