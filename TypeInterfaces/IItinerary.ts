@@ -64,7 +64,7 @@ export interface IAbstractCosting {
 
   costingId: string;
 
-  voucher: any; // TODO: Define proper voucher types
+  voucher?: any; // TODO: Define proper voucher types
 }
 
 export interface IAbstractCostingValue {
