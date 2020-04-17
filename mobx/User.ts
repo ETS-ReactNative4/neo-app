@@ -28,6 +28,8 @@ export interface IUserDisplayDetails {
   name?: string;
   uniqueHash?: string;
   blocked?: boolean;
+  cityOfDeparture?: string;
+  dateOfBirth?: string;
 }
 
 export interface IUserDisplayDataNetworkResponse extends IMobileServerResponse {
