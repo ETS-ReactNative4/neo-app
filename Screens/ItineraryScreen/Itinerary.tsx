@@ -1,10 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
-import ItineraryView from "./Components/ItineraryView";
-import HighlightText from "./Components/HighlightText";
-import BottomButtonBar from "../../CommonComponents/BottomButtonBar/BottomButtonBar";
 import { AppNavigatorProps } from "../../NavigatorsV2/AppNavigator";
 import { SCREEN_ITINERARY } from "../../NavigatorsV2/ScreenNames";
-import TranslucentStatusBar from "../../CommonComponents/TranslucentStatusBar/TranslucentStatusBar";
 import apiCall from "../../Services/networkRequests/apiCall";
 import { CONSTANT_packages } from "../../constants/apiUrls";
 import { ICampaignItinerary } from "../../TypeInterfaces/ICampaignItinerary";
@@ -31,8 +27,6 @@ const Itinerary = ({ route, navigation }: ItineraryProps) => {
   ] = useState<ICampaignItinerary | null>(null);
 
   const itineraryDetails = useRef<UnbookedItinerary | null>(null);
-
-  const goBack = () => navigation.goBack();
 
   useEffect(() => {
     const { slug = "" } = route.params;
@@ -64,34 +58,13 @@ const Itinerary = ({ route, navigation }: ItineraryProps) => {
     return null;
   }
 
-  const { campaignDetail, campaignItinerary } = campaignItineraryState;
-  const { bannerText, mobileImage, name } = campaignDetail;
-  const { itinerary } = campaignItinerary;
-
   return (
-    <ItineraryView
-      infoText={name}
-      bannerImage={mobileImage}
-      title={bannerText}
-      backAction={goBack}
-      cost={itinerary.totalCost}
-    >
-      <TranslucentStatusBar />
-      <HighlightText />
-
-      <CampaignItinerary
-        itineraryDetails={itineraryDetails.current}
-        navigation={navigation}
-        route={route}
-      />
-      <HighlightText afterCost />
-      <BottomButtonBar
-        leftButtonName={"Customize"}
-        leftButtonAction={() => {}}
-        rightButtonName={"Update cost"}
-        rightButtonAction={() => {}}
-      />
-    </ItineraryView>
+    <CampaignItinerary
+      campaignItineraryState={campaignItineraryState}
+      itineraryDetails={itineraryDetails.current}
+      navigation={navigation}
+      route={route}
+    />
   );
 };
 
