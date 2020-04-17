@@ -7,7 +7,6 @@ import {
   IItineraryDay,
   IInsuranceCostingValue,
   IActivityDetail,
-  IActivityCosting,
   IIterSlotByKey,
   ICity,
   IItinerary,
@@ -19,7 +18,8 @@ import {
   IVisaCosting,
   IInsuranceCosting,
   IPassCosting,
-  IRentalCarCosting
+  IRentalCarCosting,
+  IActivitySlotDetail
 } from "../../../TypeInterfaces/IItinerary";
 import { logError } from "../../../Services/errorLogger/errorLogger";
 import storeService from "../../../Services/storeService/storeService";
@@ -29,11 +29,18 @@ import {
   getJsDateFromItineraryDateObject,
   IActivityCombinedInfo,
   insuranceCostingTypeGuard,
-  IIterSlotWithActivity,
   IItineraryCityDetail
 } from "../../../mobx/Itineraries";
 
 export type ItineraryInitializerType = "string" | IItinerary;
+
+export interface IUnbookedActivitySlotDetail
+  extends IActivityDetail,
+    IActivitySlotDetail {}
+
+export interface IUnbookedIterSlotWithActivity extends IIterSlotByKey {
+  activitySlotDetail: IUnbookedActivitySlotDetail;
+}
 
 class UnbookedItinerary {
   @observable _isLoading = false;
@@ -237,7 +244,7 @@ class UnbookedItinerary {
    * along with the costing information and voucher information
    */
   @computed
-  get activities(): IActivityCombinedInfo[] {
+  get activities(): IActivityDetail[] {
     if (_.isEmpty(this._selectedItinerary)) {
       return [];
     }
@@ -245,38 +252,12 @@ class UnbookedItinerary {
     try {
       let activities: IActivityCombinedInfo[];
       try {
+        // PT TODO: Returned activities without costing info
         const activitiesList: IActivityDetail[] = this._selectedItinerary
           .activityById
-          ? toJS(Object.values(this._selectedItinerary.activityById))
+          ? Object.values(toJS(this._selectedItinerary.activityById))
           : [];
-        const activityRefs = this._selectedItinerary.allActivityCostingRefs;
-        /**
-         * TODO: Multiple maps (needs optimization)
-         */
-        const activitiesCosting: IActivityCosting[] =
-          activityRefs && activityRefs.length
-            ? activityRefs.map(ref => {
-                return toJS(
-                  this._selectedItinerary.activityCostings.costingById[ref]
-                );
-              })
-            : [];
-        activities = activitiesCosting.map(costing => {
-          const activity = _.find(activitiesList, {
-            planningToolId: parseInt(costing.activityId, 10)
-          }) as IActivityDetail;
-          return Object.assign({}, activity, {
-            costing,
-            voucher:
-              storeService.voucherStore.getActivityVoucherById(
-                costing.activityCostingId
-              ) || {}
-          });
-        });
-        activities = activities.filter(
-          activity => activity.costing.status === CONSTANT_voucherSuccessStatus
-        );
-        return activities;
+        return activitiesList;
       } catch (e) {
         logError(e);
         activities = [];
@@ -651,8 +632,9 @@ class UnbookedItinerary {
     }
   }
 
+  // PT TODO: unbooked itineraries have different slot info for activities
   @computed
-  get slots(): (IIterSlotWithActivity | IIterSlotByKey)[][] {
+  get slots(): (IUnbookedIterSlotWithActivity | IIterSlotByKey)[][] {
     if (_.isEmpty(this._selectedItinerary)) {
       return [];
     }
@@ -835,20 +817,14 @@ class UnbookedItinerary {
     }
   });
 
-  getActivityById = createTransformer((id: string):
-    | IActivityCombinedInfo
-    | {} => {
+  getActivityById = createTransformer((id: number): IActivityDetail | {} => {
     if (_.isEmpty(this._selectedItinerary)) {
       return {};
     }
 
     try {
       return (
-        this.activities.find(
-          activity =>
-            id === activity.costing.configKey ||
-            id === activity.costing.activityCostingId
-        ) || {}
+        this.activities.find(activity => id === activity.planningToolId) || {}
       );
     } catch (e) {
       logError(e);

@@ -1,8 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
-import { ScrollView } from "react-native";
 import ItineraryView from "./Components/ItineraryView";
 import HighlightText from "./Components/HighlightText";
-import BlankSpacer from "../../CommonComponents/BlankSpacer/BlankSpacer";
 import BottomButtonBar from "../../CommonComponents/BottomButtonBar/BottomButtonBar";
 import { AppNavigatorProps } from "../../NavigatorsV2/AppNavigator";
 import { SCREEN_ITINERARY } from "../../NavigatorsV2/ScreenNames";
@@ -14,9 +12,10 @@ import { IMobileServerResponse } from "../../TypeInterfaces/INetworkResponse";
 import { CONSTANT_responseSuccessStatus } from "../../constants/stringConstants";
 import { toastBottom } from "../../Services/toast/toast";
 import UnbookedItinerary from "./ItineraryStore/UnbookedItinerary";
-import Slot from "./Components/Slot";
+import CampaignItinerary from "./Components/CampaignItinerary/CampaignItinerary";
+import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 
-type ItineraryNavType = AppNavigatorProps<typeof SCREEN_ITINERARY>;
+export type ItineraryNavType = AppNavigatorProps<typeof SCREEN_ITINERARY>;
 
 export interface ICampaignItineraryServerResponse
   extends IMobileServerResponse {
@@ -65,13 +64,9 @@ const Itinerary = ({ route, navigation }: ItineraryProps) => {
     return null;
   }
 
-  const { days, slots } = itineraryDetails.current;
-
   const { campaignDetail, campaignItinerary } = campaignItineraryState;
   const { bannerText, mobileImage, name } = campaignDetail;
   const { itinerary } = campaignItinerary;
-
-  console.log(slots);
 
   return (
     <ItineraryView
@@ -84,22 +79,11 @@ const Itinerary = ({ route, navigation }: ItineraryProps) => {
       <TranslucentStatusBar />
       <HighlightText />
 
-      <ScrollView showsVerticalScrollIndicator={false}>
-        {days.map((day, index) => {
-          return (
-            <Slot
-              itinerary={itineraryDetails.current || {}}
-              key={index}
-              day={day}
-              slot={slots[index]}
-              navigation={navigation}
-              onItemLayout={() => null}
-              spinValue={{}}
-            />
-          );
-        })}
-        <BlankSpacer height={166} />
-      </ScrollView>
+      <CampaignItinerary
+        itineraryDetails={itineraryDetails.current}
+        navigation={navigation}
+        route={route}
+      />
       <HighlightText afterCost />
       <BottomButtonBar
         leftButtonName={"Customize"}
@@ -111,4 +95,4 @@ const Itinerary = ({ route, navigation }: ItineraryProps) => {
   );
 };
 
-export default Itinerary;
+export default ErrorBoundary()(Itinerary);

@@ -295,11 +295,16 @@ export interface IItinerarySlot {
   happensInPreviousCity: boolean;
 }
 
+export interface IActivitySlotDetail {
+  activityId: number;
+  intercityTransferIncluded: boolean;
+}
+
 export interface IIterSlotByKey {
   // TODO: Requires detailed type definition
   name: string;
   type: string;
-  activitySlotDetail: any;
+  activitySlotDetail: IActivitySlotDetail;
   intercityTransferSlotDetailVO: {
     directTransferDetail: {
       transferMode: string;
@@ -393,6 +398,7 @@ export interface IActivityDetail {
   free: boolean;
   selectedTourGrade: ISelectedTourGrade;
   startingPointDetails: IStartingPointDetails;
+  planningToolId: number;
 }
 
 export interface IMiscellaneousCosting {
