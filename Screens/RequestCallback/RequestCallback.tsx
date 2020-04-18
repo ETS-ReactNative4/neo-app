@@ -1,5 +1,6 @@
-import React, { useState } from "react";
-import { ScrollView, StyleSheet, Text } from "react-native";
+import React, { useState, useRef } from "react";
+import { StyleSheet, TextInput } from "react-native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import GCMViewer from "../GCMFormScreen/Components/GCMViewer";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import { AppNavigatorProps } from "../../NavigatorsV2/AppNavigator";
@@ -13,8 +14,8 @@ import useRequestCallbackForm, {
 import BlankSpacer from "../../CommonComponents/BlankSpacer/BlankSpacer";
 import TextInputField from "../../CommonComponents/TextInputField/TextInputField";
 import Picker from "../../CommonComponents/Picker/Picker";
-import { TouchableOpacity } from "react-native-gesture-handler";
 import BottomButtonBar from "../../CommonComponents/BottomButtonBar/BottomButtonBar";
+import PickerInputField from "../../CommonComponents/PickerInput/PickerInput";
 
 type RequestCallbackNavType = AppNavigatorProps<typeof SCREEN_REQUEST_CALLBACK>;
 
@@ -30,6 +31,8 @@ const RequestCallback = ({ navigation }: RequestCallbackProps) => {
 
   const [formFields, updateMethods] = useRequestCallbackForm();
 
+  const [isSubmitAttempted, setIsSubmitAttempted] = useState(false);
+
   const [isModalVisible, setIsModalVisibile] = useState(false);
 
   const toggleModalVisibility = () => setIsModalVisibile(!isModalVisible);
@@ -38,7 +41,13 @@ const RequestCallback = ({ navigation }: RequestCallbackProps) => {
     updateMethods.updateContactHours(option.value);
   };
 
-  const submitCallbackRequest = () => {};
+  const submitCallbackRequest = () => {
+    setIsSubmitAttempted(true);
+  };
+
+  const nameRef = useRef<TextInput>(null);
+  const mobileNumberRef = useRef<TextInput>(null);
+  const emailAddressRef = useRef<TextInput>(null);
 
   return (
     <GCMViewer
@@ -59,7 +68,7 @@ const RequestCallback = ({ navigation }: RequestCallbackProps) => {
           { text: contactHoursMap[5], value: 5 }
         ]}
       />
-      <ScrollView
+      <KeyboardAwareScrollView
         showsVerticalScrollIndicator={false}
         style={styles.requestCallBackContainerStyle}
       >
@@ -72,7 +81,10 @@ const RequestCallback = ({ navigation }: RequestCallbackProps) => {
           value={formFields.name}
           onChangeText={updateMethods.updateName}
           placeholder="Name"
-          hasError={false}
+          textInputRef={nameRef}
+          hasError={isSubmitAttempted && !formFields.name}
+          returnKeyType={"next"}
+          onSubmitEditing={() => mobileNumberRef.current?.focus()}
         />
 
         <TextInputField
@@ -80,8 +92,11 @@ const RequestCallback = ({ navigation }: RequestCallbackProps) => {
           value={formFields.mobileNumber}
           onChangeText={updateMethods.updateMobileNumber}
           placeholder="Mobile number"
-          hasError={false}
           keyboardType="phone-pad"
+          textInputRef={mobileNumberRef}
+          hasError={isSubmitAttempted && !formFields.mobileNumber}
+          returnKeyType={"next"}
+          onSubmitEditing={() => emailAddressRef.current?.focus()}
         />
 
         <TextInputField
@@ -89,14 +104,23 @@ const RequestCallback = ({ navigation }: RequestCallbackProps) => {
           value={formFields.email}
           onChangeText={updateMethods.updateEmail}
           placeholder="Email address"
-          hasError={false}
+          keyboardType="email-address"
+          textInputRef={emailAddressRef}
+          hasError={isSubmitAttempted && !formFields.email}
+          returnKeyType={"next"}
+          onSubmitEditing={toggleModalVisibility}
         />
 
-        <TouchableOpacity onPress={toggleModalVisibility}>
-          <Text>Open modal</Text>
-        </TouchableOpacity>
+        <PickerInputField
+          onPressAction={toggleModalVisibility}
+          label={"Contact hours"}
+          value={contactHoursMap[formFields.contactHours]}
+          placeholder="Email address"
+          hasError={isSubmitAttempted && !formFields.contactHours}
+        />
+
         <BlankSpacer height={166} />
-      </ScrollView>
+      </KeyboardAwareScrollView>
       <BottomButtonBar
         disableLeftButton
         rightButtonName={"Request call back"}
