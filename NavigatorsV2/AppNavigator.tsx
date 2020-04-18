@@ -28,7 +28,8 @@ import {
   SCREEN_ABOUT_SCREEN,
   SCREEN_SAVED_ITINERARIES,
   SCREEN_TRIP_INTENSITY,
-  SCREEN_ITINERARY
+  SCREEN_ITINERARY,
+  SCREEN_REQUEST_CALLBACK
 } from "./ScreenNames";
 import AppLogin from "../Screens/AppLoginScreen/AppLogin";
 import Starter from "../Screens/StartingScreen/Starter";
@@ -62,6 +63,7 @@ import About from "../Screens/AboutScreen/About";
 import SavedItinerary from "../Screens/SavedItineraryScreen/SavedItinerary";
 import TripIntensity from "../Screens/TripIntensityScreen/TripIntensity";
 import Itinerary from "../Screens/ItineraryScreen/Itinerary";
+import RequestCallback from "../Screens/RequestCallback/RequestCallback";
 
 export type AppNavigatorParamsType = {
   [SCREEN_MODAL_STACK]: StackNavigationProp<ModalNavigatorParamsType>;
@@ -108,6 +110,7 @@ export type AppNavigatorParamsType = {
   [SCREEN_ITINERARY]: {
     slug: string;
   };
+  [SCREEN_REQUEST_CALLBACK]: undefined;
 };
 
 const Stack = createStackNavigator<AppNavigatorParamsType>();
@@ -234,6 +237,13 @@ const AppNavigator = () => {
           }}
           name={SCREEN_ITINERARY}
           component={Itinerary}
+        />
+        <Screen
+          options={{
+            headerShown: false
+          }}
+          name={SCREEN_REQUEST_CALLBACK}
+          component={RequestCallback}
         />
       </Navigator>
     </Fragment>

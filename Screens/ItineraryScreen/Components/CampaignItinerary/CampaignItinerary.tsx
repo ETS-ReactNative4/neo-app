@@ -9,6 +9,7 @@ import HighlightText from "../HighlightText";
 import BottomButtonBar from "../../../../CommonComponents/BottomButtonBar/BottomButtonBar";
 import { ICampaignItinerary } from "../../../../TypeInterfaces/ICampaignItinerary";
 import ItineraryView from "../ItineraryView";
+import { SCREEN_REQUEST_CALLBACK } from "../../../../NavigatorsV2/ScreenNames";
 
 export interface CampaignItineraryProps extends ItineraryNavType {
   itineraryDetails: UnbookedItinerary;
@@ -27,6 +28,12 @@ const CampaignItinerary = ({
   const { days, slots } = itineraryDetails;
 
   const goBack = () => navigation.goBack();
+
+  const customizeItinerary = () => {
+    navigation.push(SCREEN_REQUEST_CALLBACK);
+  };
+
+  const updateCost = () => {};
 
   return (
     <ItineraryView
@@ -60,9 +67,9 @@ const CampaignItinerary = ({
       </ScrollView>
       <BottomButtonBar
         leftButtonName={"Customize"}
-        leftButtonAction={() => {}}
+        leftButtonAction={customizeItinerary}
         rightButtonName={"Update cost"}
-        rightButtonAction={() => {}}
+        rightButtonAction={updateCost}
       />
     </ItineraryView>
   );

@@ -18,12 +18,19 @@ import {
   CONSTANT_fontCustom,
   CONSTANT_primarySemiBold
 } from "../../../constants/fonts";
-import { CONSTANT_arrowRight } from "../../../constants/imageAssets";
+import {
+  CONSTANT_arrowRight,
+  CONSTANT_defaultPlaceImage
+} from "../../../constants/imageAssets";
 
 import ratioCalculator from "../../../Services/ratioCalculator/ratioCalculator";
+import { isIphoneX } from "react-native-iphone-x-helper";
+import { CONSTANT_xNotchHeight } from "../../../constants/styles";
 
 const HEADER_CONTAINER_WIDTH = responsiveWidth(100);
-const HEADER_CONTAINER_HEIGHT = ratioCalculator(90, 49, HEADER_CONTAINER_WIDTH);
+const HEADER_CONTAINER_HEIGHT =
+  ratioCalculator(90, 49, HEADER_CONTAINER_WIDTH) +
+  (isIphoneX() ? CONSTANT_xNotchHeight : 0);
 
 export interface GCMViewerProps {
   containerStyle?: ViewStyle;
@@ -45,7 +52,7 @@ const GCMViewer = ({
       <View style={[styles.bannerContainer, containerStyle]}>
         <SmartImageV2
           source={{ uri: bannerImage }}
-          fallbackSource={{ uri: "" }}
+          fallbackSource={{ uri: CONSTANT_defaultPlaceImage }}
           resizeMode={"cover"}
           style={styles.bannerImageStyle}
         >

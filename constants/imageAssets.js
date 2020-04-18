@@ -504,4 +504,8 @@ export const CONSTANT_trustIconGoogle = () =>
 export const CONSTANT_trustIconIata = () =>
   require("../assets/images/trust-icons/iata.png");
 
+export const CONSTANT_requestCallbackCover = () => ({
+  uri: "https://pyt-images.imgix.net/images/web_app/homepage/talk_to_us_v2.jpg"
+});
+
 export default imageAssets;

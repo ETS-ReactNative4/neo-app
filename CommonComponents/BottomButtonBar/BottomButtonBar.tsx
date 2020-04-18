@@ -10,7 +10,11 @@ import {
   CONSTANT_fontCustom,
   CONSTANT_primarySemiBold
 } from "../../constants/fonts";
-import { CONSTANT_elevationFive } from "../../constants/styles";
+import {
+  CONSTANT_elevationFive,
+  CONSTANT_xSensorAreaHeight
+} from "../../constants/styles";
+import { isIphoneX } from "react-native-iphone-x-helper";
 
 interface BottomButtonBarProps {
   containerStyle?: StyleProp<ViewStyle>;
@@ -58,7 +62,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     backgroundColor: CONSTANT_white,
     paddingHorizontal: 24,
-    paddingVertical: 16,
+    paddingTop: 16,
+    paddingBottom: isIphoneX() ? CONSTANT_xSensorAreaHeight : 16,
     ...CONSTANT_elevationFive
   },
   buttonStyle: {
