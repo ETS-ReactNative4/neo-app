@@ -132,6 +132,7 @@ export const CONSTANT_journalImageDetails = "mobile/journal/image";
 export const CONSTANT_journalStoryOperations = "mobile/journal/story";
 export const CONSTANT_journalDeleteStory = "mobile/journal/story/:storyId";
 export const CONSTANT_getVisaHomeInfo = "mobile/visa/screen/info/home";
+export const CONSTANT_getIndianCities = "location/indianCities";
 export const CONSTANT_loadPackagesSearch = "packages/search";
 export const CONSTANT_initiateVisaProcess = "mobile/visa/initialize";
 export const CONSTANT_visaChecklistDetails = "mobile/visa/checklist";

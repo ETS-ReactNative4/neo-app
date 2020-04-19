@@ -29,7 +29,9 @@ import {
   SCREEN_SAVED_ITINERARIES,
   SCREEN_TRIP_INTENSITY,
   SCREEN_ITINERARY,
-  SCREEN_REQUEST_CALLBACK
+  SCREEN_REQUEST_CALLBACK,
+  SCREEN_GCM,
+  SCREEN_GCM_CITY_PICKER
 } from "./ScreenNames";
 import AppLogin from "../Screens/AppLoginScreen/AppLogin";
 import Starter from "../Screens/StartingScreen/Starter";
@@ -64,6 +66,9 @@ import SavedItinerary from "../Screens/SavedItineraryScreen/SavedItinerary";
 import TripIntensity from "../Screens/TripIntensityScreen/TripIntensity";
 import Itinerary from "../Screens/ItineraryScreen/Itinerary";
 import RequestCallback from "../Screens/RequestCallback/RequestCallback";
+import GCM from "../Screens/GCMScreen/GCM";
+import GCMCityPicker from "../Screens/GCMCityPickerScreen/GCMCityPicker";
+import { IIndianCity } from "../Screens/GCMScreen/hooks/useGCMForm";
 
 export type AppNavigatorParamsType = {
   [SCREEN_MODAL_STACK]: StackNavigationProp<ModalNavigatorParamsType>;
@@ -111,6 +116,12 @@ export type AppNavigatorParamsType = {
     slug: string;
   };
   [SCREEN_REQUEST_CALLBACK]: undefined;
+  [SCREEN_GCM]: undefined;
+  [SCREEN_GCM_CITY_PICKER]: {
+    title: string;
+    onSelect: (selectedCity: IIndianCity) => null;
+    bannerImage: string;
+  };
 };
 
 const Stack = createStackNavigator<AppNavigatorParamsType>();
@@ -130,7 +141,7 @@ const AppNavigator = () => {
         barStyle={"dark-content"}
         backgroundColor={CONSTANT_white}
       />
-      <Navigator initialRouteName={SCREEN_STARTER} headerMode="screen">
+      <Navigator initialRouteName={SCREEN_GCM_CITY_PICKER} headerMode="screen">
         <Screen
           name={SCREEN_PRETRIP_HOME_TABS}
           options={{ headerShown: false }}
@@ -244,6 +255,20 @@ const AppNavigator = () => {
           }}
           name={SCREEN_REQUEST_CALLBACK}
           component={RequestCallback}
+        />
+        <Screen
+          options={{
+            headerShown: false
+          }}
+          name={SCREEN_GCM}
+          component={GCM}
+        />
+        <Screen
+          options={{
+            headerShown: false
+          }}
+          name={SCREEN_GCM_CITY_PICKER}
+          component={GCMCityPicker}
         />
       </Navigator>
     </Fragment>
