@@ -82,6 +82,7 @@ export const CONSTANT_visaDateFormat = "MMM DD, YYYY";
 export const CONSTANT_shortCommonDateFormat = "MMM DD";
 export const CONSTANT_commonDateFormatReverse = "ddd, DD MMM";
 export const CONSTANT_shortTimeFormat = "hh:mm a";
+export const CONSTANT_GCMDateFormat = "DD MMM YYYY";
 export const CONSTANT_voucherDateFormat = "YYYY-MM-DD";
 export const CONSTANT_costingDateFormat = "DD/MMM/YYYY";
 export const CONSTANT_currentYear = new Date().getYear() + 1900;

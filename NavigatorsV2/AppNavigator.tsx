@@ -121,15 +121,18 @@ export type AppNavigatorParamsType = {
     slug: string;
   };
   [SCREEN_REQUEST_CALLBACK]: undefined;
-  [SCREEN_GCM]: undefined;
+  [SCREEN_GCM]: {
+    title: string;
+    bannerImage: string;
+  };
   [SCREEN_GCM_CITY_PICKER]: {
     title: string;
-    onSelect: (selectedCity: IIndianCity) => null;
+    onSelect: (selectedCity: IIndianCity) => any;
     bannerImage: string;
   };
   [SCREEN_GCM_ROOM_CONFIG]: {
     title: string;
-    onSelect: (selectedConfig: IHotelGuestRoomConfig[]) => null;
+    onSelect: (selectedConfig: IHotelGuestRoomConfig[]) => any;
     bannerImage: string;
   };
 };
@@ -151,7 +154,7 @@ const AppNavigator = () => {
         barStyle={"dark-content"}
         backgroundColor={CONSTANT_white}
       />
-      <Navigator initialRouteName={SCREEN_GCM_ROOM_CONFIG} headerMode="screen">
+      <Navigator initialRouteName={SCREEN_GCM} headerMode="screen">
         <Screen
           name={SCREEN_PRETRIP_HOME_TABS}
           options={{ headerShown: false }}

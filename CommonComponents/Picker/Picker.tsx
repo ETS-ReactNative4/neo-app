@@ -126,7 +126,6 @@ const styles = StyleSheet.create({
     ...CONSTANT_fontCustom(CONSTANT_primarySemiBold, 18, 24)
   },
   countryCodeTouchable: {
-    height: 56,
     justifyContent: "center",
     paddingHorizontal: 24,
     borderBottomWidth: StyleSheet.hairlineWidth,
@@ -136,16 +135,11 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between"
-  },
-  countryCode: {
-    width: 64,
-    ...CONSTANT_fontCustom(CONSTANT_primaryLight, 20),
-    textAlign: "right",
-    color: CONSTANT_shade3
+    justifyContent: "space-between",
+    paddingVertical: 16
   },
   countryName: {
-    ...CONSTANT_fontCustom(CONSTANT_primaryLight, 20),
+    ...CONSTANT_fontCustom(CONSTANT_primaryLight, 20, 26),
     color: CONSTANT_shade1
   }
 });
