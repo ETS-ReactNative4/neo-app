@@ -1,6 +1,5 @@
 import React from "react";
 import { View, ViewStyle, StyleSheet, Text } from "react-native";
-
 import {
   CONSTANT_fontCustom,
   CONSTANT_primarySemiBold,
@@ -18,13 +17,17 @@ interface ItineraryProps {
   textBackgroundColor?: string;
   textColor?: string;
   afterCost?: boolean;
+  titleText: string;
+  infoText?: string;
 }
 
 const HighlightText = ({
   containerStyle,
   textBackgroundColor = "rgba(233, 251, 255, 1)",
   textColor = "rgba(20, 128, 153, 1)",
-  afterCost = false
+  afterCost = false,
+  titleText = "",
+  infoText = ""
 }: ItineraryProps) => {
   const highlightTextBgColor = {
     backgroundColor: `${
@@ -47,12 +50,13 @@ const HighlightText = ({
     >
       {!afterCost ? (
         <Text style={[styles.textStyle, textColorStyle]}>
-          <Text style={styles.boldText}>Kuta</Text>, 3 nights
+          <Text style={styles.boldText}>{titleText}</Text>
+          {infoText ? `, ${infoText}` : ""}
         </Text>
       ) : (
         <Text style={[styles.textStyle, textColorStyle]}>
-          <Text style={styles.boldText}>₹10,02,214</Text> - See what’s included
-          in your trip
+          <Text style={styles.boldText}>{titleText}</Text>
+          {infoText ? `- ${infoText}` : ""}
         </Text>
       )}
 

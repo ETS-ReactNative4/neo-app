@@ -31,7 +31,8 @@ import {
   SCREEN_ITINERARY,
   SCREEN_REQUEST_CALLBACK,
   SCREEN_GCM,
-  SCREEN_GCM_CITY_PICKER
+  SCREEN_GCM_CITY_PICKER,
+  SCREEN_GCM_ROOM_CONFIG
 } from "./ScreenNames";
 import AppLogin from "../Screens/AppLoginScreen/AppLogin";
 import Starter from "../Screens/StartingScreen/Starter";
@@ -68,7 +69,11 @@ import Itinerary from "../Screens/ItineraryScreen/Itinerary";
 import RequestCallback from "../Screens/RequestCallback/RequestCallback";
 import GCM from "../Screens/GCMScreen/GCM";
 import GCMCityPicker from "../Screens/GCMCityPickerScreen/GCMCityPicker";
-import { IIndianCity } from "../Screens/GCMScreen/hooks/useGCMForm";
+import {
+  IIndianCity,
+  IHotelGuestRoomConfig
+} from "../Screens/GCMScreen/hooks/useGCMForm";
+import GCMRoomConfig from "../Screens/GCMRoomConfig/GCMRoomConfig";
 
 export type AppNavigatorParamsType = {
   [SCREEN_MODAL_STACK]: StackNavigationProp<ModalNavigatorParamsType>;
@@ -122,6 +127,11 @@ export type AppNavigatorParamsType = {
     onSelect: (selectedCity: IIndianCity) => null;
     bannerImage: string;
   };
+  [SCREEN_GCM_ROOM_CONFIG]: {
+    title: string;
+    onSelect: (selectedConfig: IHotelGuestRoomConfig) => null;
+    bannerImage: string;
+  };
 };
 
 const Stack = createStackNavigator<AppNavigatorParamsType>();
@@ -141,7 +151,7 @@ const AppNavigator = () => {
         barStyle={"dark-content"}
         backgroundColor={CONSTANT_white}
       />
-      <Navigator initialRouteName={SCREEN_GCM_CITY_PICKER} headerMode="screen">
+      <Navigator initialRouteName={SCREEN_GCM_ROOM_CONFIG} headerMode="screen">
         <Screen
           name={SCREEN_PRETRIP_HOME_TABS}
           options={{ headerShown: false }}
@@ -269,6 +279,13 @@ const AppNavigator = () => {
           }}
           name={SCREEN_GCM_CITY_PICKER}
           component={GCMCityPicker}
+        />
+        <Screen
+          options={{
+            headerShown: false
+          }}
+          name={SCREEN_GCM_ROOM_CONFIG}
+          component={GCMRoomConfig}
         />
       </Navigator>
     </Fragment>

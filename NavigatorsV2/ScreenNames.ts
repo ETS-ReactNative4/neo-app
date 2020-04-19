@@ -23,6 +23,7 @@ export const SCREEN_TRIP_INTENSITY = "TripIntensity";
 export const SCREEN_REQUEST_CALLBACK = "RequestCallback";
 export const SCREEN_GCM = "GCM";
 export const SCREEN_GCM_CITY_PICKER = "GCMCityPicker";
+export const SCREEN_GCM_ROOM_CONFIG = "GCMRoomConfig";
 
 /**
  * Screens from the post booking app
