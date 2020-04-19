@@ -94,6 +94,10 @@
 	<false/>
 	<key>WEGLicenseCode</key>
 	<string>~47b65848</string>
+	<!-- Forcing light mode to prevent date picker from disappearing -->
+	<!-- https://github.com/react-native-community/datetimepicker/issues/71#issuecomment-597478282 -->
+	<key>UIUserInterfaceStyle</key>
+	<string>Light</string>
 	<!-- <key>WEGLogLevel</key>
 	<string>VERBOSE</string> -->
 	<key>WEGManualIntegration</key>
