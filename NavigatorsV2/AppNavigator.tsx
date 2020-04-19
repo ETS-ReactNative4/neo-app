@@ -129,7 +129,7 @@ export type AppNavigatorParamsType = {
   };
   [SCREEN_GCM_ROOM_CONFIG]: {
     title: string;
-    onSelect: (selectedConfig: IHotelGuestRoomConfig) => null;
+    onSelect: (selectedConfig: IHotelGuestRoomConfig[]) => null;
     bannerImage: string;
   };
 };

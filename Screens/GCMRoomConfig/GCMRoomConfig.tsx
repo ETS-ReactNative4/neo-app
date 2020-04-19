@@ -3,7 +3,10 @@ import { StyleSheet, View, ScrollView } from "react-native";
 import GCMViewer from "../GCMFormScreen/Components/GCMViewer";
 import { AppNavigatorProps } from "../../NavigatorsV2/AppNavigator";
 import { SCREEN_GCM_ROOM_CONFIG } from "../../NavigatorsV2/ScreenNames";
-import { IHotelGuestRoomConfig } from "../GCMScreen/hooks/useGCMForm";
+import {
+  IHotelGuestRoomConfig,
+  HotelGuestRoomChildAgesType
+} from "../GCMScreen/hooks/useGCMForm";
 import HighlightText from "../ItineraryScreen/Components/HighlightText";
 import {
   CONSTANT_seventeenthColor,
@@ -11,6 +14,8 @@ import {
 } from "../../constants/colorPallete";
 import RoomButton from "./Components/RoomButton";
 import GuestNumberCounter from "./Components/GuestNumberCounter";
+import ChildAgesPicker from "./Components/ChildAgesPicker";
+import BottomButtonBar from "../../CommonComponents/BottomButtonBar/BottomButtonBar";
 
 type GCMRoomConfigNavType = AppNavigatorProps<typeof SCREEN_GCM_ROOM_CONFIG>;
 
@@ -59,7 +64,7 @@ const GCMRoomConfig = ({ navigation, route }: IGCMRoomConfigPros) => {
   const {
     title = "",
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    onSelect = (selected: IHotelGuestRoomConfig) => null,
+    onSelect = (selected: IHotelGuestRoomConfig[]) => null,
     bannerImage = "https://pickyourtrail-guides-images.imgix.net/misc/hungary.jpeg"
   } = route.params || {};
 
@@ -135,6 +140,33 @@ const GCMRoomConfig = ({ navigation, route }: IGCMRoomConfigPros) => {
     );
   };
 
+  const changeChildAge = (
+    newAge: HotelGuestRoomChildAgesType,
+    ageIndex: number
+  ) => {
+    setRoomConfig(
+      roomConfig.map((room, roomIndex) => {
+        if (roomIndex === selectedRoomButton) {
+          return {
+            ...room,
+            childAges: room.childAges.map((childAge, childAgeIndex) => {
+              if (ageIndex === childAgeIndex) {
+                return newAge;
+              }
+              return childAge;
+            })
+          };
+        }
+        return room;
+      })
+    );
+  };
+
+  const saveRoomDetails = () => {
+    onSelect(roomConfig);
+    goBack();
+  };
+
   return (
     <GCMViewer bannerImage={bannerImage} backAction={goBack} title={title}>
       <HighlightText
@@ -180,7 +212,25 @@ const GCMRoomConfig = ({ navigation, route }: IGCMRoomConfigPros) => {
             selectedChildAgesCount > 1 ? "ren" : ""
           }`}
         />
+        <View style={styles.childAgesWrapper}>
+          {selectedChildAges.map((age, ageIndex) => {
+            const onAgeChange = (newAge: HotelGuestRoomChildAgesType) =>
+              changeChildAge(newAge, ageIndex);
+            return (
+              <ChildAgesPicker
+                selectedAge={age}
+                key={ageIndex}
+                onChange={onAgeChange}
+              />
+            );
+          })}
+        </View>
       </ScrollView>
+      <BottomButtonBar
+        disableLeftButton
+        rightButtonName={"Save room details"}
+        rightButtonAction={saveRoomDetails}
+      />
     </GCMViewer>
   );
 };
@@ -194,6 +244,13 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     alignItems: "center"
+  },
+  childAgesWrapper: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 16,
+    flexWrap: "wrap"
   }
 });
 

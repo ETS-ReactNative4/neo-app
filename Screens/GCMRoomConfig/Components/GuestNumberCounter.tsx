@@ -48,7 +48,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     paddingHorizontal: 24,
     alignItems: "center",
-    justifyContent: "space-between"
+    justifyContent: "space-between",
+    marginVertical: 8
   },
   buttonContainer: {
     height: 32,
