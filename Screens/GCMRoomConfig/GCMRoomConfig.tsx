@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, View, ScrollView } from "react-native";
+import { StyleSheet, View, ScrollView, LayoutAnimation } from "react-native";
 import GCMViewer from "../GCMFormScreen/Components/GCMViewer";
 import { AppNavigatorProps } from "../../NavigatorsV2/AppNavigator";
 import { SCREEN_GCM_ROOM_CONFIG } from "../../NavigatorsV2/ScreenNames";
@@ -166,6 +166,8 @@ const GCMRoomConfig = ({ navigation, route }: IGCMRoomConfigPros) => {
     onSelect(roomConfig);
     goBack();
   };
+
+  LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
 
   return (
     <GCMViewer bannerImage={bannerImage} backAction={goBack} title={title}>
