@@ -45,7 +45,7 @@ const RequestCallback = ({ navigation }: RequestCallbackProps) => {
     updateMethods.updateContactHours(option.value);
   };
 
-  const submitCallbackRequest = () => {
+  const submitCallbackRequest = async () => {
     setIsSubmitAttempted(true);
     if (
       formFields.email &&
@@ -53,26 +53,26 @@ const RequestCallback = ({ navigation }: RequestCallbackProps) => {
       formFields.name &&
       formFields.contactHours
     ) {
-      submitRequestCallback({
-        countryPhoneCode: "+91", // PT TODO: Modify countrycode
-        email: formFields.email,
-        mobileNumber: formFields.mobileNumber,
-        name: formFields.name,
-        canSendWhatsAppMessages: true, // PT TODO: need to know how
-        preferredTime: formFields.contactHours,
-        pageUrl: "" // PT TODO: required
-      })
-        .then(result => {
-          if (result) {
-            DebouncedAlert("Success!", "We will contact you shortly!");
-            navigation.goBack();
-          } else {
-            DebouncedAlert("Oops!", "Unable to submit form details.");
-          }
-        })
-        .catch(() => {
-          DebouncedAlert("Oops!", "Unable to submit form details.");
+      try {
+        const result = await submitRequestCallback({
+          countryPhoneCode: "+91", // PT TODO: Modify countrycode
+          email: formFields.email,
+          mobileNumber: formFields.mobileNumber,
+          name: formFields.name,
+          canSendWhatsAppMessages: true, // PT TODO: need to know how
+          preferredTime: formFields.contactHours,
+          pageUrl: "", // PT TODO: required
+          leadSource: {}
         });
+        if (result) {
+          DebouncedAlert("Success!", "We will contact you shortly!");
+          navigation.goBack();
+        } else {
+          DebouncedAlert("Oops!", "Unable to submit form details.");
+        }
+      } catch (e) {
+        DebouncedAlert("Oops!", "Unable to submit form details.");
+      }
     }
   };
 

@@ -23,7 +23,7 @@ export interface IRequestCallbackRequestBody {
   countryPhoneCode: string;
   canSendWhatsAppMessages: boolean;
   preferredTime: number;
-  leadSource?: IRequestCallbackLeadSource;
+  leadSource: IRequestCallbackLeadSource | {};
 }
 
 const useRequestCallbackApi = (): [
@@ -39,7 +39,8 @@ const useRequestCallbackApi = (): [
       try {
         const result = await makeApiCall({
           requestBody,
-          route: CONSTANT_requestCallback
+          route: CONSTANT_requestCallback,
+          method: "POST"
         });
         resolve(result);
       } catch (e) {
