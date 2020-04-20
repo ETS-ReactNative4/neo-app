@@ -107,6 +107,12 @@ export const CONSTANT_registerDeviceToken = "mobile/devicetoken";
 export const CONSTANT_getEmergencyContacts = "mobile/city/contacts/emergency";
 export const CONSTANT_getPassportDetails =
   "mobile/:itineraryId/passport/details";
+export const CONSTANT_requestCallback = "itinerary/requestcallbackuser";
+export const CONSTANT_assignUser =
+  "itinerary/campaign/:campaignItineraryId/assignUser";
+export const CONSTANT_calculateCost = "itinerary/:itineraryId/calculateCost";
+export const CONSTANT_checkCostingStatus =
+  "itinerary/:itineraryId/checkCostingStatus";
 export const CONSTANT_getVisaDetails = "mobile/visa/:visaId";
 export const CONSTANT_sendVisaDocs = "mobile/sendVisaDocs";
 export const CONSTANT_getPaymentMeta =
