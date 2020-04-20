@@ -1,16 +1,15 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import {
   ScrollView,
   NativeSyntheticEvent,
   NativeScrollEvent,
   LayoutChangeEvent
 } from "react-native";
-import { ItineraryNavType } from "../../Itinerary";
+import { ItineraryNavType, IBannerDetails } from "../../Itinerary";
 import CampaignSlot from "./Components/CampaignSlot";
 import UnbookedItinerary from "../../ItineraryStore/UnbookedItinerary";
 import BlankSpacer from "../../../../CommonComponents/BlankSpacer/BlankSpacer";
 import TranslucentStatusBar from "../../../../CommonComponents/TranslucentStatusBar/TranslucentStatusBar";
-import HighlightText from "../HighlightText";
 import BottomButtonBar from "../../../../CommonComponents/BottomButtonBar/BottomButtonBar";
 import { ICampaignItinerary } from "../../../../TypeInterfaces/ICampaignItinerary";
 import ItineraryView from "../ItineraryView";
@@ -20,30 +19,29 @@ import { ICity } from "../../../../TypeInterfaces/IItinerary";
 export interface CampaignItineraryProps extends ItineraryNavType {
   itineraryDetails: UnbookedItinerary;
   campaignItineraryState: ICampaignItinerary;
+  updateFocusedCity: (city: ICity) => any;
+  updateBannerDetails: (details: IBannerDetails) => void;
 }
 
 const CampaignItinerary = ({
   itineraryDetails,
   navigation,
   route,
-  campaignItineraryState
+  campaignItineraryState,
+  updateBannerDetails,
+  updateFocusedCity
 }: CampaignItineraryProps) => {
   const { campaignDetail, campaignItinerary } = campaignItineraryState;
-  const { bannerText, mobileImage, name } = campaignDetail;
+  const { bannerText, name } = campaignDetail;
   const { itinerary } = campaignItinerary;
   const { days, slots, getCityByDayNum } = itineraryDetails;
-
-  const goBack = () => navigation.goBack();
 
   const customizeItinerary = () => {
     navigation.push(SCREEN_REQUEST_CALLBACK);
   };
 
-  const focusedCity = useRef<ICity | undefined>(undefined);
-
-  const updateFocusedCity = (city: ICity) => {
-    focusedCity.current = city;
-    console.log(focusedCity);
+  const updateCityFocus = (city: ICity) => {
+    updateFocusedCity(city);
   };
 
   const updateCost = () => {};
@@ -64,7 +62,7 @@ const CampaignItinerary = ({
   const onSelectedDayNum = (dayNum: string) => {
     const cityInFocus = getCityByDayNum(parseInt(dayNum, 10));
     if (cityInFocus) {
-      updateFocusedCity(cityInFocus);
+      updateCityFocus(cityInFocus);
     }
   };
 
@@ -95,23 +93,17 @@ const CampaignItinerary = ({
 
   useEffect(() => {
     onSelectedDayNum("1");
+    updateBannerDetails({
+      smallText: name,
+      title: bannerText,
+      itineraryCost: itinerary.totalCost
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
-    <ItineraryView
-      infoText={name}
-      bannerImage={
-        focusedCity.current && focusedCity.current?.cityImages[0]
-          ? focusedCity.current?.cityImages[0]
-          : mobileImage
-      }
-      title={bannerText}
-      backAction={goBack}
-      cost={itinerary.totalCost}
-    >
+    <ItineraryView>
       <TranslucentStatusBar />
-      <HighlightText titleText={focusedCity.current?.cityName ?? ""} />
 
       <ScrollView
         scrollEventThrottle={1}

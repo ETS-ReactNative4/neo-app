@@ -10,6 +10,10 @@ import { toastBottom } from "../../Services/toast/toast";
 import UnbookedItinerary from "./ItineraryStore/UnbookedItinerary";
 import CampaignItinerary from "./Components/CampaignItinerary/CampaignItinerary";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
+import { ICity } from "../../TypeInterfaces/IItinerary";
+import ItineraryBanner from "./Components/ItineraryBanner";
+import HighlightText from "./Components/HighlightText";
+import { StyleSheet, LayoutAnimation } from "react-native";
 
 export type ItineraryNavType = AppNavigatorProps<typeof SCREEN_ITINERARY>;
 
@@ -20,6 +24,12 @@ export interface ICampaignItineraryServerResponse
 
 export interface ItineraryProps extends ItineraryNavType {}
 
+export interface IBannerDetails {
+  smallText: string;
+  title: string;
+  itineraryCost: string;
+}
+
 const Itinerary = ({ route, navigation }: ItineraryProps) => {
   const [
     campaignItineraryState,
@@ -27,6 +37,21 @@ const Itinerary = ({ route, navigation }: ItineraryProps) => {
   ] = useState<ICampaignItinerary | null>(null);
 
   const itineraryDetails = useRef<UnbookedItinerary | null>(null);
+
+  const [focusedCity, setFocusedCity] = useState<ICity | undefined>(undefined);
+  const [bannerDetails, setBannerDetails] = useState<
+    IBannerDetails | undefined
+  >(undefined);
+
+  const updateFocusedCity = (city: ICity) => {
+    setFocusedCity(city);
+  };
+
+  const updateBannerDetails = (details: IBannerDetails) => {
+    setBannerDetails(details);
+  };
+
+  const goBack = () => navigation.goBack();
 
   useEffect(() => {
     const { slug = "" } = route.params;
@@ -58,14 +83,41 @@ const Itinerary = ({ route, navigation }: ItineraryProps) => {
     return null;
   }
 
+  LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+
   return (
-    <CampaignItinerary
-      campaignItineraryState={campaignItineraryState}
-      itineraryDetails={itineraryDetails.current}
-      navigation={navigation}
-      route={route}
-    />
+    <>
+      <ItineraryBanner
+        bannerImage={
+          focusedCity && focusedCity?.cityImages[0]
+            ? focusedCity?.cityImages[0]
+            : ""
+        }
+        backAction={goBack}
+        smallText={bannerDetails ? bannerDetails.smallText : ""}
+        title={bannerDetails ? bannerDetails.title : ""}
+        itineraryCost={bannerDetails ? bannerDetails.itineraryCost : ""}
+      />
+      <HighlightText
+        containerStyle={styles.highlightText}
+        titleText={focusedCity?.cityName ?? ""}
+      />
+      <CampaignItinerary
+        campaignItineraryState={campaignItineraryState}
+        itineraryDetails={itineraryDetails.current}
+        navigation={navigation}
+        route={route}
+        updateFocusedCity={updateFocusedCity}
+        updateBannerDetails={updateBannerDetails}
+      />
+    </>
   );
 };
+
+const styles = StyleSheet.create({
+  highlightText: {
+    marginTop: -24
+  }
+});
 
 export default ErrorBoundary()(Itinerary);
