@@ -16,7 +16,8 @@ import {
 import useGCMForm, {
   IIndianCity,
   travellingAsOptions,
-  IHotelGuestRoomConfig
+  IHotelGuestRoomConfig,
+  preDefinedRoomConfig
 } from "./hooks/useGCMForm";
 import PickerInputField from "../../CommonComponents/PickerInput/PickerInput";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
@@ -82,6 +83,7 @@ const GCM = ({ navigation, route }: GCMProps) => {
     navigation.navigate(SCREEN_GCM_ROOM_CONFIG, {
       title,
       bannerImage,
+      roomConfig: formFields.roomDetails,
       onSelect: (roomConfig: IHotelGuestRoomConfig[]) => {
         formUpdateMethods.updateRoomDetails(roomConfig);
       }
@@ -156,25 +158,27 @@ const GCM = ({ navigation, route }: GCMProps) => {
           hasError={false}
         />
 
-        <PickerInputField
-          onPressAction={openRoomConfigPicker}
-          label={"ROOM DETAILS"}
-          value={
-            formFields.roomDetails.length
-              ? `${roomCount} room${roomCount > 1 ? "s" : ""} ${
-                  adultCount
-                    ? `- ${adultCount} adult${adultCount > 1 ? "s" : ""}`
-                    : ""
-                } ${
-                  childCount
-                    ? `- ${childCount} child${childCount > 1 ? "ren" : ""}`
-                    : ""
-                }`
-              : ""
-          }
-          placeholder="Room Details"
-          hasError={false}
-        />
+        {preDefinedRoomConfig[formFields.travellingAs?.value] ? null : (
+          <PickerInputField
+            onPressAction={openRoomConfigPicker}
+            label={"ROOM DETAILS"}
+            value={
+              formFields.roomDetails.length
+                ? `${roomCount} room${roomCount > 1 ? "s" : ""} ${
+                    adultCount
+                      ? `- ${adultCount} adult${adultCount > 1 ? "s" : ""}`
+                      : ""
+                  } ${
+                    childCount
+                      ? `- ${childCount} child${childCount > 1 ? "ren" : ""}`
+                      : ""
+                  }`
+                : ""
+            }
+            placeholder="Room Details"
+            hasError={false}
+          />
+        )}
       </ScrollView>
 
       <BottomButtonBar

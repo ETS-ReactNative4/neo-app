@@ -77,6 +77,18 @@ export const travellingAsOptions: IPickerOption[] = [
   }
 ];
 
+export const preDefinedRoomConfig: {
+  [index: string]: IHotelGuestRoomConfig[];
+} = {
+  Couple: [
+    {
+      adultCount: 2,
+      childAges: []
+    }
+  ],
+  Solo: [{ adultCount: 1, childAges: [] }]
+};
+
 const useGCMForm = (): [IGCMFormFields, IGCMUpdateMethods] => {
   const today = new Date();
   const tomorrow = new Date(today);
@@ -93,7 +105,12 @@ const useGCMForm = (): [IGCMFormFields, IGCMUpdateMethods] => {
 
   const updateDepartingFrom = (option: IIndianCity) => setDepartingFrom(option);
   const updateDepartingOn = (date: Date) => setDepartingOn(date);
-  const updateTravellingAs = (option: IPickerOption) => setTravellingAs(option);
+  const updateTravellingAs = (option: IPickerOption) => {
+    setTravellingAs(option);
+    if (preDefinedRoomConfig[option.value]) {
+      setRoomDetails(preDefinedRoomConfig[option.value]);
+    }
+  };
   const updateRoomDetails = (roomConfig: IHotelGuestRoomConfig[]) =>
     setRoomDetails(roomConfig);
 

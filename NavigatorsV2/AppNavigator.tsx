@@ -126,6 +126,7 @@ export type AppNavigatorParamsType = {
   [SCREEN_GCM]: {
     title: string;
     bannerImage: string;
+    campaignItineraryId?: string;
   };
   [SCREEN_GCM_CITY_PICKER]: {
     title: string;
@@ -136,6 +137,7 @@ export type AppNavigatorParamsType = {
     title: string;
     onSelect: (selectedConfig: IHotelGuestRoomConfig[]) => any;
     bannerImage: string;
+    roomConfig: IHotelGuestRoomConfig[];
   };
 };
 

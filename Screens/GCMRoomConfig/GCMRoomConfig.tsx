@@ -22,26 +22,26 @@ type GCMRoomConfigNavType = AppNavigatorProps<typeof SCREEN_GCM_ROOM_CONFIG>;
 export interface IGCMRoomConfigPros extends GCMRoomConfigNavType {}
 
 const GCMRoomConfig = ({ navigation, route }: IGCMRoomConfigPros) => {
+  const {
+    title = "",
+    roomConfig: defaultRoomConfig = [],
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    onSelect = (selected: IHotelGuestRoomConfig[]) => null,
+    bannerImage = "https://pickyourtrail-guides-images.imgix.net/misc/hungary.jpeg"
+  } = route.params || {};
+
   const goBack = () => navigation.goBack();
 
-  const [roomConfig, setRoomConfig] = useState<IHotelGuestRoomConfig[]>([
-    {
-      adultCount: 2,
-      childAges: ["1 year", "5 year"]
-    },
-    {
-      adultCount: 2,
-      childAges: ["1 year", "5 year"]
-    },
-    {
-      adultCount: 2,
-      childAges: ["1 year", "5 year"]
-    },
-    {
-      adultCount: 2,
-      childAges: ["1 year", "5 year"]
-    }
-  ]);
+  const [roomConfig, setRoomConfig] = useState<IHotelGuestRoomConfig[]>(
+    defaultRoomConfig.length
+      ? defaultRoomConfig
+      : [
+          {
+            adultCount: 1,
+            childAges: []
+          }
+        ]
+  );
 
   const [selectedRoomButton, setSelectedRoomButton] = useState<number>(0);
 
@@ -60,13 +60,6 @@ const GCMRoomConfig = ({ navigation, route }: IGCMRoomConfigPros) => {
 
   const addRoom = () =>
     setRoomConfig([...roomConfig, { adultCount: 1, childAges: [] }]);
-
-  const {
-    title = "",
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    onSelect = (selected: IHotelGuestRoomConfig[]) => null,
-    bannerImage = "https://pickyourtrail-guides-images.imgix.net/misc/hungary.jpeg"
-  } = route.params || {};
 
   const selectedAdultCount = roomConfig[selectedRoomButton].adultCount;
 
@@ -128,7 +121,7 @@ const GCMRoomConfig = ({ navigation, route }: IGCMRoomConfigPros) => {
           return {
             ...room,
             childAges:
-              room.childAges.length > 1
+              room.childAges.length > 0
                 ? room.childAges.filter(
                     (element, index) => index < room.childAges.length - 1
                   )

@@ -13,14 +13,19 @@ import TranslucentStatusBar from "../../../../CommonComponents/TranslucentStatus
 import BottomButtonBar from "../../../../CommonComponents/BottomButtonBar/BottomButtonBar";
 import { ICampaignItinerary } from "../../../../TypeInterfaces/ICampaignItinerary";
 import ItineraryView from "../ItineraryView";
-import { SCREEN_REQUEST_CALLBACK } from "../../../../NavigatorsV2/ScreenNames";
+import {
+  SCREEN_REQUEST_CALLBACK,
+  SCREEN_GCM
+} from "../../../../NavigatorsV2/ScreenNames";
 import { ICity } from "../../../../TypeInterfaces/IItinerary";
+import { IGCMRequestBody } from "../../../GCMScreen/hooks/useGCMForm";
 
 export interface CampaignItineraryProps extends ItineraryNavType {
   itineraryDetails: UnbookedItinerary;
   campaignItineraryState: ICampaignItinerary;
   updateFocusedCity: (city: ICity) => any;
   updateBannerDetails: (details: IBannerDetails) => void;
+  costItinerary: (campaignItineraryId: string, config: IGCMRequestBody) => any;
 }
 
 const CampaignItinerary = ({
@@ -36,7 +41,7 @@ const CampaignItinerary = ({
     campaignItinerary,
     campaignItineraryId
   } = campaignItineraryState;
-  const { bannerText, name } = campaignDetail;
+  const { bannerText, name, mobileImage } = campaignDetail;
   const { itinerary } = campaignItinerary;
   const { days, slots, getCityByDayNum } = itineraryDetails;
 
@@ -50,7 +55,13 @@ const CampaignItinerary = ({
     updateFocusedCity(city);
   };
 
-  const updateCost = () => {};
+  const loadCost = () => {
+    navigation.navigate(SCREEN_GCM, {
+      bannerImage: mobileImage,
+      title: bannerText,
+      campaignItineraryId
+    });
+  };
 
   const [sectionPositions, setSectionPositions] = useState<object>({});
 
@@ -140,7 +151,7 @@ const CampaignItinerary = ({
         leftButtonName={"Customize"}
         leftButtonAction={customizeItinerary}
         rightButtonName={"Update cost"}
-        rightButtonAction={updateCost}
+        rightButtonAction={loadCost}
       />
     </ItineraryView>
   );
