@@ -16,6 +16,8 @@ import TextInputField from "../../CommonComponents/TextInputField/TextInputField
 import Picker from "../../CommonComponents/Picker/Picker";
 import BottomButtonBar from "../../CommonComponents/BottomButtonBar/BottomButtonBar";
 import PickerInputField from "../../CommonComponents/PickerInput/PickerInput";
+import useRequestCallbackApi from "./hooks/useRequestCallbackApi";
+import DebouncedAlert from "../../CommonComponents/DebouncedAlert/DebouncedAlert";
 
 type RequestCallbackNavType = AppNavigatorProps<typeof SCREEN_REQUEST_CALLBACK>;
 
@@ -31,6 +33,8 @@ const RequestCallback = ({ navigation }: RequestCallbackProps) => {
 
   const [formFields, updateMethods] = useRequestCallbackForm();
 
+  const [, submitRequestCallback] = useRequestCallbackApi();
+
   const [isSubmitAttempted, setIsSubmitAttempted] = useState(false);
 
   const [isModalVisible, setIsModalVisibile] = useState(false);
@@ -43,6 +47,33 @@ const RequestCallback = ({ navigation }: RequestCallbackProps) => {
 
   const submitCallbackRequest = () => {
     setIsSubmitAttempted(true);
+    if (
+      formFields.email &&
+      formFields.mobileNumber &&
+      formFields.name &&
+      formFields.contactHours
+    ) {
+      submitRequestCallback({
+        countryPhoneCode: "+91", // PT TODO: Modify countrycode
+        email: formFields.email,
+        mobileNumber: formFields.mobileNumber,
+        name: formFields.name,
+        canSendWhatsAppMessages: true, // PT TODO: need to know how
+        preferredTime: formFields.contactHours,
+        pageUrl: "" // PT TODO: required
+      })
+        .then(result => {
+          if (result) {
+            DebouncedAlert("Success!", "We will contact you shortly!");
+            navigation.goBack();
+          } else {
+            DebouncedAlert("Oops!", "Unable to submit form details.");
+          }
+        })
+        .catch(() => {
+          DebouncedAlert("Oops!", "Unable to submit form details.");
+        });
+    }
   };
 
   const nameRef = useRef<TextInput>(null);
