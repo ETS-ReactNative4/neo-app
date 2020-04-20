@@ -31,13 +31,19 @@ const CampaignItinerary = ({
   updateBannerDetails,
   updateFocusedCity
 }: CampaignItineraryProps) => {
-  const { campaignDetail, campaignItinerary } = campaignItineraryState;
+  const {
+    campaignDetail,
+    campaignItinerary,
+    campaignItineraryId
+  } = campaignItineraryState;
   const { bannerText, name } = campaignDetail;
   const { itinerary } = campaignItinerary;
   const { days, slots, getCityByDayNum } = itineraryDetails;
 
   const customizeItinerary = () => {
-    navigation.push(SCREEN_REQUEST_CALLBACK);
+    navigation.push(SCREEN_REQUEST_CALLBACK, {
+      campaignItineraryId
+    });
   };
 
   const updateCityFocus = (city: ICity) => {

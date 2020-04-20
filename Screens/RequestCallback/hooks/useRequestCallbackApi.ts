@@ -23,6 +23,7 @@ export interface IRequestCallbackRequestBody {
   countryPhoneCode: string;
   canSendWhatsAppMessages: boolean;
   preferredTime: number;
+  campaignItineraryId?: string;
   leadSource: IRequestCallbackLeadSource | {};
 }
 

@@ -120,7 +120,9 @@ export type AppNavigatorParamsType = {
   [SCREEN_ITINERARY]: {
     slug: string;
   };
-  [SCREEN_REQUEST_CALLBACK]: undefined;
+  [SCREEN_REQUEST_CALLBACK]: {
+    campaignItineraryId?: string;
+  };
   [SCREEN_GCM]: {
     title: string;
     bannerImage: string;
@@ -154,7 +156,7 @@ const AppNavigator = () => {
         barStyle={"dark-content"}
         backgroundColor={CONSTANT_white}
       />
-      <Navigator initialRouteName={SCREEN_GCM} headerMode="screen">
+      <Navigator initialRouteName={SCREEN_STARTER} headerMode="screen">
         <Screen
           name={SCREEN_PRETRIP_HOME_TABS}
           options={{ headerShown: false }}
