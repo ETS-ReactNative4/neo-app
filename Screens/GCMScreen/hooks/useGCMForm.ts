@@ -21,7 +21,7 @@ export interface ICostingConfig {
   departureAirport: string; //"MAA";
   arrivalAirport: string; //"MAA";
   departureDate: string; //"12/Jan/2021";
-  travelType: "SOLO"; // need enum
+  travelType: "SOLO" | "COUPLE" | "FAMILY" | "FRIENDS";
 }
 
 export interface ILeadSource {
@@ -61,32 +61,32 @@ export interface IGCMUpdateMethods {
 export const travellingAsOptions: IPickerOption[] = [
   {
     text: "❤️ Couple",
-    value: "Couple"
+    value: "COUPLE"
   },
   {
     text: "👪 Family",
-    value: "Family"
+    value: "FAMILY"
   },
   {
     text: "🎉 Friends",
-    value: "Friends"
+    value: "FRIENDS"
   },
   {
     text: "😎 Solo",
-    value: "Solo"
+    value: "SOLO"
   }
 ];
 
 export const preDefinedRoomConfig: {
   [index: string]: IHotelGuestRoomConfig[];
 } = {
-  Couple: [
+  COUPLE: [
     {
       adultCount: 2,
       childAges: []
     }
   ],
-  Solo: [{ adultCount: 1, childAges: [] }]
+  SOLO: [{ adultCount: 1, childAges: [] }]
 };
 
 const useGCMForm = (): [IGCMFormFields, IGCMUpdateMethods] => {
