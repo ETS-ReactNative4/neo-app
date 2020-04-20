@@ -763,33 +763,62 @@ class UnbookedItinerary {
    * This is needed for checking if the user is currently in that city in the
    * NearBy screen
    */
-  getCityById = createTransformer(
-    (id: number): ICity => {
-      if (_.isEmpty(this._selectedItinerary)) {
-        return {} as ICity;
-      }
-      if (!id) {
-        return {} as ICity;
-      }
+  getCityById = (id: number): ICity => {
+    if (_.isEmpty(this._selectedItinerary)) {
+      return {} as ICity;
+    }
+    if (!id) {
+      return {} as ICity;
+    }
 
-      try {
-        // City Object needs to be modified hence the observable should be converted to plain JS
-        const cityObject: ICity = toJS(this._selectedItinerary.cityById[id]);
-        const cityList = this.cities;
-        const requiredCity = cityList.find(city => {
-          return city.cityObject.cityId === id;
-        });
-        // @ts-ignore - cityObject must be a new type that extends `ICity` and will be used in this class
-        cityObject.startDay = requiredCity.startDay;
-        // @ts-ignore
-        cityObject.endDay = requiredCity.endDay;
-        return toJS(cityObject);
-      } catch (e) {
-        logError(e);
-        return {} as ICity;
+    try {
+      // City Object needs to be modified hence the observable should be converted to plain JS
+      const cityObject: ICity = toJS(this._selectedItinerary.cityById[id]);
+      const cityList = this.cities;
+      const requiredCity = cityList.find(city => {
+        return city.cityObject.cityId === id;
+      });
+      // @ts-ignore - cityObject must be a new type that extends `ICity` and will be used in this class
+      cityObject.startDay = requiredCity.startDay;
+      // @ts-ignore
+      cityObject.endDay = requiredCity.endDay;
+      return toJS(cityObject);
+    } catch (e) {
+      logError(e);
+      return {} as ICity;
+    }
+  };
+
+  /**
+   * For a given day number return the city details
+   */
+  getCityByDayNum = (dayNum: number): ICity | undefined => {
+    const iterDayByKey = toJS(
+      Object.entries(this._selectedItinerary.iterDayByKey)
+    );
+    const dayNumByDayKeyMap: { [index: number]: string } = iterDayByKey.reduce(
+      (accumulator, each) => {
+        accumulator = {
+          ...accumulator,
+          [each[1].dayNum]: each[0]
+        };
+        return accumulator;
+      },
+      {}
+    );
+
+    const targetDayKey = dayNumByDayKeyMap[dayNum];
+
+    const citiesList = toJS(
+      Object.values(this._selectedItinerary.iterCityByKey)
+    );
+
+    for (let i = 0; i < citiesList.length; i++) {
+      if (citiesList[i].allDayKeys.includes(targetDayKey)) {
+        return this.getCityById(citiesList[i].cityId);
       }
     }
-  );
+  };
 
   getHotelByDate = createTransformer((date: string): IHotelCosting | {} => {
     if (_.isEmpty(this._selectedItinerary)) {

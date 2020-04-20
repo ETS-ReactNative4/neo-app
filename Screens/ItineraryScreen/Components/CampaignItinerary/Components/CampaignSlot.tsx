@@ -1,5 +1,5 @@
-import React, { Fragment } from "react";
-import { StyleSheet } from "react-native";
+import React from "react";
+import { StyleSheet, View, LayoutChangeEvent } from "react-native";
 import UnbookedItinerary, {
   IUnbookedIterSlotWithActivity,
   IUnbookedActivitySlotDetail
@@ -17,14 +17,22 @@ import {
 export interface CampaignSlotProps extends ItineraryNavType {
   dayNum: number;
   slot: (IUnbookedIterSlotWithActivity | IIterSlotByKey)[];
-  onItemLayout: any;
+  updateSectionPostions: any;
   spinValue: any;
   itinerary: UnbookedItinerary;
 }
 
-const CampaignSlot = ({ dayNum, slot }: CampaignSlotProps) => {
+const CampaignSlot = ({
+  dayNum,
+  slot,
+  updateSectionPostions
+}: CampaignSlotProps) => {
+  const setOnLayout = (event: LayoutChangeEvent) => {
+    updateSectionPostions(event, dayNum);
+  };
+
   return (
-    <Fragment>
+    <View onLayout={setOnLayout}>
       <SectionHeader
         sectionName={`Day ${dayNum}`}
         containerStyle={styles.headerContainer}
@@ -102,7 +110,7 @@ const CampaignSlot = ({ dayNum, slot }: CampaignSlotProps) => {
             return null;
         }
       })}
-    </Fragment>
+    </View>
   );
 };
 
