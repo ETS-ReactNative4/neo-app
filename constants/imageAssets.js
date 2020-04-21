@@ -495,6 +495,10 @@ export const CONSTANT_splashBackgroundVideo = () =>
   require("../assets/videos/splashscreen.mp4");
 export const CONSTANT_preLoaderAnimation = () =>
   require("../assets/animations/preLoader.json");
+export const CONSTANT_preLoaderAnimation2 = () =>
+  require("../assets/animations/preLoader2.json");
+export const CONSTANT_preLoaderAnimation3 = () =>
+  require("../assets/animations/preLoader3.json");
 
 // TRUST ICONS
 export const CONSTANT_trustIconFacebook = () =>

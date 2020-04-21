@@ -541,4 +541,18 @@ export const CONSTANT_voucherHeaderViewVoucherClick =
   "voucher_header_view_voucher_click";
 export const CONSTANT_chatCallSupportClick = "chat_call_support_click";
 
+export const CONSTANT_explore = {
+  event: "Explore",
+  click: {
+    recommendedForYouCard: "recommended_for_you_card",
+    pocketFriendlyDestinationsView: "pocket_friendly_destinations_view",
+    dealsFromOurPartnersCard: "deals_from_our_partners_card",
+    onGoingHolidaysView: "on_going_holidays_view",
+    travellerTestimonialscard: "traveller_testimonials_card",
+    visaOnArrivalView: "visa_on_arrival_view",
+    forTheLoveBirds: "for_the_love_birds_card",
+    travelBlogs: "travel_blogs_card"
+  }
+};
+
 export default appEvents;

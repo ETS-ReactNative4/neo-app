@@ -11,6 +11,8 @@ import { IBookedItinerary } from "../../../TypeInterfaces/IBookedItinerary";
 import ExploreCardLodingIndicator from "./ExploreCardLodingIndicator";
 import getImgIXUrl from "../../../Services/getImgIXUrl/getImgIXUrl";
 import { CONSTANT_exploreFeedCardLimit } from "../../../constants/stringConstants";
+import { recordEvent } from "../../../Services/analytics/analyticsService";
+import { CONSTANT_explore } from "../../../constants/appEvents";
 
 export interface IItineraryCardsData {
   isLoading: boolean;
@@ -32,6 +34,11 @@ const BookedItineraryCardsRow = (props: IBookedItinerarySection) => {
             data
               .slice(0, CONSTANT_exploreFeedCardLimit)
               .map((card, cardIndex) => {
+                const action = () => {
+                  recordEvent(CONSTANT_explore.event, {
+                    click: CONSTANT_explore.click.onGoingHolidaysView
+                  });
+                };
                 return (
                   <ItineraryCard
                     key={cardIndex}
@@ -39,7 +46,7 @@ const BookedItineraryCardsRow = (props: IBookedItinerarySection) => {
                     itineraryCost={card.cost}
                     images={[getImgIXUrl({ src: card.image })]}
                     cities={card.cities}
-                    action={() => null}
+                    action={action}
                     inclusionList={[]}
                     title={card.itineraryText}
                     containerStyle={styles.itineraryCardWrapper}

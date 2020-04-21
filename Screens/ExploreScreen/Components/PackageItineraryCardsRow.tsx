@@ -13,6 +13,8 @@ import generateInclusions from "../services/generateInclusions";
 import ExploreCardLodingIndicator from "./ExploreCardLodingIndicator";
 import getImgIXUrl from "../../../Services/getImgIXUrl/getImgIXUrl";
 import { CONSTANT_exploreFeedCardLimit } from "../../../constants/stringConstants";
+import { CONSTANT_explore } from "../../../constants/appEvents";
+import { recordEvent } from "../../../Services/analytics/analyticsService";
 
 export interface IPackageItineraryCardsData {
   isLoading: boolean;
@@ -40,7 +42,11 @@ const PackageItineraryCardsRow = (props: IPackageItinerarySection) => {
               .slice(0, CONSTANT_exploreFeedCardLimit)
               .map((card, cardIndex) => {
                 const amount = getPriceWithoutSymbol(card.itineraryCost);
-
+                const action = () => {
+                  recordEvent(CONSTANT_explore.event, {
+                    click: CONSTANT_explore.click.pocketFriendlyDestinationsView
+                  });
+                };
                 const inclusionList = generateInclusions(card);
 
                 return (
@@ -50,7 +56,7 @@ const PackageItineraryCardsRow = (props: IPackageItinerarySection) => {
                     itineraryCost={amount}
                     images={[getImgIXUrl({ src: card.image })]}
                     cities={card.cityHotelStay}
-                    action={() => null}
+                    action={action}
                     title={card.title}
                     containerStyle={styles.itineraryCardWrapper}
                     imageStyle={styles.itineraryImage}
