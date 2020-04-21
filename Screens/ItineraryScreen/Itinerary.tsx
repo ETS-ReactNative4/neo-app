@@ -14,6 +14,8 @@ import { ICity } from "../../TypeInterfaces/IItinerary";
 import ItineraryBanner from "./Components/ItineraryBanner";
 import HighlightText from "./Components/HighlightText";
 import { StyleSheet, LayoutAnimation } from "react-native";
+import useCampaignItineraryCosting from "./hooks/useCampaignItineraryCosting";
+import { IGCMRequestBody } from "../GCMScreen/hooks/useGCMForm";
 
 export type ItineraryNavType = AppNavigatorProps<typeof SCREEN_ITINERARY>;
 
@@ -31,6 +33,9 @@ export interface IBannerDetails {
 }
 
 const Itinerary = ({ route, navigation }: ItineraryProps) => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { slug = "", itineraryId: preDefinedItineraryId = "" } = route.params;
+
   const [
     campaignItineraryState,
     setCampaignItineraryState
@@ -43,6 +48,44 @@ const Itinerary = ({ route, navigation }: ItineraryProps) => {
     IBannerDetails | undefined
   >(undefined);
 
+  const { costCampaignItinerary, isCosting } = useCampaignItineraryCosting();
+
+  const costItinerary = (
+    campaignItineraryId: string,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    config: IGCMRequestBody
+  ) => {
+    costCampaignItinerary(campaignItineraryId, {
+      costingConfig: {
+        hotelGuestRoomConfigurations: [
+          {
+            adultCount: 1,
+            childAges: []
+          }
+        ],
+        departureAirport: "MAA",
+        arrivalAirport: "MAA",
+        departureDate: "12/Jan/2021",
+        travelType: "SOLO"
+      },
+      flightsBookedByUserAlready: false,
+      itineraryId: "",
+      costingType: "RECOST",
+      name: "",
+      leadSource: {
+        url: "https://uat.longweekend.co.in/",
+        deviceType: "Mobile",
+        keyword: "",
+        campaign: "",
+        cpid: null,
+        landingPage: "https://uat.longweekend.co.in/",
+        lastRoute:
+          "/packages/a-9-night-itinerary-for-a-feel-good-vietnam-vacation-at-low-cost",
+        prodType: "PACKAGES"
+      }
+    });
+  };
+
   const updateFocusedCity = (city: ICity) => {
     setFocusedCity(city);
   };
@@ -54,7 +97,6 @@ const Itinerary = ({ route, navigation }: ItineraryProps) => {
   const goBack = () => navigation.goBack();
 
   useEffect(() => {
-    const { slug = "" } = route.params;
     if (slug) {
       // The itinerary is a campaign Itinerary
       apiCall(CONSTANT_packages, {
@@ -79,11 +121,15 @@ const Itinerary = ({ route, navigation }: ItineraryProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+
   if (!itineraryDetails.current || !campaignItineraryState) {
     return null;
   }
 
-  LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+  if (isCosting) {
+    return null;
+  }
 
   return (
     <>
@@ -109,6 +155,7 @@ const Itinerary = ({ route, navigation }: ItineraryProps) => {
         route={route}
         updateFocusedCity={updateFocusedCity}
         updateBannerDetails={updateBannerDetails}
+        costItinerary={costItinerary}
       />
     </>
   );
