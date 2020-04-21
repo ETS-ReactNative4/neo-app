@@ -52,11 +52,11 @@ export interface ISearchCategory {
 }
 
 const categories: ISearchCategory[] = [
-  {
-    text: "ALL",
-    emoji: "😄",
-    searchQuery: "all-packages"
-  },
+  // {
+  //   text: "ALL",
+  //   emoji: "😄",
+  //   searchQuery: "all-packages"
+  // },
   {
     text: "ADVENTURE",
     emoji: "🐊",
