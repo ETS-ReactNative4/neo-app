@@ -15,6 +15,7 @@ import getImgIXUrl from "../../../Services/getImgIXUrl/getImgIXUrl";
 import { CONSTANT_exploreFeedCardLimit } from "../../../constants/stringConstants";
 import { CONSTANT_explore } from "../../../constants/appEvents";
 import { recordEvent } from "../../../Services/analytics/analyticsService";
+import deepLink from "../../../Services/deepLink/deepLink";
 
 export interface IPackageItineraryCardsData {
   isLoading: boolean;
@@ -43,6 +44,13 @@ const PackageItineraryCardsRow = (props: IPackageItinerarySection) => {
               .map((card, cardIndex) => {
                 const amount = getPriceWithoutSymbol(card.itineraryCost);
                 const action = () => {
+                  deepLink({
+                    link: card.deepLinking.link,
+                    screenData: {
+                      ...(card.deepLinking.screenData || {}),
+                      slug: card.slug
+                    }
+                  });
                   recordEvent(CONSTANT_explore.event, {
                     click: CONSTANT_explore.click.pocketFriendlyDestinationsView
                   });

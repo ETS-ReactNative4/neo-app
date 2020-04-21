@@ -1,12 +1,6 @@
 import React, { useMemo, useState, Fragment } from "react";
 import Modal from "react-native-modal";
-import {
-  StyleSheet,
-  View,
-  TouchableOpacity,
-  Alert,
-  Platform
-} from "react-native";
+import { StyleSheet, View, TouchableOpacity, Platform } from "react-native";
 import Icon from "../../CommonComponents/Icon/Icon";
 import { CONSTANT_listIcon } from "../../constants/imageAssets";
 import {
@@ -20,7 +14,10 @@ import {
 import ItineraryCard from "../../CommonComponents/ItineraryCard/ItineraryCard";
 import ParallaxScrollView from "../../CommonComponents/ParallaxScrollView/ParallaxScrollView";
 import TranslucentStatusBar from "../../CommonComponents/TranslucentStatusBar/TranslucentStatusBar";
-import { SCREEN_LISTING_PAGE } from "../../NavigatorsV2/ScreenNames";
+import {
+  SCREEN_LISTING_PAGE,
+  SCREEN_ITINERARY
+} from "../../NavigatorsV2/ScreenNames";
 import { RouteProp } from "@react-navigation/native";
 import { ModalNavigatorParamsType } from "../../NavigatorsV2/ModalStack";
 import { StackNavigationProp } from "@react-navigation/stack";
@@ -159,7 +156,12 @@ const ListingPage = ({ navigation, route }: ListingPageProps) => {
                 <ItineraryCard
                   images={[getImgIXUrl({ src: itinerary.image })]}
                   tripType={itinerary.tripType}
-                  action={() => Alert.alert("Click Itinerary Card")}
+                  action={() => {
+                    // @ts-ignore
+                    navigation.navigate(SCREEN_ITINERARY, {
+                      slug: itinerary.slug
+                    });
+                  }}
                   title={itinerary.title}
                   inclusionList={inclusionList}
                   itineraryCost={getPriceWithoutSymbol(itinerary.itineraryCost)}
@@ -170,7 +172,7 @@ const ListingPage = ({ navigation, route }: ListingPageProps) => {
               </Fragment>
             );
           });
-        }, [filteredItineraries])}
+        }, [filteredItineraries, navigation])}
         {Platform.OS === CONSTANT_platformAndroid ? (
           <BlankSpacer height={responsiveHeight(100)} />
         ) : (

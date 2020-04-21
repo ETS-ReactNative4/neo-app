@@ -12,6 +12,7 @@ import getImgIXUrl from "../../../Services/getImgIXUrl/getImgIXUrl";
 import { CONSTANT_exploreFeedCardLimit } from "../../../constants/stringConstants";
 import { recordEvent } from "../../../Services/analytics/analyticsService";
 import { CONSTANT_explore } from "../../../constants/appEvents";
+import deepLink from "../../../Services/deepLink/deepLink";
 
 const TestimonialsCardsRow = (props: ITestimonialsSection) => {
   return (
@@ -21,16 +22,25 @@ const TestimonialsCardsRow = (props: ITestimonialsSection) => {
       requestPayload={props.requestPayload}
     >
       {({ data, isLoading }: ICountryCardData) => {
-        const action = () =>
-          recordEvent(CONSTANT_explore.event, {
-            click: CONSTANT_explore.click.travellerTestimonialscard
-          });
         return isLoading
           ? null
           : data &&
               data?.testimonials
                 .slice(0, CONSTANT_exploreFeedCardLimit)
                 .map((testimonial, testimonialIndex) => {
+                  const action = () => {
+                    deepLink({
+                      link: testimonial.deepLinking.link,
+                      screenData: {
+                        ...(testimonial.deepLinking.screenData || {}),
+                        itineraryId: testimonial.itineraryId
+                      }
+                    });
+                    recordEvent(CONSTANT_explore.event, {
+                      click: CONSTANT_explore.click.travellerTestimonialscard
+                    });
+                  };
+
                   return (
                     <TestimonialCard
                       key={testimonialIndex}

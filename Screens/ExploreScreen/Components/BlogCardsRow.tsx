@@ -4,6 +4,7 @@ import { IBlogSection } from "../ExploreFeedType";
 import BlogCard from "../../../CommonComponents/BlogCard/BlogCard";
 import { recordEvent } from "../../../Services/analytics/analyticsService";
 import { CONSTANT_explore } from "../../../constants/appEvents";
+import deepLink from "../../../Services/deepLink/deepLink";
 
 export interface IPromotedCardsRowData {
   data?: IBlogSection["items"];
@@ -17,7 +18,8 @@ const BlogCardsRow = (props: IBlogSection) => {
         return data
           ? data.map((blogCard, blogCardIndex) => {
               const action = () => {
-                recordEvent(CONSTANT_explore, {
+                deepLink(blogCard.deepLinking);
+                recordEvent(CONSTANT_explore.event, {
                   click: CONSTANT_explore.click.travelBlogs
                 });
               };

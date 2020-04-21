@@ -13,6 +13,7 @@ import getImgIXUrl from "../../../Services/getImgIXUrl/getImgIXUrl";
 import { CONSTANT_exploreFeedCardLimit } from "../../../constants/stringConstants";
 import { recordEvent } from "../../../Services/analytics/analyticsService";
 import { CONSTANT_explore } from "../../../constants/appEvents";
+import deepLink from "../../../Services/deepLink/deepLink";
 
 export interface IItineraryCardsData {
   isLoading: boolean;
@@ -35,6 +36,7 @@ const BookedItineraryCardsRow = (props: IBookedItinerarySection) => {
               .slice(0, CONSTANT_exploreFeedCardLimit)
               .map((card, cardIndex) => {
                 const action = () => {
+                  deepLink(card.deepLinking);
                   recordEvent(CONSTANT_explore.event, {
                     click: CONSTANT_explore.click.onGoingHolidaysView
                   });
