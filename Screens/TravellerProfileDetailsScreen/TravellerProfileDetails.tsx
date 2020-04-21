@@ -4,8 +4,8 @@ import {
   StyleSheet,
   Text,
   Switch,
-  Alert,
-  LayoutAnimation
+  LayoutAnimation,
+  TouchableOpacity
 } from "react-native";
 import TravellerProfileDetailsTitle from "./Components/TravellerProfileDetailsTitle";
 import {
@@ -47,6 +47,7 @@ import { useKeyboard } from "@react-native-community/hooks";
 import usePatchTravelProfile from "./hooks/usePatchTravelProfile";
 import { toastBottom } from "../../Services/toast/toast";
 import { useFocusEffect } from "@react-navigation/native";
+import logOut from "../../Services/logOut/logOut";
 
 type TravellerProfileDetailsNav = AppNavigatorProps<
   typeof SCREEN_TRAVELLER_PROFILE
@@ -357,15 +358,16 @@ const TravellerProfileDetails = ({
         {/* Do you have any physical disabilities? ends */}
       </View>
 
-      <View style={styles.profileDetailsContainer}>
-        <Text
-          style={styles.logoutText}
-          onPress={() => Alert.alert("Click Logout")}
-        >
+      <TouchableOpacity
+        onPress={() => logOut()}
+        activeOpacity={0.2}
+        style={styles.profileDetailsContainer}
+      >
+        <Text style={styles.logoutText}>
           Log out
           <Icon name={CONSTANT_arrowRight} color={CONSTANT_shade2} size={12} />
         </Text>
-      </View>
+      </TouchableOpacity>
       <XSensorPlaceholder />
     </KeyboardAwareScrollView>
   );
