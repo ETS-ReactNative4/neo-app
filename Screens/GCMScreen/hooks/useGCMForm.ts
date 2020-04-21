@@ -16,12 +16,14 @@ export interface IHotelGuestRoomConfig {
   childAges: HotelGuestRoomChildAgesType[];
 }
 
+export type travelType = "SOLO" | "COUPLE" | "FAMILY" | "FRIENDS";
+
 export interface ICostingConfig {
   hotelGuestRoomConfigurations: IHotelGuestRoomConfig[];
   departureAirport: string; //"MAA";
   arrivalAirport: string; //"MAA";
   departureDate: string; //"12/Jan/2021";
-  travelType: "SOLO" | "COUPLE" | "FAMILY" | "FRIENDS";
+  travelType: travelType;
 }
 
 export interface ILeadSource {
@@ -47,7 +49,7 @@ export interface IGCMRequestBody {
 export interface IGCMFormFields {
   departingFrom: IIndianCity | undefined;
   departingOn: Date;
-  travellingAs: IPickerOption | undefined;
+  travellingAs: ITravellingAsPickerOption | undefined;
   roomDetails: IHotelGuestRoomConfig[];
 }
 
@@ -58,7 +60,11 @@ export interface IGCMUpdateMethods {
   updateRoomDetails: (room: IHotelGuestRoomConfig[]) => void;
 }
 
-export const travellingAsOptions: IPickerOption[] = [
+export interface ITravellingAsPickerOption extends IPickerOption {
+  value: travelType;
+}
+
+export const travellingAsOptions: ITravellingAsPickerOption[] = [
   {
     text: "❤️ Couple",
     value: "COUPLE"
@@ -98,14 +104,14 @@ const useGCMForm = (): [IGCMFormFields, IGCMUpdateMethods] => {
     undefined
   );
   const [departingOn, setDepartingOn] = useState<Date>(tomorrow);
-  const [travellingAs, setTravellingAs] = useState<IPickerOption | undefined>(
-    undefined
-  );
+  const [travellingAs, setTravellingAs] = useState<
+    ITravellingAsPickerOption | undefined
+  >(undefined);
   const [roomDetails, setRoomDetails] = useState<IHotelGuestRoomConfig[]>([]);
 
   const updateDepartingFrom = (option: IIndianCity) => setDepartingFrom(option);
   const updateDepartingOn = (date: Date) => setDepartingOn(date);
-  const updateTravellingAs = (option: IPickerOption) => {
+  const updateTravellingAs = (option: ITravellingAsPickerOption) => {
     setTravellingAs(option);
     if (preDefinedRoomConfig[option.value]) {
       setRoomDetails(preDefinedRoomConfig[option.value]);

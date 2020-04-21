@@ -6,7 +6,7 @@ import {
   SCREEN_GCM_CITY_PICKER,
   SCREEN_GCM_ROOM_CONFIG
 } from "../../NavigatorsV2/ScreenNames";
-import { Text, Alert, StyleSheet, ScrollView } from "react-native";
+import { Text, StyleSheet, ScrollView } from "react-native";
 import BottomButtonBar from "../../CommonComponents/BottomButtonBar/BottomButtonBar";
 import { CONSTANT_black1 } from "../../constants/colorPallete";
 import {
@@ -17,13 +17,18 @@ import useGCMForm, {
   IIndianCity,
   travellingAsOptions,
   IHotelGuestRoomConfig,
-  preDefinedRoomConfig
+  preDefinedRoomConfig,
+  ICostingConfig,
+  ITravellingAsPickerOption
 } from "./hooks/useGCMForm";
 import PickerInputField from "../../CommonComponents/PickerInput/PickerInput";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import moment from "moment";
-import { CONSTANT_GCMDateFormat } from "../../constants/styles";
-import Picker, { IPickerOption } from "../../CommonComponents/Picker/Picker";
+import {
+  CONSTANT_GCMDateFormat,
+  CONSTANT_costingDateFormat
+} from "../../constants/styles";
+import Picker from "../../CommonComponents/Picker/Picker";
 
 type RequestCallbackNavType = AppNavigatorProps<typeof SCREEN_GCM>;
 
@@ -32,10 +37,40 @@ export interface GCMProps extends RequestCallbackNavType {}
 const GCM = ({ navigation, route }: GCMProps) => {
   const {
     title = "",
-    bannerImage = "https://pickyourtrail-guides-images.imgix.net/misc/hungary.jpeg"
+    bannerImage = "https://pickyourtrail-guides-images.imgix.net/misc/hungary.jpeg",
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    onSubmit = (options: ICostingConfig) => null
   } = route.params || {};
 
+  const [isSubmitAttempted, setIsSubmitAttempted] = useState<boolean>(false);
+
   const goBack = () => navigation.goBack();
+
+  const onSubmitForm = () => {
+    setIsSubmitAttempted(true);
+
+    const arrivalAirport = formFields.departingFrom?.airportCode ?? null;
+    const departureDate = moment(formFields.departingOn).format(
+      CONSTANT_costingDateFormat
+    );
+    const hotelGuestRoomConfigurations = formFields.roomDetails;
+    const travelType = formFields.travellingAs?.value ?? null;
+
+    if (
+      arrivalAirport &&
+      departureDate &&
+      hotelGuestRoomConfigurations.length &&
+      travelType
+    ) {
+      onSubmit({
+        arrivalAirport,
+        departureAirport: arrivalAirport,
+        departureDate,
+        hotelGuestRoomConfigurations,
+        travelType
+      });
+    }
+  };
 
   const [formFields, formUpdateMethods] = useGCMForm();
 
@@ -76,7 +111,7 @@ const GCM = ({ navigation, route }: GCMProps) => {
   const toggleTravellingAsPickerModal = () =>
     setIsTravellingAsPickerVisible(!isTravellingAsPickerVisible);
 
-  const onSelectTravellingAs = (option: IPickerOption) =>
+  const onSelectTravellingAs = (option: ITravellingAsPickerOption) =>
     formUpdateMethods.updateTravellingAs(option);
 
   const openRoomConfigPicker = () => {
@@ -135,7 +170,9 @@ const GCM = ({ navigation, route }: GCMProps) => {
             formFields.departingFrom ? formFields.departingFrom.cityName : ""
           }
           placeholder="Departing From"
-          hasError={false}
+          hasError={
+            isSubmitAttempted && !formFields.departingFrom ? true : false
+          }
         />
 
         <PickerInputField
@@ -158,7 +195,7 @@ const GCM = ({ navigation, route }: GCMProps) => {
           hasError={false}
         />
 
-        {preDefinedRoomConfig[formFields.travellingAs?.value] ? null : (
+        {preDefinedRoomConfig[formFields.travellingAs?.value ?? ""] ? null : (
           <PickerInputField
             onPressAction={openRoomConfigPicker}
             label={"ROOM DETAILS"}
@@ -184,7 +221,7 @@ const GCM = ({ navigation, route }: GCMProps) => {
       <BottomButtonBar
         disableLeftButton
         rightButtonName={"View updated cost"}
-        rightButtonAction={() => Alert.alert("Click -> View updated cost")}
+        rightButtonAction={onSubmitForm}
       />
     </GCMViewer>
   );
