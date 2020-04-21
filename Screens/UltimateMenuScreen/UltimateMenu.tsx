@@ -44,6 +44,7 @@ import { useFocusEffect } from "@react-navigation/native";
 import isUserLoggedIn from "../../Services/isUserLoggedIn/isUserLoggedIn";
 import { isProduction } from "../../Services/getEnvironmentDetails/getEnvironmentDetails";
 import TranslucentStatusBar from "../../CommonComponents/TranslucentStatusBar/TranslucentStatusBar";
+import logOut from "../../Services/logOut/logOut";
 
 export interface IUltimateMenuLists {
   name: string;
@@ -114,7 +115,9 @@ const UltimateMenu = ({
 
   const login = () => null;
 
-  const logout = () => null;
+  const logout = () => {
+    logOut();
+  };
 
   const checkLogin = () => {
     isUserLoggedIn()
