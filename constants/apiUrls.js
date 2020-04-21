@@ -120,6 +120,7 @@ export const CONSTANT_getPaymentMeta =
 export const CONSTANT_travelProfile = "user/travellerprofile";
 export const CONSTANT_userProfile = "user";
 export const CONSTANT_retrieveUserProfile = "user/getUserDetails";
+export const CONSTANT_userDetailsResource = "user/userDetails";
 export const CONSTANT_getPaymentInfo = "mobile/:itineraryId/paymentInfo";
 export const CONSTANT_getFaq = "mobile/v2/faq";
 export const CONSTANT_getTripFeed = "mobile/feeds";

@@ -5,7 +5,8 @@ import { setUserDetails } from "../Services/analytics/analyticsService";
 import { setUserContext } from "../Services/errorLogger/errorLogger";
 import {
   CONSTANT_getUserDetails,
-  CONSTANT_retrieveUserProfile
+  CONSTANT_retrieveUserProfile,
+  CONSTANT_userDetailsResource
 } from "../constants/apiUrls";
 import { IMobileServerResponse } from "../TypeInterfaces/INetworkResponse";
 import { CONSTANT_responseSuccessStatus } from "../constants/stringConstants";
@@ -66,7 +67,27 @@ class User {
   }
 
   @action
-  getUserDisplayDetails = (): Promise<boolean> => {
+  updateUserDisplayDetails = (
+    userDetails: IUserDisplayDetails
+  ): Promise<boolean> => {
+    return new Promise<boolean>((resolve, reject) => {
+      apiCall(CONSTANT_userDetailsResource, userDetails, "PATCH")
+        .then((response: IUserDisplayDataNetworkResponse) => {
+          if (response.status === CONSTANT_responseSuccessStatus) {
+            this.getUserDisplayDetails();
+            resolve(true);
+          } else {
+            resolve(false);
+          }
+        })
+        .catch(() => {
+          reject();
+        });
+    });
+  };
+
+  @action
+  getUserDisplayDetails = () => {
     return new Promise<boolean>((resolve, reject) => {
       apiCall(CONSTANT_retrieveUserProfile, {}, "GET")
         .then((response: IUserDisplayDataNetworkResponse) => {

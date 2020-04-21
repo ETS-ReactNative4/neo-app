@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { View, StyleSheet, Alert } from "react-native";
 import { isIphoneX } from "react-native-iphone-x-helper";
 import {
@@ -6,15 +6,27 @@ import {
   CONSTANT_shade3
 } from "../../../constants/colorPallete";
 import PrimaryButton from "../../../CommonComponents/PrimaryButton/PrimaryButton";
-import { CONSTANT_xSensorAreaHeight } from "../../../constants/styles";
+import {
+  CONSTANT_xSensorAreaHeight,
+  CONSTANT_GCMDateFormat
+} from "../../../constants/styles";
 import TextInputField from "../../../CommonComponents/TextInputField/TextInputField";
 import { AppNavigatorProps } from "../../../NavigatorsV2/AppNavigator";
-import { SCREEN_EDIT_TRAVELLER_PROFILE } from "../../../NavigatorsV2/ScreenNames";
+import {
+  SCREEN_EDIT_TRAVELLER_PROFILE,
+  SCREEN_GCM_CITY_PICKER
+} from "../../../NavigatorsV2/ScreenNames";
 import PrimaryHeader from "../../../NavigatorsV2/Components/PrimaryHeader";
 import ErrorBoundary from "../../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import { observer, inject } from "mobx-react";
 import User from "../../../mobx/User";
 import { useKeyboard } from "@react-native-community/hooks";
+import moment from "moment";
+import DateTimePickerModal from "react-native-modal-datetime-picker";
+import PickerInputField from "../../../CommonComponents/PickerInput/PickerInput";
+import { IIndianCity } from "../../GCMScreen/hooks/useGCMForm";
+import { toastBottom } from "../../../Services/toast/toast";
+import DebouncedAlert from "../../../CommonComponents/DebouncedAlert/DebouncedAlert";
 
 type EditTravellerProfileDetailsNavType = AppNavigatorProps<
   typeof SCREEN_EDIT_TRAVELLER_PROFILE
@@ -35,12 +47,34 @@ const EditTravellerProfileDetails = ({
     name: userName,
     email: userEmail,
     countryPhoneCode,
-    mobileNumber
+    mobileNumber,
+    cityOfDeparture,
+    dateOfBirth
   } = userDisplayDetails;
 
-  const [name, onChangeName] = React.useState(userName || "");
-  const [email, onChangeEmail] = React.useState(userEmail || "");
-  const [city, onChangeCity] = React.useState("");
+  const [name, onChangeName] = useState(userName || "");
+  const [email, onChangeEmail] = useState(userEmail || "");
+  const [city, onChangeCity] = useState(cityOfDeparture || "");
+  const [dateOfBirthObject, onChangeDateOfBirthObject] = useState<
+    Date | undefined
+  >(dateOfBirth ? new Date(dateOfBirth) : undefined);
+
+  const [isDatePickerVisible, setDatePickerVisibility] = useState<boolean>(
+    false
+  );
+
+  const showDatePicker = () => {
+    setDatePickerVisibility(true);
+  };
+
+  const hideDatePicker = () => {
+    setDatePickerVisibility(false);
+  };
+
+  const handleConfirm = (date: Date) => {
+    onChangeDateOfBirthObject(date);
+    hideDatePicker();
+  };
 
   useEffect(() => {
     navigation.setOptions({
@@ -63,8 +97,51 @@ const EditTravellerProfileDetails = ({
     hasDataLoaded.current = true;
   }, [keyboardShown]);
 
+  const today = new Date();
+
+  const openCityPicker = () => {
+    navigation.navigate(SCREEN_GCM_CITY_PICKER, {
+      title: "",
+      bannerImage: "",
+      onSelect: (selectedCity: IIndianCity) => {
+        onChangeCity(selectedCity.cityName);
+      }
+    });
+  };
+
+  const submitForm = () => {
+    userStore
+      .updateUserDisplayDetails({
+        name,
+        email,
+        cityOfDeparture: city,
+        dateOfBirth: dateOfBirthObject
+          ? dateOfBirthObject.toISOString()
+          : undefined
+      })
+      .then(result => {
+        if (result) {
+          toastBottom("Details Updated Successfully!");
+          navigation.goBack();
+        } else {
+          DebouncedAlert("Error", "Unable to update user details!");
+        }
+      })
+      .catch(() => {
+        DebouncedAlert("Error", "Unable to update user details!");
+      });
+  };
+
   return (
     <View style={styles.editProfileDetailsContainer}>
+      <DateTimePickerModal
+        isVisible={isDatePickerVisible}
+        mode="date"
+        onConfirm={handleConfirm}
+        onCancel={hideDatePicker}
+        date={dateOfBirthObject || today}
+        maximumDate={today}
+      />
       <View style={styles.editProfileDetails}>
         <TextInputField
           label={"NAME"}
@@ -92,30 +169,31 @@ const EditTravellerProfileDetails = ({
           textInputStyle={{ color: CONSTANT_shade3 }}
         />
 
-        <TextInputField
+        <PickerInputField
           label={"CITY OF DEPARTURE"}
           value={city}
-          onChangeText={text => onChangeCity(text)}
+          onPressAction={openCityPicker}
           placeholder="City of Departure"
           hasError={false}
           secondaryText={"GET LOCATION"}
           secondaryTextAction={() => Alert.alert("Click GET LOCATION")}
         />
 
-        <TextInputField
+        <PickerInputField
+          onPressAction={showDatePicker}
           label={"BIRTHDAY"}
-          value={"15 Jul 1990"}
-          onChangeText={text => onChangeName(text)}
+          value={
+            dateOfBirthObject
+              ? moment(dateOfBirthObject).format(CONSTANT_GCMDateFormat)
+              : ""
+          }
           placeholder="Birthday"
           hasError={false}
         />
       </View>
 
       <View style={styles.buttonWrapper}>
-        <PrimaryButton
-          text={"Save"}
-          clickAction={() => Alert.alert("Click Save Button")}
-        />
+        <PrimaryButton text={"Save"} clickAction={submitForm} />
       </View>
     </View>
   );

@@ -48,6 +48,8 @@ import usePatchTravelProfile from "./hooks/usePatchTravelProfile";
 import { toastBottom } from "../../Services/toast/toast";
 import { useFocusEffect } from "@react-navigation/native";
 import logOut from "../../Services/logOut/logOut";
+import moment from "moment";
+import { CONSTANT_GCMDateFormat } from "../../constants/styles";
 
 type TravellerProfileDetailsNav = AppNavigatorProps<
   typeof SCREEN_TRAVELLER_PROFILE
@@ -62,17 +64,15 @@ const TravellerProfileDetails = ({
   navigation,
   userStore
 }: TravellerProfileDetailsProps) => {
-  const { userDisplayDetails = {}, getUserDisplayDetails } = userStore;
-  const { email, mobileNumber, name } = userDisplayDetails;
+  const { userDisplayDetails, getUserDisplayDetails } = userStore;
+  const { email, mobileNumber, name, cityOfDeparture, dateOfBirth } =
+    userDisplayDetails || {};
 
   const [
     travelProfileApiDetails,
     loadTravelProfile
   ] = useRetrieveTravelProfile();
   const [, patchTravelProfile] = usePatchTravelProfile();
-
-  const dateOfBirth = "";
-  const cityOfDeparture = "";
 
   const [ratingData] = useState<ICheckBoxData[]>([
     {
@@ -269,7 +269,7 @@ const TravellerProfileDetails = ({
         {dateOfBirth ? (
           <ProfileDetailSection
             title={"Birthday"}
-            text={dateOfBirth}
+            text={moment(dateOfBirth).format(CONSTANT_GCMDateFormat)}
             textStyle={styles.noMarginBottom}
           />
         ) : null}
