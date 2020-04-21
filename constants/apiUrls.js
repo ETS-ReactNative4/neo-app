@@ -113,6 +113,7 @@ export const CONSTANT_assignUser =
 export const CONSTANT_calculateCost = "itinerary/:itineraryId/calculateCost";
 export const CONSTANT_checkCostingStatus =
   "itinerary/:itineraryId/checkCostingStatus";
+export const CONSTANT_itineraryDetails = "itinerary/:itineraryId/details";
 export const CONSTANT_getVisaDetails = "mobile/visa/:visaId";
 export const CONSTANT_sendVisaDocs = "mobile/sendVisaDocs";
 export const CONSTANT_getPaymentMeta =

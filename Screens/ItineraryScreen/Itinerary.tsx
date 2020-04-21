@@ -2,7 +2,10 @@ import React, { useEffect, useState, useRef } from "react";
 import { AppNavigatorProps } from "../../NavigatorsV2/AppNavigator";
 import { SCREEN_ITINERARY } from "../../NavigatorsV2/ScreenNames";
 import apiCall from "../../Services/networkRequests/apiCall";
-import { CONSTANT_packages } from "../../constants/apiUrls";
+import {
+  CONSTANT_packages,
+  CONSTANT_itineraryDetails
+} from "../../constants/apiUrls";
 import { ICampaignItinerary } from "../../TypeInterfaces/ICampaignItinerary";
 import { IMobileServerResponse } from "../../TypeInterfaces/INetworkResponse";
 import { CONSTANT_responseSuccessStatus } from "../../constants/stringConstants";
@@ -10,7 +13,7 @@ import { toastBottom } from "../../Services/toast/toast";
 import UnbookedItinerary from "./ItineraryStore/UnbookedItinerary";
 import CampaignItinerary from "./Components/CampaignItinerary/CampaignItinerary";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
-import { ICity } from "../../TypeInterfaces/IItinerary";
+import { ICity, IItinerary } from "../../TypeInterfaces/IItinerary";
 import ItineraryBanner from "./Components/ItineraryBanner";
 import HighlightText from "./Components/HighlightText";
 import { StyleSheet, LayoutAnimation } from "react-native";
@@ -24,6 +27,10 @@ export interface ICampaignItineraryServerResponse
   data: ICampaignItinerary;
 }
 
+export interface IItineraryServerResponse extends IMobileServerResponse {
+  data: IItinerary;
+}
+
 export interface ItineraryProps extends ItineraryNavType {}
 
 export interface IBannerDetails {
@@ -33,7 +40,6 @@ export interface IBannerDetails {
 }
 
 const Itinerary = ({ route, navigation }: ItineraryProps) => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { slug = "", itineraryId: preDefinedItineraryId = "" } = route.params;
 
   const [
@@ -108,6 +114,29 @@ const Itinerary = ({ route, navigation }: ItineraryProps) => {
               response.data.campaignItinerary
             );
             setCampaignItineraryState(response.data);
+          } else {
+            toastBottom("Unable to retrieve Itinerary info");
+            navigation.goBack();
+          }
+        })
+        .catch(() => {
+          toastBottom("Unable to retrieve Itinerary info");
+          navigation.goBack();
+        });
+    } else if (preDefinedItineraryId) {
+      apiCall(
+        CONSTANT_itineraryDetails.replace(
+          ":itineraryId",
+          preDefinedItineraryId
+        ),
+        {},
+        "GET"
+      )
+        .then((response: IItineraryServerResponse) => {
+          if (response.status === CONSTANT_responseSuccessStatus) {
+            itineraryDetails.current = new UnbookedItinerary(response.data);
+            // @ts-ignore
+            setCampaignItineraryState({});
           } else {
             toastBottom("Unable to retrieve Itinerary info");
             navigation.goBack();
