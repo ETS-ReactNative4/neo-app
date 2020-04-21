@@ -24,7 +24,8 @@ import { AppNavigatorParamsType } from "../../NavigatorsV2/AppNavigator";
 import {
   SCREEN_STARTER,
   SCREEN_APP_LOGIN,
-  SCREEN_TRAVEL_PROFILE_WELCOME
+  SCREEN_TRAVEL_PROFILE_WELCOME,
+  SCREEN_SAVED_ITINERARIES
 } from "../../NavigatorsV2/ScreenNames";
 import { isIphoneX } from "react-native-iphone-x-helper";
 import { CONSTANT_xSensorAreaHeight } from "../../constants/styles";
@@ -81,7 +82,11 @@ class Starter extends Component<StarterProps, StarterState> {
     this.props.navigation.navigate(SCREEN_TRAVEL_PROFILE_WELCOME);
   };
 
-  clickedSavedItineraries = () => {};
+  clickedSavedItineraries = () => {
+    this.props.navigation.navigate(SCREEN_APP_LOGIN, {
+      resetTarget: SCREEN_SAVED_ITINERARIES
+    });
+  };
 
   componentDidMount() {
     /**
@@ -213,10 +218,10 @@ class Starter extends Component<StarterProps, StarterState> {
                   color={`white`}
                   hasBorder={true}
                   action={() => {
-                    this.clickedPlan();
                     recordEvent(constants.StarterScreen.event, {
                       click: constants.StarterScreen.click.planVacation
                     });
+                    this.clickedPlan();
                     return null;
                   }}
                   containerStyle={exploreButtonStyle}

@@ -48,7 +48,8 @@ import {
 import useLoginForm from "./hooks/useLoginForm";
 import {
   SCREEN_APP_LOGIN,
-  SCREEN_EXPLORE_PAGE
+  SCREEN_EXPLORE_PAGE,
+  SCREEN_SAVED_ITINERARIES
 } from "../../NavigatorsV2/ScreenNames";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { observer, inject } from "mobx-react";
@@ -76,6 +77,7 @@ import launchPostBookingV2 from "../../Services/launchPostBookingV2/launchPostBo
 import storeService from "../../Services/storeService/storeService";
 import Itineraries from "../../mobx/Itineraries";
 import launchItinerarySelector from "../../Services/launchItinerarySelector/launchItinerarySelector";
+import launchSavedItineraries from "../../Services/launchSavedItineraries/launchSavedItineraries";
 
 type screenName = typeof SCREEN_APP_LOGIN;
 
@@ -277,10 +279,16 @@ const AppLogin = ({
   };
 
   const continueFlow = () => {
+    const isNewUser =
+      mobileNumberApiDetails.failureResponseData?.status ===
+      CONSTANT_responseUserUnavailable;
+
     // PT TODO: Launch Post booking flow goes here once old screen wiring is done
     const { resetTarget } = route.params || {};
     if (resetTarget === SCREEN_EXPLORE_PAGE) {
       navigation.dispatch(launchPretripHome());
+    } else if (resetTarget === SCREEN_SAVED_ITINERARIES && !isNewUser) {
+      navigation.dispatch(launchSavedItineraries());
     } else {
       yourBookingsStore
         .getUpcomingItineraries()

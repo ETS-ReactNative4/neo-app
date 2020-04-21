@@ -71,17 +71,21 @@ import GCM from "../Screens/GCMScreen/GCM";
 import GCMCityPicker from "../Screens/GCMCityPickerScreen/GCMCityPicker";
 import {
   IIndianCity,
-  IHotelGuestRoomConfig
+  IHotelGuestRoomConfig,
+  ICostingConfig
 } from "../Screens/GCMScreen/hooks/useGCMForm";
 import GCMRoomConfig from "../Screens/GCMRoomConfig/GCMRoomConfig";
+
+export type loginResetTargetTypes =
+  | typeof SCREEN_EXPLORE_PAGE
+  | typeof SCREEN_SAVED_ITINERARIES;
 
 export type AppNavigatorParamsType = {
   [SCREEN_MODAL_STACK]: StackNavigationProp<ModalNavigatorParamsType>;
   [SCREEN_PRETRIP_HOME_TABS]: BottomTabNavigationProp<PreTripHomeTabsType>;
   [SCREEN_POST_BOOKING_HOME]: BottomTabNavigationProp<PostBookingHomeTabsType>;
   [SCREEN_APP_LOGIN]: {
-    // PT TODO: create an enum from list of screens that are allowed transition from loginScreen
-    resetTarget?: typeof SCREEN_EXPLORE_PAGE;
+    resetTarget?: loginResetTargetTypes;
   };
   [SCREEN_STARTER]: undefined;
   [SCREEN_TRAVEL_PROFILE_WELCOME]: undefined;
@@ -118,7 +122,8 @@ export type AppNavigatorParamsType = {
   [SCREEN_ABOUT_SCREEN]: undefined;
   [SCREEN_SAVED_ITINERARIES]: undefined;
   [SCREEN_ITINERARY]: {
-    slug: string;
+    slug?: string;
+    itineraryId?: string;
   };
   [SCREEN_REQUEST_CALLBACK]: {
     campaignItineraryId?: string;
@@ -127,6 +132,7 @@ export type AppNavigatorParamsType = {
     title: string;
     bannerImage: string;
     campaignItineraryId?: string;
+    onSubmit: (config: ICostingConfig) => any;
   };
   [SCREEN_GCM_CITY_PICKER]: {
     title: string;
