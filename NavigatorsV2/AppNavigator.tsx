@@ -131,6 +131,7 @@ export type AppNavigatorParamsType = {
   [SCREEN_GCM]: {
     title: string;
     bannerImage: string;
+    costingConfig: ICostingConfig | null;
     campaignItineraryId?: string;
     onSubmit: (config: ICostingConfig) => any;
   };

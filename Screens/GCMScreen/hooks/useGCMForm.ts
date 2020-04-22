@@ -1,5 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { IPickerOption } from "../../../CommonComponents/Picker/Picker";
+import moment from "moment";
+import { CONSTANT_costingDateFormat } from "../../../constants/styles";
+import apiCall from "../../../Services/networkRequests/apiCall";
+import { CONSTANT_getIndianCities } from "../../../constants/apiUrls";
+import { CONSTANT_responseSuccessStatus } from "../../../constants/stringConstants";
+import { ICitiesListSuccessResponse } from "../../GCMCityPickerScreen/hooks/useGetIndianCities";
 
 export interface IIndianCity {
   cityName: string;
@@ -95,7 +101,9 @@ export const preDefinedRoomConfig: {
   SOLO: [{ adultCount: 1, childAges: [] }]
 };
 
-const useGCMForm = (): [IGCMFormFields, IGCMUpdateMethods] => {
+const useGCMForm = (
+  costingConfig: ICostingConfig | null
+): [IGCMFormFields, IGCMUpdateMethods] => {
   const today = new Date();
   const tomorrow = new Date(today);
   tomorrow.setDate(tomorrow.getDate() + 1);
@@ -119,6 +127,34 @@ const useGCMForm = (): [IGCMFormFields, IGCMUpdateMethods] => {
   };
   const updateRoomDetails = (roomConfig: IHotelGuestRoomConfig[]) =>
     setRoomDetails(roomConfig);
+
+  useEffect(() => {
+    if (costingConfig) {
+      apiCall(CONSTANT_getIndianCities, {}, "GET")
+        .then((response: ICitiesListSuccessResponse) => {
+          if (response.status === CONSTANT_responseSuccessStatus) {
+            setDepartingFrom(
+              response.data.find(
+                item => item.airportCode === costingConfig.departureAirport
+              )
+            );
+          }
+        })
+        .catch(() => null);
+
+      setDepartingOn(
+        moment(costingConfig.departureDate, CONSTANT_costingDateFormat).toDate()
+      );
+      const travellingAsTarget = travellingAsOptions.find(
+        item => item.value === costingConfig.travelType
+      );
+      if (travellingAsTarget) {
+        setTravellingAs(travellingAsTarget);
+      }
+      setRoomDetails(costingConfig.hotelGuestRoomConfigurations);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return [
     {

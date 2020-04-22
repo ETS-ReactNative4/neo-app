@@ -38,6 +38,7 @@ const GCM = ({ navigation, route }: GCMProps) => {
   const {
     title = "",
     bannerImage = "https://pickyourtrail-guides-images.imgix.net/misc/hungary.jpeg",
+    costingConfig,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     onSubmit = (options: ICostingConfig) => null
   } = route.params || {};
@@ -72,7 +73,7 @@ const GCM = ({ navigation, route }: GCMProps) => {
     }
   };
 
-  const [formFields, formUpdateMethods] = useGCMForm();
+  const [formFields, formUpdateMethods] = useGCMForm(costingConfig);
 
   const openCityPicker = () => {
     navigation.navigate(SCREEN_GCM_CITY_PICKER, {

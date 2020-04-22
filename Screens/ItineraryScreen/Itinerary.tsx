@@ -49,6 +49,7 @@ const Itinerary = ({ route, navigation }: ItineraryProps) => {
   ] = useState<ICampaignItinerary | null>(null);
 
   const itineraryDetails = useRef<UnbookedItinerary | null>(null);
+  const [, setItineraryDetailHash] = useState(Math.random());
 
   const [focusedCity, setFocusedCity] = useState<ICity | undefined>(undefined);
   const [bannerDetails, setBannerDetails] = useState<
@@ -114,6 +115,7 @@ const Itinerary = ({ route, navigation }: ItineraryProps) => {
             itineraryDetails.current = new UnbookedItinerary(
               response.data.campaignItinerary
             );
+            setItineraryDetailHash(Math.random());
             setCampaignItineraryState(response.data);
           } else {
             toastBottom("Unable to retrieve Itinerary info");
@@ -136,8 +138,8 @@ const Itinerary = ({ route, navigation }: ItineraryProps) => {
         .then((response: IItineraryServerResponse) => {
           if (response.status === CONSTANT_responseSuccessStatus) {
             itineraryDetails.current = new UnbookedItinerary(response.data);
-            // @ts-ignore
-            setCampaignItineraryState({});
+            setItineraryDetailHash(Math.random());
+            setCampaignItineraryState(null);
           } else {
             toastBottom("Unable to retrieve Itinerary info");
             navigation.goBack();
@@ -153,7 +155,7 @@ const Itinerary = ({ route, navigation }: ItineraryProps) => {
 
   LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
 
-  if (!itineraryDetails.current || !campaignItineraryState) {
+  if (!itineraryDetails.current) {
     return null;
   }
 

@@ -1,5 +1,6 @@
 import { IItineraryDetails, IMonth } from "./IItineraryDetails";
 import { ICustomCostings } from "./ICustomCostings";
+import { ICostingConfig } from "../Screens/GCMScreen/hooks/useGCMForm";
 
 export enum IItineraryVersion {
   SPEEDBOAT = "SPEEDBOAT",
@@ -539,7 +540,7 @@ export interface IItinerary {
   allActivityCostingRefs: string[];
   allPassCostingRefs: string[];
   allRentalCostingRefs: string[];
-  costingConfiguration: ICostingConfiguration;
+  costingConfiguration: ICostingConfig;
   totalDiff: ITotalDiff;
   otherTexts: IMiscellaneousText;
   allAlerts: any; // TODO: Add Proper Interface

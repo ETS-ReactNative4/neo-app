@@ -22,7 +22,7 @@ import { IGCMRequestBody } from "../../../GCMScreen/hooks/useGCMForm";
 
 export interface CampaignItineraryProps extends ItineraryNavType {
   itineraryDetails: UnbookedItinerary;
-  campaignItineraryState: ICampaignItinerary;
+  campaignItineraryState: ICampaignItinerary | null;
   updateFocusedCity: (city: ICity) => any;
   updateBannerDetails: (details: IBannerDetails) => void;
   costItinerary: (campaignItineraryId: string, config: IGCMRequestBody) => any;
@@ -36,14 +36,29 @@ const CampaignItinerary = ({
   updateBannerDetails,
   updateFocusedCity
 }: CampaignItineraryProps) => {
-  const {
-    campaignDetail,
-    campaignItinerary,
-    campaignItineraryId
-  } = campaignItineraryState;
-  const { bannerText, name, mobileImage } = campaignDetail;
-  const { itinerary } = campaignItinerary;
-  const { days, slots, getCityByDayNum } = itineraryDetails;
+  let campaignItineraryId: string = "",
+    bannerText: string = "",
+    name: string = "",
+    mobileImage: string = "",
+    totalCost: string = "";
+
+  const isCampaignItinerary: boolean = !!campaignItineraryState;
+
+  if (isCampaignItinerary) {
+    const {
+      campaignDetail,
+      campaignItinerary,
+      campaignItineraryId: cmpgItineraryId
+    } = campaignItineraryState as ICampaignItinerary;
+    const { itinerary } = campaignItinerary;
+
+    bannerText = campaignDetail.bannerText;
+    name = campaignDetail.name;
+    mobileImage = campaignDetail.mobileImage;
+    totalCost = itinerary.totalCost;
+    campaignItineraryId = cmpgItineraryId;
+  }
+  const { days, slots, getCityByDayNum, costingConfig } = itineraryDetails;
 
   const customizeItinerary = () => {
     navigation.push(SCREEN_REQUEST_CALLBACK, {
@@ -60,6 +75,7 @@ const CampaignItinerary = ({
       bannerImage: mobileImage,
       title: bannerText,
       campaignItineraryId,
+      costingConfig,
       onSubmit: () => {
         return null;
       }
@@ -116,11 +132,11 @@ const CampaignItinerary = ({
     updateBannerDetails({
       smallText: name,
       title: bannerText,
-      itineraryCost: itinerary.totalCost,
+      itineraryCost: totalCost,
       mobileImage
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [isCampaignItinerary]);
 
   return (
     <ItineraryView>

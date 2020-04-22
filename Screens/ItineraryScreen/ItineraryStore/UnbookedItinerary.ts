@@ -632,6 +632,19 @@ class UnbookedItinerary {
     }
   }
 
+  @computed get costingConfig() {
+    if (_.isEmpty(this._selectedItinerary)) {
+      return null;
+    }
+
+    try {
+      return toJS(this._selectedItinerary.costingConfiguration);
+    } catch (e) {
+      logError(e);
+      return null;
+    }
+  }
+
   // PT TODO: unbooked itineraries have different slot info for activities
   @computed
   get slots(): (IUnbookedIterSlotWithActivity | IIterSlotByKey)[][] {
