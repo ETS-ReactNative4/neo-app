@@ -13,7 +13,10 @@ import {
   CONSTANT_careersIcon,
   CONSTANT_pytLogoNew
 } from "../../constants/imageAssets";
-import { CONSTANT_productUrl } from "../../constants/serverUrls";
+import {
+  CONSTANT_productUrl,
+  CONSTANT_apiServerUrl
+} from "../../constants/serverUrls";
 import {
   CONSTANT_aboutUs,
   CONSTANT_termsAndConditions,
@@ -37,9 +40,14 @@ import {
 import { AppNavigatorProps } from "../../NavigatorsV2/AppNavigator";
 import { SCREEN_ABOUT_SCREEN } from "../../NavigatorsV2/ScreenNames";
 import PrimaryHeader from "../../NavigatorsV2/Components/PrimaryHeader";
+import { isProduction } from "../../Services/getEnvironmentDetails/getEnvironmentDetails";
 
 const appVersionText =
-  CONSTANT_aboutUsText.versionText + DeviceInfo.getVersion();
+  CONSTANT_aboutUsText.versionText +
+  DeviceInfo.getVersion() +
+  (!isProduction()
+    ? ` Build ${DeviceInfo.getBuildNumber()} ${"\n"}${CONSTANT_apiServerUrl}`
+    : "");
 
 export interface IAboutData {
   icon: string;
