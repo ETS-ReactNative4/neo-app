@@ -146,8 +146,8 @@ const TravelProfileCityComponent = ({
 
   const { isPositive } = route.params;
   const sectionTitle = isPositive
-    ? "Tell us where you’ve been"
-    : "Tell us where you wish to go";
+    ? "Tell us where you wish to go"
+    : "Tell us where you’ve been";
   const sectionDescription = isPositive
     ? "So we can recommend where you can go next."
     : "So we can recommend where you can go next.";

@@ -7,7 +7,7 @@ import {
   KeyboardEventListener
 } from "react-native";
 import {
-  responsiveHeight,
+  responsiveScreenHeight,
   responsiveWidth
   // @ts-ignore
 } from "react-native-responsive-dimensions";
@@ -36,16 +36,16 @@ export enum ISnapPointsEnum {
 const ActionSheet = ({
   interactableRef = React.createRef(),
   children,
-  panelViewablePosition = responsiveHeight(25),
+  panelViewablePosition = responsiveScreenHeight(25),
   onSnap = () => null,
-  panelStartingPosition = responsiveHeight(100)
+  panelStartingPosition = responsiveScreenHeight(100)
 }: ActionSheetProps) => {
   const [_deltaY] = useState(new Value(panelStartingPosition));
   const [snapPosition, setSnapPosition] = useState<ISnapPointsEnum>(2);
 
   const shadowOpacity = {
     opacity: _deltaY.interpolate({
-      inputRange: [0, panelViewablePosition, responsiveHeight(100)],
+      inputRange: [0, panelViewablePosition, responsiveScreenHeight(100)],
       outputRange: [0.9, 0.3, 0],
       extrapolate: "clamp"
     })
@@ -126,7 +126,7 @@ const ActionSheet = ({
         snapPoints={[
           { y: 0 },
           { y: panelViewablePosition },
-          { y: responsiveHeight(100) + 100 }
+          { y: responsiveScreenHeight(100) + 100 }
         ]}
         initialPosition={{ y: panelStartingPosition }}
         animatedValueY={_deltaY}
@@ -151,14 +151,14 @@ const styles = StyleSheet.create({
   },
   interactablePanelShadow: {
     position: "absolute",
-    height: responsiveHeight(100),
+    height: responsiveScreenHeight(100),
     width: responsiveWidth(100),
     backgroundColor: "black"
   },
   actionSheetContainer: {
     position: "absolute",
     backgroundColor: "transparent",
-    height: responsiveHeight(200),
+    height: responsiveScreenHeight(200),
     width: responsiveWidth(100),
     borderRadius: 30,
     overflow: "hidden"

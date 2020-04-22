@@ -131,12 +131,19 @@ const MaritalStatusComponent = ({
   }, []);
 
   const openTravellingWithModal = () => {
+    const selectedOption = maritalStatusOptionsData.find(
+      option => option.isSelected
+    );
     travelProfileStore.updateTravelProfileData({
       maritalStatus: maritalStatusOptionsData.find(option => option.isSelected)
         ?.text
     });
-    // @ts-ignore
-    maritalStatusRef.current?.snapTo({ index: 1 });
+    if (selectedOption?.text === "FAMILY") {
+      // @ts-ignore
+      maritalStatusRef.current?.snapTo({ index: 1 });
+    } else {
+      continueFlow();
+    }
   };
 
   const skipFlow = () => {

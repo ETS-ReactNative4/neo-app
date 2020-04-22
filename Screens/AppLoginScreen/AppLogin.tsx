@@ -240,14 +240,18 @@ const AppLogin = ({
 
   const registerUser = async () => {
     setRegisterationAttemptStatus(true);
-    const result = await registerNewUser({
-      countryPhoneCode: countryCode,
-      mobileNumber: phoneNumber,
-      email,
-      userName: name
-    });
-    if (result) {
-      requestOtp();
+    if (highlightPhoneField || highlightNameField || highlightEmailField) {
+      // PT TODO: Any visual feedback?
+    } else {
+      const result = await registerNewUser({
+        countryPhoneCode: countryCode,
+        mobileNumber: phoneNumber,
+        email,
+        userName: name
+      });
+      if (result) {
+        requestOtp();
+      }
     }
   };
 
