@@ -127,12 +127,14 @@ export type AppNavigatorParamsType = {
   };
   [SCREEN_REQUEST_CALLBACK]: {
     campaignItineraryId?: string;
+    itineraryId?: string;
   };
   [SCREEN_GCM]: {
     title: string;
     bannerImage: string;
     costingConfig: ICostingConfig | null;
     campaignItineraryId?: string;
+    itineraryId?: string;
     onSubmit: (config: ICostingConfig) => any;
   };
   [SCREEN_GCM_CITY_PICKER]: {

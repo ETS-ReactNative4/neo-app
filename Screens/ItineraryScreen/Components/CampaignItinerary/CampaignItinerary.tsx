@@ -44,6 +44,14 @@ const CampaignItinerary = ({
 
   const isCampaignItinerary: boolean = !!campaignItineraryState;
 
+  const {
+    days,
+    slots,
+    getCityByDayNum,
+    costingConfig,
+    itineraryMeta
+  } = itineraryDetails;
+
   if (isCampaignItinerary) {
     const {
       campaignDetail,
@@ -57,8 +65,14 @@ const CampaignItinerary = ({
     mobileImage = campaignDetail.mobileImage;
     totalCost = itinerary.totalCost;
     campaignItineraryId = cmpgItineraryId;
+  } else if (itineraryMeta) {
+    bannerText = itineraryMeta.title;
+    name = itineraryMeta.regionName;
+    totalCost =
+      (itineraryMeta.discountedPrice
+        ? itineraryMeta.discountedPrice.toString()
+        : "") || itineraryMeta.totalCost;
   }
-  const { days, slots, getCityByDayNum, costingConfig } = itineraryDetails;
 
   const customizeItinerary = () => {
     navigation.push(SCREEN_REQUEST_CALLBACK, {

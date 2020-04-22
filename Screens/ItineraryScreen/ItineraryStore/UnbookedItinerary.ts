@@ -632,6 +632,19 @@ class UnbookedItinerary {
     }
   }
 
+  @computed get itineraryMeta() {
+    if (_.isElement(this._selectedItinerary)) {
+      return null;
+    }
+
+    try {
+      return toJS(this._selectedItinerary.itinerary);
+    } catch (e) {
+      logError(e);
+      return null;
+    }
+  }
+
   @computed get costingConfig() {
     if (_.isEmpty(this._selectedItinerary)) {
       return null;
