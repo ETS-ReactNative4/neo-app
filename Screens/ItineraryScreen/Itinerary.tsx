@@ -19,6 +19,7 @@ import HighlightText from "./Components/HighlightText";
 import { StyleSheet, LayoutAnimation } from "react-native";
 import useCampaignItineraryCosting from "./hooks/useCampaignItineraryCosting";
 import { IGCMRequestBody } from "../GCMScreen/hooks/useGCMForm";
+import useItineraryCosting from "./hooks/useItineraryCosting";
 
 export type ItineraryNavType = AppNavigatorProps<typeof SCREEN_ITINERARY>;
 
@@ -58,45 +59,36 @@ const Itinerary = ({ route, navigation }: ItineraryProps) => {
 
   const {
     costCampaignItinerary,
-    isCosting,
+    isCosting: isCampaignCosting,
     itineraryId
   } = useCampaignItineraryCosting();
 
-  const costItinerary = (
+  const {
+    isCosting: isItineraryCosting,
+    updateItineraryCost: callItineraryCostUpdate
+  } = useItineraryCosting();
+
+  const updateCampaignItineraryCost = async (
     campaignItineraryId: string,
     config: IGCMRequestBody
   ) => {
-    costCampaignItinerary(campaignItineraryId, config);
+    try {
+      await costCampaignItinerary(campaignItineraryId, config);
+    } catch (e) {
+      toastBottom("Unable to update latest cost");
+    }
+  };
 
-    // {
-    //   costingConfig: {
-    //     hotelGuestRoomConfigurations: [
-    //       {
-    //         adultCount: 1,
-    //         childAges: []
-    //       }
-    //     ],
-    //     departureAirport: "MAA",
-    //     arrivalAirport: "MAA",
-    //     departureDate: "12/Jan/2021",
-    //     travelType: "SOLO"
-    //   },
-    //   flightsBookedByUserAlready: false,
-    //   itineraryId: "",
-    //   costingType: "RECOST",
-    //   name: "",
-    //   leadSource: {
-    //     url: "https://uat.longweekend.co.in/",
-    //     deviceType: "Mobile",
-    //     keyword: "",
-    //     campaign: "",
-    //     cpid: null,
-    //     landingPage: "https://uat.longweekend.co.in/",
-    //     lastRoute:
-    //       "/packages/a-9-night-itinerary-for-a-feel-good-vietnam-vacation-at-low-cost",
-    //     prodType: "PACKAGES"
-    //   }
-    // }
+  const updateItineraryCost = async (
+    selectedItineraryId: string,
+    config: IGCMRequestBody
+  ) => {
+    try {
+      await callItineraryCostUpdate(selectedItineraryId, config);
+      refreshItinerary();
+    } catch (e) {
+      toastBottom("Unable to update latest cost");
+    }
   };
 
   const updateFocusedCity = (city: ICity) => {
@@ -109,7 +101,7 @@ const Itinerary = ({ route, navigation }: ItineraryProps) => {
 
   const goBack = () => navigation.goBack();
 
-  useEffect(() => {
+  const refreshItinerary = () => {
     if (itineraryId || preDefinedItineraryId) {
       apiCall(
         CONSTANT_itineraryDetails.replace(
@@ -155,6 +147,10 @@ const Itinerary = ({ route, navigation }: ItineraryProps) => {
           navigation.goBack();
         });
     }
+  };
+
+  useEffect(() => {
+    refreshItinerary();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [itineraryId]);
 
@@ -164,7 +160,7 @@ const Itinerary = ({ route, navigation }: ItineraryProps) => {
     return null;
   }
 
-  if (isCosting) {
+  if (isCampaignCosting || isItineraryCosting) {
     return null;
   }
 
@@ -203,7 +199,8 @@ const Itinerary = ({ route, navigation }: ItineraryProps) => {
         route={route}
         updateFocusedCity={updateFocusedCity}
         updateBannerDetails={updateBannerDetails}
-        costItinerary={costItinerary}
+        updateCampaignItineraryCost={updateCampaignItineraryCost}
+        updateItineraryCost={updateItineraryCost}
       />
     </>
   );

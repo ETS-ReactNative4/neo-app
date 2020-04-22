@@ -7,7 +7,6 @@ import apiCall from "../../../Services/networkRequests/apiCall";
 import { CONSTANT_responseSuccessStatus } from "../../../constants/stringConstants";
 import { IGCMRequestBody } from "../../GCMScreen/hooks/useGCMForm";
 import { useState } from "react";
-import { toastBottom } from "../../../Services/toast/toast";
 
 export const costItinerary = (
   campaignItineraryId: string,
@@ -91,7 +90,6 @@ const useCampaignItineraryCosting = () => {
         setIsCosting(false);
         resolve(true);
       } catch (e) {
-        toastBottom("Unable to update latest cost");
         setIsCosting(false);
         reject();
       }

@@ -71,6 +71,7 @@ const GCM = ({ navigation, route }: GCMProps) => {
         travelType
       });
     }
+    navigation.goBack();
   };
 
   const [formFields, formUpdateMethods] = useGCMForm(costingConfig);

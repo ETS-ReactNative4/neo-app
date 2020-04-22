@@ -6,7 +6,6 @@ import {
 import apiCall from "../../../Services/networkRequests/apiCall";
 import { CONSTANT_responseSuccessStatus } from "../../../constants/stringConstants";
 import { useState } from "react";
-import { toastBottom } from "../../../Services/toast/toast";
 
 export const updateCost = (
   itineraryId: string,
@@ -66,7 +65,6 @@ const useItineraryCosting = () => {
         setIsCosting(false);
         resolve(true);
       } catch (e) {
-        toastBottom("Unable to update latest cost");
         setIsCosting(false);
         reject();
       }

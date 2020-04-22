@@ -49,7 +49,7 @@ export interface IGCMRequestBody {
   itineraryId: string;
   costingType: "RECOST"; // need enum
   name: string;
-  leadSource: ILeadSource;
+  leadSource: ILeadSource | {};
 }
 
 export interface IGCMFormFields {

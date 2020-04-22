@@ -29,7 +29,11 @@ export interface CampaignItineraryProps extends ItineraryNavType {
   campaignItineraryState: ICampaignItinerary | null;
   updateFocusedCity: (city: ICity) => any;
   updateBannerDetails: (details: IBannerDetails) => void;
-  costItinerary: (campaignItineraryId: string, config: IGCMRequestBody) => any;
+  updateCampaignItineraryCost: (
+    campaignItineraryId: string,
+    config: IGCMRequestBody
+  ) => any;
+  updateItineraryCost: (itineraryId: string, config: IGCMRequestBody) => any;
 }
 
 const CampaignItinerary = ({
@@ -38,7 +42,9 @@ const CampaignItinerary = ({
   route,
   campaignItineraryState,
   updateBannerDetails,
-  updateFocusedCity
+  updateFocusedCity,
+  updateCampaignItineraryCost,
+  updateItineraryCost
 }: CampaignItineraryProps) => {
   let campaignItineraryId: string = "",
     bannerText: string = "",
@@ -82,26 +88,60 @@ const CampaignItinerary = ({
     staleCost = itineraryMeta.staleCost;
   }
 
-  const customizeItinerary = () => {
+  const customizeCampaignItinerary = () => {
     navigation.push(SCREEN_REQUEST_CALLBACK, {
       campaignItineraryId
     });
   };
 
-  const updateCityFocus = (city: ICity) => {
-    updateFocusedCity(city);
-  };
-
-  const loadCost = () => {
+  const costCampaignItinerary = () => {
     navigation.navigate(SCREEN_GCM, {
       bannerImage: mobileImage,
       title: bannerText,
       campaignItineraryId,
       costingConfig,
-      onSubmit: () => {
-        return null;
+      onSubmit: costingConfigFromForm => {
+        const gcmConfigRequest: IGCMRequestBody = {
+          costingConfig: costingConfigFromForm,
+          flightsBookedByUserAlready: false,
+          itineraryId: "",
+          costingType: "RECOST",
+          name: "",
+          leadSource: {}
+        };
+        updateCampaignItineraryCost(campaignItineraryId, gcmConfigRequest);
       }
     });
+  };
+
+  const customizeItinerary = () => {
+    navigation.push(SCREEN_REQUEST_CALLBACK, {
+      itineraryId
+    });
+  };
+
+  const costNormalItinerary = () => {
+    navigation.navigate(SCREEN_GCM, {
+      bannerImage: mobileImage,
+      title: bannerText,
+      itineraryId,
+      costingConfig,
+      onSubmit: costingConfigFromForm => {
+        const gcmConfigRequest: IGCMRequestBody = {
+          costingConfig: costingConfigFromForm,
+          flightsBookedByUserAlready: false,
+          itineraryId,
+          costingType: "RECOST",
+          name: "",
+          leadSource: {}
+        };
+        updateItineraryCost(itineraryId, gcmConfigRequest);
+      }
+    });
+  };
+
+  const updateCityFocus = (city: ICity) => {
+    updateFocusedCity(city);
   };
 
   const [sectionPositions, setSectionPositions] = useState<object>({});
@@ -207,12 +247,27 @@ const CampaignItinerary = ({
         />
       ) : null}
 
-      <BottomButtonBar
-        leftButtonName={"Customize"}
-        leftButtonAction={customizeItinerary}
-        rightButtonName={"Update cost"}
-        rightButtonAction={loadCost}
-      />
+      {isCampaignItinerary ? (
+        <BottomButtonBar
+          leftButtonName={"Customize"}
+          leftButtonAction={customizeCampaignItinerary}
+          rightButtonName={"Update cost"}
+          rightButtonAction={costCampaignItinerary}
+        />
+      ) : staleCost ? (
+        <BottomButtonBar
+          leftButtonName={"Customize"}
+          leftButtonAction={customizeItinerary}
+          rightButtonName={"Update cost"}
+          rightButtonAction={costNormalItinerary}
+        />
+      ) : (
+        <BottomButtonBar
+          rightButtonName={"Customize"}
+          rightButtonAction={customizeItinerary}
+          disableLeftButton
+        />
+      )}
     </ItineraryView>
   );
 };
