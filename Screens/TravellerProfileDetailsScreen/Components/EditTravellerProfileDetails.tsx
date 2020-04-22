@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { View, StyleSheet, Alert } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { isIphoneX } from "react-native-iphone-x-helper";
 import {
   CONSTANT_white,
@@ -57,7 +57,7 @@ const EditTravellerProfileDetails = ({
   const [city, onChangeCity] = useState(cityOfDeparture || "");
   const [dateOfBirthObject, onChangeDateOfBirthObject] = useState<
     Date | undefined
-  >(dateOfBirth ? new Date(dateOfBirth) : undefined);
+  >(dateOfBirth ? moment(dateOfBirth).toDate() : undefined);
 
   const [isDatePickerVisible, setDatePickerVisibility] = useState<boolean>(
     false
@@ -176,7 +176,7 @@ const EditTravellerProfileDetails = ({
           placeholder="City of Departure"
           hasError={false}
           secondaryText={"GET LOCATION"}
-          secondaryTextAction={() => Alert.alert("Click GET LOCATION")}
+          secondaryTextAction={openCityPicker}
         />
 
         <PickerInputField
