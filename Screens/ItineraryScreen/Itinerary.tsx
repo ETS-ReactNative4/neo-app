@@ -34,9 +34,10 @@ export interface IItineraryServerResponse extends IMobileServerResponse {
 export interface ItineraryProps extends ItineraryNavType {}
 
 export interface IBannerDetails {
-  smallText: string;
-  title: string;
-  itineraryCost: string;
+  smallText?: string;
+  title?: string;
+  itineraryCost?: string;
+  mobileImage?: string;
 }
 
 const Itinerary = ({ route, navigation }: ItineraryProps) => {
@@ -163,15 +164,26 @@ const Itinerary = ({ route, navigation }: ItineraryProps) => {
   return (
     <>
       <ItineraryBanner
+        // @ts-ignore
         bannerImage={
-          focusedCity && focusedCity?.cityImages[0]
-            ? focusedCity?.cityImages[0]
+          focusedCity && focusedCity?.cityImages && focusedCity?.cityImages[0]
+            ? focusedCity.cityImages[0]
+            : bannerDetails
+            ? bannerDetails.mobileImage
             : ""
         }
         backAction={goBack}
-        smallText={bannerDetails ? bannerDetails.smallText : ""}
-        title={bannerDetails ? bannerDetails.title : ""}
-        itineraryCost={bannerDetails ? bannerDetails.itineraryCost : ""}
+        smallText={
+          bannerDetails && bannerDetails.smallText
+            ? bannerDetails.smallText
+            : ""
+        }
+        title={bannerDetails && bannerDetails.title ? bannerDetails.title : ""}
+        itineraryCost={
+          bannerDetails && bannerDetails.itineraryCost
+            ? bannerDetails.itineraryCost
+            : ""
+        }
       />
       <HighlightText
         containerStyle={styles.highlightText}

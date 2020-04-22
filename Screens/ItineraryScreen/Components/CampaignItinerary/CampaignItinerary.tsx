@@ -59,7 +59,10 @@ const CampaignItinerary = ({
     navigation.navigate(SCREEN_GCM, {
       bannerImage: mobileImage,
       title: bannerText,
-      campaignItineraryId
+      campaignItineraryId,
+      onSubmit: () => {
+        return null;
+      }
     });
   };
 
@@ -113,7 +116,8 @@ const CampaignItinerary = ({
     updateBannerDetails({
       smallText: name,
       title: bannerText,
-      itineraryCost: itinerary.totalCost
+      itineraryCost: itinerary.totalCost,
+      mobileImage
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
