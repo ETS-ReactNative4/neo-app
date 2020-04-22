@@ -25,6 +25,15 @@ interface BottomButtonBarProps {
   rightButtonAction: () => any;
 }
 
+export const BOTTOM_BUTTON_HEIGHT = 44;
+
+export const BOTTOM_BUTTON_PADDING = 16;
+
+export const BOTTOM_BUTTON_CONTAINER_HEIGHT =
+  BOTTOM_BUTTON_HEIGHT +
+  BOTTOM_BUTTON_PADDING +
+  (isIphoneX() ? CONSTANT_xSensorAreaHeight : BOTTOM_BUTTON_PADDING);
+
 const BottomButtonBar = ({
   containerStyle,
   leftButtonName = "",
@@ -62,13 +71,15 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     backgroundColor: CONSTANT_white,
     paddingHorizontal: 24,
-    paddingTop: 16,
-    paddingBottom: isIphoneX() ? CONSTANT_xSensorAreaHeight : 16,
+    paddingTop: BOTTOM_BUTTON_PADDING,
+    paddingBottom: isIphoneX()
+      ? CONSTANT_xSensorAreaHeight
+      : BOTTOM_BUTTON_PADDING,
     ...CONSTANT_elevationFive
   },
   buttonStyle: {
     flex: 1,
-    height: 44
+    height: BOTTOM_BUTTON_HEIGHT
   },
   leftBtn: {
     marginRight: 4,

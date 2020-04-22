@@ -19,6 +19,10 @@ import {
 } from "../../../../NavigatorsV2/ScreenNames";
 import { ICity } from "../../../../TypeInterfaces/IItinerary";
 import { IGCMRequestBody } from "../../../GCMScreen/hooks/useGCMForm";
+import HighlightText from "../HighlightText";
+import deepLink from "../../../../Services/deepLink/deepLink";
+import { CONSTANT_retrievePDF } from "../../../../constants/apiUrls";
+import { CONSTANT_apiServerUrl } from "../../../../constants/serverUrls";
 
 export interface CampaignItineraryProps extends ItineraryNavType {
   itineraryDetails: UnbookedItinerary;
@@ -40,7 +44,9 @@ const CampaignItinerary = ({
     bannerText: string = "",
     name: string = "",
     mobileImage: string = "",
-    totalCost: string = "";
+    totalCost: string = "",
+    staleCost: boolean = true,
+    itineraryId: string = "";
 
   const isCampaignItinerary: boolean = !!campaignItineraryState;
 
@@ -72,6 +78,8 @@ const CampaignItinerary = ({
       (itineraryMeta.discountedPrice
         ? itineraryMeta.discountedPrice.toString()
         : "") || itineraryMeta.totalCost;
+    itineraryId = itineraryMeta.itineraryId;
+    staleCost = itineraryMeta.staleCost;
   }
 
   const customizeItinerary = () => {
@@ -152,6 +160,15 @@ const CampaignItinerary = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isCampaignItinerary]);
 
+  const openItineraryPDF = () => {
+    deepLink({
+      link: `${CONSTANT_apiServerUrl}${CONSTANT_retrievePDF.replace(
+        ":itineraryId",
+        itineraryId
+      )}`
+    });
+  };
+
   return (
     <ItineraryView>
       <TranslucentStatusBar />
@@ -180,6 +197,15 @@ const CampaignItinerary = ({
         })}
         <BlankSpacer height={166} />
       </ScrollView>
+
+      {!staleCost ? (
+        <HighlightText
+          titleText={`₹ ${totalCost}`}
+          infoText={"See what's included in your trip"}
+          afterCost={true}
+          afterCostAction={openItineraryPDF}
+        />
+      ) : null}
 
       <BottomButtonBar
         leftButtonName={"Customize"}

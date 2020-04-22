@@ -11,6 +11,7 @@ import {
   CONSTANT_eighteenthColor,
   CONSTANT_twentiethColor
 } from "../../../constants/colorPallete";
+import { BOTTOM_BUTTON_CONTAINER_HEIGHT } from "../../../CommonComponents/BottomButtonBar/BottomButtonBar";
 
 interface ItineraryProps {
   containerStyle?: ViewStyle;
@@ -19,6 +20,7 @@ interface ItineraryProps {
   afterCost?: boolean;
   titleText: string;
   infoText?: string;
+  afterCostAction?: () => any;
 }
 
 const HighlightText = ({
@@ -27,7 +29,8 @@ const HighlightText = ({
   textColor = "rgba(20, 128, 153, 1)",
   afterCost = false,
   titleText = "",
-  infoText = ""
+  infoText = "",
+  afterCostAction = () => null
 }: ItineraryProps) => {
   const highlightTextBgColor = {
     backgroundColor: `${
@@ -54,9 +57,12 @@ const HighlightText = ({
           {infoText ? `, ${infoText}` : ""}
         </Text>
       ) : (
-        <Text style={[styles.textStyle, textColorStyle]}>
+        <Text
+          onPress={afterCostAction}
+          style={[styles.textStyle, textColorStyle]}
+        >
           <Text style={styles.boldText}>{titleText}</Text>
-          {infoText ? `- ${infoText}` : ""}
+          {infoText ? ` - ${infoText}` : ""}
         </Text>
       )}
 
@@ -87,7 +93,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     left: 0,
     right: 0,
-    bottom: 76,
+    bottom: BOTTOM_BUTTON_CONTAINER_HEIGHT,
     borderTopLeftRadius: 0,
     borderTopRightRadius: 0
   },

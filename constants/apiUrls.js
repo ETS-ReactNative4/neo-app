@@ -119,6 +119,7 @@ export const CONSTANT_sendVisaDocs = "mobile/sendVisaDocs";
 export const CONSTANT_getPaymentMeta =
   "mobile/booked/itinerary/paymentMetaInfo";
 export const CONSTANT_travelProfile = "user/travellerprofile";
+export const CONSTANT_retrievePDF = "cost/:itineraryId/createpdf/v3";
 export const CONSTANT_userProfile = "user";
 export const CONSTANT_retrieveUserProfile = "user/getUserDetails";
 export const CONSTANT_userDetailsResource = "user/userDetails";
