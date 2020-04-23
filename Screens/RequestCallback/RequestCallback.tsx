@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { StyleSheet, TextInput } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import GCMViewer from "../GCMFormScreen/Components/GCMViewer";
@@ -18,17 +18,22 @@ import BottomButtonBar from "../../CommonComponents/BottomButtonBar/BottomButton
 import PickerInputField from "../../CommonComponents/PickerInput/PickerInput";
 import useRequestCallbackApi from "./hooks/useRequestCallbackApi";
 import DebouncedAlert from "../../CommonComponents/DebouncedAlert/DebouncedAlert";
+import { observer, inject } from "mobx-react";
+import User from "../../mobx/User";
+import { toastBottom } from "../../Services/toast/toast";
 
 type RequestCallbackNavType = AppNavigatorProps<typeof SCREEN_REQUEST_CALLBACK>;
 
-export interface RequestCallbackProps extends RequestCallbackNavType {}
+export interface RequestCallbackProps extends RequestCallbackNavType {
+  userStore: User;
+}
 
 export interface ICallbackPickerOption {
   value: contactHoursType;
   text: string;
 }
 
-const RequestCallback = ({ navigation }: RequestCallbackProps) => {
+const RequestCallback = ({ navigation, userStore }: RequestCallbackProps) => {
   const goBack = () => navigation.goBack();
 
   const [formFields, updateMethods] = useRequestCallbackForm();
@@ -65,7 +70,7 @@ const RequestCallback = ({ navigation }: RequestCallbackProps) => {
           leadSource: {}
         });
         if (result) {
-          DebouncedAlert("Success!", "We will contact you shortly!");
+          toastBottom("We will contact you shortly!");
           navigation.goBack();
         } else {
           DebouncedAlert("Oops!", "Unable to submit form details.");
@@ -79,6 +84,17 @@ const RequestCallback = ({ navigation }: RequestCallbackProps) => {
   const nameRef = useRef<TextInput>(null);
   const mobileNumberRef = useRef<TextInput>(null);
   const emailAddressRef = useRef<TextInput>(null);
+
+  useEffect(() => {
+    const { userDisplayDetails } = userStore;
+
+    const { name, email, mobileNumber } = userDisplayDetails;
+
+    name && updateMethods.updateName(name);
+    email && updateMethods.updateEmail(email);
+    mobileNumber && updateMethods.updateMobileNumber(mobileNumber);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <GCMViewer
@@ -167,4 +183,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default ErrorBoundary()(RequestCallback);
+export default ErrorBoundary()(inject("userStore")(observer(RequestCallback)));
