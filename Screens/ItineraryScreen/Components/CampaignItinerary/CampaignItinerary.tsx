@@ -7,7 +7,6 @@ import {
 } from "react-native";
 import { ItineraryNavType, IBannerDetails } from "../../Itinerary";
 import CampaignSlot from "./Components/CampaignSlot";
-import UnbookedItinerary from "../../ItineraryStore/UnbookedItinerary";
 import BlankSpacer from "../../../../CommonComponents/BlankSpacer/BlankSpacer";
 import TranslucentStatusBar from "../../../../CommonComponents/TranslucentStatusBar/TranslucentStatusBar";
 import BottomButtonBar from "../../../../CommonComponents/BottomButtonBar/BottomButtonBar";
@@ -23,9 +22,10 @@ import HighlightText from "../HighlightText";
 import deepLink from "../../../../Services/deepLink/deepLink";
 import { CONSTANT_retrievePDF } from "../../../../constants/apiUrls";
 import { CONSTANT_apiServerUrl } from "../../../../constants/serverUrls";
+import useUnbookedItinerary from "../../hooks/useUnbookedItinerary";
 
 export interface CampaignItineraryProps extends ItineraryNavType {
-  itineraryDetails: UnbookedItinerary;
+  itineraryDetails: ReturnType<typeof useUnbookedItinerary>;
   campaignItineraryState: ICampaignItinerary | null;
   updateFocusedCity: (city: ICity) => any;
   updateBannerDetails: (details: IBannerDetails) => void;
@@ -39,7 +39,6 @@ export interface CampaignItineraryProps extends ItineraryNavType {
 const CampaignItinerary = ({
   itineraryDetails,
   navigation,
-  route,
   campaignItineraryState,
   updateBannerDetails,
   updateFocusedCity,
@@ -224,13 +223,9 @@ const CampaignItinerary = ({
            */
           return (
             <CampaignSlot
-              itinerary={itineraryDetails}
               key={dayIndex}
               dayNum={dayIndex + 1}
               slot={slots[dayIndex]}
-              navigation={navigation}
-              route={route}
-              spinValue={{}}
               updateSectionPostions={updateSectionPostions}
             />
           );

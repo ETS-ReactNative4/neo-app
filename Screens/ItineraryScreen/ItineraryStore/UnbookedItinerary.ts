@@ -32,7 +32,7 @@ import {
   IItineraryCityDetail
 } from "../../../mobx/Itineraries";
 
-export type ItineraryInitializerType = "string" | IItinerary;
+export type ItineraryInitializerType = IItinerary;
 
 export interface IUnbookedActivitySlotDetail
   extends IActivityDetail,
@@ -68,7 +68,7 @@ class UnbookedItinerary {
 
   @action
   selectItinerary = (params: ItineraryInitializerType) => {
-    if (typeof params === "string") {
+    if (!params) {
       // PT TODO: Handle costed itineraries
     } else {
       this._selectedItinerary = params;
@@ -633,7 +633,7 @@ class UnbookedItinerary {
   }
 
   @computed get itineraryMeta() {
-    if (_.isElement(this._selectedItinerary)) {
+    if (_.isEmpty(this._selectedItinerary)) {
       return null;
     }
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { AppNavigatorProps } from "../../NavigatorsV2/AppNavigator";
 import { SCREEN_ITINERARY } from "../../NavigatorsV2/ScreenNames";
 import apiCall from "../../Services/networkRequests/apiCall";
@@ -10,7 +10,6 @@ import { ICampaignItinerary } from "../../TypeInterfaces/ICampaignItinerary";
 import { IMobileServerResponse } from "../../TypeInterfaces/INetworkResponse";
 import { CONSTANT_responseSuccessStatus } from "../../constants/stringConstants";
 import { toastBottom } from "../../Services/toast/toast";
-import UnbookedItinerary from "./ItineraryStore/UnbookedItinerary";
 import CampaignItinerary from "./Components/CampaignItinerary/CampaignItinerary";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import { ICity, IItinerary } from "../../TypeInterfaces/IItinerary";
@@ -20,6 +19,8 @@ import { StyleSheet, LayoutAnimation } from "react-native";
 import useCampaignItineraryCosting from "./hooks/useCampaignItineraryCosting";
 import { IGCMRequestBody } from "../GCMScreen/hooks/useGCMForm";
 import useItineraryCosting from "./hooks/useItineraryCosting";
+import useUnbookedItinerary from "./hooks/useUnbookedItinerary";
+import { observer } from "mobx-react";
 
 export type ItineraryNavType = AppNavigatorProps<typeof SCREEN_ITINERARY>;
 
@@ -49,8 +50,9 @@ const Itinerary = ({ route, navigation }: ItineraryProps) => {
     setCampaignItineraryState
   ] = useState<ICampaignItinerary | null>(null);
 
-  const itineraryDetails = useRef<UnbookedItinerary | null>(null);
-  const [, setItineraryDetailHash] = useState(Math.random());
+  // PT TODO : Handle null values
+  // @ts-ignore
+  const itineraryDetails = useUnbookedItinerary(null);
 
   const [focusedCity, setFocusedCity] = useState<ICity | undefined>(undefined);
   const [bannerDetails, setBannerDetails] = useState<
@@ -113,8 +115,7 @@ const Itinerary = ({ route, navigation }: ItineraryProps) => {
       )
         .then((response: IItineraryServerResponse) => {
           if (response.status === CONSTANT_responseSuccessStatus) {
-            itineraryDetails.current = new UnbookedItinerary(response.data);
-            setItineraryDetailHash(Math.random());
+            itineraryDetails.updateItinerary(response.data);
             setCampaignItineraryState(null);
           } else {
             toastBottom("Unable to retrieve Itinerary info");
@@ -132,10 +133,10 @@ const Itinerary = ({ route, navigation }: ItineraryProps) => {
       })
         .then((response: ICampaignItineraryServerResponse) => {
           if (response.status === CONSTANT_responseSuccessStatus) {
-            itineraryDetails.current = new UnbookedItinerary(
-              response.data.campaignItinerary
-            );
-            setItineraryDetailHash(Math.random());
+            itineraryDetails.updateItinerary(response.data.campaignItinerary);
+            // itineraryDetails.current = new UnbookedItinerary(
+            //   response.data.campaignItinerary
+            // );
             setCampaignItineraryState(response.data);
           } else {
             toastBottom("Unable to retrieve Itinerary info");
@@ -156,7 +157,7 @@ const Itinerary = ({ route, navigation }: ItineraryProps) => {
 
   LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
 
-  if (!itineraryDetails.current) {
+  if (!itineraryDetails?.isItineraryLoaded) {
     return null;
   }
 
@@ -194,7 +195,7 @@ const Itinerary = ({ route, navigation }: ItineraryProps) => {
       />
       <CampaignItinerary
         campaignItineraryState={campaignItineraryState}
-        itineraryDetails={itineraryDetails.current}
+        itineraryDetails={itineraryDetails}
         navigation={navigation}
         route={route}
         updateFocusedCity={updateFocusedCity}
@@ -212,4 +213,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default ErrorBoundary()(Itinerary);
+export default ErrorBoundary()(observer(Itinerary));

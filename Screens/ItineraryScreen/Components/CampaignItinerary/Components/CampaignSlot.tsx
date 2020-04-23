@@ -1,10 +1,9 @@
 import React from "react";
 import { StyleSheet, View, LayoutChangeEvent } from "react-native";
-import UnbookedItinerary, {
+import {
   IUnbookedIterSlotWithActivity,
   IUnbookedActivitySlotDetail
 } from "../../../ItineraryStore/UnbookedItinerary";
-import { ItineraryNavType } from "../../../Itinerary";
 import { IIterSlotByKey } from "../../../../../TypeInterfaces/IItinerary";
 import SectionHeader from "../../../../../CommonComponents/SectionHeader/SectionHeader";
 import BookingSectionComponent from "../../../../../CommonComponents/BookingSectionComponent/BookingSectionComponent";
@@ -14,12 +13,10 @@ import {
   CONSTANT_activityThumbPlaceholderIllus
 } from "../../../../../constants/imageAssets";
 
-export interface CampaignSlotProps extends ItineraryNavType {
+export interface CampaignSlotProps {
   dayNum: number;
   slot: (IUnbookedIterSlotWithActivity | IIterSlotByKey)[];
   updateSectionPostions: any;
-  spinValue: any;
-  itinerary: UnbookedItinerary;
 }
 
 const CampaignSlot = ({
