@@ -3,7 +3,7 @@ import AsyncStorage from "@react-native-community/async-storage";
 import User from "./User";
 import YourBookings from "./YourBookings";
 import AppState from "./AppState";
-import Itineraries from "./Itineraries";
+// import Itineraries from "./Itineraries";
 import Weather from "./Weather";
 import PackingChecklist from "./PackingChecklist";
 import Voucher from "./Voucher";
@@ -12,7 +12,7 @@ import Phrases from "./Phrases";
 import Info from "./Info";
 import EmergencyContacts from "./EmergencyContacts";
 import PassportDetails from "./PassportDetails";
-// import Visa from "./Visa";
+import Visa from "./Visa";
 import Places from "./Places";
 import SupportStore from "./SupportStore";
 import TripFeed from "./TripFeed";
@@ -37,7 +37,7 @@ const createStore = () => {
     userStore: new User(),
     yourBookingsStore: new YourBookings(),
     appState: new AppState(),
-    itineraries: new Itineraries(),
+    itineraries: new Places(),
     weatherStore: new Weather(),
     packingChecklistStore: new PackingChecklist(),
     voucherStore: new Voucher(),
@@ -45,10 +45,7 @@ const createStore = () => {
     infoStore: new Info(),
     emergencyContactsStore: new EmergencyContacts(),
     passportDetailsStore: new PassportDetails(),
-    /**
-     * PT TODO: For some reason visa is not working!
-     */
-    visaStore: new Places(),
+    visaStore: new Visa(),
     placesStore: new Places(),
     supportStore: new SupportStore(),
     tripFeedStore: new TripFeed(),
@@ -65,7 +62,7 @@ const createStore = () => {
   };
 
   YourBookings.hydrator(appStore.yourBookingsStore);
-  Itineraries.hydrator(appStore.itineraries);
+  // Itineraries.hydrator(appStore.itineraries);
   AppState.hydrator(appStore.appState);
   hydrate("_vouchers", appStore.voucherStore)
     .then(() => {})
@@ -162,7 +159,7 @@ const createStore = () => {
     .catch(err => {
       logError(err);
     });
-  // Visa.hydrator(appStore.visaStore);
+  Visa.hydrator(appStore.visaStore);
   SupportStore.hydrator(appStore.supportStore);
   Forex.hydrator(appStore.forexStore);
   DeviceDetails.hydrator(appStore.deviceDetailsStore);
