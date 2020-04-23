@@ -17,22 +17,36 @@ import {
   CONSTANT_fontCustom,
   CONSTANT_primarySemiBold
 } from "../../../constants/fonts";
-import { IItineraryNotification } from "../Notifications";
+import {
+  IItineraryNotification,
+  NotificationsScreenProps
+} from "../Notifications";
 import dialer from "../../../Services/dialer/dialer";
+import {
+  SCREEN_ITINERARY,
+  SCREEN_NOTIFICATION_FAQ
+} from "../../../NavigatorsV2/ScreenNames";
 
-export interface INotificationsActionSheet {
+export interface INotificationsActionSheet extends NotificationsScreenProps {
   actionSheetRef: MutableRefObject<any>;
   selectedNotification?: IItineraryNotification;
 }
 
 const NotificationsActionSheet = ({
   actionSheetRef,
-  selectedNotification
+  selectedNotification,
+  navigation
 }: INotificationsActionSheet) => {
   /**
    * PT TODO: fill up these functions
    */
-  const openFaq = () => {};
+  const openFaq = () => {
+    if (selectedNotification) {
+      navigation.navigate(SCREEN_NOTIFICATION_FAQ, {
+        itineraryId: selectedNotification.itineraryId
+      });
+    }
+  };
 
   const openDialer = () => {
     if (selectedNotification) {
@@ -40,7 +54,13 @@ const NotificationsActionSheet = ({
     }
   };
 
-  const openDetails = () => {};
+  const openDetails = () => {
+    if (selectedNotification) {
+      navigation.navigate(SCREEN_ITINERARY, {
+        itineraryId: selectedNotification.itineraryId
+      });
+    }
+  };
 
   return (
     <ActionSheet

@@ -1,9 +1,10 @@
 import React, { useEffect } from "react";
-import { View, StyleSheet, Alert, TouchableOpacity } from "react-native";
+import { View, StyleSheet, TouchableOpacity } from "react-native";
 import { AppNavigatorProps } from "../../NavigatorsV2/AppNavigator";
 import {
   SCREEN_NOTIFICATION_DETAILS,
-  SCREEN_NOTIFICATION_FAQ
+  SCREEN_NOTIFICATION_FAQ,
+  SCREEN_ITINERARY
 } from "../../NavigatorsV2/ScreenNames";
 import {
   CONSTANT_firstColor,
@@ -14,10 +15,27 @@ import ParallaxScrollView from "../../CommonComponents/ParallaxScrollView/Parall
 import ItineraryDetail from "../NotificationsScreen/Components/ItineraryDetail/ItineraryDetail";
 import BlankSpacer from "../../CommonComponents/BlankSpacer/BlankSpacer";
 import { CONSTANT_callStartIcon } from "../../constants/imageAssets";
-import BottomButtonBar from "../../CommonComponents/BottomButtonBar/BottomButtonBar";
+import BottomButtonBar, {
+  BOTTOM_BUTTON_CONTAINER_HEIGHT
+} from "../../CommonComponents/BottomButtonBar/BottomButtonBar";
 import Icon from "../../CommonComponents/Icon/Icon";
 import TranslucentStatusBar from "../../CommonComponents/TranslucentStatusBar/TranslucentStatusBar";
 import useNotificationDetailsApi from "./hooks/useNotificationDetailsApi";
+import { observer } from "mobx-react";
+import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
+import useUnbookedItinerary from "../ItineraryScreen/hooks/useUnbookedItinerary";
+import { IItineraryServerResponse } from "../ItineraryScreen/Itinerary";
+import apiCall from "../../Services/networkRequests/apiCall";
+import { CONSTANT_itineraryDetails } from "../../constants/apiUrls";
+import { CONSTANT_responseSuccessStatus } from "../../constants/stringConstants";
+import { toastBottom } from "../../Services/toast/toast";
+import {
+  CONSTANT_GCMDateFormat,
+  CONSTANT_costingDateFormat,
+  CONSTANT_shortTimeFormat
+} from "../../constants/styles";
+import moment from "moment";
+import dialer from "../../Services/dialer/dialer";
 
 type NotificationDetailsNavTypes = AppNavigatorProps<
   typeof SCREEN_NOTIFICATION_DETAILS
@@ -35,14 +53,72 @@ const NotificationDetails = ({
     getNotificationDetails
   ] = useNotificationDetailsApi();
 
+  // @ts-ignore - handle null initialization
+  const itineraryDetails = useUnbookedItinerary(null);
+
   const goBack = () => {
     navigation.goBack();
   };
 
   useEffect(() => {
     getNotificationDetails(notification.itineraryId);
+    apiCall(
+      CONSTANT_itineraryDetails.replace(
+        ":itineraryId",
+        notification.itineraryId
+      ),
+      {},
+      "GET"
+    )
+      .then((response: IItineraryServerResponse) => {
+        if (response.status === CONSTANT_responseSuccessStatus) {
+          itineraryDetails.updateItinerary(response.data);
+        } else {
+          toastBottom("Unable to retrieve Itinerary info");
+          navigation.goBack();
+        }
+      })
+      .catch(() => {
+        toastBottom("Unable to retrieve Itinerary info");
+        navigation.goBack();
+      });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  if (!itineraryDetails.isItineraryLoaded) {
+    return null;
+  }
+
+  const { costingConfig, itineraryMeta } = itineraryDetails;
+
+  let adultCount = notification.noOfAdults;
+  let children = notification.noOfChildren;
+  let numOfRooms = 0;
+  let travelType = "";
+  let totalCost: number | string = notification.totalCost || "";
+  let staleCost = false;
+
+  if (costingConfig) {
+    const { hotelGuestRoomConfigurations } = costingConfig;
+
+    adultCount = hotelGuestRoomConfigurations.reduce((acc, room) => {
+      return acc + room.adultCount;
+    }, 0);
+
+    children = hotelGuestRoomConfigurations.reduce((acc, room) => {
+      return acc + (room.childAges ? room.childAges.length : 0);
+    }, 0);
+
+    travelType = costingConfig.travelType;
+  }
+
+  if (itineraryMeta) {
+    totalCost =
+      (itineraryMeta.discountedPrice ? itineraryMeta.discountedPrice : "") ||
+      itineraryMeta.totalCost;
+
+    staleCost = itineraryMeta.staleCost;
+  }
 
   return (
     <View style={styles.tripDetailsContainer}>
@@ -56,27 +132,34 @@ const NotificationDetails = ({
         <View style={styles.detailsContainer}>
           <ItineraryDetail
             departingFrom={notification.departureCity}
-            departureDate={notification.departureDateMillis.toString()}
-            adults={notification.noOfAdults}
-            children={notification.noOfChildren}
-            numOfRooms={0}
-            costedDate={notification.costedDateMillis.toString()}
-            costedTime={notification.costedDateMillis.toString()}
-            totalCost={notification.totalCost || NaN}
-            travellingAs={""}
+            departureDate={moment(notification.departureDateMillis).format(
+              CONSTANT_GCMDateFormat
+            )}
+            adults={adultCount}
+            children={children}
+            numOfRooms={numOfRooms}
+            costedDate={moment(notification.costedDateMillis).format(
+              CONSTANT_costingDateFormat
+            )}
+            costedTime={moment(notification.costedDateMillis).format(
+              CONSTANT_shortTimeFormat
+            )}
+            totalCost={totalCost}
+            travellingAs={travelType}
+            staleCost={staleCost}
           />
           {notificationDetailsApi.isSuccess ? (
             <ItineraryTimeline
               notifData={notificationDetailsApi.successResponseData?.data || []}
             />
           ) : null}
-          <BlankSpacer height={76} />
+          <BlankSpacer height={BOTTOM_BUTTON_CONTAINER_HEIGHT + 16} />
         </View>
       </ParallaxScrollView>
 
       <TouchableOpacity
         activeOpacity={0.8}
-        onPress={() => Alert.alert("Click phone icon")}
+        onPress={() => dialer(notification.travelConsultantNumber)}
         style={styles.phoneIcon}
       >
         <Icon name={CONSTANT_callStartIcon} size={32} color={CONSTANT_white} />
@@ -90,7 +173,11 @@ const NotificationDetails = ({
           })
         }
         rightButtonName={"View itinerary"}
-        rightButtonAction={() => Alert.alert("View itinerary")}
+        rightButtonAction={() =>
+          navigation.navigate(SCREEN_ITINERARY, {
+            itineraryId: notification.itineraryId
+          })
+        }
       />
     </View>
   );
@@ -109,7 +196,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     position: "absolute",
     right: 16,
-    bottom: 84,
+    bottom: BOTTOM_BUTTON_CONTAINER_HEIGHT + 16,
     width: 62,
     height: 62,
     borderRadius: 50,
@@ -117,4 +204,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default NotificationDetails;
+export default ErrorBoundary()(observer(NotificationDetails));

@@ -16,11 +16,12 @@ export interface ItineraryDetailProps {
   departingFrom: string;
   costedDate: string;
   costedTime: string;
-  totalCost: number;
+  totalCost: number | string;
   numOfRooms: number;
   adults: number;
   children: number;
   travellingAs: string;
+  staleCost: boolean;
 }
 
 const ItineraryDetail = ({
@@ -32,7 +33,8 @@ const ItineraryDetail = ({
   numOfRooms,
   adults,
   children,
-  travellingAs
+  travellingAs,
+  staleCost
 }: ItineraryDetailProps) => {
   return (
     <View style={styles.itineraryDetailContainer}>
@@ -57,14 +59,14 @@ const ItineraryDetail = ({
         <Text style={styles.titleTextStyle}>ROOM DETAILS</Text>
         <Text style={styles.textStyle}>{`${
           numOfRooms ? numOfRooms + " rooms - " : ""
-        } ${adults ? adults + " adults" : ""} ${
-          children ? ", " + children + " children" : ""
+        } ${adults ? adults + ` adult${adults > 1 ? "s" : ""}` : ""} ${
+          children ? ", " + children + ` child${children > 1 ? "ren" : ""}` : ""
         }`}</Text>
       </View>
 
       <View style={[styles.detailList, styles.mbottomSmall]}>
         <Text style={styles.titleTextStyle}>
-          {`PRICE AS ON ${costedDate || ""} | ${costedTime || ""} HRS`}
+          {`PRICE AS ON ${costedDate || ""} | ${costedTime || ""}`}
         </Text>
         <Text style={styles.textStyle}>
           {totalCost ? getLocaleString(totalCost) : "NA"}
@@ -74,12 +76,14 @@ const ItineraryDetail = ({
       {/**
        * PT TODO: Costing function needed here...
        */}
-      <PrimaryButton
-        text={"Get latest cost"}
-        clickAction={() => {}}
-        buttonStyle={styles.buttonStyle}
-        buttonTextStyle={styles.buttonTextStyle}
-      />
+      {staleCost ? (
+        <PrimaryButton
+          text={"Get latest cost"}
+          clickAction={() => {}}
+          buttonStyle={styles.buttonStyle}
+          buttonTextStyle={styles.buttonTextStyle}
+        />
+      ) : null}
     </View>
   );
 };

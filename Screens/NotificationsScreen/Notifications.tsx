@@ -77,7 +77,7 @@ export interface ISectionData {
   data: IItineraryNotification[];
 }
 
-const Notifications = ({ navigation }: NotificationsScreenProps) => {
+const Notifications = ({ navigation, route }: NotificationsScreenProps) => {
   const [sectionData, setSectionData] = useState<ISectionData[]>([]);
   const [selectedNotification, setSelectedNotification] = useState<
     IItineraryNotification | undefined
@@ -166,6 +166,8 @@ const Notifications = ({ navigation }: NotificationsScreenProps) => {
       <NotificationsActionSheet
         selectedNotification={selectedNotification}
         actionSheetRef={actionSheetRef}
+        navigation={navigation}
+        route={route}
       />
     </SafeAreaView>
   );
