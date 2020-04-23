@@ -3,7 +3,7 @@ import AsyncStorage from "@react-native-community/async-storage";
 import User from "./User";
 import YourBookings from "./YourBookings";
 import AppState from "./AppState";
-// import Itineraries from "./Itineraries";
+import Itineraries from "./Itineraries";
 import Weather from "./Weather";
 import PackingChecklist from "./PackingChecklist";
 import Voucher from "./Voucher";
@@ -37,7 +37,7 @@ const createStore = () => {
     userStore: new User(),
     yourBookingsStore: new YourBookings(),
     appState: new AppState(),
-    itineraries: new Places(),
+    itineraries: new Itineraries(),
     weatherStore: new Weather(),
     packingChecklistStore: new PackingChecklist(),
     voucherStore: new Voucher(),
@@ -62,7 +62,7 @@ const createStore = () => {
   };
 
   YourBookings.hydrator(appStore.yourBookingsStore);
-  // Itineraries.hydrator(appStore.itineraries);
+  Itineraries.hydrator(appStore.itineraries);
   AppState.hydrator(appStore.appState);
   hydrate("_vouchers", appStore.voucherStore)
     .then(() => {})

@@ -8,7 +8,7 @@ import constants from "../constants/constants";
 import storeService from "../Services/storeService/storeService";
 import { logError } from "../Services/errorLogger/errorLogger";
 import { LayoutAnimation, Platform } from "react-native";
-import { hydrate } from "./Store";
+import hydrate from "../Services/hydrate/hydrate";
 import itineraryConstructor from "../Services/appLauncher/itineraryConstructor";
 import debouncer from "../Services/debouncer/debouncer";
 import {

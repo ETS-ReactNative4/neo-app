@@ -5,7 +5,7 @@ import apiCall from "../Services/networkRequests/apiCall";
 import constants from "../constants/constants";
 import { CONSTANT_updateVisaSuccessAnimationSeen } from "../constants/apiUrls";
 import { logError } from "../Services/errorLogger/errorLogger";
-import { hydrate } from "./Store";
+import hydrate from "../Services/hydrate/hydrate";
 import storeService from "../Services/storeService/storeService";
 import _ from "lodash";
 import { toastBottom } from "../Services/toast/toast";
