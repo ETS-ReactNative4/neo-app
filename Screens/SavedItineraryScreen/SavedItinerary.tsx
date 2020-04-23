@@ -1,6 +1,9 @@
 import React, { useEffect, useCallback } from "react";
 import { AppNavigatorProps } from "../../NavigatorsV2/AppNavigator";
-import { SCREEN_SAVED_ITINERARIES } from "../../NavigatorsV2/ScreenNames";
+import {
+  SCREEN_SAVED_ITINERARIES,
+  SCREEN_ITINERARY
+} from "../../NavigatorsV2/ScreenNames";
 import PrimaryHeader from "../../NavigatorsV2/Components/PrimaryHeader";
 import useSavedItinerariesApi from "../NotificationsScreen/hooks/useSavedItinerariesApi";
 import { useFocusEffect } from "@react-navigation/native";
@@ -39,12 +42,15 @@ const SavedItinerary = ({ navigation }: SavedItineraryProps) => {
   return (
     <CustomScrollView refreshing={isLoading} onRefresh={loadItineraries}>
       {savedItineraries.map((itinerary, itineraryIndex) => {
-        const onNotificationClick = () => null;
+        const onNotificationClick = () =>
+          navigation.navigate(SCREEN_ITINERARY, {
+            itineraryId: itinerary.itineraryId
+          });
 
         return (
           <SavedItineraryCard
             key={itineraryIndex}
-            isUnread={!!itinerary.unreadMsgCount}
+            isUnread={false}
             action={onNotificationClick}
             image={getImgIXUrl({ src: itinerary.image })}
             cities={itinerary.citiesArr || []}
