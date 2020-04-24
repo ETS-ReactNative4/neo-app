@@ -49,5 +49,5 @@ export const SCREEN_RENTAL_CAR_VOUCHER = "RentalCarVoucher";
 export const SCREEN_LEISURE = "LeisureScreen";
 export const SCREEN_PDF_VIEWER = "PDFViewerScreen";
 export const SCREEN_FEEDBACK_PROMPT = "FeedbackPrompt";
-export const SCREEN_VISA_Document_ACTION_SHEET = "VisaDocumentActionSheet";
+export const SCREEN_VISA_DOCUMENT_ACTION_SHEET = "VisaDocumentActionSheet";
 export const SCREEN_ACTION_SHEET = "ActionSheet";
