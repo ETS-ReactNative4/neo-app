@@ -158,6 +158,7 @@ export interface IRentalCarCosting extends IAbstractCosting {
   vehicle: string;
   type: string;
   pickup: string;
+  duration: number;
 }
 
 export interface IRentalCarCostingValue extends IAbstractCostingValue {
