@@ -144,7 +144,7 @@ const TravelProfileCityComponent = ({
     setSuggestedCountries(updatedCountriesList);
   };
 
-  const { isPositive } = route.params;
+  const isPositive = route.params ? route.params.isPositive : false;
   const sectionTitle = isPositive
     ? "Tell us where you wish to go"
     : "Tell us where you’ve been";

@@ -89,12 +89,16 @@ export type AppNavigatorParamsType = {
   };
   [SCREEN_STARTER]: undefined;
   [SCREEN_TRAVEL_PROFILE_WELCOME]: undefined;
-  [SCREEN_TRAVEL_COUNTRY_PICKER]: {
-    isPositive: boolean;
-  };
-  [SCREEN_TRAVEL_MARITAL_STATUS]: {
-    isPositive: boolean;
-  };
+  [SCREEN_TRAVEL_COUNTRY_PICKER]:
+    | undefined
+    | {
+        isPositive: boolean;
+      };
+  [SCREEN_TRAVEL_MARITAL_STATUS]:
+    | undefined
+    | {
+        isPositive: boolean;
+      };
   [SCREEN_TRIP_INTENSITY]: undefined;
   [SCREEN_STORY_BOOK]: undefined;
   [SCREEN_NOTIFICATION_DETAILS]: {
