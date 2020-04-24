@@ -28,6 +28,9 @@ import {
   IRentalCarCosting
 } from "../TypeInterfaces/IItinerary";
 import { IActivityCombinedInfo } from "../mobx/Itineraries";
+import ActivityVoucher from "../Screens/VoucherScreens/ActivityVoucherScreen/ActivityVoucher";
+import HotelVoucher from "../Screens/VoucherScreens/HotelVoucherScreen/HotelVoucher";
+import TransferVoucher from "../Screens/VoucherScreens/TransferVoucherScreen/TransferVoucher";
 
 export type ListingPageType = {
   slug?: string;
@@ -107,6 +110,9 @@ const ModalStack = () => {
     <Navigator headerMode="none">
       <Screen name={SCREEN_LISTING_PAGE} component={ListingPage} />
       <Screen name={SCREEN_FLIGHT_VOUCHER} component={FlightVoucher} />
+      <Screen name={SCREEN_ACTIVITY_VOUCHER} component={ActivityVoucher} />
+      <Screen name={SCREEN_HOTEL_VOUCHER} component={HotelVoucher} />
+      <Screen name={SCREEN_TRANSFER_VOUCHER} component={TransferVoucher} />
     </Navigator>
   );
 };
