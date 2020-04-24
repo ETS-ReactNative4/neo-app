@@ -32,6 +32,8 @@ import TrustIcons from "../../CommonComponents/TrustIcons/TrustIcons";
 import { ExploreFeedType } from "./ExploreFeedType";
 import useExploreDataRequest from "./hooks/useExploreDataRequest";
 import useDeepCompareEffect from "use-deep-compare-effect";
+import { inject, observer } from "mobx-react";
+import YourBookings from "../../mobx/YourBookings";
 
 export type ExploreScreenNavigationType = CompositeNavigationProp<
   StackNavigationProp<AppNavigatorParamsType, typeof SCREEN_PRETRIP_HOME_TABS>,
@@ -46,11 +48,12 @@ export type ExploreScreenRouteProp = RouteProp<
 export interface ExploreScreenProps {
   navigation: ExploreScreenNavigationType;
   route: ExploreScreenRouteProp;
+  yourBookingsStore: YourBookings;
 }
 
 export type ExploreScreenSourcesType = "TravelProfileFlow";
 
-const Explore = ({ navigation }: ExploreScreenProps) => {
+const Explore = ({ navigation, yourBookingsStore }: ExploreScreenProps) => {
   let [exploreData, setExploreData] = useState<ExploreFeedType>([]);
   const [exploreDataApi, loadExploreData] = useExploreDataRequest();
 
@@ -67,6 +70,7 @@ const Explore = ({ navigation }: ExploreScreenProps) => {
 
   useEffect(() => {
     loadExploreData();
+    yourBookingsStore.getUpcomingItineraries();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -352,4 +356,6 @@ const styles = StyleSheet.create({
   }
 });
 
-export default ErrorBoundary({ isRoot: true })(Explore);
+export default ErrorBoundary({ isRoot: true })(
+  inject("yourBookingsStore")(observer(Explore))
+);
