@@ -38,13 +38,16 @@ import {
   SCREEN_STORY_BOOK,
   SCREEN_TRAVELLER_PROFILE,
   SCREEN_ABOUT_SCREEN,
-  SCREEN_SAVED_ITINERARIES
+  SCREEN_SAVED_ITINERARIES,
+  SCREEN_YOUR_BOOKINGS,
+  SCREEN_PRETRIP_HOME_TABS
 } from "../../NavigatorsV2/ScreenNames";
 import { useFocusEffect } from "@react-navigation/native";
 import isUserLoggedIn from "../../Services/isUserLoggedIn/isUserLoggedIn";
 import { isProduction } from "../../Services/getEnvironmentDetails/getEnvironmentDetails";
 import TranslucentStatusBar from "../../CommonComponents/TranslucentStatusBar/TranslucentStatusBar";
 import logOut from "../../Services/logOut/logOut";
+import YourBookings from "../../mobx/YourBookings";
 
 export interface IUltimateMenuLists {
   name: string;
@@ -60,6 +63,7 @@ export interface UltimateMenuProps extends UltimateMenuNavType {
   buttonAction: () => void;
   enableLogin?: boolean;
   userStore: User;
+  yourBookingsStore: YourBookings;
 }
 
 const HEADER_CONTAINER_WIDTH = responsiveWidth(100);
@@ -69,7 +73,8 @@ const UltimateMenu = ({
   containerStyle,
   buttonAction = () => {},
   navigation,
-  userStore
+  userStore,
+  yourBookingsStore
 }: UltimateMenuProps) => {
   const { userDisplayDetails, getUserDisplayDetails } = userStore;
 
@@ -77,10 +82,10 @@ const UltimateMenu = ({
 
   const menuList: IUltimateMenuLists[] = [
     {
-      name: "Explore trips",
+      name: "Craft your holiday",
       iconName: "heart1",
       active: false,
-      action: () => null
+      action: () => navigation.navigate(SCREEN_PRETRIP_HOME_TABS)
     },
     {
       name: "My Saved Itineraries",
@@ -108,6 +113,15 @@ const UltimateMenu = ({
       iconName: CONSTANT_storybookIcon,
       active: false,
       action: () => navigation.navigate(SCREEN_STORY_BOOK)
+    });
+  }
+
+  if (yourBookingsStore.hasUpcomingItineraries) {
+    menuList.unshift({
+      name: "Explore trips",
+      iconName: "heart1",
+      active: false,
+      action: () => navigation.navigate(SCREEN_YOUR_BOOKINGS)
     });
   }
 
@@ -304,4 +318,6 @@ const styles = StyleSheet.create({
   }
 });
 
-export default ErrorBoundary()(inject("userStore")(observer(UltimateMenu)));
+export default ErrorBoundary()(
+  inject("yourBookingsStore")(inject("userStore")(observer(UltimateMenu)))
+);
