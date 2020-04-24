@@ -240,7 +240,11 @@ const AppLogin = ({
 
   const registerUser = async () => {
     setRegisterationAttemptStatus(true);
-    if (highlightPhoneField || highlightNameField || highlightEmailField) {
+    if (
+      !name ||
+      !validateLoginMobileNumber(mobileNumber) ||
+      !validateEmail(email)
+    ) {
       // PT TODO: Any visual feedback?
     } else {
       const result = await registerNewUser({
