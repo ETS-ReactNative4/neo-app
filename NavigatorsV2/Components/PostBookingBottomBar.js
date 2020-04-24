@@ -7,12 +7,24 @@ import {
   CONSTANT_primaryRegular
 } from "../../constants/fonts";
 import Icon from "../../CommonComponents/Icon/Icon";
+import { inject, observer } from "mobx-react";
+import { SCREEN_SUPPORT_TAB } from "../ScreenNames";
+import { recordEvent } from "../../Services/analytics/analyticsService";
+import { CONSTANT_Chat } from "../../constants/appEvents";
+import { chatLauncher } from "../../Services/freshchatService/freshchatService";
 
 /**
  * PT TODO: Typing unavailable for bottom bar hence the file is in js
  * Must be updated once typings are updated
  */
-const PostBookingBottomBar = ({ state, descriptors, navigation }) => {
+const PostBookingBottomBar = ({
+  state,
+  descriptors,
+  navigation,
+  chatDetailsStore
+}) => {
+  const { isChatActive } = chatDetailsStore;
+
   return (
     <View style={styles.bottomBarContainer}>
       {state.routes.map((route, index) => {
@@ -33,7 +45,14 @@ const PostBookingBottomBar = ({ state, descriptors, navigation }) => {
           });
 
           if (!isFocused && !event.defaultPrevented) {
-            navigation.navigate(route.name);
+            if (label === SCREEN_SUPPORT_TAB && isChatActive) {
+              recordEvent(CONSTANT_Chat.event, {
+                click: CONSTANT_Chat.click.openChat
+              });
+              chatLauncher();
+            } else {
+              navigation.navigate(route.name);
+            }
           }
         };
 
@@ -79,7 +98,8 @@ const PostBookingBottomBar = ({ state, descriptors, navigation }) => {
 PostBookingBottomBar.propTypes = {
   state: PropTypes.object,
   descriptors: PropTypes.object,
-  navigation: PropTypes.object
+  navigation: PropTypes.object,
+  chatDetailsStore: PropTypes.object
 };
 
 const styles = StyleSheet.create({
@@ -99,4 +119,6 @@ const styles = StyleSheet.create({
   }
 });
 
-export default BottomBarWrapper(PostBookingBottomBar);
+export default inject("chatDetailsStore")(
+  observer(BottomBarWrapper(PostBookingBottomBar))
+);
