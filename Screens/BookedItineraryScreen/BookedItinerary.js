@@ -22,18 +22,20 @@ import DeepLinkHandler from "../../CommonComponents/DeepLinkHandler/DeepLinkHand
 @inject("itineraries")
 @observer
 class BookedItinerary extends Component {
-  static navigationOptions = ({ navigation }) => {
-    return {
-      header: (
+  constructor(props) {
+    super(props);
+
+    props.navigation.setOptions({
+      header: () => (
         <CommonHeader
           TitleComponent={<BookedItineraryTitle />}
           // RightButton={<SearchButton action={() => {}} />}
           title={""}
-          navigation={navigation}
+          navigation={props.navigation}
         />
       )
-    };
-  };
+    });
+  }
 
   state = {
     selectedDay: moment(this.props.itineraries.days[0]).format("x"),
