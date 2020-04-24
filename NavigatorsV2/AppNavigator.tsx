@@ -33,7 +33,11 @@ import {
   SCREEN_GCM,
   SCREEN_GCM_CITY_PICKER,
   SCREEN_GCM_ROOM_CONFIG,
-  SCREEN_BOOKED_ITINERARY
+  SCREEN_BOOKED_ITINERARY,
+  SCREEN_FAQ,
+  SCREEN_CONTACT_US,
+  SCREEN_TICKETS_CONVERSATION,
+  SCREEN_YOUR_TICKETS
 } from "./ScreenNames";
 import AppLogin from "../Screens/AppLoginScreen/AppLogin";
 import Starter from "../Screens/StartingScreen/Starter";
@@ -77,6 +81,10 @@ import {
 } from "../Screens/GCMScreen/hooks/useGCMForm";
 import GCMRoomConfig from "../Screens/GCMRoomConfig/GCMRoomConfig";
 import BookedItinerary from "../Screens/BookedItineraryScreen/BookedItinerary";
+import FAQ from "../Screens/FAQScreens/FAQScreen/FAQ";
+import ContactUs from "../Screens/ContactUsScreen/ContactUs";
+import TicketsConversation from "../Screens/TicketsConversationScreen/TicketsConversation";
+import YourTickets from "../Screens/YourTicketsScreen/YourTickets";
 
 export type loginResetTargetTypes =
   | typeof SCREEN_EXPLORE_PAGE
@@ -157,6 +165,18 @@ export type AppNavigatorParamsType = {
   [SCREEN_BOOKED_ITINERARY]: {
     selectedDate: string;
   };
+  [SCREEN_FAQ]: {
+    title: string;
+  };
+  [SCREEN_CONTACT_US]: {
+    title: string;
+  };
+  [SCREEN_TICKETS_CONVERSATION]: {
+    title: string;
+    status: "Closed" | "Open";
+    ticketId: string;
+  };
+  [SCREEN_YOUR_TICKETS]: undefined;
 };
 
 const Stack = createStackNavigator<AppNavigatorParamsType>();
@@ -313,6 +333,13 @@ const AppNavigator = () => {
           component={GCMRoomConfig}
         />
         <Screen name={SCREEN_BOOKED_ITINERARY} component={BookedItinerary} />
+        <Screen name={SCREEN_FAQ} component={FAQ} />
+        <Screen name={SCREEN_CONTACT_US} component={ContactUs} />
+        <Screen name={SCREEN_YOUR_TICKETS} component={YourTickets} />
+        <Screen
+          name={SCREEN_TICKETS_CONVERSATION}
+          component={TicketsConversation}
+        />
       </Navigator>
     </Fragment>
   );

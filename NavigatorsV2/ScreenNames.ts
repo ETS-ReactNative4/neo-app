@@ -52,3 +52,7 @@ export const SCREEN_FEEDBACK_PROMPT = "FeedbackPrompt";
 export const SCREEN_VISA_DOCUMENT_ACTION_SHEET = "VisaDocumentActionSheet";
 export const SCREEN_ACTION_SHEET = "ActionSheet";
 export const SCREEN_BOOKED_ITINERARY = "BookedItinerary";
+export const SCREEN_FAQ = "FAQ";
+export const SCREEN_CONTACT_US = "ContactUs";
+export const SCREEN_YOUR_TICKETS = "YourTickets";
+export const SCREEN_TICKETS_CONVERSATION = "TicketsConversation";

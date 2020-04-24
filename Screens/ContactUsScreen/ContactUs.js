@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { View, ScrollView, StyleSheet, Keyboard } from "react-native";
 import _ from "lodash";
-import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import constants from "../../constants/constants";
 import ContactActionBar from "./Components/ContactActionBar";
 import DebouncedAlert from "../../CommonComponents/DebouncedAlert/DebouncedAlert";
@@ -9,6 +8,8 @@ import apiCall from "../../Services/networkRequests/apiCall";
 import { inject, observer } from "mobx-react";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import MessageInput from "../SupportCenterScreen/Components/MessageInput";
+import PrimaryHeader from "../../NavigatorsV2/Components/PrimaryHeader";
+import PropTypes from "prop-types";
 
 let subjectText, messageText;
 
@@ -18,38 +19,47 @@ let subjectText, messageText;
 @inject("supportStore")
 @observer
 class ContactUs extends Component {
-  static navigationOptions = ({ navigation }) => {
-    const backAction = () => {
-      Keyboard.dismiss();
-      if (subjectText || messageText) {
-        DebouncedAlert(
-          "You have a draft message...",
-          "If you go back now, your message will be lost!",
-          [
-            {
-              text: "Go ahead",
-              onPress: () => {
-                navigation.goBack();
-              }
-            },
-            { text: "Stay here", onPress: () => null }
-          ],
-          { cancelable: false }
-        );
-      } else {
-        navigation.goBack();
-      }
-    };
-    return {
-      header: (
-        <CommonHeader
-          leftAction={backAction}
-          title={"Contact Us"}
-          navigation={navigation}
-        />
-      )
-    };
+  static propTypes = {
+    navigation: PropTypes.object.isRequired,
+    route: PropTypes.object.isRequired,
+    infoStore: PropTypes.object.isRequired,
+    supportStore: PropTypes.object.isRequired,
+    itineraries: PropTypes.object.isRequired
   };
+
+  constructor(props) {
+    super(props);
+
+    props.navigation.setOptions({
+      header: () => {
+        const backAction = () => {
+          Keyboard.dismiss();
+          if (subjectText || messageText) {
+            DebouncedAlert(
+              "You have a draft message...",
+              "If you go back now, your message will be lost!",
+              [
+                {
+                  text: "Go ahead",
+                  onPress: () => {
+                    props.navigation.goBack();
+                  }
+                },
+                { text: "Stay here", onPress: () => null }
+              ],
+              { cancelable: false }
+            );
+          } else {
+            props.navigation.goBack();
+          }
+        };
+        return PrimaryHeader({
+          leftAction: backAction,
+          headerText: "Contact Us"
+        });
+      }
+    });
+  }
 
   state = {
     subject: "",
@@ -85,7 +95,6 @@ class ContactUs extends Component {
     const subject = this.getSubjectValue();
     const { setSuccess, setError } = this.props.infoStore;
     if (this.state.message && subject) {
-      const ticketType = this.props.navigation.getParam("type", "");
       const { selectedItineraryId } = this.props.itineraries;
       const { loadConversation, getFaqDetailsByName } = this.props.supportStore;
       const faqDetails = getFaqDetailsByName(subject);
@@ -121,7 +130,7 @@ class ContactUs extends Component {
             );
           }
         })
-        .catch(error => {
+        .catch(() => {
           this.setState({
             isSubmitting: false
           });
@@ -192,7 +201,9 @@ class ContactUs extends Component {
   };
 
   componentDidMount() {
-    const ticketType = this.props.navigation.getParam("type", "");
+    const ticketType = this.props.route.params
+      ? this.props.route.params.type
+      : "";
     this.changeSubjectOption(ticketType);
   }
 
@@ -211,6 +222,8 @@ class ContactUs extends Component {
         value: faq
       };
     });
+
+    const sendButtonStyle = { backgroundColor: "transparent", borderWidth: 0 };
 
     return (
       <View style={styles.contactUsContainer}>
@@ -241,11 +254,7 @@ class ContactUs extends Component {
           cancelAction={this.cancelMessage}
           sendAction={this.state.isSubmitting ? () => null : this.sendMessage}
           navigation={this.props.navigation}
-          sendContainerStyle={
-            this.state.isSubmitting
-              ? { backgroundColor: "transparent", borderWidth: 0 }
-              : {}
-          }
+          sendContainerStyle={this.state.isSubmitting ? sendButtonStyle : {}}
           sendTextColor={
             this.state.isSubmitting ? constants.firstColor : "white"
           }
