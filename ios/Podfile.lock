@@ -330,7 +330,7 @@ PODS:
   - react-native-webengage (1.1.1):
     - React
     - WebEngage
-  - react-native-webview (5.12.1):
+  - react-native-webview (9.2.2):
     - React
   - React-RCTActionSheet (0.61.2):
     - React-Core/RCTActionSheetHeaders (= 0.61.2)
@@ -750,7 +750,7 @@ SPEC CHECKSUMS:
   react-native-video: d01ed7ff1e38fa7dcc6c15c94cf505e661b7bfd0
   react-native-viewpager: 88f4269c19d626d2ccd5f7c7f5f7f76422ddb9e3
   react-native-webengage: ce9d42fac6385108b0245ef06e0a926697a38db4
-  react-native-webview: 5036ed4a973ad1deeeff118262d2df7b60b3419d
+  react-native-webview: 881baa70f381b838964574f48153a2d453402922
   React-RCTActionSheet: 89b037c0fb7d2671607cb645760164e7e0c013f6
   React-RCTAnimation: e3cefa93c38c004c318f7ec04b883eb14b8b8235
   React-RCTBlob: d26ac0e313fbf14e7203473fd593ccaaeee8329e

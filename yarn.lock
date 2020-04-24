@@ -4335,15 +4335,15 @@ escape-html@~1.0.3:
   resolved "https://registry.yarnpkg.com/escape-html/-/escape-html-1.0.3.tgz#0258eae4d3d0c0974de1c169188ef0051d1d1988"
   integrity sha1-Aljq5NPQwJdN4cFpGI7wBR0dGYg=
 
-escape-string-regexp@1.0.5, escape-string-regexp@^1.0.2, escape-string-regexp@^1.0.5:
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/escape-string-regexp/-/escape-string-regexp-1.0.5.tgz#1b61c0562190a8dff6ae3bb2cf0200ca130b86d4"
-  integrity sha1-G2HAViGQqN/2rjuyzwIAyhMLhtQ=
-
-escape-string-regexp@^2.0.0:
+escape-string-regexp@2.0.0, escape-string-regexp@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/escape-string-regexp/-/escape-string-regexp-2.0.0.tgz#a30304e99daa32e23b2fd20f51babd07cffca344"
   integrity sha512-UpzcLCXolUWcNu5HtVMHYdXJjArjsF9C0aNnquZYY4uW/Vu0miy5YoWvbV345HauVvcAUnpRuhMMcqTcGOY2+w==
+
+escape-string-regexp@^1.0.2, escape-string-regexp@^1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/escape-string-regexp/-/escape-string-regexp-1.0.5.tgz#1b61c0562190a8dff6ae3bb2cf0200ca130b86d4"
+  integrity sha1-G2HAViGQqN/2rjuyzwIAyhMLhtQ=
 
 escodegen@1.x.x, escodegen@^1.9.1:
   version "1.12.0"
@@ -8973,12 +8973,12 @@ react-native-webengage@1.1.1:
   resolved "https://registry.yarnpkg.com/react-native-webengage/-/react-native-webengage-1.1.1.tgz#15addc86e935f3e1161d4a828b82e6e72787bcf2"
   integrity sha512-JLfuHonKjFkjhmN4Ncf1BtuX17EVFK7JF4XtKUlcg5ZdmVeptmM+/UXx9sEQ9TmLIDObMXuEirn7p86w55Q9Og==
 
-react-native-webview@5.12.1:
-  version "5.12.1"
-  resolved "https://registry.yarnpkg.com/react-native-webview/-/react-native-webview-5.12.1.tgz#5e2b124e9087d64fc40040d911c10ee5744b5d4d"
-  integrity sha512-pFYzyNUG+k7Jk2a0Z3S1+OL9qtp0VQxVP08d1ume/O6l1Xibi0K0hRZms7zPUHqQc2uWEfjZ0FOa17MIN7vruw==
+react-native-webview@9.2.2:
+  version "9.2.2"
+  resolved "https://registry.yarnpkg.com/react-native-webview/-/react-native-webview-9.2.2.tgz#9e6df0ba4d55f933c04fdbbc89c142eb65490bef"
+  integrity sha512-S++DzIw4b5K0jmuChUGgNbrN535w7CBEWnOC9dbeGsbUcexbFvHTS9aNcSajBWaFKAG1aDkQfw/7xL8AfK+A7g==
   dependencies:
-    escape-string-regexp "1.0.5"
+    escape-string-regexp "2.0.0"
     invariant "2.2.4"
 
 react-native@0.61.2:
