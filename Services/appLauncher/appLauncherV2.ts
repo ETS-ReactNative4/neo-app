@@ -7,6 +7,8 @@ import hasUpcomingTrips from "./launchCheckpoints/hasUpcomingTrips";
 import isPreTripWelcomePending from "./launchCheckpoints/isPreTripWelcomePending";
 import resetToWelcomeFlow from "../resetToWelcomeFlow/resetToWelcomeFlow";
 import launchPretripHome from "../launchPretripHome/launchPretripHome";
+import launchPostBooking from "../launchPostBooking/launchPostBooking";
+import getSelectedItineraryId from "../getSelectedItineraryId/getSelectedItineraryId";
 // import * as Keychain from "react-native-keychain";
 
 const appLauncherV2 = () => {
@@ -24,6 +26,7 @@ const appLauncherV2 = () => {
                 /**
                  * User Has upcoming trips go to post booking flow
                  */
+                launchPostBooking(getSelectedItineraryId());
                 resolve();
               } else {
                 /**
