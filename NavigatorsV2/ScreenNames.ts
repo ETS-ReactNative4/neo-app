@@ -51,3 +51,4 @@ export const SCREEN_PDF_VIEWER = "PDFViewerScreen";
 export const SCREEN_FEEDBACK_PROMPT = "FeedbackPrompt";
 export const SCREEN_VISA_DOCUMENT_ACTION_SHEET = "VisaDocumentActionSheet";
 export const SCREEN_ACTION_SHEET = "ActionSheet";
+export const SCREEN_BOOKED_ITINERARY = "BookedItinerary";

@@ -32,7 +32,8 @@ import {
   SCREEN_REQUEST_CALLBACK,
   SCREEN_GCM,
   SCREEN_GCM_CITY_PICKER,
-  SCREEN_GCM_ROOM_CONFIG
+  SCREEN_GCM_ROOM_CONFIG,
+  SCREEN_BOOKED_ITINERARY
 } from "./ScreenNames";
 import AppLogin from "../Screens/AppLoginScreen/AppLogin";
 import Starter from "../Screens/StartingScreen/Starter";
@@ -75,6 +76,7 @@ import {
   ICostingConfig
 } from "../Screens/GCMScreen/hooks/useGCMForm";
 import GCMRoomConfig from "../Screens/GCMRoomConfig/GCMRoomConfig";
+import BookedItinerary from "../Screens/BookedItineraryScreen/BookedItinerary";
 
 export type loginResetTargetTypes =
   | typeof SCREEN_EXPLORE_PAGE
@@ -151,6 +153,9 @@ export type AppNavigatorParamsType = {
     onSelect: (selectedConfig: IHotelGuestRoomConfig[]) => any;
     bannerImage: string;
     roomConfig: IHotelGuestRoomConfig[];
+  };
+  [SCREEN_BOOKED_ITINERARY]: {
+    selectedDate: string;
   };
 };
 
@@ -307,6 +312,7 @@ const AppNavigator = () => {
           name={SCREEN_GCM_ROOM_CONFIG}
           component={GCMRoomConfig}
         />
+        <Screen name={SCREEN_BOOKED_ITINERARY} component={BookedItinerary} />
       </Navigator>
     </Fragment>
   );
