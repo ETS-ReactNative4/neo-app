@@ -6,7 +6,8 @@ module.exports = {
   dependencies: {
     "react-native-app-settings": {
       platforms: {
-        ios: null
+        ios: null,
+        android: null
       }
     },
     "react-native-pdf": {
