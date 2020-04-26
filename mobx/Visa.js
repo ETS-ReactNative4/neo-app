@@ -9,6 +9,7 @@ import hydrate from "../Services/hydrate/hydrate";
 import storeService from "../Services/storeService/storeService";
 import _ from "lodash";
 import { toastBottom } from "../Services/toast/toast";
+import { SCREEN_VISA, SCREEN_VISA_STATUS, SCREEN_VISA_SELECTOR } from "../NavigatorsV2/ScreenNames";
 
 class Visa {
   static hydrator = storeInstance => {
@@ -494,14 +495,14 @@ class Visa {
     isVisaAvailable
   }) => {
     if (!isVisaAvailable) {
-      navigation.navigate("Visa");
+      navigation.navigate(SCREEN_VISA);
     } else if (isVisaInitialized && isSingleVisa) {
       const firstVisa = visaList[0];
-      navigation.navigate("VisaStatus", { visaId: firstVisa.visaId });
+      navigation.navigate(SCREEN_VISA_STATUS, { visaId: firstVisa.visaId });
     } else if (isVisaInitialized) {
-      navigation.navigate("VisaSelector");
+      navigation.navigate(SCREEN_VISA_SELECTOR);
     } else {
-      navigation.navigate("Visa");
+      navigation.navigate(SCREEN_VISA);
     }
   };
 }

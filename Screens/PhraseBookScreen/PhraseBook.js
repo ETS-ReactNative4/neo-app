@@ -22,6 +22,7 @@ import { logError } from "../../Services/errorLogger/errorLogger";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import LineProgressBar from "../../CommonComponents/LineProgressBar/LineProgressBar";
 import DeepLinkHandler from "../../CommonComponents/DeepLinkHandler/DeepLinkHandler";
+import PrimaryHeader from "../../NavigatorsV2/Components/PrimaryHeader";
 
 @ErrorBoundary()
 @DeepLinkHandler
@@ -29,12 +30,6 @@ import DeepLinkHandler from "../../CommonComponents/DeepLinkHandler/DeepLinkHand
 @inject("itineraries")
 @observer
 class PhraseBook extends Component {
-  static navigationOptions = ({ navigation }) => {
-    return {
-      header: <CommonHeader title={"Common Phrases"} navigation={navigation} />
-    };
-  };
-
   state = {
     isSoundPlaying: false,
     isTtsSpeaking: false,
@@ -49,6 +44,14 @@ class PhraseBook extends Component {
 
   constructor(props) {
     super(props);
+
+    props.navigation.setOptions({
+      header: () =>
+        PrimaryHeader({
+          leftAction: () => props.navigation.goBack(),
+          headerText: "Common Phrases"
+        })
+    });
 
     this._didFocusSubscription = props.navigation.addListener(
       "didFocus",

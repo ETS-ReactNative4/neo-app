@@ -215,9 +215,17 @@ export type AppNavigatorParamsType = {
   [SCREEN_PASSPORT_DETAILS]: undefined;
   [SCREEN_EMERGENCY_CONTACTS]: undefined;
   [SCREEN_WEATHER]: undefined;
-  [SCREEN_PLACES]: undefined;
-  [SCREEN_NEAR_BY]: undefined;
-  [SCREEN_VISA]: undefined;
+  [SCREEN_PLACES]: {
+    city: string;
+  };
+  [SCREEN_NEAR_BY]: {
+    searchQuery: string;
+    city: object;
+    title: string;
+  };
+  [SCREEN_VISA]: {
+    country?: string;
+  };
   [SCREEN_VISA_SELECTOR]: undefined;
   [SCREEN_VISA_CHECKLIST]: undefined;
   [SCREEN_VISA_DOCS_CHECKLIST]: undefined;

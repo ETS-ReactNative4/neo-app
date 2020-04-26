@@ -10,6 +10,7 @@ import { inject, observer } from "mobx-react";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import DeepLinkHandler from "../../CommonComponents/DeepLinkHandler/DeepLinkHandler";
 import _ from "lodash";
+import PrimaryHeader from "../../NavigatorsV2/Components/PrimaryHeader";
 
 @ErrorBoundary()
 @DeepLinkHandler
@@ -17,13 +18,17 @@ import _ from "lodash";
 @inject("emergencyContactsStore")
 @observer
 class EmergencyContacts extends Component {
-  static navigationOptions = ({ navigation }) => {
-    return {
-      header: (
-        <CommonHeader title={"Emergency Contacts"} navigation={navigation} />
-      )
-    };
-  };
+  constructor(props) {
+    super(props);
+
+    props.navigation.setOptions({
+      header: () =>
+        PrimaryHeader({
+          leftAction: () => props.navigation.goBack(),
+          headerText: "Emergency Contacts"
+        })
+    });
+  }
 
   componentDidMount() {
     const { cities } = this.props.itineraries;
