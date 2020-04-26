@@ -37,7 +37,23 @@ import {
   SCREEN_FAQ,
   SCREEN_CONTACT_US,
   SCREEN_TICKETS_CONVERSATION,
-  SCREEN_YOUR_TICKETS
+  SCREEN_YOUR_TICKETS,
+  SCREEN_CURRENCY_CONVERTER,
+  SCREEN_PHRASE_BOOK,
+  SCREEN_PACKING_CHECKLIST,
+  SCREEN_PASSPORT_DETAILS,
+  SCREEN_EMERGENCY_CONTACTS,
+  SCREEN_WEATHER,
+  SCREEN_PLACES,
+  SCREEN_NEAR_BY,
+  SCREEN_VISA,
+  SCREEN_VISA_CHECKLIST,
+  SCREEN_VISA_DOCS_CHECKLIST,
+  SCREEN_VISA_STATUS,
+  SCREEN_VISA_HELP,
+  SCREEN_SUPPORT_CENTER,
+  SCREEN_FOREX,
+  SCREEN_VISA_SELECTOR
 } from "./ScreenNames";
 import AppLogin from "../Screens/AppLoginScreen/AppLogin";
 import Starter from "../Screens/StartingScreen/Starter";
@@ -85,6 +101,22 @@ import FAQ from "../Screens/FAQScreens/FAQScreen/FAQ";
 import ContactUs from "../Screens/ContactUsScreen/ContactUs";
 import TicketsConversation from "../Screens/TicketsConversationScreen/TicketsConversation";
 import YourTickets from "../Screens/YourTicketsScreen/YourTickets";
+import CurrencyConverter from "../Screens/CurrencyConverterScreen/CurrencyConverter";
+import PhraseBook from "../Screens/PhraseBookScreen/PhraseBook";
+import PackingChecklist from "../Screens/PackingChecklistScreen/PackingChecklist";
+import PassportDetails from "../Screens/PassportDetailsScreen/PassportDetails";
+import EmergencyContacts from "../Screens/EmergencyContactsScreen/EmergencyContacts";
+import Weather from "../Screens/WeatherScreen/Weather";
+import Places from "../Screens/PlacesScreen/Places";
+import NearBy from "../Screens/NearByScreen/NearBy";
+import Visa from "../Screens/VisaScreen/Visa";
+import VisaSelector from "../Screens/VisaSelectorScreen/VisaSelector";
+import VisaChecklist from "../Screens/VisaChecklistScreen/VisaChecklist";
+import VisaDocsChecklist from "../Screens/VisaDocsChecklistScreen/VisaDocsChecklist";
+import VisaStatus from "../Screens/VisaStatusScreen/VisaStatus";
+import VisaHelp from "../Screens/VisaHelpScreen/VisaHelp";
+import SupportCenter from "../Screens/SupportCenterScreen/SupportCenter";
+import Forex from "../Screens/ForexScreen/Forex";
 
 export type loginResetTargetTypes =
   | typeof SCREEN_EXPLORE_PAGE
@@ -177,6 +209,22 @@ export type AppNavigatorParamsType = {
     ticketId: string;
   };
   [SCREEN_YOUR_TICKETS]: undefined;
+  [SCREEN_CURRENCY_CONVERTER]: undefined;
+  [SCREEN_PHRASE_BOOK]: undefined;
+  [SCREEN_PACKING_CHECKLIST]: undefined;
+  [SCREEN_PASSPORT_DETAILS]: undefined;
+  [SCREEN_EMERGENCY_CONTACTS]: undefined;
+  [SCREEN_WEATHER]: undefined;
+  [SCREEN_PLACES]: undefined;
+  [SCREEN_NEAR_BY]: undefined;
+  [SCREEN_VISA]: undefined;
+  [SCREEN_VISA_SELECTOR]: undefined;
+  [SCREEN_VISA_CHECKLIST]: undefined;
+  [SCREEN_VISA_DOCS_CHECKLIST]: undefined;
+  [SCREEN_VISA_STATUS]: undefined;
+  [SCREEN_VISA_HELP]: undefined;
+  [SCREEN_SUPPORT_CENTER]: undefined;
+  [SCREEN_FOREX]: undefined;
 };
 
 const Stack = createStackNavigator<AppNavigatorParamsType>();
@@ -340,6 +388,31 @@ const AppNavigator = () => {
           name={SCREEN_TICKETS_CONVERSATION}
           component={TicketsConversation}
         />
+        <Screen
+          name={SCREEN_CURRENCY_CONVERTER}
+          component={CurrencyConverter}
+        />
+        <Screen name={SCREEN_PHRASE_BOOK} component={PhraseBook} />
+        <Screen name={SCREEN_PACKING_CHECKLIST} component={PackingChecklist} />
+        <Screen name={SCREEN_PASSPORT_DETAILS} component={PassportDetails} />
+        <Screen
+          name={SCREEN_EMERGENCY_CONTACTS}
+          component={EmergencyContacts}
+        />
+        <Screen name={SCREEN_WEATHER} component={Weather} />
+        <Screen name={SCREEN_PLACES} component={Places} />
+        <Screen name={SCREEN_NEAR_BY} component={NearBy} />
+        <Screen name={SCREEN_VISA} component={Visa} />
+        <Screen name={SCREEN_VISA_SELECTOR} component={VisaSelector} />
+        <Screen name={SCREEN_VISA_CHECKLIST} component={VisaChecklist} />
+        <Screen
+          name={SCREEN_VISA_DOCS_CHECKLIST}
+          component={VisaDocsChecklist}
+        />
+        <Screen name={SCREEN_VISA_STATUS} component={VisaStatus} />
+        <Screen name={SCREEN_VISA_HELP} component={VisaHelp} />
+        <Screen name={SCREEN_SUPPORT_CENTER} component={SupportCenter} />
+        <Screen name={SCREEN_FOREX} component={Forex} />
       </Navigator>
     </Fragment>
   );
