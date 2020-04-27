@@ -31,7 +31,7 @@ class JournalShare extends Component {
       header: () =>
         PrimaryHeader({
           leftAction: () => props.navigation.goBack(),
-          headerText: "Packing Checklist"
+          headerText: "Share Journal"
         })
     });
   }
