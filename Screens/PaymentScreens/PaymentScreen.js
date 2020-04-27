@@ -9,11 +9,6 @@ import { SCREEN_PAYMENT_SUCCESS, SCREEN_PAYMENT_FAILURE } from "../../Navigators
 
 @ErrorBoundary()
 class PaymentScreen extends Component {
-  static navigationOptions = ({ navigation }) => {
-    return {
-      header: null
-    };
-  };
   _didFocusSubscription;
   _willBlurSubscription;
 
