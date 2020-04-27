@@ -26,18 +26,19 @@ import { CONSTANT_mailIcon } from "../../constants/imageAssets";
 @inject("visaStore")
 @observer
 class VisaStatus extends Component {
-  static navigationOptions = ({ navigation }) => {
-    const title = navigation.getParam("screenTitle", "");
-    const enableRightButton = navigation.getParam("enableRightButton", false);
-    const rightButtonAction = navigation.getParam(
-      "rightButtonAction",
-      () => null
-    );
-    return {
-      header: (
+  constructor(props) {
+    super(props);
+
+    const title = props.route.params?.screenTitle ?? "";
+    const enableRightButton = props.route.params?.enableRightButton ?? false;
+    const rightButtonAction =
+      props.route.params?.rightButtonAction ?? (() => null);
+
+    props.navigation.setOptions({
+      header: () => (
         <CommonHeader
           title={title}
-          navigation={navigation}
+          navigation={props.navigation}
           RightButton={
             enableRightButton ? (
               <SimpleButton
@@ -54,8 +55,8 @@ class VisaStatus extends Component {
           }
         />
       )
-    };
-  };
+    });
+  }
 
   initializeVisa = () => {
     const {
@@ -63,8 +64,8 @@ class VisaStatus extends Component {
       loadVisaDetails,
       loadVisaChecklistStatus
     } = this.props.visaStore;
-    const { navigation } = this.props;
-    const visaId = navigation.getParam("visaId", "");
+    const { navigation, route } = this.props;
+    const visaId = route.params?.visaId ?? "";
     loadVisaChecklistStatus(visaId);
     loadVisaDetails(visaId)
       .then(visaDetails => {
@@ -131,8 +132,8 @@ class VisaStatus extends Component {
       visaGranted,
       visaRejected
     } = this.props.visaStore;
-    const { navigation } = this.props;
-    const visaId = navigation.getParam("visaId", "");
+    const { navigation, route } = this.props;
+    const visaId = route.params?.visaId ?? "";
     const visaDetails = getVisaDetails(visaId);
 
     const { accountOwnerDetails = {}, visaInfoFooter = "" } = visaDetails;
