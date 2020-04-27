@@ -9,7 +9,7 @@ import Phrases from "../../mobx/Phrases";
 import Info from "../../mobx/Info";
 import EmergencyContacts from "../../mobx/EmergencyContacts";
 import PassportDetails from "../../mobx/PassportDetails";
-// import Visa from "../../mobx/Visa";
+import Visa from "../../mobx/Visa";
 import Places from "../../mobx/Places";
 import SupportStore from "../../mobx/SupportStore";
 import TripFeed from "../../mobx/TripFeed";
@@ -36,10 +36,7 @@ export interface IStoreService {
   infoStore: Info;
   emergencyContactsStore: EmergencyContacts;
   passportDetailsStore: PassportDetails;
-  /**
-   * PT TODO: since visa isn't working
-   */
-  visaStore: Places;
+  visaStore: Visa;
   placesStore: Places;
   supportStore: SupportStore;
   tripFeedStore: TripFeed;

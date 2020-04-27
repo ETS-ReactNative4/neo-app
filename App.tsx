@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, Fragment } from "react";
 import {
   NavigationContainer,
   NavigationState,
@@ -17,6 +17,7 @@ import ErrorBoundary from "./CommonComponents/ErrorBoundary/ErrorBoundary";
 import { updateNavigationService } from "./Services/navigationService/navigationServiceV2";
 import NetInfo from "@react-native-community/netinfo";
 import { Provider } from "mobx-react";
+import AppOverlays from "./Screens/AppOverlays/AppOverlays";
 
 updateStoreService(store);
 
@@ -94,12 +95,15 @@ const App = () => {
 
   return (
     <Provider {...store}>
-      <NavigationContainer
-        ref={navigationRef}
-        onStateChange={screenStateChange}
-      >
-        <AppNavigator />
-      </NavigationContainer>
+      <Fragment>
+        <NavigationContainer
+          ref={navigationRef}
+          onStateChange={screenStateChange}
+        >
+          <AppNavigator />
+        </NavigationContainer>
+        <AppOverlays />
+      </Fragment>
     </Provider>
   );
 };
