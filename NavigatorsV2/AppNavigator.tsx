@@ -60,7 +60,12 @@ import {
   SCREEN_JOURNAL_IMAGE_PICKER,
   SCREEN_JOURNAL_TEXT_EDITOR,
   SCREEN_JOURNAL_PUBLISH,
-  SCREEN_JOURNAL_SHARE
+  SCREEN_JOURNAL_SHARE,
+  SCREEN_PAYMENT_HOME,
+  SCREEN_PAYMENT_SUMMARY,
+  SCREEN_PAYMENT_SCREEN,
+  SCREEN_PAYMENT_SUCCESS,
+  SCREEN_PAYMENT_FAILURE
 } from "./ScreenNames";
 import AppLogin from "../Screens/AppLoginScreen/AppLogin";
 import Starter from "../Screens/StartingScreen/Starter";
@@ -131,6 +136,11 @@ import JournalImagePicker from "../Screens/JournalImagePickerScreen/JournalImage
 import JournalTextEditor from "../Screens/JournalTextEditorScreen/JournalTextEditor";
 import JournalPublish from "../Screens/JournalPublishScreen/JournalPublish";
 import JournalShare from "../Screens/JournalShareScreen/JournalShare";
+import PaymentHome from "../Screens/PaymentHomeScreen/PaymentHome";
+import PaymentSummary from "../Screens/PaymentSummaryScreen/PaymentSummary";
+import PaymentSuccess from "../Screens/PaymentScreens/PaymentSuccess";
+import PaymentFailure from "../Screens/PaymentScreens/PaymentFailure";
+import PaymentScreen from "../Screens/PaymentScreens/PaymentScreen";
 
 export type loginResetTargetTypes =
   | typeof SCREEN_EXPLORE_PAGE
@@ -273,6 +283,19 @@ export type AppNavigatorParamsType = {
     isStoryMode: boolean;
   };
   [SCREEN_JOURNAL_SHARE]: undefined;
+  [SCREEN_PAYMENT_HOME]: undefined;
+  [SCREEN_PAYMENT_SUMMARY]: {
+    itineraryId: string;
+    itineraryName: string;
+  };
+  [SCREEN_PAYMENT_SCREEN]: {
+    transactionId: string;
+    paymentScript: string;
+  };
+  [SCREEN_PAYMENT_SUCCESS]: {
+    transactionId: string;
+  };
+  [SCREEN_PAYMENT_FAILURE]: undefined;
 };
 
 const Stack = createStackNavigator<AppNavigatorParamsType>();
@@ -481,6 +504,15 @@ const AppNavigator = () => {
           component={JournalPublish}
         />
         <Screen name={SCREEN_JOURNAL_SHARE} component={JournalShare} />
+        <Screen name={SCREEN_PAYMENT_HOME} component={PaymentHome} />
+        <Screen name={SCREEN_PAYMENT_SUMMARY} component={PaymentSummary} />
+        <Screen name={SCREEN_PAYMENT_SUCCESS} component={PaymentSuccess} />
+        <Screen name={SCREEN_PAYMENT_FAILURE} component={PaymentFailure} />
+        <Screen
+          name={SCREEN_PAYMENT_SCREEN}
+          options={{ headerShown: false }}
+          component={PaymentScreen}
+        />
       </Navigator>
     </Fragment>
   );
