@@ -10,6 +10,7 @@ import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import { inject, observer } from "mobx-react";
 import DebouncedAlert from "../../CommonComponents/DebouncedAlert/DebouncedAlert";
 import _ from "lodash";
+import { SCREEN_JOURNAL_IMAGE_PICKER } from "../../NavigatorsV2/ScreenNames";
 
 let _publishJournal = () => null;
 
@@ -47,34 +48,31 @@ const RightButton = inject("journalStore")(
 @inject("journalStore")
 @observer
 class JournalDaySelector extends Component {
-  static navigationOptions = ({ navigation }) => {
-    const title = navigation.getParam("pageTitle", "");
-    return {
-      header: (
-        <CommonHeader
-          title={title}
-          navigation={navigation}
-          RightButton={<RightButton />}
-        />
-      )
-    };
-  };
-
   constructor(props) {
     super(props);
 
     _publishJournal = this.publishJournal;
+    const title = props.route.params?.pageTitle ?? "";
+    props.navigation.setOptions({
+      header: () => (
+        <CommonHeader
+          title={title}
+          navigation={props.navigation}
+          RightButton={<RightButton />}
+        />
+      )
+    });
   }
 
   navigateToImagePicker = (activePage, activeStory) => {
-    this.props.navigation.navigate("JournalImagePicker", {
+    this.props.navigation.navigate(SCREEN_JOURNAL_IMAGE_PICKER, {
       activePage,
       activeStory
     });
   };
 
   addNewStory = () => {
-    const activePage = this.props.navigation.getParam("activePage", "");
+    const activePage = this.props.route.params?.activePage ?? "";
     this.navigateToImagePicker(activePage, "");
   };
 
@@ -118,9 +116,9 @@ class JournalDaySelector extends Component {
   };
 
   render() {
-    const title = this.props.navigation.getParam("title", "");
-    const info = this.props.navigation.getParam("info", "");
-    const activePage = this.props.navigation.getParam("activePage", "");
+    const title = this.props.route.params?.title ?? "";
+    const info = this.props.route.params?.info ?? "";
+    const activePage = this.props.route.params?.activePage ?? "";
     const {
       getStoriesByPageId,
       storyImageQueueStatus

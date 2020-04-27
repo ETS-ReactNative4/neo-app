@@ -63,19 +63,6 @@ const HeaderRightButton = observer(({ headerData }) => {
 @inject("journalStore")
 @observer
 class JournalImagePicker extends Component {
-  static navigationOptions = ({ navigation }) => {
-    return {
-      header: (
-        <CommonHeader
-          title={"Select Media"}
-          navigation={navigation}
-          leftAction={() => _backHandler()}
-          RightButton={<HeaderRightButton headerData={_headerData} />}
-        />
-      )
-    };
-  };
-
   _previewCarouselRef = React.createRef();
 
   state = {
@@ -111,6 +98,19 @@ class JournalImagePicker extends Component {
 
     _confirmSelection = this.confirmSelection;
     _backHandler = this.backHandler;
+
+    props.navigation.setOptions({
+      header: () => {
+        return (
+          <CommonHeader
+            title={"Select Media"}
+            navigation={props.navigation}
+            leftAction={() => _backHandler()}
+            RightButton={<HeaderRightButton headerData={_headerData} />}
+          />
+        );
+      }
+    });
   }
 
   previewImage = uri => {
@@ -136,19 +136,22 @@ class JournalImagePicker extends Component {
     if (this.state.lastCursor) {
       galleryConfig.after = this.state.lastCursor;
     }
-    if (Platform.OS === constants.platformIos) galleryConfig.groupTypes = "All";
+    if (Platform.OS === constants.platformIos) {
+      galleryConfig.groupTypes = "All";
+    }
     CameraRoll.getPhotos(galleryConfig)
       .then(imageData => {
         const images = imageData.edges;
         const imageMap = images.reduce((mapAccumulator, image) => {
           const key = _.get(image, "node.image.uri");
-          if (key)
+          if (key) {
             mapAccumulator.set(key, {
               isSelected: false,
               isContain: false,
               croppedImage: "",
               image
             });
+          }
           return mapAccumulator;
         }, new Map());
         this.setState(
@@ -161,7 +164,9 @@ class JournalImagePicker extends Component {
           },
           () => {
             const firstImage = this.state.imagesList[0];
-            if (!_.get(firstImage, "node.image")) return;
+            if (!_.get(firstImage, "node.image")) {
+              return;
+            }
             this.setState({
               previewImage: firstImage
             });
@@ -202,8 +207,8 @@ class JournalImagePicker extends Component {
       } else {
         this.fetchImages();
       }
-      const storyId = this.props.navigation.getParam("activeStory", "");
-      const pageId = this.props.navigation.getParam("activePage", "");
+      const storyId = this.props.route.params?.activeStory ?? "";
+      const pageId = this.props.route.params?.activePage ?? "";
 
       const { getImagesById } = this.props.journalStore;
       const preSelectedImages = getImagesById({ storyId, pageId });
@@ -280,8 +285,8 @@ class JournalImagePicker extends Component {
   };
 
   deleteImage = imageIndex => {
-    const storyId = this.props.navigation.getParam("activeStory", "");
-    const pageId = this.props.navigation.getParam("activePage", "");
+    const storyId = this.props.route.params?.activeStory ?? "";
+    const pageId = this.props.route.params?.activePage ?? "";
     const { deleteImage, getImagesById } = this.props.journalStore;
     const preSelectedImages = getImagesById({ storyId, pageId });
     const requiredImage = preSelectedImages[imageIndex];
@@ -358,8 +363,8 @@ class JournalImagePicker extends Component {
       const imageDetails = imageMap.get(imageId);
       if (!imageDetails.isSelected) {
         const selectedImages = [...this.state.selectedImagesList];
-        const storyId = this.props.navigation.getParam("activeStory", "");
-        const pageId = this.props.navigation.getParam("activePage", "");
+        const storyId = this.props.route.params?.activeStory ?? "";
+        const pageId = this.props.route.params?.activePage ?? "";
         const { getImagesById } = this.props.journalStore;
         const preSelectedImages = getImagesById({ storyId, pageId });
         if (preSelectedImages.length + selectedImages.length >= 10) {
@@ -414,8 +419,8 @@ class JournalImagePicker extends Component {
   _keyExtractor = (item, index) => index;
 
   confirmSelection = () => {
-    const activeStory = this.props.navigation.getParam("activeStory", "");
-    const activePage = this.props.navigation.getParam("activePage", "");
+    const activeStory = this.props.route.params?.activeStory ?? "";
+    const activePage = this.props.route.params?.activePage ?? "";
     const { selectedImagesList } = this.state;
     const { navigation } = this.props;
     const { addImagesToQueue, createNewStory } = this.props.journalStore;

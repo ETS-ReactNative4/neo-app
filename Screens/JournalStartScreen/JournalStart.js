@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import constants from "../../constants/constants";
 import TitleInput from "./Components/TitleInput";
 import SimpleButton from "../../CommonComponents/SimpleButton/SimpleButton";
@@ -9,6 +8,7 @@ import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import { inject, observer } from "mobx-react";
 import DebouncedAlert from "../../CommonComponents/DebouncedAlert/DebouncedAlert";
 import BackHandlerHoc from "../../CommonComponents/BackHandlerHoc/BackHandlerHoc";
+import PrimaryHeader from "../../NavigatorsV2/Components/PrimaryHeader";
 
 let _backHandler = () => null;
 
@@ -17,18 +17,6 @@ let _backHandler = () => null;
 @inject("journalStore")
 @observer
 class JournalStart extends Component {
-  static navigationOptions = ({ navigation }) => {
-    const isEditing = navigation.getParam("isEditing", false);
-    return {
-      header: (
-        <CommonHeader
-          leftAction={() => _backHandler()}
-          title={isEditing ? "Journal Setup" : "Journal Start"}
-          navigation={navigation}
-        />
-      )
-    };
-  };
   _titleRef = React.createRef();
   _descRef = React.createRef();
 
@@ -41,6 +29,15 @@ class JournalStart extends Component {
     super(props);
 
     _backHandler = this.backHandler;
+
+    const isEditing = props.route.params?.isEditing ?? false;
+    props.navigation.setOptions({
+      header: () =>
+        PrimaryHeader({
+          leftAction: () => _backHandler(),
+          headerText: isEditing ? "Journal Setup" : "Journal Start"
+        })
+    });
   }
 
   editTitle = title => this.setState({ title });
@@ -54,7 +51,7 @@ class JournalStart extends Component {
       desc: this.state.description
     })
       .then(() => {
-        const isEditing = this.props.navigation.getParam("isEditing", false);
+        const isEditing = this.props.route.params?.isEditing ?? false;
         if (isEditing) {
           this.props.navigation.goBack();
         } else {
@@ -83,7 +80,7 @@ class JournalStart extends Component {
   submitTitle = () => this._descRef.current && this._descRef.current.focus();
 
   backHandler = () => {
-    const isEditing = this.props.navigation.getParam("isEditing", false);
+    const isEditing = this.props.route.params?.isEditing ?? false;
     const { journalTitle, journalDesc } = this.props.journalStore;
     /**
      * Editing mode, user made some changes
@@ -145,7 +142,7 @@ class JournalStart extends Component {
 
   render() {
     const { journalStartData } = this.props.journalStore;
-    const isEditing = this.props.navigation.getParam("isEditing", false);
+    const isEditing = this.props.route.params?.isEditing ?? false;
 
     return (
       <KeyboardAwareScrollView
