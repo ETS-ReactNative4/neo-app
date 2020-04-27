@@ -5,6 +5,7 @@ import { isIphoneX } from "react-native-iphone-x-helper";
 import ControlledWebView from "../../CommonComponents/ControlledWebView/ControlledWebView";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import { recordEvent } from "../../Services/analytics/analyticsService";
+import { SCREEN_PAYMENT_SUCCESS, SCREEN_PAYMENT_FAILURE } from "../../NavigatorsV2/ScreenNames";
 
 @ErrorBoundary()
 class PaymentScreen extends Component {
@@ -59,7 +60,7 @@ class PaymentScreen extends Component {
   _webView = React.createRef();
 
   onNavigationStateChange = webViewState => {
-    const transactionId = this.props.navigation.getParam("transactionId", "");
+    const transactionId = this.props.route.params?.transactionId ?? "";
     const url = webViewState.url;
     const { navigation } = this.props;
     if (url.indexOf("404") === -1) {
@@ -67,13 +68,13 @@ class PaymentScreen extends Component {
         recordEvent(constants.Payment.event, {
           click: constants.Payment.click.paymentSuccess
         });
-        navigation.replace("PaymentSuccess", { transactionId });
+        navigation.replace(SCREEN_PAYMENT_SUCCESS, { transactionId });
       }
       if (url.indexOf(constants.paymentInComplete) > -1) {
         recordEvent(constants.Payment.event, {
           click: constants.Payment.click.paymentFailure
         });
-        navigation.replace("PaymentFailure");
+        navigation.replace(SCREEN_PAYMENT_FAILURE);
       }
       if (url.indexOf(constants.paymentCancel) > -1) {
         navigation.goBack();
@@ -87,7 +88,7 @@ class PaymentScreen extends Component {
   };
 
   render() {
-    const paymentScript = this.props.navigation.getParam("paymentScript", "");
+    const paymentScript = this.props.route.params?.paymentScript ?? "";
 
     return (
       <View style={{ flex: 1, backgroundColor: "white" }}>

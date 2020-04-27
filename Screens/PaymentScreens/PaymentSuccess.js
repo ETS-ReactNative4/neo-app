@@ -1,13 +1,24 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { View, Text, StyleSheet, Image } from "react-native";
 import constants from "../../constants/constants";
-import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import {
   responsiveWidth,
   responsiveHeight
 } from "react-native-responsive-dimensions";
+import PrimaryHeader from "../../NavigatorsV2/Components/PrimaryHeader";
 
-const PaymentSuccess = ({ transactionId = "" }) => {
+const PaymentSuccess = ({ transactionId = "", navigation }) => {
+  useEffect(() => {
+    navigation.setOptions({
+      header: () =>
+        PrimaryHeader({
+          leftAction: () => navigation.goBack(),
+          headerText: "Payment Successful"
+        })
+    });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <View style={styles.paymentSuccessContainer}>
       <Image
@@ -22,14 +33,6 @@ const PaymentSuccess = ({ transactionId = "" }) => {
       <Text style={styles.transId}>{transactionId}</Text>
     </View>
   );
-};
-
-PaymentSuccess.navigationOptions = ({ navigation }) => {
-  return {
-    header: (
-      <CommonHeader title={"Payment Successful"} navigation={navigation} />
-    )
-  };
 };
 
 const styles = StyleSheet.create({

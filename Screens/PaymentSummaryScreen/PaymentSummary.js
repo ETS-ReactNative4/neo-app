@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { View } from "react-native";
-import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import constants from "../../constants/constants";
 import { responsiveWidth } from "react-native-responsive-dimensions";
 import apiCall from "../../Services/networkRequests/apiCall";
@@ -15,15 +14,10 @@ import UpcomingPayments from "./Components/UpcomingPayments/UpcomingPayments";
 import CompletedPayments from "./Components/CompletedPayments/CompletedPayments";
 import { toastBottom } from "../../Services/toast/toast";
 import dialer from "../../Services/dialer/dialer";
+import PrimaryHeader from "../../NavigatorsV2/Components/PrimaryHeader";
 
 @ErrorBoundary()
 class PaymentSummary extends Component {
-  static navigationOptions = ({ navigation }) => {
-    return {
-      header: <CommonHeader title={"Payment Summary"} navigation={navigation} />
-    };
-  };
-
   state = {
     paymentInfo: {},
     isLoading: false,
@@ -54,6 +48,14 @@ class PaymentSummary extends Component {
         }
       }
     );
+
+    props.navigation.setOptions({
+      header: () =>
+        PrimaryHeader({
+          leftAction: () => props.navigation.goBack(),
+          headerText: "Payment Summary"
+        })
+    });
   }
 
   componentDidMount() {
@@ -70,8 +72,8 @@ class PaymentSummary extends Component {
   };
 
   loadPaymentData = () => {
-    const itineraryId = this.props.navigation.getParam("itineraryId", "");
-    const itineraryName = this.props.navigation.getParam("itineraryName", "");
+    const itineraryId = this.props.route.params?.itineraryId ?? "";
+    const itineraryName = this.props.route.params?.itineraryName ?? "";
     this.setState({
       tripId: `PYT${itineraryId.substr(itineraryId.length - 7).toUpperCase()}`,
       itineraryName
@@ -112,7 +114,7 @@ class PaymentSummary extends Component {
   };
 
   initiatePayment = paymentOptionType => {
-    const itineraryId = this.props.navigation.getParam("itineraryId", "");
+    const itineraryId = this.props.route.params?.itineraryId ?? "";
     this.setState({
       isPaymentLoading: true
     });
