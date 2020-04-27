@@ -253,7 +253,12 @@ export type AppNavigatorParamsType = {
   [SCREEN_VISA_SELECTOR]: undefined;
   [SCREEN_VISA_CHECKLIST]: undefined;
   [SCREEN_VISA_DOCS_CHECKLIST]: undefined;
-  [SCREEN_VISA_STATUS]: undefined;
+  [SCREEN_VISA_STATUS]: {
+    screenTitle: string;
+    enableRightButton: boolean;
+    rightButtonAction: () => any;
+    visaId: string;
+  };
   [SCREEN_VISA_HELP]: undefined;
   [SCREEN_SUPPORT_CENTER]: undefined;
   [SCREEN_FOREX]: undefined;
