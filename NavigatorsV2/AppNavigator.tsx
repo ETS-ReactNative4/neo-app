@@ -53,7 +53,14 @@ import {
   SCREEN_VISA_HELP,
   SCREEN_SUPPORT_CENTER,
   SCREEN_FOREX,
-  SCREEN_VISA_SELECTOR
+  SCREEN_VISA_SELECTOR,
+  SCREEN_JOURNAL_START,
+  SCREEN_JOURNAL_SETUP,
+  SCREEN_JOURNAL_DAY_SELECTOR,
+  SCREEN_JOURNAL_IMAGE_PICKER,
+  SCREEN_JOURNAL_TEXT_EDITOR,
+  SCREEN_JOURNAL_PUBLISH,
+  SCREEN_JOURNAL_SHARE
 } from "./ScreenNames";
 import AppLogin from "../Screens/AppLoginScreen/AppLogin";
 import Starter from "../Screens/StartingScreen/Starter";
@@ -117,6 +124,13 @@ import VisaStatus from "../Screens/VisaStatusScreen/VisaStatus";
 import VisaHelp from "../Screens/VisaHelpScreen/VisaHelp";
 import SupportCenter from "../Screens/SupportCenterScreen/SupportCenter";
 import Forex from "../Screens/ForexScreen/Forex";
+import JournalStart from "../Screens/JournalStartScreen/JournalStart";
+import JournalSetup from "../Screens/JournalSetupScreen/JournalSetup";
+import JournalDaySelector from "../Screens/JournalDaySelectorScreen/JournalDaySelector";
+import JournalImagePicker from "../Screens/JournalImagePickerScreen/JournalImagePicker";
+import JournalTextEditor from "../Screens/JournalTextEditorScreen/JournalTextEditor";
+import JournalPublish from "../Screens/JournalPublishScreen/JournalPublish";
+import JournalShare from "../Screens/JournalShareScreen/JournalShare";
 
 export type loginResetTargetTypes =
   | typeof SCREEN_EXPLORE_PAGE
@@ -233,6 +247,32 @@ export type AppNavigatorParamsType = {
   [SCREEN_VISA_HELP]: undefined;
   [SCREEN_SUPPORT_CENTER]: undefined;
   [SCREEN_FOREX]: undefined;
+  [SCREEN_JOURNAL_START]: {
+    isEditing: boolean;
+  };
+  [SCREEN_JOURNAL_SETUP]: undefined;
+  [SCREEN_JOURNAL_DAY_SELECTOR]: {
+    activeStory: string;
+    activePage: string;
+    title: string;
+    info: string;
+  };
+  [SCREEN_JOURNAL_IMAGE_PICKER]: {
+    activeStory: string;
+    activePage: string;
+  };
+  [SCREEN_JOURNAL_TEXT_EDITOR]: {
+    activeStory: string;
+    activePage: string;
+    isEditMode: boolean;
+    selectedImagesList: object[];
+  };
+  [SCREEN_JOURNAL_PUBLISH]: {
+    activeStory: string;
+    activePage: string;
+    isStoryMode: boolean;
+  };
+  [SCREEN_JOURNAL_SHARE]: undefined;
 };
 
 const Stack = createStackNavigator<AppNavigatorParamsType>();
@@ -421,6 +461,26 @@ const AppNavigator = () => {
         <Screen name={SCREEN_VISA_HELP} component={VisaHelp} />
         <Screen name={SCREEN_SUPPORT_CENTER} component={SupportCenter} />
         <Screen name={SCREEN_FOREX} component={Forex} />
+        <Screen name={SCREEN_JOURNAL_START} component={JournalStart} />
+        <Screen name={SCREEN_JOURNAL_SETUP} component={JournalSetup} />
+        <Screen
+          name={SCREEN_JOURNAL_IMAGE_PICKER}
+          component={JournalImagePicker}
+        />
+        <Screen
+          name={SCREEN_JOURNAL_TEXT_EDITOR}
+          component={JournalTextEditor}
+        />
+        <Screen
+          name={SCREEN_JOURNAL_DAY_SELECTOR}
+          component={JournalDaySelector}
+        />
+        <Screen
+          name={SCREEN_JOURNAL_PUBLISH}
+          options={{ headerShown: false }}
+          component={JournalPublish}
+        />
+        <Screen name={SCREEN_JOURNAL_SHARE} component={JournalShare} />
       </Navigator>
     </Fragment>
   );
