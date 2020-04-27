@@ -40,7 +40,8 @@ import {
   SCREEN_ABOUT_SCREEN,
   SCREEN_SAVED_ITINERARIES,
   SCREEN_YOUR_BOOKINGS,
-  SCREEN_PRETRIP_HOME_TABS
+  SCREEN_PRETRIP_HOME_TABS,
+  SCREEN_PAYMENT_HOME
 } from "../../NavigatorsV2/ScreenNames";
 import { useFocusEffect } from "@react-navigation/native";
 import isUserLoggedIn from "../../Services/isUserLoggedIn/isUserLoggedIn";
@@ -117,6 +118,13 @@ const UltimateMenu = ({
   }
 
   if (yourBookingsStore.hasUpcomingItineraries) {
+    menuList.unshift({
+      name: "Payments",
+      iconName: "heart1",
+      active: false,
+      action: () => navigation.navigate(SCREEN_PAYMENT_HOME)
+    });
+
     menuList.unshift({
       name: "Explore trips",
       iconName: "heart1",
