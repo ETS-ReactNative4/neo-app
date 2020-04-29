@@ -9,8 +9,8 @@ import {
   CONSTANT_primaryRegular
 } from "../../constants/fonts";
 import {
-  CONSTANT_documentIcon,
-  CONSTANT_arrowRight
+  CONSTANT_arrowRight,
+  CONSTANT_directionsIcon
 } from "../../constants/imageAssets";
 
 export interface IRouteCitiesDetails {
@@ -47,7 +47,7 @@ const RouteList = ({
 
   return (
     <View style={[styles.routeListWrapper, containerStyle]}>
-      <Icon name={CONSTANT_documentIcon} size={16} color={CONSTANT_shade2} />
+      <Icon name={CONSTANT_directionsIcon} size={16} color={CONSTANT_shade2} />
 
       {getListOfCity}
 

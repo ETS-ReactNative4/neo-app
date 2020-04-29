@@ -378,6 +378,7 @@ export const CONSTANT_underLineIcon = "underline";
 export const CONSTANT_linkIcon = "link";
 export const CONSTANT_listIcon = "list";
 export const CONSTANT_textIcon = "text";
+export const CONSTANT_directionsIcon = "directions";
 export const CONSTANT_weatherGraphInactive = require("../assets/images/weatherPlaceholders/weather-graph-disabled.png");
 export const CONSTANT_weatherCardPlaceholder = require("../assets/images/weatherPlaceholders/weather-placeholder.png");
 export const CONSTANT_weatherForecastIcon = require("../assets/images/toolIcons/weather-forcast.png");
