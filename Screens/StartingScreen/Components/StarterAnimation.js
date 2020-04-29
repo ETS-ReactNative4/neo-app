@@ -47,13 +47,13 @@ const StarterAnimation = () => {
           stage === 0 ? styles.topImageStart : styles.topImageEnd
         ]}
       />
-      <Image
+      {/* <Image
         source={constants.starterBottomImage}
         style={[
           styles.bottomImage,
           stage === 0 ? styles.bottomImageStart : styles.bottomImageEnd
         ]}
-      />
+      /> */}
     </View>
   );
 };

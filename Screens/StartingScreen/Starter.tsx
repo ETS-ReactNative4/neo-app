@@ -37,8 +37,7 @@ import {
   CONSTANT_firstColor,
   CONSTANT_firstColorAlpha,
   CONSTANT_shade2,
-  CONSTANT_shade1,
-  CONSTANT_white
+  CONSTANT_shade1
 } from "../../constants/colorPallete";
 import TranslucentStatusBar from "../../CommonComponents/TranslucentStatusBar/TranslucentStatusBar";
 import {
@@ -334,15 +333,14 @@ const styles = StyleSheet.create({
   },
   tncWrapper: {
     position: "absolute",
-    marginHorizontal: 24,
+    marginHorizontal: 48,
     marginTop: 16,
     bottom: 24 + (isIphoneX() ? CONSTANT_xSensorAreaHeight : 0),
-    backgroundColor: "rgba(0,0,0,0.8)",
     borderRadius: 4
   },
   tncText: {
     ...CONSTANT_fontCustom(CONSTANT_primaryLight, 10, 16),
-    color: CONSTANT_white,
+    color: CONSTANT_shade1,
     textAlign: "center",
     padding: 8
   },
