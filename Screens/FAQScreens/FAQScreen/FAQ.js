@@ -45,6 +45,7 @@ class FAQ extends Component {
     const title = this.props.route.params
       ? this.props.route.params.title
       : constants.defaultSupportType;
+    const disableMessaging = this.props.route.params?.disableMessaging ?? false;
     const faq = (getFaqByType(title) || []).map(faqObject => {
       return {
         title: faqObject.question,
@@ -57,7 +58,9 @@ class FAQ extends Component {
         <ScrollView style={styles.faqScrollView}>
           <FaqAccordionList faqSections={faq} />
         </ScrollView>
-        <ContactUsTile contactAction={this.contactSupport} />
+        {disableMessaging ? null : (
+          <ContactUsTile contactAction={this.contactSupport} />
+        )}
       </View>
     );
   }

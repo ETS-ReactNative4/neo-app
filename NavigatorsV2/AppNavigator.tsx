@@ -223,6 +223,7 @@ export type AppNavigatorParamsType = {
   };
   [SCREEN_FAQ]: {
     title: string;
+    disableMessaging?: boolean;
   };
   [SCREEN_CONTACT_US]: {
     title: string;
