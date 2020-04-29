@@ -1,4 +1,4 @@
-import React, { useMemo, useState, Fragment } from "react";
+import React, { useMemo, useState, Fragment, useRef } from "react";
 import Modal from "react-native-modal";
 import { StyleSheet, View, TouchableOpacity, Platform } from "react-native";
 import Icon from "../../CommonComponents/Icon/Icon";
@@ -52,6 +52,8 @@ export interface ListingPageProps {
 const ListingPage = ({ navigation, route }: ListingPageProps) => {
   const [packagesApiDetails, loadPackages] = usePackagesApi();
   const [openFilter, setOpenFilter] = useState<boolean>(false);
+
+  const abortFetchRef = useRef<any>(null);
 
   const openFilterPanel = () => {
     setOpenFilter(true);
@@ -134,7 +136,11 @@ const ListingPage = ({ navigation, route }: ListingPageProps) => {
     if (selectedRatings.length) {
       requestBody.hotelRatings = selectedRatings;
     }
-    loadPackages({ requestBody });
+    if (abortFetchRef.current) {
+      abortFetchRef.current.abort();
+    }
+    abortFetchRef.current = new AbortController();
+    loadPackages({ requestBody, abortController: abortFetchRef.current });
   }, [selectedInterests, selectedDurations, selectedBudgets, selectedRatings]);
 
   return (
