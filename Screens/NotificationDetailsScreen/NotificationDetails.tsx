@@ -127,7 +127,7 @@ const NotificationDetails = ({
         bannerImage={notification.image}
         backAction={goBack}
         smallText={notification.lastEdited}
-        titleText={"4 nights to Kuta and Ubud"}
+        titleText={notification.title}
       >
         <View style={styles.detailsContainer}>
           <ItineraryDetail
