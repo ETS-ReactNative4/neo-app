@@ -88,7 +88,8 @@ const styles = StyleSheet.create({
   },
   textStyle: {
     color: CONSTANT_black1,
-    ...CONSTANT_fontCustom(CONSTANT_primaryRegular, 16)
+    ...CONSTANT_fontCustom(CONSTANT_primaryRegular, 16),
+    textTransform: "capitalize"
   },
   image: {
     width: MARITAL_STATUS_CARD_IMAGE_WIDTH,
