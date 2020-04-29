@@ -9,7 +9,6 @@ import {
   Animated,
   Easing
 } from "react-native";
-import constants from "../../constants/constants";
 import SimpleButton from "../../CommonComponents/SimpleButton/SimpleButton";
 import { inject, observer } from "mobx-react";
 import { recordEvent } from "../../Services/analytics/analyticsService";
@@ -34,8 +33,22 @@ import {
   CONSTANT_primarySemiBold,
   CONSTANT_primaryLight
 } from "../../constants/fonts";
-import { CONSTANT_firstColor } from "../../constants/colorPallete";
+import {
+  CONSTANT_firstColor,
+  CONSTANT_firstColorAlpha,
+  CONSTANT_shade2,
+  CONSTANT_shade1
+} from "../../constants/colorPallete";
 import TranslucentStatusBar from "../../CommonComponents/TranslucentStatusBar/TranslucentStatusBar";
+import {
+  CONSTANT_platformIos,
+  CONSTANT_termsAndConditions,
+  CONSTANT_privacyPolicy
+} from "../../constants/stringConstants";
+import { CONSTANT_pytLogoBlack } from "../../constants/imageAssets";
+import { CONSTANT_starterScreenText } from "../../constants/appText";
+import { CONSTANT_StarterScreen } from "../../constants/appEvents";
+import { CONSTANT_productUrl } from "../../constants/serverUrls";
 
 const bootAnimationTiming = 350;
 
@@ -93,7 +106,7 @@ class Starter extends Component<StarterProps, StarterState> {
      * TODO: The animation time in iOS is high to wait for the boot animation to complete.
      * Lottie animation and layout animation are having a lag when they both happen simultaneously...
      */
-    if (Platform.OS === constants.platformIos) {
+    if (Platform.OS === CONSTANT_platformIos) {
       this.animateiOS();
     } else {
       this.animateAndroid();
@@ -186,40 +199,40 @@ class Starter extends Component<StarterProps, StarterState> {
             <View style={styles.contentSection}>
               <View style={styles.logoRow}>
                 <Image
-                  source={constants.pytLogoBlack}
+                  source={CONSTANT_pytLogoBlack}
                   style={styles.logo}
                   resizeMode={"contain"}
                 />
               </View>
               <View style={styles.buttonRow}>
                 <SimpleButton
-                  text={constants.starterScreenText.mainButton}
+                  text={CONSTANT_starterScreenText.mainButton}
                   textColor={`white`}
                   textStyle={{
-                    ...constants.fontCustom(constants.primarySemiBold, 18)
+                    ...CONSTANT_fontCustom(CONSTANT_primarySemiBold, 18)
                   }}
-                  color={constants.firstColor}
-                  underlayColor={constants.firstColorAlpha(0.7)}
+                  color={CONSTANT_firstColor}
+                  underlayColor={CONSTANT_firstColorAlpha(0.7)}
                   action={() => {
                     this.clickedBooking();
-                    recordEvent(constants.StarterScreen.event, {
-                      click: constants.StarterScreen.click.findBooking
+                    recordEvent(CONSTANT_StarterScreen.event, {
+                      click: CONSTANT_StarterScreen.click.findBooking
                     });
                     return null;
                   }}
                   containerStyle={findBookingButtonStyle}
                 />
                 <SimpleButton
-                  text={constants.starterScreenText.exploreButton}
-                  textColor={constants.shade2}
+                  text={CONSTANT_starterScreenText.exploreButton}
+                  textColor={CONSTANT_shade2}
                   textStyle={{
-                    ...constants.fontCustom(constants.primarySemiBold, 18)
+                    ...CONSTANT_fontCustom(CONSTANT_primarySemiBold, 18)
                   }}
                   color={`white`}
                   hasBorder={true}
                   action={() => {
-                    recordEvent(constants.StarterScreen.event, {
-                      click: constants.StarterScreen.click.planVacation
+                    recordEvent(CONSTANT_StarterScreen.event, {
+                      click: CONSTANT_StarterScreen.click.planVacation
                     });
                     this.clickedPlan();
                     return null;
@@ -246,10 +259,10 @@ class Starter extends Component<StarterProps, StarterState> {
                   style={styles.tncLink}
                   onPress={() => {
                     openCustomTab(
-                      `${constants.productUrl}${constants.termsAndConditions}`
+                      `${CONSTANT_productUrl}${CONSTANT_termsAndConditions}`
                     );
-                    recordEvent(constants.StarterScreen.event, {
-                      click: constants.StarterScreen.click.termsAndConditions
+                    recordEvent(CONSTANT_StarterScreen.event, {
+                      click: CONSTANT_StarterScreen.click.termsAndConditions
                     });
                   }}
                 >
@@ -260,10 +273,10 @@ class Starter extends Component<StarterProps, StarterState> {
                   style={styles.tncLink}
                   onPress={() => {
                     openCustomTab(
-                      `${constants.productUrl}${constants.privacyPolicy}`
+                      `${CONSTANT_productUrl}${CONSTANT_privacyPolicy}`
                     );
-                    recordEvent(constants.StarterScreen.event, {
-                      click: constants.StarterScreen.click.privacyPolicy
+                    recordEvent(CONSTANT_StarterScreen.event, {
+                      click: CONSTANT_StarterScreen.click.privacyPolicy
                     });
                   }}
                 >
@@ -306,7 +319,7 @@ const styles = StyleSheet.create({
   linkRow: {},
   infoText: {
     ...CONSTANT_fontCustom(CONSTANT_primaryLight, 13),
-    color: constants.shade1,
+    color: CONSTANT_shade1,
     textAlignVertical: "center"
   },
   infoLink: {
@@ -325,12 +338,12 @@ const styles = StyleSheet.create({
     bottom: 24 + (isIphoneX() ? CONSTANT_xSensorAreaHeight : 0)
   },
   tncText: {
-    ...constants.fontCustom(constants.primaryLight, 10, 16),
-    color: constants.shade1,
+    ...CONSTANT_fontCustom(CONSTANT_primaryLight, 10, 16),
+    color: CONSTANT_shade1,
     textAlign: "center"
   },
   tncLink: {
-    fontFamily: constants.primarySemiBold,
+    fontFamily: CONSTANT_primarySemiBold,
     textDecorationLine: "underline"
   }
 });
