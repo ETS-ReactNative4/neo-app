@@ -12,8 +12,8 @@ export const CONSTANT_visaSuccessTitleFn = (name, isSingleVisa) =>
 
 const appText = {
   starterScreenText: {
-    mainButton: "Find your booking",
-    exploreButton: "Or, explore itineraries"
+    mainButton: "Or, find your booking",
+    exploreButton: "Explore itineraries"
   },
   aboutUsText: {
     title: "About Us",
@@ -297,8 +297,8 @@ const appText = {
 };
 
 export const CONSTANT_starterScreenText = {
-  mainButton: "Find your booking",
-  exploreButton: "Or, explore itineraries"
+  mainButton: "Or, find your booking",
+  exploreButton: "Explore itineraries"
 };
 export const CONSTANT_aboutUsText = {
   title: "About Us",

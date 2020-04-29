@@ -37,7 +37,8 @@ import {
   CONSTANT_firstColor,
   CONSTANT_firstColorAlpha,
   CONSTANT_shade2,
-  CONSTANT_shade1
+  CONSTANT_shade1,
+  CONSTANT_white
 } from "../../constants/colorPallete";
 import TranslucentStatusBar from "../../CommonComponents/TranslucentStatusBar/TranslucentStatusBar";
 import {
@@ -206,7 +207,7 @@ class Starter extends Component<StarterProps, StarterState> {
               </View>
               <View style={styles.buttonRow}>
                 <SimpleButton
-                  text={CONSTANT_starterScreenText.mainButton}
+                  text={CONSTANT_starterScreenText.exploreButton}
                   textColor={`white`}
                   textStyle={{
                     ...CONSTANT_fontCustom(CONSTANT_primarySemiBold, 18)
@@ -214,16 +215,16 @@ class Starter extends Component<StarterProps, StarterState> {
                   color={CONSTANT_firstColor}
                   underlayColor={CONSTANT_firstColorAlpha(0.7)}
                   action={() => {
-                    this.clickedBooking();
                     recordEvent(CONSTANT_StarterScreen.event, {
-                      click: CONSTANT_StarterScreen.click.findBooking
+                      click: CONSTANT_StarterScreen.click.planVacation
                     });
+                    this.clickedPlan();
                     return null;
                   }}
                   containerStyle={findBookingButtonStyle}
                 />
                 <SimpleButton
-                  text={CONSTANT_starterScreenText.exploreButton}
+                  text={CONSTANT_starterScreenText.mainButton}
                   textColor={CONSTANT_shade2}
                   textStyle={{
                     ...CONSTANT_fontCustom(CONSTANT_primarySemiBold, 18)
@@ -231,10 +232,10 @@ class Starter extends Component<StarterProps, StarterState> {
                   color={`white`}
                   hasBorder={true}
                   action={() => {
+                    this.clickedBooking();
                     recordEvent(CONSTANT_StarterScreen.event, {
-                      click: CONSTANT_StarterScreen.click.planVacation
+                      click: CONSTANT_StarterScreen.click.findBooking
                     });
-                    this.clickedPlan();
                     return null;
                   }}
                   containerStyle={exploreButtonStyle}
@@ -254,7 +255,7 @@ class Starter extends Component<StarterProps, StarterState> {
             </View>
             <View style={styles.tncWrapper}>
               <Text style={styles.tncText}>
-                {`By using pickyourtrail app you agree to our `}
+                {`By using Pickyourtrail app you agree to our `}
                 <Text
                   style={styles.tncLink}
                   onPress={() => {
@@ -333,14 +334,17 @@ const styles = StyleSheet.create({
   },
   tncWrapper: {
     position: "absolute",
-    marginHorizontal: 48,
+    marginHorizontal: 24,
     marginTop: 16,
-    bottom: 24 + (isIphoneX() ? CONSTANT_xSensorAreaHeight : 0)
+    bottom: 24 + (isIphoneX() ? CONSTANT_xSensorAreaHeight : 0),
+    backgroundColor: "rgba(0,0,0,0.8)",
+    borderRadius: 4
   },
   tncText: {
     ...CONSTANT_fontCustom(CONSTANT_primaryLight, 10, 16),
-    color: CONSTANT_shade1,
-    textAlign: "center"
+    color: CONSTANT_white,
+    textAlign: "center",
+    padding: 8
   },
   tncLink: {
     fontFamily: CONSTANT_primarySemiBold,
