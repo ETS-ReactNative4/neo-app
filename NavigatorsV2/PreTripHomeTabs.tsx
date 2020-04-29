@@ -16,7 +16,11 @@ import {
   CONSTANT_twentySecondColor,
   CONSTANT_twentyThirdColor
 } from "../constants/colorPallete";
-import { CONSTANT_passIcon } from "../constants/imageAssets";
+import {
+  CONSTANT_compassIcon,
+  CONSTANT_searchIcon,
+  CONSTANT_notificationBellIcon
+} from "../constants/imageAssets";
 import Notifications from "../Screens/NotificationsScreen/Notifications";
 
 export interface IExplorePageScreenData {
@@ -45,7 +49,7 @@ const PreTripHomeTabs = () => {
       <Tab.Screen
         options={{
           tabBarLabel: "Explore",
-          icon: CONSTANT_passIcon,
+          icon: CONSTANT_compassIcon,
           ...tabBarColorConfig
         }}
         name={SCREEN_EXPLORE_TAB}
@@ -54,7 +58,7 @@ const PreTripHomeTabs = () => {
       <Tab.Screen
         options={{
           tabBarLabel: "Search",
-          icon: CONSTANT_passIcon,
+          icon: CONSTANT_searchIcon,
           ...tabBarColorConfig
         }}
         name={SCREEN_SEARCH_TAB}
@@ -63,7 +67,7 @@ const PreTripHomeTabs = () => {
       <Tab.Screen
         options={{
           tabBarLabel: "Notifications",
-          icon: CONSTANT_passIcon,
+          icon: CONSTANT_notificationBellIcon,
           ...tabBarColorConfig
         }}
         name={SCREEN_NOTIFICATION_TAB}
