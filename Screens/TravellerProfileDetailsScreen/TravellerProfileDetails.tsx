@@ -97,9 +97,7 @@ const TravellerProfileDetails = ({
   const toggleMedicalCondition = () =>
     setHasMedicalCondition(previousState => !previousState);
   const enableMedicalCondition = () => setHasMedicalCondition(true);
-  const [medicalCondition, onChangeMedicalConditionText] = React.useState(
-    "Diabetes"
-  );
+  const [medicalCondition, onChangeMedicalConditionText] = React.useState("");
 
   const [hasPhysicalDisablilities, setHasPhysicalDisabilities] = useState(
     false
@@ -225,7 +223,7 @@ const TravellerProfileDetails = ({
     if (travelProfileData) {
       const { data } = travelProfileData;
       const { hotelCategories, medicalConditions, physicalDisabilities } = data;
-      if (hotelCategories) {
+      if (hotelCategories && hotelCategories.length) {
         enableStarCategoryPreference();
         selectSuggestedRatingDetailsByName(hotelCategories);
       }
