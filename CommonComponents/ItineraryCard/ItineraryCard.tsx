@@ -9,7 +9,8 @@ import {
   Text,
   ViewStyle,
   StyleProp,
-  ImageStyle
+  ImageStyle,
+  TouchableOpacity
 } from "react-native";
 import {
   CONSTANT_white,
@@ -55,7 +56,11 @@ const ItineraryCard = ({
   action = () => null
 }: ItineraryCardProps) => {
   return (
-    <View style={[styles.itineraryCardContainer, containerStyle]}>
+    <TouchableOpacity
+      onPress={action}
+      activeOpacity={0.2}
+      style={[styles.itineraryCardContainer, containerStyle]}
+    >
       <ItineraryCardImage
         images={images}
         tripType={tripType}
@@ -94,7 +99,7 @@ const ItineraryCard = ({
           />
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
