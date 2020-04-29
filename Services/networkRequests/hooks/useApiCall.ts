@@ -21,6 +21,7 @@ export interface IApiCallConfig {
   customDomain?: boolean;
   customToken?: string;
   customHeader?: object;
+  abortController?: any; // no types available yet for the controller
 }
 
 export interface IApiCallResponse {
@@ -56,7 +57,8 @@ const useApiCall = (): [
     requestBody = {},
     customDomain = false,
     customToken = "",
-    customHeader = {}
+    customHeader = {},
+    abortController = null
   }: IApiCallConfig): Promise<boolean> => {
     return new Promise<boolean>(async (resolve, reject) => {
       setIsLoading(true);
@@ -67,7 +69,8 @@ const useApiCall = (): [
           method,
           customDomain,
           customToken,
-          customHeader
+          customHeader,
+          abortController
         );
         if (response.status === CONSTANT_responseSuccessStatus) {
           setSuccessResponseData(response);

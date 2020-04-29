@@ -17,7 +17,8 @@ const apiCall = async (
   method = "POST",
   customDomain = false,
   customToken = null,
-  customHeader = {}
+  customHeader = {},
+  abortController = null
 ) => {
   const credentials = await Keychain.getGenericPassword();
 
@@ -52,6 +53,10 @@ const apiCall = async (
 
   if (method !== "GET") {
     requestDetails.body = JSON.stringify(body);
+  }
+
+  if (abortController) {
+    requestDetails.signal = abortController.signal;
   }
 
   const serverURL = customDomain ? customDomain : apiServer;

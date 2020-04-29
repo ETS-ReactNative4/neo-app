@@ -17,6 +17,7 @@ export interface IPackageRequestBody {
 
 export interface IPackageRequest {
   requestBody: IPackageRequestBody;
+  abortController: any;
 }
 
 export interface IPackagesResponseData {
@@ -49,13 +50,17 @@ const usePackagesApi = (): packagesApiHookType => {
     makeApiCall
   ] = useApiCall() as usePackagesApiCallType;
 
-  const loadPackages = ({ requestBody }: IPackageRequest): Promise<boolean> => {
+  const loadPackages = ({
+    requestBody,
+    abortController
+  }: IPackageRequest): Promise<boolean> => {
     return new Promise<boolean>(async (resolve, reject) => {
       try {
         const result = await makeApiCall({
           route: CONSTANT_getPackagesDetails,
           method: "POST",
-          requestBody
+          requestBody,
+          abortController
         });
         resolve(result);
       } catch (e) {
