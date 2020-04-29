@@ -22,6 +22,7 @@ export interface ItineraryDetailProps {
   children: number;
   travellingAs: string;
   staleCost: boolean;
+  updateCost: () => any;
 }
 
 const ItineraryDetail = ({
@@ -34,7 +35,8 @@ const ItineraryDetail = ({
   adults,
   children,
   travellingAs,
-  staleCost
+  staleCost,
+  updateCost
 }: ItineraryDetailProps) => {
   return (
     <View style={styles.itineraryDetailContainer}>
@@ -79,7 +81,7 @@ const ItineraryDetail = ({
       {staleCost ? (
         <PrimaryButton
           text={"Get latest cost"}
-          clickAction={() => {}}
+          clickAction={updateCost}
           buttonStyle={styles.buttonStyle}
           buttonTextStyle={styles.buttonTextStyle}
         />

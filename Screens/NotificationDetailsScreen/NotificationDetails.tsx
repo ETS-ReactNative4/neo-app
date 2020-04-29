@@ -36,6 +36,7 @@ import {
 } from "../../constants/styles";
 import moment from "moment";
 import dialer from "../../Services/dialer/dialer";
+import useItineraryCosting from "../ItineraryScreen/hooks/useItineraryCosting";
 
 type NotificationDetailsNavTypes = AppNavigatorProps<
   typeof SCREEN_NOTIFICATION_DETAILS
@@ -60,8 +61,32 @@ const NotificationDetails = ({
     navigation.goBack();
   };
 
-  useEffect(() => {
-    getNotificationDetails(notification.itineraryId);
+  const { isCosting, updateItineraryCost } = useItineraryCosting();
+
+  const updateCost = () => {
+    if (itineraryDetails.costingConfig) {
+      updateItineraryCost(notification.itineraryId, {
+        costingConfig: itineraryDetails.costingConfig,
+        flightsBookedByUserAlready: false,
+        itineraryId: "",
+        costingType: "RECOST",
+        name: "",
+        leadSource: {}
+      })
+        .then(result => {
+          if (result) {
+            loadItinerary();
+          } else {
+            toastBottom("Unable to fetch updated cost!");
+          }
+        })
+        .catch(() => {
+          toastBottom("Unable to fetch updated cost!");
+        });
+    }
+  };
+
+  const loadItinerary = () => {
     apiCall(
       CONSTANT_itineraryDetails.replace(
         ":itineraryId",
@@ -82,6 +107,11 @@ const NotificationDetails = ({
         toastBottom("Unable to retrieve Itinerary info");
         navigation.goBack();
       });
+  };
+
+  useEffect(() => {
+    getNotificationDetails(notification.itineraryId);
+    loadItinerary();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -120,6 +150,11 @@ const NotificationDetails = ({
     staleCost = itineraryMeta.staleCost;
   }
 
+  // PT TODO: add loading indicator
+  if (isCosting) {
+    return null;
+  }
+
   return (
     <View style={styles.tripDetailsContainer}>
       <TranslucentStatusBar />
@@ -131,6 +166,7 @@ const NotificationDetails = ({
       >
         <View style={styles.detailsContainer}>
           <ItineraryDetail
+            updateCost={updateCost}
             departingFrom={notification.departureCity}
             departureDate={moment(notification.departureDateMillis).format(
               CONSTANT_GCMDateFormat
