@@ -1,12 +1,8 @@
 import React from "react";
-
-// @ts-ignore
-import Dash from "react-native-dash";
 import {
   responsiveWidth
   // @ts-ignore
 } from "react-native-responsive-dimensions";
-
 import {
   StyleSheet,
   View,
@@ -15,7 +11,6 @@ import {
   StyleProp,
   ImageStyle
 } from "react-native";
-
 import {
   CONSTANT_white,
   CONSTANT_black1,
@@ -28,9 +23,7 @@ import {
   CONSTANT_primarySemiBold,
   CONSTANT_primaryRegular
 } from "../../constants/fonts";
-
 import PrimaryButton from "../PrimaryButton/PrimaryButton";
-
 import RouteList, {
   IRouteCitiesDetails
 } from "../../CommonComponents/RouteList/RouteList";
@@ -84,7 +77,7 @@ const ItineraryCard = ({
 
         <InclusionList inclusionList={inclusionList} />
 
-        <Dash dashColor={CONSTANT_shade2} dashGap={2} dashLength={1} />
+        <View style={styles.lineSeparator} />
 
         <View style={styles.bottomWrapper}>
           <View style={styles.priceSection}>
@@ -133,6 +126,11 @@ const styles = StyleSheet.create({
   titleTextStyle: {
     color: CONSTANT_black1,
     ...CONSTANT_fontCustom(CONSTANT_primarySemiBold, 16, 20)
+  },
+
+  lineSeparator: {
+    height: StyleSheet.hairlineWidth,
+    backgroundColor: CONSTANT_shade2
   },
 
   bottomWrapper: {
