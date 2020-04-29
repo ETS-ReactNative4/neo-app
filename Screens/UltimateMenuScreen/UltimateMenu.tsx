@@ -24,7 +24,11 @@ import {
 } from "../../constants/fonts";
 import {
   CONSTANT_arrowRight,
-  CONSTANT_storybookIcon
+  CONSTANT_storybookIcon,
+  CONSTANT_paymentIcon,
+  CONSTANT_passIcon,
+  CONSTANT_profileIcon,
+  CONSTANT_flagIcon
 } from "../../constants/imageAssets";
 import PrimaryButton from "../../CommonComponents/PrimaryButton/PrimaryButton";
 import ProgressBar from "../../CommonComponents/ProgressBar/ProgressBar";
@@ -96,13 +100,13 @@ const UltimateMenu = ({
     },
     {
       name: "My Traveller Profile",
-      iconName: "heart1",
+      iconName: CONSTANT_profileIcon,
       active: false,
       action: () => navigation.navigate(SCREEN_TRAVELLER_PROFILE)
     },
     {
       name: "About",
-      iconName: "heart1",
+      iconName: CONSTANT_flagIcon,
       active: false,
       action: () => navigation.navigate(SCREEN_ABOUT_SCREEN)
     }
@@ -120,14 +124,14 @@ const UltimateMenu = ({
   if (yourBookingsStore.hasUpcomingItineraries) {
     menuList.unshift({
       name: "Payments",
-      iconName: "heart1",
+      iconName: CONSTANT_paymentIcon,
       active: false,
       action: () => navigation.navigate(SCREEN_PAYMENT_HOME)
     });
 
     menuList.unshift({
       name: "Explore trips",
-      iconName: "heart1",
+      iconName: CONSTANT_passIcon,
       active: false,
       action: () => navigation.navigate(SCREEN_YOUR_BOOKINGS)
     });

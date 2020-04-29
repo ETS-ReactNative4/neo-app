@@ -22,10 +22,10 @@ import BlogCardsRow from "./Components/BlogCardsRow";
 import CountryCardsRow from "./Components/CountryCardsRow";
 import PrimaryHeader from "../../NavigatorsV2/Components/PrimaryHeader";
 import {
-  CONSTANT_hamburgerIcon,
   CONSTANT_trustIconFacebook,
   CONSTANT_trustIconGoogle,
-  CONSTANT_trustIconIata
+  CONSTANT_trustIconIata,
+  CONSTANT_preTripHamburger
 } from "../../constants/imageAssets";
 import TestimonialsCardsRow from "./Components/TestimonialsCardsRow";
 import TrustIcons from "../../CommonComponents/TrustIcons/TrustIcons";
@@ -64,7 +64,7 @@ const Explore = ({ navigation, yourBookingsStore }: ExploreScreenProps) => {
   const header = useRef(
     PrimaryHeader({
       leftAction: openUltimateMenu,
-      leftIcon: CONSTANT_hamburgerIcon
+      leftIcon: CONSTANT_preTripHamburger
     })
   ).current;
 
