@@ -20,12 +20,16 @@ import PrimaryButton from "../../CommonComponents/PrimaryButton/PrimaryButton";
 import { isIphoneX } from "react-native-iphone-x-helper";
 import { CONSTANT_xSensorAreaHeight } from "../../constants/styles";
 import SmartImageV2 from "../../CommonComponents/SmartImage/SmartImageV2";
-import { CONSTANT_defaultPlaceImage } from "../../constants/imageAssets";
+import {
+  CONSTANT_defaultPlaceImage,
+  CONSTANT_laidBackIntensityAnimation
+} from "../../constants/imageAssets";
 import SectionTitle from "../../CommonComponents/SectionTitle/SectionTitle";
 import { AppNavigatorProps } from "../../NavigatorsV2/AppNavigator";
 import { SCREEN_TRIP_INTENSITY } from "../../NavigatorsV2/ScreenNames";
 import skipUserProfileBuilder from "../../Services/skipUserProfileBuilder/skipUserProfileBuilder";
 import { observer, inject } from "mobx-react";
+import LottieView from "lottie-react-native";
 import WelcomeHeader from "../../NavigatorsV2/Components/WelcomeHeader";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import WelcomeState from "../../mobx/WelcomeState";
@@ -51,6 +55,8 @@ const TripIntensity = ({
     navigation.dispatch(skipUserProfileBuilder());
   };
 
+  const continueFlow = () => {};
+
   useEffect(() => {
     navigation.setOptions({
       header: options =>
@@ -74,14 +80,13 @@ const TripIntensity = ({
             "This will help us customize our suggestions to suit your travel style."
           }
         />
-        <SmartImageV2
-          source={{
-            uri: "https://i.imgur.com/ZGgrOSt.png"
-          }}
-          fallbackSource={{ uri: CONSTANT_defaultPlaceImage }}
-          style={styles.imageStyle}
-          resizeMode="cover"
-        />
+        <View style={styles.animationWrapper}>
+          <LottieView
+            source={CONSTANT_laidBackIntensityAnimation()}
+            autoPlay
+            loop
+          />
+        </View>
 
         <View style={styles.tripIntensityButtonWrapper}>
           <TouchableOpacity
@@ -134,7 +139,7 @@ const TripIntensity = ({
 
       <PrimaryButton
         text={"Up Next - Budget Preferences"}
-        clickAction={() => {}}
+        clickAction={continueFlow}
         buttonStyle={styles.buttonStyle}
       />
     </View>
@@ -152,8 +157,7 @@ const styles = StyleSheet.create({
   },
   tripIntensityContent: {
     flex: 1,
-    justifyContent: "space-between",
-    paddingTop: 56
+    paddingTop: 16
   },
 
   sectionTitleContainer: {
@@ -161,10 +165,11 @@ const styles = StyleSheet.create({
     marginBottom: 16
   },
 
-  imageStyle: {
+  animationWrapper: {
+    flex: 1,
     width: responsiveWidth(100),
-    height: 288,
-    marginBottom: 32
+    marginBottom: 32,
+    alignSelf: "center"
   },
 
   tripIntensityButtonWrapper: {
