@@ -142,6 +142,8 @@ class Info {
   get success() {
     return toJS(this._success);
   }
+
+  reset = () => {};
 }
 
 export default Info;
