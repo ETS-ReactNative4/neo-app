@@ -14,7 +14,10 @@ import ItineraryTimeline from "../NotificationsScreen/Components/ItineraryTimeli
 import ParallaxScrollView from "../../CommonComponents/ParallaxScrollView/ParallaxScrollView";
 import ItineraryDetail from "../NotificationsScreen/Components/ItineraryDetail/ItineraryDetail";
 import BlankSpacer from "../../CommonComponents/BlankSpacer/BlankSpacer";
-import { CONSTANT_callStartIcon } from "../../constants/imageAssets";
+import {
+  CONSTANT_callStartIcon,
+  CONSTANT_visaSuccessAnimation
+} from "../../constants/imageAssets";
 import BottomButtonBar, {
   BOTTOM_BUTTON_CONTAINER_HEIGHT
 } from "../../CommonComponents/BottomButtonBar/BottomButtonBar";
@@ -35,6 +38,7 @@ import {
   CONSTANT_shortTimeFormat
 } from "../../constants/styles";
 import moment from "moment";
+import LottieView from "lottie-react-native";
 import dialer from "../../Services/dialer/dialer";
 import useItineraryCosting from "../ItineraryScreen/hooks/useItineraryCosting";
 
@@ -115,10 +119,6 @@ const NotificationDetails = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  if (!itineraryDetails.isItineraryLoaded) {
-    return null;
-  }
-
   const { costingConfig, itineraryMeta } = itineraryDetails;
 
   let adultCount = notification.noOfAdults;
@@ -150,9 +150,22 @@ const NotificationDetails = ({
     staleCost = itineraryMeta.staleCost;
   }
 
-  // PT TODO: add loading indicator
   if (isCosting) {
-    return null;
+    // Itinerary is costing
+    return (
+      <View style={styles.loadingIndicatorContainer}>
+        <LottieView source={CONSTANT_visaSuccessAnimation()} autoPlay loop />
+      </View>
+    );
+  }
+
+  if (!itineraryDetails.isItineraryLoaded) {
+    // Itinerary is loading
+    return (
+      <View style={styles.loadingIndicatorContainer}>
+        <LottieView source={CONSTANT_visaSuccessAnimation()} autoPlay loop />
+      </View>
+    );
   }
 
   return (
@@ -237,6 +250,9 @@ const styles = StyleSheet.create({
     height: 62,
     borderRadius: 50,
     backgroundColor: CONSTANT_firstColor
+  },
+  loadingIndicatorContainer: {
+    flex: 1
   }
 });
 
