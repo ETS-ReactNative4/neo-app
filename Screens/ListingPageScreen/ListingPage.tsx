@@ -2,17 +2,19 @@ import React, { useMemo, useState, Fragment, useRef } from "react";
 import Modal from "react-native-modal";
 import { StyleSheet, View, TouchableOpacity, Platform } from "react-native";
 import Icon from "../../CommonComponents/Icon/Icon";
-import { CONSTANT_listIcon } from "../../constants/imageAssets";
+import {
+  CONSTANT_listIcon,
+  CONSTANT_visaSuccessAnimation
+} from "../../constants/imageAssets";
 import {
   CONSTANT_white,
   CONSTANT_firstColor
 } from "../../constants/colorPallete";
-import {
-  responsiveHeight
-  // @ts-ignore
-} from "react-native-responsive-dimensions";
+import { responsiveHeight } from "react-native-responsive-dimensions";
 import ItineraryCard from "../../CommonComponents/ItineraryCard/ItineraryCard";
-import ParallaxScrollView from "../../CommonComponents/ParallaxScrollView/ParallaxScrollView";
+import ParallaxScrollView, {
+  ParallaxScrollViewBannerHeight
+} from "../../CommonComponents/ParallaxScrollView/ParallaxScrollView";
 import TranslucentStatusBar from "../../CommonComponents/TranslucentStatusBar/TranslucentStatusBar";
 import {
   SCREEN_LISTING_PAGE,
@@ -34,6 +36,8 @@ import usePackagesFilter from "./hooks/usePackagesFilter";
 import generateInclusions from "../ExploreScreen/services/generateInclusions";
 import useDeepCompareEffect from "use-deep-compare-effect";
 import getImgIXUrl from "../../Services/getImgIXUrl/getImgIXUrl";
+import EmptyListPlaceholder from "../../CommonComponents/EmptyListPlaceholder/EmptyListPlaceholder";
+import LottieView from "lottie-react-native";
 
 type screenName = typeof SCREEN_LISTING_PAGE;
 
@@ -140,8 +144,14 @@ const ListingPage = ({ navigation, route }: ListingPageProps) => {
       abortFetchRef.current.abort();
     }
     abortFetchRef.current = new AbortController();
-    loadPackages({ requestBody, abortController: abortFetchRef.current });
+    loadPackages({ requestBody, abortController: abortFetchRef.current }).catch(
+      () => {
+        // Request aborted do nothing...
+      }
+    );
   }, [selectedInterests, selectedDurations, selectedBudgets, selectedRatings]);
+
+  const { isLoading } = packagesApiDetails;
 
   return (
     <View style={styles.listingPageContainer}>
@@ -153,6 +163,21 @@ const ListingPage = ({ navigation, route }: ListingPageProps) => {
         backAction={goBack}
       >
         <BlankSpacer height={20} />
+        {!isLoading && filteredItineraries.length < 1 ? (
+          <EmptyListPlaceholder
+            text={"No itineraries found matching your criteria"}
+            containerStyle={styles.placeholderWrapper}
+          />
+        ) : null}
+        {isLoading ? (
+          <View style={styles.placeholderWrapper}>
+            <LottieView
+              source={CONSTANT_visaSuccessAnimation()}
+              autoPlay
+              loop
+            />
+          </View>
+        ) : null}
         {useMemo(() => {
           return filteredItineraries.map((itinerary, itineraryIndex) => {
             const inclusionList = generateInclusions(itinerary);
@@ -237,6 +262,9 @@ const styles = StyleSheet.create({
   },
   itineraryCardStyle: {
     marginHorizontal: 16
+  },
+  placeholderWrapper: {
+    height: responsiveHeight(100) - ParallaxScrollViewBannerHeight
   }
 });
 
