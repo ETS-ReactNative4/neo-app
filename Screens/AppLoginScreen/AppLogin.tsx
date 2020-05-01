@@ -131,6 +131,7 @@ const AppLogin = ({
     false
   );
   const [isTimedOut, setIsTimedOut] = useState<boolean>(false);
+  const [isOtpSubmitting, setIsOtpSubmitting] = useState<boolean>(false);
 
   const mobileNumber = `${countryCode}${phoneNumber}`;
 
@@ -273,6 +274,7 @@ const AppLogin = ({
   };
 
   const codeFilled = async (otp: string) => {
+    setIsOtpSubmitting(true);
     try {
       await loginUser({
         countryPhoneCode: countryCode,
@@ -295,8 +297,10 @@ const AppLogin = ({
     const { resetTarget } = route.params || {};
     if (resetTarget === SCREEN_EXPLORE_PAGE) {
       navigation.dispatch(launchPretripHome());
+      setIsOtpSubmitting(false);
     } else if (resetTarget === SCREEN_SAVED_ITINERARIES && !isNewUser) {
       navigation.dispatch(launchSavedItineraries());
+      setIsOtpSubmitting(false);
     } else {
       yourBookingsStore
         .getUpcomingItineraries()
@@ -304,12 +308,14 @@ const AppLogin = ({
           if (yourBookingsStore.hasUpcomingItineraries) {
             preparePostBookingFlow();
           } else {
+            setIsOtpSubmitting(false);
             resetToWelcomeFlow().then(resetAction => {
               navigation.dispatch(resetAction);
             });
           }
         })
         .catch(() => {
+          setIsOtpSubmitting(false);
           logError("Failed to load upcoming itineraries at login");
           resetToWelcomeFlow().then(resetAction => {
             navigation.dispatch(resetAction);
@@ -323,12 +329,14 @@ const AppLogin = ({
       .getUpcomingItineraries()
       .then(itinerariesArray => {
         if (itinerariesArray.length > 1) {
+          setIsOtpSubmitting(false);
           navigation.dispatch(launchItinerarySelector());
         } else {
           const itineraryId: string = itinerariesArray[0].itineraryId;
           itineraries
             .selectItinerary(itineraryId)
             .then(() => {
+              setIsOtpSubmitting(false);
               navigation.dispatch(launchPostBookingV2());
             })
             .catch(logError);
@@ -353,18 +361,23 @@ const AppLogin = ({
           if (isTokenStored) {
             continueFlow();
           } else {
+            setIsOtpSubmitting(false);
             toastCenter("Login Failed");
           }
         })
         .catch(e => {
           logError(e);
+          setIsOtpSubmitting(false);
           toastCenter("Login Failed");
         });
     } else if (loginFailureData?.data?.otpStatus === "VERIFICATIONFAILED") {
       DebouncedAlert("Invalid OTP", "Please try again ☹️", [
         {
           text: "Okay",
-          onPress: () => closeOtpPanel()
+          onPress: () => {
+            setIsOtpSubmitting(false);
+            closeOtpPanel();
+          }
         }
       ]);
     }
@@ -483,6 +496,7 @@ const AppLogin = ({
           onCodeFilled={codeFilled}
           isTimedOut={isTimedOut}
           onTimedOut={onTimeout}
+          isOtpSubmitting={isOtpSubmitting}
         />
       </ActionSheet>
     </Fragment>

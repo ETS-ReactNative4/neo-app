@@ -13,6 +13,8 @@ import {
 } from "../../../constants/colorPallete";
 import DismissKeyboardView from "../../../CommonComponents/DismissKeyboardView/DismissKeyboardView";
 import moment from "moment";
+import { CONSTANT_visaSuccessAnimation } from "../../../constants/imageAssets";
+import LottieView from "lottie-react-native";
 
 export interface OtpPanelProps {
   containerStyle?: StyleProp<ViewStyle>;
@@ -23,6 +25,7 @@ export interface OtpPanelProps {
   expiryTime?: number;
   onTimedOut: () => any;
   isTimedOut: boolean;
+  isOtpSubmitting: boolean;
 }
 
 const OtpPanel = ({
@@ -33,7 +36,8 @@ const OtpPanel = ({
   onResend,
   expiryTime,
   onTimedOut,
-  isTimedOut
+  isTimedOut,
+  isOtpSubmitting
 }: OtpPanelProps) => {
   const calculateTimeLeft = () => {
     if (expiryTime) {
@@ -105,6 +109,11 @@ const OtpPanel = ({
           </Text>
         </View>
       </View>
+      {isOtpSubmitting ? (
+        <View style={styles.animationWrapper}>
+          <LottieView source={CONSTANT_visaSuccessAnimation()} autoPlay loop />
+        </View>
+      ) : null}
     </DismissKeyboardView>
   );
 };
@@ -142,6 +151,12 @@ const styles = StyleSheet.create({
   },
   textLink: {
     color: CONSTANT_fifteenthColor
+  },
+  animationWrapper: {
+    marginTop: 8,
+    alignSelf: "center",
+    height: 200,
+    width: 200
   }
 });
 
