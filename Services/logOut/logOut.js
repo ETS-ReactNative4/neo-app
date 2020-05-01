@@ -2,8 +2,10 @@ import * as Keychain from "react-native-keychain";
 import storeService from "../storeService/storeService";
 import DebouncedAlert from "../../CommonComponents/DebouncedAlert/DebouncedAlert";
 import constants from "../../constants/constants";
-import RNRestart from "react-native-restart";
 import { logoutUserFromChat } from "../freshchatService/freshchatService";
+import { logError } from "../errorLogger/errorLogger";
+import { navigationDispatcher } from "../navigationService/navigationServiceV2";
+import logOutAction from "./logOutAction/logOutAction";
 
 const logOut = (isForced = false) => {
   /**
@@ -22,10 +24,14 @@ const logOut = (isForced = false) => {
     Keychain.resetGenericPassword().then(() => {
       setTimeout(() => {
         for (const each in storeService) {
-          storeService[each].reset && storeService[each].reset();
+          try {
+            storeService[each].reset();
+          } catch (e) {
+            logError(`Missing reset action in ${each}`, { e });
+          }
         }
         logoutUserFromChat();
-        RNRestart.Restart();
+        navigationDispatcher(logOutAction());
       }, 100);
     });
   };
