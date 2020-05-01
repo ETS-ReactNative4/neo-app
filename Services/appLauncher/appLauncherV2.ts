@@ -48,7 +48,7 @@ const appLauncherV2 = () => {
             .catch(reject);
         } else {
           /**
-           * User not logged in -> use the state saver api flow
+           * User not logged in -> use the state saver api flow (show starter screen & take it from there)
            */
           navigationServiceV2(SCREEN_STARTER);
           resolve();
