@@ -25,6 +25,7 @@ import {
 import { CONSTANT_shade1, CONSTANT_white1 } from "../../constants/colorPallete";
 import getImgIXUrl from "../../Services/getImgIXUrl/getImgIXUrl";
 import NotificationsActionSheet from "./Components/NotificationsActionSheet";
+import EmptyListPlaceholder from "../../CommonComponents/EmptyListPlaceholder/EmptyListPlaceholder";
 
 export type NotificationsScreenNavigationType = CompositeNavigationProp<
   StackNavigationProp<AppNavigatorParamsType, typeof SCREEN_PRETRIP_HOME_TABS>,
@@ -87,7 +88,7 @@ const Notifications = ({ navigation, route }: NotificationsScreenProps) => {
 
   const [savedItineraryApiDetails, loadItineraries] = useSavedItinerariesApi();
 
-  const { successResponseData } = savedItineraryApiDetails;
+  const { successResponseData, isLoading } = savedItineraryApiDetails;
   const { data: savedItineraries = [] } = successResponseData || {};
 
   useFocusEffect(
@@ -137,32 +138,40 @@ const Notifications = ({ navigation, route }: NotificationsScreenProps) => {
     });
   };
 
+  const isEmpty =
+    !isLoading && sectionData[0].data.length + sectionData[1].data.length < 1;
+
   return (
     <SafeAreaView style={styles.notificationContainer}>
-      <SectionList
-        sections={sectionData}
-        keyExtractor={(item: IItineraryNotification) => item.itineraryId}
-        renderItem={({ item }: { item: IItineraryNotification }) => {
-          const onMoreOptionClick = () => selectNotification(item);
-          const onNotificationClick = () => openNotificationDetails(item);
+      {isEmpty ? (
+        <EmptyListPlaceholder text={"You don't have any new notifications"} />
+      ) : (
+        <SectionList
+          sections={sectionData}
+          keyExtractor={(item: IItineraryNotification) => item.itineraryId}
+          renderItem={({ item }: { item: IItineraryNotification }) => {
+            const onMoreOptionClick = () => selectNotification(item);
+            const onNotificationClick = () => openNotificationDetails(item);
 
-          return (
-            <SavedItineraryCard
-              isUnread={!!item.unreadMsgCount}
-              action={onNotificationClick}
-              image={getImgIXUrl({ src: item.image })}
-              cities={item.citiesArr || []}
-              lastEdited={item.lastEdited}
-              title={item.title}
-              moreOptions
-              moreOptionsAction={onMoreOptionClick}
-            />
-          );
-        }}
-        renderSectionHeader={({ section: { title, data } }) =>
-          data.length ? <Text style={styles.textStyle}>{title}</Text> : null
-        }
-      />
+            return (
+              <SavedItineraryCard
+                isUnread={!!item.unreadMsgCount}
+                action={onNotificationClick}
+                image={getImgIXUrl({ src: item.image })}
+                cities={item.citiesArr || []}
+                lastEdited={item.lastEdited}
+                title={item.title}
+                moreOptions
+                moreOptionsAction={onMoreOptionClick}
+              />
+            );
+          }}
+          renderSectionHeader={({ section: { title, data } }) =>
+            data.length ? <Text style={styles.textStyle}>{title}</Text> : null
+          }
+        />
+      )}
+
       <NotificationsActionSheet
         selectedNotification={selectedNotification}
         actionSheetRef={actionSheetRef}

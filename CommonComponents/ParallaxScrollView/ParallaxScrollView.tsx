@@ -51,6 +51,8 @@ const BANNER_HEIGHT =
 const SCROLL_OFFSET = -BANNER_HEIGHT + 20;
 const SCROLL_INSET = BANNER_HEIGHT - 20;
 
+export const ParallaxScrollViewBannerHeight = BANNER_HEIGHT;
+
 const {
   Value,
   event,

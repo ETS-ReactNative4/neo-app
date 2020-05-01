@@ -240,5 +240,6 @@ export const CONSTANT_paymentFormHtml = `
 
 export const CONSTANT_loggedInTokenName = "jwt";
 export const CONSTANT_guestTokenName = "guest";
+export const CONSTANT_apiRequestAbortMessage = "Aborted";
 
 export default stringConstants;

@@ -18,6 +18,7 @@ import SearchItem from "./Components/SearchItem";
 import { IPackageItinerary } from "../../TypeInterfaces/IPackageItinerary";
 import usePackagesSearchApi from "./hooks/usePackagesSearchApi";
 import useDeepCompareEffect from "use-deep-compare-effect";
+import EmptyListPlaceholder from "../../CommonComponents/EmptyListPlaceholder/EmptyListPlaceholder";
 
 export type SearchScreenNavigationType = CompositeNavigationProp<
   StackNavigationProp<AppNavigatorParamsType, typeof SCREEN_PRETRIP_HOME_TABS>,
@@ -174,9 +175,13 @@ const Search = ({ navigation }: SearchScreenProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [offset]);
 
-  const { successResponseData } = packagesApiDetails;
   const {
-    successResponseData: categorySuccessResponseData
+    successResponseData,
+    isLoading: isPackagesApiLoading
+  } = packagesApiDetails;
+  const {
+    successResponseData: categorySuccessResponseData,
+    isLoading: isCategoryApiLoading
   } = categoryWisePackagesApiDetails;
 
   const paginate = () => {
@@ -215,6 +220,18 @@ const Search = ({ navigation }: SearchScreenProps) => {
     });
   };
 
+  const isLoading = isPackagesApiLoading || isCategoryApiLoading;
+
+  const isSearchMode = !!searchString;
+
+  const isSearchResultsAvailable = !!searchResults.length;
+
+  const isPackagesResultsAvailable = !!categoryResults.length;
+
+  const isResultsAvailable = isSearchMode
+    ? isSearchResultsAvailable
+    : isPackagesResultsAvailable;
+
   return (
     <SafeAreaView style={styles.searchScreenContainerStyle}>
       <SearchBox
@@ -233,17 +250,23 @@ const Search = ({ navigation }: SearchScreenProps) => {
       ) : null}
       <BlankSpacer height={1} containerStyle={styles.dividerStyle} />
       <BlankSpacer height={8} />
-      <FlatList
-        data={searchString ? searchResults : categoryResults}
-        renderItem={({ item }) => {
-          const onClick = () => openItinerary(item.slug);
-          return (
-            <SearchItem title={item.title} emoji={"😄"} action={onClick} />
-          );
-        }}
-        keyExtractor={(item, itemIndex) => `${itemIndex}`}
-        onEndReached={paginate}
-      />
+      {!isLoading && !isResultsAvailable ? (
+        <EmptyListPlaceholder
+          text={"No itineraries found matching your criteria"}
+        />
+      ) : (
+        <FlatList
+          data={searchString ? searchResults : categoryResults}
+          renderItem={({ item }) => {
+            const onClick = () => openItinerary(item.slug);
+            return (
+              <SearchItem title={item.title} emoji={"😄"} action={onClick} />
+            );
+          }}
+          keyExtractor={(item, itemIndex) => `${itemIndex}`}
+          onEndReached={paginate}
+        />
+      )}
     </SafeAreaView>
   );
 };
