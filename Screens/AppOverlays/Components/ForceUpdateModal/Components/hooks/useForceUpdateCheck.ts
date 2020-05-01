@@ -2,12 +2,15 @@ import useApiCall, {
   IApiCallHookData
 } from "../../../../../../Services/networkRequests/hooks/useApiCall";
 import { CONSTANT_appVersionCheck } from "../../../../../../constants/apiUrls";
+import { IMobileServerResponse } from "../../../../../../TypeInterfaces/INetworkResponse";
 
-export interface IForceUpdateData {
-  iosVersion: string;
-  androidVersion: string;
-  androidUrl: string;
-  iosUrl: string;
+export interface IForceUpdateData extends IMobileServerResponse {
+  data: {
+    iosVersion: string;
+    androidVersion: string;
+    androidUrl: string;
+    iosUrl: string;
+  };
 }
 
 export interface IForceUpdateHookData extends IApiCallHookData {
@@ -27,7 +30,13 @@ const useForceUpdateCheck = (): [IForceUpdateHookData, () => any] => {
   };
 
   return [
-    { successResponseData, failureResponseData, isLoading, isError, isSuccess },
+    {
+      successResponseData,
+      failureResponseData,
+      isLoading,
+      isError,
+      isSuccess
+    } as IForceUpdateHookData,
     checkForForceUpdate
   ];
 };
