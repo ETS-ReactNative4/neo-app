@@ -1,6 +1,7 @@
 import createGuestSession from "./tasks/createGuestSession";
 import enableAnalyticsInProd from "./tasks/enableAnalyticsInProd";
 import enableLayoutAnimationAndroid from "./tasks/enableLayoutAnimationAndroid";
+import { getDeviceToken } from "../fcmService/fcm";
 
 /**
  * When the App Launches there's a bunch of things that needs to happen,
@@ -13,7 +14,11 @@ const appStartupTasks = () => {
 
   enableAnalyticsInProd();
 
-  createGuestSession();
+  createGuestSession().then(result => {
+    if (result) {
+      getDeviceToken();
+    }
+  });
 };
 
 export default appStartupTasks;
