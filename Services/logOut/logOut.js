@@ -6,6 +6,7 @@ import { logoutUserFromChat } from "../freshchatService/freshchatService";
 import { logError } from "../errorLogger/errorLogger";
 import { navigationDispatcher } from "../navigationService/navigationServiceV2";
 import logOutAction from "./logOutAction/logOutAction";
+import appStartupTasks from "../appStartupTasks/appStartupTasks";
 
 const logOut = (isForced = false) => {
   /**
@@ -31,6 +32,7 @@ const logOut = (isForced = false) => {
           }
         }
         logoutUserFromChat();
+        appStartupTasks();
         navigationDispatcher(logOutAction());
       }, 100);
     });
