@@ -15,12 +15,14 @@ import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import { ICity, IItinerary } from "../../TypeInterfaces/IItinerary";
 import ItineraryBanner from "./Components/ItineraryBanner";
 import HighlightText from "./Components/HighlightText";
-import { StyleSheet, LayoutAnimation } from "react-native";
+import { StyleSheet, LayoutAnimation, View } from "react-native";
+import LottieView from "lottie-react-native";
 import useCampaignItineraryCosting from "./hooks/useCampaignItineraryCosting";
 import { IGCMRequestBody } from "../GCMScreen/hooks/useGCMForm";
 import useItineraryCosting from "./hooks/useItineraryCosting";
 import useUnbookedItinerary from "./hooks/useUnbookedItinerary";
 import { observer } from "mobx-react";
+import { CONSTANT_visaSuccessAnimation } from "../../constants/imageAssets";
 
 export type ItineraryNavType = AppNavigatorProps<typeof SCREEN_ITINERARY>;
 
@@ -158,11 +160,21 @@ const Itinerary = ({ route, navigation }: ItineraryProps) => {
   LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
 
   if (!itineraryDetails?.isItineraryLoaded) {
-    return null;
+    // Itinerary is loading
+    return (
+      <View style={styles.loadingIndicatorContainer}>
+        <LottieView source={CONSTANT_visaSuccessAnimation()} autoPlay loop />
+      </View>
+    );
   }
 
   if (isCampaignCosting || isItineraryCosting) {
-    return null;
+    // Itinerary is costing
+    return (
+      <View style={styles.loadingIndicatorContainer}>
+        <LottieView source={CONSTANT_visaSuccessAnimation()} autoPlay loop />
+      </View>
+    );
   }
 
   return (
@@ -210,6 +222,9 @@ const Itinerary = ({ route, navigation }: ItineraryProps) => {
 const styles = StyleSheet.create({
   highlightText: {
     marginTop: -24
+  },
+  loadingIndicatorContainer: {
+    flex: 1
   }
 });
 
