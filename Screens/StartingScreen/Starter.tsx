@@ -23,7 +23,8 @@ import { AppNavigatorParamsType } from "../../NavigatorsV2/AppNavigator";
 import {
   SCREEN_STARTER,
   SCREEN_APP_LOGIN,
-  SCREEN_SAVED_ITINERARIES
+  SCREEN_SAVED_ITINERARIES,
+  SCREEN_TRAVEL_PROFILE_WELCOME
 } from "../../NavigatorsV2/ScreenNames";
 import { isIphoneX } from "react-native-iphone-x-helper";
 import { CONSTANT_xSensorAreaHeight } from "../../constants/styles";
@@ -52,6 +53,7 @@ import isPreTripWelcomePending from "../../Services/appLauncher/launchCheckpoint
 import resetToWelcomeFlow from "../../Services/resetToWelcomeFlow/resetToWelcomeFlow";
 import { navigationDispatcher } from "../../Services/navigationService/navigationServiceV2";
 import launchPretripHome from "../../Services/launchPretripHome/launchPretripHome";
+import isPreTripWelcomeCompleted from "../../Services/appLauncher/launchCheckpoints/isPreTripWelcomeCompleted";
 
 const bootAnimationTiming = 350;
 
@@ -95,13 +97,19 @@ class Starter extends Component<StarterProps, StarterState> {
   };
 
   clickedPlan = () => {
-    isPreTripWelcomePending().then(isWelcomePending => {
-      if (isWelcomePending) {
-        resetToWelcomeFlow().then(resetAction => {
-          navigationDispatcher(resetAction);
-        });
-      } else {
+    isPreTripWelcomeCompleted().then(isWelcomeComplete => {
+      if (isWelcomeComplete) {
         navigationDispatcher(launchPretripHome());
+      } else {
+        isPreTripWelcomePending().then(isWelcomePending => {
+          if (isWelcomePending) {
+            resetToWelcomeFlow().then(resetAction => {
+              navigationDispatcher(resetAction);
+            });
+          } else {
+            this.props.navigation.navigate(SCREEN_TRAVEL_PROFILE_WELCOME);
+          }
+        });
       }
     });
   };

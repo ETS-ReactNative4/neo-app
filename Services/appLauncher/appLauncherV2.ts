@@ -9,10 +9,9 @@ import resetToWelcomeFlow from "../resetToWelcomeFlow/resetToWelcomeFlow";
 import launchPretripHome from "../launchPretripHome/launchPretripHome";
 import launchPostBooking from "../launchPostBooking/launchPostBooking";
 import getSelectedItineraryId from "../getSelectedItineraryId/getSelectedItineraryId";
-// import * as Keychain from "react-native-keychain";
+import isPreTripWelcomeCompleted from "./launchCheckpoints/isPreTripWelcomeCompleted";
 
-const appLauncherV2 = () => {
-  // Keychain.resetGenericPassword()
+const appLauncherV2 = (): Promise<boolean> => {
   return new Promise<boolean>((resolve, reject) => {
     isUserLoggedIn()
       .then(isLoggedIn => {
@@ -27,20 +26,27 @@ const appLauncherV2 = () => {
                  * User Has upcoming trips go to post booking flow
                  */
                 launchPostBooking(getSelectedItineraryId());
-                resolve();
+                resolve(true);
               } else {
                 /**
                  * No upcoming trips go to the state saver based welcome flow
                  */
-                isPreTripWelcomePending().then(isWelcomePending => {
-                  if (isWelcomePending) {
-                    resetToWelcomeFlow().then(resetAction => {
-                      navigationDispatcher(resetAction);
-                      setTimeout(() => resolve(), 100);
-                    });
-                  } else {
+                isPreTripWelcomeCompleted().then(isWelcomeComplete => {
+                  if (isWelcomeComplete) {
                     navigationDispatcher(launchPretripHome());
-                    setTimeout(() => resolve(), 100);
+                    setTimeout(() => resolve(true), 100);
+                  } else {
+                    isPreTripWelcomePending().then(isWelcomePending => {
+                      if (isWelcomePending) {
+                        resetToWelcomeFlow().then(resetAction => {
+                          navigationDispatcher(resetAction);
+                          setTimeout(() => resolve(true), 100);
+                        });
+                      } else {
+                        navigationServiceV2(SCREEN_STARTER);
+                        setTimeout(() => resolve(true), 100);
+                      }
+                    });
                   }
                 });
               }
@@ -51,7 +57,7 @@ const appLauncherV2 = () => {
            * User not logged in -> use the state saver api flow (show starter screen & take it from there)
            */
           navigationServiceV2(SCREEN_STARTER);
-          resolve();
+          resolve(true);
         }
       })
       .catch(reject);
