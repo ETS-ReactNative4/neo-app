@@ -48,7 +48,6 @@ import {
 import useLoginForm from "./hooks/useLoginForm";
 import {
   SCREEN_APP_LOGIN,
-  SCREEN_EXPLORE_PAGE,
   SCREEN_SAVED_ITINERARIES
 } from "../../NavigatorsV2/ScreenNames";
 import { StackNavigationProp } from "@react-navigation/stack";
@@ -69,7 +68,6 @@ import { logError } from "../../Services/errorLogger/errorLogger";
 import useDeepCompareEffect from "use-deep-compare-effect";
 import DebouncedAlert from "../../CommonComponents/DebouncedAlert/DebouncedAlert";
 import { RouteProp } from "@react-navigation/native";
-import launchPretripHome from "../../Services/launchPretripHome/launchPretripHome";
 import TranslucentStatusBar from "../../CommonComponents/TranslucentStatusBar/TranslucentStatusBar";
 import resetToWelcomeFlow from "../../Services/resetToWelcomeFlow/resetToWelcomeFlow";
 import YourBookings from "../../mobx/YourBookings";
@@ -295,10 +293,7 @@ const AppLogin = ({
 
     // PT TODO: Launch Post booking flow goes here once old screen wiring is done
     const { resetTarget } = route.params || {};
-    if (resetTarget === SCREEN_EXPLORE_PAGE) {
-      navigation.dispatch(launchPretripHome());
-      setIsOtpSubmitting(false);
-    } else if (resetTarget === SCREEN_SAVED_ITINERARIES && !isNewUser) {
+    if (resetTarget === SCREEN_SAVED_ITINERARIES && !isNewUser) {
       navigation.dispatch(launchSavedItineraries());
       setIsOtpSubmitting(false);
     } else {

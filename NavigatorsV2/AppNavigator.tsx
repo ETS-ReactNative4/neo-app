@@ -12,7 +12,6 @@ import {
   SCREEN_TRAVEL_MARITAL_STATUS,
   SCREEN_STORY_BOOK,
   SCREEN_PRETRIP_HOME_TABS,
-  SCREEN_EXPLORE_PAGE,
   SCREEN_MODAL_STACK,
   SCREEN_NOTIFICATION_DETAILS,
   SCREEN_NOTIFICATION_FAQ,
@@ -142,9 +141,7 @@ import PaymentSuccess from "../Screens/PaymentScreens/PaymentSuccess";
 import PaymentFailure from "../Screens/PaymentScreens/PaymentFailure";
 import PaymentScreen from "../Screens/PaymentScreens/PaymentScreen";
 
-export type loginResetTargetTypes =
-  | typeof SCREEN_EXPLORE_PAGE
-  | typeof SCREEN_SAVED_ITINERARIES;
+export type loginResetTargetTypes = typeof SCREEN_SAVED_ITINERARIES;
 
 export type AppNavigatorParamsType = {
   [SCREEN_MODAL_STACK]: StackNavigationProp<ModalNavigatorParamsType>;
