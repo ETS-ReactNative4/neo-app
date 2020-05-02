@@ -50,8 +50,7 @@ import { useFocusEffect } from "@react-navigation/native";
 import logOut from "../../Services/logOut/logOut";
 import moment from "moment";
 import { CONSTANT_GCMDateFormat } from "../../constants/styles";
-import isUserLoggedIn from "../../Services/isUserLoggedIn/isUserLoggedIn";
-import { logError } from "../../Services/errorLogger/errorLogger";
+import useIsUserLoggedIn from "../../Services/isUserLoggedIn/hooks/useIsUserLoggedIn";
 
 type TravellerProfileDetailsNav = AppNavigatorProps<
   typeof SCREEN_TRAVELLER_PROFILE
@@ -112,8 +111,6 @@ const TravellerProfileDetails = ({
     ISuggestedDetails[]
   >([]);
 
-  const [isLoggedInUser, setIsLoggedInUser] = useState(true);
-
   useEffect(() => {
     navigation.setOptions({
       header: () =>
@@ -132,22 +129,11 @@ const TravellerProfileDetails = ({
         };
       })
     );
-
-    checkLoginStatus();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const checkLoginStatus = () => {
-    isUserLoggedIn()
-      .then(result => {
-        setIsLoggedInUser(result);
-      })
-      .catch(logError);
-  };
-
   useFocusEffect(
     useCallback(() => {
-      checkLoginStatus();
       getUserDisplayDetails();
       loadTravelProfile();
       // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -254,6 +240,8 @@ const TravellerProfileDetails = ({
   }, [travelProfileData || {}]);
 
   LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+
+  const isLoggedInUser = useIsUserLoggedIn();
 
   if (!isLoggedInUser) {
     return null;
