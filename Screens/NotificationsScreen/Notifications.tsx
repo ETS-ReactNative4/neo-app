@@ -26,6 +26,7 @@ import { CONSTANT_shade1, CONSTANT_white1 } from "../../constants/colorPallete";
 import getImgIXUrl from "../../Services/getImgIXUrl/getImgIXUrl";
 import NotificationsActionSheet from "./Components/NotificationsActionSheet";
 import EmptyListPlaceholder from "../../CommonComponents/EmptyListPlaceholder/EmptyListPlaceholder";
+import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 
 export type NotificationsScreenNavigationType = CompositeNavigationProp<
   StackNavigationProp<AppNavigatorParamsType, typeof SCREEN_PRETRIP_HOME_TABS>,
@@ -139,7 +140,9 @@ const Notifications = ({ navigation, route }: NotificationsScreenProps) => {
   };
 
   const isEmpty =
-    !isLoading && sectionData[0].data.length + sectionData[1].data.length < 1;
+    !isLoading &&
+    sectionData[0] &&
+    sectionData[0].data.length + sectionData[1].data.length < 1;
 
   return (
     <SafeAreaView style={styles.notificationContainer}>
@@ -199,4 +202,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Notifications;
+export default ErrorBoundary({ isRoot: true })(Notifications);
