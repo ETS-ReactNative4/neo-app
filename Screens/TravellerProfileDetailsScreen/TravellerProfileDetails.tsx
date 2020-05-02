@@ -51,6 +51,7 @@ import logOut from "../../Services/logOut/logOut";
 import moment from "moment";
 import { CONSTANT_GCMDateFormat } from "../../constants/styles";
 import useIsUserLoggedIn from "../../Services/isUserLoggedIn/hooks/useIsUserLoggedIn";
+import LoginIndent from "../../CommonComponents/LoginIndent/LoginIndent";
 
 type TravellerProfileDetailsNav = AppNavigatorProps<
   typeof SCREEN_TRAVELLER_PROFILE
@@ -244,7 +245,7 @@ const TravellerProfileDetails = ({
   const isLoggedInUser = useIsUserLoggedIn();
 
   if (!isLoggedInUser) {
-    return null;
+    return <LoginIndent message={"Please login to see your profile"} />;
   }
 
   return (

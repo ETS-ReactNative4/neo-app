@@ -27,6 +27,8 @@ import getImgIXUrl from "../../Services/getImgIXUrl/getImgIXUrl";
 import NotificationsActionSheet from "./Components/NotificationsActionSheet";
 import EmptyListPlaceholder from "../../CommonComponents/EmptyListPlaceholder/EmptyListPlaceholder";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
+import useIsUserLoggedIn from "../../Services/isUserLoggedIn/hooks/useIsUserLoggedIn";
+import LoginIndent from "../../CommonComponents/LoginIndent/LoginIndent";
 
 export type NotificationsScreenNavigationType = CompositeNavigationProp<
   StackNavigationProp<AppNavigatorParamsType, typeof SCREEN_PRETRIP_HOME_TABS>,
@@ -143,6 +145,12 @@ const Notifications = ({ navigation, route }: NotificationsScreenProps) => {
     !isLoading &&
     sectionData[0] &&
     sectionData[0].data.length + sectionData[1].data.length < 1;
+
+  const isUserLoggedIn = useIsUserLoggedIn();
+
+  if (!isUserLoggedIn) {
+    return <LoginIndent message={"Please login to see your notifications"} />;
+  }
 
   return (
     <SafeAreaView style={styles.notificationContainer}>

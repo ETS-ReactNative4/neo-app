@@ -11,6 +11,8 @@ import getImgIXUrl from "../../Services/getImgIXUrl/getImgIXUrl";
 import SavedItineraryCard from "../../CommonComponents/SavedItineraryCard/SavedItineraryCard";
 import XSensorPlaceholder from "../../CommonComponents/XSensorPlaceholder/XSensorPlaceholder";
 import CustomScrollView from "../../CommonComponents/CustomScrollView/CustomScrollView";
+import useIsUserLoggedIn from "../../Services/isUserLoggedIn/hooks/useIsUserLoggedIn";
+import LoginIndent from "../../CommonComponents/LoginIndent/LoginIndent";
 
 type SavedItineraryNavType = AppNavigatorProps<typeof SCREEN_SAVED_ITINERARIES>;
 
@@ -38,6 +40,14 @@ const SavedItinerary = ({ navigation }: SavedItineraryProps) => {
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
   );
+
+  const isUserLoggedIn = useIsUserLoggedIn();
+
+  if (!isUserLoggedIn) {
+    return (
+      <LoginIndent message={"Please login to see you saved itineraries"} />
+    );
+  }
 
   return (
     <CustomScrollView refreshing={isLoading} onRefresh={loadItineraries}>
