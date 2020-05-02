@@ -6,10 +6,21 @@ import DebouncedAlert from "../../CommonComponents/DebouncedAlert/DebouncedAlert
 import DeviceInfo from "react-native-device-info";
 import _ from "lodash";
 import { perf } from "react-native-firebase";
+import { isProduction } from "../getEnvironmentDetails/getEnvironmentDetails";
 
 const timeoutDuration = 60000;
 const apiServer = constants.apiServerUrl;
 let isJustLoggedOut = false;
+
+const logger = (arg1, arg2) => {
+  if (!isProduction()) {
+    if (arg2) {
+      console.log(arg1, arg2);
+    } else {
+      console.log(arg1);
+    }
+  }
+};
 
 const apiCall = async (
   route,
@@ -81,11 +92,11 @@ const apiCall = async (
    * or throw errors in case the network request fails
    */
   const request = new Promise((resolve, reject) => {
-    console.log(requestURL);
-    console.log(body);
-    console.log(JSON.stringify(body));
-    console.log(method);
-    console.log(headers);
+    logger(requestURL);
+    logger(body);
+    logger(JSON.stringify(body));
+    logger(method);
+    logger(headers);
 
     function handleResponse(response) {
       /**
@@ -104,8 +115,8 @@ const apiCall = async (
           //  });
         });
 
-      console.log(response.status);
-      console.log(response.statusText);
+      logger(response.status);
+      logger(response.statusText);
 
       /**
        * User session has expired and he must be forced to logout
@@ -162,8 +173,8 @@ const apiCall = async (
     fetch(requestURL, requestDetails)
       .then(handleResponse) // will return the data or handles any errors in the network request
       .then(data => {
-        console.log(data);
-        console.log(requestURL, JSON.stringify(data));
+        logger(data);
+        logger(requestURL, JSON.stringify(data));
         logBreadCrumb({
           message: requestURL,
           category: constants.errorLoggerEvents.categories.networkRequest,
@@ -178,7 +189,7 @@ const apiCall = async (
         resolve(data);
       })
       .catch(err => {
-        console.log(err);
+        logger(err);
         reject(err);
       });
   });
