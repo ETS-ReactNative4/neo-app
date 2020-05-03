@@ -127,6 +127,34 @@ class TravelProfile {
   }
 
   @computed
+  get tripIntensityOptions() {
+    try {
+      if (travelProfileOptionsTypeGuard(this._travelProfileOptions)) {
+        return toJS(this._travelProfileOptions.tripIntensity);
+      } else {
+        return [];
+      }
+    } catch (e) {
+      logError(e);
+      return [];
+    }
+  }
+
+  @computed
+  get budgetRangeOptions() {
+    try {
+      if (travelProfileOptionsTypeGuard(this._travelProfileOptions)) {
+        return toJS(this._travelProfileOptions.budgetRange);
+      } else {
+        return [];
+      }
+    } catch (e) {
+      logError(e);
+      return [];
+    }
+  }
+
+  @computed
   get maritalStatusOptionImages(): maritalStatusOptionImagesType | {} {
     return toJS(this._maritalStatusOptionImages);
   }

@@ -18,6 +18,8 @@ export interface IWelcomeState {
   seenWelcomeScreen?: boolean;
   seenTravelCountryPicker?: boolean;
   seenMaritalStatus?: boolean;
+  seenTripIntensity?: boolean;
+  seenBudgetPreferences?: boolean;
   skippedAt?:
     | typeof SCREEN_APP_LOGIN
     | typeof SCREEN_TRAVEL_PROFILE_WELCOME
@@ -89,6 +91,15 @@ class WelcomeState {
         .catch(reject);
     });
   };
+
+  // constructor() {
+  //   this.patchWelcomeState("seenMaritalStatus", false);
+  //   this.patchWelcomeState("seenTravelCountryPicker", false);
+  //   this.patchWelcomeState("seenWelcomeScreen", false);
+  //   this.patchWelcomeState("seenTripIntensity", false);
+  //   this.patchWelcomeState("seenBudgetPreferences", false);
+  //   this.patchWelcomeState("skippedAt", false);
+  // }
 
   @action
   patchWelcomeState = <K extends keyof IWelcomeState>(

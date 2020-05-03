@@ -12,8 +12,7 @@ import {
   CONSTANT_black1,
   CONSTANT_twentyOneColor,
   CONSTANT_twentyTwoColor,
-  CONSTANT_shade6,
-  CONSTANT_shade1
+  CONSTANT_shade6
 } from "../../constants/colorPallete";
 import {
   CONSTANT_fontCustom,
@@ -22,17 +21,17 @@ import {
 import PrimaryButton from "../../CommonComponents/PrimaryButton/PrimaryButton";
 import { isIphoneX } from "react-native-iphone-x-helper";
 import { CONSTANT_xSensorAreaHeight } from "../../constants/styles";
-import SmartImageV2 from "../../CommonComponents/SmartImage/SmartImageV2";
 import {
-  CONSTANT_defaultPlaceImage,
   CONSTANT_laidBackIntensityAnimation,
   CONSTANT_packedIntensityAnimation,
-  CONSTANT_moderateIntensityAnimation,
-  CONSTANT_ZESTImageUrl
+  CONSTANT_moderateIntensityAnimation
 } from "../../constants/imageAssets";
 import SectionTitle from "../../CommonComponents/SectionTitle/SectionTitle";
 import { AppNavigatorProps } from "../../NavigatorsV2/AppNavigator";
-import { SCREEN_TRIP_INTENSITY } from "../../NavigatorsV2/ScreenNames";
+import {
+  SCREEN_TRIP_INTENSITY,
+  SCREEN_BUDGET_PREFERENCES
+} from "../../NavigatorsV2/ScreenNames";
 import skipUserProfileBuilder from "../../Services/skipUserProfileBuilder/skipUserProfileBuilder";
 import { observer, inject } from "mobx-react";
 import LottieView from "lottie-react-native";
@@ -83,7 +82,13 @@ const TripIntensity = ({
     navigation.dispatch(skipUserProfileBuilder());
   };
 
-  const continueFlow = () => {};
+  const continueFlow = () => {
+    welcomeStateStore.patchWelcomeState("seenTripIntensity", true);
+    travelProfileStore.updateTravelProfileData({
+      tripIntensity: selectedOption
+    });
+    navigation.navigate(SCREEN_BUDGET_PREFERENCES);
+  };
 
   useEffect(() => {
     navigation.setOptions({
@@ -116,7 +121,7 @@ const TripIntensity = ({
           containerStyle={styles.sectionTitleContainer}
           title={"How do you like your holidays?"}
           description={
-            "This will help us customize our suggestions to suit your travel style."
+            "A relaxing getway, an adventure-packed trip, or somewhere in between?"
           }
         />
         <View style={styles.animationWrapper}>
@@ -170,18 +175,6 @@ const TripIntensity = ({
               </TouchableOpacity>
             );
           })}
-        </View>
-
-        <View style={styles.emiParteners}>
-          <Text style={styles.emiPartenersText}>
-            Easy EMIs with our partners
-          </Text>
-          <SmartImageV2
-            source={{ uri: CONSTANT_ZESTImageUrl }}
-            fallbackSource={{ uri: CONSTANT_defaultPlaceImage }}
-            style={styles.emiPartenersImage}
-            resizeMode="cover"
-          />
         </View>
       </View>
 
@@ -251,23 +244,6 @@ const styles = StyleSheet.create({
     marginTop: 16,
     marginHorizontal: 32,
     marginBottom: 24 + (isIphoneX() ? CONSTANT_xSensorAreaHeight : 0)
-  },
-
-  emiParteners: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    marginHorizontal: 32,
-    marginBottom: 8
-  },
-  emiPartenersText: {
-    color: CONSTANT_shade1,
-    ...CONSTANT_fontCustom(CONSTANT_primaryRegular, 12, 15),
-    marginRight: 6
-  },
-  emiPartenersImage: {
-    width: 68,
-    height: 22
   }
 });
 
