@@ -1,9 +1,12 @@
-import React, { useEffect } from "react";
-import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
+import React, { useEffect, useState } from "react";
 import {
-  responsiveWidth
-  // @ts-ignore
-} from "react-native-responsive-dimensions";
+  View,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  LayoutAnimation
+} from "react-native";
+import { responsiveWidth } from "react-native-responsive-dimensions";
 import {
   CONSTANT_white,
   CONSTANT_black1,
@@ -22,7 +25,10 @@ import { CONSTANT_xSensorAreaHeight } from "../../constants/styles";
 import SmartImageV2 from "../../CommonComponents/SmartImage/SmartImageV2";
 import {
   CONSTANT_defaultPlaceImage,
-  CONSTANT_laidBackIntensityAnimation
+  CONSTANT_laidBackIntensityAnimation,
+  CONSTANT_packedIntensityAnimation,
+  CONSTANT_moderateIntensityAnimation,
+  CONSTANT_ZESTImageUrl
 } from "../../constants/imageAssets";
 import SectionTitle from "../../CommonComponents/SectionTitle/SectionTitle";
 import { AppNavigatorProps } from "../../NavigatorsV2/AppNavigator";
@@ -33,6 +39,8 @@ import LottieView from "lottie-react-native";
 import WelcomeHeader from "../../NavigatorsV2/Components/WelcomeHeader";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import WelcomeState from "../../mobx/WelcomeState";
+import TravelProfile, { tripIntensityType } from "../../mobx/TravelProfile";
+import createReadableText from "../../Services/createReadableText/createReadableText";
 
 export type TripIntensityNavTypes = AppNavigatorProps<
   typeof SCREEN_TRIP_INTENSITY
@@ -40,12 +48,32 @@ export type TripIntensityNavTypes = AppNavigatorProps<
 
 export interface TripIntensityProps extends TripIntensityNavTypes {
   welcomeStateStore: WelcomeState;
+  travelProfileStore: TravelProfile;
+}
+
+export interface ITripIntensityOption {
+  label: string;
+  value: tripIntensityType;
 }
 
 const TripIntensity = ({
   navigation,
-  welcomeStateStore
+  welcomeStateStore,
+  travelProfileStore
 }: TripIntensityProps) => {
+  const { tripIntensityOptions: tripIntensityValues } = travelProfileStore;
+
+  const [selectedOption, setSelectedOption] = useState<tripIntensityType>(
+    "LAID_BACK"
+  );
+
+  const [tripIntensityOptions, setTripIntensityOptions] = useState<
+    ITripIntensityOption[]
+  >([]);
+
+  const selectIntensity = (intensity: tripIntensityType) =>
+    setSelectedOption(intensity);
+
   const prevScreen = () => {
     navigation.goBack();
   };
@@ -67,8 +95,19 @@ const TripIntensity = ({
           onLeftLinkClick: prevScreen
         })
     });
+
+    setTripIntensityOptions(
+      tripIntensityValues.map(value => {
+        return {
+          label: createReadableText(value) as string,
+          value: value
+        };
+      })
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
 
   return (
     <View style={[styles.tripIntensityContainerStyle]}>
@@ -81,47 +120,56 @@ const TripIntensity = ({
           }
         />
         <View style={styles.animationWrapper}>
-          <LottieView
-            source={CONSTANT_laidBackIntensityAnimation()}
-            autoPlay
-            loop
-          />
+          {selectedOption === "LAID_BACK" ? (
+            <LottieView
+              source={CONSTANT_laidBackIntensityAnimation()}
+              autoPlay
+              loop
+            />
+          ) : selectedOption === "MODERATE" ? (
+            <LottieView
+              source={CONSTANT_moderateIntensityAnimation()}
+              autoPlay
+              loop
+            />
+          ) : (
+            <LottieView
+              source={CONSTANT_packedIntensityAnimation()}
+              autoPlay
+              loop
+            />
+          )}
         </View>
 
         <View style={styles.tripIntensityButtonWrapper}>
-          <TouchableOpacity
-            activeOpacity={0.8}
-            onPress={() => {}}
-            style={[
-              styles.tripIntensityButton,
-              styles.activeTripIntensityButton
-            ]}
-          >
-            <Text
-              style={[
-                styles.tripIntensityButtonText,
-                styles.activeTripIntensityButtonText
-              ]}
-            >
-              Laid back
-            </Text>
-          </TouchableOpacity>
+          {tripIntensityOptions.map((intensity, intensityIndex) => {
+            const clickHandler = () => selectIntensity(intensity.value);
 
-          <TouchableOpacity
-            activeOpacity={0.8}
-            onPress={() => {}}
-            style={styles.tripIntensityButton}
-          >
-            <Text style={styles.tripIntensityButtonText}>Moderate</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            activeOpacity={0.8}
-            onPress={() => {}}
-            style={[styles.tripIntensityButton, styles.noMarginRight]}
-          >
-            <Text style={styles.tripIntensityButtonText}>Packed</Text>
-          </TouchableOpacity>
+            return (
+              <TouchableOpacity
+                key={intensityIndex}
+                activeOpacity={0.8}
+                onPress={clickHandler}
+                style={[
+                  styles.tripIntensityButton,
+                  intensity.value === selectedOption
+                    ? styles.activeTripIntensityButton
+                    : null
+                ]}
+              >
+                <Text
+                  style={[
+                    styles.tripIntensityButtonText,
+                    intensity.value === selectedOption
+                      ? styles.activeTripIntensityButtonText
+                      : null
+                  ]}
+                >
+                  {intensity.label}
+                </Text>
+              </TouchableOpacity>
+            );
+          })}
         </View>
 
         <View style={styles.emiParteners}>
@@ -129,7 +177,7 @@ const TripIntensity = ({
             Easy EMIs with our partners
           </Text>
           <SmartImageV2
-            source={{ uri: "https://i.imgur.com/M20FIDf.png" }}
+            source={{ uri: CONSTANT_ZESTImageUrl }}
             fallbackSource={{ uri: CONSTANT_defaultPlaceImage }}
             style={styles.emiPartenersImage}
             resizeMode="cover"

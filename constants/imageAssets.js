@@ -266,6 +266,8 @@ export const CONSTANT_forexPartnerLogo = require("../assets/images/icons/forex-p
 export const CONSTANT_pytLogoNew = require("../assets/images/icons/logo_new.png");
 export const CONSTANT_pytLogoWhite = require("../assets/images/icons/pickyourtrail-white-logo.png");
 export const CONSTANT_pytLogoBlack = require("../assets/images/icons/pickyourtrail-black-logo.png");
+export const CONSTANT_pytLogoIcon = () =>
+  require("../assets/images/icons/splash-icon.png");
 export const CONSTANT_notificationIcon = require("../assets/images/icons/notification.png");
 export const CONSTANT_defaultUserIcon = require("../assets/images/icons/default-user.png");
 export const CONSTANT_backArrow = require("../assets/images/icons/left-arrow.png");
@@ -506,6 +508,13 @@ export const CONSTANT_preLoaderAnimation2 = () =>
 export const CONSTANT_preLoaderAnimation3 = () =>
   require("../assets/animations/preLoader3.json");
 
+export const CONSTANT_laidBackIntensityAnimation = () =>
+  require("../assets/animations/laidback.json");
+export const CONSTANT_moderateIntensityAnimation = () =>
+  require("../assets/animations/moderate.json");
+export const CONSTANT_packedIntensityAnimation = () =>
+  require("../assets/animations/packed.json");
+
 // TRUST ICONS
 export const CONSTANT_trustIconFacebook = () =>
   require("../assets/images/trust-icons/facebook.png");
@@ -517,5 +526,7 @@ export const CONSTANT_trustIconIata = () =>
 export const CONSTANT_requestCallbackCover = () => ({
   uri: "https://pyt-images.imgix.net/images/web_app/homepage/talk_to_us_v2.jpg"
 });
+
+export const CONSTANT_ZESTImageUrl = "https://i.imgur.com/M20FIDf.png";
 
 export default imageAssets;
