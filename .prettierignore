@@ -3,3 +3,6 @@ android/app/src/main/assets/draftjs-source.html
 
 # Android font map
 assets/fontMap/voyager.json
+
+# Lottie Animations
+assets/animations/*
