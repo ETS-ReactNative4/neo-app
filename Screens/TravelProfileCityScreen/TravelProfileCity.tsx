@@ -18,10 +18,7 @@ import {
 import { CONSTANT_xSensorAreaHeight } from "../../constants/styles";
 import { isIphoneX } from "react-native-iphone-x-helper";
 import SelectablePortraitImage from "../../CommonComponents/SelectablePortraitImage/SelectablePortraitImage";
-import {
-  responsiveWidth
-  // @ts-ignore
-} from "react-native-responsive-dimensions";
+import { responsiveWidth } from "react-native-responsive-dimensions";
 import SectionTitle from "../../CommonComponents/SectionTitle/SectionTitle";
 import MasonryView from "react-native-masonry-scrollview";
 import {
@@ -101,7 +98,7 @@ const TravelProfileCityComponent = ({
         WelcomeHeader(options, {
           rightLinkText: "Skip question",
           onRightLinkClick: skipFlow,
-          leftLinkText: "Part 1 of 3",
+          leftLinkText: "Part 1 of 4",
           onLeftLinkClick: prevScreen
         })
     });

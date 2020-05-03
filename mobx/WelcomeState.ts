@@ -7,7 +7,8 @@ import {
   SCREEN_TRAVEL_COUNTRY_PICKER,
   SCREEN_TRAVEL_MARITAL_STATUS,
   SCREEN_APP_LOGIN,
-  SCREEN_TRIP_INTENSITY
+  SCREEN_TRIP_INTENSITY,
+  SCREEN_BUDGET_PREFERENCES
 } from "../NavigatorsV2/ScreenNames";
 import { CONSTANT_userStateDetails } from "../constants/apiUrls";
 import { IMobileServerResponse } from "../TypeInterfaces/INetworkResponse";
@@ -26,6 +27,7 @@ export interface IWelcomeState {
     | typeof SCREEN_TRAVEL_COUNTRY_PICKER
     | typeof SCREEN_TRAVEL_MARITAL_STATUS
     | typeof SCREEN_TRIP_INTENSITY
+    | typeof SCREEN_BUDGET_PREFERENCES
     | boolean;
 }
 

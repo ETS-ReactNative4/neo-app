@@ -11,7 +11,10 @@ import {
   responsiveWidth
   // @ts-ignore
 } from "react-native-responsive-dimensions";
-import { SCREEN_TRAVEL_MARITAL_STATUS } from "../../NavigatorsV2/ScreenNames";
+import {
+  SCREEN_TRAVEL_MARITAL_STATUS,
+  SCREEN_TRIP_INTENSITY
+} from "../../NavigatorsV2/ScreenNames";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { AppNavigatorParamsType } from "../../NavigatorsV2/AppNavigator";
 import WelcomeHeader from "../../NavigatorsV2/Components/WelcomeHeader";
@@ -25,7 +28,6 @@ import * as Animatable from "react-native-animatable";
 import MaritalStatusActionSheet from "./Components/MaritalStatusActionSheet";
 import ratioCalculator from "../../Services/ratioCalculator/ratioCalculator";
 import { CONSTANT_white1 } from "../../constants/colorPallete";
-import launchPretripHome from "../../Services/launchPretripHome/launchPretripHome";
 import skipUserProfileBuilder from "../../Services/skipUserProfileBuilder/skipUserProfileBuilder";
 import WelcomeState from "../../mobx/WelcomeState";
 
@@ -123,7 +125,7 @@ const MaritalStatusComponent = ({
         WelcomeHeader(options, {
           rightLinkText: "Skip question",
           onRightLinkClick: skipFlow,
-          leftLinkText: "Part 2 of 3",
+          leftLinkText: "Part 2 of 4",
           onLeftLinkClick: prevScreen
         })
     });
@@ -165,7 +167,7 @@ const MaritalStatusComponent = ({
         .filter(option => option.isSelected)
         .map(option => option.text)
     });
-    navigation.dispatch(launchPretripHome({ source: "TravelProfileFlow" }));
+    navigation.navigate(SCREEN_TRIP_INTENSITY);
   };
 
   const selectSuggestedMaritalStatusData = (statusId: number) => {

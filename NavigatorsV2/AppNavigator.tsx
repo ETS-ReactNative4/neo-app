@@ -64,7 +64,8 @@ import {
   SCREEN_PAYMENT_SUMMARY,
   SCREEN_PAYMENT_SCREEN,
   SCREEN_PAYMENT_SUCCESS,
-  SCREEN_PAYMENT_FAILURE
+  SCREEN_PAYMENT_FAILURE,
+  SCREEN_BUDGET_PREFERENCES
 } from "./ScreenNames";
 import AppLogin from "../Screens/AppLoginScreen/AppLogin";
 import Starter from "../Screens/StartingScreen/Starter";
@@ -140,6 +141,7 @@ import PaymentSummary from "../Screens/PaymentSummaryScreen/PaymentSummary";
 import PaymentSuccess from "../Screens/PaymentScreens/PaymentSuccess";
 import PaymentFailure from "../Screens/PaymentScreens/PaymentFailure";
 import PaymentScreen from "../Screens/PaymentScreens/PaymentScreen";
+import BudgetPreferences from "../Screens/BudgetPreferencesScreen/BudgetPreferences";
 
 export type loginResetTargetTypes = typeof SCREEN_SAVED_ITINERARIES;
 
@@ -163,6 +165,7 @@ export type AppNavigatorParamsType = {
         isPositive: boolean;
       };
   [SCREEN_TRIP_INTENSITY]: undefined;
+  [SCREEN_BUDGET_PREFERENCES]: undefined;
   [SCREEN_STORY_BOOK]: undefined;
   [SCREEN_NOTIFICATION_DETAILS]: {
     notification: IItineraryNotification;
@@ -419,6 +422,10 @@ const AppNavigator = () => {
         <Screen name={SCREEN_ABOUT_SCREEN} component={About} />
         <Screen name={SCREEN_SAVED_ITINERARIES} component={SavedItinerary} />
         <Screen name={SCREEN_TRIP_INTENSITY} component={TripIntensity} />
+        <Screen
+          name={SCREEN_BUDGET_PREFERENCES}
+          component={BudgetPreferences}
+        />
         <Screen
           options={{
             headerShown: false

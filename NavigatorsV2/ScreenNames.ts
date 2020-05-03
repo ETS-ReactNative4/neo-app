@@ -20,6 +20,7 @@ export const SCREEN_TRAVELLER_PROFILE = "TravellerProfile";
 export const SCREEN_EDIT_TRAVELLER_PROFILE = "EditTravellerProfile";
 export const SCREEN_SAVED_ITINERARIES = "SavedItineraries";
 export const SCREEN_TRIP_INTENSITY = "TripIntensity";
+export const SCREEN_BUDGET_PREFERENCES = "BudgetPreferences";
 export const SCREEN_REQUEST_CALLBACK = "RequestCallback";
 export const SCREEN_GCM = "GCM";
 export const SCREEN_GCM_CITY_PICKER = "GCMCityPicker";
