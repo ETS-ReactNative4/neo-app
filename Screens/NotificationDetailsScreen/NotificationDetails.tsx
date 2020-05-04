@@ -29,7 +29,10 @@ import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import useUnbookedItinerary from "../ItineraryScreen/hooks/useUnbookedItinerary";
 import { IItineraryServerResponse } from "../ItineraryScreen/Itinerary";
 import apiCall from "../../Services/networkRequests/apiCall";
-import { CONSTANT_itineraryDetails } from "../../constants/apiUrls";
+import {
+  CONSTANT_itineraryDetails,
+  CONSTANT_notificationRead
+} from "../../constants/apiUrls";
 import { CONSTANT_responseSuccessStatus } from "../../constants/stringConstants";
 import { toastBottom } from "../../Services/toast/toast";
 import {
@@ -114,9 +117,20 @@ const NotificationDetails = ({
       });
   };
 
+  const markNotificationRead = () => {
+    apiCall(
+      `${CONSTANT_notificationRead}?itineraryId=${notification.itineraryId}`,
+      {},
+      "PATCH"
+    )
+      .then(() => null)
+      .catch(() => null);
+  };
+
   useEffect(() => {
     getNotificationDetails(notification.itineraryId);
     loadItinerary();
+    markNotificationRead();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

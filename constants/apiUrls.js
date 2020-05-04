@@ -84,6 +84,7 @@ export const CONSTANT_getFinalVoucherDownloadUrl =
   "mobile/:itineraryId/getFinalVoucherUrl";
 export const CONSTANT_getNotificationDetails =
   "itinerary/:itineraryId/notifications";
+export const CONSTANT_notificationRead = "pushnotifications/read";
 export const CONSTANT_getPackingChecklist = "mobile/displayCheckList";
 export const CONSTANT_getCheckList = "mobile/getCheckList";
 export const CONSTANT_updatePackingChecklist = "mobile/updateCheckList";
