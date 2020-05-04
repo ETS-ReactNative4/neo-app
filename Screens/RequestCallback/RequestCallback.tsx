@@ -26,6 +26,8 @@ import MobileNumberInputField from "../../CommonComponents/MobileNumberInputFiel
 import { ICountryCodeData } from "../AppLoginScreen/Components/PhoneNumberInput";
 import { useKeyboard } from "@react-native-community/hooks";
 import TranslucentStatusBar from "../../CommonComponents/TranslucentStatusBar/TranslucentStatusBar";
+import validateEmail from "../../Services/validateEmail/validateEmail";
+import validateMobileNumber from "../../Services/validateMobileNumber/validateMobileNumber";
 
 type RequestCallbackNavType = AppNavigatorProps<typeof SCREEN_REQUEST_CALLBACK>;
 
@@ -78,7 +80,11 @@ const RequestCallback = ({ navigation, userStore }: RequestCallbackProps) => {
       formFields.email &&
       formFields.mobileNumber &&
       formFields.name &&
-      formFields.contactHours
+      formFields.contactHours &&
+      validateEmail(formFields.email) &&
+      validateMobileNumber(
+        `${formFields.countryCode}${formFields.mobileNumber}`
+      )
     ) {
       try {
         const result = await submitRequestCallback({
@@ -179,7 +185,12 @@ const RequestCallback = ({ navigation, userStore }: RequestCallbackProps) => {
           placeholder="Mobile number"
           keyboardType="phone-pad"
           textInputRef={mobileNumberRef}
-          hasError={isSubmitAttempted && !formFields.mobileNumber}
+          hasError={
+            isSubmitAttempted &&
+            !validateMobileNumber(
+              `${formFields.countryCode}${formFields.mobileNumber}`
+            )
+          }
           returnKeyType={"next"}
           onSubmitEditing={() => emailAddressRef.current?.focus()}
           countryCode={formFields.countryCode}
@@ -194,7 +205,7 @@ const RequestCallback = ({ navigation, userStore }: RequestCallbackProps) => {
           placeholder="Email address"
           keyboardType="email-address"
           textInputRef={emailAddressRef}
-          hasError={isSubmitAttempted && !formFields.email}
+          hasError={isSubmitAttempted && !validateEmail(formFields.email)}
           returnKeyType={"next"}
           onSubmitEditing={toggleModalVisibility}
         />
