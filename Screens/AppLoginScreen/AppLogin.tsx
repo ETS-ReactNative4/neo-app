@@ -419,8 +419,8 @@ const AppLogin = ({
               smallTitleTextStyle={styles.smallWelcomeTitle}
               titleTextStyle={styles.welcomeTitle}
               titleNumberOfLines={2}
-              title="Let’s find you your next dream holiday :)"
-              smallTitle="Welcome"
+              title="It’s time to explore the world, your way"
+              smallTitle="WELCOME ABOARD!"
             />
             <PhoneNumberInput
               isLoading={mobileNumberApiDetails.isLoading}

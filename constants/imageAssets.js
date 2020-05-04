@@ -481,6 +481,8 @@ export const CONSTANT_hotelBigPlaceHolder = prefix + "Hotel-200x150.png";
 export const CONSTANT_hotelLargePlaceHolder = prefix + "Hotel-640x360.png";
 export const CONSTANT_roomsSmallPlaceHolder = prefix + "HotelRooms-120x90.png";
 export const CONSTANT_roomsLargePlaceHolder = prefix + "HotelRooms-240x180.png";
+export const CONSTANT_travelProfileWelcome = () =>
+  require("../assets/images/backgrounds/travelprofileWelcome.png");
 export const CONSTANT_defaultPlaceImage =
   "https://pyt-images.imgix.net/images/place-holder.png";
 export const CONSTANT_loginBackground = () =>

@@ -16,6 +16,7 @@ import getImgIXUrl from "../../../Services/getImgIXUrl/getImgIXUrl";
 import { recordEvent } from "../../../Services/analytics/analyticsService";
 
 import { CONSTANT_explore } from "../../../constants/appEvents";
+import { CONSTANT_preLoaderAnimation2 } from "../../../constants/imageAssets";
 
 export interface ICountryCard {
   countryId: number;
@@ -23,7 +24,7 @@ export interface ICountryCard {
   apiUrl: string;
   deepLinking: IExploreFeedLinks;
   startingPrice: number;
-  image: string;
+  imageUrl: string;
 }
 
 export interface ITestimonialsCard {
@@ -81,7 +82,10 @@ const CountryCardsRow = (props: ICountriesSection) => {
     >
       {({ data, isLoading }: ICountryCardData) => {
         return isLoading ? (
-          <ExploreCardLodingIndicator height={LODING_INDICATOR_HEIGHT} />
+          <ExploreCardLodingIndicator
+            animation={CONSTANT_preLoaderAnimation2()}
+            height={LODING_INDICATOR_HEIGHT}
+          />
         ) : (
           data &&
             data?.countries.map((country, countryIndex) => {
@@ -101,7 +105,7 @@ const CountryCardsRow = (props: ICountriesSection) => {
               return (
                 <FeaturedCardTypeOne
                   key={countryIndex}
-                  image={{ uri: getImgIXUrl({ src: country.image }) }}
+                  image={{ uri: getImgIXUrl({ src: country.imageUrl }) }}
                   price={getPriceWithoutSymbol(country.startingPrice)}
                   action={action}
                   containerStyle={styles.featuredCardTypeOneWrapper}

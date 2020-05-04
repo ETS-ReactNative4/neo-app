@@ -237,7 +237,7 @@ const Search = ({ navigation }: SearchScreenProps) => {
       <SearchBox
         text={searchString}
         onChangeText={updateText}
-        textPlaceholder={"Search for places"}
+        textPlaceholder={"Search by city, country, or experience"}
         onClear={resetText}
         containerStyle={styles.inputStyle}
       />

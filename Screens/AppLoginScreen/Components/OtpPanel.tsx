@@ -73,9 +73,9 @@ const OtpPanel = ({
 
   return (
     <DismissKeyboardView style={[styles.otpPanelContainer, containerStyle]}>
-      <Text style={styles.infoHeaderText}>{"AUTHENTICATE"}</Text>
+      <Text style={styles.infoHeaderText}>{"CONFIRM YOUR NUMBER"}</Text>
       <Text style={styles.infoText}>
-        {"We’ve sent you a 6 digit one time password for security."}
+        {"Please enter the 6-digit OTP sent to you"}
       </Text>
       <OtpInput
         code={code}
@@ -85,7 +85,7 @@ const OtpPanel = ({
       <View style={styles.optionsSection}>
         <View>
           <Text style={[styles.optionText, styles.leftText]}>
-            {isTimedOut ? "" : "TIMING OUT IN"}
+            {isTimedOut ? "" : "Expires In"}
           </Text>
           <Text
             style={[

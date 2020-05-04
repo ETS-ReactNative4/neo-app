@@ -1,16 +1,15 @@
 import React from "react";
 import { View, StyleSheet, ViewStyle, StyleProp } from "react-native";
-import {
-  responsiveWidth
-  // @ts-ignore
-} from "react-native-responsive-dimensions";
-
+import { responsiveWidth } from "react-native-responsive-dimensions";
 import { CONSTANT_shade4 } from "../../../constants/colorPallete";
-
 import SmartImageV2 from "../../../CommonComponents/SmartImage/SmartImageV2";
 import SectionTitle from "../../../CommonComponents/SectionTitle/SectionTitle";
 import PrimaryButton from "../../../CommonComponents/PrimaryButton/PrimaryButton";
 import ratioCalculator from "../../../Services/ratioCalculator/ratioCalculator";
+import {
+  CONSTANT_travelProfileWelcome,
+  CONSTANT_defaultPlaceImage
+} from "../../../constants/imageAssets";
 
 export interface TravelProfileIntroProps {
   containerStyle?: StyleProp<ViewStyle>;
@@ -35,11 +34,9 @@ const TravelProfileIntro = ({
     <View style={[styles.profileIntroContainer, containerStyle]}>
       <SmartImageV2
         resizeMode={"cover"}
-        source={{
-          uri: "https://pyt-images.imgix.net/images/cityImages/157/milan-2.jpg"
-        }}
+        source={CONSTANT_travelProfileWelcome()}
         fallbackSource={{
-          uri: "https://pyt-images.imgix.net/images/cityImages/157/milan-2.jpg"
+          uri: CONSTANT_defaultPlaceImage
         }}
         style={styles.introImageStyle}
       />

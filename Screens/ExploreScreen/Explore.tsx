@@ -134,9 +134,9 @@ const Explore = ({ navigation, yourBookingsStore }: ExploreScreenProps) => {
     },
     {
       type: "PACKAGE_ITINERARY_CARDS",
-      title: "Pocket-friendly destinations",
+      title: "Pocket-friendly holidays",
       color: "rgba(255, 136, 51,1)",
-      subTitle: "Holidays that are budgeted for the best",
+      subTitle: "Handpicked to suit your budget",
       apiUrl: "packages",
       httpMethod: "POST",
       requestPayload: {
@@ -149,9 +149,9 @@ const Explore = ({ navigation, yourBookingsStore }: ExploreScreenProps) => {
     },
     {
       type: "PROMOTED_CARDS",
-      title: "Deals from our partners",
+      title: "Pickyourtrail Exclusive",
       color: "rgba(0, 198, 132, 1)",
-      subTitle: "Get the best rates on your favourite destinations",
+      subTitle: "Enjoy amazing deals from our trusted partners",
       items: [
         {
           type: "WORLD_CUP_T20",
@@ -204,7 +204,7 @@ const Explore = ({ navigation, yourBookingsStore }: ExploreScreenProps) => {
       type: "BOOKED_ITINERARY_CARDS",
       title: "On-going holidays",
       color: "rgba(27, 169, 204,1)",
-      subTitle: "Check out where our other travellers are!",
+      subTitle: "Check out where others are travelling!",
       httpMethod: "GET",
       apiUrl: "itinerary/ongoingitineraries"
     },
@@ -218,9 +218,9 @@ const Explore = ({ navigation, yourBookingsStore }: ExploreScreenProps) => {
     },
     {
       type: "PACKAGE_ITINERARY_CARDS",
-      title: "VISA-ON-ARRIVAL",
+      title: "Visa-on-arrival destinations",
       color: "rgba(237, 182, 29, 1)",
-      subTitle: "Pick, Pack and Gooo",
+      subTitle: "Just pick, pack and go!",
       apiUrl: "packages",
       httpMethod: "POST",
       requestPayload: {
@@ -232,9 +232,9 @@ const Explore = ({ navigation, yourBookingsStore }: ExploreScreenProps) => {
     },
     {
       type: "PACKAGE_ITINERARY_CARDS",
-      title: "For the love birds",
+      title: "Romantic getaways",
       color: "rgba(215, 60, 84,1)",
-      subTitle: "Create memories of a lifetime.",
+      subTitle: "Make memories for a lifetime with your partner",
       apiUrl: "packages",
       httpMethod: "POST",
       requestPayload: {

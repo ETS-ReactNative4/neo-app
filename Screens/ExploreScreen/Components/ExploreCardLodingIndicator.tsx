@@ -1,20 +1,19 @@
 import React from "react";
 import LottieView from "lottie-react-native";
-import {
-  responsiveWidth
-  // @ts-ignore
-} from "react-native-responsive-dimensions";
+import { responsiveWidth } from "react-native-responsive-dimensions";
 import { View, StyleProp, ViewStyle, StyleSheet } from "react-native";
 import { CONSTANT_preLoaderAnimation } from "../../../constants/imageAssets";
 
 export interface ExploreCardLodingIndicatorProps {
   containerStyle?: StyleProp<ViewStyle>;
   height?: number;
+  animation?: any;
 }
 
 const ExploreCardLodingIndicator = ({
   containerStyle,
-  height
+  height,
+  animation = CONSTANT_preLoaderAnimation()
 }: ExploreCardLodingIndicatorProps) => {
   const loadingAnimationWrapperHeight = {
     height: height
@@ -28,7 +27,7 @@ const ExploreCardLodingIndicator = ({
       ]}
     >
       <LottieView
-        source={CONSTANT_preLoaderAnimation()}
+        source={animation}
         style={[styles.loadingAnimation]}
         autoPlay
         loop
