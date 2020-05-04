@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useCallback } from "react";
 import {
   View,
   ViewStyle,
@@ -28,7 +28,8 @@ import {
   CONSTANT_paymentIcon,
   CONSTANT_passIcon,
   CONSTANT_profileIcon,
-  CONSTANT_flagIcon
+  CONSTANT_flagIcon,
+  CONSTANT_compassIcon
 } from "../../constants/imageAssets";
 import PrimaryButton from "../../CommonComponents/PrimaryButton/PrimaryButton";
 import ProgressBar from "../../CommonComponents/ProgressBar/ProgressBar";
@@ -45,14 +46,15 @@ import {
   SCREEN_SAVED_ITINERARIES,
   SCREEN_YOUR_BOOKINGS,
   SCREEN_PRETRIP_HOME_TABS,
-  SCREEN_PAYMENT_HOME
+  SCREEN_PAYMENT_HOME,
+  SCREEN_APP_LOGIN
 } from "../../NavigatorsV2/ScreenNames";
 import { useFocusEffect } from "@react-navigation/native";
-import isUserLoggedIn from "../../Services/isUserLoggedIn/isUserLoggedIn";
 import { isProduction } from "../../Services/getEnvironmentDetails/getEnvironmentDetails";
 import TranslucentStatusBar from "../../CommonComponents/TranslucentStatusBar/TranslucentStatusBar";
 import logOut from "../../Services/logOut/logOut";
 import YourBookings from "../../mobx/YourBookings";
+import useIsUserLoggedIn from "../../Services/isUserLoggedIn/hooks/useIsUserLoggedIn";
 
 export interface IUltimateMenuLists {
   name: string;
@@ -83,29 +85,27 @@ const UltimateMenu = ({
 }: UltimateMenuProps) => {
   const { userDisplayDetails, getUserDisplayDetails } = userStore;
 
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
   const menuList: IUltimateMenuLists[] = [
     {
       name: "Craft your holiday",
-      iconName: "heart1",
+      iconName: CONSTANT_compassIcon,
       active: false,
       action: () => navigation.navigate(SCREEN_PRETRIP_HOME_TABS)
     },
     {
-      name: "My Saved Itineraries",
+      name: "Saved Itineraries",
       iconName: "heart1",
       active: false,
       action: () => navigation.navigate(SCREEN_SAVED_ITINERARIES)
     },
     {
-      name: "My Traveller Profile",
+      name: "My Profile",
       iconName: CONSTANT_profileIcon,
       active: false,
       action: () => navigation.navigate(SCREEN_TRAVELLER_PROFILE)
     },
     {
-      name: "About",
+      name: "About us",
       iconName: CONSTANT_flagIcon,
       active: false,
       action: () => navigation.navigate(SCREEN_ABOUT_SCREEN)
@@ -139,29 +139,22 @@ const UltimateMenu = ({
 
   const goBack = () => navigation.goBack();
 
-  const login = () => null;
+  const login = () => {
+    navigation.navigate(SCREEN_APP_LOGIN);
+  };
 
   const logout = () => {
     logOut();
   };
 
-  const checkLogin = () => {
-    isUserLoggedIn()
-      .then(result => {
-        setIsLoggedIn(result);
-      })
-      .catch(() => {
-        setIsLoggedIn(false);
-      });
-  };
-
   useFocusEffect(
     useCallback(() => {
       getUserDisplayDetails();
-      checkLogin();
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
   );
+
+  const isLoggedIn = useIsUserLoggedIn();
 
   return (
     <View style={[styles.ultimateMenuContainerStyle, containerStyle]}>
@@ -176,7 +169,9 @@ const UltimateMenu = ({
         </TouchableOpacity>
 
         <View style={styles.headerRightColumn}>
-          <Text style={styles.nameTextStyle}>{userDisplayDetails.name}</Text>
+          <Text style={styles.nameTextStyle}>
+            {isLoggedIn ? userDisplayDetails.name : "Guest User"}
+          </Text>
 
           {userDisplayDetails.email ? (
             <Text style={styles.emailTextStyle}>
@@ -198,7 +193,7 @@ const UltimateMenu = ({
             <ProgressBar progress={0} />
 
             <PrimaryButton
-              text={"Complete Preferences"}
+              text={"Complete Profile"}
               clickAction={buttonAction}
               buttonStyle={styles.buttonStyle}
               buttonTextStyle={styles.buttonTextStyle}
