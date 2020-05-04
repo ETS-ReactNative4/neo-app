@@ -80,6 +80,7 @@ const NotificationDetails = ({
         .then(result => {
           if (result) {
             loadItinerary();
+            getNotificationDetails(notification.itineraryId);
           } else {
             toastBottom("Unable to fetch updated cost!");
           }
