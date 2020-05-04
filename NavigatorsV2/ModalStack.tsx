@@ -31,6 +31,7 @@ import { IActivityCombinedInfo } from "../mobx/Itineraries";
 import ActivityVoucher from "../Screens/VoucherScreens/ActivityVoucherScreen/ActivityVoucher";
 import HotelVoucher from "../Screens/VoucherScreens/HotelVoucherScreen/HotelVoucher";
 import TransferVoucher from "../Screens/VoucherScreens/TransferVoucherScreen/TransferVoucher";
+import PDFViewerAndroid from "../Screens/PDFViewerScreen/PDFViewerAndroid";
 
 export type ListingPageType = {
   slug?: string;
@@ -113,6 +114,7 @@ const ModalStack = () => {
       <Screen name={SCREEN_ACTIVITY_VOUCHER} component={ActivityVoucher} />
       <Screen name={SCREEN_HOTEL_VOUCHER} component={HotelVoucher} />
       <Screen name={SCREEN_TRANSFER_VOUCHER} component={TransferVoucher} />
+      <Screen name={SCREEN_PDF_VIEWER} component={PDFViewerAndroid} />
     </Navigator>
   );
 };
