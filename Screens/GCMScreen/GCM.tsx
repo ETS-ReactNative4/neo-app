@@ -29,6 +29,7 @@ import {
   CONSTANT_costingDateFormat
 } from "../../constants/styles";
 import Picker from "../../CommonComponents/Picker/Picker";
+import TranslucentStatusBar from "../../CommonComponents/TranslucentStatusBar/TranslucentStatusBar";
 
 type RequestCallbackNavType = AppNavigatorProps<typeof SCREEN_GCM>;
 
@@ -142,6 +143,7 @@ const GCM = ({ navigation, route }: GCMProps) => {
 
   return (
     <GCMViewer bannerImage={bannerImage} backAction={goBack} title={title}>
+      <TranslucentStatusBar />
       <ScrollView
         showsVerticalScrollIndicator={false}
         style={[styles.tripContainerStyle]}

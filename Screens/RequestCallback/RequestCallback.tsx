@@ -25,6 +25,7 @@ import CountryCodePicker from "../MobileNumberScreen/Components/CountryCodePicke
 import MobileNumberInputField from "../../CommonComponents/MobileNumberInputField/MobileNumberInputField";
 import { ICountryCodeData } from "../AppLoginScreen/Components/PhoneNumberInput";
 import { useKeyboard } from "@react-native-community/hooks";
+import TranslucentStatusBar from "../../CommonComponents/TranslucentStatusBar/TranslucentStatusBar";
 
 type RequestCallbackNavType = AppNavigatorProps<typeof SCREEN_REQUEST_CALLBACK>;
 
@@ -133,6 +134,7 @@ const RequestCallback = ({ navigation, userStore }: RequestCallbackProps) => {
       title={"Have questions? We’ll call you back"}
       backAction={goBack}
     >
+      <TranslucentStatusBar />
       <CountryCodePicker
         isVisible={isCountryCodePickerVisible}
         onClose={toggleCCVisibility}
