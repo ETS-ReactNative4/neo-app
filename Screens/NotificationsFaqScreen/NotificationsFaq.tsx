@@ -31,6 +31,9 @@ const NotificationsFaq = ({
           headerText: "FAQs"
         })
     });
+
+    const { loadFaqDetails } = supportStore;
+    loadFaqDetails();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
