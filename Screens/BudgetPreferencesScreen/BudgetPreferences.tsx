@@ -25,10 +25,10 @@ import { CONSTANT_xSensorAreaHeight } from "../../constants/styles";
 import SmartImageV2 from "../../CommonComponents/SmartImage/SmartImageV2";
 import {
   CONSTANT_defaultPlaceImage,
-  CONSTANT_laidBackIntensityAnimation,
-  CONSTANT_packedIntensityAnimation,
-  CONSTANT_moderateIntensityAnimation,
-  CONSTANT_ZESTImageUrl
+  CONSTANT_ZESTImageUrl,
+  CONSTANT_midRangeAnimation,
+  CONSTANT_flexibleAnimation,
+  CONSTANT_dealHunterAnimation
 } from "../../constants/imageAssets";
 import SectionTitle from "../../CommonComponents/SectionTitle/SectionTitle";
 import { AppNavigatorProps } from "../../NavigatorsV2/AppNavigator";
@@ -127,23 +127,11 @@ const BudgetPreferences = ({
         />
         <View style={styles.animationWrapper}>
           {selectedOption === "DEAL_HUNTER" ? (
-            <LottieView
-              source={CONSTANT_laidBackIntensityAnimation()}
-              autoPlay
-              loop
-            />
+            <LottieView source={CONSTANT_dealHunterAnimation()} autoPlay loop />
           ) : selectedOption === "VALUE_FOR_MONEY" ? (
-            <LottieView
-              source={CONSTANT_moderateIntensityAnimation()}
-              autoPlay
-              loop
-            />
+            <LottieView source={CONSTANT_midRangeAnimation()} autoPlay loop />
           ) : (
-            <LottieView
-              source={CONSTANT_packedIntensityAnimation()}
-              autoPlay
-              loop
-            />
+            <LottieView source={CONSTANT_flexibleAnimation()} autoPlay loop />
           )}
         </View>
 

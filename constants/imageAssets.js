@@ -515,6 +515,13 @@ export const CONSTANT_moderateIntensityAnimation = () =>
 export const CONSTANT_packedIntensityAnimation = () =>
   require("../assets/animations/packed.json");
 
+export const CONSTANT_dealHunterAnimation = () =>
+  require("../assets/animations/DealHunter.json");
+export const CONSTANT_midRangeAnimation = () =>
+  require("../assets/animations/Midrange.json");
+export const CONSTANT_flexibleAnimation = () =>
+  require("../assets/animations/flexible.json");
+
 // TRUST ICONS
 export const CONSTANT_trustIconFacebook = () =>
   require("../assets/images/trust-icons/facebook.png");
