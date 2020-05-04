@@ -21,6 +21,10 @@ import DebouncedAlert from "../../CommonComponents/DebouncedAlert/DebouncedAlert
 import { observer, inject } from "mobx-react";
 import User from "../../mobx/User";
 import { toastBottom } from "../../Services/toast/toast";
+import CountryCodePicker from "../MobileNumberScreen/Components/CountryCodePicker";
+import MobileNumberInputField from "../../CommonComponents/MobileNumberInputField/MobileNumberInputField";
+import { ICountryCodeData } from "../AppLoginScreen/Components/PhoneNumberInput";
+import { useKeyboard } from "@react-native-community/hooks";
 
 type RequestCallbackNavType = AppNavigatorProps<typeof SCREEN_REQUEST_CALLBACK>;
 
@@ -44,7 +48,24 @@ const RequestCallback = ({ navigation, userStore }: RequestCallbackProps) => {
 
   const [isModalVisible, setIsModalVisibile] = useState(false);
 
+  const [isCountryCodePickerVisible, setIsCountryCodePickerVisible] = useState(
+    false
+  );
+
+  const [countryCodeEmoji, setCountryCodeEmoji] = useState<string>("🇮🇳");
+
+  const toggleCCVisibility = () =>
+    setIsCountryCodePickerVisible(!isCountryCodePickerVisible);
+
   const toggleModalVisibility = () => setIsModalVisibile(!isModalVisible);
+
+  const onSelectCountryCode = (
+    selectedCountryCode: string,
+    item: ICountryCodeData
+  ) => {
+    updateMethods.updateCountryCode(selectedCountryCode);
+    setCountryCodeEmoji(item.emoji);
+  };
 
   const onSelectContactHours = (option: ICallbackPickerOption) => {
     updateMethods.updateContactHours(option.value);
@@ -60,7 +81,7 @@ const RequestCallback = ({ navigation, userStore }: RequestCallbackProps) => {
     ) {
       try {
         const result = await submitRequestCallback({
-          countryPhoneCode: "+91", // PT TODO: Modify countrycode
+          countryPhoneCode: formFields.countryCode, // PT TODO: Modify countrycode
           email: formFields.email,
           mobileNumber: formFields.mobileNumber,
           name: formFields.name,
@@ -88,13 +109,23 @@ const RequestCallback = ({ navigation, userStore }: RequestCallbackProps) => {
   useEffect(() => {
     const { userDisplayDetails } = userStore;
 
-    const { name, email, mobileNumber } = userDisplayDetails;
+    const { name, email, mobileNumber, countryPhoneCode } = userDisplayDetails;
 
     name && updateMethods.updateName(name);
     email && updateMethods.updateEmail(email);
     mobileNumber && updateMethods.updateMobileNumber(mobileNumber);
+    countryPhoneCode && updateMethods.updateCountryCode(countryPhoneCode);
+    if (countryPhoneCode) {
+      if (countryPhoneCode === "+91") {
+        setCountryCodeEmoji("🇮🇳");
+      } else {
+        setCountryCodeEmoji("");
+      }
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const { keyboardShown } = useKeyboard();
 
   return (
     <GCMViewer
@@ -102,6 +133,11 @@ const RequestCallback = ({ navigation, userStore }: RequestCallbackProps) => {
       title={"Have questions? We’ll call you back"}
       backAction={goBack}
     >
+      <CountryCodePicker
+        isVisible={isCountryCodePickerVisible}
+        onClose={toggleCCVisibility}
+        selectCountryCode={onSelectCountryCode}
+      />
       <Picker
         onSelectOption={onSelectContactHours}
         isVisible={isModalVisible}
@@ -134,7 +170,7 @@ const RequestCallback = ({ navigation, userStore }: RequestCallbackProps) => {
           onSubmitEditing={() => mobileNumberRef.current?.focus()}
         />
 
-        <TextInputField
+        <MobileNumberInputField
           label={"MOBILE NUMBER"}
           value={formFields.mobileNumber}
           onChangeText={updateMethods.updateMobileNumber}
@@ -144,6 +180,9 @@ const RequestCallback = ({ navigation, userStore }: RequestCallbackProps) => {
           hasError={isSubmitAttempted && !formFields.mobileNumber}
           returnKeyType={"next"}
           onSubmitEditing={() => emailAddressRef.current?.focus()}
+          countryCode={formFields.countryCode}
+          onCountryCodeClick={toggleCCVisibility}
+          countryCodeEmoji={countryCodeEmoji}
         />
 
         <TextInputField
@@ -168,11 +207,13 @@ const RequestCallback = ({ navigation, userStore }: RequestCallbackProps) => {
 
         <BlankSpacer height={166} />
       </KeyboardAwareScrollView>
-      <BottomButtonBar
-        disableLeftButton
-        rightButtonName={"Request call back"}
-        rightButtonAction={submitCallbackRequest}
-      />
+      {!keyboardShown ? (
+        <BottomButtonBar
+          disableLeftButton
+          rightButtonName={"Request call back"}
+          rightButtonAction={submitCallbackRequest}
+        />
+      ) : null}
     </GCMViewer>
   );
 };
