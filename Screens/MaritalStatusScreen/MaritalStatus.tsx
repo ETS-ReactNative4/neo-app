@@ -28,7 +28,6 @@ import * as Animatable from "react-native-animatable";
 import MaritalStatusActionSheet from "./Components/MaritalStatusActionSheet";
 import ratioCalculator from "../../Services/ratioCalculator/ratioCalculator";
 import { CONSTANT_white1 } from "../../constants/colorPallete";
-import skipUserProfileBuilder from "../../Services/skipUserProfileBuilder/skipUserProfileBuilder";
 import WelcomeState from "../../mobx/WelcomeState";
 
 const { createAnimatableComponent } = Animatable;
@@ -153,7 +152,7 @@ const MaritalStatusComponent = ({
       "skippedAt",
       SCREEN_TRAVEL_MARITAL_STATUS
     );
-    navigation.dispatch(skipUserProfileBuilder());
+    navigation.navigate(SCREEN_TRIP_INTENSITY);
   };
 
   const prevScreen = () => {

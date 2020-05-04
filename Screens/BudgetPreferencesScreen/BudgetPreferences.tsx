@@ -32,8 +32,10 @@ import {
 } from "../../constants/imageAssets";
 import SectionTitle from "../../CommonComponents/SectionTitle/SectionTitle";
 import { AppNavigatorProps } from "../../NavigatorsV2/AppNavigator";
-import { SCREEN_BUDGET_PREFERENCES } from "../../NavigatorsV2/ScreenNames";
-import skipUserProfileBuilder from "../../Services/skipUserProfileBuilder/skipUserProfileBuilder";
+import {
+  SCREEN_BUDGET_PREFERENCES,
+  SCREEN_APP_LOGIN
+} from "../../NavigatorsV2/ScreenNames";
 import { observer, inject } from "mobx-react";
 import LottieView from "lottie-react-native";
 import WelcomeHeader from "../../NavigatorsV2/Components/WelcomeHeader";
@@ -42,6 +44,7 @@ import WelcomeState from "../../mobx/WelcomeState";
 import TravelProfile, { budgetRangeType } from "../../mobx/TravelProfile";
 import createReadableText from "../../Services/createReadableText/createReadableText";
 import launchPretripHome from "../../Services/launchPretripHome/launchPretripHome";
+import isUserLoggedIn from "../../Services/isUserLoggedIn/isUserLoggedIn";
 
 export type BudgetPreferencesNavTypes = AppNavigatorProps<
   typeof SCREEN_BUDGET_PREFERENCES
@@ -80,7 +83,9 @@ const BudgetPreferences = ({
 
   const skipFlow = () => {
     welcomeStateStore.patchWelcomeState("skippedAt", SCREEN_BUDGET_PREFERENCES);
-    navigation.dispatch(skipUserProfileBuilder());
+    navigation.navigate(SCREEN_APP_LOGIN, {
+      launchSource: "PRETRIP_WELCOME_FLOW"
+    });
   };
 
   const continueFlow = () => {
@@ -88,7 +93,21 @@ const BudgetPreferences = ({
     travelProfileStore.updateTravelProfileData({
       tripBudget: selectedOption
     });
-    navigation.dispatch(launchPretripHome({ source: "TravelProfileFlow" }));
+    isUserLoggedIn()
+      .then(isLoggedIn => {
+        if (!isLoggedIn) {
+          navigation.navigate(SCREEN_APP_LOGIN, {
+            launchSource: "PRETRIP_WELCOME_FLOW"
+          });
+        } else {
+          navigation.dispatch(
+            launchPretripHome({ source: "TravelProfileFlow" })
+          );
+        }
+      })
+      .catch(() => {
+        navigation.dispatch(launchPretripHome({ source: "TravelProfileFlow" }));
+      });
   };
 
   useEffect(() => {

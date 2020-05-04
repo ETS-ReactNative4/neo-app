@@ -76,6 +76,7 @@ import storeService from "../../Services/storeService/storeService";
 import Itineraries from "../../mobx/Itineraries";
 import launchItinerarySelector from "../../Services/launchItinerarySelector/launchItinerarySelector";
 import launchSavedItineraries from "../../Services/launchSavedItineraries/launchSavedItineraries";
+import launchPretripHome from "../../Services/launchPretripHome/launchPretripHome";
 
 type screenName = typeof SCREEN_APP_LOGIN;
 
@@ -378,6 +379,14 @@ const AppLogin = ({
     }
   }, [loginSuccessData, loginFailureData]);
 
+  const skipAction = () =>
+    navigation.dispatch(launchPretripHome({ source: "TravelProfileFlow" }));
+
+  const isTitleVisible = !keyboardShown;
+
+  const isSkipVisible =
+    (route.params?.launchSource ?? "") === "PRETRIP_WELCOME_FLOW";
+
   return (
     <Fragment>
       <TranslucentStatusBar />
@@ -399,10 +408,11 @@ const AppLogin = ({
           />
         ) : null}
         <LinearGradient {...gradientOptions} style={styles.backgroundGradient}>
-          {!keyboardShown ? (
+          {isTitleVisible ? (
             <AppLoginTitle
-              skipAction={() => null}
+              skipAction={skipAction}
               containerStyle={styles.loginTitleContainer}
+              isSkipVisible={isSkipVisible}
             />
           ) : (
             <View />

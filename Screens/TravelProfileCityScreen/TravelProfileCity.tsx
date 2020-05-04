@@ -37,7 +37,6 @@ import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import { observer, inject } from "mobx-react";
 import TravelProfile from "../../mobx/TravelProfile";
 import matchQueryWithText from "../../Services/matchQueryWithText/matchQueryWIthText";
-import skipUserProfileBuilder from "../../Services/skipUserProfileBuilder/skipUserProfileBuilder";
 import WelcomeState from "../../mobx/WelcomeState";
 
 const { createAnimatableComponent } = Animatable;
@@ -125,7 +124,7 @@ const TravelProfileCityComponent = ({
       "skippedAt",
       SCREEN_TRAVEL_COUNTRY_PICKER
     );
-    navigation.dispatch(skipUserProfileBuilder());
+    navigation.navigate(SCREEN_TRAVEL_MARITAL_STATUS);
   };
 
   const selectSuggestedCountry = (countryId: number) => {

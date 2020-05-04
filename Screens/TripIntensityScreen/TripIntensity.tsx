@@ -32,7 +32,6 @@ import {
   SCREEN_TRIP_INTENSITY,
   SCREEN_BUDGET_PREFERENCES
 } from "../../NavigatorsV2/ScreenNames";
-import skipUserProfileBuilder from "../../Services/skipUserProfileBuilder/skipUserProfileBuilder";
 import { observer, inject } from "mobx-react";
 import LottieView from "lottie-react-native";
 import WelcomeHeader from "../../NavigatorsV2/Components/WelcomeHeader";
@@ -79,7 +78,7 @@ const TripIntensity = ({
 
   const skipFlow = () => {
     welcomeStateStore.patchWelcomeState("skippedAt", SCREEN_TRIP_INTENSITY);
-    navigation.dispatch(skipUserProfileBuilder());
+    navigation.navigate(SCREEN_BUDGET_PREFERENCES);
   };
 
   const continueFlow = () => {

@@ -145,12 +145,15 @@ import BudgetPreferences from "../Screens/BudgetPreferencesScreen/BudgetPreferen
 
 export type loginResetTargetTypes = typeof SCREEN_SAVED_ITINERARIES;
 
+export type loginLaunchSourceTypes = "PRETRIP_WELCOME_FLOW";
+
 export type AppNavigatorParamsType = {
   [SCREEN_MODAL_STACK]: StackNavigationProp<ModalNavigatorParamsType>;
   [SCREEN_PRETRIP_HOME_TABS]: BottomTabNavigationProp<PreTripHomeTabsType>;
   [SCREEN_POST_BOOKING_HOME]: BottomTabNavigationProp<PostBookingHomeTabsType>;
   [SCREEN_APP_LOGIN]: {
     resetTarget?: loginResetTargetTypes;
+    launchSource?: loginLaunchSourceTypes;
   };
   [SCREEN_STARTER]: undefined;
   [SCREEN_TRAVEL_PROFILE_WELCOME]: undefined;

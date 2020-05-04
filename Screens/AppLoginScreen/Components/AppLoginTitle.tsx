@@ -11,11 +11,13 @@ import {
 export interface AppLoginTitleProps {
   containerStyle?: StyleProp<ViewStyle>;
   skipAction: () => any;
+  isSkipVisible?: boolean;
 }
 
 const AppLoginTitle = ({
   containerStyle,
-  skipAction = () => null
+  skipAction = () => null,
+  isSkipVisible = false
 }: AppLoginTitleProps) => {
   return (
     <View style={[styles.appLoginTitleContainer, containerStyle]}>
@@ -25,9 +27,11 @@ const AppLoginTitle = ({
         source={CONSTANT_pytLogoWhite}
         fallbackSource={CONSTANT_pytLogoWhite}
       />
-      <Text style={styles.skipText} onPress={skipAction}>
-        {"SKIP"}
-      </Text>
+      {isSkipVisible ? (
+        <Text style={styles.skipText} onPress={skipAction}>
+          {"SKIP"}
+        </Text>
+      ) : null}
     </View>
   );
 };
