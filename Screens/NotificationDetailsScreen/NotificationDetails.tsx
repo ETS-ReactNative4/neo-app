@@ -139,7 +139,7 @@ const NotificationDetails = ({
       return acc + (room.childAges ? room.childAges.length : 0);
     }, 0);
 
-    travelType = costingConfig.travelType;
+    travelType = costingConfig.tripType;
   }
 
   if (itineraryMeta) {

@@ -29,7 +29,7 @@ export interface ICostingConfig {
   departureAirport: string; //"MAA";
   arrivalAirport: string; //"MAA";
   departureDate: string; //"12/Jan/2021";
-  travelType: travelType;
+  tripType: travelType;
 }
 
 export interface ILeadSource {
@@ -146,7 +146,7 @@ const useGCMForm = (
         moment(costingConfig.departureDate, CONSTANT_costingDateFormat).toDate()
       );
       const travellingAsTarget = travellingAsOptions.find(
-        item => item.value === costingConfig.travelType
+        item => item.value === costingConfig.tripType
       );
       if (travellingAsTarget) {
         setTravellingAs(travellingAsTarget);

@@ -68,7 +68,7 @@ const GCM = ({ navigation, route }: GCMProps) => {
         departureAirport: arrivalAirport,
         departureDate,
         hotelGuestRoomConfigurations,
-        travelType
+        tripType: travelType
       });
     }
     navigation.goBack();

@@ -52,10 +52,12 @@ const ItineraryDetail = ({
         <Text style={styles.textStyle}>{departingFrom}</Text>
       </View>
 
-      <View style={styles.detailList}>
-        <Text style={styles.titleTextStyle}>TRAVELLING AS</Text>
-        <Text style={styles.textStyle}>{travellingAs}</Text>
-      </View>
+      {travellingAs ? (
+        <View style={styles.detailList}>
+          <Text style={styles.titleTextStyle}>TRAVELLING AS</Text>
+          <Text style={styles.textStyle}>{travellingAs}</Text>
+        </View>
+      ) : null}
 
       <View style={styles.detailList}>
         <Text style={styles.titleTextStyle}>ROOM DETAILS</Text>
@@ -113,7 +115,8 @@ const styles = StyleSheet.create({
   },
   textStyle: {
     ...CONSTANT_fontCustom(CONSTANT_primarySemiBold, 15),
-    color: CONSTANT_black1
+    color: CONSTANT_black1,
+    textTransform: "capitalize"
   },
   buttonStyle: {
     width: 136,
