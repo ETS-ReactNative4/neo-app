@@ -402,7 +402,7 @@ PODS:
   - RNFreshchatSDK (2.2.0):
     - FreshchatSDK (= 2.9.0)
     - React
-  - RNGestureHandler (1.6.0):
+  - RNGestureHandler (1.6.1):
     - React
   - RNImageCropPicker (0.25.0):
     - QBImagePickerController
@@ -773,7 +773,7 @@ SPEC CHECKSUMS:
   RNFileViewer: 5047ecf40477339723cc08abd55b5ebcefcef4b5
   RNFirebase: b627e5991bb10bf34cea84806819f98f95f39f8b
   RNFreshchatSDK: 072c81999396064c3b5c25435c17def4ba3a97c2
-  RNGestureHandler: dde546180bf24af0b5f737c8ad04b6f3fa51609a
+  RNGestureHandler: 8f09cd560f8d533eb36da5a6c5a843af9f056b38
   RNImageCropPicker: 0a731d984e64ee4c28bddaa7ce52262e4b80979f
   RNInAppBrowser: 6a4b1c006d41d76eac14d758145335c83e1ab1cf
   RNKeychain: 840f8e6f13be0576202aefcdffd26a4f54bfe7b5
