@@ -74,6 +74,16 @@ class WelcomeState {
     return this._welcomeState.seenMaritalStatus;
   }
 
+  @computed get completionPercentage() {
+    let score = 0;
+    this._welcomeState.seenBudgetPreferences && score++;
+    this._welcomeState.seenMaritalStatus && score++;
+    this._welcomeState.seenTravelCountryPicker && score++;
+    this._welcomeState.seenTripIntensity && score++;
+    this._welcomeState.seenWelcomeScreen && score++;
+    return (score / 5) * 100;
+  }
+
   @action
   loadWelcomeState = (): Promise<boolean> => {
     return new Promise<boolean>((resolve, reject) => {

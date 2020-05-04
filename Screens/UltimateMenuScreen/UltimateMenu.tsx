@@ -1,7 +1,6 @@
 import React, { useCallback } from "react";
 import {
   View,
-  ViewStyle,
   StyleSheet,
   TouchableOpacity,
   Text,
@@ -47,7 +46,8 @@ import {
   SCREEN_YOUR_BOOKINGS,
   SCREEN_PRETRIP_HOME_TABS,
   SCREEN_PAYMENT_HOME,
-  SCREEN_APP_LOGIN
+  SCREEN_APP_LOGIN,
+  SCREEN_TRAVEL_PROFILE_WELCOME
 } from "../../NavigatorsV2/ScreenNames";
 import { useFocusEffect } from "@react-navigation/native";
 import { isProduction } from "../../Services/getEnvironmentDetails/getEnvironmentDetails";
@@ -55,6 +55,7 @@ import TranslucentStatusBar from "../../CommonComponents/TranslucentStatusBar/Tr
 import logOut from "../../Services/logOut/logOut";
 import YourBookings from "../../mobx/YourBookings";
 import useIsUserLoggedIn from "../../Services/isUserLoggedIn/hooks/useIsUserLoggedIn";
+import WelcomeState from "../../mobx/WelcomeState";
 
 export interface IUltimateMenuLists {
   name: string;
@@ -66,24 +67,23 @@ export interface IUltimateMenuLists {
 type UltimateMenuNavType = AppNavigatorProps<typeof SCREEN_ULTIMATE_MENU>;
 
 export interface UltimateMenuProps extends UltimateMenuNavType {
-  containerStyle?: ViewStyle;
-  buttonAction: () => void;
   enableLogin?: boolean;
   userStore: User;
   yourBookingsStore: YourBookings;
+  welcomeStateStore: WelcomeState;
 }
 
 const HEADER_CONTAINER_WIDTH = responsiveWidth(100);
 const HEADER_CONTAINER_HEIGHT = ratioCalculator(5, 3, HEADER_CONTAINER_WIDTH);
 
 const UltimateMenu = ({
-  containerStyle,
-  buttonAction = () => {},
   navigation,
   userStore,
-  yourBookingsStore
+  yourBookingsStore,
+  welcomeStateStore
 }: UltimateMenuProps) => {
   const { userDisplayDetails, getUserDisplayDetails } = userStore;
+  const { completionPercentage } = welcomeStateStore;
 
   const menuList: IUltimateMenuLists[] = [
     {
@@ -156,8 +156,12 @@ const UltimateMenu = ({
 
   const isLoggedIn = useIsUserLoggedIn();
 
+  const editProfile = () => {
+    navigation.navigate(SCREEN_TRAVEL_PROFILE_WELCOME);
+  };
+
   return (
-    <View style={[styles.ultimateMenuContainerStyle, containerStyle]}>
+    <View style={styles.ultimateMenuContainerStyle}>
       <TranslucentStatusBar />
       <View style={styles.headerContainer}>
         <TouchableOpacity
@@ -190,11 +194,15 @@ const UltimateMenu = ({
           )}
 
           <View style={styles.completePreferenceWrapper}>
-            <ProgressBar progress={0} />
+            <ProgressBar progress={completionPercentage} />
 
             <PrimaryButton
-              text={"Complete Profile"}
-              clickAction={buttonAction}
+              text={
+                completionPercentage === 100
+                  ? "Edit Profile"
+                  : "Complete Profile"
+              }
+              clickAction={editProfile}
               buttonStyle={styles.buttonStyle}
               buttonTextStyle={styles.buttonTextStyle}
             />
@@ -326,5 +334,7 @@ const styles = StyleSheet.create({
 });
 
 export default ErrorBoundary()(
-  inject("yourBookingsStore")(inject("userStore")(observer(UltimateMenu)))
+  inject("welcomeStateStore")(
+    inject("yourBookingsStore")(inject("userStore")(observer(UltimateMenu)))
+  )
 );
