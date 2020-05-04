@@ -95,9 +95,9 @@ const BudgetPreferences = ({
     navigation.setOptions({
       header: options =>
         WelcomeHeader(options, {
-          rightLinkText: "Skip question",
+          rightLinkText: "Skip",
           onRightLinkClick: skipFlow,
-          leftLinkText: "Part 4 of 4",
+          leftLinkText: "Back",
           onLeftLinkClick: prevScreen
         })
     });
@@ -180,7 +180,7 @@ const BudgetPreferences = ({
 
         <View style={styles.emiParteners}>
           <Text style={styles.emiPartenersText}>
-            Easy EMIs with our partners
+            Avail easy No Cost EMIs with
           </Text>
           <SmartImageV2
             source={{ uri: CONSTANT_ZESTImageUrl }}

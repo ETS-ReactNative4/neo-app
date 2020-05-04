@@ -29,10 +29,11 @@ const TravelProfileActionSheet = ({
     >
       <View style={styles.actionSheetContainer}>
         <SectionTitle
-          smallTitle={"BEFORE WE START"}
-          title={"Is this your first time travelling out of India?"}
+          smallTitle={"Let’s get started!"}
+          title={"Is this your first international holiday?"}
           titleNumberOfLines={2}
           containerStyle={styles.sectionTitleContainerStyle}
+          smallTitleTextStyle={styles.titleInfoStyle}
         />
 
         <View style={styles.buttonWrapperContainer}>
@@ -60,6 +61,9 @@ const styles = StyleSheet.create({
   buttonWrapperContainer: {
     flexDirection: "row",
     justifyContent: "space-between"
+  },
+  titleInfoStyle: {
+    textTransform: "capitalize"
   },
 
   buttonContainerStyle: {

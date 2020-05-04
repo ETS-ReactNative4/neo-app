@@ -96,9 +96,9 @@ const TravelProfileCityComponent = ({
     navigation.setOptions({
       header: options =>
         WelcomeHeader(options, {
-          rightLinkText: "Skip question",
+          rightLinkText: "Skip",
           onRightLinkClick: skipFlow,
-          leftLinkText: "Part 1 of 4",
+          leftLinkText: "Back",
           onLeftLinkClick: prevScreen
         })
     });
@@ -143,11 +143,11 @@ const TravelProfileCityComponent = ({
 
   const isPositive = route.params ? route.params.isPositive : false;
   const sectionTitle = isPositive
-    ? "Tell us where you wish to go"
-    : "Tell us where you’ve been";
+    ? "Where do you wish to travel?"
+    : "Tell us where you’ve travelled before";
   const sectionDescription = isPositive
-    ? "So we can recommend where you can go next."
-    : "So we can recommend where you can go next.";
+    ? "We’ve got the world right here!"
+    : "And we’ll show you what more can be discovered!";
 
   const selectedCities = suggestedCountries.filter(
     suggestedCity => suggestedCity.isSelected
@@ -174,7 +174,7 @@ const TravelProfileCityComponent = ({
   return (
     <View style={styles.travelProfileCityContainer}>
       <SearchBox
-        textPlaceholder={"Find a country"}
+        textPlaceholder={"Type your favourite destination"}
         text={search}
         onChangeText={setSearch}
         onClear={clearSearch}
@@ -232,7 +232,7 @@ const TravelProfileCityComponent = ({
         <Text
           style={styles.selectedTextStyle}
         >{`${selectedCities.length} Selected`}</Text>
-        <Text style={styles.textStyle}>Next - Marital Status</Text>
+        <Text style={styles.textStyle}>Continue</Text>
       </AnimatableTouchableOpacity>
     </View>
   );

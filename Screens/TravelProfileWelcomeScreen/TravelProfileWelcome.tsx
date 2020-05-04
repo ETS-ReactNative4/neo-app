@@ -66,7 +66,7 @@ const TravelProfileWelcomeComponent = ({
     navigation.setOptions({
       header: options =>
         WelcomeHeader(options, {
-          rightLinkText: "Do this later",
+          rightLinkText: "Skip",
           onRightLinkClick: skipFlow
         })
     });

@@ -261,12 +261,12 @@ class Starter extends Component<StarterProps, StarterState> {
               </View>
               <View style={styles.linkRow}>
                 <Text style={styles.infoText}>
-                  {`or, check your  `}
+                  {`or, check `}
                   <Text
                     style={styles.infoLink}
                     onPress={this.clickedSavedItineraries}
                   >
-                    {`Saved Itineraries`}
+                    {`saved itineraries`}
                   </Text>
                 </Text>
               </View>

@@ -297,8 +297,8 @@ const appText = {
 };
 
 export const CONSTANT_starterScreenText = {
-  mainButton: "Or, find your booking",
-  exploreButton: "Explore itineraries"
+  mainButton: "Find your bookings",
+  exploreButton: "Plan a holiday"
 };
 export const CONSTANT_aboutUsText = {
   title: "About Us",

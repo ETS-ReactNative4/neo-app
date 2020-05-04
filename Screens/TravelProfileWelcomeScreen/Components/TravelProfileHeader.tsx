@@ -6,7 +6,8 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
-  TextStyle
+  TextStyle,
+  Platform
 } from "react-native";
 
 import {
@@ -97,7 +98,12 @@ const styles = StyleSheet.create({
     height: 56,
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
+    ...Platform.select({
+      ios: {
+        marginTop: 2
+      }
+    })
   },
 
   linkLeftTouchableStyle: { paddingLeft: 8 },
@@ -112,13 +118,18 @@ const styles = StyleSheet.create({
   leftTextStyle: {
     color: CONSTANT_black1,
     ...CONSTANT_fontCustom(CONSTANT_primarySemiBold, 14),
-    textTransform: "uppercase"
+    ...Platform.select({
+      ios: {
+        marginTop: 2
+      }
+    })
+    // textTransform: "uppercase"
   },
 
   rightTextStyle: {
     color: CONSTANT_shade1,
     ...CONSTANT_fontCustom(CONSTANT_primarySemiBold, 12),
-    textTransform: "uppercase",
+    // textTransform: "uppercase",
     textDecorationLine: "underline"
   }
 });

@@ -94,9 +94,9 @@ const TripIntensity = ({
     navigation.setOptions({
       header: options =>
         WelcomeHeader(options, {
-          rightLinkText: "Skip question",
+          rightLinkText: "Skip",
           onRightLinkClick: skipFlow,
-          leftLinkText: "Part 3 of 4",
+          leftLinkText: "Back",
           onLeftLinkClick: prevScreen
         })
     });

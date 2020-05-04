@@ -44,10 +44,10 @@ const TravelProfileIntro = ({
         style={styles.introImageStyle}
       />
       <SectionTitle
-        smallTitle={"WELCOME,"}
-        title={"Travel styles vary and we’d like to get to know yours."}
+        smallTitle={"Hello,"}
+        title={"It’s time to explore the world, your way!"}
         description={
-          "We’ll use your preference info to make better and more relevant recommendations."
+          "Tell us what’s on top of your bucket list & we’ll curate a list of exclusive experiences for you."
         }
         titleNumberOfLines={2}
       />

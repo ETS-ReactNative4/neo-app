@@ -5,7 +5,9 @@ import {
   ViewStyle,
   StyleProp,
   ImageStyle,
-  TouchableOpacity
+  TouchableOpacity,
+  View,
+  Platform
 } from "react-native";
 import {
   CONSTANT_black1,
@@ -38,6 +40,13 @@ const MARITAL_STATUS_CARD_IMAGE_HEIGHT = ratioCalculator(
   MARITAL_STATUS_CARD_IMAGE_WIDTH
 );
 
+const emojiMap: { [key: string]: string } = {
+  COUPLE: "❤️",
+  FAMILY: "👪",
+  FRIENDS: "🎉",
+  SOLO: "😎"
+};
+
 const MaritalStatusCard = ({
   containerStyle,
   imageSource = "",
@@ -63,16 +72,19 @@ const MaritalStatusCard = ({
       onPress={selectedAction}
       style={[styles.cardContainerStyle, cardHeight, containerStyle]}
     >
-      <SmartImageV2
-        resizeMode={"cover"}
-        source={{ uri: imageSource }}
-        fallbackSource={{ uri: CONSTANT_defaultPlaceImage }}
-        style={[
-          styles.image,
-          !isSelected ? styles.unselectedImage : null,
-          imageStyle
-        ]}
-      />
+      <View>
+        <SmartImageV2
+          resizeMode={"cover"}
+          source={{ uri: imageSource }}
+          fallbackSource={{ uri: CONSTANT_defaultPlaceImage }}
+          style={[
+            styles.image,
+            !isSelected ? styles.unselectedImage : null,
+            imageStyle
+          ]}
+        />
+        <Text style={styles.emoji}>{emojiMap[text]}</Text>
+      </View>
       <Text style={styles.textStyle}>{text}</Text>
     </TouchableOpacity>
   );
@@ -95,6 +107,19 @@ const styles = StyleSheet.create({
     width: MARITAL_STATUS_CARD_IMAGE_WIDTH,
     height: MARITAL_STATUS_CARD_IMAGE_HEIGHT,
     marginBottom: 32
+  },
+  emoji: {
+    position: "absolute",
+    ...Platform.select({
+      ios: {
+        top: MARITAL_STATUS_CARD_IMAGE_HEIGHT / 4
+      },
+      android: {
+        top: MARITAL_STATUS_CARD_IMAGE_HEIGHT / 6
+      }
+    }),
+    left: MARITAL_STATUS_CARD_IMAGE_WIDTH / 4,
+    fontSize: 22
   },
   unselectedImage: {
     tintColor: CONSTANT_shade1

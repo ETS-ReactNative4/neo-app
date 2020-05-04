@@ -123,9 +123,9 @@ const MaritalStatusComponent = ({
     navigation.setOptions({
       header: options =>
         WelcomeHeader(options, {
-          rightLinkText: "Skip question",
+          rightLinkText: "Skip",
           onRightLinkClick: skipFlow,
-          leftLinkText: "Part 2 of 4",
+          leftLinkText: "Back",
           onLeftLinkClick: prevScreen
         })
     });
@@ -210,9 +210,9 @@ const MaritalStatusComponent = ({
       <View style={styles.maritalStatusContainer}>
         <View style={styles.headerContainer}>
           <SectionTitle
-            title={"What’s your marital status?"}
+            title={"Who are you travelling with?"}
             description={
-              "Soul searching, honeymoons, anniversary trips or full family vacations, we’ll plan them all for you :)"
+              "Honeymoon getaways, adventure holidays or fun family vacations, we’ll plan them all for you :)"
             }
             containerStyle={styles.sectionTitleStyle}
           />
@@ -251,7 +251,7 @@ const MaritalStatusComponent = ({
           duration={150}
         >
           <PrimaryButton
-            text={"Up Next - Holiday Style"}
+            text={"Continue"}
             clickAction={openTravellingWithModal}
           />
         </AnimatableView>
