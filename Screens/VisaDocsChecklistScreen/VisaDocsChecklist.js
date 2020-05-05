@@ -95,9 +95,9 @@ class VisaDocsChecklist extends Component {
   }
 
   initializeChecklist = () => {
-    const { navigation, visaStore } = this.props;
+    const { navigation, visaStore, route } = this.props;
     const { getVisaDetailsById } = visaStore;
-    const visaId = navigation.getParam("visaId", "");
+    const visaId = route.params?.visaId ?? "";
     const visaDetails = getVisaDetailsById(visaId);
     const { visaDocsMetaDetails = {} } = visaDetails;
     const {
@@ -147,7 +147,7 @@ class VisaDocsChecklist extends Component {
   };
 
   render() {
-    const { navigation, isFocused } = this.props;
+    const { navigation, isFocused, route } = this.props;
     const {
       maritalStatus,
       employmentType,
@@ -155,8 +155,8 @@ class VisaDocsChecklist extends Component {
       isOverlayHidden
     } = this.state;
 
-    const visaId = navigation.getParam("visaId", "");
-    const title = navigation.getParam("screenTitle");
+    const visaId = route.params?.visaId ?? "";
+    const title = route.params?.screenTitle ?? "";
     const {
       getMaritalStatusesByVisaId,
       getEmploymentTypesByVisaId,

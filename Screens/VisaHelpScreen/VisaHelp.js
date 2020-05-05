@@ -10,27 +10,23 @@ import constants from "../../constants/constants";
 import XSensorPlaceholder from "../../CommonComponents/XSensorPlaceholder/XSensorPlaceholder";
 import { isIphoneX } from "react-native-iphone-x-helper";
 import BlankSpacer from "../../CommonComponents/BlankSpacer/BlankSpacer";
+import { CONSTANT_white } from "../../constants/colorPallete";
 
 @ErrorBoundary()
 @inject("visaStore")
 @observer
 class VisaHelp extends Component {
-  static navigationOptions = ({ navigation }) => {
-    return {
-      header: <CommonHeader title={"Help"} navigation={navigation} />
-    };
-  };
-
   render() {
     const { getHelpSectionsByVisaId, getVisaDetails } = this.props.visaStore;
-    const { navigation } = this.props;
-    const visaId = navigation.getParam("visaId", "");
+    const { navigation, route } = this.props;
+    const visaId = route.params?.visaId ?? "";
     const visaDetails = getVisaDetails(visaId);
     const helpSections = getHelpSectionsByVisaId(visaId) || [];
     const { accountOwnerDetails = {} } = visaDetails;
 
     return (
       <Fragment>
+        <CommonHeader title={"Help"} navigation={navigation} />
         <ScrollView style={styles.visaHelpContainer}>
           {helpSections.map((helpSection, helpSectionIndex) => {
             return (
@@ -51,7 +47,7 @@ class VisaHelp extends Component {
            * 16 - additional padding
            */}
         </ScrollView>
-        <XSensorPlaceholder containerStyle={constants.sensorAreaContainer} />
+        <XSensorPlaceholder containerStyle={styles.sensorAreaContainer} />
         {!_.isEmpty(accountOwnerDetails) ? (
           <VisaCompanionInfo
             containerStyle={styles.companionWrapper}
@@ -79,6 +75,9 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     bottom: isIphoneX() ? constants.xSensorAreaHeight : 0,
     left: 0
+  },
+  sensorAreaContainer: {
+    backgroundColor: CONSTANT_white
   }
 });
 
