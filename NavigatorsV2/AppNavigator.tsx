@@ -201,6 +201,7 @@ export type AppNavigatorParamsType = {
   [SCREEN_REQUEST_CALLBACK]: {
     campaignItineraryId?: string;
     itineraryId?: string;
+    slug?: string;
   };
   [SCREEN_GCM]: {
     title: string;
