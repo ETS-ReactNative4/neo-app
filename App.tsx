@@ -18,6 +18,12 @@ import { updateNavigationService } from "./Services/navigationService/navigation
 import NetInfo from "@react-native-community/netinfo";
 import { Provider } from "mobx-react";
 import AppOverlays from "./Screens/AppOverlays/AppOverlays";
+import {
+  getInitialNotification,
+  onNotificationDisplayed,
+  onNotificationOpened,
+  onNotificationReceived
+} from "./Services/fcmService/fcm";
 
 updateStoreService(store);
 
@@ -58,6 +64,12 @@ const App = () => {
       })
       .catch(() => {
         RNBootSplash.hide();
+      })
+      .finally(() => {
+        getInitialNotification();
+        onNotificationDisplayed();
+        onNotificationOpened();
+        onNotificationReceived();
       });
 
     debouncer(() => {
