@@ -6,6 +6,29 @@ export interface IPackageMeta {
   description: string;
 }
 
+export type itineraryThemeType =
+  | "ADVENTURE"
+  | "ATTRACTION"
+  | "CULTURE"
+  | "LEISURE"
+  | "NATURE"
+  | "KID_FRIENDLY"
+  | "BEACH"
+  | "ART_AND_CULTURE";
+
+export const itineraryThemeEmojiMap: {
+  [theme in itineraryThemeType]: string;
+} = {
+  ADVENTURE: "🔥",
+  ATTRACTION: "🏰",
+  CULTURE: "🎭",
+  LEISURE: "🍹",
+  NATURE: "🌴",
+  KID_FRIENDLY: "👨‍👩‍👧‍👦",
+  BEACH: "🏖",
+  ART_AND_CULTURE: "🎭"
+};
+
 export interface IPackageItinerary {
   campaignItineraryId: string;
   type: string;
@@ -20,7 +43,7 @@ export interface IPackageItinerary {
   nights: number;
   slug: string;
   metadata: IPackageMeta;
-  themes: string[];
+  themes: itineraryThemeType[];
   tripType: string;
   regionName: string;
   regionCode: string;
