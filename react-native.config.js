@@ -19,6 +19,12 @@ module.exports = {
       platforms: {
         android: null
       }
+    },
+    "react-native-interactable": {
+      platforms: {
+        android: null,
+        ios: null
+      }
     }
   }
 };
