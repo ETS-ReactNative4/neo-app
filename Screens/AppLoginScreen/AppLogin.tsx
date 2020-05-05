@@ -267,6 +267,7 @@ const AppLogin = ({
     });
     if (result) {
       openOtpPanel();
+      setIsTimedOut(false);
     } else {
       toastCenter("Unable to send OTP!");
     }

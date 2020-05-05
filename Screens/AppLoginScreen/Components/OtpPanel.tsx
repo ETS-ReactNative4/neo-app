@@ -43,10 +43,9 @@ const OtpPanel = ({
     if (expiryTime) {
       const difference = moment(expiryTime).diff(moment());
       if (difference <= 0) {
-        /**
-         * PT TODO - Timeout not tested yet
-         */
-        onTimedOut();
+        if (!isTimedOut) {
+          onTimedOut();
+        }
       }
       return `${Math.floor(moment.duration(difference).asMinutes())
         .toString()
