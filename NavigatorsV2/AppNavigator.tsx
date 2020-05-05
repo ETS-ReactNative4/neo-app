@@ -65,7 +65,8 @@ import {
   SCREEN_PAYMENT_SCREEN,
   SCREEN_PAYMENT_SUCCESS,
   SCREEN_PAYMENT_FAILURE,
-  SCREEN_BUDGET_PREFERENCES
+  SCREEN_BUDGET_PREFERENCES,
+  SCREEN_VISA_DOCUMENT_ACTION_SHEET
 } from "./ScreenNames";
 import AppLogin from "../Screens/AppLoginScreen/AppLogin";
 import Starter from "../Screens/StartingScreen/Starter";
@@ -142,6 +143,7 @@ import PaymentSuccess from "../Screens/PaymentScreens/PaymentSuccess";
 import PaymentFailure from "../Screens/PaymentScreens/PaymentFailure";
 import PaymentScreen from "../Screens/PaymentScreens/PaymentScreen";
 import BudgetPreferences from "../Screens/BudgetPreferencesScreen/BudgetPreferences";
+import VisaDocumentsActionSheet from "../Screens/VisaDocumentsActionSheet/VisaDocumentsActionSheet";
 
 export type loginResetTargetTypes = typeof SCREEN_SAVED_ITINERARIES;
 
@@ -311,6 +313,10 @@ export type AppNavigatorParamsType = {
     transactionId: string;
   };
   [SCREEN_PAYMENT_FAILURE]: undefined;
+  [SCREEN_VISA_DOCUMENT_ACTION_SHEET]: {
+    visaId: string;
+    toggleOverlay: () => any;
+  };
 };
 
 const Stack = createStackNavigator<AppNavigatorParamsType>();
@@ -509,6 +515,13 @@ const AppNavigator = () => {
           }}
           name={SCREEN_VISA_HELP}
           component={VisaHelp}
+        />
+        <Screen
+          options={{
+            headerShown: false
+          }}
+          name={SCREEN_VISA_DOCUMENT_ACTION_SHEET}
+          component={VisaDocumentsActionSheet}
         />
         <Screen name={SCREEN_SUPPORT_CENTER} component={SupportCenter} />
         <Screen name={SCREEN_FOREX} component={Forex} />
