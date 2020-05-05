@@ -3,7 +3,6 @@ import { Platform } from "react-native";
 import { logBreadCrumb, logError } from "../errorLogger/errorLogger";
 import storeService from "../storeService/storeService";
 import resolveLinks from "../resolveLinks/resolveLinks";
-import isUserLoggedInCallback from "../isUserLoggedInCallback/isUserLoggedInCallback";
 import constants from "../../constants/constants";
 import { recordEvent } from "../analytics/analyticsService";
 import { CONSTANT_notificationEvents } from "../../constants/appEvents";
@@ -12,6 +11,7 @@ import {
   chatPushNotificationHandler,
   checkIfChatPushNotification
 } from "../freshchatService/freshchatService";
+import isUserLoggedIn from "../isUserLoggedIn/isUserLoggedIn";
 
 export const getDeviceToken = async (
   success = () => null,
@@ -37,32 +37,36 @@ export const getDeviceToken = async (
       }
       success(token);
     } else {
-      isUserLoggedInCallback(async () => {
-        try {
-          /**
-           * Request the user for push notifications permission
-           */
-          await messaging().requestPermission();
-          token = await messaging().getToken();
-          /**
-           * Got push notifications permission and can update the device token
-           */
-          storeService.appState.setPushTokens(token);
-          if (Platform.OS === constants.platformIos) {
-            storeService.appState.setApnsToken(apnsToken);
+      isUserLoggedIn()
+        .then(async result => {
+          if (result) {
+            try {
+              /**
+               * Request the user for push notifications permission
+               */
+              await messaging().requestPermission();
+              token = await messaging().getToken();
+              /**
+               * Got push notifications permission and can update the device token
+               */
+              storeService.appState.setPushTokens(token);
+              if (Platform.OS === constants.platformIos) {
+                storeService.appState.setApnsToken(apnsToken);
+              }
+              success(token);
+            } catch (e) {
+              /**
+               * Unable to retrieve Push notifications - Push notifications are disabled
+               */
+              storeService.appState.removePushToken();
+              if (Platform.OS === constants.platformIos) {
+                storeService.appState.removeApnsToken();
+              }
+              rejected(e);
+            }
           }
-          success(token);
-        } catch (e) {
-          /**
-           * Unable to retrieve Push notifications - Push notifications are disabled
-           */
-          storeService.appState.removePushToken();
-          if (Platform.OS === constants.platformIos) {
-            storeService.appState.removeApnsToken();
-          }
-          rejected(e);
-        }
-      });
+        })
+        .catch(() => null);
     }
   } catch (err) {
     /**
@@ -161,32 +165,36 @@ const notificationClickHandler = data => {
     data,
     level: constants.errorLoggerEvents.levels.info
   });
-  isUserLoggedInCallback(() => {
-    const {
-      link,
-      modalData,
-      notificationType = "",
-      notificationProps = ""
-    } = data;
-    if (notificationType) {
-      try {
-        recordEvent(CONSTANT_notificationEvents.event, {
-          notificationType,
-          ...JSON.parse(notificationProps || "{}")
-        });
-      } catch (e) {
-        logError(e, {
-          type: "Failed to capture push notification details in analytics",
-          data
-        });
+  isUserLoggedIn()
+    .then(result => {
+      if (result) {
+        const {
+          link,
+          modalData,
+          notificationType = "",
+          notificationProps = ""
+        } = data;
+        if (notificationType) {
+          try {
+            recordEvent(CONSTANT_notificationEvents.event, {
+              notificationType,
+              ...JSON.parse(notificationProps || "{}")
+            });
+          } catch (e) {
+            logError(e, {
+              type: "Failed to capture push notification details in analytics",
+              data
+            });
+          }
+        }
+        if (link === CHATSCREEN) {
+          chatLauncher();
+        } else if (link) {
+          resolveLinks(link, modalData ? JSON.parse(modalData) : {});
+        }
       }
-    }
-    if (link === CHATSCREEN) {
-      chatLauncher();
-    } else if (link) {
-      resolveLinks(link, modalData ? JSON.parse(modalData) : {});
-    }
-  });
+    })
+    .catch(() => null);
 };
 
 const notificationReceivedHandler = notification => {
@@ -211,19 +219,23 @@ const notificationReceivedHandler = notification => {
     }
   };
   try {
-    isUserLoggedInCallback(() => {
-      checkIfChatPushNotification(data)
-        .then(isChatNotification => {
-          if (isChatNotification) {
-            chatPushNotificationHandler(data);
-          } else {
-            inAppNotifReceivedHandler();
-          }
-        })
-        .catch(() => {
-          inAppNotifReceivedHandler();
-        });
-    });
+    isUserLoggedIn()
+      .then(result => {
+        if (result) {
+          checkIfChatPushNotification(data)
+            .then(isChatNotification => {
+              if (isChatNotification) {
+                chatPushNotificationHandler(data);
+              } else {
+                inAppNotifReceivedHandler();
+              }
+            })
+            .catch(() => {
+              inAppNotifReceivedHandler();
+            });
+        }
+      })
+      .catch(() => null);
   } catch (e) {
     logError(e);
   }
