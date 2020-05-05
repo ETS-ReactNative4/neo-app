@@ -257,14 +257,19 @@ export type AppNavigatorParamsType = {
   };
   [SCREEN_VISA_SELECTOR]: undefined;
   [SCREEN_VISA_CHECKLIST]: undefined;
-  [SCREEN_VISA_DOCS_CHECKLIST]: undefined;
+  [SCREEN_VISA_DOCS_CHECKLIST]: {
+    visaId: string;
+    screenTitle: string;
+  };
   [SCREEN_VISA_STATUS]: {
     screenTitle: string;
     enableRightButton: boolean;
     rightButtonAction: () => any;
     visaId: string;
   };
-  [SCREEN_VISA_HELP]: undefined;
+  [SCREEN_VISA_HELP]: {
+    visaId: string;
+  };
   [SCREEN_SUPPORT_CENTER]: undefined;
   [SCREEN_FOREX]: undefined;
   [SCREEN_JOURNAL_START]: {
@@ -491,11 +496,20 @@ const AppNavigator = () => {
         <Screen name={SCREEN_VISA_SELECTOR} component={VisaSelector} />
         <Screen name={SCREEN_VISA_CHECKLIST} component={VisaChecklist} />
         <Screen
+          options={{
+            headerShown: false
+          }}
           name={SCREEN_VISA_DOCS_CHECKLIST}
           component={VisaDocsChecklist}
         />
         <Screen name={SCREEN_VISA_STATUS} component={VisaStatus} />
-        <Screen name={SCREEN_VISA_HELP} component={VisaHelp} />
+        <Screen
+          options={{
+            headerShown: false
+          }}
+          name={SCREEN_VISA_HELP}
+          component={VisaHelp}
+        />
         <Screen name={SCREEN_SUPPORT_CENTER} component={SupportCenter} />
         <Screen name={SCREEN_FOREX} component={Forex} />
         <Screen name={SCREEN_JOURNAL_START} component={JournalStart} />
