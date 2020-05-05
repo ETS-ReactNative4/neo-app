@@ -3,18 +3,22 @@ import useApiCall, {
 } from "../../../Services/networkRequests/hooks/useApiCall";
 import { CONSTANT_registerNewUser } from "../../../constants/apiUrls";
 import DebouncedAlert from "../../../CommonComponents/DebouncedAlert/DebouncedAlert";
-
-export type leadProdType = "PRE_TRIP";
+import {
+  leadSourceProdType,
+  leadSourceDeviceType
+} from "../../RequestCallback/hooks/useRequestCallbackApi";
+import { Platform } from "react-native";
+import { CONSTANT_platformIos } from "../../../constants/stringConstants";
 
 export interface ILeadSource {
-  url: string;
-  deviceType: string;
-  keyword: string;
-  campaign: string;
+  url?: string;
+  deviceType?: leadSourceDeviceType;
+  keyword?: string;
+  campaign?: string;
   cpid?: string;
-  landingPage: string;
-  lastRoute: string;
-  prodType: leadProdType;
+  landingPage?: string;
+  lastRoute?: string;
+  prodType?: leadSourceProdType;
 }
 
 export interface IRegisterRequestBody {
@@ -39,6 +43,18 @@ const useRegisterUserApi = (): [
     requestBody: IRegisterRequestBody
   ): Promise<boolean> => {
     return new Promise<boolean>(async (resolve, reject) => {
+      if (requestBody.leadSource) {
+        requestBody.leadSource = {
+          ...requestBody.leadSource,
+          deviceType:
+            Platform.OS === CONSTANT_platformIos ? "iOS" : "Android OS"
+        };
+      } else {
+        requestBody.leadSource = {
+          deviceType:
+            Platform.OS === CONSTANT_platformIos ? "iOS" : "Android OS"
+        };
+      }
       try {
         const result = await makeApiCall({
           route: CONSTANT_registerNewUser,
