@@ -26,19 +26,18 @@ import { CONSTANT_mailIcon } from "../../constants/imageAssets";
 @inject("visaStore")
 @observer
 class VisaStatus extends Component {
-  constructor(props) {
-    super(props);
 
-    const title = props.route.params?.screenTitle ?? "";
-    const enableRightButton = props.route.params?.enableRightButton ?? false;
+  setHeader = () => {
+    const title = this.props.route.params?.screenTitle ?? "";
+    const enableRightButton = this.props.route.params?.enableRightButton ?? false;
     const rightButtonAction =
-      props.route.params?.rightButtonAction ?? (() => null);
+    this.props.route.params?.rightButtonAction ?? (() => null);
 
-    props.navigation.setOptions({
+    this.props.navigation.setOptions({
       header: () => (
         <CommonHeader
           title={title}
-          navigation={props.navigation}
+          navigation={this.props.navigation}
           RightButton={
             enableRightButton ? (
               <SimpleButton
@@ -56,6 +55,12 @@ class VisaStatus extends Component {
         />
       )
     });
+  };
+
+  constructor(props) {
+    super(props);
+
+    this.setHeader();
   }
 
   initializeVisa = () => {
@@ -74,6 +79,7 @@ class VisaStatus extends Component {
             screenTitle: `${visaDetails.countryStr ||
               ""} - ${visaDetails.visaStr || ""}`
           });
+          this.setHeader();
         });
         this.setNavigationHeaders(visaDetails);
       })
@@ -87,6 +93,7 @@ class VisaStatus extends Component {
         screenTitle: `${visaDetails.countryStr || ""} - ${visaDetails.visaStr ||
           ""}`
       });
+      this.setHeader();
     });
   };
 
@@ -121,6 +128,7 @@ class VisaStatus extends Component {
           rightButtonAction: openHelp
         });
       }
+      this.setHeader();
     });
   };
 
