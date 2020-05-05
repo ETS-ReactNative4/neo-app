@@ -33,17 +33,14 @@ class VisaDocumentsActionSheet extends Component {
   }
 
   goBack = () => {
-    const toggleOverlay = this.props.navigation.getParam(
-      "toggleOverlay",
-      () => null
-    );
+    const toggleOverlay = this.props.route.params?.toggleOverlay ?? (() => null);
     toggleOverlay();
     this.props.navigation.goBack();
     return true;
   };
 
   render() {
-    const visaId = this.props.navigation.getParam("visaId", "");
+    const visaId = this.props.route.params?.visaId ?? "";
     const { getDocumentMustKnowsByVisaId = {} } = this.props.visaStore;
     const { title, body } = getDocumentMustKnowsByVisaId(visaId);
     return (
