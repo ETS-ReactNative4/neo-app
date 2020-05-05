@@ -15,7 +15,7 @@ import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import { ICity, IItinerary } from "../../TypeInterfaces/IItinerary";
 import ItineraryBanner from "./Components/ItineraryBanner";
 import HighlightText from "./Components/HighlightText";
-import { StyleSheet, LayoutAnimation, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import LottieView from "lottie-react-native";
 import useCampaignItineraryCosting from "./hooks/useCampaignItineraryCosting";
 import { IGCMRequestBody } from "../GCMScreen/hooks/useGCMForm";
@@ -156,8 +156,6 @@ const Itinerary = ({ route, navigation }: ItineraryProps) => {
     refreshItinerary();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [itineraryId]);
-
-  LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
 
   if (!itineraryDetails?.isItineraryLoaded) {
     // Itinerary is loading
