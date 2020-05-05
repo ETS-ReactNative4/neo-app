@@ -15,7 +15,11 @@ import SearchBox from "../../CommonComponents/SearchBox/SearchBox";
 import { PreTripHomeTabsType } from "../../NavigatorsV2/PreTripHomeTabs";
 import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
 import SearchItem from "./Components/SearchItem";
-import { IPackageItinerary } from "../../TypeInterfaces/IPackageItinerary";
+import {
+  IPackageItinerary,
+  itineraryThemeEmojiMap,
+  itineraryThemeType
+} from "../../TypeInterfaces/IPackageItinerary";
 import usePackagesSearchApi from "./hooks/usePackagesSearchApi";
 import useDeepCompareEffect from "use-deep-compare-effect";
 import EmptyListPlaceholder from "../../CommonComponents/EmptyListPlaceholder/EmptyListPlaceholder";
@@ -35,68 +39,37 @@ export interface SearchScreenProps {
   route: SearchScreenRouteProp;
 }
 
-export type searchCategoriesType =
-  | "ALL"
-  | "ADVENTURE"
-  | "ATTRACTION"
-  | "CULTURE"
-  | "LEISURE"
-  | "NATURE"
-  | "KID_FRIENDLY"
-  | "BEACH"
-  | "ART_AND_CULTURE";
-
 export interface ISearchCategory {
-  text: searchCategoriesType;
+  text: itineraryThemeType;
   emoji: string;
   searchQuery: string;
 }
 
 const categories: ISearchCategory[] = [
-  // {
-  //   text: "ALL",
-  //   emoji: "😄",
-  //   searchQuery: "all-packages"
-  // },
   {
     text: "ADVENTURE",
-    emoji: "🐊",
+    emoji: itineraryThemeEmojiMap.ADVENTURE,
     searchQuery: "adventure-packages"
   },
   {
-    text: "ATTRACTION",
-    emoji: "🎪",
-    searchQuery: "attraction-packages"
+    text: "HONEYMOON",
+    emoji: itineraryThemeEmojiMap.HONEYMOON,
+    searchQuery: "honeymoon-packages"
   },
   {
-    text: "CULTURE",
-    emoji: "👨🏽‍💼",
-    searchQuery: "culture-packages"
+    text: "VISA_ON_ARRIVAL",
+    emoji: itineraryThemeEmojiMap.VISA_ON_ARRIVAL,
+    searchQuery: "visa-on-arrival-packages"
   },
   {
-    text: "LEISURE",
-    emoji: "🏍",
-    searchQuery: "leisure-packages"
-  },
-  {
-    text: "NATURE",
-    emoji: "😄",
-    searchQuery: "nature-packages"
-  },
-  {
-    text: "KID_FRIENDLY",
-    emoji: "😄",
-    searchQuery: "kid-friendly-packages"
+    text: "FAMILY",
+    emoji: itineraryThemeEmojiMap.FAMILY,
+    searchQuery: "family-packages"
   },
   {
     text: "BEACH",
-    emoji: "😄",
+    emoji: itineraryThemeEmojiMap.BEACH,
     searchQuery: "beach-packages"
-  },
-  {
-    text: "ART_AND_CULTURE",
-    emoji: "😄",
-    searchQuery: "art-and-culture-packages"
   }
 ];
 
@@ -259,8 +232,13 @@ const Search = ({ navigation }: SearchScreenProps) => {
           data={searchString ? searchResults : categoryResults}
           renderItem={({ item }) => {
             const onClick = () => openItinerary(item.slug);
+            const theme = item.themes?.length ? item.themes[0] : "";
             return (
-              <SearchItem title={item.title} emoji={"😄"} action={onClick} />
+              <SearchItem
+                title={item.title}
+                emoji={!theme ? "😄" : itineraryThemeEmojiMap[theme]}
+                action={onClick}
+              />
             );
           }}
           keyExtractor={(item, itemIndex) => `${itemIndex}`}

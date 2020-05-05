@@ -14,7 +14,10 @@ export type itineraryThemeType =
   | "NATURE"
   | "KID_FRIENDLY"
   | "BEACH"
-  | "ART_AND_CULTURE";
+  | "ART_AND_CULTURE"
+  | "VISA_ON_ARRIVAL"
+  | "HONEYMOON"
+  | "FAMILY";
 
 export const itineraryThemeEmojiMap: {
   [theme in itineraryThemeType]: string;
@@ -26,7 +29,10 @@ export const itineraryThemeEmojiMap: {
   NATURE: "🌴",
   KID_FRIENDLY: "👨‍👩‍👧‍👦",
   BEACH: "🏖",
-  ART_AND_CULTURE: "🎭"
+  ART_AND_CULTURE: "🎭",
+  VISA_ON_ARRIVAL: "✈️",
+  HONEYMOON: "💍",
+  FAMILY: "👨‍👩‍👧‍👦"
 };
 
 export interface IPackageItinerary {
