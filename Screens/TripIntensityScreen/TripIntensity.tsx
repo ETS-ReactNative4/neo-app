@@ -1,11 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  View,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  LayoutAnimation
-} from "react-native";
+import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import { responsiveWidth } from "react-native-responsive-dimensions";
 import {
   CONSTANT_white,
@@ -111,8 +105,6 @@ const TripIntensity = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-
   return (
     <View style={[styles.tripIntensityContainerStyle]}>
       <View style={styles.tripIntensityContent}>
@@ -123,27 +115,31 @@ const TripIntensity = ({
             "A relaxing getway, an adventure-packed trip, or somewhere in between?"
           }
         />
-        <View style={styles.animationWrapper}>
-          {selectedOption === "LAID_BACK" ? (
+        {selectedOption === "LAID_BACK" ? (
+          <View style={styles.animationWrapper}>
             <LottieView
               source={CONSTANT_laidBackIntensityAnimation()}
               autoPlay
               loop
             />
-          ) : selectedOption === "MODERATE" ? (
+          </View>
+        ) : selectedOption === "MODERATE" ? (
+          <View style={styles.animationWrapper}>
             <LottieView
               source={CONSTANT_moderateIntensityAnimation()}
               autoPlay
               loop
             />
-          ) : (
+          </View>
+        ) : (
+          <View style={styles.animationWrapper}>
             <LottieView
               source={CONSTANT_packedIntensityAnimation()}
               autoPlay
               loop
             />
-          )}
-        </View>
+          </View>
+        )}
 
         <View style={styles.tripIntensityButtonWrapper}>
           {tripIntensityOptions.map((intensity, intensityIndex) => {

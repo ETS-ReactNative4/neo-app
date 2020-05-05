@@ -536,6 +536,9 @@ export const CONSTANT_requestCallbackCover = () => ({
   uri: "https://pyt-images.imgix.net/images/web_app/homepage/talk_to_us_v2.jpg"
 });
 
+export const CONSTANT_pytHappyInsignia = () =>
+  require("../assets/images/illustrations/happy-insignia.png");
+
 export const CONSTANT_ZESTImageUrl = "https://i.imgur.com/M20FIDf.png";
 
 export default imageAssets;

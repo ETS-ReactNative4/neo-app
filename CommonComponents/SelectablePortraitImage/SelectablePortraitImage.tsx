@@ -12,6 +12,10 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import SmartImageV2 from "../SmartImage/SmartImageV2";
 import { CONSTANT_darkOverlayAlpha } from "../../constants/colorPallete";
 import * as Animatable from "react-native-animatable";
+import {
+  CONSTANT_defaultPlaceImage,
+  CONSTANT_pytHappyInsignia
+} from "../../constants/imageAssets";
 
 interface SelectablePortraitImageProps {
   containerStyle?: StyleProp<ViewStyle>;
@@ -69,8 +73,8 @@ const SelectablePortraitImage = ({
           >
             <SmartImageV2
               resizeMode={"contain"}
-              source={{ uri: "https://i.imgur.com/LSAZAuU.png" }}
-              fallbackSource={{ uri: "https://i.imgur.com/LSAZAuU.png" }}
+              source={CONSTANT_pytHappyInsignia()}
+              fallbackSource={{ uri: CONSTANT_defaultPlaceImage }}
               style={styles.happyImageStyle}
             />
           </AnimatableView>

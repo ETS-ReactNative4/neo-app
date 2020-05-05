@@ -1,11 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  View,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  LayoutAnimation
-} from "react-native";
+import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import { responsiveWidth } from "react-native-responsive-dimensions";
 import {
   CONSTANT_white,
@@ -132,8 +126,6 @@ const BudgetPreferences = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-
   return (
     <View style={[styles.tripIntensityContainerStyle]}>
       <View style={styles.tripIntensityContent}>
@@ -144,15 +136,20 @@ const BudgetPreferences = ({
             "This will allow us to offer you the best suited travel plans for your holiday."
           }
         />
-        <View style={styles.animationWrapper}>
-          {selectedOption === "DEAL_HUNTER" ? (
+
+        {selectedOption === "DEAL_HUNTER" ? (
+          <View style={styles.animationWrapper}>
             <LottieView source={CONSTANT_dealHunterAnimation()} autoPlay loop />
-          ) : selectedOption === "VALUE_FOR_MONEY" ? (
+          </View>
+        ) : selectedOption === "VALUE_FOR_MONEY" ? (
+          <View style={styles.animationWrapper}>
             <LottieView source={CONSTANT_midRangeAnimation()} autoPlay loop />
-          ) : (
+          </View>
+        ) : (
+          <View style={styles.animationWrapper}>
             <LottieView source={CONSTANT_flexibleAnimation()} autoPlay loop />
-          )}
-        </View>
+          </View>
+        )}
 
         <View style={styles.tripIntensityButtonWrapper}>
           {budgetRangeOptions.map((budgetRange, budgetRangeIndex) => {
