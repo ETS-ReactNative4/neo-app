@@ -40,7 +40,7 @@ const ItineraryDetail = ({
 }: ItineraryDetailProps) => {
   return (
     <View style={styles.itineraryDetailContainer}>
-      <Text style={styles.headingTextStyle}>Trip Details</Text>
+      <Text style={styles.headingTextStyle}>Trip details</Text>
 
       <View style={styles.detailList}>
         <Text style={styles.titleTextStyle}>DEPARTING ON</Text>
@@ -54,7 +54,7 @@ const ItineraryDetail = ({
 
       {travellingAs ? (
         <View style={styles.detailList}>
-          <Text style={styles.titleTextStyle}>TRAVELLING AS</Text>
+          <Text style={styles.titleTextStyle}>TRIP TYPE</Text>
           <Text style={styles.textStyle}>{travellingAs}</Text>
         </View>
       ) : null}
