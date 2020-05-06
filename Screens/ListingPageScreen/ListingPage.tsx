@@ -143,6 +143,8 @@ const ListingPage = ({ navigation, route }: ListingPageProps) => {
     if (abortFetchRef.current) {
       abortFetchRef.current.abort();
     }
+    // @ts-ignore
+    // eslint-disable-next-line no-undef
     abortFetchRef.current = new AbortController();
     loadPackages({ requestBody, abortController: abortFetchRef.current }).catch(
       () => {
@@ -190,7 +192,8 @@ const ListingPage = ({ navigation, route }: ListingPageProps) => {
                   action={() => {
                     // @ts-ignore
                     navigation.navigate(SCREEN_ITINERARY, {
-                      slug: itinerary.slug
+                      slug: itinerary.slug,
+                      itinerarySource: SCREEN_LISTING_PAGE
                     });
                   }}
                   title={itinerary.title}
