@@ -7,7 +7,11 @@ import {
 import ActionSheet from "../../../CommonComponents/ActionSheet/ActionSheet";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import Icon from "../../../CommonComponents/Icon/Icon";
-import { CONSTANT_callStartIcon } from "../../../constants/imageAssets";
+import {
+  CONSTANT_callStartIcon,
+  CONSTANT_detailIcon,
+  CONSTANT_infoIcon
+} from "../../../constants/imageAssets";
 import {
   CONSTANT_shade4,
   CONSTANT_black1,
@@ -77,11 +81,7 @@ const NotificationsActionSheet = ({
           style={styles.actionSheetList}
         >
           <View>
-            <Icon
-              name={CONSTANT_callStartIcon}
-              size={24}
-              color={CONSTANT_shade4}
-            />
+            <Icon name={CONSTANT_infoIcon} size={24} color={CONSTANT_shade4} />
           </View>
           <Text style={styles.textStyle}>FAQs</Text>
         </TouchableOpacity>
@@ -108,7 +108,7 @@ const NotificationsActionSheet = ({
         >
           <View>
             <Icon
-              name={CONSTANT_callStartIcon}
+              name={CONSTANT_detailIcon}
               size={24}
               color={CONSTANT_shade4}
             />
