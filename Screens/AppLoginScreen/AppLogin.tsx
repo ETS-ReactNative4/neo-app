@@ -41,9 +41,8 @@ import DismissKeyboardView from "../../CommonComponents/DismissKeyboardView/Dism
 import { toastCenter } from "../../Services/toast/toast";
 import Video from "react-native-video";
 import {
-  responsiveHeight,
-  responsiveWidth
-  // @ts-ignore
+  responsiveScreenHeight,
+  responsiveScreenWidth
 } from "react-native-responsive-dimensions";
 import useLoginForm from "./hooks/useLoginForm";
 import {
@@ -518,13 +517,13 @@ const styles = StyleSheet.create({
     flex: 1
   },
   imageContainer: {
-    height: responsiveHeight(100),
-    width: responsiveWidth(100),
+    height: responsiveScreenHeight(100),
+    width: responsiveScreenWidth(100),
     position: "absolute"
   },
   videoView: {
-    height: responsiveHeight(100),
-    width: responsiveWidth(100),
+    height: responsiveScreenHeight(100),
+    width: responsiveScreenWidth(100),
     position: "absolute"
   },
   backgroundGradient: {
