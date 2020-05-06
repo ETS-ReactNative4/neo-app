@@ -29,6 +29,7 @@ import ratioCalculator from "../../Services/ratioCalculator/ratioCalculator";
 import { CONSTANT_defaultPlaceImage } from "../../constants/imageAssets";
 import { CONSTANT_shortCommonDateFormat } from "../../constants/styles";
 import moment from "moment";
+import LinearGradient from "react-native-linear-gradient";
 
 interface TestimonialCardProps {
   containerStyle?: StyleProp<ViewStyle>;
@@ -63,6 +64,16 @@ const TestimonialCard = ({
   date,
   action = () => null
 }: TestimonialCardProps) => {
+  const gradientOptions = {
+    locations: [0.25, 0.5, 0.6, 1],
+    colors: [
+      "rgba(0,0,0,0.65)",
+      "rgba(0,0,0,0.45)",
+      "rgba(0,0,0,0.25)",
+      "rgba(0,0,0,0.10)"
+    ]
+  };
+
   return (
     <TouchableOpacity
       activeOpacity={0.8}
@@ -75,6 +86,7 @@ const TestimonialCard = ({
         fallbackSource={fallbackImage}
         style={styles.imageStyle}
       />
+      <LinearGradient style={styles.imageStyle} {...gradientOptions} />
       <View style={styles.reviewContent}>
         <Text
           style={styles.reviewTextStyle}
@@ -133,10 +145,10 @@ const styles = StyleSheet.create({
   reviewTextStyle: {
     color: CONSTANT_sixteenthColor,
     ...CONSTANT_fontCustom(CONSTANT_primarySemiBold, 18, 24),
-    textShadowColor: CONSTANT_white,
     marginBottom: 12,
     textShadowOffset: { width: 1, height: 1 },
-    textShadowRadius: 1
+    textShadowRadius: 1,
+    textShadowColor: CONSTANT_white
   },
   nameTextStyle: {
     color: CONSTANT_black1,
