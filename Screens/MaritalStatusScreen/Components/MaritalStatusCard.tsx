@@ -12,7 +12,7 @@ import {
 import {
   CONSTANT_black1,
   CONSTANT_white,
-  CONSTANT_shade1
+  CONSTANT_shade6
 } from "../../../constants/colorPallete";
 import {
   CONSTANT_primaryRegular,
@@ -122,7 +122,7 @@ const styles = StyleSheet.create({
     fontSize: 22
   },
   unselectedImage: {
-    tintColor: CONSTANT_shade1
+    tintColor: CONSTANT_shade6
   }
 });
 
