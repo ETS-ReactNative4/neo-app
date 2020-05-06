@@ -25,6 +25,7 @@ import {
 import { CONSTANT_arrowRight } from "../../../constants/imageAssets";
 import { isIphoneX } from "react-native-iphone-x-helper";
 import { CONSTANT_xNotchHeight } from "../../../constants/styles";
+import LinearGradient from "react-native-linear-gradient";
 
 interface ItineraryProps {
   containerStyle?: ViewStyle;
@@ -48,6 +49,16 @@ const ItineraryBanner = ({
   backAction = () => {},
   itineraryCost = ""
 }: ItineraryProps) => {
+  const gradientOptions = {
+    locations: [0.25, 0.5, 0.6, 1],
+    colors: [
+      "rgba(0,0,0,0.30)",
+      "rgba(0,0,0,0.45)",
+      "rgba(0,0,0,0.65)",
+      "rgba(0,0,0,0.85)"
+    ]
+  };
+
   return (
     <View style={[styles.bannerContainer, containerStyle]}>
       <SmartImageV2
@@ -56,39 +67,45 @@ const ItineraryBanner = ({
         resizeMode={"cover"}
         style={styles.bannerImageStyle}
       >
-        <TouchableOpacity
-          activeOpacity={0.8}
-          onPress={backAction}
-          style={styles.backArrowWrapper}
-        >
-          <View style={styles.backArrowIconStyle}>
-            <Icon name={CONSTANT_arrowRight} size={14} color={CONSTANT_white} />
-          </View>
-
-          <Text style={styles.backTextStyle}>BACK</Text>
-        </TouchableOpacity>
-
-        <View>
-          {smallText ? (
-            <Text style={styles.smallTextStyle}>{smallText}</Text>
-          ) : null}
-          <Text
-            style={styles.titleTextStyle}
-            numberOfLines={2}
-            ellipsizeMode={"tail"}
+        <LinearGradient {...gradientOptions} style={styles.gradientView}>
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={backAction}
+            style={styles.backArrowWrapper}
           >
-            {title}
-          </Text>
-
-          {itineraryCost ? (
-            <View style={styles.priceSection}>
-              <Text style={styles.rupeeText}>₹</Text>
-              <Text style={styles.priceText}>{itineraryCost}</Text>
-              {/** PT TODO: Check if this line is needed */}
-              <Text style={styles.personText}>/person</Text>
+            <View style={styles.backArrowIconStyle}>
+              <Icon
+                name={CONSTANT_arrowRight}
+                size={14}
+                color={CONSTANT_white}
+              />
             </View>
-          ) : null}
-        </View>
+
+            <Text style={styles.backTextStyle}>BACK</Text>
+          </TouchableOpacity>
+
+          <View>
+            {smallText ? (
+              <Text style={styles.smallTextStyle}>{smallText}</Text>
+            ) : null}
+            <Text
+              style={styles.titleTextStyle}
+              numberOfLines={2}
+              ellipsizeMode={"tail"}
+            >
+              {title}
+            </Text>
+
+            {itineraryCost ? (
+              <View style={styles.priceSection}>
+                <Text style={styles.rupeeText}>₹</Text>
+                <Text style={styles.priceText}>{itineraryCost}</Text>
+                {/** PT TODO: Check if this line is needed */}
+                <Text style={styles.personText}>/person</Text>
+              </View>
+            ) : null}
+          </View>
+        </LinearGradient>
       </SmartImageV2>
     </View>
   );
@@ -101,6 +118,9 @@ const styles = StyleSheet.create({
     height: HEADER_CONTAINER_HEIGHT
   },
   bannerImageStyle: {
+    flex: 1
+  },
+  gradientView: {
     flex: 1,
     paddingHorizontal: 24,
     justifyContent: "center"
