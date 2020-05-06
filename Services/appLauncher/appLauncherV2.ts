@@ -12,7 +12,7 @@ import getSelectedItineraryId from "../getSelectedItineraryId/getSelectedItinera
 import isPreTripWelcomeCompleted from "./launchCheckpoints/isPreTripWelcomeCompleted";
 
 const delayedResolver = (resolve: (arg: boolean) => any) => {
-  setTimeout(() => resolve(true), 300);
+  setTimeout(() => resolve(true), 500);
 };
 
 const appLauncherV2 = (): Promise<boolean> => {
@@ -61,8 +61,24 @@ const appLauncherV2 = (): Promise<boolean> => {
           /**
            * User not logged in -> use the state saver api flow (show starter screen & take it from there)
            */
-          navigationServiceV2(SCREEN_STARTER);
-          delayedResolver(resolve);
+          isPreTripWelcomeCompleted().then(isWelcomeComplete => {
+            if (isWelcomeComplete) {
+              navigationDispatcher(launchPretripHome());
+              delayedResolver(resolve);
+            } else {
+              isPreTripWelcomePending().then(isWelcomePending => {
+                if (isWelcomePending) {
+                  resetToWelcomeFlow().then(resetAction => {
+                    navigationDispatcher(resetAction);
+                    delayedResolver(resolve);
+                  });
+                } else {
+                  navigationServiceV2(SCREEN_STARTER);
+                  delayedResolver(resolve);
+                }
+              });
+            }
+          });
         }
       })
       .catch(reject);
