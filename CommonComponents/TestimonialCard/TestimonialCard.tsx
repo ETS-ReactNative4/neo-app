@@ -8,15 +8,11 @@ import {
   Text,
   ImageSourcePropType
 } from "react-native";
-import {
-  responsiveWidth
-  // @ts-ignore
-} from "react-native-responsive-dimensions";
+import { responsiveWidth } from "react-native-responsive-dimensions";
 import {
   CONSTANT_shade4,
   CONSTANT_white,
   CONSTANT_black1,
-  CONSTANT_sixteenthColor,
   CONSTANT_shade1
 } from "../../constants/colorPallete";
 import {
@@ -65,12 +61,12 @@ const TestimonialCard = ({
   action = () => null
 }: TestimonialCardProps) => {
   const gradientOptions = {
-    locations: [0.25, 0.5, 0.6, 1],
+    locations: [0.25, 0.5, 0.8, 1],
     colors: [
-      "rgba(0,0,0,0.65)",
-      "rgba(0,0,0,0.45)",
-      "rgba(0,0,0,0.25)",
-      "rgba(0,0,0,0.10)"
+      "rgba(217, 230, 234, 0.7)",
+      "rgba(217, 230, 234, 0.7)",
+      "rgba(217, 230, 234, 0.7)",
+      "rgba(217, 230, 234, 0.7)"
     ]
   };
 
@@ -143,12 +139,9 @@ const styles = StyleSheet.create({
     width: 210
   },
   reviewTextStyle: {
-    color: CONSTANT_sixteenthColor,
+    color: "#148099",
     ...CONSTANT_fontCustom(CONSTANT_primarySemiBold, 18, 24),
-    marginBottom: 12,
-    textShadowOffset: { width: 1, height: 1 },
-    textShadowRadius: 1,
-    textShadowColor: CONSTANT_white
+    marginBottom: 12
   },
   nameTextStyle: {
     color: CONSTANT_black1,
