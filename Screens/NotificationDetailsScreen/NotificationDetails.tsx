@@ -37,7 +37,6 @@ import { CONSTANT_responseSuccessStatus } from "../../constants/stringConstants"
 import { toastBottom } from "../../Services/toast/toast";
 import {
   CONSTANT_GCMDateFormat,
-  CONSTANT_costingDateFormat,
   CONSTANT_shortTimeFormat
 } from "../../constants/styles";
 import moment from "moment";
@@ -203,7 +202,7 @@ const NotificationDetails = ({
             children={children}
             numOfRooms={numOfRooms}
             costedDate={moment(notification.costedDateMillis).format(
-              CONSTANT_costingDateFormat
+              CONSTANT_GCMDateFormat
             )}
             costedTime={moment(notification.costedDateMillis).format(
               CONSTANT_shortTimeFormat
