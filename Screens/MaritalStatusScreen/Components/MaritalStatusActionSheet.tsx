@@ -11,11 +11,6 @@ import PrimaryButton from "../../../CommonComponents/PrimaryButton/PrimaryButton
 import XSensorPlaceholder from "../../../CommonComponents/XSensorPlaceholder/XSensorPlaceholder";
 import ActionSheet from "../../../CommonComponents/ActionSheet/ActionSheet";
 import { ITravellingWithOptions } from "../MaritalStatus";
-import * as Animatable from "react-native-animatable";
-
-const { createAnimatableComponent } = Animatable;
-
-const AnimatableView = createAnimatableComponent(View);
 
 export interface MaritalStatusActionSheetProps {
   actionSheetRef: React.MutableRefObject<any>;
@@ -63,13 +58,7 @@ const MaritalStatusActionSheet = ({
 
         <View style={styles.footerContainerStyle}>
           {isCheckboxSelected ? (
-            <AnimatableView
-              animation={"fadeInUp"}
-              useNativeDriver={true}
-              duration={150}
-            >
-              <PrimaryButton text={"Done"} clickAction={onNext} />
-            </AnimatableView>
+            <PrimaryButton text={"Done"} clickAction={onNext} />
           ) : null}
           <XSensorPlaceholder />
         </View>
