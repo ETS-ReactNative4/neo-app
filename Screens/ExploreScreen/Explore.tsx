@@ -100,7 +100,7 @@ const Explore = ({
   return (
     <View style={styles.container}>
       {header}
-      <ScrollView removeClippedSubviews>
+      <ScrollView>
         {name ? (
           <Fragment>
             <BlankSpacer height={24} />
