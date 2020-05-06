@@ -11,12 +11,6 @@ import Explore, {
 import ExploreBottomBar from "../CommonComponents/ExploreBottomBar/ExploreBottomBar";
 import Search from "../Screens/SearchScreen/Search";
 import {
-  CONSTANT_twentiethColor,
-  CONSTANT_twentyFirstColor,
-  CONSTANT_twentySecondColor,
-  CONSTANT_twentyThirdColor
-} from "../constants/colorPallete";
-import {
   CONSTANT_compassIcon,
   CONSTANT_searchIcon,
   CONSTANT_notificationBellIcon
@@ -36,10 +30,10 @@ export type PreTripHomeTabsType = {
 const Tab = createBottomTabNavigator<PreTripHomeTabsType>();
 
 const tabBarColorConfig = {
-  activeTintColor: CONSTANT_twentyThirdColor,
-  activeBackgroundColor: CONSTANT_twentyFirstColor,
-  inactiveTintColor: CONSTANT_twentySecondColor,
-  inactiveBackgroundColor: CONSTANT_twentiethColor
+  activeTintColor: "#00C684",
+  activeBackgroundColor: "#0B6D4D",
+  inactiveTintColor: "#3C8F73",
+  inactiveBackgroundColor: "#28795E"
 };
 
 const PreTripHomeTabs = () => {
