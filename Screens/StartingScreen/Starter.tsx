@@ -39,7 +39,6 @@ import {
   CONSTANT_shade2,
   CONSTANT_shade1
 } from "../../constants/colorPallete";
-import TranslucentStatusBar from "../../CommonComponents/TranslucentStatusBar/TranslucentStatusBar";
 import {
   CONSTANT_platformIos,
   CONSTANT_termsAndConditions,
@@ -206,7 +205,6 @@ class Starter extends Component<StarterProps, StarterState> {
 
     return (
       <Fragment>
-        <TranslucentStatusBar />
         {displayStarterAnimation ? <StarterAnimation /> : null}
         <BootAnimation
           animationProgress={this.state.bootSplashAnimationProgress}
