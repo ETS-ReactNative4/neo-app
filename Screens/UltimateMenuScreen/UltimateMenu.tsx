@@ -199,8 +199,8 @@ const UltimateMenu = ({
             <PrimaryButton
               text={
                 completionPercentage === 100
-                  ? "Edit profile"
-                  : "Complete profile"
+                  ? "Edit preferences"
+                  : "Complete preferences"
               }
               clickAction={editProfile}
               buttonStyle={styles.buttonStyle}
