@@ -40,12 +40,17 @@ export interface SearchScreenProps {
 }
 
 export interface ISearchCategory {
-  text: itineraryThemeType;
+  text: itineraryThemeType | "All";
   emoji: string;
   searchQuery: string;
 }
 
 const categories: ISearchCategory[] = [
+  {
+    text: "All",
+    emoji: "",
+    searchQuery: ""
+  },
   {
     text: "ADVENTURE",
     emoji: itineraryThemeEmojiMap.ADVENTURE,
@@ -237,7 +242,13 @@ const Search = ({ navigation }: SearchScreenProps) => {
             return (
               <SearchItem
                 title={item.title}
-                emoji={!theme ? "😄" : itineraryThemeEmojiMap[theme]}
+                emoji={
+                  searchString || selectedCategory.text === "All"
+                    ? !theme
+                      ? "😄"
+                      : itineraryThemeEmojiMap[theme]
+                    : itineraryThemeEmojiMap[selectedCategory.text]
+                }
                 action={onClick}
               />
             );
