@@ -173,7 +173,7 @@ const TravelProfileCityComponent = ({
   return (
     <View style={styles.travelProfileCityContainer}>
       <SearchBox
-        textPlaceholder={"Type your favourite destination"}
+        textPlaceholder={"Type destination name"}
         text={search}
         onChangeText={setSearch}
         onClear={clearSearch}
@@ -181,6 +181,7 @@ const TravelProfileCityComponent = ({
 
       <ScrollView showsVerticalScrollIndicator={false}>
         <SectionTitle
+          titleNumberOfLines={2}
           title={sectionTitle}
           description={sectionDescription}
           containerStyle={styles.sectionTitleContainerStyle}

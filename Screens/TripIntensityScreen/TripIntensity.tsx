@@ -174,7 +174,7 @@ const TripIntensity = ({
       </View>
 
       <PrimaryButton
-        text={"Up Next - Budget Preferences"}
+        text={"Continue"}
         clickAction={continueFlow}
         buttonStyle={styles.buttonStyle}
       />

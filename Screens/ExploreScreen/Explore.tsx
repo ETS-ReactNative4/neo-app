@@ -11,7 +11,11 @@ import {
 } from "../../NavigatorsV2/ScreenNames";
 import { PreTripHomeTabsType } from "../../NavigatorsV2/PreTripHomeTabs";
 import HeroBannerRow from "./Components/HeroBannerRow";
-import { CONSTANT_white, CONSTANT_shade5 } from "../../constants/colorPallete";
+import {
+  CONSTANT_white,
+  CONSTANT_shade5,
+  CONSTANT_black1
+} from "../../constants/colorPallete";
 import ExploreSectionTitle from "./Components/ExploreSectionTitle";
 import BlankSpacer from "../../CommonComponents/BlankSpacer/BlankSpacer";
 import BookedItineraryCardsRow from "./Components/BookedItineraryCardsRow";
@@ -34,6 +38,7 @@ import useExploreDataRequest from "./hooks/useExploreDataRequest";
 import useDeepCompareEffect from "use-deep-compare-effect";
 import { inject, observer } from "mobx-react";
 import YourBookings from "../../mobx/YourBookings";
+import User from "../../mobx/User";
 
 export type ExploreScreenNavigationType = CompositeNavigationProp<
   StackNavigationProp<AppNavigatorParamsType, typeof SCREEN_PRETRIP_HOME_TABS>,
@@ -49,11 +54,16 @@ export interface ExploreScreenProps {
   navigation: ExploreScreenNavigationType;
   route: ExploreScreenRouteProp;
   yourBookingsStore: YourBookings;
+  userStore: User;
 }
 
 export type ExploreScreenSourcesType = "TravelProfileFlow";
 
-const Explore = ({ navigation, yourBookingsStore }: ExploreScreenProps) => {
+const Explore = ({
+  navigation,
+  yourBookingsStore,
+  userStore
+}: ExploreScreenProps) => {
   let [exploreData, setExploreData] = useState<ExploreFeedType>([]);
   const [exploreDataApi, loadExploreData] = useExploreDataRequest();
 
@@ -71,6 +81,7 @@ const Explore = ({ navigation, yourBookingsStore }: ExploreScreenProps) => {
   useEffect(() => {
     loadExploreData();
     yourBookingsStore.getUpcomingItineraries();
+    userStore.getUserDisplayDetails();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -82,10 +93,24 @@ const Explore = ({ navigation, yourBookingsStore }: ExploreScreenProps) => {
     }
   }, [successResponseData || {}]);
 
+  const { userDisplayDetails } = userStore;
+
+  const { name } = userDisplayDetails;
+
   return (
     <View style={styles.container}>
       {header}
       <ScrollView removeClippedSubviews>
+        {name ? (
+          <Fragment>
+            <BlankSpacer height={24} />
+            <ExploreSectionTitle
+              title={`Hi ${name},`}
+              description={"It’s time to explore the world, your way"}
+              titleColor={CONSTANT_black1}
+            />
+          </Fragment>
+        ) : null}
         {exploreData.map((section, sectionIndex) => {
           return (
             <Fragment key={sectionIndex}>
@@ -161,5 +186,5 @@ const styles = StyleSheet.create({
 });
 
 export default ErrorBoundary({ isRoot: true })(
-  inject("yourBookingsStore")(observer(Explore))
+  inject("userStore")(inject("yourBookingsStore")(observer(Explore)))
 );

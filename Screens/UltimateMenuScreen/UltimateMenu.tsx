@@ -93,13 +93,13 @@ const UltimateMenu = ({
       action: () => navigation.navigate(SCREEN_PRETRIP_HOME_TABS)
     },
     {
-      name: "Saved Itineraries",
+      name: "Saved itineraries",
       iconName: "heart1",
       active: false,
       action: () => navigation.navigate(SCREEN_SAVED_ITINERARIES)
     },
     {
-      name: "My Profile",
+      name: "My profile",
       iconName: CONSTANT_profileIcon,
       active: false,
       action: () => navigation.navigate(SCREEN_TRAVELLER_PROFILE)
@@ -199,8 +199,8 @@ const UltimateMenu = ({
             <PrimaryButton
               text={
                 completionPercentage === 100
-                  ? "Edit Profile"
-                  : "Complete Profile"
+                  ? "Edit profile"
+                  : "Complete profile"
               }
               clickAction={editProfile}
               buttonStyle={styles.buttonStyle}

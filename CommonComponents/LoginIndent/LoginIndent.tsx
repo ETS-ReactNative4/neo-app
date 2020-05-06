@@ -26,7 +26,7 @@ const LoginIndent = ({
       <Text style={styles.indentText}>{message}</Text>
       <BlankSpacer height={32} />
       <PrimaryButton
-        text={"Login"}
+        text={"Log in"}
         clickAction={() => navigationServiceV2(SCREEN_APP_LOGIN)}
         containerStyle={styles.buttonStyle}
       />

@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between"
   },
   titleInfoStyle: {
-    textTransform: "capitalize"
+    textTransform: "uppercase"
   },
 
   buttonContainerStyle: {

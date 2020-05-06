@@ -148,7 +148,7 @@ const GCM = ({ navigation, route }: GCMProps) => {
         showsVerticalScrollIndicator={false}
         style={[styles.tripContainerStyle]}
       >
-        <Text style={styles.titleStyle}>Enter Trip Details</Text>
+        <Text style={styles.titleStyle}>Enter trip details</Text>
 
         <Picker
           title="Travelling as"
@@ -173,7 +173,7 @@ const GCM = ({ navigation, route }: GCMProps) => {
           value={
             formFields.departingFrom ? formFields.departingFrom.cityName : ""
           }
-          placeholder="Departing From"
+          placeholder="Departing from"
           hasError={
             isSubmitAttempted && !formFields.departingFrom ? true : false
           }
@@ -187,15 +187,15 @@ const GCM = ({ navigation, route }: GCMProps) => {
               ? moment(formFields.departingOn).format(CONSTANT_GCMDateFormat)
               : ""
           }
-          placeholder="Departing On"
+          placeholder="Departing on"
           hasError={false}
         />
 
         <PickerInputField
           onPressAction={toggleTravellingAsPickerModal}
-          label={"TRAVELLING AS"}
+          label={"TRIP TYPE"}
           value={formFields.travellingAs ? formFields.travellingAs.text : ""}
-          placeholder="Travelling as"
+          placeholder="Trip type"
           hasError={isSubmitAttempted && !formFields.travellingAs}
         />
 
@@ -216,7 +216,7 @@ const GCM = ({ navigation, route }: GCMProps) => {
                   }`
                 : ""
             }
-            placeholder="Room Details"
+            placeholder="Room details"
             hasError={isSubmitAttempted && !formFields.roomDetails.length}
           />
         )}

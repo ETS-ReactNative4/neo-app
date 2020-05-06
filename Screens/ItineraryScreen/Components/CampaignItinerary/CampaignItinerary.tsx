@@ -267,21 +267,21 @@ const CampaignItinerary = ({
 
       {isCampaignItinerary ? (
         <BottomButtonBar
-          leftButtonName={"Customize"}
+          leftButtonName={"Customise"}
           leftButtonAction={customizeCampaignItinerary}
           rightButtonName={"Update cost"}
           rightButtonAction={costCampaignItinerary}
         />
       ) : staleCost ? (
         <BottomButtonBar
-          leftButtonName={"Customize"}
+          leftButtonName={"Customise"}
           leftButtonAction={customizeItinerary}
           rightButtonName={"Update cost"}
           rightButtonAction={costNormalItinerary}
         />
       ) : (
         <BottomButtonBar
-          rightButtonName={"Customize"}
+          rightButtonName={"Customise"}
           rightButtonAction={customizeItinerary}
           disableLeftButton
         />

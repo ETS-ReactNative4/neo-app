@@ -22,7 +22,7 @@ import useRequestCallbackApi, {
 import DebouncedAlert from "../../CommonComponents/DebouncedAlert/DebouncedAlert";
 import { observer, inject } from "mobx-react";
 import User from "../../mobx/User";
-import { toastBottom } from "../../Services/toast/toast";
+import { toastLong } from "../../Services/toast/toast";
 import CountryCodePicker from "../MobileNumberScreen/Components/CountryCodePicker";
 import MobileNumberInputField from "../../CommonComponents/MobileNumberInputField/MobileNumberInputField";
 import { ICountryCodeData } from "../AppLoginScreen/Components/PhoneNumberInput";
@@ -124,7 +124,9 @@ const RequestCallback = ({
         }
         const result = await submitRequestCallback(requestBody);
         if (result) {
-          toastBottom("We will contact you shortly!");
+          toastLong(
+            "Your dedicated travel expert will get in touch with you soon!"
+          );
           navigation.goBack();
         } else {
           DebouncedAlert("Oops!", "Unable to submit form details.");
@@ -163,7 +165,7 @@ const RequestCallback = ({
   return (
     <GCMViewer
       bannerImage={CONSTANT_requestCallbackCover().uri}
-      title={"Have questions? We’ll call you back"}
+      title={"Have questions? We're here for you!"}
       backAction={goBack}
     >
       <TranslucentStatusBar />
@@ -189,7 +191,7 @@ const RequestCallback = ({
         showsVerticalScrollIndicator={false}
         style={styles.requestCallBackContainerStyle}
       >
-        <FormTitle title="Enter Contact Details" />
+        <FormTitle title="Enter contact details" />
 
         <BlankSpacer height={24} />
 
@@ -238,9 +240,9 @@ const RequestCallback = ({
 
         <PickerInputField
           onPressAction={toggleModalVisibility}
-          label={"Contact hours"}
+          label={"Preferred call timings"}
           value={contactHoursMap[formFields.contactHours]}
-          placeholder="Email address"
+          placeholder="call timings"
           hasError={isSubmitAttempted && !formFields.contactHours}
         />
 

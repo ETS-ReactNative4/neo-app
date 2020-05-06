@@ -93,7 +93,7 @@ const OtpPanel = ({
               isTimedOut ? styles.expiredText : null
             ]}
           >
-            {isTimedOut ? "OTP TIMED OUT" : `${timeLeft} MINS`}
+            {isTimedOut ? "OTP TIMED OUT" : `${timeLeft} MIN(S)`}
           </Text>
         </View>
         <View>

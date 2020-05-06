@@ -24,7 +24,7 @@ const SavedItinerary = ({ navigation }: SavedItineraryProps) => {
       header: () =>
         PrimaryHeader({
           leftAction: () => navigation.goBack(),
-          headerText: "Saved Itineraries"
+          headerText: "Saved itineraries"
         })
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -45,7 +45,7 @@ const SavedItinerary = ({ navigation }: SavedItineraryProps) => {
 
   if (!isUserLoggedIn) {
     return (
-      <LoginIndent message={"Please login to see you saved itineraries"} />
+      <LoginIndent message={"Please login to see your saved itineraries"} />
     );
   }
 

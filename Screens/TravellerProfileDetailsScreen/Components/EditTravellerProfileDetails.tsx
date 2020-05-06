@@ -81,7 +81,7 @@ const EditTravellerProfileDetails = ({
       header: () =>
         PrimaryHeader({
           leftAction: () => navigation.goBack(),
-          headerText: "Edit Personal Details"
+          headerText: "Edit personal details"
         })
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps

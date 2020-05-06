@@ -117,7 +117,7 @@ const TravellerProfileDetails = ({
       header: () =>
         PrimaryHeader({
           leftAction: () => navigation.goBack(),
-          headerText: "My Traveller Profile"
+          headerText: "My traveller profile"
         })
     });
 
@@ -252,7 +252,7 @@ const TravellerProfileDetails = ({
     <KeyboardAwareScrollView showsVerticalScrollIndicator={false}>
       <View style={styles.profileDetailsContainer}>
         <TravellerProfileDetailsTitle
-          title={"Personal Details"}
+          title={"Personal details"}
           editProfile
           editProfileAction={editProfile}
         />
@@ -282,7 +282,7 @@ const TravellerProfileDetails = ({
       </View>
 
       <View style={styles.profileDetailsContainer}>
-        <TravellerProfileDetailsTitle title={"Other Preferences"} />
+        <TravellerProfileDetailsTitle title={"Other preferences"} />
 
         <View style={styles.switchTextWrapper}>
           <Text style={styles.switchText}>
@@ -321,7 +321,7 @@ const TravellerProfileDetails = ({
       </View>
 
       <View style={styles.profileDetailsContainer}>
-        <TravellerProfileDetailsTitle title={"Special Requests"} />
+        <TravellerProfileDetailsTitle title={"Special requests"} />
 
         {/* Do you have any medical conditions? starts */}
         <View style={styles.switchTextWrapper}>
