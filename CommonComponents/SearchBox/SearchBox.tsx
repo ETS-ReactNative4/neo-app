@@ -18,9 +18,9 @@ import {
   CONSTANT_white1,
   CONSTANT_white,
   CONSTANT_shade2,
-  CONSTANT_shade3,
   CONSTANT_black1,
-  CONSTANT_shade5
+  CONSTANT_shade4,
+  CONSTANT_shade1
 } from "../../constants/colorPallete";
 import Icon from "../../CommonComponents/Icon/Icon";
 import {
@@ -55,7 +55,7 @@ const SearchBox = ({
           <TextInput
             {...otherProps}
             onChangeText={onChangeText}
-            placeholderTextColor={CONSTANT_shade2}
+            placeholderTextColor={CONSTANT_shade1}
             value={text}
             placeholder={textPlaceholder}
             style={styles.searchInputStyle}
@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     borderRadius: 8,
-    backgroundColor: CONSTANT_shade5,
+    backgroundColor: CONSTANT_shade4,
     paddingHorizontal: 12,
     height: 40
   },
@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
     marginRight: 8
   },
   closeIconStyle: {
-    backgroundColor: CONSTANT_shade3,
+    backgroundColor: CONSTANT_shade2,
     borderRadius: 50,
     padding: 4,
     marginLeft: 8
