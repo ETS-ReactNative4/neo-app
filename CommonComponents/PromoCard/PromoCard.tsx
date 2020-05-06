@@ -43,7 +43,7 @@ interface TestimonialCardProps {
   promoCardImageStyle?: StyleProp<ImageStyle>;
 }
 
-const PROMO_CARD_IMAGE_WIDTH = responsiveWidth(100);
+const PROMO_CARD_IMAGE_WIDTH = responsiveWidth(60);
 const PROMO_CARD_IMAGE_HEIGHT = ratioCalculator(1, 1, PROMO_CARD_IMAGE_WIDTH);
 
 const PromoCard = ({
@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
     marginRight: 16
   },
   imageStyle: {
-    width: PROMO_CARD_IMAGE_WIDTH - 32,
+    width: PROMO_CARD_IMAGE_WIDTH,
     height: PROMO_CARD_IMAGE_HEIGHT,
     borderTopLeftRadius: 8,
     borderTopRightRadius: 8
