@@ -71,8 +71,8 @@ const GCM = ({ navigation, route }: GCMProps) => {
         hotelGuestRoomConfigurations,
         tripType: travelType
       });
+      navigation.goBack();
     }
-    navigation.goBack();
   };
 
   const [formFields, formUpdateMethods] = useGCMForm(costingConfig);
@@ -196,7 +196,7 @@ const GCM = ({ navigation, route }: GCMProps) => {
           label={"TRAVELLING AS"}
           value={formFields.travellingAs ? formFields.travellingAs.text : ""}
           placeholder="Travelling as"
-          hasError={false}
+          hasError={isSubmitAttempted && !formFields.travellingAs}
         />
 
         {preDefinedRoomConfig[formFields.travellingAs?.value ?? ""] ? null : (
@@ -217,7 +217,7 @@ const GCM = ({ navigation, route }: GCMProps) => {
                 : ""
             }
             placeholder="Room Details"
-            hasError={false}
+            hasError={isSubmitAttempted && !formFields.roomDetails.length}
           />
         )}
       </ScrollView>

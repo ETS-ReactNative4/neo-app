@@ -3,7 +3,8 @@ import {
   ScrollView,
   NativeSyntheticEvent,
   NativeScrollEvent,
-  LayoutChangeEvent
+  LayoutChangeEvent,
+  Platform
 } from "react-native";
 import {
   ItineraryNavType,
@@ -27,6 +28,7 @@ import deepLink from "../../../../Services/deepLink/deepLink";
 import { CONSTANT_retrievePDF } from "../../../../constants/apiUrls";
 import { CONSTANT_apiServerUrl } from "../../../../constants/serverUrls";
 import useUnbookedItinerary from "../../hooks/useUnbookedItinerary";
+import { CONSTANT_platformAndroid } from "../../../../constants/stringConstants";
 
 export interface CampaignItineraryProps extends ItineraryNavType {
   itineraryDetails: ReturnType<typeof useUnbookedItinerary>;
@@ -102,6 +104,7 @@ const CampaignItinerary = ({
   };
 
   const costCampaignItinerary = () => {
+    const itinerarySource = route.params.itinerarySource;
     navigation.navigate(SCREEN_GCM, {
       bannerImage: mobileImage,
       title: bannerText,
@@ -114,7 +117,11 @@ const CampaignItinerary = ({
           itineraryId: "",
           costingType: "RECOST",
           name: "",
-          leadSource: {}
+          leadSource: {
+            deviceType:
+              Platform.OS === CONSTANT_platformAndroid ? "Android OS" : "iOS",
+            prodType: getProdTypeFromItinerarySource(itinerarySource)
+          }
         };
         updateCampaignItineraryCost(campaignItineraryId, gcmConfigRequest);
       }
@@ -131,6 +138,7 @@ const CampaignItinerary = ({
   };
 
   const costNormalItinerary = () => {
+    const itinerarySource = route.params.itinerarySource;
     navigation.navigate(SCREEN_GCM, {
       bannerImage: mobileImage,
       title: bannerText,
@@ -143,7 +151,11 @@ const CampaignItinerary = ({
           itineraryId,
           costingType: "RECOST",
           name: "",
-          leadSource: {}
+          leadSource: {
+            deviceType:
+              Platform.OS === CONSTANT_platformAndroid ? "Android OS" : "iOS",
+            prodType: getProdTypeFromItinerarySource(itinerarySource)
+          }
         };
         updateItineraryCost(itineraryId, gcmConfigRequest);
       }

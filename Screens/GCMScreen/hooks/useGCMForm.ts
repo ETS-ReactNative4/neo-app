@@ -6,6 +6,7 @@ import apiCall from "../../../Services/networkRequests/apiCall";
 import { CONSTANT_getIndianCities } from "../../../constants/apiUrls";
 import { CONSTANT_responseSuccessStatus } from "../../../constants/stringConstants";
 import { ICitiesListSuccessResponse } from "../../GCMCityPickerScreen/hooks/useGetIndianCities";
+import { ILeadSource } from "../../AppLoginScreen/hooks/useRegisterUserApi";
 
 export interface IIndianCity {
   cityName: string;
@@ -32,24 +33,13 @@ export interface ICostingConfig {
   tripType: travelType;
 }
 
-export interface ILeadSource {
-  url: string;
-  deviceType: "Mobile"; // need enum
-  keyword: string;
-  campaign: string;
-  cpid: string | null;
-  landingPage: string;
-  lastRoute: string;
-  prodType: "PACKAGES"; // need enum
-}
-
 export interface IGCMRequestBody {
   costingConfig: ICostingConfig;
   flightsBookedByUserAlready: boolean;
   itineraryId: string;
   costingType: "RECOST"; // need enum
   name: string;
-  leadSource: ILeadSource | {};
+  leadSource: ILeadSource;
 }
 
 export interface IGCMFormFields {
