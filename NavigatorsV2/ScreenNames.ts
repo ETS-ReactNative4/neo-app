@@ -10,7 +10,6 @@ export const SCREEN_NOTIFICATION_TAB = "NotificationTab";
 export const SCREEN_NOTIFICATION_DETAILS = "NotificationDetails";
 export const SCREEN_NOTIFICATION_FAQ = "NotificationFaq";
 export const SCREEN_ITINERARY = "Itinerary";
-export const SCREEN_EXPLORE_PAGE = "ExplorePage";
 export const SCREEN_PROMO_PAGE = "Promo";
 export const SCREEN_LISTING_PAGE = "ListingPage";
 export const SCREEN_MODAL_STACK = "ModalStack";

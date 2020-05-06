@@ -3,15 +3,19 @@ import useApiCall, {
 } from "../../../Services/networkRequests/hooks/useApiCall";
 import { CONSTANT_requestCallback } from "../../../constants/apiUrls";
 
+export type leadSourceProdType = "App_search" | "App_listing" | "App_explore";
+
+export type leadSourceDeviceType = "Android OS" | "iOS";
+
 export interface IRequestCallbackLeadSource {
-  url: string;
-  deviceType: string;
-  keyword: string;
-  campaign: string;
-  cpid: string | null;
-  landingPage: string;
-  lastRoute: string;
-  prodType: string;
+  url?: string;
+  deviceType: leadSourceDeviceType;
+  keyword?: string;
+  campaign?: string;
+  cpid?: string;
+  landingPage?: string;
+  lastRoute?: string;
+  prodType: leadSourceProdType;
 }
 
 export interface IRequestCallbackRequestBody {
@@ -24,7 +28,7 @@ export interface IRequestCallbackRequestBody {
   canSendWhatsAppMessages: boolean;
   preferredTime: number;
   campaignItineraryId?: string;
-  leadSource: IRequestCallbackLeadSource | {};
+  leadSource: IRequestCallbackLeadSource;
 }
 
 const useRequestCallbackApi = (): [

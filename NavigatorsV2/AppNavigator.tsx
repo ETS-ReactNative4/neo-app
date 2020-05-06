@@ -99,7 +99,9 @@ import EditTravellerProfileDetails from "../Screens/TravellerProfileDetailsScree
 import About from "../Screens/AboutScreen/About";
 import SavedItinerary from "../Screens/SavedItineraryScreen/SavedItinerary";
 import TripIntensity from "../Screens/TripIntensityScreen/TripIntensity";
-import Itinerary from "../Screens/ItineraryScreen/Itinerary";
+import Itinerary, {
+  itinerarySourceType
+} from "../Screens/ItineraryScreen/Itinerary";
 import RequestCallback from "../Screens/RequestCallback/RequestCallback";
 import GCM from "../Screens/GCMScreen/GCM";
 import GCMCityPicker from "../Screens/GCMCityPickerScreen/GCMCityPicker";
@@ -144,6 +146,7 @@ import PaymentFailure from "../Screens/PaymentScreens/PaymentFailure";
 import PaymentScreen from "../Screens/PaymentScreens/PaymentScreen";
 import BudgetPreferences from "../Screens/BudgetPreferencesScreen/BudgetPreferences";
 import VisaDocumentsActionSheet from "../Screens/VisaDocumentsActionSheet/VisaDocumentsActionSheet";
+import { leadSourceProdType } from "../Screens/RequestCallback/hooks/useRequestCallbackApi";
 
 export type loginResetTargetTypes = typeof SCREEN_SAVED_ITINERARIES;
 
@@ -199,11 +202,13 @@ export type AppNavigatorParamsType = {
   [SCREEN_ITINERARY]: {
     slug?: string;
     itineraryId?: string;
+    itinerarySource: itinerarySourceType;
   };
   [SCREEN_REQUEST_CALLBACK]: {
     campaignItineraryId?: string;
     itineraryId?: string;
     slug?: string;
+    prodType: leadSourceProdType;
   };
   [SCREEN_GCM]: {
     title: string;

@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { StyleSheet, TextInput } from "react-native";
+import { StyleSheet, TextInput, Platform } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import GCMViewer from "../GCMFormScreen/Components/GCMViewer";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
@@ -16,7 +16,9 @@ import TextInputField from "../../CommonComponents/TextInputField/TextInputField
 import Picker from "../../CommonComponents/Picker/Picker";
 import BottomButtonBar from "../../CommonComponents/BottomButtonBar/BottomButtonBar";
 import PickerInputField from "../../CommonComponents/PickerInput/PickerInput";
-import useRequestCallbackApi from "./hooks/useRequestCallbackApi";
+import useRequestCallbackApi, {
+  IRequestCallbackRequestBody
+} from "./hooks/useRequestCallbackApi";
 import DebouncedAlert from "../../CommonComponents/DebouncedAlert/DebouncedAlert";
 import { observer, inject } from "mobx-react";
 import User from "../../mobx/User";
@@ -28,6 +30,7 @@ import { useKeyboard } from "@react-native-community/hooks";
 import TranslucentStatusBar from "../../CommonComponents/TranslucentStatusBar/TranslucentStatusBar";
 import validateEmail from "../../Services/validateEmail/validateEmail";
 import validateMobileNumber from "../../Services/validateMobileNumber/validateMobileNumber";
+import { CONSTANT_platformAndroid } from "../../constants/stringConstants";
 
 type RequestCallbackNavType = AppNavigatorProps<typeof SCREEN_REQUEST_CALLBACK>;
 
@@ -40,7 +43,16 @@ export interface ICallbackPickerOption {
   text: string;
 }
 
-const RequestCallback = ({ navigation, userStore }: RequestCallbackProps) => {
+const RequestCallback = ({
+  navigation,
+  userStore,
+  route
+}: RequestCallbackProps) => {
+  const campaignItineraryId = route.params?.campaignItineraryId ?? "";
+  const itineraryId = route.params?.itineraryId ?? "";
+  const slug = route.params?.slug ?? "";
+  let prodType = route.params.prodType;
+
   const goBack = () => navigation.goBack();
 
   const [formFields, updateMethods] = useRequestCallbackForm();
@@ -87,7 +99,7 @@ const RequestCallback = ({ navigation, userStore }: RequestCallbackProps) => {
       )
     ) {
       try {
-        const result = await submitRequestCallback({
+        const requestBody: IRequestCallbackRequestBody = {
           countryPhoneCode: formFields.countryCode, // PT TODO: Modify countrycode
           email: formFields.email,
           mobileNumber: formFields.mobileNumber,
@@ -95,8 +107,22 @@ const RequestCallback = ({ navigation, userStore }: RequestCallbackProps) => {
           canSendWhatsAppMessages: true, // PT TODO: need to know how
           preferredTime: formFields.contactHours,
           pageUrl: "", // PT TODO: required
-          leadSource: {}
-        });
+          leadSource: {
+            deviceType:
+              Platform.OS === CONSTANT_platformAndroid ? "Android OS" : "iOS",
+            prodType
+          }
+        };
+        if (campaignItineraryId) {
+          requestBody.campaignItineraryId = campaignItineraryId;
+        }
+        if (itineraryId) {
+          requestBody.itineraryId = itineraryId;
+        }
+        if (slug) {
+          requestBody.leadSource.prodType = "App_explore";
+        }
+        const result = await submitRequestCallback(requestBody);
         if (result) {
           toastBottom("We will contact you shortly!");
           navigation.goBack();

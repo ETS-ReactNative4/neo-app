@@ -5,7 +5,11 @@ import {
   NativeScrollEvent,
   LayoutChangeEvent
 } from "react-native";
-import { ItineraryNavType, IBannerDetails } from "../../Itinerary";
+import {
+  ItineraryNavType,
+  IBannerDetails,
+  getProdTypeFromItinerarySource
+} from "../../Itinerary";
 import CampaignSlot from "./Components/CampaignSlot";
 import BlankSpacer from "../../../../CommonComponents/BlankSpacer/BlankSpacer";
 import TranslucentStatusBar from "../../../../CommonComponents/TranslucentStatusBar/TranslucentStatusBar";
@@ -43,7 +47,8 @@ const CampaignItinerary = ({
   updateBannerDetails,
   updateFocusedCity,
   updateCampaignItineraryCost,
-  updateItineraryCost
+  updateItineraryCost,
+  route
 }: CampaignItineraryProps) => {
   let campaignItineraryId: string = "",
     bannerText: string = "",
@@ -88,8 +93,11 @@ const CampaignItinerary = ({
   }
 
   const customizeCampaignItinerary = () => {
+    const itinerarySource = route.params.itinerarySource;
+
     navigation.push(SCREEN_REQUEST_CALLBACK, {
-      campaignItineraryId
+      campaignItineraryId,
+      prodType: getProdTypeFromItinerarySource(itinerarySource)
     });
   };
 
@@ -114,8 +122,11 @@ const CampaignItinerary = ({
   };
 
   const customizeItinerary = () => {
+    const itinerarySource = route.params.itinerarySource;
+
     navigation.push(SCREEN_REQUEST_CALLBACK, {
-      itineraryId
+      itineraryId,
+      prodType: getProdTypeFromItinerarySource(itinerarySource)
     });
   };
 

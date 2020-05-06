@@ -1,6 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { AppNavigatorProps } from "../../NavigatorsV2/AppNavigator";
-import { SCREEN_ITINERARY } from "../../NavigatorsV2/ScreenNames";
+import {
+  SCREEN_ITINERARY,
+  SCREEN_EXPLORE_TAB,
+  SCREEN_LISTING_PAGE,
+  SCREEN_SEARCH_TAB,
+  SCREEN_NOTIFICATION_DETAILS,
+  SCREEN_SAVED_ITINERARIES
+} from "../../NavigatorsV2/ScreenNames";
 import apiCall from "../../Services/networkRequests/apiCall";
 import {
   CONSTANT_packages,
@@ -23,6 +30,33 @@ import useItineraryCosting from "./hooks/useItineraryCosting";
 import useUnbookedItinerary from "./hooks/useUnbookedItinerary";
 import { observer } from "mobx-react";
 import { CONSTANT_visaSuccessAnimation } from "../../constants/imageAssets";
+import { leadSourceProdType } from "../RequestCallback/hooks/useRequestCallbackApi";
+
+export type itinerarySourceType =
+  | typeof SCREEN_EXPLORE_TAB
+  | typeof SCREEN_LISTING_PAGE
+  | typeof SCREEN_SEARCH_TAB
+  | typeof SCREEN_NOTIFICATION_DETAILS
+  | typeof SCREEN_SAVED_ITINERARIES;
+
+export const getProdTypeFromItinerarySource = (
+  source: itinerarySourceType
+): leadSourceProdType => {
+  switch (source) {
+    case SCREEN_EXPLORE_TAB:
+      return "App_explore";
+
+    case SCREEN_LISTING_PAGE:
+      return "App_listing";
+
+    case SCREEN_SEARCH_TAB:
+      return "App_search";
+
+    default:
+      // @ts-ignore
+      return "";
+  }
+};
 
 export type ItineraryNavType = AppNavigatorProps<typeof SCREEN_ITINERARY>;
 

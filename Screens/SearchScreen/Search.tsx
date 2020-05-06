@@ -189,7 +189,8 @@ const Search = ({ navigation }: SearchScreenProps) => {
    */
   const openItinerary = (slug: string) => {
     navigation.navigate(SCREEN_ITINERARY, {
-      slug
+      slug,
+      itinerarySource: SCREEN_SEARCH_TAB
     });
   };
 

@@ -54,7 +54,8 @@ const SavedItinerary = ({ navigation }: SavedItineraryProps) => {
       {savedItineraries.map((itinerary, itineraryIndex) => {
         const onNotificationClick = () =>
           navigation.navigate(SCREEN_ITINERARY, {
-            itineraryId: itinerary.itineraryId
+            itineraryId: itinerary.itineraryId,
+            itinerarySource: SCREEN_SAVED_ITINERARIES
           });
 
         return (

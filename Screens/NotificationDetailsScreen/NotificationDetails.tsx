@@ -239,7 +239,8 @@ const NotificationDetails = ({
         rightButtonName={"View itinerary"}
         rightButtonAction={() =>
           navigation.navigate(SCREEN_ITINERARY, {
-            itineraryId: notification.itineraryId
+            itineraryId: notification.itineraryId,
+            itinerarySource: SCREEN_NOTIFICATION_DETAILS
           })
         }
       />

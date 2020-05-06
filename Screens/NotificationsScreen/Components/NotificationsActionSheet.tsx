@@ -24,7 +24,8 @@ import {
 import dialer from "../../../Services/dialer/dialer";
 import {
   SCREEN_ITINERARY,
-  SCREEN_NOTIFICATION_FAQ
+  SCREEN_NOTIFICATION_FAQ,
+  SCREEN_NOTIFICATION_DETAILS
 } from "../../../NavigatorsV2/ScreenNames";
 
 export interface INotificationsActionSheet extends NotificationsScreenProps {
@@ -57,7 +58,8 @@ const NotificationsActionSheet = ({
   const openDetails = () => {
     if (selectedNotification) {
       navigation.navigate(SCREEN_ITINERARY, {
-        itineraryId: selectedNotification.itineraryId
+        itineraryId: selectedNotification.itineraryId,
+        itinerarySource: SCREEN_NOTIFICATION_DETAILS
       });
     }
   };
