@@ -261,7 +261,7 @@ const styles = StyleSheet.create({
     color: CONSTANT_white,
     left: 24,
     width: responsiveWidth(60),
-    ...CONSTANT_fontCustom(CONSTANT_primarySemiBold, 12, 16)
+    ...CONSTANT_fontCustom(CONSTANT_primarySemiBold, 14, 16)
   },
   titleTextStyle: {
     position: "absolute",
