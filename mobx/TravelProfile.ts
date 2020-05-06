@@ -190,6 +190,9 @@ class TravelProfile {
         ...this._travelProfileData,
         ...newData
       };
+      apiCall(CONSTANT_userProfileData, toJS(this._travelProfileData), "PATCH")
+        .then(() => null)
+        .catch(() => null);
     } catch (e) {
       logError(e, { type: "Failed to save travel profile data" });
     }
