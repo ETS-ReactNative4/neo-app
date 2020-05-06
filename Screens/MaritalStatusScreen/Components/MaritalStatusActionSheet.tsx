@@ -36,7 +36,7 @@ const MaritalStatusActionSheet = ({
     <ActionSheet interactableRef={actionSheetRef}>
       <View style={styles.actionSheetContainer}>
         <SectionTitle
-          smallTitle={"TRAVELLERS’ DETAILS"}
+          smallTitle={"TRAVELLER(S) DETAILS"}
           title={"Care to tell us who you normally travel with?"}
           titleNumberOfLines={2}
           containerStyle={styles.sectionTitleContainerStyle}

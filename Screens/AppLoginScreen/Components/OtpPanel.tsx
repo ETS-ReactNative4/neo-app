@@ -74,7 +74,7 @@ const OtpPanel = ({
     <DismissKeyboardView style={[styles.otpPanelContainer, containerStyle]}>
       <Text style={styles.infoHeaderText}>{"CONFIRM YOUR NUMBER"}</Text>
       <Text style={styles.infoText}>
-        {"Please enter the 6-digit OTP sent to you"}
+        {"Please enter 6-digit OTP sent to you"}
       </Text>
       <OtpInput
         code={code}
