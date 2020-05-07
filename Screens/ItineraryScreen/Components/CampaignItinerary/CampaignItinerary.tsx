@@ -78,7 +78,7 @@ const CampaignItinerary = ({
     } = campaignItineraryState as ICampaignItinerary;
     const { itinerary } = campaignItinerary;
 
-    bannerText = campaignDetail.bannerText;
+    bannerText = itinerary.specialTitle || campaignDetail.bannerText;
     name = campaignDetail.name;
     mobileImage = campaignDetail.mobileImage;
     totalCost = itinerary.totalCost;
