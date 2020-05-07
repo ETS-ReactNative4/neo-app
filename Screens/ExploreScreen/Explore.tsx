@@ -152,11 +152,11 @@ const Explore = ({
           <View style={styles.trustIconsWrapper}>
             <TrustIcons
               image={CONSTANT_trustIconFacebook()}
-              text={"4.8/5 Based on 1200+ ratings"}
+              text={"4.8/5 based on 1150+ reviews"}
             />
             <TrustIcons
               image={CONSTANT_trustIconGoogle()}
-              text={"4.5/5 Based on 300+ ratings"}
+              text={"4.7/5 based on 700+ reviews"}
             />
             <TrustIcons
               image={CONSTANT_trustIconIata()}
