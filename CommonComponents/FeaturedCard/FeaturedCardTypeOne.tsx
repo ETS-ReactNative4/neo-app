@@ -74,7 +74,7 @@ const FeaturedCardTypeOne = ({
           <View style={styles.contentStyle}>
             <Text style={styles.textStyle}>
               {" "}
-              From <Text style={styles.boldTextStyle}>{price}</Text> / person
+              From <Text style={styles.boldTextStyle}>₹ {price}</Text> / person
             </Text>
 
             <View style={styles.backArrowStyle}>
