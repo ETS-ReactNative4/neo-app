@@ -32,7 +32,7 @@ const MaritalStatusActionSheet = ({
       <View style={styles.actionSheetContainer}>
         <SectionTitle
           smallTitle={"TRAVELLER(S) DETAILS"}
-          title={"Care to tell us who you normally travel with?"}
+          title={"Can you tell us a bit more about your squad?"}
           titleNumberOfLines={2}
           containerStyle={styles.sectionTitleContainerStyle}
         />

@@ -286,7 +286,7 @@ const TravellerProfileDetails = ({
 
         <View style={styles.switchTextWrapper}>
           <Text style={styles.switchText}>
-            Do you prefer any hotel star category?
+            {"Do your prefer a specific category of hotels?"}
           </Text>
           <Switch
             trackColor={{ false: "#767577", true: CONSTANT_firstColor }}
