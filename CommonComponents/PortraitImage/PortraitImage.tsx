@@ -1,6 +1,7 @@
 import React from "react";
-import { View, ViewStyle, StyleProp, ImageStyle, Image } from "react-native";
+import { View, ViewStyle, StyleProp, ImageStyle } from "react-native";
 import { CONSTANT_shade5 } from "../../constants/colorPallete";
+import SmartImageV2 from "../SmartImage/SmartImageV2";
 
 interface PortraitImageProps {
   containerStyle?: StyleProp<ViewStyle>;
@@ -15,7 +16,8 @@ const PortraitImage = ({
 }: PortraitImageProps) => {
   return (
     <View style={containerStyle}>
-      <Image
+      <SmartImageV2
+        useFastImage
         resizeMode={"cover"}
         source={{ uri: imageSource }}
         style={[{ backgroundColor: CONSTANT_shade5 }, portraitImageStyle]}

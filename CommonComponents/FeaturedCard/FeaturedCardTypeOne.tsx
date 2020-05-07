@@ -65,6 +65,7 @@ const FeaturedCardTypeOne = ({
       >
         <View style={styles.innerCard}>
           <SmartImageV2
+            useFastImage
             source={image}
             fallbackSource={fallbackImage}
             resizeMode="cover"

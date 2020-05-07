@@ -38,6 +38,7 @@ import { observer, inject } from "mobx-react";
 import TravelProfile from "../../mobx/TravelProfile";
 import matchQueryWithText from "../../Services/matchQueryWithText/matchQueryWIthText";
 import WelcomeState from "../../mobx/WelcomeState";
+import BlankSpacer from "../../CommonComponents/BlankSpacer/BlankSpacer";
 
 const { createAnimatableComponent } = Animatable;
 
@@ -219,6 +220,7 @@ const TravelProfileCityComponent = ({
             );
           })}
         </MasonryView>
+        <BlankSpacer height={90} />
       </ScrollView>
 
       <AnimatableTouchableOpacity
