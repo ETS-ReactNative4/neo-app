@@ -42,7 +42,6 @@ const ItineraryCardImage = ({
         fallbackSource={{
           uri: CONSTANT_defaultPlaceImage
         }}
-        useFastImage
         resizeMode="cover"
         style={[styles.itineraryImage, imageStyle]}
       />

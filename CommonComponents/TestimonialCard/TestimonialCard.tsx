@@ -77,7 +77,6 @@ const TestimonialCard = ({
       style={[styles.testimonialCard, containerStyle]}
     >
       <SmartImageV2
-        useFastImage
         resizeMode={"cover"}
         source={image}
         fallbackSource={fallbackImage}

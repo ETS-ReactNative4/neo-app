@@ -62,7 +62,6 @@ const ItineraryBanner = ({
   return (
     <View style={[styles.bannerContainer, containerStyle]}>
       <SmartImageV2
-        useFastImage
         source={{ uri: bannerImage }}
         fallbackSource={{ uri: "" }}
         resizeMode={"cover"}

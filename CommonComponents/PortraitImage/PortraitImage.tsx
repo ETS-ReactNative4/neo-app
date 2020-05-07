@@ -17,7 +17,6 @@ const PortraitImage = ({
   return (
     <View style={containerStyle}>
       <SmartImageV2
-        useFastImage
         resizeMode={"cover"}
         source={{ uri: imageSource }}
         style={[{ backgroundColor: CONSTANT_shade5 }, portraitImageStyle]}
