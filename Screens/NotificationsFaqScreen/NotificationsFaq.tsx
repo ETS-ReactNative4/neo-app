@@ -3,26 +3,23 @@ import { View, StyleSheet } from "react-native";
 import { AppNavigatorProps } from "../../NavigatorsV2/AppNavigator";
 import {
   SCREEN_NOTIFICATION_FAQ,
-  SCREEN_FAQ
+  SCREEN_NOTIFICATION_ANSWER
 } from "../../NavigatorsV2/ScreenNames";
 import PrimaryHeader from "../../NavigatorsV2/Components/PrimaryHeader";
 import HelpDeskView from "../ChatScreen/Components/HelpDeskView";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
-import { observer, inject } from "mobx-react";
-import SupportStore from "../../mobx/SupportStore";
+import { observer } from "mobx-react";
+import useNotificationFaq from "./hooks/useNotificationFaq";
 
 type NotificationFaqNavTypes = AppNavigatorProps<
   typeof SCREEN_NOTIFICATION_FAQ
 >;
 
-export interface NotificationFaqProps extends NotificationFaqNavTypes {
-  supportStore: SupportStore;
-}
+export interface NotificationFaqProps extends NotificationFaqNavTypes {}
 
-const NotificationsFaq = ({
-  navigation,
-  supportStore
-}: NotificationFaqProps) => {
+const NotificationsFaq = ({ navigation }: NotificationFaqProps) => {
+  const faqStore = useNotificationFaq();
+
   useEffect(() => {
     navigation.setOptions({
       header: () =>
@@ -32,21 +29,21 @@ const NotificationsFaq = ({
         })
     });
 
-    const { loadFaqDetails } = supportStore;
-    loadFaqDetails();
+    faqStore.loadFaqDetails();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const { faqDetails } = supportStore;
+  const { faqDetails } = faqStore;
 
   const faqSections = Object.keys(faqDetails).map(faqSection => {
     return {
       title: faqSection,
       icon: faqSection,
       action: () =>
-        navigation.navigate(SCREEN_FAQ, {
+        navigation.navigate(SCREEN_NOTIFICATION_ANSWER, {
           title: faqSection,
-          disableMessaging: true
+          disableMessaging: true,
+          getFaqByType: faqStore.getFaqByType
         })
     };
   });
@@ -64,6 +61,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default ErrorBoundary()(
-  inject("supportStore")(observer(NotificationsFaq))
-);
+export default ErrorBoundary()(observer(NotificationsFaq));

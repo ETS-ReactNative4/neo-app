@@ -66,7 +66,8 @@ import {
   SCREEN_PAYMENT_SUCCESS,
   SCREEN_PAYMENT_FAILURE,
   SCREEN_BUDGET_PREFERENCES,
-  SCREEN_VISA_DOCUMENT_ACTION_SHEET
+  SCREEN_VISA_DOCUMENT_ACTION_SHEET,
+  SCREEN_NOTIFICATION_ANSWER
 } from "./ScreenNames";
 import AppLogin from "../Screens/AppLoginScreen/AppLogin";
 import Starter from "../Screens/StartingScreen/Starter";
@@ -147,6 +148,7 @@ import PaymentScreen from "../Screens/PaymentScreens/PaymentScreen";
 import BudgetPreferences from "../Screens/BudgetPreferencesScreen/BudgetPreferences";
 import VisaDocumentsActionSheet from "../Screens/VisaDocumentsActionSheet/VisaDocumentsActionSheet";
 import { leadSourceProdType } from "../Screens/RequestCallback/hooks/useRequestCallbackApi";
+import NotificationsAnswer from "../Screens/NotificationsAnswerScreen/NotificationsAnswer";
 
 export type loginResetTargetTypes = typeof SCREEN_SAVED_ITINERARIES;
 
@@ -180,6 +182,11 @@ export type AppNavigatorParamsType = {
   };
   [SCREEN_NOTIFICATION_FAQ]: {
     itineraryId: string;
+  };
+  [SCREEN_NOTIFICATION_ANSWER]: {
+    title: string;
+    disableMessaging: boolean;
+    getFaqByType: (type: string) => any;
   };
   [SCREEN_YOUR_BOOKINGS]: undefined;
   [SCREEN_POST_BOOKING_INTRO]: { introData: IPostBookingIntroData[] };
@@ -389,6 +396,10 @@ const AppNavigator = () => {
           component={NotificationDetails}
         />
         <Screen name={SCREEN_NOTIFICATION_FAQ} component={NotificationsFaq} />
+        <Screen
+          name={SCREEN_NOTIFICATION_ANSWER}
+          component={NotificationsAnswer}
+        />
         <Screen
           options={{
             headerShown: false
