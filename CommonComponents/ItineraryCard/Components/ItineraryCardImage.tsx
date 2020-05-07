@@ -30,9 +30,11 @@ const ItineraryCardImage = ({
 }: ItineraryCardImageProps) => {
   return (
     <View style={styles.scrollImageContainer}>
-      <View style={styles.tripTypeContainer}>
-        <Text style={styles.tripTypeTextStyle}>{tripType}</Text>
-      </View>
+      {tripType ? (
+        <View style={styles.tripTypeContainer}>
+          <Text style={styles.tripTypeTextStyle}>{tripType}</Text>
+        </View>
+      ) : null}
       <SmartImageV2
         source={{
           uri: images[0]

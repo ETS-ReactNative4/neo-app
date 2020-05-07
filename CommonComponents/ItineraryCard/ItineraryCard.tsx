@@ -82,21 +82,23 @@ const ItineraryCard = ({
 
         <InclusionList inclusionList={inclusionList} />
 
-        <View style={styles.lineSeparator} />
+        <View>
+          <View style={styles.lineSeparator} />
 
-        <View style={styles.bottomWrapper}>
-          <View style={styles.priceSection}>
-            <Text style={styles.rupeeText}>₹</Text>
-            <Text style={styles.priceText}>{itineraryCost}</Text>
-            <Text style={styles.personText}>/person</Text>
+          <View style={styles.bottomWrapper}>
+            <View style={styles.priceSection}>
+              <Text style={styles.rupeeText}>₹</Text>
+              <Text style={styles.priceText}>{itineraryCost}</Text>
+              <Text style={styles.personText}>/person</Text>
+            </View>
+
+            <PrimaryButton
+              text={"View"}
+              buttonStyle={styles.buttonStyle}
+              buttonTextStyle={styles.buttonTextStyle}
+              clickAction={action}
+            />
           </View>
-
-          <PrimaryButton
-            text={"View"}
-            buttonStyle={styles.buttonStyle}
-            buttonTextStyle={styles.buttonTextStyle}
-            clickAction={action}
-          />
         </View>
       </View>
     </TouchableOpacity>
@@ -120,7 +122,9 @@ const styles = StyleSheet.create({
   contentWrapper: {
     paddingVertical: 12,
     paddingHorizontal: 16,
-    backgroundColor: CONSTANT_white
+    backgroundColor: CONSTANT_white,
+    justifyContent: "space-between",
+    flex: 1
   },
   titleTextWrapper: {
     flexDirection: "row",
