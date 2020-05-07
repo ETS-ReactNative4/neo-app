@@ -36,7 +36,6 @@ import WelcomeHeader from "../../NavigatorsV2/Components/WelcomeHeader";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import WelcomeState from "../../mobx/WelcomeState";
 import TravelProfile, { budgetRangeType } from "../../mobx/TravelProfile";
-import createReadableText from "../../Services/createReadableText/createReadableText";
 import launchPretripHome from "../../Services/launchPretripHome/launchPretripHome";
 import isUserLoggedIn from "../../Services/isUserLoggedIn/isUserLoggedIn";
 
@@ -53,6 +52,14 @@ export interface IBudgetPreferenceOption {
   label: string;
   value: budgetRangeType;
 }
+
+export const budgetPreferenceLabelValueMap: {
+  [key in budgetRangeType]: string;
+} = {
+  DEAL_HUNTER: "Modest",
+  VALUE_FOR_MONEY: "Mid-range",
+  FLEXIBLE: "Indulgent"
+};
 
 const BudgetPreferences = ({
   navigation,
@@ -118,7 +125,7 @@ const BudgetPreferences = ({
     setBudgetRangeOptions(
       budgetRangeValues.map(value => {
         return {
-          label: createReadableText(value) as string,
+          label: budgetPreferenceLabelValueMap[value],
           value: value
         };
       })

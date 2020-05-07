@@ -130,7 +130,7 @@ const UltimateMenu = ({
     });
 
     menuList.unshift({
-      name: "Explore trips",
+      name: "My trip feed",
       iconName: CONSTANT_passIcon,
       active: false,
       action: () => navigation.navigate(SCREEN_YOUR_BOOKINGS)
@@ -185,11 +185,11 @@ const UltimateMenu = ({
 
           {!isLoggedIn ? (
             <Text style={styles.emailTextStyle} onPress={login}>
-              Log-in / Sign-up
+              Log in / Sign up
             </Text>
           ) : (
             <Text style={styles.emailTextStyle} onPress={logout}>
-              Logout
+              Log out
             </Text>
           )}
 

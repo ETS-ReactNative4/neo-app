@@ -12,6 +12,7 @@ import {
   CONSTANT_GCMDateFormat,
   CONSTANT_shortTimeFormat
 } from "../../../../constants/styles";
+import { CONSTANT_detailIcon } from "../../../../constants/imageAssets";
 
 export interface ItineraryTimelineProps {
   notifData: IItineraryNotificationInfo[];
@@ -33,7 +34,7 @@ const ItineraryTimeline = ({ notifData }: ItineraryTimelineProps) => {
               `${CONSTANT_GCMDateFormat}, ${CONSTANT_shortTimeFormat}`
             )}
             text={notification.title}
-            type={""}
+            type={CONSTANT_detailIcon}
           />
         );
       })}
