@@ -38,7 +38,7 @@ interface ItineraryProps {
 
 const HEADER_CONTAINER_WIDTH = responsiveWidth(100);
 const HEADER_CONTAINER_HEIGHT =
-  ratioCalculator(9, 5, HEADER_CONTAINER_WIDTH) +
+  ratioCalculator(9, 6, HEADER_CONTAINER_WIDTH) +
   (isIphoneX() ? CONSTANT_xNotchHeight : 0);
 
 const ItineraryBanner = ({
