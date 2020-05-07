@@ -7,6 +7,11 @@ import {
 import { CONSTANT_black1 } from "../../../../constants/colorPallete";
 import { IItineraryNotificationInfo } from "../../../NotificationDetailsScreen/hooks/useNotificationDetailsApi";
 import ItineraryNotificationCard from "./Components/ItineraryNotificationCard";
+import moment from "moment";
+import {
+  CONSTANT_GCMDateFormat,
+  CONSTANT_shortTimeFormat
+} from "../../../../constants/styles";
 
 export interface ItineraryTimelineProps {
   notifData: IItineraryNotificationInfo[];
@@ -24,7 +29,9 @@ const ItineraryTimeline = ({ notifData }: ItineraryTimelineProps) => {
           <ItineraryNotificationCard
             key={notificationIndex}
             isNegative={notification.negative}
-            time={notification.creationTime.toString()}
+            time={moment(notification.creationTime).format(
+              `${CONSTANT_GCMDateFormat}, ${CONSTANT_shortTimeFormat}`
+            )}
             text={notification.title}
             type={""}
           />
