@@ -155,7 +155,10 @@ const TravelProfileCityComponent = ({
 
   const continueFlow = () => {
     travelProfileStore.updateTravelProfileData({
-      travelledCountries: selectedCities.map(country => country.id)
+      [isPositive
+        ? "wishlistCountries"
+        : "travelledCountries"]: selectedCities.map(country => country.id),
+      [!isPositive ? "wishlistCountries" : "travelledCountries"]: []
     });
     welcomeStateStore.patchWelcomeState("seenTravelCountryPicker", true);
     navigation.navigate(SCREEN_TRAVEL_MARITAL_STATUS);
