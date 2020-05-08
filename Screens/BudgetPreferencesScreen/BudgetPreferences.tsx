@@ -240,14 +240,17 @@ const styles = StyleSheet.create({
   tripIntensityButtonWrapper: {
     flexDirection: "row",
     marginHorizontal: 32,
-    marginBottom: 24
+    marginBottom: 24,
+    alignItems: "center",
+    justifyContent: "space-around"
   },
   tripIntensityButton: {
     flex: 1,
     backgroundColor: CONSTANT_white,
-    padding: 20,
+    paddingHorizontal: 8,
+    paddingVertical: 16,
     borderRadius: 25,
-    marginRight: 8
+    marginHorizontal: 4
   },
   tripIntensityButtonText: {
     color: CONSTANT_black1,
