@@ -16,6 +16,7 @@ import {
   CONSTANT_defaultPlaceImage,
   CONSTANT_pytHappyInsignia
 } from "../../constants/imageAssets";
+import getImgIXUrl from "../../Services/getImgIXUrl/getImgIXUrl";
 
 interface SelectablePortraitImageProps {
   containerStyle?: StyleProp<ViewStyle>;
@@ -55,7 +56,7 @@ const SelectablePortraitImage = ({
     <View style={containerStyle}>
       <TouchableOpacity activeOpacity={1} onPress={selectedAction}>
         <PortraitImage
-          imageSource={imageSource}
+          imageSource={getImgIXUrl({ src: imageSource })}
           containerStyle={portraitImageContainerStyle}
           portraitImageStyle={[
             styles.imageStyle,
