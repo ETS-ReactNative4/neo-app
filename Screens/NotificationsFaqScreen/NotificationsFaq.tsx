@@ -50,7 +50,7 @@ const NotificationsFaq = ({ navigation }: NotificationFaqProps) => {
 
   return (
     <View style={styles.notificationFaqContainer}>
-      <HelpDeskView disableHeader faqSections={faqSections} />
+      <HelpDeskView disableIcons disableHeader faqSections={faqSections} />
     </View>
   );
 };

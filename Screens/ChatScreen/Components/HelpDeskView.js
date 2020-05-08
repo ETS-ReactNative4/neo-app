@@ -1,7 +1,6 @@
-import React, { Fragment } from "react";
-import { View, ScrollView, StyleSheet, Text } from "react-native";
+import React from "react";
+import { View, StyleSheet, Text } from "react-native";
 import PropTypes from "prop-types";
-import CommonHeader from "../../../CommonComponents/CommonHeader/CommonHeader";
 import HelpDeskCategories from "../../SupportCenterScreen/Components/HelpDeskCategories";
 import constants from "../../../constants/constants";
 import SupportTopBar from "../../SupportCenterScreen/Components/SupportTopBar";
@@ -15,6 +14,7 @@ const HelpDeskView = ({
   faqSections,
   disableHeader = false,
   disableTopBar = true,
+  disableIcons = false,
   topBarText = "",
   topBarCta = "",
   topBarCtaAction = () => null,
@@ -29,6 +29,15 @@ const HelpDeskView = ({
   };
 
   const Header = HomeHeader({ navigation }).header;
+
+  const messageTextStyle = { marginTop: -0.5, marginRight: 4 };
+  const messageButtonStyle = {
+    alignSelf: "center",
+    marginBottom: 24,
+    marginTop: 0,
+    borderRadius: 2
+  };
+
   return (
     <View style={styles.helpDeskViewContainer}>
       {disableHeader ? null : Header}
@@ -47,6 +56,7 @@ const HelpDeskView = ({
           />
         )}
         <HelpDeskCategories
+          disableIcons={disableIcons}
           containerStyle={styles.helpDeskCategoriesContainer}
           categories={faqSections}
           categoryTitle={"Categories"}
@@ -56,13 +66,8 @@ const HelpDeskView = ({
           <SimpleButton
             text={"Send message"}
             textColor={constants.firstColor}
-            textStyle={{ marginTop: -0.5, marginRight: 4 }}
-            containerStyle={{
-              alignSelf: "center",
-              marginBottom: 24,
-              marginTop: 0,
-              borderRadius: 2
-            }}
+            textStyle={messageTextStyle}
+            containerStyle={messageButtonStyle}
             icon={constants.arrowRight}
             color={"transparent"}
             iconSize={12}
@@ -109,7 +114,8 @@ HelpDeskView.propTypes = {
   refreshing: PropTypes.bool,
   onRefresh: PropTypes.func,
   isTitleBold: PropTypes.bool,
-  disableTopBar: PropTypes.bool
+  disableTopBar: PropTypes.bool,
+  disableIcons: PropTypes.bool
 };
 
 export default HelpDeskView;
