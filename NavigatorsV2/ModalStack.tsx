@@ -16,7 +16,6 @@ import {
   SCREEN_LEISURE,
   SCREEN_PDF_VIEWER,
   SCREEN_FEEDBACK_PROMPT,
-  SCREEN_VISA_DOCUMENT_ACTION_SHEET,
   SCREEN_ACTION_SHEET
 } from "./ScreenNames";
 import { RouteProp } from "@react-navigation/native";
@@ -32,6 +31,7 @@ import ActivityVoucher from "../Screens/VoucherScreens/ActivityVoucherScreen/Act
 import HotelVoucher from "../Screens/VoucherScreens/HotelVoucherScreen/HotelVoucher";
 import TransferVoucher from "../Screens/VoucherScreens/TransferVoucherScreen/TransferVoucher";
 import PDFViewerAndroid from "../Screens/PDFViewerScreen/PDFViewerAndroid";
+import FeedbackPrompt from "../Screens/FeedbackPromptScreen/FeedbackPrompt";
 
 export type ListingPageType = {
   slug?: string;
@@ -60,8 +60,9 @@ export type ModalNavigatorParamsType = {
   [SCREEN_PDF_VIEWER]: {
     pdfUri: string;
   };
-  [SCREEN_FEEDBACK_PROMPT]: {};
-  [SCREEN_VISA_DOCUMENT_ACTION_SHEET]: {};
+  [SCREEN_FEEDBACK_PROMPT]: {
+    identifier: string;
+  };
   [SCREEN_ACTION_SHEET]: {};
 };
 
@@ -97,8 +98,9 @@ export const modalStackData: ModalNavigatorParamsType = {
   [SCREEN_PDF_VIEWER]: {
     pdfUri: ""
   },
-  [SCREEN_FEEDBACK_PROMPT]: {},
-  [SCREEN_VISA_DOCUMENT_ACTION_SHEET]: {},
+  [SCREEN_FEEDBACK_PROMPT]: {
+    identifier: ""
+  },
   [SCREEN_ACTION_SHEET]: {}
 };
 
@@ -115,6 +117,7 @@ const ModalStack = () => {
       <Screen name={SCREEN_HOTEL_VOUCHER} component={HotelVoucher} />
       <Screen name={SCREEN_TRANSFER_VOUCHER} component={TransferVoucher} />
       <Screen name={SCREEN_PDF_VIEWER} component={PDFViewerAndroid} />
+      <Screen name={SCREEN_FEEDBACK_PROMPT} component={FeedbackPrompt} />
     </Navigator>
   );
 };
