@@ -137,7 +137,7 @@ class FeedbackPrompt extends Component {
     /**
      * This will prevent unknown identifiers from accidentally being submitted
      */
-    const identifier = this.props.navigation.getParam("identifier", "");
+    const identifier = this.props.route.params?.identifier ?? "";
     this.setState({
       identifier
     });
