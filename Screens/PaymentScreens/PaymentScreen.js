@@ -6,6 +6,7 @@ import ControlledWebView from "../../CommonComponents/ControlledWebView/Controll
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import { recordEvent } from "../../Services/analytics/analyticsService";
 import { SCREEN_PAYMENT_SUCCESS, SCREEN_PAYMENT_FAILURE } from "../../NavigatorsV2/ScreenNames";
+import { CONSTANT_paymentFormHtml } from "../../constants/stringConstants";
 
 @ErrorBoundary()
 class PaymentScreen extends Component {
@@ -78,7 +79,7 @@ class PaymentScreen extends Component {
       recordEvent(constants.Payment.event, {
         click: constants.Payment.click.paymentFailure
       });
-      navigation.replace("PaymentFailure");
+      navigation.replace(SCREEN_PAYMENT_FAILURE);
     }
   };
 
@@ -88,14 +89,13 @@ class PaymentScreen extends Component {
     return (
       <View style={{ flex: 1, backgroundColor: "white" }}>
         <ControlledWebView
-          source={{ html: constants.paymentFormHtml }}
+          source={{ html: `${CONSTANT_paymentFormHtml}<script>${paymentScript}</script>` }}
           onNavigationStateChange={this.onNavigationStateChange}
           style={{
             flex: 1,
             marginTop: isIphoneX() ? constants.xNotchHeight : 0
           }}
           webviewRef={e => (this._webView = e)}
-          injectedJavascript={paymentScript}
         />
       </View>
     );
