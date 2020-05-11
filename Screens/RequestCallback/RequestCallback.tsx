@@ -114,7 +114,7 @@ const RequestCallback = ({
           }
         };
         if (campaignItineraryId) {
-          requestBody.campaignItineraryId = campaignItineraryId;
+          requestBody.campaignId = campaignItineraryId;
         }
         if (itineraryId) {
           requestBody.itineraryId = itineraryId;
