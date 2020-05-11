@@ -161,6 +161,10 @@ export type AppNavigatorParamsType = {
   [SCREEN_APP_LOGIN]: {
     resetTarget?: loginResetTargetTypes;
     launchSource?: loginLaunchSourceTypes;
+    passThrough?: {
+      screenName: string;
+      params?: object;
+    };
   };
   [SCREEN_STARTER]: undefined;
   [SCREEN_TRAVEL_PROFILE_WELCOME]: undefined;

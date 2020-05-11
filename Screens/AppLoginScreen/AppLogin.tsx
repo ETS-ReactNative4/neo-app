@@ -293,8 +293,12 @@ const AppLogin = ({
       CONSTANT_responseUserUnavailable;
 
     // PT TODO: Launch Post booking flow goes here once old screen wiring is done
-    const { resetTarget } = route.params || {};
-    if (resetTarget === SCREEN_SAVED_ITINERARIES && !isNewUser) {
+    const { resetTarget, passThrough } = route.params || {};
+
+    if (passThrough) {
+      // @ts-ignore
+      navigation.replace(passThrough.screenName, passThrough.params);
+    } else if (resetTarget === SCREEN_SAVED_ITINERARIES && !isNewUser) {
       navigation.dispatch(launchSavedItineraries());
       setIsOtpSubmitting(false);
     } else {

@@ -19,16 +19,21 @@ import { ICampaignItinerary } from "../../../../TypeInterfaces/ICampaignItinerar
 import ItineraryView from "../ItineraryView";
 import {
   SCREEN_REQUEST_CALLBACK,
-  SCREEN_GCM
+  SCREEN_GCM,
+  SCREEN_APP_LOGIN
 } from "../../../../NavigatorsV2/ScreenNames";
 import { ICity } from "../../../../TypeInterfaces/IItinerary";
-import { IGCMRequestBody } from "../../../GCMScreen/hooks/useGCMForm";
+import {
+  IGCMRequestBody,
+  ICostingConfig
+} from "../../../GCMScreen/hooks/useGCMForm";
 import HighlightText from "../HighlightText";
 import deepLink from "../../../../Services/deepLink/deepLink";
 import { CONSTANT_retrievePDF } from "../../../../constants/apiUrls";
 import { CONSTANT_apiServerUrl } from "../../../../constants/serverUrls";
 import useUnbookedItinerary from "../../hooks/useUnbookedItinerary";
 import { CONSTANT_platformAndroid } from "../../../../constants/stringConstants";
+import isUserLoggedIn from "../../../../Services/isUserLoggedIn/isUserLoggedIn";
 
 export interface CampaignItineraryProps extends ItineraryNavType {
   itineraryDetails: ReturnType<typeof useUnbookedItinerary>;
@@ -105,12 +110,13 @@ const CampaignItinerary = ({
 
   const costCampaignItinerary = () => {
     const itinerarySource = route.params.itinerarySource;
-    navigation.navigate(SCREEN_GCM, {
+    const screenName = SCREEN_GCM;
+    const screenProps = {
       bannerImage: mobileImage,
       title: bannerText,
       campaignItineraryId,
       costingConfig,
-      onSubmit: costingConfigFromForm => {
+      onSubmit: (costingConfigFromForm: ICostingConfig) => {
         const gcmConfigRequest: IGCMRequestBody = {
           costingConfig: costingConfigFromForm,
           flightsBookedByUserAlready: false,
@@ -125,7 +131,21 @@ const CampaignItinerary = ({
         };
         updateCampaignItineraryCost(campaignItineraryId, gcmConfigRequest);
       }
-    });
+    };
+    isUserLoggedIn()
+      .then(result => {
+        if (result) {
+          navigation.navigate(screenName, screenProps);
+        } else {
+          navigation.navigate(SCREEN_APP_LOGIN, {
+            passThrough: {
+              screenName,
+              params: screenProps
+            }
+          });
+        }
+      })
+      .catch(() => null);
   };
 
   const customizeItinerary = () => {
@@ -139,12 +159,13 @@ const CampaignItinerary = ({
 
   const costNormalItinerary = () => {
     const itinerarySource = route.params.itinerarySource;
-    navigation.navigate(SCREEN_GCM, {
+    const screenName = SCREEN_GCM;
+    const screenProps = {
       bannerImage: mobileImage,
       title: bannerText,
       itineraryId,
       costingConfig,
-      onSubmit: costingConfigFromForm => {
+      onSubmit: (costingConfigFromForm: ICostingConfig) => {
         const gcmConfigRequest: IGCMRequestBody = {
           costingConfig: costingConfigFromForm,
           flightsBookedByUserAlready: false,
@@ -159,7 +180,21 @@ const CampaignItinerary = ({
         };
         updateItineraryCost(itineraryId, gcmConfigRequest);
       }
-    });
+    };
+    isUserLoggedIn()
+      .then(result => {
+        if (result) {
+          navigation.navigate(screenName, screenProps);
+        } else {
+          navigation.navigate(SCREEN_APP_LOGIN, {
+            passThrough: {
+              screenName,
+              params: screenProps
+            }
+          });
+        }
+      })
+      .catch(() => null);
   };
 
   const updateCityFocus = (city: ICity) => {
