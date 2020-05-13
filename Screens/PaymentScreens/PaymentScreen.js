@@ -5,14 +5,11 @@ import { isIphoneX } from "react-native-iphone-x-helper";
 import ControlledWebView from "../../CommonComponents/ControlledWebView/ControlledWebView";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import { recordEvent } from "../../Services/analytics/analyticsService";
+import { SCREEN_PAYMENT_SUCCESS, SCREEN_PAYMENT_FAILURE } from "../../NavigatorsV2/ScreenNames";
+import { CONSTANT_paymentFormHtml } from "../../constants/stringConstants";
 
 @ErrorBoundary()
 class PaymentScreen extends Component {
-  static navigationOptions = ({ navigation }) => {
-    return {
-      header: null
-    };
-  };
   _didFocusSubscription;
   _willBlurSubscription;
 
@@ -59,7 +56,7 @@ class PaymentScreen extends Component {
   _webView = React.createRef();
 
   onNavigationStateChange = webViewState => {
-    const transactionId = this.props.navigation.getParam("transactionId", "");
+    const transactionId = this.props.route.params?.transactionId ?? "";
     const url = webViewState.url;
     const { navigation } = this.props;
     if (url.indexOf("404") === -1) {
@@ -67,13 +64,13 @@ class PaymentScreen extends Component {
         recordEvent(constants.Payment.event, {
           click: constants.Payment.click.paymentSuccess
         });
-        navigation.replace("PaymentSuccess", { transactionId });
+        navigation.replace(SCREEN_PAYMENT_SUCCESS, { transactionId });
       }
       if (url.indexOf(constants.paymentInComplete) > -1) {
         recordEvent(constants.Payment.event, {
           click: constants.Payment.click.paymentFailure
         });
-        navigation.replace("PaymentFailure");
+        navigation.replace(SCREEN_PAYMENT_FAILURE);
       }
       if (url.indexOf(constants.paymentCancel) > -1) {
         navigation.goBack();
@@ -82,24 +79,23 @@ class PaymentScreen extends Component {
       recordEvent(constants.Payment.event, {
         click: constants.Payment.click.paymentFailure
       });
-      navigation.replace("PaymentFailure");
+      navigation.replace(SCREEN_PAYMENT_FAILURE);
     }
   };
 
   render() {
-    const paymentScript = this.props.navigation.getParam("paymentScript", "");
+    const paymentScript = this.props.route.params?.paymentScript ?? "";
 
     return (
       <View style={{ flex: 1, backgroundColor: "white" }}>
         <ControlledWebView
-          source={{ html: constants.paymentFormHtml }}
+          source={{ html: `${CONSTANT_paymentFormHtml}<script>${paymentScript}</script>` }}
           onNavigationStateChange={this.onNavigationStateChange}
           style={{
             flex: 1,
             marginTop: isIphoneX() ? constants.xNotchHeight : 0
           }}
           webviewRef={e => (this._webView = e)}
-          injectedJavascript={paymentScript}
         />
       </View>
     );

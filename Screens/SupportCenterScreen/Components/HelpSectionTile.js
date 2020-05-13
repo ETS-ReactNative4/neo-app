@@ -16,9 +16,9 @@ const HelpSectionTile = inject("supportStore")(
   observer(
     ({
       containerStyle = StyleSheet.create({}),
-      icon = "",
       title = "",
       action = () => null,
+      disableIcons = false,
       supportStore
     }) => {
       const faqDetails = supportStore.getFaqDetailsByName(title);
@@ -27,13 +27,15 @@ const HelpSectionTile = inject("supportStore")(
           onPress={action}
           style={[styles.helpSectionTileContainer, containerStyle]}
         >
-          <View style={styles.leftIconContainer}>
-            <Icon
-              size={20}
-              color={constants.shade2}
-              name={faqIconMap[faqDetails.categoryId]}
-            />
-          </View>
+          {disableIcons ? null : (
+            <View style={styles.leftIconContainer}>
+              <Icon
+                size={20}
+                color={constants.shade2}
+                name={faqIconMap[faqDetails.categoryId]}
+              />
+            </View>
+          )}
           <View style={styles.textSectionContainer}>
             <Text style={styles.titleText}>{title}</Text>
           </View>
@@ -50,7 +52,8 @@ HelpSectionTile.propTypes = {
   containerStyle: ViewPropTypes.style,
   icon: PropTypes.string,
   title: PropTypes.string,
-  action: PropTypes.func
+  action: PropTypes.func,
+  disableIcons: PropTypes.bool
 };
 
 const styles = StyleSheet.create({
@@ -65,10 +68,11 @@ const styles = StyleSheet.create({
   leftIconContainer: {
     height: 20,
     width: 20,
-    marginHorizontal: 24
+    marginLeft: 24
   },
   textSectionContainer: {
-    flex: 1
+    flex: 1,
+    marginLeft: 24
   },
   titleText: {
     ...constants.fontCustom(constants.primaryRegular, 14),

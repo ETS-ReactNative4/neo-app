@@ -34,6 +34,7 @@ import Moment from "moment";
 import { recordEvent } from "../../Services/analytics/analyticsService";
 import { extendMoment } from "moment-range";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
+import PrimaryHeader from "../../NavigatorsV2/Components/PrimaryHeader";
 
 const moment = extendMoment(Moment);
 
@@ -43,26 +44,6 @@ const moment = extendMoment(Moment);
 @inject("infoStore")
 @observer
 class NearBy extends Component {
-  static navigationOptions = ({ navigation }) => {
-    const city = navigation.getParam("city", {});
-    const title = navigation.getParam("title", "");
-    return {
-      header: (
-        <CommonHeader
-          TitleComponent={
-            <MultiLineHeader
-              duration={city.cityName}
-              title={title}
-              disableDropDown={true}
-            />
-          }
-          title={""}
-          navigation={navigation}
-        />
-      )
-    };
-  };
-
   constructor(props) {
     super(props);
     this.state = {
@@ -119,10 +100,29 @@ class NearBy extends Component {
       lng: "",
       isTripActive: false
     };
+
+    const city = props.route.params?.city ?? {};
+    const title = props.route.params?.title ?? "";
+
+    props.navigation.setOptions({
+      header: () => (
+        <CommonHeader
+          TitleComponent={
+            <MultiLineHeader
+              duration={city.cityName}
+              title={title}
+              disableDropDown={true}
+            />
+          }
+          title={""}
+          navigation={props.navigation}
+        />
+      )
+    });
   }
 
   componentDidMount() {
-    const searchText = this.props.navigation.getParam("searchQuery", "");
+    const searchText = this.props.route.params?.searchQuery ?? "";
     const { loadTextSearch } = this.props.placesStore;
     loadTextSearch(searchText);
     this.checkCurrentCity();
@@ -130,7 +130,7 @@ class NearBy extends Component {
   }
 
   checkCurrentCity = () => {
-    const city = this.props.navigation.getParam("city", {});
+    const city = this.props.route.params?.city ?? {};
     const today = moment().toDate();
     const startDayText = moment(city.startDay).format("DD/MM/YYYY");
     const endDayText = moment(city.endDay).format("DD/MM/YYYY");
@@ -253,7 +253,7 @@ class NearBy extends Component {
       location => {
         const lat = location.coords.latitude;
         const lng = location.coords.longitude;
-        const keyword = this.props.navigation.getParam("title", "");
+        const keyword = this.props.route.params?.title ?? "";
         loadLocationSearch({
           lat,
           lng,
@@ -286,7 +286,7 @@ class NearBy extends Component {
     const today = moment().format("DDMMYYYY");
     const { loadLocationSearch } = this.props.placesStore;
     const hotelDetails = getHotelByDate(today);
-    const keyword = this.props.navigation.getParam("title", "");
+    const keyword = this.props.route.params?.title ?? "";
     const lat = Number(hotelDetails.lat);
     const lng = Number(hotelDetails.lon);
     loadLocationSearch({
@@ -355,8 +355,8 @@ class NearBy extends Component {
       getSearchResultsByLocation,
       isNextPageLoading
     } = this.props.placesStore;
-    const searchText = this.props.navigation.getParam("searchQuery", "");
-    const keyword = this.props.navigation.getParam("title", "");
+    const searchText = this.props.route.params?.searchQuery ?? "";
+    const keyword = this.props.route.params?.title ?? "";
     const { lat, lng } = this.state;
     let placeDetails = {
       searchResults: [],
@@ -410,7 +410,9 @@ class NearBy extends Component {
             }
           }}
           renderItem={({ item: place, index }) => {
-            if (_.isEmpty(place)) return null;
+            if (_.isEmpty(place)) {
+              return null;
+            }
             const imageUrl = place.photos ? place.photos[0].photoUrl : "";
             return (
               <TouchableOpacity

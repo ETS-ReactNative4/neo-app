@@ -3,8 +3,8 @@ import LottieView from "lottie-react-native";
 import constants from "../../../constants/constants";
 import { StyleSheet } from "react-native";
 import {
-  responsiveHeight,
-  responsiveWidth
+  responsiveScreenHeight,
+  responsiveScreenWidth
 } from "react-native-responsive-dimensions";
 import PropTypes from "prop-types";
 
@@ -41,8 +41,8 @@ BootAnimation.propTypes = {
 const styles = StyleSheet.create({
   lottieViewContainer: {
     position: "absolute",
-    height: responsiveHeight(100),
-    width: responsiveWidth(100),
+    height: responsiveScreenHeight(100),
+    width: responsiveScreenWidth(100),
     top: 0,
     left: 0
   }

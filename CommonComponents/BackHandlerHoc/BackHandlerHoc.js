@@ -10,7 +10,6 @@ import { BackHandler } from "react-native";
  * `handler = () => yourFunction()`
  */
 const BackHandlerHoc = (backHandler = () => false) => WrappedComponent => {
-  WrappedComponent.navigationOptions.gesturesEnabled = false;
 
   return class extends Component {
     static navigationOptions = WrappedComponent.navigationOptions;

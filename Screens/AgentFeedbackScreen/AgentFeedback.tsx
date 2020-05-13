@@ -11,10 +11,7 @@ import {
 import AgentInfoText from "./Components/AgentInfoText";
 import AgentFeedbackOption from "./Components/AgentFeedbackOption/AgentFeedbackOption";
 import Animated, { Easing } from "react-native-reanimated";
-import {
-  responsiveWidth
-  // @ts-ignore
-} from "react-native-responsive-dimensions";
+import { responsiveWidth } from "react-native-responsive-dimensions";
 import { CONSTANT_black1, CONSTANT_shade5 } from "../../constants/colorPallete";
 import {
   CONSTANT_fontCustom,
@@ -25,7 +22,6 @@ import SmartImageV2 from "../../CommonComponents/SmartImage/SmartImageV2";
 import RatingIcon from "../../CommonComponents/RatingIcon/RatingIcon";
 import { observer, inject } from "mobx-react";
 import SOFeedback from "../../mobx/SOFeedback";
-import { NavigationStackProp } from "react-navigation-stack";
 import _ from "lodash";
 import MessageInput from "../SupportCenterScreen/Components/MessageInput";
 import DismissKeyboardView from "../../CommonComponents/DismissKeyboardView/DismissKeyboardView";
@@ -40,6 +36,8 @@ import { openOPSIntro } from "../../Services/launchPostBooking/launchPostBooking
 import { CONSTANT_agentIntroBgPattern } from "../../constants/imageAssets";
 import { isIphoneX } from "react-native-iphone-x-helper";
 import { CONSTANT_xNotchHeight } from "../../constants/styles";
+import { SCREEN_AGENT_FEEDBACK } from "../../NavigatorsV2/ScreenNames";
+import { AppNavigatorProps } from "../../NavigatorsV2/AppNavigator";
 
 const { createAnimatedComponent, Value, interpolate, Extrapolate } = Animated;
 
@@ -52,15 +50,15 @@ const BOTTOM_SPACING = GUTTER_SPACING - 8;
 const LEFT_SPACING = GUTTER_SPACING;
 const RIGHT_SPACING = GUTTER_SPACING;
 
-export interface AgentFeedbackComponentProps {
+type AgentFeedbackNavTypes = AppNavigatorProps<typeof SCREEN_AGENT_FEEDBACK>;
+
+export interface AgentFeedbackComponentProps extends AgentFeedbackNavTypes {
   soFeedbackStore: SOFeedback;
-  navigation: NavigationStackProp<any>;
   itineraries: Itineraries;
 }
 
 const AgentFeedbackComponent = ({
   soFeedbackStore,
-  navigation,
   itineraries
 }: AgentFeedbackComponentProps) => {
   const [rating, setRating] = useState<number>(0);
@@ -279,7 +277,7 @@ const AgentFeedbackComponent = ({
     })
       .then((result: boolean) => {
         if (result) {
-          openOPSIntro(navigation, itineraries.selectedItineraryId)
+          openOPSIntro(itineraries.selectedItineraryId)
             .then(() => {
               setIsSubmitting(false);
             })
@@ -375,10 +373,6 @@ const AgentFeedbackComponent = ({
       ) : null}
     </DismissKeyboardView>
   );
-};
-
-AgentFeedbackComponent.navigationOptions = {
-  header: null
 };
 
 const styles = StyleSheet.create({

@@ -4,7 +4,8 @@ import PropTypes from "prop-types";
 import SimpleButton from "../../../CommonComponents/SimpleButton/SimpleButton";
 import constants from "../../../constants/constants";
 import { recordEvent } from "../../../Services/analytics/analyticsService";
-import navigationService from "../../../Services/navigationService/navigationService";
+import navigationServiceV2 from "../../../Services/navigationService/navigationServiceV2";
+import { SCREEN_SUPPORT_CENTER } from "../../../NavigatorsV2/ScreenNames";
 
 const VisaCompanionInfo = ({
   containerStyle = StyleSheet.create({}),
@@ -14,8 +15,7 @@ const VisaCompanionInfo = ({
   tag = "",
   phoneNumber = ""
 }) => {
-  const { navigation } = navigationService;
-  const messageAction = () => navigation._navigation.navigate("SupportCenter");
+  const messageAction = () => navigationServiceV2(SCREEN_SUPPORT_CENTER);
 
   return (
     <View style={[styles.visaCompanionInfoContainer, containerStyle]}>

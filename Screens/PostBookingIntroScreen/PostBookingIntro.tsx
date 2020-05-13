@@ -13,15 +13,16 @@ import {
   // @ts-ignore
 } from "react-native-responsive-dimensions";
 
+import SectionTitle from "../../CommonComponents/SectionTitle/SectionTitle";
 import IntroCoverImage from "./Components/IntroCoverImage";
-import IntroTextSection from "./Components/IntroTextSection";
 import IntroCarouselActionBar from "./Components/IntroCarouselActionBar";
 
 import { CONSTANT_white1 } from "../../constants/colorPallete";
 import { IAnimatedScrollViewRef } from "../../TypeInterfaces/RNComponents/IAnimatedScrollViewRef";
-import { NavigationStackProp } from "react-navigation-stack";
 import { openSOFeedback } from "../../Services/launchPostBooking/launchPostBooking";
 import storeService from "../../Services/storeService/storeService";
+import { AppNavigatorProps } from "../../NavigatorsV2/AppNavigator";
+import { SCREEN_POST_BOOKING_INTRO } from "../../NavigatorsV2/ScreenNames";
 
 export interface IPostBookingIntroData {
   title: string;
@@ -29,20 +30,19 @@ export interface IPostBookingIntroData {
   image: string;
 }
 
-export interface PostBookingIntroProps {
-  navigation: NavigationStackProp<{ introData: IPostBookingIntroData[] }>;
-}
+type PostBookingIntroNavTypes = AppNavigatorProps<
+  typeof SCREEN_POST_BOOKING_INTRO
+>;
+
+export interface PostBookingIntroProps extends PostBookingIntroNavTypes {}
 
 const { Value, event, createAnimatedComponent } = Animated;
 
 const AnimatedScrollView = createAnimatedComponent(ScrollView);
 
-const PostBookingIntro = ({ navigation }: PostBookingIntroProps) => {
-  const introData: IPostBookingIntroData[] = navigation.getParam(
-    "introData",
-    []
-  );
-  const [scrollX] = useState(new Value(0));
+const PostBookingIntro = ({ route }: PostBookingIntroProps) => {
+  const { introData = [] } = route.params || {};
+  const scrollX = useRef(new Value(0)).current;
   const [activeIndex, setActiveIndex] = useState(0);
   const animatedScrollView: IAnimatedScrollViewRef = useRef<any>(null);
 
@@ -66,7 +66,7 @@ const PostBookingIntro = ({ navigation }: PostBookingIntroProps) => {
       });
     }
     if (activeIndex === introData.length - 1) {
-      openSOFeedback(navigation, storeService.itineraries.selectedItineraryId);
+      openSOFeedback(storeService.itineraries.selectedItineraryId);
     }
     if (activeIndex < introData.length) {
       setActiveIndex(activeIndex + 1);
@@ -117,7 +117,7 @@ const PostBookingIntro = ({ navigation }: PostBookingIntroProps) => {
       >
         {introData.map((appIntroObj, index) => {
           return (
-            <IntroTextSection
+            <SectionTitle
               key={index}
               title={appIntroObj.title}
               description={appIntroObj.description}
@@ -140,10 +140,6 @@ const PostBookingIntro = ({ navigation }: PostBookingIntroProps) => {
       {/* Carousel Action Bar component ends */}
     </View>
   );
-};
-
-PostBookingIntro.navigationOptions = {
-  header: null
 };
 
 /* ACTIONBAR BASE SPACER */

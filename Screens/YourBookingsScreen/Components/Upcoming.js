@@ -32,12 +32,7 @@ class Upcoming extends Component {
     const { selectItinerary } = this.props.itineraries;
     selectItinerary(itineraryId)
       .then(selectedItineraryId => {
-        const routeName = this.props.navigation.state.routeName;
-        launchPostBooking(
-          routeName,
-          this.props.navigation,
-          selectedItineraryId
-        );
+        launchPostBooking(selectedItineraryId);
       })
       .catch(() => {
         DebouncedAlert("Error!", "Unable to fetch Itinerary Details...");

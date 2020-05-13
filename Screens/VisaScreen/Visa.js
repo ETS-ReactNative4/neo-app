@@ -12,17 +12,24 @@ import {
 import SimpleButton from "../../CommonComponents/SimpleButton/SimpleButton";
 import { toastBottom } from "../../Services/toast/toast";
 import { recordEvent } from "../../Services/analytics/analyticsService";
+import PrimaryHeader from "../../NavigatorsV2/Components/PrimaryHeader";
 
 @ErrorBoundary()
 @inject("itineraries")
 @inject("visaStore")
 @observer
 class Visa extends Component {
-  static navigationOptions = ({ navigation }) => {
-    return {
-      header: <CommonHeader title={"Visa"} navigation={navigation} />
-    };
-  };
+  constructor(props) {
+    super(props);
+
+    props.navigation.setOptions({
+      header: () =>
+        PrimaryHeader({
+          leftAction: () => props.navigation.goBack(),
+          headerText: "Visa"
+        })
+    });
+  }
 
   componentDidMount() {
     const { getVisaHomeScreenDetails } = this.props.visaStore;
@@ -66,7 +73,7 @@ class Visa extends Component {
 
     const visaDetails = getVisaDetailsByItineraryId(selectedItineraryId);
 
-    const selectedCountry = this.props.navigation.getParam("country", "");
+    const selectedCountry = this.props.route.params?.country ?? "";
     let activeTabIndex = 0;
     if (selectedCountry) {
       for (let i = 0; i < visaDetails.length; i++) {

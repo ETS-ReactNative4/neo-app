@@ -1,37 +1,37 @@
 import { useState } from "react";
 import apiCall from "../../../Services/networkRequests/apiCall";
 import { CONSTANT_responseSuccessStatus } from "../../../constants/stringConstants";
-import {
-  IMobileServerResponse,
-  MobileServerResponseType
-} from "../../../TypeInterfaces/INetworkResponse";
+import { IMobileServerResponse } from "../../../TypeInterfaces/INetworkResponse";
+
+export type NetworkRequestMethodTypes =
+  | "CONNECT"
+  | "DELETE"
+  | "GET"
+  | "HEAD"
+  | "OPTIONS"
+  | "PATCH"
+  | "POST"
+  | "PUT"
+  | "TRACE";
 
 export interface IApiCallConfig {
   route: string;
-  method?:
-    | "CONNECT"
-    | "DELETE"
-    | "GET"
-    | "HEAD"
-    | "OPTIONS"
-    | "PATCH"
-    | "POST"
-    | "PUT"
-    | "TRACE";
+  method?: NetworkRequestMethodTypes;
   requestBody?: object;
   customDomain?: boolean;
   customToken?: string;
   customHeader?: object;
+  abortController?: any; // no types available yet for the controller
 }
 
 export interface IApiCallResponse {
-  successResponseData: MobileServerResponseType | undefined;
-  failureResponseData: MobileServerResponseType | undefined;
+  successResponseData: IMobileServerResponse | undefined;
+  failureResponseData: IMobileServerResponse | undefined;
 }
 
 export interface IApiCallHookData {
-  successResponseData: MobileServerResponseType | undefined;
-  failureResponseData: MobileServerResponseType | undefined;
+  successResponseData: IMobileServerResponse | undefined;
+  failureResponseData: IMobileServerResponse | undefined;
   isLoading: boolean;
   isError: boolean;
   isSuccess: boolean;
@@ -42,10 +42,10 @@ const useApiCall = (): [
   (requestObject: IApiCallConfig) => Promise<boolean>
 ] => {
   const [successResponseData, setSuccessResponseData] = useState<
-    object | undefined
+    IMobileServerResponse | undefined
   >();
   const [failureResponseData, setFailureResponseData] = useState<
-    object | undefined
+    IMobileServerResponse | undefined
   >();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isError, setIsError] = useState<boolean>(false);
@@ -57,7 +57,8 @@ const useApiCall = (): [
     requestBody = {},
     customDomain = false,
     customToken = "",
-    customHeader = {}
+    customHeader = {},
+    abortController = null
   }: IApiCallConfig): Promise<boolean> => {
     return new Promise<boolean>(async (resolve, reject) => {
       setIsLoading(true);
@@ -68,13 +69,16 @@ const useApiCall = (): [
           method,
           customDomain,
           customToken,
-          customHeader
+          customHeader,
+          abortController
         );
         if (response.status === CONSTANT_responseSuccessStatus) {
-          setSuccessResponseData(response.data);
+          setSuccessResponseData(response);
+          setFailureResponseData(undefined);
           resolve(true);
         } else {
-          setFailureResponseData(response.data);
+          setSuccessResponseData(undefined);
+          setFailureResponseData(response);
           resolve(false);
         }
         setIsLoading(false);

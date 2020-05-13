@@ -5,15 +5,15 @@ import Upcoming from "./Components/Upcoming";
 import CloseYourBookingsButton from "./Components/CloseYourBookingsButton";
 import { inject, observer } from "mobx-react";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
-import { NavigationActions } from "react-navigation";
 import PropTypes from "prop-types";
+import resetToWelcomeFlow from "../../Services/resetToWelcomeFlow/resetToWelcomeFlow";
+import { SCREEN_POST_BOOKING_HOME } from "../../NavigatorsV2/ScreenNames";
 
-const resetAction = NavigationActions.navigate({
-  routeName: "AppHome",
-  action: NavigationActions.navigate({ routeName: "NewItineraryStack" })
-});
+const resetAction = navigation =>
+  resetToWelcomeFlow().then(action => navigation.dispatch(action));
 
 @ErrorBoundary({ isRoot: true })
+@inject("itineraries")
 @inject("appState")
 @inject("yourBookingsStore")
 @observer
@@ -24,7 +24,8 @@ class YourBookings extends Component {
   static propTypes = {
     appState: PropTypes.object.isRequired,
     yourBookingsStore: PropTypes.object.isRequired,
-    navigation: PropTypes.object.isRequired
+    navigation: PropTypes.object.isRequired,
+    itineraries: PropTypes.object.isRequired
   };
 
   constructor(props) {
@@ -70,12 +71,10 @@ class YourBookings extends Component {
   };
 
   goBack = () => {
-    const routeName = this.props.navigation.state.routeName;
-    if (routeName === "YourBookings") {
-      this.props.appState.setTripMode(false);
-      this.props.navigation.dispatch(resetAction);
-    } else if (routeName === "YourBookingsUniversal") {
-      this.props.navigation.goBack();
+    if (this.props.itineraries.selectedItineraryId) {
+      this.props.navigation.navigate(SCREEN_POST_BOOKING_HOME);
+    } else {
+      resetAction(this.props.navigation);
     }
   };
 

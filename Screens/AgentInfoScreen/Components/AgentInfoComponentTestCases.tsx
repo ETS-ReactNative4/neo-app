@@ -8,7 +8,6 @@ import {
   CONSTANT_visaRelatedFaqIcon,
   CONSTANT_paymentIcon
 } from "../../../constants/imageAssets";
-import AgentInfo from "../AgentInfo";
 
 const pocCardData: IPocCardPropsData[] = [
   {
@@ -41,11 +40,15 @@ const AgentInfoComponentTestCases: ITestCase[] = [
   },
   {
     title: "Agent Poc Card",
-    Component: <AgentPocCard pocCardData={pocCardData} />
-  },
-  {
-    title: "Agent Info Screen",
-    Component: <AgentInfo />
+    Component: (
+      <AgentPocCard
+        animation="fadeInRight"
+        pocCardData={pocCardData}
+        delay={1000}
+        duration={400}
+        successiveDelay={200}
+      />
+    )
   }
 ];
 

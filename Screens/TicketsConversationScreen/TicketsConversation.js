@@ -1,16 +1,6 @@
 import React, { Component } from "react";
-import {
-  View,
-  FlatList,
-  StyleSheet,
-  TextInput,
-  Keyboard,
-  Platform
-} from "react-native";
-import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
+import { View, StyleSheet, Keyboard } from "react-native";
 import constants from "../../constants/constants";
-import KeyboardAvoidingActionBar from "../../CommonComponents/KeyboardAvoidingActionBar/KeyboardAvoidingActionBar";
-import SimpleButton from "../../CommonComponents/SimpleButton/SimpleButton";
 import { inject, observer } from "mobx-react";
 import moment from "moment";
 import apiCall from "../../Services/networkRequests/apiCall";
@@ -22,6 +12,8 @@ import MessageInput from "../SupportCenterScreen/Components/MessageInput";
 import { responsiveWidth } from "react-native-responsive-dimensions";
 import ContactActionBar from "../ContactUsScreen/Components/ContactActionBar";
 import DebouncedAlert from "../../CommonComponents/DebouncedAlert/DebouncedAlert";
+import PropTypes from "prop-types";
+import PrimaryHeader from "../../NavigatorsV2/Components/PrimaryHeader";
 
 @ErrorBoundary()
 @inject("userStore")
@@ -30,12 +22,26 @@ import DebouncedAlert from "../../CommonComponents/DebouncedAlert/DebouncedAlert
 @inject("supportStore")
 @observer
 class TicketsConversation extends Component {
-  static navigationOptions = ({ navigation }) => {
-    const title = navigation.getParam("title", "");
-    return {
-      header: <CommonHeader title={title} navigation={navigation} />
-    };
+  static propTypes = {
+    navigation: PropTypes.object.isRequired,
+    route: PropTypes.object.isRequired,
+    supportStore: PropTypes.object.isRequired,
+    itineraries: PropTypes.object.isRequired,
+    infoStore: PropTypes.object.isRequired,
+    userStore: PropTypes.object.isRequired
   };
+
+  constructor(props) {
+    super(props);
+
+    props.navigation.setOptions({
+      header: () =>
+        PrimaryHeader({
+          leftAction: () => props.navigation.goBack(),
+          headerText: props.route.params ? props.route.params.title : ""
+        })
+    });
+  }
 
   state = {
     messageText: "",
@@ -43,12 +49,8 @@ class TicketsConversation extends Component {
   };
   _scrollView = React.createRef();
 
-  _renderItem = (conversation, index) => {
+  _renderItem = conversation => {
     const { userDetails } = this.props.userStore;
-    const user =
-      userDetails.email === conversation.userEmail
-        ? "You"
-        : conversation.userName || "Admin";
     const isAdmin = userDetails.email !== conversation.userEmail;
     const name = isAdmin
       ? `Reply from ${conversation.userName || "Admin"}`.toUpperCase()
@@ -64,18 +66,12 @@ class TicketsConversation extends Component {
         )}
       />
     );
-    //  <ConversationCard
-    //    message={conversation.msg}
-    //    time={`${moment(conversation.msgTime).fromNow()}, ${moment(
-    //      conversation.msgTime
-    //    ).format("hh:mma")}`}
-    //    user={user}
-    //    containerStyle={{ marginHorizontal: 24 }}
-    //  />
   };
 
   componentDidMount() {
-    const ticketId = this.props.navigation.getParam("ticketId", "");
+    const ticketId = this.props.route.params
+      ? this.props.route.params.ticketId
+      : "";
     const { loadTickets } = this.props.supportStore;
     loadTickets(ticketId);
     setTimeout(() => {
@@ -98,7 +94,9 @@ class TicketsConversation extends Component {
       },
       () => {
         if (this.state.messageText) {
-          const ticketId = this.props.navigation.getParam("ticketId", "");
+          const ticketId = this.props.route.params
+            ? this.props.route.params.ticketId
+            : "";
           const { setError } = this.props.infoStore;
           const {
             addMessageToConversation,
@@ -144,7 +142,7 @@ class TicketsConversation extends Component {
                 );
               }
             })
-            .catch(error => {
+            .catch(() => {
               this.setState({
                 isSending: false
               });
@@ -189,7 +187,9 @@ class TicketsConversation extends Component {
   };
 
   render() {
-    const ticketId = this.props.navigation.getParam("ticketId", "");
+    const ticketId = this.props.route.params
+      ? this.props.route.params.ticketId
+      : "";
     const {
       loadTickets,
       isMessagesLoading,
@@ -197,7 +197,9 @@ class TicketsConversation extends Component {
     } = this.props.supportStore;
     const data = getMessagesByTicket(ticketId) || [];
     const reversedData = [...data].reverse();
-    const status = this.props.navigation.getParam("status", "");
+    const status = this.props.route.params
+      ? this.props.route.params.status
+      : "";
     const isClosed = status === "Closed";
     return (
       <View style={styles.ticketsConversationContainer}>

@@ -12,7 +12,6 @@ import { inject, observer } from "mobx-react";
 import DebouncedAlert from "../../CommonComponents/DebouncedAlert/DebouncedAlert";
 import BackHandlerHoc from "../../CommonComponents/BackHandlerHoc/BackHandlerHoc";
 import AddImageThumbnail from "./Components/AddImageThumbnail";
-import { StackActions, NavigationActions } from "react-navigation";
 import extractTextFromHtml from "../../Services/extractTextFromHtml/extractTextFromHtml";
 
 let _submitStory = () => null;
@@ -30,37 +29,6 @@ let _publishStory = () => null;
 @inject("journalStore")
 @observer
 class JournalTextEditor extends Component {
-  static navigationOptions = ({ navigation }) => {
-    return {
-      header: (
-        <CommonHeader
-          title={"Write Story"}
-          navigation={navigation}
-          leftAction={() => _backHandler()}
-          RightButton={
-            <SimpleButton
-              action={() => {
-                if (_isJournalPublished) {
-                  _publishStory();
-                } else {
-                  _submitStory();
-                }
-              }}
-              text={"Done"}
-              textColor={constants.firstColor}
-              color={"transparent"}
-              containerStyle={{
-                height: 24,
-                width: 62,
-                marginRight: 16
-              }}
-            />
-          }
-        />
-      )
-    };
-  };
-
   state = {
     title: "",
     isTitleFocused: false,
@@ -88,6 +56,35 @@ class JournalTextEditor extends Component {
         this.textEditorRefocused();
       }
     );
+
+    props.navigation.setOptions({
+      header: () => (
+        <CommonHeader
+          title={"Write Story"}
+          navigation={props.navigation}
+          leftAction={() => _backHandler()}
+          RightButton={
+            <SimpleButton
+              action={() => {
+                if (_isJournalPublished) {
+                  _publishStory();
+                } else {
+                  _submitStory();
+                }
+              }}
+              text={"Done"}
+              textColor={constants.firstColor}
+              color={"transparent"}
+              containerStyle={{
+                height: 24,
+                width: 62,
+                marginRight: 16
+              }}
+            />
+          }
+        />
+      )
+    });
   }
 
   getRichText = richText => {
@@ -133,8 +130,8 @@ class JournalTextEditor extends Component {
         richText = this.state.plainText;
       }
       const { submitStory, createNewStory } = this.props.journalStore;
-      const activeStory = this.props.navigation.getParam("activeStory", "");
-      const activePage = this.props.navigation.getParam("activePage", "");
+      const activeStory = this.props.route.params?.activeStory ?? "";
+      const activePage = this.props.route.params?.activePage ?? "";
       if (activeStory) {
         submitStory(activeStory, this.state.title, richText)
           .then(() => {
@@ -197,8 +194,8 @@ class JournalTextEditor extends Component {
         richText = this.state.plainText;
       }
       const { submitStory, createNewStory } = this.props.journalStore;
-      const activeStory = this.props.navigation.getParam("activeStory", "");
-      const activePage = this.props.navigation.getParam("activePage", "");
+      const activeStory = this.props.route.params?.activeStory ?? "";
+      const activePage = this.props.route.params?.activePage ?? "";
       if (activeStory) {
         submitStory(activeStory, this.state.title, richText)
           .then(() => {
@@ -268,8 +265,8 @@ class JournalTextEditor extends Component {
     /**
      * Set a default value for the journal Title text input
      */
-    const storyId = this.props.navigation.getParam("activeStory", "");
-    const pageId = this.props.navigation.getParam("activePage", "");
+    const storyId = this.props.route.params?.activeStory ?? "";
+    const pageId = this.props.route.params?.activePage ?? "";
     const { getStoryById } = this.props.journalStore;
     const storyDetails = getStoryById({ pageId, storyId });
     this.setState({
@@ -288,8 +285,8 @@ class JournalTextEditor extends Component {
   };
 
   initalizeTextEditor = () => {
-    const storyId = this.props.navigation.getParam("activeStory", "");
-    const pageId = this.props.navigation.getParam("activePage", "");
+    const storyId = this.props.route.params?.activeStory ?? "";
+    const pageId = this.props.route.params?.activePage ?? "";
 
     const { getImagesById, isJournalPublished } = this.props.journalStore;
     /**
@@ -301,10 +298,8 @@ class JournalTextEditor extends Component {
      * Load image details to display the thumbnails
      */
     const preSelectedImages = getImagesById({ storyId, pageId });
-    const selectedImagesList = this.props.navigation.getParam(
-      "selectedImagesList",
-      []
-    );
+    const selectedImagesList =
+      this.props.route.params?.selectedImagesList ?? [];
     this.setState({
       preSelectedImages,
       selectedImagesList
@@ -312,17 +307,15 @@ class JournalTextEditor extends Component {
   };
 
   textEditorRefocused = () => {
-    const storyId = this.props.navigation.getParam("activeStory", "");
-    const pageId = this.props.navigation.getParam("activePage", "");
+    const storyId = this.props.route.params?.activeStory ?? "";
+    const pageId = this.props.route.params?.activePage ?? "";
     const { getImagesById } = this.props.journalStore;
     /**
      * Load image details to display the thumbnails
      */
     const preSelectedImages = getImagesById({ storyId, pageId });
-    const selectedImagesList = this.props.navigation.getParam(
-      "selectedImagesList",
-      []
-    );
+    const selectedImagesList =
+      this.props.route.params?.selectedImagesList ?? [];
     this.setState({
       preSelectedImages,
       selectedImagesList
@@ -330,8 +323,8 @@ class JournalTextEditor extends Component {
   };
 
   imageThumbnailClick = () => {
-    const activeStory = this.props.navigation.getParam("activeStory", "");
-    const activePage = this.props.navigation.getParam("activePage", "");
+    const activeStory = this.props.route.params?.activeStory ?? "";
+    const activePage = this.props.route.params?.activePage ?? "";
     this.props.navigation.navigate("JournalImagePicker", {
       activeStory,
       activePage
@@ -379,8 +372,8 @@ class JournalTextEditor extends Component {
     const isTextEditorActive =
       !this.state.isTitleFocused && this.state.isKeyboardVisible;
 
-    const storyId = this.props.navigation.getParam("activeStory", "");
-    const pageId = this.props.navigation.getParam("activePage", "");
+    const storyId = this.props.route.params?.activeStory ?? "";
+    const pageId = this.props.route.params?.activePage ?? "";
 
     const { getStoryById } = this.props.journalStore;
     const storyDetails = getStoryById({ pageId, storyId });

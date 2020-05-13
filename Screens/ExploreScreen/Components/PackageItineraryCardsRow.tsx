@@ -1,0 +1,91 @@
+import React from "react";
+import { StyleSheet } from "react-native";
+import {
+  responsiveWidth
+  // @ts-ignore
+} from "react-native-responsive-dimensions";
+import { IPackageItinerarySection } from "../ExploreFeedType";
+import HorizontalCardsRow from "./HorizontalCardsRow";
+import ItineraryCard from "../../../CommonComponents/ItineraryCard/ItineraryCard";
+import { IPackageItinerary } from "../../../TypeInterfaces/IPackageItinerary";
+import getPriceWithoutSymbol from "../services/getPriceWithoutSymbol";
+import generateInclusions from "../services/generateInclusions";
+import ExploreCardLodingIndicator from "./ExploreCardLodingIndicator";
+import getImgIXUrl from "../../../Services/getImgIXUrl/getImgIXUrl";
+import { CONSTANT_exploreFeedCardLimit } from "../../../constants/stringConstants";
+import { CONSTANT_explore } from "../../../constants/appEvents";
+import { recordEvent } from "../../../Services/analytics/analyticsService";
+import deepLink from "../../../Services/deepLink/deepLink";
+
+export interface IPackageItineraryCardsData {
+  isLoading: boolean;
+  data?: {
+    campaignDetails: any;
+    filteredItineraries: IPackageItinerary[];
+    testimonials: any;
+    tripStartingPrice: number;
+  };
+}
+
+const PackageItineraryCardsRow = (props: IPackageItinerarySection) => {
+  return (
+    <HorizontalCardsRow
+      apiUrl={props.apiUrl}
+      httpMethod={props.httpMethod}
+      requestPayload={props.requestPayload}
+    >
+      {({ data, isLoading }: IPackageItineraryCardsData) => {
+        return isLoading ? (
+          <ExploreCardLodingIndicator height={454} />
+        ) : (
+          data &&
+            data.filteredItineraries
+              .slice(0, CONSTANT_exploreFeedCardLimit)
+              .map((card, cardIndex) => {
+                const amount = getPriceWithoutSymbol(card.itineraryCost);
+                const action = () => {
+                  deepLink({
+                    link: card.deepLinking.link,
+                    screenData: {
+                      ...(card.deepLinking.screenData || {}),
+                      slug: card.slug
+                    }
+                  });
+                  recordEvent(CONSTANT_explore.event, {
+                    click: CONSTANT_explore.click.pocketFriendlyDestinationsView
+                  });
+                };
+                const inclusionList = generateInclusions(card);
+
+                return (
+                  <ItineraryCard
+                    key={cardIndex}
+                    tripType={card.tripType}
+                    itineraryCost={amount}
+                    images={[getImgIXUrl({ src: card.image })]}
+                    cities={card.cityHotelStay}
+                    action={action}
+                    title={card.title}
+                    containerStyle={styles.itineraryCardWrapper}
+                    imageStyle={styles.itineraryImage}
+                    inclusionList={inclusionList}
+                  />
+                );
+              })
+        );
+      }}
+    </HorizontalCardsRow>
+  );
+};
+
+const styles = StyleSheet.create({
+  itineraryCardWrapper: {
+    width: responsiveWidth(80),
+    marginRight: 16
+  },
+  itineraryImage: {
+    width: responsiveWidth(80)
+  }
+});
+
+export default PackageItineraryCardsRow;

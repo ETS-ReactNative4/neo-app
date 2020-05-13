@@ -1,6 +1,5 @@
 import React, { Fragment, Component } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
-import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import JournalDaySectionTitle from "./Components/JournalDaySectionTitle";
 import JournalSetupTitle from "./Components/JournalSetupTitle";
 import JournalDaySelectionCard from "./Components/JournalDaySelectionCard";
@@ -8,16 +7,23 @@ import constants from "../../constants/constants";
 import JournalTitleDropDown from "./Components/JournalTitleDropDown/JournalTitleDropDown";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import { inject, observer } from "mobx-react";
+import PrimaryHeader from "../../NavigatorsV2/Components/PrimaryHeader";
 
 @ErrorBoundary()
 @inject("journalStore")
 @observer
 class JournalSetup extends Component {
-  static navigationOptions = ({ navigation }) => {
-    return {
-      header: <CommonHeader title={"Choose a Day"} navigation={navigation} />
-    };
-  };
+  constructor(props) {
+    super(props);
+
+    props.navigation.setOptions({
+      header: () =>
+        PrimaryHeader({
+          leftAction: () => props.navigation.goBack(),
+          headerText: "Choose a Day"
+        })
+    });
+  }
 
   navigateToDaySelector = page => {
     if (page.stories.length) {

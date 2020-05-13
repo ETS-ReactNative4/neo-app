@@ -22,6 +22,7 @@ import SimpleCard from "../../CommonComponents/SimpleCard/SimpleCard";
 import CustomScrollView from "../../CommonComponents/CustomScrollView/CustomScrollView";
 import DeepLinkHandler from "../../CommonComponents/DeepLinkHandler/DeepLinkHandler";
 import storeService from "../../Services/storeService/storeService";
+import { SCREEN_NEAR_BY } from "../../NavigatorsV2/ScreenNames";
 
 @ErrorBoundary()
 @DeepLinkHandler
@@ -29,17 +30,19 @@ import storeService from "../../Services/storeService/storeService";
 @inject("placesStore")
 @observer
 class Places extends Component {
-  static navigationOptions = ({ navigation }) => {
-    return {
-      header: (
+  constructor(props) {
+    super(props);
+
+    props.navigation.setOptions({
+      header: () => (
         <CommonHeader
           TitleComponent={<PlacesPageTitle />}
           title={""}
-          navigation={navigation}
+          navigation={props.navigation}
         />
       )
-    };
-  };
+    });
+  }
 
   state = {
     isScrollRecorded: false,
@@ -48,7 +51,7 @@ class Places extends Component {
 
   componentDidMount() {
     const { selectCity } = this.props.placesStore;
-    const cityId = this.props.navigation.getParam("city", "");
+    const cityId = this.props.route.params ? this.props.route.params.city : "";
     this.setState({
       selectedCity: cityId
     });
@@ -95,7 +98,7 @@ class Places extends Component {
     const categorySections = Object.keys(categories);
     let onScrollProps = {};
     if (!this.state.isScrollRecorded) {
-      onScrollProps["onScroll"] = () => this.scrollAction();
+      onScrollProps.onScroll = () => this.scrollAction();
     }
     return (
       <CustomScrollView
@@ -126,7 +129,7 @@ class Places extends Component {
                         recordEvent(constants.Places.event, {
                           click: constants.Places.click.category
                         });
-                        this.props.navigation.navigate("ToolNearBy", {
+                        this.props.navigation.navigate(SCREEN_NEAR_BY, {
                           title: item.category,
                           city,
                           searchQuery: `${item.category} in ${city.cityName}`

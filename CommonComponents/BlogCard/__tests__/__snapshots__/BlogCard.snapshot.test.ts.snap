@@ -1,0 +1,220 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Block Card 1`] = `
+<TouchableOpacity
+  activeOpacity={0.8}
+  onPress={[Function]}
+>
+  <View
+    style={
+      Array [
+        Object {
+          "borderRadius": 3,
+          "flexDirection": "column",
+          "height": 172,
+          "justifyContent": "space-between",
+          "marginRight": 12,
+          "padding": 16,
+          "width": 146,
+        },
+        Object {
+          "backgroundColor": "rgba(83, 87, 109, 1)",
+        },
+        undefined,
+      ]
+    }
+  >
+    <Text
+      style={
+        Object {
+          "color": "rgb(247, 247, 247)",
+          "fontFamily": "SourceSansPro-SemiBold",
+          "fontSize": 11,
+          "lineHeight": 11,
+          "textTransform": "uppercase",
+        }
+      }
+    >
+      blog
+    </Text>
+    <Text
+      ellipsizeMode="tail"
+      numberOfLines={3}
+      style={
+        Object {
+          "color": "rgb(247, 247, 247)",
+          "fontFamily": "SourceSansPro-SemiBold",
+          "fontSize": 16,
+          "lineHeight": 20,
+        }
+      }
+    >
+      10 amazing things to do in Europe
+    </Text>
+  </View>
+</TouchableOpacity>
+`;
+
+exports[`Multiple Block Cards 1`] = `
+<ScrollView
+  horizontal={true}
+  showsHorizontalScrollIndicator={false}
+>
+  <TouchableOpacity
+    activeOpacity={0.8}
+    onPress={[Function]}
+  >
+    <View
+      style={
+        Array [
+          Object {
+            "borderRadius": 3,
+            "flexDirection": "column",
+            "height": 172,
+            "justifyContent": "space-between",
+            "marginRight": 12,
+            "padding": 16,
+            "width": 146,
+          },
+          Object {
+            "backgroundColor": "rgb(0, 109, 183)",
+          },
+          undefined,
+        ]
+      }
+    >
+      <Text
+        style={
+          Object {
+            "color": "rgb(247, 247, 247)",
+            "fontFamily": "SourceSansPro-SemiBold",
+            "fontSize": 11,
+            "lineHeight": 11,
+            "textTransform": "uppercase",
+          }
+        }
+      >
+        blog
+      </Text>
+      <Text
+        ellipsizeMode="tail"
+        numberOfLines={3}
+        style={
+          Object {
+            "color": "rgb(247, 247, 247)",
+            "fontFamily": "SourceSansPro-SemiBold",
+            "fontSize": 16,
+            "lineHeight": 20,
+          }
+        }
+      >
+        10 amazing things to do in Europe
+      </Text>
+    </View>
+  </TouchableOpacity>
+  <TouchableOpacity
+    activeOpacity={0.8}
+    onPress={[Function]}
+  >
+    <View
+      style={
+        Array [
+          Object {
+            "borderRadius": 3,
+            "flexDirection": "column",
+            "height": 172,
+            "justifyContent": "space-between",
+            "marginRight": 12,
+            "padding": 16,
+            "width": 146,
+          },
+          Object {
+            "backgroundColor": "rgb(206, 133, 48)",
+          },
+          undefined,
+        ]
+      }
+    >
+      <Text
+        style={
+          Object {
+            "color": "rgb(247, 247, 247)",
+            "fontFamily": "SourceSansPro-SemiBold",
+            "fontSize": 11,
+            "lineHeight": 11,
+            "textTransform": "uppercase",
+          }
+        }
+      >
+        blog
+      </Text>
+      <Text
+        ellipsizeMode="tail"
+        numberOfLines={3}
+        style={
+          Object {
+            "color": "rgb(247, 247, 247)",
+            "fontFamily": "SourceSansPro-SemiBold",
+            "fontSize": 16,
+            "lineHeight": 20,
+          }
+        }
+      >
+        5 essential things to know about Dubai
+      </Text>
+    </View>
+  </TouchableOpacity>
+  <TouchableOpacity
+    activeOpacity={0.8}
+    onPress={[Function]}
+  >
+    <View
+      style={
+        Array [
+          Object {
+            "borderRadius": 3,
+            "flexDirection": "column",
+            "height": 172,
+            "justifyContent": "space-between",
+            "marginRight": 12,
+            "padding": 16,
+            "width": 146,
+          },
+          Object {
+            "backgroundColor": "rgb(188, 74, 74)",
+          },
+          undefined,
+        ]
+      }
+    >
+      <Text
+        style={
+          Object {
+            "color": "rgb(247, 247, 247)",
+            "fontFamily": "SourceSansPro-SemiBold",
+            "fontSize": 11,
+            "lineHeight": 11,
+            "textTransform": "uppercase",
+          }
+        }
+      >
+        guide
+      </Text>
+      <Text
+        ellipsizeMode="tail"
+        numberOfLines={3}
+        style={
+          Object {
+            "color": "rgb(247, 247, 247)",
+            "fontFamily": "SourceSansPro-SemiBold",
+            "fontSize": 16,
+            "lineHeight": 20,
+          }
+        }
+      >
+        A local’s guide to experience Turkey
+      </Text>
+    </View>
+  </TouchableOpacity>
+</ScrollView>
+`;

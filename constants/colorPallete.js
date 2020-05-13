@@ -103,6 +103,8 @@ export const CONSTANT_chatLightColor = "rgba(249,249,249,1)";
 export const CONSTANT_facebookThemeColor = "rgb(59,89,152)";
 export const CONSTANT_twitterThemeColor = "rgb(8, 160, 233)";
 
+export const CONSTANT_white = `rgb(255, 255, 255)`;
+export const CONSTANT_transparent = "transparent";
 export const CONSTANT_white1 = `rgb(247, 247, 247)`;
 
 export const CONSTANT_darkGradient = `rgba(0,0,0,1)`;
@@ -157,6 +159,18 @@ export const CONSTANT_fourteenthColor = `rgba(224, 237, 255, 1)`;
 export const CONSTANT_fifteenthColor = `rgba(38, 119, 240, 1)`;
 export const CONSTANT_sixteenthColor = `rgba(119, 68, 228, 1)`;
 export const CONSTANT_seventeenthColor = `rgba(236, 71, 71, 1)`;
+export const CONSTANT_eighteenthColor = `rgba(229, 249, 243, 1)`;
+export const CONSTANT_nineteenthColor = `rgba(34, 156, 116, 1)`;
+export const CONSTANT_twentiethColor = `rgba(0, 139, 92, 1)`;
+export const CONSTANT_twentyFirstColor = `rgba(11, 109, 77, 1)`;
+export const CONSTANT_twentySecondColor = `rgba(60, 143, 115, 1)`;
+export const CONSTANT_twentyThirdColor = `rgba(0, 198, 132, 1)`;
+export const CONSTANT_twentyFourthColor = `rgba(40, 121, 94, 1)`;
+export const CONSTANT_twentyFifthColor = `rgba(41, 168, 149, 1)`;
+export const CONSTANT_twentySixthColor = `rgba(242, 153, 130, 1)`;
+export const CONSTANT_twentySeventhColor = `rgb(253, 236, 239, 1)`;
+export const CONSTANT_twentyOneColor = `rgba(195, 232, 220, 1)`;
+export const CONSTANT_twentyTwoColor = `rgba(0, 119, 79, 1)`;
 export const CONSTANT_themeDarkBlue = `rgba(80, 138, 232, 1)`;
 
 export const CONSTANT_firstColorAlpha = alpha => `rgba(0, 198, 132, ${alpha})`;
@@ -171,6 +185,9 @@ export const CONSTANT_eighthColorAlpha = alpha => `rgba(74,144,226,${alpha})`;
 export const CONSTANT_ninthColorAlpha = alpha => `rgba(91,110,234,${alpha})`;
 export const CONSTANT_themeDarkBlueAlpha = alpha =>
   `rgba(80, 138, 232, ${alpha})`;
+export const CONSTANT_whiteAlpha = alpha => `rgba(255, 255, 255, ${alpha})`;
+
+export const CONSTANT_darkOverlayAlpha = alpha => `rgba(0,0,0,${alpha})`;
 
 export const CONSTANT_appBackgroundColor = "white";
 export const CONSTANT_drawerBackgroundColor = "rgba(46, 124, 239, 1)";

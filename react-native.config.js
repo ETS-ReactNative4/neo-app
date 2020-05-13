@@ -6,12 +6,23 @@ module.exports = {
   dependencies: {
     "react-native-app-settings": {
       platforms: {
-        ios: null
+        ios: null,
+        android: null
       }
     },
     "react-native-pdf": {
       platforms: {
         ios: null
+      }
+    },
+    "@react-native-community/blur": {
+      platforms: {
+        android: null
+      }
+    },
+    "react-native-interactable": {
+      platforms: {
+        android: null
       }
     }
   }

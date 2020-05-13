@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import { View, StyleSheet } from "react-native";
-import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import constants from "../../constants/constants";
 import { inject, observer } from "mobx-react";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import DeepLinkHandler from "../../CommonComponents/DeepLinkHandler/DeepLinkHandler";
 import HelpDeskView from "../ChatScreen/Components/HelpDeskView";
 import ContactUsTile from "./Components/ContactUsTile";
+import PrimaryHeader from "../../NavigatorsV2/Components/PrimaryHeader";
 
 @ErrorBoundary()
 @DeepLinkHandler
@@ -14,11 +14,17 @@ import ContactUsTile from "./Components/ContactUsTile";
 @inject("supportStore")
 @observer
 class SupportCenter extends Component {
-  static navigationOptions = ({ navigation }) => {
-    return {
-      header: <CommonHeader title={"Help Desk"} navigation={navigation} />
-    };
-  };
+  constructor(props) {
+    super(props);
+
+    props.navigation.setOptions({
+      header: () =>
+        PrimaryHeader({
+          leftAction: () => props.navigation.goBack(),
+          headerText: "Help Desk"
+        })
+    });
+  }
 
   contactSupport = () => {
     this.props.navigation.navigate("ContactUs", {

@@ -4,6 +4,7 @@ import FooterFeedbackPrompt from "../../CommonComponents/FooterFeedbackPrompt/Fo
 import OverlayErrorBoundary from "./Components/OverlayErrorBoundary";
 import ForceUpdateModal from "./Components/ForceUpdateModal/ForceUpdateModal";
 import PropTypes from "prop-types";
+import DialogBox from "../../CommonComponents/DialogBox/DialogBox";
 
 /**
  * This component has zIndex greater than the rest of the app and is
@@ -11,15 +12,18 @@ import PropTypes from "prop-types";
  */
 @inject("feedbackPrompt")
 @inject("appState")
+@inject("infoStore")
 @observer
 class AppOverlays extends Component {
   static propTypes = {
     feedbackPrompt: PropTypes.object,
-    appState: PropTypes.object
+    appState: PropTypes.object,
+    infoStore: PropTypes.object
   };
 
   render() {
     const { isFeedbackFooterActive } = this.props.feedbackPrompt;
+    const { infoStore } = this.props;
     const { isDrawerOpen } = this.props.appState;
     return (
       <Fragment>
@@ -30,6 +34,27 @@ class AppOverlays extends Component {
             <Fragment />
           )}
           <ForceUpdateModal />
+          <DialogBox
+            {...infoStore.info}
+            onClose={() => {
+              infoStore.info.action && infoStore.info.action();
+              infoStore.resetInfo();
+            }}
+          />
+          <DialogBox
+            {...infoStore.error}
+            onClose={() => {
+              infoStore.error.action && infoStore.error.action();
+              infoStore.resetError();
+            }}
+          />
+          <DialogBox
+            {...infoStore.success}
+            onClose={() => {
+              infoStore.success.action && infoStore.success.action();
+              infoStore.resetSuccess();
+            }}
+          />
         </OverlayErrorBoundary>
       </Fragment>
     );

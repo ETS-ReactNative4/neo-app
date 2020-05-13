@@ -6,6 +6,7 @@ import { ScrollView } from "react-native";
 import { inject, observer } from "mobx-react";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import DeepLinkHandler from "../../CommonComponents/DeepLinkHandler/DeepLinkHandler";
+import PrimaryHeader from "../../NavigatorsV2/Components/PrimaryHeader";
 
 @ErrorBoundary()
 @DeepLinkHandler
@@ -13,13 +14,17 @@ import DeepLinkHandler from "../../CommonComponents/DeepLinkHandler/DeepLinkHand
 @inject("itineraries")
 @observer
 class PassportDetails extends Component {
-  static navigationOptions = ({ navigation }) => {
-    return {
-      header: (
-        <CommonHeader title={"Passport Details"} navigation={navigation} />
-      )
-    };
-  };
+  constructor(props) {
+    super(props);
+
+    props.navigation.setOptions({
+      header: () =>
+        PrimaryHeader({
+          leftAction: () => props.navigation.goBack(),
+          headerText: "Passport Details"
+        })
+    });
+  }
 
   componentDidMount() {
     this.props.passportDetailsStore.updatePassportDetails(

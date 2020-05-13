@@ -1,14 +1,13 @@
 import React from "react";
 import { StyleSheet, View, Text, ScrollView } from "react-native";
 
-import AgentPocCard, { IPocCardPropsData } from "./Components/AgentPocCard";
+import AgentPocCard from "./Components/AgentPocCard";
 
 import { CONSTANT_agentIntroBgPattern } from "../../constants/imageAssets";
 
 import {
   responsiveWidth,
   responsiveHeight
-  // @ts-ignore
 } from "react-native-responsive-dimensions";
 import { CONSTANT_black1 } from "../../constants/colorPallete";
 import {
@@ -24,9 +23,10 @@ import * as Animatable from "react-native-animatable";
 import { observer, inject } from "mobx-react";
 import UserFlowTransition from "../../mobx/UserFlowTransition";
 import Itineraries from "../../mobx/Itineraries";
-import { NavigationStackProp } from "react-navigation-stack";
 import DebouncedAlert from "../../CommonComponents/DebouncedAlert/DebouncedAlert";
 import { openPostBookingHome } from "../../Services/launchPostBooking/launchPostBooking";
+import { AppNavigatorProps } from "../../NavigatorsV2/AppNavigator";
+import { SCREEN_AGENT_INFO } from "../../NavigatorsV2/ScreenNames";
 
 const { createAnimatableComponent } = Animatable;
 
@@ -39,35 +39,27 @@ const BOTTOM_SPACING = GUTTER_SPACING - 8;
 const LEFT_SPACING = GUTTER_SPACING;
 const RIGHT_SPACING = GUTTER_SPACING;
 
-export interface AgentInfoProps {
+type AgentInfoNavTypes = AppNavigatorProps<typeof SCREEN_AGENT_INFO>;
+
+export interface AgentInfoProps extends AgentInfoNavTypes {
   userFlowTransitionStore: UserFlowTransition;
   itineraries: Itineraries;
-  navigation: NavigationStackProp<{
-    itineraryId: string;
-    ownerName: string;
-    ownerImage: string;
-    pocCardData: IPocCardPropsData[];
-  }>;
 }
 
 const AgentInfo = ({
   userFlowTransitionStore,
   itineraries,
-  navigation
+  route
 }: AgentInfoProps) => {
-  const ownerName: string = navigation.getParam("ownerName", "");
-  const ownerImage: string = navigation.getParam("ownerImage", "");
-  const pocCardData: IPocCardPropsData[] = navigation.getParam(
-    "pocCardData",
-    []
-  );
+  const { ownerName = "", ownerImage = "", pocCardData = [] } =
+    route.params || {};
 
   const onSubmit = () => {
     userFlowTransitionStore
       .userSeenOPSIntro(itineraries.selectedItineraryId)
       .then(result => {
         if (result) {
-          openPostBookingHome(navigation);
+          openPostBookingHome();
         } else {
           DebouncedAlert("Error!", "Unable to load data from our server");
         }
@@ -144,10 +136,6 @@ const AgentInfo = ({
       </AnimatableView>
     </View>
   );
-};
-
-AgentInfo.navigationOptions = {
-  header: null
 };
 
 const styles = StyleSheet.create({

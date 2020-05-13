@@ -24,7 +24,6 @@ import VoucherAccordion from "../Components/VoucherAccordion";
 import RentalCarActionBar from "../Components/RentalCarActionBar";
 import VoucherAlertBox from "../Components/VoucherAlertBox/VoucherAlertBox";
 import { IRentalCarCosting } from "../../../TypeInterfaces/IItinerary";
-import { NavigationStackProp } from "react-navigation-stack";
 import PassportDetails from "../../../mobx/PassportDetails";
 import { IVoucherSplitSectionData } from "../types/voucherScreenTypes";
 
@@ -35,7 +34,12 @@ const xHeight = isIphoneX()
   : 0;
 
 export interface RentalCarVoucherProps {
-  navigation: NavigationStackProp<{ rentalCar: IRentalCarCosting }>;
+  navigation: any;
+  route: {
+    params: {
+      rentalCar: IRentalCarCosting | {};
+    };
+  };
   passportDetailsStore: PassportDetails;
 }
 
@@ -72,7 +76,10 @@ class RentalCarVoucher extends Component<
   };
 
   render() {
-    const rentalCar = this.props.navigation.getParam("rentalCar", {});
+    // @ts-ignore
+    const rentalCar: IRentalCarCosting = this.props.route.params
+      ? this.props.route.params.rentalCar
+      : {};
 
     const {
       leadPassengerName,

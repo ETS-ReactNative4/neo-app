@@ -17,29 +17,35 @@ import CurrencySelector from "./Components/CurrencySelector";
 import XSensorPlaceholder from "../../CommonComponents/XSensorPlaceholder/XSensorPlaceholder";
 import { inject, observer } from "mobx-react";
 import Icon from "../../CommonComponents/Icon/Icon";
-import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import { recordEvent } from "../../Services/analytics/analyticsService";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import LineProgressBar from "../../CommonComponents/LineProgressBar/LineProgressBar";
+import PrimaryHeader from "../../NavigatorsV2/Components/PrimaryHeader";
+import PropTypes from "prop-types";
 
 @ErrorBoundary()
 @inject("appState")
 @observer
 class CurrencyConverter extends Component {
-  static navigationOptions = ({ navigation }) => {
-    return {
-      header: (
-        <CommonHeader
-          leftAction={() => {
-            Keyboard.dismiss();
-            navigation.goBack();
-          }}
-          title={"Currency Calculator"}
-          navigation={navigation}
-        />
-      )
-    };
+  static propTypes = {
+    appState: PropTypes.object.isRequired,
+    navigation: PropTypes.object.isRequired
   };
+
+  constructor(props) {
+    super(props);
+
+    props.navigation.setOptions({
+      header: () =>
+        PrimaryHeader({
+          leftAction: () => {
+            Keyboard.dismiss();
+            props.navigation.goBack();
+          },
+          headerText: "Currency Calculator"
+        })
+    });
+  }
 
   state = {
     nativeAmount: 0,
@@ -121,8 +127,9 @@ class CurrencyConverter extends Component {
   };
 
   setAmount = foreignAmount => {
-    if (!foreignAmount) this.setState({ foreignAmount: 0 });
-    else {
+    if (!foreignAmount) {
+      this.setState({ foreignAmount: 0 });
+    } else {
       if (foreignAmount.substr(-1) === ".") {
         this.setState({ foreignAmount });
       } else {
@@ -193,7 +200,7 @@ class CurrencyConverter extends Component {
 
     const {
       currencyConverter,
-      conversionRates,
+      // conversionRates,
       isConversionLoading
     } = this.props.appState;
 
@@ -278,6 +285,10 @@ class CurrencyConverter extends Component {
 
     const { currencies } = this.props.appState;
 
+    const swapButtonStyle = {
+      bottom: this.state.isKeyboardVisible ? 60 + this.state.keyboardSpace : 60
+    };
+
     return [
       <CurrencySelector
         currenciesList={currencies}
@@ -304,10 +315,12 @@ class CurrencyConverter extends Component {
           <LineProgressBar isVisible={isConversionLoading} />
           {!this.state.foreignAmount
             ? currencyRates.map((currency, index) => {
+                const style = { marginHorizontal: 24 };
+
                 return (
                   <CommonRate
                     key={index}
-                    componentStyle={{ marginHorizontal: 24 }}
+                    componentStyle={style}
                     foreignAmount={currency.foreignAmount}
                     foreignCurrency={currency.foreignCurrency}
                     nativeAmount={currency.nativeAmount}
@@ -401,14 +414,7 @@ class CurrencyConverter extends Component {
             <TouchableHighlight
               underlayColor={constants.shade2}
               onPress={this.swapCurrencies}
-              style={[
-                styles.swapButton,
-                {
-                  bottom: this.state.isKeyboardVisible
-                    ? 60 + this.state.keyboardSpace
-                    : 60
-                }
-              ]}
+              style={[styles.swapButton, swapButtonStyle]}
             >
               <Icon name={constants.swapVertIcon} size={24} />
             </TouchableHighlight>

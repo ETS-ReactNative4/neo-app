@@ -73,13 +73,16 @@ const styles = {
 
 export const CONSTANT_tabBarBottomHeight = isIphoneX() ? 86 : 56;
 export const CONSTANT_headerHeight = 56;
+export const CONSTANT_bottomBarHeight = 60;
 export const CONSTANT_xSensorAreaHeight = 30;
 export const CONSTANT_xNotchHeight = 30;
+export const CONSTANT_statusBarHeight = 20;
 export const CONSTANT_commonDateFormat = "MMM DD, ddd";
 export const CONSTANT_visaDateFormat = "MMM DD, YYYY";
 export const CONSTANT_shortCommonDateFormat = "MMM DD";
 export const CONSTANT_commonDateFormatReverse = "ddd, DD MMM";
 export const CONSTANT_shortTimeFormat = "hh:mm a";
+export const CONSTANT_GCMDateFormat = "DD MMM YYYY";
 export const CONSTANT_voucherDateFormat = "YYYY-MM-DD";
 export const CONSTANT_costingDateFormat = "DD/MMM/YYYY";
 export const CONSTANT_currentYear = new Date().getYear() + 1900;

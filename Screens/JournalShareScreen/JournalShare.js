@@ -8,7 +8,6 @@ import {
 } from "react-native";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import { inject, observer } from "mobx-react";
-import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import { responsiveWidth } from "react-native-responsive-dimensions";
 import constants from "../../constants/constants";
 import SimpleButton from "../../CommonComponents/SimpleButton/SimpleButton";
@@ -19,24 +18,23 @@ import Share from "react-native-share";
 import { share, singleShare } from "../../Services/shareService/share";
 import { recordEvent } from "../../Services/analytics/analyticsService";
 import SmartImageV2 from "../../CommonComponents/SmartImage/SmartImageV2";
+import PrimaryHeader from "../../NavigatorsV2/Components/PrimaryHeader";
 
 @ErrorBoundary()
 @inject("journalStore")
 @observer
 class JournalShare extends Component {
-  static navigationOptions = ({ navigation }) => {
-    return {
-      header: (
-        <CommonHeader
-          leftAction={() => {
-            navigation.goBack();
-          }}
-          title={"Share"}
-          navigation={navigation}
-        />
-      )
-    };
-  };
+  constructor(props) {
+    super(props);
+
+    props.navigation.setOptions({
+      header: () =>
+        PrimaryHeader({
+          leftAction: () => props.navigation.goBack(),
+          headerText: "Share Journal"
+        })
+    });
+  }
 
   copyToClipboard = () => {
     try {

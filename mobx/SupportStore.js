@@ -1,4 +1,4 @@
-import { observable, computed, action, set, toJS } from "mobx";
+import { observable, computed, action, toJS } from "mobx";
 import { createTransformer } from "mobx-utils";
 import { persist } from "mobx-persist";
 import apiCall from "../Services/networkRequests/apiCall";
@@ -7,6 +7,7 @@ import storeService from "../Services/storeService/storeService";
 import { logError } from "../Services/errorLogger/errorLogger";
 import _ from "lodash";
 import { hydrate } from "./Store";
+import { CONSTANT_retrieveJson } from "../constants/apiUrls";
 
 class SupportStore {
   static hydrator = storeInstance => {
@@ -150,7 +151,7 @@ class SupportStore {
           this._hasError = true;
         }
       })
-      .catch(error => {
+      .catch(() => {
         this._isConversationLoading = false;
         this._hasError = true;
       });
@@ -178,7 +179,7 @@ class SupportStore {
           this._hasError = true;
         }
       })
-      .catch(error => {
+      .catch(() => {
         this._isMessagesLoading = false;
         this._hasError = true;
       });
@@ -231,7 +232,11 @@ class SupportStore {
   @action
   loadFaqDetails = () => {
     this._isLoading = true;
-    apiCall(constants.getFaq, {}, "GET")
+    apiCall(
+      `${CONSTANT_retrieveJson}?jsonFile=post_booking_faq.json`,
+      {},
+      "GET"
+    )
       .then(response => {
         this._isLoading = false;
         if (response.status === "SUCCESS") {
@@ -258,7 +263,7 @@ class SupportStore {
           this._hasError = true;
         }
       })
-      .catch(err => {
+      .catch(() => {
         this._isLoading = false;
         this._hasError = true;
       });

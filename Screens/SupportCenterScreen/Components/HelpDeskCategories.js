@@ -9,6 +9,7 @@ import { responsiveWidth } from "react-native-responsive-dimensions";
 const HelpDeskCategories = ({
   categoryTitle,
   categories,
+  disableIcons = false,
   containerStyle = StyleSheet.create({})
 }) => {
   return (
@@ -22,6 +23,7 @@ const HelpDeskCategories = ({
             <HelpSectionTile
               key={categoryIndex}
               {...category}
+              disableIcons={disableIcons}
               containerStyle={styles.helpSectionTileMargin}
             />
           );
@@ -63,7 +65,8 @@ HelpDeskCategories.propTypes = {
       title: PropTypes.string,
       action: PropTypes.func.isRequired
     })
-  ).isRequired
+  ).isRequired,
+  disableIcons: PropTypes.bool
 };
 
 export default HelpDeskCategories;

@@ -172,6 +172,7 @@ export const CONSTANT_platformAndroid = "android";
 export const CONSTANT_httpPrefix = "http://";
 export const CONSTANT_httpsPrefix = "https://";
 export const CONSTANT_responseSuccessStatus = "SUCCESS";
+export const CONSTANT_responseUserUnavailable = "USER_UNAVAILABLE";
 export const CONSTANT_customTabSupportIos = 11.5;
 export const CONSTANT_forexProduct = {
   cash: "CASH",
@@ -229,11 +230,16 @@ export const CONSTANT_tripToggleStatusStorageKey =
 export const CONSTANT_deepLinkPrefix = "pyt://";
 export const CONSTANT_screenLinkType = "screen";
 export const CONSTANT_voucherLinkType = "voucher";
+export const CONSTANT_exploreFeedCardLimit = 12;
 
 export const CONSTANT_paymentFormHtml = `
   <form id="voyager-paymentForm" method="post" name="paymentForm">
     <input type="submit" style="display: none;" />
   </form>
 `;
+
+export const CONSTANT_loggedInTokenName = "jwt";
+export const CONSTANT_guestTokenName = "guest";
+export const CONSTANT_apiRequestAbortMessage = "Aborted";
 
 export default stringConstants;

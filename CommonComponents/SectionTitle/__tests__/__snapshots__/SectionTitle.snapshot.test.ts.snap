@@ -1,0 +1,151 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Section Title 1`] = `
+<View>
+  <Text
+    ellipsizeMode="tail"
+    numberOfLines={1}
+    style={
+      Array [
+        Object {
+          "color": "rgba(44, 47, 66, 1)",
+          "fontFamily": "SourceSansPro-SemiBold",
+          "fontSize": 20,
+          "lineHeight": 24,
+          "marginBottom": 8,
+        },
+        undefined,
+      ]
+    }
+  >
+    Live on-trip support
+  </Text>
+</View>
+`;
+
+exports[`Section Title With Longer Description 1`] = `
+<View>
+  <Text
+    ellipsizeMode="tail"
+    numberOfLines={1}
+    style={
+      Array [
+        Object {
+          "color": "rgba(44, 47, 66, 1)",
+          "fontFamily": "SourceSansPro-SemiBold",
+          "fontSize": 20,
+          "lineHeight": 24,
+          "marginBottom": 8,
+        },
+        undefined,
+      ]
+    }
+  >
+    Live on-trip support
+  </Text>
+  <Text
+    ellipsizeMode="tail"
+    numberOfLines={2}
+    style={
+      Array [
+        Object {
+          "color": "rgba(83, 87, 109, 1)",
+          "fontFamily": "SourceSansPro-Regular",
+          "fontSize": 14,
+          "lineHeight": 20,
+        },
+        undefined,
+      ]
+    }
+  >
+    We’ll use your preference info to make better and more relevant recommendations. We’ll use your preference info to make better and more relevant recommendations.
+  </Text>
+</View>
+`;
+
+exports[`Section Title With Short Description 1`] = `
+<View>
+  <Text
+    ellipsizeMode="tail"
+    numberOfLines={1}
+    style={
+      Array [
+        Object {
+          "color": "rgba(44, 47, 66, 1)",
+          "fontFamily": "SourceSansPro-SemiBold",
+          "fontSize": 20,
+          "lineHeight": 24,
+          "marginBottom": 8,
+        },
+        undefined,
+      ]
+    }
+  >
+    Live on-trip support
+  </Text>
+  <Text
+    ellipsizeMode="tail"
+    numberOfLines={2}
+    style={
+      Array [
+        Object {
+          "color": "rgba(83, 87, 109, 1)",
+          "fontFamily": "SourceSansPro-Regular",
+          "fontSize": 14,
+          "lineHeight": 20,
+        },
+        undefined,
+      ]
+    }
+  >
+    We’ll use your preference info to make better and more relevant recommendations.
+  </Text>
+</View>
+`;
+
+exports[`Section Title with custom text styles 1`] = `
+<View>
+  <Text
+    ellipsizeMode="tail"
+    numberOfLines={1}
+    style={
+      Array [
+        Object {
+          "color": "rgba(44, 47, 66, 1)",
+          "fontFamily": "SourceSansPro-SemiBold",
+          "fontSize": 20,
+          "lineHeight": 24,
+          "marginBottom": 8,
+        },
+        Object {
+          "color": "black",
+          "fontFamily": "SourceSansPro-SemiBold",
+          "fontSize": 30,
+          "lineHeight": 36,
+        },
+      ]
+    }
+  >
+    Live on-trip support
+  </Text>
+  <Text
+    ellipsizeMode="tail"
+    numberOfLines={2}
+    style={
+      Array [
+        Object {
+          "color": "rgba(83, 87, 109, 1)",
+          "fontFamily": "SourceSansPro-Regular",
+          "fontSize": 14,
+          "lineHeight": 20,
+        },
+        Object {
+          "color": "black",
+        },
+      ]
+    }
+  >
+    We’ll use your preference info to make better and more relevant recommendations. We’ll use your preference info to make better and more relevant recommendations.
+  </Text>
+</View>
+`;

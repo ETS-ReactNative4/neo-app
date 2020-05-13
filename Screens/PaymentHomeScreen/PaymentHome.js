@@ -14,33 +14,13 @@ import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import CustomScrollView from "../../CommonComponents/CustomScrollView/CustomScrollView";
 import storeService from "../../Services/storeService/storeService";
 import { CONSTANT_drawerEvents } from "../../constants/appEvents";
+import PrimaryHeader from "../../NavigatorsV2/Components/PrimaryHeader";
+import { SCREEN_PAYMENT_SUMMARY } from "../../NavigatorsV2/ScreenNames";
 
 @ErrorBoundary({ isRoot: true })
 @inject("yourBookingsStore")
 @observer
 class PaymentHome extends Component {
-  static navigationOptions = ({ navigation }) => {
-    return {
-      header: (
-        <CommonHeader
-          LeftButton={
-            <HamburgerButton
-              action={() => {
-                storeService.appState.onDrawerOpen();
-                recordEvent(CONSTANT_drawerEvents.event, {
-                  click: CONSTANT_drawerEvents.click.openDrawer
-                });
-                navigation.openDrawer();
-              }}
-            />
-          }
-          title={"Payments"}
-          navigation={navigation}
-        />
-      )
-    };
-  };
-
   state = {
     isLoading: false,
     paymentMeta: {}
@@ -56,6 +36,14 @@ class PaymentHome extends Component {
         this.getPaymentMeta();
       }
     );
+
+    props.navigation.setOptions({
+      header: () =>
+        PrimaryHeader({
+          leftAction: () => props.navigation.goBack(),
+          headerText: "Payments"
+        })
+    });
   }
 
   componentDidMount() {
@@ -137,7 +125,7 @@ class PaymentHome extends Component {
                   itineraryName={itinerary.itineraryName}
                   itineraryId={itinerary.itineraryId}
                   selectItinerary={() =>
-                    this.props.navigation.navigate("PaymentSummary", {
+                    this.props.navigation.navigate(SCREEN_PAYMENT_SUMMARY, {
                       itineraryId: itinerary.itineraryId,
                       itineraryName: itinerary.itineraryName,
                       paymentDetails

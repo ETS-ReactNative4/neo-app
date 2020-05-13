@@ -11,6 +11,18 @@ import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import NoInternetIndicator from "../../CommonComponents/NoInternetIndicator/NoInternetIndicator";
 import Visa from "../../mobx/Visa";
 import debouncer from "../../Services/debouncer/debouncer";
+import PropTypes from "prop-types";
+import {
+  SCREEN_CURRENCY_CONVERTER,
+  SCREEN_PHRASE_BOOK,
+  SCREEN_EMERGENCY_CONTACTS,
+  SCREEN_WEATHER,
+  SCREEN_SUPPORT_CENTER,
+  SCREEN_PLACES,
+  SCREEN_PACKING_CHECKLIST,
+  SCREEN_PASSPORT_DETAILS
+} from "../../NavigatorsV2/ScreenNames";
+import BlankSpacer from "../../CommonComponents/BlankSpacer/BlankSpacer";
 
 @ErrorBoundary({ isRoot: true })
 @inject("itineraries")
@@ -18,6 +30,13 @@ import debouncer from "../../Services/debouncer/debouncer";
 @inject("appState")
 @observer
 class Tools extends Component {
+  static propTypes = {
+    itineraries: PropTypes.object.isRequired,
+    visaStore: PropTypes.object.isRequired,
+    appState: PropTypes.object.isRequired,
+    navigation: PropTypes.object.isRequired
+  };
+
   static navigationOptions = HomeHeader;
 
   constructor(props) {
@@ -70,7 +89,7 @@ class Tools extends Component {
           recordEvent(constants.Tools.event, {
             click: constants.Tools.click.placesTile
           });
-          navigation.navigate("ToolPlaces", {
+          navigation.navigate(SCREEN_PLACES, {
             city: cityId,
             target: "ToolNearBy"
           });
@@ -86,7 +105,7 @@ class Tools extends Component {
           recordEvent(constants.Tools.event, {
             click: constants.Tools.click.currencyConverter
           });
-          navigation.navigate("CurrencyConverter");
+          navigation.navigate(SCREEN_CURRENCY_CONVERTER);
         },
         icon: constants.currencyCalculatorIcon
       },
@@ -97,7 +116,7 @@ class Tools extends Component {
           recordEvent(constants.Tools.event, {
             click: constants.Tools.click.commonPhrases
           });
-          navigation.navigate("PhraseBook");
+          navigation.navigate(SCREEN_PHRASE_BOOK);
         }
       },
       {
@@ -107,7 +126,7 @@ class Tools extends Component {
           recordEvent(constants.Tools.event, {
             click: constants.Tools.click.emergencyContacts
           });
-          navigation.navigate("EmergencyContacts");
+          navigation.navigate(SCREEN_EMERGENCY_CONTACTS);
         }
       },
       {
@@ -117,7 +136,7 @@ class Tools extends Component {
           recordEvent(constants.Tools.event, {
             click: constants.Tools.click.weatherForecast
           });
-          navigation.navigate("Weather");
+          navigation.navigate(SCREEN_WEATHER);
         }
       },
       {
@@ -127,7 +146,7 @@ class Tools extends Component {
           recordEvent(constants.Tools.event, {
             click: constants.Tools.click.helpDesk
           });
-          navigation.navigate("SupportCenter");
+          navigation.navigate(SCREEN_SUPPORT_CENTER);
         }
       }
     ];
@@ -139,7 +158,7 @@ class Tools extends Component {
           recordEvent(constants.Tools.event, {
             click: constants.Tools.click.packingChecklist
           });
-          navigation.navigate("PackingChecklist");
+          navigation.navigate(SCREEN_PACKING_CHECKLIST);
         },
         icon: constants.packageChecklistIcon
       },
@@ -164,7 +183,7 @@ class Tools extends Component {
           recordEvent(constants.Tools.event, {
             click: constants.Tools.click.passport
           });
-          navigation.navigate("PassportDetails");
+          navigation.navigate(SCREEN_PASSPORT_DETAILS);
         }
       },
       {
@@ -197,18 +216,18 @@ class Tools extends Component {
       }
     ];
 
-    const moreTools = [
-      {
-        icon: constants.faqIcon,
-        text: `Frequently Asked Questions`,
-        action: () => {}
-      },
-      {
-        icon: constants.cancelTripIcon,
-        text: `Cancel Trip`,
-        action: () => {}
-      }
-    ];
+    // const moreTools = [
+    //   {
+    //     icon: constants.faqIcon,
+    //     text: `Frequently Asked Questions`,
+    //     action: () => {}
+    //   },
+    //   {
+    //     icon: constants.cancelTripIcon,
+    //     text: `Cancel Trip`,
+    //     action: () => {}
+    //   }
+    // ];
 
     const Header = () =>
       HomeHeader({ navigation: this.props.navigation }).header;
@@ -224,14 +243,14 @@ class Tools extends Component {
         <ScrollView>
           <SectionHeader
             sectionName={"Explore Places"}
-            containerStyle={{ marginHorizontal: 24 }}
+            containerStyle={styles.sectionHeader}
           />
 
           <Carousel data={cityList} firstMargin={24} />
 
           <SectionHeader
             sectionName={"ESSENTIALS"}
-            containerStyle={{ marginTop: 40, marginHorizontal: 24 }}
+            containerStyle={styles.sectionHeaderSecondary}
           />
 
           <View style={styles.toolMenuRow}>
@@ -248,7 +267,7 @@ class Tools extends Component {
 
           <SectionHeader
             sectionName={"BEFORE PACKING"}
-            containerStyle={{ marginTop: 40, marginHorizontal: 24 }}
+            containerStyle={styles.sectionHeaderSecondary}
           />
 
           <View style={styles.toolMenuRow}>
@@ -284,7 +303,7 @@ class Tools extends Component {
           {/*/>*/}
           {/*))}*/}
           {/*</View>*/}
-          <View style={{ height: 20 }} />
+          <BlankSpacer height={20} />
         </ScrollView>
       </View>
     );
@@ -303,6 +322,13 @@ const styles = StyleSheet.create({
   secondaryWrapper: {
     flex: 1,
     flexDirection: "row"
+  },
+  sectionHeader: {
+    marginHorizontal: 24
+  },
+  sectionHeaderSecondary: {
+    marginTop: 40,
+    marginHorizontal: 24
   },
   icon: {
     height: 24,

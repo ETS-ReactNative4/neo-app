@@ -4,8 +4,23 @@ import apiCall from "../Services/networkRequests/apiCall";
 import constants from "../constants/constants";
 import DebouncedAlert from "../CommonComponents/DebouncedAlert/DebouncedAlert";
 import _ from "lodash";
+import hydrate from "../Services/hydrate/hydrate";
+import { logError } from "../Services/errorLogger/errorLogger";
 
 class YourBookings {
+  static hydrator = storeInstance => {
+    hydrate("_upcomingItineraries", storeInstance)
+      .then(() => {})
+      .catch(err => {
+        logError(err);
+      });
+    hydrate("_completedItineraries", storeInstance)
+      .then(() => {})
+      .catch(err => {
+        logError(err);
+      });
+  };
+
   @persist("list")
   @observable
   _upcomingItineraries = [];
@@ -68,6 +83,11 @@ class YourBookings {
       ...toJS(this._upcomingItineraries || []),
       ...toJS(this._completedItineraries || [])
     ];
+  }
+
+  @computed
+  get hasUpcomingItineraries() {
+    return !!this._upcomingItineraries.length;
   }
 
   @computed

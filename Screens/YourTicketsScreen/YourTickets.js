@@ -1,7 +1,5 @@
 import React, { Component } from "react";
 import { FlatList, View, StyleSheet } from "react-native";
-import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
-import TicketPreview from "./Components/TicketPreview";
 import constants from "../../constants/constants";
 import _ from "lodash";
 import { inject, observer } from "mobx-react";
@@ -10,17 +8,36 @@ import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import TicketMessageSummary from "./Components/TicketMessageSummary";
 import HelpDeskSectionTitle from "../SupportCenterScreen/Components/HelpDeskSectionTitle";
 import ContactUsTile from "../SupportCenterScreen/Components/ContactUsTile";
+import {
+  SCREEN_CONTACT_US,
+  SCREEN_TICKETS_CONVERSATION
+} from "../../NavigatorsV2/ScreenNames";
+import PrimaryHeader from "../../NavigatorsV2/Components/PrimaryHeader";
+import PropTypes from "prop-types";
 
 @ErrorBoundary()
 @inject("itineraries")
 @inject("supportStore")
 @observer
 class YourTickets extends Component {
-  static navigationOptions = ({ navigation }) => {
-    return {
-      header: <CommonHeader title={"Your Tickets"} navigation={navigation} />
-    };
+  static propTypes = {
+    navigation: PropTypes.object.isRequired,
+    route: PropTypes.object.isRequired,
+    supportStore: PropTypes.object.isRequired,
+    itineraries: PropTypes.object.isRequired
   };
+
+  constructor(props) {
+    super(props);
+
+    props.navigation.setOptions({
+      header: () =>
+        PrimaryHeader({
+          leftAction: () => props.navigation.goBack(),
+          headerText: "Your Tickets"
+        })
+    });
+  }
 
   componentDidMount() {
     const { loadConversation } = this.props.supportStore;
@@ -28,19 +45,19 @@ class YourTickets extends Component {
   }
 
   contactSupport = () => {
-    this.props.navigation.navigate("ContactUs", {
+    this.props.navigation.navigate(SCREEN_CONTACT_US, {
       type: constants.defaultSupportType
     });
   };
 
-  _renderItem = ({ item: ticket, index }) => {
+  _renderItem = ({ item: ticket }) => {
     const { getFaqDetailsByCategory } = this.props.supportStore;
     const faqDetails = getFaqDetailsByCategory(ticket.title);
     const title = _.isEmpty(faqDetails)
       ? ticket.title
       : faqDetails.categoryDisplayStr;
     const navigateToConversation = () =>
-      this.props.navigation.navigate("TicketsConversation", {
+      this.props.navigation.navigate(SCREEN_TICKETS_CONVERSATION, {
         title,
         status: ticket.closed ? "Closed" : "Open",
         ticketId: ticket.ticketId

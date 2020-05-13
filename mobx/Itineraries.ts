@@ -8,7 +8,7 @@ import constants from "../constants/constants";
 import storeService from "../Services/storeService/storeService";
 import { logError } from "../Services/errorLogger/errorLogger";
 import { LayoutAnimation, Platform } from "react-native";
-import { hydrate } from "./Store";
+import hydrate from "../Services/hydrate/hydrate";
 import itineraryConstructor from "../Services/appLauncher/itineraryConstructor";
 import debouncer from "../Services/debouncer/debouncer";
 import {
@@ -36,7 +36,9 @@ import { ICustomCostings } from "../TypeInterfaces/ICustomCostings";
  * will use the milliseconds data from `dayTs` to calculate
  * the year string in `YYYY` format
  */
-const getYearFromItineraryDateObject = (dateObject: IItineraryDay): string => {
+export const getYearFromItineraryDateObject = (
+  dateObject: IItineraryDay
+): string => {
   if (dateObject.dayTs) {
     return moment(dateObject.dayTs).format("YYYY");
   } else {
@@ -49,7 +51,9 @@ const getYearFromItineraryDateObject = (dateObject: IItineraryDay): string => {
  * `iterDayByKey` of the costing object and returns the
  * corresponding Javascript Date object
  */
-const getJsDateFromItineraryDateObject = (dateObject: IItineraryDay): Date => {
+export const getJsDateFromItineraryDateObject = (
+  dateObject: IItineraryDay
+): Date => {
   return moment(
     `${dateObject.day}-${dateObject.mon}-${getYearFromItineraryDateObject(
       dateObject
@@ -858,7 +862,7 @@ class Itineraries {
   }
 
   @computed
-  get slots(): (IIterSlotWithActivity | IIterSlotByKey)[] {
+  get slots(): (IIterSlotWithActivity | IIterSlotByKey)[][] {
     if (_.isEmpty(this._selectedItinerary)) {
       return [];
     }

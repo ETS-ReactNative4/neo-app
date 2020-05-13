@@ -19,9 +19,7 @@ import SimpleButton from "../../CommonComponents/SimpleButton/SimpleButton";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import { inject, observer } from "mobx-react";
 import DebouncedAlert from "../../CommonComponents/DebouncedAlert/DebouncedAlert";
-import Journal from "../JournalScreen/Journal";
 import JournalSummary from "./Components/JournalSummary";
-import { StackActions, NavigationActions } from "react-navigation";
 import Share from "react-native-share";
 import { share, singleShare } from "../../Services/shareService/share";
 import openCustomTab from "../../Services/openCustomTab/openCustomTab";
@@ -46,10 +44,6 @@ let _backHandler = () => null;
 @inject("journalStore")
 @observer
 class JournalPublish extends Component {
-  static navigationOptions = {
-    header: null
-  };
-
   state = {
     publishingAnimationTiming: new Animated.Value(0),
     publishEndAnimationTiming: new Animated.Value(0),
@@ -150,7 +144,7 @@ class JournalPublish extends Component {
         return;
       }
       clearInterval(this._waitForImageQueue);
-      const isStoryMode = this.props.navigation.getParam("isStoryMode", false);
+      const isStoryMode = this.props.route.params?.isStoryMode ?? false;
       if (isStoryMode) {
         LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
         this.setState({
@@ -200,9 +194,9 @@ class JournalPublish extends Component {
     let message = journalTitle,
       url = journalUrl;
 
-    const storyId = this.props.navigation.getParam("activeStory", "");
-    const pageId = this.props.navigation.getParam("activePage", "");
-    const isStoryMode = this.props.navigation.getParam("isStoryMode", false);
+    const storyId = this.props.route.params?.activeStory ?? "";
+    const pageId = this.props.route.params?.activePage ?? "";
+    const isStoryMode = this.props.route.params?.isStoryMode ?? false;
 
     let story = {},
       storyTitle = "",
@@ -282,9 +276,9 @@ class JournalPublish extends Component {
       getStoryById,
       getPageById
     } = this.props.journalStore;
-    const storyId = this.props.navigation.getParam("activeStory", "");
-    const pageId = this.props.navigation.getParam("activePage", "");
-    const isStoryMode = this.props.navigation.getParam("isStoryMode", false);
+    const storyId = this.props.route.params?.activeStory ?? "";
+    const pageId = this.props.route.params?.activePage ?? "";
+    const isStoryMode = this.props.route.params?.isStoryMode ?? false;
 
     let story = {},
       page = {},

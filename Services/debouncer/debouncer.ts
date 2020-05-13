@@ -10,7 +10,7 @@ const debouncer = (callback: () => any = () => null) => {
     try {
       return callback();
     } catch (error) {
-      logError("Process crashed in the debouncer", { error });
+      logError(error, { type: "Process crashed in the debouncer" });
       return false;
     }
   }, 0);

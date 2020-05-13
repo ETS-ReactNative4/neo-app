@@ -17,7 +17,7 @@ class PDFViewerAndroid extends Component {
   };
 
   render() {
-    const pdfUri = this.props.navigation.getParam("pdfUri", "");
+    const pdfUri = this.props.route.params?.pdfUri ?? "";
     const { navigation } = this.props;
     const params = getUrlParams(pdfUri);
     const download = () => {

@@ -26,18 +26,18 @@ import { CONSTANT_mailIcon } from "../../constants/imageAssets";
 @inject("visaStore")
 @observer
 class VisaStatus extends Component {
-  static navigationOptions = ({ navigation }) => {
-    const title = navigation.getParam("screenTitle", "");
-    const enableRightButton = navigation.getParam("enableRightButton", false);
-    const rightButtonAction = navigation.getParam(
-      "rightButtonAction",
-      () => null
-    );
-    return {
-      header: (
+
+  setHeader = () => {
+    const title = this.props.route.params?.screenTitle ?? "";
+    const enableRightButton = this.props.route.params?.enableRightButton ?? false;
+    const rightButtonAction =
+    this.props.route.params?.rightButtonAction ?? (() => null);
+
+    this.props.navigation.setOptions({
+      header: () => (
         <CommonHeader
           title={title}
-          navigation={navigation}
+          navigation={this.props.navigation}
           RightButton={
             enableRightButton ? (
               <SimpleButton
@@ -54,8 +54,14 @@ class VisaStatus extends Component {
           }
         />
       )
-    };
+    });
   };
+
+  constructor(props) {
+    super(props);
+
+    this.setHeader();
+  }
 
   initializeVisa = () => {
     const {
@@ -63,8 +69,8 @@ class VisaStatus extends Component {
       loadVisaDetails,
       loadVisaChecklistStatus
     } = this.props.visaStore;
-    const { navigation } = this.props;
-    const visaId = navigation.getParam("visaId", "");
+    const { navigation, route } = this.props;
+    const visaId = route.params?.visaId ?? "";
     loadVisaChecklistStatus(visaId);
     loadVisaDetails(visaId)
       .then(visaDetails => {
@@ -73,6 +79,7 @@ class VisaStatus extends Component {
             screenTitle: `${visaDetails.countryStr ||
               ""} - ${visaDetails.visaStr || ""}`
           });
+          this.setHeader();
         });
         this.setNavigationHeaders(visaDetails);
       })
@@ -86,6 +93,7 @@ class VisaStatus extends Component {
         screenTitle: `${visaDetails.countryStr || ""} - ${visaDetails.visaStr ||
           ""}`
       });
+      this.setHeader();
     });
   };
 
@@ -120,6 +128,7 @@ class VisaStatus extends Component {
           rightButtonAction: openHelp
         });
       }
+      this.setHeader();
     });
   };
 
@@ -131,8 +140,8 @@ class VisaStatus extends Component {
       visaGranted,
       visaRejected
     } = this.props.visaStore;
-    const { navigation } = this.props;
-    const visaId = navigation.getParam("visaId", "");
+    const { navigation, route } = this.props;
+    const visaId = route.params?.visaId ?? "";
     const visaDetails = getVisaDetails(visaId);
 
     const { accountOwnerDetails = {}, visaInfoFooter = "" } = visaDetails;

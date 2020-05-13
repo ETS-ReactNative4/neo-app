@@ -128,17 +128,13 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
-    dexOptions {
-      incremental true
-      javaMaxHeapSize "4g"
-    }
-
     defaultConfig {
         applicationId "com.pickyourtrail"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode Integer.parseInt(VERSION_CODE)
-        versionName "1.3.5"
+        versionName "2.0.0"
+        multiDexEnabled true
     }
 
     splits {
@@ -214,14 +210,22 @@ dependencies {
     implementation "com.google.firebase:firebase-perf:17.0.2"
     implementation "com.webengage:android-sdk:3.13.1"
 
-    /**
-     * For React native screens
-     */
-    implementation 'androidx.appcompat:appcompat:1.1.0-rc01'
-    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0-alpha02'
-
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.facebook.react:react-native:+"  // From node_modules
+
+    /**
+     * Enabling Multidexing based on
+     * https://medium.com/@aungmt/multidex-on-androidx-for-rn-0-60-x-cbb37c50d85
+     * https://reactnativeforyou.com/com-android-builder-dexing-dexarchivemergerexception-error-while-merging-dex-archives-react-native-error-fix/
+     */
+    def multidex_version = "2.0.1"
+    implementation 'androidx.multidex:multidex:$multidex_version'
+
+    /**
+     * For React Native Interactable
+     * Based on - https://github.com/wix/react-native-interactable/issues/289#issuecomment-536464364
+     */
+    implementation project(path: ":react-native-interactable")
 
     if (enableHermes) {
       def hermesPath = "../../node_modules/hermes-engine/android/";

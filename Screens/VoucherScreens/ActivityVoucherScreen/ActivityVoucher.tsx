@@ -29,7 +29,6 @@ import containsHtml from "../../../Services/containsHtml/containsHtml";
 import CustomHtmlView from "../../../CommonComponents/CustomHtmlView/CustomHtmlView";
 import VoucherAlertBox from "../Components/VoucherAlertBox/VoucherAlertBox";
 import { IActivityCombinedInfo } from "../../../mobx/Itineraries";
-import { NavigationStackProp } from "react-navigation-stack";
 import PassportDetails from "../../../mobx/PassportDetails";
 import { IVoucherSplitSectionData } from "../types/voucherScreenTypes";
 
@@ -40,7 +39,12 @@ const xHeight = isIphoneX()
   : 0;
 
 export interface ActivityVoucherProps {
-  navigation: NavigationStackProp<{ hotel: IActivityCombinedInfo }>;
+  navigation: any;
+  route: {
+    params: {
+      activity: IActivityCombinedInfo | {};
+    };
+  };
   passportDetailsStore: PassportDetails;
 }
 
@@ -77,10 +81,10 @@ class ActivityVoucher extends Component<
   };
 
   render() {
-    const activity: IActivityCombinedInfo = this.props.navigation.getParam(
-      "activity",
-      {}
-    );
+    // @ts-ignore
+    const activity: IActivityCombinedInfo = this.props.route.params
+      ? this.props.route.params.activity
+      : {};
 
     const {
       bookingId,

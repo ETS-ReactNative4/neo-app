@@ -23,6 +23,7 @@ import Itineraries, {
   IActivityCombinedInfo,
   IItineraryCityDetail
 } from "../../../../mobx/Itineraries";
+import { SCREEN_PLACES } from "../../../../NavigatorsV2/ScreenNames";
 
 export interface SlotActivityProps {
   activity: IIterSlotByKey;
@@ -70,7 +71,7 @@ const SlotActivity = ({
       cityCardData = {
         cityImage: { uri: currentCity.cityObject.image },
         action: () =>
-          navigation.navigate("ToolPlaces", {
+          navigation.navigate(SCREEN_PLACES, {
             city: cityId
           }),
         cityName: currentCity.city,
@@ -89,7 +90,7 @@ const SlotActivity = ({
           uri: currentCity.image
         },
         action: () =>
-          navigation.navigate("ToolPlaces", {
+          navigation.navigate(SCREEN_PLACES, {
             city: cityId
           }),
         cityName: currentCity.cityName,
@@ -123,7 +124,7 @@ const SlotActivity = ({
           uri: currentCity.image
         },
         action: () =>
-          navigation.navigate("ToolPlaces", {
+          navigation.navigate(SCREEN_PLACES, {
             city: cityId
           }),
         cityName: currentCity.cityName,

@@ -31,8 +31,8 @@ const ForceUpdateModalComponent = ({
   if (successResponseData) {
     const supportedVersionNumber =
       Platform.OS === CONSTANT_platformIos
-        ? successResponseData?.iosVersion
-        : successResponseData?.androidVersion;
+        ? successResponseData?.data.iosVersion
+        : successResponseData?.data.androidVersion;
 
     requiresForceUpdate =
       compareVersion(DeviceInfo.getVersion(), supportedVersionNumber) > -1
@@ -43,8 +43,8 @@ const ForceUpdateModalComponent = ({
   const openAppStore = () => {
     openCustomTab(
       Platform.OS === CONSTANT_platformIos
-        ? successResponseData?.iosUrl
-        : successResponseData?.androidUrl
+        ? successResponseData?.data.iosUrl
+        : successResponseData?.data.androidUrl
     );
   };
 

@@ -1,14 +1,38 @@
 import _ from "lodash";
-import navigationService from "../navigationService/navigationService";
 import openCustomTab from "../openCustomTab/openCustomTab";
 import storeService from "../storeService/storeService";
 import { toastBottom } from "../toast/toast";
-import constants from "../../constants/constants";
 import directions from "../directions/directions";
 import dialer from "../dialer/dialer";
 import { logError } from "../errorLogger/errorLogger";
 import { Linking, Platform } from "react-native";
 import OpenAppSettingsAndroid from "react-native-app-settings";
+import navigationServiceV2 from "../navigationService/navigationServiceV2";
+import {
+  SCREEN_MODAL_STACK,
+  SCREEN_FLIGHT_VOUCHER,
+  SCREEN_HOTEL_VOUCHER,
+  SCREEN_ACTIVITY_VOUCHER,
+  SCREEN_TRANSFER_VOUCHER,
+  SCREEN_RENTAL_CAR_VOUCHER
+} from "../../NavigatorsV2/ScreenNames";
+import { modalStackData } from "../../NavigatorsV2/ModalStack";
+import {
+  CONSTANT_platformIos,
+  CONSTANT_voucherErrorStatus,
+  CONSTANT_flightVoucherType,
+  CONSTANT_hotelVoucherType,
+  CONSTANT_activityVoucherType,
+  CONSTANT_transferVoucherType,
+  CONSTANT_rentalCarVoucherType,
+  CONSTANT_ferryVoucherType,
+  CONSTANT_trainVoucherType
+} from "../../constants/stringConstants";
+import {
+  CONSTANT_voucherText,
+  CONSTANT_bookingProcessText,
+  CONSTANT_bookingFailedText
+} from "../../constants/appText";
 
 /**
  * Voucher no longer needs validation since voucher screens should open
@@ -26,7 +50,7 @@ const isVoucherBooked = voucher =>
   (voucher.voucher.booked || voucher.free);
 
 const isVoucherAvailable = voucher =>
-  voucher && voucher.status !== constants.voucherErrorStatus;
+  voucher && voucher.status !== CONSTANT_voucherErrorStatus;
 
 const isDataSkipped = voucher => _.get(voucher, "voucher.skipVoucher");
 
@@ -36,13 +60,18 @@ const isDataSkipped = voucher => _.get(voucher, "voucher.skipVoucher");
  */
 const skipData = voucher => {
   const url = _.get(voucher, "voucher.voucherUrl");
-  if (url) openCustomTab(url);
-  else toastBottom(constants.voucherText.voucherUnavailable);
+  if (url) {
+    openCustomTab(url);
+  } else {
+    toastBottom(CONSTANT_voucherText.voucherUnavailable);
+  }
 };
 
+/**
+ * PT TODO: Remove all the old navigation and replace it with new navigation service
+ */
 const resolveLinks = (link = "", screenProps = {}, deepLink = {}) => {
   try {
-    const { _navigation: navigation } = navigationService.navigation;
     if (link) {
       /**
        * If link is a webpage, open customTab
@@ -53,13 +82,13 @@ const resolveLinks = (link = "", screenProps = {}, deepLink = {}) => {
         /**
          * If link is `InfoCardModal` open the modal
          */
-        navigation.navigate("TripFeed");
+        navigationServiceV2("TripFeed");
         storeService.tripFeedStore.openInfoCardModal(screenProps);
       } else if (link === "SystemSettings") {
         /**
          * If link is `SystemSettings` open the system settings page of the app
          */
-        if (Platform.OS === constants.platformIos) {
+        if (Platform.OS === CONSTANT_platformIos) {
           Linking.canOpenURL("app-settings:")
             .then(supported => {
               if (!supported) {
@@ -78,10 +107,15 @@ const resolveLinks = (link = "", screenProps = {}, deepLink = {}) => {
         /**
          * Otherwise, open the app's screen defined by the link
          */
-        navigation.navigate(link, {
-          ...screenProps,
-          parentScreen: "TripFeed"
-        });
+        const isModalStack = Object.keys(modalStackData).includes(link);
+        if (isModalStack) {
+          navigationServiceV2(SCREEN_MODAL_STACK, {
+            screen: link,
+            params: screenProps
+          });
+        } else {
+          navigationServiceV2(link, screenProps);
+        }
       }
     } else if (!_.isEmpty(deepLink)) {
       const {
@@ -106,7 +140,7 @@ const resolveLinks = (link = "", screenProps = {}, deepLink = {}) => {
         switch (
           _.toUpper(voucherType) // make sure voucher type is case insensitive
         ) {
-          case constants.flightVoucherType:
+          case CONSTANT_flightVoucherType:
             const flight = storeService.itineraries.getFlightById(
               costingIdentifier
             );
@@ -114,15 +148,19 @@ const resolveLinks = (link = "", screenProps = {}, deepLink = {}) => {
               if (isDataSkipped(flight)) {
                 skipData(flight);
               } else {
-                navigation.navigate("FlightVoucher", { flight });
-                if (!isVoucherBooked(flight))
-                  toastBottom(constants.bookingProcessText.message);
+                navigationServiceV2(SCREEN_MODAL_STACK, {
+                  screen: SCREEN_FLIGHT_VOUCHER,
+                  params: { flight }
+                });
+                if (!isVoucherBooked(flight)) {
+                  toastBottom(CONSTANT_bookingProcessText.message);
+                }
               }
             } else {
-              toastBottom(constants.bookingFailedText);
+              toastBottom(CONSTANT_bookingFailedText);
             }
             break;
-          case constants.hotelVoucherType:
+          case CONSTANT_hotelVoucherType:
             const hotel = storeService.itineraries.getHotelById(
               costingIdentifier
             );
@@ -130,15 +168,19 @@ const resolveLinks = (link = "", screenProps = {}, deepLink = {}) => {
               if (isDataSkipped(hotel)) {
                 skipData(hotel);
               } else {
-                navigation.navigate("HotelVoucher", { hotel });
-                if (!isVoucherBooked(hotel))
-                  toastBottom(constants.bookingProcessText.message);
+                navigationServiceV2(SCREEN_MODAL_STACK, {
+                  screen: SCREEN_HOTEL_VOUCHER,
+                  params: { hotel }
+                });
+                if (!isVoucherBooked(hotel)) {
+                  toastBottom(CONSTANT_bookingProcessText.message);
+                }
               }
             } else {
-              toastBottom(constants.bookingFailedText);
+              toastBottom(CONSTANT_bookingFailedText);
             }
             break;
-          case constants.activityVoucherType:
+          case CONSTANT_activityVoucherType:
             const activity = storeService.itineraries.getActivityById(
               costingIdentifier
             );
@@ -146,15 +188,19 @@ const resolveLinks = (link = "", screenProps = {}, deepLink = {}) => {
               if (isDataSkipped(activity)) {
                 skipData(activity);
               } else {
-                navigation.navigate("ActivityVoucher", { activity });
-                if (!isVoucherBooked(activity))
-                  toastBottom(constants.bookingProcessText.message);
+                navigationServiceV2(SCREEN_MODAL_STACK, {
+                  screen: SCREEN_ACTIVITY_VOUCHER,
+                  params: { activity }
+                });
+                if (!isVoucherBooked(activity)) {
+                  toastBottom(CONSTANT_bookingProcessText.message);
+                }
               }
             } else {
-              toastBottom(constants.bookingFailedText);
+              toastBottom(CONSTANT_bookingFailedText);
             }
             break;
-          case constants.transferVoucherType:
+          case CONSTANT_transferVoucherType:
             const transfer = storeService.itineraries.getTransferById(
               costingIdentifier
             );
@@ -162,15 +208,19 @@ const resolveLinks = (link = "", screenProps = {}, deepLink = {}) => {
               if (isDataSkipped(transfer)) {
                 skipData(transfer);
               } else {
-                navigation.navigate("TransferVoucher", { transfer });
-                if (!isVoucherBooked(transfer))
-                  toastBottom(constants.bookingProcessText.message);
+                navigationServiceV2(SCREEN_MODAL_STACK, {
+                  screen: SCREEN_TRANSFER_VOUCHER,
+                  params: { transfer }
+                });
+                if (!isVoucherBooked(transfer)) {
+                  toastBottom(CONSTANT_bookingProcessText.message);
+                }
               }
             } else {
-              toastBottom(constants.bookingFailedText);
+              toastBottom(CONSTANT_bookingFailedText);
             }
             break;
-          case constants.rentalCarVoucherType:
+          case CONSTANT_rentalCarVoucherType:
             const rentalCar = storeService.itineraries.getRentalCarById(
               costingIdentifier
             );
@@ -178,15 +228,19 @@ const resolveLinks = (link = "", screenProps = {}, deepLink = {}) => {
               if (isDataSkipped(rentalCar)) {
                 skipData(rentalCar);
               } else {
-                navigation.navigate("RentalCarVoucher", { rentalCar });
-                if (!isVoucherBooked(rentalCar))
-                  toastBottom(constants.bookingProcessText.message);
+                navigationServiceV2(SCREEN_MODAL_STACK, {
+                  screen: SCREEN_RENTAL_CAR_VOUCHER,
+                  params: { rentalCar }
+                });
+                if (!isVoucherBooked(rentalCar)) {
+                  toastBottom(CONSTANT_bookingProcessText.message);
+                }
               }
             } else {
-              toastBottom(constants.bookingFailedText);
+              toastBottom(CONSTANT_bookingFailedText);
             }
             break;
-          case constants.ferryVoucherType:
+          case CONSTANT_ferryVoucherType:
             const ferry = storeService.itineraries.getFerryById(
               costingIdentifier
             );
@@ -194,17 +248,19 @@ const resolveLinks = (link = "", screenProps = {}, deepLink = {}) => {
               if (isDataSkipped(ferry)) {
                 skipData(ferry);
               } else {
-                navigation.navigate("TransferVoucher", {
-                  transfer: { ...ferry, vehicle: voucherType }
+                navigationServiceV2(SCREEN_MODAL_STACK, {
+                  screen: SCREEN_TRANSFER_VOUCHER,
+                  params: { transfer: { ...ferry, vehicle: voucherType } }
                 });
-                if (!isVoucherBooked(ferry))
-                  toastBottom(constants.bookingProcessText.message);
+                if (!isVoucherBooked(ferry)) {
+                  toastBottom(CONSTANT_bookingProcessText.message);
+                }
               }
             } else {
-              toastBottom(constants.bookingFailedText);
+              toastBottom(CONSTANT_bookingFailedText);
             }
             break;
-          case constants.trainVoucherType:
+          case CONSTANT_trainVoucherType:
             const train = storeService.itineraries.getTrainById(
               costingIdentifier
             );
@@ -212,19 +268,21 @@ const resolveLinks = (link = "", screenProps = {}, deepLink = {}) => {
               if (isDataSkipped(train)) {
                 skipData(train);
               } else {
-                navigation.navigate("TransferVoucher", {
-                  transfer: { ...train, vehicle: voucherType }
+                navigationServiceV2(SCREEN_MODAL_STACK, {
+                  screen: SCREEN_TRANSFER_VOUCHER,
+                  params: { transfer: { ...train, vehicle: voucherType } }
                 });
-                if (!isVoucherBooked(train))
-                  toastBottom(constants.bookingProcessText.message);
+                if (!isVoucherBooked(train)) {
+                  toastBottom(CONSTANT_bookingProcessText.message);
+                }
               }
             } else {
-              toastBottom(constants.bookingFailedText);
+              toastBottom(CONSTANT_bookingFailedText);
             }
             break;
 
           default:
-            toastBottom(constants.bookingProcessText.message);
+            toastBottom(CONSTANT_bookingProcessText.message);
             break;
         }
         return;
@@ -242,6 +300,7 @@ const resolveLinks = (link = "", screenProps = {}, deepLink = {}) => {
        */
       if (contactNumber) {
         dialer(contactNumber);
+        return;
       }
     }
   } catch (err) {

@@ -17,10 +17,6 @@ import getTitleCase from "../../../Services/getTitleCase/getTitleCase";
 import ErrorBoundary from "../../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import ViewVoucherButton from "../Components/ViewVoucherButton";
 import PropTypes from "prop-types";
-import {
-  responsiveHeight,
-  responsiveWidth
-} from "react-native-responsive-dimensions";
 
 const xHeight = isIphoneX()
   ? constants.xNotchHeight
@@ -36,7 +32,8 @@ class FlightVoucher extends Component {
   static propTypes = {
     passportDetailsStore: PropTypes.object,
     itineraries: PropTypes.object,
-    navigation: PropTypes.object
+    navigation: PropTypes.object,
+    route: PropTypes.object
   };
 
   static navigationOptions = {
@@ -61,19 +58,15 @@ class FlightVoucher extends Component {
   };
 
   render() {
-    const flight = this.props.navigation.getParam("flight", {});
+    const { flight = {} } = this.props.route.params || {};
     /**
      * TODO: header text content needed
      * TODO: Meal preference missing
      * // Total Paid
      * // Booking source missing
      */
-    const {
-      flyCityText,
-      pnr,
-      webCheckInUrl,
-      voucherUrl
-    } = flight.voucher;
+    const { flyCityText, pnr, webCheckInUrl, voucherUrl } =
+      flight.voucher || {};
     const {
       trips,
       allTrips,

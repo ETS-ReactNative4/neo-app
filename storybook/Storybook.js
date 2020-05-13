@@ -26,6 +26,19 @@ configure(() => {
   require("./stories/PostBookingIntroStory");
   require("./stories/AgentFeedbackScreenStory");
   require("./stories/AgentInfoScreenScreenStory");
+  require("./stories/TravelProfileScreenStory");
+  require("./stories/MaritalStatusScreenStory");
+  require("./stories/AppLoginScreenStory");
+  require("./stories/ListingPageScreenStory");
+  require("./stories/PromoLandingScreenStory");
+  require("./stories/NotificationsScreenStory");
+  require("./stories/SavedItineraryScreenStory");
+  require("./stories/UltimateMenuScreenStory");
+  require("./stories/TravellerProfileDetailsScreenStory");
+  require("./stories/ItineraryScreenStory");
+  require("./stories/GCMFormScreenStory");
+  require("./stories/SearchScreenStory");
+  require("./stories/TripIntensityScreenStory");
 }, module);
 
 const StorybookUIRoot = getStorybookUI({

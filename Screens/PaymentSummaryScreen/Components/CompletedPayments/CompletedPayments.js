@@ -33,8 +33,7 @@ const CompletedPayments = inject("userStore")(
         openCustomTab(
           gstReceipt,
           () => null,
-          () => null,
-          "PaymentPDFViewerScreen"
+          () => null
         );
       return (
         <CustomScrollView

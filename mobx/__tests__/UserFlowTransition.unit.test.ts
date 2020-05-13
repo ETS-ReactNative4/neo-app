@@ -87,6 +87,10 @@ const loadUserTransitionStatusError = () => {
   });
 };
 
+afterEach(() => {
+  fetchMock.reset();
+});
+
 it("User Flow Transition can be initialized", () => {
   const userFlowTransition = new UserFlowTransition();
   expect(userFlowTransition.completedSOFeedback).toBe(false);
@@ -101,7 +105,7 @@ it("Transition status data loaded successfully", async () => {
     itineraryId
   );
   expect(transitionStatus.seenPostBookingIntro).toBe(true);
-  expect(transitionStatus.seenOPSIntro).toBe(true);
+  expect(transitionStatus.seenOpsIntro).toBe(true);
   expect(transitionStatus.completedSOFeedback).toBe(true);
   expect(userFlowTransition.seenPostBookingIntro).toBe(true);
   expect(userFlowTransition.seenOPSIntro).toBe(true);
@@ -198,8 +202,4 @@ it("User Flow Transition after user logout", () => {
   expect(userFlowTransition.completedSOFeedback).toBe(false);
   expect(userFlowTransition.seenOPSIntro).toBe(false);
   expect(userFlowTransition.seenPostBookingIntro).toBe(false);
-});
-
-afterEach(() => {
-  fetchMock.reset();
 });

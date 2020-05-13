@@ -22,18 +22,20 @@ import DeepLinkHandler from "../../CommonComponents/DeepLinkHandler/DeepLinkHand
 @inject("itineraries")
 @observer
 class BookedItinerary extends Component {
-  static navigationOptions = ({ navigation }) => {
-    return {
-      header: (
+  constructor(props) {
+    super(props);
+
+    props.navigation.setOptions({
+      header: () => (
         <CommonHeader
           TitleComponent={<BookedItineraryTitle />}
           // RightButton={<SearchButton action={() => {}} />}
           title={""}
-          navigation={navigation}
+          navigation={props.navigation}
         />
       )
-    };
-  };
+    });
+  }
 
   state = {
     selectedDay: moment(this.props.itineraries.days[0]).format("x"),
@@ -103,8 +105,9 @@ class BookedItinerary extends Component {
     }
     let _currentSection;
     this.state.sections.forEach(section => {
-      if (y + responsiveHeight(10) > this.state.sectionPositions[section])
+      if (y + responsiveHeight(10) > this.state.sectionPositions[section]) {
         _currentSection = section;
+      }
     });
     this.setState({ selectedDay: _currentSection }, () => {
       this.props.appState.setSelectedDate(this.state.selectedDay);
@@ -126,7 +129,9 @@ class BookedItinerary extends Component {
   };
 
   componentDidMount() {
-    const selectedDay = this.props.navigation.getParam("selectedDate", 0);
+    const selectedDay = this.props.navigation.params
+      ? this.props.navigation.params.selectedDate
+      : 0;
     if (selectedDay) {
       setTimeout(() => {
         this.selectDay(selectedDay);

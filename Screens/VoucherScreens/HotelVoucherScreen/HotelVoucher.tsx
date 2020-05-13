@@ -24,7 +24,6 @@ import { createIconSetFromIcoMoon } from "react-native-vector-icons";
 import icoMoonConfig from "../../../assets/fontMap/hotel-amenities.json";
 import VoucherAlertBox from "../Components/VoucherAlertBox/VoucherAlertBox";
 import VoucherAddressSectionV2 from "../Components/VoucherAddressSectionV2/VoucherAddressSectionV2";
-import { NavigationStackProp } from "react-navigation-stack";
 import {
   IAmenityDisplayList,
   IHotelCosting
@@ -41,7 +40,12 @@ const xHeight = isIphoneX()
   : 0;
 
 export interface HotelVoucherProps {
-  navigation: NavigationStackProp<{ hotel: IHotelCosting }>;
+  navigation: any;
+  route: {
+    params: {
+      hotel: IHotelCosting | {};
+    };
+  };
 }
 
 export interface HotelVoucherState {
@@ -72,7 +76,10 @@ class HotelVoucher extends Component<HotelVoucherProps, HotelVoucherState> {
   };
 
   render() {
-    const hotel: IHotelCosting = this.props.navigation.getParam("hotel", {});
+    // @ts-ignore
+    const hotel: IHotelCosting = this.props.route.params
+      ? this.props.route.params.hotel
+      : {};
     const Icon = createIconSetFromIcoMoon(icoMoonConfig);
 
     const {

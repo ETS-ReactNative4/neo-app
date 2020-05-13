@@ -1,5 +1,6 @@
 import { IItineraryDetails, IMonth } from "./IItineraryDetails";
 import { ICustomCostings } from "./ICustomCostings";
+import { ICostingConfig } from "../Screens/GCMScreen/hooks/useGCMForm";
 
 export enum IItineraryVersion {
   SPEEDBOAT = "SPEEDBOAT",
@@ -64,7 +65,7 @@ export interface IAbstractCosting {
 
   costingId: string;
 
-  voucher: any; // TODO: Define proper voucher types
+  voucher?: any; // TODO: Define proper voucher types
 }
 
 export interface IAbstractCostingValue {
@@ -157,6 +158,7 @@ export interface IRentalCarCosting extends IAbstractCosting {
   vehicle: string;
   type: string;
   pickup: string;
+  duration: number;
 }
 
 export interface IRentalCarCostingValue extends IAbstractCostingValue {
@@ -295,11 +297,16 @@ export interface IItinerarySlot {
   happensInPreviousCity: boolean;
 }
 
+export interface IActivitySlotDetail {
+  activityId: number;
+  intercityTransferIncluded: boolean;
+}
+
 export interface IIterSlotByKey {
   // TODO: Requires detailed type definition
   name: string;
   type: string;
-  activitySlotDetail: any;
+  activitySlotDetail: IActivitySlotDetail;
   intercityTransferSlotDetailVO: {
     directTransferDetail: {
       transferMode: string;
@@ -393,6 +400,7 @@ export interface IActivityDetail {
   free: boolean;
   selectedTourGrade: ISelectedTourGrade;
   startingPointDetails: IStartingPointDetails;
+  planningToolId: number;
 }
 
 export interface IMiscellaneousCosting {
@@ -533,7 +541,7 @@ export interface IItinerary {
   allActivityCostingRefs: string[];
   allPassCostingRefs: string[];
   allRentalCostingRefs: string[];
-  costingConfiguration: ICostingConfiguration;
+  costingConfiguration: ICostingConfig;
   totalDiff: ITotalDiff;
   otherTexts: IMiscellaneousText;
   allAlerts: any; // TODO: Add Proper Interface

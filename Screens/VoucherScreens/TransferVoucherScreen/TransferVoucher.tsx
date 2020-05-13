@@ -31,7 +31,6 @@ import VoucherAddressSectionV2 from "../Components/VoucherAddressSectionV2/Vouch
 import LightBoxButton from "../../../CommonComponents/LightBoxButton/LightBoxButton";
 // @ts-ignore
 import PhotoView from "react-native-photo-view";
-import { NavigationStackProp } from "react-navigation-stack";
 import { ITransferCosting } from "../../../TypeInterfaces/IItinerary";
 import PassportDetails from "../../../mobx/PassportDetails";
 import { IVoucherSplitSectionData } from "../types/voucherScreenTypes";
@@ -43,7 +42,12 @@ const xHeight = isIphoneX()
   : 0;
 
 export interface TransferVoucherProps {
-  navigation: NavigationStackProp<{ hotel: ITransferCosting }>;
+  navigation: any;
+  route: {
+    params: {
+      transfer: ITransferCosting | {};
+    };
+  };
   passportDetailsStore: PassportDetails;
 }
 
@@ -80,10 +84,10 @@ class TransferVoucher extends Component<
   };
 
   render() {
-    const transfer: ITransferCosting = this.props.navigation.getParam(
-      "transfer",
-      {}
-    );
+    // @ts-ignore
+    const transfer: ITransferCosting = this.props.route.params
+      ? this.props.route.params.transfer
+      : {};
 
     const {
       leadPassengerName,

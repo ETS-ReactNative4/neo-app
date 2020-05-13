@@ -12,7 +12,6 @@ import DebouncedAlert from "../../CommonComponents/DebouncedAlert/DebouncedAlert
 import Share from "react-native-share";
 import { singleShare } from "../../Services/shareService/share";
 import HomeHeader from "../../CommonComponents/HomeHeader/HomeHeader";
-import { StackActions } from "react-navigation";
 import openCustomTab from "../../Services/openCustomTab/openCustomTab";
 import * as Animatable from "react-native-animatable";
 import Icon from "../../CommonComponents/Icon/Icon";
@@ -22,6 +21,7 @@ import {
 } from "react-native-responsive-dimensions";
 import { recordEvent } from "../../Services/analytics/analyticsService";
 import debouncer from "../../Services/debouncer/debouncer";
+import { SCREEN_JOURNAL_TEXT_EDITOR } from "../../NavigatorsV2/ScreenNames";
 
 /**
  * Contains two different screens
@@ -34,7 +34,6 @@ import debouncer from "../../Services/debouncer/debouncer";
 @inject("itineraries")
 @observer
 class Journal extends Component {
-  static navigationOptions = HomeHeader;
 
   _didFocusSubscription;
 
@@ -109,16 +108,12 @@ class Journal extends Component {
    * Text editor screen of that story
    */
   editStory = (activePage, activeStory) => {
-    const pushToTextEditor = StackActions.push({
-      routeName: "JournalTextEditor",
-      params: {
+    this.props.navigation.navigate(SCREEN_JOURNAL_TEXT_EDITOR, {
         selectedImagesList: [],
         activeStory,
         activePage,
         isEditMode: true
-      }
     });
-    this.props.navigation.dispatch(pushToTextEditor);
   };
 
   /**
@@ -236,8 +231,12 @@ class Journal extends Component {
     const editJournal = () =>
       this.props.navigation.navigate("JournalStart", { isEditing: true });
 
+    const Header = () =>
+      HomeHeader({ navigation: this.props.navigation }).header;
+
     return (
       <Fragment>
+        <Header />
         <CustomScrollView
           onScroll={this.onItemScroll}
           scrollEventThrottle={8}

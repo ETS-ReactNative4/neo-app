@@ -24,6 +24,8 @@ import ChatDetails from "./ChatDetails";
 import Journal from "./Journal";
 import UserFlowTransition from "./UserFlowTransition";
 import SOFeedback from "./SOFeedback";
+import TravelProfile from "./TravelProfile";
+import WelcomeState from "./WelcomeState";
 
 export const hydrate = create({
   storage: AsyncStorage,
@@ -54,19 +56,12 @@ const createStore = () => {
     chatDetailsStore: new ChatDetails(),
     journalStore: new Journal(),
     userFlowTransitionStore: new UserFlowTransition(),
-    soFeedbackStore: new SOFeedback()
+    soFeedbackStore: new SOFeedback(),
+    travelProfileStore: new TravelProfile(),
+    welcomeStateStore: new WelcomeState()
   };
 
-  hydrate("_upcomingItineraries", appStore.yourBookingsStore)
-    .then(() => {})
-    .catch(err => {
-      logError(err);
-    });
-  hydrate("_completedItineraries", appStore.yourBookingsStore)
-    .then(() => {})
-    .catch(err => {
-      logError(err);
-    });
+  YourBookings.hydrator(appStore.yourBookingsStore);
   Itineraries.hydrator(appStore.itineraries);
   AppState.hydrator(appStore.appState);
   hydrate("_vouchers", appStore.voucherStore)
@@ -173,6 +168,8 @@ const createStore = () => {
   Journal.hydrator(appStore.journalStore);
   UserFlowTransition.hydrator(appStore.userFlowTransitionStore);
   SOFeedback.hydrator(appStore.soFeedbackStore);
+  TravelProfile.hydrator(appStore.travelProfileStore);
+  WelcomeState.hydrator(appStore.welcomeStateStore);
   return appStore;
 };
 

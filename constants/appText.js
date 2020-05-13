@@ -12,8 +12,8 @@ export const CONSTANT_visaSuccessTitleFn = (name, isSingleVisa) =>
 
 const appText = {
   starterScreenText: {
-    mainButton: "Find your booking",
-    exploreButton: "Or, explore itineraries"
+    mainButton: "Or, find your booking",
+    exploreButton: "Explore itineraries"
   },
   aboutUsText: {
     title: "About Us",
@@ -297,8 +297,8 @@ const appText = {
 };
 
 export const CONSTANT_starterScreenText = {
-  mainButton: "Find your booking",
-  exploreButton: "Or, explore itineraries"
+  mainButton: "Find your bookings",
+  exploreButton: "Plan a holiday"
 };
 export const CONSTANT_aboutUsText = {
   title: "About Us",
@@ -596,6 +596,12 @@ export const CONSTANT_openSOFeedbackLoadFailureText = {
 };
 
 export const CONSTANT_openOPSIntroLoadFailureText = {
+  header: "Something went wrong",
+  message:
+    "Unable to load data from the server. Please check your internet connection or try again later"
+};
+
+export const CONSTANT_travelProfileFailureText = {
   header: "Something went wrong",
   message:
     "Unable to load data from the server. Please check your internet connection or try again later"

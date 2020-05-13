@@ -1,4 +1,3 @@
-import { NavigationStackProp } from "react-navigation-stack";
 import {
   CONSTANT_feedbackInfo,
   CONSTANT_pocCardData
@@ -6,17 +5,17 @@ import {
 import apiCall from "../../networkRequests/apiCall";
 import { ISOInfoResponse, openPostBookingHome } from "../launchPostBooking";
 import { CONSTANT_responseSuccessStatus } from "../../../constants/stringConstants";
-import { StackActions, NavigationActions } from "react-navigation";
-import DebouncedAlert from "../../../CommonComponents/DebouncedAlert/DebouncedAlert";
 import { IPocCardPropsData } from "../../../Screens/AgentInfoScreen/Components/AgentPocCard";
 import {
   CONSTANT_passIcon,
   CONSTANT_visaRelatedFaqIcon,
   CONSTANT_paymentIcon
 } from "../../../constants/imageAssets";
-import { CONSTANT_openOPSIntroLoadFailureText } from "../../../constants/appText";
 import { logError } from "../../errorLogger/errorLogger";
 import { CONSTANT_awsJsonServer } from "../../../constants/serverUrls";
+import { navigationDispatcher } from "../../navigationService/navigationServiceV2";
+import { CommonActions } from "@react-navigation/native";
+import { SCREEN_AGENT_INFO } from "../../../NavigatorsV2/ScreenNames";
 
 const pocCardDefaultData: IPocCardPropsData[] = [
   {
@@ -47,10 +46,7 @@ const pocCardDefaultData: IPocCardPropsData[] = [
  * The data fetching part is moved out of the component to ensure animations
  * are seamless for the user...
  */
-const resetToAgentInfo = (
-  navigation: NavigationStackProp<any>,
-  itineraryId: string
-) => {
+const resetToAgentInfo = (itineraryId: string) => {
   const resettingScreen = (pocCardData: IPocCardPropsData[]) => {
     apiCall(
       `${CONSTANT_feedbackInfo}?itineraryId=${itineraryId}&type=ACCOUNT_OWNER`,
@@ -60,39 +56,28 @@ const resetToAgentInfo = (
       .then((response: ISOInfoResponse) => {
         if (response.status === CONSTANT_responseSuccessStatus) {
           const { ownerName, imageUrl } = response.data;
-          navigation.dispatch(
-            StackActions.reset({
+          navigationDispatcher(
+            CommonActions.reset({
               index: 0,
-              actions: [
-                NavigationActions.navigate({
-                  routeName: "MainStack",
-                  action: NavigationActions.navigate({
-                    routeName: "AgentInfo",
-                    params: {
-                      itineraryId,
-                      ownerName,
-                      ownerImage: imageUrl,
-                      pocCardData
-                    }
-                  })
-                })
+              routes: [
+                {
+                  name: SCREEN_AGENT_INFO,
+                  params: {
+                    itineraryId,
+                    ownerName,
+                    ownerImage: imageUrl,
+                    pocCardData
+                  }
+                }
               ]
             })
           );
         } else {
-          openPostBookingHome(navigation);
-          DebouncedAlert(
-            CONSTANT_openOPSIntroLoadFailureText.header,
-            CONSTANT_openOPSIntroLoadFailureText.message
-          );
+          openPostBookingHome();
         }
       })
       .catch(() => {
-        openPostBookingHome(navigation);
-        DebouncedAlert(
-          CONSTANT_openOPSIntroLoadFailureText.header,
-          CONSTANT_openOPSIntroLoadFailureText.message
-        );
+        openPostBookingHome();
       });
   };
 
@@ -104,10 +89,6 @@ const resetToAgentInfo = (
     .catch(error => {
       resettingScreen(pocCardDefaultData);
       logError(error);
-      DebouncedAlert(
-        CONSTANT_openOPSIntroLoadFailureText.header,
-        CONSTANT_openOPSIntroLoadFailureText.message
-      );
     });
 };
 

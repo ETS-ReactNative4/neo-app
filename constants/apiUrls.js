@@ -62,12 +62,29 @@ const apiUrls = {
 };
 
 export const CONSTANT_updateVisaSuccessAnimationSeen = "mobile/visa";
+export const CONSTANT_guestLogin = "authentication/guestsession";
 export const CONSTANT_verifyMobileNumber = "mobile/user/verify/sendotp";
+export const CONSTANT_verifyMobileNumberV2 = "authentication/user";
+export const CONSTANT_registerNewUser = "user/homePage/signup";
+export const CONSTANT_requestOtp = "authentication/otp";
 export const CONSTANT_verifyOtp = "mobile/login";
+export const CONSTANT_verifyOtpV2 = "authentication/login";
+export const CONSTANT_retrieveJson = "mobile/content";
+export const CONSTANT_userProfileInfo = "userprofile/userprofileinfo";
+export const CONSTANT_userProfileData = "userprofile";
+export const CONSTANT_getCountriesList = "data/country";
+export const CONSTANT_getPackagesDetails = "packages";
 export const CONSTANT_getYourTrips = "mobile/yourtrips";
 export const CONSTANT_getItineraryDetails = "mobile/itineraryDetails";
+export const CONSTANT_savedItineraryDetails = "user/saveditineraries/v2";
+export const CONSTANT_userStateDetails = "user/state";
+export const CONSTANT_getMaritalStatusData =
+  "mobile/content?jsonFile=maritalStatusData.json";
 export const CONSTANT_getFinalVoucherDownloadUrl =
   "mobile/:itineraryId/getFinalVoucherUrl";
+export const CONSTANT_getNotificationDetails =
+  "itinerary/:itineraryId/notifications";
+export const CONSTANT_notificationRead = "pushnotifications/read";
 export const CONSTANT_getPackingChecklist = "mobile/displayCheckList";
 export const CONSTANT_getCheckList = "mobile/getCheckList";
 export const CONSTANT_updatePackingChecklist = "mobile/updateCheckList";
@@ -91,10 +108,22 @@ export const CONSTANT_registerDeviceToken = "mobile/devicetoken";
 export const CONSTANT_getEmergencyContacts = "mobile/city/contacts/emergency";
 export const CONSTANT_getPassportDetails =
   "mobile/:itineraryId/passport/details";
+export const CONSTANT_requestCallback = "itinerary/requestcallbackuser";
+export const CONSTANT_assignUser =
+  "itinerary/campaign/:campaignItineraryId/assignUser";
+export const CONSTANT_calculateCost = "itinerary/:itineraryId/calculateCost";
+export const CONSTANT_checkCostingStatus =
+  "itinerary/:itineraryId/checkCostingStatus";
+export const CONSTANT_itineraryDetails = "itinerary/:itineraryId/details";
 export const CONSTANT_getVisaDetails = "mobile/visa/:visaId";
 export const CONSTANT_sendVisaDocs = "mobile/sendVisaDocs";
 export const CONSTANT_getPaymentMeta =
   "mobile/booked/itinerary/paymentMetaInfo";
+export const CONSTANT_travelProfile = "user/travellerprofile";
+export const CONSTANT_retrievePDF = "cost/:itineraryId/createpdf/v3";
+export const CONSTANT_userProfile = "user";
+export const CONSTANT_retrieveUserProfile = "user/getUserDetails";
+export const CONSTANT_userDetailsResource = "user/userDetails";
 export const CONSTANT_getPaymentInfo = "mobile/:itineraryId/paymentInfo";
 export const CONSTANT_getFaq = "mobile/v2/faq";
 export const CONSTANT_getTripFeed = "mobile/feeds";
@@ -113,10 +142,13 @@ export const CONSTANT_journalImageDetails = "mobile/journal/image";
 export const CONSTANT_journalStoryOperations = "mobile/journal/story";
 export const CONSTANT_journalDeleteStory = "mobile/journal/story/:storyId";
 export const CONSTANT_getVisaHomeInfo = "mobile/visa/screen/info/home";
+export const CONSTANT_getIndianCities = "location/indianCities";
+export const CONSTANT_loadPackagesSearch = "packages/search";
 export const CONSTANT_initiateVisaProcess = "mobile/visa/initialize";
 export const CONSTANT_visaChecklistDetails = "mobile/visa/checklist";
 export const CONSTANT_getJournalScreenDetails =
   "mobile/journal/screen/info/home";
+export const CONSTANT_packages = "packages";
 export const CONSTANT_getJournalStartScreenDetails =
   "mobile/journal/screen/info/setup";
 export const CONSTANT_initializeJournal = "mobile/journal/initialize";
