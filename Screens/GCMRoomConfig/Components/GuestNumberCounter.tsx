@@ -3,7 +3,7 @@ import { StyleSheet, TouchableOpacity, View, Text } from "react-native";
 import Icon from "../../../CommonComponents/Icon/Icon";
 import {
   CONSTANT_addIcon,
-  CONSTANT_closeIcon
+  CONSTANT_lineBreakIcon
 } from "../../../constants/imageAssets";
 import { CONSTANT_firstColor } from "../../../constants/colorPallete";
 import {
@@ -29,7 +29,11 @@ const GuestNumberCounter = ({
         activeOpacity={0.2}
         style={styles.buttonContainer}
       >
-        <Icon name={CONSTANT_closeIcon} color={CONSTANT_firstColor} size={8} />
+        <Icon
+          name={CONSTANT_lineBreakIcon}
+          color={CONSTANT_firstColor}
+          size={8}
+        />
       </TouchableOpacity>
       <Text style={styles.counterText}>{counterText}</Text>
       <TouchableOpacity
