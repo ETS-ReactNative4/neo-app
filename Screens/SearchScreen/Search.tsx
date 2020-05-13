@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { SafeAreaView, StyleSheet, FlatList } from "react-native";
+import { SafeAreaView, StyleSheet, FlatList, View } from "react-native";
 import SearchTabPills from "./Components/SearchTabPills";
 import BlankSpacer from "../../CommonComponents/BlankSpacer/BlankSpacer";
 import { CONSTANT_shade3, CONSTANT_white } from "../../constants/colorPallete";
@@ -23,6 +23,11 @@ import {
 import usePackagesSearchApi from "./hooks/usePackagesSearchApi";
 import useDeepCompareEffect from "use-deep-compare-effect";
 import EmptyListPlaceholder from "../../CommonComponents/EmptyListPlaceholder/EmptyListPlaceholder";
+import * as Animatable from "react-native-animatable";
+
+const { createAnimatableComponent } = Animatable;
+
+const AnimatableView = createAnimatableComponent(View);
 
 export type SearchScreenNavigationType = CompositeNavigationProp<
   StackNavigationProp<AppNavigatorParamsType, typeof SCREEN_PRETRIP_HOME_TABS>,
@@ -79,6 +84,8 @@ const categories: ISearchCategory[] = [
 ];
 
 const Search = ({ navigation }: SearchScreenProps) => {
+  const abortFetchRef = useRef<any>(null);
+
   const limit = useRef(15).current;
 
   const [searchString, setSearchString] = useState("");
@@ -131,11 +138,18 @@ const Search = ({ navigation }: SearchScreenProps) => {
     setOffset(1);
     setSearchResults([]);
     if (searchString) {
+      if (abortFetchRef.current) {
+        abortFetchRef.current.abort();
+      }
+      // @ts-ignore
+      // eslint-disable-next-line no-undef
+      abortFetchRef.current = new AbortController();
       searchPackages({
         limit,
         offset,
-        searchString
-      });
+        searchString,
+        abortController: abortFetchRef.current
+      }).catch(() => null);
     } else {
       setSearchResults([]);
     }
@@ -230,9 +244,15 @@ const Search = ({ navigation }: SearchScreenProps) => {
       <BlankSpacer height={1} containerStyle={styles.dividerStyle} />
       <BlankSpacer height={8} />
       {!isLoading && !isResultsAvailable ? (
-        <EmptyListPlaceholder
-          text={"No itineraries found matching your criteria"}
-        />
+        <AnimatableView
+          style={styles.placeholderWrapper}
+          delay={1500}
+          animation={"fadeIn"}
+        >
+          <EmptyListPlaceholder
+            text={"No itineraries found matching your criteria"}
+          />
+        </AnimatableView>
       ) : (
         <FlatList
           data={searchString ? searchResults : categoryResults}
@@ -271,7 +291,8 @@ const styles = StyleSheet.create({
   },
   dividerStyle: {
     backgroundColor: CONSTANT_shade3
-  }
+  },
+  placeholderWrapper: { flex: 1 }
 });
 
 export default Search;
