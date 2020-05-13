@@ -38,8 +38,9 @@ interface FeaturedCardTypeOneProps {
 /* GUTTER SPACER */
 const GUTTER_SPACING = 24;
 
-const FEATURED_CARD_IMAGE_WIDTH = responsiveWidth(80) - GUTTER_SPACING * 2;
-const FEATURED_CARD_IMAGE_HEIGHT = ratioCalculator(
+export const FEATURED_CARD_IMAGE_WIDTH =
+  responsiveWidth(80) - GUTTER_SPACING * 2;
+export const FEATURED_CARD_IMAGE_HEIGHT = ratioCalculator(
   8,
   11,
   FEATURED_CARD_IMAGE_WIDTH

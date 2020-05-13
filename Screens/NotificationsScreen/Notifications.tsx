@@ -17,7 +17,10 @@ import { PreTripHomeTabsType } from "../../NavigatorsV2/PreTripHomeTabs";
 import useSavedItinerariesApi from "./hooks/useSavedItinerariesApi";
 import { ICityWithNights } from "../../TypeInterfaces/IBookedItinerary";
 import useDeepCompareEffect from "use-deep-compare-effect";
-import SavedItineraryCard from "../../CommonComponents/SavedItineraryCard/SavedItineraryCard";
+import SavedItineraryCard, {
+  SAVED_ITINERARY_IMAGE_HEIGHT,
+  SAVED_ITINERARY_IMAGE_WIDTH
+} from "../../CommonComponents/SavedItineraryCard/SavedItineraryCard";
 import {
   CONSTANT_fontCustom,
   CONSTANT_primarySemiBold
@@ -168,7 +171,10 @@ const Notifications = ({ navigation, route }: NotificationsScreenProps) => {
               <SavedItineraryCard
                 isUnread={!!item.unreadMsgCount}
                 action={onNotificationClick}
-                image={getImgIXUrl({ src: item.image })}
+                image={getImgIXUrl({
+                  src: item.image,
+                  imgFactor: `h=${SAVED_ITINERARY_IMAGE_HEIGHT}&w=${SAVED_ITINERARY_IMAGE_WIDTH}&crop=fit`
+                })}
                 cities={item.citiesArr || []}
                 lastEdited={item.lastEdited}
                 title={item.title}

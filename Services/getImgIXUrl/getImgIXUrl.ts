@@ -2,8 +2,9 @@ import {
   CONSTANT_imgixTestimonialBaseUrl,
   CONSTANT_imgixBaseUrl
 } from "../../constants/serverUrls";
+import { PixelRatio } from "react-native";
 
-const getDPR = () => 1;
+const getDPR = () => PixelRatio.get();
 
 const IMGIX_BASE = CONSTANT_imgixBaseUrl;
 const IMGIX_TESTIMONIAL_BASE = CONSTANT_imgixTestimonialBaseUrl;
@@ -33,7 +34,7 @@ export default function getImgIXUrl({
   src,
   imgFactor = "",
   q = 20,
-  DPR = 1,
+  DPR = PixelRatio.get(),
   enhance = true
 }: getImgIXType): string {
   // Check if src is valid (not undefined | false ) then proceed

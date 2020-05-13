@@ -56,7 +56,10 @@ const SelectablePortraitImage = ({
     <View style={containerStyle}>
       <TouchableOpacity activeOpacity={1} onPress={selectedAction}>
         <PortraitImage
-          imageSource={getImgIXUrl({ src: imageSource })}
+          imageSource={getImgIXUrl({
+            src: imageSource,
+            imgFactor: `h=${imageHeight.height}&crop=fit`
+          })}
           containerStyle={portraitImageContainerStyle}
           portraitImageStyle={[
             styles.imageStyle,

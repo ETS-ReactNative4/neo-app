@@ -44,14 +44,14 @@ interface ParallaxScrollViewProps {
   titleNumberOfLines?: number;
 }
 
-const BANNER_WIDTH = responsiveWidth(100);
-const BANNER_HEIGHT =
-  ratioCalculator(3, 2, BANNER_WIDTH) +
+export const PARALLAX_BANNER_WIDTH = responsiveWidth(100);
+export const PARALLAX_BANNER_HEIGHT =
+  ratioCalculator(3, 2, PARALLAX_BANNER_WIDTH) +
   (isIphoneX() ? CONSTANT_xNotchHeight : 0);
-const SCROLL_OFFSET = -BANNER_HEIGHT + 20;
-const SCROLL_INSET = BANNER_HEIGHT - 20;
+const SCROLL_OFFSET = -PARALLAX_BANNER_HEIGHT + 20;
+const SCROLL_INSET = PARALLAX_BANNER_HEIGHT - 20;
 
-export const ParallaxScrollViewBannerHeight = BANNER_HEIGHT;
+export const ParallaxScrollViewBannerHeight = PARALLAX_BANNER_HEIGHT;
 
 const {
   Value,
@@ -83,7 +83,7 @@ const ParallaxScrollView = ({
   const range =
     Platform.OS === CONSTANT_platformIos
       ? [SCROLL_OFFSET, 0]
-      : [0, BANNER_HEIGHT];
+      : [0, PARALLAX_BANNER_HEIGHT];
 
   const titlePostionY = interpolate(animatedScrollIndex, {
     inputRange: range,
@@ -96,7 +96,7 @@ const ParallaxScrollView = ({
       Platform.OS === CONSTANT_platformIos ? SCROLL_OFFSET : 0,
       Platform.OS === CONSTANT_platformIos
         ? SCROLL_OFFSET / 2
-        : BANNER_HEIGHT / 2
+        : PARALLAX_BANNER_HEIGHT / 2
     ],
     outputRange: [1, 0],
     extrapolate: Extrapolate.CLAMP
@@ -110,7 +110,7 @@ const ParallaxScrollView = ({
 
   const bannerHeight = interpolate(animatedScrollIndex, {
     inputRange: range,
-    outputRange: [BANNER_HEIGHT, 84],
+    outputRange: [PARALLAX_BANNER_HEIGHT, 84],
     extrapolateLeft: Extrapolate.EXTEND,
     extrapolateRight: Extrapolate.CLAMP
   });
@@ -223,7 +223,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     left: 0,
     right: 0,
-    height: BANNER_HEIGHT
+    height: PARALLAX_BANNER_HEIGHT
   },
   bannerImageStyle: {
     flex: 1,
@@ -290,7 +290,7 @@ const styles = StyleSheet.create({
     backgroundColor: CONSTANT_white,
     ...Platform.select({
       android: {
-        marginTop: BANNER_HEIGHT
+        marginTop: PARALLAX_BANNER_HEIGHT
       },
       ios: {
         /**

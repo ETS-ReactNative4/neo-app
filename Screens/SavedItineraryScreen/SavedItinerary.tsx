@@ -8,7 +8,10 @@ import PrimaryHeader from "../../NavigatorsV2/Components/PrimaryHeader";
 import useSavedItinerariesApi from "../NotificationsScreen/hooks/useSavedItinerariesApi";
 import { useFocusEffect } from "@react-navigation/native";
 import getImgIXUrl from "../../Services/getImgIXUrl/getImgIXUrl";
-import SavedItineraryCard from "../../CommonComponents/SavedItineraryCard/SavedItineraryCard";
+import SavedItineraryCard, {
+  SAVED_ITINERARY_IMAGE_HEIGHT,
+  SAVED_ITINERARY_IMAGE_WIDTH
+} from "../../CommonComponents/SavedItineraryCard/SavedItineraryCard";
 import XSensorPlaceholder from "../../CommonComponents/XSensorPlaceholder/XSensorPlaceholder";
 import CustomScrollView from "../../CommonComponents/CustomScrollView/CustomScrollView";
 import useIsUserLoggedIn from "../../Services/isUserLoggedIn/hooks/useIsUserLoggedIn";
@@ -63,7 +66,10 @@ const SavedItinerary = ({ navigation }: SavedItineraryProps) => {
             key={itineraryIndex}
             isUnread={false}
             action={onNotificationClick}
-            image={getImgIXUrl({ src: itinerary.image })}
+            image={getImgIXUrl({
+              src: itinerary.image,
+              imgFactor: `h=${SAVED_ITINERARY_IMAGE_HEIGHT}&w=${SAVED_ITINERARY_IMAGE_WIDTH}&crop=fit`
+            })}
             cities={itinerary.citiesArr || []}
             lastEdited={itinerary.lastEdited}
             title={itinerary.title}

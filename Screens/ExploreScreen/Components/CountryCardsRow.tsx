@@ -7,7 +7,10 @@ import {
 } from "react-native-responsive-dimensions";
 import HorizontalCardsRow from "./HorizontalCardsRow";
 import { ICountriesSection, IExploreFeedLinks } from "../ExploreFeedType";
-import FeaturedCardTypeOne from "../../../CommonComponents/FeaturedCard/FeaturedCardTypeOne";
+import FeaturedCardTypeOne, {
+  FEATURED_CARD_IMAGE_WIDTH,
+  FEATURED_CARD_IMAGE_HEIGHT
+} from "../../../CommonComponents/FeaturedCard/FeaturedCardTypeOne";
 import getPriceWithoutSymbol from "../services/getPriceWithoutSymbol";
 import deepLink from "../../../Services/deepLink/deepLink";
 import ExploreCardLodingIndicator from "./ExploreCardLodingIndicator";
@@ -105,7 +108,13 @@ const CountryCardsRow = (props: ICountriesSection) => {
               return (
                 <FeaturedCardTypeOne
                   key={countryIndex}
-                  image={{ uri: getImgIXUrl({ src: country.imageUrl }) }}
+                  image={{
+                    uri: getImgIXUrl({
+                      src: country.imageUrl,
+                      DPR: 1,
+                      imgFactor: `h=${FEATURED_CARD_IMAGE_HEIGHT}&w=${FEATURED_CARD_IMAGE_WIDTH}&crop=fit`
+                    })
+                  }}
                   price={getPriceWithoutSymbol(country.startingPrice)}
                   action={action}
                   containerStyle={styles.featuredCardTypeOneWrapper}

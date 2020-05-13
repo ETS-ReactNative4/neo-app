@@ -7,7 +7,10 @@ import {
 
 import HorizontalCardsRow from "./HorizontalCardsRow";
 import { IPromotedSection } from "../ExploreFeedType";
-import PromoCard from "../../../CommonComponents/PromoCard/PromoCard";
+import PromoCard, {
+  PROMO_CARD_IMAGE_HEIGHT,
+  PROMO_CARD_IMAGE_WIDTH
+} from "../../../CommonComponents/PromoCard/PromoCard";
 import getPriceWithoutSymbol from "../services/getPriceWithoutSymbol";
 import deepLink from "../../../Services/deepLink/deepLink";
 import getImgIXUrl from "../../../Services/getImgIXUrl/getImgIXUrl";
@@ -41,7 +44,12 @@ const PromotedCardsRow = (props: IPromotedSection) => {
                 <PromoCard
                   key={promoIndex}
                   action={action}
-                  image={{ uri: getImgIXUrl({ src: promo.imageUrl }) }}
+                  image={{
+                    uri: getImgIXUrl({
+                      src: promo.imageUrl,
+                      imgFactor: `h=${PROMO_CARD_IMAGE_HEIGHT}&w=${PROMO_CARD_IMAGE_WIDTH}&crop=fit`
+                    })
+                  }}
                   price={getPriceWithoutSymbol(promo.cost)}
                   text={promo.text}
                   containerStyle={styles.promoCardWrapper}

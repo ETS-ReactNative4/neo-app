@@ -42,8 +42,8 @@ interface TestimonialCardProps {
 const TESTIMONIAL_CARD_WIDTH = responsiveWidth(100) - 48;
 const TESTIMONIAL_CARD_HEIGHT = ratioCalculator(40, 23, TESTIMONIAL_CARD_WIDTH);
 
-const TESTIMONIAL_USER_IMAGE_WIDTH = responsiveWidth(33);
-const TESTIMONIAL_USER_IMAGE_HEIGHT = ratioCalculator(
+export const TESTIMONIAL_USER_IMAGE_WIDTH = responsiveWidth(33);
+export const TESTIMONIAL_USER_IMAGE_HEIGHT = ratioCalculator(
   24,
   25,
   TESTIMONIAL_USER_IMAGE_WIDTH

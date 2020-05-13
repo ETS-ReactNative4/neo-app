@@ -21,8 +21,12 @@ interface PromoCarousalImageProps {
   action: () => any;
 }
 
-const CAROUSEL_IMAGE_WIDTH = responsiveWidth(91);
-const CAROUSEL_IMAGE_HEIGHT = ratioCalculator(41, 25, CAROUSEL_IMAGE_WIDTH);
+export const CAROUSEL_IMAGE_WIDTH = responsiveWidth(91);
+export const CAROUSEL_IMAGE_HEIGHT = ratioCalculator(
+  41,
+  25,
+  CAROUSEL_IMAGE_WIDTH
+);
 
 const PromoCarousalImage = ({
   containerStyle,

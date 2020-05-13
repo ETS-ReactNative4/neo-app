@@ -10,10 +10,15 @@ import {
   CONSTANT_white,
   CONSTANT_firstColor
 } from "../../constants/colorPallete";
-import { responsiveHeight } from "react-native-responsive-dimensions";
+import {
+  responsiveHeight,
+  responsiveWidth
+} from "react-native-responsive-dimensions";
 import ItineraryCard from "../../CommonComponents/ItineraryCard/ItineraryCard";
 import ParallaxScrollView, {
-  ParallaxScrollViewBannerHeight
+  ParallaxScrollViewBannerHeight,
+  PARALLAX_BANNER_HEIGHT,
+  PARALLAX_BANNER_WIDTH
 } from "../../CommonComponents/ParallaxScrollView/ParallaxScrollView";
 import TranslucentStatusBar from "../../CommonComponents/TranslucentStatusBar/TranslucentStatusBar";
 import {
@@ -159,7 +164,10 @@ const ListingPage = ({ navigation, route }: ListingPageProps) => {
     <View style={styles.listingPageContainer}>
       <TranslucentStatusBar />
       <ParallaxScrollView
-        bannerImage={getImgIXUrl({ src: mobileImage })}
+        bannerImage={getImgIXUrl({
+          src: mobileImage,
+          imgFactor: `h=${PARALLAX_BANNER_HEIGHT}&w=${PARALLAX_BANNER_WIDTH}&crop=fit`
+        })}
         smallText={bannerText}
         titleText={name}
         backAction={goBack}
@@ -187,7 +195,12 @@ const ListingPage = ({ navigation, route }: ListingPageProps) => {
             return (
               <Fragment key={itineraryIndex}>
                 <ItineraryCard
-                  images={[getImgIXUrl({ src: itinerary.image })]}
+                  images={[
+                    getImgIXUrl({
+                      src: itinerary.image,
+                      imgFactor: `h=100&w=${responsiveWidth(100)}&crop=fit`
+                    })
+                  ]}
                   tripType={itinerary.tripType}
                   action={() => {
                     // @ts-ignore

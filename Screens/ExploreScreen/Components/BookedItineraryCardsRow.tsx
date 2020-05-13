@@ -1,9 +1,6 @@
 import React from "react";
 import { StyleSheet } from "react-native";
-import {
-  responsiveWidth
-  // @ts-ignore
-} from "react-native-responsive-dimensions";
+import { responsiveWidth } from "react-native-responsive-dimensions";
 import { IBookedItinerarySection } from "../ExploreFeedType";
 import HorizontalCardsRow from "./HorizontalCardsRow";
 import ItineraryCard from "../../../CommonComponents/ItineraryCard/ItineraryCard";
@@ -46,7 +43,12 @@ const BookedItineraryCardsRow = (props: IBookedItinerarySection) => {
                     key={cardIndex}
                     tripType={card.type}
                     itineraryCost={card.cost}
-                    images={[getImgIXUrl({ src: card.image })]}
+                    images={[
+                      getImgIXUrl({
+                        src: card.image,
+                        imgFactor: `h=100&w=${responsiveWidth(100)}&crop=fit`
+                      })
+                    ]}
                     cities={card.cities}
                     action={action}
                     inclusionList={[]}

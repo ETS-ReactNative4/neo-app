@@ -40,6 +40,9 @@ interface SavedItineraryCardProps {
   moreOptionsAction?: () => any;
 }
 
+export const SAVED_ITINERARY_IMAGE_HEIGHT = 70;
+export const SAVED_ITINERARY_IMAGE_WIDTH = 70;
+
 const SavedItineraryCard = ({
   containerStyle,
   image = "",
@@ -117,8 +120,8 @@ const styles = StyleSheet.create({
     backgroundColor: CONSTANT_eighteenthColor
   },
   savedItineraryImage: {
-    width: 70,
-    height: 70,
+    width: SAVED_ITINERARY_IMAGE_WIDTH,
+    height: SAVED_ITINERARY_IMAGE_HEIGHT,
     borderRadius: 50
   },
   rightColumn: {

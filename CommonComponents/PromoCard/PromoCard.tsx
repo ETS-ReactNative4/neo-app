@@ -43,8 +43,12 @@ interface TestimonialCardProps {
   promoCardImageStyle?: StyleProp<ImageStyle>;
 }
 
-const PROMO_CARD_IMAGE_WIDTH = responsiveWidth(60);
-const PROMO_CARD_IMAGE_HEIGHT = ratioCalculator(1, 1, PROMO_CARD_IMAGE_WIDTH);
+export const PROMO_CARD_IMAGE_WIDTH = responsiveWidth(60);
+export const PROMO_CARD_IMAGE_HEIGHT = ratioCalculator(
+  1,
+  1,
+  PROMO_CARD_IMAGE_WIDTH
+);
 
 const PromoCard = ({
   containerStyle,
