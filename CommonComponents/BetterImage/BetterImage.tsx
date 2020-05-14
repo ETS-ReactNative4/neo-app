@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useCallback, useState } from "react";
+import React, { useRef, useCallback, useState } from "react";
 import {
   View,
   Image,
@@ -12,6 +12,7 @@ import {
   ImageErrorEventData
 } from "react-native";
 import { CONSTANT_defaultPlaceImage } from "../../constants/imageAssets";
+import useDeepCompareEffect from "use-deep-compare-effect";
 
 export interface BetterImageProps extends ImageProps {
   containerStyle?: StyleProp<ViewStyle>;
@@ -68,7 +69,7 @@ const BetterImage = ({
     onError && onError(event);
   };
 
-  useEffect(
+  useDeepCompareEffect(
     useCallback(() => {
       imageOpacity.setValue(0);
       thumbnailOpacity.setValue(0);
