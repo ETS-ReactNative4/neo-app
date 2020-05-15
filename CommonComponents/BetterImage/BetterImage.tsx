@@ -1,7 +1,8 @@
-import React, { useRef, useCallback, useState } from "react";
+import React, { useRef, useCallback, useState, ReactNode } from "react";
 import {
   View,
   Image,
+  ImageBackground,
   Animated,
   StyleSheet,
   ImageProps,
@@ -21,11 +22,13 @@ export interface BetterImageProps extends ImageProps {
   thumbnailSource?: ImageSourcePropType;
   thumbnailBlurRadius?: number;
   fallbackSource?: ImageSourcePropType;
+  children?: ReactNode;
 }
 
 const { Value, createAnimatedComponent, timing } = Animated;
 
 const AnimatedImage = createAnimatedComponent(Image);
+const AnimatedImageBackground = createAnimatedComponent(ImageBackground);
 
 const BetterImage = ({
   containerStyle,
@@ -40,6 +43,7 @@ const BetterImage = ({
   style,
   fallbackSource = { uri: CONSTANT_defaultPlaceImage },
   onError,
+  children,
   ...otherProps
 }: BetterImageProps) => {
   const imageOpacity = useRef(new Value(0)).current;
@@ -79,6 +83,8 @@ const BetterImage = ({
     [source, thumbnailSource]
   );
 
+  const ImageComponent = children ? AnimatedImageBackground : AnimatedImage;
+
   return (
     <View style={[styles.imageContainerStyle, containerStyle]}>
       {thumbnailSource ? (
@@ -91,7 +97,8 @@ const BetterImage = ({
           resizeMode={resizeMode}
         />
       ) : null}
-      <AnimatedImage
+      <ImageComponent
+        children={children}
         resizeMethod={resizeMethod}
         resizeMode={resizeMode}
         onLoadEnd={onImageLoad}
