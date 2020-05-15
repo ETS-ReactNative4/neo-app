@@ -62,14 +62,14 @@ const PackageItineraryCardsRow = (props: IPackageItinerarySection) => {
                     images={[
                       getImgIXUrl({
                         src: card.image,
-                        imgFactor: `h=100&w=${responsiveWidth(100)}&crop=fit`
+                        imgFactor: `h=200&w=${responsiveWidth(100)}&crop=fit`
                       })
                     ]}
                     thumbnailImages={[
                       getImgIXUrl({
                         src: card.image,
                         DPR: 0.02,
-                        imgFactor: `h=100&w=${responsiveWidth(100)}&crop=fit`
+                        imgFactor: `h=200&w=${responsiveWidth(100)}&crop=fit`
                       })
                     ]}
                     cities={card.cityHotelStay}

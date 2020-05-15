@@ -199,13 +199,13 @@ const ListingPage = ({ navigation, route }: ListingPageProps) => {
                     getImgIXUrl({
                       DPR: 0.02,
                       src: itinerary.image,
-                      imgFactor: `h=100&w=${responsiveWidth(100)}&crop=fit`
+                      imgFactor: `h=200&w=${responsiveWidth(100)}&crop=fit`
                     })
                   ]}
                   images={[
                     getImgIXUrl({
                       src: itinerary.image,
-                      imgFactor: `h=100&w=${responsiveWidth(100)}&crop=fit`
+                      imgFactor: `h=200&w=${responsiveWidth(100)}&crop=fit`
                     })
                   ]}
                   tripType={itinerary.tripType}
