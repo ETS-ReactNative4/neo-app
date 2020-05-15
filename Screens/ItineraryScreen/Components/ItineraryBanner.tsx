@@ -15,7 +15,6 @@ import {
   CONSTANT_white,
   CONSTANT_shade1
 } from "../../../constants/colorPallete";
-import SmartImageV2 from "../../../CommonComponents/SmartImage/SmartImageV2";
 import Icon from "../../../CommonComponents/Icon/Icon";
 import {
   CONSTANT_fontCustom,
@@ -26,6 +25,8 @@ import { CONSTANT_arrowRight } from "../../../constants/imageAssets";
 import { isIphoneX } from "react-native-iphone-x-helper";
 import { CONSTANT_xNotchHeight } from "../../../constants/styles";
 import LinearGradient from "react-native-linear-gradient";
+import BetterImage from "../../../CommonComponents/BetterImage/BetterImage";
+import getImgIXUrl from "../../../Services/getImgIXUrl/getImgIXUrl";
 
 interface ItineraryProps {
   containerStyle?: ViewStyle;
@@ -61,11 +62,23 @@ const ItineraryBanner = ({
 
   return (
     <View style={[styles.bannerContainer, containerStyle]}>
-      <SmartImageV2
-        source={{ uri: bannerImage }}
+      <BetterImage
+        thumbnailSource={{
+          uri: getImgIXUrl({
+            src: bannerImage,
+            DPR: 0.02,
+            imgFactor: `h=${HEADER_CONTAINER_HEIGHT}&w=${HEADER_CONTAINER_WIDTH}&crop=fit`
+          })
+        }}
+        source={{
+          uri: getImgIXUrl({
+            src: bannerImage,
+            imgFactor: `h=${HEADER_CONTAINER_HEIGHT}&w=${HEADER_CONTAINER_WIDTH}&crop=fit`
+          })
+        }}
         fallbackSource={{ uri: "" }}
         resizeMode={"cover"}
-        style={styles.bannerImageStyle}
+        containerStyle={styles.bannerImageStyle}
       >
         <LinearGradient {...gradientOptions} style={styles.gradientView}>
           <TouchableOpacity
@@ -106,7 +119,7 @@ const ItineraryBanner = ({
             ) : null}
           </View>
         </LinearGradient>
-      </SmartImageV2>
+      </BetterImage>
     </View>
   );
 };
