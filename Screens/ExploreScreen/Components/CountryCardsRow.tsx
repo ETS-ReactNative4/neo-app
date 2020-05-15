@@ -1,10 +1,7 @@
 import React from "react";
 import { StyleSheet } from "react-native";
 
-import {
-  responsiveWidth
-  // @ts-ignore
-} from "react-native-responsive-dimensions";
+import { responsiveWidth } from "react-native-responsive-dimensions";
 import HorizontalCardsRow from "./HorizontalCardsRow";
 import { ICountriesSection, IExploreFeedLinks } from "../ExploreFeedType";
 import FeaturedCardTypeOne, {
@@ -111,7 +108,13 @@ const CountryCardsRow = (props: ICountriesSection) => {
                   image={{
                     uri: getImgIXUrl({
                       src: country.imageUrl,
-                      DPR: 1,
+                      imgFactor: `h=${FEATURED_CARD_IMAGE_HEIGHT}&w=${FEATURED_CARD_IMAGE_WIDTH}&crop=fit`
+                    })
+                  }}
+                  thumbnail={{
+                    uri: getImgIXUrl({
+                      src: country.imageUrl,
+                      DPR: 0.02,
                       imgFactor: `h=${FEATURED_CARD_IMAGE_HEIGHT}&w=${FEATURED_CARD_IMAGE_WIDTH}&crop=fit`
                     })
                   }}

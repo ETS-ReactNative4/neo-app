@@ -9,12 +9,7 @@ import {
   ImageSourcePropType,
   ImageStyle
 } from "react-native";
-import {
-  responsiveWidth
-  // @ts-ignore
-} from "react-native-responsive-dimensions";
-
-import SmartImageV2 from "../SmartImage/SmartImageV2";
+import { responsiveWidth } from "react-native-responsive-dimensions";
 import {
   CONSTANT_shade3,
   CONSTANT_black1,
@@ -32,11 +27,13 @@ import {
   CONSTANT_defaultPlaceImage
 } from "../../constants/imageAssets";
 import ratioCalculator from "../../Services/ratioCalculator/ratioCalculator";
+import BetterImage from "../BetterImage/BetterImage";
 
 interface TestimonialCardProps {
   containerStyle?: StyleProp<ViewStyle>;
   image: ImageSourcePropType;
   fallbackImage?: ImageSourcePropType;
+  thumbnail: ImageSourcePropType;
   text: string;
   price: string;
   action: () => any;
@@ -53,6 +50,7 @@ export const PROMO_CARD_IMAGE_HEIGHT = ratioCalculator(
 const PromoCard = ({
   containerStyle,
   image = { uri: "" },
+  thumbnail = { uri: "" },
   fallbackImage = { uri: CONSTANT_defaultPlaceImage },
   text = "",
   price = "",
@@ -65,11 +63,12 @@ const PromoCard = ({
       onPress={action}
       style={[styles.promoCardContainer, containerStyle]}
     >
-      <SmartImageV2
+      <BetterImage
         resizeMode={"cover"}
         source={image}
+        thumbnailSource={thumbnail}
         fallbackSource={fallbackImage}
-        style={[styles.imageStyle, promoCardImageStyle]}
+        containerStyle={[styles.imageStyle, promoCardImageStyle]}
       />
 
       <View style={styles.contentContainer}>

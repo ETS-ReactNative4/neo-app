@@ -17,6 +17,11 @@ const HeroBannerRow = (props: IHeroBannerSection) => {
             src: item.imageUrl,
             imgFactor: `h=${CAROUSEL_IMAGE_HEIGHT}&w=${CAROUSEL_IMAGE_WIDTH}&crop=fit`
           }),
+          thumbnail: getImgIXUrl({
+            src: item.imageUrl,
+            DPR: 0.02,
+            imgFactor: `h=${CAROUSEL_IMAGE_HEIGHT}&w=${CAROUSEL_IMAGE_WIDTH}&crop=fit`
+          }),
           action: () =>
             deepLink({
               link: item.deepLinking?.link,

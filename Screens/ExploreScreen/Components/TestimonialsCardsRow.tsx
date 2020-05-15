@@ -46,6 +46,13 @@ const TestimonialsCardsRow = (props: ITestimonialsSection) => {
                       key={testimonialIndex}
                       action={action}
                       date={testimonial.dateOfDeparture}
+                      thumbnail={{
+                        uri: getImgIXUrl({
+                          src: testimonial.profileImage,
+                          DPR: 0.02,
+                          imgFactor: `h=${TESTIMONIAL_USER_IMAGE_HEIGHT}&w=${TESTIMONIAL_USER_IMAGE_WIDTH}&crop=fit`
+                        })
+                      }}
                       image={{
                         uri: getImgIXUrl({
                           src: testimonial.profileImage,

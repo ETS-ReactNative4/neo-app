@@ -20,16 +20,17 @@ import {
   CONSTANT_primarySemiBold,
   CONSTANT_primaryRegular
 } from "../../constants/fonts";
-import SmartImageV2 from "../SmartImage/SmartImageV2";
 import ratioCalculator from "../../Services/ratioCalculator/ratioCalculator";
 import { CONSTANT_defaultPlaceImage } from "../../constants/imageAssets";
 import { CONSTANT_shortCommonDateFormat } from "../../constants/styles";
 import moment from "moment";
 import LinearGradient from "react-native-linear-gradient";
+import BetterImage from "../BetterImage/BetterImage";
 
 interface TestimonialCardProps {
   containerStyle?: StyleProp<ViewStyle>;
   image: ImageSourcePropType;
+  thumbnail: ImageSourcePropType;
   fallbackImage?: ImageSourcePropType;
   reviewText: string;
   name: string;
@@ -52,6 +53,7 @@ export const TESTIMONIAL_USER_IMAGE_HEIGHT = ratioCalculator(
 const TestimonialCard = ({
   containerStyle,
   image = { uri: "" },
+  thumbnail = { uri: "" },
   fallbackImage = { uri: CONSTANT_defaultPlaceImage },
   reviewText = "",
   name = "",
@@ -76,11 +78,12 @@ const TestimonialCard = ({
       onPress={action}
       style={[styles.testimonialCard, containerStyle]}
     >
-      <SmartImageV2
+      <BetterImage
+        thumbnailSource={thumbnail}
         resizeMode={"cover"}
         source={image}
         fallbackSource={fallbackImage}
-        style={styles.imageStyle}
+        containerStyle={styles.imageStyle}
       />
       <LinearGradient style={styles.imageStyle} {...gradientOptions} />
       <View style={styles.reviewContent}>

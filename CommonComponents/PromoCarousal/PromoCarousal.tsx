@@ -1,10 +1,7 @@
 import React, { useRef } from "react";
 import { StyleSheet, View, ScrollView, ViewStyle } from "react-native";
 import Animated from "react-native-reanimated";
-import {
-  responsiveWidth
-  // @ts-ignore
-} from "react-native-responsive-dimensions";
+import { responsiveWidth } from "react-native-responsive-dimensions";
 
 import { CONSTANT_shade2 } from "../../constants/colorPallete";
 import PromoCarousalImage from "./Components/PromoCarousalImage";
@@ -23,6 +20,7 @@ const AnimatedView = createAnimatedComponent(View);
 
 export interface ICarouselImage {
   url: string;
+  thumbnail: string;
   action: () => any;
 }
 
@@ -58,6 +56,9 @@ const PromoCarousal = ({ containerStyle, images = [] }: PromoCarousalProps) => {
               key={index}
               image={{
                 uri: imageData.url
+              }}
+              thumbnail={{
+                uri: imageData.thumbnail
               }}
               action={imageData.action}
               fallbackImage={{

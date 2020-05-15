@@ -1,9 +1,6 @@
 import React from "react";
 import { StyleSheet } from "react-native";
-import {
-  responsiveWidth
-  // @ts-ignore
-} from "react-native-responsive-dimensions";
+import { responsiveWidth } from "react-native-responsive-dimensions";
 
 import HorizontalCardsRow from "./HorizontalCardsRow";
 import { IPromotedSection } from "../ExploreFeedType";
@@ -44,6 +41,13 @@ const PromotedCardsRow = (props: IPromotedSection) => {
                 <PromoCard
                   key={promoIndex}
                   action={action}
+                  thumbnail={{
+                    uri: getImgIXUrl({
+                      src: promo.imageUrl,
+                      DPR: 0.02,
+                      imgFactor: `h=${PROMO_CARD_IMAGE_HEIGHT}&w=${PROMO_CARD_IMAGE_WIDTH}&crop=fit`
+                    })
+                  }}
                   image={{
                     uri: getImgIXUrl({
                       src: promo.imageUrl,

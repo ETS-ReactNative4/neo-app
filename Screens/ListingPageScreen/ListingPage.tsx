@@ -195,6 +195,13 @@ const ListingPage = ({ navigation, route }: ListingPageProps) => {
             return (
               <Fragment key={itineraryIndex}>
                 <ItineraryCard
+                  thumbnailImages={[
+                    getImgIXUrl({
+                      DPR: 0.02,
+                      src: itinerary.image,
+                      imgFactor: `h=100&w=${responsiveWidth(100)}&crop=fit`
+                    })
+                  ]}
                   images={[
                     getImgIXUrl({
                       src: itinerary.image,

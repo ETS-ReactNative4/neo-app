@@ -60,6 +60,11 @@ const SelectablePortraitImage = ({
             src: imageSource,
             imgFactor: `h=${imageHeight.height}&crop=fit`
           })}
+          thumbnailSource={getImgIXUrl({
+            src: imageSource,
+            DPR: 0.02,
+            imgFactor: `h=${imageHeight.height}&crop=fit`
+          })}
           containerStyle={portraitImageContainerStyle}
           portraitImageStyle={[
             styles.imageStyle,

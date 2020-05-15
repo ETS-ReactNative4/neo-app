@@ -171,6 +171,11 @@ const Notifications = ({ navigation, route }: NotificationsScreenProps) => {
               <SavedItineraryCard
                 isUnread={!!item.unreadMsgCount}
                 action={onNotificationClick}
+                thumbnail={getImgIXUrl({
+                  src: item.image,
+                  DPR: 0.02,
+                  imgFactor: `h=${SAVED_ITINERARY_IMAGE_HEIGHT}&w=${SAVED_ITINERARY_IMAGE_WIDTH}&crop=fit`
+                })}
                 image={getImgIXUrl({
                   src: item.image,
                   imgFactor: `h=${SAVED_ITINERARY_IMAGE_HEIGHT}&w=${SAVED_ITINERARY_IMAGE_WIDTH}&crop=fit`

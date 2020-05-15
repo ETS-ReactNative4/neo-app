@@ -8,10 +8,7 @@ import {
   TouchableOpacity,
   ImageStyle
 } from "react-native";
-import {
-  responsiveWidth
-  // @ts-ignore
-} from "react-native-responsive-dimensions";
+import { responsiveWidth } from "react-native-responsive-dimensions";
 import SmartImageV2 from "../SmartImage/SmartImageV2";
 import Icon from "../Icon/Icon";
 import { CONSTANT_white1 } from "../../constants/colorPallete";
@@ -25,10 +22,12 @@ import {
   CONSTANT_primarySemiBold
 } from "../../constants/fonts";
 import ratioCalculator from "../../Services/ratioCalculator/ratioCalculator";
+import BetterImage from "../BetterImage/BetterImage";
 
 interface FeaturedCardTypeOneProps {
   containerStyle?: StyleProp<ImageStyle>;
   image: ImageSourcePropType;
+  thumbnail: ImageSourcePropType;
   fallbackImage?: ImageSourcePropType;
   blurRadius?: number;
   action: () => any;
@@ -49,6 +48,7 @@ export const FEATURED_CARD_IMAGE_HEIGHT = ratioCalculator(
 const FeaturedCardTypeOne = ({
   containerStyle,
   image = { uri: "" },
+  thumbnail = { uri: "" },
   fallbackImage = { uri: CONSTANT_defaultPlaceImage },
   blurRadius = 50,
   action = () => null,
@@ -57,7 +57,7 @@ const FeaturedCardTypeOne = ({
   return (
     <TouchableOpacity activeOpacity={0.8} onPress={action}>
       <SmartImageV2
-        source={image}
+        source={thumbnail}
         fallbackSource={fallbackImage}
         resizeMode="cover"
         style={[styles.bgImageStyle, containerStyle]}
@@ -65,11 +65,12 @@ const FeaturedCardTypeOne = ({
         imageStyle={styles.imageStyle}
       >
         <View style={styles.innerCard}>
-          <SmartImageV2
+          <BetterImage
             source={image}
+            thumbnailSource={thumbnail}
             fallbackSource={fallbackImage}
             resizeMode="cover"
-            style={styles.fgImageStyle}
+            containerStyle={styles.fgImageStyle}
           />
 
           <View style={styles.contentStyle}>

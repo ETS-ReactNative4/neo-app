@@ -66,6 +66,11 @@ const SavedItinerary = ({ navigation }: SavedItineraryProps) => {
             key={itineraryIndex}
             isUnread={false}
             action={onNotificationClick}
+            thumbnail={getImgIXUrl({
+              src: itinerary.image,
+              DPR: 0.02,
+              imgFactor: `h=${SAVED_ITINERARY_IMAGE_HEIGHT}&w=${SAVED_ITINERARY_IMAGE_WIDTH}&crop=fit`
+            })}
             image={getImgIXUrl({
               src: itinerary.image,
               imgFactor: `h=${SAVED_ITINERARY_IMAGE_HEIGHT}&w=${SAVED_ITINERARY_IMAGE_WIDTH}&crop=fit`

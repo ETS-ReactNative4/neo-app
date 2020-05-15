@@ -43,6 +43,13 @@ const BookedItineraryCardsRow = (props: IBookedItinerarySection) => {
                     key={cardIndex}
                     tripType={card.type}
                     itineraryCost={card.cost}
+                    thumbnailImages={[
+                      getImgIXUrl({
+                        src: card.image,
+                        DPR: 0.02,
+                        imgFactor: `h=100&w=${responsiveWidth(100)}&crop=fit`
+                      })
+                    ]}
                     images={[
                       getImgIXUrl({
                         src: card.image,

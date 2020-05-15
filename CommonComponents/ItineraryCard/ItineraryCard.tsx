@@ -1,8 +1,5 @@
 import React from "react";
-import {
-  responsiveWidth
-  // @ts-ignore
-} from "react-native-responsive-dimensions";
+import { responsiveWidth } from "react-native-responsive-dimensions";
 import {
   StyleSheet,
   View,
@@ -36,6 +33,7 @@ export interface ItineraryCardProps {
   containerStyle?: ViewStyle;
   imageStyle?: StyleProp<ImageStyle>;
   images: string[];
+  thumbnailImages: string[];
   tripType: string;
   action: () => any;
   title: string;
@@ -47,6 +45,7 @@ export interface ItineraryCardProps {
 const ItineraryCard = ({
   containerStyle,
   imageStyle,
+  thumbnailImages = [],
   images = [],
   tripType = "",
   title = "",
@@ -62,6 +61,7 @@ const ItineraryCard = ({
       style={[styles.itineraryCardContainer, containerStyle]}
     >
       <ItineraryCardImage
+        thumbnailImages={thumbnailImages}
         images={images}
         tripType={tripType}
         imageStyle={[styles.itineraryImageStyle, imageStyle]}

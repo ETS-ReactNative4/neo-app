@@ -1,11 +1,6 @@
 import React from "react";
 import { StyleSheet, View, ImageStyle, StyleProp, Text } from "react-native";
-import {
-  responsiveWidth
-  // @ts-ignore
-} from "react-native-responsive-dimensions";
-
-import SmartImageV2 from "../../SmartImage/SmartImageV2";
+import { responsiveWidth } from "react-native-responsive-dimensions";
 import {
   CONSTANT_shade6,
   CONSTANT_black1,
@@ -16,15 +11,18 @@ import {
   CONSTANT_primaryRegular
 } from "../../../constants/fonts";
 import { CONSTANT_defaultPlaceImage } from "../../../constants/imageAssets";
+import BetterImage from "../../BetterImage/BetterImage";
 
 interface ItineraryCardImageProps {
   images: string[];
+  thumbnailImages: string[];
   imageStyle?: StyleProp<ImageStyle>;
   tripType: string;
 }
 
 const ItineraryCardImage = ({
   images = [],
+  thumbnailImages = [],
   tripType = "",
   imageStyle
 }: ItineraryCardImageProps) => {
@@ -35,7 +33,10 @@ const ItineraryCardImage = ({
           <Text style={styles.tripTypeTextStyle}>{tripType}</Text>
         </View>
       ) : null}
-      <SmartImageV2
+      <BetterImage
+        thumbnailSource={{
+          uri: thumbnailImages[0]
+        }}
         source={{
           uri: images[0]
         }}
@@ -43,7 +44,7 @@ const ItineraryCardImage = ({
           uri: CONSTANT_defaultPlaceImage
         }}
         resizeMode="cover"
-        style={[styles.itineraryImage, imageStyle]}
+        containerStyle={[styles.itineraryImage, imageStyle]}
       />
     </View>
   );
