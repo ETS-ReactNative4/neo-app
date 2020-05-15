@@ -88,7 +88,8 @@ const BetterImage = ({
   return (
     <View style={[styles.imageContainerStyle, containerStyle]}>
       {thumbnailSource ? (
-        <AnimatedImage
+        <ImageComponent
+          children={children}
           onLoadEnd={onThumbnailLoad}
           style={[styles.thumbnailImageStyle, { opacity: thumbnailOpacity }]}
           source={thumbnailSource}
