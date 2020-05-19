@@ -2,6 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>branch_key</key>
+	<string>key_test_lnKT43OTMIxyAq34Me59RobeBzhDeILB</string>
+	<key>branch_app_domain</key>
+	<string>pytdelta.test-app.link</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
@@ -56,7 +60,7 @@
 	<string>This will let you take photos using your camera and send it to Pickyourtrail.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Your current location is needed to find places around you</string>
-  <key>NSLocationAlwaysUsageDescription</key>
+	<key>NSLocationAlwaysUsageDescription</key>
 	<string>Your current location is needed to find places around you</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>This will let you record audio for your videos using your camera and send it to Pickyourtrail.</string>

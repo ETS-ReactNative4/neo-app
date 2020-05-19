@@ -5,6 +5,9 @@ import com.facebook.react.ReactActivity;
 import android.content.Intent;
 import com.zoontek.rnbootsplash.RNBootSplash;
 
+import io.branch.rnbranch.*;
+import android.content.Intent;
+
 /**
  * Imports for react navigation gesture handler
  */
@@ -34,6 +37,13 @@ public class MainActivity extends ReactActivity {
         return new RNGestureHandlerEnabledRootView(MainActivity.this);
         }
       };
+    }
+
+    // Method created for React Native Branch integration
+    @Override
+    protected void onStart() {
+      super.onStart();
+      RNBranchModule.initSession(getIntent().getData(), this);
     }
 
     /**

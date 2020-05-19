@@ -8595,6 +8595,11 @@ react-native-bootsplash@^1.0.0:
   resolved "https://registry.yarnpkg.com/react-native-bootsplash/-/react-native-bootsplash-1.0.3.tgz#c0fbf46ba333b7bba880a430f4449aad0c04953a"
   integrity sha512-YQ1sBlx+m5p41f0RPAbZ8v3i1YpbCylUbjLXeXWpi2mwmG5FE3NN6IO+GN1MTZWiqD7CtuucCp/dYBxmdL5Y2g==
 
+react-native-branch@4.4.0:
+  version "4.4.0"
+  resolved "https://registry.yarnpkg.com/react-native-branch/-/react-native-branch-4.4.0.tgz#841a741e00f86904e685a31da84e1b46e57a1d1f"
+  integrity sha512-PwflqzN7cY8DHJZ0Jp8dwoLJXZhBnoeCf+HM6Grbx2Vj9f3ObQAYnYFpBCOXsw19TxCU/DDLWpOY7tC8B3AnxA==
+
 react-native-card-stack-swiper@^1.1.0:
   version "1.1.8"
   resolved "https://registry.yarnpkg.com/react-native-card-stack-swiper/-/react-native-card-stack-swiper-1.1.8.tgz#9ab89b24195b44db8e624da5322c381c6f2d8db9"

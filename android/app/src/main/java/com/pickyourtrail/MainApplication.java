@@ -28,6 +28,7 @@ import io.invertase.firebase.perf.RNFirebasePerformancePackage;
 import com.wix.interactable.Interactable;
 
 import androidx.multidex.MultiDexApplication;
+import io.branch.rnbranch.RNBranchModule;
 
 public class MainApplication extends MultiDexApplication implements ReactApplication {
 
@@ -64,6 +65,7 @@ public class MainApplication extends MultiDexApplication implements ReactApplica
   @Override
   public void onCreate() {
     super.onCreate();
+    RNBranchModule.getAutoInstance(this);
     WebEngageConfig webEngageConfig = new WebEngageConfig.Builder()
       .setWebEngageKey("~47b65848")
       .setDebugMode(false) // true - only in development mode
