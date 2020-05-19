@@ -54,7 +54,7 @@ export const getProdTypeFromItinerarySource = (
 
     default:
       // @ts-ignore
-      return "";
+      return source;
   }
 };
 
