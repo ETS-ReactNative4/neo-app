@@ -3,6 +3,7 @@ import enableAnalyticsInProd from "./tasks/enableAnalyticsInProd";
 import enableLayoutAnimationAndroid from "./tasks/enableLayoutAnimationAndroid";
 import { getDeviceToken } from "../fcmService/fcm";
 import isUserLoggedIn from "../isUserLoggedIn/isUserLoggedIn";
+import enableDeepLinking from "./tasks/enableDeepLinking";
 
 /**
  * When the App Launches there's a bunch of things that needs to happen,
@@ -14,6 +15,8 @@ const appStartupTasks = () => {
   enableLayoutAnimationAndroid();
 
   enableAnalyticsInProd();
+
+  enableDeepLinking();
 
   createGuestSession()
     .then(result => {
