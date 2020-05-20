@@ -11,14 +11,15 @@ export interface IBranchSubscribeParams {
 
 const enableDeepLinking = () => {
   branch.subscribe(({ error, params, uri }: IBranchSubscribeParams) => {
-    if (uri) {
-      if (error) {
-        logError(error, {
-          type: "Unable to Deeplink with Branch"
-        });
-        return;
-      }
+    if (error) {
+      logError(error, {
+        type: "Unable to Deeplink with Branch"
+      });
+      return;
+    }
 
+    // User clicked a branch deep link
+    if (uri) {
       try {
         const meta = params.$custom_meta_tags
           ? JSON.parse(params.$custom_meta_tags)
