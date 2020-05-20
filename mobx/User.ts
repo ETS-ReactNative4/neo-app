@@ -93,6 +93,14 @@ class User {
         .then((response: IUserDisplayDataNetworkResponse) => {
           if (response.status === CONSTANT_responseSuccessStatus) {
             this._userDisplayDetails = response.data;
+            const { mobileNumber, name, email } = response.data;
+            setUserDetails({
+              id: mobileNumber,
+              name,
+              email,
+              phoneNumber: mobileNumber
+            });
+            setUserContext({ email, id: mobileNumber, name });
             resolve(true);
           } else {
             resolve(false);
@@ -114,14 +122,6 @@ class User {
         if (response.status === "SUCCESS") {
           this._hasError = false;
           this._user = response.data;
-          const { mob_num, name, email } = response.data;
-          setUserDetails({
-            id: mob_num,
-            name,
-            email,
-            phoneNumber: mob_num
-          });
-          setUserContext({ email, id: mob_num, name });
         } else {
           this._hasError = true;
         }
