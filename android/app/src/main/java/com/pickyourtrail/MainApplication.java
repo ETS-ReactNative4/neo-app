@@ -67,7 +67,7 @@ public class MainApplication extends MultiDexApplication implements ReactApplica
     super.onCreate();
     RNBranchModule.getAutoInstance(this);
     WebEngageConfig webEngageConfig = new WebEngageConfig.Builder()
-      .setWebEngageKey("~47b65848")
+      .setWebEngageKey("~2024b387")
       .setDebugMode(false) // true - only in development mode
       .build();
     registerActivityLifecycleCallbacks(new WebEngageActivityLifeCycleCallbacks(this, webEngageConfig));

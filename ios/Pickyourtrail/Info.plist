@@ -97,7 +97,7 @@
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 	<key>WEGLicenseCode</key>
-	<string>~47b65848</string>
+	<string>~2024b387</string>
 	<!-- Forcing light mode to prevent date picker from disappearing -->
 	<!-- https://github.com/react-native-community/datetimepicker/issues/71#issuecomment-597478282 -->
 	<key>UIUserInterfaceStyle</key>
