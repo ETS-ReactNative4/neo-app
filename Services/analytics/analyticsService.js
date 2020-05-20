@@ -137,7 +137,9 @@ export const setUserDetails = async ({ id, name, email, phoneNumber }) => {
       firebaseAnalytics().setUserProperties({ name, email, phoneNumber });
       return true;
     } catch (error) {
-      logError("Failed to set WebEngage user details", { error });
+      logError(error, {
+        type: "Failed to record user in analytics"
+      });
       return false;
     }
   });

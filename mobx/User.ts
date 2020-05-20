@@ -33,8 +33,13 @@ export interface IUserDisplayDetails {
   dateOfBirth?: string;
 }
 
+export interface IUserLoginStatus {
+  blocked: boolean;
+  loggedIn: false;
+}
+
 export interface IUserDisplayDataNetworkResponse extends IMobileServerResponse {
-  data: IUserDisplayDetails;
+  data: IUserDisplayDetails | IUserLoginStatus;
 }
 
 class User {
@@ -93,14 +98,16 @@ class User {
         .then((response: IUserDisplayDataNetworkResponse) => {
           if (response.status === CONSTANT_responseSuccessStatus) {
             this._userDisplayDetails = response.data;
-            const { mobileNumber, name, email } = response.data;
-            setUserDetails({
-              id: mobileNumber,
-              name,
-              email,
-              phoneNumber: mobileNumber
-            });
-            setUserContext({ email, id: mobileNumber, name });
+            if (response.data.loggedIn !== false) {
+              const { mobileNumber, name, email } = response.data;
+              setUserDetails({
+                id: mobileNumber,
+                name,
+                email,
+                phoneNumber: mobileNumber
+              });
+              setUserContext({ email, id: mobileNumber, name });
+            }
             resolve(true);
           } else {
             resolve(false);
