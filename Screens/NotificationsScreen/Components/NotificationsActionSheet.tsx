@@ -113,7 +113,7 @@ const NotificationsActionSheet = ({
               color={CONSTANT_shade4}
             />
           </View>
-          <Text style={styles.textStyle}>View details</Text>
+          <Text style={styles.textStyle}>View itinerary</Text>
         </TouchableOpacity>
       </View>
     </ActionSheet>
