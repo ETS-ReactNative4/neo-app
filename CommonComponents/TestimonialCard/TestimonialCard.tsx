@@ -22,7 +22,7 @@ import {
 } from "../../constants/fonts";
 import ratioCalculator from "../../Services/ratioCalculator/ratioCalculator";
 import { CONSTANT_defaultPlaceImage } from "../../constants/imageAssets";
-import { CONSTANT_shortCommonDateFormat } from "../../constants/styles";
+import { CONSTANT_shortMonthAndYear } from "../../constants/styles";
 import moment from "moment";
 import LinearGradient from "react-native-linear-gradient";
 import BetterImage from "../BetterImage/BetterImage";
@@ -108,7 +108,7 @@ const TestimonialCard = ({
         >
           {tripType && region && date
             ? `${tripType} trip to ${region} in ${moment(date).format(
-                CONSTANT_shortCommonDateFormat
+                CONSTANT_shortMonthAndYear
               )}`
             : ""}
         </Text>

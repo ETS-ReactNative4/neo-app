@@ -79,6 +79,7 @@ export const CONSTANT_xNotchHeight = 30;
 export const CONSTANT_statusBarHeight = 20;
 export const CONSTANT_commonDateFormat = "MMM DD, ddd";
 export const CONSTANT_visaDateFormat = "MMM DD, YYYY";
+export const CONSTANT_shortMonthAndYear = "MMM YYYY";
 export const CONSTANT_shortCommonDateFormat = "MMM DD";
 export const CONSTANT_commonDateFormatReverse = "ddd, DD MMM";
 export const CONSTANT_shortTimeFormat = "hh:mm a";
