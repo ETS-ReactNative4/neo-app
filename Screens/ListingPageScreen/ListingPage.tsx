@@ -171,6 +171,7 @@ const ListingPage = ({ navigation, route }: ListingPageProps) => {
         smallText={bannerText}
         titleText={name}
         backAction={goBack}
+        enableGradient
       >
         <BlankSpacer height={20} />
         {!isLoading && filteredItineraries.length < 1 ? (

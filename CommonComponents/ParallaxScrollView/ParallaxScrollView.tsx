@@ -33,6 +33,7 @@ import {
 } from "../../constants/styles";
 import { isIphoneX } from "react-native-iphone-x-helper";
 import { BlurView } from "@react-native-community/blur";
+import LinearGradient from "react-native-linear-gradient";
 
 interface ParallaxScrollViewProps {
   containerStyle?: ViewStyle;
@@ -42,6 +43,7 @@ interface ParallaxScrollViewProps {
   smallText?: string;
   titleText?: string;
   titleNumberOfLines?: number;
+  enableGradient?: boolean;
 }
 
 export const PARALLAX_BANNER_WIDTH = responsiveWidth(100);
@@ -72,7 +74,8 @@ const ParallaxScrollView = ({
   smallText,
   titleText,
   titleNumberOfLines = 1,
-  children
+  children,
+  enableGradient = false
 }: ParallaxScrollViewProps) => {
   const blurViewRef = useRef<BlurView>(null);
 
@@ -139,6 +142,27 @@ const ParallaxScrollView = ({
     opacity: headerOpacity
   };
 
+  const gradientOptions = {
+    locations: [0.25, 0.5, 0.6, 1],
+    colors: [
+      "rgba(0,0,0,0.05)",
+      "rgba(0,0,0,0.25)",
+      "rgba(0,0,0,0.45)",
+      "rgba(0,0,0,0.65)"
+    ]
+  };
+
+  const transparentGradient = {
+    colors: ["transparent"],
+    locations: [1]
+  };
+
+  const bgImageStyle = {
+    backgroundColor: enableGradient ? "rgba(0,0,0,0.65)" : CONSTANT_shade6
+  };
+
+  const gradient = enableGradient ? gradientOptions : transparentGradient;
+
   return (
     <View style={[styles.parallaxScrollViewContainer, containerStyle]}>
       <AnimatedView
@@ -147,20 +171,22 @@ const ParallaxScrollView = ({
         <AnimatedImageBackground
           source={{ uri: bannerImage }}
           resizeMode={"cover"}
-          style={styles.bannerImageStyle}
+          style={[styles.bannerImageStyle, bgImageStyle]}
         >
-          <View>
-            <AnimatedText
-              style={[styles.titleTextStyle, titleTextStyle]}
-              numberOfLines={titleNumberOfLines}
-              ellipsizeMode={"tail"}
-            >
-              {titleText}
-            </AnimatedText>
-            <AnimatedText style={[styles.infoTextStyle, infoTextStyle]}>
-              {smallText}
-            </AnimatedText>
-          </View>
+          <LinearGradient {...gradient} style={styles.gradientView}>
+            <View>
+              <AnimatedText
+                style={[styles.titleTextStyle, titleTextStyle]}
+                numberOfLines={titleNumberOfLines}
+                ellipsizeMode={"tail"}
+              >
+                {titleText}
+              </AnimatedText>
+              <AnimatedText style={[styles.infoTextStyle, infoTextStyle]}>
+                {smallText}
+              </AnimatedText>
+            </View>
+          </LinearGradient>
         </AnimatedImageBackground>
       </AnimatedView>
 
@@ -226,8 +252,10 @@ const styles = StyleSheet.create({
     height: PARALLAX_BANNER_HEIGHT
   },
   bannerImageStyle: {
-    flex: 1,
-    backgroundColor: CONSTANT_shade6
+    flex: 1
+  },
+  gradientView: {
+    flex: 1
   },
   backArrowWrapper: {
     position: "absolute",
