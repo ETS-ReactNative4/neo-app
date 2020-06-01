@@ -2,10 +2,11 @@
 import branch from "react-native-branch";
 import { logError } from "../../errorLogger/errorLogger";
 import deepLink from "../../deepLink/deepLink";
+import { IBranchDeepLinkClickEvent } from "../../../mobx/LeadSource";
 
 export interface IBranchSubscribeParams {
   error: any;
-  params: any;
+  params: IBranchDeepLinkClickEvent;
   uri: any;
 }
 
