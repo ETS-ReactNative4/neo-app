@@ -1,6 +1,7 @@
 import {
-  observable
-  //computed, action, toJS
+  observable,
+  action
+  //computed, toJS
 } from "mobx";
 
 export interface IBranchDeepLinkClickEvent {
@@ -26,7 +27,22 @@ export interface IBranchDeepLinkClickEvent {
 
 class LeadSource {
   @observable
-  _source = [];
+  _source: any[] = [];
+
+  @action
+  logAction = (userAction: any) => {
+    this._source.push(userAction);
+  };
+
+  @action
+  clear = () => {
+    this._source = [];
+  };
+
+  @action
+  record = () => {
+    this.clear();
+  };
 }
 
 export default LeadSource;
