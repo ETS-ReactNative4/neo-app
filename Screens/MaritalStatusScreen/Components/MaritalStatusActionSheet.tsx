@@ -1,7 +1,8 @@
 import React from "react";
 import { View, StyleSheet, ScrollView } from "react-native";
 import {
-  responsiveHeight
+  responsiveHeight,
+  responsiveScreenHeight
   // @ts-ignore
 } from "react-native-responsive-dimensions";
 
@@ -28,7 +29,10 @@ const MaritalStatusActionSheet = ({
   const isCheckboxSelected = !!checkboxData.find(item => item.isSelected);
 
   return (
-    <ActionSheet interactableRef={actionSheetRef}>
+    <ActionSheet
+      panelViewablePosition={responsiveScreenHeight(10)}
+      interactableRef={actionSheetRef}
+    >
       <View style={styles.actionSheetContainer}>
         <SectionTitle
           smallTitle={"TRAVELLER(S) DETAILS"}
@@ -76,7 +80,7 @@ const styles = StyleSheet.create({
     marginBottom: 24
   },
   bodyContainerStyle: {
-    height: responsiveHeight(30)
+    height: responsiveHeight(35)
   },
   footerContainerStyle: {
     marginTop: 24
