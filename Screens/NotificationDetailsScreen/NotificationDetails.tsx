@@ -11,7 +11,10 @@ import {
   CONSTANT_white
 } from "../../constants/colorPallete";
 import ItineraryTimeline from "../NotificationsScreen/Components/ItineraryTimeline/ItineraryTimeline";
-import ParallaxScrollView from "../../CommonComponents/ParallaxScrollView/ParallaxScrollView";
+import ParallaxScrollView, {
+  PARALLAX_BANNER_HEIGHT,
+  BLUR_HEADER_HEIGHT
+} from "../../CommonComponents/ParallaxScrollView/ParallaxScrollView";
 import ItineraryDetail from "../NotificationsScreen/Components/ItineraryDetail/ItineraryDetail";
 import BlankSpacer from "../../CommonComponents/BlankSpacer/BlankSpacer";
 import {
@@ -190,6 +193,7 @@ const NotificationDetails = ({
         backAction={goBack}
         smallText={notification.lastEdited}
         titleText={notification.title}
+        enableGradient
       >
         <View style={styles.detailsContainer}>
           <ItineraryDetail
@@ -216,7 +220,13 @@ const NotificationDetails = ({
               notifData={notificationDetailsApi.successResponseData?.data || []}
             />
           ) : null}
-          <BlankSpacer height={BOTTOM_BUTTON_CONTAINER_HEIGHT + 16} />
+          <BlankSpacer
+            height={
+              BOTTOM_BUTTON_CONTAINER_HEIGHT +
+              PARALLAX_BANNER_HEIGHT -
+              BLUR_HEADER_HEIGHT
+            }
+          />
         </View>
       </ParallaxScrollView>
 

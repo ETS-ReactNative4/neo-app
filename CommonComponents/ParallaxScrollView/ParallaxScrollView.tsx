@@ -34,6 +34,7 @@ import {
 import { isIphoneX } from "react-native-iphone-x-helper";
 import { BlurView } from "@react-native-community/blur";
 import LinearGradient from "react-native-linear-gradient";
+import BlankSpacer from "../BlankSpacer/BlankSpacer";
 
 interface ParallaxScrollViewProps {
   containerStyle?: ViewStyle;
@@ -163,6 +164,8 @@ const ParallaxScrollView = ({
 
   const gradient = enableGradient ? gradientOptions : transparentGradient;
 
+  const ItineraryCover = enableGradient ? LinearGradient : View;
+
   return (
     <View style={[styles.parallaxScrollViewContainer, containerStyle]}>
       <AnimatedView
@@ -173,7 +176,7 @@ const ParallaxScrollView = ({
           resizeMode={"cover"}
           style={[styles.bannerImageStyle, bgImageStyle]}
         >
-          <LinearGradient {...gradient} style={styles.gradientView}>
+          <ItineraryCover {...gradient} style={styles.gradientView}>
             <View>
               <AnimatedText
                 style={[styles.titleTextStyle, titleTextStyle]}
@@ -186,7 +189,7 @@ const ParallaxScrollView = ({
                 {smallText}
               </AnimatedText>
             </View>
-          </LinearGradient>
+          </ItineraryCover>
         </AnimatedImageBackground>
       </AnimatedView>
 
@@ -208,6 +211,10 @@ const ParallaxScrollView = ({
         ])}
       >
         {children}
+        {/** Android uses margin to push content below banner hence additional blank spacer is needed */}
+        {Platform.OS === CONSTANT_platformAndroid ? (
+          <BlankSpacer height={PARALLAX_BANNER_HEIGHT} />
+        ) : null}
       </AnimatedScrollView>
       <AnimatedView style={[styles.parallaxHeader, parallaxHeaderStyle]}>
         {Platform.OS === CONSTANT_platformAndroid ? (
@@ -221,7 +228,13 @@ const ParallaxScrollView = ({
             style={styles.blurViewStyle}
           />
         )}
-        <Text style={styles.headerTitle}>{titleText}</Text>
+        <Text
+          numberOfLines={1}
+          ellipsizeMode={"tail"}
+          style={styles.headerTitle}
+        >
+          {titleText}
+        </Text>
       </AnimatedView>
       <TouchableOpacity
         activeOpacity={0.8}
@@ -238,7 +251,7 @@ const ParallaxScrollView = ({
   );
 };
 
-const BLUR_HEADER_HEIGHT =
+export const BLUR_HEADER_HEIGHT =
   64 + CONSTANT_statusBarHeight + (isIphoneX() ? CONSTANT_xNotchHeight : 0);
 
 const styles = StyleSheet.create({
@@ -312,7 +325,8 @@ const styles = StyleSheet.create({
   headerTitle: {
     marginBottom: 19,
     color: CONSTANT_white,
-    ...CONSTANT_fontCustom(CONSTANT_primarySemiBold, 20, 28)
+    ...CONSTANT_fontCustom(CONSTANT_primarySemiBold, 20, 28),
+    width: responsiveWidth(30)
   },
   scrollViewBodyContainer: {
     backgroundColor: CONSTANT_white,
