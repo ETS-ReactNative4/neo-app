@@ -82,18 +82,7 @@ const BudgetPreferences = ({
     navigation.goBack();
   };
 
-  const skipFlow = () => {
-    welcomeStateStore.patchWelcomeState("skippedAt", SCREEN_BUDGET_PREFERENCES);
-    navigation.navigate(SCREEN_APP_LOGIN, {
-      launchSource: "PRETRIP_WELCOME_FLOW"
-    });
-  };
-
-  const continueFlow = () => {
-    welcomeStateStore.patchWelcomeState("seenBudgetPreferences", true);
-    travelProfileStore.updateTravelProfileData({
-      tripBudget: selectedOption
-    });
+  const nextScreen = () => {
     isUserLoggedIn()
       .then(isLoggedIn => {
         if (!isLoggedIn) {
@@ -109,6 +98,19 @@ const BudgetPreferences = ({
       .catch(() => {
         navigation.dispatch(launchPretripHome({ source: "TravelProfileFlow" }));
       });
+  };
+
+  const skipFlow = () => {
+    welcomeStateStore.patchWelcomeState("skippedAt", SCREEN_BUDGET_PREFERENCES);
+    nextScreen();
+  };
+
+  const continueFlow = () => {
+    welcomeStateStore.patchWelcomeState("seenBudgetPreferences", true);
+    travelProfileStore.updateTravelProfileData({
+      tripBudget: selectedOption
+    });
+    nextScreen();
   };
 
   useEffect(() => {
