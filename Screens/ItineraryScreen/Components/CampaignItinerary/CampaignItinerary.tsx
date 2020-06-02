@@ -89,7 +89,9 @@ const CampaignItinerary = ({
     totalCost = itinerary.totalCost;
     campaignItineraryId = cmpgItineraryId;
   } else if (itineraryMeta) {
-    bannerText = itineraryMeta.title;
+    const { _selectedItinerary } = itineraryDetails;
+    bannerText =
+      itineraryMeta.title || _selectedItinerary?.itinerary?.specialTitle;
     name = itineraryMeta.regionName;
     totalCost =
       (itineraryMeta.discountedPrice
