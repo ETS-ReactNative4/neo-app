@@ -4,7 +4,8 @@ import {
   StyleSheet,
   TouchableOpacity,
   Text,
-  ScrollView
+  ScrollView,
+  Platform
 } from "react-native";
 
 import {
@@ -39,6 +40,7 @@ import TravelProfile from "../../mobx/TravelProfile";
 import matchQueryWithText from "../../Services/matchQueryWithText/matchQueryWIthText";
 import WelcomeState from "../../mobx/WelcomeState";
 import BlankSpacer from "../../CommonComponents/BlankSpacer/BlankSpacer";
+import { CONSTANT_platformIos } from "../../constants/stringConstants";
 
 const { createAnimatableComponent } = Animatable;
 
@@ -207,7 +209,11 @@ const TravelProfileCityComponent = ({
             return (
               <AnimatableView
                 key={suggestedCityIndex}
-                animation={"fadeInUp"}
+                animation={
+                  Platform.OS === CONSTANT_platformIos
+                    ? "slideInUp"
+                    : "fadeInUp"
+                }
                 delay={300 * (suggestedCityIndex + 1)}
                 style={styles.selectablePortraitImageStyle}
                 useNativeDriver={true}
@@ -309,7 +315,7 @@ const styles = StyleSheet.create({
     paddingRight: 8
   },
   selectablePortraitImageStyle: {
-    marginBottom: 16
+    marginBottom: 8
   }
 });
 
