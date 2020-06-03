@@ -26,6 +26,7 @@ import UserFlowTransition from "./UserFlowTransition";
 import SOFeedback from "./SOFeedback";
 import TravelProfile from "./TravelProfile";
 import WelcomeState from "./WelcomeState";
+import LeadSource from "./LeadSource";
 
 export const hydrate = create({
   storage: AsyncStorage,
@@ -58,7 +59,8 @@ const createStore = () => {
     userFlowTransitionStore: new UserFlowTransition(),
     soFeedbackStore: new SOFeedback(),
     travelProfileStore: new TravelProfile(),
-    welcomeStateStore: new WelcomeState()
+    welcomeStateStore: new WelcomeState(),
+    leadSourceStore: new LeadSource()
   };
 
   YourBookings.hydrator(appStore.yourBookingsStore);

@@ -3,23 +3,11 @@ import useApiCall, {
 } from "../../../Services/networkRequests/hooks/useApiCall";
 import { CONSTANT_registerNewUser } from "../../../constants/apiUrls";
 import DebouncedAlert from "../../../CommonComponents/DebouncedAlert/DebouncedAlert";
-import {
-  leadSourceProdType,
-  leadSourceDeviceType
-} from "../../RequestCallback/hooks/useRequestCallbackApi";
+import { IRequestCallbackLeadSource } from "../../RequestCallback/hooks/useRequestCallbackApi";
 import { Platform } from "react-native";
 import { CONSTANT_platformIos } from "../../../constants/stringConstants";
 
-export interface ILeadSource {
-  url?: string;
-  deviceType?: leadSourceDeviceType;
-  keyword?: string;
-  campaign?: string;
-  cpid?: string;
-  landingPage?: string;
-  lastRoute?: string;
-  prodType?: leadSourceProdType;
-}
+export interface ILeadSource extends IRequestCallbackLeadSource {}
 
 export interface IRegisterRequestBody {
   mobileNumber: string;

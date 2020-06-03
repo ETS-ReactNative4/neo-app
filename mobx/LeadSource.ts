@@ -1,8 +1,4 @@
-import {
-  observable,
-  action
-  //computed, toJS
-} from "mobx";
+import { observable, action, computed, toJS } from "mobx";
 
 export interface IBranchDeepLinkClickEvent {
   $canonical_url: string;
@@ -25,12 +21,38 @@ export interface IBranchDeepLinkClickEvent {
   "~referring_link": string;
 }
 
+export interface LeadSourceEvent {
+  type: string;
+}
+
+export interface IDeepLinkClick
+  extends IBranchDeepLinkClickEvent,
+    LeadSourceEvent {
+  type: "DeepLinkClick";
+  uri: string;
+}
+
+export type leadSourceType = IDeepLinkClick;
+
 class LeadSource {
   @observable
-  _source: any[] = [];
+  _source: leadSourceType[] = [];
+
+  @observable
+  _activeDeeplink: IDeepLinkClick | null = null;
+
+  @computed
+  get activeDeeplink() {
+    return toJS(this._activeDeeplink);
+  }
 
   @action
-  logAction = (userAction: any) => {
+  setActiveDeeplink(deeplink: IDeepLinkClick) {
+    this._activeDeeplink = deeplink;
+  }
+
+  @action
+  logAction = (userAction: leadSourceType) => {
     this._source.push(userAction);
   };
 
