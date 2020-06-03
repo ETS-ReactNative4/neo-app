@@ -58,6 +58,7 @@ class LeadSource {
 
   @action
   clear = () => {
+    this._activeDeeplink = null;
     this._source = [];
   };
 
