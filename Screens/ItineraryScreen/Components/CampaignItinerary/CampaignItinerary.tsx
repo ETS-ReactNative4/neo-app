@@ -34,6 +34,8 @@ import { CONSTANT_apiServerUrl } from "../../../../constants/serverUrls";
 import useUnbookedItinerary from "../../hooks/useUnbookedItinerary";
 import { CONSTANT_platformAndroid } from "../../../../constants/stringConstants";
 import isUserLoggedIn from "../../../../Services/isUserLoggedIn/isUserLoggedIn";
+import { inject, observer } from "mobx-react";
+import LeadSource from "../../../../mobx/LeadSource";
 
 export interface CampaignItineraryProps extends ItineraryNavType {
   itineraryDetails: ReturnType<typeof useUnbookedItinerary>;
@@ -45,6 +47,7 @@ export interface CampaignItineraryProps extends ItineraryNavType {
     config: IGCMRequestBody
   ) => any;
   updateItineraryCost: (itineraryId: string, config: IGCMRequestBody) => any;
+  leadSourceStore?: LeadSource;
 }
 
 const CampaignItinerary = ({
@@ -55,7 +58,8 @@ const CampaignItinerary = ({
   updateFocusedCity,
   updateCampaignItineraryCost,
   updateItineraryCost,
-  route
+  route,
+  leadSourceStore
 }: CampaignItineraryProps) => {
   let campaignItineraryId: string = "",
     bannerText: string = "",
@@ -131,6 +135,14 @@ const CampaignItinerary = ({
             prodType: getProdTypeFromItinerarySource(itinerarySource)
           }
         };
+        if (leadSourceStore?.activeDeeplink) {
+          gcmConfigRequest.leadSource = {
+            ...gcmConfigRequest.leadSource,
+            campaign: leadSourceStore.activeDeeplink["~campaign"],
+            url: leadSourceStore.activeDeeplink.$canonical_url,
+            lastRoute: leadSourceStore.activeDeeplink["~referring_link"]
+          };
+        }
         updateCampaignItineraryCost(campaignItineraryId, gcmConfigRequest);
       }
     };
@@ -327,4 +339,4 @@ const CampaignItinerary = ({
   );
 };
 
-export default CampaignItinerary;
+export default inject("leadSourceStore")(observer(CampaignItinerary));
