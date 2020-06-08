@@ -28,9 +28,10 @@ import useCampaignItineraryCosting from "./hooks/useCampaignItineraryCosting";
 import { IGCMRequestBody } from "../GCMScreen/hooks/useGCMForm";
 import useItineraryCosting from "./hooks/useItineraryCosting";
 import useUnbookedItinerary from "./hooks/useUnbookedItinerary";
-import { observer } from "mobx-react";
+import { observer, inject } from "mobx-react";
 import { CONSTANT_visaSuccessAnimation } from "../../constants/imageAssets";
 import { leadSourceProdType } from "../RequestCallback/hooks/useRequestCallbackApi";
+import LeadSource from "../../mobx/LeadSource";
 
 export type itinerarySourceType =
   | typeof SCREEN_EXPLORE_TAB
@@ -69,7 +70,9 @@ export interface IItineraryServerResponse extends IMobileServerResponse {
   data: IItinerary;
 }
 
-export interface ItineraryProps extends ItineraryNavType {}
+export interface ItineraryProps extends ItineraryNavType {
+  leadSourceStore: LeadSource;
+}
 
 export interface IBannerDetails {
   smallText?: string;
@@ -78,8 +81,9 @@ export interface IBannerDetails {
   mobileImage?: string;
 }
 
-const Itinerary = ({ route, navigation }: ItineraryProps) => {
+const Itinerary = ({ route, navigation, leadSourceStore }: ItineraryProps) => {
   const { slug = "", itineraryId: preDefinedItineraryId = "" } = route.params;
+  const { logAction, clearLastAction } = leadSourceStore;
 
   const [
     campaignItineraryState,
@@ -191,6 +195,18 @@ const Itinerary = ({ route, navigation }: ItineraryProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [itineraryId]);
 
+  useEffect(() => {
+    logAction({
+      type: "ViewItineraryPage",
+      slug,
+      itineraryId
+    });
+    return () => {
+      clearLastAction();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   if (!itineraryDetails?.isItineraryLoaded) {
     // Itinerary is loading
     return (
@@ -260,4 +276,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default ErrorBoundary()(observer(Itinerary));
+export default ErrorBoundary()(inject("leadSourceStore")(observer(Itinerary)));

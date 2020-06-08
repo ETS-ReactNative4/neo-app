@@ -1,4 +1,4 @@
-import React, { useMemo, useState, Fragment, useRef } from "react";
+import React, { useMemo, useState, Fragment, useRef, useEffect } from "react";
 import Modal from "react-native-modal";
 import { StyleSheet, View, TouchableOpacity, Platform } from "react-native";
 import Icon from "../../CommonComponents/Icon/Icon";
@@ -43,6 +43,8 @@ import useDeepCompareEffect from "use-deep-compare-effect";
 import getImgIXUrl from "../../Services/getImgIXUrl/getImgIXUrl";
 import EmptyListPlaceholder from "../../CommonComponents/EmptyListPlaceholder/EmptyListPlaceholder";
 import LottieView from "lottie-react-native";
+import { inject, observer } from "mobx-react";
+import LeadSource from "../../mobx/LeadSource";
 
 type screenName = typeof SCREEN_LISTING_PAGE;
 
@@ -56,9 +58,15 @@ export type ListingScreenNavigationProp = StackNavigationProp<
 export interface ListingPageProps {
   navigation: ListingScreenNavigationProp;
   route: ListingScreenRouteProp;
+  leadSourceStore: LeadSource;
 }
 
-const ListingPage = ({ navigation, route }: ListingPageProps) => {
+const ListingPage = ({
+  navigation,
+  route,
+  leadSourceStore
+}: ListingPageProps) => {
+  const { slug = "" } = route.params;
   const [packagesApiDetails, loadPackages] = usePackagesApi();
   const [openFilter, setOpenFilter] = useState<boolean>(false);
 
@@ -128,7 +136,6 @@ const ListingPage = ({ navigation, route }: ListingPageProps) => {
     .map(each => each.value);
 
   useDeepCompareEffect(() => {
-    const { slug = "" } = route.params;
     const requestBody: IPackageRequestBody = {
       key: slug,
       limit: 50
@@ -159,6 +166,19 @@ const ListingPage = ({ navigation, route }: ListingPageProps) => {
   }, [selectedInterests, selectedDurations, selectedBudgets, selectedRatings]);
 
   const { isLoading } = packagesApiDetails;
+
+  const { logAction, clearLastAction } = leadSourceStore;
+
+  useEffect(() => {
+    logAction({
+      type: "ViewListingPage",
+      slug
+    });
+    return () => {
+      clearLastAction();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <View style={styles.listingPageContainer}>
@@ -292,4 +312,6 @@ const styles = StyleSheet.create({
   }
 });
 
-export default ErrorBoundary()(ListingPage);
+export default ErrorBoundary()(
+  inject("leadSourceStore")(observer(ListingPage))
+);

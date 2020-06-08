@@ -32,7 +32,21 @@ export interface IDeepLinkClick
   uri: string;
 }
 
-export type leadSourceType = IDeepLinkClick;
+export interface IListingPageClick extends LeadSourceEvent {
+  type: "ViewListingPage";
+  slug: string;
+}
+
+export interface IItineraryPageClick extends LeadSourceEvent {
+  type: "ViewItineraryPage";
+  slug?: string;
+  itineraryId?: string;
+}
+
+export type leadSourceType =
+  | IDeepLinkClick
+  | IListingPageClick
+  | IItineraryPageClick;
 
 class LeadSource {
   @observable
@@ -46,6 +60,11 @@ class LeadSource {
     return toJS(this._activeDeeplink);
   }
 
+  @computed
+  get source() {
+    return toJS(this._source);
+  }
+
   @action
   setActiveDeeplink(deeplink: IDeepLinkClick) {
     this._activeDeeplink = deeplink;
@@ -54,6 +73,11 @@ class LeadSource {
   @action
   logAction = (userAction: leadSourceType) => {
     this._source.push(userAction);
+  };
+
+  @action
+  clearLastAction = () => {
+    this._source.pop();
   };
 
   @action
