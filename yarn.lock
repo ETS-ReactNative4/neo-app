@@ -1679,6 +1679,11 @@
   resolved "https://registry.yarnpkg.com/@react-native-community/viewpager/-/viewpager-2.0.2.tgz#622b190294b1310c4825c98daeaee1c8443f7124"
   integrity sha512-CKVhIZdX/Cmb80muog8sKpi5vM8npwFp4tx4Dj1IvTBidZweuO22+VH2rDOj7E0LzdV9IYRJ4FGBwcPBD2qUrQ==
 
+"@react-native-toolkit/triangle@0.0.1":
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/@react-native-toolkit/triangle/-/triangle-0.0.1.tgz#65e08eed05c4b01b8a8f4d7e223c04e0e169ae63"
+  integrity sha512-cU7Aj5d/UxZbz5UBsE0vKWsOtS+X9mpuA4JtPSinZckMECSSFTtwsZX8Rbl4a5NKyjACpTllPkJnzYrpi/bqyA==
+
 "@react-navigation/bottom-tabs@5.1.0":
   version "5.1.0"
   resolved "https://registry.yarnpkg.com/@react-navigation/bottom-tabs/-/bottom-tabs-5.1.0.tgz#b388e6f04bee250661772cd6361d2d023e43a180"
