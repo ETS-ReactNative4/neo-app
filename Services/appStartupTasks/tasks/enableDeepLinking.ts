@@ -20,10 +20,10 @@ const enableDeepLinking = () => {
       return;
     }
 
+    storeService.leadSourceStore.clear();
     // User clicked a branch deep link
     if (uri) {
       try {
-        storeService.leadSourceStore.clear();
         storeService.leadSourceStore.setActiveDeeplink({
           uri,
           type: "DeepLinkClick",
