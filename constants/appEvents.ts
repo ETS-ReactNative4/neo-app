@@ -555,4 +555,12 @@ export const CONSTANT_explore = {
   }
 };
 
+export const CONSTANT_itineraryCostedEvent: { event: "ItineraryCosted" } = {
+  event: "ItineraryCosted"
+};
+
+export const CONSTANT_requestCallbackEvent: { event: "RequestCallBack" } = {
+  event: "RequestCallBack"
+};
+
 export default appEvents;

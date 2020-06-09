@@ -1,4 +1,9 @@
 import { observable, action, computed, toJS } from "mobx";
+import {
+  CONSTANT_itineraryCostedEvent,
+  CONSTANT_requestCallbackEvent
+} from "../constants/appEvents";
+import { recordEvent } from "../Services/analytics/analyticsService";
 
 export interface IBranchDeepLinkClickEvent {
   $canonical_url: string;
@@ -48,6 +53,10 @@ export type leadSourceType =
   | IListingPageClick
   | IItineraryPageClick;
 
+export type ConversionEventsType =
+  | typeof CONSTANT_itineraryCostedEvent.event
+  | typeof CONSTANT_requestCallbackEvent.event;
+
 class LeadSource {
   @observable
   _source: leadSourceType[] = [];
@@ -87,7 +96,10 @@ class LeadSource {
   };
 
   @action
-  record = () => {
+  record = (event: ConversionEventsType) => {
+    recordEvent(event, {
+      actions: this.source
+    });
     this.clear();
   };
 }
