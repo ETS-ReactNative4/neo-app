@@ -1,7 +1,7 @@
 {
   "name": "pickyourtrail",
   "version": "2.0.2",
-  "build": 264,
+  "build": 265,
   "private": true,
   "scripts": {
     "pod-install": "cd ios && pod install && cd ..",
