@@ -206,17 +206,23 @@ const TravelProfileCityComponent = ({
               selectSuggestedCountry(suggestedCity.id);
             };
 
+            const Wrapper =
+              Platform.OS === CONSTANT_platformIos ? View : AnimatableView;
+
+            const wrapperProps =
+              Platform.OS === CONSTANT_platformIos
+                ? {}
+                : {
+                    animation: "fadeInUp",
+                    delay: 300 * (suggestedCityIndex + 1),
+                    useNativeDriver: true
+                  };
+
             return (
-              <AnimatableView
+              <Wrapper
                 key={suggestedCityIndex}
-                animation={
-                  Platform.OS === CONSTANT_platformIos
-                    ? "slideInUp"
-                    : "fadeInUp"
-                }
-                delay={300 * (suggestedCityIndex + 1)}
                 style={styles.selectablePortraitImageStyle}
-                useNativeDriver={true}
+                {...wrapperProps}
               >
                 <SelectablePortraitImage
                   onPress={onSelect}
@@ -225,7 +231,7 @@ const TravelProfileCityComponent = ({
                   portraitImageHeight={PORTRAIT_IMAGE_HEIGHT}
                   containerStyle={styles.selectablePortraitImageStyle}
                 />
-              </AnimatableView>
+              </Wrapper>
             );
           })}
         </MasonryView>
