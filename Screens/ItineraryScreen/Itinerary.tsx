@@ -32,6 +32,7 @@ import { observer, inject } from "mobx-react";
 import { CONSTANT_visaSuccessAnimation } from "../../constants/imageAssets";
 import { leadSourceProdType } from "../RequestCallback/hooks/useRequestCallbackApi";
 import LeadSource from "../../mobx/LeadSource";
+import { CONSTANT_itineraryCostedEvent } from "../../constants/appEvents";
 
 export type itinerarySourceType =
   | typeof SCREEN_EXPLORE_TAB
@@ -83,7 +84,7 @@ export interface IBannerDetails {
 
 const Itinerary = ({ route, navigation, leadSourceStore }: ItineraryProps) => {
   const { slug = "", itineraryId: preDefinedItineraryId = "" } = route.params;
-  const { logAction, clearLastAction } = leadSourceStore;
+  const { logAction, clearLastAction, record } = leadSourceStore;
 
   const [
     campaignItineraryState,
@@ -116,6 +117,7 @@ const Itinerary = ({ route, navigation, leadSourceStore }: ItineraryProps) => {
   ) => {
     try {
       await costCampaignItinerary(campaignItineraryId, config);
+      record(CONSTANT_itineraryCostedEvent.event);
     } catch (e) {
       toastBottom("Unable to update latest cost");
     }
@@ -127,6 +129,7 @@ const Itinerary = ({ route, navigation, leadSourceStore }: ItineraryProps) => {
   ) => {
     try {
       await callItineraryCostUpdate(selectedItineraryId, config);
+      record(CONSTANT_itineraryCostedEvent.event);
       refreshItinerary();
     } catch (e) {
       toastBottom("Unable to update latest cost");

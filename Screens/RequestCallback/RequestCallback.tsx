@@ -32,6 +32,7 @@ import validateEmail from "../../Services/validateEmail/validateEmail";
 import validateMobileNumber from "../../Services/validateMobileNumber/validateMobileNumber";
 import { CONSTANT_platformAndroid } from "../../constants/stringConstants";
 import LeadSource from "../../mobx/LeadSource";
+import { CONSTANT_requestCallbackEvent } from "../../constants/appEvents";
 
 type RequestCallbackNavType = AppNavigatorProps<typeof SCREEN_REQUEST_CALLBACK>;
 
@@ -135,6 +136,7 @@ const RequestCallback = ({
         }
         const result = await submitRequestCallback(requestBody);
         if (result) {
+          leadSourceStore.record(CONSTANT_requestCallbackEvent.event);
           toastLong(
             "Your dedicated travel expert will get in touch with you soon!"
           );
