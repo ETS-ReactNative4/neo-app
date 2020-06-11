@@ -17,6 +17,7 @@ import {
   CONSTANT_white,
   CONSTANT_firstColor
 } from "../../constants/colorPallete";
+import { CONSTANT_shortCommonDateFormat } from "../../constants/styles";
 import useDealsFilter from "./hooks/useDealsFilter";
 import useDeepCompareEffect from "use-deep-compare-effect";
 import getImgIXUrl from "../../Services/getImgIXUrl/getImgIXUrl";
@@ -40,6 +41,7 @@ import {
   SCREEN_LISTING_PAGE
 } from "../../NavigatorsV2/ScreenNames";
 import DealsFilter from "./Components/DealsFilter";
+import moment from "moment";
 
 const DealsListing = ({ navigation }: { navigation: any }) => {
   const [openFilter, setOpenFilter] = useState<boolean>(false);
@@ -187,9 +189,20 @@ const DealsListing = ({ navigation }: { navigation: any }) => {
                   isPerPerson
                   width={cardWidth}
                   offerPercent={itinerary.dealDiscountPercentage}
-                  bookingTime={"To be filled"}
+                  bookingTime={`Book by ${moment(
+                    itinerary.bookingDateRange.end,
+                    "YYYY-MM-DD"
+                  ).format(CONSTANT_shortCommonDateFormat)}`}
                   title={itinerary.title}
-                  info={"To be filled"}
+                  info={`Travel on ${moment(
+                    itinerary.availableDates[0],
+                    "YYYY-MM-DD"
+                  ).format(CONSTANT_shortCommonDateFormat)} - ${moment(
+                    itinerary.availableDates[
+                      itinerary.availableDates.length - 1
+                    ],
+                    "YYYY-MM-DD"
+                  ).format(CONSTANT_shortCommonDateFormat)}`}
                   price={getPriceWithoutSymbol(itinerary.itineraryCost)}
                   thumbnailSource={{
                     uri: getImgIXUrl({
