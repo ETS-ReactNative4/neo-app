@@ -232,13 +232,13 @@ const DealsListing = ({ navigation }: { navigation: any }) => {
                   }
                   containerStyle={styles.dealCard}
                 />
-                <BlankSpacer height={62 + 24} />
+                <BlankSpacer height={16} />
               </Fragment>
             );
           });
         }, [filteredItineraries, navigation])}
+        <BlankSpacer height={62} />
       </ParallaxScrollView>
-
       <Modal
         onBackButtonPress={closeFilterPanel}
         style={styles.modalWrapperStyle}
