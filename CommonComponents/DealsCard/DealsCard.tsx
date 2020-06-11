@@ -6,7 +6,8 @@ import {
   Text,
   TouchableOpacity,
   StyleProp,
-  ViewStyle
+  ViewStyle,
+  Platform
 } from "react-native";
 import BetterImage from "../BetterImage/BetterImage";
 import ratioCalculator from "../../Services/ratioCalculator/ratioCalculator";
@@ -270,7 +271,15 @@ const styles = StyleSheet.create({
   perPersonText: {
     ...CONSTANT_fontCustom(CONSTANT_primaryRegular, 13, 13),
     color: CONSTANT_shade1,
-    alignSelf: "flex-end"
+    alignSelf: "flex-end",
+    ...Platform.select({
+      android: {
+        paddingBottom: 3
+      },
+      ios: {
+        paddingBottom: 3
+      }
+    })
   },
   buttonStyle: {
     height: undefined,
