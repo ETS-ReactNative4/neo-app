@@ -90,7 +90,8 @@ const CampaignItinerary = ({
 
     bannerText = itinerary.specialTitle || campaignDetail.bannerText;
     name = campaignDetail.name;
-    mobileImage = campaignDetail.mobileImage;
+    mobileImage =
+      campaignDetail.mobileImage || (itinerary.dealInfo?.bannerLink?.[0] ?? "");
     totalCost = itinerary.totalCost;
     campaignItineraryId = cmpgItineraryId;
   } else if (itineraryMeta) {
