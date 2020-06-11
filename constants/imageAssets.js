@@ -354,6 +354,7 @@ export const CONSTANT_arrowRight = "arrow-right";
 export const CONSTANT_arrowDown = "arrow-down";
 export const CONSTANT_starActive = "star-active";
 export const CONSTANT_searchIcon = "search";
+export const CONSTANT_dealsIcon = "deal-nav";
 export const CONSTANT_swapVertIcon = "swap_vert";
 export const CONSTANT_speakerIcon = "speaker";
 export const CONSTANT_speakerAnimatedIcon = require("../assets/images/loaders/voice.gif");

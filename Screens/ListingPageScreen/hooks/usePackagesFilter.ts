@@ -1,5 +1,9 @@
 import { useState } from "react";
-import { IRadioGroup, ICheckBoxGroup } from "../Components/FilterActionSheet";
+import {
+  IRadioGroup,
+  ICheckBoxGroup,
+  INumericCheckBoxGroup
+} from "../Components/FilterActionSheet";
 import {
   interestsRadio,
   travelDurationCheckBox,
@@ -16,6 +20,12 @@ export interface IRadioSet {
 export interface ICheckBoxSet {
   group: ICheckBoxGroup;
   action: (val: string) => any;
+  reset: () => any;
+}
+
+export interface INumericCheckBoxSet {
+  group: INumericCheckBoxGroup;
+  action: (val: number) => any;
   reset: () => any;
 }
 

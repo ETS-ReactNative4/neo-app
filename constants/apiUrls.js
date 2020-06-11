@@ -74,6 +74,7 @@ export const CONSTANT_userProfileInfo = "userprofile/userprofileinfo";
 export const CONSTANT_userProfileData = "userprofile";
 export const CONSTANT_getCountriesList = "data/country";
 export const CONSTANT_getPackagesDetails = "packages";
+export const CONSTANT_getDeals = "packages/deals";
 export const CONSTANT_getYourTrips = "mobile/yourtrips";
 export const CONSTANT_getItineraryDetails = "mobile/itineraryDetails";
 export const CONSTANT_savedItineraryDetails = "user/saveditineraries/v2";

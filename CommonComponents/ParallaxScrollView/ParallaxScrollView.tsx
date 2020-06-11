@@ -40,7 +40,7 @@ interface ParallaxScrollViewProps {
   containerStyle?: ViewStyle;
   children?: ReactNode;
   bannerImage: string;
-  backAction: () => any;
+  backAction?: () => any;
   smallText?: string;
   titleText?: string;
   titleNumberOfLines?: number;
@@ -71,7 +71,7 @@ const AnimatedText = createAnimatedComponent(Text);
 const ParallaxScrollView = ({
   containerStyle,
   bannerImage,
-  backAction = () => {},
+  backAction,
   smallText,
   titleText,
   titleNumberOfLines = 1,
@@ -236,17 +236,19 @@ const ParallaxScrollView = ({
           {titleText}
         </Text>
       </AnimatedView>
-      <TouchableOpacity
-        activeOpacity={0.8}
-        onPress={backAction}
-        style={styles.backArrowWrapper}
-      >
-        <View style={styles.backArrowIconStyle}>
-          <Icon name={CONSTANT_arrowRight} size={14} color={CONSTANT_white} />
-        </View>
+      {backAction ? (
+        <TouchableOpacity
+          activeOpacity={0.8}
+          onPress={backAction}
+          style={styles.backArrowWrapper}
+        >
+          <View style={styles.backArrowIconStyle}>
+            <Icon name={CONSTANT_arrowRight} size={14} color={CONSTANT_white} />
+          </View>
 
-        <Text style={styles.backTextStyle}>BACK</Text>
-      </TouchableOpacity>
+          <Text style={styles.backTextStyle}>BACK</Text>
+        </TouchableOpacity>
+      ) : null}
     </View>
   );
 };

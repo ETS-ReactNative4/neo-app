@@ -65,3 +65,39 @@ export interface IPackageItinerary {
   numBookings: number;
   deepLinking: IExploreFeedLinks;
 }
+
+export interface IDealsPackageItinerary {
+  campaignItineraryId: string;
+  type: "DEAL";
+  image: string;
+  title: string;
+  destinationString: string;
+  departureCity: string;
+  departureAirport: string;
+  itineraryCost: number;
+  strikedCost: number;
+  itineraryCostWithoutFlights: number;
+  hotelStarRating: number;
+  nights: number;
+  slug: string;
+  themes: itineraryThemeType[];
+  tripType: string;
+  regionName: string;
+  regionCode: string;
+  activities: string[];
+  cityHotelStay: ICityWithNights[];
+  flightsIncluded: boolean;
+  hotelsIncluded: boolean;
+  visaIncluded: boolean;
+  visaType: string;
+  highDemand: boolean;
+  googleRating: number;
+  numBookings: number;
+  deepLinking: IExploreFeedLinks;
+  dealDiscountPercentage: number;
+  availableDates: string[];
+  bookingDateRange: {
+    start: string;
+    end: string;
+  };
+}

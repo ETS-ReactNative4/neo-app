@@ -4,7 +4,9 @@ import {
   ImageSourcePropType,
   StyleSheet,
   Text,
-  TouchableOpacity
+  TouchableOpacity,
+  StyleProp,
+  ViewStyle
 } from "react-native";
 import BetterImage from "../BetterImage/BetterImage";
 import ratioCalculator from "../../Services/ratioCalculator/ratioCalculator";
@@ -30,6 +32,7 @@ import Triangle from "@react-native-toolkit/triangle";
 export interface DealsCardProps {
   imgSource: ImageSourcePropType;
   defaultSource: ImageSourcePropType;
+  thumbnailSource: ImageSourcePropType;
   width: number;
   location: string;
   title: string;
@@ -41,6 +44,7 @@ export interface DealsCardProps {
   price: string;
   isPerPerson?: boolean;
   onClick: () => any;
+  containerStyle?: StyleProp<ViewStyle>;
 }
 
 export const OFFER_BOX_HEIGHT = 24;
@@ -51,6 +55,7 @@ export const OFFER_TOP_SPACE = 8;
 const DealsCard = ({
   imgSource,
   defaultSource,
+  thumbnailSource,
   width,
   location,
   title,
@@ -61,15 +66,21 @@ const DealsCard = ({
   strikedPrice,
   price,
   onClick,
-  isPerPerson = false
+  isPerPerson = false,
+  containerStyle
 }: DealsCardProps) => {
   const action = () => {
     onClick && onClick();
   };
 
   return (
-    <TouchableOpacity activeOpacity={0.8} onPress={action} style={{ width }}>
+    <TouchableOpacity
+      activeOpacity={0.8}
+      onPress={action}
+      style={[{ width }, containerStyle]}
+    >
       <BetterImage
+        thumbnailSource={thumbnailSource}
         source={imgSource}
         containerStyle={[
           { height: ratioCalculator(41, 21, width), width },

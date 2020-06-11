@@ -6,6 +6,8 @@ export interface ICityWithNights {
   cityName: string;
   hotelId: number;
   nights: number;
+  roomIdentifierList: string[];
+  sourceProvider: string;
 }
 
 export interface IBookedItinerary {

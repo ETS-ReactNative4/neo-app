@@ -1,34 +1,19 @@
 import React from "react";
-import {
-  ScrollView,
-  View,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  SafeAreaView
-} from "react-native";
-import { IFilters } from "../filterOptions/filterOptions";
-import {
-  responsiveHeight
-  // @ts-ignore
-} from "react-native-responsive-dimensions";
+import { ScrollView, StyleSheet, SafeAreaView } from "react-native";
+import { IFilters, INumericFilters } from "../filterOptions/filterOptions";
+import { responsiveHeight } from "react-native-responsive-dimensions";
 import BottomButtonBar from "../../../CommonComponents/BottomButtonBar/BottomButtonBar";
 import RadioBoxWrapper from "./RadioBoxWrapper";
 import CheckBoxWrapper from "./CheckBoxWrapper";
 import BlankSpacer from "../../../CommonComponents/BlankSpacer/BlankSpacer";
-import { CONSTANT_closeIcon } from "../../../constants/imageAssets";
-import {
-  CONSTANT_black1,
-  CONSTANT_white,
-  CONSTANT_shade5
-} from "../../../constants/colorPallete";
-import Icon from "../../../CommonComponents/Icon/Icon";
-import {
-  CONSTANT_fontCustom,
-  CONSTANT_primarySemiBold
-} from "../../../constants/fonts";
+import { CONSTANT_white } from "../../../constants/colorPallete";
+import FilterModalHeader from "./FilterModalHeader";
 
 export interface ICheckBoxGroup extends IFilters {
+  type: "Checkbox";
+}
+
+export interface INumericCheckBoxGroup extends INumericFilters {
   type: "Checkbox";
 }
 
@@ -67,18 +52,7 @@ const FilterActionSheet = ({
 }: IFilterActionSheetProps) => {
   return (
     <SafeAreaView style={styles.filterActionSheetContainer}>
-      <View style={[styles.headerContainerStyle]}>
-        <TouchableOpacity
-          style={styles.closeIconStyle}
-          activeOpacity={0.8}
-          onPress={closeFilter}
-        >
-          <Icon name={CONSTANT_closeIcon} size={24} color={CONSTANT_black1} />
-        </TouchableOpacity>
-
-        <Text style={styles.headerTextStyle}>Filters</Text>
-      </View>
-
+      <FilterModalHeader title={"Filters"} closeAction={closeFilter} />
       <ScrollView style={styles.scrollContainer}>
         <BlankSpacer height={24} />
         <RadioBoxWrapper options={interests} action={selectInterest} />
@@ -114,28 +88,6 @@ const styles = StyleSheet.create({
   filterActionSheetContainer: {
     flex: 1,
     backgroundColor: CONSTANT_white
-  },
-  headerContainerStyle: {
-    backgroundColor: CONSTANT_white,
-    height: 56,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    borderBottomWidth: 1,
-    borderBottomColor: CONSTANT_shade5
-  },
-  closeIconStyle: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    alignItems: "center",
-    justifyContent: "center",
-    width: 56,
-    height: 56
-  },
-  headerTextStyle: {
-    color: CONSTANT_black1,
-    ...CONSTANT_fontCustom(CONSTANT_primarySemiBold, 18, 24)
   },
   scrollContainer: {
     height: responsiveHeight(100),

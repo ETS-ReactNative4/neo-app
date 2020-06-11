@@ -3,7 +3,8 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import {
   SCREEN_EXPLORE_TAB,
   SCREEN_SEARCH_TAB,
-  SCREEN_NOTIFICATION_TAB
+  SCREEN_NOTIFICATION_TAB,
+  SCREEN_DEALS_TAB
 } from "./ScreenNames";
 import Explore, {
   ExploreScreenSourcesType
@@ -13,9 +14,11 @@ import Search from "../Screens/SearchScreen/Search";
 import {
   CONSTANT_compassIcon,
   CONSTANT_searchIcon,
-  CONSTANT_notificationBellIcon
+  CONSTANT_notificationBellIcon,
+  CONSTANT_dealsIcon
 } from "../constants/imageAssets";
 import Notifications from "../Screens/NotificationsScreen/Notifications";
+import DealsListing from "../Screens/DealsListingScreen/DealsListing";
 
 export interface IExplorePageScreenData {
   source?: ExploreScreenSourcesType;
@@ -25,6 +28,7 @@ export type PreTripHomeTabsType = {
   [SCREEN_EXPLORE_TAB]: IExplorePageScreenData;
   [SCREEN_SEARCH_TAB]: undefined;
   [SCREEN_NOTIFICATION_TAB]: undefined;
+  [SCREEN_DEALS_TAB]: undefined;
 };
 
 const Tab = createBottomTabNavigator<PreTripHomeTabsType>();
@@ -57,6 +61,15 @@ const PreTripHomeTabs = () => {
         }}
         name={SCREEN_SEARCH_TAB}
         component={Search}
+      />
+      <Tab.Screen
+        options={{
+          tabBarLabel: "Deals",
+          icon: CONSTANT_dealsIcon,
+          ...tabBarColorConfig
+        }}
+        name={SCREEN_DEALS_TAB}
+        component={DealsListing}
       />
       <Tab.Screen
         options={{
