@@ -207,7 +207,8 @@ const styles = StyleSheet.create({
     ...CONSTANT_fontCustom(CONSTANT_primaryRegular, 16, 18),
     color: CONSTANT_black1,
     marginTop: 8,
-    marginHorizontal: 16
+    marginHorizontal: 16,
+    height: 40
   },
   infoText: {
     ...CONSTANT_fontCustom(CONSTANT_primarySemiBold, 14, 14),
