@@ -55,21 +55,21 @@ const PreTripHomeTabs = () => {
       />
       <Tab.Screen
         options={{
-          tabBarLabel: "Search",
-          icon: CONSTANT_searchIcon,
-          ...tabBarColorConfig
-        }}
-        name={SCREEN_SEARCH_TAB}
-        component={Search}
-      />
-      <Tab.Screen
-        options={{
           tabBarLabel: "Deals",
           icon: CONSTANT_dealsIcon,
           ...tabBarColorConfig
         }}
         name={SCREEN_DEALS_TAB}
         component={DealsListing}
+      />
+      <Tab.Screen
+        options={{
+          tabBarLabel: "Search",
+          icon: CONSTANT_searchIcon,
+          ...tabBarColorConfig
+        }}
+        name={SCREEN_SEARCH_TAB}
+        component={Search}
       />
       <Tab.Screen
         options={{

@@ -548,6 +548,7 @@ export const CONSTANT_explore = {
     pocketFriendlyDestinationsView: "pocket_friendly_destinations_view",
     dealsFromOurPartnersCard: "deals_from_our_partners_card",
     onGoingHolidaysView: "on_going_holidays_view",
+    dealsItineraryView: "deals_itinerary_view",
     travellerTestimonialscard: "traveller_testimonials_card",
     visaOnArrivalView: "visa_on_arrival_view",
     forTheLoveBirds: "for_the_love_birds_card",

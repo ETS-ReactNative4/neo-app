@@ -42,6 +42,12 @@ export interface IBookedItinerarySection
   type: "BOOKED_ITINERARY_CARDS";
 }
 
+export interface IDealsCardSection
+  extends ILoadCardRequest,
+    IExploreSectionTitle {
+  type: "DEALS_CARDS";
+}
+
 export interface IPackageItinerarySection
   extends ILoadCardRequest,
     IExploreSectionTitle {
@@ -94,6 +100,7 @@ export type ExploreFeedItemType =
   | ICountriesSection
   | IPromotedSection
   | IBlogSection
-  | ITestimonialsSection;
+  | ITestimonialsSection
+  | IDealsCardSection;
 
 export type ExploreFeedType = ExploreFeedItemType[];

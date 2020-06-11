@@ -7,7 +7,7 @@ import { IDealsPackageItinerary } from "../../../TypeInterfaces/IPackageItinerar
 import { ICampaignDetails } from "../../../TypeInterfaces/ICampaignDetails";
 
 export interface IDealsListingRequestBody {
-  key: "deal/staycation";
+  key: "deals/best-staycation";
   category: "staycation";
   budget?: string[];
   months?: number[];
@@ -22,12 +22,14 @@ export interface IDealsListingRequest {
   abortController: any;
 }
 
+export interface IDealsListingApiResponse {
+  campaignDetails: ICampaignDetails;
+  filteredItineraries: IDealsPackageItinerary[];
+}
+
 export interface IDealsListingResponseData {
   status: "SUCCESS";
-  data: {
-    campaignDetails: ICampaignDetails;
-    filteredItineraries: IDealsPackageItinerary[];
-  };
+  data: IDealsListingApiResponse;
 }
 
 export interface IDealsListingApiCallHookData extends IApiCallHookData {

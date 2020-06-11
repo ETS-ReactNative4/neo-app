@@ -17,7 +17,7 @@ import {
   CONSTANT_primarySemiBold
 } from "../../constants/fonts";
 import {
-  CONSTANT_secondColor,
+  CONSTANT_shade5,
   CONSTANT_black1,
   CONSTANT_shade1,
   CONSTANT_shade3,
@@ -178,11 +178,12 @@ const DealsCard = ({
 const styles = StyleSheet.create({
   imageContainer: {
     borderTopRightRadius: 8,
-    borderTopLeftRadius: 8
+    borderTopLeftRadius: 8,
+    backgroundColor: CONSTANT_shade5
   },
   locationText: {
     ...CONSTANT_fontCustom(CONSTANT_primarySemiBold, 14, 14),
-    color: CONSTANT_secondColor,
+    color: "rgba(204, 161, 41, 1)",
     textTransform: "uppercase",
     marginHorizontal: 16,
     marginTop: 8
@@ -206,7 +207,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 16
   },
   bookingTimeText: {
-    ...CONSTANT_fontCustom(CONSTANT_primaryRegular, 16, 16),
+    ...CONSTANT_fontCustom(CONSTANT_primarySemiBold, 14, 14),
     color: CONSTANT_seventeenthColor,
     marginTop: 8,
     marginHorizontal: 16,
@@ -222,9 +223,10 @@ const styles = StyleSheet.create({
   },
   leftSection: {
     flex: 1,
-    alignItems: "center",
+    alignItems: "flex-start",
     justifyContent: "center",
-    marginVertical: 16
+    marginVertical: 16,
+    paddingLeft: 16
   },
   offerRow: {
     flexDirection: "row",
@@ -245,7 +247,15 @@ const styles = StyleSheet.create({
     ...CONSTANT_fontCustom(CONSTANT_primarySemiBold, 13, 13),
     color: CONSTANT_white,
     textAlign: "center",
-    textAlignVertical: "center"
+    textAlignVertical: "center",
+    ...Platform.select({
+      ios: {
+        marginTop: 1
+      },
+      android: {
+        marginBottom: -2
+      }
+    })
   },
   strikedText: {
     ...CONSTANT_fontCustom(CONSTANT_primarySemiBold, 14, 14),

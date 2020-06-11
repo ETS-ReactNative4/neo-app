@@ -104,7 +104,7 @@ const DealsListing = ({ navigation }: { navigation: any }) => {
 
   useDeepCompareEffect(() => {
     const requestBody: IDealsListingRequestBody = {
-      key: "deal/staycation",
+      key: "deals/best-staycation",
       category: "staycation"
     };
 
