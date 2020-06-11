@@ -387,6 +387,7 @@ export const CONSTANT_profileIcon = "Profile";
 export const CONSTANT_flagIcon = "flag-outline";
 export const CONSTANT_linkIcon = "link";
 export const CONSTANT_listIcon = "list";
+export const CONSTANT_filterIcon = "filter";
 export const CONSTANT_textIcon = "text";
 export const CONSTANT_directionsIcon = "directions";
 export const CONSTANT_weatherGraphInactive = require("../assets/images/weatherPlaceholders/weather-graph-disabled.png");

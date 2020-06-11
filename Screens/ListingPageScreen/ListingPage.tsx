@@ -3,7 +3,7 @@ import Modal from "react-native-modal";
 import { StyleSheet, View, TouchableOpacity, Platform } from "react-native";
 import Icon from "../../CommonComponents/Icon/Icon";
 import {
-  CONSTANT_listIcon,
+  CONSTANT_filterIcon,
   CONSTANT_visaSuccessAnimation
 } from "../../constants/imageAssets";
 import {
@@ -260,7 +260,7 @@ const ListingPage = ({
         onPress={openFilterPanel}
         style={styles.filterIcon}
       >
-        <Icon name={CONSTANT_listIcon} size={20} color={CONSTANT_white} />
+        <Icon name={CONSTANT_filterIcon} size={20} color={CONSTANT_white} />
       </TouchableOpacity>
 
       <Modal

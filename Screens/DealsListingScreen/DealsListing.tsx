@@ -9,7 +9,7 @@ import useDealsListingApi, {
 import { TouchableOpacity } from "react-native-gesture-handler";
 import Icon from "../../CommonComponents/Icon/Icon";
 import {
-  CONSTANT_listIcon,
+  CONSTANT_filterIcon,
   CONSTANT_visaSuccessAnimation,
   CONSTANT_defaultPlaceImage
 } from "../../constants/imageAssets";
@@ -268,7 +268,7 @@ const DealsListing = ({ navigation }: { navigation: any }) => {
           onPress={openFilterPanel}
           style={styles.filterIcon}
         >
-          <Icon name={CONSTANT_listIcon} size={20} color={CONSTANT_white} />
+          <Icon name={CONSTANT_filterIcon} size={20} color={CONSTANT_white} />
         </TouchableOpacity>
       </View>
     </View>
