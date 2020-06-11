@@ -36,6 +36,7 @@ import { CONSTANT_platformAndroid } from "../../../../constants/stringConstants"
 import isUserLoggedIn from "../../../../Services/isUserLoggedIn/isUserLoggedIn";
 import { inject, observer } from "mobx-react";
 import LeadSource from "../../../../mobx/LeadSource";
+import { ICampaignDetails } from "../../../../TypeInterfaces/ICampaignDetails";
 
 export interface CampaignItineraryProps extends ItineraryNavType {
   itineraryDetails: ReturnType<typeof useUnbookedItinerary>;
@@ -81,7 +82,7 @@ const CampaignItinerary = ({
 
   if (isCampaignItinerary) {
     const {
-      campaignDetail,
+      campaignDetail = {} as ICampaignDetails,
       campaignItinerary,
       campaignItineraryId: cmpgItineraryId
     } = campaignItineraryState as ICampaignItinerary;

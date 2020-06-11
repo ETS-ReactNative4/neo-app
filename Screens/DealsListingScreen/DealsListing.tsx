@@ -184,6 +184,7 @@ const DealsListing = ({ navigation }: { navigation: any }) => {
             return (
               <Fragment key={itineraryIndex}>
                 <DealsCard
+                  isPerPerson
                   width={cardWidth}
                   offerPercent={itinerary.dealDiscountPercentage}
                   bookingTime={"To be filled"}
