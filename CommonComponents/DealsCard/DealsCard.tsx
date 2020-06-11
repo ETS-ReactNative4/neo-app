@@ -29,6 +29,8 @@ import {
 import PrimaryButton from "../PrimaryButton/PrimaryButton";
 // @ts-ignore
 import Triangle from "@react-native-toolkit/triangle";
+// @ts-ignore
+import Dash from "react-native-dash";
 
 export interface DealsCardProps {
   imgSource: ImageSourcePropType;
@@ -110,6 +112,11 @@ const DealsCard = ({
         >
           {bookingTime}
         </Text>
+        <Dash
+          style={[styles.dashContainer, { width: width - 16 }]}
+          dashColor={CONSTANT_shade3}
+          dashThickness={1}
+        />
       </View>
       <View style={styles.priceView}>
         <View style={styles.leftSection}>
@@ -189,7 +196,9 @@ const styles = StyleSheet.create({
     marginTop: 8
   },
   infoView: {
-    borderWidth: 1,
+    borderTopWidth: 1,
+    borderLeftWidth: 1,
+    borderRightWidth: 1,
     borderColor: CONSTANT_shade3,
     borderBottomRightRadius: 8,
     borderBottomLeftRadius: 8
@@ -213,6 +222,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 16,
     marginBottom: 12
   },
+  dashContainer: { height: StyleSheet.hairlineWidth, alignSelf: "center" },
   priceView: {
     flexDirection: "row",
     borderLeftWidth: 1,

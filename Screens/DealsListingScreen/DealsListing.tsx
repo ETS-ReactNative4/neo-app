@@ -105,7 +105,8 @@ const DealsListing = ({ navigation }: { navigation: any }) => {
   useDeepCompareEffect(() => {
     const requestBody: IDealsListingRequestBody = {
       key: "deals/best-staycation",
-      category: "staycation"
+      category: "staycation",
+      limit: 50
     };
 
     if (selectedDiscounts.length) {
