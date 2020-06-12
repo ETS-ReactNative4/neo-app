@@ -36,14 +36,11 @@ import LottieView from "lottie-react-native";
 import getPriceWithoutSymbol from "../ExploreScreen/services/getPriceWithoutSymbol";
 import DealsCard from "../../CommonComponents/DealsCard/DealsCard";
 import ratioCalculator from "../../Services/ratioCalculator/ratioCalculator";
-import {
-  SCREEN_ITINERARY,
-  SCREEN_LISTING_PAGE
-} from "../../NavigatorsV2/ScreenNames";
 import DealsFilter from "./Components/DealsFilter";
 import moment from "moment";
+import deepLink from "../../Services/deepLink/deepLink";
 
-const DealsListing = ({ navigation }: { navigation: any }) => {
+const DealsListing = () => {
   const [openFilter, setOpenFilter] = useState<boolean>(false);
   const abortFetchRef = useRef<any>(null);
   const [dealsListingApiDetails, loadDealsListing] = useDealsListingApi();
@@ -114,7 +111,7 @@ const DealsListing = ({ navigation }: { navigation: any }) => {
     }
 
     if (selectedPrice.length) {
-      requestBody.budget = selectedPrice;
+      requestBody.budgets = selectedPrice;
     }
 
     if (selectedMonth.length) {
@@ -220,12 +217,7 @@ const DealsListing = ({ navigation }: { navigation: any }) => {
                   }}
                   location={itinerary.destinationString}
                   defaultSource={{ uri: CONSTANT_defaultPlaceImage }}
-                  onClick={() =>
-                    navigation.navigate(SCREEN_ITINERARY, {
-                      slug: itinerary.slug,
-                      itinerarySource: SCREEN_LISTING_PAGE
-                    })
-                  }
+                  onClick={() => deepLink(itinerary.deepLinking)}
                   strikedPrice={
                     itinerary.strikedCost
                       ? `₹ ${getPriceWithoutSymbol(itinerary.strikedCost)}`
@@ -237,7 +229,7 @@ const DealsListing = ({ navigation }: { navigation: any }) => {
               </Fragment>
             );
           });
-        }, [filteredItineraries, navigation])}
+        }, [filteredItineraries])}
         <BlankSpacer height={62} />
       </ParallaxScrollView>
       <Modal

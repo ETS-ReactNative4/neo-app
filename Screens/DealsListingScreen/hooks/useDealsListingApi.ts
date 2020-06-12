@@ -9,7 +9,7 @@ import { ICampaignDetails } from "../../../TypeInterfaces/ICampaignDetails";
 export interface IDealsListingRequestBody {
   key: "deals/best-staycation";
   category: "staycation";
-  budget?: string[];
+  budgets?: string[];
   months?: number[];
   limit?: number;
   discount?: string[];
