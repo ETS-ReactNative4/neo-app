@@ -47,7 +47,7 @@ const usePackagesFilter = (): IPackagesFilter => {
       if (item.value === interestValue) {
         return {
           ...item,
-          isSelected: !item.isSelected
+          isSelected: item.isSelected ? item.isSelected : !item.isSelected
         };
       }
       return {

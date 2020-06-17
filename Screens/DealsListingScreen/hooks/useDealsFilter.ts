@@ -36,7 +36,7 @@ const useDealsFilter = (): IDealsPackagesFilter => {
       if (item.value === sortValue) {
         return {
           ...item,
-          isSelected: !item.isSelected
+          isSelected: item.isSelected ? item.isSelected : !item.isSelected
         };
       }
       return {
@@ -66,7 +66,7 @@ const useDealsFilter = (): IDealsPackagesFilter => {
       if (item.value === sortByValue) {
         return {
           ...item,
-          isSelected: !item.isSelected
+          isSelected: item.isSelected ? item.isSelected : !item.isSelected
         };
       }
       return {
