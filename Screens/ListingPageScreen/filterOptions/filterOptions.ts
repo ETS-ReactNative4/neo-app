@@ -322,3 +322,44 @@ export const fieldToBeSorted: IFilters = {
     }
   ]
 };
+
+export const indianCities: IFilters = {
+  title: "Departure City",
+  options: [
+    {
+      text: "Chennai",
+      value: "chennai",
+      isSelected: false
+    },
+    {
+      text: "Delhi",
+      value: "delhi",
+      isSelected: false
+    },
+    {
+      text: "Bangalore",
+      value: "bangalore",
+      isSelected: false
+    },
+    {
+      text: "Pune",
+      value: "pune",
+      isSelected: false
+    },
+    {
+      text: "Mumbai",
+      value: "mumbai",
+      isSelected: false
+    },
+    {
+      text: "Kolkata",
+      value: "kolkata",
+      isSelected: false
+    },
+    {
+      text: "Hyderabad",
+      value: "hyderabad",
+      isSelected: false
+    }
+  ]
+};

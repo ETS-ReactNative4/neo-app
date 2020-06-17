@@ -12,6 +12,7 @@ export interface IDealsListingRequestBody {
   budgets?: string[];
   months?: number[];
   limit?: number;
+  dealDepartureCities?: string[];
   discount?: string[];
   sortBy?: "ASC" | "DESC";
   fieldToBeSorted?: "dealDiscountPercentage" | "cost";

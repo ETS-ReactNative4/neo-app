@@ -69,7 +69,7 @@ const DealsListing = () => {
     mobileImage
   } = campaignDetails as IDealsListingResponseData["data"]["campaignDetails"];
 
-  const { discounts, month, price, sort, sortBy } = useDealsFilter();
+  const { discounts, month, price, sort, sortBy, cities } = useDealsFilter();
 
   const resetFilters = () => {
     discounts.reset();
@@ -77,6 +77,7 @@ const DealsListing = () => {
     price.reset();
     sort.reset();
     sortBy.reset();
+    cities.reset();
   };
 
   const selectedDiscounts = discounts.group.options
@@ -97,6 +98,10 @@ const DealsListing = () => {
 
   const selectedSortBy = sortBy.group.options
     .filter(sortByEach => sortByEach.isSelected)
+    .map(each => each.value);
+
+  const selectedDepartureCity = cities.group.options
+    .filter(city => city.isSelected)
     .map(each => each.value);
 
   useDeepCompareEffect(() => {
@@ -122,6 +127,10 @@ const DealsListing = () => {
       requestBody.sortBy = selectedSort[0] as "ASC" | "DESC";
     }
 
+    if (selectedDepartureCity.length) {
+      requestBody.dealDepartureCities = selectedDepartureCity;
+    }
+
     if (selectedSortBy.length) {
       requestBody.fieldToBeSorted = selectedSortBy[0] as
         | "dealDiscountPercentage"
@@ -141,7 +150,8 @@ const DealsListing = () => {
     selectedMonth,
     selectedPrice,
     selectedSort,
-    selectedSortBy
+    selectedSortBy,
+    selectedDepartureCity
   ]);
 
   const { isLoading } = dealsListingApiDetails;
@@ -246,11 +256,13 @@ const DealsListing = () => {
           price={price.group}
           sort={sort.group}
           sortBy={sortBy.group}
+          cities={cities.group}
           selectDiscounts={discounts.action}
           selectMonth={month.action}
           selectPrice={price.action}
           selectSort={sort.action}
           selectSortBy={sortBy.action}
+          selectCity={cities.action}
         />
       </Modal>
 

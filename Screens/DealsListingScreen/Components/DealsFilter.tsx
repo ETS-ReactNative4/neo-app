@@ -26,6 +26,8 @@ export interface DealsFilterProps {
   selectSort: (val: string) => any;
   sortBy: IRadioGroup;
   selectSortBy: (val: string) => any;
+  cities: ICheckBoxGroup;
+  selectCity: (val: string) => any;
 }
 
 const DealsFilter = ({
@@ -37,11 +39,13 @@ const DealsFilter = ({
   price,
   sort,
   sortBy,
+  cities,
   selectDiscounts,
   selectMonth,
   selectPrice,
   selectSort,
-  selectSortBy
+  selectSortBy,
+  selectCity
 }: DealsFilterProps) => {
   return (
     <SafeAreaView style={styles.dealsFilterContainer}>
@@ -50,6 +54,7 @@ const DealsFilter = ({
         <BlankSpacer height={24} />
         <RadioBoxWrapper options={sort} action={selectSort} />
         <RadioBoxWrapper options={sortBy} action={selectSortBy} />
+        <CheckBoxWrapper options={cities} action={selectCity} />
         <CheckBoxWrapper options={discounts} action={selectDiscounts} />
         <CheckBoxWrapper options={price} action={selectPrice} />
         <CheckBoxWrapper options={month} action={selectMonth} />

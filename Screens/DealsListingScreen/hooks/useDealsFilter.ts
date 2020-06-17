@@ -13,13 +13,15 @@ import {
   fieldToBeSorted,
   months,
   discounts,
-  price
+  price,
+  indianCities
 } from "../../ListingPageScreen/filterOptions/filterOptions";
 import { useState } from "react";
 
 export interface IDealsPackagesFilter {
   month: INumericCheckBoxSet;
   discounts: ICheckBoxSet;
+  cities: ICheckBoxSet;
   price: ICheckBoxSet;
   sort: IRadioSet;
   sortBy: IRadioSet;
@@ -115,6 +117,35 @@ const useDealsFilter = (): IDealsPackagesFilter => {
       ...months
     });
 
+  const [indianCitiesCheckBoxGroup, setIndianCitiesCheckBoxGroup] = useState<
+    ICheckBoxGroup
+  >({
+    type: "Checkbox",
+    ...indianCities
+  });
+
+  const selectCities = (selectedCity: string) => {
+    const newSelectedCities = indianCitiesCheckBoxGroup.options.map(item => {
+      if (item.value === selectedCity) {
+        return {
+          ...item,
+          isSelected: !item.isSelected
+        };
+      }
+      return item;
+    });
+    setIndianCitiesCheckBoxGroup({
+      ...indianCitiesCheckBoxGroup,
+      options: newSelectedCities
+    });
+  };
+
+  const resetSelectedCities = () =>
+    setIndianCitiesCheckBoxGroup({
+      type: "Checkbox",
+      ...indianCities
+    });
+
   const [discountsCheckBoxGroup, setDiscountsCheckBoxGroup] = useState<
     ICheckBoxGroup
   >({
@@ -196,6 +227,11 @@ const useDealsFilter = (): IDealsPackagesFilter => {
       group: priceCheckBoxGroup,
       action: selectPrice,
       reset: resetPrice
+    },
+    cities: {
+      group: indianCitiesCheckBoxGroup,
+      action: selectCities,
+      reset: resetSelectedCities
     }
   };
 };
