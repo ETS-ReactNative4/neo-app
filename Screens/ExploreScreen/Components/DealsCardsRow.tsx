@@ -56,7 +56,6 @@ const DealsCardsRow = (props: IDealsCardSection) => {
               return (
                 <DealsCard
                   key={itineraryIndex}
-                  isPerPerson
                   width={cardWidth}
                   offerPercent={itinerary.dealDiscountPercentage}
                   bookingTime={`Book by ${moment(
