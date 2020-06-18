@@ -53,17 +53,33 @@ const DealsCardsRow = (props: IDealsCardSection) => {
                 });
               };
 
+              const bookByDate = moment(
+                itinerary.bookingDateRange.end,
+                "YYYY-MM-DD"
+              );
+
+              let bookByText = `Book by ${bookByDate.format(
+                CONSTANT_shortCommonDateFormat
+              )}`;
+
+              const today = moment();
+
+              const dateDifference = bookByDate.diff(today, "days");
+
+              if (dateDifference > 0 && dateDifference <= 10) {
+                bookByText = `Only ${dateDifference} day${
+                  dateDifference > 1 ? "s" : ""
+                } left to book`;
+              }
+
               return (
                 <DealsCard
                   key={itineraryIndex}
                   width={cardWidth}
                   offerPercent={itinerary.dealDiscountPercentage}
-                  bookingTime={`Book by ${moment(
-                    itinerary.bookingDateRange.end,
-                    "YYYY-MM-DD"
-                  ).format(CONSTANT_shortCommonDateFormat)}`}
+                  bookingTime={bookByText}
                   title={itinerary.title}
-                  info={`Travel on ${moment(
+                  info={`Travel between ${moment(
                     itinerary.availableDates[0],
                     "YYYY-MM-DD"
                   ).format(CONSTANT_shortCommonDateFormat)} - ${moment(
