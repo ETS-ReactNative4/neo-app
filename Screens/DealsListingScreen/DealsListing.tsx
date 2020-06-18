@@ -64,8 +64,6 @@ const DealsListing = () => {
   } = packagesData as IDealsListingResponseData["data"];
 
   const {
-    bannerText,
-    name,
     mobileImage
   } = campaignDetails as IDealsListingResponseData["data"]["campaignDetails"];
 
@@ -165,9 +163,8 @@ const DealsListing = () => {
           src: mobileImage,
           imgFactor: `h=${PARALLAX_BANNER_HEIGHT}&w=${PARALLAX_BANNER_WIDTH}&crop=fit`
         })}
-        smallText={bannerText}
-        titleText={name}
-        enableGradient
+        smallText={""}
+        titleText={""}
       >
         <BlankSpacer height={20} />
         {!isLoading && filteredItineraries.length < 1 ? (

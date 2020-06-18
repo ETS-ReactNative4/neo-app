@@ -45,6 +45,7 @@ interface ParallaxScrollViewProps {
   titleText?: string;
   titleNumberOfLines?: number;
   enableGradient?: boolean;
+  hideStickyHeader?: boolean;
 }
 
 export const PARALLAX_BANNER_WIDTH = responsiveWidth(100);
@@ -76,7 +77,8 @@ const ParallaxScrollView = ({
   titleText,
   titleNumberOfLines = 1,
   children,
-  enableGradient = false
+  enableGradient = false,
+  hideStickyHeader = false
 }: ParallaxScrollViewProps) => {
   const blurViewRef = useRef<BlurView>(null);
 
@@ -216,26 +218,28 @@ const ParallaxScrollView = ({
           <BlankSpacer height={PARALLAX_BANNER_HEIGHT} />
         ) : null}
       </AnimatedScrollView>
-      <AnimatedView style={[styles.parallaxHeader, parallaxHeaderStyle]}>
-        {Platform.OS === CONSTANT_platformAndroid ? (
-          <View style={styles.headerViewAndroid} />
-        ) : (
-          <BlurView
-            ref={blurViewRef}
-            blurType={"dark"}
-            blurAmount={50}
-            blurRadius={5}
-            style={styles.blurViewStyle}
-          />
-        )}
-        <Text
-          numberOfLines={1}
-          ellipsizeMode={"tail"}
-          style={styles.headerTitle}
-        >
-          {titleText}
-        </Text>
-      </AnimatedView>
+      {!hideStickyHeader ? (
+        <AnimatedView style={[styles.parallaxHeader, parallaxHeaderStyle]}>
+          {Platform.OS === CONSTANT_platformAndroid ? (
+            <View style={styles.headerViewAndroid} />
+          ) : (
+            <BlurView
+              ref={blurViewRef}
+              blurType={"dark"}
+              blurAmount={50}
+              blurRadius={5}
+              style={styles.blurViewStyle}
+            />
+          )}
+          <Text
+            numberOfLines={1}
+            ellipsizeMode={"tail"}
+            style={styles.headerTitle}
+          >
+            {titleText}
+          </Text>
+        </AnimatedView>
+      ) : null}
       {backAction ? (
         <TouchableOpacity
           activeOpacity={0.8}
