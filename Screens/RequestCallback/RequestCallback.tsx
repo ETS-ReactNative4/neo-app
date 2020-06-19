@@ -122,7 +122,11 @@ const RequestCallback = ({
             ...requestBody.leadSource,
             campaign: leadSourceStore.activeDeeplink["~campaign"],
             url: leadSourceStore.activeDeeplink.$canonical_url,
-            lastRoute: leadSourceStore.activeDeeplink["~referring_link"]
+            lastRoute: leadSourceStore.activeDeeplink["~referring_link"],
+            utm_source: leadSourceStore.activeDeeplink["~channel"],
+            utm_medium: leadSourceStore.activeDeeplink["~feature"],
+            utm_campaign: leadSourceStore.activeDeeplink["~campaign"],
+            tags: leadSourceStore.activeDeeplink["~tags"]
           };
         }
         if (campaignItineraryId) {

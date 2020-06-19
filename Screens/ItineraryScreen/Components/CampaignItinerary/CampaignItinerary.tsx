@@ -142,7 +142,11 @@ const CampaignItinerary = ({
             ...gcmConfigRequest.leadSource,
             campaign: leadSourceStore.activeDeeplink["~campaign"],
             url: leadSourceStore.activeDeeplink.$canonical_url,
-            lastRoute: leadSourceStore.activeDeeplink["~referring_link"]
+            lastRoute: leadSourceStore.activeDeeplink["~referring_link"],
+            utm_source: leadSourceStore.activeDeeplink["~channel"],
+            utm_medium: leadSourceStore.activeDeeplink["~feature"],
+            utm_campaign: leadSourceStore.activeDeeplink["~campaign"],
+            tags: leadSourceStore.activeDeeplink["~tags"]
           };
         }
         updateCampaignItineraryCost(campaignItineraryId, gcmConfigRequest);
@@ -194,6 +198,18 @@ const CampaignItinerary = ({
             prodType: getProdTypeFromItinerarySource(itinerarySource)
           }
         };
+        if (leadSourceStore?.activeDeeplink) {
+          gcmConfigRequest.leadSource = {
+            ...gcmConfigRequest.leadSource,
+            campaign: leadSourceStore.activeDeeplink["~campaign"],
+            url: leadSourceStore.activeDeeplink.$canonical_url,
+            lastRoute: leadSourceStore.activeDeeplink["~referring_link"],
+            utm_source: leadSourceStore.activeDeeplink["~channel"],
+            utm_medium: leadSourceStore.activeDeeplink["~feature"],
+            utm_campaign: leadSourceStore.activeDeeplink["~campaign"],
+            tags: leadSourceStore.activeDeeplink["~tags"]
+          };
+        }
         updateItineraryCost(itineraryId, gcmConfigRequest);
       }
     };

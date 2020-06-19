@@ -24,6 +24,8 @@ export interface IBranchDeepLinkClickEvent {
   "~id": string;
   "~marketing": boolean;
   "~referring_link": string;
+  "~tags"?: string[];
+  "~channel": string;
 }
 
 export interface LeadSourceEvent {

@@ -17,6 +17,10 @@ export interface IRequestCallbackLeadSource {
   lastRoute?: string;
   prodType?: leadSourceProdType;
   searchKeyWords?: string;
+  utm_source?: string;
+  utm_medium?: string;
+  utm_campaign?: string;
+  tags?: string[];
 }
 
 export interface IRequestCallbackRequestBody {
