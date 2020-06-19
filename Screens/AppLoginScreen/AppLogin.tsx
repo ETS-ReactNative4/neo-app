@@ -33,7 +33,8 @@ import Interactable from "react-native-interactable";
 import OtpPanel from "./Components/OtpPanel";
 import {
   CONSTANT_platformIos,
-  CONSTANT_responseUserUnavailable
+  CONSTANT_responseUserUnavailable,
+  CONSTANT_responseSuccessStatus
 } from "../../constants/stringConstants";
 import useMobileNumberApi from "./hooks/useMobileNumberApi";
 import { validateLoginMobileNumber } from "../../Services/validateMobileNumber/validateMobileNumber";
@@ -76,6 +77,8 @@ import Itineraries from "../../mobx/Itineraries";
 import launchItinerarySelector from "../../Services/launchItinerarySelector/launchItinerarySelector";
 import launchSavedItineraries from "../../Services/launchSavedItineraries/launchSavedItineraries";
 import launchPretripHome from "../../Services/launchPretripHome/launchPretripHome";
+import usePrevious from "../../Services/usePrevious/usePrevious";
+import { IMobileServerResponse } from "../../TypeInterfaces/INetworkResponse";
 
 type screenName = typeof SCREEN_APP_LOGIN;
 
@@ -125,6 +128,11 @@ const AppLogin = ({
     successResponseData: loginSuccessData = {} as ILoginSuccessData | undefined,
     failureResponseData: loginFailureData = {} as ILoginFailureData | undefined
   } = loginApiDetails;
+  const {
+    failureResponseData: registrationFailureData = {} as
+      | IMobileServerResponse
+      | undefined
+  } = registrationApiDetails;
   const [isPhoneSubmitAttempted, setPhoneSubmitAttempt] = useState<boolean>(
     false
   );
@@ -382,6 +390,24 @@ const AppLogin = ({
       ]);
     }
   }, [loginSuccessData, loginFailureData]);
+
+  const previousRegistrationFailureData = usePrevious(registrationFailureData);
+
+  useDeepCompareEffect(() => {
+    if (previousRegistrationFailureData && registrationFailureData) {
+      if (registrationFailureData.status !== CONSTANT_responseSuccessStatus) {
+        if (registrationFailureData.message) {
+          DebouncedAlert("Oops!", registrationFailureData.message);
+        }
+      }
+    } else if (registrationFailureData) {
+      if (registrationFailureData.status !== CONSTANT_responseSuccessStatus) {
+        if (registrationFailureData.message) {
+          DebouncedAlert("Oops!", registrationFailureData.message);
+        }
+      }
+    }
+  }, [registrationFailureData]);
 
   const skipAction = () =>
     navigation.dispatch(launchPretripHome({ source: "TravelProfileFlow" }));
