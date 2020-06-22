@@ -491,6 +491,8 @@ export const CONSTANT_defaultPlaceImage =
   "https://pyt-images.imgix.net/images/place-holder.png";
 export const CONSTANT_loginBackground = () =>
   require("../assets/images/backgrounds/loginBackground.jpg");
+export const CONSTANT_dealsFlare = () =>
+  require("../assets/animations/dealsflare.json");
 export const CONSTANT_journalPublishingLoop = () =>
   require("../assets/animations/publishloop.json");
 export const CONSTANT_journalPublishEnd = () =>
