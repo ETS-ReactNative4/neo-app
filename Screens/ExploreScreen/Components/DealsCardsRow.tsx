@@ -89,6 +89,13 @@ const DealsCardsRow = (props: IDealsCardSection) => {
                     "YYYY-MM-DD"
                   ).format(CONSTANT_shortCommonDateFormat)}`}
                   price={getPriceWithoutSymbol(itinerary.itineraryCost)}
+                  perPersonText={
+                    itinerary.totalPAX
+                      ? ` per ${itinerary.totalPAX} person${
+                          itinerary.totalPAX > 1 ? "s" : ""
+                        }`
+                      : ""
+                  }
                   thumbnailSource={{
                     uri: getImgIXUrl({
                       DPR: 0.02,

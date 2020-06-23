@@ -45,7 +45,7 @@ export interface DealsCardProps {
   offerText?: string;
   strikedPrice?: string;
   price: string;
-  isPerPerson?: boolean;
+  perPersonText?: string;
   onClick: () => any;
   containerStyle?: StyleProp<ViewStyle>;
 }
@@ -69,7 +69,7 @@ const DealsCard = ({
   strikedPrice,
   price,
   onClick,
-  isPerPerson = false,
+  perPersonText = "",
   containerStyle
 }: DealsCardProps) => {
   const action = () => {
@@ -134,7 +134,7 @@ const DealsCard = ({
             <Text style={styles.rupeeSymbol}>{"₹"}</Text>
             <Text style={styles.priceText}>{price}</Text>
             <Text style={styles.perPersonText}>
-              {isPerPerson ? "/person" : ""}
+              {perPersonText ? perPersonText : ""}
             </Text>
           </View>
         </View>

@@ -21,6 +21,7 @@ const DealsCardTestCases: ITestCase[] = [
       <View style={styles.dealsTestCaseWrapper}>
         <DealsCard
           defaultSource={{ uri: CONSTANT_defaultPlaceImage }}
+          thumbnailSource={{ uri: "" }}
           imgSource={{
             uri:
               "https://pyt-images.imgix.net/images/product_blog/operahouse.jpeg"
@@ -35,7 +36,7 @@ const DealsCardTestCases: ITestCase[] = [
           price={"75,500"}
           onClick={() => null}
           offerText={"Early Bird Offer"}
-          isPerPerson
+          perPersonText={"/ person"}
         />
       </View>
     )

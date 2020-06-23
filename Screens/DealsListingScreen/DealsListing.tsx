@@ -39,6 +39,7 @@ import ratioCalculator from "../../Services/ratioCalculator/ratioCalculator";
 import DealsFilter from "./Components/DealsFilter";
 import moment from "moment";
 import deepLink from "../../Services/deepLink/deepLink";
+import DealsSignupPromoCard from "./Components/DealsSignupPromoCard";
 
 const DealsListing = () => {
   const [openFilter, setOpenFilter] = useState<boolean>(false);
@@ -224,6 +225,13 @@ const DealsListing = () => {
                     "YYYY-MM-DD"
                   ).format(CONSTANT_shortCommonDateFormat)}`}
                   price={getPriceWithoutSymbol(itinerary.itineraryCost)}
+                  perPersonText={
+                    itinerary.totalPAX
+                      ? ` per ${itinerary.totalPAX} person${
+                          itinerary.totalPAX > 1 ? "s" : ""
+                        }`
+                      : ""
+                  }
                   thumbnailSource={{
                     uri: getImgIXUrl({
                       DPR: 0.02,
@@ -248,6 +256,12 @@ const DealsListing = () => {
                   containerStyle={styles.dealCard}
                 />
                 <BlankSpacer height={16} />
+                {itineraryIndex === 1 ? (
+                  <>
+                    <DealsSignupPromoCard />
+                    <BlankSpacer height={16} />
+                  </>
+                ) : null}
               </Fragment>
             );
           });

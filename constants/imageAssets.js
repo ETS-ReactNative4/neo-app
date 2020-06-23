@@ -545,6 +545,9 @@ export const CONSTANT_requestCallbackCover = () => ({
 export const CONSTANT_pytHappyInsignia = () =>
   require("../assets/images/illustrations/happy-insignia.png");
 
+export const CONSTANT_DealsSignupPromo = () =>
+  require("../assets/images/illustrations/deals-signup-promo.png");
+
 export const CONSTANT_ZESTImageUrl = "https://i.imgur.com/M20FIDf.png";
 
 export default imageAssets;

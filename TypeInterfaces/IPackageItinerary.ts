@@ -71,6 +71,7 @@ export interface IDealsPackageItinerary {
   type: "DEAL";
   image: string;
   title: string;
+  totalPAX: number;
   destinationString: string;
   departureCity: string;
   departureAirport: string;
