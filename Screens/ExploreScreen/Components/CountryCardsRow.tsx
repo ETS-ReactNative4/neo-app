@@ -27,6 +27,17 @@ export interface ICountryCard {
   imageUrl: string;
 }
 
+export interface IRegionCard {
+  slug: string;
+  apiUrl: string;
+  deepLinking: IExploreFeedLinks;
+  flow: string;
+  imageUrl: string;
+  regionName: string;
+  startingPrice: number;
+  stateIds: number[];
+}
+
 export interface ITestimonialsCard {
   timeOfReview: number;
   star: number;
@@ -63,6 +74,7 @@ export interface ICountryCardData {
   data?: {
     countries: ICountryCard[];
     testimonials: ITestimonialsCard[];
+    domesticRegions: IRegionCard[];
   };
   isLoading: boolean;
 }
@@ -87,8 +99,44 @@ const CountryCardsRow = (props: ICountriesSection) => {
             height={LODING_INDICATOR_HEIGHT}
           />
         ) : (
-          data &&
-            data?.countries.map((country, countryIndex) => {
+          data && [
+            ...data?.domesticRegions.map((region, regionIndex) => {
+              const action = () => {
+                const deepLinkingObject: ICountryDeepLink = {
+                  link: region.deepLinking.link,
+                  screenData: {
+                    ...(region.deepLinking.screenData || {}),
+                    slug: region.slug
+                  }
+                };
+                deepLink(deepLinkingObject);
+                recordEvent(CONSTANT_explore.event, {
+                  click: CONSTANT_explore.click.recommendedForYouCard
+                });
+              };
+              return (
+                <FeaturedCardTypeOne
+                  key={regionIndex}
+                  image={{
+                    uri: getImgIXUrl({
+                      src: region.imageUrl,
+                      imgFactor: `h=${FEATURED_CARD_IMAGE_HEIGHT}&w=${FEATURED_CARD_IMAGE_WIDTH}&crop=fit`
+                    })
+                  }}
+                  thumbnail={{
+                    uri: getImgIXUrl({
+                      src: region.imageUrl,
+                      DPR: 0.02,
+                      imgFactor: `h=${FEATURED_CARD_IMAGE_HEIGHT}&w=${FEATURED_CARD_IMAGE_WIDTH}&crop=fit`
+                    })
+                  }}
+                  price={getPriceWithoutSymbol(region.startingPrice)}
+                  action={action}
+                  containerStyle={styles.featuredCardTypeOneWrapper}
+                />
+              );
+            }),
+            ...data?.countries.map((country, countryIndex) => {
               const action = () => {
                 const deepLinkingObject: ICountryDeepLink = {
                   link: country.deepLinking.link,
@@ -124,6 +172,7 @@ const CountryCardsRow = (props: ICountriesSection) => {
                 />
               );
             })
+          ]
         );
       }}
     </HorizontalCardsRow>
