@@ -48,7 +48,10 @@ const NotificationsActionSheet = ({
   const openFaq = () => {
     if (selectedNotification) {
       navigation.navigate(SCREEN_NOTIFICATION_FAQ, {
-        itineraryId: selectedNotification.itineraryId
+        itineraryId: selectedNotification.itineraryId,
+        isDomestic: !!selectedNotification.citiesArr?.find(
+          city => city.countryName === "India"
+        )
       });
     }
   };

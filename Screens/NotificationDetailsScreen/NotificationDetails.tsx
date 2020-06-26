@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { View, StyleSheet, TouchableOpacity } from "react-native";
+import { View, StyleSheet, TouchableOpacity, Platform } from "react-native";
 import { AppNavigatorProps } from "../../NavigatorsV2/AppNavigator";
 import {
   SCREEN_NOTIFICATION_DETAILS,
@@ -36,7 +36,10 @@ import {
   CONSTANT_itineraryDetails,
   CONSTANT_notificationRead
 } from "../../constants/apiUrls";
-import { CONSTANT_responseSuccessStatus } from "../../constants/stringConstants";
+import {
+  CONSTANT_responseSuccessStatus,
+  CONSTANT_platformAndroid
+} from "../../constants/stringConstants";
 import { toastBottom } from "../../Services/toast/toast";
 import {
   CONSTANT_GCMDateFormat,
@@ -80,7 +83,10 @@ const NotificationDetails = ({
         itineraryId: "",
         costingType: "RECOST",
         name: "",
-        leadSource: {}
+        leadSource: {
+          deviceType:
+            Platform.OS === CONSTANT_platformAndroid ? "Android OS" : "iOS"
+        }
       })
         .then(result => {
           if (result) {
@@ -242,7 +248,10 @@ const NotificationDetails = ({
         leftButtonName={"Support"}
         leftButtonAction={() =>
           navigation.navigate(SCREEN_NOTIFICATION_FAQ, {
-            itineraryId: notification.itineraryId
+            itineraryId: notification.itineraryId,
+            isDomestic: !!notification.citiesArr?.find(
+              city => city.countryName === "India"
+            )
           })
         }
         rightButtonName={"View itinerary"}

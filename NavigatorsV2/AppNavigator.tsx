@@ -186,6 +186,7 @@ export type AppNavigatorParamsType = {
   };
   [SCREEN_NOTIFICATION_FAQ]: {
     itineraryId: string;
+    isDomestic: boolean;
   };
   [SCREEN_NOTIFICATION_ANSWER]: {
     title: string;
