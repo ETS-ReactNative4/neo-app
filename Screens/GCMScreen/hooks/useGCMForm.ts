@@ -16,7 +16,8 @@ export interface IIndianCity {
   countryCode: string | null;
 }
 
-export type HotelGuestRoomChildAgesType = "1 year" | "5 year";
+export type HotelGuestRoomChildAgesType = 1 | 5;
+export type HotelGuestRoomChildAgesLabel = "1 year" | "5 year";
 
 export interface IHotelGuestRoomConfig {
   adultCount: number;
