@@ -39,6 +39,7 @@ const DealsSignupPromoCard = () => {
           })
         }
         buttonStyle={styles.cta}
+        buttonTextStyle={{ color: CONSTANT_firstColor }}
         text={"Get Access"}
       />
     </View>
@@ -51,7 +52,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: "black",
     marginHorizontal: 16,
-    borderRadius: 4,
+    borderRadius: 8,
     padding: 40
   },
   promoImage: {
