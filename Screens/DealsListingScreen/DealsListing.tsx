@@ -190,7 +190,7 @@ const DealsListing = () => {
             const imageHeight = ratioCalculator(41, 21, cardWidth);
 
             const bookByDate = moment(
-              itinerary.bookingDateRange.end,
+              itinerary?.bookingDateRange?.end,
               "YYYY-MM-DD"
             );
 
@@ -216,11 +216,11 @@ const DealsListing = () => {
                   bookingTime={bookByText}
                   title={itinerary.title}
                   info={`Travel between ${moment(
-                    itinerary.availableDates[0],
+                    itinerary.availableDates?.[0],
                     "YYYY-MM-DD"
                   ).format(CONSTANT_shortCommonDateFormat)} - ${moment(
-                    itinerary.availableDates[
-                      itinerary.availableDates.length - 1
+                    itinerary.availableDates?.[
+                      itinerary.availableDates?.length - 1
                     ],
                     "YYYY-MM-DD"
                   ).format(CONSTANT_shortCommonDateFormat)}`}

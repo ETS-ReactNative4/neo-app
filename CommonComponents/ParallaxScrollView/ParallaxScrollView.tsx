@@ -54,6 +54,9 @@ export const PARALLAX_BANNER_HEIGHT =
   (isIphoneX() ? CONSTANT_xNotchHeight : 0);
 const SCROLL_OFFSET = -PARALLAX_BANNER_HEIGHT + 20;
 const SCROLL_INSET = PARALLAX_BANNER_HEIGHT - 20;
+export const STATUS_BAR_HEIGHT = isIphoneX()
+  ? CONSTANT_xNotchHeight + CONSTANT_statusBarHeight
+  : CONSTANT_statusBarHeight;
 
 export const ParallaxScrollViewBannerHeight = PARALLAX_BANNER_HEIGHT;
 
@@ -168,6 +171,8 @@ const ParallaxScrollView = ({
 
   const ItineraryCover = enableGradient ? LinearGradient : View;
 
+  const isEmptyTitle = !backAction && !titleText;
+
   return (
     <View style={[styles.parallaxScrollViewContainer, containerStyle]}>
       <AnimatedView
@@ -221,14 +226,22 @@ const ParallaxScrollView = ({
       {!hideStickyHeader ? (
         <AnimatedView style={[styles.parallaxHeader, parallaxHeaderStyle]}>
           {Platform.OS === CONSTANT_platformAndroid ? (
-            <View style={styles.headerViewAndroid} />
+            <View
+              style={[
+                styles.headerViewAndroid,
+                isEmptyTitle ? styles.emptyTitle : null
+              ]}
+            />
           ) : (
             <BlurView
               ref={blurViewRef}
               blurType={"dark"}
               blurAmount={50}
               blurRadius={5}
-              style={styles.blurViewStyle}
+              style={[
+                styles.blurViewStyle,
+                isEmptyTitle ? styles.emptyTitle : null
+              ]}
             />
           )}
           <Text
@@ -319,20 +332,26 @@ const styles = StyleSheet.create({
   },
   blurViewStyle: {
     position: "absolute",
+    top: 0,
     width: responsiveWidth(100),
     height: BLUR_HEADER_HEIGHT
   },
   headerViewAndroid: {
     position: "absolute",
+    top: 0,
     width: responsiveWidth(100),
     height: BLUR_HEADER_HEIGHT,
     backgroundColor: "rgba(0,0,0,0.8)"
+  },
+  emptyTitle: {
+    height: STATUS_BAR_HEIGHT
   },
   headerTitle: {
     marginBottom: 19,
     color: CONSTANT_white,
     ...CONSTANT_fontCustom(CONSTANT_primarySemiBold, 20, 28),
-    width: responsiveWidth(30)
+    width: responsiveWidth(30),
+    textAlign: "center"
   },
   scrollViewBodyContainer: {
     backgroundColor: CONSTANT_white,

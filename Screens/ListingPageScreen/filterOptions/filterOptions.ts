@@ -295,12 +295,12 @@ export const sort: IFilters = {
   title: "Sort",
   options: [
     {
-      text: "Ascending",
+      text: "Low to High",
       value: "ASC",
       isSelected: false
     },
     {
-      text: "Descending",
+      text: "High to Low",
       value: "DESC",
       isSelected: true
     }
