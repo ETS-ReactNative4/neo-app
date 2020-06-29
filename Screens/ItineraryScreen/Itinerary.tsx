@@ -235,6 +235,8 @@ const Itinerary = ({ route, navigation, leadSourceStore }: ItineraryProps) => {
         bannerImage={
           focusedCity && focusedCity?.cityImages && focusedCity?.cityImages[0]
             ? focusedCity.cityImages[0]
+            : focusedCity?.image
+            ? focusedCity.image
             : bannerDetails
             ? bannerDetails.mobileImage
             : ""
