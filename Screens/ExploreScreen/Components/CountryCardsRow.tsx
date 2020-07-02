@@ -100,7 +100,7 @@ const CountryCardsRow = (props: ICountriesSection) => {
           />
         ) : (
           data && [
-            ...data?.domesticRegions.map((region, regionIndex) => {
+            ...(data?.domesticRegions?.map?.((region, regionIndex) => {
               const action = () => {
                 const deepLinkingObject: ICountryDeepLink = {
                   link: region.deepLinking.link,
@@ -135,8 +135,8 @@ const CountryCardsRow = (props: ICountriesSection) => {
                   containerStyle={styles.featuredCardTypeOneWrapper}
                 />
               );
-            }),
-            ...data?.countries.map((country, countryIndex) => {
+            }) ?? []),
+            ...(data?.countries?.map?.((country, countryIndex) => {
               const action = () => {
                 const deepLinkingObject: ICountryDeepLink = {
                   link: country.deepLinking.link,
@@ -171,7 +171,7 @@ const CountryCardsRow = (props: ICountriesSection) => {
                   containerStyle={styles.featuredCardTypeOneWrapper}
                 />
               );
-            })
+            }) ?? [])
           ]
         );
       }}

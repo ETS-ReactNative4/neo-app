@@ -10,7 +10,7 @@ import apiCall from "../Services/networkRequests/apiCall";
 import {
   CONSTANT_userProfileInfo,
   CONSTANT_getCountriesList,
-  CONSTANT_getDomesticRegionList,
+  // CONSTANT_getDomesticRegionList,
   CONSTANT_userProfileData,
   CONSTANT_getMaritalStatusData
 } from "../constants/apiUrls";
@@ -215,27 +215,27 @@ class TravelProfile {
   @action
   loadCountriesList = () => {
     return new Promise<boolean>((resolve, reject) => {
-      apiCall(CONSTANT_getDomesticRegionList, {}, "GET")
-        .then((response: IRegionDetailsListResponse) => {
-          if (response.status === CONSTANT_responseSuccessStatus) {
-            this._countriesList = response.data;
-            apiCall(CONSTANT_getCountriesList, {}, "GET")
-              .then((countryResponse: ICountryDetailsListResponse) => {
-                if (countryResponse.status === CONSTANT_responseSuccessStatus) {
-                  this._countriesList = [
-                    ...this._countriesList,
-                    ...countryResponse.data
-                  ];
-                } else {
-                  resolve(false);
-                }
-              })
-              .catch(reject);
+      apiCall(CONSTANT_getCountriesList, {}, "GET")
+        .then((countryResponse: ICountryDetailsListResponse) => {
+          if (countryResponse.status === CONSTANT_responseSuccessStatus) {
+            this._countriesList = [
+              ...this._countriesList,
+              ...countryResponse.data
+            ];
           } else {
             resolve(false);
           }
         })
         .catch(reject);
+      // apiCall(CONSTANT_getDomesticRegionList, {}, "GET")
+      //   .then((response: IRegionDetailsListResponse) => {
+      //     if (response.status === CONSTANT_responseSuccessStatus) {
+      //       this._countriesList = response.data;
+      //     } else {
+      //       resolve(false);
+      //     }
+      //   })
+      //   .catch(reject);
     });
   };
 
