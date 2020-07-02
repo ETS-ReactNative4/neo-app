@@ -100,7 +100,7 @@ const Search = ({ navigation }: SearchScreenProps) => {
     categories[0]
   );
 
-  const [offset, setOffset] = useState(1);
+  const [offset, setOffset] = useState(0);
 
   const updateText = (newText: string) => setSearchString(newText);
 
@@ -108,7 +108,7 @@ const Search = ({ navigation }: SearchScreenProps) => {
 
   const [packagesApiDetails, searchPackages] = usePackagesSearchApi();
 
-  const [categoryOffset, setCategoryOffset] = useState(1);
+  const [categoryOffset, setCategoryOffset] = useState(0);
 
   const [
     categoryWisePackagesApiDetails,
@@ -116,11 +116,11 @@ const Search = ({ navigation }: SearchScreenProps) => {
   ] = usePackagesSearchApi();
 
   useDeepCompareEffect(() => {
-    setCategoryOffset(1);
+    setCategoryOffset(0);
     setCategoryResults([]);
     loadPackagesByCategory({
       limit,
-      offset: 1,
+      offset: 0,
       searchString: selectedCategory.searchQuery
     });
   }, [selectedCategory]);
@@ -135,7 +135,7 @@ const Search = ({ navigation }: SearchScreenProps) => {
   }, [categoryOffset]);
 
   useEffect(() => {
-    setOffset(1);
+    setOffset(0);
     setSearchResults([]);
     if (searchString) {
       if (abortFetchRef.current) {
