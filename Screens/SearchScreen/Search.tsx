@@ -25,6 +25,8 @@ import useDeepCompareEffect from "use-deep-compare-effect";
 import EmptyListPlaceholder from "../../CommonComponents/EmptyListPlaceholder/EmptyListPlaceholder";
 import * as Animatable from "react-native-animatable";
 
+const INITIAL_SEARCH_OFFSET = 10;
+
 const { createAnimatableComponent } = Animatable;
 
 const AnimatableView = createAnimatableComponent(View);
@@ -100,7 +102,7 @@ const Search = ({ navigation }: SearchScreenProps) => {
     categories[0]
   );
 
-  const [offset, setOffset] = useState(0);
+  const [offset, setOffset] = useState(INITIAL_SEARCH_OFFSET);
 
   const updateText = (newText: string) => setSearchString(newText);
 
@@ -108,7 +110,7 @@ const Search = ({ navigation }: SearchScreenProps) => {
 
   const [packagesApiDetails, searchPackages] = usePackagesSearchApi();
 
-  const [categoryOffset, setCategoryOffset] = useState(0);
+  const [categoryOffset, setCategoryOffset] = useState(INITIAL_SEARCH_OFFSET);
 
   const [
     categoryWisePackagesApiDetails,
@@ -116,11 +118,11 @@ const Search = ({ navigation }: SearchScreenProps) => {
   ] = usePackagesSearchApi();
 
   useDeepCompareEffect(() => {
-    setCategoryOffset(0);
+    setCategoryOffset(INITIAL_SEARCH_OFFSET);
     setCategoryResults([]);
     loadPackagesByCategory({
       limit,
-      offset: 0,
+      offset: INITIAL_SEARCH_OFFSET,
       searchString: selectedCategory.searchQuery
     });
   }, [selectedCategory]);
@@ -135,7 +137,7 @@ const Search = ({ navigation }: SearchScreenProps) => {
   }, [categoryOffset]);
 
   useEffect(() => {
-    setOffset(0);
+    setOffset(INITIAL_SEARCH_OFFSET);
     setSearchResults([]);
     if (searchString) {
       if (abortFetchRef.current) {
