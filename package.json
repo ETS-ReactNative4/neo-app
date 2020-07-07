@@ -23,7 +23,11 @@
     "build-ios-testflight": "ENVFILE=.env.staging yarn build-ios",
     "build-ios-prod": "ENVFILE=.env.prod yarn build-ios",
     "alpha-android": "fastlane android alpha",
-    "bump-version": "node bumpVersion.js"
+    "bump-version": "node bumpVersion.js",
+    "commit": "git-cz"
+  },
+  "czConfig": {
+    "path": "node_modules/cz-conventional-changelog"
   },
   "dependencies": {
     "@react-native-community/art": "1.0.1",
@@ -144,7 +148,9 @@
     "babel-plugin-transform-flow-strip-types": "^6.22.0",
     "babel-plugin-transform-remove-console": "^6.9.4",
     "babel-preset-react-native": "^5.0.1",
+    "commitizen": "4.1.2",
     "concurrently": "5.0.2",
+    "cz-conventional-changelog": "3.2.0",
     "emotion-theming": "^10.0.17",
     "eslint": "^6.1.0",
     "eslint-detailed-reporter": "^0.8.0",
