@@ -17,7 +17,6 @@ import {
   CONSTANT_white,
   CONSTANT_firstColor
 } from "../../constants/colorPallete";
-import { CONSTANT_shortCommonDateFormat } from "../../constants/styles";
 import useDealsFilter from "./hooks/useDealsFilter";
 import useDeepCompareEffect from "use-deep-compare-effect";
 import getImgIXUrl from "../../Services/getImgIXUrl/getImgIXUrl";
@@ -40,6 +39,8 @@ import DealsFilter from "./Components/DealsFilter";
 import moment from "moment";
 import deepLink from "../../Services/deepLink/deepLink";
 import DealsSignupPromoCard from "./Components/DealsSignupPromoCard";
+
+export const DEAL_DATE_FORMAT = "Do MMM YYYY";
 
 const DealsListing = () => {
   const [openFilter, setOpenFilter] = useState<boolean>(false);
@@ -194,9 +195,7 @@ const DealsListing = () => {
               "YYYY-MM-DD"
             );
 
-            let bookByText = `Book by ${bookByDate.format(
-              CONSTANT_shortCommonDateFormat
-            )}`;
+            let bookByText = `Book by ${bookByDate.format(DEAL_DATE_FORMAT)}`;
 
             const today = moment();
 
@@ -218,12 +217,12 @@ const DealsListing = () => {
                   info={`Travel between ${moment(
                     itinerary.availableDates?.[0],
                     "YYYY-MM-DD"
-                  ).format(CONSTANT_shortCommonDateFormat)} - ${moment(
+                  ).format(DEAL_DATE_FORMAT)} - ${moment(
                     itinerary.availableDates?.[
                       itinerary.availableDates?.length - 1
                     ],
                     "YYYY-MM-DD"
-                  ).format(CONSTANT_shortCommonDateFormat)}`}
+                  ).format(DEAL_DATE_FORMAT)}`}
                   price={getPriceWithoutSymbol(itinerary.itineraryCost)}
                   perPersonText={
                     itinerary.totalPAX
