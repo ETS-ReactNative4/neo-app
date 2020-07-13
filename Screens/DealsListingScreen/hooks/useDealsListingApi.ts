@@ -2,7 +2,7 @@ import useApiCall, {
   IApiCallHookData,
   IApiCallConfig
 } from "../../../Services/networkRequests/hooks/useApiCall";
-import { CONSTANT_getDeals } from "../../../constants/apiUrls";
+import { CONSTANT_getPackagesDetails } from "../../../constants/apiUrls";
 import { IDealsPackageItinerary } from "../../../TypeInterfaces/IPackageItinerary";
 import { ICampaignDetails } from "../../../TypeInterfaces/ICampaignDetails";
 
@@ -60,7 +60,7 @@ const useDealsListingApi = (): dealsApiHookType => {
     return new Promise<boolean>(async (resolve, reject) => {
       try {
         const result = await makeApiCall({
-          route: CONSTANT_getDeals,
+          route: CONSTANT_getPackagesDetails,
           method: "POST",
           requestBody,
           abortController
