@@ -153,70 +153,44 @@ export const estimatedBudgetCheckBox: IFilters = {
   ]
 };
 
+// Based on - https://stackoverflow.com/a/10833631
+
+const now = new Date();
+let month = now.getMonth();
+let year = now.getFullYear();
+
+const monthNames = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December"
+];
+
+const upcomingMonthOptions: INumericFilterOption[] = [];
+
+for (let i = 0; i < 13; i++) {
+  upcomingMonthOptions.push({
+    text: monthNames[month] + " " + year,
+    value: month + 1,
+    isSelected: false
+  });
+  if (++month === 12) {
+    month = 0;
+    ++year;
+  }
+}
+
 export const months: INumericFilters = {
   title: "Month",
-  options: [
-    {
-      text: "January",
-      value: 1,
-      isSelected: false
-    },
-    {
-      text: "Febraury",
-      value: 2,
-      isSelected: false
-    },
-    {
-      text: "March",
-      value: 3,
-      isSelected: false
-    },
-    {
-      text: "April",
-      value: 4,
-      isSelected: false
-    },
-    {
-      text: "May",
-      value: 5,
-      isSelected: false
-    },
-    {
-      text: "June",
-      value: 6,
-      isSelected: false
-    },
-    {
-      text: "July",
-      value: 7,
-      isSelected: false
-    },
-    {
-      text: "August",
-      value: 8,
-      isSelected: false
-    },
-    {
-      text: "September",
-      value: 9,
-      isSelected: false
-    },
-    {
-      text: "October",
-      value: 10,
-      isSelected: false
-    },
-    {
-      text: "November",
-      value: 11,
-      isSelected: false
-    },
-    {
-      text: "December",
-      value: 12,
-      isSelected: false
-    }
-  ]
+  options: upcomingMonthOptions
 };
 
 export const discounts: IFilters = {
