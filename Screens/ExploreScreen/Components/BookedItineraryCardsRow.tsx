@@ -15,6 +15,7 @@ import deepLink from "../../../Services/deepLink/deepLink";
 export interface IItineraryCardsData {
   isLoading: boolean;
   data?: IBookedItinerary[];
+  displayCurrency: string;
 }
 
 const BookedItineraryCardsRow = (props: IBookedItinerarySection) => {
@@ -24,7 +25,7 @@ const BookedItineraryCardsRow = (props: IBookedItinerarySection) => {
       httpMethod={props.httpMethod}
       requestPayload={props.requestPayload}
     >
-      {({ data, isLoading }: IItineraryCardsData) => {
+      {({ data, isLoading, displayCurrency }: IItineraryCardsData) => {
         return isLoading ? (
           <ExploreCardLodingIndicator height={454} />
         ) : (
@@ -62,6 +63,7 @@ const BookedItineraryCardsRow = (props: IBookedItinerarySection) => {
                     title={card.itineraryText}
                     containerStyle={styles.itineraryCardWrapper}
                     imageStyle={styles.itineraryImage}
+                    displayCurrency={displayCurrency}
                   />
                 );
               })

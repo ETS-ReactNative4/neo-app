@@ -22,6 +22,7 @@ export interface IPackageItineraryCardsData {
     testimonials: any;
     tripStartingPrice: number;
   };
+  displayCurrency: string;
 }
 
 const PackageItineraryCardsRow = (props: IPackageItinerarySection) => {
@@ -31,7 +32,7 @@ const PackageItineraryCardsRow = (props: IPackageItinerarySection) => {
       httpMethod={props.httpMethod}
       requestPayload={props.requestPayload}
     >
-      {({ data, isLoading }: IPackageItineraryCardsData) => {
+      {({ data, isLoading, displayCurrency }: IPackageItineraryCardsData) => {
         return isLoading ? (
           <ExploreCardLodingIndicator height={454} />
         ) : (
@@ -78,6 +79,7 @@ const PackageItineraryCardsRow = (props: IPackageItinerarySection) => {
                     containerStyle={styles.itineraryCardWrapper}
                     imageStyle={styles.itineraryImage}
                     inclusionList={inclusionList}
+                    displayCurrency={displayCurrency}
                   />
                 );
               })

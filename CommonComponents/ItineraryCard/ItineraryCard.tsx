@@ -28,6 +28,9 @@ import RouteList, {
 import ItineraryCardImage from "./Components/ItineraryCardImage";
 import InclusionList from "./Components/InclusionList";
 import { IInclusion } from "../../Screens/ExploreScreen/services/generateInclusions";
+// @ts-ignore
+import getSymbolFromCurrency from "currency-symbol-map";
+import { getGlobalPriceWithoutSymbol } from "../../Screens/ExploreScreen/services/getPriceWithoutSymbol";
 
 export interface ItineraryCardProps {
   containerStyle?: ViewStyle;
@@ -40,6 +43,7 @@ export interface ItineraryCardProps {
   inclusionList: IInclusion[];
   itineraryCost: string;
   cities: IRouteCitiesDetails[];
+  displayCurrency: string;
 }
 
 const ItineraryCard = ({
@@ -52,7 +56,8 @@ const ItineraryCard = ({
   inclusionList,
   itineraryCost,
   cities = [],
-  action = () => null
+  action = () => null,
+  displayCurrency
 }: ItineraryCardProps) => {
   return (
     <TouchableOpacity
@@ -87,8 +92,15 @@ const ItineraryCard = ({
 
           <View style={styles.bottomWrapper}>
             <View style={styles.priceSection}>
-              <Text style={styles.rupeeText}>₹</Text>
-              <Text style={styles.priceText}>{itineraryCost}</Text>
+              <Text style={styles.rupeeText}>
+                {getSymbolFromCurrency(displayCurrency)}
+              </Text>
+              <Text style={styles.priceText}>
+                {getGlobalPriceWithoutSymbol({
+                  amount: parseInt(itineraryCost, 10),
+                  currency: displayCurrency
+                })}
+              </Text>
               <Text style={styles.personText}>/person</Text>
             </View>
 

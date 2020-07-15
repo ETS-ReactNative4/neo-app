@@ -8,7 +8,6 @@ import PromoCard, {
   PROMO_CARD_IMAGE_HEIGHT,
   PROMO_CARD_IMAGE_WIDTH
 } from "../../../CommonComponents/PromoCard/PromoCard";
-import getPriceWithoutSymbol from "../services/getPriceWithoutSymbol";
 import deepLink from "../../../Services/deepLink/deepLink";
 import getImgIXUrl from "../../../Services/getImgIXUrl/getImgIXUrl";
 import { recordEvent } from "../../../Services/analytics/analyticsService";
@@ -22,12 +21,13 @@ export interface IPromoDeepLink {
 export interface IPromotedCardsRowData {
   data?: IPromotedSection["items"];
   isLoading: boolean;
+  displayCurrency: string;
 }
 
 const PromotedCardsRow = (props: IPromotedSection) => {
   return (
     <HorizontalCardsRow items={props.items}>
-      {({ data }: IPromotedCardsRowData) => {
+      {({ data, displayCurrency }: IPromotedCardsRowData) => {
         return data
           ? data.map((promo, promoIndex) => {
               const action = () => {
@@ -54,10 +54,11 @@ const PromotedCardsRow = (props: IPromotedSection) => {
                       imgFactor: `h=${PROMO_CARD_IMAGE_HEIGHT}&w=${PROMO_CARD_IMAGE_WIDTH}&crop=fit`
                     })
                   }}
-                  price={getPriceWithoutSymbol(promo.cost)}
+                  price={promo.cost}
                   text={promo.text}
                   containerStyle={styles.promoCardWrapper}
                   promoCardImageStyle={styles.promoCardImage}
+                  displayCurrency={displayCurrency}
                 />
               );
             })

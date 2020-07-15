@@ -30,6 +30,20 @@ if (Platform.OS === "android" && __DEV__) {
 if (Platform.OS === "android") {
   require("intl");
   require("intl/locale-data/jsonp/en-IN");
+  require("intl/locale-data/jsonp/chr-US");
+  require("intl/locale-data/jsonp/es-US");
+  require("intl/locale-data/jsonp/en-US");
+  require("intl/locale-data/jsonp/haw-US");
+  require("intl/locale-data/jsonp/lkt-US");
+  require("intl/locale-data/jsonp/en-GB");
+  require("intl/locale-data/jsonp/cy-GB");
+  require("intl/locale-data/jsonp/gd-GB");
+  require("intl/locale-data/jsonp/kw-GB");
+  require("intl/locale-data/jsonp/ar-AE");
+  require("intl/locale-data/jsonp/en-SG");
+  require("intl/locale-data/jsonp/ms-SG");
+  require("intl/locale-data/jsonp/ta-SG");
+  require("intl/locale-data/jsonp/zh-Hans-SG");
 }
 
 /**

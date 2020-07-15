@@ -8,7 +8,6 @@ import FeaturedCardTypeOne, {
   FEATURED_CARD_IMAGE_WIDTH,
   FEATURED_CARD_IMAGE_HEIGHT
 } from "../../../CommonComponents/FeaturedCard/FeaturedCardTypeOne";
-import getPriceWithoutSymbol from "../services/getPriceWithoutSymbol";
 import deepLink from "../../../Services/deepLink/deepLink";
 import ExploreCardLodingIndicator from "./ExploreCardLodingIndicator";
 import ratioCalculator from "../../../Services/ratioCalculator/ratioCalculator";
@@ -77,6 +76,7 @@ export interface ICountryCardData {
     domesticRegions: IRegionCard[];
   };
   isLoading: boolean;
+  displayCurrency: string;
 }
 
 const LODING_INDICATOR_WIDTH = responsiveWidth(80);
@@ -92,7 +92,7 @@ const CountryCardsRow = (props: ICountriesSection) => {
       httpMethod={props.httpMethod}
       requestPayload={props.requestPayload}
     >
-      {({ data, isLoading }: ICountryCardData) => {
+      {({ data, displayCurrency, isLoading }: ICountryCardData) => {
         return isLoading ? (
           <ExploreCardLodingIndicator
             animation={CONSTANT_preLoaderAnimation2()}
@@ -130,9 +130,10 @@ const CountryCardsRow = (props: ICountriesSection) => {
                       imgFactor: `h=${FEATURED_CARD_IMAGE_HEIGHT}&w=${FEATURED_CARD_IMAGE_WIDTH}&crop=fit`
                     })
                   }}
-                  price={getPriceWithoutSymbol(region.startingPrice)}
+                  price={region.startingPrice}
                   action={action}
                   containerStyle={styles.featuredCardTypeOneWrapper}
+                  displayCurrency={displayCurrency}
                 />
               );
             }) ?? []),
@@ -166,9 +167,10 @@ const CountryCardsRow = (props: ICountriesSection) => {
                       imgFactor: `h=${FEATURED_CARD_IMAGE_HEIGHT}&w=${FEATURED_CARD_IMAGE_WIDTH}&crop=fit`
                     })
                   }}
-                  price={getPriceWithoutSymbol(country.startingPrice)}
+                  price={country.startingPrice}
                   action={action}
                   containerStyle={styles.featuredCardTypeOneWrapper}
+                  displayCurrency={displayCurrency}
                 />
               );
             }) ?? [])

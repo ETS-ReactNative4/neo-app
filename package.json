@@ -49,6 +49,7 @@
     "@twotalltotems/react-native-otp-input": "git://github.com/DaniAkash/react-native-otp-input.git#2be475f3fbb53a66a8466bd0f0ce5997ec1c65ad",
     "compare-versions": "3.5.1",
     "country-data": "^0.0.31",
+    "currency-symbol-map": "4.0.4",
     "d3-shape": "^1.2.0",
     "intl": "^1.2.5",
     "libphonenumber-js": "1.7.9",

@@ -23,6 +23,7 @@ import {
 } from "../../constants/fonts";
 import ratioCalculator from "../../Services/ratioCalculator/ratioCalculator";
 import BetterImage from "../BetterImage/BetterImage";
+import { getLocaleStringGlobal } from "../../Services/getLocaleString/getLocaleString";
 
 interface FeaturedCardTypeOneProps {
   containerStyle?: StyleProp<ImageStyle>;
@@ -31,7 +32,8 @@ interface FeaturedCardTypeOneProps {
   fallbackImage?: ImageSourcePropType;
   blurRadius?: number;
   action: () => any;
-  price: string;
+  price: number;
+  displayCurrency: string;
 }
 
 /* GUTTER SPACER */
@@ -52,7 +54,8 @@ const FeaturedCardTypeOne = ({
   fallbackImage = { uri: CONSTANT_defaultPlaceImage },
   blurRadius = 50,
   action = () => null,
-  price
+  price,
+  displayCurrency
 }: FeaturedCardTypeOneProps) => {
   return (
     <TouchableOpacity activeOpacity={0.8} onPress={action}>
@@ -76,7 +79,14 @@ const FeaturedCardTypeOne = ({
           <View style={styles.contentStyle}>
             <Text style={styles.textStyle}>
               {" "}
-              From <Text style={styles.boldTextStyle}>₹ {price}</Text> / person
+              From{" "}
+              <Text style={styles.boldTextStyle}>
+                {getLocaleStringGlobal({
+                  amount: price,
+                  currency: displayCurrency
+                })}
+              </Text>{" "}
+              / person
             </Text>
 
             <View style={styles.backArrowStyle}>

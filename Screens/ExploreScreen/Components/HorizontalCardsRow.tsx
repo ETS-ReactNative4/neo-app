@@ -9,10 +9,12 @@ export interface HorizontalCardsRowProps
   apiUrl?: string;
   children: ({
     data,
-    isLoading
+    isLoading,
+    displayCurrency
   }: {
     data?: any;
     isLoading: boolean;
+    displayCurrency: string;
   }) => ReactNode;
   items?: any;
 }
@@ -50,6 +52,7 @@ const HorizontalCardsRow = ({
         <View style={styles.horizontalCardsRowWrapper}>
           {children({
             data: items || (successResponseData?.data as any),
+            displayCurrency: successResponseData?.displayCurrency ?? "INR",
             isLoading
           })}
         </View>

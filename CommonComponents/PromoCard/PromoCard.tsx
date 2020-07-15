@@ -28,6 +28,9 @@ import {
 } from "../../constants/imageAssets";
 import ratioCalculator from "../../Services/ratioCalculator/ratioCalculator";
 import BetterImage from "../BetterImage/BetterImage";
+// @ts-ignore
+import getSymbolFromCurrency from "currency-symbol-map";
+import { getGlobalPriceWithoutSymbol } from "../../Screens/ExploreScreen/services/getPriceWithoutSymbol";
 
 interface TestimonialCardProps {
   containerStyle?: StyleProp<ViewStyle>;
@@ -35,7 +38,8 @@ interface TestimonialCardProps {
   fallbackImage?: ImageSourcePropType;
   thumbnail: ImageSourcePropType;
   text: string;
-  price: string;
+  price: number;
+  displayCurrency: string;
   action: () => any;
   promoCardImageStyle?: StyleProp<ImageStyle>;
 }
@@ -53,7 +57,8 @@ const PromoCard = ({
   thumbnail = { uri: "" },
   fallbackImage = { uri: CONSTANT_defaultPlaceImage },
   text = "",
-  price = "",
+  price,
+  displayCurrency,
   action = () => null,
   promoCardImageStyle
 }: TestimonialCardProps) => {
@@ -82,8 +87,14 @@ const PromoCard = ({
           </Text>
 
           <View style={styles.priceTextStyle}>
-            <Text style={styles.rupeeStyle}>₹</Text>
-            <Text style={styles.priceText}>{price}</Text>
+            <Text style={styles.rupeeStyle}>
+              {getSymbolFromCurrency(displayCurrency)}
+            </Text>
+            <Text style={styles.priceText}>
+              {getGlobalPriceWithoutSymbol({
+                amount: parseInt((price as unknown) as string, 10)
+              })}
+            </Text>
             <Text style={styles.personTextStyle}>/person</Text>
           </View>
         </View>
