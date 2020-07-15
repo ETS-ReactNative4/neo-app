@@ -38,7 +38,7 @@ interface ItineraryProps {
   smallText?: string;
   title: string;
   itineraryCost?: string;
-  displayCurrency: string;
+  displayCurrency?: string;
 }
 
 const HEADER_CONTAINER_WIDTH = responsiveWidth(100);
@@ -53,7 +53,7 @@ const ItineraryBanner = ({
   title = "",
   backAction = () => {},
   itineraryCost = "",
-  displayCurrency
+  displayCurrency = "INR"
 }: ItineraryProps) => {
   const gradientOptions = {
     locations: [0.25, 0.5, 0.6, 1],

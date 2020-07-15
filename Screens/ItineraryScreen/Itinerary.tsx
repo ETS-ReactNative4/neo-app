@@ -258,7 +258,7 @@ const Itinerary = ({ route, navigation, leadSourceStore }: ItineraryProps) => {
             ? bannerDetails.itineraryCost
             : ""
         }
-        displayCurrency={displayCurrency || ""}
+        displayCurrency={displayCurrency}
       />
       <HighlightText
         containerStyle={styles.highlightText}
