@@ -26,8 +26,10 @@
     "bump-version": "node bumpVersion.js",
     "commit": "git-cz"
   },
-  "czConfig": {
-    "path": "node_modules/cz-conventional-changelog"
+  "config": {
+    "commitizen": {
+      "path": "node_modules/cz-conventional-changelog"
+    }
   },
   "dependencies": {
     "@react-native-community/art": "1.0.1",
