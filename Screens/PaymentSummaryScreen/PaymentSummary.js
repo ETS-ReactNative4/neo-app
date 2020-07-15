@@ -15,9 +15,15 @@ import CompletedPayments from "./Components/CompletedPayments/CompletedPayments"
 import { toastBottom } from "../../Services/toast/toast";
 import dialer from "../../Services/dialer/dialer";
 import PrimaryHeader from "../../NavigatorsV2/Components/PrimaryHeader";
+import PropTypes from "prop-types";
 
 @ErrorBoundary()
 class PaymentSummary extends Component {
+  static propTypes = {
+    navigation: PropTypes.object.isRequired,
+    route: PropTypes.object.isRequired
+  };
+
   state = {
     paymentInfo: {},
     isLoading: false,
@@ -29,7 +35,8 @@ class PaymentSummary extends Component {
     totalAmountPaid: "",
     paymentDue: "",
     paymentStatus: "",
-    isFirstLoad: true
+    isFirstLoad: true,
+    displayCurrency: null
   };
   _didFocusSubscription;
 
@@ -99,13 +106,14 @@ class PaymentSummary extends Component {
             ),
             totalAmountPaid: getLocaleString(paymentDetails.totalAmountPaid),
             paymentDue: getLocaleString(paymentDetails.paymentDue),
-            paymentStatus
+            paymentStatus,
+            displayCurrency: response.displayCurrency
           });
         } else {
           this.apiFailure();
         }
       })
-      .catch(error => {
+      .catch(() => {
         this.setState({
           isLoading: false
         });
@@ -152,7 +160,7 @@ class PaymentSummary extends Component {
           }
         );
       })
-      .catch(error => {
+      .catch(() => {
         this.setState({
           isPaymentLoading: false
         });
@@ -161,7 +169,7 @@ class PaymentSummary extends Component {
   };
 
   render() {
-    const { paymentInfo, isLoading } = this.state;
+    const { paymentInfo, isLoading, displayCurrency } = this.state;
 
     const {
       productPayments,
@@ -205,7 +213,7 @@ class PaymentSummary extends Component {
      * Construct Payment Options object array that is used by payment cards to initiate payment
      */
     const paymentOptions = productPayments
-      ? productPayments.reduce((detailsArray, amount, amountIndex) => {
+      ? productPayments.reduce((detailsArray, amount) => {
           const data = {
             amount: `₹ ${amount.paymentAmount}`,
             percentageText:
@@ -249,20 +257,20 @@ class PaymentSummary extends Component {
           }, [])
         : []
       : productPayments
-        ? productPayments.reduce((detailsArray, amount) => {
-            if (amount.paymentStatus === constants.paymentStatusSuccess) {
-              const data = {
-                paymentAmount: `₹ ${amount.paymentAmount}`,
-                transactionId: amount.transactionId,
-                mode: amount.mode || "Razor Pay",
-                date: amount.paidOn,
-                salesReceipt: amount.salesReceipt
-              };
-              detailsArray.push(data);
-            }
-            return detailsArray;
-          }, [])
-        : [];
+      ? productPayments.reduce((detailsArray, amount) => {
+          if (amount.paymentStatus === constants.paymentStatusSuccess) {
+            const data = {
+              paymentAmount: `₹ ${amount.paymentAmount}`,
+              transactionId: amount.transactionId,
+              mode: amount.mode || "Razor Pay",
+              date: amount.paidOn,
+              salesReceipt: amount.salesReceipt
+            };
+            detailsArray.push(data);
+          }
+          return detailsArray;
+        }, [])
+      : [];
 
     /**
      * Check if payment is made with plato
@@ -295,21 +303,25 @@ class PaymentSummary extends Component {
     const isPaymentComplete =
       this.state.paymentStatus === constants.paymentStatusSuccess;
 
+    const tabBarUnderlineStyle = {
+      height: 2,
+      backgroundColor: constants.black2
+    };
+
+    const tabBarStyle = {
+      alignSelf: "center",
+      width: responsiveWidth(100),
+      backgroundColor: "white"
+    };
+
     return (
       <ScrollableTabView
         tabBarActiveTextColor={constants.black2}
         tabBarInactiveTextColor={constants.firstColor}
-        tabBarUnderlineStyle={{
-          height: 2,
-          backgroundColor: constants.black2
-        }}
+        tabBarUnderlineStyle={tabBarUnderlineStyle}
         tabBarTextStyle={{ ...constants.font13(constants.primaryLight) }}
         initialPage={0}
-        style={{
-          alignSelf: "center",
-          width: responsiveWidth(100),
-          backgroundColor: "white"
-        }}
+        style={tabBarStyle}
         prerenderingSiblingsNumber={Infinity}
         renderTabBar={() => <YourBookingsTabBar />}
       >
@@ -331,6 +343,7 @@ class PaymentSummary extends Component {
             openSupport={openSupport}
             platoPendingInstallments={platoPendingInstallments}
             platoPaidInstallmentsCount={platoPaidInstallmentsCount}
+            displayCurrency={displayCurrency}
           />
         ) : null}
         {paymentHistory ? (
@@ -341,6 +354,7 @@ class PaymentSummary extends Component {
             isLoading={isLoading}
             loadPaymentData={this.loadPaymentData}
             gstReceipt={gstReceipt}
+            displayCurrency={displayCurrency}
           />
         ) : (
           <View tabLabel={"Completed"} />

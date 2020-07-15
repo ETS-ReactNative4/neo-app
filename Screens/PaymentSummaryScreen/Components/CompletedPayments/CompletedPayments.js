@@ -2,15 +2,9 @@ import React, { Fragment } from "react";
 import { View, StyleSheet, Image, Text, TouchableOpacity } from "react-native";
 import PropTypes from "prop-types";
 import CompletedPaymentCard from "./Components/CompletedPaymentCard";
-import getLocaleString from "../../../../Services/getLocaleString/getLocaleString";
-import moment from "../../PaymentSummary";
 import constants from "../../../../constants/constants";
 import CustomScrollView from "../../../../CommonComponents/CustomScrollView/CustomScrollView";
 import openCustomTab from "../../../../Services/openCustomTab/openCustomTab";
-import {
-  responsiveHeight,
-  responsiveWidth
-} from "react-native-responsive-dimensions";
 import { inject, observer } from "mobx-react";
 import getTitleCase from "../../../../Services/getTitleCase/getTitleCase";
 import XSensorPlaceholder from "../../../../CommonComponents/XSensorPlaceholder/XSensorPlaceholder";
@@ -19,14 +13,7 @@ import Icon from "../../../../CommonComponents/Icon/Icon";
 
 const CompletedPayments = inject("userStore")(
   observer(
-    ({
-      userStore,
-      isPaymentComplete,
-      paymentHistory,
-      isLoading,
-      loadPaymentData,
-      gstReceipt
-    }) => {
+    ({ userStore, paymentHistory, isLoading, loadPaymentData, gstReceipt }) => {
       const { userDetails } = userStore;
       const { name } = userDetails;
       const openGSTInvoice = () =>
@@ -99,14 +86,14 @@ const CompletedPayments = inject("userStore")(
                     date={payment.date}
                     referenceId={payment.transactionId}
                     action={viewReceipt}
-                    containerStyle={{ marginVertical: 16 }}
+                    containerStyle={styles.verticalSpacing}
                     salesReceipt={payment.salesReceipt}
                   />
                 );
               })}
               {!paymentHistory.length ? (
                 <EmptyListPlaceholder
-                  containerStyle={{ marginVertical: 16 }}
+                  containerStyle={styles.verticalSpacing}
                   text={constants.paymentText.noPaymentsText}
                 />
               ) : null}
@@ -156,6 +143,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "flex-start"
+  },
+  verticalSpacing: {
+    marginVertical: 16
   }
 });
 

@@ -7,9 +7,10 @@ import ordinalConverter from "number-to-words";
 import getTitleCase from "../../../../../Services/getTitleCase/getTitleCase";
 import { responsiveHeight } from "react-native-responsive-dimensions";
 import { isIphoneX } from "react-native-iphone-x-helper";
-import getLocaleString from "../../../../../Services/getLocaleString/getLocaleString";
+import getLocaleString, {
+  getLocaleStringGlobal
+} from "../../../../../Services/getLocaleString/getLocaleString";
 import PropTypes from "prop-types";
-import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidExtraProps";
 import { recordEvent } from "../../../../../Services/analytics/analyticsService";
 
 /**
@@ -20,9 +21,12 @@ const ProductPayments = ({
   isPaymentExpired,
   openSupport,
   paymentDue,
-  paymentHistory
+  paymentHistory,
+  displayCurrency
 }) => {
-  if (!paymentOptions.length) return null;
+  if (!paymentOptions.length) {
+    return null;
+  }
 
   const today = moment();
   const dueDateDifference = moment(paymentDue).diff(today, "days");
@@ -70,8 +74,8 @@ const ProductPayments = ({
               ? dueDateDifference > 7
                 ? moment(paymentDue).format(constants.shortCommonDateFormat)
                 : dueDateDifference === 0
-                  ? "Today"
-                  : moment(paymentDue).fromNow()
+                ? "Today"
+                : moment(paymentDue).fromNow()
               : "Expired"
           }
         ],
@@ -81,7 +85,12 @@ const ProductPayments = ({
         color:
           dueDateDifference > 2 ? constants.ninthColor : constants.tenthColor,
         nextInstallmentAmount: currentPaymentOption.nextInstallmentAmount
-          ? getLocaleString(currentPaymentOption.nextInstallmentAmount)
+          ? displayCurrency
+            ? getLocaleStringGlobal({
+                amount: currentPaymentOption.nextInstallmentAmount,
+                currency: displayCurrency
+              })
+            : getLocaleString(currentPaymentOption.nextInstallmentAmount)
           : 0,
         nextInstallmentDate: moment(
           currentPaymentOption.nextInstallmentDate
@@ -162,9 +171,9 @@ const ProductPayments = ({
           {currentPaymentData && currentPaymentData.nextInstallmentAmount ? (
             <Fragment>
               <Text style={styles.nextPaymentTitleText}>{`Next Payment`}</Text>
-              <Text style={styles.nextPaymentText}>{`${
-                currentPaymentData.nextInstallmentAmount
-              } by ${currentPaymentData.nextInstallmentDate}`}</Text>
+              <Text
+                style={styles.nextPaymentText}
+              >{`${currentPaymentData.nextInstallmentAmount} by ${currentPaymentData.nextInstallmentDate}`}</Text>
             </Fragment>
           ) : null}
         </Fragment>
@@ -204,13 +213,14 @@ const ProductPayments = ({
   );
 };
 
-ProductPayments.propTypes = forbidExtraProps({
+ProductPayments.propTypes = {
   paymentOptions: PropTypes.array.isRequired,
   isPaymentExpired: PropTypes.bool.isRequired,
   openSupport: PropTypes.func.isRequired,
   paymentDue: PropTypes.number.isRequired,
-  paymentHistory: PropTypes.array.isRequired
-});
+  paymentHistory: PropTypes.array.isRequired,
+  displayCurrency: PropTypes.string
+};
 
 const headerHeight = constants.headerHeight;
 const tabBarHeight = 50;

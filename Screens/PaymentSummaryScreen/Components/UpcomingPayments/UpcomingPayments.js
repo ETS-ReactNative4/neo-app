@@ -1,7 +1,6 @@
 import React, { Component } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
 import CustomScrollView from "../../../../CommonComponents/CustomScrollView/CustomScrollView";
-import forbidExtraProps from "../../../../Services/PropTypeValidation/forbidExtraProps";
 import PropTypes from "prop-types";
 import PlatoPayments from "./Components/PlatoPayments";
 import ProductPayments from "./Components/ProductPayments";
@@ -14,7 +13,7 @@ import XSensorPlaceholder from "../../../../CommonComponents/XSensorPlaceholder/
  * Depending on the type of payments
  */
 class UpcomingPayments extends Component {
-  static propTypes = forbidExtraProps({
+  static propTypes = {
     isLoading: PropTypes.bool.isRequired,
     loadPaymentData: PropTypes.func.isRequired,
     isPaidWithPlato: PropTypes.bool.isRequired,
@@ -25,8 +24,9 @@ class UpcomingPayments extends Component {
     paymentHistory: PropTypes.array,
     openSupport: PropTypes.func,
     platoPendingInstallments: PropTypes.array.isRequired,
-    platoPaidInstallmentsCount: PropTypes.number
-  });
+    platoPaidInstallmentsCount: PropTypes.number,
+    displayCurrency: PropTypes.string
+  };
 
   render() {
     const {
@@ -40,7 +40,8 @@ class UpcomingPayments extends Component {
       paymentDue,
       paymentHistory,
       platoPendingInstallments,
-      platoPaidInstallmentsCount
+      platoPaidInstallmentsCount,
+      displayCurrency
     } = this.props;
     return (
       <CustomScrollView
@@ -54,6 +55,7 @@ class UpcomingPayments extends Component {
             platoPaidInstallmentsCount={platoPaidInstallmentsCount}
             platoBankDetails={platoBankDetails}
             openSupport={openSupport}
+            displayCurrency={displayCurrency}
           />
         ) : (
           <ProductPayments
@@ -62,6 +64,7 @@ class UpcomingPayments extends Component {
             isPaymentExpired={isPaymentExpired}
             openSupport={openSupport}
             paymentOptions={paymentOptions}
+            displayCurrency={displayCurrency}
           />
         )}
         <XSensorPlaceholder />
