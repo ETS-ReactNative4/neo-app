@@ -32,7 +32,6 @@ import usePackagesApi, {
   IPackagesResponseData,
   IPackageRequestBody
 } from "./hooks/usePackagesApi";
-import getPriceWithoutSymbol from "../ExploreScreen/services/getPriceWithoutSymbol";
 import { CONSTANT_platformAndroid } from "../../constants/stringConstants";
 import BlankSpacer from "../../CommonComponents/BlankSpacer/BlankSpacer";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
@@ -85,7 +84,7 @@ const ListingPage = ({
 
   const goBack = () => navigation.goBack();
 
-  const { data: packagesData = {} } =
+  const { data: packagesData = {}, displayCurrency } =
     packagesApiDetails.successResponseData || {};
   const {
     campaignDetails = {},
@@ -239,15 +238,16 @@ const ListingPage = ({
                   }}
                   title={itinerary.title}
                   inclusionList={inclusionList}
-                  itineraryCost={getPriceWithoutSymbol(itinerary.itineraryCost)}
+                  itineraryCost={itinerary.itineraryCost}
                   cities={itinerary.cityHotelStay}
                   containerStyle={styles.itineraryCardStyle}
+                  displayCurrency={displayCurrency || ""}
                 />
                 <BlankSpacer height={16} />
               </Fragment>
             );
           });
-        }, [filteredItineraries, navigation])}
+        }, [filteredItineraries, navigation, displayCurrency])}
         {Platform.OS === CONSTANT_platformAndroid ? (
           <BlankSpacer height={responsiveHeight(100)} />
         ) : (

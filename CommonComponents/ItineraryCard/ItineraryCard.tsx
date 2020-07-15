@@ -41,7 +41,7 @@ export interface ItineraryCardProps {
   action: () => any;
   title: string;
   inclusionList: IInclusion[];
-  itineraryCost: string;
+  itineraryCost: string | number;
   cities: IRouteCitiesDetails[];
   displayCurrency: string;
 }
@@ -97,7 +97,7 @@ const ItineraryCard = ({
               </Text>
               <Text style={styles.priceText}>
                 {getGlobalPriceWithoutSymbol({
-                  amount: parseInt(itineraryCost, 10),
+                  amount: parseInt((itineraryCost as unknown) as string, 10),
                   currency: displayCurrency
                 })}
               </Text>

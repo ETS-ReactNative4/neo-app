@@ -5,6 +5,7 @@ import useApiCall, {
 import { CONSTANT_getPackagesDetails } from "../../../constants/apiUrls";
 import { IPackageItinerary } from "../../../TypeInterfaces/IPackageItinerary";
 import { ICampaignDetails } from "../../../TypeInterfaces/ICampaignDetails";
+import { IMobileServerResponse } from "../../../TypeInterfaces/INetworkResponse";
 
 export interface IPackageRequestBody {
   key: string;
@@ -20,7 +21,7 @@ export interface IPackageRequest {
   abortController: any;
 }
 
-export interface IPackagesResponseData {
+export interface IPackagesResponseData extends IMobileServerResponse {
   status: "SUCCESS";
   data: {
     campaignDetails: ICampaignDetails;
