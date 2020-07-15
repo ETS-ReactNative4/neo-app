@@ -83,6 +83,9 @@ export interface IBannerDetails {
 }
 
 const Itinerary = ({ route, navigation, leadSourceStore }: ItineraryProps) => {
+  const [displayCurrency, setDisplayCurrency] = useState<undefined | string>(
+    undefined
+  );
   const { slug = "", itineraryId: preDefinedItineraryId = "" } = route.params;
   const { logAction, clearLastAction, record } = leadSourceStore;
 
@@ -160,6 +163,7 @@ const Itinerary = ({ route, navigation, leadSourceStore }: ItineraryProps) => {
           if (response.status === CONSTANT_responseSuccessStatus) {
             itineraryDetails.updateItinerary(response.data);
             setCampaignItineraryState(null);
+            setDisplayCurrency(response.displayCurrency);
           } else {
             toastBottom("Unable to retrieve Itinerary info");
             navigation.goBack();
@@ -181,6 +185,7 @@ const Itinerary = ({ route, navigation, leadSourceStore }: ItineraryProps) => {
             //   response.data.campaignItinerary
             // );
             setCampaignItineraryState(response.data);
+            setDisplayCurrency(response.displayCurrency);
           } else {
             toastBottom("Unable to retrieve Itinerary info");
             navigation.goBack();
@@ -253,6 +258,7 @@ const Itinerary = ({ route, navigation, leadSourceStore }: ItineraryProps) => {
             ? bannerDetails.itineraryCost
             : ""
         }
+        displayCurrency={displayCurrency || ""}
       />
       <HighlightText
         containerStyle={styles.highlightText}
