@@ -7,7 +7,15 @@ import { IMobileServerResponse } from "../../../TypeInterfaces/INetworkResponse"
 import { ExploreFeedType } from "../ExploreFeedType";
 
 export interface IExploreDataResponseType extends IMobileServerResponse {
-  data: ExploreFeedType;
+  data: [
+    {
+      _id: string;
+      locale: string;
+      page: string;
+      key: string;
+      value: ExploreFeedType;
+    }
+  ];
 }
 
 export interface IExploreDataHookType extends IApiCallHookData {

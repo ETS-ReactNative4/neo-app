@@ -90,7 +90,7 @@ const Explore = ({
 
   useDeepCompareEffect(() => {
     if (successResponseData) {
-      setExploreData(successResponseData.data);
+      setExploreData(successResponseData.data?.[0]?.value ?? []);
     }
   }, [successResponseData || {}]);
 
