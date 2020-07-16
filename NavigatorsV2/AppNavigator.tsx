@@ -67,7 +67,8 @@ import {
   SCREEN_PAYMENT_FAILURE,
   SCREEN_BUDGET_PREFERENCES,
   SCREEN_VISA_DOCUMENT_ACTION_SHEET,
-  SCREEN_NOTIFICATION_ANSWER
+  SCREEN_NOTIFICATION_ANSWER,
+  SCREEN_GCM_NATIONALITY_PICKER
 } from "./ScreenNames";
 import AppLogin from "../Screens/AppLoginScreen/AppLogin";
 import Starter from "../Screens/StartingScreen/Starter";
@@ -149,6 +150,9 @@ import BudgetPreferences from "../Screens/BudgetPreferencesScreen/BudgetPreferen
 import VisaDocumentsActionSheet from "../Screens/VisaDocumentsActionSheet/VisaDocumentsActionSheet";
 import { leadSourceProdType } from "../Screens/RequestCallback/hooks/useRequestCallbackApi";
 import NotificationsAnswer from "../Screens/NotificationsAnswerScreen/NotificationsAnswer";
+import GCMNationalityPicker, {
+  INationalityOption
+} from "../Screens/GCMNationalityPicker/GCMNationalityPicker";
 
 export type loginResetTargetTypes = typeof SCREEN_SAVED_ITINERARIES;
 
@@ -233,6 +237,11 @@ export type AppNavigatorParamsType = {
   [SCREEN_GCM_CITY_PICKER]: {
     title: string;
     onSelect: (selectedCity: IIndianCity) => any;
+    bannerImage: string;
+  };
+  [SCREEN_GCM_NATIONALITY_PICKER]: {
+    title: string;
+    onSelect: (selectedOption: INationalityOption) => any;
     bannerImage: string;
   };
   [SCREEN_GCM_ROOM_CONFIG]: {
@@ -489,6 +498,13 @@ const AppNavigator = () => {
           }}
           name={SCREEN_GCM_CITY_PICKER}
           component={GCMCityPicker}
+        />
+        <Screen
+          options={{
+            headerShown: false
+          }}
+          name={SCREEN_GCM_NATIONALITY_PICKER}
+          component={GCMNationalityPicker}
         />
         <Screen
           options={{

@@ -7,6 +7,7 @@ import { CONSTANT_getIndianCities } from "../../../constants/apiUrls";
 import { CONSTANT_responseSuccessStatus } from "../../../constants/stringConstants";
 import { ICitiesListSuccessResponse } from "../../GCMCityPickerScreen/hooks/useGetIndianCities";
 import { ILeadSource } from "../../AppLoginScreen/hooks/useRegisterUserApi";
+import { INationalityOption } from "../../GCMNationalityPicker/GCMNationalityPicker";
 
 export interface IIndianCity {
   cityName: string;
@@ -28,10 +29,11 @@ export type travelType = "SOLO" | "COUPLE" | "FAMILY" | "FRIENDS";
 
 export interface ICostingConfig {
   hotelGuestRoomConfigurations: IHotelGuestRoomConfig[];
-  departureAirport: string; //"MAA";
-  arrivalAirport: string; //"MAA";
+  departureAirport?: string; //"MAA";
+  arrivalAirport?: string; //"MAA";
   departureDate: string; //"12/Jan/2021";
   tripType: travelType;
+  nationality?: string; //IN,US etc
 }
 
 export interface IGCMRequestBody {
@@ -48,6 +50,7 @@ export interface IGCMFormFields {
   departingOn: Date;
   travellingAs: ITravellingAsPickerOption | undefined;
   roomDetails: IHotelGuestRoomConfig[];
+  nationality: INationalityOption | undefined;
 }
 
 export interface IGCMUpdateMethods {
@@ -55,6 +58,7 @@ export interface IGCMUpdateMethods {
   updateDepartingOn: (date: Date) => void;
   updateTravellingAs: (option: IPickerOption) => void;
   updateRoomDetails: (room: IHotelGuestRoomConfig[]) => void;
+  updateNationality: (newNationality: INationalityOption) => void;
 }
 
 export interface ITravellingAsPickerOption extends IPickerOption {
@@ -107,6 +111,9 @@ const useGCMForm = (
     ITravellingAsPickerOption | undefined
   >(undefined);
   const [roomDetails, setRoomDetails] = useState<IHotelGuestRoomConfig[]>([]);
+  const [nationality, setNationality] = useState<
+    INationalityOption | undefined
+  >(undefined);
 
   const updateDepartingFrom = (option: IIndianCity) => setDepartingFrom(option);
   const updateDepartingOn = (date: Date) => setDepartingOn(date);
@@ -118,6 +125,8 @@ const useGCMForm = (
   };
   const updateRoomDetails = (roomConfig: IHotelGuestRoomConfig[]) =>
     setRoomDetails(roomConfig);
+  const updateNationality = (newNationality: INationalityOption) =>
+    setNationality(newNationality);
 
   useEffect(() => {
     if (costingConfig) {
@@ -152,13 +161,15 @@ const useGCMForm = (
       departingFrom,
       departingOn,
       travellingAs,
-      roomDetails
+      roomDetails,
+      nationality
     },
     {
       updateDepartingFrom,
       updateDepartingOn,
       updateTravellingAs,
-      updateRoomDetails
+      updateRoomDetails,
+      updateNationality
     }
   ];
 };

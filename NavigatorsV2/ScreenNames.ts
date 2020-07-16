@@ -25,6 +25,7 @@ export const SCREEN_BUDGET_PREFERENCES = "BudgetPreferences";
 export const SCREEN_REQUEST_CALLBACK = "RequestCallback";
 export const SCREEN_GCM = "GCM";
 export const SCREEN_GCM_CITY_PICKER = "GCMCityPicker";
+export const SCREEN_GCM_NATIONALITY_PICKER = "GCMNationalityPicker";
 export const SCREEN_GCM_ROOM_CONFIG = "GCMRoomConfig";
 
 /**
