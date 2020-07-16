@@ -77,7 +77,7 @@ const ItineraryDetail = ({
         <Text style={styles.textStyle}>
           {totalCost
             ? getLocaleStringGlobal({
-                amount: totalCost,
+                amount: parseInt((totalCost as unknown) as string, 10),
                 currency: displayCurrency
               })
             : "NA"}

@@ -5,7 +5,6 @@ import { IPackageItinerarySection } from "../ExploreFeedType";
 import HorizontalCardsRow from "./HorizontalCardsRow";
 import ItineraryCard from "../../../CommonComponents/ItineraryCard/ItineraryCard";
 import { IPackageItinerary } from "../../../TypeInterfaces/IPackageItinerary";
-import getPriceWithoutSymbol from "../services/getPriceWithoutSymbol";
 import generateInclusions from "../services/generateInclusions";
 import ExploreCardLodingIndicator from "./ExploreCardLodingIndicator";
 import getImgIXUrl from "../../../Services/getImgIXUrl/getImgIXUrl";
@@ -40,7 +39,7 @@ const PackageItineraryCardsRow = (props: IPackageItinerarySection) => {
             data.filteredItineraries
               .slice(0, CONSTANT_exploreFeedCardLimit)
               .map((card, cardIndex) => {
-                const amount = getPriceWithoutSymbol(card.itineraryCost);
+                const amount = card.itineraryCost;
                 const action = () => {
                   deepLink({
                     link: card.deepLinking.link,

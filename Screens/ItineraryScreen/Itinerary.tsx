@@ -273,6 +273,7 @@ const Itinerary = ({ route, navigation, leadSourceStore }: ItineraryProps) => {
         updateBannerDetails={updateBannerDetails}
         updateCampaignItineraryCost={updateCampaignItineraryCost}
         updateItineraryCost={updateItineraryCost}
+        displayCurrency={displayCurrency || "INR"}
       />
     </>
   );

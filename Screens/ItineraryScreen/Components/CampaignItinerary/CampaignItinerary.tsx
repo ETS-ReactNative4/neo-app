@@ -37,6 +37,7 @@ import isUserLoggedIn from "../../../../Services/isUserLoggedIn/isUserLoggedIn";
 import { inject, observer } from "mobx-react";
 import LeadSource from "../../../../mobx/LeadSource";
 import { ICampaignDetails } from "../../../../TypeInterfaces/ICampaignDetails";
+import { getLocaleStringGlobal } from "../../../../Services/getLocaleString/getLocaleString";
 
 export interface CampaignItineraryProps extends ItineraryNavType {
   itineraryDetails: ReturnType<typeof useUnbookedItinerary>;
@@ -49,6 +50,7 @@ export interface CampaignItineraryProps extends ItineraryNavType {
   ) => any;
   updateItineraryCost: (itineraryId: string, config: IGCMRequestBody) => any;
   leadSourceStore?: LeadSource;
+  displayCurrency: string;
 }
 
 const CampaignItinerary = ({
@@ -60,7 +62,8 @@ const CampaignItinerary = ({
   updateCampaignItineraryCost,
   updateItineraryCost,
   route,
-  leadSourceStore
+  leadSourceStore,
+  displayCurrency
 }: CampaignItineraryProps) => {
   let campaignItineraryId: string = "",
     bannerText: string = "",
@@ -325,7 +328,10 @@ const CampaignItinerary = ({
 
       {!staleCost ? (
         <HighlightText
-          titleText={`₹ ${totalCost}`}
+          titleText={getLocaleStringGlobal({
+            amount: parseInt(totalCost, 10),
+            currency: displayCurrency
+          })}
           infoText={"See what's included in your trip"}
           afterCost={true}
           afterCostAction={openItineraryPDF}
