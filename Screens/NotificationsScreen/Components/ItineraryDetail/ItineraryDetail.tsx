@@ -9,7 +9,7 @@ import {
   CONSTANT_shade2
 } from "../../../../constants/colorPallete";
 import PrimaryButton from "../../../../CommonComponents/PrimaryButton/PrimaryButton";
-import getLocaleString from "../../../../Services/getLocaleString/getLocaleString";
+import { getLocaleStringGlobal } from "../../../../Services/getLocaleString/getLocaleString";
 
 export interface ItineraryDetailProps {
   departureDate: string;
@@ -23,6 +23,7 @@ export interface ItineraryDetailProps {
   travellingAs: string;
   staleCost: boolean;
   updateCost: () => any;
+  displayCurrency: string;
 }
 
 const ItineraryDetail = ({
@@ -36,7 +37,8 @@ const ItineraryDetail = ({
   children,
   travellingAs,
   staleCost,
-  updateCost
+  updateCost,
+  displayCurrency
 }: ItineraryDetailProps) => {
   return (
     <View style={styles.itineraryDetailContainer}>
@@ -73,7 +75,12 @@ const ItineraryDetail = ({
           {`PRICE AS ON ${costedDate || ""} | ${costedTime || ""}`}
         </Text>
         <Text style={styles.textStyle}>
-          {totalCost ? getLocaleString(totalCost) : "NA"}
+          {totalCost
+            ? getLocaleStringGlobal({
+                amount: totalCost,
+                currency: displayCurrency
+              })
+            : "NA"}
         </Text>
       </View>
 

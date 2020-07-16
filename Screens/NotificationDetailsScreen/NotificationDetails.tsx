@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { View, StyleSheet, TouchableOpacity, Platform } from "react-native";
 import { AppNavigatorProps } from "../../NavigatorsV2/AppNavigator";
 import {
@@ -66,6 +66,8 @@ const NotificationDetails = ({
     getNotificationDetails
   ] = useNotificationDetailsApi();
 
+  const [displayCurrency, setDisplayCurrency] = useState("INR");
+
   // @ts-ignore - handle null initialization
   const itineraryDetails = useUnbookedItinerary(null);
 
@@ -114,6 +116,7 @@ const NotificationDetails = ({
       .then((response: IItineraryServerResponse) => {
         if (response.status === CONSTANT_responseSuccessStatus) {
           itineraryDetails.updateItinerary(response.data);
+          setDisplayCurrency(response.displayCurrency || "");
         } else {
           toastBottom("Unable to retrieve Itinerary info");
           navigation.goBack();
@@ -220,6 +223,7 @@ const NotificationDetails = ({
             totalCost={totalCost}
             travellingAs={travelType}
             staleCost={staleCost}
+            displayCurrency={displayCurrency}
           />
           {notificationDetailsApi.isSuccess ? (
             <ItineraryTimeline
