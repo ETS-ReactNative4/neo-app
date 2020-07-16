@@ -2,9 +2,9 @@ import { getLocales, findBestAvailableLanguage } from "react-native-localize";
 
 const locales = getLocales();
 
-const languageCodes = locales.map(each => each.languageCode);
+const languageCodes = locales.map(each => each.languageTag);
 
-const systemLanguageCode =
+export const systemLanguageCode =
   findBestAvailableLanguage(languageCodes)?.languageTag ?? "en-IN";
 
 const getLocaleString = amount => {

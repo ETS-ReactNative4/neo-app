@@ -1,12 +1,6 @@
-import getLocaleString from "../../../Services/getLocaleString/getLocaleString";
-import { getLocales, findBestAvailableLanguage } from "react-native-localize";
-
-const locales = getLocales();
-
-const languageCodes = locales.map(each => each.languageCode);
-
-const systemLanguageCode =
-  findBestAvailableLanguage(languageCodes)?.languageTag ?? "en-IN";
+import getLocaleString, {
+  systemLanguageCode
+} from "../../../Services/getLocaleString/getLocaleString";
 
 // PT TODO: Better way to display the money...
 const getPriceWithoutSymbol = (price: number) => {
