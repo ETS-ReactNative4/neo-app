@@ -88,6 +88,7 @@ const GCM = ({ navigation, route }: GCMProps) => {
         travelType
       ) {
         onSubmit({
+          departureAirport: "$$$",
           nationality,
           departureDate,
           hotelGuestRoomConfigurations,
