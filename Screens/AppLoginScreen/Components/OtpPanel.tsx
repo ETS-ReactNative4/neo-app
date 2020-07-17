@@ -15,6 +15,12 @@ import DismissKeyboardView from "../../../CommonComponents/DismissKeyboardView/D
 import moment from "moment";
 import { CONSTANT_visaSuccessAnimation } from "../../../constants/imageAssets";
 import LottieView from "lottie-react-native";
+import PrimaryButton from "../../../CommonComponents/PrimaryButton/PrimaryButton";
+import * as Animatable from "react-native-animatable";
+
+const { createAnimatableComponent } = Animatable;
+
+const AnimatableView = createAnimatableComponent(View);
 
 export interface OtpPanelProps {
   containerStyle?: StyleProp<ViewStyle>;
@@ -108,6 +114,18 @@ const OtpPanel = ({
           </Text>
         </View>
       </View>
+      {code.length >= 6 && !isOtpSubmitting ? (
+        <AnimatableView
+          delay={1500}
+          animation={"fadeIn"}
+          style={styles.animationWrapper}
+        >
+          <PrimaryButton
+            text={"Submit OTP"}
+            clickAction={() => onCodeFilled(code)}
+          />
+        </AnimatableView>
+      ) : null}
       {isOtpSubmitting ? (
         <View style={styles.animationWrapper}>
           <LottieView source={CONSTANT_visaSuccessAnimation()} autoPlay loop />

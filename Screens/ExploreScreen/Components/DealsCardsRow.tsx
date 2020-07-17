@@ -8,7 +8,6 @@ import DealsCard from "../../../CommonComponents/DealsCard/DealsCard";
 import moment from "moment";
 import { responsiveWidth } from "react-native-responsive-dimensions";
 import ratioCalculator from "../../../Services/ratioCalculator/ratioCalculator";
-import { CONSTANT_shortCommonDateFormat } from "../../../constants/styles";
 import getPriceWithoutSymbol from "../services/getPriceWithoutSymbol";
 import getImgIXUrl from "../../../Services/getImgIXUrl/getImgIXUrl";
 import { CONSTANT_defaultPlaceImage } from "../../../constants/imageAssets";
@@ -16,6 +15,7 @@ import { CONSTANT_explore } from "../../../constants/appEvents";
 import deepLink from "../../../Services/deepLink/deepLink";
 import { recordEvent } from "../../../Services/analytics/analyticsService";
 import { StyleSheet } from "react-native";
+import { DEAL_DATE_FORMAT } from "../../DealsListingScreen/DealsListing";
 
 export interface IDealCardsData {
   isLoading: boolean;
@@ -58,9 +58,7 @@ const DealsCardsRow = (props: IDealsCardSection) => {
                 "YYYY-MM-DD"
               );
 
-              let bookByText = `Book by ${bookByDate.format(
-                CONSTANT_shortCommonDateFormat
-              )}`;
+              let bookByText = `Book by ${bookByDate.format(DEAL_DATE_FORMAT)}`;
 
               const today = moment();
 
@@ -82,12 +80,12 @@ const DealsCardsRow = (props: IDealsCardSection) => {
                   info={`Travel between ${moment(
                     itinerary.availableDates[0],
                     "YYYY-MM-DD"
-                  ).format(CONSTANT_shortCommonDateFormat)} - ${moment(
+                  ).format(DEAL_DATE_FORMAT)} - ${moment(
                     itinerary.availableDates[
                       itinerary.availableDates.length - 1
                     ],
                     "YYYY-MM-DD"
-                  ).format(CONSTANT_shortCommonDateFormat)}`}
+                  ).format(DEAL_DATE_FORMAT)}`}
                   price={getPriceWithoutSymbol(itinerary.itineraryCost)}
                   perPersonText={
                     itinerary.totalPAX

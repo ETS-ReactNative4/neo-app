@@ -19,7 +19,7 @@ import {
 interface PrimaryButtonProps {
   containerStyle?: StyleProp<ViewStyle>;
   text: string;
-  clickAction?: () => void;
+  clickAction?: () => any;
   buttonStyle?: StyleProp<ViewStyle>;
   buttonTextStyle?: StyleProp<TextStyle>;
 }

@@ -62,6 +62,8 @@ const useApiCall = (): [
   }: IApiCallConfig): Promise<boolean> => {
     return new Promise<boolean>(async (resolve, reject) => {
       setIsLoading(true);
+      setSuccessResponseData(undefined);
+      setFailureResponseData(undefined);
       try {
         const response: IMobileServerResponse = await apiCall(
           route,

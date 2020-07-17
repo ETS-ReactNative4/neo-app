@@ -193,7 +193,7 @@ const styles = StyleSheet.create({
     color: "rgba(204, 161, 41, 1)",
     textTransform: "uppercase",
     marginHorizontal: 16,
-    marginTop: 8
+    marginTop: 10
   },
   infoView: {
     borderTopWidth: 1,
