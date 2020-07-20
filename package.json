@@ -53,7 +53,7 @@
     "country-data": "^0.0.31",
     "currency-symbol-map": "4.0.4",
     "d3-shape": "^1.2.0",
-    "intl": "^1.2.5",
+    "jsc-android": "241213.1.0",
     "libphonenumber-js": "1.7.9",
     "lodash": "^4.17.5",
     "lottie-ios": "3.1.3",
