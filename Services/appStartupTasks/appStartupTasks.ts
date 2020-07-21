@@ -5,6 +5,7 @@ import { getDeviceToken } from "../fcmService/fcm";
 import isUserLoggedIn from "../isUserLoggedIn/isUserLoggedIn";
 import enableDeepLinking from "./tasks/enableDeepLinking";
 import setUserSegment from "../setUserSegment/setUserSegment";
+import setDeviceLocale from "./tasks/setDeviceLocale";
 
 /**
  * When the App Launches there's a bunch of things that needs to happen,
@@ -14,6 +15,8 @@ import setUserSegment from "../setUserSegment/setUserSegment";
  */
 const appStartupTasks = () => {
   enableLayoutAnimationAndroid();
+
+  setDeviceLocale();
 
   enableAnalyticsInProd();
 
