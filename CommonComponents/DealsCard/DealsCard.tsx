@@ -48,6 +48,7 @@ export interface DealsCardProps {
   perPersonText?: string;
   onClick: () => any;
   containerStyle?: StyleProp<ViewStyle>;
+  priceSymbol: string;
 }
 
 export const OFFER_BOX_HEIGHT = 24;
@@ -70,7 +71,8 @@ const DealsCard = ({
   price,
   onClick,
   perPersonText = "",
-  containerStyle
+  containerStyle,
+  priceSymbol
 }: DealsCardProps) => {
   const action = () => {
     onClick && onClick();
@@ -131,7 +133,7 @@ const DealsCard = ({
             </Text>
           </View>
           <View style={styles.rupeeRow}>
-            <Text style={styles.rupeeSymbol}>{"₹"}</Text>
+            <Text style={styles.rupeeSymbol}>{priceSymbol}</Text>
             <Text style={styles.priceText}>{price}</Text>
             <Text style={styles.perPersonText}>
               {perPersonText ? perPersonText : ""}

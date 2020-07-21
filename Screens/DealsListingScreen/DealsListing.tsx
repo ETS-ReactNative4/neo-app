@@ -32,13 +32,16 @@ import {
   responsiveWidth
 } from "react-native-responsive-dimensions";
 import LottieView from "lottie-react-native";
-import getPriceWithoutSymbol from "../ExploreScreen/services/getPriceWithoutSymbol";
+import { getGlobalPriceWithoutSymbol } from "../ExploreScreen/services/getPriceWithoutSymbol";
 import DealsCard from "../../CommonComponents/DealsCard/DealsCard";
 import ratioCalculator from "../../Services/ratioCalculator/ratioCalculator";
 import DealsFilter from "./Components/DealsFilter";
 import moment from "moment";
 import deepLink from "../../Services/deepLink/deepLink";
 import DealsSignupPromoCard from "./Components/DealsSignupPromoCard";
+import { getLocaleStringGlobal } from "../../Services/getLocaleString/getLocaleString";
+// @ts-ignore
+import getSymbolFromCurrency from "currency-symbol-map";
 
 export const DEAL_DATE_FORMAT = "Do MMM YYYY";
 
@@ -57,7 +60,7 @@ const DealsListing = () => {
     closeFilterPanel();
   };
 
-  const { data: packagesData = {} } =
+  const { data: packagesData = {}, displayCurrency = "" } =
     dealsListingApiDetails?.successResponseData ?? {};
 
   const {
@@ -223,7 +226,11 @@ const DealsListing = () => {
                     ],
                     "YYYY-MM-DD"
                   ).format(DEAL_DATE_FORMAT)}`}
-                  price={getPriceWithoutSymbol(itinerary.itineraryCost)}
+                  priceSymbol={getSymbolFromCurrency(displayCurrency || "INR")}
+                  price={getGlobalPriceWithoutSymbol({
+                    amount: itinerary.itineraryCost,
+                    currency: displayCurrency || "INR"
+                  })}
                   perPersonText={
                     itinerary.totalPAX
                       ? ` per ${itinerary.totalPAX} person${
@@ -249,7 +256,10 @@ const DealsListing = () => {
                   onClick={() => deepLink(itinerary.deepLinking)}
                   strikedPrice={
                     itinerary.strikedCost
-                      ? `₹ ${getPriceWithoutSymbol(itinerary.strikedCost)}`
+                      ? getLocaleStringGlobal({
+                          amount: itinerary.strikedCost,
+                          currency: displayCurrency || "INR"
+                        })
                       : ""
                   }
                   containerStyle={styles.dealCard}
@@ -264,7 +274,7 @@ const DealsListing = () => {
               </Fragment>
             );
           });
-        }, [filteredItineraries])}
+        }, [filteredItineraries, displayCurrency])}
         <BlankSpacer height={62} />
       </ParallaxScrollView>
       <Modal

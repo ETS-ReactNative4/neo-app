@@ -5,6 +5,7 @@ import useApiCall, {
 import { CONSTANT_getPackagesDetails } from "../../../constants/apiUrls";
 import { IDealsPackageItinerary } from "../../../TypeInterfaces/IPackageItinerary";
 import { ICampaignDetails } from "../../../TypeInterfaces/ICampaignDetails";
+import { IMobileServerResponse } from "../../../TypeInterfaces/INetworkResponse";
 
 export interface IDealsListingRequestBody {
   key: "deals/best-staycation";
@@ -28,7 +29,7 @@ export interface IDealsListingApiResponse {
   filteredItineraries: IDealsPackageItinerary[];
 }
 
-export interface IDealsListingResponseData {
+export interface IDealsListingResponseData extends IMobileServerResponse {
   status: "SUCCESS";
   data: IDealsListingApiResponse;
 }
