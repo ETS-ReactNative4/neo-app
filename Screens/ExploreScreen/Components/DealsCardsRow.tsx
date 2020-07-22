@@ -8,7 +8,7 @@ import DealsCard from "../../../CommonComponents/DealsCard/DealsCard";
 import moment from "moment";
 import { responsiveWidth } from "react-native-responsive-dimensions";
 import ratioCalculator from "../../../Services/ratioCalculator/ratioCalculator";
-import getPriceWithoutSymbol from "../services/getPriceWithoutSymbol";
+import { getGlobalPriceWithoutSymbol } from "../services/getPriceWithoutSymbol";
 import getImgIXUrl from "../../../Services/getImgIXUrl/getImgIXUrl";
 import { CONSTANT_defaultPlaceImage } from "../../../constants/imageAssets";
 import { CONSTANT_explore } from "../../../constants/appEvents";
@@ -16,10 +16,14 @@ import deepLink from "../../../Services/deepLink/deepLink";
 import { recordEvent } from "../../../Services/analytics/analyticsService";
 import { StyleSheet } from "react-native";
 import { DEAL_DATE_FORMAT } from "../../DealsListingScreen/DealsListing";
+// @ts-ignore
+import getSymbolFromCurrency from "currency-symbol-map";
+import { getLocaleStringGlobal } from "../../../Services/getLocaleString/getLocaleString";
 
 export interface IDealCardsData {
   isLoading: boolean;
   data?: IDealsListingApiResponse;
+  displayCurrency: string;
 }
 
 const DealsCardsRow = (props: IDealsCardSection) => {
@@ -29,7 +33,7 @@ const DealsCardsRow = (props: IDealsCardSection) => {
       httpMethod={props.httpMethod}
       requestPayload={props.requestPayload}
     >
-      {({ data, isLoading }: IDealCardsData) => {
+      {({ data, isLoading, displayCurrency }: IDealCardsData) => {
         return isLoading ? (
           <ExploreCardLodingIndicator height={454} />
         ) : data &&
@@ -86,7 +90,11 @@ const DealsCardsRow = (props: IDealsCardSection) => {
                     ],
                     "YYYY-MM-DD"
                   ).format(DEAL_DATE_FORMAT)}`}
-                  price={getPriceWithoutSymbol(itinerary.itineraryCost)}
+                  priceSymbol={getSymbolFromCurrency(displayCurrency || "INR")}
+                  price={getGlobalPriceWithoutSymbol({
+                    amount: itinerary.itineraryCost,
+                    currency: displayCurrency || "INR"
+                  })}
                   perPersonText={
                     itinerary.totalPAX
                       ? ` per ${itinerary.totalPAX} person${
@@ -112,7 +120,10 @@ const DealsCardsRow = (props: IDealsCardSection) => {
                   onClick={action}
                   strikedPrice={
                     itinerary.strikedCost
-                      ? `₹ ${getPriceWithoutSymbol(itinerary.strikedCost)}`
+                      ? getLocaleStringGlobal({
+                          amount: itinerary.strikedCost,
+                          currency: displayCurrency
+                        })
                       : ""
                   }
                   containerStyle={styles.itineraryCard}
