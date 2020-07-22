@@ -13,10 +13,15 @@ import {
   fieldToBeSorted,
   months,
   discounts,
-  price,
+  price as priceINR,
+  priceUAE,
+  priceUK,
+  priceUSD,
   indianCities
 } from "../../ListingPageScreen/filterOptions/filterOptions";
 import { useState } from "react";
+import storeService from "../../../Services/storeService/storeService";
+import _ from "lodash";
 
 export interface IDealsPackagesFilter {
   month: INumericCheckBoxSet;
@@ -28,6 +33,22 @@ export interface IDealsPackagesFilter {
 }
 
 const useDealsFilter = (): IDealsPackagesFilter => {
+  let price = priceINR;
+
+  switch (_.toLower(storeService.deviceLocaleStore.deviceLocale)) {
+    case "ae":
+      price = priceUAE;
+      break;
+    case "gb":
+      price = priceUK;
+      break;
+    case "us":
+      price = priceUSD;
+      break;
+    default:
+      break;
+  }
+
   const [sortRadioGroup, setSortRadioGroup] = useState<IRadioGroup>({
     type: "Radio",
     ...sort

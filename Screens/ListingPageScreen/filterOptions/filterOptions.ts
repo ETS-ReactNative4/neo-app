@@ -153,6 +153,84 @@ export const estimatedBudgetCheckBox: IFilters = {
   ]
 };
 
+export const estimatedBudgetCheckBoxUSD: IFilters = {
+  title: "Estimate Budget",
+  options: [
+    {
+      text: "less than $ 1,000",
+      value: "0_1000",
+      isSelected: false
+    },
+    {
+      text: "$ 1,000 - $ 1,500",
+      value: "1000_1500",
+      isSelected: false
+    },
+    {
+      text: "$ 1,500 - $ 2,500",
+      value: "1500_2500",
+      isSelected: false
+    },
+    {
+      text: "above $ 2,500",
+      value: "2500_9999999",
+      isSelected: false
+    }
+  ]
+};
+
+export const estimatedBudgetCheckBoxUK: IFilters = {
+  title: "Estimate Budget",
+  options: [
+    {
+      text: "less than £ 500",
+      value: "0_500",
+      isSelected: false
+    },
+    {
+      text: "£ 500 - £ 1,000",
+      value: "500_1000",
+      isSelected: false
+    },
+    {
+      text: "£ 1,000 - £ 2,000",
+      value: "1000_2000",
+      isSelected: false
+    },
+    {
+      text: "above £ 2,000",
+      value: "2000_9999999",
+      isSelected: false
+    }
+  ]
+};
+
+export const estimatedBudgetCheckBoxUAE: IFilters = {
+  title: "Estimate Budget",
+  options: [
+    {
+      text: "less than DH. 2,500",
+      value: "0_2500",
+      isSelected: false
+    },
+    {
+      text: "DH. 2,500 - DH. 5,000",
+      value: "2500_5000",
+      isSelected: false
+    },
+    {
+      text: "DH. 5,000 - DH. 10,000",
+      value: "5000_10000",
+      isSelected: false
+    },
+    {
+      text: "above DH. 10,000",
+      value: "10000_9999999",
+      isSelected: false
+    }
+  ]
+};
+
 // Based on - https://stackoverflow.com/a/10833631
 
 const now = new Date();
@@ -233,7 +311,7 @@ export const price: IFilters = {
   title: "Price",
   options: [
     {
-      text: "₹0 - ₹5k",
+      text: "less than ₹5k",
       value: "0_5000",
       isSelected: false
     },
@@ -260,6 +338,84 @@ export const price: IFilters = {
     {
       text: "above ₹30k",
       value: "30000_9999999",
+      isSelected: false
+    }
+  ]
+};
+
+export const priceUSD: IFilters = {
+  title: "Price",
+  options: [
+    {
+      text: "less than $ 1,000",
+      value: "0_1000",
+      isSelected: false
+    },
+    {
+      text: "$ 1,000 - $ 1,500",
+      value: "1000_1500",
+      isSelected: false
+    },
+    {
+      text: "$ 1,500 - $ 2,500",
+      value: "1500_2500",
+      isSelected: false
+    },
+    {
+      text: "above $ 2,500",
+      value: "2500_9999999",
+      isSelected: false
+    }
+  ]
+};
+
+export const priceUK: IFilters = {
+  title: "Price",
+  options: [
+    {
+      text: "less than £ 500",
+      value: "0_500",
+      isSelected: false
+    },
+    {
+      text: "£ 500 - £ 1,000",
+      value: "500_1000",
+      isSelected: false
+    },
+    {
+      text: "£ 1,000 - £ 2,000",
+      value: "1000_2000",
+      isSelected: false
+    },
+    {
+      text: "above £ 2,000",
+      value: "2000_9999999",
+      isSelected: false
+    }
+  ]
+};
+
+export const priceUAE: IFilters = {
+  title: "Price",
+  options: [
+    {
+      text: "less than DH. 2,500",
+      value: "0_2500",
+      isSelected: false
+    },
+    {
+      text: "DH. 2,500 - DH. 5,000",
+      value: "2500_5000",
+      isSelected: false
+    },
+    {
+      text: "DH. 5,000 - DH. 10,000",
+      value: "5000_10000",
+      isSelected: false
+    },
+    {
+      text: "above DH. 10,000",
+      value: "10000_9999999",
       isSelected: false
     }
   ]
