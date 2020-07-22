@@ -1,6 +1,5 @@
-import getLocaleString, {
-  systemLanguageCode
-} from "../../../Services/getLocaleString/getLocaleString";
+import getLocaleString from "../../../Services/getLocaleString/getLocaleString";
+import storeService from "../../../Services/storeService/storeService";
 
 // PT TODO: Better way to display the money...
 const getPriceWithoutSymbol = (price: number) => {
@@ -28,13 +27,14 @@ function getCurrencySymbol(locale: string, currency: string) {
 
 export const getGlobalPriceWithoutSymbol = ({
   amount,
-  languageCode = systemLanguageCode,
+  languageCode = storeService.deviceLocaleStore.deviceLocaleCode,
   currency = "INR"
 }: {
   amount: number;
   languageCode?: string;
   currency?: string;
 }) => {
+  // eslint-disable-next-line no-undef
   const amountFormatter = new Intl.NumberFormat(languageCode, {
     style: "currency",
     currency,

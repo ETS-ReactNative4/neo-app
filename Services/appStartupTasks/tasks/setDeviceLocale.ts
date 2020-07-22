@@ -10,6 +10,9 @@ const setDeviceLocale = async () => {
       storeService.deviceLocaleStore.updateDeviceLocale(
         result.data?.locale ?? "in"
       );
+      storeService.deviceLocaleStore.updateDeviceLocaleCode(
+        result.data?.["locale-code"] ?? "in"
+      );
     } else {
       // failed again... No-op needed system will fallback
     }

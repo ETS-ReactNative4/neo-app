@@ -1,14 +1,8 @@
-import { getLocales, findBestAvailableLanguage } from "react-native-localize";
-
-const locales = getLocales();
-
-const languageCodes = locales.map(each => each.languageTag);
-
-export const systemLanguageCode =
-  findBestAvailableLanguage(languageCodes)?.languageTag ?? "en-IN";
+import storeService from "../storeService/storeService";
 
 const getLocaleString = amount => {
   if (typeof amount === "number") {
+    // eslint-disable-next-line no-undef
     return new Intl.NumberFormat("en-IN", {
       style: "currency",
       currency: "INR"
@@ -20,10 +14,11 @@ const getLocaleString = amount => {
 
 export const getLocaleStringGlobal = ({
   amount,
-  languageCode = systemLanguageCode,
+  languageCode = storeService.deviceLocaleStore.deviceLocaleCode,
   currency = "INR"
 }) => {
   if (typeof amount === "number") {
+    // eslint-disable-next-line no-undef
     return new Intl.NumberFormat(languageCode, {
       style: "currency",
       currency
