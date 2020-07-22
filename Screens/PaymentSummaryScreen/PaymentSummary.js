@@ -5,7 +5,9 @@ import { responsiveWidth } from "react-native-responsive-dimensions";
 import apiCall from "../../Services/networkRequests/apiCall";
 import moment from "moment";
 import paymentScript from "./Components/paymentScript";
-import getLocaleString from "../../Services/getLocaleString/getLocaleString";
+import getLocaleString, {
+  getLocaleStringGlobal
+} from "../../Services/getLocaleString/getLocaleString";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import _ from "lodash";
 import YourBookingsTabBar from "../YourBookingsScreen/Components/YourBookingsTabBar";
@@ -215,7 +217,10 @@ class PaymentSummary extends Component {
     const paymentOptions = productPayments
       ? productPayments.reduce((detailsArray, amount) => {
           const data = {
-            amount: `₹ ${amount.paymentAmount}`,
+            amount: getLocaleStringGlobal({
+              amount: amount.paymentAmount,
+              currency: displayCurrency
+            }),
             percentageText:
               amount.percent === 100
                 ? `Clear Total Balance Due`
@@ -260,7 +265,10 @@ class PaymentSummary extends Component {
       ? productPayments.reduce((detailsArray, amount) => {
           if (amount.paymentStatus === constants.paymentStatusSuccess) {
             const data = {
-              paymentAmount: `₹ ${amount.paymentAmount}`,
+              paymentAmount: getLocaleStringGlobal({
+                amount: amount.paymentAmount,
+                currency: displayCurrency
+              }),
               transactionId: amount.transactionId,
               mode: amount.mode || "Razor Pay",
               date: amount.paidOn,
