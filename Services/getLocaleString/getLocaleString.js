@@ -14,7 +14,7 @@ const getLocaleString = amount => {
 
 export const getLocaleStringGlobal = ({
   amount,
-  languageCode = storeService.deviceLocaleStore.deviceLocaleCode,
+  languageCode = storeService?.deviceLocaleStore?.deviceLocaleCode ?? "en-IN",
   currency = "INR"
 }) => {
   if (typeof amount === "number") {

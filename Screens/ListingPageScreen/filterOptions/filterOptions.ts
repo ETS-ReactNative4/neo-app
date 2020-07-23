@@ -2,6 +2,8 @@
  * PT TODO: Options to be moved to an API
  */
 
+import { getLocaleStringGlobal } from "../../../Services/getLocaleString/getLocaleString";
+
 export interface IFilterOption {
   text: string;
   value: string;
@@ -117,6 +119,13 @@ export const propertyRatingCheckBox: IFilters = {
   ]
 };
 
+export const CURRENCY_MULTIPLIER = {
+  USD: 0.013,
+  AED: 0.049,
+  INR: 1,
+  GBP: 0.01
+};
+
 export const estimatedBudgetCheckBox: IFilters = {
   title: "Estimate Budget",
   options: [
@@ -157,23 +166,63 @@ export const estimatedBudgetCheckBoxUSD: IFilters = {
   title: "Estimate Budget",
   options: [
     {
-      text: "less than $ 1,000",
-      value: "0_1000",
+      text: `Below ${getLocaleStringGlobal({
+        amount: Math.trunc(50000 * CURRENCY_MULTIPLIER.USD),
+        currency: "USD"
+      })}`,
+      value: "0_50000",
       isSelected: false
     },
     {
-      text: "$ 1,000 - $ 1,500",
-      value: "1000_1500",
+      text: `${getLocaleStringGlobal({
+        amount: Math.trunc(50000 * CURRENCY_MULTIPLIER.USD),
+        currency: "USD"
+      })} - ${getLocaleStringGlobal({
+        amount: Math.trunc(75000 * CURRENCY_MULTIPLIER.USD),
+        currency: "USD"
+      })}`,
+      value: "50000_75000",
       isSelected: false
     },
     {
-      text: "$ 1,500 - $ 2,500",
-      value: "1500_2500",
+      text: `${getLocaleStringGlobal({
+        amount: Math.trunc(75000 * CURRENCY_MULTIPLIER.USD),
+        currency: "USD"
+      })} - ${getLocaleStringGlobal({
+        amount: Math.trunc(100000 * CURRENCY_MULTIPLIER.USD),
+        currency: "USD"
+      })}`,
+      value: "75000_100000",
       isSelected: false
     },
     {
-      text: "above $ 2,500",
-      value: "2500_9999999",
+      text: `${getLocaleStringGlobal({
+        amount: Math.trunc(100000 * CURRENCY_MULTIPLIER.USD),
+        currency: "USD"
+      })} - ${getLocaleStringGlobal({
+        amount: Math.trunc(150000 * CURRENCY_MULTIPLIER.USD),
+        currency: "USD"
+      })}`,
+      value: "100000_150000",
+      isSelected: false
+    },
+    {
+      text: `${getLocaleStringGlobal({
+        amount: Math.trunc(150000 * CURRENCY_MULTIPLIER.USD),
+        currency: "USD"
+      })} - ${getLocaleStringGlobal({
+        amount: Math.trunc(200000 * CURRENCY_MULTIPLIER.USD),
+        currency: "USD"
+      })}`,
+      value: "150000_200000",
+      isSelected: false
+    },
+    {
+      text: `Above ${getLocaleStringGlobal({
+        amount: Math.trunc(200000 * CURRENCY_MULTIPLIER.USD),
+        currency: "USD"
+      })}`,
+      value: "200000_9999999",
       isSelected: false
     }
   ]
@@ -183,23 +232,63 @@ export const estimatedBudgetCheckBoxUK: IFilters = {
   title: "Estimate Budget",
   options: [
     {
-      text: "less than £ 500",
-      value: "0_500",
+      text: `Below ${getLocaleStringGlobal({
+        amount: Math.trunc(50000 * CURRENCY_MULTIPLIER.GBP),
+        currency: "GBP"
+      })}`,
+      value: "0_50000",
       isSelected: false
     },
     {
-      text: "£ 500 - £ 1,000",
-      value: "500_1000",
+      text: `${getLocaleStringGlobal({
+        amount: Math.trunc(50000 * CURRENCY_MULTIPLIER.GBP),
+        currency: "GBP"
+      })} - ${getLocaleStringGlobal({
+        amount: Math.trunc(75000 * CURRENCY_MULTIPLIER.GBP),
+        currency: "GBP"
+      })}`,
+      value: "50000_75000",
       isSelected: false
     },
     {
-      text: "£ 1,000 - £ 2,000",
-      value: "1000_2000",
+      text: `${getLocaleStringGlobal({
+        amount: Math.trunc(75000 * CURRENCY_MULTIPLIER.GBP),
+        currency: "GBP"
+      })} - ${getLocaleStringGlobal({
+        amount: Math.trunc(100000 * CURRENCY_MULTIPLIER.GBP),
+        currency: "GBP"
+      })}`,
+      value: "75000_100000",
       isSelected: false
     },
     {
-      text: "above £ 2,000",
-      value: "2000_9999999",
+      text: `${getLocaleStringGlobal({
+        amount: Math.trunc(100000 * CURRENCY_MULTIPLIER.GBP),
+        currency: "GBP"
+      })} - ${getLocaleStringGlobal({
+        amount: Math.trunc(150000 * CURRENCY_MULTIPLIER.GBP),
+        currency: "GBP"
+      })}`,
+      value: "100000_150000",
+      isSelected: false
+    },
+    {
+      text: `${getLocaleStringGlobal({
+        amount: Math.trunc(150000 * CURRENCY_MULTIPLIER.GBP),
+        currency: "GBP"
+      })} - ${getLocaleStringGlobal({
+        amount: Math.trunc(200000 * CURRENCY_MULTIPLIER.GBP),
+        currency: "GBP"
+      })}`,
+      value: "150000_200000",
+      isSelected: false
+    },
+    {
+      text: `Above ${getLocaleStringGlobal({
+        amount: Math.trunc(200000 * CURRENCY_MULTIPLIER.USD),
+        currency: "GBP"
+      })}`,
+      value: "200000_9999999",
       isSelected: false
     }
   ]
@@ -209,23 +298,63 @@ export const estimatedBudgetCheckBoxUAE: IFilters = {
   title: "Estimate Budget",
   options: [
     {
-      text: "less than DH. 2,500",
-      value: "0_2500",
+      text: `Below ${getLocaleStringGlobal({
+        amount: Math.trunc(50000 * CURRENCY_MULTIPLIER.AED),
+        currency: "AED"
+      })}`,
+      value: "0_50000",
       isSelected: false
     },
     {
-      text: "DH. 2,500 - DH. 5,000",
-      value: "2500_5000",
+      text: `${getLocaleStringGlobal({
+        amount: Math.trunc(50000 * CURRENCY_MULTIPLIER.AED),
+        currency: "AED"
+      })} - ${getLocaleStringGlobal({
+        amount: Math.trunc(75000 * CURRENCY_MULTIPLIER.AED),
+        currency: "AED"
+      })}`,
+      value: "50000_75000",
       isSelected: false
     },
     {
-      text: "DH. 5,000 - DH. 10,000",
-      value: "5000_10000",
+      text: `${getLocaleStringGlobal({
+        amount: Math.trunc(75000 * CURRENCY_MULTIPLIER.AED),
+        currency: "AED"
+      })} - ${getLocaleStringGlobal({
+        amount: Math.trunc(100000 * CURRENCY_MULTIPLIER.AED),
+        currency: "AED"
+      })}`,
+      value: "75000_100000",
       isSelected: false
     },
     {
-      text: "above DH. 10,000",
-      value: "10000_9999999",
+      text: `${getLocaleStringGlobal({
+        amount: Math.trunc(100000 * CURRENCY_MULTIPLIER.AED),
+        currency: "AED"
+      })} - ${getLocaleStringGlobal({
+        amount: Math.trunc(150000 * CURRENCY_MULTIPLIER.AED),
+        currency: "AED"
+      })}`,
+      value: "100000_150000",
+      isSelected: false
+    },
+    {
+      text: `${getLocaleStringGlobal({
+        amount: Math.trunc(150000 * CURRENCY_MULTIPLIER.AED),
+        currency: "AED"
+      })} - ${getLocaleStringGlobal({
+        amount: Math.trunc(200000 * CURRENCY_MULTIPLIER.AED),
+        currency: "AED"
+      })}`,
+      value: "150000_200000",
+      isSelected: false
+    },
+    {
+      text: `Above ${getLocaleStringGlobal({
+        amount: Math.trunc(200000 * CURRENCY_MULTIPLIER.AED),
+        currency: "AED"
+      })}`,
+      value: "200000_9999999",
       isSelected: false
     }
   ]
@@ -347,23 +476,63 @@ export const priceUSD: IFilters = {
   title: "Price",
   options: [
     {
-      text: "less than $ 1,000",
-      value: "0_1000",
+      text: `less than ${getLocaleStringGlobal({
+        amount: Math.trunc(5000 * CURRENCY_MULTIPLIER.USD),
+        currency: "USD"
+      })}`,
+      value: "0_5000",
       isSelected: false
     },
     {
-      text: "$ 1,000 - $ 1,500",
-      value: "1000_1500",
+      text: `${getLocaleStringGlobal({
+        amount: Math.trunc(5000 * CURRENCY_MULTIPLIER.USD),
+        currency: "USD"
+      })} - ${getLocaleStringGlobal({
+        amount: Math.trunc(10000 * CURRENCY_MULTIPLIER.USD),
+        currency: "USD"
+      })}`,
+      value: "5000_10000",
       isSelected: false
     },
     {
-      text: "$ 1,500 - $ 2,500",
-      value: "1500_2500",
+      text: `${getLocaleStringGlobal({
+        amount: Math.trunc(10000 * CURRENCY_MULTIPLIER.USD),
+        currency: "USD"
+      })} - ${getLocaleStringGlobal({
+        amount: Math.trunc(15000 * CURRENCY_MULTIPLIER.USD),
+        currency: "USD"
+      })}`,
+      value: "10000_15000",
       isSelected: false
     },
     {
-      text: "above $ 2,500",
-      value: "2500_9999999",
+      text: `${getLocaleStringGlobal({
+        amount: Math.trunc(15000 * CURRENCY_MULTIPLIER.USD),
+        currency: "USD"
+      })} - ${getLocaleStringGlobal({
+        amount: Math.trunc(20000 * CURRENCY_MULTIPLIER.USD),
+        currency: "USD"
+      })}`,
+      value: "15000_20000",
+      isSelected: false
+    },
+    {
+      text: `${getLocaleStringGlobal({
+        amount: Math.trunc(20000 * CURRENCY_MULTIPLIER.USD),
+        currency: "USD"
+      })} - ${getLocaleStringGlobal({
+        amount: Math.trunc(30000 * CURRENCY_MULTIPLIER.USD),
+        currency: "USD"
+      })}`,
+      value: "20000_30000",
+      isSelected: false
+    },
+    {
+      text: `above ${getLocaleStringGlobal({
+        amount: Math.trunc(30000 * CURRENCY_MULTIPLIER.USD),
+        currency: "USD"
+      })}`,
+      value: "30000_9999999",
       isSelected: false
     }
   ]
@@ -373,23 +542,63 @@ export const priceUK: IFilters = {
   title: "Price",
   options: [
     {
-      text: "less than £ 500",
-      value: "0_500",
+      text: `less than ${getLocaleStringGlobal({
+        amount: Math.trunc(5000 * CURRENCY_MULTIPLIER.GBP),
+        currency: "GBP"
+      })}`,
+      value: "0_5000",
       isSelected: false
     },
     {
-      text: "£ 500 - £ 1,000",
-      value: "500_1000",
+      text: `${getLocaleStringGlobal({
+        amount: Math.trunc(5000 * CURRENCY_MULTIPLIER.GBP),
+        currency: "GBP"
+      })} - ${getLocaleStringGlobal({
+        amount: Math.trunc(10000 * CURRENCY_MULTIPLIER.GBP),
+        currency: "GBP"
+      })}`,
+      value: "5000_10000",
       isSelected: false
     },
     {
-      text: "£ 1,000 - £ 2,000",
-      value: "1000_2000",
+      text: `${getLocaleStringGlobal({
+        amount: Math.trunc(10000 * CURRENCY_MULTIPLIER.GBP),
+        currency: "GBP"
+      })} - ${getLocaleStringGlobal({
+        amount: Math.trunc(15000 * CURRENCY_MULTIPLIER.GBP),
+        currency: "GBP"
+      })}`,
+      value: "10000_15000",
       isSelected: false
     },
     {
-      text: "above £ 2,000",
-      value: "2000_9999999",
+      text: `${getLocaleStringGlobal({
+        amount: Math.trunc(15000 * CURRENCY_MULTIPLIER.GBP),
+        currency: "GBP"
+      })} - ${getLocaleStringGlobal({
+        amount: Math.trunc(20000 * CURRENCY_MULTIPLIER.GBP),
+        currency: "GBP"
+      })}`,
+      value: "15000_20000",
+      isSelected: false
+    },
+    {
+      text: `${getLocaleStringGlobal({
+        amount: Math.trunc(20000 * CURRENCY_MULTIPLIER.GBP),
+        currency: "GBP"
+      })} - ${getLocaleStringGlobal({
+        amount: Math.trunc(30000 * CURRENCY_MULTIPLIER.GBP),
+        currency: "GBP"
+      })}`,
+      value: "20000_30000",
+      isSelected: false
+    },
+    {
+      text: `above ${getLocaleStringGlobal({
+        amount: Math.trunc(30000 * CURRENCY_MULTIPLIER.GBP),
+        currency: "GBP"
+      })}`,
+      value: "30000_9999999",
       isSelected: false
     }
   ]
@@ -399,23 +608,63 @@ export const priceUAE: IFilters = {
   title: "Price",
   options: [
     {
-      text: "less than DH. 2,500",
-      value: "0_2500",
+      text: `less than ${getLocaleStringGlobal({
+        amount: Math.trunc(5000 * CURRENCY_MULTIPLIER.AED),
+        currency: "AED"
+      })}`,
+      value: "0_5000",
       isSelected: false
     },
     {
-      text: "DH. 2,500 - DH. 5,000",
-      value: "2500_5000",
-      isSelected: false
-    },
-    {
-      text: "DH. 5,000 - DH. 10,000",
+      text: `${getLocaleStringGlobal({
+        amount: Math.trunc(5000 * CURRENCY_MULTIPLIER.AED),
+        currency: "AED"
+      })} - ${getLocaleStringGlobal({
+        amount: Math.trunc(10000 * CURRENCY_MULTIPLIER.AED),
+        currency: "AED"
+      })}`,
       value: "5000_10000",
       isSelected: false
     },
     {
-      text: "above DH. 10,000",
-      value: "10000_9999999",
+      text: `${getLocaleStringGlobal({
+        amount: Math.trunc(10000 * CURRENCY_MULTIPLIER.AED),
+        currency: "AED"
+      })} - ${getLocaleStringGlobal({
+        amount: Math.trunc(15000 * CURRENCY_MULTIPLIER.AED),
+        currency: "AED"
+      })}`,
+      value: "10000_15000",
+      isSelected: false
+    },
+    {
+      text: `${getLocaleStringGlobal({
+        amount: Math.trunc(15000 * CURRENCY_MULTIPLIER.AED),
+        currency: "AED"
+      })} - ${getLocaleStringGlobal({
+        amount: Math.trunc(20000 * CURRENCY_MULTIPLIER.AED),
+        currency: "AED"
+      })}`,
+      value: "15000_20000",
+      isSelected: false
+    },
+    {
+      text: `${getLocaleStringGlobal({
+        amount: Math.trunc(20000 * CURRENCY_MULTIPLIER.AED),
+        currency: "AED"
+      })} - ${getLocaleStringGlobal({
+        amount: Math.trunc(30000 * CURRENCY_MULTIPLIER.AED),
+        currency: "AED"
+      })}`,
+      value: "20000_30000",
+      isSelected: false
+    },
+    {
+      text: `above ${getLocaleStringGlobal({
+        amount: Math.trunc(30000 * CURRENCY_MULTIPLIER.AED),
+        currency: "AED"
+      })}`,
+      value: "30000_9999999",
       isSelected: false
     }
   ]

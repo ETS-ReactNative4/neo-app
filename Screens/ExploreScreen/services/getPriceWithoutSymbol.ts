@@ -27,7 +27,7 @@ function getCurrencySymbol(locale: string, currency: string) {
 
 export const getGlobalPriceWithoutSymbol = ({
   amount,
-  languageCode = storeService.deviceLocaleStore.deviceLocaleCode,
+  languageCode = storeService?.deviceLocaleStore?.deviceLocaleCode ?? "en-IN",
   currency = "INR"
 }: {
   amount: number;
