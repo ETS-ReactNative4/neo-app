@@ -13,9 +13,11 @@ import ExploreCardLodingIndicator from "./ExploreCardLodingIndicator";
 import ratioCalculator from "../../../Services/ratioCalculator/ratioCalculator";
 import getImgIXUrl from "../../../Services/getImgIXUrl/getImgIXUrl";
 import { recordEvent } from "../../../Services/analytics/analyticsService";
+import { observer, inject } from "mobx-react";
 
 import { CONSTANT_explore } from "../../../constants/appEvents";
 import { CONSTANT_preLoaderAnimation2 } from "../../../constants/imageAssets";
+import DeviceLocale from "../../../mobx/DeviceLocale";
 
 export interface ICountryCard {
   countryId: number;
@@ -85,7 +87,12 @@ const LODING_INDICATOR_HEIGHT = ratioCalculator(
   109,
   LODING_INDICATOR_WIDTH
 );
-const CountryCardsRow = (props: ICountriesSection) => {
+
+export interface CountryCardsRowProps extends ICountriesSection {
+  deviceLocaleStore: DeviceLocale;
+}
+
+const CountryCardsRow = (props: CountryCardsRowProps) => {
   return (
     <HorizontalCardsRow
       apiUrl={props.apiUrl}
@@ -100,43 +107,45 @@ const CountryCardsRow = (props: ICountriesSection) => {
           />
         ) : (
           data && [
-            ...(data?.domesticRegions?.map?.((region, regionIndex) => {
-              const action = () => {
-                const deepLinkingObject: ICountryDeepLink = {
-                  link: region.deepLinking.link,
-                  screenData: {
-                    ...(region.deepLinking.screenData || {}),
-                    slug: region.slug
-                  }
-                };
-                deepLink(deepLinkingObject);
-                recordEvent(CONSTANT_explore.event, {
-                  click: CONSTANT_explore.click.recommendedForYouCard
-                });
-              };
-              return (
-                <FeaturedCardTypeOne
-                  key={regionIndex}
-                  image={{
-                    uri: getImgIXUrl({
-                      src: region.imageUrl,
-                      imgFactor: `h=${FEATURED_CARD_IMAGE_HEIGHT}&w=${FEATURED_CARD_IMAGE_WIDTH}&crop=fit`
-                    })
-                  }}
-                  thumbnail={{
-                    uri: getImgIXUrl({
-                      src: region.imageUrl,
-                      DPR: 0.02,
-                      imgFactor: `h=${FEATURED_CARD_IMAGE_HEIGHT}&w=${FEATURED_CARD_IMAGE_WIDTH}&crop=fit`
-                    })
-                  }}
-                  price={region.startingPrice}
-                  action={action}
-                  containerStyle={styles.featuredCardTypeOneWrapper}
-                  displayCurrency={displayCurrency}
-                />
-              );
-            }) ?? []),
+            ...(props.deviceLocaleStore.deviceLocale === "in"
+              ? data?.domesticRegions?.map?.((region, regionIndex) => {
+                  const action = () => {
+                    const deepLinkingObject: ICountryDeepLink = {
+                      link: region.deepLinking.link,
+                      screenData: {
+                        ...(region.deepLinking.screenData || {}),
+                        slug: region.slug
+                      }
+                    };
+                    deepLink(deepLinkingObject);
+                    recordEvent(CONSTANT_explore.event, {
+                      click: CONSTANT_explore.click.recommendedForYouCard
+                    });
+                  };
+                  return (
+                    <FeaturedCardTypeOne
+                      key={regionIndex}
+                      image={{
+                        uri: getImgIXUrl({
+                          src: region.imageUrl,
+                          imgFactor: `h=${FEATURED_CARD_IMAGE_HEIGHT}&w=${FEATURED_CARD_IMAGE_WIDTH}&crop=fit`
+                        })
+                      }}
+                      thumbnail={{
+                        uri: getImgIXUrl({
+                          src: region.imageUrl,
+                          DPR: 0.02,
+                          imgFactor: `h=${FEATURED_CARD_IMAGE_HEIGHT}&w=${FEATURED_CARD_IMAGE_WIDTH}&crop=fit`
+                        })
+                      }}
+                      price={region.startingPrice}
+                      action={action}
+                      containerStyle={styles.featuredCardTypeOneWrapper}
+                      displayCurrency={displayCurrency}
+                    />
+                  );
+                }) ?? []
+              : []),
             ...(data?.countries?.map?.((country, countryIndex) => {
               const action = () => {
                 const deepLinkingObject: ICountryDeepLink = {
@@ -191,4 +200,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default CountryCardsRow;
+export default inject("deviceLocaleStore")(observer(CountryCardsRow));

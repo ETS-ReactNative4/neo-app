@@ -12,12 +12,14 @@ import {
   CONSTANT_getCountriesList,
   // CONSTANT_getDomesticRegionList,
   CONSTANT_userProfileData,
-  CONSTANT_getMaritalStatusData
+  CONSTANT_getMaritalStatusData,
+  CONSTANT_getDomesticRegionList
 } from "../constants/apiUrls";
 import { CONSTANT_responseSuccessStatus } from "../constants/stringConstants";
 import { IMobileServerResponse } from "../TypeInterfaces/INetworkResponse";
 import _ from "lodash";
 import { CONSTANT_apiServerUrl } from "../constants/serverUrls";
+import storeService from "../Services/storeService/storeService";
 
 export type maritalStatusType = "COUPLE" | "FAMILY" | "FRIENDS" | "SOLO";
 
@@ -215,27 +217,44 @@ class TravelProfile {
   @action
   loadCountriesList = () => {
     return new Promise<boolean>((resolve, reject) => {
-      apiCall(CONSTANT_getCountriesList, {}, "GET")
-        .then((countryResponse: ICountryDetailsListResponse) => {
-          if (countryResponse.status === CONSTANT_responseSuccessStatus) {
-            this._countriesList = [
-              ...this._countriesList,
-              ...countryResponse.data
-            ];
-          } else {
-            resolve(false);
-          }
-        })
-        .catch(reject);
-      // apiCall(CONSTANT_getDomesticRegionList, {}, "GET")
-      //   .then((response: IRegionDetailsListResponse) => {
-      //     if (response.status === CONSTANT_responseSuccessStatus) {
-      //       this._countriesList = response.data;
-      //     } else {
-      //       resolve(false);
-      //     }
-      //   })
-      //   .catch(reject);
+      if (storeService.deviceLocaleStore.deviceLocale === "in") {
+        apiCall(CONSTANT_getDomesticRegionList, {}, "GET")
+          .then((response: IRegionDetailsListResponse) => {
+            if (response.status === CONSTANT_responseSuccessStatus) {
+              this._countriesList = response.data;
+              apiCall(CONSTANT_getCountriesList, {}, "GET")
+                .then((countryResponse: ICountryDetailsListResponse) => {
+                  if (
+                    countryResponse.status === CONSTANT_responseSuccessStatus
+                  ) {
+                    this._countriesList = [
+                      ...this._countriesList,
+                      ...countryResponse.data
+                    ];
+                  } else {
+                    resolve(false);
+                  }
+                })
+                .catch(reject);
+            } else {
+              resolve(false);
+            }
+          })
+          .catch(reject);
+      } else {
+        apiCall(CONSTANT_getCountriesList, {}, "GET")
+          .then((countryResponse: ICountryDetailsListResponse) => {
+            if (countryResponse.status === CONSTANT_responseSuccessStatus) {
+              this._countriesList = [
+                ...this._countriesList,
+                ...countryResponse.data
+              ];
+            } else {
+              resolve(false);
+            }
+          })
+          .catch(reject);
+      }
     });
   };
 
