@@ -24,6 +24,9 @@ import usePackagesSearchApi from "./hooks/usePackagesSearchApi";
 import useDeepCompareEffect from "use-deep-compare-effect";
 import EmptyListPlaceholder from "../../CommonComponents/EmptyListPlaceholder/EmptyListPlaceholder";
 import * as Animatable from "react-native-animatable";
+import { observer, inject } from "mobx-react";
+import DeviceLocale from "../../mobx/DeviceLocale";
+import _ from "lodash";
 
 const INITIAL_SEARCH_OFFSET = 10;
 
@@ -44,6 +47,7 @@ export type SearchScreenRouteProp = RouteProp<
 export interface SearchScreenProps {
   navigation: SearchScreenNavigationType;
   route: SearchScreenRouteProp;
+  deviceLocaleStore: DeviceLocale;
 }
 
 export interface ISearchCategory {
@@ -52,40 +56,42 @@ export interface ISearchCategory {
   searchQuery: string;
 }
 
-const categories: ISearchCategory[] = [
-  {
-    text: "All",
-    emoji: "",
-    searchQuery: ""
-  },
-  {
-    text: "ADVENTURE",
-    emoji: itineraryThemeEmojiMap.ADVENTURE,
-    searchQuery: "adventure-packages"
-  },
-  {
-    text: "HONEYMOON",
-    emoji: itineraryThemeEmojiMap.HONEYMOON,
-    searchQuery: "honeymoon-packages"
-  },
-  {
-    text: "VISA_ON_ARRIVAL",
-    emoji: itineraryThemeEmojiMap.VISA_ON_ARRIVAL,
-    searchQuery: "visa-on-arrival-packages"
-  },
-  {
-    text: "FAMILY",
-    emoji: itineraryThemeEmojiMap.FAMILY,
-    searchQuery: "family-packages"
-  },
-  {
-    text: "BEACH",
-    emoji: itineraryThemeEmojiMap.BEACH,
-    searchQuery: "beach-packages"
-  }
-];
+const Search = ({ navigation, deviceLocaleStore }: SearchScreenProps) => {
+  const categories: ISearchCategory[] = _.compact([
+    {
+      text: "All",
+      emoji: "",
+      searchQuery: ""
+    },
+    {
+      text: "ADVENTURE",
+      emoji: itineraryThemeEmojiMap.ADVENTURE,
+      searchQuery: "adventure-packages"
+    },
+    {
+      text: "HONEYMOON",
+      emoji: itineraryThemeEmojiMap.HONEYMOON,
+      searchQuery: "honeymoon-packages"
+    },
+    deviceLocaleStore.deviceLocale === "in"
+      ? {
+          text: "VISA_ON_ARRIVAL",
+          emoji: itineraryThemeEmojiMap.VISA_ON_ARRIVAL,
+          searchQuery: "visa-on-arrival-packages"
+        }
+      : null,
+    {
+      text: "FAMILY",
+      emoji: itineraryThemeEmojiMap.FAMILY,
+      searchQuery: "family-packages"
+    },
+    {
+      text: "BEACH",
+      emoji: itineraryThemeEmojiMap.BEACH,
+      searchQuery: "beach-packages"
+    }
+  ]);
 
-const Search = ({ navigation }: SearchScreenProps) => {
   const abortFetchRef = useRef<any>(null);
 
   const limit = useRef(15).current;
@@ -297,4 +303,4 @@ const styles = StyleSheet.create({
   placeholderWrapper: { flex: 1 }
 });
 
-export default Search;
+export default inject("deviceLocaleStore")(observer(Search));
