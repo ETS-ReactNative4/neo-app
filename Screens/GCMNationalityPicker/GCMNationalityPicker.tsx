@@ -97,11 +97,11 @@ const GCMNationalityPicker = ({ navigation, route }: GCMNationalityPicker) => {
       <SearchBox
         text={searchString}
         onChangeText={updateText}
-        textPlaceholder={"Search for places"}
+        textPlaceholder={"Search nationality"}
         onClear={resetText}
         containerStyle={styles.inputStyle}
       />
-      <Text style={styles.titleStyle}>Departing from</Text>
+      <Text style={styles.titleStyle}>Nationality</Text>
       <ScrollView
         showsVerticalScrollIndicator={false}
         style={styles.searchContainerStyle}

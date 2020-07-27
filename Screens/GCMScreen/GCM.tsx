@@ -31,14 +31,17 @@ import {
 } from "../../constants/styles";
 import Picker from "../../CommonComponents/Picker/Picker";
 import TranslucentStatusBar from "../../CommonComponents/TranslucentStatusBar/TranslucentStatusBar";
-import { getCountry } from "react-native-localize";
 import { INationalityOption } from "../GCMNationalityPicker/GCMNationalityPicker";
+import { observer, inject } from "mobx-react";
+import DeviceLocale from "../../mobx/DeviceLocale";
 
 type RequestCallbackNavType = AppNavigatorProps<typeof SCREEN_GCM>;
 
-export interface GCMProps extends RequestCallbackNavType {}
+export interface GCMProps extends RequestCallbackNavType {
+  deviceLocaleStore: DeviceLocale;
+}
 
-const GCM = ({ navigation, route }: GCMProps) => {
+const GCM = ({ navigation, route, deviceLocaleStore }: GCMProps) => {
   const {
     title = "",
     bannerImage = "https://pickyourtrail-guides-images.imgix.net/misc/hungary.jpeg",
@@ -46,8 +49,6 @@ const GCM = ({ navigation, route }: GCMProps) => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     onSubmit = (options: ICostingConfig) => null
   } = route.params || {};
-
-  const [currentCountry] = useState(getCountry());
 
   const [isSubmitAttempted, setIsSubmitAttempted] = useState<boolean>(false);
 
@@ -64,7 +65,7 @@ const GCM = ({ navigation, route }: GCMProps) => {
     const travelType = formFields.travellingAs?.value ?? null;
     const nationality = formFields.nationality?.value ?? null;
 
-    if (currentCountry === "IN") {
+    if (deviceLocaleStore.deviceLocale === "in") {
       if (
         departureAirport &&
         departureDate &&
@@ -201,7 +202,7 @@ const GCM = ({ navigation, route }: GCMProps) => {
           minimumDate={tomorrow}
         />
 
-        {currentCountry === "IN" ? (
+        {deviceLocaleStore.deviceLocale === "in" ? (
           <PickerInputField
             onPressAction={openCityPicker}
             label={"DEPARTING FROM"}
@@ -288,4 +289,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default GCM;
+export default inject("deviceLocaleStore")(observer(GCM));
