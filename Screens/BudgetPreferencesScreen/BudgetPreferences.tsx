@@ -38,6 +38,7 @@ import WelcomeState from "../../mobx/WelcomeState";
 import TravelProfile, { budgetRangeType } from "../../mobx/TravelProfile";
 import launchPretripHome from "../../Services/launchPretripHome/launchPretripHome";
 import isUserLoggedIn from "../../Services/isUserLoggedIn/isUserLoggedIn";
+import DeviceLocale from "../../mobx/DeviceLocale";
 
 export type BudgetPreferencesNavTypes = AppNavigatorProps<
   typeof SCREEN_BUDGET_PREFERENCES
@@ -46,6 +47,7 @@ export type BudgetPreferencesNavTypes = AppNavigatorProps<
 export interface BudgetPreferencesProps extends BudgetPreferencesNavTypes {
   welcomeStateStore: WelcomeState;
   travelProfileStore: TravelProfile;
+  deviceLocaleStore: DeviceLocale;
 }
 
 export interface IBudgetPreferenceOption {
@@ -64,7 +66,8 @@ export const budgetPreferenceLabelValueMap: {
 const BudgetPreferences = ({
   navigation,
   welcomeStateStore,
-  travelProfileStore
+  travelProfileStore,
+  deviceLocaleStore
 }: BudgetPreferencesProps) => {
   const { budgetRangeOptions: budgetRangeValues } = travelProfileStore;
 
@@ -190,18 +193,19 @@ const BudgetPreferences = ({
             );
           })}
         </View>
-
-        <View style={styles.emiParteners}>
-          <Text style={styles.emiPartenersText}>
-            Avail easy No Cost EMIs with
-          </Text>
-          <SmartImageV2
-            source={{ uri: CONSTANT_ZESTImageUrl }}
-            fallbackSource={{ uri: CONSTANT_defaultPlaceImage }}
-            style={styles.emiPartenersImage}
-            resizeMode="cover"
-          />
-        </View>
+        {deviceLocaleStore.deviceLocale === "in" ? (
+          <View style={styles.emiParteners}>
+            <Text style={styles.emiPartenersText}>
+              Avail easy No Cost EMIs with
+            </Text>
+            <SmartImageV2
+              source={{ uri: CONSTANT_ZESTImageUrl }}
+              fallbackSource={{ uri: CONSTANT_defaultPlaceImage }}
+              style={styles.emiPartenersImage}
+              resizeMode="cover"
+            />
+          </View>
+        ) : null}
       </View>
 
       <PrimaryButton
@@ -294,7 +298,9 @@ const styles = StyleSheet.create({
 });
 
 export default ErrorBoundary()(
-  inject("welcomeStateStore")(
-    inject("travelProfileStore")(observer(BudgetPreferences))
+  inject("deviceLocaleStore")(
+    inject("welcomeStateStore")(
+      inject("travelProfileStore")(observer(BudgetPreferences))
+    )
   )
 );
