@@ -19,6 +19,8 @@ import {
 } from "../constants/imageAssets";
 import Notifications from "../Screens/NotificationsScreen/Notifications";
 import DealsListing from "../Screens/DealsListingScreen/DealsListing";
+import { observer, inject } from "mobx-react";
+import DeviceLocale from "../mobx/DeviceLocale";
 
 export interface IExplorePageScreenData {
   source?: ExploreScreenSourcesType;
@@ -40,7 +42,11 @@ const tabBarColorConfig = {
   inactiveBackgroundColor: "#28795E"
 };
 
-const PreTripHomeTabs = () => {
+export interface PreTripHomeTabsProp {
+  deviceLocaleStore: DeviceLocale;
+}
+
+const PreTripHomeTabs = ({ deviceLocaleStore }: PreTripHomeTabsProp) => {
   return (
     // @ts-ignore - type definitions unavailable
     <Tab.Navigator tabBar={props => <ExploreBottomBar {...props} />}>
@@ -53,15 +59,17 @@ const PreTripHomeTabs = () => {
         name={SCREEN_EXPLORE_TAB}
         component={Explore}
       />
-      <Tab.Screen
-        options={{
-          tabBarLabel: "Deals",
-          icon: CONSTANT_dealsIcon,
-          ...tabBarColorConfig
-        }}
-        name={SCREEN_DEALS_TAB}
-        component={DealsListing}
-      />
+      {deviceLocaleStore.deviceLocale === "in" ? (
+        <Tab.Screen
+          options={{
+            tabBarLabel: "Deals",
+            icon: CONSTANT_dealsIcon,
+            ...tabBarColorConfig
+          }}
+          name={SCREEN_DEALS_TAB}
+          component={DealsListing}
+        />
+      ) : null}
       <Tab.Screen
         options={{
           tabBarLabel: "Search",
@@ -84,4 +92,4 @@ const PreTripHomeTabs = () => {
   );
 };
 
-export default PreTripHomeTabs;
+export default inject("deviceLocaleStore")(observer(PreTripHomeTabs));
