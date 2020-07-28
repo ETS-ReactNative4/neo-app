@@ -79,6 +79,13 @@ import launchSavedItineraries from "../../Services/launchSavedItineraries/launch
 import launchPretripHome from "../../Services/launchPretripHome/launchPretripHome";
 import usePrevious from "../../Services/usePrevious/usePrevious";
 import { IMobileServerResponse } from "../../TypeInterfaces/INetworkResponse";
+import LeadSource from "../../mobx/LeadSource";
+import { recordEvent } from "../../Services/analytics/analyticsService";
+import {
+  CONSTANT_APP_SIGNUP,
+  CONSTANT_APP_SIGNIN
+} from "../../constants/appEvents";
+import DeviceLocale from "../../mobx/DeviceLocale";
 
 type screenName = typeof SCREEN_APP_LOGIN;
 
@@ -94,13 +101,17 @@ export interface IAppLoginProps {
   route: StarterScreenRouteProp;
   yourBookingsStore: YourBookings;
   itineraries: Itineraries;
+  leadSourceStore: LeadSource;
+  deviceLocaleStore: DeviceLocale;
 }
 
 const AppLogin = ({
   navigation,
   route,
   yourBookingsStore,
-  itineraries
+  itineraries,
+  leadSourceStore,
+  deviceLocaleStore
 }: IAppLoginProps) => {
   const [isVideoReady, setVideoStatus] = useState(false);
   const [
@@ -261,6 +272,15 @@ const AppLogin = ({
         userName: name
       });
       if (result) {
+        recordEvent(CONSTANT_APP_SIGNUP.event, {
+          [CONSTANT_APP_SIGNUP.click.email]: email,
+          [CONSTANT_APP_SIGNUP.click.mobileNumber]: phoneNumber,
+          [CONSTANT_APP_SIGNUP.click.userName]: name,
+          [CONSTANT_APP_SIGNUP.click.leadSource]: leadSourceStore.source,
+          [CONSTANT_APP_SIGNUP.click.activeDeepLink]:
+            leadSourceStore.activeDeeplink,
+          [CONSTANT_APP_SIGNUP.click.locale]: deviceLocaleStore.deviceLocale
+        });
         requestOtp();
       }
     }
@@ -367,6 +387,15 @@ const AppLogin = ({
       registerTokenV2(loginSuccessData.data?.authToken || "")
         .then(isTokenStored => {
           if (isTokenStored) {
+            recordEvent(CONSTANT_APP_SIGNIN.event, {
+              [CONSTANT_APP_SIGNIN.click.email]: email,
+              [CONSTANT_APP_SIGNIN.click.mobileNumber]: phoneNumber,
+              [CONSTANT_APP_SIGNIN.click.userName]: name,
+              [CONSTANT_APP_SIGNIN.click.leadSource]: leadSourceStore.source,
+              [CONSTANT_APP_SIGNIN.click.activeDeepLink]:
+                leadSourceStore.activeDeeplink,
+              [CONSTANT_APP_SIGNIN.click.locale]: deviceLocaleStore.deviceLocale
+            });
             continueFlow();
           } else {
             setIsOtpSubmitting(false);
@@ -588,5 +617,9 @@ const styles = StyleSheet.create({
 });
 
 export default ErrorBoundary()(
-  inject("itineraries")(inject("yourBookingsStore")(observer(AppLogin)))
+  inject("deviceLocaleStore")(
+    inject("leadSourceStore")(
+      inject("itineraries")(inject("yourBookingsStore")(observer(AppLogin)))
+    )
+  )
 );

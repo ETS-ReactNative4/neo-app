@@ -556,6 +556,30 @@ export const CONSTANT_explore = {
   }
 };
 
+export const CONSTANT_APP_SIGNUP = {
+  event: "AppSignup",
+  click: {
+    mobileNumber: "mobile_number",
+    email: "email",
+    userName: "user_name",
+    locale: "locale",
+    leadSource: "lead_source",
+    activeDeepLink: "active_deep_link"
+  }
+};
+
+export const CONSTANT_APP_SIGNIN = {
+  event: "AppSignin",
+  click: {
+    mobileNumber: "mobile_number",
+    email: "email",
+    userName: "user_name",
+    locale: "locale",
+    leadSource: "lead_source",
+    activeDeepLink: "active_deep_link"
+  }
+};
+
 export const CONSTANT_itineraryCostedEvent: { event: "ItineraryCosted" } = {
   event: "ItineraryCosted"
 };
