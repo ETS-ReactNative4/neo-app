@@ -68,6 +68,7 @@ export interface ICountryDeepLink {
   link: string;
   screenData?: {
     slug?: string;
+    apiUrl?: string;
   };
 }
 
@@ -114,7 +115,8 @@ const CountryCardsRow = (props: CountryCardsRowProps) => {
                       link: region.deepLinking.link,
                       screenData: {
                         ...(region.deepLinking.screenData || {}),
-                        slug: region.slug
+                        slug: region.slug,
+                        apiUrl: region.apiUrl
                       }
                     };
                     deepLink(deepLinkingObject);
@@ -152,7 +154,8 @@ const CountryCardsRow = (props: CountryCardsRowProps) => {
                   link: country.deepLinking.link,
                   screenData: {
                     ...(country.deepLinking.screenData || {}),
-                    slug: country.slug
+                    slug: country.slug,
+                    apiUrl: country.apiUrl
                   }
                 };
                 deepLink(deepLinkingObject);

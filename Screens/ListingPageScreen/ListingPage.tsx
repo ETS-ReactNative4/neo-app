@@ -65,7 +65,7 @@ const ListingPage = ({
   route,
   leadSourceStore
 }: ListingPageProps) => {
-  const { slug = "" } = route.params;
+  const { slug = "", apiUrl = "" } = route.params;
   const [packagesApiDetails, loadPackages] = usePackagesApi();
   const [openFilter, setOpenFilter] = useState<boolean>(false);
 
@@ -153,6 +153,9 @@ const ListingPage = ({
     }
     if (abortFetchRef.current) {
       abortFetchRef.current.abort();
+    }
+    if (apiUrl) {
+      requestBody.apiUrl = apiUrl;
     }
     // @ts-ignore
     // eslint-disable-next-line no-undef

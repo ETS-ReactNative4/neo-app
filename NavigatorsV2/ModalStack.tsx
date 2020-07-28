@@ -35,6 +35,7 @@ import FeedbackPrompt from "../Screens/FeedbackPromptScreen/FeedbackPrompt";
 
 export type ListingPageType = {
   slug?: string;
+  apiUrl?: string;
 };
 
 export type ModalNavigatorParamsType = {

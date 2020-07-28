@@ -8,6 +8,7 @@ import { ICampaignDetails } from "../../../TypeInterfaces/ICampaignDetails";
 import { IMobileServerResponse } from "../../../TypeInterfaces/INetworkResponse";
 
 export interface IPackageRequestBody {
+  apiUrl?: string;
   key: string;
   limit?: number;
   interests?: string[];
@@ -58,7 +59,7 @@ const usePackagesApi = (): packagesApiHookType => {
     return new Promise<boolean>(async (resolve, reject) => {
       try {
         const result = await makeApiCall({
-          route: CONSTANT_getPackagesDetails,
+          route: requestBody.apiUrl || CONSTANT_getPackagesDetails,
           method: "POST",
           requestBody,
           abortController
