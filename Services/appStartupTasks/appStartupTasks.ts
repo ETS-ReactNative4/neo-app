@@ -6,6 +6,7 @@ import isUserLoggedIn from "../isUserLoggedIn/isUserLoggedIn";
 import enableDeepLinking from "./tasks/enableDeepLinking";
 import setUserSegment from "../setUserSegment/setUserSegment";
 import setDeviceLocale from "./tasks/setDeviceLocale";
+import loadUserDetails from "./tasks/loadUserDetails";
 
 /**
  * When the App Launches there's a bunch of things that needs to happen,
@@ -23,6 +24,8 @@ const appStartupTasks = () => {
   enableDeepLinking();
 
   setUserSegment();
+
+  loadUserDetails();
 
   createGuestSession()
     .then(result => {
