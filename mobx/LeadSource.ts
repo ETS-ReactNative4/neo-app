@@ -1,7 +1,8 @@
 import { observable, action, computed, toJS } from "mobx";
 import {
   CONSTANT_itineraryCostedEvent,
-  CONSTANT_requestCallbackEvent
+  CONSTANT_requestCallbackEvent,
+  CONSTANT_openCustomizeOnWeb
 } from "../constants/appEvents";
 import { recordEvent } from "../Services/analytics/analyticsService";
 
@@ -57,7 +58,8 @@ export type leadSourceType =
 
 export type ConversionEventsType =
   | typeof CONSTANT_itineraryCostedEvent.event
-  | typeof CONSTANT_requestCallbackEvent.event;
+  | typeof CONSTANT_requestCallbackEvent.event
+  | typeof CONSTANT_openCustomizeOnWeb.event;
 
 class LeadSource {
   @observable

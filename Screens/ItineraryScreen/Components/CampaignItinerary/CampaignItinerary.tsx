@@ -18,7 +18,6 @@ import BottomButtonBar from "../../../../CommonComponents/BottomButtonBar/Bottom
 import { ICampaignItinerary } from "../../../../TypeInterfaces/ICampaignItinerary";
 import ItineraryView from "../ItineraryView";
 import {
-  SCREEN_REQUEST_CALLBACK,
   SCREEN_GCM,
   SCREEN_APP_LOGIN
 } from "../../../../NavigatorsV2/ScreenNames";
@@ -38,6 +37,8 @@ import { inject, observer } from "mobx-react";
 import LeadSource from "../../../../mobx/LeadSource";
 import { ICampaignDetails } from "../../../../TypeInterfaces/ICampaignDetails";
 import { getLocaleStringGlobal } from "../../../../Services/getLocaleString/getLocaleString";
+import openItineraryOnWeb from "../../../../Services/openItineraryOnWeb/openItineraryOnWeb";
+import { CONSTANT_openCustomizeOnWeb } from "../../../../constants/appEvents";
 
 export interface CampaignItineraryProps extends ItineraryNavType {
   itineraryDetails: ReturnType<typeof useUnbookedItinerary>;
@@ -111,12 +112,14 @@ const CampaignItinerary = ({
   }
 
   const customizeCampaignItinerary = () => {
-    const itinerarySource = route.params.itinerarySource;
+    openItineraryOnWeb(campaignItineraryId);
+    leadSourceStore?.record(CONSTANT_openCustomizeOnWeb.event);
+    // const itinerarySource = route.params.itinerarySource;
 
-    navigation.push(SCREEN_REQUEST_CALLBACK, {
-      campaignItineraryId,
-      prodType: getProdTypeFromItinerarySource(itinerarySource)
-    });
+    // navigation.push(SCREEN_REQUEST_CALLBACK, {
+    //   campaignItineraryId,
+    //   prodType: getProdTypeFromItinerarySource(itinerarySource)
+    // });
   };
 
   const costCampaignItinerary = () => {
@@ -172,12 +175,14 @@ const CampaignItinerary = ({
   };
 
   const customizeItinerary = () => {
-    const itinerarySource = route.params.itinerarySource;
+    openItineraryOnWeb(itineraryId);
+    leadSourceStore?.record(CONSTANT_openCustomizeOnWeb.event);
+    // const itinerarySource = route.params.itinerarySource;
 
-    navigation.push(SCREEN_REQUEST_CALLBACK, {
-      itineraryId,
-      prodType: getProdTypeFromItinerarySource(itinerarySource)
-    });
+    // navigation.push(SCREEN_REQUEST_CALLBACK, {
+    //   itineraryId,
+    //   prodType: getProdTypeFromItinerarySource(itinerarySource)
+    // });
   };
 
   const costNormalItinerary = () => {

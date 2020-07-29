@@ -588,4 +588,8 @@ export const CONSTANT_requestCallbackEvent: { event: "RequestCallBack" } = {
   event: "RequestCallBack"
 };
 
+export const CONSTANT_openCustomizeOnWeb: { event: "OpenCustomizeOnWeb" } = {
+  event: "OpenCustomizeOnWeb"
+};
+
 export default appEvents;
