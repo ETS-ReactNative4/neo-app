@@ -101,7 +101,7 @@ const Explore = ({
   return (
     <View style={styles.container}>
       {header}
-      <ScrollView>
+      <ScrollView removeClippedSubviews>
         {name ? (
           <Fragment>
             <BlankSpacer height={24} />
@@ -135,6 +135,7 @@ const Explore = ({
               ) : section.type === "BLOG_CARDS" ? (
                 <BlogCardsRow {...section} />
               ) : section.type === "COUNTRY_CARDS" ? (
+                // @ts-ignore
                 <CountryCardsRow {...section} />
               ) : section.type === "TESTIMONIAL_CARDS" ? (
                 <TestimonialsCardsRow {...section} />
