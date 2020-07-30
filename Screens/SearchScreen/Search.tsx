@@ -28,7 +28,7 @@ import { observer, inject } from "mobx-react";
 import DeviceLocale from "../../mobx/DeviceLocale";
 import _ from "lodash";
 
-const INITIAL_SEARCH_OFFSET = 10;
+const INITIAL_SEARCH_OFFSET = 0;
 
 const { createAnimatableComponent } = Animatable;
 
