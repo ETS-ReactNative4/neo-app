@@ -28,10 +28,19 @@ import {
 } from "../../../GCMScreen/hooks/useGCMForm";
 import HighlightText from "../HighlightText";
 import deepLink from "../../../../Services/deepLink/deepLink";
-import { CONSTANT_retrievePDF } from "../../../../constants/apiUrls";
-import { CONSTANT_apiServerUrl } from "../../../../constants/serverUrls";
+import {
+  CONSTANT_retrievePDF,
+  CONSTANT_assignUser
+} from "../../../../constants/apiUrls";
+import {
+  CONSTANT_apiServerUrl,
+  CONSTANT_productUrl
+} from "../../../../constants/serverUrls";
 import useUnbookedItinerary from "../../hooks/useUnbookedItinerary";
-import { CONSTANT_platformAndroid } from "../../../../constants/stringConstants";
+import {
+  CONSTANT_platformAndroid,
+  CONSTANT_responseSuccessStatus
+} from "../../../../constants/stringConstants";
 import isUserLoggedIn from "../../../../Services/isUserLoggedIn/isUserLoggedIn";
 import { inject, observer } from "mobx-react";
 import LeadSource from "../../../../mobx/LeadSource";
@@ -39,6 +48,9 @@ import { ICampaignDetails } from "../../../../TypeInterfaces/ICampaignDetails";
 import { getLocaleStringGlobal } from "../../../../Services/getLocaleString/getLocaleString";
 import openItineraryOnWeb from "../../../../Services/openItineraryOnWeb/openItineraryOnWeb";
 import { CONSTANT_openCustomizeOnWeb } from "../../../../constants/appEvents";
+import apiCall from "../../../../Services/networkRequests/apiCall";
+import { toastBottom } from "../../../../Services/toast/toast";
+import openCustomTab from "../../../../Services/openCustomTab/openCustomTab";
 
 export interface CampaignItineraryProps extends ItineraryNavType {
   itineraryDetails: ReturnType<typeof useUnbookedItinerary>;
@@ -112,8 +124,35 @@ const CampaignItinerary = ({
   }
 
   const customizeCampaignItinerary = () => {
-    openItineraryOnWeb(campaignItineraryId);
     leadSourceStore?.record(CONSTANT_openCustomizeOnWeb.event);
+    isUserLoggedIn()
+      .then(isLoggedIn => {
+        if (isLoggedIn) {
+          apiCall(
+            CONSTANT_assignUser.replace(
+              ":campaignItineraryId",
+              campaignItineraryId
+            )
+          )
+            .then(response => {
+              if (response.status === CONSTANT_responseSuccessStatus) {
+                const newItineraryId = response.data;
+                openItineraryOnWeb(newItineraryId);
+              }
+            })
+            .catch(() => {
+              toastBottom("Unable to load Itinerary details");
+            });
+        } else {
+          const {
+            campaignDetail = {} as ICampaignDetails
+          } = campaignItineraryState as ICampaignItinerary;
+          openCustomTab(
+            `${CONSTANT_productUrl}${campaignDetail.key}/get-cost/${campaignItineraryId}`
+          );
+        }
+      })
+      .catch(() => toastBottom("Unable to load Itinerary details"));
     // const itinerarySource = route.params.itinerarySource;
 
     // navigation.push(SCREEN_REQUEST_CALLBACK, {
