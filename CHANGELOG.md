@@ -10,6 +10,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Freshchat in-built react native push notifications - currently disabled since freshchat only supports sending notification to single device.
 - [**Android**] - Custom link handling not working since Freshchat view blocks JS thread from running. Issue needs to be fixed by freshchat.
 
+## [2.0.2] - 2020-08-07
+
+## Added
+
+- PYT Deals on the App
+- Global integration for US, UK, AE, AU regions
+- Support for displaying domestic itineraries
+- Use WebView with deeplinking for customizing itineraries
+- Branch Integration for analytics
+- Leadsource tracking for itinerary costings
+
 ## [2.0.1] - 2020-05-13
 
 ## Fixed
