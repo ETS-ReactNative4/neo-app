@@ -9,9 +9,9 @@ export interface IMagicLinkResponse extends IMobileServerResponse {
   data: { itineraryId: string; email: string; hash: string; magicUrl: string };
 }
 
-const openItineraryOnWeb = (itinearyId: string) => {
+const openItineraryOnWeb = (itineraryId: string) => {
   apiCall(CONSTANT_itineraryMagicLink, {
-    itinearyId
+    itineraryId
   })
     .then((response: IMagicLinkResponse) => {
       if (response.status === CONSTANT_responseSuccessStatus) {
