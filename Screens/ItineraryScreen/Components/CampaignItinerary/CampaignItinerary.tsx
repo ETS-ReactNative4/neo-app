@@ -18,7 +18,6 @@ import BottomButtonBar from "../../../../CommonComponents/BottomButtonBar/Bottom
 import { ICampaignItinerary } from "../../../../TypeInterfaces/ICampaignItinerary";
 import ItineraryView from "../ItineraryView";
 import {
-  SCREEN_REQUEST_CALLBACK,
   SCREEN_GCM,
   SCREEN_APP_LOGIN
 } from "../../../../NavigatorsV2/ScreenNames";
@@ -29,11 +28,29 @@ import {
 } from "../../../GCMScreen/hooks/useGCMForm";
 import HighlightText from "../HighlightText";
 import deepLink from "../../../../Services/deepLink/deepLink";
-import { CONSTANT_retrievePDF } from "../../../../constants/apiUrls";
-import { CONSTANT_apiServerUrl } from "../../../../constants/serverUrls";
+import {
+  CONSTANT_retrievePDF,
+  CONSTANT_assignUser
+} from "../../../../constants/apiUrls";
+import {
+  CONSTANT_apiServerUrl,
+  CONSTANT_productUrl
+} from "../../../../constants/serverUrls";
 import useUnbookedItinerary from "../../hooks/useUnbookedItinerary";
-import { CONSTANT_platformAndroid } from "../../../../constants/stringConstants";
+import {
+  CONSTANT_platformAndroid,
+  CONSTANT_responseSuccessStatus
+} from "../../../../constants/stringConstants";
 import isUserLoggedIn from "../../../../Services/isUserLoggedIn/isUserLoggedIn";
+import { inject, observer } from "mobx-react";
+import LeadSource from "../../../../mobx/LeadSource";
+import { ICampaignDetails } from "../../../../TypeInterfaces/ICampaignDetails";
+import { getLocaleStringGlobal } from "../../../../Services/getLocaleString/getLocaleString";
+import openItineraryOnWeb from "../../../../Services/openItineraryOnWeb/openItineraryOnWeb";
+import { CONSTANT_openCustomizeOnWeb } from "../../../../constants/appEvents";
+import apiCall from "../../../../Services/networkRequests/apiCall";
+import { toastBottom } from "../../../../Services/toast/toast";
+import openCustomTab from "../../../../Services/openCustomTab/openCustomTab";
 
 export interface CampaignItineraryProps extends ItineraryNavType {
   itineraryDetails: ReturnType<typeof useUnbookedItinerary>;
@@ -45,6 +62,8 @@ export interface CampaignItineraryProps extends ItineraryNavType {
     config: IGCMRequestBody
   ) => any;
   updateItineraryCost: (itineraryId: string, config: IGCMRequestBody) => any;
+  leadSourceStore?: LeadSource;
+  displayCurrency: string;
 }
 
 const CampaignItinerary = ({
@@ -55,7 +74,9 @@ const CampaignItinerary = ({
   updateFocusedCity,
   updateCampaignItineraryCost,
   updateItineraryCost,
-  route
+  route,
+  leadSourceStore,
+  displayCurrency
 }: CampaignItineraryProps) => {
   let campaignItineraryId: string = "",
     bannerText: string = "",
@@ -77,7 +98,7 @@ const CampaignItinerary = ({
 
   if (isCampaignItinerary) {
     const {
-      campaignDetail,
+      campaignDetail = {} as ICampaignDetails,
       campaignItinerary,
       campaignItineraryId: cmpgItineraryId
     } = campaignItineraryState as ICampaignItinerary;
@@ -85,11 +106,14 @@ const CampaignItinerary = ({
 
     bannerText = itinerary.specialTitle || campaignDetail.bannerText;
     name = campaignDetail.name;
-    mobileImage = campaignDetail.mobileImage;
+    mobileImage =
+      campaignDetail.mobileImage || (itinerary.dealInfo?.bannerLink?.[0] ?? "");
     totalCost = itinerary.totalCost;
     campaignItineraryId = cmpgItineraryId;
   } else if (itineraryMeta) {
-    bannerText = itineraryMeta.title;
+    const { _selectedItinerary } = itineraryDetails;
+    bannerText =
+      itineraryMeta.title || _selectedItinerary?.itinerary?.specialTitle;
     name = itineraryMeta.regionName;
     totalCost =
       (itineraryMeta.discountedPrice
@@ -100,12 +124,41 @@ const CampaignItinerary = ({
   }
 
   const customizeCampaignItinerary = () => {
-    const itinerarySource = route.params.itinerarySource;
+    leadSourceStore?.record(CONSTANT_openCustomizeOnWeb.event);
+    isUserLoggedIn()
+      .then(isLoggedIn => {
+        if (isLoggedIn) {
+          apiCall(
+            CONSTANT_assignUser.replace(
+              ":campaignItineraryId",
+              campaignItineraryId
+            )
+          )
+            .then(response => {
+              if (response.status === CONSTANT_responseSuccessStatus) {
+                const newItineraryId = response.data;
+                openItineraryOnWeb(newItineraryId);
+              }
+            })
+            .catch(() => {
+              toastBottom("Unable to load Itinerary details");
+            });
+        } else {
+          const {
+            campaignDetail = {} as ICampaignDetails
+          } = campaignItineraryState as ICampaignItinerary;
+          openCustomTab(
+            `${CONSTANT_productUrl}${campaignDetail.key}/get-cost/${campaignItineraryId}`
+          );
+        }
+      })
+      .catch(() => toastBottom("Unable to load Itinerary details"));
+    // const itinerarySource = route.params.itinerarySource;
 
-    navigation.push(SCREEN_REQUEST_CALLBACK, {
-      campaignItineraryId,
-      prodType: getProdTypeFromItinerarySource(itinerarySource)
-    });
+    // navigation.push(SCREEN_REQUEST_CALLBACK, {
+    //   campaignItineraryId,
+    //   prodType: getProdTypeFromItinerarySource(itinerarySource)
+    // });
   };
 
   const costCampaignItinerary = () => {
@@ -129,6 +182,18 @@ const CampaignItinerary = ({
             prodType: getProdTypeFromItinerarySource(itinerarySource)
           }
         };
+        if (leadSourceStore?.activeDeeplink) {
+          gcmConfigRequest.leadSource = {
+            ...gcmConfigRequest.leadSource,
+            campaign: leadSourceStore.activeDeeplink["~campaign"],
+            url: leadSourceStore.activeDeeplink.$canonical_url,
+            lastRoute: leadSourceStore.activeDeeplink["~referring_link"],
+            utm_source: leadSourceStore.activeDeeplink["~channel"],
+            utm_medium: leadSourceStore.activeDeeplink["~feature"],
+            utm_campaign: leadSourceStore.activeDeeplink["~campaign"],
+            tags: leadSourceStore.activeDeeplink["~tags"]
+          };
+        }
         updateCampaignItineraryCost(campaignItineraryId, gcmConfigRequest);
       }
     };
@@ -149,12 +214,14 @@ const CampaignItinerary = ({
   };
 
   const customizeItinerary = () => {
-    const itinerarySource = route.params.itinerarySource;
+    openItineraryOnWeb(itineraryId);
+    leadSourceStore?.record(CONSTANT_openCustomizeOnWeb.event);
+    // const itinerarySource = route.params.itinerarySource;
 
-    navigation.push(SCREEN_REQUEST_CALLBACK, {
-      itineraryId,
-      prodType: getProdTypeFromItinerarySource(itinerarySource)
-    });
+    // navigation.push(SCREEN_REQUEST_CALLBACK, {
+    //   itineraryId,
+    //   prodType: getProdTypeFromItinerarySource(itinerarySource)
+    // });
   };
 
   const costNormalItinerary = () => {
@@ -178,6 +245,18 @@ const CampaignItinerary = ({
             prodType: getProdTypeFromItinerarySource(itinerarySource)
           }
         };
+        if (leadSourceStore?.activeDeeplink) {
+          gcmConfigRequest.leadSource = {
+            ...gcmConfigRequest.leadSource,
+            campaign: leadSourceStore.activeDeeplink["~campaign"],
+            url: leadSourceStore.activeDeeplink.$canonical_url,
+            lastRoute: leadSourceStore.activeDeeplink["~referring_link"],
+            utm_source: leadSourceStore.activeDeeplink["~channel"],
+            utm_medium: leadSourceStore.activeDeeplink["~feature"],
+            utm_campaign: leadSourceStore.activeDeeplink["~campaign"],
+            tags: leadSourceStore.activeDeeplink["~tags"]
+          };
+        }
         updateItineraryCost(itineraryId, gcmConfigRequest);
       }
     };
@@ -293,7 +372,10 @@ const CampaignItinerary = ({
 
       {!staleCost ? (
         <HighlightText
-          titleText={`₹ ${totalCost}`}
+          titleText={getLocaleStringGlobal({
+            amount: parseInt(totalCost, 10),
+            currency: displayCurrency
+          })}
           infoText={"See what's included in your trip"}
           afterCost={true}
           afterCostAction={openItineraryPDF}
@@ -325,4 +407,4 @@ const CampaignItinerary = ({
   );
 };
 
-export default CampaignItinerary;
+export default inject("leadSourceStore")(observer(CampaignItinerary));

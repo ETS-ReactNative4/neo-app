@@ -2,12 +2,20 @@ import useApiCall, {
   IApiCallHookData,
   IApiCallConfig
 } from "../../../Services/networkRequests/hooks/useApiCall";
-import { CONSTANT_retrieveJson } from "../../../constants/apiUrls";
+import { CONSTANT_retrieveGlobalData } from "../../../constants/apiUrls";
 import { IMobileServerResponse } from "../../../TypeInterfaces/INetworkResponse";
 import { ExploreFeedType } from "../ExploreFeedType";
 
 export interface IExploreDataResponseType extends IMobileServerResponse {
-  data: ExploreFeedType;
+  data: [
+    {
+      _id: string;
+      locale: string;
+      page: string;
+      key: string;
+      value: ExploreFeedType;
+    }
+  ];
 }
 
 export interface IExploreDataHookType extends IApiCallHookData {
@@ -29,7 +37,7 @@ const useExploreDataRequest = (): [
     return new Promise<boolean>(async (resolve, reject) => {
       try {
         const result = await makeApiCall({
-          route: `${CONSTANT_retrieveJson}?jsonFile=explore_data.json`
+          route: `${CONSTANT_retrieveGlobalData}?pageName=mobile_explore`
         });
         resolve(result);
       } catch (e) {

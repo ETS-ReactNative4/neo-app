@@ -20,16 +20,17 @@ import {
   CONSTANT_primarySemiBold,
   CONSTANT_primaryRegular
 } from "../../constants/fonts";
-import SmartImageV2 from "../SmartImage/SmartImageV2";
 import ratioCalculator from "../../Services/ratioCalculator/ratioCalculator";
 import { CONSTANT_defaultPlaceImage } from "../../constants/imageAssets";
-import { CONSTANT_shortCommonDateFormat } from "../../constants/styles";
+import { CONSTANT_shortMonthAndYear } from "../../constants/styles";
 import moment from "moment";
 import LinearGradient from "react-native-linear-gradient";
+import BetterImage from "../BetterImage/BetterImage";
 
 interface TestimonialCardProps {
   containerStyle?: StyleProp<ViewStyle>;
   image: ImageSourcePropType;
+  thumbnail: ImageSourcePropType;
   fallbackImage?: ImageSourcePropType;
   reviewText: string;
   name: string;
@@ -42,8 +43,8 @@ interface TestimonialCardProps {
 const TESTIMONIAL_CARD_WIDTH = responsiveWidth(100) - 48;
 const TESTIMONIAL_CARD_HEIGHT = ratioCalculator(40, 23, TESTIMONIAL_CARD_WIDTH);
 
-const TESTIMONIAL_USER_IMAGE_WIDTH = responsiveWidth(33);
-const TESTIMONIAL_USER_IMAGE_HEIGHT = ratioCalculator(
+export const TESTIMONIAL_USER_IMAGE_WIDTH = responsiveWidth(33);
+export const TESTIMONIAL_USER_IMAGE_HEIGHT = ratioCalculator(
   24,
   25,
   TESTIMONIAL_USER_IMAGE_WIDTH
@@ -52,6 +53,7 @@ const TESTIMONIAL_USER_IMAGE_HEIGHT = ratioCalculator(
 const TestimonialCard = ({
   containerStyle,
   image = { uri: "" },
+  thumbnail = { uri: "" },
   fallbackImage = { uri: CONSTANT_defaultPlaceImage },
   reviewText = "",
   name = "",
@@ -76,11 +78,12 @@ const TestimonialCard = ({
       onPress={action}
       style={[styles.testimonialCard, containerStyle]}
     >
-      <SmartImageV2
+      <BetterImage
+        thumbnailSource={thumbnail}
         resizeMode={"cover"}
         source={image}
         fallbackSource={fallbackImage}
-        style={styles.imageStyle}
+        containerStyle={styles.imageStyle}
       />
       <LinearGradient style={styles.imageStyle} {...gradientOptions} />
       <View style={styles.reviewContent}>
@@ -105,7 +108,7 @@ const TestimonialCard = ({
         >
           {tripType && region && date
             ? `${tripType} trip to ${region} in ${moment(date).format(
-                CONSTANT_shortCommonDateFormat
+                CONSTANT_shortMonthAndYear
               )}`
             : ""}
         </Text>

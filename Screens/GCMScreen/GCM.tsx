@@ -4,7 +4,8 @@ import { AppNavigatorProps } from "../../NavigatorsV2/AppNavigator";
 import {
   SCREEN_GCM,
   SCREEN_GCM_CITY_PICKER,
-  SCREEN_GCM_ROOM_CONFIG
+  SCREEN_GCM_ROOM_CONFIG,
+  SCREEN_GCM_NATIONALITY_PICKER
 } from "../../NavigatorsV2/ScreenNames";
 import { Text, StyleSheet, ScrollView } from "react-native";
 import BottomButtonBar from "../../CommonComponents/BottomButtonBar/BottomButtonBar";
@@ -30,12 +31,17 @@ import {
 } from "../../constants/styles";
 import Picker from "../../CommonComponents/Picker/Picker";
 import TranslucentStatusBar from "../../CommonComponents/TranslucentStatusBar/TranslucentStatusBar";
+import { INationalityOption } from "../GCMNationalityPicker/GCMNationalityPicker";
+import { observer, inject } from "mobx-react";
+import DeviceLocale from "../../mobx/DeviceLocale";
 
 type RequestCallbackNavType = AppNavigatorProps<typeof SCREEN_GCM>;
 
-export interface GCMProps extends RequestCallbackNavType {}
+export interface GCMProps extends RequestCallbackNavType {
+  deviceLocaleStore: DeviceLocale;
+}
 
-const GCM = ({ navigation, route }: GCMProps) => {
+const GCM = ({ navigation, route, deviceLocaleStore }: GCMProps) => {
   const {
     title = "",
     bannerImage = "https://pickyourtrail-guides-images.imgix.net/misc/hungary.jpeg",
@@ -51,27 +57,46 @@ const GCM = ({ navigation, route }: GCMProps) => {
   const onSubmitForm = () => {
     setIsSubmitAttempted(true);
 
-    const arrivalAirport = formFields.departingFrom?.airportCode ?? null;
+    const departureAirport = formFields.departingFrom?.airportCode ?? null;
     const departureDate = moment(formFields.departingOn).format(
       CONSTANT_costingDateFormat
     );
     const hotelGuestRoomConfigurations = formFields.roomDetails;
     const travelType = formFields.travellingAs?.value ?? null;
+    const nationality = formFields.nationality?.value ?? null;
 
-    if (
-      arrivalAirport &&
-      departureDate &&
-      hotelGuestRoomConfigurations.length &&
-      travelType
-    ) {
-      onSubmit({
-        arrivalAirport,
-        departureAirport: arrivalAirport,
-        departureDate,
-        hotelGuestRoomConfigurations,
-        tripType: travelType
-      });
-      navigation.goBack();
+    if (deviceLocaleStore.deviceLocale === "in") {
+      if (
+        departureAirport &&
+        departureDate &&
+        hotelGuestRoomConfigurations.length &&
+        travelType
+      ) {
+        onSubmit({
+          arrivalAirport: departureAirport,
+          departureAirport,
+          departureDate,
+          hotelGuestRoomConfigurations,
+          tripType: travelType
+        });
+        navigation.goBack();
+      }
+    } else {
+      if (
+        nationality &&
+        departureDate &&
+        hotelGuestRoomConfigurations.length &&
+        travelType
+      ) {
+        onSubmit({
+          departureAirport: "$$$",
+          nationality,
+          departureDate,
+          hotelGuestRoomConfigurations,
+          tripType: travelType
+        });
+        navigation.goBack();
+      }
     }
   };
 
@@ -83,6 +108,16 @@ const GCM = ({ navigation, route }: GCMProps) => {
       bannerImage,
       onSelect: (selectedCity: IIndianCity) => {
         formUpdateMethods.updateDepartingFrom(selectedCity);
+      }
+    });
+  };
+
+  const openNationalityPicker = () => {
+    navigation.navigate(SCREEN_GCM_NATIONALITY_PICKER, {
+      title,
+      bannerImage,
+      onSelect: (selectedNation: INationalityOption) => {
+        formUpdateMethods.updateNationality(selectedNation);
       }
     });
   };
@@ -167,17 +202,29 @@ const GCM = ({ navigation, route }: GCMProps) => {
           minimumDate={tomorrow}
         />
 
-        <PickerInputField
-          onPressAction={openCityPicker}
-          label={"DEPARTING FROM"}
-          value={
-            formFields.departingFrom ? formFields.departingFrom.cityName : ""
-          }
-          placeholder="Departing from"
-          hasError={
-            isSubmitAttempted && !formFields.departingFrom ? true : false
-          }
-        />
+        {deviceLocaleStore.deviceLocale === "in" ? (
+          <PickerInputField
+            onPressAction={openCityPicker}
+            label={"DEPARTING FROM"}
+            value={
+              formFields.departingFrom ? formFields.departingFrom.cityName : ""
+            }
+            placeholder="Departing from"
+            hasError={
+              isSubmitAttempted && !formFields.departingFrom ? true : false
+            }
+          />
+        ) : (
+          <PickerInputField
+            onPressAction={openNationalityPicker}
+            label={"NATIONALITY"}
+            value={formFields.nationality ? formFields.nationality.name : ""}
+            placeholder="Nationality"
+            hasError={
+              isSubmitAttempted && !formFields.nationality ? true : false
+            }
+          />
+        )}
 
         <PickerInputField
           onPressAction={showDatePicker}
@@ -242,4 +289,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default GCM;
+export default inject("deviceLocaleStore")(observer(GCM));

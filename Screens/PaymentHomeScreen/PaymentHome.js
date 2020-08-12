@@ -23,7 +23,8 @@ import { SCREEN_PAYMENT_SUMMARY } from "../../NavigatorsV2/ScreenNames";
 class PaymentHome extends Component {
   state = {
     isLoading: false,
-    paymentMeta: {}
+    paymentMeta: {},
+    displayCurrency: null
   };
   _didFocusSubscription;
 
@@ -67,7 +68,8 @@ class PaymentHome extends Component {
         }, 1000);
         if (response.status === "SUCCESS") {
           this.setState({
-            paymentMeta: response.data
+            paymentMeta: response.data,
+            displayCurrency: response.displayCurrency
           });
         } else {
           this.apiFailure();
@@ -137,6 +139,7 @@ class PaymentHome extends Component {
                   paymentStatus={paymentDetails.paymentStatus}
                   nextPendingDate={paymentDetails.nextPendingDate}
                   totalAmountPaid={paymentDetails.totalAmountPaid}
+                  displayCurrency={this.state.displayCurrency}
                 />
               );
             } else {

@@ -1,14 +1,13 @@
 import React from "react";
 import { StyleSheet } from "react-native";
-import {
-  responsiveWidth
-  // @ts-ignore
-} from "react-native-responsive-dimensions";
+import { responsiveWidth } from "react-native-responsive-dimensions";
 
 import HorizontalCardsRow from "./HorizontalCardsRow";
 import { IPromotedSection } from "../ExploreFeedType";
-import PromoCard from "../../../CommonComponents/PromoCard/PromoCard";
-import getPriceWithoutSymbol from "../services/getPriceWithoutSymbol";
+import PromoCard, {
+  PROMO_CARD_IMAGE_HEIGHT,
+  PROMO_CARD_IMAGE_WIDTH
+} from "../../../CommonComponents/PromoCard/PromoCard";
 import deepLink from "../../../Services/deepLink/deepLink";
 import getImgIXUrl from "../../../Services/getImgIXUrl/getImgIXUrl";
 import { recordEvent } from "../../../Services/analytics/analyticsService";
@@ -22,12 +21,13 @@ export interface IPromoDeepLink {
 export interface IPromotedCardsRowData {
   data?: IPromotedSection["items"];
   isLoading: boolean;
+  displayCurrency: string;
 }
 
 const PromotedCardsRow = (props: IPromotedSection) => {
   return (
     <HorizontalCardsRow items={props.items}>
-      {({ data }: IPromotedCardsRowData) => {
+      {({ data, displayCurrency }: IPromotedCardsRowData) => {
         return data
           ? data.map((promo, promoIndex) => {
               const action = () => {
@@ -41,11 +41,24 @@ const PromotedCardsRow = (props: IPromotedSection) => {
                 <PromoCard
                   key={promoIndex}
                   action={action}
-                  image={{ uri: getImgIXUrl({ src: promo.imageUrl }) }}
-                  price={getPriceWithoutSymbol(promo.cost)}
+                  thumbnail={{
+                    uri: getImgIXUrl({
+                      src: promo.imageUrl,
+                      DPR: 0.02,
+                      imgFactor: `h=${PROMO_CARD_IMAGE_HEIGHT}&w=${PROMO_CARD_IMAGE_WIDTH}&crop=fit`
+                    })
+                  }}
+                  image={{
+                    uri: getImgIXUrl({
+                      src: promo.imageUrl,
+                      imgFactor: `h=${PROMO_CARD_IMAGE_HEIGHT}&w=${PROMO_CARD_IMAGE_WIDTH}&crop=fit`
+                    })
+                  }}
+                  price={promo.cost}
                   text={promo.text}
                   containerStyle={styles.promoCardWrapper}
                   promoCardImageStyle={styles.promoCardImage}
+                  displayCurrency={displayCurrency}
                 />
               );
             })

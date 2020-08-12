@@ -30,7 +30,7 @@ const TravelProfileActionSheet = ({
       <View style={styles.actionSheetContainer}>
         <SectionTitle
           smallTitle={"Let’s get started!"}
-          title={"Is this your first international holiday?"}
+          title={"Is this your first holiday?"}
           titleNumberOfLines={2}
           containerStyle={styles.sectionTitleContainerStyle}
           smallTitleTextStyle={styles.titleInfoStyle}

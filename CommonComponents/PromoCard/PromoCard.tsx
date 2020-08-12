@@ -9,12 +9,7 @@ import {
   ImageSourcePropType,
   ImageStyle
 } from "react-native";
-import {
-  responsiveWidth
-  // @ts-ignore
-} from "react-native-responsive-dimensions";
-
-import SmartImageV2 from "../SmartImage/SmartImageV2";
+import { responsiveWidth } from "react-native-responsive-dimensions";
 import {
   CONSTANT_shade3,
   CONSTANT_black1,
@@ -32,26 +27,38 @@ import {
   CONSTANT_defaultPlaceImage
 } from "../../constants/imageAssets";
 import ratioCalculator from "../../Services/ratioCalculator/ratioCalculator";
+import BetterImage from "../BetterImage/BetterImage";
+// @ts-ignore
+import getSymbolFromCurrency from "currency-symbol-map";
+import { getGlobalPriceWithoutSymbol } from "../../Screens/ExploreScreen/services/getPriceWithoutSymbol";
 
 interface TestimonialCardProps {
   containerStyle?: StyleProp<ViewStyle>;
   image: ImageSourcePropType;
   fallbackImage?: ImageSourcePropType;
+  thumbnail: ImageSourcePropType;
   text: string;
-  price: string;
+  price: number;
+  displayCurrency: string;
   action: () => any;
   promoCardImageStyle?: StyleProp<ImageStyle>;
 }
 
-const PROMO_CARD_IMAGE_WIDTH = responsiveWidth(60);
-const PROMO_CARD_IMAGE_HEIGHT = ratioCalculator(1, 1, PROMO_CARD_IMAGE_WIDTH);
+export const PROMO_CARD_IMAGE_WIDTH = responsiveWidth(60);
+export const PROMO_CARD_IMAGE_HEIGHT = ratioCalculator(
+  1,
+  1,
+  PROMO_CARD_IMAGE_WIDTH
+);
 
 const PromoCard = ({
   containerStyle,
   image = { uri: "" },
+  thumbnail = { uri: "" },
   fallbackImage = { uri: CONSTANT_defaultPlaceImage },
   text = "",
-  price = "",
+  price,
+  displayCurrency,
   action = () => null,
   promoCardImageStyle
 }: TestimonialCardProps) => {
@@ -61,11 +68,12 @@ const PromoCard = ({
       onPress={action}
       style={[styles.promoCardContainer, containerStyle]}
     >
-      <SmartImageV2
+      <BetterImage
         resizeMode={"cover"}
         source={image}
+        thumbnailSource={thumbnail}
         fallbackSource={fallbackImage}
-        style={[styles.imageStyle, promoCardImageStyle]}
+        containerStyle={[styles.imageStyle, promoCardImageStyle]}
       />
 
       <View style={styles.contentContainer}>
@@ -79,8 +87,14 @@ const PromoCard = ({
           </Text>
 
           <View style={styles.priceTextStyle}>
-            <Text style={styles.rupeeStyle}>₹</Text>
-            <Text style={styles.priceText}>{price}</Text>
+            <Text style={styles.rupeeStyle}>
+              {getSymbolFromCurrency(displayCurrency)}
+            </Text>
+            <Text style={styles.priceText}>
+              {getGlobalPriceWithoutSymbol({
+                amount: parseInt((price as unknown) as string, 10)
+              })}
+            </Text>
             <Text style={styles.personTextStyle}>/person</Text>
           </View>
         </View>

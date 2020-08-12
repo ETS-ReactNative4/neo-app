@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { View, StyleSheet, TouchableOpacity } from "react-native";
+import React, { useEffect, useState } from "react";
+import { View, StyleSheet, TouchableOpacity, Platform } from "react-native";
 import { AppNavigatorProps } from "../../NavigatorsV2/AppNavigator";
 import {
   SCREEN_NOTIFICATION_DETAILS,
@@ -11,7 +11,10 @@ import {
   CONSTANT_white
 } from "../../constants/colorPallete";
 import ItineraryTimeline from "../NotificationsScreen/Components/ItineraryTimeline/ItineraryTimeline";
-import ParallaxScrollView from "../../CommonComponents/ParallaxScrollView/ParallaxScrollView";
+import ParallaxScrollView, {
+  PARALLAX_BANNER_HEIGHT,
+  BLUR_HEADER_HEIGHT
+} from "../../CommonComponents/ParallaxScrollView/ParallaxScrollView";
 import ItineraryDetail from "../NotificationsScreen/Components/ItineraryDetail/ItineraryDetail";
 import BlankSpacer from "../../CommonComponents/BlankSpacer/BlankSpacer";
 import {
@@ -33,7 +36,10 @@ import {
   CONSTANT_itineraryDetails,
   CONSTANT_notificationRead
 } from "../../constants/apiUrls";
-import { CONSTANT_responseSuccessStatus } from "../../constants/stringConstants";
+import {
+  CONSTANT_responseSuccessStatus,
+  CONSTANT_platformAndroid
+} from "../../constants/stringConstants";
 import { toastBottom } from "../../Services/toast/toast";
 import {
   CONSTANT_GCMDateFormat,
@@ -60,6 +66,8 @@ const NotificationDetails = ({
     getNotificationDetails
   ] = useNotificationDetailsApi();
 
+  const [displayCurrency, setDisplayCurrency] = useState("INR");
+
   // @ts-ignore - handle null initialization
   const itineraryDetails = useUnbookedItinerary(null);
 
@@ -77,7 +85,10 @@ const NotificationDetails = ({
         itineraryId: "",
         costingType: "RECOST",
         name: "",
-        leadSource: {}
+        leadSource: {
+          deviceType:
+            Platform.OS === CONSTANT_platformAndroid ? "Android OS" : "iOS"
+        }
       })
         .then(result => {
           if (result) {
@@ -105,6 +116,7 @@ const NotificationDetails = ({
       .then((response: IItineraryServerResponse) => {
         if (response.status === CONSTANT_responseSuccessStatus) {
           itineraryDetails.updateItinerary(response.data);
+          setDisplayCurrency(response.displayCurrency || "");
         } else {
           toastBottom("Unable to retrieve Itinerary info");
           navigation.goBack();
@@ -190,6 +202,7 @@ const NotificationDetails = ({
         backAction={goBack}
         smallText={notification.lastEdited}
         titleText={notification.title}
+        enableGradient
       >
         <View style={styles.detailsContainer}>
           <ItineraryDetail
@@ -210,13 +223,20 @@ const NotificationDetails = ({
             totalCost={totalCost}
             travellingAs={travelType}
             staleCost={staleCost}
+            displayCurrency={displayCurrency}
           />
           {notificationDetailsApi.isSuccess ? (
             <ItineraryTimeline
               notifData={notificationDetailsApi.successResponseData?.data || []}
             />
           ) : null}
-          <BlankSpacer height={BOTTOM_BUTTON_CONTAINER_HEIGHT + 16} />
+          <BlankSpacer
+            height={
+              BOTTOM_BUTTON_CONTAINER_HEIGHT +
+              PARALLAX_BANNER_HEIGHT -
+              BLUR_HEADER_HEIGHT
+            }
+          />
         </View>
       </ParallaxScrollView>
 
@@ -232,7 +252,10 @@ const NotificationDetails = ({
         leftButtonName={"Support"}
         leftButtonAction={() =>
           navigation.navigate(SCREEN_NOTIFICATION_FAQ, {
-            itineraryId: notification.itineraryId
+            itineraryId: notification.itineraryId,
+            isDomestic: !!notification.citiesArr?.find(
+              city => city.countryName === "India"
+            )
           })
         }
         rightButtonName={"View itinerary"}

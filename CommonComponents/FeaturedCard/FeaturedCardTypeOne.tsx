@@ -8,10 +8,7 @@ import {
   TouchableOpacity,
   ImageStyle
 } from "react-native";
-import {
-  responsiveWidth
-  // @ts-ignore
-} from "react-native-responsive-dimensions";
+import { responsiveWidth } from "react-native-responsive-dimensions";
 import SmartImageV2 from "../SmartImage/SmartImageV2";
 import Icon from "../Icon/Icon";
 import { CONSTANT_white1 } from "../../constants/colorPallete";
@@ -25,21 +22,26 @@ import {
   CONSTANT_primarySemiBold
 } from "../../constants/fonts";
 import ratioCalculator from "../../Services/ratioCalculator/ratioCalculator";
+import BetterImage from "../BetterImage/BetterImage";
+import { getLocaleStringGlobal } from "../../Services/getLocaleString/getLocaleString";
 
 interface FeaturedCardTypeOneProps {
   containerStyle?: StyleProp<ImageStyle>;
   image: ImageSourcePropType;
+  thumbnail: ImageSourcePropType;
   fallbackImage?: ImageSourcePropType;
   blurRadius?: number;
   action: () => any;
-  price: string;
+  price: number;
+  displayCurrency: string;
 }
 
 /* GUTTER SPACER */
 const GUTTER_SPACING = 24;
 
-const FEATURED_CARD_IMAGE_WIDTH = responsiveWidth(80) - GUTTER_SPACING * 2;
-const FEATURED_CARD_IMAGE_HEIGHT = ratioCalculator(
+export const FEATURED_CARD_IMAGE_WIDTH =
+  responsiveWidth(80) - GUTTER_SPACING * 2;
+export const FEATURED_CARD_IMAGE_HEIGHT = ratioCalculator(
   8,
   11,
   FEATURED_CARD_IMAGE_WIDTH
@@ -48,15 +50,17 @@ const FEATURED_CARD_IMAGE_HEIGHT = ratioCalculator(
 const FeaturedCardTypeOne = ({
   containerStyle,
   image = { uri: "" },
+  thumbnail = { uri: "" },
   fallbackImage = { uri: CONSTANT_defaultPlaceImage },
   blurRadius = 50,
   action = () => null,
-  price
+  price,
+  displayCurrency
 }: FeaturedCardTypeOneProps) => {
   return (
     <TouchableOpacity activeOpacity={0.8} onPress={action}>
       <SmartImageV2
-        source={image}
+        source={thumbnail}
         fallbackSource={fallbackImage}
         resizeMode="cover"
         style={[styles.bgImageStyle, containerStyle]}
@@ -64,17 +68,25 @@ const FeaturedCardTypeOne = ({
         imageStyle={styles.imageStyle}
       >
         <View style={styles.innerCard}>
-          <SmartImageV2
+          <BetterImage
             source={image}
+            thumbnailSource={thumbnail}
             fallbackSource={fallbackImage}
             resizeMode="cover"
-            style={styles.fgImageStyle}
+            containerStyle={styles.fgImageStyle}
           />
 
           <View style={styles.contentStyle}>
             <Text style={styles.textStyle}>
               {" "}
-              From <Text style={styles.boldTextStyle}>₹ {price}</Text> / person
+              From{" "}
+              <Text style={styles.boldTextStyle}>
+                {getLocaleStringGlobal({
+                  amount: price,
+                  currency: displayCurrency
+                })}
+              </Text>{" "}
+              / person
             </Text>
 
             <View style={styles.backArrowStyle}>

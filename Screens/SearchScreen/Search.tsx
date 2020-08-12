@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { SafeAreaView, StyleSheet, FlatList } from "react-native";
+import { SafeAreaView, StyleSheet, FlatList, View } from "react-native";
 import SearchTabPills from "./Components/SearchTabPills";
 import BlankSpacer from "../../CommonComponents/BlankSpacer/BlankSpacer";
 import { CONSTANT_shade3, CONSTANT_white } from "../../constants/colorPallete";
@@ -23,6 +23,16 @@ import {
 import usePackagesSearchApi from "./hooks/usePackagesSearchApi";
 import useDeepCompareEffect from "use-deep-compare-effect";
 import EmptyListPlaceholder from "../../CommonComponents/EmptyListPlaceholder/EmptyListPlaceholder";
+import * as Animatable from "react-native-animatable";
+import { observer, inject } from "mobx-react";
+import DeviceLocale from "../../mobx/DeviceLocale";
+import _ from "lodash";
+
+const INITIAL_SEARCH_OFFSET = 0;
+
+const { createAnimatableComponent } = Animatable;
+
+const AnimatableView = createAnimatableComponent(View);
 
 export type SearchScreenNavigationType = CompositeNavigationProp<
   StackNavigationProp<AppNavigatorParamsType, typeof SCREEN_PRETRIP_HOME_TABS>,
@@ -37,6 +47,7 @@ export type SearchScreenRouteProp = RouteProp<
 export interface SearchScreenProps {
   navigation: SearchScreenNavigationType;
   route: SearchScreenRouteProp;
+  deviceLocaleStore: DeviceLocale;
 }
 
 export interface ISearchCategory {
@@ -45,40 +56,44 @@ export interface ISearchCategory {
   searchQuery: string;
 }
 
-const categories: ISearchCategory[] = [
-  {
-    text: "All",
-    emoji: "",
-    searchQuery: ""
-  },
-  {
-    text: "ADVENTURE",
-    emoji: itineraryThemeEmojiMap.ADVENTURE,
-    searchQuery: "adventure-packages"
-  },
-  {
-    text: "HONEYMOON",
-    emoji: itineraryThemeEmojiMap.HONEYMOON,
-    searchQuery: "honeymoon-packages"
-  },
-  {
-    text: "VISA_ON_ARRIVAL",
-    emoji: itineraryThemeEmojiMap.VISA_ON_ARRIVAL,
-    searchQuery: "visa-on-arrival-packages"
-  },
-  {
-    text: "FAMILY",
-    emoji: itineraryThemeEmojiMap.FAMILY,
-    searchQuery: "family-packages"
-  },
-  {
-    text: "BEACH",
-    emoji: itineraryThemeEmojiMap.BEACH,
-    searchQuery: "beach-packages"
-  }
-];
+const Search = ({ navigation, deviceLocaleStore }: SearchScreenProps) => {
+  const categories: ISearchCategory[] = _.compact([
+    {
+      text: "All",
+      emoji: "",
+      searchQuery: ""
+    },
+    {
+      text: "ADVENTURE",
+      emoji: itineraryThemeEmojiMap.ADVENTURE,
+      searchQuery: "adventure-packages"
+    },
+    {
+      text: "HONEYMOON",
+      emoji: itineraryThemeEmojiMap.HONEYMOON,
+      searchQuery: "honeymoon-packages"
+    },
+    deviceLocaleStore.deviceLocale === "in"
+      ? {
+          text: "VISA_ON_ARRIVAL",
+          emoji: itineraryThemeEmojiMap.VISA_ON_ARRIVAL,
+          searchQuery: "visa-on-arrival-packages"
+        }
+      : null,
+    {
+      text: "FAMILY",
+      emoji: itineraryThemeEmojiMap.FAMILY,
+      searchQuery: "family-packages"
+    },
+    {
+      text: "BEACH",
+      emoji: itineraryThemeEmojiMap.BEACH,
+      searchQuery: "beach-packages"
+    }
+  ]);
 
-const Search = ({ navigation }: SearchScreenProps) => {
+  const abortFetchRef = useRef<any>(null);
+
   const limit = useRef(15).current;
 
   const [searchString, setSearchString] = useState("");
@@ -93,7 +108,7 @@ const Search = ({ navigation }: SearchScreenProps) => {
     categories[0]
   );
 
-  const [offset, setOffset] = useState(1);
+  const [offset, setOffset] = useState(INITIAL_SEARCH_OFFSET);
 
   const updateText = (newText: string) => setSearchString(newText);
 
@@ -101,7 +116,7 @@ const Search = ({ navigation }: SearchScreenProps) => {
 
   const [packagesApiDetails, searchPackages] = usePackagesSearchApi();
 
-  const [categoryOffset, setCategoryOffset] = useState(1);
+  const [categoryOffset, setCategoryOffset] = useState(INITIAL_SEARCH_OFFSET);
 
   const [
     categoryWisePackagesApiDetails,
@@ -109,11 +124,11 @@ const Search = ({ navigation }: SearchScreenProps) => {
   ] = usePackagesSearchApi();
 
   useDeepCompareEffect(() => {
-    setCategoryOffset(1);
+    setCategoryOffset(INITIAL_SEARCH_OFFSET);
     setCategoryResults([]);
     loadPackagesByCategory({
       limit,
-      offset: 1,
+      offset: INITIAL_SEARCH_OFFSET,
       searchString: selectedCategory.searchQuery
     });
   }, [selectedCategory]);
@@ -128,14 +143,21 @@ const Search = ({ navigation }: SearchScreenProps) => {
   }, [categoryOffset]);
 
   useEffect(() => {
-    setOffset(1);
+    setOffset(INITIAL_SEARCH_OFFSET);
     setSearchResults([]);
     if (searchString) {
+      if (abortFetchRef.current) {
+        abortFetchRef.current.abort();
+      }
+      // @ts-ignore
+      // eslint-disable-next-line no-undef
+      abortFetchRef.current = new AbortController();
       searchPackages({
         limit,
         offset,
-        searchString
-      });
+        searchString,
+        abortController: abortFetchRef.current
+      }).catch(() => null);
     } else {
       setSearchResults([]);
     }
@@ -230,9 +252,15 @@ const Search = ({ navigation }: SearchScreenProps) => {
       <BlankSpacer height={1} containerStyle={styles.dividerStyle} />
       <BlankSpacer height={8} />
       {!isLoading && !isResultsAvailable ? (
-        <EmptyListPlaceholder
-          text={"No itineraries found matching your criteria"}
-        />
+        <AnimatableView
+          style={styles.placeholderWrapper}
+          delay={1500}
+          animation={"fadeIn"}
+        >
+          <EmptyListPlaceholder
+            text={"No itineraries found matching your criteria"}
+          />
+        </AnimatableView>
       ) : (
         <FlatList
           data={searchString ? searchResults : categoryResults}
@@ -271,7 +299,8 @@ const styles = StyleSheet.create({
   },
   dividerStyle: {
     backgroundColor: CONSTANT_shade3
-  }
+  },
+  placeholderWrapper: { flex: 1 }
 });
 
-export default Search;
+export default inject("deviceLocaleStore")(observer(Search));

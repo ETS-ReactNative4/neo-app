@@ -1,8 +1,5 @@
 import React from "react";
-import {
-  responsiveWidth
-  // @ts-ignore
-} from "react-native-responsive-dimensions";
+import { responsiveWidth } from "react-native-responsive-dimensions";
 import {
   StyleSheet,
   View,
@@ -31,29 +28,36 @@ import RouteList, {
 import ItineraryCardImage from "./Components/ItineraryCardImage";
 import InclusionList from "./Components/InclusionList";
 import { IInclusion } from "../../Screens/ExploreScreen/services/generateInclusions";
+// @ts-ignore
+import getSymbolFromCurrency from "currency-symbol-map";
+import { getGlobalPriceWithoutSymbol } from "../../Screens/ExploreScreen/services/getPriceWithoutSymbol";
 
 export interface ItineraryCardProps {
   containerStyle?: ViewStyle;
   imageStyle?: StyleProp<ImageStyle>;
   images: string[];
+  thumbnailImages: string[];
   tripType: string;
   action: () => any;
   title: string;
   inclusionList: IInclusion[];
-  itineraryCost: string;
+  itineraryCost: string | number;
   cities: IRouteCitiesDetails[];
+  displayCurrency: string;
 }
 
 const ItineraryCard = ({
   containerStyle,
   imageStyle,
+  thumbnailImages = [],
   images = [],
   tripType = "",
   title = "",
   inclusionList,
   itineraryCost,
   cities = [],
-  action = () => null
+  action = () => null,
+  displayCurrency
 }: ItineraryCardProps) => {
   return (
     <TouchableOpacity
@@ -62,6 +66,7 @@ const ItineraryCard = ({
       style={[styles.itineraryCardContainer, containerStyle]}
     >
       <ItineraryCardImage
+        thumbnailImages={thumbnailImages}
         images={images}
         tripType={tripType}
         imageStyle={[styles.itineraryImageStyle, imageStyle]}
@@ -87,8 +92,15 @@ const ItineraryCard = ({
 
           <View style={styles.bottomWrapper}>
             <View style={styles.priceSection}>
-              <Text style={styles.rupeeText}>₹</Text>
-              <Text style={styles.priceText}>{itineraryCost}</Text>
+              <Text style={styles.rupeeText}>
+                {getSymbolFromCurrency(displayCurrency)}
+              </Text>
+              <Text style={styles.priceText}>
+                {getGlobalPriceWithoutSymbol({
+                  amount: parseInt((itineraryCost as unknown) as string, 10),
+                  currency: displayCurrency
+                })}
+              </Text>
               <Text style={styles.personText}>/person</Text>
             </View>
 

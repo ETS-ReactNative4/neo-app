@@ -1,14 +1,10 @@
 import React from "react";
 import { StyleSheet } from "react-native";
-import {
-  responsiveWidth
-  // @ts-ignore
-} from "react-native-responsive-dimensions";
+import { responsiveWidth } from "react-native-responsive-dimensions";
 import { IPackageItinerarySection } from "../ExploreFeedType";
 import HorizontalCardsRow from "./HorizontalCardsRow";
 import ItineraryCard from "../../../CommonComponents/ItineraryCard/ItineraryCard";
 import { IPackageItinerary } from "../../../TypeInterfaces/IPackageItinerary";
-import getPriceWithoutSymbol from "../services/getPriceWithoutSymbol";
 import generateInclusions from "../services/generateInclusions";
 import ExploreCardLodingIndicator from "./ExploreCardLodingIndicator";
 import getImgIXUrl from "../../../Services/getImgIXUrl/getImgIXUrl";
@@ -25,6 +21,7 @@ export interface IPackageItineraryCardsData {
     testimonials: any;
     tripStartingPrice: number;
   };
+  displayCurrency: string;
 }
 
 const PackageItineraryCardsRow = (props: IPackageItinerarySection) => {
@@ -34,7 +31,7 @@ const PackageItineraryCardsRow = (props: IPackageItinerarySection) => {
       httpMethod={props.httpMethod}
       requestPayload={props.requestPayload}
     >
-      {({ data, isLoading }: IPackageItineraryCardsData) => {
+      {({ data, isLoading, displayCurrency }: IPackageItineraryCardsData) => {
         return isLoading ? (
           <ExploreCardLodingIndicator height={454} />
         ) : (
@@ -42,7 +39,7 @@ const PackageItineraryCardsRow = (props: IPackageItinerarySection) => {
             data.filteredItineraries
               .slice(0, CONSTANT_exploreFeedCardLimit)
               .map((card, cardIndex) => {
-                const amount = getPriceWithoutSymbol(card.itineraryCost);
+                const amount = card.itineraryCost;
                 const action = () => {
                   deepLink({
                     link: card.deepLinking.link,
@@ -62,13 +59,26 @@ const PackageItineraryCardsRow = (props: IPackageItinerarySection) => {
                     key={cardIndex}
                     tripType={card.tripType}
                     itineraryCost={amount}
-                    images={[getImgIXUrl({ src: card.image })]}
+                    images={[
+                      getImgIXUrl({
+                        src: card.image,
+                        imgFactor: `h=200&w=${responsiveWidth(100)}&crop=fit`
+                      })
+                    ]}
+                    thumbnailImages={[
+                      getImgIXUrl({
+                        src: card.image,
+                        DPR: 0.02,
+                        imgFactor: `h=200&w=${responsiveWidth(100)}&crop=fit`
+                      })
+                    ]}
                     cities={card.cityHotelStay}
                     action={action}
                     title={card.title}
                     containerStyle={styles.itineraryCardWrapper}
                     imageStyle={styles.itineraryImage}
                     inclusionList={inclusionList}
+                    displayCurrency={displayCurrency}
                   />
                 );
               })

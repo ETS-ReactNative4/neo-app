@@ -23,6 +23,8 @@ import UserFlowTransition from "../../mobx/UserFlowTransition";
 import SOFeedback from "../../mobx/SOFeedback";
 import TravelProfile from "../../mobx/TravelProfile";
 import WelcomeState from "../../mobx/WelcomeState";
+import LeadSource from "../../mobx/LeadSource";
+import DeviceLocale from "../../mobx/DeviceLocale";
 
 export interface IStoreService {
   userStore: User;
@@ -50,6 +52,8 @@ export interface IStoreService {
   soFeedbackStore: SOFeedback;
   travelProfileStore: TravelProfile;
   welcomeStateStore: WelcomeState;
+  leadSourceStore: LeadSource;
+  deviceLocaleStore: DeviceLocale;
 }
 
 // @ts-ignore

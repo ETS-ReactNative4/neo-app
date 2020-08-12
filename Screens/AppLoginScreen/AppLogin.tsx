@@ -33,7 +33,8 @@ import Interactable from "react-native-interactable";
 import OtpPanel from "./Components/OtpPanel";
 import {
   CONSTANT_platformIos,
-  CONSTANT_responseUserUnavailable
+  CONSTANT_responseUserUnavailable,
+  CONSTANT_responseSuccessStatus
 } from "../../constants/stringConstants";
 import useMobileNumberApi from "./hooks/useMobileNumberApi";
 import { validateLoginMobileNumber } from "../../Services/validateMobileNumber/validateMobileNumber";
@@ -76,6 +77,15 @@ import Itineraries from "../../mobx/Itineraries";
 import launchItinerarySelector from "../../Services/launchItinerarySelector/launchItinerarySelector";
 import launchSavedItineraries from "../../Services/launchSavedItineraries/launchSavedItineraries";
 import launchPretripHome from "../../Services/launchPretripHome/launchPretripHome";
+import usePrevious from "../../Services/usePrevious/usePrevious";
+import { IMobileServerResponse } from "../../TypeInterfaces/INetworkResponse";
+import LeadSource from "../../mobx/LeadSource";
+import { recordEvent } from "../../Services/analytics/analyticsService";
+import {
+  CONSTANT_APP_SIGNUP,
+  CONSTANT_APP_SIGNIN
+} from "../../constants/appEvents";
+import DeviceLocale from "../../mobx/DeviceLocale";
 
 type screenName = typeof SCREEN_APP_LOGIN;
 
@@ -91,13 +101,17 @@ export interface IAppLoginProps {
   route: StarterScreenRouteProp;
   yourBookingsStore: YourBookings;
   itineraries: Itineraries;
+  leadSourceStore: LeadSource;
+  deviceLocaleStore: DeviceLocale;
 }
 
 const AppLogin = ({
   navigation,
   route,
   yourBookingsStore,
-  itineraries
+  itineraries,
+  leadSourceStore,
+  deviceLocaleStore
 }: IAppLoginProps) => {
   const [isVideoReady, setVideoStatus] = useState(false);
   const [
@@ -125,6 +139,11 @@ const AppLogin = ({
     successResponseData: loginSuccessData = {} as ILoginSuccessData | undefined,
     failureResponseData: loginFailureData = {} as ILoginFailureData | undefined
   } = loginApiDetails;
+  const {
+    failureResponseData: registrationFailureData = {} as
+      | IMobileServerResponse
+      | undefined
+  } = registrationApiDetails;
   const [isPhoneSubmitAttempted, setPhoneSubmitAttempt] = useState<boolean>(
     false
   );
@@ -253,6 +272,15 @@ const AppLogin = ({
         userName: name
       });
       if (result) {
+        recordEvent(CONSTANT_APP_SIGNUP.event, {
+          [CONSTANT_APP_SIGNUP.click.email]: email,
+          [CONSTANT_APP_SIGNUP.click.mobileNumber]: phoneNumber,
+          [CONSTANT_APP_SIGNUP.click.userName]: name,
+          [CONSTANT_APP_SIGNUP.click.leadSource]: leadSourceStore.source,
+          [CONSTANT_APP_SIGNUP.click.activeDeepLink]:
+            leadSourceStore.activeDeeplink,
+          [CONSTANT_APP_SIGNUP.click.locale]: deviceLocaleStore.deviceLocale
+        });
         requestOtp();
       }
     }
@@ -359,6 +387,15 @@ const AppLogin = ({
       registerTokenV2(loginSuccessData.data?.authToken || "")
         .then(isTokenStored => {
           if (isTokenStored) {
+            recordEvent(CONSTANT_APP_SIGNIN.event, {
+              [CONSTANT_APP_SIGNIN.click.email]: email,
+              [CONSTANT_APP_SIGNIN.click.mobileNumber]: phoneNumber,
+              [CONSTANT_APP_SIGNIN.click.userName]: name,
+              [CONSTANT_APP_SIGNIN.click.leadSource]: leadSourceStore.source,
+              [CONSTANT_APP_SIGNIN.click.activeDeepLink]:
+                leadSourceStore.activeDeeplink,
+              [CONSTANT_APP_SIGNIN.click.locale]: deviceLocaleStore.deviceLocale
+            });
             continueFlow();
           } else {
             setIsOtpSubmitting(false);
@@ -382,6 +419,24 @@ const AppLogin = ({
       ]);
     }
   }, [loginSuccessData, loginFailureData]);
+
+  const previousRegistrationFailureData = usePrevious(registrationFailureData);
+
+  useDeepCompareEffect(() => {
+    if (previousRegistrationFailureData && registrationFailureData) {
+      if (registrationFailureData.status !== CONSTANT_responseSuccessStatus) {
+        if (registrationFailureData.message) {
+          DebouncedAlert("Oops!", registrationFailureData.message);
+        }
+      }
+    } else if (registrationFailureData) {
+      if (registrationFailureData.status !== CONSTANT_responseSuccessStatus) {
+        if (registrationFailureData.message) {
+          DebouncedAlert("Oops!", registrationFailureData.message);
+        }
+      }
+    }
+  }, [registrationFailureData]);
 
   const skipAction = () =>
     navigation.dispatch(launchPretripHome({ source: "TravelProfileFlow" }));
@@ -562,5 +617,9 @@ const styles = StyleSheet.create({
 });
 
 export default ErrorBoundary()(
-  inject("itineraries")(inject("yourBookingsStore")(observer(AppLogin)))
+  inject("deviceLocaleStore")(
+    inject("leadSourceStore")(
+      inject("itineraries")(inject("yourBookingsStore")(observer(AppLogin)))
+    )
+  )
 );

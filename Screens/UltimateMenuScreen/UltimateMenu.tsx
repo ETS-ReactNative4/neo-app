@@ -177,7 +177,7 @@ const UltimateMenu = ({
             {isLoggedIn ? userDisplayDetails.name : "Guest User"}
           </Text>
 
-          {userDisplayDetails.email ? (
+          {isLoggedIn && userDisplayDetails.email ? (
             <Text style={styles.emailTextStyle}>
               {userDisplayDetails.email}
             </Text>

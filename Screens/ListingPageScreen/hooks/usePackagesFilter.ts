@@ -1,11 +1,20 @@
 import { useState } from "react";
-import { IRadioGroup, ICheckBoxGroup } from "../Components/FilterActionSheet";
+import {
+  IRadioGroup,
+  ICheckBoxGroup,
+  INumericCheckBoxGroup
+} from "../Components/FilterActionSheet";
 import {
   interestsRadio,
   travelDurationCheckBox,
   propertyRatingCheckBox,
-  estimatedBudgetCheckBox
+  estimatedBudgetCheckBox as estimatedBudgetCheckBoxINR,
+  estimatedBudgetCheckBoxUAE,
+  estimatedBudgetCheckBoxUK,
+  estimatedBudgetCheckBoxUSD
 } from "../filterOptions/filterOptions";
+import storeService from "../../../Services/storeService/storeService";
+import _ from "lodash";
 
 export interface IRadioSet {
   group: IRadioGroup;
@@ -19,6 +28,12 @@ export interface ICheckBoxSet {
   reset: () => any;
 }
 
+export interface INumericCheckBoxSet {
+  group: INumericCheckBoxGroup;
+  action: (val: number) => any;
+  reset: () => any;
+}
+
 export interface IPackagesFilter {
   interests: IRadioSet;
   travelDuration: ICheckBoxSet;
@@ -27,6 +42,22 @@ export interface IPackagesFilter {
 }
 
 const usePackagesFilter = (): IPackagesFilter => {
+  let estimatedBudget = estimatedBudgetCheckBoxINR;
+
+  switch (_.toLower(storeService.deviceLocaleStore.deviceLocale)) {
+    case "ae":
+      estimatedBudget = estimatedBudgetCheckBoxUAE;
+      break;
+    case "gb":
+      estimatedBudget = estimatedBudgetCheckBoxUK;
+      break;
+    case "us":
+      estimatedBudget = estimatedBudgetCheckBoxUSD;
+      break;
+    default:
+      break;
+  }
+
   const [interestsRadioGroup, setInterestsRadioGroup] = useState<IRadioGroup>({
     type: "Radio",
     ...interestsRadio
@@ -37,7 +68,7 @@ const usePackagesFilter = (): IPackagesFilter => {
       if (item.value === interestValue) {
         return {
           ...item,
-          isSelected: !item.isSelected
+          isSelected: item.isSelected ? item.isSelected : !item.isSelected
         };
       }
       return {
@@ -123,7 +154,7 @@ const usePackagesFilter = (): IPackagesFilter => {
     setEstimatedBudgetCheckBoxGroup
   ] = useState<ICheckBoxGroup>({
     type: "Checkbox",
-    ...estimatedBudgetCheckBox
+    ...estimatedBudget
   });
 
   const selectEstimatedBudget = (budgetValue: string) => {
@@ -147,7 +178,7 @@ const usePackagesFilter = (): IPackagesFilter => {
   const resetBudgets = () => {
     setEstimatedBudgetCheckBoxGroup({
       type: "Checkbox",
-      ...estimatedBudgetCheckBox
+      ...estimatedBudget
     });
   };
 

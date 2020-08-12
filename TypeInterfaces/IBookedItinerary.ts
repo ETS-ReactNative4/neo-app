@@ -4,8 +4,11 @@ import { IExploreFeedLinks } from "../Screens/ExploreScreen/ExploreFeedType";
 export interface ICityWithNights {
   cityId: number;
   cityName: string;
+  countryName: string;
   hotelId: number;
   nights: number;
+  roomIdentifierList: string[];
+  sourceProvider: string;
 }
 
 export interface IBookedItinerary {

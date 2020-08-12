@@ -12,7 +12,9 @@ import SimpleButton from "../../../CommonComponents/SimpleButton/SimpleButton";
 import PropTypes from "prop-types";
 import moment from "moment";
 import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraProps";
-import getLocaleString from "../../../Services/getLocaleString/getLocaleString";
+import getLocaleString, {
+  getLocaleStringGlobal
+} from "../../../Services/getLocaleString/getLocaleString";
 import { recordEvent } from "../../../Services/analytics/analyticsService";
 
 /**
@@ -27,8 +29,23 @@ const PaymentInfoCard = ({
   nextPendingDate,
   paymentDue,
   totalAmountPaid,
-  paymentStatus
+  paymentStatus,
+  displayCurrency
 }) => {
+  const normalPaymentDetails = isPaymentPending
+    ? getLocaleString(paymentDue)
+    : getLocaleString(totalAmountPaid);
+
+  const globalPaymentDetails = isPaymentPending
+    ? getLocaleStringGlobal({
+        amount: paymentDue,
+        currency: displayCurrency
+      })
+    : getLocaleStringGlobal({
+        amount: totalAmountPaid,
+        currency: displayCurrency
+      });
+
   return (
     <TouchableOpacity
       onPress={() => {
@@ -85,9 +102,7 @@ const PaymentInfoCard = ({
           </View>
           <View style={styles.bookingDateWrapper}>
             <Text style={styles.bookingDate}>{`${
-              isPaymentPending
-                ? getLocaleString(paymentDue)
-                : getLocaleString(totalAmountPaid)
+              displayCurrency ? globalPaymentDetails : normalPaymentDetails
             }`}</Text>
           </View>
         </View>
@@ -105,7 +120,8 @@ PaymentInfoCard.propTypes = forbidExtraProps({
   nextPendingDate: PropTypes.number.isRequired,
   paymentDue: PropTypes.number.isRequired,
   totalAmountPaid: PropTypes.number.isRequired,
-  paymentStatus: PropTypes.string.isRequired
+  paymentStatus: PropTypes.string.isRequired,
+  displayCurrency: PropTypes.string
 });
 
 const styles = StyleSheet.create({

@@ -226,6 +226,9 @@ const MaritalStatusComponent = ({
             {maritalStatusOptionsData.map((suggestedMaritalData, index) => {
               const onSelect = () => {
                 selectSuggestedMaritalStatusData(suggestedMaritalData.id);
+                // close action sheet if any option is reselected
+                // @ts-ignore
+                maritalStatusRef.current?.snapTo({ index: 2 });
               };
 
               return (

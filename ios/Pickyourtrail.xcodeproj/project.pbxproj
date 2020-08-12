@@ -13,6 +13,7 @@
 		13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		18AC60022488BE3F00DD6DD9 /* Pickyourtrail.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = 33A79BD22156500800A5A7EF /* Pickyourtrail.entitlements */; };
 		18BD4E1F22FC550D00B82F1A /* hotel-amenities.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 18BD4E1E22FC550D00B82F1A /* hotel-amenities.ttf */; };
 		18E3A35F245A3F6F00A864D9 /* voyager.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 18E3A35E245A3F6F00A864D9 /* voyager.ttf */; };
 		2D02E4BC1E0B4A80006451C7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
@@ -370,6 +371,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				18AC60022488BE3F00DD6DD9 /* Pickyourtrail.entitlements in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 				33A79BD121564F4F00A5A7EF /* GoogleService-Info.plist in Resources */,
@@ -712,7 +714,7 @@
 				CODE_SIGN_ENTITLEMENTS = Pickyourtrail/Pickyourtrail.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 254;
+				CURRENT_PROJECT_VERSION = 292;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = KCHL242759;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -749,7 +751,7 @@
 				CODE_SIGN_ENTITLEMENTS = Pickyourtrail/Pickyourtrail.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 254;
+				CURRENT_PROJECT_VERSION = 292;
 				DEVELOPMENT_TEAM = KCHL242759;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",

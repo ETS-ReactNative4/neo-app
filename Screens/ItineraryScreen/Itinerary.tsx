@@ -28,9 +28,11 @@ import useCampaignItineraryCosting from "./hooks/useCampaignItineraryCosting";
 import { IGCMRequestBody } from "../GCMScreen/hooks/useGCMForm";
 import useItineraryCosting from "./hooks/useItineraryCosting";
 import useUnbookedItinerary from "./hooks/useUnbookedItinerary";
-import { observer } from "mobx-react";
+import { observer, inject } from "mobx-react";
 import { CONSTANT_visaSuccessAnimation } from "../../constants/imageAssets";
 import { leadSourceProdType } from "../RequestCallback/hooks/useRequestCallbackApi";
+import LeadSource from "../../mobx/LeadSource";
+import { CONSTANT_itineraryCostedEvent } from "../../constants/appEvents";
 
 export type itinerarySourceType =
   | typeof SCREEN_EXPLORE_TAB
@@ -54,7 +56,7 @@ export const getProdTypeFromItinerarySource = (
 
     default:
       // @ts-ignore
-      return "";
+      return source;
   }
 };
 
@@ -69,7 +71,9 @@ export interface IItineraryServerResponse extends IMobileServerResponse {
   data: IItinerary;
 }
 
-export interface ItineraryProps extends ItineraryNavType {}
+export interface ItineraryProps extends ItineraryNavType {
+  leadSourceStore: LeadSource;
+}
 
 export interface IBannerDetails {
   smallText?: string;
@@ -78,8 +82,12 @@ export interface IBannerDetails {
   mobileImage?: string;
 }
 
-const Itinerary = ({ route, navigation }: ItineraryProps) => {
+const Itinerary = ({ route, navigation, leadSourceStore }: ItineraryProps) => {
+  const [displayCurrency, setDisplayCurrency] = useState<undefined | string>(
+    undefined
+  );
   const { slug = "", itineraryId: preDefinedItineraryId = "" } = route.params;
+  const { logAction, clearLastAction, record } = leadSourceStore;
 
   const [
     campaignItineraryState,
@@ -112,6 +120,7 @@ const Itinerary = ({ route, navigation }: ItineraryProps) => {
   ) => {
     try {
       await costCampaignItinerary(campaignItineraryId, config);
+      record(CONSTANT_itineraryCostedEvent.event);
     } catch (e) {
       toastBottom("Unable to update latest cost");
     }
@@ -123,6 +132,7 @@ const Itinerary = ({ route, navigation }: ItineraryProps) => {
   ) => {
     try {
       await callItineraryCostUpdate(selectedItineraryId, config);
+      record(CONSTANT_itineraryCostedEvent.event);
       refreshItinerary();
     } catch (e) {
       toastBottom("Unable to update latest cost");
@@ -153,6 +163,7 @@ const Itinerary = ({ route, navigation }: ItineraryProps) => {
           if (response.status === CONSTANT_responseSuccessStatus) {
             itineraryDetails.updateItinerary(response.data);
             setCampaignItineraryState(null);
+            setDisplayCurrency(response.displayCurrency);
           } else {
             toastBottom("Unable to retrieve Itinerary info");
             navigation.goBack();
@@ -174,6 +185,7 @@ const Itinerary = ({ route, navigation }: ItineraryProps) => {
             //   response.data.campaignItinerary
             // );
             setCampaignItineraryState(response.data);
+            setDisplayCurrency(response.displayCurrency);
           } else {
             toastBottom("Unable to retrieve Itinerary info");
             navigation.goBack();
@@ -190,6 +202,18 @@ const Itinerary = ({ route, navigation }: ItineraryProps) => {
     refreshItinerary();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [itineraryId]);
+
+  useEffect(() => {
+    logAction({
+      type: "ViewItineraryPage",
+      slug,
+      itineraryId
+    });
+    return () => {
+      clearLastAction();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   if (!itineraryDetails?.isItineraryLoaded) {
     // Itinerary is loading
@@ -216,6 +240,8 @@ const Itinerary = ({ route, navigation }: ItineraryProps) => {
         bannerImage={
           focusedCity && focusedCity?.cityImages && focusedCity?.cityImages[0]
             ? focusedCity.cityImages[0]
+            : focusedCity?.image
+            ? focusedCity.image
             : bannerDetails
             ? bannerDetails.mobileImage
             : ""
@@ -232,6 +258,7 @@ const Itinerary = ({ route, navigation }: ItineraryProps) => {
             ? bannerDetails.itineraryCost
             : ""
         }
+        displayCurrency={displayCurrency}
       />
       <HighlightText
         containerStyle={styles.highlightText}
@@ -246,6 +273,7 @@ const Itinerary = ({ route, navigation }: ItineraryProps) => {
         updateBannerDetails={updateBannerDetails}
         updateCampaignItineraryCost={updateCampaignItineraryCost}
         updateItineraryCost={updateItineraryCost}
+        displayCurrency={displayCurrency || "INR"}
       />
     </>
   );
@@ -260,4 +288,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default ErrorBoundary()(observer(Itinerary));
+export default ErrorBoundary()(inject("leadSourceStore")(observer(Itinerary)));

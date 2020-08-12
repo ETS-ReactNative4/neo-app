@@ -8,6 +8,8 @@ import {
   CONSTANT_primaryRegular
 } from "../../constants/fonts";
 import { CONSTANT_white } from "../../constants/colorPallete";
+import { CONSTANT_dealsFlare } from "../../constants/imageAssets";
+import LottieView from "lottie-react-native";
 
 /**
  * PT TODO: Typing unavailable for bottom bar hence the file is in js
@@ -66,7 +68,13 @@ const ExploreBottomBar = ({ state, descriptors, navigation }) => {
             onLongPress={onLongPress}
             style={[styles.buttonContainer, buttonContainerStyle]}
           >
-            <Icon name={options.icon} color={color} size={24} />
+            <View style={styles.iconContainer}>
+              {label === "Deals" && !isFocused ? (
+                <LottieView source={CONSTANT_dealsFlare()} autoPlay loop />
+              ) : (
+                <Icon name={options.icon} color={color} size={24} />
+              )}
+            </View>
             <Text style={styles.text}>{label}</Text>
           </TouchableOpacity>
         );
@@ -89,6 +97,12 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     flex: 1,
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  iconContainer: {
+    height: 32,
+    width: 32,
     alignItems: "center",
     justifyContent: "center"
   },

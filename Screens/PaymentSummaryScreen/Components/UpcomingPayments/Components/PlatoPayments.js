@@ -1,8 +1,9 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import PropTypes from "prop-types";
-import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidExtraProps";
-import getLocaleString from "../../../../../Services/getLocaleString/getLocaleString";
+import getLocaleString, {
+  getLocaleStringGlobal
+} from "../../../../../Services/getLocaleString/getLocaleString";
 import moment from "moment";
 import constants from "../../../../../constants/constants";
 import PlatoPaymentsCard from "./PlatoPaymentsCard";
@@ -18,10 +19,10 @@ const PlatoPayments = ({
   platoPendingInstallments,
   platoBankDetails,
   openSupport,
-  platoPaidInstallmentsCount
+  platoPaidInstallmentsCount,
+  displayCurrency
 }) => {
   const contactSupport = () => openSupport();
-  const today = moment();
 
   const pendingInstallments = platoPendingInstallments.map(
     (payment, paymentIndex) => {
@@ -36,14 +37,16 @@ const PlatoPayments = ({
       )} Installment`;
 
       return {
-        amount: getLocaleString(payment.amount),
+        amount: displayCurrency
+          ? getLocaleStringGlobal(payment.amount)
+          : getLocaleString(payment.amount),
         paymentUrl: payment.paymentUrl,
         dueBy:
           dueDateDifference > 7
             ? paymentDue.format(constants.commonDateFormat)
             : dueDateDifference === 0
-              ? "Today"
-              : paymentDue.fromNow(),
+            ? "Today"
+            : paymentDue.fromNow(),
 
         isExpired,
         action: contactSupport,
@@ -53,13 +56,13 @@ const PlatoPayments = ({
   );
   return (
     <View>
-      <Text style={styles.paymentTitle}>{`You have ${
-        pendingInstallments.length
-      } scheduled payments`}</Text>
+      <Text
+        style={styles.paymentTitle}
+      >{`You have ${pendingInstallments.length} scheduled payments`}</Text>
       <PlatoPaymentsCard payments={pendingInstallments} />
       <Text style={styles.bankTitleText}>{`Bank Details`}</Text>
       <VoucherSplitSection
-        containerStyle={{ marginHorizontal: 24 }}
+        containerStyle={styles.voucherSplitSection}
         sections={platoBankDetails}
       />
       <ConditionsApplyText
@@ -70,12 +73,13 @@ const PlatoPayments = ({
   );
 };
 
-PlatoPayments.propTypes = forbidExtraProps({
+PlatoPayments.propTypes = {
   platoPendingInstallments: PropTypes.array.isRequired,
   platoBankDetails: PropTypes.array.isRequired,
   openSupport: PropTypes.func.isRequired,
-  platoPaidInstallmentsCount: PropTypes.number
-});
+  platoPaidInstallmentsCount: PropTypes.number,
+  displayCurrency: PropTypes.string
+};
 
 const styles = StyleSheet.create({
   paymentTitle: {
@@ -93,6 +97,9 @@ const styles = StyleSheet.create({
   },
   conditionsWrapper: {
     marginVertical: 16,
+    marginHorizontal: 24
+  },
+  voucherSplitSection: {
     marginHorizontal: 24
   }
 });

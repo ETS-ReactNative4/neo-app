@@ -1,13 +1,13 @@
 import React from "react";
 import { StyleSheet } from "react-native";
-import {
-  responsiveWidth
-  // @ts-ignore
-} from "react-native-responsive-dimensions";
+import { responsiveWidth } from "react-native-responsive-dimensions";
 import { ITestimonialsSection } from "../ExploreFeedType";
 import HorizontalCardsRow from "./HorizontalCardsRow";
 import { ICountryCardData } from "./CountryCardsRow";
-import TestimonialCard from "../../../CommonComponents/TestimonialCard/TestimonialCard";
+import TestimonialCard, {
+  TESTIMONIAL_USER_IMAGE_HEIGHT,
+  TESTIMONIAL_USER_IMAGE_WIDTH
+} from "../../../CommonComponents/TestimonialCard/TestimonialCard";
 import getImgIXUrl from "../../../Services/getImgIXUrl/getImgIXUrl";
 import { CONSTANT_exploreFeedCardLimit } from "../../../constants/stringConstants";
 import { recordEvent } from "../../../Services/analytics/analyticsService";
@@ -46,8 +46,18 @@ const TestimonialsCardsRow = (props: ITestimonialsSection) => {
                       key={testimonialIndex}
                       action={action}
                       date={testimonial.dateOfDeparture}
+                      thumbnail={{
+                        uri: getImgIXUrl({
+                          src: testimonial.profileImage,
+                          DPR: 0.02,
+                          imgFactor: `h=${TESTIMONIAL_USER_IMAGE_HEIGHT}&w=${TESTIMONIAL_USER_IMAGE_WIDTH}&crop=fit`
+                        })
+                      }}
                       image={{
-                        uri: getImgIXUrl({ src: testimonial.profileImage })
+                        uri: getImgIXUrl({
+                          src: testimonial.profileImage,
+                          imgFactor: `h=${TESTIMONIAL_USER_IMAGE_HEIGHT}&w=${TESTIMONIAL_USER_IMAGE_WIDTH}&crop=fit`
+                        })
                       }}
                       name={testimonial.fName}
                       region={testimonial.region}

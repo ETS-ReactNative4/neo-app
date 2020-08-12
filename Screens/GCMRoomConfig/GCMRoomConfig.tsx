@@ -105,7 +105,7 @@ const GCMRoomConfig = ({ navigation, route }: IGCMRoomConfigPros) => {
             ...room,
             childAges:
               room.adultCount + room.childAges.length < 6
-                ? [...room.childAges, "1 year"]
+                ? [...room.childAges, 1]
                 : room.childAges
           };
         }

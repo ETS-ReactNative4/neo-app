@@ -33,25 +33,32 @@ import {
 } from "../../constants/styles";
 import { isIphoneX } from "react-native-iphone-x-helper";
 import { BlurView } from "@react-native-community/blur";
+import LinearGradient from "react-native-linear-gradient";
+import BlankSpacer from "../BlankSpacer/BlankSpacer";
 
 interface ParallaxScrollViewProps {
   containerStyle?: ViewStyle;
   children?: ReactNode;
   bannerImage: string;
-  backAction: () => any;
+  backAction?: () => any;
   smallText?: string;
   titleText?: string;
   titleNumberOfLines?: number;
+  enableGradient?: boolean;
+  hideStickyHeader?: boolean;
 }
 
-const BANNER_WIDTH = responsiveWidth(100);
-const BANNER_HEIGHT =
-  ratioCalculator(3, 2, BANNER_WIDTH) +
+export const PARALLAX_BANNER_WIDTH = responsiveWidth(100);
+export const PARALLAX_BANNER_HEIGHT =
+  ratioCalculator(3, 2, PARALLAX_BANNER_WIDTH) +
   (isIphoneX() ? CONSTANT_xNotchHeight : 0);
-const SCROLL_OFFSET = -BANNER_HEIGHT + 20;
-const SCROLL_INSET = BANNER_HEIGHT - 20;
+const SCROLL_OFFSET = -PARALLAX_BANNER_HEIGHT + 20;
+const SCROLL_INSET = PARALLAX_BANNER_HEIGHT - 20;
+export const STATUS_BAR_HEIGHT = isIphoneX()
+  ? CONSTANT_xNotchHeight + CONSTANT_statusBarHeight
+  : CONSTANT_statusBarHeight;
 
-export const ParallaxScrollViewBannerHeight = BANNER_HEIGHT;
+export const ParallaxScrollViewBannerHeight = PARALLAX_BANNER_HEIGHT;
 
 const {
   Value,
@@ -68,11 +75,13 @@ const AnimatedText = createAnimatedComponent(Text);
 const ParallaxScrollView = ({
   containerStyle,
   bannerImage,
-  backAction = () => {},
+  backAction,
   smallText,
   titleText,
   titleNumberOfLines = 1,
-  children
+  children,
+  enableGradient = false,
+  hideStickyHeader = false
 }: ParallaxScrollViewProps) => {
   const blurViewRef = useRef<BlurView>(null);
 
@@ -83,7 +92,7 @@ const ParallaxScrollView = ({
   const range =
     Platform.OS === CONSTANT_platformIos
       ? [SCROLL_OFFSET, 0]
-      : [0, BANNER_HEIGHT];
+      : [0, PARALLAX_BANNER_HEIGHT];
 
   const titlePostionY = interpolate(animatedScrollIndex, {
     inputRange: range,
@@ -96,7 +105,7 @@ const ParallaxScrollView = ({
       Platform.OS === CONSTANT_platformIos ? SCROLL_OFFSET : 0,
       Platform.OS === CONSTANT_platformIos
         ? SCROLL_OFFSET / 2
-        : BANNER_HEIGHT / 2
+        : PARALLAX_BANNER_HEIGHT / 2
     ],
     outputRange: [1, 0],
     extrapolate: Extrapolate.CLAMP
@@ -110,7 +119,7 @@ const ParallaxScrollView = ({
 
   const bannerHeight = interpolate(animatedScrollIndex, {
     inputRange: range,
-    outputRange: [BANNER_HEIGHT, 84],
+    outputRange: [PARALLAX_BANNER_HEIGHT, 84],
     extrapolateLeft: Extrapolate.EXTEND,
     extrapolateRight: Extrapolate.CLAMP
   });
@@ -139,6 +148,31 @@ const ParallaxScrollView = ({
     opacity: headerOpacity
   };
 
+  const gradientOptions = {
+    locations: [0.25, 0.5, 0.6, 1],
+    colors: [
+      "rgba(0,0,0,0.05)",
+      "rgba(0,0,0,0.25)",
+      "rgba(0,0,0,0.45)",
+      "rgba(0,0,0,0.65)"
+    ]
+  };
+
+  const transparentGradient = {
+    colors: ["transparent"],
+    locations: [1]
+  };
+
+  const bgImageStyle = {
+    backgroundColor: enableGradient ? "rgba(0,0,0,0.65)" : CONSTANT_shade6
+  };
+
+  const gradient = enableGradient ? gradientOptions : transparentGradient;
+
+  const ItineraryCover = enableGradient ? LinearGradient : View;
+
+  const isEmptyTitle = !backAction && !titleText;
+
   return (
     <View style={[styles.parallaxScrollViewContainer, containerStyle]}>
       <AnimatedView
@@ -147,20 +181,22 @@ const ParallaxScrollView = ({
         <AnimatedImageBackground
           source={{ uri: bannerImage }}
           resizeMode={"cover"}
-          style={styles.bannerImageStyle}
+          style={[styles.bannerImageStyle, bgImageStyle]}
         >
-          <View>
-            <AnimatedText
-              style={[styles.titleTextStyle, titleTextStyle]}
-              numberOfLines={titleNumberOfLines}
-              ellipsizeMode={"tail"}
-            >
-              {titleText}
-            </AnimatedText>
-            <AnimatedText style={[styles.infoTextStyle, infoTextStyle]}>
-              {smallText}
-            </AnimatedText>
-          </View>
+          <ItineraryCover {...gradient} style={styles.gradientView}>
+            <View>
+              <AnimatedText
+                style={[styles.titleTextStyle, titleTextStyle]}
+                numberOfLines={titleNumberOfLines}
+                ellipsizeMode={"tail"}
+              >
+                {titleText}
+              </AnimatedText>
+              <AnimatedText style={[styles.infoTextStyle, infoTextStyle]}>
+                {smallText}
+              </AnimatedText>
+            </View>
+          </ItineraryCover>
         </AnimatedImageBackground>
       </AnimatedView>
 
@@ -182,37 +218,59 @@ const ParallaxScrollView = ({
         ])}
       >
         {children}
-      </AnimatedScrollView>
-      <AnimatedView style={[styles.parallaxHeader, parallaxHeaderStyle]}>
+        {/** Android uses margin to push content below banner hence additional blank spacer is needed */}
         {Platform.OS === CONSTANT_platformAndroid ? (
-          <View style={styles.headerViewAndroid} />
-        ) : (
-          <BlurView
-            ref={blurViewRef}
-            blurType={"dark"}
-            blurAmount={50}
-            blurRadius={5}
-            style={styles.blurViewStyle}
-          />
-        )}
-        <Text style={styles.headerTitle}>{titleText}</Text>
-      </AnimatedView>
-      <TouchableOpacity
-        activeOpacity={0.8}
-        onPress={backAction}
-        style={styles.backArrowWrapper}
-      >
-        <View style={styles.backArrowIconStyle}>
-          <Icon name={CONSTANT_arrowRight} size={14} color={CONSTANT_white} />
-        </View>
+          <BlankSpacer height={PARALLAX_BANNER_HEIGHT} />
+        ) : null}
+      </AnimatedScrollView>
+      {!hideStickyHeader ? (
+        <AnimatedView style={[styles.parallaxHeader, parallaxHeaderStyle]}>
+          {Platform.OS === CONSTANT_platformAndroid ? (
+            <View
+              style={[
+                styles.headerViewAndroid,
+                isEmptyTitle ? styles.emptyTitle : null
+              ]}
+            />
+          ) : (
+            <BlurView
+              ref={blurViewRef}
+              blurType={"dark"}
+              blurAmount={50}
+              blurRadius={5}
+              style={[
+                styles.blurViewStyle,
+                isEmptyTitle ? styles.emptyTitle : null
+              ]}
+            />
+          )}
+          <Text
+            numberOfLines={1}
+            ellipsizeMode={"tail"}
+            style={styles.headerTitle}
+          >
+            {titleText}
+          </Text>
+        </AnimatedView>
+      ) : null}
+      {backAction ? (
+        <TouchableOpacity
+          activeOpacity={0.8}
+          onPress={backAction}
+          style={styles.backArrowWrapper}
+        >
+          <View style={styles.backArrowIconStyle}>
+            <Icon name={CONSTANT_arrowRight} size={14} color={CONSTANT_white} />
+          </View>
 
-        <Text style={styles.backTextStyle}>BACK</Text>
-      </TouchableOpacity>
+          <Text style={styles.backTextStyle}>BACK</Text>
+        </TouchableOpacity>
+      ) : null}
     </View>
   );
 };
 
-const BLUR_HEADER_HEIGHT =
+export const BLUR_HEADER_HEIGHT =
   64 + CONSTANT_statusBarHeight + (isIphoneX() ? CONSTANT_xNotchHeight : 0);
 
 const styles = StyleSheet.create({
@@ -223,11 +281,13 @@ const styles = StyleSheet.create({
     position: "absolute",
     left: 0,
     right: 0,
-    height: BANNER_HEIGHT
+    height: PARALLAX_BANNER_HEIGHT
   },
   bannerImageStyle: {
-    flex: 1,
-    backgroundColor: CONSTANT_shade6
+    flex: 1
+  },
+  gradientView: {
+    flex: 1
   },
   backArrowWrapper: {
     position: "absolute",
@@ -272,25 +332,32 @@ const styles = StyleSheet.create({
   },
   blurViewStyle: {
     position: "absolute",
+    top: 0,
     width: responsiveWidth(100),
     height: BLUR_HEADER_HEIGHT
   },
   headerViewAndroid: {
     position: "absolute",
+    top: 0,
     width: responsiveWidth(100),
     height: BLUR_HEADER_HEIGHT,
     backgroundColor: "rgba(0,0,0,0.8)"
   },
+  emptyTitle: {
+    height: STATUS_BAR_HEIGHT
+  },
   headerTitle: {
     marginBottom: 19,
     color: CONSTANT_white,
-    ...CONSTANT_fontCustom(CONSTANT_primarySemiBold, 20, 28)
+    ...CONSTANT_fontCustom(CONSTANT_primarySemiBold, 20, 28),
+    width: responsiveWidth(30),
+    textAlign: "center"
   },
   scrollViewBodyContainer: {
     backgroundColor: CONSTANT_white,
     ...Platform.select({
       android: {
-        marginTop: BANNER_HEIGHT
+        marginTop: PARALLAX_BANNER_HEIGHT
       },
       ios: {
         /**

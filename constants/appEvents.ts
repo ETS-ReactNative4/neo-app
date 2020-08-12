@@ -548,11 +548,48 @@ export const CONSTANT_explore = {
     pocketFriendlyDestinationsView: "pocket_friendly_destinations_view",
     dealsFromOurPartnersCard: "deals_from_our_partners_card",
     onGoingHolidaysView: "on_going_holidays_view",
+    dealsItineraryView: "deals_itinerary_view",
     travellerTestimonialscard: "traveller_testimonials_card",
     visaOnArrivalView: "visa_on_arrival_view",
     forTheLoveBirds: "for_the_love_birds_card",
     travelBlogs: "travel_blogs_card"
   }
+};
+
+export const CONSTANT_APP_SIGNUP = {
+  event: "AppSignup",
+  click: {
+    mobileNumber: "mobile_number",
+    email: "email",
+    userName: "user_name",
+    locale: "locale",
+    leadSource: "lead_source",
+    activeDeepLink: "active_deep_link"
+  }
+};
+
+export const CONSTANT_APP_SIGNIN = {
+  event: "AppSignin",
+  click: {
+    mobileNumber: "mobile_number",
+    email: "email",
+    userName: "user_name",
+    locale: "locale",
+    leadSource: "lead_source",
+    activeDeepLink: "active_deep_link"
+  }
+};
+
+export const CONSTANT_itineraryCostedEvent: { event: "ItineraryCosted" } = {
+  event: "ItineraryCosted"
+};
+
+export const CONSTANT_requestCallbackEvent: { event: "RequestCallBack" } = {
+  event: "RequestCallBack"
+};
+
+export const CONSTANT_openCustomizeOnWeb: { event: "OpenCustomizeOnWeb" } = {
+  event: "OpenCustomizeOnWeb"
 };
 
 export default appEvents;

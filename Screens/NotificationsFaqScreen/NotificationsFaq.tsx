@@ -17,7 +17,9 @@ type NotificationFaqNavTypes = AppNavigatorProps<
 
 export interface NotificationFaqProps extends NotificationFaqNavTypes {}
 
-const NotificationsFaq = ({ navigation }: NotificationFaqProps) => {
+const NotificationsFaq = ({ navigation, route }: NotificationFaqProps) => {
+  const { isDomestic = false } = route.params;
+
   const faqStore = useNotificationFaq();
 
   useEffect(() => {
@@ -29,7 +31,11 @@ const NotificationsFaq = ({ navigation }: NotificationFaqProps) => {
         })
     });
 
-    faqStore.loadFaqDetails();
+    if (isDomestic) {
+      faqStore.loadFaqDetails("domestic-faq.json");
+    } else {
+      faqStore.loadFaqDetails("faq.json");
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

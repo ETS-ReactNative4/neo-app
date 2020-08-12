@@ -31,11 +31,14 @@ import TranslucentStatusBar from "../../CommonComponents/TranslucentStatusBar/Tr
 import validateEmail from "../../Services/validateEmail/validateEmail";
 import validateMobileNumber from "../../Services/validateMobileNumber/validateMobileNumber";
 import { CONSTANT_platformAndroid } from "../../constants/stringConstants";
+import LeadSource from "../../mobx/LeadSource";
+import { CONSTANT_requestCallbackEvent } from "../../constants/appEvents";
 
 type RequestCallbackNavType = AppNavigatorProps<typeof SCREEN_REQUEST_CALLBACK>;
 
 export interface RequestCallbackProps extends RequestCallbackNavType {
   userStore: User;
+  leadSourceStore: LeadSource;
 }
 
 export interface ICallbackPickerOption {
@@ -46,6 +49,7 @@ export interface ICallbackPickerOption {
 const RequestCallback = ({
   navigation,
   userStore,
+  leadSourceStore,
   route
 }: RequestCallbackProps) => {
   const campaignItineraryId = route.params?.campaignItineraryId ?? "";
@@ -113,6 +117,18 @@ const RequestCallback = ({
             prodType
           }
         };
+        if (leadSourceStore.activeDeeplink) {
+          requestBody.leadSource = {
+            ...requestBody.leadSource,
+            campaign: leadSourceStore.activeDeeplink["~campaign"],
+            url: leadSourceStore.activeDeeplink.$canonical_url,
+            lastRoute: leadSourceStore.activeDeeplink["~referring_link"],
+            utm_source: leadSourceStore.activeDeeplink["~channel"],
+            utm_medium: leadSourceStore.activeDeeplink["~feature"],
+            utm_campaign: leadSourceStore.activeDeeplink["~campaign"],
+            tags: leadSourceStore.activeDeeplink["~tags"]
+          };
+        }
         if (campaignItineraryId) {
           requestBody.campaignId = campaignItineraryId;
         }
@@ -124,6 +140,7 @@ const RequestCallback = ({
         }
         const result = await submitRequestCallback(requestBody);
         if (result) {
+          leadSourceStore.record(CONSTANT_requestCallbackEvent.event);
           toastLong(
             "Your dedicated travel expert will get in touch with you soon!"
           );
@@ -265,4 +282,6 @@ const styles = StyleSheet.create({
   }
 });
 
-export default ErrorBoundary()(inject("userStore")(observer(RequestCallback)));
+export default ErrorBoundary()(
+  inject("leadSourceStore")(inject("userStore")(observer(RequestCallback)))
+);

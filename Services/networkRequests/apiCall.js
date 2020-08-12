@@ -7,6 +7,7 @@ import DeviceInfo from "react-native-device-info";
 import _ from "lodash";
 import { perf } from "react-native-firebase";
 import { isProduction } from "../getEnvironmentDetails/getEnvironmentDetails";
+import storeService from "../storeService/storeService";
 
 const timeoutDuration = 60000;
 const apiServer = constants.apiServerUrl;
@@ -37,7 +38,8 @@ const apiCall = async (
     "Content-Type": "application/json",
     isMobile: true,
     deviceId: DeviceInfo.getUniqueId(),
-    appVersion: DeviceInfo.getVersion()
+    appVersion: DeviceInfo.getVersion(),
+    locale: storeService.deviceLocaleStore.deviceLocale
   };
 
   if (customHeader && !_.isEmpty(customHeader)) {

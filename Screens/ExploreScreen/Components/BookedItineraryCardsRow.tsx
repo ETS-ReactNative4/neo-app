@@ -1,9 +1,6 @@
 import React from "react";
 import { StyleSheet } from "react-native";
-import {
-  responsiveWidth
-  // @ts-ignore
-} from "react-native-responsive-dimensions";
+import { responsiveWidth } from "react-native-responsive-dimensions";
 import { IBookedItinerarySection } from "../ExploreFeedType";
 import HorizontalCardsRow from "./HorizontalCardsRow";
 import ItineraryCard from "../../../CommonComponents/ItineraryCard/ItineraryCard";
@@ -18,6 +15,7 @@ import deepLink from "../../../Services/deepLink/deepLink";
 export interface IItineraryCardsData {
   isLoading: boolean;
   data?: IBookedItinerary[];
+  displayCurrency: string;
 }
 
 const BookedItineraryCardsRow = (props: IBookedItinerarySection) => {
@@ -27,7 +25,7 @@ const BookedItineraryCardsRow = (props: IBookedItinerarySection) => {
       httpMethod={props.httpMethod}
       requestPayload={props.requestPayload}
     >
-      {({ data, isLoading }: IItineraryCardsData) => {
+      {({ data, isLoading, displayCurrency }: IItineraryCardsData) => {
         return isLoading ? (
           <ExploreCardLodingIndicator height={454} />
         ) : (
@@ -46,13 +44,26 @@ const BookedItineraryCardsRow = (props: IBookedItinerarySection) => {
                     key={cardIndex}
                     tripType={card.type}
                     itineraryCost={card.cost}
-                    images={[getImgIXUrl({ src: card.image })]}
+                    thumbnailImages={[
+                      getImgIXUrl({
+                        src: card.image,
+                        DPR: 0.02,
+                        imgFactor: `h=200&w=${responsiveWidth(100)}&crop=fit`
+                      })
+                    ]}
+                    images={[
+                      getImgIXUrl({
+                        src: card.image,
+                        imgFactor: `h=200&w=${responsiveWidth(100)}&crop=fit`
+                      })
+                    ]}
                     cities={card.cities}
                     action={action}
                     inclusionList={[]}
                     title={card.itineraryText}
                     containerStyle={styles.itineraryCardWrapper}
                     imageStyle={styles.itineraryImage}
+                    displayCurrency={displayCurrency}
                   />
                 );
               })

@@ -15,6 +15,7 @@
 #import <UserNotifications/UserNotifications.h>
 #import <React/RCTLinkingManager.h>
 #import "RNBootSplash.h"
+#import <RNBranch/RNBranch.h>
 
 @interface AppDelegate () < UNUserNotificationCenterDelegate >
 
@@ -24,6 +25,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+  [RNBranch initSessionWithLaunchOptions:launchOptions isReferrable:YES];
   [[WebEngage sharedInstance] application:application didFinishLaunchingWithOptions:launchOptions];
   [FIRApp configure];
   [RNFirebaseNotifications configure];
@@ -83,11 +85,29 @@ didReceiveNotificationResponse:(UNNotificationResponse *)response
   completionHandler();
 }
 
-- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url
-  sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
-{
-  return [RCTLinkingManager application:application openURL:url
-                      sourceApplication:sourceApplication annotation:annotation];
+// React Native linking handler - disabled in favour of branch integration
+//- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url
+//  sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
+//{
+//  return [RCTLinkingManager application:application openURL:url
+//                      sourceApplication:sourceApplication annotation:annotation];
+//}
+//
+//- (BOOL)application:(UIApplication *)application continueUserActivity:(nonnull NSUserActivity *)userActivity
+// restorationHandler:(nonnull void (^)(NSArray<id<UIUserActivityRestoring>> * _Nullable))restorationHandler
+//{
+// return [RCTLinkingManager application:application
+//                  continueUserActivity:userActivity
+//                    restorationHandler:restorationHandler];
+//}
+
+// React Native Branch Integration
+- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
+    return YES;
+}
+
+- (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray *restorableObjects))restorationHandler {
+    return [RNBranch continueUserActivity:userActivity];
 }
 
 @end

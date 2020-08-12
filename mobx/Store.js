@@ -26,6 +26,8 @@ import UserFlowTransition from "./UserFlowTransition";
 import SOFeedback from "./SOFeedback";
 import TravelProfile from "./TravelProfile";
 import WelcomeState from "./WelcomeState";
+import LeadSource from "./LeadSource";
+import DeviceLocale from "./DeviceLocale";
 
 export const hydrate = create({
   storage: AsyncStorage,
@@ -58,7 +60,9 @@ const createStore = () => {
     userFlowTransitionStore: new UserFlowTransition(),
     soFeedbackStore: new SOFeedback(),
     travelProfileStore: new TravelProfile(),
-    welcomeStateStore: new WelcomeState()
+    welcomeStateStore: new WelcomeState(),
+    leadSourceStore: new LeadSource(),
+    deviceLocaleStore: new DeviceLocale()
   };
 
   YourBookings.hydrator(appStore.yourBookingsStore);
@@ -170,6 +174,7 @@ const createStore = () => {
   SOFeedback.hydrator(appStore.soFeedbackStore);
   TravelProfile.hydrator(appStore.travelProfileStore);
   WelcomeState.hydrator(appStore.welcomeStateStore);
+  DeviceLocale.hydrator(appStore.deviceLocaleStore);
   return appStore;
 };
 

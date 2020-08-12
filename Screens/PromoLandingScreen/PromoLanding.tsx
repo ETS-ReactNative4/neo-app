@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, View } from "react-native";
-import ParallaxScrollView from "../../CommonComponents/ParallaxScrollView/ParallaxScrollView";
+import ParallaxScrollView, {
+  PARALLAX_BANNER_HEIGHT,
+  PARALLAX_BANNER_WIDTH
+} from "../../CommonComponents/ParallaxScrollView/ParallaxScrollView";
 import getImgIXUrl from "../../Services/getImgIXUrl/getImgIXUrl";
 import BlankSpacer from "../../CommonComponents/BlankSpacer/BlankSpacer";
 import PromoContent from "./Components/PromoContent";
@@ -60,7 +63,8 @@ const PromoLanding = ({ navigation, route }: PromoLandingProps) => {
     <View style={styles.promoLandingContainer}>
       <ParallaxScrollView
         bannerImage={getImgIXUrl({
-          src: promoData.coverImage
+          src: promoData.coverImage,
+          imgFactor: `h=${PARALLAX_BANNER_HEIGHT}&w=${PARALLAX_BANNER_WIDTH}&crop=fit`
         })}
         backAction={goBack}
       >

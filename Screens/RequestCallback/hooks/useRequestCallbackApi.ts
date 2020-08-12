@@ -15,7 +15,12 @@ export interface IRequestCallbackLeadSource {
   cpid?: string;
   landingPage?: string;
   lastRoute?: string;
-  prodType: leadSourceProdType;
+  prodType?: leadSourceProdType;
+  searchKeyWords?: string;
+  utm_source?: string;
+  utm_medium?: string;
+  utm_campaign?: string;
+  tags?: string[];
 }
 
 export interface IRequestCallbackRequestBody {

@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 import { Text, StyleSheet } from "react-native";
 import CustomCheckBox from "../../../CommonComponents/CustomCheckBox/CustomCheckBox";
-import { ICheckBoxGroup } from "./FilterActionSheet";
+import { ICheckBoxGroup, INumericCheckBoxGroup } from "./FilterActionSheet";
 import {
   CONSTANT_fontCustom,
   CONSTANT_primaryRegular,
@@ -11,35 +11,48 @@ import {
   CONSTANT_shade1,
   CONSTANT_black1
 } from "../../../constants/colorPallete";
+import {
+  IFilterOption,
+  INumericFilterOption
+} from "../filterOptions/filterOptions";
 
 const CheckBoxWrapper = ({
   options,
   action
-}: {
-  options: ICheckBoxGroup;
-  action: (val: string) => any;
-}) => {
+}:
+  | {
+      options: ICheckBoxGroup;
+      action: (val: string) => any;
+    }
+  | {
+      options: INumericCheckBoxGroup;
+      action: (val: number) => any;
+    }) => {
   return (
     <Fragment>
       <Text style={styles.filterListHeading}>{options.title}</Text>
-
-      {options.options.map((option, optionIndex) => {
-        const onSelect = () => {
-          action(option.value);
-        };
-        return (
-          <CustomCheckBox
-            key={optionIndex}
-            isChecked={option.isSelected}
-            action={onSelect}
-            text={option.text}
-            checkIconSize={15}
-            containerStyle={styles.checkBoxContainerStyle}
-            checkboxStyle={styles.checkboxStyle}
-            checkboxTextStyle={styles.checkboxTextStyle}
-          />
-        );
-      })}
+      {
+      //@ts-ignore
+      options.options.map(
+        (option: IFilterOption | INumericFilterOption, optionIndex: number) => {
+          const onSelect = () => {
+            //@ts-ignore
+            action(option.value);
+          };
+          return (
+            <CustomCheckBox
+              key={optionIndex}
+              isChecked={option.isSelected}
+              action={onSelect}
+              text={option.text}
+              checkIconSize={15}
+              containerStyle={styles.checkBoxContainerStyle}
+              checkboxStyle={styles.checkboxStyle}
+              checkboxTextStyle={styles.checkboxTextStyle}
+            />
+          );
+        }
+      )}
     </Fragment>
   );
 };

@@ -28,8 +28,8 @@ const setUserSegment = () => {
         /**
          * Fetch the user details and set the context in sentry
          */
-        const userDetails = storeService.userStore.userDetails;
-        const { mob_num: id = "", name = "", email = "" } = userDetails;
+        const userDetails = storeService.userStore.userDisplayDetails;
+        const { mobileNumber: id = "", name = "", email = "" } = userDetails;
         setUserContext({ email, id, name });
 
         /**

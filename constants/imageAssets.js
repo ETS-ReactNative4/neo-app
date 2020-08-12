@@ -354,6 +354,7 @@ export const CONSTANT_arrowRight = "arrow-right";
 export const CONSTANT_arrowDown = "arrow-down";
 export const CONSTANT_starActive = "star-active";
 export const CONSTANT_searchIcon = "search";
+export const CONSTANT_dealsIcon = "deal-nav";
 export const CONSTANT_swapVertIcon = "swap_vert";
 export const CONSTANT_speakerIcon = "speaker";
 export const CONSTANT_speakerAnimatedIcon = require("../assets/images/loaders/voice.gif");
@@ -386,6 +387,7 @@ export const CONSTANT_profileIcon = "Profile";
 export const CONSTANT_flagIcon = "flag-outline";
 export const CONSTANT_linkIcon = "link";
 export const CONSTANT_listIcon = "list";
+export const CONSTANT_filterIcon = "filter";
 export const CONSTANT_textIcon = "text";
 export const CONSTANT_directionsIcon = "directions";
 export const CONSTANT_weatherGraphInactive = require("../assets/images/weatherPlaceholders/weather-graph-disabled.png");
@@ -489,6 +491,8 @@ export const CONSTANT_defaultPlaceImage =
   "https://pyt-images.imgix.net/images/place-holder.png";
 export const CONSTANT_loginBackground = () =>
   require("../assets/images/backgrounds/loginBackground.jpg");
+export const CONSTANT_dealsFlare = () =>
+  require("../assets/animations/dealsflare.json");
 export const CONSTANT_journalPublishingLoop = () =>
   require("../assets/animations/publishloop.json");
 export const CONSTANT_journalPublishEnd = () =>
@@ -540,6 +544,9 @@ export const CONSTANT_requestCallbackCover = () => ({
 
 export const CONSTANT_pytHappyInsignia = () =>
   require("../assets/images/illustrations/happy-insignia.png");
+
+export const CONSTANT_DealsSignupPromo = () =>
+  require("../assets/images/illustrations/deals-signup-promo.png");
 
 export const CONSTANT_ZESTImageUrl = "https://i.imgur.com/M20FIDf.png";
 

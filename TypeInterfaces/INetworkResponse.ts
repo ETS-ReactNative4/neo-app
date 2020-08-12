@@ -19,4 +19,6 @@ export interface IMobileServerResponse {
     | "MOBILE_EXISTS"
     | "EMAIL_EXISTS";
   data?: MobileServerResponseType;
+  message?: string;
+  displayCurrency?: string;
 }

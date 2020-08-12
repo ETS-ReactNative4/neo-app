@@ -3,7 +3,8 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import {
   SCREEN_EXPLORE_TAB,
   SCREEN_SEARCH_TAB,
-  SCREEN_NOTIFICATION_TAB
+  SCREEN_NOTIFICATION_TAB,
+  SCREEN_DEALS_TAB
 } from "./ScreenNames";
 import Explore, {
   ExploreScreenSourcesType
@@ -13,9 +14,13 @@ import Search from "../Screens/SearchScreen/Search";
 import {
   CONSTANT_compassIcon,
   CONSTANT_searchIcon,
-  CONSTANT_notificationBellIcon
+  CONSTANT_notificationBellIcon,
+  CONSTANT_dealsIcon
 } from "../constants/imageAssets";
 import Notifications from "../Screens/NotificationsScreen/Notifications";
+import DealsListing from "../Screens/DealsListingScreen/DealsListing";
+import { observer, inject } from "mobx-react";
+import DeviceLocale from "../mobx/DeviceLocale";
 
 export interface IExplorePageScreenData {
   source?: ExploreScreenSourcesType;
@@ -25,6 +30,7 @@ export type PreTripHomeTabsType = {
   [SCREEN_EXPLORE_TAB]: IExplorePageScreenData;
   [SCREEN_SEARCH_TAB]: undefined;
   [SCREEN_NOTIFICATION_TAB]: undefined;
+  [SCREEN_DEALS_TAB]: undefined;
 };
 
 const Tab = createBottomTabNavigator<PreTripHomeTabsType>();
@@ -36,7 +42,11 @@ const tabBarColorConfig = {
   inactiveBackgroundColor: "#28795E"
 };
 
-const PreTripHomeTabs = () => {
+export interface PreTripHomeTabsProp {
+  deviceLocaleStore: DeviceLocale;
+}
+
+const PreTripHomeTabs = ({ deviceLocaleStore }: PreTripHomeTabsProp) => {
   return (
     // @ts-ignore - type definitions unavailable
     <Tab.Navigator tabBar={props => <ExploreBottomBar {...props} />}>
@@ -49,6 +59,17 @@ const PreTripHomeTabs = () => {
         name={SCREEN_EXPLORE_TAB}
         component={Explore}
       />
+      {deviceLocaleStore.deviceLocale === "in" ? (
+        <Tab.Screen
+          options={{
+            tabBarLabel: "Deals",
+            icon: CONSTANT_dealsIcon,
+            ...tabBarColorConfig
+          }}
+          name={SCREEN_DEALS_TAB}
+          component={DealsListing}
+        />
+      ) : null}
       <Tab.Screen
         options={{
           tabBarLabel: "Search",
@@ -71,4 +92,4 @@ const PreTripHomeTabs = () => {
   );
 };
 
-export default PreTripHomeTabs;
+export default inject("deviceLocaleStore")(observer(PreTripHomeTabs));

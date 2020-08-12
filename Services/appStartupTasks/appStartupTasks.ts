@@ -3,6 +3,10 @@ import enableAnalyticsInProd from "./tasks/enableAnalyticsInProd";
 import enableLayoutAnimationAndroid from "./tasks/enableLayoutAnimationAndroid";
 import { getDeviceToken } from "../fcmService/fcm";
 import isUserLoggedIn from "../isUserLoggedIn/isUserLoggedIn";
+import enableDeepLinking from "./tasks/enableDeepLinking";
+import setUserSegment from "../setUserSegment/setUserSegment";
+import setDeviceLocale from "./tasks/setDeviceLocale";
+import loadUserDetails from "./tasks/loadUserDetails";
 
 /**
  * When the App Launches there's a bunch of things that needs to happen,
@@ -13,7 +17,15 @@ import isUserLoggedIn from "../isUserLoggedIn/isUserLoggedIn";
 const appStartupTasks = () => {
   enableLayoutAnimationAndroid();
 
+  setDeviceLocale();
+
   enableAnalyticsInProd();
+
+  enableDeepLinking();
+
+  setUserSegment();
+
+  loadUserDetails();
 
   createGuestSession()
     .then(result => {

@@ -36,6 +36,8 @@ export interface IFaqDetails {
   };
 }
 
+export type notificationFileNameTypes = "faq.json" | "domestic-faq.json";
+
 const useNotificationFaq = () => {
   const store = useLocalStore(() => {
     return {
@@ -52,8 +54,8 @@ const useNotificationFaq = () => {
           return [];
         }
       }),
-      loadFaqDetails: () => {
-        apiCall(`${CONSTANT_retrieveJson}?jsonFile=faq.json`, {}, "GET")
+      loadFaqDetails: (fileName: notificationFileNameTypes) => {
+        apiCall(`${CONSTANT_retrieveJson}?jsonFile=${fileName}`, {}, "GET")
           .then((response: IFaqResponse) => {
             if (response.status === "SUCCESS") {
               const faqData = response.data;

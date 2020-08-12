@@ -27,6 +27,7 @@ import ExploreSectionTitleTestCases from "../../Screens/ExploreScreen/Components
 import ExploreHeaderTestCases from "../../Screens/ExploreScreen/Components/ExploreHeaderTestCases";
 import TextInputFieldTestCases from "../../CommonComponents/TextInputField/TextInputFieldTestCases";
 import UserProfileAnimationTestCases from "../../CommonComponents/UserProfileAnimation/UserProfileAnimationTestCases";
+import DealsCardTestCases from "../../CommonComponents/DealsCard/DealsCardTestCases";
 
 const CommonComponentStories = storiesOf("Common Components", module);
 
@@ -61,3 +62,4 @@ ExploreSectionTitleTestCases.forEach(renderTestCase);
 ExploreHeaderTestCases.forEach(renderTestCase);
 TextInputFieldTestCases.forEach(renderTestCase);
 UserProfileAnimationTestCases.forEach(renderTestCase);
+DealsCardTestCases.forEach(renderTestCase);

@@ -7,6 +7,7 @@ export const SCREEN_PRETRIP_HOME_TABS = "PreTripHomeTabs";
 export const SCREEN_EXPLORE_TAB = "ExploreTab";
 export const SCREEN_SEARCH_TAB = "SearchTab";
 export const SCREEN_NOTIFICATION_TAB = "NotificationTab";
+export const SCREEN_DEALS_TAB = "DealsTab";
 export const SCREEN_NOTIFICATION_DETAILS = "NotificationDetails";
 export const SCREEN_NOTIFICATION_FAQ = "NotificationFaq";
 export const SCREEN_NOTIFICATION_ANSWER = "NotificationsAnswer";
@@ -24,6 +25,7 @@ export const SCREEN_BUDGET_PREFERENCES = "BudgetPreferences";
 export const SCREEN_REQUEST_CALLBACK = "RequestCallback";
 export const SCREEN_GCM = "GCM";
 export const SCREEN_GCM_CITY_PICKER = "GCMCityPicker";
+export const SCREEN_GCM_NATIONALITY_PICKER = "GCMNationalityPicker";
 export const SCREEN_GCM_ROOM_CONFIG = "GCMRoomConfig";
 
 /**

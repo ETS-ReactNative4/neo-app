@@ -6,7 +6,6 @@ import {
   ViewStyle,
   TouchableOpacity
 } from "react-native";
-import SmartImageV2 from "../../CommonComponents/SmartImage/SmartImageV2";
 import RouteList, {
   IRouteCitiesDetails
 } from "../../CommonComponents/RouteList/RouteList";
@@ -27,10 +26,12 @@ import {
   CONSTANT_primaryRegular
 } from "../../constants/fonts";
 import Icon from "../../CommonComponents/Icon/Icon";
+import BetterImage from "../BetterImage/BetterImage";
 
 interface SavedItineraryCardProps {
   containerStyle?: ViewStyle;
   image: string;
+  thumbnail: string;
   lastEdited: string;
   title: string;
   cities: IRouteCitiesDetails[];
@@ -40,9 +41,13 @@ interface SavedItineraryCardProps {
   moreOptionsAction?: () => any;
 }
 
+export const SAVED_ITINERARY_IMAGE_HEIGHT = 70;
+export const SAVED_ITINERARY_IMAGE_WIDTH = 70;
+
 const SavedItineraryCard = ({
   containerStyle,
   image = "",
+  thumbnail = "",
   lastEdited,
   title = "",
   cities = [],
@@ -61,14 +66,17 @@ const SavedItineraryCard = ({
       activeOpacity={0.8}
       onPress={action}
     >
-      <SmartImageV2
+      <BetterImage
+        thumbnailSource={{
+          uri: thumbnail
+        }}
         source={{
           uri: image
         }}
         fallbackSource={{
           uri: CONSTANT_defaultPlaceImage
         }}
-        style={[styles.savedItineraryImage]}
+        containerStyle={[styles.savedItineraryImage]}
         resizeMode="cover"
       />
 
@@ -117,8 +125,8 @@ const styles = StyleSheet.create({
     backgroundColor: CONSTANT_eighteenthColor
   },
   savedItineraryImage: {
-    width: 70,
-    height: 70,
+    width: SAVED_ITINERARY_IMAGE_WIDTH,
+    height: SAVED_ITINERARY_IMAGE_HEIGHT,
     borderRadius: 50
   },
   rightColumn: {

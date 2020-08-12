@@ -15,7 +15,6 @@ import {
   CONSTANT_white,
   CONSTANT_shade1
 } from "../../../constants/colorPallete";
-import SmartImageV2 from "../../../CommonComponents/SmartImage/SmartImageV2";
 import Icon from "../../../CommonComponents/Icon/Icon";
 import {
   CONSTANT_fontCustom,
@@ -26,6 +25,11 @@ import { CONSTANT_arrowRight } from "../../../constants/imageAssets";
 import { isIphoneX } from "react-native-iphone-x-helper";
 import { CONSTANT_xNotchHeight } from "../../../constants/styles";
 import LinearGradient from "react-native-linear-gradient";
+import BetterImage from "../../../CommonComponents/BetterImage/BetterImage";
+import getImgIXUrl from "../../../Services/getImgIXUrl/getImgIXUrl";
+// @ts-ignore
+import getSymbolFromCurrency from "currency-symbol-map";
+import { getGlobalPriceWithoutSymbol } from "../../ExploreScreen/services/getPriceWithoutSymbol";
 
 interface ItineraryProps {
   containerStyle?: ViewStyle;
@@ -34,6 +38,7 @@ interface ItineraryProps {
   smallText?: string;
   title: string;
   itineraryCost?: string;
+  displayCurrency?: string;
 }
 
 const HEADER_CONTAINER_WIDTH = responsiveWidth(100);
@@ -47,7 +52,8 @@ const ItineraryBanner = ({
   smallText = "",
   title = "",
   backAction = () => {},
-  itineraryCost = ""
+  itineraryCost = "",
+  displayCurrency = "INR"
 }: ItineraryProps) => {
   const gradientOptions = {
     locations: [0.25, 0.5, 0.6, 1],
@@ -61,11 +67,23 @@ const ItineraryBanner = ({
 
   return (
     <View style={[styles.bannerContainer, containerStyle]}>
-      <SmartImageV2
-        source={{ uri: bannerImage }}
+      <BetterImage
+        thumbnailSource={{
+          uri: getImgIXUrl({
+            src: bannerImage,
+            DPR: 0.02,
+            imgFactor: `h=${HEADER_CONTAINER_HEIGHT}&w=${HEADER_CONTAINER_WIDTH}&crop=fit`
+          })
+        }}
+        source={{
+          uri: getImgIXUrl({
+            src: bannerImage,
+            imgFactor: `h=${HEADER_CONTAINER_HEIGHT}&w=${HEADER_CONTAINER_WIDTH}&crop=fit`
+          })
+        }}
         fallbackSource={{ uri: "" }}
         resizeMode={"cover"}
-        style={styles.bannerImageStyle}
+        containerStyle={styles.bannerImageStyle}
       >
         <LinearGradient {...gradientOptions} style={styles.gradientView}>
           <TouchableOpacity
@@ -98,15 +116,22 @@ const ItineraryBanner = ({
 
             {itineraryCost ? (
               <View style={styles.priceSection}>
-                <Text style={styles.rupeeText}>₹</Text>
-                <Text style={styles.priceText}>{itineraryCost}</Text>
+                <Text style={styles.rupeeText}>
+                  {getSymbolFromCurrency(displayCurrency)}
+                </Text>
+                <Text style={styles.priceText}>
+                  {getGlobalPriceWithoutSymbol({
+                    amount: parseInt(itineraryCost, 10),
+                    currency: displayCurrency
+                  })}
+                </Text>
                 {/** PT TODO: Check if this line is needed */}
-                <Text style={styles.personText}>/person</Text>
+                {/* <Text style={styles.personText}>/person</Text> */}
               </View>
             ) : null}
           </View>
         </LinearGradient>
-      </SmartImageV2>
+      </BetterImage>
     </View>
   );
 };

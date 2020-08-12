@@ -48,7 +48,10 @@ const NotificationsActionSheet = ({
   const openFaq = () => {
     if (selectedNotification) {
       navigation.navigate(SCREEN_NOTIFICATION_FAQ, {
-        itineraryId: selectedNotification.itineraryId
+        itineraryId: selectedNotification.itineraryId,
+        isDomestic: !!selectedNotification.citiesArr?.find(
+          city => city.countryName === "India"
+        )
       });
     }
   };
@@ -113,7 +116,7 @@ const NotificationsActionSheet = ({
               color={CONSTANT_shade4}
             />
           </View>
-          <Text style={styles.textStyle}>View details</Text>
+          <Text style={styles.textStyle}>View itinerary</Text>
         </TouchableOpacity>
       </View>
     </ActionSheet>

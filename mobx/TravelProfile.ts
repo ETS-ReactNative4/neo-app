@@ -1,19 +1,25 @@
 import { action, computed, observable, toJS } from "mobx";
 import { persist } from "mobx-persist";
-import { ICountryDetail } from "../Screens/TravelProfileCityScreen/TravelProfileCity";
+import {
+  ICountryDetail,
+  IRegionDetail
+} from "../Screens/TravelProfileCityScreen/TravelProfileCity";
 import hydrate from "../Services/hydrate/hydrate";
 import { logError } from "../Services/errorLogger/errorLogger";
 import apiCall from "../Services/networkRequests/apiCall";
 import {
   CONSTANT_userProfileInfo,
   CONSTANT_getCountriesList,
+  // CONSTANT_getDomesticRegionList,
   CONSTANT_userProfileData,
-  CONSTANT_getMaritalStatusData
+  CONSTANT_getMaritalStatusData,
+  CONSTANT_getDomesticRegionList
 } from "../constants/apiUrls";
 import { CONSTANT_responseSuccessStatus } from "../constants/stringConstants";
 import { IMobileServerResponse } from "../TypeInterfaces/INetworkResponse";
 import _ from "lodash";
 import { CONSTANT_apiServerUrl } from "../constants/serverUrls";
+import storeService from "../Services/storeService/storeService";
 
 export type maritalStatusType = "COUPLE" | "FAMILY" | "FRIENDS" | "SOLO";
 
@@ -35,6 +41,7 @@ export type budgetRangeType = "DEAL_HUNTER" | "VALUE_FOR_MONEY" | "FLEXIBLE";
 export interface ITravelProfileInfo {
   firstTimeTraveller?: boolean;
   travelledCountries?: number[];
+  regionCode?: string[];
   wishlistCountries?: number[];
   maritalStatus?: maritalStatusType;
   tripIntensity?: tripIntensityType;
@@ -63,6 +70,10 @@ export interface ICountryDetailsListResponse extends IMobileServerResponse {
   data: ICountryDetail[];
 }
 
+export interface IRegionDetailsListResponse extends IMobileServerResponse {
+  data: IRegionDetail[];
+}
+
 export const travelProfileOptionsTypeGuard = (
   profileOptions: ITravelProfileOptions | {}
 ): profileOptions is ITravelProfileOptions => {
@@ -82,7 +93,7 @@ class TravelProfile {
 
   @persist("list")
   @observable
-  _countriesList: ICountryDetail[] = [];
+  _countriesList: (ICountryDetail | IRegionDetail)[] = [];
 
   @persist("object")
   @observable
@@ -206,15 +217,44 @@ class TravelProfile {
   @action
   loadCountriesList = () => {
     return new Promise<boolean>((resolve, reject) => {
-      apiCall(CONSTANT_getCountriesList, {}, "GET")
-        .then((response: ICountryDetailsListResponse) => {
-          if (response.status === CONSTANT_responseSuccessStatus) {
-            this._countriesList = response.data;
-          } else {
-            resolve(false);
-          }
-        })
-        .catch(reject);
+      if (storeService.deviceLocaleStore.deviceLocale === "in") {
+        apiCall(CONSTANT_getDomesticRegionList, {}, "GET")
+          .then((response: IRegionDetailsListResponse) => {
+            if (response.status === CONSTANT_responseSuccessStatus) {
+              this._countriesList = response.data;
+              apiCall(CONSTANT_getCountriesList, {}, "GET")
+                .then((countryResponse: ICountryDetailsListResponse) => {
+                  if (
+                    countryResponse.status === CONSTANT_responseSuccessStatus
+                  ) {
+                    this._countriesList = [
+                      ...this._countriesList,
+                      ...countryResponse.data
+                    ];
+                  } else {
+                    resolve(false);
+                  }
+                })
+                .catch(reject);
+            } else {
+              resolve(false);
+            }
+          })
+          .catch(reject);
+      } else {
+        apiCall(CONSTANT_getCountriesList, {}, "GET")
+          .then((countryResponse: ICountryDetailsListResponse) => {
+            if (countryResponse.status === CONSTANT_responseSuccessStatus) {
+              this._countriesList = [
+                ...this._countriesList,
+                ...countryResponse.data
+              ];
+            } else {
+              resolve(false);
+            }
+          })
+          .catch(reject);
+      }
     });
   };
 

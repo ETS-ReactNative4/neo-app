@@ -1,19 +1,24 @@
-import React, { useMemo, useState, Fragment, useRef } from "react";
+import React, { useMemo, useState, Fragment, useRef, useEffect } from "react";
 import Modal from "react-native-modal";
 import { StyleSheet, View, TouchableOpacity, Platform } from "react-native";
 import Icon from "../../CommonComponents/Icon/Icon";
 import {
-  CONSTANT_listIcon,
+  CONSTANT_filterIcon,
   CONSTANT_visaSuccessAnimation
 } from "../../constants/imageAssets";
 import {
   CONSTANT_white,
   CONSTANT_firstColor
 } from "../../constants/colorPallete";
-import { responsiveHeight } from "react-native-responsive-dimensions";
+import {
+  responsiveHeight,
+  responsiveWidth
+} from "react-native-responsive-dimensions";
 import ItineraryCard from "../../CommonComponents/ItineraryCard/ItineraryCard";
 import ParallaxScrollView, {
-  ParallaxScrollViewBannerHeight
+  ParallaxScrollViewBannerHeight,
+  PARALLAX_BANNER_HEIGHT,
+  PARALLAX_BANNER_WIDTH
 } from "../../CommonComponents/ParallaxScrollView/ParallaxScrollView";
 import TranslucentStatusBar from "../../CommonComponents/TranslucentStatusBar/TranslucentStatusBar";
 import {
@@ -27,7 +32,6 @@ import usePackagesApi, {
   IPackagesResponseData,
   IPackageRequestBody
 } from "./hooks/usePackagesApi";
-import getPriceWithoutSymbol from "../ExploreScreen/services/getPriceWithoutSymbol";
 import { CONSTANT_platformAndroid } from "../../constants/stringConstants";
 import BlankSpacer from "../../CommonComponents/BlankSpacer/BlankSpacer";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
@@ -38,6 +42,8 @@ import useDeepCompareEffect from "use-deep-compare-effect";
 import getImgIXUrl from "../../Services/getImgIXUrl/getImgIXUrl";
 import EmptyListPlaceholder from "../../CommonComponents/EmptyListPlaceholder/EmptyListPlaceholder";
 import LottieView from "lottie-react-native";
+import { inject, observer } from "mobx-react";
+import LeadSource from "../../mobx/LeadSource";
 
 type screenName = typeof SCREEN_LISTING_PAGE;
 
@@ -51,9 +57,15 @@ export type ListingScreenNavigationProp = StackNavigationProp<
 export interface ListingPageProps {
   navigation: ListingScreenNavigationProp;
   route: ListingScreenRouteProp;
+  leadSourceStore: LeadSource;
 }
 
-const ListingPage = ({ navigation, route }: ListingPageProps) => {
+const ListingPage = ({
+  navigation,
+  route,
+  leadSourceStore
+}: ListingPageProps) => {
+  const { slug = "", apiUrl = "" } = route.params;
   const [packagesApiDetails, loadPackages] = usePackagesApi();
   const [openFilter, setOpenFilter] = useState<boolean>(false);
 
@@ -72,7 +84,7 @@ const ListingPage = ({ navigation, route }: ListingPageProps) => {
 
   const goBack = () => navigation.goBack();
 
-  const { data: packagesData = {} } =
+  const { data: packagesData = {}, displayCurrency } =
     packagesApiDetails.successResponseData || {};
   const {
     campaignDetails = {},
@@ -123,7 +135,6 @@ const ListingPage = ({ navigation, route }: ListingPageProps) => {
     .map(each => each.value);
 
   useDeepCompareEffect(() => {
-    const { slug = "" } = route.params;
     const requestBody: IPackageRequestBody = {
       key: slug,
       limit: 50
@@ -143,6 +154,9 @@ const ListingPage = ({ navigation, route }: ListingPageProps) => {
     if (abortFetchRef.current) {
       abortFetchRef.current.abort();
     }
+    if (apiUrl) {
+      requestBody.apiUrl = apiUrl;
+    }
     // @ts-ignore
     // eslint-disable-next-line no-undef
     abortFetchRef.current = new AbortController();
@@ -155,14 +169,31 @@ const ListingPage = ({ navigation, route }: ListingPageProps) => {
 
   const { isLoading } = packagesApiDetails;
 
+  const { logAction, clearLastAction } = leadSourceStore;
+
+  useEffect(() => {
+    logAction({
+      type: "ViewListingPage",
+      slug
+    });
+    return () => {
+      clearLastAction();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <View style={styles.listingPageContainer}>
       <TranslucentStatusBar />
       <ParallaxScrollView
-        bannerImage={getImgIXUrl({ src: mobileImage })}
+        bannerImage={getImgIXUrl({
+          src: mobileImage,
+          imgFactor: `h=${PARALLAX_BANNER_HEIGHT}&w=${PARALLAX_BANNER_WIDTH}&crop=fit`
+        })}
         smallText={bannerText}
         titleText={name}
         backAction={goBack}
+        enableGradient
       >
         <BlankSpacer height={20} />
         {!isLoading && filteredItineraries.length < 1 ? (
@@ -187,7 +218,19 @@ const ListingPage = ({ navigation, route }: ListingPageProps) => {
             return (
               <Fragment key={itineraryIndex}>
                 <ItineraryCard
-                  images={[getImgIXUrl({ src: itinerary.image })]}
+                  thumbnailImages={[
+                    getImgIXUrl({
+                      DPR: 0.02,
+                      src: itinerary.image,
+                      imgFactor: `h=200&w=${responsiveWidth(100)}&crop=fit`
+                    })
+                  ]}
+                  images={[
+                    getImgIXUrl({
+                      src: itinerary.image,
+                      imgFactor: `h=200&w=${responsiveWidth(100)}&crop=fit`
+                    })
+                  ]}
                   tripType={itinerary.tripType}
                   action={() => {
                     // @ts-ignore
@@ -198,15 +241,16 @@ const ListingPage = ({ navigation, route }: ListingPageProps) => {
                   }}
                   title={itinerary.title}
                   inclusionList={inclusionList}
-                  itineraryCost={getPriceWithoutSymbol(itinerary.itineraryCost)}
+                  itineraryCost={itinerary.itineraryCost}
                   cities={itinerary.cityHotelStay}
                   containerStyle={styles.itineraryCardStyle}
+                  displayCurrency={displayCurrency || ""}
                 />
                 <BlankSpacer height={16} />
               </Fragment>
             );
           });
-        }, [filteredItineraries, navigation])}
+        }, [filteredItineraries, navigation, displayCurrency])}
         {Platform.OS === CONSTANT_platformAndroid ? (
           <BlankSpacer height={responsiveHeight(100)} />
         ) : (
@@ -219,7 +263,7 @@ const ListingPage = ({ navigation, route }: ListingPageProps) => {
         onPress={openFilterPanel}
         style={styles.filterIcon}
       >
-        <Icon name={CONSTANT_listIcon} size={20} color={CONSTANT_white} />
+        <Icon name={CONSTANT_filterIcon} size={20} color={CONSTANT_white} />
       </TouchableOpacity>
 
       <Modal
@@ -271,4 +315,6 @@ const styles = StyleSheet.create({
   }
 });
 
-export default ErrorBoundary()(ListingPage);
+export default ErrorBoundary()(
+  inject("leadSourceStore")(observer(ListingPage))
+);

@@ -1,25 +1,31 @@
 import React from "react";
 import { View, ViewStyle, StyleProp, ImageStyle } from "react-native";
 import { CONSTANT_shade5 } from "../../constants/colorPallete";
-import SmartImageV2 from "../SmartImage/SmartImageV2";
+import BetterImage from "../BetterImage/BetterImage";
 
 interface PortraitImageProps {
   containerStyle?: StyleProp<ViewStyle>;
   portraitImageStyle?: StyleProp<ImageStyle>;
   imageSource: string;
+  thumbnailSource: string;
 }
 
 const PortraitImage = ({
   containerStyle,
   portraitImageStyle,
-  imageSource = ""
+  imageSource = "",
+  thumbnailSource = ""
 }: PortraitImageProps) => {
   return (
     <View style={containerStyle}>
-      <SmartImageV2
-        resizeMode={"cover"}
+      <BetterImage
         source={{ uri: imageSource }}
-        style={[{ backgroundColor: CONSTANT_shade5 }, portraitImageStyle]}
+        thumbnailSource={{ uri: thumbnailSource }}
+        resizeMode={"cover"}
+        containerStyle={[
+          { backgroundColor: CONSTANT_shade5 },
+          portraitImageStyle
+        ]}
       />
     </View>
   );

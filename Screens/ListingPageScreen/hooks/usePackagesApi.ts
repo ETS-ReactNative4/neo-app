@@ -5,8 +5,10 @@ import useApiCall, {
 import { CONSTANT_getPackagesDetails } from "../../../constants/apiUrls";
 import { IPackageItinerary } from "../../../TypeInterfaces/IPackageItinerary";
 import { ICampaignDetails } from "../../../TypeInterfaces/ICampaignDetails";
+import { IMobileServerResponse } from "../../../TypeInterfaces/INetworkResponse";
 
 export interface IPackageRequestBody {
+  apiUrl?: string;
   key: string;
   limit?: number;
   interests?: string[];
@@ -20,7 +22,7 @@ export interface IPackageRequest {
   abortController: any;
 }
 
-export interface IPackagesResponseData {
+export interface IPackagesResponseData extends IMobileServerResponse {
   status: "SUCCESS";
   data: {
     campaignDetails: ICampaignDetails;
@@ -57,7 +59,7 @@ const usePackagesApi = (): packagesApiHookType => {
     return new Promise<boolean>(async (resolve, reject) => {
       try {
         const result = await makeApiCall({
-          route: CONSTANT_getPackagesDetails,
+          route: requestBody.apiUrl || CONSTANT_getPackagesDetails,
           method: "POST",
           requestBody,
           abortController

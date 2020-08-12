@@ -29,6 +29,29 @@ export interface ICountry {
   name: string;
 }
 
+export interface IDealCancellationInfo {
+  title: string;
+  refundAmt: number;
+}
+
+export interface IDealInfo {
+  dealId: string;
+  shortDesc: string;
+  bannerLink: string[];
+  slug: string;
+  availableDates: string[];
+  bookingDates: {
+    start: string;
+    end: string;
+  };
+  discountPercent: number;
+  mealFAQ: boolean;
+  paxFAQ: boolean;
+  staticDeal: boolean;
+  cancellationTimeLineList: IDealCancellationInfo[];
+  allowedPassports?: string[];
+}
+
 export interface IItineraryDetails {
   itineraryId: string;
   departSlot: string;
@@ -77,4 +100,5 @@ export interface IItineraryDetails {
   strikedPrice: number;
   passengerDetailPresent: boolean;
   comfyScore: number;
+  dealInfo?: IDealInfo;
 }

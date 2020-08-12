@@ -6,37 +6,40 @@ import {
   ImageSourcePropType,
   TouchableOpacity
 } from "react-native";
-import {
-  responsiveWidth
-  // @ts-ignore
-} from "react-native-responsive-dimensions";
-
-import SmartImageV2 from "../../SmartImage/SmartImageV2";
+import { responsiveWidth } from "react-native-responsive-dimensions";
 import ratioCalculator from "../../../Services/ratioCalculator/ratioCalculator";
+import BetterImage from "../../BetterImage/BetterImage";
 
 interface PromoCarousalImageProps {
   containerStyle?: StyleProp<ImageStyle>;
   image: ImageSourcePropType;
+  thumbnail: ImageSourcePropType;
   fallbackImage: ImageSourcePropType;
   action: () => any;
 }
 
-const CAROUSEL_IMAGE_WIDTH = responsiveWidth(91);
-const CAROUSEL_IMAGE_HEIGHT = ratioCalculator(41, 25, CAROUSEL_IMAGE_WIDTH);
+export const CAROUSEL_IMAGE_WIDTH = responsiveWidth(91);
+export const CAROUSEL_IMAGE_HEIGHT = ratioCalculator(
+  41,
+  25,
+  CAROUSEL_IMAGE_WIDTH
+);
 
 const PromoCarousalImage = ({
   containerStyle,
   image = { uri: "" },
+  thumbnail = { uri: "" },
   fallbackImage = { uri: "" },
   action = () => null
 }: PromoCarousalImageProps) => {
   return (
     <TouchableOpacity activeOpacity={0.8} onPress={action}>
-      <SmartImageV2
+      <BetterImage
+        thumbnailSource={thumbnail}
         source={image}
         fallbackSource={fallbackImage}
         resizeMode={"cover"}
-        style={[styles.imageStyle, containerStyle]}
+        containerStyle={[styles.imageStyle, containerStyle]}
       />
     </TouchableOpacity>
   );

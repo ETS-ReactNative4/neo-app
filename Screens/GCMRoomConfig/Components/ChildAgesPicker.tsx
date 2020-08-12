@@ -1,6 +1,9 @@
 import React, { Fragment, useState } from "react";
 import { TouchableOpacity, Text, StyleSheet } from "react-native";
-import { HotelGuestRoomChildAgesType } from "../../GCMScreen/hooks/useGCMForm";
+import {
+  HotelGuestRoomChildAgesType,
+  HotelGuestRoomChildAgesLabel
+} from "../../GCMScreen/hooks/useGCMForm";
 import Picker from "../../../CommonComponents/Picker/Picker";
 import { CONSTANT_dropDownArrowDarkIcon } from "../../../constants/imageAssets";
 import Icon from "../../../CommonComponents/Icon/Icon";
@@ -14,18 +17,18 @@ import {
 } from "../../../constants/fonts";
 
 export interface IChildAgesOption {
-  text: HotelGuestRoomChildAgesType;
+  text: HotelGuestRoomChildAgesLabel;
   value: HotelGuestRoomChildAgesType;
 }
 
 const childAges: IChildAgesOption[] = [
   {
     text: "1 year",
-    value: "1 year"
+    value: 1
   },
   {
     text: "5 year",
-    value: "5 year"
+    value: 5
   }
 ];
 

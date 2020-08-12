@@ -39,6 +39,7 @@ import useDeepCompareEffect from "use-deep-compare-effect";
 import { inject, observer } from "mobx-react";
 import YourBookings from "../../mobx/YourBookings";
 import User from "../../mobx/User";
+import DealsCardsRow from "./Components/DealsCardsRow";
 
 export type ExploreScreenNavigationType = CompositeNavigationProp<
   StackNavigationProp<AppNavigatorParamsType, typeof SCREEN_PRETRIP_HOME_TABS>,
@@ -89,7 +90,7 @@ const Explore = ({
 
   useDeepCompareEffect(() => {
     if (successResponseData) {
-      setExploreData(successResponseData.data);
+      setExploreData(successResponseData.data?.[0]?.value ?? []);
     }
   }, [successResponseData || {}]);
 
@@ -100,7 +101,7 @@ const Explore = ({
   return (
     <View style={styles.container}>
       {header}
-      <ScrollView>
+      <ScrollView removeClippedSubviews>
         {name ? (
           <Fragment>
             <BlankSpacer height={24} />
@@ -134,9 +135,12 @@ const Explore = ({
               ) : section.type === "BLOG_CARDS" ? (
                 <BlogCardsRow {...section} />
               ) : section.type === "COUNTRY_CARDS" ? (
+                // @ts-ignore
                 <CountryCardsRow {...section} />
               ) : section.type === "TESTIMONIAL_CARDS" ? (
                 <TestimonialsCardsRow {...section} />
+              ) : section.type === "DEALS_CARDS" ? (
+                <DealsCardsRow {...section} />
               ) : null}
               <BlankSpacer height={24} />
               <BlankSpacer

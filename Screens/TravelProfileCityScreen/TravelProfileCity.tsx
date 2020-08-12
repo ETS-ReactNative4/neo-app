@@ -4,7 +4,8 @@ import {
   StyleSheet,
   TouchableOpacity,
   Text,
-  ScrollView
+  ScrollView,
+  Platform
 } from "react-native";
 
 import {
@@ -39,6 +40,7 @@ import TravelProfile from "../../mobx/TravelProfile";
 import matchQueryWithText from "../../Services/matchQueryWithText/matchQueryWIthText";
 import WelcomeState from "../../mobx/WelcomeState";
 import BlankSpacer from "../../CommonComponents/BlankSpacer/BlankSpacer";
+import { CONSTANT_platformIos } from "../../constants/stringConstants";
 
 const { createAnimatableComponent } = Animatable;
 
@@ -65,10 +67,16 @@ export interface TravelProfileCityProps {
 }
 
 export interface ISuggestedCountry {
-  id: number;
+  id: number | string;
   imageUrl: string;
   name: string;
   isSelected: boolean;
+}
+
+export interface IRegionDetail {
+  regionCode: string;
+  regionname: string;
+  mobileImage: string;
 }
 
 export interface ICountryDetail {
@@ -79,6 +87,13 @@ export interface ICountryDetail {
 
 const PORTRAIT_IMAGE_WIDTH = responsiveWidth(40);
 const PORTRAIT_IMAGE_HEIGHT = ratioCalculator(39, 53, PORTRAIT_IMAGE_WIDTH);
+
+export const regionTypeGuard = (
+  region: ICountryDetail | IRegionDetail
+): region is IRegionDetail => {
+  // @ts-ignore
+  return !!region.regionname;
+};
 
 const TravelProfileCityComponent = ({
   navigation,
@@ -105,6 +120,14 @@ const TravelProfileCityComponent = ({
 
     setSuggestedCountries(
       countriesList.map(country => {
+        if (regionTypeGuard(country)) {
+          return {
+            id: country.regionCode,
+            name: country.regionname,
+            imageUrl: country.mobileImage,
+            isSelected: false
+          };
+        }
         return {
           id: country.countryId,
           name: country.name,
@@ -128,7 +151,7 @@ const TravelProfileCityComponent = ({
     navigation.navigate(SCREEN_TRAVEL_MARITAL_STATUS);
   };
 
-  const selectSuggestedCountry = (countryId: number) => {
+  const selectSuggestedCountry = (countryId: number | string) => {
     const updatedCountriesList = suggestedCountries.map(country => {
       if (country.id === countryId) {
         return {
@@ -157,8 +180,13 @@ const TravelProfileCityComponent = ({
     travelProfileStore.updateTravelProfileData({
       [isPositive
         ? "wishlistCountries"
-        : "travelledCountries"]: selectedCities.map(country => country.id),
-      [!isPositive ? "wishlistCountries" : "travelledCountries"]: []
+        : "travelledCountries"]: selectedCities
+        .filter(country => typeof country.id === "number")
+        .map(country => country.id),
+      [!isPositive ? "wishlistCountries" : "travelledCountries"]: [],
+      regionCode: selectedCities
+        .filter(country => typeof country.id === "string")
+        .map(country => country.id as string)
     });
     welcomeStateStore.patchWelcomeState("seenTravelCountryPicker", true);
     navigation.navigate(SCREEN_TRAVEL_MARITAL_STATUS);
@@ -204,13 +232,23 @@ const TravelProfileCityComponent = ({
               selectSuggestedCountry(suggestedCity.id);
             };
 
+            const Wrapper =
+              Platform.OS === CONSTANT_platformIos ? View : AnimatableView;
+
+            const wrapperProps =
+              Platform.OS === CONSTANT_platformIos
+                ? {}
+                : {
+                    animation: "fadeInUp",
+                    delay: 300 * (suggestedCityIndex + 1),
+                    useNativeDriver: true
+                  };
+
             return (
-              <AnimatableView
+              <Wrapper
                 key={suggestedCityIndex}
-                animation={"fadeInUp"}
-                delay={300 * (suggestedCityIndex + 1)}
                 style={styles.selectablePortraitImageStyle}
-                useNativeDriver={true}
+                {...wrapperProps}
               >
                 <SelectablePortraitImage
                   onPress={onSelect}
@@ -219,7 +257,7 @@ const TravelProfileCityComponent = ({
                   portraitImageHeight={PORTRAIT_IMAGE_HEIGHT}
                   containerStyle={styles.selectablePortraitImageStyle}
                 />
-              </AnimatableView>
+              </Wrapper>
             );
           })}
         </MasonryView>
@@ -309,7 +347,7 @@ const styles = StyleSheet.create({
     paddingRight: 8
   },
   selectablePortraitImageStyle: {
-    marginBottom: 16
+    marginBottom: 8
   }
 });
 

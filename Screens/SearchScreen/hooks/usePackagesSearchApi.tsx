@@ -24,6 +24,7 @@ export interface ILoadRequestParams {
   searchString: string;
   limit: number;
   offset: number;
+  abortController?: any;
 }
 
 const usePackagesSearchApi = (): [
@@ -35,10 +36,12 @@ const usePackagesSearchApi = (): [
   const loadSearchResults = (
     requestParams: ILoadRequestParams
   ): Promise<boolean> => {
+    const { abortController, ...otherParams } = requestParams;
     return new Promise<boolean>((resolve, reject) => {
       try {
         const result = makeApiCall({
-          route: CONSTANT_loadPackagesSearch + generateUrlParams(requestParams)
+          route: CONSTANT_loadPackagesSearch + generateUrlParams(otherParams),
+          abortController: abortController
         });
         resolve(result);
       } catch (e) {

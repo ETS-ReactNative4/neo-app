@@ -70,11 +70,10 @@ const App = () => {
         onNotificationDisplayed();
         onNotificationOpened();
         onNotificationReceived();
+        debouncer(() => {
+          appStartupTasks();
+        });
       });
-
-    debouncer(() => {
-      appStartupTasks();
-    });
 
     updateNavigationService(navigationRef);
 
