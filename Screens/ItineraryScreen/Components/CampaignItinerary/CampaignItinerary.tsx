@@ -179,7 +179,9 @@ const CampaignItinerary = ({
           leadSource: {
             deviceType:
               Platform.OS === CONSTANT_platformAndroid ? "Android OS" : "iOS",
-            prodType: getProdTypeFromItinerarySource(itinerarySource)
+            prodType: getProdTypeFromItinerarySource(itinerarySource),
+            utm_source: Platform.OS,
+            utm_medium: "app"
           }
         };
         if (leadSourceStore?.activeDeeplink) {
@@ -242,7 +244,9 @@ const CampaignItinerary = ({
           leadSource: {
             deviceType:
               Platform.OS === CONSTANT_platformAndroid ? "Android OS" : "iOS",
-            prodType: getProdTypeFromItinerarySource(itinerarySource)
+            prodType: getProdTypeFromItinerarySource(itinerarySource),
+            utm_source: Platform.OS,
+            utm_medium: "app"
           }
         };
         if (leadSourceStore?.activeDeeplink) {
