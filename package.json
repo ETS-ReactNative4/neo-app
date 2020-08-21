@@ -46,7 +46,6 @@
     "@react-navigation/bottom-tabs": "5.1.0",
     "@react-navigation/native": "5.0.5",
     "@react-navigation/stack": "5.0.5",
-    "@segment/analytics-react-native": "1.1.0",
     "@sentry/react-native": "^1.0.5",
     "@twotalltotems/react-native-otp-input": "git://github.com/DaniAkash/react-native-otp-input.git#2be475f3fbb53a66a8466bd0f0ce5997ec1c65ad",
     "compare-versions": "3.5.1",
