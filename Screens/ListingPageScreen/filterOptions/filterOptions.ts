@@ -717,7 +717,7 @@ export const indianCities: IFilters = {
     },
     {
       text: "Bangalore",
-      value: "bangalore",
+      value: "bengaluru",
       isSelected: false
     },
     {
