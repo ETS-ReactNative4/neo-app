@@ -453,7 +453,7 @@ PODS:
     - React-Core (= 0.63.3)
     - React-cxxreact (= 0.63.3)
     - React-jsi (= 0.63.3)
-  - ReactNativeART (1.0.1):
+  - ReactNativeART (1.2.0):
     - React
   - rn-fetch-blob (0.10.16):
     - React-Core
@@ -896,7 +896,7 @@ SPEC CHECKSUMS:
   React-RCTText: 65a6de06a7389098ce24340d1d3556015c38f746
   React-RCTVibration: 8e9fb25724a0805107fc1acc9075e26f814df454
   ReactCommon: 4167844018c9ed375cc01a843e9ee564399e53c3
-  ReactNativeART: d230fdaf9a6d15d5ec842355ada1edbe326c49d0
+  ReactNativeART: 78edc68dd4a1e675338cd0cd113319cf3a65f2ab
   rn-fetch-blob: 651b8d076b43d0d7aa294a3d9ec16c00aab8bef9
   RNBootSplash: 161de9d2b5dc2af37c2777063b8e6d844ab2a6ff
   RNCAsyncStorage: 44395cb9c7c1523104c2b499eb426ef7aff82bca

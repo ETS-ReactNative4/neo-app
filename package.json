@@ -32,7 +32,7 @@
     }
   },
   "dependencies": {
-    "@react-native-community/art": "1.0.1",
+    "@react-native-community/art": "1.2.0",
     "@react-native-community/async-storage": "1.7.1",
     "@react-native-community/blur": "3.4.1",
     "@react-native-community/cameraroll": "^1.0.5",
