@@ -114,7 +114,9 @@ const RequestCallback = ({
           leadSource: {
             deviceType:
               Platform.OS === CONSTANT_platformAndroid ? "Android OS" : "iOS",
-            prodType
+            prodType,
+            utm_source: Platform.OS,
+            utm_medium: "app"
           }
         };
         if (leadSourceStore.activeDeeplink) {

@@ -1,4 +1,3 @@
-import analytics from "@segment/analytics-react-native";
 import { logBreadCrumb, logError } from "../errorLogger/errorLogger";
 import getActiveRouteName from "../getActiveRouteName/getActiveRouteName";
 import WebEngage from "react-native-webengage";
@@ -84,8 +83,8 @@ export const recordEvent = (event, params = undefined) => {
         },
         level: constants.errorLoggerEvents.levels.info
       });
+      webEngage.track(event, params);
       firebaseAnalytics().logEvent(event, params);
-      analytics.track(event, params);
     } else {
       logError(`Invalid analytics event ${event}`, { params });
     }
@@ -95,11 +94,6 @@ export const recordEvent = (event, params = undefined) => {
 export const enableAnalytics = async () => {
   debouncer(async () => {
     try {
-      await analytics.setup(constants.segmentWriteKey, {
-        recordScreenViews: false,
-        trackAppLifecycleEvents: true
-      });
-      await analytics.enable();
       firebaseAnalytics().setAnalyticsCollectionEnabled(true);
       perf().setPerformanceCollectionEnabled(true);
       return true;
@@ -115,7 +109,6 @@ export const disableAnalytics = async () => {
     try {
       firebaseAnalytics().setAnalyticsCollectionEnabled(false);
       perf().setPerformanceCollectionEnabled(false);
-      await analytics.disable();
       return true;
     } catch (error) {
       logError("Failed to disable analytics", { error });
@@ -127,14 +120,12 @@ export const disableAnalytics = async () => {
 export const setUserDetails = async ({ id, name, email, phoneNumber }) => {
   debouncer(() => {
     try {
-      analytics.identify(id, {
-        name,
-        email,
-        phone: phoneNumber
-      });
       login(id);
       firebaseAnalytics().setUserId(id);
       firebaseAnalytics().setUserProperties({ name, email, phoneNumber });
+      webEngage.user.setEmail(email);
+      webEngage.user.setPhone(phoneNumber);
+      webEngage.user.setFirstName(name);
       return true;
     } catch (error) {
       logError(error, {
@@ -165,7 +156,6 @@ export const screenTracker = (prevState, currentState) => {
         data: {},
         level: constants.errorLoggerEvents.levels.info
       });
-      analytics.screen(currentScreen, { sessionId });
       webEngage.screen(currentScreen, { sessionId });
       firebaseAnalytics().setCurrentScreen(currentScreen, currentScreen);
       return true;
@@ -186,7 +176,6 @@ export const screenTrackerV2 = (prevScreen, currentScreen) => {
       data: {},
       level: constants.errorLoggerEvents.levels.info
     });
-    analytics.screen(currentScreen, { sessionId });
     webEngage.screen(currentScreen, { sessionId });
     firebaseAnalytics().setCurrentScreen(currentScreen, currentScreen);
     return true;

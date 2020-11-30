@@ -34,7 +34,8 @@ import OtpPanel from "./Components/OtpPanel";
 import {
   CONSTANT_platformIos,
   CONSTANT_responseUserUnavailable,
-  CONSTANT_responseSuccessStatus
+  CONSTANT_responseSuccessStatus,
+  CONSTANT_platformAndroid
 } from "../../constants/stringConstants";
 import useMobileNumberApi from "./hooks/useMobileNumberApi";
 import { validateLoginMobileNumber } from "../../Services/validateMobileNumber/validateMobileNumber";
@@ -55,7 +56,7 @@ import { observer, inject } from "mobx-react";
 import { AppNavigatorParamsType } from "../../NavigatorsV2/AppNavigator";
 import LoginInputField from "./Components/LoginInputField";
 import PrimaryButton from "../../CommonComponents/PrimaryButton/PrimaryButton";
-import useRegisterUserApi from "./hooks/useRegisterUserApi";
+import useRegisterUserApi, { ILeadSource } from "./hooks/useRegisterUserApi";
 import validateEmail from "../../Services/validateEmail/validateEmail";
 import useRequestOtpApi from "./hooks/useRequestOtpApi";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
@@ -265,11 +266,33 @@ const AppLogin = ({
     ) {
       // PT TODO: Any visual feedback?
     } else {
+      let leadSource: ILeadSource = {
+        deviceType:
+          Platform.OS === CONSTANT_platformAndroid ? "Android OS" : "iOS",
+        utm_source: Platform.OS,
+        utm_medium: "app"
+      };
+
+      if (leadSourceStore?.activeDeeplink) {
+        leadSource = {
+          campaign: leadSourceStore.activeDeeplink["~campaign"],
+          url: leadSourceStore.activeDeeplink.$canonical_url,
+          lastRoute: leadSourceStore.activeDeeplink["~referring_link"],
+          utm_source: leadSourceStore.activeDeeplink["~channel"],
+          utm_medium: leadSourceStore.activeDeeplink["~feature"],
+          utm_campaign: leadSourceStore.activeDeeplink["~campaign"],
+          tags: leadSourceStore.activeDeeplink["~tags"],
+          deviceType:
+            Platform.OS === CONSTANT_platformAndroid ? "Android OS" : "iOS"
+        };
+      }
+
       const result = await registerNewUser({
         countryPhoneCode: countryCode,
         mobileNumber: phoneNumber,
         email,
-        userName: name
+        userName: name,
+        leadSource
       });
       if (result) {
         recordEvent(CONSTANT_APP_SIGNUP.event, {
