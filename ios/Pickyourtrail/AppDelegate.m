@@ -34,7 +34,7 @@ static void InitializeFlipper(UIApplication *application) {
 #import <UserNotifications/UserNotifications.h>
 #import <React/RCTLinkingManager.h>
 #import "RNBootSplash.h"
-#import <RNBranch/RNBranch.h>
+// #import <RNBranch/RNBranch.h>
 
 @interface AppDelegate () < UNUserNotificationCenterDelegate >
 
@@ -49,7 +49,7 @@ static void InitializeFlipper(UIApplication *application) {
     InitializeFlipper(application);
   #endif
 
-  [RNBranch initSessionWithLaunchOptions:launchOptions isReferrable:YES];
+  // [RNBranch initSessionWithLaunchOptions:launchOptions isReferrable:YES];
   [[WebEngage sharedInstance] application:application didFinishLaunchingWithOptions:launchOptions];
   [FIRApp configure];
   [RNFirebaseNotifications configure];
@@ -130,8 +130,8 @@ didReceiveNotificationResponse:(UNNotificationResponse *)response
     return YES;
 }
 
-- (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray *restorableObjects))restorationHandler {
-    return [RNBranch continueUserActivity:userActivity];
-}
+// - (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray *restorableObjects))restorationHandler {
+//     return [RNBranch continueUserActivity:userActivity];
+// }
 
 @end

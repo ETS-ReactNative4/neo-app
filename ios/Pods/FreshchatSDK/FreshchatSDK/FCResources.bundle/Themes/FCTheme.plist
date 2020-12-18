@@ -2,11 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>FooterView</key>
-	<dict>
-		<key>FreshchatDisableFrame</key>
-		<string>d9b22a3e89066b707a95be979f0dce07</string>
-	</dict>
 	<key>ConversationDetail</key>
 	<dict>
 		<key>AttachIcon</key>
