@@ -5,7 +5,7 @@ PODS:
   - Branch/Core (0.31.3)
   - BVLinearGradient (2.5.4):
     - React
-  - CocoaAsyncSocket (7.6.4)
+  - CocoaAsyncSocket (7.6.5)
   - CocoaLibEvent (1.0.0)
   - Crashlytics (3.14.0):
     - Fabric (~> 1.10.2)
@@ -191,7 +191,7 @@ PODS:
   - OpenSSL-Universal/Static (1.0.2.20)
   - Permission-LocationWhenInUse (2.0.3):
     - RNPermissions
-  - PromisesObjC (1.2.11)
+  - PromisesObjC (1.2.12)
   - Protobuf (3.14.0)
   - QBImagePickerController (3.4.0)
   - RCTRequired (0.63.3)
@@ -519,9 +519,9 @@ PODS:
   - RNVectorIcons (5.0.0):
     - React
   - RSKImageCropper (3.0.1)
-  - SDWebImage (5.10.0):
-    - SDWebImage/Core (= 5.10.0)
-  - SDWebImage/Core (5.10.0)
+  - SDWebImage (5.10.2):
+    - SDWebImage/Core (= 5.10.2)
+  - SDWebImage/Core (5.10.2)
   - SDWebImageWebPCoder (0.4.1):
     - libwebp (~> 1.0)
     - SDWebImage/Core (~> 5.5)
@@ -822,7 +822,7 @@ SPEC CHECKSUMS:
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
   Branch: 9b299693ee54b308ff8c18146afe1f711c2069ec
   BVLinearGradient: 8cbc5155c978f2e43098818c91d206d07aae6d30
-  CocoaAsyncSocket: 694058e7c0ed05a9e217d1b3c7ded962f4180845
+  CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
   CocoaLibEvent: 2fab71b8bd46dd33ddb959f7928ec5909f838e3f
   Crashlytics: 9220f5bc89e7a618df411b4f639389dbfb0e03d2
   DoubleConversion: cde416483dac037923206447da6e1454df403714
@@ -859,7 +859,7 @@ SPEC CHECKSUMS:
   nanopb: 18003b5e52dab79db540fe93fe9579f399bd1ccd
   OpenSSL-Universal: ff34003318d5e1163e9529b08470708e389ffcdd
   Permission-LocationWhenInUse: 5cb8e0df1463dfab567d2a3d2589ab557fda68cb
-  PromisesObjC: 8c196f5a328c2cba3e74624585467a557dcb482f
+  PromisesObjC: 3113f7f76903778cf4a0586bd1ab89329a0b7b97
   Protobuf: 0cde852566359049847168e51bd1c690e0f70056
   QBImagePickerController: d54cf93db6decf26baf6ed3472f336ef35cae022
   RCTRequired: 48884c74035a0b5b76dbb7a998bd93bcfc5f2047
@@ -921,7 +921,7 @@ SPEC CHECKSUMS:
   RNSVG: 0eb087cfb5d7937be93c45b163b26352a647e681
   RNVectorIcons: f066f73bf4f25564d7ee7b1bb150e3b431f3a194
   RSKImageCropper: 617b4976e4a0ca18f3ce84f6cfa5945e574b51a3
-  SDWebImage: 9169792e9eec3e45bba2a0c02f74bf8bd922d1ee
+  SDWebImage: b969dcfc02c40a5da71eac0b03b8f1a0c794a86f
   SDWebImageWebPCoder: 36f8f47bd9879a8aea6044765c1351120fd8e3a8
   Sentry: 14bdd673870e8cf64932b149fad5bbbf39a9b390
   TextToSpeech: 4e2fc50c7495416c6da5a1662ad3f750c58d3c85
@@ -929,6 +929,6 @@ SPEC CHECKSUMS:
   Yoga: 7d13633d129fd179e01b8953d38d47be90db185a
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: e286a17d0e57975849b47c252d2427066774b862
+PODFILE CHECKSUM: aba48d564a1bdc59f69546f5c651168151583a66
 
 COCOAPODS: 1.9.3

@@ -31,6 +31,8 @@ import com.wix.interactable.Interactable;
 import androidx.multidex.MultiDexApplication;
 import io.branch.rnbranch.RNBranchModule;
 
+import com.oblador.keychain.KeychainPackage;
+
 public class MainApplication extends MultiDexApplication implements ReactApplication {
 
   private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
@@ -49,6 +51,7 @@ public class MainApplication extends MultiDexApplication implements ReactApplica
       packages.add(new RNFirebaseAnalyticsPackage());
       packages.add(new RNFirebasePerformancePackage());
       packages.add(new Interactable());
+      packages.add(new new KeychainPackage());
       return packages;
     }
 

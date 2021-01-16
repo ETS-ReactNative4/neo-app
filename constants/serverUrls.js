@@ -4,10 +4,10 @@ import {
 } from "../Services/getEnvironmentDetails/getEnvironmentDetails";
 
 const productUrls = {
-  local: "http://192.168.0.5:8080/",
-  staging: "https://domestic.longweekend.co.in/",
+  local: "https://staging.wwmib.com/",
+  staging: "https://staging.wwmib.com/",
   production: "https://pickyourtrail.com/",
-  test: "https://dummy-testing-server.com/"
+  test: "https://staging.wwmib.com/"
 };
 
 const apiServers = {

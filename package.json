@@ -25,7 +25,9 @@
     "alpha-android": "fastlane android alpha",
     "bump-version": "node bumpVersion.js",
     "commit": "git-cz",
-    "postinstall": "sh ./.patch/script-patch.sh"
+    "postinstall": "sh ./.patch/script-patch.sh",
+    "android:beta": "cd android && fastlane android beta",
+    "ios:beta": "cd ios && fastlane ios beta"
   },
   "config": {
     "commitizen": {

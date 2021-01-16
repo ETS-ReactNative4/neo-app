@@ -7,6 +7,7 @@ target 'Pickyourtrail' do
   pod 'Firebase/Messaging', '~> 6.3.0'
   pod 'Firebase/Performance', '~> 6.3.0'
   pod 'WebEngage', '~> 5.0.0'
+  pod 'RNKeychain', :path => '../node_modules/react-native-keychain'
 
   # used by react-native-permissions for requesting location permission
   permissions_path = '../node_modules/react-native-permissions/ios'
