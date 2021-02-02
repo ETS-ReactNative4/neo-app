@@ -119,6 +119,7 @@ const Itinerary = ({ route, navigation, leadSourceStore }: ItineraryProps) => {
     config: IGCMRequestBody
   ) => {
     try {
+      
       await costCampaignItinerary(campaignItineraryId, config);
       record(CONSTANT_itineraryCostedEvent.event);
     } catch (e) {

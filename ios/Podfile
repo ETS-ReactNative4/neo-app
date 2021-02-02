@@ -1,25 +1,30 @@
 require_relative '../node_modules/react-native/scripts/react_native_pods'
 require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
+
 platform :ios, '10.0'
 
 target 'Pickyourtrail' do
-  pod 'Firebase/Core', '~> 6.3.0'
-  pod 'Firebase/Messaging', '~> 6.3.0'
-  pod 'Firebase/Performance', '~> 6.3.0'
-  pod 'WebEngage', '~> 5.0.0'
-  pod 'RNKeychain', :path => '../node_modules/react-native-keychain'
-
-  # used by react-native-permissions for requesting location permission
-  permissions_path = '../node_modules/react-native-permissions/ios'
-  pod 'Permission-LocationWhenInUse', :path => "#{permissions_path}/LocationWhenInUse.podspec"
-
-  # target 'PickyourtrailTests' do
-  #   inherit! :search_paths
-  #   # Pods for testing
-  # end
-
   config = use_native_modules!
+  
+  pod 'Firebase/Core'
+  pod 'Firebase/Messaging'
+  pod 'Firebase/Performance'
+  
+  pod 'RNKeychain', :path => '../node_modules/react-native-keychain'
+  
+  permissions_path = '../node_modules/react-native-permissions/ios'
+  pod 'Permission-LocationWhenInUse', :path => "#{permissions_path}/LocationWhenInUse"
+  pod 'Permission-Camera', :path => "#{permissions_path}/Camera"
+
+    
   use_react_native!(:path => config["reactNativePath"])
+
+  pod 'Interactable', :path => '../node_modules/react-native-interactable'
+
+  target 'PickyourtrailTests' do
+    inherit! :complete
+    # Pods for testing
+  end
 
   # Enables Flipper.
   #
@@ -29,25 +34,13 @@ target 'Pickyourtrail' do
   post_install do |installer|
     flipper_post_install(installer)
   end
-
 end
 
-# target 'Pickyourtrail-tvOS' do
-#   # Pods for Pickyourtrail-tvOS
+target 'Pickyourtrail-tvOS' do
+  # Pods for Pickyourtrail-tvOS
 
-#   target 'Pickyourtrail-tvOSTests' do
-#     inherit! :search_paths
-#     # Pods for testing
-#   end
-
-# end
-
-# Post install cleanup used in older React Native versions:
-
-# post_install do |installer|
-#   installer.pods_project.targets.each do |target|
-#     if target.name == "React"
-#       target.remove_from_project
-#     end
-#   end
-# end
+  target 'Pickyourtrail-tvOSTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+end

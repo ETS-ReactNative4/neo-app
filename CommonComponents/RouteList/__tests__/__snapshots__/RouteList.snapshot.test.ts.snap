@@ -170,7 +170,7 @@ exports[`Route List with custom font styles 1`] = `
     ]
   }
 >
-  <Text
+  <Unknown
     allowFontScaling={false}
     style={
       Array [
@@ -188,8 +188,8 @@ exports[`Route List with custom font styles 1`] = `
       ]
     }
   >
-    
-  </Text>
+    
+  </Unknown>
   <View
     style={
       Object {
@@ -198,7 +198,7 @@ exports[`Route List with custom font styles 1`] = `
       }
     }
   >
-    <Text
+    <Unknown
       style={
         Array [
           Object {
@@ -218,9 +218,9 @@ exports[`Route List with custom font styles 1`] = `
       }
     >
       Interlaken
-    </Text>
+    </Unknown>
     <View>
-      <Text
+      <Unknown
         allowFontScaling={false}
         style={
           Array [
@@ -239,7 +239,7 @@ exports[`Route List with custom font styles 1`] = `
         }
       >
         
-      </Text>
+      </Unknown>
     </View>
   </View>
   <View
@@ -250,7 +250,7 @@ exports[`Route List with custom font styles 1`] = `
       }
     }
   >
-    <Text
+    <Unknown
       style={
         Array [
           Object {
@@ -270,29 +270,7 @@ exports[`Route List with custom font styles 1`] = `
       }
     >
       Zerma
-    </Text>
-    <View>
-      <Text
-        allowFontScaling={false}
-        style={
-          Array [
-            Object {
-              "color": "rgba(119, 119, 119, 1)",
-              "fontSize": 12,
-            },
-            undefined,
-            Object {
-              "fontFamily": "voyager",
-              "fontStyle": "normal",
-              "fontWeight": "normal",
-            },
-            Object {},
-          ]
-        }
-      >
-        
-      </Text>
-    </View>
+    </Unknown>
   </View>
   <View
     style={
@@ -302,7 +280,7 @@ exports[`Route List with custom font styles 1`] = `
       }
     }
   >
-    <Text
+    <Unknown
       style={
         Array [
           Object {
@@ -313,6 +291,10 @@ exports[`Route List with custom font styles 1`] = `
             "marginHorizontal": 8,
           },
           Object {
+            "color": "rgba(170, 170, 170, 1)",
+            "marginHorizontal": 0,
+          },
+          Object {
             "fontFamily": "SourceSansPro-Regular",
             "fontSize": 12,
             "lineHeight": 15,
@@ -321,8 +303,11 @@ exports[`Route List with custom font styles 1`] = `
         ]
       }
     >
-      Lucerne
-    </Text>
+      +
+      1
+       
+      city
+    </Unknown>
   </View>
 </View>
 `;

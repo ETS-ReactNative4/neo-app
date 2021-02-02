@@ -25,7 +25,7 @@ exports[`Section Title 1`] = `
 
 exports[`Section Title With Longer Description 1`] = `
 <View>
-  <Text
+  <Unknown
     ellipsizeMode="tail"
     numberOfLines={1}
     style={
@@ -42,8 +42,8 @@ exports[`Section Title With Longer Description 1`] = `
     }
   >
     Live on-trip support
-  </Text>
-  <Text
+  </Unknown>
+  <Unknown
     ellipsizeMode="tail"
     numberOfLines={2}
     style={
@@ -59,13 +59,13 @@ exports[`Section Title With Longer Description 1`] = `
     }
   >
     We’ll use your preference info to make better and more relevant recommendations. We’ll use your preference info to make better and more relevant recommendations.
-  </Text>
+  </Unknown>
 </View>
 `;
 
 exports[`Section Title With Short Description 1`] = `
 <View>
-  <Text
+  <Unknown
     ellipsizeMode="tail"
     numberOfLines={1}
     style={
@@ -82,8 +82,8 @@ exports[`Section Title With Short Description 1`] = `
     }
   >
     Live on-trip support
-  </Text>
-  <Text
+  </Unknown>
+  <Unknown
     ellipsizeMode="tail"
     numberOfLines={2}
     style={
@@ -99,13 +99,13 @@ exports[`Section Title With Short Description 1`] = `
     }
   >
     We’ll use your preference info to make better and more relevant recommendations.
-  </Text>
+  </Unknown>
 </View>
 `;
 
 exports[`Section Title with custom text styles 1`] = `
 <View>
-  <Text
+  <Unknown
     ellipsizeMode="tail"
     numberOfLines={1}
     style={
@@ -127,8 +127,8 @@ exports[`Section Title with custom text styles 1`] = `
     }
   >
     Live on-trip support
-  </Text>
-  <Text
+  </Unknown>
+  <Unknown
     ellipsizeMode="tail"
     numberOfLines={2}
     style={
@@ -146,6 +146,6 @@ exports[`Section Title with custom text styles 1`] = `
     }
   >
     We’ll use your preference info to make better and more relevant recommendations. We’ll use your preference info to make better and more relevant recommendations.
-  </Text>
+  </Unknown>
 </View>
 `;

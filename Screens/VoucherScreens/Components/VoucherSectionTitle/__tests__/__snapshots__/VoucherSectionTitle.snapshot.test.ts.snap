@@ -22,7 +22,7 @@ exports[`Voucher Section Title - without icon 1`] = `
       ]
     }
   >
-    <Text
+    <Unknown
       style={
         Object {
           "color": "rgba(44, 47, 66, 1)",
@@ -33,7 +33,7 @@ exports[`Voucher Section Title - without icon 1`] = `
       }
     >
       Hotel Room 1
-    </Text>
+    </Unknown>
   </View>
 </View>
 `;

@@ -1,10 +1,14 @@
 import { logBreadCrumb, logError } from "../errorLogger/errorLogger";
 import getActiveRouteName from "../getActiveRouteName/getActiveRouteName";
 import WebEngage from "react-native-webengage";
-import { analytics as firebaseAnalytics, perf } from "react-native-firebase";
+// import { analytics as firebaseAnalytics, perf } from "react-native-firebase";
+import analytics  from '@react-native-firebase/analytics';
+import perf from '@react-native-firebase/perf';
+
 import constants from "../../constants/constants";
 import debouncer from "../debouncer/debouncer";
-import uuidv4 from "uuid/v4";
+// import uuidv4 from "uuid/v4";
+import { v4 as uuidv4 } from 'uuid';
 
 /**
  * Firebase reserved events list. These events should not be tracked
@@ -56,7 +60,7 @@ export const setWebEngageAttribute = (key, value) => {
 const sessionId = uuidv4();
 
 export const recordEvent = (event, params = undefined) => {
-  debouncer(() => {
+  debouncer(async() => {
     if (!reserved.includes(event)) {
       if (!params) {
         params = { sessionId };
@@ -84,7 +88,7 @@ export const recordEvent = (event, params = undefined) => {
         level: constants.errorLoggerEvents.levels.info
       });
       webEngage.track(event, params);
-      firebaseAnalytics().logEvent(event, params);
+      await analytics().logEvent(event, params);
     } else {
       logError(`Invalid analytics event ${event}`, { params });
     }
@@ -94,7 +98,7 @@ export const recordEvent = (event, params = undefined) => {
 export const enableAnalytics = async () => {
   debouncer(async () => {
     try {
-      firebaseAnalytics().setAnalyticsCollectionEnabled(true);
+      await analytics().setAnalyticsCollectionEnabled(true);
       perf().setPerformanceCollectionEnabled(true);
       return true;
     } catch (error) {
@@ -107,7 +111,7 @@ export const enableAnalytics = async () => {
 export const disableAnalytics = async () => {
   debouncer(async () => {
     try {
-      firebaseAnalytics().setAnalyticsCollectionEnabled(false);
+      await analytics().setAnalyticsCollectionEnabled(false);
       perf().setPerformanceCollectionEnabled(false);
       return true;
     } catch (error) {
@@ -118,11 +122,11 @@ export const disableAnalytics = async () => {
 };
 
 export const setUserDetails = async ({ id, name, email, phoneNumber }) => {
-  debouncer(() => {
+  debouncer(async() => {
     try {
       login(id);
-      firebaseAnalytics().setUserId(id);
-      firebaseAnalytics().setUserProperties({ name, email, phoneNumber });
+      await analytics().setUserId(id);
+      await analytics().setUserProperties({ name, email, phoneNumber });
       webEngage.user.setEmail(email);
       webEngage.user.setPhone(phoneNumber);
       webEngage.user.setFirstName(name);
@@ -143,7 +147,7 @@ export const setUserAttributes = (key, value) => {
 };
 
 export const screenTracker = (prevState, currentState) => {
-  debouncer(() => {
+  debouncer(async() => {
     const currentScreen = getActiveRouteName(currentState);
     const prevScreen = getActiveRouteName(prevState);
     /**
@@ -157,7 +161,7 @@ export const screenTracker = (prevState, currentState) => {
         level: constants.errorLoggerEvents.levels.info
       });
       webEngage.screen(currentScreen, { sessionId });
-      firebaseAnalytics().setCurrentScreen(currentScreen, currentScreen);
+      await analytics().setCurrentScreen(currentScreen, currentScreen);
       return true;
     }
     return false;
@@ -168,7 +172,7 @@ export const screenTracker = (prevState, currentState) => {
  * New screen tracker compatible with React Navigation 5
  * accepts prev screen & current screen as strings
  */
-export const screenTrackerV2 = (prevScreen, currentScreen) => {
+export const screenTrackerV2 = async (prevScreen, currentScreen) => {
   if (prevScreen !== currentScreen) {
     logBreadCrumb({
       message: `${prevScreen} to ${currentScreen}`,
@@ -177,7 +181,7 @@ export const screenTrackerV2 = (prevScreen, currentScreen) => {
       level: constants.errorLoggerEvents.levels.info
     });
     webEngage.screen(currentScreen, { sessionId });
-    firebaseAnalytics().setCurrentScreen(currentScreen, currentScreen);
+    await analytics().setCurrentScreen(currentScreen, currentScreen);
     return true;
   }
   return false;

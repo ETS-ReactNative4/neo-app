@@ -56,7 +56,7 @@ exports[`Voucher Button 1`] = `
 `;
 
 exports[`Voucher Button Last 1`] = `
-<TouchableOpacity
+<Unknown
   activeOpacity={0.8}
   onPress={[Function]}
   style={
@@ -104,5 +104,5 @@ exports[`Voucher Button Last 1`] = `
   >
     
   </Text>
-</TouchableOpacity>
+</Unknown>
 `;

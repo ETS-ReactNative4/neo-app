@@ -10,7 +10,7 @@ import {
 import constants from "../../../constants/constants";
 import PropTypes from "prop-types";
 import Icon from "../../../CommonComponents/Icon/Icon";
-import { Dropdown } from "react-native-material-dropdown";
+import { Dropdown } from "react-native-material-dropdown-v2-fixed";
 
 /**
  * A input component that can display a list of options

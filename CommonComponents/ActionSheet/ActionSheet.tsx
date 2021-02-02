@@ -42,6 +42,8 @@ const ActionSheet = ({
 }: ActionSheetProps) => {
   const [_deltaY] = useState(new Value(panelStartingPosition));
   const [snapPosition, setSnapPosition] = useState<ISnapPointsEnum>(2);
+  const [_deltaX] = useState(new Value(0));
+  // const deltaX = useRef(new Animated.Value(0)).current;
 
   const shadowOpacity = {
     opacity: _deltaY.interpolate({
@@ -130,6 +132,7 @@ const ActionSheet = ({
         ]}
         initialPosition={{ y: panelStartingPosition }}
         animatedValueY={_deltaY}
+        animatedValueX={_deltaX}
         style={styles.actionSheetContainer}
         onSnap={onSnapView}
         animatedNativeDriver={true}

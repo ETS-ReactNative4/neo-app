@@ -5,7 +5,8 @@ import logOut from "../logOut/logOut";
 import DebouncedAlert from "../../CommonComponents/DebouncedAlert/DebouncedAlert";
 import DeviceInfo from "react-native-device-info";
 import _ from "lodash";
-import { perf } from "react-native-firebase";
+// import { perf } from "react-native-firebase";
+import perf from '@react-native-firebase/perf';
 import { isProduction } from "../getEnvironmentDetails/getEnvironmentDetails";
 import storeService from "../storeService/storeService";
 
@@ -54,7 +55,7 @@ const apiCall = async (
   } else if (credentials && credentials.username && credentials.password) {
     headerObject.Authorization = credentials.password;
   }
-
+  
   // eslint-disable-next-line no-undef
   const headers = new Headers(headerObject);
 
@@ -67,15 +68,15 @@ const apiCall = async (
   if (method !== "GET") {
     requestDetails.body = JSON.stringify(body);
   }
-
+  
   if (abortController) {
     requestDetails.signal = abortController.signal;
   }
 
   const serverURL = customDomain ? customDomain : apiServer;
-
+  
   const requestURL = `${serverURL}${route}`;
-
+  
   /**
    * Start Performance monitoring for the current request
    */
@@ -84,7 +85,8 @@ const apiCall = async (
   if (!_.isEmpty(body)) {
     for (let key in body) {
       if (body.hasOwnProperty(key)) {
-        await metric.putAttribute(key, JSON.stringify(body[key]));
+        
+        await metric.putAttribute(key, (JSON.stringify(body[key]).substring(0,100)));
       }
     }
   }
@@ -101,21 +103,27 @@ const apiCall = async (
     logger(headers);
 
     function handleResponse(response) {
+      
       /**
        * Tracking the response performance
        */
-      metric
-        .setHttpResponseCode(response.status)
-        .then(() => {
-          metric.setResponseContentType(response.headers.get("Content-Type"));
-        })
-        .then(() => {
-          // metric
-          //   .setResponsePayloadSize(response.headers.get("Content-Length"))
-          //   .then(() => {
-          metric.stop();
-          //  });
-        });
+      metric.setHttpResponseCode(response.status);
+      metric.setResponseContentType(response.headers.get("Content-Type"));
+      metric.stop();
+
+      // metric
+      //   .setHttpResponseCode(response.status)
+      //   .then(() => {
+      //     metric.setResponseContentType(response.headers.get("Content-Type"));
+      //   })
+      //   .then(() => {
+      //     // metric
+      //     //   .setResponsePayloadSize(response.headers.get("Content-Length"))
+      //     //   .then(() => {
+      //     metric.stop();
+      //     //  });
+      //   });
+
 
       logger(response.status);
       logger(response.statusText);

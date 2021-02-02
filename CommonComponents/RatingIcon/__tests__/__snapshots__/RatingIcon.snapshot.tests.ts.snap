@@ -13,8 +13,7 @@ exports[`Multiple Rating Icon 1`] = `
     ]
   }
 >
-  <TouchableOpacity
-    activeOpacity={0.2}
+  <Unknown
     onPress={[Function]}
   >
     <View
@@ -45,9 +44,8 @@ exports[`Multiple Rating Icon 1`] = `
         
       </Text>
     </View>
-  </TouchableOpacity>
-  <TouchableOpacity
-    activeOpacity={0.2}
+  </Unknown>
+  <Unknown
     onPress={[Function]}
   >
     <View
@@ -78,9 +76,8 @@ exports[`Multiple Rating Icon 1`] = `
         
       </Text>
     </View>
-  </TouchableOpacity>
-  <TouchableOpacity
-    activeOpacity={0.2}
+  </Unknown>
+  <Unknown
     onPress={[Function]}
   >
     <View
@@ -111,9 +108,8 @@ exports[`Multiple Rating Icon 1`] = `
         
       </Text>
     </View>
-  </TouchableOpacity>
-  <TouchableOpacity
-    activeOpacity={0.2}
+  </Unknown>
+  <Unknown
     onPress={[Function]}
   >
     <View
@@ -144,9 +140,8 @@ exports[`Multiple Rating Icon 1`] = `
         
       </Text>
     </View>
-  </TouchableOpacity>
-  <TouchableOpacity
-    activeOpacity={0.2}
+  </Unknown>
+  <Unknown
     onPress={[Function]}
   >
     <View
@@ -177,7 +172,7 @@ exports[`Multiple Rating Icon 1`] = `
         
       </Text>
     </View>
-  </TouchableOpacity>
+  </Unknown>
 </View>
 `;
 
@@ -243,8 +238,7 @@ exports[`Rating Icon Active State 1`] = `
     ]
   }
 >
-  <TouchableOpacity
-    activeOpacity={0.2}
+  <Unknown
     onPress={[Function]}
   >
     <View
@@ -275,7 +269,7 @@ exports[`Rating Icon Active State 1`] = `
         
       </Text>
     </View>
-  </TouchableOpacity>
+  </Unknown>
 </View>
 `;
 
@@ -292,8 +286,7 @@ exports[`Rating Icon Custom Color 1`] = `
     ]
   }
 >
-  <TouchableOpacity
-    activeOpacity={0.2}
+  <Unknown
     onPress={[Function]}
   >
     <View
@@ -324,7 +317,7 @@ exports[`Rating Icon Custom Color 1`] = `
         
       </Text>
     </View>
-  </TouchableOpacity>
+  </Unknown>
 </View>
 `;
 
@@ -341,8 +334,7 @@ exports[`Rating Icon Custom Color With Active State 1`] = `
     ]
   }
 >
-  <TouchableOpacity
-    activeOpacity={0.2}
+  <Unknown
     onPress={[Function]}
   >
     <View
@@ -373,9 +365,8 @@ exports[`Rating Icon Custom Color With Active State 1`] = `
         
       </Text>
     </View>
-  </TouchableOpacity>
-  <TouchableOpacity
-    activeOpacity={0.2}
+  </Unknown>
+  <Unknown
     onPress={[Function]}
   >
     <View
@@ -406,9 +397,8 @@ exports[`Rating Icon Custom Color With Active State 1`] = `
         
       </Text>
     </View>
-  </TouchableOpacity>
-  <TouchableOpacity
-    activeOpacity={0.2}
+  </Unknown>
+  <Unknown
     onPress={[Function]}
   >
     <View
@@ -439,9 +429,8 @@ exports[`Rating Icon Custom Color With Active State 1`] = `
         
       </Text>
     </View>
-  </TouchableOpacity>
-  <TouchableOpacity
-    activeOpacity={0.2}
+  </Unknown>
+  <Unknown
     onPress={[Function]}
   >
     <View
@@ -472,9 +461,8 @@ exports[`Rating Icon Custom Color With Active State 1`] = `
         
       </Text>
     </View>
-  </TouchableOpacity>
-  <TouchableOpacity
-    activeOpacity={0.2}
+  </Unknown>
+  <Unknown
     onPress={[Function]}
   >
     <View
@@ -505,6 +493,6 @@ exports[`Rating Icon Custom Color With Active State 1`] = `
         
       </Text>
     </View>
-  </TouchableOpacity>
+  </Unknown>
 </View>
 `;

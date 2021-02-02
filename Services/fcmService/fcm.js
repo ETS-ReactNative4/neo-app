@@ -1,4 +1,6 @@
-import { messaging, notifications } from "react-native-firebase";
+import messaging from '@react-native-firebase/messaging';
+import PushNotification from 'react-native-push-notification';
+
 import { Platform } from "react-native";
 import { logBreadCrumb, logError } from "../errorLogger/errorLogger";
 import storeService from "../storeService/storeService";
@@ -28,7 +30,7 @@ export const getDeviceToken = async (
       token = await messaging().getToken();
       apnsToken =
         Platform.OS === constants.platformIos
-          ? await messaging().ios.getAPNSToken()
+          ? await messaging().getAPNSToken()
           : "";
 
       storeService.appState.setPushTokens(token);
@@ -87,7 +89,8 @@ export const registerFcmRefreshListener = () => {
  * Called when a notification is received when the app is active - works on android
  */
 export const onNotificationReceived = () =>
-  notifications().onNotification(notification => {
+  // notifications().onNotification(notification => {
+  messaging().onMessage(async notification => {
     notificationReceivedHandler(notification);
   });
 
@@ -95,14 +98,18 @@ export const onNotificationReceived = () =>
  * Called when a notification is received when app is active - works on iOS
  */
 export const onNotificationDisplayed = () =>
-  notifications().onNotificationDisplayed(notification => {
+  messaging().onMessage(async notification => {
+  // notifications().onNotificationDisplayed(notification => {
     notificationReceivedHandler(notification);
   });
 
 const inAppNotifHandler = notificationOpen => {
   // const action = notificationOpen.action;
   const { notification } = notificationOpen;
-  notifications().removeDeliveredNotification(notification.notificationId); // Will remove foreground push notifications on click
+  
+  PushNotification.removeDeliveredNotifications(notification.notificationId);
+
+  // notifications().removeDeliveredNotification(notification.notificationId); // Will remove foreground push notifications on click
   notificationClickHandler(notification.data);
 };
 
@@ -112,7 +119,8 @@ const inAppNotifHandler = notificationOpen => {
  * - Chat notifications should be handled separately
  */
 export const onNotificationOpened = () =>
-  notifications().onNotificationOpened(notificationOpen => {
+  messaging().onNotificationOpenedApp(async notificationOpen => {
+  // notifications().onNotificationOpened(notificationOpen => {
     checkIfChatPushNotification(notificationOpen.notification.data)
       .then(isChatNotification => {
         if (isChatNotification) {
@@ -135,7 +143,9 @@ export const onNotificationOpened = () =>
  * - Chat notifications should be handled separately
  */
 export const getInitialNotification = () =>
-  notifications()
+  // notifications()
+  //   .getInitialNotification()
+  messaging()
     .getInitialNotification()
     .then(notificationOpen => {
       if (notificationOpen) {
@@ -249,20 +259,32 @@ const foregroundIcon = "ic_notif";
  * Notification can be obtained from the notification received handler.
  */
 const showForegroundNotification = notification => {
-  const channel = new notifications.Android.Channel(
-    foregroundChannelId,
-    "Foreground Notification",
-    notifications.Android.Importance.Max
-  ).setDescription("Foreground app notification channel");
-  notifications().android.createChannel(channel);
+  PushNotification.createChannel(
+    {
+      channelId: foregroundChannelId, // (required)
+      channelName: "Foreground Notification", // (required)
+      channelDescription: "Foreground app notification channel", // (optional) default: undefined.
+    },
+    (created) => console.log(`createChannel returned '${created}'`) // (optional) callback returns whether the channel was created, false means it already existed.
+  );
+
+  // const channel = new notifications.Android.Channel(
+  //   foregroundChannelId,
+  //   "Foreground Notification",
+  //   notifications.Android.Importance.Max
+  // ).setDescription("Foreground app notification channel");
+
+  // notifications().android.createChannel(channel);
   const localNotifData = {
     isLocal: true,
-    notificationId: notification.notificationId
+    notificationId: PushNotification.channelId
   };
   const notificationData = notification.data
     ? { ...notification.data, ...localNotifData }
     : localNotifData;
-  const notificationObject = new notifications.Notification()
+
+    
+  const notificationObject = new PushNotification.Notification()
     .setNotificationId(notification.notificationId)
     .setTitle(notification.title)
     .setBody(notification.body)
@@ -271,5 +293,5 @@ const showForegroundNotification = notification => {
   notificationObject.android
     .setChannelId(foregroundChannelId)
     .android.setSmallIcon(foregroundIcon);
-  notifications().displayNotification(notificationObject);
+    PushNotification.displayNotification(notificationObject);
 };

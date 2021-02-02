@@ -7,7 +7,8 @@ import { logError } from "../Services/errorLogger/errorLogger";
 import apiCall from "../Services/networkRequests/apiCall";
 import storeService from "../Services/storeService/storeService";
 import _ from "lodash";
-const uuidv4 = require("uuid/v4");
+// const uuidv4 = require("uuid/v4");
+import { v4 as uuidv4 } from 'uuid';
 import imageUploader from "../Services/imageUploader/imageUploader";
 
 const journalLevels = {

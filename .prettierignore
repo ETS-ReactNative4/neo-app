@@ -1,8 +1,0 @@
-# Rich Text editor html asset should not be prettified
-android/app/src/main/assets/draftjs-source.html
-
-# Android font map
-assets/fontMap/voyager.json
-
-# Lottie Animations
-assets/animations/*

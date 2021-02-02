@@ -217,6 +217,7 @@ class TravelProfile {
   @action
   loadCountriesList = () => {
     return new Promise<boolean>((resolve, reject) => {
+      
       if (storeService.deviceLocaleStore.deviceLocale === "in") {
         apiCall(CONSTANT_getDomesticRegionList, {}, "GET")
           .then((response: IRegionDetailsListResponse) => {
@@ -242,8 +243,10 @@ class TravelProfile {
           })
           .catch(reject);
       } else {
+        
         apiCall(CONSTANT_getCountriesList, {}, "GET")
           .then((countryResponse: ICountryDetailsListResponse) => {
+            
             if (countryResponse.status === CONSTANT_responseSuccessStatus) {
               this._countriesList = [
                 ...this._countriesList,
