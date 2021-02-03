@@ -53,7 +53,8 @@ const BetterImage = ({
   const onImageLoad = () => {
     timing(imageOpacity, {
       toValue: 1,
-      duration: imageFadeDuration
+      duration: imageFadeDuration,
+      useNativeDriver: true 
     }).start();
 
     onLoadEnd && onLoadEnd();
@@ -62,7 +63,8 @@ const BetterImage = ({
   const onThumbnailLoad = () => {
     timing(thumbnailOpacity, {
       toValue: 1,
-      duration: thumbnailFadeDuration
+      duration: thumbnailFadeDuration,
+      useNativeDriver: true 
     }).start();
   };
 

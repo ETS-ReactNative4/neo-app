@@ -42,8 +42,17 @@ exports[`Explore Section Title 1`] = `
 `;
 
 exports[`Explore Section Title With Different Color 1`] = `
-<View>
-  <Text
+<View
+  style={
+    Array [
+      Object {
+        "paddingHorizontal": 16,
+      },
+      undefined,
+    ]
+  }
+>
+  <Unknown
     ellipsizeMode="tail"
     numberOfLines={1}
     style={
@@ -61,8 +70,8 @@ exports[`Explore Section Title With Different Color 1`] = `
     }
   >
     HANDPICKED FOR YOU
-  </Text>
-  <Text
+  </Unknown>
+  <Unknown
     ellipsizeMode="tail"
     numberOfLines={1}
     style={
@@ -78,6 +87,6 @@ exports[`Explore Section Title With Different Color 1`] = `
     }
   >
     Let’s tick Asia off your bucket list :)
-  </Text>
+  </Unknown>
 </View>
 `;

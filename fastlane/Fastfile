@@ -1,4 +1,4 @@
-fastlane_version '2.112.0'
+fastlane_version '2.157.2'
 
 account="dani@pickyourtrail.com"
 identifierIOS="com.pyt"

@@ -25,6 +25,7 @@ class AppOverlays extends Component {
     const { isFeedbackFooterActive } = this.props.feedbackPrompt;
     const { infoStore } = this.props;
     const { isDrawerOpen } = this.props.appState;
+    // console.log(infoStore.success)
     return (
       <Fragment>
         <OverlayErrorBoundary>

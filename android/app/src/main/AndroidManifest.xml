@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="com.pickyourtrail">
+  xmlns:tools="http://schemas.android.com/tools"
+  package="com.pickyourtrail">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
@@ -17,44 +17,18 @@
       android:roundIcon="@mipmap/ic_launcher_round"
       android:allowBackup="false"
       android:theme="@style/AppTheme"
-      tools:replace="android:allowBackup">
+      tools:replace="android:allowBackup"
+      android:largeHeap="true" 
+      android:requestLegacyExternalStorage="true"
+      android:usesCleartextTraffic="true">
 
-      <!--
-        This line was added based on fresh chat documentation
-        https://support.freshchat.com/support/solutions/articles/50000000207-freshchat-android-sdk-integration-steps
-        However, since we are using AndroidX, the provider package is changed as per the SO answer
-        https://stackoverflow.com/a/56932980/5597641
-        Finally, the provider had conflict with rn-image-crop-picker provider. Hence another key tools:replace line was added as per SO answer
-        https://stackoverflow.com/a/48807833/5597641
-       -->
-      <provider
-          android:name="androidx.core.content.FileProvider"
-          android:authorities="com.pickyourtrail.provider"
-          android:exported="false"
-          android:grantUriPermissions="true">
-          <meta-data
-              android:name="android.support.FILE_PROVIDER_PATHS"
-              android:resource="@xml/freshchat_file_provider_paths"
-              tools:replace="android:resource"/>
-      </provider>
+     
 
-      <meta-data android:name="com.webengage.sdk.android.environment" android:value="us" />
-      <meta-data android:name="com.google.firebase.messaging.default_notification_icon" android:resource="@mipmap/ic_notif"/>
-      <meta-data android:name="com.google.firebase.messaging.default_notification_channel_id" android:value="my_default_channel"/>
-
-      <receiver
-        android:name="com.webengage.sdk.android.InstallTracker"
-        android:exported="true">
-        <intent-filter>
-          <action android:name="com.android.vending.INSTALL_REFERRER" />
-        </intent-filter>
-      </receiver>
-
-      <service android:name=".MyFirebaseMessagingService">
+      <!-- <service android:name=".MyFirebaseMessagingService">
         <intent-filter>
           <action android:name="com.google.firebase.MESSAGING_EVENT"/>
         </intent-filter>
-      </service>
+      </service> -->
 
       <service android:name="io.invertase.firebase.messaging.RNFirebaseInstanceIdService">
         <intent-filter>
@@ -76,27 +50,16 @@
       </receiver>
 
       <activity
-        android:name="com.zoontek.rnbootsplash.RNBootSplashActivity"
-        android:theme="@style/BootTheme"> <!-- apply the theme you created at step 3. -->
-        <intent-filter>
-          <action android:name="android.intent.action.MAIN" />
-          <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
-      </activity>
-
-      <activity
         android:name=".MainActivity"
         android:label="@string/app_name"
-        android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
-        android:screenOrientation="portrait"
-        android:windowSoftInputMode="adjustResize"
-        android:launchMode="singleTask">
+        android:configChanges="keyboard|keyboardHidden|orientation|screenSize|uiMode"
+        android:launchMode="singleTask"
+        android:windowSoftInputMode="adjustResize">
         <intent-filter>
-            <action android:name="android.intent.action.VIEW" />
-            <category android:name="android.intent.category.DEFAULT" />
-            <category android:name="android.intent.category.BROWSABLE" />
-            <data android:scheme="pyt" />
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.LAUNCHER" />
         </intent-filter>
+        
         <intent-filter android:autoVerify="true">
             <action android:name="android.intent.action.VIEW" />
             <category android:name="android.intent.category.DEFAULT" />
@@ -105,7 +68,29 @@
         </intent-filter>
       </activity>
       <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
+      <provider
+          android:name="androidx.core.content.FileProvider"
+          android:authorities="${applicationId}.provider"
+          android:exported="false"
+          android:grantUriPermissions="true">
+          <meta-data
+              android:name="android.support.FILE_PROVIDER_PATHS"
+              android:resource="@xml/freshchat_file_provider_paths"
+              tools:replace="android:resource"/>
+      </provider>
 
+
+      <meta-data android:name="com.webengage.sdk.android.environment" android:value="us" />
+      <meta-data android:name="com.google.firebase.messaging.default_notification_icon" android:resource="@mipmap/ic_notif"/>
+      <!-- <meta-data android:name="com.google.firebase.messaging.default_notification_channel_id" android:value="my_default_channel"/> -->
+
+       <receiver
+        android:name="com.webengage.sdk.android.InstallTracker"
+        android:exported="true">
+        <intent-filter>
+          <action android:name="com.android.vending.INSTALL_REFERRER" />
+        </intent-filter>
+      </receiver>
       <meta-data android:name="io.branch.sdk.BranchKey" android:value="key_live_ibL2dkZSdFcZk19HobtvQffdzwo2S5lO"/>
       <meta-data android:name="io.branch.sdk.BranchKey.test" android:value="key_test_jkMXij8HjDg1g5WIifDsNehlvvdXL7a1"/>
     </application>

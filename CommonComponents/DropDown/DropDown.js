@@ -3,7 +3,7 @@ import { View, StyleSheet, ViewPropTypes, Text } from "react-native";
 import PropTypes from "prop-types";
 import Icon from "../Icon/Icon";
 import constants from "../../constants/constants";
-import { Dropdown as RNDropDown } from "react-native-material-dropdown";
+import { Dropdown as RNDropDown } from "react-native-material-dropdown-v2-fixed";
 
 const DropDown = ({
   containerStyle = StyleSheet.create({}),

@@ -1,5 +1,5 @@
-const uuidv4 = require("uuid/v4");
-
+// const uuidv4 = require("uuid/v4");
+import { v4 as uuidv4 } from 'uuid';
 const imageUploader = (imageUri, target) => {
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();

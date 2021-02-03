@@ -81,7 +81,8 @@ const PromoCarousal = ({ containerStyle, images = [] }: PromoCarousalProps) => {
                 responsiveWidth(100) * (index + 1)
               ],
               outputRange: [8, 16, 8],
-              extrapolate: Extrapolate.CLAMP
+              extrapolate: Extrapolate.CLAMP,
+              
             });
             opacity = interpolate(scrollX, {
               inputRange: [

@@ -1,5 +1,6 @@
 apply plugin: "com.android.application"
-apply plugin: "com.google.firebase.firebase-perf"
+apply plugin: 'com.google.firebase.firebase-perf'
+
 
 import com.android.build.OutputFile
 
@@ -16,10 +17,12 @@ import com.android.build.OutputFile
  *   // the name of the generated asset file containing your JS bundle
  *   bundleAssetName: "index.android.bundle",
  *
- *   // the entry file for bundle generation
+ *   // the entry file for bundle generation. If none specified and
+ *   // "index.android.js" exists, it will be used. Otherwise "index.js" is
+ *   // default. Can be overridden with ENTRY_FILE environment variable.
  *   entryFile: "index.android.js",
  *
- *   // https://facebook.github.io/react-native/docs/performance#enable-the-ram-format
+ *   // https://reactnative.dev/docs/performance#enable-the-ram-format
  *   bundleCommand: "ram-bundle",
  *
  *   // whether to bundle JS and assets in debug mode
@@ -77,13 +80,11 @@ import com.android.build.OutputFile
  */
 
 project.ext.react = [
-    entryFile: "index.js",
     enableHermes: false,  // clean and rebuild if changing
 ]
 
 apply from: "../../node_modules/react-native/react.gradle"
 apply from: "../../node_modules/@sentry/react-native/sentry.gradle"
-
 /**
  * Set this to true to create two separate APKs instead of one:
  *   - An APK that only works on ARM devices
@@ -110,16 +111,9 @@ def enableProguardInReleaseBuilds = false
  * give correct results when using with locales other than en-US.  Note that
  * this variant is about 6MiB larger per architecture than default.
  */
-def jscFlavor = 'org.webkit:android-jsc-intl:+'
-
-/**
- * Use the international variant of JavaScriptCore
- * This variant includes the ICU i18n library to make APIs like `Date.toLocaleString`
- * and `String.localeCompare` work when using with locales other than en-US.
- * Note that this variant is about 6MiB larger per architecture than the default.
- */
+ def jscFlavor = 'org.webkit:android-jsc-intl:+'
+// def jscFlavor = 'org.webkit:android-jsc:+'
 def useIntlJsc = true
-
 /**
  * Whether to enable the Hermes VM.
  *
@@ -128,6 +122,17 @@ def useIntlJsc = true
  * and the benefits of using Hermes will therefore be sharply reduced.
  */
 def enableHermes = project.ext.react.get("enableHermes", false);
+
+configurations.all {	
+     resolutionStrategy {	
+        force "com.facebook.soloader:soloader:0.10.1+"	
+        force 'com.google.android.gms:play-services-gcm:16.1.0'
+        force 'com.google.android.gms:play-services-basement:16.2.0'
+        force 'com.google.android.gms:play-services-auth:16.0.1'
+        force 'com.google.android.gms:play-services-stats:16.0.1'
+        force 'com.google.android.gms:play-services-base:16.0.1'
+     }	
+}
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -144,8 +149,8 @@ android {
         versionCode Integer.parseInt(VERSION_CODE)
         versionName "2.0.5"
         multiDexEnabled true
-    }
 
+    }
     splits {
         abi {
             reset()
@@ -154,7 +159,6 @@ android {
             include "armeabi-v7a", "x86", "arm64-v8a", "x86_64"
         }
     }
-
     signingConfigs {
         debug {
             storeFile file('debug.keystore')
@@ -177,13 +181,13 @@ android {
         }
         release {
             // Caution! In production, you need to generate your own keystore file.
-            // see https://facebook.github.io/react-native/docs/signed-apk-android.
-
+            // see https://reactnative.dev/docs/signed-apk-android.
+            signingConfig signingConfigs.release
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
-            signingConfig signingConfigs.release
         }
     }
+
     // applicationVariants are e.g. debug, release
     applicationVariants.all { variant ->
         variant.outputs.each { output ->
@@ -195,10 +199,15 @@ android {
                 output.versionCodeOverride =
                         versionCodes.get(abi) * 1048576 + defaultConfig.versionCode
             }
+
         }
     }
 
+    // packagingOptions {
+    //     pickFirst '**/*.so'
+    // }
     packagingOptions {
+        
         pickFirst '**/armeabi-v7a/libc++_shared.so'
         pickFirst '**/x86/libc++_shared.so'
         pickFirst '**/arm64-v8a/libc++_shared.so'
@@ -212,36 +221,39 @@ dependencies {
     implementation "com.facebook.fresco:animated-gif:1.12.0"
     implementation "com.facebook.fresco:animated-webp:1.10.0"
     implementation "com.facebook.fresco:webpsupport:1.10.0"
-    implementation "com.android.support:appcompat-v7:${rootProject.ext.supportLibVersion}"
+    implementation "com.android.support:appcompat-v7:+"
     implementation "com.google.android.gms:play-services-base:16.1.0"
     implementation "com.google.firebase:firebase-core:16.0.9"
     implementation "com.google.firebase:firebase-messaging:18.0.0"
     implementation "com.google.firebase:firebase-perf:17.0.2"
-    implementation "com.webengage:android-sdk:3.13.1"
-
-    implementation fileTree(dir: "libs", include: ["*.jar"])
-    implementation "com.facebook.react:react-native:+"  // From node_modules
-
-    /**
-     * Enabling Multidexing based on
-     * https://medium.com/@aungmt/multidex-on-androidx-for-rn-0-60-x-cbb37c50d85
-     * https://reactnativeforyou.com/com-android-builder-dexing-dexarchivemergerexception-error-while-merging-dex-archives-react-native-error-fix/
-     */
-    def multidex_version = "2.0.1"
-    implementation 'androidx.multidex:multidex:$multidex_version'
-
-    /**
-     * For React Native Interactable
-     * Based on - https://github.com/wix/react-native-interactable/issues/289#issuecomment-536464364
-     */
+    implementation "com.webengage:android-sdk:+"
     implementation project(path: ":react-native-interactable")
 
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+    //noinspection GradleDynamicVersion
+    implementation "com.facebook.react:react-native:+"  // From node_modules
+    
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
+
+    debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {
+      exclude group:'com.facebook.fbjni'
+    }
+
+    debugImplementation("com.facebook.flipper:flipper-network-plugin:${FLIPPER_VERSION}") {
+        exclude group:'com.facebook.flipper'
+        exclude group:'com.squareup.okhttp3', module:'okhttp'
+    }
+
+    debugImplementation("com.facebook.flipper:flipper-fresco-plugin:${FLIPPER_VERSION}") {
+        exclude group:'com.facebook.flipper'
+    }
+
     if (enableHermes) {
-      def hermesPath = "../../node_modules/hermes-engine/android/";
-      debugImplementation files(hermesPath + "hermes-debug.aar")
-      releaseImplementation files(hermesPath + "hermes-release.aar")
+        def hermesPath = "../../node_modules/hermes-engine/android/";
+        debugImplementation files(hermesPath + "hermes-debug.aar")
+        releaseImplementation files(hermesPath + "hermes-release.aar")
     } else {
-      implementation jscFlavor
+        implementation jscFlavor
     }
 }
 
@@ -254,12 +266,10 @@ task copyDownloadableDepsToLibs(type: Copy) {
 
 apply from: file("../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesAppBuildGradle(project)
 
-apply plugin: 'com.google.gms.google-services'
-com.google.gms.googleservices.GoogleServicesPlugin.config.disableVersionCheck = true
-
 project.afterEvaluate {
     apply from: '../../node_modules/react-native-draftjs-editor/copyHtml.gradle';
     copyEditorHtmlToAppAssets(file('../../node_modules/react-native-draftjs-editor'))
 }
 
+apply plugin: 'com.google.gms.google-services' 
 apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"

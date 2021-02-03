@@ -11,6 +11,7 @@ global.promiseFinallyFn = Promise.prototype.finally;
  * Must be removed once the issue is fixed
  */
 import "react-native-gesture-handler";
+import 'react-native-get-random-values';
 
 /**
  * This config with enable push notifications for freshchat react native sdk on Android

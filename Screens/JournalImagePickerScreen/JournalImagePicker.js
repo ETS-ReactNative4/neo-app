@@ -12,7 +12,7 @@ import {
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import SimpleButton from "../../CommonComponents/SimpleButton/SimpleButton";
 import constants from "../../constants/constants";
-import { Dropdown } from "react-native-material-dropdown";
+import { Dropdown } from "react-native-material-dropdown-v2-fixed";
 import Icon from "../../CommonComponents/Icon/Icon";
 import CameraRoll from "@react-native-community/cameraroll";
 import { logError } from "../../Services/errorLogger/errorLogger";

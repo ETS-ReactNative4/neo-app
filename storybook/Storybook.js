@@ -43,8 +43,7 @@ configure(() => {
 
 const StorybookUIRoot = getStorybookUI({
   asyncStorage:
-    require("@react-native-community/async-storage").AsyncStorage ||
-    require("react-native").AsyncStorage ||
+    require("@react-native-async-storage/async-storage").AsyncStorage ||
     null
 });
 

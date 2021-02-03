@@ -25,7 +25,7 @@ exports[`Voucher Alert Box - info mode 1`] = `
       }
     }
   >
-    <Text
+    <Unknown
       allowFontScaling={false}
       style={
         Array [
@@ -44,7 +44,7 @@ exports[`Voucher Alert Box - info mode 1`] = `
       }
     >
       
-    </Text>
+    </Unknown>
   </View>
   <View
     style={
@@ -53,7 +53,7 @@ exports[`Voucher Alert Box - info mode 1`] = `
       }
     }
   >
-    <Text
+    <Unknown
       style={
         Array [
           Object {
@@ -68,7 +68,7 @@ exports[`Voucher Alert Box - info mode 1`] = `
       }
     >
       As the transfer is on shared basis, the arrival time of transfer could vary plus or minus 15-30minutes depending on traffic
-    </Text>
+    </Unknown>
   </View>
 </View>
 `;

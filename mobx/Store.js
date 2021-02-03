@@ -1,5 +1,6 @@
 import { create } from "mobx-persist";
-import AsyncStorage from "@react-native-community/async-storage";
+// import AsyncStorage from "@react-native-community/async-storage";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import User from "./User";
 import YourBookings from "./YourBookings";
 import AppState from "./AppState";

@@ -1,9 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Simple button button with left icon 1`] = `
-<TouchableHighlight
-  activeOpacity={0.85}
-  delayPressOut={100}
+<Unknown
   onPress={[Function]}
   style={
     Array [
@@ -72,13 +70,11 @@ exports[`Simple button button with left icon 1`] = `
       Click me
     </Text>
   </View>
-</TouchableHighlight>
+</Unknown>
 `;
 
 exports[`Simple button button with right icon 1`] = `
-<TouchableHighlight
-  activeOpacity={0.85}
-  delayPressOut={100}
+<Unknown
   onPress={[Function]}
   style={
     Array [
@@ -149,7 +145,7 @@ exports[`Simple button button with right icon 1`] = `
       Click me
     </Text>
   </View>
-</TouchableHighlight>
+</Unknown>
 `;
 
 exports[`Simple button renders correctly 1`] = `
@@ -206,9 +202,7 @@ exports[`Simple button renders correctly 1`] = `
 `;
 
 exports[`Simple button transparent background with border 1`] = `
-<TouchableHighlight
-  activeOpacity={0.85}
-  delayPressOut={100}
+<Unknown
   onPress={[Function]}
   style={
     Array [
@@ -259,13 +253,11 @@ exports[`Simple button transparent background with border 1`] = `
       Click me
     </Text>
   </View>
-</TouchableHighlight>
+</Unknown>
 `;
 
 exports[`Simple button with click action 1`] = `
-<TouchableHighlight
-  activeOpacity={0.85}
-  delayPressOut={100}
+<Unknown
   onPress={[Function]}
   style={
     Array [
@@ -312,13 +304,11 @@ exports[`Simple button with click action 1`] = `
       Click me
     </Text>
   </View>
-</TouchableHighlight>
+</Unknown>
 `;
 
 exports[`Simple button with underlay color 1`] = `
-<TouchableHighlight
-  activeOpacity={0.85}
-  delayPressOut={100}
+<Unknown
   onPress={[Function]}
   style={
     Array [
@@ -365,5 +355,5 @@ exports[`Simple button with underlay color 1`] = `
       Click me
     </Text>
   </View>
-</TouchableHighlight>
+</Unknown>
 `;
