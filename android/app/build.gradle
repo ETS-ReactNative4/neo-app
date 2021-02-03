@@ -125,7 +125,7 @@ def enableHermes = project.ext.react.get("enableHermes", false);
 
 configurations.all {	
      resolutionStrategy {	
-        force "com.facebook.soloader:soloader:0.8.2"	
+        force "com.facebook.soloader:soloader:0.10.1+"	
         force 'com.google.android.gms:play-services-gcm:16.1.0'
         force 'com.google.android.gms:play-services-basement:16.2.0'
         force 'com.google.android.gms:play-services-auth:16.0.1'
