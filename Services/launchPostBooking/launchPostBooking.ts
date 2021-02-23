@@ -1,10 +1,11 @@
-import storeService from "../storeService/storeService";
-import { logError } from "../errorLogger/errorLogger";
-import { IMobileServerResponse } from "../../TypeInterfaces/INetworkResponse";
-import resetToPostBookingIntro from "./screenResets/resetToPostBookingIntro";
-import resetToAgentInfo from "./screenResets/resetToAgentInfo";
-import resetToAgentFeedback from "./screenResets/resetToAgentFeedback";
-import resetToPostBookingScreen from "./screenResets/resetToPostBookingScreen";
+import storeService from '../storeService/storeService';
+import {logError} from '../errorLogger/errorLogger';
+import {IMobileServerResponse} from '../../TypeInterfaces/INetworkResponse';
+import resetToPostBookingIntro from './screenResets/resetToPostBookingIntro';
+import resetToAgentInfo from './screenResets/resetToAgentInfo';
+import resetToAgentFeedback from './screenResets/resetToAgentFeedback';
+import resetToPostBookingScreen from './screenResets/resetToPostBookingScreen';
+import {isStaycation} from '../isStaycation/isStaycation';
 
 export interface ISOInfo {
   itineraryId: string;
@@ -48,25 +49,33 @@ const openPostBookingScreen = () => {
  */
 const launchPostBooking = (selectedItineraryId: string) => {
   return new Promise<boolean>((resolve, reject) => {
-    storeService.userFlowTransitionStore
-      .loadUserTransitionStatus(selectedItineraryId)
-      .then(transitionStatus => {
-        if (!transitionStatus.seenPostBookingIntro) {
-          resetToPostBookingIntro();
-        } else if (!transitionStatus.completedSOFeedback) {
-          resetToAgentFeedback();
-        } else if (!transitionStatus.seenOpsIntro) {
-          resetToAgentInfo(selectedItineraryId);
-        } else {
+    const staycation = isStaycation(storeService.itineraries.selectedItinerary);
+    if (staycation) {
+      openPostBookingScreen();
+      resolve(true);
+    } else {
+      storeService.userFlowTransitionStore
+        .loadUserTransitionStatus(selectedItineraryId)
+        .then(transitionStatus => {
+          const {itinerary} = storeService.itineraries.selectedItinerary;
+          const isMaldives = itinerary.regionCode === 'mle';
+          if (!transitionStatus.seenPostBookingIntro) {
+            resetToPostBookingIntro();
+          } else if (!transitionStatus.completedSOFeedback) {
+            resetToAgentFeedback();
+          } else if (!transitionStatus.seenOpsIntro) {
+            resetToAgentInfo(selectedItineraryId, isMaldives);
+          } else {
+            openPostBookingScreen();
+          }
+          resolve(true);
+        })
+        .catch(err => {
           openPostBookingScreen();
-        }
-        resolve(true);
-      })
-      .catch(err => {
-        openPostBookingScreen();
-        logError("Unable to load user transition status", { err });
-        reject();
-      });
+          logError('Unable to load user transition status', {err});
+          reject();
+        });
+    }
   });
 };
 
@@ -101,7 +110,9 @@ export const openOPSIntro = (selectedItineraryId: string) => {
       .userCompletedFeedback(selectedItineraryId)
       .then(userFlowResult => {
         if (userFlowResult) {
-          resetToAgentInfo(selectedItineraryId);
+          const {itinerary} = storeService.itineraries.selectedItinerary;
+          const isMaldives = itinerary.regionCode === 'mle';
+          resetToAgentInfo(selectedItineraryId, isMaldives);
           resolve(true);
         } else {
           reject();
