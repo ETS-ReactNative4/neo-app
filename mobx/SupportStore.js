@@ -1,48 +1,48 @@
-import { observable, computed, action, toJS } from "mobx";
-import { createTransformer } from "mobx-utils";
-import { persist } from "mobx-persist";
-import apiCall from "../Services/networkRequests/apiCall";
-import constants from "../constants/constants";
-import storeService from "../Services/storeService/storeService";
-import { logError } from "../Services/errorLogger/errorLogger";
-import _ from "lodash";
-import { hydrate } from "./Store";
-import { CONSTANT_retrieveJson } from "../constants/apiUrls";
+import {observable, computed, action, toJS} from 'mobx';
+import {createTransformer} from 'mobx-utils';
+import {persist} from 'mobx-persist';
+import apiCall from '../Services/networkRequests/apiCall';
+import constants from '../constants/constants';
+import storeService from '../Services/storeService/storeService';
+import {logError} from '../Services/errorLogger/errorLogger';
+import _ from 'lodash';
+import {hydrate} from './Store';
+import {CONSTANT_retrieveJson} from '../constants/apiUrls';
 
 class SupportStore {
   static hydrator = storeInstance => {
-    hydrate("_faqDetails", storeInstance)
+    hydrate('_faqDetails', storeInstance)
       .then(() => {})
       .catch(err => {
         logError(err);
       });
-    hydrate("_conversations", storeInstance)
+    hydrate('_conversations', storeInstance)
       .then(() => {})
       .catch(err => {
         logError(err);
       });
-    hydrate("_messages", storeInstance)
+    hydrate('_messages', storeInstance)
       .then(() => {})
       .catch(err => {
         logError(err);
       });
-    hydrate("_faqData", storeInstance)
+    hydrate('_faqData', storeInstance)
       .then(() => null)
       .catch(logError);
   };
 
   @observable _isLoading = false;
   @observable _hasError = false;
-  @persist("object")
+  @persist('object')
   @observable
   _faqDetails = {};
-  @persist("object")
+  @persist('object')
   @observable
   _conversations = {};
-  @persist("object")
+  @persist('object')
   @observable
   _messages = {};
-  @persist("object")
+  @persist('object')
   @observable
   _faqData = {};
   @observable _isConversationLoading = false;
@@ -136,13 +136,13 @@ class SupportStore {
     apiCall(
       `${constants.retrieveTickets}?itineraryId=${itineraryId}`,
       {},
-      "GET"
+      'GET',
     )
       .then(response => {
         setTimeout(() => {
           this._isConversationLoading = false;
         }, 1000);
-        if (response.status === "SUCCESS") {
+        if (response.status === 'SUCCESS') {
           this._hasError = false;
           const conversations = toJS(this._conversations);
           conversations[itineraryId] = response.data;
@@ -163,13 +163,13 @@ class SupportStore {
     apiCall(
       `${constants.retrieveTicketMessages}?ticketId=${ticketId}&from=-1&to=-1`,
       {},
-      "GET"
+      'GET',
     )
       .then(response => {
         setTimeout(() => {
           this._isMessagesLoading = false;
         }, 1000);
-        if (response.status === "SUCCESS") {
+        if (response.status === 'SUCCESS') {
           this._hasError = false;
           const messages = toJS(this._messages);
           messages[ticketId] = response.data;
@@ -196,7 +196,7 @@ class SupportStore {
     try {
       if (this._messages[ticketId]) {
         const messages = toJS(this._messages[ticketId]);
-        return _.orderBy(messages, "msgId", "desc");
+        return _.orderBy(messages, 'msgId', 'desc');
       } else {
         return [];
       }
@@ -209,7 +209,7 @@ class SupportStore {
   getLastMessageByTicket = createTransformer(ticketId => {
     try {
       if (this._messages[ticketId]) {
-        return toJS(_.maxBy(this._messages[ticketId], "msgId"));
+        return toJS(_.maxBy(this._messages[ticketId], 'msgId'));
       } else {
         return {};
       }
@@ -230,16 +230,17 @@ class SupportStore {
   });
 
   @action
-  loadFaqDetails = () => {
+  loadFaqDetails = (jsonName = '') => {
     this._isLoading = true;
     apiCall(
-      `${CONSTANT_retrieveJson}?jsonFile=post_booking_faq.json`,
+      `${CONSTANT_retrieveJson}?jsonFile=${jsonName ||
+        'post_booking_faq.json'}`,
       {},
-      "GET"
+      'GET',
     )
       .then(response => {
         this._isLoading = false;
-        if (response.status === "SUCCESS") {
+        if (response.status === 'SUCCESS') {
           this._hasError = false;
           this._faqData = response.data;
           const faqData = response.data;
@@ -252,7 +253,7 @@ class SupportStore {
               ).reduce((qaMap, qa) => {
                 qaMap[qa.id] = {
                   question: qa.q,
-                  answer: qa.a
+                  answer: qa.a,
                 };
                 return qaMap;
               }, {});
