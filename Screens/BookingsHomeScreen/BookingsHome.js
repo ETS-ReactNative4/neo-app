@@ -1,38 +1,30 @@
-import React, { Component } from "react";
-import {
-  ScrollView,
-  View,
-  StyleSheet,
-  LayoutAnimation,
-  Platform,
-  RefreshControl,
-  BackHandler
-} from "react-native";
-import BookingCalendar from "./Components/BookingCalendar/BookingCalendar";
-import BookingAccordion from "./Components/BookingAccordion/BookingAccordion";
-import { inject, observer } from "mobx-react";
-import HomeHeader from "../../CommonComponents/HomeHeader/HomeHeader";
-import { getDeviceToken } from "../../Services/fcmService/fcm";
-import pullToRefresh from "../../Services/refresh/pullToRefresh";
-import SimpleButton from "../../CommonComponents/SimpleButton/SimpleButton";
-import constants from "../../constants/constants";
-import { responsiveWidth } from "react-native-responsive-dimensions";
-import { logError } from "../../Services/errorLogger/errorLogger";
-import apiCall from "../../Services/networkRequests/apiCall";
-import { recordEvent } from "../../Services/analytics/analyticsService";
-import { registerFcmRefreshListener } from "../../Services/fcmService/fcm";
-import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
-import CustomScrollView from "../../CommonComponents/CustomScrollView/CustomScrollView";
-import SectionHeader from "../../CommonComponents/SectionHeader/SectionHeader";
-import NoInternetIndicator from "../../CommonComponents/NoInternetIndicator/NoInternetIndicator";
-import isUserLoggedInCallback from "../../Services/isUserLoggedInCallback/isUserLoggedInCallback";
+import React, {Component} from 'react';
+import {View, StyleSheet, BackHandler} from 'react-native';
+import BookingCalendar from './Components/BookingCalendar/BookingCalendar';
+import BookingAccordion from './Components/BookingAccordion/BookingAccordion';
+import {inject, observer} from 'mobx-react';
+import HomeHeader from '../../CommonComponents/HomeHeader/HomeHeader';
+import {getDeviceToken} from '../../Services/fcmService/fcm';
+import pullToRefresh from '../../Services/refresh/pullToRefresh';
+import SimpleButton from '../../CommonComponents/SimpleButton/SimpleButton';
+import constants from '../../constants/constants';
+import {responsiveWidth} from 'react-native-responsive-dimensions';
+import {logError} from '../../Services/errorLogger/errorLogger';
+import apiCall from '../../Services/networkRequests/apiCall';
+import {recordEvent} from '../../Services/analytics/analyticsService';
+import {registerFcmRefreshListener} from '../../Services/fcmService/fcm';
+import ErrorBoundary from '../../CommonComponents/ErrorBoundary/ErrorBoundary';
+import CustomScrollView from '../../CommonComponents/CustomScrollView/CustomScrollView';
+import SectionHeader from '../../CommonComponents/SectionHeader/SectionHeader';
+import NoInternetIndicator from '../../CommonComponents/NoInternetIndicator/NoInternetIndicator';
+import isUserLoggedInCallback from '../../Services/isUserLoggedInCallback/isUserLoggedInCallback';
 import {
   checkIfFileExists,
   downloadFile,
-  openFile
-} from "../../Services/fileManager/fileManager";
-import storeService from "../../Services/storeService/storeService";
-import debouncer from "../../Services/debouncer/debouncer";
+  openFile,
+} from '../../Services/fileManager/fileManager';
+import storeService from '../../Services/storeService/storeService';
+import debouncer from '../../Services/debouncer/debouncer';
 
 const generateVoucherFileName = () => {
   const itineraryId = storeService.itineraries.selectedItineraryId;
@@ -40,24 +32,23 @@ const generateVoucherFileName = () => {
     .substr(itineraryId.length - 7)
     .toUpperCase()}.pdf`;
 };
-
-@ErrorBoundary({ isRoot: true })
-@inject("infoStore")
-@inject("itineraries")
-@inject("voucherStore")
-@inject("deviceDetailsStore")
+@ErrorBoundary({isRoot: true})
+@inject('infoStore')
+@inject('itineraries')
+@inject('voucherStore')
+@inject('deviceDetailsStore')
 @observer
 class BookingsHome extends Component {
   static navigationOptions = HomeHeader;
 
   state = {
     isDownloadLoading: false,
-    isFileDownloaded: false
+    isFileDownloaded: false,
   };
   _didFocusSubscription;
 
   onBackButtonPressAndroid = () => {
-    const { navigation } = this.props;
+    const {navigation} = this.props;
     if (navigation.isFocused()) {
       BackHandler.exitApp();
     } else {
@@ -69,18 +60,18 @@ class BookingsHome extends Component {
     this.enablePushNotificationServices();
     this.checkFileDownloadStatus();
     this._didFocusSubscription = this.props.navigation.addListener(
-      "didFocus",
+      'didFocus',
       () => {
         debouncer(() => {
-          const { selectedItineraryId } = this.props.itineraries;
+          const {selectedItineraryId} = this.props.itineraries;
           if (selectedItineraryId) {
             pullToRefresh({
               itinerary: true,
-              voucher: true
+              voucher: true,
             });
           }
         });
-      }
+      },
     );
   }
 
@@ -97,7 +88,7 @@ class BookingsHome extends Component {
     const fileName = generateVoucherFileName();
     const {
       selectedItineraryId,
-      getDownloadedVoucherByUrl
+      getDownloadedVoucherByUrl,
     } = this.props.itineraries;
     /**
      * - Will check if the downloaded voucher's file exists in the
@@ -110,48 +101,48 @@ class BookingsHome extends Component {
         if (isExist) {
           apiCall(
             constants.getFinalVoucherDownloadUrl.replace(
-              ":itineraryId",
-              selectedItineraryId
+              ':itineraryId',
+              selectedItineraryId,
             ),
             {},
-            "GET"
+            'GET',
           )
             .then(response => {
-              if (response.status === "SUCCESS" && response.data) {
+              if (response.status === 'SUCCESS' && response.data) {
                 const voucher = getDownloadedVoucherByUrl(response.data);
                 if (voucher) {
                   this.setState({
-                    isFileDownloaded: true
+                    isFileDownloaded: true,
                   });
                 } else {
                   this.setState({
-                    isFileDownloaded: false
+                    isFileDownloaded: false,
                   });
                 }
               } else {
                 this.setState({
-                  isFileDownloaded: false
+                  isFileDownloaded: false,
                 });
               }
             })
             .catch(() => {
               this.setState({
-                isFileDownloaded: true
+                isFileDownloaded: true,
               });
             });
         } else {
           this.setState({
-            isFileDownloaded: false
+            isFileDownloaded: false,
           });
         }
       })
       .catch(() => {
-        logError("Failed to check if downloaded voucher exists");
+        logError('Failed to check if downloaded voucher exists');
       });
   };
 
   enablePushNotificationServices = () => {
-    const { deviceDetailsStore } = this.props;
+    const {deviceDetailsStore} = this.props;
     isUserLoggedInCallback(() => {
       getDeviceToken(token => {
         registerFcmRefreshListener();
@@ -164,17 +155,17 @@ class BookingsHome extends Component {
 
   downloadAllVouchers = () => {
     recordEvent(constants.Bookings.event, {
-      click: constants.Bookings.click.downloadAllVouchers
+      click: constants.Bookings.click.downloadAllVouchers,
     });
     const {
       selectedItineraryId,
-      updateVoucherDownloadMap
+      updateVoucherDownloadMap,
     } = this.props.itineraries;
-    const { setError, setInfo } = this.props.infoStore;
+    const {setError, setInfo} = this.props.infoStore;
     const fileName = generateVoucherFileName();
     this.setState(
       {
-        isDownloadLoading: true
+        isDownloadLoading: true,
       },
       () => {
         /**
@@ -183,14 +174,14 @@ class BookingsHome extends Component {
          */
         apiCall(
           constants.getFinalVoucherDownloadUrl.replace(
-            ":itineraryId",
-            selectedItineraryId
+            ':itineraryId',
+            selectedItineraryId,
           ),
           {},
-          "GET"
+          'GET',
         )
           .then(response => {
-            if (response.status === "SUCCESS" && response.data) {
+            if (response.status === 'SUCCESS' && response.data) {
               /**
                * The final voucher url is available in the response
                * this will now be downloaded and saved to the filesystem.
@@ -202,30 +193,30 @@ class BookingsHome extends Component {
                     .then(() => {
                       this.setState({
                         isDownloadLoading: false,
-                        isFileDownloaded: true
+                        isFileDownloaded: true,
                       });
                     })
                     .catch(() => {
                       this.setState({
-                        isDownloadLoading: false
+                        isDownloadLoading: false,
                       });
                     });
                 })
                 .catch(error => {
                   if (error) {
-                    logError("Failed to download final voucher", { error });
+                    logError('Failed to download final voucher', {error});
                   }
                   this.setState({
-                    isDownloadLoading: false
+                    isDownloadLoading: false,
                   });
                 });
             } else {
               setInfo(
                 constants.downloadVoucherText.almostThere.title,
-                constants.downloadVoucherText.almostThere.message
+                constants.downloadVoucherText.almostThere.message,
               );
               this.setState({
-                isDownloadLoading: false
+                isDownloadLoading: false,
               });
             }
             /*
@@ -247,17 +238,17 @@ class BookingsHome extends Component {
           })
           .catch(err => {
             this.setState({
-              isDownloadLoading: false
+              isDownloadLoading: false,
             });
             setError(
               constants.downloadVoucherText.error.title,
               constants.downloadVoucherText.error.message,
               constants.errorBoxIllus,
-              constants.downloadVoucherText.error.actionText
+              constants.downloadVoucherText.error.actionText,
             );
             console.error(err);
           });
-      }
+      },
     );
   };
 
@@ -270,14 +261,13 @@ class BookingsHome extends Component {
       getTransferTypeByDay,
       isLoading: itineraryLoading,
       selectedItineraryId,
-      cities
+      cities,
     } = this.props.itineraries;
-    const { isLoading: voucherLoading } = this.props.voucherStore;
-    const { navigation } = this.props;
+    const {isLoading: voucherLoading} = this.props.voucherStore;
+    const {navigation} = this.props;
 
     const isRefreshing = itineraryLoading || voucherLoading;
-    const Header = () =>
-      HomeHeader({ navigation: this.props.navigation }).header;
+    const Header = () => HomeHeader({navigation: this.props.navigation}).header;
 
     return (
       <View style={styles.bookingHomeContainer}>
@@ -292,10 +282,9 @@ class BookingsHome extends Component {
           onRefresh={() => {
             pullToRefresh({
               itinerary: true,
-              voucher: true
+              voucher: true,
             });
-          }}
-        >
+          }}>
           <BookingCalendar
             containerStyle={styles.calendarContainer}
             numOfActivitiesByDay={numOfActivitiesByDay}
@@ -308,7 +297,7 @@ class BookingsHome extends Component {
           />
 
           {selectedItineraryId ? (
-            <SectionHeader sectionName={"Trip Vouchers"} />
+            <SectionHeader sectionName={'Trip Vouchers'} />
           ) : null}
 
           <BookingAccordion navigation={navigation} />
@@ -317,11 +306,11 @@ class BookingsHome extends Component {
               <SimpleButton
                 containerStyle={{
                   width: responsiveWidth(100) - 48,
-                  marginBottom: 16
+                  marginBottom: 16,
                 }}
-                color={"white"}
+                color={'white'}
                 hasBorder={true}
-                text={"View voucher"}
+                text={'View voucher'}
                 icon={constants.openFileIcon}
                 action={this.openVoucher}
                 iconSize={20}
@@ -331,14 +320,14 @@ class BookingsHome extends Component {
               <SimpleButton
                 containerStyle={{
                   width: responsiveWidth(100) - 48,
-                  marginBottom: 16
+                  marginBottom: 16,
                 }}
-                color={"white"}
+                color={'white'}
                 hasBorder={true}
                 text={
                   this.state.isDownloadLoading
-                    ? "Downloading..."
-                    : "Download all vouchers"
+                    ? 'Downloading...'
+                    : 'Download all vouchers'
                 }
                 icon={
                   this.state.isDownloadLoading ? null : constants.downloadIcon
@@ -353,6 +342,32 @@ class BookingsHome extends Component {
               />
             )
           ) : null}
+          <SimpleButton
+            containerStyle={{
+              width: responsiveWidth(100) - 48,
+              marginBottom: 16,
+              opacity: 0.8,
+            }}
+            color={'white'}
+            hasBorder={true}
+            text={'Cancel the trip'}
+            icon={null}
+            action={() => {
+              navigation.navigate('ContactUs', {
+                type: constants.defaultSupportType,
+                subject: 'Cancellation',
+                checkboxList: [
+                  {
+                    label:
+                      'I understand that this is only a Cancellation Request being initiated with Pickyourtrail and the final cancellation amount will be decided based on cancellation policy.',
+                    value: false,
+                  },
+                ],
+              });
+            }}
+            iconSize={20}
+            textColor={constants.thirdColor}
+          />
         </CustomScrollView>
       </View>
     );
@@ -362,10 +377,10 @@ class BookingsHome extends Component {
 const styles = StyleSheet.create({
   bookingHomeContainer: {
     flex: 1,
-    backgroundColor: "white"
+    backgroundColor: 'white',
   },
   calendarContainer: {},
-  bookingContainer: {}
+  bookingContainer: {},
 });
 
 export default BookingsHome;

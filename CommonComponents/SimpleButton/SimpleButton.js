@@ -1,8 +1,8 @@
-import React from "react";
-import { TouchableHighlight, Text, StyleSheet, View } from "react-native";
-import PropTypes from "prop-types";
-import constants from "../../constants/constants";
-import Icon from "../Icon/Icon";
+import React from 'react';
+import {TouchableHighlight, Text, StyleSheet, View} from 'react-native';
+import PropTypes from 'prop-types';
+import constants from '../../constants/constants';
+import Icon from '../Icon/Icon';
 
 const SimpleButton = ({
   color,
@@ -16,14 +16,15 @@ const SimpleButton = ({
   icon,
   iconSize,
   rightIcon = false,
-  lightBoxMode = false
+  lightBoxMode = false,
+  disabled = false,
 }) => {
-  if (textColor) textStyle = { ...textStyle, color: textColor };
+  if (textColor) textStyle = {...textStyle, color: textColor};
 
   if (color) {
     containerStyle = {
       ...containerStyle,
-      backgroundColor: color
+      backgroundColor: color,
     };
   }
 
@@ -31,17 +32,18 @@ const SimpleButton = ({
     containerStyle = {
       borderWidth: 1.2,
       borderColor: textColor,
-      ...containerStyle
+      ...containerStyle,
     };
   }
 
   let Parent = TouchableHighlight,
-    parentProps = {};
+    parentProps = {disabled};
   if (!lightBoxMode) {
     Parent = TouchableHighlight;
     parentProps = {
       onPress: action,
-      underlayColor: underlayColor || "white"
+      underlayColor: underlayColor || 'white',
+      disabled,
     };
   } else {
     /**
@@ -51,13 +53,14 @@ const SimpleButton = ({
   }
 
   return (
-    <Parent style={[styles.button, containerStyle]} {...parentProps}>
+    <Parent
+      style={[styles.button({disabled}), containerStyle]}
+      {...parentProps}>
       <View
         style={[
           styles.buttonWrapper,
-          rightIcon ? { flexDirection: "row-reverse" } : {}
-        ]}
-      >
+          rightIcon ? {flexDirection: 'row-reverse'} : {},
+        ]}>
         {icon && iconSize ? (
           <Icon name={icon} size={iconSize} color={textColor} />
         ) : null}
@@ -65,9 +68,8 @@ const SimpleButton = ({
           style={[
             styles.textStyle,
             textStyle,
-            icon && iconSize ? { marginLeft: 8 } : {}
-          ]}
-        >
+            icon && iconSize ? {marginLeft: 8} : {},
+          ]}>
           {text}
         </Text>
       </View>
@@ -86,27 +88,29 @@ SimpleButton.propTypes = {
   textStyle: PropTypes.object,
   icon: PropTypes.string,
   iconSize: PropTypes.number,
-  lightBoxMode: PropTypes.bool
+  lightBoxMode: PropTypes.bool,
+  disabled: PropTypes.bool,
 };
 
 const styles = StyleSheet.create({
-  button: {
+  button: ({disabled}) => ({
     height: 40,
     width: 160,
     borderRadius: 4,
-    backgroundColor: constants.firstColor
-  },
+    backgroundColor: constants.firstColor,
+    opacity: disabled ? 0.5 : 1,
+  }),
   buttonWrapper: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    flexDirection: "row"
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row',
   },
   textStyle: {
     ...constants.font17(constants.primarySemiBold),
     lineHeight: 17,
-    marginTop: 2
-  }
+    marginTop: 2,
+  },
 });
 
 export default SimpleButton;
