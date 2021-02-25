@@ -32,6 +32,7 @@ const HelpDeskView = ({
   onRefresh = () => null,
   isTitleBold = false,
   enableCall = false,
+  staycation = false,
 }) => {
   const writeMessage = () => {
     navigation.navigate('ContactUs', {
@@ -72,7 +73,7 @@ const HelpDeskView = ({
           categories={faqSections}
           categoryTitle={'Categories'}
         />
-        {enableCall ? null : (
+        {enableCall || staycation ? null : (
           <Text style={styles.infoText}>{chatActivationMessage}</Text>
         )}
         {enableCall ? (
@@ -88,7 +89,7 @@ const HelpDeskView = ({
             <Text style={styles.callText}> for any of the queries</Text>
           </View>
         ) : null}
-        {chatActivationMessage && !enableCall ? (
+        {chatActivationMessage && !enableCall && !staycation ? (
           <SimpleButton
             text={'Send message'}
             textColor={constants.firstColor}
@@ -158,6 +159,7 @@ HelpDeskView.propTypes = {
   disableTopBar: PropTypes.bool,
   disableIcons: PropTypes.bool,
   enableCall: PropTypes.bool,
+  staycation: PropTypes.bool,
 };
 
 export default HelpDeskView;

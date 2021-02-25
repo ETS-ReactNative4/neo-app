@@ -112,6 +112,7 @@ class ChatScreen extends Component {
         faqSections={faqSections}
         chatActivationMessage={chatActivationMessage}
         enableCall={staycation && daysLeftToDeparture <= 2}
+        staycation={staycation}
         navigation={this.props.navigation}
         topBarCta={ctaText}
         topBarCtaAction={ctaAction}
