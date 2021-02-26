@@ -1,17 +1,17 @@
-import React, { Component } from "react";
-import { View, StyleSheet, ScrollView } from "react-native";
-import constants from "../../constants/constants";
-import SectionHeader from "../../CommonComponents/SectionHeader/SectionHeader";
-import Carousel from "../../CommonComponents/Carousel/Carousel";
-import ToolListItem from "./Components/ToolListItem";
-import HomeHeader from "../../CommonComponents/HomeHeader/HomeHeader";
-import { inject, observer } from "mobx-react";
-import { recordEvent } from "../../Services/analytics/analyticsService";
-import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
-import NoInternetIndicator from "../../CommonComponents/NoInternetIndicator/NoInternetIndicator";
-import Visa from "../../mobx/Visa";
-import debouncer from "../../Services/debouncer/debouncer";
-import PropTypes from "prop-types";
+import React, {Component} from 'react';
+import {View, StyleSheet, ScrollView} from 'react-native';
+import constants from '../../constants/constants';
+import SectionHeader from '../../CommonComponents/SectionHeader/SectionHeader';
+import Carousel from '../../CommonComponents/Carousel/Carousel';
+import ToolListItem from './Components/ToolListItem';
+import HomeHeader from '../../CommonComponents/HomeHeader/HomeHeader';
+import {inject, observer} from 'mobx-react';
+import {recordEvent} from '../../Services/analytics/analyticsService';
+import ErrorBoundary from '../../CommonComponents/ErrorBoundary/ErrorBoundary';
+import NoInternetIndicator from '../../CommonComponents/NoInternetIndicator/NoInternetIndicator';
+import Visa from '../../mobx/Visa';
+import debouncer from '../../Services/debouncer/debouncer';
+import PropTypes from 'prop-types';
 import {
   SCREEN_CURRENCY_CONVERTER,
   SCREEN_PHRASE_BOOK,
@@ -20,21 +20,22 @@ import {
   SCREEN_SUPPORT_CENTER,
   SCREEN_PLACES,
   SCREEN_PACKING_CHECKLIST,
-  SCREEN_PASSPORT_DETAILS
-} from "../../NavigatorsV2/ScreenNames";
-import BlankSpacer from "../../CommonComponents/BlankSpacer/BlankSpacer";
+  SCREEN_PASSPORT_DETAILS,
+} from '../../NavigatorsV2/ScreenNames';
+import BlankSpacer from '../../CommonComponents/BlankSpacer/BlankSpacer';
+import {isStaycation} from '../../Services/isStaycation/isStaycation';
 
-@ErrorBoundary({ isRoot: true })
-@inject("itineraries")
-@inject("visaStore")
-@inject("appState")
+@ErrorBoundary({isRoot: true})
+@inject('itineraries')
+@inject('visaStore')
+@inject('appState')
 @observer
 class Tools extends Component {
   static propTypes = {
     itineraries: PropTypes.object.isRequired,
     visaStore: PropTypes.object.isRequired,
     appState: PropTypes.object.isRequired,
-    navigation: PropTypes.object.isRequired
+    navigation: PropTypes.object.isRequired,
   };
 
   static navigationOptions = HomeHeader;
@@ -43,22 +44,22 @@ class Tools extends Component {
     super(props);
 
     this._didFocusSubscription = props.navigation.addListener(
-      "didFocus",
+      'didFocus',
       () => {
         debouncer(() => {
           this.loadToolsInfo();
         });
-      }
+      },
     );
   }
 
   loadToolsInfo = () => {
-    const { selectedItineraryId } = this.props.itineraries;
+    const {selectedItineraryId} = this.props.itineraries;
     if (selectedItineraryId) {
-      const { getVisaHomeScreenDetails } = this.props.visaStore;
-      const { getConversionRates, loadCurrencies } = this.props.appState;
-      getConversionRates({ silent: true });
-      loadCurrencies({ silent: true });
+      const {getVisaHomeScreenDetails} = this.props.visaStore;
+      const {getConversionRates, loadCurrencies} = this.props.appState;
+      getConversionRates({silent: true});
+      loadCurrencies({silent: true});
       getVisaHomeScreenDetails();
     }
   };
@@ -72,29 +73,29 @@ class Tools extends Component {
   }
 
   render() {
-    const { cities } = this.props.itineraries;
+    const {cities, selectedItinerary} = this.props.itineraries;
     const {
       isVisaInitialized,
       isSingleVisa,
       visaList,
-      isVisaAvailable
+      isVisaAvailable,
     } = this.props.visaStore;
-    const { navigation } = this.props;
+    const {navigation} = this.props;
     const cityList = cities.map(city => {
-      const cityId = city.cityObject ? city.cityObject.cityId : "";
+      const cityId = city.cityObject ? city.cityObject.cityId : '';
       return {
         title: city.city,
-        image: { uri: city.cityObject.image },
+        image: {uri: city.cityObject.image},
         action: () => {
           recordEvent(constants.Tools.event, {
-            click: constants.Tools.click.placesTile
+            click: constants.Tools.click.placesTile,
           });
           navigation.navigate(SCREEN_PLACES, {
             city: cityId,
-            target: "ToolNearBy"
+            target: 'ToolNearBy',
           });
         },
-        gradientColor: constants.darkGradientAlpha
+        gradientColor: constants.darkGradientAlpha,
       };
     });
 
@@ -103,64 +104,68 @@ class Tools extends Component {
         text: `Currency Calculator`,
         action: () => {
           recordEvent(constants.Tools.event, {
-            click: constants.Tools.click.currencyConverter
+            click: constants.Tools.click.currencyConverter,
           });
           navigation.navigate(SCREEN_CURRENCY_CONVERTER);
         },
-        icon: constants.currencyCalculatorIcon
+        icon: constants.currencyCalculatorIcon,
       },
       {
         icon: constants.commonPhrasesIcon,
         text: `Common Phrases`,
         action: () => {
           recordEvent(constants.Tools.event, {
-            click: constants.Tools.click.commonPhrases
+            click: constants.Tools.click.commonPhrases,
           });
           navigation.navigate(SCREEN_PHRASE_BOOK);
-        }
+        },
       },
       {
         icon: constants.emergencyContactsIcon,
         text: `Emergency Contacts`,
         action: () => {
           recordEvent(constants.Tools.event, {
-            click: constants.Tools.click.emergencyContacts
+            click: constants.Tools.click.emergencyContacts,
           });
           navigation.navigate(SCREEN_EMERGENCY_CONTACTS);
-        }
+        },
       },
       {
         icon: constants.weatherForecastIcon,
         text: `Weather Forecast`,
         action: () => {
           recordEvent(constants.Tools.event, {
-            click: constants.Tools.click.weatherForecast
+            click: constants.Tools.click.weatherForecast,
           });
           navigation.navigate(SCREEN_WEATHER);
-        }
+        },
       },
       {
         icon: constants.faqIcon,
         text: `Help Desk`,
         action: () => {
           recordEvent(constants.Tools.event, {
-            click: constants.Tools.click.helpDesk
+            click: constants.Tools.click.helpDesk,
           });
           navigation.navigate(SCREEN_SUPPORT_CENTER);
-        }
-      }
+        },
+      },
     ];
+
+    if (isStaycation(selectedItinerary)) {
+      essentialTools.splice(0, 2);
+    }
 
     const beforePacking = [
       {
         text: `Packing Checklist`,
         action: () => {
           recordEvent(constants.Tools.event, {
-            click: constants.Tools.click.packingChecklist
+            click: constants.Tools.click.packingChecklist,
           });
           navigation.navigate(SCREEN_PACKING_CHECKLIST);
         },
-        icon: constants.packageChecklistIcon
+        icon: constants.packageChecklistIcon,
       },
       /**
        * Forex disabled in the tools screen
@@ -181,39 +186,39 @@ class Tools extends Component {
         text: `Passport Details`,
         action: () => {
           recordEvent(constants.Tools.event, {
-            click: constants.Tools.click.passport
+            click: constants.Tools.click.passport,
           });
           navigation.navigate(SCREEN_PASSPORT_DETAILS);
-        }
+        },
       },
       {
         icon: constants.documentVisaIcon,
         text: `Documents & Visa`,
         action: () => {
           recordEvent(constants.Tools.event, {
-            click: constants.Tools.click.documentsVisa
+            click: constants.Tools.click.documentsVisa,
           });
           Visa.visaOpener({
             navigation,
             isVisaInitialized,
             isSingleVisa,
             visaList,
-            isVisaAvailable
+            isVisaAvailable,
           });
-        }
+        },
       },
       {
         icon: constants.invitePassengersIcon,
         text: `Invite Co-passengers`,
         action: () => null,
-        isComingSoon: true
+        isComingSoon: true,
       },
       {
         icon: constants.yourPickIcon,
         text: `Your Picks`,
         action: () => null,
-        isComingSoon: true
-      }
+        isComingSoon: true,
+      },
     ];
 
     // const moreTools = [
@@ -229,8 +234,7 @@ class Tools extends Component {
     //   }
     // ];
 
-    const Header = () =>
-      HomeHeader({ navigation: this.props.navigation }).header;
+    const Header = () => HomeHeader({navigation: this.props.navigation}).header;
 
     return (
       <View style={styles.container}>
@@ -242,14 +246,14 @@ class Tools extends Component {
         {/*/>*/}
         <ScrollView>
           <SectionHeader
-            sectionName={"Explore Places"}
+            sectionName={'Explore Places'}
             containerStyle={styles.sectionHeader}
           />
 
           <Carousel data={cityList} firstMargin={24} />
 
           <SectionHeader
-            sectionName={"ESSENTIALS"}
+            sectionName={'ESSENTIALS'}
             containerStyle={styles.sectionHeaderSecondary}
           />
 
@@ -266,7 +270,7 @@ class Tools extends Component {
           </View>
 
           <SectionHeader
-            sectionName={"BEFORE PACKING"}
+            sectionName={'BEFORE PACKING'}
             containerStyle={styles.sectionHeaderSecondary}
           />
 
@@ -313,40 +317,40 @@ class Tools extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: constants.appBackgroundColor
+    backgroundColor: constants.appBackgroundColor,
   },
   secondaryContainer: {
     height: 24,
-    marginTop: 24
+    marginTop: 24,
   },
   secondaryWrapper: {
     flex: 1,
-    flexDirection: "row"
+    flexDirection: 'row',
   },
   sectionHeader: {
-    marginHorizontal: 24
+    marginHorizontal: 24,
   },
   sectionHeaderSecondary: {
     marginTop: 40,
-    marginHorizontal: 24
+    marginHorizontal: 24,
   },
   icon: {
     height: 24,
-    width: 24
+    width: 24,
   },
   toolMenuRow: {
-    alignItems: "flex-start",
+    alignItems: 'flex-start',
     // marginVertical: 24,
-    marginHorizontal: 24
+    marginHorizontal: 24,
   },
   text2: {
     fontFamily: constants.primaryRegular,
     marginLeft: 8,
     fontSize: 20,
     lineHeight: 24,
-    fontWeight: "300",
-    color: constants.black2
-  }
+    fontWeight: '300',
+    color: constants.black2,
+  },
 });
 
 export default Tools;

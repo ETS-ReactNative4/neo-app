@@ -1,29 +1,32 @@
-import React, { useRef, useState } from "react";
+import React, {useRef, useState} from 'react';
 import {
   StyleSheet,
   View,
   ScrollView,
   NativeSyntheticEvent,
-  NativeScrollEvent
-} from "react-native";
-import Animated from "react-native-reanimated";
+  NativeScrollEvent,
+} from 'react-native';
+import Animated from 'react-native-reanimated';
 import {
   responsiveWidth,
-  responsiveHeight
+  responsiveHeight,
   // @ts-ignore
-} from "react-native-responsive-dimensions";
+} from 'react-native-responsive-dimensions';
 
-import SectionTitle from "../../CommonComponents/SectionTitle/SectionTitle";
-import IntroCoverImage from "./Components/IntroCoverImage";
-import IntroCarouselActionBar from "./Components/IntroCarouselActionBar";
+import SectionTitle from '../../CommonComponents/SectionTitle/SectionTitle';
+import IntroCoverImage from './Components/IntroCoverImage';
+import IntroCarouselActionBar from './Components/IntroCarouselActionBar';
 
-import { CONSTANT_white1 } from "../../constants/colorPallete";
-import { IAnimatedScrollViewRef } from "../../TypeInterfaces/RNComponents/IAnimatedScrollViewRef";
-import { openSOFeedback } from "../../Services/launchPostBooking/launchPostBooking";
-import storeService from "../../Services/storeService/storeService";
-import { AppNavigatorProps } from "../../NavigatorsV2/AppNavigator";
-import { SCREEN_POST_BOOKING_INTRO } from "../../NavigatorsV2/ScreenNames";
-
+import {CONSTANT_white1} from '../../constants/colorPallete';
+import {IAnimatedScrollViewRef} from '../../TypeInterfaces/RNComponents/IAnimatedScrollViewRef';
+import {
+  openPostBookingHome,
+  openSOFeedback,
+} from '../../Services/launchPostBooking/launchPostBooking';
+import storeService from '../../Services/storeService/storeService';
+import {AppNavigatorProps} from '../../NavigatorsV2/AppNavigator';
+import {SCREEN_POST_BOOKING_INTRO} from '../../NavigatorsV2/ScreenNames';
+import {isStaycation} from '../../Services/isStaycation/isStaycation';
 export interface IPostBookingIntroData {
   title: string;
   description: string;
@@ -36,12 +39,12 @@ type PostBookingIntroNavTypes = AppNavigatorProps<
 
 export interface PostBookingIntroProps extends PostBookingIntroNavTypes {}
 
-const { Value, event, createAnimatedComponent } = Animated;
+const {Value, event, createAnimatedComponent} = Animated;
 
 const AnimatedScrollView = createAnimatedComponent(ScrollView);
 
-const PostBookingIntro = ({ route }: PostBookingIntroProps) => {
-  const { introData = [] } = route.params || {};
+const PostBookingIntro = ({route}: PostBookingIntroProps) => {
+  const {introData = []} = route.params || {};
   const scrollX = useRef(new Value(0)).current;
   const [activeIndex, setActiveIndex] = useState(0);
   const animatedScrollView: IAnimatedScrollViewRef = useRef<any>(null);
@@ -50,7 +53,7 @@ const PostBookingIntro = ({ route }: PostBookingIntroProps) => {
    * Updates active index when user manually scrolls through the screens
    */
   const onMomentumScrollEnd = (
-    scrollEvent: NativeSyntheticEvent<NativeScrollEvent>
+    scrollEvent: NativeSyntheticEvent<NativeScrollEvent>,
   ) => {
     const activeOffset = scrollEvent.nativeEvent.contentOffset.x;
     setActiveIndex(Math.ceil(activeOffset / responsiveWidth(100)));
@@ -62,11 +65,18 @@ const PostBookingIntro = ({ route }: PostBookingIntroProps) => {
   const moveForward = () => {
     if (animatedScrollView.current) {
       animatedScrollView.current.getNode().scrollTo({
-        x: (activeIndex + 1) * responsiveWidth(100)
+        x: (activeIndex + 1) * responsiveWidth(100),
       });
     }
     if (activeIndex === introData.length - 1) {
-      openSOFeedback(storeService.itineraries.selectedItineraryId);
+      const {selectedItineraryId, selectedItinerary} = storeService.itineraries;
+      const staycation = isStaycation(selectedItinerary);
+
+      if (staycation) {
+        openPostBookingHome();
+      } else {
+        openSOFeedback(selectedItineraryId);
+      }
     }
     if (activeIndex < introData.length) {
       setActiveIndex(activeIndex + 1);
@@ -79,7 +89,7 @@ const PostBookingIntro = ({ route }: PostBookingIntroProps) => {
   const moveBack = () => {
     if (animatedScrollView.current) {
       animatedScrollView.current.getNode().scrollTo({
-        x: Math.max(0, activeIndex - 1) * responsiveWidth(100)
+        x: Math.max(0, activeIndex - 1) * responsiveWidth(100),
       });
     }
     if (activeIndex > 0) {
@@ -109,12 +119,11 @@ const PostBookingIntro = ({ route }: PostBookingIntroProps) => {
           {
             nativeEvent: {
               contentOffset: {
-                x: scrollX
-              }
-            }
-          }
-        ])}
-      >
+                x: scrollX,
+              },
+            },
+          },
+        ])}>
         {introData.map((appIntroObj, index) => {
           return (
             <SectionTitle
@@ -153,32 +162,32 @@ const styles = StyleSheet.create({
   appIntroContainer: {
     flex: 1,
     height: responsiveHeight(100),
-    backgroundColor: CONSTANT_white1
+    backgroundColor: CONSTANT_white1,
   },
 
   coverImageContainer: {
-    position: "absolute",
+    position: 'absolute',
     top: 0,
     left: 0,
     width: responsiveWidth(100),
-    height: responsiveHeight(60)
+    height: responsiveHeight(60),
   },
 
   introCarouselContainer: {
-    position: "absolute",
+    position: 'absolute',
     left: ACTIONBAR_LEFT_SPACING,
     right: ACTIONBAR_RIGHT_SPACING,
     bottom: ACTIONBAR_BOTTOM_SPACING,
     width:
-      responsiveWidth(100) - ACTIONBAR_LEFT_SPACING - ACTIONBAR_RIGHT_SPACING
+      responsiveWidth(100) - ACTIONBAR_LEFT_SPACING - ACTIONBAR_RIGHT_SPACING,
   },
 
   introTextContainer: {
     width: responsiveWidth(100),
-    justifyContent: "flex-end",
+    justifyContent: 'flex-end',
     paddingHorizontal: ACTIONBAR_SPACING,
-    marginBottom: ACTIONBAR_BOTTOM_SPACING + 88
-  }
+    marginBottom: ACTIONBAR_BOTTOM_SPACING + 88,
+  },
 });
 
 export default PostBookingIntro;

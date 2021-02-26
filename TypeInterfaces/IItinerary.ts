@@ -1,20 +1,21 @@
-import { IItineraryDetails, IMonth } from "./IItineraryDetails";
-import { ICustomCostings } from "./ICustomCostings";
-import { ICostingConfig } from "../Screens/GCMScreen/hooks/useGCMForm";
+import {IItineraryDetails, IMonth} from './IItineraryDetails';
+import {ICustomCostings} from './ICustomCostings';
+import {ICostingConfig} from '../Screens/GCMScreen/hooks/useGCMForm';
 
 export enum IItineraryVersion {
-  SPEEDBOAT = "SPEEDBOAT",
-  SANDUNE = "SANDUNE",
-  WORLDCUP_T20_WOMEN = "WORLDCUP_T20_WOMEN",
-  WORLDCUP_T20_MEN = "WORLDCUP_T20_MEN"
+  SPEEDBOAT = 'SPEEDBOAT',
+  SANDUNE = 'SANDUNE',
+  WORLDCUP_T20_WOMEN = 'WORLDCUP_T20_WOMEN',
+  WORLDCUP_T20_MEN = 'WORLDCUP_T20_MEN',
+  STAYCATION = 'DEAL',
 }
 
 export enum IDiffChangeType {
-  PRICEINCREASE = "PRICEINCREASE",
-  PRICEDECREASE = "PRICEDECREASE",
-  ELEMENTCHANGE = "ELEMENTCHANGE",
-  NOTAPPLICABLE = "NOTAPPLICABLE",
-  NONE = "NONE"
+  PRICEINCREASE = 'PRICEINCREASE',
+  PRICEDECREASE = 'PRICEDECREASE',
+  ELEMENTCHANGE = 'ELEMENTCHANGE',
+  NOTAPPLICABLE = 'NOTAPPLICABLE',
+  NONE = 'NONE',
 }
 
 export interface ICostDiff {
@@ -24,14 +25,14 @@ export interface ICostDiff {
 }
 
 export enum IGeneralCostingStatus {
-  SUCCESS = "SUCCESS",
-  USER_REMOVED = "USER_REMOVED",
-  NOT_COSTED = "NOT_COSTED",
-  ERROR = "ERROR",
-  UNAVAILABLE = "UNAVAILABLE",
-  BLOCKED = "BLOCKED",
-  SOLD_OUT = "SOLD_OUT",
-  ROOM_SOLD_OUT = "ROOM_SOLD_OUT"
+  SUCCESS = 'SUCCESS',
+  USER_REMOVED = 'USER_REMOVED',
+  NOT_COSTED = 'NOT_COSTED',
+  ERROR = 'ERROR',
+  UNAVAILABLE = 'UNAVAILABLE',
+  BLOCKED = 'BLOCKED',
+  SOLD_OUT = 'SOLD_OUT',
+  ROOM_SOLD_OUT = 'ROOM_SOLD_OUT',
 }
 
 export interface IRateMatchInfo {
@@ -92,11 +93,11 @@ export interface IFlightCosting extends IAbstractCosting {
   airlineCode: string;
   text: string;
   allTrips: string[];
-  trips: { [index: string]: IFlightRouteConfig };
+  trips: {[index: string]: IFlightRouteConfig};
 }
 
 export interface IFlightCostingValue extends IAbstractCostingValue {
-  costingById: { [index: string]: IFlightCosting };
+  costingById: {[index: string]: IFlightCosting};
 }
 
 export interface IActivityCosting extends IAbstractCosting {
@@ -108,7 +109,7 @@ export interface IActivityCosting extends IAbstractCosting {
 }
 
 export interface IActivityCostingValue extends IAbstractCostingValue {
-  costingById: { [index: string]: IActivityCosting };
+  costingById: {[index: string]: IActivityCosting};
 }
 
 export interface ITransferCosting extends IAbstractCosting {
@@ -123,7 +124,7 @@ export interface ITransferCosting extends IAbstractCosting {
 }
 
 export interface ITransferCostingValue extends IAbstractCostingValue {
-  costingById: { [index: string]: ITransferCosting };
+  costingById: {[index: string]: ITransferCosting};
 }
 
 export interface ITrainCosting extends IAbstractCosting {
@@ -134,7 +135,7 @@ export interface ITrainCosting extends IAbstractCosting {
 }
 
 export interface ITrainCostingValue extends IAbstractCostingValue {
-  costingById: { [index: string]: ITrainCosting };
+  costingById: {[index: string]: ITrainCosting};
 }
 
 export interface IFerryCosting extends IAbstractCosting {
@@ -145,7 +146,7 @@ export interface IFerryCosting extends IAbstractCosting {
 }
 
 export interface IFerryCostingValue extends IAbstractCostingValue {
-  costingById: { [index: string]: IFerryCosting };
+  costingById: {[index: string]: IFerryCosting};
 }
 
 export interface IRentalCarCosting extends IAbstractCosting {
@@ -162,7 +163,7 @@ export interface IRentalCarCosting extends IAbstractCosting {
 }
 
 export interface IRentalCarCostingValue extends IAbstractCostingValue {
-  costingById: { [index: string]: IRentalCarCosting };
+  costingById: {[index: string]: IRentalCarCosting};
 }
 
 export interface IRoomMealOptions {
@@ -200,13 +201,13 @@ export interface IHotelCosting extends IAbstractCosting {
 }
 
 export interface IHotelCostingValue extends IAbstractCostingValue {
-  costingById: { [index: string]: IHotelCosting };
+  costingById: {[index: string]: IHotelCosting};
 }
 
 export interface IVisaCosting extends IAbstractCosting {}
 
 export interface IVisaCostingValue extends IAbstractCostingValue {
-  costingById: { [index: string]: IVisaCosting };
+  costingById: {[index: string]: IVisaCosting};
 }
 
 export interface IInsuranceCosting extends IAbstractCosting {
@@ -214,28 +215,28 @@ export interface IInsuranceCosting extends IAbstractCosting {
 }
 
 export interface IInsuranceCostingValue extends IAbstractCostingValue {
-  costingById: { [index: string]: IInsuranceCosting };
+  costingById: {[index: string]: IInsuranceCosting};
 }
 
 export interface IPassCosting extends IAbstractCosting {}
 
 export interface IPassCostingValue extends IAbstractCostingValue {
-  costingById: { [index: string]: IPassCosting };
+  costingById: {[index: string]: IPassCosting};
 }
 
 export enum ICommuteMode {
-  CAR = "Car",
-  FLIGHT = "Flight",
-  TRAIN = "Train",
-  FERRY = "Ferry",
-  BUS = "Bus",
-  RENTALCAR = "Rental Car",
-  SHUTTLE = "Shuttle",
-  MINIVAN = "Mini van",
-  MINIBUS = "Mini bus",
-  SELF = "Self",
-  UNKNOWN = "Unknown",
-  BOAT = "Boat"
+  CAR = 'Car',
+  FLIGHT = 'Flight',
+  TRAIN = 'Train',
+  FERRY = 'Ferry',
+  BUS = 'Bus',
+  RENTALCAR = 'Rental Car',
+  SHUTTLE = 'Shuttle',
+  MINIVAN = 'Mini van',
+  MINIBUS = 'Mini bus',
+  SELF = 'Self',
+  UNKNOWN = 'Unknown',
+  BOAT = 'Boat',
 }
 
 export interface ICityValue {
@@ -255,16 +256,16 @@ export enum ITimeOfDay {
   MORNING = 1,
   NOON = 2,
   EVENING = 3,
-  NIGHT = 4
+  NIGHT = 4,
 }
 
 export enum ISlotActionType {
-  ACTIVITY = "ACTIVITY",
-  ACTIVITY_WITH_TRANSFER = "ACTIVITY_WITH_TRANSFER",
-  LEISURE = "LEISURE",
-  INTERCITY_TRANSFER = "INTERCITY_TRANSFER",
-  INTERNATIONAL_ARRIVE = "INTERNATIONAL_ARRIVE",
-  INTERNATIONAL_DEPART = "INTERNATIONAL_DEPART"
+  ACTIVITY = 'ACTIVITY',
+  ACTIVITY_WITH_TRANSFER = 'ACTIVITY_WITH_TRANSFER',
+  LEISURE = 'LEISURE',
+  INTERCITY_TRANSFER = 'INTERCITY_TRANSFER',
+  INTERNATIONAL_ARRIVE = 'INTERNATIONAL_ARRIVE',
+  INTERNATIONAL_DEPART = 'INTERNATIONAL_DEPART',
 }
 
 export interface IActivitySlotDetail {
@@ -426,7 +427,7 @@ export interface ISummary {
 }
 
 export enum ICouponPartner {
-  CRED = "CRED"
+  CRED = 'CRED',
 }
 
 export interface ICoupon {
@@ -437,22 +438,22 @@ export interface ICoupon {
 }
 
 export enum ITripType {
-  Honeymoon = "Honeymoon",
-  Family = "Family",
-  Friends = "Friends",
-  Solo = "Solo",
-  Couple = "Couple",
-  Group = "Group",
-  Unknown = "Unknown",
-  ANNIVERSARY = "ANNIVERSARY",
-  HONEYMOON = "HONEYMOON",
-  BIRTHDAY = "BIRTHDAY",
-  SUMMER_VACATION = "SUMMER_VACATION",
-  SOLO = "SOLO",
-  FRIENDS = "FRIENDS",
-  CO_WORKERS = "CO_WORKERS",
-  FAMILY = "FAMILY",
-  COUPLE = "COUPLE"
+  Honeymoon = 'Honeymoon',
+  Family = 'Family',
+  Friends = 'Friends',
+  Solo = 'Solo',
+  Couple = 'Couple',
+  Group = 'Group',
+  Unknown = 'Unknown',
+  ANNIVERSARY = 'ANNIVERSARY',
+  HONEYMOON = 'HONEYMOON',
+  BIRTHDAY = 'BIRTHDAY',
+  SUMMER_VACATION = 'SUMMER_VACATION',
+  SOLO = 'SOLO',
+  FRIENDS = 'FRIENDS',
+  CO_WORKERS = 'CO_WORKERS',
+  FAMILY = 'FAMILY',
+  COUPLE = 'COUPLE',
 }
 
 export interface IHotelGuestRoomConfiguration {
@@ -512,11 +513,11 @@ export interface IItinerary {
   version: IItineraryVersion;
   itinerary: IItineraryDetails;
 
-  iterCityByKey: { [index: string]: ICityValue };
-  iterDayByKey: { [index: string]: IItineraryDay };
-  iterSlotByKey: { [index: string]: IIterSlotByKey }; // TODO: Add Proper Interface
-  cityById: { [index: number]: ICity };
-  activityById: { [index: number]: IActivityDetail };
+  iterCityByKey: {[index: string]: ICityValue};
+  iterDayByKey: {[index: string]: IItineraryDay};
+  iterSlotByKey: {[index: string]: IIterSlotByKey}; // TODO: Add Proper Interface
+  cityById: {[index: number]: ICity};
+  activityById: {[index: number]: IActivityDetail};
 
   flightCostings: IFlightCostingValue;
   activityCostings: IActivityCostingValue;
@@ -549,6 +550,6 @@ export interface IItinerary {
   currency: string[];
   travellerInfo: ITravellerInfo;
   itineraryInclusions: string[];
-  festivals: { [index: string]: string }[];
+  festivals: {[index: string]: string}[];
   customCostings: ICustomCostings[];
 }

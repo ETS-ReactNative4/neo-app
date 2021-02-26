@@ -1,36 +1,28 @@
-import React from "react";
-import {
-  Text,
-  View,
-  StyleSheet,
-  TouchableOpacity,
-  Platform
-} from "react-native";
-import constants from "../../../constants/constants";
-import PropTypes from "prop-types";
-import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraProps";
-import XSensorPlaceholder from "../../../CommonComponents/XSensorPlaceholder/XSensorPlaceholder";
-import SimpleButton from "../../../CommonComponents/SimpleButton/SimpleButton";
-import { responsiveWidth } from "react-native-responsive-dimensions";
-import KeyboardAvoidingActionBar from "../../../CommonComponents/KeyboardAvoidingActionBar/KeyboardAvoidingActionBar";
+import React from 'react';
+import {View, StyleSheet, Platform} from 'react-native';
+import constants from '../../../constants/constants';
+import PropTypes from 'prop-types';
+import SimpleButton from '../../../CommonComponents/SimpleButton/SimpleButton';
+import {responsiveWidth} from 'react-native-responsive-dimensions';
+import KeyboardAvoidingActionBar from '../../../CommonComponents/KeyboardAvoidingActionBar/KeyboardAvoidingActionBar';
 
 const ContactActionBar = ({
   containerStyle,
   cancelAction,
   sendAction,
   navigation,
-  cancelText = "Cancel",
-  sendText = "Send",
+  cancelText = 'Cancel',
+  sendText = 'Send',
   sendContainerStyle = {},
-  sendTextColor = "white",
-  keyBoardStateChange = () => null
+  sendTextColor = 'white',
+  keyBoardStateChange = () => null,
+  disabledSendButton = false,
 }) => {
   if (!containerStyle) containerStyle = {};
   return (
     <KeyboardAvoidingActionBar
       onKeyBoardStateChange={keyBoardStateChange}
-      navigation={navigation}
-    >
+      navigation={navigation}>
       <View style={[styles.contactActionSection, containerStyle]}>
         <SimpleButton
           text={cancelText}
@@ -38,10 +30,10 @@ const ContactActionBar = ({
           textColor={constants.firstColor}
           hasBorder={true}
           containerStyle={{
-            backgroundColor: "white",
+            backgroundColor: 'white',
             width: responsiveWidth(40),
             marginHorizontal: 4,
-            borderRadius: 2
+            borderRadius: 2,
           }}
         />
         <SimpleButton
@@ -49,11 +41,12 @@ const ContactActionBar = ({
           action={sendAction}
           textColor={sendTextColor}
           underlayColor={constants.firstColorAlpha(0.4)}
+          disabled={disabledSendButton}
           containerStyle={{
             width: responsiveWidth(40),
             marginHorizontal: 4,
             borderRadius: 2,
-            ...sendContainerStyle
+            ...sendContainerStyle,
           }}
         />
       </View>
@@ -70,29 +63,30 @@ ContactActionBar.propTypes = {
   cancelText: PropTypes.string,
   sendText: PropTypes.string,
   sendContainerStyle: PropTypes.object,
-  sendTextColor: PropTypes.string
+  sendTextColor: PropTypes.string,
+  disabledSendButton: PropTypes.bool,
 };
 
 const styles = StyleSheet.create({
   contactActionContainer: {
     borderTopWidth: 2,
-    borderTopColor: constants.white1
+    borderTopColor: constants.white1,
   },
   contactActionSection: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    height: 56
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 56,
   },
   faqTileText: {
     ...constants.fontCustom(constants.primaryLight, 17),
     color: constants.black2,
     ...Platform.select({
       ios: {
-        marginTop: 8
-      }
-    })
-  }
+        marginTop: 8,
+      },
+    }),
+  },
 });
 
 export default ContactActionBar;

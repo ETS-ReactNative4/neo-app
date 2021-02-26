@@ -1,30 +1,31 @@
-import { observable, computed, action, toJS } from "mobx";
-import { persist } from "mobx-persist";
-import constants from "../constants/constants";
-import { hydrate } from "./Store";
-import apiCall from "../Services/networkRequests/apiCall";
-import storeService from "../Services/storeService/storeService";
-import { logError } from "../Services/errorLogger/errorLogger";
-import _ from "lodash";
+import {observable, computed, action, toJS} from 'mobx';
+import {persist} from 'mobx-persist';
+import constants from '../constants/constants';
+import {hydrate} from './Store';
+import apiCall from '../Services/networkRequests/apiCall';
+import storeService from '../Services/storeService/storeService';
+import {logError} from '../Services/errorLogger/errorLogger';
+import _ from 'lodash';
+import {isStaycation} from '../Services/isStaycation/isStaycation';
 
 class ChatDetails {
   static hydrator = storeInstance => {
-    hydrate("_chatDetails", storeInstance)
+    hydrate('_chatDetails', storeInstance)
       .then(() => {})
       .catch(err => logError(err));
-    hydrate("_chatActivationTime", storeInstance)
+    hydrate('_chatActivationTime', storeInstance)
       .then(() => {})
       .catch(err => logError(err));
-    hydrate("_chatActivationMessage", storeInstance)
+    hydrate('_chatActivationMessage', storeInstance)
       .then(() => {})
       .catch(err => logError(err));
-    hydrate("_offlineContact", storeInstance)
+    hydrate('_offlineContact', storeInstance)
       .then(() => {})
       .catch(err => logError(err));
-    hydrate("_unreadMessageCount", storeInstance)
+    hydrate('_unreadMessageCount', storeInstance)
       .then(() => {})
       .catch(err => logError(err));
-    hydrate("_isChatActive", storeInstance)
+    hydrate('_isChatActive', storeInstance)
       .then(() => {})
       .catch(err => logError(err));
   };
@@ -34,16 +35,16 @@ class ChatDetails {
     this._chatDetails = {};
     this._chatActivationTime = 0;
     this._chatActivationMessage = constants.preTripChatText;
-    this._offlineContact = "";
+    this._offlineContact = '';
   };
 
-  @persist("object")
+  @persist('object')
   @observable
   _chatDetails = {};
 
   @persist
   @observable
-  _offlineContact = "";
+  _offlineContact = '';
 
   @observable _isLoading = false;
 
@@ -110,7 +111,7 @@ class ChatDetails {
   @computed
   get currentTime() {
     if (_.isEmpty(this._chatDetails)) {
-      return "";
+      return '';
     } else {
       return this._chatDetails.currentTime;
     }
@@ -137,16 +138,22 @@ class ChatDetails {
     return new Promise((resolve, reject) => {
       this._isLoading = true;
       const initializationUrl = `${constants.initiateChat}?itineraryId=${storeService.itineraries.selectedItineraryId}`;
+      const staycation = isStaycation(
+        storeService.itineraries.selectedItinerary,
+      );
       apiCall(initializationUrl)
         .then(response => {
           this._isLoading = false;
-          if (response.status === constants.responseSuccessStatus) {
+          if (
+            response.status === constants.responseSuccessStatus &&
+            !staycation
+          ) {
             this._isChatActive = true;
             this._chatDetails = response.data;
             this._initializationError = false;
             this._offlineContact = response.data.offlineContact;
             resolve(response.data);
-          } else if (response.status === "NOT_INITIATED") {
+          } else if (response.status === 'NOT_INITIATED' || staycation) {
             this._isChatActive = false;
             this._initializationError = false; // Chat not initiated but initialization call is success
             this._chatActivationTime = response.data.departureDateMillis;
@@ -155,9 +162,9 @@ class ChatDetails {
             this._offlineContact = response.data.offlineContact;
             reject();
           } else {
-            logError("Chat failed to Initialize", {
+            logError('Chat failed to Initialize', {
               response,
-              initializationUrl
+              initializationUrl,
             });
             this._initializationError = true;
             reject();
@@ -178,26 +185,26 @@ class ChatDetails {
   @action
   setChatMetaInfo = (requestBody, successCallback = () => null) => {
     this._isLoading = true;
-    apiCall(`${constants.setChatRestoreId}`, requestBody, "PUT")
+    apiCall(`${constants.setChatRestoreId}`, requestBody, 'PUT')
       .then(response => {
         this._isLoading = false;
         if (response.status === constants.responseSuccessStatus) {
           this._metaDataError = false;
           this._chatDetails = {
             ...this.chatDetails,
-            frid: requestBody.restoreId
+            frid: requestBody.restoreId,
           };
           successCallback();
         } else {
-          logError("Chat failed to register restore ID", {
+          logError('Chat failed to register restore ID', {
             requestBody,
-            response
+            response,
           });
           this._metaDataError = true;
         }
       })
       .catch(err => {
-        logError("Chat failed to register restore ID", { requestBody, err });
+        logError('Chat failed to register restore ID', {requestBody, err});
         this._metaDataError = true;
         this._isLoading = false;
       });
@@ -205,11 +212,11 @@ class ChatDetails {
 
   @action
   setUnreadMessageCount = count => {
-    if (typeof count === "number") {
+    if (typeof count === 'number') {
       this._unreadMessageCount = count;
     } else {
-      logError("Invalid message count", {
-        count
+      logError('Invalid message count', {
+        count,
       });
     }
   };
