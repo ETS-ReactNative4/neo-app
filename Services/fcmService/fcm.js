@@ -1,24 +1,25 @@
 import messaging from '@react-native-firebase/messaging';
 import PushNotification from 'react-native-push-notification';
 
-import { Platform } from "react-native";
-import { logBreadCrumb, logError } from "../errorLogger/errorLogger";
-import storeService from "../storeService/storeService";
-import resolveLinks from "../resolveLinks/resolveLinks";
-import constants from "../../constants/constants";
-import { recordEvent } from "../analytics/analyticsService";
-import { CONSTANT_notificationEvents } from "../../constants/appEvents";
+import {Platform} from 'react-native';
+import {logBreadCrumb, logError} from '../errorLogger/errorLogger';
+import storeService from '../storeService/storeService';
+import resolveLinks from '../resolveLinks/resolveLinks';
+import constants from '../../constants/constants';
+import {recordEvent} from '../analytics/analyticsService';
+import {CONSTANT_notificationEvents} from '../../constants/appEvents';
 import {
   chatLauncher,
   chatPushNotificationHandler,
-  checkIfChatPushNotification
-} from "../freshchatService/freshchatService";
-import isUserLoggedIn from "../isUserLoggedIn/isUserLoggedIn";
+  checkIfChatPushNotification,
+} from '../freshchatService/freshchatService';
+import isUserLoggedIn from '../isUserLoggedIn/isUserLoggedIn';
+// import PushNotificationIOS from '@react-native-community/push-notification-ios';
 
 export const getDeviceToken = async (
   success = () => null,
   rejected = () => null,
-  failure = () => null
+  failure = () => null,
 ) => {
   let token, apnsToken;
   try {
@@ -28,10 +29,11 @@ export const getDeviceToken = async (
        * Push notifications already enabled!
        */
       token = await messaging().getToken();
+      // console.log(token)
       apnsToken =
         Platform.OS === constants.platformIos
           ? await messaging().getAPNSToken()
-          : "";
+          : '';
 
       storeService.appState.setPushTokens(token);
       if (Platform.OS === constants.platformIos) {
@@ -99,14 +101,14 @@ export const onNotificationReceived = () =>
  */
 export const onNotificationDisplayed = () =>
   messaging().onMessage(async notification => {
-  // notifications().onNotificationDisplayed(notification => {
+    // notifications().onNotificationDisplayed(notification => {
     notificationReceivedHandler(notification);
   });
 
 const inAppNotifHandler = notificationOpen => {
   // const action = notificationOpen.action;
-  const { notification } = notificationOpen;
-  
+  const {notification} = notificationOpen;
+
   PushNotification.removeDeliveredNotifications(notification.notificationId);
 
   // notifications().removeDeliveredNotification(notification.notificationId); // Will remove foreground push notifications on click
@@ -120,12 +122,12 @@ const inAppNotifHandler = notificationOpen => {
  */
 export const onNotificationOpened = () =>
   messaging().onNotificationOpenedApp(async notificationOpen => {
-  // notifications().onNotificationOpened(notificationOpen => {
+    // notifications().onNotificationOpened(notificationOpen => {
     checkIfChatPushNotification(notificationOpen.notification.data)
       .then(isChatNotification => {
         if (isChatNotification) {
           recordEvent(constants.Chat.event, {
-            click: constants.Chat.click.notifAppForeGround
+            click: constants.Chat.click.notifAppForeGround,
           });
           chatLauncher();
         } else {
@@ -153,7 +155,7 @@ export const getInitialNotification = () =>
           .then(isChatNotification => {
             if (isChatNotification) {
               recordEvent(constants.Chat.event, {
-                click: constants.Chat.click.notifAppStart
+                click: constants.Chat.click.notifAppStart,
               });
               chatLauncher();
             } else {
@@ -166,14 +168,14 @@ export const getInitialNotification = () =>
       }
     });
 
-const CHATSCREEN = "Support";
+const CHATSCREEN = 'Support';
 
 const notificationClickHandler = data => {
   logBreadCrumb({
     message: constants.errorLoggerEvents.messages.notifClicked,
     category: constants.errorLoggerEvents.categories.pushNotif,
     data,
-    level: constants.errorLoggerEvents.levels.info
+    level: constants.errorLoggerEvents.levels.info,
   });
   isUserLoggedIn()
     .then(result => {
@@ -181,19 +183,19 @@ const notificationClickHandler = data => {
         const {
           link,
           modalData,
-          notificationType = "",
-          notificationProps = ""
+          notificationType = '',
+          notificationProps = '',
         } = data;
         if (notificationType) {
           try {
             recordEvent(CONSTANT_notificationEvents.event, {
               notificationType,
-              ...JSON.parse(notificationProps || "{}")
+              ...JSON.parse(notificationProps || '{}'),
             });
           } catch (e) {
             logError(e, {
-              type: "Failed to capture push notification details in analytics",
-              data
+              type: 'Failed to capture push notification details in analytics',
+              data,
             });
           }
         }
@@ -208,12 +210,12 @@ const notificationClickHandler = data => {
 };
 
 const notificationReceivedHandler = notification => {
-  const { data } = notification;
+  const {data} = notification;
   logBreadCrumb({
     message: constants.errorLoggerEvents.messages.notifReceived,
     category: constants.errorLoggerEvents.categories.pushNotif,
     data,
-    level: constants.errorLoggerEvents.levels.info
+    level: constants.errorLoggerEvents.levels.info,
   });
   const inAppNotifReceivedHandler = () => {
     if (
@@ -222,8 +224,8 @@ const notificationReceivedHandler = notification => {
     ) {
       showForegroundNotification(notification);
     }
-    const { link } = data;
-    const { appState } = storeService;
+    const {link} = data;
+    const {appState} = storeService;
     if (link === CHATSCREEN) {
       appState.setChatNotification();
     }
@@ -251,8 +253,8 @@ const notificationReceivedHandler = notification => {
   }
 };
 
-const foregroundChannelId = "foreground-notification";
-const foregroundIcon = "ic_notif";
+const foregroundChannelId = 'foreground-notification';
+const foregroundIcon = 'ic_notif';
 
 /**
  * This method will display notification even when the app is in foreground.
@@ -262,10 +264,10 @@ const showForegroundNotification = notification => {
   PushNotification.createChannel(
     {
       channelId: foregroundChannelId, // (required)
-      channelName: "Foreground Notification", // (required)
-      channelDescription: "Foreground app notification channel", // (optional) default: undefined.
+      channelName: 'Foreground Notification', // (required)
+      channelDescription: 'Foreground app notification channel', // (optional) default: undefined.
     },
-    (created) => console.log(`createChannel returned '${created}'`) // (optional) callback returns whether the channel was created, false means it already existed.
+    created => console.log(`createChannel returned '${created}'`), // (optional) callback returns whether the channel was created, false means it already existed.
   );
 
   // const channel = new notifications.Android.Channel(
@@ -277,21 +279,47 @@ const showForegroundNotification = notification => {
   // notifications().android.createChannel(channel);
   const localNotifData = {
     isLocal: true,
-    notificationId: PushNotification.channelId
+    notificationId: PushNotification.channelId,
   };
+
   const notificationData = notification.data
-    ? { ...notification.data, ...localNotifData }
+    ? {...notification.data, ...localNotifData}
     : localNotifData;
 
-    
-  const notificationObject = new PushNotification.Notification()
-    .setNotificationId(notification.notificationId)
-    .setTitle(notification.title)
-    .setBody(notification.body)
-    .setData(notificationData)
-    .setSound(notification.sound);
-  notificationObject.android
-    .setChannelId(foregroundChannelId)
-    .android.setSmallIcon(foregroundIcon);
+  if (Platform.OS === constants.platformIos) {
+    // console.log("Notification working")
+    PushNotification.localNotificationSchedule({
+      id: notification.notificationId,
+      title: notification.title,
+      body: notification.body,
+      data: notificationData,
+      sound: notification.sound,
+      date: new Date(Date.now()), // in 60 secs
+      allowWhileIdle: false, // (optional) set
+    });
+    // PushNotification.displayNotification(notificationObject);
+  }
+
+  // const notificationObject = new PushNotification.displayNotification()
+  //   .setNotificationId(notification.notificationId)
+  //   .setTitle(notification.title)
+  //   .setBody(notification.body)
+  //   .setData(notificationData)
+  //   .setSound(notification.sound);
+  if (Platform.OS === constants.platformAndroid) {
+    const notificationObject = PushNotification.localNotification({
+      id: notification.notificationId,
+      title: notification.title,
+      body: notification.body,
+      data: notificationData,
+      sound: notification.sound,
+      date: new Date(Date.now()), // in 60 secs
+      allowWhileIdle: false, // (optional) set
+    });
+    notificationObject.android
+      .setChannelId(foregroundChannelId)
+      .android.setSmallIcon(foregroundIcon);
+
     PushNotification.displayNotification(notificationObject);
+  }
 };

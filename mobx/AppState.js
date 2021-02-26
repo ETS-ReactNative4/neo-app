@@ -1,54 +1,54 @@
-import { observable, computed, action, toJS } from "mobx";
-import { persist } from "mobx-persist";
-import { createTransformer } from "mobx-utils";
-import { LayoutAnimation, Platform } from "react-native";
-import _ from "lodash";
-import apiCall from "../Services/networkRequests/apiCall";
-import constants from "../constants/constants";
-import { logError } from "../Services/errorLogger/errorLogger";
-import navigationService from "../Services/navigationService/navigationService";
-import storeService from "../Services/storeService/storeService";
+import {observable, computed, action, toJS} from 'mobx';
+import {persist} from 'mobx-persist';
+import {createTransformer} from 'mobx-utils';
+import {LayoutAnimation, Platform} from 'react-native';
+import _ from 'lodash';
+import apiCall from '../Services/networkRequests/apiCall';
+import constants from '../constants/constants';
+import {logError} from '../Services/errorLogger/errorLogger';
+import navigationService from '../Services/navigationService/navigationService';
+import storeService from '../Services/storeService/storeService';
 // import AsyncStorage from "@react-native-community/async-storage";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import logOut from "../Services/logOut/logOut";
-import isUserLoggedInCallback from "../Services/isUserLoggedInCallback/isUserLoggedInCallback";
-import { toastBottom } from "../Services/toast/toast";
-import { hydrate } from "./Store";
+import logOut from '../Services/logOut/logOut';
+import isUserLoggedInCallback from '../Services/isUserLoggedInCallback/isUserLoggedInCallback';
+import {toastBottom} from '../Services/toast/toast';
+import {hydrate} from './Store';
 
 const {
   conversionRateError,
-  currencyDetailsError
+  currencyDetailsError,
 } = constants.currencyConverterText;
-const { logOutError } = constants.logOutText;
+const {logOutError} = constants.logOutText;
 
 class AppState {
   static hydrator = storeInstance => {
-    hydrate("_tripMode", storeInstance)
+    hydrate('_tripMode', storeInstance)
       .then(() => {})
       .catch(err => {
         logError(err);
       });
-    hydrate("_currencies", storeInstance)
+    hydrate('_currencies', storeInstance)
       .then(() => {})
       .catch(err => {
         logError(err);
       });
-    hydrate("_conversionRates", storeInstance)
+    hydrate('_conversionRates', storeInstance)
       .then(() => {})
       .catch(err => {
         logError(err);
       });
-    hydrate("_pushTokens", storeInstance)
+    hydrate('_pushTokens', storeInstance)
       .then(() => {})
       .catch(err => {
         logError(err);
       });
-    hydrate("_isChatPushNotificationSet", storeInstance)
+    hydrate('_isChatPushNotificationSet', storeInstance)
       .then(() => {})
       .catch(err => {
         logError(err);
       });
-    hydrate("_apnsToken", storeInstance)
+    hydrate('_apnsToken', storeInstance)
       .then(() => {})
       .catch(err => {
         logError(err);
@@ -58,7 +58,7 @@ class AppState {
   @action
   reset = () => {
     this._tripMode = {
-      status: false
+      status: false,
     };
     this._currencies = {};
     this._isChatNotificationActive = false;
@@ -67,10 +67,10 @@ class AppState {
   /**
    * Trip Toggle Button
    */
-  @persist("object")
+  @persist('object')
   @observable
   _tripMode = {
-    status: false
+    status: false,
   };
 
   @action
@@ -78,7 +78,7 @@ class AppState {
     this._tripMode.status = status;
     AsyncStorage.setItem(
       constants.tripToggleStatusStorageKey,
-      JSON.stringify(status)
+      JSON.stringify(status),
     );
   };
 
@@ -105,7 +105,7 @@ class AppState {
   /**
    * Booked Itinerary screen scrolling date selection
    */
-  @observable _selectedDate = "";
+  @observable _selectedDate = '';
 
   @action
   setSelectedDate = date => {
@@ -120,7 +120,7 @@ class AppState {
   /**
    * Currency Conversion Rates
    */
-  @persist("object")
+  @persist('object')
   @observable
   _conversionRates = {};
   @observable _isConversionLoading = false;
@@ -136,12 +136,12 @@ class AppState {
   }
 
   @action
-  getConversionRates = ({ silent = false } = {}) => {
+  getConversionRates = ({silent = false} = {}) => {
     this._isConversionLoading = true;
-    apiCall(constants.getCurrencyRates, {}, "GET")
+    apiCall(constants.getCurrencyRates, {}, 'GET')
       .then(response => {
         this._isConversionLoading = false;
-        if (response.status === "SUCCESS") {
+        if (response.status === 'SUCCESS') {
           this._conversionRates = response.data;
         } else {
           if (!silent) {
@@ -157,7 +157,7 @@ class AppState {
       });
   };
 
-  currencyConverter = createTransformer(({ amount, from, to }) => {
+  currencyConverter = createTransformer(({amount, from, to}) => {
     const quotes = this.conversionRates;
 
     amount = parseFloat(amount);
@@ -178,7 +178,7 @@ class AppState {
     return result.toFixed(2);
   });
 
-  @persist("object")
+  @persist('object')
   @observable
   _currencies = {};
 
@@ -193,22 +193,22 @@ class AppState {
   }
 
   @action
-  loadCurrencies = ({ silent = false } = {}) => {
+  loadCurrencies = ({silent = false} = {}) => {
     const itineraryId = storeService.itineraries.selectedItineraryId;
     if (!this._currencies[itineraryId]) {
-      this._getCurrencyByItineraryId({ itineraryId, silent });
+      this._getCurrencyByItineraryId({itineraryId, silent});
     }
   };
 
   @action
-  _getCurrencyByItineraryId = ({ itineraryId, silent }) => {
+  _getCurrencyByItineraryId = ({itineraryId, silent}) => {
     apiCall(
       `${constants.getCurrencyList}?itineraryId=${itineraryId}`,
       {},
-      "GET"
+      'GET',
     )
       .then(response => {
-        if (response.status === "SUCCESS") {
+        if (response.status === 'SUCCESS') {
           // set(
           //   this._currencies,
           //   `${itineraryId}`,
@@ -222,7 +222,7 @@ class AppState {
               currencyArray.push(country.default.toUpperCase());
               currencyArray = [
                 ...currencyArray,
-                ...country.others.map(each => each.toUpperCase())
+                ...country.others.map(each => each.toUpperCase()),
               ];
             }
           }
@@ -235,7 +235,7 @@ class AppState {
               currencyDetailsError.message,
               constants.errorBoxIllus,
               currencyDetailsError.actionText,
-              () => navigationService.navigation._navigation.goBack()
+              () => navigationService.navigation._navigation.goBack(),
             );
           }
         }
@@ -247,7 +247,7 @@ class AppState {
             currencyDetailsError.message,
             constants.errorBoxIllus,
             currencyDetailsError.actionText,
-            () => navigationService.navigation._navigation.goBack()
+            () => navigationService.navigation._navigation.goBack(),
           );
         }
       });
@@ -256,14 +256,14 @@ class AppState {
   /**
    * Push notification tokens
    */
-  @persist("object")
+  @persist('object')
   @observable
   _pushTokens = {
-    deviceToken: ""
+    deviceToken: '',
   };
 
   @persist
-  _apnsToken = "";
+  _apnsToken = '';
 
   @persist
   @observable
@@ -292,6 +292,11 @@ class AppState {
       }
       this._isChatPushNotificationSet = true;
     }
+
+    // console.log("this._pushTokens.deviceToken")
+    // console.log(this._pushTokens.deviceToken)
+    // console.log(deviceToken)
+
     if (deviceToken && this._pushTokens.deviceToken !== deviceToken) {
       this._updatePushToken(deviceToken);
       /**
@@ -318,71 +323,71 @@ class AppState {
 
   @action
   removeApnsToken = () => {
-    this._apnsToken = "";
+    this._apnsToken = '';
   };
 
   _updatePushToken = deviceToken => {
     const requestBody = {
-      deviceToken
+      deviceToken,
     };
     isUserLoggedInCallback(() => {
-      apiCall(constants.registerDeviceToken, requestBody, "PUT")
+      apiCall(constants.registerDeviceToken, requestBody, 'PUT')
         .then(response => {
-          if (response.status === "SUCCESS") {
+          if (response.status === 'SUCCESS') {
             this._pushTokens.deviceToken = deviceToken;
           } else {
-            this._pushTokens.deviceToken = "";
+            this._pushTokens.deviceToken = '';
           }
         })
         .catch(err => {
-          this._pushTokens.deviceToken = "";
-          logError(err, { eventType: "Device token Failed to register" });
+          this._pushTokens.deviceToken = '';
+          logError(err, {eventType: 'Device token Failed to register'});
         });
     });
   };
 
   removePushToken = (callback = () => null) => {
     const requestBody = {
-      deviceToken: this._pushTokens.deviceToken
+      deviceToken: this._pushTokens.deviceToken,
     };
     isUserLoggedInCallback(credentials => {
       try {
         apiCall(
           constants.registerDeviceToken,
           requestBody,
-          "DELETE",
+          'DELETE',
           false,
-          credentials.password
+          credentials.password,
         )
           .then(response => {
-            if (response.status === "SUCCESS") {
+            if (response.status === 'SUCCESS') {
               this._pushTokens = {
-                deviceToken: ""
+                deviceToken: '',
               };
               callback();
             } else {
-              if (response.status === "EXPIRED") {
+              if (response.status === 'EXPIRED') {
                 logOut(true);
               } else {
-                logError("failed to remove device token during logOut");
+                logError('failed to remove device token during logOut');
                 storeService.infoStore.setError(
                   logOutError.title,
                   logOutError.message,
                   constants.errorBoxIllus,
-                  logOutError.actionText
+                  logOutError.actionText,
                 );
               }
             }
           })
           .catch(err => {
             logError(err, {
-              eventType: "failed to remove device token during logOut"
+              eventType: 'failed to remove device token during logOut',
             });
             storeService.infoStore.setError(
               logOutError.title,
               logOutError.message,
               constants.errorBoxIllus,
-              logOutError.actionText
+              logOutError.actionText,
             );
           });
       } catch (e) {
