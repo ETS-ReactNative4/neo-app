@@ -179,6 +179,7 @@ export interface IRoomsInHotel {
   roomConfiguration: IHotelGuestRoomConfiguration;
   roomTypeId: string;
   mealOptions: IRoomMealOptions[];
+  mealType: string;
 }
 
 export interface IAmenityDisplayList {
