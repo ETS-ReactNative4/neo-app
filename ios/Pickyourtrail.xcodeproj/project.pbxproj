@@ -581,10 +581,12 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-Pickyourtrail-PickyourtrailTests/Pods-Pickyourtrail-PickyourtrailTests-frameworks.sh",
 				"${PODS_ROOT}/WebEngage/xc11/WebEngage.framework",
+				"${PODS_ROOT}/WebEngage/xc11/WebEngage.framework.dSYM",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/WebEngage.framework",
+				"${DWARF_DSYM_FOLDER_PATH}/WebEngage.framework.dSYM",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -599,10 +601,12 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-Pickyourtrail/Pods-Pickyourtrail-frameworks.sh",
 				"${PODS_ROOT}/WebEngage/xc11/WebEngage.framework",
+				"${PODS_ROOT}/WebEngage/xc11/WebEngage.framework.dSYM",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/WebEngage.framework",
+				"${DWARF_DSYM_FOLDER_PATH}/WebEngage.framework.dSYM",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -830,7 +834,7 @@
 				CODE_SIGN_ENTITLEMENTS = Pickyourtrail/Pickyourtrail.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 308;
+				CURRENT_PROJECT_VERSION = 310;
 				DEVELOPMENT_TEAM = KCHL242759;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Pickyourtrail/Info.plist;
@@ -859,7 +863,7 @@
 				CODE_SIGN_ENTITLEMENTS = Pickyourtrail/Pickyourtrail.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 308;
+				CURRENT_PROJECT_VERSION = 310;
 				DEVELOPMENT_TEAM = KCHL242759;
 				INFOPLIST_FILE = Pickyourtrail/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
