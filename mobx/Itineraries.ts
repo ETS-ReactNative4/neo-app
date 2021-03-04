@@ -1,16 +1,16 @@
-import { action, computed, observable, toJS } from "mobx";
-import { createTransformer } from "mobx-utils";
-import { persist } from "mobx-persist";
-import _ from "lodash";
-import moment from "moment";
-import apiCall from "../Services/networkRequests/apiCall";
-import constants from "../constants/constants";
-import storeService from "../Services/storeService/storeService";
-import { logError } from "../Services/errorLogger/errorLogger";
-import { LayoutAnimation, Platform } from "react-native";
-import hydrate from "../Services/hydrate/hydrate";
-import itineraryConstructor from "../Services/appLauncher/itineraryConstructor";
-import debouncer from "../Services/debouncer/debouncer";
+import {action, computed, observable, toJS} from 'mobx';
+import {createTransformer} from 'mobx-utils';
+import {persist} from 'mobx-persist';
+import _ from 'lodash';
+import moment from 'moment';
+import apiCall from '../Services/networkRequests/apiCall';
+import constants from '../constants/constants';
+import storeService from '../Services/storeService/storeService';
+import {logError} from '../Services/errorLogger/errorLogger';
+import {LayoutAnimation, Platform} from 'react-native';
+import hydrate from '../Services/hydrate/hydrate';
+import itineraryConstructor from '../Services/appLauncher/itineraryConstructor';
+import debouncer from '../Services/debouncer/debouncer';
 import {
   IActivityCosting,
   IActivityDetail,
@@ -27,9 +27,9 @@ import {
   ITrainCosting,
   ITransferCosting,
   IVisaCosting,
-  IInsuranceCostingValue
-} from "../TypeInterfaces/IItinerary";
-import { ICustomCostings } from "../TypeInterfaces/ICustomCostings";
+  IInsuranceCostingValue,
+} from '../TypeInterfaces/IItinerary';
+import {ICustomCostings} from '../TypeInterfaces/ICustomCostings';
 
 /**
  * Itinerary date object does not have a year hence this function
@@ -37,10 +37,10 @@ import { ICustomCostings } from "../TypeInterfaces/ICustomCostings";
  * the year string in `YYYY` format
  */
 export const getYearFromItineraryDateObject = (
-  dateObject: IItineraryDay
+  dateObject: IItineraryDay,
 ): string => {
   if (dateObject.dayTs) {
-    return moment(dateObject.dayTs).format("YYYY");
+    return moment(dateObject.dayTs).format('YYYY');
   } else {
     return constants.currentYear;
   }
@@ -52,13 +52,13 @@ export const getYearFromItineraryDateObject = (
  * corresponding Javascript Date object
  */
 export const getJsDateFromItineraryDateObject = (
-  dateObject: IItineraryDay
+  dateObject: IItineraryDay,
 ): Date => {
   return moment(
     `${dateObject.day}-${dateObject.mon}-${getYearFromItineraryDateObject(
-      dateObject
+      dateObject,
     )}`,
-    "DD-MMM-YYYY"
+    'DD-MMM-YYYY',
   ).toDate();
 };
 
@@ -66,7 +66,7 @@ export const getJsDateFromItineraryDateObject = (
  * Type guard to check if insurance costing has the plan details
  */
 export const insuranceCostingTypeGuard = (
-  insuranceCosting: IInsuranceCostingValue | {}
+  insuranceCosting: IInsuranceCostingValue | {},
 ): insuranceCosting is IInsuranceCostingValue => {
   // @ts-ignore
   return !_.isEmpty(insuranceCosting);
@@ -92,17 +92,17 @@ export interface IItineraryCityDetail {
 
 class Itineraries {
   static hydrator = (storeInstance: Itineraries) => {
-    hydrate("_itineraries", storeInstance)
+    hydrate('_itineraries', storeInstance)
       .then(() => {})
       .catch(err => {
         logError(err);
       });
-    hydrate("_selectedItinerary", storeInstance)
+    hydrate('_selectedItinerary', storeInstance)
       .then(() => {})
       .catch(err => {
         logError(err);
       });
-    hydrate("_voucherDownloadMap", storeInstance)
+    hydrate('_voucherDownloadMap', storeInstance)
       .then(() => {})
       .catch(err => {
         logError(err);
@@ -113,17 +113,17 @@ class Itineraries {
 
   @observable _loadingError = false;
 
-  @persist("list")
+  @persist('list')
   @observable
   _itineraries: IItinerary[] = [];
 
-  @persist("object")
+  @persist('object')
   @observable
   _selectedItinerary: IItinerary = <IItinerary>{};
 
-  @persist("object")
+  @persist('object')
   @observable
-  _voucherDownloadMap: { [index: string]: string } = {};
+  _voucherDownloadMap: {[index: string]: string} = {};
 
   @action
   reset = () => {
@@ -140,7 +140,7 @@ class Itineraries {
         return itineraryDetail.itinerary.itineraryId === itineraryId;
       });
       if (selectedItinerary) {
-        if (Platform.OS === "ios") {
+        if (Platform.OS === 'ios') {
           LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
         }
         this._selectedItinerary = selectedItinerary;
@@ -148,7 +148,7 @@ class Itineraries {
           if (this.selectedItineraryId) {
             itineraryConstructor({
               itineraryId: this.selectedItineraryId,
-              cities: this.cities
+              cities: this.cities,
             })
               .then(() => {
                 resolve(this.selectedItineraryId);
@@ -172,23 +172,23 @@ class Itineraries {
   @action
   getItineraryDetails = (
     itineraryId: string,
-    callback: () => any = () => null
+    callback: () => any = () => null,
   ) => {
     return new Promise<string>((resolve, reject): void => {
       this._isLoading = true;
       const requestBody = {};
       apiCall(
         `${constants.getItineraryDetails}?itineraryId=${itineraryId}`,
-        requestBody
+        requestBody,
       )
         .then(response => {
           this._isLoading = false;
           if (response.status === constants.responseSuccessStatus) {
             this._loadingError = false;
             this._itineraries.push(response.data);
-            if (Platform.OS === "ios") {
+            if (Platform.OS === 'ios') {
               LayoutAnimation.configureNext(
-                LayoutAnimation.Presets.easeInEaseOut
+                LayoutAnimation.Presets.easeInEaseOut,
               );
             }
             this._selectedItinerary = response.data;
@@ -196,7 +196,7 @@ class Itineraries {
               if (this.selectedItineraryId) {
                 itineraryConstructor({
                   itineraryId: this.selectedItineraryId,
-                  cities: this.cities
+                  cities: this.cities,
                 })
                   .then(() => {
                     resolve(this.selectedItineraryId);
@@ -224,7 +224,7 @@ class Itineraries {
     const requestBody = {};
     apiCall(
       `${constants.getItineraryDetails}?itineraryId=${itineraryId}`,
-      requestBody
+      requestBody,
     )
       .then(response => {
         this._isLoading = false;
@@ -282,28 +282,28 @@ class Itineraries {
   @computed
   get selectedItineraryId() {
     if (_.isEmpty(this._selectedItinerary)) {
-      return "";
+      return '';
     }
 
     try {
       return this._selectedItinerary.itinerary.itineraryId;
     } catch (e) {
       logError(e);
-      return "";
+      return '';
     }
   }
 
   @computed
   get regionName() {
     if (_.isEmpty(this._selectedItinerary)) {
-      return "";
+      return '';
     }
 
     try {
       return this._selectedItinerary.itinerary.regionName;
     } catch (e) {
       logError(e);
-      return "";
+      return '';
     }
   }
 
@@ -317,7 +317,7 @@ class Itineraries {
       return toJS(this._selectedItinerary);
     } catch (e) {
       logError(e);
-      return "";
+      return '';
     }
   }
 
@@ -330,7 +330,7 @@ class Itineraries {
     try {
       const itineraryDayByKey = toJS(this._selectedItinerary.iterDayByKey);
       const days = Object.values(itineraryDayByKey);
-      return _.sortBy(days, "dayNum");
+      return _.sortBy(days, 'dayNum');
     } catch (e) {
       logError(e);
       return [];
@@ -369,21 +369,21 @@ class Itineraries {
       const endBuffer = 6 - endWeek;
 
       const calendarStartDate = moment(startDate)
-        .subtract(startBuffer, "days")
+        .subtract(startBuffer, 'days')
         .toDate();
       const calendarLastDate = moment(lastDate)
-        .add(endBuffer, "days")
+        .add(endBuffer, 'days')
         .toDate();
 
       const numberOfDays =
-        moment(calendarLastDate).diff(calendarStartDate, "days") + 1;
+        moment(calendarLastDate).diff(calendarStartDate, 'days') + 1;
 
       return {
         calendarStartDate,
         calendarLastDate,
         startDate,
         lastDate,
-        numberOfDays
+        numberOfDays,
       };
     } catch (e) {
       logError(e);
@@ -406,7 +406,7 @@ class Itineraries {
             ? hotelRefs.reduce(
                 (hotelArray: IHotelCosting[], ref): IHotelCosting[] => {
                   const hotel: IHotelCosting = toJS(
-                    this._selectedItinerary.hotelCostings.costingById[ref]
+                    this._selectedItinerary.hotelCostings.costingById[ref],
                   );
 
                   if (
@@ -415,14 +415,14 @@ class Itineraries {
                   ) {
                     hotel.voucher =
                       storeService.voucherStore.getHotelVoucherById(
-                        hotel.costingId
+                        hotel.costingId,
                       ) || {};
                     hotelArray.push(hotel);
                   }
 
                   return hotelArray;
                 },
-                []
+                [],
               )
             : [];
       } catch (e) {
@@ -461,24 +461,25 @@ class Itineraries {
           activityRefs && activityRefs.length
             ? activityRefs.map(ref => {
                 return toJS(
-                  this._selectedItinerary.activityCostings.costingById[ref]
+                  this._selectedItinerary.activityCostings.costingById[ref],
                 );
               })
             : [];
         activities = activitiesCosting.map(costing => {
           const activity = _.find(activitiesList, {
-            planningToolId: parseInt(costing.activityId, 10)
+            planningToolId: parseInt(costing.activityId, 10),
           }) as IActivityDetail;
           return Object.assign({}, activity, {
             costing,
             voucher:
               storeService.voucherStore.getActivityVoucherById(
-                costing.activityCostingId
-              ) || {}
+                costing.activityCostingId,
+              ) || {},
           });
         });
         activities = activities.filter(
-          activity => activity.costing.status === constants.voucherSuccessStatus
+          activity =>
+            activity.costing.status === constants.voucherSuccessStatus,
         );
         return activities;
       } catch (e) {
@@ -506,7 +507,7 @@ class Itineraries {
           ? flightRefs.reduce(
               (flightArray: IFlightCosting[], ref): IFlightCosting[] => {
                 const flight: IFlightCosting = toJS(
-                  this._selectedItinerary.flightCostings.costingById[ref]
+                  this._selectedItinerary.flightCostings.costingById[ref],
                 );
 
                 if (
@@ -515,14 +516,14 @@ class Itineraries {
                 ) {
                   flight.voucher =
                     storeService.voucherStore.getFlightVoucherById(
-                      flight.dbFlightId
+                      flight.dbFlightId,
                     ) || {};
                   flightArray.push(flight);
                 }
 
                 return flightArray;
               },
-              []
+              [],
             )
           : [];
     } catch (e) {
@@ -546,7 +547,7 @@ class Itineraries {
           ? transferRefs.reduce(
               (transferArray: ITransferCosting[], ref): ITransferCosting[] => {
                 const transfer: ITransferCosting = toJS(
-                  this._selectedItinerary.transferCostings.costingById[ref]
+                  this._selectedItinerary.transferCostings.costingById[ref],
                 );
 
                 if (
@@ -555,13 +556,13 @@ class Itineraries {
                 ) {
                   transfer.voucher =
                     storeService.voucherStore.getTransferVoucherById(
-                      transfer.costingId
+                      transfer.costingId,
                     ) || {};
                   transferArray.push(transfer);
                 }
                 return transferArray;
               },
-              []
+              [],
             )
           : [];
     } catch (e) {
@@ -585,7 +586,7 @@ class Itineraries {
           ? trainRefs.reduce(
               (trainsArray: ITrainCosting[], ref): ITrainCosting[] => {
                 const trainCosting: ITrainCosting = toJS(
-                  this._selectedItinerary.trainCostings.costingById[ref]
+                  this._selectedItinerary.trainCostings.costingById[ref],
                 );
                 if (
                   trainCosting &&
@@ -593,13 +594,13 @@ class Itineraries {
                 ) {
                   trainCosting.voucher =
                     storeService.voucherStore.getTrainVoucherById(
-                      trainCosting.costingId
+                      trainCosting.costingId,
                     ) || {};
                   trainsArray.push(trainCosting);
                 }
                 return trainsArray;
               },
-              []
+              [],
             )
           : [];
     } catch (e) {
@@ -623,18 +624,18 @@ class Itineraries {
           ? ferryRefs.reduce(
               (ferriesArray: IFerryCosting[], ref): IFerryCosting[] => {
                 const ferry: IFerryCosting = toJS(
-                  this._selectedItinerary.ferryCostings.costingById[ref]
+                  this._selectedItinerary.ferryCostings.costingById[ref],
                 );
                 if (ferry && ferry.status === constants.voucherSuccessStatus) {
                   ferry.voucher =
                     storeService.voucherStore.getFerryVoucherById(
-                      ferry.costingId
+                      ferry.costingId,
                     ) || {};
                   ferriesArray.push(ferry);
                 }
                 return ferriesArray;
               },
-              []
+              [],
             )
           : [];
     } catch (e) {
@@ -658,7 +659,7 @@ class Itineraries {
           ? visaRefs.reduce(
               (visaArray: IVisaCosting[], ref): IVisaCosting[] => {
                 const visaObject = toJS(
-                  this._selectedItinerary.visaCostings.costingById[ref]
+                  this._selectedItinerary.visaCostings.costingById[ref],
                 );
                 /**
                  * On arrival visa usually wouldn't be shown in the
@@ -672,7 +673,7 @@ class Itineraries {
                 }
                 return visaArray;
               },
-              []
+              [],
             )
           : [];
     } catch (e) {
@@ -701,7 +702,7 @@ class Itineraries {
           ];
         firstInsurance.voucher =
           storeService.voucherStore.getInsuranceVoucherById(
-            firstInsurance.costingId
+            firstInsurance.costingId,
           ) || {};
         return firstInsurance;
       } else {
@@ -727,9 +728,9 @@ class Itineraries {
           ? passRefs.map(
               (ref: string): IPassCosting => {
                 return toJS(
-                  this._selectedItinerary.passCostings.costingById[ref]
+                  this._selectedItinerary.passCostings.costingById[ref],
                 );
-              }
+              },
             )
           : [];
     } catch (e) {
@@ -753,7 +754,7 @@ class Itineraries {
           ? rentalRefs.reduce(
               (rentalsArray: IRentalCarCosting[], ref): IRentalCarCosting[] => {
                 const rental: IRentalCarCosting = toJS(
-                  this._selectedItinerary.rentalCarCostings.costingById[ref]
+                  this._selectedItinerary.rentalCarCostings.costingById[ref],
                 );
                 if (
                   rental &&
@@ -761,13 +762,13 @@ class Itineraries {
                 ) {
                   rental.voucher =
                     storeService.voucherStore.getRentalCarVoucherById(
-                      rental.rcCostingId || rental.dbRef
+                      rental.rcCostingId || rental.dbRef,
                     ) || {};
                   rentalsArray.push(rental);
                 }
                 return rentalsArray;
               },
-              []
+              [],
             )
           : [];
     } catch (e) {
@@ -785,7 +786,7 @@ class Itineraries {
 
     let customCostingsArray: ICustomCostings[] = [];
     try {
-      const { customCostings = [] } = this._selectedItinerary;
+      const {customCostings = []} = this._selectedItinerary;
       customCostingsArray = toJS(customCostings);
     } catch (e) {
       logError(e);
@@ -796,7 +797,7 @@ class Itineraries {
   getRentalCarByCityOrder = createTransformer(
     ({
       fromCityOrder,
-      toCityOrder
+      toCityOrder,
     }: {
       fromCityOrder: number;
       toCityOrder: number;
@@ -806,7 +807,7 @@ class Itineraries {
       }
       try {
         const rental = this.rentals.find(rentalCar => {
-          const { configKey } = rentalCar;
+          const {configKey} = rentalCar;
           const rentalKeyArray = configKey.split(/#|_/);
           const pickUpCityOrder = parseInt(rentalKeyArray[1], 10);
           const dropCityOrder = parseInt(rentalKeyArray[3], 10);
@@ -823,7 +824,7 @@ class Itineraries {
         logError(e);
         return {};
       }
-    }
+    },
   );
 
   getCityOrderById = createTransformer((cityId: number): number => {
@@ -874,18 +875,18 @@ class Itineraries {
           day.allSlotKeys.map(
             (slotKey): IIterSlotByKey => {
               const slot: IIterSlotByKey = toJS(
-                this._selectedItinerary.iterSlotByKey[slotKey]
+                this._selectedItinerary.iterSlotByKey[slotKey],
               );
-              if (slot.type === "ACTIVITY") {
+              if (slot.type === 'ACTIVITY') {
                 slot.activitySlotDetail = Object.assign(
                   {},
                   slot.activitySlotDetail,
-                  this.getActivityById(slot.activitySlotDetail.activityId)
+                  this.getActivityById(slot.activitySlotDetail.activityId),
                 );
               }
               return slot;
-            }
-          )
+            },
+          ),
         ]);
       }, []);
     } catch (e) {
@@ -925,7 +926,7 @@ class Itineraries {
         const image = cityObject.image;
         const cityName = cityObject.cityName;
 
-        return { city, startDay, endDay, cityObject, image, cityName };
+        return {city, startDay, endDay, cityObject, image, cityName};
       });
     } catch (e) {
       logError(e);
@@ -950,7 +951,7 @@ class Itineraries {
 
   @computed
   get defaultCurrency() {
-    return "INR";
+    return 'INR';
   }
 
   /**
@@ -1013,7 +1014,7 @@ class Itineraries {
         logError(e);
         return {} as ICity;
       }
-    }
+    },
   );
 
   getHotelByDate = createTransformer((date: string): IHotelCosting | {} => {
@@ -1023,18 +1024,18 @@ class Itineraries {
 
     try {
       const hotelCostings = toJS(
-        this._selectedItinerary.hotelCostings.costingById
+        this._selectedItinerary.hotelCostings.costingById,
       );
       for (const key in hotelCostings) {
         if (hotelCostings.hasOwnProperty(key)) {
           const hotel = hotelCostings[key];
-          const hotelDate = moment(hotel.checkInTs).format("DDMMYYYY");
+          const hotelDate = moment(hotel.checkInTs).format('DDMMYYYY');
           if (hotelDate === date) {
             return hotel;
           }
         }
       }
-      logError("No Hotel found for the given date...");
+      logError('No Hotel found for the given date...');
       return {};
     } catch (e) {
       logError(e);
@@ -1054,7 +1055,7 @@ class Itineraries {
         this.activities.find(
           activity =>
             id === activity.costing.configKey ||
-            id === activity.costing.activityCostingId
+            id === activity.costing.activityCostingId,
         ) || {}
       );
     } catch (e) {
@@ -1070,7 +1071,7 @@ class Itineraries {
 
     try {
       const flight = toJS(
-        this._selectedItinerary.flightCostings.costingById[id]
+        this._selectedItinerary.flightCostings.costingById[id],
       );
       if (flight && flight.configKey) {
         flight.voucher =
@@ -1121,12 +1122,12 @@ class Itineraries {
 
     try {
       const transfer = toJS(
-        this._selectedItinerary.transferCostings.costingById[id]
+        this._selectedItinerary.transferCostings.costingById[id],
       );
       if (transfer) {
         transfer.voucher =
           storeService.voucherStore.getTransferVoucherById(
-            transfer.configKey
+            transfer.configKey,
           ) || {};
         return transfer;
       } else {
@@ -1165,12 +1166,12 @@ class Itineraries {
 
     try {
       const rentalCar = toJS(
-        this._selectedItinerary.rentalCarCostings.costingById[id]
+        this._selectedItinerary.rentalCarCostings.costingById[id],
       );
       if (rentalCar) {
         rentalCar.voucher =
           storeService.voucherStore.getRentalCarVoucherById(
-            rentalCar.rcCostingId || rentalCar.dbRef
+            rentalCar.rcCostingId || rentalCar.dbRef,
           ) || {};
         return rentalCar;
       } else {
@@ -1208,7 +1209,9 @@ class Itineraries {
     }
 
     try {
-      const hotel = this._selectedItinerary.hotelCostings.costingById[id] || {};
+      const hotel = toJS(
+        this._selectedItinerary.hotelCostings.costingById[id] || {},
+      );
       hotel.voucher =
         storeService.voucherStore.getHotelVoucherById(hotel.costingId) || {};
       return hotel;
@@ -1302,7 +1305,7 @@ class Itineraries {
           for (let i = 0; i < slotKeys.length; i++) {
             if (
               this._selectedItinerary.iterSlotByKey[slotKeys[i]].type ===
-              "ACTIVITY"
+              'ACTIVITY'
             ) {
               activityCount++;
             }
@@ -1324,21 +1327,21 @@ class Itineraries {
             .allSlotKeys;
           for (let i = 0; i < slotKeys.length; i++) {
             const activity = this._selectedItinerary.iterSlotByKey[slotKeys[i]];
-            if (_.toUpper(activity.type) === "INTERCITY_TRANSFER") {
+            if (_.toUpper(activity.type) === 'INTERCITY_TRANSFER') {
               return {
                 mode:
                   activity.intercityTransferSlotDetailVO.directTransferDetail
                     .transferMode,
-                type: activity.type
+                type: activity.type,
               };
             } else if (
-              _.toUpper(activity.type) === "INTERNATIONAL_ARRIVE" ||
-              _.toUpper(activity.type) === "INTERNATIONAL_DEPART"
+              _.toUpper(activity.type) === 'INTERNATIONAL_ARRIVE' ||
+              _.toUpper(activity.type) === 'INTERNATIONAL_DEPART'
             ) {
-              return { mode: "FLIGHT", type: activity.type };
-            } else if (activity.type === "ACTIVITY_WITH_TRANSFER") {
+              return {mode: 'FLIGHT', type: activity.type};
+            } else if (activity.type === 'ACTIVITY_WITH_TRANSFER') {
               let transferMode;
-              const { intercityTransferSlotDetailVO } = activity;
+              const {intercityTransferSlotDetailVO} = activity;
               /**
                * Activity with transfer will have two types of transfers
                * - Direct
@@ -1346,14 +1349,14 @@ class Itineraries {
                */
               if (
                 _.toUpper(intercityTransferSlotDetailVO.transferType) ===
-                "DIRECT"
+                'DIRECT'
               ) {
                 transferMode =
                   intercityTransferSlotDetailVO.directTransferDetail
                     .transferMode;
               } else if (
                 _.toUpper(intercityTransferSlotDetailVO.transferType) ===
-                "TRANSIT"
+                'TRANSIT'
               ) {
                 transferMode =
                   intercityTransferSlotDetailVO.transitTransferDetail
@@ -1361,16 +1364,16 @@ class Itineraries {
               }
               return {
                 mode: transferMode,
-                type: activity.type
+                type: activity.type,
               };
             }
           }
         }
       }
-      return { mode: "NONE", type: "NONE" };
+      return {mode: 'NONE', type: 'NONE'};
     } catch (e) {
       logError(e);
-      return { mode: "NONE", type: "NONE" };
+      return {mode: 'NONE', type: 'NONE'};
     }
   });
 
