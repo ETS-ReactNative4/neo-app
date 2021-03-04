@@ -26,6 +26,7 @@
     "bump-version": "node bumpVersion.js",
     "commit": "git-cz",
     "android:beta": "cd android && fastlane android beta",
+    "android:playstore": "cd android && fastlane android playstore",
     "ios:beta": "cd ios && fastlane ios beta"
   },
   "config": {
