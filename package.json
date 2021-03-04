@@ -27,7 +27,8 @@
     "commit": "git-cz",
     "android:beta": "cd android && fastlane android beta",
     "android:playstore": "cd android && fastlane android playstore",
-    "ios:beta": "cd ios && fastlane ios beta"
+    "ios:beta": "cd ios && fastlane ios beta",
+    "ios:release": "cd ios && fastlane ios release"
   },
   "config": {
     "commitizen": {
