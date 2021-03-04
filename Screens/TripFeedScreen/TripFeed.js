@@ -1,47 +1,48 @@
-import React, { Component } from "react";
-import { View, StyleSheet, BackHandler } from "react-native";
-import HomeHeader from "../../CommonComponents/HomeHeader/HomeHeader";
-import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
-import ToolTip from "./Components/ToolTip/ToolTip";
-import TripViewLite from "./Components/TripViewLite/TripViewLite";
-import TripView from "./Components/TripView/TripView";
-import TripFeedCarousel from "./Components/TripFeedCarousel/TripFeedCarousel";
-import BigImageCard from "./Components/BigImageCard/BigImageCard";
-import AlertCard from "./Components/AlertCard/AlertCard";
-import InfoCard from "./Components/InfoCard/InfoCard";
-import { inject, observer } from "mobx-react";
-import CustomScrollView from "../../CommonComponents/CustomScrollView/CustomScrollView";
-import InfoCardModal from "./Components/InfoCardModal/InfoCardModal";
-import NoInternetIndicator from "../../CommonComponents/NoInternetIndicator/NoInternetIndicator";
-import FeedBackSwiper from "./Components/FeedBackSwiper/FeedBackSwiper";
-import FeedBackPositiveExplosion from "./Components/FeedBackSwiper/Components/FeedBackPositiveExplosion";
-import DayAhead from "./Components/DayAhead/DayAhead";
-import DayAheadLite from "./Components/DayAheadLite/DayAheadLite";
-import FeedbackPanelOverlay from "./Components/FeedbackPanelOverlay";
-import pullToRefresh from "../../Services/refresh/pullToRefresh";
-import debouncer from "../../Services/debouncer/debouncer";
-import constants from "../../constants/constants";
-import AlertCardV2 from "./Components/AlertCardV2/AlertCardV2";
-import isUserLoggedInCallback from "../../Services/isUserLoggedInCallback/isUserLoggedInCallback";
+import React, {Component} from 'react';
+import {View, StyleSheet, BackHandler} from 'react-native';
+import HomeHeader from '../../CommonComponents/HomeHeader/HomeHeader';
+import ErrorBoundary from '../../CommonComponents/ErrorBoundary/ErrorBoundary';
+import ToolTip from './Components/ToolTip/ToolTip';
+import TripViewLite from './Components/TripViewLite/TripViewLite';
+import TripView from './Components/TripView/TripView';
+import TripFeedCarousel from './Components/TripFeedCarousel/TripFeedCarousel';
+import BigImageCard from './Components/BigImageCard/BigImageCard';
+import AlertCard from './Components/AlertCard/AlertCard';
+import InfoCard from './Components/InfoCard/InfoCard';
+import {inject, observer} from 'mobx-react';
+import CustomScrollView from '../../CommonComponents/CustomScrollView/CustomScrollView';
+import InfoCardModal from './Components/InfoCardModal/InfoCardModal';
+import NoInternetIndicator from '../../CommonComponents/NoInternetIndicator/NoInternetIndicator';
+import FeedBackSwiper from './Components/FeedBackSwiper/FeedBackSwiper';
+import FeedBackPositiveExplosion from './Components/FeedBackSwiper/Components/FeedBackPositiveExplosion';
+import DayAhead from './Components/DayAhead/DayAhead';
+import DayAheadLite from './Components/DayAheadLite/DayAheadLite';
+import FeedbackPanelOverlay from './Components/FeedbackPanelOverlay';
+import pullToRefresh from '../../Services/refresh/pullToRefresh';
+import debouncer from '../../Services/debouncer/debouncer';
+import constants from '../../constants/constants';
+import AlertCardV2 from './Components/AlertCardV2/AlertCardV2';
+import isUserLoggedInCallback from '../../Services/isUserLoggedInCallback/isUserLoggedInCallback';
 import {
   getActorId,
   getRestoreId,
   getUnreadMessagesCount,
   identifyChatUser,
   initializeChat,
-  setChatUserDetails
-} from "../../Services/freshchatService/freshchatService";
-import SupportOfflineMessage from "../ChatScreen/Components/SupportOfflineMessage";
-import dialer from "../../Services/dialer/dialer";
-import { recordEvent } from "../../Services/analytics/analyticsService";
-import PropTypes from "prop-types";
+  setChatUserDetails,
+} from '../../Services/freshchatService/freshchatService';
+import SupportOfflineMessage from '../ChatScreen/Components/SupportOfflineMessage';
+import dialer from '../../Services/dialer/dialer';
+import {recordEvent} from '../../Services/analytics/analyticsService';
+import PropTypes from 'prop-types';
 
-@ErrorBoundary({ isRoot: true })
-@inject("tripFeedStore")
-@inject("feedbackPrompt")
-@inject("itineraries")
-@inject("chatDetailsStore")
-@inject("visaStore")
+@ErrorBoundary({isRoot: true})
+@inject('tripFeedStore')
+@inject('feedbackPrompt')
+@inject('itineraries')
+@inject('chatDetailsStore')
+@inject('visaStore')
+@inject('deviceDetailsStore')
 @observer
 class TripFeed extends Component {
   static propTypes = {
@@ -50,11 +51,11 @@ class TripFeed extends Component {
     itineraries: PropTypes.object,
     chatDetailsStore: PropTypes.object,
     navigation: PropTypes.object,
-    visaStore: PropTypes.object
+    visaStore: PropTypes.object,
   };
 
   static navigationOptions = {
-    header: null
+    header: null,
   };
 
   _didFocusSubscription;
@@ -70,29 +71,29 @@ class TripFeed extends Component {
      */
     this.state = {
       scrollEnabled: true,
-      tripFeedHeader: HomeHeader({ navigation: props.navigation }).header
+      tripFeedHeader: HomeHeader({navigation: props.navigation}).header,
     };
 
     this._didFocusSubscription = props.navigation.addListener(
-      "didFocus",
+      'didFocus',
       () => {
         debouncer(() => {
-          const { selectedItineraryId } = props.itineraries;
+          const {selectedItineraryId} = props.itineraries;
           if (selectedItineraryId) {
             this.loadTripFeedData();
             this.loadChatData();
           }
           BackHandler.addEventListener(
-            "hardwareBackPress",
-            this.onBackButtonPressAndroid
+            'hardwareBackPress',
+            this.onBackButtonPressAndroid,
           );
         });
-      }
+      },
     );
   }
 
   onBackButtonPressAndroid = () => {
-    const { navigation } = this.props;
+    const {navigation} = this.props;
     if (navigation.isFocused()) {
       BackHandler.exitApp();
     } else {
@@ -104,51 +105,53 @@ class TripFeed extends Component {
     if (!status) {
       setTimeout(() => {
         this.setState({
-          scrollEnabled: true
+          scrollEnabled: true,
         });
       }, 1000);
     }
     this.setState({
-      scrollEnabled: status
+      scrollEnabled: status,
     });
   };
 
   componentDidMount() {
-    const { selectedItineraryId } = this.props.itineraries;
+    const {deviceDetailsStore} = this.props;
+    const {selectedItineraryId} = this.props.itineraries;
+    deviceDetailsStore.setDeviceDetails();
     if (selectedItineraryId) {
       this.loadTripFeedData();
       this.loadChatData();
       const {
         isVisaInitialized,
         shouldDisplaySuccessAnimation,
-        loadAllVisaDetails
+        loadAllVisaDetails,
       } = this.props.visaStore;
       if (isVisaInitialized) {
         loadAllVisaDetails();
         if (shouldDisplaySuccessAnimation) {
-          this.props.navigation.navigate("VisaSuccess");
+          this.props.navigation.navigate('VisaSuccess');
         }
       }
     }
 
     this._willBlurSubscription = this.props.navigation.addListener(
-      "willBlur",
+      'willBlur',
       () => {
         BackHandler.removeEventListener(
-          "hardwareBackPress",
-          this.onBackButtonPressAndroid
+          'hardwareBackPress',
+          this.onBackButtonPressAndroid,
         );
-      }
+      },
     );
   }
 
   loadTripFeedData = () => {
-    const { generateTripFeed } = this.props.tripFeedStore;
-    const { fetchFeedBackData } = this.props.feedbackPrompt;
+    const {generateTripFeed} = this.props.tripFeedStore;
+    const {fetchFeedBackData} = this.props.feedbackPrompt;
     generateTripFeed();
     pullToRefresh({
       itinerary: true,
-      voucher: true
+      voucher: true,
     });
     setTimeout(() => {
       fetchFeedBackData();
@@ -168,27 +171,27 @@ class TripFeed extends Component {
       const {
         getUserDetails,
         setUnreadMessageCount,
-        setChatMetaInfo
+        setChatMetaInfo,
       } = this.props.chatDetailsStore;
       getUserDetails()
         .then(chatDetails => {
           initializeChat(chatDetails.appId, chatDetails.appKey);
           identifyChatUser(chatDetails.feid, chatDetails.frid || null).catch(
-            () => null
+            () => null,
           );
           setChatUserDetails({
             firstName: chatDetails.trailId,
             lastName: chatDetails.name,
             email: chatDetails.email,
             phoneCountryCode: chatDetails.ccode,
-            phone: chatDetails.mob_num
+            phone: chatDetails.mob_num,
           }).catch(() => null);
           if (!chatDetails.frid) {
             getRestoreId()
               .then(restoreId => {
                 getActorId()
                   .then(actorId => {
-                    setChatMetaInfo({ restoreId, actorId });
+                    setChatMetaInfo({restoreId, actorId});
                   })
                   .catch(() => null);
               })
@@ -217,17 +220,17 @@ class TripFeed extends Component {
       isLoading,
       widgets,
       infoCardModal,
-      closeInfoCardModal
+      closeInfoCardModal,
     } = this.props.tripFeedStore;
-    const { isFeedbackPanelVisible } = this.props.feedbackPrompt;
+    const {isFeedbackPanelVisible} = this.props.feedbackPrompt;
     const {
       isOffHours,
       currentTime,
-      offlineContact
+      offlineContact,
     } = this.props.chatDetailsStore;
     const openDialer = () => {
       recordEvent(constants.TripFeed.event, {
-        click: constants.TripFeed.click.chatOfflineContact
+        click: constants.TripFeed.click.chatOfflineContact,
       });
       dialer(offlineContact);
     };
@@ -244,13 +247,12 @@ class TripFeed extends Component {
           refreshing={isLoading}
           directionalLockEnabled={true}
           scrollEnabled={this.state.scrollEnabled}
-          style={styles.tripFeedScrollView}
-        >
+          style={styles.tripFeedScrollView}>
           {widgets.map((widget, widgetIndex) => {
             try {
               isImageFirst = !isImageFirst;
               switch (widget.type) {
-                case "TOOL_TIP":
+                case 'TOOL_TIP':
                   return (
                     <ToolTip
                       key={widgetIndex}
@@ -259,7 +261,7 @@ class TripFeed extends Component {
                       imageFirst={isImageFirst}
                     />
                   );
-                case "INFO_CARD":
+                case 'INFO_CARD':
                   return (
                     <InfoCard
                       key={widgetIndex}
@@ -267,7 +269,7 @@ class TripFeed extends Component {
                       widgetName={widget.widgetName}
                     />
                   );
-                case "CAROUSEL":
+                case 'CAROUSEL':
                   return (
                     <TripFeedCarousel
                       key={widgetIndex}
@@ -275,7 +277,7 @@ class TripFeed extends Component {
                       widgetName={widget.widgetName}
                     />
                   );
-                case "TRIP_VIEW":
+                case 'TRIP_VIEW':
                   return (
                     <TripView
                       key={widgetIndex}
@@ -283,7 +285,7 @@ class TripFeed extends Component {
                       widgetName={widget.widgetName}
                     />
                   );
-                case "TRIP_VIEW_LITE":
+                case 'TRIP_VIEW_LITE':
                   return (
                     <TripViewLite
                       key={widgetIndex}
@@ -291,7 +293,7 @@ class TripFeed extends Component {
                       widgetName={widget.widgetName}
                     />
                   );
-                case "BIG_IMAGE_CARD":
+                case 'BIG_IMAGE_CARD':
                   return (
                     <BigImageCard
                       key={widgetIndex}
@@ -299,7 +301,7 @@ class TripFeed extends Component {
                       widgetName={widget.widgetName}
                     />
                   );
-                case "ALERT_CARD":
+                case 'ALERT_CARD':
                   return (
                     <AlertCard
                       key={widgetIndex}
@@ -308,7 +310,7 @@ class TripFeed extends Component {
                       widgetName={widget.widgetName}
                     />
                   );
-                case "ALERT_CARD_2":
+                case 'ALERT_CARD_2':
                   return (
                     <View style={styles.tripFeedWidgetWrapper}>
                       <AlertCardV2
@@ -318,7 +320,7 @@ class TripFeed extends Component {
                       />
                     </View>
                   );
-                case "FEEDBACK_SWIPER":
+                case 'FEEDBACK_SWIPER':
                   return (
                     <FeedBackSwiper
                       emitterComponent={this._emitterComponent}
@@ -328,7 +330,7 @@ class TripFeed extends Component {
                       widgetName={widget.widgetName}
                     />
                   );
-                case "DAY_AHEAD":
+                case 'DAY_AHEAD':
                   return (
                     <DayAhead
                       key={widgetIndex}
@@ -336,7 +338,7 @@ class TripFeed extends Component {
                       widgetName={widget.widgetName}
                     />
                   );
-                case "DAY_AHEAD_LITE":
+                case 'DAY_AHEAD_LITE':
                   return (
                     <DayAheadLite
                       key={widgetIndex}
@@ -371,21 +373,21 @@ class TripFeed extends Component {
 const styles = StyleSheet.create({
   tripFeedContainer: {
     flex: 1,
-    backgroundColor: constants.white1
+    backgroundColor: constants.white1,
   },
   tripFeedScrollView: {
     flex: 1,
-    backgroundColor: constants.white1
+    backgroundColor: constants.white1,
   },
   wrapper: {
-    marginHorizontal: 24
+    marginHorizontal: 24,
   },
   tripFeedWidgetWrapper: {
     marginTop: 8,
-    backgroundColor: "white",
+    backgroundColor: 'white',
     paddingHorizontal: 24,
-    paddingVertical: 8
-  }
+    paddingVertical: 8,
+  },
 });
 
 export default TripFeed;

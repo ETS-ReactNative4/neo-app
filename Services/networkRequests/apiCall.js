@@ -1,14 +1,14 @@
-import * as Keychain from "react-native-keychain";
-import constants from "../../constants/constants";
-import { logBreadCrumb, logError } from "../errorLogger/errorLogger";
-import logOut from "../logOut/logOut";
-import DebouncedAlert from "../../CommonComponents/DebouncedAlert/DebouncedAlert";
-import DeviceInfo from "react-native-device-info";
-import _ from "lodash";
+import * as Keychain from 'react-native-keychain';
+import constants from '../../constants/constants';
+import {logBreadCrumb, logError} from '../errorLogger/errorLogger';
+import logOut from '../logOut/logOut';
+import DebouncedAlert from '../../CommonComponents/DebouncedAlert/DebouncedAlert';
+import DeviceInfo from 'react-native-device-info';
+import _ from 'lodash';
 // import { perf } from "react-native-firebase";
 import perf from '@react-native-firebase/perf';
-import { isProduction } from "../getEnvironmentDetails/getEnvironmentDetails";
-import storeService from "../storeService/storeService";
+import {isProduction} from '../getEnvironmentDetails/getEnvironmentDetails';
+import storeService from '../storeService/storeService';
 
 const timeoutDuration = 60000;
 const apiServer = constants.apiServerUrl;
@@ -27,26 +27,26 @@ const logger = (arg1, arg2) => {
 const apiCall = async (
   route,
   body = {},
-  method = "POST",
+  method = 'POST',
   customDomain = false,
   customToken = null,
   customHeader = {},
-  abortController = null
+  abortController = null,
 ) => {
   const credentials = await Keychain.getGenericPassword();
 
   let headerObject = {
-    "Content-Type": "application/json",
+    'Content-Type': 'application/json',
     isMobile: true,
     deviceId: DeviceInfo.getUniqueId(),
     appVersion: DeviceInfo.getVersion(),
-    locale: storeService.deviceLocaleStore.deviceLocale
+    locale: storeService.deviceLocaleStore.deviceLocale,
   };
 
   if (customHeader && !_.isEmpty(customHeader)) {
     headerObject = {
       ...headerObject,
-      ...customHeader
+      ...customHeader,
     };
   }
 
@@ -55,41 +55,45 @@ const apiCall = async (
   } else if (credentials && credentials.username && credentials.password) {
     headerObject.Authorization = credentials.password;
   }
-  
+
   // eslint-disable-next-line no-undef
   const headers = new Headers(headerObject);
 
   const requestDetails = {
     method,
-    mode: "cors",
-    headers
+    mode: 'cors',
+    headers,
   };
 
-  if (method !== "GET") {
+  if (method !== 'GET') {
     requestDetails.body = JSON.stringify(body);
   }
-  
+
   if (abortController) {
     requestDetails.signal = abortController.signal;
   }
 
   const serverURL = customDomain ? customDomain : apiServer;
-  
+
   const requestURL = `${serverURL}${route}`;
-  
+
   /**
    * Start Performance monitoring for the current request
    */
   const metric = perf().newHttpMetric(requestURL, method);
   await metric.start();
-  if (!_.isEmpty(body)) {
-    for (let key in body) {
-      if (body.hasOwnProperty(key)) {
-        
-        await metric.putAttribute(key, (JSON.stringify(body[key]).substring(0,100)));
+  try {
+    if (!_.isEmpty(body)) {
+      for (let key in body) {
+        if (body.hasOwnProperty(key)) {
+          await metric.putAttribute(
+            key,
+            JSON.stringify(body[key]).substring(0, 100),
+          );
+        }
       }
     }
-  }
+  } catch {}
 
   /**
    * This promise will start the network request and will return the data from the server
@@ -103,12 +107,11 @@ const apiCall = async (
     logger(headers);
 
     function handleResponse(response) {
-      
       /**
        * Tracking the response performance
        */
       metric.setHttpResponseCode(response.status);
-      metric.setResponseContentType(response.headers.get("Content-Type"));
+      metric.setResponseContentType(response.headers.get('Content-Type'));
       metric.stop();
 
       // metric
@@ -124,7 +127,6 @@ const apiCall = async (
       //     //  });
       //   });
 
-
       logger(response.status);
       logger(response.statusText);
 
@@ -139,10 +141,10 @@ const apiCall = async (
       ) {
         if (!isJustLoggedOut) {
           isJustLoggedOut = true;
-          DebouncedAlert("Oops!", "Session Expired... Please Login again!");
+          DebouncedAlert('Oops!', 'Session Expired... Please Login again!');
         }
         logOut();
-        return { status: "EXPIRED" };
+        return {status: 'EXPIRED'};
       } else {
         isJustLoggedOut = false;
         /**
@@ -155,24 +157,24 @@ const apiCall = async (
           /**
            * Request success but no data returned from the server
            */
-          const data = { status: "SUCCESS" };
+          const data = {status: 'SUCCESS'};
           return data;
         } else {
           /**
            * Request failed. This will throw an error object to fail the fetch promise
            */
           const errorInfo = {
-            type: "apiCall",
+            type: 'apiCall',
             url: requestURL,
             body,
             status: response.status,
-            ...headerObject
+            ...headerObject,
           };
           const errorObject = Error(
             JSON.stringify({
               status: response.status,
-              url: requestURL
-            })
+              url: requestURL,
+            }),
           );
           logError(errorObject, errorInfo);
           throw errorObject;
@@ -192,9 +194,9 @@ const apiCall = async (
             requestURL,
             requestBody: JSON.stringify(requestDetails.body),
             ...headerObject,
-            response: JSON.stringify(data)
+            response: JSON.stringify(data),
           },
-          level: constants.errorLoggerEvents.levels.info
+          level: constants.errorLoggerEvents.levels.info,
         });
         resolve(data);
       })
@@ -211,16 +213,16 @@ const apiCall = async (
   const networkTimeOut = reject => {
     return setTimeout(() => {
       const errorInfo = {
-        type: "apiCall",
+        type: 'apiCall',
         url: requestURL,
         body,
-        ...headerObject
+        ...headerObject,
       };
       const errorObject = Error(
         JSON.stringify({
-          status: `Request timed out!`,
-          url: requestURL
-        })
+          status: 'Request timed out!',
+          url: requestURL,
+        }),
       );
       logError(errorObject, errorInfo);
       reject(errorObject);
