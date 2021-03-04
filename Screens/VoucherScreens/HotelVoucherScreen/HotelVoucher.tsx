@@ -1,41 +1,41 @@
-import React, { Component, Fragment } from "react";
-import { View, Text, StyleSheet, Platform } from "react-native";
-import { isIphoneX } from "react-native-iphone-x-helper";
+import React, {Component, Fragment} from 'react';
+import {View, Text, StyleSheet, Platform} from 'react-native';
+import {isIphoneX} from 'react-native-iphone-x-helper';
 // @ts-ignore
-import ParallaxScrollView from "react-native-parallax-scroll-view";
-import VoucherHeader from "../Components/VoucherHeader";
-import constants from "../../../constants/constants";
-import SectionHeader from "../../../CommonComponents/SectionHeader/SectionHeader";
-import CircleThumbnail from "../../../CommonComponents/CircleThumbnail/CircleThumbnail";
-import VoucherStickyHeader from "../Components/VoucherStickyHeader";
-import VoucherName from "../Components/VoucherName";
-import PassengerName from "./Components/PassengerName";
-import VoucherAccordion from "../Components/VoucherAccordion";
-import IosCloseButton from "../Components/IosCloseButton";
-import VoucherSplitSection from "../Components/VoucherSplitSection";
-import moment from "moment";
-import VoucherContactActionBar from "../Components/VoucherContactActionBar";
-import ErrorBoundary from "../../../CommonComponents/ErrorBoundary/ErrorBoundary";
-import ViewVoucherButton from "../Components/ViewVoucherButton";
-import ConditionsApplyText from "../Components/ConditionsApplyText";
-import CheckInCheckOut from "../Components/CheckInCheckOut";
-import _ from "lodash";
-import { createIconSetFromIcoMoon } from "react-native-vector-icons";
-import icoMoonConfig from "../../../assets/fontMap/hotel-amenities.json";
-import VoucherAlertBox from "../Components/VoucherAlertBox/VoucherAlertBox";
-import VoucherAddressSectionV2 from "../Components/VoucherAddressSectionV2/VoucherAddressSectionV2";
+import ParallaxScrollView from 'react-native-parallax-scroll-view';
+import VoucherHeader from '../Components/VoucherHeader';
+import constants from '../../../constants/constants';
+import SectionHeader from '../../../CommonComponents/SectionHeader/SectionHeader';
+import CircleThumbnail from '../../../CommonComponents/CircleThumbnail/CircleThumbnail';
+import VoucherStickyHeader from '../Components/VoucherStickyHeader';
+import VoucherName from '../Components/VoucherName';
+import PassengerName from './Components/PassengerName';
+import VoucherAccordion from '../Components/VoucherAccordion';
+import IosCloseButton from '../Components/IosCloseButton';
+import VoucherSplitSection from '../Components/VoucherSplitSection';
+import moment from 'moment';
+import VoucherContactActionBar from '../Components/VoucherContactActionBar';
+import ErrorBoundary from '../../../CommonComponents/ErrorBoundary/ErrorBoundary';
+import ViewVoucherButton from '../Components/ViewVoucherButton';
+import ConditionsApplyText from '../Components/ConditionsApplyText';
+import CheckInCheckOut from '../Components/CheckInCheckOut';
+import _ from 'lodash';
+import {createIconSetFromIcoMoon} from 'react-native-vector-icons';
+import icoMoonConfig from '../../../assets/fontMap/hotel-amenities.json';
+import VoucherAlertBox from '../Components/VoucherAlertBox/VoucherAlertBox';
+import VoucherAddressSectionV2 from '../Components/VoucherAddressSectionV2/VoucherAddressSectionV2';
 import {
   IAmenityDisplayList,
-  IHotelCosting
-} from "../../../TypeInterfaces/IItinerary";
+  IHotelCosting,
+} from '../../../TypeInterfaces/IItinerary';
 import {
   IPassengerDetail,
-  IVoucherSplitSectionData
-} from "../types/voucherScreenTypes";
+  IVoucherSplitSectionData,
+} from '../types/voucherScreenTypes';
 
 const xHeight = isIphoneX()
   ? constants.xNotchHeight
-  : Platform.OS === "ios"
+  : Platform.OS === 'ios'
   ? 20
   : 0;
 
@@ -57,17 +57,17 @@ class HotelVoucher extends Component<HotelVoucherProps, HotelVoucherState> {
   public static navigationOptions = {
     header: null,
     gestureResponseDistance: {
-      vertical: 214 + xHeight
-    }
+      vertical: 214 + xHeight,
+    },
   };
 
   state = {
-    isCloseVisible: true
+    isCloseVisible: true,
   };
 
   headerToggle = (status: boolean) => {
     this.setState({
-      isCloseVisible: status
+      isCloseVisible: status,
     });
   };
 
@@ -91,7 +91,7 @@ class HotelVoucher extends Component<HotelVoucherProps, HotelVoucherState> {
       imageURL,
       mobile,
       lat,
-      lon
+      lon,
     } = hotel;
 
     const {
@@ -102,12 +102,12 @@ class HotelVoucher extends Component<HotelVoucherProps, HotelVoucherState> {
       checkInTime: checkInTimeVoucher,
       checkOutDate: checkOutDateVoucher,
       checkOutTime: checkOutTimeVoucher,
-      voucherUrl
-    } = hotel.voucher;
+      voucherUrl,
+    } = hotel.voucher || {};
 
     const amenitiesSection: IVoucherSplitSectionData[] = [
       {
-        name: "Hotel Amenities",
+        name: 'Hotel Amenities',
         component: amenityDisplayList ? (
           <Fragment>
             {amenityDisplayList.map(
@@ -120,9 +120,8 @@ class HotelVoucher extends Component<HotelVoucherProps, HotelVoucherState> {
                       styles.amenitiesTextWrapper,
                       amenityIndex === amenityDisplayList.length - 1
                         ? customStyle
-                        : {}
-                    ]}
-                  >
+                        : {},
+                    ]}>
                     <Icon
                       name={amenity.iconUrl}
                       size={18}
@@ -133,16 +132,16 @@ class HotelVoucher extends Component<HotelVoucherProps, HotelVoucherState> {
                     </Text>
                   </View>
                 );
-              }
+              },
             )}
             <VoucherAlertBox
               alertText={constants.voucherText.hotelAmenitiesDisclaimer}
-              mode={"alert"}
+              mode={'alert'}
               containerStyle={styles.alertContainer}
             />
           </Fragment>
-        ) : null
-      }
+        ) : null,
+      },
     ];
 
     const bookingDetailSection: IVoucherSplitSectionData[] = [
@@ -159,31 +158,31 @@ class HotelVoucher extends Component<HotelVoucherProps, HotelVoucherState> {
 
     const bookingPNR = rooms
       ? rooms.reduce(
-          (pnrString: string, room: { bookingReferenceId: string }) => {
+          (pnrString: string, room: {bookingReferenceId: string}) => {
             if (pnrString) {
-              pnrString += `${"\n"}, ${room.bookingReferenceId}`;
+              pnrString += `${'\n'}, ${room.bookingReferenceId}`;
             } else {
               pnrString = room.bookingReferenceId;
             }
             return pnrString;
           },
-          ""
+          '',
         )
-      : "";
+      : '';
 
     const stickyHeader = () => (
       <VoucherStickyHeader
         action={this.close}
-        text={bookingPNR ? `Booking ID - ${bookingPNR}` : ""}
+        text={bookingPNR ? `Booking ID - ${bookingPNR}` : ''}
       />
     );
 
     const foreground = () => (
       <VoucherHeader
-        infoText={`BOOKING ID`}
+        infoText={'BOOKING ID'}
         title={bookingPNR}
         onClickClose={this.close}
-        image={{ uri: imageURL }}
+        image={{uri: imageURL}}
         voucherUrl={voucherUrl}
       />
     );
@@ -197,19 +196,18 @@ class HotelVoucher extends Component<HotelVoucherProps, HotelVoucherState> {
           parallaxHeaderHeight={214 + xHeight}
           stickyHeaderHeight={this.state.isCloseVisible ? 0 : 48 + xHeight}
           renderStickyHeader={stickyHeader}
-          fadeOutForeground={Platform.OS !== "android"}
+          fadeOutForeground={Platform.OS !== 'android'}
           onChangeHeaderVisibility={this.headerToggle}
-          renderForeground={foreground}
-        >
+          renderForeground={foreground}>
           <CheckInCheckOut
             checkInDate={
               checkInDateVoucher
                 ? moment(
                     checkInDateVoucher,
-                    constants.voucherDateFormat
+                    constants.voucherDateFormat,
                   ).format(constants.commonDateFormat)
                 : moment(checkInDate, constants.costingDateFormat).format(
-                    constants.commonDateFormat
+                    constants.commonDateFormat,
                   )
             }
             checkInTime={`${checkInTimeVoucher ||
@@ -218,10 +216,10 @@ class HotelVoucher extends Component<HotelVoucherProps, HotelVoucherState> {
               checkOutDateVoucher
                 ? moment(
                     checkOutDateVoucher,
-                    constants.voucherDateFormat
+                    constants.voucherDateFormat,
                   ).format(constants.commonDateFormatReverse)
                 : moment(checkOutDate, constants.costingDateFormat).format(
-                    constants.commonDateFormatReverse
+                    constants.commonDateFormatReverse,
                   )
             }
             checkOutTime={`${checkOutTimeVoucher ||
@@ -232,7 +230,7 @@ class HotelVoucher extends Component<HotelVoucherProps, HotelVoucherState> {
 
           <View style={styles.bookingDetailsRow}>
             <SectionHeader
-              sectionName={`BOOKING DETAILS`}
+              sectionName={'BOOKING DETAILS'}
               containerStyle={styles.bookingDetailsHeader}
             />
             {roomsInHotel &&
@@ -244,21 +242,22 @@ class HotelVoucher extends Component<HotelVoucherProps, HotelVoucherState> {
                   freeWireless,
                   roomConfiguration,
                   roomTypeId,
-                  mealOptions = []
+                  mealOptions = [],
+                  mealType,
                 } = room;
 
-                const { adultCount, childAges } = roomConfiguration;
+                const {adultCount, childAges} = roomConfiguration;
 
                 const roomVoucherDetails = rooms
                   ? rooms.find(
-                      (roomDetail: { roomTypeId: string }) =>
-                        roomDetail.roomTypeId === roomTypeId
+                      (roomDetail: {roomTypeId: string}) =>
+                        roomDetail.roomTypeId === roomTypeId,
                     ) || {}
                   : {};
                 let {
                   leadPassenger = {},
                   otherPassengers = [],
-                  bookingReferenceId
+                  bookingReferenceId,
                 } = roomVoucherDetails;
 
                 /**
@@ -270,54 +269,54 @@ class HotelVoucher extends Component<HotelVoucherProps, HotelVoucherState> {
                 const mealOption = mealOptions.length
                   ? (mealOptions.find(option => option.selected) || {})
                       .mealCodeDisplayText
-                  : "";
+                  : mealType || '';
 
                 const roomImage = roomImages
                   ? roomImages.length
-                    ? { uri: roomImages[0] }
-                    : { uri: constants.hotelSmallPlaceHolder }
-                  : { uri: constants.hotelSmallPlaceHolder };
+                    ? {uri: roomImages[0]}
+                    : {uri: constants.hotelSmallPlaceHolder}
+                  : {uri: constants.hotelSmallPlaceHolder};
 
-                const { checkIn, checkOut } = roomVoucherDetails;
+                const {checkIn, checkOut} = roomVoucherDetails;
                 if (checkIn > 1 && checkOut > 1) {
                   freeWireless =
-                    typeof roomVoucherDetails.freeWireless === "boolean"
+                    typeof roomVoucherDetails.freeWireless === 'boolean'
                       ? roomVoucherDetails.freeWireless
                       : freeWireless;
                   freeBreakfast =
-                    typeof roomVoucherDetails.freeBreakFast === "boolean"
+                    typeof roomVoucherDetails.freeBreakFast === 'boolean'
                       ? roomVoucherDetails.freeBreakFast
                       : freeBreakfast;
                 }
 
                 const hotelAmenitySummary: IVoucherSplitSectionData[] = [
                   {
-                    name: "Booking Reference ID",
-                    value: bookingReferenceId || ""
+                    name: 'Booking Reference ID',
+                    value: bookingReferenceId || '',
                   },
                   mealOption
                     ? {
-                        name: "Meal Option",
-                        value: mealOption
+                        name: 'Meal Option',
+                        value: mealOption,
                       }
                     : {
-                        name: "Breakfast",
+                        name: 'Breakfast',
                         value:
-                          typeof freeBreakfast === "undefined"
-                            ? ""
+                          typeof freeBreakfast === 'undefined'
+                            ? ''
                             : freeBreakfast
-                            ? "Included"
-                            : "Not Included"
+                            ? 'Included'
+                            : 'Not Included',
                       },
                   {
-                    name: "Free Wifi",
+                    name: 'Free Wifi',
                     value:
-                      typeof freeWireless === "undefined"
-                        ? ""
+                      typeof freeWireless === 'undefined'
+                        ? ''
                         : freeWireless
-                        ? "Included"
-                        : "Not Included"
-                  }
+                        ? 'Included'
+                        : 'Not Included',
+                  },
                 ];
 
                 const hasMealBeenPaid = mealOption || freeBreakfast;
@@ -332,15 +331,16 @@ class HotelVoucher extends Component<HotelVoucherProps, HotelVoucherState> {
                       <View style={styles.bookedSuitDetails}>
                         <Text style={styles.bookedSuitType}>{roomName}</Text>
                         <Text
-                          style={styles.suitBookingDetails}
-                        >{`Booked for ${adultCount} adult${
-                          adultCount > 1 ? "s" : ""
+                          style={
+                            styles.suitBookingDetails
+                          }>{`Booked for ${adultCount} adult${
+                          adultCount > 1 ? 's' : ''
                         } ${
                           childAges.length
                             ? `${childAges.length} child${
-                                childAges.length > 1 ? "ren" : ""
+                                childAges.length > 1 ? 'ren' : ''
                               }`
-                            : ""
+                            : ''
                         }`}</Text>
                       </View>
                     </View>
@@ -354,7 +354,7 @@ class HotelVoucher extends Component<HotelVoucherProps, HotelVoucherState> {
                       otherPassengers.map(
                         (
                           passenger: IPassengerDetail,
-                          passengerIndex: number
+                          passengerIndex: number,
                         ) => {
                           return (
                             <PassengerName
@@ -362,7 +362,7 @@ class HotelVoucher extends Component<HotelVoucherProps, HotelVoucherState> {
                               name={`${passenger.salutation}. ${passenger.firstName} ${passenger.lastName}`}
                             />
                           );
-                        }
+                        },
                       )}
 
                     <View style={styles.hotelDetailsSection}>
@@ -372,7 +372,7 @@ class HotelVoucher extends Component<HotelVoucherProps, HotelVoucherState> {
                     {hasMealBeenPaid ? (
                       <VoucherAlertBox
                         alertText={constants.voucherText.freeBreakfastInfoText}
-                        mode={"info"}
+                        mode={'info'}
                       />
                     ) : null}
                   </View>
@@ -386,15 +386,15 @@ class HotelVoucher extends Component<HotelVoucherProps, HotelVoucherState> {
               />
             ) : null}
 
-            <VoucherContactActionBar contact={mobile} location={{ lat, lon }} />
+            <VoucherContactActionBar contact={mobile} location={{lat, lon}} />
 
             <VoucherAlertBox
               alertText={`${
                 lat && lon
-                  ? constants.voucherText.directionsDisclaimerText + "\n\n"
-                  : ""
+                  ? constants.voucherText.directionsDisclaimerText + '\n\n'
+                  : ''
               }${constants.voucherText.securityDepositText}`}
-              mode={"alert"}
+              mode={'alert'}
               containerStyle={styles.alertContainer}
             />
 
@@ -411,7 +411,7 @@ class HotelVoucher extends Component<HotelVoucherProps, HotelVoucherState> {
             />
           </View>
         </ParallaxScrollView>
-        {Platform.OS === "ios" && this.state.isCloseVisible ? (
+        {Platform.OS === 'ios' && this.state.isCloseVisible ? (
           <IosCloseButton clickAction={this.close} />
         ) : null}
       </Fragment>
@@ -421,88 +421,88 @@ class HotelVoucher extends Component<HotelVoucherProps, HotelVoucherState> {
 
 const styles = StyleSheet.create({
   bookingDetailsRow: {
-    paddingHorizontal: 24
+    paddingHorizontal: 24,
   },
   bookedSuit: {
     marginTop: 24,
     borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: constants.shade4
+    borderBottomColor: constants.shade4,
   },
   bookedSuitInfo: {
     minHeight: 40,
-    flexDirection: "row",
-    alignItems: "center"
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   bookedSuitDetails: {
-    marginLeft: 8
+    marginLeft: 8,
   },
   bookedSuitType: {
     ...constants.font17(constants.primarySemiBold),
-    color: constants.black1
+    color: constants.black1,
   },
   suitBookingDetails: {
     ...constants.font13(constants.primaryLight),
-    color: constants.black2
+    color: constants.black2,
   },
 
   hotelDetailsSection: {
     marginTop: 24,
     paddingBottom: 8,
     borderBottomWidth: 0,
-    borderBottomColor: constants.shade4
+    borderBottomColor: constants.shade4,
   },
   textRowWrapper: {
-    justifyContent: "space-between",
-    alignItems: "center",
-    flexDirection: "row",
-    marginVertical: 4
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    flexDirection: 'row',
+    marginVertical: 4,
   },
   sectionName: {
     ...constants.font17(constants.primaryLight),
-    color: constants.shade2
+    color: constants.shade2,
   },
   sectionValue: {
     ...constants.font17(constants.primaryLight),
-    color: constants.black1
+    color: constants.black1,
   },
   actionRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
     paddingVertical: 16,
     borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: constants.shade4
+    borderBottomColor: constants.shade4,
   },
 
   alertContainer: {
     marginVertical: 8,
-    borderRadius: 4
+    borderRadius: 4,
   },
 
   amenitiesTextWrapper: {
     marginTop: 8,
     marginBottom: 4,
-    flexDirection: "row"
+    flexDirection: 'row',
   },
   amenitiesText: {
     ...constants.fontCustom(constants.primaryLight, 18, 20),
     color: constants.black2,
-    marginLeft: 8
+    marginLeft: 8,
   },
 
   bookingSection: {
-    marginVertical: 32
+    marginVertical: 32,
   },
   voucherNameWrapper: {
-    marginHorizontal: 24
+    marginHorizontal: 24,
   },
   bookingDetailsHeader: {
-    marginBottom: 0
+    marginBottom: 0,
   },
   voucherAddressSectionWrapper: {
     marginTop: 16,
-    padding: 0
-  }
+    padding: 0,
+  },
 });
 
 export default HotelVoucher;
