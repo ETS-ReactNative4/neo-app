@@ -169,7 +169,8 @@ export const CONSTANT_pocCardData = 'so-feedback/json/pocCardData.json';
 export const CONSTANT_maldivesPocCardData =
   'so-feedback/json/maldivesPocCardData.json';
 export const CONSTANT_appVersionCheck = 'mobile/appversion';
-export const POST_MALDIVES_BOOKING_FAQ = 'post_maldives_booking.json';
-export const POST_STAYCATION_BOOKING_FAQ = 'post_staycation_booking.json';
+export const POST_MALDIVES_BOOKING_FAQ = 'post_maldives_booking_faq.json';
+export const POST_STAYCATION_BOOKING_FAQ = 'post_staycation_booking_faq.json';
+export const POST_BOOKING_FAQ = 'post_booking_faq.json';
 
 export default apiUrls;
