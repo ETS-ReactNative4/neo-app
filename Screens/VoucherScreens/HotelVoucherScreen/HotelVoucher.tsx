@@ -32,6 +32,7 @@ import {
   IPassengerDetail,
   IVoucherSplitSectionData,
 } from '../types/voucherScreenTypes';
+import IconComponent from '../../../CommonComponents/Icon/Icon';
 
 const xHeight = isIphoneX()
   ? constants.xNotchHeight
@@ -244,10 +245,39 @@ class HotelVoucher extends Component<HotelVoucherProps, HotelVoucherState> {
                   roomTypeId,
                   mealOptions = [],
                   mealType,
+                  extraInclusions = [],
                 } = room;
-
                 const {adultCount, childAges} = roomConfiguration;
-
+                const inclusionList = (extraInclusions || []).reduce(
+                  (inclusion, data) => {
+                    inclusion.push(...data.text);
+                    return inclusion;
+                  },
+                  [],
+                );
+                const inclusionSection = [
+                  {
+                    name: 'Special Inclusion',
+                    component: inclusionList.map((text, index) => (
+                      <View style={styles.inclusionWrapper}>
+                        <IconComponent
+                          name={constants.checkIcon}
+                          size={18}
+                          color={constants.black2}
+                        />
+                        <Text
+                          style={[
+                            styles.inclusionText,
+                            index === inclusionList.length - 1
+                              ? styles.lastInclusionText
+                              : {},
+                          ]}>
+                          {text}
+                        </Text>
+                      </View>
+                    )),
+                  },
+                ];
                 const roomVoucherDetails = rooms
                   ? rooms.find(
                       (roomDetail: {roomTypeId: string}) =>
@@ -328,6 +358,7 @@ class HotelVoucher extends Component<HotelVoucherProps, HotelVoucherState> {
                         defaultImageUri={constants.hotelSmallPlaceHolder}
                         image={roomImage}
                       />
+
                       <View style={styles.bookedSuitDetails}>
                         <Text style={styles.bookedSuitType}>{roomName}</Text>
                         <Text
@@ -373,6 +404,13 @@ class HotelVoucher extends Component<HotelVoucherProps, HotelVoucherState> {
                       <VoucherAlertBox
                         alertText={constants.voucherText.freeBreakfastInfoText}
                         mode={'info'}
+                      />
+                    ) : null}
+                    {inclusionList.length ? (
+                      <VoucherAccordion
+                        sections={inclusionSection}
+                        amenitySectionStyle={styles.amenitySection}
+                        amenityTextStyle={styles.amenityText}
                       />
                     ) : null}
                   </View>
@@ -502,6 +540,25 @@ const styles = StyleSheet.create({
   voucherAddressSectionWrapper: {
     marginTop: 16,
     padding: 0,
+  },
+  inclusionWrapper: {
+    marginBottom: 4,
+    flexDirection: 'row',
+  },
+  inclusionText: {
+    ...constants.fontCustom(constants.primaryLight, 17, 20),
+    color: constants.black2,
+    marginLeft: 4,
+  },
+  lastInclusionText: {
+    paddingBottom: 24,
+  },
+  amenitySection: {
+    paddingVertical: 16,
+    marginTop: 8,
+  },
+  amenityText: {
+    ...constants.fontCustom(constants.primarySemiBold, 17, 20),
   },
 });
 

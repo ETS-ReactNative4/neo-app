@@ -8,10 +8,6 @@ import debouncer from '../../Services/debouncer/debouncer';
 
 import {CONSTANT_costingDateFormat} from '../../constants/styles';
 import moment from 'moment';
-import {
-  POST_MALDIVES_BOOKING_FAQ,
-  POST_STAYCATION_BOOKING_FAQ,
-} from '../../constants/apiUrls';
 import {isStaycation} from '../../Services/isStaycation/isStaycation';
 
 const todayDate = moment(new Date()).format(CONSTANT_costingDateFormat);
@@ -40,16 +36,8 @@ class ChatScreen extends Component {
   loadFaqDetails = () => {
     isUserLoggedInCallback(() => {
       const {loadConversation, loadFaqDetails} = this.props.supportStore;
-      const {selectedItinerary} = this.props.itineraries;
-      const isMaldives = selectedItinerary.itinerary?.regionCode === 'mle';
-      const staycation = isStaycation(selectedItinerary);
-      const jsonName = isMaldives
-        ? POST_MALDIVES_BOOKING_FAQ
-        : staycation
-        ? POST_STAYCATION_BOOKING_FAQ
-        : '';
       loadConversation();
-      loadFaqDetails(jsonName);
+      loadFaqDetails();
     });
   };
 

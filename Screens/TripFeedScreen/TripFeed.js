@@ -37,12 +37,12 @@ import {recordEvent} from '../../Services/analytics/analyticsService';
 import PropTypes from 'prop-types';
 
 @ErrorBoundary({isRoot: true})
+@inject('deviceDetailsStore')
 @inject('tripFeedStore')
 @inject('feedbackPrompt')
 @inject('itineraries')
 @inject('chatDetailsStore')
 @inject('visaStore')
-@inject('deviceDetailsStore')
 @observer
 class TripFeed extends Component {
   static propTypes = {

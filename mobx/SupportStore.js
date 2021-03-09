@@ -7,7 +7,13 @@ import storeService from '../Services/storeService/storeService';
 import {logError} from '../Services/errorLogger/errorLogger';
 import _ from 'lodash';
 import {hydrate} from './Store';
-import {CONSTANT_retrieveJson} from '../constants/apiUrls';
+import {
+  CONSTANT_retrieveJson,
+  POST_BOOKING_FAQ,
+  POST_MALDIVES_BOOKING_FAQ,
+  POST_STAYCATION_BOOKING_FAQ,
+} from '../constants/apiUrls';
+import {isStaycation} from '../Services/isStaycation/isStaycation';
 
 class SupportStore {
   static hydrator = storeInstance => {
@@ -230,14 +236,17 @@ class SupportStore {
   });
 
   @action
-  loadFaqDetails = (jsonName = '') => {
+  loadFaqDetails = () => {
+    const {selectedItinerary} = storeService.itineraries;
+    const isMaldives = selectedItinerary.itinerary?.regionCode === 'mle';
+    const staycation = isStaycation(selectedItinerary);
+    const jsonName = isMaldives
+      ? POST_MALDIVES_BOOKING_FAQ
+      : staycation
+      ? POST_STAYCATION_BOOKING_FAQ
+      : POST_BOOKING_FAQ;
     this._isLoading = true;
-    apiCall(
-      `${CONSTANT_retrieveJson}?jsonFile=${jsonName ||
-        'post_booking_faq.json'}`,
-      {},
-      'GET',
-    )
+    apiCall(`${CONSTANT_retrieveJson}?jsonFile=${jsonName}`, {}, 'GET')
       .then(response => {
         this._isLoading = false;
         if (response.status === 'SUCCESS') {
