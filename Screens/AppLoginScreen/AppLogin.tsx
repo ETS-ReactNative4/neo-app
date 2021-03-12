@@ -1,92 +1,93 @@
-import React, { useState, Fragment, useRef, useEffect } from "react";
+import React, {useState, Fragment, useRef, useEffect} from 'react';
 import {
   View,
   StyleSheet,
   LayoutAnimation,
   Platform,
-  TextInput
-} from "react-native";
-import SmartImageV2 from "../../CommonComponents/SmartImage/SmartImageV2";
+  TextInput,
+} from 'react-native';
+import SmartImageV2 from '../../CommonComponents/SmartImage/SmartImageV2';
 import {
   CONSTANT_defaultPlaceImage,
   CONSTANT_loginBackground,
   CONSTANT_userIcon,
-  CONSTANT_mailIcon
-} from "../../constants/imageAssets";
-import LinearGradient from "react-native-linear-gradient";
+  CONSTANT_mailIcon,
+} from '../../constants/imageAssets';
+import LinearGradient from 'react-native-linear-gradient';
 import {
   CONSTANT_darkGradientAlpha,
-  CONSTANT_shade1
-} from "../../constants/colorPallete";
-import { CONSTANT_splashBackgroundVideo } from "../../constants/imageAssets";
-import SectionTitle from "../../CommonComponents/SectionTitle/SectionTitle";
-import { CONSTANT_fontCustom } from "../../constants/fonts";
-import constants from "../../constants/constants";
-import AppLoginTitle from "./Components/AppLoginTitle";
-import { isIphoneX } from "react-native-iphone-x-helper";
-import useKeyboard from "../../CommonComponents/useKeyboard/useKeyboard";
-import { CONSTANT_xNotchHeight } from "../../constants/styles";
-import PhoneNumberInput from "./Components/PhoneNumberInput";
-import XSensorPlaceholder from "../../CommonComponents/XSensorPlaceholder/XSensorPlaceholder";
-import ActionSheet from "../../CommonComponents/ActionSheet/ActionSheet";
-import Interactable from "react-native-interactable";
-import OtpPanel from "./Components/OtpPanel";
+  CONSTANT_shade1,
+} from '../../constants/colorPallete';
+import {CONSTANT_splashBackgroundVideo} from '../../constants/imageAssets';
+import SectionTitle from '../../CommonComponents/SectionTitle/SectionTitle';
+import {CONSTANT_fontCustom} from '../../constants/fonts';
+import constants from '../../constants/constants';
+import AppLoginTitle from './Components/AppLoginTitle';
+import {isIphoneX} from 'react-native-iphone-x-helper';
+import useKeyboard from '../../CommonComponents/useKeyboard/useKeyboard';
+import {CONSTANT_xNotchHeight} from '../../constants/styles';
+import PhoneNumberInput from './Components/PhoneNumberInput';
+import XSensorPlaceholder from '../../CommonComponents/XSensorPlaceholder/XSensorPlaceholder';
+import ActionSheet from '../../CommonComponents/ActionSheet/ActionSheet';
+import Interactable from 'react-native-interactable';
+import OtpPanel from './Components/OtpPanel';
 import {
   CONSTANT_platformIos,
   CONSTANT_responseUserUnavailable,
   CONSTANT_responseSuccessStatus,
-  CONSTANT_platformAndroid
-} from "../../constants/stringConstants";
-import useMobileNumberApi from "./hooks/useMobileNumberApi";
-import { validateLoginMobileNumber } from "../../Services/validateMobileNumber/validateMobileNumber";
-import DismissKeyboardView from "../../CommonComponents/DismissKeyboardView/DismissKeyboardView";
-import { toastCenter } from "../../Services/toast/toast";
-import Video from "react-native-video";
+  CONSTANT_platformAndroid,
+} from '../../constants/stringConstants';
+import useMobileNumberApi from './hooks/useMobileNumberApi';
+import {validateLoginMobileNumber} from '../../Services/validateMobileNumber/validateMobileNumber';
+import DismissKeyboardView from '../../CommonComponents/DismissKeyboardView/DismissKeyboardView';
+import {toastCenter} from '../../Services/toast/toast';
+import Video from 'react-native-video';
 import {
   responsiveScreenHeight,
-  responsiveScreenWidth
-} from "react-native-responsive-dimensions";
-import useLoginForm from "./hooks/useLoginForm";
+  responsiveScreenWidth,
+} from 'react-native-responsive-dimensions';
+import useLoginForm from './hooks/useLoginForm';
 import {
   SCREEN_APP_LOGIN,
-  SCREEN_SAVED_ITINERARIES
-} from "../../NavigatorsV2/ScreenNames";
-import { StackNavigationProp } from "@react-navigation/stack";
-import { observer, inject } from "mobx-react";
-import { AppNavigatorParamsType } from "../../NavigatorsV2/AppNavigator";
-import LoginInputField from "./Components/LoginInputField";
-import PrimaryButton from "../../CommonComponents/PrimaryButton/PrimaryButton";
-import useRegisterUserApi, { ILeadSource } from "./hooks/useRegisterUserApi";
-import validateEmail from "../../Services/validateEmail/validateEmail";
-import useRequestOtpApi from "./hooks/useRequestOtpApi";
-import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
+  SCREEN_SAVED_ITINERARIES,
+} from '../../NavigatorsV2/ScreenNames';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {observer, inject} from 'mobx-react';
+import {AppNavigatorParamsType} from '../../NavigatorsV2/AppNavigator';
+import LoginInputField from './Components/LoginInputField';
+import PrimaryButton from '../../CommonComponents/PrimaryButton/PrimaryButton';
+import useRegisterUserApi, {ILeadSource} from './hooks/useRegisterUserApi';
+import validateEmail from '../../Services/validateEmail/validateEmail';
+import useRequestOtpApi from './hooks/useRequestOtpApi';
+import ErrorBoundary from '../../CommonComponents/ErrorBoundary/ErrorBoundary';
 import useLoginUserApi, {
   ILoginSuccessData,
-  ILoginFailureData
-} from "./hooks/useLoginUserApi";
-import { registerTokenV2 } from "../../Services/registerToken/registerToken";
-import { logError } from "../../Services/errorLogger/errorLogger";
-import useDeepCompareEffect from "use-deep-compare-effect";
-import DebouncedAlert from "../../CommonComponents/DebouncedAlert/DebouncedAlert";
-import { RouteProp } from "@react-navigation/native";
-import TranslucentStatusBar from "../../CommonComponents/TranslucentStatusBar/TranslucentStatusBar";
-import resetToWelcomeFlow from "../../Services/resetToWelcomeFlow/resetToWelcomeFlow";
-import YourBookings from "../../mobx/YourBookings";
-import launchPostBookingV2 from "../../Services/launchPostBookingV2/launchPostBookingV2";
-import storeService from "../../Services/storeService/storeService";
-import Itineraries from "../../mobx/Itineraries";
-import launchItinerarySelector from "../../Services/launchItinerarySelector/launchItinerarySelector";
-import launchSavedItineraries from "../../Services/launchSavedItineraries/launchSavedItineraries";
-import launchPretripHome from "../../Services/launchPretripHome/launchPretripHome";
-import usePrevious from "../../Services/usePrevious/usePrevious";
-import { IMobileServerResponse } from "../../TypeInterfaces/INetworkResponse";
-import LeadSource from "../../mobx/LeadSource";
-import { recordEvent } from "../../Services/analytics/analyticsService";
+  ILoginFailureData,
+} from './hooks/useLoginUserApi';
+import {registerTokenV2} from '../../Services/registerToken/registerToken';
+import {logError} from '../../Services/errorLogger/errorLogger';
+import useDeepCompareEffect from 'use-deep-compare-effect';
+import DebouncedAlert from '../../CommonComponents/DebouncedAlert/DebouncedAlert';
+import {RouteProp} from '@react-navigation/native';
+import TranslucentStatusBar from '../../CommonComponents/TranslucentStatusBar/TranslucentStatusBar';
+import resetToWelcomeFlow from '../../Services/resetToWelcomeFlow/resetToWelcomeFlow';
+import YourBookings from '../../mobx/YourBookings';
+import launchPostBookingV2 from '../../Services/launchPostBookingV2/launchPostBookingV2';
+import storeService from '../../Services/storeService/storeService';
+import Itineraries from '../../mobx/Itineraries';
+import launchItinerarySelector from '../../Services/launchItinerarySelector/launchItinerarySelector';
+import launchSavedItineraries from '../../Services/launchSavedItineraries/launchSavedItineraries';
+import launchPretripHome from '../../Services/launchPretripHome/launchPretripHome';
+import usePrevious from '../../Services/usePrevious/usePrevious';
+import {IMobileServerResponse} from '../../TypeInterfaces/INetworkResponse';
+import LeadSource from '../../mobx/LeadSource';
+import {recordEvent} from '../../Services/analytics/analyticsService';
 import {
   CONSTANT_APP_SIGNUP,
-  CONSTANT_APP_SIGNIN
-} from "../../constants/appEvents";
-import DeviceLocale from "../../mobx/DeviceLocale";
+  CONSTANT_APP_SIGNIN,
+} from '../../constants/appEvents';
+import DeviceLocale from '../../mobx/DeviceLocale';
+import {getDeviceToken} from '../../Services/fcmService/fcm';
 
 type screenName = typeof SCREEN_APP_LOGIN;
 
@@ -112,24 +113,24 @@ const AppLogin = ({
   yourBookingsStore,
   itineraries,
   leadSourceStore,
-  deviceLocaleStore
+  deviceLocaleStore,
 }: IAppLoginProps) => {
   const [isVideoReady, setVideoStatus] = useState(false);
   const [
-    { phoneNumber, countryCode, countryFlag, code, name, email },
+    {phoneNumber, countryCode, countryFlag, code, name, email},
     {
       updatePhoneNumber,
       updateCountryCode,
       updateCountryFlag,
       updateCode,
       updateName,
-      updateEmail
-    }
+      updateEmail,
+    },
   ] = useLoginForm();
   const [isRegistrationAttempted, setRegisterationAttemptStatus] = useState<
     boolean
   >(false);
-  const { keyboardHeight, keyboardShown } = useKeyboard();
+  const {keyboardHeight, keyboardShown} = useKeyboard();
   const emailRef = useRef<TextInput>(null);
   const otpPanelRef = useRef(null);
   const [mobileNumberApiDetails, mobileNumberSubmitCall] = useMobileNumberApi();
@@ -138,15 +139,15 @@ const AppLogin = ({
   const [loginApiDetails, loginUser] = useLoginUserApi();
   const {
     successResponseData: loginSuccessData = {} as ILoginSuccessData | undefined,
-    failureResponseData: loginFailureData = {} as ILoginFailureData | undefined
+    failureResponseData: loginFailureData = {} as ILoginFailureData | undefined,
   } = loginApiDetails;
   const {
     failureResponseData: registrationFailureData = {} as
       | IMobileServerResponse
-      | undefined
+      | undefined,
   } = registrationApiDetails;
   const [isPhoneSubmitAttempted, setPhoneSubmitAttempt] = useState<boolean>(
-    false
+    false,
   );
   const [isTimedOut, setIsTimedOut] = useState<boolean>(false);
   const [isOtpSubmitting, setIsOtpSubmitting] = useState<boolean>(false);
@@ -163,11 +164,11 @@ const AppLogin = ({
   };
 
   const onTimeout = () => {
-    DebouncedAlert("Oops!", "OTP Time out!", [
+    DebouncedAlert('Oops!', 'OTP Time out!', [
       {
-        text: "Okay",
-        onPress: () => closeOtpPanel()
-      }
+        text: 'Okay',
+        onPress: () => closeOtpPanel(),
+      },
     ]);
     setIsTimedOut(true);
   };
@@ -177,7 +178,7 @@ const AppLogin = ({
     if (validateLoginMobileNumber(mobileNumber)) {
       const result = await mobileNumberSubmitCall({
         mobileNumber: phoneNumber,
-        countryPhoneCode: countryCode
+        countryPhoneCode: countryCode,
       });
       /**
        * If phone number exists then he/she is a registered user
@@ -188,25 +189,25 @@ const AppLogin = ({
         requestOtp();
       }
     } else {
-      toastCenter("Invalid Phone Number");
+      toastCenter('Invalid Phone Number');
     }
   };
 
   const openOtpPanel = () => {
     // @ts-ignore
-    otpPanelRef.current && otpPanelRef.current.snapTo({ index: 1 });
+    otpPanelRef.current && otpPanelRef.current.snapTo({index: 1});
   };
 
   const closeOtpPanel = () => {
     // @ts-ignore
-    otpPanelRef.current && otpPanelRef.current.snapTo({ index: 2 });
+    otpPanelRef.current && otpPanelRef.current.snapTo({index: 2});
   };
 
   /**
    * event handler whne otp panel is closed...
    */
   const otpPanelClosed = () => {
-    updateCode("");
+    updateCode('');
   };
 
   const gradientOptions = {
@@ -215,8 +216,8 @@ const AppLogin = ({
       CONSTANT_darkGradientAlpha(0.2),
       CONSTANT_darkGradientAlpha(0.1),
       CONSTANT_darkGradientAlpha(0.5),
-      CONSTANT_darkGradientAlpha(0.9)
-    ]
+      CONSTANT_darkGradientAlpha(0.9),
+    ],
   };
 
   if (keyboardHeight) {
@@ -224,7 +225,7 @@ const AppLogin = ({
       CONSTANT_darkGradientAlpha(0.4),
       CONSTANT_darkGradientAlpha(0.8),
       CONSTANT_darkGradientAlpha(0.9),
-      CONSTANT_darkGradientAlpha(0.9)
+      CONSTANT_darkGradientAlpha(0.9),
     ];
   }
 
@@ -251,7 +252,7 @@ const AppLogin = ({
 
   useEffect(() => {
     navigation.setOptions({
-      headerShown: false
+      headerShown: false,
     });
     storeService.welcomeStateStore.loadWelcomeState();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -268,22 +269,22 @@ const AppLogin = ({
     } else {
       let leadSource: ILeadSource = {
         deviceType:
-          Platform.OS === CONSTANT_platformAndroid ? "Android OS" : "iOS",
+          Platform.OS === CONSTANT_platformAndroid ? 'Android OS' : 'iOS',
         utm_source: Platform.OS,
-        utm_medium: "app"
+        utm_medium: 'app',
       };
 
       if (leadSourceStore?.activeDeeplink) {
         leadSource = {
-          campaign: leadSourceStore.activeDeeplink["~campaign"],
+          campaign: leadSourceStore.activeDeeplink['~campaign'],
           url: leadSourceStore.activeDeeplink.$canonical_url,
-          lastRoute: leadSourceStore.activeDeeplink["~referring_link"],
-          utm_source: leadSourceStore.activeDeeplink["~channel"],
-          utm_medium: leadSourceStore.activeDeeplink["~feature"],
-          utm_campaign: leadSourceStore.activeDeeplink["~campaign"],
-          tags: leadSourceStore.activeDeeplink["~tags"],
+          lastRoute: leadSourceStore.activeDeeplink['~referring_link'],
+          utm_source: leadSourceStore.activeDeeplink['~channel'],
+          utm_medium: leadSourceStore.activeDeeplink['~feature'],
+          utm_campaign: leadSourceStore.activeDeeplink['~campaign'],
+          tags: leadSourceStore.activeDeeplink['~tags'],
           deviceType:
-            Platform.OS === CONSTANT_platformAndroid ? "Android OS" : "iOS"
+            Platform.OS === CONSTANT_platformAndroid ? 'Android OS' : 'iOS',
         };
       }
 
@@ -292,7 +293,7 @@ const AppLogin = ({
         mobileNumber: phoneNumber,
         email,
         userName: name,
-        leadSource
+        leadSource,
       });
       if (result) {
         recordEvent(CONSTANT_APP_SIGNUP.event, {
@@ -302,7 +303,7 @@ const AppLogin = ({
           [CONSTANT_APP_SIGNUP.click.leadSource]: leadSourceStore.source,
           [CONSTANT_APP_SIGNUP.click.activeDeepLink]:
             leadSourceStore.activeDeeplink,
-          [CONSTANT_APP_SIGNUP.click.locale]: deviceLocaleStore.deviceLocale
+          [CONSTANT_APP_SIGNUP.click.locale]: deviceLocaleStore.deviceLocale,
         });
         requestOtp();
       }
@@ -313,13 +314,13 @@ const AppLogin = ({
     const result = await makeOtpRequestCall({
       ccode: countryCode,
       mob_num: phoneNumber,
-      factors: ["SMS", "EMAIL"]
+      factors: ['SMS', 'EMAIL'],
     });
     if (result) {
       openOtpPanel();
       setIsTimedOut(false);
     } else {
-      toastCenter("Unable to send OTP!");
+      toastCenter('Unable to send OTP!');
     }
   };
 
@@ -331,10 +332,10 @@ const AppLogin = ({
         mobileNumber: phoneNumber,
         otp,
         otpDetailsId:
-          otpApiDetails.successResponseData?.data?.otpDetailsId || ""
+          otpApiDetails.successResponseData?.data?.otpDetailsId || '',
       });
     } catch (e) {
-      toastCenter("Login Failed");
+      toastCenter('Login Failed');
     }
   };
 
@@ -344,7 +345,7 @@ const AppLogin = ({
       CONSTANT_responseUserUnavailable;
 
     // PT TODO: Launch Post booking flow goes here once old screen wiring is done
-    const { resetTarget, passThrough } = route.params || {};
+    const {resetTarget, passThrough} = route.params || {};
 
     if (passThrough) {
       // @ts-ignore
@@ -367,7 +368,7 @@ const AppLogin = ({
         })
         .catch(() => {
           setIsOtpSubmitting(false);
-          logError("Failed to load upcoming itineraries at login");
+          logError('Failed to load upcoming itineraries at login');
           resetToWelcomeFlow().then(resetAction => {
             navigation.dispatch(resetAction);
           });
@@ -396,6 +397,11 @@ const AppLogin = ({
       .catch(logError);
   };
 
+  const onLoginSetDeviceToken = () => {
+    getDeviceToken();
+    return null;
+  };
+
   /**
    * Effect hook that will be fired once Login Details are received.
    * This requires a ref hook to store the previous values
@@ -406,8 +412,8 @@ const AppLogin = ({
    * Solution: https://github.com/kentcdodds/use-deep-compare-effect#this-solution
    */
   useDeepCompareEffect(() => {
-    if (loginSuccessData?.data?.otpStatus === "VERIFIED") {
-      registerTokenV2(loginSuccessData.data?.authToken || "")
+    if (loginSuccessData?.data?.otpStatus === 'VERIFIED') {
+      registerTokenV2(loginSuccessData.data?.authToken || '')
         .then(isTokenStored => {
           if (isTokenStored) {
             recordEvent(CONSTANT_APP_SIGNIN.event, {
@@ -417,28 +423,34 @@ const AppLogin = ({
               [CONSTANT_APP_SIGNIN.click.leadSource]: leadSourceStore.source,
               [CONSTANT_APP_SIGNIN.click.activeDeepLink]:
                 leadSourceStore.activeDeeplink,
-              [CONSTANT_APP_SIGNIN.click.locale]: deviceLocaleStore.deviceLocale
+              [CONSTANT_APP_SIGNIN.click.locale]:
+                deviceLocaleStore.deviceLocale,
             });
+            /** on login remove the guest device token  */
+            storeService.appState.removePushToken(onLoginSetDeviceToken);
+            if (Platform.OS === constants.platformIos) {
+              storeService.appState.removeApnsToken();
+            }
             continueFlow();
           } else {
             setIsOtpSubmitting(false);
-            toastCenter("Login Failed");
+            toastCenter('Login Failed');
           }
         })
         .catch(e => {
           logError(e);
           setIsOtpSubmitting(false);
-          toastCenter("Login Failed");
+          toastCenter('Login Failed');
         });
-    } else if (loginFailureData?.data?.otpStatus === "VERIFICATIONFAILED") {
-      DebouncedAlert("Invalid OTP", "Please try again ☹️", [
+    } else if (loginFailureData?.data?.otpStatus === 'VERIFICATIONFAILED') {
+      DebouncedAlert('Invalid OTP', 'Please try again ☹️', [
         {
-          text: "Okay",
+          text: 'Okay',
           onPress: () => {
             setIsOtpSubmitting(false);
             closeOtpPanel();
-          }
-        }
+          },
+        },
       ]);
     }
   }, [loginSuccessData, loginFailureData]);
@@ -449,25 +461,25 @@ const AppLogin = ({
     if (previousRegistrationFailureData && registrationFailureData) {
       if (registrationFailureData.status !== CONSTANT_responseSuccessStatus) {
         if (registrationFailureData.message) {
-          DebouncedAlert("Oops!", registrationFailureData.message);
+          DebouncedAlert('Oops!', registrationFailureData.message);
         }
       }
     } else if (registrationFailureData) {
       if (registrationFailureData.status !== CONSTANT_responseSuccessStatus) {
         if (registrationFailureData.message) {
-          DebouncedAlert("Oops!", registrationFailureData.message);
+          DebouncedAlert('Oops!', registrationFailureData.message);
         }
       }
     }
   }, [registrationFailureData]);
 
   const skipAction = () =>
-    navigation.dispatch(launchPretripHome({ source: "TravelProfileFlow" }));
+    navigation.dispatch(launchPretripHome({source: 'TravelProfileFlow'}));
 
   const isTitleVisible = !keyboardShown;
 
   const isSkipVisible =
-    (route.params?.launchSource ?? "") === "PRETRIP_WELCOME_FLOW";
+    (route.params?.launchSource ?? '') === 'PRETRIP_WELCOME_FLOW';
 
   return (
     <Fragment>
@@ -485,7 +497,7 @@ const AppLogin = ({
             useFastImage={true}
             style={styles.imageContainer}
             source={CONSTANT_loginBackground()}
-            fallbackSource={{ uri: CONSTANT_defaultPlaceImage }}
+            fallbackSource={{uri: CONSTANT_defaultPlaceImage}}
             resizeMode="cover"
           />
         ) : null}
@@ -503,10 +515,9 @@ const AppLogin = ({
             style={[
               styles.loginInputContainer,
               {
-                marginBottom: (Platform.OS === "ios" ? keyboardHeight : 0) + 50
-              }
-            ]}
-          >
+                marginBottom: (Platform.OS === 'ios' ? keyboardHeight : 0) + 50,
+              },
+            ]}>
             <SectionTitle
               smallTitleTextStyle={styles.smallWelcomeTitle}
               titleTextStyle={styles.welcomeTitle}
@@ -531,27 +542,27 @@ const AppLogin = ({
               <Fragment>
                 <LoginInputField
                   icon={CONSTANT_userIcon}
-                  placeholder={"Name"}
+                  placeholder={'Name'}
                   hasError={highlightNameField}
                   value={name}
                   onChangeText={updateName}
                   containerStyle={styles.inputField}
                   placeholderTextColor={CONSTANT_shade1}
-                  keyboardType={"default"}
-                  returnKeyType={"next"}
+                  keyboardType={'default'}
+                  returnKeyType={'next'}
                   onSubmitEditing={focusOnEmailField}
                 />
                 <LoginInputField
                   textInputRef={emailRef}
                   icon={CONSTANT_mailIcon}
-                  placeholder={"Email"}
+                  placeholder={'Email'}
                   hasError={highlightEmailField}
                   value={email}
                   onChangeText={updateEmail}
                   containerStyle={styles.inputField}
                   placeholderTextColor={CONSTANT_shade1}
-                  keyboardType={"email-address"}
-                  returnKeyType={"done"}
+                  keyboardType={'email-address'}
+                  returnKeyType={'done'}
                   onSubmitEditing={registerUser}
                 />
                 {!registrationApiDetails.isLoading ? (
@@ -591,58 +602,58 @@ const AppLogin = ({
 };
 
 AppLogin.navigationOptions = {
-  header: null
+  header: null,
 };
 
 const styles = StyleSheet.create({
   keyboardAvoider: {
-    flex: 1
+    flex: 1,
   },
   imageContainer: {
     height: responsiveScreenHeight(100),
     width: responsiveScreenWidth(100),
-    position: "absolute"
+    position: 'absolute',
   },
   videoView: {
     height: responsiveScreenHeight(100),
     width: responsiveScreenWidth(100),
-    position: "absolute"
+    position: 'absolute',
   },
   backgroundGradient: {
     flex: 1,
-    justifyContent: "space-between",
-    paddingHorizontal: 24
+    justifyContent: 'space-between',
+    paddingHorizontal: 24,
   },
   smallWelcomeTitle: {
-    color: "white",
-    ...CONSTANT_fontCustom(constants.primarySemiBold, 10)
+    color: 'white',
+    ...CONSTANT_fontCustom(constants.primarySemiBold, 10),
   },
   welcomeTitle: {
-    color: "white",
-    ...CONSTANT_fontCustom(constants.primarySemiBold, 30, 36)
+    color: 'white',
+    ...CONSTANT_fontCustom(constants.primarySemiBold, 30, 36),
   },
   loginTitleContainer: {
-    marginTop: 40 + (isIphoneX() ? CONSTANT_xNotchHeight : 0)
+    marginTop: 40 + (isIphoneX() ? CONSTANT_xNotchHeight : 0),
   },
   loginInputContainer: {
-    marginBottom: 80
+    marginBottom: 80,
   },
   otpContainer: {
     marginHorizontal: 24,
-    marginTop: 56
+    marginTop: 56,
   },
   inputField: {
-    marginTop: 24
+    marginTop: 24,
   },
   registrationButton: {
-    marginTop: 24
-  }
+    marginTop: 24,
+  },
 });
 
 export default ErrorBoundary()(
-  inject("deviceLocaleStore")(
-    inject("leadSourceStore")(
-      inject("itineraries")(inject("yourBookingsStore")(observer(AppLogin)))
-    )
-  )
+  inject('deviceLocaleStore')(
+    inject('leadSourceStore')(
+      inject('itineraries')(inject('yourBookingsStore')(observer(AppLogin))),
+    ),
+  ),
 );
