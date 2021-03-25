@@ -107,12 +107,12 @@ export const onNotificationDisplayed = () =>
 
 const inAppNotifHandler = notificationOpen => {
   // const action = notificationOpen.action;
-  const {notification} = notificationOpen;
+  const {data} = notificationOpen;
 
-  PushNotification.removeDeliveredNotifications(notification.notificationId);
+  PushNotification.removeDeliveredNotifications([]);
 
   // notifications().removeDeliveredNotification(notification.notificationId); // Will remove foreground push notifications on click
-  notificationClickHandler(notification.data);
+  notificationClickHandler(data);
 };
 
 /**
@@ -123,7 +123,7 @@ const inAppNotifHandler = notificationOpen => {
 export const onNotificationOpened = () =>
   messaging().onNotificationOpenedApp(async notificationOpen => {
     // notifications().onNotificationOpened(notificationOpen => {
-    checkIfChatPushNotification(notificationOpen.notification.data)
+    checkIfChatPushNotification(notificationOpen.data)
       .then(isChatNotification => {
         if (isChatNotification) {
           recordEvent(constants.Chat.event, {
@@ -151,7 +151,7 @@ export const getInitialNotification = () =>
     .getInitialNotification()
     .then(notificationOpen => {
       if (notificationOpen) {
-        checkIfChatPushNotification(notificationOpen.notification.data)
+        checkIfChatPushNotification(notificationOpen.data)
           .then(isChatNotification => {
             if (isChatNotification) {
               recordEvent(constants.Chat.event, {
