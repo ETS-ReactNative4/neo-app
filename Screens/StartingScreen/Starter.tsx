@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, {Component, Fragment} from 'react';
 import {
   View,
   Text,
@@ -7,52 +7,47 @@ import {
   SafeAreaView,
   Platform,
   Animated,
-  Easing
-} from "react-native";
-import SimpleButton from "../../CommonComponents/SimpleButton/SimpleButton";
-import { inject, observer } from "mobx-react";
-import { recordEvent } from "../../Services/analytics/analyticsService";
-import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
-import openCustomTab from "../../Services/openCustomTab/openCustomTab";
-import { responsiveWidth } from "react-native-responsive-dimensions";
-import StarterAnimation from "./Components/StarterAnimation";
-import BootAnimation from "./Components/BootAnimation";
-import AppState from "../../mobx/AppState";
-import { StackNavigationProp } from "@react-navigation/stack";
-import { AppNavigatorParamsType } from "../../NavigatorsV2/AppNavigator";
+  Easing,
+} from 'react-native';
+import SimpleButton from '../../CommonComponents/SimpleButton/SimpleButton';
+import {inject, observer} from 'mobx-react';
+import {recordEvent} from '../../Services/analytics/analyticsService';
+import ErrorBoundary from '../../CommonComponents/ErrorBoundary/ErrorBoundary';
+import openCustomTab from '../../Services/openCustomTab/openCustomTab';
+import {responsiveWidth} from 'react-native-responsive-dimensions';
+import StarterAnimation from './Components/StarterAnimation';
+import BootAnimation from './Components/BootAnimation';
+import AppState from '../../mobx/AppState';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {AppNavigatorParamsType} from '../../NavigatorsV2/AppNavigator';
 import {
   SCREEN_STARTER,
   SCREEN_APP_LOGIN,
   SCREEN_SAVED_ITINERARIES,
-  SCREEN_TRAVEL_PROFILE_WELCOME
-} from "../../NavigatorsV2/ScreenNames";
-import { isIphoneX } from "react-native-iphone-x-helper";
-import { CONSTANT_xSensorAreaHeight } from "../../constants/styles";
+  SCREEN_PRE_TRIP_INTRO,
+} from '../../NavigatorsV2/ScreenNames';
+import {isIphoneX} from 'react-native-iphone-x-helper';
+import {CONSTANT_xSensorAreaHeight} from '../../constants/styles';
 import {
   CONSTANT_fontCustom,
   CONSTANT_primarySemiBold,
-  CONSTANT_primaryLight
-} from "../../constants/fonts";
+  CONSTANT_primaryLight,
+} from '../../constants/fonts';
 import {
   CONSTANT_firstColor,
   CONSTANT_firstColorAlpha,
   CONSTANT_shade2,
-  CONSTANT_shade1
-} from "../../constants/colorPallete";
+  CONSTANT_shade1,
+} from '../../constants/colorPallete';
 import {
   CONSTANT_platformIos,
   CONSTANT_termsAndConditions,
-  CONSTANT_privacyPolicy
-} from "../../constants/stringConstants";
-import { CONSTANT_pytLogoBlack } from "../../constants/imageAssets";
-import { CONSTANT_starterScreenText } from "../../constants/appText";
-import { CONSTANT_StarterScreen } from "../../constants/appEvents";
-import { CONSTANT_productUrl } from "../../constants/serverUrls";
-import isPreTripWelcomePending from "../../Services/appLauncher/launchCheckpoints/isPreTripWelcomePending";
-import resetToWelcomeFlow from "../../Services/resetToWelcomeFlow/resetToWelcomeFlow";
-import { navigationDispatcher } from "../../Services/navigationService/navigationServiceV2";
-import launchPretripHome from "../../Services/launchPretripHome/launchPretripHome";
-import isPreTripWelcomeCompleted from "../../Services/appLauncher/launchCheckpoints/isPreTripWelcomeCompleted";
+  CONSTANT_privacyPolicy,
+} from '../../constants/stringConstants';
+import {CONSTANT_pytLogoBlack} from '../../constants/imageAssets';
+import {CONSTANT_starterScreenText} from '../../constants/appText';
+import {CONSTANT_StarterScreen} from '../../constants/appEvents';
+import {CONSTANT_productUrl} from '../../constants/serverUrls';
 
 const bootAnimationTiming = 350;
 
@@ -75,12 +70,12 @@ export interface StarterProps {
   navigation: StarterScreenNavigationProp;
 }
 
-@ErrorBoundary({ isRoot: true })
-@inject("appState")
+@ErrorBoundary({isRoot: true})
+@inject('appState')
 @observer
 class Starter extends Component<StarterProps, StarterState> {
   static navigationOptions = {
-    header: null
+    header: null,
   };
   _splashAnimationRef = React.createRef();
 
@@ -88,7 +83,7 @@ class Starter extends Component<StarterProps, StarterState> {
     displayStarterAnimation: false,
     displayStarterOptions: false,
     bootAnimationOpacity: 0,
-    bootSplashAnimationProgress: new Animated.Value(0)
+    bootSplashAnimationProgress: new Animated.Value(0),
   };
 
   clickedBooking = () => {
@@ -96,26 +91,33 @@ class Starter extends Component<StarterProps, StarterState> {
   };
 
   clickedPlan = () => {
-    isPreTripWelcomeCompleted().then(isWelcomeComplete => {
-      if (isWelcomeComplete) {
-        navigationDispatcher(launchPretripHome());
-      } else {
-        isPreTripWelcomePending().then(isWelcomePending => {
-          if (isWelcomePending) {
-            resetToWelcomeFlow().then(resetAction => {
-              navigationDispatcher(resetAction);
-            });
-          } else {
-            this.props.navigation.navigate(SCREEN_TRAVEL_PROFILE_WELCOME);
-          }
-        });
-      }
-    });
+    this.props.navigation.navigate(SCREEN_PRE_TRIP_INTRO);
+    /**
+     * Temporarily removed the onboarding intro screens
+     */
+    // this.props.navigation.navigate(SCREEN_APP_LOGIN, {
+    //   launchSource: "PRETRIP_WELCOME_FLOW"
+    // });
+    // isPreTripWelcomeCompleted().then(isWelcomeComplete => {
+    //   if (isWelcomeComplete) {
+    //     navigationDispatcher(launchPretripHome());
+    //   } else {
+    //     isPreTripWelcomePending().then(isWelcomePending => {
+    //       if (isWelcomePending) {
+    //         resetToWelcomeFlow().then(resetAction => {
+    //           navigationDispatcher(resetAction);
+    //         });
+    //       } else {
+    //         this.props.navigation.navigate(SCREEN_TRAVEL_PROFILE_WELCOME);
+    //       }
+    //     });
+    //   }
+    // });
   };
 
   clickedSavedItineraries = () => {
     this.props.navigation.navigate(SCREEN_APP_LOGIN, {
-      resetTarget: SCREEN_SAVED_ITINERARIES
+      resetTarget: SCREEN_SAVED_ITINERARIES,
     });
   };
 
@@ -134,57 +136,57 @@ class Starter extends Component<StarterProps, StarterState> {
   animateAndroid = () => {
     this.setState(
       {
-        bootAnimationOpacity: 1
+        bootAnimationOpacity: 1,
       },
       () => {
         Animated.timing(this.state.bootSplashAnimationProgress, {
           toValue: 1,
           duration: bootAnimationTiming,
           easing: Easing.linear,
-          useNativeDriver: true
+          useNativeDriver: true,
         }).start(() => {
           this.setState({
-            bootAnimationOpacity: 0
+            bootAnimationOpacity: 0,
           });
         });
         const animationTime = 220;
         setTimeout(() => {
           this.setState({
             displayStarterAnimation: true,
-            displayStarterOptions: true
+            displayStarterOptions: true,
           });
         }, animationTime);
-      }
+      },
     );
   };
 
   animateiOS = () => {
     this.setState(
       {
-        bootAnimationOpacity: 1
+        bootAnimationOpacity: 1,
       },
       () => {
         Animated.timing(this.state.bootSplashAnimationProgress, {
           toValue: 0.9,
           duration: bootAnimationTiming,
           easing: Easing.linear,
-          useNativeDriver: true
+          useNativeDriver: true,
         }).start(() => {
           this.setState(
             {
-              bootAnimationOpacity: 0
+              bootAnimationOpacity: 0,
             },
             () => {
               setTimeout(() => {
                 this.setState({
                   displayStarterAnimation: true,
-                  displayStarterOptions: true
+                  displayStarterOptions: true,
                 });
               }, 100);
-            }
+            },
           );
         });
-      }
+      },
     );
   };
 
@@ -192,15 +194,15 @@ class Starter extends Component<StarterProps, StarterState> {
     const {
       displayStarterAnimation,
       displayStarterOptions,
-      bootAnimationOpacity
+      bootAnimationOpacity,
     } = this.state;
 
-    const findBookingButtonStyle = { width: 220, height: 48 };
+    const findBookingButtonStyle = {width: 220, height: 48};
 
     const exploreButtonStyle = {
       width: 220,
       height: 48,
-      marginVertical: 16
+      marginVertical: 16,
     };
 
     return (
@@ -218,21 +220,21 @@ class Starter extends Component<StarterProps, StarterState> {
                 <Image
                   source={CONSTANT_pytLogoBlack}
                   style={styles.logo}
-                  resizeMode={"contain"}
+                  resizeMode={'contain'}
                 />
               </View>
               <View style={styles.buttonRow}>
                 <SimpleButton
                   text={CONSTANT_starterScreenText.exploreButton}
-                  textColor={`white`}
+                  textColor={'white'}
                   textStyle={{
-                    ...CONSTANT_fontCustom(CONSTANT_primarySemiBold, 18)
+                    ...CONSTANT_fontCustom(CONSTANT_primarySemiBold, 18),
                   }}
                   color={CONSTANT_firstColor}
                   underlayColor={CONSTANT_firstColorAlpha(0.7)}
                   action={() => {
                     recordEvent(CONSTANT_StarterScreen.event, {
-                      click: CONSTANT_StarterScreen.click.planVacation
+                      click: CONSTANT_StarterScreen.click.planVacation,
                     });
                     this.clickedPlan();
                     return null;
@@ -243,14 +245,14 @@ class Starter extends Component<StarterProps, StarterState> {
                   text={CONSTANT_starterScreenText.mainButton}
                   textColor={CONSTANT_shade2}
                   textStyle={{
-                    ...CONSTANT_fontCustom(CONSTANT_primarySemiBold, 18)
+                    ...CONSTANT_fontCustom(CONSTANT_primarySemiBold, 18),
                   }}
-                  color={`white`}
+                  color={'white'}
                   hasBorder={true}
                   action={() => {
                     this.clickedBooking();
                     recordEvent(CONSTANT_StarterScreen.event, {
-                      click: CONSTANT_StarterScreen.click.findBooking
+                      click: CONSTANT_StarterScreen.click.findBooking,
                     });
                     return null;
                   }}
@@ -259,45 +261,42 @@ class Starter extends Component<StarterProps, StarterState> {
               </View>
               <View style={styles.linkRow}>
                 <Text style={styles.infoText}>
-                  {`or, check `}
+                  {'or, check '}
                   <Text
                     style={styles.infoLink}
-                    onPress={this.clickedSavedItineraries}
-                  >
-                    {`saved itineraries`}
+                    onPress={this.clickedSavedItineraries}>
+                    {'saved itineraries'}
                   </Text>
                 </Text>
               </View>
             </View>
             <View style={styles.tncWrapper}>
               <Text style={styles.tncText}>
-                {`By using Pickyourtrail app you agree to our `}
+                {'By using Pickyourtrail app you agree to our '}
                 <Text
                   style={styles.tncLink}
                   onPress={() => {
                     openCustomTab(
-                      `${CONSTANT_productUrl}${CONSTANT_termsAndConditions}`
+                      `${CONSTANT_productUrl}${CONSTANT_termsAndConditions}`,
                     );
                     recordEvent(CONSTANT_StarterScreen.event, {
-                      click: CONSTANT_StarterScreen.click.termsAndConditions
+                      click: CONSTANT_StarterScreen.click.termsAndConditions,
                     });
-                  }}
-                >
-                  {`Terms and Conditions`}
+                  }}>
+                  {'Terms and Conditions'}
                 </Text>
-                {` and all your data will be protected by our `}
+                {' and all your data will be protected by our '}
                 <Text
                   style={styles.tncLink}
                   onPress={() => {
                     openCustomTab(
-                      `${CONSTANT_productUrl}${CONSTANT_privacyPolicy}`
+                      `${CONSTANT_productUrl}${CONSTANT_privacyPolicy}`,
                     );
                     recordEvent(CONSTANT_StarterScreen.event, {
-                      click: CONSTANT_StarterScreen.click.privacyPolicy
+                      click: CONSTANT_StarterScreen.click.privacyPolicy,
                     });
-                  }}
-                >
-                  {`Privacy Policy`}
+                  }}>
+                  {'Privacy Policy'}
                 </Text>
               </Text>
             </View>
@@ -311,60 +310,60 @@ class Starter extends Component<StarterProps, StarterState> {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "transparent"
+    backgroundColor: 'transparent',
   },
   contentSection: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    flexWrap: "wrap"
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexWrap: 'wrap',
   },
   logoRow: {
-    alignItems: "center",
-    justifyContent: "center",
-    marginBottom: 16
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 16,
   },
   logo: {
     height: 62,
-    width: 200
+    width: 200,
   },
   buttonRow: {
     width: responsiveWidth(100),
-    alignItems: "center",
-    justifyContent: "center"
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   linkRow: {},
   infoText: {
     ...CONSTANT_fontCustom(CONSTANT_primaryLight, 13),
     color: CONSTANT_shade1,
-    textAlignVertical: "center"
+    textAlignVertical: 'center',
   },
   infoLink: {
     ...CONSTANT_fontCustom(CONSTANT_primarySemiBold, 14),
-    textDecorationLine: "underline",
-    textAlignVertical: "center",
-    color: CONSTANT_firstColor
+    textDecorationLine: 'underline',
+    textAlignVertical: 'center',
+    color: CONSTANT_firstColor,
   },
   hyperlink: {
-    textDecorationLine: "underline"
+    textDecorationLine: 'underline',
   },
   tncWrapper: {
-    position: "absolute",
+    position: 'absolute',
     marginHorizontal: 48,
     marginTop: 16,
     bottom: 24 + (isIphoneX() ? CONSTANT_xSensorAreaHeight : 0),
-    borderRadius: 4
+    borderRadius: 4,
   },
   tncText: {
     ...CONSTANT_fontCustom(CONSTANT_primaryLight, 10, 16),
     color: CONSTANT_shade1,
-    textAlign: "center",
-    padding: 8
+    textAlign: 'center',
+    padding: 8,
   },
   tncLink: {
     fontFamily: CONSTANT_primarySemiBold,
-    textDecorationLine: "underline"
-  }
+    textDecorationLine: 'underline',
+  },
 });
 
 export default Starter;

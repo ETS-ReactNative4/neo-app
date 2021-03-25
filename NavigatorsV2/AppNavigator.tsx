@@ -1,9 +1,9 @@
-import React, { Fragment } from "react";
+import React, {Fragment} from 'react';
 import {
   createStackNavigator,
-  StackNavigationProp
-} from "@react-navigation/stack";
-import { StatusBar } from "react-native";
+  StackNavigationProp,
+} from '@react-navigation/stack';
+import {StatusBar} from 'react-native';
 import {
   SCREEN_APP_LOGIN,
   SCREEN_STARTER,
@@ -68,95 +68,96 @@ import {
   SCREEN_BUDGET_PREFERENCES,
   SCREEN_VISA_DOCUMENT_ACTION_SHEET,
   SCREEN_NOTIFICATION_ANSWER,
-  SCREEN_GCM_NATIONALITY_PICKER
-} from "./ScreenNames";
-import AppLogin from "../Screens/AppLoginScreen/AppLogin";
-import Starter from "../Screens/StartingScreen/Starter";
-import TravelProfileWelcome from "../Screens/TravelProfileWelcomeScreen/TravelProfileWelcome";
-import TravelProfileCity from "../Screens/TravelProfileCityScreen/TravelProfileCity";
-import MaritalStatus from "../Screens/MaritalStatusScreen/MaritalStatus";
-import StorybookUIRoot from "../storybook/Storybook";
-import PreTripHomeTabs, { PreTripHomeTabsType } from "./PreTripHomeTabs";
-import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
-import ModalStack, { ModalNavigatorParamsType } from "./ModalStack";
-import { CONSTANT_white } from "../constants/colorPallete";
-import { RouteProp } from "@react-navigation/native";
-import { IItineraryNotification } from "../Screens/NotificationsScreen/Notifications";
-import NotificationDetails from "../Screens/NotificationDetailsScreen/NotificationDetails";
-import NotificationsFaq from "../Screens/NotificationsFaqScreen/NotificationsFaq";
+  SCREEN_GCM_NATIONALITY_PICKER,
+  SCREEN_PRE_TRIP_INTRO,
+} from './ScreenNames';
+import AppLogin from '../Screens/AppLoginScreen/AppLogin';
+import Starter from '../Screens/StartingScreen/Starter';
+import TravelProfileWelcome from '../Screens/TravelProfileWelcomeScreen/TravelProfileWelcome';
+import TravelProfileCity from '../Screens/TravelProfileCityScreen/TravelProfileCity';
+import MaritalStatus from '../Screens/MaritalStatusScreen/MaritalStatus';
+import StorybookUIRoot from '../storybook/Storybook';
+import PreTripHomeTabs, {PreTripHomeTabsType} from './PreTripHomeTabs';
+import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
+import ModalStack, {ModalNavigatorParamsType} from './ModalStack';
+import {CONSTANT_white} from '../constants/colorPallete';
+import {RouteProp} from '@react-navigation/native';
+import {IItineraryNotification} from '../Screens/NotificationsScreen/Notifications';
+import NotificationDetails from '../Screens/NotificationDetailsScreen/NotificationDetails';
+import NotificationsFaq from '../Screens/NotificationsFaqScreen/NotificationsFaq';
 import PostBookingHomeTabs, {
-  PostBookingHomeTabsType
-} from "./PostBookingHomeTabs";
-import YourBookings from "../Screens/YourBookingsScreen/YourBookings";
-import PostBookingIntro, {
-  IPostBookingIntroData
-} from "../Screens/PostBookingIntroScreen/PostBookingIntro";
-import AgentInfo from "../Screens/AgentInfoScreen/AgentInfo";
-import { IPocCardPropsData } from "../Screens/AgentInfoScreen/Components/AgentPocCard";
-import AgentFeedback from "../Screens/AgentFeedbackScreen/AgentFeedback";
-import PromoLanding from "../Screens/PromoLandingScreen/PromoLanding";
-import UltimateMenu from "../Screens/UltimateMenuScreen/UltimateMenu";
-import TravellerProfileDetails from "../Screens/TravellerProfileDetailsScreen/TravellerProfileDetails";
-import EditTravellerProfileDetails from "../Screens/TravellerProfileDetailsScreen/Components/EditTravellerProfileDetails";
-import About from "../Screens/AboutScreen/About";
-import SavedItinerary from "../Screens/SavedItineraryScreen/SavedItinerary";
-import TripIntensity from "../Screens/TripIntensityScreen/TripIntensity";
+  PostBookingHomeTabsType,
+} from './PostBookingHomeTabs';
+import YourBookings from '../Screens/YourBookingsScreen/YourBookings';
+import PostBookingIntro from '../Screens/PostBookingIntroScreen/PostBookingIntro';
+import AgentInfo from '../Screens/AgentInfoScreen/AgentInfo';
+import {IPocCardPropsData} from '../Screens/AgentInfoScreen/Components/AgentPocCard';
+import AgentFeedback from '../Screens/AgentFeedbackScreen/AgentFeedback';
+import PromoLanding from '../Screens/PromoLandingScreen/PromoLanding';
+import UltimateMenu from '../Screens/UltimateMenuScreen/UltimateMenu';
+import TravellerProfileDetails from '../Screens/TravellerProfileDetailsScreen/TravellerProfileDetails';
+import EditTravellerProfileDetails from '../Screens/TravellerProfileDetailsScreen/Components/EditTravellerProfileDetails';
+import About from '../Screens/AboutScreen/About';
+import SavedItinerary from '../Screens/SavedItineraryScreen/SavedItinerary';
+import TripIntensity from '../Screens/TripIntensityScreen/TripIntensity';
 import Itinerary, {
-  itinerarySourceType
-} from "../Screens/ItineraryScreen/Itinerary";
-import RequestCallback from "../Screens/RequestCallback/RequestCallback";
-import GCM from "../Screens/GCMScreen/GCM";
-import GCMCityPicker from "../Screens/GCMCityPickerScreen/GCMCityPicker";
+  itinerarySourceType,
+} from '../Screens/ItineraryScreen/Itinerary';
+import RequestCallback from '../Screens/RequestCallback/RequestCallback';
+import GCM from '../Screens/GCMScreen/GCM';
+import GCMCityPicker from '../Screens/GCMCityPickerScreen/GCMCityPicker';
 import {
   IIndianCity,
   IHotelGuestRoomConfig,
-  ICostingConfig
-} from "../Screens/GCMScreen/hooks/useGCMForm";
-import GCMRoomConfig from "../Screens/GCMRoomConfig/GCMRoomConfig";
-import BookedItinerary from "../Screens/BookedItineraryScreen/BookedItinerary";
-import FAQ from "../Screens/FAQScreens/FAQScreen/FAQ";
-import ContactUs from "../Screens/ContactUsScreen/ContactUs";
-import TicketsConversation from "../Screens/TicketsConversationScreen/TicketsConversation";
-import YourTickets from "../Screens/YourTicketsScreen/YourTickets";
-import CurrencyConverter from "../Screens/CurrencyConverterScreen/CurrencyConverter";
-import PhraseBook from "../Screens/PhraseBookScreen/PhraseBook";
-import PackingChecklist from "../Screens/PackingChecklistScreen/PackingChecklist";
-import PassportDetails from "../Screens/PassportDetailsScreen/PassportDetails";
-import EmergencyContacts from "../Screens/EmergencyContactsScreen/EmergencyContacts";
-import Weather from "../Screens/WeatherScreen/Weather";
-import Places from "../Screens/PlacesScreen/Places";
-import NearBy from "../Screens/NearByScreen/NearBy";
-import Visa from "../Screens/VisaScreen/Visa";
-import VisaSelector from "../Screens/VisaSelectorScreen/VisaSelector";
-import VisaChecklist from "../Screens/VisaChecklistScreen/VisaChecklist";
-import VisaDocsChecklist from "../Screens/VisaDocsChecklistScreen/VisaDocsChecklist";
-import VisaStatus from "../Screens/VisaStatusScreen/VisaStatus";
-import VisaHelp from "../Screens/VisaHelpScreen/VisaHelp";
-import SupportCenter from "../Screens/SupportCenterScreen/SupportCenter";
-import Forex from "../Screens/ForexScreen/Forex";
-import JournalStart from "../Screens/JournalStartScreen/JournalStart";
-import JournalSetup from "../Screens/JournalSetupScreen/JournalSetup";
-import JournalDaySelector from "../Screens/JournalDaySelectorScreen/JournalDaySelector";
-import JournalImagePicker from "../Screens/JournalImagePickerScreen/JournalImagePicker";
-import JournalTextEditor from "../Screens/JournalTextEditorScreen/JournalTextEditor";
-import JournalPublish from "../Screens/JournalPublishScreen/JournalPublish";
-import JournalShare from "../Screens/JournalShareScreen/JournalShare";
-import PaymentHome from "../Screens/PaymentHomeScreen/PaymentHome";
-import PaymentSummary from "../Screens/PaymentSummaryScreen/PaymentSummary";
-import PaymentSuccess from "../Screens/PaymentScreens/PaymentSuccess";
-import PaymentFailure from "../Screens/PaymentScreens/PaymentFailure";
-import PaymentScreen from "../Screens/PaymentScreens/PaymentScreen";
-import BudgetPreferences from "../Screens/BudgetPreferencesScreen/BudgetPreferences";
-import VisaDocumentsActionSheet from "../Screens/VisaDocumentsActionSheet/VisaDocumentsActionSheet";
-import { leadSourceProdType } from "../Screens/RequestCallback/hooks/useRequestCallbackApi";
-import NotificationsAnswer from "../Screens/NotificationsAnswerScreen/NotificationsAnswer";
+  ICostingConfig,
+} from '../Screens/GCMScreen/hooks/useGCMForm';
+import GCMRoomConfig from '../Screens/GCMRoomConfig/GCMRoomConfig';
+import BookedItinerary from '../Screens/BookedItineraryScreen/BookedItinerary';
+import FAQ from '../Screens/FAQScreens/FAQScreen/FAQ';
+import ContactUs from '../Screens/ContactUsScreen/ContactUs';
+import TicketsConversation from '../Screens/TicketsConversationScreen/TicketsConversation';
+import YourTickets from '../Screens/YourTicketsScreen/YourTickets';
+import CurrencyConverter from '../Screens/CurrencyConverterScreen/CurrencyConverter';
+import PhraseBook from '../Screens/PhraseBookScreen/PhraseBook';
+import PackingChecklist from '../Screens/PackingChecklistScreen/PackingChecklist';
+import PassportDetails from '../Screens/PassportDetailsScreen/PassportDetails';
+import EmergencyContacts from '../Screens/EmergencyContactsScreen/EmergencyContacts';
+import Weather from '../Screens/WeatherScreen/Weather';
+import Places from '../Screens/PlacesScreen/Places';
+import NearBy from '../Screens/NearByScreen/NearBy';
+import Visa from '../Screens/VisaScreen/Visa';
+import VisaSelector from '../Screens/VisaSelectorScreen/VisaSelector';
+import VisaChecklist from '../Screens/VisaChecklistScreen/VisaChecklist';
+import VisaDocsChecklist from '../Screens/VisaDocsChecklistScreen/VisaDocsChecklist';
+import VisaStatus from '../Screens/VisaStatusScreen/VisaStatus';
+import VisaHelp from '../Screens/VisaHelpScreen/VisaHelp';
+import SupportCenter from '../Screens/SupportCenterScreen/SupportCenter';
+import Forex from '../Screens/ForexScreen/Forex';
+import JournalStart from '../Screens/JournalStartScreen/JournalStart';
+import JournalSetup from '../Screens/JournalSetupScreen/JournalSetup';
+import JournalDaySelector from '../Screens/JournalDaySelectorScreen/JournalDaySelector';
+import JournalImagePicker from '../Screens/JournalImagePickerScreen/JournalImagePicker';
+import JournalTextEditor from '../Screens/JournalTextEditorScreen/JournalTextEditor';
+import JournalPublish from '../Screens/JournalPublishScreen/JournalPublish';
+import JournalShare from '../Screens/JournalShareScreen/JournalShare';
+import PaymentHome from '../Screens/PaymentHomeScreen/PaymentHome';
+import PaymentSummary from '../Screens/PaymentSummaryScreen/PaymentSummary';
+import PaymentSuccess from '../Screens/PaymentScreens/PaymentSuccess';
+import PaymentFailure from '../Screens/PaymentScreens/PaymentFailure';
+import PaymentScreen from '../Screens/PaymentScreens/PaymentScreen';
+import BudgetPreferences from '../Screens/BudgetPreferencesScreen/BudgetPreferences';
+import VisaDocumentsActionSheet from '../Screens/VisaDocumentsActionSheet/VisaDocumentsActionSheet';
+import {leadSourceProdType} from '../Screens/RequestCallback/hooks/useRequestCallbackApi';
+import NotificationsAnswer from '../Screens/NotificationsAnswerScreen/NotificationsAnswer';
 import GCMNationalityPicker, {
-  INationalityOption
-} from "../Screens/GCMNationalityPicker/GCMNationalityPicker";
+  INationalityOption,
+} from '../Screens/GCMNationalityPicker/GCMNationalityPicker';
+import PreTripIntroScreen from '../Screens/PreTripIntroScreen/PreTripIntroScreen';
+import {IIntroData} from '../Screens/IntroScreen/IntroScreen';
 
 export type loginResetTargetTypes = typeof SCREEN_SAVED_ITINERARIES;
 
-export type loginLaunchSourceTypes = "PRETRIP_WELCOME_FLOW";
+export type loginLaunchSourceTypes = 'PRETRIP_WELCOME_FLOW';
 
 export type AppNavigatorParamsType = {
   [SCREEN_MODAL_STACK]: StackNavigationProp<ModalNavigatorParamsType>;
@@ -198,7 +199,7 @@ export type AppNavigatorParamsType = {
     getFaqByType: (type: string) => any;
   };
   [SCREEN_YOUR_BOOKINGS]: undefined;
-  [SCREEN_POST_BOOKING_INTRO]: { introData: IPostBookingIntroData[] };
+  [SCREEN_POST_BOOKING_INTRO]: {introData: IIntroData[]};
   [SCREEN_AGENT_INFO]: {
     itineraryId: string;
     ownerName: string;
@@ -262,7 +263,7 @@ export type AppNavigatorParamsType = {
   };
   [SCREEN_TICKETS_CONVERSATION]: {
     title: string;
-    status: "Closed" | "Open";
+    status: 'Closed' | 'Open';
     ticketId: string;
   };
   [SCREEN_YOUR_TICKETS]: undefined;
@@ -343,6 +344,7 @@ export type AppNavigatorParamsType = {
     visaId: string;
     toggleOverlay: () => any;
   };
+  [SCREEN_PRE_TRIP_INTRO]: undefined;
 };
 
 const Stack = createStackNavigator<AppNavigatorParamsType>();
@@ -352,35 +354,42 @@ export type AppNavigatorProps<T extends keyof AppNavigatorParamsType> = {
   route: RouteProp<AppNavigatorParamsType, T>;
 };
 
-const { Navigator, Screen } = Stack;
+const {Navigator, Screen} = Stack;
 
 const AppNavigator = () => {
   return (
     <Fragment>
       <StatusBar
         translucent={false}
-        barStyle={"dark-content"}
+        barStyle={'dark-content'}
         backgroundColor={CONSTANT_white}
       />
       <Navigator initialRouteName={SCREEN_STARTER} headerMode="screen">
         <Screen
+          options={{
+            headerShown: false,
+          }}
+          name={SCREEN_PRE_TRIP_INTRO}
+          component={PreTripIntroScreen}
+        />
+        <Screen
           name={SCREEN_PRETRIP_HOME_TABS}
-          options={{ headerShown: false }}
+          options={{headerShown: false}}
           component={PreTripHomeTabs}
         />
         <Screen
           name={SCREEN_POST_BOOKING_HOME}
-          options={{ headerShown: false }}
+          options={{headerShown: false}}
           component={PostBookingHomeTabs}
         />
         <Screen
           name={SCREEN_PROMO_PAGE}
-          options={{ headerShown: false }}
+          options={{headerShown: false}}
           component={PromoLanding}
         />
         <Screen
           options={{
-            headerShown: false
+            headerShown: false,
           }}
           name={SCREEN_STARTER}
           component={Starter}
@@ -398,14 +407,14 @@ const AppNavigator = () => {
         <Screen
           name={SCREEN_MODAL_STACK}
           options={{
-            headerShown: false
+            headerShown: false,
           }}
           component={ModalStack}
         />
         <Screen
           name={SCREEN_NOTIFICATION_DETAILS}
           options={{
-            headerShown: false
+            headerShown: false,
           }}
           component={NotificationDetails}
         />
@@ -416,7 +425,7 @@ const AppNavigator = () => {
         />
         <Screen
           options={{
-            headerShown: false
+            headerShown: false,
           }}
           name={SCREEN_STORY_BOOK}
           component={StorybookUIRoot}
@@ -424,27 +433,27 @@ const AppNavigator = () => {
         <Screen
           name={SCREEN_YOUR_BOOKINGS}
           options={{
-            headerShown: false
+            headerShown: false,
           }}
           component={YourBookings}
         />
         <Screen
           options={{
-            headerShown: false
+            headerShown: false,
           }}
           name={SCREEN_POST_BOOKING_INTRO}
           component={PostBookingIntro}
         />
         <Screen
           options={{
-            headerShown: false
+            headerShown: false,
           }}
           name={SCREEN_AGENT_INFO}
           component={AgentInfo}
         />
         <Screen
           options={{
-            headerShown: false
+            headerShown: false,
           }}
           name={SCREEN_AGENT_FEEDBACK}
           component={AgentFeedback}
@@ -459,7 +468,7 @@ const AppNavigator = () => {
         />
         <Screen
           options={{
-            headerShown: false
+            headerShown: false,
           }}
           name={SCREEN_ULTIMATE_MENU}
           component={UltimateMenu}
@@ -473,42 +482,42 @@ const AppNavigator = () => {
         />
         <Screen
           options={{
-            headerShown: false
+            headerShown: false,
           }}
           name={SCREEN_ITINERARY}
           component={Itinerary}
         />
         <Screen
           options={{
-            headerShown: false
+            headerShown: false,
           }}
           name={SCREEN_REQUEST_CALLBACK}
           component={RequestCallback}
         />
         <Screen
           options={{
-            headerShown: false
+            headerShown: false,
           }}
           name={SCREEN_GCM}
           component={GCM}
         />
         <Screen
           options={{
-            headerShown: false
+            headerShown: false,
           }}
           name={SCREEN_GCM_CITY_PICKER}
           component={GCMCityPicker}
         />
         <Screen
           options={{
-            headerShown: false
+            headerShown: false,
           }}
           name={SCREEN_GCM_NATIONALITY_PICKER}
           component={GCMNationalityPicker}
         />
         <Screen
           options={{
-            headerShown: false
+            headerShown: false,
           }}
           name={SCREEN_GCM_ROOM_CONFIG}
           component={GCMRoomConfig}
@@ -540,7 +549,7 @@ const AppNavigator = () => {
         <Screen name={SCREEN_VISA_CHECKLIST} component={VisaChecklist} />
         <Screen
           options={{
-            headerShown: false
+            headerShown: false,
           }}
           name={SCREEN_VISA_DOCS_CHECKLIST}
           component={VisaDocsChecklist}
@@ -548,14 +557,14 @@ const AppNavigator = () => {
         <Screen name={SCREEN_VISA_STATUS} component={VisaStatus} />
         <Screen
           options={{
-            headerShown: false
+            headerShown: false,
           }}
           name={SCREEN_VISA_HELP}
           component={VisaHelp}
         />
         <Screen
           options={{
-            headerShown: false
+            headerShown: false,
           }}
           name={SCREEN_VISA_DOCUMENT_ACTION_SHEET}
           component={VisaDocumentsActionSheet}
@@ -578,7 +587,7 @@ const AppNavigator = () => {
         />
         <Screen
           name={SCREEN_JOURNAL_PUBLISH}
-          options={{ headerShown: false }}
+          options={{headerShown: false}}
           component={JournalPublish}
         />
         <Screen name={SCREEN_JOURNAL_SHARE} component={JournalShare} />
@@ -588,7 +597,7 @@ const AppNavigator = () => {
         <Screen name={SCREEN_PAYMENT_FAILURE} component={PaymentFailure} />
         <Screen
           name={SCREEN_PAYMENT_SCREEN}
-          options={{ headerShown: false }}
+          options={{headerShown: false}}
           component={PaymentScreen}
         />
       </Navigator>
