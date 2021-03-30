@@ -71,6 +71,7 @@ import {
   SCREEN_GCM_NATIONALITY_PICKER,
   SCREEN_SEARCH_LISTING_CARDS_PAGE,
   SCREEN_LISTING_PAGE,
+  SCREEN_PRE_TRIP_INTRO,
 } from './ScreenNames';
 import AppLogin from '../Screens/AppLoginScreen/AppLogin';
 import Starter from '../Screens/StartingScreen/Starter';
@@ -90,9 +91,7 @@ import PostBookingHomeTabs, {
   PostBookingHomeTabsType,
 } from './PostBookingHomeTabs';
 import YourBookings from '../Screens/YourBookingsScreen/YourBookings';
-import PostBookingIntro, {
-  IPostBookingIntroData,
-} from '../Screens/PostBookingIntroScreen/PostBookingIntro';
+import PostBookingIntro from '../Screens/PostBookingIntroScreen/PostBookingIntro';
 import AgentInfo from '../Screens/AgentInfoScreen/AgentInfo';
 import {IPocCardPropsData} from '../Screens/AgentInfoScreen/Components/AgentPocCard';
 import AgentFeedback from '../Screens/AgentFeedbackScreen/AgentFeedback';
@@ -157,6 +156,8 @@ import GCMNationalityPicker, {
 } from '../Screens/GCMNationalityPicker/GCMNationalityPicker';
 import SearchListingCardsPage from '../Screens/SearchListingCardsPage/SearchListingCardsPage';
 import ListingPage from '../Screens/ListingPageScreen/ListingPage';
+import PreTripIntroScreen from '../Screens/PreTripIntroScreen/PreTripIntroScreen';
+import {IIntroData} from '../Screens/IntroScreen/IntroScreen';
 
 export type loginResetTargetTypes = typeof SCREEN_SAVED_ITINERARIES;
 
@@ -209,7 +210,7 @@ export type AppNavigatorParamsType = {
     getFaqByType: (type: string) => any;
   };
   [SCREEN_YOUR_BOOKINGS]: undefined;
-  [SCREEN_POST_BOOKING_INTRO]: {introData: IPostBookingIntroData[]};
+  [SCREEN_POST_BOOKING_INTRO]: {introData: IIntroData[]};
   [SCREEN_AGENT_INFO]: {
     itineraryId: string;
     ownerName: string;
@@ -354,6 +355,7 @@ export type AppNavigatorParamsType = {
     visaId: string;
     toggleOverlay: () => any;
   };
+  [SCREEN_PRE_TRIP_INTRO]: undefined;
 };
 
 const Stack = createStackNavigator<AppNavigatorParamsType>();
@@ -374,6 +376,13 @@ const AppNavigator = () => {
         backgroundColor={CONSTANT_white}
       />
       <Navigator initialRouteName={SCREEN_STARTER} headerMode="screen">
+        <Screen
+          options={{
+            headerShown: false,
+          }}
+          name={SCREEN_PRE_TRIP_INTRO}
+          component={PreTripIntroScreen}
+        />
         <Screen
           name={SCREEN_PRETRIP_HOME_TABS}
           options={{headerShown: false}}

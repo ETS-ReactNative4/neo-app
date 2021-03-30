@@ -28,7 +28,7 @@ export const SCREEN_GCM = 'GCM';
 export const SCREEN_GCM_CITY_PICKER = 'GCMCityPicker';
 export const SCREEN_GCM_NATIONALITY_PICKER = 'GCMNationalityPicker';
 export const SCREEN_GCM_ROOM_CONFIG = 'GCMRoomConfig';
-
+export const SCREEN_PRE_TRIP_INTRO = 'PreTripIntro';
 /**
  * Screens from the post booking app
  */

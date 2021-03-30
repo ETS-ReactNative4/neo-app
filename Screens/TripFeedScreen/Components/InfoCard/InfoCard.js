@@ -1,11 +1,11 @@
-import React, { Component } from "react";
-import { Text, TouchableOpacity, View, StyleSheet } from "react-native";
-import PropTypes from "prop-types";
-import forbidExtraProps from "../../../../Services/PropTypeValidation/forbidExtraProps";
-import constants from "../../../../constants/constants";
-import resolveLinks from "../../../../Services/resolveLinks/resolveLinks";
-import { recordEvent } from "../../../../Services/analytics/analyticsService";
-import SmartImageV2 from "../../../../CommonComponents/SmartImage/SmartImageV2";
+import React, {Component} from 'react';
+import {Text, TouchableOpacity, View, StyleSheet} from 'react-native';
+import PropTypes from 'prop-types';
+import forbidExtraProps from '../../../../Services/PropTypeValidation/forbidExtraProps';
+import constants from '../../../../constants/constants';
+import resolveLinks from '../../../../Services/resolveLinks/resolveLinks';
+import {recordEvent} from '../../../../Services/analytics/analyticsService';
+import SmartImageV2 from '../../../../CommonComponents/SmartImage/SmartImageV2';
 
 class InfoCard extends Component {
   static propTypes = forbidExtraProps({
@@ -16,7 +16,7 @@ class InfoCard extends Component {
     boxStyle: PropTypes.object,
     titleStyle: PropTypes.object,
     modalData: PropTypes.object,
-    widgetName: PropTypes.string
+    widgetName: PropTypes.string,
   });
 
   render() {
@@ -26,14 +26,15 @@ class InfoCard extends Component {
       content,
       link,
       boxStyle = {},
+      boxContentStyle = {},
       titleStyle = {},
       modalData,
-      widgetName
+      widgetName,
     } = this.props;
     const action = () => {
       if (widgetName) {
         recordEvent(constants.TripFeed.event, {
-          widget: widgetName
+          widget: widgetName,
         });
       }
       resolveLinks(link, modalData, {});
@@ -42,17 +43,16 @@ class InfoCard extends Component {
       <TouchableOpacity
         activeOpacity={0.8}
         onPress={action}
-        style={[styles.box, boxStyle]}
-      >
+        style={[styles.box, boxStyle]}>
         {image ? (
           <SmartImageV2
             style={styles.imageBackground}
-            resizeMode={"cover"}
+            resizeMode={'cover'}
             source={image}
             useFastImage={true}
           />
         ) : null}
-        <View style={styles.contentView}>
+        <View style={[styles.contentView, boxContentStyle]}>
           <View style={styles.header}>
             <Text style={[styles.boxTitle, titleStyle]} numberOfLines={2}>
               {title}
@@ -71,35 +71,32 @@ const styles = StyleSheet.create({
   box: {
     borderRadius: 5,
     marginTop: 8,
-    borderWidth: StyleSheet.hairlineWidth,
-    borderColor: constants.shade5,
-    backgroundColor: "white"
+    backgroundColor: 'white',
+    paddingHorizontal: 24,
+    paddingTop: 16,
   },
   imageBackground: {
     height: 160,
-    overflow: "hidden",
+    overflow: 'hidden',
     borderTopRightRadius: 5,
     borderTopLeftRadius: 5,
-    marginHorizontal: 24,
-    marginTop: 16
   },
   contentView: {
     paddingVertical: 16,
-    paddingHorizontal: 24
   },
   header: {},
   body: {
-    padding: 0
+    padding: 0,
   },
   bodyText: {
     ...constants.fontCustom(constants.primaryLight, 15, 18),
-    color: constants.black1
+    color: constants.black1,
   },
   boxTitle: {
     marginBottom: 8,
     ...constants.fontCustom(constants.primaryRegular, 20, 24),
-    color: constants.black1
-  }
+    color: constants.black1,
+  },
 });
 
 export default InfoCard;
