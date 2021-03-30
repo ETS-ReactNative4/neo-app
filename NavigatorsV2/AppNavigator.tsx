@@ -69,6 +69,8 @@ import {
   SCREEN_VISA_DOCUMENT_ACTION_SHEET,
   SCREEN_NOTIFICATION_ANSWER,
   SCREEN_GCM_NATIONALITY_PICKER,
+  SCREEN_SEARCH_LISTING_CARDS_PAGE,
+  SCREEN_LISTING_PAGE,
   SCREEN_PRE_TRIP_INTRO,
 } from './ScreenNames';
 import AppLogin from '../Screens/AppLoginScreen/AppLogin';
@@ -152,6 +154,8 @@ import NotificationsAnswer from '../Screens/NotificationsAnswerScreen/Notificati
 import GCMNationalityPicker, {
   INationalityOption,
 } from '../Screens/GCMNationalityPicker/GCMNationalityPicker';
+import SearchListingCardsPage from '../Screens/SearchListingCardsPage/SearchListingCardsPage';
+import ListingPage from '../Screens/ListingPageScreen/ListingPage';
 import PreTripIntroScreen from '../Screens/PreTripIntroScreen/PreTripIntroScreen';
 import {IIntroData} from '../Screens/IntroScreen/IntroScreen';
 
@@ -170,6 +174,13 @@ export type AppNavigatorParamsType = {
       screenName: string;
       params?: object;
     };
+  };
+  [SCREEN_SEARCH_LISTING_CARDS_PAGE]: {
+    searchString: string;
+  };
+  [SCREEN_LISTING_PAGE]: {
+    slug?: string;
+    apiUrl?: string;
   };
   [SCREEN_STARTER]: undefined;
   [SCREEN_TRAVEL_PROFILE_WELCOME]: undefined;
@@ -376,6 +387,16 @@ const AppNavigator = () => {
           name={SCREEN_PRETRIP_HOME_TABS}
           options={{headerShown: false}}
           component={PreTripHomeTabs}
+        />
+        <Screen
+          name={SCREEN_SEARCH_LISTING_CARDS_PAGE}
+          options={{headerShown: false}}
+          component={SearchListingCardsPage}
+        />
+        <Screen
+          name={SCREEN_LISTING_PAGE}
+          options={{headerShown: false}}
+          component={ListingPage}
         />
         <Screen
           name={SCREEN_POST_BOOKING_HOME}
