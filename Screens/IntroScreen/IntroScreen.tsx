@@ -54,14 +54,7 @@ const IntroScreen = ({
    * Update active index when the back button is clicked
    */
   const moveForward = () => {
-    console.log(
-      'here',
-      activeIndex,
-      activeIndex === introData.length - 1,
-      activeIndex < introData.length,
-    );
     if (animatedScrollView.current) {
-      console.log(animatedScrollView.current.getNode());
       animatedScrollView.current.getNode().scrollTo({
         x: (activeIndex + 1) * responsiveWidth(100),
       });
