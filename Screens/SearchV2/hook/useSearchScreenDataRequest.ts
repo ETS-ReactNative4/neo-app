@@ -5,7 +5,7 @@ import useApiCall, {
 import {CONSTANT_retrieveGlobalData} from '../../../constants/apiUrls';
 import {IMobileServerResponse} from '../../../TypeInterfaces/INetworkResponse';
 
-type VacationThemeType = {
+export type VacationThemeType = {
   title: string;
   data: {
     image: string;
@@ -14,7 +14,7 @@ type VacationThemeType = {
   }[];
 };
 
-type TopResortType = {
+export type TopResortType = {
   title: string;
   data: {
     image: string;

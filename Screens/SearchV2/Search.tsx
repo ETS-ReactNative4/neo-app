@@ -1,5 +1,12 @@
 import React, {Fragment, useEffect, useRef, useState} from 'react';
-import {SafeAreaView, StyleSheet, View, Text} from 'react-native';
+import {
+  SafeAreaView,
+  StyleSheet,
+  View,
+  Text,
+  FlatList,
+  Platform,
+} from 'react-native';
 import useDeepCompareEffect from 'use-deep-compare-effect';
 import SearchBox from '../../CommonComponents/SearchBox/SearchBox';
 import {CONSTANT_white} from '../../constants/colorPallete';
@@ -13,71 +20,62 @@ import {VacationTheme} from './components/VacationTheme';
 import {
   SCREEN_ITINERARY,
   SCREEN_LISTING_PAGE,
+  SCREEN_PRETRIP_HOME_TABS,
+  SCREEN_SEARCH_LISTING_CARDS_PAGE,
   SCREEN_SEARCH_TAB,
 } from '../../NavigatorsV2/ScreenNames';
-import usePackagesSearchApi from '../SearchScreen/hooks/usePackagesSearchApi';
 import {IPackageItinerary} from '../../TypeInterfaces/IPackageItinerary';
 import {createAnimatableComponent} from 'react-native-animatable';
 import EmptyListPlaceholder from '../../CommonComponents/EmptyListPlaceholder/EmptyListPlaceholder';
-import useSearchScreenDataRequest from './hook/useSearchScreenDataRequest';
+import useSearchScreenDataRequest, {
+  TopResortType,
+  VacationThemeType,
+} from './hook/useSearchScreenDataRequest';
 import {CONSTANT_onVactionFaqIcon} from '../../constants/imageAssets';
 import constants from '../../constants/constants';
-const limit = 4;
+import usePackagesSearchV2Api from './hook/usePackagesSearchApi';
+import openCustomTab from '../../Services/openCustomTab/openCustomTab';
+import BlankSpacer from '../../CommonComponents/BlankSpacer/BlankSpacer';
+import {responsiveHeight} from 'react-native-responsive-dimensions';
+import {
+  CONSTANT_platformAndroid,
+  STAYCATION_VERSION,
+} from '../../constants/stringConstants';
+import {CONSTANT_productUrl} from '../../constants/serverUrls';
+import {CompositeNavigationProp} from '@react-navigation/native';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {AppNavigatorParamsType} from '../../NavigatorsV2/AppNavigator';
+import {PreTripHomeTabsType} from '../../NavigatorsV2/PreTripHomeTabs';
+import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
 
-// const data = {
-//   vacationTheme: {
-//     title: 'Vacation themes',
-//     data: [
-//       {
-//         image:
-//           'https://d3lf10b5gahyby.cloudfront.net/packages/banners/themed/m-honeymoon-banner.jpg',
-//         title: 'Honeymoon',
-//         searchQuery: 'honeymoon-packages',
-//       },
-//       {
-//         image:
-//           'https://d3lf10b5gahyby.cloudfront.net/packages/banners/themed/m-honeymoon-banner.jpg',
-//         title: 'Family',
-//         searchQuery: 'family-packages',
-//       },
-//       {
-//         image:
-//           'https://d3lf10b5gahyby.cloudfront.net/packages/banners/themed/m-honeymoon-banner.jpg',
-//         title: 'Beach',
-//         searchQuery: 'beach-packages',
-//       },
-//       {
-//         image:
-//           'https://d3lf10b5gahyby.cloudfront.net/packages/banners/themed/m-honeymoon-banner.jpg',
-//         title: 'Adventure',
-//         searchQuery: 'adventure-packages',
-//       },
-//     ],
-//   },
-//   topResort: {
-//     title: 'Top selling resorts',
-//     data: [
-//       {
-//         image:
-//           'https://d3lf10b5gahyby.cloudfront.net/packages/banners/themed/m-honeymoon-banner.jpg',
-//         title: 'Coco Budhu Hiti, Maldvies',
-//         slug: 'packages/stunning-5-day-trip-to-maldives-for-honeymoon',
-//         isDeals: false,
-//       },
-//     ],
-//   },
-// };
-const Search = ({navigation}) => {
+export type SearchScreenNavigationType = CompositeNavigationProp<
+  StackNavigationProp<AppNavigatorParamsType, typeof SCREEN_PRETRIP_HOME_TABS>,
+  BottomTabNavigationProp<PreTripHomeTabsType, typeof SCREEN_SEARCH_TAB>
+>;
+
+export interface SearchScreenProps {
+  navigation: SearchScreenNavigationType;
+}
+
+interface SearchScreenDataProps {
+  vacationTheme: VacationThemeType;
+  topResort: TopResortType;
+}
+const limit = 3;
+
+const Search = ({navigation}: SearchScreenProps) => {
   const [searchString, setSearchString] = useState('');
   const [searchResults, setSearchResults] = useState<IPackageItinerary[]>([]);
-  const [searchScreenData, setSearchScreenData] = useState({});
+  const [searchScreenData, setSearchScreenData] = useState<
+    SearchScreenDataProps
+  >({vacationTheme: {title: '', data: []}, topResort: {title: '', data: []}});
 
   const abortFetchRef = useRef<any>(null);
   const [
     searchScreenApiDetails,
     loadSearchScreenData,
   ] = useSearchScreenDataRequest();
-  const [packagesApiDetails, searchPackages] = usePackagesSearchApi();
+  const [packagesApiDetails, searchPackages] = usePackagesSearchV2Api();
 
   const {
     successResponseData: packageResponseData,
@@ -89,21 +87,6 @@ const Search = ({navigation}) => {
     loadSearchScreenData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  // const delayedQuery = _debounce(() => {
-  //   if (abortFetchRef.current) {
-  //     abortFetchRef.current.abort();
-  //   }
-  //   // @ts-ignore
-  //   // eslint-disable-next-line no-undef
-  //   abortFetchRef.current = new AbortController();
-  //   searchPackages({
-  //     limit,
-  //     offset: 0,
-  //     searchString,
-  //     abortController: abortFetchRef.current,
-  //   }).catch(() => null);
-  // }, 300);
 
   useEffect(() => {
     setSearchResults([]);
@@ -120,7 +103,6 @@ const Search = ({navigation}) => {
         searchString,
         abortController: abortFetchRef.current,
       }).catch(() => null);
-      // delayedQuery();
     } else {
       setSearchResults([]);
     }
@@ -128,12 +110,19 @@ const Search = ({navigation}) => {
   }, [searchString]);
 
   useDeepCompareEffect(() => {
-    setSearchResults([...searchResults, ...(packageResponseData?.data || [])]);
+    const {dealItineraries = [], nonDealItineraries = []} =
+      packageResponseData?.data || {};
+    setSearchResults([
+      ...searchResults,
+      ...(dealItineraries || []),
+      ...(nonDealItineraries || []),
+    ]);
   }, [packageResponseData || {}]);
 
   useDeepCompareEffect(() => {
     if (successResponseData) {
-      setSearchScreenData(successResponseData?.data?.[0]?.value ?? {});
+      const {data} = successResponseData || {};
+      setSearchScreenData(data?.[0]?.value ?? {});
     }
   }, [successResponseData || {}]);
 
@@ -145,19 +134,38 @@ const Search = ({navigation}) => {
   const onClickThemeCard = ({searchQuery}: {searchQuery: string}) => {
     navigation.navigate(SCREEN_LISTING_PAGE, {
       slug: searchQuery,
+      apiUrl: '',
     });
   };
 
-  const openItinerary = (slug: string) => {
-    navigation.navigate(SCREEN_ITINERARY, {
-      slug,
-      itinerarySource: SCREEN_SEARCH_TAB,
-    });
+  const openItinerary = (slug: string, isDeal?: boolean) => {
+    if (isDeal) {
+      openCustomTab(`${CONSTANT_productUrl}${slug}`);
+    } else {
+      navigation.navigate(SCREEN_ITINERARY, {
+        slug,
+        itinerarySource: SCREEN_SEARCH_TAB,
+      });
+    }
   };
 
+  const openSearchListing = ({searchQuery}: {searchQuery: string}) => {
+    navigation.navigate(SCREEN_SEARCH_LISTING_CARDS_PAGE, {
+      searchString: searchQuery,
+    });
+  };
   const AnimatableView = createAnimatableComponent(View);
 
   const {vacationTheme, topResort} = searchScreenData;
+  const searchResultList = searchResults.slice(0, 6);
+
+  const listBottomSpace =
+    Platform.OS === CONSTANT_platformAndroid ? (
+      <BlankSpacer height={responsiveHeight(10)} />
+    ) : (
+      <BlankSpacer height={24} />
+    );
+
   return (
     <SafeAreaView style={styles.container}>
       <SearchBox
@@ -177,25 +185,32 @@ const Search = ({navigation}) => {
           <Fragment>
             {vacationTheme ? (
               <VacationTheme
-                title={vacationTheme.title}
-                list={vacationTheme.data}
+                title={vacationTheme?.title}
+                list={vacationTheme?.data}
                 onClick={onClickThemeCard}
               />
             ) : null}
             {topResort ? (
-              <SearchSection title={topResort.title}>
-                {topResort.data.map(
+              <SearchSection title={topResort?.title}>
+                {topResort?.data?.map(
                   (
-                    resort: {slug: string; title: string; image: string},
+                    resort: {
+                      slug: string;
+                      title: string;
+                      image: string;
+                      isDeal?: boolean;
+                    },
                     index: number,
                   ) => {
-                    const onClick = () => openItinerary(resort.slug);
+                    const onClick = () =>
+                      openItinerary(resort.slug, resort.isDeal);
                     return (
                       <SearchLineItem
                         text={resort.title}
                         image={resort.image}
                         action={onClick}
                         key={`resort-${index}`}
+                        noBorder={topResort.data.length - 1 === index}
                       />
                     );
                   },
@@ -204,7 +219,6 @@ const Search = ({navigation}) => {
             ) : null}
           </Fragment>
         ) : null}
-        {/* tagText='🔥 Top selling'  */}
         {!isPackagesApiLoading && !searchResults.length && searchString ? (
           <AnimatableView
             style={styles.placeholderWrapper}
@@ -215,44 +229,51 @@ const Search = ({navigation}) => {
             />
           </AnimatableView>
         ) : searchResults.length && searchString ? (
-          <SearchSection>
-            {searchResults
-              .slice(0, 3)
-              .map(
-                ({
-                  title,
-                  image,
-                  slug,
-                }: {
-                  title: string;
-                  image: string;
-                  slug: string;
-                }) => {
-                  const onClick = () => openItinerary(slug);
+          <View style={styles.searchList}>
+            <FlatList
+              data={searchString ? searchResultList : []}
+              renderItem={({item}) => {
+                const isDeal = item.type === STAYCATION_VERSION;
+                const onClick = () => openItinerary(item.slug, isDeal);
+                return (
+                  <SearchLineItem
+                    text={item.title}
+                    image={item.image}
+                    action={onClick}
+                    isDeals={isDeal}
+                  />
+                );
+              }}
+              ListFooterComponent={() => {
+                if (
+                  packageResponseData?.data?.nonDealItineraries?.length ===
+                  limit
+                ) {
                   return (
-                    <SearchLineItem
-                      text={title}
-                      image={image}
-                      action={onClick}
-                    />
+                    <Fragment>
+                      <SearchLineItem
+                        text={
+                          <Text>
+                            See all <Text style={styles.bold}>Packages</Text>
+                          </Text>
+                        }
+                        tagText=""
+                        image=""
+                        icon={CONSTANT_onVactionFaqIcon}
+                        action={() =>
+                          openSearchListing({searchQuery: searchString})
+                        }
+                      />
+                      {listBottomSpace}
+                    </Fragment>
                   );
-                },
-              )}
-
-            {searchResults.length === limit ? (
-              <SearchLineItem
-                text={
-                  <Text>
-                    See all <Text style={styles.bold}>Packages</Text>
-                  </Text>
+                } else {
+                  return listBottomSpace;
                 }
-                tagText="200+ packages"
-                image=""
-                icon={CONSTANT_onVactionFaqIcon}
-                action={() => openItinerary(searchString)}
-              />
-            ) : null}
-          </SearchSection>
+              }}
+              keyExtractor={(item, itemIndex) => `${itemIndex}`}
+            />
+          </View>
         ) : null}
       </View>
     </SafeAreaView>
@@ -277,21 +298,23 @@ const styles = StyleSheet.create({
     },
     shadowRadius: 5,
     shadowOpacity: 0.8,
-    elevation: 5,
+    elevation: 10,
   },
   search: {
     height: 56,
     backgroundColor: CONSTANT_white,
-    marginBottom: 12,
+    marginBottom: 0,
   },
   listContainer: {
     backgroundColor: '#F7F8FB',
-    // flex: 1,
   },
   bold: {
     fontWeight: '700',
   },
   placeholderWrapper: {flex: 1, backgroundColor: CONSTANT_white},
+  searchList: {
+    backgroundColor: CONSTANT_white,
+  },
 });
 
 export default Search;

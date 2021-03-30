@@ -4,8 +4,10 @@ import {
   CONSTANT_fontCustom,
   CONSTANT_primaryRegular,
 } from '../../../constants/fonts';
+import {CONSTANT_dealsFlare} from '../../../constants/imageAssets';
 import {Tag} from './Tag';
 import {ThemeCard} from './ThemeCard';
+import LottieView from 'lottie-react-native';
 
 type SearchLineItemPropsType = {
   text: string | ReactNode;
@@ -13,6 +15,8 @@ type SearchLineItemPropsType = {
   image?: string;
   action: () => unknown;
   icon?: string;
+  noBorder?: boolean;
+  isDeals?: boolean;
 };
 export const SearchLineItem = ({
   text,
@@ -20,6 +24,8 @@ export const SearchLineItem = ({
   image,
   action,
   icon,
+  noBorder,
+  isDeals,
 }: SearchLineItemPropsType) => {
   return (
     <TouchableOpacity
@@ -27,14 +33,19 @@ export const SearchLineItem = ({
       onPress={action}
       style={styles.container}>
       <ThemeCard
-        boxContainerStyle={{width: 44, height: 44}}
+        boxContainerStyle={styles.themeCard}
         image={image}
         icon={icon}
       />
-      <View style={styles.content}>
+      <View style={[styles.content, noBorder ? styles.noBorder : {}]}>
         <View style={styles.textWrapper}>
           <Text style={styles.text}>{text}</Text>
         </View>
+        {isDeals ? (
+          <View style={styles.deals}>
+            <LottieView source={CONSTANT_dealsFlare()} autoPlay loop />
+          </View>
+        ) : null}
         {tagText ? (
           <View>
             <Tag text={tagText} />
@@ -48,7 +59,7 @@ export const SearchLineItem = ({
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    marginTop: 20,
+    marginHorizontal: 20,
   },
   content: {
     paddingVertical: 20,
@@ -65,5 +76,17 @@ const styles = StyleSheet.create({
   text: {
     ...CONSTANT_fontCustom(CONSTANT_primaryRegular, 15, 22),
     color: '#333333',
+  },
+  noBorder: {
+    borderBottomWidth: 0,
+  },
+  deals: {
+    marginVertical: 6,
+    width: 12,
+    height: 25,
+  },
+  themeCard: {
+    width: 44,
+    height: 44,
   },
 });

@@ -147,6 +147,7 @@ export const CONSTANT_journalDeleteStory = 'mobile/journal/story/:storyId';
 export const CONSTANT_getVisaHomeInfo = 'mobile/visa/screen/info/home';
 export const CONSTANT_getIndianCities = 'location/indianCities';
 export const CONSTANT_loadPackagesSearch = 'packages/search';
+export const CONSTANT_loadPackagesSearchv2 = 'packages/search/v2';
 export const CONSTANT_initiateVisaProcess = 'mobile/visa/initialize';
 export const CONSTANT_visaChecklistDetails = 'mobile/visa/checklist';
 export const CONSTANT_getJournalScreenDetails =

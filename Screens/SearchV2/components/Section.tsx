@@ -12,9 +12,9 @@ type SectionPropsType = {
 };
 export const SearchSection = ({title, children}: SectionPropsType) => {
   return (
-    <View style={[styles.container, !title ? {paddingTop: 0} : {}]}>
+    <View style={[styles.container, !title ? styles.noPadding : {}]}>
       {title ? <Text style={styles.title}>{title}</Text> : null}
-      {children}
+      <View>{children}</View>
     </View>
   );
 };
@@ -22,7 +22,7 @@ export const SearchSection = ({title, children}: SectionPropsType) => {
 const styles = StyleSheet.create({
   container: {
     paddingVertical: 20,
-    paddingHorizontal: 16,
+
     marginBottom: 8,
     backgroundColor: CONSTANT_white,
   },
@@ -30,5 +30,9 @@ const styles = StyleSheet.create({
     ...CONSTANT_fontCustom(CONSTANT_primarySemiBold, 16, 20),
     color: '#333333',
     paddingBottom: 4,
+    marginHorizontal: 16,
+  },
+  noPadding: {
+    paddingTop: 0,
   },
 });
