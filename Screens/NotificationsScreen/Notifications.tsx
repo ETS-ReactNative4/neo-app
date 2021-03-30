@@ -1,37 +1,37 @@
-import React, { useState, useRef, useCallback } from "react";
-import { StyleSheet, SectionList, SafeAreaView, Text } from "react-native";
+import React, {useState, useRef, useCallback} from 'react';
+import {StyleSheet, SectionList, SafeAreaView, Text} from 'react-native';
 import {
   SCREEN_NOTIFICATION_TAB,
   SCREEN_PRETRIP_HOME_TABS,
-  SCREEN_NOTIFICATION_DETAILS
-} from "../../NavigatorsV2/ScreenNames";
+  SCREEN_NOTIFICATION_DETAILS,
+} from '../../NavigatorsV2/ScreenNames';
 import {
   CompositeNavigationProp,
   RouteProp,
-  useFocusEffect
-} from "@react-navigation/native";
-import { StackNavigationProp } from "@react-navigation/stack";
-import { AppNavigatorParamsType } from "../../NavigatorsV2/AppNavigator";
-import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
-import { PreTripHomeTabsType } from "../../NavigatorsV2/PreTripHomeTabs";
-import useSavedItinerariesApi from "./hooks/useSavedItinerariesApi";
-import { ICityWithNights } from "../../TypeInterfaces/IBookedItinerary";
-import useDeepCompareEffect from "use-deep-compare-effect";
+  useFocusEffect,
+} from '@react-navigation/native';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {AppNavigatorParamsType} from '../../NavigatorsV2/AppNavigator';
+import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
+import {PreTripHomeTabsType} from '../../NavigatorsV2/PreTripHomeTabs';
+import useSavedItinerariesApi from './hooks/useSavedItinerariesApi';
+import {ICityWithNights} from '../../TypeInterfaces/IBookedItinerary';
+import useDeepCompareEffect from 'use-deep-compare-effect';
 import SavedItineraryCard, {
   SAVED_ITINERARY_IMAGE_HEIGHT,
-  SAVED_ITINERARY_IMAGE_WIDTH
-} from "../../CommonComponents/SavedItineraryCard/SavedItineraryCard";
+  SAVED_ITINERARY_IMAGE_WIDTH,
+} from '../../CommonComponents/SavedItineraryCard/SavedItineraryCard';
 import {
   CONSTANT_fontCustom,
-  CONSTANT_primarySemiBold
-} from "../../constants/fonts";
-import { CONSTANT_shade1, CONSTANT_white1 } from "../../constants/colorPallete";
-import getImgIXUrl from "../../Services/getImgIXUrl/getImgIXUrl";
-import NotificationsActionSheet from "./Components/NotificationsActionSheet";
-import EmptyListPlaceholder from "../../CommonComponents/EmptyListPlaceholder/EmptyListPlaceholder";
-import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
-import useIsUserLoggedIn from "../../Services/isUserLoggedIn/hooks/useIsUserLoggedIn";
-import LoginIndent from "../../CommonComponents/LoginIndent/LoginIndent";
+  CONSTANT_primarySemiBold,
+} from '../../constants/fonts';
+import {CONSTANT_shade1, CONSTANT_white1} from '../../constants/colorPallete';
+import getImgIXUrl from '../../Services/getImgIXUrl/getImgIXUrl';
+import NotificationsActionSheet from './Components/NotificationsActionSheet';
+import EmptyListPlaceholder from '../../CommonComponents/EmptyListPlaceholder/EmptyListPlaceholder';
+import ErrorBoundary from '../../CommonComponents/ErrorBoundary/ErrorBoundary';
+import useIsUserLoggedIn from '../../Services/isUserLoggedIn/hooks/useIsUserLoggedIn';
+import LoginIndent from '../../CommonComponents/LoginIndent/LoginIndent';
 
 export type NotificationsScreenNavigationType = CompositeNavigationProp<
   StackNavigationProp<AppNavigatorParamsType, typeof SCREEN_PRETRIP_HOME_TABS>,
@@ -80,11 +80,11 @@ export interface IItineraryNotification {
 }
 
 export interface ISectionData {
-  title: "New" | "Earlier";
+  title: 'New' | 'Earlier';
   data: IItineraryNotification[];
 }
 
-const Notifications = ({ navigation, route }: NotificationsScreenProps) => {
+const Notifications = ({navigation, route}: NotificationsScreenProps) => {
   const [sectionData, setSectionData] = useState<ISectionData[]>([]);
   const [selectedNotification, setSelectedNotification] = useState<
     IItineraryNotification | undefined
@@ -94,14 +94,14 @@ const Notifications = ({ navigation, route }: NotificationsScreenProps) => {
 
   const [savedItineraryApiDetails, loadItineraries] = useSavedItinerariesApi();
 
-  const { successResponseData, isLoading } = savedItineraryApiDetails;
-  const { data: savedItineraries = [] } = successResponseData || {};
+  const {successResponseData, isLoading} = savedItineraryApiDetails;
+  const {data: savedItineraries = []} = successResponseData || {};
 
   useFocusEffect(
     useCallback(() => {
       loadItineraries();
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+    }, []),
   );
 
   useDeepCompareEffect(() => {
@@ -116,14 +116,14 @@ const Notifications = ({ navigation, route }: NotificationsScreenProps) => {
       },
       [
         {
-          title: "New",
-          data: []
+          title: 'New',
+          data: [],
         },
         {
-          title: "Earlier",
-          data: []
-        }
-      ] as ISectionData[]
+          title: 'Earlier',
+          data: [],
+        },
+      ] as ISectionData[],
     );
     setSectionData(newSectionData);
   }, [savedItineraries]);
@@ -134,13 +134,13 @@ const Notifications = ({ navigation, route }: NotificationsScreenProps) => {
   };
 
   const openActionSheet = () => {
-    actionSheetRef.current && actionSheetRef.current.snapTo({ index: 1 });
+    actionSheetRef.current && actionSheetRef.current.snapTo({index: 1});
   };
 
   const openNotificationDetails = (item: IItineraryNotification) => {
     setSelectedNotification(item);
     navigation.navigate(SCREEN_NOTIFICATION_DETAILS, {
-      notification: item
+      ...item,
     });
   };
 
@@ -152,7 +152,7 @@ const Notifications = ({ navigation, route }: NotificationsScreenProps) => {
   const isUserLoggedIn = useIsUserLoggedIn();
 
   if (!isUserLoggedIn) {
-    return <LoginIndent message={"Please login to see your notifications"} />;
+    return <LoginIndent message={'Please login to see your notifications'} />;
   }
 
   return (
@@ -163,7 +163,7 @@ const Notifications = ({ navigation, route }: NotificationsScreenProps) => {
         <SectionList
           sections={sectionData}
           keyExtractor={(item: IItineraryNotification) => item.itineraryId}
-          renderItem={({ item }: { item: IItineraryNotification }) => {
+          renderItem={({item}: {item: IItineraryNotification}) => {
             const onMoreOptionClick = () => selectNotification(item);
             const onNotificationClick = () => openNotificationDetails(item);
 
@@ -174,11 +174,11 @@ const Notifications = ({ navigation, route }: NotificationsScreenProps) => {
                 thumbnail={getImgIXUrl({
                   src: item.image,
                   DPR: 0.02,
-                  imgFactor: `h=${SAVED_ITINERARY_IMAGE_HEIGHT}&w=${SAVED_ITINERARY_IMAGE_WIDTH}&crop=fit`
+                  imgFactor: `h=${SAVED_ITINERARY_IMAGE_HEIGHT}&w=${SAVED_ITINERARY_IMAGE_WIDTH}&crop=fit`,
                 })}
                 image={getImgIXUrl({
                   src: item.image,
-                  imgFactor: `h=${SAVED_ITINERARY_IMAGE_HEIGHT}&w=${SAVED_ITINERARY_IMAGE_WIDTH}&crop=fit`
+                  imgFactor: `h=${SAVED_ITINERARY_IMAGE_HEIGHT}&w=${SAVED_ITINERARY_IMAGE_WIDTH}&crop=fit`,
                 })}
                 cities={item.citiesArr || []}
                 lastEdited={item.lastEdited}
@@ -188,7 +188,7 @@ const Notifications = ({ navigation, route }: NotificationsScreenProps) => {
               />
             );
           }}
-          renderSectionHeader={({ section: { title, data } }) =>
+          renderSectionHeader={({section: {title, data}}) =>
             data.length ? <Text style={styles.textStyle}>{title}</Text> : null
           }
         />
@@ -207,18 +207,18 @@ const Notifications = ({ navigation, route }: NotificationsScreenProps) => {
 const styles = StyleSheet.create({
   notificationContainer: {
     flex: 1,
-    backgroundColor: CONSTANT_white1
+    backgroundColor: CONSTANT_white1,
   },
   textStyle: {
     flex: 1,
     ...CONSTANT_fontCustom(CONSTANT_primarySemiBold, 12),
     color: CONSTANT_shade1,
-    textAlign: "left",
+    textAlign: 'left',
     paddingHorizontal: 16,
     paddingVertical: 16,
-    textTransform: "uppercase",
-    backgroundColor: CONSTANT_white1
-  }
+    textTransform: 'uppercase',
+    backgroundColor: CONSTANT_white1,
+  },
 });
 
-export default ErrorBoundary({ isRoot: true })(Notifications);
+export default ErrorBoundary({isRoot: true})(Notifications);
