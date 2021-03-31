@@ -33,6 +33,7 @@ export const VacationTheme = ({
                 ? styles.themeCardContainer
                 : styles.noMargin
             }
+            key={`theme-${index}`}
             action={() => onClick({searchQuery})}
           />
         ))}
