@@ -17,7 +17,7 @@ import SectionTitle from '../../CommonComponents/SectionTitle/SectionTitle';
 import IntroCoverImage from './Components/IntroCoverImage';
 import IntroCarouselActionBar from './Components/IntroCarouselActionBar';
 
-import {CONSTANT_white1} from '../../constants/colorPallete';
+import {CONSTANT_white} from '../../constants/colorPallete';
 import {IAnimatedScrollViewRef} from '../../TypeInterfaces/RNComponents/IAnimatedScrollViewRef';
 export interface IIntroData {
   title: string;
@@ -32,9 +32,15 @@ const AnimatedScrollView = createAnimatedComponent(ScrollView);
 const IntroScreen = ({
   introData,
   nextScreen,
+  titleTextStyle,
+  descriptionTextStyle,
+  coverImageContainerStyle,
 }: {
   introData: IIntroData[];
   nextScreen: () => unknown;
+  titleTextStyle?: {};
+  descriptionTextStyle?: {};
+  coverImageContainerStyle?: {};
 }) => {
   const scrollX = useRef(new Value(0)).current;
   const [activeIndex, setActiveIndex] = useState(0);
@@ -86,7 +92,10 @@ const IntroScreen = ({
     <View style={styles.appIntroContainer}>
       {/* Cover image component starts */}
       <IntroCoverImage
-        containerStyle={styles.coverImageContainer}
+        containerStyle={{
+          ...styles.coverImageContainer,
+          ...coverImageContainerStyle,
+        }}
         appIntroData={introData}
         scrollX={scrollX}
       />
@@ -116,6 +125,8 @@ const IntroScreen = ({
               title={appIntroObj.title}
               description={appIntroObj.description}
               containerStyle={styles.introTextContainer}
+              titleTextStyle={titleTextStyle}
+              descriptionTextStyle={descriptionTextStyle}
             />
           );
         })}
@@ -147,7 +158,7 @@ const styles = StyleSheet.create({
   appIntroContainer: {
     flex: 1,
     height: responsiveHeight(100),
-    backgroundColor: CONSTANT_white1,
+    backgroundColor: CONSTANT_white,
   },
 
   coverImageContainer: {

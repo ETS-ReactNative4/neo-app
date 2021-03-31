@@ -79,7 +79,7 @@ import TravelProfileWelcome from '../Screens/TravelProfileWelcomeScreen/TravelPr
 import TravelProfileCity from '../Screens/TravelProfileCityScreen/TravelProfileCity';
 import MaritalStatus from '../Screens/MaritalStatusScreen/MaritalStatus';
 import StorybookUIRoot from '../storybook/Storybook';
-import PreTripHomeTabs, {PreTripHomeTabsType} from './PreTripHomeTabs';
+import PreTripHomeTabs from './PreTripHomeTabs';
 import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
 import ModalStack, {ModalNavigatorParamsType} from './ModalStack';
 import {CONSTANT_white} from '../constants/colorPallete';
@@ -165,7 +165,7 @@ export type loginLaunchSourceTypes = 'PRETRIP_WELCOME_FLOW';
 
 export type AppNavigatorParamsType = {
   [SCREEN_MODAL_STACK]: StackNavigationProp<ModalNavigatorParamsType>;
-  [SCREEN_PRETRIP_HOME_TABS]: BottomTabNavigationProp<PreTripHomeTabsType>;
+  [SCREEN_PRETRIP_HOME_TABS]: {screen?: string};
   [SCREEN_POST_BOOKING_HOME]: BottomTabNavigationProp<PostBookingHomeTabsType>;
   [SCREEN_APP_LOGIN]: {
     resetTarget?: loginResetTargetTypes;
@@ -174,6 +174,7 @@ export type AppNavigatorParamsType = {
       screenName: string;
       params?: object;
     };
+    deeplink?: boolean;
   };
   [SCREEN_SEARCH_LISTING_CARDS_PAGE]: {
     searchString: string;

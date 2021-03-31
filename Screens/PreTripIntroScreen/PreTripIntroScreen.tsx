@@ -1,4 +1,16 @@
 import React from 'react';
+import {responsiveHeight} from 'react-native-responsive-dimensions';
+import {
+  CONSTANT_fontCustom,
+  CONSTANT_primaryRegular,
+  CONSTANT_primarySemiBold,
+} from '../../constants/fonts';
+import {
+  CONSTANT_CONCIERGE_SUPPORT_INTRO,
+  CONSTANT_CX_INTRO,
+  CONSTANT_TRANSPARENT_PRICING,
+  CONSTANT_TRAVELLER_INTRO,
+} from '../../constants/imageAssets';
 
 import {AppNavigatorProps} from '../../NavigatorsV2/AppNavigator';
 import {
@@ -12,30 +24,28 @@ export interface PreTripIntroProps extends PreTripIntroNavTypes {}
 
 const postBookingIntroDefaultData: IIntroData[] = [
   {
-    title: 'It’s vacay time! Let the fun begin!',
-    description: 'You are :pendingDays days away from the best holiday ever!',
-    image:
-      'https://pyt-voyager.s3.ap-south-1.amazonaws.com/so-feedback/intro-cover-images/1.png',
-  },
-  {
-    title: 'Live on-trip support',
-    description: 'Your trip is important to us. We’ll stay on the line :)',
-    image:
-      'https://pyt-voyager.s3.ap-south-1.amazonaws.com/so-feedback/intro-cover-images/2.png',
-  },
-  {
-    title: 'Visa assistance',
+    title: '20,000+ travellers',
     description:
-      'You do the travelling. We’ll take care of the paperwork—visa assistance every step of the way!',
-    image:
-      'https://pyt-voyager.s3.ap-south-1.amazonaws.com/so-feedback/intro-cover-images/3.png',
+      '20000+ travellers: Delivered delightful holidays for travellers across India',
+    image: CONSTANT_TRAVELLER_INTRO(),
   },
   {
-    title: 'Easy access to everything travel',
+    title: '24x7 expert concierge',
     description:
-      'You’ve got all your bookings in one place—flights, hotels, activities—you tap it and it’s here!',
-    image:
-      'https://pyt-voyager.s3.ap-south-1.amazonaws.com/so-feedback/intro-cover-images/4.png',
+      '24x7 Concierge: Travel hassle-free with expert assistance round the clock',
+    image: CONSTANT_CONCIERGE_SUPPORT_INTRO(),
+  },
+  {
+    title: 'Transparent pricing',
+    description:
+      'Transparent Pricing: Know what you’re paying for. No hidden costs involved',
+    image: CONSTANT_TRANSPARENT_PRICING(),
+  },
+  {
+    title: 'Customer experience at its best',
+    description:
+      'Customer Experience at its best: World class customer experience delivered to you',
+    image: CONSTANT_CX_INTRO(),
   },
 ];
 
@@ -49,6 +59,13 @@ const PreTripIntroScreen = ({navigation}: PreTripIntroProps) => {
     <IntroScreen
       introData={postBookingIntroDefaultData}
       nextScreen={nextScreen}
+      titleTextStyle={{
+        ...CONSTANT_fontCustom(CONSTANT_primarySemiBold, 22, 26),
+      }}
+      descriptionTextStyle={{
+        ...CONSTANT_fontCustom(CONSTANT_primaryRegular, 18, 24),
+      }}
+      coverImageContainerStyle={{height: responsiveHeight(75)}}
     />
   );
 };

@@ -35,10 +35,12 @@ import SupportOfflineMessage from '../ChatScreen/Components/SupportOfflineMessag
 import dialer from '../../Services/dialer/dialer';
 import {recordEvent} from '../../Services/analytics/analyticsService';
 import PropTypes from 'prop-types';
+import {logError} from '../../Services/errorLogger/errorLogger';
 
 @ErrorBoundary({isRoot: true})
 @inject('deviceDetailsStore')
 @inject('tripFeedStore')
+@inject('yourBookingsStore')
 @inject('feedbackPrompt')
 @inject('itineraries')
 @inject('chatDetailsStore')
@@ -114,24 +116,42 @@ class TripFeed extends Component {
     });
   };
 
+  loadPostTripData = () => {
+    this.loadTripFeedData();
+    this.loadChatData();
+    const {
+      isVisaInitialized,
+      shouldDisplaySuccessAnimation,
+      loadAllVisaDetails,
+    } = this.props.visaStore;
+    if (isVisaInitialized) {
+      loadAllVisaDetails();
+      if (shouldDisplaySuccessAnimation) {
+        this.props.navigation.navigate('VisaSuccess');
+      }
+    }
+  };
+
   componentDidMount() {
     const {deviceDetailsStore} = this.props;
     const {selectedItineraryId} = this.props.itineraries;
     deviceDetailsStore.setDeviceDetails();
+
     if (selectedItineraryId) {
-      this.loadTripFeedData();
-      this.loadChatData();
-      const {
-        isVisaInitialized,
-        shouldDisplaySuccessAnimation,
-        loadAllVisaDetails,
-      } = this.props.visaStore;
-      if (isVisaInitialized) {
-        loadAllVisaDetails();
-        if (shouldDisplaySuccessAnimation) {
-          this.props.navigation.navigate('VisaSuccess');
-        }
-      }
+      this.loadPostTripData();
+    } else {
+      this.props.yourBookingsStore
+        .getUpcomingItineraries()
+        .then(itinerariesArray => {
+          const itineraryId: string = itinerariesArray[0].itineraryId;
+          this.props.itineraries
+            .selectItinerary(itineraryId)
+            .then(() => {
+              this.loadPostTripData();
+            })
+            .catch(logError);
+        })
+        .catch(logError);
     }
 
     this._willBlurSubscription = this.props.navigation.addListener(

@@ -51,10 +51,15 @@ const IntroCoverImage = ({
           });
         }
         const imageFadeStyle = {opacity, transform: [{scale: transform}]};
+        const image =
+          typeof appIntroObj.image === 'string' &&
+          appIntroObj.image.includes('http')
+            ? {uri: appIntroObj.image}
+            : appIntroObj.image;
         return (
           <AnimatedImage
             key={index}
-            source={{uri: appIntroObj.image}}
+            source={image}
             style={[styles.coverImageStyle, containerStyle, imageFadeStyle]}
           />
         );
