@@ -1,11 +1,15 @@
-import React from 'react';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import React, {useEffect} from 'react';
+import {
+  BottomTabNavigationProp,
+  createBottomTabNavigator,
+} from '@react-navigation/bottom-tabs';
 import {
   SCREEN_EXPLORE_TAB,
   SCREEN_SEARCH_TAB,
   SCREEN_NOTIFICATION_TAB,
   SCREEN_DEALS_TAB,
   SCREEN_SEARCH_LISTING_CARDS_PAGE,
+  SCREEN_PRETRIP_HOME_TABS,
 } from './ScreenNames';
 import Explore, {
   ExploreScreenSourcesType,
@@ -22,11 +26,13 @@ import DealsListing from '../Screens/DealsListingScreen/DealsListing';
 import {observer, inject} from 'mobx-react';
 import DeviceLocale from '../mobx/DeviceLocale';
 import SearchV2 from '../Screens/SearchV2/Search';
+import deepLink from '../Services/deepLink/deepLink';
+import {RouteProp} from '@react-navigation/native';
+import {AppNavigatorParamsType} from './AppNavigator';
 
 export interface IExplorePageScreenData {
   source?: ExploreScreenSourcesType;
 }
-
 interface SearchListingCards {
   searchString: string;
 }
@@ -37,6 +43,15 @@ export type PreTripHomeTabsType = {
   [SCREEN_DEALS_TAB]: undefined;
   [SCREEN_SEARCH_LISTING_CARDS_PAGE]: SearchListingCards;
 };
+
+type PreTripHomeTabRouteType = RouteProp<
+  AppNavigatorParamsType,
+  typeof SCREEN_PRETRIP_HOME_TABS
+>;
+
+export type StarterScreenNavigationProp = BottomTabNavigationProp<
+  PreTripHomeTabsType
+>;
 
 const Tab = createBottomTabNavigator<PreTripHomeTabsType>();
 
@@ -49,9 +64,18 @@ const tabBarColorConfig = {
 
 export interface PreTripHomeTabsProp {
   deviceLocaleStore: DeviceLocale;
+  navigation: StarterScreenNavigationProp;
+  route: PreTripHomeTabRouteType;
 }
 
-const PreTripHomeTabs = ({deviceLocaleStore}: PreTripHomeTabsProp) => {
+const PreTripHomeTabs = ({deviceLocaleStore, route}: PreTripHomeTabsProp) => {
+  useEffect(() => {
+    const {screen, ...meta} = route?.params ?? {};
+    if (screen) {
+      deepLink({link: screen, screenData: meta});
+    }
+  }, [route]);
+
   return (
     // @ts-ignore - type definitions unavailable
     <Tab.Navigator tabBar={props => <ExploreBottomBar {...props} />}>

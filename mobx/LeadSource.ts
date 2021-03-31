@@ -1,10 +1,10 @@
-import { observable, action, computed, toJS } from "mobx";
+import {observable, action, computed, toJS} from 'mobx';
 import {
   CONSTANT_itineraryCostedEvent,
   CONSTANT_requestCallbackEvent,
-  CONSTANT_openCustomizeOnWeb
-} from "../constants/appEvents";
-import { recordEvent } from "../Services/analytics/analyticsService";
+  CONSTANT_openCustomizeOnWeb,
+} from '../constants/appEvents';
+import {recordEvent} from '../Services/analytics/analyticsService';
 
 export interface IBranchDeepLinkClickEvent {
   $canonical_url: string;
@@ -14,19 +14,20 @@ export interface IBranchDeepLinkClickEvent {
   $og_description: string;
   $og_title: string;
   $one_time_use: boolean;
-  "+click_timestamp": number;
-  "+clicked_branch_link": boolean;
-  "+is_first_session": boolean;
-  "+match_guaranteed": boolean;
+  '+click_timestamp': number;
+  '+clicked_branch_link': boolean;
+  '+is_first_session': boolean;
+  '+match_guaranteed': boolean;
   screen: string;
-  "~campaign": string;
-  "~creation_source": number;
-  "~feature": string;
-  "~id": string;
-  "~marketing": boolean;
-  "~referring_link": string;
-  "~tags"?: string[];
-  "~channel": string;
+  authenticatedScreen: string;
+  '~campaign': string;
+  '~creation_source': number;
+  '~feature': string;
+  '~id': string;
+  '~marketing': boolean;
+  '~referring_link': string;
+  '~tags'?: string[];
+  '~channel': string;
 }
 
 export interface LeadSourceEvent {
@@ -36,17 +37,17 @@ export interface LeadSourceEvent {
 export interface IDeepLinkClick
   extends IBranchDeepLinkClickEvent,
     LeadSourceEvent {
-  type: "DeepLinkClick";
+  type: 'DeepLinkClick';
   uri: string;
 }
 
 export interface IListingPageClick extends LeadSourceEvent {
-  type: "ViewListingPage";
+  type: 'ViewListingPage';
   slug: string;
 }
 
 export interface IItineraryPageClick extends LeadSourceEvent {
-  type: "ViewItineraryPage";
+  type: 'ViewItineraryPage';
   slug?: string;
   itineraryId?: string;
 }
@@ -102,7 +103,7 @@ class LeadSource {
   @action
   record = (event: ConversionEventsType) => {
     recordEvent(event, {
-      actions: this.source
+      actions: this.source,
     });
     this.clear();
   };
