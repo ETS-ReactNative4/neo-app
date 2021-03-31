@@ -1,4 +1,10 @@
 import React from 'react';
+import {responsiveHeight} from 'react-native-responsive-dimensions';
+import {
+  CONSTANT_fontCustom,
+  CONSTANT_primaryRegular,
+  CONSTANT_primarySemiBold,
+} from '../../constants/fonts';
 import {
   CONSTANT_CONCIERGE_SUPPORT_INTRO,
   CONSTANT_CX_INTRO,
@@ -53,6 +59,13 @@ const PreTripIntroScreen = ({navigation}: PreTripIntroProps) => {
     <IntroScreen
       introData={postBookingIntroDefaultData}
       nextScreen={nextScreen}
+      titleTextStyle={{
+        ...CONSTANT_fontCustom(CONSTANT_primarySemiBold, 22, 26),
+      }}
+      descriptionTextStyle={{
+        ...CONSTANT_fontCustom(CONSTANT_primaryRegular, 18, 24),
+      }}
+      coverImageContainerStyle={{height: responsiveHeight(75)}}
     />
   );
 };
