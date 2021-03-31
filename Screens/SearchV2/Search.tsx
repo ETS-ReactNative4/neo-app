@@ -219,63 +219,64 @@ const Search = ({navigation}: SearchScreenProps) => {
             ) : null}
           </Fragment>
         ) : null}
-        {!isPackagesApiLoading && !searchResults.length && searchString ? (
-          <AnimatableView
-            style={styles.placeholderWrapper}
-            delay={1000}
-            animation={'fadeIn'}>
-            <EmptyListPlaceholder
-              text={'No itineraries found matching your criteria'}
-            />
-          </AnimatableView>
-        ) : searchResults.length && searchString ? (
-          <View style={styles.searchList}>
-            <FlatList
-              data={searchString ? searchResultList : []}
-              renderItem={({item}) => {
-                const isDeal = item.type === STAYCATION_VERSION;
-                const onClick = () => openItinerary(item.slug, isDeal);
-                return (
-                  <SearchLineItem
-                    text={item.title}
-                    image={item.image}
-                    action={onClick}
-                    isDeals={isDeal}
-                  />
-                );
-              }}
-              ListFooterComponent={() => {
-                if (
-                  packageResponseData?.data?.nonDealItineraries?.length ===
-                  limit
-                ) {
-                  return (
-                    <Fragment>
-                      <SearchLineItem
-                        text={
-                          <Text>
-                            See all <Text style={styles.bold}>Packages</Text>
-                          </Text>
-                        }
-                        tagText=""
-                        image=""
-                        icon={CONSTANT_onVactionFaqIcon}
-                        action={() =>
-                          openSearchListing({searchQuery: searchString})
-                        }
-                      />
-                      {listBottomSpace}
-                    </Fragment>
-                  );
-                } else {
-                  return listBottomSpace;
-                }
-              }}
-              keyExtractor={(item, itemIndex) => `${itemIndex}`}
-            />
-          </View>
-        ) : null}
       </View>
+      {!isPackagesApiLoading && !searchResults.length && searchString ? (
+        <AnimatableView
+          style={styles.placeholderWrapper}
+          delay={1000}
+          animation={'fadeIn'}>
+          <EmptyListPlaceholder
+            text={'No itineraries found matching your criteria'}
+            containerStyle={styles.placeholderWrapper}
+          />
+        </AnimatableView>
+      ) : searchResults.length && searchString ? (
+        <View style={styles.searchList}>
+          <FlatList
+            data={searchString ? searchResultList : []}
+            keyboardShouldPersistTaps={'handled'}
+            renderItem={({item}) => {
+              const isDeal = item.type === STAYCATION_VERSION;
+              const onClick = () => openItinerary(item.slug, isDeal);
+              return (
+                <SearchLineItem
+                  text={item.title}
+                  image={item.image}
+                  action={onClick}
+                  isDeals={isDeal}
+                />
+              );
+            }}
+            ListFooterComponent={() => {
+              if (
+                packageResponseData?.data?.nonDealItineraries?.length === limit
+              ) {
+                return (
+                  <Fragment>
+                    <SearchLineItem
+                      text={
+                        <Text>
+                          See all <Text style={styles.bold}>Packages</Text>
+                        </Text>
+                      }
+                      tagText=""
+                      image=""
+                      icon={CONSTANT_onVactionFaqIcon}
+                      action={() =>
+                        openSearchListing({searchQuery: searchString})
+                      }
+                    />
+                    {listBottomSpace}
+                  </Fragment>
+                );
+              } else {
+                return listBottomSpace;
+              }
+            }}
+            keyExtractor={(item, itemIndex) => `${itemIndex}`}
+          />
+        </View>
+      ) : null}
     </SafeAreaView>
   );
 };
@@ -311,7 +312,11 @@ const styles = StyleSheet.create({
   bold: {
     fontWeight: '700',
   },
-  placeholderWrapper: {flex: 1, backgroundColor: CONSTANT_white},
+  placeholderWrapper: {
+    flex: 1,
+    backgroundColor: CONSTANT_white,
+    paddingVertical: 24,
+  },
   searchList: {
     backgroundColor: CONSTANT_white,
   },
