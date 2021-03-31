@@ -1,44 +1,45 @@
-import React, { Component } from "react";
-import { View } from "react-native";
-import constants from "../../constants/constants";
-import { responsiveWidth } from "react-native-responsive-dimensions";
-import apiCall from "../../Services/networkRequests/apiCall";
-import moment from "moment";
-import paymentScript from "./Components/paymentScript";
+import React, {Component} from 'react';
+import {View} from 'react-native';
+import constants from '../../constants/constants';
+import {responsiveWidth} from 'react-native-responsive-dimensions';
+import apiCall from '../../Services/networkRequests/apiCall';
+import moment from 'moment';
+import paymentScript from './Components/paymentScript';
 import getLocaleString, {
-  getLocaleStringGlobal
-} from "../../Services/getLocaleString/getLocaleString";
-import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
-import _ from "lodash";
-import YourBookingsTabBar from "../YourBookingsScreen/Components/YourBookingsTabBar";
-import ScrollableTabView from "react-native-scrollable-tab-view";
-import UpcomingPayments from "./Components/UpcomingPayments/UpcomingPayments";
-import CompletedPayments from "./Components/CompletedPayments/CompletedPayments";
-import { toastBottom } from "../../Services/toast/toast";
-import dialer from "../../Services/dialer/dialer";
-import PrimaryHeader from "../../NavigatorsV2/Components/PrimaryHeader";
-import PropTypes from "prop-types";
+  getLocaleStringGlobal,
+} from '../../Services/getLocaleString/getLocaleString';
+import ErrorBoundary from '../../CommonComponents/ErrorBoundary/ErrorBoundary';
+import _ from 'lodash';
+import YourBookingsTabBar from '../YourBookingsScreen/Components/YourBookingsTabBar';
+import ScrollableTabView from 'react-native-scrollable-tab-view';
+import UpcomingPayments from './Components/UpcomingPayments/UpcomingPayments';
+import CompletedPayments from './Components/CompletedPayments/CompletedPayments';
+import {toastBottom} from '../../Services/toast/toast';
+import dialer from '../../Services/dialer/dialer';
+import PrimaryHeader from '../../NavigatorsV2/Components/PrimaryHeader';
+import PropTypes from 'prop-types';
+import {ICouponPartner} from '../../TypeInterfaces/IItinerary';
 
 @ErrorBoundary()
 class PaymentSummary extends Component {
   static propTypes = {
     navigation: PropTypes.object.isRequired,
-    route: PropTypes.object.isRequired
+    route: PropTypes.object.isRequired,
   };
 
   state = {
     paymentInfo: {},
     isLoading: false,
     isPaymentLoading: false,
-    itineraryName: "",
-    tripId: "",
-    nextPendingDate: "",
-    itineraryTotalCost: "",
-    totalAmountPaid: "",
-    paymentDue: "",
-    paymentStatus: "",
+    itineraryName: '',
+    tripId: '',
+    nextPendingDate: '',
+    itineraryTotalCost: '',
+    totalAmountPaid: '',
+    paymentDue: '',
+    paymentStatus: '',
     isFirstLoad: true,
-    displayCurrency: null
+    displayCurrency: null,
   };
   _didFocusSubscription;
 
@@ -46,24 +47,24 @@ class PaymentSummary extends Component {
     super(props);
 
     this._didFocusSubscription = props.navigation.addListener(
-      "didFocus",
+      'didFocus',
       () => {
         if (this.state.isFirstLoad) {
           this.setState({
-            isFirstLoad: false
+            isFirstLoad: false,
           });
         } else {
           this.loadPaymentData();
         }
-      }
+      },
     );
 
     props.navigation.setOptions({
       header: () =>
         PrimaryHeader({
           leftAction: () => props.navigation.goBack(),
-          headerText: "Payment Summary"
-        })
+          headerText: 'Payment Summary',
+        }),
     });
   }
 
@@ -76,25 +77,25 @@ class PaymentSummary extends Component {
   }
 
   apiFailure = () => {
-    toastBottom("Failed to fetch data from the server");
+    toastBottom('Failed to fetch data from the server');
     this.props.navigation.goBack();
   };
 
   loadPaymentData = () => {
-    const itineraryId = this.props.route.params?.itineraryId ?? "";
-    const itineraryName = this.props.route.params?.itineraryName ?? "";
+    const itineraryId = this.props.route.params?.itineraryId ?? '';
+    const itineraryName = this.props.route.params?.itineraryName ?? '';
     this.setState({
       tripId: `PYT${itineraryId.substr(itineraryId.length - 7).toUpperCase()}`,
-      itineraryName
+      itineraryName,
     });
     this.setState({
-      isLoading: true
+      isLoading: true,
     });
-    apiCall(constants.getPaymentInfo.replace(":itineraryId", itineraryId))
+    apiCall(constants.getPaymentInfo.replace(':itineraryId', itineraryId))
       .then(response => {
         setTimeout(() => {
           this.setState({
-            isLoading: false
+            isLoading: false,
           });
         }, 1000);
         if (response.status === constants.responseSuccessStatus) {
@@ -104,12 +105,12 @@ class PaymentSummary extends Component {
             paymentInfo: response.data,
             nextPendingDate: paymentDetails.nextPendingDate,
             itineraryTotalCost: getLocaleString(
-              paymentDetails.itineraryTotalCost
+              paymentDetails.itineraryTotalCost,
             ),
             totalAmountPaid: getLocaleString(paymentDetails.totalAmountPaid),
             paymentDue: getLocaleString(paymentDetails.paymentDue),
             paymentStatus,
-            displayCurrency: response.displayCurrency
+            displayCurrency: response.displayCurrency,
           });
         } else {
           this.apiFailure();
@@ -117,68 +118,69 @@ class PaymentSummary extends Component {
       })
       .catch(() => {
         this.setState({
-          isLoading: false
+          isLoading: false,
         });
         this.apiFailure();
       });
   };
 
   initiatePayment = paymentOptionType => {
-    const itineraryId = this.props.route.params?.itineraryId ?? "";
+    const itineraryId = this.props.route.params?.itineraryId ?? '';
     this.setState({
-      isPaymentLoading: true
+      isPaymentLoading: true,
     });
     apiCall(
       constants.initiatePayment,
       {
         itineraryId,
         paymentOptionType,
-        userId: ""
+        userId: '',
       },
-      "POST",
+      'POST',
       constants.productUrl,
       false,
       {
-        Version: "V_2",
-        user_device: "MOBILE_APP"
-      }
+        Version: 'V_2',
+        user_device: 'MOBILE_APP',
+      },
     )
       .then(response => {
         this.setState(
           {
-            isPaymentLoading: false
+            isPaymentLoading: false,
           },
           () => {
             if (response.status === constants.responseSuccessStatus) {
               const transactionId = response.data.transactionId;
               const paymentScriptJs = paymentScript(response.data);
-              this.props.navigation.navigate("PaymentScreen", {
+              this.props.navigation.navigate('PaymentScreen', {
                 paymentScript: paymentScriptJs,
-                transactionId
+                transactionId,
               });
             } else {
               this.apiFailure();
             }
-          }
+          },
         );
       })
       .catch(() => {
         this.setState({
-          isPaymentLoading: false
+          isPaymentLoading: false,
         });
         this.apiFailure();
       });
   };
 
   render() {
-    const { paymentInfo, isLoading, displayCurrency } = this.state;
+    const {paymentInfo, isLoading, displayCurrency} = this.state;
 
     const {
       productPayments,
       platoPayements: platoPayments,
       accountInfo = {},
       contactNumber = null,
-      gstReceipt
+      gstReceipt,
+      affliatePayments = {},
     } = paymentInfo;
 
     /**
@@ -186,29 +188,29 @@ class PaymentSummary extends Component {
      */
     const platoBankDetails = [
       {
-        name: "Account",
-        value: accountInfo.van
+        name: 'Account',
+        value: accountInfo.van,
       },
       {
-        name: "Bank",
-        value: accountInfo.bank
+        name: 'Bank',
+        value: accountInfo.bank,
       },
       {
-        name: "Name",
-        value: accountInfo.cname
+        name: 'Name',
+        value: accountInfo.cname,
       },
       {
-        name: "Branch",
-        value: accountInfo.branch
+        name: 'Branch',
+        value: accountInfo.branch,
       },
       {
-        name: "IFSCode",
-        value: accountInfo.ifsc
+        name: 'IFSCode',
+        value: accountInfo.ifsc,
       },
       {
-        name: "Swift Code",
-        value: accountInfo.swiftId
-      }
+        name: 'Swift Code',
+        value: accountInfo.swiftId,
+      },
     ];
 
     /**
@@ -219,7 +221,7 @@ class PaymentSummary extends Component {
           const data = {
             amount: getLocaleStringGlobal({
               amount: amount.paymentAmount,
-              currency: displayCurrency
+              currency: displayCurrency,
             }),
             percentageText:
               amount.percent === 100
@@ -231,7 +233,7 @@ class PaymentSummary extends Component {
             paymentAllowed: amount.paymentAllowed,
             nextInstallmentAmount: amount.nextInstallmentAmount,
             nextInstallmentDate: amount.nextInstallmentDate,
-            paymentStatus: amount.paymentStatus
+            paymentStatus: amount.paymentStatus,
           };
           detailsArray.push(data);
           return detailsArray;
@@ -254,9 +256,9 @@ class PaymentSummary extends Component {
               transactionId: amount.referenceNumber,
               mode: amount.paymentMode,
               date: moment(amount.paymentTime).format(
-                constants.costingDateFormat
+                constants.costingDateFormat,
               ),
-              salesReceipt: amount.salesReceipt
+              salesReceipt: amount.salesReceipt,
             });
             return detailsArray;
           }, [])
@@ -267,12 +269,12 @@ class PaymentSummary extends Component {
             const data = {
               paymentAmount: getLocaleStringGlobal({
                 amount: amount.paymentAmount,
-                currency: displayCurrency
+                currency: displayCurrency,
               }),
               transactionId: amount.transactionId,
-              mode: amount.mode || "Razor Pay",
+              mode: amount.mode || 'Razor Pay',
               date: amount.paidOn,
-              salesReceipt: amount.salesReceipt
+              salesReceipt: amount.salesReceipt,
             };
             detailsArray.push(data);
           }
@@ -313,27 +315,29 @@ class PaymentSummary extends Component {
 
     const tabBarUnderlineStyle = {
       height: 2,
-      backgroundColor: constants.black2
+      backgroundColor: constants.black2,
     };
 
     const tabBarStyle = {
-      alignSelf: "center",
+      alignSelf: 'center',
       width: responsiveWidth(100),
-      backgroundColor: "white"
+      backgroundColor: 'white',
     };
 
+    const isCredPayment =
+      Object.keys(affliatePayments || {}).length &&
+      affliatePayments.paymentMode === ICouponPartner.CRED;
     return (
       <ScrollableTabView
         tabBarActiveTextColor={constants.black2}
         tabBarInactiveTextColor={constants.firstColor}
         tabBarUnderlineStyle={tabBarUnderlineStyle}
-        tabBarTextStyle={{ ...constants.font13(constants.primaryLight) }}
+        tabBarTextStyle={{...constants.font13(constants.primaryLight)}}
         initialPage={0}
         style={tabBarStyle}
         prerenderingSiblingsNumber={Infinity}
-        renderTabBar={() => <YourBookingsTabBar />}
-      >
-        {!isPaymentComplete ? (
+        renderTabBar={() => <YourBookingsTabBar />}>
+        {!isPaymentComplete && !isCredPayment ? (
           <UpcomingPayments
             tabLabel="Upcoming"
             isLoading={isLoading}
@@ -356,16 +360,17 @@ class PaymentSummary extends Component {
         ) : null}
         {paymentHistory ? (
           <CompletedPayments
-            tabLabel={"Completed"}
+            tabLabel={'Completed'}
             isPaymentComplete={isPaymentComplete}
             paymentHistory={paymentHistory}
             isLoading={isLoading}
             loadPaymentData={this.loadPaymentData}
             gstReceipt={gstReceipt}
             displayCurrency={displayCurrency}
+            isCredPayment={isCredPayment}
           />
         ) : (
-          <View tabLabel={"Completed"} />
+          <View tabLabel={'Completed'} />
         )}
       </ScrollableTabView>
     );

@@ -1,10 +1,10 @@
-import React from "react";
-import { TouchableOpacity, View, Text, StyleSheet } from "react-native";
-import { responsiveWidth } from "react-native-responsive-dimensions";
-import constants from "../../../../../constants/constants";
-import PropTypes from "prop-types";
-import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidExtraProps";
-import PaymentInfoText from "../../PaymentInfoText";
+import React from 'react';
+import {TouchableOpacity, View, Text, StyleSheet} from 'react-native';
+import {responsiveWidth} from 'react-native-responsive-dimensions';
+import constants from '../../../../../constants/constants';
+import PropTypes from 'prop-types';
+import forbidExtraProps from '../../../../../Services/PropTypeValidation/forbidExtraProps';
+import PaymentInfoText from '../../PaymentInfoText';
 
 /**
  * Card used for displaying the completed payments
@@ -18,7 +18,8 @@ const CompletedPaymentCard = ({
   amount,
   color = constants.firstColor,
   containerStyle = {},
-  salesReceipt
+  salesReceipt,
+  isCredPayment,
 }) => {
   return (
     <TouchableOpacity
@@ -26,27 +27,29 @@ const CompletedPaymentCard = ({
       activeOpacity={0.8}
       style={[
         styles.paymentCompleteCardContainer,
-        { backgroundColor: color },
-        containerStyle
-      ]}
-    >
+        {backgroundColor: color},
+        containerStyle,
+      ]}>
       <View style={styles.leftSection}>
         <PaymentInfoText
-          title={"Date"}
+          title={'Date'}
           text={date}
           containerStyle={styles.firstSection}
         />
         <PaymentInfoText
-          title={"Reference ID"}
+          title={'Reference ID'}
           text={referenceId}
           containerStyle={styles.secondSection}
         />
       </View>
-      <View style={styles.rightSection}>
+      <View
+        style={[styles.rightSection, isCredPayment ? styles.credPayment : {}]}>
         <PaymentInfoText
           title={mode}
           text={amount}
-          textStyle={styles.amountText}
+          textStyle={[
+            isCredPayment ? styles.rightAlignText : styles.amountText,
+          ]}
           isLeftAligned={false}
           containerStyle={styles.amountSection}
         />
@@ -54,10 +57,9 @@ const CompletedPaymentCard = ({
           <Text
             style={[
               styles.viewReceiptText,
-              salesReceipt ? { textDecorationLine: "underline" } : {}
-            ]}
-          >
-            {salesReceipt ? "View Receipt" : ""}
+              salesReceipt ? {textDecorationLine: 'underline'} : {},
+            ]}>
+            {salesReceipt ? 'View Receipt' : ''}
           </Text>
         </View>
       </View>
@@ -71,50 +73,58 @@ CompletedPaymentCard.propTypes = forbidExtraProps({
   mode: PropTypes.string.isRequired,
   amount: PropTypes.string.isRequired,
   action: PropTypes.func.isRequired,
-  containerStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.number])
+  containerStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.number]),
+  isCredPayment: PropTypes.boolean,
 });
 
 const styles = StyleSheet.create({
   paymentCompleteCardContainer: {
-    alignSelf: "center",
-    flexDirection: "row",
+    alignSelf: 'center',
+    flexDirection: 'row',
     width: responsiveWidth(100) - 48,
-    borderRadius: 3
+    borderRadius: 3,
   },
   leftSection: {
-    flex: 1
+    flex: 1,
   },
   rightSection: {
-    flex: 1
+    flex: 1,
   },
   viewReceiptText: {
     ...constants.fontCustom(constants.primarySemiBold, 14),
-    color: "white"
+    color: 'white',
   },
   firstSection: {
     marginTop: 24,
     marginLeft: 24,
-    marginBottom: 12
+    marginBottom: 12,
   },
   secondSection: {
     marginBottom: 24,
     marginLeft: 24,
-    marginTop: 12
+    marginTop: 12,
   },
   amountSection: {
     marginTop: 24,
     marginRight: 24,
-    marginBottom: 12
+    marginBottom: 12,
   },
   amountText: {
-    ...constants.fontCustom(constants.primarySemiBold, 24, 28)
+    ...constants.fontCustom(constants.primarySemiBold, 16, 20),
   },
   actionSection: {
     height: 40,
     marginTop: 12,
-    alignItems: "center",
-    justifyContent: "center"
-  }
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  credPayment: {
+    borderLeftWidth: StyleSheet.hairlineWidth,
+    borderColor: '#ffffff',
+  },
+  rightAlignText: {
+    textAlign: 'right',
+  },
 });
 
 export default CompletedPaymentCard;
