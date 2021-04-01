@@ -74,7 +74,8 @@ const PreTripHomeTabs = ({deviceLocaleStore, route}: PreTripHomeTabsProp) => {
     if (screen) {
       deepLink({link: screen, screenData: meta});
     }
-  }, [route]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     // @ts-ignore - type definitions unavailable
