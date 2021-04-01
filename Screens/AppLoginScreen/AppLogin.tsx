@@ -90,6 +90,7 @@ import {
 } from '../../constants/appEvents';
 import DeviceLocale from '../../mobx/DeviceLocale';
 import {getDeviceToken} from '../../Services/fcmService/fcm';
+import DeviceDetails from '../../mobx/DeviceDetails';
 
 type screenName = typeof SCREEN_APP_LOGIN;
 
@@ -107,6 +108,7 @@ export interface IAppLoginProps {
   itineraries: Itineraries;
   leadSourceStore: LeadSource;
   deviceLocaleStore: DeviceLocale;
+  deviceDetailsStore: DeviceDetails;
 }
 
 const AppLogin = ({
@@ -116,6 +118,7 @@ const AppLogin = ({
   itineraries,
   leadSourceStore,
   deviceLocaleStore,
+  deviceDetailsStore,
 }: IAppLoginProps) => {
   const [isVideoReady, setVideoStatus] = useState(false);
   const [
@@ -342,6 +345,7 @@ const AppLogin = ({
   };
 
   const continueFlow = () => {
+    deviceDetailsStore.setDeviceDetails();
     const isNewUser =
       mobileNumberApiDetails.failureResponseData?.status ===
       CONSTANT_responseUserUnavailable;
@@ -662,8 +666,10 @@ const styles = StyleSheet.create({
 
 export default ErrorBoundary()(
   inject('deviceLocaleStore')(
-    inject('leadSourceStore')(
-      inject('itineraries')(inject('yourBookingsStore')(observer(AppLogin))),
+    inject('deviceDetailsStore')(
+      inject('leadSourceStore')(
+        inject('itineraries')(inject('yourBookingsStore')(observer(AppLogin))),
+      ),
     ),
   ),
 );
