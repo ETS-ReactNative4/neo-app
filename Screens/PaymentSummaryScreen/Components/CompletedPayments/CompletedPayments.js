@@ -1,36 +1,42 @@
-import React, { Fragment } from "react";
-import { View, StyleSheet, Image, Text, TouchableOpacity } from "react-native";
-import PropTypes from "prop-types";
-import CompletedPaymentCard from "./Components/CompletedPaymentCard";
-import constants from "../../../../constants/constants";
-import CustomScrollView from "../../../../CommonComponents/CustomScrollView/CustomScrollView";
-import openCustomTab from "../../../../Services/openCustomTab/openCustomTab";
-import { inject, observer } from "mobx-react";
-import getTitleCase from "../../../../Services/getTitleCase/getTitleCase";
-import XSensorPlaceholder from "../../../../CommonComponents/XSensorPlaceholder/XSensorPlaceholder";
-import EmptyListPlaceholder from "../../../../CommonComponents/EmptyListPlaceholder/EmptyListPlaceholder";
-import Icon from "../../../../CommonComponents/Icon/Icon";
+import React, {Fragment} from 'react';
+import {View, StyleSheet, Image, Text, TouchableOpacity} from 'react-native';
+import PropTypes from 'prop-types';
+import CompletedPaymentCard from './Components/CompletedPaymentCard';
+import constants from '../../../../constants/constants';
+import CustomScrollView from '../../../../CommonComponents/CustomScrollView/CustomScrollView';
+import openCustomTab from '../../../../Services/openCustomTab/openCustomTab';
+import {inject, observer} from 'mobx-react';
+import getTitleCase from '../../../../Services/getTitleCase/getTitleCase';
+import XSensorPlaceholder from '../../../../CommonComponents/XSensorPlaceholder/XSensorPlaceholder';
+import EmptyListPlaceholder from '../../../../CommonComponents/EmptyListPlaceholder/EmptyListPlaceholder';
+import Icon from '../../../../CommonComponents/Icon/Icon';
 
-const CompletedPayments = inject("userStore")(
+const CompletedPayments = inject('userStore')(
   observer(
-    ({ userStore, paymentHistory, isLoading, loadPaymentData, gstReceipt }) => {
-      const { userDetails } = userStore;
-      const { name } = userDetails;
+    ({
+      userStore,
+      paymentHistory,
+      isLoading,
+      loadPaymentData,
+      gstReceipt,
+      isCredPayment,
+    }) => {
+      const {userDetails} = userStore;
+      const {name} = userDetails;
       const openGSTInvoice = () =>
         openCustomTab(
           gstReceipt,
           () => null,
-          () => null
+          () => null,
         );
       return (
         <CustomScrollView
           style={styles.summaryContainer}
           refreshing={isLoading}
-          onRefresh={loadPaymentData}
-        >
+          onRefresh={loadPaymentData}>
           <Image
             source={constants.paymentCompleteIllus}
-            resizeMode={"contain"}
+            resizeMode={'contain'}
             style={styles.paymentIllustration}
           />
           {isLoading && !paymentHistory.length ? null : (
@@ -39,15 +45,15 @@ const CompletedPayments = inject("userStore")(
                 gstReceipt ? (
                   <Fragment>
                     <Text
-                      style={styles.completedPaymentText}
-                    >{`${constants.paymentText.gstInvoiceText(
-                      getTitleCase(name)
+                      style={
+                        styles.completedPaymentText
+                      }>{`${constants.paymentText.gstInvoiceText(
+                      getTitleCase(name),
                     )}`}</Text>
                     <TouchableOpacity
                       activeOpacity={0.8}
                       onPress={openGSTInvoice}
-                      style={styles.downloadInvoiceWrapper}
-                    >
+                      style={styles.downloadInvoiceWrapper}>
                       <Text style={styles.downloadInvoiceText}>
                         {constants.paymentText.gstInvoiceDownloadText}
                       </Text>
@@ -62,9 +68,10 @@ const CompletedPayments = inject("userStore")(
                   </Fragment>
                 ) : (
                   <Text
-                    style={styles.completedPaymentText}
-                  >{`${constants.paymentText.paymentSummaryText(
-                    getTitleCase(name)
+                    style={
+                      styles.completedPaymentText
+                    }>{`${constants.paymentText.paymentSummaryText(
+                    getTitleCase(name),
                   )}`}</Text>
                 )
               ) : null}
@@ -75,19 +82,24 @@ const CompletedPayments = inject("userStore")(
                         payment.salesReceipt,
                         () => null,
                         () => null,
-                        "PaymentPDFViewerScreen"
+                        'PaymentPDFViewerScreen',
                       )
                     : null;
                 return (
                   <CompletedPaymentCard
                     key={paymentIndex}
-                    amount={payment.paymentAmount}
-                    mode={payment.mode}
+                    amount={
+                      isCredPayment
+                        ? 'Full payment through Cred'
+                        : payment.paymentAmount
+                    }
+                    mode={isCredPayment ? 'Payment Mode' : payment.mode}
                     date={payment.date}
                     referenceId={payment.transactionId}
                     action={viewReceipt}
                     containerStyle={styles.verticalSpacing}
                     salesReceipt={payment.salesReceipt}
+                    isCredPayment={isCredPayment}
                   />
                 );
               })}
@@ -102,8 +114,8 @@ const CompletedPayments = inject("userStore")(
           )}
         </CustomScrollView>
       );
-    }
-  )
+    },
+  ),
 );
 
 CompletedPayments.propTypes = {
@@ -111,7 +123,8 @@ CompletedPayments.propTypes = {
   paymentHistory: PropTypes.array.isRequired,
   isLoading: PropTypes.bool.isRequired,
   loadPaymentData: PropTypes.func.isRequired,
-  gstReceipt: PropTypes.string
+  gstReceipt: PropTypes.string,
+  isCredPayment: PropTypes.boolean,
 };
 
 const styles = StyleSheet.create({
@@ -121,32 +134,32 @@ const styles = StyleSheet.create({
     width: 96,
     marginHorizontal: 24,
     marginVertical: 24,
-    alignSelf: "center"
+    alignSelf: 'center',
   },
   completedPaymentText: {
     marginHorizontal: 24,
     ...constants.fontCustom(constants.primaryRegular, 18, 28),
     marginBottom: 16,
-    color: constants.black2
+    color: constants.black2,
   },
   downloadInvoiceText: {
     color: constants.ninthColor,
-    ...constants.fontCustom(constants.primaryRegular, 14)
+    ...constants.fontCustom(constants.primaryRegular, 14),
   },
   payNowIcon: {
     marginLeft: 4,
-    transform: [{ rotateY: "180deg" }],
-    marginTop: -2
+    transform: [{rotateY: '180deg'}],
+    marginTop: -2,
   },
   downloadInvoiceWrapper: {
     marginHorizontal: 24,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "flex-start"
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
   },
   verticalSpacing: {
-    marginVertical: 16
-  }
+    marginVertical: 16,
+  },
 });
 
 export default CompletedPayments;
