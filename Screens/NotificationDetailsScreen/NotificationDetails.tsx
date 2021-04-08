@@ -192,8 +192,8 @@ const NotificationDetails = ({route, navigation}: NotificationDetailsProps) => {
       </View>
     );
   }
-
-  let bannerImage = notification?.image;
+  const {image, additionalData = {}} = notification || {};
+  let bannerImage = typeof image === 'object' ? image?.uri : image;
   if (!bannerImage) {
     allHotelCostingRefs?.some((cityRef: string) => {
       if (hotelCostings.costingById) {
@@ -210,16 +210,20 @@ const NotificationDetails = ({route, navigation}: NotificationDetailsProps) => {
       <ParallaxScrollView
         bannerImage={bannerImage}
         backAction={goBack}
-        smallText={notification.lastEdited}
+        smallText={notification.lastEdited || additionalData.createdDate}
         titleText={`${title.slice(0, 42)}${title.length >= 42 ? '...' : ''}`}
         enableGradient>
         <View style={styles.detailsContainer}>
           <ItineraryDetail
             updateCost={updateCost}
-            departingFrom={notification.departureCity}
-            departureDate={moment(
-              notification.departureDateMillis || costingConfig?.departureDate,
-            ).format(CONSTANT_GCMDateFormat)}
+            departingFrom={
+              notification.departureCity || additionalData.departureCity
+            }
+            departureDate={
+              moment(notification.departureDateMillis).format(
+                CONSTANT_GCMDateFormat,
+              ) || additionalData.departureDate
+            }
             adults={adultCount}
             children={children}
             numOfRooms={numOfRooms}
