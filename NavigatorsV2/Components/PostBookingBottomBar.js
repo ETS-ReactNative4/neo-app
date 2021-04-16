@@ -20,10 +20,8 @@ const PostBookingBottomBar = ({
   state,
   descriptors,
   navigation,
-  chatDetailsStore,
+  isChatActive,
 }) => {
-  const {isChatActive} = chatDetailsStore;
-
   return (
     <View style={styles.bottomBarContainer}>
       {state.routes.map((route, index) => {

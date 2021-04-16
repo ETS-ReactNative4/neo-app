@@ -54,7 +54,10 @@ const PostBookingHomeTabs = ({chatDetailsStore}) => {
     // @ts-ignore - type definitions unavailable
     <Tab.Navigator
       tabBar={props => (
-        <PostBookingBottomBar {...props} chatDetailsStore={chatDetailsStore} />
+        <PostBookingBottomBar
+          {...props}
+          chatDetailsStore={chatDetailsStore._isActiveChat}
+        />
       )}>
       <Tab.Screen
         options={{
