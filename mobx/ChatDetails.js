@@ -134,10 +134,14 @@ class ChatDetails {
    * initialized for the user. All other scenarios will lead to promise rejection.
    */
   @action
-  getUserDetails = () => {
+  getUserDetails = preTripFlow => {
     return new Promise((resolve, reject) => {
       this._isLoading = true;
-      const initializationUrl = `${constants.initiateChat}?itineraryId=${storeService.itineraries.selectedItineraryId}`;
+
+      let initializationUrl = `${constants.initiateChat}?itineraryId=${storeService.itineraries.selectedItineraryId}&anonymousId=${storeService.deviceDetailsStore._deviceDetails.deviceId}`;
+      if (preTripFlow) {
+        initializationUrl = `${constants.initiateChat}?anonymousId=${storeService.deviceDetailsStore._deviceDetails.deviceId}`;
+      }
       const staycation = isStaycation(
         storeService.itineraries.selectedItinerary,
       );

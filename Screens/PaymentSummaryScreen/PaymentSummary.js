@@ -248,8 +248,8 @@ class PaymentSummary extends Component {
     /**
      * create payment history object array using both product and plato payment histories
      */
-    const paymentHistory = platoPayments
-      ? platoPayments.paidInstallments
+    const paymentHistory =
+      platoPayments?.paidInstallments && platoPayments.paidInstallments.length
         ? platoPayments.paidInstallments.reduce((detailsArray, amount) => {
             detailsArray.push({
               paymentAmount: getLocaleString(amount.amount),
@@ -262,25 +262,24 @@ class PaymentSummary extends Component {
             });
             return detailsArray;
           }, [])
-        : []
-      : productPayments
-      ? productPayments.reduce((detailsArray, amount) => {
-          if (amount.paymentStatus === constants.paymentStatusSuccess) {
-            const data = {
-              paymentAmount: getLocaleStringGlobal({
-                amount: amount.paymentAmount,
-                currency: displayCurrency,
-              }),
-              transactionId: amount.transactionId,
-              mode: amount.mode || 'Razor Pay',
-              date: amount.paidOn,
-              salesReceipt: amount.salesReceipt,
-            };
-            detailsArray.push(data);
-          }
-          return detailsArray;
-        }, [])
-      : [];
+        : productPayments
+        ? productPayments.reduce((detailsArray, amount) => {
+            if (amount.paymentStatus === constants.paymentStatusSuccess) {
+              const data = {
+                paymentAmount: getLocaleStringGlobal({
+                  amount: amount.paymentAmount,
+                  currency: displayCurrency,
+                }),
+                transactionId: amount.transactionId,
+                mode: amount.mode || 'Razor Pay',
+                date: amount.paidOn,
+                salesReceipt: amount.salesReceipt,
+              };
+              detailsArray.push(data);
+            }
+            return detailsArray;
+          }, [])
+        : [];
 
     /**
      * Check if payment is made with plato

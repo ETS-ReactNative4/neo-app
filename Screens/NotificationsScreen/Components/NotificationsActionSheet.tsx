@@ -1,36 +1,36 @@
-import React, { MutableRefObject } from "react";
+import React, {MutableRefObject} from 'react';
 import {
-  responsiveHeight
+  responsiveHeight,
   // @ts-ignore
-} from "react-native-responsive-dimensions";
+} from 'react-native-responsive-dimensions';
 
-import ActionSheet from "../../../CommonComponents/ActionSheet/ActionSheet";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import Icon from "../../../CommonComponents/Icon/Icon";
+import ActionSheet from '../../../CommonComponents/ActionSheet/ActionSheet';
+import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import Icon from '../../../CommonComponents/Icon/Icon';
 import {
   CONSTANT_callStartIcon,
   CONSTANT_detailIcon,
-  CONSTANT_infoIcon
-} from "../../../constants/imageAssets";
+  CONSTANT_infoIcon,
+} from '../../../constants/imageAssets';
 import {
   CONSTANT_shade4,
   CONSTANT_black1,
-  CONSTANT_shade5
-} from "../../../constants/colorPallete";
+  CONSTANT_shade5,
+} from '../../../constants/colorPallete';
 import {
   CONSTANT_fontCustom,
-  CONSTANT_primarySemiBold
-} from "../../../constants/fonts";
+  CONSTANT_primarySemiBold,
+} from '../../../constants/fonts';
 import {
   IItineraryNotification,
-  NotificationsScreenProps
-} from "../Notifications";
-import dialer from "../../../Services/dialer/dialer";
+  NotificationsScreenProps,
+} from '../Notifications';
+import dialer from '../../../Services/dialer/dialer';
 import {
   SCREEN_ITINERARY,
   SCREEN_NOTIFICATION_FAQ,
-  SCREEN_NOTIFICATION_DETAILS
-} from "../../../NavigatorsV2/ScreenNames";
+  SCREEN_NOTIFICATION_DETAILS,
+} from '../../../NavigatorsV2/ScreenNames';
 
 export interface INotificationsActionSheet extends NotificationsScreenProps {
   actionSheetRef: MutableRefObject<any>;
@@ -40,7 +40,7 @@ export interface INotificationsActionSheet extends NotificationsScreenProps {
 const NotificationsActionSheet = ({
   actionSheetRef,
   selectedNotification,
-  navigation
+  navigation,
 }: INotificationsActionSheet) => {
   /**
    * PT TODO: fill up these functions
@@ -50,8 +50,8 @@ const NotificationsActionSheet = ({
       navigation.navigate(SCREEN_NOTIFICATION_FAQ, {
         itineraryId: selectedNotification.itineraryId,
         isDomestic: !!selectedNotification.citiesArr?.find(
-          city => city.countryName === "India"
-        )
+          city => city.countryName === 'India',
+        ),
       });
     }
   };
@@ -66,7 +66,7 @@ const NotificationsActionSheet = ({
     if (selectedNotification) {
       navigation.navigate(SCREEN_ITINERARY, {
         itineraryId: selectedNotification.itineraryId,
-        itinerarySource: SCREEN_NOTIFICATION_DETAILS
+        itinerarySource: SCREEN_NOTIFICATION_DETAILS,
       });
     }
   };
@@ -74,15 +74,13 @@ const NotificationsActionSheet = ({
   return (
     <ActionSheet
       interactableRef={actionSheetRef}
-      panelStartingPosition={responsiveHeight(100)}
-      panelViewablePosition={responsiveHeight(50)}
-    >
+      // panelStartingPosition={responsiveHeight(100)}
+      panelViewablePosition={responsiveHeight(50)}>
       <View style={styles.actionSheetContainer}>
         <TouchableOpacity
           activeOpacity={0.8}
           onPress={openFaq}
-          style={styles.actionSheetList}
-        >
+          style={styles.actionSheetList}>
           <View>
             <Icon name={CONSTANT_infoIcon} size={24} color={CONSTANT_shade4} />
           </View>
@@ -92,8 +90,7 @@ const NotificationsActionSheet = ({
         <TouchableOpacity
           activeOpacity={0.8}
           onPress={openDialer}
-          style={styles.actionSheetList}
-        >
+          style={styles.actionSheetList}>
           <View>
             <Icon
               name={CONSTANT_callStartIcon}
@@ -107,8 +104,7 @@ const NotificationsActionSheet = ({
         <TouchableOpacity
           activeOpacity={0.8}
           onPress={openDetails}
-          style={styles.actionSheetList}
-        >
+          style={styles.actionSheetList}>
           <View>
             <Icon
               name={CONSTANT_detailIcon}
@@ -126,20 +122,20 @@ const NotificationsActionSheet = ({
 const styles = StyleSheet.create({
   actionSheetContainer: {
     flex: 1,
-    padding: 16
+    padding: 16,
   },
   actionSheetList: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     paddingVertical: 24,
     borderBottomWidth: 1,
-    borderBottomColor: CONSTANT_shade5
+    borderBottomColor: CONSTANT_shade5,
   },
   textStyle: {
     ...CONSTANT_fontCustom(CONSTANT_primarySemiBold, 15, 19),
     color: CONSTANT_black1,
-    paddingLeft: 8
-  }
+    paddingLeft: 8,
+  },
 });
 
 export default NotificationsActionSheet;

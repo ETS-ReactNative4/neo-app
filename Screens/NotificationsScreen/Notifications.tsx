@@ -32,6 +32,9 @@ import EmptyListPlaceholder from '../../CommonComponents/EmptyListPlaceholder/Em
 import ErrorBoundary from '../../CommonComponents/ErrorBoundary/ErrorBoundary';
 import useIsUserLoggedIn from '../../Services/isUserLoggedIn/hooks/useIsUserLoggedIn';
 import LoginIndent from '../../CommonComponents/LoginIndent/LoginIndent';
+import resolveLinks from '../../Services/resolveLinks/resolveLinks';
+import apiCall from '../../Services/networkRequests/apiCall';
+import {CONSTANT_notificationRead} from '../../constants/apiUrls';
 
 export type NotificationsScreenNavigationType = CompositeNavigationProp<
   StackNavigationProp<AppNavigatorParamsType, typeof SCREEN_PRETRIP_HOME_TABS>,
@@ -79,11 +82,24 @@ export interface IItineraryNotification {
   staleCost: boolean;
 }
 
-export interface ISectionData {
-  title: 'New' | 'Earlier';
-  data: IItineraryNotification[];
+interface INotificationData extends IItineraryNotification {
+  read?: boolean;
+  imageUri?: string;
+  identifier: string;
+  notificationType?: string;
+  data?: {
+    link: string;
+    modalData: {};
+  };
 }
 
+export interface ISectionData {
+  title: 'New' | 'Earlier';
+  data: INotificationData[];
+}
+
+const logo =
+  'https://upload.wikimedia.org/wikipedia/commons/8/84/Pick_Your_Trail_Logo.png';
 const Notifications = ({navigation, route}: NotificationsScreenProps) => {
   const [sectionData, setSectionData] = useState<ISectionData[]>([]);
   const [selectedNotification, setSelectedNotification] = useState<
@@ -95,7 +111,7 @@ const Notifications = ({navigation, route}: NotificationsScreenProps) => {
   const [savedItineraryApiDetails, loadItineraries] = useSavedItinerariesApi();
 
   const {successResponseData, isLoading} = savedItineraryApiDetails;
-  const {data: savedItineraries = []} = successResponseData || {};
+  const {data: savedItineraries = {}} = successResponseData || {};
 
   useFocusEffect(
     useCallback(() => {
@@ -105,26 +121,29 @@ const Notifications = ({navigation, route}: NotificationsScreenProps) => {
   );
 
   useDeepCompareEffect(() => {
-    const newSectionData: ISectionData[] = savedItineraries.reduce(
-      (accumulator, itinerary) => {
-        if (itinerary.unreadMsgCount) {
-          accumulator[0].data.push(itinerary);
-        } else {
-          accumulator[1].data.push(itinerary);
-        }
-        return accumulator;
-      },
-      [
-        {
-          title: 'New',
-          data: [],
+    const notificationList = Object.values(savedItineraries || {});
+    const newSectionData: ISectionData[] = notificationList
+      ?.flatMap((item: {}) => item)
+      ?.reduce(
+        (accumulator: ISectionData[], itinerary: INotificationData) => {
+          if (itinerary.unreadMsgCount || itinerary.read === false) {
+            accumulator[0].data.push(itinerary);
+          } else {
+            accumulator[1].data.push(itinerary);
+          }
+          return accumulator;
         },
-        {
-          title: 'Earlier',
-          data: [],
-        },
-      ] as ISectionData[],
-    );
+        [
+          {
+            title: 'New',
+            data: [],
+          },
+          {
+            title: 'Earlier',
+            data: [],
+          },
+        ] as ISectionData[],
+      );
     setSectionData(newSectionData);
   }, [savedItineraries]);
 
@@ -137,11 +156,25 @@ const Notifications = ({navigation, route}: NotificationsScreenProps) => {
     actionSheetRef.current && actionSheetRef.current.snapTo({index: 1});
   };
 
-  const openNotificationDetails = (item: IItineraryNotification) => {
-    setSelectedNotification(item);
-    navigation.navigate(SCREEN_NOTIFICATION_DETAILS, {
-      ...item,
-    });
+  const markNotificationRead = (id: string) => {
+    apiCall(`${CONSTANT_notificationRead}?itineraryId=${id}`, {}, 'PATCH')
+      .then(() => null)
+      .catch(() => null);
+  };
+
+  const openNotificationDetails = (item: INotificationData) => {
+    if (item.notificationType) {
+      const {link, modalData} = item.data ?? {};
+      markNotificationRead(item.identifier);
+      if (link) {
+        resolveLinks(link, modalData);
+      }
+    } else {
+      setSelectedNotification(item);
+      navigation.navigate(SCREEN_NOTIFICATION_DETAILS, {
+        ...item,
+      });
+    }
   };
 
   const isEmpty =
@@ -162,28 +195,30 @@ const Notifications = ({navigation, route}: NotificationsScreenProps) => {
       ) : (
         <SectionList
           sections={sectionData}
-          keyExtractor={(item: IItineraryNotification) => item.itineraryId}
-          renderItem={({item}: {item: IItineraryNotification}) => {
+          keyExtractor={(item: INotificationData) =>
+            item.itineraryId || item.identifier
+          }
+          renderItem={({item}: {item: INotificationData}) => {
             const onMoreOptionClick = () => selectNotification(item);
             const onNotificationClick = () => openNotificationDetails(item);
 
             return (
               <SavedItineraryCard
-                isUnread={!!item.unreadMsgCount}
+                isUnread={!!item.unreadMsgCount || item.read === false}
                 action={onNotificationClick}
                 thumbnail={getImgIXUrl({
-                  src: item.image,
+                  src: item.image || item.imageUri || logo,
                   DPR: 0.02,
                   imgFactor: `h=${SAVED_ITINERARY_IMAGE_HEIGHT}&w=${SAVED_ITINERARY_IMAGE_WIDTH}&crop=fit`,
                 })}
                 image={getImgIXUrl({
-                  src: item.image,
+                  src: item.image || item.imageUri || logo,
                   imgFactor: `h=${SAVED_ITINERARY_IMAGE_HEIGHT}&w=${SAVED_ITINERARY_IMAGE_WIDTH}&crop=fit`,
                 })}
                 cities={item.citiesArr || []}
                 lastEdited={item.lastEdited}
                 title={item.title}
-                moreOptions
+                moreOptions={!item.notificationType}
                 moreOptionsAction={onMoreOptionClick}
               />
             );

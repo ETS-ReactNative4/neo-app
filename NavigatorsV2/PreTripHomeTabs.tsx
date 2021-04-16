@@ -10,6 +10,7 @@ import {
   SCREEN_DEALS_TAB,
   SCREEN_SEARCH_LISTING_CARDS_PAGE,
   SCREEN_PRETRIP_HOME_TABS,
+  SCREEN_PRETRIP_CHAT,
 } from './ScreenNames';
 import Explore, {
   ExploreScreenSourcesType,
@@ -18,17 +19,15 @@ import ExploreBottomBar from '../CommonComponents/ExploreBottomBar/ExploreBottom
 import {
   CONSTANT_compassIcon,
   CONSTANT_searchIcon,
-  CONSTANT_notificationBellIcon,
   CONSTANT_dealsIcon,
 } from '../constants/imageAssets';
-import Notifications from '../Screens/NotificationsScreen/Notifications';
-import DealsListing from '../Screens/DealsListingScreen/DealsListing';
 import {observer, inject} from 'mobx-react';
 import DeviceLocale from '../mobx/DeviceLocale';
 import SearchV2 from '../Screens/SearchV2/Search';
 import deepLink from '../Services/deepLink/deepLink';
 import {RouteProp} from '@react-navigation/native';
 import {AppNavigatorParamsType} from './AppNavigator';
+import DealsListing from '../Screens/DealsListingScreen/DealsListing';
 
 export interface IExplorePageScreenData {
   source?: ExploreScreenSourcesType;
@@ -42,6 +41,7 @@ export type PreTripHomeTabsType = {
   [SCREEN_NOTIFICATION_TAB]: undefined;
   [SCREEN_DEALS_TAB]: undefined;
   [SCREEN_SEARCH_LISTING_CARDS_PAGE]: SearchListingCards;
+  [SCREEN_PRETRIP_CHAT]: undefined;
 };
 
 type PreTripHomeTabRouteType = RouteProp<
@@ -111,12 +111,11 @@ const PreTripHomeTabs = ({deviceLocaleStore, route}: PreTripHomeTabsProp) => {
       />
       <Tab.Screen
         options={{
-          tabBarLabel: 'Notifications',
-          icon: CONSTANT_notificationBellIcon,
+          tabBarLabel: 'Chat',
           ...tabBarColorConfig,
         }}
-        name={SCREEN_NOTIFICATION_TAB}
-        component={Notifications}
+        name={SCREEN_PRETRIP_CHAT}
+        component={() => null}
       />
     </Tab.Navigator>
   );
