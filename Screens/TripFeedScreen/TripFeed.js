@@ -36,6 +36,7 @@ import dialer from '../../Services/dialer/dialer';
 import {recordEvent} from '../../Services/analytics/analyticsService';
 import PropTypes from 'prop-types';
 import {logError} from '../../Services/errorLogger/errorLogger';
+import storeService from '../../Services/storeService/storeService';
 
 @ErrorBoundary({isRoot: true})
 @inject('deviceDetailsStore')
@@ -211,7 +212,12 @@ class TripFeed extends Component {
               .then(restoreId => {
                 getActorId()
                   .then(actorId => {
-                    setChatMetaInfo({restoreId, actorId});
+                    setChatMetaInfo({
+                      restoreId,
+                      actorId,
+                      anonymousId:
+                        storeService.deviceDetailsStore._deviceDetails.deviceId,
+                    });
                   })
                   .catch(() => null);
               })

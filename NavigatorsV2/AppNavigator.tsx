@@ -72,6 +72,7 @@ import {
   SCREEN_SEARCH_LISTING_CARDS_PAGE,
   SCREEN_LISTING_PAGE,
   SCREEN_PRE_TRIP_INTRO,
+  SCREEN_NOTIFICATION_TAB,
 } from './ScreenNames';
 import AppLogin from '../Screens/AppLoginScreen/AppLogin';
 import Starter from '../Screens/StartingScreen/Starter';
@@ -84,7 +85,9 @@ import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
 import ModalStack, {ModalNavigatorParamsType} from './ModalStack';
 import {CONSTANT_white} from '../constants/colorPallete';
 import {RouteProp} from '@react-navigation/native';
-import {IItineraryNotification} from '../Screens/NotificationsScreen/Notifications';
+import Notifications, {
+  IItineraryNotification,
+} from '../Screens/NotificationsScreen/Notifications';
 import NotificationDetails from '../Screens/NotificationDetailsScreen/NotificationDetails';
 import NotificationsFaq from '../Screens/NotificationsFaqScreen/NotificationsFaq';
 import PostBookingHomeTabs, {
@@ -398,6 +401,11 @@ const AppNavigator = () => {
           name={SCREEN_LISTING_PAGE}
           options={{headerShown: false}}
           component={ListingPage}
+        />
+        <Screen
+          name={SCREEN_NOTIFICATION_TAB}
+          options={{headerShown: false}}
+          component={Notifications}
         />
         <Screen
           name={SCREEN_POST_BOOKING_HOME}

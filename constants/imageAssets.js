@@ -399,6 +399,8 @@ export const CONSTANT_completePaymentIcon = require('../assets/images/toolIcons/
 export const CONSTANT_currencyCalculatorIcon = require('../assets/images/toolIcons/currency-calculator.png');
 export const CONSTANT_forexIcon = require('../assets/images/toolIcons/forex.png');
 export const CONSTANT_documentVisaIcon = require('../assets/images/toolIcons/document-visa.png');
+export const CONSTANT_chatIcon = () =>
+  require('../assets/images/icons/chat.png');
 export const CONSTANT_documentIcon = 'document';
 export const CONSTANT_downloadIcon = 'download';
 export const CONSTANT_openFileIcon = 'pdf-view';
