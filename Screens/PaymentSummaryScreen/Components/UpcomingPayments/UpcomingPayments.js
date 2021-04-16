@@ -1,10 +1,10 @@
-import React, { Component } from "react";
-import { StyleSheet } from "react-native";
-import CustomScrollView from "../../../../CommonComponents/CustomScrollView/CustomScrollView";
-import PropTypes from "prop-types";
-import PlatoPayments from "./Components/PlatoPayments";
-import ProductPayments from "./Components/ProductPayments";
-import XSensorPlaceholder from "../../../../CommonComponents/XSensorPlaceholder/XSensorPlaceholder";
+import React, {Component} from 'react';
+import {StyleSheet} from 'react-native';
+import CustomScrollView from '../../../../CommonComponents/CustomScrollView/CustomScrollView';
+import PropTypes from 'prop-types';
+import PlatoPayments from './Components/PlatoPayments';
+import ProductPayments from './Components/ProductPayments';
+import XSensorPlaceholder from '../../../../CommonComponents/XSensorPlaceholder/XSensorPlaceholder';
 
 /**
  * Will render two components
@@ -25,7 +25,7 @@ class UpcomingPayments extends Component {
     openSupport: PropTypes.func,
     platoPendingInstallments: PropTypes.array.isRequired,
     platoPaidInstallmentsCount: PropTypes.number,
-    displayCurrency: PropTypes.string
+    displayCurrency: PropTypes.string,
   };
 
   render() {
@@ -41,18 +41,19 @@ class UpcomingPayments extends Component {
       paymentHistory,
       platoPendingInstallments,
       platoPaidInstallmentsCount,
-      displayCurrency
+      displayCurrency,
     } = this.props;
     return (
       <CustomScrollView
         style={styles.summaryContainer}
         refreshing={isLoading}
-        onRefresh={loadPaymentData}
-      >
-        {isPaidWithPlato ? (
+        onRefresh={loadPaymentData}>
+        {isPaidWithPlato || platoPendingInstallments.length ? (
           <PlatoPayments
             platoPendingInstallments={platoPendingInstallments}
-            platoPaidInstallmentsCount={platoPaidInstallmentsCount}
+            platoPaidInstallmentsCount={
+              platoPaidInstallmentsCount || paymentHistory.length
+            }
             platoBankDetails={platoBankDetails}
             openSupport={openSupport}
             displayCurrency={displayCurrency}
@@ -75,8 +76,8 @@ class UpcomingPayments extends Component {
 
 const styles = StyleSheet.create({
   summaryContainer: {
-    backgroundColor: "white"
-  }
+    backgroundColor: 'white',
+  },
 });
 
 export default UpcomingPayments;
