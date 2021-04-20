@@ -50,14 +50,12 @@ const tabBarColorConfig = {
 const Tab = createBottomTabNavigator<PostBookingHomeTabsType>();
 
 const PostBookingHomeTabs = ({chatDetailsStore}) => {
+  const {isChatActive} = chatDetailsStore || {};
   return (
     // @ts-ignore - type definitions unavailable
     <Tab.Navigator
       tabBar={props => (
-        <PostBookingBottomBar
-          {...props}
-          chatDetailsStore={chatDetailsStore._isActiveChat}
-        />
+        <PostBookingBottomBar {...props} isChatActive={isChatActive} />
       )}>
       <Tab.Screen
         options={{
