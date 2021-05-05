@@ -12,6 +12,12 @@ const stringConstants = {
   onArrivalVisaType: 'ON_ARRIVAL',
   visaWindowNotOpenedStatus: 'WINDOW_NOT_OPENED',
 
+  /** ota api
+   *
+   */
+
+  getHotelList: 'api/ota/hotel/search',
+
   /**
    * Product APIs
    */
