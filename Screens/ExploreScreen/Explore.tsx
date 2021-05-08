@@ -52,6 +52,11 @@ import {
 } from '../../Services/freshchatService/freshchatService';
 import Icon from '../../CommonComponents/Icon/Icon';
 import storeService from '../../Services/storeService/storeService';
+import { HotelCard } from '../TripFeedScreen/Components/HotelCard';
+import { Bed, Included } from '@pyt/icons';
+// import {HotelCard} from './Components/HotelCard'
+import { CONSTANT_fontPrimarySemiBold } from '../../constants/fonts';
+import { AnimatedInputBox, Pill, Text } from '@pyt/micros';
 export type ExploreScreenNavigationType = CompositeNavigationProp<
   StackNavigationProp<AppNavigatorParamsType, typeof SCREEN_PRETRIP_HOME_TABS>,
   BottomTabNavigationProp<PreTripHomeTabsType, typeof SCREEN_EXPLORE_TAB>
@@ -168,6 +173,52 @@ const Explore = ({
             />
           </Fragment>
         ) : null}
+        <AnimatedInputBox label='Check-in'/>
+         	<HotelCard
+		width={328}
+		title="Eden Hotel Kuta Bali"
+		strikedCost="₹15,234"
+		cost="₹11,234"
+		costSubText="2 nights & 2 adults"
+		marginEnd={12}
+		fontFamily={CONSTANT_fontPrimarySemiBold}
+		amenities={[
+			{ icon: <Included fill="#777777" />, text: 'Breakfast included' },
+			{ icon: <Included fill="#777777" />, text: 'Free cancellation' },
+			{ icon: <Included fill="#777777" />, text: 'Free WiFi' },
+		]}
+		sliderProps={{
+			images: [
+				'https://pyt-images.imgix.net/images/deals/Festival+Sale/herodesktop/festLife-2-min.png?w=566&h=438&dpr=2&auto=format,compress&q=20' 
+			],
+			showArrow: true,
+		}}
+		dotSeparateList={[
+			<Pill
+				borderRadius={4}
+				paddingVertical={2}
+				paddingHorizontal={6}
+				backgroundColor={'#E5F9F3'}
+				textProps={{
+					fontSize: 12,
+					lineHeight: 16,
+					fontWeight: '600',
+					color: '#00774F',
+					marginEnd: 2,
+				}}
+				text="4.5"
+				iconPosition="right"
+			/>,
+			<Text fontSize={13} lineHeight={16} color={'#333333'} 	fontFamily={CONSTANT_fontPrimarySemiBold}>
+				4km from city center
+			</Text>,
+			<Text fontSize={13} lineHeight={16} color={'#333333'} 	fontFamily={CONSTANT_fontPrimarySemiBold}>
+				4-star hotel
+			</Text>,
+		]}
+		footerRightElement={<></>}
+		onCardPress={() => null}
+	/>
         {exploreData.map((section, sectionIndex) => {
           return (
             <Fragment key={sectionIndex}>

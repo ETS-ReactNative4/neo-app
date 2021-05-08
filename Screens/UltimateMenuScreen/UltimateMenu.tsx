@@ -84,7 +84,7 @@ const UltimateMenu = ({
 }: UltimateMenuProps) => {
   const { userDisplayDetails, getUserDisplayDetails } = userStore;
   const { completionPercentage } = welcomeStateStore;
-
+console.log('userStore',userDisplayDetails)
   const menuList: IUltimateMenuLists[] = [
     {
       name: "Craft your holiday",

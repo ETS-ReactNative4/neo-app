@@ -73,6 +73,10 @@ import {
   SCREEN_LISTING_PAGE,
   SCREEN_PRE_TRIP_INTRO,
   SCREEN_NOTIFICATION_TAB,
+  SCREEN_STAY_SEARCH,
+  SCREEN_STAY_HOTEL_DETAIL,
+  SCREEN_STAY_HOTEL_REVIEW,
+  SCREEN_STAY_HOTEL_LIST,
 } from './ScreenNames';
 import AppLogin from '../Screens/AppLoginScreen/AppLogin';
 import Starter from '../Screens/StartingScreen/Starter';
@@ -161,6 +165,10 @@ import SearchListingCardsPage from '../Screens/SearchListingCardsPage/SearchList
 import ListingPage from '../Screens/ListingPageScreen/ListingPage';
 import PreTripIntroScreen from '../Screens/PreTripIntroScreen/PreTripIntroScreen';
 import {IIntroData} from '../Screens/IntroScreen/IntroScreen';
+import StayHotelSearchScreen from '../Screens/StayHotelSearchScreen/StayHotelSearchScreen';
+import StayHotelDetailScreen from '../Screens/StayHotelDetailScreen/StayHotelDetailScreen';
+import StayHotelReviewScreen from '../Screens/StayHotelReviewScreen/StayHotelReviewScreen';
+import StayHotelListScreen from '../Screens/StayHotelListScreen/StayHotelListScreen';
 
 export type loginResetTargetTypes = typeof SCREEN_SAVED_ITINERARIES;
 
@@ -360,6 +368,10 @@ export type AppNavigatorParamsType = {
     toggleOverlay: () => any;
   };
   [SCREEN_PRE_TRIP_INTRO]: undefined;
+  [SCREEN_NOTIFICATION_TAB]: undefined;
+  [SCREEN_STAY_HOTEL_DETAIL]: undefined;
+  [SCREEN_STAY_HOTEL_REVIEW]: undefined;
+  [SCREEN_STAY_HOTEL_LIST]: undefined;
 };
 
 const Stack = createStackNavigator<AppNavigatorParamsType>();
@@ -401,6 +413,26 @@ const AppNavigator = () => {
           name={SCREEN_LISTING_PAGE}
           options={{headerShown: false}}
           component={ListingPage}
+        />
+         <Screen
+          name={SCREEN_STAY_SEARCH}
+          options={{headerShown: false}}
+          component={StayHotelSearchScreen}
+        />
+         <Screen
+          name={SCREEN_STAY_HOTEL_LIST}
+          options={{headerShown: false}}
+          component={StayHotelListScreen}
+        />
+         <Screen
+          name={SCREEN_STAY_HOTEL_DETAIL}
+          options={{headerShown: false}}
+          component={StayHotelDetailScreen}
+        />
+                 <Screen
+          name={SCREEN_STAY_HOTEL_REVIEW}
+          options={{headerShown: false}}
+          component={StayHotelReviewScreen}
         />
         <Screen
           name={SCREEN_NOTIFICATION_TAB}

@@ -14849,6 +14849,8 @@ class OTAHotel {
     this._hotelList = {};
   };
 
+  @observable _hotelSearchRequest = {};
+
   @observable _isLoading = false;
 
   @observable _hasError = false;
@@ -14856,6 +14858,11 @@ class OTAHotel {
   @computed
   get hotelList() {
     return toJS(this._hotelList);
+  }
+
+  @computed
+  get hotelSearchRequest() {
+    return this._hotelSearchRequest;
   }
 
   @computed
@@ -14868,27 +14875,27 @@ class OTAHotel {
     return this._hasError;
   }
 
-  /**
-   * Uses Product API to fetch the packages that are being displayed in product homepage
-   */
   @action
-  getHotelList = () => {
+  getHotelList = (requestBody) => {
     this._isLoading = true;
-    const requestBody = {
-      passengerConfiguration: {
-        hotelGuestRoomConfiguration: [
-          {
-            adultCount: 2,
-            childAges: [],
-          },
-        ],
-      },
-      filters: {},
-      cityId: 7,
-      checkInDate: '2021-05-10',
-      checkOutDate: '2021-05-15',
-      countryCode: 'in',
-    };
+    // const requestBody = {
+    //   passengerConfiguration: {
+    //     hotelGuestRoomConfiguration: [
+    //       {
+    //         adultCount: 2,
+    //         childAges: [],
+    //       },
+    //     ],
+    //   },
+    //   filters: {},
+    //   cityId: 7,
+    //   checkInDate: '2021-05-10',
+    //   checkOutDate: '2021-05-15',
+    //   countryCode: 'in',
+    // };
+    requestBody.checkInDate ='2021-05-10',
+    requestBody.checkOutDate =  '2021-05-15'
+    this._hotelSearchRequest = requestBody;
     apiCall(
       `${constants.getHotelList}`,
       requestBody,

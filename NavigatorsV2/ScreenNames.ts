@@ -30,6 +30,10 @@ export const SCREEN_GCM_CITY_PICKER = 'GCMCityPicker';
 export const SCREEN_GCM_NATIONALITY_PICKER = 'GCMNationalityPicker';
 export const SCREEN_GCM_ROOM_CONFIG = 'GCMRoomConfig';
 export const SCREEN_PRE_TRIP_INTRO = 'PreTripIntro';
+export const SCREEN_STAY_SEARCH = 'StaySearch';
+export const SCREEN_STAY_HOTEL_LIST = 'StayHotelList';
+export const SCREEN_STAY_HOTEL_DETAIL = 'StayHotelDetail';
+export const SCREEN_STAY_HOTEL_REVIEW = 'StayHotelReviewBooking';
 /**
  * Screens from the post booking app
  */

@@ -31,6 +31,8 @@ import {
   CONSTANT_journalSelectedIcon,
 } from '../constants/imageAssets';
 import {inject, observer} from 'mobx-react';
+import StayHotelSearchScreen from '../Screens/StayHotelSearchScreen/StayHotelSearchScreen';
+import StayHotelListScreen from '../Screens/StayHotelListScreen/StayHotelListScreen';
 
 export type PostBookingHomeTabsType = {
   [SCREEN_TRIP_FEED_TAB]: undefined;
