@@ -1,33 +1,35 @@
-import React, { useState } from "react";
-import { StyleSheet, View, ScrollView, LayoutAnimation } from "react-native";
-import GCMViewer from "../GCMFormScreen/Components/GCMViewer";
-import { AppNavigatorProps } from "../../NavigatorsV2/AppNavigator";
-import { SCREEN_GCM_ROOM_CONFIG } from "../../NavigatorsV2/ScreenNames";
+import React, {useState} from 'react';
+import {StyleSheet, View, ScrollView, LayoutAnimation} from 'react-native';
+import GCMViewer from '../GCMFormScreen/Components/GCMViewer';
+import {AppNavigatorProps} from '../../NavigatorsV2/AppNavigator';
+import {SCREEN_GCM_ROOM_CONFIG} from '../../NavigatorsV2/ScreenNames';
 import {
   IHotelGuestRoomConfig,
-  HotelGuestRoomChildAgesType
-} from "../GCMScreen/hooks/useGCMForm";
-import HighlightText from "../ItineraryScreen/Components/HighlightText";
+  HotelGuestRoomChildAgesType,
+} from '../GCMScreen/hooks/useGCMForm';
+import HighlightText from '../ItineraryScreen/Components/HighlightText';
 import {
   CONSTANT_seventeenthColor,
-  CONSTANT_twentySeventhColor
-} from "../../constants/colorPallete";
-import RoomButton from "./Components/RoomButton";
-import GuestNumberCounter from "./Components/GuestNumberCounter";
-import ChildAgesPicker from "./Components/ChildAgesPicker";
-import BottomButtonBar from "../../CommonComponents/BottomButtonBar/BottomButtonBar";
+  CONSTANT_twentySeventhColor,
+} from '../../constants/colorPallete';
+import RoomButton from './Components/RoomButton';
+import GuestNumberCounter from './Components/GuestNumberCounter';
+import ChildAgesPicker from './Components/ChildAgesPicker';
+import BottomButtonBar from '../../CommonComponents/BottomButtonBar/BottomButtonBar';
 
 type GCMRoomConfigNavType = AppNavigatorProps<typeof SCREEN_GCM_ROOM_CONFIG>;
 
 export interface IGCMRoomConfigPros extends GCMRoomConfigNavType {}
 
-const GCMRoomConfig = ({ navigation, route }: IGCMRoomConfigPros) => {
+const GCMRoomConfig = ({navigation, route}: IGCMRoomConfigPros) => {
   const {
-    title = "",
+    title = '',
     roomConfig: defaultRoomConfig = [],
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     onSelect = (selected: IHotelGuestRoomConfig[]) => null,
-    bannerImage = "https://pickyourtrail-guides-images.imgix.net/misc/hungary.jpeg"
+    maxRoom,
+    childAgeOptions,
+    bannerImage = 'https://pickyourtrail-guides-images.imgix.net/misc/hungary.jpeg',
   } = route.params || {};
 
   const goBack = () => navigation.goBack();
@@ -38,9 +40,9 @@ const GCMRoomConfig = ({ navigation, route }: IGCMRoomConfigPros) => {
       : [
           {
             adultCount: 1,
-            childAges: []
-          }
-        ]
+            childAges: [],
+          },
+        ],
   );
 
   const [selectedRoomButton, setSelectedRoomButton] = useState<number>(0);
@@ -50,7 +52,7 @@ const GCMRoomConfig = ({ navigation, route }: IGCMRoomConfigPros) => {
 
   const deleteRoom = (buttonIndex: number) => {
     const newRoomList = roomConfig.filter(
-      (config, configIndex) => buttonIndex !== configIndex
+      (config, configIndex) => buttonIndex !== configIndex,
     );
     setRoomConfig(newRoomList);
     if (selectedRoomButton >= newRoomList.length) {
@@ -58,8 +60,9 @@ const GCMRoomConfig = ({ navigation, route }: IGCMRoomConfigPros) => {
     }
   };
 
-  const addRoom = () =>
-    setRoomConfig([...roomConfig, { adultCount: 1, childAges: [] }]);
+  const addRoom = () => {
+    setRoomConfig([...roomConfig, {adultCount: 1, childAges: []}]);
+  };
 
   const selectedAdultCount = roomConfig[selectedRoomButton].adultCount;
 
@@ -75,11 +78,11 @@ const GCMRoomConfig = ({ navigation, route }: IGCMRoomConfigPros) => {
             adultCount:
               room.adultCount + room.childAges.length < 6
                 ? room.adultCount + 1
-                : room.adultCount
+                : room.adultCount,
           };
         }
         return room;
-      })
+      }),
     );
   };
 
@@ -89,11 +92,11 @@ const GCMRoomConfig = ({ navigation, route }: IGCMRoomConfigPros) => {
         if (roomIndex === selectedRoomButton) {
           return {
             ...room,
-            adultCount: room.adultCount > 1 ? room.adultCount - 1 : 1
+            adultCount: room.adultCount > 1 ? room.adultCount - 1 : 1,
           };
         }
         return room;
-      })
+      }),
     );
   };
 
@@ -106,11 +109,11 @@ const GCMRoomConfig = ({ navigation, route }: IGCMRoomConfigPros) => {
             childAges:
               room.adultCount + room.childAges.length < 6
                 ? [...room.childAges, 1]
-                : room.childAges
+                : room.childAges,
           };
         }
         return room;
-      })
+      }),
     );
   };
 
@@ -123,19 +126,19 @@ const GCMRoomConfig = ({ navigation, route }: IGCMRoomConfigPros) => {
             childAges:
               room.childAges.length > 0
                 ? room.childAges.filter(
-                    (element, index) => index < room.childAges.length - 1
+                    (element, index) => index < room.childAges.length - 1,
                   )
-                : room.childAges
+                : room.childAges,
           };
         }
         return room;
-      })
+      }),
     );
   };
 
   const changeChildAge = (
     newAge: HotelGuestRoomChildAgesType,
-    ageIndex: number
+    ageIndex: number,
   ) => {
     setRoomConfig(
       roomConfig.map((room, roomIndex) => {
@@ -147,11 +150,11 @@ const GCMRoomConfig = ({ navigation, route }: IGCMRoomConfigPros) => {
                 return newAge;
               }
               return childAge;
-            })
+            }),
           };
         }
         return room;
-      })
+      }),
     );
   };
 
@@ -162,13 +165,15 @@ const GCMRoomConfig = ({ navigation, route }: IGCMRoomConfigPros) => {
 
   LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
 
+  const disableRoom = maxRoom ? roomConfig.length === maxRoom : false;
+  const canAddPaxInRoom = selectedAdultCount + selectedChildAgesCount < 6;
   return (
     <GCMViewer bannerImage={bannerImage} backAction={goBack} title={title}>
       <HighlightText
         textColor={CONSTANT_seventeenthColor}
         textBackgroundColor={CONSTANT_twentySeventhColor}
         containerStyle={styles.highlightText}
-        titleText={"You can’t add more than 6 people in a room"}
+        titleText={'You can’t add more than 6 people in a room'}
       />
       <ScrollView>
         <View style={styles.roomButtonWrapper}>
@@ -191,21 +196,29 @@ const GCMRoomConfig = ({ navigation, route }: IGCMRoomConfigPros) => {
               />
             );
           })}
-          <RoomButton text={`+ Add new room`} clickAction={addRoom} />
+          <RoomButton
+            text={`+ Add new room`}
+            clickAction={addRoom}
+            disabled={disableRoom}
+          />
         </View>
         <GuestNumberCounter
           addAction={addAdultRoomCount}
           subAction={subAdultRoomCount}
           counterText={`${selectedAdultCount} Adult${
-            selectedAdultCount > 1 ? "s" : ""
+            selectedAdultCount > 1 ? 's' : ''
           }`}
+          disableSub={selectedAdultCount === 1}
+          disableAdd={!canAddPaxInRoom}
         />
         <GuestNumberCounter
           addAction={addChildRoomCount}
           subAction={subChildRoomCount}
           counterText={`${selectedChildAgesCount} Child${
-            selectedChildAgesCount > 1 ? "ren" : ""
+            selectedChildAgesCount > 1 ? 'ren' : ''
           }`}
+          disableSub={selectedChildAgesCount === 0}
+          disableAdd={!canAddPaxInRoom}
         />
         <View style={styles.childAgesWrapper}>
           {selectedChildAges.map((age, ageIndex) => {
@@ -216,6 +229,7 @@ const GCMRoomConfig = ({ navigation, route }: IGCMRoomConfigPros) => {
                 selectedAge={age}
                 key={ageIndex}
                 onChange={onAgeChange}
+                childAgeOptions={childAgeOptions}
               />
             );
           })}
@@ -223,7 +237,7 @@ const GCMRoomConfig = ({ navigation, route }: IGCMRoomConfigPros) => {
       </ScrollView>
       <BottomButtonBar
         disableLeftButton
-        rightButtonName={"Save room details"}
+        rightButtonName={'Save room details'}
         rightButtonAction={saveRoomDetails}
       />
     </GCMViewer>
@@ -232,21 +246,21 @@ const GCMRoomConfig = ({ navigation, route }: IGCMRoomConfigPros) => {
 
 const styles = StyleSheet.create({
   highlightText: {
-    justifyContent: "center"
+    justifyContent: 'center',
   },
   roomButtonWrapper: {
     paddingHorizontal: 24,
-    flexDirection: "row",
-    flexWrap: "wrap",
-    alignItems: "center"
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    alignItems: 'center',
   },
   childAgesWrapper: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
     marginTop: 16,
-    flexWrap: "wrap"
-  }
+    flexWrap: 'wrap',
+  },
 });
 
 export default GCMRoomConfig;
