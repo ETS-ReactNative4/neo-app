@@ -1,7 +1,10 @@
 // import { Checkbox } from '@pyt/micros';
 import {Box, Text} from '@pyt/micros';
-import React, {useState} from 'react';
-import {Checkbox} from '../../StayHotelSearchScreen/Checkbox';
+import React, {useEffect, useState} from 'react';
+import {
+  Checkbox,
+  CheckboxOptionProps,
+} from '../../StayHotelSearchScreen/Checkbox';
 import Modal from 'react-native-modal';
 import {
   SafeAreaView,
@@ -15,8 +18,18 @@ import {StayHotelFooter} from './StayHotelFooter';
 import _capitalize from 'lodash/capitalize';
 import StaySection from './StaySection';
 import Icon from '../../../CommonComponents/Icon/Icon';
-import { CONSTANT_starActive } from '../../../constants/imageAssets';
-import { CONSTANT_fontPrimaryRegular } from '../../../constants/fonts';
+import {CONSTANT_starActive} from '../../../constants/imageAssets';
+import {CONSTANT_fontPrimaryRegular} from '../../../constants/fonts';
+import {inject, observer} from 'mobx-react';
+import {
+  price as priceINR,
+  priceUAE,
+  priceUK,
+  priceUSD,
+} from '../../ListingPageScreen/filterOptions/filterOptions';
+import storeService from '../../../Services/storeService/storeService';
+import _toLower from 'lodash/toLower';
+import {RadioBox, RadioOptionProps} from '../../StayHotelSearchScreen/RadioBox';
 
 const starOptions = [
   {label: '1', value: 1},
@@ -26,26 +39,69 @@ const starOptions = [
   {label: '5', value: 5},
 ];
 
-const defaultData = {
+interface HotelFilterType {
+  amenities: CheckboxOptionProps[] | [];
+  starRatings: CheckboxOptionProps[] | [];
+  types: CheckboxOptionProps[] | [];
+  price: RadioOptionProps | {};
+}
+
+export const StayHotelListFilter = ({
+  closeFilterPanel,
+  isModalVisible,
+  isLoading,
+  hotelSearchRequest,
+  getHotelList,
+  alternateHotelFilters,
+}) => {
+  const [hotelFilters, setHotelFilters] = useState<HotelFilterType>({
     amenities: [],
     starRatings: [],
     types: [],
-}
-export const StayHotelListFilter = ({
-  alternateHotelFilters,
-  closeFilterPanel,
-  isModalVisible,
-  hotelSearchRequest,
-  getHotelList,
-  isLoading
-}) => {
-  const [hotelFilters, setHotelFilters] = useState({
-    ...defaultData
+    price: {},
   });
-console.log('hotelFilters-->',hotelFilters)
-  const updateFilters = (key: string, option: {}) => {
+
+  const getPriceFilter = () => {
+    let price = priceINR;
+
+    switch (_toLower(storeService.deviceLocaleStore.deviceLocale)) {
+      case 'ae':
+        price = priceUAE;
+        break;
+      case 'gb':
+        price = priceUK;
+        break;
+      case 'us':
+        price = priceUSD;
+        break;
+      default:
+        break;
+    }
+    console.log('price', price);
+    return price?.options?.map(priceOption => ({
+      label: priceOption.text,
+      value: priceOption.value,
+    }));
+  };
+  const [applyClicked, setApplyClicked] = useState(false);
+
+  console.log('hotelFilters-->', hotelFilters, alternateHotelFilters);
+
+  useEffect(() => {
+    if (isLoading) {
+      setApplyClicked(true);
+    }
+    if (applyClicked && !isLoading) {
+      setApplyClicked(false);
+      closeFilterPanel();
+    }
+  }, [isLoading]);
+
+  const updateFilters = (
+    key: 'amenities' | 'starRatings' | 'types',
+    option: CheckboxOptionProps,
+  ) => {
     let currentIndex = -1;
-    console.log(' hotelFilters[key]', hotelFilters[key])
     hotelFilters[key].some((item, index) => {
       if (item.value === option.value) {
         currentIndex = index;
@@ -63,26 +119,66 @@ console.log('hotelFilters-->',hotelFilters)
     });
   };
 
-  const onApply = () => {
-    // const hotelSearchRequest = _get(data, 'hotelSearchRequest', {})
-    const {starRatings, amenities} = hotelFilters;
-
-    const filters = {
-      starRatings: starRatings.map(e => e.value),
-      types: types.map(e => e.value),
-      amenities: amenities.map(e => e.value),
-    //   minPrice: priceRange[0] !== 0 ? priceRange[0] : undefined,
-    //   maxPrice: priceRange[1] !== 0 ? priceRange[1] : undefined,
+  const onPriceUpdate = (costOption: RadioOptionProps) => {
+    if (hotelFilters.price?.value === costOption.value) {
+      hotelFilters.price = {};
+    } else {
+      hotelFilters.price = costOption;
     }
-    hotelSearchRequest.filters = filters
-    getHotelList(hotelSearchRequest)
+    setHotelFilters({
+      ...hotelFilters,
+    });
   };
-  const {amenities = [], types = []} = alternateHotelFilters;
-  const amenitiesList = amenities?.map(amenity => ({
-    label: _capitalize(amenity.name),
-    value: amenity.code,
+
+  const onApply = () => {
+    const {starRatings, amenities, types, price} = hotelFilters;
+
+    const filters: {
+      starRatings: (number | string)[];
+      types: (number | string)[];
+      amenities: (number | string)[];
+      minPrice?: number;
+      maxPrice?: number;
+    } = {
+      starRatings: starRatings.map((item: CheckboxOptionProps) => item.value),
+      types: types.map((item: CheckboxOptionProps) => item.value),
+      amenities: amenities.map((item: CheckboxOptionProps) => item.value),
+    };
+
+    if (price.value) {
+      const costArray = price.value?.split('_');
+      const minPrice = parseInt(costArray[0] || 0, 10);
+      const maxPrice = parseInt(costArray[1] || 0, 10);
+      if (minPrice > -1) {
+        filters.minPrice = minPrice;
+      }
+      if (maxPrice) {
+        filters.maxPrice = maxPrice;
+      }
+    }
+
+    hotelSearchRequest.filters = {...filters};
+    getHotelList({...hotelSearchRequest});
+  };
+
+  const clearAll = () => {
+    setHotelFilters({amenities: [], starRatings: [], types: [], price:{}});
+  };
+
+  const {amenities = [], types = []} = alternateHotelFilters ?? {};
+  const amenitiesList = amenities?.map(
+    (amenity: {name: string; code: number}) => ({
+      label: _capitalize(amenity.name),
+      value: amenity.code,
+    }),
+  );
+  const typesList = types?.map((type: {name: string; code: number}) => ({
+    label: type.name,
+    value: type.code,
   }));
-  const typesList = types?.map(type => ({label: type.name, value: type.code}));
+
+  const priceList = getPriceFilter();
+
   return (
     <Modal
       onBackButtonPress={closeFilterPanel}
@@ -94,7 +190,9 @@ console.log('hotelFilters-->',hotelFilters)
           <StaySection title="Amenities">
             <Checkbox
               options={amenitiesList}
+              fontFamily={CONSTANT_fontPrimaryRegular}
               selectedOptions={hotelFilters.amenities}
+              labelProps={{fontSize: 17}}
               activeIconColor="#00774F"
               onSelect={item => {
                 updateFilters('amenities', item);
@@ -105,37 +203,62 @@ console.log('hotelFilters-->',hotelFilters)
             />
           </StaySection>
           <StaySection title="Star Category">
-              <Box flexDirection='row'>
-            {starOptions.map(star => {
-                const isSelected = hotelFilters.starRatings?.some(item => item.value === star.value)
-              return (
-                <TouchableOpacity activeOpacity={0.8} onPress={()=>updateFilters('starRatings',star)}>
-                  <Box
-                    width={56}
-                    height={52}
-                    borderColor={isSelected ? "#00774F" :"#D4D4D4"}
-                    justifyContent="center"
-                    alignItems="center"
-                    marginEnd={10}
-                    borderRadius={4}
-                    borderWidth={1}
-                    flexDirection='row'
-                    backgroundColor={ isSelected? '#00774F' : 'transparent'} 
-                    >
-                    <Text marginEnd={5} fontFamily={CONSTANT_fontPrimaryRegular} fontSize={17} color={isSelected ? '#ffffff' : '#000000'}>{star.label}</Text>
-                    <Icon name={CONSTANT_starActive} color='#E5B52E'/>
-                  </Box>
-
-                </TouchableOpacity>
-              )
-            })}
+            <Box flexDirection="row">
+              {starOptions.map(star => {
+                const isSelected = hotelFilters.starRatings?.some(
+                  item => item.value === star.value,
+                );
+                return (
+                  <TouchableOpacity
+                    activeOpacity={0.8}
+                    onPress={() => updateFilters('starRatings', star)}>
+                    <Box
+                      width={56}
+                      height={52}
+                      borderColor={isSelected ? '#00774F' : '#D4D4D4'}
+                      justifyContent="center"
+                      alignItems="center"
+                      marginEnd={10}
+                      borderRadius={4}
+                      borderWidth={1}
+                      flexDirection="row"
+                      backgroundColor={isSelected ? '#00774F' : 'transparent'}>
+                      <Text
+                        marginEnd={5}
+                        fontFamily={CONSTANT_fontPrimaryRegular}
+                        fontSize={17}
+                        color={isSelected ? '#ffffff' : '#000000'}>
+                        {star.label}
+                      </Text>
+                      <Icon name={CONSTANT_starActive} color="#E5B52E" />
+                    </Box>
+                  </TouchableOpacity>
+                );
+              })}
             </Box>
+          </StaySection>
+          <StaySection title="Price">
+            <RadioBox
+              options={priceList}
+              selectedOption={hotelFilters.price}
+              fontFamily={CONSTANT_fontPrimaryRegular}
+              labelProps={{fontSize: 17}}
+              activeIconColor="#00774F"
+              onSelect={item => {
+                onPriceUpdate(item);
+              }}
+              onUnSelect={item => {
+                onPriceUpdate(item);
+              }}
+            />
           </StaySection>
           <StaySection title="Hotel Type">
             <Checkbox
               options={typesList}
               selectedOptions={hotelFilters.types}
               activeIconColor="#00774F"
+              fontFamily={CONSTANT_fontPrimaryRegular}
+              labelProps={{fontSize: 17}}
               onSelect={item => {
                 updateFilters('types', item);
               }}
@@ -147,9 +270,10 @@ console.log('hotelFilters-->',hotelFilters)
         </ScrollView>
         <StayHotelFooter
           leftButtonText="Clear all"
-          buttonText={isLoading ? 'Applying..' : "Apply"}
+          buttonText={isLoading ? 'Applying..' : 'Apply'}
           buttonProps={{width: 124}}
           rightButtonAction={onApply}
+          leftButtonAction={clearAll}
         />
       </SafeAreaView>
     </Modal>

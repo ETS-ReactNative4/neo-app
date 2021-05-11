@@ -3,12 +3,16 @@ import useApiCall, {
   IApiCallConfig,
 } from '../../../Services/networkRequests/hooks/useApiCall';
 import {
+  CONSTANT_createItinerary,
   CONSTANT_getCity,
   CONSTANT_getPackagesDetails,
 } from '../../../constants/apiUrls';
 import {IDealsPackageItinerary} from '../../../TypeInterfaces/IPackageItinerary';
 import {ICampaignDetails} from '../../../TypeInterfaces/ICampaignDetails';
 import {IMobileServerResponse} from '../../../TypeInterfaces/INetworkResponse';
+import constants from '../../../constants/constants';
+import _orderBy from 'lodash/orderBy'
+import _groupBy from 'lodash/groupBy'
 
 interface CityDataType {
   airportCode: string;
@@ -19,14 +23,10 @@ interface CityDataType {
   name: string;
 }
 
-export interface OptionType {
-  label: string;
-  value: string | number;
-}
 export interface ICityListResponseData extends IMobileServerResponse {
   status: 'SUCCESS';
   data: CityDataType[];
-  options: OptionType[];
+  options: []
 }
 
 export interface ICityListApiCallHookData extends IApiCallHookData {
@@ -35,7 +35,7 @@ export interface ICityListApiCallHookData extends IApiCallHookData {
 
 export type cityApiHookType = [
   ICityListApiCallHookData,
-  () => Promise<boolean>,
+  (requestObject: IApiCallConfig) => Promise<boolean>,
 ];
 
 export type useCityApiCallType = [
@@ -43,36 +43,41 @@ export type useCityApiCallType = [
   (requestObject: IApiCallConfig) => Promise<boolean>,
 ];
 
-const useCityListApi = (): cityApiHookType => {
+const useSearchHotelRoomApi = (): cityApiHookType => {
   const [
     {successResponseData, failureResponseData, isError, isLoading, isSuccess},
     makeApiCall,
   ] = useApiCall() as useCityApiCallType;
 
-  const getCityList = () => {
+  const searchHotelRoom = (requestBody) => {
     return new Promise<boolean>(async (resolve, reject) => {
       try {
         const result = await makeApiCall({
-          route: CONSTANT_getCity,
+          route: constants.getHotelRoom,
+          method: 'POST',
+          requestBody: requestBody 
         });
+        console.log('in res', successResponseData)
         resolve(result);
       } catch (e) {
         reject();
       }
     });
   };
-  if (successResponseData) {
-    const cityList = successResponseData.data.map(city => ({
-      label: city.name,
-      value: city.cityId,
-    }));
-    successResponseData.options = cityList;
+  console.log('successResponseData room-->',successResponseData)
+  if(!isError && successResponseData?.data){
+ 
+    const { data } = successResponseData ?? {}
+    const roomData = [...data.roomCostingVOList, data.currentRoomCostingVO]
+    const orderedRoomData = _orderBy(roomData, ['ourCost'], ['asc'])
+    const roomGroupData = _groupBy(orderedRoomData, room => room.name)
+    successResponseData.roomsData = roomGroupData
   }
-
+ 
   return [
     {successResponseData, failureResponseData, isError, isLoading, isSuccess},
-    getCityList,
+    searchHotelRoom,
   ];
 };
 
-export default useCityListApi;
+export default useSearchHotelRoomApi;

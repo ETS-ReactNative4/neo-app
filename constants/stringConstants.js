@@ -17,6 +17,7 @@ const stringConstants = {
    */
 
   getHotelList: 'api/ota/hotel/search',
+  getHotelRoom : 'ota/hotel/rooms',
 
   /**
    * Product APIs

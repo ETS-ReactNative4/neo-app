@@ -3,8 +3,13 @@ import useApiCall, {
   IApiCallConfig,
 } from '../../../Services/networkRequests/hooks/useApiCall';
 import {
+  CONSTANT_coupon_apply,
+  CONSTANT_coupon_remove,
+  CONSTANT_createItinerary,
   CONSTANT_getCity,
   CONSTANT_getPackagesDetails,
+  CONSTANT_loyalty_apply,
+  CONSTANT_savePassengers,
 } from '../../../constants/apiUrls';
 import {IDealsPackageItinerary} from '../../../TypeInterfaces/IPackageItinerary';
 import {ICampaignDetails} from '../../../TypeInterfaces/ICampaignDetails';
@@ -19,14 +24,10 @@ interface CityDataType {
   name: string;
 }
 
-export interface OptionType {
-  label: string;
-  value: string | number;
-}
 export interface ICityListResponseData extends IMobileServerResponse {
   status: 'SUCCESS';
   data: CityDataType[];
-  options: OptionType[];
+  options: [];
 }
 
 export interface ICityListApiCallHookData extends IApiCallHookData {
@@ -35,7 +36,7 @@ export interface ICityListApiCallHookData extends IApiCallHookData {
 
 export type cityApiHookType = [
   ICityListApiCallHookData,
-  () => Promise<boolean>,
+  (requestObject: IApiCallConfig) => Promise<boolean>,
 ];
 
 export type useCityApiCallType = [
@@ -43,17 +44,30 @@ export type useCityApiCallType = [
   (requestObject: IApiCallConfig) => Promise<boolean>,
 ];
 
-const useCityListApi = (): cityApiHookType => {
+const useLoayltyCreditApi = (requestBody): cityApiHookType => {
   const [
     {successResponseData, failureResponseData, isError, isLoading, isSuccess},
     makeApiCall,
   ] = useApiCall() as useCityApiCallType;
 
-  const getCityList = () => {
+  const applyCredit = ({
+    coupon,
+    itineraryId,
+  }: {
+    coupon: string;
+    itineraryId: string;
+  }) => {
     return new Promise<boolean>(async (resolve, reject) => {
+      const url = coupon
+        ? CONSTANT_loyalty_apply({coupon, itineraryId})
+        : CONSTANT_coupon_remove({itineraryId});
+
+      const method =  coupon ? 'POST' : 'DELETE'
       try {
         const result = await makeApiCall({
-          route: CONSTANT_getCity,
+          route: url,
+          method,
+          requestBody: {},
         });
         resolve(result);
       } catch (e) {
@@ -61,18 +75,11 @@ const useCityListApi = (): cityApiHookType => {
       }
     });
   };
-  if (successResponseData) {
-    const cityList = successResponseData.data.map(city => ({
-      label: city.name,
-      value: city.cityId,
-    }));
-    successResponseData.options = cityList;
-  }
 
   return [
     {successResponseData, failureResponseData, isError, isLoading, isSuccess},
-    getCityList,
+    applyCredit,
   ];
 };
 
-export default useCityListApi;
+export default useLoayltyCreditApi;

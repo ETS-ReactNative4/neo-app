@@ -1,183 +1,287 @@
 import {Box, Button, Text} from '@pyt/micros';
 import {inject, observer} from 'mobx-react';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {
   CONSTANT_fontPrimaryRegular,
   CONSTANT_fontPrimarySemiBold,
 } from '../../constants/fonts';
-import {SCREEN_STAY_HOTEL_LIST} from '../../NavigatorsV2/ScreenNames';
-import {AnimatedInputBox} from './animated-input-box';
+import {
+  SCREEN_GCM_ROOM_CONFIG,
+  SCREEN_SEARCH_TAB,
+  SCREEN_STAY_HOTEL_LIST,
+  SCREEN_STAY_SEARCH,
+} from '../../NavigatorsV2/ScreenNames';
 import {SearchSelect} from './search-select';
-import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import {DateInputBox} from './Components/DateInputBox';
-import useCityListApi from './hook/useCityListApi';
+import useCityListApi, {OptionType} from './hook/useCityListApi';
 import moment from 'moment';
-import {CONSTANT_costingDateFormat} from '../../constants/styles';
-import apiCall from '../../Services/networkRequests/apiCall';
-import GuestNumberCounter from '../GCMRoomConfig/Components/GuestNumberCounter';
-import { PaxSelectionModal } from './Components/PaxSelectionModal';
+import {
+  CONSTANT_GCMDateFormat,
+  CONSTANT_voucherDateFormat,
+} from '../../constants/styles';
+import {getPaxConfigText} from './util/getPaxConfigText';
+import {ClickableInputBox} from './Components/ClickableInputBox';
+import User from '../../mobx/User';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {AppNavigatorParamsType} from '../../NavigatorsV2/AppNavigator';
+import OTAHotel from '../../mobx/OTAHotel';
+import PrimaryHeader from '../../NavigatorsV2/Components/PrimaryHeader';
+import {CONSTANT_searchIcon} from '../../constants/imageAssets';
+import {StyleSheet, TouchableOpacity} from 'react-native';
+import Icon from '../../CommonComponents/Icon/Icon';
+import {PreTripHomeTabsType} from '../../NavigatorsV2/PreTripHomeTabs';
+import {CompositeNavigationProp} from '@react-navigation/core';
+import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
+import useDeepCompareEffect from 'use-deep-compare-effect';
 
-interface StayHotelSearchScreenProps {}
-// @inject('otaHotel')
+const nextWeekDate = moment(new Date()).add(1, 'week');
+const dateFormat = CONSTANT_voucherDateFormat;
+
+type StayHotelSearchScreenType = CompositeNavigationProp<
+  StackNavigationProp<AppNavigatorParamsType, typeof SCREEN_STAY_SEARCH>,
+  BottomTabNavigationProp<PreTripHomeTabsType, typeof SCREEN_STAY_SEARCH>
+>;
+
+export interface StayHotelRoomConfigurationType {
+  adultCount: number;
+  childAges: number[];
+}
+export interface StayHotelSearchDataType {
+  checkInDate: string;
+  checkOutDate: string;
+  hotelGuestRoomConfiguration: StayHotelRoomConfigurationType[];
+  filters: {};
+  city: OptionType;
+}
+
+type HotelGuestRoomConfigurationType = {
+  hotelGuestRoomConfiguration: StayHotelRoomConfigurationType[]
+} 
+export interface StayHotelSearcRequestType {
+  checkInDate: string;
+  checkOutDate: string;
+  passengerConfiguration: HotelGuestRoomConfigurationType;
+  filters: {};
+  city: OptionType;
+}
+interface StayHotelSearchScreenProps {
+  userStore: User;
+  navigation: StayHotelSearchScreenType;
+  otaHotelStore: OTAHotel;
+}
+
 const StayHotelSearchScreen = inject('userStore')(
   inject('otaHotelStore')(
-    observer(({otaHotelStore, userStore, navigation}) => {
-      const {getHotelList,setHotelSearchData, isLoading, hasError, hotelList} = otaHotelStore ?? {};
-      const {userDisplayDetails} = userStore;
-      console.log('getHotelList', hotelList, userDisplayDetails, isLoading);
-      const [searchData, setSearchData] = useState({
-        checkInDate: moment(new Date()).format(CONSTANT_costingDateFormat),
-        checkOutDate: moment(new Date()).format(CONSTANT_costingDateFormat),
-        passengerConfiguration: {
-          hotelGuestRoomConfiguration: [{adultCount: 2, childAges: []}],
-        },
-        filters: {},
-        cityId: 7,
-      });
-
-      const callHotelList = () => {
-        searchData.cityId = searchData.city?.value
-        // searchData.filters = {
-        //   "amenities":[1]
-        // }
-        delete searchData.city
-        
-        getHotelList(searchData);
-        // navigation.navigate(SCREEN_STAY_HOTEL_LIST);
-      };
-
-      //user/rewards/${userId}?includeReferral=false
+    observer(({otaHotelStore, navigation}: StayHotelSearchScreenProps) => {
       const [cityApiDetails, getCityList] = useCityListApi();
       const {successResponseData} = cityApiDetails;
+
       useEffect(() => {
         getCityList();
-        //       apiCall('user/rewards/6049c905612cae00017ea815?includeReferral=false',{},'GET')
-        //       fetch('https://rewards.wwmib.com/api/user/rewards/6049c905612cae00017ea815?includeReferral=false').then((response)=>{
-
-        // return response.json()
-        //       }).then((data)=>{
-        //         console.log('fetch',data)
-        //       }).catch(()=>{
-        //         console.log('error')
-        //       })
       }, []);
 
+      const {getHotelList, isLoading, hotels, hotelSearchRequest} =
+        otaHotelStore ?? {};
+
+      const [searchData, setSearchData] = useState<StayHotelSearchDataType>({
+        checkInDate: nextWeekDate.format(dateFormat),
+        checkOutDate: nextWeekDate.add(1, 'days').format(dateFormat),
+        hotelGuestRoomConfiguration: [{adultCount: 2, childAges: []}],
+        filters: {},
+        city: {label: '', value: ''},
+      });
+      const [searchClicked, setSearchClicked] = useState(false);
+
+      const onSearch = () => {
+        const requestBody = {
+          checkInDate: searchData.checkInDate,
+          checkOutDate: searchData.checkOutDate,
+          passengerConfiguration: {
+            hotelGuestRoomConfiguration: searchData.hotelGuestRoomConfiguration,
+          },
+          filters: {},
+          cityId: searchData.city?.value,
+        };
+
+        getHotelList(requestBody);
+      };
+
       useEffect(() => {
-        if( isLoading && !hasError){
+        if (isLoading) {
+          setSearchClicked(true);
+        }
+        if (searchClicked && !isLoading) {
+          setSearchClicked(false);
           navigation.navigate(SCREEN_STAY_HOTEL_LIST);
         }
-      }, [isLoading, hasError]);
-      console.log(
-        'cityApiDetails-->',
-        searchData,
-        isLoading,
-        successResponseData,
-      );
+      }, [isLoading, hotels, hotelSearchRequest, searchClicked, navigation]);
+
+      const setCheckInDate = (date: string) => {
+        if (moment(searchData.checkOutDate).diff(date, 'days') < 0) {
+          searchData.checkOutDate = date;
+          searchData.checkInDate = date;
+        } else {
+          searchData.checkInDate = date;
+        }
+        setSearchData({
+          ...searchData,
+        });
+      };
+
+      const openGcm = () => {
+        navigation.navigate(SCREEN_GCM_ROOM_CONFIG, {
+          maxRoom: 6,
+          roomConfig: searchData.hotelGuestRoomConfiguration,
+          childAgeOptions: Array.from([...Array(18)], (_, index) => ({
+            text: `${index} ${index > 1 ? 'years' : 'year'}`,
+            value: index,
+          })),
+          onSelect: selectedConfig => {
+            searchData.hotelGuestRoomConfiguration = [...selectedConfig];
+            setSearchData({
+              ...searchData,
+            });
+          },
+        });
+      };
+
+      const onPressBack = () => {
+        if (navigation.canGoBack()) {
+          navigation.goBack();
+        }
+      };
+
+      const onPressSearch = () => {
+        navigation.navigate(SCREEN_SEARCH_TAB);
+      };
+
+      const header = useRef(
+        PrimaryHeader({
+          leftAction: onPressBack,
+          headerText: 'Hotels',
+          rightElement: (
+            <TouchableOpacity
+              activeOpacity={0.8}
+              style={styles.search}
+              onPress={onPressSearch}>
+              <Icon name={CONSTANT_searchIcon} size={18} />
+            </TouchableOpacity>
+          ),
+        }),
+      ).current;
+
+      const disableSearch = !searchData.city.label;
       return (
-        <Box
-          borderRadius={12}
-          backgroundColor={'#FFFFFF'}
-          margin={16}
-          padding={16}>
-          <Box borderBottomWidth={1} borderColor="#F7F7F7" paddingBottom={16}>
-            <Text
-              fontFamily={CONSTANT_fontPrimarySemiBold}
-              fontSize={18}
-              lineHeight={22}
-              fontWeight={'600'}
-              color={'#777777'}>
-              Destination city
-            </Text>
-            <SearchSelect
-              options={successResponseData?.options || []}
-              onSelect={(data)=>{
-                searchData.city = data;
-                setSearchData({
-                  ...searchData,
-                });
-              }}
-              RenderView={
-                <Text
-                  fontFamily={CONSTANT_fontPrimarySemiBold}
-                  fontSize={24}
-                  lineHeight={30}
-                  fontWeight={'600'}
-                  color={ searchData.city ? '#333333' : '#D4D4D4'}
-                  marginTop={8}>
-                  {searchData.city?.label || 'City'}
-                </Text>
-              }
-            />
-          </Box>
-          {/* <DateTimePickerModal
-          isVisible={true}
-          mode="date"
-          // onConfirm={handleConfirm}
-          // onCancel={hideDatePicker}
-          // date={formFields.departingOn}
-          // minimumDate={tomorrow}
-        /> */}
+        <>
+          {header}
           <Box
-            flexDirection="row"
-            justifyContent="space-between"
-            marginTop={16}>
-            <DateInputBox
-              label="Check-in"
-              date={searchData.checkInDate}
+            borderRadius={12}
+            backgroundColor={'#FFFFFF'}
+            margin={16}
+            padding={16}>
+            <Box borderBottomWidth={1} borderColor="#F7F7F7" paddingBottom={16}>
+              <Text
+                fontFamily={CONSTANT_fontPrimarySemiBold}
+                fontSize={18}
+                lineHeight={22}
+                fontWeight={'600'}
+                color={'#777777'}>
+                Destination city
+              </Text>
+              <SearchSelect
+                options={successResponseData?.options || []}
+                onSelect={data => {
+                  searchData.city = data;
+                  setSearchData({
+                    ...searchData,
+                  });
+                }}
+                RenderView={
+                  <Text
+                    fontFamily={CONSTANT_fontPrimarySemiBold}
+                    fontSize={24}
+                    lineHeight={30}
+                    fontWeight={'600'}
+                    color={searchData.city.label ? '#333333' : '#D4D4D4'}
+                    marginTop={8}>
+                    {searchData.city.label || 'City'}
+                  </Text>
+                }
+                isLoading={cityApiDetails.isLoading}
+              />
+            </Box>
+            <Box
+              flexDirection="row"
+              justifyContent="space-between"
+              marginTop={16}>
+              <DateInputBox
+                label="Check-in"
+                date={searchData.checkInDate}
+                dateFormat={dateFormat}
+                displayFormat={CONSTANT_GCMDateFormat}
+                containerProps={{
+                  flex: 1,
+                  marginEnd: 8,
+                }}
+                onDateSelect={date => setCheckInDate(date)}
+                minDate={new Date()}
+              />
+              <DateInputBox
+                label="Check-out"
+                date={searchData.checkOutDate}
+                dateFormat={dateFormat}
+                displayFormat={CONSTANT_GCMDateFormat}
+                onDateSelect={date => {
+                  searchData.checkOutDate = date;
+                  setSearchData({
+                    ...searchData,
+                  });
+                }}
+                containerProps={{
+                  flex: 1,
+                  marginStart: 8,
+                }}
+                minDate={new Date(searchData.checkInDate)}
+              />
+            </Box>
+
+            <ClickableInputBox
+              label="No. of persons"
+              value={getPaxConfigText(
+                searchData?.hotelGuestRoomConfiguration || [],
+                true,
+              )}
               containerProps={{
-                flex: 1,
-                marginEnd: 8,
+                marginTop: 16,
               }}
-              onDateSelect={date => {
-                searchData.checkInDate = date;
-                setSearchData({
-                  ...searchData,
-                });
-              }}
-              minDate={new Date()}
+              fontFamily={CONSTANT_fontPrimaryRegular}
+              onPress={openGcm}
             />
-            <DateInputBox
-              label="Check-out"
-              date={searchData.checkOutDate}
-              onDateSelect={date => {
-                searchData.checkOutDate = date;
-                setSearchData({
-                  ...searchData,
-                });
+
+            <Button
+              text={isLoading ? 'Searching...' : 'Search'}
+              textProps={{
+                color: 'white',
+                fontSize: 15,
+                fontFamily: CONSTANT_fontPrimaryRegular,
               }}
-              containerProps={{
-                flex: 1,
-                marginStart: 8,
-              }}
-              minDate={new Date()}
+              backgroundColor="#00C684"
+              height={48}
+              marginTop={20}
+              onPress={disableSearch ? () => null : onSearch}
+              opacity={isLoading || disableSearch ? 0.6 : 1}
             />
           </Box>
-          
-          <AnimatedInputBox
-            label="No. of persons"
-            value={'4 adults - 2 rooms'}
-            containerProps={{
-              marginTop: 16,
-            }}
-          />
-          {/* <SearchSelect fontFamily={CONSTANT_fontPrimaryRegular} /> */}
-          <Button
-            text={isLoading ? 'Searching' : 'Search'}
-            textProps={{
-              color: 'white',
-              fontSize: 15,
-              fontFamily: CONSTANT_fontPrimaryRegular,
-            }}
-            backgroundColor="#00C684"
-            height={48}
-            marginTop={20}
-            onPress={callHotelList}
-            opacity={isLoading ? 0.6 : 1}
-          />
-        </Box>
+        </>
       );
     }),
   ),
 );
 
+const styles = StyleSheet.create({
+  search: {
+    position: 'absolute',
+    right: 20,
+  },
+});
 export default StayHotelSearchScreen;

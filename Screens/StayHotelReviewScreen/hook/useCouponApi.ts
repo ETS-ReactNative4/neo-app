@@ -3,8 +3,12 @@ import useApiCall, {
   IApiCallConfig,
 } from '../../../Services/networkRequests/hooks/useApiCall';
 import {
+  CONSTANT_coupon_apply,
+  CONSTANT_coupon_remove,
+  CONSTANT_createItinerary,
   CONSTANT_getCity,
   CONSTANT_getPackagesDetails,
+  CONSTANT_savePassengers,
 } from '../../../constants/apiUrls';
 import {IDealsPackageItinerary} from '../../../TypeInterfaces/IPackageItinerary';
 import {ICampaignDetails} from '../../../TypeInterfaces/ICampaignDetails';
@@ -19,14 +23,10 @@ interface CityDataType {
   name: string;
 }
 
-export interface OptionType {
-  label: string;
-  value: string | number;
-}
 export interface ICityListResponseData extends IMobileServerResponse {
   status: 'SUCCESS';
   data: CityDataType[];
-  options: OptionType[];
+  options: [];
 }
 
 export interface ICityListApiCallHookData extends IApiCallHookData {
@@ -35,7 +35,7 @@ export interface ICityListApiCallHookData extends IApiCallHookData {
 
 export type cityApiHookType = [
   ICityListApiCallHookData,
-  () => Promise<boolean>,
+  (requestObject: IApiCallConfig) => Promise<boolean>,
 ];
 
 export type useCityApiCallType = [
@@ -43,36 +43,42 @@ export type useCityApiCallType = [
   (requestObject: IApiCallConfig) => Promise<boolean>,
 ];
 
-const useCityListApi = (): cityApiHookType => {
+const useCouponApi = (requestBody): cityApiHookType => {
   const [
     {successResponseData, failureResponseData, isError, isLoading, isSuccess},
     makeApiCall,
   ] = useApiCall() as useCityApiCallType;
 
-  const getCityList = () => {
+  const applyCoupon = ({
+    coupon,
+    itineraryId,
+  }: {
+    coupon: string;
+    itineraryId: string;
+  }) => {
     return new Promise<boolean>(async (resolve, reject) => {
+      const url = coupon
+        ? CONSTANT_coupon_apply({coupon, itineraryId})
+        : CONSTANT_coupon_remove({itineraryId});
+      const method =  coupon ? 'POST' : 'DELETE'
       try {
         const result = await makeApiCall({
-          route: CONSTANT_getCity,
+          route: url,
+          method,
+          requestBody: {},
         });
+        console.log('result coupon',result,successResponseData)
         resolve(result);
       } catch (e) {
         reject();
       }
     });
   };
-  if (successResponseData) {
-    const cityList = successResponseData.data.map(city => ({
-      label: city.name,
-      value: city.cityId,
-    }));
-    successResponseData.options = cityList;
-  }
-
+console.log('coupon-->',successResponseData)
   return [
     {successResponseData, failureResponseData, isError, isLoading, isSuccess},
-    getCityList,
+    applyCoupon,
   ];
 };
 
-export default useCityListApi;
+export default useCouponApi;

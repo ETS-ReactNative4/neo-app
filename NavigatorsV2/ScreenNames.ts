@@ -33,6 +33,7 @@ export const SCREEN_PRE_TRIP_INTRO = 'PreTripIntro';
 export const SCREEN_STAY_SEARCH = 'StaySearch';
 export const SCREEN_STAY_HOTEL_LIST = 'StayHotelList';
 export const SCREEN_STAY_HOTEL_DETAIL = 'StayHotelDetail';
+export const SCREEN_STAY_HOTEL_ROOM_LIST = 'StayHotelRoomList';
 export const SCREEN_STAY_HOTEL_REVIEW = 'StayHotelReviewBooking';
 /**
  * Screens from the post booking app

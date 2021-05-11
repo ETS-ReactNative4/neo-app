@@ -46,34 +46,13 @@ const useCreateItineraryApi = (requestBody): cityApiHookType => {
     makeApiCall,
   ] = useApiCall() as useCityApiCallType;
 
-  const createItinerary = () => {
+  const createItinerary = (requestBody) => {
     return new Promise<boolean>(async (resolve, reject) => {
       try {
         const result = await makeApiCall({
           route: CONSTANT_createItinerary,
           method: 'POST',
-          requestBody: requestBody || {
-            "entity": "HOTELS",
-            "searchIdentifier": "60953bc4612cae0001cd549e",
-            "identifier": "309805EXPEDIA_RAPID_STANDALONE",
-            "sourceProvider": "EXPEDIA_RAPID_STANDALONE",
-            "subIdentifiers": [
-              "314061467_381678817_0"
-            ],
-            "costingConfig": {
-                "departureAirport": "$$$",
-                "arrivalAirport": "$$$",
-                "departureDate": "27/May/2021",
-                "hotelGuestRoomConfigurations": [
-                    {
-                        "adultCount": 2,
-                        "childAges": []
-                    }
-                ],
-                "nights": "3",
-                "nationality": "IN"
-            }
-        }
+          requestBody: requestBody
         });
         resolve(result);
       } catch (e) {

@@ -23,6 +23,8 @@ export interface AnimatedInputBoxProps extends InputTextProps {
   containerProps?: BoxProps;
   fontFamily?: string;
   editable?: boolean;
+  error?: boolean;
+  labelProps?: TextProps;
 }
 
 export const AnimatedInputBox: FunctionComponent<AnimatedInputBoxProps> = ({
@@ -32,7 +34,10 @@ export const AnimatedInputBox: FunctionComponent<AnimatedInputBoxProps> = ({
   showClear,
   containerProps = {},
   fontFamily,
-  editable=true,
+  editable = true,
+  error,
+  inputRef=null,
+  labelProps={},
   ...restProps
 }) => {
   const [isFocused, setIsFocused] = useState<boolean>(false);
@@ -56,7 +61,11 @@ export const AnimatedInputBox: FunctionComponent<AnimatedInputBoxProps> = ({
     }).start();
   };
   useEffect(() => {
-    value && handleFocus();
+    if(value){
+      handleFocus()
+    }else{
+      handleBlur()
+    }
   }, [value, handleFocus]);
 
   const labelStyle = {
@@ -72,19 +81,22 @@ export const AnimatedInputBox: FunctionComponent<AnimatedInputBoxProps> = ({
 
   return (
     <Box
-      height={51}
+      height={53}
       borderRadius={8}
       backgroundColor={'#EDEDED'}
+      borderWidth={1}
+      borderColor={error ? '#EF435D' : isFocused ? '#00774F' : '#EDEDED' }
       // paddingHorizontal={16}
-	  // paddingVertical={8}
+      // paddingVertical={8}
       {...containerProps}>
-      <Box flex={1} marginHorizontal={16} marginVertical={8}>
+      <Box flex={1} marginHorizontal={12} marginVertical={8}>
         <Animated.Text style={labelStyle}>
           <Text
             fontSize={11}
-            lineHeight={14}
+            // lineHeight={14}
             color={'#777777'}
-            fontFamily={fontFamily}>
+            fontFamily={fontFamily}
+            {...labelProps}>
             {label}
           </Text>
         </Animated.Text>
@@ -92,14 +104,16 @@ export const AnimatedInputBox: FunctionComponent<AnimatedInputBoxProps> = ({
         <Pressable
           onPress={() => {
             console.log('triggered');
-			editable && handleFocus();
+            editable && handleFocus();
           }}>
           <TextInput
             // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
             // @ts-ignore
             // zIndex={1}
+            // height={51}
             clearButtonMode="never"
             value={value}
+            ref={inputRef}
             onFocus={e => {
               setIsFocused(true);
               //   onFocus && onFocus(e)
@@ -111,9 +125,9 @@ export const AnimatedInputBox: FunctionComponent<AnimatedInputBoxProps> = ({
               handleBlur();
             }}
             style={{
-              zIndex: 1
+              zIndex: 1,
             }}
-			     editable={editable}
+            editable={editable}
             {...restProps}
           />
         </Pressable>

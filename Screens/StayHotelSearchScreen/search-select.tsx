@@ -26,10 +26,11 @@ import {
   ViewProps,
   FlatList,
   SafeAreaView,
-  TouchableOpacity
+  TouchableOpacity,
 } from 'react-native';
 import {AnimatedInputBox} from './animated-input-box';
-import { SearchLineItem } from '../SearchV2/components/SearchLineItem';
+import {SearchLineItem} from '../SearchV2/components/SearchLineItem';
+import {CONSTANT_fontPrimaryRegular, CONSTANT_fontPrimarySemiBold} from '../../constants/fonts';
 
 export interface SelectOptionProps {
   label: string;
@@ -48,6 +49,7 @@ export interface SearchSelectProps extends StyleEngineProps {
   value?: string | number;
   disabled?: boolean;
   RenderView?: React.ReactElement;
+  isLoading?: boolean;
 }
 
 export const SearchSelect: FunctionComponent<SearchSelectProps> = ({
@@ -56,14 +58,11 @@ export const SearchSelect: FunctionComponent<SearchSelectProps> = ({
   label,
   value,
   disabled,
-  options = [
-    {label: 'Chennai', value: 'chennai'},
-    {label: 'Chennai', value: 'chennai'},
-    {label: 'Chennai', value: 'chennai'},
-  ],
+  options = [],
   onSelect = () => null,
   ItemSeparatorComponent,
   RenderView,
+  isLoading,
   ...restProp
 }) => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -77,23 +76,18 @@ export const SearchSelect: FunctionComponent<SearchSelectProps> = ({
         return labelVal.includes(query);
       })
     : options;
-  console.log('isModalVisible', isModalVisible);
+
   return (
     <SafeAreaView>
-    <TouchableOpacity
-      activeOpacity={0.9}
-      onPress={disabled ? () => null : toggleModal}>
-      {RenderView ? (
-        React.cloneElement(RenderView, {})
-      ) : (
-        <AnimatedInputBox
-          label={label || 'Select'}
-          value={value}
-          editable={false}
-          zIndex={0}
-        />
-      )}
-       </TouchableOpacity>
+      <TouchableOpacity
+        activeOpacity={0.9}
+        onPress={disabled ? () => null : toggleModal}>
+        {RenderView ? (
+          React.cloneElement(RenderView, {})
+        ) : (
+          <InputBox label="Search" value={searchQuery} />
+        )}
+      </TouchableOpacity>
       <Modal
         animationType="slide"
         visible={isModalVisible}
@@ -108,11 +102,13 @@ export const SearchSelect: FunctionComponent<SearchSelectProps> = ({
             flexDirection="row"
             alignItems="center"
             justifyContent="space-between">
-            <AnimatedInputBox
+            <InputBox
               label={label || 'Select'}
               value={value}
+              fontFamily={CONSTANT_fontPrimaryRegular}
               onChangeText={setSearchQuery}
               containerProps={{flex: 1}}
+              // showClear={true}
             />
             {/* <InputBox
               containerProps={{flex: 1}}
@@ -141,9 +137,10 @@ export const SearchSelect: FunctionComponent<SearchSelectProps> = ({
                 return (
                   <TouchableOpacity
                     activeOpacity={0.9}
-                    onPress={() => {   console.log('clicked');
+                    onPress={() => {
+                      console.log('clicked');
                       onSelect(item);
-                      toggleModal()
+                      toggleModal();
                     }}>
                     <Box paddingHorizontal={16}>
                       <Text
@@ -169,11 +166,19 @@ export const SearchSelect: FunctionComponent<SearchSelectProps> = ({
                   />
                 );
               }}
+              ListEmptyComponent={
+                <Box justifyContent="center" alignItems="center">
+                  <Text
+                    fontFamily={CONSTANT_fontPrimarySemiBold}
+                    color="#888888">
+                   {options.length ? '' : 'Loading...'}
+                  </Text>
+                </Box>
+              }
             />
           </Box>
         </Box>
       </Modal>
-   
     </SafeAreaView>
   );
 };

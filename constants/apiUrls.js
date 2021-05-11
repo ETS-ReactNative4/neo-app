@@ -78,6 +78,13 @@ export const CONSTANT_getDomesticRegionList = 'data/domesticRegions';
 export const CONSTANT_getPackagesDetails = 'packages';
 export const CONSTANT_getCity = 'city';
 export const CONSTANT_createItinerary = 'ota/hotel/itinerary';
+export const CONSTANT_coupon_apply = ({coupon, itineraryId}) =>
+  `coupon/apply/${coupon}?itineraryId=${itineraryId}`;
+export const CONSTANT_coupon_remove = ({itineraryId}) =>
+  `coupon/remove/${itineraryId}`;
+export const CONSTANT_LOYALTY_CREDITS = ({userId}) => `api/user/rewards/${userId}?includeReferral=false`;
+export const CONSTANT_loyalty_apply = ({coupon, itineraryId}) =>
+  `coupon/loyalty/apply?itineraryId=${itineraryId}&redeemedAmount=${coupon}&requireUpdatedItinerary=true`;
 export const CONSTANT_savePassengers = 'booking/savepassengers';
 export const CONSTANT_getYourTrips = 'mobile/yourtrips';
 export const CONSTANT_getItineraryDetails = 'mobile/itineraryDetails';

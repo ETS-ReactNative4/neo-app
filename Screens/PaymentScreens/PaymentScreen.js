@@ -85,7 +85,7 @@ class PaymentScreen extends Component {
 
   render() {
     const paymentScript = this.props.route.params?.paymentScript ?? "";
-
+console.log('paymentScript',paymentScript)
     return (
       <View style={{ flex: 1, backgroundColor: "white" }}>
         <ControlledWebView

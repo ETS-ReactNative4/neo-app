@@ -11,6 +11,7 @@ import {
   SCREEN_SEARCH_LISTING_CARDS_PAGE,
   SCREEN_PRETRIP_HOME_TABS,
   SCREEN_PRETRIP_CHAT,
+  SCREEN_STAY_SEARCH,
 } from './ScreenNames';
 import Explore, {
   ExploreScreenSourcesType,
@@ -20,6 +21,7 @@ import {
   CONSTANT_compassIcon,
   CONSTANT_searchIcon,
   CONSTANT_dealsIcon,
+  CONSTANT_hotelIcon,
 } from '../constants/imageAssets';
 import {observer, inject} from 'mobx-react';
 import DeviceLocale from '../mobx/DeviceLocale';
@@ -28,6 +30,7 @@ import deepLink from '../Services/deepLink/deepLink';
 import {RouteProp} from '@react-navigation/native';
 import {AppNavigatorParamsType} from './AppNavigator';
 import DealsListing from '../Screens/DealsListingScreen/DealsListing';
+import StayHotelSearchScreen from '../Screens/StayHotelSearchScreen/StayHotelSearchScreen';
 
 export interface IExplorePageScreenData {
   source?: ExploreScreenSourcesType;
@@ -42,6 +45,7 @@ export type PreTripHomeTabsType = {
   [SCREEN_DEALS_TAB]: undefined;
   [SCREEN_SEARCH_LISTING_CARDS_PAGE]: SearchListingCards;
   [SCREEN_PRETRIP_CHAT]: undefined;
+  [SCREEN_STAY_SEARCH]: undefined;
 };
 
 type PreTripHomeTabRouteType = RouteProp<
@@ -100,6 +104,15 @@ const PreTripHomeTabs = ({deviceLocaleStore, route}: PreTripHomeTabsProp) => {
           component={DealsListing}
         />
       ) : null}
+      <Tab.Screen
+        options={{
+          tabBarLabel: 'Stay',
+          icon: CONSTANT_hotelIcon,
+          ...tabBarColorConfig,
+        }}
+        name={SCREEN_STAY_SEARCH}
+        component={StayHotelSearchScreen}
+      />
       <Tab.Screen
         options={{
           tabBarLabel: 'Search',

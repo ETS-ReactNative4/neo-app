@@ -13,7 +13,7 @@ import {
   Pressable,
   PressableProps,
 } from '@pyt/micros';
-export interface CheckboxOptionProps {
+export interface RadioOptionProps {
   label: string;
   value: string | number;
 }
@@ -21,10 +21,10 @@ export interface CheckboxOptionProps {
 export interface CheckboxProps extends BoxProps {
   title?: string | ReactNode;
   titleProps?: TextProps;
-  onSelect: (option: CheckboxOptionProps) => unknown;
-  onUnSelect: (option: CheckboxOptionProps) => unknown;
-  options: CheckboxOptionProps[];
-  selectedOptions?: CheckboxOptionProps[];
+  onSelect: (option: RadioOptionProps) => unknown;
+  onUnSelect: (option: RadioOptionProps) => unknown;
+  options: RadioOptionProps[];
+  selectedOption?: RadioOptionProps;
   activeIconColor?: string;
   iconSize?: number;
   rowProps?: PressableProps;
@@ -32,7 +32,7 @@ export interface CheckboxProps extends BoxProps {
   ItemSeparator?: ReactElement;
 }
 
-export const Checkbox: FunctionComponent<CheckboxProps> = ({
+export const RadioBox: FunctionComponent<CheckboxProps> = ({
   title,
   titleProps,
   fontFamily,
@@ -41,7 +41,7 @@ export const Checkbox: FunctionComponent<CheckboxProps> = ({
   onSelect = () => null,
   onUnSelect = () => null,
   options = [],
-  selectedOptions = [],
+  selectedOption = {},
   rowProps = {},
   labelProps = {},
   ItemSeparator,
@@ -61,9 +61,7 @@ export const Checkbox: FunctionComponent<CheckboxProps> = ({
         </Text>
       ) : null}
       {options.map((option, optionIndex) => {
-        const isSelected = !!selectedOptions.find(
-          val => option.value === val.value,
-        );
+        const isSelected = selectedOption.value === option.value;
 
         const onPress = isSelected
           ? () => onUnSelect(option)
@@ -87,17 +85,21 @@ export const Checkbox: FunctionComponent<CheckboxProps> = ({
                 {option.label}
               </Text>
               <Box
-                width={iconSize || 16}
-                height={iconSize || 16}
+                width={iconSize || 18}
+                height={iconSize || 18}
                 alignItems="center"
                 justifyContent="center"
                 borderWidth={2}
-                borderRadius={2}
-                borderColor={isSelected ? selectedIconColor : '#B7B7B7'}
-                backgroundColor={
-                  isSelected ? selectedIconColor : 'transparent'
-                }>
-                <Included fill="#FFFFFF" />
+                borderRadius={iconSize || 16}
+                borderColor={isSelected ? selectedIconColor : '#B7B7B7'}>
+                {isSelected ? (
+                  <Box
+                    backgroundColor={selectedIconColor}
+                    width={10}
+                    height={10}
+                    borderRadius={5}
+                  />
+                ) : null}
               </Box>
             </Pressable>
             {optionIndex !== options.length - 1

@@ -23,7 +23,7 @@ export interface AnimatedInputBoxProps extends InputTextProps {
   fontFamily?: string;
 }
 
-export const AnimatedInputBox: FunctionComponent<AnimatedInputBoxProps> = ({
+export const AnimatedMobileInputBox: FunctionComponent<AnimatedInputBoxProps> = ({
   label,
   value,
   placeholder,

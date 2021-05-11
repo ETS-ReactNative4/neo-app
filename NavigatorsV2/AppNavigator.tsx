@@ -77,6 +77,7 @@ import {
   SCREEN_STAY_HOTEL_DETAIL,
   SCREEN_STAY_HOTEL_REVIEW,
   SCREEN_STAY_HOTEL_LIST,
+  SCREEN_STAY_HOTEL_ROOM_LIST,
 } from './ScreenNames';
 import AppLogin from '../Screens/AppLoginScreen/AppLogin';
 import Starter from '../Screens/StartingScreen/Starter';
@@ -165,10 +166,11 @@ import SearchListingCardsPage from '../Screens/SearchListingCardsPage/SearchList
 import ListingPage from '../Screens/ListingPageScreen/ListingPage';
 import PreTripIntroScreen from '../Screens/PreTripIntroScreen/PreTripIntroScreen';
 import {IIntroData} from '../Screens/IntroScreen/IntroScreen';
-import StayHotelSearchScreen from '../Screens/StayHotelSearchScreen/StayHotelSearchScreen';
-import StayHotelDetailScreen from '../Screens/StayHotelDetailScreen/StayHotelDetailScreen';
-import StayHotelReviewScreen from '../Screens/StayHotelReviewScreen/StayHotelReviewScreen';
+import StayHotelSearchScreen, { StayHotelRoomConfigurationType, StayHotelSearcRequestType } from '../Screens/StayHotelSearchScreen/StayHotelSearchScreen';
+import StayHotelDetailScreen, { StayHotelDetailParamType } from '../Screens/StayHotelDetailScreen/StayHotelDetailScreen';
+import StayHotelReviewScreen, { StayHotelReviewParamType } from '../Screens/StayHotelReviewScreen/StayHotelReviewScreen';
 import StayHotelListScreen from '../Screens/StayHotelListScreen/StayHotelListScreen';
+import { StayHotelRoomList } from '../Screens/StayHotelRoomList/StayHotelRoomList';
 
 export type loginResetTargetTypes = typeof SCREEN_SAVED_ITINERARIES;
 
@@ -272,7 +274,8 @@ export type AppNavigatorParamsType = {
     title: string;
     onSelect: (selectedConfig: IHotelGuestRoomConfig[]) => any;
     bannerImage: string;
-    roomConfig: IHotelGuestRoomConfig[];
+    maxRoom?: number;
+    roomConfig: IHotelGuestRoomConfig[] | StayHotelRoomConfigurationType[] ;
   };
   [SCREEN_BOOKED_ITINERARY]: {
     selectedDate: string;
@@ -369,9 +372,10 @@ export type AppNavigatorParamsType = {
   };
   [SCREEN_PRE_TRIP_INTRO]: undefined;
   [SCREEN_NOTIFICATION_TAB]: undefined;
-  [SCREEN_STAY_HOTEL_DETAIL]: undefined;
-  [SCREEN_STAY_HOTEL_REVIEW]: undefined;
+  [SCREEN_STAY_HOTEL_DETAIL]: StayHotelDetailParamType;
+  [SCREEN_STAY_HOTEL_REVIEW]: StayHotelReviewParamType;
   [SCREEN_STAY_HOTEL_LIST]: undefined;
+  [SCREEN_STAY_SEARCH]: undefined;
 };
 
 const Stack = createStackNavigator<AppNavigatorParamsType>();
@@ -416,13 +420,20 @@ const AppNavigator = () => {
         />
          <Screen
           name={SCREEN_STAY_SEARCH}
-          options={{headerShown: false}}
+          options={{title:'Hotels'}}
           component={StayHotelSearchScreen}
         />
          <Screen
           name={SCREEN_STAY_HOTEL_LIST}
           options={{headerShown: false}}
           component={StayHotelListScreen}
+        />
+         <Screen
+          name={SCREEN_STAY_HOTEL_ROOM_LIST}
+          options={({ route }) => {
+            return { title: route.params.title }
+          }}
+          component={StayHotelRoomList}
         />
          <Screen
           name={SCREEN_STAY_HOTEL_DETAIL}

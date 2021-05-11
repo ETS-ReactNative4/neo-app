@@ -79,7 +79,7 @@ export const HotelCard: FunctionComponent<HotelCardProps> = ({
   cost,
   costSubText,
   buttonText,
-  cardSelected = true,
+  cardSelected,
   footerRightElement,
   amenities,
   sliderProps,
