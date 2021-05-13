@@ -18,7 +18,7 @@ export interface RadioOptionProps {
   value: string | number;
 }
 
-export interface CheckboxProps extends BoxProps {
+export interface RadioboxProps extends BoxProps {
   title?: string | ReactNode;
   titleProps?: TextProps;
   onSelect: (option: RadioOptionProps) => unknown;
@@ -32,7 +32,7 @@ export interface CheckboxProps extends BoxProps {
   ItemSeparator?: ReactElement;
 }
 
-export const RadioBox: FunctionComponent<CheckboxProps> = ({
+export const Radiobox: FunctionComponent<RadioboxProps> = ({
   title,
   titleProps,
   fontFamily,

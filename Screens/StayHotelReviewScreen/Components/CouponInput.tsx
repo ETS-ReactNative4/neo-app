@@ -1,6 +1,11 @@
-import {Box, Button, InputBox, Text} from '@pyt/micros';
+import {AnimatedInputBox, Box, Button, InputBox, Pill, Text} from '@pyt/micros';
 import React, {useEffect, useRef, useState} from 'react';
-import {Keyboard, StyleSheet, TouchableOpacity} from 'react-native';
+import {
+  ActivityIndicator,
+  Keyboard,
+  StyleSheet,
+  TouchableOpacity,
+} from 'react-native';
 import Animated from 'react-native-reanimated';
 import Icon from '../../../CommonComponents/Icon/Icon';
 import {
@@ -13,7 +18,7 @@ import {
   CONSTANT_checkMarkCircle,
   CONSTANT_closeIcon,
 } from '../../../constants/imageAssets';
-import {AnimatedInputBox} from '../../StayHotelSearchScreen/animated-input-box';
+// import {AnimatedInputBox} from '../../StayHotelSearchScreen/animated-input-box';
 // import {AnimatedInputBox} from '../../StayHotelSearchScreen/animated-input-box';
 
 export const CouponInput = ({
@@ -27,6 +32,12 @@ export const CouponInput = ({
   inputLabel,
   setInputBoxVisible = () => null,
   closeInputBox,
+  invalidCoupon,
+  pillText,
+  getCouponText,
+  isConditionValid,
+  icon,
+  loading,
 }: {
   onChangeText: () => null;
 }) => {
@@ -44,23 +55,31 @@ export const CouponInput = ({
   useEffect(() => {
     if (closeInputBox) {
       setShowInput(false);
+      setValue('');
+      setError(false);
     }
   }, [closeInputBox]);
 
   const onApplyCoupon = () => {
     if (value) {
       Keyboard.dismiss();
-      if (applyCoupon) {
-        applyCoupon({coupon: value, itineraryId})
-          .then(() => {
-            setCouponApplied(true);
-            setShowInput(false);
-          })
-          .catch(() => {
-            setCouponApplied(false);
-          });
+      const isValid = isConditionValid ? isConditionValid(value) : true;
+      if (isValid) {
+        if (applyCoupon) {
+          applyCoupon({coupon: value, itineraryId})
+            .then(() => {
+              setCouponApplied(true);
+              setShowInput(false);
+              setInputBoxVisible(false);
+            })
+            .catch(() => {
+              setError(true);
+              setCouponApplied(false);
+            });
+        }
+      } else {
+        setError(true);
       }
-      //  inputRef.current.blur()
     } else {
       setError(true);
     }
@@ -84,6 +103,7 @@ export const CouponInput = ({
 
   const onChangeValue = text => {
     setValue(text);
+    error && setError(false);
     onChangeText(text);
   };
 
@@ -92,43 +112,70 @@ export const CouponInput = ({
       flexDirection="row"
       position="relative"
       height={68}
-      alignItems="center">
+      alignContent="center"
+      flex={1}>
       <Box
         flexDirection="row"
         alignItems="center"
-        display={showInput ? 'none' : 'flex'}>
-        <TouchableOpacity
-          // style={[styles.couponText, showInput ? styles.hide : styles.visible]}
-          onPress={disabled ? () => null : toogleInput}>
-          <Text
-            fontSize={15}
-            lineHeight={21}
-            fontFamily={CONSTANT_fontPrimarySemiBold}
-            color={disabled ? '#AAAAAA' : '#00B277'}>
-            {couponApplied ? value : label || 'Apply Coupon'}
-          </Text>
-        </TouchableOpacity>
-        {couponApplied ? (
-          <TouchableOpacity style={styles.close} onPress={removeCoupon}>
-            <Text alignSelf="flex-end">
-              <Icon
-                name={CONSTANT_cancellationIcon}
-                color={'#555555'}
-                size={20}
-              />{' '}
+        display={showInput ? 'none' : 'flex'}
+        justifyContent="space-between"
+        flex={1}>
+        <Box
+          flexDirection="row"
+          alignItems="center"
+          justifyContent="space-between"
+          flex={1}>
+          <TouchableOpacity onPress={disabled ? () => null : toogleInput}>
+            <Text
+              fontSize={15}
+              lineHeight={21}
+              fontFamily={CONSTANT_fontPrimarySemiBold}
+              color={disabled ? '#AAAAAA' : '#00B277'}
+              alignItems="center">
+              {/* {icon && !couponApplied ? icon : ''}
+              {icon && !couponApplied ? ' ' : ''} */}
+              {couponApplied
+                ? getCouponText
+                  ? getCouponText(value)
+                  : value
+                : label || 'Apply Coupon'}
+              {'  '}
+              {!value ? (
+                <Icon
+                  name={CONSTANT_arrowRight}
+                  color={disabled ? '#AAAAAA' : '#00B277'}
+                  size={12}
+                />
+              ) : null}
             </Text>
           </TouchableOpacity>
-        ) : (
-          <Icon
-            name={CONSTANT_arrowRight}
-            color={disabled ? '#AAAAAA' : '#00B277'}
-            size={12}
+          {couponApplied && !loading ? (
+            <TouchableOpacity style={styles.close} onPress={removeCoupon}>
+              <Text>
+                <Icon
+                  name={CONSTANT_cancellationIcon}
+                  color={'#555555'}
+                  size={18}
+                />{' '}
+              </Text>
+            </TouchableOpacity>
+          ) : null}
+          {loading ? (
+            <Box marginStart={16} marginTop={2}>
+              <ActivityIndicator color="#00B277" />
+            </Box>
+          ) : null}
+        </Box>
+        {pillText && !couponApplied ? (
+          <Pill
+            text={pillText}
+            margin={0}
+            alignSelf="center"
+            backgroundColor="#009E6A"
+            textProps={{color: '#ffffff'}}
           />
-        )}
+        ) : null}
       </Box>
-
-      {/* </Box> */}
-      {/* </TouchableOpacity> */}
       <Animated.View
         style={[
           styles.inputContainer,
@@ -139,38 +186,41 @@ export const CouponInput = ({
           containerProps={{
             backgroundColor: '#F2F2F2',
             width: 200,
-            // paddingStart: 10,
-            // paddingEnd: 10,
           }}
           error={error}
           fontFamily={CONSTANT_fontPrimaryRegular}
           onChangeText={onChangeValue}
           value={value}
-          paddingHorizontal={0}
-          zIndex={0}
+          // paddingHorizontal={0}
+          // zIndex={0}
           keyboardType={keyboardType}
           labelProps={{
-            fontSize: 12
+            fontSize: 12,
           }}
-          // inputRef={inputRef}
         />
-        <TouchableOpacity onPress={onApplyCoupon}>
-          <Text marginStart={16}>
-            <Text
-              fontSize={15}
-              lineHeight={21}
-              fontFamily={CONSTANT_fontPrimarySemiBold}
-              color="#00B277"
-              paddingEnd={18}>
-              {applyText || 'Apply Coupon'}
+        {loading ? (
+          <Box marginStart={16} marginTop={2}>
+            <ActivityIndicator color="#00B277" />
+          </Box>
+        ) : (
+          <TouchableOpacity onPress={onApplyCoupon}>
+            <Text marginStart={16}>
+              <Text
+                fontSize={15}
+                lineHeight={21}
+                fontFamily={CONSTANT_fontPrimarySemiBold}
+                color="#00B277"
+                paddingEnd={18}>
+                {applyText || 'Apply Coupon'}
+              </Text>
+              <Icon
+                name={CONSTANT_arrowRight}
+                color={disabled ? '#AAAAAA' : '#00B277'}
+                size={12}
+              />
             </Text>
-            <Icon
-              name={CONSTANT_arrowRight}
-              color={disabled ? '#AAAAAA' : '#00B277'}
-              size={12}
-            />
-          </Text>
-        </TouchableOpacity>
+          </TouchableOpacity>
+        )}
       </Animated.View>
     </Box>
   );

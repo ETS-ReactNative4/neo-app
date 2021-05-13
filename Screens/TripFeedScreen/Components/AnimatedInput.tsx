@@ -90,7 +90,7 @@ export const AnimatedInputBox: FunctionComponent<AnimatedInputBoxProps> = ({
               {label}
             </Text>
           </Animated.Text>
-          <InputText
+          <TextInput
             // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
             // @ts-ignore
             zIndex={1}

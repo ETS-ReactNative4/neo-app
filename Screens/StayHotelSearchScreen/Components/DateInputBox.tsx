@@ -19,6 +19,7 @@ export const DateInputBox = ({
   containerProps = {},
   dateFormat,
   displayFormat,
+  error,
 }: {
   label?: string;
   onDateSelect: (date: string) => unknown;
@@ -28,6 +29,7 @@ export const DateInputBox = ({
   containerProps?: {};
   dateFormat?: string;
   displayFormat?: string;
+  error?: boolean;
 }) => {
   const [showDatePicker, setShowDatePicker] = useState<boolean>(false);
   const [selectedDate, setSelectedDate] = useState<string>(date);
@@ -60,6 +62,7 @@ export const DateInputBox = ({
         containerProps={containerProps}
         fontFamily={CONSTANT_fontPrimaryRegular}
         onPress={toggleDatePicker}
+        error={error}
       />
       <DateTimePickerModal
         isVisible={showDatePicker}

@@ -1,11 +1,8 @@
-import {AnimatedInputBox, Box, Button, Text} from '@pyt/micros';
-import {HotelCard} from '@pyt/widgets/dist/esm/hotel-card';
+import {Box, Text} from '@pyt/micros';
 import {inject, observer} from 'mobx-react';
 import React, {useEffect, useRef, useState} from 'react';
-import getSymbolFromCurrency from 'currency-symbol-map';
 import {
   Dimensions,
-  FlatList,
   ScrollView,
   StyleSheet,
   TouchableOpacity,
@@ -13,40 +10,68 @@ import {
 import {
   CONSTANT_fontPrimaryRegular,
   CONSTANT_fontPrimarySemiBold,
-  CONSTANT_fontPrimaryLight,
 } from '../../constants/fonts';
-import {getGlobalPriceWithoutSymbol} from '../ExploreScreen/services/getPriceWithoutSymbol';
-import {identity} from 'lodash';
-import {Included, Bed} from '@pyt/icons';
+import _cloneDeep from 'lodash/cloneDeep';
 import {
   SCREEN_SEARCH_TAB,
   SCREEN_STAY_HOTEL_DETAIL,
   SCREEN_STAY_HOTEL_LIST,
+  SCREEN_STAY_SEARCH,
 } from '../../NavigatorsV2/ScreenNames';
 import Icon from '../../CommonComponents/Icon/Icon';
 import {
   CONSTANT_dropDownArrowDarkIcon,
   CONSTANT_filterIcon,
   CONSTANT_searchIcon,
+  CONSTANT_starActive,
 } from '../../constants/imageAssets';
 import _orderBy from 'lodash/orderBy';
 import {StayHotelListFilter} from './Components/StayHotelListFilter';
-import Modal from 'react-native-modal';
 import {AppNavigatorProps} from '../../NavigatorsV2/AppNavigator';
-import OTAHotel from '../../mobx/OTAHotel';
 import PrimaryHeader from '../../NavigatorsV2/Components/PrimaryHeader';
 import {getPaxConfigText} from '../StayHotelSearchScreen/util/getPaxConfigText';
-import {StayHotelRoomConfigurationType} from '../StayHotelSearchScreen/StayHotelSearchScreen';
-
+import {StayHotelSearcRequestType} from '../StayHotelSearchScreen/StayHotelSearchScreen';
+import {getSimilarHotel} from './util/getSimilarHotel';
+import {HotelDataType} from '../StayHotelDetailScreen/StayHotelDetailScreen';
+import {HotelCardWrapper} from './Components/HotelCardWrapper';
+// import {OfferCard} from '@pyt/widgets/src/offer-card'
+import { OfferCard} from '.'
+import LinearGradient from "react-native-linear-gradient";
 
 type StayHotelListScreenNavType = AppNavigatorProps<
   typeof SCREEN_STAY_HOTEL_LIST
 >;
 interface StayHotelListScreenProps extends StayHotelListScreenNavType {
-  otaHotelStore: OTAHotel;
+  otaHotelStore: {
+    isLoading: boolean;
+    displayCurrency: string;
+    hotelSearchRequest: StayHotelSearcRequestType;
+    hotels: SearchHotelResponseDataType;
+    getHotelList: () => unknown;
+  };
+}
+
+interface SearchHotelResponseDataType {
+  cityName: string;
+  hotelCostingVOList: HotelDataType[];
+  searchIdentfier: string;
+  alternateHotelFilters: [];
 }
 
 const width = Dimensions.get('window').width;
+
+const filterAppliedIndicator = (
+  <Box
+    width={4}
+    height={4}
+    position="absolute"
+    backgroundColor="#EF435D"
+    borderRadius={4}
+    top={'35%'}
+    right={'30%'}
+  />
+);
+
 const StayHotelListScreen = inject('otaHotelStore')(
   observer(({otaHotelStore, navigation}: StayHotelListScreenProps) => {
     const {
@@ -58,17 +83,20 @@ const StayHotelListScreen = inject('otaHotelStore')(
     } = otaHotelStore ?? {};
     const {hotelGuestRoomConfiguration} =
       hotelSearchRequest.passengerConfiguration ?? {};
-    const onPress = hotelData => {
-      // console.log('press',{...hotelData,searchIdentifier: hotelList.searchIdentfier, hotelSearchRequest});
+
+    const onPress = (hotelData: HotelDataType, index: number) => {
+      const newHotel = _cloneDeep(allHotelData);
+      const allSimilarHotel = getSimilarHotel({newHotel, index});
       navigation.navigate(SCREEN_STAY_HOTEL_DETAIL, {
         hotelData,
         searchIdentifier: hotels.searchIdentfier,
         hotelSearchRequest,
         displayCurrency,
+        similarHotel: allSimilarHotel,
       });
     };
 
-    const [allHotelData, setAllHotelData] = useState([]);
+    const [allHotelData, setAllHotelData] = useState<HotelDataType[]>([]);
     const [sort, setSort] = useState(false);
     const [openFilter, setOpenFilter] = useState<boolean>(false);
 
@@ -76,30 +104,30 @@ const StayHotelListScreen = inject('otaHotelStore')(
       if (hotels?.hotelCostingVOList) {
         setAllHotelData([...hotels.hotelCostingVOList]);
       }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     useEffect(() => {
       if (openFilter && !isLoading) {
         if (hotels?.hotelCostingVOList) {
-          console.log('checking-->', hotels.hotelCostingVOList);
           if (sort) {
             applySort([...hotels.hotelCostingVOList]);
           } else {
             setAllHotelData([...hotels.hotelCostingVOList]);
           }
         }
-        // setOpenFilter(false);
       }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isLoading]);
 
-    const applySort = data => {
-      let currentAllItems = [...allHotelData];
+    const applySort = (data: HotelDataType[]) => {
+      let currentAllItems = [...data];
       if (sort) {
         setSort(false);
-        currentAllItems = _orderBy(allHotelData, ['publishedCost'], ['asc']);
+        currentAllItems = _orderBy(data, ['publishedCost'], ['asc']);
       } else {
         setSort(true);
-        currentAllItems = _orderBy(allHotelData, ['publishedCost'], ['desc']);
+        currentAllItems = _orderBy(data, ['publishedCost'], ['desc']);
       }
       setAllHotelData(currentAllItems);
     };
@@ -116,17 +144,44 @@ const StayHotelListScreen = inject('otaHotelStore')(
         navigation.goBack();
       }
     };
-
+    const gradientOptions = {
+      locations: [0.25, 0.5, 0.8, 1],
+      colors: [
+        "rgba(217, 230, 234, 0.7)",
+        "rgba(217, 230, 234, 0.7)",
+        "rgba(217, 230, 234, 0.7)",
+        "rgba(217, 230, 234, 0.7)"
+      ]
+    };
     const onPressSearch = () => {
+     
       navigation.navigate(SCREEN_SEARCH_TAB);
     };
-    const nights = hotels?.hotelCostingVOList[0]?.numberOfNights || 0;
+
+    const onPressHeaderText = () => {
+      navigation.navigate(SCREEN_STAY_SEARCH);
+    };
+    const nights = hotels?.hotelCostingVOList?.[0]?.numberOfNights || 0;
     const nightText = `${nights} ${nights > 1 ? 'nights' : 'night'}`;
     const paxText = getPaxConfigText(hotelGuestRoomConfiguration);
     const header = useRef(
       PrimaryHeader({
         leftAction: onPressBack,
-        headerText: `${hotels.cityName} - ${nightText}, ${paxText} - ${hotelGuestRoomConfiguration.length} room`,
+        headerElement: (
+          <TouchableOpacity activeOpacity={0.8} onPress={onPressHeaderText}>
+            <Text
+              fontFamily={CONSTANT_fontPrimaryRegular}
+              fontSize={15}
+              lineHeight={19}
+              textDecorationLine="underline"
+              textDecorationStyle="dotted">
+              <Text fontFamily={CONSTANT_fontPrimarySemiBold} fontSize={15}>
+                {hotels.cityName}
+              </Text>
+              {` - ${nightText}, ${paxText} - ${hotelGuestRoomConfiguration.length} room`}
+            </Text>
+          </TouchableOpacity>
+        ),
         rightElement: (
           <TouchableOpacity
             activeOpacity={0.8}
@@ -141,95 +196,58 @@ const StayHotelListScreen = inject('otaHotelStore')(
     return (
       <Box backgroundColor="#E5E5E5" flex={1}>
         {header}
-        <ScrollView style={styles.container}>
-          {!allHotelData.length
+     <ScrollView style={styles.container}>
+             <Box backgroundColor="#121E35" paddingTop={32} paddingBottom={22}>
+            <Text
+              color="#ffffff"
+              fontSize={17}
+              lineHeight={21}
+              fontFamily={CONSTANT_fontPrimaryRegular}>
+              <Icon name={CONSTANT_starActive} color="#00C684" size={16} />
+              {'  '}Handpicked stays for you
+            </Text>
+             <ScrollView
+              horizontal={true}
+              showsHorizontalScrollIndicator={false}
+            >
+              <OfferCard src=' https://i.travelapi.com/hotels/11000000/10350000/10347900/10347815/e0b8de1a_z.jpg' width={100}/>
+            </ScrollView>
+          </Box>
+          <OfferCard
+	title="Get 27% off now"
+	description="Best price in the market. Book now!"
+	backgroundColor="#121D33"
+	width={326}
+	onPress={() => console.log('Card clicked')}
+	src='https://i.travelapi.com/hotels/11000000/10350000/10347900/10347815/e0b8de1a_z.jpg'
+  contentElement={<LinearGradient style={{
+    width: 100,
+    height: 100,
+    position: "absolute",
+    top: 0,
+    left: 0,
+    borderTopLeftRadius: 8,
+    borderBottomRightRadius: 125
+  }} {...gradientOptions} />}
+/>
+          <Box paddingHorizontal={16}>{!allHotelData.length
             ? null
             : allHotelData.map((item, cardIndex) => {
-                const {
-                  imageURL,
-                  otherImages = [],
-                  name,
-                  publishedCost,
-                  strikedCost,
-                  distanceFromCityCenter,
-                  stars,
-                  amenitiesList,
-                  breakFastAvailable,
-                  refundable,
-                  amenities,
-                } = item;
-                const image = imageURL || otherImages?.[0];
-
-                const cost = getGlobalPriceWithoutSymbol({
-                  amount: parseInt((publishedCost as unknown) as string, 10),
-                  currency: displayCurrency,
-                });
-                const costSymbol = getSymbolFromCurrency(displayCurrency);
-
-                const dotSeparateList = [
-                  `${parseInt(
-                    distanceFromCityCenter || 0,
-                    10,
-                  )} from city center`,
-                  `${Math.round(stars)} star hotel`,
-                ].map((list, index) => (
-                  <Text
-                    fontFamily={CONSTANT_fontPrimaryRegular}
-                    fontSize={13}
-                    color={'#333333'}
-                    key={index}>
-                    {list}
-                  </Text>
-                ));
-
+                const onCardPress = () => onPress(item, cardIndex);
                 return (
-                  <HotelCard
+                  <HotelCardWrapper
+                    hotelData={item}
+                    cardIndex={cardIndex}
+                    onPress={onCardPress}
+                    nightText={nightText}
+                    paxText={paxText}
+                    displayCurrency={displayCurrency}
                     width={width - 32}
-                    title={name}
-                    key={`${name}-${cardIndex}`}
-                    strikedCost={
-                      strikedCost ? `${costSymbol}${strikedCost}` : ''
-                    }
-                    cost={`${costSymbol}${cost}`}
-                    costSubText={`${nightText} & ${paxText}`}
-                    marginTop={20}
-                    backgroundColor="#ffffff"
-                    amenities={[
-                      {
-                        text: 'Free WiFi',
-                        available: amenitiesList?.includes('Free WiFi'),
-                      },
-                      {
-                        text: 'Breakfast included',
-                        available: breakFastAvailable,
-                      },
-                      {text: 'Free cancellation', available: refundable},
-                      {
-                        text: 'Air condition',
-                        available: amenities?.some(
-                          ({name}) => name.toUpperCase() === 'AIR CONDITIONING',
-                        ),
-                      },
-                    ].reduce((amenities, amenity) => {
-                      if (amenity.available) {
-                        amenities.push({
-                          text: amenity.text,
-                          icon: <Included fill="#AAAAAA" />,
-                        });
-                      }
-                      return amenities;
-                    }, [])}
-                    // fontFamily={CONSTANT_fontPrimaryLight}
-                    sliderProps={{
-                      images: image ? [image] : [],
-                      showArrow: true,
-                    }}
-                    dotSeparateList={dotSeparateList}
-                    footerRightElement={<></>}
-                    onPress={() => onPress(item)}
+                   
                   />
                 );
               })}
+          </Box>
         </ScrollView>
 
         <StayHotelListFilter
@@ -247,7 +265,7 @@ const StayHotelListScreen = inject('otaHotelStore')(
           flexDirection="row"
           justifyContent="center"
           alignItems="center">
-          <TouchableOpacity style={{flex: 1}} onPress={openFilterPanel}>
+          <TouchableOpacity style={styles.flex} onPress={openFilterPanel}>
             <Box
               flex={1}
               justifyContent="center"
@@ -255,7 +273,8 @@ const StayHotelListScreen = inject('otaHotelStore')(
               flexDirection="row"
               borderRightWidth={1}
               height={51}
-              borderColor={'#F7F8FB'}>
+              borderColor={'#F7F8FB'}
+              position="relative">
               <Icon name={CONSTANT_filterIcon} size={16} color="#777777" />
               <Text
                 fontSize={15}
@@ -264,10 +283,13 @@ const StayHotelListScreen = inject('otaHotelStore')(
                 marginStart={8}>
                 Filter
               </Text>
+              {Object.keys(hotelSearchRequest.filters || {}).length
+                ? filterAppliedIndicator
+                : null}
             </Box>
           </TouchableOpacity>
           <TouchableOpacity
-            style={{flex: 1}}
+            style={styles.flex}
             onPress={() => applySort([...allHotelData])}>
             <Box
               flex={1}
@@ -288,6 +310,7 @@ const StayHotelListScreen = inject('otaHotelStore')(
                 marginStart={8}>
                 Sort
               </Text>
+              {sort ? filterAppliedIndicator : null}
             </Box>
           </TouchableOpacity>
         </Box>
@@ -302,9 +325,9 @@ const styles = StyleSheet.create({
     right: 20,
   },
   container: {
-    paddingHorizontal: 16,
     paddingBottom: 20,
   },
+  flex: {flex: 1},
 });
 
 export default StayHotelListScreen;

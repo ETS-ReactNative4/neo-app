@@ -24,7 +24,7 @@ interface CityDataType {
 export interface ICityListResponseData extends IMobileServerResponse {
   status: 'SUCCESS';
   data: CityDataType[];
-  options: []
+  options: [];
 }
 
 export interface ICityListApiCallHookData extends IApiCallHookData {
@@ -33,7 +33,7 @@ export interface ICityListApiCallHookData extends IApiCallHookData {
 
 export type cityApiHookType = [
   ICityListApiCallHookData,
-  (requestObject: IApiCallConfig) => Promise<boolean>,
+  () => Promise<boolean>,
 ];
 
 export type useCityApiCallType = [
@@ -41,22 +41,19 @@ export type useCityApiCallType = [
   (requestObject: IApiCallConfig) => Promise<boolean>,
 ];
 
-const useSavePassengersApi = (requestBody): cityApiHookType => {
+const useSavePassengersApi = (): cityApiHookType => {
   const [
     {successResponseData, failureResponseData, isError, isLoading, isSuccess},
     makeApiCall,
   ] = useApiCall() as useCityApiCallType;
 
-  const savePassengers = (requestBody) => {console.log('here',requestBody)
+  const savePassengers = requestBody => {
     return new Promise<boolean>(async (resolve, reject) => {
       try {
         const result = await makeApiCall({
           route: CONSTANT_savePassengers,
           method: 'POST',
-          requestBody: requestBody || {
-           
-        
-        }
+          requestBody: requestBody || {},
         });
         resolve(result);
       } catch (e) {

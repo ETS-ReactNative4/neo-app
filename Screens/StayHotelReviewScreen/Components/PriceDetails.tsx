@@ -16,6 +16,7 @@ export const PriceDetails = ({
   nightText,
   displayCurrency,
   roomsInHotel,
+  couponAmount,
 }) => {
   const costSymbol = getSymbolFromCurrency(displayCurrency);
   const roomCount = hotelGuestRoomConfiguration.length;
@@ -23,16 +24,29 @@ export const PriceDetails = ({
     (totalCost, room) => room.publishedCost + totalCost,
     0,
   );
+
+  const couponPriceLine = couponAmount
+    ? [
+        {
+          label: 'Coupon',
+          price: couponAmount,
+          color: '#009E6A',
+          fontFamily: CONSTANT_fontPrimarySemiBold,
+          discount: true,
+        },
+      ]
+    : [];
   const list = [
     {
       label: `${roomCount} ${roomCount > 1 ? 'rooms' : 'room'} - ${nightText}`,
       price: roomCost,
     },
+    ...couponPriceLine,
     {
       label: 'Total',
-      price: roomCost,
+      price: roomCost - couponAmount,
       fontFamily: CONSTANT_fontPrimarySemiBold,
-      color: '#333333'
+      color: '#333333',
     },
   ];
   return (
@@ -49,17 +63,17 @@ export const PriceDetails = ({
               <Text
                 fontSize={15}
                 lineHeight={19}
-                color={item.color || "#555555"}
-                fontFamily={item.fontFamily ||  CONSTANT_fontPrimaryRegular}>
+                color={item.color || '#555555'}
+                fontFamily={item.fontFamily || CONSTANT_fontPrimaryRegular}>
                 {item.label}
               </Text>
 
               <Text
-                fontFamily={item.fontFamily ||  CONSTANT_fontPrimaryRegular}
+                fontFamily={item.fontFamily || CONSTANT_fontPrimaryRegular}
                 fontSize={15}
                 lineHeight={19}
-                color={item.color || "#555555"}
-                >
+                color={item.color || '#555555'}>
+                {item.discount ? '-' : ''}
                 {costSymbol}
                 {cost}
               </Text>

@@ -10,49 +10,55 @@ import {
 import {IDealsPackageItinerary} from '../../../TypeInterfaces/IPackageItinerary';
 import {ICampaignDetails} from '../../../TypeInterfaces/ICampaignDetails';
 import {IMobileServerResponse} from '../../../TypeInterfaces/INetworkResponse';
-
-interface CityDataType {
-  airportCode: string;
-  airportName: string | null;
-  cityId: number;
-  country: string;
-  countryCode: string;
-  name: string;
-}
-
-export interface ICityListResponseData extends IMobileServerResponse {
+import {StayHotelRoomConfigurationType} from '../../StayHotelSearchScreen/StayHotelSearchScreen';
+export interface CreateItineraryResponseType extends IMobileServerResponse {
   status: 'SUCCESS';
-  data: CityDataType[];
-  options: []
+  data: string;
+  displayCurrency: string;
 }
 
-export interface ICityListApiCallHookData extends IApiCallHookData {
-  successResponseData: ICityListResponseData | undefined;
+type CostingConfigType = {
+  departureAirport: string;
+  arrivalAirport: string;
+  departureDate: string;
+  hotelGuestRoomConfigurations: StayHotelRoomConfigurationType[];
+  nights: number;
+};
+export interface CreateItineraryRequestType {
+  entity: string;
+  searchIdentifier: string;
+  identifier: string;
+  sourceProvider: string;
+  subIdentifiers: string[];
+  costingConfig: CostingConfigType;
+}
+export interface ICreateItineraryApiCallHookData extends IApiCallHookData {
+  successResponseData: CreateItineraryResponseType | undefined;
 }
 
-export type cityApiHookType = [
-  ICityListApiCallHookData,
+export type createItineraryApiHookType = [
+  ICreateItineraryApiCallHookData,
+  (requestObject: CreateItineraryRequestType) => Promise<boolean>,
+];
+
+export type useCreateItineraryApiCallType = [
+  ICreateItineraryApiCallHookData,
   (requestObject: IApiCallConfig) => Promise<boolean>,
 ];
 
-export type useCityApiCallType = [
-  ICityListApiCallHookData,
-  (requestObject: IApiCallConfig) => Promise<boolean>,
-];
-
-const useCreateItineraryApi = (requestBody): cityApiHookType => {
+const useCreateItineraryApi = (): createItineraryApiHookType => {
   const [
     {successResponseData, failureResponseData, isError, isLoading, isSuccess},
     makeApiCall,
-  ] = useApiCall() as useCityApiCallType;
+  ] = useApiCall() as useCreateItineraryApiCallType;
 
-  const createItinerary = (requestBody) => {
+  const createItinerary = (requestBody = {}) => {
     return new Promise<boolean>(async (resolve, reject) => {
       try {
         const result = await makeApiCall({
           route: CONSTANT_createItinerary,
           method: 'POST',
-          requestBody: requestBody
+          requestBody,
         });
         resolve(result);
       } catch (e) {

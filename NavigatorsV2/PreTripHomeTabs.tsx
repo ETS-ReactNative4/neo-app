@@ -31,6 +31,7 @@ import {RouteProp} from '@react-navigation/native';
 import {AppNavigatorParamsType} from './AppNavigator';
 import DealsListing from '../Screens/DealsListingScreen/DealsListing';
 import StayHotelSearchScreen from '../Screens/StayHotelSearchScreen/StayHotelSearchScreen';
+import useIsUserLoggedIn from '../Services/isUserLoggedIn/hooks/useIsUserLoggedIn';
 
 export interface IExplorePageScreenData {
   source?: ExploreScreenSourcesType;
@@ -73,11 +74,15 @@ export interface PreTripHomeTabsProp {
 }
 
 const PreTripHomeTabs = ({deviceLocaleStore, route}: PreTripHomeTabsProp) => {
+  const isLoggedIn = useIsUserLoggedIn();
   useEffect(() => {
     const {screen, ...meta} = route?.params ?? {};
     if (screen) {
       deepLink({link: screen, screenData: meta});
     }
+    // isUserLoggedIn()
+    // .then(isLoggedIn => {
+    // }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -104,15 +109,17 @@ const PreTripHomeTabs = ({deviceLocaleStore, route}: PreTripHomeTabsProp) => {
           component={DealsListing}
         />
       ) : null}
-      <Tab.Screen
-        options={{
-          tabBarLabel: 'Stay',
-          icon: CONSTANT_hotelIcon,
-          ...tabBarColorConfig,
-        }}
-        name={SCREEN_STAY_SEARCH}
-        component={StayHotelSearchScreen}
-      />
+      {isLoggedIn ? (
+        <Tab.Screen
+          options={{
+            tabBarLabel: 'Stay',
+            icon: CONSTANT_hotelIcon,
+            ...tabBarColorConfig,
+          }}
+          name={SCREEN_STAY_SEARCH}
+          component={StayHotelSearchScreen}
+        />
+      ) : null}
       <Tab.Screen
         options={{
           tabBarLabel: 'Search',

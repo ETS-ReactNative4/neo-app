@@ -18,7 +18,7 @@ class OTAHotel {
   @observable _isLoading = false;
 
   @observable _hasError = false;
-  
+
   @observable _displayCurrency = 'INR';
 
   @computed
@@ -51,8 +51,13 @@ class OTAHotel {
     this._isLoading = true;
 
     this._hotelSearchRequest = requestBody;
-
-    console.log('store --->',requestBody)
+    if (requestBody.filters) {
+      requestBody.filters.sortingCategory = 'SOURCEPROVIDER';
+    } else {
+      requestBody.filters = {
+        sortingCategory: 'SOURCEPROVIDER',
+      };
+    }
     apiCall(
       `${constants.getHotelList}`,
       requestBody,
@@ -64,7 +69,7 @@ class OTAHotel {
         if (response.status === 'SUCCESS') {
           this._hasError = false;
           this._hotels = response.data;
-          this._displayCurrency = response.displayCurrency || 'INR'
+          this._displayCurrency = response.displayCurrency || 'INR';
         } else {
           this._hasError = true;
         }

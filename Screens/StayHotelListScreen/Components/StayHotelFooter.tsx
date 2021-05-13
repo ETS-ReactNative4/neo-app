@@ -33,7 +33,9 @@ export const StayHotelFooter = ({
       flexDirection="row"
       justifyContent="space-between"
       alignItems="center">
-      <TouchableOpacity onPress={leftButtonAction} style={styles.leftButtonText}>
+      <TouchableOpacity
+        onPress={leftButtonAction}
+        style={styles.leftButtonText}>
         <Text
           fontFamily={CONSTANT_fontPrimarySemiBold}
           fontSize={13}
@@ -78,7 +80,7 @@ export const StayHotelFooter = ({
         </Box>
         <Button
           backgroundColor={'#00C684'}
-          paddingHorizontal={16}
+          paddingHorizontal={0}
           borderRadius={8}
           onPress={rightButtonAction}
           text={buttonText}
@@ -98,6 +100,6 @@ const styles = StyleSheet.create({
   leftButtonText: {
     flex: 1,
     marginEnd: 12,
-    justifyContent: 'center'
-  }
-})
+    justifyContent: 'center',
+  },
+});

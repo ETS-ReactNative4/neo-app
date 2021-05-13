@@ -1,35 +1,32 @@
-import {Box, BoxProps, Button, DotSeparateList, Text} from '@pyt/micros';
-import {AnimatedInputBox} from '@pyt/micros/src/animated-input-box';
+import {AmenitiesList, Box, Button, DotSeparateList, Text} from '@pyt/micros';
 import {HotelCard} from '@pyt/widgets/dist/esm/hotel-card';
-import {inject, observer} from 'mobx-react';
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import getSymbolFromCurrency from 'currency-symbol-map';
-import {FlatList, ScrollView, SafeAreaView} from 'react-native';
+import {ScrollView, SafeAreaView, StyleSheet, Dimensions} from 'react-native';
 import {
   CONSTANT_fontPrimaryRegular,
   CONSTANT_fontPrimarySemiBold,
 } from '../../constants/fonts';
 import {getGlobalPriceWithoutSymbol} from '../ExploreScreen/services/getPriceWithoutSymbol';
-import {identity} from 'lodash';
-import {ChevronRight, Included} from '@pyt/icons';
+import {Included} from '@pyt/icons';
 import {MiniImageSlider} from '@pyt/widgets/dist/esm/mini-image-slider';
-import {ReadMoreCard} from '../TripFeedScreen/Components/ReadMoreCard';
+import {ReadMoreCard} from '@pyt/widgets/dist/esm/read-more-card';
 import {
   SCREEN_STAY_HOTEL_DETAIL,
   SCREEN_STAY_HOTEL_REVIEW,
   SCREEN_STAY_HOTEL_ROOM_LIST,
+  SCREEN_STAY_SEARCH,
 } from '../../NavigatorsV2/ScreenNames';
 import useCreateItineraryApi from './hook/useCreateItineraryApi';
 import StaySection from '../StayHotelListScreen/Components/StaySection';
 import Icon from '../../CommonComponents/Icon/Icon';
-import {CONSTANT_arrowRight} from '../../constants/imageAssets';
-// import {HotelCard} from '../TripFeedScreen/Components/HotelCard';
-import useSearchHotelRoomApi from './hook/useSearchHotelRoomApi';
-import _findIndex from 'lodash/findIndex';
+import {
+  CONSTANT_arrowRight,
+  CONSTANT_closeIcon,
+} from '../../constants/imageAssets';
 import moment from 'moment';
 import {CONSTANT_costingDateFormat} from '../../constants/styles';
-// import { Accordion } from '@pyt/widgets/dist/esm/accordion';
-import {Accordion} from '../StayHotelSearchScreen/Accordion';
+// import {Accordion} from '../StayHotelSearchScreen/Accordion';
 import {createIconSetFromIcoMoon} from 'react-native-vector-icons';
 import icoMoonConfig from '../../assets/fontMap/hotel-amenities.json';
 import {getPaxConfigText} from '../StayHotelSearchScreen/util/getPaxConfigText';
@@ -37,9 +34,13 @@ import {StayHotelFooter} from '../StayHotelListScreen/Components/StayHotelFooter
 import {AppNavigatorProps} from '../../NavigatorsV2/AppNavigator';
 import {
   StayHotelRoomConfigurationType,
-  StayHotelSearchDataType,
   StayHotelSearcRequestType,
 } from '../StayHotelSearchScreen/StayHotelSearchScreen';
+import {AboutHotel} from './Components/AboutHotel';
+import {HotelCardWrapper} from '../StayHotelListScreen/Components/HotelCardWrapper';
+import {AssuranceCard} from '@pyt/widgets/dist/esm/assurance-card';
+import useDeepCompareEffect from 'use-deep-compare-effect';
+import storeService from '../../Services/storeService/storeService';
 
 export type RoomDataType = {
   roomImages: string[];
@@ -77,6 +78,7 @@ export interface HotelDataType {
   sourceProvider: string;
   numberOfNights: number;
   description: string;
+  cityName: string;
 }
 
 type StayHotelDetailScreenNavType = AppNavigatorProps<
@@ -88,63 +90,26 @@ export type StayHotelDetailParamType = {
   searchIdentifier: string;
   hotelSearchRequest: StayHotelSearcRequestType;
   displayCurrency: string;
+  similarHotel: HotelDataType[];
 };
 
 interface StayHotelDetailScreenProps extends StayHotelDetailScreenNavType {}
-// @inject('otaHotel')
-
-const AmenitiesList = ({
-  data,
-  fontFamily,
-  itemProp = {},
-}: {
-  data: [];
-  fontFamily: string;
-  itemProp?: BoxProps;
-}) => {
-  console.log('arrived', data);
-  return (
-    <Box flexDirection="row" flexWrap="wrap" marginTop={12} marginBottom={4}>
-      {data.map(
-        (
-          item: {
-            icon: React.ReactElement | null;
-            text: string;
-          },
-          index: number,
-        ) => (
-          <Box
-            flexDirection="row"
-            marginBottom={8}
-            alignItems="center"
-            key={`${index}-${item.text}`}
-            width={'50%'}
-            {...itemProp}>
-            {item.icon ? item.icon : null}
-            <Text
-              fontFamily={fontFamily}
-              fontSize={14}
-              lineHeight={18}
-              color="#333333"
-              marginStart={item.icon ? 8 : 0}>
-              {item.text}
-            </Text>
-          </Box>
-        ),
-      )}
-    </Box>
-  );
-};
 
 const AmenityIcon = createIconSetFromIcoMoon(icoMoonConfig);
+
+const width = Dimensions.get('window').width;
 
 const StayHotelDetailScreen = ({
   route,
   navigation,
 }: StayHotelDetailScreenProps) => {
-  const {hotelData, searchIdentifier, hotelSearchRequest, displayCurrency} =
-    route?.params || {};
-  console.log('route', route, hotelData);
+  const {
+    hotelData,
+    searchIdentifier,
+    hotelSearchRequest,
+    displayCurrency,
+    similarHotel,
+  } = route?.params || {};
 
   const {
     roomsInHotel,
@@ -153,6 +118,7 @@ const StayHotelDetailScreen = ({
     checkOutDateDisplay,
     checkOutMonthDisplay,
   } = hotelData ?? {};
+
   const {passengerConfiguration, checkInDate} = hotelSearchRequest ?? {};
   const [itineraryDetails, createItinerary] = useCreateItineraryApi();
 
@@ -174,44 +140,40 @@ const StayHotelDetailScreen = ({
       costingConfig: {
         departureAirport: '$$$',
         arrivalAirport: '$$$',
-        departureDate: checkInDate,
+        departureDate: moment(checkInDate).format(CONSTANT_costingDateFormat),
         hotelGuestRoomConfigurations:
           passengerConfiguration?.hotelGuestRoomConfiguration || [],
         nights: numberOfNights,
-        nationality: 'IN',
+        nationality: storeService.deviceLocaleStore?.deviceLocale?.toUpperCase(),
       },
     };
-    console.log('data check', requestBody);
-    const id = '6097ea43612cae0001cd6d26';
-    // createItinerary(requestBody).then((response)=>{
-    // console.log('crete itineray', response)
-    navigation.navigate(SCREEN_STAY_HOTEL_REVIEW, {
-      hotelData,
-      itineraryId: '6099344a612cae0001cd7da6',
-      hotelSearchRequest,
-    });
-    // const response = {
-    //   data: '6097075b612cae0001cd5dc4',
-    // };
-    // navigation.navigate(SCREEN_STAY_HOTEL_REVIEW, {
-    //   hotelData,
-    //   itineraryId: response.data,
-    // });
-    //  })
+    createItinerary(requestBody);
   };
-  useEffect(() => {
-    if (itineraryDetails.isSuccess && !itineraryDetails.isLoading) {
+
+  useDeepCompareEffect(() => {
+    const {
+      isSuccess,
+      isLoading: itineraryDetailLoading,
+      successResponseData,
+    } = itineraryDetails;
+    if (isSuccess && !itineraryDetailLoading && successResponseData) {
+      hotelData.roomsInHotel = [...selectedRoomList];
       navigation.navigate(SCREEN_STAY_HOTEL_REVIEW, {
         hotelData,
-        itineraryId: itineraryDetails.successResponseData.data,
+        itineraryId: successResponseData?.data,
         hotelSearchRequest,
         displayCurrency,
       });
     }
-  }, [itineraryDetails.isLoading]);
+  }, [
+    itineraryDetails.isLoading,
+    itineraryDetails.isSuccess,
+    displayCurrency,
+    hotelSearchRequest,
+  ]);
 
   const dotSeparateList = [
-    `${hotelData.stars} star hotel`,
+    `${Math.round(hotelData.stars)} star hotel`,
     hotelData.cityName,
   ].map((list, index) => (
     <Text
@@ -222,15 +184,17 @@ const StayHotelDetailScreen = ({
       {list}
     </Text>
   ));
-  const amenityList = hotelData.amenityDisplayList.map(item => ({
-    icon: <AmenityIcon name={item.iconUrl} size={14} color="#555555" />,
-    text: item.amenityName,
-  }));
+  const amenityList = hotelData.amenityDisplayList.map(
+    (item: {iconUrl: string; amenityName: string}) => ({
+      icon: <AmenityIcon name={item.iconUrl} size={14} color="#555555" />,
+      text: item.amenityName,
+    }),
+  );
   const nightText = `${hotelData.numberOfNights} ${
     hotelData.numberOfNights > 1 ? 'nights' : 'night'
   }`;
 
-  const changeRoom = (roomIdentifier, currentRoomIndex) => {
+  const changeRoom = (roomIdentifier: string, currentRoomIndex: number) => {
     const req = {
       entity: 'HOTELS',
       searchIdentifier,
@@ -247,40 +211,41 @@ const StayHotelDetailScreen = ({
         selectedRoomList[currentRoomIndex] = room;
         setSelectedRoomList([...selectedRoomList]);
       },
-      navigation,
       nightText,
+      displayCurrency,
     });
   };
 
-  const goToRoomList = () => {
-    // const { roomsData, currentRoomCostingVO={} } = hotelRoomDetails?.successResponseData?.data ?? {}
-    // console.log('checking suces',currentRoomCostingVO.identifier)
-    // const roomIndex = _findIndex(
-    //   hotelData.roomsInHotel,
-    //   ({ identifier: dataIdentifier }) =>
-    //     dataIdentifier === currentRoomCostingVO.identifier,
-    // )
-    // navigation.navigate(SCREEN_STAY_HOTEL_ROOM_LIST, {
-    //   title:`Room #${roomIndex+1}`,
-    //   onChangeRoom: (room) => {
-    //     selectedRoomList[roomIndex] = room
-    //     setSelectedRoomList([...selectedRoomList])
-    //   },
-    //   roomsData: roomsData|| {}
-    // })
-    // }
+  const onSimilarHotelPress = (item: HotelDataType, index: number) => {
+    similarHotel.splice(index, 1);
+    similarHotel.push(hotelData);
+    navigation.push(SCREEN_STAY_HOTEL_DETAIL, {
+      hotelData: item,
+      searchIdentifier,
+      hotelSearchRequest,
+      displayCurrency,
+      similarHotel,
+    });
   };
+
+  const goToHotelSearch = () => {
+    navigation.navigate(SCREEN_STAY_SEARCH);
+  };
+
   const totalCost = selectedRoomList.reduce((cost, room) => {
     return (cost += room.publishedCost);
   }, 0);
   const costSymbol = getSymbolFromCurrency(displayCurrency);
+  const hotelPaxText = getPaxConfigText(
+    passengerConfiguration?.hotelGuestRoomConfiguration,
+  );
   return (
-    <SafeAreaView style={{flex: 1}}>
+    <SafeAreaView style={styles.container}>
       <Box backgroundColor="#E5E5E5" flex={1}>
         <ScrollView>
           <MiniImageSlider
             height={326}
-            width={'100%'}
+            width={width}
             images={hotelData.otherImages}
           />
 
@@ -309,21 +274,60 @@ const StayHotelDetailScreen = ({
               />
             ) : null}
           </StaySection>
-          <StaySection title={'About hotel'}>
+          <AssuranceCard
+            containerProps={{
+              marginBottom: 8,
+              paddingBottom: 16,
+            }}
+            contentProps={{
+              fontSize: 14,
+              lineHeight: 20,
+              marginBottom: 16,
+              marginTop: 12,
+            }}
+            pillTextProps={{
+              fontSize: 13,
+              fontFamily: CONSTANT_fontPrimaryRegular,
+            }}
+            titleProps={{fontFamily: CONSTANT_fontPrimarySemiBold}}
+            title={'PYT Safety Assurance'}
+            list={[
+              'Sanitized environment',
+              'Safe dining',
+              'Trained staff',
+              'Safe practices',
+            ]}
+            content="This property follows safety and hygiene measures. It’s verified by us 😇"
+          />
+          <StaySection title={'About hotel'} textContainer={{marginBottom: 14}}>
             <ReadMoreCard
               data={hotelData.description}
               defaultVisibleItemCount={4}
               fontFamily={CONSTANT_fontPrimaryRegular}
-              showViewLess={false}
+              showViewLess={true}
               RenderItem={
+                <AboutHotel
+                  data={hotelData.description}
+                  showViewMore={true}
+                  description={hotelData.description}
+                />
+              }
+              viewMoreElement={
                 <Text
-                  fontSize={14}
-                  lineHeight={18}
-                  color="#333333"
-                  marginTop={12}
-                  numberOfLines={4}
-                  fontFamily={CONSTANT_fontPrimaryRegular}>
-                  {hotelData.description}
+                  fontFamily={CONSTANT_fontPrimarySemiBold}
+                  color="#000000"
+                  lineHeight={20}
+                  fontSize={14}>
+                  Read more
+                </Text>
+              }
+              viewLessElement={
+                <Text
+                  fontFamily={CONSTANT_fontPrimarySemiBold}
+                  color="#000000"
+                  lineHeight={20}
+                  fontSize={14}>
+                  Read less
                 </Text>
               }
             />
@@ -349,7 +353,7 @@ const StayHotelDetailScreen = ({
                     {selectedRoomList.length > 1 ? `#${index + 1}` : ''}
                   </Text>
                   <HotelCard
-                    // width={'100%'}
+                    width={width - 32}
                     title={roomData.name}
                     fontFamily={CONSTANT_fontPrimaryRegular}
                     cost={`${costSymbol}${cost}`}
@@ -359,6 +363,12 @@ const StayHotelDetailScreen = ({
                     )}`}
                     marginBottom={20}
                     backgroundColor="#ffffff"
+                    amenitiesProps={{
+                      itemProp: {
+                        width: 'auto',
+                        marginEnd: 12,
+                      },
+                    }}
                     amenities={[
                       {
                         text: 'Free WiFi',
@@ -377,14 +387,13 @@ const StayHotelDetailScreen = ({
                         available: roomData.refundable,
                       },
                     ].map(amenity => ({
-                      icon: (
-                        <Included
-                          fill={amenity.available ? '#EF435D' : '#555555'}
-                        />
+                      icon: amenity.available ? (
+                        <Included fill={'#555555'} />
+                      ) : (
+                        <Icon name={CONSTANT_closeIcon} color="#EF435D" />
                       ),
                       text: amenity.text,
                     }))}
-                    // fontFamily={CONSTANT_fontPrimaryLight}
                     sliderProps={{
                       images: roomData.roomImages,
                     }}
@@ -421,56 +430,50 @@ const StayHotelDetailScreen = ({
                 </>
               );
             })}
-            <StaySection>
-              <Accordion
-                title="Terms & conditions"
-                titleProps={{
-                  fontSize: 15,
-                  color: '#000000',
-                }}
-                // icon={<Recepit />}
-                fontFamily={CONSTANT_fontPrimaryRegular}>
-                <Text paddingVertical={12}>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.Lorem
-                  ipsum dolor sit amet, consectetur adipiscing elit.Lorem ipsum
-                  dolor sit amet, consectetur adipiscing elit.Lorem ipsum dolor
-                  sit amet, consectetur adipiscing elit.Lorem ipsum dolor sit
-                  amet, consectetur adipiscing elit.Lorem ipsum dolor sit amet,
-                  consectetur adipiscing elit.Lorem ipsum dolor sit amet,
-                  consectetur adipiscing elit.Lorem ipsum dolor sit amet,
-                  consectetur adipiscing elit.
-                </Text>
-              </Accordion>
-              <Box height={1} backgroundColor="#F0F0F0" marginVertical={20} />
-              <Accordion
-                title="Cancellation policy"
-                titleProps={{
-                  fontSize: 15,
-                  color: '#000000',
-                }}
-                // icon={<Recepit />}
-                fontFamily={CONSTANT_fontPrimaryRegular}>
-                <Text paddingVertical={12}>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.Lorem
-                  ipsum dolor sit amet, consectetur adipiscing elit.Lorem ipsum
-                  dolor sit amet, consectetur adipiscing elit.Lorem ipsum dolor
-                  sit amet, consectetur adipiscing elit.Lorem ipsum dolor sit
-                  amet, consectetur adipiscing elit.Lorem ipsum dolor sit amet,
-                  consectetur adipiscing elit.Lorem ipsum dolor sit amet,
-                  consectetur adipiscing elit.Lorem ipsum dolor sit amet,
-                  consectetur adipiscing elit.
-                </Text>
-              </Accordion>
-            </StaySection>
+          </Box>
+          <Box>
+            <Text
+              fontFamily={CONSTANT_fontPrimarySemiBold}
+              fontSize={17}
+              color="#555555"
+              marginStart={16}>
+              Similar hotels
+            </Text>
+            <ScrollView
+              horizontal={true}
+              showsHorizontalScrollIndicator={false}>
+              {similarHotel?.map((item: HotelDataType, index: number) => {
+                return (
+                  <HotelCardWrapper
+                    hotelData={item}
+                    cardIndex={index}
+                    nightText={nightText}
+                    paxText={hotelPaxText}
+                    displayCurrency={displayCurrency}
+                    onPress={() => onSimilarHotelPress(item, index)}
+                    width={288}
+                    marginRight={16}
+                    marginBottom={20}
+                    marginStart={index ? 0 : 16}
+                    titleProps={{
+                      numberOfLines: 1,
+                    }}
+                  />
+                );
+              })}
+            </ScrollView>
           </Box>
         </ScrollView>
         <StayHotelFooter
-          buttonText="Proceed to book"
+          buttonText={
+            itineraryDetails.isLoading ? 'Proceeding..' : 'Proceed to book'
+          }
           leftButtonText={`${checkInDateDisplay} ${checkInMonthDisplay} - ${checkOutDateDisplay} ${checkOutMonthDisplay}`}
           leftButtonSubText={getPaxConfigText(
             passengerConfiguration.hotelGuestRoomConfiguration,
             false,
           )}
+          leftButtonAction={goToHotelSearch}
           rightButtonAction={nextScreen}
           buttonProps={{width: 124}}
           costText="Updated Price"
@@ -484,4 +487,9 @@ const StayHotelDetailScreen = ({
   );
 };
 
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+});
 export default StayHotelDetailScreen;

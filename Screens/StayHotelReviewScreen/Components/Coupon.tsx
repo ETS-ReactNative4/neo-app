@@ -1,6 +1,8 @@
 import React, {useState} from 'react';
+import Icon from '../../../CommonComponents/Icon/Icon';
 import {CONSTANT_coupon_apply} from '../../../constants/apiUrls';
 import constants from '../../../constants/constants';
+import {CONSTANT_offer} from '../../../constants/imageAssets';
 import apiCall from '../../../Services/networkRequests/apiCall';
 import {CouponInput} from './CouponInput';
 
@@ -10,6 +12,8 @@ export const Coupon = ({
   setCouponInputVisible,
   setOpenedBoxName,
   openedBoxName,
+  disabled,
+  loading,
 }) => {
   const [coupon, setCoupon] = useState('');
 
@@ -30,7 +34,9 @@ export const Coupon = ({
       itineraryId={itineraryId}
       setInputBoxVisible={setInputBoxVisible}
       closeInputBox={openedBoxName === 'CREDIT'}
-    //   disabled
+      disabled={disabled}
+      icon={<Icon name={CONSTANT_offer} />}
+      loading={loading}
     />
   );
 };

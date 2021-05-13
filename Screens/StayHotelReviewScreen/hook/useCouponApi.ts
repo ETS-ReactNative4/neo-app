@@ -5,76 +5,54 @@ import useApiCall, {
 import {
   CONSTANT_coupon_apply,
   CONSTANT_coupon_remove,
-  CONSTANT_createItinerary,
-  CONSTANT_getCity,
-  CONSTANT_getPackagesDetails,
-  CONSTANT_savePassengers,
 } from '../../../constants/apiUrls';
-import {IDealsPackageItinerary} from '../../../TypeInterfaces/IPackageItinerary';
-import {ICampaignDetails} from '../../../TypeInterfaces/ICampaignDetails';
 import {IMobileServerResponse} from '../../../TypeInterfaces/INetworkResponse';
-
-interface CityDataType {
-  airportCode: string;
-  airportName: string | null;
-  cityId: number;
-  country: string;
-  countryCode: string;
-  name: string;
-}
-
-export interface ICityListResponseData extends IMobileServerResponse {
+export interface CouponResponseDataType extends IMobileServerResponse {
   status: 'SUCCESS';
-  data: CityDataType[];
-  options: [];
+  data: {};
 }
-
-export interface ICityListApiCallHookData extends IApiCallHookData {
-  successResponseData: ICityListResponseData | undefined;
+export interface CouponApiCallHookData extends IApiCallHookData {
+  successResponseData: CouponResponseDataType | undefined;
 }
+type CouponRequestType = {coupon: string; itineraryId: string};
 
-export type cityApiHookType = [
-  ICityListApiCallHookData,
-  (requestObject: IApiCallConfig) => Promise<boolean>,
+export type couponApiHookType = [
+  CouponApiCallHookData,
+  (requestObject: CouponRequestType) => Promise<boolean>,
 ];
 
 export type useCityApiCallType = [
-  ICityListApiCallHookData,
+  CouponApiCallHookData,
   (requestObject: IApiCallConfig) => Promise<boolean>,
 ];
 
-const useCouponApi = (requestBody): cityApiHookType => {
+const useCouponApi = (): couponApiHookType => {
   const [
     {successResponseData, failureResponseData, isError, isLoading, isSuccess},
     makeApiCall,
   ] = useApiCall() as useCityApiCallType;
 
-  const applyCoupon = ({
-    coupon,
-    itineraryId,
-  }: {
-    coupon: string;
-    itineraryId: string;
-  }) => {
+  const applyCoupon = (requestObject: CouponRequestType) => {
     return new Promise<boolean>(async (resolve, reject) => {
+      const {coupon, itineraryId} = requestObject;
       const url = coupon
         ? CONSTANT_coupon_apply({coupon, itineraryId})
         : CONSTANT_coupon_remove({itineraryId});
-      const method =  coupon ? 'POST' : 'DELETE'
+      const method = coupon ? 'POST' : 'DELETE';
       try {
         const result = await makeApiCall({
           route: url,
           method,
           requestBody: {},
         });
-        console.log('result coupon',result,successResponseData)
+        console.log('result coupon', result, successResponseData);
         resolve(result);
       } catch (e) {
         reject();
       }
     });
   };
-console.log('coupon-->',successResponseData)
+
   return [
     {successResponseData, failureResponseData, isError, isLoading, isSuccess},
     applyCoupon,

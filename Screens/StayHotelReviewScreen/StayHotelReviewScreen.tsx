@@ -1,13 +1,15 @@
 import {Box, Button, DotSeparateList, Text} from '@pyt/micros';
-import {AnimatedInputBox} from '@pyt/micros/src/animated-input-box';
+// import {AnimatedInputBox} from '@pyt/micros/src/animated-input-box';
 import {HotelCard} from '@pyt/widgets/dist/esm/hotel-card';
 import {inject, observer} from 'mobx-react';
 import React, {useEffect, useState} from 'react';
 import getSymbolFromCurrency from 'currency-symbol-map';
 import {
+  ActivityIndicator,
   FlatList,
   SafeAreaView,
   ScrollView,
+  StyleSheet,
   TouchableOpacity,
 } from 'react-native';
 import {
@@ -27,7 +29,7 @@ import constants from '../../constants/constants';
 import paymentScript from '../PaymentSummaryScreen/Components/paymentScript';
 import StaySection from '../StayHotelListScreen/Components/StaySection';
 import {Passengers} from './Components/Passengers';
-import {CouponInput} from './Components/CouponInput';
+
 import {Coupon} from './Components/Coupon';
 import useCouponApi from './hook/useCouponApi';
 import {LoyaltyCredits} from './Components/LoyaltyCredits';
@@ -40,22 +42,33 @@ import {isPassengerFormValid} from './util/isPassengerFormValid';
 import CountryCodePicker from '../MobileNumberScreen/Components/CountryCodePicker';
 import {AppNavigatorProps} from '../../NavigatorsV2/AppNavigator';
 import User from '../../mobx/User';
-import { HotelDataType } from '../StayHotelDetailScreen/StayHotelDetailScreen';
+import {HotelDataType} from '../StayHotelDetailScreen/StayHotelDetailScreen';
+import Loader from '../../CommonComponents/Loader/Loader';
+import moment from 'moment';
+import {
+  CONSTANT_costingDateFormat,
+  CONSTANT_voucherDateFormat,
+} from '../../constants/styles';
+import launchItinerarySelector from '../../Services/launchItinerarySelector/launchItinerarySelector';
+import {
+  StayHotelSearchDataType,
+  StayHotelSearcRequestType,
+} from '../StayHotelSearchScreen/StayHotelSearchScreen';
+import DeviceLocale from '../../mobx/DeviceLocale';
 
 type StayHotelReviewScreenNavType = AppNavigatorProps<
   typeof SCREEN_STAY_HOTEL_REVIEW
 >;
-
 export interface StayHotelReviewParamType {
   hotelData: HotelDataType;
   itineraryId: string;
-  displayCurrency: string; 
+  displayCurrency: string;
+  hotelSearchRequest: StayHotelSearcRequestType;
 }
-// import SectionTitle from '../../CommonComponents/SectionTitle/SectionTitle';
 interface StayHotelReviewScreenType extends StayHotelReviewScreenNavType {
   userStore: User;
+  deviceLocaleStore: DeviceLocale;
 }
-// @inject('otaHotel')
 
 export type PassengerErrorType = {
   salutation?: boolean;
@@ -70,7 +83,7 @@ const defaultPaxData = {
   passengerId: '',
   salutation: '',
   firstName: '',
-  birthDay: new Date(),
+  birthDay: undefined,
   lastNameAvailable: false,
   nationality: 'IN',
   mobileNumber: '',
@@ -79,290 +92,355 @@ const defaultPaxData = {
 };
 const StayHotelReviewScreen = inject('deviceLocaleStore')(
   inject('userStore')(
-    observer(({route, navigation, userStore}: StayHotelReviewScreenType) => {
-      const {userDisplayDetails, getUserDisplayDetails} = userStore;
-      const {
-        hotelData = {},
-        itineraryId = '6099344a612cae0001cd7da6',
-        displayCurrency = 'INR',
-        hotelSearchRequest = {},
-      } = route?.params ?? {};
+    observer(
+      ({
+        route,
+        navigation,
+        deviceLocaleStore,
+        userStore,
+      }: StayHotelReviewScreenType) => {
+        const {userDisplayDetails} = userStore;
+        const {
+          hotelData,
+          itineraryId,
+          displayCurrency = 'INR',
+          hotelSearchRequest,
+        }: StayHotelReviewParamType = route?.params ?? {};
 
-      const [savePassengersDetails, savePassengers] = useSavePassengersApi();
-      const [couponDetails, applyCoupon] = useCouponApi();
-      const [creditDetails, applyCredit] = useLoayltyCreditApi();
-      const [openedBoxName, setOpenedBoxName] = useState<
-        'CREDIT' | 'COUPON' | ''
-      >('');
-      const {passengerConfiguration, checkInDate} = hotelSearchRequest ?? {};
-      let paxData = Array(hotelData.roomsInHotel.length || 0).fill({
-        ...defaultPaxData,
-      });
+        const [savePassengersDetails, savePassengers] = useSavePassengersApi();
+        const [couponDetails, applyCoupon] = useCouponApi();
+        const [creditDetails, applyLoyaltyCredit] = useLoayltyCreditApi();
+        const [openedBoxName, setOpenedBoxName] = useState<
+          'CREDIT' | 'COUPON' | ''
+        >('');
+        const {passengerConfiguration} = hotelSearchRequest ?? {};
+        let paxData = Array(hotelData.roomsInHotel.length || 0).fill({
+          ...defaultPaxData,
+        });
+        const [loading, setLoading] = useState<boolean>(false);
 
-      const [passengerList, setPassengerList] = useState(paxData);
-      const [passengerDataError, setPassengerDataError] = useState<
-        PassengerErrorType[]
-      >([]);
+        const [passengerList, setPassengerList] = useState(paxData);
+        const [passengerDataError, setPassengerDataError] = useState<
+          PassengerErrorType[]
+        >([]);
 
-      const {
-        imageURL,
-        otherImages = [],
-        name,
-        publishedCost,
-        strikedCost,
-        distanceFromCityCenter,
-        stars,
-        amenitiesList,
-        breakFastAvailable,
-        refundable,
-        amenities,
-        cityName,
-        numberOfNights = 0,
-        checkInDateDisplay,
-        checkInMonthDisplay,
-        checkOutDateDisplay,
-        checkOutMonthDisplay,
-        roomsInHotel = [],
-      } = hotelData;
+        const {
+          imageURL,
+          otherImages = [],
+          name,
+          publishedCost,
+          strikedCost,
+          distanceFromCityCenter,
+          stars,
+          amenitiesList,
+          breakFastAvailable,
+          refundable,
+          amenities,
+          cityName,
+          numberOfNights = 0,
+          checkInDateDisplay,
+          checkInMonthDisplay,
+          checkOutDateDisplay,
+          checkOutMonthDisplay,
+          roomsInHotel = [],
+        } = hotelData;
 
-      useEffect(() => {
-        const leadPax = {
-          firstName: userDisplayDetails.name,
-          email: userDisplayDetails.email,
-          mobileNumber: userDisplayDetails.mobileNumber,
-          salutation: '',
-          lastNameAvailable: false,
-          nationality: 'IN',
-          birthDay: new Date(),
-          type: 'adult',
-          countryPhoneCode: userDisplayDetails.countryPhoneCode,
+        useEffect(() => {
+          const leadPax = {
+            firstName: userDisplayDetails.name,
+            email: userDisplayDetails.email,
+            mobileNumber: userDisplayDetails.mobileNumber,
+            salutation: '',
+            lastNameAvailable: false,
+            nationality: deviceLocaleStore.deviceLocale?.toUpperCase(),
+            birthDay: undefined,
+            type: 'adult',
+            countryPhoneCode: userDisplayDetails.countryPhoneCode,
+          };
+          passengerList[0] = leadPax;
+          setPassengerList([...passengerList]);
+          // eslint-disable-next-line react-hooks/exhaustive-deps
+        }, [userStore]);
+
+        const updatePaxData = ({
+          index,
+          key,
+          value,
+        }: {
+          index: number;
+          key: string;
+          value: string | number;
+        }) => {
+          passengerList[index][key] = value;
+          if (!passengerList[index].nationality) {
+            passengerList[
+              index
+            ].nationality = deviceLocaleStore.deviceLocale?.toUpperCase();
+          }
+          setPassengerList([...passengerList]);
+          if (passengerDataError.length) {
+            setPassengerDataError(
+              isPassengerFormValid({formData: passengerList}),
+            );
+          }
         };
-        passengerList[0] = leadPax;
-        setPassengerList([...passengerList]);
-      }, [userStore]);
+        const initiatePayment = (paymentOptionType = 'FULL') => {
+          apiCall(
+            constants.initiatePayment,
+            {
+              itineraryId,
+              paymentOptionType,
+              userId: '',
+            },
+            'POST',
+            constants.productUrl,
+            false,
+            {
+              Version: 'V_2',
+              user_device: 'MOBILE_APP',
+            },
+          )
+            .then(response => {
+              if (response.status === constants.responseSuccessStatus) {
+                const transactionId = response.data.transactionId;
+                const paymentScriptJs = paymentScript(response.data);
+                setLoading(false);
+                navigation.navigate('PaymentScreen', {
+                  paymentScript: paymentScriptJs,
+                  transactionId,
+                  backAction: () => {
+                    navigation.dispatch(launchItinerarySelector());
+                  },
+                });
+              } else {
+                setLoading(false);
+                console.log('failed payment');
+              }
+            })
+            .catch(() => {
+              setLoading(false);
+              console.log('payment failed');
+            });
+        };
+        console.log(
+          savePassengersDetails,
+          itineraryId,
+          passengerList,
+          'savePassengersDetails-->',
+          hotelData,
+          couponDetails,
+        );
 
-      const updatePaxData = ({index, key, value}) => {
-        passengerList[index][key] = value;
-        setPassengerList([...passengerList]);
-        if (passengerDataError.length) {
+        const onProceed = () => {
           setPassengerDataError(
             isPassengerFormValid({formData: passengerList}),
           );
-        }
-      };
-      const initiatePayment = (paymentOptionType = 'FULL') => {
-        apiCall(
-          constants.initiatePayment,
-          {
+          const errorData = isPassengerFormValid({formData: passengerList});
+          const isEmpty = !errorData.filter(
+            error => !!Object.keys(error).length,
+          ).length;
+          if (!isEmpty) {
+            return;
+          }
+          setLoading(true);
+          const passengers = passengerList.map(passenger => ({
+            ...passenger,
+            birthDay: moment(passenger).format(CONSTANT_costingDateFormat),
+          }));
+          const req = {
             itineraryId,
-            paymentOptionType,
-            userId: '',
-          },
-          'POST',
-          constants.productUrl,
-          false,
-          {
-            Version: 'V_2',
-            user_device: 'MOBILE_APP',
-          },
-        )
-          .then(response => {
-            if (response.status === constants.responseSuccessStatus) {
-              const transactionId = response.data.transactionId;
-              const paymentScriptJs = paymentScript(response.data);
-              navigation.navigate('PaymentScreen', {
-                paymentScript: paymentScriptJs,
-                transactionId,
-              });
-            } else {
-              console.log('failed payment');
-            }
-          })
-          .catch(() => {
-            console.log('payment failed');
-          });
-      };
-      console.log(
-        savePassengersDetails,
-        itineraryId,
-        passengerList,
-        'savePassengersDetails-->',
-        hotelData,
-      );
-      const onProceed = () => {
-        setPassengerDataError(isPassengerFormValid({formData: passengerList}));
-        console.log(isPassengerFormValid({formData: passengerList}));
-        // const req = {
-        //   itineraryId,
-        //   roomPassengersDetailsList: [
-        //     {
-        //       otherPassengerDetailList: [],
-        //       leadPassengerDetail: {
-        //         type: 'adult',
-        //         passengerId: '',
-        //         salutation: 'Ms',
-        //         firstName: 'Testing',
-        //         birthDay: '12/Dec/1996',
-        //         lastNameAvailable: false,
-        //         nationality: 'IN',
-        //       },
-        //     },
-        //   ],
-        // };
+            roomPassengersDetailsList: [
+              {
+                otherPassengerDetailList: passengers.slice(1),
+                leadPassengerDetail: passengers[0],
+              },
+            ],
+          };
 
-        // savePassengers(req).then(() => initiatePayment());
-        // console.log('onProceed', req);
-      };
+          savePassengers(req).then(() => initiatePayment());
+        };
 
-      const image = imageURL || otherImages?.[0];
-      const dotSeparateList = [
-        cityName,
-        `${parseInt(distanceFromCityCenter || 0, 10)} from city center`,
-        `${stars} star hotel`,
-      ].map((list, index) => (
-        <Text
-          fontFamily={CONSTANT_fontPrimaryRegular}
-          fontSize={13}
-          color={'#333333'}
-          key={index}>
-          {list}
-        </Text>
-      ));
+        const image = imageURL || otherImages?.[0];
+        const dotSeparateList = [
+          cityName,
+          `${parseInt(distanceFromCityCenter || 0, 10)} from city center`,
+          `${stars} star hotel`,
+        ].map((list, index) => (
+          <Text
+            fontFamily={CONSTANT_fontPrimaryRegular}
+            fontSize={13}
+            color={'#333333'}
+            key={index}>
+            {list}
+          </Text>
+        ));
 
-      const nightText = `${numberOfNights} ${
-        numberOfNights > 1 ? 'nights' : 'night'
-      }`;
+        const nightText = `${numberOfNights} ${
+          numberOfNights > 1 ? 'nights' : 'night'
+        }`;
 
-      return (
-        <SafeAreaView style={{flex: 1, backgroundColor: '#ffffff'}}>
-          <Box backgroundColor="#E5E5E5" flex={1}>
-            <ScrollView keyboardShouldPersistTaps={'handled'}>
-              <HotelCard
-                width={'100%'}
-                fontFamily={CONSTANT_fontPrimaryLight}
-                title={name}
-                footerContainerProps={{
-                  display: 'none',
-                }}
-                marginBottom={8}
-                // isReviewCard={true}
-                backgroundColor="#ffffff"
-                amenities={[
-                  {
-                    text: 'Free WiFi',
-                    available: amenitiesList?.includes('Free WiFi'),
-                  },
-                  {
-                    text: 'Breakfast included',
-                    available: breakFastAvailable,
-                  },
-                  {text: 'Free cancellation', available: refundable},
-                  {
-                    text: 'Air condition',
-                    available: !!amenities?.filter(
-                      ({name}) => name === 'AIR CONDITIONING',
-                    ).length,
-                  },
-                ].reduce((amenities, amenity) => {
-                  if (amenity.available) {
-                    amenities.push({
-                      text: amenity.text,
-                      icon: <Included fill="red" />,
-                    });
+        const {couponVO = {}, itinerary: couponItineraryData} =
+          couponDetails.successResponseData?.data || {};
+        const {itinerary: loyaltyCreditItineraryData} =
+          creditDetails.successResponseData?.data || {};
+        return (
+          <SafeAreaView style={styles.container}>
+            <Box backgroundColor="#E5E5E5" flex={1}>
+              <ScrollView keyboardShouldPersistTaps={'handled'}>
+                <Box padding={16} backgroundColor={'#ffffff'} marginBottom={8}>
+                  <HotelCard
+                    width={'100%'}
+                    fontFamily={CONSTANT_fontPrimaryLight}
+                    title={name}
+                    footerContainerProps={{
+                      display: 'none',
+                    }}
+                    borderWidth={0}
+                    marginBottom={8}
+                    isReviewCard={true}
+                    backgroundColor="#ffffff"
+                    amenitiesProps={{
+                      itemProp: {
+                        width: 'auto',
+                        marginEnd: 12,
+                      },
+                    }}
+                    amenities={[
+                      {
+                        text: 'Free WiFi',
+                        available: amenitiesList?.includes('Free WiFi'),
+                      },
+                      {
+                        text: 'Breakfast included',
+                        available: breakFastAvailable,
+                      },
+                      {text: 'Free cancellation', available: refundable},
+                      {
+                        text: 'Air condition',
+                        available: !!amenities?.filter(
+                          ({name}: {name: string}) =>
+                            name === 'AIR CONDITIONING',
+                        ).length,
+                      },
+                    ].reduce((amenities, amenity) => {
+                      if (amenity.available) {
+                        amenities.push({
+                          text: amenity.text,
+                          icon: <Included fill="#555555" />,
+                        });
+                      }
+                      return amenities;
+                    }, [])}
+                    dotSeparateList={dotSeparateList}
+                    footerRightElement={<></>}
+                    sliderProps={{
+                      images: image ? [image] : [],
+                      width: 88,
+                      height: 88,
+                      borderRadius: 12,
+                      marginEnd: 16,
+                    }}
+                    contentProps={{
+                      paddingHorizontal: 0,
+                      paddingVertical: 1,
+                      borderTopWidth: 1,
+                      borderColor: '#F0F0F0',
+                      marginTop: 16,
+                    }}
+                  />
+                </Box>
+                <TripDetails
+                  navigation={navigation}
+                  nightText={nightText}
+                  checkInDateDisplay={checkInDateDisplay}
+                  checkInMonthDisplay={checkInMonthDisplay}
+                  checkOutDateDisplay={checkOutDateDisplay}
+                  checkOutMonthDisplay={checkOutMonthDisplay}
+                  hotelGuestRoomConfiguration={
+                    passengerConfiguration?.hotelGuestRoomConfiguration || []
                   }
-                  return amenities;
-                }, [])}
-                // fontFamily={CONSTANT_fontPrimaryLight}
-                sliderProps={{
-                  images: image ? [image] : [],
-                  showArrow: true,
-                }}
-                dotSeparateList={dotSeparateList}
-                footerRightElement={<></>}
-                onPress={() => onPress(item)}
-              />
-
-              <TripDetails
-                navigation={navigation}
-                nightText={nightText}
-                checkInDateDisplay={checkInDateDisplay}
-                checkInMonthDisplay={checkInMonthDisplay}
-                checkOutDateDisplay={checkOutDateDisplay}
-                checkOutMonthDisplay={checkOutMonthDisplay}
-                hotelGuestRoomConfiguration={
-                  passengerConfiguration?.hotelGuestRoomConfiguration || []
-                }
-              />
-              <PriceDetails
-                hotelGuestRoomConfiguration={
-                  passengerConfiguration?.hotelGuestRoomConfiguration || []
-                }
-                nightText={nightText}
-                displayCurrency={displayCurrency}
-                roomsInHotel={roomsInHotel}
-              />
-              <StaySection paddingVertical={0}>
-                <LoyaltyCredits
-                  userId={userDisplayDetails.userId}
-                  applyCoupon={applyCoupon}
-                  itineraryId={itineraryId}
-                  openedBoxName={openedBoxName}
-                  setOpenedBoxName={setOpenedBoxName}
-                  applyCredit={applyCredit}
                 />
-                <Box height={1} backgroundColor="#F0F0F0" />
-                <Coupon
-                  applyCoupon={applyCoupon}
-                  itineraryId={itineraryId}
-                  openedBoxName={openedBoxName}
-                  setOpenedBoxName={setOpenedBoxName}
+                <PriceDetails
+                  hotelGuestRoomConfiguration={
+                    passengerConfiguration?.hotelGuestRoomConfiguration || []
+                  }
+                  nightText={nightText}
+                  displayCurrency={displayCurrency}
+                  roomsInHotel={roomsInHotel}
+                  couponAmount={
+                    couponItineraryData?.discounts?.total ||
+                    loyaltyCreditItineraryData?.discounts?.total ||
+                    0
+                  }
                 />
-              </StaySection>
+                <StaySection paddingVertical={0}>
+                  <LoyaltyCredits
+                    userId={userDisplayDetails.userId}
+                    itineraryId={itineraryId}
+                    openedBoxName={openedBoxName}
+                    setOpenedBoxName={setOpenedBoxName}
+                    applyCredit={applyLoyaltyCredit}
+                    disabled={couponVO.couponApplied}
+                    displayCurrency={displayCurrency}
+                    loading={creditDetails.isLoading}
+                  />
+                  <Box height={1} backgroundColor="#F0F0F0" />
+                  <Coupon
+                    applyCoupon={applyCoupon}
+                    itineraryId={itineraryId}
+                    openedBoxName={openedBoxName}
+                    setOpenedBoxName={setOpenedBoxName}
+                    disabled={loyaltyCreditItineraryData?.discounts?.total > 0}
+                    loading={couponDetails.isLoading}
+                  />
+                </StaySection>
 
-              {passengerList.map((passenger, index) => {
-                const {roomConfiguration, name: roomName} =
-                  roomsInHotel[index] ?? {};
-                const {adultCount, childAges} = roomConfiguration ?? {};
-                return (
-                  <StaySection
-                    title={`Room ${index + 1}: `}
-                    subText={`${adultCount} ${
-                      adultCount > 1 ? 'adults' : 'adult'
-                    }, ${
-                      childAges.length ? `${childAges.length} child, ` : ''
-                    }${roomName} `}>
-                    <Passengers
-                      {...passenger}
-                      updatePaxData={updatePaxData}
-                      index={index}
-                      error={passengerDataError[index]}
-                    />
-                  </StaySection>
-                );
-              })}
-            </ScrollView>
-          </Box>
-          <Button
-            backgroundColor={'#00C684'}
-            margin={20}
-            paddingHorizontal={16}
-            borderRadius={8}
-            onPress={() => {
-              onProceed();
-              // navigation.navigate(SCREEN_STAY_HOTEL_REVIEW)
-            }}
-            text="Proceed to book"
-            textProps={{
-              color: '#ffffff',
-              fontFamily: CONSTANT_fontPrimarySemiBold,
-            }}
-          />
-
-          {/* </Box> */}
-        </SafeAreaView>
-      );
-    }),
+                {passengerList.map((passenger, index) => {
+                  const {roomConfiguration, name: roomName} =
+                    roomsInHotel[index] ?? {};
+                  const {adultCount, childAges} = roomConfiguration ?? {};
+                  return (
+                    <StaySection
+                      title={`Room ${index + 1}: `}
+                      subText={`${adultCount} ${
+                        adultCount > 1 ? 'adults' : 'adult'
+                      }, ${
+                        childAges.length ? `${childAges.length} child, ` : ''
+                      }${roomName} `}>
+                      <Passengers
+                        {...passenger}
+                        updatePaxData={updatePaxData}
+                        index={index}
+                        error={passengerDataError[index]}
+                      />
+                    </StaySection>
+                  );
+                })}
+              </ScrollView>
+            </Box>
+            <Button
+              backgroundColor={'#00C684'}
+              margin={20}
+              paddingHorizontal={16}
+              borderRadius={8}
+              onPress={() => {
+                onProceed();
+              }}
+              text={loading ? 'Proceeding..' : 'Proceed to payment'}
+              textProps={{
+                color: '#ffffff',
+                fontFamily: CONSTANT_fontPrimarySemiBold,
+              }}
+            />
+          </SafeAreaView>
+        );
+      },
+    ),
   ),
 );
+
+const styles = StyleSheet.create({
+  container: {flex: 1, backgroundColor: '#ffffff'},
+});
 
 export default StayHotelReviewScreen;

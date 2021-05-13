@@ -1,10 +1,10 @@
 // import { Checkbox } from '@pyt/micros';
 import {Box, Text} from '@pyt/micros';
 import React, {useEffect, useState} from 'react';
-import {
-  Checkbox,
-  CheckboxOptionProps,
-} from '../../StayHotelSearchScreen/Checkbox';
+// import {
+//   Checkbox,
+//   CheckboxOptionProps,
+// } from '../../StayHotelSearchScreen/Checkbox';
 import Modal from 'react-native-modal';
 import {
   SafeAreaView,
@@ -29,7 +29,9 @@ import {
 } from '../../ListingPageScreen/filterOptions/filterOptions';
 import storeService from '../../../Services/storeService/storeService';
 import _toLower from 'lodash/toLower';
-import {RadioBox, RadioOptionProps} from '../../StayHotelSearchScreen/RadioBox';
+import {Checkbox, CheckboxOptionProps} from '@pyt/micros/dist/esm/checkbox';
+// import { RadioOptionProps } from '../../StayHotelSearchScreen/Radiobox';
+import {Radiobox, RadioOptionProps} from '../../StayHotelSearchScreen/Radiobox';
 
 const starOptions = [
   {label: '1', value: 1},
@@ -140,7 +142,9 @@ export const StayHotelListFilter = ({
       minPrice?: number;
       maxPrice?: number;
     } = {
-      starRatings: starRatings.map((item: CheckboxOptionProps) => item.value),
+      starRatings: starRatings.map((item: CheckboxOptionProps) =>
+        item.value === 5 ? 4 : item.value,
+      ), // used 4 star value for 5 star hotel to avoid the empty result since five star hotel not available
       types: types.map((item: CheckboxOptionProps) => item.value),
       amenities: amenities.map((item: CheckboxOptionProps) => item.value),
     };
@@ -162,7 +166,7 @@ export const StayHotelListFilter = ({
   };
 
   const clearAll = () => {
-    setHotelFilters({amenities: [], starRatings: [], types: [], price:{}});
+    setHotelFilters({amenities: [], starRatings: [], types: [], price: {}});
   };
 
   const {amenities = [], types = []} = alternateHotelFilters ?? {};
@@ -238,7 +242,7 @@ export const StayHotelListFilter = ({
             </Box>
           </StaySection>
           <StaySection title="Price">
-            <RadioBox
+            <Radiobox
               options={priceList}
               selectedOption={hotelFilters.price}
               fontFamily={CONSTANT_fontPrimaryRegular}

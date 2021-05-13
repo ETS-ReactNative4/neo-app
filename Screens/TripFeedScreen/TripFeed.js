@@ -37,17 +37,7 @@ import {recordEvent} from '../../Services/analytics/analyticsService';
 import PropTypes from 'prop-types';
 import {logError} from '../../Services/errorLogger/errorLogger';
 import storeService from '../../Services/storeService/storeService';
-import { MiniImageSlider } from '@pyt/widgets/dist/esm/mini-image-slider';
-// import {HotelCard} from '@pyt/widgets/dist/esm/hotel-card';
-import { Image, Pill, Ribbon, Text } from '@pyt/micros';
-import { Bed, Included } from '@pyt/icons';
-import {HotelCard} from './Components/HotelCard'
-import { CONSTANT_fontPrimarySemiBold } from '../../constants/fonts';
-import { Button } from '@pyt/micros';
-import { SCREEN_STAY_SEARCH } from '../../NavigatorsV2/ScreenNames';
-import { AnimatedInputBox } from '../StayHotelSearchScreen/animated-input-box';
-// import {AnimatedInputBox} from './Components/AnimatedInput'
-// import {MiniImageSlider} from './Components/ImageSlider'
+
 @ErrorBoundary({isRoot: true})
 @inject('deviceDetailsStore')
 @inject('tripFeedStore')
@@ -275,7 +265,7 @@ class TripFeed extends Component {
       <View style={styles.tripFeedContainer}>
         {this.state.tripFeedHeader}
         <NoInternetIndicator />
-        
+
         {isOffHours ? (
           <SupportOfflineMessage time={currentTime} ctaAction={openDialer} />
         ) : null}
@@ -285,103 +275,6 @@ class TripFeed extends Component {
           directionalLockEnabled={true}
           scrollEnabled={this.state.scrollEnabled}
           style={styles.tripFeedScrollView}>
-            <Button backgroundColor='grey' text='Hotel search' onPress={()=>{
-              this.props.navigation.navigate(SCREEN_STAY_SEARCH)
-            }}/>
-            <MiniImageSlider
-	height={100}
-	width={326}
-	// autoplay
-	images={[
-    "https://s3.ap-south-1.amazonaws.com/pyt-voyager/tripfeed/handy_tools/handy-tools.png",
-		"https://d2pkrotgd5anq5.cloudfront.net/city/230x270/wanaka.jpg",
-    "https://s3.ap-south-1.amazonaws.com/pyt-voyager/tripfeed/handy_tools/handy-tools.png",
-		"https://pyt-voyager.s3.ap-south-1.amazonaws.com/tripfeed/forex/forex-single.png",
-		'https://s3.ap-south-1.amazonaws.com/oceanjar-new/images/activity/SamrohaHEROcarousal-desktop-min.jpg',
-	]}
-/>
-{/* <Image
-			source={{ image:'https://pyt-images.imgix.net/images/deals/Festival+Sale/herodesktop/festLife-2-min.png?w=566&h=438&dpr=2&auto=format,compress&q=20' }}
-			width={'100%'}
-			height={100}
-			display={'flex'}
-			flexDirection={'column'}
-			justifyContent={'center'}
-			alignItems={'center'}
-			resizeMode={'cover'}
-			backgroundColor={'#dfdfdf'}
-			borderRadius={8}
-			overflow={'hidden'}
-		/> */}
-     <AnimatedInputBox label='Check-in'/>
-<HotelCard
-		width={328}
-		title="Eden Hotel Kuta Bali"
-		strikedCost="₹15,234"
-		cost="₹11,234"
-		costSubText="2 nights & 2 adults"
-		marginEnd={12}
-    backgroundColor='#ffffff'
-		amenities={[{icon:null,text:'gkfjl'},{icon:null,text:'jgj'}]}
-    fontFamily={CONSTANT_fontPrimarySemiBold}
-		sliderProps={{
-			images: [
-        'https://pyt-images.imgix.net/images/deals/Festival+Sale/herodesktop/festLife-2-min.png?w=566&h=438&dpr=2&auto=format,compress&q=20' 
-			],
-			showArrow: true,
-		}}
-		dotSeparateList={[]}
-		footerRightElement={<></>}
-		onCardPress={() => null}
-	/>
-  	<HotelCard
-		width={328}
-		title="Eden Hotel Kuta Bali"
-		strikedCost="₹15,234"
-		cost="₹11,234"
-		costSubText="2 nights & 2 adults"
-		marginEnd={12}
-		fontFamily={CONSTANT_fontPrimarySemiBold}
-		amenities={[
-			{ icon: <Included fill="#777777" />, text: 'Breakfast included' },
-			{ icon: <Included fill="#777777" />, text: 'Free cancellation' },
-			{ icon: <Included fill="#777777" />, text: 'Free WiFi' },
-		]}
-		sliderProps={{
-			images: [
-				'https://pyt-images.imgix.net/images/deals/Festival+Sale/herodesktop/festLife-2-min.png?w=566&h=438&dpr=2&auto=format,compress&q=20' 
-			],
-			showArrow: true,
-		}}
-		dotSeparateList={[
-			<Pill
-				borderRadius={4}
-				paddingVertical={2}
-				paddingHorizontal={6}
-				backgroundColor={'#E5F9F3'}
-				textProps={{
-					fontSize: 12,
-					lineHeight: 16,
-					fontWeight: '600',
-					color: '#00774F',
-					marginEnd: 2,
-				}}
-				text="4.5"
-				iconPosition="right"
-			/>,
-			<Text fontSize={13} lineHeight={16} color={'#333333'} 	fontFamily={CONSTANT_fontPrimarySemiBold}>
-				4km from city center
-			</Text>,
-			<Text fontSize={13} lineHeight={16} color={'#333333'} 	fontFamily={CONSTANT_fontPrimarySemiBold}>
-				4-star hotel
-			</Text>,
-		]}
-		footerRightElement={<></>}
-		onCardPress={() => null}
-	/>
-<Ribbon text='check hello' start={0} />
-<Pill icon={<Bed />}  text='pill'/>
-{console.log('widgets-->',widgets)}
           {widgets.map((widget, widgetIndex) => {
             try {
               isImageFirst = !isImageFirst;

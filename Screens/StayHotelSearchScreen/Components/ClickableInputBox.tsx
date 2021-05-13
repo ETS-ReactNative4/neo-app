@@ -10,6 +10,7 @@ export const ClickableInputBox = ({
   onPress = () => null,
   containerProps = {},
   height,
+  error,
 }: {
   fontFamily: string;
   label: string;
@@ -17,6 +18,7 @@ export const ClickableInputBox = ({
   onPress?: () => unknown;
   containerProps?: {};
   height?: number;
+  error?: boolean;
 }) => {
   return (
     <TouchableOpacity
@@ -29,6 +31,8 @@ export const ClickableInputBox = ({
         backgroundColor={'#EDEDED'}
         paddingHorizontal={16}
         paddingVertical={8}
+        borderColor={error ? '#EF435D' : '#EDEDED'}
+        borderWidth={1}
         justifyContent="space-between">
         <Text
           fontSize={11}

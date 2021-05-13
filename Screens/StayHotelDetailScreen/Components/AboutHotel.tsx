@@ -1,15 +1,24 @@
 import {Text} from '@pyt/micros';
 import React from 'react';
+import {CONSTANT_fontPrimaryRegular} from '../../../constants/fonts';
 
-export const AboutHotel = ({data = '', showViewMore}) => {
+export const AboutHotel = ({
+  data = '',
+  showViewMore,
+  description,
+}: {
+  data?: string;
+  showViewMore: boolean;
+  description?: string;
+}) => {
   return (
     <Text
       fontSize={14}
-      lineHeight={18}
+      lineHeight={20}
       color="#333333"
-      marginTop={12}
-      numberOfLines={showViewMore ? undefined : 4}>
-      {data}
+      fontFamily={CONSTANT_fontPrimaryRegular}
+      numberOfLines={showViewMore ? 4 : undefined}>
+      {description || data}
     </Text>
   );
 };

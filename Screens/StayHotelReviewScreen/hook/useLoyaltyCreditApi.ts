@@ -3,66 +3,46 @@ import useApiCall, {
   IApiCallConfig,
 } from '../../../Services/networkRequests/hooks/useApiCall';
 import {
-  CONSTANT_coupon_apply,
   CONSTANT_coupon_remove,
-  CONSTANT_createItinerary,
-  CONSTANT_getCity,
-  CONSTANT_getPackagesDetails,
   CONSTANT_loyalty_apply,
-  CONSTANT_savePassengers,
 } from '../../../constants/apiUrls';
-import {IDealsPackageItinerary} from '../../../TypeInterfaces/IPackageItinerary';
-import {ICampaignDetails} from '../../../TypeInterfaces/ICampaignDetails';
 import {IMobileServerResponse} from '../../../TypeInterfaces/INetworkResponse';
 
-interface CityDataType {
-  airportCode: string;
-  airportName: string | null;
-  cityId: number;
-  country: string;
-  countryCode: string;
-  name: string;
-}
-
-export interface ICityListResponseData extends IMobileServerResponse {
+export interface LoyalCreditResponseData extends IMobileServerResponse {
   status: 'SUCCESS';
-  data: CityDataType[];
-  options: [];
+  data: {};
 }
 
 export interface ICityListApiCallHookData extends IApiCallHookData {
-  successResponseData: ICityListResponseData | undefined;
+  successResponseData: LoyalCreditResponseData | undefined;
 }
+type LoyalCreditRequestType = {coupon: string; itineraryId: string};
+export type loaylCreditApiHookType = [
+  ICityListApiCallHookData,
+  (reqObject: LoyalCreditRequestType) => Promise<boolean>,
+];
 
-export type cityApiHookType = [
+export type useLoyaltyCreditApiCallType = [
   ICityListApiCallHookData,
   (requestObject: IApiCallConfig) => Promise<boolean>,
 ];
 
-export type useCityApiCallType = [
-  ICityListApiCallHookData,
-  (requestObject: IApiCallConfig) => Promise<boolean>,
-];
-
-const useLoayltyCreditApi = (requestBody): cityApiHookType => {
+const useLoayltyCreditApi = (): loaylCreditApiHookType => {
   const [
     {successResponseData, failureResponseData, isError, isLoading, isSuccess},
     makeApiCall,
-  ] = useApiCall() as useCityApiCallType;
+  ] = useApiCall() as useLoyaltyCreditApiCallType;
 
-  const applyCredit = ({
+  const applyLoyaltyCredit = ({
     coupon,
     itineraryId,
-  }: {
-    coupon: string;
-    itineraryId: string;
-  }) => {
+  }: LoyalCreditRequestType) => {
     return new Promise<boolean>(async (resolve, reject) => {
       const url = coupon
         ? CONSTANT_loyalty_apply({coupon, itineraryId})
         : CONSTANT_coupon_remove({itineraryId});
 
-      const method =  coupon ? 'POST' : 'DELETE'
+      const method = coupon ? 'POST' : 'DELETE';
       try {
         const result = await makeApiCall({
           route: url,
@@ -78,7 +58,7 @@ const useLoayltyCreditApi = (requestBody): cityApiHookType => {
 
   return [
     {successResponseData, failureResponseData, isError, isLoading, isSuccess},
-    applyCredit,
+    applyLoyaltyCredit,
   ];
 };
 

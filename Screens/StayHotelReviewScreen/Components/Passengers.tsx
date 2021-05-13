@@ -1,4 +1,4 @@
-import {Box, Text} from '@pyt/micros';
+import {Box, Text, AnimatedInputBox} from '@pyt/micros';
 import moment from 'moment';
 import React, {useState} from 'react';
 import {TouchableOpacity} from 'react-native';
@@ -11,8 +11,9 @@ import {
   CONSTANT_voucherDateFormat,
 } from '../../../constants/styles';
 import CountryCodePicker from '../../MobileNumberScreen/Components/CountryCodePicker';
-import {AnimatedInputBox} from '../../StayHotelSearchScreen/animated-input-box';
+// import {AnimatedInputBox} from '../../StayHotelSearchScreen/animated-input-box';
 import {DateInputBox} from '../../StayHotelSearchScreen/Components/DateInputBox';
+import {PassengerErrorType} from '../StayHotelReviewScreen';
 
 export const Passengers = ({
   firstName,
@@ -24,6 +25,16 @@ export const Passengers = ({
   salutation,
   countryPhoneCode,
   error = {},
+}: {
+  error: PassengerErrorType;
+  firstName: string;
+  mobileNumber: string | number;
+  email: string;
+  updatePaxData: (data) => unkown;
+  birthDay: stirng;
+  index: number;
+  salutation: string;
+  countryPhoneCode: string;
 }) => {
   const [codePickerVisible, setCodePickerVisible] = useState(false);
   const toggleCodePicker = () => setCodePickerVisible(!codePickerVisible);
@@ -120,26 +131,20 @@ export const Passengers = ({
       <DateInputBox
         label="Date of birth"
         date={birthDay}
-        dateFormat={CONSTANT_costingDateFormat}
+        dateFormat={CONSTANT_voucherDateFormat}
         displayFormat={CONSTANT_GCMDateFormat}
         onDateSelect={(date: string) => {
+          console.log('dob', date);
           updatePaxData({index, key: 'birthDay', value: date});
         }}
-        maxDate={
-          new Date(
-            moment()
-              .endOf('year')
-              .subtract(18, 'years')
-              .format(CONSTANT_voucherDateFormat),
-          )
-        }
+        maxDate={new Date(moment().format(CONSTANT_voucherDateFormat))}
         error={error.birthDay}
         containerProps={{flex: 1}}
       />
       <CountryCodePicker
         isVisible={codePickerVisible}
         onClose={toggleCodePicker}
-        selectCountryCode={code => {
+        selectCountryCode={(code: string) => {
           updatePaxData({index, key: 'countryPhoneCode', value: code});
         }}
       />

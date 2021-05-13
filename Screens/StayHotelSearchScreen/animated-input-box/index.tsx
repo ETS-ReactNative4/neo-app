@@ -36,8 +36,7 @@ export const AnimatedInputBox: FunctionComponent<AnimatedInputBoxProps> = ({
   fontFamily,
   editable = true,
   error,
-  inputRef=null,
-  labelProps={},
+  labelProps = {},
   ...restProps
 }) => {
   const [isFocused, setIsFocused] = useState<boolean>(false);
@@ -61,10 +60,8 @@ export const AnimatedInputBox: FunctionComponent<AnimatedInputBoxProps> = ({
     }).start();
   };
   useEffect(() => {
-    if(value){
-      handleFocus()
-    }else{
-      handleBlur()
+    if (value) {
+      handleFocus();
     }
   }, [value, handleFocus]);
 
@@ -85,15 +82,12 @@ export const AnimatedInputBox: FunctionComponent<AnimatedInputBoxProps> = ({
       borderRadius={8}
       backgroundColor={'#EDEDED'}
       borderWidth={1}
-      borderColor={error ? '#EF435D' : isFocused ? '#00774F' : '#EDEDED' }
-      // paddingHorizontal={16}
-      // paddingVertical={8}
+      borderColor={error ? '#EF435D' : isFocused ? '#00774F' : '#EDEDED'}
       {...containerProps}>
       <Box flex={1} marginHorizontal={12} marginVertical={8}>
         <Animated.Text style={labelStyle}>
           <Text
             fontSize={11}
-            // lineHeight={14}
             color={'#777777'}
             fontFamily={fontFamily}
             {...labelProps}>
@@ -103,41 +97,25 @@ export const AnimatedInputBox: FunctionComponent<AnimatedInputBoxProps> = ({
 
         <Pressable
           onPress={() => {
-            console.log('triggered');
             editable && handleFocus();
           }}>
-          <TextInput
+          <InputText
             // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
             // @ts-ignore
-            // zIndex={1}
-            // height={51}
             clearButtonMode="never"
             value={value}
-            ref={inputRef}
             onFocus={e => {
               setIsFocused(true);
-              //   onFocus && onFocus(e)
               handleFocus();
             }}
             onBlur={e => {
               setIsFocused(false);
-              //   onBlur && onBlur(e)
               handleBlur();
             }}
-            style={{
-              zIndex: 1,
-            }}
-            editable={editable}
             {...restProps}
           />
         </Pressable>
       </Box>
-
-      {/* {showClear ? (
-				<Box>
-					<Text>x</Text>
-				</Box>
-			) : null}  */}
     </Box>
   );
 };

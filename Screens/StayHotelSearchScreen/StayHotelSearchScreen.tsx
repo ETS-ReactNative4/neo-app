@@ -11,7 +11,7 @@ import {
   SCREEN_STAY_HOTEL_LIST,
   SCREEN_STAY_SEARCH,
 } from '../../NavigatorsV2/ScreenNames';
-import {SearchSelect} from './search-select';
+import {SearchSelect} from '@pyt/widgets/dist/esm/search-select';
 import {DateInputBox} from './Components/DateInputBox';
 import useCityListApi, {OptionType} from './hook/useCityListApi';
 import moment from 'moment';
@@ -55,8 +55,8 @@ export interface StayHotelSearchDataType {
 }
 
 type HotelGuestRoomConfigurationType = {
-  hotelGuestRoomConfiguration: StayHotelRoomConfigurationType[]
-} 
+  hotelGuestRoomConfiguration: StayHotelRoomConfigurationType[];
+};
 export interface StayHotelSearcRequestType {
   checkInDate: string;
   checkOutDate: string;
@@ -64,6 +64,14 @@ export interface StayHotelSearcRequestType {
   filters: {};
   city: OptionType;
 }
+
+// export interface StayHotelSearchParamType {
+//   checkInDate?: string
+//   checkOutDate?: string
+//   hotelGuestRoomConfiguration?: StayHotelRoomConfigurationType[]
+//   filters?: {},
+//   cityId?: number,
+// }
 interface StayHotelSearchScreenProps {
   userStore: User;
   navigation: StayHotelSearchScreenType;
@@ -73,15 +81,9 @@ interface StayHotelSearchScreenProps {
 const StayHotelSearchScreen = inject('userStore')(
   inject('otaHotelStore')(
     observer(({otaHotelStore, navigation}: StayHotelSearchScreenProps) => {
+      // const { checkInDate: defaultCheckInDate, checkoutDate: defaultCheckOutDate, cityId: defaultCityId } = route.params ?? {}
       const [cityApiDetails, getCityList] = useCityListApi();
       const {successResponseData} = cityApiDetails;
-
-      useEffect(() => {
-        getCityList();
-      }, []);
-
-      const {getHotelList, isLoading, hotels, hotelSearchRequest} =
-        otaHotelStore ?? {};
 
       const [searchData, setSearchData] = useState<StayHotelSearchDataType>({
         checkInDate: nextWeekDate.format(dateFormat),
@@ -91,6 +93,27 @@ const StayHotelSearchScreen = inject('userStore')(
         city: {label: '', value: ''},
       });
       const [searchClicked, setSearchClicked] = useState(false);
+
+      useEffect(() => {
+        getCityList();
+      }, []);
+
+      // useEffect(()=>{
+      //   if(successResponseData?.options && defaultCityId){
+      //     successResponseData.options.some(city => {
+      //       if(city.value === defaultCityId){
+      //         searchData.city = city;
+      //             setSearchData({
+      //               ...searchData,
+      //             });
+      //         return true
+      //       }
+      //     })
+      //   }
+      // },[successResponseData?.options || []])
+
+      const {getHotelList, isLoading, hotels, hotelSearchRequest} =
+        otaHotelStore ?? {};
 
       const onSearch = () => {
         const requestBody = {
@@ -189,6 +212,8 @@ const StayHotelSearchScreen = inject('userStore')(
                 Destination city
               </Text>
               <SearchSelect
+                label="Search City"
+                fontFamily={CONSTANT_fontPrimaryRegular}
                 options={successResponseData?.options || []}
                 onSelect={data => {
                   searchData.city = data;
