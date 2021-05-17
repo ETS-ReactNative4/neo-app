@@ -1,15 +1,14 @@
 import {Included} from '@pyt/icons';
-import {Text} from '@pyt/micros';
+import {Text, TripAdvisor} from '@pyt/micros';
+
 import {HotelCard} from '@pyt/widgets/dist/esm/hotel-card';
-import React, {ReactElement, ReactSVGElement} from 'react';
+import React, {ReactElement} from 'react';
 import {
   CONSTANT_fontPrimaryRegular,
   CONSTANT_fontPrimarySemiBold,
 } from '../../../constants/fonts';
 import getSymbolFromCurrency from 'currency-symbol-map';
 import {getGlobalPriceWithoutSymbol} from '../../ExploreScreen/services/getPriceWithoutSymbol';
-import {Dimensions} from 'react-native';
-import {string} from 'prop-types';
 
 // const width = Dimensions.get('window').width;
 
@@ -35,6 +34,7 @@ export const HotelCardWrapper = ({
     breakFastAvailable,
     refundable,
     amenities,
+    tripAdvisorRating,
   } = hotelData ?? {};
   const image = imageURL || otherImages?.[0];
 
@@ -45,17 +45,25 @@ export const HotelCardWrapper = ({
   const costSymbol = getSymbolFromCurrency(displayCurrency);
 
   const dotSeparateList = [
+    tripAdvisorRating ? <TripAdvisor stars={tripAdvisorRating} /> : null,
     `${parseInt(distanceFromCityCenter || 0, 10)} km from city center`,
-    `${Math.round(stars)} star hotel`,
-  ].map((list, index) => (
-    <Text
-      fontFamily={CONSTANT_fontPrimaryRegular}
-      fontSize={13}
-      color={'#333333'}
-      key={index}>
-      {list}
-    </Text>
-  ));
+    stars ? `${Math.round(stars)} star hotel` : null,
+  ]
+    .filter(element => element)
+    .map((element, index) =>
+      typeof element === 'string' ? (
+        <Text
+          fontFamily={CONSTANT_fontPrimaryRegular}
+          fontSize={13}
+          color={'#333333'}
+          lineHeight={20}
+          key={index}>
+          {element}
+        </Text>
+      ) : (
+        element
+      ),
+    );
 
   const availableAmenities = [
     {
@@ -115,7 +123,8 @@ export const HotelCardWrapper = ({
       }}
       amenities={availableAmenities}
       strikedCost={strikedCost ? `${costSymbol}${strikedCost}` : ''}
-      cost={`${costSymbol}${cost}`}
+      cost={`${cost} `}
+      currency={costSymbol}
       costSubText={`${nightText} & ${paxText}`}
       costSubTextProps={{
         fontFamily: CONSTANT_fontPrimaryRegular,

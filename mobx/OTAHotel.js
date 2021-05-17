@@ -1,16 +1,14 @@
 import {observable, computed, action, toJS} from 'mobx';
-import {createTransformer} from 'mobx-utils';
-import {persist} from 'mobx-persist';
 import apiCall from '../Services/networkRequests/apiCall';
 import constants from '../constants/constants';
 
 class OTAHotel {
-  @persist('object')
   @observable
   _hotels = {};
 
   reset = () => {
     this._hotels = {};
+    this._hotelSearchRequest = {};
   };
 
   @observable _hotelSearchRequest = {};

@@ -6,12 +6,10 @@ import Icon from '../../../CommonComponents/Icon/Icon';
 import {CONSTANT_fontPrimaryRegular} from '../../../constants/fonts';
 import {CONSTANT_arrowDown} from '../../../constants/imageAssets';
 import {
-  CONSTANT_costingDateFormat,
   CONSTANT_GCMDateFormat,
   CONSTANT_voucherDateFormat,
 } from '../../../constants/styles';
 import CountryCodePicker from '../../MobileNumberScreen/Components/CountryCodePicker';
-// import {AnimatedInputBox} from '../../StayHotelSearchScreen/animated-input-box';
 import {DateInputBox} from '../../StayHotelSearchScreen/Components/DateInputBox';
 import {PassengerErrorType} from '../StayHotelReviewScreen';
 
@@ -30,8 +28,12 @@ export const Passengers = ({
   firstName: string;
   mobileNumber: string | number;
   email: string;
-  updatePaxData: (data) => unkown;
-  birthDay: stirng;
+  updatePaxData: (data: {
+    index: number;
+    key: string;
+    value: string | number;
+  }) => unknown;
+  birthDay: string;
   index: number;
   salutation: string;
   countryPhoneCode: string;
@@ -80,6 +82,11 @@ export const Passengers = ({
             marginStart: 12,
             flex: 1,
           }}
+          fontFamily={CONSTANT_fontPrimaryRegular}
+          fontSize={14}
+          lineHeight={18}
+          paddingStart={0}
+          color="#333333"
           error={error.firstName}
         />
       </Box>
@@ -97,7 +104,8 @@ export const Passengers = ({
             flexDirection="row">
             <Text
               fontFamily={CONSTANT_fontPrimaryRegular}
-              fontSize={15}
+              fontSize={14}
+              lineHeight={18}
               color={'#333333'}>
               {countryPhoneCode}
             </Text>
@@ -115,6 +123,11 @@ export const Passengers = ({
             marginBottom: 12,
             flex: 1,
           }}
+          fontFamily={CONSTANT_fontPrimaryRegular}
+          fontSize={14}
+          lineHeight={18}
+          color="#333333"
+          paddingStart={0}
           error={error.mobileNumber}
         />
       </Box>
@@ -126,6 +139,11 @@ export const Passengers = ({
         containerProps={{
           marginBottom: 12,
         }}
+        fontFamily={CONSTANT_fontPrimaryRegular}
+        fontSize={14}
+        lineHeight={18}
+        color="#333333"
+        paddingStart={0}
         error={error.email}
       />
       <DateInputBox

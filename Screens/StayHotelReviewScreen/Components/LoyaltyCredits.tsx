@@ -1,11 +1,7 @@
-import {Pill} from '@pyt/micros';
 import {Box} from '@pyt/micros/src/box';
 import {Text} from '@pyt/micros/src/text';
-import React, {useCallback, useEffect, useState} from 'react';
-import {
-  CONSTANT_coupon_apply,
-  CONSTANT_LOYALTY_CREDITS,
-} from '../../../constants/apiUrls';
+import React, {useEffect, useState} from 'react';
+import {CONSTANT_LOYALTY_CREDITS} from '../../../constants/apiUrls';
 import constants from '../../../constants/constants';
 import {
   CONSTANT_fontPrimaryRegular,
@@ -18,6 +14,10 @@ import {getGlobalPriceWithoutSymbol} from '../../ExploreScreen/services/getPrice
 import Icon from '../../../CommonComponents/Icon/Icon';
 import {CONSTANT_heart} from '../../../constants/imageAssets';
 
+type UserLoayltyCreditResponseType = {
+  domesticLoyaltyBalance: number;
+  internationalLoyaltyBalance: number;
+};
 export const LoyaltyCredits = ({
   itineraryId,
   applyCredit,
@@ -31,11 +31,18 @@ export const LoyaltyCredits = ({
   itineraryId: string;
   userId: string;
   setOpenedBoxName: (type: 'CREDIT' | 'COUPON') => unknown;
-  openedBoxName: 'CREDIT' | 'COUPON';
-  applyCredit: () => unknown;
+  openedBoxName: string;
+  applyCredit: (req: {coupon: string | number; itineraryId: string}) => unknown;
+  displayCurrency: string;
+  disabled: boolean;
+  loading: boolean;
 }) => {
-  const [loyalCredit, setLoyaltyCredit] = useState({});
-  const [inputVisible, setInputVisible] = useState(false);
+  const [loyalCredit, setLoyaltyCredit] = useState<
+    UserLoayltyCreditResponseType
+  >({domesticLoyaltyBalance: 0, internationalLoyaltyBalance: 0});
+
+  const [inputVisible, setInputVisible] = useState<boolean>(false);
+
   useEffect(() => {
     apiCall(
       CONSTANT_LOYALTY_CREDITS({userId}),
@@ -45,35 +52,36 @@ export const LoyaltyCredits = ({
     ).then(response => {
       setLoyaltyCredit(response.data);
     });
-  }, []);
+  }, [userId]);
 
-  const setInputBoxVisible = value => {
-    console.log('value-->', value);
+  const setInputBoxVisible = (value: boolean) => {
     setInputVisible(value);
     if (value) {
       setOpenedBoxName('CREDIT');
     }
   };
+
   const totalCredits =
     loyalCredit.domesticLoyaltyBalance +
     loyalCredit.internationalLoyaltyBalance;
+
   if (!totalCredits) {
     return null;
   }
-  console.log('loyalCredit', loyalCredit);
+
   const costSymbol = getSymbolFromCurrency(displayCurrency);
 
   const closeInputBox = openedBoxName === 'COUPON';
 
-  const getCouponText = data => {
-    console.log('called');
+  const getCouponText = (data: string) => {
     const cost = getGlobalPriceWithoutSymbol({
       amount: parseInt(data, 10),
       currency: displayCurrency,
     });
     return `${costSymbol}${cost} discounted as loyalty offer`;
   };
-  const isConditionValid = value => {
+
+  const isConditionValid = (value: number) => {
     if (value <= 0) {
       return false;
     } else if (value > loyalCredit.domesticLoyaltyBalance) {
@@ -89,7 +97,6 @@ export const LoyaltyCredits = ({
         justifyContent="space-between"
         flex={1}>
         <CouponInput
-          // onChangeText={setCoupon}
           applyCoupon={applyCredit}
           itineraryId={itineraryId}
           label="Apply loyalty credits"

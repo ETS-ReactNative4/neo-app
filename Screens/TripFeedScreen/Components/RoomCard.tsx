@@ -1,4 +1,4 @@
-import React, {Fragment, FunctionComponent, ReactNode} from 'react';
+import React, {FunctionComponent, ReactNode} from 'react';
 import {StyleEngineProps} from '@pyt/core/native';
 import {MiniImageSlider, MiniImageSliderProps} from './ImageSlider';
 import {
@@ -10,10 +10,11 @@ import {
   TextProps,
   AmenitiesList,
 } from '@pyt/micros';
-import {Included} from '@pyt/icons';
 
-import {RoomDataType} from '../../StayHotelDetailScreen/StayHotelDetailScreen';
 import {ReadMoreCard} from '@pyt/widgets/dist/esm/read-more-card';
+import {CONSTANT_fontPrimarySemiBold} from '../../../constants/fonts';
+import Icon from '../../../CommonComponents/Icon/Icon';
+import {CONSTANT_checkIcon} from '../../../constants/imageAssets';
 
 type RoomOptionCardDataType = {
   strikedCost?: string;
@@ -175,7 +176,15 @@ export const RoomCard: FunctionComponent<RoomCardProps> = ({
                   height={40}
                   borderRadius={8}
                   icon={
-                    room.cardSelected ? <Included fill={'#ffffff'} /> : <></>
+                    room.cardSelected ? (
+                      <Icon
+                        name={CONSTANT_checkIcon}
+                        color={'#ffffff'}
+                        size={16}
+                      />
+                    ) : (
+                      <></>
+                    )
                   }
                   iconPosition="left"
                   borderWidth={1.5}
@@ -187,8 +196,10 @@ export const RoomCard: FunctionComponent<RoomCardProps> = ({
                   text={room.cardSelected ? ' Selected' : 'Select'}
                   textProps={{
                     color: room.cardSelected ? '#ffffff' : '#00C684',
+                    fontFamily: CONSTANT_fontPrimarySemiBold,
                   }}
                   onPress={room.onPress}
+                  alignItems="center"
                   {...buttonProps}
                 />
               )}

@@ -1,5 +1,5 @@
 import {Included} from '@pyt/icons';
-import React, {useEffect} from 'react';
+import React, {useEffect, useRef} from 'react';
 import {
   ScrollView,
   ActivityIndicator,
@@ -23,6 +23,8 @@ import Icon from '../../CommonComponents/Icon/Icon';
 import {AppNavigatorProps} from '../../NavigatorsV2/AppNavigator';
 import {SCREEN_STAY_HOTEL_ROOM_LIST} from '../../NavigatorsV2/ScreenNames';
 import {RoomDataType} from '../StayHotelDetailScreen/StayHotelDetailScreen';
+import {Text} from '@pyt/micros/src/text';
+import PrimaryHeader from '../../NavigatorsV2/Components/PrimaryHeader';
 
 type StayHotelDetailScreenNavType = AppNavigatorProps<
   typeof SCREEN_STAY_HOTEL_ROOM_LIST
@@ -48,6 +50,7 @@ export const StayHotelRoomList = ({
     currentSelectedRoom = {},
     nightText,
     displayCurrency,
+    title,
   } = route?.params ?? {};
 
   const [hotelRoomDetails, searchHotelRoom] = useSearchHotelRoomApi();
@@ -63,8 +66,26 @@ export const StayHotelRoomList = ({
     navigation.goBack();
   };
 
+  const onPressBack = () => {
+    navigation.goBack();
+  };
+  const header = useRef(
+    PrimaryHeader({
+      leftAction: onPressBack,
+      headerElement: (
+        <Text
+          fontFamily={CONSTANT_fontPrimarySemiBold}
+          fontSize={15}
+          lineHeight={19}>
+          {title}
+        </Text>
+      ),
+    }),
+  ).current;
+
   return (
     <ScrollView style={styles.container}>
+      {header}
       <Box style={styles.content}>
         {hotelRoomDetails.isLoading ? (
           <ActivityIndicator size="small" color="#AAAAAA" />

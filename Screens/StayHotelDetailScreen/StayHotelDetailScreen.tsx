@@ -1,6 +1,6 @@
 import {AmenitiesList, Box, Button, DotSeparateList, Text} from '@pyt/micros';
 import {HotelCard} from '@pyt/widgets/dist/esm/hotel-card';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import getSymbolFromCurrency from 'currency-symbol-map';
 import {ScrollView, SafeAreaView, StyleSheet, Dimensions} from 'react-native';
 import {
@@ -41,6 +41,9 @@ import {HotelCardWrapper} from '../StayHotelListScreen/Components/HotelCardWrapp
 import {AssuranceCard} from '@pyt/widgets/dist/esm/assurance-card';
 import useDeepCompareEffect from 'use-deep-compare-effect';
 import storeService from '../../Services/storeService/storeService';
+import useHotelDealAPi from './hook/useHotelDealApi';
+import {HotelDelaCard} from './Components/HotelDealCard';
+import extractTextFromHtml from '../../Services/extractTextFromHtml/extractTextFromHtml';
 
 export type RoomDataType = {
   roomImages: string[];
@@ -73,12 +76,19 @@ export interface HotelDataType {
   inPolicy: boolean;
   isRecommended: boolean;
   publishedCost: number;
+  strikedCost: number;
   identifier: string;
   roomsInHotel: RoomDataType[];
   sourceProvider: string;
   numberOfNights: number;
   description: string;
   cityName: string;
+  planningToolId: number;
+  distanceFromCityCenter: number;
+  breakFastAvailable: boolean;
+  refundable: boolean;
+  amenities: [];
+  tripAdvisorRating: number;
 }
 
 type StayHotelDetailScreenNavType = AppNavigatorProps<
@@ -117,14 +127,23 @@ const StayHotelDetailScreen = ({
     checkInMonthDisplay,
     checkOutDateDisplay,
     checkOutMonthDisplay,
+    planningToolId,
   } = hotelData ?? {};
 
   const {passengerConfiguration, checkInDate} = hotelSearchRequest ?? {};
   const [itineraryDetails, createItinerary] = useCreateItineraryApi();
-
+  const [hotelDealDetails, getHotelDeal] = useHotelDealAPi();
   const [selectedRoomList, setSelectedRoomList] = useState<RoomDataType[]>([
     ...(roomsInHotel ?? []),
   ]);
+  console.log('hotelDealDetails', hotelDealDetails);
+
+  useEffect(() => {
+    if (planningToolId) {
+      getHotelDeal(planningToolId);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [planningToolId]);
 
   const nextScreen = () => {
     const {identifier, sourceProvider, numberOfNights} = hotelData;
@@ -157,9 +176,17 @@ const StayHotelDetailScreen = ({
       successResponseData,
     } = itineraryDetails;
     if (isSuccess && !itineraryDetailLoading && successResponseData) {
-      hotelData.roomsInHotel = [...selectedRoomList];
+      // hotelData.roomsInHotel = [...selectedRoomList];
+      // navigation.setParams({
+      //   ...route.params,
+      //   hotelData,
+      //   update:true
+      // })
       navigation.navigate(SCREEN_STAY_HOTEL_REVIEW, {
-        hotelData,
+        hotelData: {
+          ...hotelData,
+          roomsInHotel: [...selectedRoomList],
+        },
         itineraryId: successResponseData?.data,
         hotelSearchRequest,
         displayCurrency,
@@ -239,6 +266,8 @@ const StayHotelDetailScreen = ({
   const hotelPaxText = getPaxConfigText(
     passengerConfiguration?.hotelGuestRoomConfiguration,
   );
+
+  const {data = []} = hotelDealDetails.successResponseData ?? {};
   return (
     <SafeAreaView style={styles.container}>
       <Box backgroundColor="#E5E5E5" flex={1}>
@@ -254,8 +283,34 @@ const StayHotelDetailScreen = ({
             textContainer={{marginBottom: 12}}>
             <DotSeparateList list={dotSeparateList} marginBottom={12} />
           </StaySection>
-          <StaySection title={'Amenities'} textContainer={{marginBottom: 0}}>
-            {amenityList.length ? (
+          {data.length ? (
+            <Box marginBottom={22} marginTop={16}>
+              <Text
+                fontSize={17}
+                color={'#555555'}
+                fontFamily={CONSTANT_fontPrimarySemiBold}
+                marginBottom={20}
+                paddingStart={20}>
+                Deals for you
+              </Text>
+              <ScrollView
+                horizontal={true}
+                showsHorizontalScrollIndicator={false}>
+                {data.map((deal, index) => (
+                  <HotelDelaCard
+                    cost={deal.itineraryCost}
+                    strikedCost={deal.strikedCost}
+                    link={deal.deepLinking?.link}
+                    nights={deal.nights}
+                    hotelPaxText={hotelPaxText}
+                    index={index}
+                  />
+                ))}
+              </ScrollView>
+            </Box>
+          ) : null}
+          {amenityList.length ? (
+            <StaySection title={'Amenities'} textContainer={{marginBottom: 0}}>
               <ReadMoreCard
                 data={amenityList}
                 defaultVisibleItemCount={4}
@@ -272,8 +327,8 @@ const StayHotelDetailScreen = ({
                   />
                 }
               />
-            ) : null}
-          </StaySection>
+            </StaySection>
+          ) : null}
           <AssuranceCard
             containerProps={{
               marginBottom: 8,
@@ -309,7 +364,7 @@ const StayHotelDetailScreen = ({
                 <AboutHotel
                   data={hotelData.description}
                   showViewMore={true}
-                  description={hotelData.description}
+                  description={extractTextFromHtml(hotelData.description)}
                 />
               }
               viewMoreElement={
@@ -355,7 +410,7 @@ const StayHotelDetailScreen = ({
                   <HotelCard
                     width={width - 32}
                     title={roomData.name}
-                    fontFamily={CONSTANT_fontPrimaryRegular}
+                    fontFamily={CONSTANT_fontPrimarySemiBold}
                     cost={`${costSymbol}${cost}`}
                     costSubText={`${nightText} & ${getPaxConfigText(
                       [roomData.roomConfiguration],
@@ -368,6 +423,7 @@ const StayHotelDetailScreen = ({
                         width: 'auto',
                         marginEnd: 12,
                       },
+                      fontFamily: CONSTANT_fontPrimaryRegular,
                     }}
                     amenities={[
                       {

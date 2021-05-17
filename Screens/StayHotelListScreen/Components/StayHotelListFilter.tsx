@@ -1,10 +1,5 @@
-// import { Checkbox } from '@pyt/micros';
 import {Box, Text} from '@pyt/micros';
 import React, {useEffect, useState} from 'react';
-// import {
-//   Checkbox,
-//   CheckboxOptionProps,
-// } from '../../StayHotelSearchScreen/Checkbox';
 import Modal from 'react-native-modal';
 import {
   SafeAreaView,
@@ -12,7 +7,6 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from 'react-native';
-import {CONSTANT_white} from '../../../constants/colorPallete';
 import FilterModalHeader from '../../ListingPageScreen/Components/FilterModalHeader';
 import {StayHotelFooter} from './StayHotelFooter';
 import _capitalize from 'lodash/capitalize';
@@ -20,7 +14,7 @@ import StaySection from './StaySection';
 import Icon from '../../../CommonComponents/Icon/Icon';
 import {CONSTANT_starActive} from '../../../constants/imageAssets';
 import {CONSTANT_fontPrimaryRegular} from '../../../constants/fonts';
-import {inject, observer} from 'mobx-react';
+
 import {
   price as priceINR,
   priceUAE,
@@ -29,9 +23,13 @@ import {
 } from '../../ListingPageScreen/filterOptions/filterOptions';
 import storeService from '../../../Services/storeService/storeService';
 import _toLower from 'lodash/toLower';
-import {Checkbox, CheckboxOptionProps} from '@pyt/micros/dist/esm/checkbox';
-// import { RadioOptionProps } from '../../StayHotelSearchScreen/Radiobox';
-import {Radiobox, RadioOptionProps} from '../../StayHotelSearchScreen/Radiobox';
+import {
+  Checkbox,
+  CheckboxOptionProps,
+  Radiobox,
+  RadioOptionProps,
+} from '@pyt/micros';
+import {StayHotelSearcRequestType} from '../../StayHotelSearchScreen/StayHotelSearchScreen';
 
 const starOptions = [
   {label: '1', value: 1},
@@ -55,6 +53,13 @@ export const StayHotelListFilter = ({
   hotelSearchRequest,
   getHotelList,
   alternateHotelFilters,
+}: {
+  closeFilterPanel: () => unknown;
+  isModalVisible: boolean;
+  isLoading: boolean;
+  hotelSearchRequest: StayHotelSearcRequestType;
+  getHotelList: () => unknown;
+  alternateHotelFilters: {};
 }) => {
   const [hotelFilters, setHotelFilters] = useState<HotelFilterType>({
     amenities: [],
@@ -87,8 +92,6 @@ export const StayHotelListFilter = ({
   };
   const [applyClicked, setApplyClicked] = useState(false);
 
-  console.log('hotelFilters-->', hotelFilters, alternateHotelFilters);
-
   useEffect(() => {
     if (isLoading) {
       setApplyClicked(true);
@@ -97,6 +100,7 @@ export const StayHotelListFilter = ({
       setApplyClicked(false);
       closeFilterPanel();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLoading]);
 
   const updateFilters = (

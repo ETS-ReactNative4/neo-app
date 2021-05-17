@@ -7,16 +7,19 @@ import {
   CONSTANT_loyalty_apply,
 } from '../../../constants/apiUrls';
 import {IMobileServerResponse} from '../../../TypeInterfaces/INetworkResponse';
+import {IItinerary} from '../../../TypeInterfaces/IItinerary';
 
 export interface LoyalCreditResponseData extends IMobileServerResponse {
   status: 'SUCCESS';
-  data: {};
+  data: IItinerary;
 }
 
 export interface ICityListApiCallHookData extends IApiCallHookData {
   successResponseData: LoyalCreditResponseData | undefined;
 }
-type LoyalCreditRequestType = {coupon: string; itineraryId: string};
+
+export type LoyalCreditRequestType = {coupon: number; itineraryId: string};
+
 export type loaylCreditApiHookType = [
   ICityListApiCallHookData,
   (reqObject: LoyalCreditRequestType) => Promise<boolean>,

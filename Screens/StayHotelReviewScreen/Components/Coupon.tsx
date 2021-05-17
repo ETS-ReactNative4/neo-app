@@ -1,27 +1,25 @@
-import React, {useState} from 'react';
+import React from 'react';
 import Icon from '../../../CommonComponents/Icon/Icon';
-import {CONSTANT_coupon_apply} from '../../../constants/apiUrls';
-import constants from '../../../constants/constants';
 import {CONSTANT_offer} from '../../../constants/imageAssets';
-import apiCall from '../../../Services/networkRequests/apiCall';
+import {CouponRequestType} from '../hook/useCouponApi';
 import {CouponInput} from './CouponInput';
 
 export const Coupon = ({
   itineraryId,
   applyCoupon,
-  setCouponInputVisible,
   setOpenedBoxName,
   openedBoxName,
   disabled,
   loading,
+}: {
+  itineraryId: string;
+  applyCoupon: (req: CouponRequestType) => unknown;
+  setOpenedBoxName: (type: 'CREDIT' | 'COUPON') => unknown;
+  openedBoxName: string;
+  disabled: boolean;
+  loading: boolean;
 }) => {
-  const [coupon, setCoupon] = useState('');
-
-  const onApplyCoupon = () => {
-    applyCoupon();
-  };
-
-  const setInputBoxVisible = value => {
+  const setInputBoxVisible = (value: boolean) => {
     if (value) {
       setOpenedBoxName('COUPON');
     }
@@ -29,7 +27,6 @@ export const Coupon = ({
 
   return (
     <CouponInput
-      onChangeText={setCoupon}
       applyCoupon={applyCoupon}
       itineraryId={itineraryId}
       setInputBoxVisible={setInputBoxVisible}

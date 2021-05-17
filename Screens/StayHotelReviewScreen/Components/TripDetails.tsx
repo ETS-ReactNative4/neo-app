@@ -1,4 +1,5 @@
 import {Box, Text} from '@pyt/micros';
+import {useNavigation} from '@react-navigation/core';
 import React from 'react';
 import {TouchableOpacity} from 'react-native';
 import Icon from '../../../CommonComponents/Icon/Icon';
@@ -9,19 +10,27 @@ import {
 import {CONSTANT_arrowRight} from '../../../constants/imageAssets';
 import {SCREEN_STAY_SEARCH} from '../../../NavigatorsV2/ScreenNames';
 import StaySection from '../../StayHotelListScreen/Components/StaySection';
+import {StayHotelRoomConfigurationType} from '../../StayHotelSearchScreen/StayHotelSearchScreen';
 import {getPaxConfigText} from '../../StayHotelSearchScreen/util/getPaxConfigText';
 
 export const TripDetails = ({
-  navigation,
   nightText,
   checkInDateDisplay,
   checkInMonthDisplay,
   checkOutDateDisplay,
   checkOutMonthDisplay,
   hotelGuestRoomConfiguration = [],
+}: {
+  nightText: string;
+  checkInDateDisplay: string;
+  checkInMonthDisplay: string;
+  checkOutDateDisplay: string;
+  checkOutMonthDisplay: string;
+  hotelGuestRoomConfiguration: StayHotelRoomConfigurationType[];
 }) => {
+  const navigation = useNavigation();
   const onPress = () => navigation.navigate(SCREEN_STAY_SEARCH);
-  const paxText = getPaxConfigText(hotelGuestRoomConfiguration)
+  const paxText = getPaxConfigText(hotelGuestRoomConfiguration);
   return (
     <StaySection title="Trip details">
       {[

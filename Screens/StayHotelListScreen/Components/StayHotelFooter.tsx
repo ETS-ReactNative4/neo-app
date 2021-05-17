@@ -44,15 +44,17 @@ export const StayHotelFooter = ({
           textDecorationLine="underline">
           {leftButtonText}
         </Text>
-        <Text
-          fontFamily={CONSTANT_fontPrimarySemiBold}
-          fontSize={13}
-          lineHeight={17}
-          color="#555555"
-          textDecorationLine="underline"
-          marginTop={4}>
-          {leftButtonSubText}
-        </Text>
+        {leftButtonSubText ? (
+          <Text
+            fontFamily={CONSTANT_fontPrimarySemiBold}
+            fontSize={13}
+            lineHeight={17}
+            color="#555555"
+            textDecorationLine="underline"
+            marginTop={4}>
+            {leftButtonSubText}
+          </Text>
+        ) : null}
       </TouchableOpacity>
       <Box flexDirection="row">
         <Box marginEnd={12} justifyContent="center">

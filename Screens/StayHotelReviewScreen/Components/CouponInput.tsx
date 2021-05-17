@@ -1,5 +1,5 @@
-import {AnimatedInputBox, Box, Button, InputBox, Pill, Text} from '@pyt/micros';
-import React, {useEffect, useRef, useState} from 'react';
+import {AnimatedInputBox, Box, Pill, Text} from '@pyt/micros';
+import React, {useEffect, useState} from 'react';
 import {
   ActivityIndicator,
   Keyboard,
@@ -15,14 +15,9 @@ import {
 import {
   CONSTANT_arrowRight,
   CONSTANT_cancellationIcon,
-  CONSTANT_checkMarkCircle,
-  CONSTANT_closeIcon,
 } from '../../../constants/imageAssets';
-// import {AnimatedInputBox} from '../../StayHotelSearchScreen/animated-input-box';
-// import {AnimatedInputBox} from '../../StayHotelSearchScreen/animated-input-box';
 
 export const CouponInput = ({
-  onChangeText = () => null,
   applyCoupon,
   itineraryId,
   disabled,
@@ -32,21 +27,30 @@ export const CouponInput = ({
   inputLabel,
   setInputBoxVisible = () => null,
   closeInputBox,
-  invalidCoupon,
   pillText,
   getCouponText,
   isConditionValid,
-  icon,
   loading,
 }: {
-  onChangeText: () => null;
+  applyCoupon: (req: {coupon: string | number; itineraryId: string}) => unknown;
+  itineraryId: string;
+  disabled: boolean;
+  label?: string;
+  applyText?: string;
+  keyboardType: string;
+  inputLabel?: string;
+  setInputBoxVisible?: (showInput: boolean) => unknown;
+  closeInputBox?: boolean;
+  pillText?: string;
+  getCouponText?: (value: string) => unknown;
+  isConditionValid?: (value: number) => unknown;
+  loading: boolean;
 }) => {
   const [showInput, setShowInput] = useState(false);
-  const [value, setValue] = useState('');
-  const [couponApplied, setCouponApplied] = useState(false);
+  const [value, setValue] = useState<string | number>();
+  const [couponApplied, setCouponApplied] = useState<boolean>(false);
   const [error, setError] = useState(false);
 
-  const inputRef = useRef(null);
   const toogleInput = () => {
     setShowInput(!showInput);
     setInputBoxVisible(!showInput);
@@ -101,10 +105,9 @@ export const CouponInput = ({
     setCouponApplied(false);
   };
 
-  const onChangeValue = text => {
+  const onChangeValue = (text: string | number) => {
     setValue(text);
     error && setError(false);
-    onChangeText(text);
   };
 
   return (
@@ -191,8 +194,6 @@ export const CouponInput = ({
           fontFamily={CONSTANT_fontPrimaryRegular}
           onChangeText={onChangeValue}
           value={value}
-          // paddingHorizontal={0}
-          // zIndex={0}
           keyboardType={keyboardType}
           labelProps={{
             fontSize: 12,
@@ -227,12 +228,6 @@ export const CouponInput = ({
 };
 
 const styles = StyleSheet.create({
-  couponText: {
-    // position: 'absolute',
-    // zIndex: 2,
-    // top: '35%',
-    // height: 51,
-  },
   inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',

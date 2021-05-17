@@ -7,14 +7,15 @@ import {
   CONSTANT_coupon_remove,
 } from '../../../constants/apiUrls';
 import {IMobileServerResponse} from '../../../TypeInterfaces/INetworkResponse';
+import {IItinerary} from '../../../TypeInterfaces/IItinerary';
 export interface CouponResponseDataType extends IMobileServerResponse {
   status: 'SUCCESS';
-  data: {};
+  data: IItinerary;
 }
 export interface CouponApiCallHookData extends IApiCallHookData {
   successResponseData: CouponResponseDataType | undefined;
 }
-type CouponRequestType = {coupon: string; itineraryId: string};
+export type CouponRequestType = {coupon: string; itineraryId: string};
 
 export type couponApiHookType = [
   CouponApiCallHookData,
@@ -45,7 +46,7 @@ const useCouponApi = (): couponApiHookType => {
           method,
           requestBody: {},
         });
-        console.log('result coupon', result, successResponseData);
+
         resolve(result);
       } catch (e) {
         reject();

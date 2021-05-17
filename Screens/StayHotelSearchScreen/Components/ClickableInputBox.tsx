@@ -44,7 +44,7 @@ export const ClickableInputBox = ({
         </Text>
         <Text
           fontSize={15}
-          lineHeight={19}
+          lineHeight={18}
           color={'#333333'}
           fontFamily={fontFamily}>
           {value}
