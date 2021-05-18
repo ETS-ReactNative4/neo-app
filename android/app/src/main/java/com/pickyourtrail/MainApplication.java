@@ -49,7 +49,7 @@ public class MainApplication extends Application implements ReactApplication {
     SoLoader.init(this, /* native exopackage */ false);
     initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
 
-    Crisp.configure(getApplicationContext(),'c6342d83-2c47-40d3-959f-c003114a14f5');
+    Crisp.configure(getApplicationContext(),"c6342d83-2c47-40d3-959f-c003114a14f5");
   }
 
   /**
