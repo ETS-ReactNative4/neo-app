@@ -1,11 +1,11 @@
-import getLocaleString from "../../../Services/getLocaleString/getLocaleString";
-import storeService from "../../../Services/storeService/storeService";
+import getLocaleString from '../../../Services/getLocaleString/getLocaleString';
+import storeService from '../../../Services/storeService/storeService';
 
 // PT TODO: Better way to display the money...
 const getPriceWithoutSymbol = (price: number) => {
   const amount = getLocaleString(price);
   const amountWithoutRupeeSymbol = amount.substr(2);
-  const amountWithoutFixedDecimals = amount.includes(".")
+  const amountWithoutFixedDecimals = amount.includes('.')
     ? amountWithoutRupeeSymbol.slice(0, -3)
     : amountWithoutRupeeSymbol;
   return amountWithoutFixedDecimals;
@@ -16,19 +16,19 @@ const getPriceWithoutSymbol = (price: number) => {
 function getCurrencySymbol(locale: string, currency: string) {
   return (0)
     .toLocaleString(locale, {
-      style: "currency",
+      style: 'currency',
       currency: currency,
       minimumFractionDigits: 0,
-      maximumFractionDigits: 0
+      maximumFractionDigits: 0,
     })
-    .replace(/\d/g, "")
+    .replace(/\d/g, '')
     .trim();
 }
 
 export const getGlobalPriceWithoutSymbol = ({
   amount,
-  languageCode = storeService?.deviceLocaleStore?.deviceLocaleCode ?? "en-IN",
-  currency = "INR"
+  languageCode = storeService?.deviceLocaleStore?.deviceLocaleCode ?? 'en-IN',
+  currency = 'INR',
 }: {
   amount: number;
   languageCode?: string;
@@ -36,13 +36,15 @@ export const getGlobalPriceWithoutSymbol = ({
 }) => {
   // eslint-disable-next-line no-undef
   const amountFormatter = new Intl.NumberFormat(languageCode, {
-    style: "currency",
+    style: 'currency',
     currency,
-    currencyDisplay: "symbol"
+    currencyDisplay: 'symbol',
+    maximumFractionDigits: 0,
+    minimumFractionDigits: 0,
   });
   const localCurrencySymbol = getCurrencySymbol(languageCode, currency);
   let amountString = amountFormatter.format(amount);
-  amountString = amountString.replace(localCurrencySymbol, "");
+  amountString = amountString.replace(localCurrencySymbol, '');
   return amountString;
 };
 
