@@ -80,9 +80,7 @@ const PreTripHomeTabs = ({deviceLocaleStore, route}: PreTripHomeTabsProp) => {
     if (screen) {
       deepLink({link: screen, screenData: meta});
     }
-    // isUserLoggedIn()
-    // .then(isLoggedIn => {
-    // }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
