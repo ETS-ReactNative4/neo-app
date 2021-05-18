@@ -169,7 +169,6 @@ import PreTripIntroScreen from '../Screens/PreTripIntroScreen/PreTripIntroScreen
 import {IIntroData} from '../Screens/IntroScreen/IntroScreen';
 import StayHotelSearchScreen, {
   StayHotelRoomConfigurationType,
-  StayHotelSearcRequestType,
 } from '../Screens/StayHotelSearchScreen/StayHotelSearchScreen';
 import StayHotelDetailScreen, {
   StayHotelDetailParamType,
@@ -182,7 +181,6 @@ import {
   StayHotelRoomList,
   StayHotelRoomListParamType,
 } from '../Screens/StayHotelRoomList/StayHotelRoomList';
-import {CONSTANT_fontPrimarySemiBold} from '../constants/fonts';
 import Search from '../Screens/SearchV2/Search';
 
 export type loginResetTargetTypes = typeof SCREEN_SAVED_ITINERARIES;
@@ -374,6 +372,7 @@ export type AppNavigatorParamsType = {
   [SCREEN_PAYMENT_SCREEN]: {
     transactionId: string;
     paymentScript: string;
+    backAction?: () => unknown;
   };
   [SCREEN_PAYMENT_SUCCESS]: {
     transactionId: string;
@@ -450,15 +449,7 @@ const AppNavigator = () => {
         />
         <Screen
           name={SCREEN_STAY_HOTEL_ROOM_LIST}
-          options={({route}) => {
-            return {
-              title: route.params.title,
-              headerTitleStyle: {
-                fontFamily: CONSTANT_fontPrimarySemiBold,
-                fontSize: 17,
-              },
-            };
-          }}
+          options={{headerShown: false}}
           component={StayHotelRoomList}
         />
         <Screen
@@ -468,13 +459,7 @@ const AppNavigator = () => {
         />
         <Screen
           name={SCREEN_STAY_HOTEL_REVIEW}
-          options={{
-            title: 'Review booking',
-            headerTitleStyle: {
-              fontFamily: CONSTANT_fontPrimarySemiBold,
-              fontSize: 17,
-            },
-          }}
+          options={{headerShown: false}}
           component={StayHotelReviewScreen}
         />
         <Screen
@@ -698,7 +683,11 @@ const AppNavigator = () => {
         <Screen name={SCREEN_JOURNAL_SHARE} component={JournalShare} />
         <Screen name={SCREEN_PAYMENT_HOME} component={PaymentHome} />
         <Screen name={SCREEN_PAYMENT_SUMMARY} component={PaymentSummary} />
-        <Screen name={SCREEN_PAYMENT_SUCCESS} component={PaymentSuccess} />
+        <Screen
+          name={SCREEN_PAYMENT_SUCCESS}
+          component={PaymentSuccess}
+          options={{gestureEnabled: false}}
+        />
         <Screen name={SCREEN_PAYMENT_FAILURE} component={PaymentFailure} />
         <Screen
           name={SCREEN_PAYMENT_SCREEN}
