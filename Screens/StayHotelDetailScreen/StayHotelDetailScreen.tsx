@@ -8,7 +8,7 @@ import {
   CONSTANT_fontPrimarySemiBold,
 } from '../../constants/fonts';
 import {getGlobalPriceWithoutSymbol} from '../ExploreScreen/services/getPriceWithoutSymbol';
-import {Included} from '@pyt/icons';
+import {ChevronRight, Included} from '@pyt/icons';
 import {MiniImageSlider} from '@pyt/widgets/dist/esm/mini-image-slider';
 import {ReadMoreCard} from '@pyt/widgets/dist/esm/read-more-card';
 import {
@@ -20,10 +20,7 @@ import {
 import useCreateItineraryApi from './hook/useCreateItineraryApi';
 import StaySection from '../StayHotelListScreen/Components/StaySection';
 import Icon from '../../CommonComponents/Icon/Icon';
-import {
-  CONSTANT_arrowRight,
-  CONSTANT_closeIcon,
-} from '../../constants/imageAssets';
+import {CONSTANT_closeIcon} from '../../constants/imageAssets';
 import moment from 'moment';
 import {CONSTANT_costingDateFormat} from '../../constants/styles';
 import {createIconSetFromIcoMoon} from 'react-native-vector-icons';
@@ -41,7 +38,7 @@ import {AssuranceCard} from '@pyt/widgets/dist/esm/assurance-card';
 import useDeepCompareEffect from 'use-deep-compare-effect';
 import storeService from '../../Services/storeService/storeService';
 import useHotelDealAPi from './hook/useHotelDealApi';
-import {HotelDelaCard} from './Components/HotelDealCard';
+import {HotelDealCard} from './Components/HotelDealCard';
 import extractTextFromHtml from '../../Services/extractTextFromHtml/extractTextFromHtml';
 import {toastBottom} from '../../Services/toast/toast';
 import {CONSTANT_serverResponseErrorText} from '../../constants/appText';
@@ -302,7 +299,7 @@ const StayHotelDetailScreen = ({
                 horizontal={true}
                 showsHorizontalScrollIndicator={false}>
                 {data.map((deal, index) => (
-                  <HotelDelaCard
+                  <HotelDealCard
                     cost={deal.itineraryCost}
                     strikedCost={deal.strikedCost}
                     link={deal.deepLinking?.link}
@@ -474,20 +471,15 @@ const StayHotelDetailScreen = ({
                     marginBottom={20}
                     iconPosition="right"
                     alignItems="center"
-                    icon={
-                      <Icon
-                        name={CONSTANT_arrowRight}
-                        color={'#00774F'}
-                        size={14}
-                      />
-                    }
-                    text="Change room"
-                    justifyContent="flex-start"
-                    textProps={{
-                      color: '#00774F',
-                      fontFamily: CONSTANT_fontPrimarySemiBold,
-                    }}
-                  />
+                    justifyContent="flex-start">
+                    <Text
+                      color={'#00774F'}
+                      fontFamily={CONSTANT_fontPrimarySemiBold}
+                      fontSize={14}
+                      lineHeight={18}>
+                      Change room <ChevronRight fill={'#00774F'} />
+                    </Text>
+                  </Button>
                 </>
               );
             })}

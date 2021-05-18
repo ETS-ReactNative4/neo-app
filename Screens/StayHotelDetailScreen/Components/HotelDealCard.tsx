@@ -37,7 +37,7 @@ const cardColors = [
   },
 ];
 
-export const HotelDelaCard = ({
+export const HotelDealCard = ({
   strikedCost,
   cost,
   link,
