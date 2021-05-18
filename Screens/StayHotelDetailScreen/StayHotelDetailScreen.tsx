@@ -43,6 +43,8 @@ import storeService from '../../Services/storeService/storeService';
 import useHotelDealAPi from './hook/useHotelDealApi';
 import {HotelDelaCard} from './Components/HotelDealCard';
 import extractTextFromHtml from '../../Services/extractTextFromHtml/extractTextFromHtml';
+import {toastBottom} from '../../Services/toast/toast';
+import {CONSTANT_serverResponseErrorText} from '../../constants/appText';
 
 export type RoomDataType = {
   roomImages: string[];
@@ -165,7 +167,11 @@ const StayHotelDetailScreen = ({
         nationality: storeService.deviceLocaleStore?.deviceLocale?.toUpperCase(),
       },
     };
-    createItinerary(requestBody);
+    createItinerary(requestBody)
+      .then()
+      .catch(() => {
+        toastBottom(CONSTANT_serverResponseErrorText);
+      });
   };
 
   useDeepCompareEffect(() => {
@@ -186,7 +192,7 @@ const StayHotelDetailScreen = ({
           ...hotelData,
           roomsInHotel: [...selectedRoomList],
         },
-        itineraryId: successResponseData?.data,
+        itineraryDetail: successResponseData?.data,
         hotelSearchRequest,
         displayCurrency,
       });
@@ -523,6 +529,7 @@ const StayHotelDetailScreen = ({
           buttonText={
             itineraryDetails.isLoading ? 'Proceeding..' : 'Proceed to book'
           }
+          loading={itineraryDetails.isLoading}
           leftButtonText={`${checkInDateDisplay} ${checkInMonthDisplay} - ${checkOutDateDisplay} ${checkOutMonthDisplay}`}
           leftButtonSubText={getPaxConfigText(
             passengerConfiguration.hotelGuestRoomConfiguration,

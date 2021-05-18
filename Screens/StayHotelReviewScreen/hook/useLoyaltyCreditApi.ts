@@ -3,8 +3,8 @@ import useApiCall, {
   IApiCallConfig,
 } from '../../../Services/networkRequests/hooks/useApiCall';
 import {
-  CONSTANT_coupon_remove,
   CONSTANT_loyalty_apply,
+  CONSTANT_loyalty_remove,
 } from '../../../constants/apiUrls';
 import {IMobileServerResponse} from '../../../TypeInterfaces/INetworkResponse';
 import {IItinerary} from '../../../TypeInterfaces/IItinerary';
@@ -43,7 +43,7 @@ const useLoayltyCreditApi = (): loaylCreditApiHookType => {
     return new Promise<boolean>(async (resolve, reject) => {
       const url = coupon
         ? CONSTANT_loyalty_apply({coupon, itineraryId})
-        : CONSTANT_coupon_remove({itineraryId});
+        : CONSTANT_loyalty_remove({itineraryId});
 
       const method = coupon ? 'POST' : 'DELETE';
       try {

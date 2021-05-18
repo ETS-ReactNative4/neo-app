@@ -15,6 +15,7 @@ export const StayHotelFooter = ({
   buttonProps = {},
   cost,
   costText,
+  loading,
 }: {
   rightButtonAction: () => unknown;
   leftButtonAction?: () => unknown;
@@ -24,6 +25,7 @@ export const StayHotelFooter = ({
   buttonProps?: ButtonProps;
   cost?: string;
   costText?: string;
+  loading?: booelan;
 }) => {
   return (
     <Box
@@ -91,6 +93,7 @@ export const StayHotelFooter = ({
             fontFamily: CONSTANT_fontPrimarySemiBold,
           }}
           alignSelf="flex-end"
+          loading={loading}
           {...buttonProps}
         />
       </Box>

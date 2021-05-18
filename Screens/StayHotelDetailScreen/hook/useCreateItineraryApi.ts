@@ -2,18 +2,13 @@ import useApiCall, {
   IApiCallHookData,
   IApiCallConfig,
 } from '../../../Services/networkRequests/hooks/useApiCall';
-import {
-  CONSTANT_createItinerary,
-  CONSTANT_getCity,
-  CONSTANT_getPackagesDetails,
-} from '../../../constants/apiUrls';
-import {IDealsPackageItinerary} from '../../../TypeInterfaces/IPackageItinerary';
-import {ICampaignDetails} from '../../../TypeInterfaces/ICampaignDetails';
+import {CONSTANT_createItinerary} from '../../../constants/apiUrls';
 import {IMobileServerResponse} from '../../../TypeInterfaces/INetworkResponse';
 import {StayHotelRoomConfigurationType} from '../../StayHotelSearchScreen/StayHotelSearchScreen';
+import {IItinerary} from '../../../TypeInterfaces/IItinerary';
 export interface CreateItineraryResponseType extends IMobileServerResponse {
   status: 'SUCCESS';
-  data: string;
+  data: IItinerary;
   displayCurrency: string;
 }
 

@@ -37,19 +37,22 @@ import {toastBottom} from '../../Services/toast/toast';
 import {CONSTANT_serverResponseErrorText} from '../../constants/appText';
 import PrimaryHeader from '../../NavigatorsV2/Components/PrimaryHeader';
 import launchItinerarySelector from '../../Services/launchItinerarySelector/launchItinerarySelector';
+import {IItinerary} from '../../TypeInterfaces/IItinerary';
+import OTAHotel from '../../mobx/OTAHotel';
 
 type StayHotelReviewScreenNavType = AppNavigatorProps<
   typeof SCREEN_STAY_HOTEL_REVIEW
 >;
 export interface StayHotelReviewParamType {
   hotelData: HotelDataType;
-  itineraryId: string;
+  itineraryDetail: IItinerary;
   displayCurrency: string;
   hotelSearchRequest: StayHotelSearcRequestType;
 }
 interface StayHotelReviewScreenType extends StayHotelReviewScreenNavType {
   userStore: User;
   deviceLocaleStore: DeviceLocale;
+  otaHotelStore: OTAHotel;
 }
 
 export type PassengerErrorType = {
@@ -86,11 +89,11 @@ const StayHotelReviewScreen = inject('deviceLocaleStore')(
           const {userDisplayDetails} = userStore;
           const {
             hotelData,
-            itineraryId,
+            itineraryDetail,
             displayCurrency = 'INR',
             hotelSearchRequest,
           }: StayHotelReviewParamType = route?.params ?? {};
-
+          const {itineraryId} = itineraryDetail.itinerary ?? {};
           // eslint-disable-next-line @typescript-eslint/no-unused-vars
           const [_, savePassengers] = useSavePassengersApi();
           const [couponDetails, applyCoupon] = useCouponApi();
@@ -283,7 +286,7 @@ const StayHotelReviewScreen = inject('deviceLocaleStore')(
 
           const {couponVO = {}, itinerary: couponItineraryData} =
             couponDetails.successResponseData?.data || {};
-          const {itinerary: loyaltyCreditItineraryData = {}} =
+          const {itinerary: loyaltyCreditItineraryData} =
             creditDetails.successResponseData?.data || {};
 
           return (
@@ -362,6 +365,7 @@ const StayHotelReviewScreen = inject('deviceLocaleStore')(
                     passengerConfiguration?.hotelGuestRoomConfiguration || []
                   }
                 />
+
                 <PriceDetails
                   hotelGuestRoomConfiguration={
                     passengerConfiguration?.hotelGuestRoomConfiguration || []
@@ -374,28 +378,37 @@ const StayHotelReviewScreen = inject('deviceLocaleStore')(
                     loyaltyCreditItineraryData?.discounts?.total ||
                     0
                   }
+                  itinerary={
+                    couponItineraryData ||
+                    loyaltyCreditItineraryData ||
+                    itineraryDetail.itinerary
+                  }
                 />
-                <StaySection paddingVertical={0}>
-                  <LoyaltyCredits
-                    userId={userDisplayDetails.userId}
-                    itineraryId={itineraryId}
-                    openedBoxName={openedBoxName}
-                    setOpenedBoxName={setOpenedBoxName}
-                    applyCredit={applyLoyaltyCredit}
-                    disabled={couponVO.couponApplied}
-                    displayCurrency={displayCurrency}
-                    loading={creditDetails.isLoading}
-                  />
-                  <Box height={1} backgroundColor="#F0F0F0" />
-                  <Coupon
-                    applyCoupon={applyCoupon}
-                    itineraryId={itineraryId}
-                    openedBoxName={openedBoxName}
-                    setOpenedBoxName={setOpenedBoxName}
-                    disabled={loyaltyCreditItineraryData?.discounts?.total > 0}
-                    loading={couponDetails.isLoading}
-                  />
-                </StaySection>
+                {deviceLocaleStore.deviceLocale === 'in' ? (
+                  <StaySection paddingVertical={0}>
+                    <LoyaltyCredits
+                      userId={userDisplayDetails.userId}
+                      itineraryId={itineraryId}
+                      openedBoxName={openedBoxName}
+                      setOpenedBoxName={setOpenedBoxName}
+                      applyCredit={applyLoyaltyCredit}
+                      disabled={couponVO.couponApplied}
+                      displayCurrency={displayCurrency}
+                      loading={creditDetails.isLoading}
+                    />
+                    <Box height={1} backgroundColor="#F0F0F0" />
+                    <Coupon
+                      applyCoupon={applyCoupon}
+                      itineraryId={itineraryId}
+                      openedBoxName={openedBoxName}
+                      setOpenedBoxName={setOpenedBoxName}
+                      disabled={
+                        loyaltyCreditItineraryData?.discounts?.total > 0
+                      }
+                      loading={couponDetails.isLoading}
+                    />
+                  </StaySection>
+                ) : null}
 
                 {passengerList.map((passenger, index) => {
                   const {roomConfiguration, name: roomName} =
@@ -429,6 +442,7 @@ const StayHotelReviewScreen = inject('deviceLocaleStore')(
                   onProceed();
                 }}
                 text={loading ? 'Proceeding..' : 'Proceed to payment'}
+                loading={loading}
                 textProps={{
                   color: '#ffffff',
                   fontFamily: CONSTANT_fontPrimarySemiBold,

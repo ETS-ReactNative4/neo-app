@@ -52,6 +52,10 @@ export interface IDealInfo {
   allowedPassports?: string[];
 }
 
+interface TaxAndFeesCostingType {
+  pricing: string;
+  cost: number;
+}
 export interface IItineraryDetails {
   itineraryId: string;
   departSlot: string;
@@ -102,4 +106,5 @@ export interface IItineraryDetails {
   comfyScore: number;
   dealInfo?: IDealInfo;
   discounts?: {total: number};
+  taxesAndFees: {costings: TaxAndFeesCostingType[]};
 }

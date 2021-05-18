@@ -87,6 +87,8 @@ export const CONSTANT_LOYALTY_CREDITS = ({userId}) =>
   `api/user/rewards/${userId}?includeReferral=false`;
 export const CONSTANT_loyalty_apply = ({coupon, itineraryId}) =>
   `coupon/loyalty/apply?itineraryId=${itineraryId}&redeemedAmount=${coupon}&requireUpdatedItinerary=true`;
+export const CONSTANT_loyalty_remove = ({itineraryId}) =>
+  `coupon/loyalty/remove/${itineraryId}`;
 export const CONSTANT_savePassengers = 'booking/savepassengers';
 export const CONSTANT_getYourTrips = 'mobile/yourtrips';
 export const CONSTANT_getItineraryDetails = 'mobile/itineraryDetails';

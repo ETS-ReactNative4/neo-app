@@ -1,15 +1,16 @@
 import {Box, Text} from '@pyt/micros';
 import React from 'react';
-import {TouchableOpacity} from 'react-native';
-import Icon from '../../../CommonComponents/Icon/Icon';
 import {
   CONSTANT_fontPrimaryRegular,
   CONSTANT_fontPrimarySemiBold,
 } from '../../../constants/fonts';
-import {CONSTANT_arrowRight} from '../../../constants/imageAssets';
 import {getGlobalPriceWithoutSymbol} from '../../ExploreScreen/services/getPriceWithoutSymbol';
 import StaySection from '../../StayHotelListScreen/Components/StaySection';
 import getSymbolFromCurrency from 'currency-symbol-map';
+import _capitalize from 'lodash/capitalize';
+import {StayHotelRoomConfigurationType} from '../../StayHotelSearchScreen/StayHotelSearchScreen';
+import {RoomDataType} from '../../StayHotelDetailScreen/StayHotelDetailScreen';
+import {IItineraryDetails} from '../../../TypeInterfaces/IItineraryDetails';
 
 export const PriceDetails = ({
   hotelGuestRoomConfiguration,
@@ -17,6 +18,14 @@ export const PriceDetails = ({
   displayCurrency,
   roomsInHotel,
   couponAmount,
+  itinerary,
+}: {
+  hotelGuestRoomConfiguration: StayHotelRoomConfigurationType[];
+  nightText: string;
+  displayCurrency: string;
+  roomsInHotel: RoomDataType[];
+  couponAmount: number;
+  itinerary: IItineraryDetails;
 }) => {
   const costSymbol = getSymbolFromCurrency(displayCurrency);
   const roomCount = hotelGuestRoomConfiguration.length;
@@ -24,7 +33,20 @@ export const PriceDetails = ({
     (totalCost, room) => room.publishedCost + totalCost,
     0,
   );
+  const {taxesAndFees, totalCost} = itinerary ?? {};
 
+  const lineItem = (taxesAndFees?.costings || []).reduce(
+    (itemList, costItem) => {
+      if (costItem.cost) {
+        itemList.push({
+          label: _capitalize(costItem.pricing),
+          price: costItem.cost,
+        });
+      }
+      return itemList;
+    },
+    [],
+  );
   const couponPriceLine = couponAmount
     ? [
         {
@@ -41,10 +63,11 @@ export const PriceDetails = ({
       label: `${roomCount} ${roomCount > 1 ? 'rooms' : 'room'} - ${nightText}`,
       price: roomCost,
     },
+    ...lineItem,
     ...couponPriceLine,
     {
       label: 'Total',
-      price: roomCost - couponAmount,
+      price: totalCost,
       fontFamily: CONSTANT_fontPrimarySemiBold,
       color: '#333333',
     },
