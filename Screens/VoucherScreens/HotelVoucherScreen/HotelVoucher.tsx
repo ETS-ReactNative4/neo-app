@@ -105,7 +105,6 @@ class HotelVoucher extends Component<HotelVoucherProps, HotelVoucherState> {
       checkOutTime: checkOutTimeVoucher,
       voucherUrl,
     } = hotel.voucher || {};
-console.log('amenityDisplayList',amenityDisplayList)
     const amenitiesSection: IVoucherSplitSectionData[] = [
       {
         name: 'Hotel Amenities',

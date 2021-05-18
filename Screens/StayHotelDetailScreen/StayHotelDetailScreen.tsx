@@ -26,7 +26,6 @@ import {
 } from '../../constants/imageAssets';
 import moment from 'moment';
 import {CONSTANT_costingDateFormat} from '../../constants/styles';
-// import {Accordion} from '../StayHotelSearchScreen/Accordion';
 import {createIconSetFromIcoMoon} from 'react-native-vector-icons';
 import icoMoonConfig from '../../assets/fontMap/hotel-amenities.json';
 import {getPaxConfigText} from '../StayHotelSearchScreen/util/getPaxConfigText';

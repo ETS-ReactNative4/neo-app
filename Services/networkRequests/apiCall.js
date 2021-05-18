@@ -181,7 +181,6 @@ const apiCall = async (
         }
       }
     }
-console.log('requestDetails',requestDetails)
     fetch(requestURL, requestDetails)
       .then(handleResponse) // will return the data or handles any errors in the network request
       .then(data => {
