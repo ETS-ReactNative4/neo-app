@@ -43,7 +43,7 @@ export const getGlobalPriceWithoutSymbol = ({
     minimumFractionDigits: 0,
   });
   const localCurrencySymbol = getCurrencySymbol(languageCode, currency);
-  let amountString = amountFormatter.format(amount);
+  let amountString = amountFormatter.format(Math.ceil(amount));
   amountString = amountString.replace(localCurrencySymbol, '');
   return amountString;
 };
