@@ -171,7 +171,7 @@ const Search = ({navigation}: SearchScreenProps) => {
       <SearchBox
         text={searchString}
         onChangeText={setSearchString}
-        textPlaceholder={'Seach for places...'}
+        textPlaceholder={'Search for places...'}
         onClear={resetSearchString}
         containerStyle={styles.search}
         iconColor="#00774F"

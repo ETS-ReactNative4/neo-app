@@ -11,20 +11,20 @@ import {
   CONSTANT_fontPrimarySemiBold,
 } from '../../constants/fonts';
 import {getGlobalPriceWithoutSymbol} from '../ExploreScreen/services/getPriceWithoutSymbol';
-import {RoomCard} from '../TripFeedScreen/Components/RoomCard';
+
 import getSymbolFromCurrency from 'currency-symbol-map';
 import useSearchHotelRoomApi, {
   SearchHotelRoomRequestType,
 } from '../StayHotelDetailScreen/hook/useSearchHotelRoomApi';
-import {Box} from '@pyt/micros';
+import {Box, Text} from '@pyt/micros';
 import {getPaxConfigText} from '../StayHotelSearchScreen/util/getPaxConfigText';
 import {CONSTANT_closeIcon} from '../../constants/imageAssets';
 import Icon from '../../CommonComponents/Icon/Icon';
 import {AppNavigatorProps} from '../../NavigatorsV2/AppNavigator';
 import {SCREEN_STAY_HOTEL_ROOM_LIST} from '../../NavigatorsV2/ScreenNames';
 import {RoomDataType} from '../StayHotelDetailScreen/StayHotelDetailScreen';
-import {Text} from '@pyt/micros/src/text';
 import PrimaryHeader from '../../NavigatorsV2/Components/PrimaryHeader';
+import {RoomCard} from './Component/RoomCard';
 
 type StayHotelDetailScreenNavType = AppNavigatorProps<
   typeof SCREEN_STAY_HOTEL_ROOM_LIST
