@@ -84,7 +84,7 @@ export const StayHotelListFilter = ({
       default:
         break;
     }
-    console.log('price', price);
+
     return price?.options?.map(priceOption => ({
       label: priceOption.text,
       value: priceOption.value,

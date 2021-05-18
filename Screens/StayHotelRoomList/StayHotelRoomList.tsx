@@ -117,7 +117,8 @@ export const StayHotelRoomList = ({
 
                   return {
                     title: `Option ${index < 10 ? '0' : ''}${index + 1}`,
-                    cost: `${costSymbol}${cost}`,
+                    cost: `${cost}`,
+                    currency: costSymbol,
                     costSubText: `${nightText} & ${getPaxConfigText(
                       [room.roomConfiguration],
                       false,

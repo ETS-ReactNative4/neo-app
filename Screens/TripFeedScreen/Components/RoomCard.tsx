@@ -27,10 +27,10 @@ type RoomOptionCardDataType = {
   title: string;
   amenitiesProps?: BoxProps;
   costSubTextProps?: BoxProps;
+  currency: string;
 };
 export interface RoomCardProps extends StyleEngineProps {
   width?: number | string;
-
   footerRightElement?: React.ReactElement;
   footerElement?: React.ReactElement;
   sliderProps: MiniImageSliderProps;
@@ -90,12 +90,10 @@ export const RoomCard: FunctionComponent<RoomCardProps> = ({
         fontFamily={fontFamily}
         paddingVertical={16}
         marginHorizontal={16}
-        borderBottomWidth={1}
-        borderColor={'#E5E5E5'}
         {...titleProps}>
         {title}
       </Text>
-
+      <Box height={1} backgroundColor="#E5E5E5" marginHorizontal={16} />
       {rooms?.map(room => (
         <Box
           marginHorizontal={16}
@@ -148,26 +146,37 @@ export const RoomCard: FunctionComponent<RoomCardProps> = ({
                   </Text>
                 ) : null}
                 {room.cost ? (
-                  <Text
-                    fontSize={20}
-                    lineHeight={25}
-                    fontWeight={'600'}
-                    letterSpacing={-0.02}
-                    color="#000000"
-                    fontFamily={fontFamily}>
-                    {room.cost}{' '}
-                    {room.costSubText ? (
-                      <Text
-                        fontSize={13}
-                        letterSpacing={-0.02}
-                        color="#777777"
-                        marginHorizontal={4}
-                        fontFamily={fontFamily}
-                        {...(room.costSubTextProps || {})}>
-                        {room.costSubText}
-                      </Text>
-                    ) : null}
-                  </Text>
+                  <Box flexDirection="row" alinItems={'flex-end'}>
+                    <Text
+                      fontSize={20}
+                      lineHeight={25}
+                      fontWeight={'600'}
+                      letterSpacing={-0.02}
+                      color="#000000"
+                      fontFamily={fontFamily}>
+                      {room.currency}
+                    </Text>
+                    <Text
+                      fontSize={20}
+                      lineHeight={25}
+                      fontWeight={'600'}
+                      letterSpacing={-0.02}
+                      color="#000000"
+                      fontFamily={fontFamily}>
+                      {room.cost}{' '}
+                      {room.costSubText ? (
+                        <Text
+                          fontSize={13}
+                          letterSpacing={-0.02}
+                          color="#777777"
+                          marginHorizontal={4}
+                          fontFamily={fontFamily}
+                          {...(room.costSubTextProps || {})}>
+                          {room.costSubText}
+                        </Text>
+                      ) : null}
+                    </Text>
+                  </Box>
                 ) : null}
               </Box>
               {footerRightElement || (
