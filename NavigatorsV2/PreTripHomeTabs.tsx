@@ -11,6 +11,7 @@ import {
   SCREEN_SEARCH_LISTING_CARDS_PAGE,
   SCREEN_PRETRIP_HOME_TABS,
   SCREEN_PRETRIP_CHAT,
+  SCREEN_STAY_SEARCH,
 } from './ScreenNames';
 import Explore, {
   ExploreScreenSourcesType,
@@ -20,6 +21,7 @@ import {
   CONSTANT_compassIcon,
   CONSTANT_searchIcon,
   CONSTANT_dealsIcon,
+  CONSTANT_hotelIcon,
 } from '../constants/imageAssets';
 import {observer, inject} from 'mobx-react';
 import DeviceLocale from '../mobx/DeviceLocale';
@@ -28,6 +30,8 @@ import deepLink from '../Services/deepLink/deepLink';
 import {RouteProp} from '@react-navigation/native';
 import {AppNavigatorParamsType} from './AppNavigator';
 import DealsListing from '../Screens/DealsListingScreen/DealsListing';
+import StayHotelSearchScreen from '../Screens/StayHotelSearchScreen/StayHotelSearchScreen';
+import useIsUserLoggedIn from '../Services/isUserLoggedIn/hooks/useIsUserLoggedIn';
 
 export interface IExplorePageScreenData {
   source?: ExploreScreenSourcesType;
@@ -42,6 +46,7 @@ export type PreTripHomeTabsType = {
   [SCREEN_DEALS_TAB]: undefined;
   [SCREEN_SEARCH_LISTING_CARDS_PAGE]: SearchListingCards;
   [SCREEN_PRETRIP_CHAT]: undefined;
+  [SCREEN_STAY_SEARCH]: undefined;
 };
 
 type PreTripHomeTabRouteType = RouteProp<
@@ -69,11 +74,13 @@ export interface PreTripHomeTabsProp {
 }
 
 const PreTripHomeTabs = ({deviceLocaleStore, route}: PreTripHomeTabsProp) => {
+  const isLoggedIn = useIsUserLoggedIn();
   useEffect(() => {
     const {screen, ...meta} = route?.params ?? {};
     if (screen) {
       deepLink({link: screen, screenData: meta});
     }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -98,6 +105,17 @@ const PreTripHomeTabs = ({deviceLocaleStore, route}: PreTripHomeTabsProp) => {
           }}
           name={SCREEN_DEALS_TAB}
           component={DealsListing}
+        />
+      ) : null}
+      {isLoggedIn ? (
+        <Tab.Screen
+          options={{
+            tabBarLabel: 'Stay',
+            icon: CONSTANT_hotelIcon,
+            ...tabBarColorConfig,
+          }}
+          name={SCREEN_STAY_SEARCH}
+          component={StayHotelSearchScreen}
         />
       ) : null}
       <Tab.Screen

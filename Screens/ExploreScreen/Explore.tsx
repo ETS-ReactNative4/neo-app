@@ -52,6 +52,7 @@ import {
 } from '../../Services/freshchatService/freshchatService';
 import Icon from '../../CommonComponents/Icon/Icon';
 import storeService from '../../Services/storeService/storeService';
+
 export type ExploreScreenNavigationType = CompositeNavigationProp<
   StackNavigationProp<AppNavigatorParamsType, typeof SCREEN_PRETRIP_HOME_TABS>,
   BottomTabNavigationProp<PreTripHomeTabsType, typeof SCREEN_EXPLORE_TAB>

@@ -1,4 +1,4 @@
-import React, {ReactNode} from 'react';
+import React, {ReactElement, ReactNode} from 'react';
 import {
   View,
   StyleProp,
@@ -33,6 +33,7 @@ export interface ExploreHeaderProps {
   leftIcon?: string;
   headerLogo?: ImageSourcePropType;
   headerText?: string;
+  headerElement?: ReactElement;
   rightElement?: ReactNode;
 }
 
@@ -49,6 +50,7 @@ const ExploreHeader = ({
   leftIcon = CONSTANT_arrowRight,
   headerLogo = CONSTANT_pytLogo,
   headerText = '',
+  headerElement,
   rightElement,
 }: ExploreHeaderProps) => {
   return (
@@ -60,7 +62,9 @@ const ExploreHeader = ({
         <Icon name={leftIcon} size={16} color={CONSTANT_black2} />
       </TouchableOpacity>
 
-      {headerText ? (
+      {headerElement ? (
+        headerElement
+      ) : headerText ? (
         <Text style={styles.headerText}>{headerText}</Text>
       ) : (
         <SmartImageV2

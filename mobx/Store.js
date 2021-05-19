@@ -1,38 +1,40 @@
-import { create } from "mobx-persist";
+import {create} from 'mobx-persist';
 // import AsyncStorage from "@react-native-community/async-storage";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import User from "./User";
-import YourBookings from "./YourBookings";
-import AppState from "./AppState";
-import Itineraries from "./Itineraries";
-import Weather from "./Weather";
-import PackingChecklist from "./PackingChecklist";
-import Voucher from "./Voucher";
-import { logError } from "../Services/errorLogger/errorLogger";
-import Phrases from "./Phrases";
-import Info from "./Info";
-import EmergencyContacts from "./EmergencyContacts";
-import PassportDetails from "./PassportDetails";
-import Visa from "./Visa";
-import Places from "./Places";
-import SupportStore from "./SupportStore";
-import TripFeed from "./TripFeed";
-import Packages from "./Packages";
-import Forex from "./Forex";
-import DeviceDetails from "./DeviceDetails";
-import FeedbackPrompt from "./FeedbackPrompt";
-import ChatDetails from "./ChatDetails";
-import Journal from "./Journal";
-import UserFlowTransition from "./UserFlowTransition";
-import SOFeedback from "./SOFeedback";
-import TravelProfile from "./TravelProfile";
-import WelcomeState from "./WelcomeState";
-import LeadSource from "./LeadSource";
-import DeviceLocale from "./DeviceLocale";
+import User from './User';
+import YourBookings from './YourBookings';
+import AppState from './AppState';
+import Itineraries from './Itineraries';
+import Weather from './Weather';
+import PackingChecklist from './PackingChecklist';
+import Voucher from './Voucher';
+import {logError} from '../Services/errorLogger/errorLogger';
+import Phrases from './Phrases';
+import Info from './Info';
+import EmergencyContacts from './EmergencyContacts';
+import PassportDetails from './PassportDetails';
+import Visa from './Visa';
+import Places from './Places';
+import SupportStore from './SupportStore';
+import TripFeed from './TripFeed';
+import Packages from './Packages';
+import Forex from './Forex';
+import DeviceDetails from './DeviceDetails';
+import FeedbackPrompt from './FeedbackPrompt';
+import ChatDetails from './ChatDetails';
+import Journal from './Journal';
+import UserFlowTransition from './UserFlowTransition';
+import SOFeedback from './SOFeedback';
+import TravelProfile from './TravelProfile';
+import WelcomeState from './WelcomeState';
+import LeadSource from './LeadSource';
+import DeviceLocale from './DeviceLocale';
+import OTAHotel from './OTAHotel';
+import Cities from './Cities';
 
 export const hydrate = create({
   storage: AsyncStorage,
-  jsonify: true
+  jsonify: true,
 });
 
 const createStore = () => {
@@ -63,83 +65,85 @@ const createStore = () => {
     travelProfileStore: new TravelProfile(),
     welcomeStateStore: new WelcomeState(),
     leadSourceStore: new LeadSource(),
-    deviceLocaleStore: new DeviceLocale()
+    deviceLocaleStore: new DeviceLocale(),
+    otaHotelStore: new OTAHotel(),
+    citiesStore: new Cities(),
   };
 
   YourBookings.hydrator(appStore.yourBookingsStore);
   Itineraries.hydrator(appStore.itineraries);
   AppState.hydrator(appStore.appState);
-  hydrate("_vouchers", appStore.voucherStore)
+  hydrate('_vouchers', appStore.voucherStore)
     .then(() => {})
     .catch(err => {
       logError(err);
     });
-  hydrate("_selectedVoucher", appStore.voucherStore)
+  hydrate('_selectedVoucher', appStore.voucherStore)
     .then(() => {})
     .catch(err => {
       logError(err);
     });
-  hydrate("_weather", appStore.weatherStore)
+  hydrate('_weather', appStore.weatherStore)
     .then(() => {})
     .catch(err => {
       logError(err);
     });
-  hydrate("_lastUpdated", appStore.weatherStore)
+  hydrate('_lastUpdated', appStore.weatherStore)
     .then(() => {})
     .catch(err => {
       logError(err);
     });
-  hydrate("_allPackingChecklists", appStore.packingChecklistStore)
+  hydrate('_allPackingChecklists', appStore.packingChecklistStore)
     .then(() => {})
     .catch(err => {
       logError(err);
     });
-  hydrate("_user", appStore.userStore)
+  hydrate('_user', appStore.userStore)
     .then(() => {})
     .catch(err => {
       logError(err);
     });
-  hydrate("_phrases", appStore.phrasesStore)
+  hydrate('_phrases', appStore.phrasesStore)
     .then(() => {})
     .catch(err => {
       logError(err);
     });
-  hydrate("_translatedPhrases", appStore.phrasesStore)
+  hydrate('_translatedPhrases', appStore.phrasesStore)
     .then(() => {})
     .catch(err => {
       logError(err);
     });
-  hydrate("_translatedPhrase", appStore.phrasesStore)
+  hydrate('_translatedPhrase', appStore.phrasesStore)
     .then(() => {})
     .catch(err => {
       logError(err);
     });
-  hydrate("_languages", appStore.phrasesStore)
+  hydrate('_languages', appStore.phrasesStore)
     .then(() => {})
     .catch(err => {
       logError(err);
     });
-  hydrate("_selectedPhrase", appStore.phrasesStore)
+  hydrate('_selectedPhrase', appStore.phrasesStore)
     .then(() => {})
     .catch(err => {
       logError(err);
     });
-  hydrate("_pinnedPhrases", appStore.phrasesStore)
+  hydrate('_pinnedPhrases', appStore.phrasesStore)
     .then(() => {})
     .catch(err => {
       logError(err);
     });
-  hydrate("_emergencyContacts", appStore.emergencyContactsStore)
+  hydrate('_emergencyContacts', appStore.emergencyContactsStore)
     .then(() => {})
     .catch(err => {
       logError(err);
     });
-  hydrate("_passportDetails", appStore.passportDetailsStore)
+  hydrate('_passportDetails', appStore.passportDetailsStore)
     .then(() => {})
     .catch(err => {
       logError(err);
     });
-  hydrate("_cityCategories", appStore.placesStore)
+  hydrate('_cityCategories', appStore.placesStore)
     .then(() => {})
     .catch(err => {
       logError(err);
@@ -154,12 +158,17 @@ const createStore = () => {
   //   .catch(err => {
   //     logError(err);
   //   });
-  hydrate("_widgets", appStore.tripFeedStore)
+  hydrate('_widgets', appStore.tripFeedStore)
     .then(() => {})
     .catch(err => {
       logError(err);
     });
-  hydrate("_packages", appStore.packagesStore)
+  hydrate('_packages', appStore.packagesStore)
+    .then(() => {})
+    .catch(err => {
+      logError(err);
+    });
+  hydrate('_hotelList', appStore.otaHotelStore)
     .then(() => {})
     .catch(err => {
       logError(err);
@@ -176,6 +185,7 @@ const createStore = () => {
   TravelProfile.hydrator(appStore.travelProfileStore);
   WelcomeState.hydrator(appStore.welcomeStateStore);
   DeviceLocale.hydrator(appStore.deviceLocaleStore);
+  // OTAHotel.hydrator(appStore.otaHotelStore);
   return appStore;
 };
 

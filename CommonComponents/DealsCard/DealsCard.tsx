@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, {Fragment} from 'react';
 import {
   View,
   ImageSourcePropType,
@@ -7,15 +7,15 @@ import {
   TouchableOpacity,
   StyleProp,
   ViewStyle,
-  Platform
-} from "react-native";
-import BetterImage from "../BetterImage/BetterImage";
-import ratioCalculator from "../../Services/ratioCalculator/ratioCalculator";
+  Platform,
+} from 'react-native';
+import BetterImage from '../BetterImage/BetterImage';
+import ratioCalculator from '../../Services/ratioCalculator/ratioCalculator';
 import {
   CONSTANT_fontCustom,
   CONSTANT_primaryRegular,
-  CONSTANT_primarySemiBold
-} from "../../constants/fonts";
+  CONSTANT_primarySemiBold,
+} from '../../constants/fonts';
 import {
   CONSTANT_shade5,
   CONSTANT_black1,
@@ -24,13 +24,13 @@ import {
   CONSTANT_seventeenthColor,
   CONSTANT_seventhColor,
   CONSTANT_white,
-  CONSTANT_fifteenthColor
-} from "../../constants/colorPallete";
-import PrimaryButton from "../PrimaryButton/PrimaryButton";
+  CONSTANT_fifteenthColor,
+} from '../../constants/colorPallete';
+import PrimaryButton from '../PrimaryButton/PrimaryButton';
 // @ts-ignore
-import Triangle from "@react-native-toolkit/triangle";
+import Triangle from '@react-native-toolkit/triangle';
 // @ts-ignore
-import Dash from "react-native-dash";
+import Dash from 'react-native-dash';
 
 export interface DealsCardProps {
   imgSource: ImageSourcePropType;
@@ -70,9 +70,9 @@ const DealsCard = ({
   strikedPrice,
   price,
   onClick,
-  perPersonText = "",
+  perPersonText = '',
   containerStyle,
-  priceSymbol
+  priceSymbol,
 }: DealsCardProps) => {
   const action = () => {
     onClick && onClick();
@@ -82,40 +82,37 @@ const DealsCard = ({
     <TouchableOpacity
       activeOpacity={0.8}
       onPress={action}
-      style={[{ width }, containerStyle]}
-    >
+      style={[{width}, containerStyle]}>
       <BetterImage
         thumbnailSource={thumbnailSource}
         source={imgSource}
         containerStyle={[
-          { height: ratioCalculator(41, 21, width), width },
-          styles.imageContainer
+          {height: ratioCalculator(41, 21, width), width},
+          styles.imageContainer,
         ]}
         fallbackSource={defaultSource}
       />
       <View style={styles.infoView}>
         <Text
           numberOfLines={2}
-          ellipsizeMode={"tail"}
-          style={styles.locationText}
-        >
+          ellipsizeMode={'tail'}
+          style={styles.locationText}>
           {location}
         </Text>
-        <Text numberOfLines={2} ellipsizeMode={"tail"} style={styles.titleText}>
+        <Text numberOfLines={2} ellipsizeMode={'tail'} style={styles.titleText}>
           {title}
         </Text>
-        <Text numberOfLines={2} ellipsizeMode={"tail"} style={styles.infoText}>
+        <Text numberOfLines={2} ellipsizeMode={'tail'} style={styles.infoText}>
           {info}
         </Text>
         <Text
           numberOfLines={2}
-          ellipsizeMode={"tail"}
-          style={styles.bookingTimeText}
-        >
+          ellipsizeMode={'tail'}
+          style={styles.bookingTimeText}>
           {bookingTime}
         </Text>
         <Dash
-          style={[styles.dashContainer, { width: width - 16 }]}
+          style={[styles.dashContainer, {width: width - 16}]}
           dashColor={CONSTANT_shade3}
           dashThickness={1}
         />
@@ -129,20 +126,20 @@ const DealsCard = ({
               </View>
             ) : null}
             <Text style={styles.strikedText}>
-              {strikedPrice ? strikedPrice : ""}
+              {strikedPrice ? strikedPrice : ''}
             </Text>
           </View>
           <View style={styles.rupeeRow}>
             <Text style={styles.rupeeSymbol}>{priceSymbol}</Text>
             <Text style={styles.priceText}>{price}</Text>
             <Text style={styles.perPersonText}>
-              {perPersonText ? perPersonText : ""}
+              {perPersonText ? perPersonText : ''}
             </Text>
           </View>
         </View>
         <View style={styles.rightSection}>
           <PrimaryButton
-            text={"View"}
+            text={'View'}
             buttonStyle={styles.buttonStyle}
             buttonTextStyle={styles.buttonTextStyle}
             clickAction={action}
@@ -155,24 +152,24 @@ const DealsCard = ({
             <Text style={styles.offerText}>{offerText}</Text>
           </View>
           <Triangle
-            type={"rightAngle"}
-            mode={"bottom-right"}
+            type={'rightAngle'}
+            mode={'bottom-right'}
             base={OFFER_BOX_HEIGHT / 2 + 1}
             height={16}
             color={CONSTANT_fifteenthColor}
             style={styles.offerBoxTail1}
           />
           <Triangle
-            type={"rightAngle"}
-            mode={"bottom-left"}
+            type={'rightAngle'}
+            mode={'bottom-left'}
             base={OFFER_BOX_HEIGHT / 2 + 1}
             height={16}
             color={CONSTANT_fifteenthColor}
             style={styles.offerBoxTail2}
           />
           <Triangle
-            type={"rightAngle"}
-            mode={"top-right"}
+            type={'rightAngle'}
+            mode={'top-right'}
             base={-OFFER_LEFT_SPACE}
             height={OFFER_BOX_HEIGHT / 2}
             color={CONSTANT_fifteenthColor}
@@ -188,14 +185,14 @@ const styles = StyleSheet.create({
   imageContainer: {
     borderTopRightRadius: 8,
     borderTopLeftRadius: 8,
-    backgroundColor: CONSTANT_shade5
+    backgroundColor: CONSTANT_shade5,
   },
   locationText: {
     ...CONSTANT_fontCustom(CONSTANT_primarySemiBold, 14, 14),
-    color: "rgba(204, 161, 41, 1)",
-    textTransform: "uppercase",
+    color: 'rgba(204, 161, 41, 1)',
+    textTransform: 'uppercase',
     marginHorizontal: 16,
-    marginTop: 10
+    marginTop: 10,
   },
   infoView: {
     borderTopWidth: 1,
@@ -203,146 +200,146 @@ const styles = StyleSheet.create({
     borderRightWidth: 1,
     borderColor: CONSTANT_shade3,
     borderBottomRightRadius: 8,
-    borderBottomLeftRadius: 8
+    borderBottomLeftRadius: 8,
   },
   titleText: {
     ...CONSTANT_fontCustom(CONSTANT_primaryRegular, 16, 18),
     color: CONSTANT_black1,
     marginTop: 8,
     marginHorizontal: 16,
-    height: 40
+    height: 40,
   },
   infoText: {
     ...CONSTANT_fontCustom(CONSTANT_primarySemiBold, 14, 14),
     color: CONSTANT_shade1,
     marginTop: 8,
-    marginHorizontal: 16
+    marginHorizontal: 16,
   },
   bookingTimeText: {
     ...CONSTANT_fontCustom(CONSTANT_primarySemiBold, 14, 14),
     color: CONSTANT_seventeenthColor,
     marginTop: 8,
     marginHorizontal: 16,
-    marginBottom: 12
+    marginBottom: 12,
   },
-  dashContainer: { height: StyleSheet.hairlineWidth, alignSelf: "center" },
+  dashContainer: {height: StyleSheet.hairlineWidth, alignSelf: 'center'},
   priceView: {
-    flexDirection: "row",
+    flexDirection: 'row',
     borderLeftWidth: 1,
     borderRightWidth: 1,
     borderBottomWidth: 1,
     borderColor: CONSTANT_shade3,
-    borderRadius: 8
+    borderRadius: 8,
   },
   leftSection: {
     flex: 1,
-    alignItems: "flex-start",
-    justifyContent: "center",
+    alignItems: 'flex-start',
+    justifyContent: 'center',
     marginVertical: 16,
-    paddingLeft: 16
+    paddingLeft: 16,
   },
   offerRow: {
-    flexDirection: "row",
+    flexDirection: 'row',
     marginBottom: 8,
-    alignItems: "center",
-    justifyContent: "center"
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   percentTextWrapper: {
     backgroundColor: CONSTANT_seventhColor,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
     paddingHorizontal: 8,
     paddingVertical: 4,
     borderRadius: 4,
-    marginRight: 4
+    marginRight: 4,
   },
   percentText: {
     ...CONSTANT_fontCustom(CONSTANT_primarySemiBold, 13, 13),
     color: CONSTANT_white,
-    textAlign: "center",
-    textAlignVertical: "center",
+    textAlign: 'center',
+    textAlignVertical: 'center',
     ...Platform.select({
       ios: {
-        marginTop: 1
+        marginTop: 1,
       },
       android: {
-        marginBottom: -2
-      }
-    })
+        marginBottom: -2,
+      },
+    }),
   },
   strikedText: {
     ...CONSTANT_fontCustom(CONSTANT_primarySemiBold, 14, 14),
     color: CONSTANT_shade1,
-    textDecorationLine: "line-through"
+    textDecorationLine: 'line-through',
   },
   rightSection: {
-    flex: 1
+    flex: 1,
   },
   rupeeRow: {
-    flexDirection: "row",
-    alignItems: "center"
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   rupeeSymbol: {
-    ...CONSTANT_fontCustom(CONSTANT_primaryRegular, 13, 13),
+    ...CONSTANT_fontCustom(CONSTANT_primaryRegular, 20, 20),
     color: CONSTANT_black1,
-    alignSelf: "flex-start"
+    alignSelf: 'flex-start',
   },
   priceText: {
     ...CONSTANT_fontCustom(CONSTANT_primarySemiBold, 20, 20),
-    color: CONSTANT_black1
+    color: CONSTANT_black1,
   },
   perPersonText: {
     ...CONSTANT_fontCustom(CONSTANT_primaryRegular, 13, 13),
     color: CONSTANT_shade1,
-    alignSelf: "flex-end",
+    alignSelf: 'flex-end',
     ...Platform.select({
       android: {
-        paddingBottom: 3
+        paddingBottom: 3,
       },
       ios: {
-        paddingBottom: 3
-      }
-    })
+        paddingBottom: 3,
+      },
+    }),
   },
   buttonStyle: {
     height: undefined,
     flex: 1,
     borderRadius: 8,
     marginHorizontal: 16,
-    marginVertical: 16
+    marginVertical: 16,
   },
   buttonTextStyle: {},
   offerBox: {
-    position: "absolute",
+    position: 'absolute',
     top: OFFER_TOP_SPACE,
     left: OFFER_LEFT_SPACE,
     backgroundColor: CONSTANT_fifteenthColor,
     height: OFFER_BOX_HEIGHT,
     width: OFFER_BOX_WIDTH,
-    alignItems: "center",
-    justifyContent: "center"
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   offerBoxTail1: {
-    position: "absolute",
+    position: 'absolute',
     left: OFFER_LEFT_SPACE + OFFER_BOX_WIDTH,
-    transform: [{ rotate: "90deg" }],
-    top: OFFER_BOX_HEIGHT - 6.5
+    transform: [{rotate: '90deg'}],
+    top: OFFER_BOX_HEIGHT - 6.5,
   },
   offerBoxTail2: {
-    position: "absolute",
+    position: 'absolute',
     left: OFFER_LEFT_SPACE + OFFER_BOX_WIDTH,
-    transform: [{ rotate: "90deg" }],
-    top: OFFER_TOP_SPACE - 1.5
+    transform: [{rotate: '90deg'}],
+    top: OFFER_TOP_SPACE - 1.5,
   },
   offerBoxShadow: {
-    position: "absolute",
+    position: 'absolute',
     top: OFFER_TOP_SPACE + OFFER_BOX_HEIGHT,
-    left: OFFER_LEFT_SPACE
+    left: OFFER_LEFT_SPACE,
   },
   offerText: {
     ...CONSTANT_fontCustom(CONSTANT_primarySemiBold, 11, 11),
-    color: CONSTANT_white
-  }
+    color: CONSTANT_white,
+  },
 });
 
 export default DealsCard;

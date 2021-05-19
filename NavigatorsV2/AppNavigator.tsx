@@ -73,6 +73,12 @@ import {
   SCREEN_LISTING_PAGE,
   SCREEN_PRE_TRIP_INTRO,
   SCREEN_NOTIFICATION_TAB,
+  SCREEN_STAY_SEARCH,
+  SCREEN_STAY_HOTEL_DETAIL,
+  SCREEN_STAY_HOTEL_REVIEW,
+  SCREEN_STAY_HOTEL_LIST,
+  SCREEN_STAY_HOTEL_ROOM_LIST,
+  SCREEN_SEARCH_TAB,
 } from './ScreenNames';
 import AppLogin from '../Screens/AppLoginScreen/AppLogin';
 import Starter from '../Screens/StartingScreen/Starter';
@@ -161,6 +167,21 @@ import SearchListingCardsPage from '../Screens/SearchListingCardsPage/SearchList
 import ListingPage from '../Screens/ListingPageScreen/ListingPage';
 import PreTripIntroScreen from '../Screens/PreTripIntroScreen/PreTripIntroScreen';
 import {IIntroData} from '../Screens/IntroScreen/IntroScreen';
+import StayHotelSearchScreen, {
+  StayHotelRoomConfigurationType,
+} from '../Screens/StayHotelSearchScreen/StayHotelSearchScreen';
+import StayHotelDetailScreen, {
+  StayHotelDetailParamType,
+} from '../Screens/StayHotelDetailScreen/StayHotelDetailScreen';
+import StayHotelReviewScreen, {
+  StayHotelReviewParamType,
+} from '../Screens/StayHotelReviewScreen/StayHotelReviewScreen';
+import StayHotelListScreen from '../Screens/StayHotelListScreen/StayHotelListScreen';
+import {
+  StayHotelRoomList,
+  StayHotelRoomListParamType,
+} from '../Screens/StayHotelRoomList/StayHotelRoomList';
+import Search from '../Screens/SearchV2/Search';
 
 export type loginResetTargetTypes = typeof SCREEN_SAVED_ITINERARIES;
 
@@ -264,7 +285,8 @@ export type AppNavigatorParamsType = {
     title: string;
     onSelect: (selectedConfig: IHotelGuestRoomConfig[]) => any;
     bannerImage: string;
-    roomConfig: IHotelGuestRoomConfig[];
+    maxRoom?: number;
+    roomConfig: IHotelGuestRoomConfig[] | StayHotelRoomConfigurationType[];
   };
   [SCREEN_BOOKED_ITINERARY]: {
     selectedDate: string;
@@ -350,6 +372,7 @@ export type AppNavigatorParamsType = {
   [SCREEN_PAYMENT_SCREEN]: {
     transactionId: string;
     paymentScript: string;
+    backAction?: () => unknown;
   };
   [SCREEN_PAYMENT_SUCCESS]: {
     transactionId: string;
@@ -360,6 +383,13 @@ export type AppNavigatorParamsType = {
     toggleOverlay: () => any;
   };
   [SCREEN_PRE_TRIP_INTRO]: undefined;
+  [SCREEN_NOTIFICATION_TAB]: undefined;
+  [SCREEN_STAY_HOTEL_DETAIL]: StayHotelDetailParamType;
+  [SCREEN_STAY_HOTEL_REVIEW]: StayHotelReviewParamType;
+  [SCREEN_STAY_HOTEL_LIST]: undefined;
+  [SCREEN_STAY_SEARCH]: undefined;
+  [SCREEN_STAY_HOTEL_ROOM_LIST]: StayHotelRoomListParamType;
+  [SCREEN_SEARCH_TAB]: undefined;
 };
 
 const Stack = createStackNavigator<AppNavigatorParamsType>();
@@ -401,6 +431,36 @@ const AppNavigator = () => {
           name={SCREEN_LISTING_PAGE}
           options={{headerShown: false}}
           component={ListingPage}
+        />
+        <Screen
+          name={SCREEN_SEARCH_TAB}
+          options={{headerShown: false}}
+          component={Search}
+        />
+        <Screen
+          name={SCREEN_STAY_SEARCH}
+          options={{headerShown: false}}
+          component={StayHotelSearchScreen}
+        />
+        <Screen
+          name={SCREEN_STAY_HOTEL_LIST}
+          options={{headerShown: false}}
+          component={StayHotelListScreen}
+        />
+        <Screen
+          name={SCREEN_STAY_HOTEL_ROOM_LIST}
+          options={{headerShown: false}}
+          component={StayHotelRoomList}
+        />
+        <Screen
+          name={SCREEN_STAY_HOTEL_DETAIL}
+          options={{headerShown: false}}
+          component={StayHotelDetailScreen}
+        />
+        <Screen
+          name={SCREEN_STAY_HOTEL_REVIEW}
+          options={{headerShown: false}}
+          component={StayHotelReviewScreen}
         />
         <Screen
           name={SCREEN_NOTIFICATION_TAB}
@@ -623,7 +683,11 @@ const AppNavigator = () => {
         <Screen name={SCREEN_JOURNAL_SHARE} component={JournalShare} />
         <Screen name={SCREEN_PAYMENT_HOME} component={PaymentHome} />
         <Screen name={SCREEN_PAYMENT_SUMMARY} component={PaymentSummary} />
-        <Screen name={SCREEN_PAYMENT_SUCCESS} component={PaymentSuccess} />
+        <Screen
+          name={SCREEN_PAYMENT_SUCCESS}
+          component={PaymentSuccess}
+          options={{gestureEnabled: false}}
+        />
         <Screen name={SCREEN_PAYMENT_FAILURE} component={PaymentFailure} />
         <Screen
           name={SCREEN_PAYMENT_SCREEN}

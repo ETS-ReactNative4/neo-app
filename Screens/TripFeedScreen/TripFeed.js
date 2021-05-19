@@ -265,6 +265,7 @@ class TripFeed extends Component {
       <View style={styles.tripFeedContainer}>
         {this.state.tripFeedHeader}
         <NoInternetIndicator />
+
         {isOffHours ? (
           <SupportOfflineMessage time={currentTime} ctaAction={openDialer} />
         ) : null}
