@@ -290,7 +290,7 @@ const StayHotelReviewScreen = inject('deviceLocaleStore')(
             creditDetails.successResponseData?.data || {};
 
           return (
-            <Box backgroundColor="#E5E5E5" flex={1}>
+            <Box backgroundColor="#F5F5F5" flex={1}>
               {header}
               <ScrollView keyboardShouldPersistTaps={'handled'}>
                 <Box padding={16} backgroundColor={'#ffffff'} marginBottom={8}>
@@ -395,6 +395,11 @@ const StayHotelReviewScreen = inject('deviceLocaleStore')(
                       disabled={couponVO.couponApplied}
                       displayCurrency={displayCurrency}
                       loading={creditDetails.isLoading}
+                      itinerary={
+                        couponItineraryData ||
+                        loyaltyCreditItineraryData ||
+                        itineraryDetail.itinerary
+                      }
                     />
                     <Box height={1} backgroundColor="#F0F0F0" />
                     <Coupon

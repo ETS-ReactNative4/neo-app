@@ -16,6 +16,7 @@ import {
   CONSTANT_arrowRight,
   CONSTANT_cancellationIcon,
 } from '../../../constants/imageAssets';
+import {toastBottom} from '../../../Services/toast/toast';
 
 export const CouponInput = ({
   applyCoupon,
@@ -31,6 +32,7 @@ export const CouponInput = ({
   getCouponText,
   isConditionValid,
   loading,
+  disabledText,
 }: {
   applyCoupon: (req: {coupon: string | number; itineraryId: string}) => unknown;
   itineraryId: string;
@@ -45,6 +47,7 @@ export const CouponInput = ({
   getCouponText?: (value: string) => unknown;
   isConditionValid?: (value: number) => unknown;
   loading: boolean;
+  disabledText: string;
 }) => {
   const [showInput, setShowInput] = useState(false);
   const [value, setValue] = useState<string | number>();
@@ -110,6 +113,9 @@ export const CouponInput = ({
     error && setError(false);
   };
 
+  const toastMessage = () => {
+    toastBottom(disabledText);
+  };
   return (
     <Box
       flexDirection="row"
@@ -128,7 +134,7 @@ export const CouponInput = ({
           alignItems="center"
           justifyContent="space-between"
           flex={1}>
-          <TouchableOpacity onPress={disabled ? () => null : toogleInput}>
+          <TouchableOpacity onPress={disabled ? toastMessage : toogleInput}>
             <Text
               fontSize={15}
               lineHeight={21}

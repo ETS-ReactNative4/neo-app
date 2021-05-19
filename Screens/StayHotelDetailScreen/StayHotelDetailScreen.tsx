@@ -1,4 +1,11 @@
-import {AmenitiesList, Box, Button, DotSeparateList, Text} from '@pyt/micros';
+import {
+  AmenitiesList,
+  Box,
+  Button,
+  DotSeparateList,
+  Text,
+  TripAdvisor,
+} from '@pyt/micros';
 import {HotelCard} from '@pyt/widgets/dist/esm/hotel-card';
 import React, {useEffect, useState} from 'react';
 import getSymbolFromCurrency from 'currency-symbol-map';
@@ -202,17 +209,28 @@ const StayHotelDetailScreen = ({
   ]);
 
   const dotSeparateList = [
+    hotelData.tripAdvisorRating ? (
+      <TripAdvisor stars={hotelData.tripAdvisorRating} />
+    ) : null,
     `${Math.round(hotelData.stars)} star hotel`,
     hotelData.cityName,
-  ].map((list, index) => (
-    <Text
-      fontFamily={CONSTANT_fontPrimaryRegular}
-      fontSize={14}
-      color={'#333333'}
-      key={index}>
-      {list}
-    </Text>
-  ));
+  ]
+    .filter(element => element)
+    .map((element, index) =>
+      typeof element === 'string' ? (
+        <Text
+          fontFamily={CONSTANT_fontPrimaryRegular}
+          fontSize={14}
+          color={'#333333'}
+          lineHeight={20}
+          key={index}>
+          {element}
+        </Text>
+      ) : (
+        element
+      ),
+    );
+
   const amenityList = hotelData.amenityDisplayList.map(
     (item: {iconUrl: string; amenityName: string}) => ({
       icon: <AmenityIcon name={item.iconUrl} size={14} color="#555555" />,
@@ -272,7 +290,7 @@ const StayHotelDetailScreen = ({
   const {data = []} = hotelDealDetails.successResponseData ?? {};
   return (
     <SafeAreaView style={styles.container}>
-      <Box backgroundColor="#E5E5E5" flex={1}>
+      <Box backgroundColor="#F5F5F5" flex={1}>
         <ScrollView>
           <MiniImageSlider
             height={326}

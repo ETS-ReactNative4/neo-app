@@ -11,8 +11,8 @@ import apiCall from '../../../Services/networkRequests/apiCall';
 import {CouponInput} from './CouponInput';
 import getSymbolFromCurrency from 'currency-symbol-map';
 import {getGlobalPriceWithoutSymbol} from '../../ExploreScreen/services/getPriceWithoutSymbol';
-import Icon from '../../../CommonComponents/Icon/Icon';
-import {CONSTANT_heart} from '../../../constants/imageAssets';
+import {IItineraryDetails} from '../../../TypeInterfaces/IItineraryDetails';
+import {toastBottom} from '../../../Services/toast/toast';
 
 type UserLoayltyCreditResponseType = {
   domesticLoyaltyBalance: number;
@@ -27,6 +27,7 @@ export const LoyaltyCredits = ({
   displayCurrency,
   disabled,
   loading,
+  itinerary,
 }: {
   itineraryId: string;
   userId: string;
@@ -36,6 +37,7 @@ export const LoyaltyCredits = ({
   displayCurrency: string;
   disabled: boolean;
   loading: boolean;
+  itinerary: IItineraryDetails;
 }) => {
   const [loyalCredit, setLoyaltyCredit] = useState<
     UserLoayltyCreditResponseType
@@ -70,7 +72,7 @@ export const LoyaltyCredits = ({
   }
 
   const costSymbol = getSymbolFromCurrency(displayCurrency);
-
+  const {totalCost} = itinerary ?? {};
   const closeInputBox = openedBoxName === 'COUPON';
 
   const getCouponText = (data: string) => {
@@ -83,8 +85,15 @@ export const LoyaltyCredits = ({
 
   const isConditionValid = (value: number) => {
     if (value <= 0) {
+      toastBottom('Minimum credit should be more than 0');
+      return false;
+    } else if (value >= parseInt(totalCost, 10)) {
+      toastBottom('Max credits applied can’t be more than total cost');
       return false;
     } else if (value > loyalCredit.domesticLoyaltyBalance) {
+      toastBottom(
+        `Max credits applied can’t be more than ${loyalCredit.domesticLoyaltyBalance}`,
+      );
       return false;
     }
     return true;
@@ -109,7 +118,8 @@ export const LoyaltyCredits = ({
           getCouponText={getCouponText}
           isConditionValid={isConditionValid}
           disabled={disabled}
-          icon={<Icon name={CONSTANT_heart} size={14} />}
+          disabledText="Loyalty credits cannot be used when coupon is applied"
+          // icon={<Icon name={CONSTANT_heart} size={14} />}
           loading={loading}
         />
       </Box>

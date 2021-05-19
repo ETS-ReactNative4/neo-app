@@ -32,6 +32,7 @@ export const Coupon = ({
       setInputBoxVisible={setInputBoxVisible}
       closeInputBox={openedBoxName === 'CREDIT'}
       disabled={disabled}
+      disabledText="Coupon cannot be used when loyalty coins are applied"
       icon={<Icon name={CONSTANT_offer} />}
       loading={loading}
     />

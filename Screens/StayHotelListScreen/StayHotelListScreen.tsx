@@ -219,7 +219,7 @@ const StayHotelListScreen = inject('otaHotelStore')(
     ).current;
 
     return (
-      <Box backgroundColor="#E5E5E5" flex={1}>
+      <Box backgroundColor="#F5F5F5" flex={1}>
         {header}
         <ScrollView style={styles.container}>
           {topHotelList.length ? (

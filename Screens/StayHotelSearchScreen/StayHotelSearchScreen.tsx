@@ -234,108 +234,110 @@ const StayHotelSearchScreen = inject('userStore')(
           return (
             <>
               {header}
-              <Box
-                borderRadius={12}
-                backgroundColor={'#FFFFFF'}
-                margin={16}
-                padding={16}>
+              <Box backgroundColor="#F5F5F5" flex={1}>
                 <Box
-                  borderBottomWidth={1}
-                  borderColor="#F7F7F7"
-                  paddingBottom={16}>
-                  <Text
-                    fontFamily={CONSTANT_fontPrimarySemiBold}
-                    fontSize={18}
-                    lineHeight={22}
-                    fontWeight={'600'}
-                    color={'#777777'}>
-                    Destination city
-                  </Text>
-                  <SearchSelect
-                    label="Search City"
+                  borderRadius={12}
+                  backgroundColor={'#FFFFFF'}
+                  margin={16}
+                  padding={16}>
+                  <Box
+                    borderBottomWidth={1}
+                    borderColor="#F7F7F7"
+                    paddingBottom={16}>
+                    <Text
+                      fontFamily={CONSTANT_fontPrimarySemiBold}
+                      fontSize={18}
+                      lineHeight={22}
+                      fontWeight={'600'}
+                      color={'#777777'}>
+                      Destination city
+                    </Text>
+                    <SearchSelect
+                      label="Search City"
+                      fontFamily={CONSTANT_fontPrimaryRegular}
+                      options={cities || []}
+                      onSelect={data => {
+                        searchData.city = data;
+                        setSearchData({
+                          ...searchData,
+                        });
+                      }}
+                      RenderView={
+                        <Text
+                          fontFamily={CONSTANT_fontPrimarySemiBold}
+                          fontSize={24}
+                          lineHeight={30}
+                          fontWeight={'600'}
+                          color={searchData.city.label ? '#333333' : '#D4D4D4'}
+                          marginTop={8}>
+                          {searchData.city.label || 'City'}
+                        </Text>
+                      }
+                      isLoading={cityLoading}
+                    />
+                  </Box>
+                  <Box
+                    flexDirection="row"
+                    justifyContent="space-between"
+                    marginTop={16}>
+                    <DateInputBox
+                      label="Check-in"
+                      date={searchData.checkInDate}
+                      dateFormat={dateFormat}
+                      displayFormat={CONSTANT_GCMDateFormat}
+                      containerProps={{
+                        flex: 1,
+                        marginEnd: 8,
+                      }}
+                      onDateSelect={date => setCheckInDate(date)}
+                      minDate={new Date()}
+                    />
+                    <DateInputBox
+                      label="Check-out"
+                      date={searchData.checkOutDate}
+                      dateFormat={dateFormat}
+                      displayFormat={CONSTANT_GCMDateFormat}
+                      onDateSelect={date => {
+                        searchData.checkOutDate = date;
+                        setSearchData({
+                          ...searchData,
+                        });
+                      }}
+                      containerProps={{
+                        flex: 1,
+                        marginStart: 8,
+                      }}
+                      minDate={new Date(searchData.checkInDate)}
+                    />
+                  </Box>
+
+                  <ClickableInputBox
+                    label="No. of persons"
+                    value={getPaxConfigText(
+                      searchData?.hotelGuestRoomConfiguration || [],
+                      true,
+                    )}
+                    containerProps={{
+                      marginTop: 16,
+                    }}
                     fontFamily={CONSTANT_fontPrimaryRegular}
-                    options={cities || []}
-                    onSelect={data => {
-                      searchData.city = data;
-                      setSearchData({
-                        ...searchData,
-                      });
+                    onPress={openGcm}
+                  />
+
+                  <Button
+                    text={isLoading ? 'Searching...' : 'Search'}
+                    textProps={{
+                      color: 'white',
+                      fontSize: 15,
+                      fontFamily: CONSTANT_fontPrimaryRegular,
                     }}
-                    RenderView={
-                      <Text
-                        fontFamily={CONSTANT_fontPrimarySemiBold}
-                        fontSize={24}
-                        lineHeight={30}
-                        fontWeight={'600'}
-                        color={searchData.city.label ? '#333333' : '#D4D4D4'}
-                        marginTop={8}>
-                        {searchData.city.label || 'City'}
-                      </Text>
-                    }
-                    isLoading={cityLoading}
+                    backgroundColor="#00C684"
+                    height={48}
+                    marginTop={20}
+                    onPress={disableSearch ? () => null : onSearch}
+                    opacity={isLoading || disableSearch ? 0.6 : 1}
                   />
                 </Box>
-                <Box
-                  flexDirection="row"
-                  justifyContent="space-between"
-                  marginTop={16}>
-                  <DateInputBox
-                    label="Check-in"
-                    date={searchData.checkInDate}
-                    dateFormat={dateFormat}
-                    displayFormat={CONSTANT_GCMDateFormat}
-                    containerProps={{
-                      flex: 1,
-                      marginEnd: 8,
-                    }}
-                    onDateSelect={date => setCheckInDate(date)}
-                    minDate={new Date()}
-                  />
-                  <DateInputBox
-                    label="Check-out"
-                    date={searchData.checkOutDate}
-                    dateFormat={dateFormat}
-                    displayFormat={CONSTANT_GCMDateFormat}
-                    onDateSelect={date => {
-                      searchData.checkOutDate = date;
-                      setSearchData({
-                        ...searchData,
-                      });
-                    }}
-                    containerProps={{
-                      flex: 1,
-                      marginStart: 8,
-                    }}
-                    minDate={new Date(searchData.checkInDate)}
-                  />
-                </Box>
-
-                <ClickableInputBox
-                  label="No. of persons"
-                  value={getPaxConfigText(
-                    searchData?.hotelGuestRoomConfiguration || [],
-                    true,
-                  )}
-                  containerProps={{
-                    marginTop: 16,
-                  }}
-                  fontFamily={CONSTANT_fontPrimaryRegular}
-                  onPress={openGcm}
-                />
-
-                <Button
-                  text={isLoading ? 'Searching...' : 'Search'}
-                  textProps={{
-                    color: 'white',
-                    fontSize: 15,
-                    fontFamily: CONSTANT_fontPrimaryRegular,
-                  }}
-                  backgroundColor="#00C684"
-                  height={48}
-                  marginTop={20}
-                  onPress={disableSearch ? () => null : onSearch}
-                  opacity={isLoading || disableSearch ? 0.6 : 1}
-                />
               </Box>
             </>
           );
