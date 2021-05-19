@@ -76,7 +76,7 @@ export const PriceDetails = ({
     <StaySection title="Price">
       {list.map((item, index) => {
         const cost = getGlobalPriceWithoutSymbol({
-          amount: parseInt(item.price as string, 10),
+          amount: parseFloat(item.price as string),
           currency: displayCurrency,
         });
 

@@ -31,7 +31,7 @@ export const TopHotelCard = ({
   image: string;
 }) => {
   const amount = getGlobalPriceWithoutSymbol({
-    amount: parseInt((cost as unknown) as string, 10),
+    amount: cost,
     currency: displayCurrency,
   });
   const costSymbol = getSymbolFromCurrency(displayCurrency);
