@@ -72,7 +72,7 @@ export const LoyaltyCredits = ({
   }
 
   const costSymbol = getSymbolFromCurrency(displayCurrency);
-  const {totalCost} = itinerary ?? {};
+  const {totalCost, domestic} = itinerary ?? {};
   const closeInputBox = openedBoxName === 'COUPON';
 
   const getCouponText = (data: string) => {
@@ -90,9 +90,18 @@ export const LoyaltyCredits = ({
     } else if (value >= parseInt(totalCost, 10)) {
       toastBottom('Max credits applied can’t be more than total cost');
       return false;
-    } else if (value > loyalCredit.domesticLoyaltyBalance) {
+    } else if (
+      value >
+      (domestic
+        ? loyalCredit.domesticLoyaltyBalance
+        : loyalCredit.internationalLoyaltyBalance)
+    ) {
       toastBottom(
-        `Max credits applied can’t be more than ${loyalCredit.domesticLoyaltyBalance}`,
+        `Max credits applied can’t be more than ${
+          domestic
+            ? loyalCredit.domesticLoyaltyBalance
+            : loyalCredit.internationalLoyaltyBalance
+        }`,
       );
       return false;
     }
@@ -136,7 +145,10 @@ export const LoyaltyCredits = ({
             lineHeight={16}>
             You can use upto{' '}
             <Text fontFamily={CONSTANT_fontPrimarySemiBold}>
-              {loyalCredit.domesticLoyaltyBalance} credit
+              {domestic
+                ? loyalCredit.domesticLoyaltyBalance
+                : loyalCredit.internationalLoyaltyBalance}{' '}
+              credit
             </Text>{' '}
             for this booking
           </Text>
@@ -146,8 +158,13 @@ export const LoyaltyCredits = ({
             fontSize={13}
             lineHeight={16}
             marginTop={8}>
-            Remaining {loyalCredit.internationalLoyaltyBalance} credit out of{' '}
-            {totalCredits} credit can be used only for International bookings
+            {`Remaining ${
+              domestic
+                ? loyalCredit.internationalLoyaltyBalance
+                : loyalCredit.domesticLoyaltyBalance
+            } credit out of ${totalCredits} credit can be used only for ${
+              domestic ? 'International bookings' : 'Domestic bookings'
+            }`}
           </Text>
         </Box>
       ) : null}

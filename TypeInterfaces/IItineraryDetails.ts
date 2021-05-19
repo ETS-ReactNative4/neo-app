@@ -107,4 +107,5 @@ export interface IItineraryDetails {
   dealInfo?: IDealInfo;
   discounts?: {total: number};
   taxesAndFees: {costings: TaxAndFeesCostingType[]};
+  domestic: boolean;
 }
