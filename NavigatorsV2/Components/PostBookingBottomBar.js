@@ -1,17 +1,16 @@
-import React from "react";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-import PropTypes from "prop-types";
-import BottomBarWrapper from "../../CommonComponents/BottomBarWrapper/BottomBarWrapper";
+import React from 'react';
+import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
+import PropTypes from 'prop-types';
+import BottomBarWrapper from '../../CommonComponents/BottomBarWrapper/BottomBarWrapper';
 import {
   CONSTANT_fontCustom,
-  CONSTANT_primaryRegular
-} from "../../constants/fonts";
-import Icon from "../../CommonComponents/Icon/Icon";
-import { inject, observer } from "mobx-react";
-import { SCREEN_SUPPORT_TAB } from "../ScreenNames";
-import { recordEvent } from "../../Services/analytics/analyticsService";
-import { CONSTANT_Chat } from "../../constants/appEvents";
-import { chatLauncher } from "../../Services/freshchatService/freshchatService";
+  CONSTANT_primaryRegular,
+} from '../../constants/fonts';
+import Icon from '../../CommonComponents/Icon/Icon';
+import {SCREEN_SUPPORT_TAB} from '../ScreenNames';
+import {recordEvent} from '../../Services/analytics/analyticsService';
+import {CONSTANT_Chat} from '../../constants/appEvents';
+import {chatLauncher} from '../../Services/freshchatService/freshchatService';
 
 /**
  * PT TODO: Typing unavailable for bottom bar hence the file is in js
@@ -21,14 +20,12 @@ const PostBookingBottomBar = ({
   state,
   descriptors,
   navigation,
-  chatDetailsStore
+  isChatActive,
 }) => {
-  const { isChatActive } = chatDetailsStore;
-
   return (
     <View style={styles.bottomBarContainer}>
       {state.routes.map((route, index) => {
-        const { options } = descriptors[route.key];
+        const {options} = descriptors[route.key];
         const label =
           options.tabBarLabel !== undefined
             ? options.tabBarLabel
@@ -40,14 +37,14 @@ const PostBookingBottomBar = ({
 
         const onPress = () => {
           const event = navigation.emit({
-            type: "tabPress",
-            target: route.key
+            type: 'tabPress',
+            target: route.key,
           });
 
           if (!isFocused && !event.defaultPrevented) {
             if (label === SCREEN_SUPPORT_TAB && isChatActive) {
               recordEvent(CONSTANT_Chat.event, {
-                click: CONSTANT_Chat.click.openChat
+                click: CONSTANT_Chat.click.openChat,
               });
               chatLauncher();
             } else {
@@ -58,8 +55,8 @@ const PostBookingBottomBar = ({
 
         const onLongPress = () => {
           navigation.emit({
-            type: "tabLongPress",
-            target: route.key
+            type: 'tabLongPress',
+            target: route.key,
           });
         };
 
@@ -69,7 +66,7 @@ const PostBookingBottomBar = ({
         const buttonContainerStyle = {
           backgroundColor: isFocused
             ? options.activeBackgroundColor
-            : options.inactiveBackgroundColor
+            : options.inactiveBackgroundColor,
         };
 
         const icon = isFocused ? options.selectedIcon : options.icon;
@@ -79,15 +76,14 @@ const PostBookingBottomBar = ({
             key={index}
             activeOpacity={0.8}
             accessibilityRole="button"
-            accessibilityStates={isFocused ? ["selected"] : []}
+            accessibilityStates={isFocused ? ['selected'] : []}
             accessibilityLabel={options.tabBarAccessibilityLabel}
             testID={options.tabBarTestID}
             onPress={onPress}
             onLongPress={onLongPress}
-            style={[styles.buttonContainer, buttonContainerStyle]}
-          >
+            style={[styles.buttonContainer, buttonContainerStyle]}>
             <Icon name={icon} color={color} size={24} />
-            <Text style={[styles.text, { color }]}>{label}</Text>
+            <Text style={[styles.text, {color}]}>{label}</Text>
           </TouchableOpacity>
         );
       })}
@@ -99,26 +95,24 @@ PostBookingBottomBar.propTypes = {
   state: PropTypes.object,
   descriptors: PropTypes.object,
   navigation: PropTypes.object,
-  chatDetailsStore: PropTypes.object
+  chatDetailsStore: PropTypes.object,
 };
 
 const styles = StyleSheet.create({
   bottomBarContainer: {
     flex: 1,
-    flexDirection: "row",
-    backgroundColor: "transparent"
+    flexDirection: 'row',
+    backgroundColor: 'transparent',
   },
   buttonContainer: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center"
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   text: {
     ...CONSTANT_fontCustom(CONSTANT_primaryRegular, 12),
-    marginTop: 8
-  }
+    marginTop: 8,
+  },
 });
 
-export default inject("chatDetailsStore")(
-  observer(BottomBarWrapper(PostBookingBottomBar))
-);
+export default BottomBarWrapper(PostBookingBottomBar);

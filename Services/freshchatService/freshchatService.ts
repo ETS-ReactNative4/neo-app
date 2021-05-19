@@ -2,13 +2,14 @@ import {
   Freshchat,
   FreshchatConfig,
   FreshchatUser,
-  ConversationOptions
+  ConversationOptions,
   // @ts-ignore
-} from "react-native-freshchat-sdk";
-import { logError } from "../errorLogger/errorLogger";
-import storeService from "../storeService/storeService";
-import openCustomTab from "../openCustomTab/openCustomTab";
-import isUserLoggedInCallback from "../isUserLoggedInCallback/isUserLoggedInCallback";
+} from 'react-native-freshchat-sdk';
+import {logError} from '../errorLogger/errorLogger';
+import storeService from '../storeService/storeService';
+import openCustomTab from '../openCustomTab/openCustomTab';
+import isUserLoggedInCallback from '../isUserLoggedInCallback/isUserLoggedInCallback';
+import {show as showCrispChat} from 'react-native-crisp-chat-sdk';
 
 /**
  * Event listener for retrieving restore id. This restore id must be stored on the
@@ -20,8 +21,8 @@ Freshchat.addEventListener(Freshchat.EVENT_USER_RESTORE_ID_GENERATED, () => {
       getActorId()
         .then(actorId => {
           if (restoreId && actorId) {
-            const { setChatMetaInfo } = storeService.chatDetailsStore;
-            setChatMetaInfo({ restoreId, actorId });
+            const {setChatMetaInfo} = storeService.chatDetailsStore;
+            setChatMetaInfo({restoreId, actorId});
           }
         })
         .catch(() => null);
@@ -33,14 +34,14 @@ Freshchat.addEventListener(Freshchat.EVENT_USER_RESTORE_ID_GENERATED, () => {
  * Event listener to detect unread message count in freshchat
  */
 Freshchat.addEventListener(Freshchat.EVENT_UNREAD_MESSAGE_COUNT_CHANGED, () => {
-  Freshchat.getUnreadCountAsync((data: { status: boolean; count: number }) => {
-    const { count, status } = data;
+  Freshchat.getUnreadCountAsync((data: {status: boolean; count: number}) => {
+    const {count, status} = data;
     if (status) {
-      const { setUnreadMessageCount } = storeService.chatDetailsStore;
+      const {setUnreadMessageCount} = storeService.chatDetailsStore;
       setUnreadMessageCount(count);
     } else {
       logError(data, {
-        type: "Failed to get unread message count from event listener"
+        type: 'Failed to get unread message count from event listener',
       });
     }
   });
@@ -54,10 +55,10 @@ Freshchat.addEventListener(Freshchat.EVENT_UNREAD_MESSAGE_COUNT_CHANGED, () => {
  */
 Freshchat.addEventListener(
   Freshchat.EVENT_EXTERNAL_LINK_CLICKED,
-  (data: { url: string }): void => {
-    const { url = "" } = data;
+  (data: {url: string}): void => {
+    const {url = ''} = data;
     openCustomTab(url);
-  }
+  },
 );
 
 /**
@@ -71,7 +72,7 @@ export const openChat = (tags: string[] = []): boolean => {
     return true;
   } catch (e) {
     logError(e, {
-      type: "Failed to open chat"
+      type: 'Failed to open chat',
     });
     return false;
   }
@@ -91,14 +92,14 @@ export const closeChat = () => {
 export const initializeChat = (appId: string, appKey: string): boolean => {
   try {
     if (!appId || !appKey) {
-      throw new Error("Invalid freshchat app credentials!");
+      throw new Error('Invalid freshchat app credentials!');
     }
     const freshchatConfig = new FreshchatConfig(appId, appKey);
     Freshchat.init(freshchatConfig);
     return true;
   } catch (e) {
     logError(e, {
-      type: "Failed to initialize chat"
+      type: 'Failed to initialize chat',
     });
     return false;
   }
@@ -121,7 +122,7 @@ export const setChatUserDetails = ({
   lastName,
   email,
   phoneCountryCode,
-  phone
+  phone,
 }: chatUserDetails): Promise<Error> => {
   /**
    * TODO: No way to resolve this promise...
@@ -137,8 +138,8 @@ export const setChatUserDetails = ({
     freshchatUser.phone = phone;
     Freshchat.setUser(freshchatUser, (error: Error): void => {
       logError(error, {
-        type: "failed to set user details in chat",
-        freshchatUser
+        type: 'failed to set user details in chat',
+        freshchatUser,
       });
       reject(error);
     });
@@ -150,13 +151,13 @@ export const setChatUserDetails = ({
  * chat history using the conversation's restore id.
  */
 export const identifyChatUser = (
-  externalId: string = "",
-  restoreId: string | null = null
+  externalId: string = '',
+  restoreId: string | null = null,
 ): Promise<Error> => {
   return new Promise((resolve, reject): void => {
     Freshchat.identifyUser(externalId, restoreId, (error: Error): void => {
       logError(error, {
-        type: "unable to identify user in chat"
+        type: 'unable to identify user in chat',
       });
       reject(error);
     });
@@ -168,19 +169,17 @@ export const identifyChatUser = (
  */
 export const getUnreadMessagesCount = () => {
   return new Promise((resolve, reject) => {
-    Freshchat.getUnreadCountAsync(
-      (data: { status: boolean; count: number }) => {
-        const { count, status } = data;
-        if (status) {
-          resolve(count);
-        } else {
-          logError(data, {
-            type: "Failed to get unread message count"
-          });
-          reject(data);
-        }
+    Freshchat.getUnreadCountAsync((data: {status: boolean; count: number}) => {
+      const {count, status} = data;
+      if (status) {
+        resolve(count);
+      } else {
+        logError(data, {
+          type: 'Failed to get unread message count',
+        });
+        reject(data);
       }
-    );
+    });
   });
 };
 
@@ -196,9 +195,9 @@ export const logoutUserFromChat = () => {
  */
 export const getRestoreId = (): Promise<string | void> => {
   return new Promise((resolve, reject) => {
-    Freshchat.getUser((user: { restoreId: string; externalId: string }) => {
+    Freshchat.getUser((user: {restoreId: string; externalId: string}) => {
       try {
-        const { restoreId } = user;
+        const {restoreId} = user;
         if (restoreId) {
           resolve(restoreId);
         } else {
@@ -206,8 +205,8 @@ export const getRestoreId = (): Promise<string | void> => {
         }
       } catch (e) {
         logError(e, {
-          type: "Unable to retrieve restore id of the user",
-          user
+          type: 'Unable to retrieve restore id of the user',
+          user,
         });
         reject();
       }
@@ -225,8 +224,8 @@ export const getActorId = (): Promise<string | void> => {
       if (data) {
         resolve(data);
       } else {
-        logError("Unable to retrieve actor id of the user", {
-          data
+        logError('Unable to retrieve actor id of the user', {
+          data,
         });
         reject();
       }
@@ -247,7 +246,7 @@ export const setChatPushToken = (token: string): boolean => {
     return true;
   } catch (e) {
     logError(e, {
-      type: "Failed to set push notification token for freshchat"
+      type: 'Failed to set push notification token for freshchat',
     });
     return false;
   }
@@ -257,7 +256,7 @@ export const setChatPushToken = (token: string): boolean => {
  * Checks if the push notification belongs to freshchat. Resolves to a boolean value
  */
 export const checkIfChatPushNotification = (
-  notification: any
+  notification: any,
 ): Promise<boolean | Error> => {
   return new Promise((resolve, reject) => {
     try {
@@ -272,15 +271,15 @@ export const checkIfChatPushNotification = (
             }
           } catch (e) {
             logError(e, {
-              type: "Failed to check push notification type"
+              type: 'Failed to check push notification type',
             });
             reject(e);
           }
-        }
+        },
       );
     } catch (e) {
       logError(e, {
-        type: "Failed to check push notification type"
+        type: 'Failed to check push notification type',
       });
       reject(e);
     }
@@ -296,9 +295,13 @@ export const chatPushNotificationHandler = (notification: any) => {
     Freshchat.handlePushNotification(notification);
   } catch (e) {
     logError(e, {
-      type: "Failed to open chat push notification"
+      type: 'Failed to open chat push notification',
     });
   }
+};
+
+export const OpenCrispChat = () => {
+  showCrispChat();
 };
 
 /**
@@ -306,17 +309,21 @@ export const chatPushNotificationHandler = (notification: any) => {
  */
 export const chatLauncher = () => {
   isUserLoggedInCallback(() => {
-    const { chatDetails = {} } = storeService.chatDetailsStore;
-    const { clearChatNotification } = storeService.appState;
+    const {chatDetails = {}} = storeService.chatDetailsStore;
+    const {clearChatNotification} = storeService.appState;
     try {
       // @ts-ignore
-      const { region = [] } = chatDetails;
-      clearChatNotification();
-      openChat(region);
+      const {region = []} = chatDetails;
+      if (storeService.deviceLocaleStore.deviceLocale !== 'in') {
+        OpenCrispChat();
+      } else {
+        clearChatNotification();
+        openChat(region);
+      }
     } catch (e) {
       logError(e, {
-        type: "Failed to launch chat screen",
-        chatDetails
+        type: 'Failed to launch chat screen',
+        chatDetails,
       });
     }
     return null;

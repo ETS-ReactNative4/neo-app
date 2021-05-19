@@ -77,7 +77,9 @@ import storeService from '../../Services/storeService/storeService';
 import Itineraries from '../../mobx/Itineraries';
 import launchItinerarySelector from '../../Services/launchItinerarySelector/launchItinerarySelector';
 import launchSavedItineraries from '../../Services/launchSavedItineraries/launchSavedItineraries';
-import launchPretripHome from '../../Services/launchPretripHome/launchPretripHome';
+import launchPretripHome, {
+  launchPretripScreen,
+} from '../../Services/launchPretripHome/launchPretripHome';
 import usePrevious from '../../Services/usePrevious/usePrevious';
 import {IMobileServerResponse} from '../../TypeInterfaces/INetworkResponse';
 import LeadSource from '../../mobx/LeadSource';
@@ -88,6 +90,7 @@ import {
 } from '../../constants/appEvents';
 import DeviceLocale from '../../mobx/DeviceLocale';
 import {getDeviceToken} from '../../Services/fcmService/fcm';
+import DeviceDetails from '../../mobx/DeviceDetails';
 
 type screenName = typeof SCREEN_APP_LOGIN;
 
@@ -105,6 +108,7 @@ export interface IAppLoginProps {
   itineraries: Itineraries;
   leadSourceStore: LeadSource;
   deviceLocaleStore: DeviceLocale;
+  deviceDetailsStore: DeviceDetails;
 }
 
 const AppLogin = ({
@@ -114,6 +118,7 @@ const AppLogin = ({
   itineraries,
   leadSourceStore,
   deviceLocaleStore,
+  deviceDetailsStore,
 }: IAppLoginProps) => {
   const [isVideoReady, setVideoStatus] = useState(false);
   const [
@@ -340,6 +345,7 @@ const AppLogin = ({
   };
 
   const continueFlow = () => {
+    deviceDetailsStore.setDeviceDetails();
     const isNewUser =
       mobileNumberApiDetails.failureResponseData?.status ===
       CONSTANT_responseUserUnavailable;
@@ -377,12 +383,20 @@ const AppLogin = ({
   };
 
   const preparePostBookingFlow = () => {
+    const params = route.params || {};
     yourBookingsStore
       .getUpcomingItineraries()
       .then(itinerariesArray => {
         if (itinerariesArray.length > 1) {
           setIsOtpSubmitting(false);
-          navigation.dispatch(launchItinerarySelector());
+          if (params?.deeplink) {
+            /**
+             * Opens pre-trip screen so that user will land on home screen when they navigate back from deep linked screen
+             */
+            navigation.dispatch(launchPretripScreen(params));
+          } else {
+            navigation.dispatch(launchItinerarySelector());
+          }
         } else {
           const itineraryId: string = itinerariesArray[0].itineraryId;
           itineraries
@@ -652,8 +666,10 @@ const styles = StyleSheet.create({
 
 export default ErrorBoundary()(
   inject('deviceLocaleStore')(
-    inject('leadSourceStore')(
-      inject('itineraries')(inject('yourBookingsStore')(observer(AppLogin))),
+    inject('deviceDetailsStore')(
+      inject('leadSourceStore')(
+        inject('itineraries')(inject('yourBookingsStore')(observer(AppLogin))),
+      ),
     ),
   ),
 );

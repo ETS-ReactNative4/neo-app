@@ -1,22 +1,36 @@
-import React, { useEffect } from "react";
-import { View, Text, StyleSheet, Image } from "react-native";
-import constants from "../../constants/constants";
+import React, {useEffect} from 'react';
+import {View, Text, StyleSheet, Image, BackHandler} from 'react-native';
+import constants from '../../constants/constants';
 import {
   responsiveWidth,
-  responsiveHeight
-} from "react-native-responsive-dimensions";
-import PrimaryHeader from "../../NavigatorsV2/Components/PrimaryHeader";
+  responsiveHeight,
+} from 'react-native-responsive-dimensions';
+import PrimaryHeader from '../../NavigatorsV2/Components/PrimaryHeader';
 
-const PaymentSuccess = ({ transactionId = "", navigation }) => {
+const PaymentSuccess = ({transactionId = '', navigation, route}) => {
+  const {backAction} = route?.params ?? {};
+  const handledBackPress = () => {
+    if (backAction) {
+      backAction();
+    } else {
+      navigation.goBack();
+    }
+
+    return true;
+  };
+
   useEffect(() => {
     navigation.setOptions({
       header: () =>
         PrimaryHeader({
-          leftAction: () => navigation.goBack(),
-          headerText: "Payment Successful"
-        })
+          leftAction: handledBackPress,
+          headerText: 'Payment Successful',
+        }),
     });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    BackHandler.addEventListener('beforeRemove', handledBackPress);
+    return () =>
+      BackHandler.removeEventListener('beforeRemove', handledBackPress);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -24,7 +38,7 @@ const PaymentSuccess = ({ transactionId = "", navigation }) => {
       <Image
         source={constants.paymentSuccessIllus}
         style={styles.illustration}
-        resizeMode={"contain"}
+        resizeMode={'contain'}
       />
       <Text style={styles.paymentSuccessText}>
         {constants.paymentText.successTitle}
@@ -38,30 +52,30 @@ const PaymentSuccess = ({ transactionId = "", navigation }) => {
 const styles = StyleSheet.create({
   paymentSuccessContainer: {
     flex: 1,
-    backgroundColor: "white",
-    alignItems: "center",
-    justifyContent: "center",
-    paddingHorizontal: 40
+    backgroundColor: 'white',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 40,
   },
   paymentSuccessText: {
     ...constants.fontCustom(constants.primarySemiBold, 20),
     color: constants.black1,
-    marginVertical: 16
+    marginVertical: 16,
   },
   message: {
     ...constants.fontCustom(constants.primaryLight, 15, 18),
     color: constants.black2,
-    textAlign: "center"
+    textAlign: 'center',
   },
   illustration: {
     width: responsiveWidth(100) - 48,
-    height: responsiveHeight(25)
+    height: responsiveHeight(25),
   },
   transId: {
     ...constants.fontCustom(constants.primarySemiBold, 15),
     marginVertical: 8,
-    color: constants.thirdColor
-  }
+    color: constants.thirdColor,
+  },
 });
 
 export default PaymentSuccess;

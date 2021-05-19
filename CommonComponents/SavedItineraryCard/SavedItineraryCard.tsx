@@ -1,32 +1,32 @@
-import React from "react";
+import React from 'react';
 import {
   View,
   StyleSheet,
   Text,
   ViewStyle,
-  TouchableOpacity
-} from "react-native";
+  TouchableOpacity,
+} from 'react-native';
 import RouteList, {
-  IRouteCitiesDetails
-} from "../../CommonComponents/RouteList/RouteList";
+  IRouteCitiesDetails,
+} from '../../CommonComponents/RouteList/RouteList';
 import {
   CONSTANT_shade5,
   CONSTANT_shade1,
   CONSTANT_black1,
   CONSTANT_white,
-  CONSTANT_eighteenthColor
-} from "../../constants/colorPallete";
+  CONSTANT_eighteenthColor,
+} from '../../constants/colorPallete';
 import {
   CONSTANT_moreOptionsHorizIcon,
-  CONSTANT_defaultPlaceImage
-} from "../../constants/imageAssets";
+  CONSTANT_defaultPlaceImage,
+} from '../../constants/imageAssets';
 import {
   CONSTANT_primarySemiBold,
   CONSTANT_fontCustom,
-  CONSTANT_primaryRegular
-} from "../../constants/fonts";
-import Icon from "../../CommonComponents/Icon/Icon";
-import BetterImage from "../BetterImage/BetterImage";
+  CONSTANT_primaryRegular,
+} from '../../constants/fonts';
+import Icon from '../../CommonComponents/Icon/Icon';
+import BetterImage from '../BetterImage/BetterImage';
 
 interface SavedItineraryCardProps {
   containerStyle?: ViewStyle;
@@ -46,35 +46,34 @@ export const SAVED_ITINERARY_IMAGE_WIDTH = 70;
 
 const SavedItineraryCard = ({
   containerStyle,
-  image = "",
-  thumbnail = "",
+  image = '',
+  thumbnail = '',
   lastEdited,
-  title = "",
+  title = '',
   cities = [],
   action = () => {},
   moreOptions = false,
   isUnread = false,
-  moreOptionsAction = () => {}
+  moreOptionsAction = () => {},
 }: SavedItineraryCardProps) => {
   return (
     <TouchableOpacity
       style={[
         styles.savedItineraryCard,
         isUnread ? styles.unread : null,
-        containerStyle
+        containerStyle,
       ]}
       activeOpacity={0.8}
-      onPress={action}
-    >
+      onPress={action}>
       <BetterImage
         thumbnailSource={{
-          uri: thumbnail
+          uri: thumbnail,
         }}
         source={{
-          uri: image
+          uri: image,
         }}
         fallbackSource={{
-          uri: CONSTANT_defaultPlaceImage
+          uri: CONSTANT_defaultPlaceImage,
         }}
         containerStyle={[styles.savedItineraryImage]}
         resizeMode="cover"
@@ -85,8 +84,7 @@ const SavedItineraryCard = ({
           <Text
             style={styles.lastEditedText}
             numberOfLines={1}
-            ellipsizeMode={"tail"}
-          >
+            ellipsizeMode={'tail'}>
             {lastEdited}
           </Text>
 
@@ -102,11 +100,13 @@ const SavedItineraryCard = ({
         </View>
         <Text style={styles.titleText}>{title}</Text>
 
-        <RouteList
-          containerStyle={styles.routeListContainerStyle}
-          routeListTextStyle={styles.routeListTextStyle}
-          cities={cities}
-        />
+        {cities.length ? (
+          <RouteList
+            containerStyle={styles.routeListContainerStyle}
+            routeListTextStyle={styles.routeListTextStyle}
+            cities={cities}
+          />
+        ) : null}
       </View>
     </TouchableOpacity>
   );
@@ -114,50 +114,50 @@ const SavedItineraryCard = ({
 
 const styles = StyleSheet.create({
   savedItineraryCard: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     padding: 16,
     borderBottomWidth: 1,
     borderBottomColor: CONSTANT_shade5,
-    backgroundColor: CONSTANT_white
+    backgroundColor: CONSTANT_white,
   },
   unread: {
-    backgroundColor: CONSTANT_eighteenthColor
+    backgroundColor: CONSTANT_eighteenthColor,
   },
   savedItineraryImage: {
     width: SAVED_ITINERARY_IMAGE_WIDTH,
     height: SAVED_ITINERARY_IMAGE_HEIGHT,
-    borderRadius: 50
+    borderRadius: 50,
   },
   rightColumn: {
     flex: 1,
-    paddingLeft: 16
+    paddingLeft: 16,
   },
   lastEditedTextWrapper: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between"
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
   lastEditedText: {
     flex: 1,
     color: CONSTANT_shade1,
     ...CONSTANT_fontCustom(CONSTANT_primarySemiBold, 11, 14),
-    textTransform: "uppercase",
+    textTransform: 'uppercase',
     marginRight: 8,
-    marginBottom: 4
+    marginBottom: 4,
   },
   titleText: {
     color: CONSTANT_black1,
     ...CONSTANT_fontCustom(CONSTANT_primarySemiBold, 16, 20),
-    marginBottom: 8
+    marginBottom: 8,
   },
   routeListContainerStyle: {
-    marginBottom: 0
+    marginBottom: 0,
   },
   routeListTextStyle: {
     ...CONSTANT_fontCustom(CONSTANT_primaryRegular, 12, 15),
-    marginHorizontal: 6
-  }
+    marginHorizontal: 6,
+  },
 });
 
 export default SavedItineraryCard;

@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   StyleSheet,
   ImageSourcePropType,
@@ -6,24 +6,25 @@ import {
   Text,
   StyleProp,
   TouchableOpacity,
-  ImageStyle
-} from "react-native";
-import { responsiveWidth } from "react-native-responsive-dimensions";
-import SmartImageV2 from "../SmartImage/SmartImageV2";
-import Icon from "../Icon/Icon";
-import { CONSTANT_white1 } from "../../constants/colorPallete";
+  ImageStyle,
+} from 'react-native';
+import {responsiveWidth} from 'react-native-responsive-dimensions';
+import SmartImageV2 from '../SmartImage/SmartImageV2';
+import Icon from '../Icon/Icon';
+import {CONSTANT_white1} from '../../constants/colorPallete';
 import {
   CONSTANT_backIcon,
-  CONSTANT_defaultPlaceImage
-} from "../../constants/imageAssets";
+  CONSTANT_defaultPlaceImage,
+} from '../../constants/imageAssets';
 import {
   CONSTANT_fontCustom,
   CONSTANT_primaryRegular,
-  CONSTANT_primarySemiBold
-} from "../../constants/fonts";
-import ratioCalculator from "../../Services/ratioCalculator/ratioCalculator";
-import BetterImage from "../BetterImage/BetterImage";
-import { getLocaleStringGlobal } from "../../Services/getLocaleString/getLocaleString";
+  CONSTANT_primarySemiBold,
+} from '../../constants/fonts';
+import ratioCalculator from '../../Services/ratioCalculator/ratioCalculator';
+import BetterImage from '../BetterImage/BetterImage';
+import {getGlobalPriceWithoutSymbol} from '../../Screens/ExploreScreen/services/getPriceWithoutSymbol';
+import getSymbolFromCurrency from 'currency-symbol-map';
 
 interface FeaturedCardTypeOneProps {
   containerStyle?: StyleProp<ImageStyle>;
@@ -44,18 +45,18 @@ export const FEATURED_CARD_IMAGE_WIDTH =
 export const FEATURED_CARD_IMAGE_HEIGHT = ratioCalculator(
   8,
   11,
-  FEATURED_CARD_IMAGE_WIDTH
+  FEATURED_CARD_IMAGE_WIDTH,
 );
 
 const FeaturedCardTypeOne = ({
   containerStyle,
-  image = { uri: "" },
-  thumbnail = { uri: "" },
-  fallbackImage = { uri: CONSTANT_defaultPlaceImage },
+  image = {uri: ''},
+  thumbnail = {uri: ''},
+  fallbackImage = {uri: CONSTANT_defaultPlaceImage},
   blurRadius = 50,
   action = () => null,
   price,
-  displayCurrency
+  displayCurrency,
 }: FeaturedCardTypeOneProps) => {
   return (
     <TouchableOpacity activeOpacity={0.8} onPress={action}>
@@ -65,8 +66,7 @@ const FeaturedCardTypeOne = ({
         resizeMode="cover"
         style={[styles.bgImageStyle, containerStyle]}
         blurRadius={blurRadius}
-        imageStyle={styles.imageStyle}
-      >
+        imageStyle={styles.imageStyle}>
         <View style={styles.innerCard}>
           <BetterImage
             source={image}
@@ -77,17 +77,19 @@ const FeaturedCardTypeOne = ({
           />
 
           <View style={styles.contentStyle}>
-            <Text style={styles.textStyle}>
-              {" "}
-              From{" "}
+            <View style={styles.costStyle}>
+              <Text style={styles.textStyle}> From </Text>
               <Text style={styles.boldTextStyle}>
-                {getLocaleStringGlobal({
+                {getSymbolFromCurrency(displayCurrency)}
+              </Text>
+              <Text style={styles.boldTextStyle}>
+                {getGlobalPriceWithoutSymbol({
                   amount: price,
-                  currency: displayCurrency
+                  currency: displayCurrency,
                 })}
-              </Text>{" "}
-              / person
-            </Text>
+              </Text>
+              <Text style={styles.textStyle}>/ person</Text>
+            </View>
 
             <View style={styles.backArrowStyle}>
               <Icon
@@ -105,39 +107,42 @@ const FeaturedCardTypeOne = ({
 
 const styles = StyleSheet.create({
   bgImageStyle: {
-    borderRadius: 4
+    borderRadius: 4,
   },
   imageStyle: {
-    borderRadius: 4
+    borderRadius: 4,
   },
   innerCard: {
-    padding: GUTTER_SPACING
+    padding: GUTTER_SPACING,
+  },
+  costStyle: {
+    flexDirection: 'row',
   },
   contentStyle: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between"
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
   fgImageStyle: {
     height: FEATURED_CARD_IMAGE_HEIGHT,
     borderRadius: 8,
-    marginBottom: GUTTER_SPACING
+    marginBottom: GUTTER_SPACING,
   },
   textStyle: {
     color: CONSTANT_white1,
-    ...CONSTANT_fontCustom(CONSTANT_primaryRegular, 16)
+    ...CONSTANT_fontCustom(CONSTANT_primaryRegular, 16),
   },
   boldTextStyle: {
     color: CONSTANT_white1,
-    ...CONSTANT_fontCustom(CONSTANT_primarySemiBold, 16)
+    ...CONSTANT_fontCustom(CONSTANT_primarySemiBold, 16),
   },
   backArrowStyle: {
     transform: [
       {
-        scaleX: -1
-      }
-    ]
-  }
+        scaleX: -1,
+      },
+    ],
+  },
 });
 
 export default FeaturedCardTypeOne;

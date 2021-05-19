@@ -1,27 +1,27 @@
 export enum IRegion {
-  SEA = "South East Asia",
-  EUROPE = "Europe",
-  ANZ = "Australia and Newzealand",
-  VANILLA = "Islands",
-  MIDDLE_EAST = "Middle East",
-  SOUTH_AMERICA = "South America",
-  NORTH_AMERICA = "North America",
-  OTHERS = ""
+  SEA = 'South East Asia',
+  EUROPE = 'Europe',
+  ANZ = 'Australia and Newzealand',
+  VANILLA = 'Islands',
+  MIDDLE_EAST = 'Middle East',
+  SOUTH_AMERICA = 'South America',
+  NORTH_AMERICA = 'North America',
+  OTHERS = '',
 }
 
 export enum IMonth {
-  JANUARY = "JANUARY",
-  FEBRUARY = "FEBRUARY",
-  MARCH = "MARCH",
-  APRIL = "APRIL",
-  MAY = "MAY",
-  JUNE = "JUNE",
-  JULY = "JULY",
-  SEPTEMBER = "SEPTEMBER",
-  AUGUST = "AUGUST",
-  OCTOBER = "OCTOBER",
-  NOVEMBER = "NOVEMBER",
-  DECEMBER = "DECEMBER"
+  JANUARY = 'JANUARY',
+  FEBRUARY = 'FEBRUARY',
+  MARCH = 'MARCH',
+  APRIL = 'APRIL',
+  MAY = 'MAY',
+  JUNE = 'JUNE',
+  JULY = 'JULY',
+  SEPTEMBER = 'SEPTEMBER',
+  AUGUST = 'AUGUST',
+  OCTOBER = 'OCTOBER',
+  NOVEMBER = 'NOVEMBER',
+  DECEMBER = 'DECEMBER',
 }
 
 export interface ICountry {
@@ -52,6 +52,10 @@ export interface IDealInfo {
   allowedPassports?: string[];
 }
 
+interface TaxAndFeesCostingType {
+  pricing: string;
+  cost: number;
+}
 export interface IItineraryDetails {
   itineraryId: string;
   departSlot: string;
@@ -76,7 +80,7 @@ export interface IItineraryDetails {
   costed: boolean;
   userUpdated: boolean;
   rcAvailable: boolean;
-  cityWiseOrderMap: { [index: number]: number };
+  cityWiseOrderMap: {[index: number]: number};
   staleCost: boolean;
   booking: boolean;
   shared: boolean;
@@ -101,4 +105,6 @@ export interface IItineraryDetails {
   passengerDetailPresent: boolean;
   comfyScore: number;
   dealInfo?: IDealInfo;
+  discounts?: {total: number};
+  taxesAndFees: {costings: TaxAndFeesCostingType[]};
 }
