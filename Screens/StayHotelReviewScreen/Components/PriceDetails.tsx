@@ -38,8 +38,9 @@ export const PriceDetails = ({
   const lineItem = (taxesAndFees?.costings || []).reduce(
     (itemList, costItem) => {
       if (costItem.cost) {
+        const label = costItem.pricing.split('_').join(' ');
         itemList.push({
-          label: _capitalize(costItem.pricing),
+          label: _capitalize(label),
           price: costItem.cost,
         });
       }
