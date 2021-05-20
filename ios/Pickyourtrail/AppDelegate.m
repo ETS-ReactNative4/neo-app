@@ -20,6 +20,8 @@
 #import <SKIOSNetworkPlugin/SKIOSNetworkAdapter.h>
 #import <FlipperKitReactPlugin/FlipperKitReactPlugin.h>
 
+#import <Crisp/Crisp.h>
+
 static void InitializeFlipper(UIApplication *application) {
   FlipperClient *client = [FlipperClient sharedClient];
   SKDescriptorMapper *layoutDescriptorMapper = [[SKDescriptorMapper alloc] initWithDefaults];
@@ -41,6 +43,8 @@ static void InitializeFlipper(UIApplication *application) {
 #ifdef FB_SONARKIT_ENABLED
   InitializeFlipper(application);
 #endif
+
+  [CrispSDK configureWithWebsiteID:@"c6342d83-2c47-40d3-959f-c003114a14f5"];
 
   [RNBranch initSessionWithLaunchOptions:launchOptions isReferrable:YES];
   [[WebEngage sharedInstance] application:application didFinishLaunchingWithOptions:launchOptions];

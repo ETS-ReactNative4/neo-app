@@ -1,4 +1,4 @@
-import React, {useCallback, useRef, useState} from 'react';
+import React, {useCallback, useRef} from 'react';
 import {
   View,
   StyleSheet,
@@ -99,7 +99,6 @@ const UltimateMenu = ({
 }: UltimateMenuProps) => {
   const {userDisplayDetails, getUserDisplayDetails} = userStore;
   const {completionPercentage} = welcomeStateStore;
-
   const menuList: IUltimateMenuLists[] = [
     {
       name: 'Craft your holiday',
@@ -253,8 +252,8 @@ const UltimateMenu = ({
             <PrimaryButton
               text={
                 completionPercentage === 100
-                  ? "Edit preferences"
-                  : "Complete preferences"
+                  ? 'Edit preferences'
+                  : 'Complete preferences'
               }
               clickAction={editProfile}
               buttonStyle={styles.buttonStyle}
