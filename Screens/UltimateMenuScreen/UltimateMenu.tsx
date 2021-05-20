@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useRef, useState} from 'react';
 import {
   View,
   StyleSheet,
@@ -30,6 +30,7 @@ import {
   CONSTANT_profileIcon,
   CONSTANT_flagIcon,
   CONSTANT_compassIcon,
+  CONSTANT_notificationBellIcon,
 } from '../../constants/imageAssets';
 import PrimaryButton from '../../CommonComponents/PrimaryButton/PrimaryButton';
 import ProgressBar from '../../CommonComponents/ProgressBar/ProgressBar';
@@ -49,6 +50,7 @@ import {
   SCREEN_PAYMENT_HOME,
   SCREEN_APP_LOGIN,
   SCREEN_TRAVEL_PROFILE_WELCOME,
+  SCREEN_SEARCH_TAB,
 } from '../../NavigatorsV2/ScreenNames';
 import {useFocusEffect} from '@react-navigation/native';
 import {isProduction} from '../../Services/getEnvironmentDetails/getEnvironmentDetails';
@@ -61,6 +63,12 @@ import {ReferNowCard} from './Components/ReferNowCard';
 import {MenuBanner} from './Components/MenuBanner';
 import {Box} from '@pyt/micros/src/box';
 import {AboutLoyaltyCoinsModal} from './Components/AboutLoyaltyCoinsModal';
+import PrimaryHeader from '../../NavigatorsV2/Components/PrimaryHeader';
+import {
+  CONSTANT_headerHeight,
+  CONSTANT_xNotchHeight,
+} from '../../constants/styles';
+import {isIphoneX} from 'react-native-iphone-x-helper';
 
 export interface IUltimateMenuLists {
   name: string;
@@ -77,9 +85,11 @@ export interface UltimateMenuProps extends UltimateMenuNavType {
   yourBookingsStore: YourBookings;
   welcomeStateStore: WelcomeState;
 }
-
+const HEADER_HEIGHT =
+  CONSTANT_headerHeight + (isIphoneX() ? CONSTANT_xNotchHeight : 0);
 const HEADER_CONTAINER_WIDTH = responsiveWidth(100);
-const HEADER_CONTAINER_HEIGHT = ratioCalculator(5, 3, HEADER_CONTAINER_WIDTH);
+const HEADER_CONTAINER_HEIGHT =
+  ratioCalculator(5, 3, HEADER_CONTAINER_WIDTH) - HEADER_HEIGHT;
 
 const UltimateMenu = ({
   navigation,
@@ -143,6 +153,7 @@ const UltimateMenu = ({
   }
 
   const goBack = () => navigation.goBack();
+  const goToSearchScreen = () => navigation.navigate(SCREEN_SEARCH_TAB);
 
   const login = () => {
     navigation.navigate(SCREEN_APP_LOGIN);
@@ -164,23 +175,58 @@ const UltimateMenu = ({
   const editProfile = () => {
     navigation.navigate(SCREEN_TRAVEL_PROFILE_WELCOME);
   };
+  const header = useRef(
+    PrimaryHeader({
+      leftAction: goBack,
+      rightElement: (
+        <TouchableOpacity
+          activeOpacity={0.8}
+          style={styles.notificationIconStyle}
+          onPress={goToSearchScreen}>
+          <Icon name={CONSTANT_notificationBellIcon} size={18} />
+        </TouchableOpacity>
+      ),
+      containerStyle: {backgroundColor: 'red'},
+    }),
+  ).current;
 
   return (
     <View style={styles.ultimateMenuContainerStyle}>
       <TranslucentStatusBar />
+      {/* {header} */}
+      <Box
+        height={HEADER_HEIGHT}
+        justifyContent="flex-end"
+        paddingBottom={20}
+        backgroundColor="#E8EAF3">
+        <Box
+          flexDirection="row"
+          justifyContent="space-between"
+          alignItems="center">
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={goBack}
+            style={styles.backArrowIconStyle}>
+            <Icon
+              name={CONSTANT_arrowRight}
+              size={16}
+              color={theme.colors.neutral008}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={goToSearchScreen}
+            style={styles.backArrowIconStyle}>
+            <Icon
+              name={CONSTANT_notificationBellIcon}
+              size={16}
+              color={theme.colors.neutral008}
+            />
+          </TouchableOpacity>
+        </Box>
+      </Box>
       <View style={styles.headerContainer}>
-        <TouchableOpacity
-          activeOpacity={0.8}
-          onPress={goBack}
-          style={styles.backArrowIconStyle}>
-          <Icon
-            name={CONSTANT_arrowRight}
-            size={16}
-            color={theme.colors.neutral007}
-          />
-        </TouchableOpacity>
-
-        <View style={styles.headerRightColumn}>
+        <View>
           {/* <Text style={styles.nameTextStyle}>
             {isLoggedIn ? userDisplayDetails.name : 'Guest User'}
           </Text>
@@ -219,11 +265,10 @@ const UltimateMenu = ({
       </View>
 
       <View style={styles.bodyContainer}>
-        <Box marginTop={'-35%'} marginHorizontal={18}>
+        <Box marginTop={'-35%'}>
           <MenuBanner />
         </Box>
         <ScrollView showsVerticalScrollIndicator={false}>
-          <AboutLoyaltyCoinsModal />
           <ReferNowCard />
           {menuList.map((item, itemIndex) => {
             return (
@@ -268,7 +313,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#E8EAF3',
     flexDirection: 'row',
     alignItems: 'flex-start',
-    justifyContent: 'center',
+    // justifyContent: 'center',
     paddingTop: 48,
     paddingLeft: 8,
     paddingRight: 24,
@@ -288,12 +333,15 @@ const styles = StyleSheet.create({
     // left: '8%'
   },
   backArrowIconStyle: {
-    marginTop: -1,
-    width: 40,
-    height: 40,
-    alignItems: 'center',
-    justifyContent: 'flex-start',
+    // marginTop: -1,
+    // width: 40,
+    // height: 40,
+    // alignItems: 'center',
+    // justifyContent: 'flex-start',
+    display: 'flex',
+    alignSelf: 'flex-start',
     transform: [{scaleX: -1}],
+    marginHorizontal: 20,
   },
   nameTextStyle: {
     color: CONSTANT_white,
@@ -323,9 +371,10 @@ const styles = StyleSheet.create({
   bodyContainer: {
     flex: 1,
     backgroundColor: CONSTANT_white,
-    borderTopLeftRadius: 14,
-    borderTopRightRadius: 14,
+    // borderTopLeftRadius: 14,
+    // borderTopRightRadius: 14,
     marginTop: 24,
+    paddingHorizontal: 20,
   },
   menuListStyle: {
     flexDirection: 'row',

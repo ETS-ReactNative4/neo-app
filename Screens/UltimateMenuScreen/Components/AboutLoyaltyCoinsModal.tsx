@@ -1,11 +1,17 @@
 import {Box, Button, Pill, Text} from '@pyt/micros';
 import {stubFalse} from 'lodash';
 import React from 'react';
-import {SafeAreaView, StyleSheet, TouchableOpacity} from 'react-native';
+import {
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  TouchableOpacity,
+} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import Modal from 'react-native-modal';
 import Icon from '../../../CommonComponents/Icon/Icon';
 import SmartImageV2 from '../../../CommonComponents/SmartImage/SmartImageV2';
+import TranslucentStatusBar from '../../../CommonComponents/TranslucentStatusBar/TranslucentStatusBar';
 import {theme} from '../../../constants/colorPallete';
 import {
   CONSTANT_fontPrimaryRegular,
@@ -23,6 +29,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: theme.colors.neutral001,
     margin: 0,
+    paddingBottom: 40,
   },
   contentContainer: {
     flex: 1,
@@ -31,9 +38,8 @@ const styles = StyleSheet.create({
     height: '100%',
     width: '100%',
     // flex: 1,
-    borderRadius: 12,
     padding: 20,
-    paddingTop: 28,
+    paddingTop: 48,
     paddingBottom: 41,
     display: 'flex',
     justifyContent: 'space-between',
@@ -49,12 +55,19 @@ const styles = StyleSheet.create({
     // right: -10,
     bottom: 0,
     top: 0,
+    right: 0,
+    // width: 100,
+    // height: 100
+  },
+  closeIcon: {
+    zIndex: 1,
+    opacity: 0.4,
   },
 });
-export const AboutLoyaltyCoinsModal = () => {
+export const AboutLoyaltyCoinsModal = ({isVisible, toggleModal}) => {
   return (
-    <Modal isVisible={true} style={styles.container}>
-      <SafeAreaView style={styles.contentContainer}>
+    <>
+      <Modal isVisible={isVisible} style={styles.container}>
         <Box height={361}>
           <LinearGradient
             start={{x: 1.3, y: 1}}
@@ -62,14 +75,14 @@ export const AboutLoyaltyCoinsModal = () => {
             colors={['#3B2390', '#5739C6']}
             style={styles.gradient}>
             <TouchableOpacity
-              // style={styles.closeIconStyle}
+              style={styles.closeIcon}
               activeOpacity={0.8}
-              // onPress={closeAction}
-            >
+              onPress={toggleModal}>
               <Icon
                 name={CONSTANT_closeIcon}
                 size={24}
-                color={theme.colors.neutral007}
+                color={theme.colors.neutral001}
+                style={styles.closeIcon}
               />
             </TouchableOpacity>
             <SmartImageV2
@@ -114,9 +127,12 @@ export const AboutLoyaltyCoinsModal = () => {
             </Button>
           </LinearGradient>
         </Box>
-        <ListSection title="Earn more coins" />
-        <ListSection title="ETerms & conditions" />
-      </SafeAreaView>
-    </Modal>
+        <ScrollView>
+          <ListSection title="Earn more coins" />
+          <ListSection title="ETerms & conditions" />
+        </ScrollView>
+        {/* </SafeAreaView> */}
+      </Modal>
+    </>
   );
 };
