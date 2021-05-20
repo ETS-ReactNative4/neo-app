@@ -566,4 +566,9 @@ export const CONSTANT_TRANSPARENT_PRICING = () =>
 export const CONSTANT_CX_INTRO = () =>
   require('../assets/images/preTripIntroScreen/4-cx.png');
 
+//Loyalty
+export const CONSTANT_FLAG_BG = () =>
+  require('../assets/images/backgrounds/flag-bg.png');
+export const CONSTANT_MENU_BANNER = () =>
+  require('../assets/images/backgrounds/menu-banner.png');
 export default imageAssets;
