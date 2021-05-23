@@ -17,7 +17,7 @@ export interface RoomButtonProps {
   clickAction: () => any;
   isSelected?: boolean;
   deleteAction?: () => any;
-  disable?: boolean;
+  disabled?: boolean;
 }
 
 const RoomButton = ({
