@@ -571,6 +571,10 @@ export const CONSTANT_CX_INTRO = () =>
 //Loyalty
 export const CONSTANT_FLAG_BG = () =>
   require('../assets/images/backgrounds/flag-bg.png');
-export const CONSTANT_MENU_BANNER = () =>
-  require('../assets/images/backgrounds/menu-banner.png');
+export const CONSTANT_SILVER_BANNER = () =>
+  require('../assets/images/backgrounds/silver-membership-bg.png');
+export const CONSTANT_GOLD_BANNER = () =>
+  require('../assets/images/backgrounds/gold-membership-bg.png');
+export const CONSTANT_PLATINUM_BANNER = () =>
+  require('../assets/images/backgrounds/platinum-membership-bg.png');
 export default imageAssets;
