@@ -211,7 +211,15 @@ const colors = {
   neutral006: '#555555',
   neutral007: '#333333',
   neutral008: '#000000',
-  // bac
+  yellow001: '#FFF7E0',
+  yellow002: '#FFC933',
+  yellow003: '#E5B52E',
+  yellow004: '#806519',
+  red001: '#FDECEF',
+  red002: '#EF435D',
+  red003: '#D73C54',
+  red004: '#BF364A',
+  screenBgColor: '#F5F5F5',
 };
 
 export const theme = {
