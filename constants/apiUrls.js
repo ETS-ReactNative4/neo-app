@@ -83,8 +83,8 @@ export const CONSTANT_coupon_apply = ({coupon, itineraryId}) =>
   `coupon/apply/${coupon}?itineraryId=${itineraryId}`;
 export const CONSTANT_coupon_remove = ({itineraryId}) =>
   `coupon/remove/${itineraryId}`;
-export const CONSTANT_LOYALTY_CREDITS = ({userId}) =>
-  `api/user/rewards/${userId}?includeReferral=false`;
+export const CONSTANT_LOYALTY_CREDITS = ({userId, includeReferral = false}) =>
+  `api/user/rewards/${userId}?includeReferral=${includeReferral}`;
 export const CONSTANT_loyalty_apply = ({coupon, itineraryId}) =>
   `coupon/loyalty/apply?itineraryId=${itineraryId}&redeemedAmount=${coupon}&requireUpdatedItinerary=true`;
 export const CONSTANT_loyalty_remove = ({itineraryId}) =>
@@ -188,4 +188,6 @@ export const POST_MALDIVES_BOOKING_FAQ = 'post_maldives_booking_faq.json';
 export const POST_STAYCATION_BOOKING_FAQ = 'post_staycation_booking_faq.json';
 export const POST_BOOKING_FAQ = 'post_booking_faq.json';
 
+export const CONSTANT_pytClubBenefits =
+  'https://oceanjar-new.s3.ap-south-1.amazonaws.com/pdfs/pytClubBenefits.pdf';
 export default apiUrls;

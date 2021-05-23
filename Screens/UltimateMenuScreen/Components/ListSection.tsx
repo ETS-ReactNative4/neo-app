@@ -1,14 +1,24 @@
 import {Box, Text} from '@pyt/micros';
-import React from 'react';
+import React, {ReactElement} from 'react';
 import {theme} from '../../../constants/colorPallete';
 import {
   CONSTANT_fontPrimaryRegular,
   CONSTANT_fontPrimarySemiBold,
 } from '../../../constants/fonts';
 
-export const ListSection = ({title}: {title: string}) => {
+export const ListSection = ({
+  title,
+  list = [],
+}: {
+  title: string;
+  list: (string | ReactElement)[];
+}) => {
   return (
-    <Box paddingVertical={24} paddingHorizontal={18}>
+    <Box
+      paddingVertical={24}
+      paddingHorizontal={18}
+      backgroundColor={theme.colors.neutral001}
+      marginTop={8}>
       <Text
         fontFamily={CONSTANT_fontPrimarySemiBold}
         fontSize={17}
@@ -17,13 +27,12 @@ export const ListSection = ({title}: {title: string}) => {
         {title}
       </Text>
 
-      {[
-        'Credits cannot be encashed or transferred',
-        'Credits can’t be applied along with any other promotional coupons.',
-        'Credits can be applied only for online transactions not for booked transaction.',
-        'International credits can be applied only on international vacations and domestic credits can be applied only on domestic vacations',
-      ].map((text, index) => (
-        <Box flexDirection="row" marginTop={12} alignItems="flex-start">
+      {list.map((text, index) => (
+        <Box
+          flexDirection="row"
+          marginTop={12}
+          alignItems="flex-start"
+          key={`${title}-${index}`}>
           <Box
             width={6}
             height={6}

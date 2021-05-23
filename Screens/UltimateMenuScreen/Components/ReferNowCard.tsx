@@ -1,19 +1,16 @@
 import {ChevronRight} from '@pyt/icons';
-import {Box, Button, Image, Text} from '@pyt/micros';
+import {Button, Text} from '@pyt/micros';
 import React from 'react';
-import {StyleSheet, Image as NativeImage} from 'react-native';
+import {StyleSheet} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import Icon from '../../../CommonComponents/Icon/Icon';
 import SmartImageV2 from '../../../CommonComponents/SmartImage/SmartImageV2';
 import {theme} from '../../../constants/colorPallete';
 import {
   CONSTANT_fontPrimaryRegular,
   CONSTANT_fontPrimarySemiBold,
 } from '../../../constants/fonts';
-import {
-  CONSTANT_flagIcon,
-  CONSTANT_FLAG_BG,
-} from '../../../constants/imageAssets';
+import {CONSTANT_FLAG_BG} from '../../../constants/imageAssets';
+import {share} from '../../../Services/shareService/share';
 
 const styles = StyleSheet.create({
   gradient: {
@@ -22,6 +19,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     padding: 20,
     paddingTop: 28,
+    marginBottom: 12,
   },
   image: {
     position: 'absolute',
@@ -29,7 +27,13 @@ const styles = StyleSheet.create({
   },
 });
 
-export const ReferNowCard = () => {
+export const ReferNowCard = ({referralCode}: {referralCode: string}) => {
+  const referralText = `Hello:) Enjoy a flat 500 off on your vacation and staycation deals booking with Pickyourtrail with my referral code - ${referralCode}. Download the app here at https://app.pickyourtrail.com`;
+  const onShare = () => {
+    share({
+      message: `${referralText}`,
+    });
+  };
   return (
     <LinearGradient
       start={{x: 0, y: 0}}
@@ -64,10 +68,12 @@ export const ReferNowCard = () => {
         width={113}
         height={36}
         backgroundColor={theme.colors.neutral001}
-        opacity={0.8}>
+        opacity={0.8}
+        onPress={onShare}>
         <Text
           fontFamily={CONSTANT_fontPrimarySemiBold}
-          color={theme.colors.primary003}>
+          color={theme.colors.primary003}
+          fontSize={14}>
           Refer Now <ChevronRight fill={theme.colors.primary003} />
         </Text>
       </Button>

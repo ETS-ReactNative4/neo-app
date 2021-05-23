@@ -5,38 +5,45 @@ import {
   CONSTANT_fontPrimarySemiBold,
 } from '../../../constants/fonts';
 import {theme} from '../../../constants/colorPallete';
+import {getGlobalPriceWithoutSymbol} from '../../ExploreScreen/services/getPriceWithoutSymbol';
+import {CardColorsType} from './MenuBanner';
 
 export const BannerLineItem = ({
   title,
-  text,
+  amount,
   subText,
   pillText,
+  cardColors,
 }: {
   title: string;
-  text: string;
+  amount: number;
   subText?: string;
   pillText?: string;
+  cardColors: CardColorsType;
 }) => {
+  const displayAmount = getGlobalPriceWithoutSymbol({
+    amount: amount,
+  }).trim();
+
   return (
     <Box>
       <Box flexDirection="row" justifyContent="space-between">
         <Text
           fontFamily={CONSTANT_fontPrimarySemiBold}
-          color={theme.colors.accent002}
+          color={cardColors.textColor}
           fontSize={15}
           lineHeight={19}
-          textTransform="uppercase"
           letterSpacing={0.5}>
           {title}
         </Text>
         {pillText ? (
           <Pill
-            backgroundColor={theme.colors.accent002}
+            backgroundColor={cardColors.textColor}
             paddingHorizontal={8}
             // paddingVertical={4}
             text={pillText}
             textProps={{
-              color: theme.colors.accent004,
+              color: cardColors.pillTextColor,
               fontFamily: CONSTANT_fontPrimarySemiBold,
             }}
           />
@@ -47,13 +54,13 @@ export const BannerLineItem = ({
         fontWeight="700"
         color={theme.colors.neutral001}
         fontSize={32}
-        lineHeight={40}
+        lineHeight={38}
         // marginTop={2}
         width={'80%'}>
-        {text}
+        {displayAmount}
         <Text
           fontFamily={CONSTANT_fontPrimarySemiBold}
-          color={theme.colors.accent002}
+          color={cardColors.textColor}
           fontSize={14}>
           {' '}
           {subText}
