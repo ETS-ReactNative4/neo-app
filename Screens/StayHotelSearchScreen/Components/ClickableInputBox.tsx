@@ -11,6 +11,7 @@ export const ClickableInputBox = ({
   containerProps = {},
   height,
   error,
+  disabled,
 }: {
   fontFamily: string;
   label: string;
@@ -19,12 +20,14 @@ export const ClickableInputBox = ({
   containerProps?: {};
   height?: number;
   error?: boolean;
+  disabled?: boolean;
 }) => {
   return (
     <TouchableOpacity
+      disabled={disabled}
       activeOpacity={0.9}
       onPress={onPress}
-      style={containerProps}>
+      style={[containerProps, disabled ? {opacity: 0.6} : {height: 51}]}>
       <Box
         height={height || 51}
         borderRadius={8}
