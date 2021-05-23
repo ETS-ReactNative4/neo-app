@@ -1,6 +1,6 @@
 import {Box, Text} from '@pyt/micros';
 import {inject, observer} from 'mobx-react';
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useLayoutEffect, useState} from 'react';
 import {
   Dimensions,
   ScrollView,
@@ -185,42 +185,51 @@ const StayHotelListScreen = inject('otaHotelStore')(
     const nightText = `${nights} ${nights > 1 ? 'nights' : 'night'}`;
     const paxText = getPaxConfigText(hotelGuestRoomConfiguration);
     const isHotelDataAvailable = !!hotels.cityName;
-    const header = useRef(
-      PrimaryHeader({
-        leftAction: onPressBack,
-        headerElement: (
-          <TouchableOpacity
-            activeOpacity={0.8}
-            onPress={isHotelDataAvailable ? onPressHeaderText : () => null}>
-            <Text
-              fontFamily={CONSTANT_fontPrimaryRegular}
-              fontSize={15}
-              lineHeight={19}
-              textDecorationLine="underline"
-              textDecorationStyle="dotted">
-              <Text fontFamily={CONSTANT_fontPrimarySemiBold} fontSize={15}>
-                {hotels.cityName}
-              </Text>
-              {isHotelDataAvailable
-                ? ` - ${nightText}, ${paxText} - ${hotelGuestRoomConfiguration.length} room`
-                : 'No hotels found'}
-            </Text>
-          </TouchableOpacity>
-        ),
-        rightElement: (
-          <TouchableOpacity
-            activeOpacity={0.8}
-            style={styles.search}
-            onPress={onPressSearch}>
-            <Icon name={CONSTANT_searchIcon} size={18} />
-          </TouchableOpacity>
-        ),
-      }),
-    ).current;
+
+    useLayoutEffect(() => {
+      navigation.setOptions({
+        header: () =>
+          PrimaryHeader({
+            leftAction: onPressBack,
+            headerElement: (
+              <TouchableOpacity
+                activeOpacity={0.8}
+                onPress={isHotelDataAvailable ? onPressHeaderText : () => null}>
+                <Text
+                  fontFamily={CONSTANT_fontPrimaryRegular}
+                  fontSize={15}
+                  lineHeight={19}
+                  textDecorationLine="underline"
+                  textDecorationStyle="dotted">
+                  <Text fontFamily={CONSTANT_fontPrimarySemiBold} fontSize={15}>
+                    {hotels.cityName}
+                  </Text>
+                  {isHotelDataAvailable
+                    ? ` - ${nightText}, ${paxText} - ${hotelGuestRoomConfiguration.length} room`
+                    : 'No hotels found'}
+                </Text>
+              </TouchableOpacity>
+            ),
+            rightElement: (
+              <TouchableOpacity
+                activeOpacity={0.8}
+                style={styles.search}
+                onPress={onPressSearch}>
+                <Icon name={CONSTANT_searchIcon} size={18} />
+              </TouchableOpacity>
+            ),
+          }),
+      });
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [
+      nightText,
+      paxText,
+      hotelGuestRoomConfiguration.length,
+      hotels.cityName,
+    ]);
 
     return (
       <Box backgroundColor="#F5F5F5" flex={1}>
-        {header}
         <ScrollView style={styles.container}>
           {topHotelList.length ? (
             <Box
