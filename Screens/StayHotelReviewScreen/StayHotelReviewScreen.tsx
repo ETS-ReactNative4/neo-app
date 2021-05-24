@@ -39,7 +39,7 @@ import PrimaryHeader from '../../NavigatorsV2/Components/PrimaryHeader';
 import launchItinerarySelector from '../../Services/launchItinerarySelector/launchItinerarySelector';
 import {IItinerary} from '../../TypeInterfaces/IItinerary';
 import OTAHotel from '../../mobx/OTAHotel';
-import {cloneDeep} from 'lodash';
+import _cloneDeep from 'lodash/cloneDeep';
 
 type StayHotelReviewScreenNavType = AppNavigatorProps<
   typeof SCREEN_STAY_HOTEL_REVIEW
@@ -105,7 +105,7 @@ const StayHotelReviewScreen = inject('deviceLocaleStore')(
           const {passengerConfiguration} = hotelSearchRequest ?? {};
           let paxData = [
             ...Array(hotelData.roomsInHotel.length || 0).keys(),
-          ].map(() => cloneDeep(defaultPaxData));
+          ].map(() => _cloneDeep(defaultPaxData));
 
           const [loading, setLoading] = useState<boolean>(false);
           const [passengerList, setPassengerList] = useState(paxData);
@@ -245,12 +245,10 @@ const StayHotelReviewScreen = inject('deviceLocaleStore')(
             }));
             const req = {
               itineraryId,
-              roomPassengersDetailsList: [
-                {
-                  otherPassengerDetailList: passengers.slice(1),
-                  leadPassengerDetail: passengers[0],
-                },
-              ],
+              roomPassengersDetailsList: passengers.map(pax => ({
+                otherPassengerDetailList: [],
+                leadPassengerDetail: pax,
+              })),
             };
 
             savePassengers(req)
