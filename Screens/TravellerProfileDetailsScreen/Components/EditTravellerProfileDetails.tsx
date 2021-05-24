@@ -9,17 +9,13 @@ import {
   CONSTANT_voucherDateFormat,
 } from '../../../constants/styles';
 import {AppNavigatorProps} from '../../../NavigatorsV2/AppNavigator';
-import {
-  SCREEN_EDIT_TRAVELLER_PROFILE,
-  SCREEN_GCM_CITY_PICKER,
-} from '../../../NavigatorsV2/ScreenNames';
+import {SCREEN_EDIT_TRAVELLER_PROFILE} from '../../../NavigatorsV2/ScreenNames';
 import PrimaryHeader from '../../../NavigatorsV2/Components/PrimaryHeader';
 import ErrorBoundary from '../../../CommonComponents/ErrorBoundary/ErrorBoundary';
 import {observer, inject} from 'mobx-react';
 import User from '../../../mobx/User';
 import {useKeyboard} from '@react-native-community/hooks';
 import moment from 'moment';
-import {IIndianCity} from '../../GCMScreen/hooks/useGCMForm';
 import {toastBottom} from '../../../Services/toast/toast';
 import DebouncedAlert from '../../../CommonComponents/DebouncedAlert/DebouncedAlert';
 import {AnimatedInputBox, Text} from '@pyt/micros';
@@ -30,7 +26,7 @@ import {
 import {DateInputBox} from '../../StayHotelSearchScreen/Components/DateInputBox';
 import {ClickableInputBox} from '../../StayHotelSearchScreen/Components/ClickableInputBox';
 import logOut from '../../../Services/logOut/logOut';
-import _isEqual from 'lodash/isEqual';
+
 type EditTravellerProfileDetailsNavType = AppNavigatorProps<
   typeof SCREEN_EDIT_TRAVELLER_PROFILE
 >;
@@ -57,26 +53,12 @@ const EditTravellerProfileDetails = ({
 
   const [name, onChangeName] = useState(userName || '');
   const [email, onChangeEmail] = useState(userEmail || '');
-  const [city, onChangeCity] = useState(cityOfDeparture || '');
   const [dateOfBirthObject, onChangeDateOfBirthObject] = useState<
     Date | undefined
   >(dateOfBirth ? moment(dateOfBirth).toDate() : undefined);
 
-  const [isDatePickerVisible, setDatePickerVisibility] = useState<boolean>(
-    false,
-  );
-
-  const showDatePicker = () => {
-    setDatePickerVisibility(true);
-  };
-
-  const hideDatePicker = () => {
-    setDatePickerVisibility(false);
-  };
-
   const handleConfirm = (date: Date) => {
     onChangeDateOfBirthObject(date);
-    hideDatePicker();
   };
 
   const logout = () => {
@@ -115,24 +97,12 @@ const EditTravellerProfileDetails = ({
     hasDataLoaded.current = true;
   }, [keyboardShown]);
 
-  const today = new Date();
-
-  const openCityPicker = () => {
-    navigation.navigate(SCREEN_GCM_CITY_PICKER, {
-      title: '',
-      bannerImage: '',
-      onSelect: (selectedCity: IIndianCity) => {
-        onChangeCity(selectedCity.cityName);
-      },
-    });
-  };
-
   const submitForm = () => {
     userStore
       .updateUserDisplayDetails({
         name,
         email,
-        cityOfDeparture: city,
+        cityOfDeparture,
         dateOfBirth: dateOfBirthObject
           ? dateOfBirthObject.toISOString()
           : undefined,
@@ -195,15 +165,11 @@ const EditTravellerProfileDetails = ({
           dateFormat={CONSTANT_voucherDateFormat}
           displayFormat={CONSTANT_GCMDateFormat}
           onDateSelect={(date: string) => {
-            console.log('dob', date);
             handleConfirm(new Date(date));
-            // updatePaxData({index, key: 'birthDay', value: date});
           }}
           maxDate={new Date(moment().format(CONSTANT_voucherDateFormat))}
-          // error={error.birthDay}
           containerProps={{
             marginBottom: 12,
-            // flex: 1
           }}
         />
 
