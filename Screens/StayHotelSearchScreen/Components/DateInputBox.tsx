@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
-import {Box} from '@pyt/micros';
 import {
   CONSTANT_costingDateFormat,
   CONSTANT_GCMDateFormat,
@@ -49,7 +48,7 @@ export const DateInputBox = ({
   }, [date]);
 
   return (
-    <Box flex={1} flexDirection="row">
+    <>
       <ClickableInputBox
         label={label || 'Date of birth'}
         value={
@@ -73,6 +72,6 @@ export const DateInputBox = ({
         minimumDate={minDate}
         maximumDate={maxDate}
       />
-    </Box>
+    </>
   );
 };

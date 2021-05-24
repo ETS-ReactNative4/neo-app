@@ -325,7 +325,7 @@ const StayHotelSearchScreen = inject('userStore')(
                   />
 
                   <Button
-                    text={isLoading ? 'Searching...' : 'Search'}
+                    text={'Search'}
                     textProps={{
                       color: 'white',
                       fontSize: 15,
@@ -336,6 +336,8 @@ const StayHotelSearchScreen = inject('userStore')(
                     marginTop={20}
                     onPress={disableSearch ? () => null : onSearch}
                     opacity={isLoading || disableSearch ? 0.6 : 1}
+                    loading={isLoading}
+                    loadingText="Searching..."
                   />
                 </Box>
               </Box>

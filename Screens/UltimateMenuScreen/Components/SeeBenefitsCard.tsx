@@ -56,7 +56,7 @@ export const SeeBenefitsCard = ({
   const level = ['Silver', 'Gold', 'Platinum'].indexOf(member[0]);
 
   const onPress = () => {
-    const fileName = 'pytClub .pdf';
+    const fileName = 'pytClub.pdf';
     setFileLoading(true);
     downloadFile(CONSTANT_pytClubBenefits, fileName)
       .then(() => {

@@ -189,5 +189,5 @@ export const POST_STAYCATION_BOOKING_FAQ = 'post_staycation_booking_faq.json';
 export const POST_BOOKING_FAQ = 'post_booking_faq.json';
 
 export const CONSTANT_pytClubBenefits =
-  'https://oceanjar-new.s3.ap-south-1.amazonaws.com/pdfs/pytClubBenefits.pdf';
+  'https://oceanjar-new.s3.ap-south-1.amazonaws.com/pdfs/pytClubBenefits-compressed.pdf';
 export default apiUrls;

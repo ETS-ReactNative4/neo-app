@@ -145,6 +145,7 @@ export const Passengers = ({
         color="#333333"
         paddingStart={0}
         error={error.email}
+        autoCapitalize="none"
       />
       <DateInputBox
         label="Date of birth"
@@ -152,7 +153,6 @@ export const Passengers = ({
         dateFormat={CONSTANT_voucherDateFormat}
         displayFormat={CONSTANT_GCMDateFormat}
         onDateSelect={(date: string) => {
-          console.log('dob', date);
           updatePaxData({index, key: 'birthDay', value: date});
         }}
         maxDate={new Date(moment().format(CONSTANT_voucherDateFormat))}

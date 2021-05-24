@@ -253,7 +253,12 @@ const StayHotelReviewScreen = inject('deviceLocaleStore')(
               ],
             };
 
-            savePassengers(req).then(() => initiatePayment());
+            savePassengers(req)
+              .then(() => initiatePayment())
+              .catch(() => {
+                setLoading(false);
+                toastBottom(CONSTANT_serverResponseErrorText);
+              });
           };
 
           const image = imageURL || otherImages?.[0];
