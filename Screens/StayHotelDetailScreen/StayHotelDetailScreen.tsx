@@ -415,10 +415,7 @@ const StayHotelDetailScreen = ({
           <Box marginHorizontal={16}>
             {selectedRoomList.map((roomData, index) => {
               const cost = getGlobalPriceWithoutSymbol({
-                amount: parseInt(
-                  (roomData.publishedCost as unknown) as string,
-                  10,
-                ),
+                amount: roomData.publishedCost,
                 currency: displayCurrency,
               });
               return (
@@ -555,7 +552,7 @@ const StayHotelDetailScreen = ({
           buttonProps={{width: 124}}
           costText="Updated Price"
           cost={`${costSymbol} ${getGlobalPriceWithoutSymbol({
-            amount: parseInt((totalCost as unknown) as string, 10),
+            amount: totalCost,
             currency: displayCurrency,
           })}`}
         />
