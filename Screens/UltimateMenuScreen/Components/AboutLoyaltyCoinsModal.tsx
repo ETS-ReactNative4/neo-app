@@ -92,7 +92,7 @@ export const AboutLoyaltyCoinsModal = ({
             onPress={onShare}>
             successful referral
           </Text>{' '}
-          earn 500 credits
+          earn 500 coins
         </>,
       ]
     : [];
@@ -185,7 +185,7 @@ export const AboutLoyaltyCoinsModal = ({
                 color={theme.colors.neutral008}>
                 international booking
               </Text>{' '}
-              earn upto 4000 credits
+              earn upto 4000 coins
             </>,
             <>
               For every{' '}
@@ -194,18 +194,19 @@ export const AboutLoyaltyCoinsModal = ({
                 color={theme.colors.neutral008}>
                 domestic booking
               </Text>{' '}
-              earn upto 1500 credits
+              earn upto 1500 coins
             </>,
             ...referralText,
+            '1 Coin = 1 Rupee 🤯',
           ]}
         />
         <ListSection
-          title="ETerms & conditions"
+          title="Terms & conditions"
           list={[
-            'Credits cannot be encashed or transferred',
-            'Credits can’t be applied along with any other promotional coupons.',
-            'Credits can be applied only for online transactions not for booked transaction.',
-            'International credits can be applied only on international vacations and domestic credits can be applied only on domestic vacations',
+            'Coins cannot be encashed or transferred',
+            'Coins can’t be applied along with any other promotional coupons.',
+            'Coins can be applied only for online transactions not for booked transaction.',
+            'International coins can be applied only on international vacations and domestic coins can be applied only on domestic vacations',
           ]}
         />
       </Box>

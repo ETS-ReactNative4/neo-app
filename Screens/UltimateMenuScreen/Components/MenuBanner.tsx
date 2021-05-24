@@ -1,6 +1,6 @@
 import {ChevronRight} from '@pyt/icons';
 import {Box, Button, Text} from '@pyt/micros';
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {StyleSheet} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import SmartImageV2 from '../../../CommonComponents/SmartImage/SmartImageV2';
@@ -41,7 +41,6 @@ const styles = StyleSheet.create({
   gradient: {
     height: '100%',
     width: '100%',
-    // flex: 1,
     borderRadius: 12,
     paddingHorizontal: 20,
     paddingTop: 28,
@@ -49,23 +48,12 @@ const styles = StyleSheet.create({
     display: 'flex',
     justifyContent: 'space-between',
     overflow: 'hidden',
-    // display: 'flex',
-    // flexDirection: 'row'
-    // justifyContent: 'center',
-    // position: 'relative'
   },
   image: {
     position: 'absolute',
     left: '55%',
     top: '-55%',
     bottom: 0,
-  },
-  boxWithShadow: {
-    // shadowColor: '#000',
-    // shadowOffset: { height: 10, width: 5 },
-    // shadowOpacity: 0.5,
-    // shadowRadius: 12,
-    // elevation: 12
   },
   modalContainer: {
     margin: 0,
@@ -118,31 +106,19 @@ export const getLoyaltyCardColors = (tier, totalBookedAmount = 0) => {
 };
 
 export const MenuBanner = ({
-  userId,
   name,
   loyaltyCoinsStore,
 }: {
-  userId: string;
   name: string;
   loyaltyCoinsStore: LoyaltyCoins;
 }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const toggleModal = () => setModalVisible(prevState => !prevState);
 
-  const {loyaltyCoins: loyalCredit = {}, getLoyaltyCoins} = loyaltyCoinsStore;
+  const {loyaltyCoins: loyalCredit = {}} = loyaltyCoinsStore;
   const totalCredits =
     (loyalCredit.domesticLoyaltyBalance || 0) +
     (loyalCredit.internationalLoyaltyBalance || 0);
-  // loyalCredit.tier = 'Silver';
-  console.log('loyalCredit', loyalCredit);
-  useEffect(() => {
-    if (userId) {
-      if (Object.keys(loyalCredit).length) {
-        getLoyaltyCoins(userId);
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [userId]);
 
   const {
     amountToSpendText,
@@ -158,8 +134,7 @@ export const MenuBanner = ({
         width="100%"
         height={224}
         marginBottom={12}
-        borderRadius={12}
-        style={styles.boxWithShadow}>
+        borderRadius={12}>
         <LinearGradient
           start={{x: 0.55, y: 1.0}}
           end={{x: 0.0, y: 0.35}}

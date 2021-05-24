@@ -217,7 +217,6 @@ const UltimateMenu = ({
           {!isGlobal ? (
             <>
               <MenuBanner
-                userId={userDisplayDetails.userId}
                 name={userDisplayDetails.name || 'Guest User'}
                 loyaltyCoinsStore={loyaltyCoinsStore}
               />
