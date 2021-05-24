@@ -32,7 +32,6 @@ export const ReferNowCard = ({referralCode}: {referralCode: string}) => {
   const onShare = () => {
     share({
       message: `${CONSTANT_referralText(referralCode)}`,
-      url: 'https://app.pickyourtrail.com',
     });
   };
   return (
