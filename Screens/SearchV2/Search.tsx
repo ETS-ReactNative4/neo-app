@@ -180,20 +180,19 @@ const Search = ({navigation}: SearchScreenProps) => {
         innerBoxStyle={styles.searchInnerBox}
         inputStyle={styles.searchInput}
       />
-
-      <View style={styles.listContainer}>
-        {!searchString ? (
-          <Fragment>
-            {vacationTheme ? (
-              <VacationTheme
-                title={vacationTheme?.title}
-                list={vacationTheme?.data}
-                onClick={onClickThemeCard}
-              />
-            ) : null}
-            {topResort ? (
-              <SearchSection title={topResort?.title}>
-                <ScrollView>
+      <ScrollView>
+        <View style={styles.listContainer}>
+          {!searchString ? (
+            <Fragment>
+              {vacationTheme ? (
+                <VacationTheme
+                  title={vacationTheme?.title}
+                  list={vacationTheme?.data}
+                  onClick={onClickThemeCard}
+                />
+              ) : null}
+              {topResort ? (
+                <SearchSection title={topResort?.title}>
                   {topResort?.data?.map(
                     (
                       resort: {
@@ -217,12 +216,12 @@ const Search = ({navigation}: SearchScreenProps) => {
                       );
                     },
                   )}
-                </ScrollView>
-              </SearchSection>
-            ) : null}
-          </Fragment>
-        ) : null}
-      </View>
+                </SearchSection>
+              ) : null}
+            </Fragment>
+          ) : null}
+        </View>
+      </ScrollView>
       {!isPackagesApiLoading && !searchResults.length && searchString ? (
         <AnimatableView
           style={styles.placeholderWrapper}
