@@ -154,7 +154,10 @@ const UltimateMenu = ({
   useFocusEffect(
     useCallback(() => {
       getUserDisplayDetails();
-      if (Object.keys(loyaltyCoins || {}).length && userDisplayDetails) {
+      if (
+        !Object.keys(loyaltyCoins || {}).length &&
+        userDisplayDetails.userId
+      ) {
         getLoyaltyCoins(userDisplayDetails.userId);
       }
       // eslint-disable-next-line react-hooks/exhaustive-deps

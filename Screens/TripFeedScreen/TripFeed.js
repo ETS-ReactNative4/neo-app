@@ -46,7 +46,6 @@ import storeService from '../../Services/storeService/storeService';
 @inject('itineraries')
 @inject('chatDetailsStore')
 @inject('visaStore')
-@inject('loyaltyCoinsStore')
 @observer
 class TripFeed extends Component {
   static propTypes = {
@@ -135,14 +134,10 @@ class TripFeed extends Component {
   };
 
   componentDidMount() {
-    const {deviceDetailsStore, loyaltyCoinsStore} = this.props;
+    const {deviceDetailsStore} = this.props;
     const {selectedItineraryId} = this.props.itineraries;
     deviceDetailsStore.setDeviceDetails();
-    const {getLoyaltyCoins} = loyaltyCoinsStore;
-    const {userId} = storeService.userStore.userDisplayDetails;
-    if (userId) {
-      getLoyaltyCoins(userId);
-    }
+
     if (selectedItineraryId) {
       this.loadPostTripData();
     } else {

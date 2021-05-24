@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {
   SCREEN_TRIP_FEED_TAB,
@@ -31,6 +31,9 @@ import {
   CONSTANT_journalSelectedIcon,
 } from '../constants/imageAssets';
 import {inject, observer} from 'mobx-react';
+import ChatDetails from '../mobx/ChatDetails';
+import LoyaltyCoins from '../mobx/LoyaltyCoins';
+import User from '../mobx/User';
 
 export type PostBookingHomeTabsType = {
   [SCREEN_TRIP_FEED_TAB]: undefined;
@@ -49,8 +52,30 @@ const tabBarColorConfig = {
 
 const Tab = createBottomTabNavigator<PostBookingHomeTabsType>();
 
-const PostBookingHomeTabs = ({chatDetailsStore}) => {
+export interface PostTripHomeTabsProp {
+  chatDetailsStore: ChatDetails;
+  loyaltyCoinsStore: LoyaltyCoins;
+  userStore: User;
+}
+
+const PostBookingHomeTabs = ({
+  chatDetailsStore,
+  userStore,
+  loyaltyCoinsStore,
+}: PostTripHomeTabsProp) => {
   const {isChatActive} = chatDetailsStore || {};
+
+  useEffect(() => {
+    if (userStore.userDisplayDetails.userId) {
+      if (!Object.keys(loyaltyCoinsStore.loyaltyCoins || {}).length) {
+        loyaltyCoinsStore.getLoyaltyCoins(userStore.userDisplayDetails.userId);
+      }
+    } else {
+      userStore.getUserDisplayDetails();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userStore.userDisplayDetails.userId]);
+
   return (
     // @ts-ignore - type definitions unavailable
     <Tab.Navigator
@@ -111,4 +136,8 @@ const PostBookingHomeTabs = ({chatDetailsStore}) => {
   );
 };
 
-export default inject('chatDetailsStore')(observer(PostBookingHomeTabs));
+export default inject('userStore')(
+  inject('chatDetailsStore')(
+    inject('loyaltyCoinsStore')(observer(PostBookingHomeTabs)),
+  ),
+);

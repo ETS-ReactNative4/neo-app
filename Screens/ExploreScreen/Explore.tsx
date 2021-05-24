@@ -52,7 +52,6 @@ import {
 } from '../../Services/freshchatService/freshchatService';
 import Icon from '../../CommonComponents/Icon/Icon';
 import storeService from '../../Services/storeService/storeService';
-import LoyaltyCoins from '../../mobx/LoyaltyCoins';
 import ChatDetails from '../../mobx/ChatDetails';
 
 export type ExploreScreenNavigationType = CompositeNavigationProp<
@@ -71,7 +70,6 @@ export interface ExploreScreenProps {
   yourBookingsStore: YourBookings;
   userStore: User;
   chatDetailsStore: ChatDetails;
-  loyaltyCoinsStore: LoyaltyCoins;
 }
 
 export type ExploreScreenSourcesType = 'TravelProfileFlow';
@@ -81,7 +79,6 @@ const Explore = ({
   yourBookingsStore,
   userStore,
   chatDetailsStore,
-  loyaltyCoinsStore,
 }: ExploreScreenProps) => {
   let [exploreData, setExploreData] = useState<ExploreFeedType>([]);
   const [exploreDataApi, loadExploreData] = useExploreDataRequest();
@@ -111,12 +108,6 @@ const Explore = ({
 
   useEffect(() => {
     loadExploreData();
-    const {getLoyaltyCoins} = loyaltyCoinsStore;
-    const {userId} = userStore.userDisplayDetails;
-    if (userId) {
-      getLoyaltyCoins(userId);
-    }
-
     const {getUserDetails, setChatMetaInfo} = chatDetailsStore;
     getUserDetails(true)
       .then(chatDetails => {
@@ -275,10 +266,6 @@ const styles = StyleSheet.create({
 
 export default ErrorBoundary({isRoot: true})(
   inject('chatDetailsStore')(
-    inject('userStore')(
-      inject('loyaltyCoinsStore')(
-        inject('yourBookingsStore')(observer(Explore)),
-      ),
-    ),
+    inject('userStore')(inject('yourBookingsStore')(observer(Explore))),
   ),
 );
