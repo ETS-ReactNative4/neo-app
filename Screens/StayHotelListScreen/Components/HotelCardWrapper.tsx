@@ -39,9 +39,10 @@ export const HotelCardWrapper = ({
   const image = imageURL || otherImages?.[0];
 
   const cost = getGlobalPriceWithoutSymbol({
-    amount: parseInt((publishedCost as unknown) as string, 10),
+    amount: publishedCost,
     currency: displayCurrency,
   });
+
   const costSymbol = getSymbolFromCurrency(displayCurrency);
 
   const dotSeparateList = [
