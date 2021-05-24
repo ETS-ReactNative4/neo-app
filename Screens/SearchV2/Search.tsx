@@ -6,6 +6,7 @@ import {
   Text,
   FlatList,
   Platform,
+  ScrollView,
 } from 'react-native';
 import useDeepCompareEffect from 'use-deep-compare-effect';
 import SearchBox from '../../CommonComponents/SearchBox/SearchBox';
@@ -192,29 +193,31 @@ const Search = ({navigation}: SearchScreenProps) => {
             ) : null}
             {topResort ? (
               <SearchSection title={topResort?.title}>
-                {topResort?.data?.map(
-                  (
-                    resort: {
-                      slug: string;
-                      title: string;
-                      image: string;
-                      isDeal?: boolean;
+                <ScrollView>
+                  {topResort?.data?.map(
+                    (
+                      resort: {
+                        slug: string;
+                        title: string;
+                        image: string;
+                        isDeal?: boolean;
+                      },
+                      index: number,
+                    ) => {
+                      const onClick = () =>
+                        openItinerary(resort.slug, resort.isDeal);
+                      return (
+                        <SearchLineItem
+                          text={resort.title}
+                          image={resort.image}
+                          action={onClick}
+                          key={`resort-${index}`}
+                          noBorder={topResort.data.length - 1 === index}
+                        />
+                      );
                     },
-                    index: number,
-                  ) => {
-                    const onClick = () =>
-                      openItinerary(resort.slug, resort.isDeal);
-                    return (
-                      <SearchLineItem
-                        text={resort.title}
-                        image={resort.image}
-                        action={onClick}
-                        key={`resort-${index}`}
-                        noBorder={topResort.data.length - 1 === index}
-                      />
-                    );
-                  },
-                )}
+                  )}
+                </ScrollView>
               </SearchSection>
             ) : null}
           </Fragment>
