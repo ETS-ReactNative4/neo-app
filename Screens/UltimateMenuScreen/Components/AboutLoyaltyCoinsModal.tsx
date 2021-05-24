@@ -4,6 +4,7 @@ import {ScrollView, StyleSheet, TouchableOpacity} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from '../../../CommonComponents/Icon/Icon';
 import SmartImageV2 from '../../../CommonComponents/SmartImage/SmartImageV2';
+import {CONSTANT_referralText} from '../../../constants/appText';
 import {theme} from '../../../constants/colorPallete';
 import {
   CONSTANT_fontPrimaryRegular,
@@ -77,7 +78,7 @@ export const AboutLoyaltyCoinsModal = ({
 }) => {
   const onShare = () => {
     share({
-      message: `${referralCode}`,
+      message: `${CONSTANT_referralText(referralCode)}`,
     });
   };
   const referralText = referralCode

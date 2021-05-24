@@ -442,11 +442,7 @@ const AppNavigator = () => {
           options={{headerShown: false}}
           component={StayHotelSearchScreen}
         />
-        <Screen
-          name={SCREEN_STAY_HOTEL_LIST}
-          options={{headerShown: false}}
-          component={StayHotelListScreen}
-        />
+        <Screen name={SCREEN_STAY_HOTEL_LIST} component={StayHotelListScreen} />
         <Screen
           name={SCREEN_STAY_HOTEL_ROOM_LIST}
           options={{headerShown: false}}

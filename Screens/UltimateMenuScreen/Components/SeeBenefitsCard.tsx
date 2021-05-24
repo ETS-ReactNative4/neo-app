@@ -59,8 +59,7 @@ export const SeeBenefitsCard = ({
     const fileName = 'pytClub .pdf';
     setFileLoading(true);
     downloadFile(CONSTANT_pytClubBenefits, fileName)
-      .then(downloadData => {
-        console.log('here', downloadData);
+      .then(() => {
         openFile(fileName);
         setFileLoading(false);
       })
@@ -148,7 +147,9 @@ export const SeeBenefitsCard = ({
           color={theme.colors.neutral001}
           fontSize={14}>
           {fileLoading ? 'Loading..' : 'See benefits'}{' '}
-          <ChevronRight fill={theme.colors.neutral001} />
+          {!fileLoading ? (
+            <ChevronRight fill={theme.colors.neutral001} />
+          ) : null}
         </Text>
       </Button>
     </Box>

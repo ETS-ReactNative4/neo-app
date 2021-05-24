@@ -4,6 +4,7 @@ import React from 'react';
 import {StyleSheet} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import SmartImageV2 from '../../../CommonComponents/SmartImage/SmartImageV2';
+import {CONSTANT_referralText} from '../../../constants/appText';
 import {theme} from '../../../constants/colorPallete';
 import {
   CONSTANT_fontPrimaryRegular,
@@ -28,10 +29,10 @@ const styles = StyleSheet.create({
 });
 
 export const ReferNowCard = ({referralCode}: {referralCode: string}) => {
-  const referralText = `Hello:) Enjoy a flat 500 off on your vacation and staycation deals booking with Pickyourtrail with my referral code - ${referralCode}. Download the app here at https://app.pickyourtrail.com`;
   const onShare = () => {
     share({
-      message: `${referralText}`,
+      message: `${CONSTANT_referralText(referralCode)}`,
+      url: 'https://app.pickyourtrail.com',
     });
   };
   return (

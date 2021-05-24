@@ -31,6 +31,7 @@ import LeadSource from './LeadSource';
 import DeviceLocale from './DeviceLocale';
 import OTAHotel from './OTAHotel';
 import Cities from './Cities';
+import LoyaltyCoins from './LoyaltyCoins';
 
 export const hydrate = create({
   storage: AsyncStorage,
@@ -68,6 +69,7 @@ const createStore = () => {
     deviceLocaleStore: new DeviceLocale(),
     otaHotelStore: new OTAHotel(),
     citiesStore: new Cities(),
+    loyaltyCoinsStore: new LoyaltyCoins(),
   };
 
   YourBookings.hydrator(appStore.yourBookingsStore);
