@@ -52,6 +52,7 @@ import {
 } from '../../Services/freshchatService/freshchatService';
 import Icon from '../../CommonComponents/Icon/Icon';
 import storeService from '../../Services/storeService/storeService';
+import ChatDetails from '../../mobx/ChatDetails';
 
 export type ExploreScreenNavigationType = CompositeNavigationProp<
   StackNavigationProp<AppNavigatorParamsType, typeof SCREEN_PRETRIP_HOME_TABS>,
@@ -68,6 +69,7 @@ export interface ExploreScreenProps {
   route: ExploreScreenRouteProp;
   yourBookingsStore: YourBookings;
   userStore: User;
+  chatDetailsStore: ChatDetails;
 }
 
 export type ExploreScreenSourcesType = 'TravelProfileFlow';

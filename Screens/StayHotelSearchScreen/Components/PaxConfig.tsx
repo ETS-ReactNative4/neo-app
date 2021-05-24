@@ -49,7 +49,7 @@ export const PaxConfig = ({
   disable,
   addAction = () => null,
   subAction = () => null,
-  count=0,
+  count = 0,
   ...restProps
 }: {
   label: string;
@@ -65,7 +65,7 @@ export const PaxConfig = ({
       flexDirection="row"
       justifyContent="space-between"
       {...restProps}>
-      <Box flexDirection="row" alignItems='center'>
+      <Box flexDirection="row" alignItems="center">
         <Text
           fontFamily={CONSTANT_fontPrimaryRegular}
           color="#333333"
@@ -80,7 +80,7 @@ export const PaxConfig = ({
           {subText}
         </Text>
       </Box>
-      <Box flexDirection="row" alignItems='center'>
+      <Box flexDirection="row" alignItems="center">
         <CounterButton disable={disable} onPress={subAction} />
         <Text
           fontFamily={CONSTANT_fontPrimarySemiBold}

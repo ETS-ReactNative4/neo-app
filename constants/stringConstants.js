@@ -17,7 +17,7 @@ const stringConstants = {
    */
 
   getHotelList: 'api/ota/hotel/search',
-  getHotelRoom : 'ota/hotel/rooms',
+  getHotelRoom: 'ota/hotel/rooms',
 
   /**
    * Product APIs
@@ -254,6 +254,7 @@ export const CONSTANT_apiRequestAbortMessage = 'Aborted';
  */
 
 export const STAYCATION_VERSION = 'DEAL';
+export const OTA_VERSION = 'OTA';
 
 /**
  * Emergency number

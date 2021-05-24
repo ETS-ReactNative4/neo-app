@@ -607,4 +607,7 @@ export const CONSTANT_travelProfileFailureText = {
     "Unable to load data from the server. Please check your internet connection or try again later"
 };
 
+export const CONSTANT_fileDownload = 'Failed to download'
+export const CONSTANT_referralText = (referralCode) => `Hello:) Enjoy a flat 500 off on your vacation and staycation deals booking with Pickyourtrail with my referral code - ${referralCode}. Download the app here at https://app.pickyourtrail.com`;
+
 export default appText;
