@@ -6,7 +6,7 @@ import resetToAgentInfo from './screenResets/resetToAgentInfo';
 import resetToAgentFeedback from './screenResets/resetToAgentFeedback';
 import resetToPostBookingScreen from './screenResets/resetToPostBookingScreen';
 import {isStaycation} from '../isStaycation/isStaycation';
-
+import {OTA_VERSION} from '../../constants/stringConstants';
 export interface ISOInfo {
   itineraryId: string;
   ownerName: string;
@@ -49,8 +49,9 @@ const openPostBookingScreen = () => {
  */
 const launchPostBooking = (selectedItineraryId: string) => {
   return new Promise<boolean>((resolve, reject) => {
-    const staycation = isStaycation(storeService.itineraries.selectedItinerary);
-    if (staycation) {
+    const {selectedItinerary} = storeService.itineraries ?? {};
+    const staycation = isStaycation(selectedItinerary);
+    if (staycation || selectedItinerary.version === OTA_VERSION) {
       openPostBookingScreen();
       resolve(true);
     } else {

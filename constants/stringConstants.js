@@ -254,6 +254,7 @@ export const CONSTANT_apiRequestAbortMessage = 'Aborted';
  */
 
 export const STAYCATION_VERSION = 'DEAL';
+export const OTA_VERSION = 'OTA';
 
 /**
  * Emergency number
