@@ -38,8 +38,9 @@ export const PriceDetails = ({
   const lineItem = (taxesAndFees?.costings || []).reduce(
     (itemList, costItem) => {
       if (costItem.cost) {
+        const label = costItem.pricing.split('_').join(' ');
         itemList.push({
-          label: _capitalize(costItem.pricing),
+          label: _capitalize(label),
           price: costItem.cost,
         });
       }
@@ -76,7 +77,7 @@ export const PriceDetails = ({
     <StaySection title="Price">
       {list.map((item, index) => {
         const cost = getGlobalPriceWithoutSymbol({
-          amount: parseInt(item.price as string, 10),
+          amount: parseFloat(item.price as string),
           currency: displayCurrency,
         });
 

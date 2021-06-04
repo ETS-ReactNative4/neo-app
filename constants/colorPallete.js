@@ -34,7 +34,7 @@ const pallete2 = {
   seventhColorAlpha: alpha => `rgba(35,123,226,${alpha})`,
   eighthColorAlpha: alpha => `rgba(74,144,226,${alpha})`,
   ninthColorAlpha: alpha => `rgba(91,110,234,${alpha})`,
-  themeDarkBlueAlpha: alpha => `rgba(80, 138, 232, ${alpha})`
+  themeDarkBlueAlpha: alpha => `rgba(80, 138, 232, ${alpha})`,
 };
 
 // const pallete3 = {};
@@ -49,7 +49,7 @@ const greyPallete = {
   shade3: `rgba(204, 204, 204, 1)`,
   shade4: `rgba(221, 221, 221, 1)`,
   shade5: `rgba(239, 239, 239, 1)`,
-  shade6: `rgba(250, 250, 250, 1)`
+  shade6: `rgba(250, 250, 250, 1)`,
 };
 
 const gradientPallete = {
@@ -69,21 +69,21 @@ const gradientPallete = {
   fourthGradientAlpha: alpha => `rgba(246,168,102,${alpha})`,
   fifthGradientAlpha: alpha => `rgba(69,210,178,${alpha})`,
   sixthGradientAlpha: alpha => `rgba(110,188,118,${alpha})`,
-  seventhGradientAlpha: alpha => `rgba(77,159,197,${alpha})`
+  seventhGradientAlpha: alpha => `rgba(77,159,197,${alpha})`,
 };
 
 const whitePallete = {
-  white1: `rgb(247, 247, 247)`
+  white1: `rgb(247, 247, 247)`,
 };
 
 const chatColorPallete = {
-  chatMainColor: "rgba(0,198,132,1)",
-  chatLightColor: "rgba(249,249,249,1)"
+  chatMainColor: 'rgba(0,198,132,1)',
+  chatLightColor: 'rgba(249,249,249,1)',
 };
 
 const thirdPartyColors = {
-  facebookThemeColor: "rgb(59,89,152)",
-  twitterThemeColor: "rgb(8, 160, 233)"
+  facebookThemeColor: 'rgb(59,89,152)',
+  twitterThemeColor: 'rgb(8, 160, 233)',
 };
 
 const colorPallete = {
@@ -93,18 +93,18 @@ const colorPallete = {
   ...chatColorPallete,
   ...whitePallete,
   ...thirdPartyColors,
-  appBackgroundColor: "white",
-  drawerBackgroundColor: "rgba(46, 124, 239, 1)"
+  appBackgroundColor: 'white',
+  drawerBackgroundColor: 'rgba(46, 124, 239, 1)',
 };
 
-export const CONSTANT_chatMainColor = "rgba(0,198,132,1)";
-export const CONSTANT_chatLightColor = "rgba(249,249,249,1)";
+export const CONSTANT_chatMainColor = 'rgba(0,198,132,1)';
+export const CONSTANT_chatLightColor = 'rgba(249,249,249,1)';
 
-export const CONSTANT_facebookThemeColor = "rgb(59,89,152)";
-export const CONSTANT_twitterThemeColor = "rgb(8, 160, 233)";
+export const CONSTANT_facebookThemeColor = 'rgb(59,89,152)';
+export const CONSTANT_twitterThemeColor = 'rgb(8, 160, 233)';
 
 export const CONSTANT_white = `rgb(255, 255, 255)`;
-export const CONSTANT_transparent = "transparent";
+export const CONSTANT_transparent = 'transparent';
 export const CONSTANT_white1 = `rgb(247, 247, 247)`;
 
 export const CONSTANT_darkGradient = `rgba(0,0,0,1)`;
@@ -189,7 +189,39 @@ export const CONSTANT_whiteAlpha = alpha => `rgba(255, 255, 255, ${alpha})`;
 
 export const CONSTANT_darkOverlayAlpha = alpha => `rgba(0,0,0,${alpha})`;
 
-export const CONSTANT_appBackgroundColor = "white";
-export const CONSTANT_drawerBackgroundColor = "rgba(46, 124, 239, 1)";
+export const CONSTANT_appBackgroundColor = 'white';
+export const CONSTANT_drawerBackgroundColor = 'rgba(46, 124, 239, 1)';
 
 export default colorPallete;
+
+const colors = {
+  primary001: '#E5F9F3',
+  primary002: '#00C684',
+  primary003: '#009E6A',
+  primary004: '#00774F',
+  accent001: '#F7F8FB',
+  accent002: '#D3C7FF',
+  accent003: '#5A3ACF',
+  accent004: '#3E2598',
+  neutral001: '#ffffff',
+  neutral002: '#F7F7F7',
+  neutral003: '#D4D4D4',
+  neutral004: '#AAAAAA',
+  neutral005: '#777777',
+  neutral006: '#555555',
+  neutral007: '#333333',
+  neutral008: '#000000',
+  yellow001: '#FFF7E0',
+  yellow002: '#FFC933',
+  yellow003: '#E5B52E',
+  yellow004: '#806519',
+  red001: '#FDECEF',
+  red002: '#EF435D',
+  red003: '#D73C54',
+  red004: '#BF364A',
+  screenBgColor: '#F5F5F5',
+};
+
+export const theme = {
+  colors,
+};

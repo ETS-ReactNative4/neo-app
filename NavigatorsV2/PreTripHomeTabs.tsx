@@ -32,6 +32,8 @@ import {AppNavigatorParamsType} from './AppNavigator';
 import DealsListing from '../Screens/DealsListingScreen/DealsListing';
 import StayHotelSearchScreen from '../Screens/StayHotelSearchScreen/StayHotelSearchScreen';
 import useIsUserLoggedIn from '../Services/isUserLoggedIn/hooks/useIsUserLoggedIn';
+import LoyaltyCoins from '../mobx/LoyaltyCoins';
+import User from '../mobx/User';
 
 export interface IExplorePageScreenData {
   source?: ExploreScreenSourcesType;
@@ -71,9 +73,16 @@ export interface PreTripHomeTabsProp {
   deviceLocaleStore: DeviceLocale;
   navigation: StarterScreenNavigationProp;
   route: PreTripHomeTabRouteType;
+  loyaltyCoinsStore: LoyaltyCoins;
+  userStore: User;
 }
 
-const PreTripHomeTabs = ({deviceLocaleStore, route}: PreTripHomeTabsProp) => {
+const PreTripHomeTabs = ({
+  deviceLocaleStore,
+  route,
+  loyaltyCoinsStore,
+  userStore,
+}: PreTripHomeTabsProp) => {
   const isLoggedIn = useIsUserLoggedIn();
   useEffect(() => {
     const {screen, ...meta} = route?.params ?? {};
@@ -83,6 +92,17 @@ const PreTripHomeTabs = ({deviceLocaleStore, route}: PreTripHomeTabsProp) => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    if (userStore.userDisplayDetails.userId) {
+      if (!Object.keys(loyaltyCoinsStore.loyaltyCoins || {}).length) {
+        loyaltyCoinsStore.getLoyaltyCoins(userStore.userDisplayDetails.userId);
+      }
+    } else {
+      userStore.getUserDisplayDetails();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userStore.userDisplayDetails.userId]);
 
   return (
     // @ts-ignore - type definitions unavailable
@@ -139,4 +159,6 @@ const PreTripHomeTabs = ({deviceLocaleStore, route}: PreTripHomeTabsProp) => {
   );
 };
 
-export default inject('deviceLocaleStore')(observer(PreTripHomeTabs));
+export default inject('deviceLocaleStore')(
+  inject('userStore')(inject('loyaltyCoinsStore')(observer(PreTripHomeTabs))),
+);

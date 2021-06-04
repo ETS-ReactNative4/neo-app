@@ -231,12 +231,13 @@ const StayHotelDetailScreen = ({
       ),
     );
 
-  const amenityList = hotelData.amenityDisplayList.map(
-    (item: {iconUrl: string; amenityName: string}) => ({
-      icon: <AmenityIcon name={item.iconUrl} size={14} color="#555555" />,
-      text: item.amenityName,
-    }),
-  );
+  const amenityList =
+    hotelData.amenityDisplayList?.map(
+      (item: {iconUrl: string; amenityName: string}) => ({
+        icon: <AmenityIcon name={item.iconUrl} size={14} color="#555555" />,
+        text: item.amenityName,
+      }),
+    ) ?? [];
   const nightText = `${hotelData.numberOfNights} ${
     hotelData.numberOfNights > 1 ? 'nights' : 'night'
   }`;
@@ -374,46 +375,47 @@ const StayHotelDetailScreen = ({
             ]}
             content="This property follows safety and hygiene measures. It’s verified by us 😇"
           />
-          <StaySection title={'About hotel'} textContainer={{marginBottom: 14}}>
-            <ReadMoreCard
-              data={hotelData.description}
-              defaultVisibleItemCount={4}
-              fontFamily={CONSTANT_fontPrimaryRegular}
-              showViewLess={true}
-              RenderItem={
-                <AboutHotel
-                  data={hotelData.description}
-                  showViewMore={true}
-                  description={extractTextFromHtml(hotelData.description)}
-                />
-              }
-              viewMoreElement={
-                <Text
-                  fontFamily={CONSTANT_fontPrimarySemiBold}
-                  color="#000000"
-                  lineHeight={20}
-                  fontSize={14}>
-                  Read more
-                </Text>
-              }
-              viewLessElement={
-                <Text
-                  fontFamily={CONSTANT_fontPrimarySemiBold}
-                  color="#000000"
-                  lineHeight={20}
-                  fontSize={14}>
-                  Read less
-                </Text>
-              }
-            />
-          </StaySection>
+          {hotelData.description ? (
+            <StaySection
+              title={'About hotel'}
+              textContainer={{marginBottom: 14}}>
+              <ReadMoreCard
+                data={hotelData.description}
+                defaultVisibleItemCount={4}
+                fontFamily={CONSTANT_fontPrimaryRegular}
+                showViewLess={true}
+                RenderItem={
+                  <AboutHotel
+                    data={hotelData.description}
+                    showViewMore={true}
+                    description={extractTextFromHtml(hotelData.description)}
+                  />
+                }
+                viewMoreElement={
+                  <Text
+                    fontFamily={CONSTANT_fontPrimarySemiBold}
+                    color="#000000"
+                    lineHeight={20}
+                    fontSize={14}>
+                    Read more
+                  </Text>
+                }
+                viewLessElement={
+                  <Text
+                    fontFamily={CONSTANT_fontPrimarySemiBold}
+                    color="#000000"
+                    lineHeight={20}
+                    fontSize={14}>
+                    Read less
+                  </Text>
+                }
+              />
+            </StaySection>
+          ) : null}
           <Box marginHorizontal={16}>
             {selectedRoomList.map((roomData, index) => {
               const cost = getGlobalPriceWithoutSymbol({
-                amount: parseInt(
-                  (roomData.publishedCost as unknown) as string,
-                  10,
-                ),
+                amount: roomData.publishedCost,
                 currency: displayCurrency,
               });
               return (
@@ -550,7 +552,7 @@ const StayHotelDetailScreen = ({
           buttonProps={{width: 124}}
           costText="Updated Price"
           cost={`${costSymbol} ${getGlobalPriceWithoutSymbol({
-            amount: parseInt((totalCost as unknown) as string, 10),
+            amount: totalCost,
             currency: displayCurrency,
           })}`}
         />

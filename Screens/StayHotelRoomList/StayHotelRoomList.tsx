@@ -107,10 +107,7 @@ export const StayHotelRoomList = ({
                 dotSeparateList={[]}
                 rooms={roomData.map((room: RoomDataType, index: number) => {
                   const cost = getGlobalPriceWithoutSymbol({
-                    amount: parseInt(
-                      (room.publishedCost as unknown) as string,
-                      10,
-                    ),
+                    amount: room.publishedCost,
                     currency: displayCurrency,
                   });
                   const costSymbol = getSymbolFromCurrency(displayCurrency);

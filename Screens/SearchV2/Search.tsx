@@ -6,6 +6,7 @@ import {
   Text,
   FlatList,
   Platform,
+  ScrollView,
 } from 'react-native';
 import useDeepCompareEffect from 'use-deep-compare-effect';
 import SearchBox from '../../CommonComponents/SearchBox/SearchBox';
@@ -179,47 +180,48 @@ const Search = ({navigation}: SearchScreenProps) => {
         innerBoxStyle={styles.searchInnerBox}
         inputStyle={styles.searchInput}
       />
-
-      <View style={styles.listContainer}>
-        {!searchString ? (
-          <Fragment>
-            {vacationTheme ? (
-              <VacationTheme
-                title={vacationTheme?.title}
-                list={vacationTheme?.data}
-                onClick={onClickThemeCard}
-              />
-            ) : null}
-            {topResort ? (
-              <SearchSection title={topResort?.title}>
-                {topResort?.data?.map(
-                  (
-                    resort: {
-                      slug: string;
-                      title: string;
-                      image: string;
-                      isDeal?: boolean;
+      <ScrollView>
+        <View style={styles.listContainer}>
+          {!searchString ? (
+            <Fragment>
+              {vacationTheme ? (
+                <VacationTheme
+                  title={vacationTheme?.title}
+                  list={vacationTheme?.data}
+                  onClick={onClickThemeCard}
+                />
+              ) : null}
+              {topResort ? (
+                <SearchSection title={topResort?.title}>
+                  {topResort?.data?.map(
+                    (
+                      resort: {
+                        slug: string;
+                        title: string;
+                        image: string;
+                        isDeal?: boolean;
+                      },
+                      index: number,
+                    ) => {
+                      const onClick = () =>
+                        openItinerary(resort.slug, resort.isDeal);
+                      return (
+                        <SearchLineItem
+                          text={resort.title}
+                          image={resort.image}
+                          action={onClick}
+                          key={`resort-${index}`}
+                          noBorder={topResort.data.length - 1 === index}
+                        />
+                      );
                     },
-                    index: number,
-                  ) => {
-                    const onClick = () =>
-                      openItinerary(resort.slug, resort.isDeal);
-                    return (
-                      <SearchLineItem
-                        text={resort.title}
-                        image={resort.image}
-                        action={onClick}
-                        key={`resort-${index}`}
-                        noBorder={topResort.data.length - 1 === index}
-                      />
-                    );
-                  },
-                )}
-              </SearchSection>
-            ) : null}
-          </Fragment>
-        ) : null}
-      </View>
+                  )}
+                </SearchSection>
+              ) : null}
+            </Fragment>
+          ) : null}
+        </View>
+      </ScrollView>
       {!isPackagesApiLoading && !searchResults.length && searchString ? (
         <AnimatableView
           style={styles.placeholderWrapper}

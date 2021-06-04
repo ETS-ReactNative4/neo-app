@@ -68,6 +68,10 @@ const GCMRoomConfig = ({navigation, route}: IGCMRoomConfigPros) => {
 
   const selectedChildAges = roomConfig[selectedRoomButton].childAges;
   const selectedChildAgesCount = selectedChildAges.length;
+  const totalAdultCount = roomConfig.reduce(
+    (totalCount, paxConfig) => totalCount + paxConfig.adultCount,
+    0,
+  );
 
   const addAdultRoomCount = () => {
     setRoomConfig(
@@ -165,15 +169,23 @@ const GCMRoomConfig = ({navigation, route}: IGCMRoomConfigPros) => {
 
   LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
 
-  const disableRoom = maxRoom ? roomConfig.length === maxRoom : false;
-  const canAddPaxInRoom = selectedAdultCount + selectedChildAgesCount < 6;
+  const disableRoom = maxRoom
+    ? roomConfig.length === maxRoom || totalAdultCount === 9
+    : false;
+  const canAddPaxInRoom =
+    selectedAdultCount + selectedChildAgesCount < 6 && totalAdultCount < 9;
+
   return (
     <GCMViewer bannerImage={bannerImage} backAction={goBack} title={title}>
       <HighlightText
         textColor={CONSTANT_seventeenthColor}
         textBackgroundColor={CONSTANT_twentySeventhColor}
         containerStyle={styles.highlightText}
-        titleText={'You can’t add more than 6 people in a room'}
+        titleText={
+          totalAdultCount === 9
+            ? 'You can’t add more than 9 people in a trip'
+            : 'You can’t add more than 6 people in a room'
+        }
       />
       <ScrollView>
         <View style={styles.roomButtonWrapper}>
@@ -197,7 +209,7 @@ const GCMRoomConfig = ({navigation, route}: IGCMRoomConfigPros) => {
             );
           })}
           <RoomButton
-            text={`+ Add new room`}
+            text={'+ Add new room'}
             clickAction={addRoom}
             disabled={disableRoom}
           />
