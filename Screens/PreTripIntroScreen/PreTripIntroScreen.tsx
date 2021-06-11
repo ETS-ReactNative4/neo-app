@@ -25,26 +25,22 @@ export interface PreTripIntroProps extends PreTripIntroNavTypes {}
 const postBookingIntroDefaultData: IIntroData[] = [
   {
     title: '20,000+ travellers',
-    description:
-      '20000+ travellers: Delivered delightful holidays for travellers across India',
+    description: 'Delivered delightful holidays for travellers across India',
     image: CONSTANT_TRAVELLER_INTRO(),
   },
   {
     title: '24x7 expert concierge',
-    description:
-      '24x7 Concierge: Travel hassle-free with expert assistance round the clock',
+    description: 'Travel hassle-free with expert assistance round the clock',
     image: CONSTANT_CONCIERGE_SUPPORT_INTRO(),
   },
   {
     title: 'Transparent pricing',
-    description:
-      'Transparent Pricing: Know what you’re paying for. No hidden costs involved',
+    description: 'Know what you’re paying for. No hidden costs involved',
     image: CONSTANT_TRANSPARENT_PRICING(),
   },
   {
     title: 'Customer experience at its best',
-    description:
-      'Customer Experience at its best: World class customer experience delivered to you',
+    description: 'World class customer experience delivered to you',
     image: CONSTANT_CX_INTRO(),
   },
 ];
