@@ -57,6 +57,8 @@ const styles = StyleSheet.create({
   },
   modalContainer: {
     margin: 0,
+    flex: 1,
+    backgroundColor: theme.colors.neutral001,
   },
 });
 
@@ -222,7 +224,6 @@ export const MenuBanner = ({
         // swipeDirection="left"
       >
         <AboutLoyaltyCoinsModal
-          isVisible={modalVisible}
           toggleModal={toggleModal}
           memberType={memberType}
           internationalCredit={loyalCredit.internationalLoyaltyBalance}

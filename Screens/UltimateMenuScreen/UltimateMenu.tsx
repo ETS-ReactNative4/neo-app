@@ -221,7 +221,10 @@ const UltimateMenu = ({
                 loyaltyCoinsStore={loyaltyCoinsStore}
               />
               {loyaltyCoins.referralCode ? (
-                <ReferNowCard referralCode={loyaltyCoins.referralCode} />
+                <ReferNowCard
+                  referralCode={loyaltyCoins.referralCode}
+                  loyaltyCoinsStore={loyaltyCoinsStore}
+                />
               ) : null}
             </>
           ) : null}
