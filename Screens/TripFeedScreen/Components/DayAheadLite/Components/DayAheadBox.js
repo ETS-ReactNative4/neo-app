@@ -14,14 +14,24 @@ const DayAheadBox = ({
   deepLink,
   voucherType,
   costingIdentifier,
-  widgetName
+  widgetName,
+  link = "",
+  modalData = {}
 }) => {
   return (
     <TouchableOpacity
       style={styles.dayAheadBoxTouchable}
       onPress={() => {
-        recordEvent(widgetName);
-        resolveLinks("", {}, deepLink || { voucherType, costingIdentifier });
+        if (widgetName) {
+          recordEvent(constants.TripFeed.event, {
+            widget: widgetName
+          });
+        }
+        resolveLinks(
+          link,
+          modalData,
+          deepLink || { voucherType, costingIdentifier }
+        );
       }}
       activeOpacity={0.7}
     >
@@ -63,13 +73,15 @@ DayAheadBox.propTypes = forbidExtraProps({
   voucherType: PropTypes.string.isRequired,
   costingIdentifier: PropTypes.string.isRequired,
   deepLink: PropTypes.object,
-  widgetName: PropTypes.string
+  widgetName: PropTypes.string,
+  link: PropTypes.string,
+  modalData: PropTypes.object
 });
 
 const styles = StyleSheet.create({
   dayAheadBoxTouchable: {
     backgroundColor: "white",
-    ...constants.elevationFive,
+    ...constants.elevationTwo,
     height: 64,
     width: 200,
     borderRadius: 32.5,

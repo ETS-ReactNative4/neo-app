@@ -29,41 +29,53 @@ class Voucher {
 
   @action
   getVouchers = itineraryId => {
-    const requestBody = {
-      itineraryId
-    };
-    this._isLoading = true;
-    apiCall(constants.voucherDetails, requestBody)
-      .then(response => {
-        this._isLoading = false;
-        if (response.status === "SUCCESS") {
-          this._loadingError = false;
-          const newVoucher = {
-            itineraryId,
-            ...response.data
-          };
-          this._vouchers.push(newVoucher);
-          this._selectedVoucher = newVoucher;
-        } else {
+    return new Promise((resolve, reject) => {
+      const requestBody = {
+        itineraryId
+      };
+      this._isLoading = true;
+      apiCall(constants.voucherDetails, requestBody)
+        .then(response => {
+          this._isLoading = false;
+          if (response.status === "SUCCESS") {
+            this._loadingError = false;
+            const newVoucher = {
+              itineraryId,
+              ...response.data
+            };
+            this._vouchers.push(newVoucher);
+            this._selectedVoucher = newVoucher;
+            resolve(newVoucher);
+          } else {
+            this._loadingError = true;
+            reject();
+          }
+        })
+        .catch(error => {
+          this._isLoading = false;
           this._loadingError = true;
-        }
-      })
-      .catch(error => {
-        this._isLoading = false;
-        this._loadingError = true;
-      });
+          reject(error);
+        });
+    });
   };
 
   @action
   selectVoucher = itineraryId => {
-    const selectedVoucher = this._vouchers.find(
-      voucher => voucher.itineraryId === itineraryId
-    );
-    if (selectedVoucher) {
-      this._selectedVoucher = selectedVoucher;
-    } else {
-      this.getVouchers(itineraryId);
-    }
+    return new Promise((resolve, reject) => {
+      const selectedVoucher = this._vouchers.find(
+        voucher => voucher.itineraryId === itineraryId
+      );
+      if (selectedVoucher) {
+        this._selectedVoucher = selectedVoucher;
+        resolve(selectedVoucher);
+      } else {
+        this.getVouchers(itineraryId)
+          .then(newVoucher => {
+            resolve(newVoucher);
+          })
+          .catch(reject);
+      }
+    });
   };
 
   @action
@@ -94,20 +106,24 @@ class Voucher {
           this._loadingError = true;
         }
       })
-      .catch(error => {
+      .catch(() => {
         this._isLoading = false;
         this._loadingError = true;
       });
   };
 
   getHotelVoucherById = createTransformer(id => {
-    if (_.isEmpty(this._selectedVoucher)) return {};
+    if (_.isEmpty(this._selectedVoucher)) {
+      return {};
+    }
     try {
-      return toJS(
-        this._selectedVoucher.hotelVouchers.find(
-          hotel => id === hotel.hotelCostingId || id === hotel.identifier
-        )
-      );
+      return this._selectedVoucher.hotelVouchers
+        ? toJS(
+            this._selectedVoucher.hotelVouchers.find(
+              hotel => id === hotel.hotelCostingId || id === hotel.identifier
+            )
+          )
+        : [];
     } catch (e) {
       logError(e);
       return {};
@@ -115,13 +131,18 @@ class Voucher {
   });
 
   getFlightVoucherById = createTransformer(id => {
-    if (_.isEmpty(this._selectedVoucher)) return {};
+    if (_.isEmpty(this._selectedVoucher)) {
+      return {};
+    }
     try {
-      return toJS(
-        this._selectedVoucher.flightVouchers.find(
-          flight => id === flight.flightCostingId || id === flight.identifier
-        )
-      );
+      return this._selectedVoucher.flightVouchers
+        ? toJS(
+            this._selectedVoucher.flightVouchers.find(
+              flight =>
+                id === flight.flightCostingId || id === flight.identifier
+            )
+          )
+        : [];
     } catch (e) {
       logError(e);
       return {};
@@ -129,14 +150,18 @@ class Voucher {
   });
 
   getActivityVoucherById = createTransformer(id => {
-    if (_.isEmpty(this._selectedVoucher)) return {};
+    if (_.isEmpty(this._selectedVoucher)) {
+      return {};
+    }
     try {
-      return toJS(
-        this._selectedVoucher.activityVouchers.find(
-          activity =>
-            id === activity.identifier || id === activity.activityCostingId
-        )
-      );
+      return this._selectedVoucher.activityVouchers
+        ? toJS(
+            this._selectedVoucher.activityVouchers.find(
+              activity =>
+                id === activity.identifier || id === activity.activityCostingId
+            )
+          )
+        : [];
     } catch (e) {
       logError(e);
       return {};
@@ -144,14 +169,18 @@ class Voucher {
   });
 
   getTransferVoucherById = createTransformer(id => {
-    if (_.isEmpty(this._selectedVoucher)) return {};
+    if (_.isEmpty(this._selectedVoucher)) {
+      return {};
+    }
     try {
-      return toJS(
-        this._selectedVoucher.transferVouchers.find(
-          transfer =>
-            id === transfer.transferCostingId || id === transfer.identifier
-        )
-      );
+      return this._selectedVoucher.transferVouchers
+        ? toJS(
+            this._selectedVoucher.transferVouchers.find(
+              transfer =>
+                id === transfer.transferCostingId || id === transfer.identifier
+            )
+          )
+        : [];
     } catch (e) {
       logError(e);
       return {};
@@ -159,14 +188,18 @@ class Voucher {
   });
 
   getRentalCarVoucherById = createTransformer(id => {
-    if (_.isEmpty(this._selectedVoucher)) return {};
+    if (_.isEmpty(this._selectedVoucher)) {
+      return {};
+    }
     try {
-      return toJS(
-        this._selectedVoucher.rentalCarVouchers.find(
-          rentalCar =>
-            id === rentalCar.identifier || id === rentalCar.rcCostingId
-        )
-      );
+      return this._selectedVoucher.rentalCarVouchers
+        ? toJS(
+            this._selectedVoucher.rentalCarVouchers.find(
+              rentalCar =>
+                id === rentalCar.identifier || id === rentalCar.rcCostingId
+            )
+          )
+        : [];
     } catch (e) {
       logError(e);
       return {};
@@ -174,13 +207,17 @@ class Voucher {
   });
 
   getFerryVoucherById = createTransformer(id => {
-    if (_.isEmpty(this._selectedVoucher)) return {};
+    if (_.isEmpty(this._selectedVoucher)) {
+      return {};
+    }
     try {
-      return toJS(
-        this._selectedVoucher.ferryVouchers.find(
-          ferry => id === ferry.identifier || id === ferry.ferryCostingId
-        )
-      );
+      return this._selectedVoucher.ferryVouchers
+        ? toJS(
+            this._selectedVoucher.ferryVouchers.find(
+              ferry => id === ferry.identifier || id === ferry.ferryCostingId
+            )
+          )
+        : [];
     } catch (e) {
       logError(e);
       return {};
@@ -188,13 +225,37 @@ class Voucher {
   });
 
   getTrainVoucherById = createTransformer(id => {
-    if (_.isEmpty(this._selectedVoucher)) return {};
+    if (_.isEmpty(this._selectedVoucher)) {
+      return {};
+    }
     try {
-      return toJS(
-        this._selectedVoucher.trainVouchers.find(
-          train => id === train.identifier || id === train.trainCostingId
-        )
-      );
+      return this._selectedVoucher.trainVouchers
+        ? toJS(
+            this._selectedVoucher.trainVouchers.find(
+              train => id === train.identifier || id === train.trainCostingId
+            )
+          )
+        : [];
+    } catch (e) {
+      logError(e);
+      return {};
+    }
+  });
+
+  /**
+   * This will retrieve the voucher url details of the insurance
+   * Requires costing id of the voucher and costing to match.
+   */
+  getInsuranceVoucherById = createTransformer(id => {
+    if (_.isEmpty(this._selectedVoucher)) {
+      return {};
+    }
+    try {
+      return this._selectedVoucher.insuranceVoucher
+        ? this._selectedVoucher.insuranceVoucher.costingId === id
+          ? toJS(this._selectedVoucher.insuranceVoucher)
+          : {}
+        : {};
     } catch (e) {
       logError(e);
       return {};

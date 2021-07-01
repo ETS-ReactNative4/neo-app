@@ -11,8 +11,8 @@ import PropTypes from "prop-types";
 import constants from "../../../constants/constants";
 import Icon from "../../../CommonComponents/Icon/Icon";
 import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraProps";
-import FastImage from "react-native-fast-image";
 import { recordEvent } from "../../../Services/analytics/analyticsService";
+import SmartImageV2 from "../../../CommonComponents/SmartImage/SmartImageV2";
 
 const CityCard = ({
   cityImage,
@@ -24,9 +24,10 @@ const CityCard = ({
   if (!containerStyle) containerStyle = {};
 
   return (
-    <FastImage
+    <SmartImageV2
       source={cityImage}
-      resizeMode={FastImage.resizeMode.cover}
+      useFastImage={true}
+      resizeMode={"cover"}
       style={[styles.cityContainer, containerStyle]}
     >
       <Image
@@ -48,7 +49,9 @@ const CityCard = ({
         </View>
         <TouchableOpacity
           onPress={() => {
-            recordEvent(constants.bookedItineraryExploreGuideClick);
+            recordEvent(constants.BookedItinerary.event, {
+              click: constants.BookedItinerary.click.exploreGuide
+            });
             action();
           }}
           style={styles.actionView}
@@ -57,7 +60,7 @@ const CityCard = ({
           <Text style={styles.actionText}>Explore Places</Text>
         </TouchableOpacity>
       </View>
-    </FastImage>
+    </SmartImageV2>
   );
 };
 

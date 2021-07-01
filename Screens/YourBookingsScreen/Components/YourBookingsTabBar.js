@@ -1,8 +1,7 @@
 const React = require("react");
-const { ViewPropTypes } = (ReactNative = require("react-native"));
 const PropTypes = require("prop-types");
 const createReactClass = require("create-react-class");
-const { StyleSheet, Text, View, Animated } = ReactNative;
+import { StyleSheet, Text, View, Animated, ViewPropTypes } from "react-native";
 const Button = require("react-native-scrollable-tab-view/Button.ios");
 import { responsiveWidth } from "react-native-responsive-dimensions";
 
@@ -14,7 +13,7 @@ const YourBookingsTabBar = createReactClass({
     backgroundColor: PropTypes.string,
     activeTextColor: PropTypes.string,
     inactiveTextColor: PropTypes.string,
-    textStyle: Text.propTypes.style,
+    textStyle: PropTypes.object,
     tabStyle: ViewPropTypes.style,
     renderTab: PropTypes.func,
     underlineStyle: ViewPropTypes.style

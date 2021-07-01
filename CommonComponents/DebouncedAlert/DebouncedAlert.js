@@ -1,8 +1,8 @@
 import { Alert } from "react-native";
 
 const DebouncedAlert = (
-  header,
-  body,
+  header = "",
+  body = "",
   buttons = [{ text: "OK", onPress: () => {} }],
   options = {}
 ) => {

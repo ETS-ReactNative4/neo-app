@@ -1,10 +1,16 @@
-import { Platform } from "react-native";
-
+/**
+ * Font name of android is the font file's name,
+ * Font name of iOS is the font's name in its meta data
+ */
 const primaryFont = {
-  primaryRegular: Platform.OS === "ios" ? "PTSans-Regular" : "PT Sans",
-  primaryLight: Platform.OS === "ios" ? "PTSans-Regular" : "PT Sans",
-  primarySemiBold: Platform.OS === "ios" ? "PTSans-Bold" : "PT Sans Bold"
+  primaryRegular: "SourceSansPro-Regular",
+  primaryLight: "SourceSansPro-Regular",
+  primarySemiBold: "SourceSansPro-SemiBold"
 };
+
+export const CONSTANT_fontPrimaryRegular = primaryFont.primaryRegular;
+export const CONSTANT_fontPrimaryLight = primaryFont.primaryLight;
+export const CONSTANT_fontPrimarySemiBold = primaryFont.primarySemiBold;
 
 const font10 = fontFamily => {
   return {
@@ -90,5 +96,20 @@ const font = {
     letterSpacing: -1
   }
 };
+
+export const CONSTANT_primaryRegular = "SourceSansPro-Regular";
+export const CONSTANT_primaryLight = "SourceSansPro-Regular";
+export const CONSTANT_primarySemiBold = "SourceSansPro-SemiBold";
+export const CONSTANT_font10 = font10;
+export const CONSTANT_font11 = font11;
+export const CONSTANT_font13 = font13;
+export const CONSTANT_font17 = font17;
+export const CONSTANT_font20 = font20;
+export const CONSTANT_font24 = font24;
+export const CONSTANT_font30 = font30;
+export const CONSTANT_fontCustom = fontCustom;
+export const CONSTANT_kern1 = { letterSpacing: -0.2 };
+export const CONSTANT_kern2 = { letterSpacing: -0.5 };
+export const CONSTANT_kern3 = { letterSpacing: -1 };
 
 export default font;

@@ -15,31 +15,37 @@ import CommonRate from "./Components/CommonRate";
 import constants from "../../constants/constants";
 import CurrencySelector from "./Components/CurrencySelector";
 import XSensorPlaceholder from "../../CommonComponents/XSensorPlaceholder/XSensorPlaceholder";
-import { inject, observer } from "mobx-react/custom";
+import { inject, observer } from "mobx-react";
 import Icon from "../../CommonComponents/Icon/Icon";
-import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import { recordEvent } from "../../Services/analytics/analyticsService";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import LineProgressBar from "../../CommonComponents/LineProgressBar/LineProgressBar";
+import PrimaryHeader from "../../NavigatorsV2/Components/PrimaryHeader";
+import PropTypes from "prop-types";
 
 @ErrorBoundary()
 @inject("appState")
 @observer
 class CurrencyConverter extends Component {
-  static navigationOptions = ({ navigation }) => {
-    return {
-      header: (
-        <CommonHeader
-          leftAction={() => {
-            Keyboard.dismiss();
-            navigation.goBack();
-          }}
-          title={"Currency Calculator"}
-          navigation={navigation}
-        />
-      )
-    };
+  static propTypes = {
+    appState: PropTypes.object.isRequired,
+    navigation: PropTypes.object.isRequired
   };
+
+  constructor(props) {
+    super(props);
+
+    props.navigation.setOptions({
+      header: () =>
+        PrimaryHeader({
+          leftAction: () => {
+            Keyboard.dismiss();
+            props.navigation.goBack();
+          },
+          headerText: "Currency Calculator"
+        })
+    });
+  }
 
   state = {
     nativeAmount: 0,
@@ -89,9 +95,16 @@ class CurrencyConverter extends Component {
     getConversionRates();
     loadCurrencies();
     this.setDefaultCurrency();
+    /**
+     * keyboard should wait 1 second after screen mounted to appear
+     * default screen transition time 600ms
+     * Some android devices are crashing when keyboard appears during transition
+     */
     setTimeout(() => {
-      this._inputFieldRef.current.focus && this._inputFieldRef.current.focus();
-    }, 300);
+      this._inputFieldRef.current &&
+        this._inputFieldRef.current.focus &&
+        this._inputFieldRef.current.focus();
+    }, 1000);
   }
 
   componentWillUnmount() {
@@ -114,8 +127,9 @@ class CurrencyConverter extends Component {
   };
 
   setAmount = foreignAmount => {
-    if (!foreignAmount) this.setState({ foreignAmount: 0 });
-    else {
+    if (!foreignAmount) {
+      this.setState({ foreignAmount: 0 });
+    } else {
       if (foreignAmount.substr(-1) === ".") {
         this.setState({ foreignAmount });
       } else {
@@ -129,9 +143,13 @@ class CurrencyConverter extends Component {
 
   openSelector = type => {
     if (type === "foreign") {
-      recordEvent(constants.currencyConverterChangeCurrencyForeignClick);
+      recordEvent(constants.CurrencyConverter.event, {
+        click: constants.CurrencyConverter.click.changeForeign
+      });
     } else if (type === "native") {
-      recordEvent(constants.currencyConverterChangeCurrencyNativeClick);
+      recordEvent(constants.CurrencyConverter.event, {
+        click: constants.CurrencyConverter.click.changeNative
+      });
     }
     this.setState({
       isSelectorActive: type
@@ -145,7 +163,9 @@ class CurrencyConverter extends Component {
   };
 
   swapCurrencies = () => {
-    recordEvent(constants.currencyConverterSwapCurrencyClick);
+    recordEvent(constants.CurrencyConverter.event, {
+      click: constants.CurrencyConverter.click.swap
+    });
     this.setState({
       nativeCurrency: this.state.foreignCurrency,
       foreignCurrency: this.state.nativeCurrency
@@ -153,14 +173,18 @@ class CurrencyConverter extends Component {
   };
 
   selectForeignCurrency = currency => {
-    recordEvent(constants.currencyConverterSelectCurrencyClick);
+    recordEvent(constants.CurrencyConverter.event, {
+      click: constants.CurrencyConverter.click.selectCurrency
+    });
     this.setState({
       foreignCurrency: currency
     });
   };
 
   selectNativeCurrency = currency => {
-    recordEvent(constants.currencyConverterSelectCurrencyClick);
+    recordEvent(constants.CurrencyConverter.event, {
+      click: constants.CurrencyConverter.click.selectCurrency
+    });
     this.setState({
       nativeCurrency: currency
     });
@@ -176,7 +200,7 @@ class CurrencyConverter extends Component {
 
     const {
       currencyConverter,
-      conversionRates,
+      // conversionRates,
       isConversionLoading
     } = this.props.appState;
 
@@ -261,6 +285,10 @@ class CurrencyConverter extends Component {
 
     const { currencies } = this.props.appState;
 
+    const swapButtonStyle = {
+      bottom: this.state.isKeyboardVisible ? 60 + this.state.keyboardSpace : 60
+    };
+
     return [
       <CurrencySelector
         currenciesList={currencies}
@@ -287,10 +315,12 @@ class CurrencyConverter extends Component {
           <LineProgressBar isVisible={isConversionLoading} />
           {!this.state.foreignAmount
             ? currencyRates.map((currency, index) => {
+                const style = { marginHorizontal: 24 };
+
                 return (
                   <CommonRate
                     key={index}
-                    componentStyle={{ marginHorizontal: 24 }}
+                    componentStyle={style}
                     foreignAmount={currency.foreignAmount}
                     foreignCurrency={currency.foreignCurrency}
                     nativeAmount={currency.nativeAmount}
@@ -384,14 +414,7 @@ class CurrencyConverter extends Component {
             <TouchableHighlight
               underlayColor={constants.shade2}
               onPress={this.swapCurrencies}
-              style={[
-                styles.swapButton,
-                {
-                  bottom: this.state.isKeyboardVisible
-                    ? 60 + this.state.keyboardSpace
-                    : 60
-                }
-              ]}
+              style={[styles.swapButton, swapButtonStyle]}
             >
               <Icon name={constants.swapVertIcon} size={24} />
             </TouchableHighlight>

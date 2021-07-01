@@ -1,31 +1,95 @@
-import { CustomTabs } from "react-native-custom-tabs";
-import { Platform } from "react-native";
-import openInApp from "@matt-block/react-native-in-app-browser";
+import { Platform, Linking } from "react-native";
+import InAppBrowser from "react-native-inappbrowser-reborn";
 import { logError } from "../errorLogger/errorLogger";
-
-/**
- * TODO: in-app-browser android library is having an issue & CustomTabs iOS library is not working. Need to document this
- */
+import getUrlParams from "../getUrlParams/getUrlParams";
+import { closeChat } from "../freshchatService/freshchatService";
+import {
+  SCREEN_PDF_VIEWER,
+  SCREEN_MODAL_STACK
+} from "../../NavigatorsV2/ScreenNames";
+import navigationServiceV2 from "../navigationService/navigationServiceV2";
+import {
+  CONSTANT_httpsPrefix,
+  CONSTANT_httpPrefix,
+  CONSTANT_platformIos,
+  CONSTANT_customTabSupportIos
+} from "../../constants/stringConstants";
 
 const openCustomTab = (url, success = () => null, failure = () => null) => {
-  if (Platform.OS === "ios") {
-    openInApp(url).catch(error => {
-      failure(error);
-    });
-  } else {
-    CustomTabs.openURL(url, {
-      showPageTitle: true
-    })
-      .then(launched => {
-        if (!launched) {
+  const params = getUrlParams(url);
+
+  /**
+   * Fallback that opens urls in traditional way instead of custom tabs
+   */
+  const fallback = () => {
+    Linking.canOpenURL(url)
+      .then(supported => {
+        if (!supported) {
+          logError("Can't handle url: " + url);
           failure();
+        } else {
+          Linking.openURL(url);
+          success();
         }
-        success();
       })
       .catch(err => {
         logError(err);
         failure();
       });
+  };
+
+  /**
+   * Function that will launch the custom tab after
+   * the conditions are satisfied
+   */
+  const launchTab = () => {
+    InAppBrowser.open(url)
+      .then(success)
+      .catch(failure);
+  };
+
+  /**
+   * Call fallback if the url is not a web link
+   * Since custom tab cannot handle mailto or telephone links
+   */
+  if (
+    !(
+      url.startsWith(CONSTANT_httpPrefix) ||
+      url.startsWith(CONSTANT_httpsPrefix)
+    )
+  ) {
+    fallback();
+  } else {
+    if (Platform.OS === CONSTANT_platformIos) {
+      /**
+       * Call fallback if the iOS version does not properly support custom tabs
+       */
+      if (parseFloat(Platform.Version) < CONSTANT_customTabSupportIos) {
+        fallback();
+      } else {
+        launchTab();
+      }
+    } else {
+      /**
+       * Open Android PDF Files in Native PDF Viewer
+       * use `?customTab=false` query parameter to bypass
+       */
+      if (url.includes(".pdf") && params.customTab !== "false") {
+        /**
+         * Close chat view since android chat view appears over the app
+         */
+        closeChat();
+        // Opens PDF in Native PDF Viewer
+        navigationServiceV2(SCREEN_MODAL_STACK, {
+          screen: SCREEN_PDF_VIEWER,
+          params: {
+            pdfUri: url
+          }
+        });
+      } else {
+        launchTab();
+      }
+    }
   }
 };
 

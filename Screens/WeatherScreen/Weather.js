@@ -4,7 +4,7 @@ import WeatherCard from "./Components/WeatherCard";
 import WeatherChart from "./Components/WeatherChart";
 import WeatherTiles from "./Components/WeatherTiles";
 import WeatherInactivePlaceholder from "./Components/WeatherInactivePlaceholder";
-import { inject, observer } from "mobx-react/custom";
+import { inject, observer } from "mobx-react";
 import _ from "lodash";
 import Moment from "moment";
 import { extendMoment } from "moment-range";
@@ -13,6 +13,7 @@ import XSensorPlaceholder from "../../CommonComponents/XSensorPlaceholder/XSenso
 import { isIphoneX } from "react-native-iphone-x-helper";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import DeepLinkHandler from "../../CommonComponents/DeepLinkHandler/DeepLinkHandler";
+import PrimaryHeader from "../../NavigatorsV2/Components/PrimaryHeader";
 
 const moment = extendMoment(Moment);
 
@@ -22,11 +23,17 @@ const moment = extendMoment(Moment);
 @inject("itineraries")
 @observer
 class Weather extends Component {
-  static navigationOptions = ({ navigation }) => {
-    return {
-      header: <CommonHeader title={"Weather"} navigation={navigation} />
-    };
-  };
+  constructor(props) {
+    super(props);
+
+    props.navigation.setOptions({
+      header: () =>
+        PrimaryHeader({
+          leftAction: () => props.navigation.goBack(),
+          headerText: "Weather"
+        })
+    });
+  }
 
   state = {
     isWeatherActive: false
@@ -73,7 +80,9 @@ class Weather extends Component {
     /**
      * TODO: Loading indicator for weather details
      */
-    if (_.isEmpty(weather)) return null;
+    if (_.isEmpty(weather)) {
+      return null;
+    }
 
     let selectedDay = weather.find(day => {
       return day.isSelected;

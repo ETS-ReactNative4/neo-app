@@ -1,6 +1,6 @@
 import React from "react";
 import { Platform, Keyboard } from "react-native";
-import { BottomTabBar } from "react-navigation-tabs"; // need version 2.0 react-navigation of course... it comes preinstalled as a dependency of react-navigation.
+import CustomBottomTabBar from "../CustomBottomTabBar/CustomBottomTabBar";
 
 class KeyboardFriendlyBottomTabBar extends React.Component {
   state = {
@@ -29,7 +29,7 @@ class KeyboardFriendlyBottomTabBar extends React.Component {
     if (!this.state.visible) {
       return null;
     } else {
-      return <BottomTabBar {...this.props} />;
+      return <CustomBottomTabBar bottomTabBarProps={this.props} />;
     }
   }
 }

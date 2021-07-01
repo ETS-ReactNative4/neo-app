@@ -2,6 +2,10 @@
 #
 .DS_Store
 
+# Jest/Istanbul
+#
+coverage/
+
 # Xcode
 #
 build/
@@ -20,7 +24,6 @@ DerivedData
 *.hmap
 *.ipa
 *.xcuserstate
-project.xcworkspace
 
 # Android/IntelliJ
 #
@@ -40,6 +43,7 @@ yarn-error.log
 buck-out/
 \.buckd/
 *.keystore
+!debug.keystore
 
 # fastlane
 #
@@ -57,6 +61,20 @@ buck-out/
 
 # Ignore archives
 *.zip
+
+# Ignore env
+.env
+# Ignore changelog
+changeLog.txt
+
+# Eslint Report
+lint-report/
+
+# Jest HTML Report
+jest-report/
+
+# Freshchat FCTheme patch - this file is required to remove "Powered by Freshchat" text in iOS
+!ios/Pods/FreshchatSDK/FreshchatSDK/FCResources.bundle/Themes/FCTheme.plist
 
 # Created by https://www.gitignore.io/api/visualstudiocode,xcode,eclipse,android,intellij,cocoapods,androidstudio,fastlane
 # Edit at https://www.gitignore.io/?templates=visualstudiocode,xcode,eclipse,android,intellij,cocoapods,androidstudio,fastlane

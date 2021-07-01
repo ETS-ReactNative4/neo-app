@@ -4,17 +4,16 @@ import FlightCard from "./FlightCard";
 import FlightDivider from "./FlightDivider";
 import PropTypes from "prop-types";
 import constants from "../../../../constants/constants";
-import forbidExtraProps from "../../../../Services/PropTypeValidation/forbidExtraProps";
 import FlightActionSection from "./FlightActionSection";
 
 class FlightTripView extends Component {
-  static propTypes = forbidExtraProps({
+  static propTypes = {
     trip: PropTypes.object.isRequired,
     isLast: PropTypes.bool.isRequired,
     airlineCode: PropTypes.string.isRequired,
     excessBaggageInfo: PropTypes.string.isRequired,
     flightClass: PropTypes.string.isRequired
-  });
+  };
 
   state = {
     isExpanded: false
@@ -81,9 +80,7 @@ class FlightTripView extends Component {
       )}`;
       const arrival = `${arrivalDayOfWeek}, ${arrDateOfMonth} ${arrMonth}`;
       const arrivalText = `${arrivalAirportCode} ${arrivalTime.slice(0, -3)}`;
-      const flightRoute = `${routes[0].departureCity} → ${
-        routes[routes.length - 1].arrivalCity
-      }`;
+      const flightRoute = `${routes[0].departureCity} → ${routes[routes.length - 1].arrivalCity}`;
 
       return (
         <View style={containerStyle}>
@@ -154,9 +151,7 @@ class FlightTripView extends Component {
             0,
             -3
           )}`;
-          const flightRoute = `${routes[0].departureCity} → ${
-            routes[routes.length - 1].arrivalCity
-          }`;
+          const flightRoute = `${routes[0].departureCity} → ${routes[routes.length - 1].arrivalCity}`;
           const layoverText = `${layoverTime} layover at ${arrivalCity}`;
 
           return (

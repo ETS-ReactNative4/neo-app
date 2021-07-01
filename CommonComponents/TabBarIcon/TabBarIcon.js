@@ -1,38 +1,47 @@
 import React from "react";
-import { View, Image, Text, StyleSheet, Platform } from "react-native";
+import { View, Text, StyleSheet, Platform } from "react-native";
 import PropTypes from "prop-types";
 import constants from "../../constants/constants";
 import Icon from "../Icon/Icon";
-import { inject, observer } from "mobx-react/custom";
+import { inject, observer } from "mobx-react";
 import InfoDot from "../InfoDot/InfoDot";
 
 const TabBarIcon = inject("appState")(
-  observer(({ appState, text, icon, color }) => {
-    const { isChatNotificationActive } = appState;
-    return (
-      <View style={styles.iconWrapper}>
-        <View style={styles.icon}>
-          <Icon color={color} name={icon} size={24} />
+  inject("chatDetailsStore")(
+    observer(({ chatDetailsStore, text, icon, color, focused, appState }) => {
+      const { unreadMessageCount } = chatDetailsStore;
+      const { isChatNotificationActive } = appState;
+      return (
+        <View style={styles.iconWrapper}>
+          <View style={styles.icon}>
+            <Icon color={color} name={icon} size={24} />
+          </View>
+          <Text
+            numberOfLines={1}
+            ellipsizeMode={"tail"}
+            style={[
+              styles.label,
+              focused ? styles.labelSelected : null,
+              { color }
+            ]}
+          >
+            {text}
+          </Text>
+          {text === "Support" &&
+          (isChatNotificationActive || unreadMessageCount) ? (
+            <InfoDot containerStyle={styles.dotStyle} />
+          ) : null}
         </View>
-        <Text
-          numberOfLines={1}
-          ellipsizeMode={"tail"}
-          style={[styles.label, { color }]}
-        >
-          {text}
-        </Text>
-        {text === "SUPPORT" && isChatNotificationActive ? (
-          <InfoDot containerStyle={styles.dotStyle} />
-        ) : null}
-      </View>
-    );
-  })
+      );
+    })
+  )
 );
 
 TabBarIcon.propTypes = {
   text: PropTypes.string.isRequired,
   icon: PropTypes.string.isRequired,
-  color: PropTypes.string.isRequired
+  color: PropTypes.string.isRequired,
+  focused: PropTypes.bool.isRequired
 };
 
 const styles = StyleSheet.create({
@@ -42,11 +51,12 @@ const styles = StyleSheet.create({
         marginTop: -4
       },
       ios: {
-        width: 45
+        width: 52
       }
     }),
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
+    marginTop: 8
   },
   icon: {
     height: 25,
@@ -56,8 +66,11 @@ const styles = StyleSheet.create({
   },
   label: {
     fontFamily: constants.primaryLight,
-    fontSize: 8,
+    fontSize: 11,
     marginBottom: 8
+  },
+  labelSelected: {
+    fontFamily: constants.primarySemiBold
   },
   dotStyle: {
     position: "absolute",

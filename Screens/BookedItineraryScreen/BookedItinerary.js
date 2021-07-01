@@ -1,20 +1,12 @@
 import React, { Component } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  LayoutAnimation,
-  Animated,
-  Easing
-} from "react-native";
+import { View, StyleSheet, ScrollView, Animated, Easing } from "react-native";
 import {
   responsiveHeight,
   responsiveWidth
 } from "react-native-responsive-dimensions";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import BookedItineraryTopBar from "./Components/BookedItineraryTopBar/BookedItineraryTopBar";
-import { inject, observer } from "mobx-react/custom";
+import { inject, observer } from "mobx-react";
 import Slot from "./Components/Slot";
 import moment from "moment/moment";
 import BookedItineraryTitle from "./Components/BookedItineraryTitle";
@@ -30,18 +22,20 @@ import DeepLinkHandler from "../../CommonComponents/DeepLinkHandler/DeepLinkHand
 @inject("itineraries")
 @observer
 class BookedItinerary extends Component {
-  static navigationOptions = ({ navigation }) => {
-    return {
-      header: (
+  constructor(props) {
+    super(props);
+
+    props.navigation.setOptions({
+      header: () => (
         <CommonHeader
           TitleComponent={<BookedItineraryTitle />}
           // RightButton={<SearchButton action={() => {}} />}
           title={""}
-          navigation={navigation}
+          navigation={props.navigation}
         />
       )
-    };
-  };
+    });
+  }
 
   state = {
     selectedDay: moment(this.props.itineraries.days[0]).format("x"),
@@ -102,15 +96,18 @@ class BookedItinerary extends Component {
     }
   }) => {
     if (!this.state.isScrollRecorded) {
-      recordEvent(constants.bookedItineraryContentScroll);
+      recordEvent(constants.BookedItinerary.event, {
+        scroll: constants.BookedItinerary.scroll.contentScroll
+      });
       this.setState({
         isScrollRecorded: true
       });
     }
     let _currentSection;
     this.state.sections.forEach(section => {
-      if (y + responsiveHeight(10) > this.state.sectionPositions[section])
+      if (y + responsiveHeight(10) > this.state.sectionPositions[section]) {
         _currentSection = section;
+      }
     });
     this.setState({ selectedDay: _currentSection }, () => {
       this.props.appState.setSelectedDate(this.state.selectedDay);
@@ -125,12 +122,16 @@ class BookedItinerary extends Component {
   };
 
   dateSelectedFromModal = date => {
-    recordEvent(constants.bookedItineraryHeaderCityNameClick);
+    recordEvent(constants.BookedItinerary.event, {
+      click: constants.BookedItinerary.click.headerCity
+    });
     this.selectDay(date);
   };
 
   componentDidMount() {
-    const selectedDay = this.props.navigation.getParam("selectedDate", 0);
+    const selectedDay = this.props.navigation.params
+      ? this.props.navigation.params.selectedDate
+      : 0;
     if (selectedDay) {
       setTimeout(() => {
         this.selectDay(selectedDay);

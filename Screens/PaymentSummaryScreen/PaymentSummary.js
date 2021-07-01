@@ -1,56 +1,45 @@
-import React, { Component } from "react";
-import {
-  View,
-  ScrollView,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  RefreshControl,
-  Keyboard
-} from "react-native";
-import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
-import VoucherSplitSection from "../VoucherScreens/Components/VoucherSplitSection";
-import constants from "../../constants/constants";
-import { responsiveWidth } from "react-native-responsive-dimensions";
-import Icon from "../../CommonComponents/Icon/Icon";
-import SimpleButton from "../../CommonComponents/SimpleButton/SimpleButton";
-import Modal from "react-native-modal";
-import apiCall from "../../Services/networkRequests/apiCall";
-import Loader from "../../CommonComponents/Loader/Loader";
-import moment from "moment";
-import paymentScript from "./Components/paymentScript";
-import getLocaleString from "../../Services/getLocaleString/getLocaleString";
-import VoucherAccordion from "../VoucherScreens/Components/VoucherAccordion";
-import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
-import CustomScrollView from "../../CommonComponents/CustomScrollView/CustomScrollView";
-import { recordEvent } from "../../Services/analytics/analyticsService";
+import React, {Component} from 'react';
+import {View} from 'react-native';
+import constants from '../../constants/constants';
+import {responsiveWidth} from 'react-native-responsive-dimensions';
+import apiCall from '../../Services/networkRequests/apiCall';
+import moment from 'moment';
+import paymentScript from './Components/paymentScript';
+import getLocaleString, {
+  getLocaleStringGlobal,
+} from '../../Services/getLocaleString/getLocaleString';
+import ErrorBoundary from '../../CommonComponents/ErrorBoundary/ErrorBoundary';
+import _ from 'lodash';
+import YourBookingsTabBar from '../YourBookingsScreen/Components/YourBookingsTabBar';
+import ScrollableTabView from 'react-native-scrollable-tab-view';
+import UpcomingPayments from './Components/UpcomingPayments/UpcomingPayments';
+import CompletedPayments from './Components/CompletedPayments/CompletedPayments';
+import {toastBottom} from '../../Services/toast/toast';
+import dialer from '../../Services/dialer/dialer';
+import PrimaryHeader from '../../NavigatorsV2/Components/PrimaryHeader';
+import PropTypes from 'prop-types';
+import {ICouponPartner} from '../../TypeInterfaces/IItinerary';
 
-/**
- * TODO: Need data from previous api
- */
 @ErrorBoundary()
 class PaymentSummary extends Component {
-  static navigationOptions = ({ navigation }) => {
-    return {
-      header: (
-        <CommonHeader title={"Complete Payment"} navigation={navigation} />
-      )
-    };
+  static propTypes = {
+    navigation: PropTypes.object.isRequired,
+    route: PropTypes.object.isRequired,
   };
 
   state = {
     paymentInfo: {},
     isLoading: false,
     isPaymentLoading: false,
-    itineraryName: "",
-    tripId: "",
-    nextPendingDate: "",
-    itineraryTotalCost: "",
-    totalAmountPaid: "",
-    paymentDue: "",
-    paymentStatus: "",
+    itineraryName: '',
+    tripId: '',
+    nextPendingDate: '',
+    itineraryTotalCost: '',
+    totalAmountPaid: '',
+    paymentDue: '',
+    paymentStatus: '',
     isFirstLoad: true,
-    isBankDetailModalVisible: false
+    displayCurrency: null,
   };
   _didFocusSubscription;
 
@@ -58,17 +47,25 @@ class PaymentSummary extends Component {
     super(props);
 
     this._didFocusSubscription = props.navigation.addListener(
-      "didFocus",
+      'didFocus',
       () => {
         if (this.state.isFirstLoad) {
           this.setState({
-            isFirstLoad: false
+            isFirstLoad: false,
           });
         } else {
           this.loadPaymentData();
         }
-      }
+      },
     );
+
+    props.navigation.setOptions({
+      header: () =>
+        PrimaryHeader({
+          leftAction: () => props.navigation.goBack(),
+          headerText: 'Payment Summary',
+        }),
+    });
   }
 
   componentDidMount() {
@@ -79,171 +76,204 @@ class PaymentSummary extends Component {
     this._didFocusSubscription && this._didFocusSubscription.remove();
   }
 
-  openBankDetailModal = () => {
-    this.setState({
-      isBankDetailModalVisible: true
-    });
+  apiFailure = () => {
+    toastBottom('Failed to fetch data from the server');
+    this.props.navigation.goBack();
   };
-
-  closeModal = () => {
-    this.setState({
-      isBankDetailModalVisible: false
-    });
-  };
-
-  apiFailure = () => {};
 
   loadPaymentData = () => {
-    const itineraryId = this.props.navigation.getParam("itineraryId", "");
-    const paymentDetails = this.props.navigation.getParam("paymentDetails", {});
-    const itineraryName = this.props.navigation.getParam("itineraryName", "");
-    const paymentStatus = this.props.navigation.getParam("paymentStatus", "");
+    const itineraryId = this.props.route.params?.itineraryId ?? '';
+    const itineraryName = this.props.route.params?.itineraryName ?? '';
     this.setState({
       tripId: `PYT${itineraryId.substr(itineraryId.length - 7).toUpperCase()}`,
       itineraryName,
-      nextPendingDate: moment(paymentDetails.nextPendingDate).format(
-        "MM/DD/YYYY"
-      ),
-      itineraryTotalCost: getLocaleString(paymentDetails.itineraryTotalCost),
-      totalAmountPaid: getLocaleString(paymentDetails.totalAmountPaid),
-      paymentDue: getLocaleString(paymentDetails.paymentDue),
-      paymentStatus
     });
     this.setState({
-      isLoading: true
+      isLoading: true,
     });
-    apiCall(constants.getPaymentInfo.replace(":itineraryId", itineraryId))
+    apiCall(constants.getPaymentInfo.replace(':itineraryId', itineraryId))
       .then(response => {
         setTimeout(() => {
           this.setState({
-            isLoading: false
+            isLoading: false,
           });
         }, 1000);
-        if (response.status === "SUCCESS") {
+        if (response.status === constants.responseSuccessStatus) {
+          const paymentDetails = response.data.metaInfo;
+          const paymentStatus = paymentDetails.paymentStatus;
           this.setState({
-            paymentInfo: response.data
+            paymentInfo: response.data,
+            nextPendingDate: paymentDetails.nextPendingDate,
+            itineraryTotalCost: getLocaleString(
+              paymentDetails.itineraryTotalCost,
+            ),
+            totalAmountPaid: getLocaleString(paymentDetails.totalAmountPaid),
+            paymentDue: getLocaleString(paymentDetails.paymentDue),
+            paymentStatus,
+            displayCurrency: response.displayCurrency,
           });
         } else {
           this.apiFailure();
         }
       })
-      .catch(error => {
+      .catch(() => {
         this.setState({
-          isLoading: false
+          isLoading: false,
         });
         this.apiFailure();
       });
   };
 
   initiatePayment = paymentOptionType => {
-    const itineraryId = this.props.navigation.getParam("itineraryId", "");
+    const itineraryId = this.props.route.params?.itineraryId ?? '';
     this.setState({
-      isPaymentLoading: true
+      isPaymentLoading: true,
     });
-    apiCall(constants.initiatePayment, {
-      itineraryId,
-      paymentOptionType,
-      userId: ""
-    })
+    apiCall(
+      constants.initiatePayment,
+      {
+        itineraryId,
+        paymentOptionType,
+        userId: '',
+      },
+      'POST',
+      constants.productUrl,
+      false,
+      {
+        Version: 'V_2',
+        user_device: 'MOBILE_APP',
+      },
+    )
       .then(response => {
         this.setState(
           {
-            isPaymentLoading: false
+            isPaymentLoading: false,
           },
           () => {
-            if (response.status === "SUCCESS") {
+            if (response.status === constants.responseSuccessStatus) {
               const transactionId = response.data.transactionId;
-              const paymentScriptJs = paymentScript({
-                ...response.data,
-                successUrl: constants.paymentSuccess,
-                failureUrl: constants.paymentFailure,
-                cancelUrl: constants.paymentCancelled
-              });
-              this.props.navigation.navigate("PaymentScreen", {
+              const paymentScriptJs = paymentScript(response.data);
+              this.props.navigation.navigate('PaymentScreen', {
                 paymentScript: paymentScriptJs,
-                transactionId
+                transactionId,
               });
             } else {
               this.apiFailure();
             }
-          }
+          },
         );
       })
-      .catch(error => {
+      .catch(() => {
         this.setState({
-          isPaymentLoading: false
+          isPaymentLoading: false,
         });
         this.apiFailure();
       });
   };
 
   render() {
+    const {paymentInfo, isLoading, displayCurrency} = this.state;
+
+    const {
+      productPayments,
+      platoPayements: platoPayments,
+      accountInfo = {},
+      contactNumber = null,
+      gstReceipt,
+      affliatePayments = {},
+    } = paymentInfo;
+
+    /**
+     * Construct Bank details to show the virtual account for plato payments
+     */
     const platoBankDetails = [
       {
-        name: "Account",
-        value: "50200003337649"
+        name: 'Account',
+        value: accountInfo.van,
       },
       {
-        name: "Name",
-        value: "Travel Troops global pvt ltd"
+        name: 'Bank',
+        value: accountInfo.bank,
       },
       {
-        name: "Branch",
-        value: "T Nagar - GN Chetty Rd, Chennai"
+        name: 'Name',
+        value: accountInfo.cname,
       },
       {
-        name: "IFSCode",
-        value: "HDFC0000206"
+        name: 'Branch',
+        value: accountInfo.branch,
       },
       {
-        name: "Swift Code",
-        value: "HDFCINBB"
-      }
+        name: 'IFSCode',
+        value: accountInfo.ifsc,
+      },
+      {
+        name: 'Swift Code',
+        value: accountInfo.swiftId,
+      },
     ];
 
-    const tripId = [
-      {
-        name: "Trip ID",
-        value: this.state.tripId
-      }
-    ];
-    const { paymentInfo, isLoading } = this.state;
-    const { productPayments, platoPayements: platoPayments } = paymentInfo;
-
+    /**
+     * Construct Payment Options object array that is used by payment cards to initiate payment
+     */
     const paymentOptions = productPayments
       ? productPayments.reduce((detailsArray, amount) => {
-          if (amount.paymentStatus === "PENDING") {
-            const data = {
-              amount: `₹ ${amount.paymentAmount}`,
-              percentage: `${amount.percent}% of total cost`,
-              action: () => this.initiatePayment(amount.paymentType)
-            };
-            detailsArray.push(data);
-          }
+          const data = {
+            amount: getLocaleStringGlobal({
+              amount: amount.paymentAmount,
+              currency: displayCurrency,
+            }),
+            percentageText:
+              amount.percent === 100
+                ? `Clear Total Balance Due`
+                : `Complete ${amount.percent}% of your trip cost`,
+            action: () => this.initiatePayment(amount.paymentType),
+            paymentDue: amount.paymentDue,
+            percent: amount.percent,
+            paymentAllowed: amount.paymentAllowed,
+            nextInstallmentAmount: amount.nextInstallmentAmount,
+            nextInstallmentDate: amount.nextInstallmentDate,
+            paymentStatus: amount.paymentStatus,
+          };
+          detailsArray.push(data);
           return detailsArray;
         }, [])
       : [];
 
-    const paymentHistory = platoPayments
-      ? platoPayments.paidInstallments
+    /**
+     * Launch dialer when the payment expires and user clicks call support
+     */
+    const openSupport = () => (contactNumber ? dialer(contactNumber) : null);
+
+    /**
+     * create payment history object array using both product and plato payment histories
+     */
+    const paymentHistory =
+      platoPayments?.paidInstallments && platoPayments.paidInstallments.length
         ? platoPayments.paidInstallments.reduce((detailsArray, amount) => {
             detailsArray.push({
               paymentAmount: getLocaleString(amount.amount),
-              transactionId: amount.transactionId,
-              mode: "Offline",
-              date: moment(amount.paymentTime).format("DD/MMM/YYYY")
+              transactionId: amount.referenceNumber,
+              mode: amount.paymentMode,
+              date: moment(amount.paymentTime).format(
+                constants.costingDateFormat,
+              ),
+              salesReceipt: amount.salesReceipt,
             });
             return detailsArray;
           }, [])
-        : []
-      : productPayments
+        : productPayments
         ? productPayments.reduce((detailsArray, amount) => {
-            if (amount.paymentStatus === "SUCCESS") {
+            if (amount.paymentStatus === constants.paymentStatusSuccess) {
               const data = {
-                paymentAmount: `₹ ${amount.paymentAmount}`,
+                paymentAmount: getLocaleStringGlobal({
+                  amount: amount.paymentAmount,
+                  currency: displayCurrency,
+                }),
                 transactionId: amount.transactionId,
-                mode: "PayU",
-                date: amount.paidOn
+                mode: amount.mode || 'Razor Pay',
+                date: amount.paidOn,
+                salesReceipt: amount.salesReceipt,
               };
               detailsArray.push(data);
             }
@@ -251,295 +281,99 @@ class PaymentSummary extends Component {
           }, [])
         : [];
 
-    const paymentLedger = [
-      {
-        name: "Payment History",
-        component: (
-          <View>
-            {paymentHistory.map((payment, paymentIndex) => {
-              const paymentSectionData = [
-                {
-                  name: "Date",
-                  value: payment.date
-                },
-                {
-                  name: "Mode",
-                  value: payment.mode
-                },
-                {
-                  name: "Transaction ID",
-                  value: payment.transactionId
-                },
-                {
-                  name: "Amount",
-                  value: payment.paymentAmount
-                }
-              ];
-              return (
-                <View key={paymentIndex} style={styles.historySplitContainer}>
-                  <VoucherSplitSection sections={paymentSectionData} />
-                </View>
-              );
-            })}
-          </View>
-        )
-      }
-    ];
-
-    let amountDetails = [
-      {
-        name: "Total cost",
-        value: this.state.itineraryTotalCost
-      }
-    ];
-
+    /**
+     * Check if payment is made with plato
+     */
     const isPaidWithPlato =
       platoPayments &&
       platoPayments.paidInstallments &&
       platoPayments.paidInstallments.length;
-    const isPaymentComplete = this.state.paymentStatus === "SUCCESS";
-    if (!isPaymentComplete) {
-      amountDetails = [
-        ...amountDetails,
-        {
-          name: "Amount paid",
-          value: this.state.totalAmountPaid
-        },
-        {
-          name: "Amount pending",
-          value: this.state.paymentDue
-        }
-      ];
-    }
 
     /**
-     * TODO: Move bank details out of the app to api/webview
+     * Find the pending plato installments
      */
+    const platoPendingInstallments =
+      platoPayments && platoPayments.pendingInstallments
+        ? platoPayments.pendingInstallments
+        : [];
+
+    /**
+     * Find the paid plato installments
+     */
+    const platoPaidInstallmentsCount = platoPayments
+      ? platoPayments.paidInstallments
+        ? platoPayments.paidInstallments.length
+        : 0
+      : 0;
+
+    /**
+     * Flag to check if payment is complete for the trip
+     */
+    const isPaymentComplete =
+      this.state.paymentStatus === constants.paymentStatusSuccess;
+
+    const tabBarUnderlineStyle = {
+      height: 2,
+      backgroundColor: constants.black2,
+    };
+
+    const tabBarStyle = {
+      alignSelf: 'center',
+      width: responsiveWidth(100),
+      backgroundColor: 'white',
+    };
+
+    const isCredPayment =
+      Object.keys(affliatePayments || {}).length &&
+      affliatePayments.paymentMode === ICouponPartner.CRED;
     return (
-      <CustomScrollView
-        style={styles.summaryContainer}
-        refreshing={this.state.isLoading}
-        onRefresh={() => {
-          this.loadPaymentData();
-        }}
-      >
-        <Loader isVisible={this.state.isPaymentLoading} />
-        <Modal
-          isVisible={this.state.isBankDetailModalVisible}
-          animationInTiming={600}
-          animationOutTiming={600}
-          onBackButtonPress={this.closeModal}
-          onBackdropPress={this.closeModal}
-          useNativeDriver={true}
-          style={{ margin: 0 }}
-          backdropOpacity={0.2}
-        >
-          <View style={styles.platoBankDetailContainer}>
-            <Text style={styles.platoBankDetailTitle}>{"Bank Details"}</Text>
-            <VoucherSplitSection sections={platoBankDetails} />
-            <SimpleButton
-              text={"Got it!"}
-              hasBorder={true}
-              color={"white"}
-              action={this.closeModal}
-              textColor={constants.firstColor}
-              containerStyle={{ padding: 4 }}
-            />
-          </View>
-        </Modal>
-        <Text style={styles.titleText}>{this.state.itineraryName}</Text>
-
-        <VoucherSplitSection
-          sections={tripId}
-          containerStyle={{
-            borderBottomWidth: StyleSheet.hairlineWidth,
-            borderBottomColor: constants.shade4,
-            marginTop: 24,
-            marginHorizontal: 24
-          }}
-        />
-
-        <VoucherSplitSection
-          sections={amountDetails}
-          containerStyle={{
-            borderBottomWidth: StyleSheet.hairlineWidth,
-            borderBottomColor: constants.shade4,
-            marginTop: 24,
-            marginHorizontal: 24,
-            paddingBottom: 16
-          }}
-        />
-
-        <View style={styles.dueDateWrapper}>
-          <Text style={styles.dueDate}>
-            {!isLoading
-              ? this.state.paymentStatus === "SUCCESS"
-                ? "Payment Completed!"
-                  ? this.state.paymentStatus === "EXPIRED"
-                  : "Payment Expired!"
-                : `Due date for next payment ${this.state.nextPendingDate}`
-              : null}
-          </Text>
-        </View>
-
-        {isPaymentComplete
-          ? null
-          : [
-              isPaidWithPlato ? (
-                <Text key={0} style={styles.offlinePaymentText}>
-                  {`You have paid offline. To complete the next payment use the following `}
-                  <Text
-                    onPress={this.openBankDetailModal}
-                    style={{
-                      color: constants.firstColor,
-                      textDecorationLine: "underline"
-                    }}
-                  >{`bank account`}</Text>
-                </Text>
-              ) : (
-                <Text key={0} style={styles.paymentTitle}>
-                  Choose Payment
-                </Text>
-              ),
-              <View key={1} style={styles.paymentOptionsBox}>
-                {!isPaidWithPlato &&
-                  paymentOptions.map((paymentOption, optionKey) => {
-                    const isLast = paymentOptions.length === optionKey + 1;
-                    return (
-                      <TouchableOpacity
-                        onPress={() => {
-                          recordEvent(constants.paymentScreenStartPayment);
-                          paymentOption.action();
-                        }}
-                        style={[
-                          styles.optionButton,
-                          !isLast
-                            ? {
-                                borderBottomWidth: StyleSheet.hairlineWidth,
-                                borderBottomColor: constants.shade3
-                              }
-                            : null
-                        ]}
-                        key={optionKey}
-                      >
-                        <View>
-                          <Text style={styles.amountText}>
-                            {paymentOption.amount}
-                          </Text>
-                          <Text style={styles.percentageText}>
-                            {paymentOption.percentage}
-                          </Text>
-                        </View>
-                        <View>
-                          <Icon
-                            name={constants.arrowRight}
-                            size={16}
-                            color={constants.shade2}
-                          />
-                        </View>
-                      </TouchableOpacity>
-                    );
-                  })}
-              </View>
-            ]}
-
-        {paymentHistory.length ? (
-          <VoucherAccordion
-            containerStyle={{
-              marginHorizontal: 24
-            }}
-            sections={paymentLedger}
+      <ScrollableTabView
+        tabBarActiveTextColor={constants.black2}
+        tabBarInactiveTextColor={constants.firstColor}
+        tabBarUnderlineStyle={tabBarUnderlineStyle}
+        tabBarTextStyle={{...constants.font13(constants.primaryLight)}}
+        initialPage={0}
+        style={tabBarStyle}
+        prerenderingSiblingsNumber={Infinity}
+        renderTabBar={() => <YourBookingsTabBar />}>
+        {!isPaymentComplete && !isCredPayment ? (
+          <UpcomingPayments
+            tabLabel="Upcoming"
+            isLoading={isLoading}
+            loadPaymentData={this.loadPaymentData}
+            isPaidWithPlato={isPaidWithPlato}
+            paymentOptions={paymentOptions}
+            isPaymentComplete={isPaymentComplete}
+            platoBankDetails={platoBankDetails}
+            isPaymentExpired={
+              _.toUpper(this.state.paymentStatus) ===
+              constants.paymentStatusExpired
+            }
+            paymentDue={this.state.nextPendingDate}
+            paymentHistory={paymentHistory}
+            openSupport={openSupport}
+            platoPendingInstallments={platoPendingInstallments}
+            platoPaidInstallmentsCount={platoPaidInstallmentsCount}
+            displayCurrency={displayCurrency}
           />
         ) : null}
-      </CustomScrollView>
+        {paymentHistory ? (
+          <CompletedPayments
+            tabLabel={'Completed'}
+            isPaymentComplete={isPaymentComplete}
+            paymentHistory={paymentHistory}
+            isLoading={isLoading}
+            loadPaymentData={this.loadPaymentData}
+            gstReceipt={gstReceipt}
+            displayCurrency={displayCurrency}
+            isCredPayment={isCredPayment}
+          />
+        ) : (
+          <View tabLabel={'Completed'} />
+        )}
+      </ScrollableTabView>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  summaryContainer: {
-    backgroundColor: "white"
-  },
-  titleText: {
-    alignSelf: "center",
-    ...constants.fontCustom(constants.primaryLight, 15),
-    marginTop: 8,
-    color: constants.black1
-  },
-  dueDateWrapper: {
-    width: responsiveWidth(100) - 48,
-    paddingTop: 16,
-    paddingBottom: 12,
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: constants.shade4,
-    alignSelf: "center",
-    marginHorizontal: 24
-  },
-  dueDate: {
-    alignSelf: "center",
-    ...constants.fontCustom(constants.primaryLight, 15),
-    color: constants.black2
-  },
-  paymentTitle: {
-    marginTop: 19,
-    ...constants.fontCustom(constants.primarySemiBold, 20),
-    color: constants.black1,
-    marginHorizontal: 24
-  },
-  offlinePaymentText: {
-    textAlign: "center",
-    marginHorizontal: 24,
-    marginTop: 8,
-    color: constants.black2,
-    ...constants.fontCustom(constants.primarySemiBold, 18)
-  },
-  paymentOptionsBox: {
-    marginTop: 8,
-    backgroundColor: constants.firstColorBackground,
-    borderRadius: 3,
-    borderWidth: StyleSheet.hairlineWidth,
-    borderColor: constants.shade3,
-    marginHorizontal: 24
-  },
-  optionButton: {
-    flexDirection: "row",
-    height: 56,
-    alignItems: "center",
-    justifyContent: "space-between",
-    paddingHorizontal: 16
-  },
-  amountText: {
-    ...constants.fontCustom(constants.primarySemiBold, 17),
-    color: constants.firstColor
-  },
-  percentageText: {
-    ...constants.fontCustom(constants.primaryLight, 13),
-    color: constants.black2,
-    marginBottom: -4
-  },
-  actionRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    paddingVertical: 24
-  },
-  historySplitContainer: {
-    marginTop: 8,
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: constants.shade4
-  },
-  platoBankDetailContainer: {
-    backgroundColor: "white",
-    marginHorizontal: 24,
-    borderRadius: 5,
-    padding: 16,
-    alignItems: "center",
-    justifyContent: "center"
-  },
-  platoBankDetailTitle: {
-    ...constants.fontCustom(constants.primarySemiBold, 17),
-    padding: 16
-  }
-});
 
 export default PaymentSummary;

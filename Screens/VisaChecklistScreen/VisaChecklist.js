@@ -7,7 +7,7 @@ import RadioForm, {
 } from "react-native-simple-radio-button";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import constants from "../../constants/constants";
-import { inject, observer } from "mobx-react/custom";
+import { inject, observer } from "mobx-react";
 import SimpleButton from "../../CommonComponents/SimpleButton/SimpleButton";
 import { isIphoneX } from "react-native-iphone-x-helper";
 import { responsiveWidth } from "react-native-responsive-dimensions";
@@ -91,11 +91,7 @@ class VisaChecklist extends Component {
       isLoading: true
     });
     apiCall(
-      `${constants.sendVisaDocs}?itineraryId=${itineraryId}&countryId=${
-        requestParams.countryId
-      }&occupationType=${requestParams.occupationType}&martialStatus=${
-        requestParams.martialStatus
-      }`
+      `${constants.sendVisaDocs}?itineraryId=${itineraryId}&countryId=${requestParams.countryId}&occupationType=${requestParams.occupationType}&martialStatus=${requestParams.martialStatus}`
     )
       .then(response => {
         this.setState({
@@ -181,7 +177,9 @@ class VisaChecklist extends Component {
             underlayColor={constants.firstColorAlpha(0.7)}
             text={"Email Checklist"}
             action={() => {
-              recordEvent(constants.visaDocumentsEmailChecklistClick);
+              recordEvent(constants.Visa.event, {
+                click: constants.Visa.click.emailChecklist
+              });
               this.emailChecklist();
             }}
             textColor={"white"}

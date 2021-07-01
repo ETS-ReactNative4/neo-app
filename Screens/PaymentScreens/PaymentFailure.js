@@ -1,15 +1,26 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { View, Text, StyleSheet, Image } from "react-native";
 import constants from "../../constants/constants";
-import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import SimpleButton from "../../CommonComponents/SimpleButton/SimpleButton";
 import { recordEvent } from "../../Services/analytics/analyticsService";
 import {
   responsiveWidth,
   responsiveHeight
 } from "react-native-responsive-dimensions";
+import PrimaryHeader from "../../NavigatorsV2/Components/PrimaryHeader";
 
-const PaymentFailure = () => {
+const PaymentFailure = ({ navigation }) => {
+  useEffect(() => {
+    navigation.setOptions({
+      header: () =>
+        PrimaryHeader({
+          leftAction: () => navigation.goBack(),
+          headerText: "Payment Failure"
+        })
+    });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <View style={styles.paymentFailureContainer}>
       <Image
@@ -25,8 +36,10 @@ const PaymentFailure = () => {
         containerStyle={{ marginTop: 8 }}
         text={constants.paymentText.contactHelpdesk}
         action={() => {
-          // TODO: Add recordEvent
-          // recordEvent();
+          recordEvent(constants.Payment.event, {
+            click: constants.Payment.click.paymentFailureHelpDesk
+          });
+          navigation.navigate("SupportCenter");
         }}
         textColor={constants.black2}
         color={"transparent"}
@@ -34,12 +47,6 @@ const PaymentFailure = () => {
       />
     </View>
   );
-};
-
-PaymentFailure.navigationOptions = ({ navigation }) => {
-  return {
-    header: <CommonHeader title={"Payment Failed"} navigation={navigation} />
-  };
 };
 
 const styles = StyleSheet.create({

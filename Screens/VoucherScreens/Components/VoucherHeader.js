@@ -14,37 +14,61 @@ import { responsiveWidth } from "react-native-responsive-dimensions";
 import PropTypes from "prop-types";
 import Icon from "../../../CommonComponents/Icon/Icon";
 import LinearGradient from "react-native-linear-gradient";
-import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraProps";
+import SimpleButton from "../../../CommonComponents/SimpleButton/SimpleButton";
+import openCustomTab from "../../../Services/openCustomTab/openCustomTab";
+import { recordEvent } from "../../../Services/analytics/analyticsService";
 
 const VoucherHeader = ({
   infoText,
   title,
   onClickClose,
-  menu,
   image,
-  children
+  children,
+  voucherUrl = "",
+  enableGradient = true
 }) => {
+  let ContentWrapper = View;
+  let contentWrapperProps = { style: styles.gradientView };
+
+  if (enableGradient) {
+    ContentWrapper = LinearGradient;
+    contentWrapperProps = {
+      ...contentWrapperProps,
+      locations: [0.25, 0.5, 0.6, 1],
+      colors: [
+        "rgba(0,0,0,0.1)",
+        "rgba(0,0,0,0.5)",
+        "rgba(0,0,0,0.6)",
+        constants.firstGradientAlpha(55)
+      ]
+    };
+  }
+
+  const viewVoucherStyle = {
+    marginBottom: 24,
+    width: null,
+    marginRight: 24
+  };
+
+  const viewVoucherTextStyle = {
+    textDecorationLine: "underline",
+    fontSize: 16
+  };
+
   return (
     <View style={styles.headerContainer}>
       <ImageBackground resizeMode={"cover"} source={image} style={styles.image}>
-        <LinearGradient
-          locations={[0.25, 0.5, 0.6, 1]}
-          colors={[
-            "rgba(0,0,0,0.1)",
-            "rgba(0,0,0,0.5)",
-            "rgba(0,0,0,0.6)",
-            constants.firstGradientAlpha(55)
-          ]}
-          style={styles.gradientView}
-        >
+        <ContentWrapper {...contentWrapperProps}>
           <View style={styles.closeIconRow}>
             {Platform.OS === "android" ? (
               <TouchableOpacity
-                style={styles.closeIconContainer}
+                style={styles.closeIconTouchable}
                 onPress={onClickClose}
                 activeOpacity={0.2}
               >
-                <Icon color={"white"} name={constants.closeIcon} size={24} />
+                <View style={styles.iconContainer}>
+                  <Icon color={"white"} name={constants.closeIcon} size={24} />
+                </View>
               </TouchableOpacity>
             ) : null}
           </View>
@@ -67,19 +91,22 @@ const VoucherHeader = ({
             </View>
           )}
           <View style={styles.actionRow}>
-            {/*<TouchableOpacity*/}
-            {/*style={styles.menuIconContainer}*/}
-            {/*onPress={menu}*/}
-            {/*activeOpacity={0.2}*/}
-            {/*>*/}
-            {/*<Icon*/}
-            {/*color={"white"}*/}
-            {/*name={constants.moreOptionsHorizIcon}*/}
-            {/*size={24}*/}
-            {/*/>*/}
-            {/*</TouchableOpacity>*/}
+            {voucherUrl ? (
+              <SimpleButton
+                text={"View Voucher"}
+                containerStyle={viewVoucherStyle}
+                action={() => {
+                  recordEvent(constants.voucherHeaderViewVoucherClick);
+                  openCustomTab(voucherUrl);
+                }}
+                textColor={"white"}
+                textStyle={viewVoucherTextStyle}
+                underlayColor={"transparent"}
+                color={"transparent"}
+              />
+            ) : null}
           </View>
-        </LinearGradient>
+        </ContentWrapper>
       </ImageBackground>
       <Image
         style={styles.circleSpace}
@@ -92,15 +119,15 @@ const VoucherHeader = ({
   );
 };
 
-VoucherHeader.propTypes = forbidExtraProps({
+VoucherHeader.propTypes = {
   infoText: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   onClickClose: PropTypes.func.isRequired,
-  menu: PropTypes.func.isRequired,
   image: PropTypes.oneOfType([PropTypes.object, PropTypes.number]).isRequired,
-  placeHolderHeight: PropTypes.number.isRequired,
-  children: PropTypes.element
-});
+  children: PropTypes.element,
+  voucherUrl: PropTypes.string.isRequired,
+  enableGradient: PropTypes.bool
+};
 
 const xHeight = isIphoneX() ? constants.xNotchHeight : 0;
 const styles = StyleSheet.create({
@@ -143,12 +170,15 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "flex-start"
   },
-  closeIconContainer: {
+  closeIconTouchable: {
+    marginLeft: 8,
+    marginTop: 16,
+    padding: 16
+  },
+  iconContainer: {
     height: 32,
     width: 32,
     borderRadius: 16,
-    marginLeft: 24,
-    marginTop: 32,
     backgroundColor: "rgba(0,0,0,0.4)",
     alignItems: "center",
     justifyContent: "center"

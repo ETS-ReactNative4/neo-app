@@ -11,7 +11,9 @@ const CheckListButtons = ({ id, item, isComplete, type, deleteListItem }) => {
     <TouchableOpacity
       style={styles.checklistButtonContainer}
       onPress={() => {
-        recordEvent(constants.packingChecklistRemoveItemClick);
+        recordEvent(constants.PackingChecklist.event, {
+          click: constants.PackingChecklist.click.removeItem
+        });
         deleteListItem(item);
       }}
       activeOpacity={0.5}

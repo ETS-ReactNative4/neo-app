@@ -1,0 +1,335 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Agent Info Text Section 1`] = `
+<View
+  style={
+    Array [
+      Object {
+        "alignItems": "center",
+      },
+      undefined,
+    ]
+  }
+>
+  <View
+    style={
+      Array [
+        Object {
+          "overflow": "hidden",
+        },
+        Object {
+          "height": 124,
+          "marginBottom": 16,
+          "width": 124,
+        },
+      ]
+    }
+  >
+    <FastImageView
+      onFastImageError={[Function]}
+      resizeMode="cover"
+      source={
+        Object {
+          "uri": "https://i.imgur.com/yfA9V3g.png",
+        }
+      }
+      style={
+        Object {
+          "bottom": 0,
+          "left": 0,
+          "position": "absolute",
+          "right": 0,
+          "top": 0,
+        }
+      }
+    />
+  </View>
+  <Text
+    style={
+      Object {
+        "color": "rgba(44, 47, 66, 1)",
+        "fontFamily": "SourceSansPro-SemiBold",
+        "fontSize": 16,
+        "lineHeight": 16,
+        "marginBottom": 4,
+      }
+    }
+  >
+    Sunil Sathyaraj
+  </Text>
+  <Text
+    style={
+      Object {
+        "color": "rgba(83, 87, 109, 1)",
+        "fontFamily": "SourceSansPro-Regular",
+        "fontSize": 15,
+        "lineHeight": 15,
+        "marginBottom": 32,
+      }
+    }
+  >
+    Your onboarding expert
+  </Text>
+  <View
+    style={
+      Object {
+        "backgroundColor": "rgba(239, 239, 239, 1)",
+        "height": 1,
+        "marginBottom": 32,
+        "width": 54,
+      }
+    }
+  />
+</View>
+`;
+
+exports[`Agent Poc Card 1`] = `
+<View>
+  <View
+    style={
+      Object {
+        "alignItems": "flex-start",
+        "backgroundColor": "rgba(250, 250, 250, 1)",
+        "borderRadius": 8,
+        "flexDirection": "row",
+        "justifyContent": "flex-start",
+        "marginBottom": 8,
+        "opacity": 0,
+        "padding": 12,
+        "transform": Array [
+          Object {
+            "translateX": 100,
+          },
+        ],
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "marginRight": 8,
+        }
+      }
+    >
+      <Text
+        allowFontScaling={false}
+        style={
+          Array [
+            Object {
+              "color": "rgba(170, 170, 170, 1)",
+              "fontSize": 14,
+            },
+            undefined,
+            Object {
+              "fontFamily": "voyager",
+              "fontStyle": "normal",
+              "fontWeight": "normal",
+            },
+            Object {},
+          ]
+        }
+      >
+        
+      </Text>
+    </View>
+    <View
+      style={
+        Object {
+          "flex": 1,
+        }
+      }
+    >
+      <Text
+        style={
+          Object {
+            "color": "rgba(44, 47, 66, 1)",
+            "fontFamily": "SourceSansPro-SemiBold",
+            "fontSize": 14,
+            "lineHeight": 14,
+            "marginBottom": 6,
+            "marginTop": 2,
+          }
+        }
+      >
+        Superstar support
+      </Text>
+      <Text
+        style={
+          Object {
+            "color": "rgba(83, 87, 109, 1)",
+            "fontFamily": "SourceSansPro-Regular",
+            "fontSize": 13,
+            "lineHeight": 18,
+          }
+        }
+      >
+        The travel vouchers you need for your trip
+      </Text>
+    </View>
+  </View>
+  <View
+    style={
+      Object {
+        "alignItems": "flex-start",
+        "backgroundColor": "rgba(250, 250, 250, 1)",
+        "borderRadius": 8,
+        "flexDirection": "row",
+        "justifyContent": "flex-start",
+        "marginBottom": 8,
+        "opacity": 0,
+        "padding": 12,
+        "transform": Array [
+          Object {
+            "translateX": 100,
+          },
+        ],
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "marginRight": 8,
+        }
+      }
+    >
+      <Text
+        allowFontScaling={false}
+        style={
+          Array [
+            Object {
+              "color": "rgba(170, 170, 170, 1)",
+              "fontSize": 14,
+            },
+            undefined,
+            Object {
+              "fontFamily": "voyager",
+              "fontStyle": "normal",
+              "fontWeight": "normal",
+            },
+            Object {},
+          ]
+        }
+      >
+        
+      </Text>
+    </View>
+    <View
+      style={
+        Object {
+          "flex": 1,
+        }
+      }
+    >
+      <Text
+        style={
+          Object {
+            "color": "rgba(44, 47, 66, 1)",
+            "fontFamily": "SourceSansPro-SemiBold",
+            "fontSize": 14,
+            "lineHeight": 14,
+            "marginBottom": 6,
+            "marginTop": 2,
+          }
+        }
+      >
+        Visa assistance
+      </Text>
+      <Text
+        style={
+          Object {
+            "color": "rgba(83, 87, 109, 1)",
+            "fontFamily": "SourceSansPro-Regular",
+            "fontSize": 13,
+            "lineHeight": 18,
+          }
+        }
+      >
+        The travel vouchers you need for your trip
+      </Text>
+    </View>
+  </View>
+  <View
+    style={
+      Object {
+        "alignItems": "flex-start",
+        "backgroundColor": "rgba(250, 250, 250, 1)",
+        "borderRadius": 8,
+        "flexDirection": "row",
+        "justifyContent": "flex-start",
+        "marginBottom": 8,
+        "opacity": 0,
+        "padding": 12,
+        "transform": Array [
+          Object {
+            "translateX": 100,
+          },
+        ],
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "marginRight": 8,
+        }
+      }
+    >
+      <Text
+        allowFontScaling={false}
+        style={
+          Array [
+            Object {
+              "color": "rgba(170, 170, 170, 1)",
+              "fontSize": 14,
+            },
+            undefined,
+            Object {
+              "fontFamily": "voyager",
+              "fontStyle": "normal",
+              "fontWeight": "normal",
+            },
+            Object {},
+          ]
+        }
+      >
+        
+      </Text>
+    </View>
+    <View
+      style={
+        Object {
+          "flex": 1,
+        }
+      }
+    >
+      <Text
+        style={
+          Object {
+            "color": "rgba(44, 47, 66, 1)",
+            "fontFamily": "SourceSansPro-SemiBold",
+            "fontSize": 14,
+            "lineHeight": 14,
+            "marginBottom": 6,
+            "marginTop": 2,
+          }
+        }
+      >
+        Payments
+      </Text>
+      <Text
+        style={
+          Object {
+            "color": "rgba(83, 87, 109, 1)",
+            "fontFamily": "SourceSansPro-Regular",
+            "fontSize": 13,
+            "lineHeight": 18,
+          }
+        }
+      >
+        The travel vouchers you need for your trip
+      </Text>
+    </View>
+  </View>
+</View>
+`;

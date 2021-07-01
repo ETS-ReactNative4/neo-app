@@ -1,0 +1,6 @@
+{
+  "pageTitle": "Voyager Test Report",
+  "outputPath": "jest-report/index.html",
+  "includeFailureMsg": true,
+  "includeConsoleLog": true
+}

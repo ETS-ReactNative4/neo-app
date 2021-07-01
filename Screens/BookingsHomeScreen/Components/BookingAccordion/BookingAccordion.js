@@ -1,44 +1,48 @@
-import React, { Component } from "react";
+import React, {Component} from 'react';
 import {
   View,
   Text,
   StyleSheet,
-  ScrollView,
   Image,
   Platform,
   Animated,
-  Easing
-} from "react-native";
-import PropTypes from "prop-types";
-import Accordion from "react-native-collapsible/Accordion";
-import constants from "../../../../constants/constants";
-import NotificationCount from "../../../../CommonComponents/NotificationCount/NotificationCount";
-import { inject, observer } from "mobx-react/custom";
-import HotelSection from "./Components/HotelSection";
-import ActivitiesSection from "./Components/ActivitiesSection";
-import TransferSection from "./Components/TransferSection";
-import TrainsSection from "./Components/TrainsSection";
-import Icon from "../../../../CommonComponents/Icon/Icon";
-import FlightsSection from "./Components/FlightsSection";
-import PassSection from "./Components/PassSection";
-import FerriesSection from "./Components/FerriesSection";
-import RentalCarSection from "./Components/RentalCarSection";
-import { recordEvent } from "../../../../Services/analytics/analyticsService";
-import _ from "lodash";
-import VisaSection from "./Components/VisaSection";
-import InsuranceSection from "./Components/InsuranceSection";
+  Easing,
+} from 'react-native';
+import PropTypes from 'prop-types';
+import Accordion from 'react-native-collapsible/Accordion';
+import constants from '../../../../constants/constants';
+import NotificationCount from '../../../../CommonComponents/NotificationCount/NotificationCount';
+import {inject, observer} from 'mobx-react';
+import HotelSection from './Components/HotelSection';
+import ActivitiesSection from './Components/ActivitiesSection';
+import TransferSection from './Components/TransferSection';
+import TrainsSection from './Components/TrainsSection';
+import Icon from '../../../../CommonComponents/Icon/Icon';
+import FlightsSection from './Components/FlightsSection';
+import PassSection from './Components/PassSection';
+import FerriesSection from './Components/FerriesSection';
+import RentalCarSection from './Components/RentalCarSection';
+import {recordEvent} from '../../../../Services/analytics/analyticsService';
+import _ from 'lodash';
+import VisaSection from './Components/VisaSection';
+import InsuranceSection from './Components/InsuranceSection';
+import OthersSection from './Components/OthersSection';
+import {CONSTANT_customBlockCardIcon} from '../../../../constants/imageAssets';
 
 let sections = [];
-@inject("itineraries")
+@inject('itineraries')
+@inject('visaStore')
 @observer
 class BookingAccordion extends Component {
   static propTypes = {
-    navigation: PropTypes.object.isRequired
+    navigation: PropTypes.object.isRequired,
+    itineraries: PropTypes.object.isRequired,
+    visaStore: PropTypes.object.isRequired,
   };
 
   state = {
     activeSections: [],
-    wasActiveIndex: []
+    wasActiveIndex: [],
   };
   spinValue = new Animated.Value(0);
 
@@ -48,13 +52,13 @@ class BookingAccordion extends Component {
         toValue: 1,
         duration: 3000,
         easing: Easing.linear,
-        useNativeDriver: true
-      })
+        useNativeDriver: true,
+      }),
     ).start();
   }
 
-  _renderHeader = (section, index, isActive, sections) => {
-    const { wasActiveIndex } = this.state;
+  _renderHeader = (section, index, isActive) => {
+    const {wasActiveIndex} = this.state;
     const customStyle = {};
 
     // if (isActive) customStyle.borderBottomWidth = 0;
@@ -64,31 +68,31 @@ class BookingAccordion extends Component {
     Animated.timing(spinValue, {
       toValue: 1,
       duration: 300,
-      easing: Easing.linear
+      easing: Easing.linear,
     }).start();
     if (isActive) {
       if (!wasActiveIndex.includes(index)) {
         const spin = spinValue.interpolate({
           inputRange: [0, 1],
-          outputRange: ["-90deg", "90deg"]
+          outputRange: ['-90deg', '90deg'],
         });
-        iconContainer.transform = [{ rotate: spin }];
+        iconContainer.transform = [{rotate: spin}];
       } else {
-        iconContainer.transform = [{ rotate: "90deg" }];
+        iconContainer.transform = [{rotate: '90deg'}];
       }
     } else if (wasActiveIndex.includes(index)) {
       const reverseSpin = spinValue.interpolate({
         inputRange: [0, 1],
-        outputRange: ["90deg", "-90deg"]
+        outputRange: ['90deg', '-90deg'],
       });
-      iconContainer.transform = [{ rotate: reverseSpin }];
+      iconContainer.transform = [{rotate: reverseSpin}];
     } else {
-      iconContainer.transform = [{ rotate: "-90deg" }];
+      iconContainer.transform = [{rotate: '-90deg'}];
     }
 
     const processingSpin = this.spinValue.interpolate({
       inputRange: [0, 1],
-      outputRange: ["360deg", "0deg"]
+      outputRange: ['360deg', '0deg'],
     });
 
     const bookingProcessingCount = section.items.length
@@ -111,9 +115,8 @@ class BookingAccordion extends Component {
             <Animated.View
               style={[
                 styles.bookingProcessLoadingWrapper,
-                { transform: [{ rotate: processingSpin }] }
-              ]}
-            >
+                {transform: [{rotate: processingSpin}]},
+              ]}>
               <Icon
                 name={constants.bookingProcessingIcon}
                 size={24}
@@ -125,18 +128,8 @@ class BookingAccordion extends Component {
         <View style={styles.notificationWrapper}>
           <NotificationCount
             count={section.items.length || 1}
-            containerStyle={{
-              backgroundColor: constants.secondColor,
-              height: 26,
-              width: 26,
-              borderRadius: 13,
-              marginRight: 2
-            }}
-            textStyle={{
-              ...constants.fontCustom(constants.primarySemiBold, 13),
-              color: constants.black2,
-              marginTop: 3
-            }}
+            containerStyle={styles.notificationCountContainer}
+            textStyle={styles.notificationCountTextStyle}
           />
 
           <Animated.View style={iconContainer}>
@@ -151,8 +144,8 @@ class BookingAccordion extends Component {
     );
   };
 
-  _renderContent = (section, index, isActive, sections) => {
-    const { navigation } = this.props;
+  _renderContent = section => {
+    const {navigation} = this.props;
     const customStyle = {};
 
     let spinValue = 0;
@@ -161,7 +154,7 @@ class BookingAccordion extends Component {
     }
 
     switch (section.type) {
-      case "Hotels":
+      case 'Hotels':
         return (
           <HotelSection
             navigation={navigation}
@@ -170,7 +163,7 @@ class BookingAccordion extends Component {
           />
         );
 
-      case "Activities":
+      case 'Activities':
         return (
           <ActivitiesSection
             navigation={navigation}
@@ -179,7 +172,7 @@ class BookingAccordion extends Component {
           />
         );
 
-      case "Transfers":
+      case 'Transfers':
         return (
           <TransferSection
             navigation={navigation}
@@ -188,7 +181,7 @@ class BookingAccordion extends Component {
           />
         );
 
-      case "Ferries":
+      case 'Ferries':
         return (
           <FerriesSection
             navigation={navigation}
@@ -197,7 +190,7 @@ class BookingAccordion extends Component {
           />
         );
 
-      case "Trains":
+      case 'Trains':
         return (
           <TrainsSection
             navigation={navigation}
@@ -206,7 +199,7 @@ class BookingAccordion extends Component {
           />
         );
 
-      case "Flights":
+      case 'Flights':
         return (
           <FlightsSection
             navigation={navigation}
@@ -215,7 +208,7 @@ class BookingAccordion extends Component {
           />
         );
 
-      case "Passes":
+      case 'Passes':
         return (
           <PassSection
             section={section}
@@ -224,7 +217,7 @@ class BookingAccordion extends Component {
           />
         );
 
-      case "Rental Cars":
+      case 'Rental Cars':
         return (
           <RentalCarSection
             navigation={navigation}
@@ -233,7 +226,7 @@ class BookingAccordion extends Component {
           />
         );
 
-      case "Visa":
+      case 'Visa':
         return (
           <VisaSection
             navigation={navigation}
@@ -242,9 +235,18 @@ class BookingAccordion extends Component {
           />
         );
 
-      case "Insurance":
+      case 'Insurance':
         return (
           <InsuranceSection
+            navigation={navigation}
+            section={section}
+            spinValue={spinValue}
+          />
+        );
+
+      case 'Others':
+        return (
+          <OthersSection
             navigation={navigation}
             section={section}
             spinValue={spinValue}
@@ -256,23 +258,17 @@ class BookingAccordion extends Component {
           <View style={[styles.contentContainer, customStyle]}>
             <View style={styles.iconWrapper}>
               <Image
-                resizeMode={"cover"}
+                resizeMode={'cover'}
                 style={styles.contentIcon}
                 source={constants.splashBackground}
               />
             </View>
             <View style={styles.contentTextContainer}>
-              <View style={styles.contentHeaderWrapper}>
-                <Text style={styles.contentHeader}>{`17 May - 21 May`}</Text>
-              </View>
               <View style={styles.contentTextWrapper}>
                 <Text numberOfLines={1} style={styles.contentText}>
                   {section.type}
                 </Text>
               </View>
-            </View>
-            <View style={styles.rightPlaceholder}>
-              <Text style={styles.rightPlaceholderText}>Stayed</Text>
             </View>
           </View>
         );
@@ -282,51 +278,88 @@ class BookingAccordion extends Component {
   _updateActiveSections = activeSections => {
     this.setState(
       {
-        wasActiveIndex: this.state.activeSections
+        wasActiveIndex: this.state.activeSections,
       },
       () => {
         const sectionIndex = activeSections[0];
         if (sectionIndex) {
           const selectedSection = sections[sectionIndex];
           switch (selectedSection.type) {
-            case "Hotels":
-              recordEvent(constants.bookingsHomeAccordionHotelsHeaderClick);
+            case 'Hotels':
+              recordEvent(constants.Bookings.event, {
+                click: constants.Bookings.click.accordionHeader,
+                type: constants.Bookings.type.hotels,
+              });
               break;
 
-            case "Activities":
-              recordEvent(constants.bookingsHomeAccordionActivitiesHeaderClick);
+            case 'Activities':
+              recordEvent(constants.Bookings.event, {
+                click: constants.Bookings.click.accordionHeader,
+                type: constants.Bookings.type.activities,
+              });
               break;
 
-            case "Transfers":
-              recordEvent(constants.bookingsHomeAccordionTransfersHeaderClick);
+            case 'Transfers':
+              recordEvent(constants.Bookings.event, {
+                click: constants.Bookings.click.accordionHeader,
+                type: constants.Bookings.type.transfers,
+              });
               break;
 
-            case "Ferries":
-              recordEvent(constants.bookingsHomeAccordionFerriesHeaderClick);
+            case 'Ferries':
+              recordEvent(constants.Bookings.event, {
+                click: constants.Bookings.click.accordionHeader,
+                type: constants.Bookings.type.ferries,
+              });
               break;
 
-            case "Trains":
-              recordEvent(constants.bookingsHomeAccordionTrainsHeaderClick);
+            case 'Trains':
+              recordEvent(constants.Bookings.event, {
+                click: constants.Bookings.click.accordionHeader,
+                type: constants.Bookings.type.trains,
+              });
               break;
 
-            case "Flights":
-              recordEvent(constants.bookingsHomeAccordionFlightsHeaderClick);
+            case 'Flights':
+              recordEvent(constants.Bookings.event, {
+                click: constants.Bookings.click.accordionHeader,
+                type: constants.Bookings.type.flights,
+              });
               break;
 
-            case "Passes":
-              recordEvent(constants.bookingsHomeAccordionPassesHeaderClick);
+            case 'Passes':
+              recordEvent(constants.Bookings.event, {
+                click: constants.Bookings.click.accordionHeader,
+                type: constants.Bookings.type.passes,
+              });
               break;
 
-            case "Rental Cars":
-              recordEvent(constants.bookingsHomeAccordionRentalCarsHeaderClick);
+            case 'Rental Cars':
+              recordEvent(constants.Bookings.event, {
+                click: constants.Bookings.click.accordionHeader,
+                type: constants.Bookings.type.rentalCars,
+              });
               break;
 
-            case "Visa":
-              recordEvent(constants.bookingsHomeAccordionVisaHeaderClick);
+            case 'Visa':
+              recordEvent(constants.Bookings.event, {
+                click: constants.Bookings.click.accordionHeader,
+                type: constants.Bookings.type.visa,
+              });
               break;
 
-            case "Insurance":
-              recordEvent(constants.bookingsHomeAccordionInsuranceHeaderClick);
+            case 'Insurance':
+              recordEvent(constants.Bookings.event, {
+                click: constants.Bookings.click.accordionHeader,
+                type: constants.Bookings.type.insurance,
+              });
+              break;
+
+            case 'Others':
+              recordEvent(constants.Bookings.event, {
+                click: constants.Bookings.click.accordionHeader,
+                type: constants.Bookings.type.customVouchers,
+              });
               break;
 
             default:
@@ -334,9 +367,9 @@ class BookingAccordion extends Component {
           }
         }
         this.setState({
-          activeSections
+          activeSections,
         });
-      }
+      },
     );
   };
 
@@ -352,104 +385,117 @@ class BookingAccordion extends Component {
       visa,
       passes,
       rentals,
-      insurance
+      insurance,
+      customCostings,
     } = this.props.itineraries;
+    const {isVisaAvailable} = this.props.visaStore;
 
     if (flights.length) {
       const flightSection = {
-        type: "Flights",
+        type: 'Flights',
         icon: constants.aeroplaneIcon,
-        items: flights
+        items: flights,
       };
       sections.push(flightSection);
     }
 
     if (hotels.length) {
       const hotelSection = {
-        type: "Hotels",
+        type: 'Hotels',
         icon: constants.hotelIcon,
-        items: hotels
+        items: hotels,
       };
       sections.push(hotelSection);
     }
 
     if (transfers.length) {
       const transferSection = {
-        type: "Transfers",
+        type: 'Transfers',
         icon: constants.transferIcon,
-        items: transfers
+        items: transfers,
       };
       sections.push(transferSection);
     }
 
     if (passes.length) {
       const passesSection = {
-        type: "Passes",
+        type: 'Passes',
         icon: constants.passIcon,
-        items: passes
+        items: passes,
       };
       sections.push(passesSection);
     }
 
     if (activities.length) {
       const activitiesSection = {
-        type: "Activities",
+        type: 'Activities',
         icon: constants.activityIcon,
-        items: activities
+        items: activities,
       };
       sections.push(activitiesSection);
     }
 
     if (trains.length) {
       const trainsSection = {
-        type: "Trains",
+        type: 'Trains',
         icon: constants.trainIcon,
-        items: trains
+        items: trains,
       };
       sections.push(trainsSection);
     }
 
     if (ferries.length) {
       const ferriesSection = {
-        type: "Ferries",
+        type: 'Ferries',
         icon: constants.ferryIcon,
-        items: ferries
+        items: ferries,
       };
       sections.push(ferriesSection);
     }
 
     if (rentals.length) {
       const rentalsSection = {
-        type: "Rental Cars",
+        type: 'Rental Cars',
         icon: constants.carIcon,
-        items: rentals
+        items: rentals,
       };
       sections.push(rentalsSection);
     }
 
     if (visa.length) {
       /**
-       * TODO: Need Visa icon
+       * Check if visa is initialized before rendering the visa section
        */
-      const visaSection = {
-        type: "Visa",
-        icon: constants.visaIcon,
-        items: visa
-      };
-      sections.push(visaSection);
+      if (isVisaAvailable) {
+        const visaSection = {
+          type: 'Visa',
+          icon: constants.visaIcon,
+          items: visa,
+        };
+        sections.push(visaSection);
+      }
     }
 
-    if (!_.isEmpty(insurance)) {
+    if (!_.isEmpty(insurance) && insurance.required) {
       const insuranceSection = {
-        type: "Insurance",
+        type: 'Insurance',
         icon: constants.insuranceIcon,
-        items: insurance
+        items: insurance,
       };
       sections.push(insuranceSection);
     }
 
+    if (customCostings.length) {
+      const othersSection = {
+        type: 'Others',
+        icon: CONSTANT_customBlockCardIcon,
+        items: customCostings,
+      };
+      sections.push(othersSection);
+    }
+
     return (
-      <View style={{ marginBottom: 24 }}>
+      <View style={styles.bookingAccordionContainer}>
         <Accordion
           activeSections={this.state.activeSections}
           onChange={this._updateActiveSections}
@@ -465,28 +511,31 @@ class BookingAccordion extends Component {
 }
 
 const styles = StyleSheet.create({
+  bookingAccordionContainer: {
+    marginBottom: 24,
+  },
   headerContainer: {
     height: 48,
-    flexDirection: "row",
-    alignItems: "center"
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   headerIcon: {
     height: 20,
     width: 20,
-    marginRight: 8
+    marginRight: 8,
   },
   headerTextWrapper: {
     ...Platform.select({
       ios: {
-        height: 24
+        height: 24,
       },
       android: {
-        height: 24
-      }
+        height: 24,
+      },
     }),
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center"
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   headerText: {
     fontFamily: constants.primaryRegular,
@@ -495,27 +544,27 @@ const styles = StyleSheet.create({
     color: constants.black2,
     ...Platform.select({
       ios: {
-        marginTop: 4
+        marginTop: 4,
       },
       android: {
-        marginTop: 4
-      }
-    })
+        marginTop: 4,
+      },
+    }),
   },
   notificationWrapper: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "flex-end",
-    flexDirection: "row"
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    flexDirection: 'row',
   },
   bookingProcessLoadingWrapper: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginLeft: 4
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginLeft: 4,
   },
   bookingProcessIcon: {
     height: 24,
-    width: 24
+    width: 24,
   },
   bookingProcessCount: {
     ...constants.fontCustom(constants.primaryLight, 13),
@@ -524,60 +573,72 @@ const styles = StyleSheet.create({
     marginRight: 12,
     ...Platform.select({
       ios: {
-        marginTop: 6
-      }
-    })
+        marginTop: 6,
+      },
+    }),
   },
 
   contentContainer: {
     paddingVertical: 8,
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: constants.shade4,
-    flexDirection: "row",
-    alignItems: "center"
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   iconWrapper: {
-    overflow: "hidden",
+    overflow: 'hidden',
     height: 40,
     width: 40,
-    borderRadius: 20
+    borderRadius: 20,
   },
   contentIcon: {
     height: 40,
     width: 40,
-    borderRadius: 20
+    borderRadius: 20,
   },
   contentTextContainer: {
     height: 40,
-    marginLeft: 16
+    marginLeft: 16,
   },
   contentHeaderWrapper: {
     height: 16,
-    justifyContent: "center"
+    justifyContent: 'center',
   },
   contentHeader: {
     fontFamily: constants.primaryLight,
     fontSize: 14,
     lineHeight: 14,
-    color: constants.shade2
+    color: constants.shade2,
   },
   contentTextWrapper: {
     height: 24,
-    justifyContent: "center"
+    justifyContent: 'center',
   },
   contentText: {
     fontFamily: constants.primaryLight,
-    fontSize: 17
+    fontSize: 17,
   },
   rightPlaceholder: {
     flex: 1,
-    alignItems: "flex-end"
+    alignItems: 'flex-end',
   },
   rightPlaceholderText: {
     fontFamily: constants.primaryLight,
     fontSize: 10,
-    color: constants.black2
-  }
+    color: constants.black2,
+  },
+  notificationCountContainer: {
+    backgroundColor: constants.secondColor,
+    height: 26,
+    width: 26,
+    borderRadius: 13,
+    marginRight: 2,
+  },
+  notificationCountTextStyle: {
+    ...constants.fontCustom(constants.primarySemiBold, 13),
+    color: constants.black2,
+    marginTop: 3,
+  },
 });
 
 export default BookingAccordion;

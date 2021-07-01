@@ -2,10 +2,10 @@ import React, { Component } from "react";
 import {
   View,
   StyleSheet,
-  NetInfo,
   Keyboard,
   TouchableWithoutFeedback
 } from "react-native";
+import NetInfo from "@react-native-community/netinfo";
 import ScrollableTabView from "react-native-scrollable-tab-view";
 import ScrollableTabBar from "../../CommonComponents/ScrollableTabBar/ScrollableTabBar";
 import constants from "../../constants/constants";
@@ -14,7 +14,7 @@ import CustomPhrase from "./Components/CustomPhrase";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import Tts from "react-native-tts";
 import Sound from "react-native-sound";
-import { inject, observer } from "mobx-react/custom";
+import { inject, observer } from "mobx-react";
 import PhraseInfo from "./Components/PhraseInfo";
 import LanguageSelector from "./Components/LanguageSelector";
 import Loader from "../../CommonComponents/Loader/Loader";
@@ -22,6 +22,7 @@ import { logError } from "../../Services/errorLogger/errorLogger";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import LineProgressBar from "../../CommonComponents/LineProgressBar/LineProgressBar";
 import DeepLinkHandler from "../../CommonComponents/DeepLinkHandler/DeepLinkHandler";
+import PrimaryHeader from "../../NavigatorsV2/Components/PrimaryHeader";
 
 @ErrorBoundary()
 @DeepLinkHandler
@@ -29,12 +30,6 @@ import DeepLinkHandler from "../../CommonComponents/DeepLinkHandler/DeepLinkHand
 @inject("itineraries")
 @observer
 class PhraseBook extends Component {
-  static navigationOptions = ({ navigation }) => {
-    return {
-      header: <CommonHeader title={"Common Phrases"} navigation={navigation} />
-    };
-  };
-
   state = {
     isSoundPlaying: false,
     isTtsSpeaking: false,
@@ -49,6 +44,14 @@ class PhraseBook extends Component {
 
   constructor(props) {
     super(props);
+
+    props.navigation.setOptions({
+      header: () =>
+        PrimaryHeader({
+          leftAction: () => props.navigation.goBack(),
+          headerText: "Common Phrases"
+        })
+    });
 
     this._didFocusSubscription = props.navigation.addListener(
       "didFocus",

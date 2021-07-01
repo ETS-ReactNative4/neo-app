@@ -1,17 +1,17 @@
-import React from "react";
-import DayAheadTitle from "../DayAhead/Components/DayAheadTitle";
-import { View } from "react-native";
-import DayAheadBox from "./Components/DayAheadBox";
-import Carousel from "../../../../CommonComponents/Carousel/Carousel";
-import { StyleSheet } from "react-native";
-import forbidExtraProps from "../../../../Services/PropTypeValidation/forbidExtraProps";
-import PropTypes from "prop-types";
+import React from 'react';
+import DayAheadTitle from '../DayAhead/Components/DayAheadTitle';
+import {View} from 'react-native';
+import DayAheadBox from './Components/DayAheadBox';
+import Carousel from '../../../../CommonComponents/Carousel/Carousel';
+import {StyleSheet} from 'react-native';
+import forbidExtraProps from '../../../../Services/PropTypeValidation/forbidExtraProps';
+import PropTypes from 'prop-types';
 
-const DayAheadLite = ({ title, elements, widgetName }) => {
+const DayAheadLite = ({title, elements, widgetName, containerStyle = {}}) => {
   return (
-    <View style={styles.dayAheadContainer}>
+    <View style={[styles.dayAheadContainer, containerStyle]}>
       {title ? <DayAheadTitle title={title} /> : null}
-      <Carousel firstMargin={24} containerStyle={{ height: 92 }}>
+      <Carousel firstMargin={24} containerStyle={{height: 92}}>
         {elements.map((day, dayIndex) => {
           return (
             <DayAheadBox {...day} key={dayIndex} widgetName={widgetName} />
@@ -33,16 +33,18 @@ DayAheadLite.propTypes = forbidExtraProps({
       text: PropTypes.string.isRequired,
       voucherType: PropTypes.string.isRequired,
       costingIdentifier: PropTypes.string.isRequired,
-      deepLink: PropTypes.object
-    })
+      deepLink: PropTypes.object,
+    }),
   ).isRequired,
-  widgetName: PropTypes.string
+  widgetName: PropTypes.string,
 });
 
 const styles = StyleSheet.create({
   dayAheadContainer: {
-    marginVertical: 16
-  }
+    marginTop: 8,
+    paddingTop: 16,
+    backgroundColor: 'white',
+  },
 });
 
 export default DayAheadLite;

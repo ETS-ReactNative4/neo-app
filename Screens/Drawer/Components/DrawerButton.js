@@ -17,19 +17,19 @@ const DrawerButton = ({ icon, text, action, info, isActive }) => {
         styles.buttonContainer,
         isActive
           ? {
-              backgroundColor: "rgba(0,0,0,0.2)"
+              backgroundColor: constants.firstColorBackground
             }
           : {}
       ]}
       onPress={action}
-      underlayColor={isActive ? "rgba(0,0,0,0.4)" : "rgba(0,0,0,0.2)"}
+      underlayColor={isActive ? "transparent" : constants.shade4}
     >
       <View style={styles.buttonView}>
         <View style={styles.iconContainer}>
           <Icon
             name={icon}
             size={24}
-            color={isActive ? "white" : constants.firstColor}
+            color={isActive ? constants.firstColor : constants.shade4}
           />
         </View>
 
@@ -37,7 +37,9 @@ const DrawerButton = ({ icon, text, action, info, isActive }) => {
           <Text
             style={[
               styles.menuName,
-              isActive ? { color: "white" } : { color: "rgba(255,255,255,0.6)" }
+              isActive
+                ? { color: constants.firstColor }
+                : { color: constants.black2 }
             ]}
           >
             {text}
@@ -70,7 +72,8 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    marginHorizontal: 8
+    marginLeft: 24,
+    marginRight: 18
   },
   icon: {
     height: 24,
@@ -82,8 +85,7 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   },
   menuName: {
-    ...constants.fontCustom(constants.primarySemiBold, 17),
-    paddingLeft: 8,
+    ...constants.fontCustom(constants.primaryRegular, 15),
     marginTop: 4
   },
   infoArea: {

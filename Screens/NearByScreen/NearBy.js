@@ -19,7 +19,7 @@ import constants from "../../constants/constants";
 import PlaceCard from "./Components/PlaceCard";
 import FilterOptions from "./Components/FilterOptions";
 import MultiLineHeader from "../../CommonComponents/MultilineHeader/MultiLineHeader";
-import { inject, observer } from "mobx-react/custom";
+import { inject, observer } from "mobx-react";
 import SmartImage from "../../CommonComponents/SmartImage/SmartImage";
 import FastImage from "react-native-fast-image";
 import {
@@ -34,6 +34,7 @@ import Moment from "moment";
 import { recordEvent } from "../../Services/analytics/analyticsService";
 import { extendMoment } from "moment-range";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
+import PrimaryHeader from "../../NavigatorsV2/Components/PrimaryHeader";
 
 const moment = extendMoment(Moment);
 
@@ -43,26 +44,6 @@ const moment = extendMoment(Moment);
 @inject("infoStore")
 @observer
 class NearBy extends Component {
-  static navigationOptions = ({ navigation }) => {
-    const city = navigation.getParam("city", {});
-    const title = navigation.getParam("title", "");
-    return {
-      header: (
-        <CommonHeader
-          TitleComponent={
-            <MultiLineHeader
-              duration={city.city}
-              title={title}
-              disableDropDown={true}
-            />
-          }
-          title={""}
-          navigation={navigation}
-        />
-      )
-    };
-  };
-
   constructor(props) {
     super(props);
     this.state = {
@@ -119,10 +100,29 @@ class NearBy extends Component {
       lng: "",
       isTripActive: false
     };
+
+    const city = props.route.params?.city ?? {};
+    const title = props.route.params?.title ?? "";
+
+    props.navigation.setOptions({
+      header: () => (
+        <CommonHeader
+          TitleComponent={
+            <MultiLineHeader
+              duration={city.cityName}
+              title={title}
+              disableDropDown={true}
+            />
+          }
+          title={""}
+          navigation={props.navigation}
+        />
+      )
+    });
   }
 
   componentDidMount() {
-    const searchText = this.props.navigation.getParam("searchQuery", "");
+    const searchText = this.props.route.params?.searchQuery ?? "";
     const { loadTextSearch } = this.props.placesStore;
     loadTextSearch(searchText);
     this.checkCurrentCity();
@@ -130,7 +130,7 @@ class NearBy extends Component {
   }
 
   checkCurrentCity = () => {
-    const city = this.props.navigation.getParam("city", {});
+    const city = this.props.route.params?.city ?? {};
     const today = moment().toDate();
     const startDayText = moment(city.startDay).format("DD/MM/YYYY");
     const endDayText = moment(city.endDay).format("DD/MM/YYYY");
@@ -179,16 +179,28 @@ class NearBy extends Component {
     const selectedFilter = filterOptions.find(item => item.isSelected);
     switch (selectedFilter.text) {
       case "All Ratings":
-        recordEvent(constants.nearByAllStarClick);
+        recordEvent(constants.Places.event, {
+          click: constants.Places.click.filter,
+          type: constants.Places.type.allStar
+        });
         break;
       case "Rated 3 stars and above":
-        recordEvent(constants.nearByThreeStarClick);
+        recordEvent(constants.Places.event, {
+          click: constants.Places.click.filter,
+          type: constants.Places.type.threeStar
+        });
         break;
       case "Rated 4 stars and above":
-        recordEvent(constants.nearByFourStarClick);
+        recordEvent(constants.Places.event, {
+          click: constants.Places.click.filter,
+          type: constants.Places.type.fourStar
+        });
         break;
       case "Rated 5 stars":
-        recordEvent(constants.nearByFiveStarClick);
+        recordEvent(constants.Places.event, {
+          click: constants.Places.click.filter,
+          type: constants.Places.type.fiveStar
+        });
         break;
     }
     this.setState({
@@ -204,13 +216,22 @@ class NearBy extends Component {
     const selectedSort = sortOptions.find(item => item.isSelected);
     switch (selectedSort.type) {
       case "nearHotel":
-        recordEvent(constants.nearByHotelClick);
+        recordEvent(constants.Places.event, {
+          click: constants.Places.click.sort,
+          type: constants.Places.type.hotel
+        });
         break;
       case "nearby":
-        recordEvent(constants.nearByLocationClick);
+        recordEvent(constants.Places.event, {
+          click: constants.Places.click.sort,
+          type: constants.Places.type.location
+        });
         break;
       case "text":
-        recordEvent(constants.nearByRatingsClick);
+        recordEvent(constants.Places.event, {
+          click: constants.Places.click.sort,
+          type: constants.Places.type.ratings
+        });
         break;
     }
     if (selectedSort.type === "nearby") {
@@ -232,7 +253,7 @@ class NearBy extends Component {
       location => {
         const lat = location.coords.latitude;
         const lng = location.coords.longitude;
-        const keyword = this.props.navigation.getParam("title", "");
+        const keyword = this.props.route.params?.title ?? "";
         loadLocationSearch({
           lat,
           lng,
@@ -265,7 +286,7 @@ class NearBy extends Component {
     const today = moment().format("DDMMYYYY");
     const { loadLocationSearch } = this.props.placesStore;
     const hotelDetails = getHotelByDate(today);
-    const keyword = this.props.navigation.getParam("title", "");
+    const keyword = this.props.route.params?.title ?? "";
     const lat = Number(hotelDetails.lat);
     const lng = Number(hotelDetails.lon);
     loadLocationSearch({
@@ -311,7 +332,9 @@ class NearBy extends Component {
   };
 
   loadPlaceDetail = place => {
-    recordEvent(constants.nearByPlaceDetailsClick);
+    recordEvent(constants.Places.event, {
+      click: constants.Places.click.placeDetails
+    });
     const { selectPlace } = this.props.placesStore;
     selectPlace(place);
   };
@@ -332,8 +355,8 @@ class NearBy extends Component {
       getSearchResultsByLocation,
       isNextPageLoading
     } = this.props.placesStore;
-    const searchText = this.props.navigation.getParam("searchQuery", "");
-    const keyword = this.props.navigation.getParam("title", "");
+    const searchText = this.props.route.params?.searchQuery ?? "";
+    const keyword = this.props.route.params?.title ?? "";
     const { lat, lng } = this.state;
     let placeDetails = {
       searchResults: [],
@@ -387,7 +410,9 @@ class NearBy extends Component {
             }
           }}
           renderItem={({ item: place, index }) => {
-            if (_.isEmpty(place)) return null;
+            if (_.isEmpty(place)) {
+              return null;
+            }
             const imageUrl = place.photos ? place.photos[0].photoUrl : "";
             return (
               <TouchableOpacity
@@ -399,9 +424,7 @@ class NearBy extends Component {
                   <SmartImage
                     uri={imageUrl}
                     style={styles.imageCover}
-                    defaultImageUri={
-                      "http://pickyourtrail-guides-images.imgix.net/country/1820xh/bali.jpg"
-                    }
+                    defaultImageUri={constants.defaultPlaceImage}
                     resizeMode={FastImage.resizeMode.cover}
                   />
                 ) : null}

@@ -1,12 +1,14 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { View } from "react-native";
 import constants from "../../../../../constants/constants";
 import PropTypes from "prop-types";
 import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidExtraProps";
 import { recordEvent } from "../../../../../Services/analytics/analyticsService";
 import storeService from "../../../../../Services/storeService/storeService";
-import { inject, observer } from "mobx-react/custom";
+import { inject, observer } from "mobx-react";
 import BookingSectionComponent from "../../../../../CommonComponents/BookingSectionComponent/BookingSectionComponent";
+import openCustomTab from "../../../../../Services/openCustomTab/openCustomTab";
+import { toastBottom } from "../../../../../Services/toast/toast";
 
 const { insuranceComingSoonText } = constants;
 
@@ -59,13 +61,24 @@ const Insurance = inject("passportDetailsStore")(
         }
 
         const openVoucher = () => {
-          recordEvent(constants.bookingsHomeAccordionInsuranceVoucherClick);
-          storeService.infoStore.setInfo(
-            insuranceComingSoonText.title,
-            insuranceComingSoonText.message,
-            constants.infoBoxIllus,
-            insuranceComingSoonText.actionText
-          );
+          recordEvent(constants.Bookings.event, {
+            click: constants.Bookings.click.accordionVoucher,
+            type: constants.Bookings.type.insurance
+          });
+          if (insurance.voucher && insurance.voucher.voucherUrl) {
+            openCustomTab(insurance.voucher.voucherUrl);
+          } else {
+            /**
+             * TODO: Use toast bottom instead of this info modal after insurance is implemented in plato
+             */
+            storeService.infoStore.setInfo(
+              insuranceComingSoonText.title,
+              insuranceComingSoonText.message,
+              constants.infoBoxIllus,
+              insuranceComingSoonText.actionText
+            );
+            // toastBottom(constants.bookingProcessText.message);
+          }
         };
 
         return (
@@ -73,7 +86,7 @@ const Insurance = inject("passportDetailsStore")(
             spinValue={spinValue}
             containerStyle={customStyle}
             sectionImage={constants.insuranceThumbnailIllus}
-            isProcessing={false}
+            isProcessing={!(insurance.voucher && insurance.voucher.voucherUrl)}
             onClick={openVoucher}
             content={`${insurance.plan} for ${passengerCount} person${
               passengerCount > 1 ? "s" : ""

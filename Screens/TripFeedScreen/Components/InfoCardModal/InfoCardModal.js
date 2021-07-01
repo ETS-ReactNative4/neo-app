@@ -1,5 +1,12 @@
 import React, { Component } from "react";
-import { View, StyleSheet, Text, TouchableWithoutFeedback } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Text,
+  TouchableWithoutFeedback,
+  Image,
+  TouchableOpacity
+} from "react-native";
 import Modal from "react-native-modal";
 import PropTypes from "prop-types";
 import {
@@ -11,16 +18,23 @@ import SimpleButton from "../../../../CommonComponents/SimpleButton/SimpleButton
 import FastImage from "react-native-fast-image";
 import forbidExtraProps from "../../../../Services/PropTypeValidation/forbidExtraProps";
 import Icon from "../../../../CommonComponents/Icon/Icon";
+import resolveLinks from "../../../../Services/resolveLinks/resolveLinks";
+import SmartImageV2 from "../../../../CommonComponents/SmartImage/SmartImageV2";
+
+const singleButtonWidth = responsiveWidth(100) - 48 - 48;
 
 class InfoCardModal extends Component {
   static propTypes = forbidExtraProps({
     image: PropTypes.oneOfType([PropTypes.object, PropTypes.number]),
     title: PropTypes.string.isRequired,
     content: PropTypes.string,
+    quote: PropTypes.string,
     bulletedList: PropTypes.arrayOf(PropTypes.string),
-    cta: PropTypes.string.isRequired,
+    cta: PropTypes.string,
     isVisible: PropTypes.bool.isRequired,
-    onClose: PropTypes.func.isRequired
+    onClose: PropTypes.func.isRequired,
+    actions: PropTypes.array,
+    modalLink: PropTypes.object
   });
 
   render() {
@@ -28,10 +42,13 @@ class InfoCardModal extends Component {
       image,
       title,
       content,
+      quote,
       bulletedList,
       cta,
       isVisible,
-      onClose
+      onClose,
+      actions,
+      modalLink
     } = this.props;
     return (
       <Modal
@@ -46,10 +63,11 @@ class InfoCardModal extends Component {
       >
         <View style={styles.modalView}>
           {image ? (
-            <FastImage
+            <SmartImageV2
               style={styles.imageBackground}
-              resizeMode={FastImage.resizeMode.cover}
+              resizeMode={"cover"}
               source={image}
+              useFastImage={true}
             />
           ) : null}
           <View style={styles.contentView}>
@@ -58,6 +76,21 @@ class InfoCardModal extends Component {
             </View>
             <View style={styles.body}>
               <Text style={styles.bodyText}>{content}</Text>
+              {quote ? (
+                <Text
+                  style={[
+                    styles.bodyTextQuote,
+                    content ? { marginTop: 12 } : {}
+                  ]}
+                >
+                  <Text>{`    `}</Text>
+                  <Image
+                    source={constants.quotationMarkImage}
+                    style={styles.quotationImage}
+                  />
+                  <Text>{`  ${quote}`}</Text>
+                </Text>
+              ) : null}
               {bulletedList && bulletedList.length
                 ? bulletedList.map((item, itemIndex) => {
                     return (
@@ -76,22 +109,101 @@ class InfoCardModal extends Component {
                     );
                   })
                 : null}
+              {modalLink && modalLink.text ? (
+                <TouchableOpacity
+                  onPress={() => {
+                    //Delay close to prevent freezing due to transition
+                    setTimeout(() => {
+                      onClose();
+                    }, 500);
+                    if (modalLink.link) {
+                      resolveLinks(
+                        modalLink.link,
+                        modalLink.screenProps ? modalLink.screenProps : {}
+                      );
+                    } else {
+                      if (modalLink.deepLink) {
+                        resolveLinks(false, false, modalLink.deepLink);
+                      }
+                    }
+                  }}
+                >
+                  <Text style={[styles.messageStyle, styles.textLink]}>
+                    {modalLink.text}
+                  </Text>
+                </TouchableOpacity>
+              ) : null}
             </View>
-            <SimpleButton
-              hasBorder
-              color={"transparent"}
-              text={cta || "Okay!"}
-              action={onClose}
-              textColor={constants.firstColor}
-              textStyle={{
-                marginLeft: 0,
-                marginTop: 0
-              }}
-              containerStyle={{
-                width: responsiveWidth(100) - 48 - 48
-              }}
-            />
+            {cta || !actions || actions.length === 0 ? ( // display cta if no actions are present in the modal
+              <SimpleButton
+                hasBorder
+                color={"transparent"}
+                text={cta || "Okay!"}
+                action={onClose}
+                textColor={constants.firstColor}
+                textStyle={{
+                  marginLeft: 0,
+                  marginTop: 0
+                }}
+                containerStyle={{
+                  width: singleButtonWidth
+                }}
+              />
+            ) : null}
+            <View style={styles.actionBar}>
+              {actions && actions.length
+                ? actions.map((action, actionIndex) => {
+                    return (
+                      <SimpleButton
+                        key={actionIndex}
+                        hasBorder
+                        color={"white"}
+                        text={action.text}
+                        icon={action.icon}
+                        iconSize={16}
+                        action={() => {
+                          //Delay close to prevent freezing due to transition
+                          setTimeout(() => {
+                            onClose();
+                          }, 500);
+                          if (action.link) {
+                            resolveLinks(
+                              action.link,
+                              action.screenProps ? action.screenProps : {}
+                            );
+                          } else {
+                            if (action.deepLink) {
+                              resolveLinks(false, false, action.deepLink);
+                            }
+                          }
+                        }}
+                        textColor={constants.firstColor}
+                        textStyle={{
+                          marginLeft: 0,
+                          marginTop: 0
+                        }}
+                        containerStyle={{
+                          width:
+                            actions.length > 1
+                              ? singleButtonWidth / 2 - 16
+                              : responsiveWidth(100) - 48 - 48,
+                          ...(actions.length > 1 ? { marginHorizontal: 4 } : {})
+                        }}
+                      />
+                    );
+                  })
+                : null}
+            </View>
           </View>
+          <TouchableOpacity
+            onPress={onClose}
+            activeOpacity={0.8}
+            style={styles.closeIconTouchable}
+          >
+            <View style={styles.closeIconContainer}>
+              <Icon name={constants.closeIcon} color={"white"} size={16} />
+            </View>
+          </TouchableOpacity>
         </View>
       </Modal>
     );
@@ -126,6 +238,15 @@ const styles = StyleSheet.create({
     ...constants.fontCustom(constants.primaryLight, 15, 18),
     color: constants.black1
   },
+  bodyTextQuote: {
+    ...constants.fontCustom(constants.primaryLight, 17, 22),
+    color: constants.shade1,
+    fontStyle: "italic"
+  },
+  quotationImage: {
+    height: 20,
+    width: 20
+  },
   boxTitle: {
     marginVertical: 8,
     marginTop: 0,
@@ -150,6 +271,35 @@ const styles = StyleSheet.create({
   messageStyle: {
     ...constants.fontCustom(constants.primaryLight, 15, 18),
     color: constants.black1
+  },
+  textLink: {
+    textDecorationLine: "underline",
+    color: constants.firstColor
+  },
+  closeIconTouchable: {
+    position: "absolute",
+    alignItems: "center",
+    justifyContent: "center",
+    top: -18,
+    right: -18,
+    padding: 8
+  },
+  closeIconContainer: {
+    height: 25,
+    width: 25,
+    borderRadius: 12.5,
+    backgroundColor: "rgba(0,0,0,0.8)",
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  closeButton: {
+    height: 25,
+    width: 25
+  },
+  actionBar: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-around"
   }
 });
 

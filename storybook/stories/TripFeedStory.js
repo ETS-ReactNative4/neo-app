@@ -9,13 +9,13 @@ import TripViewLite from "../../Screens/TripFeedScreen/Components/TripViewLite/T
 import TripFeedCarousel from "../../Screens/TripFeedScreen/Components/TripFeedCarousel/TripFeedCarousel";
 import InfoCard from "../../Screens/TripFeedScreen/Components/InfoCard/InfoCard";
 import AlertCard from "../../Screens/TripFeedScreen/Components/AlertCard/AlertCard";
-import FeedBackSwiper from "../../Screens/TripFeedScreen/Components/FeedBackSwiper/FeedBackSwiper";
 import BigImageCard from "../../Screens/TripFeedScreen/Components/BigImageCard/BigImageCard";
 import DayAhead from "../../Screens/TripFeedScreen/Components/DayAhead/DayAhead";
 import SimpleButton from "../../CommonComponents/SimpleButton/SimpleButton";
 import InfoCardModal from "../../Screens/TripFeedScreen/Components/InfoCardModal/InfoCardModal";
-import { inject, observer } from "mobx-react/custom";
+import { inject, observer } from "mobx-react";
 import DayAheadLite from "../../Screens/TripFeedScreen/Components/DayAheadLite/DayAheadLite";
+import AlertCardV2 from "../../Screens/TripFeedScreen/Components/AlertCardV2/AlertCardV2";
 
 const tripData = [
   {
@@ -158,6 +158,16 @@ const alertData = [
   }
 ];
 
+const alertDataV2 = {
+  tag: "TURKEY VISA",
+  title: "Your visa is taking time",
+  message: "Go through the list of required docs.",
+  modalData: {},
+  link: "",
+  cta: "SEE UPDATES",
+  icon: constants.visaIcon
+};
+
 const bigImageData = {
   title: "Memories from Samantha’s family vacation in July '18",
   type: "JOURNAL",
@@ -186,6 +196,39 @@ const modalData = {
     "Handy tools to back you up during your travel"
   ],
   cta: "Awesome, got it!"
+};
+
+const modalActions = {
+  actions: [
+    {
+      text: "Directions",
+      icon: constants.compassIcon,
+      deepLink: {
+        location: {
+          latitude: "13.0437071",
+          longitude: "80.2417304"
+        }
+      }
+    },
+    {
+      text: "Contact",
+      icon: constants.callIcon,
+      deepLink: {
+        contactNumber: "199999999"
+      }
+    },
+    {
+      text: "Tools Screen",
+      icon: constants.toolIcon,
+      link: "Tools",
+      screenProps: {}
+    }
+  ],
+  modalLink: {
+    text: "Learn More...",
+    link: "TripFeed",
+    screenProps: {}
+  }
 };
 
 const dayAhead = {
@@ -262,6 +305,30 @@ storiesOf("Trip Feed Widgets", module)
       title: "All aboard?",
       text:
         "Invite your buddies. Everyone invited gets access to the vouchers and itinerary."
+    };
+    console.log(props);
+    return <ToolTip {...props} />;
+  })
+  .add("Tool Tip with text quote", () => {
+    const props = {
+      title: "All aboard?",
+      quote:
+        "Invite your buddies. Everyone invited gets access to the vouchers and itinerary in the app"
+    };
+    console.log(props);
+    return <ToolTip {...props} />;
+  })
+  .add("Tool Tip with text quote and cta", () => {
+    const props = {
+      title: "All aboard?",
+      quote:
+        "Invite your buddies. Everyone invited gets access to the vouchers and itinerary.Invite your buddies. Everyone invited gets access to the vouchers and itinerary.Invite your buddies. Everyone invited gets access to the vouchers and itinerary.Invite your buddies. Everyone invited gets access to the vouchers and itinerary.Invite your buddies. Everyone invited gets access to the vouchers and itinerary.Invite your buddies. Everyone invited gets access to the vouchers and itinerary.",
+      options: [
+        {
+          title: "Read more",
+          link: ""
+        }
+      ]
     };
     console.log(props);
     return <ToolTip {...props} />;
@@ -455,6 +522,78 @@ storiesOf("Trip Feed Widgets", module)
     console.log(props);
     return <InfoCard {...props} />;
   })
+  .add("Alert Card V2", () => {
+    const props = {
+      ...alertDataV2
+    };
+    console.log(props);
+    return <AlertCardV2 {...props} />;
+  })
+  .add("Alert Card V2 without tag", () => {
+    const props = {
+      ...alertDataV2
+    };
+    delete props["tag"];
+    console.log(props);
+    return <AlertCardV2 {...props} />;
+  })
+  .add("Alert Card V2 without title", () => {
+    const props = {
+      ...alertDataV2
+    };
+    delete props["title"];
+    console.log(props);
+    return <AlertCardV2 {...props} />;
+  })
+  .add("Alert Card V2 without tag and title", () => {
+    const props = {
+      ...alertDataV2
+    };
+    delete props["title"];
+    delete props["tag"];
+    console.log(props);
+    return <AlertCardV2 {...props} />;
+  })
+  .add("Alert Card V2 without icon", () => {
+    const props = {
+      ...alertDataV2
+    };
+    delete props["icon"];
+    console.log(props);
+    return <AlertCardV2 {...props} />;
+  })
+  .add("Alert Card V2 without highlighting icon", () => {
+    const props = {
+      ...alertDataV2
+    };
+    props.highlightIcon = false;
+    console.log(props);
+    return <AlertCardV2 {...props} />;
+  })
+  .add("Alert Card V2 without CTA", () => {
+    const props = {
+      ...alertDataV2
+    };
+    delete props["cta"];
+    console.log(props);
+    return <AlertCardV2 {...props} />;
+  })
+  .add("Alert Card V2 with Visa Pattern", () => {
+    const props = {
+      ...alertDataV2
+    };
+    props.pattern = "VISA_ALERT";
+    console.log(props);
+    return <AlertCardV2 {...props} />;
+  })
+  .add("Alert Card V2 with custom background color", () => {
+    const props = {
+      ...alertDataV2
+    };
+    props.backgroundColor = constants.firstColor;
+    console.log(props);
+    return <AlertCardV2 {...props} />;
+  })
   .add("Alert Card Info default", () => {
     const props = {
       elements: [alertData[0]],
@@ -599,9 +738,50 @@ storiesOf("Trip Feed Widgets", module)
     console.log(props);
     return <InfoCardModalWrapper props={props} />;
   })
+  .add("Info Card Modal with a quote", () => {
+    const props = {
+      ...modalData,
+      quote: modalData.content
+    };
+    delete props["content"];
+    delete props["bulletedList"];
+    console.log(props);
+    return <InfoCardModalWrapper props={props} />;
+  })
+  .add("Info Card Modal with a quote and content", () => {
+    const props = {
+      ...modalData,
+      quote: modalData.content
+    };
+    delete props["bulletedList"];
+    console.log(props);
+    return <InfoCardModalWrapper props={props} />;
+  })
   .add("Info Card Modal with no image", () => {
     const props = { ...modalData };
     delete props["image"];
+    console.log(props);
+    return <InfoCardModalWrapper props={props} />;
+  })
+  .add("Info Card Modal with directions and contact number", () => {
+    const props = { ...modalData };
+    delete props["cta"];
+    props.actions = [modalActions.actions[0], modalActions.actions[1]];
+    console.log(props);
+    return <InfoCardModalWrapper props={props} />;
+  })
+  .add("Info Card Modal with deep link to a screen", () => {
+    const props = { ...modalData };
+    delete props["cta"];
+    props.actions = [modalActions.actions[2]];
+    console.log(props);
+    return <InfoCardModalWrapper props={props} />;
+  })
+  .add("Info Card Modal with a text link", () => {
+    const props = { ...modalData };
+    delete props["cta"];
+    props.actions = [modalActions.actions[0], modalActions.actions[1]];
+    props.modalLink = modalActions.modalLink;
     console.log(props);
     return <InfoCardModalWrapper props={props} />;
   })

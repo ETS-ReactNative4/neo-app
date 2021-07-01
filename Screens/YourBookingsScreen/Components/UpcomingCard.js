@@ -4,11 +4,9 @@ import {
   Text,
   ImageBackground,
   StyleSheet,
-  TouchableOpacity,
-  Platform
+  TouchableOpacity
 } from "react-native";
 import constants from "../../../constants/constants";
-import SimpleButton from "../../../CommonComponents/SimpleButton/SimpleButton";
 import PropTypes from "prop-types";
 import moment from "moment";
 
@@ -34,7 +32,10 @@ const UpcomingCard = ({
   return (
     <TouchableOpacity
       onPress={() => selectItinerary(itineraryId)}
-      style={[styles.upcomingCardContainer, isLast ? { marginBottom: 16 } : {}]}
+      style={[
+        styles.upcomingCardContainer,
+        isLast ? styles.lastCardContainer : {}
+      ]}
     >
       <View style={styles.imageArea}>
         <ImageBackground
@@ -42,29 +43,11 @@ const UpcomingCard = ({
           source={constants.starterBackground}
           style={styles.imageBackground}
         >
-          <Text style={styles.bookingID}>{`PYT${itineraryId
-            .substr(itineraryId.length - 7)
-            .toUpperCase()}`}</Text>
-          {/**
-           * TODO: make join button conditional
-           */}
-          {/*<SimpleButton*/}
-          {/*text={"Join"}*/}
-          {/*action={() => selectItinerary(itineraryId)}*/}
-          {/*textColor={"white"}*/}
-          {/*underlayColor={constants.firstColorAlpha(0.8)}*/}
-          {/*containerStyle={{*/}
-          {/*height: 24,*/}
-          {/*width: 48,*/}
-          {/*marginHorizontal: 16,*/}
-          {/*marginVertical: 8*/}
-          {/*}}*/}
-          {/*textStyle={{*/}
-          {/*...constants.font11(constants.primarySemiBold),*/}
-          {/*marginLeft: 2,*/}
-          {/*marginTop: -2*/}
-          {/*}}*/}
-          {/*/>*/}
+          <Text style={styles.bookingID}>
+            {itineraryId
+              ? `PYT${itineraryId.substr(itineraryId.length - 7).toUpperCase()}`
+              : ""}
+          </Text>
         </ImageBackground>
       </View>
       <View style={styles.infoArea}>
@@ -102,7 +85,9 @@ UpcomingCard.propTypes = {
   departureCity: PropTypes.string.isRequired,
   bookedOnDateMillis: PropTypes.number.isRequired,
   selectItinerary: PropTypes.func.isRequired,
-  isLast: PropTypes.bool.isRequired
+  isLast: PropTypes.bool.isRequired,
+  departureDateMillis: PropTypes.number.isRequired,
+  nights: PropTypes.number.isRequired
 };
 
 const styles = StyleSheet.create({
@@ -120,6 +105,9 @@ const styles = StyleSheet.create({
     shadowRadius: 5,
     shadowOpacity: 0.8,
     elevation: 5
+  },
+  lastCardContainer: {
+    marginBottom: 16
   },
   imageArea: {
     borderTopLeftRadius: 5,
@@ -141,16 +129,6 @@ const styles = StyleSheet.create({
   },
   infoArea: {
     flex: 1
-    // ...Platform.select({
-    //   android: {
-    //     borderColor: constants.black2,
-    //     borderBottomRightRadius: 5,
-    //     borderBottomLeftRadius: 5,
-    //     borderBottomWidth: 0.5,
-    //     borderLeftWidth: 0.5,
-    //     borderRightWidth: 0.5
-    //   }
-    // })
   },
   infoTextWrapper: {
     minHeight: 72,

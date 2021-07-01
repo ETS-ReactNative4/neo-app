@@ -1,22 +1,23 @@
 import { Platform } from "react-native";
-import {
-  createStackNavigator,
-  createBottomTabNavigator
-} from "react-navigation";
+import { createBottomTabNavigator } from "react-navigation-tabs";
+import { createStackNavigator } from "react-navigation-stack";
 import ChatScreen from "../Screens/ChatScreen/ChatScreen";
 import constants from "../constants/constants";
 import TabBarIcon from "../CommonComponents/TabBarIcon/TabBarIcon";
 import React from "react";
-import Journal from "../Screens/JournalScreen/Journal";
 import TripFeed from "../Screens/TripFeedScreen/TripFeed";
 import Tools from "../Screens/ToolsScreen/Tools";
 import BookingsHome from "../Screens/BookingsHomeScreen/BookingsHome";
 import KeyboardFriendlyBottomTabBar from "../CommonComponents/KeyboardFriendlyBottomTabBar/KeyboardFriendlyBottomTabBar";
+import JournalStack from "./JournalStack";
+import CustomBottomTabBar from "../CommonComponents/CustomBottomTabBar/CustomBottomTabBar";
 
-const TabBarComponent =
-  Platform.OS === "android"
-    ? { tabBarComponent: KeyboardFriendlyBottomTabBar }
-    : {};
+const TabBarComponent = {
+  tabBarComponent: Platform.select({
+    android: KeyboardFriendlyBottomTabBar,
+    ios: props => <CustomBottomTabBar bottomTabBarProps={props} />
+  })
+};
 
 const BookedTabs = createBottomTabNavigator(
   {
@@ -40,11 +41,11 @@ const BookedTabs = createBottomTabNavigator(
       screen: Tools
     },
     Journal: {
-      screen: Journal
+      screen: JournalStack
     }
   },
   {
-    navigationOptions: ({ navigation }) => ({
+    defaultNavigationOptions: ({ navigation }) => ({
       tabBarIcon: ({ focused }) => {
         const { routeName } = navigation.state;
         let icon;
@@ -54,49 +55,54 @@ const BookedTabs = createBottomTabNavigator(
         switch (routeName) {
           case "TripFeed":
             icon = {
-              text: "TRIP FEED",
+              text: "Trip Feed",
               icon: focused
                 ? constants.tripFeedSelectedIcon
                 : constants.tripFeedIcon,
-              color
+              color,
+              focused
             };
             break;
 
           case "Bookings":
             icon = {
-              text: "BOOKINGS",
+              text: "Bookings",
               icon: focused
                 ? constants.bookingSelectedIcon
                 : constants.bookingIcon,
-              color
+              color,
+              focused
             };
             break;
 
           case "Support":
             icon = {
-              text: "SUPPORT",
+              text: "Support",
               icon: focused
                 ? constants.supportSelectedIcon
                 : constants.supportIconLight,
-              color
+              color,
+              focused
             };
             break;
 
           case "Tools":
             icon = {
-              text: "TOOLS",
+              text: "Tools",
               icon: focused ? constants.toolSelectedIcon : constants.toolIcon,
-              color
+              color,
+              focused
             };
             break;
 
           case "Journal":
             icon = {
-              text: "JOURNAL",
+              text: "Journal",
               icon: focused
                 ? constants.journalSelectedIcon
                 : constants.journalIcon,
-              color
+              color,
+              focused
             };
             break;
         }
@@ -104,6 +110,13 @@ const BookedTabs = createBottomTabNavigator(
         return <TabBarIcon {...icon} />;
       }
     }),
+    navigationOptions: () => {
+      const tabBarVisible = false;
+
+      return {
+        tabBarVisible
+      };
+    },
     ...TabBarComponent,
     tabBarOptions: {
       showLabel: false,
@@ -117,13 +130,5 @@ const BookedTabs = createBottomTabNavigator(
     lazy: false
   }
 );
-
-BookedTabs.navigationOptions = () => {
-  const tabBarVisible = false;
-
-  return {
-    tabBarVisible
-  };
-};
 
 export default BookedTabs;

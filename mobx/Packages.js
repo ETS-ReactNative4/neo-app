@@ -9,6 +9,10 @@ class Packages {
   @observable
   _packages = {};
 
+  reset = () => {
+    this._packages = {};
+  };
+
   @observable _isLoading = false;
 
   @observable _hasError = false;

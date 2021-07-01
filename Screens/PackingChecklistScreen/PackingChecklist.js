@@ -6,10 +6,11 @@ import DefaultTabBar from "../../CommonComponents/DefaultTabBar/DefaultTabBar";
 import ToPack from "./Components/ToPack/ToPack";
 import { responsiveWidth } from "react-native-responsive-dimensions";
 import _ from "lodash";
-import { inject, observer } from "mobx-react/custom";
+import { inject, observer } from "mobx-react";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import DeepLinkHandler from "../../CommonComponents/DeepLinkHandler/DeepLinkHandler";
+import PrimaryHeader from "../../NavigatorsV2/Components/PrimaryHeader";
 
 @ErrorBoundary()
 @DeepLinkHandler
@@ -18,13 +19,17 @@ import DeepLinkHandler from "../../CommonComponents/DeepLinkHandler/DeepLinkHand
 @inject("yourBookingsStore")
 @observer
 class PackingChecklist extends Component {
-  static navigationOptions = ({ navigation }) => {
-    return {
-      header: (
-        <CommonHeader title={"Packing Checklist"} navigation={navigation} />
-      )
-    };
-  };
+  constructor(props) {
+    super(props);
+
+    props.navigation.setOptions({
+      header: () =>
+        PrimaryHeader({
+          leftAction: () => props.navigation.goBack(),
+          headerText: "Packing Checklist"
+        })
+    });
+  }
 
   componentDidMount() {
     const { selectPackingChecklist } = this.props.packingChecklistStore;

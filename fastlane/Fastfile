@@ -1,12 +1,12 @@
-fastlane_version '2.112.0'
+fastlane_version '2.157.2'
 
 account="dani@pickyourtrail.com"
 identifierIOS="com.pyt"
 
 before_all do
-  ensure_git_branch(
-    branch: 'development'
-  )
+  # ensure_git_branch(
+  #   branch: 'development'
+  # )
   # ensure_git_status_clean
 end
 
@@ -20,6 +20,7 @@ platform :ios do
   end
 
   lane :uploadToTestflight do
+    changelog = File.read("../changeLog.txt")
     build_app(
       scheme: "Pickyourtrail",
       workspace: "./ios/Pickyourtrail.xcworkspace",
@@ -27,7 +28,8 @@ platform :ios do
     )
     upload_to_testflight(
       username: account,
-      app_identifier: identifierIOS
+      app_identifier: identifierIOS,
+      changelog: changelog
     )
   end
 end

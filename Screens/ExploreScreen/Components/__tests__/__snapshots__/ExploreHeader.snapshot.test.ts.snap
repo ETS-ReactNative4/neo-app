@@ -1,0 +1,77 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Explore Header 1`] = `
+<View
+  style={
+    Array [
+      Object {
+        "alignItems": "center",
+        "backgroundColor": "rgb(255, 255, 255)",
+        "borderBottomColor": "rgba(239, 239, 239, 1)",
+        "borderBottomWidth": 1,
+        "flexDirection": "row",
+        "height": 56,
+        "justifyContent": "center",
+      },
+      undefined,
+    ]
+  }
+>
+  <TouchableOpacity
+    activeOpacity={0.8}
+    onPress={[Function]}
+    style={
+      Object {
+        "alignItems": "center",
+        "height": 56,
+        "justifyContent": "center",
+        "left": 0,
+        "position": "absolute",
+        "top": 0,
+        "transform": Array [
+          Object {
+            "scaleX": -1,
+          },
+        ],
+        "width": 56,
+      }
+    }
+  >
+    <Text
+      allowFontScaling={false}
+      style={
+        Array [
+          Object {
+            "color": "rgba(83, 87, 109, 1)",
+            "fontSize": 16,
+          },
+          undefined,
+          Object {
+            "fontFamily": "voyager",
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+          },
+          Object {},
+        ]
+      }
+    >
+      
+    </Text>
+  </TouchableOpacity>
+  <Image
+    onError={[Function]}
+    resizeMode="cover"
+    source={
+      Object {
+        "uri": "https://pyt-images.imgix.net/images/web_app/logo/pickyourtrail-logo.png",
+      }
+    }
+    style={
+      Object {
+        "height": 20,
+        "width": 112,
+      }
+    }
+  />
+</View>
+`;

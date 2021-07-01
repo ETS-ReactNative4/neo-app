@@ -1,0 +1,16 @@
+s3_region("ap-south-1")
+s3_access_key("AKIAYSVXCFS4IGADVVEV")
+s3_secret_access_key("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")
+s3_bucket("pyt-app-secrets")
+
+storage_mode("s3")
+
+type("appstore") # The default type, can be: appstore, adhoc, enterprise or development
+
+app_identifier(["com.pyt"])
+username("voyager-ci@pickyourtrail.com")
+
+# For all available options run `fastlane match --help`
+# Remove the # in the beginning of the line to enable the other options
+
+# The docs are available on https://docs.fastlane.tools/actions/match

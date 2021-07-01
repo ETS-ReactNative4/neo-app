@@ -1,24 +1,56 @@
-import { observable, computed, action, set, toJS } from "mobx";
-import { createTransformer } from "mobx-utils";
-import { persist } from "mobx-persist";
-import apiCall from "../Services/networkRequests/apiCall";
-import constants from "../constants/constants";
-import storeService from "../Services/storeService/storeService";
-import { logError } from "../Services/errorLogger/errorLogger";
-import _ from "lodash";
+import {observable, computed, action, toJS} from 'mobx';
+import {createTransformer} from 'mobx-utils';
+import {persist} from 'mobx-persist';
+import apiCall from '../Services/networkRequests/apiCall';
+import constants from '../constants/constants';
+import storeService from '../Services/storeService/storeService';
+import {logError} from '../Services/errorLogger/errorLogger';
+import _ from 'lodash';
+import {hydrate} from './Store';
+import {
+  CONSTANT_retrieveJson,
+  POST_BOOKING_FAQ,
+  POST_MALDIVES_BOOKING_FAQ,
+  POST_STAYCATION_BOOKING_FAQ,
+} from '../constants/apiUrls';
+import {isStaycation} from '../Services/isStaycation/isStaycation';
 
 class SupportStore {
+  static hydrator = storeInstance => {
+    hydrate('_faqDetails', storeInstance)
+      .then(() => {})
+      .catch(err => {
+        logError(err);
+      });
+    hydrate('_conversations', storeInstance)
+      .then(() => {})
+      .catch(err => {
+        logError(err);
+      });
+    hydrate('_messages', storeInstance)
+      .then(() => {})
+      .catch(err => {
+        logError(err);
+      });
+    hydrate('_faqData', storeInstance)
+      .then(() => null)
+      .catch(logError);
+  };
+
   @observable _isLoading = false;
   @observable _hasError = false;
-  @persist("object")
+  @persist('object')
   @observable
   _faqDetails = {};
-  @persist("object")
+  @persist('object')
   @observable
   _conversations = {};
-  @persist("object")
+  @persist('object')
   @observable
   _messages = {};
+  @persist('object')
+  @observable
+  _faqData = {};
   @observable _isConversationLoading = false;
   @observable _isMessagesLoading = false;
 
@@ -53,6 +85,42 @@ class SupportStore {
     return toJS(this._conversations);
   }
 
+  get faqData() {
+    return toJS(this._faqData);
+  }
+
+  getFaqDetailsByName = createTransformer(faqSectionName => {
+    try {
+      for (let key in this.faqData) {
+        if (this.faqData.hasOwnProperty(key)) {
+          if (this.faqData[key].categoryDisplayStr === faqSectionName) {
+            return this.faqData[key];
+          }
+        }
+      }
+      return {};
+    } catch (e) {
+      logError(e);
+      return {};
+    }
+  });
+
+  getFaqDetailsByCategory = createTransformer(faqCategoryName => {
+    try {
+      for (let key in this.faqData) {
+        if (this.faqData.hasOwnProperty(key)) {
+          if (this.faqData[key].category === faqCategoryName) {
+            return this.faqData[key];
+          }
+        }
+      }
+      return {};
+    } catch (e) {
+      logError(e);
+      return {};
+    }
+  });
+
   getConversationsByItineraryId = createTransformer(itineraryId => {
     try {
       const conversations = toJS(this._conversations[itineraryId]);
@@ -74,13 +142,13 @@ class SupportStore {
     apiCall(
       `${constants.retrieveTickets}?itineraryId=${itineraryId}`,
       {},
-      "GET"
+      'GET',
     )
       .then(response => {
         setTimeout(() => {
           this._isConversationLoading = false;
         }, 1000);
-        if (response.status === "SUCCESS") {
+        if (response.status === 'SUCCESS') {
           this._hasError = false;
           const conversations = toJS(this._conversations);
           conversations[itineraryId] = response.data;
@@ -89,7 +157,7 @@ class SupportStore {
           this._hasError = true;
         }
       })
-      .catch(error => {
+      .catch(() => {
         this._isConversationLoading = false;
         this._hasError = true;
       });
@@ -101,13 +169,13 @@ class SupportStore {
     apiCall(
       `${constants.retrieveTicketMessages}?ticketId=${ticketId}&from=-1&to=-1`,
       {},
-      "GET"
+      'GET',
     )
       .then(response => {
         setTimeout(() => {
           this._isMessagesLoading = false;
         }, 1000);
-        if (response.status === "SUCCESS") {
+        if (response.status === 'SUCCESS') {
           this._hasError = false;
           const messages = toJS(this._messages);
           messages[ticketId] = response.data;
@@ -117,7 +185,7 @@ class SupportStore {
           this._hasError = true;
         }
       })
-      .catch(error => {
+      .catch(() => {
         this._isMessagesLoading = false;
         this._hasError = true;
       });
@@ -134,7 +202,7 @@ class SupportStore {
     try {
       if (this._messages[ticketId]) {
         const messages = toJS(this._messages[ticketId]);
-        return _.orderBy(messages, "msgId", "desc");
+        return _.orderBy(messages, 'msgId', 'desc');
       } else {
         return [];
       }
@@ -147,7 +215,7 @@ class SupportStore {
   getLastMessageByTicket = createTransformer(ticketId => {
     try {
       if (this._messages[ticketId]) {
-        return toJS(_.maxBy(this._messages[ticketId], "msgId"));
+        return toJS(_.maxBy(this._messages[ticketId], 'msgId'));
       } else {
         return {};
       }
@@ -169,26 +237,43 @@ class SupportStore {
 
   @action
   loadFaqDetails = () => {
+    const {selectedItinerary} = storeService.itineraries;
+    const isMaldives = selectedItinerary.itinerary?.regionCode === 'mle';
+    const staycation = isStaycation(selectedItinerary);
+    const jsonName = isMaldives
+      ? POST_MALDIVES_BOOKING_FAQ
+      : staycation
+      ? POST_STAYCATION_BOOKING_FAQ
+      : POST_BOOKING_FAQ;
     this._isLoading = true;
-    apiCall(constants.getFaq, {}, "GET")
+    apiCall(`${CONSTANT_retrieveJson}?jsonFile=${jsonName}`, {}, 'GET')
       .then(response => {
         this._isLoading = false;
-        if (response.status === "SUCCESS") {
+        if (response.status === 'SUCCESS') {
           this._hasError = false;
-          this._faqDetails = response.data.faqs;
+          this._faqData = response.data;
+          const faqData = response.data;
+          const faqDetails = {};
+          for (let key in faqData) {
+            if (faqData.hasOwnProperty(key)) {
+              const categoryDisplayStr = faqData[key].categoryDisplayStr;
+              faqDetails[categoryDisplayStr] = (
+                faqData[key].questions || []
+              ).reduce((qaMap, qa) => {
+                qaMap[qa.id] = {
+                  question: qa.q,
+                  answer: qa.a,
+                };
+                return qaMap;
+              }, {});
+            }
+          }
+          this._faqDetails = faqDetails;
         } else {
-          storeService.infoStore.setError(
-            "Unable to Load FAQ!",
-            "Please try again after sometime..."
-          );
           this._hasError = true;
         }
       })
-      .catch(err => {
-        storeService.infoStore.setError(
-          "Unable to Load FAQ!",
-          "Please try again after sometime..."
-        );
+      .catch(() => {
         this._isLoading = false;
         this._hasError = true;
       });

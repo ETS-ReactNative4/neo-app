@@ -1,33 +1,39 @@
 import * as Keychain from "react-native-keychain";
-import { DrawerActions } from "react-navigation";
-import navigationService from "../navigationService/navigationService";
 import storeService from "../storeService/storeService";
-
-const closeDrawer = DrawerActions.closeDrawer();
+import DebouncedAlert from "../../CommonComponents/DebouncedAlert/DebouncedAlert";
+import constants from "../../constants/constants";
+import { logoutUserFromChat } from "../freshchatService/freshchatService";
+import { logError } from "../errorLogger/errorLogger";
+import { navigationDispatcher } from "../navigationService/navigationServiceV2";
+import logOutAction from "./logOutAction/logOutAction";
+import appStartupTasks from "../appStartupTasks/appStartupTasks";
 
 const logOut = (isForced = false) => {
-  const { navigation } = navigationService;
-  navigation.dispatch(closeDrawer);
+  /**
+   * If image upload queue is running prevent the user from logging out
+   */
+  const { isImageUploadQueueRunning } = storeService.journalStore;
+  if (isImageUploadQueueRunning) {
+    DebouncedAlert(
+      constants.journalAlertMessages.logout.header,
+      constants.journalAlertMessages.logout.message
+    );
+    return;
+  }
 
   const logOutActionQueue = () => {
     Keychain.resetGenericPassword().then(() => {
-      navigation._navigation.navigate("Splash");
-
       setTimeout(() => {
-        storeService.appState.reset();
-        storeService.emergencyContactsStore.reset();
-        storeService.itineraries.reset();
-        storeService.packingChecklistStore.reset();
-        storeService.passportDetailsStore.reset();
-        storeService.phrasesStore.reset();
-        storeService.placesStore.reset();
-        storeService.supportStore.reset();
-        storeService.userStore.reset();
-        storeService.visaStore.reset();
-        storeService.voucherStore.reset();
-        storeService.weatherStore.reset();
-        storeService.yourBookingsStore.reset();
-        storeService.tripFeedStore.reset();
+        for (const each in storeService) {
+          try {
+            storeService[each].reset();
+          } catch (e) {
+            logError(`Missing reset action in ${each}`, { e });
+          }
+        }
+        logoutUserFromChat();
+        appStartupTasks();
+        navigationDispatcher(logOutAction());
       }, 100);
     });
   };

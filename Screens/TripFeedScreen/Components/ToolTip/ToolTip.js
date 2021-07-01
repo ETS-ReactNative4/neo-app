@@ -14,12 +14,14 @@ import MultilineButton from "./Components/MultilineButton";
 import forbidExtraProps from "../../../../Services/PropTypeValidation/forbidExtraProps";
 import resolveLinks from "../../../../Services/resolveLinks/resolveLinks";
 import { recordEvent } from "../../../../Services/analytics/analyticsService";
+import constants from "../../../../constants/constants";
 
 class ToolTip extends Component {
   static propTypes = forbidExtraProps({
     imageFirst: PropTypes.bool,
     title: PropTypes.string.isRequired,
-    text: PropTypes.string.isRequired,
+    text: PropTypes.string,
+    quote: PropTypes.string,
     image: PropTypes.oneOfType([PropTypes.object, PropTypes.number]),
     containerStyle: PropTypes.object,
     options: PropTypes.arrayOf(
@@ -42,7 +44,8 @@ class ToolTip extends Component {
       image,
       containerStyle = {},
       options,
-      widgetName
+      widgetName,
+      quote
     } = this.props;
     const contentStyleUpdate = {},
       changeLayout = {};
@@ -71,6 +74,7 @@ class ToolTip extends Component {
             <ContentSection
               title={title}
               text={text}
+              quote={quote}
               textStyle={textStyle}
               titleStyle={titleStyle}
             />
@@ -81,7 +85,11 @@ class ToolTip extends Component {
                 title={button.title}
                 text={button.text}
                 action={() => {
-                  if (widgetName) recordEvent(widgetName);
+                  if (widgetName) {
+                    recordEvent(constants.TripFeed.event, {
+                      widget: widgetName
+                    });
+                  }
                   resolveLinks(button.link, button.modalData, button.deepLink);
                 }}
               />
@@ -125,8 +133,12 @@ class ToolTip extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    marginVertical: 16,
-    marginHorizontal: 24
+    marginTop: 8,
+    paddingVertical: 16,
+    paddingHorizontal: 24,
+    borderColor: constants.shade5,
+    backgroundColor: "white",
+    borderRadius: 3
   },
   mainContainer: {
     flexDirection: "row",

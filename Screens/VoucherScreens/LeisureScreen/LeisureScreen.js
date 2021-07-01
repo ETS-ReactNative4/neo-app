@@ -6,6 +6,7 @@ import Icon from "../../../CommonComponents/Icon/Icon";
 import { isIphoneX } from "react-native-iphone-x-helper";
 import ErrorBoundary from "../../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import EmptyScreenPlaceholder from "../../../CommonComponents/EmptyScreenPlaceholder/EmptyScreenPlaceholder";
+import { SCREEN_PLACES } from "../../../NavigatorsV2/ScreenNames";
 
 const xHeight = isIphoneX()
   ? constants.xNotchHeight
@@ -25,10 +26,10 @@ class LeisureVoucher extends Component {
   render() {
     const { navigation } = this.props;
     const city = navigation.getParam("city", {});
+    const cityId = city.cityObject ? city.cityObject.cityId : "";
     const action = () => {
-      navigation.navigate("BookedPlaces", {
-        city,
-        target: "BookedNearBy"
+      navigation.navigate(SCREEN_PLACES, {
+        city: cityId
       });
     };
 

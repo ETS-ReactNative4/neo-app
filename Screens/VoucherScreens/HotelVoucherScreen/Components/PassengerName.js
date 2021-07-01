@@ -24,7 +24,8 @@ const PassengerName = ({ name, secondaryText }) => {
 };
 
 PassengerName.propTypes = {
-  name: PropTypes.string.isRequired
+  name: PropTypes.string.isRequired,
+  secondaryText: PropTypes.string
 };
 
 const styles = StyleSheet.create({

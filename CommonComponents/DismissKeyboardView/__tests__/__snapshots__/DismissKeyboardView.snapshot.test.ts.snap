@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Dismiss Keyboard View 1`] = `
+<TouchableWithoutFeedback
+  onPress={[Function]}
+>
+  <View
+    style={
+      Object {
+        "flex": 1,
+      }
+    }
+  >
+    <TextInput
+      allowFontScaling={true}
+      placeholder="Tap anywhere on screen to hide keyboard..."
+      placeholderTextColor="black"
+      rejectResponderTermination={true}
+      style={
+        Object {
+          "color": "black",
+        }
+      }
+      underlineColorAndroid="transparent"
+    />
+  </View>
+</TouchableWithoutFeedback>
+`;

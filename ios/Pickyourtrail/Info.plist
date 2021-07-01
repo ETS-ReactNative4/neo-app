@@ -17,11 +17,24 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0.5</string>
+	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>pyt</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>pyt</string>
+			</array>
+		</dict>
+	</array>
 	<key>CFBundleVersion</key>
-	<string>77</string>
+	<string>343</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 	<key>LSRequiresIPhoneOS</key>
@@ -41,14 +54,17 @@
 	</dict>
 	<key>NSCameraUsageDescription</key>
 	<string>This will let you take photos using your camera and send it to Pickyourtrail.</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
+	<key>NSLocationAlwaysUsageDescription</key>
 	<string>Your current location is needed to find places around you</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string></string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>This will let you record audio for your videos using your camera and send it to Pickyourtrail.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>This will let you select photos from your library and send it to Pickyourtrail.</string>
 	<key>UIAppFonts</key>
 	<array>
+		<string>hotel-amenities.ttf</string>
 		<string>Sofia Pro.ttf</string>
 		<string>Sofia Pro Light.ttf</string>
 		<string>Sofia Pro Semi Bold.ttf</string>
@@ -56,6 +72,9 @@
 		<string>PT Sans Bold.ttf</string>
 		<string>PT Sans Caption.ttf</string>
 		<string>PT Sans.ttf</string>
+		<string>SourceSansPro-Light.ttf</string>
+		<string>SourceSansPro-Regular.ttf</string>
+		<string>SourceSansPro-SemiBold.ttf</string>
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>
@@ -71,7 +90,17 @@
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 	</array>
+	<key>UIUserInterfaceStyle</key>
+	<string>Light</string>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>WEGLicenseCode</key>
+	<string>~2024b387</string>
+	<key>WEGManualIntegration</key>
+	<true/>
+	<key>branch_app_domain</key>
+	<string>app.pickyourtrail.com</string>
+	<key>branch_key</key>
+	<string>key_live_ibL2dkZSdFcZk19HobtvQffdzwo2S5lO</string>
 </dict>
 </plist>

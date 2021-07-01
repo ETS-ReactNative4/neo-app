@@ -1,12 +1,12 @@
-import React, { Component } from "react";
-import { View, Text, StyleSheet } from "react-native";
-import Carousel from "../../../../CommonComponents/Carousel/Carousel";
-import constants from "../../../../constants/constants";
-import DayAheadBox from "../DayAheadLite/Components/DayAheadBox";
-import DayAheadRow from "./Components/DayAheadRow";
-import PropTypes from "prop-types";
-import forbidExtraProps from "../../../../Services/PropTypeValidation/forbidExtraProps";
-import DayAheadTitle from "./Components/DayAheadTitle";
+import React, {Component} from 'react';
+import {View, Text, StyleSheet} from 'react-native';
+import Carousel from '../../../../CommonComponents/Carousel/Carousel';
+import constants from '../../../../constants/constants';
+import DayAheadBox from '../DayAheadLite/Components/DayAheadBox';
+import DayAheadRow from './Components/DayAheadRow';
+import PropTypes from 'prop-types';
+import forbidExtraProps from '../../../../Services/PropTypeValidation/forbidExtraProps';
+import DayAheadTitle from './Components/DayAheadTitle';
 
 class DayAhead extends Component {
   static propTypes = forbidExtraProps({
@@ -20,17 +20,17 @@ class DayAhead extends Component {
         text: PropTypes.string.isRequired,
         voucherType: PropTypes.string.isRequired,
         costingIdentifier: PropTypes.string.isRequired,
-        deepLink: PropTypes.object
-      })
+        deepLink: PropTypes.object,
+      }),
     ).isRequired,
-    widgetName: PropTypes.string
+    widgetName: PropTypes.string,
   });
 
   render() {
-    const { title, elements, widgetName } = this.props;
+    const {title, elements, widgetName, containerStyle = {}} = this.props;
 
     return (
-      <View style={styles.dayAheadContainer}>
+      <View style={[styles.dayAheadContainer, containerStyle]}>
         {title ? <DayAheadTitle title={title} /> : null}
         <View style={styles.rowWrapper}>
           <View style={styles.rowContainer}>
@@ -54,18 +54,15 @@ class DayAhead extends Component {
 
 const styles = StyleSheet.create({
   dayAheadContainer: {
-    marginVertical: 16
+    marginTop: 8,
+    paddingTop: 16,
+    backgroundColor: 'white',
   },
   rowContainer: {
-    backgroundColor: "white",
     borderRadius: 5,
-    marginTop: 8,
-    marginBottom: 16,
-    ...constants.elevationFive
+    marginBottom: 8,
   },
-  rowWrapper: {
-    marginHorizontal: 24
-  }
+  rowWrapper: {},
 });
 
 export default DayAhead;

@@ -14,6 +14,7 @@ import TransferIcon from "./TransferIcon";
 import { recordEvent } from "../../../../../Services/analytics/analyticsService";
 import { extendMoment } from "moment-range";
 import Moment from "moment";
+import { SCREEN_BOOKED_ITINERARY } from "../../../../../NavigatorsV2/ScreenNames";
 
 const moment = extendMoment(Moment);
 
@@ -42,11 +43,17 @@ const Date = ({
     } else if (selectionMatrix[0] === 0) {
       containerStyle = "leftCorner";
     } else if (selectionMatrix[2] === 0) {
-      if (dayIndex === 6) containerStyle = "lastRightCorner";
-      else containerStyle = "rightCorner";
+      if (dayIndex === 6) {
+        containerStyle = "lastRightCorner";
+      } else {
+        containerStyle = "rightCorner";
+      }
     } else {
-      if (dayIndex === 6) containerStyle = "lastMiddleSection";
-      else containerStyle = "middleSection";
+      if (dayIndex === 6) {
+        containerStyle = "lastMiddleSection";
+      } else {
+        containerStyle = "middleSection";
+      }
     }
   }
 
@@ -66,11 +73,15 @@ const Date = ({
       activeOpacity={1}
       onPress={() => {
         if (dateIndex !== -1) {
-          recordEvent(constants.bookingsHomeCalendarDateClick);
+          recordEvent(constants.Bookings.event, {
+            click: constants.Bookings.click.calendarEventDate
+          });
         } else {
-          recordEvent(constants.bookingsHomeCalendarNoEventClick);
+          recordEvent(constants.Bookings.event, {
+            click: constants.Bookings.click.calendarNoEventDate
+          });
         }
-        navigation.navigate("BookedItinerary", {
+        navigation.navigate(SCREEN_BOOKED_ITINERARY, {
           selectedDate: dateIndex !== -1 ? date : 0
         });
       }}

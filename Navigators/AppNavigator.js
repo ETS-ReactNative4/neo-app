@@ -1,4 +1,7 @@
-import { createDrawerNavigator, createStackNavigator } from "react-navigation";
+import { createDrawerNavigator } from "react-navigation-drawer";
+import { createAppContainer } from "react-navigation";
+import { createStackNavigator } from "react-navigation-stack";
+import { Platform } from "react-native";
 import HomeSwitch from "./HomeSwitch";
 import Notifications from "../Screens/NotificationsScreen/Notifications";
 import Home from "../Screens/HomeScreen/Home";
@@ -6,6 +9,18 @@ import Drawer from "../Screens/Drawer/Drawer";
 import PaymentStack from "./PaymentStack";
 import About from "../Screens/AboutScreen/About";
 import { shouldIncludeStoryBook } from "../storybook/Storybook";
+import { useScreens } from "react-native-screens";
+import constants from "../constants/constants";
+
+/**
+ * Due to an issue with the react-native-screens and transparency config
+ * this is enabled only for iOS
+ *
+ * Needs this issue to be closed - https://github.com/kmagiera/react-native-screens/issues/159
+ */
+if (Platform.OS === constants.platformIos) {
+  useScreens();
+}
 
 const navigators = {
   Home: {
@@ -48,4 +63,4 @@ const AppNavigator = createDrawerNavigator(navigators, {
   contentComponent: Drawer
 });
 
-export default AppNavigator;
+export default createAppContainer(AppNavigator);

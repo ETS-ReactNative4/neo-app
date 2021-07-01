@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "api-8129985453383320852-6005",
+  "private_key_id": "74e67d29f7afc2ac826f2eb82b5858e52245ab4b",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCfmEXIw/MfR3ui\n4ULChd0Y6gXjjx3D06zs73A8p7C6vQs2onq9XxFWSI+zmtPr/huWvna/zLgqm29n\nj80pagX77CD2HC0dsG0aEW3sQmNu79PlCBMj0CgHQ0xLli6urwmRTgp/6QuEGci8\ntAQ+2IvupgfLK8/wrxO6VzMd72ypiOxaiq6Sl7Bzc/FG4yAKh6WEtEchvFz/CYMV\nlduSyxdC2aRBvc+aJ5aBtGtekVWfPjwkjJhP5+YZMdmELqisIfsUaM9cC1gBNatN\nj14NfcmRAX+snoy7I+D5zX9SceKHe8KNuJQLKfZfAiWKDSdmeWfD3Zmq13TPGcJZ\nh0w2SKSBAgMBAAECggEAFUIxk31kgndhZPAoFiTCL4omyCndb2MgHvyDARVeQXWi\ni3/HpTeHZeyq9aPrVD1oO+N5inFw274SMCOT0s8sZmMM/fOBX/nLAqStNYIfYBzi\npxi1Afl9h4AjptLlu3+V4OzaEbE/hzRvDJHXGe767spfceUPYRJVKKZqaPOmUAu2\n/aGpdTdHI2ncONTNgBY9MALBOwkqck6kypI+glxqNh8RdwgH+03i8uQTjTktjBIp\nLUyA2LtOIWYWdCrVM/5yFng7IomS2Fo2Jej10PkuuzgX/q6ZQSeSKECHSoOt0FBD\n+Uk75gREyeM+Vf1s1NI0y+KCTu8Xm21CTF3wr0TLVQKBgQDQq+r5IeJNwEaS904B\n+sCAb8f8yQWRrSYuxl5vjyjEKq9GkzsKHZd4TLMCD4csxXdLG7qaftA09FyVqeVC\nwtGwPM5QDoXxh+mJlxZmBy522Nge/wURy/IyK+XbMFQO6JvvXejTnt+ktkwYVUpu\nfmy5Rlv0rlX4AYCpAA8LGNKrJQKBgQDDytC8z89Zi35B6UvPUeQ2aa5qNtyBtwM9\nSHLeYs+FBsg/z61yPrpLawdds7Dohry8izsLRwLj0Z/RNNddQDxmeAYhtEUSbjX7\n5QXW7Q3A9HlAsOzYgqcVbM/G0tCzF5D/i/HSaBPHuWkphRa+Ygw8//MkKcs7O1nP\nHesW7qijLQKBgBguxEVo+tv922/uvxiVobeAvNF7zmxqf5FOJeWR1qydMcDhESeD\n9GjZoqkreYPjwoZuyTpcVe69HvmtPcd14m0lLteyRy2NjbAHVW4viN/3E1zMOx8r\n3n6X/cRgHm234VJlNLVJpStmgP0U7VJOznTORZvelFHwgqOTQSsNDmUNAoGADItn\nGmHaMCuO2FxBPjRKAe59fVKsiCcYrwmASp1cHHLVy7jbrRE10HU4EJndwNg5KX9m\nNg/DsKMSsU3IarId7JbOFcS+FDM5hD0lRaMEmZNQXYO4eRrN58KEAYIqWv8sjCME\nSG3grpBDm6RqU6JmlFX11yBSZCYmV+3bzSlXZrUCgYBt9L62bPaM9cRvm6ZhHwNR\nXsDsh2ZKJp4KS83WDl7Tktj6bjeYbR4o1e5WeUP6cFB8tf24mMnNnqSuW4VDTwD2\nyA7V+nNHM/RzrpqkKxOKeE3Xz8txH4qjbJP1RlBXfMSCWpIkxMP71wnn6s/liF85\nbsCvNhvRfw5ILRCHnC4Zrw==\n-----END PRIVATE KEY-----\n",
+  "client_email": "pickyourtrail-automation@api-8129985453383320852-6005.iam.gserviceaccount.com",
+  "client_id": "111835792767043957414",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/pickyourtrail-automation%40api-8129985453383320852-6005.iam.gserviceaccount.com"
+}

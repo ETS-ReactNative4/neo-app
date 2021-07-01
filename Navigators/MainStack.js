@@ -1,4 +1,4 @@
-import { createStackNavigator } from "react-navigation";
+import { createStackNavigator } from "react-navigation-stack";
 import Starter from "../Screens/StartingScreen/Starter";
 import HomeTabs from "./HomeTabs";
 import MobileNumber from "../Screens/MobileNumberScreen/MobileNumber";
@@ -19,7 +19,16 @@ import FAQAnswers from "../Screens/FAQScreens/FAQAnswersScreen/FAQAnswers";
 import ContactUs from "../Screens/ContactUsScreen/ContactUs";
 import YourTickets from "../Screens/YourTicketsScreen/YourTickets";
 import TicketsConversation from "../Screens/TicketsConversationScreen/TicketsConversation";
-import transitionConfig from "../Services/navigationAnimations/transitionConfig";
+import Forex from "../Screens/ForexScreen/Forex";
+import VisaSelector from "../Screens/VisaSelectorScreen/VisaSelector";
+import VisaStatus from "../Screens/VisaStatusScreen/VisaStatus";
+import VisaHelp from "../Screens/VisaHelpScreen/VisaHelp";
+import VisaDocsChecklist from "../Screens/VisaDocsChecklistScreen/VisaDocsChecklist";
+import VisaSuccess from "../Screens/VisaSuccessScreen/VisaSuccess";
+import PostBookingIntro from "../Screens/PostBookingIntroScreen/PostBookingIntro";
+import AgentInfo from "../Screens/AgentInfoScreen/AgentInfo";
+import AgentFeedback from "../Screens/AgentFeedbackScreen/AgentFeedback";
+import AppLogin from "../Screens/AppLoginScreen/AppLogin";
 
 const MainStack = createStackNavigator(
   {
@@ -38,12 +47,6 @@ const MainStack = createStackNavigator(
     },
     BookedItinerary: {
       screen: BookedItinerary
-    },
-    BookedPlaces: {
-      screen: Places
-    },
-    BookedNearBy: {
-      screen: NearBy
     },
     VisaBooked: {
       screen: Visa
@@ -75,8 +78,23 @@ const MainStack = createStackNavigator(
     Visa: {
       screen: Visa
     },
+    VisaSelector: {
+      screen: VisaSelector
+    },
     VisaChecklist: {
       screen: VisaChecklist
+    },
+    VisaDocsChecklist: {
+      screen: VisaDocsChecklist
+    },
+    VisaStatus: {
+      screen: VisaStatus
+    },
+    VisaSuccess: {
+      screen: VisaSuccess
+    },
+    VisaHelp: {
+      screen: VisaHelp
     },
     SupportCenter: {
       screen: SupportCenter
@@ -87,6 +105,9 @@ const MainStack = createStackNavigator(
     FAQAnswers: {
       screen: FAQAnswers
     },
+    Forex: {
+      screen: Forex
+    },
     ContactUs: {
       screen: ContactUs
     },
@@ -95,19 +116,29 @@ const MainStack = createStackNavigator(
     },
     TicketsConversation: {
       screen: TicketsConversation
+    },
+    PostBookingIntro: {
+      screen: PostBookingIntro
+    },
+    AgentInfo: {
+      screen: AgentInfo
+    },
+    AgentFeedback: {
+      screen: AgentFeedback
+    },
+    AppLogin: {
+      screen: AppLogin
     }
   },
   {
-    transitionConfig
+    navigationOptions: () => {
+      let drawerLockMode = "locked-closed";
+
+      return {
+        drawerLockMode
+      };
+    }
   }
 );
-
-MainStack.navigationOptions = () => {
-  let drawerLockMode = "locked-closed";
-
-  return {
-    drawerLockMode
-  };
-};
 
 export default MainStack;

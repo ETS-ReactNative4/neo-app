@@ -94,28 +94,34 @@ class CountryCodePicker extends Component {
         search: query
       },
       () => {
-        if (!query) this.clearSearch();
-        else this.updateResults();
+        if (!query) {
+          this.clearSearch();
+        } else {
+          this.updateResults();
+        }
       }
     );
   };
 
-  selectCountry = countryCode => {
-    this.props.selectCountryCode(countryCode);
+  selectCountry = (countryCode, item) => {
+    this.props.selectCountryCode(countryCode, item);
     this.props.onClose();
   };
 
   sectionHeader = ({ section: { title } }) => {
-    if (this.state.search) return null;
-    if (title === "Default")
+    if (this.state.search) {
+      return null;
+    }
+    if (title === "Default") {
       return <View style={{ height: 24, backgroundColor: "white" }} />;
-    else
+    } else {
       return (
         <SectionHeader
           sectionName={title}
           containerStyle={{ marginTop: 0, paddingTop: 24, height: 56 }}
         />
       );
+    }
   };
 
   sectionFooter = () => {
@@ -130,10 +136,12 @@ class CountryCodePicker extends Component {
   };
 
   sectionItem = ({ item, index, section }) => {
-    if (!item.countryCallingCodes[0]) return null;
+    if (!item.countryCallingCodes[0]) {
+      return null;
+    }
 
     const clicked = () => {
-      this.selectCountry(item.countryCallingCodes[0]);
+      this.selectCountry(item.countryCallingCodes[0], item);
     };
 
     return (
@@ -145,9 +153,9 @@ class CountryCodePicker extends Component {
       >
         <View style={styles.countryCodeItem}>
           <Text style={styles.countryName}>{`${item.name}`}</Text>
-          <Text style={styles.countryCode}>{`${
-            item.countryCallingCodes[0]
-          }`}</Text>
+          <Text
+            style={styles.countryCode}
+          >{`${item.countryCallingCodes[0]}`}</Text>
         </View>
       </TouchableHighlight>
     );

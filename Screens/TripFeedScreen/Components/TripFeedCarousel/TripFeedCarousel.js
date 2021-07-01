@@ -48,7 +48,11 @@ class TripFeedCarousel extends Component {
       return {
         ...item,
         action: () => {
-          if (widgetName) recordEvent(widgetName);
+          if (widgetName) {
+            recordEvent(constants.TripFeed.event, {
+              widget: widgetName
+            });
+          }
           resolveLinks(item.link, item.modalData, {});
         }
       };
@@ -96,7 +100,10 @@ class TripFeedCarousel extends Component {
 
 const styles = StyleSheet.create({
   wrapperContainer: {
-    marginVertical: 8
+    marginTop: 8,
+    paddingVertical: 16,
+    borderColor: constants.shade5,
+    backgroundColor: "white"
   },
   header: {
     marginHorizontal: 24

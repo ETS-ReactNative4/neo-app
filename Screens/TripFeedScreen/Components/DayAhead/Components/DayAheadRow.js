@@ -24,13 +24,23 @@ const DayAheadRow = ({
   voucherType,
   costingIdentifier,
   isLast,
-  widgetName
+  widgetName,
+  link = "",
+  modalData = {}
 }) => {
   return (
     <TouchableOpacity
       onPress={() => {
-        if (widgetName) recordEvent(widgetName);
-        resolveLinks("", {}, deepLink || { voucherType, costingIdentifier });
+        if (widgetName) {
+          recordEvent(constants.TripFeed.event, {
+            widget: widgetName
+          });
+        }
+        resolveLinks(
+          link,
+          modalData,
+          deepLink || { voucherType, costingIdentifier }
+        );
       }}
       style={[
         styles.dayAheadRowContainer,
@@ -81,7 +91,9 @@ DayAheadRow.propTypes = forbidExtraProps({
   costingIdentifier: PropTypes.string.isRequired,
   isLast: PropTypes.bool.isRequired,
   deepLink: PropTypes.object,
-  widgetName: PropTypes.string
+  widgetName: PropTypes.string,
+  link: PropTypes.string,
+  modalData: PropTypes.object
 });
 
 const styles = StyleSheet.create({
@@ -93,8 +105,7 @@ const styles = StyleSheet.create({
     width: 40,
     alignItems: "center",
     justifyContent: "flex-start",
-    marginRight: 8,
-    marginLeft: 12,
+    marginHorizontal: 24,
     marginTop: 16,
     marginBottom: 8
   },

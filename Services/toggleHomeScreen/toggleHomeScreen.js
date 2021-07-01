@@ -1,6 +1,5 @@
-import * as Keychain from "react-native-keychain";
-import { logError } from "../errorLogger/errorLogger";
 import storeService from "../storeService/storeService";
+import isUserLoggedInCallback from "../isUserLoggedInCallback/isUserLoggedInCallback";
 
 /**
  * Used to toggle between home screen and booking screen. Handles:
@@ -18,17 +17,14 @@ const toggleHomeScreen = navigation => {
       setTripMode(!isTripModeOn);
       navigation.navigate("BookedItineraryTabs");
     } else {
-      Keychain.getGenericPassword()
-        .then(credentials => {
-          if (credentials && credentials.password) {
-            navigation.navigate("YourBookingsUniversal");
-          } else {
-            navigation.push("MobileNumber");
-          }
-        })
-        .catch(e => {
-          logError(e);
-        });
+      isUserLoggedInCallback(
+        () => {
+          navigation.navigate("YourBookingsUniversal");
+        },
+        () => {
+          navigation.push("MobileNumber");
+        }
+      );
     }
   }
 };

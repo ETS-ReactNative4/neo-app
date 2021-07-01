@@ -1,66 +1,42 @@
 package com.pickyourtrail;
 
 import android.app.Application;
-
+import android.content.Context;
+import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
-import com.reactnativecommunity.webview.RNCWebViewPackage;
-import com.avishayil.rnrestart.ReactNativeRestartPackage;
-import com.github.droibit.android.reactnative.customtabs.CustomTabsPackage;
-import io.invertase.firebase.RNFirebasePackage;
-import io.invertase.firebase.messaging.RNFirebaseMessagingPackage;
-import io.invertase.firebase.notifications.RNFirebaseNotificationsPackage;
-import io.invertase.firebase.analytics.RNFirebaseAnalyticsPackage;
-import com.zmxv.RNSound.RNSoundPackage;
-import com.dylanvann.fastimage.FastImageViewPackage;
-import com.krazylabs.OpenAppSettingsPackage;
-import net.no_mad.tts.TextToSpeechPackage;
-import io.sentry.RNSentryPackage;
-import com.horcrux.svg.SvgPackage;
-import com.oblador.keychain.KeychainPackage;
-import com.BV.LinearGradient.LinearGradientPackage;
+import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
-import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
-
-import java.util.Arrays;
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
+
+import com.wix.interactable.Interactable;
+import im.crisp.client.Crisp;
 
 public class MainApplication extends Application implements ReactApplication {
 
-  private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
-    @Override
-    public boolean getUseDeveloperSupport() {
-      return BuildConfig.DEBUG;
-    }
+  private final ReactNativeHost mReactNativeHost =
+      new ReactNativeHost(this) {
+        @Override
+        public boolean getUseDeveloperSupport() {
+          return BuildConfig.DEBUG;
+        }
 
-    @Override
-    protected List<ReactPackage> getPackages() {
-      return Arrays.<ReactPackage>asList(
-          new MainReactPackage(),
-            new RNCWebViewPackage(),
-            new ReactNativeRestartPackage(),
-            new CustomTabsPackage(),
-            new RNFirebasePackage(),
-            new RNFirebaseMessagingPackage(),
-            new RNFirebaseNotificationsPackage(),
-            new RNFirebaseAnalyticsPackage(),
-            new RNSoundPackage(),
-            new FastImageViewPackage(),
-            new OpenAppSettingsPackage(),
-            new TextToSpeechPackage(),
-            new RNSentryPackage(),
-            new SvgPackage(),
-            new KeychainPackage(),
-            new LinearGradientPackage()
-      );
-    }
+        @Override
+        protected List<ReactPackage> getPackages() {
+          @SuppressWarnings("UnnecessaryLocalVariable")
+          List<ReactPackage> packages = new PackageList(this).getPackages();
+          // Packages that cannot be autolinked yet can be added manually here, for example:
+          packages.add(new Interactable());
+          return packages;
+        }
 
-    @Override
-    protected String getJSMainModuleName() {
-      return "index";
-    }
-  };
+        @Override
+        protected String getJSMainModuleName() {
+          return "index";
+        }
+      };
 
   @Override
   public ReactNativeHost getReactNativeHost() {
@@ -71,5 +47,39 @@ public class MainApplication extends Application implements ReactApplication {
   public void onCreate() {
     super.onCreate();
     SoLoader.init(this, /* native exopackage */ false);
+    initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
+
+    Crisp.configure(getApplicationContext(),"c6342d83-2c47-40d3-959f-c003114a14f5");
+  }
+
+  /**
+   * Loads Flipper in React Native templates. Call this in the onCreate method with something like
+   * initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
+   *
+   * @param context
+   * @param reactInstanceManager
+   */
+  private static void initializeFlipper(
+      Context context, ReactInstanceManager reactInstanceManager) {
+    if (BuildConfig.DEBUG) {
+      try {
+        /*
+         We use reflection here to pick up the class that initializes Flipper,
+        since Flipper library is not available in release mode
+        */
+        Class<?> aClass = Class.forName("com.pickyourtrail.ReactNativeFlipper");
+        aClass
+            .getMethod("initializeFlipper", Context.class, ReactInstanceManager.class)
+            .invoke(null, context, reactInstanceManager);
+      } catch (ClassNotFoundException e) {
+        e.printStackTrace();
+      } catch (NoSuchMethodException e) {
+        e.printStackTrace();
+      } catch (IllegalAccessException e) {
+        e.printStackTrace();
+      } catch (InvocationTargetException e) {
+        e.printStackTrace();
+      }
+    }
   }
 }

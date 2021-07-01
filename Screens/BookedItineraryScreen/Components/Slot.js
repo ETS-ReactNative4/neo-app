@@ -6,6 +6,7 @@ import SectionHeader from "../../../CommonComponents/SectionHeader/SectionHeader
 import SlotActivity from "./SlotActivity/SlotActivity";
 import forbidExtraProps from "../../../Services/PropTypeValidation/forbidExtraProps";
 import constants from "../../../constants/constants";
+import SlotRowWrapper from "./SlotActivity/SlotRowWrapper";
 
 const Slot = ({ day, slot, onItemLayout, navigation, spinValue }) => {
   const setOnLayout = nativeEvent => {
@@ -31,14 +32,15 @@ const Slot = ({ day, slot, onItemLayout, navigation, spinValue }) => {
 
       {slot.map((activity, index) => {
         return (
-          <SlotActivity
-            navigation={navigation}
-            activity={activity}
-            activityIndex={index}
-            key={index}
-            day={day}
-            spinValue={spinValue}
-          />
+          <SlotRowWrapper key={index} data={activity}>
+            <SlotActivity
+              navigation={navigation}
+              activity={activity}
+              activityIndex={index}
+              day={day}
+              spinValue={spinValue}
+            />
+          </SlotRowWrapper>
         );
       })}
     </View>

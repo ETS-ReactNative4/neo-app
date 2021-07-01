@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { View, Text, Platform, StyleSheet } from "react-native";
 import constants from "../../../constants/constants";
 import VoucherStickyHeader from "../Components/VoucherStickyHeader";
@@ -10,23 +10,32 @@ import SectionHeader from "../../../CommonComponents/SectionHeader/SectionHeader
 import PassengerName from "../HotelVoucherScreen/Components/PassengerName";
 import VoucherSplitSection from "../Components/VoucherSplitSection";
 import IosCloseButton from "../Components/IosCloseButton";
-import { inject, observer } from "mobx-react/custom";
+import { inject, observer } from "mobx-react";
 import moment from "moment";
 import FlightActionSection from "./Components/FlightActionSection";
 import getTitleCase from "../../../Services/getTitleCase/getTitleCase";
 import ErrorBoundary from "../../../CommonComponents/ErrorBoundary/ErrorBoundary";
+import ViewVoucherButton from "../Components/ViewVoucherButton";
+import PropTypes from "prop-types";
 
 const xHeight = isIphoneX()
   ? constants.xNotchHeight
   : Platform.OS === "ios"
-    ? 20
-    : 0;
+  ? 20
+  : 0;
 
 @ErrorBoundary()
 @inject("passportDetailsStore")
 @inject("itineraries")
 @observer
 class FlightVoucher extends Component {
+  static propTypes = {
+    passportDetailsStore: PropTypes.object,
+    itineraries: PropTypes.object,
+    navigation: PropTypes.object,
+    route: PropTypes.object
+  };
+
   static navigationOptions = {
     header: null,
     gestureResponseDistance: {
@@ -49,25 +58,15 @@ class FlightVoucher extends Component {
   };
 
   render() {
-    const flight = this.props.navigation.getParam("flight", {});
+    const { flight = {} } = this.props.route.params || {};
     /**
      * TODO: header text content needed
      * TODO: Meal preference missing
      * // Total Paid
      * // Booking source missing
      */
-    const {
-      flyCityText,
-      dateOfIssue,
-      cancellationPolicy,
-      pnr,
-      sourceProvider,
-      totalCost,
-      invoiceNumber,
-      bookingReferenceId,
-      webCheckInUrl,
-      refundable
-    } = flight.voucher;
+    const { flyCityText, pnr, webCheckInUrl, voucherUrl } =
+      flight.voucher || {};
     const {
       trips,
       allTrips,
@@ -99,97 +98,97 @@ class FlightVoucher extends Component {
       //   name: "Booking source",
       //   value: sourceProvider || "NA"
       // },
-      {
-        name: "Booking type",
-        value: refundable ? "Refundable" : "Non-Refundable"
-      }
+      // {
+      //   name: "Booking type",
+      //   value: refundable ? "Refundable*" : "Non-Refundable"
+      // }
     ];
 
-    return [
-      <ParallaxScrollView
-        key={0}
-        bounces={false}
-        backgroundColor="white"
-        contentBackgroundColor="white"
-        parallaxHeaderHeight={214 + xHeight}
-        stickyHeaderHeight={48 + xHeight}
-        fadeOutForeground={Platform.OS !== "android"}
-        onChangeHeaderVisibility={this.headerToggle}
-        renderStickyHeader={() => (
-          <VoucherStickyHeader action={this.close} text={`PNR - ${pnr}`} />
-        )}
-        renderForeground={() => (
-          <VoucherHeader
-            infoText={flyCityText}
-            title={pnr}
-            menu={() => {}}
-            onClickClose={this.close}
-            image={constants.flightVoucherBanner}
-            placeHolderHeight={48 + xHeight}
-          >
-            <View style={styles.voucherHeaderWrapper}>
-              {tripDetails.map((trip, tripIndex) => {
-                const { routes } = trip;
+    return (
+      <Fragment>
+        <ParallaxScrollView
+          bounces={false}
+          backgroundColor="white"
+          contentBackgroundColor="white"
+          parallaxHeaderHeight={214 + xHeight}
+          stickyHeaderHeight={this.state.isCloseVisible ? 0 : 48 + xHeight}
+          fadeOutForeground={Platform.OS !== "android"}
+          onChangeHeaderVisibility={this.headerToggle}
+          renderStickyHeader={() => (
+            <VoucherStickyHeader
+              action={this.close}
+              text={pnr ? `PNR - ${pnr}` : ""}
+            />
+          )}
+          renderForeground={() => (
+            <VoucherHeader
+              infoText={flyCityText}
+              title={pnr}
+              menu={() => {}}
+              onClickClose={this.close}
+              image={constants.flightVoucherBanner}
+              placeHolderHeight={48 + xHeight}
+              voucherUrl={voucherUrl}
+            >
+              <View style={styles.voucherHeaderWrapper}>
+                {tripDetails.map((trip, tripIndex) => {
+                  const { routes } = trip;
+                  return (
+                    <Text key={tripIndex} style={styles.voucherHeaderRoute}>{`${
+                      routes[0].departureCity
+                    } → ${routes[routes.length - 1].arrivalCity}`}</Text>
+                  );
+                })}
+                <Text style={styles.voucherHeaderInfo}>{"PNR"}</Text>
+                <Text style={styles.voucherHeaderText}>{pnr}</Text>
+              </View>
+            </VoucherHeader>
+          )}
+        >
+          <View style={styles.flightVoucherContainer}>
+            {tripDetails.map((trip, tripIndex) => {
+              return [
+                <FlightTripView
+                  excessBaggageInfo={excessBaggageInfo}
+                  flightClass={getTitleCase(flightClass)}
+                  webCheckInUrl={webCheckInUrl}
+                  isWebCheckinActive={isWebCheckinActive}
+                  key={tripIndex}
+                  trip={trip}
+                  airlineCode={airlineCode}
+                  isLast={tripIndex === tripDetails.length - 1}
+                />,
+                <FlightActionSection
+                  key={tripIndex + trip.length}
+                  webCheckInUrl={webCheckInUrl}
+                  isWebCheckinActive={isWebCheckinActive}
+                />
+              ];
+            })}
+            <SectionHeader sectionName={"TRAVELLERS"} />
+            {passengers &&
+              passengers.map((passenger, passengerIndex) => {
                 return (
-                  <Text key={tripIndex} style={styles.voucherHeaderRoute}>{`${
-                    routes[0].departureCity
-                  } → ${routes[routes.length - 1].arrivalCity}`}</Text>
+                  <PassengerName
+                    key={passengerIndex}
+                    name={`${passenger.salutation}. ${passenger.firstName} ${passenger.lastName}`}
+                  />
                 );
               })}
-              <Text style={styles.voucherHeaderInfo}>{"PNR"}</Text>
-              <Text style={styles.voucherHeaderText}>{pnr}</Text>
-            </View>
-          </VoucherHeader>
-        )}
-      >
-        <View style={styles.flightVoucherContainer}>
-          {tripDetails.map((trip, tripIndex) => {
-            return [
-              <FlightTripView
-                excessBaggageInfo={excessBaggageInfo}
-                flightClass={getTitleCase(flightClass)}
-                webCheckInUrl={webCheckInUrl}
-                isWebCheckinActive={isWebCheckinActive}
-                key={tripIndex}
-                trip={trip}
-                airlineCode={airlineCode}
-                isLast={tripIndex === tripDetails.length - 1}
-              />,
-              <FlightActionSection
-                key={tripIndex + trip.length}
-                webCheckInUrl={webCheckInUrl}
-                isWebCheckinActive={isWebCheckinActive}
-              />
-            ];
-          })}
-          <SectionHeader sectionName={"TRAVELLERS"} />
-          {passengers &&
-            passengers.map((passenger, passengerIndex) => {
-              return (
-                <PassengerName
-                  key={passengerIndex}
-                  name={`${passenger.salutation}. ${passenger.firstName} ${
-                    passenger.lastName
-                  }`}
-                />
-              );
-            })}
-          <VoucherSplitSection
-            sections={flightInvoiceInfo}
-            containerStyle={{
-              borderTopWidth: StyleSheet.hairlineWidth,
-              borderColor: constants.shade4,
-              marginTop: 16,
-              paddingTop: 16,
-              marginBottom: 24
-            }}
-          />
-        </View>
-      </ParallaxScrollView>,
-      Platform.OS === "ios" && this.state.isCloseVisible ? (
-        <IosCloseButton key={1} clickAction={this.close} />
-      ) : null
-    ];
+            <VoucherSplitSection
+              sections={flightInvoiceInfo}
+              containerStyle={styles.invoiceInfo}
+            />
+            <ViewVoucherButton voucherUrl={voucherUrl} />
+
+            {/* refundable ? <ConditionsApplyText /> : null */}
+          </View>
+        </ParallaxScrollView>
+        {Platform.OS === "ios" && this.state.isCloseVisible ? (
+          <IosCloseButton clickAction={this.close} />
+        ) : null}
+      </Fragment>
+    );
   }
 }
 
@@ -230,6 +229,13 @@ const styles = StyleSheet.create({
   },
   flightVoucherContainer: {
     marginHorizontal: 24
+  },
+  invoiceInfo: {
+    borderTopWidth: StyleSheet.hairlineWidth,
+    borderColor: constants.shade4,
+    marginTop: 16,
+    paddingTop: 16,
+    marginBottom: 24
   }
 });
 

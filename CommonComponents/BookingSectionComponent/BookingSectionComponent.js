@@ -12,6 +12,7 @@ import { responsiveWidth } from "react-native-responsive-dimensions";
 import PropTypes from "prop-types";
 import Icon from "../Icon/Icon";
 import _ from "lodash";
+import SmartImageV2 from "../SmartImage/SmartImageV2";
 
 const BookingSectionComponent = ({
   onClick,
@@ -25,7 +26,9 @@ const BookingSectionComponent = ({
   contentNumberOfLines = 1,
   isProcessing,
   hideTitle,
-  spinValue
+  spinValue,
+  isDataSkipped,
+  voucherTitle
 }) => {
   let processingSpin = null;
 
@@ -38,8 +41,6 @@ const BookingSectionComponent = ({
       : null;
   }
 
-  const imageProps = defaultSource ? { defaultSource } : {};
-
   return (
     <TouchableOpacity
       onPress={onClick}
@@ -48,14 +49,19 @@ const BookingSectionComponent = ({
     >
       <View style={styles.iconWrapper}>
         <View style={styles.contentIcon}>
-          <Image
-            resizeMode={isImageContain ? "contain" : "cover"}
-            source={sectionImage}
-            {...imageProps}
+          {/**
+           * Do not load actual thumbnail if the data is skipped for the voucher
+           */}
+          <SmartImageV2
+            resizeMode={
+              isDataSkipped ? "cover" : isImageContain ? "contain" : "cover"
+            }
+            source={isDataSkipped ? defaultSource : sectionImage}
+            fallbackSource={defaultSource}
             style={styles.contentIcon}
           />
         </View>
-        {isProcessing ? (
+        {isProcessing && !isDataSkipped ? (
           <Animated.View
             style={[
               styles.bookingProcessIconWrapper,
@@ -87,7 +93,7 @@ const BookingSectionComponent = ({
             numberOfLines={contentNumberOfLines}
             ellipsizeMode={"tail"}
           >
-            {content}
+            {isDataSkipped ? voucherTitle || content : content}
           </Text>
         </View>
       </View>
@@ -101,14 +107,16 @@ BookingSectionComponent.propTypes = {
   sectionImage: PropTypes.oneOfType([PropTypes.object, PropTypes.number])
     .isRequired,
   isImageContain: PropTypes.bool.isRequired,
-  defaultImageUri: PropTypes.string.isRequired,
+  defaultSource: PropTypes.oneOfType([PropTypes.object, PropTypes.number]),
   title: PropTypes.string.isRequired,
   content: PropTypes.string.isRequired,
   titleNumberOfLines: PropTypes.number,
   contentNumberOfLines: PropTypes.number,
   isProcessing: PropTypes.bool.isRequired,
   hideTitle: PropTypes.bool,
-  spinValue: PropTypes.object
+  spinValue: PropTypes.oneOfType([PropTypes.object, PropTypes.number]),
+  isDataSkipped: PropTypes.bool,
+  voucherTitle: PropTypes.string
 };
 
 const maxTextAreaWidth = responsiveWidth(100) - 48 - 8 - 40 - 16;

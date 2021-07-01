@@ -12,12 +12,10 @@ import Modal from "react-native-modal";
 import PropTypes from "prop-types";
 import { responsiveWidth } from "react-native-responsive-dimensions";
 import constants from "../../../../../constants/constants";
-import SmartImage from "../../../../../CommonComponents/SmartImage/SmartImage";
-import FastImage from "react-native-fast-image";
-import FeedBackButtons from "./FeedBackButtons";
 import SimpleButton from "../../../../../CommonComponents/SimpleButton/SimpleButton";
 import Icon from "../../../../../CommonComponents/Icon/Icon";
-import { toastCenter } from "../../../../../Services/toast/toast";
+import * as Animatable from "react-native-animatable";
+import { toastBottom } from "../../../../../Services/toast/toast";
 
 class FeedBackSwiperModal extends Component {
   static propTypes = {
@@ -25,9 +23,10 @@ class FeedBackSwiperModal extends Component {
     isNegative: PropTypes.bool,
     data: PropTypes.object.isRequired,
     submit: PropTypes.func.isRequired,
-    onClose: PropTypes.func.isRequired,
     emitterComponent: PropTypes.object.isRequired,
-    title: PropTypes.string
+    title: PropTypes.string,
+    setFeedBackInputFieldWrapperRef: PropTypes.func.isRequired,
+    isFeedbackSubmitAttempted: PropTypes.bool.isRequired
   };
 
   state = {
@@ -73,7 +72,15 @@ class FeedBackSwiperModal extends Component {
   };
 
   render() {
-    const { isVisible, isNegative, data, onClose, submit, title } = this.props;
+    const {
+      isVisible,
+      isNegative,
+      data,
+      submit,
+      title,
+      setFeedBackInputFieldWrapperRef,
+      isFeedbackSubmitAttempted
+    } = this.props;
     const { isKeyboardVisible } = this.state;
 
     // const items = [
@@ -141,10 +148,13 @@ class FeedBackSwiperModal extends Component {
         animationOut={"zoomOut"}
         useNativeDriver={true}
         isVisible={isVisible}
-        onBackButtonPress={() => null}
-        onBackdropPress={() =>
-          isKeyboardVisible ? Keyboard.dismiss() : onClose()
-        }
+        onBackButtonPress={() => {
+          toastBottom(constants.feedBackCollectionToastText.message);
+        }}
+        onBackdropPress={() => {
+          Keyboard.dismiss();
+          toastBottom(constants.feedBackCollectionToastText.message);
+        }}
         style={styles.modalContainer}
       >
         <KeyboardAvoidingView
@@ -185,9 +195,17 @@ class FeedBackSwiperModal extends Component {
                 </View>
               );
             })*/}
-            <View style={styles.textInputWrapper}>
+            <Animatable.View
+              ref={setFeedBackInputFieldWrapperRef}
+              style={styles.textInputWrapper}
+            >
               <TextInput
-                style={styles.textInput}
+                style={[
+                  styles.textInput,
+                  isFeedbackSubmitAttempted && !this.props.review
+                    ? styles.textInputError
+                    : {}
+                ]}
                 onChangeText={this.props.onEditText}
                 returnKeyType={"next"}
                 underlineColorAndroid={"transparent"}
@@ -202,7 +220,7 @@ class FeedBackSwiperModal extends Component {
                 }
                 placeholderTextColor={"rgba(155,155,155,1)"}
               />
-            </View>
+            </Animatable.View>
             <SimpleButton
               text={"Done"}
               containerStyle={{
@@ -309,6 +327,10 @@ const styles = StyleSheet.create({
     height: 70,
     ...constants.fontCustom(constants.primaryLight, 13),
     color: "white"
+  },
+  textInputError: {
+    borderWidth: StyleSheet.hairlineWidth,
+    borderColor: constants.fourthColor
   },
   feedBackIconContainer: {
     height: 48,

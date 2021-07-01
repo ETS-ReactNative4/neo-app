@@ -17,7 +17,9 @@ const NextBar = ({ onClickNext }) => {
       }}
       text={"Request OTP"}
       action={() => {
-        recordEvent(constants.mobileNumberNextClick);
+        recordEvent(constants.MobileNumber.event, {
+          click: constants.MobileNumber.click.requestOtpUi
+        });
         onClickNext();
       }}
       textColor={"white"}

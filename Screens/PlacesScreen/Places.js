@@ -13,7 +13,7 @@ import Carousel from "../../CommonComponents/Carousel/Carousel";
 import PlaceSectionTitle from "./Components/PlaceSectionTitle";
 import XSensorPlaceholder from "../../CommonComponents/XSensorPlaceholder/XSensorPlaceholder";
 import { isIphoneX } from "react-native-iphone-x-helper";
-import { inject, observer } from "mobx-react/custom";
+import { inject, observer } from "mobx-react";
 import CitySelectionMenu from "../../CommonComponents/CitySelectionMenu/CitySelectionMenu";
 import PlacesPageTitle from "./Components/PlacesPageTitle";
 import { recordEvent } from "../../Services/analytics/analyticsService";
@@ -22,45 +22,52 @@ import SimpleCard from "../../CommonComponents/SimpleCard/SimpleCard";
 import CustomScrollView from "../../CommonComponents/CustomScrollView/CustomScrollView";
 import DeepLinkHandler from "../../CommonComponents/DeepLinkHandler/DeepLinkHandler";
 import storeService from "../../Services/storeService/storeService";
+import { SCREEN_NEAR_BY } from "../../NavigatorsV2/ScreenNames";
 
 @ErrorBoundary()
 @DeepLinkHandler
+@inject("itineraries")
 @inject("placesStore")
 @observer
 class Places extends Component {
-  static navigationOptions = ({ navigation }) => {
-    return {
-      header: (
+  constructor(props) {
+    super(props);
+
+    props.navigation.setOptions({
+      header: () => (
         <CommonHeader
           TitleComponent={<PlacesPageTitle />}
           title={""}
-          navigation={navigation}
+          navigation={props.navigation}
         />
       )
-    };
-  };
+    });
+  }
 
   state = {
     isScrollRecorded: false,
-    selectedCity: {}
+    selectedCity: ""
   };
 
   componentDidMount() {
     const { selectCity } = this.props.placesStore;
-    const city = this.props.navigation.getParam("city", {});
+    const cityId = this.props.route.params ? this.props.route.params.city : "";
     this.setState({
-      selectedCity: city
+      selectedCity: cityId
     });
-    selectCity(city);
+    selectCity(cityId);
   }
 
   changeCity = city => {
-    recordEvent(constants.placesHeaderCityNameClick);
+    const cityId = city.cityObject.cityId;
+    recordEvent(constants.Places.event, {
+      click: constants.Places.click.headerCity
+    });
     this.setState({
-      selectedCity: city
+      selectedCity: cityId
     });
     const { selectCity } = this.props.placesStore;
-    selectCity(city);
+    selectCity(cityId);
   };
 
   componentWillUnmount() {
@@ -69,7 +76,9 @@ class Places extends Component {
 
   scrollAction = () => {
     if (!this.state.isScrollRecorded) {
-      recordEvent(constants.placesCarouselScroll);
+      recordEvent(constants.Places.event, {
+        scroll: constants.Places.scroll.placesCarousel
+      });
       this.setState({
         isScrollRecorded: true
       });
@@ -82,13 +91,14 @@ class Places extends Component {
       categories,
       isLoading,
       refreshCity,
-      selectedCity: city
+      selectedCity
     } = this.props.placesStore;
+    const { getCityById } = this.props.itineraries;
+    const city = getCityById(selectedCity);
     const categorySections = Object.keys(categories);
-    const target = this.props.navigation.getParam("target", "ToolNearBy");
     let onScrollProps = {};
     if (!this.state.isScrollRecorded) {
-      onScrollProps["onScroll"] = () => this.scrollAction();
+      onScrollProps.onScroll = () => this.scrollAction();
     }
     return (
       <CustomScrollView
@@ -116,11 +126,13 @@ class Places extends Component {
                       key={itemIndex}
                       image={{ uri: item.image }}
                       action={() => {
-                        recordEvent(constants.placesCategoryTileClick);
-                        this.props.navigation.navigate(target, {
+                        recordEvent(constants.Places.event, {
+                          click: constants.Places.click.category
+                        });
+                        this.props.navigation.navigate(SCREEN_NEAR_BY, {
                           title: item.category,
                           city,
-                          searchQuery: `${item.category} in ${city.city}`
+                          searchQuery: `${item.category} in ${city.cityName}`
                         });
                       }}
                       backdropColor={"white"}

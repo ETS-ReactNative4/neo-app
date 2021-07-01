@@ -1,6 +1,9 @@
-let navigationService = {};
+let navigationService = {
+  navigation: {}
+};
 
-export const setNavigationService = _navigation =>
-  (navigationService.navigation = _navigation);
+export const setNavigationService = _navigation => {
+  return (navigationService.navigation = _navigation);
+};
 
 export default navigationService;

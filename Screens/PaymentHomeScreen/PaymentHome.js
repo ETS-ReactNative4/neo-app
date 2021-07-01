@@ -1,14 +1,8 @@
 import React, { Component } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  RefreshControl,
-  ScrollView
-} from "react-native";
+import { View, StyleSheet } from "react-native";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
 import HamburgerButton from "../../CommonComponents/HamburgerButton/HamburgerButton";
-import { inject, observer } from "mobx-react/custom";
+import { inject, observer } from "mobx-react";
 import EmptyListPlaceholder from "../../CommonComponents/EmptyListPlaceholder/EmptyListPlaceholder";
 import constants from "../../constants/constants";
 import { isIphoneX } from "react-native-iphone-x-helper";
@@ -18,33 +12,19 @@ import apiCall from "../../Services/networkRequests/apiCall";
 import { recordEvent } from "../../Services/analytics/analyticsService";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import CustomScrollView from "../../CommonComponents/CustomScrollView/CustomScrollView";
+import storeService from "../../Services/storeService/storeService";
+import { CONSTANT_drawerEvents } from "../../constants/appEvents";
+import PrimaryHeader from "../../NavigatorsV2/Components/PrimaryHeader";
+import { SCREEN_PAYMENT_SUMMARY } from "../../NavigatorsV2/ScreenNames";
 
 @ErrorBoundary({ isRoot: true })
 @inject("yourBookingsStore")
 @observer
 class PaymentHome extends Component {
-  static navigationOptions = ({ navigation }) => {
-    return {
-      header: (
-        <CommonHeader
-          LeftButton={
-            <HamburgerButton
-              action={() => {
-                recordEvent(constants.hamburgerButtonClick);
-                navigation.openDrawer();
-              }}
-            />
-          }
-          title={"Payments"}
-          navigation={navigation}
-        />
-      )
-    };
-  };
-
   state = {
     isLoading: false,
-    paymentMeta: {}
+    paymentMeta: {},
+    displayCurrency: null
   };
   _didFocusSubscription;
 
@@ -57,6 +37,14 @@ class PaymentHome extends Component {
         this.getPaymentMeta();
       }
     );
+
+    props.navigation.setOptions({
+      header: () =>
+        PrimaryHeader({
+          leftAction: () => props.navigation.goBack(),
+          headerText: "Payments"
+        })
+    });
   }
 
   componentDidMount() {
@@ -80,7 +68,8 @@ class PaymentHome extends Component {
         }, 1000);
         if (response.status === "SUCCESS") {
           this.setState({
-            paymentMeta: response.data
+            paymentMeta: response.data,
+            displayCurrency: response.displayCurrency
           });
         } else {
           this.apiFailure();
@@ -99,9 +88,12 @@ class PaymentHome extends Component {
   render() {
     const {
       upcomingItineraries,
+      // completedItineraries,
       isLoading,
       getUpcomingItineraries
     } = this.props.yourBookingsStore;
+
+    const itinerariesList = upcomingItineraries;
 
     return (
       <View style={styles.paymentContainer}>
@@ -112,7 +104,7 @@ class PaymentHome extends Component {
             this.getPaymentMeta();
           }}
         >
-          {!upcomingItineraries.length && !isLoading ? (
+          {!itinerariesList.length && !isLoading ? (
             <EmptyListPlaceholder
               text={`No active bookings found on this number. If the booking is made by someone else, you need an invite from them to proceed.`}
               containerStyle={{
@@ -122,20 +114,20 @@ class PaymentHome extends Component {
               }}
             />
           ) : null}
-          {upcomingItineraries.map((itinerary, index) => {
+          {itinerariesList.map((itinerary, index) => {
             const paymentDetails = this.state.paymentMeta[
               itinerary.itineraryId
             ];
             if (paymentDetails) {
               let isLast = false;
-              if (index === upcomingItineraries.length - 1) isLast = true;
+              if (index === itinerariesList.length - 1) isLast = true;
               return (
                 <PaymentInfoCard
                   key={index}
                   itineraryName={itinerary.itineraryName}
                   itineraryId={itinerary.itineraryId}
                   selectItinerary={() =>
-                    this.props.navigation.navigate("PaymentSummary", {
+                    this.props.navigation.navigate(SCREEN_PAYMENT_SUMMARY, {
                       itineraryId: itinerary.itineraryId,
                       itineraryName: itinerary.itineraryName,
                       paymentDetails
@@ -147,6 +139,7 @@ class PaymentHome extends Component {
                   paymentStatus={paymentDetails.paymentStatus}
                   nextPendingDate={paymentDetails.nextPendingDate}
                   totalAmountPaid={paymentDetails.totalAmountPaid}
+                  displayCurrency={this.state.displayCurrency}
                 />
               );
             } else {

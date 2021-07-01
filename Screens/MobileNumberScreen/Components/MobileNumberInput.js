@@ -4,7 +4,6 @@ import {
   StyleSheet,
   TouchableHighlight,
   Text,
-  Image,
   TextInput,
   Platform
 } from "react-native";
@@ -27,7 +26,7 @@ const MobileNumberInput = ({
     <View
       style={[
         styles.mobileNumberBox,
-        hasError ? { borderBottomColor: "red" } : {}
+        hasError ? styles.mobileNumberBoxError : null
       ]}
     >
       <TouchableHighlight
@@ -49,19 +48,20 @@ const MobileNumberInput = ({
       </TouchableHighlight>
       <View style={styles.numberInputBox}>
         <TextInput
-          ref={e => mobileInputRef(e)}
+          ref={mobileInputRef}
           onChangeText={editMobileNumber}
           placeholder={"9888888888"}
           value={mobileNumber}
           placeholderTextColor={constants.shade5}
           style={styles.numberInput}
           keyboardType={"phone-pad"}
-          maxLength={10}
           underlineColorAndroid={"transparent"}
           returnKeyType={"next"}
           editable={!isMobileVerified}
           onSubmitEditing={() => {
-            recordEvent(constants.mobileNumberKeyboardClick);
+            recordEvent(constants.MobileNumber.event, {
+              click: constants.MobileNumber.click.requestOtpKeyboard
+            });
             submitMobileNumber();
           }}
           keyboardAppearance={"dark"}
@@ -79,7 +79,7 @@ MobileNumberInput.propTypes = {
   mobileNumber: PropTypes.string.isRequired,
   isMobileVerified: PropTypes.bool.isRequired,
   submitMobileNumber: PropTypes.func.isRequired,
-  mobileInputRef: PropTypes.func.isRequired
+  mobileInputRef: PropTypes.object.isRequired
 };
 
 const styles = StyleSheet.create({
@@ -92,6 +92,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center"
   },
+  mobileNumberBoxError: { borderBottomColor: "red" },
   countryCodeBox: {
     alignItems: "center",
     flexDirection: "row"

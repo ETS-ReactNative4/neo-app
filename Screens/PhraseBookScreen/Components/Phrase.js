@@ -10,7 +10,9 @@ const Phrase = ({ phrase, selectPhrase, isLast, targetLanguage }) => {
   return (
     <TouchableHighlight
       onPress={() => {
-        recordEvent(constants.commonPhrasesTranslateFromBookClick);
+        recordEvent(constants.CommonPhrases.event, {
+          click: constants.CommonPhrases.click.book
+        });
         selectPhrase(phrase, targetLanguage);
       }}
       underlayColor={"white"}

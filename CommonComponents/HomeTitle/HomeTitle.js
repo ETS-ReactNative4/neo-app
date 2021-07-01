@@ -1,22 +1,19 @@
 import React from "react";
-import { inject, observer } from "mobx-react/custom";
-import { Image, View } from "react-native";
-import constants from "../../constants/constants";
-import BookingHomeTitle from "../BookingHomeTitle/BookingHomeTitle";
+import { Image, StyleSheet } from "react-native";
+import { CONSTANT_pytLogo } from "../../constants/imageAssets";
 
-const HomeTitle = inject("appState")(
-  observer(({ appState, action }) => {
-    const { isTripModeOn } = appState;
+const HomeTitle = () => {
+  return (
+    <Image
+      style={styles.image}
+      resizeMode={"contain"}
+      source={CONSTANT_pytLogo}
+    />
+  );
+};
 
-    if (isTripModeOn) return <BookingHomeTitle action={action} />;
-    return (
-      <Image
-        style={{ height: 22, width: 177 }}
-        resizeMode={"contain"}
-        source={constants.pytLogo}
-      />
-    );
-  })
-);
+const styles = StyleSheet.create({
+  image: { height: 22, width: 177 }
+});
 
 export default HomeTitle;

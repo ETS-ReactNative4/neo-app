@@ -1,0 +1,340 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Action Sheet 1`] = `
+Array [
+  <View
+    pointerEvents="box-none"
+    style={
+      Object {
+        "backgroundColor": "black",
+        "height": 1334,
+        "opacity": 0.29999999999999993,
+        "position": "absolute",
+        "width": 750,
+      }
+    }
+  />,
+  <InteractableView
+    animatedNativeDriver={true}
+    dragToss={0.1}
+    initialPosition={
+      Object {
+        "y": 333.5,
+      }
+    }
+    onAnimatedEvent={[Function]}
+    onSnap={[Function]}
+    reportOnAnimatedEvents={true}
+    snapPoints={
+      Array [
+        Object {
+          "y": 0,
+        },
+        Object {
+          "y": 333.5,
+        },
+        Object {
+          "y": 1434,
+        },
+      ]
+    }
+    style={
+      Object {
+        "backgroundColor": "transparent",
+        "borderRadius": 30,
+        "height": 2668,
+        "overflow": "hidden",
+        "position": "absolute",
+        "width": 750,
+      }
+    }
+    verticalOnly={true}
+  >
+    <View
+      style={
+        Object {
+          "backgroundColor": "white",
+          "borderRadius": 30,
+          "flex": 1,
+        }
+      }
+    >
+      <View
+        style={
+          Object {
+            "alignSelf": "center",
+            "backgroundColor": "rgba(221, 221, 221, 1)",
+            "borderRadius": 3,
+            "height": 8,
+            "marginTop": 16,
+            "width": 40,
+          }
+        }
+      />
+    </View>
+  </InteractableView>,
+]
+`;
+
+exports[`Action Sheet Props 1`] = `
+Array [
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "backgroundColor": "rgb(247, 247, 247)",
+        "flex": 1,
+        "justifyContent": "center",
+      }
+    }
+  >
+    <TouchableHighlight
+      activeOpacity={0.85}
+      delayPressOut={100}
+      onPress={[Function]}
+      style={
+        Array [
+          Object {
+            "backgroundColor": "rgba(0,198,132,1)",
+            "borderRadius": 4,
+            "height": 40,
+            "width": 160,
+          },
+          Object {},
+        ]
+      }
+      underlayColor="white"
+    >
+      <View
+        style={
+          Array [
+            Object {
+              "alignItems": "center",
+              "flex": 1,
+              "flexDirection": "row",
+              "justifyContent": "center",
+            },
+            Object {},
+          ]
+        }
+      >
+        <Text
+          style={
+            Array [
+              Object {
+                "fontFamily": "SourceSansPro-SemiBold",
+                "fontSize": 17,
+                "lineHeight": 17,
+                "marginTop": 2,
+              },
+              Object {
+                "color": "white",
+              },
+              Object {},
+            ]
+          }
+        >
+          Open Panel
+        </Text>
+      </View>
+    </TouchableHighlight>
+    <Text
+      style={
+        Object {
+          "fontWeight": "bold",
+          "margin": 16,
+          "textAlign": "center",
+        }
+      }
+    >
+      Action sheet is
+  Hidden
+    </Text>
+  </View>,
+  <View
+    pointerEvents="box-none"
+    style={
+      Object {
+        "backgroundColor": "black",
+        "height": 1334,
+        "opacity": 0,
+        "position": "absolute",
+        "width": 750,
+      }
+    }
+  />,
+  <InteractableView
+    animatedNativeDriver={true}
+    dragToss={0.1}
+    initialPosition={
+      Object {
+        "y": 1334,
+      }
+    }
+    onAnimatedEvent={[Function]}
+    onSnap={[Function]}
+    reportOnAnimatedEvents={true}
+    snapPoints={
+      Array [
+        Object {
+          "y": 0,
+        },
+        Object {
+          "y": 1000.5,
+        },
+        Object {
+          "y": 1434,
+        },
+      ]
+    }
+    style={
+      Object {
+        "backgroundColor": "transparent",
+        "borderRadius": 30,
+        "height": 2668,
+        "overflow": "hidden",
+        "position": "absolute",
+        "width": 750,
+      }
+    }
+    verticalOnly={true}
+  >
+    <View
+      style={
+        Object {
+          "backgroundColor": "white",
+          "borderRadius": 30,
+          "flex": 1,
+        }
+      }
+    >
+      <View
+        style={
+          Object {
+            "alignSelf": "center",
+            "backgroundColor": "rgba(221, 221, 221, 1)",
+            "borderRadius": 3,
+            "height": 8,
+            "marginTop": 16,
+            "width": 40,
+          }
+        }
+      />
+      <Text
+        style={
+          Object {
+            "fontWeight": "bold",
+            "margin": 16,
+            "textAlign": "center",
+          }
+        }
+      >
+        This is the Action sheet!
+      </Text>
+      <Text
+        style={
+          Object {
+            "fontWeight": "bold",
+            "margin": 16,
+            "textAlign": "center",
+          }
+        }
+      >
+        Action sheet is
+  Hidden
+      </Text>
+    </View>
+  </InteractableView>,
+]
+`;
+
+exports[`Action Sheet with Text Input 1`] = `
+Array [
+  <View
+    pointerEvents="box-none"
+    style={
+      Object {
+        "backgroundColor": "black",
+        "height": 1334,
+        "opacity": 0.29999999999999993,
+        "position": "absolute",
+        "width": 750,
+      }
+    }
+  />,
+  <InteractableView
+    animatedNativeDriver={true}
+    dragToss={0.1}
+    initialPosition={
+      Object {
+        "y": 333.5,
+      }
+    }
+    onAnimatedEvent={[Function]}
+    onSnap={[Function]}
+    reportOnAnimatedEvents={true}
+    snapPoints={
+      Array [
+        Object {
+          "y": 0,
+        },
+        Object {
+          "y": 333.5,
+        },
+        Object {
+          "y": 1434,
+        },
+      ]
+    }
+    style={
+      Object {
+        "backgroundColor": "transparent",
+        "borderRadius": 30,
+        "height": 2668,
+        "overflow": "hidden",
+        "position": "absolute",
+        "width": 750,
+      }
+    }
+    verticalOnly={true}
+  >
+    <View
+      style={
+        Object {
+          "backgroundColor": "white",
+          "borderRadius": 30,
+          "flex": 1,
+        }
+      }
+    >
+      <View
+        style={
+          Object {
+            "alignSelf": "center",
+            "backgroundColor": "rgba(221, 221, 221, 1)",
+            "borderRadius": 3,
+            "height": 8,
+            "marginTop": 16,
+            "width": 40,
+          }
+        }
+      />
+      <TextInput
+        allowFontScaling={true}
+        collapsable={false}
+        onGestureHandlerEvent={[Function]}
+        onGestureHandlerStateChange={[Function]}
+        placeholder="Tap here to show keyboard!"
+        rejectResponderTermination={true}
+        style={
+          Object {
+            "alignSelf": "center",
+            "marginTop": 16,
+          }
+        }
+        underlineColorAndroid="transparent"
+      />
+    </View>
+  </InteractableView>,
+]
+`;

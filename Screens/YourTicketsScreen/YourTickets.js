@@ -1,49 +1,78 @@
 import React, { Component } from "react";
 import { FlatList, View, StyleSheet } from "react-native";
-import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
-import TicketPreview from "./Components/TicketPreview";
 import constants from "../../constants/constants";
-import { inject, observer } from "mobx-react/custom";
+import _ from "lodash";
+import { inject, observer } from "mobx-react";
 import moment from "moment";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
+import TicketMessageSummary from "./Components/TicketMessageSummary";
+import HelpDeskSectionTitle from "../SupportCenterScreen/Components/HelpDeskSectionTitle";
+import ContactUsTile from "../SupportCenterScreen/Components/ContactUsTile";
+import {
+  SCREEN_CONTACT_US,
+  SCREEN_TICKETS_CONVERSATION
+} from "../../NavigatorsV2/ScreenNames";
+import PrimaryHeader from "../../NavigatorsV2/Components/PrimaryHeader";
+import PropTypes from "prop-types";
 
 @ErrorBoundary()
 @inject("itineraries")
 @inject("supportStore")
 @observer
 class YourTickets extends Component {
-  static navigationOptions = ({ navigation }) => {
-    return {
-      header: <CommonHeader title={"Your Tickets"} navigation={navigation} />
-    };
+  static propTypes = {
+    navigation: PropTypes.object.isRequired,
+    route: PropTypes.object.isRequired,
+    supportStore: PropTypes.object.isRequired,
+    itineraries: PropTypes.object.isRequired
   };
+
+  constructor(props) {
+    super(props);
+
+    props.navigation.setOptions({
+      header: () =>
+        PrimaryHeader({
+          leftAction: () => props.navigation.goBack(),
+          headerText: "Your Tickets"
+        })
+    });
+  }
 
   componentDidMount() {
     const { loadConversation } = this.props.supportStore;
     loadConversation();
   }
 
-  _renderItem = ({ item: ticket, index }) => {
+  contactSupport = () => {
+    this.props.navigation.navigate(SCREEN_CONTACT_US, {
+      type: constants.defaultSupportType
+    });
+  };
+
+  _renderItem = ({ item: ticket }) => {
+    const { getFaqDetailsByCategory } = this.props.supportStore;
+    const faqDetails = getFaqDetailsByCategory(ticket.title);
+    const title = _.isEmpty(faqDetails)
+      ? ticket.title
+      : faqDetails.categoryDisplayStr;
+    const navigateToConversation = () =>
+      this.props.navigation.navigate(SCREEN_TICKETS_CONVERSATION, {
+        title,
+        status: ticket.closed ? "Closed" : "Open",
+        ticketId: ticket.ticketId
+      });
     return (
-      <TicketPreview
-        title={ticket.title}
-        containerStyle={{ marginHorizontal: 24 }}
-        lastMessage={ticket.lastMsg}
-        lastMessageTime={
-          ticket.closed
-            ? "closed"
-            : moment(ticket.lastMsgTime).format("hh:mm a")
-        }
+      <TicketMessageSummary
+        time={moment(ticket.lastMsgTime).format(
+          `${constants.shortTimeFormat} -${constants.shortCommonDateFormat}`
+        )}
+        containerStyle={styles.messageSectionWrapper}
         isClosed={ticket.closed}
-        isUnRead={ticket.lastSeenMsgId < ticket.maxMsgId}
-        isLast={false}
-        action={() =>
-          this.props.navigation.navigate("TicketsConversation", {
-            title: ticket.title,
-            status: ticket.closed ? "Closed" : "Open",
-            ticketId: ticket.ticketId
-          })
-        }
+        subject={title}
+        message={ticket.lastMsg}
+        unReadCount={ticket.lastSeenMsgId < ticket.maxMsgId ? 1 : 0}
+        action={navigateToConversation}
       />
     );
   };
@@ -61,9 +90,12 @@ class YourTickets extends Component {
 
     const conversations = getConversationsByItineraryId(selectedItineraryId);
 
-    return [
+    return (
       <View key={0} style={styles.yourTicketsContainer}>
-        <View style={styles.firstLine} />
+        <HelpDeskSectionTitle
+          containerStyle={styles.titleWrapper}
+          title={"Your conversations"}
+        />
         <FlatList
           refreshing={isConversationLoading}
           keyExtractor={this._keyExtractor}
@@ -71,15 +103,26 @@ class YourTickets extends Component {
           onRefresh={() => loadConversation()}
           renderItem={this._renderItem}
         />
+        <ContactUsTile
+          contactText={"Would you like to start a new conversation?"}
+          contactAction={this.contactSupport}
+        />
       </View>
-    ];
+    );
   }
 }
 
 const styles = StyleSheet.create({
   yourTicketsContainer: {
     flex: 1,
-    backgroundColor: "white"
+    backgroundColor: constants.white1
+  },
+  titleWrapper: {
+    marginHorizontal: 24,
+    marginVertical: 16
+  },
+  messageSectionWrapper: {
+    marginVertical: 1
   },
   firstLine: {
     height: 1,

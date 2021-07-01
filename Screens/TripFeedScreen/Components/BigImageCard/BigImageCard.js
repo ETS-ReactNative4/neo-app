@@ -1,15 +1,14 @@
-import React from "react";
-import { Text, TouchableOpacity, View, StyleSheet } from "react-native";
-import FastImage from "react-native-fast-image";
-import LinearGradient from "react-native-linear-gradient";
-import PropTypes from "prop-types";
-import forbidExtraProps from "../../../../Services/PropTypeValidation/forbidExtraProps";
-import constants from "../../../../constants/constants";
-import Icon from "../../../../CommonComponents/Icon/Icon";
-import { responsiveWidth } from "react-native-responsive-dimensions";
-import changeColorAlpha from "../../../../Services/changeColorAlpha/changeColorAlpha";
-import resolveLinks from "../../../../Services/resolveLinks/resolveLinks";
-import { recordEvent } from "../../../../Services/analytics/analyticsService";
+import React from 'react';
+import {Text, TouchableOpacity, View, StyleSheet} from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
+import PropTypes from 'prop-types';
+import forbidExtraProps from '../../../../Services/PropTypeValidation/forbidExtraProps';
+import constants from '../../../../constants/constants';
+import Icon from '../../../../CommonComponents/Icon/Icon';
+import changeColorAlpha from '../../../../Services/changeColorAlpha/changeColorAlpha';
+import resolveLinks from '../../../../Services/resolveLinks/resolveLinks';
+import {recordEvent} from '../../../../Services/analytics/analyticsService';
+import SmartImageV2 from '../../../../CommonComponents/SmartImage/SmartImageV2';
 
 const BigImageCard = ({
   title,
@@ -23,33 +22,37 @@ const BigImageCard = ({
   icon,
   iconText,
   gradient = constants.darkGradientAlpha,
-  widgetName
+  widgetName,
 }) => {
   let gradientColor;
   gradientColor = gradient;
 
   const gradientOptions = {
-    locations: [0.25, 0.5, 0.7, 1]
+    locations: [0.25, 0.5, 0.7, 1],
   };
 
-  if (typeof gradientColor === "function") {
+  if (typeof gradientColor === 'function') {
     gradientOptions.colors = [
       constants.darkGradientAlpha(0.1),
       gradientColor(0.1),
       gradientColor(0.5),
-      gradientColor(0.89)
+      gradientColor(0.89),
     ];
   } else {
     gradientOptions.colors = [
       constants.darkGradientAlpha(0.1),
       changeColorAlpha(gradientColor, 0.1),
       changeColorAlpha(gradientColor, 0.5),
-      changeColorAlpha(gradientColor, 0.89)
+      changeColorAlpha(gradientColor, 0.89),
     ];
   }
 
   const action = () => {
-    if (widgetName) recordEvent(widgetName);
+    if (widgetName) {
+      recordEvent(constants.TripFeed.event, {
+        widget: widgetName,
+      });
+    }
     resolveLinks(link, modalData);
   };
 
@@ -57,13 +60,12 @@ const BigImageCard = ({
     <TouchableOpacity
       activeOpacity={0.8}
       onPress={action}
-      style={[styles.box, containerStyle]}
-    >
-      <FastImage
+      style={[styles.box, containerStyle]}>
+      <SmartImageV2
         style={styles.imageBackground}
-        resizeMode={FastImage.resizeMode.cover}
+        resizeMode={'cover'}
         source={image}
-      >
+        useFastImage={true}>
         <LinearGradient {...gradientOptions} style={styles.gradientView}>
           {type ? (
             <Text style={[styles.boxHelpText, typeStyle]}>{type}</Text>
@@ -84,58 +86,59 @@ const BigImageCard = ({
             ) : null}
           </View>
         </LinearGradient>
-      </FastImage>
+      </SmartImageV2>
     </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
   box: {
-    overflow: "hidden",
     borderRadius: 5,
-    marginRight: 8,
-    height: 320,
+    backgroundColor: 'white',
+    marginTop: 8,
     marginHorizontal: 24,
     marginVertical: 16,
-    width: responsiveWidth(100) - 48
   },
   imageBackground: {
-    flex: 1
+    overflow: 'hidden',
+    height: 320,
+    borderRadius: 5,
+    // width: responsiveWidth(100) - 48
   },
   gradientView: {
     flex: 1,
-    alignItems: "flex-start",
-    justifyContent: "flex-end"
+    alignItems: 'flex-start',
+    justifyContent: 'flex-end',
   },
   header: {
-    flexDirection: "row",
-    margin: 8
+    flexDirection: 'row',
+    margin: 8,
   },
   titleWrapper: {
     flex: 1,
-    alignItems: "flex-start",
-    justifyContent: "flex-end"
+    alignItems: 'flex-start',
+    justifyContent: 'flex-end',
   },
   iconWrapper: {
     width: 32,
-    alignItems: "center"
+    alignItems: 'center',
   },
   iconText: {
     marginTop: 8,
     ...constants.fontCustom(constants.primaryRegular, 13),
-    color: "white"
+    color: 'white',
   },
   boxTitle: {
     margin: 8,
     marginTop: 0,
-    color: "white",
-    ...constants.fontCustom(constants.primarySemiBold, 20, 24)
+    color: 'white',
+    ...constants.fontCustom(constants.primarySemiBold, 20, 24),
   },
   boxHelpText: {
     marginHorizontal: 16,
     color: constants.shade3,
-    ...constants.fontCustom(constants.primarySemiBold, 13)
-  }
+    ...constants.fontCustom(constants.primarySemiBold, 13),
+  },
 });
 
 BigImageCard.propTypes = forbidExtraProps({
@@ -150,7 +153,7 @@ BigImageCard.propTypes = forbidExtraProps({
   icon: PropTypes.string,
   iconText: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   gradient: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
-  widgetName: PropTypes.string
+  widgetName: PropTypes.string,
 });
 
 export default BigImageCard;

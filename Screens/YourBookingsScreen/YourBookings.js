@@ -1,30 +1,32 @@
 import React, { Component } from "react";
 import { View, StyleSheet, BackHandler } from "react-native";
 import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
-import constants from "../../constants/constants";
-import ScrollableTabView from "react-native-scrollable-tab-view";
 import Upcoming from "./Components/Upcoming";
-import Completed from "./Components/Completed";
-import { responsiveWidth } from "react-native-responsive-dimensions";
 import CloseYourBookingsButton from "./Components/CloseYourBookingsButton";
-import YourBookingsTabBar from "./Components/YourBookingsTabBar";
-import { inject, observer } from "mobx-react/custom";
-import SearchButton from "../../CommonComponents/SearchButton/SearchButton";
+import { inject, observer } from "mobx-react";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
-import { NavigationActions } from "react-navigation";
+import PropTypes from "prop-types";
+import resetToWelcomeFlow from "../../Services/resetToWelcomeFlow/resetToWelcomeFlow";
+import { SCREEN_POST_BOOKING_HOME } from "../../NavigatorsV2/ScreenNames";
 
-const resetAction = NavigationActions.navigate({
-  routeName: "AppHome",
-  action: NavigationActions.navigate({ routeName: "NewItineraryStack" })
-});
+const resetAction = navigation =>
+  resetToWelcomeFlow().then(action => navigation.dispatch(action));
 
 @ErrorBoundary({ isRoot: true })
+@inject("itineraries")
 @inject("appState")
 @inject("yourBookingsStore")
 @observer
 class YourBookings extends Component {
   _didFocusSubscription;
   _willBlurSubscription;
+
+  static propTypes = {
+    appState: PropTypes.object.isRequired,
+    yourBookingsStore: PropTypes.object.isRequired,
+    navigation: PropTypes.object.isRequired,
+    itineraries: PropTypes.object.isRequired
+  };
 
   constructor(props) {
     super(props);
@@ -69,12 +71,10 @@ class YourBookings extends Component {
   };
 
   goBack = () => {
-    const routeName = this.props.navigation.state.routeName;
-    if (routeName === "YourBookings") {
-      this.props.appState.setTripMode(false);
-      this.props.navigation.dispatch(resetAction);
-    } else if (routeName === "YourBookingsUniversal") {
-      this.props.navigation.goBack();
+    if (this.props.itineraries.selectedItineraryId) {
+      this.props.navigation.navigate(SCREEN_POST_BOOKING_HOME);
+    } else {
+      resetAction(this.props.navigation);
     }
   };
 
@@ -89,23 +89,9 @@ class YourBookings extends Component {
       <View style={styles.yourBookingsContainer}>
         <CommonHeader
           LeftButton={<CloseYourBookingsButton goBack={this.goBack} />}
-          // RightButton={<SearchButton action={() => {}} />}
           title={"Your Bookings"}
           navigation={navigation}
         />
-        {/*<ScrollableTabView*/}
-        {/*tabBarActiveTextColor={constants.black2}*/}
-        {/*tabBarInactiveTextColor={constants.firstColor}*/}
-        {/*tabBarUnderlineStyle={{*/}
-        {/*height: 2,*/}
-        {/*backgroundColor: constants.black2*/}
-        {/*}}*/}
-        {/*tabBarTextStyle={{ ...constants.font13(constants.primaryLight) }}*/}
-        {/*initialPage={0}*/}
-        {/*style={{ alignSelf: "center", width: responsiveWidth(100) }}*/}
-        {/*prerenderingSiblingsNumber={Infinity}*/}
-        {/*renderTabBar={() => <YourBookingsTabBar />}*/}
-        {/*>*/}
         <Upcoming
           tabLabel="UPCOMING"
           itinerariesList={upcomingItineraries}
@@ -114,8 +100,6 @@ class YourBookings extends Component {
           getUpcomingItineraries={getUpcomingItineraries}
           goBack={this.goBack}
         />
-        {/*<Completed tabLabel="COMPLETED" />*/}
-        {/*</ScrollableTabView>*/}
       </View>
     );
   }

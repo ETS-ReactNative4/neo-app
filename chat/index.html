@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>pickyourtrail Live Chat</title>
+
+    <script src="https://wchat.freshchat.com/js/widget.js"></script>
+    <style>
+      .chat-close-placeholder {
+        height: 25px;
+        width: 25px;
+        border-radius: 100%;
+        background-color: #00c684;
+        position: absolute;
+        top: 6px;
+        right: 16px;
+        z-index: 1000000000000000000000;
+      }
+
+      .hidden {
+        display: none;
+      }
+    </style>
+  </head>
+
+  <body>
+    <img src="/pyt-white.png" class="chat-close-placeholder hidden" />
+    <script>
+      var getUrlParams = function(url) {
+        var result = {};
+        var params = (url.split("?")[1] || "").split("&");
+        for (var param in params) {
+          if (params.hasOwnProperty(param)) {
+            var paramParts = params[param].split("=");
+            result[paramParts[0]] = decodeURIComponent(paramParts[1] || "");
+          }
+        }
+        return result;
+      };
+
+      var queryParams = getUrlParams(window.location.href);
+
+      if (queryParams.host && queryParams.token) {
+        /**
+         * If a previous session of fcWidget is initialized, destroy it
+         */
+        if (window.fcWidget.isInitialized() === true) {
+          window.fcWidget.destroy();
+        }
+
+        /**
+         * Initialize the widget with the required IDs & tags
+         */
+        window.fcWidget.init({
+          token: queryParams.token,
+          host: queryParams.host,
+          externalId: queryParams.feid,
+          restoreId: queryParams.frid ? queryParams.frid : null,
+          tags: queryParams.region
+            ? decodeURI(queryParams.region).split(",")
+            : []
+        });
+
+        /**
+         * Open up the widget in the UI
+         */
+        window.fcWidget.open();
+
+        /**
+         * If a restore id is not present, the user is new and must be created.
+         */
+        if (!queryParams.frid) {
+          /**
+           * Check if user status is already available in freshchat.
+           */
+          window.fcWidget.user.get(function(userStatus) {
+            var status = userStatus && userStatus.status,
+              data = userStatus && userStatus.data;
+            if (status !== 200) {
+              /**
+               * User unavailable, now need to create the user
+               */
+              window.fcWidget.user
+                .create({
+                  externalId: queryParams.feid,
+                  firstName: queryParams.trailId,
+                  lastName: queryParams.name,
+                  email: queryParams.email,
+                  phone: queryParams.mob_num,
+                  phoneCountryCode: queryParams.ccode
+                })
+                .then(function(response) {
+                  if (response.status === 200 && response.success) {
+                    /**
+                     * User has been created. Obtain the actor Id and restore Id for
+                     * push notifications.
+                     */
+                    var actorId = response.data.alias;
+                    var restoreId = response.data.restoreId;
+                    /**
+                     * Sending the actor id & restore id of the user to the webview
+                     */
+                    window.ReactNativeWebView &&
+                      window.ReactNativeWebView.postMessage(
+                        JSON.stringify({
+                          restoreId: restoreId,
+                          actorId: actorId
+                        })
+                      );
+                  } else {
+                    window.ReactNativeWebView &&
+                      window.ReactNativeWebView.postMessage(
+                        JSON.stringify({
+                          error:
+                            "Failed to create user on freshchat - invalid server response",
+                          userStatus,
+                          queryParams,
+                          response
+                        })
+                      );
+                  }
+                })
+                .catch(errorResponse => {
+                  window.ReactNativeWebView &&
+                    window.ReactNativeWebView.postMessage(
+                      JSON.stringify({
+                        error: "Failed to create user on freshchat",
+                        userStatus,
+                        queryParams,
+                        errorResponse
+                      })
+                    );
+                });
+            } else {
+              window.ReactNativeWebView &&
+                window.ReactNativeWebView.postMessage(
+                  JSON.stringify({
+                    error:
+                      "User already created in freshchat - restore id missing",
+                    userStatus,
+                    queryParams
+                  })
+                );
+            }
+          });
+        }
+
+        window.fcWidget.on("widget:opened", function(resp) {
+          var $placeHolder = document.querySelector(".chat-close-placeholder");
+          $placeHolder.classList.remove("hidden");
+        });
+
+        window.fcWidget.on("widget:closed", function(resp) {
+          window.fcWidget.open();
+        });
+      }
+    </script>
+  </body>
+</html>

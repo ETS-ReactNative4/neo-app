@@ -1,0 +1,104 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Voucher Section Title - without icon 1`] = `
+<View
+  style={
+    Array [
+      Object {
+        "alignItems": "flex-start",
+        "flexDirection": "row",
+        "justifyContent": "flex-start",
+        "padding": 24,
+      },
+      Object {},
+    ]
+  }
+>
+  <View
+    style={
+      Array [
+        Object {},
+        null,
+      ]
+    }
+  >
+    <Unknown
+      style={
+        Object {
+          "color": "rgba(44, 47, 66, 1)",
+          "fontFamily": "SourceSansPro-SemiBold",
+          "fontSize": 14,
+          "lineHeight": 14,
+        }
+      }
+    >
+      Hotel Room 1
+    </Unknown>
+  </View>
+</View>
+`;
+
+exports[`Voucher Section Title 1`] = `
+<View
+  style={
+    Array [
+      Object {
+        "alignItems": "flex-start",
+        "flexDirection": "row",
+        "justifyContent": "flex-start",
+        "padding": 24,
+      },
+      Object {},
+    ]
+  }
+>
+  <View
+    style={Object {}}
+  >
+    <Text
+      allowFontScaling={false}
+      style={
+        Array [
+          Object {
+            "color": "rgba(119, 119, 119, 1)",
+            "fontSize": 14,
+          },
+          undefined,
+          Object {
+            "fontFamily": "voyager",
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+          },
+          Object {},
+        ]
+      }
+    >
+      
+    </Text>
+  </View>
+  <View
+    style={
+      Array [
+        Object {},
+        Object {
+          "marginLeft": 8,
+          "marginTop": 2,
+        },
+      ]
+    }
+  >
+    <Text
+      style={
+        Object {
+          "color": "rgba(44, 47, 66, 1)",
+          "fontFamily": "SourceSansPro-SemiBold",
+          "fontSize": 14,
+          "lineHeight": 14,
+        }
+      }
+    >
+      Hotel Room 1
+    </Text>
+  </View>
+</View>
+`;

@@ -32,13 +32,21 @@ class EmergencyContacts {
     cities.map(city => toJS(this._emergencyContacts[city.cityObject.cityId]))
   );
 
+  /**
+   * Will fetch the emergency contact details of a city
+   * users the cities array returned by the cities property of itinerary store
+   */
   @action
   getEmergencyContacts = cities => {
-    const unavailableCities = cities.filter(
-      city => !this._emergencyContacts[city.cityObject.cityId]
-    );
-    if (unavailableCities.length)
-      this._getEmergencyContactsFromAPI(unavailableCities);
+    /**
+     * Used to fetch details only for new cities
+     * currently disabled to fetch all city details
+     */
+    // const unavailableCities = cities.filter(
+    //   city => !this._emergencyContacts[city.cityObject.cityId]
+    // );
+    // if (unavailableCities.length)
+    this._getEmergencyContactsFromAPI(cities);
   };
 
   @action
@@ -63,7 +71,6 @@ class EmergencyContacts {
               this._emergencyContacts = emergencyContacts;
             }
           }
-          console.log(this._emergencyContacts);
         } else {
           this._hasError = true;
         }

@@ -1,26 +1,27 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, ViewPropTypes } from "react-native";
 import constants from "../../constants/constants";
 import PropTypes from "prop-types";
-import forbidExtraProps from "../../Services/PropTypeValidation/forbidExtraProps";
 
-const InfoDot = ({ containerStyle }) => {
+const InfoDot = ({
+  containerStyle = StyleSheet.create({}),
+  dotRadius = 4,
+  color = constants.firstColor
+}) => {
   if (!containerStyle) containerStyle = {};
-  return <View style={[styles.infoDotContainer, containerStyle]} />;
+  const dotStyle = {
+    height: dotRadius * 2,
+    width: dotRadius * 2,
+    borderRadius: dotRadius,
+    backgroundColor: color
+  };
+  return <View style={[dotStyle, containerStyle]} />;
 };
 
-const styles = StyleSheet.create({
-  infoDotContainer: {
-    height: 8,
-    width: 8,
-    borderRadius: 4,
-    backgroundColor: constants.firstColor
-  }
-});
-
-InfoDot.propTypes = forbidExtraProps({
-  containerStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.number])
-    .isRequired
-});
+InfoDot.propTypes = {
+  containerStyle: ViewPropTypes.style,
+  dotRadius: PropTypes.number,
+  color: PropTypes.string
+};
 
 export default InfoDot;
