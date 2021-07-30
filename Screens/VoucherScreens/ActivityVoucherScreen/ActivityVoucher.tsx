@@ -1,40 +1,40 @@
-import React, { Component, Fragment } from "react";
-import { View, StyleSheet, Platform, Text } from "react-native";
-import { isIphoneX } from "react-native-iphone-x-helper";
+import React, {Component, Fragment} from 'react';
+import {View, StyleSheet, Platform, Text} from 'react-native';
+import {isIphoneX} from 'react-native-iphone-x-helper';
 // @ts-ignore
-import ParallaxScrollView from "react-native-parallax-scroll-view";
-import VoucherHeader from "../Components/VoucherHeader";
-import constants from "../../../constants/constants";
-import VoucherStickyHeader from "../Components/VoucherStickyHeader";
-import VoucherName from "../Components/VoucherName";
-import VoucherSplitSection from "../Components/VoucherSplitSection";
-import SectionHeader from "../../../CommonComponents/SectionHeader/SectionHeader";
-import { inject, observer } from "mobx-react";
-import IosCloseButton from "../Components/IosCloseButton";
-import VoucherAccordion from "../Components/VoucherAccordion";
+import ParallaxScrollView from 'react-native-parallax-scroll-view';
+import VoucherHeader from '../Components/VoucherHeader';
+import constants from '../../../constants/constants';
+import VoucherStickyHeader from '../Components/VoucherStickyHeader';
+import VoucherName from '../Components/VoucherName';
+import VoucherSplitSection from '../Components/VoucherSplitSection';
+import SectionHeader from '../../../CommonComponents/SectionHeader/SectionHeader';
+import {inject, observer} from 'mobx-react';
+import IosCloseButton from '../Components/IosCloseButton';
+import VoucherAccordion from '../Components/VoucherAccordion';
 // @ts-ignore
-import HTMLView from "react-native-htmlview";
-import moment from "moment";
-import TitleDate from "../Components/TitleDate";
-import VoucherAddressSection from "../Components/VoucherAddressSection";
-import PickupInfoBox from "./Components/PickupInfoBox";
-import VoucherContactActionBar from "../Components/VoucherContactActionBar";
-import getTitleCase from "../../../Services/getTitleCase/getTitleCase";
-import ErrorBoundary from "../../../CommonComponents/ErrorBoundary/ErrorBoundary";
+import HTMLView from 'react-native-htmlview';
+import moment from 'moment';
+import TitleDate from '../Components/TitleDate';
+import VoucherAddressSection from '../Components/VoucherAddressSection';
+import PickupInfoBox from './Components/PickupInfoBox';
+import VoucherContactActionBar from '../Components/VoucherContactActionBar';
+import getTitleCase from '../../../Services/getTitleCase/getTitleCase';
+import ErrorBoundary from '../../../CommonComponents/ErrorBoundary/ErrorBoundary';
 // @ts-ignore
-import { responsiveWidth } from "react-native-responsive-dimensions";
-import _ from "lodash";
-import ViewVoucherButton from "../Components/ViewVoucherButton";
-import containsHtml from "../../../Services/containsHtml/containsHtml";
-import CustomHtmlView from "../../../CommonComponents/CustomHtmlView/CustomHtmlView";
-import VoucherAlertBox from "../Components/VoucherAlertBox/VoucherAlertBox";
-import { IActivityCombinedInfo } from "../../../mobx/Itineraries";
-import PassportDetails from "../../../mobx/PassportDetails";
-import { IVoucherSplitSectionData } from "../types/voucherScreenTypes";
+import {responsiveWidth} from 'react-native-responsive-dimensions';
+import _ from 'lodash';
+import ViewVoucherButton from '../Components/ViewVoucherButton';
+import containsHtml from '../../../Services/containsHtml/containsHtml';
+import CustomHtmlView from '../../../CommonComponents/CustomHtmlView/CustomHtmlView';
+import VoucherAlertBox from '../Components/VoucherAlertBox/VoucherAlertBox';
+import {IActivityCombinedInfo} from '../../../mobx/Itineraries';
+import PassportDetails from '../../../mobx/PassportDetails';
+import {IVoucherSplitSectionData} from '../types/voucherScreenTypes';
 
 const xHeight = isIphoneX()
   ? constants.xNotchHeight
-  : Platform.OS === "ios"
+  : Platform.OS === 'ios'
   ? 20
   : 0;
 
@@ -53,7 +53,7 @@ export interface ActivityVoucherState {
 }
 
 @ErrorBoundary()
-@inject("passportDetailsStore")
+@inject('passportDetailsStore')
 @observer
 class ActivityVoucher extends Component<
   ActivityVoucherProps,
@@ -62,17 +62,17 @@ class ActivityVoucher extends Component<
   static navigationOptions = {
     header: null,
     gestureResponseDistance: {
-      vertical: 1
-    }
+      vertical: 1,
+    },
   };
 
   state = {
-    isCloseVisible: true
+    isCloseVisible: true,
   };
 
   headerToggle = (status: boolean) => {
     this.setState({
-      isCloseVisible: status
+      isCloseVisible: status,
     });
   };
 
@@ -85,7 +85,7 @@ class ActivityVoucher extends Component<
     const activity: IActivityCombinedInfo = this.props.route.params
       ? this.props.route.params.activity
       : {};
-
+    const {openDate}: {openDate?: boolean} = this.props.route.params ?? {};
     const {
       bookingId,
       duration,
@@ -99,11 +99,11 @@ class ActivityVoucher extends Component<
       pickupDetail: pickupDetails, // contains array of pickup details
       activityLocation = {},
       activityAddress,
-      voucherUrl
+      voucherUrl,
     } = activity.voucher;
     const {
       latitude: activityLatitude,
-      longitude: activityLongitude
+      longitude: activityLongitude,
     } = activityLocation;
     const {
       mainPhoto,
@@ -113,18 +113,17 @@ class ActivityVoucher extends Component<
       longitude: costingLongitude,
       free,
       selectedTourGrade,
-      startingPointDetails = { image: "" }
+      startingPointDetails = {image: ''},
     } = activity;
-    const { image: startingPointImage = "" } = startingPointDetails;
-    const { dateMillis } = activity.costing;
+    const {image: startingPointImage = ''} = startingPointDetails;
+    const {dateMillis} = activity.costing;
     const {
       inclusion: costingInclusions,
       exclusion: costingExclusions,
-      departureTime
+      departureTime,
     } = selectedTourGrade || {};
-
-    const activityDepartureTime = moment(departureTime, "HHmm").format(
-      constants.shortTimeFormat
+    const activityDepartureTime = moment(departureTime, 'HHmm').format(
+      constants.shortTimeFormat,
     );
 
     const transferIncluded = transferType
@@ -134,14 +133,11 @@ class ActivityVoucher extends Component<
       : false;
     const pickupDetail =
       pickupDetails && pickupDetails.length ? pickupDetails[0] : {};
-    const { pickupTime, location = {}, address: pickupAddress } = pickupDetail;
+    const {pickupTime, location = {}, address: pickupAddress} = pickupDetail;
 
-    const { latitude, longitude } = location;
+    const {latitude, longitude} = location;
 
-    const {
-      leadPassengerName,
-      passengerCount
-    } = this.props.passportDetailsStore;
+    const {leadPassengerName, passengerCount} = this.props.passportDetailsStore;
 
     let passengerDetails: IVoucherSplitSectionData[] = [];
     let transferDetails: IVoucherSplitSectionData[] = [];
@@ -149,19 +145,19 @@ class ActivityVoucher extends Component<
     let bookingDetailSections: IVoucherSplitSectionData[] = [];
 
     let voucherTitle = {
-      header: "",
-      text: ""
+      header: '',
+      text: '',
     };
     const hours = Math.floor(duration / 60);
     const minutes = duration % 60;
-    const totalDuration = `${hours ? `${hours} hrs ` : ""}${
-      minutes ? `${minutes} mins` : ""
+    const totalDuration = `${hours ? `${hours} hrs ` : ''}${
+      minutes ? `${minutes} mins` : ''
     }`;
     if (free) {
       passengerDetails = [
         {
-          name: "Duration",
-          value: totalDuration
+          name: 'Duration',
+          value: totalDuration,
         },
         /**
          * Slot will be hidden for now
@@ -171,17 +167,17 @@ class ActivityVoucher extends Component<
         //   value: getTitleCase(availabilitySlot)
         // },
         {
-          name: "Starts at",
-          value: departureTimeStr ? departureTimeStr : activityDepartureTime
+          name: 'Starts at',
+          value: departureTimeStr ? departureTimeStr : activityDepartureTime,
         },
         {
-          name: "Type",
-          value: "Self Exploration"
-        }
+          name: 'Type',
+          value: 'Self Exploration',
+        },
       ];
       bookingDetailSections = [
         {
-          name: "About",
+          name: 'About',
           component: (
             <View style={styles.accordionTextWrapper}>
               <HTMLView
@@ -189,53 +185,55 @@ class ActivityVoucher extends Component<
                 stylesheet={constants.htmlStyleSheet}
               />
             </View>
-          )
-        }
+          ),
+        },
       ];
     } else {
       voucherTitle = {
-        header: bookingId ? "BOOKING ID" : "",
-        text: bookingId ? bookingId : ""
+        header: bookingId ? 'BOOKING ID' : '',
+        text: bookingId ? bookingId : '',
       };
       if (transferIncluded) {
         transferDetails.push({
-          name: "Transfer Type",
+          name: 'Transfer Type',
           value: transferType
             ? getTitleCase(transferType)
             : selectedTourGrade
             ? getTitleCase(selectedTourGrade.transferType)
-            : "NA"
+            : 'NA',
         });
         transferDetails.push({
-          name: "Pick up time",
+          name: 'Pick up time',
           value: pickupTime
             ? pickupTime
             : selectedTourGrade && selectedTourGrade.departureTime
-            ? moment(selectedTourGrade.departureTime, "HHmm").format(
-                constants.shortTimeFormat
+            ? moment(selectedTourGrade.departureTime, 'HHmm').format(
+                constants.shortTimeFormat,
               )
-            : "NA"
+            : 'NA',
         });
       }
       passengerDetails = _.compact([
         {
-          name: "Booked by",
-          value: leadPassengerName || "NA"
+          name: 'Booked by',
+          value: leadPassengerName || 'NA',
         },
         {
-          name: "No. of pax",
-          value: passengerCount || "NA"
+          name: 'No. of pax',
+          value: passengerCount || 'NA',
         },
         !transferIncluded // Display activity start time only when transfer is not included
           ? {
-              name: "Starts at",
-              value: departureTimeStr ? departureTimeStr : activityDepartureTime
+              name: 'Starts at',
+              value: departureTimeStr
+                ? departureTimeStr
+                : activityDepartureTime,
             }
           : null,
         {
-          name: "Duration",
-          value: totalDuration
-        }
+          name: 'Duration',
+          value: totalDuration,
+        },
         /**
          * Slot will be hidden for now
          */
@@ -246,7 +244,7 @@ class ActivityVoucher extends Component<
       ]);
       bookingDetailSections = [
         {
-          name: "Inclusions",
+          name: 'Inclusions',
           component: (
             <View style={styles.accordionTextWrapper}>
               <HTMLView
@@ -256,10 +254,10 @@ class ActivityVoucher extends Component<
                 stylesheet={constants.htmlStyleSheet}
               />
             </View>
-          )
+          ),
         },
         {
-          name: "Exclusions",
+          name: 'Exclusions',
           component: (
             <View style={styles.accordionTextWrapper}>
               <HTMLView
@@ -269,7 +267,7 @@ class ActivityVoucher extends Component<
                 stylesheet={constants.htmlStyleSheet}
               />
             </View>
-          )
+          ),
         },
         /**
          * Temporarily disabled since notes have all the info
@@ -288,7 +286,7 @@ class ActivityVoucher extends Component<
         //     }
         //   : null,
         {
-          name: "About",
+          name: 'About',
           component: (
             <View style={styles.accordionTextWrapper}>
               <HTMLView
@@ -296,8 +294,8 @@ class ActivityVoucher extends Component<
                 stylesheet={constants.htmlStyleSheet}
               />
             </View>
-          )
-        }
+          ),
+        },
       ];
       bookingDetails = [
         // removed temporarily since not enough data in plato
@@ -318,7 +316,7 @@ class ActivityVoucher extends Component<
     if (voucherNotes) {
       // Add notes section if Activity notes are updated in PLATO
       bookingDetailSections.unshift({
-        name: "Notes",
+        name: 'Notes',
         component: (
           <View style={styles.accordionTextWrapper}>
             {containsHtml(voucherNotes) ? (
@@ -327,7 +325,7 @@ class ActivityVoucher extends Component<
               <Text style={styles.accordionText}>{voucherNotes}</Text>
             )}
           </View>
-        )
+        ),
       });
     }
     let lat, lon;
@@ -363,12 +361,12 @@ class ActivityVoucher extends Component<
           contentBackgroundColor="white"
           parallaxHeaderHeight={214 + xHeight}
           stickyHeaderHeight={this.state.isCloseVisible ? 0 : 48 + xHeight}
-          fadeOutForeground={Platform.OS !== "android"}
+          fadeOutForeground={Platform.OS !== 'android'}
           onChangeHeaderVisibility={this.headerToggle}
           renderStickyHeader={() => (
             <VoucherStickyHeader
               action={this.close}
-              text={voucherTitle.text ? voucherTitle.text : ""}
+              text={voucherTitle.text ? voucherTitle.text : ''}
             />
           )}
           renderForeground={() => (
@@ -376,13 +374,14 @@ class ActivityVoucher extends Component<
               infoText={voucherTitle.header}
               title={voucherTitle.text}
               onClickClose={this.close}
-              image={{ uri: mainPhoto }}
+              image={{uri: mainPhoto}}
               voucherUrl={voucherUrl}
             />
-          )}
-        >
+          )}>
           <View style={styles.titleSection}>
-            <TitleDate date={activityTime > 0 ? activityTime : dateMillis} />
+            {!openDate ? (
+              <TitleDate date={activityTime > 0 ? activityTime : dateMillis} />
+            ) : null}
 
             <VoucherName name={title} />
 
@@ -394,17 +393,17 @@ class ActivityVoucher extends Component<
 
           <View style={styles.arrivalSection}>
             <SectionHeader
-              sectionName={transferIncluded ? "TRANSFER INFO" : "LOCATION INFO"}
+              sectionName={transferIncluded ? 'TRANSFER INFO' : 'LOCATION INFO'}
               containerStyle={styles.transferSectionHeader}
             />
 
             <VoucherSplitSection sections={transferDetails} />
 
-            {_.toUpper(transferType) === "SHARED" ? (
+            {_.toUpper(transferType) === 'SHARED' ? (
               <VoucherAlertBox
                 alertText={constants.voucherText.sharedTransferInfo}
                 containerStyle={styles.verticalMarginSpacing}
-                mode={"alert"}
+                mode={'alert'}
               />
             ) : null}
 
@@ -412,7 +411,7 @@ class ActivityVoucher extends Component<
               <VoucherAlertBox
                 alertText={constants.voucherText.freeTransferInfo}
                 containerStyle={styles.topMarginSpacing}
-                mode={"info"}
+                mode={'info'}
               />
             ) : transferIncluded && pickupAddress ? (
               <PickupInfoBox />
@@ -430,19 +429,19 @@ class ActivityVoucher extends Component<
                   ? activityAddress
                   : null
               }
-              startingPointImage={!transferIncluded ? startingPointImage : ""}
+              startingPointImage={!transferIncluded ? startingPointImage : ''}
             />
 
             <VoucherContactActionBar
               contact={contactNumber}
-              location={{ lat, lon }}
+              location={{lat, lon}}
             />
 
             {lat && lon ? (
               <VoucherAlertBox
                 alertText={constants.voucherText.directionsDisclaimerText}
                 containerStyle={styles.directionsAlertBox}
-                mode={"alert"}
+                mode={'alert'}
               />
             ) : null}
           </View>
@@ -458,7 +457,7 @@ class ActivityVoucher extends Component<
             voucherUrl={voucherUrl}
           />
         </ParallaxScrollView>
-        {Platform.OS === "ios" && this.state.isCloseVisible ? (
+        {Platform.OS === 'ios' && this.state.isCloseVisible ? (
           <IosCloseButton clickAction={this.close} />
         ) : null}
       </Fragment>
@@ -469,43 +468,43 @@ class ActivityVoucher extends Component<
 const styles = StyleSheet.create({
   titleSection: {
     marginTop: 16,
-    paddingHorizontal: 24
+    paddingHorizontal: 24,
   },
   arrivalSection: {
     marginTop: 16,
-    paddingHorizontal: 24
+    paddingHorizontal: 24,
   },
   actionRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
     paddingVertical: 16,
     borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: constants.shade4
+    borderBottomColor: constants.shade4,
   },
   bookingDetailsSection: {
     paddingHorizontal: 24,
-    marginBottom: 24
+    marginBottom: 24,
   },
   accordionTextWrapper: {
     marginTop: 16,
     paddingBottom: 16,
     borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: constants.shade4
+    borderBottomColor: constants.shade4,
   },
   accordionText: {
     width: responsiveWidth(100) - 48,
     ...constants.fontCustom(constants.primaryLight, 17),
-    color: constants.black2
+    color: constants.black2,
   },
   viewVoucherButton: {
-    alignSelf: "center"
+    alignSelf: 'center',
   },
-  directionsAlertBox: { marginVertical: 8 },
-  topMarginSpacing: { marginTop: 8 },
-  verticalMarginSpacing: { marginVertical: 8 },
-  transferSectionHeader: { marginBottom: 0 },
-  passengerDetailsText: { width: responsiveWidth(50) - 24 }
+  directionsAlertBox: {marginVertical: 8},
+  topMarginSpacing: {marginTop: 8},
+  verticalMarginSpacing: {marginVertical: 8},
+  transferSectionHeader: {marginBottom: 0},
+  passengerDetailsText: {width: responsiveWidth(50) - 24},
 });
 
 export default ActivityVoucher;

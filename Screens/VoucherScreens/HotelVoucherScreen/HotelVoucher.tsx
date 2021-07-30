@@ -78,9 +78,13 @@ class HotelVoucher extends Component<HotelVoucherProps, HotelVoucherState> {
 
   render() {
     // @ts-ignore
-    const hotel: IHotelCosting = this.props.route.params
-      ? this.props.route.params.hotel
-      : {};
+    const {
+      hotel = {},
+      openDate,
+      orderId,
+    }: {hotel: IHotelCosting; openDate?: boolean} =
+      this.props.route.params ?? {};
+
     const Icon = createIconSetFromIcoMoon(icoMoonConfig);
 
     const {
@@ -199,32 +203,34 @@ class HotelVoucher extends Component<HotelVoucherProps, HotelVoucherState> {
           fadeOutForeground={Platform.OS !== 'android'}
           onChangeHeaderVisibility={this.headerToggle}
           renderForeground={foreground}>
-          <CheckInCheckOut
-            checkInDate={
-              checkInDateVoucher
-                ? moment(
-                    checkInDateVoucher,
-                    constants.voucherDateFormat,
-                  ).format(constants.commonDateFormat)
-                : moment(checkInDate, constants.costingDateFormat).format(
-                    constants.commonDateFormat,
-                  )
-            }
-            checkInTime={`${checkInTimeVoucher ||
-              constants.hotelDefaultCheckInTime}*`}
-            checkOutDate={
-              checkOutDateVoucher
-                ? moment(
-                    checkOutDateVoucher,
-                    constants.voucherDateFormat,
-                  ).format(constants.commonDateFormatReverse)
-                : moment(checkOutDate, constants.costingDateFormat).format(
-                    constants.commonDateFormatReverse,
-                  )
-            }
-            checkOutTime={`${checkOutTimeVoucher ||
-              constants.hotelDefaultCheckOutTime}*`}
-          />
+          {!openDate ? (
+            <CheckInCheckOut
+              checkInDate={
+                checkInDateVoucher
+                  ? moment(
+                      checkInDateVoucher,
+                      constants.voucherDateFormat,
+                    ).format(constants.commonDateFormat)
+                  : moment(checkInDate, constants.costingDateFormat).format(
+                      constants.commonDateFormat,
+                    )
+              }
+              checkInTime={`${checkInTimeVoucher ||
+                constants.hotelDefaultCheckInTime}*`}
+              checkOutDate={
+                checkOutDateVoucher
+                  ? moment(
+                      checkOutDateVoucher,
+                      constants.voucherDateFormat,
+                    ).format(constants.commonDateFormatReverse)
+                  : moment(checkOutDate, constants.costingDateFormat).format(
+                      constants.commonDateFormatReverse,
+                    )
+              }
+              checkOutTime={`${checkOutTimeVoucher ||
+                constants.hotelDefaultCheckOutTime}*`}
+            />
+          ) : null}
 
           <VoucherName name={name} textStyle={styles.voucherNameWrapper} />
 
@@ -405,7 +411,8 @@ class HotelVoucher extends Component<HotelVoucherProps, HotelVoucherState> {
                         mode={'info'}
                       />
                     ) : null}
-                    {inclusionList.length ? (
+                    {/** orderId will be present only for CRED itinerary */}
+                    {inclusionList.length && !orderId ? (
                       <VoucherAccordion
                         sections={inclusionSection}
                         amenitySectionStyle={styles.amenitySection}

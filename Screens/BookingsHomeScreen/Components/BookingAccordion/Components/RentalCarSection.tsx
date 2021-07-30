@@ -1,19 +1,20 @@
-import React from "react";
-import { View } from "react-native";
-import _ from "lodash";
-import moment from "moment";
-import constants from "../../../../../constants/constants";
-import getTransferImage from "../../../../../Services/getImageService/getTransferImage";
-import BookingSectionComponent from "../../../../../CommonComponents/BookingSectionComponent/BookingSectionComponent";
-import resolveLinks from "../../../../../Services/resolveLinks/resolveLinks";
-import { recordEvent } from "../../../../../Services/analytics/analyticsService";
-import { IRentalCarCosting } from "../../../../../TypeInterfaces/IItinerary";
-import { NavigationStackProp } from "react-navigation-stack";
+import React from 'react';
+import {View} from 'react-native';
+import _ from 'lodash';
+import moment from 'moment';
+import constants from '../../../../../constants/constants';
+import getTransferImage from '../../../../../Services/getImageService/getTransferImage';
+import BookingSectionComponent from '../../../../../CommonComponents/BookingSectionComponent/BookingSectionComponent';
+import resolveLinks from '../../../../../Services/resolveLinks/resolveLinks';
+import {recordEvent} from '../../../../../Services/analytics/analyticsService';
+import {IRentalCarCosting} from '../../../../../TypeInterfaces/IItinerary';
+import {NavigationStackProp} from 'react-navigation-stack';
 
 export interface RentalCarSectionProps {
-  section: { items: IRentalCarCosting[] };
+  section: {items: IRentalCarCosting[]};
   navigation: NavigationStackProp;
   spinValue: object;
+  openDate?: boolean;
 }
 
 export interface IRentalCarSectionProps {
@@ -21,12 +22,14 @@ export interface IRentalCarSectionProps {
   isLast: boolean;
   navigation: NavigationStackProp;
   spinValue: object;
+  openDate?: boolean;
 }
 
 const RentalCarSection = ({
   section,
   navigation,
-  spinValue
+  spinValue,
+  openDate,
 }: RentalCarSectionProps) => {
   return (
     <View>
@@ -40,6 +43,7 @@ const RentalCarSection = ({
             rentalCar={rentalCar}
             isLast={isLast}
             spinValue={spinValue}
+            openDate={openDate}
           />
         );
       })}
@@ -50,41 +54,42 @@ const RentalCarSection = ({
 const RentalCar = ({
   rentalCar,
   isLast,
-  spinValue
+  spinValue,
+  openDate,
 }: IRentalCarSectionProps) => {
   let customStyle = {};
   if (isLast) {
     customStyle = {
       // borderBottomWidth: StyleSheet.hairlineWidth,
-      paddingBottom: 16
+      paddingBottom: 16,
     };
   }
-  rentalCar.vehicle = "Rental Car";
+  rentalCar.vehicle = 'Rental Car';
 
   const openVoucher = () => {
     recordEvent(constants.Bookings.event, {
       click: constants.Bookings.click.accordionVoucher,
-      type: constants.Bookings.type.rentalCars
+      type: constants.Bookings.type.rentalCars,
     });
     // @ts-ignore
     resolveLinks(false, false, {
       voucherType: constants.rentalCarVoucherType,
-      costingIdentifier: rentalCar.configKey
+      costingIdentifier: rentalCar.configKey,
     });
   };
 
-  const { pickup, drop } = rentalCar;
+  const {pickup, drop} = rentalCar;
 
-  const { pickupLocation, dropLocation } = rentalCar.voucher;
+  const {pickupLocation, dropLocation} = rentalCar.voucher;
 
   return (
     <BookingSectionComponent
       spinValue={spinValue}
       sectionImage={{
-        uri: getTransferImage(rentalCar.vehicle, rentalCar.type)
+        uri: getTransferImage(rentalCar.vehicle, rentalCar.type),
       }}
       defaultSource={{
-        uri: getTransferImage(rentalCar.vehicle, rentalCar.type)
+        uri: getTransferImage(rentalCar.vehicle, rentalCar.type),
       }}
       containerStyle={customStyle}
       isProcessing={!rentalCar.voucher.booked}
@@ -96,19 +101,22 @@ const RentalCar = ({
       }
       title={`${
         rentalCar.voucher.pickupTime && rentalCar.voucher.pickupTime > 0
-          ? moment(rentalCar.voucher.pickupTime).format(
-              constants.commonDateFormat
-            )
+          ? moment
+              .utc(rentalCar.voucher.pickupTime)
+              .format(constants.commonDateFormat)
           : rentalCar.pDateMillis && rentalCar.pDateMillis > 0
-          ? moment(rentalCar.pDateMillis).format(constants.commonDateFormat)
-          : moment(
-              `${rentalCar.day}/${rentalCar.mon}/${constants.currentYear}`,
-              "DD/MMM/YYYY"
-            ).format(constants.commonDateFormat)
+          ? moment.utc(rentalCar.pDateMillis).format(constants.commonDateFormat)
+          : moment
+              .utc(
+                `${rentalCar.day}/${rentalCar.mon}/${constants.currentYear}`,
+                'DD/MMM/YYYY',
+              )
+              .format(constants.commonDateFormat)
       }`}
       isImageContain={true}
-      isDataSkipped={_.get(rentalCar, "voucher.skipVoucher")}
-      voucherTitle={_.get(rentalCar, "voucher.title")}
+      isDataSkipped={_.get(rentalCar, 'voucher.skipVoucher')}
+      voucherTitle={_.get(rentalCar, 'voucher.title')}
+      hideTitle={openDate}
     />
   );
 };

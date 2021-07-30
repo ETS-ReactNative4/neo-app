@@ -1,19 +1,20 @@
-import React from "react";
-import { View } from "react-native";
-import moment from "moment";
-import constants from "../../../../../constants/constants";
-import _ from "lodash";
-import getTransferImage from "../../../../../Services/getImageService/getTransferImage";
-import { recordEvent } from "../../../../../Services/analytics/analyticsService";
-import BookingSectionComponent from "../../../../../CommonComponents/BookingSectionComponent/BookingSectionComponent";
-import resolveLinks from "../../../../../Services/resolveLinks/resolveLinks";
-import { ITransferCosting } from "../../../../../TypeInterfaces/IItinerary";
-import { NavigationStackProp } from "react-navigation-stack";
+import React from 'react';
+import {View} from 'react-native';
+import moment from 'moment';
+import constants from '../../../../../constants/constants';
+import _ from 'lodash';
+import getTransferImage from '../../../../../Services/getImageService/getTransferImage';
+import {recordEvent} from '../../../../../Services/analytics/analyticsService';
+import BookingSectionComponent from '../../../../../CommonComponents/BookingSectionComponent/BookingSectionComponent';
+import resolveLinks from '../../../../../Services/resolveLinks/resolveLinks';
+import {ITransferCosting} from '../../../../../TypeInterfaces/IItinerary';
+import {NavigationStackProp} from 'react-navigation-stack';
 
 export interface TransferSectionProps {
-  section: { items: ITransferCosting[] };
+  section: {items: ITransferCosting[]};
   navigation: NavigationStackProp;
   spinValue: object;
+  openDate?: boolean;
 }
 
 export interface ITransferSectionProps {
@@ -21,12 +22,14 @@ export interface ITransferSectionProps {
   isLast: boolean;
   navigation: NavigationStackProp;
   spinValue: object;
+  openDate?: boolean;
 }
 
 const TransferSection = ({
   section,
   navigation,
-  spinValue
+  spinValue,
+  openDate,
 }: TransferSectionProps) => {
   return (
     <View>
@@ -40,6 +43,7 @@ const TransferSection = ({
             transfer={transfer}
             isLast={isLast}
             spinValue={spinValue}
+            openDate={openDate}
           />
         );
       })}
@@ -47,29 +51,34 @@ const TransferSection = ({
   );
 };
 
-const Transfer = ({ transfer, isLast, spinValue }: ITransferSectionProps) => {
+const Transfer = ({
+  transfer,
+  isLast,
+  spinValue,
+  openDate,
+}: ITransferSectionProps) => {
   let customStyle = {};
   if (isLast) {
     customStyle = {
       // borderBottomWidth: StyleSheet.hairlineWidth,
-      paddingBottom: 16
+      paddingBottom: 16,
     };
   }
 
   const openVoucher = () => {
     recordEvent(constants.Bookings.event, {
       click: constants.Bookings.click.accordionVoucher,
-      type: constants.Bookings.type.transfers
+      type: constants.Bookings.type.transfers,
     });
     // @ts-ignore
     resolveLinks(false, false, {
       voucherType: constants.transferVoucherType,
-      costingIdentifier: transfer.configKey
+      costingIdentifier: transfer.configKey,
     });
   };
 
-  const { pickupTime } = transfer.voucher;
-  const { dateMillis } = transfer;
+  const {pickupTime} = transfer.voucher;
+  const {dateMillis} = transfer;
 
   const vehicle = _.toUpper(transfer.vehicle);
   const transferType = _.toUpper(transfer.type);
@@ -78,21 +87,22 @@ const Transfer = ({ transfer, isLast, spinValue }: ITransferSectionProps) => {
     <BookingSectionComponent
       spinValue={spinValue}
       containerStyle={customStyle}
-      sectionImage={{ uri: getTransferImage(vehicle, transferType) }}
-      defaultSource={{ uri: getTransferImage(vehicle, transferType) }}
+      sectionImage={{uri: getTransferImage(vehicle, transferType)}}
+      defaultSource={{uri: getTransferImage(vehicle, transferType)}}
       isProcessing={!transfer.voucher.booked}
       onClick={openVoucher}
       content={transfer.text}
-      title={`${moment(
-        pickupTime && pickupTime > 1 ? pickupTime : dateMillis
-      ).format(constants.commonDateFormat)}`}
+      title={`${moment
+        .utc(pickupTime && pickupTime > 1 ? pickupTime : dateMillis)
+        .format(constants.commonDateFormat)}`}
       isImageContain={
-        vehicle === "CAR" || vehicle === "BUS" || vehicle === "SHUTTLE"
+        vehicle === 'CAR' || vehicle === 'BUS' || vehicle === 'SHUTTLE'
           ? true
           : false
       }
-      isDataSkipped={_.get(transfer, "voucher.skipVoucher")}
-      voucherTitle={_.get(transfer, "voucher.title")}
+      isDataSkipped={_.get(transfer, 'voucher.skipVoucher')}
+      voucherTitle={_.get(transfer, 'voucher.title')}
+      hideTitle={openDate}
     />
   );
 };

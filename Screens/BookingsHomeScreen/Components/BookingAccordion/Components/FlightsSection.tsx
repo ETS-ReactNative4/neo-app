@@ -1,24 +1,26 @@
-import React from "react";
-import { View } from "react-native";
-import _ from "lodash";
-import moment from "moment";
-import constants from "../../../../../constants/constants";
-import { recordEvent } from "../../../../../Services/analytics/analyticsService";
-import BookingSectionComponent from "../../../../../CommonComponents/BookingSectionComponent/BookingSectionComponent";
-import resolveLinks from "../../../../../Services/resolveLinks/resolveLinks";
-import { IFlightCosting } from "../../../../../TypeInterfaces/IItinerary";
-import { NavigationStackProp } from "react-navigation-stack";
+import React from 'react';
+import {View} from 'react-native';
+import _ from 'lodash';
+import moment from 'moment';
+import constants from '../../../../../constants/constants';
+import {recordEvent} from '../../../../../Services/analytics/analyticsService';
+import BookingSectionComponent from '../../../../../CommonComponents/BookingSectionComponent/BookingSectionComponent';
+import resolveLinks from '../../../../../Services/resolveLinks/resolveLinks';
+import {IFlightCosting} from '../../../../../TypeInterfaces/IItinerary';
+import {NavigationStackProp} from 'react-navigation-stack';
 
 export interface FlightsSectionProps {
-  section: { items: IFlightCosting[] };
+  section: {items: IFlightCosting[]};
   navigation: NavigationStackProp;
   spinValue: object;
+  openDate?: boolean;
 }
 
 const FlightsSection = ({
   section,
   navigation,
-  spinValue
+  spinValue,
+  openDate,
 }: FlightsSectionProps) => {
   return (
     <View>
@@ -32,6 +34,7 @@ const FlightsSection = ({
             flight={flight}
             isLast={isLast}
             spinValue={spinValue}
+            openDate={openDate}
           />
         );
       })}
@@ -44,26 +47,27 @@ export interface IFlightSectionProps {
   isLast: boolean;
   navigation: NavigationStackProp;
   spinValue: object;
+  openDate?: boolean;
 }
 
-const Flight = ({ flight, isLast, spinValue }: IFlightSectionProps) => {
+const Flight = ({flight, isLast, spinValue, openDate}: IFlightSectionProps) => {
   let customStyle = {};
   if (isLast) {
     customStyle = {
       // borderBottomWidth: StyleSheet.hairlineWidth,
-      paddingBottom: 16
+      paddingBottom: 16,
     };
   }
 
   const openVoucher = () => {
     recordEvent(constants.Bookings.event, {
       click: constants.Bookings.click.accordionVoucher,
-      type: constants.Bookings.type.flights
+      type: constants.Bookings.type.flights,
     });
     // @ts-ignore
     resolveLinks(false, false, {
       voucherType: constants.flightVoucherType,
-      costingIdentifier: flight.configKey
+      costingIdentifier: flight.configKey,
     });
   };
 
@@ -78,7 +82,7 @@ const Flight = ({ flight, isLast, spinValue }: IFlightSectionProps) => {
         return `${route.arrMonth} ${
           route.arrDateOfMonth
         }, ${route.arrivalTime.substring(0, 5)}`;
-      })
+      }),
     };
   });
 
@@ -88,24 +92,25 @@ const Flight = ({ flight, isLast, spinValue }: IFlightSectionProps) => {
     <BookingSectionComponent
       spinValue={spinValue}
       containerStyle={customStyle}
-      sectionImage={{ uri: airlineLogo }}
+      sectionImage={{uri: airlineLogo}}
       onClick={openVoucher}
       content={flight.text}
       isProcessing={!flight.voucher.booked}
-      title={`${moment(timings[0].departure[0], "MMM DD, HH:mm").format(
-        "MMM DD"
+      title={`${moment(timings[0].departure[0], 'MMM DD, HH:mm').format(
+        'MMM DD',
       )}${
         timings.length > 1
-          ? `${" / "}${moment(
+          ? `${' / '}${moment(
               timings[timings.length - 1].departure[0],
-              "MMM DD, HH:mm"
-            ).format("MMM DD")}`
-          : ""
+              'MMM DD, HH:mm',
+            ).format('MMM DD')}`
+          : ''
       }`}
       isImageContain={true}
       defaultSource={constants.flightLogoPlaceholderIllus}
-      isDataSkipped={_.get(flight, "voucher.skipVoucher")}
-      voucherTitle={_.get(flight, "voucher.title")}
+      isDataSkipped={_.get(flight, 'voucher.skipVoucher')}
+      voucherTitle={_.get(flight, 'voucher.title')}
+      hideTitle={openDate}
     />
   );
 };

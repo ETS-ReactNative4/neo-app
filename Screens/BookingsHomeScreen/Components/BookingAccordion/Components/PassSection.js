@@ -1,13 +1,13 @@
-import React from "react";
-import { View } from "react-native";
-import moment from "moment";
-import constants from "../../../../../constants/constants";
-import PropTypes from "prop-types";
-import { recordEvent } from "../../../../../Services/analytics/analyticsService";
-import BookingSectionComponent from "../../../../../CommonComponents/BookingSectionComponent/BookingSectionComponent";
-import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidExtraProps";
+import React from 'react';
+import {View} from 'react-native';
+import moment from 'moment';
+import constants from '../../../../../constants/constants';
+import PropTypes from 'prop-types';
+import {recordEvent} from '../../../../../Services/analytics/analyticsService';
+import BookingSectionComponent from '../../../../../CommonComponents/BookingSectionComponent/BookingSectionComponent';
+import forbidExtraProps from '../../../../../Services/PropTypeValidation/forbidExtraProps';
 
-const PassSection = ({ section, navigation, spinValue }) => {
+const PassSection = ({section, navigation, spinValue, openDate}) => {
   return (
     <View>
       {section.items.map((pass, index) => {
@@ -20,6 +20,7 @@ const PassSection = ({ section, navigation, spinValue }) => {
             isLast={isLast}
             navigation={navigation}
             spinValue={spinValue}
+            openDate={openDate}
           />
         );
       })}
@@ -31,39 +32,41 @@ PassSection.propTypes = forbidExtraProps({
   section: PropTypes.object.isRequired,
   navigation: PropTypes.object.isRequired,
   spinValue: PropTypes.oneOfType([PropTypes.object, PropTypes.number])
-    .isRequired
+    .isRequired,
+  openDate: PropTypes.bool,
 });
 
-const Pass = ({ pass, isLast, navigation, spinValue }) => {
+const Pass = ({pass, isLast, navigation, spinValue, openDate}) => {
   let customStyle = {};
   if (isLast) {
     customStyle = {
       // borderBottomWidth: StyleSheet.hairlineWidth,
-      paddingBottom: 16
+      paddingBottom: 16,
     };
   }
 
   const openVoucher = () => {
     recordEvent(constants.Bookings.event, {
       click: constants.Bookings.click.accordionVoucher,
-      type: constants.Bookings.type.passes
+      type: constants.Bookings.type.passes,
     });
-    navigation.navigate("PassVoucher", { pass });
+    navigation.navigate('PassVoucher', {pass});
   };
 
   return (
     <BookingSectionComponent
       spinValue={spinValue}
       containerStyle={customStyle}
-      sectionImage={{ uri: pass.image }}
+      sectionImage={{uri: pass.image}}
       isProcessing={false}
       onClick={openVoucher}
       content={pass.name}
-      title={moment(pass.start, "DD/MMM/YYYY").format(
-        constants.commonDateFormat
+      title={moment(pass.start, 'DD/MMM/YYYY').format(
+        constants.commonDateFormat,
       )}
       isImageContain={false}
       defaultSource={constants.passThumbPlaceholderIllus}
+      hideTitle={openDate}
     />
   );
 };
@@ -73,7 +76,7 @@ Pass.propTypes = forbidExtraProps({
   isLast: PropTypes.bool.isRequired,
   navigation: PropTypes.object.isRequired,
   spinValue: PropTypes.oneOfType([PropTypes.object, PropTypes.number])
-    .isRequired
+    .isRequired,
 });
 
 export default PassSection;
