@@ -38,10 +38,14 @@ class BookedItinerary extends Component {
   }
 
   state = {
-    selectedDay: moment(this.props.itineraries.days[0]).format('x'),
-    headers: this.props.itineraries.days.map(day => moment(day).format('x')),
+    selectedDay: moment.utc(this.props.itineraries.days[0]).format('x'),
+    headers: this.props.itineraries.days.map(day =>
+      moment.utc(day).format('x'),
+    ),
     headerPositions: {},
-    sections: this.props.itineraries.days.map(day => moment(day).format('x')),
+    sections: this.props.itineraries.days.map(day =>
+      moment.utc(day).format('x'),
+    ),
     sectionPositions: {},
     isScrollRecorded: false,
   };

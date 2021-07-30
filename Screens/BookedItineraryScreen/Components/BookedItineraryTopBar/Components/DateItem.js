@@ -1,22 +1,22 @@
-import React from "react";
+import React from 'react';
 import {
   View,
   TouchableWithoutFeedback,
   Text,
   Platform,
-  StyleSheet
-} from "react-native";
-import PropTypes from "prop-types";
-import moment from "moment";
-import constants from "../../../../../constants/constants";
-import { observer, inject } from "mobx-react";
-import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidExtraProps";
+  StyleSheet,
+} from 'react-native';
+import PropTypes from 'prop-types';
+import moment from 'moment';
+import constants from '../../../../../constants/constants';
+import {observer, inject} from 'mobx-react';
+import forbidExtraProps from '../../../../../Services/PropTypeValidation/forbidExtraProps';
 
-const DateItem = inject("itineraries")(
+const DateItem = inject('itineraries')(
   observer(
-    ({ day, selectDay, selectedDay, onHeaderLayout, index, itineraries }) => {
-      const date = moment(day).format("DD");
-      const dateMillis = moment(day).format("x");
+    ({day, selectDay, selectedDay, onHeaderLayout, index, itineraries}) => {
+      const date = moment.utc(day).format('DD');
+      const dateMillis = moment.utc(day).format('x');
       const layoutEvent = nativeEvent => {
         onHeaderLayout(nativeEvent, dateMillis);
       };
@@ -24,25 +24,24 @@ const DateItem = inject("itineraries")(
       const selectionMatrix = itineraries.getDateSelectionMatrixSingle(index);
       let selectionStyle, touchableStyleAndroid;
       if (selectionMatrix[0] === 0 && selectionMatrix[2] === 0) {
-        selectionStyle = "singleDateContainer";
-        touchableStyleAndroid = "singleDateTouchable";
+        selectionStyle = 'singleDateContainer';
+        touchableStyleAndroid = 'singleDateTouchable';
       } else if (selectionMatrix[0] === 0) {
-        selectionStyle = "leftCorner";
-        touchableStyleAndroid = "leftTouchable";
+        selectionStyle = 'leftCorner';
+        touchableStyleAndroid = 'leftTouchable';
       } else if (selectionMatrix[2] === 0) {
-        selectionStyle = "rightCorner";
-        touchableStyleAndroid = "rightTouchable";
+        selectionStyle = 'rightCorner';
+        touchableStyleAndroid = 'rightTouchable';
       } else {
-        selectionStyle = "middleSection";
-        touchableStyleAndroid = "middleTouchable";
+        selectionStyle = 'middleSection';
+        touchableStyleAndroid = 'middleTouchable';
       }
 
       return (
         <TouchableWithoutFeedback
           onPress={() => selectDay(dateMillis)}
           style={[styles.touchableContainer, styles[touchableStyleAndroid]]}
-          onLayout={layoutEvent}
-        >
+          onLayout={layoutEvent}>
           <View style={[styles.dateContainer, styles[selectionStyle]]}>
             {dateMillis === selectedDay ? (
               <View style={styles.activeBubble} />
@@ -51,8 +50,8 @@ const DateItem = inject("itineraries")(
           </View>
         </TouchableWithoutFeedback>
       );
-    }
-  )
+    },
+  ),
 );
 
 DateItem.propTypes = forbidExtraProps({
@@ -60,44 +59,44 @@ DateItem.propTypes = forbidExtraProps({
   selectDay: PropTypes.func.isRequired,
   selectedDay: PropTypes.string,
   onHeaderLayout: PropTypes.func.isRequired,
-  index: PropTypes.number.isRequired
+  index: PropTypes.number.isRequired,
 });
 
 const styles = StyleSheet.create({
   touchableContainer: {
     ...Platform.select({
       ios: {
-        marginHorizontal: 4
-      }
+        marginHorizontal: 4,
+      },
     }),
     height: 24,
     width: 24,
-    alignItems: "center",
-    justifyContent: "center"
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 
   // Normal
   dateContainer: {
     height: 24,
     width: 24,
-    alignItems: "center",
-    justifyContent: "center"
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   dateText: {
     fontFamily: constants.primarySemiBold,
-    color: "white",
-    fontSize: 10
+    color: 'white',
+    fontSize: 10,
   },
 
   // Single Day
   singleDateContainer: {
     borderRadius: 12,
     backgroundColor: constants.firstColor,
-    marginHorizontal: 4
+    marginHorizontal: 4,
   },
   singleDateTouchable: {
     paddingRight: 4,
-    paddingLeft: 4
+    paddingLeft: 4,
   },
 
   // Selected Section
@@ -111,12 +110,12 @@ const styles = StyleSheet.create({
     marginLeft: 4,
     ...Platform.select({
       ios: {
-        width: 31
+        width: 31,
       },
       android: {
-        width: 28
-      }
-    })
+        width: 28,
+      },
+    }),
   },
   leftTouchable: {
     ...Platform.select({
@@ -127,15 +126,15 @@ const styles = StyleSheet.create({
         backgroundColor: constants.firstColor,
         borderTopLeftRadius: 14,
         borderBottomLeftRadius: 14,
-        marginLeft: 4
-      }
-    })
+        marginLeft: 4,
+      },
+    }),
   },
 
   middleSection: {
     backgroundColor: constants.firstColor,
     marginHorizontal: 0,
-    width: 32
+    width: 32,
   },
   middleTouchable: {
     ...Platform.select({
@@ -143,9 +142,9 @@ const styles = StyleSheet.create({
         paddingLeft: 4,
         paddingRight: 4,
         width: 40,
-        backgroundColor: constants.firstColor
-      }
-    })
+        backgroundColor: constants.firstColor,
+      },
+    }),
   },
 
   rightCorner: {
@@ -155,7 +154,7 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 0,
     marginLeft: 0,
     marginRight: 4,
-    width: 28
+    width: 28,
   },
   rightTouchable: {
     ...Platform.select({
@@ -166,18 +165,18 @@ const styles = StyleSheet.create({
         backgroundColor: constants.firstColor,
         borderTopRightRadius: 12,
         borderBottomRightRadius: 12,
-        marginRight: 4
-      }
-    })
+        marginRight: 4,
+      },
+    }),
   },
 
   selectedText: {
     marginTop: -1,
-    color: "white"
+    color: 'white',
   },
 
   activeBubble: {
-    position: "absolute",
+    position: 'absolute',
     backgroundColor: constants.black2,
     ...Platform.select({
       ios: {
@@ -187,7 +186,7 @@ const styles = StyleSheet.create({
         borderTopRightRadius: 15,
         borderTopLeftRadius: 15,
         borderBottomRightRadius: 15,
-        borderBottomLeftRadius: 15
+        borderBottomLeftRadius: 15,
       },
       android: {
         height: 28,
@@ -196,11 +195,11 @@ const styles = StyleSheet.create({
         borderTopRightRadius: 14,
         borderTopLeftRadius: 14,
         borderBottomRightRadius: 14,
-        borderBottomLeftRadius: 14
-      }
+        borderBottomLeftRadius: 14,
+      },
     }),
-    borderColor: "white"
-  }
+    borderColor: 'white',
+  },
 });
 
 export default DateItem;

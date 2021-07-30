@@ -40,7 +40,7 @@ export const getYearFromItineraryDateObject = (
   dateObject: IItineraryDay,
 ): string => {
   if (dateObject.dayTs) {
-    return moment(dateObject.dayTs).format('YYYY');
+    return moment.utc(dateObject.dayTs).format('YYYY');
   } else {
     return constants.currentYear;
   }
