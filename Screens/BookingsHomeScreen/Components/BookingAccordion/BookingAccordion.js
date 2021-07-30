@@ -145,7 +145,9 @@ class BookingAccordion extends Component {
   };
 
   _renderContent = section => {
-    const {navigation} = this.props;
+    const {navigation, itineraries} = this.props;
+    const {selectedItinerary = {}} = itineraries ?? {};
+    const {openDate} = selectedItinerary.itinerary ?? {};
     const customStyle = {};
 
     let spinValue = 0;
@@ -160,6 +162,7 @@ class BookingAccordion extends Component {
             navigation={navigation}
             section={section}
             spinValue={spinValue}
+            openDate={openDate}
           />
         );
 
@@ -169,6 +172,7 @@ class BookingAccordion extends Component {
             navigation={navigation}
             section={section}
             spinValue={spinValue}
+            openDate={openDate}
           />
         );
 
@@ -178,6 +182,7 @@ class BookingAccordion extends Component {
             navigation={navigation}
             section={section}
             spinValue={spinValue}
+            openDate={openDate}
           />
         );
 
@@ -187,6 +192,7 @@ class BookingAccordion extends Component {
             navigation={navigation}
             section={section}
             spinValue={spinValue}
+            openDate={openDate}
           />
         );
 
@@ -196,6 +202,7 @@ class BookingAccordion extends Component {
             navigation={navigation}
             section={section}
             spinValue={spinValue}
+            openDate={openDate}
           />
         );
 
@@ -205,6 +212,7 @@ class BookingAccordion extends Component {
             navigation={navigation}
             section={section}
             spinValue={spinValue}
+            openDate={openDate}
           />
         );
 
@@ -214,6 +222,7 @@ class BookingAccordion extends Component {
             section={section}
             navigation={navigation}
             spinValue={spinValue}
+            openDate={openDate}
           />
         );
 
@@ -223,6 +232,7 @@ class BookingAccordion extends Component {
             navigation={navigation}
             section={section}
             spinValue={spinValue}
+            openDate={openDate}
           />
         );
 

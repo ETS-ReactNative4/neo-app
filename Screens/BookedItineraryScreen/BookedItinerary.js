@@ -1,25 +1,25 @@
-import React, { Component } from "react";
-import { View, StyleSheet, ScrollView, Animated, Easing } from "react-native";
+import React, {Component} from 'react';
+import {View, StyleSheet, ScrollView, Animated, Easing} from 'react-native';
 import {
   responsiveHeight,
-  responsiveWidth
-} from "react-native-responsive-dimensions";
-import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
-import BookedItineraryTopBar from "./Components/BookedItineraryTopBar/BookedItineraryTopBar";
-import { inject, observer } from "mobx-react";
-import Slot from "./Components/Slot";
-import moment from "moment/moment";
-import BookedItineraryTitle from "./Components/BookedItineraryTitle";
-import CitySelectionMenu from "../../CommonComponents/CitySelectionMenu/CitySelectionMenu";
-import { recordEvent } from "../../Services/analytics/analyticsService";
-import constants from "../../constants/constants";
-import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
-import DeepLinkHandler from "../../CommonComponents/DeepLinkHandler/DeepLinkHandler";
+  responsiveWidth,
+} from 'react-native-responsive-dimensions';
+import CommonHeader from '../../CommonComponents/CommonHeader/CommonHeader';
+import BookedItineraryTopBar from './Components/BookedItineraryTopBar/BookedItineraryTopBar';
+import {inject, observer} from 'mobx-react';
+import Slot from './Components/Slot';
+import moment from 'moment/moment';
+import BookedItineraryTitle from './Components/BookedItineraryTitle';
+import CitySelectionMenu from '../../CommonComponents/CitySelectionMenu/CitySelectionMenu';
+import {recordEvent} from '../../Services/analytics/analyticsService';
+import constants from '../../constants/constants';
+import ErrorBoundary from '../../CommonComponents/ErrorBoundary/ErrorBoundary';
+import DeepLinkHandler from '../../CommonComponents/DeepLinkHandler/DeepLinkHandler';
 
 @ErrorBoundary()
 @DeepLinkHandler
-@inject("appState")
-@inject("itineraries")
+@inject('appState')
+@inject('itineraries')
 @observer
 class BookedItinerary extends Component {
   constructor(props) {
@@ -30,20 +30,20 @@ class BookedItinerary extends Component {
         <CommonHeader
           TitleComponent={<BookedItineraryTitle />}
           // RightButton={<SearchButton action={() => {}} />}
-          title={""}
+          title={''}
           navigation={props.navigation}
         />
-      )
+      ),
     });
   }
 
   state = {
-    selectedDay: moment(this.props.itineraries.days[0]).format("x"),
-    headers: this.props.itineraries.days.map(day => moment(day).format("x")),
+    selectedDay: moment(this.props.itineraries.days[0]).format('x'),
+    headers: this.props.itineraries.days.map(day => moment(day).format('x')),
     headerPositions: {},
-    sections: this.props.itineraries.days.map(day => moment(day).format("x")),
+    sections: this.props.itineraries.days.map(day => moment(day).format('x')),
     sectionPositions: {},
-    isScrollRecorded: false
+    isScrollRecorded: false,
   };
   _headerScroll = {};
   spinValue = new Animated.Value(0);
@@ -51,56 +51,56 @@ class BookedItinerary extends Component {
   selectDay = day => {
     this.setState(
       {
-        selectedDay: day
+        selectedDay: day,
       },
       () => {
         this.props.appState.setSelectedDate(day);
         this.refs._contentScroll.scrollTo({
           x: 0,
           y: this.state.sectionPositions[this.state.selectedDay],
-          animated: false
+          animated: false,
         });
-      }
+      },
     );
   };
 
   onItemLayout = (
     {
       nativeEvent: {
-        layout: { x, y, width, height }
-      }
+        layout: {x, y, width, height},
+      },
     },
-    section
+    section,
   ) => {
-    const sectionPositions = { ...this.state.sectionPositions };
+    const sectionPositions = {...this.state.sectionPositions};
     sectionPositions[section] = y;
-    this.setState({ sectionPositions });
+    this.setState({sectionPositions});
   };
 
   onHeaderLayout = (
     {
       nativeEvent: {
-        layout: { x, y, width, height }
-      }
+        layout: {x, y, width, height},
+      },
     },
-    section
+    section,
   ) => {
-    const headerPositions = { ...this.state.headerPositions };
+    const headerPositions = {...this.state.headerPositions};
     headerPositions[section] = x;
-    this.setState({ headerPositions });
+    this.setState({headerPositions});
   };
 
   onItemScroll = ({
     nativeEvent: {
-      contentOffset: { y, x }
-    }
+      contentOffset: {y, x},
+    },
   }) => {
     if (!this.state.isScrollRecorded) {
       recordEvent(constants.BookedItinerary.event, {
-        scroll: constants.BookedItinerary.scroll.contentScroll
+        scroll: constants.BookedItinerary.scroll.contentScroll,
       });
       this.setState({
-        isScrollRecorded: true
+        isScrollRecorded: true,
       });
     }
     let _currentSection;
@@ -109,21 +109,21 @@ class BookedItinerary extends Component {
         _currentSection = section;
       }
     });
-    this.setState({ selectedDay: _currentSection }, () => {
+    this.setState({selectedDay: _currentSection}, () => {
       this.props.appState.setSelectedDate(this.state.selectedDay);
       this._headerScroll.scrollTo({
         x:
           this.state.headerPositions[this.state.selectedDay] -
           responsiveWidth(45),
         y: 0,
-        animated: true
+        animated: true,
       });
     });
   };
 
   dateSelectedFromModal = date => {
     recordEvent(constants.BookedItinerary.event, {
-      click: constants.BookedItinerary.click.headerCity
+      click: constants.BookedItinerary.click.headerCity,
     });
     this.selectDay(date);
   };
@@ -142,14 +142,16 @@ class BookedItinerary extends Component {
         toValue: 1,
         duration: 3000,
         easing: Easing.linear,
-        useNativeDriver: true
-      })
+        useNativeDriver: true,
+      }),
     ).start();
   }
 
   render() {
-    const { days, slots } = this.props.itineraries;
-    const { navigation } = this.props;
+    const {days, slots, selectedItinerary} = this.props.itineraries;
+    const {navigation} = this.props;
+    const {openDate} = selectedItinerary.itinerary ?? {};
+
     return (
       <View style={styles.bookedItineraryContainer}>
         <CitySelectionMenu
@@ -161,12 +163,12 @@ class BookedItinerary extends Component {
           selectDay={this.selectDay}
           _headerScroll={_headerScroll => (this._headerScroll = _headerScroll)}
           onHeaderLayout={this.onHeaderLayout}
+          openDate={openDate}
         />
         <ScrollView
-          ref={"_contentScroll"}
+          ref={'_contentScroll'}
           onScroll={this.onItemScroll}
-          scrollEventThrottle={100}
-        >
+          scrollEventThrottle={100}>
           {days.map((day, index) => {
             return (
               <Slot
@@ -176,10 +178,12 @@ class BookedItinerary extends Component {
                 slot={slots[index]}
                 onItemLayout={this.onItemLayout}
                 navigation={navigation}
+                openDate={openDate}
+                index={index}
               />
             );
           })}
-          <View style={{ height: responsiveHeight(60) }} />
+          <View style={{height: responsiveHeight(60)}} />
         </ScrollView>
       </View>
     );
@@ -189,8 +193,8 @@ class BookedItinerary extends Component {
 const styles = StyleSheet.create({
   bookedItineraryContainer: {
     flex: 1,
-    backgroundColor: "white"
-  }
+    backgroundColor: 'white',
+  },
 });
 
 export default BookedItinerary;
