@@ -180,9 +180,9 @@ const Search = ({navigation}: SearchScreenProps) => {
         innerBoxStyle={styles.searchInnerBox}
         inputStyle={styles.searchInput}
       />
-      <ScrollView>
-        <View style={styles.listContainer}>
-          {!searchString ? (
+      {!searchString ? (
+        <ScrollView>
+          <View style={styles.listContainer}>
             <Fragment>
               {vacationTheme ? (
                 <VacationTheme
@@ -219,9 +219,9 @@ const Search = ({navigation}: SearchScreenProps) => {
                 </SearchSection>
               ) : null}
             </Fragment>
-          ) : null}
-        </View>
-      </ScrollView>
+          </View>
+        </ScrollView>
+      ) : null}
       {!isPackagesApiLoading && !searchResults.length && searchString ? (
         <AnimatableView
           style={styles.placeholderWrapper}
@@ -275,7 +275,9 @@ const Search = ({navigation}: SearchScreenProps) => {
                 return listBottomSpace;
               }
             }}
-            keyExtractor={(item, itemIndex) => `${itemIndex}`}
+            keyExtractor={(item, itemIndex) =>
+              `${itemIndex}-${item?.campaignItineraryId}`
+            }
           />
         </View>
       ) : null}
