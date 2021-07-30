@@ -1,30 +1,30 @@
-import React, { Component } from "react";
-import { View, StyleSheet } from "react-native";
-import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
-import HamburgerButton from "../../CommonComponents/HamburgerButton/HamburgerButton";
-import { inject, observer } from "mobx-react";
-import EmptyListPlaceholder from "../../CommonComponents/EmptyListPlaceholder/EmptyListPlaceholder";
-import constants from "../../constants/constants";
-import { isIphoneX } from "react-native-iphone-x-helper";
-import XSensorPlaceholder from "../../CommonComponents/XSensorPlaceholder/XSensorPlaceholder";
-import PaymentInfoCard from "./Components/PaymentInfoCard";
-import apiCall from "../../Services/networkRequests/apiCall";
-import { recordEvent } from "../../Services/analytics/analyticsService";
-import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
-import CustomScrollView from "../../CommonComponents/CustomScrollView/CustomScrollView";
-import storeService from "../../Services/storeService/storeService";
-import { CONSTANT_drawerEvents } from "../../constants/appEvents";
-import PrimaryHeader from "../../NavigatorsV2/Components/PrimaryHeader";
-import { SCREEN_PAYMENT_SUMMARY } from "../../NavigatorsV2/ScreenNames";
+import React, {Component} from 'react';
+import {View, StyleSheet} from 'react-native';
+import CommonHeader from '../../CommonComponents/CommonHeader/CommonHeader';
+import HamburgerButton from '../../CommonComponents/HamburgerButton/HamburgerButton';
+import {inject, observer} from 'mobx-react';
+import EmptyListPlaceholder from '../../CommonComponents/EmptyListPlaceholder/EmptyListPlaceholder';
+import constants from '../../constants/constants';
+import {isIphoneX} from 'react-native-iphone-x-helper';
+import XSensorPlaceholder from '../../CommonComponents/XSensorPlaceholder/XSensorPlaceholder';
+import PaymentInfoCard from './Components/PaymentInfoCard';
+import apiCall from '../../Services/networkRequests/apiCall';
+import {recordEvent} from '../../Services/analytics/analyticsService';
+import ErrorBoundary from '../../CommonComponents/ErrorBoundary/ErrorBoundary';
+import CustomScrollView from '../../CommonComponents/CustomScrollView/CustomScrollView';
+import storeService from '../../Services/storeService/storeService';
+import {CONSTANT_drawerEvents} from '../../constants/appEvents';
+import PrimaryHeader from '../../NavigatorsV2/Components/PrimaryHeader';
+import {SCREEN_PAYMENT_SUMMARY} from '../../NavigatorsV2/ScreenNames';
 
-@ErrorBoundary({ isRoot: true })
-@inject("yourBookingsStore")
+@ErrorBoundary({isRoot: true})
+@inject('yourBookingsStore')
 @observer
 class PaymentHome extends Component {
   state = {
     isLoading: false,
     paymentMeta: {},
-    displayCurrency: null
+    displayCurrency: null,
   };
   _didFocusSubscription;
 
@@ -32,18 +32,18 @@ class PaymentHome extends Component {
     super(props);
 
     this._didFocusSubscription = props.navigation.addListener(
-      "didFocus",
+      'didFocus',
       () => {
         this.getPaymentMeta();
-      }
+      },
     );
 
     props.navigation.setOptions({
       header: () =>
         PrimaryHeader({
           leftAction: () => props.navigation.goBack(),
-          headerText: "Payments"
-        })
+          headerText: 'Payments',
+        }),
     });
   }
 
@@ -57,19 +57,19 @@ class PaymentHome extends Component {
 
   getPaymentMeta() {
     this.setState({
-      isLoading: true
+      isLoading: true,
     });
     apiCall(constants.getPaymentMeta)
       .then(response => {
         setTimeout(() => {
           this.setState({
-            isLoading: false
+            isLoading: false,
           });
         }, 1000);
-        if (response.status === "SUCCESS") {
+        if (response.status === 'SUCCESS') {
           this.setState({
             paymentMeta: response.data,
-            displayCurrency: response.displayCurrency
+            displayCurrency: response.displayCurrency,
           });
         } else {
           this.apiFailure();
@@ -77,7 +77,7 @@ class PaymentHome extends Component {
       })
       .catch(err => {
         this.setState({
-          isLoading: false
+          isLoading: false,
         });
         this.apiFailure();
       });
@@ -90,7 +90,7 @@ class PaymentHome extends Component {
       upcomingItineraries,
       // completedItineraries,
       isLoading,
-      getUpcomingItineraries
+      getUpcomingItineraries,
     } = this.props.yourBookingsStore;
 
     const itinerariesList = upcomingItineraries;
@@ -102,15 +102,14 @@ class PaymentHome extends Component {
           onRefresh={() => {
             getUpcomingItineraries();
             this.getPaymentMeta();
-          }}
-        >
+          }}>
           {!itinerariesList.length && !isLoading ? (
             <EmptyListPlaceholder
               text={`No active bookings found on this number. If the booking is made by someone else, you need an invite from them to proceed.`}
               containerStyle={{
                 borderTopWidth: StyleSheet.hairlineWidth,
                 borderTopColor: constants.shade4,
-                marginHorizontal: 24
+                marginHorizontal: 24,
               }}
             />
           ) : null}
@@ -130,16 +129,17 @@ class PaymentHome extends Component {
                     this.props.navigation.navigate(SCREEN_PAYMENT_SUMMARY, {
                       itineraryId: itinerary.itineraryId,
                       itineraryName: itinerary.itineraryName,
-                      paymentDetails
+                      paymentDetails,
                     })
                   }
                   isLast={isLast}
-                  isPaymentPending={paymentDetails.paymentStatus !== "SUCCESS"}
+                  isPaymentPending={paymentDetails.paymentStatus !== 'SUCCESS'}
                   paymentDue={paymentDetails.paymentDue}
                   paymentStatus={paymentDetails.paymentStatus}
                   nextPendingDate={paymentDetails.nextPendingDate}
                   totalAmountPaid={paymentDetails.totalAmountPaid}
                   displayCurrency={this.state.displayCurrency}
+                  orderId={itinerary.orderId}
                 />
               );
             } else {
@@ -156,8 +156,8 @@ class PaymentHome extends Component {
 const styles = StyleSheet.create({
   paymentContainer: {
     flex: 1,
-    backgroundColor: "white"
-  }
+    backgroundColor: 'white',
+  },
 });
 
 export default PaymentHome;
