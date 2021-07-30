@@ -8,7 +8,6 @@ import {
   CONSTANT_fontPrimaryRegular,
   CONSTANT_fontPrimarySemiBold,
 } from '../../constants/fonts';
-import {Included} from '@pyt/icons';
 import {SCREEN_STAY_HOTEL_REVIEW} from '../../NavigatorsV2/ScreenNames';
 import useSavePassengersApi from './hook/useSavePassengersApi';
 import apiCall from '../../Services/networkRequests/apiCall';
@@ -40,6 +39,7 @@ import launchItinerarySelector from '../../Services/launchItinerarySelector/laun
 import {IItinerary} from '../../TypeInterfaces/IItinerary';
 import OTAHotel from '../../mobx/OTAHotel';
 import _cloneDeep from 'lodash/cloneDeep';
+import {HotelRoomDetails} from './Components/HotelRoomDetails';
 
 type StayHotelReviewScreenNavType = AppNavigatorProps<
   typeof SCREEN_STAY_HOTEL_REVIEW
@@ -133,10 +133,6 @@ const StayHotelReviewScreen = inject('deviceLocaleStore')(
             name,
             distanceFromCityCenter,
             stars,
-            amenitiesList,
-            breakFastAvailable,
-            refundable,
-            amenities,
             cityName,
             numberOfNights = 0,
             checkInDateDisplay,
@@ -298,7 +294,11 @@ const StayHotelReviewScreen = inject('deviceLocaleStore')(
             <Box backgroundColor="#F5F5F5" flex={1}>
               {header}
               <ScrollView keyboardShouldPersistTaps={'handled'}>
-                <Box padding={16} backgroundColor={'#ffffff'} marginBottom={8}>
+                <Box
+                  padding={16}
+                  paddingBottom={0}
+                  backgroundColor={'#ffffff'}
+                  marginBottom={8}>
                   <HotelCard
                     width={'100%'}
                     fontFamily={CONSTANT_fontPrimaryLight}
@@ -310,38 +310,7 @@ const StayHotelReviewScreen = inject('deviceLocaleStore')(
                     marginBottom={8}
                     isReviewCard={true}
                     backgroundColor="#ffffff"
-                    amenitiesProps={{
-                      itemProp: {
-                        width: 'auto',
-                        marginEnd: 12,
-                      },
-                    }}
-                    amenities={[
-                      {
-                        text: 'Free WiFi',
-                        available: amenitiesList?.includes('Free WiFi'),
-                      },
-                      {
-                        text: 'Breakfast included',
-                        available: breakFastAvailable,
-                      },
-                      {text: 'Free cancellation', available: refundable},
-                      {
-                        text: 'Air condition',
-                        available: !!amenities?.filter(
-                          ({name: amenityName}: {name: string}) =>
-                            amenityName === 'AIR CONDITIONING',
-                        ).length,
-                      },
-                    ].reduce((amenityDisplayList, amenity) => {
-                      if (amenity.available) {
-                        amenityDisplayList.push({
-                          text: amenity.text,
-                          icon: <Included fill="#555555" />,
-                        });
-                      }
-                      return amenityDisplayList;
-                    }, [])}
+                    amenities={[]}
                     dotSeparateList={dotSeparateList}
                     footerRightElement={<></>}
                     sliderProps={{
@@ -358,6 +327,9 @@ const StayHotelReviewScreen = inject('deviceLocaleStore')(
                       borderColor: '#F0F0F0',
                       marginTop: 16,
                     }}
+                    footerElement={
+                      <HotelRoomDetails roomsInHotel={hotelData.roomsInHotel} />
+                    }
                   />
                 </Box>
                 <TripDetails
