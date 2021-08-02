@@ -1,29 +1,29 @@
-import React from "react";
-import constants from "../../../../constants/constants";
-import { inject, observer } from "mobx-react";
-import getSlotImage from "../../../../Services/getImageService/getSlotImage";
-import CityCard from "../CityCard";
-import moment from "moment";
-import SectionHeader from "../../../../CommonComponents/SectionHeader/SectionHeader";
-import _ from "lodash";
-import { recordEvent } from "../../../../Services/analytics/analyticsService";
-import BookingSectionComponent from "../../../../CommonComponents/BookingSectionComponent/BookingSectionComponent";
-import resolveLinks from "../../../../Services/resolveLinks/resolveLinks";
-import getTransferImage from "../../../../Services/getImageService/getTransferImage";
-import { StyleSheet, ViewStyle } from "react-native";
+import React from 'react';
+import constants from '../../../../constants/constants';
+import {inject, observer} from 'mobx-react';
+import getSlotImage from '../../../../Services/getImageService/getSlotImage';
+import CityCard from '../CityCard';
+import moment from 'moment';
+import SectionHeader from '../../../../CommonComponents/SectionHeader/SectionHeader';
+import _ from 'lodash';
+import {recordEvent} from '../../../../Services/analytics/analyticsService';
+import BookingSectionComponent from '../../../../CommonComponents/BookingSectionComponent/BookingSectionComponent';
+import resolveLinks from '../../../../Services/resolveLinks/resolveLinks';
+import getTransferImage from '../../../../Services/getImageService/getTransferImage';
+import {StyleSheet, ViewStyle} from 'react-native';
 import {
   ICity,
   IFlightCosting,
   IIterSlotByKey,
   IRentalCarCosting,
-  ITransferCosting
-} from "../../../../TypeInterfaces/IItinerary";
-import { NavigationStackProp } from "react-navigation-stack";
+  ITransferCosting,
+} from '../../../../TypeInterfaces/IItinerary';
+import {NavigationStackProp} from 'react-navigation-stack';
 import Itineraries, {
   IActivityCombinedInfo,
-  IItineraryCityDetail
-} from "../../../../mobx/Itineraries";
-import { SCREEN_PLACES } from "../../../../NavigatorsV2/ScreenNames";
+  IItineraryCityDetail,
+} from '../../../../mobx/Itineraries';
+import {SCREEN_PLACES} from '../../../../NavigatorsV2/ScreenNames';
 
 export interface SlotActivityProps {
   activity: IIterSlotByKey;
@@ -32,10 +32,11 @@ export interface SlotActivityProps {
   activityIndex: number;
   spinValue: object;
   itineraries: Itineraries;
+  openDate?: boolean;
 }
 
 export interface ICityCardData {
-  cityImage: { uri: string };
+  cityImage: {uri: string};
   action: () => any;
   cityName: string;
   activityText: string;
@@ -48,7 +49,8 @@ const SlotActivity = ({
   itineraries,
   activityIndex,
   day,
-  spinValue
+  spinValue,
+  openDate,
 }: SlotActivityProps) => {
   const {
     getActivityById,
@@ -57,7 +59,7 @@ const SlotActivity = ({
     getFlightById,
     getTransferFromAllById,
     getCityOrderById,
-    getRentalCarByCityOrder
+    getRentalCarByCityOrder,
   } = itineraries;
   let onClick: (city?: IItineraryCityDetail) => any = () => null;
   let imageObject;
@@ -65,70 +67,68 @@ const SlotActivity = ({
     cityCardData: ICityCardData,
     cityId: number;
   switch (activity.type) {
-    case "INTERNATIONAL_ARRIVE":
+    case 'INTERNATIONAL_ARRIVE':
       currentCity = itineraries.cities[0];
       cityId = currentCity.cityObject ? currentCity.cityObject.cityId : 0;
       cityCardData = {
-        cityImage: { uri: currentCity.cityObject.image },
+        cityImage: {uri: currentCity.cityObject.image},
         action: () =>
           navigation.navigate(SCREEN_PLACES, {
-            city: cityId
+            city: cityId,
           }),
         cityName: currentCity.city,
-        activityText: activity.arrivalSlotDetail.transferIndicatorText
+        activityText: activity.arrivalSlotDetail.transferIndicatorText,
       };
       break;
 
-    case "INTERCITY_TRANSFER":
+    case 'INTERCITY_TRANSFER':
       currentCity = getCityById(activity.intercityTransferSlotDetailVO.toCity);
       city = _.find(cities, {
-        city: currentCity.cityName
+        city: currentCity.cityName,
       }) as IItineraryCityDetail;
       cityId = city.cityObject ? city.cityObject.cityId : 0;
       cityCardData = {
         cityImage: {
-          uri: currentCity.image
+          uri: currentCity.image,
         },
         action: () =>
           navigation.navigate(SCREEN_PLACES, {
-            city: cityId
+            city: cityId,
           }),
         cityName: currentCity.cityName,
         activityText:
           activity.intercityTransferSlotDetailVO.directTransferDetail
-            .transferIndicatorText
+            .transferIndicatorText,
       };
       break;
 
-    case "ACTIVITY_WITH_TRANSFER":
+    case 'ACTIVITY_WITH_TRANSFER':
       currentCity = getCityById(activity.intercityTransferSlotDetailVO.toCity);
       city = _.find(cities, {
-        city: currentCity.cityName
+        city: currentCity.cityName,
       }) as IItineraryCityDetail;
       cityId = city.cityObject ? city.cityObject.cityId : 0;
-      let transferIndicatorText = "";
-      const {
-        intercityTransferSlotDetailVO: interCityTransferDetail
-      } = activity;
-      if (_.toUpper(interCityTransferDetail.transferType) === "DIRECT") {
+      let transferIndicatorText = '';
+      const {intercityTransferSlotDetailVO: interCityTransferDetail} = activity;
+      if (_.toUpper(interCityTransferDetail.transferType) === 'DIRECT') {
         transferIndicatorText =
           interCityTransferDetail.directTransferDetail.transferIndicatorText;
       } else if (
-        _.toUpper(interCityTransferDetail.transferType) === "TRANSIT"
+        _.toUpper(interCityTransferDetail.transferType) === 'TRANSIT'
       ) {
         transferIndicatorText =
           interCityTransferDetail.transitTransferDetail.transferIndicatorText;
       }
       cityCardData = {
         cityImage: {
-          uri: currentCity.image
+          uri: currentCity.image,
         },
         action: () =>
           navigation.navigate(SCREEN_PLACES, {
-            city: cityId
+            city: cityId,
           }),
         cityName: currentCity.cityName,
-        activityText: transferIndicatorText
+        activityText: transferIndicatorText,
       };
       break;
 
@@ -136,11 +136,11 @@ const SlotActivity = ({
       break;
   }
 
-  const SlotRow = ({ containerStyle }: { containerStyle: ViewStyle }) => {
+  const SlotRow = ({containerStyle}: {containerStyle: ViewStyle}) => {
     switch (activity.type) {
-      case "INTERNATIONAL_ARRIVE":
+      case 'INTERNATIONAL_ARRIVE':
         internationalFlightKey = activity.arrivalSlotDetail.flightCostingKey;
-        imageObject = getSlotImage(internationalFlightKey, "FLIGHT");
+        imageObject = getSlotImage(internationalFlightKey, 'FLIGHT');
         const flight: IFlightCosting = internationalFlightKey
           ? (getFlightById(internationalFlightKey) as IFlightCosting)
           : ({} as IFlightCosting);
@@ -150,12 +150,12 @@ const SlotActivity = ({
         onClick = () => {
           recordEvent(constants.BookedItinerary.event, {
             click: constants.BookedItinerary.click.voucher,
-            type: constants.BookedItinerary.type.flight
+            type: constants.BookedItinerary.type.flight,
           });
           // @ts-ignore
           resolveLinks(false, false, {
             voucherType: constants.flightVoucherType,
-            costingIdentifier: flight.configKey
+            costingIdentifier: flight.configKey,
           });
         };
         return (
@@ -163,22 +163,22 @@ const SlotActivity = ({
             containerStyle={[containerStyle, styles.horizontalMarginSpacing]}
             title={activity.name}
             content={activity.arrivalSlotDetail.slotText}
-            sectionImage={{ uri: imageObject.image }}
+            sectionImage={{uri: imageObject.image}}
             isImageContain={true}
             onClick={onClick}
             contentNumberOfLines={3}
             defaultSource={constants.flightLogoPlaceholderIllus}
             isProcessing={!(flight.voucher && flight.voucher.booked)}
             spinValue={spinValue}
-            isDataSkipped={_.get(flight, "voucher.skipVoucher")}
-            voucherTitle={_.get(flight, "voucher.title")}
+            isDataSkipped={_.get(flight, 'voucher.skipVoucher')}
+            voucherTitle={_.get(flight, 'voucher.title')}
           />
         );
 
-      case "LEISURE":
+      case 'LEISURE':
         onClick = (cityDetail?: IItineraryCityDetail) => {
-          navigation.navigate("LeisureScreen", {
-            city: cityDetail
+          navigation.navigate('LeisureScreen', {
+            city: cityDetail,
           });
         };
         return (
@@ -196,22 +196,22 @@ const SlotActivity = ({
           />
         );
 
-      case "ACTIVITY":
+      case 'ACTIVITY':
         const activityCosting = getActivityById(
-          activity.activitySlotDetail.activityCostingIdentifier
+          activity.activitySlotDetail.activityCostingIdentifier,
         ) as IActivityCombinedInfo;
         const activityInfo = getActivityById(
-          activity.activitySlotDetail.activityCostingIdentifier
+          activity.activitySlotDetail.activityCostingIdentifier,
         ) as IActivityCombinedInfo;
         onClick = () => {
           recordEvent(constants.BookedItinerary.event, {
             click: constants.BookedItinerary.click.voucher,
-            type: constants.BookedItinerary.type.activity
+            type: constants.BookedItinerary.type.activity,
           });
           // @ts-ignore
           resolveLinks(false, false, {
             voucherType: constants.activityVoucherType,
-            costingIdentifier: activityInfo.costing.configKey
+            costingIdentifier: activityInfo.costing.configKey,
           });
         };
         return (
@@ -219,7 +219,7 @@ const SlotActivity = ({
             containerStyle={[containerStyle, styles.horizontalMarginSpacing]}
             title={activity.name}
             content={activityCosting.title}
-            sectionImage={{ uri: activityCosting.mainPhoto }}
+            sectionImage={{uri: activityCosting.mainPhoto}}
             onClick={onClick}
             contentNumberOfLines={3}
             defaultSource={constants.activityThumbPlaceholderIllus}
@@ -231,18 +231,18 @@ const SlotActivity = ({
               )
             }
             spinValue={spinValue}
-            isDataSkipped={_.get(activityInfo, "voucher.skipVoucher")}
-            voucherTitle={_.get(activityInfo, "voucher.title")}
+            isDataSkipped={_.get(activityInfo, 'voucher.skipVoucher')}
+            voucherTitle={_.get(activityInfo, 'voucher.title')}
           />
         );
 
-      case "INTERCITY_TRANSFER":
+      case 'INTERCITY_TRANSFER':
         const {
           transferCostingIdenfier,
           transferMode,
-          slotText
+          slotText,
         } = activity.intercityTransferSlotDetailVO.directTransferDetail;
-        const { fromCity, toCity } = activity.intercityTransferSlotDetailVO;
+        const {fromCity, toCity} = activity.intercityTransferSlotDetailVO;
         imageObject = getSlotImage(transferCostingIdenfier, transferMode);
         let transfer = (transferCostingIdenfier
           ? getTransferFromAllById(transferCostingIdenfier)
@@ -253,20 +253,20 @@ const SlotActivity = ({
             const toCityOrder = getCityOrderById(toCity);
             transfer = getRentalCarByCityOrder({
               fromCityOrder,
-              toCityOrder
+              toCityOrder,
             }) as IRentalCarCosting;
           }
         }
         onClick = () => {
           recordEvent(constants.BookedItinerary.event, {
             click: constants.BookedItinerary.click.voucher,
-            type: constants.BookedItinerary.type.transfer
+            type: constants.BookedItinerary.type.transfer,
           });
           if (transferMode === constants.flightTransferMode) {
             // @ts-ignore
             resolveLinks(false, false, {
               voucherType: constants.flightVoucherType,
-              costingIdentifier: transfer.configKey
+              costingIdentifier: transfer.configKey,
             });
           } else {
             switch (transferMode) {
@@ -274,28 +274,28 @@ const SlotActivity = ({
                 // @ts-ignore
                 resolveLinks(false, false, {
                   voucherType: constants.trainVoucherType,
-                  costingIdentifier: transfer.configKey
+                  costingIdentifier: transfer.configKey,
                 });
                 break;
               case constants.ferryTransferMode:
                 // @ts-ignore
                 resolveLinks(false, false, {
                   voucherType: constants.ferryVoucherType,
-                  costingIdentifier: transfer.configKey
+                  costingIdentifier: transfer.configKey,
                 });
                 break;
               case constants.rentalCarTransferMode:
                 // @ts-ignore
                 resolveLinks(false, false, {
                   voucherType: constants.rentalCarVoucherType,
-                  costingIdentifier: transfer.configKey
+                  costingIdentifier: transfer.configKey,
                 });
                 break;
               default:
                 // @ts-ignore
                 resolveLinks(false, false, {
                   voucherType: constants.transferVoucherType,
-                  costingIdentifier: transfer.configKey
+                  costingIdentifier: transfer.configKey,
                 });
             }
           }
@@ -305,23 +305,23 @@ const SlotActivity = ({
             containerStyle={[containerStyle, styles.horizontalMarginSpacing]}
             title={activity.name}
             content={slotText}
-            isImageContain={transferMode === "FLIGHT"}
-            sectionImage={{ uri: imageObject.image }}
+            isImageContain={transferMode === 'FLIGHT'}
+            sectionImage={{uri: imageObject.image}}
             onClick={onClick}
             contentNumberOfLines={3}
             defaultSource={
-              transferMode === "FLIGHT"
+              transferMode === 'FLIGHT'
                 ? constants.flightLogoPlaceholderIllus
-                : { uri: getTransferImage(transferMode) }
+                : {uri: getTransferImage(transferMode)}
             }
             isProcessing={!(transfer.voucher && transfer.voucher.booked)}
             spinValue={spinValue}
-            isDataSkipped={_.get(transfer, "voucher.skipVoucher")}
-            voucherTitle={_.get(transfer, "voucher.title")}
+            isDataSkipped={_.get(transfer, 'voucher.skipVoucher')}
+            voucherTitle={_.get(transfer, 'voucher.title')}
           />
         );
 
-      case "INTERNATIONAL_DEPART":
+      case 'INTERNATIONAL_DEPART':
         const departureFlight = (internationalFlightKey
           ? getFlightById(internationalFlightKey)
           : {}) as IFlightCosting;
@@ -331,15 +331,15 @@ const SlotActivity = ({
         onClick = () => {
           recordEvent(constants.BookedItinerary.event, {
             click: constants.BookedItinerary.click.voucher,
-            type: constants.BookedItinerary.type.flight
+            type: constants.BookedItinerary.type.flight,
           });
           // @ts-ignore
           resolveLinks(false, false, {
             voucherType: constants.flightVoucherType,
-            costingIdentifier: departureFlight.configKey
+            costingIdentifier: departureFlight.configKey,
           });
         };
-        imageObject = getSlotImage(internationalFlightKey, "FLIGHT");
+        imageObject = getSlotImage(internationalFlightKey, 'FLIGHT');
         return (
           <BookingSectionComponent
             containerStyle={[containerStyle, styles.horizontalMarginSpacing]}
@@ -347,9 +347,9 @@ const SlotActivity = ({
             content={
               activity.departureSlotDetail
                 ? activity.departureSlotDetail.slotText
-                : ""
+                : ''
             }
-            sectionImage={{ uri: imageObject.image }}
+            sectionImage={{uri: imageObject.image}}
             contentNumberOfLines={3}
             isImageContain={true}
             onClick={onClick}
@@ -358,50 +358,50 @@ const SlotActivity = ({
               !(departureFlight.voucher && departureFlight.voucher.booked)
             }
             spinValue={spinValue}
-            isDataSkipped={_.get(departureFlight, "voucher.skipVoucher")}
-            voucherTitle={_.get(departureFlight, "voucher.title")}
+            isDataSkipped={_.get(departureFlight, 'voucher.skipVoucher')}
+            voucherTitle={_.get(departureFlight, 'voucher.title')}
           />
         );
 
-      case "ACTIVITY_WITH_TRANSFER":
+      case 'ACTIVITY_WITH_TRANSFER':
         const activityTransferInfo = getActivityById(
-          activity.activitySlotDetail.activityCostingIdentifier
+          activity.activitySlotDetail.activityCostingIdentifier,
         ) as IActivityCombinedInfo;
         let withActivityTransferCostingIdentifier, withActivityTransferMode;
-        const { intercityTransferSlotDetailVO } = activity;
+        const {intercityTransferSlotDetailVO} = activity;
         if (
-          _.toUpper(intercityTransferSlotDetailVO.transferType) === "DIRECT"
+          _.toUpper(intercityTransferSlotDetailVO.transferType) === 'DIRECT'
         ) {
           const {
             transferCostingIdenfier: directTransferCostingIdenfier,
-            transferMode: directTransferMode
+            transferMode: directTransferMode,
           } = intercityTransferSlotDetailVO.directTransferDetail;
           withActivityTransferCostingIdentifier = directTransferCostingIdenfier;
           withActivityTransferMode = directTransferMode;
         } else if (
-          _.toUpper(intercityTransferSlotDetailVO.transferType) === "TRANSIT"
+          _.toUpper(intercityTransferSlotDetailVO.transferType) === 'TRANSIT'
         ) {
           const {
             transitMode: directTransferMode,
-            transferCostingIdenfier: directTransferCostingIdenfier
+            transferCostingIdenfier: directTransferCostingIdenfier,
           } = intercityTransferSlotDetailVO.transitTransferDetail.arriveTransit;
           withActivityTransferCostingIdentifier = directTransferCostingIdenfier;
           withActivityTransferMode = directTransferMode;
         }
         imageObject = getSlotImage(
           withActivityTransferCostingIdentifier,
-          withActivityTransferMode
+          withActivityTransferMode,
         );
-        const { mainPhoto } = activityTransferInfo;
+        const {mainPhoto} = activityTransferInfo;
         onClick = () => {
           recordEvent(constants.BookedItinerary.event, {
             click: constants.BookedItinerary.click.voucher,
-            type: constants.BookedItinerary.type.activityWithTransfer
+            type: constants.BookedItinerary.type.activityWithTransfer,
           });
           // @ts-ignore
           resolveLinks(false, false, {
             voucherType: constants.activityVoucherType,
-            costingIdentifier: activityTransferInfo.costing.configKey
+            costingIdentifier: activityTransferInfo.costing.configKey,
           });
         };
         return (
@@ -409,7 +409,7 @@ const SlotActivity = ({
             containerStyle={[containerStyle, styles.horizontalMarginSpacing]}
             title={activity.name}
             content={activityTransferInfo.title}
-            sectionImage={{ uri: mainPhoto }}
+            sectionImage={{uri: mainPhoto}}
             isProcessing={
               !(
                 activityTransferInfo.voucher &&
@@ -422,8 +422,8 @@ const SlotActivity = ({
             isImageContain={false}
             defaultSource={constants.activityThumbPlaceholderIllus}
             spinValue={spinValue}
-            isDataSkipped={_.get(activityTransferInfo, "voucher.skipVoucher")}
-            voucherTitle={_.get(activityTransferInfo, "voucher.title")}
+            isDataSkipped={_.get(activityTransferInfo, 'voucher.skipVoucher')}
+            voucherTitle={_.get(activityTransferInfo, 'voucher.title')}
           />
         );
 
@@ -444,12 +444,16 @@ const SlotActivity = ({
           activityIndex === 0 ? (
             <SectionHeader
               key={1}
-              sectionName={moment(day)
-                .format(constants.commonDateFormat)
-                .toUpperCase()}
+              sectionName={
+                openDate
+                  ? 'Day 1'
+                  : moment(day)
+                      .format(constants.commonDateFormat)
+                      .toUpperCase()
+              }
               containerStyle={styles.horizontalMarginSpacing}
             />
-          ) : null
+          ) : null,
         ]
       : null,
     <SlotRow
@@ -458,17 +462,17 @@ const SlotActivity = ({
         // @ts-ignore
         cityCardData && activityIndex !== 0 ? styles.slotRowContainer : {}
       }
-    />
+    />,
   ];
 };
 
 const styles = StyleSheet.create({
   horizontalMarginSpacing: {
-    marginHorizontal: 24
+    marginHorizontal: 24,
   },
-  cityCardContainer: { marginTop: 24, marginBottom: 24 },
-  slotRowContainer: { marginTop: 16 }
+  cityCardContainer: {marginTop: 24, marginBottom: 24},
+  slotRowContainer: {marginTop: 16},
 });
 
 // @ts-ignore
-export default inject("itineraries")(observer(SlotActivity));
+export default inject('itineraries')(observer(SlotActivity));

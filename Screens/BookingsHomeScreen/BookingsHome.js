@@ -261,10 +261,12 @@ class BookingsHome extends Component {
       getTransferTypeByDay,
       isLoading: itineraryLoading,
       selectedItineraryId,
+      selectedItinerary,
       cities,
     } = this.props.itineraries;
     const {isLoading: voucherLoading} = this.props.voucherStore;
     const {navigation} = this.props;
+    const {openDate} = selectedItinerary?.itinerary ?? {};
 
     const isRefreshing = itineraryLoading || voucherLoading;
     const Header = () => HomeHeader({navigation: this.props.navigation}).header;
@@ -285,16 +287,18 @@ class BookingsHome extends Component {
               voucher: true,
             });
           }}>
-          <BookingCalendar
-            containerStyle={styles.calendarContainer}
-            numOfActivitiesByDay={numOfActivitiesByDay}
-            startEndDates={startEndDates}
-            days={days}
-            cities={cities}
-            getDateSelectionMatrixSingle={getDateSelectionMatrixSingle}
-            getTransferTypeByDay={getTransferTypeByDay}
-            navigation={navigation}
-          />
+          {!openDate ? (
+            <BookingCalendar
+              containerStyle={styles.calendarContainer}
+              numOfActivitiesByDay={numOfActivitiesByDay}
+              startEndDates={startEndDates}
+              days={days}
+              cities={cities}
+              getDateSelectionMatrixSingle={getDateSelectionMatrixSingle}
+              getTransferTypeByDay={getTransferTypeByDay}
+              navigation={navigation}
+            />
+          ) : null}
 
           {selectedItineraryId ? (
             <SectionHeader sectionName={'Trip Vouchers'} />

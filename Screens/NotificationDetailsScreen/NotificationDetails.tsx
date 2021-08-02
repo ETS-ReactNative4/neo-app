@@ -220,19 +220,19 @@ const NotificationDetails = ({route, navigation}: NotificationDetailsProps) => {
               notification.departureCity || additionalData.departureCity
             }
             departureDate={
-              moment(notification.departureDateMillis).format(
-                CONSTANT_GCMDateFormat,
-              ) || additionalData.departureDate
+              moment
+                .utc(notification.departureDateMillis)
+                .format(CONSTANT_GCMDateFormat) || additionalData.departureDate
             }
             adults={adultCount}
             children={children}
             numOfRooms={numOfRooms}
-            costedDate={moment(notification.costedDateMillis).format(
-              CONSTANT_GCMDateFormat,
-            )}
-            costedTime={moment(notification.costedDateMillis).format(
-              CONSTANT_shortTimeFormat,
-            )}
+            costedDate={moment
+              .utc(notification.costedDateMillis)
+              .format(CONSTANT_GCMDateFormat)}
+            costedTime={moment
+              .utc(notification.costedDateMillis)
+              .format(CONSTANT_shortTimeFormat)}
             totalCost={totalCost}
             travellingAs={travelType}
             staleCost={staleCost}

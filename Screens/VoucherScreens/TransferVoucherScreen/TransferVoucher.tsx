@@ -226,9 +226,9 @@ class TransferVoucher extends Component<
         value: arrivalTimeStr
           ? arrivalTimeStr
           : costingArrivalTime
-          ? moment(costingArrivalTime, 'HH:mm').format(
-              constants.shortTimeFormat,
-            )
+          ? moment
+              .utc(costingArrivalTime, 'HH:mm')
+              .format(constants.shortTimeFormat)
           : 'NA',
       },
     ];

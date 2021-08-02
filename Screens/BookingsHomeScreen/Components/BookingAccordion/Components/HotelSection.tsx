@@ -1,19 +1,20 @@
-import React from "react";
-import { View } from "react-native";
-import _ from "lodash";
-import moment from "moment";
-import constants from "../../../../../constants/constants";
-import { recordEvent } from "../../../../../Services/analytics/analyticsService";
-import getTitleCase from "../../../../../Services/getTitleCase/getTitleCase";
-import BookingSectionComponent from "../../../../../CommonComponents/BookingSectionComponent/BookingSectionComponent";
-import resolveLinks from "../../../../../Services/resolveLinks/resolveLinks";
-import { IHotelCosting } from "../../../../../TypeInterfaces/IItinerary";
-import { NavigationStackProp } from "react-navigation-stack";
+import React from 'react';
+import {View} from 'react-native';
+import _ from 'lodash';
+import moment from 'moment';
+import constants from '../../../../../constants/constants';
+import {recordEvent} from '../../../../../Services/analytics/analyticsService';
+import getTitleCase from '../../../../../Services/getTitleCase/getTitleCase';
+import BookingSectionComponent from '../../../../../CommonComponents/BookingSectionComponent/BookingSectionComponent';
+import resolveLinks from '../../../../../Services/resolveLinks/resolveLinks';
+import {IHotelCosting} from '../../../../../TypeInterfaces/IItinerary';
+import {NavigationStackProp} from 'react-navigation-stack';
 
 export interface HotelSectionProps {
-  section: { items: IHotelCosting[] };
+  section: {items: IHotelCosting[]};
   navigation: NavigationStackProp;
   spinValue: object;
+  openDate?: boolean;
 }
 
 export interface IHotelSectionProps {
@@ -21,12 +22,14 @@ export interface IHotelSectionProps {
   isLast: boolean;
   navigation: NavigationStackProp;
   spinValue: object;
+  openDate?: boolean;
 }
 
 const HotelSection = ({
   section,
   navigation,
-  spinValue
+  spinValue,
+  openDate,
 }: HotelSectionProps) => {
   return (
     <View>
@@ -40,6 +43,7 @@ const HotelSection = ({
             isLast={isLast}
             navigation={navigation}
             spinValue={spinValue}
+            openDate={openDate}
           />
         );
       })}
@@ -47,24 +51,24 @@ const HotelSection = ({
   );
 };
 
-const Hotel = ({ hotel, isLast, spinValue }: IHotelSectionProps) => {
+const Hotel = ({hotel, isLast, spinValue, openDate}: IHotelSectionProps) => {
   let customStyle = {};
   if (isLast) {
     customStyle = {
       // borderBottomWidth: StyleSheet.hairlineWidth,
-      paddingBottom: 16
+      paddingBottom: 16,
     };
   }
 
   const openVoucher = () => {
     recordEvent(constants.Bookings.event, {
       click: constants.Bookings.click.accordionVoucher,
-      type: constants.Bookings.type.hotels
+      type: constants.Bookings.type.hotels,
     });
     // @ts-ignore
     resolveLinks(false, false, {
       voucherType: constants.hotelVoucherType,
-      costingIdentifier: hotel.configKey
+      costingIdentifier: hotel.configKey,
     });
   };
 
@@ -77,18 +81,19 @@ const Hotel = ({ hotel, isLast, spinValue }: IHotelSectionProps) => {
       content={getTitleCase(hotel.name)}
       title={
         hotel.voucher.checkInDate
-          ? moment(hotel.voucher.checkInDate, "YYYY-MM-DD").format(
-              constants.commonDateFormat
+          ? moment(hotel.voucher.checkInDate, 'YYYY-MM-DD').format(
+              constants.commonDateFormat,
             )
-          : moment(hotel.checkInDate, "DD/MMM/YYYY").format(
-              constants.commonDateFormat
+          : moment(hotel.checkInDate, 'DD/MMM/YYYY').format(
+              constants.commonDateFormat,
             )
       }
       isImageContain={false}
       defaultSource={constants.hotelThumbPlaceholderIllus}
-      sectionImage={{ uri: hotel.imageURL }}
-      isDataSkipped={_.get(hotel, "voucher.skipVoucher")}
-      voucherTitle={_.get(hotel, "voucher.title")}
+      sectionImage={{uri: hotel.imageURL}}
+      isDataSkipped={_.get(hotel, 'voucher.skipVoucher')}
+      voucherTitle={_.get(hotel, 'voucher.title')}
+      hideTitle={openDate}
     />
   );
 };

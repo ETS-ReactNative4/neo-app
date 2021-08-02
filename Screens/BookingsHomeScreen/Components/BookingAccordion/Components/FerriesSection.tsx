@@ -1,19 +1,20 @@
-import React from "react";
-import { View } from "react-native";
-import _ from "lodash";
-import moment from "moment";
-import constants from "../../../../../constants/constants";
-import getTransferImage from "../../../../../Services/getImageService/getTransferImage";
-import { recordEvent } from "../../../../../Services/analytics/analyticsService";
-import BookingSectionComponent from "../../../../../CommonComponents/BookingSectionComponent/BookingSectionComponent";
-import resolveLinks from "../../../../../Services/resolveLinks/resolveLinks";
-import { IFerryCosting } from "../../../../../TypeInterfaces/IItinerary";
-import { NavigationStackProp } from "react-navigation-stack";
+import React from 'react';
+import {View} from 'react-native';
+import _ from 'lodash';
+import moment from 'moment';
+import constants from '../../../../../constants/constants';
+import getTransferImage from '../../../../../Services/getImageService/getTransferImage';
+import {recordEvent} from '../../../../../Services/analytics/analyticsService';
+import BookingSectionComponent from '../../../../../CommonComponents/BookingSectionComponent/BookingSectionComponent';
+import resolveLinks from '../../../../../Services/resolveLinks/resolveLinks';
+import {IFerryCosting} from '../../../../../TypeInterfaces/IItinerary';
+import {NavigationStackProp} from 'react-navigation-stack';
 
 export interface FerriesSectionProps {
-  section: { items: IFerryCosting[] };
+  section: {items: IFerryCosting[]};
   navigation: NavigationStackProp;
   spinValue: object;
+  openDate?: boolean;
 }
 
 export interface IFerrySectionProps {
@@ -21,12 +22,14 @@ export interface IFerrySectionProps {
   isLast: boolean;
   navigation: NavigationStackProp;
   spinValue: object;
+  openDate?: boolean;
 }
 
 const FerriesSection = ({
   section,
   navigation,
-  spinValue
+  spinValue,
+  openDate,
 }: FerriesSectionProps) => {
   return (
     <View>
@@ -40,6 +43,7 @@ const FerriesSection = ({
             ferry={ferry}
             isLast={isLast}
             spinValue={spinValue}
+            openDate={openDate}
           />
         );
       })}
@@ -47,35 +51,35 @@ const FerriesSection = ({
   );
 };
 
-const Ferry = ({ ferry, isLast, spinValue }: IFerrySectionProps) => {
+const Ferry = ({ferry, isLast, spinValue, openDate}: IFerrySectionProps) => {
   let customStyle = {};
   if (isLast) {
     customStyle = {
       // borderBottomWidth: StyleSheet.hairlineWidth,
-      paddingBottom: 16
+      paddingBottom: 16,
     };
   }
 
   const openVoucher = () => {
     recordEvent(constants.Bookings.event, {
       click: constants.Bookings.click.accordionVoucher,
-      type: constants.Bookings.type.ferries
+      type: constants.Bookings.type.ferries,
     });
     // @ts-ignore
     resolveLinks(false, false, {
       voucherType: constants.ferryVoucherType,
-      costingIdentifier: ferry.configKey
+      costingIdentifier: ferry.configKey,
     });
   };
 
-  const { pickupTime } = ferry.voucher;
-  const { dateMillis } = ferry;
+  const {pickupTime} = ferry.voucher;
+  const {dateMillis} = ferry;
 
   return (
     <BookingSectionComponent
       spinValue={spinValue}
-      sectionImage={{ uri: getTransferImage("FERRY") }}
-      defaultSource={{ uri: getTransferImage("FERRY") }}
+      sectionImage={{uri: getTransferImage('FERRY')}}
+      defaultSource={{uri: getTransferImage('FERRY')}}
       containerStyle={customStyle}
       isProcessing={!ferry.voucher.booked}
       onClick={openVoucher}
@@ -84,15 +88,18 @@ const Ferry = ({ ferry, isLast, spinValue }: IFerrySectionProps) => {
         pickupTime && pickupTime > 1
           ? moment(pickupTime).format(constants.commonDateFormat)
           : dateMillis
-          ? moment(dateMillis).format(constants.commonDateFormat)
-          : moment(
-              `${ferry.day}/${ferry.mon}/${constants.currentYear}`,
-              "DD/MMM/YYYY"
-            ).format(constants.commonDateFormat)
+          ? moment.utc(dateMillis).format(constants.commonDateFormat)
+          : moment
+              .utc(
+                `${ferry.day}/${ferry.mon}/${constants.currentYear}`,
+                'DD/MMM/YYYY',
+              )
+              .format(constants.commonDateFormat)
       }`}
       isImageContain={false}
-      isDataSkipped={_.get(ferry, "voucher.skipVoucher")}
-      voucherTitle={_.get(ferry, "voucher.title")}
+      isDataSkipped={_.get(ferry, 'voucher.skipVoucher')}
+      voucherTitle={_.get(ferry, 'voucher.title')}
+      hideTitle={openDate}
     />
   );
 };

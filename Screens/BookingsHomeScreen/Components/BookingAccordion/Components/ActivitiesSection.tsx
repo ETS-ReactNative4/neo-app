@@ -1,19 +1,20 @@
-import React from "react";
-import { View } from "react-native";
-import _ from "lodash";
-import moment from "moment";
-import constants from "../../../../../constants/constants";
-import { recordEvent } from "../../../../../Services/analytics/analyticsService";
-import getTitleCase from "../../../../../Services/getTitleCase/getTitleCase";
-import BookingSectionComponent from "../../../../../CommonComponents/BookingSectionComponent/BookingSectionComponent";
-import resolveLinks from "../../../../../Services/resolveLinks/resolveLinks";
-import { IActivityCombinedInfo } from "../../../../../mobx/Itineraries";
-import { NavigationStackProp } from "react-navigation-stack";
+import React from 'react';
+import {View} from 'react-native';
+import _ from 'lodash';
+import moment from 'moment';
+import constants from '../../../../../constants/constants';
+import {recordEvent} from '../../../../../Services/analytics/analyticsService';
+import getTitleCase from '../../../../../Services/getTitleCase/getTitleCase';
+import BookingSectionComponent from '../../../../../CommonComponents/BookingSectionComponent/BookingSectionComponent';
+import resolveLinks from '../../../../../Services/resolveLinks/resolveLinks';
+import {IActivityCombinedInfo} from '../../../../../mobx/Itineraries';
+import {NavigationStackProp} from 'react-navigation-stack';
 
 export interface ActivitiesSectionProps {
-  section: { items: IActivityCombinedInfo[] };
+  section: {items: IActivityCombinedInfo[]};
   navigation: NavigationStackProp;
   spinValue: object;
+  openDate?: boolean;
 }
 
 export interface IActivitySectionProps {
@@ -21,12 +22,14 @@ export interface IActivitySectionProps {
   isLast: boolean;
   navigation: NavigationStackProp;
   spinValue: object;
+  openDate?: boolean;
 }
 
 const ActivitiesSection = ({
   section,
   navigation,
-  spinValue
+  spinValue,
+  openDate,
 }: ActivitiesSectionProps) => {
   return (
     <View>
@@ -40,6 +43,7 @@ const ActivitiesSection = ({
             activity={activity}
             isLast={isLast}
             spinValue={spinValue}
+            openDate={openDate}
           />
         );
       })}
@@ -47,55 +51,62 @@ const ActivitiesSection = ({
   );
 };
 
-const Activities = ({ activity, isLast, spinValue }: IActivitySectionProps) => {
+const Activities = ({
+  activity,
+  isLast,
+  spinValue,
+  openDate,
+}: IActivitySectionProps) => {
   let customStyle = {};
   if (isLast) {
     customStyle = {
       // borderBottomWidth: StyleSheet.hairlineWidth,
-      paddingBottom: 16
+      paddingBottom: 16,
     };
   }
 
   const openVoucher = () => {
     recordEvent(constants.Bookings.event, {
       click: constants.Bookings.click.accordionVoucher,
-      type: constants.Bookings.type.activities
+      type: constants.Bookings.type.activities,
     });
     // @ts-ignore
     resolveLinks(false, false, {
       voucherType: constants.activityVoucherType,
-      costingIdentifier: activity.costing.configKey
+      costingIdentifier: activity.costing.configKey,
     });
   };
-
   return (
     <BookingSectionComponent
       spinValue={spinValue}
       containerStyle={customStyle}
       sectionImage={{
-        uri: activity.mainPhoto
+        uri: activity.mainPhoto,
       }}
       isProcessing={!(activity.voucher.booked || activity.free)}
       onClick={openVoucher}
       content={getTitleCase(activity.title)}
       title={`${
         activity.voucher.activityTime && activity.voucher.activityTime > 1
-          ? moment(activity.voucher.activityTime).format(
-              constants.commonDateFormat
-            )
+          ? moment
+              .utc(activity.voucher.activityTime)
+              .format(constants.commonDateFormat)
           : activity.costing.dateMillis
-          ? moment(activity.costing.dateMillis).format(
-              constants.commonDateFormat
-            )
-          : moment(
-              `${activity.costing.day}/${activity.costing.mon}/${constants.currentYear}`,
-              "DD/MMM/YYYY"
-            ).format(constants.commonDateFormat)
+          ? moment
+              .utc(activity.costing.dateMillis)
+              .format(constants.commonDateFormat)
+          : moment
+              .utc(
+                `${activity.costing.day}/${activity.costing.mon}/${constants.currentYear}`,
+                'DD/MMM/YYYY',
+              )
+              .format(constants.commonDateFormat)
       }`}
       isImageContain={false}
       defaultSource={constants.activityThumbPlaceholderIllus}
-      isDataSkipped={_.get(activity, "voucher.skipVoucher")}
-      voucherTitle={_.get(activity, "voucher.title")}
+      isDataSkipped={_.get(activity, 'voucher.skipVoucher')}
+      voucherTitle={_.get(activity, 'voucher.title')}
+      hideTitle={openDate}
     />
   );
 };

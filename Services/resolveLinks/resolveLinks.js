@@ -1,22 +1,22 @@
-import _ from "lodash";
-import openCustomTab from "../openCustomTab/openCustomTab";
-import storeService from "../storeService/storeService";
-import { toastBottom } from "../toast/toast";
-import directions from "../directions/directions";
-import dialer from "../dialer/dialer";
-import { logError } from "../errorLogger/errorLogger";
-import { Linking, Platform } from "react-native";
-import OpenAppSettingsAndroid from "react-native-app-settings";
-import navigationServiceV2 from "../navigationService/navigationServiceV2";
+import _ from 'lodash';
+import openCustomTab from '../openCustomTab/openCustomTab';
+import storeService from '../storeService/storeService';
+import {toastBottom} from '../toast/toast';
+import directions from '../directions/directions';
+import dialer from '../dialer/dialer';
+import {logError} from '../errorLogger/errorLogger';
+import {Linking, Platform} from 'react-native';
+import OpenAppSettingsAndroid from 'react-native-app-settings';
+import navigationServiceV2 from '../navigationService/navigationServiceV2';
 import {
   SCREEN_MODAL_STACK,
   SCREEN_FLIGHT_VOUCHER,
   SCREEN_HOTEL_VOUCHER,
   SCREEN_ACTIVITY_VOUCHER,
   SCREEN_TRANSFER_VOUCHER,
-  SCREEN_RENTAL_CAR_VOUCHER
-} from "../../NavigatorsV2/ScreenNames";
-import { modalStackData } from "../../NavigatorsV2/ModalStack";
+  SCREEN_RENTAL_CAR_VOUCHER,
+} from '../../NavigatorsV2/ScreenNames';
+import {modalStackData} from '../../NavigatorsV2/ModalStack';
 import {
   CONSTANT_platformIos,
   CONSTANT_voucherErrorStatus,
@@ -26,13 +26,13 @@ import {
   CONSTANT_transferVoucherType,
   CONSTANT_rentalCarVoucherType,
   CONSTANT_ferryVoucherType,
-  CONSTANT_trainVoucherType
-} from "../../constants/stringConstants";
+  CONSTANT_trainVoucherType,
+} from '../../constants/stringConstants';
 import {
   CONSTANT_voucherText,
   CONSTANT_bookingProcessText,
-  CONSTANT_bookingFailedText
-} from "../../constants/appText";
+  CONSTANT_bookingFailedText,
+} from '../../constants/appText';
 
 /**
  * Voucher no longer needs validation since voucher screens should open
@@ -52,14 +52,14 @@ const isVoucherBooked = voucher =>
 const isVoucherAvailable = voucher =>
   voucher && voucher.status !== CONSTANT_voucherErrorStatus;
 
-const isDataSkipped = voucher => _.get(voucher, "voucher.skipVoucher");
+const isDataSkipped = voucher => _.get(voucher, 'voucher.skipVoucher');
 
 /**
  * Voucher has skipped data,
  * Open the voucher directly in custom tab using voucher url
  */
 const skipData = voucher => {
-  const url = _.get(voucher, "voucher.voucherUrl");
+  const url = _.get(voucher, 'voucher.voucherUrl');
   if (url) {
     openCustomTab(url);
   } else {
@@ -70,31 +70,31 @@ const skipData = voucher => {
 /**
  * PT TODO: Remove all the old navigation and replace it with new navigation service
  */
-const resolveLinks = (link = "", screenProps = {}, deepLink = {}) => {
+const resolveLinks = (link = '', screenProps = {}, deepLink = {}) => {
   try {
     if (link) {
       /**
        * If link is a webpage, open customTab
        */
-      if (link.includes("http://") || link.includes("https://")) {
+      if (link.includes('http://') || link.includes('https://')) {
         openCustomTab(link);
-      } else if (link === "InfoCardModal") {
+      } else if (link === 'InfoCardModal') {
         /**
          * If link is `InfoCardModal` open the modal
          */
-        navigationServiceV2("TripFeed");
+        navigationServiceV2('TripFeed');
         storeService.tripFeedStore.openInfoCardModal(screenProps);
-      } else if (link === "SystemSettings") {
+      } else if (link === 'SystemSettings') {
         /**
          * If link is `SystemSettings` open the system settings page of the app
          */
         if (Platform.OS === CONSTANT_platformIos) {
-          Linking.canOpenURL("app-settings:")
+          Linking.canOpenURL('app-settings:')
             .then(supported => {
               if (!supported) {
-                logError("Failed to open iOS app settings");
+                logError('Failed to open iOS app settings');
               } else {
-                return Linking.openURL("app-settings:");
+                return Linking.openURL('app-settings:');
               }
             })
             .catch(settingsErr => {
@@ -111,7 +111,7 @@ const resolveLinks = (link = "", screenProps = {}, deepLink = {}) => {
         if (isModalStack) {
           navigationServiceV2(SCREEN_MODAL_STACK, {
             screen: link,
-            params: screenProps
+            params: screenProps,
           });
         } else {
           navigationServiceV2(link, screenProps);
@@ -122,9 +122,9 @@ const resolveLinks = (link = "", screenProps = {}, deepLink = {}) => {
         voucherType,
         costingIdentifier,
         location = {},
-        contactNumber
+        contactNumber,
       } = deepLink;
-      const { latitude, longitude } = location || {};
+      const {latitude, longitude} = location || {};
       /**
        * If `voucherType` and `costingIdentifier` are present in the deeplink,
        * open the respective voucher
@@ -137,12 +137,16 @@ const resolveLinks = (link = "", screenProps = {}, deepLink = {}) => {
        * a toast message saying it's under processing
        */
       if (voucherType && costingIdentifier) {
+        const {
+          openDate,
+          orderId,
+        } = storeService.itineraries.selectedItinerary?.itinerary;
         switch (
           _.toUpper(voucherType) // make sure voucher type is case insensitive
         ) {
           case CONSTANT_flightVoucherType:
             const flight = storeService.itineraries.getFlightById(
-              costingIdentifier
+              costingIdentifier,
             );
             if (isVoucherAvailable(flight)) {
               if (isDataSkipped(flight)) {
@@ -150,7 +154,7 @@ const resolveLinks = (link = "", screenProps = {}, deepLink = {}) => {
               } else {
                 navigationServiceV2(SCREEN_MODAL_STACK, {
                   screen: SCREEN_FLIGHT_VOUCHER,
-                  params: { flight }
+                  params: {flight},
                 });
                 if (!isVoucherBooked(flight)) {
                   toastBottom(CONSTANT_bookingProcessText.message);
@@ -162,7 +166,7 @@ const resolveLinks = (link = "", screenProps = {}, deepLink = {}) => {
             break;
           case CONSTANT_hotelVoucherType:
             const hotel = storeService.itineraries.getHotelById(
-              costingIdentifier
+              costingIdentifier,
             );
             if (isVoucherAvailable(hotel)) {
               if (isDataSkipped(hotel)) {
@@ -170,7 +174,7 @@ const resolveLinks = (link = "", screenProps = {}, deepLink = {}) => {
               } else {
                 navigationServiceV2(SCREEN_MODAL_STACK, {
                   screen: SCREEN_HOTEL_VOUCHER,
-                  params: { hotel }
+                  params: {hotel, openDate, orderId},
                 });
                 if (!isVoucherBooked(hotel)) {
                   toastBottom(CONSTANT_bookingProcessText.message);
@@ -182,7 +186,7 @@ const resolveLinks = (link = "", screenProps = {}, deepLink = {}) => {
             break;
           case CONSTANT_activityVoucherType:
             const activity = storeService.itineraries.getActivityById(
-              costingIdentifier
+              costingIdentifier,
             );
             if (isVoucherAvailable(activity)) {
               if (isDataSkipped(activity)) {
@@ -190,7 +194,7 @@ const resolveLinks = (link = "", screenProps = {}, deepLink = {}) => {
               } else {
                 navigationServiceV2(SCREEN_MODAL_STACK, {
                   screen: SCREEN_ACTIVITY_VOUCHER,
-                  params: { activity }
+                  params: {activity, openDate},
                 });
                 if (!isVoucherBooked(activity)) {
                   toastBottom(CONSTANT_bookingProcessText.message);
@@ -202,7 +206,7 @@ const resolveLinks = (link = "", screenProps = {}, deepLink = {}) => {
             break;
           case CONSTANT_transferVoucherType:
             const transfer = storeService.itineraries.getTransferById(
-              costingIdentifier
+              costingIdentifier,
             );
             if (isVoucherAvailable(transfer)) {
               if (isDataSkipped(transfer)) {
@@ -210,7 +214,7 @@ const resolveLinks = (link = "", screenProps = {}, deepLink = {}) => {
               } else {
                 navigationServiceV2(SCREEN_MODAL_STACK, {
                   screen: SCREEN_TRANSFER_VOUCHER,
-                  params: { transfer }
+                  params: {transfer},
                 });
                 if (!isVoucherBooked(transfer)) {
                   toastBottom(CONSTANT_bookingProcessText.message);
@@ -222,7 +226,7 @@ const resolveLinks = (link = "", screenProps = {}, deepLink = {}) => {
             break;
           case CONSTANT_rentalCarVoucherType:
             const rentalCar = storeService.itineraries.getRentalCarById(
-              costingIdentifier
+              costingIdentifier,
             );
             if (isVoucherAvailable(rentalCar)) {
               if (isDataSkipped(rentalCar)) {
@@ -230,7 +234,7 @@ const resolveLinks = (link = "", screenProps = {}, deepLink = {}) => {
               } else {
                 navigationServiceV2(SCREEN_MODAL_STACK, {
                   screen: SCREEN_RENTAL_CAR_VOUCHER,
-                  params: { rentalCar }
+                  params: {rentalCar},
                 });
                 if (!isVoucherBooked(rentalCar)) {
                   toastBottom(CONSTANT_bookingProcessText.message);
@@ -242,7 +246,7 @@ const resolveLinks = (link = "", screenProps = {}, deepLink = {}) => {
             break;
           case CONSTANT_ferryVoucherType:
             const ferry = storeService.itineraries.getFerryById(
-              costingIdentifier
+              costingIdentifier,
             );
             if (isVoucherAvailable(ferry)) {
               if (isDataSkipped(ferry)) {
@@ -250,7 +254,7 @@ const resolveLinks = (link = "", screenProps = {}, deepLink = {}) => {
               } else {
                 navigationServiceV2(SCREEN_MODAL_STACK, {
                   screen: SCREEN_TRANSFER_VOUCHER,
-                  params: { transfer: { ...ferry, vehicle: voucherType } }
+                  params: {transfer: {...ferry, vehicle: voucherType}},
                 });
                 if (!isVoucherBooked(ferry)) {
                   toastBottom(CONSTANT_bookingProcessText.message);
@@ -262,7 +266,7 @@ const resolveLinks = (link = "", screenProps = {}, deepLink = {}) => {
             break;
           case CONSTANT_trainVoucherType:
             const train = storeService.itineraries.getTrainById(
-              costingIdentifier
+              costingIdentifier,
             );
             if (isVoucherAvailable(train)) {
               if (isDataSkipped(train)) {
@@ -270,7 +274,7 @@ const resolveLinks = (link = "", screenProps = {}, deepLink = {}) => {
               } else {
                 navigationServiceV2(SCREEN_MODAL_STACK, {
                   screen: SCREEN_TRANSFER_VOUCHER,
-                  params: { transfer: { ...train, vehicle: voucherType } }
+                  params: {transfer: {...train, vehicle: voucherType}},
                 });
                 if (!isVoucherBooked(train)) {
                   toastBottom(CONSTANT_bookingProcessText.message);
@@ -292,7 +296,7 @@ const resolveLinks = (link = "", screenProps = {}, deepLink = {}) => {
        * open the google maps app
        */
       if (latitude && longitude) {
-        directions({ latitude, longitude });
+        directions({latitude, longitude});
         return;
       }
       /**
@@ -304,11 +308,11 @@ const resolveLinks = (link = "", screenProps = {}, deepLink = {}) => {
       }
     }
   } catch (err) {
-    logError("Unable to execute a deep link", {
+    logError('Unable to execute a deep link', {
       err,
       link,
       screenProps,
-      deepLink
+      deepLink,
     });
   }
 };
