@@ -83,7 +83,7 @@ const PaymentInfoCard = ({
                 <Text
                   style={
                     styles.paymentDueText
-                  }>{`Your payment date is expired`}</Text>
+                  }>{`Your payment is overdue`}</Text>
               ) : null
             ) : (
               <Text
