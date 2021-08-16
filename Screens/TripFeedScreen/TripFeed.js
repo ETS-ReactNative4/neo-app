@@ -144,7 +144,7 @@ class TripFeed extends Component {
       this.props.yourBookingsStore
         .getUpcomingItineraries()
         .then(itinerariesArray => {
-          const itineraryId: string = itinerariesArray[0].itineraryId;
+          const itineraryId = itinerariesArray[0].itineraryId;
           this.props.itineraries
             .selectItinerary(itineraryId)
             .then(() => {
