@@ -105,6 +105,15 @@ export const onNotificationDisplayed = () =>
     notificationReceivedHandler(notification);
   });
 
+/**
+ * Called when a notification is received when the app is inactive
+ */
+export const onBackgroundNotificationReceived = () => {
+  messaging().setBackgroundMessageHandler(async notification => {
+    notificationReceivedHandler(notification);
+  });
+};
+
 const inAppNotifHandler = notificationOpen => {
   // const action = notificationOpen.action;
   const {data} = notificationOpen;

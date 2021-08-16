@@ -1,6 +1,7 @@
-import { AppRegistry } from "react-native";
+import {AppRegistry} from 'react-native';
 // import { Text, TextInput } from "react-native";
-import App from "./App";
+import App from './App';
+import {onBackgroundNotificationReceived} from './Services/fcmService/fcm';
 // import constants from "./constants/constants";
 
 // Text.defaultProps = Text.defaultProps || {};
@@ -16,5 +17,6 @@ import App from "./App";
 //   fontFamily: constants.primaryRegular,
 //   color: constants.black1
 // };
+onBackgroundNotificationReceived();
 
-AppRegistry.registerComponent("Pickyourtrail", () => App);
+AppRegistry.registerComponent('Pickyourtrail', () => App);

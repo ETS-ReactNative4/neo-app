@@ -14,6 +14,7 @@ import logOut from '../Services/logOut/logOut';
 import isUserLoggedInCallback from '../Services/isUserLoggedInCallback/isUserLoggedInCallback';
 import {toastBottom} from '../Services/toast/toast';
 import {hydrate} from './Store';
+import {setChatPushToken} from '../Services/freshchatService/freshchatService';
 
 const {
   conversionRateError,
@@ -288,9 +289,9 @@ class AppState {
     if (!this._isChatPushNotificationSet) {
       if (Platform.OS === constants.platformAndroid) {
         // Only android chat instances should get this token
-        // setChatPushToken(deviceToken); // currently disabled since freshchat doesn't support multiple push notifications
+        setChatPushToken(deviceToken); // currently disabled since freshchat doesn't support multiple push notifications
+        this._isChatPushNotificationSet = true;
       }
-      this._isChatPushNotificationSet = true;
     }
 
     // console.log("this._pushTokens.deviceToken")
@@ -305,7 +306,7 @@ class AppState {
        */
       if (Platform.OS === constants.platformAndroid) {
         // Only android chat instances should get this token
-        // setChatPushToken(deviceToken); // currently disabled since freshchat doesn't support multiple push notifications
+        setChatPushToken(deviceToken); // currently disabled since freshchat doesn't support multiple push notifications
       }
     }
   };
@@ -316,7 +317,7 @@ class AppState {
       this._apnsToken = apnsDeviceToken;
       if (Platform.OS === constants.platformIos) {
         // Only iOS chat instances should get this token
-        // setChatPushToken(apnsDeviceToken); // currently disabled since freshchat doesn't support multiple push notifications
+        setChatPushToken(apnsDeviceToken); // currently disabled since freshchat doesn't support multiple push notifications
       }
     }
   };
