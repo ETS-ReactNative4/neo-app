@@ -289,7 +289,7 @@ class AppState {
     if (!this._isChatPushNotificationSet) {
       if (Platform.OS === constants.platformAndroid) {
         // Only android chat instances should get this token
-        setChatPushToken(deviceToken); // currently disabled since freshchat doesn't support multiple push notifications
+        setChatPushToken(deviceToken);
         this._isChatPushNotificationSet = true;
       }
     }
@@ -306,7 +306,7 @@ class AppState {
        */
       if (Platform.OS === constants.platformAndroid) {
         // Only android chat instances should get this token
-        setChatPushToken(deviceToken); // currently disabled since freshchat doesn't support multiple push notifications
+        setChatPushToken(deviceToken);
       }
     }
   };
@@ -317,7 +317,7 @@ class AppState {
       this._apnsToken = apnsDeviceToken;
       if (Platform.OS === constants.platformIos) {
         // Only iOS chat instances should get this token
-        setChatPushToken(apnsDeviceToken); // currently disabled since freshchat doesn't support multiple push notifications
+        setChatPushToken(apnsDeviceToken);
       }
     }
   };
