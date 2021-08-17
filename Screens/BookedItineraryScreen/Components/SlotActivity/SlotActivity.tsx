@@ -148,6 +148,9 @@ const SlotActivity = ({
           return null;
         }
         onClick = () => {
+          if (flight.status !== constants.voucherSuccessStatus) {
+            return null;
+          }
           recordEvent(constants.BookedItinerary.event, {
             click: constants.BookedItinerary.click.voucher,
             type: constants.BookedItinerary.type.flight,
@@ -168,7 +171,10 @@ const SlotActivity = ({
             onClick={onClick}
             contentNumberOfLines={3}
             defaultSource={constants.flightLogoPlaceholderIllus}
-            isProcessing={!(flight.voucher && flight.voucher.booked)}
+            isProcessing={
+              flight.status === constants.voucherSuccessStatus &&
+              !(flight.voucher && flight.voucher.booked)
+            }
             spinValue={spinValue}
             isDataSkipped={_.get(flight, 'voucher.skipVoucher')}
             voucherTitle={_.get(flight, 'voucher.title')}
@@ -329,6 +335,9 @@ const SlotActivity = ({
           return null;
         }
         onClick = () => {
+          if (departureFlight.status !== constants.voucherSuccessStatus) {
+            return null;
+          }
           recordEvent(constants.BookedItinerary.event, {
             click: constants.BookedItinerary.click.voucher,
             type: constants.BookedItinerary.type.flight,
@@ -355,6 +364,7 @@ const SlotActivity = ({
             onClick={onClick}
             defaultSource={constants.flightLogoPlaceholderIllus}
             isProcessing={
+              departureFlight.status === constants.voucherSuccessStatus &&
               !(departureFlight.voucher && departureFlight.voucher.booked)
             }
             spinValue={spinValue}

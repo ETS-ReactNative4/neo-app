@@ -23,13 +23,16 @@ const PlatoPayments = ({
   displayCurrency,
 }) => {
   const contactSupport = () => openSupport();
-
   const pendingInstallments = platoPendingInstallments.map(
     (payment, paymentIndex) => {
       const today = moment();
       const paymentDue = moment(payment.paymentDueTime);
       const dueDateDifference = paymentDue.diff(today, 'days');
-      const isExpired = today.isAfter(paymentDue, 'date');
+      /**
+       * Remove Payment expire concept
+       */
+      const isExpired = false;
+      //  today.isAfter(paymentDue, 'date');
       const installmentText = `${getTitleCase(
         ordinalConverter.toWordsOrdinal(
           platoPaidInstallmentsCount + paymentIndex + 1,
