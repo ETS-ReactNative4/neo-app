@@ -1,13 +1,13 @@
-import React, { Component } from "react";
-import { View, StyleSheet, TouchableOpacity } from "react-native";
-import Carousel from "../../../../CommonComponents/Carousel/Carousel";
-import PropTypes from "prop-types";
-import constants from "../../../../constants/constants";
-import CircleIcon from "../TripView/Components/CircleIcon";
-import TokenText from "./Components/TokenText";
-import { recordEvent } from "../../../../Services/analytics/analyticsService";
-import forbidExtraProps from "../../../../Services/PropTypeValidation/forbidExtraProps";
-import resolveLinks from "../../../../Services/resolveLinks/resolveLinks";
+import React, {Component} from 'react';
+import {View, StyleSheet, TouchableOpacity} from 'react-native';
+import Carousel from '../../../../CommonComponents/Carousel/Carousel';
+import PropTypes from 'prop-types';
+import constants from '../../../../constants/constants';
+import CircleIcon from '../TripView/Components/CircleIcon';
+import TokenText from './Components/TokenText';
+import {recordEvent} from '../../../../Services/analytics/analyticsService';
+import forbidExtraProps from '../../../../Services/PropTypeValidation/forbidExtraProps';
+import resolveLinks from '../../../../Services/resolveLinks/resolveLinks';
 
 class TripViewLite extends Component {
   static propTypes = forbidExtraProps({
@@ -23,27 +23,27 @@ class TripViewLite extends Component {
         transferId: PropTypes.string,
         date: PropTypes.string.isRequired,
         link: PropTypes.string.isRequired,
-        deepLink: PropTypes.object
-      }).isRequired
+        deepLink: PropTypes.object,
+      }).isRequired,
     ),
-    widgetName: PropTypes.string
+    widgetName: PropTypes.string,
   });
 
   state = {
-    isScrollRecorded: false
+    isScrollRecorded: false,
   };
 
   scrollAction = () => {
     if (!this.state.isScrollRecorded) {
       recordEvent(constants.tripViewLiteScroll);
       this.setState({
-        isScrollRecorded: true
+        isScrollRecorded: true,
       });
     }
   };
 
   render() {
-    const { data = [], widgetName } = this.props;
+    const {data = [], widgetName, callback} = this.props;
 
     const onScrollProps = {};
     if (!this.state.isScrollRecorded) {
@@ -55,36 +55,35 @@ class TripViewLite extends Component {
           {...onScrollProps}
           firstMargin={24}
           containerStyle={{
-            height: 34
-          }}
-        >
+            height: 34,
+          }}>
           {data.map((item, itemIndex) => {
             const action = () => {
               if (widgetName) {
                 recordEvent(constants.TripFeed.event, {
-                  widget: widgetName
+                  widget: widgetName,
                 });
               }
+              callback?.();
               resolveLinks(item.link, {
-                selectedDate: JSON.stringify(item.date)
+                selectedDate: JSON.stringify(item.date),
               });
             };
             const circleAction = () => {
               if (widgetName) {
                 recordEvent(constants.TripFeed.event, {
-                  widget: `${widgetName}_CIRCLE`
+                  widget: `${widgetName}_CIRCLE`,
                 });
               }
               resolveLinks(false, false, item.deepLink);
             };
-            const rotate = item.icon === "flight" ? "90deg" : "0deg";
+            const rotate = item.icon === 'flight' ? '90deg' : '0deg';
             return (
               <TouchableOpacity
                 onPress={action}
                 activeOpacity={0.9}
-                style={{ flex: 1, flexDirection: "row" }}
-                key={itemIndex}
-              >
+                style={{flex: 1, flexDirection: 'row'}}
+                key={itemIndex}>
                 {itemIndex ? (
                   <CircleIcon
                     icon={item.icon}
@@ -107,8 +106,8 @@ const styles = StyleSheet.create({
     marginTop: 8,
     paddingVertical: 8,
     borderColor: constants.shade5,
-    backgroundColor: "white"
-  }
+    backgroundColor: 'white',
+  },
 });
 
 export default TripViewLite;

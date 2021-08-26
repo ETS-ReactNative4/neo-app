@@ -7,14 +7,25 @@ import {StyleSheet} from 'react-native';
 import forbidExtraProps from '../../../../Services/PropTypeValidation/forbidExtraProps';
 import PropTypes from 'prop-types';
 
-const DayAheadLite = ({title, elements, widgetName, containerStyle = {}}) => {
+const DayAheadLite = ({
+  title,
+  elements,
+  widgetName,
+  containerStyle = {},
+  callback,
+}) => {
   return (
     <View style={[styles.dayAheadContainer, containerStyle]}>
       {title ? <DayAheadTitle title={title} /> : null}
       <Carousel firstMargin={24} containerStyle={{height: 92}}>
         {elements.map((day, dayIndex) => {
           return (
-            <DayAheadBox {...day} key={dayIndex} widgetName={widgetName} />
+            <DayAheadBox
+              {...day}
+              key={dayIndex}
+              widgetName={widgetName}
+              callback={callback}
+            />
           );
         })}
       </Carousel>

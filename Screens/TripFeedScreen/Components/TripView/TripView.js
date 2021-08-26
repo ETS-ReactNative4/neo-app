@@ -1,14 +1,14 @@
-import React, { Component } from "react";
-import { View, StyleSheet } from "react-native";
-import Carousel from "../../../../CommonComponents/Carousel/Carousel";
-import PropTypes from "prop-types";
-import constants from "../../../../constants/constants";
-import CircleIcon from "./Components/CircleIcon";
-import Box from "../../../../CommonComponents/Box/Box";
-import { recordEvent } from "../../../../Services/analytics/analyticsService";
-import WidgetTitle from "../WidgetTitle/WidgetTitle";
-import resolveLinks from "../../../../Services/resolveLinks/resolveLinks";
-import forbidExtraProps from "../../../../Services/PropTypeValidation/forbidExtraProps";
+import React, {Component} from 'react';
+import {View, StyleSheet} from 'react-native';
+import Carousel from '../../../../CommonComponents/Carousel/Carousel';
+import PropTypes from 'prop-types';
+import constants from '../../../../constants/constants';
+import CircleIcon from './Components/CircleIcon';
+import Box from '../../../../CommonComponents/Box/Box';
+import {recordEvent} from '../../../../Services/analytics/analyticsService';
+import WidgetTitle from '../WidgetTitle/WidgetTitle';
+import resolveLinks from '../../../../Services/resolveLinks/resolveLinks';
+import forbidExtraProps from '../../../../Services/PropTypeValidation/forbidExtraProps';
 
 class TripView extends Component {
   static propTypes = forbidExtraProps({
@@ -25,64 +25,67 @@ class TripView extends Component {
         costingIdentifier: PropTypes.string,
         date: PropTypes.string.isRequired,
         link: PropTypes.string.isRequired,
-        deepLink: PropTypes.object
-      }).isRequired
+        deepLink: PropTypes.object,
+      }).isRequired,
     ),
-    widgetName: PropTypes.string
+    widgetName: PropTypes.string,
   });
 
   state = {
-    isScrollRecorded: false
+    isScrollRecorded: false,
   };
 
   scrollAction = () => {
     if (!this.state.isScrollRecorded) {
       recordEvent(constants.tripViewScroll);
       this.setState({
-        isScrollRecorded: true
+        isScrollRecorded: true,
       });
     }
   };
 
   render() {
-    const { data = [], containerStyle = {}, title, widgetName } = this.props;
+    const {
+      data = [],
+      containerStyle = {},
+      title,
+      widgetName,
+      callback,
+    } = this.props;
     const onScrollProps = {},
       boxSize = 136,
       circleSize = 32;
     if (!this.state.isScrollRecorded) {
-      onScrollProps["onScrollAction"] = () => this.scrollAction();
+      onScrollProps['onScrollAction'] = () => this.scrollAction();
     }
     return (
       <View style={[styles.listWrapper, containerStyle]}>
         {title ? (
-          <WidgetTitle
-            containerStyle={{ marginHorizontal: 24 }}
-            title={title}
-          />
+          <WidgetTitle containerStyle={{marginHorizontal: 24}} title={title} />
         ) : null}
         <Carousel
           {...onScrollProps}
           firstMargin={24}
           containerStyle={{
-            height: boxSize + 8
-          }}
-        >
+            height: boxSize + 8,
+          }}>
           {data.map((item, itemIndex) => {
-            const rotate = item.icon === "flight" ? "90deg" : "0deg";
+            const rotate = item.icon === 'flight' ? '90deg' : '0deg';
             const action = () => {
               if (widgetName) {
                 recordEvent(constants.TripFeed.event, {
-                  widget: widgetName
+                  widget: widgetName,
                 });
               }
+              callback?.();
               resolveLinks(item.link, {
-                selectedDate: JSON.stringify(item.date)
+                selectedDate: JSON.stringify(item.date),
               });
             };
             const circleAction = () => {
               if (widgetName) {
                 recordEvent(constants.TripFeed.event, {
-                  widget: `${widgetName}_CIRCLE`
+                  widget: `${widgetName}_CIRCLE`,
                 });
               }
               resolveLinks(false, false, item.deepLink);
@@ -91,11 +94,10 @@ class TripView extends Component {
               <View
                 style={{
                   flex: 1,
-                  flexDirection: "row",
-                  marginLeft: itemIndex ? -20 : 0
+                  flexDirection: 'row',
+                  marginLeft: itemIndex ? -20 : 0,
                 }}
-                key={itemIndex}
-              >
+                key={itemIndex}>
                 {itemIndex ? (
                   <CircleIcon
                     icon={item.icon}
@@ -109,7 +111,7 @@ class TripView extends Component {
                       marginHorizontal: 0,
                       marginRight: -12,
                       ...constants.elevationTwo,
-                      shadowColor: constants.black2
+                      shadowColor: constants.black2,
                     }}
                   />
                 ) : null}
@@ -119,7 +121,7 @@ class TripView extends Component {
                     title: item.cityName,
                     helpText: item.period,
                     image: item.image,
-                    action
+                    action,
                   }}
                   gradientColor={constants.darkGradientAlpha}
                 />
@@ -137,8 +139,8 @@ const styles = StyleSheet.create({
     marginTop: 8,
     paddingVertical: 8,
     borderColor: constants.shade5,
-    backgroundColor: "white"
-  }
+    backgroundColor: 'white',
+  },
 });
 
 export default TripView;

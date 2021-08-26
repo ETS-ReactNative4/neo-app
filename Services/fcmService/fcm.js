@@ -14,6 +14,8 @@ import {
   checkIfChatPushNotification,
 } from '../freshchatService/freshchatService';
 import isUserLoggedIn from '../isUserLoggedIn/isUserLoggedIn';
+import {CONSTANT_pushnotificationClicked} from '../../constants/apiUrls';
+import apiCall from '../networkRequests/apiCall';
 // import PushNotificationIOS from '@react-native-community/push-notification-ios';
 
 export const getDeviceToken = async (
@@ -194,6 +196,8 @@ const notificationClickHandler = data => {
           modalData,
           notificationType = '',
           notificationProps = '',
+          itineraryId,
+          identifier,
         } = data;
         if (notificationType) {
           try {
@@ -211,6 +215,17 @@ const notificationClickHandler = data => {
         if (link === CHATSCREEN) {
           chatLauncher();
         } else if (link) {
+          /**
+           * pushnotifications/clicked - api
+           * used to track, the user is landed by clicking the push notification.
+           */
+          if (itineraryId || identifier) {
+            apiCall(
+              `${CONSTANT_pushnotificationClicked}?itineraryId=${itineraryId}&notificationIdentifier=${identifier}`,
+              {},
+              'PATCH',
+            );
+          }
           resolveLinks(link, modalData ? JSON.parse(modalData) : {});
         }
       }

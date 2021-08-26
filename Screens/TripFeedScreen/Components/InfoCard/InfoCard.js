@@ -20,6 +20,7 @@ const InfoCard = props => {
     modalData,
     widgetName,
     videoLink,
+    callback,
   } = props ?? {};
 
   const [videoData, setVideoData] = useState({});
@@ -44,6 +45,7 @@ const InfoCard = props => {
         widget: widgetName,
       });
     }
+    callback?.();
     resolveLinks(link, modalData, {});
   };
   return (

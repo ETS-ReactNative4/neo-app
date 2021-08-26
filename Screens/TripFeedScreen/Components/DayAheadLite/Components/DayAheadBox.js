@@ -1,10 +1,10 @@
-import React from "react";
-import { Text, View, StyleSheet, Image, TouchableOpacity } from "react-native";
-import constants from "../../../../../constants/constants";
-import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidExtraProps";
-import PropTypes from "prop-types";
-import resolveLinks from "../../../../../Services/resolveLinks/resolveLinks";
-import { recordEvent } from "../../../../../Services/analytics/analyticsService";
+import React from 'react';
+import {Text, View, StyleSheet, Image, TouchableOpacity} from 'react-native';
+import constants from '../../../../../constants/constants';
+import forbidExtraProps from '../../../../../Services/PropTypeValidation/forbidExtraProps';
+import PropTypes from 'prop-types';
+import resolveLinks from '../../../../../Services/resolveLinks/resolveLinks';
+import {recordEvent} from '../../../../../Services/analytics/analyticsService';
 
 const DayAheadBox = ({
   image,
@@ -15,8 +15,9 @@ const DayAheadBox = ({
   voucherType,
   costingIdentifier,
   widgetName,
-  link = "",
-  modalData = {}
+  link = '',
+  modalData = {},
+  callback,
 }) => {
   return (
     <TouchableOpacity
@@ -24,39 +25,37 @@ const DayAheadBox = ({
       onPress={() => {
         if (widgetName) {
           recordEvent(constants.TripFeed.event, {
-            widget: widgetName
+            widget: widgetName,
           });
         }
+        callback?.();
         resolveLinks(
           link,
           modalData,
-          deepLink || { voucherType, costingIdentifier }
+          deepLink || {voucherType, costingIdentifier},
         );
       }}
-      activeOpacity={0.7}
-    >
+      activeOpacity={0.7}>
       <View style={styles.dayAheadBoxContainer}>
         <Image
           source={image}
           style={styles.imageThumbnail}
-          resizeMode={"cover"}
+          resizeMode={'cover'}
         />
         <View style={styles.textAreaWrapper}>
           <View style={styles.timeTextWrapper}>
             <Text
               numberOfLines={1}
-              ellipsizeMode={"tail"}
-              style={styles.nextText}
-            >
+              ellipsizeMode={'tail'}
+              style={styles.nextText}>
               {`${label} `}
               <Text style={styles.timeText}>{title}</Text>
             </Text>
           </View>
           <Text
             numberOfLines={2}
-            ellipsizeMode={"tail"}
-            style={styles.descriptionText}
-          >
+            ellipsizeMode={'tail'}
+            style={styles.descriptionText}>
             {text}
           </Text>
         </View>
@@ -75,51 +74,51 @@ DayAheadBox.propTypes = forbidExtraProps({
   deepLink: PropTypes.object,
   widgetName: PropTypes.string,
   link: PropTypes.string,
-  modalData: PropTypes.object
+  modalData: PropTypes.object,
 });
 
 const styles = StyleSheet.create({
   dayAheadBoxTouchable: {
-    backgroundColor: "white",
+    backgroundColor: 'white',
     ...constants.elevationTwo,
     height: 64,
     width: 200,
     borderRadius: 32.5,
     marginRight: 8,
-    alignItems: "center",
-    justifyContent: "center"
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   dayAheadBoxContainer: {
     height: 64,
     width: 200,
     borderRadius: 32.5,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "flex-start"
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
   },
   imageThumbnail: {
     height: 40,
     width: 40,
     borderRadius: 20,
-    marginHorizontal: 8
+    marginHorizontal: 8,
   },
   textAreaWrapper: {},
   timeTextWrapper: {
-    marginTop: 6
+    marginTop: 6,
   },
   nextText: {
     ...constants.fontCustom(constants.primarySemiBold, 11),
-    color: constants.seventhColor
+    color: constants.seventhColor,
   },
   timeText: {
-    color: constants.firstColor
+    color: constants.firstColor,
   },
   descriptionText: {
     ...constants.fontCustom(constants.primaryLight, 11),
     color: constants.black1,
     lineHeight: 14,
-    width: 128
-  }
+    width: 128,
+  },
 });
 
 export default DayAheadBox;

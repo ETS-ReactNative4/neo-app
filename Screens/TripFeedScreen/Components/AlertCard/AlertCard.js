@@ -1,18 +1,9 @@
 import React, {Component} from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  LayoutAnimation,
-} from 'react-native';
-import forbidExtraProps from '../../../../Services/PropTypeValidation/forbidExtraProps';
+import {View, Text, StyleSheet} from 'react-native';
 import PropTypes from 'prop-types';
 import constants from '../../../../constants/constants';
-import Icon from '../../../../CommonComponents/Icon/Icon';
 import {responsiveWidth} from 'react-native-responsive-dimensions';
 import CardStack from '../../../../CommonComponents/CardStack/CardStack';
-import resolveLinks from '../../../../Services/resolveLinks/resolveLinks';
 import NotifCard from './Components/NotifCard';
 
 const EmptyPlaceHolder = () => {
@@ -50,7 +41,7 @@ class AlertCard extends Component {
   };
 
   _onLayout = event => {
-    const {x, y, height, width} = event.nativeEvent.layout;
+    const {height} = event.nativeEvent.layout;
     this.setState({primaryCardHeight: height});
   };
 
@@ -67,12 +58,14 @@ class AlertCard extends Component {
       elements = [],
       widgetName,
       cardWidth,
+      callback,
     } = this.props;
 
     const NextCard = () => (
       <View
         style={[
           styles.cardWrapper,
+          // eslint-disable-next-line react-native/no-inline-styles
           {
             position: 'absolute',
             bottom: 12,
@@ -90,6 +83,7 @@ class AlertCard extends Component {
       <View
         style={[
           styles.cardWrapper,
+          // eslint-disable-next-line react-native/no-inline-styles
           {
             position: 'absolute',
             bottom: 4,
@@ -129,6 +123,7 @@ class AlertCard extends Component {
               activeCardIndex={this.state.activeCardIndex}
               widgetName={widgetName}
               cardWidth={cardWidth}
+              callback={callback}
             />
           );
         })}

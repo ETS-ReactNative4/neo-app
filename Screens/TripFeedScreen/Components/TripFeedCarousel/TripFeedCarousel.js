@@ -1,13 +1,13 @@
-import React, { Component } from "react";
-import { View, Text, StyleSheet } from "react-native";
-import PropTypes from "prop-types";
-import forbidExtraProps from "../../../../Services/PropTypeValidation/forbidExtraProps";
-import constants from "../../../../constants/constants";
-import Carousel from "../../../../CommonComponents/Carousel/Carousel";
-import { recordEvent } from "../../../../Services/analytics/analyticsService";
-import SimpleCard from "../../../../CommonComponents/SimpleCard/SimpleCard";
-import WidgetTitle from "../WidgetTitle/WidgetTitle";
-import resolveLinks from "../../../../Services/resolveLinks/resolveLinks";
+import React, {Component} from 'react';
+import {View, Text, StyleSheet} from 'react-native';
+import PropTypes from 'prop-types';
+import forbidExtraProps from '../../../../Services/PropTypeValidation/forbidExtraProps';
+import constants from '../../../../constants/constants';
+import Carousel from '../../../../CommonComponents/Carousel/Carousel';
+import {recordEvent} from '../../../../Services/analytics/analyticsService';
+import SimpleCard from '../../../../CommonComponents/SimpleCard/SimpleCard';
+import WidgetTitle from '../WidgetTitle/WidgetTitle';
+import resolveLinks from '../../../../Services/resolveLinks/resolveLinks';
 
 class TripFeedCarousel extends Component {
   static propTypes = forbidExtraProps({
@@ -21,46 +21,53 @@ class TripFeedCarousel extends Component {
         link: PropTypes.string.isRequired,
         modalData: PropTypes.object,
         gradientColor: PropTypes.string,
-        backdropColor: PropTypes.string
-      })
+        backdropColor: PropTypes.string,
+      }),
     ).isRequired,
     backdrop: PropTypes.bool,
-    widgetName: PropTypes.string
+    widgetName: PropTypes.string,
   });
 
   state = {
-    isScrollRecorded: false
+    isScrollRecorded: false,
   };
 
   scrollAction = () => {
     if (!this.state.isScrollRecorded) {
       recordEvent(constants.tripHighlightsScroll);
       this.setState({
-        isScrollRecorded: true
+        isScrollRecorded: true,
       });
     }
   };
 
   render() {
-    const { title, containerStyle = {}, backdrop, widgetName } = this.props;
-    let { elements } = this.props;
+    const {
+      title,
+      containerStyle = {},
+      backdrop,
+      widgetName,
+      callback,
+    } = this.props;
+    let {elements} = this.props;
     elements = elements.map(item => {
       return {
         ...item,
         action: () => {
           if (widgetName) {
             recordEvent(constants.TripFeed.event, {
-              widget: widgetName
+              widget: widgetName,
             });
           }
+          callback?.();
           resolveLinks(item.link, item.modalData, {});
-        }
+        },
       };
     });
     const boxSize = 132,
       onScrollProps = {};
     if (!this.state.isScrollRecorded) {
-      onScrollProps["onScrollAction"] = () => this.scrollAction;
+      onScrollProps['onScrollAction'] = () => this.scrollAction;
     }
     return (
       <View style={[styles.wrapperContainer, containerStyle]}>
@@ -78,14 +85,14 @@ class TripFeedCarousel extends Component {
                     action={item.action}
                     containerStyle={{
                       width: boxSize,
-                      height: boxSize
+                      height: boxSize,
                     }}
                     imageStyle={{
-                      height: boxSize * 0.8
+                      height: boxSize * 0.8,
                     }}
                     textStyle={{
                       ...constants.fontCustom(constants.primaryRegular, 13),
-                      color: "white"
+                      color: 'white',
                     }}
                     backdropColor={item.backdropColor}
                   />
@@ -103,16 +110,16 @@ const styles = StyleSheet.create({
     marginTop: 8,
     paddingVertical: 16,
     borderColor: constants.shade5,
-    backgroundColor: "white"
+    backgroundColor: 'white',
   },
   header: {
-    marginHorizontal: 24
+    marginHorizontal: 24,
   },
   title: {
     ...constants.fontCustom(constants.primaryRegular, 13),
-    fontWeight: "bold",
-    color: constants.shade2
-  }
+    fontWeight: 'bold',
+    color: constants.shade2,
+  },
 });
 
 export default TripFeedCarousel;

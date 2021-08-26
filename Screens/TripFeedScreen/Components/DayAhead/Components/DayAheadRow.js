@@ -1,19 +1,19 @@
-import React from "react";
+import React from 'react';
 import {
   TouchableOpacity,
   View,
   Text,
   Image,
   StyleSheet,
-  Platform
-} from "react-native";
-import PropTypes from "prop-types";
-import constants from "../../../../../constants/constants";
-import UpcomingBadge from "./UpcomingBadge";
-import { responsiveWidth } from "react-native-responsive-dimensions";
-import forbidExtraProps from "../../../../../Services/PropTypeValidation/forbidExtraProps";
-import resolveLinks from "../../../../../Services/resolveLinks/resolveLinks";
-import { recordEvent } from "../../../../../Services/analytics/analyticsService";
+  Platform,
+} from 'react-native';
+import PropTypes from 'prop-types';
+import constants from '../../../../../constants/constants';
+import UpcomingBadge from './UpcomingBadge';
+import {responsiveWidth} from 'react-native-responsive-dimensions';
+import forbidExtraProps from '../../../../../Services/PropTypeValidation/forbidExtraProps';
+import resolveLinks from '../../../../../Services/resolveLinks/resolveLinks';
+import {recordEvent} from '../../../../../Services/analytics/analyticsService';
 
 const DayAheadRow = ({
   image,
@@ -25,21 +25,23 @@ const DayAheadRow = ({
   costingIdentifier,
   isLast,
   widgetName,
-  link = "",
-  modalData = {}
+  link = '',
+  modalData = {},
+  callback,
 }) => {
   return (
     <TouchableOpacity
       onPress={() => {
         if (widgetName) {
           recordEvent(constants.TripFeed.event, {
-            widget: widgetName
+            widget: widgetName,
           });
         }
+        callback?.();
         resolveLinks(
           link,
           modalData,
-          deepLink || { voucherType, costingIdentifier }
+          deepLink || {voucherType, costingIdentifier},
         );
       }}
       style={[
@@ -47,23 +49,21 @@ const DayAheadRow = ({
         !isLast
           ? {
               borderBottomColor: constants.shade3,
-              borderBottomWidth: StyleSheet.hairlineWidth
+              borderBottomWidth: StyleSheet.hairlineWidth,
             }
-          : null
-      ]}
-    >
+          : null,
+      ]}>
       <View style={styles.imageContainer}>
-        <Image source={image} style={styles.image} resizeMode={"cover"} />
+        <Image source={image} style={styles.image} resizeMode={'cover'} />
       </View>
       <View style={styles.textContainer}>
         <View style={styles.headerTextWrapper}>
-          <UpcomingBadge text={label} containerStyle={{ marginRight: 8 }} />
+          <UpcomingBadge text={label} containerStyle={{marginRight: 8}} />
           <View style={styles.headerTimeTextWrapper}>
             <Text
               numberOfLines={1}
-              ellipsizeMode={"tail"}
-              style={styles.headerTimeText}
-            >
+              ellipsizeMode={'tail'}
+              style={styles.headerTimeText}>
               {title}
             </Text>
           </View>
@@ -71,9 +71,8 @@ const DayAheadRow = ({
         <View style={styles.descriptionTextWrapper}>
           <Text
             numberOfLines={2}
-            ellipsizeMode={"tail"}
-            style={styles.descriptionText}
-          >
+            ellipsizeMode={'tail'}
+            style={styles.descriptionText}>
             {text}
           </Text>
         </View>
@@ -93,60 +92,60 @@ DayAheadRow.propTypes = forbidExtraProps({
   deepLink: PropTypes.object,
   widgetName: PropTypes.string,
   link: PropTypes.string,
-  modalData: PropTypes.object
+  modalData: PropTypes.object,
 });
 
 const styles = StyleSheet.create({
   dayAheadRowContainer: {
     height: 80,
-    flexDirection: "row"
+    flexDirection: 'row',
   },
   imageContainer: {
     width: 40,
-    alignItems: "center",
-    justifyContent: "flex-start",
+    alignItems: 'center',
+    justifyContent: 'flex-start',
     marginHorizontal: 24,
     marginTop: 16,
-    marginBottom: 8
+    marginBottom: 8,
   },
   image: {
     height: 40,
     width: 40,
-    borderRadius: 20
+    borderRadius: 20,
   },
   textContainer: {
     marginTop: 16,
     marginBottom: 8,
-    alignItems: "flex-start",
-    justifyContent: "center"
+    alignItems: 'flex-start',
+    justifyContent: 'center',
   },
   headerTextWrapper: {
-    flexDirection: "row"
+    flexDirection: 'row',
   },
   headerTimeTextWrapper: {
     height: 16,
-    justifyContent: "flex-start"
+    justifyContent: 'flex-start',
   },
   headerTimeText: {
     color: constants.shade2,
     ...constants.fontCustom(constants.primaryLight, 14),
     ...Platform.select({
       ios: {
-        marginTop: 2
+        marginTop: 2,
       },
       android: {
-        marginTop: 1
-      }
-    })
+        marginTop: 1,
+      },
+    }),
   },
   descriptionTextWrapper: {
     width: responsiveWidth(100) - (24 + 24 + 8 + 12 + 40 + 8),
-    marginTop: 4
+    marginTop: 4,
   },
   descriptionText: {
     ...constants.fontCustom(constants.primaryLight, 15, 18),
-    color: constants.black1
-  }
+    color: constants.black1,
+  },
 });
 
 export default DayAheadRow;
