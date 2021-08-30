@@ -1,20 +1,13 @@
-import React, { Component } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  ScrollView,
-  TouchableOpacity
-} from "react-native";
-import { responsiveWidth } from "react-native-responsive-dimensions";
-import PropTypes from "prop-types";
-import ContentSection from "./Components/ContentSection";
-import MultilineButton from "./Components/MultilineButton";
-import forbidExtraProps from "../../../../Services/PropTypeValidation/forbidExtraProps";
-import resolveLinks from "../../../../Services/resolveLinks/resolveLinks";
-import { recordEvent } from "../../../../Services/analytics/analyticsService";
-import constants from "../../../../constants/constants";
+import React, {Component} from 'react';
+import {View, StyleSheet, Image, ScrollView} from 'react-native';
+import {responsiveWidth} from 'react-native-responsive-dimensions';
+import PropTypes from 'prop-types';
+import ContentSection from './Components/ContentSection';
+import MultilineButton from './Components/MultilineButton';
+import forbidExtraProps from '../../../../Services/PropTypeValidation/forbidExtraProps';
+import resolveLinks from '../../../../Services/resolveLinks/resolveLinks';
+import {recordEvent} from '../../../../Services/analytics/analyticsService';
+import constants from '../../../../constants/constants';
 
 class ToolTip extends Component {
   static propTypes = forbidExtraProps({
@@ -30,10 +23,10 @@ class ToolTip extends Component {
         text: PropTypes.string,
         link: PropTypes.string.isRequired,
         deepLink: PropTypes.object,
-        modalData: PropTypes.object
-      })
+        modalData: PropTypes.object,
+      }),
     ),
-    widgetName: PropTypes.string
+    widgetName: PropTypes.string,
   });
 
   render() {
@@ -45,18 +38,19 @@ class ToolTip extends Component {
       containerStyle = {},
       options,
       widgetName,
-      quote
+      quote,
+      callback,
     } = this.props;
     const contentStyleUpdate = {},
       changeLayout = {};
     let titleStyle = {},
       textStyle = {},
-      buttonAlignment = { alignSelf: "flex-start" };
+      buttonAlignment = {alignSelf: 'flex-start'};
     if (imageFirst && image) {
-      changeLayout.flexDirection = "row-reverse";
-      titleStyle = { textAlign: "right" };
-      textStyle = { textAlign: "right" };
-      buttonAlignment = { alignSelf: "flex-end" };
+      changeLayout.flexDirection = 'row-reverse';
+      titleStyle = {textAlign: 'right'};
+      textStyle = {textAlign: 'right'};
+      buttonAlignment = {alignSelf: 'flex-end'};
     } else {
       contentStyleUpdate.paddingHorizontal = 0;
       contentStyleUpdate.paddingRight = 8;
@@ -81,15 +75,16 @@ class ToolTip extends Component {
             {button ? (
               <MultilineButton
                 color={button.color}
-                containerStyle={{ ...buttonAlignment }}
+                containerStyle={{...buttonAlignment}}
                 title={button.title}
                 text={button.text}
                 action={() => {
                   if (widgetName) {
                     recordEvent(constants.TripFeed.event, {
-                      widget: widgetName
+                      widget: widgetName,
                     });
                   }
+                  callback?.();
                   resolveLinks(button.link, button.modalData, button.deepLink);
                 }}
               />
@@ -99,7 +94,7 @@ class ToolTip extends Component {
             <View style={styles.imgContainer}>
               <Image
                 source={image}
-                resizeMode={"contain"}
+                resizeMode={'contain'}
                 style={styles.imgStyle}
               />
             </View>
@@ -109,8 +104,7 @@ class ToolTip extends Component {
           <ScrollView
             horizontal
             showsHorizontalScrollIndicator={false}
-            style={styles.options}
-          >
+            style={styles.options}>
             {options.map((item, itemIndex) => {
               return (
                 <MultilineButton
@@ -137,29 +131,29 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
     paddingHorizontal: 24,
     borderColor: constants.shade5,
-    backgroundColor: "white",
-    borderRadius: 3
+    backgroundColor: 'white',
+    borderRadius: 3,
   },
   mainContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center"
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   contentContainer: {
     flex: 1,
     paddingHorizontal: 8,
-    paddingVertical: 4
+    paddingVertical: 4,
   },
   imgContainer: {
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
     height: responsiveWidth(30),
-    width: responsiveWidth(30)
+    width: responsiveWidth(30),
   },
   imgStyle: {
     height: responsiveWidth(30),
-    width: responsiveWidth(30)
-  }
+    width: responsiveWidth(30),
+  },
 });
 
 export default ToolTip;

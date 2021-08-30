@@ -23,6 +23,7 @@ const BigImageCard = ({
   iconText,
   gradient = constants.darkGradientAlpha,
   widgetName,
+  callback,
 }) => {
   let gradientColor;
   gradientColor = gradient;
@@ -53,6 +54,7 @@ const BigImageCard = ({
         widget: widgetName,
       });
     }
+    callback?.();
     resolveLinks(link, modalData);
   };
 

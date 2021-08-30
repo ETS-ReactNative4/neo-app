@@ -1,7 +1,4 @@
-import {
-  NavigationContainerRef,
-  CommonActions
-} from "@react-navigation/native";
+import {NavigationContainerRef, CommonActions} from '@react-navigation/native';
 
 export interface INavigationObject {
   navigator?: React.MutableRefObject<NavigationContainerRef>;
@@ -10,13 +7,13 @@ export interface INavigationObject {
 const navigationObject: INavigationObject = {};
 
 export const updateNavigationService = (
-  navRef: React.MutableRefObject<NavigationContainerRef>
+  navRef: React.MutableRefObject<NavigationContainerRef>,
 ) => {
   navigationObject.navigator = navRef;
 };
 
 export const navigationDispatcher = (action: CommonActions.Action) => {
-  const { navigator } = navigationObject;
+  const {navigator} = navigationObject;
   navigator?.current?.dispatch(action);
 };
 
@@ -26,8 +23,8 @@ export const navigationDispatcher = (action: CommonActions.Action) => {
  * https://reactnavigation.org/docs/en/navigating-without-navigation-prop.html
  */
 const navigationServiceV2 = (name: string, params: object = {}) => {
-  const { navigator } = navigationObject;
-  navigator?.current?.navigate(name, params);
+  const {navigator} = navigationObject;
+  navigator?.current?.navigate(name?.trim(), params);
 };
 
 export default navigationServiceV2;

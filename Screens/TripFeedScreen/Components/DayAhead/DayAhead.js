@@ -1,8 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
-import Carousel from '../../../../CommonComponents/Carousel/Carousel';
-import constants from '../../../../constants/constants';
-import DayAheadBox from '../DayAheadLite/Components/DayAheadBox';
+import {View, StyleSheet} from 'react-native';
 import DayAheadRow from './Components/DayAheadRow';
 import PropTypes from 'prop-types';
 import forbidExtraProps from '../../../../Services/PropTypeValidation/forbidExtraProps';
@@ -27,7 +24,13 @@ class DayAhead extends Component {
   });
 
   render() {
-    const {title, elements, widgetName, containerStyle = {}} = this.props;
+    const {
+      title,
+      elements,
+      widgetName,
+      containerStyle = {},
+      callback,
+    } = this.props;
 
     return (
       <View style={[styles.dayAheadContainer, containerStyle]}>
@@ -42,6 +45,7 @@ class DayAhead extends Component {
                   {...day}
                   isLast={isLast}
                   widgetName={widgetName}
+                  callback={callback}
                 />
               );
             })}

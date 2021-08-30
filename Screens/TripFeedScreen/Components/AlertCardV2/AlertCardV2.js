@@ -1,19 +1,19 @@
-import React, { Fragment } from "react";
+import React, {Fragment} from 'react';
 import {
   View,
   StyleSheet,
   ViewPropTypes,
   Text,
-  TouchableOpacity
-} from "react-native";
-import PropTypes from "prop-types";
-import Icon from "../../../../CommonComponents/Icon/Icon";
-import constants from "../../../../constants/constants";
-import SimpleButton from "../../../../CommonComponents/SimpleButton/SimpleButton";
-import { responsiveWidth } from "react-native-responsive-dimensions";
-import { recordEvent } from "../../../../Services/analytics/analyticsService";
-import resolveLinks from "../../../../Services/resolveLinks/resolveLinks";
-import VisaWidgetWavePattern from "../../../../CommonComponents/AlertWidgetPatterns/VisaWidgetWavePattern";
+  TouchableOpacity,
+} from 'react-native';
+import PropTypes from 'prop-types';
+import Icon from '../../../../CommonComponents/Icon/Icon';
+import constants from '../../../../constants/constants';
+import SimpleButton from '../../../../CommonComponents/SimpleButton/SimpleButton';
+import {responsiveWidth} from 'react-native-responsive-dimensions';
+import {recordEvent} from '../../../../Services/analytics/analyticsService';
+import resolveLinks from '../../../../Services/resolveLinks/resolveLinks';
+import VisaWidgetWavePattern from '../../../../CommonComponents/AlertWidgetPatterns/VisaWidgetWavePattern';
 
 /**
  * Will be used to show alerts in the tripfeed
@@ -32,22 +32,24 @@ const AlertCardV2 = ({
   cta,
   backgroundColor = constants.fifteenthColor,
   widgetName,
-  deepLink
+  deepLink,
+  callback,
 }) => {
   const iconHighlightStyle = {
-    backgroundColor: "rgba(255,255,255,0.2)"
+    backgroundColor: 'rgba(255,255,255,0.2)',
   };
   const clickAction = () => {
     if (widgetName) {
       recordEvent(constants.TripFeed.event, {
-        widget: widgetName
+        widget: widgetName,
       });
     }
+    callback?.();
     resolveLinks(link, modalData, deepLink);
   };
   let PatternComponent = null;
   switch (pattern) {
-    case "VISA_ALERT":
+    case 'VISA_ALERT':
       PatternComponent = VisaWidgetWavePattern;
       break;
 
@@ -59,17 +61,15 @@ const AlertCardV2 = ({
     <TouchableOpacity
       onPress={clickAction}
       activeOpacity={0.8}
-      style={[styles.alertCardV2Container, { backgroundColor }, containerStyle]}
-    >
+      style={[styles.alertCardV2Container, {backgroundColor}, containerStyle]}>
       <PatternComponent />
       {icon ? (
         <View
           style={[
             styles.iconContainer,
-            highlightIcon ? iconHighlightStyle : null
-          ]}
-        >
-          <Icon name={icon} size={18} color={"white"} />
+            highlightIcon ? iconHighlightStyle : null,
+          ]}>
+          <Icon name={icon} size={18} color={'white'} />
         </View>
       ) : (
         <View />
@@ -79,9 +79,8 @@ const AlertCardV2 = ({
           <View style={styles.tagWrapper}>
             <Text
               numberOfLines={1}
-              ellipsizeMode={"tail"}
-              style={styles.tagText}
-            >
+              ellipsizeMode={'tail'}
+              style={styles.tagText}>
               {tag}
             </Text>
           </View>
@@ -90,9 +89,8 @@ const AlertCardV2 = ({
           <View style={styles.titleWrapper}>
             <Text
               numberOfLines={1}
-              ellipsizeMode={"tail"}
-              style={styles.titleText}
-            >
+              ellipsizeMode={'tail'}
+              style={styles.titleText}>
               {title}
             </Text>
           </View>
@@ -105,18 +103,18 @@ const AlertCardV2 = ({
         {cta ? (
           <View style={styles.ctaWrapper}>
             <SimpleButton
-              color={"transparent"}
+              color={'transparent'}
               text={cta}
               textColor={constants.secondColor}
-              underlayColor={"transparent"}
+              underlayColor={'transparent'}
               action={clickAction}
               containerStyle={{
-                alignItems: "flex-start",
-                justifyContent: "center",
-                height: 16
+                alignItems: 'flex-start',
+                justifyContent: 'center',
+                height: 16,
               }}
               textStyle={{
-                ...constants.fontCustom(constants.primarySemiBold, 12)
+                ...constants.fontCustom(constants.primarySemiBold, 12),
               }}
             />
           </View>
@@ -139,46 +137,46 @@ AlertCardV2.propTypes = {
   cta: PropTypes.string,
   backgroundColor: PropTypes.string,
   widgetName: PropTypes.string,
-  deepLink: PropTypes.Object
+  deepLink: PropTypes.Object,
 };
 
 const styles = StyleSheet.create({
   alertCardV2Container: {
-    flexDirection: "row",
+    flexDirection: 'row',
     padding: 16,
-    borderRadius: 6
+    borderRadius: 6,
   },
   iconContainer: {
     height: 36,
     width: 36,
     borderRadius: 18,
-    alignItems: "center",
-    justifyContent: "center",
-    marginRight: 8
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 8,
   },
   textContainer: {},
   tagWrapper: {},
   tagText: {
     ...constants.fontCustom(constants.primarySemiBold, 11),
-    color: "white",
+    color: 'white',
     opacity: 0.5,
     width: responsiveWidth(70),
-    marginBottom: 4
+    marginBottom: 4,
   },
   titleWrapper: {},
   titleText: {
     ...constants.fontCustom(constants.primarySemiBold, 15),
-    color: "white",
-    width: responsiveWidth(70)
+    color: 'white',
+    width: responsiveWidth(70),
   },
   messageWrapper: {},
   messageText: {
     ...constants.fontCustom(constants.primaryRegular, 14, 18),
-    color: "white",
+    color: 'white',
     width: responsiveWidth(70),
-    marginBottom: 4
+    marginBottom: 4,
   },
-  ctaWrapper: {}
+  ctaWrapper: {},
 });
 
 export default AlertCardV2;

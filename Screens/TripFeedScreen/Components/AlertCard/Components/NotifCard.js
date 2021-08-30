@@ -47,6 +47,7 @@ const NotifCard = ({
   activeCardIndex,
   widgetName,
   cardWidth,
+  callback,
 }) => {
   const {link, title, message, cta, modalData, type, deepLink} = item;
   const {backgroundColor, icon, ctaColor, textColor} = getNotifProps(type);
@@ -56,6 +57,7 @@ const NotifCard = ({
         widget: widgetName,
       });
     }
+    callback?.();
     resolveLinks(link, modalData, deepLink);
   };
   if (itemIndex === activeCardIndex) {

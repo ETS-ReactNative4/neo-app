@@ -37,6 +37,8 @@ import {recordEvent} from '../../Services/analytics/analyticsService';
 import PropTypes from 'prop-types';
 import {logError} from '../../Services/errorLogger/errorLogger';
 import storeService from '../../Services/storeService/storeService';
+import {CONSTANT_feedWidgetClicked} from '../../constants/apiUrls';
+import apiCall from '../../Services/networkRequests/apiCall';
 
 @ErrorBoundary({isRoot: true})
 @inject('deviceDetailsStore')
@@ -241,6 +243,17 @@ class TripFeed extends Component {
   setEmitterComponent = emitterComponent =>
     (this._emitterComponent = emitterComponent);
 
+  trackWidgetClick = identifier => {
+    const {selectedItineraryId} = this.props.itineraries;
+    if (identifier) {
+      apiCall(
+        `${CONSTANT_feedWidgetClicked}?itineraryId=${selectedItineraryId}&identifier=${identifier}`,
+        {},
+        'PATCH',
+      );
+    }
+  };
+
   render() {
     const {
       isLoading,
@@ -260,6 +273,7 @@ class TripFeed extends Component {
       });
       dialer(offlineContact);
     };
+
     let isImageFirst = false;
     return (
       <View style={styles.tripFeedContainer}>
@@ -286,6 +300,7 @@ class TripFeed extends Component {
                       {...widget.data}
                       widgetName={widget.widgetName}
                       imageFirst={isImageFirst}
+                      callback={() => this.trackWidgetClick(widget.identifier)}
                     />
                   );
                 case 'INFO_CARD':
@@ -294,6 +309,7 @@ class TripFeed extends Component {
                       key={widgetIndex}
                       {...widget.data}
                       widgetName={widget.widgetName}
+                      callback={() => this.trackWidgetClick(widget.identifier)}
                     />
                   );
                 case 'CAROUSEL':
@@ -302,6 +318,7 @@ class TripFeed extends Component {
                       key={widgetIndex}
                       {...widget.data}
                       widgetName={widget.widgetName}
+                      callback={() => this.trackWidgetClick(widget.identifier)}
                     />
                   );
                 case 'TRIP_VIEW':
@@ -310,6 +327,7 @@ class TripFeed extends Component {
                       key={widgetIndex}
                       {...widget.data}
                       widgetName={widget.widgetName}
+                      callback={() => this.trackWidgetClick(widget.identifier)}
                     />
                   );
                 case 'TRIP_VIEW_LITE':
@@ -318,6 +336,7 @@ class TripFeed extends Component {
                       key={widgetIndex}
                       {...widget.data}
                       widgetName={widget.widgetName}
+                      callback={() => this.trackWidgetClick(widget.identifier)}
                     />
                   );
                 case 'BIG_IMAGE_CARD':
@@ -326,6 +345,7 @@ class TripFeed extends Component {
                       key={widgetIndex}
                       {...widget.data}
                       widgetName={widget.widgetName}
+                      callback={() => this.trackWidgetClick(widget.identifier)}
                     />
                   );
                 case 'ALERT_CARD':
@@ -335,6 +355,7 @@ class TripFeed extends Component {
                       {...widget.data}
                       toggleScrollLock={this.toggleScrollLock}
                       widgetName={widget.widgetName}
+                      callback={() => this.trackWidgetClick(widget.identifier)}
                     />
                   );
                 case 'ALERT_CARD_2':
@@ -344,6 +365,9 @@ class TripFeed extends Component {
                         key={widgetIndex}
                         {...widget.data}
                         widgetName={widget.widgetName}
+                        callback={() =>
+                          this.trackWidgetClick(widget.identifier)
+                        }
                       />
                     </View>
                   );
@@ -355,6 +379,7 @@ class TripFeed extends Component {
                       key={widgetIndex}
                       {...widget.data}
                       widgetName={widget.widgetName}
+                      callback={() => this.trackWidgetClick(widget.identifier)}
                     />
                   );
                 case 'DAY_AHEAD':
@@ -363,6 +388,7 @@ class TripFeed extends Component {
                       key={widgetIndex}
                       {...widget.data}
                       widgetName={widget.widgetName}
+                      callback={() => this.trackWidgetClick(widget.identifier)}
                     />
                   );
                 case 'DAY_AHEAD_LITE':
@@ -371,6 +397,7 @@ class TripFeed extends Component {
                       key={widgetIndex}
                       {...widget.data}
                       widgetName={widget.widgetName}
+                      callback={() => this.trackWidgetClick(widget.identifier)}
                     />
                   );
                 default:

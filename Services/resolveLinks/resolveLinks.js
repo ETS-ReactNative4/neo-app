@@ -76,7 +76,11 @@ const resolveLinks = (link = '', screenProps = {}, deepLink = {}) => {
       /**
        * If link is a webpage, open customTab
        */
-      if (link.includes('http://') || link.includes('https://')) {
+      if (
+        link.includes('http://') ||
+        link.includes('https://') ||
+        link.includes('mailto:')
+      ) {
         openCustomTab(link);
       } else if (link === 'InfoCardModal') {
         /**
