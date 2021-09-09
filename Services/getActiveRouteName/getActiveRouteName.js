@@ -7,7 +7,7 @@ const getActiveRouteName = navigationState => {
     // Dive into nested navigators
     return getActiveRouteName(route.state);
   }
-  return route.routeName;
+  return route.name;
 };
 
 export default getActiveRouteName;
