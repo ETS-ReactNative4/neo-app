@@ -9713,11 +9713,6 @@ react-native-config@^0.12.0:
   resolved "https://registry.yarnpkg.com/react-native-config/-/react-native-config-0.12.0.tgz#910e52226b60e0c9f2b648772eea2a93f8701751"
   integrity sha512-lC8QOZCGCXgFh74uWSVGMaChg+Qf2BScWzVd9C4yrFnfxrHSFyIekqOOq/sjE8Uu2ifgxZmSiK1Z8EEi78AmQA==
 
-react-native-crisp-chat-sdk@0.6.0:
-  version "0.6.0"
-  resolved "https://registry.yarnpkg.com/react-native-crisp-chat-sdk/-/react-native-crisp-chat-sdk-0.6.0.tgz#2952ad1182701cb7e8ebfa77558c615d3ff4b06f"
-  integrity sha512-QtkX9C/zKcGJrXfc74G1oX+WVVO7QTKkbTLZJyaJ65jZkJfyavjtOdjDs+7I/3g8w0g+wAHGIH3Tsj8i0KBnHA==
-
 react-native-dash@^0.0.9:
   version "0.0.9"
   resolved "https://registry.yarnpkg.com/react-native-dash/-/react-native-dash-0.0.9.tgz#a07eb06a360530e42980e9cf90fd7f862705e2f2"

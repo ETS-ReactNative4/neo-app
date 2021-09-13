@@ -9,7 +9,6 @@ import {logError} from '../errorLogger/errorLogger';
 import storeService from '../storeService/storeService';
 import openCustomTab from '../openCustomTab/openCustomTab';
 import isUserLoggedInCallback from '../isUserLoggedInCallback/isUserLoggedInCallback';
-import {show as showCrispChat} from 'react-native-crisp-chat-sdk';
 
 /**
  * Event listener for retrieving restore id. This restore id must be stored on the
@@ -300,10 +299,6 @@ export const chatPushNotificationHandler = (notification: any) => {
   }
 };
 
-export const OpenCrispChat = () => {
-  showCrispChat();
-};
-
 /**
  * Will launch the chat window based on the type of itinerary chosen by the user
  */
@@ -314,12 +309,8 @@ export const chatLauncher = () => {
     try {
       // @ts-ignore
       const {region = []} = chatDetails;
-      if (storeService.deviceLocaleStore.deviceLocale !== 'in') {
-        OpenCrispChat();
-      } else {
-        clearChatNotification();
-        openChat(region);
-      }
+      clearChatNotification();
+      openChat(region);
     } catch (e) {
       logError(e, {
         type: 'Failed to launch chat screen',
