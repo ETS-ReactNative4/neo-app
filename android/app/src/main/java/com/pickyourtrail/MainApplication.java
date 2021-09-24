@@ -12,7 +12,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 import com.wix.interactable.Interactable;
-import im.crisp.client.Crisp;
 
 public class MainApplication extends Application implements ReactApplication {
 
@@ -49,7 +48,6 @@ public class MainApplication extends Application implements ReactApplication {
     SoLoader.init(this, /* native exopackage */ false);
     initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
 
-    Crisp.configure(getApplicationContext(),"c6342d83-2c47-40d3-959f-c003114a14f5");
   }
 
   /**

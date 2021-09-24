@@ -229,10 +229,6 @@ dependencies {
     implementation "com.webengage:android-sdk:+"
     implementation project(path: ":react-native-interactable")
 
-    implementation 'im.crisp:crisp-sdk:1.0.1'
-    implementation 'androidx.multidex:multidex:2.0.1'
-    implementation 'com.android.support:multidex:1.0.3'
-
     implementation fileTree(dir: "libs", include: ["*.jar"])
     //noinspection GradleDynamicVersion
     implementation "com.facebook.react:react-native:+"  // From node_modules
