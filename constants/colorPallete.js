@@ -199,6 +199,8 @@ const colors = {
   primary002: '#00C684',
   primary003: '#009E6A',
   primary004: '#00774F',
+  primary005: '#00B277',
+  primary006: '#B2EEDA',
   accent001: '#F7F8FB',
   accent002: '#D3C7FF',
   accent003: '#5A3ACF',

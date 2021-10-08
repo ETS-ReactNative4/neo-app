@@ -79,6 +79,7 @@ import {
   SCREEN_STAY_HOTEL_LIST,
   SCREEN_STAY_HOTEL_ROOM_LIST,
   SCREEN_SEARCH_TAB,
+  SCREEN_PLATO_CHAT,
 } from './ScreenNames';
 import AppLogin from '../Screens/AppLoginScreen/AppLogin';
 import Starter from '../Screens/StartingScreen/Starter';
@@ -182,6 +183,7 @@ import {
   StayHotelRoomListParamType,
 } from '../Screens/StayHotelRoomList/StayHotelRoomList';
 import Search from '../Screens/SearchV2/Search';
+import PlatoChat from '../Screens/ChatScreen/PlatoChat';
 
 export type loginResetTargetTypes = typeof SCREEN_SAVED_ITINERARIES;
 
@@ -690,6 +692,7 @@ const AppNavigator = () => {
           options={{headerShown: false}}
           component={PaymentScreen}
         />
+        <Screen name={SCREEN_PLATO_CHAT} component={PlatoChat} />
       </Navigator>
     </Fragment>
   );

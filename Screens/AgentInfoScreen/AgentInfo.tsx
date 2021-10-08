@@ -98,7 +98,7 @@ const AgentInfo = ({
         <AgentInfoText
           agentImage={ownerImage}
           agentName={ownerName}
-          agentDescription={"Your onboarding expert"}
+          agentDescription={"Customer Experience Team"}
         />
       </AnimatableView>
 

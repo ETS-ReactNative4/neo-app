@@ -23,14 +23,11 @@ class ChatScreen extends Component {
   constructor(props) {
     super(props);
 
-    this._didFocusSubscription = props.navigation.addListener(
-      'didFocus',
-      () => {
-        debouncer(() => {
-          this.refreshFaqDetails();
-        });
-      },
-    );
+    this._didFocusSubscription = props.navigation.addListener('focus', () => {
+      debouncer(() => {
+        this.refreshFaqDetails();
+      });
+    });
   }
 
   loadFaqDetails = () => {
@@ -83,7 +80,10 @@ class ChatScreen extends Component {
         title: faqSection,
         icon: faqSection,
         action: () =>
-          this.props.navigation.navigate('FAQ', {title: faqSection}),
+          this.props.navigation.navigate('FAQ', {
+            title: faqSection,
+            itineraryId: selectedItineraryId,
+          }),
       };
     });
 
@@ -108,6 +108,7 @@ class ChatScreen extends Component {
           conversations.length ? 'Your conversations' : chatActivationMessage
         }
         isTitleBold={conversations.length}
+        selectedItineraryId={selectedItineraryId}
       />
     );
   }

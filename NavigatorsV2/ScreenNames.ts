@@ -96,3 +96,4 @@ export const SCREEN_PAYMENT_SUMMARY = 'PaymentSummary';
 export const SCREEN_PAYMENT_SCREEN = 'PaymentScreen';
 export const SCREEN_PAYMENT_SUCCESS = 'PaymentSuccess';
 export const SCREEN_PAYMENT_FAILURE = 'PaymentFailure';
+export const SCREEN_PLATO_CHAT = 'PlatoChat';

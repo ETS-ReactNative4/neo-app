@@ -74,7 +74,7 @@ const useApiCall = (): [
           customHeader,
           abortController
         );
-        if (response.status === CONSTANT_responseSuccessStatus) {
+        if (response.status.toUpperCase() === CONSTANT_responseSuccessStatus) {
           setSuccessResponseData(response);
           setFailureResponseData(undefined);
           resolve(true);

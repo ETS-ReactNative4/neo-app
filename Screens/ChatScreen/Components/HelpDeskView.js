@@ -9,6 +9,7 @@ import HomeHeader from '../../../CommonComponents/HomeHeader/HomeHeader';
 import SimpleButton from '../../../CommonComponents/SimpleButton/SimpleButton';
 import dialer from '../../../Services/dialer/dialer';
 import {CONSTANT_sosNumber} from '../../../constants/stringConstants';
+import PlatoTickets from './Plato/Tickets';
 
 const ticketOptionList = [
   {label: 'Itinerary related', value: 'Itinerary related'},
@@ -33,6 +34,7 @@ const HelpDeskView = ({
   isTitleBold = false,
   enableCall = false,
   staycation = false,
+  selectedItineraryId,
 }) => {
   const writeMessage = () => {
     navigation.navigate('ContactUs', {
@@ -67,6 +69,7 @@ const HelpDeskView = ({
             isTitleBold={isTitleBold}
           />
         )}
+        <PlatoTickets itineraryId={selectedItineraryId} />
         <HelpDeskCategories
           disableIcons={disableIcons}
           containerStyle={styles.helpDeskCategoriesContainer}
@@ -101,9 +104,10 @@ const HelpDeskView = ({
             rightIcon={true}
             underlayColor={'transparent'}
             action={() =>
-              navigation.navigate('ContactUs', {
+              navigation.navigate('PlatoChat', {
                 type: 'Other',
                 optionList: ticketOptionList,
+                itineraryId: selectedItineraryId,
               })
             }
           />
