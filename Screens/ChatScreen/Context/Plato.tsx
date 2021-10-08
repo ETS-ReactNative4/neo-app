@@ -9,7 +9,12 @@ import React, {
 import {logError} from '../../../Services/errorLogger/errorLogger';
 import User from '../../../mobx/User';
 import {useRoute} from '@react-navigation/native';
-import PlatoService from '../../../Services/plato/platoServices';
+import {
+  createTicket,
+  replyTicket,
+  closeTicket,
+  getTicketConversations,
+} from '../../../Services/plato/platoServices';
 import moment from 'moment';
 
 export type ChatMessageType = {
@@ -139,7 +144,7 @@ export const PlatoProvider = ({userStore, ticketTypes, children}: Props) => {
           bot: true,
         });
 
-        await PlatoService.closeTicket(ticketId);
+        await closeTicket(ticketId);
 
         disableInput(true);
 
@@ -179,7 +184,7 @@ export const PlatoProvider = ({userStore, ticketTypes, children}: Props) => {
               bot: true,
             });
 
-            const response = await PlatoService.createTicket(
+            const response = await createTicket(
               receviedMsg,
               itineraryId,
               selectedType.current,
@@ -204,7 +209,7 @@ export const PlatoProvider = ({userStore, ticketTypes, children}: Props) => {
               bot: true,
             });
 
-            await PlatoService.replyTicket(receviedMsg, ticketId);
+            await replyTicket(receviedMsg, ticketId);
 
             pushMessage({
               type: 'text',
@@ -234,7 +239,7 @@ export const PlatoProvider = ({userStore, ticketTypes, children}: Props) => {
 
   const getConversations = useCallback(
     async (ticketid: number) => {
-      const response = await PlatoService.getConversations(ticketid);
+      const response = await getTicketConversations(ticketid);
 
       const isClosed = response.data.conversation.status_id === 2;
 
