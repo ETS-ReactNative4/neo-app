@@ -588,12 +588,10 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-Pickyourtrail-PickyourtrailTests/Pods-Pickyourtrail-PickyourtrailTests-frameworks.sh",
 				"${PODS_ROOT}/WebEngage/xc11/WebEngage.framework",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/Crisp/Crisp.framework/Crisp",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/WebEngage.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Crisp.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -608,12 +606,10 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-Pickyourtrail/Pods-Pickyourtrail-frameworks.sh",
 				"${PODS_ROOT}/WebEngage/xc11/WebEngage.framework",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/Crisp/Crisp.framework/Crisp",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/WebEngage.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Crisp.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -844,12 +840,12 @@
 				CODE_SIGN_ENTITLEMENTS = Pickyourtrail/Pickyourtrail.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 387;
+				CURRENT_PROJECT_VERSION = 397;
 				DEVELOPMENT_TEAM = KCHL242759;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Pickyourtrail/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 2.1.6;
+				MARKETING_VERSION = 2.1.8;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -874,11 +870,11 @@
 				CODE_SIGN_ENTITLEMENTS = Pickyourtrail/Pickyourtrail.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 387;
+				CURRENT_PROJECT_VERSION = 397;
 				DEVELOPMENT_TEAM = KCHL242759;
 				INFOPLIST_FILE = Pickyourtrail/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 2.1.6;
+				MARKETING_VERSION = 2.1.8;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
