@@ -18,7 +18,7 @@ import {
   CONSTANT_black2,
   CONSTANT_shade5
 } from "../../../constants/colorPallete";
-import { CONSTANT_defaultAgentImage } from "../../../constants/imageAssets";
+import { CONSTANT_AgentTeam, CONSTANT_defaultAgentImage } from "../../../constants/imageAssets";
 
 export interface AgentInfoTextProps {
   containerStyle?: StyleProp<ViewStyle>;
@@ -29,7 +29,7 @@ export interface AgentInfoTextProps {
 }
 
 export interface AgentImageProps {
-  agentImage: string;
+  agentImage: any;
   agentImageContainerStyle: StyleProp<ImageStyle>;
 }
 
@@ -44,8 +44,8 @@ const AgentImage = ({
   return (
     <SmartImageV2
       useFastImage={true}
-      resizeMode={"cover"}
-      source={{ uri: agentImage }}
+      resizeMode={"contain"}
+      source={agentImage}
       fallbackSource={CONSTANT_defaultAgentImage()}
       style={styles.agentImage}
       imageStyle={agentImageContainerStyle}
@@ -63,10 +63,10 @@ const AgentInfoText = ({
   return (
     <View style={[styles.infoContainer, containerStyle]}>
       <AgentImage
-        agentImage={agentImage}
+        agentImage={CONSTANT_AgentTeam()}
         agentImageContainerStyle={agentImageContainerStyle}
       />
-      <Text style={styles.agentName}>{agentName}</Text>
+      {/* <Text style={styles.agentName}>{agentName}</Text> */}
       <Text style={styles.agentDescription}>{agentDescription}</Text>
 
       <View style={styles.dashedLine} />
@@ -80,9 +80,8 @@ const styles = StyleSheet.create({
   },
 
   agentImage: {
-    width: 124,
-    height: 124,
-    marginBottom: 16
+    height: 150,
+    marginBottom: 26
   },
 
   agentName: {

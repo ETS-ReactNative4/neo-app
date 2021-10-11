@@ -583,4 +583,7 @@ export const CONSTANT_PLATINUM_BANNER = () =>
 export const CONSTANT_PlatoChatSendIcon = PlatoChatSendIcon;
 export const CONSTANT_PlatoChatBubbleAnimation = PlatoChatBubbleAnimation;
 
+export const CONSTANT_AgentTeam = () =>
+  require('../assets/images/backgrounds/agent-mask.png');
+
 export default imageAssets;
