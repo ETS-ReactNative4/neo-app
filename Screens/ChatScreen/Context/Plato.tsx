@@ -277,7 +277,7 @@ export const PlatoProvider = ({userStore, ticketTypes, children}: Props) => {
       if (isClosed) {
         pushMessage({
           type: 'text',
-          message: `Your ticket (id: ${ticketid}) on Vouchers is closed. If required Please raise a new ticket from the previous screen.`,
+          message: `This ticket (id: ${ticketId}) is closed. Please raise a new ticket by clicking on “Send Message” from the previous screen.`,
           date: response.data.conversation.updated_at,
           bot: true,
           source: 'list',
