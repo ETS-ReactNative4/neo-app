@@ -3,6 +3,7 @@ import {isIphoneX} from 'react-native-iphone-x-helper';
 import {isProduction} from '../Services/getEnvironmentDetails/getEnvironmentDetails';
 import PlatoChatSendIcon from '../assets/images/icons/plato-chat-send.png';
 import PlatoChatBubbleAnimation from '../assets/animations/plato-dotanim.json';
+import NoFilesUploads from '../assets/images/backgrounds/no-uploads.png';
 
 const prefix = serverUrls.miscImageBaseUrl + 'placeholders/';
 
@@ -582,6 +583,7 @@ export const CONSTANT_PLATINUM_BANNER = () =>
 
 export const CONSTANT_PlatoChatSendIcon = PlatoChatSendIcon;
 export const CONSTANT_PlatoChatBubbleAnimation = PlatoChatBubbleAnimation;
+export const CONSTANT_NoFilesUploads = NoFilesUploads;
 
 export const CONSTANT_AgentTeam = () =>
   require('../assets/images/backgrounds/agent-mask.png');
