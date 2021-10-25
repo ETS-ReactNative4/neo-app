@@ -213,6 +213,7 @@ const colors = {
   neutral006: '#555555',
   neutral007: '#333333',
   neutral008: '#000000',
+  neutral009: '#F2F2F2',
   yellow001: '#FFF7E0',
   yellow002: '#FFC933',
   yellow003: '#E5B52E',

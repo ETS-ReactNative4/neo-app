@@ -318,7 +318,7 @@ const AgentFeedbackComponent = ({
 
       <AnimatedView style={agentInfoWrapperStyle}>
         <AgentInfoText
-          agentImage={ownerImage}
+          agentImage={{ uri: ownerImage }}
           agentName={ownerName}
           agentDescription={ownerDescription}
         />
