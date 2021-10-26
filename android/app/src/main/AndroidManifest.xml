@@ -31,7 +31,9 @@
         </intent-filter>
       </service> -->
 
-      <service android:name="io.invertase.firebase.messaging.RNFirebaseInstanceIdService">
+      <service 
+        android:name="io.invertase.firebase.messaging.RNFirebaseInstanceIdService"
+        android:exported="true">
         <intent-filter>
           <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
         </intent-filter>
@@ -41,7 +43,10 @@
 
       <receiver android:name="io.invertase.firebase.notifications.RNFirebaseNotificationReceiver"/>
 
-      <receiver android:enabled="true" android:exported="true"  android:name="io.invertase.firebase.notifications.RNFirebaseNotificationsRebootReceiver">
+      <receiver 
+        android:enabled="true" 
+        android:exported="true"  
+        android:name="io.invertase.firebase.notifications.RNFirebaseNotificationsRebootReceiver">
         <intent-filter>
           <action android:name="android.intent.action.BOOT_COMPLETED"/>
           <action android:name="android.intent.action.QUICKBOOT_POWERON"/>
@@ -52,6 +57,7 @@
 
       <activity
         android:name=".MainActivity"
+        android:exported="true"
         android:label="@string/app_name"
         android:configChanges="keyboard|keyboardHidden|orientation|screenSize|uiMode"
         android:launchMode="singleTask"
@@ -92,8 +98,30 @@
           <action android:name="com.android.vending.INSTALL_REFERRER" />
         </intent-filter>
       </receiver>
+
       <meta-data android:name="io.branch.sdk.BranchKey" android:value="key_live_ibL2dkZSdFcZk19HobtvQffdzwo2S5lO"/>
       <meta-data android:name="io.branch.sdk.BranchKey.test" android:value="key_test_jkMXij8HjDg1g5WIifDsNehlvvdXL7a1"/>
+
+      <!-- remove this when fresh chat skd supports android 12 -->
+      <receiver 
+        android:exported="true" 
+        android:name="com.freshchat.consumer.sdk.receiver.FreshchatReceiver" >
+          <intent-filter>
+              <action android:name="android.intent.action.BOOT_COMPLETED" />
+              <action android:name="android.intent.action.LOCALE_CHANGED" />
+              <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
+          </intent-filter>
+      </receiver>
+
+      <receiver 
+        android:exported="true" 
+        android:name="com.freshchat.consumer.sdk.receiver.FreshchatNetworkChangeReceiver" >
+          <intent-filter>
+              <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+          </intent-filter>
+      </receiver>
+      <!-- remove this when fresh chat skd supports android 12 -->
+      
     </application>
 
 </manifest>

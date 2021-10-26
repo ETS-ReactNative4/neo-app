@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {RNCamera} from 'react-native-camera';
 import {Box} from '@pyt/micros';
 import {StyleSheet, TouchableOpacity} from 'react-native';
@@ -28,13 +28,49 @@ const Camera = ({
 }: {
   onCapture: (uri: string, type: string) => void;
 }) => {
-  const takePicture = async (camera: RNCamera) => {
-    const options = {};
-    const data = await camera.takePictureAsync(options);
-    onCapture(data.uri, 'image/jpeg');
-  };
+  const cameraRef = useRef<RNCamera>(null);
+  const [cameraId, setCameraId] = useState<string>('');
+
+  const getIds = useCallback(async () => {
+    if (cameraRef.current) {
+      const allCamIds = await cameraRef.current.getCameraIdsAsync();
+
+      console.log({allCamIds});
+
+      const cameraIds = allCamIds.filter(d => {
+        return d.type === RNCamera.Constants.Type.back;
+      });
+
+      if (cameraIds.length) {
+        setCameraId(cameraIds[0].id);
+      }
+    }
+  }, [cameraRef, setCameraId]);
+
+  useEffect(() => {
+    getIds();
+  }, [getIds]);
+
+  const takePicture = useCallback(
+    async (camera: RNCamera) => {
+      const options = {};
+      try {
+        if (cameraId === '') {
+          await getIds();
+        }
+        const data = await camera.takePictureAsync(options);
+        onCapture(data.uri, 'image/jpeg');
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    [getIds, cameraId, onCapture],
+  );
+
   return (
     <RNCamera
+      ref={cameraRef}
+      cameraId={cameraId}
       style={styles.preview}
       captureAudio={false}
       flashMode={RNCamera.Constants.FlashMode.auto}
