@@ -26,6 +26,7 @@ import List, {ListData, File} from './Components/List';
 import {useNavigation} from '@react-navigation/native';
 import useListFilesApi from './hooks/useListFilesApi';
 import {CONSTANT_NoFilesUploads} from '../../constants/imageAssets';
+import PrimaryHeader from '../../NavigatorsV2/Components/PrimaryHeader';
 
 export interface UploadScreenProps {
   userStore: User;
@@ -34,7 +35,7 @@ export interface UploadScreenProps {
 }
 
 const Upload = ({userStore, itineraryId, source}: UploadScreenProps) => {
-  const naviagtion = useNavigation();
+  const navigation = useNavigation();
   const [openCamera, setOpenCamera] = useState<boolean>(false);
   const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
   const [pendingFiles, setPendingFiles] = useState<File[]>([]);
@@ -44,11 +45,14 @@ const Upload = ({userStore, itineraryId, source}: UploadScreenProps) => {
   ] = useListFilesApi();
 
   useEffect(() => {
-    naviagtion.setOptions({
-      headerTitleAlign: 'center',
-      title: 'File Uploads',
+    navigation.setOptions({
+      header: () =>
+        PrimaryHeader({
+          leftAction: () => navigation.goBack(),
+          headerText: 'File Uploads',
+        }),
     });
-  }, [naviagtion]);
+  }, [navigation]);
 
   useEffect(() => {
     if (userStore.userDisplayDetails.userId) {
@@ -123,7 +127,7 @@ const Upload = ({userStore, itineraryId, source}: UploadScreenProps) => {
 
   const pickFile = useCallback(async type => {
     try {
-      const res = await DocumentPicker.pickSingle({
+      const res = await DocumentPicker.pick({
         type,
       });
 
@@ -140,7 +144,7 @@ const Upload = ({userStore, itineraryId, source}: UploadScreenProps) => {
         ];
       });
     } catch (err) {
-      if (DocumentPicker.isCancel(err)) {
+      if (DocumentPicker.isCancel(err as any)) {
         // User cancelled the picker, exit any dialogs or menus and move on
         //console.log(err);
       } else {
@@ -261,8 +265,8 @@ const Upload = ({userStore, itineraryId, source}: UploadScreenProps) => {
           lineHeight={16}>
           Upload your files here
         </Text>
-        <Box paddingTop={16} flexDirection="row" justifyContent="space-between">
-          <Box flexDirection="column" marginRight={20} alignItems="center">
+        <Box paddingTop={16} flexDirection="row" justifyContent="space-evenly">
+          <Box flexDirection="column" marginHorizontal={5} alignItems="center">
             <TouchableOpacity
               onPress={() => {
                 setOpenCamera(true);
@@ -289,7 +293,7 @@ const Upload = ({userStore, itineraryId, source}: UploadScreenProps) => {
             </Text>
           </Box>
 
-          <Box flexDirection="column" marginRight={20} alignItems="center">
+          <Box flexDirection="column" marginHorizontal={5} alignItems="center">
             <TouchableOpacity
               onPress={() => {
                 pickFile([DocumentPicker.types.images]);
@@ -316,7 +320,7 @@ const Upload = ({userStore, itineraryId, source}: UploadScreenProps) => {
             </Text>
           </Box>
 
-          <Box flexDirection="column" marginRight={20} alignItems="center">
+          <Box flexDirection="column" marginHorizontal={5} alignItems="center">
             <TouchableOpacity
               onPress={() => {
                 pickFile([
@@ -347,7 +351,7 @@ const Upload = ({userStore, itineraryId, source}: UploadScreenProps) => {
             </Text>
           </Box>
 
-          <Box flexDirection="column" marginRight={20} alignItems="center">
+          <Box flexDirection="column" marginHorizontal={5} alignItems="center">
             <TouchableOpacity
               onPress={() => {
                 pickFile([DocumentPicker.types.allFiles]);
