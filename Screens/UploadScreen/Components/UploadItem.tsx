@@ -32,55 +32,59 @@ const UploadItem = ({item, onDelete}: Props) => {
       paddingVertical={20}
       borderBottomColor={theme.colors.neutral009}
       borderBottomWidth={1}>
-      <TouchableOpacity onPress={handlePress}>
-        <Box flexDirection="row">
-          <Box
-            paddingVertical={12}
-            paddingHorizontal={9}
-            borderRadius={8}
-            justifyContent="center"
-            alignItems="center"
-            backgroundColor={theme.colors.neutral009}>
-            <Text
-              fontFamily={CONSTANT_primarySemiBold}
-              fontSize={14}
-              lineHeight={21}
-              textTransform="uppercase"
-              color={theme.colors.neutral004}>
-              {item.type}
-            </Text>
-          </Box>
-          <Box flexDirection="column" marginHorizontal={12}>
-            <Text
-              marginBottom={4}
-              color={theme.colors.neutral007}
-              fontFamily={CONSTANT_primaryRegular}
-              fontSize={17}
-              lineHeight={21}>
-              {item.name}
-            </Text>
-            {!isDeleting ? (
+      <Box flex={1} marginRight={50}>
+        <TouchableOpacity onPress={handlePress}>
+          <Box flexDirection="row">
+            <Box
+              paddingVertical={12}
+              paddingHorizontal={9}
+              borderRadius={8}
+              justifyContent="center"
+              alignItems="center"
+              backgroundColor={theme.colors.neutral009}>
               <Text
-                width="100%"
-                color={theme.colors.neutral004}
-                fontFamily={CONSTANT_primaryRegular}
-                fontSize={13}
-                lineHeight={16}>
-                Added on {item.upload_at}
+                fontFamily={CONSTANT_primarySemiBold}
+                fontSize={14}
+                lineHeight={21}
+                textTransform="uppercase"
+                color={theme.colors.neutral004}>
+                {item.type}
               </Text>
-            ) : (
-              <Progress.Bar
-                indeterminate
-                borderColor={theme.colors.neutral009}
-                color={theme.colors.neutral009}
-                height={2}
-                width={null}
-              />
-            )}
+            </Box>
+            <Box flexDirection="column" marginHorizontal={12}>
+              <Text
+                numberOfLines={1}
+                ellipsizeMode="tail"
+                marginBottom={4}
+                color={theme.colors.neutral007}
+                fontFamily={CONSTANT_primaryRegular}
+                fontSize={17}
+                lineHeight={21}>
+                {item.name}
+              </Text>
+              {!isDeleting ? (
+                <Text
+                  width="100%"
+                  color={theme.colors.neutral004}
+                  fontFamily={CONSTANT_primaryRegular}
+                  fontSize={13}
+                  lineHeight={16}>
+                  Added on {item.upload_at}
+                </Text>
+              ) : (
+                <Progress.Bar
+                  indeterminate
+                  borderColor={theme.colors.neutral009}
+                  color={theme.colors.neutral009}
+                  height={2}
+                  width={null}
+                />
+              )}
+            </Box>
           </Box>
-        </Box>
-      </TouchableOpacity>
-      <Box justifyContent="center" alignItems="center" marginRight={13}>
+        </TouchableOpacity>
+      </Box>
+      <Box justifyContent="center" alignItems="center">
         <TouchableOpacity
           onPress={() => {
             Alert.alert('Delete', 'Are you sure?', [

@@ -77,6 +77,8 @@ const Upload = ({userStore, itineraryId, source}: UploadScreenProps) => {
             };
           }),
         );
+      } else {
+        setUploadedFiles([]);
       }
     }
   }, [isSuccess, successResponseData, setUploadedFiles]);

@@ -139,5 +139,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     backgroundColor: theme.colors.neutral009,
     width: '100%',
+    height: 50,
   },
 });
