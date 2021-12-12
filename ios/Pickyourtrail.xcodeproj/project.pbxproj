@@ -840,12 +840,12 @@
 				CODE_SIGN_ENTITLEMENTS = Pickyourtrail/Pickyourtrail.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 398;
+				CURRENT_PROJECT_VERSION = 400;
 				DEVELOPMENT_TEAM = KCHL242759;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Pickyourtrail/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 2.1.9;
+				MARKETING_VERSION = 2.2.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -870,11 +870,11 @@
 				CODE_SIGN_ENTITLEMENTS = Pickyourtrail/Pickyourtrail.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 398;
+				CURRENT_PROJECT_VERSION = 400;
 				DEVELOPMENT_TEAM = KCHL242759;
 				INFOPLIST_FILE = Pickyourtrail/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 2.1.9;
+				MARKETING_VERSION = 2.2.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
