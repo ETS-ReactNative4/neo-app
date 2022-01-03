@@ -1,11 +1,12 @@
 import React, {useEffect} from 'react';
 import {
-  SafeAreaView,
+  // SafeAreaView,
   StyleSheet,
   UIManager,
   Platform,
   Keyboard,
 } from 'react-native';
+import {SafeAreaView} from 'react-native-safe-area-context';
 import {Box} from '@pyt/micros';
 import {CONSTANT_white} from '../../constants/colorPallete';
 import {observer, inject} from 'mobx-react';
