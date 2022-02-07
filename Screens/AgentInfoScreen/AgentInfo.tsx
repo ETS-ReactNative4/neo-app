@@ -3,7 +3,7 @@ import { StyleSheet, View, Text, ScrollView } from "react-native";
 
 import AgentPocCard from "./Components/AgentPocCard";
 
-import { CONSTANT_agentIntroBgPattern } from "../../constants/imageAssets";
+import { CONSTANT_agentIntroBgPattern, CONSTANT_AgentTeam } from "../../constants/imageAssets";
 
 import {
   responsiveWidth,
@@ -96,9 +96,8 @@ const AgentInfo = ({
         duration={FIRST_ANIMATION_DURATION}
       >
         <AgentInfoText
-          agentImage={ownerImage}
-          agentName={ownerName}
-          agentDescription={"Your onboarding expert"}
+          agentImage={CONSTANT_AgentTeam()}
+          agentDescription={"Customer Experience Team"}
         />
       </AnimatableView>
 
@@ -108,7 +107,7 @@ const AgentInfo = ({
         duration={SECOND_ANIMATION_DURATION}
       >
         <Text style={styles.agentHelloText}>
-          Hello, I’ll be helping you with all of these
+          Hello, We’ll be helping you with all of these
         </Text>
       </AnimatableView>
 

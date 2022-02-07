@@ -299,6 +299,7 @@ class AppState {
     // console.log(deviceToken)
 
     if (deviceToken && this._pushTokens.deviceToken !== deviceToken) {
+      this.removePushToken();
       this._updatePushToken(deviceToken);
       /**
        * For new users, this will be fired to send push tokens to

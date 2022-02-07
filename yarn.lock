@@ -9686,6 +9686,13 @@ react-native-branch@4.4.0:
   resolved "https://registry.yarnpkg.com/react-native-branch/-/react-native-branch-4.4.0.tgz#841a741e00f86904e685a31da84e1b46e57a1d1f"
   integrity sha512-PwflqzN7cY8DHJZ0Jp8dwoLJXZhBnoeCf+HM6Grbx2Vj9f3ObQAYnYFpBCOXsw19TxCU/DDLWpOY7tC8B3AnxA==
 
+react-native-camera@4.2.1:
+  version "4.2.1"
+  resolved "https://registry.yarnpkg.com/react-native-camera/-/react-native-camera-4.2.1.tgz#caf74081f055e89d7e9b0cd5108965d808c60e90"
+  integrity sha512-+Vkql24PFYQfsPRznJCvPwJQfyzCnjlcww/iZ4Ej80bgivKjL9eU0IMQIXp4yi6XCrKi4voWXxIDPMupQZKeIQ==
+  dependencies:
+    prop-types "^15.6.2"
+
 react-native-card-stack-swiper@^1.1.0:
   version "1.2.5"
   resolved "https://registry.yarnpkg.com/react-native-card-stack-swiper/-/react-native-card-stack-swiper-1.2.5.tgz#c5497b4025e7963d50249a440aaf693e8e4c12e6"
@@ -9725,6 +9732,11 @@ react-native-device-info@5.5.6:
   version "5.5.6"
   resolved "https://registry.yarnpkg.com/react-native-device-info/-/react-native-device-info-5.5.6.tgz#139466e6e995e512bb03d5bdeef59bd4cfe21dcf"
   integrity sha512-3slUaygctIs1UqsTeZIMpskOWm1FC9SouBxyX7rp6PbOmokZiSCO/c5noUx+ihGNRfUDTbyjZDrJBYEfRNXoZg==
+
+react-native-document-picker@5.2.0:
+  version "5.2.0"
+  resolved "https://registry.yarnpkg.com/react-native-document-picker/-/react-native-document-picker-5.2.0.tgz#1fb2185a56ba6b2509acdc418a8a75906c31e58e"
+  integrity sha512-zXK34hW6fM0gXoo6v7edZZxKvLT7DyjOdBXi7WrxbKqZchDokTEQ/tNTeZxky+7oI8sVz8T3uXBBEW0sp+VfXQ==
 
 react-native-draftjs-editor@0.0.2:
   version "0.0.2"

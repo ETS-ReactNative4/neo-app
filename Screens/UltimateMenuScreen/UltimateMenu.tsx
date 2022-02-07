@@ -21,6 +21,7 @@ import {
   CONSTANT_profileIcon,
   CONSTANT_flagIcon,
   CONSTANT_compassIcon,
+  CONSTANT_addImageIcon,
 } from '../../constants/imageAssets';
 import ErrorBoundary from '../../CommonComponents/ErrorBoundary/ErrorBoundary';
 import {observer, inject} from 'mobx-react';
@@ -36,6 +37,7 @@ import {
   SCREEN_PAYMENT_HOME,
   SCREEN_APP_LOGIN,
   SCREEN_EDIT_TRAVELLER_PROFILE,
+  SCREEN_FILE_UPLOAD,
 } from '../../NavigatorsV2/ScreenNames';
 import {useFocusEffect} from '@react-navigation/native';
 import {isProduction} from '../../Services/getEnvironmentDetails/getEnvironmentDetails';
@@ -113,6 +115,13 @@ const UltimateMenu = ({
       iconName: CONSTANT_profileIcon,
       active: false,
       action: () => navigation.navigate(SCREEN_EDIT_TRAVELLER_PROFILE),
+    });
+
+    menuList.push({
+      name: 'File Upload',
+      iconName: CONSTANT_addImageIcon,
+      active: false,
+      action: () => navigation.navigate(SCREEN_FILE_UPLOAD),
     });
   }
 

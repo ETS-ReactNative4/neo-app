@@ -79,6 +79,8 @@ import {
   SCREEN_STAY_HOTEL_LIST,
   SCREEN_STAY_HOTEL_ROOM_LIST,
   SCREEN_SEARCH_TAB,
+  SCREEN_PLATO_CHAT,
+  SCREEN_FILE_UPLOAD,
 } from './ScreenNames';
 import AppLogin from '../Screens/AppLoginScreen/AppLogin';
 import Starter from '../Screens/StartingScreen/Starter';
@@ -182,6 +184,8 @@ import {
   StayHotelRoomListParamType,
 } from '../Screens/StayHotelRoomList/StayHotelRoomList';
 import Search from '../Screens/SearchV2/Search';
+import PlatoChat from '../Screens/ChatScreen/PlatoChat';
+import Upload from '../Screens/UploadScreen/Upload';
 
 export type loginResetTargetTypes = typeof SCREEN_SAVED_ITINERARIES;
 
@@ -390,6 +394,7 @@ export type AppNavigatorParamsType = {
   [SCREEN_STAY_SEARCH]: undefined;
   [SCREEN_STAY_HOTEL_ROOM_LIST]: StayHotelRoomListParamType;
   [SCREEN_SEARCH_TAB]: undefined;
+  [SCREEN_FILE_UPLOAD]: undefined;
 };
 
 const Stack = createStackNavigator<AppNavigatorParamsType>();
@@ -690,6 +695,8 @@ const AppNavigator = () => {
           options={{headerShown: false}}
           component={PaymentScreen}
         />
+        <Screen name={SCREEN_PLATO_CHAT} component={PlatoChat} />
+        <Screen name={SCREEN_FILE_UPLOAD} component={Upload} />
       </Navigator>
     </Fragment>
   );
