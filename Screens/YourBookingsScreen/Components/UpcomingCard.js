@@ -28,6 +28,9 @@ const UpcomingCard = ({
   departureDateMillis,
   nights,
   isLast,
+  image,
+  cancelled,
+  completed,
 }) => {
   return (
     <TouchableOpacity
@@ -39,7 +42,7 @@ const UpcomingCard = ({
       <View style={styles.imageArea}>
         <ImageBackground
           resizeMode={'cover'}
-          source={constants.starterBackground}
+          source={image ? {uri: image} : constants.starterBackground}
           style={styles.imageBackground}>
           <Text style={styles.bookingID}>
             {itineraryId
@@ -50,6 +53,15 @@ const UpcomingCard = ({
       </View>
       <View style={styles.infoArea}>
         <View style={styles.infoTextWrapper}>
+          {completed || cancelled ? (
+            <Text
+              style={[
+                styles.itineraryStatusText,
+                completed ? {color: constants.firstColor} : null,
+              ]}>
+              This vacation is {completed ? 'completed' : 'cancelled'}
+            </Text>
+          ) : null}
           <View style={styles.dateWrapper}>
             <Text style={styles.date}>{`${moment
               .utc(departureDateMillis)
@@ -116,7 +128,7 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   imageBackground: {
-    height: 104,
+    height: 186,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'flex-end',
@@ -133,7 +145,7 @@ const styles = StyleSheet.create({
   infoTextWrapper: {
     minHeight: 72,
     marginHorizontal: 16,
-    marginTop: 16,
+    marginTop: 8,
   },
   dateWrapper: {
     minHeight: 16,
@@ -169,13 +181,20 @@ const styles = StyleSheet.create({
   bookingDateWrapper: {
     minHeight: 16,
     justifyContent: 'center',
-    marginBottom: 4,
+    marginBottom: 8,
   },
   bookingDate: {
     fontFamily: constants.primaryLight,
     color: constants.black2,
     fontSize: 13,
     lineHeight: 13,
+  },
+  itineraryStatusText: {
+    fontFamily: constants.primarySemiBold,
+    fontSize: 14,
+    lineHeight: 18,
+    color: 'rgba(208,2,27,1)',
+    marginBottom: 4,
   },
 });
 

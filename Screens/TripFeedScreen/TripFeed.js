@@ -39,6 +39,7 @@ import {logError} from '../../Services/errorLogger/errorLogger';
 import storeService from '../../Services/storeService/storeService';
 import {CONSTANT_feedWidgetClicked} from '../../constants/apiUrls';
 import apiCall from '../../Services/networkRequests/apiCall';
+import {SCREEN_PLATO_CHAT} from '../../NavigatorsV2/ScreenNames';
 
 @ErrorBoundary({isRoot: true})
 @inject('deviceDetailsStore')
@@ -267,6 +268,7 @@ class TripFeed extends Component {
       currentTime,
       offlineContact,
     } = this.props.chatDetailsStore;
+    const {itinerary} = this.props.itineraries?.selectedItinerary || {};
     const openDialer = () => {
       recordEvent(constants.TripFeed.event, {
         click: constants.TripFeed.click.chatOfflineContact,
@@ -289,6 +291,40 @@ class TripFeed extends Component {
           directionalLockEnabled={true}
           scrollEnabled={this.state.scrollEnabled}
           style={styles.tripFeedScrollView}>
+          {itinerary?.cancelled ? (
+            <>
+              <AlertCard
+                elements={[
+                  {
+                    title: 'Your vacation has been cancelled.',
+                    message:
+                      'We look forward to crafting your next dream vacation. Adios!',
+                    link: '',
+                    type: 'alert',
+                    modalData: {},
+                  },
+                ]}
+                toggleScrollLock={() => null}
+              />
+              <ToolTip
+                image={constants.infoBoxIllus}
+                containerStyle={styles.cancelInfoToolTip}
+                title={'Have queries regarding your vacation?'}
+                text={'Raise a ticket & our team will get back to you.'}
+                options={[
+                  {
+                    title: 'Raise a ticket',
+                    link: SCREEN_PLATO_CHAT,
+                    modalData: {
+                      type: 'Other',
+                      itineraryId: itinerary?.itineraryId,
+                    },
+                    color: constants.firstColor,
+                  },
+                ]}
+              />
+            </>
+          ) : null}
           {widgets.map((widget, widgetIndex) => {
             try {
               isImageFirst = !isImageFirst;
@@ -303,6 +339,7 @@ class TripFeed extends Component {
                       callback={() => this.trackWidgetClick(widget.identifier)}
                     />
                   );
+                case 'EXPERIENCE_VIDEO':
                 case 'INFO_CARD':
                   return (
                     <InfoCard
@@ -442,6 +479,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     paddingVertical: 8,
   },
+  cancelInfoToolTip: {marginTop: 0},
 });
 
 export default TripFeed;
