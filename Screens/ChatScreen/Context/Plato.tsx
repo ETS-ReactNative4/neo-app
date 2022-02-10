@@ -325,7 +325,7 @@ export const PlatoProvider = ({userStore, ticketTypes, children}: Props) => {
             sendMessage(value);
             selectedType.current = id;
             sendMessage(
-              `Thank you for selecting a category. Please let us know the details of your query / issue related to ${value}.`,
+              'Thank you for your message. Our team shall get back to you with a response within 24-48 hours',
               false,
               true,
             );
