@@ -25,6 +25,7 @@ import {
 } from '../../Services/fileManager/fileManager';
 import storeService from '../../Services/storeService/storeService';
 import debouncer from '../../Services/debouncer/debouncer';
+import {SCREEN_PLATO_CHAT} from '../../NavigatorsV2/ScreenNames';
 
 const generateVoucherFileName = () => {
   const itineraryId = storeService.itineraries.selectedItineraryId;
@@ -266,7 +267,7 @@ class BookingsHome extends Component {
     } = this.props.itineraries;
     const {isLoading: voucherLoading} = this.props.voucherStore;
     const {navigation} = this.props;
-    const {openDate} = selectedItinerary?.itinerary ?? {};
+    const {openDate, cancelled} = selectedItinerary?.itinerary ?? {};
 
     const isRefreshing = itineraryLoading || voucherLoading;
     const Header = () => HomeHeader({navigation: this.props.navigation}).header;
@@ -354,19 +355,12 @@ class BookingsHome extends Component {
             }}
             color={'white'}
             hasBorder={true}
-            text={'Cancel the trip'}
+            text={cancelled ? 'Raise a support ticket' : 'Cancel the trip'}
             icon={null}
             action={() => {
-              navigation.navigate('ContactUs', {
-                type: constants.defaultSupportType,
-                subject: 'Cancellation',
-                checkboxList: [
-                  {
-                    label:
-                      'I understand that this is only a Cancellation Request being initiated with Pickyourtrail and the final cancellation amount will be decided based on cancellation policy.',
-                    value: false,
-                  },
-                ],
+              navigation.navigate(SCREEN_PLATO_CHAT, {
+                type: cancelled ? 'Other' : 'Cancellation',
+                itineraryId: selectedItineraryId,
               });
             }}
             iconSize={20}
