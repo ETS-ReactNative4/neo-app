@@ -1,21 +1,21 @@
-import React, { Component } from "react";
-import { View, StyleSheet, BackHandler } from "react-native";
-import CommonHeader from "../../CommonComponents/CommonHeader/CommonHeader";
-import Upcoming from "./Components/Upcoming";
-import CloseYourBookingsButton from "./Components/CloseYourBookingsButton";
-import { inject, observer } from "mobx-react";
-import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
-import PropTypes from "prop-types";
-import resetToWelcomeFlow from "../../Services/resetToWelcomeFlow/resetToWelcomeFlow";
-import { SCREEN_POST_BOOKING_HOME } from "../../NavigatorsV2/ScreenNames";
+import React, {Component} from 'react';
+import {View, StyleSheet, BackHandler} from 'react-native';
+import CommonHeader from '../../CommonComponents/CommonHeader/CommonHeader';
+import Upcoming from './Components/Upcoming';
+import CloseYourBookingsButton from './Components/CloseYourBookingsButton';
+import {inject, observer} from 'mobx-react';
+import ErrorBoundary from '../../CommonComponents/ErrorBoundary/ErrorBoundary';
+import PropTypes from 'prop-types';
+import resetToWelcomeFlow from '../../Services/resetToWelcomeFlow/resetToWelcomeFlow';
+import {SCREEN_POST_BOOKING_HOME} from '../../NavigatorsV2/ScreenNames';
 
 const resetAction = navigation =>
   resetToWelcomeFlow().then(action => navigation.dispatch(action));
 
-@ErrorBoundary({ isRoot: true })
-@inject("itineraries")
-@inject("appState")
-@inject("yourBookingsStore")
+@ErrorBoundary({isRoot: true})
+@inject('itineraries')
+@inject('appState')
+@inject('yourBookingsStore')
 @observer
 class YourBookings extends Component {
   _didFocusSubscription;
@@ -25,34 +25,34 @@ class YourBookings extends Component {
     appState: PropTypes.object.isRequired,
     yourBookingsStore: PropTypes.object.isRequired,
     navigation: PropTypes.object.isRequired,
-    itineraries: PropTypes.object.isRequired
+    itineraries: PropTypes.object.isRequired,
   };
 
   constructor(props) {
     super(props);
 
     this._didFocusSubscription = props.navigation.addListener(
-      "didFocus",
+      'didFocus',
       () => {
         BackHandler.addEventListener(
-          "hardwareBackPress",
-          this.onBackButtonPressAndroid
+          'hardwareBackPress',
+          this.onBackButtonPressAndroid,
         );
-      }
+      },
     );
   }
 
   componentDidMount() {
     this._willBlurSubscription = this.props.navigation.addListener(
-      "willBlur",
+      'willBlur',
       () => {
         BackHandler.removeEventListener(
-          "hardwareBackPress",
-          this.onBackButtonPressAndroid
+          'hardwareBackPress',
+          this.onBackButtonPressAndroid,
         );
-      }
+      },
     );
-    const { getUpcomingItineraries } = this.props.yourBookingsStore;
+    const {getUpcomingItineraries} = this.props.yourBookingsStore;
     getUpcomingItineraries();
   }
 
@@ -62,7 +62,7 @@ class YourBookings extends Component {
   }
 
   onBackButtonPressAndroid = () => {
-    const { navigation } = this.props;
+    const {navigation} = this.props;
     if (navigation.isFocused()) {
       this.goBack();
       return true;
@@ -79,22 +79,22 @@ class YourBookings extends Component {
   };
 
   render() {
-    const { navigation } = this.props;
+    const {navigation} = this.props;
     const {
-      upcomingItineraries,
+      itineraries,
       isLoading,
-      getUpcomingItineraries
+      getUpcomingItineraries,
     } = this.props.yourBookingsStore;
     return (
       <View style={styles.yourBookingsContainer}>
         <CommonHeader
           LeftButton={<CloseYourBookingsButton goBack={this.goBack} />}
-          title={"Your Bookings"}
+          title={'Your Bookings'}
           navigation={navigation}
         />
         <Upcoming
           tabLabel="UPCOMING"
-          itinerariesList={upcomingItineraries}
+          itinerariesList={itineraries}
           isLoading={isLoading}
           navigation={this.props.navigation}
           getUpcomingItineraries={getUpcomingItineraries}
@@ -108,8 +108,8 @@ class YourBookings extends Component {
 const styles = StyleSheet.create({
   yourBookingsContainer: {
     flex: 1,
-    backgroundColor: "white"
-  }
+    backgroundColor: 'white',
+  },
 });
 
 export default YourBookings;

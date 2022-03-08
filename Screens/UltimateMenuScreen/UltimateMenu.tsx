@@ -141,7 +141,8 @@ const UltimateMenu = ({
       active: false,
       action: () => navigation.navigate(SCREEN_PAYMENT_HOME),
     });
-
+  }
+  if (yourBookingsStore.hasItineraries) {
     menuList.unshift({
       name: 'My trip feed',
       iconName: CONSTANT_passIcon,
