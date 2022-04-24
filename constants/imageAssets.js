@@ -263,7 +263,7 @@ export const CONSTANT_starterTopImage = require('../assets/images/backgrounds/st
 export const CONSTANT_starterBottomImage = require('../assets/images/backgrounds/starter_screen_bottom.jpg');
 export const CONSTANT_starterBackground = require('../assets/images/backgrounds/starterImage.jpg');
 export const CONSTANT_pytLogo = isProduction()
-  ? require('../assets/images/icons/logo_new.png')
+  ? require('../assets/images/icons/pickyourtrail-black-logo.png')
   : require('../assets/images/icons/logo-dev.png');
 export const CONSTANT_forexPartnerLogo = require('../assets/images/icons/forex-partner.png');
 export const CONSTANT_pytLogoNew = require('../assets/images/icons/logo_new.png');

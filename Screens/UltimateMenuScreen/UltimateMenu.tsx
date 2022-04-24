@@ -276,6 +276,7 @@ const UltimateMenu = ({
 const styles = StyleSheet.create({
   ultimateMenuContainerStyle: {
     flex: 1,
+    width: 200,
   },
   backArrowIconStyle: {
     display: 'flex',

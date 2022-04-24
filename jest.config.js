@@ -1,5 +1,9 @@
 const jestPreset = require('@testing-library/react-native/jest-preset');
 
+// jest.mock('react-native-reanimated', () =>
+//   require('react-native-reanimated/mock')
+// );
+
 const ignoredNativeModules = [
   'react-native',
   'react-native-keychain',

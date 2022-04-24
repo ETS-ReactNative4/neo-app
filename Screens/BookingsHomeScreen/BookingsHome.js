@@ -97,6 +97,7 @@ class BookingsHome extends Component {
      * - It will also check if the voucher downloaded is latest using
      * the last downloaded pdf url.
      */
+
     checkIfFileExists(fileName)
       .then(isExist => {
         if (isExist) {

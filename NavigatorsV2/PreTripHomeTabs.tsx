@@ -11,7 +11,7 @@ import {
   SCREEN_SEARCH_LISTING_CARDS_PAGE,
   SCREEN_PRETRIP_HOME_TABS,
   SCREEN_PRETRIP_CHAT,
-  SCREEN_STAY_SEARCH,
+  // SCREEN_STAY_SEARCH,
 } from './ScreenNames';
 import Explore, {
   ExploreScreenSourcesType,
@@ -22,6 +22,7 @@ import {
   CONSTANT_searchIcon,
   CONSTANT_dealsIcon,
   CONSTANT_hotelIcon,
+  CONSTANT_detailIcon,
 } from '../constants/imageAssets';
 import {observer, inject} from 'mobx-react';
 import DeviceLocale from '../mobx/DeviceLocale';
@@ -30,7 +31,7 @@ import deepLink from '../Services/deepLink/deepLink';
 import {RouteProp} from '@react-navigation/native';
 import {AppNavigatorParamsType} from './AppNavigator';
 import DealsListing from '../Screens/DealsListingScreen/DealsListing';
-import StayHotelSearchScreen from '../Screens/StayHotelSearchScreen/StayHotelSearchScreen';
+// import StayHotelSearchScreen from '../Screens/StayHotelSearchScreen/StayHotelSearchScreen';
 import useIsUserLoggedIn from '../Services/isUserLoggedIn/hooks/useIsUserLoggedIn';
 import LoyaltyCoins from '../mobx/LoyaltyCoins';
 import User from '../mobx/User';
@@ -63,10 +64,10 @@ export type StarterScreenNavigationProp = BottomTabNavigationProp<
 const Tab = createBottomTabNavigator<PreTripHomeTabsType>();
 
 const tabBarColorConfig = {
-  activeTintColor: '#00C684',
-  activeBackgroundColor: '#0B6D4D',
+  activeTintColor: '#2B2B3D',
+  activeBackgroundColor: '#6FCF97',
   inactiveTintColor: '#3C8F73',
-  inactiveBackgroundColor: '#28795E',
+  inactiveBackgroundColor: '#181829',
 };
 
 export interface PreTripHomeTabsProp {
@@ -109,51 +110,33 @@ const PreTripHomeTabs = ({
     <Tab.Navigator tabBar={props => <ExploreBottomBar {...props} />}>
       <Tab.Screen
         options={{
-          tabBarLabel: 'Explore',
-          icon: CONSTANT_compassIcon,
+          tabBarLabel: 'Sales',
+          icon: CONSTANT_dealsIcon,
           ...tabBarColorConfig,
         }}
         name={SCREEN_EXPLORE_TAB}
         component={Explore}
       />
-      {deviceLocaleStore.deviceLocale === 'in' ? (
+      {/* {deviceLocaleStore.deviceLocale === 'in' ? (
         <Tab.Screen
           options={{
-            tabBarLabel: 'Deals',
+            tabBarLabel: 'Leads',
             icon: CONSTANT_dealsIcon,
             ...tabBarColorConfig,
           }}
           name={SCREEN_DEALS_TAB}
           component={DealsListing}
         />
-      ) : null}
-      {isLoggedIn ? (
-        <Tab.Screen
-          options={{
-            tabBarLabel: 'Stay',
-            icon: CONSTANT_hotelIcon,
-            ...tabBarColorConfig,
-          }}
-          name={SCREEN_STAY_SEARCH}
-          component={StayHotelSearchScreen}
-        />
-      ) : null}
+      ) : null} */}
+
       <Tab.Screen
         options={{
-          tabBarLabel: 'Search',
-          icon: CONSTANT_searchIcon,
+          tabBarLabel: 'Leads',
+          icon: CONSTANT_detailIcon,
           ...tabBarColorConfig,
         }}
         name={SCREEN_SEARCH_TAB}
         component={SearchV2}
-      />
-      <Tab.Screen
-        options={{
-          tabBarLabel: 'Chat',
-          ...tabBarColorConfig,
-        }}
-        name={SCREEN_PRETRIP_CHAT}
-        component={() => null}
       />
     </Tab.Navigator>
   );

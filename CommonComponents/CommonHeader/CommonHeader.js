@@ -1,15 +1,15 @@
-import React, { Component } from "react";
+import React, {Component} from 'react';
 import {
   View,
   Image,
   TouchableHighlight,
   StyleSheet,
   Text,
-  Platform
-} from "react-native";
-import constants from "../../constants/constants";
-import { isIphoneX } from "react-native-iphone-x-helper";
-import PropTypes from "prop-types";
+  Platform,
+} from 'react-native';
+import constants from '../../constants/constants';
+import {isIphoneX} from 'react-native-iphone-x-helper';
+import PropTypes from 'prop-types';
 
 class CommonHeader extends Component {
   static propTypes = {
@@ -19,7 +19,7 @@ class CommonHeader extends Component {
     RightButton: PropTypes.element,
     hideBackButton: PropTypes.bool,
     navigation: PropTypes.object.isRequired,
-    TitleComponent: PropTypes.element
+    TitleComponent: PropTypes.element,
   };
 
   render() {
@@ -30,7 +30,7 @@ class CommonHeader extends Component {
       navigation,
       hideBackButton,
       LeftButton,
-      leftAction
+      leftAction,
     } = this.props;
 
     return (
@@ -44,13 +44,16 @@ class CommonHeader extends Component {
             <TouchableHighlight
               style={styles.leftButtonContainer}
               onPress={() => {
-                if (leftAction) leftAction();
-                else navigation.goBack();
+                if (leftAction) {
+                  leftAction();
+                } else {
+                  navigation.goBack();
+                }
               }}
-              underlayColor={"transparent"}
-            >
+              underlayColor={'transparent'}>
+              <Text>Header</Text>
               <Image
-                resizeMode={"contain"}
+                resizeMode={'contain'}
                 source={constants.backArrow}
                 style={styles.leftButtonIcon}
               />
@@ -72,37 +75,37 @@ class CommonHeader extends Component {
 
 const styles = StyleSheet.create({
   headerSection: {
-    backgroundColor: "white"
+    backgroundColor: 'white',
   },
   headerContainer: {
     height: constants.headerHeight,
-    backgroundColor: "white",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    marginTop: Platform.OS === "android" ? 0 : isIphoneX() ? 30 : 20
+    backgroundColor: 'white',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginTop: Platform.OS === 'android' ? 0 : isIphoneX() ? 30 : 20,
   },
   leftButtonContainer: {
     height: constants.headerHeight,
-    justifyContent: "center",
-    paddingHorizontal: 16
+    justifyContent: 'center',
+    paddingHorizontal: 16,
   },
   leftButtonIcon: {
     height: 24,
-    width: 30
+    width: 30,
   },
   headerTextContainer: {
     height: 24,
-    minWidth: 24
+    minWidth: 24,
   },
   headerTitle: {
     ...constants.font20(constants.primarySemiBold),
-    color: constants.black2
+    color: constants.black2,
   },
   placeHolder: {
     height: 24,
-    width: 62
-  }
+    width: 62,
+  },
 });
 
 export default CommonHeader;

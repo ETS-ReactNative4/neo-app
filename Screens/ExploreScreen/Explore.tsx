@@ -1,9 +1,23 @@
 import React, {useState, Fragment, useRef, useEffect} from 'react';
-import {ScrollView, StyleSheet, TouchableOpacity, View} from 'react-native';
+import {
+  ScrollView,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+  TextInput,
+  Alert,
+  FlatList,
+} from 'react-native';
 import {CompositeNavigationProp, RouteProp} from '@react-navigation/native';
 import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {AppNavigatorParamsType} from '../../NavigatorsV2/AppNavigator';
+import {Pressable, Space, Text, Input} from '@pyt/micros';
+import {Tabs, Tooltip} from '@pyt/macros';
+import {LeadCard} from '@pyt/widgets';
+import apiCall from '../../Services/networkRequests/apiCall';
+import {CONSTANT_productUrl} from '../../constants/serverUrls';
+import constants from '../../constants/constants';
 import {
   SCREEN_PRETRIP_HOME_TABS,
   SCREEN_EXPLORE_TAB,
@@ -27,12 +41,12 @@ import BlogCardsRow from './Components/BlogCardsRow';
 import CountryCardsRow from './Components/CountryCardsRow';
 import PrimaryHeader from '../../NavigatorsV2/Components/PrimaryHeader';
 import {
-  CONSTANT_trustIconFacebook,
-  CONSTANT_trustIconGoogle,
-  CONSTANT_trustIconIata,
   CONSTANT_preTripHamburger,
   CONSTANT_notificationBellIcon,
+  CONSTANT_searchIcon,
+  CONSTANT_careersIcon,
 } from '../../constants/imageAssets';
+
 import TestimonialsCardsRow from './Components/TestimonialsCardsRow';
 import TrustIcons from '../../CommonComponents/TrustIcons/TrustIcons';
 import {ExploreFeedType} from './ExploreFeedType';
@@ -53,6 +67,7 @@ import {
 import Icon from '../../CommonComponents/Icon/Icon';
 import storeService from '../../Services/storeService/storeService';
 import ChatDetails from '../../mobx/ChatDetails';
+import {locale} from 'moment';
 
 export type ExploreScreenNavigationType = CompositeNavigationProp<
   StackNavigationProp<AppNavigatorParamsType, typeof SCREEN_PRETRIP_HOME_TABS>,
@@ -74,6 +89,16 @@ export interface ExploreScreenProps {
 
 export type ExploreScreenSourcesType = 'TravelProfileFlow';
 
+const fetchUser = () => {
+  apiCall(`${constants.fetchUser}`, {}, 'POST')
+    .then(response => {
+      console.log('userDetails Check', response);
+    })
+    .catch(res => {
+      console.log(res);
+    });
+};
+
 const Explore = ({
   navigation,
   yourBookingsStore,
@@ -82,6 +107,9 @@ const Explore = ({
 }: ExploreScreenProps) => {
   let [exploreData, setExploreData] = useState<ExploreFeedType>([]);
   const [exploreDataApi, loadExploreData] = useExploreDataRequest();
+
+  const [salesMetrics, setSalesMetrics] = useState({});
+  const [loading, setLoading] = useState(false);
 
   const openUltimateMenu = () => {
     navigation.navigate(SCREEN_ULTIMATE_MENU);
@@ -107,135 +135,113 @@ const Explore = ({
   ).current;
 
   useEffect(() => {
-    loadExploreData();
-    const {getUserDetails, setChatMetaInfo} = chatDetailsStore;
-    getUserDetails(true)
-      .then(chatDetails => {
-        initializeChat(chatDetails.appId, chatDetails.appKey);
-        identifyChatUser(chatDetails.feid, chatDetails.frid || null).catch(
-          () => null,
-        );
-        setChatUserDetails({
-          firstName: chatDetails.trailId,
-          lastName: chatDetails.name,
-          email: chatDetails.email,
-          phoneCountryCode: chatDetails.ccode,
-          phone: chatDetails.mob_num,
-        }).catch(() => null);
-        if (!chatDetails.frid) {
-          getRestoreId()
-            .then(restoreId => {
-              getActorId()
-                .then(actorId => {
-                  setChatMetaInfo({
-                    restoreId,
-                    actorId,
-                    anonymousId:
-                      storeService.deviceDetailsStore._deviceDetails.deviceId,
-                  });
-                })
-                .catch(() => null);
-            })
-            .catch(() => null);
-        }
-      })
-      .catch(() => null);
-    yourBookingsStore.getUpcomingItineraries();
-    userStore.getUserDisplayDetails();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    setLoading(true);
+    fetchMetrics();
+    // fetchUser();
   }, []);
 
   const {successResponseData} = exploreDataApi;
-
-  useDeepCompareEffect(() => {
-    if (successResponseData) {
-      setExploreData(successResponseData.data?.[0]?.value ?? []);
-    }
-  }, [successResponseData || {}]);
 
   const {userDisplayDetails} = userStore;
 
   const {name} = userDisplayDetails;
 
+  const fetchMetrics = () => {
+    apiCall(`${constants.salesMetrics}?user_id=30_team`, {}, 'POST')
+      .then(response => {
+        setSalesMetrics(response);
+      })
+      .catch(res => {
+        console.log(res);
+      })
+      .finally(() => setLoading(false));
+  };
+  const Item = ({count, name, percentage}) => (
+    <Space direction={'column'}>
+      <Space style={styles.pipeblock}>
+        <Text color={'#9DA4B2'}>{name} </Text>
+        <Text color={'#9DA4B2'}>
+          {count} ({percentage} %)
+        </Text>
+      </Space>
+    </Space>
+  );
+
+  const renderItem = ({item}) => (
+    <Item
+      count={item.count}
+      name={item.trail_status.name}
+      percentage={item.percentage}
+    />
+  );
   return (
     <View style={styles.container}>
       {header}
-      <ScrollView removeClippedSubviews>
-        {name ? (
-          <Fragment>
-            <BlankSpacer height={24} />
-            <ExploreSectionTitle
-              title={`Hi ${name},`}
-              description={'It’s time to explore the world, your way'}
-              titleColor={CONSTANT_black1}
-            />
-          </Fragment>
-        ) : null}
-        {exploreData.map((section, sectionIndex) => {
-          return (
-            <Fragment key={sectionIndex}>
-              <BlankSpacer height={24} />
-              <ExploreSectionTitle
-                title={section.title}
-                description={section.subTitle}
-                titleColor={section.color}
+      <ScrollView>
+        <Space paddingHorizontal={22} direction={'column'} marginTop={20}>
+          <Text color={'#9DA4B2'} fontSize={16} fontWeight={'bold'}>
+            Overview
+          </Text>
+          <Space style={styles.search}>
+            <Space style={styles.semiblock}>
+              <Icon
+                name={CONSTANT_searchIcon}
+                key={1}
+                size={16}
+                color={'#9DA4B2'}
               />
-              {section.title || section.subTitle ? (
-                <BlankSpacer height={16} />
-              ) : null}
-              {section.type === 'HERO_BANNER' ? (
-                <HeroBannerRow {...section} />
-              ) : section.type === 'BOOKED_ITINERARY_CARDS' ? (
-                <BookedItineraryCardsRow {...section} />
-              ) : section.type === 'PACKAGE_ITINERARY_CARDS' ? (
-                <PackageItineraryCardsRow {...section} />
-              ) : section.type === 'PROMOTED_CARDS' ? (
-                <PromotedCardsRow {...section} />
-              ) : section.type === 'BLOG_CARDS' ? (
-                <BlogCardsRow {...section} />
-              ) : section.type === 'COUNTRY_CARDS' ? (
-                // @ts-ignore
-                <CountryCardsRow {...section} />
-              ) : section.type === 'TESTIMONIAL_CARDS' ? (
-                <TestimonialsCardsRow {...section} />
-              ) : section.type === 'DEALS_CARDS' ? (
-                <DealsCardsRow {...section} />
-              ) : (
-                <View style={styles.widgetContainer}>
-                  {getWidgets({
-                    widget: section || {},
-                    widgetIndex: sectionIndex,
-                  })}
-                </View>
-              )}
 
-              <BlankSpacer height={24} />
-              <BlankSpacer
-                containerStyle={styles.spacerBackgroundStyle}
-                height={4}
+              <TextInput
+                placeholder="Search"
+                placeholderTextColor="#9DA4B2"></TextInput>
+            </Space>
+            <Space style={styles.semiblock}>
+              <Icon
+                name={CONSTANT_careersIcon}
+                key={1}
+                size={16}
+                color={'#9DA4B2'}
               />
-            </Fragment>
-          );
-        })}
+              <TextInput
+                placeholder="Sales Roster"
+                placeholderTextColor="#9DA4B2"></TextInput>
+            </Space>
+          </Space>
+          {loading ? (
+            <Text alignSelf="center" marginVertical="auto" color={'#9DA4B2'}>
+              Loading...
+            </Text>
+          ) : (
+            <Space>
+              <Space style={styles.cardblock} direction={'column'}>
+                <Text color={'#9DA4B2'}>Revenue</Text>
+                <Text color={'#9DA4B2'}>{salesMetrics.target_achieved}</Text>
+              </Space>
 
-        <BlankSpacer height={24} />
-        {exploreData.length ? (
-          <View style={styles.trustIconsWrapper}>
-            <TrustIcons
-              image={CONSTANT_trustIconFacebook()}
-              text={'4.8/5 based on 1150+ reviews'}
-            />
-            <TrustIcons
-              image={CONSTANT_trustIconGoogle()}
-              text={'4.7/5 based on 700+ reviews'}
-            />
-            <TrustIcons
-              image={CONSTANT_trustIconIata()}
-              text={'Accredited Agent'}
-            />
-          </View>
-        ) : null}
-        <BlankSpacer height={40} />
+              <Space style={styles.cardblock} direction={'column'}>
+                <Text color={'#9DA4B2'}>Converts</Text>
+                <Space>
+                  <Text color={'#fff'} fontSize={18}>
+                    {salesMetrics.converts_achieved} /{' '}
+                  </Text>
+                  <Text color={'#9DA4B2'}>{salesMetrics.converts}</Text>
+                </Space>
+              </Space>
+            </Space>
+          )}
+          <Space style={styles.pipeline} direction={'column'}>
+            <Text color={'#9DA4B2'} fontSize={16} fontWeight={'bold'}>
+              Sales Pipeline
+            </Text>
+            {loading ? (
+              <Text alignSelf="center" marginVertical="auto" color={'#9DA4B2'}>
+                Loading...
+              </Text>
+            ) : (
+              <FlatList data={salesMetrics.leads} renderItem={renderItem} />
+            )}
+          </Space>
+        </Space>
       </ScrollView>
     </View>
   );
@@ -244,23 +250,47 @@ const Explore = ({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: CONSTANT_white,
+    backgroundColor: '#181829',
   },
+  search: {
+    justifyContent: 'space-between',
+  },
+  semiblock: {
+    width: 180,
+    paddingLeft: 10,
+    backgroundColor: '#2B2B3D',
+    borderRadius: 5,
+  },
+  pipeline: {
+    backgroundColor: '#2B2B3D',
+    flex: 1,
+    height: 350,
+    borderRadius: 5,
+    justifyContent: 'flex-start',
+    padding: 20,
+  },
+  pipeblock: {
+    backgroundColor: '#353546',
+    justifyContent: 'space-around',
+    padding: 15,
+    borderRadius: 5,
+    marginBottom: 10,
+  },
+
+  countblock: {
+    flex: 1,
+    justifyContent: 'flex-start',
+    color: '#9DA4B2',
+  },
+  cardblock: {
+    width: 180,
+    padding: 20,
+    backgroundColor: '#2B2B3D',
+    borderRadius: 5,
+  },
+
   spacerBackgroundStyle: {
     backgroundColor: CONSTANT_shade5,
-  },
-  trustIconsWrapper: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginHorizontal: 24,
-  },
-  widgetContainer: {
-    marginHorizontal: 12,
-  },
-  notificationIconStyle: {
-    position: 'absolute',
-    right: 18,
-    opacity: 0.6,
   },
 });
 

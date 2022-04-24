@@ -1,33 +1,6 @@
-import React, {Component, Fragment} from 'react';
-import {
-  View,
-  Text,
-  Image,
-  StyleSheet,
-  SafeAreaView,
-  Platform,
-  Animated,
-  Easing,
-} from 'react-native';
-import SimpleButton from '../../CommonComponents/SimpleButton/SimpleButton';
-import {inject, observer} from 'mobx-react';
-import {recordEvent} from '../../Services/analytics/analyticsService';
-import ErrorBoundary from '../../CommonComponents/ErrorBoundary/ErrorBoundary';
-import openCustomTab from '../../Services/openCustomTab/openCustomTab';
+import React, {useState} from 'react';
+import {Text, SafeAreaView, StyleSheet, TextInput, View} from 'react-native';
 import {responsiveWidth} from 'react-native-responsive-dimensions';
-import StarterAnimation from './Components/StarterAnimation';
-import BootAnimation from './Components/BootAnimation';
-import AppState from '../../mobx/AppState';
-import {StackNavigationProp} from '@react-navigation/stack';
-import {AppNavigatorParamsType} from '../../NavigatorsV2/AppNavigator';
-import {
-  SCREEN_STARTER,
-  SCREEN_APP_LOGIN,
-  SCREEN_SAVED_ITINERARIES,
-  SCREEN_PRE_TRIP_INTRO,
-} from '../../NavigatorsV2/ScreenNames';
-import {isIphoneX} from 'react-native-iphone-x-helper';
-import {CONSTANT_xSensorAreaHeight} from '../../constants/styles';
 import {
   CONSTANT_fontCustom,
   CONSTANT_primarySemiBold,
@@ -39,278 +12,90 @@ import {
   CONSTANT_shade2,
   CONSTANT_shade1,
 } from '../../constants/colorPallete';
-import {
-  CONSTANT_platformIos,
-  CONSTANT_termsAndConditions,
-  CONSTANT_privacyPolicy,
-} from '../../constants/stringConstants';
-import {CONSTANT_pytLogoBlack} from '../../constants/imageAssets';
-import {CONSTANT_starterScreenText} from '../../constants/appText';
-import {CONSTANT_StarterScreen} from '../../constants/appEvents';
-import {CONSTANT_productUrl} from '../../constants/serverUrls';
+import constants from '../../constants/constants';
+import SimpleButton from '../../CommonComponents/SimpleButton/SimpleButton';
+import apiCall from '../../Services/networkRequests/apiCall';
+import {SCREEN_PRETRIP_HOME_TABS} from '../../NavigatorsV2/ScreenNames';
 
-const bootAnimationTiming = 350;
+const findBookingButtonStyle = {width: 200, height: 48};
 
-type screenName = typeof SCREEN_STARTER;
+const Starter = ({navigation}) => {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
 
-export type StarterScreenNavigationProp = StackNavigationProp<
-  AppNavigatorParamsType,
-  screenName
->;
-
-export interface StarterState {
-  displayStarterAnimation: boolean;
-  displayStarterOptions: boolean;
-  bootAnimationOpacity: number;
-  bootSplashAnimationProgress: Animated.Value;
-}
-
-export interface StarterProps {
-  appState: AppState;
-  navigation: StarterScreenNavigationProp;
-}
-
-@ErrorBoundary({isRoot: true})
-@inject('appState')
-@observer
-class Starter extends Component<StarterProps, StarterState> {
-  static navigationOptions = {
-    header: null,
-  };
-  _splashAnimationRef = React.createRef();
-
-  state = {
-    displayStarterAnimation: false,
-    displayStarterOptions: false,
-    bootAnimationOpacity: 0,
-    bootSplashAnimationProgress: new Animated.Value(0),
-  };
-
-  clickedBooking = () => {
-    this.props.navigation.navigate(SCREEN_APP_LOGIN);
-  };
-
-  clickedPlan = () => {
-    this.props.navigation.navigate(SCREEN_PRE_TRIP_INTRO);
-    /**
-     * Temporarily removed the onboarding intro screens
-     */
-    // this.props.navigation.navigate(SCREEN_APP_LOGIN, {
-    //   launchSource: "PRETRIP_WELCOME_FLOW"
-    // });
-    // isPreTripWelcomeCompleted().then(isWelcomeComplete => {
-    //   if (isWelcomeComplete) {
-    //     navigationDispatcher(launchPretripHome());
-    //   } else {
-    //     isPreTripWelcomePending().then(isWelcomePending => {
-    //       if (isWelcomePending) {
-    //         resetToWelcomeFlow().then(resetAction => {
-    //           navigationDispatcher(resetAction);
-    //         });
-    //       } else {
-    //         this.props.navigation.navigate(SCREEN_TRAVEL_PROFILE_WELCOME);
-    //       }
-    //     });
-    //   }
-    // });
-  };
-
-  clickedSavedItineraries = () => {
-    this.props.navigation.navigate(SCREEN_APP_LOGIN, {
-      resetTarget: SCREEN_SAVED_ITINERARIES,
-    });
-  };
-
-  componentDidMount() {
-    /**
-     * TODO: The animation time in iOS is high to wait for the boot animation to complete.
-     * Lottie animation and layout animation are having a lag when they both happen simultaneously...
-     */
-    if (Platform.OS === CONSTANT_platformIos) {
-      this.animateiOS();
-    } else {
-      this.animateAndroid();
-    }
-  }
-
-  animateAndroid = () => {
-    this.setState(
-      {
-        bootAnimationOpacity: 1,
-      },
-      () => {
-        Animated.timing(this.state.bootSplashAnimationProgress, {
-          toValue: 1,
-          duration: bootAnimationTiming,
-          easing: Easing.linear,
-          useNativeDriver: true,
-        }).start(() => {
-          this.setState({
-            bootAnimationOpacity: 0,
-          });
-        });
-        const animationTime = 220;
-        setTimeout(() => {
-          this.setState({
-            displayStarterAnimation: true,
-            displayStarterOptions: true,
-          });
-        }, animationTime);
-      },
-    );
-  };
-
-  animateiOS = () => {
-    this.setState(
-      {
-        bootAnimationOpacity: 1,
-      },
-      () => {
-        Animated.timing(this.state.bootSplashAnimationProgress, {
-          toValue: 0.9,
-          duration: bootAnimationTiming,
-          easing: Easing.linear,
-          useNativeDriver: true,
-        }).start(() => {
-          this.setState(
-            {
-              bootAnimationOpacity: 0,
-            },
-            () => {
-              setTimeout(() => {
-                this.setState({
-                  displayStarterAnimation: true,
-                  displayStarterOptions: true,
-                });
-              }, 100);
-            },
-          );
-        });
-      },
-    );
-  };
-
-  render() {
-    const {
-      displayStarterAnimation,
-      displayStarterOptions,
-      bootAnimationOpacity,
-    } = this.state;
-
-    const findBookingButtonStyle = {width: 220, height: 48};
-
-    const exploreButtonStyle = {
-      width: 220,
-      height: 48,
-      marginVertical: 16,
+  const getSales = () => {
+    const requestObject = {
+      username,
+      password,
     };
-
-    return (
-      <Fragment>
-        {displayStarterAnimation ? <StarterAnimation /> : null}
-        <BootAnimation
-          animationProgress={this.state.bootSplashAnimationProgress}
-          splashAnimationRef={this._splashAnimationRef}
-          opacity={bootAnimationOpacity}
-        />
-        {displayStarterOptions ? (
-          <SafeAreaView style={styles.container}>
-            <View style={styles.contentSection}>
-              <View style={styles.logoRow}>
-                <Image
-                  source={CONSTANT_pytLogoBlack}
-                  style={styles.logo}
-                  resizeMode={'contain'}
-                />
-              </View>
-              <View style={styles.buttonRow}>
-                <SimpleButton
-                  text={CONSTANT_starterScreenText.exploreButton}
-                  textColor={'white'}
-                  textStyle={{
-                    ...CONSTANT_fontCustom(CONSTANT_primarySemiBold, 18),
-                  }}
-                  color={CONSTANT_firstColor}
-                  underlayColor={CONSTANT_firstColorAlpha(0.7)}
-                  action={() => {
-                    recordEvent(CONSTANT_StarterScreen.event, {
-                      click: CONSTANT_StarterScreen.click.planVacation,
-                    });
-                    this.clickedPlan();
-                    return null;
-                  }}
-                  containerStyle={findBookingButtonStyle}
-                />
-                <SimpleButton
-                  text={CONSTANT_starterScreenText.mainButton}
-                  textColor={CONSTANT_shade2}
-                  textStyle={{
-                    ...CONSTANT_fontCustom(CONSTANT_primarySemiBold, 18),
-                  }}
-                  color={'white'}
-                  hasBorder={true}
-                  action={() => {
-                    this.clickedBooking();
-                    recordEvent(CONSTANT_StarterScreen.event, {
-                      click: CONSTANT_StarterScreen.click.findBooking,
-                    });
-                    return null;
-                  }}
-                  containerStyle={exploreButtonStyle}
-                />
-              </View>
-              <View style={styles.linkRow}>
-                <Text style={styles.infoText}>
-                  {'or, check '}
-                  <Text
-                    style={styles.infoLink}
-                    onPress={this.clickedSavedItineraries}>
-                    {'saved itineraries'}
-                  </Text>
-                </Text>
-              </View>
-            </View>
-            <View style={styles.tncWrapper}>
-              <Text style={styles.tncText}>
-                {'By using Pickyourtrail app you agree to our '}
-                <Text
-                  style={styles.tncLink}
-                  onPress={() => {
-                    openCustomTab(
-                      `${CONSTANT_productUrl}${CONSTANT_termsAndConditions}`,
-                    );
-                    recordEvent(CONSTANT_StarterScreen.event, {
-                      click: CONSTANT_StarterScreen.click.termsAndConditions,
-                    });
-                  }}>
-                  {'Terms and Conditions'}
-                </Text>
-                {' and all your data will be protected by our '}
-                <Text
-                  style={styles.tncLink}
-                  onPress={() => {
-                    openCustomTab(
-                      `${CONSTANT_productUrl}${CONSTANT_privacyPolicy}`,
-                    );
-                    recordEvent(CONSTANT_StarterScreen.event, {
-                      click: CONSTANT_StarterScreen.click.privacyPolicy,
-                    });
-                  }}>
-                  {'Privacy Policy'}
-                </Text>
-              </Text>
-            </View>
-          </SafeAreaView>
-        ) : null}
-      </Fragment>
-    );
-  }
-}
+    console.log('test', requestObject);
+    try {
+      apiCall(constants.login, requestObject, 'POST')
+        .then(response => {
+          alert('login success');
+          navigation.navigate(SCREEN_PRETRIP_HOME_TABS);
+        })
+        .catch(res => {
+          alert('Please Enter valid credentials');
+        });
+      return '';
+    } catch (e) {
+      console.log('error occured');
+    }
+  };
+  return (
+    <SafeAreaView style={styles.container}>
+      <Text>Checking</Text>
+      <View style={styles.contentSection}>
+        <View style={styles.buttonRow}>
+          <Text style={styles.titleLogo}>PLATO</Text>
+          <TextInput
+            placeholder="Username"
+            placeholderTextColor="#bbb"
+            style={styles.inputField}
+            value={username}
+            onChangeText={text => setUsername(text)}></TextInput>
+          <TextInput
+            placeholder="Password"
+            secureTextEntry={true}
+            placeholderTextColor="#bbb"
+            style={styles.inputField}
+            value={password}
+            onChangeText={text => setPassword(text)}></TextInput>
+          <SimpleButton
+            text={'Login'}
+            textColor={'white'}
+            textStyle={{
+              ...CONSTANT_fontCustom(CONSTANT_primarySemiBold, 18),
+            }}
+            color={CONSTANT_firstColor}
+            underlayColor={CONSTANT_firstColorAlpha(0.7)}
+            action={() => {
+              getSales();
+              // recordEvent(CONSTANT_StarterScreen.event, {
+              //   click: CONSTANT_StarterScreen.click.planVacation,
+              // });
+              return null;
+            }}
+            containerStyle={findBookingButtonStyle}
+          />
+        </View>
+      </View>
+    </SafeAreaView>
+  );
+};
 
 const styles = StyleSheet.create({
+  titleLogo: {
+    textAlignVertical: 'center',
+    color: '#4FB58E',
+    fontSize: 20,
+    fontWeight: 'bold',
+    margin: 15,
+  },
   container: {
     flex: 1,
-    backgroundColor: 'transparent',
+    backgroundColor: '#222232',
   },
   contentSection: {
     flex: 1,
@@ -332,37 +117,25 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  linkRow: {},
   infoText: {
     ...CONSTANT_fontCustom(CONSTANT_primaryLight, 13),
     color: CONSTANT_shade1,
     textAlignVertical: 'center',
   },
-  infoLink: {
-    ...CONSTANT_fontCustom(CONSTANT_primarySemiBold, 14),
-    textDecorationLine: 'underline',
-    textAlignVertical: 'center',
-    color: CONSTANT_firstColor,
-  },
+
   hyperlink: {
     textDecorationLine: 'underline',
   },
-  tncWrapper: {
-    position: 'absolute',
-    marginHorizontal: 48,
-    marginTop: 16,
-    bottom: 24 + (isIphoneX() ? CONSTANT_xSensorAreaHeight : 0),
-    borderRadius: 4,
-  },
-  tncText: {
-    ...CONSTANT_fontCustom(CONSTANT_primaryLight, 10, 16),
-    color: CONSTANT_shade1,
-    textAlign: 'center',
-    padding: 8,
-  },
-  tncLink: {
-    fontFamily: CONSTANT_primarySemiBold,
-    textDecorationLine: 'underline',
+  inputField: {
+    borderColor: '#6FCF97',
+    borderStyle: 'solid',
+    borderWidth: 1,
+    height: 40,
+    width: 200,
+    marginBottom: 20,
+    borderRadius: 5,
+    color: '#bbb',
+    paddingLeft: 10,
   },
 });
 

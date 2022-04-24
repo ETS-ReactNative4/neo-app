@@ -1,29 +1,29 @@
-import React, { useEffect, Fragment } from "react";
+import React, {useEffect, Fragment} from 'react';
 import {
   NavigationContainer,
   NavigationState,
-  NavigationContainerRef
-} from "@react-navigation/native";
-import appLauncherV2 from "./Services/appLauncher/appLauncherV2";
-import RNBootSplash from "react-native-bootsplash";
-import AppNavigator from "./NavigatorsV2/AppNavigator";
-import { updateStoreService } from "./Services/storeService/storeService";
-import store from "./mobx/Store";
-import appStartupTasks from "./Services/appStartupTasks/appStartupTasks";
-import debouncer from "./Services/debouncer/debouncer";
-import getActiveRouteName from "./Services/getActiveRouteName/getActiveRouteName";
-import { screenTrackerV2 } from "./Services/analytics/analyticsService";
-import ErrorBoundary from "./CommonComponents/ErrorBoundary/ErrorBoundary";
-import { updateNavigationService } from "./Services/navigationService/navigationServiceV2";
-import NetInfo from "@react-native-community/netinfo";
-import { Provider } from "mobx-react";
-import AppOverlays from "./Screens/AppOverlays/AppOverlays";
+  NavigationContainerRef,
+} from '@react-navigation/native';
+import appLauncherV2 from './Services/appLauncher/appLauncherV2';
+import RNBootSplash from 'react-native-bootsplash';
+import AppNavigator from './NavigatorsV2/AppNavigator';
+import {updateStoreService} from './Services/storeService/storeService';
+import store from './mobx/Store';
+import appStartupTasks from './Services/appStartupTasks/appStartupTasks';
+import debouncer from './Services/debouncer/debouncer';
+import getActiveRouteName from './Services/getActiveRouteName/getActiveRouteName';
+import {screenTrackerV2} from './Services/analytics/analyticsService';
+import ErrorBoundary from './CommonComponents/ErrorBoundary/ErrorBoundary';
+import {updateNavigationService} from './Services/navigationService/navigationServiceV2';
+import NetInfo from '@react-native-community/netinfo';
+import {Provider} from 'mobx-react';
+import AppOverlays from './Screens/AppOverlays/AppOverlays';
 import {
   getInitialNotification,
   onNotificationDisplayed,
   onNotificationOpened,
-  onNotificationReceived
-} from "./Services/fcmService/fcm";
+  onNotificationReceived,
+} from './Services/fcmService/fcm';
 
 updateStoreService(store);
 
@@ -54,7 +54,7 @@ const App = () => {
     store.appState.setConnectionStatus(isConnected);
   };
   const unsubscribeNetListener = NetInfo.addEventListener(state =>
-    handleConnectivityChange(state.isConnected)
+    handleConnectivityChange(state.isConnected),
   );
 
   useEffect(() => {
@@ -109,8 +109,7 @@ const App = () => {
       <Fragment>
         <NavigationContainer
           ref={navigationRef}
-          onStateChange={screenStateChange}
-        >
+          onStateChange={screenStateChange}>
           <AppNavigator />
         </NavigationContainer>
         <AppOverlays />
@@ -119,4 +118,4 @@ const App = () => {
   );
 };
 
-export default ErrorBoundary({ isRoot: true })(App);
+export default ErrorBoundary({isRoot: true})(App);

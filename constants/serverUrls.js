@@ -4,17 +4,17 @@ import {
 } from '../Services/getEnvironmentDetails/getEnvironmentDetails';
 
 const productUrls = {
-  local: 'https://rewards.wwmib.com/',
-  staging: 'https://rewards.wwmib.com/',
-  production: 'https://pickyourtrail.com/',
-  test: 'https://rewards.wwmib.com/',
+  local: 'https://plato.pickyourtrail.com/',
+  staging: 'https://plato.pickyourtrail.com/',
+  production: 'https://plato.pickyourtrail.com/',
+  test: 'https://plato.pickyourtrail.com/',
 };
 
 const apiServers = {
-  local: productUrls.local + 'api/',
-  staging: productUrls.staging + 'api/',
-  production: productUrls.production + 'api/',
-  test: productUrls.test + 'api/',
+  local: productUrls.local,
+  staging: productUrls.staging,
+  production: productUrls.production,
+  test: productUrls.test,
 };
 
 const ENVIRONMENT = getEnvironmentName();

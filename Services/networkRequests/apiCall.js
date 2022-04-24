@@ -41,8 +41,10 @@ const apiCall = async (
     deviceId: DeviceInfo.getUniqueId(),
     appVersion: DeviceInfo.getVersion(),
     locale: storeService.deviceLocaleStore.deviceLocale,
+    Authorization:
+      'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI5MTRlOWZkOC1iYTM0LTQwM2UtODBlOS1mZmI1NDg1ZWM0YzUiLCJqdGkiOiIxYzJmMjI0ZTAzNmNiNDc3NDZjODJkMjA1NzJiODhlNWU0NWY3YTUyMmRkNjVmZWJmNGQ1ZTAyMTM3NzgxMjIwMmU1ZmNjZmY4NjRkOWQ5MiIsImlhdCI6MTY1MDc3Njg5MC40NzQ1NTgsIm5iZiI6MTY1MDc3Njg5MC40NzQ1NjQsImV4cCI6MTY4MjMxMjg5MC40NjE1NzgsInN1YiI6IjMwIiwic2NvcGVzIjpbXX0.iifV3uk4rE7p2nif9KWeJtateZ2GIKGL6APngXuZKpBaZgCrsnmXdAR7b1sC3L_m-axmXG9xjo3mvU2T3lpjaT-1q9RkMYZSpAsD4y89LwCzA76X8pDLKkOg2MiXtyO8EqC24mpRil3xcDfoLuErzg4LOk-u9xl6bqAI-EGPPT8iFnUO6E55m6LZm42ZSY-hgiN0shKq_vP0t82R5IpOVKYqcf5Wdz5kWMIjWUoym9xGJ8mLnC3SfItx4c0OHIA5YhTZwYiuRpCt7UjpMURzTzsiE4uGT9EMdGS8Le68peKcY6SssnL48tzkLSoZ7Tby9OZwHNavkHs4Gb-pghwofrr7umiWptRGVOJQEJWFUQAydvOGjuhTFQb3Ryw85olJZ25SX-IkIdky0mVfIX62M3qMiHOTkIKSeTqfMwEh8ZipCVpR7gMRELu2DRViKoerq9o32ACrcMMXhA2W6Fz8Y8dj1m598SjoyYP8zc-FDj7z1kXOM4wQluOOxJcxpwy8jA9Sr5HYtQyotgCV0gnVEKpPwL5NXBPRNyaE7N4OlrbJm_-VVjvd2C13PTZFqjoNSsxrZ3gANWGekV8xq1k-LTbtMRdWT53Zolg8W2mtPXaPbFoFK8wG1jy_IwNNYnaH1JLI-nQSQG2PUzD_0g__EFlLlsAjOa535unix51l3UM',
+    //1NDg1ZWM0YzUiLCJqdGkiOiIyNTcwYzVlZDdlNzA4MzFmODdiNDY2NjU0NTAxNDdmNzI0YzZkMDU4Njk5NWQ4NmM5MTlkOGY4MTU1MGY2OTk1MDE0YTFhYzlkN2U2MTJlMiIsImlhdCI6MTY1MDUxNjY4NC43MzQzODcsIm5iZiI6MTY1MDUxNjY4NC43MzQzOTYsImV4cCI6MTY4MjA1MjY4NC43MjA1NjIsInN1YiI6IjMwIiwic2NvcGVzIjpbXX0.kZCQRIt4dOgrLaV0NPYvel6S5spkgeP3XsgFTFd4NomPKDtBR11CrODkmZxOMBtUNnpCt615FMoxVokUz20LIbvnUGdlph_Q_7QobRUx-C0r5oPOtz150Gw_z_HHr8TMyrnP1Ke9hbXa7q9m7upvnvpxbGPq0KgntphTH03Vreh-H70UmjVo4J5bdi4mJv3gplSUgQWzXlQ_fm4G59Qc2-YU3mYJ03PsdPGjHpbRXbstAyuL7AgYKcUYBtPOIPYvr3C-04k_VT07VoVbS_ASje6wsZFsFR5UKMwkzfQKokT_9vRo4XxlruLSl1pYO4ZJQ-U2i0Gboagum-3jEvs6pu8YcL7rY4oeTMoz039tuho5t3hwChfDsMvRh2wqivFTx18lLzuxYbeZD0__JzYnqPSlRq8PegRL1Z_iITbSuE3uHLVa__zYUcRHAifyxqE_gyvQpd9m3Z9C4srVw3pECgdjgebWIpMf43MzeAp9VERIYnV7h7q8Tiq8OVoyrKbyUIM_x6G09z8Lm5XLHkblmaL50M5zSoB9whBJx1uP2bwj1bbI7R6K8Od6xt5pk5lCY2lt0ZCraCuEFvW7Im7kQq5LPaMmbwU_EIBxuPxP2Ha9WOZjXtGkuDrUCd0RFj_H176k0XHYjbcvufSQ46KikmWBTsvUDycYibbHECLkg_A` };
   };
-
   if (customHeader && !_.isEmpty(customHeader)) {
     headerObject = {
       ...headerObject,
@@ -163,6 +165,7 @@ const apiCall = async (
           /**
            * Request failed. This will throw an error object to fail the fetch promise
            */
+
           const errorInfo = {
             type: 'apiCall',
             url: requestURL,

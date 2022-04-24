@@ -8,7 +8,7 @@ import {
   CONSTANT_fontPrimarySemiBold,
 } from '../../../constants/fonts';
 import {CONSTANT_arrowRight} from '../../../constants/imageAssets';
-import {SCREEN_STAY_SEARCH} from '../../../NavigatorsV2/ScreenNames';
+// import {SCREEN_STAY_SEARCH} from '../../../NavigatorsV2/ScreenNames';
 import StaySection from '../../StayHotelListScreen/Components/StaySection';
 import {StayHotelRoomConfigurationType} from '../../StayHotelSearchScreen/StayHotelSearchScreen';
 import {getPaxConfigText} from '../../StayHotelSearchScreen/util/getPaxConfigText';

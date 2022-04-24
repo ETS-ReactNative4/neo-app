@@ -35,6 +35,7 @@ public class MainApplication extends Application implements ReactApplication {
         protected String getJSMainModuleName() {
           return "index";
         }
+      
       };
 
   @Override
@@ -49,6 +50,7 @@ public class MainApplication extends Application implements ReactApplication {
     initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
 
   }
+ 
 
   /**
    * Loads Flipper in React Native templates. Call this in the onCreate method with something like

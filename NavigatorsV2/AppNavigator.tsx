@@ -73,7 +73,7 @@ import {
   SCREEN_LISTING_PAGE,
   SCREEN_PRE_TRIP_INTRO,
   SCREEN_NOTIFICATION_TAB,
-  SCREEN_STAY_SEARCH,
+  // SCREEN_STAY_SEARCH,
   SCREEN_STAY_HOTEL_DETAIL,
   SCREEN_STAY_HOTEL_REVIEW,
   SCREEN_STAY_HOTEL_LIST,
@@ -169,9 +169,9 @@ import SearchListingCardsPage from '../Screens/SearchListingCardsPage/SearchList
 import ListingPage from '../Screens/ListingPageScreen/ListingPage';
 import PreTripIntroScreen from '../Screens/PreTripIntroScreen/PreTripIntroScreen';
 import {IIntroData} from '../Screens/IntroScreen/IntroScreen';
-import StayHotelSearchScreen, {
-  StayHotelRoomConfigurationType,
-} from '../Screens/StayHotelSearchScreen/StayHotelSearchScreen';
+// import StayHotelSearchScreen, {
+//   StayHotelRoomConfigurationType,
+// } from '../Screens/StayHotelSearchScreen/StayHotelSearchScreen';
 import StayHotelDetailScreen, {
   StayHotelDetailParamType,
 } from '../Screens/StayHotelDetailScreen/StayHotelDetailScreen';
@@ -391,7 +391,7 @@ export type AppNavigatorParamsType = {
   [SCREEN_STAY_HOTEL_DETAIL]: StayHotelDetailParamType;
   [SCREEN_STAY_HOTEL_REVIEW]: StayHotelReviewParamType;
   [SCREEN_STAY_HOTEL_LIST]: undefined;
-  [SCREEN_STAY_SEARCH]: undefined;
+  // [SCREEN_STAY_SEARCH]: undefined;
   [SCREEN_STAY_HOTEL_ROOM_LIST]: StayHotelRoomListParamType;
   [SCREEN_SEARCH_TAB]: undefined;
   [SCREEN_FILE_UPLOAD]: undefined;
@@ -442,11 +442,11 @@ const AppNavigator = () => {
           options={{headerShown: false}}
           component={Search}
         />
-        <Screen
+        {/* <Screen
           name={SCREEN_STAY_SEARCH}
           options={{headerShown: false}}
           component={StayHotelSearchScreen}
-        />
+        /> */}
         <Screen name={SCREEN_STAY_HOTEL_LIST} component={StayHotelListScreen} />
         <Screen
           name={SCREEN_STAY_HOTEL_ROOM_LIST}

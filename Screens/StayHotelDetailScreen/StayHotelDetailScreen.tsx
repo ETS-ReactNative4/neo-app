@@ -22,7 +22,7 @@ import {
   SCREEN_STAY_HOTEL_DETAIL,
   SCREEN_STAY_HOTEL_REVIEW,
   SCREEN_STAY_HOTEL_ROOM_LIST,
-  SCREEN_STAY_SEARCH,
+  // SCREEN_STAY_SEARCH,
 } from '../../NavigatorsV2/ScreenNames';
 import useCreateItineraryApi from './hook/useCreateItineraryApi';
 import StaySection from '../StayHotelListScreen/Components/StaySection';
@@ -35,10 +35,10 @@ import icoMoonConfig from '../../assets/fontMap/hotel-amenities.json';
 import {getPaxConfigText} from '../StayHotelSearchScreen/util/getPaxConfigText';
 import {StayHotelFooter} from '../StayHotelListScreen/Components/StayHotelFooter';
 import {AppNavigatorProps} from '../../NavigatorsV2/AppNavigator';
-import {
-  StayHotelRoomConfigurationType,
-  StayHotelSearcRequestType,
-} from '../StayHotelSearchScreen/StayHotelSearchScreen';
+// import {
+//   StayHotelRoomConfigurationType,
+//   StayHotelSearcRequestType,
+// } from '../StayHotelSearchScreen/StayHotelSearchScreen';
 import {AboutHotel} from './Components/AboutHotel';
 import {HotelCardWrapper} from '../StayHotelListScreen/Components/HotelCardWrapper';
 import {AssuranceCard} from '@pyt/widgets/dist/esm/assurance-card';

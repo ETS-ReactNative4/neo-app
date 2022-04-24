@@ -1,25 +1,26 @@
-import { createSwitchNavigator } from "react-navigation";
-import { createStackNavigator } from "react-navigation-stack";
-import Splash from "../Screens/SplashScreen/Splash";
-import YourBookings from "../Screens/YourBookingsScreen/YourBookings";
-import UniversalStack from "./UniversalStack";
-import getActiveRouteName from "../Services/getActiveRouteName/getActiveRouteName";
+import {createSwitchNavigator} from 'react-navigation';
+import {createStackNavigator} from 'react-navigation-stack';
+import Splash from '../Screens/SplashScreen/Splash';
+import YourBookings from '../Screens/YourBookingsScreen/YourBookings';
+import UniversalStack from './UniversalStack';
+import getActiveRouteName from '../Services/getActiveRouteName/getActiveRouteName';
 
 const HomeSwitch = createSwitchNavigator(
   {
     Splash: {
-      screen: Splash
+      screen: Splash,
     },
     UniversalStack,
     YourBookings: {
-      screen: YourBookings
-    }
+      screen: YourBookings,
+    },
   },
   {
-    initialRouteName: "Splash",
-    navigationOptions: ({ navigation }) => {
-      let drawerLockMode = "locked-closed";
+    initialRouteName: 'Splash',
+    navigationOptions: ({navigation}) => {
+      let drawerLockMode = 'locked-closed';
       const routeName = getActiveRouteName(navigation.state);
+      console.log('tets', routeName);
       /**
        * TODO: drawerLockMode has issues which prevents it from opening completely
        * when it is set to locked-closed.
@@ -33,21 +34,21 @@ const HomeSwitch = createSwitchNavigator(
        * drawer swipe is disabled for the `Support` screen
        */
       if (
-        routeName === "TripFeedHome" ||
-        routeName === "Bookings" ||
-        routeName === "Tools" ||
-        routeName === "JournalHome" ||
-        routeName === "Support" ||
-        routeName === "NewItineraryHome"
+        routeName === 'TripFeedHome' ||
+        routeName === 'Bookings' ||
+        routeName === 'Tools' ||
+        routeName === 'JournalHome' ||
+        routeName === 'Support' ||
+        routeName === 'NewItineraryHome'
       ) {
-        drawerLockMode = "unlocked";
+        drawerLockMode = 'unlocked';
       }
 
       return {
-        drawerLockMode
+        drawerLockMode,
       };
-    }
-  }
+    },
+  },
 );
 
 export default HomeSwitch;

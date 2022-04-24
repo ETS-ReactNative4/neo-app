@@ -16,7 +16,7 @@ import {
   SCREEN_SEARCH_TAB,
   SCREEN_STAY_HOTEL_DETAIL,
   SCREEN_STAY_HOTEL_LIST,
-  SCREEN_STAY_SEARCH,
+  // SCREEN_STAY_SEARCH,
 } from '../../NavigatorsV2/ScreenNames';
 import Icon from '../../CommonComponents/Icon/Icon';
 import {

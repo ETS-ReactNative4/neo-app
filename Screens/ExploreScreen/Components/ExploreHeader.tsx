@@ -59,10 +59,11 @@ const ExploreHeader = ({
         activeOpacity={0.8}
         style={styles.backArrowIconStyle}
         onPress={leftAction}>
-        <Icon name={leftIcon} size={16} color={CONSTANT_black2} />
+        <Icon name={leftIcon} size={16} color={'#6FCF97'} />
       </TouchableOpacity>
 
-      {headerElement ? (
+      <Text style={styles.titleLogo}>NEO</Text>
+      {/* {headerElement ? (
         headerElement
       ) : headerText ? (
         <Text style={styles.headerText}>{headerText}</Text>
@@ -72,22 +73,27 @@ const ExploreHeader = ({
           resizeMode={'cover'}
           style={styles.logoImageStyle}
         />
-      )}
+      )} */}
 
-      {rightElement}
+      {/* {rightElement} */}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  titleLogo: {
+    textAlignVertical: 'center',
+    color: '#4FB58E',
+    fontSize: 20,
+    fontWeight: 'bold',
+    margin: 15,
+  },
   headerContainerStyle: {
-    backgroundColor: CONSTANT_white,
+    backgroundColor: '#2B2B3D',
     height: 56,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    borderBottomWidth: 1,
-    borderBottomColor: CONSTANT_shade5,
   },
   backArrowIconStyle: {
     position: 'absolute',
