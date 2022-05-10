@@ -2297,6 +2297,16 @@
   resolved "https://registry.yarnpkg.com/@react-native-firebase/perf/-/perf-10.8.1.tgz#b52e2afd2be623a146b684dd20a888fbfceb1232"
   integrity sha512-FQXERKbCF7gazsD3oZNq/HDP/zZSZS4qPnJWbpzgYYeofCfxrUmgjx6/vy0k0Io/ZsdyF67NWxvLLmqPay2FjA==
 
+"@react-native-google-signin/google-signin@7.2.2":
+  version "7.2.2"
+  resolved "https://registry.yarnpkg.com/@react-native-google-signin/google-signin/-/google-signin-7.2.2.tgz#29e416d5c8484b52de3dc97f982f04b0083f27fe"
+  integrity sha512-FqSJAEYz+SNeIOyokFX3e7nbBgK0js/Hye0YNY+cV0Qf1NxKw1vRt2MQB3kfuVWFCb+OSovgQCl6W8dhYvsblw==
+
+"@react-native-picker/picker@2.4.1":
+  version "2.4.1"
+  resolved "https://registry.yarnpkg.com/@react-native-picker/picker/-/picker-2.4.1.tgz#92feb7e0672d739624517dae04bf4de1452dfcdc"
+  integrity sha512-1XWy3IQgwr7MWd30KdY1iUh2gQZD+JiotN1ifj/ptFUYKon/0UFwngKQaWCO/CP/FdLl20/huSSLwKedYrdMMA==
+
 "@react-native-toolkit/triangle@0.0.1":
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/@react-native-toolkit/triangle/-/triangle-0.0.1.tgz#65e08eed05c4b01b8a8f4d7e223c04e0e169ae63"
@@ -4929,6 +4939,11 @@ dateformat@3.0.2:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/dateformat/-/dateformat-3.0.2.tgz#9a4df4bff158ac2f34bc637abdb15471607e1659"
   integrity sha1-mk30v/FYrC80vGN6vbFUcWB+Flk=
+
+dayjs@1.11.1:
+  version "1.11.1"
+  resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.11.1.tgz#90b33a3dda3417258d48ad2771b415def6545eb0"
+  integrity sha512-ER7EjqVAMkRRsxNCC5YqJ9d9VQYuWdGt7aiH2qA5R5wt8ZmWaP2dLUSIK6y/kVzLMlmh1Tvu5xUf4M/wdGJ5KA==
 
 dayjs@^1.8.15:
   version "1.10.4"
@@ -10280,6 +10295,11 @@ react-native-swipe-list-view@^1.3.0:
   version "1.5.8"
   resolved "https://registry.yarnpkg.com/react-native-swipe-list-view/-/react-native-swipe-list-view-1.5.8.tgz#1da75ed9eb8216c9bb401ee0a3c781e8cdc56093"
   integrity sha512-GvnnnMClypABc4Tq6VQPvaUVL95LcyiIsE/jI89zDWVB3qvzOC3d/2iiMTxj5CAUg4d9NBBqxx6hzjhK/jvzyQ==
+
+react-native-touchable-set-active@0.0.5:
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/react-native-touchable-set-active/-/react-native-touchable-set-active-0.0.5.tgz#1e039e13cae8f8b6110d6b5cf5396e2233f67a70"
+  integrity sha1-HgOeE8ro+LYRDWtc9TluIjP2enA=
 
 react-native-tts@2.0.0:
   version "2.0.0"

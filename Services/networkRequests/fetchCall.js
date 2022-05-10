@@ -37,8 +37,9 @@ const fetchCall = async (
   let headerObject = {
     isMobile: true,
     deviceId: DeviceInfo.getUniqueId(),
-    appVersion: DeviceInfo.getVersion(),
+    // appVersion: DeviceInfo.getVersion(),
     locale: storeService.deviceLocaleStore.deviceLocale,
+    Authorization: '',
   };
 
   if (customHeader && !_.isEmpty(customHeader)) {

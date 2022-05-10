@@ -1,11 +1,11 @@
-import apiCall from "../networkRequests/apiCall";
-import { CONSTANT_guestLogin } from "../../constants/apiUrls";
-import { IMobileServerResponse } from "../../TypeInterfaces/INetworkResponse";
+import apiCall from '../networkRequests/apiCall';
+import {CONSTANT_guestLogin} from '../../constants/apiUrls';
+import {IMobileServerResponse} from '../../TypeInterfaces/INetworkResponse';
 import {
   CONSTANT_responseSuccessStatus,
-  CONSTANT_guestTokenName
-} from "../../constants/stringConstants";
-import { registerTokenV2 } from "../registerToken/registerToken";
+  CONSTANT_guestTokenName,
+} from '../../constants/stringConstants';
+import {registerTokenV2} from '../registerToken/registerToken';
 
 export interface IGuestLoginServerResponse extends IMobileServerResponse {
   data?: {
@@ -14,24 +14,30 @@ export interface IGuestLoginServerResponse extends IMobileServerResponse {
   };
 }
 
-const guestSessionLogin = (): Promise<boolean> => {
-  return new Promise<boolean>((resolve, reject) => {
-    apiCall(CONSTANT_guestLogin)
-      .then((response: IGuestLoginServerResponse) => {
-        if (response.status === CONSTANT_responseSuccessStatus) {
-          if (response?.data?.authToken) {
-            registerTokenV2(response.data.authToken, CONSTANT_guestTokenName)
-              .then(resolve)
-              .catch(reject);
-          } else {
-            resolve(false);
-          }
-        } else {
-          resolve(false);
-        }
-      })
-      .catch(reject);
-  });
+// const guestSessionLogin = (): Promise<boolean> => {
+//   return new Promise<boolean>((resolve, reject) => {
+//     apiCall(CONSTANT_guestLogin)
+//       .then((response: IGuestLoginServerResponse) => {
+//         if (response.status === CONSTANT_responseSuccessStatus) {
+//           if (response?.data?.authToken) {
+//             registerTokenV2(response.data.authToken, CONSTANT_guestTokenName)
+//               .then(resolve)
+//               .catch(reject);
+//           } else {
+//             resolve(false);
+//           }
+//         } else {
+//           resolve(false);
+//         }
+//       })
+//       .catch(reject);
+//   });
+// };
+
+// export default guestSessionLogin;
+
+const createUserDetails = () => {
+  console.log('create user session');
 };
 
-export default guestSessionLogin;
+export default createUserDetails;

@@ -6,6 +6,8 @@ export const SCREEN_TRAVEL_MARITAL_STATUS = 'TravelMaritalStatus';
 export const SCREEN_PRETRIP_HOME_TABS = 'PreTripHomeTabs';
 export const SCREEN_EXPLORE_TAB = 'ExploreTab';
 export const SCREEN_SEARCH_TAB = 'SearchTab';
+
+export const SCREEN_LEADS = 'Leads';
 export const SCREEN_SEARCH_LISTING_CARDS_PAGE = 'SearchListingCardsPage';
 export const SCREEN_NOTIFICATION_TAB = 'NotificationTab';
 export const SCREEN_PRETRIP_CHAT = 'PreTripChat';

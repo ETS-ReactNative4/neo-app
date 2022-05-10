@@ -11,6 +11,7 @@ import {
   SCREEN_SEARCH_LISTING_CARDS_PAGE,
   SCREEN_PRETRIP_HOME_TABS,
   SCREEN_PRETRIP_CHAT,
+  SCREEN_LEADS,
   // SCREEN_STAY_SEARCH,
 } from './ScreenNames';
 import Explore, {
@@ -27,6 +28,7 @@ import {
 import {observer, inject} from 'mobx-react';
 import DeviceLocale from '../mobx/DeviceLocale';
 import SearchV2 from '../Screens/SearchV2/Search';
+import Leads from '../Screens/ExploreScreen/Leads';
 import deepLink from '../Services/deepLink/deepLink';
 import {RouteProp} from '@react-navigation/native';
 import {AppNavigatorParamsType} from './AppNavigator';
@@ -107,6 +109,7 @@ const PreTripHomeTabs = ({
 
   return (
     // @ts-ignore - type definitions unavailable
+
     <Tab.Navigator tabBar={props => <ExploreBottomBar {...props} />}>
       <Tab.Screen
         options={{
@@ -135,8 +138,9 @@ const PreTripHomeTabs = ({
           icon: CONSTANT_detailIcon,
           ...tabBarColorConfig,
         }}
-        name={SCREEN_SEARCH_TAB}
-        component={SearchV2}
+        name={SCREEN_LEADS}
+        component={Leads}
+        initialParams={{name: 'inital'}}
       />
     </Tab.Navigator>
   );

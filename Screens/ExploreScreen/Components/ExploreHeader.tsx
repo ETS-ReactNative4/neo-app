@@ -55,12 +55,12 @@ const ExploreHeader = ({
 }: ExploreHeaderProps) => {
   return (
     <View style={[styles.headerContainerStyle, containerStyle]}>
-      <TouchableOpacity
+      {/* <TouchableOpacity
         activeOpacity={0.8}
         style={styles.backArrowIconStyle}
         onPress={leftAction}>
         <Icon name={leftIcon} size={16} color={'#6FCF97'} />
-      </TouchableOpacity>
+      </TouchableOpacity> */}
 
       <Text style={styles.titleLogo}>NEO</Text>
       {/* {headerElement ? (
@@ -75,7 +75,7 @@ const ExploreHeader = ({
         />
       )} */}
 
-      {/* {rightElement} */}
+      {rightElement}
     </View>
   );
 };

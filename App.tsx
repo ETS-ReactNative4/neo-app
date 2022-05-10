@@ -1,4 +1,4 @@
-import React, {useEffect, Fragment} from 'react';
+import React, {useEffect, Fragment, createContext, useReducer} from 'react';
 import {
   NavigationContainer,
   NavigationState,
@@ -24,6 +24,8 @@ import {
   onNotificationOpened,
   onNotificationReceived,
 } from './Services/fcmService/fcm';
+import constants from './constants/constants';
+import apiCall from './Services/networkRequests/apiCall';
 
 updateStoreService(store);
 
@@ -32,9 +34,62 @@ updateStoreService(store);
  */
 // console.disableYellowBox = true;
 
+const initialState = {
+  tokens: {},
+  userData: {
+    user_id: '',
+    username: '',
+    lead_pool_status: '',
+    emp_code: '',
+    email_id: '',
+  },
+};
+const reducer = (state, action) => {
+  switch (action.type) {
+    case 'FETCH_TOKEN':
+      return {
+        ...state,
+        tokens: action.payload.tokens,
+      };
+    case 'FETCH_USER':
+      return {
+        ...state,
+        userData: action.payload.userData,
+      };
+    case 'FETCH_ERROR':
+      return {
+        name: 'err',
+      };
+    default:
+      return state;
+  }
+};
+
+const datainitialState = {
+  callResponse: {},
+};
+const datareducer = (state, action) => {
+  switch (action.type) {
+    case 'FETCH_SUCCESS':
+      return {
+        master: action.payload,
+      };
+    case 'FETCH_ERROR':
+      return {
+        master: {},
+      };
+    default:
+      return state;
+  }
+};
+export const dataContext = createContext();
+export const userContext = createContext();
+
 const App = () => {
   const routeNameRef = React.useRef();
   const navigationRef = React.useRef<NavigationContainerRef>();
+  const [users, dispatch] = useReducer(reducer, initialState);
+  const [dataApi, dispatchRes] = useReducer(datareducer, datainitialState);
 
   /**
    * TODO: Netinfo uses finally however due to
@@ -88,6 +143,23 @@ const App = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    let apis = {
+      trailStatuses: `${constants.trailStatuses}`,
+      callResponses: `${constants.callResponses}`,
+      reasons: `${constants.reasons}`,
+      cities: `${constants.cities}`,
+      allUsers: `${constants.allUsers}`,
+      roles: `${constants.roles}`,
+      region: `${constants.regions}`,
+    };
+    Promise.all(Object.values(apis).map(key => apiCall(key, {}, 'GET')))
+      .then(res => {
+        dispatchRes({type: 'FETCH_SUCCESS', payload: res});
+      })
+      .catch(() => {});
+  }, []);
+
   /**
    * Screen tracking implemented based on
    * React navigation V5 docs - https://reactnavigation.org/docs/en/screen-tracking.html
@@ -106,14 +178,18 @@ const App = () => {
 
   return (
     <Provider {...store}>
-      <Fragment>
-        <NavigationContainer
-          ref={navigationRef}
-          onStateChange={screenStateChange}>
-          <AppNavigator />
-        </NavigationContainer>
-        <AppOverlays />
-      </Fragment>
+      <dataContext.Provider value={{dataApi, dispatchRes}}>
+        <userContext.Provider value={{users, dispatch}}>
+          <Fragment>
+            <NavigationContainer
+              ref={navigationRef}
+              onStateChange={screenStateChange}>
+              <AppNavigator />
+            </NavigationContainer>
+            <AppOverlays />
+          </Fragment>
+        </userContext.Provider>
+      </dataContext.Provider>
     </Provider>
   );
 };

@@ -338,6 +338,7 @@ export const CONSTANT_packageTriangleGold = require('../assets/images/shapes/pac
 export const CONSTANT_quotationMarkImage = require('../assets/images/shapes/quotation-mark.png');
 export const CONSTANT_positiveBackgroundShape = require('../assets/images/shapes/positive-background.png');
 export const CONSTANT_negativeBackgroundShape = require('../assets/images/shapes/negative-background.png');
+export const CONSTANT_watsapp = require('../assets/images/trust-icons/watsapp.png');
 export const CONSTANT_tripFeedIcon = 'trip-feed';
 export const CONSTANT_tripFeedSelectedIcon = 'trip-feed-active';
 export const CONSTANT_bookingIcon = 'booking';
