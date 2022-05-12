@@ -1,19 +1,19 @@
-import { Platform, Linking } from "react-native";
-import InAppBrowser from "react-native-inappbrowser-reborn";
-import { logError } from "../errorLogger/errorLogger";
-import getUrlParams from "../getUrlParams/getUrlParams";
-import { closeChat } from "../freshchatService/freshchatService";
+import {Platform, Linking} from 'react-native';
+// import InAppBrowser from "react-native-inappbrowser-reborn";
+import {logError} from '../errorLogger/errorLogger';
+import getUrlParams from '../getUrlParams/getUrlParams';
+import {closeChat} from '../freshchatService/freshchatService';
 import {
   SCREEN_PDF_VIEWER,
-  SCREEN_MODAL_STACK
-} from "../../NavigatorsV2/ScreenNames";
-import navigationServiceV2 from "../navigationService/navigationServiceV2";
+  SCREEN_MODAL_STACK,
+} from '../../NavigatorsV2/ScreenNames';
+import navigationServiceV2 from '../navigationService/navigationServiceV2';
 import {
   CONSTANT_httpsPrefix,
   CONSTANT_httpPrefix,
   CONSTANT_platformIos,
-  CONSTANT_customTabSupportIos
-} from "../../constants/stringConstants";
+  CONSTANT_customTabSupportIos,
+} from '../../constants/stringConstants';
 
 const openCustomTab = (url, success = () => null, failure = () => null) => {
   const params = getUrlParams(url);
@@ -42,11 +42,11 @@ const openCustomTab = (url, success = () => null, failure = () => null) => {
    * Function that will launch the custom tab after
    * the conditions are satisfied
    */
-  const launchTab = () => {
-    InAppBrowser.open(url)
-      .then(success)
-      .catch(failure);
-  };
+  // const launchTab = () => {
+  //   InAppBrowser.open(url)
+  //     .then(success)
+  //     .catch(failure);
+  // };
 
   /**
    * Call fallback if the url is not a web link
@@ -74,7 +74,7 @@ const openCustomTab = (url, success = () => null, failure = () => null) => {
        * Open Android PDF Files in Native PDF Viewer
        * use `?customTab=false` query parameter to bypass
        */
-      if (url.includes(".pdf") && params.customTab !== "false") {
+      if (url.includes('.pdf') && params.customTab !== 'false') {
         /**
          * Close chat view since android chat view appears over the app
          */
@@ -83,8 +83,8 @@ const openCustomTab = (url, success = () => null, failure = () => null) => {
         navigationServiceV2(SCREEN_MODAL_STACK, {
           screen: SCREEN_PDF_VIEWER,
           params: {
-            pdfUri: url
-          }
+            pdfUri: url,
+          },
         });
       } else {
         launchTab();

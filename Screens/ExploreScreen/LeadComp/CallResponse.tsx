@@ -29,6 +29,7 @@ import {
 import {userContext} from '../../../App';
 import {call} from 'react-native-reanimated';
 import {dataContext} from '../../../App';
+import {ScrollView} from 'react-native-gesture-handler';
 
 const fields = response => {
   debugger;
@@ -46,10 +47,10 @@ const fields = response => {
     case 4:
       return ['type_of_credential', 'cal_desc'];
     case 5:
-      if ([8, 9, 14, 24].includes(response.trail_status?.id)) {
+      if ([8, 9, 14, 24].includes(response.trail_status)) {
         return ['reason_id', 'trail_status', 'cal_desc'];
       }
-      if (response.trail_status?.id === 7) {
+      if (response?.trail_status === 7) {
         return [
           'reason_id',
           'hotel_cancellation_reason',
@@ -96,12 +97,9 @@ const CallResponse = ({trail, saving, reload, handleTab}) => {
   const {dispatch, users} = useContext(userContext);
   const {dataApi, dispatchRes} = useContext(dataContext);
   const [trailStatuses, callRes, reasons] = [...dataApi.master];
+  const tempHotels = dataApi.master[7];
   const [isPress, setPress] = useState(false);
-  // var TouchableSetActive = require('react-native-touchable-set-active');
 
-  const cancelReason = reasons.filter((item, i) => {
-    return item.stage === 8;
-  });
   const credentialTypes = [
     {
       name: 'Mobile',
@@ -148,7 +146,6 @@ const CallResponse = ({trail, saving, reload, handleTab}) => {
 
   const visibleFields = useMemo(() => {
     debugger;
-    console.log('call anita');
     return fields(response);
   }, [call_response, new_trail_status, move_to_nr]);
 
@@ -167,6 +164,7 @@ const CallResponse = ({trail, saving, reload, handleTab}) => {
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [isDeptDateVisible, setDeptDateVisible] = useState(false);
   const [isTimePickerVisible, setTimePickerVisibility] = useState(false);
+  const [selReason, setSelReason] = useState();
   const [deptDate, setDeptDate] = useState();
   const [followTime, setfollowTime] = useState();
   const [followDate, setfollowDate] = useState();
@@ -197,6 +195,18 @@ const CallResponse = ({trail, saving, reload, handleTab}) => {
     });
     hideDatePicker();
   };
+
+  const reasonDrop = () => {
+    if (response.trail_status === 7) {
+      return reasons.slice(20);
+    }
+  };
+  const hotelCancelReason = reasonDrop();
+
+  const cancelReason = reasons.filter((item, i) => {
+    return item.stage === 8;
+  });
+
   useEffect(() => {
     setResponse({
       ...defaultResponse,
@@ -235,7 +245,7 @@ const CallResponse = ({trail, saving, reload, handleTab}) => {
         hotel_cancellation_reason: visibleFields.includes(
           'hotel_cancellation_reason',
         )
-          ? hotel_cancellation_reason?.id
+          ? hotel_cancellation_reason
           : undefined,
         cal_desc: cal_desc,
       },
@@ -315,79 +325,17 @@ const CallResponse = ({trail, saving, reload, handleTab}) => {
         <Space>
           <Text color={'#6FCF97'}>{isPress}</Text>
         </Space>
-
-        {call_response === 5 && spoke_calls_count == 0 ? (
-          <Space direction="column">
-            <Text style={styles.inputLabel}>Departure Date</Text>
-            <Space style={styles.semiblock}>
-              <TextInput
-                style={styles.dropInp}
-                // defaultValue={deptDate}
-                placeholderTextColor="#9DA4B2"
-                value={departure}></TextInput>
-              <TouchableOpacity onPress={() => setDeptDateVisible(true)}>
-                <Icon
-                  name={CONSTANT_transferIcon}
-                  key={1}
-                  size={16}
-                  color={'#9DA4B2'}
-                />
-              </TouchableOpacity>
-            </Space>
-            <DateTimePickerModal
-              date={departure ? new Date(departure) : new Date()}
-              isVisible={isDatePickerVisible}
-              mode="date"
-              onConfirm={handleDeptDate}
-              onCancel={hideDatePicker}
-            />
-          </Space>
-        ) : null}
-
-        {visibleFields.includes('type_of_credential') ? (
-          <Space direction="column">
-            <Space.Item flexDirection="row" alignItems="center">
-              <Text style={styles.inputLabel}>Credential Type</Text>
-            </Space.Item>
-            <Space.Item width={150} style={styles.dropDown}>
-              <Picker
-                mode="dropdown"
-                dropdownIconColor="#B3B3B3"
-                selectedValue={type_of_credential}
-                onValueChange={(itemValue, itemIndex) => {
-                  console.log(itemValue);
-                  setResponse({
-                    type_of_credential: itemValue,
-                  });
-                }}>
-                {credentialTypes.map((item, i) => {
-                  return (
-                    <Picker.Item
-                      label={item.name}
-                      value={item.key}
-                      style={styles.drop}
-                    />
-                  );
-                })}
-              </Picker>
-            </Space.Item>
-          </Space>
-        ) : (
-          <></>
-        )}
-
-        {visibleFields.includes('follow_up_date') ? (
-          <Space flexWrap={'wrap'}>
+        <ScrollView>
+          {call_response === 5 && spoke_calls_count == 0 ? (
             <Space direction="column">
-              <Text style={styles.inputLabel}>Follow Up</Text>
+              <Text style={styles.inputLabel}>Departure Date</Text>
               <Space style={styles.semiblock}>
                 <TextInput
                   style={styles.dropInp}
                   // defaultValue={deptDate}
                   placeholderTextColor="#9DA4B2"
-                  value={followDate}
-                  editable={false}></TextInput>
-                <TouchableOpacity onPress={() => setDatePickerVisibility(true)}>
+                  value={departure}></TextInput>
+                <TouchableOpacity onPress={() => setDeptDateVisible(true)}>
                   <Icon
                     name={CONSTANT_transferIcon}
                     key={1}
@@ -397,134 +345,292 @@ const CallResponse = ({trail, saving, reload, handleTab}) => {
                 </TouchableOpacity>
               </Space>
               <DateTimePickerModal
-                date={followDate ? new Date(followDate) : new Date()}
+                date={departure ? new Date(departure) : new Date()}
                 isVisible={isDatePickerVisible}
                 mode="date"
-                onConfirm={handleFollwDate}
+                onConfirm={handleDeptDate}
                 onCancel={hideDatePicker}
               />
             </Space>
+          ) : null}
 
+          {visibleFields.includes('type_of_credential') ? (
             <Space direction="column">
-              <Text style={styles.inputLabel}>Follow Time</Text>
-              <Space style={styles.semiblock} justifyContent={'space-between'}>
-                <TextInput
-                  style={styles.dropInp}
-                  placeholderTextColor="#9DA4B2"
-                  value={followTime}
-                  editable={false}></TextInput>
-                <TouchableOpacity onPress={() => setTimePickerVisibility(true)}>
-                  <Icon
-                    name={CONSTANT_dropDownArrowDarkIcon}
-                    key={1}
-                    size={16}
-                    color={'#9DA4B2'}
-                  />
-                </TouchableOpacity>
-
-                <DateTimePickerModal
-                  isVisible={isTimePickerVisible}
-                  mode="time"
-                  onConfirm={handleTimeConfim}
-                  onCancel={hideDatePicker}
-                />
-              </Space>
-            </Space>
-          </Space>
-        ) : (
-          <></>
-        )}
-
-        {visibleFields.includes('trail_status') ? (
-          <Space.Item width="100%">
-            <Space direction="column">
-              <Text style={styles.inputLabel}>Trail Status</Text>
-              <Space.Item width={150} style={styles.dropDown}>
-                <Picker
-                  mode="dropdown"
-                  dropdownIconColor="#B3B3B3"
-                  selectedValue={new_trail_status}
-                  onValueChange={(itemValue, itemIndex) => {
-                    console.log('test new trail statsu', new_trail_status);
-
-                    setResponse({
-                      trail_status: itemValue,
-                    });
-                  }}>
-                  {getTrailStatuses(trail_status, trailStatuses).map(
-                    (item, i) => {
-                      if (i != 4) {
-                        return (
-                          <Picker.Item
-                            label={item.name}
-                            value={item.id}
-                            style={styles.drop}
-                          />
-                        );
-                      }
-                    },
-                  )}
-                </Picker>
+              <Space.Item flexDirection="row" alignItems="center">
+                <Text style={styles.inputLabel}>Credential Type</Text>
               </Space.Item>
-              )
-            </Space>
-            <Space direction={'row'} justifyContent={'flex-start'}></Space>
-          </Space.Item>
-        ) : (
-          <></>
-        )}
-
-        {visibleFields.includes('reason_id') ? (
-          <Space.Item width="100%">
-            <Space direction="column">
-              <Text style={styles.inputLabel}>Reason</Text>
               <Space.Item width={150} style={styles.dropDown}>
                 <Picker
                   mode="dropdown"
                   dropdownIconColor="#B3B3B3"
-                  selectedValue={reason_id}
+                  selectedValue={type_of_credential}
                   onValueChange={(itemValue, itemIndex) => {
+                    console.log(itemValue);
                     setResponse({
-                      reason_id: itemValue,
+                      type_of_credential: itemValue,
                     });
-                    visibleFields;
                   }}>
-                  {cancelReason.map((item, i) => {
+                  {credentialTypes.map((item, i) => {
                     return (
                       <Picker.Item
                         label={item.name}
-                        value={item.id}
+                        value={item.key}
                         style={styles.drop}
                       />
                     );
                   })}
                 </Picker>
               </Space.Item>
-              )
             </Space>
-          </Space.Item>
-        ) : (
-          <></>
-        )}
-        {visibleFields.includes('cal_desc') ? (
-          <Space direction="column">
-            <Space.Item flexDirection="row" alignItems="center">
-              <Text style={styles.inputLabel}>More Info</Text>
+          ) : (
+            <></>
+          )}
+
+          {visibleFields.includes('follow_up_date') ? (
+            <Space flexWrap={'wrap'}>
+              <Space direction="column">
+                <Text style={styles.inputLabel}>Follow Up</Text>
+                <Space style={styles.semiblock}>
+                  <TextInput
+                    style={styles.dropInp}
+                    // defaultValue={deptDate}
+                    placeholderTextColor="#9DA4B2"
+                    value={followDate}
+                    editable={false}></TextInput>
+                  <TouchableOpacity
+                    onPress={() => setDatePickerVisibility(true)}>
+                    <Icon
+                      name={CONSTANT_transferIcon}
+                      key={1}
+                      size={16}
+                      color={'#9DA4B2'}
+                    />
+                  </TouchableOpacity>
+                </Space>
+                <DateTimePickerModal
+                  date={followDate ? new Date(followDate) : new Date()}
+                  isVisible={isDatePickerVisible}
+                  mode="date"
+                  onConfirm={handleFollwDate}
+                  onCancel={hideDatePicker}
+                />
+              </Space>
+
+              <Space direction="column">
+                <Text style={styles.inputLabel}>Follow Time</Text>
+                <Space
+                  style={styles.semiblock}
+                  justifyContent={'space-between'}>
+                  <TextInput
+                    style={styles.dropInp}
+                    placeholderTextColor="#9DA4B2"
+                    value={followTime}
+                    editable={false}></TextInput>
+                  <TouchableOpacity
+                    onPress={() => setTimePickerVisibility(true)}>
+                    <Icon
+                      name={CONSTANT_dropDownArrowDarkIcon}
+                      key={1}
+                      size={16}
+                      color={'#9DA4B2'}
+                    />
+                  </TouchableOpacity>
+
+                  <DateTimePickerModal
+                    isVisible={isTimePickerVisible}
+                    mode="time"
+                    onConfirm={handleTimeConfim}
+                    onCancel={hideDatePicker}
+                  />
+                </Space>
+              </Space>
+            </Space>
+          ) : (
+            <></>
+          )}
+
+          {visibleFields.includes('trail_status') ? (
+            <Space.Item width="100%">
+              <Space direction="column">
+                <Text style={styles.inputLabel}>Trail Status</Text>
+                <Space.Item width={150} style={styles.dropDown}>
+                  <Picker
+                    mode="dropdown"
+                    dropdownIconColor="#B3B3B3"
+                    selectedValue={trail_status}
+                    onValueChange={(itemValue, itemIndex) => {
+                      setResponse({
+                        trail_status: itemValue,
+                      });
+                    }}>
+                    {getTrailStatuses(trail_status, trailStatuses).map(
+                      (item, i) => {
+                        if (i != 4) {
+                          return (
+                            <Picker.Item
+                              label={item.name}
+                              value={item.id}
+                              style={styles.drop}
+                            />
+                          );
+                        }
+                      },
+                    )}
+                  </Picker>
+                </Space.Item>
+                )
+              </Space>
+              <Space direction={'row'} justifyContent={'flex-start'}></Space>
             </Space.Item>
-            <TextInput
-              style={styles.textarea}
-              multiline={true}
-              numberOfLines={8}
-              onChangeText={value =>
-                setResponse({
-                  cal_desc: value,
-                })
-              }
-            />
-          </Space>
-        ) : (
-          <></>
-        )}
+          ) : (
+            <></>
+          )}
+
+          {visibleFields.includes('hotel_cancellation_reason') ? (
+            <Space.Item width="100%">
+              <Space direction="column">
+                <Text style={styles.inputLabel}>Hotel Booked By Customer</Text>
+                <Space.Item width={150} style={styles.dropDown}>
+                  <Picker
+                    mode="dropdown"
+                    dropdownIconColor="#B3B3B3"
+                    selectedValue={hotel_cancellation_reason}
+                    onValueChange={(itemValue, itemIndex) => {
+                      setResponse({
+                        hotel_cancellation_reason: itemValue,
+                      });
+                    }}>
+                    <Picker.Item
+                      label={'Select Hotel'}
+                      value={''}
+                      style={styles.drop}
+                      enabled={false}
+                    />
+                    {tempHotels.map((item, i) => {
+                      return (
+                        <Picker.Item
+                          label={item.name}
+                          value={item.id}
+                          style={styles.drop}
+                        />
+                      );
+                    })}
+                  </Picker>
+                </Space.Item>
+                )
+              </Space>
+            </Space.Item>
+          ) : (
+            <></>
+          )}
+
+          {visibleFields.includes('reason_id') ? (
+            <Space.Item width="100%">
+              <Space direction="column">
+                <Text style={styles.inputLabel}>Reason</Text>
+                <Space.Item width={150} style={styles.dropDown}>
+                  <Picker
+                    mode="dropdown"
+                    dropdownIconColor="#B3B3B3"
+                    selectedValue={reason_id}
+                    onValueChange={(itemValue, itemIndex) => {
+                      setResponse({
+                        reason_id: itemValue,
+                      });
+                      setSelReason(itemValue);
+                    }}>
+                    <Picker.Item
+                      label={'Select Reason'}
+                      value={'select'}
+                      enabled={false}
+                      style={styles.drop}
+                    />
+                    {response.trail_status === 7
+                      ? hotelCancelReason.map((item, i) => {
+                          return (
+                            <Picker.Item
+                              label={item.name}
+                              value={item.id}
+                              style={styles.drop}
+                            />
+                          );
+                        })
+                      : cancelReason.map((item, i) => {
+                          return (
+                            <Picker.Item
+                              label={item.name}
+                              value={item.id}
+                              style={styles.drop}
+                            />
+                          );
+                        })}
+                  </Picker>
+                </Space.Item>
+                {console.log('selRason', selReason, hotelCancelReason)}
+                {selReason === 102 || selReason === 103 ? (
+                  <Space.Item width={150} style={styles.dropDown}>
+                    <Picker
+                      mode="dropdown"
+                      dropdownIconColor="#B3B3B3"
+                      selectedValue={reason_id}
+                      onValueChange={(itemValue, itemIndex) => {
+                        setResponse({
+                          reason_id: itemValue,
+                        });
+                      }}>
+                      <Picker.Item
+                        label={'Select Reason'}
+                        value={''}
+                        style={styles.drop}
+                      />
+                      {selReason !== 102
+                        ? hotelCancelReason[1].children.map((item, i) => {
+                            return (
+                              <Picker.Item
+                                label={item.name}
+                                value={item.id}
+                                style={styles.drop}
+                              />
+                            );
+                          })
+                        : hotelCancelReason[0].children.map((item, i) => {
+                            return (
+                              <Picker.Item
+                                label={item.name}
+                                value={item.id}
+                                style={styles.drop}
+                              />
+                            );
+                          })}
+                    </Picker>
+                  </Space.Item>
+                ) : null}
+                )
+              </Space>
+            </Space.Item>
+          ) : (
+            <></>
+          )}
+          {visibleFields.includes('cal_desc') ? (
+            <Space direction="column">
+              <Space.Item flexDirection="row" alignItems="center">
+                <Text style={styles.inputLabel}>More Info</Text>
+              </Space.Item>
+              <TextInput
+                style={styles.textarea}
+                multiline={true}
+                numberOfLines={8}
+                onChangeText={value =>
+                  setResponse({
+                    cal_desc: value,
+                  })
+                }
+              />
+            </Space>
+          ) : (
+            <></>
+          )}
+        </ScrollView>
         <Space style={styles.bottomBtns}>
           <Space.Item width="35%">
             <TouchableOpacity

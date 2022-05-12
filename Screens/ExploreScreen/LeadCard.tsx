@@ -8,6 +8,7 @@ import {
   Modal,
   Alert,
   TextInput,
+  Image,
 } from 'react-native';
 import {WebView} from 'react-native-webview';
 import {Space, Text} from '@pyt/micros';
@@ -29,11 +30,14 @@ import {
   CONSTANT_flagIcon,
   CONSTANT_toolIcon,
   CONSTANT_profileIcon,
+  CONSTANT_eyeIcon,
+  CONSTANT_PlatoChatSendIcon,
 } from '../../constants/imageAssets';
 import constants from '../../constants/constants';
 import {ScrollView} from 'react-native-gesture-handler';
 import CallNotes from './LeadComp/CallNotes';
 import {navigationDispatcher} from '../../Services/navigationService/navigationServiceV2';
+import directions from '../../Services/directions/directions';
 
 const LeadCard = ({trail, isSearch}) => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -75,10 +79,7 @@ const LeadCard = ({trail, isSearch}) => {
     console.log('handletab', item);
     setTabName(item);
   };
-  const linkToProd = () => {
-    Alert.alert('clicked');
-    return <WebView source={{uri: 'https://www.google.com'}} />;
-  };
+
   return (
     <ScrollView>
       {modalVisible ? (
@@ -155,11 +156,22 @@ const LeadCard = ({trail, isSearch}) => {
               <Icon
                 name={CONSTANT_flagIcon}
                 style={styles.menu}
-                onPress={linkToProd}
+                onPress={() => directions(trail.vacation_id, 'product', '')}
               />
             </TouchableOpacity>
-            <TouchableOpacity style={styles.callnotes}>
-              <Icon name={CONSTANT_toolIcon} style={styles.menu} />
+            <TouchableOpacity
+              style={styles.callnotes}
+              onPress={() =>
+                directions(
+                  trail.customer.mobile,
+                  'watsapp',
+                  trail.customer.country_code,
+                )
+              }>
+              <Image
+                source={require('../../assets/images/icons/watsapp.png')}
+                style={{width: 20, height: 20}}
+              />
             </TouchableOpacity>
           </Space>
         </Space>

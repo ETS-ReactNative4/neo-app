@@ -85,6 +85,7 @@ const imageAssets = {
   keyboardDismissIcon: 'collapse-keyboard',
   eyeIcon: 'visibility',
   uploadIcon: 'typical-social-share',
+  whatsapp: 'whatsapp',
 
   semiCircleShape: require('../assets/images/shapes/hiring_topic.png'),
   headerBackgroundShape: require('../assets/images/shapes/banner_white.png'),
@@ -164,7 +165,7 @@ const imageAssets = {
   medicalCareIcon: require('../assets/images/toolIcons/medical-care.png'),
   packageChecklistIcon: require('../assets/images/toolIcons/packing-checklist-480.png'),
   passportDetailsIcon: require('../assets/images/toolIcons/passport-details.png'),
-  yourPickIcon: require('../assets/images/toolIcons/your-picks.png'),
+  // yourPickIcon: require('../assets/images/trust-icons/watsapp.png'),
 
   noBookingsIllus: require('../assets/images/illustrations/no-bookings-image.png'),
   leisureIllus: require('../assets/images/illustrations/leisure-illustration.png'),
@@ -329,6 +330,8 @@ export const CONSTANT_twitterFilledIcon = 'twitter-fill';
 export const CONSTANT_keyboardDismissIcon = 'collapse-keyboard';
 export const CONSTANT_eyeIcon = 'visibility';
 export const CONSTANT_uploadIcon = 'typical-social-share';
+export const CONSTANT_whatsapp = 'whatsapp';
+
 export const CONSTANT_semiCircleShape = require('../assets/images/shapes/hiring_topic.png');
 export const CONSTANT_headerBackgroundShape = require('../assets/images/shapes/banner_white.png');
 export const CONSTANT_comingSoonShape = require('../assets/images/shapes/coming-soon.png');
@@ -338,7 +341,7 @@ export const CONSTANT_packageTriangleGold = require('../assets/images/shapes/pac
 export const CONSTANT_quotationMarkImage = require('../assets/images/shapes/quotation-mark.png');
 export const CONSTANT_positiveBackgroundShape = require('../assets/images/shapes/positive-background.png');
 export const CONSTANT_negativeBackgroundShape = require('../assets/images/shapes/negative-background.png');
-export const CONSTANT_watsapp = require('../assets/images/trust-icons/watsapp.png');
+// export const CONSTANT_watsapp = require('../assets/images/trust-icons/watsapp.png');
 export const CONSTANT_tripFeedIcon = 'trip-feed';
 export const CONSTANT_tripFeedSelectedIcon = 'trip-feed-active';
 export const CONSTANT_bookingIcon = 'booking';

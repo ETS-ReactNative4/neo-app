@@ -30,7 +30,7 @@ import Icon from '../../CommonComponents/Icon/Icon';
 import {CONSTANT_closeIcon} from '../../constants/imageAssets';
 import moment from 'moment';
 import {CONSTANT_costingDateFormat} from '../../constants/styles';
-import {createIconSetFromIcoMoon} from 'react-native-vector-icons';
+// import {createIconSetFromIcoMoon} from 'react-native-vector-icons';
 import icoMoonConfig from '../../assets/fontMap/hotel-amenities.json';
 import {getPaxConfigText} from '../StayHotelSearchScreen/util/getPaxConfigText';
 import {StayHotelFooter} from '../StayHotelListScreen/Components/StayHotelFooter';
@@ -110,7 +110,7 @@ export type StayHotelDetailParamType = {
 
 interface StayHotelDetailScreenProps extends StayHotelDetailScreenNavType {}
 
-const AmenityIcon = createIconSetFromIcoMoon(icoMoonConfig);
+// const AmenityIcon = createIconSetFromIcoMoon(icoMoonConfig);
 
 const width = Dimensions.get('window').width;
 

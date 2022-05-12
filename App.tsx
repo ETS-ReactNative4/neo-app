@@ -152,6 +152,7 @@ const App = () => {
       allUsers: `${constants.allUsers}`,
       roles: `${constants.roles}`,
       region: `${constants.regions}`,
+      tempHotels: `${constants.tempHotels}`,
     };
     Promise.all(Object.values(apis).map(key => apiCall(key, {}, 'GET')))
       .then(res => {

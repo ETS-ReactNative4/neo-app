@@ -56,9 +56,21 @@ const Leads = ({navigation, route}) => {
     from: 0,
     to: 0,
   });
-  const [overview, setOverview] = useState({});
+  const [overview, setOverview] = useState({
+    assigned_in_30_minutes: '-',
+    best_new: '-',
+    boomerang: '-',
+    convert_next_week: '-',
+    convert_this_week: '-',
+    defaults: '-',
+    follow_ups: '-',
+    good_lead: '-',
+    in_talks: '-',
+    new: '-',
+    all_leads: '-',
+  });
   const [tabName, setTabName] = useState('Calls');
-  const [counts, setCounts] = useState(0);
+  const [counts, setCounts] = useState('0');
   const {users} = useContext(userContext);
   const [isSearch, setSearch] = useState(false);
 
@@ -250,13 +262,11 @@ const Leads = ({navigation, route}) => {
     } else if (menuItem == 'good-lead') {
       return 'GOOD LEAD - ' + overview.good_lead;
     } else if (menuItem == 'convert-this-week') {
-      return 'CTW - ' + overview.convert_this_week;
+      return 'CTW - ' + overview.convert_this_week || '0';
     } else if (menuItem == 'convert-next-week') {
-      return 'CNW - ' + overview.convert_next_week;
+      return 'CNW - ' + overview.convert_next_week || 0;
     } else {
-      console.log('overview', overview);
-      console.log('heading prints', menuItem);
-      return menuName + ' - ' + counts;
+      return menuName + ' - ' + counts || 0;
     }
 
     // menuItem =='assigned_in_30_minute'? (overview.assigned_in_30_minutes):(counts)

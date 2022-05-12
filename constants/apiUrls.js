@@ -26,6 +26,7 @@ const apiUrls = {
   customerUpdate: 'api/v3/customer',
   callNotesUpdate: 'api/v3/trail/call-notes',
   leadPool: 'api/v3/sales/neo/lead-pool',
+  tempHotels: 'api/v3/master/temp-hotels',
 
   getCurrencyList: 'mobile/getCurrency',
   getCurrencyByItinerary: 'mobile/:itineraryId/currencies',

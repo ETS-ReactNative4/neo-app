@@ -85,7 +85,7 @@ class HotelVoucher extends Component<HotelVoucherProps, HotelVoucherState> {
     }: {hotel: IHotelCosting; openDate?: boolean} =
       this.props.route.params ?? {};
 
-    const Icon = createIconSetFromIcoMoon(icoMoonConfig);
+    // const Icon = createIconSetFromIcoMoon(icoMoonConfig);
 
     const {
       checkInDate,
@@ -126,11 +126,11 @@ class HotelVoucher extends Component<HotelVoucherProps, HotelVoucherState> {
                         ? customStyle
                         : {},
                     ]}>
-                    <Icon
+                    {/* <Icon
                       name={amenity.iconUrl}
                       size={18}
                       color={constants.black2}
-                    />
+                    /> */}
                     <Text style={styles.amenitiesText} key={amenityIndex}>
                       {amenity.amenityName}
                     </Text>

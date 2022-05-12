@@ -90,7 +90,6 @@ import storeService from '../../Services/storeService/storeService';
 import ChatDetails from '../../mobx/ChatDetails';
 import {locale} from 'moment';
 import LeadCard from './LeadCard';
-import directions from '../../Services/directions/directions';
 
 export type ExploreScreenNavigationType = CompositeNavigationProp<
   StackNavigationProp<AppNavigatorParamsType, typeof SCREEN_PRETRIP_HOME_TABS>,
@@ -293,21 +292,13 @@ const Explore = ({
       <ScrollView>
         <Space paddingHorizontal={22} direction={'column'} marginTop={20}>
           <Space justifyContent={'space-between'}>
-            {/* <WebView
-        
-        source={{ uri }}
-        onNavigationStateChange={(event) => {
-          if (event.url !== uri) {
-            
-            Linking.openURL(event.url);
-          }
-        }}
-      /> */}
-            {/* <TouchableOpacity onPress={directions}><Text>Click</Text></TouchableOpacity> */}
+            {/* <TouchableOpacity onPress={directions}>
+          <Text>Click</Text>
+          </TouchableOpacity> */}
             <Text color={'#9DA4B2'} fontSize={22} fontWeight={'bold'}>
               Overview
             </Text>
-            <TouchableOpacity
+            {/* <TouchableOpacity
               onPress={() => openDialScreen()}
               style={styles.makeCall}>
               <Space>
@@ -319,7 +310,7 @@ const Explore = ({
                 />
                 <Text color={'#9DA4B2'}>Make a Call</Text>
               </Space>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </Space>
           <Space style={styles.search}>
             <Space style={styles.semiblock}>
