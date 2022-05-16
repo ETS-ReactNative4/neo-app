@@ -1,5 +1,12 @@
-import React, {useCallback} from 'react';
-import {View, StyleSheet, TouchableOpacity, ScrollView} from 'react-native';
+import React, {useCallback, useState, useContext} from 'react';
+import {
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  ScrollView,
+  Switch,
+  Alert,
+} from 'react-native';
 import {
   CONSTANT_white,
   CONSTANT_shade2,
@@ -8,6 +15,8 @@ import {
   theme,
 } from '../../constants/colorPallete';
 import Icon from '../../CommonComponents/Icon/Icon';
+import apiCall from '../../Services/networkRequests/apiCall';
+import constants from '../../constants/constants';
 import {
   CONSTANT_primaryRegular,
   CONSTANT_fontCustom,
@@ -22,6 +31,7 @@ import {
   CONSTANT_flagIcon,
   CONSTANT_compassIcon,
   CONSTANT_addImageIcon,
+  CONSTANT_logoutIcon,
 } from '../../constants/imageAssets';
 import ErrorBoundary from '../../CommonComponents/ErrorBoundary/ErrorBoundary';
 import {observer, inject} from 'mobx-react';
@@ -38,6 +48,7 @@ import {
   SCREEN_APP_LOGIN,
   SCREEN_EDIT_TRAVELLER_PROFILE,
   SCREEN_FILE_UPLOAD,
+  SCREEN_STARTER,
 } from '../../NavigatorsV2/ScreenNames';
 import {useFocusEffect} from '@react-navigation/native';
 import {isProduction} from '../../Services/getEnvironmentDetails/getEnvironmentDetails';
@@ -56,6 +67,7 @@ import {isIphoneX} from 'react-native-iphone-x-helper';
 import {Text} from '@pyt/micros';
 import DeviceLocale from '../../mobx/DeviceLocale';
 import LoyaltyCoins from '../../mobx/LoyaltyCoins';
+import {userContext} from '../../App';
 export interface IUltimateMenuLists {
   name: string;
   iconName: string;
@@ -87,69 +99,103 @@ const UltimateMenu = ({
 
   const {loyaltyCoins, getLoyaltyCoins} = loyaltyCoinsStore;
 
+  const {dispatch, users} = useContext(userContext);
+  const userData = users.userData;
+  const [isEnabled, setIsEnabled] = useState(userData.lead_pool_status);
+
+  console.log('side menu', userData);
+  const toggleSwitch = () => {
+    setIsEnabled(previousState => !previousState);
+    LeadPool();
+  };
+
+  const LeadPool = () => {
+    apiCall(
+      `${constants.leadPool}`,
+      {
+        user_id: 30,
+        status: !isEnabled,
+      },
+      'POST',
+      false,
+      null,
+      {
+        Authorization: 'Bearer ' + users.tokens.access_token,
+      },
+    )
+      .then(response => {
+        console.log('lead pool', response.status);
+        //  setIsEnabled(previousState => !previousState)
+      })
+      .catch(res => {
+        console.log(res);
+      })
+      .finally();
+  };
+
   const isLoggedIn = useIsUserLoggedIn();
 
   const menuList: IUltimateMenuLists[] = [
+    // {
+    //   name: 'Lead Pool',
+    //   iconName: CONSTANT_compassIcon,
+    //   active: false,
+    //   action: () => navigation.navigate(SCREEN_STARTER),
+    // },
     {
-      name: 'Craft your holiday',
-      iconName: CONSTANT_compassIcon,
-      active: false,
-      action: () => navigation.navigate(SCREEN_PRETRIP_HOME_TABS),
-    },
-    {
-      name: 'Saved itineraries',
-      iconName: 'heart1',
-      active: false,
-      action: () => navigation.navigate(SCREEN_SAVED_ITINERARIES),
-    },
-    {
-      name: 'About us',
-      iconName: CONSTANT_flagIcon,
-      active: false,
-      action: () => navigation.navigate(SCREEN_ABOUT_SCREEN),
-    },
-  ];
-  if (isLoggedIn) {
-    menuList.splice(2, 0, {
-      name: 'Account details',
+      name: userData.username,
       iconName: CONSTANT_profileIcon,
       active: false,
-      action: () => navigation.navigate(SCREEN_EDIT_TRAVELLER_PROFILE),
-    });
+      action: () => navigation.navigate(''),
+    },
+    {
+      name: 'Log out',
+      iconName: CONSTANT_logoutIcon,
+      active: false,
+      action: () => navigation.navigate(SCREEN_STARTER),
+    },
+  ];
+  // if (isLoggedIn) {
+  //   menuList.splice(2, 0, {
+  //     name: 'Account details',
+  //     iconName: CONSTANT_profileIcon,
+  //     active: false,
+  //     action: () => navigation.navigate(SCREEN_EDIT_TRAVELLER_PROFILE),
+  //   });
 
-    menuList.push({
-      name: 'File Upload',
-      iconName: CONSTANT_addImageIcon,
-      active: false,
-      action: () => navigation.navigate(SCREEN_FILE_UPLOAD),
-    });
-  }
+  //   menuList.push({
+  //     name: 'File Upload',
+  //     iconName: CONSTANT_addImageIcon,
+  //     active: false,
+  //     action: () => navigation.navigate(SCREEN_FILE_UPLOAD),
+  //   });
+  // }
 
-  if (!isProduction()) {
-    menuList.push({
-      name: 'StoryBook',
-      iconName: CONSTANT_storybookIcon,
-      active: false,
-      action: () => navigation.navigate(SCREEN_STORY_BOOK),
-    });
-  }
+  // if (!isProduction()) {
+  //   menuList.push({
+  //     name: 'StoryBook',
+  //     iconName: CONSTANT_storybookIcon,
+  //     active: false,
+  //     action: () => navigation.navigate(SCREEN_STORY_BOOK),
+  //   });
+  // }
 
-  if (yourBookingsStore.hasUpcomingItineraries) {
-    menuList.unshift({
-      name: 'Payments',
-      iconName: CONSTANT_paymentIcon,
-      active: false,
-      action: () => navigation.navigate(SCREEN_PAYMENT_HOME),
-    });
-  }
-  if (yourBookingsStore.hasItineraries) {
-    menuList.unshift({
-      name: 'My trip feed',
-      iconName: CONSTANT_passIcon,
-      active: false,
-      action: () => navigation.navigate(SCREEN_YOUR_BOOKINGS),
-    });
-  }
+  // if (yourBookingsStore.hasUpcomingItineraries) {
+  //   menuList.unshift({
+  //     name: 'Payments',
+  //     iconName: CONSTANT_paymentIcon,
+  //     active: false,
+  //     action: () => navigation.navigate(SCREEN_PAYMENT_HOME),
+  //   });
+  // }
+  // if (yourBookingsStore.hasItineraries) {
+  //   menuList.unshift({
+  //     name: 'My trip feed',
+  //     iconName: CONSTANT_passIcon,
+  //     active: false,
+  //     action: () => navigation.navigate(SCREEN_YOUR_BOOKINGS),
+  //   });
+  // }
 
   const goBack = () => navigation.goBack();
 
@@ -182,13 +228,13 @@ const UltimateMenu = ({
         height={HEADER_HEIGHT}
         justifyContent="flex-end"
         paddingBottom={12}
-        backgroundColor={theme.colors.neutral001}>
+        backgroundColor={'#2B2B3D'}>
         <Box
           flexDirection="row"
           justifyContent="space-between"
           alignItems="center"
           paddingHorizontal={20}>
-          <TouchableOpacity
+          {/* <TouchableOpacity
             activeOpacity={0.8}
             onPress={goBack}
             style={styles.backArrowIconStyle}>
@@ -197,28 +243,33 @@ const UltimateMenu = ({
               size={16}
               color={theme.colors.neutral008}
             />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
+
           <Text
             flex={1}
             paddingLeft={18}
             fontFamily={CONSTANT_fontPrimarySemiBold}
             fontSize={15}
             // lineHeight={19}
-            color={CONSTANT_black1}>
-            {isGlobal
-              ? isLoggedIn
-                ? userDisplayDetails.name?.toUpperCase()
-                : 'Guest User'
-              : null}
+            color={'#B3B3B3'}>
+            Lead Pool
           </Text>
-          <TouchableOpacity onPress={isLoggedIn ? logout : login}>
+          <Switch
+            trackColor={{false: '#767577', true: '#4FB58E'}}
+            thumbColor={isEnabled ? '#6FCF97' : '#f4f3f4'}
+            ios_backgroundColor="#3e3e3e"
+            onValueChange={toggleSwitch}
+            value={isEnabled === 1 ? true : false}
+          />
+          {/* <TouchableOpacity >
             <Text
               color={theme.colors.primary003}
               fontFamily={CONSTANT_fontPrimarySemiBold}
               fontSize={15}>
-              {isLoggedIn ? 'Log out' : 'Log in'}
+             Account
             </Text>
-          </TouchableOpacity>
+
+          </TouchableOpacity> */}
         </Box>
       </Box>
 
@@ -287,8 +338,9 @@ const styles = StyleSheet.create({
 
   bodyContainer: {
     flex: 1,
-    backgroundColor: CONSTANT_white,
+    backgroundColor: '#2B2B3D',
     paddingHorizontal: 20,
+    justifyContent: 'flex-end',
   },
   menuListStyle: {
     flexDirection: 'row',
@@ -307,7 +359,7 @@ const styles = StyleSheet.create({
   menuListTextStyle: {
     flex: 1,
     ...CONSTANT_fontCustom(CONSTANT_primaryRegular, 16, 20),
-    color: CONSTANT_black1,
+    color: '#B3B3B3',
   },
   activeTextColor: {
     color: CONSTANT_nineteenthColor,

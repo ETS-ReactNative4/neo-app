@@ -21,6 +21,8 @@ target 'Pickyourtrail' do
 
   pod 'Interactable', :path => '../node_modules/react-native-interactable'
 
+  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
+
   target 'PickyourtrailTests' do
     inherit! :complete
     # Pods for testing

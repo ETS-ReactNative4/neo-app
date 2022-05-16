@@ -4,10 +4,10 @@ import {
 } from '../Services/getEnvironmentDetails/getEnvironmentDetails';
 
 const productUrls = {
-  local: 'https://plato.pickyourtrail.com/',
-  staging: 'https://plato.pickyourtrail.com/',
-  production: 'https://plato.pickyourtrail.com/',
-  test: 'https://plato.pickyourtrail.com/',
+  local: 'https://plato-staging.wwmib.com/',
+  staging: 'https://plato-staging.wwmib.com/',
+  production: 'hhttps://plato-staging.wwmib.com',
+  test: 'https://plato-staging.wwmib.com/',
 };
 
 const apiServers = {

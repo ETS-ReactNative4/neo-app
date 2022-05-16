@@ -19,4 +19,4 @@ import {onBackgroundNotificationReceived} from './Services/fcmService/fcm';
 // };
 onBackgroundNotificationReceived();
 
-AppRegistry.registerComponent('Pickyourtrail', () => App);
+AppRegistry.registerComponent('NEO', () => App);

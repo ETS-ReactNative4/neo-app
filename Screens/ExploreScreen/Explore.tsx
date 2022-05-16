@@ -1,4 +1,13 @@
-import React, {useState, Fragment, useRef, useEffect} from 'react';
+import React, {
+  useState,
+  Fragment,
+  createContext,
+  useReducer,
+  useRef,
+  useEffect,
+  useContext,
+  useCallback,
+} from 'react';
 import {
   ScrollView,
   StyleSheet,
@@ -7,14 +16,22 @@ import {
   TextInput,
   Alert,
   FlatList,
+  Linking,
+  Button,
+  Platform,
 } from 'react-native';
+import {userContext} from '../../App';
+import {dataContext} from '../../App';
+import {
+  getEnvironmentName,
+  isProduction,
+} from '../../Services/getEnvironmentDetails/getEnvironmentDetails';
 import {CompositeNavigationProp, RouteProp} from '@react-navigation/native';
 import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {AppNavigatorParamsType} from '../../NavigatorsV2/AppNavigator';
-import {Pressable, Space, Text, Input} from '@pyt/micros';
+import {Pressable, Space, Text, Input, Avatar, Popper} from '@pyt/micros';
 import {Tabs, Tooltip} from '@pyt/macros';
-import {LeadCard} from '@pyt/widgets';
 import apiCall from '../../Services/networkRequests/apiCall';
 import {CONSTANT_productUrl} from '../../constants/serverUrls';
 import constants from '../../constants/constants';
@@ -23,6 +40,7 @@ import {
   SCREEN_EXPLORE_TAB,
   SCREEN_ULTIMATE_MENU,
   SCREEN_NOTIFICATION_TAB,
+  SCREEN_LEADS,
 } from '../../NavigatorsV2/ScreenNames';
 import {PreTripHomeTabsType} from '../../NavigatorsV2/PreTripHomeTabs';
 import HeroBannerRow from './Components/HeroBannerRow';
@@ -45,13 +63,16 @@ import {
   CONSTANT_notificationBellIcon,
   CONSTANT_searchIcon,
   CONSTANT_careersIcon,
+  CONSTANT_profileIcon,
+  CONSTANT_callStartIcon,
 } from '../../constants/imageAssets';
+import {SCREEN_SEARCH_TAB} from '../../NavigatorsV2/ScreenNames';
 
 import TestimonialsCardsRow from './Components/TestimonialsCardsRow';
 import TrustIcons from '../../CommonComponents/TrustIcons/TrustIcons';
 import {ExploreFeedType} from './ExploreFeedType';
 import useExploreDataRequest from './hooks/useExploreDataRequest';
-import useDeepCompareEffect from 'use-deep-compare-effect';
+// import useDeepCompareEffect from 'use-deep-compare-effect';
 import {inject, observer} from 'mobx-react';
 import YourBookings from '../../mobx/YourBookings';
 import User from '../../mobx/User';
@@ -68,6 +89,7 @@ import Icon from '../../CommonComponents/Icon/Icon';
 import storeService from '../../Services/storeService/storeService';
 import ChatDetails from '../../mobx/ChatDetails';
 import {locale} from 'moment';
+import LeadCard from './LeadCard';
 
 export type ExploreScreenNavigationType = CompositeNavigationProp<
   StackNavigationProp<AppNavigatorParamsType, typeof SCREEN_PRETRIP_HOME_TABS>,
@@ -89,14 +111,8 @@ export interface ExploreScreenProps {
 
 export type ExploreScreenSourcesType = 'TravelProfileFlow';
 
-const fetchUser = () => {
-  apiCall(`${constants.fetchUser}`, {}, 'POST')
-    .then(response => {
-      console.log('userDetails Check', response);
-    })
-    .catch(res => {
-      console.log(res);
-    });
+const initialState = {
+  callResponse: {},
 };
 
 const Explore = ({
@@ -110,6 +126,8 @@ const Explore = ({
 
   const [salesMetrics, setSalesMetrics] = useState({});
   const [loading, setLoading] = useState(false);
+  const [user, setUser] = useState(null);
+  const [userBlock, setUserBlock] = useState(false);
 
   const openUltimateMenu = () => {
     navigation.navigate(SCREEN_ULTIMATE_MENU);
@@ -123,12 +141,13 @@ const Explore = ({
     PrimaryHeader({
       leftAction: openUltimateMenu,
       leftIcon: CONSTANT_preTripHamburger,
+
       rightElement: (
         <TouchableOpacity
           activeOpacity={0.8}
           style={styles.notificationIconStyle}
-          onPress={rightAction}>
-          <Icon name={CONSTANT_notificationBellIcon} size={18} />
+          onPress={openUltimateMenu}>
+          <Icon name={CONSTANT_profileIcon} size={20} color={'#6FCF97'} />
         </TouchableOpacity>
       ),
     }),
@@ -136,18 +155,52 @@ const Explore = ({
 
   useEffect(() => {
     setLoading(true);
-    fetchMetrics();
-    // fetchUser();
+    fetchUser();
   }, []);
 
   const {successResponseData} = exploreDataApi;
-
   const {userDisplayDetails} = userStore;
-
   const {name} = userDisplayDetails;
+  const {dispatch, users} = useContext(userContext);
+  const {dataApi, dispatchRes} = useContext(dataContext);
+  const [searchItem, setSearchItem] = useState('');
+  const [leadsData, setLeadsData] = useState({});
 
-  const fetchMetrics = () => {
-    apiCall(`${constants.salesMetrics}?user_id=30_team`, {}, 'POST')
+  // console.log('api data from app in first page',dataApi)
+  console.log('state from exploreee', users);
+  const fetchUser = () => {
+    apiCall(`${constants.fetchUser}`, {}, 'GET', false, null, {
+      Authorization: 'Bearer ' + users.tokens.access_token,
+    })
+      .then(res => {
+        let userDetails = {
+          user_id: res.user_id,
+          username: res.username,
+          lead_pool_status: res.lead_pool_status,
+          emp_code: res.emp_code,
+          email_id: res.email_id,
+        };
+        dispatch({type: 'FETCH_USER', payload: {userData: userDetails}});
+        fetchMetrics(res.user_id);
+        setUser(res.user_id);
+      })
+      .catch(res => {
+        console.log(res);
+      })
+      .finally(() => {});
+  };
+
+  const fetchMetrics = user => {
+    apiCall(
+      `${constants.salesMetrics}?user_id=${user}_team`,
+      {},
+      'POST',
+      false,
+      null,
+      {
+        Authorization: 'Bearer ' + users.tokens.access_token,
+      },
+    )
       .then(response => {
         setSalesMetrics(response);
       })
@@ -156,16 +209,60 @@ const Explore = ({
       })
       .finally(() => setLoading(false));
   };
+  const redirectToLead = name => {
+    let menuItem;
+    if (name === 'MQL') {
+      menuItem = 'new';
+    } else if (name === 'SQL') {
+      menuItem = 'in-talks';
+    } else if (name === 'Good Lead') {
+      menuItem = 'good-lead';
+    } else if (name === 'CNW') {
+      menuItem = 'convert-next-week';
+    } else if (name === 'CTW') {
+      menuItem = 'convert-this-week';
+    }
+    navigation.navigate(SCREEN_LEADS, {name: menuItem});
+  };
   const Item = ({count, name, percentage}) => (
     <Space direction={'column'}>
       <Space style={styles.pipeblock}>
-        <Text color={'#9DA4B2'}>{name} </Text>
+        {/* navigation.navigate(SCREEN_SEARCH_TAB,{name:name}) */}
+        <TouchableOpacity onPress={() => redirectToLead(name)}>
+          <Text color={'#9DA4B2'}>{name} </Text>
+        </TouchableOpacity>
         <Text color={'#9DA4B2'}>
           {count} ({percentage} %)
         </Text>
       </Space>
     </Space>
   );
+
+  const getTrailData = searchItem => {
+    setUserBlock(true);
+    var menu;
+    var where = [];
+    if (searchItem !== '') {
+      where.push(`trail_id`, `like`, `%${searchItem}%`);
+      menu = 'api/v3/sales/neo/search';
+    }
+    const requestObj = {
+      where: where.length === 0 ? [] : [where],
+      with: ['customer', 'lastCall', 'trailStatus', 'salesOwner', 'lastLog'],
+    };
+    setLoading(true);
+
+    apiCall(menu, requestObj, 'POST', false, null, {
+      Authorization: 'Bearer ' + users.tokens.access_token,
+    })
+      .then(response => {
+        setLoading(false);
+        setLeadsData(response.data);
+      })
+      .catch(res => {
+        console.log(res);
+      });
+  };
 
   const renderItem = ({item}) => (
     <Item
@@ -174,26 +271,63 @@ const Explore = ({
       percentage={item.percentage}
     />
   );
+
+  const renderLeadsItem = ({item}) => (
+    <LeadCard trail={item} key={item.trail_id} isSearch={true} />
+  );
+  const openDialScreen = () => {
+    let number = '';
+    if (Platform.OS === 'ios') {
+      number = 'telprompt:${}';
+    } else {
+      number = 'tel:${}';
+    }
+    Linking.openURL(number);
+  };
+
   return (
     <View style={styles.container}>
       {header}
+
       <ScrollView>
         <Space paddingHorizontal={22} direction={'column'} marginTop={20}>
-          <Text color={'#9DA4B2'} fontSize={16} fontWeight={'bold'}>
-            Overview
-          </Text>
+          <Space justifyContent={'space-between'}>
+            {/* <TouchableOpacity onPress={directions}>
+          <Text>Click</Text>
+          </TouchableOpacity> */}
+            <Text color={'#9DA4B2'} fontSize={22} fontWeight={'bold'}>
+              Overview
+            </Text>
+            {/* <TouchableOpacity
+              onPress={() => openDialScreen()}
+              style={styles.makeCall}>
+              <Space>
+                <Icon
+                  name={CONSTANT_callStartIcon}
+                  key={1}
+                  size={16}
+                  color="#6FCF97"
+                />
+                <Text color={'#9DA4B2'}>Make a Call</Text>
+              </Space>
+            </TouchableOpacity> */}
+          </Space>
           <Space style={styles.search}>
             <Space style={styles.semiblock}>
-              <Icon
-                name={CONSTANT_searchIcon}
-                key={1}
-                size={16}
-                color={'#9DA4B2'}
-              />
-
+              <TouchableOpacity onPress={() => getTrailData(searchItem)}>
+                <Icon
+                  name={CONSTANT_searchIcon}
+                  key={1}
+                  size={16}
+                  color={'#9DA4B2'}
+                />
+              </TouchableOpacity>
               <TextInput
                 placeholder="Search"
-                placeholderTextColor="#9DA4B2"></TextInput>
+                placeholderTextColor="#9DA4B2"
+                color={'#9DA4B2'}
+                value={searchItem}
+                onChangeText={text => setSearchItem(text)}></TextInput>
             </Space>
             <Space style={styles.semiblock}>
               <Icon
@@ -207,10 +341,15 @@ const Explore = ({
                 placeholderTextColor="#9DA4B2"></TextInput>
             </Space>
           </Space>
+
           {loading ? (
             <Text alignSelf="center" marginVertical="auto" color={'#9DA4B2'}>
               Loading...
             </Text>
+          ) : userBlock ? (
+            <ScrollView>
+              <FlatList data={leadsData} renderItem={renderLeadsItem} />
+            </ScrollView>
           ) : (
             <Space>
               <Space style={styles.cardblock} direction={'column'}>
@@ -229,18 +368,23 @@ const Explore = ({
               </Space>
             </Space>
           )}
-          <Space style={styles.pipeline} direction={'column'}>
-            <Text color={'#9DA4B2'} fontSize={16} fontWeight={'bold'}>
-              Sales Pipeline
-            </Text>
-            {loading ? (
-              <Text alignSelf="center" marginVertical="auto" color={'#9DA4B2'}>
-                Loading...
+          {userBlock ? null : (
+            <Space style={styles.pipeline} direction={'column'}>
+              <Text color={'#9DA4B2'} fontSize={16} fontWeight={'bold'}>
+                Sales Pipeline
               </Text>
-            ) : (
-              <FlatList data={salesMetrics.leads} renderItem={renderItem} />
-            )}
-          </Space>
+              {loading ? (
+                <Text
+                  alignSelf="center"
+                  marginVertical="auto"
+                  color={'#9DA4B2'}>
+                  Loading...
+                </Text>
+              ) : (
+                <FlatList data={salesMetrics.leads} renderItem={renderItem} />
+              )}
+            </Space>
+          )}
         </Space>
       </ScrollView>
     </View>
@@ -276,6 +420,13 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     marginBottom: 10,
   },
+  makeCall: {
+    backgroundColor: '#2B2B3D',
+    padding: 15,
+    borderRadius: 5,
+    marginBottom: 10,
+    width: 180,
+  },
 
   countblock: {
     flex: 1,
@@ -291,6 +442,15 @@ const styles = StyleSheet.create({
 
   spacerBackgroundStyle: {
     backgroundColor: CONSTANT_shade5,
+  },
+  notificationIconStyle: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 56,
+    height: 56,
   },
 });
 

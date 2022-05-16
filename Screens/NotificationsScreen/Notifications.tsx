@@ -243,6 +243,7 @@ const styles = StyleSheet.create({
   notificationContainer: {
     flex: 1,
     backgroundColor: CONSTANT_white1,
+    width: 300,
   },
   textStyle: {
     flex: 1,

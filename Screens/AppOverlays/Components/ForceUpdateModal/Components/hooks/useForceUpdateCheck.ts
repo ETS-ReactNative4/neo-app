@@ -1,8 +1,8 @@
 import useApiCall, {
-  IApiCallHookData
-} from "../../../../../../Services/networkRequests/hooks/useApiCall";
-import { CONSTANT_appVersionCheck } from "../../../../../../constants/apiUrls";
-import { IMobileServerResponse } from "../../../../../../TypeInterfaces/INetworkResponse";
+  IApiCallHookData,
+} from '../../../../../../Services/networkRequests/hooks/useApiCall';
+import {CONSTANT_appVersionCheck} from '../../../../../../constants/apiUrls';
+import {IMobileServerResponse} from '../../../../../../TypeInterfaces/INetworkResponse';
 
 export interface IForceUpdateData extends IMobileServerResponse {
   data: {
@@ -19,14 +19,14 @@ export interface IForceUpdateHookData extends IApiCallHookData {
 
 const useForceUpdateCheck = (): [IForceUpdateHookData, () => any] => {
   const [
-    { successResponseData, failureResponseData, isLoading, isError, isSuccess },
-    makeApiCall
+    {successResponseData, failureResponseData, isLoading, isError, isSuccess},
+    makeApiCall,
   ] = useApiCall();
 
   const checkForForceUpdate = () => {
-    makeApiCall({ route: CONSTANT_appVersionCheck })
-      .then(() => null)
-      .catch(() => null);
+    // makeApiCall({ route: CONSTANT_appVersionCheck })
+    //   .then(() => null)
+    //   .catch(() => null);
   };
 
   return [
@@ -35,9 +35,9 @@ const useForceUpdateCheck = (): [IForceUpdateHookData, () => any] => {
       failureResponseData,
       isLoading,
       isError,
-      isSuccess
+      isSuccess,
     } as IForceUpdateHookData,
-    checkForForceUpdate
+    checkForForceUpdate,
   ];
 };
 

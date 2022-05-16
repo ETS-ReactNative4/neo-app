@@ -1,5 +1,12 @@
-import React, {useState} from 'react';
-import {Text, SafeAreaView, StyleSheet, TextInput, View} from 'react-native';
+import React, {useState, useContext} from 'react';
+import {
+  Text,
+  SafeAreaView,
+  StyleSheet,
+  TextInput,
+  View,
+  Alert,
+} from 'react-native';
 import {responsiveWidth} from 'react-native-responsive-dimensions';
 import {
   CONSTANT_fontCustom,
@@ -16,36 +23,53 @@ import constants from '../../constants/constants';
 import SimpleButton from '../../CommonComponents/SimpleButton/SimpleButton';
 import apiCall from '../../Services/networkRequests/apiCall';
 import {SCREEN_PRETRIP_HOME_TABS} from '../../NavigatorsV2/ScreenNames';
-
+import {userContext} from '../../App';
 const findBookingButtonStyle = {width: 200, height: 48};
 
 const Starter = ({navigation}) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
+  const {dispatch, users} = useContext(userContext);
+
+  console.log('auth token from explore tab', users);
+
+  const loginUser = () => {
+    fetch('', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        firstParam: 'yourValue',
+      }),
+    });
+  };
+
   const getSales = () => {
     const requestObject = {
       username,
       password,
     };
-    console.log('test', requestObject);
     try {
       apiCall(constants.login, requestObject, 'POST')
         .then(response => {
-          alert('login success');
+          dispatch({type: 'FETCH_TOKEN', payload: {tokens: response}});
           navigation.navigate(SCREEN_PRETRIP_HOME_TABS);
         })
         .catch(res => {
-          alert('Please Enter valid credentials');
+          console.log(res);
+          Alert.alert('Please Enter valid credentials');
         });
       return '';
     } catch (e) {
       console.log('error occured');
     }
   };
+
   return (
     <SafeAreaView style={styles.container}>
-      <Text>Checking</Text>
       <View style={styles.contentSection}>
         <View style={styles.buttonRow}>
           <Text style={styles.titleLogo}>PLATO</Text>
@@ -72,9 +96,6 @@ const Starter = ({navigation}) => {
             underlayColor={CONSTANT_firstColorAlpha(0.7)}
             action={() => {
               getSales();
-              // recordEvent(CONSTANT_StarterScreen.event, {
-              //   click: CONSTANT_StarterScreen.click.planVacation,
-              // });
               return null;
             }}
             containerStyle={findBookingButtonStyle}
