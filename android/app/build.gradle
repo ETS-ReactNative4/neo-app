@@ -143,7 +143,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.pickyourtrail"
+        applicationId "com.neo"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode Integer.parseInt(VERSION_CODE)

@@ -10,13 +10,12 @@
       "client_info": {
         "mobilesdk_app_id": "1:378039864720:android:0b066e4a7a68964f",
         "android_client_info": {
-          "package_name": "com.pickyourtrail"
+          "package_name": "com.neo"
         }
       },
       "oauth_client": [
         {
-          "client_id":
-            "378039864720-ikekdl6an2bvtpt3vf67od2ou34qn81b.apps.googleusercontent.com",
+          "client_id": "378039864720-ikekdl6an2bvtpt3vf67od2ou34qn81b.apps.googleusercontent.com",
           "client_type": 3
         }
       ],

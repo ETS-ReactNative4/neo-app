@@ -177,13 +177,14 @@ const apiCall = async (
             status: response.status,
             ...headerObject,
           };
-          const errorObject = Error(
-            JSON.stringify({
-              status: response.status,
-              url: requestURL,
-              message: response,
-            }),
-          );
+          // const errorObject = Error(
+          //   JSON.stringify({
+          //     status: response.status,
+          //     url: requestURL,
+          //     message: response,
+          //   }),
+          // );
+          const errorObject = response;
           logError(errorObject, errorInfo);
           throw errorObject;
         }

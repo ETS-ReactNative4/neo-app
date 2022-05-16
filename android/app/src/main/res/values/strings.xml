@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Pickyourtrail</string>
-    <string name="freshchat_file_provider_authority">com.pickyourtrail.provider</string>
+    <string name="app_name">NEO</string>
+    <string name="freshchat_file_provider_authority">com.neo.provider</string>
     <string name="freshchatDisableFrame">d9b22a3e89066b707a95be979f0dce07</string>
 </resources>

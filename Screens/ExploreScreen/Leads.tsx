@@ -86,8 +86,8 @@ const Leads = ({navigation, route}) => {
     setMenuItem(item);
     setMenuOpen(false);
     setCounts(count);
-    console.log('inside the menutab');
     getTrailData(item, '', '');
+    setSearchItem('');
   };
 
   const handleTab = item => {

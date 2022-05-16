@@ -99,6 +99,7 @@ const CallResponse = ({trail, saving, reload, handleTab}) => {
   const [trailStatuses, callRes, reasons] = [...dataApi.master];
   const tempHotels = dataApi.master[7];
   const [isPress, setPress] = useState(false);
+  const [showFollwTime, setShowFollowTime] = useState();
 
   const credentialTypes = [
     {
@@ -160,6 +161,7 @@ const CallResponse = ({trail, saving, reload, handleTab}) => {
     hotel_cancellation_reason: 'default',
   };
   const [feedback, setFeedback] = useState(defaultFeedback);
+  const [err, setErr] = useState();
 
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [isDeptDateVisible, setDeptDateVisible] = useState(false);
@@ -188,8 +190,9 @@ const CallResponse = ({trail, saving, reload, handleTab}) => {
 
   const handleTimeConfim = date => {
     console.log('selected time', date);
-    dateNew = dayjs(new Date(date)).format('hh:mm A');
+    dateNew = dayjs(new Date(date)).format('hh:mm');
     setfollowTime(dateNew);
+    setShowFollowTime(dayjs(new Date(date)).format('hh:mm A'));
     setResponse({
       follow_up_time: dateNew,
     });
@@ -260,9 +263,11 @@ const CallResponse = ({trail, saving, reload, handleTab}) => {
         setFeedback(defaultFeedback);
         Alert.alert('Response Saved !!');
         reload(true);
-        handleTab('Call Logs', 'log');
+        handleTab('Call Notes', 'log');
       })
-      .catch(() => {})
+      .catch(res => {
+        setErr(res.status);
+      })
       .finally(() => {
         saving(false);
         setLoading(false);
@@ -312,6 +317,7 @@ const CallResponse = ({trail, saving, reload, handleTab}) => {
                   styles.button,
                 ]}
                 onPressOut={() => {
+                  setSelReason(0);
                   setPress(res.name);
                   setResponse({
                     call_response: res.id,
@@ -322,10 +328,11 @@ const CallResponse = ({trail, saving, reload, handleTab}) => {
             );
           })}
         </Space>
+
         <Space>
           <Text color={'#6FCF97'}>{isPress}</Text>
         </Space>
-        <ScrollView>
+        <ScrollView style={{height: '60%'}}>
           {call_response === 5 && spoke_calls_count == 0 ? (
             <Space direction="column">
               <Text style={styles.inputLabel}>Departure Date</Text>
@@ -424,7 +431,7 @@ const CallResponse = ({trail, saving, reload, handleTab}) => {
                   <TextInput
                     style={styles.dropInp}
                     placeholderTextColor="#9DA4B2"
-                    value={followTime}
+                    value={showFollwTime}
                     editable={false}></TextInput>
                   <TouchableOpacity
                     onPress={() => setTimePickerVisibility(true)}>
@@ -457,7 +464,11 @@ const CallResponse = ({trail, saving, reload, handleTab}) => {
                   <Picker
                     mode="dropdown"
                     dropdownIconColor="#B3B3B3"
-                    selectedValue={trail_status}
+                    selectedValue={
+                      new_trail_status.id
+                        ? new_trail_status.id
+                        : new_trail_status
+                    }
                     onValueChange={(itemValue, itemIndex) => {
                       setResponse({
                         trail_status: itemValue,
@@ -532,7 +543,7 @@ const CallResponse = ({trail, saving, reload, handleTab}) => {
                   <Picker
                     mode="dropdown"
                     dropdownIconColor="#B3B3B3"
-                    selectedValue={reason_id}
+                    selectedValue={selReason}
                     onValueChange={(itemValue, itemIndex) => {
                       setResponse({
                         reason_id: itemValue,

@@ -23,15 +23,8 @@ dayjs.extend(isToday);
 dayjs.extend(isBetween);
 import Icon from '../../CommonComponents/Icon/Icon';
 import {
-  CONSTANT_hamburgerIcon,
   CONSTANT_callStartIcon,
-  CONSTANT_searchIcon,
-  CONSTANT_dropDownArrowDarkIcon,
   CONSTANT_flagIcon,
-  CONSTANT_toolIcon,
-  CONSTANT_profileIcon,
-  CONSTANT_eyeIcon,
-  CONSTANT_PlatoChatSendIcon,
 } from '../../constants/imageAssets';
 import constants from '../../constants/constants';
 import {ScrollView} from 'react-native-gesture-handler';
@@ -42,7 +35,7 @@ import directions from '../../Services/directions/directions';
 const LeadCard = ({trail, isSearch}) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [callData, setCallData] = useState(false);
-  const [tabName, setTabName] = useState('Calls');
+  const [tabName, setTabName] = useState('Enter Call note');
 
   const displayFollowTime = trail => {
     const value = trail.last_call;

@@ -17,6 +17,7 @@ import constants from '../../../constants/constants';
 import apiCall from '../../../Services/networkRequests/apiCall';
 import CallLogs from './CallLogs';
 import {userContext} from '../../../App';
+import {ScrollView} from 'react-native-gesture-handler';
 
 const CallNotes = ({modalStatus, trailDetails, tabSel, tabSelected}) => {
   const [tabItem, setTabItem] = useState(tabSel);
@@ -25,15 +26,16 @@ const CallNotes = ({modalStatus, trailDetails, tabSel, tabSelected}) => {
   const [saving, setSaving] = useState(false);
   const [modalVisibile, setModalVisible] = useState(modalStatus);
   const {dispatch, users} = useContext(userContext);
+  const loginUser = users.userData;
 
   const tabs = useMemo(() => {
     return [
       {
-        name: 'Calls',
+        name: 'Enter Call note',
         route: 'call-notes',
       },
       {
-        name: 'Call Logs',
+        name: 'Call Notes',
         route: 'call-logs',
       },
       {
@@ -116,18 +118,27 @@ const CallNotes = ({modalStatus, trailDetails, tabSel, tabSelected}) => {
         ) : loading === 'quietly' ? (
           <Text style={styles.saveTxt}>Refreshing... </Text>
         ) : null}
-        {console.log('print', tabItem)}
         {trail ? (
           <Space>
-            {tabItem === 'Calls' ? (
-              <CallResponse
-                trail={trail}
-                reload={get}
-                saving={setSaving}
-                handleTab={handleTab}
-              />
+            {tabItem === 'Enter Call note' ? (
+              loginUser.user_id === trail.sales_owner.user_id ? (
+                <CallResponse
+                  trail={trail}
+                  reload={get}
+                  saving={setSaving}
+                  handleTab={handleTab}
+                />
+              ) : (
+                <Space style={styles.userAuth}>
+                  <Text style={styles.authMsg}>
+                    ⚠️ This trail is not under your name. Pls check the trail
+                    log for more information. If you wish to input a call note,
+                    pls change the trail to your name before doing so.
+                  </Text>
+                </Space>
+              )
             ) : null}
-            {tabItem === 'Call Logs' ? <CallLogs call={trail} /> : null}
+            {tabItem === 'Call Notes' ? <CallLogs call={trail} /> : null}
             {tabItem === 'Edit' ? (
               <EditTrail
                 trail={trail}
@@ -150,7 +161,7 @@ const styles = StyleSheet.create({
     flex: 3,
   },
   modalView: {
-    height: '110%',
+    height: '95%',
     margin: 20,
     backgroundColor: '#353546',
     borderRadius: 20,
@@ -175,6 +186,23 @@ const styles = StyleSheet.create({
 
   modalText: {
     marginBottom: 15,
+  },
+  userAuth: {
+    backgroundColor: '#2B2B3D',
+    borderRadius: 8,
+    margin: 15,
+    padding: 15,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  authMsg: {
+    color: '#9DA4B2',
+    lineHeight: 25,
   },
 });
 
