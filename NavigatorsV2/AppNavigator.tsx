@@ -24,7 +24,7 @@ import {
   SCREEN_ULTIMATE_MENU,
   SCREEN_TRAVELLER_PROFILE,
   SCREEN_EDIT_TRAVELLER_PROFILE,
-  SCREEN_ABOUT_SCREEN,
+  // SCREEN_ABOUT_SCREEN,
   SCREEN_SAVED_ITINERARIES,
   SCREEN_TRIP_INTENSITY,
   SCREEN_ITINERARY,
@@ -110,7 +110,7 @@ import PromoLanding from '../Screens/PromoLandingScreen/PromoLanding';
 import UltimateMenu from '../Screens/UltimateMenuScreen/UltimateMenu';
 import TravellerProfileDetails from '../Screens/TravellerProfileDetailsScreen/TravellerProfileDetails';
 import EditTravellerProfileDetails from '../Screens/TravellerProfileDetailsScreen/Components/EditTravellerProfileDetails';
-import About from '../Screens/AboutScreen/About';
+// import About from '../Screens/AboutScreen/About';
 import SavedItinerary from '../Screens/SavedItineraryScreen/SavedItinerary';
 import TripIntensity from '../Screens/TripIntensityScreen/TripIntensity';
 import Itinerary, {
@@ -254,7 +254,7 @@ export type AppNavigatorParamsType = {
   [SCREEN_ULTIMATE_MENU]: undefined;
   [SCREEN_TRAVELLER_PROFILE]: undefined;
   [SCREEN_EDIT_TRAVELLER_PROFILE]: undefined;
-  [SCREEN_ABOUT_SCREEN]: undefined;
+  // [SCREEN_ABOUT_SCREEN]: undefined;
   [SCREEN_SAVED_ITINERARIES]: undefined;
   [SCREEN_ITINERARY]: {
     slug?: string;
@@ -564,7 +564,7 @@ const AppNavigator = () => {
           name={SCREEN_ULTIMATE_MENU}
           component={UltimateMenu}
         />
-        <Screen name={SCREEN_ABOUT_SCREEN} component={About} />
+        {/* <Screen name={SCREEN_ABOUT_SCREEN} component={About} /> */}
         <Screen name={SCREEN_SAVED_ITINERARIES} component={SavedItinerary} />
         <Screen name={SCREEN_TRIP_INTENSITY} component={TripIntensity} />
         <Screen

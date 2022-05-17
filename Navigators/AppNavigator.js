@@ -7,7 +7,7 @@ import Notifications from "../Screens/NotificationsScreen/Notifications";
 import Home from "../Screens/HomeScreen/Home";
 import Drawer from "../Screens/Drawer/Drawer";
 import PaymentStack from "./PaymentStack";
-import About from "../Screens/AboutScreen/About";
+// import About from "../Screens/AboutScreen/About";
 import { shouldIncludeStoryBook } from "../storybook/Storybook";
 import { useScreens } from "react-native-screens";
 import constants from "../constants/constants";
@@ -46,9 +46,9 @@ const navigators = {
   // AppSupport: {
   //   screen: createStackNavigator({ HomeStack5: { screen: Home } })
   // },
-  About: {
-    screen: createStackNavigator({ AboutUs: { screen: About } })
-  }
+  // About: {
+  //   screen: createStackNavigator({ AboutUs: { screen: About } })
+  // }
 };
 
 if (shouldIncludeStoryBook()) {
