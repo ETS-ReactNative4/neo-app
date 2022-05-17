@@ -51,7 +51,7 @@ import {
 } from '../../constants/colorPallete';
 import ExploreSectionTitle from './Components/ExploreSectionTitle';
 import BlankSpacer from '../../CommonComponents/BlankSpacer/BlankSpacer';
-import BookedItineraryCardsRow from './Components/BookedItineraryCardsRow';
+// import BookedItineraryCardsRow from './Components/BookedItineraryCardsRow';
 import ErrorBoundary from '../../CommonComponents/ErrorBoundary/ErrorBoundary';
 import PackageItineraryCardsRow from './Components/PackageItineraryCardsRow';
 import PromotedCardsRow from './Components/PromotedCardsRow';

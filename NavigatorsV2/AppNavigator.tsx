@@ -103,9 +103,9 @@ import PostBookingHomeTabs, {
 } from './PostBookingHomeTabs';
 import YourBookings from '../Screens/YourBookingsScreen/YourBookings';
 import PostBookingIntro from '../Screens/PostBookingIntroScreen/PostBookingIntro';
-import AgentInfo from '../Screens/AgentInfoScreen/AgentInfo';
-import {IPocCardPropsData} from '../Screens/AgentInfoScreen/Components/AgentPocCard';
-import AgentFeedback from '../Screens/AgentFeedbackScreen/AgentFeedback';
+// import AgentInfo from '../Screens/AgentInfoScreen/AgentInfo';
+// import {IPocCardPropsData} from '../Screens/AgentInfoScreen/Components/AgentPocCard';
+// import AgentFeedback from '../Screens/AgentFeedbackScreen/AgentFeedback';
 import PromoLanding from '../Screens/PromoLandingScreen/PromoLanding';
 import UltimateMenu from '../Screens/UltimateMenuScreen/UltimateMenu';
 import TravellerProfileDetails from '../Screens/TravellerProfileDetailsScreen/TravellerProfileDetails';
@@ -125,7 +125,7 @@ import {
   ICostingConfig,
 } from '../Screens/GCMScreen/hooks/useGCMForm';
 import GCMRoomConfig from '../Screens/GCMRoomConfig/GCMRoomConfig';
-import BookedItinerary from '../Screens/BookedItineraryScreen/BookedItinerary';
+// import BookedItinerary from '../Screens/BookedItineraryScreen/BookedItinerary';
 import FAQ from '../Screens/FAQScreens/FAQScreen/FAQ';
 import ContactUs from '../Screens/ContactUsScreen/ContactUs';
 import TicketsConversation from '../Screens/TicketsConversationScreen/TicketsConversation';
@@ -535,20 +535,20 @@ const AppNavigator = () => {
           name={SCREEN_POST_BOOKING_INTRO}
           component={PostBookingIntro}
         />
-        <Screen
+        {/* <Screen
           options={{
             headerShown: false,
           }}
           name={SCREEN_AGENT_INFO}
           component={AgentInfo}
-        />
-        <Screen
+        /> */}
+        {/* <Screen
           options={{
             headerShown: false,
           }}
           name={SCREEN_AGENT_FEEDBACK}
           component={AgentFeedback}
-        />
+        /> */}
         <Screen
           name={SCREEN_TRAVELLER_PROFILE}
           component={TravellerProfileDetails}
@@ -613,7 +613,7 @@ const AppNavigator = () => {
           name={SCREEN_GCM_ROOM_CONFIG}
           component={GCMRoomConfig}
         />
-        <Screen name={SCREEN_BOOKED_ITINERARY} component={BookedItinerary} />
+        {/* <Screen name={SCREEN_BOOKED_ITINERARY} component={BookedItinerary} /> */}
         <Screen name={SCREEN_FAQ} component={FAQ} />
         <Screen name={SCREEN_CONTACT_US} component={ContactUs} />
         <Screen name={SCREEN_YOUR_TICKETS} component={YourTickets} />

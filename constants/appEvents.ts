@@ -125,24 +125,24 @@ const appEvents = {
       openProduct: 'open_product',
     },
   },
-  BookedItinerary: {
-    event: 'BookedItinerary',
-    scroll: {
-      contentScroll: 'content_scroll',
-    },
-    click: {
-      voucher: 'voucher',
-      header: 'header',
-      headerCity: 'header_city',
-      exploreGuide: 'explore_guide',
-    },
-    type: {
-      activity: 'activity',
-      transfer: 'transfer',
-      activityWithTransfer: 'activity_with_transfer',
-      flight: 'flight',
-    },
-  },
+  // BookedItinerary: {
+  //   event: 'BookedItinerary',
+  //   scroll: {
+  //     contentScroll: 'content_scroll',
+  //   },
+  //   click: {
+  //     voucher: 'voucher',
+  //     header: 'header',
+  //     headerCity: 'header_city',
+  //     exploreGuide: 'explore_guide',
+  //   },
+  //   type: {
+  //     activity: 'activity',
+  //     transfer: 'transfer',
+  //     activityWithTransfer: 'activity_with_transfer',
+  //     flight: 'flight',
+  //   },
+  // },
   Tools: {
     event: 'Tools',
     click: {
@@ -386,24 +386,24 @@ export const CONSTANT_Home = {
     openProduct: 'open_product',
   },
 };
-export const CONSTANT_BookedItinerary = {
-  event: 'BookedItinerary',
-  scroll: {
-    contentScroll: 'content_scroll',
-  },
-  click: {
-    voucher: 'voucher',
-    header: 'header',
-    headerCity: 'header_city',
-    exploreGuide: 'explore_guide',
-  },
-  type: {
-    activity: 'activity',
-    transfer: 'transfer',
-    activityWithTransfer: 'activity_with_transfer',
-    flight: 'flight',
-  },
-};
+// export const CONSTANT_BookedItinerary = {
+//   event: 'BookedItinerary',
+//   scroll: {
+//     contentScroll: 'content_scroll',
+//   },
+//   click: {
+//     voucher: 'voucher',
+//     header: 'header',
+//     headerCity: 'header_city',
+//     exploreGuide: 'explore_guide',
+//   },
+//   type: {
+//     activity: 'activity',
+//     transfer: 'transfer',
+//     activityWithTransfer: 'activity_with_transfer',
+//     flight: 'flight',
+//   },
+// };
 export const CONSTANT_Tools = {
   event: 'Tools',
   click: {

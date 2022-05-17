@@ -20,7 +20,7 @@ import {
   IActivityCombinedInfo,
   IItineraryCityDetail
 } from "../../../../mobx/Itineraries";
-import CityCard from "../../../BookedItineraryScreen/Components/CityCard";
+// import CityCard from "../../../BookedItineraryScreen/Components/CityCard";
 import UnbookedItinerary from "../../ItineraryStore/UnbookedItinerary";
 import { SCREEN_PLACES } from "../../../../NavigatorsV2/ScreenNames";
 
@@ -149,10 +149,10 @@ const SlotActivity = ({
           return null;
         }
         onClick = () => {
-          recordEvent(constants.BookedItinerary.event, {
-            click: constants.BookedItinerary.click.voucher,
-            type: constants.BookedItinerary.type.flight
-          });
+          // recordEvent(constants.BookedItinerary.event, {
+          //   click: constants.BookedItinerary.click.voucher,
+          //   type: constants.BookedItinerary.type.flight
+          // });
           // @ts-ignore
           resolveLinks(false, false, {
             voucherType: constants.flightVoucherType,
@@ -205,10 +205,10 @@ const SlotActivity = ({
           activity.activitySlotDetail.activityCostingIdentifier
         ) as IActivityCombinedInfo;
         onClick = () => {
-          recordEvent(constants.BookedItinerary.event, {
-            click: constants.BookedItinerary.click.voucher,
-            type: constants.BookedItinerary.type.activity
-          });
+          // recordEvent(constants.BookedItinerary.event, {
+          //   click: constants.BookedItinerary.click.voucher,
+          //   type: constants.BookedItinerary.type.activity
+          // });
           // @ts-ignore
           resolveLinks(false, false, {
             voucherType: constants.activityVoucherType,
@@ -259,10 +259,10 @@ const SlotActivity = ({
           }
         }
         onClick = () => {
-          recordEvent(constants.BookedItinerary.event, {
-            click: constants.BookedItinerary.click.voucher,
-            type: constants.BookedItinerary.type.transfer
-          });
+          // recordEvent(constants.BookedItinerary.event, {
+          //   click: constants.BookedItinerary.click.voucher,
+          //   type: constants.BookedItinerary.type.transfer
+          // });
           if (transferMode === constants.flightTransferMode) {
             // @ts-ignore
             resolveLinks(false, false, {
@@ -330,10 +330,10 @@ const SlotActivity = ({
           return null;
         }
         onClick = () => {
-          recordEvent(constants.BookedItinerary.event, {
-            click: constants.BookedItinerary.click.voucher,
-            type: constants.BookedItinerary.type.flight
-          });
+          // recordEvent(constants.BookedItinerary.event, {
+          //   click: constants.BookedItinerary.click.voucher,
+          //   type: constants.BookedItinerary.type.flight
+          // });
           // @ts-ignore
           resolveLinks(false, false, {
             voucherType: constants.flightVoucherType,
@@ -395,10 +395,10 @@ const SlotActivity = ({
         );
         const { mainPhoto } = activityTransferInfo;
         onClick = () => {
-          recordEvent(constants.BookedItinerary.event, {
-            click: constants.BookedItinerary.click.voucher,
-            type: constants.BookedItinerary.type.activityWithTransfer
-          });
+          // recordEvent(constants.BookedItinerary.event, {
+          //   click: constants.BookedItinerary.click.voucher,
+          //   type: constants.BookedItinerary.type.activityWithTransfer
+          // });
           // @ts-ignore
           resolveLinks(false, false, {
             voucherType: constants.activityVoucherType,

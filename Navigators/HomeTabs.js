@@ -8,20 +8,20 @@ const HomeTabs = createBottomTabNavigator(
     NewItineraryStack: {
       screen: NewItineraryStack
     },
-    BookedItineraryTabs: {
-      screen: BookedTabs
-    }
+    // BookedItineraryTabs: {
+    //   screen: BookedTabs
+    // }
   },
   {
     defaultNavigationOptions: ({ navigation }) => {
       const { routeName } = navigation.state;
-      if (navigation.isFocused()) {
-        if (routeName === "NewItineraryStack") {
-          storeService.appState.setTripMode(false);
-        } else if (routeName === "BookedItineraryTabs") {
-          storeService.appState.setTripMode(true);
-        }
-      }
+      // if (navigation.isFocused()) {
+      //   if (routeName === "NewItineraryStack") {
+      //     storeService.appState.setTripMode(false);
+      //   } else if (routeName === "BookedItineraryTabs") {
+      //     storeService.appState.setTripMode(true);
+      //   }
+      // }
       return {};
     },
     initialRouteName: "NewItineraryStack",

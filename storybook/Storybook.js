@@ -21,7 +21,7 @@ configure(() => {
   require('./stories/SmartImageStory');
   require('./stories/IntroScreenStory');
   require('./stories/AgentFeedbackScreenStory');
-  require('./stories/AgentInfoScreenScreenStory');
+  // require('./stories/AgentInfoScreenScreenStory');
   require('./stories/TravelProfileScreenStory');
   require('./stories/MaritalStatusScreenStory');
   require('./stories/AppLoginScreenStory');

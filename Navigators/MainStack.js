@@ -2,7 +2,7 @@ import { createStackNavigator } from "react-navigation-stack";
 import Starter from "../Screens/StartingScreen/Starter";
 import HomeTabs from "./HomeTabs";
 import MobileNumber from "../Screens/MobileNumberScreen/MobileNumber";
-import BookedItinerary from "../Screens/BookedItineraryScreen/BookedItinerary";
+// import BookedItinerary from "../Screens/BookedItineraryScreen/BookedItinerary";
 import Places from "../Screens/PlacesScreen/Places";
 import NearBy from "../Screens/NearByScreen/NearBy";
 import Visa from "../Screens/VisaScreen/Visa";
@@ -26,8 +26,8 @@ import VisaHelp from "../Screens/VisaHelpScreen/VisaHelp";
 import VisaDocsChecklist from "../Screens/VisaDocsChecklistScreen/VisaDocsChecklist";
 import VisaSuccess from "../Screens/VisaSuccessScreen/VisaSuccess";
 import PostBookingIntro from "../Screens/PostBookingIntroScreen/PostBookingIntro";
-import AgentInfo from "../Screens/AgentInfoScreen/AgentInfo";
-import AgentFeedback from "../Screens/AgentFeedbackScreen/AgentFeedback";
+// import AgentInfo from "../Screens/AgentInfoScreen/AgentInfo";
+// import AgentFeedback from "../Screens/AgentFeedbackScreen/AgentFeedback";
 import AppLogin from "../Screens/AppLoginScreen/AppLogin";
 
 const MainStack = createStackNavigator(
@@ -45,9 +45,9 @@ const MainStack = createStackNavigator(
     MobileNumber: {
       screen: MobileNumber
     },
-    BookedItinerary: {
-      screen: BookedItinerary
-    },
+    // BookedItinerary: {
+    //   screen: BookedItinerary
+    // },
     VisaBooked: {
       screen: Visa
     },
@@ -120,12 +120,12 @@ const MainStack = createStackNavigator(
     PostBookingIntro: {
       screen: PostBookingIntro
     },
-    AgentInfo: {
-      screen: AgentInfo
-    },
-    AgentFeedback: {
-      screen: AgentFeedback
-    },
+    // AgentInfo: {
+    //   screen: AgentInfo
+    // },
+    // AgentFeedback: {
+    //   screen: AgentFeedback
+    // },
     AppLogin: {
       screen: AppLogin
     }

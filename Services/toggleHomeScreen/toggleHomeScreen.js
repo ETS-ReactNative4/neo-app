@@ -15,7 +15,7 @@ const toggleHomeScreen = navigation => {
   } else {
     if (selectedItineraryId) {
       setTripMode(!isTripModeOn);
-      navigation.navigate("BookedItineraryTabs");
+      // navigation.navigate("BookedItineraryTabs");
     } else {
       isUserLoggedInCallback(
         () => {
