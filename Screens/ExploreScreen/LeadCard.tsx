@@ -148,8 +148,10 @@ const LeadCard = ({trail, isSearch}) => {
             <TouchableOpacity style={styles.callnotes}>
               <Icon
                 name={CONSTANT_flagIcon}
-                style={styles.menu}
-                onPress={() => directions(trail.vacation_id, 'product', '')}
+                style={trail.vacation_id?styles.menu:styles.disable}
+                 onPress={() => trail.vacation_id && directions(trail.vacation_id, 'product', '')}
+                // onPress={() => trail.vacation_id && directions(trail.vacation_id, 'product', '')}
+
               />
             </TouchableOpacity>
             <TouchableOpacity
@@ -224,6 +226,11 @@ const styles = StyleSheet.create({
   },
   menu: {
     color: '#6FCF97',
+    fontSize: 24,
+    fontWeight: 'bold',
+  },
+  disable:{
+    color: '#181829',
     fontSize: 24,
     fontWeight: 'bold',
   },

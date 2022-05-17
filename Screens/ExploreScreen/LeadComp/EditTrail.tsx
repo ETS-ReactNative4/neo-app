@@ -504,7 +504,7 @@ const EditTrail = ({
                   mode="dropdown"
                   dropdownIconColor="#B3B3B3"
                   dropdownIconRippleColor="#B3B3B3"
-                  selectedValue={trailDetails.sales_owner}
+                  selectedValue={trailDetails.sales_owner.user_id?trailDetails.sales_owner.user_id:trailDetails.sales_owner}
                   onValueChange={(itemValue, itemIndex) =>
                     setTrailDetails({
                       sales_owner: itemValue,

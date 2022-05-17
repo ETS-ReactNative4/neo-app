@@ -43,7 +43,7 @@ const CallNotes = ({modalStatus, trailDetails, tabSel, tabSelected}) => {
         route: 'edit-trail',
       },
       {
-        name: 'Edit Logs',
+        name: 'Trail Logs',
         route: 'trail-log',
       },
     ];
@@ -149,7 +149,7 @@ const CallNotes = ({modalStatus, trailDetails, tabSel, tabSelected}) => {
                 handleTab={handleTab}
               />
             ) : null}
-            {tabItem === 'Edit Logs' ? <TrailLog trail={trail} /> : null}
+            {tabItem === 'Trail Logs' ? <TrailLog trail={trail} /> : null}
           </Space>
         ) : null}
       </View>
